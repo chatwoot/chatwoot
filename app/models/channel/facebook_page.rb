@@ -17,8 +17,7 @@
 #  index_channel_facebook_pages_on_page_id_and_account_id  (page_id,account_id) UNIQUE
 #
 
-class Channel::FacebookPage < ApplicationRecord
-  include Channelable
+class Channel::FacebookPage < Channel::Base
   include Reauthorizable
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
@@ -37,6 +36,42 @@ class Channel::FacebookPage < ApplicationRecord
   def name
     'Facebook'
   end
+
+  def param_type
+    'facebook'
+  end
+
+  def createable?
+    false
+  end
+
+  def send_service
+    Facebook::SendOnFacebookService
+  end
+
+  def campaign_definition
+    {
+      supported: false,
+      one_off: false,
+      campaignable: false,
+      service: nil
+    }
+  end
+
+  def renderer
+    :render_instagram
+  end
+
+  def messaging_window
+    meta_messaging_window('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
+  end
+
+  def message_length_limit
+    2_000
+  end
+
+  def facebook? = true
+  def instagram? = instagram_id.present?
 
   def create_contact_inbox(instagram_id, name)
     @contact_inbox = ::ContactInboxWithContactBuilder.new({

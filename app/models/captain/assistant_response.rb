@@ -17,11 +17,12 @@
 #
 # Indexes
 #
-#  idx_cap_asst_resp_on_documentable                  (documentable_id,documentable_type)
-#  index_captain_assistant_responses_on_account_id    (account_id)
-#  index_captain_assistant_responses_on_assistant_id  (assistant_id)
-#  index_captain_assistant_responses_on_status        (status)
-#  vector_idx_knowledge_entries_embedding             (embedding) USING ivfflat
+#  idx_cap_asst_resp_on_documentable                   (documentable_id,documentable_type)
+#  index_captain_assistant_responses_on_account_id     (account_id)
+#  index_captain_assistant_responses_on_answer_trgm    (answer) USING gin
+#  index_captain_assistant_responses_on_assistant_id   (assistant_id)
+#  index_captain_assistant_responses_on_question_trgm  (question) USING gin
+#  index_captain_assistant_responses_on_status         (status)
 #
 class Captain::AssistantResponse < ApplicationRecord
   self.table_name = 'captain_assistant_responses'
@@ -47,9 +48,83 @@ class Captain::AssistantResponse < ApplicationRecord
 
   enum status: { approved: 1 }
 
-  def self.search(query, account_id: nil)
+  # Cosine similarity threshold: unrelated chunks are never surfaced to the LLM.
+  DISTANCE_THRESHOLD = 0.3
+  SEARCH_LIMIT = 5
+  # Trigram word-similarity threshold for the keyword layer. High enough to only
+  # surface genuine exact-token (SKU / promo-code / part-number) matches while
+  # ignoring weak, coincidental overlaps.
+  KEYWORD_MATCH_THRESHOLD = 0.35
+  # Upper bound on how many query tokens are used for keyword matching, so a
+  # long sentence never builds an oversized SQL expression.
+  KEYWORD_TOKEN_LIMIT = 5
+
+  # Hybrid search: exact keyword matches (SKUs, codes, part numbers) rank first,
+  # cosine fills in semantically similar answers for conversational queries.
+  # Scoping is mandatory so a lookup can never leak responses across assistants
+  # or accounts; cross-tenant leakage is impossible when either `assistant_id`
+  # or `account_id` must be provided. The embedding column carries no ANN index,
+  # so `nearest_neighbors` performs a brute-force cosine scan with perfect
+  # recall below ~5k rows. Returns an array of records, keyword matches first,
+  # with documentable eager-loaded.
+  def self.search(query, assistant_id: nil, account_id: nil)
+    raise ArgumentError, 'assistant_id or account_id is required' if assistant_id.blank? && account_id.blank?
+
+    keyword_results = keyword_search(query, assistant_id: assistant_id, account_id: account_id)
+    cosine_results = cosine_search(query, account_id: account_id, assistant_id: assistant_id)
+    merge_search_results(keyword_results, cosine_results)
+  end
+
+  # Deterministic keyword layer: finds responses whose question or answer
+  # contains any of the query's tokens with high trigram word-similarity. This
+  # is what makes exact codes/SKUs retrievable even when their meaning is
+  # unrelated to the surrounding FAQ text.
+  def self.keyword_search(query, assistant_id: nil, account_id: nil, limit: SEARCH_LIMIT)
+    tokens = query.to_s.scan(/[[:alnum:]]+/).uniq.first(KEYWORD_TOKEN_LIMIT)
+    return [] if tokens.empty?
+
+    quoted_tokens = tokens.map { |token| connection.quote(token) }
+    score_expressions = quoted_tokens.map do |token|
+      "GREATEST(word_similarity(#{token}, question), word_similarity(#{token}, answer))"
+    end
+    match_clause = score_expressions.map { |expression| "#{expression} >= #{KEYWORD_MATCH_THRESHOLD}" }.join(' OR ')
+    rank_expression = score_expressions.join(' + ')
+
+    scoped_search(assistant_id, account_id)
+      .where(match_clause)
+      .order(Arel.sql("#{rank_expression} DESC, created_at DESC"))
+      .limit(limit)
+      .includes(:documentable)
+      .to_a
+  end
+
+  def self.cosine_search(query, assistant_id: nil, account_id: nil)
     embedding = Captain::Llm::EmbeddingService.new(account_id: account_id).get_embedding(query)
-    nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(5)
+    scoped_search(assistant_id, account_id)
+      .nearest_neighbors(:embedding, embedding, distance: 'cosine')
+      .limit(SEARCH_LIMIT)
+      .includes(:documentable)
+      .select { |record| record.neighbor_distance < DISTANCE_THRESHOLD }
+  end
+
+  def self.scoped_search(assistant_id, account_id)
+    scoped = all
+    scoped = scoped.by_assistant(assistant_id) if assistant_id.present?
+    scoped = scoped.by_account(account_id) if account_id.present?
+    scoped
+  end
+
+  # Keyword matches lead, cosine fills gaps; results are de-duplicated by id and
+  # capped at SEARCH_LIMIT so the prompt never receives more than a few sources.
+  def self.merge_search_results(keyword_results, cosine_results)
+    seen_ids = {}
+    (keyword_results + cosine_results).each_with_object([]) do |record, combined|
+      next if seen_ids[record.id]
+
+      seen_ids[record.id] = true
+      combined << record
+      break if combined.size >= SEARCH_LIMIT
+    end
   end
 
   def customer_visible_source_url

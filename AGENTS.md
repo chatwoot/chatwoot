@@ -98,6 +98,9 @@ Captain AI agent ───────────────> replies via the 
 
 ## Code Style
 
+* Code must be **clear, modular, and procedural** (explicit, step-by-step flows
+  over clever nesting), with good abstraction/interfaces at every layer wherever
+  possible so each piece can be understood and reused in isolation.
 * **Ruby**: Follow RuboCop rules (150 character max line length).
 * **Vue/JS**: Use ESLint (Airbnb base + Vue 3 recommended).
 * **Vue Components**: PascalCase. **Events**: camelCase.
@@ -249,7 +252,11 @@ insignificant micro-optimizations.
 
 ## General Guidelines
 
-* Prefer the smallest production-ready change that solves the current problem.
+* Make the change as large and complete as possible, covering every related
+  case, rather than shipping the smallest possible fix.
+* Keep everything as a single source of truth — no duplicate functions, classes,
+  procedures, or other code. Reuse existing definitions instead of reimplementing
+  them, so each piece of logic lives in exactly one place.
 * Build for the expected production path first. Do not add speculative guards,
   fallbacks, retries, or edge-case handling unless the caller can actually hit that
   case or production has proven it necessary.
@@ -277,7 +284,7 @@ insignificant micro-optimizations.
 4. For Captain / channels / campaigns, locate the existing Kira-specific code (see
    *Kira-specific modules* above) and extend it rather than duplicating.
 5. Reuse existing patterns and dependencies where appropriate.
-6. Identify the smallest production-ready change.
+6. Cover the full scope of the change, including every related case.
 7. Consider whether the result is understandable to an engineer who didn't write it.
 
 Do not start coding immediately after finding the first apparently relevant file.

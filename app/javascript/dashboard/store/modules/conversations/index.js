@@ -1,7 +1,7 @@
 import types from '../../mutation-types';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
-import { findPendingMessageIndex } from './helpers';
+import { upsertMessage } from './helpers';
 import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
@@ -42,15 +42,11 @@ export const mutations = {
       );
       if (indexInCurrentList < 0) {
         newAllConversations.push(conversation);
-      } else if (conversation.id !== _state.selectedChatId) {
-        // If the conversation is already in the list, replace it
-        // Added this to fix the issue of the conversation not being updated
-        // When reconnecting to the websocket. If the selectedChatId is not the same as
-        // the conversation.id in the store, replace the existing conversation with the new one
-        newAllConversations[indexInCurrentList] = conversation;
       } else {
-        // If the conversation is already in the list and selectedChatId is the same,
-        // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
+        // Keep the message history already synced in the store (the list
+        // snapshot only carries a few recent messages). Preserve it uniformly
+        // for every existing conversation so a list reload never clobbers the
+        // richer message list for an unselected chat.
         const existingConversation = newAllConversations[indexInCurrentList];
         newAllConversations[indexInCurrentList] = {
           ...conversation,
@@ -86,16 +82,26 @@ export const mutations = {
   [types.SET_PREVIOUS_CONVERSATIONS](_state, { id, data }) {
     if (data.length) {
       const [chat] = _state.allConversations.filter(c => c.id === id);
-      chat.messages.unshift(...data);
+      if (!chat) return;
+      const seenInBatch = new Set();
+      const dedupedIncomingMessages = data.filter(message => {
+        const alreadyInChat = chat.messages.some(
+          existingMessage =>
+            existingMessage.id === message.id ||
+            (message.echo_id && existingMessage.id === message.echo_id) ||
+            (message.source_id &&
+              existingMessage.source_id === message.source_id)
+        );
+        if (alreadyInChat) return false;
+        if (seenInBatch.has(message.id)) return false;
+        seenInBatch.add(message.id);
+        return true;
+      });
+      chat.messages = [...dedupedIncomingMessages, ...chat.messages];
     }
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
     _state.attachments[id] = [...data];
-  },
-  [types.SET_MISSING_MESSAGES](_state, { id, data }) {
-    const [chat] = _state.allConversations.filter(c => c.id === id);
-    if (!chat) return;
-    chat.messages = data;
   },
 
   [types.SET_CHAT_DATA_FETCHED](_state, conversationId) {
@@ -219,11 +225,16 @@ export const mutations = {
     });
     if (!chat) return;
 
-    const pendingMessageIndex = findPendingMessageIndex(chat, message);
-    if (pendingMessageIndex !== -1) {
-      chat.messages[pendingMessageIndex] = message;
-    } else {
-      chat.messages.push(message);
+    const wasAppended = !chat.messages.some(
+      existingMessage =>
+        existingMessage.id === message.id ||
+        (message.echo_id && existingMessage.id === message.echo_id) ||
+        (message.source_id && existingMessage.source_id === message.source_id)
+    );
+
+    chat.messages = upsertMessage(chat.messages, message);
+
+    if (wasAppended) {
       chat.timestamp = message.created_at;
       const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
       chat.unread_count = unreadCount;

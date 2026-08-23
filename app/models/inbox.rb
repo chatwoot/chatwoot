@@ -120,59 +120,59 @@ class Inbox < ApplicationRecord
   end
 
   def sms?
-    channel_type == 'Channel::Sms'
+    channel.sms?
   end
 
   def facebook?
-    channel_type == 'Channel::FacebookPage'
+    channel.facebook?
   end
 
   def instagram?
-    (facebook? || instagram_direct?) && channel.instagram_id.present?
+    channel.instagram?
   end
 
   def instagram_direct?
-    channel_type == 'Channel::Instagram'
+    channel.instagram_direct?
   end
 
   def tiktok?
-    channel_type == 'Channel::Tiktok'
+    channel.tiktok?
   end
 
   def web_widget?
-    channel_type == 'Channel::WebWidget'
+    channel.web_widget?
   end
 
   def api?
-    channel_type == 'Channel::Api'
+    channel.api?
   end
 
   def email?
-    channel_type == 'Channel::Email'
+    channel.email?
   end
 
   def twilio?
-    channel_type == 'Channel::TwilioSms'
+    channel.twilio?
   end
 
   def twitter?
-    channel_type == 'Channel::TwitterProfile'
+    channel.twitter?
   end
 
   def telegram?
-    channel_type == 'Channel::Telegram'
+    channel.telegram?
   end
 
   def line?
-    channel_type == 'Channel::Line'
+    channel.line?
   end
 
   def whatsapp?
-    channel_type == 'Channel::Whatsapp'
+    channel.whatsapp?
   end
 
   def twilio_whatsapp?
-    channel_type == 'Channel::TwilioSms' && channel.medium == 'whatsapp'
+    channel.twilio_whatsapp?
   end
 
   def assignable_agents
@@ -180,7 +180,7 @@ class Inbox < ApplicationRecord
   end
 
   def inbox_type
-    channel.name
+    channel.friendly_name
   end
 
   def webhook_data
@@ -191,16 +191,7 @@ class Inbox < ApplicationRecord
   end
 
   def callback_webhook_url
-    case channel_type
-    when 'Channel::TwilioSms'
-      "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/callback"
-    when 'Channel::Sms'
-      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/sms/#{channel.phone_number.delete_prefix('+')}"
-    when 'Channel::Line'
-      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/line/#{channel.line_channel_id}"
-    when 'Channel::Whatsapp'
-      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{channel.phone_number}"
-    end
+    channel.callback_webhook_url
   end
 
   def auto_assignment_v2_enabled?

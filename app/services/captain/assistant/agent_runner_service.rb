@@ -10,7 +10,7 @@ class Captain::Assistant::AgentRunnerService
 
   attr_reader :last_run_result
 
-  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil)
+  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil, detected_language: nil) # rubocop:disable Metrics/ParameterLists
     # The agents runner builds RubyLLM agents lazily, so the LLM provider config
     # (API key / endpoint) must be applied before the first run or RubyLLM raises
     # "Missing configuration for ..." and the agent returns an empty response.
@@ -20,20 +20,18 @@ class Captain::Assistant::AgentRunnerService
     @callbacks = callbacks
     @source = source
     @responding_to_message_id = responding_to_message_id
+    @detected_language = detected_language
     @handoff_tool_called = false
     @handoff_tool_completed = false
     @handoff_offer_pending = false
-    @simple_reply_handled = false
   end
 
   def generate_response(message_history: [])
     decision_trace_builder.reset!
-    simple_reply = resolve_simple_reply(message_history)
-    return simple_reply_response(simple_reply) if simple_reply
-
     message_to_process, context = run_payload(message_history)
     @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
     record_turn_start(@last_run_result)
+    @last_run_result = resolve_placeholder_non_answer(@last_run_result, message_history)
     @last_run_result = rewrite_oversized_response(@last_run_result) if response_too_long?(@last_run_result)
 
     raise "Captain response exceeds the channel limit of #{message_length_limit} characters" if response_too_long?(@last_run_result)
@@ -56,16 +54,10 @@ class Captain::Assistant::AgentRunnerService
     @last_run_result&.context&.dig(:state, :captain_v2_handoff_offer_message_id)
   end
 
-  # Ordered list of decision nodes for the most recent run (or empty for a
-  # simple-reply answer, which bypasses the LLM runner entirely).
+  # Ordered list of decision nodes for the most recent run.
   def decision_trace
     @decision_trace_builder&.to_h || []
   end
-
-  # True when the deterministic keyword layer answered instead of the LLM. Both
-  # the conversation pipeline and the playground share this via the runner, so
-  # simple replies are part of the base agent flow, not a side channel.
-  def simple_reply_handled? = @simple_reply_handled == true
 
   private
 
@@ -89,13 +81,6 @@ class Captain::Assistant::AgentRunnerService
     error_response(error)
   end
 
-  def resolve_simple_reply(message_history)
-    customer_content = extract_last_user_message_text(message_history)
-    return if customer_content.blank?
-
-    @assistant.simple_replies.enabled.find { |reply| reply.matches?(customer_content) }
-  end
-
   def extract_last_user_message_text(message_history)
     last_user_msg = message_history.reverse.find { |msg| msg[:role] == 'user' }
     return '' if last_user_msg.blank?
@@ -105,16 +90,6 @@ class Captain::Assistant::AgentRunnerService
 
     text, = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(content)
     text.to_s
-  end
-
-  def simple_reply_response(simple_reply)
-    @simple_reply_handled = true
-    {
-      'response' => simple_reply.reply,
-      'response_parts' => [{ 'text' => simple_reply.reply, 'citation_indexes' => [] }],
-      'reasoning' => 'Simple reply matched',
-      'simple_reply' => true
-    }
   end
 
   def build_context(message_history)
@@ -190,6 +165,28 @@ class Captain::Assistant::AgentRunnerService
       install_instrumentation(configured_runner)
       configured_runner
     end
+  end
+
+  # The model occasionally replies with a promise to investigate (e.g. "I'll
+  # check our FAQ database...") instead of actually calling the FAQ tool. Detect
+  # and resolve that so the customer receives a real answer.
+  def resolve_placeholder_non_answer(run_result, message_history)
+    return run_result unless placeholder_non_answer?(run_result)
+
+    user_question = extract_last_user_message_text(message_history)
+    faq_answer_resolver.resolve(user_question, run_result)
+  end
+
+  def placeholder_non_answer?(run_result)
+    response_text = Captain::Assistant::ResponseParts.from_response(run_result.output).plain_text
+    faq_answer_resolver.placeholder_non_answer?(response_text)
+  end
+
+  def faq_answer_resolver
+    @faq_answer_resolver ||= Captain::Assistant::FaqAnswerResolver.new(
+      assistant: @assistant,
+      attribute_provider: Captain::Assistant::InstrumentationAttributeProvider.new(self)
+    )
   end
 
   def decision_trace_builder

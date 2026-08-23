@@ -1,6 +1,5 @@
 import { ref, computed } from 'vue';
 import { useCaptain } from 'dashboard/composables/useCaptain';
-import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useTrack } from 'dashboard/composables';
 import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import {
@@ -78,7 +77,6 @@ function trackGenerationFailure({
  */
 export function useCopilotReply() {
   const { processEvent, followUp, currentChat } = useCaptain();
-  const { updateUISettings } = useUISettings();
 
   const showEditor = ref(false);
   const isGenerating = ref(false);
@@ -154,14 +152,6 @@ export function useCopilotReply() {
    * @param {string} data - The content to process
    */
   async function execute(action, data) {
-    if (action === 'ask_copilot') {
-      updateUISettings({
-        is_contact_sidebar_open: false,
-        is_copilot_panel_open: true,
-      });
-      return;
-    }
-
     // Reset without tracking dismiss (starting new action)
     reset(false);
     const requestController = new AbortController();

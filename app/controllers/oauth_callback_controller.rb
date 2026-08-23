@@ -74,14 +74,12 @@ class OauthCallbackController < ApplicationController
 
   def create_channel_with_inbox
     ActiveRecord::Base.transaction do
-      channel_email = Channel::Email.create!(email: users_data['email'], account: account)
-
-      account.inboxes.create!(
+      Channels::Builder.create!(
         account: account,
-        channel: channel_email,
-        name: users_data['name'] || fallback_name
+        param_type: 'email',
+        channel_attributes: { email: users_data['email'] },
+        inbox_name: users_data['name'] || fallback_name
       )
-      channel_email
     end
   end
 

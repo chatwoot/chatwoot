@@ -149,8 +149,7 @@
         },
         "GRAMMAR": "Fix grammar & spelling",
         "SUGGESTION": "Suggest a reply",
-        "SUMMARIZE": "Summarize the conversation",
-        "ASK_COPILOT": "Ask Copilot"
+        "SUMMARIZE": "Summarize the conversation"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Draft content",

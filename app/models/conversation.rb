@@ -229,7 +229,7 @@ class Conversation < ApplicationRecord
   end
 
   def tweet?
-    inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
+    inbox.twitter? && additional_attributes['type'] == 'tweet'
   end
 
   def self.unread_messages_count_arel

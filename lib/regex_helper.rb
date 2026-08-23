@@ -19,5 +19,9 @@ module RegexHelper
   WHATSAPP_BSUID_REGEX = Regexp.new("\\A#{WHATSAPP_BSUID_PATTERN}\\z")
   WHATSAPP_WAMID_TOKEN_REGEX = Regexp.new(WHATSAPP_WAMID_TOKEN_PATTERN, Regexp::IGNORECASE)
   TWILIO_CHANNEL_WHATSAPP_REGEX = Regexp.new("\\A(?:whatsapp:\\+\\d{1,15}|whatsapp:#{WHATSAPP_BSUID_PATTERN})\\z")
-  WHATSAPP_CHANNEL_REGEX = Regexp.new("\\A(?:\\d{1,15}|#{WHATSAPP_BSUID_PATTERN})\\z")
+  # Accepts a plain phone number, a BSUID, or a full WhatsApp JID. The unofficial
+  # (Baileys) provider stores the peer's JID (e.g. <number>@s.whatsapp.net or
+  # <lid>@lid) as the source_id because a linked-device JID is not a phone number.
+  WHATSAPP_JID_PATTERN = '[\\d-]+@(?:s\\.whatsapp\\.net|c\\.us|lid)'.freeze
+  WHATSAPP_CHANNEL_REGEX = Regexp.new("\\A(?:\\d{1,15}|#{WHATSAPP_BSUID_PATTERN}|#{WHATSAPP_JID_PATTERN})\\z")
 end

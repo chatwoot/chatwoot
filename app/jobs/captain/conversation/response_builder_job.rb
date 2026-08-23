@@ -17,12 +17,19 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob # rubocop:disab
 
     Current.executed_by = @assistant
 
-    # Simple replies are the non-LLM first layer: a keyword match answers the
-    # customer directly and skips LLM generation entirely.
+    # Stage 1: resolve the customer's language from the last human message. This
+    # is resolved once up front and reused by the agent instructions (Stage 3)
+    # and any handoff messaging, so every stage agrees on the reply language.
+    @message_history = Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
+    @detected_language = Captain::Conversation::LanguageDetectorService.new(assistant: @assistant).detect(@message_history)
+
+    # Stage 2: simple replies are the non-LLM first layer — a keyword match
+    # answers the customer directly and skips LLM generation entirely.
     return if simple_reply_handled?
 
     return log_pre_generation_discard if newer_customer_message_arrived?
 
+    # Stages 3-5: agent loop, answer-or-escalate guard, delivery.
     generate_response_with_v2
   rescue ActiveStorage::FileNotFoundError, Faraday::BadRequestError => e
     handle_error(e)
@@ -45,23 +52,29 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob # rubocop:disab
 
   # Simple replies never run the agent loop, so they have no run_result to
   # derive a session from. Record a minimal trace so the debugging page still
-  # shows the deterministic layer firing for the conversation.
+  # shows the deterministic layer firing. Link it to the reply message (as
+  # `result`) so the per-message sparkle lookup can find it.
   def capture_simple_reply_session
+    reply = simple_reply_message
+    return unless reply
+
     Captain::AgentSession.create!(
       assistant: @assistant,
       session_type: :assistant,
       subject: @conversation,
+      result: reply,
       outcome: :simple_reply,
-      run_context: simple_reply_run_context
+      run_context: simple_reply_run_context(reply)
     )
   rescue StandardError => e
     Rails.logger.error("[CAPTAIN][ResponseBuilderJob] Simple reply session capture failed for conversation=#{@conversation.display_id}: #{e.message}")
   end
 
-  def simple_reply_run_context
-    reply = @conversation.messages.where(sender: @assistant).order(created_at: :desc).first
-    return [] unless reply
+  def simple_reply_message
+    @conversation.messages.where(sender: @assistant).order(created_at: :desc).first
+  end
 
+  def simple_reply_run_context(reply)
     [{
       role: 'assistant',
       agent_name: @assistant.agent_name,
@@ -73,8 +86,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob # rubocop:disab
   def generate_response_with_v2
     runner_service = v2_runner_service
     @runner_service = runner_service
-    message_history = Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
-    @response = runner_service.generate_response(message_history: message_history)
+    # Stage 3: run the agent loop with the detected language injected so it
+    # always answers in the customer's language.
+    @response = runner_service.generate_response(message_history: @message_history)
     @run_result = runner_service.last_run_result
 
     @v2_handoff_tool_completed = runner_service.handoff_completed?
@@ -89,6 +103,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob # rubocop:disab
   def v2_runner_service
     runner_args = { assistant: @assistant, conversation: @conversation }
     runner_args[:responding_to_message_id] = @responding_to_message_id if @responding_to_message_id.present?
+    runner_args[:detected_language] = @detected_language if @detected_language.present?
     Captain::Assistant::AgentRunnerService.new(**runner_args)
   end
 
@@ -98,13 +113,45 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob # rubocop:disab
     # top-level handle_error path only sees exceptions raised outside the runner.
     if v2_generation_errored?
       record_v2_response_failure(@response['error_reason'])
-      return process_error_handoff
+      return process_non_answer_decision
     end
 
     if v2_handoff_tool_fired?
       process_v2_handoff_response
     elsif conversation_pending?
       process_standard_response
+    end
+  end
+
+  # Stage 4: when the agent produced no deliverable answer, apply the
+  # answer-by-default guard to decide between a graceful retry/clarification and
+  # a last-resort handoff. Transient failures never escalate to a human.
+  def process_non_answer_decision
+    decision = answer_or_escalate_decision
+    return post_graceful_retry_message if decision.decision == :retry
+    return if decision.decision == :answer || decision.decision == :clarify
+
+    process_v1_handoff(reason_category: decision.reason_category)
+    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE)
+  end
+
+  def answer_or_escalate_decision
+    Captain::Conversation::AnswerOrEscalateService.new(
+      conversation: @conversation,
+      assistant: @assistant,
+      response: @response || {}
+    ).decide
+  end
+
+  # Stage 5 (error path): a transient generation failure becomes a short,
+  # friendly clarification message so the customer can retry — never an auto
+  # handoff. The conversation stays pending for their next message.
+  def post_graceful_retry_message
+    return unless conversation_pending?
+    return if newer_customer_message_arrived?
+
+    I18n.with_locale(@assistant.account.locale) do
+      @retry_message = create_outgoing_message(I18n.t('conversations.captain.generation_error'))
     end
   end
 
@@ -117,7 +164,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob # rubocop:disab
     end
     return unless message
 
-    capture_assistant_session(result_message: message, credits_consumed: 1.0)
+    capture_assistant_session(result_message: message, credits_consumed: 1.0, outcome: :reply)
     capture_decision_trace
     record_v2_response_completed(message)
   end
@@ -128,7 +175,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob # rubocop:disab
     # conversation pending for the customer's reply. No transfer message is posted.
     if v2_handoff_offer_pending?
       @handoff_offer_message = @conversation.messages.find_by(id: @v2_handoff_offer_message_id)
-      capture_assistant_session(result_message: @handoff_offer_message, credits_consumed: 0.0)
+      capture_assistant_session(result_message: @handoff_offer_message, credits_consumed: 0.0, outcome: :handoff_offer)
       capture_decision_trace
       return
     end
@@ -149,11 +196,11 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob # rubocop:disab
   def v2_handoff_tool_completed? = @v2_handoff_tool_completed == true
   def v2_handoff_offer_pending? = @v2_handoff_offer_pending == true
 
-  def process_v1_handoff
+  def process_v1_handoff(reason_category: nil)
     I18n.with_locale(@assistant.account.locale) do
       Rails.logger.info(
         "[CAPTAIN][ResponseBuilderJob] Handoff requested for account=#{account.id} conversation=#{@conversation.display_id} " \
-        "reason=#{@response&.dig('action_reason')}"
+        "reason=#{@response&.dig('action_reason')} reason_category=#{reason_category}"
       )
       create_handoff_message
       @conversation.bot_handoff!
@@ -208,6 +255,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob # rubocop:disab
   def capture_assistant_session(result_message:, credits_consumed:, outcome:)
     Captain::Assistant::SessionCaptureService.new(assistant: @assistant, conversation: @conversation, run_result: @run_result,
                                                   result_message: result_message, credits_consumed: credits_consumed, outcome: outcome).capture
+  rescue StandardError => e
+    Rails.logger.error("[CAPTAIN][ResponseBuilderJob] Session capture failed for conversation=#{@conversation.display_id}: #{e.message}")
   end
 
   # Persists the ordered decision trace (activated nodes, tool calls, handoffs,
@@ -226,17 +275,11 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob # rubocop:disab
     log_error(error)
     @response ||= {}
     @response['action_reason'] ||= error_action_reason(error)
+    @response['error'] = true
+    @response['error_reason'] = @response['error_reason'].presence || error_action_reason(error)
     record_v2_response_failure(error_action_reason(error))
-    process_error_handoff
+    process_non_answer_decision
     true
-  end
-
-  def process_error_handoff
-    return unless conversation_pending?
-    return if newer_customer_message_arrived?
-
-    process_v1_handoff
-    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE)
   end
 
   def log_error(error)

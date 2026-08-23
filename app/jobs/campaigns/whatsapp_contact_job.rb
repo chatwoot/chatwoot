@@ -34,14 +34,31 @@ class Campaigns::WhatsappContactJob < ApplicationJob
   end
 
   # Unofficial WhatsApp has no templates: render the campaign's plain message
-  # through Liquid and send it as free-form text.
+  # through Liquid and send it as free-form text. The recipient is the contact's
+  # WhatsApp JID source_id (a LID peer's JID is not its phone number), falling
+  # back to the stored phone number when no source_id exists yet.
   def send_unofficial_message(channel, campaign, contact)
+    recipient = unofficial_recipient_identifier(campaign, contact)
+    if recipient.blank?
+      Rails.logger.error "Skipping contact #{contact.name} - no WhatsApp JID or phone number found for campaign"
+      return
+    end
+
     content = Liquid::CampaignTemplateService.new(campaign: campaign, contact: contact).call(campaign.message)
     return if content.blank?
 
-    channel.provider_service.send_free_text(contact.phone_number, content)
+    sent = channel.provider_service.send_free_text(recipient, content)
+    Rails.logger.error "Failed to send unofficial WhatsApp campaign message to #{recipient} (contact #{contact.id})" unless sent
   rescue StandardError => e
-    Rails.logger.error "Failed to send unofficial WhatsApp message to #{contact.phone_number}: #{e.message}"
+    Rails.logger.error "Failed to send unofficial WhatsApp message to #{recipient || contact.name}: #{e.message}"
+  end
+
+  def unofficial_recipient_identifier(campaign, contact)
+    contact_inbox = contact.contact_inboxes.find_by(inbox_id: campaign.inbox.id)
+    return contact_inbox.source_id if contact_inbox&.source_id.present?
+    return contact.phone_number if contact.phone_number.present?
+
+    nil
   end
 
   def send_template_message(channel, campaign, contact)

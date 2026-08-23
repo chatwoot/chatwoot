@@ -1,10 +1,38 @@
 import { CONVERSATION_PRIORITY_ORDER } from 'shared/constants/messages';
 
-export const findPendingMessageIndex = (chat, message) => {
-  const { echo_id: tempMessageId } = message;
-  return chat.messages.findIndex(
-    m => m.id === message.id || m.id === tempMessageId
-  );
+/**
+ * Inserts or updates a single message in a conversation's message list.
+ *
+ * This is the single write path for every message producer (optimistic send,
+ * websocket push, reconnect re-sync). It is idempotent: a message is matched by
+ * its real id first, then its echo_id (the optimistic temp id), then its
+ * source_id (the channel-native id). An existing match is replaced in place with
+ * the incoming version so all producers converge on the same message object.
+ *
+ * Returns a NEW array and never mutates the input.
+ */
+export const upsertMessage = (messages, incomingMessage) => {
+  const result = [...messages];
+  const existingIndex = result.findIndex(message => {
+    if (incomingMessage.id && message.id === incomingMessage.id) return true;
+    if (incomingMessage.echo_id && message.id === incomingMessage.echo_id) {
+      return true;
+    }
+    if (
+      incomingMessage.source_id &&
+      message.source_id === incomingMessage.source_id
+    ) {
+      return true;
+    }
+    return false;
+  });
+
+  if (existingIndex !== -1) {
+    result[existingIndex] = incomingMessage;
+  } else {
+    result.push(incomingMessage);
+  }
+  return result;
 };
 
 export const filterByStatus = (chatStatus, filterStatus) => {

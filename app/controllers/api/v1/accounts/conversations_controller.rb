@@ -51,7 +51,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   # Remove this action (and its route) if you drop the email-composer feature.
   def send_email
     inbox = Current.account.inboxes.find(params[:inbox_id])
-    return render json: { error: 'Inbox is not an Email inbox' }, status: :unprocessable_entity unless inbox.inbox_type == 'Email'
+    return render json: { error: 'Inbox is not an Email inbox' }, status: :unprocessable_entity unless inbox.email?
 
     contact = Current.account.contacts.find(params[:contact_id])
     return render json: { error: 'Contact has no email' }, status: :unprocessable_entity if contact.email.blank?

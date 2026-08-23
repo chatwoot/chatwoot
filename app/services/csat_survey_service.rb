@@ -71,7 +71,7 @@ class CsatSurveyService
   end
 
   def whatsapp_channel?
-    inbox.channel_type == 'Channel::Whatsapp'
+    inbox.channel.is_a?(Channel::Whatsapp)
   end
 
   def template_available_and_approved?

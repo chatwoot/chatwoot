@@ -81,7 +81,6 @@ const onDragEnd = () => {
 const closeContactPanel = () => {
   updateUISettings({
     is_contact_sidebar_open: false,
-    is_copilot_panel_open: false,
   });
 };
 

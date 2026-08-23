@@ -48,32 +48,28 @@ class Platform::Api::V1::EmailChannelMigrationsController < PlatformController
 
     ActiveRecord::Base.transaction do
       channel = create_channel(entry)
-      inbox = create_inbox(channel, entry)
 
-      { email: entry[:email], inbox_id: inbox.id, channel_id: channel.id, status: 'success' }
+      { email: entry[:email], inbox_id: channel.inbox.id, channel_id: channel.id, status: 'success' }
     end
   rescue StandardError => e
     { email: entry[:email], status: 'error', message: e.message }
   end
 
   def create_channel(entry)
-    Channel::Email.create!(
-      account_id: @account.id,
-      email: entry[:email],
-      provider: entry[:provider],
-      provider_config: entry[:provider_config]&.to_h,
-      imap_enabled: entry.fetch(:imap_enabled, true),
-      imap_address: entry[:imap_address] || default_imap_address(entry[:provider]),
-      imap_port: entry[:imap_port] || 993,
-      imap_login: entry[:imap_login] || entry[:email],
-      imap_enable_ssl: entry.fetch(:imap_enable_ssl, true)
-    )
-  end
-
-  def create_inbox(channel, entry)
-    @account.inboxes.create!(
-      name: entry[:inbox_name] || "Migrated #{entry[:provider]&.capitalize}: #{entry[:email]}",
-      channel: channel
+    Channels::Builder.create!(
+      account: @account,
+      param_type: 'email',
+      channel_attributes: {
+        email: entry[:email],
+        provider: entry[:provider],
+        provider_config: entry[:provider_config]&.to_h,
+        imap_enabled: entry.fetch(:imap_enabled, true),
+        imap_address: entry[:imap_address] || default_imap_address(entry[:provider]),
+        imap_port: entry[:imap_port] || 993,
+        imap_login: entry[:imap_login] || entry[:email],
+        imap_enable_ssl: entry.fetch(:imap_enable_ssl, true)
+      },
+      inbox_name: entry[:inbox_name] || "Migrated #{entry[:provider]&.capitalize}: #{entry[:email]}"
     )
   end
 

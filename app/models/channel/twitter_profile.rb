@@ -16,9 +16,7 @@
 #  index_channel_twitter_profiles_on_account_id_and_profile_id  (account_id,profile_id) UNIQUE
 #
 
-class Channel::TwitterProfile < ApplicationRecord
-  include Channelable
-
+class Channel::TwitterProfile < Channel::Base
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
   if Chatwoot.encryption_configured?
     encrypts :twitter_access_token
@@ -36,6 +34,33 @@ class Channel::TwitterProfile < ApplicationRecord
   def name
     'Twitter'
   end
+
+  def param_type
+    'twitter'
+  end
+
+  def createable?
+    false
+  end
+
+  def send_service
+    Twitter::SendOnTwitterService
+  end
+
+  def campaign_definition
+    {
+      supported: false,
+      one_off: false,
+      campaignable: false,
+      service: nil
+    }
+  end
+
+  def renderer
+    :render_plain_text
+  end
+
+  def twitter? = true
 
   def create_contact_inbox(profile_id, name, additional_attributes)
     ::ContactInboxWithContactBuilder.new({

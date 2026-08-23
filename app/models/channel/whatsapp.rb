@@ -22,8 +22,7 @@
 #  index_channel_whatsapp_on_phone_number_health_checked_at  (phone_number_health_checked_at)
 #
 
-class Channel::Whatsapp < ApplicationRecord
-  include Channelable
+class Channel::Whatsapp < Channel::Base
   include Reauthorizable
 
   self.table_name = 'channel_whatsapp'
@@ -49,6 +48,48 @@ class Channel::Whatsapp < ApplicationRecord
   def name
     'Whatsapp'
   end
+
+  def param_type
+    'whatsapp'
+  end
+
+  def send_service
+    Whatsapp::SendOnWhatsappService
+  end
+
+  def campaign_definition
+    {
+      supported: true,
+      one_off: true,
+      campaignable: true,
+      service: Whatsapp::OneoffCampaignService
+    }
+  end
+
+  def messaging_window
+    MESSAGING_WINDOW_24_HOURS
+  end
+
+  def renderer
+    :render_whatsapp
+  end
+
+  def message_length_limit
+    4_096
+  end
+
+  def source_id_for(contact)
+    raise ActionController::ParameterMissing, 'contact phone number' unless contact.phone_number
+
+    # WhatsApp does not want the + in e164 format.
+    contact.phone_number.delete('+').to_s
+  end
+
+  def callback_webhook_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{phone_number}"
+  end
+
+  def whatsapp? = true
 
   # Mirrors Channel::TwilioSms#voice_enabled? so the call subsystem can duck-type across providers.
   # Meta's Calling API is available to any whatsapp_cloud inbox (embedded-signup or manual keys);

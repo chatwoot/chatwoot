@@ -6,7 +6,7 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
     log_tool_usage('searching', { query: query })
 
     # Use existing vector search on approved responses
-    responses = @assistant.responses.approved.search(query).includes(:documentable).to_a
+    responses = @assistant.responses.approved.search(query, assistant_id: @assistant.id)
     record_retrieved_sources(tool_context, responses)
 
     if responses.empty?

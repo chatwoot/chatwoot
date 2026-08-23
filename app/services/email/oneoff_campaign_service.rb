@@ -31,7 +31,7 @@ module Email
     def validate_campaign!
       raise "Invalid campaign #{campaign.id}" unless campaign.one_off?
       raise 'Completed Campaign' if campaign.completed?
-      raise 'Inbox is not an Email inbox' unless inbox.inbox_type == 'Email'
+      raise 'Inbox is not an Email inbox' unless inbox.email?
     end
 
     def process_audience

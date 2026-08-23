@@ -225,7 +225,8 @@ group :development do
 
   # profiling
   gem 'rack-mini-profiler', '>= 3.2.0', require: false
-  gem 'stackprof'
+  # stackprof relies on POSIX setitimer, which is unavailable on Windows
+  gem 'stackprof', install_if: !Gem.win_platform?
   # Should install the associated chrome extension to view query logs
   gem 'meta_request', '>= 0.8.3'
 
@@ -243,7 +244,6 @@ group :test do
 end
 
 group :development, :test do
-  gem 'active_record_query_trace'
   ##--- gems for debugging and error reporting ---##
   # static analysis
   gem 'brakeman'

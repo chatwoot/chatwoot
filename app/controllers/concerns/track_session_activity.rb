@@ -18,5 +18,6 @@ module TrackSessionActivity
     ).update_activity!
   rescue StandardError => e
     Rails.logger.warn "Session activity update failed: #{e.message}"
+    Rails.logger.warn e.backtrace&.first(20)&.join("\n")
   end
 end

@@ -59,9 +59,15 @@ class Whatsapp::Providers::WhatsappUnofficialService < Whatsapp::Providers::Base
       timeout: 15
     )
 
+    log_free_text_result(phone_number, response) unless response.success?
     response.success?
-  rescue StandardError
+  rescue StandardError => e
+    Rails.logger.error("[WHATSAPP_UNOFFICIAL] send_free_text failed for #{whatsapp_channel.phone_number} -> #{phone_number}: #{e.class} #{e.message}")
     false
+  end
+
+  def log_free_text_result(phone_number, response)
+    Rails.logger.error("[WHATSAPP_UNOFFICIAL] send_free_text failed for #{whatsapp_channel.phone_number} -> #{phone_number}: #{response.code} #{response.body&.truncate(500)}")
   end
 
   def sync_templates

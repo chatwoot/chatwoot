@@ -1,41 +1,35 @@
+import {
+  CHANNEL_TYPE,
+  CHANNEL_TYPES as channelTypes,
+  CHANNEL_DEFINITIONS,
+  getChannelDefinition,
+  VOICE_CALL_PROVIDERS as voiceCallProviders,
+  VOICE_CALL_ICONS as voiceCallIcons,
+  TWILIO_CHANNEL_MEDIUM as twilioChannelMedium,
+} from 'dashboard/constants/channelDefinitions';
+
+// Named keys for each channel's backend class-name string. Derived from the
+// single channelDefinitions source of truth.
 export const INBOX_TYPES = {
-  WEB: 'Channel::WebWidget',
-  FB: 'Channel::FacebookPage',
-  TWITTER: 'Channel::TwitterProfile',
-  TWILIO: 'Channel::TwilioSms',
-  WHATSAPP: 'Channel::Whatsapp',
-  API: 'Channel::Api',
-  EMAIL: 'Channel::Email',
-  TELEGRAM: 'Channel::Telegram',
-  LINE: 'Channel::Line',
-  SMS: 'Channel::Sms',
-  INSTAGRAM: 'Channel::Instagram',
-  TIKTOK: 'Channel::Tiktok',
+  WEB: CHANNEL_TYPE.WEB_WIDGET,
+  FB: CHANNEL_TYPE.FACEBOOK_PAGE,
+  TWITTER: CHANNEL_TYPE.TWITTER_PROFILE,
+  TWILIO: CHANNEL_TYPE.TWILIO_SMS,
+  WHATSAPP: CHANNEL_TYPE.WHATSAPP,
+  API: CHANNEL_TYPE.API,
+  EMAIL: CHANNEL_TYPE.EMAIL,
+  TELEGRAM: CHANNEL_TYPE.TELEGRAM,
+  LINE: CHANNEL_TYPE.LINE,
+  SMS: CHANNEL_TYPE.SMS,
+  INSTAGRAM: CHANNEL_TYPE.INSTAGRAM,
+  TIKTOK: CHANNEL_TYPE.TIKTOK,
 };
 
 // Short channel-type slugs used to identify a channel without leaning on its
 // Channel:: class name — e.g. onboarding channel cards and OAuth provider maps.
-export const CHANNEL_TYPES = {
-  WEBSITE: 'website',
-  WHATSAPP: 'whatsapp',
-  FACEBOOK: 'facebook',
-  INSTAGRAM: 'instagram',
-  TIKTOK: 'tiktok',
-  TELEGRAM: 'telegram',
-  LINE: 'line',
-  GMAIL: 'gmail',
-  OUTLOOK: 'outlook',
-  SMS: 'sms',
-  API: 'api',
-  VOICE: 'voice',
-  EMAIL: 'email',
-};
+export const CHANNEL_TYPES = channelTypes;
 
-// Add providers here as they gain voice capability (e.g., WhatsApp Cloud, Twilio WhatsApp)
-export const VOICE_CALL_PROVIDERS = {
-  TWILIO: 'twilio',
-  WHATSAPP: 'whatsapp',
-};
+export const VOICE_CALL_PROVIDERS = voiceCallProviders;
 
 export const getVoiceCallProvider = inbox => {
   if (!inbox) return null;
@@ -55,19 +49,12 @@ export const getVoiceCallProvider = inbox => {
 
 export const isVoiceCallEnabled = inbox => getVoiceCallProvider(inbox) !== null;
 
-// Combined channel + voice-wave badge glyph per voice-call provider.
-export const VOICE_CALL_ICONS = {
-  [VOICE_CALL_PROVIDERS.WHATSAPP]: 'i-woot-whatsapp-voice',
-  [VOICE_CALL_PROVIDERS.TWILIO]: 'i-woot-voice-call',
-};
+export const VOICE_CALL_ICONS = voiceCallIcons;
 
 export const getVoiceCallIcon = provider =>
   VOICE_CALL_ICONS[provider] ?? VOICE_CALL_ICONS[VOICE_CALL_PROVIDERS.TWILIO];
 
-export const TWILIO_CHANNEL_MEDIUM = {
-  WHATSAPP: 'whatsapp',
-  SMS: 'sms',
-};
+export const TWILIO_CHANNEL_MEDIUM = twilioChannelMedium;
 
 export const getInboxVoiceIcon = (channelType, medium) => {
   const isWhatsapp =
@@ -79,33 +66,19 @@ export const getInboxVoiceIcon = (channelType, medium) => {
   );
 };
 
-const INBOX_ICON_MAP_FILL = {
-  [INBOX_TYPES.WEB]: 'i-ri-global-fill',
-  [INBOX_TYPES.FB]: 'i-ri-messenger-fill',
-  [INBOX_TYPES.TWITTER]: 'i-ri-twitter-x-fill',
-  [INBOX_TYPES.WHATSAPP]: 'i-ri-whatsapp-fill',
-  [INBOX_TYPES.API]: 'i-ri-cloudy-fill',
-  [INBOX_TYPES.EMAIL]: 'i-ri-mail-fill',
-  [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-fill',
-  [INBOX_TYPES.LINE]: 'i-ri-line-fill',
-  [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-fill',
-  [INBOX_TYPES.TIKTOK]: 'i-ri-tiktok-fill',
-};
+const INBOX_ICON_MAP_FILL = Object.fromEntries(
+  CHANNEL_DEFINITIONS.filter(definition => definition.iconFill).map(
+    definition => [definition.type, definition.iconFill]
+  )
+);
 
 const DEFAULT_ICON_FILL = 'i-ri-chat-1-fill';
 
-const INBOX_ICON_MAP_LINE = {
-  [INBOX_TYPES.WEB]: 'i-woot-website',
-  [INBOX_TYPES.FB]: 'i-woot-messenger',
-  [INBOX_TYPES.TWITTER]: 'i-woot-x',
-  [INBOX_TYPES.WHATSAPP]: 'i-woot-whatsapp',
-  [INBOX_TYPES.API]: 'i-woot-api',
-  [INBOX_TYPES.EMAIL]: 'i-woot-mail',
-  [INBOX_TYPES.TELEGRAM]: 'i-woot-telegram',
-  [INBOX_TYPES.LINE]: 'i-woot-line',
-  [INBOX_TYPES.INSTAGRAM]: 'i-woot-instagram',
-  [INBOX_TYPES.TIKTOK]: 'i-woot-tiktok',
-};
+const INBOX_ICON_MAP_LINE = Object.fromEntries(
+  CHANNEL_DEFINITIONS.filter(definition => definition.iconLine).map(
+    definition => [definition.type, definition.iconLine]
+  )
+);
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
 
@@ -160,45 +133,11 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 };
 
 export const getInboxClassByType = (type, phoneNumber) => {
-  switch (type) {
-    case INBOX_TYPES.WEB:
-      return 'globe-desktop';
-
-    case INBOX_TYPES.FB:
-      return 'brand-facebook';
-
-    case INBOX_TYPES.TWITTER:
-      return 'brand-twitter';
-
-    case INBOX_TYPES.TWILIO:
-      return phoneNumber?.startsWith('whatsapp')
-        ? 'brand-whatsapp'
-        : 'brand-sms';
-
-    case INBOX_TYPES.WHATSAPP:
-      return 'brand-whatsapp';
-
-    case INBOX_TYPES.API:
-      return 'cloud';
-
-    case INBOX_TYPES.EMAIL:
-      return 'mail';
-
-    case INBOX_TYPES.TELEGRAM:
-      return 'brand-telegram';
-
-    case INBOX_TYPES.LINE:
-      return 'brand-line';
-
-    case INBOX_TYPES.INSTAGRAM:
-      return 'brand-instagram';
-
-    case INBOX_TYPES.TIKTOK:
-      return 'brand-tiktok';
-
-    default:
-      return 'chat';
+  if (type === INBOX_TYPES.TWILIO) {
+    return phoneNumber?.startsWith('whatsapp') ? 'brand-whatsapp' : 'brand-sms';
   }
+
+  return getChannelDefinition(type)?.className || 'chat';
 };
 
 export const getInboxIconByType = (

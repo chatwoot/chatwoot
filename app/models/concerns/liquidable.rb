@@ -52,7 +52,7 @@ module Liquidable
   end
 
   def raw_whatsapp_template_content?
-    return false unless inbox&.channel_type == 'Channel::Whatsapp' && additional_attributes.is_a?(Hash)
+    return false unless inbox&.channel.is_a?(Channel::Whatsapp) && additional_attributes.is_a?(Hash)
 
     template_params = additional_attributes['template_params']
     return false unless template_params.is_a?(Hash)

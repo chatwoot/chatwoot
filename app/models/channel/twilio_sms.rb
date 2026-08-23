@@ -26,8 +26,7 @@
 #  index_channel_twilio_sms_on_phone_number                  (phone_number) UNIQUE
 #
 
-class Channel::TwilioSms < ApplicationRecord
-  include Channelable
+class Channel::TwilioSms < Channel::Base
   include Rails.application.routes.url_helpers
 
   self.table_name = 'channel_twilio_sms'
@@ -54,6 +53,50 @@ class Channel::TwilioSms < ApplicationRecord
   def name
     medium == 'sms' ? 'Twilio SMS' : 'Whatsapp'
   end
+
+  def param_type
+    'twilio'
+  end
+
+  def createable?
+    false
+  end
+
+  def send_service
+    Twilio::SendOnTwilioService
+  end
+
+  def campaign_definition
+    {
+      supported: true,
+      one_off: true,
+      campaignable: true,
+      service: Twilio::OneoffSmsCampaignService
+    }
+  end
+
+  def messaging_window
+    medium == 'whatsapp' ? MESSAGING_WINDOW_24_HOURS : nil
+  end
+
+  def renderer
+    :render_plain_text
+  end
+
+  def source_id_for(contact)
+    raise ActionController::ParameterMissing, 'contact phone number' unless contact.phone_number
+
+    medium == 'whatsapp' ? "whatsapp:#{contact.phone_number}" : contact.phone_number
+  end
+
+  def callback_webhook_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/callback"
+  end
+
+  def twilio? = true
+  def sms? = medium == 'sms'
+  def whatsapp? = medium == 'whatsapp'
+  def twilio_whatsapp? = medium == 'whatsapp'
 
   # Mutes only the incoming side of calling; default on, so only an explicit false disables inbound.
   def inbound_calls_enabled?

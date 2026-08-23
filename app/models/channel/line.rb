@@ -15,9 +15,7 @@
 #  index_channel_line_on_line_channel_id  (line_channel_id) UNIQUE
 #
 
-class Channel::Line < ApplicationRecord
-  include Channelable
-
+class Channel::Line < Channel::Base
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
   if Chatwoot.encryption_configured?
     encrypts :line_channel_secret
@@ -34,6 +32,37 @@ class Channel::Line < ApplicationRecord
   def name
     'LINE'
   end
+
+  def param_type
+    'line'
+  end
+
+  def send_service
+    Line::SendOnLineService
+  end
+
+  def campaign_definition
+    {
+      supported: false,
+      one_off: false,
+      campaignable: false,
+      service: nil
+    }
+  end
+
+  def renderer
+    :render_line
+  end
+
+  def message_length_limit
+    5_000
+  end
+
+  def callback_webhook_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/line/#{line_channel_id}"
+  end
+
+  def line? = true
 
   def client
     @client ||= Line::Bot::Client.new do |config|

@@ -47,7 +47,6 @@ GEM
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    active_record_query_trace (1.8)
     activejob (7.2.3.1)
       activesupport (= 7.2.3.1)
       globalid (>= 0.3.6)
@@ -307,6 +306,7 @@ GEM
       rack (~> 3.1)
     ffi (1.17.2)
     ffi (1.17.2-arm64-darwin)
+    ffi (1.17.2-x64-mingw-ucrt)
     ffi (1.17.2-x86_64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     ffi-compiler (1.0.1)
@@ -389,6 +389,9 @@ GEM
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     grpc (1.72.0-arm64-darwin)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.72.0-x64-mingw-ucrt)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     grpc (1.72.0-x86_64-darwin)
@@ -571,6 +574,8 @@ GEM
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     nokogiri (1.19.4-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.19.4-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.19.4-x86_64-darwin)
       racc (~> 1.4)
@@ -1004,6 +1009,7 @@ PLATFORMS
   arm64-darwin-21
   arm64-darwin-22
   ruby
+  x64-mingw-ucrt
   x86_64-darwin-18
   x86_64-darwin-20
   x86_64-darwin-21
@@ -1011,7 +1017,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  active_record_query_trace
   activerecord-import
   acts-as-taggable-on
   administrate (>= 0.20.1)

@@ -275,27 +275,6 @@ app.get('/admin/api/events', (req, res) => {
   req.on('close', () => SSE_CLIENTS.delete(res));
 });
 
-app.post('/admin/api/test-webhook', authenticate, async (req, res) => {
-  const { identifier, from, text } = req.body || {};
-  if (!identifier) return res.status(400).json({ error: 'identifier_required' });
-  const fromId = (from || '628000000000').replace(/\D/g, '');
-  const bodyText = text || 'Hello from companion dashboard test';
-  const fakePayload = {
-    entry: [{ id: identifier, changes: [{ field: 'messages', value: { metadata: { display_phone_number: identifier, phone_number_id: identifier }, contacts: [{ profile: { name: 'Dashboard Tester' }, wa_id: fromId }], messages: [{ from: fromId, id: `test-${Date.now()}`, timestamp: String(Math.floor(Date.now() / 1000)), type: 'text', text: { body: bodyText } }] } }] }],
-  };
-  const body = JSON.stringify(fakePayload);
-  const url = `${CHATWOOT_URL}/webhooks/whatsapp_unofficial/${encodeURIComponent(identifier)}`;
-  try {
-    const resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-companion-token': SHARED_TOKEN }, body });
-    const respText = await resp.text();
-    pushLog({ direction: 'test-webhook', identifier, target_url: url, status: resp.status, response: respText.slice(0, 2000) });
-    return res.json({ forwarded_to: url, chatwoot_status: resp.status, chatwoot_body: respText.slice(0, 2000), payload: fakePayload });
-  } catch (err) {
-    pushLog({ direction: 'test-webhook-error', identifier, error: err.message });
-    return res.status(502).json({ error: err.message, forwarded_to: url });
-  }
-});
-
 app.post('/connect', authenticate, async (req, res) => {
   const { identifier } = req.body || {};
   if (!identifier) return res.status(400).json({ error: 'identifier_required' });

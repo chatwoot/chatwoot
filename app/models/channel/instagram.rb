@@ -14,8 +14,7 @@
 #
 #  index_channel_instagram_on_instagram_id  (instagram_id) UNIQUE
 #
-class Channel::Instagram < ApplicationRecord
-  include Channelable
+class Channel::Instagram < Channel::Base
   include Reauthorizable
   self.table_name = 'channel_instagram'
 
@@ -33,6 +32,42 @@ class Channel::Instagram < ApplicationRecord
   def name
     'Instagram'
   end
+
+  def param_type
+    'instagram'
+  end
+
+  def createable?
+    false
+  end
+
+  def send_service
+    Instagram::SendOnInstagramService
+  end
+
+  def campaign_definition
+    {
+      supported: false,
+      one_off: false,
+      campaignable: false,
+      service: nil
+    }
+  end
+
+  def messaging_window
+    meta_messaging_window('ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT')
+  end
+
+  def renderer
+    :render_instagram
+  end
+
+  def message_length_limit
+    Captain::MessageLengthLimit::INSTAGRAM_LIMIT
+  end
+
+  def instagram? = true
+  def instagram_direct? = true
 
   def create_contact_inbox(instagram_id, name)
     @contact_inbox = ::ContactInboxWithContactBuilder.new({

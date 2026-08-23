@@ -92,7 +92,7 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   end
 
   def trigger_template_sync
-    if @inbox.whatsapp?
+    if @inbox.channel.is_a?(Channel::Whatsapp)
       Channels::Whatsapp::TemplatesSyncJob.perform_later(@inbox.channel)
     elsif @inbox.twilio? && @inbox.channel.whatsapp?
       Channels::Twilio::TemplatesSyncJob.perform_later(@inbox.channel)

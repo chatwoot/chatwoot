@@ -65,15 +65,12 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   def likely_matches(relation, embedding)
     return [] unless relation.exists?
 
-    ApplicationRecord.transaction do
-      # Force an exact search because IVFFlat can miss matches after relation filters.
-      # SET LOCAL keeps the planner change scoped to this transaction.
-      ApplicationRecord.connection.execute('SET LOCAL enable_indexscan = off')
-      relation
-        .nearest_neighbors(:embedding, embedding, distance: 'cosine')
-        .limit(MATCH_LIMIT)
-        .select { |record| record.neighbor_distance < DISTANCE_THRESHOLD }
-    end
+    # Exact cosine search: the responses embedding column has no ANN index, so
+    # nearest_neighbors performs a brute-force scan with perfect recall.
+    relation
+      .nearest_neighbors(:embedding, embedding, distance: 'cosine')
+      .limit(MATCH_LIMIT)
+      .select { |record| record.neighbor_distance < DISTANCE_THRESHOLD }
   end
 
   def same_faq?(candidate, existing_record)

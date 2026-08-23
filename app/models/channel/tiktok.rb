@@ -16,8 +16,7 @@
 #
 #  index_channel_tiktok_on_business_id  (business_id) UNIQUE
 #
-class Channel::Tiktok < ApplicationRecord
-  include Channelable
+class Channel::Tiktok < Channel::Base
   include Reauthorizable
   self.table_name = 'channel_tiktok'
 
@@ -38,6 +37,41 @@ class Channel::Tiktok < ApplicationRecord
   def name
     'Tiktok'
   end
+
+  def param_type
+    'tiktok'
+  end
+
+  def createable?
+    false
+  end
+
+  def send_service
+    Tiktok::SendOnTiktokService
+  end
+
+  def campaign_definition
+    {
+      supported: false,
+      one_off: false,
+      campaignable: false,
+      service: nil
+    }
+  end
+
+  def messaging_window
+    48.hours
+  end
+
+  def renderer
+    nil
+  end
+
+  def message_length_limit
+    6_000
+  end
+
+  def tiktok? = true
 
   def validated_access_token
     Tiktok::TokenService.new(channel: self).access_token

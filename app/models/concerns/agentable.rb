@@ -28,7 +28,8 @@ module Agentable
         conversation: state[:conversation] || {},
         contact: config['feature_contact_attributes'].present? ? state[:contact] : nil,
         campaign: state[:campaign] || {},
-        message_length_limit: state[:message_length_limit]
+        message_length_limit: state[:message_length_limit],
+        detected_language: state[:detected_language]
       )
     end
 

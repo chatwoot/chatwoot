@@ -104,17 +104,18 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def create_channel
+    channel_class = channel_type_from_params
     return unless allowed_channel_types.include?(permitted_params[:channel][:type])
 
-    account_channels_method.create!(permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type))
+    Channels::Builder.create!(
+      account: Current.account,
+      param_type: permitted_params[:channel][:type],
+      channel_attributes: permitted_params(Channel::Registry.editable_attrs_for(channel_class))[:channel].except(:type)
+    )
   end
 
   def allowed_channel_types
-    # OAuth channels (facebook, instagram, tiktok, twitter) are created via
-    # callbacks controllers (e.g. Api::V1::Accounts::CallbacksController) and
-    # not via the generic inbox creation endpoint. Keep this list in sync with
-    # `channel_type_from_params` below.
-    %w[web_widget api email line telegram whatsapp sms]
+    Channel::Registry.createable_param_types
   end
 
   def update_inbox_working_hours
@@ -125,7 +126,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     channel_attributes = get_channel_attributes(@inbox.channel_type)
     return if permitted_params(channel_attributes)[:channel].blank?
 
-    validate_and_update_email_channel(channel_attributes) if @inbox.inbox_type == 'Email'
+    validate_and_update_email_channel(channel_attributes) if @inbox.email?
 
     reauthorize_and_update_channel(channel_attributes)
     update_channel_feature_flags
@@ -217,22 +218,11 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def channel_type_from_params
-    # Keep in sync with `allowed_channel_types` above. OAuth channels (facebook,
-    # instagram, tiktok, twitter) are intentionally omitted – they are created
-    # via callbacks controllers, not via this generic endpoint.
-    {
-      'web_widget' => Channel::WebWidget,
-      'api' => Channel::Api,
-      'email' => Channel::Email,
-      'line' => Channel::Line,
-      'telegram' => Channel::Telegram,
-      'whatsapp' => Channel::Whatsapp,
-      'sms' => Channel::Sms
-    }[permitted_params[:channel][:type]]
+    Channel::Registry.channel_class_for(permitted_params[:channel][:type])
   end
 
   def get_channel_attributes(channel_type)
-    channel_type.constantize.const_defined?(:EDITABLE_ATTRS) ? channel_type.constantize::EDITABLE_ATTRS.presence : []
+    Channel::Registry.editable_attrs_for(channel_type.constantize)
   end
 end
 

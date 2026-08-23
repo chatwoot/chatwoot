@@ -14,9 +14,7 @@
 #  index_channel_telegram_on_bot_token  (bot_token) UNIQUE
 #
 
-class Channel::Telegram < ApplicationRecord
-  include Channelable
-
+class Channel::Telegram < Channel::Base
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
   encrypts :bot_token, deterministic: true if Chatwoot.encryption_configured?
 
@@ -30,6 +28,33 @@ class Channel::Telegram < ApplicationRecord
   def name
     'Telegram'
   end
+
+  def param_type
+    'telegram'
+  end
+
+  def send_service
+    Telegram::SendOnTelegramService
+  end
+
+  def campaign_definition
+    {
+      supported: false,
+      one_off: false,
+      campaignable: false,
+      service: nil
+    }
+  end
+
+  def renderer
+    :render_telegram_html
+  end
+
+  def message_length_limit
+    4_096
+  end
+
+  def telegram? = true
 
   def telegram_api_url
     "https://api.telegram.org/bot#{bot_token}"

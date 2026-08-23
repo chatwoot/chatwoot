@@ -2,7 +2,6 @@ class MessageContentPresenter < SimpleDelegator
   def outgoing_content
     Messages::MarkdownRendererService.new(
       content_with_survey_link,
-      conversation.inbox.channel_type,
       conversation.inbox.channel
     ).render
   end

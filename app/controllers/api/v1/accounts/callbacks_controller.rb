@@ -8,12 +8,8 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
     inbox_name = params[:inbox_name]
 
     ActiveRecord::Base.transaction do
-      facebook_channel = Current.account.facebook_pages.create!(
-        page_id: page_id, user_access_token: user_access_token,
-        page_access_token: page_access_token
-      )
-      @facebook_inbox = Current.account.inboxes.create!(name: inbox_name, channel: facebook_channel)
-      set_instagram_id(page_access_token, facebook_channel)
+      @facebook_inbox = create_facebook_channel_with_inbox(page_id, user_access_token, page_access_token, inbox_name)
+      set_instagram_id(page_access_token, @facebook_inbox.channel)
       set_avatar(@facebook_inbox, page_id)
     end
   rescue CustomExceptions::Inbox::LimitExceeded => e
@@ -23,6 +19,20 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
     Rails.logger.error "Error in register_facebook_page: #{e.message}"
     # Additional log statements
     log_additional_info
+  end
+
+  def create_facebook_channel_with_inbox(page_id, user_access_token, page_access_token, inbox_name)
+    facebook_channel = Channels::Builder.create!(
+      account: Current.account,
+      param_type: 'facebook',
+      channel_attributes: {
+        page_id: page_id,
+        user_access_token: user_access_token,
+        page_access_token: page_access_token
+      },
+      inbox_name: inbox_name
+    )
+    facebook_channel.inbox
   end
 
   def log_additional_info

@@ -180,6 +180,7 @@ describe('#mutations', () => {
             id: 1,
             messages: [
               {
+                id: 100,
                 conversation_id: 1,
                 content: 'Test message',
                 created_at: 1602256198,
@@ -190,6 +191,7 @@ describe('#mutations', () => {
         selectedChatId: 1,
       };
       mutations[types.ADD_MESSAGE](state, {
+        id: 100,
         conversation_id: 1,
         content: 'Test message 1',
         created_at: 1602256198,
@@ -199,6 +201,7 @@ describe('#mutations', () => {
           id: 1,
           messages: [
             {
+              id: 100,
               conversation_id: 1,
               content: 'Test message 1',
               created_at: 1602256198,
@@ -352,7 +355,7 @@ describe('#mutations', () => {
       expect(state.allConversations).toEqual(data);
     });
 
-    it('set all conversation in reconnect if selected chat id and conversation id is not the same then update messages', () => {
+    it('preserves message history for existing conversations regardless of selection', () => {
       const state = {
         allConversations: [{ id: 1, messages: [{ id: 1, content: 'test' }] }],
         selectedChatId: 2,
@@ -360,8 +363,11 @@ describe('#mutations', () => {
       const data = [
         { id: 1, name: 'test', messages: [{ id: 1, content: 'tested' }] },
       ];
+      const expected = [
+        { id: 1, name: 'test', messages: [{ id: 1, content: 'test' }] },
+      ];
       mutations[types.SET_ALL_CONVERSATION](state, data);
-      expect(state.allConversations).toEqual(data);
+      expect(state.allConversations).toEqual(expected);
     });
   });
 
@@ -673,28 +679,6 @@ describe('#mutations', () => {
 
       mutations[types.SET_PREVIOUS_CONVERSATIONS](state, payload);
       expect(state.allConversations[0].messages).toEqual([{ id: 'msg2' }]);
-    });
-  });
-
-  describe('#SET_MISSING_MESSAGES', () => {
-    it('should replace message array with new data', () => {
-      const state = {
-        allConversations: [{ id: 1, messages: [{ id: 'old' }] }],
-      };
-      const payload = { id: 1, data: [{ id: 'new' }] };
-
-      mutations[types.SET_MISSING_MESSAGES](state, payload);
-      expect(state.allConversations[0].messages).toEqual([{ id: 'new' }]);
-    });
-
-    it('should do nothing if conversation is not found', () => {
-      const state = {
-        allConversations: [],
-      };
-      const payload = { id: 1, data: [{ id: 'new' }] };
-
-      mutations[types.SET_MISSING_MESSAGES](state, payload);
-      expect(state.allConversations).toEqual([]);
     });
   });
 

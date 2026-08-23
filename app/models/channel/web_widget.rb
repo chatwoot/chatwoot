@@ -26,8 +26,7 @@
 #  index_channel_web_widgets_on_website_token  (website_token) UNIQUE
 #
 
-class Channel::WebWidget < ApplicationRecord
-  include Channelable
+class Channel::WebWidget < Channel::Base
   include FlagShihTzu
 
   self.table_name = 'channel_web_widgets'
@@ -60,6 +59,33 @@ class Channel::WebWidget < ApplicationRecord
   def name
     'Website'
   end
+
+  def param_type
+    'web_widget'
+  end
+
+  def send_service
+    Messages::SendEmailNotificationService
+  end
+
+  def campaign_definition
+    {
+      supported: false,
+      one_off: false,
+      campaignable: true,
+      service: nil
+    }
+  end
+
+  def renderer
+    :render_html
+  end
+
+  def source_id_for(_contact)
+    SecureRandom.uuid
+  end
+
+  def web_widget? = true
 
   def web_widget_script
     "

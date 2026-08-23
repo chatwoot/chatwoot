@@ -15,6 +15,8 @@ class Captain::Assistant::DecisionTraceBuilder
     final_response: 'final_response'
   }.freeze
 
+  CONTINUING_CONVERSATION_INPUT = '(continuing conversation)'
+
   attr_reader :nodes
 
   def initialize(assistant:)
@@ -44,7 +46,7 @@ class Captain::Assistant::DecisionTraceBuilder
   private
 
   def record_agent_activation(agent_name, input, _context_wrapper)
-    return if input.to_s == '(continuing conversation)'
+    return if input.to_s == CONTINUING_CONVERSATION_INPUT
 
     @nodes << {
       'type' => NODE_TYPES[:agent_activated],
@@ -106,15 +108,21 @@ class Captain::Assistant::DecisionTraceBuilder
   end
 
   # Scenario agents are named like "scenario_12_refund_agent". Surface a readable
-  # label ("Scenario: Refund") while keeping the raw key for reference.
+  # label ("Scenario: Refund") while keeping the raw key for reference. Titles are
+  # loaded once into a lookup map so multiple handoff nodes in a run don't issue a
+  # query each.
   def humanized_agent_name(agent_name)
     raw_name = agent_name.to_s
     match = raw_name.match(/\A#{Captain::Scenario::HANDOFF_KEY_PREFIX}_(\d+)_(.+)_#{Captain::Scenario::HANDOFF_KEY_SUFFIX}\z/o)
     return raw_name unless match
 
     scenario_id, slug = match.captures
-    title = @assistant.scenarios.where(id: scenario_id).pick(:title)
+    title = scenario_titles_by_id[scenario_id.to_i]
     title.presence || slug.tr('_', ' ').capitalize
+  end
+
+  def scenario_titles_by_id
+    @scenario_titles_by_id ||= @assistant.scenarios.pluck(:id, :title).to_h
   end
 
   def truncate(text, limit = 2000)

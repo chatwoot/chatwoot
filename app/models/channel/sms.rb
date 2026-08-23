@@ -15,9 +15,7 @@
 #  index_channel_sms_on_phone_number  (phone_number) UNIQUE
 #
 
-class Channel::Sms < ApplicationRecord
-  include Channelable
-
+class Channel::Sms < Channel::Base
   self.table_name = 'channel_sms'
   EDITABLE_ATTRS = [:phone_number, { provider_config: {} }].freeze
 
@@ -27,6 +25,43 @@ class Channel::Sms < ApplicationRecord
   def name
     'Sms'
   end
+
+  def param_type
+    'sms'
+  end
+
+  def send_service
+    Sms::SendOnSmsService
+  end
+
+  def campaign_definition
+    {
+      supported: true,
+      one_off: true,
+      campaignable: true,
+      service: Sms::OneoffSmsCampaignService
+    }
+  end
+
+  def renderer
+    :render_plain_text
+  end
+
+  def message_length_limit
+    320
+  end
+
+  def source_id_for(contact)
+    raise ActionController::ParameterMissing, 'contact phone number' unless contact.phone_number
+
+    contact.phone_number
+  end
+
+  def callback_webhook_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/sms/#{phone_number.delete_prefix('+')}"
+  end
+
+  def sms? = true
 
   # all this should happen in provider service . but hack mode on
   def api_base_path

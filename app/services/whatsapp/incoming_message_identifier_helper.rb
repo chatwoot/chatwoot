@@ -55,6 +55,8 @@ module Whatsapp::IncomingMessageIdentifierHelper
   end
 
   def whatsapp_phone_source_id(identifier)
+    return whatsapp_jid_source_id(identifier) if whatsapp_unofficial_channel?
+
     phone_number = whatsapp_phone_number(identifier)
     return if phone_number.blank?
 
@@ -73,7 +75,20 @@ module Whatsapp::IncomingMessageIdentifierHelper
   end
 
   def contact_attributes_for_identifier(name, phone_identifier)
+    return whatsapp_unofficial_contact_attributes(name, phone_identifier) if whatsapp_unofficial_channel?
+
     phone_number = whatsapp_phone_number(phone_identifier)
+    return { name: name } if phone_number.blank?
+
+    formatted_phone_number = "+#{phone_number}"
+    display_name = name == phone_identifier ? formatted_phone_number : name
+    { name: display_name, phone_number: formatted_phone_number }
+  end
+
+  # For the unofficial provider, only real-phone JIDs carry a dialable number. A
+  # LID JID is not a phone number, so we do not fabricate one from its digits.
+  def whatsapp_unofficial_contact_attributes(name, phone_identifier)
+    phone_number = whatsapp_real_phone_jid?(phone_identifier) ? whatsapp_phone_number(phone_identifier) : nil
     return { name: name } if phone_number.blank?
 
     formatted_phone_number = "+#{phone_number}"

@@ -1,5 +1,4 @@
 import {
-  filterDuplicateSourceMessages,
   getLastMessage,
   getReadMessages,
   getUnreadMessages,
@@ -12,31 +11,6 @@ import {
 } from './fixtures/conversationFixtures';
 
 describe('conversationHelper', () => {
-  describe('#filterDuplicateSourceMessages', () => {
-    it('returns messages without duplicate source_id and all messages without source_id', () => {
-      const input = [
-        { source_id: null, id: 1 },
-        { source_id: '', id: 2 },
-        { id: 3 },
-        { source_id: 'wa_1', id: 4 },
-        { source_id: 'wa_1', id: 5 },
-        { source_id: 'wa_1', id: 6 },
-        { source_id: 'wa_2', id: 7 },
-        { source_id: 'wa_2', id: 8 },
-        { source_id: 'wa_3', id: 9 },
-      ];
-      const expected = [
-        { source_id: null, id: 1 },
-        { source_id: '', id: 2 },
-        { id: 3 },
-        { source_id: 'wa_1', id: 4 },
-        { source_id: 'wa_2', id: 7 },
-        { source_id: 'wa_3', id: 9 },
-      ];
-      expect(filterDuplicateSourceMessages(input)).toEqual(expected);
-    });
-  });
-
   describe('#readMessages', () => {
     it('should return read messages if conversation is passed', () => {
       expect(

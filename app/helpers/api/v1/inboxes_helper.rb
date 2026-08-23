@@ -102,16 +102,4 @@ module Api::V1::InboxesHelper
     context.verify_mode = openssl_verify_mode
     context
   end
-
-  def account_channels_method
-    {
-      'web_widget' => Current.account.web_widgets,
-      'api' => Current.account.api_channels,
-      'email' => Current.account.email_channels,
-      'line' => Current.account.line_channels,
-      'telegram' => Current.account.telegram_channels,
-      'whatsapp' => Current.account.whatsapp_channels,
-      'sms' => Current.account.sms_channels
-    }[permitted_params[:channel][:type]]
-  end
 end

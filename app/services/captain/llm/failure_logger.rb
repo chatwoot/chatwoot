@@ -18,7 +18,7 @@ class Captain::Llm::FailureLogger
       account_id: attributes[:account_id],
       assistant_id: attributes[:assistant_id],
       conversation_id: attributes[:conversation_id],
-      request_messages: attributes[:request_messages]
+      request_messages: sanitize_messages(attributes[:request_messages])
     )
   rescue StandardError => e
     # Persisting the failure log must never break the caller's own error handling.
@@ -59,5 +59,26 @@ class Captain::Llm::FailureLogger
       status: configured ? 'configured' : 'missing',
       message: configured ? 'Configured' : 'Not configured'
     }
+  end
+
+  # Failure logs are Super Admin-visible, so storing the full conversation text
+  # would expose customer PII. Keep only the message roles and a bounded snippet
+  # of content (oldest messages trimmed, content truncated) so the context is
+  # reproducible without persisting entire conversations.
+  MAX_MESSAGES = 5
+  MAX_CONTENT_LENGTH = 300
+
+  def self.sanitize_messages(messages)
+    return nil if messages.blank?
+
+    messages.last(MAX_MESSAGES).map do |message|
+      content = message[:content] || message['content']
+      content = content.to_s
+
+      {
+        role: message[:role] || message['role'],
+        content: content.truncate(MAX_CONTENT_LENGTH)
+      }
+    end
   end
 end

@@ -12,7 +12,7 @@ class Captain::Assistant::DecisionTraceCaptureService
   end
 
   def capture
-    return if @decision_trace.blank? && @response['simple_reply'].blank?
+    return if @decision_trace.blank? && @response.to_h['simple_reply'].blank?
 
     Captain::AgentTrace.create!(
       account: @assistant.account,

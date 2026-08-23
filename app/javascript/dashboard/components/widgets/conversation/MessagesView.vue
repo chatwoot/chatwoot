@@ -17,7 +17,8 @@ import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
 import { mapGetters } from 'vuex';
 
 // mixins
-import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
+import inboxMixin from 'shared/mixins/inboxMixin';
+import { INBOX_FEATURES } from 'dashboard/constants/channelDefinitions';
 
 // utils
 import { emitter } from 'shared/helpers/mitt';
@@ -25,7 +26,6 @@ import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import {
-  filterDuplicateSourceMessages,
   getReadMessages,
   getUnreadMessages,
 } from 'dashboard/helper/conversationHelper';
@@ -134,11 +134,7 @@ export default {
       return '';
     },
     getMessages() {
-      const messages = this.currentChat.messages || [];
-      if (this.isAWhatsAppChannel) {
-        return filterDuplicateSourceMessages(messages);
-      }
-      return messages;
+      return this.currentChat.messages || [];
     },
     readMessages() {
       return getReadMessages(

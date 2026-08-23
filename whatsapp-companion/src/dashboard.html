@@ -124,19 +124,9 @@
       <pre id="sendResult" class="bg-slate-950 text-green-300 text-xs p-3 rounded overflow-auto max-h-64 hidden"></pre>
     </section>
 
-    <!-- Inbound / webhook test -->
+    <!-- Inbound forwarding log -->
     <section class="bg-white border rounded-lg p-4 space-y-3">
-      <h2 class="font-semibold">Test Inbound / Webhook (companion → Chatwoot)</h2>
-      <p class="text-xs text-slate-500">Sends a fake Cloud-shaped payload to <code>POST /webhooks/whatsapp_unofficial/:phone</code> via companion, or directly exercises the webhook.</p>
-      <label class="block text-xs">Channel phone (identifier) <input id="hookIdentifier" class="w-full border rounded px-2 py-1.5 text-sm mt-1" placeholder="628123456789"></label>
-      <label class="block text-xs">From (customer WA id) <input id="hookFrom" class="w-full border rounded px-2 py-1.5 text-sm mt-1" placeholder="628987654321"></label>
-      <label class="block text-xs">Message body <textarea id="hookText" rows="3" class="w-full border rounded px-2 py-1.5 text-sm mt-1">Hello inbound test</textarea></label>
-      <div class="flex gap-2">
-        <button onclick="testWebhook()" class="flex-1 px-3 py-2 bg-indigo-600 text-white rounded text-sm">POST to Chatwoot webhook</button>
-        <button onclick="simulateInbound()" class="flex-1 px-3 py-2 bg-white border rounded text-sm">Simulate via logs</button>
-      </div>
-      <pre id="hookResult" class="bg-slate-950 text-green-300 text-xs p-3 rounded overflow-auto max-h-64 hidden"></pre>
-      <div class="flex items-center justify-between pt-2 border-t">
+      <div class="flex items-center justify-between">
         <h3 class="text-xs font-semibold">Recent events (inbound forward / send)</h3>
         <button onclick="loadLogs()" class="text-xs underline">refresh logs</button>
       </div>
@@ -235,13 +225,6 @@ async function testSend(){
   const r=await fetch('/send', {method:'POST', headers: headers(), body: JSON.stringify(body)});
   const j=await r.json().catch(async()=>({raw:await r.text()})); $('sendResult').classList.remove('hidden'); $('sendResult').textContent=JSON.stringify({status:r.status, body:j},null,2); loadLogs();
 }
-async function testWebhook(){
-  const id=$('hookIdentifier').value.trim(); if(!id) return alert('identifier required');
-  const payload={ identifier:id, from:$('hookFrom').value.trim()||'628000000000', text:$('hookText').value };
-  const r=await fetch('/admin/api/test-webhook', {method:'POST', headers: headers(), body: JSON.stringify(payload)});
-  const j=await r.json().catch(async()=>({raw:await r.text()})); $('hookResult').classList.remove('hidden'); $('hookResult').textContent=JSON.stringify({status:r.status, body:j},null,2); loadLogs();
-}
-async function simulateInbound(){ testWebhook(); }
 async function loadLogs(){
   try{ const r=await fetch('/admin/api/logs', {headers: headers()}); if(!r.ok) throw new Error(r.status+' '+(await r.text()).slice(0,300)); const j=await r.json(); $('logs').textContent=JSON.stringify(j,null,2); } catch(e){ $('logs').textContent='logs error: '+e.message+' (check token)'; }
 }
@@ -303,12 +286,16 @@ function renderInbound(list){
     $('inboundRaw').textContent='—';
     return;
   }
+  // Preserve which raw-payload <details> the operator has expanded across the
+  // 4s poll / SSE re-renders (otherwise every rebuild collapses them again).
+  const openIds = new Set([...document.querySelectorAll('#inboundList details[data-msg].open')].map(d=>d.dataset.msg));
   let html='';
   for(const m of list){
     const fwd = m.forward;
     const fwdBadge = !fwd ? '<span class="px-1.5 py-0.5 bg-slate-100 rounded text-xs">no forward yet</span>' : fwd.ok ? '<span class="px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded text-xs">→ Chatwoot '+fwd.status+'</span>' : '<span class="px-1.5 py-0.5 bg-red-100 text-red-700 rounded text-xs">✗ Chatwoot '+((fwd.status||fwd.error)||'fail')+'</span>';
     const time = new Date(m.received_at).toLocaleString();
     const bodyPreview = m.body ? esc(m.body).slice(0,500) : (m.type==='image'?'[image]':m.type==='video'?'[video]':m.type==='audio'?'[audio]':m.type==='document'?'[document]':m.type==='sticker'?'[sticker]':m.type==='location'?'[location]':'[empty]');
+    const open = openIds.has(m.id) ? ' open' : '';
     html+=`<div class="bg-white border rounded p-3 space-y-1">
       <div class="flex items-center justify-between gap-2 flex-wrap">
         <span class="font-mono text-xs px-2 py-0.5 bg-slate-900 text-white rounded">${esc(m.identifier)}</span>
@@ -322,7 +309,7 @@ function renderInbound(list){
       </div>
       <div class="text-sm whitespace-pre-wrap break-words bg-slate-50 border rounded p-2">${bodyPreview}</div>
       <div class="text-xs text-slate-400 font-mono break-all">WA id: ${esc(m.raw_message?.id||m.id)} → ${esc(m.chatwoot_url||'')}</div>
-      <details class="text-xs"><summary class="cursor-pointer underline">raw payload</summary><pre class="bg-slate-950 text-slate-300 p-2 rounded overflow-auto max-h-40 mt-1">${esc(JSON.stringify(m.raw_payload||m.raw_message, null, 2))}</pre></details>
+      <details data-msg="${esc(m.id)}" class="text-xs${open}"><summary class="cursor-pointer underline">raw payload</summary><pre class="bg-slate-950 text-slate-300 p-2 rounded overflow-auto max-h-40 mt-1">${esc(JSON.stringify(m.raw_payload||m.raw_message, null, 2))}</pre></details>
     </div>`;
   }
   $('inboundList').innerHTML=html;

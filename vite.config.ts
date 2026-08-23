@@ -34,6 +34,21 @@ export default defineConfig({
     host: '0.0.0.0',
     // Accept the `vite` hostname used by Rails' ViteRuby proxy in Docker.
     allowedHosts: true,
+    // Pre-transform the dashboard/v3 entries and the global SCSS while the
+    // dev server boots, instead of lazily on the first page request. The SCSS
+    // (tailwind + plugins) cold-compiles in tens of seconds over the Docker/WSL
+    // bind mount, and doing that at startup rather than on the first visit
+    // makes the initial page load near-instant and removes the white-page
+    // flash behind the loading placeholder.
+    warmup: {
+      clientFiles: [
+        './app/javascript/entrypoints/dashboard.js',
+        './app/javascript/entrypoints/v3app.js',
+        './app/javascript/dashboard/App.vue',
+        './app/javascript/v3/App.vue',
+        './app/javascript/dashboard/assets/scss/app.scss',
+      ],
+    },
     watch: {
       // A .env change makes Vite tear down and rebuild the whole dev server,
       // and that internal restart has hung mid-flight in Docker, leaving the

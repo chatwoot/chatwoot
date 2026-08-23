@@ -74,7 +74,7 @@ class ContactInboxWithContactBuilder
   end
 
   def instagram_channel?
-    inbox.channel_type == 'Channel::Instagram'
+    inbox.instagram_direct?
   end
 
   # There might be existing contact_inboxes created through Channel::FacebookPage

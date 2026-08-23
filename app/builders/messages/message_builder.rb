@@ -77,7 +77,7 @@ class Messages::MessageBuilder
   end
 
   def process_emails
-    return unless @conversation.inbox&.inbox_type == 'Email'
+    return unless @conversation.inbox&.email?
 
     cc_emails = process_email_string(@params[:cc_emails])
     bcc_emails = process_email_string(@params[:bcc_emails])
@@ -106,9 +106,7 @@ class Messages::MessageBuilder
   end
 
   def message_type
-    if @conversation.inbox.channel_type != 'Channel::Api' && @message_type == 'incoming'
-      raise StandardError, 'Incoming messages are only allowed in Api inboxes'
-    end
+    raise StandardError, 'Incoming messages are only allowed in Api inboxes' if !@conversation.inbox.api? && @message_type == 'incoming'
 
     @message_type
   end
@@ -155,7 +153,7 @@ class Messages::MessageBuilder
   end
 
   def email_inbox?
-    @conversation.inbox&.inbox_type == 'Email'
+    @conversation.inbox&.email?
   end
 
   def should_process_email_content?

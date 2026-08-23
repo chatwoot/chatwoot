@@ -44,15 +44,17 @@ class Twitter::CallbacksController < Twitter::BaseController
   end
 
   def create_inbox
-    twitter_profile = account.twitter_profiles.create!(
-      twitter_access_token: parsed_body['oauth_token'],
-      twitter_access_token_secret: parsed_body['oauth_token_secret'],
-      profile_id: parsed_body['user_id']
+    channel = Channels::Builder.create!(
+      account: account,
+      param_type: 'twitter',
+      channel_attributes: {
+        twitter_access_token: parsed_body['oauth_token'],
+        twitter_access_token_secret: parsed_body['oauth_token_secret'],
+        profile_id: parsed_body['user_id']
+      },
+      inbox_name: parsed_body['screen_name']
     )
-    inbox = account.inboxes.create!(
-      name: parsed_body['screen_name'],
-      channel: twitter_profile
-    )
+    inbox = channel.inbox
     save_profile_image(inbox)
     inbox
   end

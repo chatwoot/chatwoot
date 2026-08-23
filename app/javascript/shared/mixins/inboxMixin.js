@@ -1,31 +1,19 @@
 import { INBOX_TYPES, isVoiceCallEnabled } from 'dashboard/helper/inbox';
+import {
+  CHANNEL_DEFINITIONS,
+  INBOX_FEATURES,
+} from 'dashboard/constants/channelDefinitions';
 
-export const INBOX_FEATURES = {
-  REPLY_TO: 'replyTo',
-  REPLY_TO_OUTGOING: 'replyToOutgoing',
-};
-
-// This is a single source of truth for inbox features
-// This is used to check if a feature is available for a particular inbox or not
-export const INBOX_FEATURE_MAP = {
-  [INBOX_FEATURES.REPLY_TO]: [
-    INBOX_TYPES.FB,
-    INBOX_TYPES.WEB,
-    INBOX_TYPES.TWITTER,
-    INBOX_TYPES.WHATSAPP,
-    INBOX_TYPES.TELEGRAM,
-    INBOX_TYPES.TIKTOK,
-    INBOX_TYPES.API,
-  ],
-  [INBOX_FEATURES.REPLY_TO_OUTGOING]: [
-    INBOX_TYPES.WEB,
-    INBOX_TYPES.TWITTER,
-    INBOX_TYPES.WHATSAPP,
-    INBOX_TYPES.TELEGRAM,
-    INBOX_TYPES.TIKTOK,
-    INBOX_TYPES.API,
-  ],
-};
+// Derived from the single channelDefinitions source of truth; used to check if
+// a feature is available for a particular inbox.
+export const INBOX_FEATURE_MAP = Object.fromEntries(
+  Object.values(INBOX_FEATURES).map(feature => [
+    feature,
+    CHANNEL_DEFINITIONS.filter(definition =>
+      definition.features.includes(feature)
+    ).map(definition => definition.type),
+  ])
+);
 
 export default {
   computed: {

@@ -6,61 +6,27 @@
 // tooling — so we keep a single map here instead of sprinkling allow-lists across
 // the campaign forms.
 //
-// === REMOVE THIS ABSTRACTION ===
-// Delete this file and import sites, then restore the per-channel inbox getters
-// (getEmailInboxes / getWhatsAppInboxes / getSMSInboxes / getWebsiteInboxes)
-// and the per-channel campaign forms/dialogs/pages. See
-// app/services/campaigns/channel_strategy.rb removal notes for the backend side.
+// The campaign capability (campaignable / oneOff) lives on each channel in
+// channelDefinitions.js; this file only reshapes it into a strategy map plus the
+// inbox-picker helpers.
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { CHANNEL_DEFINITIONS } from 'dashboard/constants/channelDefinitions';
 
-// Maps the dashboard channel-type key (INBOX_TYPES value) -> campaign strategy.
+// Maps the dashboard channel-type key (INBOX_TYPES value) -> campaign strategy,
+// derived from the single channelDefinitions source of truth.
 //   campaignable: the channel can host a campaign (ongoing or one_off)
 //   oneOff:       a one_off (outbound cold-outreach) send path exists
 //   labelKey:     i18n key fragment under CAMPAIGN for the channel display name
-const CHANNEL_STRATEGIES = {
-  [INBOX_TYPES.WEB]: { campaignable: true, oneOff: false, labelKey: 'WEBSITE' },
-  [INBOX_TYPES.TWILIO]: {
-    campaignable: true,
-    oneOff: true,
-    labelKey: 'TWILIO',
-  },
-  [INBOX_TYPES.SMS]: { campaignable: true, oneOff: true, labelKey: 'SMS' },
-  [INBOX_TYPES.WHATSAPP]: {
-    campaignable: true,
-    oneOff: true,
-    labelKey: 'WHATSAPP',
-  },
-  [INBOX_TYPES.EMAIL]: { campaignable: true, oneOff: true, labelKey: 'EMAIL' },
-  // Connected inboxes with no campaign send path yet. They render in the inbox
-  // picker as "not supported yet" so the channel list stays complete.
-  [INBOX_TYPES.FB]: {
-    campaignable: false,
-    oneOff: false,
-    labelKey: 'FACEBOOK',
-  },
-  [INBOX_TYPES.INSTAGRAM]: {
-    campaignable: false,
-    oneOff: false,
-    labelKey: 'INSTAGRAM',
-  },
-  [INBOX_TYPES.TWITTER]: {
-    campaignable: false,
-    oneOff: false,
-    labelKey: 'TWITTER',
-  },
-  [INBOX_TYPES.TELEGRAM]: {
-    campaignable: false,
-    oneOff: false,
-    labelKey: 'TELEGRAM',
-  },
-  [INBOX_TYPES.LINE]: { campaignable: false, oneOff: false, labelKey: 'LINE' },
-  [INBOX_TYPES.API]: { campaignable: false, oneOff: false, labelKey: 'API' },
-  [INBOX_TYPES.TIKTOK]: {
-    campaignable: false,
-    oneOff: false,
-    labelKey: 'TIKTOK',
-  },
-};
+const CHANNEL_STRATEGIES = Object.fromEntries(
+  CHANNEL_DEFINITIONS.map(definition => [
+    definition.type,
+    {
+      campaignable: definition.campaign.campaignable,
+      oneOff: definition.campaign.oneOff,
+      labelKey: definition.name.toUpperCase(),
+    },
+  ])
+);
 
 export const CAMPAIGN_CHANNEL_STRATEGIES = CHANNEL_STRATEGIES;
 

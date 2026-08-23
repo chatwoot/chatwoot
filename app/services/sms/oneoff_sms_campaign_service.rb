@@ -2,7 +2,7 @@ class Sms::OneoffSmsCampaignService
   pattr_initialize [:campaign!]
 
   def perform
-    raise "Invalid campaign #{campaign.id}" if campaign.inbox.inbox_type != 'Sms' || !campaign.one_off?
+    raise "Invalid campaign #{campaign.id}" if !campaign.inbox.channel.is_a?(Channel::Sms) || !campaign.one_off?
     raise 'Completed Campaign' if campaign.completed?
 
     audience_label_ids = campaign.audience.select { |audience| audience['type'] == 'Label' }.pluck('id')

@@ -294,6 +294,7 @@ en:
     captain:
       handoff: 'Transferring to another agent for further assistance.'
       handoff_offer: 'I could not fully answer that from the available information. Would you like me to connect you with a human agent?'
+      generation_error: 'Sorry, I hit a temporary hiccup while preparing your answer. Could you rephrase or try again in a moment?'
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.

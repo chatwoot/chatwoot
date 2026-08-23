@@ -66,7 +66,7 @@ class Campaign < ApplicationRecord
   private
 
   def feature_enabled?
-    inbox.inbox_type != 'Whatsapp' || account.feature_enabled?(:whatsapp_campaign)
+    !inbox.whatsapp? || account.feature_enabled?(:whatsapp_campaign)
   end
 
   def mark_processing!
@@ -84,7 +84,7 @@ class Campaign < ApplicationRecord
     # one-line addition there — no model/controller change. Channels with no send
     # path raise CustomExceptions::Campaigns::UnsupportedInboxType (loud failure,
     # not silent skip).
-    Campaigns::ChannelStrategy.for(inbox.inbox_type).execute(self)
+    Campaigns::ChannelStrategy.for(inbox).execute(self)
   end
 
   def invalidate_filtered_unread_count_filters
@@ -108,7 +108,7 @@ class Campaign < ApplicationRecord
   def validate_campaign_inbox
     return unless inbox
 
-    return if Campaigns::ChannelStrategy.for(inbox.inbox_type).campaignable?
+    return if Campaigns::ChannelStrategy.for(inbox).campaignable?
 
     errors.add :inbox, 'Unsupported Inbox type'
   end
@@ -119,7 +119,7 @@ class Campaign < ApplicationRecord
   def ensure_correct_campaign_attributes
     return if inbox.blank?
 
-    if Campaigns::ChannelStrategy.for(inbox.inbox_type).one_off?
+    if Campaigns::ChannelStrategy.for(inbox).one_off?
       self.campaign_type = 'one_off'
       self.scheduled_at ||= Time.now.utc
     else
@@ -132,7 +132,7 @@ class Campaign < ApplicationRecord
     return unless trigger_rules['url']
 
     use_http_protocol = trigger_rules['url'].starts_with?('http://') || trigger_rules['url'].starts_with?('https://')
-    errors.add(:url, 'invalid') if inbox.inbox_type == 'Website' && !use_http_protocol
+    errors.add(:url, 'invalid') if inbox.web_widget? && !use_http_protocol
   end
 
   def inbox_must_belong_to_account

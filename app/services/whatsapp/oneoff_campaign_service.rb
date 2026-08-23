@@ -16,7 +16,7 @@ class Whatsapp::OneoffCampaignService
   end
 
   def whatsapp_campaign?
-    campaign.inbox.inbox_type == 'Whatsapp'
+    campaign.inbox.channel.is_a?(Channel::Whatsapp)
   end
 
   def validate_campaign_status!
@@ -55,7 +55,7 @@ class Whatsapp::OneoffCampaignService
   # bulk-blast patterns are what get WhatsApp numbers flagged and banned.
   def process_audience(audience_labels)
     contacts = campaign.account.contacts.tagged_with(audience_labels, any: true)
-                       .where.not(phone_number: [nil, '']).order(:id)
+                       .where(eligible_recipient_clause).order(:id)
     total_count = contacts.count
     Rails.logger.info "Scheduling #{total_count} contacts for WhatsApp campaign #{campaign.id}"
     return if total_count.zero?
@@ -66,6 +66,19 @@ class Whatsapp::OneoffCampaignService
     Redis::Alfred.setex("campaign:#{campaign.id}:whatsapp_dispatch_total", total_count, Campaigns::WhatsappContactJob::REDIS_KEY_EXPIRY)
 
     schedule_dispatch(contacts)
+  end
+
+  # A contact is targetable if it has a phone number, or — for the unofficial
+  # provider — a WhatsApp JID source_id in this inbox (LID peers have no real
+  # phone number but can still be messaged via their JID).
+  def eligible_recipient_clause
+    return Contact.arel_table[:phone_number].not_eq(nil).and(Contact.arel_table[:phone_number].not_eq('')) unless channel.provider == 'whatsapp_unofficial'
+
+    phone_present = Contact.arel_table[:phone_number].not_eq(nil).and(Contact.arel_table[:phone_number].not_eq(''))
+    has_source_id = Contact.arel_table[:id].in(
+      ContactInbox.where(inbox_id: inbox.id).where.not(source_id: [nil, '']).select(:contact_id)
+    )
+    phone_present.or(has_source_id)
   end
 
   def schedule_dispatch(contacts)

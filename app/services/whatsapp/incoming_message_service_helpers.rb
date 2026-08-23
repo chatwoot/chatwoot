@@ -61,13 +61,32 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def whatsapp_phone_number(identifier)
-    # Linked-device (LID) peers arrive as <number>@lid (also @s.whatsapp.net /
-    # @c.us); strip any server suffix so the digits-only guard below matches.
     identifier = identifier.to_s.split('@').first
     return if identifier.blank?
     return unless identifier.match?(/\A\d{1,15}\z/)
 
     identifier
+  end
+
+  # The unofficial (Baileys) provider identifies peers by their full WhatsApp JID,
+  # which for linked-device (LID) peers is NOT the phone number. Preserve it
+  # verbatim as the source_id so outbound sends reconstruct the correct JID.
+  def whatsapp_unofficial_channel?
+    inbox.channel.provider == 'whatsapp_unofficial'
+  end
+
+  def whatsapp_jid_source_id(identifier)
+    jid = identifier.to_s.strip
+    return if jid.blank?
+    return unless jid.match?(/\A[\d-]+@(s\.whatsapp\.net|c\.us|lid)\z/)
+
+    jid
+  end
+
+  # Only real-phone JIDs (@s.whatsapp.net / @c.us) map to an actual phone number;
+  # a LID JID cannot be used as a dialable phone.
+  def whatsapp_real_phone_jid?(identifier)
+    identifier.to_s.match?(/@(s\.whatsapp\.net|c\.us)\z/)
   end
 
   def error_webhook_event?(message)

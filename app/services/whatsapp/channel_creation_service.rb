@@ -31,20 +31,21 @@ class Whatsapp::ChannelCreationService
   end
 
   def create_channel_with_inbox
-    ActiveRecord::Base.transaction do
-      channel = build_channel
-      create_inbox(channel)
-      channel
-    end
+    Channels::Builder.create!(
+      account: @account,
+      param_type: 'whatsapp',
+      channel_attributes: {
+        phone_number: @phone_info[:phone_number],
+        provider: 'whatsapp_cloud',
+        provider_config: build_provider_config
+      },
+      inbox_name: build_inbox_name
+    )
   end
 
-  def build_channel
-    Channel::Whatsapp.build(
-      account: @account,
-      phone_number: @phone_info[:phone_number],
-      provider: 'whatsapp_cloud',
-      provider_config: build_provider_config
-    )
+  def build_inbox_name
+    business_name = @phone_info[:business_name] || @waba_info[:business_name]
+    "#{business_name} WhatsApp"
   end
 
   def build_provider_config
@@ -54,20 +55,5 @@ class Whatsapp::ChannelCreationService
       business_account_id: @waba_info[:waba_id],
       source: 'embedded_signup'
     }
-  end
-
-  def create_inbox(channel)
-    inbox_name = build_inbox_name
-
-    Inbox.create!(
-      account: @account,
-      name: inbox_name,
-      channel: channel
-    )
-  end
-
-  def build_inbox_name
-    business_name = @phone_info[:business_name] || @waba_info[:business_name]
-    "#{business_name} WhatsApp"
   end
 end

@@ -35,8 +35,7 @@
 #  index_channel_email_on_forward_to_email  (forward_to_email) UNIQUE
 #
 
-class Channel::Email < ApplicationRecord
-  include Channelable
+class Channel::Email < Channel::Base
   include Reauthorizable
 
   AUTHORIZATION_ERROR_THRESHOLD = 10
@@ -60,6 +59,35 @@ class Channel::Email < ApplicationRecord
   def name
     'Email'
   end
+
+  def param_type
+    'email'
+  end
+
+  def send_service
+    Email::SendOnEmailService
+  end
+
+  def campaign_definition
+    {
+      supported: true,
+      one_off: true,
+      campaignable: true,
+      service: Email::OneoffCampaignService
+    }
+  end
+
+  def renderer
+    :render_html
+  end
+
+  def source_id_for(contact)
+    raise ActionController::ParameterMissing, 'contact email' unless contact.email
+
+    contact.email
+  end
+
+  def email? = true
 
   def microsoft?
     provider == 'microsoft'

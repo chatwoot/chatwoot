@@ -22,11 +22,15 @@ module Captain::Assistant::RunnerStateHelper
       assistant_config: @assistant.config,
       timezone: @conversation&.inbox&.timezone.presence || 'UTC'
     }
-    state[:source] = @source if @source.present?
-    state[:responding_to_message_id] = @responding_to_message_id if @responding_to_message_id.present?
-
+    merge_optional_state(state)
     build_conversation_state(state) if @conversation
     state
+  end
+
+  def merge_optional_state(state)
+    state[:source] = @source if @source.present?
+    state[:responding_to_message_id] = @responding_to_message_id if @responding_to_message_id.present?
+    state[:detected_language] = @detected_language if @detected_language.present?
   end
 
   def build_conversation_state(state)

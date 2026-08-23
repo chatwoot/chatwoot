@@ -571,7 +571,7 @@ describe('#deleteMessage', () => {
   });
   it('sends no actions if API is error', async () => {
     const [conversationId, messageId] = [1, 1];
-    axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+    axios.delete.mockRejectedValue(new Error('Incorrect header'));
     await expect(
       actions.deleteMessage({ commit }, { conversationId, messageId })
     ).rejects.toThrow(Error);
@@ -591,7 +591,7 @@ describe('#deleteMessage', () => {
     });
 
     it('send no actions if API is error', async () => {
-      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+      axios.delete.mockRejectedValue(new Error('Incorrect header'));
       await expect(
         actions.deleteConversation({ commit, dispatch }, 1)
       ).rejects.toThrow(Error);
@@ -693,16 +693,7 @@ describe('#addMentions', () => {
           },
         },
       ],
-      [
-        'SET_MISSING_MESSAGES',
-        {
-          id: 1,
-          data: [
-            { id: 1, content: 'Hello' },
-            { id: 2, content: 'Welcome' },
-          ],
-        },
-      ],
+      [types.ADD_MESSAGE, { id: 2, content: 'Welcome' }],
       [
         'SET_LAST_MESSAGE_ID_FOR_SYNC_CONVERSATION',
         { conversationId: 1, messageId: null },

@@ -18,71 +18,15 @@ class MessageTemplates::HookExecutionService
     ::MessageTemplates::Template::Greeting.new(conversation: conversation).perform if should_send_greeting?
     ::MessageTemplates::Template::EmailCollect.new(conversation: conversation).perform if inbox.enable_email_collect && should_send_email_collect?
 
-    schedule_captain_response if captain_conversation_message?
+    route_inbound_message
   end
 
-  # Restored open-source equivalent of the Captain trigger that used to live in
-  # the enterprise hook mod: every inbound customer message in a
-  # Captain-connected inbox is handed to the response scheduler, which runs the
-  # simple-reply layer first and falls back to the LLM when nothing matches.
-  def schedule_captain_response
-    Captain::Conversation::ResponseSchedulerService.new(message: message).perform
-  end
-
-  def captain_conversation_message?
-    return false unless message.captain_response_triggering?
-    return false if inbox.captain_assistant.blank?
-    return false if inbox.external_bot_active?
-
-    engage_captain_for_conversation
-    conversation.pending?
-  end
-
-  # Conversations only auto-start pending when the assistant is attached at
-  # creation time; ones created before (or restored/reused) stay open and
-  # never get scheduled. Pend those here so the first customer message hands
-  # them to Captain, unless a human is already working the thread.
-  def engage_captain_for_conversation
-    return if conversation.pending?
-    return unless conversation_available_for_captain?
-
-    conversation.pending!
-  end
-
-  # Captain may take an open conversation when the humans it's assigned to are
-  # offline, so a customer isn't left waiting on an agent who isn't responding.
-  # Unassigned conversations are fair game; an assigned one is handed to Captain
-  # only when none of its assignees (or the assigned team's members) is online.
-  # A conversation with an existing human reply is NOT auto-taken; an agent can
-  # still opt it in manually with the per-conversation bot-reply toggle.
-  def conversation_available_for_captain?
-    return false unless conversation.open?
-    return true if captain_reply_manually_enabled?
-    return false if conversation.first_reply_created_at.present?
-    return false if assigned_agent_online?
-
-    true
-  end
-
-  def captain_reply_manually_enabled?
-    conversation.custom_attributes['ai_reply_enabled'].to_s == 'true'
-  end
-
-  def assigned_agent_online?
-    (conversation_assignee_user_ids & online_user_ids).any?
-  end
-
-  def conversation_assignee_user_ids
-    user_ids = [conversation.assignee_id]
-    user_ids += conversation.team&.members&.pluck(:user_id) if conversation.team_id.present?
-    user_ids.compact.uniq
-  end
-
-  def online_user_ids
-    ::OnlineStatusTracker.get_available_users(conversation.account_id)
-                         .select { |_user_id, status| status.eql?('online') }
-                         .keys
-                         .map(&:to_i)
+  # The single captain-vs-human routing abstraction for every inbound channel.
+  # It decides whether Captain should own the conversation (pending) or whether
+  # it should be handed to the human queue, and guarantees a pended conversation
+  # is never left without an owner.
+  def route_inbound_message
+    ::Conversations::InboundRoutingService.new(message: message).perform
   end
 
   def should_send_out_of_office_message?

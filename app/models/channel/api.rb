@@ -19,9 +19,7 @@
 #  index_channel_api_on_identifier  (identifier) UNIQUE
 #
 
-class Channel::Api < ApplicationRecord
-  include Channelable
-
+class Channel::Api < Channel::Base
   self.table_name = 'channel_api'
   EDITABLE_ATTRS = [:webhook_url, :hmac_mandatory, { additional_attributes: {} }].freeze
 
@@ -34,6 +32,40 @@ class Channel::Api < ApplicationRecord
   def name
     'API'
   end
+
+  def param_type
+    'api'
+  end
+
+  def send_service
+    Messages::SendEmailNotificationService
+  end
+
+  def campaign_definition
+    {
+      supported: false,
+      one_off: false,
+      campaignable: false,
+      service: nil
+    }
+  end
+
+  def messaging_window
+    agent_reply_time_window = additional_attributes['agent_reply_time_window']
+    return if agent_reply_time_window.blank?
+
+    agent_reply_time_window.to_i.hours
+  end
+
+  def renderer
+    nil
+  end
+
+  def source_id_for(_contact)
+    SecureRandom.uuid
+  end
+
+  def api? = true
 
   private
 

@@ -1,5 +1,5 @@
 import {
-  findPendingMessageIndex,
+  upsertMessage,
   applyPageFilters,
   filterByInbox,
   filterByTeam,
@@ -38,21 +38,46 @@ const conversationList = [
   },
 ];
 
-describe('#findPendingMessageIndex', () => {
-  it('returns the correct index of pending message with id', () => {
-    const chat = {
-      messages: [{ id: 1, status: 'progress' }],
-    };
-    const message = { echo_id: 1 };
-    expect(findPendingMessageIndex(chat, message)).toEqual(0);
+describe('#upsertMessage', () => {
+  it('appends a new message when no match exists', () => {
+    const messages = [{ id: 1, content: 'Hello' }];
+    const result = upsertMessage(messages, { id: 2, content: 'Welcome' });
+    expect(result).toEqual([
+      { id: 1, content: 'Hello' },
+      { id: 2, content: 'Welcome' },
+    ]);
   });
 
-  it('returns -1 if pending message with id is not present', () => {
-    const chat = {
-      messages: [{ id: 1, status: 'progress' }],
-    };
-    const message = { echo_id: 2 };
-    expect(findPendingMessageIndex(chat, message)).toEqual(-1);
+  it('replaces an existing message matched by real id', () => {
+    const messages = [{ id: 1, content: 'Hello' }];
+    const result = upsertMessage(messages, { id: 1, content: 'Updated' });
+    expect(result).toEqual([{ id: 1, content: 'Updated' }]);
+  });
+
+  it('replaces an existing pending message matched by echo_id', () => {
+    const messages = [{ id: 'temp-uuid', status: 'progress' }];
+    const result = upsertMessage(messages, {
+      id: 100,
+      echo_id: 'temp-uuid',
+      status: 'sent',
+    });
+    expect(result).toEqual([{ id: 100, echo_id: 'temp-uuid', status: 'sent' }]);
+  });
+
+  it('replaces an existing message matched by source_id', () => {
+    const messages = [{ id: 1, source_id: 'wa_1', content: 'old' }];
+    const result = upsertMessage(messages, {
+      id: 9,
+      source_id: 'wa_1',
+      content: 'new',
+    });
+    expect(result).toEqual([{ id: 9, source_id: 'wa_1', content: 'new' }]);
+  });
+
+  it('does not mutate the input array', () => {
+    const messages = [{ id: 1, content: 'Hello' }];
+    upsertMessage(messages, { id: 2, content: 'Welcome' });
+    expect(messages).toEqual([{ id: 1, content: 'Hello' }]);
   });
 });
 

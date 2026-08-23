@@ -143,7 +143,6 @@ const actions = {
     );
     if (!selectedChat) return;
     try {
-      const { messages } = selectedChat;
       // Fetch all the messages after the last message id
       const {
         data: { meta, payload },
@@ -155,19 +154,9 @@ const actions = {
         id: conversationId,
         data: meta,
       });
-      // Find the messages that are not already present in the store
-      const missingMessages = payload.filter(
-        message => !messages.find(item => item.id === message.id)
-      );
-      selectedChat.messages.push(...missingMessages);
-      // Sort the messages by created_at
-      const sortedMessages = selectedChat.messages.sort((a, b) => {
-        return new Date(a.created_at) - new Date(b.created_at);
-      });
-      commit(types.SET_MISSING_MESSAGES, {
-        id: conversationId,
-        data: sortedMessages,
-      });
+      // Route every fetched message through the single ADD_MESSAGE upsert so
+      // reconnect re-sync dedups/orders identically to real-time pushes.
+      payload.forEach(message => commit(types.ADD_MESSAGE, message));
       commit(types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION, {
         conversationId,
         messageId: null,

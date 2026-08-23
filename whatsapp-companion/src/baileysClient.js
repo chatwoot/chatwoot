@@ -73,14 +73,22 @@ function isPrivateDirectJid(jid) {
   return jid.endsWith('@s.whatsapp.net') || jid.endsWith('@c.us') || jid.endsWith('@lid');
 }
 
-// Strip the server suffix from a WhatsApp JID so Chatwoot's Cloud parser sees a
-// clean digits-only WA ID (whatsapp_phone_number rejects anything with a suffix).
-// Linked-device (LID) peers arrive as <number>@lid; treat them the same as phone JIDs.
-function cleanFromJid(jid) {
-  return String(jid || '')
-    .replace('@s.whatsapp.net', '')
-    .replace('@c.us', '')
-    .replace('@lid', '');
+// Resolve an outbound recipient into a valid Baileys JID. `to` may arrive from
+// Chatwoot as either a bare phone number (the usual case — the unofficial
+// provider stores the contact's plain number, not a suffixed JID) or as an
+// already-qualified peer JID (e.g. `<number>@s.whatsapp.net` or `<lid>@lid`).
+//
+// We accept only a known WhatsApp user suffix and otherwise treat the value as
+// a phone number, so a malformed value like `123@jid` is rejected loudly instead
+// of being handed to Baileys verbatim (which Baileys silently times out on).
+function resolveRecipientJid(to) {
+  const raw = String(to || '').trim();
+  if (!raw) throw new Error('recipient_required');
+  if (/@(s\.whatsapp\.net|c\.us|lid|g\.us)$/.test(raw)) return raw;
+
+  const digits = raw.replace(/\D/g, '');
+  if (!digits) throw new Error(`invalid_recipient:${raw}`);
+  return `${digits}@s.whatsapp.net`;
 }
 
 /**
@@ -89,10 +97,16 @@ function cleanFromJid(jid) {
  *   entry[0].changes[0].value.{messages,contacts,metadata}
  * and resolves the channel by the `:phone_number` URL param (we do NOT set
  * `object: whatsapp_business_account`, which would route to the cloud finder).
+ *
+ * We pass the FULL remote JID (e.g. `62812...@s.whatsapp.net` or `<lid>@lid`)
+ * as the `from`/`wa_id` so Chatwoot can store it verbatim as the contact's
+ * source_id. For linked-device (LID) peers the JID is NOT the phone number, so
+ * stripping it down to digits would lose the real recipient identity and break
+ * outbound replies (the companion sends back to the exact JID it is given).
  */
 function toCloudMessage(identifier, selfNumber, message, mediaIds) {
   const msg = message.message || {};
-  const from = cleanFromJid(message.key.remoteJid);
+  const from = message.key.remoteJid;
 
   let cloudMessage;
   if (msg.conversation || msg.extendedTextMessage?.text) {
@@ -306,8 +320,8 @@ export class BaileysManager {
         const remoteJid = m.key.remoteJid || '';
         // Filter out group chats — only direct/private messages should reach Chatwoot
         if (!isPrivateDirectJid(remoteJid)) {
-          // Narrow log so operators can see group traffic is being ignored
-          if (isGroupJid(remoteJid)) process.stdout.write(`[companion] ignored group message from ${remoteJid} for ${identifier}\n`);
+          // // Narrow log so operators can see group traffic is being ignored
+          // if (isGroupJid(remoteJid)) process.stdout.write(`[companion] ignored group message from ${remoteJid} for ${identifier}\n`);
           continue;
         }
         try {
@@ -338,7 +352,7 @@ export class BaileysManager {
                   field: 'messages',
                   value: {
                     metadata: { display_phone_number: client.selfNumber, phone_number_id: client.identifier },
-                    statuses: [{ id: u.key.id, status, recipient_id: cleanFromJid(u.key.remoteJid) }],
+                    statuses: [{ id: u.key.id, status, recipient_id: u.key.remoteJid }],
                   },
                 },
               ],
@@ -394,7 +408,7 @@ export class BaileysManager {
     if (client.status !== STATUS.CONNECTED) throw new Error('not_connected');
     client.lastActivity = Date.now();
 
-    const jid = to.includes('@') ? to : `${to.replace(/\D/g, '')}@s.whatsapp.net`;
+    const jid = resolveRecipientJid(to);
 
     if (type === 'text') {
       return client.sock.sendMessage(jid, { text: text || '' });

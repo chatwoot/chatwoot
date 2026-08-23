@@ -17,31 +17,6 @@ const getLastNonActivityMessage = (messageInStore, messageFromAPI) => {
 };
 
 /**
- * Filters out duplicate source messages from an array of messages.
- * @param {Array} messages - The array of messages to filter.
- * @returns {Array} An array of messages without duplicates.
- */
-export const filterDuplicateSourceMessages = (messages = []) => {
-  const messagesWithoutDuplicates = [];
-  // We cannot use Map or any short hand method as it returns the last message with the duplicate ID
-  // We should return the message with smaller id when there is a duplicate
-  messages.forEach(m1 => {
-    if (m1.source_id) {
-      const index = messagesWithoutDuplicates.findIndex(
-        m2 => m1.source_id === m2.source_id
-      );
-
-      if (index < 0) {
-        messagesWithoutDuplicates.push(m1);
-      }
-    } else {
-      messagesWithoutDuplicates.push(m1);
-    }
-  });
-  return messagesWithoutDuplicates;
-};
-
-/**
  * Retrieves the last message from a conversation, prioritizing non-activity messages.
  * @param {Object} m - The conversation object containing messages.
  * @returns {Object} The last message of the conversation.

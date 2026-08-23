@@ -97,22 +97,18 @@ class Tiktok::CallbacksController < ApplicationController
 
   def create_channel_with_inbox(business_details)
     ActiveRecord::Base.transaction do
-      channel_tiktok = Channel::Tiktok.create!(
+      Channels::Builder.create!(
         account: account,
-        business_id: short_term_access_token[:business_id],
-        access_token: short_term_access_token[:access_token],
-        refresh_token: short_term_access_token[:refresh_token],
-        expires_at: short_term_access_token[:expires_at],
-        refresh_token_expires_at: short_term_access_token[:refresh_token_expires_at]
+        param_type: 'tiktok',
+        channel_attributes: {
+          business_id: short_term_access_token[:business_id],
+          access_token: short_term_access_token[:access_token],
+          refresh_token: short_term_access_token[:refresh_token],
+          expires_at: short_term_access_token[:expires_at],
+          refresh_token_expires_at: short_term_access_token[:refresh_token_expires_at]
+        },
+        inbox_name: business_details[:display_name].presence || business_details[:username]
       )
-
-      account.inboxes.create!(
-        account: account,
-        channel: channel_tiktok,
-        name: business_details[:display_name].presence || business_details[:username]
-      )
-
-      channel_tiktok
     end
   end
 

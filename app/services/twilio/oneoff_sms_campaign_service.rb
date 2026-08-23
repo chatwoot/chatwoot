@@ -2,7 +2,7 @@ class Twilio::OneoffSmsCampaignService
   pattr_initialize [:campaign!]
 
   def perform
-    raise "Invalid campaign #{campaign.id}" if campaign.inbox.inbox_type != 'Twilio SMS' || !campaign.one_off?
+    raise "Invalid campaign #{campaign.id}" if !campaign.inbox.twilio? || campaign.inbox.channel.medium != 'sms' || !campaign.one_off?
     raise 'Completed Campaign' if campaign.completed?
 
     audience_label_ids = campaign.audience.select { |audience| audience['type'] == 'Label' }.pluck('id')

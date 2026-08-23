@@ -138,20 +138,16 @@ class Instagram::CallbacksController < ApplicationController
     ActiveRecord::Base.transaction do
       expires_at = Time.current + @long_lived_token_response['expires_in'].seconds
 
-      channel_instagram = Channel::Instagram.create!(
-        access_token: @long_lived_token_response['access_token'],
-        instagram_id: user_details['user_id'].to_s,
+      Channels::Builder.create!(
         account: account,
-        expires_at: expires_at
+        param_type: 'instagram',
+        channel_attributes: {
+          access_token: @long_lived_token_response['access_token'],
+          instagram_id: user_details['user_id'].to_s,
+          expires_at: expires_at
+        },
+        inbox_name: user_details['username']
       )
-
-      account.inboxes.create!(
-        account: account,
-        channel: channel_instagram,
-        name: user_details['username']
-      )
-
-      channel_instagram
     end
   end
 

@@ -73,13 +73,51 @@
       <%# Shown until the Vite entry mounts the Vue app. On the slow
           Docker/WSL bind mount a cold recompile can take tens of seconds,
           so without this the dashboard sits as a blank white page. Vue's
-          mount() replaces #app's innerHTML, so this is discarded on mount. %>
-      <div class="flex min-h-screen flex-col items-center justify-center gap-4 text-slate-500">
-        <svg class="h-10 w-10 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-        </svg>
-        <p>Loading…</p>
+          mount() replaces #app's innerHTML, so this is discarded on mount.
+
+          Deliberately avoids Tailwind utility classes: those only exist
+          once the global SCSS cold-compiles, so relying on them here would
+          leave the placeholder as a bare unstyled circle on white. All
+          styles are inline so the branded loader renders instantly. %>
+      <style>
+        #app-loader {
+          position: fixed;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 1.5rem;
+          background: #f6f7f9;
+          font-family: -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif;
+        }
+        #app-loader-logo {
+          width: 44px;
+          height: 44px;
+          object-fit: contain;
+        }
+        #app-loader-spinner {
+          width: 22px;
+          height: 22px;
+          border: 2px solid rgba(39, 129, 246, 0.2);
+          border-top-color: #2781f6;
+          border-radius: 50%;
+          animation: app-loader-spin 0.8s linear infinite;
+        }
+        @keyframes app-loader-spin {
+          to { transform: rotate(360deg); }
+        }
+      </style>
+      <div id="app-loader">
+        <% if @global_config['LOGO_THUMBNAIL'].present? %>
+          <img id="app-loader-logo" src="<%= @global_config['LOGO_THUMBNAIL'] %>" alt="<%= @global_config['INSTALLATION_NAME'] %>" />
+        <% else %>
+          <svg id="app-loader-logo" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z" fill="#2781F6" />
+            <path d="M11.4172 11.4172H7.70831C5.66383 11.4172 4 9.75328 4 7.70828C4 5.66394 5.66383 4 7.70835 4C9.75339 4 11.4172 5.66394 11.4172 7.70828V11.4172Z" fill="white" stroke="white" stroke-width="0.1875" />
+          </svg>
+        <% end %>
+        <div id="app-loader-spinner"></div>
       </div>
     </div>
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
