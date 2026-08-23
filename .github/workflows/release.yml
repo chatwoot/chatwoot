@@ -76,9 +76,11 @@ jobs:
           git config user.name  "whisker-release-bot"
           git config user.email "release-bot@whisker.local"
           git add config/app.yml package.json
-          git commit -m "chore(release): ${V} [skip ci]"
-          git tag -a "${V}" -m "Whisker ${V}"
-          git push origin HEAD "${V}"
+          # tolerate re-runs where the version files are already at target
+          git diff --cached --quiet || git commit -m "chore(release): ${V} [skip ci]"
+          git tag -a "${V}" -m "Whisker ${V}" 2>/dev/null || true
+          git push origin HEAD
+          git push origin "${V}"
 
       - name: Dry-run summary
         if: steps.bump.outputs.skipped == 'false' && inputs.dry_run == true
@@ -126,12 +128,22 @@ jobs:
       - name: Build release notes from conventional commits
         run: |
           PREV="$(git describe --tags --abbrev=0 "${VERSION}^" 2>/dev/null || true)"
-          RANGE="${PREV:+${PREV}..${VERSION}}"
-          RANGE="${RANGE:-${VERSION}}"
+          if [ -n "$PREV" ]; then
+            LOGARGS=(--pretty=format:'- %s (%h)' "${PREV}..${VERSION}")
+          else
+            # initial release: cap the log so the body stays under API limits
+            LOGARGS=(-n 60 --pretty=format:'- %s (%h)' "${VERSION}")
+            echo "_Initial release — full history: https://github.com/${GITHUB_REPOSITORY}/commits/${VERSION}_" > RELEASE_NOTES.md
+            echo "" >> RELEASE_NOTES.md
+            echo "## What's changed (latest 60 commits)" >> RELEASE_NOTES.md
+            echo "" >> RELEASE_NOTES.md
+          fi
           {
-            echo "## What's changed"
-            echo ""
-            git log --pretty=format:'- %s (%h)' "${RANGE}" | grep -Ev '^\- chore\(release\)' || true
+            if [ -n "$PREV" ]; then
+              echo "## What's changed"
+              echo ""
+            fi
+            git log "${LOGARGS[@]}" | grep -Ev '^\- chore\(release\)' || true
             echo ""
             echo ""
             echo "## Install"
@@ -140,8 +152,10 @@ jobs:
             echo "docker pull whisker/whisker:${VERSION}"
             echo '```'
             echo ""
-            echo "Verify: \`sha256sum -c SHA256SUMS.txt\`$( [ -n "$RELEASE_GPG_PRIVATE_KEY" ] && echo ' and `gpg --verify SHA256SUMS.txt.sig`')"
-          } > RELEASE_NOTES.md
+            echo "Verify: \`sha256sum -c SHA256SUMS.txt\`$( [ -n "$RELEASE_GPG_PRIVATE_KEY" ] && echo ' and \`gpg --verify SHA256SUMS.txt.sig\`')"
+          } >> RELEASE_NOTES.md
+          # hard cap the notes body (GitHub limit is 125k chars)
+          head -c 100000 RELEASE_NOTES.md > RELEASE_NOTES.tmp && mv RELEASE_NOTES.tmp RELEASE_NOTES.md
           cat RELEASE_NOTES.md
 
       - name: Create GitHub Release
