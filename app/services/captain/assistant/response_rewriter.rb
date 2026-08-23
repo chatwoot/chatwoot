@@ -78,6 +78,8 @@ class Captain::Assistant::ResponseRewriter
         name: AGENT_NAME,
         instructions: INSTRUCTIONS,
         model: @assistant.agent_model,
+        provider: Llm::Config.chat_provider(@assistant.agent_model),
+        assume_model_exists: Llm::Config.assume_chat_model_exists?,
         temperature: 0,
         response_schema: Captain::ResponseSchema
       )

@@ -12,21 +12,15 @@ const isContactSidebarOpen = computed(
   () => uiSettings.value.is_contact_sidebar_open
 );
 
-const toggleConversationSidebarToggle = () => {
+const toggleConversationSidebar = () => {
   updateUISettings({
     is_contact_sidebar_open: !isContactSidebarOpen.value,
   });
 };
 
-const handleConversationSidebarToggle = () => {
-  updateUISettings({
-    is_contact_sidebar_open: true,
-  });
-};
-
 const keyboardEvents = {
   'Alt+KeyO': {
-    action: toggleConversationSidebarToggle,
+    action: toggleConversationSidebar,
   },
 };
 useKeyboardEvents(keyboardEvents);
@@ -46,7 +40,7 @@ useKeyboardEvents(keyboardEvents);
         'bg-n-alpha-2 active:shadow-sm': isContactSidebarOpen,
       }"
       icon="i-ph-user-bold"
-      @click="handleConversationSidebarToggle"
+      @click="toggleConversationSidebar"
     />
   </ButtonGroup>
 </template>

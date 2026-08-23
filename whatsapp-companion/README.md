@@ -20,8 +20,15 @@ independently. Chatwoot talks to it over HTTP with a shared token.
 WhatsApp  <->  companion (Baileys WS)  <->  Chatwoot (HTTP)
    inbound: WA -> companion -> POST /webhooks/whatsapp_unofficial/:phone
    outbound: Chatwoot -> POST companion /send -> WA
+   echo:    WA (typed on phone) -> companion -> POST .../:phone (as smb_message_echoes)
    login:   companion emits QR -> Chatwoot polls + shows QR -> scan
 ```
+
+Messages typed directly in the WhatsApp app on the connected number (fromMe) are
+forwarded to Chatwoot as SMB message echoes, so phone-originated replies appear in
+the conversation as outgoing messages. Messages Chatwoot sends through `/send` are
+deduped (their ids are remembered until Baileys echoes them back) so they are not
+recorded twice.
 
 ## Run (standalone, for dev)
 

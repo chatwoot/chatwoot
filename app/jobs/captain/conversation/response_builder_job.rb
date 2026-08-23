@@ -128,11 +128,13 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob # rubocop:disab
   # a last-resort handoff. Transient failures never escalate to a human.
   def process_non_answer_decision
     decision = answer_or_escalate_decision
-    return post_graceful_retry_message if decision.decision == :retry
-    return if decision.decision == :answer || decision.decision == :clarify
-
-    process_v1_handoff(reason_category: decision.reason_category)
-    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE)
+    if decision.decision == :retry
+      post_graceful_retry_message
+    elsif decision.decision != :answer && decision.decision != :clarify
+      process_v1_handoff(reason_category: decision.reason_category)
+      record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE)
+    end
+    capture_decision_trace
   end
 
   def answer_or_escalate_decision

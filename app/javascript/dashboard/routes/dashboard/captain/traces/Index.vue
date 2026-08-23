@@ -135,18 +135,18 @@ onMounted(() => fetchTraces(1));
             </div>
           </div>
         </template>
-
-        <div
-          v-else-if="!isFetching"
-          class="flex flex-col items-center justify-center min-h-80 gap-2 text-center"
-        >
-          <span class="text-base font-medium text-n-slate-12">
-            {{ t('CAPTAIN.TRACES.EMPTY_TITLE') }}
-          </span>
-          <span class="max-w-md text-sm text-n-slate-11">
-            {{ t('CAPTAIN.TRACES.EMPTY_SUBTITLE') }}
-          </span>
-        </div>
+      </div>
+    </template>
+    <template #emptyState>
+      <div
+        class="flex flex-col items-center justify-center min-h-80 gap-2 text-center"
+      >
+        <span class="text-base font-medium text-n-slate-12">
+          {{ t('CAPTAIN.TRACES.EMPTY_TITLE') }}
+        </span>
+        <span class="max-w-md text-sm text-n-slate-11">
+          {{ t('CAPTAIN.TRACES.EMPTY_SUBTITLE') }}
+        </span>
       </div>
     </template>
   </PageLayout>

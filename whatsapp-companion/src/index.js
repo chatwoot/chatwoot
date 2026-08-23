@@ -78,6 +78,18 @@ function extractInboundSummary(payload) {
         statuses: null,
       };
     }
+    if (val.message_echoes?.[0]) {
+      const m = val.message_echoes[0];
+      return {
+        from: m.to || '',
+        pushName: m.pushName || '',
+        type: m.type || 'unknown',
+        body: m.text?.body || m.image?.caption || m.video?.caption || m.document?.caption || m.audio ? '' : (m.text?.body || ''),
+        raw: m,
+        statuses: null,
+        isEcho: true,
+      };
+    }
     if (val.statuses?.[0]) {
       return { statuses: val.statuses, type: 'status' };
     }
@@ -149,11 +161,11 @@ const manager = new BaileysManager({
     if (!isStatus) {
       const parsed = typeof payload === 'string' ? tryParse(payload) : payload;
       const val = parsed?.entry?.[0]?.changes?.[0]?.value;
-      const msg = val?.messages?.[0];
+      const msg = val?.messages?.[0] || val?.message_echoes?.[0];
       const contact = val?.contacts?.[0];
       const meta = val?.metadata;
       // fire-and-forget Chatwoot forward, then record result
-      pushLog({ direction: 'inbound', identifier, payload: parsed, summary });
+      pushLog({ direction: summary?.isEcho ? 'echo' : 'inbound', identifier, payload: parsed, summary });
       const forwardResult = await forwardToChatwoot(identifier, body);
       pushInbound({
         identifier,

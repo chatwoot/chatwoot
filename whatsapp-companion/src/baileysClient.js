@@ -105,38 +105,8 @@ function resolveRecipientJid(to) {
  * outbound replies (the companion sends back to the exact JID it is given).
  */
 function toCloudMessage(identifier, selfNumber, message, mediaIds) {
-  const msg = message.message || {};
   const from = message.key.remoteJid;
-
-  let cloudMessage;
-  if (msg.conversation || msg.extendedTextMessage?.text) {
-    cloudMessage = { from, id: message.key.id, timestamp: message.messageTimestamp, type: 'text', text: { body: msg.conversation || msg.extendedTextMessage.text } };
-  } else if (msg.imageMessage) {
-    const id = saveMedia(mediaIds, 'image', msg.imageMessage);
-    cloudMessage = { from, id: message.key.id, timestamp: message.messageTimestamp, type: 'image', image: { id, caption: msg.imageMessage.caption } };
-  } else if (msg.videoMessage) {
-    const id = saveMedia(mediaIds, 'video', msg.videoMessage);
-    cloudMessage = { from, id: message.key.id, timestamp: message.messageTimestamp, type: 'video', video: { id, caption: msg.videoMessage.caption } };
-  } else if (msg.audioMessage) {
-    const id = saveMedia(mediaIds, 'audio', msg.audioMessage);
-    cloudMessage = { from, id: message.key.id, timestamp: message.messageTimestamp, type: 'audio', audio: { id } };
-  } else if (msg.documentMessage) {
-    const id = saveMedia(mediaIds, 'document', msg.documentMessage);
-    cloudMessage = { from, id: message.key.id, timestamp: message.messageTimestamp, type: 'document', document: { id, filename: msg.documentMessage.fileName, caption: msg.documentMessage.caption } };
-  } else if (msg.stickerMessage) {
-    const id = saveMedia(mediaIds, 'sticker', msg.stickerMessage);
-    cloudMessage = { from, id: message.key.id, timestamp: message.messageTimestamp, type: 'sticker', sticker: { id } };
-  } else if (msg.locationMessage) {
-    const loc = msg.locationMessage;
-    cloudMessage = { from, id: message.key.id, timestamp: message.messageTimestamp, type: 'location', location: { latitude: loc.degreesLatitude, longitude: loc.degreesLongitude, name: loc.name, address: loc.address } };
-  } else if (msg.contactsArrayMessage) {
-    // Best-effort: Chatwoot handles the `contacts` message type.
-    cloudMessage = { from, id: message.key.id, timestamp: message.messageTimestamp, type: 'contacts', contacts: [] };
-  } else {
-    // Unknown / unsupported type -> still forward so Chatwoot can store a placeholder.
-    cloudMessage = { from, id: message.key.id, timestamp: message.messageTimestamp, type: 'text', text: { body: '' } };
-  }
-
+  const cloudMessage = { from, ...buildCloudMessageContent(message, mediaIds) };
   return {
     entry: [
       {
@@ -154,6 +124,83 @@ function toCloudMessage(identifier, selfNumber, message, mediaIds) {
       },
     ],
   };
+}
+
+/**
+ * Map a Baileys message sent from the phone itself (fromMe) into Chatwoot's SMB
+ * message-echo shape. Chatwoot routes these as `outgoing_echo` messages and
+ * stores them with message_type `outgoing`, so outbound messages typed directly
+ * in the WhatsApp app show up in the conversation alongside Chatwoot replies.
+ *
+ * The echo payload reverses the peer fields vs a regular inbound message:
+ * `from` is the business number (selfNumber) and `to` is the contact's JID, which
+ * is what Chatwoot's echo parser uses to resolve/create the contact. The content
+ * block (text/media) is identical to the inbound shape so the shared
+ * create_message/attach_files paths work unchanged.
+ */
+function toCloudEchoMessage(identifier, selfNumber, message, mediaIds) {
+  const to = message.key.remoteJid;
+  const echoMessage = { from: selfNumber, to, ...buildCloudMessageContent(message, mediaIds) };
+  return {
+    entry: [
+      {
+        id: identifier,
+        changes: [
+          {
+            field: 'smb_message_echoes',
+            value: {
+              metadata: { display_phone_number: selfNumber, phone_number_id: identifier },
+              message_echoes: [echoMessage],
+            },
+          },
+        ],
+      },
+    ],
+  };
+}
+
+/**
+ * Shared inner-message content for both the inbound and echo payloads. The peer
+ * (`from`/`to`) fields differ per direction and are added by the wrappers above,
+ * so this only builds the type + message body/media block.
+ */
+function buildCloudMessageContent(message, mediaIds) {
+  const msg = message.message || {};
+  const base = { id: message.key.id, timestamp: message.messageTimestamp };
+
+  if (msg.conversation || msg.extendedTextMessage?.text) {
+    return { ...base, type: 'text', text: { body: msg.conversation || msg.extendedTextMessage.text } };
+  }
+  if (msg.imageMessage) {
+    const id = saveMedia(mediaIds, 'image', msg.imageMessage);
+    return { ...base, type: 'image', image: { id, caption: msg.imageMessage.caption } };
+  }
+  if (msg.videoMessage) {
+    const id = saveMedia(mediaIds, 'video', msg.videoMessage);
+    return { ...base, type: 'video', video: { id, caption: msg.videoMessage.caption } };
+  }
+  if (msg.audioMessage) {
+    const id = saveMedia(mediaIds, 'audio', msg.audioMessage);
+    return { ...base, type: 'audio', audio: { id } };
+  }
+  if (msg.documentMessage) {
+    const id = saveMedia(mediaIds, 'document', msg.documentMessage);
+    return { ...base, type: 'document', document: { id, filename: msg.documentMessage.fileName, caption: msg.documentMessage.caption } };
+  }
+  if (msg.stickerMessage) {
+    const id = saveMedia(mediaIds, 'sticker', msg.stickerMessage);
+    return { ...base, type: 'sticker', sticker: { id } };
+  }
+  if (msg.locationMessage) {
+    const loc = msg.locationMessage;
+    return { ...base, type: 'location', location: { latitude: loc.degreesLatitude, longitude: loc.degreesLongitude, name: loc.name, address: loc.address } };
+  }
+  if (msg.contactsArrayMessage) {
+    // Best-effort: Chatwoot handles the `contacts` message type.
+    return { ...base, type: 'contacts', contacts: [] };
+  }
+  // Unknown / unsupported type -> still forward so Chatwoot can store a placeholder.
+  return { ...base, type: 'text', text: { body: '' } };
 }
 
 function saveMedia(mediaIds, type, node) {
@@ -259,6 +306,7 @@ export class BaileysManager {
       mediaNodes: new Map(),
       selfNumber: identifier,
       lastActivity: Date.now(),
+      companionSentIds: new Set(),
     };
     this.clients.set(identifier, client);
 
@@ -316,7 +364,6 @@ export class BaileysManager {
     sock.ev.on('messages.upsert', async ({ messages }) => {
       client.lastActivity = Date.now();
       for (const m of messages) {
-        if (m.key.fromMe) continue; // only inbound to Chatwoot
         const remoteJid = m.key.remoteJid || '';
         // Filter out group chats — only direct/private messages should reach Chatwoot
         if (!isPrivateDirectJid(remoteJid)) {
@@ -324,11 +371,32 @@ export class BaileysManager {
           // if (isGroupJid(remoteJid)) process.stdout.write(`[companion] ignored group message from ${remoteJid} for ${identifier}\n`);
           continue;
         }
+
+        // Messages sent from the phone (fromMe) are not Chatwoot-originated, so
+        // Chatwoot has no copy of them yet. Capture them as echo messages unless
+        // the id matches one this companion already sent on Chatwoot's behalf
+        // (those are stored by Chatwoot when the agent replies, so re-forwarding
+        // would duplicate them).
+        if (m.key.fromMe) {
+          if (client.companionSentIds.has(m.key.id)) {
+            client.companionSentIds.delete(m.key.id);
+            continue;
+          }
+          try {
+            const payload = toCloudEchoMessage(client.identifier, client.selfNumber, m, client.mediaNodes);
+            await this.onInbound(client.identifier, payload, client);
+          } catch (err) {
+            // swallow per-message errors; log to stderr
+            process.stderr.write(`[companion] echo error for ${client.identifier}: ${err.message}\n`);
+          }
+          continue;
+        }
+
         try {
           const payload = toCloudMessage(client.selfNumber || identifier, client.selfNumber, m, client.mediaNodes);
           await this.onInbound(client.identifier, payload, client);
         } catch (err) {
-          ;// swallow per-message errors; log to stderr
+          // swallow per-message errors; log to stderr
           process.stderr.write(`[companion] inbound error for ${client.identifier}: ${err.message}\n`);
         }
       }
@@ -409,33 +477,48 @@ export class BaileysManager {
     client.lastActivity = Date.now();
 
     const jid = resolveRecipientJid(to);
+    let result;
 
     if (type === 'text') {
-      return client.sock.sendMessage(jid, { text: text || '' });
-    }
-
-    let buffer;
-    if (mediaBase64) {
-      buffer = Buffer.from(mediaBase64, 'base64');
-    } else if (mediaUrl) {
-      const res = await fetch(mediaUrl);
-      if (!res.ok) throw new Error(`media_fetch_failed:${res.status}`);
-      buffer = Buffer.from(await res.arrayBuffer());
+      result = await client.sock.sendMessage(jid, { text: text || '' });
     } else {
-      throw new Error('media_required');
+      let buffer;
+      if (mediaBase64) {
+        buffer = Buffer.from(mediaBase64, 'base64');
+      } else if (mediaUrl) {
+        const res = await fetch(mediaUrl);
+        if (!res.ok) throw new Error(`media_fetch_failed:${res.status}`);
+        buffer = Buffer.from(await res.arrayBuffer());
+      } else {
+        throw new Error('media_required');
+      }
+
+      const content = { caption: caption || undefined };
+      if (filename) content.fileName = filename;
+
+      switch (type) {
+        case 'image': result = await client.sock.sendMessage(jid, { image: buffer, mimetype: mimeType || 'image/jpeg', ...content }); break;
+        case 'video': result = await client.sock.sendMessage(jid, { video: buffer, mimetype: mimeType || 'video/mp4', ...content }); break;
+        case 'audio': result = await client.sock.sendMessage(jid, { audio: buffer, mimetype: mimeType || 'audio/ogg', ptt: false }); break;
+        case 'document': result = await client.sock.sendMessage(jid, { document: buffer, mimetype: mimeType || 'application/pdf', ...content }); break;
+        case 'sticker': result = await client.sock.sendMessage(jid, { sticker: buffer, mimetype: mimeType || 'image/webp' }); break;
+        default: throw new Error(`unsupported_type:${type}`);
+      }
     }
 
-    const content = { caption: caption || undefined };
-    if (filename) content.fileName = filename;
-
-    switch (type) {
-      case 'image': return client.sock.sendMessage(jid, { image: buffer, mimetype: mimeType || 'image/jpeg', ...content });
-      case 'video': return client.sock.sendMessage(jid, { video: buffer, mimetype: mimeType || 'video/mp4', ...content });
-      case 'audio': return client.sock.sendMessage(jid, { audio: buffer, mimetype: mimeType || 'audio/ogg', ptt: false });
-      case 'document': return client.sock.sendMessage(jid, { document: buffer, mimetype: mimeType || 'application/pdf', ...content });
-      case 'sticker': return client.sock.sendMessage(jid, { sticker: buffer, mimetype: mimeType || 'image/webp' });
-      default: throw new Error(`unsupported_type:${type}`);
+    // Baileys echoes every sent message back through messages.upsert as fromMe.
+    // Remember the id so the echo handler skips it — Chatwoot already stores the
+    // message it created when it called /send, and re-forwarding would duplicate it.
+    if (result?.key?.id) {
+      client.companionSentIds.add(result.key.id);
+      // Bound the set: ids are only needed for the short window until Baileys
+      // echoes the sent message, so dropping the oldest is safe.
+      if (client.companionSentIds.size > 1000) {
+        client.companionSentIds.delete(client.companionSentIds.values().next().value);
+      }
     }
+
+    return result;
   }
 
   async logout(identifier) {

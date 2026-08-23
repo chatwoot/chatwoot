@@ -12,6 +12,8 @@ module Agentable
       instructions: ->(context) { agent_instructions(context) },
       tools: agent_tools,
       model: agent_model,
+      provider: Llm::Config.chat_provider(agent_model),
+      assume_model_exists: Llm::Config.assume_chat_model_exists?,
       temperature: temperature.presence&.to_f || DEFAULT_TEMPERATURE,
       response_schema: agent_response_schema
     )

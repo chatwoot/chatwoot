@@ -1069,7 +1069,6 @@ DEPENDENCIES
   grpc
   haikunator
   hairtrigger
-  hashie
   html2text
   image_processing
   iso-639

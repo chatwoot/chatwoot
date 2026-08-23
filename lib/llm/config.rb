@@ -85,6 +85,24 @@ module Llm::Config
       nil
     end
 
+    # Provider symbol RubyLLM should route a chat model through, or nil to let
+    # RubyLLM resolve it from its registry. OpenRouter hosts models from many
+    # vendors (e.g. `deepseek/deepseek-v4-flash-0731`) that have no local
+    # registry entry, so pin the provider and skip registry validation whenever
+    # the OpenRouter endpoint is configured.
+    def chat_provider(model_name)
+      return :openrouter if openrouter_endpoint?
+
+      provider_for(model_name)&.to_sym
+    end
+
+    # RubyLLM only resolves model ids that exist in its local registry. When
+    # the OpenRouter endpoint is configured, unknown models are still valid
+    # routes, so tell RubyLLM to skip registry validation.
+    def assume_chat_model_exists?
+      openrouter_endpoint?
+    end
+
     private
 
     def configure_ruby_llm

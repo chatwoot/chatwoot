@@ -12,7 +12,7 @@ class Captain::Assistant::DecisionTraceCaptureService
   end
 
   def capture
-    return if @decision_trace.blank? && @response.to_h['simple_reply'].blank?
+    return if skip_capture?
 
     Captain::AgentTrace.create!(
       account: @assistant.account,
@@ -28,6 +28,13 @@ class Captain::Assistant::DecisionTraceCaptureService
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: @assistant.account).capture_exception
     Rails.logger.error("[CAPTAIN][DecisionTraceCaptureService] Capture failed for conversation=#{@conversation&.display_id}: #{e.message}")
+  end
+
+  # A failed run (e.g. model/LLM error) has no decision nodes but is still worth
+  # persisting so the Debug tab surfaces the error with its reason. Only skip
+  # when there is genuinely nothing to record.
+  def skip_capture?
+    @decision_trace.blank? && @response.to_h['simple_reply'].blank? && @response['error'].blank?
   end
 
   private
