@@ -53,6 +53,7 @@ export const useFilter = ({ filteri18nKey, attributeModel }) => {
       getters['attributes/getAttributesByModel'](attributeModel);
 
     const customAttributesFormatted = {
+      // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
       name: $t(`${filteri18nKey}.GROUPS.CUSTOM_ATTRIBUTES`),
       attributes: allCustomAttributes.map(attr => {
         return {
@@ -64,10 +65,12 @@ export const useFilter = ({ filteri18nKey, attributeModel }) => {
 
     const allFilterGroups = filterAttributeGroups.map(group => {
       return {
+        // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
         name: $t(`${filteri18nKey}.GROUPS.${group.i18nGroup}`),
         attributes: group.attributes.map(attribute => {
           return {
             key: attribute.key,
+            // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
             name: $t(`${filteri18nKey}.ATTRIBUTES.${attribute.i18nKey}`),
           };
         }),
@@ -95,17 +98,19 @@ export const useFilter = ({ filteri18nKey, attributeModel }) => {
     currentUserDetails,
     activeAssigneeTab
   ) => {
-    if (activeStatus !== '') {
+    const selectedStatuses = (
+      Array.isArray(activeStatus) ? activeStatus : [activeStatus]
+    ).filter(Boolean);
+    if (selectedStatuses.length > 0) {
       return {
         attribute_key: 'status',
         attribute_model: 'standard',
         filter_operator: 'equal_to',
-        values: [
-          {
-            id: activeStatus,
-            name: $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`),
-          },
-        ],
+        values: selectedStatuses.map(status => ({
+          id: status,
+          // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
+          name: $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${status}.TEXT`),
+        })),
         query_operator: 'and',
         custom_attribute_type: '',
       };

@@ -86,6 +86,7 @@ const openNotification = async notificationItem => {
     primary_actor: {
       meta: { unreadCount } = {},
       id: conversationIdFromNotification,
+      inbox_id: inboxIdFromNotification,
     },
     notification_type: notificationType,
   } = notificationItem;
@@ -104,7 +105,11 @@ const openNotification = async notificationItem => {
 
     router.push({
       name: 'inbox_view_conversation',
-      params: { type: 'conversation', id: conversationIdFromNotification },
+      params: {
+        inboxId: inboxIdFromNotification,
+        type: 'conversation',
+        id: conversationIdFromNotification,
+      },
     });
   } catch {
     // error
