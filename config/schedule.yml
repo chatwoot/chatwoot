@@ -68,3 +68,10 @@ remove_orphan_conversations_job:
   cron: '0 */12 * * *'
   class: 'Internal::RemoveOrphanConversationsJob'
   queue: housekeeping
+
+# executed daily at 0030 UTC
+# to keep the Super Admin LLM failure log bounded
+prune_captain_llm_failure_logs_job:
+  cron: '30 0 * * *'
+  class: 'Captain::Llm::PruneFailureLogsJob'
+  queue: housekeeping

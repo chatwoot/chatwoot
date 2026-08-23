@@ -1,0 +1,52 @@
+<% if @sidekiq_unreachable %>
+  <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6" role="alert">
+    <strong class="font-bold">Sidekiq / Redis unreachable.</strong>
+    <span class="block sm:inline">Background job statistics could not be loaded. Check that Redis and Sidekiq are running.</span>
+  </div>
+<% end %>
+
+<% if @sidekiq_metrics.present? %>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+    <% @sidekiq_metrics.each do |label, value| %>
+      <div class="bg-white p-4 rounded-lg shadow-sm outline outline-1 outline-n-container">
+        <div class="text-xs uppercase tracking-wide text-slate-500"><%= label %></div>
+        <div class="text-2xl font-semibold text-n-slate-12 mt-1"><%= value %></div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @sidekiq_queues.any? %>
+    <h2 class="text-base font-medium text-n-slate-12 mb-3">Queues</h2>
+    <div class="bg-white rounded-lg shadow-sm outline outline-1 outline-n-container overflow-x-auto mb-8">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-left text-xs uppercase text-slate-500 border-b border-n-weak">
+            <th class="px-4 py-3">Queue</th>
+            <th class="px-4 py-3">Size</th>
+            <th class="px-4 py-3">Latency (s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @sidekiq_queues.each do |queue| %>
+            <tr class="border-b border-n-weak hover:bg-slate-25">
+              <td class="px-4 py-3 font-medium"><%= queue[:name] %></td>
+              <td class="px-4 py-3"><%= queue[:size] %></td>
+              <td class="px-4 py-3"><%= queue[:latency] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div>
+      <h2 class="text-base font-medium text-n-slate-12 mb-3">Retries</h2>
+      <%= render 'job_table', jobs: @sidekiq_retries, empty_hint: 'No jobs are currently scheduled for retry.' %>
+    </div>
+    <div>
+      <h2 class="text-base font-medium text-n-slate-12 mb-3">Dead</h2>
+      <%= render 'job_table', jobs: @sidekiq_dead, empty_hint: 'No dead jobs.' %>
+    </div>
+  </div>
+<% end %>

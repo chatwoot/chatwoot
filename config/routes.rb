@@ -669,6 +669,10 @@ Rails.application.routes.draw do
       resources :platform_banners
       resource :instance_status, only: [:show]
 
+      resource :debug_center, only: [:show] do
+        post :test, on: :member
+      end
+
       resource :settings, only: [:show]
 
       # resources that doesn't appear in primary navigation in super admin

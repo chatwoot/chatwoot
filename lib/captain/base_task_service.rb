@@ -36,8 +36,8 @@ class Captain::BaseTaskService
   def make_api_call(messages:, model: nil, feature: nil, schema: nil, tools: [])
     # Community edition prerequisite checks
     # Enterprise module handles these with more specific error messages (cloud vs self-hosted)
-    return { error: I18n.t('captain.disabled'), error_code: 403 } unless captain_tasks_enabled?
-    return { error: I18n.t('captain.api_key_missing'), error_code: 401 } unless api_key_configured?
+    return log_guard_failure(I18n.t('captain.disabled'), 403, messages: messages) unless captain_tasks_enabled?
+    return log_guard_failure(I18n.t('captain.api_key_missing'), 401, messages: messages) unless api_key_configured?
 
     model = resolved_model(model: model, feature: feature)
     instrumentation_params = build_instrumentation_params(model, messages)
@@ -71,8 +71,23 @@ class Captain::BaseTaskService
       build_ruby_llm_response(chat.ask(conversation_messages.last[:content]), messages)
     end
   rescue StandardError => e
-    capture_llm_exception(e, credential: credential)
+    capture_llm_exception(e, credential: credential, source: :chat, model: model, messages: messages, conversation_id: conversation&.id)
     { error: e.message, request_messages: messages }
+  end
+
+  # The community-edition prerequisite checks short-circuit before any provider
+  # call. Record them so a missing key / disabled feature is visible in the
+  # Super Admin log instead of silently returning a 4xx hash.
+  def log_guard_failure(message, error_code, messages:)
+    Captain::Llm::FailureLogger.record(
+      source: :guard,
+      error: message,
+      error_code: error_code,
+      account_id: account.id,
+      conversation_id: conversation&.id,
+      request_messages: messages
+    )
+    { error: message, error_code: error_code }
   end
 
   def build_chat(context, model:, messages:, schema: nil, tools: [])

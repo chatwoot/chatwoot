@@ -106,7 +106,7 @@ class Integrations::LlmBaseService
       setup_chat_with_messages(chat, messages)
     end
   rescue StandardError => e
-    capture_llm_exception(e, credential: credential)
+    capture_llm_exception(e, credential: credential, source: :legacy, model: model, messages: messages, conversation_id: conversation&.id)
     build_error_response_from_exception(e, messages)
   end
 

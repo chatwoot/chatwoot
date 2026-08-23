@@ -16,7 +16,7 @@ class Captain::Llm::EmbeddingService
   def get_embedding(content, model: @embedding_model)
     return [] if content.blank?
 
-    instrument_embedding_call(instrumentation_params(content, model)) do
+    vectors = instrument_embedding_call(instrumentation_params(content, model)) do
       RubyLLM.embed(
         content,
         model: model,
@@ -24,9 +24,39 @@ class Captain::Llm::EmbeddingService
         assume_model_exists: true
       ).vectors
     end
-  rescue RubyLLM::Error => e
+
+    validate_dimension!(vectors, model)
+    vectors
+  rescue EmbeddingsError
+    raise
+  rescue StandardError => e
     Rails.logger.error "Embedding API Error: #{e.message}"
+    log_failure(e, model)
     raise EmbeddingsError, "Failed to create an embedding: #{e.message}"
+  end
+
+  # pgvector columns are fixed at LlmConstants::EMBEDDING_DIMENSION. If the
+  # configured embedding model emits a different number of dimensions, writing
+  # the vector fails with an opaque DB error. Detect that up front so the failure
+  # is reported clearly (and persisted) instead of surfacing as a raw SQL error.
+  def validate_dimension!(vectors, model)
+    return unless vectors.size != LlmConstants::EMBEDDING_DIMENSION
+
+    error = EmbeddingsError.new(
+      "Embedding model '#{model}' returned #{vectors.size} dimensions, " \
+      "expected #{LlmConstants::EMBEDDING_DIMENSION}."
+    )
+    log_failure(error, model)
+    raise error
+  end
+
+  def log_failure(error, model)
+    Captain::Llm::FailureLogger.record(
+      source: :embedding,
+      error: error,
+      model: model,
+      account_id: @account_id
+    )
   end
 
   private

@@ -133,15 +133,18 @@ services:
   redis:
     image: redis:alpine
     restart: always
+    # Only enable requirepass when a REDIS_PASSWORD is actually set. The .env
+    # has an empty REDIS_PASSWORD and REDIS_URL=redis://redis:6379 (no auth), so
+    # requirepass would make Redis reject connections.
     command:
       - sh
       - -c
-      - redis-server --requirepass "$REDIS_PASSWORD"
+      - 'if [ -n "$REDIS_PASSWORD" ]; then redis-server --requirepass "$REDIS_PASSWORD"; else redis-server; fi'
     env_file: .env
     volumes:
       - redis:/data
     ports:
-      - '6379:6379'
+      - '127.0.0.1:6379:6379'
 
   mailhog:
     image: mailhog/mailhog

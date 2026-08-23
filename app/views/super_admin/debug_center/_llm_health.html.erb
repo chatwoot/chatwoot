@@ -1,0 +1,46 @@
+<div class="flex flex-col gap-6 mb-6">
+  <div class="flex items-center justify-between">
+    <p class="text-sm text-slate-500 m-0">
+      Verify the current LLM / AI Agent configuration end-to-end. Failed settings
+      surface here, and LLM pipeline failures appear in the <strong>Audit Logs</strong> tab.
+    </p>
+    <%= form_with url: test_super_admin_debug_center_url, method: :post, local: true, class: 'm-0' do %>
+      <button type="submit" class="inline-flex items-center h-9 px-4 bg-woot-500 hover:bg-woot-600 text-white text-sm font-medium rounded">Test Connection</button>
+    <% end %>
+  </div>
+
+  <% if @llm_health.present? %>
+    <div class="bg-white rounded-lg shadow-sm outline outline-1 outline-n-container p-4">
+      <% if @llm_health[:error] %>
+        <p class="text-sm text-red-600 m-0"><%= @llm_health[:error] %></p>
+      <% else %>
+        <h2 class="text-sm font-semibold mb-3">Connection Health</h2>
+        <ul class="space-y-2 text-sm">
+          <% %i[api_key endpoint chat_model embedding_model firecrawl_key].each do |key| %>
+            <% check = @llm_health[key] %>
+            <% next unless check %>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700"><%= check[:label] %></span>
+              <span class="<%= health_status_class(check[:status]) %>"><%= check[:message] %></span>
+            </li>
+          <% end %>
+          <% if @llm_health[:embedding] %>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700">Embedding probe</span>
+              <span class="<%= health_status_class(@llm_health[:embedding][:status]) %>"><%= @llm_health[:embedding][:message] %></span>
+            </li>
+          <% end %>
+        </ul>
+
+        <h3 class="text-xs font-semibold text-slate-500 mt-4 pt-3 border-t border-n-weak mb-2">Current Configuration</h3>
+        <% config = @llm_health[:configuration] || {} %>
+        <ul class="space-y-1 text-sm">
+          <li class="flex justify-between"><span class="text-slate-600">Endpoint</span><span class="text-slate-800 font-medium"><%= config[:endpoint].presence || 'default' %></span></li>
+          <li class="flex justify-between"><span class="text-slate-600">Chat model</span><span class="text-slate-800 font-medium"><%= config[:chat_model].presence || '—' %></span></li>
+          <li class="flex justify-between"><span class="text-slate-600">Embedding model</span><span class="text-slate-800 font-medium"><%= config[:embedding_model].presence || '—' %></span></li>
+          <li class="flex justify-between"><span class="text-slate-600">Firecrawl key</span><span class="text-slate-800 font-medium"><%= config[:firecrawl_key_present] ? 'configured' : 'missing' %></span></li>
+        </ul>
+      <% end %>
+    </div>
+  <% end %>
+</div>

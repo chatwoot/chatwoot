@@ -1,0 +1,37 @@
+<% content_for(:title) do %>
+  Debug Center
+<% end %>
+
+<% tabs = { 'audit' => 'Audit Logs', 'runtime' => 'Runtime Logs', 'jobs' => 'Background Jobs', 'llm' => 'AI / LLM' } %>
+
+<header class="flex px-8 py-4 items-center border-b border-n-weak" role="banner">
+  <div class="border border-n-weak mr-4 p-2 rounded-full">
+    <svg width="24" height="24"><use xlink:href="#icon-bug-line" /></svg>
+  </div>
+  <div class="flex flex-col h-14 justify-center">
+    <h1 class="text-base font-medium leading-6 text-n-slate-12" id="page-title">
+      <%= content_for(:title) %>
+    </h1>
+    <p class="text-sm font-normal leading-5 text-slate-500 m-0">Inspect audit history, runtime logs, and background job activity</p>
+  </div>
+</header>
+
+<section class="main-content__body px-8">
+  <div class="flex border-b border-n-weak mb-6 mt-4">
+    <% tabs.each do |tab_key, tab_label| %>
+      <%= link_to super_admin_debug_center_url(tab: tab_key), class: "px-4 py-2.5 text-sm font-medium border-b-2 -mb-px #{@active_tab == tab_key ? 'border-woot-500 text-woot-500' : 'border-transparent text-slate-500 hover:text-n-slate-12'}" do %>
+        <%= tab_label %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if @active_tab == 'audit' %>
+    <%= render 'audit_logs' %>
+  <% elsif @active_tab == 'runtime' %>
+    <%= render 'runtime_logs' %>
+  <% elsif @active_tab == 'llm' %>
+    <%= render 'llm_health' %>
+  <% else %>
+    <%= render 'background_jobs' %>
+  <% end %>
+</section>

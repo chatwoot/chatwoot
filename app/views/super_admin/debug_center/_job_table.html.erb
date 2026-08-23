@@ -1,0 +1,35 @@
+<% if jobs.any? %>
+  <div class="bg-white rounded-lg shadow-sm outline outline-1 outline-n-container overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="text-left text-xs uppercase text-slate-500 border-b border-n-weak">
+          <th class="px-4 py-3">Job</th>
+          <th class="px-4 py-3">Failed at</th>
+          <th class="px-4 py-3">Retries</th>
+          <th class="px-4 py-3">Error</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% jobs.each do |job| %>
+          <tr class="border-b border-n-weak align-top hover:bg-slate-25">
+            <td class="px-4 py-3">
+              <div class="font-medium"><%= job[:class] %></div>
+              <% if job[:args].present? %>
+                <pre class="text-xs text-slate-500 max-w-xs whitespace-pre-wrap break-words m-0 mt-1"><%= job[:args] %></pre>
+              <% end %>
+            </td>
+            <td class="px-4 py-3 text-slate-500 whitespace-nowrap"><%= job[:failed_at] || job[:enqueued_at] %></td>
+            <td class="px-4 py-3"><%= job[:retry_count] %></td>
+            <td class="px-4 py-3">
+              <pre class="text-xs text-red-600 max-w-md whitespace-pre-wrap break-words m-0"><%= (job[:error_message] || '—').truncate(300) %></pre>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="bg-white p-8 rounded-lg shadow-sm outline outline-1 outline-n-container text-center">
+    <p class="text-slate-500 m-0"><%= empty_hint %></p>
+  </div>
+<% end %>

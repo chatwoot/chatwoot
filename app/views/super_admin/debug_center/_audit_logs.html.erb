@@ -1,0 +1,67 @@
+<div class="flex flex-col gap-4 mb-6">
+  <form method="get" action="<%= super_admin_debug_center_url %>" class="bg-white p-4 rounded-lg shadow-sm outline outline-1 outline-n-container">
+    <input type="hidden" name="tab" value="audit" />
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
+      <div class="flex flex-col gap-1">
+        <label class="text-xs text-n-slate-11">Source</label>
+        <%= select_tag :kind, options_for_select([['All', ''], ['General', 'general'], ['LLM', 'llm']], params[:kind]), class: 'w-full h-9 px-3 text-sm border border-n-weak rounded bg-white focus:outline-none focus:border-woot-500' %>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-xs text-n-slate-11">From</label>
+        <%= date_field_tag :from, params[:from], class: 'w-full h-9 px-3 text-sm border border-n-weak rounded bg-white focus:outline-none focus:border-woot-500' %>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-xs text-n-slate-11">To</label>
+        <%= date_field_tag :to, params[:to], class: 'w-full h-9 px-3 text-sm border border-n-weak rounded bg-white focus:outline-none focus:border-woot-500' %>
+      </div>
+    </div>
+    <div class="flex gap-2 mt-4">
+      <button type="submit" class="inline-flex items-center h-9 px-4 bg-woot-500 hover:bg-woot-600 text-white text-sm font-medium rounded">Filter</button>
+      <%= link_to 'Reset', super_admin_debug_center_url(tab: 'audit'), class: "inline-flex items-center h-9 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded" %>
+    </div>
+  </form>
+</div>
+
+<% if @activity_feed.any? %>
+  <div class="bg-white rounded-lg shadow-sm outline outline-1 outline-n-container overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="text-left text-xs uppercase text-slate-500 border-b border-n-weak">
+          <th class="px-4 py-3">When</th>
+          <th class="px-4 py-3">Source</th>
+          <th class="px-4 py-3">Event</th>
+          <th class="px-4 py-3">Actor</th>
+          <th class="px-4 py-3">Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @activity_feed.each do |entry| %>
+          <tr class="border-b border-n-weak align-top hover:bg-slate-25">
+            <td class="px-4 py-3 text-slate-500 whitespace-nowrap"><%= entry[:created_at]&.strftime('%Y-%m-%d %H:%M:%S') %></td>
+            <td class="px-4 py-3">
+              <span class="inline-flex px-2 py-0.5 rounded text-xs font-medium <%= entry_badge_class(entry) %>"><%= entry[:kind] %></span>
+            </td>
+            <td class="px-4 py-3 max-w-sm">
+              <div class="font-medium break-words"><%= entry[:title] %></div>
+              <% if entry[:detail].present? %>
+                <pre class="text-xs text-slate-500 whitespace-pre-wrap break-words m-0 mt-1"><%= entry[:detail] %></pre>
+              <% end %>
+            </td>
+            <td class="px-4 py-3 whitespace-nowrap">
+              <div class="font-medium"><%= entry[:actor] %></div>
+              <% if entry[:meta].present? %>
+                <div class="text-xs text-slate-500"><%= entry[:meta] %></div>
+              <% end %>
+            </td>
+            <td class="px-4 py-3 text-xs text-slate-500"><%= entry[:badge] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="bg-white p-10 rounded-lg shadow-sm outline outline-1 outline-n-container text-center">
+    <p class="text-slate-500 m-0">No activity found for the selected filters.</p>
+    <p class="text-xs text-slate-400 mt-1">This feed combines general record changes and LLM pipeline failures. Entries appear here as the platform runs.</p>
+  </div>
+<% end %>

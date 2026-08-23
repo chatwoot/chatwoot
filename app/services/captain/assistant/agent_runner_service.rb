@@ -40,12 +40,7 @@ class Captain::Assistant::AgentRunnerService
 
     process_agent_result(@last_run_result)
   rescue StandardError => e
-    # In rake/local runs, conversation may not be present, so account is optional here.
-    ChatwootExceptionTracker.new(e, account: @conversation&.account).capture_exception
-    Rails.logger.error "[Captain V2] AgentRunnerService error: #{e.message}"
-    Rails.logger.error e.backtrace.join("\n")
-
-    error_response(e)
+    handle_generation_error(e)
   end
 
   def response_discarded? = @response_discarded == true
@@ -73,6 +68,26 @@ class Captain::Assistant::AgentRunnerService
   def simple_reply_handled? = @simple_reply_handled == true
 
   private
+
+  # Surface an agent run failure: report to the exception tracker + Rails log,
+  # persist to the Super Admin failure feed, and return the structured error
+  # response so the conversation degrades to a human handoff.
+  def handle_generation_error(error)
+    # In rake/local runs, conversation may not be present, so account is optional here.
+    ChatwootExceptionTracker.new(error, account: @conversation&.account).capture_exception
+    Rails.logger.error "[Captain V2] AgentRunnerService error: #{error.message}"
+    Rails.logger.error error.backtrace.join("\n")
+
+    Captain::Llm::FailureLogger.record(
+      source: :agent,
+      error: error,
+      account_id: @assistant.account_id,
+      assistant_id: @assistant.id,
+      conversation_id: @conversation&.id
+    )
+
+    error_response(error)
+  end
 
   def resolve_simple_reply(message_history)
     customer_content = extract_last_user_message_text(message_history)

@@ -1,23 +1,34 @@
 <script setup>
-import { h } from 'vue';
-// Vendored copy of flag-icons' stylesheet (see assets/css). Without it the
-// `fi fi-xx` classes below render an empty span.
-import 'assets/css/flag-icons.min.css';
+import { computed } from 'vue';
+// Base `.fi` layout only (no url() references): Vite dev hangs when resolving
+// relative url(../flags/...) rules in the full flag-icons stylesheet over the
+// Docker/WSL bind mount. Each flag SVG is instead loaded directly as an asset
+// below, which serves instantly.
+import 'assets/css/flag-icons-base.css';
 
 const props = defineProps({
   country: { type: String, required: true },
   squared: { type: Boolean, default: false },
 });
 
-const renderFlag = () => {
-  const classes = ['fi', `fi-${props.country.toLowerCase()}`, 'flex-shrink-0'];
-  if (props.squared) {
-    classes.push('fis');
-  }
-  return h('span', { class: classes });
-};
+const flagAssets = import.meta.glob('../../assets/flags/*/*.svg', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+});
+
+const backgroundImage = computed(() => {
+  const sizeDir = props.squared ? '1x1' : '4x3';
+  const flagPath = `../../assets/flags/${sizeDir}/${props.country.toLowerCase()}.svg`;
+  const flagUrl = flagAssets[flagPath];
+  return flagUrl ? `url(${flagUrl})` : undefined;
+});
 </script>
 
 <template>
-  <component :is="renderFlag" />
+  <span
+    class="fi flex-shrink-0"
+    :class="{ fis: squared }"
+    :style="{ backgroundImage }"
+  />
 </template>

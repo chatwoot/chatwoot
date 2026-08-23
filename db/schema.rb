@@ -488,6 +488,25 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_24_000000) do
     t.index ["inbox_id"], name: "index_captain_inboxes_on_inbox_id"
   end
 
+  create_table "captain_llm_failure_logs", force: :cascade do |t|
+    t.string "source", null: false
+    t.text "error_message", null: false
+    t.string "error_class"
+    t.integer "error_code"
+    t.string "provider"
+    t.string "model"
+    t.string "endpoint"
+    t.bigint "account_id"
+    t.bigint "assistant_id"
+    t.bigint "conversation_id"
+    t.jsonb "request_messages"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "created_at"], name: "index_captain_llm_failure_logs_on_account_id_and_created_at"
+    t.index ["error_code", "created_at"], name: "index_captain_llm_failure_logs_on_error_code_and_created_at"
+    t.index ["source", "created_at"], name: "index_captain_llm_failure_logs_on_source_and_created_at"
+  end
+
   create_table "captain_message_reports", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "conversation_id", null: false
@@ -1570,3 +1589,4 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_24_000000) do
   add_foreign_key "captain_simple_replies", "captain_assistants", column: "assistant_id"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
+end
