@@ -1,0 +1,156 @@
+# #
+# # Whisker release pipeline.
+# #
+# # Best-practice SemVer cycle, fully automatic:
+# #   1. On every push to `master` (or manual dispatch), commits since the last
+# #      tag are scanned (conventional commits):
+# #        feat:        -> minor bump
+# #        fix:/perf:   -> patch bump
+# #        feat!:/BREAKING CHANGE -> major bump
+# #   2. config/app.yml + package.json are bumped in a single release commit.
+# #   3. An annotated git tag vMAJOR.MINOR.PATCH is pushed.
+# #   4. A GitHub Release is created with conventional-commit notes, a
+# #      SHA256SUMS.txt of the source tarball, and — when the
+# #      RELEASE_GPG_PRIVATE_KEY secret is configured — a detached GPG signature.
+# #   5. Docker images build automatically via publish_foss_docker.yml (tag trigger).
+# #
+# # Desktop/Android signing: see RELEASING.md (keys wire into this workflow as
+# # secrets once the Tauri/Android targets land).
+# #
+
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Compute next version but do not tag/release'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  version-bump:
+    name: SemVer bump + tag
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.bump.outputs.version }}
+      skipped: ${{ steps.bump.outputs.skipped }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - id: bump
+        name: Compute next SemVer from conventional commits
+        run: |
+          NEXT="$(bash scripts/ci/semver_bump.sh || true)"
+          if [ -z "$NEXT" ] || [ "$NEXT" = "none" ]; then
+            echo "No release-worthy commits since last tag."
+            echo "version=" >> "$GITHUB_OUTPUT"
+            echo "skipped=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=$NEXT" >> "$GITHUB_OUTPUT"
+            echo "skipped=false" >> "$GITHUB_OUTPUT"
+            echo "Next release: $NEXT"
+          fi
+
+      - name: Write version files
+        if: steps.bump.outputs.skipped == 'false'
+        run: bash scripts/ci/set_version.sh "${{ steps.bump.outputs.version }}"
+
+      - name: Commit, tag and push
+        if: steps.bump.outputs.skipped == 'false' && inputs.dry_run != true
+        run: |
+          V="${{ steps.bump.outputs.version }}"
+          git config user.name  "whisker-release-bot"
+          git config user.email "release-bot@whisker.local"
+          git add config/app.yml package.json
+          git commit -m "chore(release): ${V} [skip ci]"
+          git tag -a "${V}" -m "Whisker ${V}"
+          git push origin HEAD "${V}"
+
+      - name: Dry-run summary
+        if: steps.bump.outputs.skipped == 'false' && inputs.dry_run == true
+        run: echo "Would release ${{ steps.bump.outputs.version }}"
+
+  github-release:
+    name: GitHub Release + signed checksums
+    needs: version-bump
+    if: needs.version-bump.outputs.skipped == 'false' && inputs.dry_run != true
+    runs-on: ubuntu-24.04
+    env:
+      VERSION: ${{ needs.version-bump.outputs.version }}
+      RELEASE_GPG_PRIVATE_KEY: ${{ secrets.RELEASE_GPG_PRIVATE_KEY }}
+      RELEASE_GPG_PASSPHRASE: ${{ secrets.RELEASE_GPG_PASSPHRASE }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.VERSION }}
+          fetch-depth: 0
+
+      - name: Download source tarball
+        run: |
+          gh api \
+            "repos/${GITHUB_REPOSITORY}/tarball/${VERSION}" > "whisker-${VERSION}.tar.gz"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Generate SHA256SUMS
+        run: |
+          sha256sum "whisker-${VERSION}.tar.gz" > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Import release GPG key
+        if: env.RELEASE_GPG_PRIVATE_KEY != ''
+        run: |
+          echo "$RELEASE_GPG_PRIVATE_KEY" | gpg --batch --import
+
+      - name: Sign SHA256SUMS (detached, armored)
+        if: env.RELEASE_GPG_PRIVATE_KEY != ''
+        run: |
+          echo "$RELEASE_GPG_PASSPHRASE" | \
+            gpg --batch --yes --pinentry-mode loopback --passphrase-fd 0 \
+                --detach-sign --armor --output SHA256SUMS.txt.sig SHA256SUMS.txt
+
+      - name: Build release notes from conventional commits
+        run: |
+          PREV="$(git describe --tags --abbrev=0 "${VERSION}^" 2>/dev/null || true)"
+          RANGE="${PREV:+${PREV}..${VERSION}}"
+          RANGE="${RANGE:-${VERSION}}"
+          {
+            echo "## What's changed"
+            echo ""
+            git log --pretty=format:'- %s (%h)' "${RANGE}" | grep -Ev '^\- chore\(release\)' || true
+            echo ""
+            echo ""
+            echo "## Install"
+            echo ""
+            echo '```bash'
+            echo "docker pull whisker/whisker:${VERSION}"
+            echo '```'
+            echo ""
+            echo "Verify: \`sha256sum -c SHA256SUMS.txt\`$( [ -n "$RELEASE_GPG_PRIVATE_KEY" ] && echo ' and `gpg --verify SHA256SUMS.txt.sig`')"
+          } > RELEASE_NOTES.md
+          cat RELEASE_NOTES.md
+
+      - name: Create GitHub Release
+        run: |
+          gh release create "${VERSION}" \
+            --title "Whisker ${VERSION}" \
+            --notes-file RELEASE_NOTES.md \
+            SHA256SUMS.txt \
+            $( [ -f SHA256SUMS.txt.sig ] && echo SHA256SUMS.txt.sig ) \
+            "whisker-${VERSION}.tar.gz"
+        env:
+          GH_TOKEN: ${{ github.token }}

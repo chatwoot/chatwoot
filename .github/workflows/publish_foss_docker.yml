@@ -1,10 +1,10 @@
 # #
-# # This action will publish Chatwoot CE docker image.
+# # This action publishes the Whisker (community edition) docker image.
 # # This is set to run against merges to develop, master
 # # and when tags are created.
 # #
 
-name: Publish Chatwoot CE docker images
+name: Publish Whisker docker images
 
 on:
   push:
@@ -16,13 +16,15 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKER_REPO: chatpaw/chatpaw
+  DOCKER_REPO: ${{ vars.DOCKERHUB_NAMESPACE || 'whisker' }}/whisker
 
 permissions:
   contents: read
 
 jobs:
   build:
+    # [whisker] skip until the Docker Hub namespace variable is configured
+    if: vars.DOCKERHUB_NAMESPACE != ''
     strategy:
       fail-fast: false
       matrix:
@@ -43,7 +45,7 @@ jobs:
           platform=${{ matrix.platform }}
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
 
-      - name: Set Chatwoot edition
+      - name: Set Whisker edition
         run: |
           echo -en '\nENV CW_EDITION="ce"' >> docker/Dockerfile
 
@@ -95,6 +97,8 @@ jobs:
 
   merge:
     runs-on: ubuntu-latest
+    # [whisker] skip until the Docker Hub namespace variable is configured
+    if: vars.DOCKERHUB_NAMESPACE != ''
     needs:
       - build
     steps:
