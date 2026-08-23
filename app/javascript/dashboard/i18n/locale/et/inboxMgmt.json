@@ -16,7 +16,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Vali kanal",
-        "BODY": "Valige teenusepakkuja, mille soovite Chatwootiga siduda."
+        "BODY": "Valige teenusepakkuja, mille soovite KIRAiga siduda."
       },
       "INBOX": {
         "TITLE": "Loo postkast",
@@ -42,7 +42,7 @@
         "PLACEHOLDER": "Sisesta oma veebisaidi nimi (nt Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Sisselogimisel pääseme ligi ainult teie lehe sõnumitele. Teie privaatseid sõnumeid Chatwoot ei pääse kunagi ligi.",
+        "HELP": "PS: Sisselogimisel pääseme ligi ainult teie lehe sõnumitele. Teie privaatseid sõnumeid KIRA ei pääse kunagi ligi.",
         "CHOOSE_PAGE": "Vali leht",
         "CHOOSE_PLACEHOLDER": "Valige nimekirjast leht",
         "INBOX_NAME": "Postkasti nimi",
@@ -50,7 +50,7 @@
         "PICK_NAME": "Valige oma postkastile nimi",
         "PICK_A_VALUE": "Vali väärtus",
         "CREATE_INBOX": "Loo postkast",
-        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. We’re working closely with Meta to resolve it as quickly as possible.",
         "STATUS_LINK": "View status updates"
       },
       "INSTAGRAM": {
@@ -61,8 +61,8 @@
         "ERROR_AUTH": "Instagramiga ühendamisel tekkis viga, palun proovige uuesti",
         "NEW_INBOX_SUGGESTION": "See Instagrami konto oli varem seotud teise postkastiga ja on nüüd siia üle viidud. Kõik uued sõnumid kuvatakse siin. Vana postkast ei saa selle konto jaoks enam sõnumeid saata ega vastu võtta.",
         "DUPLICATE_INBOX_BANNER": "See Instagrami konto viidi üle uue Instagrami kanali postkasti. Sellest postkastist ei saa te enam Instagrami sõnumeid saata ega vastu võtta.",
-        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
-        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
+        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. We’re working closely with Meta to resolve it as quickly as possible.",
+        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with KIRA. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
         "STATUS_LINK": "View status updates"
       },
       "TIKTOK": {
@@ -329,17 +329,17 @@
           "MANUAL_LINK_TEXT": "manual setup flow",
           "ACCESS_REQUEST": {
             "TITLE": "Quick setup with Meta",
-            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which KIRA account needs access.",
             "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
             "BUTTON": "Request access"
           },
-          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
+          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
           "STATUS_LINK": "View status updates",
           "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "WhatsAppi kanalit ei õnnestunud salvestada",
-          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
+          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
           "STATUS_LINK": "View status updates"
         }
       },
@@ -469,7 +469,7 @@
       },
       "AUTH": {
         "TITLE": "Vali kanal",
-        "DESC": "Chatwoot toetab vestlusvidinaid, Facebook Messengeri, WhatsAppi, e-kirju jms kanalitena. Kui soovid luua kohandatud kanali, saad selle luua API kanali abil. Alustamiseks vali allolevatest kanalitest üks.",
+        "DESC": "KIRA toetab vestlusvidinaid, Facebook Messengeri, WhatsAppi, e-kirju jms kanalitena. Kui soovid luua kohandatud kanali, saad selle luua API kanali abil. Alustamiseks vali allolevatest kanalitest üks.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -531,11 +531,11 @@
       },
       "DETAILS": {
         "TITLE": "Postkasti üksikasjad",
-        "DESC": "Valige allolevast rippmenüüst Facebooki leht, mida soovite Chatwootiga ühendada. Võite ka anda postkastile kohandatud nime parema äratundmise jaoks."
+        "DESC": "Valige allolevast rippmenüüst Facebooki leht, mida soovite KIRAiga ühendada. Võite ka anda postkastile kohandatud nime parema äratundmise jaoks."
       },
       "FINISH": {
         "TITLE": "Valmis!",
-        "DESC": "Olete edukalt ühendanud oma Facebooki lehe Chatwootiga. Järgmine kord, kui klient teie lehele sõnumi saadab, kuvatakse vestlus automaatselt teie postkastis.<br>Samuti anname teile vidina skripti, mille saate hõlpsasti oma veebisaidile lisada. Kui see on teie veebisaidil aktiivne, saavad kliendid teile otse veebisaidilt sõnumeid saata ilma väliste tööriistadeta ning vestlus kuvatakse siin, Chatwootis.<br>Lahe, eks? Me püüame kindlasti :)"
+        "DESC": "Olete edukalt ühendanud oma Facebooki lehe KIRAiga. Järgmine kord, kui klient teie lehele sõnumi saadab, kuvatakse vestlus automaatselt teie postkastis.<br>Samuti anname teile vidina skripti, mille saate hõlpsasti oma veebisaidile lisada. Kui see on teie veebisaidil aktiivne, saavad kliendid teile otse veebisaidilt sõnumeid saata ilma väliste tööriistadeta ning vestlus kuvatakse siin, KIRAis.<br>Lahe, eks? Me püüame kindlasti :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Valige oma e-posti teenusepakkuja",
@@ -903,7 +903,7 @@
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when Chatwoot cannot retrieve its message templates. Chatwoot uses this token only for template synchronization.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when KIRA cannot retrieve its message templates. KIRA uses this token only for template synchronization.",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Enter the business management token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "Lisa",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Replace",
@@ -978,7 +978,7 @@
           "INBOX": "Inbox",
           "PHONE_NUMBER": "Telefoninumber",
           "NOT_ENTERED": "Not entered",
-          "VERIFY_NOTICE": "Chatwoot will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
+          "VERIFY_NOTICE": "KIRA will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
           "BACK": "Back",
           "CANCEL": "Cancel",
           "CONTINUE": "Jätka",
@@ -1000,7 +1000,7 @@
           },
           "REVIEW_MIGRATION": {
             "TITLE": "Review migration",
-            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
+            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. KIRA will verify the token, WABA, and phone number with Meta before applying changes."
           }
         }
       },
@@ -1343,7 +1343,7 @@
         "USER_MESSAGE": "Tere",
         "AGENT_MESSAGE": "Tere"
       },
-      "BRANDING_TEXT": "Toetab Chatwoot’i",
+      "BRANDING_TEXT": "Toetab KIRA’i",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

@@ -1,13 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Chatwoot",
-    "description": "This is the API documentation for Chatwoot server.",
+    "title": "KIRA",
+    "description": "This is the API documentation for KIRA server.",
     "version": "1.1.0",
-    "termsOfService": "https://www.chatwoot.com/terms-of-service/",
-    "contact": {
-      "email": "hello@chatwoot.com"
-    },
     "license": {
       "name": "MIT License",
       "url": "https://opensource.org/licenses/MIT"
@@ -15,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "https://app.chatwoot.com/"
+      "url": "https://chatwoot.example.com/"
     }
   ],
   "paths": {
@@ -1533,7 +1529,7 @@
           "secret": {
             "type": "string",
             "nullable": true,
-            "description": "Secret used to sign webhook requests. Signed webhook deliveries include `X-Chatwoot-Timestamp` and `X-Chatwoot-Signature`; the signature is `sha256=` followed by the HMAC-SHA256 of `{timestamp}.{raw_request_body}` using this secret. Deliveries also include `X-Chatwoot-Delivery` when a delivery id is available."
+            "description": "Secret used to sign webhook requests. Signed webhook deliveries include `X-KIRA-Timestamp` and `X-KIRA-Signature`; the signature is `sha256=` followed by the HMAC-SHA256 of `{timestamp}.{raw_request_body}` using this secret. Deliveries also include `X-KIRA-Delivery` when a delivery id is available."
           },
           "account_id": {
             "type": "number",
@@ -1694,14 +1690,6 @@
           {
             "type": "object",
             "properties": {
-              "latest_chatwoot_version": {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "description": "Latest version of Chatwoot available",
-                "example": "3.0.0"
-              },
               "subscribed_features": {
                 "type": "array",
                 "items": {
@@ -3073,7 +3061,7 @@
                     "type": "object",
                     "description": "The processed param values for template variables in template",
                     "example": {
-                      "1": "Chatwoot"
+                      "1": "KIRA"
                     }
                   }
                 }
@@ -4590,7 +4578,7 @@
           "homepage_link": {
             "type": "string",
             "description": "link to main dashboard",
-            "example": "https://www.chatwoot.com/"
+            "example": "https://example.com/"
           },
           "name": {
             "type": "string",
@@ -6664,7 +6652,7 @@
         "schema": {
           "type": "string"
         },
-        "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
+        "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: KIRA generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
       },
       "contact_sort_param": {
         "in": "query",

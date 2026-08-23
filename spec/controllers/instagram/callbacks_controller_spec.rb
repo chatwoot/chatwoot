@@ -14,7 +14,7 @@ RSpec.describe Instagram::CallbacksController do
   before do
     allow(controller).to receive(:verify_instagram_token).and_return(account.id)
     allow(controller).to receive(:instagram_client).and_return(oauth_client)
-    allow(controller).to receive(:base_url).and_return('https://app.chatwoot.com')
+    allow(controller).to receive(:base_url).and_return('https://chatwoot.example.com')
     allow(controller).to receive(:account).and_return(account)
     allow(oauth_client).to receive(:auth_code).and_return(auth_code_object)
     allow(controller).to receive(:exchange_for_long_lived_token).and_return(long_lived_token_response)

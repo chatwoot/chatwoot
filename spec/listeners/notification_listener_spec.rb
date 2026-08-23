@@ -15,7 +15,6 @@ describe NotificationListener do
       it 'creates notifications for inbox members who have notifications turned on' do
         notification_setting = first_agent.notification_settings.first
         notification_setting.selected_email_flags = [:email_conversation_creation]
-        notification_setting.selected_push_flags = []
         notification_setting.save!
 
         create(:inbox_member, user: first_agent, inbox: inbox)
@@ -30,7 +29,6 @@ describe NotificationListener do
       it 'does not create notification for inbox members who have notifications turned off' do
         notification_setting = agent_with_out_notification.notification_settings.first
         notification_setting.unselect_all_email_flags
-        notification_setting.unselect_all_push_flags
         notification_setting.save!
 
         create(:inbox_member, user: agent_with_out_notification, inbox: inbox)
@@ -50,7 +48,6 @@ describe NotificationListener do
     before do
       notification_setting = first_agent.notification_settings.find_by(account_id: account.id)
       notification_setting.selected_email_flags = [:email_conversation_mention]
-      notification_setting.selected_push_flags = []
       notification_setting.save!
     end
 
@@ -188,7 +185,6 @@ describe NotificationListener do
       it 'creates notifications for inbox members who have notifications turned on' do
         notification_setting = first_agent.notification_settings.first
         notification_setting.selected_email_flags = [:email_conversation_creation]
-        notification_setting.selected_push_flags = []
         notification_setting.save!
 
         create(:inbox_member, user: first_agent, inbox: inbox)
@@ -203,7 +199,6 @@ describe NotificationListener do
       it 'does not create notification for inbox members who have notifications turned off' do
         notification_setting = agent_with_out_notification.notification_settings.first
         notification_setting.unselect_all_email_flags
-        notification_setting.unselect_all_push_flags
         notification_setting.save!
 
         create(:inbox_member, user: agent_with_out_notification, inbox: inbox)

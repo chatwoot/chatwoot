@@ -34,4 +34,75 @@ fi
 
 echo "Ready to run Vite development server."
 
-exec "$@"
+# Boot debugging is done; keep the long-running watchdog loop quiet.
+set +x
+
+# Supervise the dev server instead of exec'ing it directly. Vite can end up
+# alive-but-deaf (process running, port 3036 unbound) after an internal
+# restart or crash; Rails then answers every /vite-dev/ request with
+# ActionController::RoutingError while the container still looks healthy.
+# Probing the port lets us detect that state and force a fresh start.
+VITE_HEALTHCHECK_URL="http://127.0.0.1:${VITE_DEV_SERVER_PORT:-3036}/vite-dev/@vite/client"
+PROBE_INTERVAL_SECONDS=5
+MAX_FAILED_PROBES=3
+BOOT_TIMEOUT_SECONDS=90
+
+dev_server_responding() {
+  curl -sf --max-time 2 -o /dev/null "$VITE_HEALTHCHECK_URL"
+}
+
+stop_vite_process_tree() {
+  [ -n "$vite_pid" ] || return 0
+  # setsid makes Vite its own process group leader so esbuild/sass children
+  # receive the signal too.
+  kill -TERM "-$vite_pid" 2>/dev/null || kill -TERM "$vite_pid" 2>/dev/null
+
+  waited=0
+  while kill -0 "$vite_pid" 2>/dev/null && [ "$waited" -lt 10 ]; do
+    sleep 1
+    waited=$((waited + 1))
+  done
+  kill -KILL "-$vite_pid" 2>/dev/null
+  wait "$vite_pid" 2>/dev/null
+  vite_pid=""
+}
+
+trap 'stop_vite_process_tree; exit 0' INT TERM
+
+while true; do
+  setsid "$@" &
+  vite_pid=$!
+  echo "[vite-watchdog] started dev server (pid $vite_pid)"
+
+  # Wait for the first successful response before entering steady-state
+  # monitoring, otherwise slow cold boots would count as failures.
+  boot_wait=0
+  until dev_server_responding; do
+    if ! kill -0 "$vite_pid" 2>/dev/null ||
+      [ "$boot_wait" -ge "$BOOT_TIMEOUT_SECONDS" ]; then
+      break
+    fi
+    sleep "$PROBE_INTERVAL_SECONDS"
+    boot_wait=$((boot_wait + PROBE_INTERVAL_SECONDS))
+  done
+
+  failed_probes=0
+  while kill -0 "$vite_pid" 2>/dev/null &&
+    [ "$failed_probes" -lt "$MAX_FAILED_PROBES" ]; do
+    sleep "$PROBE_INTERVAL_SECONDS"
+    if dev_server_responding; then
+      failed_probes=0
+    else
+      failed_probes=$((failed_probes + 1))
+      echo "[vite-watchdog] no response from $VITE_HEALTHCHECK_URL ($failed_probes/$MAX_FAILED_PROBES)"
+    fi
+  done
+
+  if [ -n "$vite_pid" ] && kill -0 "$vite_pid" 2>/dev/null; then
+    echo "[vite-watchdog] dev server stopped responding; restarting it..."
+  else
+    echo "[vite-watchdog] dev server exited; restarting it..."
+  fi
+  stop_vite_process_tree
+  sleep 1
+done

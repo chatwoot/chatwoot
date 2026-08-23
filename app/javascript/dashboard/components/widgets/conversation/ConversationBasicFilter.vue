@@ -8,6 +8,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import wootConstants from 'dashboard/constants/globals';
 import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 defineProps({
   isOnExpandedLayout: {
@@ -29,7 +30,10 @@ const chatSortFilter = useMapGetter('getChatSortFilter');
 const [showActionsDropdown, toggleDropdown] = useToggle();
 
 const currentStatusFilter = computed(() => {
-  return chatStatusFilter.value || wootConstants.STATUS_TYPE.OPEN;
+  const storedFilter = chatStatusFilter.value;
+  return Array.isArray(storedFilter) && storedFilter.length
+    ? storedFilter
+    : [wootConstants.STATUS_TYPE.OPEN, wootConstants.STATUS_TYPE.PENDING];
 });
 
 const currentSortBy = computed(() => {
@@ -44,20 +48,16 @@ const chatStatusOptions = computed(() => [
     value: 'open',
   },
   {
-    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT'),
-    value: 'resolved',
-  },
-  {
     label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.pending.TEXT'),
     value: 'pending',
   },
   {
-    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT'),
-    value: 'snoozed',
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT'),
+    value: 'resolved',
   },
   {
-    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.all.TEXT'),
-    value: 'all',
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT'),
+    value: 'snoozed',
   },
 ]);
 
@@ -104,12 +104,6 @@ const chatSortOptions = computed(() => [
   },
 ]);
 
-const activeChatStatusLabel = computed(
-  () =>
-    chatStatusOptions.value.find(m => m.value === chatStatusFilter.value)
-      ?.label || ''
-);
-
 const activeChatSortLabel = computed(
   () =>
     chatSortOptions.value.find(m => m.value === chatSortFilter.value)?.label ||
@@ -125,10 +119,13 @@ const saveSelectedFilter = (type, value) => {
   });
 };
 
-const handleStatusChange = value => {
-  emit('changeFilter', value, 'status');
-  store.dispatch('setChatStatusFilter', value);
-  saveSelectedFilter('status', value);
+const handleStatusChange = (status, isChecked) => {
+  const nextStatuses = isChecked
+    ? [...currentStatusFilter.value, status]
+    : currentStatusFilter.value.filter(selected => selected !== status);
+  emit('changeFilter', nextStatuses, 'status');
+  store.dispatch('setChatStatusFilter', nextStatuses);
+  saveSelectedFilter('status', nextStatuses);
 };
 
 const handleSortChange = value => {
@@ -161,13 +158,19 @@ const handleSortChange = value => {
         <span class="text-sm truncate text-n-slate-12">
           {{ $t('CHAT_LIST.CHAT_SORT.STATUS') }}
         </span>
-        <SelectMenu
-          :model-value="chatStatusFilter"
-          :options="chatStatusOptions"
-          :label="activeChatStatusLabel"
-          :sub-menu-position="isOnExpandedLayout ? 'left' : 'right'"
-          @update:model-value="handleStatusChange"
-        />
+        <div class="flex flex-col gap-1.5 max-w-40">
+          <label
+            v-for="option in chatStatusOptions"
+            :key="option.value"
+            class="flex items-center gap-2 text-sm text-n-slate-12 cursor-pointer"
+          >
+            <Checkbox
+              :model-value="currentStatusFilter.includes(option.value)"
+              @change="handleStatusChange(option.value, $event.target.checked)"
+            />
+            {{ option.label }}
+          </label>
+        </div>
       </div>
       <div class="flex items-center justify-between last:mt-4 gap-2">
         <span class="text-sm truncate text-n-slate-12">

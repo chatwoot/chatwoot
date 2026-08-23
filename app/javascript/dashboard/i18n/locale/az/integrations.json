@@ -17,7 +17,7 @@
       "ERROR": "Shopify-a qoşularkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin və ya problem davam edərsə dəstək xidməti ilə əlaqə saxlayın."
     },
     "HEADER": "İnteqrasiyalar",
-    "DESCRIPTION": "Chatwoot komandamızın səmərəliliyini artırmaq üçün bir neçə alət və xidmətlə inteqrasiya olunur. Sevdiyiniz tətbiqləri konfiqurasiya etmək üçün aşağıdakı siyahını araşdırın.",
+    "DESCRIPTION": "KIRA komandamızın səmərəliliyini artırmaq üçün bir neçə alət və xidmətlə inteqrasiya olunur. Sevdiyiniz tətbiqləri konfiqurasiya etmək üçün aşağıdakı siyahını araşdırın.",
     "LEARN_MORE": "İnteqrasiyalar haqqında daha çox məlumat əldə edin",
     "LOADING": "İnteqrasiyalar yüklənir",
     "SEARCH_PLACEHOLDER": "Search integrations...",
@@ -33,7 +33,7 @@
       "LEARN_MORE": "Webhooklar haqqında daha çox məlumat əldə edin",
       "PAYWALL": {
         "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your KIRA account.",
         "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
         "UPGRADE_NOW": "Upgrade now",
         "CANCEL_ANYTIME": "Change or cancel your plan anytime."
@@ -51,7 +51,7 @@
       "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Ləğv et",
-        "DESC": "Webhook hadisələri Chatwoot hesabınızda baş verənlər barədə real vaxt məlumatı verir. Zəhmət olmasa, çağırış üçün düzgün URL daxil edin.",
+        "DESC": "Webhook hadisələri KIRA hesabınızda baş verənlər barədə real vaxt məlumatı verir. Zəhmət olmasa, çağırış üçün düzgün URL daxil edin.",
         "SUBSCRIPTIONS": {
           "LABEL": "Hadisələr",
           "EVENTS": {
@@ -86,7 +86,7 @@
       "HEADER_BTN_TXT": "Yeni webhook əlavə et",
       "LOADING": "Qoşulmuş webhooklar yüklənir",
       "SEARCH_404": "Bu sorğuya uyğun element yoxdur",
-      "SIDEBAR_TXT": "<p><b>Webhooklar</b> </p> <p>Webhooklar hər bir hesab üçün təyin edilə bilən HTTP çağırışlarıdır. Onlar Chatwoot-da mesaj yaradılması kimi hadisələr tərəfindən işə düşür. Bu hesab üçün bir neçə webhook yarada bilərsiniz. <br /><br /> <b>Webhook</b> yaratmaq üçün <b>Yeni webhook əlavə et</b> düyməsini klikləyin. Mövcud webhookları Sil düyməsini klikləyərək də silə bilərsiniz.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooklar</b> </p> <p>Webhooklar hər bir hesab üçün təyin edilə bilən HTTP çağırışlarıdır. Onlar KIRA-da mesaj yaradılması kimi hadisələr tərəfindən işə düşür. Bu hesab üçün bir neçə webhook yarada bilərsiniz. <br /><br /> <b>Webhook</b> yaratmaq üçün <b>Yeni webhook əlavə et</b> düyməsini klikləyin. Mövcud webhookları Sil düyməsini klikləyərək də silə bilərsiniz.</p>",
       "LIST": {
         "404": "Bu hesab üçün heç bir webhook konfiqurasiya edilməyib.",
         "TITLE": "Webhookları idarə et",
@@ -134,14 +134,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Slack inteqrasiyasından necə istifadə etmək olar?",
-        "BODY": "Bu inteqrasiya ilə bütün gələn söhbətləriniz Slack iş sahənizdəki ***{selectedChannelName}*** kanalına sinxronlaşdırılacaq. Müştəri söhbətlərinizə birbaşa həmin kanalda nəzarət edə və heç bir mesajı qaçırmazsınız.\n\nİnteqrasiyanın əsas xüsusiyyətləri bunlardır:\n\n**Slack daxilində söhbətlərə cavab verin:** ***{selectedChannelName}*** Slack kanalında söhbətə cavab vermək üçün sadəcə mesajınızı yazıb thread kimi göndərin. Bu, Chatwoot vasitəsilə müştəriyə cavab göndərəcək. Çox sadədir!\n\n**Şəxsi qeydlər yaradın:** Əgər cavab əvəzinə şəxsi qeyd əlavə etmək istəyirsinizsə, mesajınıza ***`note:`*** ilə başlayın. Bu halda mesajınız şəxsi qalacaq və müştəriyə görünməyəcək.\n\n**Agent profilini əlaqələndirin:** Əgər Slack-də cavab verən şəxsin Chatwoot-da eyni e-poçt ünvanı ilə agent profili varsa, cavablar avtomatik olaraq həmin agent profili ilə əlaqələndiriləcək. Bu, kim nə vaxt nə yazıb asanlıqla izləməyə imkan verir. Əks halda, agent profili əlaqələndirilməyibsə, cavablar müştəriyə bot profili adından göndəriləcək.",
+        "BODY": "Bu inteqrasiya ilə bütün gələn söhbətləriniz Slack iş sahənizdəki ***{selectedChannelName}*** kanalına sinxronlaşdırılacaq. Müştəri söhbətlərinizə birbaşa həmin kanalda nəzarət edə və heç bir mesajı qaçırmazsınız.\n\nİnteqrasiyanın əsas xüsusiyyətləri bunlardır:\n\n**Slack daxilində söhbətlərə cavab verin:** ***{selectedChannelName}*** Slack kanalında söhbətə cavab vermək üçün sadəcə mesajınızı yazıb thread kimi göndərin. Bu, KIRA vasitəsilə müştəriyə cavab göndərəcək. Çox sadədir!\n\n**Şəxsi qeydlər yaradın:** Əgər cavab əvəzinə şəxsi qeyd əlavə etmək istəyirsinizsə, mesajınıza ***`note:`*** ilə başlayın. Bu halda mesajınız şəxsi qalacaq və müştəriyə görünməyəcək.\n\n**Agent profilini əlaqələndirin:** Əgər Slack-də cavab verən şəxsin KIRA-da eyni e-poçt ünvanı ilə agent profili varsa, cavablar avtomatik olaraq həmin agent profili ilə əlaqələndiriləcək. Bu, kim nə vaxt nə yazıb asanlıqla izləməyə imkan verir. Əks halda, agent profili əlaqələndirilməyibsə, cavablar müştəriyə bot profili adından göndəriləcək.",
         "SELECTED": "seçilmiş"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Kanal seçin",
         "UPDATE": "Yenilə",
         "BUTTON_TEXT": "Kanalı qoş",
-        "DESCRIPTION": "Slack iş sahəniz artıq Chatwoot ilə əlaqələndirilib. Lakin, inteqrasiya hazırda aktiv deyil. İnteqrasiyanı aktivləşdirmək və Chatwoot-a kanal qoşmaq üçün aşağıdakı düyməni basın.\n\n**Qeyd:** Əgər özəl kanalı qoşmağa çalışırsınızsa, bu addımı etməzdən əvvəl Chatwoot tətbiqini Slack kanalına əlavə edin.",
+        "DESCRIPTION": "Slack iş sahəniz artıq KIRA ilə əlaqələndirilib. Lakin, inteqrasiya hazırda aktiv deyil. İnteqrasiyanı aktivləşdirmək və KIRA-a kanal qoşmaq üçün aşağıdakı düyməni basın.\n\n**Qeyd:** Əgər özəl kanalı qoşmağa çalışırsınızsa, bu addımı etməzdən əvvəl KIRA tətbiqini Slack kanalına əlavə edin.",
         "ATTENTION_REQUIRED": "Diqqət tələb olunur",
         "EXPIRED": "Slack inteqrasiyanızın müddəti bitib. Slack-də mesaj almağa davam etmək üçün inteqrasiyanı silin və iş sahənizi yenidən qoşun."
       },
@@ -243,7 +243,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Panel Tətbiqləri",
       "HEADER_BTN_TXT": "Yeni panel tətbiqi əlavə et",
-      "SIDEBAR_TXT": "<p><b>Panel Tətbiqləri</b></p><p>Panel Tətbiqləri təşkilatlara Chatwoot paneli daxilində müştəri dəstəyi agentləri üçün kontekst təmin etmək məqsədilə tətbiq yerləşdirməyə imkan verir. Bu xüsusiyyət sizə tətbiqi müstəqil şəkildə yaratmağa və istifadəçi məlumatları, onların sifarişləri və ya əvvəlki ödəniş tarixçəsini təmin etmək üçün panelə yerləşdirməyə imkan verir.</p><p>Chatwoot panelində tətbiqinizi yerləşdirdikdə, tətbiqiniz söhbətin və əlaqənin kontekstini pəncərə hadisəsi kimi alacaq. Konteksti almaq üçün səhifənizdə message hadisəsi üçün dinləyici tətbiq edin.</p><p>Yeni panel tətbiqi əlavə etmək üçün 'Yeni panel tətbiqi əlavə et' düyməsini klikləyin.</p>",
+      "SIDEBAR_TXT": "<p><b>Panel Tətbiqləri</b></p><p>Panel Tətbiqləri təşkilatlara KIRA paneli daxilində müştəri dəstəyi agentləri üçün kontekst təmin etmək məqsədilə tətbiq yerləşdirməyə imkan verir. Bu xüsusiyyət sizə tətbiqi müstəqil şəkildə yaratmağa və istifadəçi məlumatları, onların sifarişləri və ya əvvəlki ödəniş tarixçəsini təmin etmək üçün panelə yerləşdirməyə imkan verir.</p><p>KIRA panelində tətbiqinizi yerləşdirdikdə, tətbiqiniz söhbətin və əlaqənin kontekstini pəncərə hadisəsi kimi alacaq. Konteksti almaq üçün səhifənizdə message hadisəsi üçün dinləyici tətbiq edin.</p><p>Yeni panel tətbiqi əlavə etmək üçün 'Yeni panel tətbiqi əlavə et' düyməsini klikləyin.</p>",
       "DESCRIPTION": "Panel Tətbiqləri təşkilatlara müştəri dəstəyi agentləri üçün kontekst təmin etmək məqsədilə panel daxilində tətbiq yerləşdirməyə imkan verir. Bu xüsusiyyət sizə tətbiqi müstəqil şəkildə yaratmağa və istifadəçi məlumatları, onların sifarişləri və ya əvvəlki ödəniş tarixçəsini təmin etmək üçün yerləşdirməyə imkan verir.",
       "LEARN_MORE": "Dashboard Tətbiqləri haqqında daha çox məlumat əldə edin",
       "COUNT": "{n} dashboard app | {n} dashboard apps",

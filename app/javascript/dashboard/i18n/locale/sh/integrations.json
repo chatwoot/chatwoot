@@ -17,7 +17,7 @@
       "ERROR": "Došlo je do pogreške pri povezivanju sa Shopifyjem. Molimo pokušajte ponovno ili kontaktirajte podršku ako problem potraje."
     },
     "HEADER": "Integracije",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "DESCRIPTION": "KIRA integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Saznajte više o integracijama",
     "LOADING": "Dohvaćanje integracija",
     "SEARCH_PLACEHOLDER": "Pretraži integracije...",
@@ -33,7 +33,7 @@
       "LEARN_MORE": "Learn more about webhooks",
       "PAYWALL": {
         "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your KIRA account.",
         "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
         "UPGRADE_NOW": "Upgrade now",
         "CANCEL_ANYTIME": "Change or cancel your plan anytime."
@@ -51,7 +51,7 @@
       "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Otkaži",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "DESC": "Webhook events provide you the realtime information about what's happening in your KIRA account. Please enter a valid URL to configure a callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Događaji",
           "EVENTS": {
@@ -86,7 +86,7 @@
       "HEADER_BTN_TXT": "Add new webhook",
       "LOADING": "Učitavanje povezanih webhookova",
       "SEARCH_404": "Nema stavki koje odgovaraju ovom upitu",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks su HTTP povratni pozivi koje možete definirati za svaki račun. Aktiviraju se događajima poput stvaranja poruke u Chatwootu. Za ovaj račun možete kreirati više webhooks. <br /><br /> Za kreiranje <b>webhooka</b>, kliknite na gumb <b>Dodaj novi webhook</b>. Također možete ukloniti postojeći webhook klikom na gumb Izbriši.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks su HTTP povratni pozivi koje možete definirati za svaki račun. Aktiviraju se događajima poput stvaranja poruke u KIRAu. Za ovaj račun možete kreirati više webhooks. <br /><br /> Za kreiranje <b>webhooka</b>, kliknite na gumb <b>Dodaj novi webhook</b>. Također možete ukloniti postojeći webhook klikom na gumb Izbriši.</p>",
       "LIST": {
         "404": "There are no webhooks configured for this account.",
         "TITLE": "Manage webhooks",
@@ -100,7 +100,7 @@
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Nije moguće povezati se sa Chatwoot serverom, pokušajte ponovo kasnije"
+          "ERROR_MESSAGE": "Nije moguće povezati se sa KIRA serverom, pokušajte ponovo kasnije"
         }
       },
       "ADD": {
@@ -108,14 +108,14 @@
         "TITLE": "Add new webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Nije moguće povezati se sa Chatwoot serverom, pokušajte ponovo kasnije"
+          "ERROR_MESSAGE": "Nije moguće povezati se sa KIRA serverom, pokušajte ponovo kasnije"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Izbriši",
         "API": {
           "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Nije moguće povezati se sa Chatwoot serverom, pokušajte ponovo kasnije"
+          "ERROR_MESSAGE": "Nije moguće povezati se sa KIRA serverom, pokušajte ponovo kasnije"
         },
         "CONFIRM": {
           "TITLE": "Potvrdi brisanje",
@@ -134,14 +134,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through KIRA. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in KIRA under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "odabrano"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Odaberite kanal",
         "UPDATE": "Ažuriraj",
         "BUTTON_TEXT": "Poveži kanal",
-        "DESCRIPTION": "Vaš Slack radni prostor je sada povezan s Chatwootom. Međutim, integracija je trenutno neaktivna. Za aktivaciju integracije i povezivanje kanala s Chatwootom, molimo kliknite gumb ispod.\n\n**Napomena:** Ako pokušavate povezati privatni kanal, prije nastavka dodajte Chatwoot aplikaciju u Slack kanal.",
+        "DESCRIPTION": "Vaš Slack radni prostor je sada povezan s KIRAom. Međutim, integracija je trenutno neaktivna. Za aktivaciju integracije i povezivanje kanala s KIRAom, molimo kliknite gumb ispod.\n\n**Napomena:** Ako pokušavate povezati privatni kanal, prije nastavka dodajte KIRA aplikaciju u Slack kanal.",
         "ATTENTION_REQUIRED": "Potrebna pažnja",
         "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
@@ -243,7 +243,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Aplikacije nadzorne ploče",
       "HEADER_BTN_TXT": "Dodaj novu aplikaciju nadzorne ploče",
-      "SIDEBAR_TXT": "<p><b>Dashboard aplikacije</b></p><p>Dashboard aplikacije omogućuju organizacijama da ugrađuju aplikacije unutar Chatwoot nadzorne ploče kako bi pružile kontekst agentima korisničke podrške. Ova funkcija omogućuje vam da neovisno kreirate aplikaciju i ugurate je u nadzornu ploču za prikaz informacija o korisnicima, njihovim narudžbama ili prethodnoj povijesti plaćanja.</p><p>Kada ugurate svoju aplikaciju koristeći nadzornu ploču u Chatwootu, vaša aplikacija će dobiti kontekst razgovora i kontakta kao događaj prozora. Implementirajte slušač za događaj poruke na svojoj stranici kako biste primali kontekst.</p><p>Za dodavanje nove dashboard aplikacije, kliknite na gumb 'Dodaj novu dashboard aplikaciju'.</p>",
+      "SIDEBAR_TXT": "<p><b>Dashboard aplikacije</b></p><p>Dashboard aplikacije omogućuju organizacijama da ugrađuju aplikacije unutar KIRA nadzorne ploče kako bi pružile kontekst agentima korisničke podrške. Ova funkcija omogućuje vam da neovisno kreirate aplikaciju i ugurate je u nadzornu ploču za prikaz informacija o korisnicima, njihovim narudžbama ili prethodnoj povijesti plaćanja.</p><p>Kada ugurate svoju aplikaciju koristeći nadzornu ploču u KIRAu, vaša aplikacija će dobiti kontekst razgovora i kontakta kao događaj prozora. Implementirajte slušač za događaj poruke na svojoj stranici kako biste primali kontekst.</p><p>Za dodavanje nove dashboard aplikacije, kliknite na gumb 'Dodaj novu dashboard aplikaciju'.</p>",
       "DESCRIPTION": "Aplikacije nadzorne ploče omogućuju organizacijama da ugrađuju aplikaciju unutar nadzorne ploče kako bi pružile kontekst agentima korisničke podrške. Ova značajka omogućuje vam da neovisno kreirate aplikaciju i ugrađujete je kako biste pružili informacije o korisniku, njihovim narudžbama ili njihovoj prethodnoj povijesti plaćanja.",
       "LEARN_MORE": "Saznajte više o aplikacijama nadzorne ploče",
       "COUNT": "{n} aplikacija na nadzornoj ploči | {n} aplikacija na nadzornoj ploči",

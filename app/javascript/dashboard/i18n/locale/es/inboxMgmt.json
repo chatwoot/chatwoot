@@ -16,7 +16,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Elegir canal",
-        "BODY": "Elija el proveedor que desea integrar con Chatwoot."
+        "BODY": "Elija el proveedor que desea integrar con KIRA."
       },
       "INBOX": {
         "TITLE": "Crear bandeja de entrada",
@@ -42,7 +42,7 @@
         "PLACEHOLDER": "Introduzca el nombre de su sitio web (por ejemplo: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Al iniciar sesión, sólo tenemos acceso a los mensajes de tu Página. Tus mensajes privados nunca pueden ser accedidos por Chatwoot.",
+        "HELP": "PS: Al iniciar sesión, sólo tenemos acceso a los mensajes de tu Página. Tus mensajes privados nunca pueden ser accedidos por KIRA.",
         "CHOOSE_PAGE": "Elegir página",
         "CHOOSE_PLACEHOLDER": "Seleccione una página de la lista",
         "INBOX_NAME": "Nombre de la bandeja de entrada",
@@ -50,7 +50,7 @@
         "PICK_NAME": "Elija un nombre para su bandeja de entrada",
         "PICK_A_VALUE": "Elija un valor",
         "CREATE_INBOX": "Crear bandeja de entrada",
-        "RESTRICTED_WARNING": "La creación de bandejas de entrada de Facebook no está disponible temporalmente debido a un problema en la API de Meta, no de Chatwoot. Estamos colaborando estrechamente con Meta para resolverlo cuanto antes.",
+        "RESTRICTED_WARNING": "La creación de bandejas de entrada de Facebook no está disponible temporalmente debido a un problema en la API de Meta, no de KIRA. Estamos colaborando estrechamente con Meta para resolverlo cuanto antes.",
         "STATUS_LINK": "Ver actualizaciones de estado"
       },
       "INSTAGRAM": {
@@ -61,8 +61,8 @@
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
         "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
         "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore.",
-        "RESTRICTED_WARNING": "La creación de bandejas de entrada de Instagram no está disponible temporalmente debido a un problema en la API de Meta, no de Chatwoot. Estamos colaborando estrechamente con Meta para resolverlo cuanto antes.",
-        "SETTINGS_RESTRICTED_WARNING": "La mensajería de Instagram está afectada actualmente por un problema de la API de Meta, no por un problema de Chatwoot. Algunos mensajes o acciones pueden retrasarse o no estar disponibles. Estamos colaborando estrechamente con Meta para resolverlo lo antes posible.",
+        "RESTRICTED_WARNING": "La creación de bandejas de entrada de Instagram no está disponible temporalmente debido a un problema en la API de Meta, no de KIRA. Estamos colaborando estrechamente con Meta para resolverlo cuanto antes.",
+        "SETTINGS_RESTRICTED_WARNING": "La mensajería de Instagram está afectada actualmente por un problema de la API de Meta, no por un problema de KIRA. Algunos mensajes o acciones pueden retrasarse o no estar disponibles. Estamos colaborando estrechamente con Meta para resolverlo lo antes posible.",
         "STATUS_LINK": "Ver actualizaciones de estado"
       },
       "TIKTOK": {
@@ -329,17 +329,17 @@
           "MANUAL_LINK_TEXT": "flujo de configuración manual",
           "ACCESS_REQUEST": {
             "TITLE": "Configuración rápida con Meta",
-            "DESCRIPTION": "Conecta un número nuevo o uno existente de la aplicación WhatsApp Business sin configuración manual. Para solicitar esta opción, cuéntanos a qué se dedica tu empresa, cómo usarás WhatsApp y qué cuenta de Chatwoot necesita acceso.",
+            "DESCRIPTION": "Conecta un número nuevo o uno existente de la aplicación WhatsApp Business sin configuración manual. Para solicitar esta opción, cuéntanos a qué se dedica tu empresa, cómo usarás WhatsApp y qué cuenta de KIRA necesita acceso.",
             "FOOTNOTE": "Revisaremos tu solicitud y te informaremos si podemos habilitar esta opción. También puedes continuar con la configuración manual que aparece a continuación.",
             "BUTTON": "Solicitar acceso"
           },
-          "RESTRICTED_WARNING": "WhatsApp Embedded Signup no está disponible temporalmente debido a un problema en la API de Meta, no de Chatwoot. Puedes usar la configuración manual para los números compatibles con la API de Cloud. Estamos colaborando estrechamente con Meta para resolverlo cuanto antes.",
+          "RESTRICTED_WARNING": "WhatsApp Embedded Signup no está disponible temporalmente debido a un problema en la API de Meta, no de KIRA. Puedes usar la configuración manual para los números compatibles con la API de Cloud. Estamos colaborando estrechamente con Meta para resolverlo cuanto antes.",
           "STATUS_LINK": "Ver actualizaciones de estado",
           "CALLING_ENABLE_FAILED": "Tu bandeja de entrada de WhatsApp está lista, pero las llamadas de voz no se pudieron activar — este número aún no está inscrito en la API de llamadas empresariales de WhatsApp. Llega a Meta o a tu proveedor de soluciones empresariales de WhatsApp a bordo, luego enciende la llamada desde la configuración de las llamadas de la bandeja de entrada."
         },
         "API": {
           "ERROR_MESSAGE": "No pudimos guardar el canal de WhatsApp",
-          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup no está disponible temporalmente debido a un problema en la API de Meta, no de Chatwoot. La configuración manual solo funciona con números que ya estén conectados a la API de WhatsApp Cloud. Los números que usan la coexistencia con la aplicación WhatsApp Business todavía no son compatibles con este proceso. Estamos colaborando estrechamente con Meta para resolver el problema cuanto antes. Gracias por tu paciencia.",
+          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup no está disponible temporalmente debido a un problema en la API de Meta, no de KIRA. La configuración manual solo funciona con números que ya estén conectados a la API de WhatsApp Cloud. Los números que usan la coexistencia con la aplicación WhatsApp Business todavía no son compatibles con este proceso. Estamos colaborando estrechamente con Meta para resolver el problema cuanto antes. Gracias por tu paciencia.",
           "STATUS_LINK": "Ver actualizaciones de estado"
         }
       },
@@ -469,7 +469,7 @@
       },
       "AUTH": {
         "TITLE": "Elija un canal",
-        "DESC": "Chatwoot soporta widgets de Live Chat, Facebook Messenger, perfiles de Twitter, WhatsApp, correos electrónicos, etc., como canales. Si quieres construir un canal personalizado, puedes crearlo usando el canal API. Para empezar, elige uno de los canales a continuación.",
+        "DESC": "KIRA soporta widgets de Live Chat, Facebook Messenger, perfiles de Twitter, WhatsApp, correos electrónicos, etc., como canales. Si quieres construir un canal personalizado, puedes crearlo usando el canal API. Para empezar, elige uno de los canales a continuación.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -531,11 +531,11 @@
       },
       "DETAILS": {
         "TITLE": "Detalles de la bandeja de entrada",
-        "DESC": "En el menú desplegable de abajo, selecciona la página de Facebook que quieres conectar a Chatwoot. También puede dar un nombre personalizado a su bandeja de entrada para una mejor identificación."
+        "DESC": "En el menú desplegable de abajo, selecciona la página de Facebook que quieres conectar a KIRA. También puede dar un nombre personalizado a su bandeja de entrada para una mejor identificación."
       },
       "FINISH": {
         "TITLE": "¡Se ha clavado!",
-        "DESC": "Has terminado de integrar correctamente tu página de Facebook con Chatwoot. La próxima vez que un cliente envíe un mensaje a tu Página, la conversación aparecerá automáticamente en tu bandeja de entrada.<br>También le estamos proporcionando un script de widget que puede agregar fácilmente a su sitio web. Una vez que esto está en vivo en tu sitio web, los clientes pueden enviarle mensajes directamente desde su sitio web sin la ayuda de ninguna herramienta externa y la conversación aparecerá aquí, en Chatwoot.<br>¿Genial, eh? Bueno, estamos seguros de que intentaremos ser :)"
+        "DESC": "Has terminado de integrar correctamente tu página de Facebook con KIRA. La próxima vez que un cliente envíe un mensaje a tu Página, la conversación aparecerá automáticamente en tu bandeja de entrada.<br>También le estamos proporcionando un script de widget que puede agregar fácilmente a su sitio web. Una vez que esto está en vivo en tu sitio web, los clientes pueden enviarle mensajes directamente desde su sitio web sin la ayuda de ninguna herramienta externa y la conversación aparecerá aquí, en KIRA.<br>¿Genial, eh? Bueno, estamos seguros de que intentaremos ser :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Selecciona tu proveedor de correo",
@@ -903,7 +903,7 @@
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Añadir token de administración empresarial",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Sustituir token de administración empresarial",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Token de administración empresarial configurado",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Proporciona un token con acceso a esta cuenta de WhatsApp Business cuando Chatwoot no pueda recuperar sus plantillas de mensajes. Chatwoot solo usa este token para sincronizar plantillas.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Proporciona un token con acceso a esta cuenta de WhatsApp Business cuando KIRA no pueda recuperar sus plantillas de mensajes. KIRA solo usa este token para sincronizar plantillas.",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Introduce el token de administración empresarial",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "Añadir",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Sustituir",
@@ -978,7 +978,7 @@
           "INBOX": "Bandeja de entrada",
           "PHONE_NUMBER": "Número de teléfono",
           "NOT_ENTERED": "No ingresado",
-          "VERIFY_NOTICE": "Chatwoot verificará estas credenciales con Meta antes de aplicar cualquier cambio. Si la verificación falla, la configuración actual se deja sin tocar.",
+          "VERIFY_NOTICE": "KIRA verificará estas credenciales con Meta antes de aplicar cualquier cambio. Si la verificación falla, la configuración actual se deja sin tocar.",
           "BACK": "Atrás",
           "CANCEL": "Cancelar",
           "CONTINUE": "Continuar",
@@ -1000,7 +1000,7 @@
           },
           "REVIEW_MIGRATION": {
             "TITLE": "Revisar migración",
-            "DESCRIPTION": "Confirme los detalles de conexión antes de volver a conectar esta bandeja de entrada. Chatwoot verificará el token, WABA y el número de teléfono con Meta antes de aplicar los cambios."
+            "DESCRIPTION": "Confirme los detalles de conexión antes de volver a conectar esta bandeja de entrada. KIRA verificará el token, WABA y el número de teléfono con Meta antes de aplicar los cambios."
           }
         }
       },
@@ -1343,7 +1343,7 @@
         "USER_MESSAGE": "Hola",
         "AGENT_MESSAGE": "Hola"
       },
-      "BRANDING_TEXT": "Desarrollado por Chatwoot",
+      "BRANDING_TEXT": "Desarrollado por KIRA",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

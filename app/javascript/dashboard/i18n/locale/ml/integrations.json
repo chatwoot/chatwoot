@@ -17,7 +17,7 @@
       "ERROR": "Shopify-യുമായി ബന്ധപ്പെടുന്നതിൽ പിശക് സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക അല്ലെങ്കിൽ പ്രശ്നം തുടരുകയാണെങ്കിൽ പിന്തുണയെ ബന്ധപ്പെടുക."
     },
     "HEADER": "സംയോജനങ്ങൾ",
-    "DESCRIPTION": "Chatwoot നിങ്ങളുടെ ടീമിന്റെ കാര്യക്ഷമത മെച്ചപ്പെടുത്താൻ നിരവധി ടൂളുകളും സേവനങ്ങളും സംയോജിപ്പിക്കുന്നു. നിങ്ങളുടെ പ്രിയപ്പെട്ട ആപ്പുകൾ ക്രമീകരിക്കാൻ താഴെ നൽകിയ പട്ടിക പരിശോധിക്കുക.",
+    "DESCRIPTION": "KIRA നിങ്ങളുടെ ടീമിന്റെ കാര്യക്ഷമത മെച്ചപ്പെടുത്താൻ നിരവധി ടൂളുകളും സേവനങ്ങളും സംയോജിപ്പിക്കുന്നു. നിങ്ങളുടെ പ്രിയപ്പെട്ട ആപ്പുകൾ ക്രമീകരിക്കാൻ താഴെ നൽകിയ പട്ടിക പരിശോധിക്കുക.",
     "LEARN_MORE": "ഇന്റഗ്രേഷനുകൾക്കുറിച്ച് കൂടുതൽ അറിയുക",
     "LOADING": "ഇന്റഗ്രേഷനുകൾ നേടുന്നു",
     "SEARCH_PLACEHOLDER": "ഇന്റഗ്രേഷനുകൾ തിരയുക...",
@@ -33,7 +33,7 @@
       "LEARN_MORE": "വെബ്‌ഹുക്കുകൾക്കുറിച്ച് കൂടുതൽ അറിയുക",
       "PAYWALL": {
         "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your KIRA account.",
         "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
         "UPGRADE_NOW": "Upgrade now",
         "CANCEL_ANYTIME": "Change or cancel your plan anytime."
@@ -134,14 +134,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "സ്ലാക്ക് ഇന്റഗ്രേഷൻ ഉപയോഗിക്കുന്നു",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through KIRA. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in KIRA under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "തിരഞ്ഞെടുത്തത്"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "ഒരു ചാനൽ തിരഞ്ഞെടുക്കുക",
         "UPDATE": "അപ്‌ഡേറ്റ്",
         "BUTTON_TEXT": "ചാനൽ ബന്ധിപ്പിക്കുക",
-        "DESCRIPTION": "നിങ്ങളുടെ Slack വർക്ക്‌സ്‌പേസ് ഇപ്പോൾ Chatwoot-നൊപ്പം ബന്ധിപ്പിച്ചിരിക്കുന്നു. എങ്കിലും, ഇന്റഗ്രേഷൻ നിലവിൽ പ്രവർത്തനരഹിതമാണ്. ഇന്റഗ്രേഷൻ സജീവമാക്കി ഒരു ചാനൽ Chatwoot-നോട് ബന്ധിപ്പിക്കാൻ, ദയവായി താഴെയുള്ള ബട്ടൺ ക്ലിക്ക് ചെയ്യുക.\n\n**കുറിപ്പ്:** നിങ്ങൾ ഒരു സ്വകാര്യ ചാനൽ ബന്ധിപ്പിക്കാൻ ശ്രമിക്കുന്നുവെങ്കിൽ, ഈ ഘട്ടം തുടരുന്നതിന് മുമ്പ് Slack ചാനലിൽ Chatwoot ആപ്പ് ചേർക്കുക.",
+        "DESCRIPTION": "നിങ്ങളുടെ Slack വർക്ക്‌സ്‌പേസ് ഇപ്പോൾ KIRA-നൊപ്പം ബന്ധിപ്പിച്ചിരിക്കുന്നു. എങ്കിലും, ഇന്റഗ്രേഷൻ നിലവിൽ പ്രവർത്തനരഹിതമാണ്. ഇന്റഗ്രേഷൻ സജീവമാക്കി ഒരു ചാനൽ KIRA-നോട് ബന്ധിപ്പിക്കാൻ, ദയവായി താഴെയുള്ള ബട്ടൺ ക്ലിക്ക് ചെയ്യുക.\n\n**കുറിപ്പ്:** നിങ്ങൾ ഒരു സ്വകാര്യ ചാനൽ ബന്ധിപ്പിക്കാൻ ശ്രമിക്കുന്നുവെങ്കിൽ, ഈ ഘട്ടം തുടരുന്നതിന് മുമ്പ് Slack ചാനലിൽ KIRA ആപ്പ് ചേർക്കുക.",
         "ATTENTION_REQUIRED": "ശ്രദ്ധ ആവശ്യമാണ്",
         "EXPIRED": "നിങ്ങളുടെ Slack ഇന്റഗ്രേഷൻ കാലഹരണപ്പെട്ടു. Slack-ൽ സന്ദേശങ്ങൾ സ്വീകരിക്കാൻ തുടരുമെങ്കിൽ, ദയവായി ഇന്റഗ്രേഷൻ നീക്കം ചെയ്ത് നിങ്ങളുടെ വർക്ക്‌സ്പേസ് വീണ്ടും കണക്ട് ചെയ്യുക."
       },
@@ -243,7 +243,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "ഡാഷ്ബോർഡ് ആപ്പുകൾ",
       "HEADER_BTN_TXT": "പുതിയ ഡാഷ്ബോർഡ് ആപ്പ് ചേർക്കുക",
-      "SIDEBAR_TXT": "<p><b>ഡാഷ്ബോർഡ് ആപ്പുകൾ</b></p><p>ഡാഷ്ബോർഡ് ആപ്പുകൾ സംഘടനകൾക്ക് Chatwoot ഡാഷ്ബോർഡിനുള്ളിൽ ഒരു ആപ്പ് ഉൾപ്പെടുത്താൻ അനുവദിക്കുന്നു, ഇത് കസ്റ്റമർ സപ്പോർട്ട് ഏജന്റുകൾക്ക് പ്രാസംഗികമായ വിവരങ്ങൾ നൽകുന്നു. ഈ സവിശേഷത നിങ്ങൾക്ക് സ്വതന്ത്രമായി ഒരു ആപ്പ് സൃഷ്ടിച്ച് അത് ഡാഷ്ബോർഡിൽ ഉൾപ്പെടുത്താൻ സഹായിക്കുന്നു, ഉപയോക്തൃ വിവരങ്ങൾ, അവരുടെ ഓർഡറുകൾ, അല്ലെങ്കിൽ മുൻപുള്ള പേയ്മെന്റ് ചരിത്രം നൽകാൻ.</p><p>Chatwoot ഡാഷ്ബോർഡിൽ നിങ്ങളുടെ ആപ്പ് ഉൾപ്പെടുത്തുമ്പോൾ, സംഭാഷണവും കോൺടാക്റ്റും സംബന്ധിച്ച പ്രാസംഗിക വിവരങ്ങൾ വിൻഡോ ഇവന്റ് ആയി ലഭിക്കും. നിങ്ങളുടെ പേജിൽ മെസേജ് ഇവന്റ് ലിസണർ നടപ്പിലാക്കി ഈ പ്രാസംഗിക വിവരങ്ങൾ സ്വീകരിക്കാം.</p><p>പുതിയ ഡാഷ്ബോർഡ് ആപ്പ് ചേർക്കാൻ, 'പുതിയ ഡാഷ്ബോർഡ് ആപ്പ് ചേർക്കുക' ബട്ടൺ ക്ലിക്ക് ചെയ്യുക.</p>",
+      "SIDEBAR_TXT": "<p><b>ഡാഷ്ബോർഡ് ആപ്പുകൾ</b></p><p>ഡാഷ്ബോർഡ് ആപ്പുകൾ സംഘടനകൾക്ക് KIRA ഡാഷ്ബോർഡിനുള്ളിൽ ഒരു ആപ്പ് ഉൾപ്പെടുത്താൻ അനുവദിക്കുന്നു, ഇത് കസ്റ്റമർ സപ്പോർട്ട് ഏജന്റുകൾക്ക് പ്രാസംഗികമായ വിവരങ്ങൾ നൽകുന്നു. ഈ സവിശേഷത നിങ്ങൾക്ക് സ്വതന്ത്രമായി ഒരു ആപ്പ് സൃഷ്ടിച്ച് അത് ഡാഷ്ബോർഡിൽ ഉൾപ്പെടുത്താൻ സഹായിക്കുന്നു, ഉപയോക്തൃ വിവരങ്ങൾ, അവരുടെ ഓർഡറുകൾ, അല്ലെങ്കിൽ മുൻപുള്ള പേയ്മെന്റ് ചരിത്രം നൽകാൻ.</p><p>KIRA ഡാഷ്ബോർഡിൽ നിങ്ങളുടെ ആപ്പ് ഉൾപ്പെടുത്തുമ്പോൾ, സംഭാഷണവും കോൺടാക്റ്റും സംബന്ധിച്ച പ്രാസംഗിക വിവരങ്ങൾ വിൻഡോ ഇവന്റ് ആയി ലഭിക്കും. നിങ്ങളുടെ പേജിൽ മെസേജ് ഇവന്റ് ലിസണർ നടപ്പിലാക്കി ഈ പ്രാസംഗിക വിവരങ്ങൾ സ്വീകരിക്കാം.</p><p>പുതിയ ഡാഷ്ബോർഡ് ആപ്പ് ചേർക്കാൻ, 'പുതിയ ഡാഷ്ബോർഡ് ആപ്പ് ചേർക്കുക' ബട്ടൺ ക്ലിക്ക് ചെയ്യുക.</p>",
       "DESCRIPTION": "ഡാഷ്ബോർഡ് ആപ്പുകൾ സംഘടനകൾക്ക് ഡാഷ്ബോർഡിനുള്ളിൽ ഒരു ആപ്ലിക്കേഷൻ ഉൾപ്പെടുത്താൻ അനുവദിക്കുന്നു, ഇത് കസ്റ്റമർ സപ്പോർട്ട് ഏജന്റുകൾക്ക് സാന്ദർഭ്യം നൽകുന്നു. ഈ ഫീച്ചർ നിങ്ങൾക്ക് സ്വതന്ത്രമായി ഒരു ആപ്ലിക്കേഷൻ സൃഷ്ടിച്ച് അത് ഉൾപ്പെടുത്താൻ അനുവദിക്കുന്നു, ഉപയോക്തൃ വിവരങ്ങൾ, അവരുടെ ഓർഡറുകൾ, അല്ലെങ്കിൽ മുമ്പത്തെ പേയ്മെന്റ് ചരിത്രം നൽകാൻ.",
       "LEARN_MORE": "ഡാഷ്ബോർഡ് ആപ്പുകൾക്കുറിച്ച് കൂടുതൽ അറിയുക",
       "COUNT": "{n} ഡാഷ്ബോർഡ് ആപ്പ് | {n} ഡാഷ്ബോർഡ് ആപ്പുകൾ",

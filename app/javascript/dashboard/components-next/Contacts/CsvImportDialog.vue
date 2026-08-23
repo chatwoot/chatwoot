@@ -47,7 +47,9 @@ const handleImport = async () => {
     emit('imported', data);
     selectedFile.value = null;
   } catch (error) {
-    useAlert(error?.response?.data?.error || t('CONTACTS_LAYOUT.CSV_IMPORT.ERROR'));
+    useAlert(
+      error?.response?.data?.error || t('CONTACTS_LAYOUT.CSV_IMPORT.ERROR')
+    );
   } finally {
     isImporting.value = false;
   }
@@ -94,10 +96,12 @@ const handleImport = async () => {
           {{ result.imported }}
         </div>
         <div>
-          {{ t('CONTACTS_LAYOUT.CSV_IMPORT.RESULT.UPDATED') }}: {{ result.updated }}
+          {{ t('CONTACTS_LAYOUT.CSV_IMPORT.RESULT.UPDATED') }}:
+          {{ result.updated }}
         </div>
         <div>
-          {{ t('CONTACTS_LAYOUT.CSV_IMPORT.RESULT.SKIPPED') }}: {{ result.skipped }}
+          {{ t('CONTACTS_LAYOUT.CSV_IMPORT.RESULT.SKIPPED') }}:
+          {{ result.skipped }}
         </div>
         <div>
           {{ t('CONTACTS_LAYOUT.CSV_IMPORT.RESULT.COMPANIES') }}:

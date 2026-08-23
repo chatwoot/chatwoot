@@ -75,17 +75,6 @@ class Notification < ApplicationRecord
     payload
   end
 
-  def fcm_push_data
-    {
-      id: id,
-      notification_type: notification_type,
-      primary_actor_id: primary_actor_id,
-      primary_actor_type: primary_actor_type,
-      primary_actor: primary_actor.push_event_data.with_indifferent_access.slice('conversation_id', 'id'),
-      account_id: account_id
-    }
-  end
-
   # rubocop:disable Metrics/MethodLength
   def push_message_title
     notification_title_map = {
@@ -154,8 +143,6 @@ class Notification < ApplicationRecord
   end
 
   def process_notification_delivery
-    Notification::PushNotificationJob.perform_later(self) if user_subscribed_to_notification?('push')
-
     # Should we do something about the case where user subscribed to both push and email ?
     # In future, we could probably add condition here to enqueue the job for 30 seconds later
     # when push enabled and then check in email job whether notification has been read already.

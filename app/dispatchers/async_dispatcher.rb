@@ -19,7 +19,9 @@ class AsyncDispatcher < BaseDispatcher
       ParticipationListener.instance,
       Conversations::UnreadCounts::Listener.instance,
       ReportingEventListener.instance,
-      WebhookListener.instance
+      WebhookListener.instance,
+      CaptainListener.instance,
+      Captain::ConversationOutcomeEventListener.instance
     ]
   end
 end

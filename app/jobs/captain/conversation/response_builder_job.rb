@@ -1,6 +1,4 @@
-class Captain::Conversation::ResponseBuilderJob < ApplicationJob
-  include Captain::Conversation::V1ActionClassifier
-  include Captain::Conversation::V1FalsePromiseHandler
+class Captain::Conversation::ResponseBuilderJob < ApplicationJob # rubocop:disable Metrics/ClassLength
   include Captain::Conversation::V2LifecycleEvents
   include Captain::Conversation::MessageBuilder
   include Captain::Conversation::ResponseLifecycleLogging
@@ -13,7 +11,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @conversation = conversation
     @inbox = conversation.inbox
     @assistant = assistant
-    @responding_to_message_id = responding_to_message_id if captain_v2_enabled?
+    @responding_to_message_id = responding_to_message_id
 
     return log_non_pending unless conversation_pending?
 
@@ -22,8 +20,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     # Simple replies are the non-LLM first layer: a keyword match answers the
     # customer directly and skips LLM generation entirely.
     return if simple_reply_handled?
-
-    return generate_and_process_response unless captain_v2_enabled?
 
     return log_pre_generation_discard if newer_customer_message_arrived?
 
@@ -42,26 +38,48 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   delegate :account, :inbox, to: :@conversation
 
   def simple_reply_handled?
-    Captain::Conversation::SimpleReplyService.new(conversation: @conversation, assistant: @assistant).perform
+    Captain::Conversation::SimpleReplyService.new(conversation: @conversation, assistant: @assistant).perform.tap do |handled|
+      capture_simple_reply_session if handled
+    end
   end
 
-  def generate_and_process_response
-    message_history = collect_previous_messages
-    @response = Captain::Llm::AssistantChatService.new(assistant: @assistant, conversation: @conversation).generate_response(
-      message_history: message_history
+  # Simple replies never run the agent loop, so they have no run_result to
+  # derive a session from. Record a minimal trace so the debugging page still
+  # shows the deterministic layer firing for the conversation.
+  def capture_simple_reply_session
+    Captain::AgentSession.create!(
+      assistant: @assistant,
+      session_type: :assistant,
+      subject: @conversation,
+      outcome: :simple_reply,
+      run_context: simple_reply_run_context
     )
-    classify_v1_response_action(message_history) if conversation_pending?
-    repair_v1_false_promise_response(message_history) if conversation_pending?
-    process_response
+  rescue StandardError => e
+    Rails.logger.error("[CAPTAIN][ResponseBuilderJob] Simple reply session capture failed for conversation=#{@conversation.display_id}: #{e.message}")
+  end
+
+  def simple_reply_run_context
+    reply = @conversation.messages.where(sender: @assistant).order(created_at: :desc).first
+    return [] unless reply
+
+    [{
+      role: 'assistant',
+      agent_name: @assistant.agent_name,
+      content: { reasoning: 'Simple reply matched', response: reply.content },
+      tool_calls: []
+    }]
   end
 
   def generate_response_with_v2
     runner_service = v2_runner_service
+    @runner_service = runner_service
     message_history = Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
     @response = runner_service.generate_response(message_history: message_history)
     @run_result = runner_service.last_run_result
 
     @v2_handoff_tool_completed = runner_service.handoff_completed?
+    @v2_handoff_offer_pending = runner_service.handoff_offer_pending?
+    @v2_handoff_offer_message_id = runner_service.handoff_offer_message_id
     return process_response if v2_handoff_tool_completed?
     return if runner_service.response_discarded? || newer_customer_message_arrived?
 
@@ -78,79 +96,67 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     # The V2 runner rescues its own generation errors and signals them via an error
     # response instead of raising, so the failure event must be emitted here — the
     # top-level handle_error path only sees exceptions raised outside the runner.
-    record_v2_response_failure(@response['error_reason']) if v2_generation_errored?
+    if v2_generation_errored?
+      record_v2_response_failure(@response['error_reason'])
+      return process_error_handoff
+    end
 
     if v2_handoff_tool_fired?
       process_v2_handoff_response
-    elsif v1_handoff_requested?
-      process_v1_handoff_request
     elsif conversation_pending?
       process_standard_response
     end
   end
 
-  def process_v1_handoff_request
-    # V1 only signals via the response string — no state has been touched yet. If
-    # the conversation isn't pending anymore, a human took over mid-run; bail out
-    # rather than posting a stale handoff message on top of their reply.
-    return unless conversation_pending?
-
-    process_v1_handoff
-    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE) if v2_generation_errored?
-  end
-
   def process_standard_response
     message = nil
     ActiveRecord::Base.transaction do
-      next if captain_v2_enabled? && newer_customer_message_arrived?
+      next if newer_customer_message_arrived?
 
       message = create_messages
     end
     return unless message
 
     capture_assistant_session(result_message: message, credits_consumed: 1.0)
-    record_v2_response_completed(message) if captain_v2_enabled?
+    capture_decision_trace
+    record_v2_response_completed(message)
   end
 
   def process_v2_handoff_response
-    # Captain V1 infers completion from status. Captain V2 uses the completion
-    # marker set inside the locked handoff.
-    if captain_v2_enabled?
-      return unless v2_handoff_tool_completed? || conversation_pending?
-
-      v2_handoff_tool_completed? ? process_v2_handoff : process_v1_handoff
-      record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::TOOL) unless v2_handoff_tool_completed?
-    else
-      conversation_pending? ? process_v1_handoff : process_v2_handoff
+    # A consent-gated offer (not a transfer) is handled here: the offer message
+    # was already posted inside the tool, so we only record the run and keep the
+    # conversation pending for the customer's reply. No transfer message is posted.
+    if v2_handoff_offer_pending?
+      @handoff_offer_message = @conversation.messages.find_by(id: @v2_handoff_offer_message_id)
+      capture_assistant_session(result_message: @handoff_offer_message, credits_consumed: 0.0)
+      capture_decision_trace
+      return
     end
 
-    capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
-  end
+    # The completion marker is set inside the locked handoff. If the conversation
+    # is no longer pending, a human took over mid-run; bail out rather than
+    # posting a stale handoff message on top of their reply.
+    return unless v2_handoff_tool_completed? || conversation_pending?
 
-  def v1_handoff_requested?
-    legacy_v1_handoff_token? || classifier_v1_handoff_requested?
-  end
+    v2_handoff_tool_completed? ? process_v2_handoff : process_v1_handoff
+    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::TOOL) unless v2_handoff_tool_completed?
 
-  def classifier_v1_handoff_requested?
-    @response['action'] == 'handoff'
-  end
-
-  def legacy_v1_handoff_token?
-    @response['response'] == 'conversation_handoff'
+    capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0, outcome: :handoff)
+    capture_decision_trace
   end
 
   def v2_handoff_tool_fired? = @response['handoff_tool_called']
   def v2_handoff_tool_completed? = @v2_handoff_tool_completed == true
+  def v2_handoff_offer_pending? = @v2_handoff_offer_pending == true
 
   def process_v1_handoff
     I18n.with_locale(@assistant.account.locale) do
       Rails.logger.info(
-        "[CAPTAIN][ResponseBuilderJob] V1 handoff requested for account=#{account.id} conversation=#{@conversation.display_id} " \
-        "source=#{@response&.dig('action_source') || 'legacy'} reason=#{@response&.dig('action_reason')}"
+        "[CAPTAIN][ResponseBuilderJob] Handoff requested for account=#{account.id} conversation=#{@conversation.display_id} " \
+        "reason=#{@response&.dig('action_reason')}"
       )
       create_handoff_message
       @conversation.bot_handoff!
-      report_v1_handoff_not_executed if conversation_pending?
       send_out_of_office_message_if_applicable
     end
   end
@@ -189,34 +195,48 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     ).perform
     result[:error] ? nil : result[:message]
   rescue StandardError => e
-    Rails.logger.warn("[CAPTAIN][ResponseBuilderJob] Handoff message generation failed for conversation=#{@conversation.display_id}: #{e.class.name}: #{e.message}")
+    Rails.logger.warn(
+      "[CAPTAIN][ResponseBuilderJob] Handoff message generation failed for conversation=#{@conversation.display_id}: " \
+      "#{e.class.name}: #{e.message}"
+    )
     nil
   end
 
   # Capture runs outside the delivery transaction and never raises (the service
   # swallows its own failures): a session-logging bug must never roll back the
   # customer reply or trigger the top-level handle_error handoff on top of it.
-  def capture_assistant_session(result_message:, credits_consumed:)
+  def capture_assistant_session(result_message:, credits_consumed:, outcome:)
     Captain::Assistant::SessionCaptureService.new(assistant: @assistant, conversation: @conversation, run_result: @run_result,
-                                                  result_message: result_message, credits_consumed: credits_consumed).capture
+                                                  result_message: result_message, credits_consumed: credits_consumed, outcome: outcome).capture
+  end
+
+  # Persists the ordered decision trace (activated nodes, tool calls, handoffs,
+  # final response) captured from the runner callbacks so the Debug tab can show
+  # how Captain reasoned. Never raises and never rolls back the reply.
+  def capture_decision_trace
+    Captain::Assistant::DecisionTraceCaptureService.new(
+      assistant: @assistant,
+      conversation: @conversation,
+      response: @response || {},
+      decision_trace: @runner_service&.decision_trace || []
+    ).capture
   end
 
   def handle_error(error)
     log_error(error)
     @response ||= {}
-    @response['action_source'] ||= 'error'
     @response['action_reason'] ||= error_action_reason(error)
-    record_v2_response_failure(error_action_reason(error)) if captain_v2_enabled?
+    record_v2_response_failure(error_action_reason(error))
     process_error_handoff
     true
   end
 
   def process_error_handoff
     return unless conversation_pending?
-    return if captain_v2_enabled? && newer_customer_message_arrived?
+    return if newer_customer_message_arrived?
 
     process_v1_handoff
-    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE) if captain_v2_enabled?
+    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE)
   end
 
   def log_error(error)
@@ -225,19 +245,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def error_action_reason(error)
     error.class.name.underscore.tr('/', '_')
-  end
-
-  def captain_v2_enabled?
-    account.feature_enabled?('captain_integration_v2')
-  end
-
-  def report_v1_handoff_not_executed
-    error = StandardError.new("Captain V1 handoff requested but conversation #{@conversation.display_id} is still pending")
-    ChatwootExceptionTracker.new(error, account: account).capture_exception
-    Rails.logger.error(
-      "[CAPTAIN][ResponseBuilderJob] V1 handoff requested but not executed for account=#{account.id} " \
-      "conversation=#{@conversation.display_id}"
-    )
   end
 
   def newer_customer_message_arrived?

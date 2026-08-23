@@ -8,7 +8,7 @@ describe('PortalHelper', () => {
   describe('buildPortalURL', () => {
     it('returns the correct url', () => {
       window.chatwootConfig = {
-        hostURL: 'https://app.chatwoot.com',
+        hostURL: 'https://chatwoot.example.com',
         helpCenterURL: 'https://help.chatwoot.com',
       };
       expect(buildPortalURL('handbook')).toEqual(
@@ -21,7 +21,7 @@ describe('PortalHelper', () => {
   describe('buildPortalArticleURL', () => {
     it('returns the correct url', () => {
       window.chatwootConfig = {
-        hostURL: 'https://app.chatwoot.com',
+        hostURL: 'https://chatwoot.example.com',
         helpCenterURL: 'https://help.chatwoot.com',
       };
       expect(
@@ -32,7 +32,7 @@ describe('PortalHelper', () => {
 
     it('returns the correct url with custom domain', () => {
       window.chatwootConfig = {
-        hostURL: 'https://app.chatwoot.com',
+        hostURL: 'https://chatwoot.example.com',
         helpCenterURL: 'https://help.chatwoot.com',
       };
       expect(
@@ -48,7 +48,7 @@ describe('PortalHelper', () => {
 
     it('handles https in custom domain correctly', () => {
       window.chatwootConfig = {
-        hostURL: 'https://app.chatwoot.com',
+        hostURL: 'https://chatwoot.example.com',
         helpCenterURL: 'https://help.chatwoot.com',
       };
       expect(
@@ -64,12 +64,14 @@ describe('PortalHelper', () => {
 
     it('uses hostURL when helpCenterURL is not available', () => {
       window.chatwootConfig = {
-        hostURL: 'https://app.chatwoot.com',
+        hostURL: 'https://chatwoot.example.com',
         helpCenterURL: '',
       };
       expect(
         buildPortalArticleURL('handbook', 'culture', 'fr', 'article-slug')
-      ).toEqual('https://app.chatwoot.com/hc/handbook/articles/article-slug');
+      ).toEqual(
+        'https://chatwoot.example.com/hc/handbook/articles/article-slug'
+      );
     });
   });
 

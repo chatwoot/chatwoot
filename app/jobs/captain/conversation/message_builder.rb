@@ -28,18 +28,11 @@ module Captain::Conversation::MessageBuilder
   end
 
   def create_messages
-    return create_v1_message unless captain_v2_enabled?
-
     response_parts = Captain::Assistant::ResponseParts.from_response(@response)
     citation_urls = @assistant.trusted_citation_urls(@run_result)
     message_content = response_parts.customer_message_content(citation_urls: citation_urls)
     validate_message_content!(message_content)
     create_outgoing_message(message_content, agent_name: @response['agent_name'], response_parts: response_parts.to_a)
-  end
-
-  def create_v1_message
-    validate_message_content!(@response['response'])
-    create_outgoing_message(@response['response'], agent_name: @response['agent_name'])
   end
 
   def validate_message_content!(content)

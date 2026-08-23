@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Personalize a aparência do seu painel do Chatwoot.",
+        "NOTE": "Personalize a aparência do seu painel do KIRA.",
         "FONT_SIZE": {
           "TITLE": "Tamanho da fonte",
           "NOTE": "Ajuste o tamanho do texto do painel com base na sua preferência.",
@@ -673,7 +673,7 @@
       "SP_ENTITY_ID": {
         "LABEL": "SP Entity ID",
         "HELP": "Identificador exclusivo desta aplicação como provedor de serviço (gerado automaticamente).",
-        "TOOLTIP": "Identificador exclusivo do Chatwoot como Provedor de Serviço - configure-o nas configurações do seu IdP"
+        "TOOLTIP": "Identificador exclusivo do KIRA como Provedor de Serviço - configure-o nas configurações do seu IdP"
       },
       "IDP_ENTITY_ID": {
         "LABEL": "ID da Entidade do Provedor de Identidade",

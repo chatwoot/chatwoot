@@ -8,6 +8,7 @@
 #  document_ids       :jsonb
 #  faq_ids            :jsonb
 #  llm_model          :string
+#  outcome            :string
 #  result_type        :string
 #  run_context        :jsonb
 #  scenario_ids       :jsonb
@@ -37,8 +38,8 @@
 class Captain::AgentSession < ApplicationRecord
   self.table_name = 'agent_sessions'
 
-  SUBJECT_TYPES = { 'assistant' => 'Conversation', 'copilot' => 'CopilotThread' }.freeze
-  RESULT_TYPES = { 'assistant' => 'Message', 'copilot' => 'CopilotMessage' }.freeze
+  SUBJECT_TYPES = { 'assistant' => 'Conversation' }.freeze
+  RESULT_TYPES = { 'assistant' => 'Message' }.freeze
 
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
@@ -47,6 +48,16 @@ class Captain::AgentSession < ApplicationRecord
   belongs_to :result, ->(session) { where(account_id: session.account_id) }, polymorphic: true, optional: true
 
   enum :session_type, { assistant: 0, copilot: 1 }, prefix: :session
+
+  # How the assistant's turn ended. Captured at run time so a debugging trace
+  # can show the terminal decision without re-deriving it from run_context.
+  enum :outcome, {
+    simple_reply: 'simple_reply',
+    reply: 'reply',
+    handoff: 'handoff',
+    handoff_offer: 'handoff_offer',
+    error: 'error'
+  }, prefix: true
 
   scope :with_delivered_answer, -> { where(arel_table[:credits_consumed].gt(0)) }
 

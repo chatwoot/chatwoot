@@ -364,23 +364,15 @@ const actions = {
     { commit },
     { conversationId, messageId }
   ) {
-    try {
-      const { data } = await MessageApi.delete(conversationId, messageId);
-      commit(types.ADD_MESSAGE, data);
-      commit(types.DELETE_CONVERSATION_ATTACHMENTS, data);
-    } catch (error) {
-      throw error;
-    }
+    const { data } = await MessageApi.delete(conversationId, messageId);
+    commit(types.ADD_MESSAGE, data);
+    commit(types.DELETE_CONVERSATION_ATTACHMENTS, data);
   },
 
   deleteConversation: async ({ commit, dispatch }, conversationId) => {
-    try {
-      await ConversationApi.delete(conversationId);
-      commit(types.DELETE_CONVERSATION, conversationId);
-      dispatch('conversationStats/get', {}, { root: true });
-    } catch (error) {
-      throw error;
-    }
+    await ConversationApi.delete(conversationId);
+    commit(types.DELETE_CONVERSATION, conversationId);
+    dispatch('conversationStats/get', {}, { root: true });
   },
 
   addConversation({ commit, state, dispatch, rootState }, conversation) {
@@ -490,19 +482,15 @@ const actions = {
     { commit },
     { conversationId, customAttributes }
   ) => {
-    try {
-      const response = await ConversationApi.updateCustomAttributes({
-        conversationId,
-        customAttributes,
-      });
-      const { custom_attributes } = response.data;
-      commit(types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, {
-        conversationId,
-        customAttributes: custom_attributes,
-      });
-    } catch (error) {
-      throw error;
-    }
+    const response = await ConversationApi.updateCustomAttributes({
+      conversationId,
+      customAttributes,
+    });
+    const { custom_attributes } = response.data;
+    commit(types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, {
+      conversationId,
+      customAttributes: custom_attributes,
+    });
   },
 
   toggleBotAiReply: async ({ commit }, { conversationId, enabled }) => {

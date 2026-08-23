@@ -21,7 +21,6 @@ LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,Upgrade:,
 OPTIONS=cdhiI:l:rsuU:wvWK
 CWCTL_VERSION="3.5.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
-CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
 # if user does not specify an option
 if [ "$#" -eq 0 ]; then
@@ -570,7 +569,6 @@ function ssl_success_message() {
 Woot! Woot!! Chatwoot server installation is complete.
 The server will be accessible at https://$domain_name
 
-Join the community at https://chatwoot.com/community?utm_source=cwctl
 ***************************************************************************
 
 EOF
@@ -592,7 +590,7 @@ function cwctl_message() {
 #   None
 ##############################################################################
 function get_cw_version() {
-  CW_VERSION=$(curl -s https://app.chatwoot.com/api | python3 -c 'import sys,json;data=json.loads(sys.stdin.read()); print(data["version"])')
+  CW_VERSION=$(curl -s https://chatwoot.example.com/api | python3 -c 'import sys,json;data=json.loads(sys.stdin.read()); print(data["version"])')
 }
 
 ##############################################################################
@@ -679,10 +677,6 @@ EOF
 Woot! Woot!! Chatwoot server installation is complete.
 The server will be accessible at http://$public_ip:3000
 
-To configure a domain and SSL certificate, follow the guide at
-https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm?utm_source=cwctl
-
-Join the community at https://chatwoot.com/community?utm_source=cwctl
 ***************************************************************************
 
 EOF
@@ -779,7 +773,6 @@ Exit status:
 Returns 0 if successful; non-zero otherwise.
 
 Report bugs at https://github.com/chatwoot/chatwoot/issues
-Get help, https://chatwoot.com/community?utm_source=cwctl
 
 EOF
 }
@@ -1131,55 +1124,6 @@ function webserver() {
 
 
 ##############################################################################
-# Report cwctl events to hub
-# Globals:
-#   CHATWOOT_HUB_URL
-# Arguments:
-# event_name: Name of the event to report
-# event_data: Data to report
-# installation_identifier: Installation identifier
-# Outputs:
-#   None
-##############################################################################
-function report_event() {
-  local event_name="$1"
-  local event_data="$2"
-
-  CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
-
-  # get installation identifier
-  local installation_identifier=$(get_installation_identifier)
-
-  # Prepare the data for the request
-  local data="{\"installation_identifier\":\"$installation_identifier\",\"event_name\":\"$event_name\",\"event_data\":{\"action\":\"$event_data\"}}"
-
-  # Make the curl request to report the event
-  curl -X POST -H "Content-Type: application/json" -d "$data" "$CHATWOOT_HUB_URL" -s -o /dev/null
-}
-
-
-##############################################################################
-# Get installation identifier
-# Globals:
-#   None
-# Arguments:
-#   None
-# Outputs:
-#   installation_identifier
-##############################################################################
-function get_installation_identifier() {
-
-  local installation_identifier
-
-  installation_identifier=$(sudo -i -u chatwoot << "EOF"
-  cd chatwoot
-  RAILS_ENV=production bundle exec rake instance_id:get_installation_identifier
-EOF
-)
-  echo "$installation_identifier"
-}
-
-##############################################################################
 # Print cwctl version (-v/--version)
 # Globals:
 #   None
@@ -1282,52 +1226,42 @@ function main() {
   setup_logging
 
   if [ "$c" == "y" ]; then
-    report_event "cwctl" "console" > /dev/null 2>&1
     get_console
   fi
 
   if [ "$h" == "y" ]; then
-    report_event "cwctl" "help"  > /dev/null 2>&1
     help
   fi
 
   if [ "$i" == "y" ] || [ "$I" == "y" ]; then
     install
-    report_event "cwctl" "install"  > /dev/null 2>&1
   fi
 
   if [ "$l" == "y" ]; then
-    report_event "cwctl" "logs"  > /dev/null 2>&1
     get_logs
   fi
 
   if [ "$r" == "y" ]; then
-    report_event "cwctl" "restart"  > /dev/null 2>&1
     restart
   fi
 
   if [ "$s" == "y" ]; then
-    report_event "cwctl" "ssl"  > /dev/null 2>&1
     ssl
   fi
 
   if [ "$u" == "y" ] || [ "$U" == "y" ]; then
-    report_event "cwctl" "upgrade"  > /dev/null 2>&1
     upgrade
   fi
 
   if [ "$w" == "y" ]; then
-    report_event "cwctl" "webserver"  > /dev/null 2>&1
     webserver
   fi
 
   if [ "$v" == "y" ]; then
-    report_event "cwctl" "version"  > /dev/null 2>&1
     version
   fi
 
   if [ "$C" == "y" ]; then
-    report_event "cwctl" "convert"  > /dev/null 2>&1
     convert_deployment
   fi
 

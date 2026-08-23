@@ -61,7 +61,9 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def whatsapp_phone_number(identifier)
-    identifier = identifier.to_s
+    # Linked-device (LID) peers arrive as <number>@lid (also @s.whatsapp.net /
+    # @c.us); strip any server suffix so the digits-only guard below matches.
+    identifier = identifier.to_s.split('@').first
     return if identifier.blank?
     return unless identifier.match?(/\A\d{1,15}\z/)
 

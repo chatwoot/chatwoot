@@ -16,7 +16,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "ቻናል ይምረጡ",
-        "BODY": "ከChatwoot ጋር ለመያዝ የሚፈልጉትን አቅራቢ ይምረጡ።."
+        "BODY": "ከKIRA ጋር ለመያዝ የሚፈልጉትን አቅራቢ ይምረጡ።."
       },
       "INBOX": {
         "TITLE": "ኢንቦክስ ይፍጠሩ",
@@ -42,7 +42,7 @@
         "PLACEHOLDER": "የድር ጣቢያ ስምዎን ያስገቡ (ለምሳሌ፡ Acme Inc)"
       },
       "FB": {
-        "HELP": "ማስታወሻ፡ በመግባት ብቻ የገጹ መልእክቶችን ብቻ እንደምንያዝ ነው። የግል መልእክቶችዎን በChatwoot ማድረስ አይቻልም።",
+        "HELP": "ማስታወሻ፡ በመግባት ብቻ የገጹ መልእክቶችን ብቻ እንደምንያዝ ነው። የግል መልእክቶችዎን በKIRA ማድረስ አይቻልም።",
         "CHOOSE_PAGE": "ገጽ ይምረጡ",
         "CHOOSE_PLACEHOLDER": "ከዝርዝር ገጽ ይምረጡ",
         "INBOX_NAME": "የኢንቦክስ ስም",
@@ -50,7 +50,7 @@
         "PICK_NAME": "ለInboxዎ ስም ይምረጡ",
         "PICK_A_VALUE": "እሴት ይምረጡ",
         "CREATE_INBOX": "Inbox ፍጠር",
-        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. We’re working closely with Meta to resolve it as quickly as possible.",
         "STATUS_LINK": "View status updates"
       },
       "INSTAGRAM": {
@@ -61,8 +61,8 @@
         "ERROR_AUTH": "Instagram ጋር ለመገናኘት ስህተት አጋጥሟል፣ እባክዎ እንደገና ይሞክሩ",
         "NEW_INBOX_SUGGESTION": "ይህ የInstagram መለያ ቀድሞ ወደ ሌላ ኢንቦክስ ተገናኝቷል እና አሁን ወደዚህ ተለዋዋጭ ሆኗል። አዲስ መልእክቶች ሁሉ እዚህ ይታያሉ። አሮጌው ኢንቦክስ ለዚህ መለያ መልእክት ማስተላለፍ እና መቀበል አይችልም።.",
         "DUPLICATE_INBOX_BANNER": "ይህ የInstagram መለያ ወደ አዲሱ የInstagram ቻናል ኢንቦክስ ተለዋዋጭ ሆኗል። ከዚህ ኢንቦክስ የInstagram መልእክቶችን መላክ/መቀበል አትችሉም።.",
-        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
-        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
+        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. We’re working closely with Meta to resolve it as quickly as possible.",
+        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with KIRA. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
         "STATUS_LINK": "View status updates"
       },
       "TIKTOK": {
@@ -329,17 +329,17 @@
           "MANUAL_LINK_TEXT": "የእጅ ማቀናበሪያ ሂደት",
           "ACCESS_REQUEST": {
             "TITLE": "ከMeta ጋር ፈጣን ቅንብር",
-            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which KIRA account needs access.",
             "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
             "BUTTON": "Request access"
           },
-          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
+          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
           "STATUS_LINK": "View status updates",
           "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "WhatsApp ቻናሉን ማስቀመጥ አልተቻለም",
-          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
+          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
           "STATUS_LINK": "View status updates"
         }
       },
@@ -469,7 +469,7 @@
       },
       "AUTH": {
         "TITLE": "ቻናል ይምረጡ",
-        "DESC": "Chatwoot የቀጥታ ውይይት ዊጅቶች፣ Facebook Messenger፣ WhatsApp፣ ኢሜይሎች እና ሌሎች ቻናሎችን ይደግፋል። በተለይ ቻናል ለመፍጠር ከፈለጉ በAPI ቻናል መፍጠር ይችላሉ። ለመጀመር ከታች አንዱን ቻናል ይምረጡ።.",
+        "DESC": "KIRA የቀጥታ ውይይት ዊጅቶች፣ Facebook Messenger፣ WhatsApp፣ ኢሜይሎች እና ሌሎች ቻናሎችን ይደግፋል። በተለይ ቻናል ለመፍጠር ከፈለጉ በAPI ቻናል መፍጠር ይችላሉ። ለመጀመር ከታች አንዱን ቻናል ይምረጡ።.",
         "TITLE_NEXT": "ቅንብሩን አሟልተው ያጠናቀቁ",
         "TITLE_FINISH": "እሺ!",
         "CHANNEL": {
@@ -531,11 +531,11 @@
       },
       "DETAILS": {
         "TITLE": "የኢንቦክስ ዝርዝሮች",
-        "DESC": "ከታች ያለው ከዝርዝር ማስተካከያ በተጠቃሚው ፌስቡክ ገጽ ወደ Chatwoot ለመገናኘት ይምረጡ። ለምርጥ መለያየት የእርስዎን ኢንቦክስ በተለየ ስም ማቅረብ ይችላሉ።"
+        "DESC": "ከታች ያለው ከዝርዝር ማስተካከያ በተጠቃሚው ፌስቡክ ገጽ ወደ KIRA ለመገናኘት ይምረጡ። ለምርጥ መለያየት የእርስዎን ኢንቦክስ በተለየ ስም ማቅረብ ይችላሉ።"
       },
       "FINISH": {
         "TITLE": "ተሳክቷል!",
-        "DESC": "የFacebook ገጹን በChatwoot ጋር በተሳካ ሁኔታ አገናኝተዋል። ቀጣዩ ጊዜ ደንበኛ ገጹን ሲያስተናግድ ውይይቱ በራስህ ኢንቦክስ ውስጥ በራስህ ይታያል።<br>እኛ እንዲሁም በድር ጣቢያዎ በቀላሉ ሊጨምሩት የሚችለውን የዊጅት ስክሪፕት እንሰጣለን። ይህ በድር ጣቢያዎ ሲኖር ደንበኞች ከማንኛውም ውጪ መሣሪያ እገዛ ሳይወስዱ ቀጥታ ከድር ጣቢያዎ መልእክት ማስተናገድ ይችላሉ እና ውይይቱ በChatwoot ውስጥ እዚህ ይታያል።<br>አሪፍ ነው, እኛም እንሞክራለን :)"
+        "DESC": "የFacebook ገጹን በKIRA ጋር በተሳካ ሁኔታ አገናኝተዋል። ቀጣዩ ጊዜ ደንበኛ ገጹን ሲያስተናግድ ውይይቱ በራስህ ኢንቦክስ ውስጥ በራስህ ይታያል።<br>እኛ እንዲሁም በድር ጣቢያዎ በቀላሉ ሊጨምሩት የሚችለውን የዊጅት ስክሪፕት እንሰጣለን። ይህ በድር ጣቢያዎ ሲኖር ደንበኞች ከማንኛውም ውጪ መሣሪያ እገዛ ሳይወስዱ ቀጥታ ከድር ጣቢያዎ መልእክት ማስተናገድ ይችላሉ እና ውይይቱ በKIRA ውስጥ እዚህ ይታያል።<br>አሪፍ ነው, እኛም እንሞክራለን :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "የኢሜል አቅራቢዎን ይምረጡ",
@@ -903,7 +903,7 @@
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when Chatwoot cannot retrieve its message templates. Chatwoot uses this token only for template synchronization.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when KIRA cannot retrieve its message templates. KIRA uses this token only for template synchronization.",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Enter the business management token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "Add",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Replace",
@@ -978,7 +978,7 @@
           "INBOX": "Inbox",
           "PHONE_NUMBER": "ስልክ ቁጥር",
           "NOT_ENTERED": "Not entered",
-          "VERIFY_NOTICE": "Chatwoot will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
+          "VERIFY_NOTICE": "KIRA will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
           "BACK": "Back",
           "CANCEL": "Cancel",
           "CONTINUE": "ቀጥል",
@@ -1000,7 +1000,7 @@
           },
           "REVIEW_MIGRATION": {
             "TITLE": "Review migration",
-            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
+            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. KIRA will verify the token, WABA, and phone number with Meta before applying changes."
           }
         }
       },
@@ -1343,7 +1343,7 @@
         "USER_MESSAGE": "ሰላም",
         "AGENT_MESSAGE": "ሰላም"
       },
-      "BRANDING_TEXT": "በChatwoot የተነሳ",
+      "BRANDING_TEXT": "በKIRA የተነሳ",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

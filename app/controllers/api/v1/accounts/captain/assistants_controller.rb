@@ -1,7 +1,9 @@
 class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::BaseController
   before_action -> { check_authorization(Captain::Assistant) }
 
-  before_action :set_assistant, only: [:show, :update, :destroy, :playground, :metrics, :faq_stats, :summary, :drilldown, :intents]
+  before_action :set_assistant, only: [:show, :update, :destroy, :playground, :metrics, :faq_stats, :summary, :drilldown, :intents, :traces]
+
+  RESULTS_PER_PAGE = 25
 
   def index
     @assistants = account_assistants.ordered
@@ -28,18 +30,20 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def playground
-    response = if captain_v2_enabled?
-                 Captain::Assistant::AgentRunnerService.new(assistant: @assistant, source: 'playground').generate_response(
-                   message_history: playground_message_history
-                 )
-               else
-                 Captain::Llm::AssistantChatService.new(assistant: @assistant, source: 'playground').generate_response(
-                   additional_message: playground_params[:message_content],
-                   message_history: message_history
-                 )
-               end
+    runner = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, source: 'playground')
+    response = runner.generate_response(
+      message_history: playground_message_history
+    )
 
-    render json: response
+    render json: response.merge('decision_trace' => runner.decision_trace)
+  end
+
+  def traces
+    @traces = @assistant.agent_traces.from_chat.includes(:conversation)
+                        .order(created_at: :desc, id: :desc)
+    @traces = @traces.for_conversation(params[:conversation_id]) if params[:conversation_id].present?
+    @traces = @traces.page(params[:page] || 1).per(RESULTS_PER_PAGE)
+    @traces_count = @traces.total_count
   end
 
   def tools
@@ -133,7 +137,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   def assistant_params
     assistant_config_attributes = [
       :product_name, :feature_faq, :feature_memory, :feature_citation,
-      :feature_contact_attributes, :welcome_message, :handoff_message,
+      :feature_contact_attributes, :welcome_message, :handoff_message, :handoff_offer_message,
       :resolution_message, :instructions, :temperature, :auto_resolve_mode,
       :response_window
     ]
@@ -187,9 +191,5 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     return history if history.last == current_user_message
 
     history + [current_user_message]
-  end
-
-  def captain_v2_enabled?
-    @assistant.account.feature_enabled?('captain_integration_v2')
   end
 end

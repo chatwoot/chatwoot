@@ -44,6 +44,8 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+      # Only surface warnings/errors in `docker compose logs` for sidekiq.
+      - LOG_LEVEL=warn
     command:
       - bundle
       - exec

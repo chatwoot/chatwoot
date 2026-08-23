@@ -17,7 +17,7 @@
       "ERROR": "Une erreur s'est produite lors de la connexion à Shopify. Veuillez réessayer ou contacter le support si le problème persiste."
     },
     "HEADER": "Intégrations",
-    "DESCRIPTION": "Chatwoot s'intègre à plusieurs outils et services pour améliorer l'efficacité de votre équipe. Explorez la liste ci-dessous pour configurer vos applications favorites.",
+    "DESCRIPTION": "KIRA s'intègre à plusieurs outils et services pour améliorer l'efficacité de votre équipe. Explorez la liste ci-dessous pour configurer vos applications favorites.",
     "LEARN_MORE": "En savoir plus sur les intégrations",
     "LOADING": "Récupération des intégrations",
     "SEARCH_PLACEHOLDER": "Rechercher des intégrations...",
@@ -33,7 +33,7 @@
       "LEARN_MORE": "En savoir plus sur les webhooks",
       "PAYWALL": {
         "TITLE": "Les webhooks sont disponibles avec les forfaits payants",
-        "AVAILABLE_ON": "Utilisez les webhooks pour recevoir des événements en temps réel depuis votre compte Chatwoot.",
+        "AVAILABLE_ON": "Utilisez les webhooks pour recevoir des événements en temps réel depuis votre compte KIRA.",
         "UPGRADE_PROMPT": "Mettez à niveau vers le plan Startups, Business ou Enterprise pour utiliser les webhooks.",
         "UPGRADE_NOW": "Mettre à niveau maintenant",
         "CANCEL_ANYTIME": "Changez ou annulez votre forfait à tout moment."
@@ -51,7 +51,7 @@
       "NO_RESULTS": "Aucun webhook trouvé correspondant à votre recherche",
       "FORM": {
         "CANCEL": "Annuler",
-        "DESC": "Les événements Webhook vous fournissent des informations en temps réel sur ce qui se passe dans votre compte Chatwoot. Veuillez entrer une URL valide pour configurer un callback.",
+        "DESC": "Les événements Webhook vous fournissent des informations en temps réel sur ce qui se passe dans votre compte KIRA. Veuillez entrer une URL valide pour configurer un callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Evénements",
           "EVENTS": {
@@ -86,7 +86,7 @@
       "HEADER_BTN_TXT": "Ajouter un nouveau Webhook",
       "LOADING": "Récupération des Webhooks connectés",
       "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Les Webhooks sont des fonctions de rappel HTTP qui peuvent être définis pour chaque compte. Ils sont déclenchés par des événements comme la création de messages dans Chatwoot. Vous pouvez créer plusieurs Webhook pour ce compte. <br /><br /> Pour créer un <b>Webhook</b>, cliquez sur le bouton <b>Ajouter un nouveau webhook</b> . Vous pouvez également supprimer n'importe quel Webhook existant en cliquant sur le bouton Supprimer.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Les Webhooks sont des fonctions de rappel HTTP qui peuvent être définis pour chaque compte. Ils sont déclenchés par des événements comme la création de messages dans KIRA. Vous pouvez créer plusieurs Webhook pour ce compte. <br /><br /> Pour créer un <b>Webhook</b>, cliquez sur le bouton <b>Ajouter un nouveau webhook</b> . Vous pouvez également supprimer n'importe quel Webhook existant en cliquant sur le bouton Supprimer.</p>",
       "LIST": {
         "404": "Il n'y a aucun Webhook configuré pour ce compte.",
         "TITLE": "Gérer les webhooks",
@@ -134,14 +134,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Utilisation de l'intégration Slack",
-        "BODY": "Grâce à cette intégration, toutes vos conversations entrantes seront synchronisées avec le canal ***{selectedChannelName}*** de votre espace de travail Slack. Vous pourrez gérer toutes vos conversations client directement dans ce canal et ne manquer aucun message.\n\nVoici les principales fonctionnalités de l’intégration :\n\n**Répondre aux conversations depuis Slack :** pour répondre à une conversation dans le canal Slack ***{selectedChannelName}***, saisissez simplement votre message et envoyez-le dans un fil de discussion. Une réponse sera alors envoyée au client via Chatwoot. C’est aussi simple que cela !\n\n**Créer des notes privées :** si vous souhaitez créer des notes privées plutôt que des réponses, commencez votre message par ***`note:`***. Votre message restera ainsi privé et ne sera pas visible par le client.\n\n**Associer un profil d’agent :** si la personne qui répond dans Slack possède un profil d’agent Chatwoot avec la même adresse e-mail, les réponses seront automatiquement associées à ce profil. Vous pourrez ainsi facilement savoir qui a dit quoi et à quel moment. Si la personne ne possède pas de profil d’agent associé, les réponses apparaîtront au client comme provenant du profil du bot.",
+        "BODY": "Grâce à cette intégration, toutes vos conversations entrantes seront synchronisées avec le canal ***{selectedChannelName}*** de votre espace de travail Slack. Vous pourrez gérer toutes vos conversations client directement dans ce canal et ne manquer aucun message.\n\nVoici les principales fonctionnalités de l’intégration :\n\n**Répondre aux conversations depuis Slack :** pour répondre à une conversation dans le canal Slack ***{selectedChannelName}***, saisissez simplement votre message et envoyez-le dans un fil de discussion. Une réponse sera alors envoyée au client via KIRA. C’est aussi simple que cela !\n\n**Créer des notes privées :** si vous souhaitez créer des notes privées plutôt que des réponses, commencez votre message par ***`note:`***. Votre message restera ainsi privé et ne sera pas visible par le client.\n\n**Associer un profil d’agent :** si la personne qui répond dans Slack possède un profil d’agent KIRA avec la même adresse e-mail, les réponses seront automatiquement associées à ce profil. Vous pourrez ainsi facilement savoir qui a dit quoi et à quel moment. Si la personne ne possède pas de profil d’agent associé, les réponses apparaîtront au client comme provenant du profil du bot.",
         "SELECTED": "sélectionné"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Sélectionnez un canal",
         "UPDATE": "Mettre à jour",
         "BUTTON_TEXT": "Connecter le canal",
-        "DESCRIPTION": "Votre espace de travail Slack est maintenant lié à Chatwoot. Cependant, l'intégration est actuellement inactive. Pour activer l'intégration et connecter un canal à Chatwoot, veuillez cliquer sur le bouton ci-dessous.\n\n**Note:** Si vous essayez de connecter un canal privé, ajoutez l'application Chatwoot au canal Slack avant de procéder à cette étape.",
+        "DESCRIPTION": "Votre espace de travail Slack est maintenant lié à KIRA. Cependant, l'intégration est actuellement inactive. Pour activer l'intégration et connecter un canal à KIRA, veuillez cliquer sur le bouton ci-dessous.\n\n**Note:** Si vous essayez de connecter un canal privé, ajoutez l'application KIRA au canal Slack avant de procéder à cette étape.",
         "ATTENTION_REQUIRED": "Attention requise",
         "EXPIRED": "Votre intégration Slack a expiré. Pour continuer à recevoir des messages sur Slack, veuillez supprimer l'intégration et connecter à nouveau votre espace de travail."
       },
@@ -243,7 +243,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Applications du tableau de bord",
       "HEADER_BTN_TXT": "Ajouter une nouvelle application de tableau de bord",
-      "SIDEBAR_TXT": "<p><b>Les applications du tableau de bord</b></p><p>Les applications du tableau de bord permettent aux organisations d'intégrer une application dans le tableau de bord Chatwoot pour fournir le contexte aux agents d'assistance client. Cette fonctionnalité vous permet de créer une application indépendamment et d'intégrer cela dans le tableau de bord pour fournir les informations de l'utilisateur, leurs commandes, ou leur historique de paiement précédent.</p><p>Lorsque vous intégrez votre application en utilisant le tableau de bord dans Chatwoot, votre application obtiendra le contexte de la conversation et le contact comme un événement de fenêtre. Implémentez un listener pour l'événement message sur votre page pour recevoir le contexte.</p><p>Pour ajouter une nouvelle application de tableau de bord, cliquez sur le bouton 'Ajouter une nouvelle application de tableau de bord'.</p>",
+      "SIDEBAR_TXT": "<p><b>Les applications du tableau de bord</b></p><p>Les applications du tableau de bord permettent aux organisations d'intégrer une application dans le tableau de bord KIRA pour fournir le contexte aux agents d'assistance client. Cette fonctionnalité vous permet de créer une application indépendamment et d'intégrer cela dans le tableau de bord pour fournir les informations de l'utilisateur, leurs commandes, ou leur historique de paiement précédent.</p><p>Lorsque vous intégrez votre application en utilisant le tableau de bord dans KIRA, votre application obtiendra le contexte de la conversation et le contact comme un événement de fenêtre. Implémentez un listener pour l'événement message sur votre page pour recevoir le contexte.</p><p>Pour ajouter une nouvelle application de tableau de bord, cliquez sur le bouton 'Ajouter une nouvelle application de tableau de bord'.</p>",
       "DESCRIPTION": "Les applications du tableau de bord permettent aux organisations d'intégrer une application dans le tableau de bord pour fournir le contexte des agents d'assistance client. Cette fonctionnalité vous permet de créer une application de manière indépendante et d'intégrer les informations de l'utilisateur, leurs commandes ou leur historique de paiement précédent.",
       "LEARN_MORE": "En savoir plus sur les applications du tableau de bord",
       "COUNT": "{n} application de tableau de bord | {n} applications de tableau de bord",

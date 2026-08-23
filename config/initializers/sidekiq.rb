@@ -7,29 +7,20 @@ Sidekiq.configure_client do |config|
   config.redis = Redis::Config.app
 end
 
-# Logs whenever a job is pulled off Redis for execution.
-class ChatwootDequeuedLogger
-  def call(_worker, job, queue)
-    payload = job['args'].first
-    Sidekiq.logger.info("Dequeued #{job['wrapped']} #{payload['job_id']} from #{queue}")
-    yield
-  end
-end
-
 Sidekiq.configure_server do |config|
   config.redis = Redis::Config.app
 
   config.server_middleware do |chain|
     chain.add CaptainResponseDequeuedLogger
-
-    chain.add ChatwootDequeuedLogger if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_SIDEKIQ_DEQUEUE_LOGGER', false))
   end
 
-  # skip the default start stop logging
+  # Keep production job logs compact and JSON-formatted for the log collector.
+  # LOG_LEVEL is set to `warn` on the sidekiq compose service to silence the
+  # per-job info chatter; default to `info` elsewhere.
   if Rails.env.production?
     config.logger.formatter = Sidekiq::Logger::Formatters::JSON.new
     config[:skip_default_job_logging] = true
-    config.logger.level = Logger.const_get(ENV.fetch('LOG_LEVEL', 'info').upcase.to_s)
+    config.logger.level = Logger.const_get(ENV.fetch('LOG_LEVEL', 'info').upcase)
   end
 end
 

@@ -16,7 +16,7 @@ class Notification::MarkConversationReadService
       account: account,
       primary_actor: conversation,
       read_at: nil
-    )
+    ).includes(:account, :primary_actor, :secondary_actor)
   end
 
   def read_at

@@ -107,7 +107,7 @@
       "BACKUP_TITLE": "使用備用碼",
       "BACKUP_DESC": "若您無法使用驗證器應用程式，可以使用設定 2FA 時所儲存的備用碼。每組備用碼僅能使用一次。",
       "CONTACT_TITLE": "需要更多協助？",
-      "CONTACT_DESC_CLOUD": "若您無法使用驗證器應用程式及備用碼，請聯繫 Chatwoot 支援團隊以取得協助。",
+      "CONTACT_DESC_CLOUD": "若您無法使用驗證器應用程式及備用碼，請聯繫 KIRA 支援團隊以取得協助。",
       "CONTACT_DESC_SELF_HOSTED": "若您無法使用驗證器應用程式及備用碼，請聯繫您的管理員以取得協助。"
     },
     "VERIFICATION_FAILED": "驗證失敗，請再試一次。"

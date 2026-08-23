@@ -43,8 +43,6 @@ export const actions = {
 
       commit(types.SET_SLA_REPORTS, payload);
       commit(types.SET_SLA_REPORTS_META, meta);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_SLA_REPORTS_UI_FLAG, { isFetching: false });
     }

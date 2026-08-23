@@ -425,7 +425,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/minu-portaal/et-EE/kategooriad/minu-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/minu-portaal/et-EE/kategooriad/minu-slug",
           "ERROR": "Lühinimi on kohustuslik"
         },
         "DESCRIPTION": {
@@ -456,7 +456,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/minu-portaal/et-EE/kategooriad/minu-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/minu-portaal/et-EE/kategooriad/minu-slug",
           "ERROR": "Lühinimi on kohustuslik"
         },
         "DESCRIPTION": {
@@ -693,7 +693,7 @@
             "LABEL": "Lühilink",
             "PLACEHOLDER": "Category slug for urls",
             "ERROR": "Lühinimi on kohustuslik",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chatwoot.example.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Kirjeldus",
@@ -853,7 +853,7 @@
       "CONFIRM_BUTTON_LABEL": "Loo",
       "NAME": {
         "LABEL": "Nimi",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | KIRA",
         "MESSAGE": "Vali oma portaalile nimi.",
         "ERROR": "Nimi on kohustuslik"
       },
@@ -976,7 +976,7 @@
         "HEADER": "Integratsioonid",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with Chatwoot",
+          "TITLE": "Live chat with KIRA",
           "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
           "PLACEHOLDER": "Vali otsevestluse vidin",
           "NONE_OPTION": "Ühtegi vidinat"

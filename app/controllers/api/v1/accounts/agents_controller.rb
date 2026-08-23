@@ -72,7 +72,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def agents
-    @agents ||= Current.account.users.order_by_full_name.includes(:account_users, { avatar_attachment: [:blob] })
+    @agents ||= Current.account.users.order_by_full_name.includes(account_users: :account, avatar_attachment: :blob)
   end
 
   def bulk_create_agents(emails)

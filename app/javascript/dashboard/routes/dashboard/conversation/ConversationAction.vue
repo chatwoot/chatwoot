@@ -114,8 +114,7 @@ export default {
             this.$store.dispatch('setCurrentChatAssignee', {
               conversationId: this.currentChat.id,
               assignee: this.currentChat.meta?.assignee ?? null,
-              assigneeType:
-                this.currentChat.meta?.assignee_type ?? null,
+              assigneeType: this.currentChat.meta?.assignee_type ?? null,
             });
           });
       },
@@ -176,9 +175,7 @@ export default {
             );
           })
           .catch(() => {
-            useAlert(
-              this.$t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.FAILED')
-            );
+            useAlert(this.$t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.FAILED'));
             this.$store.dispatch('setCurrentChatPriority', {
               priority: oldValue ?? null,
               conversationId,

@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Personnalisez l'apparence de votre tableau de bord Chatwoot.",
+        "NOTE": "Personnalisez l'apparence de votre tableau de bord KIRA.",
         "FONT_SIZE": {
           "TITLE": "Taille de police",
           "NOTE": "Ajustez la taille du texte sur le tableau de bord en fonction de vos préférences.",
@@ -673,7 +673,7 @@
       "SP_ENTITY_ID": {
         "LABEL": "ID de l'entité SP",
         "HELP": "Identifiant unique pour cette application en tant que fournisseur de services (auto-généré).",
-        "TOOLTIP": "Identifiant unique de Chatwoot en tant que fournisseur de services — Configurez-le dans les paramètres de votre IdP"
+        "TOOLTIP": "Identifiant unique de KIRA en tant que fournisseur de services — Configurez-le dans les paramètres de votre IdP"
       },
       "IDP_ENTITY_ID": {
         "LABEL": "ID de l'entité du fournisseur d'identité",
@@ -768,7 +768,7 @@
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte Chatwoot. Veuillez créer un nouveau compte pour continuer.",
+    "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte KIRA. Veuillez créer un nouveau compte pour continuer.",
     "NEW_ACCOUNT": "Nouveau compte",
     "SELECTOR_SUBTITLE": "Créer un nouveau compte",
     "API": {

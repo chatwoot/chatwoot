@@ -606,7 +606,7 @@ describe('#getters', () => {
     });
 
     it('shows all conversations in an inbox the custom-role user is a collaborator of', () => {
-      const conversations = [
+      const inboxConversations = [
         {
           id: 1,
           status: 'open',
@@ -631,7 +631,7 @@ describe('#getters', () => {
       ];
 
       const state = {
-        allConversations: conversations,
+        allConversations: inboxConversations,
         chatSortFilter: 'last_activity_at_desc',
         appliedFilters: [],
       };
@@ -661,7 +661,7 @@ describe('#getters', () => {
       // Even though neither conversation is assigned to the user, being a
       // collaborator of inbox 100 lets them see all conversations in it. The
       // conversation in inbox 200 stays hidden.
-      expect(result).toEqual([conversations[1], conversations[0]]);
+      expect(result).toEqual([inboxConversations[1], inboxConversations[0]]);
     });
 
     it('filters conversations for custom role with no permissions', () => {

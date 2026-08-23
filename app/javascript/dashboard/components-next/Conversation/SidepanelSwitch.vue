@@ -43,7 +43,9 @@ const handleConversationSidebarToggle = () => {
 const handleCopilotSidebarToggle = () => {
   const isOpeningCopilot = !isCopilotPanelOpen.value;
   updateUISettings({
-    is_contact_sidebar_open: isOpeningCopilot ? false : isContactSidebarOpen.value,
+    is_contact_sidebar_open: isOpeningCopilot
+      ? false
+      : isContactSidebarOpen.value,
     is_copilot_panel_open: isOpeningCopilot,
   });
 };

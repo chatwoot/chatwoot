@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Sučelje",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your KIRA dashboard.",
         "FONT_SIZE": {
           "TITLE": "Veličina fonta",
           "NOTE": "Prilagodite veličinu teksta na cijeloj nadzornoj ploči prema vašim željama.",
@@ -673,7 +673,7 @@
       "SP_ENTITY_ID": {
         "LABEL": "SP ID entiteta",
         "HELP": "Unique identifier for this application as a service provider (auto-generated).",
-        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+        "TOOLTIP": "Unique identifier for KIRA as the Service Provider - Configure this in your IdP settings"
       },
       "IDP_ENTITY_ID": {
         "LABEL": "ID entiteta pružatelja identiteta",
@@ -768,13 +768,13 @@
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any KIRA accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Novi račun",
     "SELECTOR_SUBTITLE": "Kreiraj novi račun",
     "API": {
       "SUCCESS_MESSAGE": "Račun je uspješno kreiran",
       "EXIST_MESSAGE": "Račun već postoji",
-      "ERROR_MESSAGE": "Nije moguće povezati se na Chatwoot Server, molimo pokušajte kasnije"
+      "ERROR_MESSAGE": "Nije moguće povezati se na KIRA Server, molimo pokušajte kasnije"
     },
     "FORM": {
       "NAME": {

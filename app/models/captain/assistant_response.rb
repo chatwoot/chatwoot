@@ -6,7 +6,7 @@
 #  answer            :text             not null
 #  documentable_type :string
 #  edited            :boolean          default(FALSE), not null
-#  embedding         :vector(1536)
+#  embedding         :vector(1024)
 #  question          :string           not null
 #  status            :integer          default("approved"), not null
 #  created_at        :datetime         not null

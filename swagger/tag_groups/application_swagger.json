@@ -1,13 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Chatwoot",
-    "description": "This is the API documentation for Chatwoot server.",
+    "title": "KIRA",
+    "description": "This is the API documentation for KIRA server.",
     "version": "1.1.0",
-    "termsOfService": "https://www.chatwoot.com/terms-of-service/",
-    "contact": {
-      "email": "hello@chatwoot.com"
-    },
     "license": {
       "name": "MIT License",
       "url": "https://opensource.org/licenses/MIT"
@@ -15,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "https://app.chatwoot.com/"
+      "url": "https://chatwoot.example.com/"
     }
   ],
   "paths": {
@@ -2457,7 +2453,7 @@
                       "color": "#1F93FF",
                       "custom_domain": "chatwoot.help",
                       "header_text": "Handbook",
-                      "homepage_link": "https://www.chatwoot.com",
+                      "homepage_link": "https://example.com",
                       "name": "Handbook",
                       "page_title": "Handbook",
                       "slug": "handbook",
@@ -2476,11 +2472,11 @@
                         "id": 37,
                         "avatar_url": "https://example.com/avatar.png",
                         "channel_id": 1,
-                        "name": "Chatwoot",
+                        "name": "KIRA",
                         "channel_type": "Channel::WebWidget",
                         "greeting_enabled": true,
                         "widget_color": "#1F93FF",
-                        "website_url": "chatwoot.com"
+                        "website_url": "example.com"
                       },
                       "logo": {
                         "id": 19399916,
@@ -2578,15 +2574,15 @@
                     },
                     "custom_domain": "chatwoot.help",
                     "header_text": "Handbook",
-                    "homepage_link": "https://www.chatwoot.com",
+                    "homepage_link": "https://example.com",
                     "name": "Handbook",
                     "slug": "handbook",
                     "page_title": "Handbook",
                     "account_id": 123,
                     "inbox": {
                       "id": 123,
-                      "name": "Chatwoot",
-                      "website_url": "chatwoot.com",
+                      "name": "KIRA",
+                      "website_url": "example.com",
                       "channel_type": "Channel::WebWidget",
                       "avatar_url": "https://example.com/avatar.png",
                       "widget_color": "#1F93FF",
@@ -2602,7 +2598,7 @@
                       "enable_email_collect": true,
                       "csat_survey_enabled": true,
                       "timezone": "America/Los_Angeles",
-                      "business_name": "Chatwoot",
+                      "business_name": "KIRA",
                       "hmac_mandatory": true
                     },
                     "logo": {
@@ -2989,7 +2985,7 @@
         ],
         "operationId": "newConversation",
         "summary": "Create New Conversation",
-        "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://www.chatwoot.com/hc/user-guide/articles/1677839703-how-to-create-an-api-channel-inbox#send-messages-to-the-api-channel",
+        "description": "Creating a conversation in KIRA.id  requires a source id.",
         "security": [
           {
             "userApiKey": []
@@ -5577,7 +5573,7 @@
         ],
         "operationId": "create-a-new-message-in-a-conversation",
         "summary": "Create New Message",
-        "description": "Create a new message in the conversation.\n\nUse `application/json` for text messages and `multipart/form-data` when the\nmessage includes file attachments.\n\n### Multipart attachment request\n\nSend files with the `attachments[]` form field. `curl -F` sets the\n`multipart/form-data` content type and boundary automatically.\n\n```bash\ncurl -X POST \"https://app.chatwoot.com/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages\" \\\n  -H \"api-access-token: <your-api-token>\" \\\n  -F \"content=Here is the screenshot\" \\\n  -F \"message_type=outgoing\" \\\n  -F \"private=false\" \\\n  -F \"attachments[]=@/path/to/screenshot.png\"\n```\n\n## WhatsApp Template Messages\n\nFor WhatsApp channels, you can send structured template messages using the `template_params` field. \nTemplates must be pre-approved in WhatsApp Business Manager.\n\nBy default, `content` is treated as the already-rendered transcript text for\ncompatibility with existing API and mobile clients. To submit the original\ntemplate body instead, set `template_params.content_mode` to `raw_template`;\nChatwoot will substitute `processed_params.body` before saving the transcript.\n\n### Example Templates\n\n**Text with Image Header:**\n```json\n{\n  \"content\": \"Hi your order 121212 is confirmed. Please wait for further updates\",\n  \"template_params\": {\n    \"name\": \"order_confirmation\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"1\": \"121212\"\n      },\n      \"header\": {\n        \"media_url\": \"https://picsum.photos/200/300\",\n        \"media_type\": \"image\"\n      }\n    }\n  }\n}\n```\n\n**Text with Copy Code Button:**\n```json\n{\n  \"content\": \"Special offer! Get 30% off your next purchase. Use the code below\",\n  \"template_params\": {\n    \"name\": \"discount_coupon\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"discount_percentage\": \"30\"\n      },\n      \"buttons\": [{\n        \"type\": \"copy_code\",\n        \"parameter\": \"SAVE20\"\n      }]\n    }\n  }\n}\n```\n",
+        "description": "Create a new message in the conversation.\n\nUse `application/json` for text messages and `multipart/form-data` when the\nmessage includes file attachments.\n\n### Multipart attachment request\n\nSend files with the `attachments[]` form field. `curl -F` sets the\n`multipart/form-data` content type and boundary automatically.\n\n```bash\ncurl -X POST \"https://chatwoot.example.com/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages\" \\\n  -H \"api-access-token: <your-api-token>\" \\\n  -F \"content=Here is the screenshot\" \\\n  -F \"message_type=outgoing\" \\\n  -F \"private=false\" \\\n  -F \"attachments[]=@/path/to/screenshot.png\"\n```\n\n## WhatsApp Template Messages\n\nFor WhatsApp channels, you can send structured template messages using the `template_params` field. \nTemplates must be pre-approved in WhatsApp Business Manager.\n\nBy default, `content` is treated as the already-rendered transcript text for\ncompatibility with existing API and mobile clients. To submit the original\ntemplate body instead, set `template_params.content_mode` to `raw_template`;\nKIRA will substitute `processed_params.body` before saving the transcript.\n\n### Example Templates\n\n**Text with Image Header:**\n```json\n{\n  \"content\": \"Hi your order 121212 is confirmed. Please wait for further updates\",\n  \"template_params\": {\n    \"name\": \"order_confirmation\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"1\": \"121212\"\n      },\n      \"header\": {\n        \"media_url\": \"https://picsum.photos/200/300\",\n        \"media_type\": \"image\"\n      }\n    }\n  }\n}\n```\n\n**Text with Copy Code Button:**\n```json\n{\n  \"content\": \"Special offer! Get 30% off your next purchase. Use the code below\",\n  \"template_params\": {\n    \"name\": \"discount_coupon\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"discount_percentage\": \"30\"\n      },\n      \"buttons\": [{\n        \"type\": \"copy_code\",\n        \"parameter\": \"SAVE20\"\n      }]\n    }\n  }\n}\n```\n",
         "security": [
           {
             "userApiKey": []
@@ -7566,7 +7562,7 @@
             "userApiKey": []
           }
         ],
-        "description": "Get conversation counts grouped by channel type and status for a given date range.\nReturns statistics for each channel type including open, resolved, pending, snoozed, and total conversation counts.\n\n**Note:** This API endpoint is available only in Chatwoot version 4.10.0 and above. The date range is limited to a maximum of 6 months.\n",
+        "description": "Get conversation counts grouped by channel type and status for a given date range.\nReturns statistics for each channel type including open, resolved, pending, snoozed, and total conversation counts.\n\n**Note:** This API endpoint is available only in KIRA version 4.10.0 and above. The date range is limited to a maximum of 6 months.\n",
         "responses": {
           "200": {
             "description": "Success",
@@ -7832,7 +7828,7 @@
             "userApiKey": []
           }
         ],
-        "description": "Get the distribution of first response times grouped by channel type.\nReturns conversation counts in different time buckets (0-1h, 1-4h, 4-8h, 8-24h, 24h+) for each channel type.\n\n**Note:** This API endpoint is available only in Chatwoot version 4.11.0 and above.\n",
+        "description": "Get the distribution of first response times grouped by channel type.\nReturns conversation counts in different time buckets (0-1h, 1-4h, 4-8h, 8-24h, 24h+) for each channel type.\n\n**Note:** This API endpoint is available only in KIRA version 4.11.0 and above.\n",
         "responses": {
           "200": {
             "description": "Success",
@@ -7912,7 +7908,7 @@
             "userApiKey": []
           }
         ],
-        "description": "Get a matrix showing the count of conversations for each inbox-label combination.\nReturns a list of inboxes, labels, and a 2D matrix where each cell contains the count of conversations\nin a specific inbox that have a specific label applied.\n\n**Note:** This API endpoint is available only in Chatwoot version 4.11.0 and above.\n",
+        "description": "Get a matrix showing the count of conversations for each inbox-label combination.\nReturns a list of inboxes, labels, and a 2D matrix where each cell contains the count of conversations\nin a specific inbox that have a specific label applied.\n\n**Note:** This API endpoint is available only in KIRA version 4.11.0 and above.\n",
         "responses": {
           "200": {
             "description": "Success",
@@ -7970,7 +7966,7 @@
             "userApiKey": []
           }
         ],
-        "description": "Get the count of outgoing messages grouped by a specified entity (agent, team, inbox, or label).\nWhen grouped by agent, messages sent by bots (AgentBot, Captain::Assistant) are excluded.\n\n**Note:** This API endpoint is available only in Chatwoot version 4.11.0 and above.\n",
+        "description": "Get the count of outgoing messages grouped by a specified entity (agent, team, inbox, or label).\nWhen grouped by agent, messages sent by bots (AgentBot, Captain::Assistant) are excluded.\n\n**Note:** This API endpoint is available only in KIRA version 4.11.0 and above.\n",
         "parameters": [
           {
             "in": "query",
@@ -9505,7 +9501,7 @@
           "secret": {
             "type": "string",
             "nullable": true,
-            "description": "Secret used to sign webhook requests. Signed webhook deliveries include `X-Chatwoot-Timestamp` and `X-Chatwoot-Signature`; the signature is `sha256=` followed by the HMAC-SHA256 of `{timestamp}.{raw_request_body}` using this secret. Deliveries also include `X-Chatwoot-Delivery` when a delivery id is available."
+            "description": "Secret used to sign webhook requests. Signed webhook deliveries include `X-KIRA-Timestamp` and `X-KIRA-Signature`; the signature is `sha256=` followed by the HMAC-SHA256 of `{timestamp}.{raw_request_body}` using this secret. Deliveries also include `X-KIRA-Delivery` when a delivery id is available."
           },
           "account_id": {
             "type": "number",
@@ -9666,14 +9662,6 @@
           {
             "type": "object",
             "properties": {
-              "latest_chatwoot_version": {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "description": "Latest version of Chatwoot available",
-                "example": "3.0.0"
-              },
               "subscribed_features": {
                 "type": "array",
                 "items": {
@@ -11045,7 +11033,7 @@
                     "type": "object",
                     "description": "The processed param values for template variables in template",
                     "example": {
-                      "1": "Chatwoot"
+                      "1": "KIRA"
                     }
                   }
                 }
@@ -12562,7 +12550,7 @@
           "homepage_link": {
             "type": "string",
             "description": "link to main dashboard",
-            "example": "https://www.chatwoot.com/"
+            "example": "https://example.com/"
           },
           "name": {
             "type": "string",
@@ -14636,7 +14624,7 @@
         "schema": {
           "type": "string"
         },
-        "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
+        "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: KIRA generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
       },
       "contact_sort_param": {
         "in": "query",

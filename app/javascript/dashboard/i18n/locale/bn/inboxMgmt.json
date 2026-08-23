@@ -16,7 +16,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "চ্যানেল নির্বাচন করুন",
-        "BODY": "আপনি Chatwoot-এর সাথে যেই প্রদানকারীকে সংযুক্ত করতে চান, সেটি নির্বাচন করুন।."
+        "BODY": "আপনি KIRA-এর সাথে যেই প্রদানকারীকে সংযুক্ত করতে চান, সেটি নির্বাচন করুন।."
       },
       "INBOX": {
         "TITLE": "ইনবক্স তৈরি করুন",
@@ -42,7 +42,7 @@
         "PLACEHOLDER": "আপনার ওয়েবসাইটের নাম লিখুন (যেমন: Acme Inc)"
       },
       "FB": {
-        "HELP": "পিএস: সাইন ইন করার মাধ্যমে, আমরা শুধুমাত্র আপনার পেজের মেসেজগুলোর অ্যাক্সেস পাই। আপনার ব্যক্তিগত মেসেজ কখনোই Chatwoot দ্বারা অ্যাক্সেস করা যাবে না।",
+        "HELP": "পিএস: সাইন ইন করার মাধ্যমে, আমরা শুধুমাত্র আপনার পেজের মেসেজগুলোর অ্যাক্সেস পাই। আপনার ব্যক্তিগত মেসেজ কখনোই KIRA দ্বারা অ্যাক্সেস করা যাবে না।",
         "CHOOSE_PAGE": "পেজ নির্বাচন করুন",
         "CHOOSE_PLACEHOLDER": "তালিকা থেকে একটি পেজ নির্বাচন করুন",
         "INBOX_NAME": "ইনবক্সের নাম",
@@ -50,7 +50,7 @@
         "PICK_NAME": "আপনার ইনবক্সের জন্য একটি নাম নির্বাচন করুন",
         "PICK_A_VALUE": "একটি মান নির্বাচন করুন",
         "CREATE_INBOX": "ইনবক্স তৈরি করুন",
-        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. We’re working closely with Meta to resolve it as quickly as possible.",
         "STATUS_LINK": "View status updates"
       },
       "INSTAGRAM": {
@@ -61,8 +61,8 @@
         "ERROR_AUTH": "Instagram-এ সংযোগ করতে একটি ত্রুটি হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
         "NEW_INBOX_SUGGESTION": "এই Instagram অ্যাকাউন্টটি পূর্বে অন্য একটি ইনবক্সের সাথে যুক্ত ছিল এবং এখন এখানে স্থানান্তরিত হয়েছে। সব নতুন বার্তা এখানে দেখা যাবে। পুরনো ইনবক্সটি আর এই অ্যাকাউন্টের জন্য বার্তা পাঠাতে বা গ্রহণ করতে পারবে না।.",
         "DUPLICATE_INBOX_BANNER": "এই Instagram অ্যাকাউন্টটি নতুন Instagram চ্যানেল ইনবক্সে স্থানান্তরিত হয়েছে। আপনি আর এই ইনবক্স থেকে Instagram বার্তা পাঠাতে বা গ্রহণ করতে পারবেন না।.",
-        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
-        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
+        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. We’re working closely with Meta to resolve it as quickly as possible.",
+        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with KIRA. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
         "STATUS_LINK": "View status updates"
       },
       "TIKTOK": {
@@ -329,17 +329,17 @@
           "MANUAL_LINK_TEXT": "ম্যানুয়াল সেটআপ ফ্লো",
           "ACCESS_REQUEST": {
             "TITLE": "Meta-র মাধ্যমে দ্রুত সেটআপ",
-            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which KIRA account needs access.",
             "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
             "BUTTON": "Request access"
           },
-          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
+          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
           "STATUS_LINK": "View status updates",
           "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "আমরা WhatsApp চ্যানেল সংরক্ষণ করতে পারিনি",
-          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
+          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
           "STATUS_LINK": "View status updates"
         }
       },
@@ -469,7 +469,7 @@
       },
       "AUTH": {
         "TITLE": "একটি চ্যানেল নির্বাচন করুন",
-        "DESC": "Chatwoot লাইভ-চ্যাট উইজেট, Facebook Messenger, WhatsApp, ইমেইল ইত্যাদি চ্যানেল হিসেবে সমর্থন করে। আপনি যদি কাস্টম চ্যানেল তৈরি করতে চান, তাহলে API চ্যানেল ব্যবহার করে সেটি তৈরি করতে পারেন। শুরু করতে নিচের চ্যানেলগুলোর মধ্যে একটি নির্বাচন করুন।.",
+        "DESC": "KIRA লাইভ-চ্যাট উইজেট, Facebook Messenger, WhatsApp, ইমেইল ইত্যাদি চ্যানেল হিসেবে সমর্থন করে। আপনি যদি কাস্টম চ্যানেল তৈরি করতে চান, তাহলে API চ্যানেল ব্যবহার করে সেটি তৈরি করতে পারেন। শুরু করতে নিচের চ্যানেলগুলোর মধ্যে একটি নির্বাচন করুন।.",
         "TITLE_NEXT": "সেটআপ সম্পন্ন করুন",
         "TITLE_FINISH": "ভোইলা!",
         "CHANNEL": {
@@ -531,11 +531,11 @@
       },
       "DETAILS": {
         "TITLE": "ইনবক্সের বিবরণ",
-        "DESC": "নীচের ড্রপডাউন থেকে Chatwoot-এ সংযোগ করার জন্য Facebook পেজ নির্বাচন করুন। আপনার ইনবক্সের জন্য একটি কাস্টম নামও দিতে পারেন যাতে সহজে চিনতে পারেন।"
+        "DESC": "নীচের ড্রপডাউন থেকে KIRA-এ সংযোগ করার জন্য Facebook পেজ নির্বাচন করুন। আপনার ইনবক্সের জন্য একটি কাস্টম নামও দিতে পারেন যাতে সহজে চিনতে পারেন।"
       },
       "FINISH": {
         "TITLE": "সফল হয়েছে!",
-        "DESC": "আপনি সফলভাবে আপনার Facebook পেজ Chatwoot-এর সাথে সংযুক্ত করেছেন। পরবর্তীবার যখন কোনো গ্রাহক আপনার পেজে মেসেজ করবেন, কথোপকথন স্বয়ংক্রিয়ভাবে আপনার ইনবক্সে প্রদর্শিত হবে।<br>আমরা আপনাকে একটি উইজেট স্ক্রিপ্টও দিচ্ছি যা আপনি সহজেই আপনার ওয়েবসাইটে যোগ করতে পারবেন। এটি আপনার ওয়েবসাইটে সক্রিয় হলে, গ্রাহকরা সরাসরি ওয়েবসাইট থেকে মেসেজ করতে পারবেন এবং কথোপকথন এখানে Chatwoot-এ প্রদর্শিত হবে।<br>দারুণ, তাই না? আমরা চেষ্টা করি :)"
+        "DESC": "আপনি সফলভাবে আপনার Facebook পেজ KIRA-এর সাথে সংযুক্ত করেছেন। পরবর্তীবার যখন কোনো গ্রাহক আপনার পেজে মেসেজ করবেন, কথোপকথন স্বয়ংক্রিয়ভাবে আপনার ইনবক্সে প্রদর্শিত হবে।<br>আমরা আপনাকে একটি উইজেট স্ক্রিপ্টও দিচ্ছি যা আপনি সহজেই আপনার ওয়েবসাইটে যোগ করতে পারবেন। এটি আপনার ওয়েবসাইটে সক্রিয় হলে, গ্রাহকরা সরাসরি ওয়েবসাইট থেকে মেসেজ করতে পারবেন এবং কথোপকথন এখানে KIRA-এ প্রদর্শিত হবে।<br>দারুণ, তাই না? আমরা চেষ্টা করি :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "আপনার ইমেইল প্রদানকারী নির্বাচন করুন",
@@ -903,7 +903,7 @@
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when Chatwoot cannot retrieve its message templates. Chatwoot uses this token only for template synchronization.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when KIRA cannot retrieve its message templates. KIRA uses this token only for template synchronization.",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Enter the business management token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "যোগ করুন",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Replace",
@@ -978,7 +978,7 @@
           "INBOX": "Inbox",
           "PHONE_NUMBER": "ফোন নম্বর",
           "NOT_ENTERED": "Not entered",
-          "VERIFY_NOTICE": "Chatwoot will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
+          "VERIFY_NOTICE": "KIRA will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
           "BACK": "Back",
           "CANCEL": "বাতিল করুন",
           "CONTINUE": "চালিয়ে যান",
@@ -1000,7 +1000,7 @@
           },
           "REVIEW_MIGRATION": {
             "TITLE": "Review migration",
-            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
+            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. KIRA will verify the token, WABA, and phone number with Meta before applying changes."
           }
         }
       },
@@ -1343,7 +1343,7 @@
         "USER_MESSAGE": "হাই",
         "AGENT_MESSAGE": "হ্যালো"
       },
-      "BRANDING_TEXT": "Chatwoot দ্বারা পরিচালিত",
+      "BRANDING_TEXT": "KIRA দ্বারা পরিচালিত",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

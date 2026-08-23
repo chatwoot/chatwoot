@@ -1,13 +1,12 @@
 <script setup>
 // [TODO] Use Teleport to move the modal to the end of the body
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import Button from 'dashboard/components-next/button/Button.vue';
 
-const { modalType, closeOnBackdropClick, onClose } = defineProps({
+const { modalType, closeOnBackdropClick } = defineProps({
   closeOnBackdropClick: { type: Boolean, default: true },
   showCloseButton: { type: Boolean, default: true },
-  onClose: { type: Function, default: null },
   fullWidth: { type: Boolean, default: false },
   modalType: { type: String, default: 'centered' },
   size: { type: String, default: '' },
@@ -35,7 +34,6 @@ const handleMouseDown = () => {
 const close = () => {
   show.value = false;
   emit('close');
-  onClose?.();
 };
 
 const onMouseUp = () => {
@@ -56,23 +54,6 @@ const onKeydown = e => {
 
 useEventListener(document.body, 'mouseup', onMouseUp);
 useEventListener(document, 'keydown', onKeydown);
-
-let hasWarnedOnCloseDeprecation = false;
-
-onMounted(() => {
-  if (
-    import.meta.env.DEV &&
-    onClose &&
-    typeof onClose === 'function' &&
-    !hasWarnedOnCloseDeprecation
-  ) {
-    hasWarnedOnCloseDeprecation = true;
-    // eslint-disable-next-line no-console
-    console.warn(
-      "[DEPRECATED] The 'onClose' prop is deprecated. Please use the 'close' event instead."
-    );
-  }
-});
 </script>
 
 <template>

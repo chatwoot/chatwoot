@@ -4,7 +4,10 @@ import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
-import { buildCampaignInboxOptions } from 'shared/constants/campaignChannels';
+import {
+  buildCampaignInboxOptions,
+  CAMPAIGN_PAGE_CHANNEL_TYPES,
+} from 'shared/constants/campaignChannels';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -18,8 +21,7 @@ const { t } = useI18n();
 const formState = {
   uiFlags: useMapGetter('campaigns/getUIFlags'),
   labels: useMapGetter('labels/getLabels'),
-  // Kiraid: surface every connected inbox as a campaign-channel candidate; the
-  // builder disables the ones with no send path yet.
+  // All connected inboxes; the picker filters them to this page's email channel.
   inboxes: useMapGetter('inboxes/getInboxes'),
 };
 
@@ -63,7 +65,11 @@ const audienceList = computed(() =>
 );
 
 const inboxOptions = computed(() =>
-  buildCampaignInboxOptions(formState.inboxes.value, t)
+  buildCampaignInboxOptions(
+    formState.inboxes.value,
+    t,
+    CAMPAIGN_PAGE_CHANNEL_TYPES.email
+  )
 );
 
 const getErrorMessage = (field, errorKey) => {

@@ -176,6 +176,11 @@
             "PLACEHOLDER": "Select Inbox",
             "ERROR": "Inbox is required"
           },
+          "MESSAGE": {
+            "LABEL": "Message",
+            "PLACEHOLDER": "Please enter the message",
+            "ERROR": "Message is required"
+          },
           "TEMPLATE": {
             "LABEL": "WhatsApp Template",
             "PLACEHOLDER": "Select a template",

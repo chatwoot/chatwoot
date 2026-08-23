@@ -1,16 +1,13 @@
 openapi: '3.1.0'
 info:
-  title: Chatwoot - Other APIs
+  title: KIRA.id - Other APIs
   description: Other API endpoints for Chatwoot
   version: 1.1.0
-  termsOfService: https://www.chatwoot.com/terms-of-service/
-  contact:
-    email: hello@chatwoot.com
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 servers:
-  - url: https://app.chatwoot.com/
+  - url: https://chatwoot.example.com/
 tags:
   - name: CSAT Survey Page
     description: APIs for CSAT survey functionality

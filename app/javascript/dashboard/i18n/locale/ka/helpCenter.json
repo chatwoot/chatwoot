@@ -425,7 +425,7 @@
         "SLUG": {
           "LABEL": "სლაგი",
           "PLACEHOLDER": "კატეგორიის slug url-ებისთვის",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/ka-GE/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/ka-GE/categories/my-slug",
           "ERROR": "Slug-ის შეყვანა აუცილებელია"
         },
         "DESCRIPTION": {
@@ -456,7 +456,7 @@
         "SLUG": {
           "LABEL": "სლაგი",
           "PLACEHOLDER": "კატეგორიის სლაგი url-ებისთვის",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/ka-GE/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/ka-GE/categories/my-slug",
           "ERROR": "სლაგი აუცილებელია"
         },
         "DESCRIPTION": {
@@ -693,7 +693,7 @@
             "LABEL": "სლაგი",
             "PLACEHOLDER": "კატეგორიის სლაგი url-ებისთვის",
             "ERROR": "სლაგი აუცილებელია",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chatwoot.example.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "აღწერა",
@@ -853,7 +853,7 @@
       "CONFIRM_BUTTON_LABEL": "შექმნა",
       "NAME": {
         "LABEL": "სახელი",
-        "PLACEHOLDER": "მომხმარებლის სახელმძღვანელო | Chatwoot",
+        "PLACEHOLDER": "მომხმარებლის სახელმძღვანელო | KIRA",
         "MESSAGE": "აირჩიეთ პორტალის სახელი.",
         "ERROR": "სახელი აუცილებელია"
       },
@@ -976,7 +976,7 @@
         "HEADER": "ინტეგრაციები",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with Chatwoot",
+          "TITLE": "Live chat with KIRA",
           "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
           "PLACEHOLDER": "აირჩიეთ ცოცხალი ჩატის ვიჯეტი",
           "NONE_OPTION": "ვიჯეტი არ არის"

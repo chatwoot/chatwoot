@@ -474,7 +474,9 @@ describe('#actions', () => {
         {
           commit,
           dispatch,
-          state: { conversationFilters: { assigneeType: 'unassigned', page: 1 } },
+          state: {
+            conversationFilters: { assigneeType: 'unassigned', page: 1 },
+          },
         },
         dataToSend
       );

@@ -104,8 +104,6 @@ export const actions = {
       });
 
       return data;
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
         isCreating: false,

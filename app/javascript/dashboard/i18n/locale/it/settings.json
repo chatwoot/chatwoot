@@ -673,7 +673,7 @@
       "SP_ENTITY_ID": {
         "LABEL": "SP Entity ID",
         "HELP": "Identificatore univoco per questa applicazione come Service Provider (generato automaticamente).",
-        "TOOLTIP": "Identificatore univoco di Chatwoot come Service Provider — configuralo nelle impostazioni del tuo IdP"
+        "TOOLTIP": "Identificatore univoco di KIRA come Service Provider — configuralo nelle impostazioni del tuo IdP"
       },
       "IDP_ENTITY_ID": {
         "LABEL": "Identity Provider Entity ID",
@@ -768,7 +768,7 @@
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! Non abbiamo trovato alcun account Chatwoot. Si prega di creare un nuovo account per continuare.",
+    "NO_ACCOUNT_WARNING": "Uh oh! Non abbiamo trovato alcun account KIRA. Si prega di creare un nuovo account per continuare.",
     "NEW_ACCOUNT": "Nuovo account",
     "SELECTOR_SUBTITLE": "Crea un nuovo account",
     "API": {

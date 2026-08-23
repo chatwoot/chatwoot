@@ -157,8 +157,6 @@ export const actions = {
       await CustomViewsAPI.deleteCustomViews(id, filterType);
       commit(types.DELETE_CUSTOM_VIEW, { data: id, filterType });
       refreshConversationUnreadCounts({ dispatch, rootGetters }, filterType);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isDeleting: false });
     }

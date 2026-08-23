@@ -50,8 +50,6 @@ export const actions = {
     try {
       const response = await DashboardAppsAPI.update(id, updateObj);
       commit(types.EDIT_DASHBOARD_APP, response.data);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_DASHBOARD_APPS_UI_FLAG, { isUpdating: false });
     }
@@ -61,8 +59,6 @@ export const actions = {
     try {
       await DashboardAppsAPI.delete(id);
       commit(types.DELETE_DASHBOARD_APP, id);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_DASHBOARD_APPS_UI_FLAG, { isDeleting: false });
     }

@@ -310,18 +310,10 @@ export const actions = {
     }
   },
   deleteInboxAvatar: async (_, inboxId) => {
-    try {
-      await InboxesAPI.deleteInboxAvatar(inboxId);
-    } catch (error) {
-      throw error;
-    }
+    await InboxesAPI.deleteInboxAvatar(inboxId);
   },
   syncTemplates: async (_, inboxId) => {
-    try {
-      await InboxesAPI.syncTemplates(inboxId);
-    } catch (error) {
-      throw error;
-    }
+    await InboxesAPI.syncTemplates(inboxId);
   },
   createCSATTemplate: async (_, { inboxId, template }) => {
     const response = await InboxesAPI.createCSATTemplate(inboxId, template);

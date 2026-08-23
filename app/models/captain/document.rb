@@ -55,8 +55,6 @@ class Captain::Document < ApplicationRecord
 
   before_create :ensure_within_plan_limit
   after_create_commit :enqueue_crawl_job
-  after_create_commit :update_document_usage
-  after_destroy :update_document_usage
   after_commit :enqueue_response_builder_job
   scope :ordered, -> { order(created_at: :desc) }
 
@@ -175,17 +173,21 @@ class Captain::Document < ApplicationRecord
     (saved_change_to_status? || saved_change_to_content?) && content.present?
   end
 
-  def update_document_usage
-    account.update_document_usage
-  end
-
   def ensure_account_id
     self.account_id = assistant&.account_id
   end
 
   def ensure_within_plan_limit
-    limits = account.usage_limits[:captain][:documents]
-    raise LimitExceededError, I18n.t('captain.documents.limit_exceeded') unless limits[:current_available].positive?
+    # The open-source (Kira) build has no enterprise usage-limit plan data, so
+    # `usage_limits` carries no `:captain` bucket. Treat a missing limit as
+    # unlimited instead of crashing document creation with a NoMethodError.
+    captain_limits = account.usage_limits[:captain]
+    return if captain_limits.blank?
+
+    document_limit = captain_limits[:documents]
+    return if document_limit.blank?
+
+    raise LimitExceededError, I18n.t('captain.documents.limit_exceeded') unless document_limit[:current_available].positive?
   end
 
   def validate_pdf_format

@@ -136,10 +136,6 @@ gem 'sidekiq-cron', '>= 2.4.0'
 # for sidekiq healthcheck
 gem 'sidekiq_alive'
 
-##-- Push notification service --##
-gem 'fcm'
-gem 'web-push', '>= 3.0.1'
-
 ##-- geocoding / parse location from ip --##
 # http://www.rubygeocoder.com/
 gem 'geocoder'

@@ -667,7 +667,7 @@ RSpec.describe Message do
         end
 
         it 'returns only the base content without URL when survey_url stored separately' do
-          message.content_attributes = { 'survey_url' => 'https://app.chatwoot.com/survey/responses/12345' }
+          message.content_attributes = { 'survey_url' => 'https://chatwoot.example.com/survey/responses/12345' }
           expect(message.content).to eq('Rate your experience')
         end
       end

@@ -20,6 +20,7 @@ import AssistantGuardrailsIndex from './assistants/guardrails/Index.vue';
 import AssistantGuidelinesIndex from './assistants/guidelines/Index.vue';
 import AssistantScenariosIndex from './assistants/scenarios/Index.vue';
 import AssistantSimpleRepliesIndex from './assistants/simpleReplies/Index.vue';
+import TraceIndex from './traces/Index.vue';
 import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
 import FaqSuggestionsIndex from './responses/FaqSuggestions.vue';
@@ -89,6 +90,12 @@ const assistantRoutes = [
     component: AssistantPlaygroundIndex,
     name: 'captain_assistants_playground_index',
     meta,
+  },
+  {
+    path: frontendURL('accounts/:accountId/ai-agent/:assistantId/traces'),
+    component: TraceIndex,
+    name: 'captain_assistants_debug_index',
+    meta: metaV2,
   },
   {
     path: frontendURL('accounts/:accountId/ai-agent/:assistantId/inboxes'),

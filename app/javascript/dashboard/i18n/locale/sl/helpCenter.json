@@ -425,7 +425,7 @@
         "SLUG": {
           "LABEL": "Oznaka",
           "PLACEHOLDER": "Oznaka kategorije za spletne naslove",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/sl-SI/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/sl-SI/categories/my-slug",
           "ERROR": "Slug je obvezen"
         },
         "DESCRIPTION": {
@@ -456,7 +456,7 @@
         "SLUG": {
           "LABEL": "Oznaka",
           "PLACEHOLDER": "Oznaka kategorije za spletne naslove",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/sl-SI/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/sl-SI/categories/my-slug",
           "ERROR": "Slug je obvezen"
         },
         "DESCRIPTION": {
@@ -693,7 +693,7 @@
             "LABEL": "Oznaka",
             "PLACEHOLDER": "Oznaka kategorije za spletne naslove",
             "ERROR": "Slug je obvezen",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chatwoot.example.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Opis",
@@ -853,7 +853,7 @@
       "CONFIRM_BUTTON_LABEL": "Ustvari",
       "NAME": {
         "LABEL": "Ime",
-        "PLACEHOLDER": "Uporabniški vodič | Chatwoot",
+        "PLACEHOLDER": "Uporabniški vodič | KIRA",
         "MESSAGE": "Izberite ime za vaš portal.",
         "ERROR": "Ime je obvezno"
       },
@@ -976,7 +976,7 @@
         "HEADER": "Integracije",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with Chatwoot",
+          "TITLE": "Live chat with KIRA",
           "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
           "PLACEHOLDER": "Izberite pripomoček za klepet v živo",
           "NONE_OPTION": "Brez pripomočka"

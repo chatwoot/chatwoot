@@ -6,6 +6,7 @@ module ActivityMessageHandler
   include LabelActivityMessageHandler
   include SlaActivityMessageHandler
   include TeamActivityMessageHandler
+  include CaptainActivityMessageHandler
 
   private
 
@@ -92,6 +93,8 @@ module ActivityMessageHandler
   end
 
   def automation_status_change_activity_content
+    return captain_status_change_activity_content if Current.executed_by.instance_of?(Captain::Assistant)
+
     if Current.executed_by.instance_of?(AutomationRule)
       I18n.t("conversations.activity.status.#{status}", user_name: I18n.t('automation.system_name'))
     elsif Current.executed_by.instance_of?(Contact)

@@ -71,7 +71,7 @@ module Featurable
   end
 
   def enable_features(*names)
-    names.each do |name|
+    valid_feature_names(names).each do |name|
       send("feature_#{name}=", true)
     end
   end
@@ -82,7 +82,7 @@ module Featurable
   end
 
   def disable_features(*names)
-    names.each do |name|
+    valid_feature_names(names).each do |name|
       send("feature_#{name}=", false)
     end
   end
@@ -93,6 +93,8 @@ module Featurable
   end
 
   def feature_enabled?(name)
+    return false unless valid_feature_name?(name)
+
     send("feature_#{name}?")
   end
 
@@ -118,5 +120,13 @@ module Featurable
 
     features_to_enabled = config.value.select { |f| f[:enabled] }.pluck(:name)
     enable_features(*features_to_enabled)
+  end
+
+  def valid_feature_name?(name)
+    FEATURE_LIST.any? { |feature| feature['name'] == name.to_s }
+  end
+
+  def valid_feature_names(names)
+    names.select { |name| valid_feature_name?(name) }
   end
 end

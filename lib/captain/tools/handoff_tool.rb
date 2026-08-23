@@ -28,10 +28,16 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
                      reason: reason || 'Agent requested handoff'
                    })
 
-    # Use existing handoff mechanism from ResponseBuilderJob
+    # Deterministic consent gate: never transfer the conversation unless the
+    # customer has asked for a human or accepted an offer to speak with one.
+    # Otherwise post an offer and keep the conversation with the assistant so the
+    # customer can either accept or continue chatting. This guarantees the
+    # "offer first, transfer after consent" flow regardless of how the LLM words
+    # its handoff intent.
+    return post_handoff_offer(tool_context, conversation, reason) unless consented_to_human_help?(conversation)
+
     handoff_result = trigger_handoff(tool_context, conversation, reason, reason_category)
-    return 'Handoff skipped because a newer customer message arrived' if handoff_result == :stale
-    return 'Handoff skipped because the conversation changed' unless handoff_result == :completed
+    return handoff_skipped_message(handoff_result) unless handoff_result == :completed
 
     "Conversation handed off to human support team#{" (Reason: #{reason})" if reason}"
   rescue StandardError => e
@@ -40,6 +46,38 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   end
 
   private
+
+  def handoff_skipped_message(handoff_result)
+    return 'Handoff skipped because a newer customer message arrived' if handoff_result == :stale
+
+    'Handoff skipped because the conversation changed'
+  end
+
+  def consented_to_human_help?(conversation)
+    Captain::Conversation::HandoffConsentService.new(conversation: conversation, assistant: @assistant).consented_to_human_help?
+  end
+
+  # Posts a customer-visible offer to speak with a human and marks the run as
+  # awaiting consent. The conversation stays pending so the customer's next
+  # message re-enters the assistant pipeline, where acceptance is detected and
+  # the actual transfer happens.
+  def post_handoff_offer(tool_context, conversation, reason)
+    offer_content = @assistant.config['handoff_offer_message'].presence ||
+                    I18n.t('conversations.captain.handoff_offer')
+
+    offer_message = conversation.messages.create!(
+      message_type: :outgoing,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      sender: @assistant,
+      content: offer_content
+    )
+
+    tool_context.state[:captain_v2_handoff_offer_pending] = true
+    tool_context.state[:captain_v2_handoff_offer_message_id] = offer_message.id
+    log_tool_usage('handoff_offer_posted', { conversation_id: conversation.id, reason: reason })
+    'Consent required: I asked the customer whether they want to speak with a human. Do not transfer yet; wait for their reply.'
+  end
 
   def trigger_handoff(tool_context, conversation, reason, reason_category)
     return trigger_legacy_handoff(tool_context, conversation, reason, reason_category) unless captain_v2_enabled?

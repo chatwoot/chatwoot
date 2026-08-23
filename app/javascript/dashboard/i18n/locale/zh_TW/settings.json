@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "介面",
-        "NOTE": "自訂您的 Chatwoot 儀表板外觀與風格。",
+        "NOTE": "自訂您的 KIRA 儀表板外觀與風格。",
         "FONT_SIZE": {
           "TITLE": "字體大小",
           "NOTE": "根據您的偏好調整儀表板的文字大小。",
@@ -673,7 +673,7 @@
       "SP_ENTITY_ID": {
         "LABEL": "SP Entity ID",
         "HELP": "此應用程式作為服務提供者的唯一識別碼（自動產生）。",
-        "TOOLTIP": "Chatwoot 作為服務提供者的唯一識別碼 - 請在您的 IdP 設定中進行配置"
+        "TOOLTIP": "KIRA 作為服務提供者的唯一識別碼 - 請在您的 IdP 設定中進行配置"
       },
       "IDP_ENTITY_ID": {
         "LABEL": "身份提供者 Entity ID",
@@ -768,7 +768,7 @@
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "糟糕！找不到任何 Chatwoot 帳戶。請建立新帳戶以繼續。",
+    "NO_ACCOUNT_WARNING": "糟糕！找不到任何 KIRA 帳戶。請建立新帳戶以繼續。",
     "NEW_ACCOUNT": "新帳戶",
     "SELECTOR_SUBTITLE": "建立新帳戶",
     "API": {

@@ -56,12 +56,11 @@ import captainResponses from './captain/response';
 import captainFaqSuggestions from './captain/faqSuggestions';
 import captainInboxes from './captain/inboxes';
 import captainBulkActions from './captain/bulkActions';
-import copilotThreads from './captain/copilotThreads';
-import copilotMessages from './captain/copilotMessages';
 import captainScenarios from './captain/scenarios';
 import captainSimpleReplies from './captain/simpleReplies';
 import captainTools from './captain/tools';
 import captainCustomTools from './captain/customTools';
+import captainTraces from './captain/traces';
 
 const plugins = [];
 
@@ -123,12 +122,11 @@ export default createStore({
     captainFaqSuggestions,
     captainInboxes,
     captainBulkActions,
-    copilotThreads,
-    copilotMessages,
     captainScenarios,
     captainSimpleReplies,
     captainTools,
     captainCustomTools,
+    captainTraces,
   },
   plugins,
 });

@@ -425,7 +425,7 @@
         "SLUG": {
           "LABEL": "ስልግ",
           "PLACEHOLDER": "ለURL የምድብ ስም",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug ያስፈልጋል"
         },
         "DESCRIPTION": {
@@ -456,7 +456,7 @@
         "SLUG": {
           "LABEL": "ስልግ",
           "PLACEHOLDER": "ለURL የምድብ ስም",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug አስፈላጊ ነው"
         },
         "DESCRIPTION": {
@@ -693,7 +693,7 @@
             "LABEL": "ስልግ",
             "PLACEHOLDER": "ለURL የምድብ ስም",
             "ERROR": "Slug አስፈላጊ ነው",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chatwoot.example.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "መግለጫ",
@@ -853,7 +853,7 @@
       "CONFIRM_BUTTON_LABEL": "ፍጠር",
       "NAME": {
         "LABEL": "ስም",
-        "PLACEHOLDER": "የተጠቃሚ መመሪያ | Chatwoot",
+        "PLACEHOLDER": "የተጠቃሚ መመሪያ | KIRA",
         "MESSAGE": "ለፖርታልዎ ስም ይምረጡ።.",
         "ERROR": "ስም ያስፈልጋል"
       },
@@ -976,7 +976,7 @@
         "HEADER": "አካባቢዎች",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with Chatwoot",
+          "TITLE": "Live chat with KIRA",
           "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
           "PLACEHOLDER": "ቀጥታ የንግግር ዊጅት ይምረጡ",
           "NONE_OPTION": "ምንም የማይታይ እቃ"

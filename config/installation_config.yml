@@ -330,23 +330,6 @@
 # ------- End of Chatwoot Internal Config for Cloud ----#
 
 # ------- Chatwoot Internal Config for Self Hosted ----#
-- name: INSTALLATION_PRICING_PLAN
-  value: 'enterprise'
-  description: 'The pricing plan for the installation, retrieved from the billing API'
-- name: INSTALLATION_PRICING_PLAN_QUANTITY
-  value: 0
-  description: 'The number of licenses purchased for the installation, retrieved from the billing API'
-- name: CHATWOOT_SUPPORT_WEBSITE_TOKEN
-  value:
-  description: 'The Chatwoot website token, used to identify the Chatwoot inbox and display the "Contact Support" option on the billing page'
-  type: secret
-- name: CHATWOOT_SUPPORT_SCRIPT_URL
-  value:
-  description: 'The Chatwoot script base URL, to display the "Contact Support" option on the billing page'
-- name: CHATWOOT_SUPPORT_IDENTIFIER_HASH
-  value:
-  description: 'The Chatwoot identifier hash, to validate the contact in the live chat window.'
-  type: secret
 - name: ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL
   display_title: Webhook URL to post security analysis
   value:
@@ -377,20 +360,6 @@
   locked: false
   description: 'Disable rendering profile update page for users'
 ## ------ End of Configs added for enterprise clients ------ ##
-
-## ------ Configs added for FCM v1 notifications ------ ##
-- name: FIREBASE_PROJECT_ID
-  display_title: 'Firebase Project ID'
-  value:
-  locked: false
-  description: 'Firebase project ID'
-- name: FIREBASE_CREDENTIALS
-  display_title: 'Firebase Credentials'
-  value:
-  locked: false
-  type: secret
-  description: 'Contents on your firebase credentials json file'
-## ------ End of Configs added for FCM v1 notifications ------ ##
 
 # ------- Instagram Channel Related Config ------- #
 - name: INSTAGRAM_APP_ID

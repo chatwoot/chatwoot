@@ -45,7 +45,7 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta cuenta de Instagram fue migrada a la nueva bandeja de entrada del canal Instagram. Todos los nuevos mensajes aparecerán allí. Ya no podrás enviar mensajes de esta conversación.",
-    "INSTAGRAM_RESTRICTION_BANNER": "La mensajería de Instagram está afectada actualmente por un problema de la API de Meta, no por un problema de Chatwoot. Algunos mensajes o acciones pueden retrasarse o no estar disponibles. Estamos colaborando estrechamente con Meta para resolverlo lo antes posible.",
+    "INSTAGRAM_RESTRICTION_BANNER": "La mensajería de Instagram está afectada actualmente por un problema de la API de Meta, no por un problema de KIRA. Algunos mensajes o acciones pueden retrasarse o no estar disponibles. Estamos colaborando estrechamente con Meta para resolverlo lo antes posible.",
     "INSTAGRAM_RESTRICTION_STATUS_LINK": "Ver actualizaciones de estado",
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
@@ -303,7 +303,7 @@
     "SENT_BY": "Enviado por:",
     "BOT": "Bot",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from KIRA to maintain the message window.",
     "SEND_FAILED": "¡No se pudo enviar el mensaje! Inténtalo de nuevo",
     "TRY_AGAIN": "reintentar",
     "ASSIGNMENT": {

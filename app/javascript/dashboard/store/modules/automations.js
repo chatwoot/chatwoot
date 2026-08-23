@@ -40,8 +40,6 @@ export const actions = {
     try {
       const response = await AutomationAPI.create(automationObj);
       commit(types.ADD_AUTOMATION, response.data);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isCreating: false });
     }
@@ -51,8 +49,6 @@ export const actions = {
     try {
       const response = await AutomationAPI.update(id, updateObj);
       commit(types.EDIT_AUTOMATION, response.data.payload);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isUpdating: false });
     }
@@ -62,8 +58,6 @@ export const actions = {
     try {
       await AutomationAPI.delete(id);
       commit(types.DELETE_AUTOMATION, id);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isDeleting: false });
     }
@@ -72,8 +66,6 @@ export const actions = {
     commit(types.SET_AUTOMATION_UI_FLAG, { isCloning: true });
     try {
       await AutomationAPI.clone(id);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isCloning: false });
     }

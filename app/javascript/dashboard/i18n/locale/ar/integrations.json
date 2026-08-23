@@ -17,7 +17,7 @@
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "خيارات الربط",
-    "DESCRIPTION": "Chatwoot تتكامل مع أدوات وخدمات متعددة لتحسين كفاءة فريقك. استكشف القائمة أدناه لتكوين تطبيقاتك المفضلة.",
+    "DESCRIPTION": "KIRA تتكامل مع أدوات وخدمات متعددة لتحسين كفاءة فريقك. استكشف القائمة أدناه لتكوين تطبيقاتك المفضلة.",
     "LEARN_MORE": "معرفة المزيد عن التكاملات",
     "LOADING": "جاري جلب التكاملات",
     "SEARCH_PLACEHOLDER": "Search integrations...",
@@ -33,7 +33,7 @@
       "LEARN_MORE": "Learn more about webhooks",
       "PAYWALL": {
         "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your KIRA account.",
         "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
         "UPGRADE_NOW": "Upgrade now",
         "CANCEL_ANYTIME": "Change or cancel your plan anytime."
@@ -51,7 +51,7 @@
       "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "إلغاء",
-        "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
+        "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب KIRA الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "الأحداث",
           "EVENTS": {
@@ -86,7 +86,7 @@
       "HEADER_BTN_TXT": "إضافة webhook جديد",
       "LOADING": "جار جلب الـ Webhooks",
       "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks هي إعادات HTTP callbacks التي يمكن تعريفها لكل حساب. يتم تشغيلها بأحداث مثل إنشاء الرسائل في Chatwoot. يمكنك إنشاء أكثر من Webhook واحد لهذا الحساب. <br /><br /> لإنشاء <b>webhook</b>، انقر فوق <b>إضافة Webhooks جديد</b>. يمكنك أيضا إزالة أي رابط ويب موجود بالنقر على زر الحذف.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks هي إعادات HTTP callbacks التي يمكن تعريفها لكل حساب. يتم تشغيلها بأحداث مثل إنشاء الرسائل في KIRA. يمكنك إنشاء أكثر من Webhook واحد لهذا الحساب. <br /><br /> لإنشاء <b>webhook</b>، انقر فوق <b>إضافة Webhooks جديد</b>. يمكنك أيضا إزالة أي رابط ويب موجود بالنقر على زر الحذف.</p>",
       "LIST": {
         "404": "لا توجد webhooks مكونة لهذا الحساب.",
         "TITLE": "إدارة الـ webhooks",
@@ -134,14 +134,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "استخدام تكامل Slack",
-        "BODY": "باستخدام هذا التكامل، ستتم مزامنة جميع محادثاتك الواردة مع قناة ***{selectedChannelName}*** في مساحة عمل Slack الخاصة بك. يمكنك إدارة جميع محادثات عملائك مباشرة من داخل القناة ولن تفوّت أي رسالة.\n\nفيما يلي الميزات الرئيسية لهذا التكامل:\n\n**الرد على المحادثات من داخل Slack:** للرد على محادثة في قناة Slack ***{selectedChannelName}***، ما عليك سوى كتابة رسالتك وإرسالها كسلسلة رسائل. سيؤدي ذلك إلى إنشاء رد للعميل عبر Chatwoot. الأمر بهذه البساطة!\n\n **إنشاء ملاحظات خاصة:** إذا كنت تريد إنشاء ملاحظات خاصة بدلاً من الردود، فابدأ رسالتك بـ ***`note:`***. يضمن ذلك بقاء رسالتك خاصة وعدم ظهورها للعميل.\n\n**ربط ملف وكيل:** إذا كان الشخص الذي ردّ في Slack لديه ملف وكيل في Chatwoot تحت البريد الإلكتروني نفسه، فسيتم ربط الردود تلقائيًا بذلك الملف. وهذا يعني أنه يمكنك بسهولة تتبع من قال ماذا ومتى. من ناحية أخرى، إذا لم يكن لدى الشخص الذي ردّ ملف وكيل مرتبط، فستظهر الردود للعميل على أنها صادرة من ملف البوت.",
+        "BODY": "باستخدام هذا التكامل، ستتم مزامنة جميع محادثاتك الواردة مع قناة ***{selectedChannelName}*** في مساحة عمل Slack الخاصة بك. يمكنك إدارة جميع محادثات عملائك مباشرة من داخل القناة ولن تفوّت أي رسالة.\n\nفيما يلي الميزات الرئيسية لهذا التكامل:\n\n**الرد على المحادثات من داخل Slack:** للرد على محادثة في قناة Slack ***{selectedChannelName}***، ما عليك سوى كتابة رسالتك وإرسالها كسلسلة رسائل. سيؤدي ذلك إلى إنشاء رد للعميل عبر KIRA. الأمر بهذه البساطة!\n\n **إنشاء ملاحظات خاصة:** إذا كنت تريد إنشاء ملاحظات خاصة بدلاً من الردود، فابدأ رسالتك بـ ***`note:`***. يضمن ذلك بقاء رسالتك خاصة وعدم ظهورها للعميل.\n\n**ربط ملف وكيل:** إذا كان الشخص الذي ردّ في Slack لديه ملف وكيل في KIRA تحت البريد الإلكتروني نفسه، فسيتم ربط الردود تلقائيًا بذلك الملف. وهذا يعني أنه يمكنك بسهولة تتبع من قال ماذا ومتى. من ناحية أخرى، إذا لم يكن لدى الشخص الذي ردّ ملف وكيل مرتبط، فستظهر الردود للعميل على أنها صادرة من ملف البوت.",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Select a channel",
         "UPDATE": "تحديث",
         "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "DESCRIPTION": "Your Slack workspace is now linked with KIRA. However, the integration is currently inactive. To activate the integration and connect a channel to KIRA, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the KIRA app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Attention required",
         "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
@@ -243,7 +243,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "تطبيقات لوحة التحكم",
       "HEADER_BTN_TXT": "إضافة تطبيق جديد للوحة التحكم",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the KIRA dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in KIRA, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "DESCRIPTION": "تسمح تطبيقات لوحة التحكم للمنظمات بتضمين تطبيق داخل لوحة التحكم لتوفير السياق لوكلاء دعم العملاء. هذه الميزة تسمح لك بإنشاء تطبيق بشكل مستقل وإدراج لتوفير معلومات المستخدم أو طلباتهم أو سجل الدفع السابق.",
       "LEARN_MORE": "معرفة المزيد حول تطبيقات لوحة التحكم",
       "COUNT": "{n} dashboard app | {n} dashboard apps",

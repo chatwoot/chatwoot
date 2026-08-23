@@ -22,8 +22,6 @@ export const actions = {
     commit(types.SET_BULK_ACTIONS_FLAG, { isUpdating: true });
     try {
       await BulkActionsAPI.create(payload);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_BULK_ACTIONS_FLAG, { isUpdating: false });
     }

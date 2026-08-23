@@ -4,6 +4,9 @@ class Whatsapp::WebhookTeardownService
   end
 
   def perform
+    disconnect_unofficial if @channel.provider == 'whatsapp_unofficial'
+    return if @channel.provider == 'whatsapp_unofficial'
+
     return unless should_teardown_webhook?
 
     api_client = Whatsapp::FacebookApiClient.new(provider_config['api_key'])
@@ -26,6 +29,17 @@ class Whatsapp::WebhookTeardownService
     @channel.provider == 'whatsapp_cloud' &&
       provider_config['api_key'].present? &&
       (provider_config['phone_number_id'].present? || provider_config['business_account_id'].present?)
+  end
+
+  # Unofficial (Baileys/QR) inboxes have no Meta webhooks to tear down, but the
+  # companion keeps a live WhatsApp socket for the number. Log it out so the
+  # session is closed and its persisted auth cleared (a fresh QR is then required
+  # to reconnect). Best-effort — a companion outage must never block the delete.
+  def disconnect_unofficial
+    Whatsapp::Providers::WhatsappUnofficialService.new(whatsapp_channel: @channel).logout
+    Rails.logger.info "[WHATSAPP_UNOFFICIAL] Disconnected companion session for channel #{@channel.id}"
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP_UNOFFICIAL] Failed to disconnect companion session for channel #{@channel.id}: #{e.message}"
   end
 
   def clear_phone_number_override(api_client)

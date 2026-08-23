@@ -168,29 +168,6 @@ has been assigned to you"
     end
   end
 
-  context 'when fcm push data' do
-    it 'returns correct data for primary actor conversation' do
-      notification = create(:notification, notification_type: 'conversation_creation')
-      expect(notification.fcm_push_data[:primary_actor]).to eq({
-                                                                 'id' => notification.primary_actor.display_id
-                                                               })
-    end
-
-    it 'returns correct data for primary actor message' do
-      message = create(:message, sender: create(:user), content: Faker::Lorem.paragraphs(number: 2))
-      notification = create(:notification, notification_type: 'assigned_conversation_new_message', primary_actor: message.conversation,
-                                           secondary_actor: message)
-      expect(notification.fcm_push_data[:primary_actor]).to eq({
-                                                                 'id' => notification.primary_actor.display_id
-                                                               })
-    end
-
-    it 'includes the account id so the mobile app can open the conversation in the right account' do
-      notification = create(:notification, notification_type: 'conversation_creation')
-      expect(notification.fcm_push_data[:account_id]).to eq(notification.account_id)
-    end
-  end
-
   context 'when primary actor is deleted' do
     let!(:conversation) { create(:conversation) }
 

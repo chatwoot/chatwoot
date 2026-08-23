@@ -95,15 +95,6 @@ const menuItems = computed(() => {
       target: '_blank',
     },
     {
-      show: true,
-      showOnCustomBrandedInstance: false,
-      label: t('SIDEBAR_ITEMS.CHANGELOG'),
-      icon: 'i-lucide-scroll-text',
-      link: 'https://www.chatwoot.com/changelog/',
-      nativeLink: true,
-      target: '_blank',
-    },
-    {
       show: currentUser.value.type === 'SuperAdmin',
       showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.SUPER_ADMIN_CONSOLE'),

@@ -425,7 +425,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Kategorie-Slug für URLs",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug ist erforderlich"
         },
         "DESCRIPTION": {
@@ -456,7 +456,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Kategorie-Slug für URLs",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug ist erforderlich"
         },
         "DESCRIPTION": {
@@ -693,7 +693,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Kategorie-Slug für URLs",
             "ERROR": "Slug ist erforderlich",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chatwoot.example.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Beschreibung",
@@ -853,7 +853,7 @@
       "CONFIRM_BUTTON_LABEL": "Erstellen",
       "NAME": {
         "LABEL": "Name",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | KIRA",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Name wird benötigt"
       },
@@ -976,7 +976,7 @@
         "HEADER": "Integrationen",
         "DESCRIPTION": "Verbinde Tools, um die Funktionen deines Help Centers zu erweitern.",
         "LIVE_CHAT": {
-          "TITLE": "Live-Chat mit Chatwoot",
+          "TITLE": "Live-Chat mit KIRA",
           "DESCRIPTION": "Zeige ein Live-Chat-Widget in deinem Help Center, damit Besucher dich beim Lesen erreichen können.",
           "PLACEHOLDER": "Live-Chat-Widget auswählen",
           "NONE_OPTION": "Kein Widget"

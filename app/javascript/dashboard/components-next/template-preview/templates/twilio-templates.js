@@ -129,10 +129,10 @@ export const twilioTemplates = [
     template_type: 'quick_reply',
   },
   {
-    body: 'What type of Chatwoot installation are you using? Select "Chatwoot Cloud" if you are using app.chatwoot.com, otherwise select "Self-hosted Chatwoot".',
+    body: 'What type of Chatwoot installation are you using? Select "Chatwoot Cloud" if you are using chatwoot.example.com, otherwise select "Self-hosted Chatwoot".',
     types: {
       'twilio/quick-reply': {
-        body: 'What type of Chatwoot installation are you using? Select "Chatwoot Cloud" if you are using app.chatwoot.com, otherwise select "Self-hosted Chatwoot".',
+        body: 'What type of Chatwoot installation are you using? Select "Chatwoot Cloud" if you are using chatwoot.example.com, otherwise select "Self-hosted Chatwoot".',
         actions: [
           {
             id: 'Chatwoot Cloud_payload',

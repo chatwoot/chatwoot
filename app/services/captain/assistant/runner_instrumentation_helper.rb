@@ -65,6 +65,13 @@ module Captain::Assistant::RunnerInstrumentationHelper
     context_wrapper.context[:captain_v2_handoff_tool_called] = true
     @handoff_tool_called = true
 
+    # A consent-gated offer (not a transfer) is tracked separately so the job can
+    # avoid posting a transfer message and keep the conversation with the assistant.
+    if context_wrapper.context.dig(:state, :captain_v2_handoff_offer_pending)
+      context_wrapper.context[:captain_v2_handoff_offer_pending] = true
+      @handoff_offer_pending = true
+    end
+
     return unless context_wrapper.context.dig(:state, :captain_v2_handoff_tool_completed)
 
     @handoff_tool_completed = true

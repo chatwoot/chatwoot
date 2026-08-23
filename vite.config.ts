@@ -11,8 +11,13 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        // Use the modern Sass compiler API for faster stylesheet compilation.
-        api: 'modern-compiler',
+        // Use the modern Sass JS API. The native `sass-embedded` compiler
+        // (api: 'modern-compiler') runs as a child process over a pipe; when a
+        // client disconnects mid-compilation (frequent under HMR in Docker/WSL)
+        // writing to the closed pipe throws an unhandled EPIPE that crashes the
+        // whole dev server, leaving the frontend half-loaded. The pure-JS `sass`
+        // compiler avoids that subprocess and is stable here.
+        api: 'modern',
         // The codebase (and some third-party deps like vue-datepicker-next) still
         // rely on legacy Sass features Dart Sass deprecates and will remove in
         // 3.0.0: the `@import` rule and global built-in functions such as `mix()`.
@@ -29,5 +34,13 @@ export default defineConfig({
     host: '0.0.0.0',
     // Accept the `vite` hostname used by Rails' ViteRuby proxy in Docker.
     allowedHosts: true,
+    watch: {
+      // A .env change makes Vite tear down and rebuild the whole dev server,
+      // and that internal restart has hung mid-flight in Docker, leaving the
+      // process alive with no listening port while the container looks
+      // healthy. The frontend gets its config from Rails anyway, so require
+      // an explicit `docker compose restart vite` instead.
+      ignored: ['**/.env', '**/.env.*'],
+    },
   },
 });

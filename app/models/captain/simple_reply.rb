@@ -2,22 +2,27 @@
 #
 # Table name: captain_simple_replies
 #
-#  id         :bigint           not null, primary key
-#  enabled    :boolean          default(TRUE), not null
-#  keywords   :jsonb
-#  match_type :integer          default("contains"), not null
-#  name       :string           not null
-#  reply      :text             not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  account_id :bigint           not null
-#  assistant_id :bigint         not null
+#  id           :bigint           not null, primary key
+#  enabled      :boolean          default(TRUE), not null
+#  keywords     :jsonb            not null
+#  match_type   :integer          default("contains"), not null
+#  name         :string           not null
+#  reply        :text             not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  account_id   :bigint           not null
+#  assistant_id :bigint           not null
 #
 # Indexes
 #
-#  index_captain_simple_replies_on_account_id            (account_id)
-#  index_captain_simple_replies_on_assistant_id          (assistant_id)
-#  index_captain_simple_replies_on_assistant_id_and_enabled (assistant_id,enabled)
+#  index_captain_simple_replies_on_account_id                (account_id)
+#  index_captain_simple_replies_on_assistant_id              (assistant_id)
+#  index_captain_simple_replies_on_assistant_id_and_enabled  (assistant_id,enabled)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#  fk_rails_...  (assistant_id => captain_assistants.id)
 #
 class Captain::SimpleReply < ApplicationRecord
   KEYWORD_MAX_LENGTH = 100

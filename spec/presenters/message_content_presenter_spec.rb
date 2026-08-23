@@ -37,17 +37,17 @@ RSpec.describe MessageContentPresenter do
       end
 
       it 'returns I18n default message when no CSAT config and dynamically generates survey URL (HTML format)' do
-        with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
-          expected_url = "https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
+        with_modified_env 'FRONTEND_URL' => 'https://chatwoot.example.com' do
+          expected_url = "https://chatwoot.example.com/survey/responses/#{conversation.uuid}"
           expect(presenter.outgoing_content).to include(expected_url)
           expect(presenter.outgoing_content).to include('<p>')
         end
       end
 
       it 'returns CSAT config message when config exists and dynamically generates survey URL (HTML format)' do
-        with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+        with_modified_env 'FRONTEND_URL' => 'https://chatwoot.example.com' do
           allow(message.inbox).to receive(:csat_config).and_return({ 'message' => 'Custom CSAT message' })
-          expected_url = "https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
+          expected_url = "https://chatwoot.example.com/survey/responses/#{conversation.uuid}"
           expected_content = "<p>Custom CSAT message #{expected_url}</p>\n"
           expect(presenter.outgoing_content).to eq(expected_content)
         end
@@ -94,8 +94,8 @@ RSpec.describe MessageContentPresenter do
       end
 
       it 'includes CSAT survey URL without markdown rendering' do
-        with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
-          expected_url = "https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
+        with_modified_env 'FRONTEND_URL' => 'https://chatwoot.example.com' do
+          expected_url = "https://chatwoot.example.com/survey/responses/#{conversation.uuid}"
           expect(presenter.webhook_content).to include(expected_url)
           expect(presenter.webhook_content).not_to include('<p>')
         end

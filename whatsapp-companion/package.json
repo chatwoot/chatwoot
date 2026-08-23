@@ -2,7 +2,7 @@
   "name": "chatwoot-whatsapp-companion",
   "version": "1.0.0",
   "private": true,
-  "description": "Unofficial WhatsApp (multi-device) bridge for Chatwoot using Baileys. Companion process that holds the WhatsApp WebSocket and proxies messages to/from Chatwoot.",
+  "description": "Unofficial WhatsApp (multi-device) bridge for KIRA using Baileys. Companion process that holds the WhatsApp WebSocket and proxies messages to/from KIRA.",
   "type": "module",
   "main": "src/index.js",
   "scripts": {

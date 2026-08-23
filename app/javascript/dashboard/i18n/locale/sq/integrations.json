@@ -17,7 +17,7 @@
       "ERROR": "Ndodhi një gabim gjatë lidhjes me Shopify. Ju lutemi provoni përsëri ose kontaktoni mbështetjen nëse problemi vazhdon."
     },
     "HEADER": "Integrimet",
-    "DESCRIPTION": "Chatwoot integrohet me shumë mjete dhe shërbime për të përmirësuar efikasitetin e ekipit tuaj. Eksploroni listën më poshtë për të konfiguruar aplikacionet tuaja të preferuara.",
+    "DESCRIPTION": "KIRA integrohet me shumë mjete dhe shërbime për të përmirësuar efikasitetin e ekipit tuaj. Eksploroni listën më poshtë për të konfiguruar aplikacionet tuaja të preferuara.",
     "LEARN_MORE": "Mësoni më shumë rreth integrimeve",
     "LOADING": "Duke marrë integrimet",
     "SEARCH_PLACEHOLDER": "Kërko integrime...",
@@ -33,7 +33,7 @@
       "LEARN_MORE": "Mëso më shumë rreth webhook-eve",
       "PAYWALL": {
         "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your KIRA account.",
         "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
         "UPGRADE_NOW": "Upgrade now",
         "CANCEL_ANYTIME": "Change or cancel your plan anytime."
@@ -51,7 +51,7 @@
       "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Anulo",
-        "DESC": "Ngjarjet e webhook ju ofrojnë informacion në kohë reale për atë që po ndodh në llogarinë tuaj Chatwoot. Ju lutemi shkruani një URL të vlefshme për të konfiguruar një callback.",
+        "DESC": "Ngjarjet e webhook ju ofrojnë informacion në kohë reale për atë që po ndodh në llogarinë tuaj KIRA. Ju lutemi shkruani një URL të vlefshme për të konfiguruar një callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Ngjarjet",
           "EVENTS": {
@@ -86,7 +86,7 @@
       "HEADER_BTN_TXT": "Shto webhook të ri",
       "LOADING": "Duke marrë webhook-et e bashkangjitura",
       "SEARCH_404": "Nuk ka asnjë artikull që përputhet me këtë kërkim",
-      "SIDEBAR_TXT": "<p><b>Webhook-et</b> </p> <p>Webhook-et janë thirrje HTTP të cilat mund të përcaktohen për çdo llogari. Ato aktivizohen nga ngjarje si krijimi i mesazhit në Chatwoot. Mund të krijoni më shumë se një webhook për këtë llogari. <br /><br /> Për të krijuar një <b>webhook</b>, klikoni në butonin <b>Shto webhook të ri</b>. Gjithashtu mund të hiqni çdo webhook ekzistues duke klikuar butonin Fshi.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhook-et</b> </p> <p>Webhook-et janë thirrje HTTP të cilat mund të përcaktohen për çdo llogari. Ato aktivizohen nga ngjarje si krijimi i mesazhit në KIRA. Mund të krijoni më shumë se një webhook për këtë llogari. <br /><br /> Për të krijuar një <b>webhook</b>, klikoni në butonin <b>Shto webhook të ri</b>. Gjithashtu mund të hiqni çdo webhook ekzistues duke klikuar butonin Fshi.</p>",
       "LIST": {
         "404": "Nuk ka webhook të konfiguruara për këtë llogari.",
         "TITLE": "Menaxho webhook-et",
@@ -134,14 +134,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Si të përdorni Integrimin e Slack?",
-        "BODY": "Me këtë integrim, të gjitha bisedat hyrëse do të sinkronizohen në kanalin ***{selectedChannelName}*** në hapësirën tuaj të punës në Slack. Ju mund të menaxhoni të gjitha bisedat me klientët direkt brenda kanalit dhe të mos humbisni asnjë mesazh.\n\nKëtu janë veçoritë kryesore të integrimit:\n\n**Përgjigjuni bisedave nga brenda Slack:** Për t’u përgjigjur në një bisedë në kanalin ***{selectedChannelName}*** në Slack, thjesht shkruani mesazhin tuaj dhe dërgojeni si një thread. Kjo do të krijojë një përgjigje për klientin përmes Chatwoot. Është kaq e thjeshtë!\n\n**Krijoni shënime private:** Nëse dëshironi të krijoni shënime private në vend të përgjigjeve, filloni mesazhin tuaj me ***`note:`***. Kjo siguron që mesazhi juaj të mbetet privat dhe nuk do të jetë i dukshëm për klientin.\n\n**Lidheni një profil agjenti:** Nëse personi që u përgjigj në Slack ka një profil agjenti në Chatwoot me të njëjtën email, përgjigjet do të lidhen automatikisht me atë profil agjenti. Kjo do të thotë që mund të ndiqni lehtësisht se kush tha çfarë dhe kur. Nga ana tjetër, kur personi që përgjigjet nuk ka një profil agjenti të lidhur, përgjigjet do të shfaqen nga profili i bot për klientin.",
+        "BODY": "Me këtë integrim, të gjitha bisedat hyrëse do të sinkronizohen në kanalin ***{selectedChannelName}*** në hapësirën tuaj të punës në Slack. Ju mund të menaxhoni të gjitha bisedat me klientët direkt brenda kanalit dhe të mos humbisni asnjë mesazh.\n\nKëtu janë veçoritë kryesore të integrimit:\n\n**Përgjigjuni bisedave nga brenda Slack:** Për t’u përgjigjur në një bisedë në kanalin ***{selectedChannelName}*** në Slack, thjesht shkruani mesazhin tuaj dhe dërgojeni si një thread. Kjo do të krijojë një përgjigje për klientin përmes KIRA. Është kaq e thjeshtë!\n\n**Krijoni shënime private:** Nëse dëshironi të krijoni shënime private në vend të përgjigjeve, filloni mesazhin tuaj me ***`note:`***. Kjo siguron që mesazhi juaj të mbetet privat dhe nuk do të jetë i dukshëm për klientin.\n\n**Lidheni një profil agjenti:** Nëse personi që u përgjigj në Slack ka një profil agjenti në KIRA me të njëjtën email, përgjigjet do të lidhen automatikisht me atë profil agjenti. Kjo do të thotë që mund të ndiqni lehtësisht se kush tha çfarë dhe kur. Nga ana tjetër, kur personi që përgjigjet nuk ka një profil agjenti të lidhur, përgjigjet do të shfaqen nga profili i bot për klientin.",
         "SELECTED": "i përzgjedhur"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Zgjidh një kanal",
         "UPDATE": "Përditëso",
         "BUTTON_TEXT": "Lidhu me kanalin",
-        "DESCRIPTION": "Hapësira juaj e punës në Slack tani është lidhur me Chatwoot. Megjithatë, integrimi është aktualisht i paaktivizuar. Për të aktivizuar integrimin dhe për të lidhur një kanal me Chatwoot, ju lutemi klikoni butonin më poshtë.\n\n**Shënim:** Nëse po përpiqeni të lidhni një kanal privat, shtoni aplikacionin Chatwoot në kanalin Slack para se të vazhdoni me këtë hap.",
+        "DESCRIPTION": "Hapësira juaj e punës në Slack tani është lidhur me KIRA. Megjithatë, integrimi është aktualisht i paaktivizuar. Për të aktivizuar integrimin dhe për të lidhur një kanal me KIRA, ju lutemi klikoni butonin më poshtë.\n\n**Shënim:** Nëse po përpiqeni të lidhni një kanal privat, shtoni aplikacionin KIRA në kanalin Slack para se të vazhdoni me këtë hap.",
         "ATTENTION_REQUIRED": "Kërkohet vëmendje",
         "EXPIRED": "Integrimi juaj me Slack ka skaduar. Për të vazhduar marrjen e mesazheve në Slack, ju lutemi fshini integrimin dhe lidhni përsëri hapësirën tuaj të punës."
       },
@@ -243,7 +243,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Aplikacionet e Panelit",
       "HEADER_BTN_TXT": "Shto një aplikacion të ri paneli",
-      "SIDEBAR_TXT": "<p><b>Aplikacionet e Dashboard</b></p><p>Aplikacionet e Dashboard lejojnë organizatat të integrojnë një aplikacion brenda dashboard-it të Chatwoot për të ofruar kontekst për agjentët e mbështetjes së klientit. Kjo veçori ju lejon të krijoni një aplikacion në mënyrë të pavarur dhe ta integroni atë brenda dashboard-it për të ofruar informacion për përdoruesin, porositë e tyre, ose historikun e mëparshëm të pagesave.</p><p>Kur integroni aplikacionin tuaj duke përdorur dashboard-in në Chatwoot, aplikacioni juaj do të marrë kontekstin e bisedës dhe kontaktit si një ngjarje dritare. Zbatoni një dëgjues për ngjarjen e mesazhit në faqen tuaj për të marrë kontekstin.</p><p>Për të shtuar një aplikacion të ri dashboard, klikoni në butonin 'Shto një aplikacion të ri dashboard'.</p>",
+      "SIDEBAR_TXT": "<p><b>Aplikacionet e Dashboard</b></p><p>Aplikacionet e Dashboard lejojnë organizatat të integrojnë një aplikacion brenda dashboard-it të KIRA për të ofruar kontekst për agjentët e mbështetjes së klientit. Kjo veçori ju lejon të krijoni një aplikacion në mënyrë të pavarur dhe ta integroni atë brenda dashboard-it për të ofruar informacion për përdoruesin, porositë e tyre, ose historikun e mëparshëm të pagesave.</p><p>Kur integroni aplikacionin tuaj duke përdorur dashboard-in në KIRA, aplikacioni juaj do të marrë kontekstin e bisedës dhe kontaktit si një ngjarje dritare. Zbatoni një dëgjues për ngjarjen e mesazhit në faqen tuaj për të marrë kontekstin.</p><p>Për të shtuar një aplikacion të ri dashboard, klikoni në butonin 'Shto një aplikacion të ri dashboard'.</p>",
       "DESCRIPTION": "Aplikacionet e panelit lejojnë organizatat të fusin një aplikacion brenda panelit për të siguruar kontekst për agjentët e mbështetjes së klientit. Kjo veçori ju lejon të krijoni një aplikacion në mënyrë të pavarur dhe ta fusni atë për të dhënë informacion mbi përdoruesin, porositë e tyre ose historikun e mëparshëm të pagesave.",
       "LEARN_MORE": "Mësoni më shumë rreth Aplikacioneve të Panelit",
       "COUNT": "{n} aplikacion paneli | {n} aplikacione paneli",

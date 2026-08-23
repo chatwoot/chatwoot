@@ -5,34 +5,34 @@
 saml:
   name: 'SAML SSO'
   description: 'Configuration for controlling SAML Single Sign-On availability'
-  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  enabled: false
   icon: 'icon-lock-line'
   config_key: 'saml'
 custom_branding:
   name: 'Custom Branding'
   description: 'Apply your own branding to this installation.'
-  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  enabled: false
   icon: 'icon-paint-brush-line'
   config_key: 'custom_branding'
 agent_capacity:
   name: 'Agent Capacity'
   description: 'Set limits to auto-assigning conversations to your agents.'
-  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  enabled: false
   icon: 'icon-hourglass-line'
 audit_logs:
   name: 'Audit Logs'
   description: 'Track and trace account activities with ease with detailed audit logs.'
-  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  enabled: false
   icon: 'icon-menu-search-line'
 disable_branding:
   name: 'Disable Branding'
   description: 'Disable branding on live-chat widget and external emails.'
-  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  enabled: false
   icon: 'icon-sailbot-fill'
 voice_calls:
   name: 'Voice Calls'
   description: 'Enable voice calling capabilities for your agents and customers.'
-  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  enabled: false
   icon: 'icon-voice-line'
 
 # ------- Product Features ------- #

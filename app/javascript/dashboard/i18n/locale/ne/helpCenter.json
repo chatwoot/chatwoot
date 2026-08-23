@@ -425,7 +425,7 @@
         "SLUG": {
           "LABEL": "स्लग",
           "PLACEHOLDER": "URL का लागि श्रेणी स्लग",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "स्लग आवश्यक छ"
         },
         "DESCRIPTION": {
@@ -456,7 +456,7 @@
         "SLUG": {
           "LABEL": "स्लग",
           "PLACEHOLDER": "URL का लागि श्रेणी स्लग",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "स्लग आवश्यक छ"
         },
         "DESCRIPTION": {
@@ -693,7 +693,7 @@
             "LABEL": "स्लग",
             "PLACEHOLDER": "URL का लागि श्रेणी स्लग",
             "ERROR": "स्लग आवश्यक छ",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chatwoot.example.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "विवरण",
@@ -853,7 +853,7 @@
       "CONFIRM_BUTTON_LABEL": "सिर्जना गर्नुहोस्",
       "NAME": {
         "LABEL": "नाम",
-        "PLACEHOLDER": "प्रयोगकर्ता मार्गदर्शक | Chatwoot",
+        "PLACEHOLDER": "प्रयोगकर्ता मार्गदर्शक | KIRA",
         "MESSAGE": "तपाईंको पोर्टलको लागि नाम छान्नुहोस्।",
         "ERROR": "नाम आवश्यक छ"
       },
@@ -976,7 +976,7 @@
         "HEADER": "एकीकरणहरू",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with Chatwoot",
+          "TITLE": "Live chat with KIRA",
           "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
           "PLACEHOLDER": "प्रत्यक्ष च्याट विजेट चयन गर्नुहोस्",
           "NONE_OPTION": "कुनै विजेट छैन"

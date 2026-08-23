@@ -11,6 +11,10 @@ class Captain::Assistant::AgentRunnerService
   attr_reader :last_run_result
 
   def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil)
+    # The agents runner builds RubyLLM agents lazily, so the LLM provider config
+    # (API key / endpoint) must be applied before the first run or RubyLLM raises
+    # "Missing configuration for ..." and the agent returns an empty response.
+    Llm::Config.initialize!
     @assistant = assistant
     @conversation = conversation
     @callbacks = callbacks
@@ -18,9 +22,15 @@ class Captain::Assistant::AgentRunnerService
     @responding_to_message_id = responding_to_message_id
     @handoff_tool_called = false
     @handoff_tool_completed = false
+    @handoff_offer_pending = false
+    @simple_reply_handled = false
   end
 
   def generate_response(message_history: [])
+    decision_trace_builder.reset!
+    simple_reply = resolve_simple_reply(message_history)
+    return simple_reply_response(simple_reply) if simple_reply
+
     message_to_process, context = run_payload(message_history)
     @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
     record_turn_start(@last_run_result)
@@ -42,7 +52,55 @@ class Captain::Assistant::AgentRunnerService
 
   def handoff_completed? = @handoff_tool_completed == true
 
+  # True when the handoff tool posted a consent offer instead of transferring.
+  # The job uses this to avoid posting a transfer message and to keep the
+  # conversation with the assistant while waiting for the customer's reply.
+  def handoff_offer_pending? = @handoff_offer_pending == true
+
+  def handoff_offer_message_id
+    @last_run_result&.context&.dig(:state, :captain_v2_handoff_offer_message_id)
+  end
+
+  # Ordered list of decision nodes for the most recent run (or empty for a
+  # simple-reply answer, which bypasses the LLM runner entirely).
+  def decision_trace
+    @decision_trace_builder&.to_h || []
+  end
+
+  # True when the deterministic keyword layer answered instead of the LLM. Both
+  # the conversation pipeline and the playground share this via the runner, so
+  # simple replies are part of the base agent flow, not a side channel.
+  def simple_reply_handled? = @simple_reply_handled == true
+
   private
+
+  def resolve_simple_reply(message_history)
+    customer_content = extract_last_user_message_text(message_history)
+    return if customer_content.blank?
+
+    @assistant.simple_replies.enabled.find { |reply| reply.matches?(customer_content) }
+  end
+
+  def extract_last_user_message_text(message_history)
+    last_user_msg = message_history.reverse.find { |msg| msg[:role] == 'user' }
+    return '' if last_user_msg.blank?
+
+    content = last_user_msg[:content]
+    return content.to_s unless content.is_a?(Array)
+
+    text, = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(content)
+    text.to_s
+  end
+
+  def simple_reply_response(simple_reply)
+    @simple_reply_handled = true
+    {
+      'response' => simple_reply.reply,
+      'response_parts' => [{ 'text' => simple_reply.reply, 'citation_indexes' => [] }],
+      'reasoning' => 'Simple reply matched',
+      'simple_reply' => true
+    }
+  end
 
   def build_context(message_history)
     conversation_history = message_history.map do |msg|
@@ -113,9 +171,14 @@ class Captain::Assistant::AgentRunnerService
       configured_runner = Agents::Runner.with_agents(*build_and_wire_agents)
       configured_runner = add_usage_metadata_callback(configured_runner)
       configured_runner = add_callbacks_to_runner(configured_runner) if @callbacks.any?
+      configured_runner = decision_trace_builder.install(configured_runner)
       install_instrumentation(configured_runner)
       configured_runner
     end
+  end
+
+  def decision_trace_builder
+    @decision_trace_builder ||= Captain::Assistant::DecisionTraceBuilder.new(assistant: @assistant)
   end
 
   def run_payload(message_history)

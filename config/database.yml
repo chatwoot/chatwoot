@@ -20,7 +20,9 @@ development:
 
 test:
   <<: *default
-  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_test') %>"
+  # Dedicated test DB, independent of the dev/prod POSTGRES_DATABASE, so a
+  # test purge never targets the live development database.
+  database: "<%= ENV.fetch('POSTGRES_TEST_DATABASE', 'chatwoot_test') %>"
   username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
   password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
 

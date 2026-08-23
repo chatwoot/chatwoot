@@ -1,6 +1,6 @@
 class Api::V1::Accounts::Captain::AgentSessionsController < Api::V1::Accounts::BaseController
-  before_action :set_message
-  before_action :authorize_conversation
+  before_action :set_message, only: [:show]
+  before_action :authorize_conversation, only: [:show]
 
   def show
     @agent_session = Current.account.captain_agent_sessions.find_by(result_type: 'Message', result_id: @message.id)

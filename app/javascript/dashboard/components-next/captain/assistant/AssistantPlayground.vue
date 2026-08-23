@@ -71,6 +71,7 @@ const sendMessage = async () => {
       content: data.response,
       sender: 'assistant',
       agentName: data.agent_name,
+      decisionTrace: data.decision_trace,
       timestamp: new Date().toISOString(),
     });
   } catch (error) {

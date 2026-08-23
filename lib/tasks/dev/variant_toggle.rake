@@ -27,22 +27,11 @@ namespace :chatwoot do
       puts '🚀 CHATWOOT VARIANT MANAGER'
       puts '=' * 50
 
-      # Check InstallationConfig
       deployment_env = InstallationConfig.find_by(name: 'DEPLOYMENT_ENV')&.value
-      pricing_plan = InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value
-
-      # Determine current variant based on configs
-      current_variant = if deployment_env == 'cloud'
-                          'Cloud'
-                        elsif pricing_plan == 'enterprise'
-                          'Enterprise'
-                        else
-                          'Community'
-                        end
+      current_variant = deployment_env == 'cloud' ? 'Cloud' : 'Self-hosted'
 
       puts "📊 Current Variant: #{current_variant}"
       puts "   Deployment Environment: #{deployment_env || 'Not set'}"
-      puts "   Pricing Plan: #{pricing_plan || 'community'}"
       puts ''
     end
 
@@ -97,17 +86,14 @@ namespace :chatwoot do
 
     def configure_community_variant
       update_installation_config('DEPLOYMENT_ENV', 'self-hosted')
-      update_installation_config('INSTALLATION_PRICING_PLAN', 'community')
     end
 
     def configure_enterprise_variant
       update_installation_config('DEPLOYMENT_ENV', 'self-hosted')
-      update_installation_config('INSTALLATION_PRICING_PLAN', 'enterprise')
     end
 
     def configure_cloud_variant
       update_installation_config('DEPLOYMENT_ENV', 'cloud')
-      update_installation_config('INSTALLATION_PRICING_PLAN', 'enterprise')
     end
 
     def update_installation_config(name, value)

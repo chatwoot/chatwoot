@@ -7,8 +7,14 @@ export const findPendingMessageIndex = (chat, message) => {
   );
 };
 
-export const filterByStatus = (chatStatus, filterStatus) =>
-  filterStatus === 'all' ? true : chatStatus === filterStatus;
+export const filterByStatus = (chatStatus, filterStatus) => {
+  if (filterStatus === 'all') return true;
+  const statuses = Array.isArray(filterStatus) ? filterStatus : [filterStatus];
+  // Legacy persisted filter value ('all') means "no status restriction".
+  if (statuses.includes('all')) return true;
+  if (statuses.length === 0) return false;
+  return statuses.includes(chatStatus);
+};
 
 export const filterByInbox = (shouldFilter, inboxId, chatInboxId) => {
   const isOnInbox = Number(inboxId) === chatInboxId;

@@ -46,6 +46,18 @@ class ConversationOutcome < ApplicationRecord
   belongs_to :conversation
   belongs_to :inbox
 
+  # The initial episode that opens the conversation's outcome timeline.
+  scope :trigger_initial, -> { where(episode_trigger: 'initial') }
+
+  # Episodes sorted by start time, oldest first.
+  scope :chronological, -> { order(started_at: :asc) }
+
+  # Episodes that are active at the given moment: started by then and not yet
+  # ended, or ended after it.
+  scope :covering, lambda { |time|
+    where(started_at: ..time).where('ended_at IS NULL OR ended_at >= ?', time)
+  }
+
   # Instance-level mirrors of Captain::AssistantOutcomeClassification's Arel
   # predicates, for per-record reasoning (e.g. drilldown and intent reporting)
   # where building raw SQL fragments would be impractical.

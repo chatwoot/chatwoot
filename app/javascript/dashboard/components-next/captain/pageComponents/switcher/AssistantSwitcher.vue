@@ -33,6 +33,9 @@ const fetchDataForRoute = async (routeName, assistantId) => {
     captain_assistants_playground_index: () => {
       // Playground doesn't need pre-fetching, it loads on interaction
     },
+    captain_assistants_debug_index: () => {
+      // Debug traces load after navigation via the page's onMounted fetch
+    },
     captain_assistants_inboxes_index: async () => {
       await store.dispatch('captainInboxes/get', { assistantId });
     },

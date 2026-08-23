@@ -55,6 +55,10 @@ class Captain::AssistantPolicy < ApplicationPolicy
     true
   end
 
+  def traces?
+    true
+  end
+
   def intents?
     true
   end

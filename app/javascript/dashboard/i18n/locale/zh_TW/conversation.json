@@ -45,7 +45,7 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "由於以下原因，您只能使用範本訊息回覆此對話",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 小時訊息視窗限制",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "此 Instagram 帳號已遷移至新的 Instagram 頻道收件匣。所有新訊息將顯示在該處。您將無法再從此對話發送訊息。",
-    "INSTAGRAM_RESTRICTION_BANNER": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with KIRA. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
     "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status updates",
     "REPLYING_TO": "您正在回覆：",
     "REMOVE_SELECTION": "移除選擇",
@@ -303,7 +303,7 @@
     "SENT_BY": "發送者：",
     "BOT": "機器人",
     "NATIVE_APP": "原生應用程式",
-    "NATIVE_APP_ADVISORY": "此訊息是從原生應用程式發送的。請從 Chatwoot 回覆以維持訊息視窗。",
+    "NATIVE_APP_ADVISORY": "此訊息是從原生應用程式發送的。請從 KIRA 回覆以維持訊息視窗。",
     "SEND_FAILED": "無法發送訊息！請再試一次",
     "TRY_AGAIN": "重試",
     "ASSIGNMENT": {

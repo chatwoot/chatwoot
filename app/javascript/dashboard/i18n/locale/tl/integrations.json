@@ -17,7 +17,7 @@
       "ERROR": "Nagkaroon ng error sa pagkonekta sa Shopify. Pakisubukang muli o kontakin ang suporta kung magpapatuloy ang problema."
     },
     "HEADER": "Mga Integrasyon",
-    "DESCRIPTION": "Ang Chatwoot ay nakakonekta sa iba't ibang mga tool at serbisyo upang mapabuti ang kahusayan ng iyong koponan. Tuklasin ang listahan sa ibaba upang i-configure ang iyong mga paboritong app.",
+    "DESCRIPTION": "Ang KIRA ay nakakonekta sa iba't ibang mga tool at serbisyo upang mapabuti ang kahusayan ng iyong koponan. Tuklasin ang listahan sa ibaba upang i-configure ang iyong mga paboritong app.",
     "LEARN_MORE": "Alamin pa tungkol sa mga integrasyon",
     "LOADING": "Kinuha ang mga integrasyon",
     "SEARCH_PLACEHOLDER": "Search integrations...",
@@ -33,7 +33,7 @@
       "LEARN_MORE": "Alamin pa tungkol sa webhooks",
       "PAYWALL": {
         "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your KIRA account.",
         "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
         "UPGRADE_NOW": "Upgrade now",
         "CANCEL_ANYTIME": "Change or cancel your plan anytime."
@@ -51,7 +51,7 @@
       "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Kanselahin",
-        "DESC": "Nagbibigay ang mga webhook event ng real-time na impormasyon tungkol sa mga nangyayari sa iyong Chatwoot account. Pakilagay ang wastong URL upang i-configure ang callback.",
+        "DESC": "Nagbibigay ang mga webhook event ng real-time na impormasyon tungkol sa mga nangyayari sa iyong KIRA account. Pakilagay ang wastong URL upang i-configure ang callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Mga Kaganapan",
           "EVENTS": {
@@ -86,7 +86,7 @@
       "HEADER_BTN_TXT": "Magdagdag ng bagong webhook",
       "LOADING": "Kinuha ang mga naka-attach na webhook",
       "SEARCH_404": "Walang mga item na tumutugma sa query na ito",
-      "SIDEBAR_TXT": "<p><b>Mga Webhook</b> </p> <p>Ang mga webhook ay mga HTTP callback na maaaring idefine para sa bawat account. Ito ay na-trigger ng mga pangyayari tulad ng paglikha ng mensahe sa Chatwoot. Maaari kang gumawa ng higit sa isang webhook para sa account na ito. <br /><br /> Para gumawa ng <b>webhook</b>, i-click ang <b>Magdagdag ng bagong webhook</b> na button. Maaari mo ring alisin ang anumang umiiral na webhook sa pamamagitan ng pag-click sa Delete na button.</p>",
+      "SIDEBAR_TXT": "<p><b>Mga Webhook</b> </p> <p>Ang mga webhook ay mga HTTP callback na maaaring idefine para sa bawat account. Ito ay na-trigger ng mga pangyayari tulad ng paglikha ng mensahe sa KIRA. Maaari kang gumawa ng higit sa isang webhook para sa account na ito. <br /><br /> Para gumawa ng <b>webhook</b>, i-click ang <b>Magdagdag ng bagong webhook</b> na button. Maaari mo ring alisin ang anumang umiiral na webhook sa pamamagitan ng pag-click sa Delete na button.</p>",
       "LIST": {
         "404": "Walang mga webhook na naka-configure para sa account na ito.",
         "TITLE": "Pamahalaan ang mga webhook",
@@ -134,14 +134,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Paano gamitin ang Slack Integration?",
-        "BODY": "Sa integrasyong ito, masi-sync ang lahat ng iyong papasok na usapan sa channel na ***{selectedChannelName}*** sa iyong Slack workspace. Maaari mong pamahalaan ang lahat ng usapan ng iyong mga customer mismo sa channel at hindi na makakaligtaan ang anumang mensahe.\n\nNarito ang mga pangunahing feature ng integrasyon:\n\n**Sumagot sa mga usapan mula sa loob ng Slack:** Para sumagot sa isang usapan sa Slack channel na ***{selectedChannelName}***, i-type lang ang iyong mensahe at ipadala ito bilang thread. Lilikha ito ng tugon pabalik sa customer sa pamamagitan ng Chatwoot. Ganun lang kadali!\n\n **Gumawa ng mga pribadong note:** Kung gusto mong gumawa ng mga pribadong note sa halip na mga reply, simulan ang iyong mensahe sa ***`note:`***. Tinitiyak nito na mananatiling pribado ang iyong mensahe at hindi ito makikita ng customer.\n\n**Iugnay ang profile ng agent:** Kung ang taong sumagot sa Slack ay may agent profile sa Chatwoot na may parehong email, awtomatikong iuugnay ang mga reply sa profile na iyon. Ibig sabihin, madali mong masusubaybayan kung sino ang nagsabi ng ano at kailan. Sa kabilang banda, kapag walang katugmang agent profile ang sumagot, lalabas sa customer na mula ito sa bot profile.",
+        "BODY": "Sa integrasyong ito, masi-sync ang lahat ng iyong papasok na usapan sa channel na ***{selectedChannelName}*** sa iyong Slack workspace. Maaari mong pamahalaan ang lahat ng usapan ng iyong mga customer mismo sa channel at hindi na makakaligtaan ang anumang mensahe.\n\nNarito ang mga pangunahing feature ng integrasyon:\n\n**Sumagot sa mga usapan mula sa loob ng Slack:** Para sumagot sa isang usapan sa Slack channel na ***{selectedChannelName}***, i-type lang ang iyong mensahe at ipadala ito bilang thread. Lilikha ito ng tugon pabalik sa customer sa pamamagitan ng KIRA. Ganun lang kadali!\n\n **Gumawa ng mga pribadong note:** Kung gusto mong gumawa ng mga pribadong note sa halip na mga reply, simulan ang iyong mensahe sa ***`note:`***. Tinitiyak nito na mananatiling pribado ang iyong mensahe at hindi ito makikita ng customer.\n\n**Iugnay ang profile ng agent:** Kung ang taong sumagot sa Slack ay may agent profile sa KIRA na may parehong email, awtomatikong iuugnay ang mga reply sa profile na iyon. Ibig sabihin, madali mong masusubaybayan kung sino ang nagsabi ng ano at kailan. Sa kabilang banda, kapag walang katugmang agent profile ang sumagot, lalabas sa customer na mula ito sa bot profile.",
         "SELECTED": "napili"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Pumili ng channel",
         "UPDATE": "I-update",
         "BUTTON_TEXT": "Ikonekta ang channel",
-        "DESCRIPTION": "Ang iyong Slack account ay naka-link na sa Chatwoot. Gayunpaman, kasalukuyang hindi aktibo ang integrasyon. Upang paganahin ang integrasyon at ikonekta ang isang channel sa Chatwoot, pakiklik ang button sa ibaba.\n\n**Tandaan:** Kung sinusubukan mong ikonekta ang isang pribadong channel, idagdag muna ang Chatwoot app sa Slack channel bago magpatuloy sa hakbang na ito.",
+        "DESCRIPTION": "Ang iyong Slack account ay naka-link na sa KIRA. Gayunpaman, kasalukuyang hindi aktibo ang integrasyon. Upang paganahin ang integrasyon at ikonekta ang isang channel sa KIRA, pakiklik ang button sa ibaba.\n\n**Tandaan:** Kung sinusubukan mong ikonekta ang isang pribadong channel, idagdag muna ang KIRA app sa Slack channel bago magpatuloy sa hakbang na ito.",
         "ATTENTION_REQUIRED": "Kinakailangan ang pansin",
         "EXPIRED": "Nag-expire na ang iyong Slack integration. Upang magpatuloy sa pagtanggap ng mga mensahe sa Slack, pakitanggal ang integrasyon at ikonekta muli ang iyong Slack account."
       },
@@ -243,7 +243,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Mga App sa Dashboard",
       "HEADER_BTN_TXT": "Magdagdag ng bagong dashboard app",
-      "SIDEBAR_TXT": "<p><b>Mga App sa Dashboard</b></p><p>Pinapayagan ng Mga App sa Dashboard ang mga organisasyon na isama ang isang aplikasyon sa loob ng Chatwoot dashboard upang magbigay ng konteksto para sa mga ahente ng suporta sa customer. Pinapayagan ka ng tampok na ito na gumawa ng isang aplikasyon nang nakapag-iisa at isama ito sa dashboard upang magbigay ng impormasyon tungkol sa gumagamit, kanilang mga order, o kanilang nakaraang kasaysayan ng pagbabayad.</p><p>Kapag isinama mo ang iyong aplikasyon gamit ang dashboard sa Chatwoot, makukuha ng iyong aplikasyon ang konteksto ng pag-uusap at kontak bilang isang window event. Magpatupad ng tagapakinig para sa message event sa iyong pahina upang matanggap ang konteksto.</p><p>Upang magdagdag ng bagong app sa dashboard, i-click ang button na 'Magdagdag ng bagong app sa dashboard'.</p>",
+      "SIDEBAR_TXT": "<p><b>Mga App sa Dashboard</b></p><p>Pinapayagan ng Mga App sa Dashboard ang mga organisasyon na isama ang isang aplikasyon sa loob ng KIRA dashboard upang magbigay ng konteksto para sa mga ahente ng suporta sa customer. Pinapayagan ka ng tampok na ito na gumawa ng isang aplikasyon nang nakapag-iisa at isama ito sa dashboard upang magbigay ng impormasyon tungkol sa gumagamit, kanilang mga order, o kanilang nakaraang kasaysayan ng pagbabayad.</p><p>Kapag isinama mo ang iyong aplikasyon gamit ang dashboard sa KIRA, makukuha ng iyong aplikasyon ang konteksto ng pag-uusap at kontak bilang isang window event. Magpatupad ng tagapakinig para sa message event sa iyong pahina upang matanggap ang konteksto.</p><p>Upang magdagdag ng bagong app sa dashboard, i-click ang button na 'Magdagdag ng bagong app sa dashboard'.</p>",
       "DESCRIPTION": "Pinapayagan ng Mga App sa Dashboard ang mga organisasyon na isama ang isang aplikasyon sa loob ng dashboard upang magbigay ng konteksto para sa mga ahente ng suporta sa customer. Pinapayagan ka ng tampok na ito na gumawa ng isang aplikasyon nang nakapag-iisa at isama ito upang magbigay ng impormasyon tungkol sa gumagamit, kanilang mga order, o kanilang nakaraang kasaysayan ng pagbabayad.",
       "LEARN_MORE": "Alamin pa tungkol sa Dashboard Apps",
       "COUNT": "{n} dashboard app | {n} dashboard apps",

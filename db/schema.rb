@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_08_22_000000) do
+ActiveRecord::Schema[7.2].define(version: 2026_08_24_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -143,6 +143,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_000000) do
     t.datetime "updated_at", null: false
     t.jsonb "cited_document_ids", default: [], null: false
     t.jsonb "used_faq_ids", default: [], null: false
+    t.string "outcome"
     t.index ["account_id", "result_type", "result_id"], name: "idx_on_account_id_result_type_result_id_ca66c00cd7"
     t.index ["account_id", "session_type", "created_at"], name: "idx_on_account_id_session_type_created_at_c20a14bd4e"
     t.index ["account_id", "subject_type", "subject_id"], name: "idx_on_account_id_subject_type_subject_id_6d60963b3d"
@@ -171,7 +172,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_000000) do
   create_table "article_embeddings", force: :cascade do |t|
     t.bigint "article_id", null: false
     t.text "term", null: false
-    t.vector "embedding", limit: 1536
+    t.vector "embedding", limit: 1024
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["embedding"], name: "index_article_embeddings_on_embedding", using: :ivfflat
@@ -352,10 +353,30 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_000000) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
+  create_table "captain_agent_traces", force: :cascade do |t|
+    t.string "source", default: "conversation", null: false
+    t.string "input_message"
+    t.jsonb "trace", default: [], null: false
+    t.jsonb "response", default: {}, null: false
+    t.string "outcome", default: "answered", null: false
+    t.string "error_reason"
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id", null: false
+    t.bigint "conversation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_agent_traces_on_account_id"
+    t.index ["assistant_id", "created_at"], name: "index_captain_agent_traces_on_assistant_id_and_created_at"
+    t.index ["assistant_id"], name: "index_captain_agent_traces_on_assistant_id"
+    t.index ["conversation_id", "created_at"], name: "index_captain_agent_traces_on_conversation_id_and_created_at"
+    t.index ["conversation_id"], name: "index_captain_agent_traces_on_conversation_id"
+    t.index ["source", "created_at"], name: "index_captain_agent_traces_on_source_and_created_at"
+  end
+
   create_table "captain_assistant_responses", force: :cascade do |t|
     t.string "question", null: false
     t.text "answer", null: false
-    t.vector "embedding", limit: 1536
+    t.vector "embedding", limit: 1024
     t.bigint "assistant_id", null: false
     t.bigint "documentable_id"
     t.bigint "account_id", null: false
@@ -443,7 +464,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_000000) do
   create_table "captain_faq_suggestions", force: :cascade do |t|
     t.string "question", null: false
     t.text "answer", null: false
-    t.vector "embedding", limit: 1536
+    t.vector "embedding", limit: 1024
     t.bigint "assistant_id", null: false
     t.bigint "account_id", null: false
     t.string "language", default: "en", null: false
@@ -496,6 +517,21 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_000000) do
     t.index ["assistant_id", "enabled"], name: "index_captain_scenarios_on_assistant_id_and_enabled"
     t.index ["assistant_id"], name: "index_captain_scenarios_on_assistant_id"
     t.index ["enabled"], name: "index_captain_scenarios_on_enabled"
+  end
+
+  create_table "captain_simple_replies", force: :cascade do |t|
+    t.string "name", null: false
+    t.jsonb "keywords", default: [], null: false
+    t.text "reply", null: false
+    t.integer "match_type", default: 0, null: false
+    t.boolean "enabled", default: true, null: false
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_simple_replies_on_account_id"
+    t.index ["assistant_id", "enabled"], name: "index_captain_simple_replies_on_assistant_id_and_enabled"
+    t.index ["assistant_id"], name: "index_captain_simple_replies_on_assistant_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -1232,19 +1268,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_000000) do
     t.integer "email_flags", default: 0, null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.integer "push_flags", default: 0, null: false
     t.index ["account_id", "user_id"], name: "by_account_user", unique: true
-  end
-
-  create_table "notification_subscriptions", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.integer "subscription_type", null: false
-    t.jsonb "subscription_attributes", default: {}, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.text "identifier"
-    t.index ["identifier"], name: "index_notification_subscriptions_on_identifier", unique: true
-    t.index ["user_id"], name: "index_notification_subscriptions_on_user_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -1539,6 +1563,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_000000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "captain_agent_traces", "accounts"
+  add_foreign_key "captain_agent_traces", "captain_assistants", column: "assistant_id"
+  add_foreign_key "captain_agent_traces", "conversations"
+  add_foreign_key "captain_simple_replies", "accounts"
+  add_foreign_key "captain_simple_replies", "captain_assistants", column: "assistant_id"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
-end

@@ -12,12 +12,6 @@ export function useConfig() {
   const hostURL = config.hostURL;
 
   /**
-   * The VAPID public key for web push notifications.
-   * @type {string|undefined}
-   */
-  const vapidPublicKey = config.vapidPublicKey;
-
-  /**
    * An array of enabled languages in the Chatwoot instance.
    * @type {string[]|undefined}
    */
@@ -44,7 +38,6 @@ export function useConfig() {
 
   return {
     hostURL,
-    vapidPublicKey,
     enabledLanguages,
     isEnterprise,
     enterprisePlanName,

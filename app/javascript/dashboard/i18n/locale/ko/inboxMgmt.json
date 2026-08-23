@@ -16,7 +16,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "채널 선택",
-        "BODY": "Chatwoot와 통합할 공급자를 선택하십시오."
+        "BODY": "KIRA와 통합할 공급자를 선택하십시오."
       },
       "INBOX": {
         "TITLE": "받은 메시지함 만들기",
@@ -42,7 +42,7 @@
         "PLACEHOLDER": "웹사이트 이름 입력 (예: Acme Inc)"
       },
       "FB": {
-        "HELP": "추신: 로그인을 함으로써, 우리는 오직 당신의 페이지의 메시지에 접근할 수 있습니다. 당신의 개인 메시지에 Chatwoot는 절대 접근할 수 없습니다.",
+        "HELP": "추신: 로그인을 함으로써, 우리는 오직 당신의 페이지의 메시지에 접근할 수 있습니다. 당신의 개인 메시지에 KIRA는 절대 접근할 수 없습니다.",
         "CHOOSE_PAGE": "페이지 선택",
         "CHOOSE_PLACEHOLDER": "목록에서 페이지 선택",
         "INBOX_NAME": "받은 메시지함 이름",
@@ -50,7 +50,7 @@
         "PICK_NAME": "받은 메시지함의 이름을 선택하십시오",
         "PICK_A_VALUE": "값 선택",
         "CREATE_INBOX": "받은 메시지함 만들기",
-        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. We’re working closely with Meta to resolve it as quickly as possible.",
         "STATUS_LINK": "View status updates"
       },
       "INSTAGRAM": {
@@ -61,8 +61,8 @@
         "ERROR_AUTH": "Instagram에 연결하는 동안 오류가 발생했습니다. 다시 시도하십시오.",
         "NEW_INBOX_SUGGESTION": "이 Instagram 계정은 이전에 다른 받은 메시지함에 연결되어 있었으며 현재 이곳으로 마이그레이션되었습니다. 모든 새 메시지가 여기에 표시됩니다. 이전 받은 메시지함에서는 더 이상 이 계정의 메시지를 보내거나 받을 수 없습니다.",
         "DUPLICATE_INBOX_BANNER": "이 Instagram 계정은 새로운 Instagram 채널 받은 메시지함으로 마이그레이션되었습니다. 이 받은 메시지함에서는 더 이상 Instagram 메시지를 보내거나 받을 수 없습니다.",
-        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
-        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
+        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. We’re working closely with Meta to resolve it as quickly as possible.",
+        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with KIRA. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
         "STATUS_LINK": "View status updates"
       },
       "TIKTOK": {
@@ -329,17 +329,17 @@
           "MANUAL_LINK_TEXT": "수동 설정 플로우",
           "ACCESS_REQUEST": {
             "TITLE": "Meta를 통한 빠른 설정",
-            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which KIRA account needs access.",
             "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
             "BUTTON": "Request access"
           },
-          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
+          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
           "STATUS_LINK": "View status updates",
           "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "WhatsApp 채널을 저장할 수 없습니다.",
-          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
+          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with KIRA. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
           "STATUS_LINK": "View status updates"
         }
       },
@@ -469,7 +469,7 @@
       },
       "AUTH": {
         "TITLE": "채널 선택",
-        "DESC": "Chatwoot는 라이브 채팅 위젯, Facebook Messenger, WhatsApp, 이메일 등을 채널로 지원합니다. 사용자 정의 채널을 만들려면 API 채널을 사용하여 만들 수 있습니다. 시작하려면 아래에서 채널을 선택하십시오.",
+        "DESC": "KIRA는 라이브 채팅 위젯, Facebook Messenger, WhatsApp, 이메일 등을 채널로 지원합니다. 사용자 정의 채널을 만들려면 API 채널을 사용하여 만들 수 있습니다. 시작하려면 아래에서 채널을 선택하십시오.",
         "TITLE_NEXT": "설정 완료",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -531,11 +531,11 @@
       },
       "DETAILS": {
         "TITLE": "받은 메시지함 자세히",
-        "DESC": "아래 드롭다운에서 Chatwoot에 연결할 Facebook 페이지를 선택하십시오. 더 나은 식별을 위해 받은 메시지함에 사용자 정의 이름을 지정할 수 있습니다."
+        "DESC": "아래 드롭다운에서 KIRA에 연결할 Facebook 페이지를 선택하십시오. 더 나은 식별을 위해 받은 메시지함에 사용자 정의 이름을 지정할 수 있습니다."
       },
       "FINISH": {
         "TITLE": "완료되었습니다!",
-        "DESC": "Facebook 페이지를 Chatwoot와 성공적으로 통합하셨습니다. 다음부터 고객이 페이지에 메시지를 보낼 때, 대화는 받은 메시지함에 자동으로 나타납니다.<br>웹사이트에 쉽게 추가할 수 있는 위젯 스크립트도 제공하고 있습니다. 일단 당신의 웹사이트에 생방송으로 접속하면, 고객들은 어떠한 외부 도구의 도움 없이도 당신의 웹사이트에서 바로 당신에게 메시지를 보낼 수 있고, 대화는 바로 여기 Chatwoot에 나타납니다.<br>멋지죠? 음, 우리는 그럴려고 노력합니다 :)"
+        "DESC": "Facebook 페이지를 KIRA와 성공적으로 통합하셨습니다. 다음부터 고객이 페이지에 메시지를 보낼 때, 대화는 받은 메시지함에 자동으로 나타납니다.<br>웹사이트에 쉽게 추가할 수 있는 위젯 스크립트도 제공하고 있습니다. 일단 당신의 웹사이트에 생방송으로 접속하면, 고객들은 어떠한 외부 도구의 도움 없이도 당신의 웹사이트에서 바로 당신에게 메시지를 보낼 수 있고, 대화는 바로 여기 KIRA에 나타납니다.<br>멋지죠? 음, 우리는 그럴려고 노력합니다 :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "이메일 공급자를 선택하십시오",
@@ -903,7 +903,7 @@
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when Chatwoot cannot retrieve its message templates. Chatwoot uses this token only for template synchronization.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when KIRA cannot retrieve its message templates. KIRA uses this token only for template synchronization.",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Enter the business management token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "추가",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Replace",
@@ -978,7 +978,7 @@
           "INBOX": "받은 메시지함",
           "PHONE_NUMBER": "휴대폰 번호",
           "NOT_ENTERED": "Not entered",
-          "VERIFY_NOTICE": "Chatwoot will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
+          "VERIFY_NOTICE": "KIRA will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
           "BACK": "뒤로",
           "CANCEL": "취소",
           "CONTINUE": "계속",
@@ -1000,7 +1000,7 @@
           },
           "REVIEW_MIGRATION": {
             "TITLE": "Review migration",
-            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
+            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. KIRA will verify the token, WABA, and phone number with Meta before applying changes."
           }
         }
       },
@@ -1343,7 +1343,7 @@
         "USER_MESSAGE": "안녕하세요",
         "AGENT_MESSAGE": "안녕하십니까"
       },
-      "BRANDING_TEXT": "Chatwoot 작동중",
+      "BRANDING_TEXT": "KIRA 작동중",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

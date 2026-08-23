@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "지금 사용자 지정 도메인에서 이메일을 받을 수 있습니다."
       }
     },
-    "UPDATE_CHATWOOT": "Chatwoot에 대한 {latestChatwootVersion} 업데이트를 사용할 수 있습니다. 인스턴스를 업데이트하십시오.",
+    "UPDATE_CHATWOOT": "KIRA에 대한 {latestKIRAVersion} 업데이트를 사용할 수 있습니다. 인스턴스를 업데이트하십시오.",
     "LEARN_MORE": "자세히 알아보기",
-    "PAYMENT_PENDING": "결제가 보류 중입니다. Chatwoot을 계속 사용하려면 결제 정보를 업데이트하십시오",
-    "UPGRADE": "Chatwoot을 계속 사용하려면 업그레이드하십시오",
-    "LIMITS_UPGRADE": "계정이 사용 제한을 초과했습니다. Chatwoot을 계속 사용하려면 플랜을 업그레이드하십시오",
+    "PAYMENT_PENDING": "결제가 보류 중입니다. KIRA을 계속 사용하려면 결제 정보를 업데이트하십시오",
+    "UPGRADE": "KIRA을 계속 사용하려면 업그레이드하십시오",
+    "LIMITS_UPGRADE": "계정이 사용 제한을 초과했습니다. KIRA을 계속 사용하려면 플랜을 업그레이드하십시오",
     "OPEN_BILLING": "청구서 열기"
   },
   "FORMS": {

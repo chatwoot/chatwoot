@@ -261,7 +261,7 @@
     "SENT_BY": "发送人：",
     "BOT": "机器人",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from KIRA to maintain the message window.",
     "SEND_FAILED": "无法发送消息，请重试！",
     "TRY_AGAIN": "重试",
     "ASSIGNMENT": {

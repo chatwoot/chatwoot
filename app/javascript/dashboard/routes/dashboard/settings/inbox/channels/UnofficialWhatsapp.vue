@@ -100,7 +100,8 @@ export default {
         // because the number is already taken (e.g. concurrent scan).
         if (!(await this.reuseExistingChannel())) {
           useAlert(
-            error.message || this.$t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE')
+            error.message ||
+              this.$t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE')
           );
         }
       }
@@ -168,7 +169,8 @@ export default {
         // Companion returns 204 when connected or before QR; handle via status check
         if (!data?.qr) {
           try {
-            const { data: statusData } = await WhatsappUnofficialAPI.getStatus(pollingChannelId);
+            const { data: statusData } =
+              await WhatsappUnofficialAPI.getStatus(pollingChannelId);
             if (statusData?.status === 'connected') {
               this.status = 'connected';
               this.stopPolling();

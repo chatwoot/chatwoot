@@ -45,7 +45,7 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "আপনি শুধুমাত্র টেমপ্লেট বার্তা ব্যবহার করে এই আলাপে উত্তর দিতে পারবেন কারণ",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "২৪ ঘণ্টার বার্তা সীমাবদ্ধতা",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "এই Instagram অ্যাকাউন্টটি নতুন Instagram চ্যানেল ইনবক্সে স্থানান্তরিত হয়েছে। সব নতুন বার্তা সেখানে দেখা যাবে। আপনি আর এই কথোপকথন থেকে বার্তা পাঠাতে পারবেন না।",
-    "INSTAGRAM_RESTRICTION_BANNER": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with KIRA. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
     "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status updates",
     "REPLYING_TO": "আপনি যাকে উত্তর দিচ্ছেন:",
     "REMOVE_SELECTION": "নির্বাচন সরান",
@@ -303,7 +303,7 @@
     "SENT_BY": "প্রেরক:",
     "BOT": "Bot",
     "NATIVE_APP": "নেটিভ অ্যাপ",
-    "NATIVE_APP_ADVISORY": "এই বার্তাটি নেটিভ অ্যাপ থেকে পাঠানো হয়েছে। বার্তা উইন্ডো বজায় রাখতে Chatwoot থেকে উত্তর দিন।",
+    "NATIVE_APP_ADVISORY": "এই বার্তাটি নেটিভ অ্যাপ থেকে পাঠানো হয়েছে। বার্তা উইন্ডো বজায় রাখতে KIRA থেকে উত্তর দিন।",
     "SEND_FAILED": "বার্তা পাঠানো যায়নি! আবার চেষ্টা করুন",
     "TRY_AGAIN": "পুনরায় চেষ্টা করুন",
     "ASSIGNMENT": {

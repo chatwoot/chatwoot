@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { ref, watch, nextTick } from 'vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import DecisionTrace from './DecisionTrace.vue';
 
 const props = defineProps({
   messages: {
@@ -75,6 +76,11 @@ watch(() => props.messages.length, scrollToBottom);
         >
           <div v-html="formatMessage(message.content)" />
         </div>
+        <DecisionTrace
+          v-if="message.decisionTrace && message.decisionTrace.length"
+          :nodes="message.decisionTrace"
+          class="mt-2"
+        />
       </div>
     </div>
     <div v-if="isLoading" class="flex justify-start">

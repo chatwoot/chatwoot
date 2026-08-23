@@ -368,14 +368,14 @@ RSpec.describe ConversationReplyMailer do
         end
 
         it 'includes CSAT survey URL in outgoing_content' do
-          with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+          with_modified_env 'FRONTEND_URL' => 'https://chatwoot.example.com' do
             mail = described_class.email_reply(csat_message).deliver_now
-            expect(mail.decoded).to include "https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
+            expect(mail.decoded).to include "https://chatwoot.example.com/survey/responses/#{conversation.uuid}"
           end
         end
 
         it 'uses outgoing_content for CSAT message body' do
-          with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+          with_modified_env 'FRONTEND_URL' => 'https://chatwoot.example.com' do
             mail = described_class.email_reply(csat_message).deliver_now
             expect(mail.decoded).to include csat_message.outgoing_content
           end

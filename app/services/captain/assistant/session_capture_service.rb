@@ -1,12 +1,13 @@
 class Captain::Assistant::SessionCaptureService
   SCENARIO_AGENT_REGEX = /\A#{Captain::Scenario::HANDOFF_KEY_PREFIX}_(\d+)_/
 
-  def initialize(assistant:, conversation:, run_result:, result_message:, credits_consumed:)
+  def initialize(assistant:, conversation:, run_result:, result_message:, credits_consumed:, outcome:) # rubocop:disable Metrics/ParameterLists
     @assistant = assistant
     @conversation = conversation
     @run_result = run_result
     @result_message = result_message
     @credits_consumed = credits_consumed
+    @outcome = outcome
   end
 
   def capture
@@ -35,6 +36,7 @@ class Captain::Assistant::SessionCaptureService
       cited_document_ids: cited_document_ids,
       document_ids: metadata[:document_ids] || [],
       scenario_ids: scenario_ids,
+      outcome: @outcome,
       run_context: current_turn_history
     )
   end

@@ -40,7 +40,7 @@
     "WHATSAPP_CONNECTED": "WhatsApp conectado com sucesso",
     "FACEBOOK_CONNECTED": "Facebook conectado com sucesso",
     "META_RESTRICTION": {
-      "MESSAGE": "A configuração de caixas de entrada do Facebook, Instagram e WhatsApp está temporariamente indisponível devido a um problema na API da Meta, e não por uma falha no Chatwoot. Estamos trabalhando em conjunto com a Meta para resolver a situação o mais rápido possível.",
+      "MESSAGE": "A configuração de caixas de entrada do Facebook, Instagram e WhatsApp está temporariamente indisponível devido a um problema na API da Meta, e não por uma falha no KIRA. Estamos trabalhando em conjunto com a Meta para resolver a situação o mais rápido possível.",
       "STATUS_LINK": "Ver atualizações de status"
     },
     "CREATED_FOR_YOU": {

@@ -25,8 +25,7 @@ class DashboardController < ActionController::Base
     DISABLE_USER_PROFILE_UPDATE
     DISABLE_META_INBOX_CREATION
     DISABLE_META_MESSAGE_SENDING
-    DEPLOYMENT_ENV
-    INSTALLATION_PRICING_PLAN
+     DEPLOYMENT_ENV
   ].freeze
 
   before_action :set_application_pack
@@ -74,7 +73,6 @@ class DashboardController < ActionController::Base
   def app_config
     {
       APP_VERSION: Chatwoot.config[:version],
-      VAPID_PUBLIC_KEY: VapidService.public_key,
       ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false'),
       FB_APP_ID: GlobalConfigService.load('FB_APP_ID', ''),
       INSTAGRAM_APP_ID: GlobalConfigService.load('INSTAGRAM_APP_ID', ''),
@@ -99,7 +97,6 @@ class DashboardController < ActionController::Base
   def allowed_login_methods
     methods = ['email']
     methods << 'google_oauth' if GlobalConfigService.load('ENABLE_GOOGLE_OAUTH_LOGIN', 'true').to_s != 'false'
-    methods << 'saml' if ChatwootHub.pricing_plan != 'community' && GlobalConfigService.load('ENABLE_SAML_SSO_LOGIN', 'true').to_s != 'false'
     methods
   end
 

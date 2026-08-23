@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "ቅርጸ ተነሳሽ",
-        "NOTE": "የChatwoot ዳሽቦርድዎን ቅርጸ ተነሳሽነት ያስተካክሉ።.",
+        "NOTE": "የKIRA ዳሽቦርድዎን ቅርጸ ተነሳሽነት ያስተካክሉ።.",
         "FONT_SIZE": {
           "TITLE": "የፊደል መጠን",
           "NOTE": "በዳሽቦርድ ዙሪያ የጽሑፍ መጠንን በሚወዱበት መሠረት ያስተካክሉ።.",
@@ -673,7 +673,7 @@
       "SP_ENTITY_ID": {
         "LABEL": "SP አካል መለያ",
         "HELP": "ለዚህ መተግበሪያ እንደ አገልግሎት አቅራቢ የተለየ መለያ (ራስሰር የተፈጠረ) ነው።.",
-        "TOOLTIP": "እንደ Service Provider ለChatwoot የተለየ መለያ - በIdP ቅንብርዎ ውስጥ ይህን ያስተካክሉ"
+        "TOOLTIP": "እንደ Service Provider ለKIRA የተለየ መለያ - በIdP ቅንብርዎ ውስጥ ይህን ያስተካክሉ"
       },
       "IDP_ENTITY_ID": {
         "LABEL": "የመለያ አቅራቢ አካል መለያ",
@@ -768,7 +768,7 @@
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "እንደሆነ! ማንኛውም Chatwoot መለያ አልተገኘም። እባክዎ ለመቀጠል አዲስ መለያ ይፍጠሩ።.",
+    "NO_ACCOUNT_WARNING": "እንደሆነ! ማንኛውም KIRA መለያ አልተገኘም። እባክዎ ለመቀጠል አዲስ መለያ ይፍጠሩ።.",
     "NEW_ACCOUNT": "አዲስ አካውንት",
     "SELECTOR_SUBTITLE": "አዲስ አካውንት ፍጠር",
     "API": {

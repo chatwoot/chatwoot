@@ -349,6 +349,9 @@ importers:
       prosemirror-model:
         specifier: ^1.22.3
         version: 1.22.3
+      sass:
+        specifier: 1.79.3
+        version: 1.79.3
       sass-embedded:
         specifier: 1.83.4
         version: 1.83.4
@@ -7429,7 +7432,6 @@ snapshots:
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.1.2
-    optional: true
 
   cli-boxes@3.0.0: {}
 
@@ -8574,8 +8576,7 @@ snapshots:
 
   ignore@6.0.2: {}
 
-  immutable@4.3.9:
-    optional: true
+  immutable@4.3.9: {}
 
   immutable@5.1.9: {}
 
@@ -9903,8 +9904,7 @@ snapshots:
     dependencies:
       picomatch: 2.3.1
 
-  readdirp@4.1.2:
-    optional: true
+  readdirp@4.1.2: {}
 
   real-require@0.2.0: {}
 
@@ -10134,7 +10134,6 @@ snapshots:
       chokidar: 4.0.3
       immutable: 4.3.9
       source-map-js: 1.2.1
-    optional: true
 
   saxes@6.0.0:
     dependencies:

@@ -4,7 +4,7 @@
 #
 #  id           :bigint           not null, primary key
 #  answer       :text             not null
-#  embedding    :vector(1536)
+#  embedding    :vector(1024)
 #  language     :string           default("en"), not null
 #  question     :string           not null
 #  source_count :integer          default(0), not null

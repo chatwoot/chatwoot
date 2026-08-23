@@ -60,7 +60,6 @@ class ActionCableConnector extends BaseActionCableConnector {
         this.onConversationUnreadCountChanged,
       'account.cache_invalidated': this.onCacheInvalidate,
       'account.enrichment_completed': this.onEnrichmentCompleted,
-      'copilot.message.created': this.onCopilotMessageCreated,
       'voice_call.incoming': this.onVoiceCallIncoming,
       'voice_call.accepted': this.onVoiceCallAccepted,
       'voice_call.outbound_connected': this.onVoiceCallOutboundConnected,
@@ -332,10 +331,6 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onNotificationUpdated = data => {
     this.app.$store.dispatch('notifications/updateNotification', data);
-  };
-
-  onCopilotMessageCreated = data => {
-    this.app.$store.dispatch('copilotMessages/upsert', data);
   };
 
   onEnrichmentCompleted = () => {

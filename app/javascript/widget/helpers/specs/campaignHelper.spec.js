@@ -21,14 +21,14 @@ describe('#Campaigns Helper', () => {
       expect(
         isPatternMatchingWithURL(
           'https://*.chatwoot.com/pricing/',
-          'https://app.chatwoot.com/pricing/'
+          'https://chatwoot.example.com/pricing/'
         )
       ).toBe(true);
 
       expect(
         isPatternMatchingWithURL(
           'https://{*.}?chatwoot.com/pricing?test=true',
-          'https://app.chatwoot.com/pricing/?test=true'
+          'https://chatwoot.example.com/pricing/?test=true'
         )
       ).toBe(true);
 

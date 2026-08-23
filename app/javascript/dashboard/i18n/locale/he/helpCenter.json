@@ -425,7 +425,7 @@
         "SLUG": {
           "LABEL": "שבלול",
           "PLACEHOLDER": "שבלול קטגוריה עבור כתובות אתרים",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "נדרש שבלול"
         },
         "DESCRIPTION": {
@@ -456,7 +456,7 @@
         "SLUG": {
           "LABEL": "שבלול",
           "PLACEHOLDER": "שבלול קטגוריה עבור כתובות אתרים",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "נדרש שבלול"
         },
         "DESCRIPTION": {
@@ -693,7 +693,7 @@
             "LABEL": "שבלול",
             "PLACEHOLDER": "שבלול קטגוריה עבור כתובות אתרים",
             "ERROR": "נדרש שבלול",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chatwoot.example.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "תיאור",
@@ -853,7 +853,7 @@
       "CONFIRM_BUTTON_LABEL": "צור",
       "NAME": {
         "LABEL": "שם",
-        "PLACEHOLDER": "מדריך למשתמש | Chatwoot",
+        "PLACEHOLDER": "מדריך למשתמש | KIRA",
         "MESSAGE": "בחר שם לפורטל שלך.",
         "ERROR": "שם שדה חובה"
       },
@@ -976,7 +976,7 @@
         "HEADER": "אינטגרציות",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with Chatwoot",
+          "TITLE": "Live chat with KIRA",
           "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
           "PLACEHOLDER": "בחר ווידג'ט צ'אט חי",
           "NONE_OPTION": "אין ווידג'ט"

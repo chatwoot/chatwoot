@@ -84,8 +84,6 @@ export const actions = {
     try {
       await AttributeAPI.delete(id);
       commit(types.DELETE_CUSTOM_ATTRIBUTE, id);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isDeleting: false });
     }

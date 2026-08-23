@@ -70,6 +70,7 @@ Rails.application.routes.draw do
                 get :summary
                 get :drilldown
                 get :intents
+                get :traces
               end
               collection do
                 get :tools
@@ -88,9 +89,6 @@ Rails.application.routes.draw do
             end
             resources :message_reports, only: [:create]
             resources :bulk_actions, only: [:create]
-            resources :copilot_threads, only: [:index, :create] do
-              resources :copilot_messages, only: [:index, :create]
-            end
             resources :custom_tools do
               post :test, on: :collection
             end
@@ -447,8 +445,6 @@ Rails.application.routes.draw do
         end
       end
 
-      resource :notification_subscriptions, only: [:create, :destroy]
-
       namespace :widget do
         resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
@@ -638,6 +634,14 @@ Rails.application.routes.draw do
   get '.well-known/cf-custom-hostname-challenge/:id', to: 'custom_domains#verify'
 
   # ----------------------------------------------------------------------
+  # Browser/DevTools probe requests that otherwise raise noisy RoutingErrors.
+  # sw.js is only built into public/ in packaged builds; serve an empty worker
+  # so registration succeeds even in dev. The DevTools app-specific check has no
+  # content, so answer 404 without logging an unhandled RoutingError.
+  get '/sw.js', to: proc { |_env| [200, { 'content-type' => 'application/javascript' }, ['']] }
+  get '/.well-known/appspecific/com.chrome.devtools.json', to: proc { |_env| [404, { 'content-type' => 'application/json' }, ['']] }
+
+  # ----------------------------------------------------------------------
   # Internal Monitoring Routes
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
@@ -649,9 +653,6 @@ Rails.application.routes.draw do
       root to: 'dashboard#index'
 
       resource :app_config, only: [:show, :create]
-      resource :push_diagnostics, only: [:show, :create] do
-        post :destroy_subscriptions, on: :collection
-      end
 
       # order of resources affect the order of sidebar navigation in super admin
       resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
@@ -668,9 +669,7 @@ Rails.application.routes.draw do
       resources :platform_banners
       resource :instance_status, only: [:show]
 
-      resource :settings, only: [:show] do
-        get :refresh, on: :collection
-      end
+      resource :settings, only: [:show]
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :show, :destroy]

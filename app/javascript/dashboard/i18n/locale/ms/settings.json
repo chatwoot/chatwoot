@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Antara Muka",
-        "NOTE": "Sesuaikan rupa dan rasa papan pemuka Chatwoot anda.",
+        "NOTE": "Sesuaikan rupa dan rasa papan pemuka KIRA anda.",
         "FONT_SIZE": {
           "TITLE": "Saiz fon",
           "NOTE": "Laraskan saiz teks di seluruh papan pemuka mengikut keutamaan anda.",
@@ -673,7 +673,7 @@
       "SP_ENTITY_ID": {
         "LABEL": "SP Entity ID",
         "HELP": "Pengecam unik untuk aplikasi ini sebagai penyedia perkhidmatan (auto-dihasilkan).",
-        "TOOLTIP": "Pengecam unik untuk Chatwoot sebagai Penyedia Perkhidmatan - Konfigurasikan ini dalam tetapan IdP anda"
+        "TOOLTIP": "Pengecam unik untuk KIRA sebagai Penyedia Perkhidmatan - Konfigurasikan ini dalam tetapan IdP anda"
       },
       "IDP_ENTITY_ID": {
         "LABEL": "ID Entiti Penyedia Identiti",
@@ -768,7 +768,7 @@
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! Kami tidak dapat menemui sebarang akaun Chatwoot. Sila buat akaun baru untuk meneruskan.",
+    "NO_ACCOUNT_WARNING": "Uh oh! Kami tidak dapat menemui sebarang akaun KIRA. Sila buat akaun baru untuk meneruskan.",
     "NEW_ACCOUNT": "Akaun Baru",
     "SELECTOR_SUBTITLE": "Buat akaun baru",
     "API": {

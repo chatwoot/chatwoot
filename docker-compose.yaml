@@ -23,11 +23,19 @@ services:
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
     depends_on:
-      - postgres
-      - redis
-      - vite
-      - mailhog
-      - sidekiq
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_started
+      mailhog:
+        condition: service_started
+      sidekiq:
+        condition: service_started
+      # Without a reachable dev server every /vite-dev/ asset request falls
+      # through the proxy into Rails routing and fails with RoutingError.
+      # Don't serve pages until Vite reports healthy.
+      vite:
+        condition: service_healthy
     ports:
       - '3000:3000'
     env_file: .env
@@ -96,6 +104,14 @@ services:
     command:
       - bin/vite
       - dev
+    healthcheck:
+      # The dev server can hang with the process alive but the port unbound;
+      # probe the actual HTTP endpoint rather than trusting process state.
+      test: ['CMD', 'curl', '-sf', '--max-time', '3', 'http://127.0.0.1:3036/vite-dev/@vite/client']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 300s
 
   postgres:
     image: pgvector/pgvector:pg16

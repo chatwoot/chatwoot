@@ -17,7 +17,7 @@
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "Integrācijas",
-    "DESCRIPTION": "Chatwoot integrējas ar vairākiem rīkiem un pakalpojumiem, lai uzlabotu jūsu komandas efektivitāti. Izpētiet tālāk esošo sarakstu, lai konfigurētu savas iecienītākās lietotnes.",
+    "DESCRIPTION": "KIRA integrējas ar vairākiem rīkiem un pakalpojumiem, lai uzlabotu jūsu komandas efektivitāti. Izpētiet tālāk esošo sarakstu, lai konfigurētu savas iecienītākās lietotnes.",
     "LEARN_MORE": "Uzzināt vairāk par integrācijām",
     "LOADING": "Integrāciju iegūšana",
     "SEARCH_PLACEHOLDER": "Search integrations...",
@@ -33,7 +33,7 @@
       "LEARN_MORE": "Uzzināt vairāk par webhooks",
       "PAYWALL": {
         "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your KIRA account.",
         "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
         "UPGRADE_NOW": "Pāriet uz maksas versiju tagad",
         "CANCEL_ANYTIME": "Change or cancel your plan anytime."
@@ -51,7 +51,7 @@
       "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Atcelt",
-        "DESC": "Webhook notikumi sniedz Jums reāllaika informāciju par to, kas notiek jūsu Chatwoot kontā. Lūdzu, ievadiet derīgu URL, lai nokonfigurētu atzvanīšanu.",
+        "DESC": "Webhook notikumi sniedz Jums reāllaika informāciju par to, kas notiek jūsu KIRA kontā. Lūdzu, ievadiet derīgu URL, lai nokonfigurētu atzvanīšanu.",
         "SUBSCRIPTIONS": {
           "LABEL": "Notikumi",
           "EVENTS": {
@@ -86,7 +86,7 @@
       "HEADER_BTN_TXT": "Pievienot jaunu webhook",
       "LOADING": "Notiek pievienoto webhook iegūšana",
       "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
-      "SIDEBAR_TXT": "<p><b>Webhook</b> </p> <p>Webhook ir HTTP atzvani, kurus var definēt katram kontam. Tos aktivizē tādi notikumi kā ziņojumu izveide pakalpojumā Chatwoot. Šim kontam varat izveidot vairāk nekā vienu webhook. <br /><br /> Lai izveidotu <b>webhook</b>, noklikšķiniet uz <b>Pievienot jaunu webhook</b> pogas. Jūs varat arī noņemt jebkuru esošo webhook, noklikšķinot uz pogas Dzēst.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhook</b> </p> <p>Webhook ir HTTP atzvani, kurus var definēt katram kontam. Tos aktivizē tādi notikumi kā ziņojumu izveide pakalpojumā KIRA. Šim kontam varat izveidot vairāk nekā vienu webhook. <br /><br /> Lai izveidotu <b>webhook</b>, noklikšķiniet uz <b>Pievienot jaunu webhook</b> pogas. Jūs varat arī noņemt jebkuru esošo webhook, noklikšķinot uz pogas Dzēst.</p>",
       "LIST": {
         "404": "Šim kontam nav nokonfigurēts neviens webhook.",
         "TITLE": "Pārvaldīt webhook",
@@ -134,14 +134,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Kā izmantot Slack integrāciju?",
-        "BODY": "Izmantojot šo integrāciju, visas jūsu ienākošās sarunas tiks sinhronizētas ar kanālu ***{selectedChannelName}*** jūsu Slack darbvietā. Jūs varat pārvaldīt visas savas klientu sarunas tieši kanālā un nekad nepalaist garām nevienu ziņojumu.\n\nŠādas ir galvenās integrācijas īpašības:\n\n**Atbldēt uz sarunām no Slack:** Lai atbildētu uz sarunu ***{selectedChannelName}*** Slack kanālā, uzrakstiet savu ziņojumu un nosūtiet to kā pavedienu. Šādi tiks izveidota atbilde klientam, izmantojot Chatwoot.\n\n**Izveidot privātas piezīmes:** ja vēlaties izveidot privātas piezīmes, nevis atbildes, sāciet ziņojumu ar ***`note:`***. Tas nodrošina, ka jūsu ziņojums ir privāts un nebūs redzams klientam.\n\n**Saistīt aģenta profilu:** ja personai, kas atbildēja Slack, ir Chatwoot aģenta profils ar to pašu e-pasta adresi, atbildes tiks automātiski saistītas ar šo aģenta profilu. Tas nozīmē, ka varat viegli izsekot kurš ko teica un kad. No otras puses, ja atbildētājam nav saistīta aģenta profila, atbildes klientam tiks rādītas no robotprogrammatūras profila.",
+        "BODY": "Izmantojot šo integrāciju, visas jūsu ienākošās sarunas tiks sinhronizētas ar kanālu ***{selectedChannelName}*** jūsu Slack darbvietā. Jūs varat pārvaldīt visas savas klientu sarunas tieši kanālā un nekad nepalaist garām nevienu ziņojumu.\n\nŠādas ir galvenās integrācijas īpašības:\n\n**Atbldēt uz sarunām no Slack:** Lai atbildētu uz sarunu ***{selectedChannelName}*** Slack kanālā, uzrakstiet savu ziņojumu un nosūtiet to kā pavedienu. Šādi tiks izveidota atbilde klientam, izmantojot KIRA.\n\n**Izveidot privātas piezīmes:** ja vēlaties izveidot privātas piezīmes, nevis atbildes, sāciet ziņojumu ar ***`note:`***. Tas nodrošina, ka jūsu ziņojums ir privāts un nebūs redzams klientam.\n\n**Saistīt aģenta profilu:** ja personai, kas atbildēja Slack, ir KIRA aģenta profils ar to pašu e-pasta adresi, atbildes tiks automātiski saistītas ar šo aģenta profilu. Tas nozīmē, ka varat viegli izsekot kurš ko teica un kad. No otras puses, ja atbildētājam nav saistīta aģenta profila, atbildes klientam tiks rādītas no robotprogrammatūras profila.",
         "SELECTED": "izvēlēts"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Izvēlēties kanālu",
         "UPDATE": "Atjaunināt",
         "BUTTON_TEXT": "Pievienot kanālu",
-        "DESCRIPTION": "Jūsu Slack workspace tagad ir saistīta ar Chatwoot, taču integrācija pašlaik ir neaktīva. Lai aktivizētu integrāciju un savienotu kanālu ar Chatwoot, lūdzu, noklikšķiniet uz tālāk esošās pogas.\n\n**Piezīme:** Ja mēģinat izveidot savienojumu ar privātu kanālu, pirms turpināt šo darbību, pievienojiet lietotni Chatwoot Slack kanālam.",
+        "DESCRIPTION": "Jūsu Slack workspace tagad ir saistīta ar KIRA, taču integrācija pašlaik ir neaktīva. Lai aktivizētu integrāciju un savienotu kanālu ar KIRA, lūdzu, noklikšķiniet uz tālāk esošās pogas.\n\n**Piezīme:** Ja mēģinat izveidot savienojumu ar privātu kanālu, pirms turpināt šo darbību, pievienojiet lietotni KIRA Slack kanālam.",
         "ATTENTION_REQUIRED": "Nepieciešama uzmanība",
         "EXPIRED": "Jūsu Slack integrācijas derīguma termiņš ir beidzies. Lai turpinātu saņemt ziņojumus pakalpojumā Slack, lūdzu, izdzēsiet integrāciju un vēlreiz pievienojiet savu workspace."
       },
@@ -243,7 +243,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Informācijas paneļa lietotnes",
       "HEADER_BTN_TXT": "Pievienot jaunu informācijas paneļa lietotni",
-      "SIDEBAR_TXT": "<p><b>Informācijas Paneļa Lietotnes</b></p><p>Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu Chatwoot informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums izveidot lietojumprogrammu neatkarīgi un iegult to informācijas panelī, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai viņu iepriekšējo maksājumu vēsturi.</p><p>Kad iegulsiet lietojumprogrammu, izmantojot Chatwoot informācijas paneli, Jūsu lietojumprogramma iegūs sarunas un kontaktpersonas kontekstu kā loga notikumu. Ieviesiet savā lapā ziņojuma notikuma uztvērēju, lai saņemtu kontekstu.</p><p>Lai pievienotu jaunu informācijas paneļa lietotni, noklikšķiniet uz pogas 'Pievienot jaunu informācijas paneļa lietotni'.</p>",
+      "SIDEBAR_TXT": "<p><b>Informācijas Paneļa Lietotnes</b></p><p>Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu KIRA informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums izveidot lietojumprogrammu neatkarīgi un iegult to informācijas panelī, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai viņu iepriekšējo maksājumu vēsturi.</p><p>Kad iegulsiet lietojumprogrammu, izmantojot KIRA informācijas paneli, Jūsu lietojumprogramma iegūs sarunas un kontaktpersonas kontekstu kā loga notikumu. Ieviesiet savā lapā ziņojuma notikuma uztvērēju, lai saņemtu kontekstu.</p><p>Lai pievienotu jaunu informācijas paneļa lietotni, noklikšķiniet uz pogas 'Pievienot jaunu informācijas paneļa lietotni'.</p>",
       "DESCRIPTION": "Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums neatkarīgi izveidot lietojumprogrammu un iegult to, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai iepriekšējo maksājumu vēsturi.",
       "LEARN_MORE": "Uzzināt vairāk par Informācijas paneļa Lietotnēm",
       "COUNT": "{n} dashboard app | {n} dashboard apps",

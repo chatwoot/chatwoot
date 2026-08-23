@@ -425,7 +425,7 @@
         "SLUG": {
           "LABEL": "網址代碼",
           "PLACEHOLDER": "分類的網址代碼",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "網址代碼為必填"
         },
         "DESCRIPTION": {
@@ -456,7 +456,7 @@
         "SLUG": {
           "LABEL": "網址代碼",
           "PLACEHOLDER": "分類的網址代碼",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "網址代碼為必填"
         },
         "DESCRIPTION": {
@@ -693,7 +693,7 @@
             "LABEL": "網址代碼",
             "PLACEHOLDER": "分類的網址代碼",
             "ERROR": "網址代碼為必填",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chatwoot.example.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "描述",
@@ -853,7 +853,7 @@
       "CONFIRM_BUTTON_LABEL": "建立",
       "NAME": {
         "LABEL": "名稱",
-        "PLACEHOLDER": "使用者指南 | Chatwoot",
+        "PLACEHOLDER": "使用者指南 | KIRA",
         "MESSAGE": "為您的入口選擇一個名稱。",
         "ERROR": "名稱為必填"
       },
@@ -976,7 +976,7 @@
         "HEADER": "整合",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with Chatwoot",
+          "TITLE": "Live chat with KIRA",
           "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
           "PLACEHOLDER": "選擇即時聊天小工具",
           "NONE_OPTION": "不使用小工具"

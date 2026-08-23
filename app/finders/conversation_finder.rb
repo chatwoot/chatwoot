@@ -1,7 +1,7 @@
 class ConversationFinder
   attr_reader :current_user, :current_account, :params
 
-  DEFAULT_STATUS = 'open'.freeze
+  DEFAULT_STATUSES = %w[open pending].freeze
   SORT_OPTIONS = {
     'last_activity_at_asc' => %w[sort_on_last_activity_at asc],
     'last_activity_at_desc' => %w[sort_on_last_activity_at desc],
@@ -160,10 +160,14 @@ class ConversationFinder
                                   .where(messages: { message_type: allowed_message_types })
   end
 
+  # Accepts either a single status or an array of statuses. The default view
+  # surfaces bot-handled (pending) conversations too, since they start as
+  # pending when the inbox has a Captain assistant attached.
   def filter_by_status
-    return if params[:status] == 'all'
+    statuses = Array(params[:status].presence || DEFAULT_STATUSES).map(&:to_s)
+    return if statuses.include?('all')
 
-    @conversations = @conversations.where(status: params[:status] || DEFAULT_STATUS)
+    @conversations = @conversations.where(status: statuses)
   end
 
   def filter_by_team

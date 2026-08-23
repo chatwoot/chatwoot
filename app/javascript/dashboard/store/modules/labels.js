@@ -81,8 +81,6 @@ export const actions = {
       const response = await LabelsAPI.update(id, updateObj);
       AnalyticsHelper.track(LABEL_EVENTS.UPDATE);
       commit(types.EDIT_LABEL, response.data);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_LABEL_UI_FLAG, { isUpdating: false });
     }
@@ -94,8 +92,6 @@ export const actions = {
       await LabelsAPI.delete(id);
       AnalyticsHelper.track(LABEL_EVENTS.DELETED);
       commit(types.DELETE_LABEL, id);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_LABEL_UI_FLAG, { isDeleting: false });
     }

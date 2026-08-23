@@ -4,7 +4,7 @@ This repository is the **Kira.id** fork of Chatwoot — a customer-support platf
 with an embedded AI agent (Captain), WhatsApp channels (official Cloud API **and**
 an unofficial QR-login companion), and outbound campaigns (WhatsApp + email).
 The upstream Chatwoot *enterprise* edition has been **removed**; in its place we
-keep and extend the open-source features (Captain, campaigns, contacts/companies).
+keep and extend the open-source features (Captain, campaigns, c ontacts/companies).
 
 ## Stack & Toolchain
 

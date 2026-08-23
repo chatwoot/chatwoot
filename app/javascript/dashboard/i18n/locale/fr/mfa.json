@@ -107,7 +107,7 @@
       "BACKUP_TITLE": "Utiliser un code de sauvegarde",
       "BACKUP_DESC": "Si vous n'avez pas accès à votre application d'authentification, vous pouvez utiliser l'un des codes de sauvegarde que vous avez enregistrés lors de la configuration de 2FA. Chaque code ne peut être utilisé qu'une seule fois.",
       "CONTACT_TITLE": "Besoin d’aide supplémentaire ?",
-      "CONTACT_DESC_CLOUD": "Si vous avez perdu l'accès à votre application d'authentification et à vos codes de sauvegarde, veuillez contacter le support de Chatwoot pour obtenir de l'aide.",
+      "CONTACT_DESC_CLOUD": "Si vous avez perdu l'accès à votre application d'authentification et à vos codes de sauvegarde, veuillez contacter le support de KIRA pour obtenir de l'aide.",
       "CONTACT_DESC_SELF_HOSTED": "Si vous avez perdu l'accès à votre application d'authentification et à vos codes de sauvegarde, veuillez contacter votre administrateur pour obtenir de l'aide."
     },
     "VERIFICATION_FAILED": "La vérification a échoué. Veuillez réessayer."

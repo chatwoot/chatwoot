@@ -4,6 +4,8 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   queue_as :low
 
   def perform(inbox)
+    return if inbox.blank?
+
     @captain_assistant = inbox.captain_assistant
     return if captain_assistant.blank? || captain_assistant.inactive_conversation_resolution_disabled?
 

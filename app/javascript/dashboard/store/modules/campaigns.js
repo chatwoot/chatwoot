@@ -38,7 +38,17 @@ export const getters = {
     },
   getSMSCampaigns: (_state, _getters) => {
     const smsChannelTypes = [INBOX_TYPES.SMS, INBOX_TYPES.TWILIO];
-    return _getters.getCampaigns(CAMPAIGN_TYPES.ONE_OFF, smsChannelTypes);
+    // A WhatsApp-over-Twilio inbox has no SMS/WhatsApp campaign send path on this
+    // fork, so keep it out of the SMS list (matches the inbox picker filter).
+    return _getters
+      .getCampaigns(CAMPAIGN_TYPES.ONE_OFF, smsChannelTypes)
+      .filter(
+        campaign =>
+          !(
+            campaign.inbox?.channel_type === INBOX_TYPES.TWILIO &&
+            campaign.inbox?.medium === 'whatsapp'
+          )
+      );
   },
   getWhatsAppCampaigns: (_state, _getters) => {
     const whatsappChannelTypes = [INBOX_TYPES.WHATSAPP];
@@ -75,8 +85,9 @@ export const actions = {
     try {
       const response = await CampaignsAPI.create(campaignObj);
       commit(types.ADD_CAMPAIGN, response.data);
-    } catch (error) {
-      throw error;
+      // Return the response so callers can read the created campaign's id (e.g.
+      // the email dialog triggers the new campaign immediately after creation).
+      return response;
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isCreating: false });
     }
@@ -87,8 +98,6 @@ export const actions = {
       const response = await CampaignsAPI.update(id, updateObj);
       AnalyticsHelper.track(CAMPAIGNS_EVENTS.UPDATE_CAMPAIGN);
       commit(types.EDIT_CAMPAIGN, response.data);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: false });
     }
@@ -99,19 +108,13 @@ export const actions = {
       await CampaignsAPI.delete(id);
       AnalyticsHelper.track(CAMPAIGNS_EVENTS.DELETE_CAMPAIGN);
       commit(types.DELETE_CAMPAIGN, id);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isDeleting: false });
     }
   },
   // Kiraid: trigger a one_off (cold-outreach) campaign immediately.
   trigger: async (_context, id) => {
-    try {
-      await CampaignsAPI.trigger(id);
-    } catch (error) {
-      throw error;
-    }
+    await CampaignsAPI.trigger(id);
   },
 };
 

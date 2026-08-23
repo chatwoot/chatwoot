@@ -2,12 +2,6 @@ allOf:
   - $ref: '#/components/schemas/account_detail'
   - type: object
     properties:
-      latest_chatwoot_version:
-        type:
-          - string
-          - 'null'
-        description: Latest version of Chatwoot available
-        example: "3.0.0"
       subscribed_features:
         type: array
         items:

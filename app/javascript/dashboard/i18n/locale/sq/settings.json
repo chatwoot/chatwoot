@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Ndërfaqja",
-        "NOTE": "Personalizoni pamjen dhe ndjesinë e panelit tuaj Chatwoot.",
+        "NOTE": "Personalizoni pamjen dhe ndjesinë e panelit tuaj KIRA.",
         "FONT_SIZE": {
           "TITLE": "Madhësia e shkronjave",
           "NOTE": "Rregulloni madhësinë e tekstit në të gjithë panelin sipas preferencës suaj.",
@@ -673,7 +673,7 @@
       "SP_ENTITY_ID": {
         "LABEL": "ID e Entitetit SP",
         "HELP": "Identifikues unik për këtë aplikacion si ofrues shërbimi (gjeneruar automatikisht).",
-        "TOOLTIP": "Identifikues unik për Chatwoot si Ofrues Shërbimi - Konfiguro këtë në cilësimet e IdP-së tënde"
+        "TOOLTIP": "Identifikues unik për KIRA si Ofrues Shërbimi - Konfiguro këtë në cilësimet e IdP-së tënde"
       },
       "IDP_ENTITY_ID": {
         "LABEL": "ID e Entitetit të Ofruesit të Identitetit",
@@ -768,7 +768,7 @@
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! Nuk gjetëm asnjë llogari Chatwoot. Ju lutem krijoni një llogari të re për të vazhduar.",
+    "NO_ACCOUNT_WARNING": "Uh oh! Nuk gjetëm asnjë llogari KIRA. Ju lutem krijoni një llogari të re për të vazhduar.",
     "NEW_ACCOUNT": "Llogari e Re",
     "SELECTOR_SUBTITLE": "Krijo një llogari të re",
     "API": {

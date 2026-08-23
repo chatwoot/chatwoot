@@ -70,6 +70,18 @@ class Whatsapp::Providers::WhatsappUnofficialService < Whatsapp::Providers::Base
     whatsapp_channel.mark_message_templates_updated
   end
 
+  # Disconnect this number from the companion and clear its persisted Baileys
+  # session. Invoked from WebhookTeardownService when an unofficial inbox is
+  # deleted, so removing the inbox also stops the WhatsApp socket for that number
+  # (otherwise the companion keeps the session connected and listening).
+  def logout
+    HTTParty.post(
+      "#{companion_url}/logout/#{URI.encode_www_form_component(whatsapp_channel.phone_number)}",
+      headers: companion_headers,
+      timeout: 10
+    )
+  end
+
   def error_message(response)
     # Surface companion error body for Message#external_error
     body = response.parsed_response if response.respond_to?(:parsed_response) && response.parsed_response.is_a?(Hash)

@@ -108,7 +108,11 @@ export default {
       <NextInput
         v-model="name"
         :placeholder="$t('FILTER.CUSTOM_VIEWS.ADD.PLACEHOLDER')"
-        :message="v$.name.$error ? $t('FILTER.CUSTOM_VIEWS.ADD.ERROR_MESSAGE') : undefined"
+        :message="
+          v$.name.$error
+            ? $t('FILTER.CUSTOM_VIEWS.ADD.ERROR_MESSAGE')
+            : undefined
+        "
         :message-type="v$.name.$error ? 'error' : undefined"
         @blur="v$.name.$touch"
       />

@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   CAMPAIGN_CHANNEL_STRATEGIES,
   CAMPAIGNABLE_CHANNEL_TYPES,
+  CAMPAIGN_PAGE_CHANNEL_TYPES,
   ONE_OFF_CHANNEL_TYPES,
   isOneOffCampaignableInbox,
   buildCampaignInboxOptions,
@@ -89,6 +90,33 @@ describe('campaignChannels abstraction', () => {
       t
     );
     expect(options[0].disabled).toBe(true);
+  });
+
+  it('filters inbox options to the page channel types when provided', () => {
+    const inboxes = [
+      inbox(1, INBOX_TYPES.EMAIL),
+      inbox(2, INBOX_TYPES.WHATSAPP),
+      inbox(3, INBOX_TYPES.SMS),
+    ];
+
+    const whatsappOptions = buildCampaignInboxOptions(
+      inboxes,
+      t,
+      CAMPAIGN_PAGE_CHANNEL_TYPES.whatsapp
+    );
+
+    expect(whatsappOptions.map(o => o.value)).toEqual([2]);
+  });
+
+  it('excludes a WhatsApp-over-Twilio inbox from the picker', () => {
+    const inboxes = [
+      inbox(1, INBOX_TYPES.TWILIO, { medium: 'whatsapp' }),
+      inbox(2, INBOX_TYPES.TWILIO, { medium: 'sms' }),
+    ];
+
+    const options = buildCampaignInboxOptions(inboxes, t);
+
+    expect(options.map(o => o.value)).toEqual([2]);
   });
 
   it('exports lists of campaignable / one_off channel types', () => {

@@ -74,6 +74,17 @@ class CaptainAssistant extends ApiClient {
 
     return axios.get(`${this.url}/${assistantId}/intents`, requestConfig);
   }
+
+  getTraces({ assistantId, conversationId, page = 1 } = {}) {
+    const requestConfig = {
+      params: {
+        page,
+      },
+    };
+    if (conversationId) requestConfig.params.conversation_id = conversationId;
+
+    return axios.get(`${this.url}/${assistantId}/traces`, requestConfig);
+  }
 }
 
 export default new CaptainAssistant();

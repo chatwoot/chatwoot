@@ -3,7 +3,7 @@ class Api::V1::Accounts::Captain::InboxesController < Api::V1::Accounts::BaseCon
 
   before_action :set_assistant
   def index
-    @inboxes = @assistant.inboxes
+    @inboxes = @assistant.inboxes.includes(:avatar_attachment, :working_hours, :portal, :channel)
   end
 
   def create

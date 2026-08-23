@@ -17,7 +17,7 @@
       "ERROR": "Terdapat ralat semasa menyambung ke Shopify. Sila cuba lagi atau hubungi sokongan jika masalah berterusan."
     },
     "HEADER": "Integrasi",
-    "DESCRIPTION": "Chatwoot berintegrasi dengan pelbagai alat dan perkhidmatan untuk meningkatkan kecekapan pasukan anda. Terokai senarai di bawah untuk mengkonfigurasi aplikasi kegemaran anda.",
+    "DESCRIPTION": "KIRA berintegrasi dengan pelbagai alat dan perkhidmatan untuk meningkatkan kecekapan pasukan anda. Terokai senarai di bawah untuk mengkonfigurasi aplikasi kegemaran anda.",
     "LEARN_MORE": "Ketahui lebih lanjut mengenai integrasi",
     "LOADING": "Mengambil integrasi",
     "SEARCH_PLACEHOLDER": "Cari integrasi...",
@@ -33,7 +33,7 @@
       "LEARN_MORE": "Ketahui lebih lanjut tentang webhook",
       "PAYWALL": {
         "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your KIRA account.",
         "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
         "UPGRADE_NOW": "Upgrade now",
         "CANCEL_ANYTIME": "Change or cancel your plan anytime."
@@ -51,7 +51,7 @@
       "NO_RESULTS": "Tiada webhook ditemui yang sepadan dengan carian anda",
       "FORM": {
         "CANCEL": "Batalkan",
-        "DESC": "Peristiwa webhook memberikan anda maklumat masa nyata tentang apa yang berlaku dalam akaun Chatwoot anda. Sila masukkan URL yang sah untuk mengkonfigurasi panggilan balik.",
+        "DESC": "Peristiwa webhook memberikan anda maklumat masa nyata tentang apa yang berlaku dalam akaun KIRA anda. Sila masukkan URL yang sah untuk mengkonfigurasi panggilan balik.",
         "SUBSCRIPTIONS": {
           "LABEL": "Acara",
           "EVENTS": {
@@ -86,7 +86,7 @@
       "HEADER_BTN_TXT": "Tambah webhook baharu",
       "LOADING": "Mengambil webhook yang dilampirkan",
       "SEARCH_404": "Tiada item yang sepadan dengan carian ini",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks adalah panggilan balik HTTP yang boleh ditetapkan untuk setiap akaun. Ia dicetuskan oleh peristiwa seperti penciptaan mesej dalam Chatwoot. Anda boleh mencipta lebih daripada satu webhook untuk akaun ini. <br /><br /> Untuk mencipta <b>webhook</b>, klik pada butang <b>Tambah webhook baru</b>. Anda juga boleh memadam mana-mana webhook sedia ada dengan mengklik butang Padam.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks adalah panggilan balik HTTP yang boleh ditetapkan untuk setiap akaun. Ia dicetuskan oleh peristiwa seperti penciptaan mesej dalam KIRA. Anda boleh mencipta lebih daripada satu webhook untuk akaun ini. <br /><br /> Untuk mencipta <b>webhook</b>, klik pada butang <b>Tambah webhook baru</b>. Anda juga boleh memadam mana-mana webhook sedia ada dengan mengklik butang Padam.</p>",
       "LIST": {
         "404": "Tiada webhook dikonfigurasikan untuk akaun ini.",
         "TITLE": "Urus webhook",
@@ -134,14 +134,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "Dengan integrasi ini, semua perbualan masuk anda akan diselaraskan ke saluran ***{selectedChannelName}*** di ruang kerja Slack anda. Anda boleh mengurus semua perbualan pelanggan anda terus dalam saluran tersebut dan tidak akan terlepas sebarang mesej.\n\nBerikut adalah ciri utama integrasi ini:\n\n**Balas perbualan dari dalam Slack:** Untuk membalas perbualan di saluran Slack ***{selectedChannelName}***, hanya taip mesej anda dan hantar sebagai thread. Ini akan mencipta balasan kepada pelanggan melalui Chatwoot. Mudah sahaja!\n\n**Cipta nota peribadi:** Jika anda ingin mencipta nota peribadi dan bukannya balasan, mulakan mesej anda dengan ***`note:`***. Ini memastikan mesej anda kekal peribadi dan tidak akan kelihatan kepada pelanggan.\n\n**Kaitkan profil ejen:** Jika individu yang membalas di Slack mempunyai profil ejen di Chatwoot dengan emel yang sama, balasan akan dikaitkan secara automatik dengan profil ejen tersebut. Ini membolehkan anda menjejak siapa yang berkata apa dan bila. Jika pembalas tidak mempunyai profil ejen yang dikaitkan, balasan akan dipaparkan daripada profil bot kepada pelanggan.",
+        "BODY": "Dengan integrasi ini, semua perbualan masuk anda akan diselaraskan ke saluran ***{selectedChannelName}*** di ruang kerja Slack anda. Anda boleh mengurus semua perbualan pelanggan anda terus dalam saluran tersebut dan tidak akan terlepas sebarang mesej.\n\nBerikut adalah ciri utama integrasi ini:\n\n**Balas perbualan dari dalam Slack:** Untuk membalas perbualan di saluran Slack ***{selectedChannelName}***, hanya taip mesej anda dan hantar sebagai thread. Ini akan mencipta balasan kepada pelanggan melalui KIRA. Mudah sahaja!\n\n**Cipta nota peribadi:** Jika anda ingin mencipta nota peribadi dan bukannya balasan, mulakan mesej anda dengan ***`note:`***. Ini memastikan mesej anda kekal peribadi dan tidak akan kelihatan kepada pelanggan.\n\n**Kaitkan profil ejen:** Jika individu yang membalas di Slack mempunyai profil ejen di KIRA dengan emel yang sama, balasan akan dikaitkan secara automatik dengan profil ejen tersebut. Ini membolehkan anda menjejak siapa yang berkata apa dan bila. Jika pembalas tidak mempunyai profil ejen yang dikaitkan, balasan akan dipaparkan daripada profil bot kepada pelanggan.",
         "SELECTED": "dipilih"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Pilih saluran",
         "UPDATE": "Kemas kini",
         "BUTTON_TEXT": "Sambungkan saluran",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "DESCRIPTION": "Your Slack workspace is now linked with KIRA. However, the integration is currently inactive. To activate the integration and connect a channel to KIRA, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the KIRA app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Perhatian diperlukan",
         "EXPIRED": "Integrasi Slack anda telah tamat tempoh. Untuk terus menerima mesej di Slack, sila padam integrasi dan sambungkan ruang kerja anda semula."
       },
@@ -243,7 +243,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Apl Papan Pemuka",
       "HEADER_BTN_TXT": "Tambah apl papan pemuka baru",
-      "SIDEBAR_TXT": "<p><b>Aplikasi Papan Pemuka</b></p><p>Aplikasi Papan Pemuka membolehkan organisasi menyematkan aplikasi di dalam papan pemuka Chatwoot untuk menyediakan konteks bagi ejen sokongan pelanggan. Ciri ini membolehkan anda mencipta aplikasi secara bebas dan menyematkannya di dalam papan pemuka untuk menyediakan maklumat pengguna, pesanan mereka, atau sejarah pembayaran mereka sebelum ini.</p><p>Apabila anda menyematkan aplikasi anda menggunakan papan pemuka dalam Chatwoot, aplikasi anda akan menerima konteks perbualan dan kenalan sebagai acara tetingkap. Laksanakan pendengar untuk acara mesej pada halaman anda untuk menerima konteks tersebut.</p><p>Untuk menambah aplikasi papan pemuka baru, klik pada butang 'Tambah aplikasi papan pemuka baru'.</p>",
+      "SIDEBAR_TXT": "<p><b>Aplikasi Papan Pemuka</b></p><p>Aplikasi Papan Pemuka membolehkan organisasi menyematkan aplikasi di dalam papan pemuka KIRA untuk menyediakan konteks bagi ejen sokongan pelanggan. Ciri ini membolehkan anda mencipta aplikasi secara bebas dan menyematkannya di dalam papan pemuka untuk menyediakan maklumat pengguna, pesanan mereka, atau sejarah pembayaran mereka sebelum ini.</p><p>Apabila anda menyematkan aplikasi anda menggunakan papan pemuka dalam KIRA, aplikasi anda akan menerima konteks perbualan dan kenalan sebagai acara tetingkap. Laksanakan pendengar untuk acara mesej pada halaman anda untuk menerima konteks tersebut.</p><p>Untuk menambah aplikasi papan pemuka baru, klik pada butang 'Tambah aplikasi papan pemuka baru'.</p>",
       "DESCRIPTION": "Aplikasi Papan Pemuka membolehkan organisasi menyematkan aplikasi di dalam papan pemuka untuk menyediakan konteks bagi ejen sokongan pelanggan. Ciri ini membolehkan anda mencipta aplikasi secara bebas dan menyematkannya untuk menyediakan maklumat pengguna, pesanan mereka, atau sejarah pembayaran mereka sebelum ini.",
       "LEARN_MORE": "Ketahui lebih lanjut mengenai Aplikasi Papan Pemuka",
       "COUNT": "{n} aplikasi papan pemuka | {n} aplikasi papan pemuka",

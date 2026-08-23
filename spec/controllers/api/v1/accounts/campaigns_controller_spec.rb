@@ -153,6 +153,42 @@ RSpec.describe 'Campaigns API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/{account.id}/campaigns/:id/trigger' do
+    let!(:campaign) { create(:campaign, account: account, trigger_rules: { url: 'https://test.com' }) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}/trigger",
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
+
+      it 'returns unauthorized for agents' do
+        post "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}/trigger",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'enqueues the trigger job for administrators' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}/trigger",
+               headers: administrator.create_new_auth_token,
+               as: :json
+        end.to have_enqueued_job(Campaigns::TriggerOneoffCampaignJob).with(campaign)
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
   describe 'PATCH /api/v1/accounts/{account.id}/campaigns/:id' do
     let(:inbox) { create(:inbox, account: account) }
     let!(:campaign) { create(:campaign, account: account, trigger_rules: { url: 'https://test.com' }) }

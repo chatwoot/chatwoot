@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Webhooks::WhatsappEventsJob do
+  include ActiveJob::TestHelper
+
   subject(:job) { described_class }
 
   let(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
@@ -26,6 +28,7 @@ RSpec.describe Webhooks::WhatsappEventsJob do
 
   before do
     allow(process_service).to receive(:perform)
+    ActiveJob::Base.queue_adapter = :test
   end
 
   it 'enqueues the job' do

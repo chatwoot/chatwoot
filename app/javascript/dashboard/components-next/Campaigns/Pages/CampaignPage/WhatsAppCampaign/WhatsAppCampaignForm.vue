@@ -10,7 +10,10 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
 import WhatsAppTemplateParser from 'dashboard/components-next/whatsapp/WhatsAppTemplateParser.vue';
-import { buildCampaignInboxOptions } from 'shared/constants/campaignChannels';
+import {
+  buildCampaignInboxOptions,
+  CAMPAIGN_PAGE_CHANNEL_TYPES,
+} from 'shared/constants/campaignChannels';
 
 const emit = defineEmits(['submit', 'cancel']);
 
@@ -19,8 +22,8 @@ const { t } = useI18n();
 const formState = {
   uiFlags: useMapGetter('campaigns/getUIFlags'),
   labels: useMapGetter('labels/getLabels'),
-  // Kiraid: surface every connected inbox as a campaign-channel candidate; the
-  // builder disables the ones with no send path yet.
+  // All connected inboxes; the picker below filters them to this page's channel
+  // (see CAMPAIGN_PAGE_CHANNEL_TYPES.whatsapp).
   inboxes: useMapGetter('inboxes/getInboxes'),
   getFilteredWhatsAppTemplates: useMapGetter(
     'inboxes/getFilteredWhatsAppTemplates'
@@ -31,6 +34,7 @@ const initialState = {
   title: '',
   inboxId: null,
   templateId: null,
+  message: '',
   scheduledAt: null,
   selectedAudience: [],
 };
@@ -38,13 +42,28 @@ const initialState = {
 const state = reactive({ ...initialState });
 const templateParserRef = ref(null);
 
-const rules = {
+// WhatsApp can run through the Meta Cloud API (approved templates) or the
+// unofficial Baileys/QR companion (no templates — free-form text). The selected
+// inbox's provider tells us which flow to show.
+const selectedInbox = computed(() =>
+  formState.inboxes.value.find(inbox => inbox.id === state.inboxId)
+);
+const isUnofficialWhatsApp = computed(
+  () => selectedInbox.value?.provider === 'whatsapp_unofficial'
+);
+
+// Unofficial WhatsApp sends a plain message instead of an approved template, so
+// the template (and its required params) are only validated for Cloud channels.
+const rules = computed(() => ({
   title: { required, minLength: minLength(1) },
   inboxId: { required },
-  templateId: { required },
+  message: isUnofficialWhatsApp.value
+    ? { required, minLength: minLength(1) }
+    : {},
+  templateId: isUnofficialWhatsApp.value ? {} : { required },
   scheduledAt: { required },
   selectedAudience: { required },
-};
+}));
 
 const v$ = useVuelidate(rules, state);
 
@@ -68,7 +87,11 @@ const audienceList = computed(() =>
 );
 
 const inboxOptions = computed(() =>
-  buildCampaignInboxOptions(formState.inboxes.value, t)
+  buildCampaignInboxOptions(
+    formState.inboxes.value,
+    t,
+    CAMPAIGN_PAGE_CHANNEL_TYPES.whatsapp
+  )
 );
 
 const templateOptions = computed(() => {
@@ -103,6 +126,7 @@ const formErrors = computed(() => ({
   title: getErrorMessage('title', 'TITLE'),
   inbox: getErrorMessage('inboxId', 'INBOX'),
   template: getErrorMessage('templateId', 'TEMPLATE'),
+  message: getErrorMessage('message', 'MESSAGE'),
   scheduledAt: getErrorMessage('scheduledAt', 'SCHEDULED_AT'),
   audience: getErrorMessage('selectedAudience', 'AUDIENCE'),
 }));
@@ -111,9 +135,11 @@ const hasRequiredTemplateParams = computed(() => {
   return templateParserRef.value?.isFormInvalid === false;
 });
 
-const isSubmitDisabled = computed(
-  () => v$.value.$invalid || !hasRequiredTemplateParams.value
-);
+const isSubmitDisabled = computed(() => {
+  if (v$.value.$invalid) return true;
+  if (isUnofficialWhatsApp.value) return false;
+  return !hasRequiredTemplateParams.value;
+});
 
 const formatToUTCString = localDateTime =>
   localDateTime ? new Date(localDateTime).toISOString() : null;
@@ -126,6 +152,25 @@ const resetState = () => {
 const handleCancel = () => emit('cancel');
 
 const prepareCampaignDetails = () => {
+  const baseDetails = {
+    title: state.title,
+    inbox_id: state.inboxId,
+    scheduled_at: formatToUTCString(state.scheduledAt),
+    audience: state.selectedAudience?.map(id => ({
+      id,
+      type: 'Label',
+    })),
+  };
+
+  // Unofficial WhatsApp has no templates: send the plain message as free-form
+  // text (no template_params required).
+  if (isUnofficialWhatsApp.value) {
+    return {
+      ...baseDetails,
+      message: state.message,
+    };
+  }
+
   // Find the selected template to get its content
   const currentTemplate = selectedTemplate.value;
   const parserData = templateParserRef.value;
@@ -143,21 +188,16 @@ const prepareCampaignDetails = () => {
   };
 
   return {
-    title: state.title,
+    ...baseDetails,
     message: templateContent,
     template_params: templateParams,
-    inbox_id: state.inboxId,
-    scheduled_at: formatToUTCString(state.scheduledAt),
-    audience: state.selectedAudience?.map(id => ({
-      id,
-      type: 'Label',
-    })),
   };
 };
 
 const handleSubmit = async () => {
   const isFormValid = await v$.value.$validate();
-  if (!isFormValid || !hasRequiredTemplateParams.value) return;
+  if (!isFormValid) return;
+  if (!isUnofficialWhatsApp.value && !hasRequiredTemplateParams.value) return;
 
   emit('submit', prepareCampaignDetails());
   resetState();
@@ -198,7 +238,23 @@ watch(
       />
     </div>
 
-    <div class="flex flex-col gap-1">
+    <div v-if="isUnofficialWhatsApp" class="flex flex-col gap-1">
+      <label for="message" class="mb-0.5 text-sm font-medium text-n-slate-12">
+        {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.MESSAGE.LABEL') }}
+      </label>
+      <textarea
+        id="message"
+        v-model="state.message"
+        rows="5"
+        class="w-full px-3 py-2 text-sm rounded-lg bg-n-alpha-black2 text-n-slate-12 border border-n-weak outline-none focus:border-n-brand resize-y"
+        :placeholder="t('CAMPAIGN.WHATSAPP.CREATE.FORM.MESSAGE.PLACEHOLDER')"
+      />
+      <p v-if="formErrors.message" class="text-xs text-n-rose-11">
+        {{ formErrors.message }}
+      </p>
+    </div>
+
+    <div v-else class="flex flex-col gap-1">
       <label for="template" class="mb-0.5 text-sm font-medium text-n-slate-12">
         {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.TEMPLATE.LABEL') }}
       </label>
@@ -216,9 +272,9 @@ watch(
       </p>
     </div>
 
-    <!-- Template Parser -->
+    <!-- Template Parser (Cloud only) -->
     <WhatsAppTemplateParser
-      v-if="selectedTemplate"
+      v-if="!isUnofficialWhatsApp && selectedTemplate"
       ref="templateParserRef"
       :template="selectedTemplate"
     />

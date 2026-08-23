@@ -2,13 +2,7 @@
 # use https://crontab.guru/ to validate
 # validations for this file exist in /spec/configs/schedule_spec.rb
 
-# executed daily at 0000 UTC
-# schedules daily deferred jobs at stable times for each installation
-internal_check_new_versions_job:
-  cron: '0 0 * * *'
-  class: 'Internal::TriggerDailyScheduledItemsJob'
-  queue: scheduled_jobs
-# # executed At every 5th minute..
+# executed At every 5th minute..
 trigger_scheduled_items_job:
   cron: '*/5 * * * *'
   class: 'TriggerScheduledItemsJob'

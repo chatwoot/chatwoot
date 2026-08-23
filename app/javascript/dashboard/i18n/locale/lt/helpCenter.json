@@ -425,7 +425,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug kategorija, skirta URL",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Yra reikalingas slug"
         },
         "DESCRIPTION": {
@@ -456,7 +456,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug kategorija, skirta URL",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chatwoot.example.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Yra reikalingas slug"
         },
         "DESCRIPTION": {
@@ -693,7 +693,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Slug kategorija, skirta URL",
             "ERROR": "Yra reikalingas slug",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chatwoot.example.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Aprašymas",
@@ -853,7 +853,7 @@
       "CONFIRM_BUTTON_LABEL": "Sukurti",
       "NAME": {
         "LABEL": "Vardas",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | KIRA",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Yra reikalingas vardas"
       },
@@ -976,7 +976,7 @@
         "HEADER": "Integracijos",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with Chatwoot",
+          "TITLE": "Live chat with KIRA",
           "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
           "PLACEHOLDER": "Select live chat widget",
           "NONE_OPTION": "No widget"

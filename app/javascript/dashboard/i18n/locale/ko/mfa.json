@@ -107,7 +107,7 @@
       "BACKUP_TITLE": "백업 코드 사용",
       "BACKUP_DESC": "인증 앱에 접근할 수 없는 경우 2FA 설정 시 저장한 백업 코드 중 하나를 사용할 수 있습니다. 각 코드는 한 번만 사용할 수 있습니다.",
       "CONTACT_TITLE": "추가 도움이 필요하십니까?",
-      "CONTACT_DESC_CLOUD": "인증 앱과 백업 코드 모두에 접근할 수 없는 경우 Chatwoot 지원팀에 문의하십시오.",
+      "CONTACT_DESC_CLOUD": "인증 앱과 백업 코드 모두에 접근할 수 없는 경우 KIRA 지원팀에 문의하십시오.",
       "CONTACT_DESC_SELF_HOSTED": "인증 앱과 백업 코드 모두에 접근할 수 없는 경우 관리자에게 문의하십시오."
     },
     "VERIFICATION_FAILED": "인증에 실패했습니다. 다시 시도해 주십시오."

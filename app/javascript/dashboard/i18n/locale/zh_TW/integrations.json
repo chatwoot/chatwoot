@@ -17,7 +17,7 @@
       "ERROR": "連接 Shopify 時發生錯誤。請重試，若問題持續存在，請聯繫支援團隊。"
     },
     "HEADER": "整合",
-    "DESCRIPTION": "Chatwoot 可與多種工具和服務整合，以提升團隊效率。請瀏覽以下列表來設定您常用的應用程式。",
+    "DESCRIPTION": "KIRA 可與多種工具和服務整合，以提升團隊效率。請瀏覽以下列表來設定您常用的應用程式。",
     "LEARN_MORE": "進一步瞭解整合功能",
     "LOADING": "正在取得整合資訊",
     "SEARCH_PLACEHOLDER": "搜尋整合...",
@@ -33,7 +33,7 @@
       "LEARN_MORE": "進一步瞭解 webhook",
       "PAYWALL": {
         "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your KIRA account.",
         "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
         "UPGRADE_NOW": "立即升級",
         "CANCEL_ANYTIME": "Change or cancel your plan anytime."
@@ -51,7 +51,7 @@
       "NO_RESULTS": "找不到符合搜尋條件的 webhook",
       "FORM": {
         "CANCEL": "取消",
-        "DESC": "Webhook 事件為您提供 Chatwoot 帳戶中即時發生的事件資訊。請輸入有效的 URL 來設定回呼。",
+        "DESC": "Webhook 事件為您提供 KIRA 帳戶中即時發生的事件資訊。請輸入有效的 URL 來設定回呼。",
         "SUBSCRIPTIONS": {
           "LABEL": "事件",
           "EVENTS": {
@@ -86,7 +86,7 @@
       "HEADER_BTN_TXT": "建立新的 webhook",
       "LOADING": "正在取得已建立的 webhook",
       "SEARCH_404": "沒有任何項目符合此查詢",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhook 是可以為每個帳戶定義的 HTTP 回呼。它們會被 Chatwoot 中的事件（例如建立訊息）所觸發。您可以為此帳戶建立多個 webhook。 <br /><br /> 若要建立 <b>webhook</b>，請點擊 <b>建立新的 webhook</b> 按鈕。您也可以點擊刪除按鈕來移除現有的 webhook。</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhook 是可以為每個帳戶定義的 HTTP 回呼。它們會被 KIRA 中的事件（例如建立訊息）所觸發。您可以為此帳戶建立多個 webhook。 <br /><br /> 若要建立 <b>webhook</b>，請點擊 <b>建立新的 webhook</b> 按鈕。您也可以點擊刪除按鈕來移除現有的 webhook。</p>",
       "LIST": {
         "404": "此帳戶尚未設定任何 webhook。",
         "TITLE": "管理 webhook",
@@ -134,14 +134,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "如何使用 Slack 整合？",
-        "BODY": "透過此整合，您所有的傳入對話都將同步至 Slack 工作區中的 ***{selectedChannelName}*** 頻道。您可以直接在該頻道中管理所有客戶對話，不再錯過任何訊息。\n\n以下是此整合的主要功能：\n\n**在 Slack 中回覆對話：**若要在 ***{selectedChannelName}*** Slack 頻道中回覆對話，只需輸入您的訊息並以討論串方式傳送。這將透過 Chatwoot 回覆給客戶。就是這麼簡單！\n\n**建立私人備註：**如果您想建立私人備註而非回覆，請在訊息開頭加上 ***`note:`***。這可確保您的訊息為私密內容，客戶無法看見。\n\n**關聯客服人員個人資料：**如果在 Slack 上回覆的人在 Chatwoot 中擁有相同電子郵件的客服人員個人資料，回覆將自動與該客服人員個人資料關聯。這表示您可以輕鬆追蹤誰在何時說了什麼。另一方面，當回覆者沒有關聯的客服人員個人資料時，回覆將以機器人個人資料的身分顯示給客戶。",
+        "BODY": "透過此整合，您所有的傳入對話都將同步至 Slack 工作區中的 ***{selectedChannelName}*** 頻道。您可以直接在該頻道中管理所有客戶對話，不再錯過任何訊息。\n\n以下是此整合的主要功能：\n\n**在 Slack 中回覆對話：**若要在 ***{selectedChannelName}*** Slack 頻道中回覆對話，只需輸入您的訊息並以討論串方式傳送。這將透過 KIRA 回覆給客戶。就是這麼簡單！\n\n**建立私人備註：**如果您想建立私人備註而非回覆，請在訊息開頭加上 ***`note:`***。這可確保您的訊息為私密內容，客戶無法看見。\n\n**關聯客服人員個人資料：**如果在 Slack 上回覆的人在 KIRA 中擁有相同電子郵件的客服人員個人資料，回覆將自動與該客服人員個人資料關聯。這表示您可以輕鬆追蹤誰在何時說了什麼。另一方面，當回覆者沒有關聯的客服人員個人資料時，回覆將以機器人個人資料的身分顯示給客戶。",
         "SELECTED": "已選擇"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "選擇頻道",
         "UPDATE": "更新",
         "BUTTON_TEXT": "連接頻道",
-        "DESCRIPTION": "您的 Slack 工作區已與 Chatwoot 連結。但整合目前處於非啟用狀態。若要啟用整合並將頻道連接至 Chatwoot，請點擊下方按鈕。\n\n**注意：**如果您嘗試連接私人頻道，請先將 Chatwoot 應用程式加入該 Slack 頻道，再進行此步驟。",
+        "DESCRIPTION": "您的 Slack 工作區已與 KIRA 連結。但整合目前處於非啟用狀態。若要啟用整合並將頻道連接至 KIRA，請點擊下方按鈕。\n\n**注意：**如果您嘗試連接私人頻道，請先將 KIRA 應用程式加入該 Slack 頻道，再進行此步驟。",
         "ATTENTION_REQUIRED": "需要注意",
         "EXPIRED": "您的 Slack 整合已過期。若要繼續在 Slack 上接收訊息，請刪除此整合並重新連接您的工作區。"
       },
@@ -243,7 +243,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "儀表板應用程式",
       "HEADER_BTN_TXT": "新增儀表板應用程式",
-      "SIDEBAR_TXT": "<p><b>儀表板應用程式</b></p><p>儀表板應用程式允許組織在 Chatwoot 儀表板中嵌入應用程式，為客服人員提供相關資訊。此功能讓您可以獨立建立應用程式，並將其嵌入儀表板中，提供使用者資訊、訂單記錄或過往付款歷史。</p><p>當您透過 Chatwoot 儀表板嵌入應用程式時，您的應用程式將以 window event 的形式接收對話和聯絡人的上下文資訊。請在您的頁面上實作 message event 監聽器以接收上下文。</p><p>若要新增儀表板應用程式，請點擊「新增儀表板應用程式」按鈕。</p>",
+      "SIDEBAR_TXT": "<p><b>儀表板應用程式</b></p><p>儀表板應用程式允許組織在 KIRA 儀表板中嵌入應用程式，為客服人員提供相關資訊。此功能讓您可以獨立建立應用程式，並將其嵌入儀表板中，提供使用者資訊、訂單記錄或過往付款歷史。</p><p>當您透過 KIRA 儀表板嵌入應用程式時，您的應用程式將以 window event 的形式接收對話和聯絡人的上下文資訊。請在您的頁面上實作 message event 監聽器以接收上下文。</p><p>若要新增儀表板應用程式，請點擊「新增儀表板應用程式」按鈕。</p>",
       "DESCRIPTION": "儀表板應用程式允許組織在儀表板中嵌入應用程式，為客服人員提供相關資訊。此功能讓您可以獨立建立應用程式，並將其嵌入以提供使用者資訊、訂單記錄或過往付款歷史。",
       "LEARN_MORE": "進一步瞭解儀表板應用程式",
       "COUNT": "{n} 個儀表板應用程式",

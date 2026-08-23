@@ -17,7 +17,7 @@
       "ERROR": "Shopify سے جڑنے میں خرابی ہوئی۔ براہ کرم دوبارہ کوشش کریں یا مسئلہ برقرار رہنے پر سپورٹ سے رابطہ کریں۔"
     },
     "HEADER": "انضمام",
-    "DESCRIPTION": "Chatwoot متعدد آلات اور خدمات کے ساتھ انضمام کرتا ہے تاکہ آپ کی ٹیم کی کارکردگی کو بہتر بنایا جا سکے۔ اپنی پسندیدہ ایپس کو ترتیب دینے کے لیے نیچے دی گئی فہرست کو دریافت کریں۔",
+    "DESCRIPTION": "KIRA متعدد آلات اور خدمات کے ساتھ انضمام کرتا ہے تاکہ آپ کی ٹیم کی کارکردگی کو بہتر بنایا جا سکے۔ اپنی پسندیدہ ایپس کو ترتیب دینے کے لیے نیچے دی گئی فہرست کو دریافت کریں۔",
     "LEARN_MORE": "انضمام کے بارے میں مزید جانیں",
     "LOADING": "انضمام حاصل کیا جا رہا ہے",
     "SEARCH_PLACEHOLDER": "Search integrations...",
@@ -33,7 +33,7 @@
       "LEARN_MORE": "ویب ہکس کے بارے میں مزید جانیں",
       "PAYWALL": {
         "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your KIRA account.",
         "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
         "UPGRADE_NOW": "Upgrade now",
         "CANCEL_ANYTIME": "Change or cancel your plan anytime."
@@ -51,7 +51,7 @@
       "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "منسوخ کریں",
-        "DESC": "ویب ہک کے واقعات آپ کو آپ کے Chatwoot اکاؤنٹ میں ہو رہی چیزوں کی حقیقی وقت کی معلومات فراہم کرتے ہیں۔ براہ کرم کال بیک ترتیب دینے کے لیے ایک درست URL درج کریں۔",
+        "DESC": "ویب ہک کے واقعات آپ کو آپ کے KIRA اکاؤنٹ میں ہو رہی چیزوں کی حقیقی وقت کی معلومات فراہم کرتے ہیں۔ براہ کرم کال بیک ترتیب دینے کے لیے ایک درست URL درج کریں۔",
         "SUBSCRIPTIONS": {
           "LABEL": "واقعات",
           "EVENTS": {
@@ -86,7 +86,7 @@
       "HEADER_BTN_TXT": "نیا ویب ہک شامل کریں",
       "LOADING": "منسلک ویب ہکس حاصل کیے جا رہے ہیں",
       "SEARCH_404": "اس تلاش سے میل کھانے والی کوئی اشیاء نہیں ہیں",
-      "SIDEBAR_TXT": "<p><b>ویب ہکس</b> </p> <p>ویب ہکس HTTP کال بیکس ہیں جو ہر اکاؤنٹ کے لیے متعین کیے جا سکتے ہیں۔ یہ ایسے واقعات کی وجہ سے متحرک ہوتے ہیں جیسے Chatwoot میں پیغام کی تخلیق۔ آپ اس اکاؤنٹ کے لیے ایک سے زیادہ ویب ہکس بنا سکتے ہیں۔ <br /><br /> نیا <b>ویب ہک</b> بنانے کے لیے، <b>نیا ویب ہک شامل کریں</b> بٹن پر کلک کریں۔ آپ موجودہ ویب ہک کو حذف کرنے کے لیے حذف کریں بٹن پر بھی کلک کر سکتے ہیں۔</p>",
+      "SIDEBAR_TXT": "<p><b>ویب ہکس</b> </p> <p>ویب ہکس HTTP کال بیکس ہیں جو ہر اکاؤنٹ کے لیے متعین کیے جا سکتے ہیں۔ یہ ایسے واقعات کی وجہ سے متحرک ہوتے ہیں جیسے KIRA میں پیغام کی تخلیق۔ آپ اس اکاؤنٹ کے لیے ایک سے زیادہ ویب ہکس بنا سکتے ہیں۔ <br /><br /> نیا <b>ویب ہک</b> بنانے کے لیے، <b>نیا ویب ہک شامل کریں</b> بٹن پر کلک کریں۔ آپ موجودہ ویب ہک کو حذف کرنے کے لیے حذف کریں بٹن پر بھی کلک کر سکتے ہیں۔</p>",
       "LIST": {
         "404": "اس اکاؤنٹ کے لیے کوئی ویب ہکس ترتیب نہیں دیے گئے ہیں۔",
         "TITLE": "ویب ہکس کا انتظام کریں",
@@ -134,14 +134,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through KIRA. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in KIRA under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "منتخب شدہ"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "ایک چینل منتخب کریں",
         "UPDATE": "اپ ڈیٹ کریں",
         "BUTTON_TEXT": "چینل کو جوڑیں",
-        "DESCRIPTION": "آپ کا Slack ورک اسپیس اب Chatwoot سے منسلک ہے۔ تاہم، انضمام فی الحال غیر فعال ہے۔ انضمام کو فعال کرنے اور Chatwoot سے چینل کو جوڑنے کے لیے نیچے دیے گئے بٹن پر کلک کریں۔\n\n**نوٹ:** اگر آپ نجی چینل کو جوڑنے کی کوشش کر رہے ہیں، تو اس قدم سے پہلے Slack چینل میں Chatwoot ایپ شامل کریں۔",
+        "DESCRIPTION": "آپ کا Slack ورک اسپیس اب KIRA سے منسلک ہے۔ تاہم، انضمام فی الحال غیر فعال ہے۔ انضمام کو فعال کرنے اور KIRA سے چینل کو جوڑنے کے لیے نیچے دیے گئے بٹن پر کلک کریں۔\n\n**نوٹ:** اگر آپ نجی چینل کو جوڑنے کی کوشش کر رہے ہیں، تو اس قدم سے پہلے Slack چینل میں KIRA ایپ شامل کریں۔",
         "ATTENTION_REQUIRED": "توجہ درکار ہے",
         "EXPIRED": "آپ کا Slack انضمام ختم ہو چکا ہے۔ Slack پر پیغامات وصول کرنا جاری رکھنے کے لیے، براہ کرم انضمام کو حذف کریں اور اپنا ورک اسپیس دوبارہ جوڑیں۔"
       },
@@ -243,7 +243,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "ڈیش بورڈ ایپس",
       "HEADER_BTN_TXT": "نئی ڈیش بورڈ ایپ شامل کریں",
-      "SIDEBAR_TXT": "<p><b>ڈیش بورڈ ایپس</b></p><p>ڈیش بورڈ ایپس تنظیموں کو اجازت دیتی ہیں کہ وہ Chatwoot ڈیش بورڈ کے اندر ایک ایپلیکیشن شامل کریں تاکہ کسٹمر سپورٹ ایجنٹس کے لیے سیاق و سباق فراہم کیا جا سکے۔ یہ خصوصیت آپ کو ایک ایپلیکیشن آزادانہ طور پر بنانے اور اسے ڈیش بورڈ میں شامل کرنے کی اجازت دیتی ہے تاکہ صارف کی معلومات، ان کے آرڈرز، یا ان کی سابقہ ادائیگی کی تاریخ فراہم کی جا سکے۔</p><p>جب آپ Chatwoot میں ڈیش بورڈ کے ذریعے اپنی ایپلیکیشن کو شامل کرتے ہیں، تو آپ کی ایپلیکیشن کو گفتگو اور رابطہ کا سیاق و سباق ونڈو ایونٹ کے طور پر ملے گا۔ سیاق و سباق وصول کرنے کے لیے اپنے صفحہ پر پیغام ایونٹ کے لیے ایک سننے والا نافذ کریں۔</p><p>نئی ڈیش بورڈ ایپ شامل کرنے کے لیے، 'نئی ڈیش بورڈ ایپ شامل کریں' بٹن پر کلک کریں۔</p>",
+      "SIDEBAR_TXT": "<p><b>ڈیش بورڈ ایپس</b></p><p>ڈیش بورڈ ایپس تنظیموں کو اجازت دیتی ہیں کہ وہ KIRA ڈیش بورڈ کے اندر ایک ایپلیکیشن شامل کریں تاکہ کسٹمر سپورٹ ایجنٹس کے لیے سیاق و سباق فراہم کیا جا سکے۔ یہ خصوصیت آپ کو ایک ایپلیکیشن آزادانہ طور پر بنانے اور اسے ڈیش بورڈ میں شامل کرنے کی اجازت دیتی ہے تاکہ صارف کی معلومات، ان کے آرڈرز، یا ان کی سابقہ ادائیگی کی تاریخ فراہم کی جا سکے۔</p><p>جب آپ KIRA میں ڈیش بورڈ کے ذریعے اپنی ایپلیکیشن کو شامل کرتے ہیں، تو آپ کی ایپلیکیشن کو گفتگو اور رابطہ کا سیاق و سباق ونڈو ایونٹ کے طور پر ملے گا۔ سیاق و سباق وصول کرنے کے لیے اپنے صفحہ پر پیغام ایونٹ کے لیے ایک سننے والا نافذ کریں۔</p><p>نئی ڈیش بورڈ ایپ شامل کرنے کے لیے، 'نئی ڈیش بورڈ ایپ شامل کریں' بٹن پر کلک کریں۔</p>",
       "DESCRIPTION": "ڈیش بورڈ ایپس تنظیموں کو اجازت دیتی ہیں کہ وہ ڈیش بورڈ کے اندر ایک ایپلیکیشن شامل کریں تاکہ کسٹمر سپورٹ ایجنٹس کے لیے سیاق و سباق فراہم کیا جا سکے۔ یہ خصوصیت آپ کو ایک ایپلیکیشن آزادانہ طور پر بنانے اور اسے شامل کرنے کی اجازت دیتی ہے تاکہ صارف کی معلومات، ان کے آرڈرز، یا ان کی سابقہ ادائیگی کی تاریخ فراہم کی جا سکے۔",
       "LEARN_MORE": "ڈیش بورڈ ایپس کے بارے میں مزید جانیں",
       "COUNT": "{n} dashboard app | {n} dashboard apps",

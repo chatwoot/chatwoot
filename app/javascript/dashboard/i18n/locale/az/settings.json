@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "İnterfeys",
-        "NOTE": "Chatwoot panelinizin görünüşünü və hissini fərdiləşdirin.",
+        "NOTE": "KIRA panelinizin görünüşünü və hissini fərdiləşdirin.",
         "FONT_SIZE": {
           "TITLE": "Şrift ölçüsü",
           "NOTE": "Panel boyunca mətn ölçüsünü üstünlüklərinizə uyğun tənzimləyin.",
@@ -673,7 +673,7 @@
       "SP_ENTITY_ID": {
         "LABEL": "SP Varlıq ID-si",
         "HELP": "Bu tətbiq üçün xidmət təminatçısı kimi unikal identifikator (avtomatik yaradılır).",
-        "TOOLTIP": "Chatwoot-un Xidmət Təminatçısı kimi unikal identifikatoru - bunu IdP parametrlərinizdə qurun"
+        "TOOLTIP": "KIRA-un Xidmət Təminatçısı kimi unikal identifikatoru - bunu IdP parametrlərinizdə qurun"
       },
       "IDP_ENTITY_ID": {
         "LABEL": "Şəxsiyyət Təminatçısının Varlıq ID-si",
@@ -768,7 +768,7 @@
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! Heç bir Chatwoot hesabı tapılmadı. Davam etmək üçün yeni hesab yaradın.",
+    "NO_ACCOUNT_WARNING": "Uh oh! Heç bir KIRA hesabı tapılmadı. Davam etmək üçün yeni hesab yaradın.",
     "NEW_ACCOUNT": "Yeni Hesab",
     "SELECTOR_SUBTITLE": "Yeni hesab yaradın",
     "API": {

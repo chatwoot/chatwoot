@@ -81,13 +81,15 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col gap-4">
-    <ReportHeader :header-title="$t('CAPTAIN.INTENTS_REPORT.HEADER')" />
+    <ReportHeader
+      :header-title="$t('CAPTAIN.OVERVIEW.INTENTS_REPORT.HEADER')"
+    />
 
     <div
       v-if="!assistants || assistants.length === 0"
       class="py-2 text-sm text-n-slate-11"
     >
-      {{ $t('CAPTAIN.INTENTS_REPORT.NO_ASSISTANTS') }}
+      {{ $t('CAPTAIN.OVERVIEW.INTENTS_REPORT.NO_ASSISTANTS') }}
     </div>
 
     <template v-else>
@@ -105,7 +107,7 @@ onMounted(() => {
             :label="
               selectedAssistant
                 ? selectedAssistant.name
-                : $t('CAPTAIN.INTENTS_REPORT.SELECT_ASSISTANT')
+                : $t('CAPTAIN.OVERVIEW.INTENTS_REPORT.SELECT_ASSISTANT')
             "
             class="rounded-md"
             @click="toggleAssistantDropdown()"

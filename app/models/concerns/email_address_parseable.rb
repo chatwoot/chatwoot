@@ -10,6 +10,6 @@ module EmailAddressParseable
   end
 
   def default_sender_email_address
-    Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')).address
+    Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@kira.id')).address
   end
 end

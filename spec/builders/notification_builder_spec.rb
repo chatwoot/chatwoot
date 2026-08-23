@@ -13,7 +13,6 @@ describe NotificationBuilder do
       create(:inbox_member, user: user, inbox: inbox)
       notification_setting = user.notification_settings.find_by(account_id: account.id)
       notification_setting.selected_email_flags = [:email_conversation_creation]
-      notification_setting.selected_push_flags = [:push_conversation_creation]
       notification_setting.save!
     end
 
@@ -45,7 +44,6 @@ describe NotificationBuilder do
     it 'will not create a conversation_creation notification if user is not subscribed to it' do
       notification_setting = user.notification_settings.find_by(account_id: account.id)
       notification_setting.selected_email_flags = []
-      notification_setting.selected_push_flags = []
       notification_setting.save!
 
       expect(
@@ -61,7 +59,6 @@ describe NotificationBuilder do
     it 'will create a conversation_mention notification even though user is not subscribed to it' do
       notification_setting = user.notification_settings.find_by(account_id: account.id)
       notification_setting.selected_email_flags = []
-      notification_setting.selected_push_flags = []
       notification_setting.save!
 
       expect do
@@ -118,7 +115,6 @@ describe NotificationBuilder do
         admin = create(:user, account: account, role: :administrator)
         admin_setting = admin.notification_settings.find_by(account_id: account.id)
         admin_setting.selected_email_flags = [:email_conversation_creation]
-        admin_setting.selected_push_flags = [:push_conversation_creation]
         admin_setting.save!
 
         expect do

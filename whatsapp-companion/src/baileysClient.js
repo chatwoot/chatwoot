@@ -73,6 +73,16 @@ function isPrivateDirectJid(jid) {
   return jid.endsWith('@s.whatsapp.net') || jid.endsWith('@c.us') || jid.endsWith('@lid');
 }
 
+// Strip the server suffix from a WhatsApp JID so Chatwoot's Cloud parser sees a
+// clean digits-only WA ID (whatsapp_phone_number rejects anything with a suffix).
+// Linked-device (LID) peers arrive as <number>@lid; treat them the same as phone JIDs.
+function cleanFromJid(jid) {
+  return String(jid || '')
+    .replace('@s.whatsapp.net', '')
+    .replace('@c.us', '')
+    .replace('@lid', '');
+}
+
 /**
  * Map a Baileys message into Chatwoot Cloud webhook shape.
  * Chatwoot's Whatsapp::IncomingMessageWhatsappCloudService parses
@@ -82,7 +92,7 @@ function isPrivateDirectJid(jid) {
  */
 function toCloudMessage(identifier, selfNumber, message, mediaIds) {
   const msg = message.message || {};
-  const from = message.key.remoteJid.replace('@s.whatsapp.net', '').replace('@c.us', '');
+  const from = cleanFromJid(message.key.remoteJid);
 
   let cloudMessage;
   if (msg.conversation || msg.extendedTextMessage?.text) {
@@ -316,7 +326,9 @@ export class BaileysManager {
         if (!u.update?.status) continue;
         // Delivery/read receipts for group messages are not useful in a 1:1 inbox
         if (isGroupJid(u.key.remoteJid)) continue;
-        const status = ['', 'error', 'pending', 'server', 'delivered', 'read', 'played'][u.update.status] || 'sent';
+        // Chatwoot only understands sent/delivered/read/failed, so map every Baileys
+        // status to one of those instead of forwarding e.g. 'server'/'played' verbatim.
+        const status = { 1: 'failed', 2: 'sent', 3: 'sent', 4: 'delivered', 5: 'read', 6: 'read' }[u.update.status] || 'sent';
         const payload = {
           entry: [
             {
@@ -326,7 +338,7 @@ export class BaileysManager {
                   field: 'messages',
                   value: {
                     metadata: { display_phone_number: client.selfNumber, phone_number_id: client.identifier },
-                    statuses: [{ id: u.key.id, status, recipient_id: u.key.remoteJid?.replace('@s.whatsapp.net', '') }],
+                    statuses: [{ id: u.key.id, status, recipient_id: cleanFromJid(u.key.remoteJid) }],
                   },
                 },
               ],

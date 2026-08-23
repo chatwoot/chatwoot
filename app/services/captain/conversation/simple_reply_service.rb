@@ -5,20 +5,30 @@ class Captain::Conversation::SimpleReplyService
   # run before any LLM work. Returns true when a reply was posted, so the
   # caller can skip LLM generation entirely.
   def perform
-    matched_reply = find_matching_reply
+    matched_reply = matching_reply
     return false if matched_reply.blank?
 
     create_bot_reply(matched_reply)
     true
   end
 
+  # Resolves the deterministic simple reply for the given customer content,
+  # without posting anything. Used both by the conversation pipeline and by the
+  # agent runner (playground), keeping the keyword layer in one place.
+  def matching_reply_for(customer_content)
+    return if customer_content.blank?
+
+    assistant.simple_replies.enabled.find { |reply| reply.matches?(customer_content) }
+  end
+
   private
 
-  def find_matching_reply
-    latest_customer_content = conversation.messages.incoming.last&.content
-    return if latest_customer_content.blank?
+  def matching_reply
+    matching_reply_for(latest_customer_content)
+  end
 
-    assistant.simple_replies.enabled.find { |reply| reply.matches?(latest_customer_content) }
+  def latest_customer_content
+    conversation.messages.incoming.last&.content
   end
 
   def create_bot_reply(simple_reply)

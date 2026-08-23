@@ -223,24 +223,16 @@ export const actions = {
   },
 
   deleteCustomAttributes: async ({ commit }, { id, customAttributes }) => {
-    try {
-      const response = await ContactAPI.destroyCustomAttributes(
-        id,
-        customAttributes
-      );
-      commit(types.EDIT_CONTACT, response.data.payload);
-    } catch (error) {
-      throw error;
-    }
+    const response = await ContactAPI.destroyCustomAttributes(
+      id,
+      customAttributes
+    );
+    commit(types.EDIT_CONTACT, response.data.payload);
   },
 
   deleteAvatar: async ({ commit }, id) => {
-    try {
-      const response = await ContactAPI.destroyAvatar(id);
-      commit(types.EDIT_CONTACT, response.data.payload);
-    } catch (error) {
-      throw error;
-    }
+    const response = await ContactAPI.destroyAvatar(id);
+    commit(types.EDIT_CONTACT, response.data.payload);
   },
 
   fetchContactableInbox: async ({ commit }, id) => {
@@ -276,8 +268,6 @@ export const actions = {
     try {
       const response = await AccountActionsAPI.merge(parentId, childId);
       commit(types.SET_CONTACT_ITEM, response.data);
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_CONTACT_UI_FLAG, { isMerging: false });
     }

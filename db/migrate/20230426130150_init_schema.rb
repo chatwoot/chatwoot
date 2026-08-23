@@ -632,18 +632,7 @@ class InitSchema < ActiveRecord::Migration[6.1]
       t.integer "email_flags", default: 0, null: false
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
-      t.integer "push_flags", default: 0, null: false
       t.index ["account_id", "user_id"], name: "by_account_user", unique: true
-    end
-    create_table "notification_subscriptions" do |t|
-      t.bigint "user_id", null: false
-      t.integer "subscription_type", null: false
-      t.jsonb "subscription_attributes", default: {}, null: false
-      t.datetime "created_at", null: false
-      t.datetime "updated_at", null: false
-      t.string "identifier"
-      t.index ["identifier"], name: "index_notification_subscriptions_on_identifier", unique: true
-      t.index ["user_id"], name: "index_notification_subscriptions_on_user_id"
     end
     create_table "notifications" do |t|
       t.bigint "account_id", null: false

@@ -74,8 +74,6 @@ describe('Dashboard', () => {
           CommandBar: createCommandBarStub(commandBar),
           NextSidebar: true,
           MobileSidebarLauncher: true,
-          CopilotLauncher: true,
-          CopilotContainer: true,
           FloatingCallWidget: true,
           AddAccountModal: true,
           WootKeyShortcutModal: true,
