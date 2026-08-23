@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ChatPaw Widget Theme Demo</title>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; background: #0d1f26; color: #e6f1ef; margin: 0; padding: 48px 24px; }
+    .wrap { max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 28px; margin: 0 0 6px; }
+    h1 span { background: linear-gradient(135deg, #1fe0b5, #1ba5ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    p.sub { color: #9fb8b3; margin: 0 0 32px; }
+    .themes { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+    .card { border: 2px solid #122b34; background: #122b34; border-radius: 16px; padding: 18px 20px; cursor: pointer; width: 180px; transition: transform .15s, border-color .15s; }
+    .card:hover { transform: translateY(-2px); }
+    .card.active { border-color: #1fe0b5; }
+    .swatch { display: inline-block; width: 22px; height: 22px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+    .name { font-weight: 600; }
+    .desc { font-size: 12px; color: #9fb8b3; margin-top: 8px; line-height: 1.5; }
+    code { background: #0a161c; padding: 2px 6px; border-radius: 6px; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🐾 ChatPaw <span>Widget Themes</span></h1>
+    <p class="sub">One SDK build — three themes. Pick one; the page reloads with that theme applied to the launcher bubble.</p>
+
+    <div class="themes">
+      <div class="card" data-theme="paw-blob">
+        <span class="swatch" style="background:#1fe0b5"></span><span class="name">Paw Blob</span>
+        <div class="desc">Default mascot · teal · <code>hop</code> motion on new message</div>
+      </div>
+      <div class="card" data-theme="fox">
+        <span class="swatch" style="background:#ff6b3d"></span><span class="name">Fox</span>
+        <div class="desc">Warm orange · <code>bounce</code> motion · ding sound</div>
+      </div>
+      <div class="card" data-theme="star">
+        <span class="swatch" style="background:#ffc857"></span><span class="name">Star</span>
+        <div class="desc">Amber paw accent · <code>tada</code> motion · bell sound</div>
+      </div>
+    </div>
+
+    <p class="sub">Theme JSON lives in <code>packages/widget-theme/themes/</code>. Pass any of them (or a URL to your own) via <code>chatwootSettings.theme</code>.</p>
+  </div>
+
+  <script>
+    // theme from query string (?theme=fox), default paw-blob
+    var params = new URLSearchParams(window.location.search);
+    var THEME = params.get('theme') || 'paw-blob';
+    document.querySelectorAll('.card').forEach(function (el) {
+      el.classList.toggle('active', el.dataset.theme === THEME);
+      el.addEventListener('click', function () {
+        window.location.search = '?theme=' + el.dataset.theme;
+      });
+    });
+
+    // fetch the theme json and hand it to the SDK
+    fetch('/widget-themes/' + THEME + '.json')
+      .then(function (r) { return r.json(); })
+      .then(function (themeJson) {
+        window.chatwootSettings = {
+          hideMessageBubble: false,
+          position: 'right',
+          locale: 'en',
+          type: 'standard',
+          widgetStyle: 'standard',
+          darkMode: 'auto',
+          theme: themeJson,
+        };
+        run();
+      })
+      .catch(function () {
+        // fallback when served without the themes route
+        window.chatwootSettings = {
+          hideMessageBubble: false,
+          position: 'right',
+          locale: 'en',
+          theme: THEME,
+        };
+        run();
+      });
+
+    function run() {
+      var BASE_URL = '';
+      var g = document.createElement('script'), s = document.getElementsByTagName('script')[0];
+      g.src = BASE_URL + '/packs/js/sdk.js';
+      g.async = true;
+      s.parentNode.insertBefore(g, s);
+      g.onload = function () {
+        window.chatwootSDK.run({
+          websiteToken: 'DEMO_TOKEN',
+          baseUrl: BASE_URL,
+        });
+      };
+    }
+  </script>
+</body>
+</html>

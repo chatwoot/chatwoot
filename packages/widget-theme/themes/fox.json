@@ -1,0 +1,18 @@
+{
+  "name": "fox",
+  "colors": {
+    "primary": "#ff6b3d",
+    "bubbleIcon": "#ffffff",
+    "accent": "#e8562a"
+  },
+  "icon": "fox",
+  "motion": {
+    "launcher": "bounce",
+    "trigger": "newMessage"
+  },
+  "sound": {
+    "enabled": true,
+    "pack": "ding"
+  },
+  "radius": "lg"
+}

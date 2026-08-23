@@ -1,0 +1,17 @@
+{
+  "name": "owl",
+  "colors": {
+    "primary": "#7c5cff",
+    "bubbleIcon": "#ffffff",
+    "accent": "#5b3df5"
+  },
+  "icon": "owl",
+  "motion": {
+    "launcher": "none"
+  },
+  "sound": {
+    "enabled": true,
+    "pack": "bell"
+  },
+  "radius": "lg"
+}

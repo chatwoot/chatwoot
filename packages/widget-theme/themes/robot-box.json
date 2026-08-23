@@ -1,0 +1,17 @@
+{
+  "name": "robot-box",
+  "colors": {
+    "primary": "#1ba5ff",
+    "bubbleIcon": "#ffffff",
+    "accent": "#0f7fd4"
+  },
+  "icon": "robot-box",
+  "motion": {
+    "launcher": "none"
+  },
+  "sound": {
+    "enabled": true,
+    "pack": "ding"
+  },
+  "radius": "md"
+}

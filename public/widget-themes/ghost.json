@@ -1,0 +1,18 @@
+{
+  "name": "ghost",
+  "colors": {
+    "primary": "#8b7cf6",
+    "bubbleIcon": "#ffffff",
+    "accent": "#6c5ce7"
+  },
+  "icon": "ghost",
+  "motion": {
+    "launcher": "hop",
+    "trigger": "always",
+    "intervalSeconds": 30
+  },
+  "sound": {
+    "enabled": false
+  },
+  "radius": "lg"
+}

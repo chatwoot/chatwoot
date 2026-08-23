@@ -11,6 +11,8 @@ export const aliases = {
   survey: path.resolve('./app/javascript/survey'),
   widget: path.resolve('./app/javascript/widget'),
   assets: path.resolve('./app/javascript/dashboard/assets'),
+  // [chatpaw] theme package for the widget
+  widgetTheme: path.resolve('./packages/widget-theme'),
 };
 
 export const vueOptions = {

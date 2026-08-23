@@ -334,6 +334,26 @@ export const IFrameHelper = {
     bubbleHolder.appendChild(chatIcon);
     bubbleHolder.appendChild(closeBubble);
     onClickChatBubble();
+
+    // [chatpaw] apply widget theme (icon/motion/colors) if provided via settings
+    import('widgetTheme/src/index')
+      .then(({ applyWidgetTheme, loadTheme }) =>
+        loadTheme(window.$chatwoot.theme).then(theme => {
+          if (!theme) return null;
+          return applyWidgetTheme(theme).then(applied => {
+            const primary = applied?.colors?.primary;
+            if (primary) {
+              // eslint-disable-next-line no-param-reassign
+              chatIcon.style.background = primary;
+              closeBubble.style.background = primary;
+            }
+            return applied;
+          });
+        })
+      )
+      .catch(() => {
+        // theme package unavailable — keep default bubble
+      });
   },
   toggleCloseButton: () => {
     let isMobile = false;

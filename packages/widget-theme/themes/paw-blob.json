@@ -1,0 +1,18 @@
+{
+  "name": "paw-blob",
+  "colors": {
+    "primary": "#1fe0b5",
+    "bubbleIcon": "#06251f",
+    "accent": "#1ba5ff"
+  },
+  "icon": "paw-blob",
+  "motion": {
+    "launcher": "hop",
+    "trigger": "newMessage"
+  },
+  "sound": {
+    "enabled": true,
+    "pack": "ding"
+  },
+  "radius": "lg"
+}

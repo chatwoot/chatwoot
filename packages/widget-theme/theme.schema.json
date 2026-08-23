@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ChatPaw widget theme",
+  "type": "object",
+  "required": ["name", "colors", "icon"],
+  "properties": {
+    "name": { "type": "string", "description": "Theme id (one of the defaults or custom)" },
+    "colors": {
+      "type": "object",
+      "properties": {
+        "primary": { "type": "string", "description": "Launcher bubble + header color" },
+        "bubbleIcon": { "type": "string", "description": "Launcher glyph color (default #fff)" },
+        "accent": { "type": "string", "description": "Secondary accent for highlights" }
+      },
+      "required": ["primary"]
+    },
+    "icon": {
+      "oneOf": [
+        {
+          "enum": ["paw-blob", "cat", "owl", "fox", "ghost", "robot-box", "heart", "star"]
+        },
+        { "type": "string", "description": "URL or data-URI of a custom SVG/PNG glyph" }
+      ]
+    },
+    "motion": {
+      "type": "object",
+      "properties": {
+        "launcher": { "enum": ["none", "bounce", "tada", "wiggle", "hop"] },
+        "trigger": { "enum": ["always", "newMessage"], "default": "newMessage" },
+        "intervalSeconds": { "type": "number", "minimum": 5, "maximum": 120, "default": 20 }
+      }
+    },
+    "sound": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean", "default": true },
+        "pack": { "enum": ["ding", "chime", "bell"], "default": "ding" }
+      }
+    },
+    "radius": { "enum": ["none", "sm", "md", "lg"], "default": "lg" },
+    "position": { "enum": ["left", "right"], "default": "right" },
+    "rtl": { "type": "boolean", "default": false },
+    "petMode": { "type": "boolean", "default": false, "description": "Reserved for P5 mascot mode" }
+  }
+}
