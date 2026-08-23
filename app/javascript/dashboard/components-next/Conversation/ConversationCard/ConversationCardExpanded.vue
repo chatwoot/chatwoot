@@ -109,6 +109,7 @@ const selectedModel = computed({
           :src="assignee.thumbnail"
           :size="14"
           :status="assignee.availability_status"
+          rounded-full
           hide-offline-status
         />
         <Icon
@@ -151,6 +152,7 @@ const selectedModel = computed({
 
       <CardAvatar
         :contact="currentContact"
+        :inbox="inbox"
         :selected="false"
         :enable-selection="false"
         :hide-thumbnail="false"
@@ -179,6 +181,7 @@ const selectedModel = computed({
         variant="pill"
         :title="campaignMeta.title"
         :display-id="campaignMeta.id"
+        :color="campaignMeta.color"
         class="flex-shrink-0"
       />
 

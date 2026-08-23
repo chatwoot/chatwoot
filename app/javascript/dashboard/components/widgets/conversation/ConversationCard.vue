@@ -4,7 +4,6 @@ import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import MessagePreview from './MessagePreview.vue';
-import InboxName from '../InboxName.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import CardPriorityIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPriorityIcon.vue';
@@ -23,7 +22,6 @@ const props = defineProps({
   selected: { type: Boolean, default: false },
   isActiveChat: { type: Boolean, default: false },
   showAssignee: { type: Boolean, default: false },
-  showInboxName: { type: Boolean, default: false },
   hideThumbnail: { type: Boolean, default: false },
   compact: { type: Boolean, default: false },
 });
@@ -54,17 +52,24 @@ const voiceCallData = computed(() => {
 
 const campaignMeta = computed(() => props.chat.meta?.campaign);
 
-const showMetaSection = computed(() => {
-  return (
-    props.showInboxName ||
-    (props.showAssignee && props.assignee.name) ||
-    props.chat.priority
-  );
-});
+const channelInbox = computed(() =>
+  props.inbox?.channel_type ? props.inbox : null
+);
+
+const showAssigneeAvatar = computed(
+  () => props.showAssignee && !!props.assignee?.name
+);
 
 const isAgentBotAssignee = computed(
   () => props.chat?.meta?.assignee_type === 'AgentBot'
 );
+
+const assigneeAvatarIcon = computed(() => {
+  if (isAgentBotAssignee.value && !props.assignee?.thumbnail) {
+    return 'i-lucide-bot';
+  }
+  return null;
+});
 
 const hasSlaPolicyId = computed(
   () => props.chat?.applied_sla?.id && !props.currentContact?.blocked
@@ -136,7 +141,11 @@ watch(
         :src="currentContact.thumbnail"
         :size="32"
         :status="currentContact.availability_status"
-        :class="!showInboxName ? 'mt-4' : 'mt-8'"
+        :inbox="channelInbox"
+        :badge-ratio="0.48"
+        class="mt-4"
+        rounded-full
+        use-brand-icon
         hide-offline-status
       >
         <template #overlay="{ size }">
@@ -152,43 +161,30 @@ watch(
       </Avatar>
     </div>
     <div class="px-0 py-3 flex-1 min-w-0 border-line">
-      <div
-        v-if="showMetaSection"
-        class="flex items-center min-w-0 gap-1"
-        :class="{
-          'ltr:ml-2 rtl:mr-2': !compact,
-          'mx-2': compact,
-        }"
-      >
-        <InboxName v-if="showInboxName" :inbox="inbox" class="flex-1 min-w-0" />
-        <div
-          class="flex items-baseline gap-2 flex-shrink-0"
-          :class="{
-            'flex-1 justify-between': !showInboxName,
-          }"
-        >
-          <span
-            v-if="showAssignee && assignee.name"
-            class="text-n-slate-11 text-xs font-medium leading-3 py-0.5 px-0 inline-flex items-center gap-px truncate"
-          >
-            <Icon
-              :icon="
-                isAgentBotAssignee ? 'i-lucide-bot' : 'i-lucide-user-round'
-              "
-              class="size-3 text-n-slate-11 flex-shrink-0"
-            />
-            <span class="truncate">{{ assignee.name }}</span>
-          </span>
-          <CardPriorityIcon
-            :priority="chat.priority"
-            class="flex-shrink-0 !size-3.5"
-          />
-        </div>
-      </div>
       <h4
-        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-n-slate-12"
+        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 flex items-center gap-1 min-w-0 ltr:pr-20 rtl:pl-20 text-n-slate-12"
         :class="hasUnread ? 'font-semibold' : 'font-medium'"
       >
+        <Avatar
+          v-if="showAssigneeAvatar"
+          v-tooltip.top="{
+            content: assignee.name,
+            delay: { show: 500, hide: 0 },
+          }"
+          :name="assignee.name"
+          :src="assignee.thumbnail"
+          :icon-name="assigneeAvatarIcon"
+          :size="16"
+          :status="assignee.availability_status"
+          rounded-full
+          hide-offline-status
+          class="flex-shrink-0"
+        />
+        <Icon
+          v-if="showAssigneeAvatar"
+          icon="i-lucide-chevron-right"
+          class="size-3 text-n-slate-10 flex-shrink-0"
+        />
         <span class="truncate">{{ currentContact.name }}</span>
       </h4>
       <VoiceCallStatus
@@ -221,16 +217,22 @@ watch(
         </span>
       </p>
       <div
-        class="absolute flex flex-col ltr:right-3 rtl:left-3"
-        :class="showMetaSection ? 'top-8' : 'top-4'"
+        class="absolute flex flex-col items-end ltr:right-3 rtl:left-3 top-4"
       >
-        <span class="ml-auto font-normal leading-4 text-xxs">
-          <TimeAgo
-            :last-activity-timestamp="chat.timestamp"
-            :created-at-timestamp="chat.created_at"
-            :conversation-id="chat.id"
+        <div class="flex items-center gap-1">
+          <CardPriorityIcon
+            v-if="chat.priority"
+            :priority="chat.priority"
+            class="flex-shrink-0 !size-3.5"
           />
-        </span>
+          <span class="font-normal leading-4 text-xxs">
+            <TimeAgo
+              :last-activity-timestamp="chat.timestamp"
+              :created-at-timestamp="chat.created_at"
+              :conversation-id="chat.id"
+            />
+          </span>
+        </div>
         <UnreadBadge
           v-if="hasUnread"
           :count="unreadCount"
@@ -242,6 +244,7 @@ watch(
           variant="row"
           :title="campaignMeta.title"
           :display-id="campaignMeta.id"
+          :color="campaignMeta.color"
         />
       </div>
       <CardLabels

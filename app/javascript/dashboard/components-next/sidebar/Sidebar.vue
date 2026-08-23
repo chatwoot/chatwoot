@@ -45,6 +45,12 @@ const emit = defineEmits([
   'closeMobileSidebar',
 ]);
 
+const labelSidebarIcon = color =>
+  h('span', {
+    class: 'size-3 shrink-0 rounded-sm',
+    style: { backgroundColor: color },
+  });
+
 const { accountScopedRoute, isOnChatwootCloud } = useAccount();
 const { isEnterprise } = useConfig();
 const store = useStore();
@@ -565,10 +571,7 @@ const menuItems = computed(() => {
             name: `${label.title}-${label.id}`,
             label: label.title,
             badgeCount: getLabelUnreadCount.value(label.id),
-            icon: h('span', {
-              class: `size-[8px] rounded-sm`,
-              style: { backgroundColor: label.color },
-            }),
+            icon: labelSidebarIcon(label.color),
             to: accountScopedRoute('label_conversations', {
               label: label.title,
             }),
@@ -719,10 +722,7 @@ const menuItems = computed(() => {
           children: labels.value.map(label => ({
             name: `${label.title}-${label.id}`,
             label: label.title,
-            icon: h('span', {
-              class: `size-[8px] rounded-sm`,
-              style: { backgroundColor: label.color },
-            }),
+            icon: labelSidebarIcon(label.color),
             to: accountScopedRoute(
               'contacts_dashboard_labels_index',
               { label: label.title },

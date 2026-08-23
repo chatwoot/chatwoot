@@ -28,12 +28,6 @@ const uiFlags = useMapGetter('contactConversations/getUIFlags');
 const contactGetter = useMapGetter('contacts/getContact');
 const inboxGetter = useMapGetter('inboxes/getInbox');
 
-const activeInbox = useMapGetter('getSelectedInbox');
-const inboxesList = useMapGetter('inboxes/getInboxes');
-const showInboxName = computed(
-  () => !activeInbox.value && inboxesList.value.length > 1
-);
-
 const contactConversationGetter = useMapGetter(
   'contactConversations/getContactConversation'
 );
@@ -147,7 +141,6 @@ onMounted(() => {
         :assignee="conversation.meta?.assignee || {}"
         :inbox="inboxGetter(conversation.inbox_id) || {}"
         :is-active-chat="currentChat.id === conversation.id"
-        :show-inbox-name="showInboxName"
         hide-thumbnail
         compact
         @click="onCardClick(conversation, $event)"

@@ -6,11 +6,13 @@ import { required, minLength } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useDebounceFn } from '@vueuse/core';
 import CampaignsAPI from 'dashboard/api/campaigns';
+import { getRandomColor } from 'dashboard/helper/labelColor';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
+import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
 import WhatsAppTemplateParser from 'dashboard/components-next/whatsapp/WhatsAppTemplateParser.vue';
 import WhatsAppCampaignAttributionNotice from 'dashboard/components-next/Campaigns/Pages/CampaignPage/WhatsAppCampaign/WhatsAppCampaignAttributionNotice.vue';
 
@@ -36,6 +38,7 @@ const formState = {
 
 const initialState = {
   title: '',
+  color: getRandomColor(),
   inboxId: null,
   templateId: null,
   scheduledAt: null,
@@ -143,7 +146,10 @@ const toLocalDateTimeInput = value => {
 };
 
 const resetState = () => {
-  Object.assign(state, initialState);
+  Object.assign(state, {
+    ...initialState,
+    color: getRandomColor(),
+  });
   audiencePreview.value = { total: 0, with_phone: 0, eligible: 0 };
   v$.value.$reset();
 };
@@ -167,6 +173,7 @@ const prepareCampaignDetails = (status = 'active') => {
 
   return {
     title: state.title,
+    color: state.color,
     message: templateContent || props.selectedCampaign?.message || '',
     template_params: templateParams,
     inbox_id: state.inboxId,
@@ -237,6 +244,7 @@ watch(
     }
 
     state.title = campaign.title || '';
+    state.color = campaign.color || getRandomColor();
     state.inboxId = campaign.inbox_id || campaign.inbox?.id || null;
     state.scheduledAt = toLocalDateTimeInput(campaign.scheduled_at);
     state.selectedAudience = (campaign.audience || []).map(item => item.id);
@@ -264,6 +272,13 @@ watch(
       :message="formErrors.title"
       :message-type="formErrors.title ? 'error' : 'info'"
     />
+
+    <div class="flex flex-col gap-1">
+      <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+        {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.COLOR.LABEL') }}
+      </label>
+      <ColorPicker v-model="state.color" />
+    </div>
 
     <div class="flex flex-col gap-1">
       <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">

@@ -9,8 +9,8 @@ const props = defineProps({
   },
   variant: {
     type: String,
-    default: 'vertical',
-    validator: value => ['vertical', 'horizontal'].includes(value),
+    default: 'row',
+    validator: value => ['row', 'vertical', 'horizontal'].includes(value),
   },
 });
 
@@ -22,7 +22,11 @@ const wrapperLayoutClass = computed(() => {
   if (props.variant === 'horizontal') {
     return 'h-1 w-full shrink-0';
   }
-  return 'absolute inset-y-0 start-0 w-[3px] z-10';
+  if (props.variant === 'vertical') {
+    return 'absolute inset-y-0 start-0 w-[3px] z-10';
+  }
+  // Soft full-row wash (default)
+  return 'absolute inset-0 z-0 pointer-events-none';
 });
 
 const pulseClass = computed(() =>
@@ -33,12 +37,16 @@ const pulseClass = computed(() =>
 <template>
   <div
     v-show="showIndicator && indicatorClass"
-    v-tooltip="label"
+    v-tooltip="variant === 'row' ? undefined : label"
     :class="wrapperLayoutClass"
   >
     <div
-      class="pointer-events-none h-full w-full"
-      :class="[indicatorClass, pulseClass]"
+      class="h-full w-full"
+      :class="[
+        indicatorClass,
+        pulseClass,
+        variant === 'row' ? 'pointer-events-none' : '',
+      ]"
       role="status"
       :aria-label="label"
     />

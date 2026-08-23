@@ -41,7 +41,7 @@ const items = [
         class="inline-flex items-center gap-2"
       >
         <span
-          class="inline-block h-2.5 w-2.5 shrink-0 rounded-sm"
+          class="inline-block h-2.5 w-2.5 shrink-0 rounded-sm opacity-80"
           :class="item.swatchClass"
           aria-hidden="true"
         />

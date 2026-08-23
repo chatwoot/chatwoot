@@ -5,11 +5,14 @@ import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { emitter } from 'shared/helpers/mitt';
+import { useConversationStatusActions } from 'dashboard/composables/useConversationStatusActions';
 import EmailTranscriptModal from './EmailTranscriptModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
 import ConversationAssigneeSelector from './ConversationAssigneeSelector.vue';
+import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import wootConstants from 'dashboard/constants/globals';
 
 import {
   CMD_MUTE_CONVERSATION,
@@ -17,17 +20,41 @@ import {
   CMD_UNMUTE_CONVERSATION,
 } from 'dashboard/helper/commandbar/events';
 
-// No props needed as we're getting currentChat from the store directly
 const store = useStore();
 const { t } = useI18n();
 
 const [showEmailActionsModal, toggleEmailModal] = useToggle(false);
 const [showActionsDropdown, toggleDropdown] = useToggle(false);
 
+const {
+  showAdditionalActions,
+  resolveAttributesModalRef,
+  openSnoozeModal,
+  attemptStatusChange,
+  handleResolveWithAttributes,
+} = useConversationStatusActions();
+
 const currentChat = computed(() => store.getters.getSelectedChat);
 
 const actionMenuItems = computed(() => {
   const items = [];
+
+  if (showAdditionalActions.value) {
+    items.push(
+      {
+        icon: 'i-lucide-alarm-clock-minus',
+        label: t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE_UNTIL'),
+        action: 'snooze',
+        value: 'snooze',
+      },
+      {
+        icon: 'i-lucide-circle-dot-dashed',
+        label: t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING'),
+        action: 'pending',
+        value: 'pending',
+      }
+    );
+  }
 
   if (!currentChat.value.muted) {
     items.push({
@@ -58,7 +85,11 @@ const actionMenuItems = computed(() => {
 const handleActionClick = ({ action }) => {
   toggleDropdown(false);
 
-  if (action === 'mute') {
+  if (action === 'snooze') {
+    openSnoozeModal();
+  } else if (action === 'pending') {
+    attemptStatusChange(wootConstants.STATUS_TYPE.PENDING);
+  } else if (action === 'mute') {
     store.dispatch('muteConversation', currentChat.value.id);
     useAlert(t('CONTACT_PANEL.MUTED_SUCCESS'));
   } else if (action === 'unmute') {
@@ -69,7 +100,6 @@ const handleActionClick = ({ action }) => {
   }
 };
 
-// These functions are needed for the event listeners
 const mute = () => {
   store.dispatch('muteConversation', currentChat.value.id);
   useAlert(t('CONTACT_PANEL.MUTED_SUCCESS'));
@@ -92,7 +122,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="relative flex items-center gap-2 actions--container min-w-0">
+  <div class="relative flex items-center gap-1 actions--container min-w-0">
     <ConversationAssigneeSelector
       v-if="currentChat?.id"
       show-self-assign-button
@@ -104,7 +134,7 @@ onUnmounted(() => {
     />
     <div
       v-on-clickaway="() => toggleDropdown(false)"
-      class="relative flex items-center group"
+      class="relative flex items-center group shrink-0"
     >
       <ButtonV4
         v-tooltip="$t('CONVERSATION.HEADER.MORE_ACTIONS')"
@@ -112,7 +142,7 @@ onUnmounted(() => {
         variant="ghost"
         color="slate"
         icon="i-lucide-more-vertical"
-        class="rounded-md group-hover:bg-n-alpha-2"
+        class="!w-8 !min-w-8 !px-0 rounded-md group-hover:bg-n-alpha-2"
         @click="toggleDropdown()"
       />
       <DropdownMenu
@@ -127,6 +157,10 @@ onUnmounted(() => {
       :show="showEmailActionsModal"
       :current-chat="currentChat"
       @cancel="toggleEmailModal"
+    />
+    <ConversationResolveAttributesModal
+      ref="resolveAttributesModalRef"
+      @submit="handleResolveWithAttributes"
     />
   </div>
 </template>

@@ -38,6 +38,15 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  useBrandIcon: {
+    type: Boolean,
+    default: false,
+  },
+  // Scale of the channel/status badge relative to avatar size (default ~35%).
+  badgeRatio: {
+    type: Number,
+    default: 0.35,
+  },
   iconName: {
     type: String,
     default: null,
@@ -140,7 +149,7 @@ const avatarStyles = computed(() => ({
 }));
 
 const badgeStyles = computed(() => {
-  const badgeSize = Math.max(props.size * 0.35, 8); // 35% of avatar size, minimum 8px
+  const badgeSize = Math.max(props.size * props.badgeRatio, 8);
   return {
     width: `${badgeSize}px`,
     height: `${badgeSize}px`,
@@ -213,7 +222,11 @@ watch(
         :style="badgeStyles"
         class="absolute z-20 flex items-center justify-center rounded-full bg-n-solid-1 border border-transparent flex-shrink-0"
       >
-        <ChannelIcon :inbox="inbox" class="w-full h-full text-n-slate-11" />
+        <ChannelIcon
+          :inbox="inbox"
+          :use-brand-icon="useBrandIcon"
+          class="w-full h-full text-n-slate-11"
+        />
       </div>
     </slot>
 

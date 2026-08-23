@@ -8,14 +8,13 @@ import MoreActions from './MoreActions.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ConversationCallButton from './ConversationCallButton.vue';
+import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { useInbox } from 'dashboard/composables/useInbox';
-import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useI18n } from 'vue-i18n';
-import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import CampaignCardBadge from 'dashboard/components-next/Conversation/ConversationCard/CampaignCardBadge.vue';
 
 const props = defineProps({
@@ -90,33 +89,11 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 
 const campaignMeta = computed(() => props.chat?.meta?.campaign);
 
-const contactSubtitle = computed(() => {
-  const contact = currentContact.value;
-  if (!contact) return '';
-  if (contact.phone_number) return contact.phone_number;
-  if (contact.email) return contact.email;
-
-  const additionalAttributes = contact.additional_attributes || {};
-  const socialProfiles = additionalAttributes.social_profiles || {};
-  const telegram =
-    socialProfiles.telegram || additionalAttributes.social_telegram_user_name;
-
-  if (telegram) {
-    return telegram.startsWith('@') ? telegram : `@${telegram}`;
-  }
-
-  return '';
+const channelInbox = computed(() => {
+  const current = inbox.value;
+  if (!current) return null;
+  return current.channelType || current.channel_type ? current : null;
 });
-
-const copyContactSubtitle = async () => {
-  try {
-    const text = contactSubtitle.value || String(props.chat.id);
-    await copyTextToClipboard(text);
-    useAlert(t('CONVERSATION.HEADER.COPY_ID_SUCCESS'));
-  } catch (error) {
-    // error
-  }
-};
 
 const toggleContactSidebar = () => {
   const isContactSidebarOpen = uiSettings.value.is_contact_sidebar_open;
@@ -145,6 +122,7 @@ const toggleContactSidebar = () => {
         :src="currentContact.thumbnail"
         :size="32"
         :status="currentContact.availability_status"
+        rounded-full
         hide-offline-status
       />
       <div class="flex flex-col items-start min-w-0 ms-2 overflow-hidden">
@@ -170,13 +148,19 @@ const toggleContactSidebar = () => {
         <div
           class="flex items-center gap-1 overflow-hidden text-xs conversation--header--actions text-n-slate-11 text-ellipsis whitespace-nowrap"
         >
-          <button
-            type="button"
-            class="truncate text-label-small text-n-slate-11 hover:text-n-slate-12 !p-0 cursor-pointer"
-            @click="copyContactSubtitle"
+          <div
+            v-if="channelInbox"
+            class="flex items-center gap-1 min-w-0 truncate"
           >
-            {{ contactSubtitle || `#${chat.id}` }}
-          </button>
+            <ChannelIcon
+              :inbox="channelInbox"
+              use-brand-icon
+              class="size-3.5 flex-shrink-0"
+            />
+            <span class="truncate text-label-small text-n-slate-11">
+              {{ channelInbox.name }}
+            </span>
+          </div>
           <span v-if="isSnoozed">•</span>
           <span v-if="isSnoozed" class="font-medium text-n-amber-10">
             {{ snoozedDisplayText }}
@@ -198,6 +182,7 @@ const toggleContactSidebar = () => {
         v-if="campaignMeta?.title"
         :title="campaignMeta.title"
         :display-id="campaignMeta.id"
+        :color="campaignMeta.color"
       />
       <ConversationCallButton :inbox="inbox" :chat="currentChat" />
       <MoreActions :conversation-id="currentChat.id" />

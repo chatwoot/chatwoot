@@ -8,12 +8,14 @@ import { useAlert } from 'dashboard/composables';
 import { URLPattern } from 'urlpattern-polyfill';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { getRandomColor } from 'dashboard/helper/labelColor';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import InsertVariableButton from 'dashboard/components-next/variable/InsertVariableButton.vue';
+import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
 
 const props = defineProps({
   mode: {
@@ -45,6 +47,7 @@ const senderList = ref([]);
 
 const initialState = {
   title: '',
+  color: getRandomColor(),
   message: '',
   inboxId: null,
   senderId: 0,
@@ -113,7 +116,11 @@ const formErrors = computed(() => ({
   sender: getErrorMessage('senderId', 'SENT_BY'),
 }));
 
-const resetState = () => Object.assign(state, initialState);
+const resetState = () =>
+  Object.assign(state, {
+    ...initialState,
+    color: getRandomColor(),
+  });
 
 const handleCancel = () => emit('cancel');
 
@@ -137,6 +144,7 @@ const handleInboxChange = async inboxId => {
 
 const prepareCampaignDetails = () => ({
   title: state.title,
+  color: state.color,
   message: state.message,
   inbox_id: state.inboxId,
   sender_id: state.senderId || null,
@@ -174,6 +182,7 @@ const updateStateFromCampaign = campaign => {
 
   Object.assign(state, {
     title,
+    color: campaign.color || getRandomColor(),
     message,
     inboxId,
     senderId: sender?.id ?? 0,
@@ -220,6 +229,13 @@ const insertMessageVariable = liquid => {
       :message="formErrors.title"
       :message-type="formErrors.title ? 'error' : 'info'"
     />
+
+    <div class="flex flex-col gap-1">
+      <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+        {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.COLOR.LABEL') }}
+      </label>
+      <ColorPicker v-model="state.color" />
+    </div>
 
     <div class="flex flex-col gap-1">
       <div class="flex items-center justify-between gap-2 mb-0.5">

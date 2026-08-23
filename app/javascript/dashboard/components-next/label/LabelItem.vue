@@ -1,4 +1,7 @@
 <script setup>
+import { computed } from 'vue';
+import { tintStylesFromHex } from 'dashboard/helper/colorHelper';
+
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -14,6 +17,11 @@ const props = defineProps({
 
 const emit = defineEmits(['remove', 'hover']);
 
+const tintStyles = computed(() => {
+  const styles = tintStylesFromHex(props.label?.color);
+  return Object.keys(styles).length ? styles : null;
+});
+
 const handleRemoveLabel = () => {
   emit('remove', props.label);
 };
@@ -28,14 +36,15 @@ const handleMouseEnter = () => {
 
 <template>
   <div
-    class="flex items-center px-1 py-1 overflow-hidden transition-all duration-300 ease-out rounded-md bg-n-alpha-2 h-7"
+    class="flex items-center px-1.5 py-1 overflow-hidden transition-all duration-300 ease-out rounded-md border h-7"
+    :class="{ 'bg-n-alpha-2 border-transparent': !tintStyles }"
+    :style="tintStyles || undefined"
     @mouseenter="handleMouseEnter"
   >
-    <div
-      class="w-2 h-2 m-1 rounded-sm"
-      :style="{ backgroundColor: label.color }"
-    />
-    <span class="text-sm text-n-slate-12 ltr:mr-px rtl:ml-px">
+    <span
+      class="text-sm ltr:mr-px rtl:ml-px"
+      :class="{ 'text-n-slate-12': !tintStyles }"
+    >
       {{ label.title }}
     </span>
     <div

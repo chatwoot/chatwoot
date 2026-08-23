@@ -46,10 +46,13 @@ const providerBrandIconMap = {
 
 const resolveInbox = inbox => inbox?.value ?? inbox;
 
+const channelTypeOf = inboxDetails =>
+  inboxDetails?.channel_type || inboxDetails?.channelType;
+
 export function useChannelIcon(inbox) {
   const channelIcon = computed(() => {
     const inboxDetails = resolveInbox(inbox);
-    const type = inboxDetails.channel_type;
+    const type = channelTypeOf(inboxDetails);
     let icon = channelTypeIconMap[type];
 
     if (type === INBOX_TYPES.EMAIL && inboxDetails.provider) {
@@ -80,7 +83,7 @@ export function useChannelIcon(inbox) {
 export function useChannelBrandIcon(inbox) {
   return computed(() => {
     const inboxDetails = resolveInbox(inbox);
-    const type = inboxDetails.channel_type;
+    const type = channelTypeOf(inboxDetails);
     let icon = channelTypeBrandIconMap[type];
 
     if (type === INBOX_TYPES.EMAIL && inboxDetails.provider) {

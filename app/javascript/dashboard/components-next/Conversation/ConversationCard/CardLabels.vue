@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { tintStylesFromHex } from 'dashboard/helper/colorHelper';
 
 const props = defineProps({
   conversationLabels: {
@@ -15,11 +16,11 @@ const props = defineProps({
 const WIDTH_CONFIG = Object.freeze({
   DEFAULT_WIDTH: 80,
   CHAR_WIDTH: {
-    SHORT: 8, // For labels <= 5 chars
-    LONG: 6, // For labels > 5 chars
+    SHORT: 8,
+    LONG: 6,
   },
-  BASE_WIDTH: 12, // dot + gap
-  THRESHOLD: 5, // character length threshold
+  BASE_WIDTH: 16,
+  THRESHOLD: 5,
 });
 
 const containerRef = ref(null);
@@ -68,28 +69,23 @@ const updateVisibleLabels = () => {
   <div
     ref="containerRef"
     v-resize="updateVisibleLabels"
-    class="flex items-center gap-2.5 w-full min-w-0 h-6 overflow-hidden"
+    class="flex items-center gap-1.5 w-full min-w-0 h-6 overflow-hidden"
   >
-    <template v-for="(label, index) in visibleLabels" :key="label.id">
-      <div
-        class="flex items-center gap-1.5 min-w-0"
-        :class="[
-          index !== visibleLabels.length - 1
-            ? 'flex-shrink-0 text-ellipsis'
-            : 'flex-shrink',
-        ]"
+    <span
+      v-for="(label, index) in visibleLabels"
+      :key="label.id"
+      class="inline-flex items-center rounded-md border px-1.5 py-0.5 text-xxs font-medium min-w-0"
+      :class="[
+        index !== visibleLabels.length - 1 ? 'flex-shrink-0' : 'flex-shrink',
+      ]"
+      :style="tintStylesFromHex(label.color)"
+    >
+      <span
+        class="whitespace-nowrap"
+        :class="{ truncate: index === visibleLabels.length - 1 }"
       >
-        <div
-          :style="{ backgroundColor: label.color }"
-          class="size-1.5 rounded-full flex-shrink-0"
-        />
-        <span
-          class="text-sm text-n-slate-10 whitespace-nowrap"
-          :class="{ truncate: index === visibleLabels.length - 1 }"
-        >
-          {{ label.title }}
-        </span>
-      </div>
-    </template>
+        {{ label.title }}
+      </span>
+    </span>
   </div>
 </template>

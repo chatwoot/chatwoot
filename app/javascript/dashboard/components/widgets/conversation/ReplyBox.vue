@@ -1652,10 +1652,12 @@ export default {
     />
     <woot-confirm-modal
       ref="assignBeforeReplyDialog"
+      confirm-on-enter
       :title="$t('CONVERSATION.REPLYBOX.ASSIGN_BEFORE_REPLY.TITLE')"
       :description="$t('CONVERSATION.REPLYBOX.ASSIGN_BEFORE_REPLY.MESSAGE')"
       :confirm-label="$t('CONVERSATION.REPLYBOX.ASSIGN_BEFORE_REPLY.CONFIRM')"
       :cancel-label="$t('CONVERSATION.REPLYBOX.ASSIGN_BEFORE_REPLY.CANCEL')"
+      :enter-hint="$t('CONVERSATION.REPLYBOX.ASSIGN_BEFORE_REPLY.ENTER_HINT')"
     />
   </div>
 </template>

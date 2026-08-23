@@ -6,12 +6,14 @@ import { required, minLength } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useDebounceFn } from '@vueuse/core';
 import CampaignsAPI from 'dashboard/api/campaigns';
+import { getRandomColor } from 'dashboard/helper/labelColor';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
+import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
 
 const props = defineProps({
   selectedCampaign: {
@@ -32,6 +34,7 @@ const formState = {
 
 const initialState = {
   title: '',
+  color: getRandomColor(),
   message: '',
   inboxId: null,
   scheduledAt: null,
@@ -110,7 +113,10 @@ const toLocalDateTimeInput = value => {
 };
 
 const resetState = () => {
-  Object.assign(state, initialState);
+  Object.assign(state, {
+    ...initialState,
+    color: getRandomColor(),
+  });
   audiencePreview.value = { total: 0, with_phone: 0, eligible: 0 };
   v$.value.$reset();
 };
@@ -119,6 +125,7 @@ const handleCancel = () => emit('cancel');
 
 const prepareCampaignDetails = (status = 'active') => ({
   title: state.title,
+  color: state.color,
   message: state.message || '',
   inbox_id: state.inboxId,
   scheduled_at: formatToUTCString(state.scheduledAt),
@@ -182,6 +189,7 @@ watch(
     }
 
     state.title = campaign.title || '';
+    state.color = campaign.color || getRandomColor();
     state.message = campaign.message || '';
     state.inboxId = campaign.inbox_id || campaign.inbox?.id || null;
     state.scheduledAt = toLocalDateTimeInput(campaign.scheduled_at);
@@ -200,6 +208,13 @@ watch(
       :message="formErrors.title"
       :message-type="formErrors.title ? 'error' : 'info'"
     />
+
+    <div class="flex flex-col gap-1">
+      <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+        {{ t('CAMPAIGN.SMS.CREATE.FORM.COLOR.LABEL') }}
+      </label>
+      <ColorPicker v-model="state.color" />
+    </div>
 
     <TextArea
       v-model="state.message"

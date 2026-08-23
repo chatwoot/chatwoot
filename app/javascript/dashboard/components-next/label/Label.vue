@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { tintStylesFromHex } from 'dashboard/helper/colorHelper';
 
 const props = defineProps({
   label: {
@@ -38,28 +39,34 @@ const labelDescription = computed(() => {
 });
 
 const labelColor = computed(() => {
-  return isStringLabel.value ? null : props.label.color;
+  return isStringLabel.value ? null : props.label?.color;
 });
 
-const colorClasses = computed(() => COLOR_CLASSES[props.color]);
+const tintStyles = computed(() => {
+  if (!labelColor.value) return null;
+  const styles = tintStylesFromHex(labelColor.value);
+  return Object.keys(styles).length ? styles : null;
+});
+
+const colorClasses = computed(() =>
+  tintStyles.value ? '' : COLOR_CLASSES[props.color]
+);
 </script>
 
 <template>
   <div
     :title="labelDescription"
-    class="rounded-lg -outline-offset-1 outline outline-1 inline-flex items-center flex-shrink-0"
+    class="rounded-lg inline-flex items-center flex-shrink-0"
     :class="[
+      tintStyles
+        ? 'border border-solid'
+        : '-outline-offset-1 outline outline-1',
       colorClasses,
       compact ? 'px-1.5 h-6 gap-1 rounded-md' : 'px-2.5 h-8 gap-1.5 rounded-lg',
     ]"
+    :style="tintStyles || undefined"
   >
-    <span
-      v-if="labelColor"
-      class="rounded-sm flex-shrink-0"
-      :class="compact ? 'size-1.5' : 'size-2'"
-      :style="{ background: labelColor }"
-    />
-    <slot v-else name="icon" />
+    <slot v-if="!tintStyles" name="icon" />
     <span
       class="whitespace-nowrap"
       :class="compact ? 'text-label-small' : 'text-label !font-420'"

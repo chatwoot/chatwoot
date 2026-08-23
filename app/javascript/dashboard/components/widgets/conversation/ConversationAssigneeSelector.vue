@@ -67,7 +67,7 @@ const onSelectAgent = agent => {
   <OnClickOutside @trigger="closeMenu">
     <div
       v-tooltip="t('CONVERSATION.HEADER.ASSIGNEE')"
-      class="relative flex items-center h-8 min-w-[11rem] max-w-[14rem] rounded-lg outline outline-1 outline-n-weak bg-n-background shrink-0"
+      class="relative flex items-center h-8 min-w-0 max-w-[10rem] rounded-lg outline outline-1 outline-n-weak bg-n-background shrink-0"
     >
       <button
         v-if="showSelfAssignButton && canSelfAssign"

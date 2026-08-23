@@ -116,6 +116,7 @@ const onCardClick = e => {
             v-if="campaignMeta?.title"
             :title="campaignMeta.title"
             :display-id="campaignMeta.id"
+            :color="campaignMeta.color"
           />
           <div
             v-tooltip.left="inboxName"

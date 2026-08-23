@@ -5,6 +5,7 @@ import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 const props = defineProps({
   contact: { type: Object, required: true },
+  inbox: { type: Object, default: null },
   selected: { type: Boolean, default: false },
   enableSelection: { type: Boolean, default: true },
   hideThumbnail: { type: Boolean, default: false },
@@ -42,6 +43,9 @@ const selectedModel = computed({
       :src="contact.thumbnail"
       :size="24"
       :status="contact.availability_status"
+      :inbox="inbox?.channel_type ? inbox : null"
+      rounded-full
+      use-brand-icon
       hide-offline-status
     >
       <template v-if="enableSelection" #overlay>
