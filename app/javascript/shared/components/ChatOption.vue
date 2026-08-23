@@ -1,5 +1,5 @@
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 
 export default {
   components: {},

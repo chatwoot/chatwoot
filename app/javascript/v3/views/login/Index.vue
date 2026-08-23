@@ -1,7 +1,7 @@
 <script>
 // utils and composables
 import { login } from '../../api/auth';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { useAlert } from 'dashboard/composables';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';

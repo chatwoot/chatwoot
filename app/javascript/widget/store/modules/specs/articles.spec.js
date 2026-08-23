@@ -5,7 +5,7 @@ import { getFromCache, setCache } from 'shared/helpers/cache';
 vi.mock('widget/api/article');
 vi.mock('shared/helpers/cache');
 
-describe('Vuex Articles Module', () => {
+describe('Articles Store Module', () => {
   let state;
 
   beforeEach(() => {

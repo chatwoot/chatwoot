@@ -8,6 +8,9 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
 
   def index
     @notifications = notification_finder.notifications
+                                        .includes(primary_actor: [:inbox, :contact_inbox, :contact, :assignee, :team, :labels])
+                                        .includes(secondary_actor: [:sender, :attachments])
+                                        .includes(:user)
     @unread_count = notification_finder.unread_count
     @count = notification_finder.count
   end

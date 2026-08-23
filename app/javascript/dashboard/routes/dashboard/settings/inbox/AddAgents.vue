@@ -1,6 +1,6 @@
 <script>
 /* eslint no-console: 0 */
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { useAlert } from 'dashboard/composables';
 
 import InboxMembersAPI from '../../../../api/inboxMembers';

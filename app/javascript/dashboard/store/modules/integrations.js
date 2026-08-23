@@ -1,5 +1,5 @@
 /* eslint no-param-reassign: 0 */
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
+import * as MutationHelpers from 'shared/helpers/store/mutationHelpers';
 import * as types from '../mutation-types';
 import IntegrationsAPI from '../../api/integrations';
 

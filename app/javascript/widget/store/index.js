@@ -1,4 +1,4 @@
-import { createStore } from 'vuex';
+import { createStore } from 'shared/store/createStore';
 
 import agent from 'widget/store/modules/agent';
 import appConfig from 'widget/store/modules/appConfig';

@@ -1,4 +1,4 @@
-import { createStore } from 'vuex';
+import { createStore } from 'shared/store/createStore';
 
 import accounts from './modules/accounts';
 import agentCapacityPolicies from './modules/agentCapacityPolicies';

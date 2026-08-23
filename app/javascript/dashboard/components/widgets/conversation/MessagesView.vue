@@ -14,7 +14,7 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
 
 // stores and apis
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 
 // mixins
 import inboxMixin from 'shared/mixins/inboxMixin';

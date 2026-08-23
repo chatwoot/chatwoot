@@ -1,6 +1,6 @@
 <script>
 import { required, minLength } from '@vuelidate/validators';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';

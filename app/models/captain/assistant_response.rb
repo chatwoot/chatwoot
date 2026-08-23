@@ -46,7 +46,7 @@ class Captain::AssistantResponse < ApplicationRecord
   scope :by_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
   scope :with_document, ->(document_id) { where(document_id: document_id) }
 
-  enum status: { approved: 1 }
+  enum :status, { approved: 1 }
 
   # Cosine similarity threshold: unrelated chunks are never surfaced to the LLM.
   DISTANCE_THRESHOLD = 0.3

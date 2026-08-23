@@ -1,6 +1,6 @@
 <script>
 import TeamAvailability from 'widget/components/TeamAvailability.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { useRouter } from 'vue-router';
 import configMixin from 'widget/mixins/configMixin';
 import ArticleContainer from '../components/pageComponents/Home/Article/ArticleContainer.vue';

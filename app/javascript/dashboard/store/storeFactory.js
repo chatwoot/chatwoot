@@ -1,18 +1,18 @@
 /**
  * Universal Store Factory
  *
- * This factory creates stores for both Vuex and Pinia, allowing gradual
- * migration from Vuex to Pinia without breaking existing functionality.
+ * This factory creates store module definitions (consumed by the Pinia-backed
+ * facade) as well as native Pinia stores, allowing gradual migration without
+ * breaking existing functionality.
  *
  * @module storeFactory
  * @see https://pinia.vuejs.org/ - Pinia documentation
- * @see https://vuex.vuejs.org/ - Vuex documentation
  */
 
 import { defineStore } from 'pinia';
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
+import * as MutationHelpers from 'shared/helpers/store/mutationHelpers';
 import {
-  // Vuex helpers
+  // Store module helpers
   createRecord,
   deleteRecord,
   getRecords,
@@ -89,7 +89,10 @@ export const createCrudActions = (API, mutationTypes) => ({
 });
 
 /**
- * Create Vuex store with standard CRUD operations
+ * Create a store module definition with standard CRUD operations.
+ *
+ * The returned object is a classic `{ state, getters, actions, mutations }`
+ * module config consumed by the Pinia-backed store facade.
  *
  * @param {Object} options - Store configuration
  * @param {string} options.name - Store name
@@ -97,9 +100,9 @@ export const createCrudActions = (API, mutationTypes) => ({
  * @param {Object} [options.getters] - Custom getters
  * @param {Function} [options.actions] - Custom actions function
  * @param {Object} [options.mutations] - Custom mutations
- * @returns {Object} Vuex module configuration
+ * @returns {Object} Store module configuration
  */
-export const createVuexStore = options => {
+export const createStoreModule = options => {
   const { name, API, actions, getters, mutations } = options;
 
   const mutationTypes = generateMutationTypes(name);
@@ -191,21 +194,22 @@ export const createPiniaStore = options => {
 /**
  * Universal Store Factory - Main Entry Point
  *
- * Creates either a Vuex or Pinia store based on the 'type' parameter.
- * Defaults to Vuex for backward compatibility.
+ * Creates either a module definition or a Pinia store based on the 'type'
+ * parameter. Defaults to a module definition for backward compatibility.
  *
  * @param {Object} options - Store configuration
  * @param {string} options.name - Store name
  * @param {Object} options.API - API client for CRUD operations
- * @param {string} [options.type='vuex'] - Store type: 'vuex' or 'pinia'
+ * @param {string} [options.type='vuex'] - Store type: 'vuex' (module
+ *   definition consumed by the facade) or 'pinia' (native Pinia store)
  * @param {Object} [options.getters] - Custom getters
  * @param {Function} [options.actions] - Custom actions function
- * @param {Object} [options.mutations] - Custom mutations (Vuex only)
+ * @param {Object} [options.mutations] - Custom mutations (module only)
  *
- * @returns {Object|Function} Vuex module or Pinia store composable
+ * @returns {Object|Function} Module configuration or Pinia store composable
  *
  * @example
- * Create Vuex store (default)
+ * Create a store module (default)
  * export default createStore({
  *   name: 'Company',
  *   API: CompanyAPI,
@@ -225,5 +229,5 @@ export const createStore = options => {
   if (type === 'pinia') {
     return createPiniaStore(options);
   }
-  return createVuexStore(options);
+  return createStoreModule(options);
 };

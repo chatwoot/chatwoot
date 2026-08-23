@@ -1,6 +1,6 @@
 import { flushPromises, mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createStore } from 'vuex';
+import { createStore } from 'shared/store/createStore';
 import { Selection } from '@chatwoot/prosemirror-schema';
 import { withFullI18n } from 'test-i18n';
 import { emitter } from 'shared/helpers/mitt';

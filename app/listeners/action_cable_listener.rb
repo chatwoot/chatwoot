@@ -2,15 +2,23 @@ class ActionCableListener < BaseListener
   include Events::Types
 
   def notification_created(event)
-    notification, account, unread_count, count = extract_notification_and_account(event)
-    tokens = [event.data[:notification].user.pubsub_token]
-    broadcast(account, tokens, NOTIFICATION_CREATED, { notification: notification.push_event_data, unread_count: unread_count, count: count })
+    notification_data = event.data[:notification_data]
+    # A notification may already have been removed as a duplicate by
+    # Notification::RemoveDuplicateNotificationJob, so skip broadcasting stale data.
+    return unless Notification.exists?(id: notification_data[:id])
+
+    _, account, unread_count, count = extract_notification_and_account(event)
+    tokens = [notification_data[:user_pubsub_token]]
+    broadcast(account, tokens, NOTIFICATION_CREATED, { notification: notification_data[:push_event_data], unread_count: unread_count, count: count })
   end
 
   def notification_updated(event)
-    notification, account, unread_count, count = extract_notification_and_account(event)
-    tokens = [event.data[:notification].user.pubsub_token]
-    broadcast(account, tokens, NOTIFICATION_UPDATED, { notification: notification.push_event_data, unread_count: unread_count, count: count })
+    notification_data = event.data[:notification_data]
+    return unless Notification.exists?(id: notification_data[:id])
+
+    _, account, unread_count, count = extract_notification_and_account(event)
+    tokens = [notification_data[:user_pubsub_token]]
+    broadcast(account, tokens, NOTIFICATION_UPDATED, { notification: notification_data[:push_event_data], unread_count: unread_count, count: count })
   end
 
   def notification_deleted(event)

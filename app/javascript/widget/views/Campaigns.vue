@@ -1,5 +1,5 @@
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { IFrameHelper } from 'widget/helpers/utils';
 import UnreadMessageList from '../components/UnreadMessageList.vue';
 import { emitter } from 'shared/helpers/mitt';

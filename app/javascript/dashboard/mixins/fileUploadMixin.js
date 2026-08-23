@@ -1,4 +1,4 @@
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { useAlert } from 'dashboard/composables';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { getMaxUploadSizeByChannel } from '@chatwoot/utils';

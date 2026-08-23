@@ -1,6 +1,6 @@
 <script>
 import { defineAsyncComponent, useTemplateRef } from 'vue';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useTrack } from 'dashboard/composables';

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import { useRouter } from 'vue-router';
 import { useI18n, I18nT } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';

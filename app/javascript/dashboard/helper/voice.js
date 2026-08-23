@@ -72,7 +72,7 @@ const shouldRingInbound = (callDirection, currentUserAvailability) => {
 function extractCallerSnapshot(message) {
   // Snapshot caller info from the message at add-time so the widget can keep
   // rendering it after the user navigates away from a conversation list that
-  // had the conversation hydrated (and Vuex evicts it from the store).
+  // had the conversation hydrated (and evicts it from the store).
   // Only incoming messages carry the contact as the sender; on outbound calls
   // the sender is the initiating agent, so skip the snapshot and let the widget
   // fall back to the conversation's contact (conversation.meta.sender).

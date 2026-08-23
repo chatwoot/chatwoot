@@ -1,5 +1,5 @@
 import { throwErrorMessage } from 'dashboard/store/utils/api';
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
+import * as MutationHelpers from 'shared/helpers/store/mutationHelpers';
 import * as types from '../mutation-types';
 import CustomRoleAPI from '../../api/customRole';
 

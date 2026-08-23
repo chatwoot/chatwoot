@@ -2,7 +2,7 @@ class Integrations::App
   attr_accessor :params
 
   def initialize(params)
-    @params = params
+    @params = params.with_indifferent_access
   end
 
   def id
@@ -63,7 +63,7 @@ class Integrations::App
 
   class << self
     def apps
-      Hashie::Mash.new(APPS_CONFIG)
+      APPS_CONFIG
     end
 
     def all
@@ -76,6 +76,4 @@ class Integrations::App
       all.detect { |app| app.id == params[:id] }
     end
   end
-
-
 end

@@ -9,7 +9,7 @@ import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { emitter } from 'shared/helpers/mitt';
 import { useAttachments } from '../composables/useAttachments';
 

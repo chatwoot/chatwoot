@@ -1,5 +1,5 @@
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { getUnixTime } from 'date-fns';
 import { CMD_SNOOZE_NOTIFICATION } from 'dashboard/helper/commandbar/events';

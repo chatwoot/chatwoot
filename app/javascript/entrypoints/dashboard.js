@@ -14,7 +14,7 @@ import i18nMessages from 'dashboard/i18n';
 import createAxios from 'dashboard/helper/APIHelper';
 
 import commonHelpers, { isJSONValid } from 'dashboard/helper/commons';
-import { sync } from 'vuex-router-sync';
+import { sync } from 'shared/store/createStore';
 import { createPinia } from 'pinia';
 import router, { initalizeRouter } from 'dashboard/routes';
 import store from 'dashboard/store';

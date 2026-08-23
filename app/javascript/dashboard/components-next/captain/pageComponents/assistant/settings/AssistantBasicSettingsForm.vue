@@ -45,11 +45,29 @@ const getErrorMessage = field => {
   return v$.value[field].$error ? v$.value[field].$errors[0].$message : '';
 };
 
+// Non-blocking guardrail for placeholder/typing-garbage values (e.g. "fdsaf")
+// that produce confusing responses. Deliberately conservative so legitimate
+// short names (e.g. "NYX") are only gently nudged, never blocked.
+const isKeyboardMash = value => {
+  const trimmed = (value || '').trim();
+  if (trimmed.length < 3) return false;
+  if (!/^[A-Za-z]+$/.test(trimmed)) return false;
+  return !/[aeiouAEIOU]/.test(trimmed);
+};
+
 const formErrors = computed(() => ({
   name: getErrorMessage('name'),
   description: getErrorMessage('description'),
   productName: getErrorMessage('productName'),
 }));
+
+const fieldHint = field => {
+  if (formErrors.value[field]) return '';
+  if (isKeyboardMash(state[field])) {
+    return t('CAPTAIN.ASSISTANTS.FORM.PLACEHOLDER_HINT');
+  }
+  return '';
+};
 
 const updateStateFromAssistant = assistant => {
   const { config = {} } = assistant;
@@ -103,7 +121,7 @@ watch(
       v-model="state.name"
       :label="t('CAPTAIN.ASSISTANTS.FORM.NAME.LABEL')"
       :placeholder="t('CAPTAIN.ASSISTANTS.FORM.NAME.PLACEHOLDER')"
-      :message="formErrors.name"
+      :message="formErrors.name || fieldHint('name')"
       :message-type="formErrors.name ? 'error' : 'info'"
     />
 
@@ -111,7 +129,7 @@ watch(
       v-model="state.productName"
       :label="t('CAPTAIN.ASSISTANTS.FORM.PRODUCT_NAME.LABEL')"
       :placeholder="t('CAPTAIN.ASSISTANTS.FORM.PRODUCT_NAME.PLACEHOLDER')"
-      :message="formErrors.productName"
+      :message="formErrors.productName || fieldHint('productName')"
       :message-type="formErrors.productName ? 'error' : 'info'"
     />
 

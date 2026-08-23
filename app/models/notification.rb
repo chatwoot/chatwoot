@@ -46,7 +46,7 @@ class Notification < ApplicationRecord
     sla_missed_resolution: 8
   }.freeze
 
-  enum notification_type: NOTIFICATION_TYPES
+  enum :notification_type, NOTIFICATION_TYPES
 
   before_create :set_last_activity_at
   after_create_commit :process_notification_delivery, :dispatch_create_event
@@ -159,24 +159,32 @@ class Notification < ApplicationRecord
     notification_setting.public_send("#{delivery_type}_#{notification_type}?")
   end
 
+  # Notification create/update/destroy events pass serialized data instead of the
+  # ActiveRecord object. Notification::RemoveDuplicateNotificationJob can delete a
+  # notification before its async EventDispatcherJob runs, which would otherwise
+  # raise an ActiveJob::DeserializationError when deserializing the GlobalID.
   def dispatch_create_event
-    Rails.configuration.dispatcher.dispatch(NOTIFICATION_CREATED, Time.zone.now, notification: self)
+    dispatch_notification_event(NOTIFICATION_CREATED)
   end
 
   def dispatch_update_event
-    Rails.configuration.dispatcher.dispatch(NOTIFICATION_UPDATED, Time.zone.now, notification: self)
+    dispatch_notification_event(NOTIFICATION_UPDATED)
   end
 
   def dispatch_destroy_event
-    # Pass serialized data instead of ActiveRecord object to avoid DeserializationError
-    # when the async EventDispatcherJob runs after the notification has been deleted
+    dispatch_notification_event(NOTIFICATION_DELETED)
+  end
+
+  def dispatch_notification_event(event_name)
     Rails.configuration.dispatcher.dispatch(
-      NOTIFICATION_DELETED,
+      event_name,
       Time.zone.now,
       notification_data: {
         id: id,
         user_id: user_id,
-        account_id: account_id
+        account_id: account_id,
+        user_pubsub_token: user&.pubsub_token,
+        push_event_data: push_event_data
       }
     )
   end

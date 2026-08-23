@@ -27,7 +27,7 @@ class Captain::FaqObservation < ApplicationRecord
   belongs_to :conversation, class_name: '::Conversation'
   belongs_to :faq_suggestion, class_name: 'Captain::FaqSuggestion', optional: true, inverse_of: :observations
 
-  enum status: { attached: 0, discarded: 1 }
+  enum :status, { attached: 0, discarded: 1 }
 
   validates :generated_question, :generated_answer, :language, presence: true
   validates :faq_suggestion, presence: true, if: :attached?

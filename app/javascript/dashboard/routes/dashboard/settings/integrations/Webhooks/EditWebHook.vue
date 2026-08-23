@@ -1,6 +1,6 @@
 <script>
 import { useAlert } from 'dashboard/composables';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import WebhookForm from './WebhookForm.vue';
 
 export default {

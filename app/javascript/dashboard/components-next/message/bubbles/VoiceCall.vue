@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useMessageContext } from '../provider.js';
 import {

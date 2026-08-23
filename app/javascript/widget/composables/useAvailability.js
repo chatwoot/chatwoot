@@ -17,7 +17,7 @@ export function useAvailability(agents = []) {
   // Now receives toRef(props, 'agents') from caller, which maintains reactivity.
   // Use unref() inside computed to unwrap the ref value properly.
   // This ensures availableAgents updates when the parent's agents prop changes
-  // (e.g., after API response updates the Vuex store).
+  // (e.g., after API response updates the store).
   const availableAgents = computed(() => unref(agents));
 
   const channelConfig = computed(() => window.chatwootWebChannel || {});

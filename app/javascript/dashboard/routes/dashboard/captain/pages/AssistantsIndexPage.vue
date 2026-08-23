@@ -1,6 +1,6 @@
 <script setup>
 import { computed, nextTick, onMounted } from 'vue';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import { useRoute, useRouter } from 'vue-router';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 

@@ -20,6 +20,7 @@ class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
   CITATION_SOURCES_STATE_KEY = :captain_v2_citation_sources
   AUTO_RESOLVE_MODES = %w[disabled legacy evaluated].freeze
+  DEFAULT_MAX_TURNS = 4
   DEFAULT_INACTIVITY_THRESHOLD_MINUTES = 60
   MINIMUM_INACTIVITY_THRESHOLD_MINUTES = 5
   MAXIMUM_INACTIVITY_THRESHOLD_MINUTES = 1.day.in_minutes.to_i
@@ -104,6 +105,13 @@ class Captain::Assistant < ApplicationRecord
 
   def inactive_conversation_resolution_disabled?
     auto_resolve_mode == 'disabled'
+  end
+
+  # Upper bound on LLM turns the agent runner may take for a single response.
+  # Surfaced as an assistant `config` value so operators can tune it per assistant;
+  # falls back to a bounded default when unset.
+  def max_turns
+    config.fetch('max_turns') { DEFAULT_MAX_TURNS }.to_i
   end
 
   def evaluate_inactive_conversations_before_resolving?
@@ -208,11 +216,11 @@ class Captain::Assistant < ApplicationRecord
   end
 
   def agent_tools
-    [
-      self.class.resolve_tool_class('faq_lookup').new(self),
-      self.class.resolve_tool_class('handoff').new(self),
-      *account.captain_custom_tools.enabled.map { |custom_tool| custom_tool.tool(self) }
-    ]
+    tools = []
+    tools << self.class.resolve_tool_class('faq_lookup').new(self)
+    tools << self.class.resolve_tool_class('handoff').new(self)
+    tools.concat(account.captain_custom_tools.enabled.map { |custom_tool| custom_tool.tool(self) })
+    tools
   end
 
   def prompt_context

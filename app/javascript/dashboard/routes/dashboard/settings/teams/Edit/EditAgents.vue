@@ -1,5 +1,5 @@
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import router from '../../../../index';
 import { useAlert } from 'dashboard/composables';
 import { useVuelidate } from '@vuelidate/core';

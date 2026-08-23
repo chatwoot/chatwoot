@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import { createStore } from 'vuex';
+import { createStore } from 'shared/store/createStore';
 import CsatMetrics from '../CsatMetrics.vue';
 
 describe('CsatMetrics.vue', () => {

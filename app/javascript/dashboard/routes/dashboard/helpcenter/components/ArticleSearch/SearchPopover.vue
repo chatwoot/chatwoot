@@ -1,7 +1,7 @@
 <script>
 import { debounce } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import allLocales from 'shared/constants/locales.js';
 
 import SearchHeader from './Header.vue';

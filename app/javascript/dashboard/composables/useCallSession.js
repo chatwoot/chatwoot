@@ -1,5 +1,5 @@
 import { computed, readonly, ref, watch, onUnmounted, onMounted } from 'vue';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import { useI18n } from 'vue-i18n';
 import VoiceAPI from 'dashboard/api/channel/voice/voiceAPIClient';
 import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';

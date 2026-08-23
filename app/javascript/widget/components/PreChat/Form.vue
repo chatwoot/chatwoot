@@ -1,7 +1,7 @@
 <script>
 import CustomButton from 'shared/components/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { getRegexp } from 'shared/helpers/Validators';

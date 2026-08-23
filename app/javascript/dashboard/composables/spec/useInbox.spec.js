@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { defineComponent, h } from 'vue';
-import { createStore } from 'vuex';
+import { createStore } from 'shared/store/createStore';
 import { mount } from '@vue/test-utils';
 import { useInbox } from '../useInbox';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';

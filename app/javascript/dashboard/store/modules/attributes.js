@@ -1,4 +1,4 @@
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
+import * as MutationHelpers from 'shared/helpers/store/mutationHelpers';
 import types from '../mutation-types';
 import AttributeAPI from '../../api/attributes';
 import camelcaseKeys from 'camelcase-keys';

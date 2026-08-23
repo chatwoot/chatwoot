@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import { useRoute, useRouter } from 'vue-router';
 import { vOnClickOutside } from '@vueuse/components';
 import { useVuelidate } from '@vuelidate/core';

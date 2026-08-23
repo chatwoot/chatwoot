@@ -43,7 +43,7 @@ class Captain::Assistant::ResponseRewriter
   end
 
   def rewritten_response_with_original_citations(rewritten_model_output, original_response_parts)
-    rewritten_model_output = rewritten_model_output.with_indifferent_access
+    rewritten_model_output = normalize_rewritten_output(rewritten_model_output)
     rewritten_response_parts = Captain::Assistant::ResponseParts.from_response(rewritten_model_output)
     original_parts = original_response_parts.to_a
     rewritten_parts = rewritten_response_parts.to_a
@@ -59,6 +59,17 @@ class Captain::Assistant::ResponseRewriter
       rewritten_part.merge('citation_indexes' => original_part['citation_indexes'])
     end
     rewritten_model_output
+  end
+
+  def normalize_rewritten_output(model_output)
+    return model_output.with_indifferent_access if model_output.is_a?(Hash)
+
+    parsed_json = JSON.parse(model_output)
+    return parsed_json.with_indifferent_access if parsed_json.is_a?(Hash)
+
+    { 'response' => model_output.to_s, 'reasoning' => 'Rewritten by agent' }
+  rescue JSON::ParserError, TypeError
+    { 'response' => model_output.to_s, 'reasoning' => 'Rewritten by agent' }
   end
 
   def runner

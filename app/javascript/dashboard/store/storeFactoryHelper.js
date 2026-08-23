@@ -1,7 +1,7 @@
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 // ============================================================================
-// VUEX HELPERS
+// STORE MODULE HELPERS
 // ============================================================================
 
 export const getRecords =

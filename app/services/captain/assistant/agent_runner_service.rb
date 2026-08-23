@@ -29,10 +29,14 @@ class Captain::Assistant::AgentRunnerService
   def generate_response(message_history: [])
     decision_trace_builder.reset!
     message_to_process, context = run_payload(message_history)
-    @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
+    @last_run_result = measure_agent_segment('agent_run') do
+      runner.run(message_to_process, context: context, max_turns: @assistant.max_turns)
+    end
     record_turn_start(@last_run_result)
-    @last_run_result = resolve_placeholder_non_answer(@last_run_result, message_history)
-    @last_run_result = rewrite_oversized_response(@last_run_result) if response_too_long?(@last_run_result)
+    @last_run_result = measure_agent_segment('faq_answer_resolver') { resolve_placeholder_non_answer(@last_run_result, message_history) }
+    if response_too_long?(@last_run_result)
+      @last_run_result = measure_agent_segment('response_rewriter') { rewrite_oversized_response(@last_run_result) }
+    end
 
     raise "Captain response exceeds the channel limit of #{message_length_limit} characters" if response_too_long?(@last_run_result)
 
@@ -60,6 +64,26 @@ class Captain::Assistant::AgentRunnerService
   end
 
   private
+
+  # Time an LLM segment (the runner loop, FAQ resolution, or response rewriting)
+  # so the next profile shows per-segment latency instead of one opaque block.
+  # Logs the duration and, when OpenTelemetry is enabled, records it on the run's
+  # root span so it lands in Langfuse alongside the existing captain_v2 traces.
+  def measure_agent_segment(segment_name)
+    started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    result = yield
+    elapsed_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at) * 1000).round(1)
+    Rails.logger.info "[Captain V2] #{segment_name} took #{elapsed_ms}ms"
+    record_segment_latency(segment_name, elapsed_ms, result)
+    result
+  end
+
+  def record_segment_latency(segment_name, elapsed_ms, result)
+    return unless ChatwootApp.otel_enabled?
+
+    root_span = result&.context&.dig(:__otel_tracing, :root_span)
+    root_span&.set_attribute("captain_v2.#{segment_name}_duration_ms", elapsed_ms.to_s)
+  end
 
   # Surface an agent run failure: report to the exception tracker + Rails log,
   # persist to the Super Admin failure feed, and return the structured error

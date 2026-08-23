@@ -1,4 +1,4 @@
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
+import * as MutationHelpers from 'shared/helpers/store/mutationHelpers';
 import * as types from '../mutation-types';
 import AccountAPI from '../../api/account';
 import OnboardingAPI from '../../api/onboarding';

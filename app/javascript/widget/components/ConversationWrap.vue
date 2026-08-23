@@ -5,7 +5,7 @@ import DateSeparator from 'shared/components/DateSeparator.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import { useDarkMode } from 'widget/composables/useDarkMode';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'shared/store/createStore';
 
 export default {
   name: 'ConversationWrap',

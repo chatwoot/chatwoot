@@ -1,6 +1,6 @@
 <!-- Deprecated in favour of separate files for SMS and Whatsapp and also to implement new providers for each platform in the future-->
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import { required } from '@vuelidate/validators';

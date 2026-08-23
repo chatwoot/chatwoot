@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { useAttachments } from '../useAttachments';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import { computed } from 'vue';
 
-// Mock Vue's useStore
-vi.mock('vuex', () => ({
+// Mock the store's useStore
+vi.mock('shared/store/createStore', () => ({
   useStore: vi.fn(),
 }));
 

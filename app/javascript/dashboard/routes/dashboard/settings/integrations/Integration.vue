@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { frontendURL } from '../../../../helper/URLHelper';

@@ -1,7 +1,7 @@
 <script>
 import Spinner from 'shared/components/Spinner.vue';
 import { useAlert } from 'dashboard/composables';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
 
 import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup.vue';

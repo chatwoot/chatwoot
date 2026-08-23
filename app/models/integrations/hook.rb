@@ -34,13 +34,13 @@ class Integrations::Hook < ApplicationRecord
 
   # TODO: This seems to be only used for slack at the moment
   # We can add a validator when storing the integration settings and toggle this in future
-  enum status: { disabled: 0, enabled: 1 }
+  enum :status, { disabled: 0, enabled: 1 }
 
   belongs_to :account
   belongs_to :inbox, optional: true
   has_secure_token :access_token
 
-  enum hook_type: { account: 0, inbox: 1 }
+  enum :hook_type, { account: 0, inbox: 1 }
 
   scope :account_hooks, -> { where(hook_type: 'account') }
   scope :inbox_hooks, -> { where(hook_type: 'inbox') }

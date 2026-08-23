@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import { useCallSession } from 'dashboard/composables/useCallSession';
 import { setWhatsappCallMuted } from 'dashboard/composables/useWhatsappCallSession';
 import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
@@ -92,7 +92,7 @@ const countryCodeToFlag = code => {
 const getCallInfo = call => {
   const conversation = store.getters.getConversationById(call?.conversationId);
   // Look up inbox from the call's own inboxId — the conversation can drop out
-  // of the Vuex store when the user navigates between inbox views, so going
+  // of the store when the user navigates between inbox views, so going
   // through `conversation.inbox_id` would lose the inbox name (and fall back
   // to the literal "Customer support" string).
   const inbox = store.getters['inboxes/getInbox'](call?.inboxId);

@@ -1,5 +1,5 @@
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 import validations from './validations';
 import SlaTimeInput from './SlaTimeInput.vue';

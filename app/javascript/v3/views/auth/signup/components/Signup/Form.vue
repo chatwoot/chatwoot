@@ -2,7 +2,7 @@
 import { ref, computed, reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, email } from '@vuelidate/validators';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';

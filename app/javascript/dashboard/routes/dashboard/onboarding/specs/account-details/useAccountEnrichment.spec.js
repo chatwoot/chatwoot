@@ -1,5 +1,5 @@
 import { defineComponent, h, ref } from 'vue';
-import { createStore } from 'vuex';
+import { createStore } from 'shared/store/createStore';
 import { mount } from '@vue/test-utils';
 import { useRoute } from 'vue-router';
 import { useAccountEnrichment } from '../../account-details/useAccountEnrichment';

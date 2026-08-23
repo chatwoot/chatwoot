@@ -1,7 +1,7 @@
 <script>
 import AgentMessage from 'widget/components/AgentMessage.vue';
 import UserMessage from 'widget/components/UserMessage.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 
 export default {

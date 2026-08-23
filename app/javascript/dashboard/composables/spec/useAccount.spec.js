@@ -1,5 +1,5 @@
 import { defineComponent, h } from 'vue';
-import { createStore } from 'vuex';
+import { createStore } from 'shared/store/createStore';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useAccount } from '../useAccount';
 import { useRoute } from 'vue-router';

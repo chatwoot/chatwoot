@@ -1,5 +1,5 @@
 import { shallowMount, flushPromises } from '@vue/test-utils';
-import { createStore } from 'vuex';
+import { createStore } from 'shared/store/createStore';
 import PreChatFormView from '../PreChatForm.vue';
 
 global.chatwootWebChannel = {

@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import { useMapGetter } from 'dashboard/composables/store.js';
 
 import ReportHeader from './components/ReportHeader.vue';

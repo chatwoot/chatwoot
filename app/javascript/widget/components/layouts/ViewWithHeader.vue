@@ -4,7 +4,7 @@ import Branding from 'shared/components/Branding.vue';
 import ChatHeader from '../ChatHeader.vue';
 import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
 import configMixin from '../../mixins/configMixin';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { IFrameHelper } from 'widget/helpers/utils';
 
 export default {

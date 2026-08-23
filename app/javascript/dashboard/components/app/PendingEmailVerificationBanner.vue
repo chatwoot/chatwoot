@@ -1,6 +1,6 @@
 <script>
 import Banner from 'dashboard/components/ui/Banner.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { useAlert } from 'dashboard/composables';
 
 export default {

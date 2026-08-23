@@ -9,7 +9,7 @@ import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useTrack } from 'dashboard/composables';
 
 // store & api
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 
 // utils & constants
 import { LocalStorage } from 'shared/helpers/localStorage';

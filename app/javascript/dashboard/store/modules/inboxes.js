@@ -1,4 +1,4 @@
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
+import * as MutationHelpers from 'shared/helpers/store/mutationHelpers';
 import * as types from '../mutation-types';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import InboxesAPI from '../../api/inboxes';

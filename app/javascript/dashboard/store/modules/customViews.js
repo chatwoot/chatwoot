@@ -1,4 +1,4 @@
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
+import * as MutationHelpers from 'shared/helpers/store/mutationHelpers';
 import types from '../mutation-types';
 import CustomViewsAPI from '../../api/customViews';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';

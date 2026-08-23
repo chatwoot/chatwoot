@@ -1,5 +1,5 @@
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 export default {

@@ -54,7 +54,7 @@ class Channel::WebWidget < Channel::Base
             :column => 'feature_flags',
             :check_for_column => false
 
-  enum reply_time: { in_a_few_minutes: 0, in_a_few_hours: 1, in_a_day: 2 }
+  enum :reply_time, { in_a_few_minutes: 0, in_a_few_hours: 1, in_a_day: 2 }
 
   def name
     'Website'

@@ -1,7 +1,7 @@
 <script>
 // 🚨 This component is deprecated. Please use fluent-icon instead.
 import { hasEmojiSupport } from 'shared/helpers/emoji';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 
 export default {
   props: {

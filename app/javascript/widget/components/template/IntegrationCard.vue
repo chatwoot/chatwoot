@@ -3,7 +3,7 @@ import IntegrationAPIClient from 'widget/api/integration';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { buildDyteURL } from 'shared/helpers/IntegrationHelper';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 
 export default {
   components: {

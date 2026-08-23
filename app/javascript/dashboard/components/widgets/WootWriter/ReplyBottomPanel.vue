@@ -9,7 +9,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
 import VideoCallButton from '../VideoCallButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {

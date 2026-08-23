@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import UpgradePage from '../components/UpgradePage.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';

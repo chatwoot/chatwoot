@@ -3,7 +3,7 @@ import { useTemplateRef, computed, ref } from 'vue';
 import { useI18n, I18nT } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import { useMapGetter } from 'dashboard/composables/store';
 
 import Button from 'dashboard/components-next/button/Button.vue';

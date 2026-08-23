@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onMounted, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import { useI18n } from 'vue-i18n';
 import QRCode from 'qrcode';
 import EmptyState from '../../../../components/widgets/EmptyState.vue';

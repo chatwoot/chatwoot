@@ -1,5 +1,5 @@
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 import { useAlert } from 'dashboard/composables';
 import router from '../../../../index';
 import NextButton from 'dashboard/components-next/button/Button.vue';

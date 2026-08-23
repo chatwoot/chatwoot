@@ -207,7 +207,16 @@ describe ActionCableListener do
   describe '#notification_updated' do
     let(:event_name) { :'notification.updated' }
     let!(:notification) { create(:notification, account: account, user: agent) }
-    let!(:event) { Events::Base.new(event_name, Time.zone.now, notification: notification) }
+    let(:notification_data) do
+      {
+        id: notification.id,
+        user_id: agent.id,
+        account_id: account.id,
+        user_pubsub_token: agent.pubsub_token,
+        push_event_data: notification.push_event_data
+      }
+    end
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, notification_data: notification_data) }
 
     it 'sends notification to account admins, inbox agents' do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
@@ -222,6 +231,44 @@ describe ActionCableListener do
       )
 
       listener.notification_updated(event)
+    end
+  end
+
+  describe '#notification_created' do
+    let(:event_name) { :'notification.created' }
+    let!(:notification) { create(:notification, account: account, user: agent) }
+    let(:notification_data) do
+      {
+        id: notification.id,
+        user_id: agent.id,
+        account_id: account.id,
+        user_pubsub_token: agent.pubsub_token,
+        push_event_data: notification.push_event_data
+      }
+    end
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, notification_data: notification_data) }
+
+    it 'sends the serialized notification to the user' do
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        [agent.pubsub_token],
+        'notification.created',
+        {
+          account_id: notification.account_id,
+          notification: notification.push_event_data,
+          unread_count: 1,
+          count: 1
+        }
+      )
+
+      listener.notification_created(event)
+    end
+
+    it 'does not broadcast when the notification no longer exists' do
+      notification.destroy!
+
+      expect(ActionCableBroadcastJob).not_to receive(:perform_later)
+
+      listener.notification_created(event)
     end
   end
 

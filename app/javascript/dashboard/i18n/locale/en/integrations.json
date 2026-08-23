@@ -460,6 +460,7 @@
       },
       "FORM": {
         "UPDATE": "Update",
+        "PLACEHOLDER_HINT": "This looks like placeholder text. Use a real value so the assistant responds correctly.",
         "SECTIONS": {
           "BASIC_INFO": "Basic Information",
           "SYSTEM_MESSAGES": "System Messages",

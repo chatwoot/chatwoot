@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 
 export function useAttachments() {
   const store = useStore();

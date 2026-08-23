@@ -11,7 +11,7 @@ import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import DragWrapper from 'widget/components/DragWrapper.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'shared/store/createStore';
 
 export default {
   name: 'UserMessage',

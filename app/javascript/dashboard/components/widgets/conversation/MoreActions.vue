@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onUnmounted } from 'vue';
 import { useToggle } from '@vueuse/core';
-import { useStore } from 'vuex';
+import { useStore } from 'shared/store/createStore';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { emitter } from 'shared/helpers/mitt';

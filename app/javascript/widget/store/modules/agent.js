@@ -1,5 +1,5 @@
 import { getAvailableAgents } from 'widget/api/agent';
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
+import * as MutationHelpers from 'shared/helpers/store/mutationHelpers';
 import { getFromCache, setCache } from 'shared/helpers/cache';
 
 const state = {

@@ -1,6 +1,6 @@
 import { setActivePinia, createPinia } from 'pinia';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
+import * as MutationHelpers from 'shared/helpers/store/mutationHelpers';
 import {
   generateMutationTypes,
   createInitialState,
@@ -14,7 +14,7 @@ vi.mock('dashboard/store/utils/api', () => ({
   throwErrorMessage: vi.fn(),
 }));
 
-vi.mock('shared/helpers/vuex/mutationHelpers', () => ({
+vi.mock('shared/helpers/store/mutationHelpers', () => ({
   set: vi.fn(),
   create: vi.fn(),
   update: vi.fn(),
@@ -28,7 +28,7 @@ describe('storeFactory', () => {
       setActivePinia(createPinia());
     });
 
-    it('creates Vuex store by default', () => {
+    it('creates a store module by default', () => {
       const API = {};
       const store = createStore({ name: 'test', API });
 
@@ -59,7 +59,7 @@ describe('storeFactory', () => {
       expect(store.setUIFlag).toBeTypeOf('function');
     });
 
-    it('creates Vuex store when type is "vuex"', () => {
+    it('creates a store module when type is "vuex"', () => {
       const API = {};
       const store = createStore({
         name: 'test',
@@ -363,8 +363,8 @@ describe('storeFactory', () => {
     });
   });
 
-  describe('createStore - Vuex type', () => {
-    it('creates a complete Vuex store with default options', () => {
+  describe('createStore - module type', () => {
+    it('creates a complete store module with default options', () => {
       const API = {};
       const store = createStore({ name: 'test', API, type: 'vuex' });
 
@@ -394,7 +394,7 @@ describe('storeFactory', () => {
       ]);
     });
 
-    it('creates a Vuex store with custom actions and getters', () => {
+    it('creates a store module with custom actions and getters', () => {
       const API = {};
       const customGetters = { customGetter: () => 'custom' };
       const customActions = () => ({
@@ -428,7 +428,7 @@ describe('storeFactory', () => {
       ]);
     });
 
-    it('creates a Vuex store with custom mutations', () => {
+    it('creates a store module with custom mutations', () => {
       const API = {};
       const customMutations = {
         CUSTOM_MUTATION: state => {

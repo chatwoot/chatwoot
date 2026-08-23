@@ -1,4 +1,4 @@
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
+import * as MutationHelpers from 'shared/helpers/store/mutationHelpers';
 import types from '../mutation-types';
 import AssignmentPoliciesAPI from '../../api/assignmentPolicies';
 import { throwErrorMessage } from '../utils/api';

@@ -1,5 +1,5 @@
 import { defineComponent, h } from 'vue';
-import { createStore } from 'vuex';
+import { createStore } from 'shared/store/createStore';
 import { mount } from '@vue/test-utils';
 import { useRoute } from 'vue-router';
 import { useDetectedChannels } from '../../inbox-setup/useDetectedChannels';
