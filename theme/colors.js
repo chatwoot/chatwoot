@@ -287,4 +287,22 @@ export const colors = {
       border: 'rgba(var(--label-border))',
     },
   },
+
+  // [chatpaw] Brand palette — PLANNING.md §1.1 (bg-cp-primary, text-cp-accent, …)
+  cp: {
+    primary: 'var(--cp-primary)',
+    'primary-dark': '#1fe0b5',
+    'primary-light': '#12b892',
+    secondary: 'var(--cp-secondary)',
+    'secondary-dark': '#1ba5ff',
+    'secondary-light': '#0f7fd4',
+    accent: 'var(--cp-accent)',
+    'accent-dark': '#ffc857',
+    'accent-light': '#e8a020',
+    bg: 'var(--cp-bg)',
+    surface: 'var(--cp-surface)',
+    text: 'var(--cp-text)',
+    danger: 'var(--cp-danger)',
+    gradient: 'linear-gradient(135deg, #1fe0b5 0%, #1ba5ff 100%)',
+  },
 };

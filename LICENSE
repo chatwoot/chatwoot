@@ -1,10 +1,10 @@
-Copyright (c) 2017-2026 Chatwoot Inc.
+Copyright (c) 2026 ChatPaw contributors
+Copyright (c) 2017-2026 Chatwoot Inc. (upstream, https://github.com/chatwoot/chatwoot)
 
 Portions of this software are licensed as follows:
 
-* All content that resides under the "enterprise/" directory of this repository, if that directory exists, is licensed under the license defined in "enterprise/LICENSE".
-* All third party components incorporated into the Chatwoot Software are licensed under the original license provided by the owner of the applicable component.
-* Content outside of the above mentioned directories or restrictions above is available under the "MIT Expat" license as defined below.
+* All third party components incorporated into the ChatPaw Software are licensed under the original license provided by the owner of the applicable component.
+* This project is a fork of Chatwoot; content derived from upstream remains subject to Chatwoot's MIT notice above and is available under the "MIT Expat" license as defined below.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

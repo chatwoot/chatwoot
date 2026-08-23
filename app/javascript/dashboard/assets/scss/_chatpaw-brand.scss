@@ -1,0 +1,42 @@
+// [chatpaw] Brand design tokens — PLANNING.md §1.1
+// Teal primary, blue secondary, amber paw accent.
+// Use these for new branded surfaces; existing n-* (Radix) palette stays intact.
+
+@layer base {
+  :root {
+    --cp-primary-dark: #1fe0b5;
+    --cp-primary-light: #12b892;
+    --cp-secondary-dark: #1ba5ff;
+    --cp-secondary-light: #0f7fd4;
+    --cp-accent-dark: #ffc857;
+    --cp-accent-light: #e8a020;
+    --cp-bg-dark: #0d1f26;
+    --cp-bg-light: #f7f9fa;
+    --cp-surface-dark: #122b34;
+    --cp-surface-light: #ffffff;
+    --cp-text-dark: #e6f1ef;
+    --cp-text-light: #1a2b30;
+    --cp-danger-dark: #ff6b6b;
+    --cp-danger-light: #d64545;
+
+    // Semantic aliases resolve to light-mode values by default
+    --cp-primary: var(--cp-primary-light);
+    --cp-secondary: var(--cp-secondary-light);
+    --cp-accent: var(--cp-accent-light);
+    --cp-bg: var(--cp-bg-light);
+    --cp-surface: var(--cp-surface-light);
+    --cp-text: var(--cp-text-light);
+    --cp-danger: var(--cp-danger-light);
+    --cp-gradient: linear-gradient(135deg, #1fe0b5 0%, #1ba5ff 100%);
+  }
+
+  .dark {
+    --cp-primary: var(--cp-primary-dark);
+    --cp-secondary: var(--cp-secondary-dark);
+    --cp-accent: var(--cp-accent-dark);
+    --cp-bg: var(--cp-bg-dark);
+    --cp-surface: var(--cp-surface-dark);
+    --cp-text: var(--cp-text-dark);
+    --cp-danger: var(--cp-danger-dark);
+  }
+}
