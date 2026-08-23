@@ -20,3 +20,19 @@ export const buildFacebookLoginScopes = ({
   }
   return scopes.join(',');
 };
+
+// Business-type Meta apps use Facebook Login for Business, which rejects
+// scope-based FB.login calls ("This option is unavailable right now") and
+// requires the config_id of a login configuration created in the app
+// dashboard. The configuration defines the permissions, so scope is not sent
+// alongside it. Classic apps leave FACEBOOK_LOGIN_CONFIG_ID unset and keep
+// the scope-based call.
+export const buildFacebookLoginOptions = ({
+  includeInstagramScopes = false,
+} = {}) => {
+  const configId = window.chatwootConfig?.fbLoginConfigId;
+  if (configId) {
+    return { config_id: configId };
+  }
+  return { scope: buildFacebookLoginScopes({ includeInstagramScopes }) };
+};

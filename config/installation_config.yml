@@ -50,6 +50,10 @@
   value: 'https://pathors.com/legal/privacy'
   display_title: 'Privacy URL'
   description: 'The privacy policy URL displayed in the app'
+- name: DATA_DELETION_URL
+  value: 'https://pathors.com/legal/data-deletion'
+  display_title: 'Data Deletion URL'
+  description: 'Where /legal/data-deletion redirects. Registered with Meta as the Data Deletion Instructions URL'
 # Pathors fork: white-label installs must not surface stock Chatwoot metadata —
 # the upgrade banner names Chatwoot to customers and the favicon set is the
 # Chatwoot logo. Off by default; the tab icon falls back to LOGO_THUMBNAIL.
@@ -140,6 +144,10 @@
   description: 'The verify token used for Instagram Webhook'
   locked: false
   type: secret
+- name: FACEBOOK_LOGIN_CONFIG_ID
+  display_title: 'Facebook Login Configuration ID'
+  description: 'Configuration ID from Facebook Login for Business. Required for business-type Meta apps, whose login dialog rejects plain scope requests. Leave empty for classic apps'
+  locked: false
 - name: FACEBOOK_API_VERSION
   display_title: 'Facebook API Version'
   description: 'Configure this if you want to use a different Facebook API version. Make sure its prefixed with `v`'

@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import ChannelApi from 'dashboard/api/channels';
-import { buildFacebookLoginScopes } from 'dashboard/helper/facebookScopes';
+import { buildFacebookLoginOptions } from 'dashboard/helper/facebookScopes';
 import { setupFacebookSdk } from 'dashboard/routes/dashboard/settings/inbox/channels/whatsapp/utils';
 
 // Headless half of the Facebook Page connect flow: load the Meta SDK, run
@@ -39,16 +39,13 @@ export function useFacebookPageConnect() {
   // for any other status (closed popup, not_authorized, unknown).
   const login = () =>
     new Promise(resolve => {
-      window.FB.login(
-        response => {
-          resolve(
-            response.status === 'connected'
-              ? response.authResponse?.accessToken || null
-              : null
-          );
-        },
-        { scope: buildFacebookLoginScopes() }
-      );
+      window.FB.login(response => {
+        resolve(
+          response.status === 'connected'
+            ? response.authResponse?.accessToken || null
+            : null
+        );
+      }, buildFacebookLoginOptions());
     });
 
   // Resolves { userAccessToken, pages } on success, null when the user cancels,

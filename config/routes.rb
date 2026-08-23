@@ -40,6 +40,16 @@ Rails.application.routes.draw do
 
   get '/health', to: 'health#show'
   get '/api', to: 'api#index'
+
+  # Legal documents are maintained on the marketing site. These redirects keep
+  # the product domain answering for them, so the URLs registered with third
+  # parties (the Meta app dashboard among them) stay valid.
+  # 302 rather than the default 301: the targets are admin editable, and a
+  # cached permanent redirect would survive a config change.
+  get '/legal/terms', to: redirect(status: 302) { GlobalConfig.get_value('TERMS_URL') }
+  get '/legal/privacy', to: redirect(status: 302) { GlobalConfig.get_value('PRIVACY_URL') }
+  get '/legal/data-deletion', to: redirect(status: 302) { GlobalConfig.get_value('DATA_DELETION_URL') }
+
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       # ----------------------------------
