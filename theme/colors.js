@@ -226,7 +226,8 @@ export const colors = {
     },
 
     black: '#000000',
-    brand: '#2781F6',
+    // [chatpaw] brand accent follows --n-brand (teal, mode-aware)
+    brand: 'rgb(var(--n-brand, 18 184 146) / <alpha-value>)',
     portal: 'var(--dynamic-portal-color)',
     'portal-soft': 'var(--dynamic-portal-color-soft)',
     'portal-faint': 'var(--dynamic-portal-color-faint)',

@@ -7,6 +7,7 @@ const globalConfig = useMapGetter('globalConfig/get');
 </script>
 
 <template>
+  <!-- [chatpaw] fallback mark: blob mascot with paw badge -->
   <img
     v-if="globalConfig.logoThumbnail"
     v-bind="attrs"
@@ -18,26 +19,47 @@ const globalConfig = useMapGetter('globalConfig/get');
     v-bind="attrs"
     width="16"
     height="16"
-    viewBox="0 0 16 16"
+    viewBox="0 0 120 120"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g clip-path="url(#woot-logo-clip-2342424e23u32098)">
-      <path
-        d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
-        fill="#2781F6"
-      />
-      <path
-        d="M11.4172 11.4172H7.70831C5.66383 11.4172 4 9.75328 4 7.70828C4 5.66394 5.66383 4 7.70835 4C9.75339 4 11.4172 5.66394 11.4172 7.70828V11.4172Z"
-        fill="white"
-        stroke="white"
-        stroke-width="0.1875"
-      />
-    </g>
     <defs>
-      <clipPath id="woot-logo-clip-2342424e23u32098">
-        <rect width="16" height="16" fill="white" />
-      </clipPath>
+      <linearGradient id="cp-fallback-body" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1fe0b5" />
+        <stop offset="1" stop-color="#1ba5ff" />
+      </linearGradient>
     </defs>
+    <path
+      fill="url(#cp-fallback-body)"
+      d="M60 12 C90 12 106 38 106 64 C106 92 88 106 60 106 C32 106 14 92 14 64 C14 38 30 12 60 12 Z"
+    />
+    <ellipse cx="44" cy="52" rx="7.5" ry="9" fill="#06251f" />
+    <ellipse cx="76" cy="52" rx="7.5" ry="9" fill="#06251f" />
+    <circle cx="46.5" cy="48.5" r="2.4" fill="#fff" />
+    <circle cx="78.5" cy="48.5" r="2.4" fill="#fff" />
+    <path
+      d="M46 72 Q60 82 74 72"
+      stroke="#06251f"
+      stroke-width="4.5"
+      stroke-linecap="round"
+      fill="none"
+    />
+    <g transform="translate(60 92)">
+      <ellipse cx="0" cy="1.5" rx="6.5" ry="5" fill="#ffc857" />
+      <circle cx="-6" cy="-4.5" r="2.3" fill="#ffc857" />
+      <circle cx="-2.2" cy="-7" r="2.3" fill="#ffc857" />
+      <circle cx="2.2" cy="-7" r="2.3" fill="#ffc857" />
+      <circle cx="6" cy="-4.5" r="2.3" fill="#ffc857" />
+    </g>
+    <line
+      x1="60"
+      y1="12"
+      x2="60"
+      y2="4"
+      stroke="#1fe0b5"
+      stroke-width="3"
+      stroke-linecap="round"
+    />
+    <circle cx="60" cy="3" r="3" fill="#ffc857" />
   </svg>
 </template>

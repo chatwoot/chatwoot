@@ -182,7 +182,7 @@ export default {
             <woot-label
               variant="dashed"
               v-bind="label"
-              :bg-color="selectedLabels.includes(label.title) ? '#2781F6' : ''"
+              :bg-color="selectedLabels.includes(label.title) ? 'rgb(var(--n-brand, 18 184 146))' : ''"
             />
           </button>
           <NextButton
