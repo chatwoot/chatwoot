@@ -17,7 +17,8 @@
     "MORE_INBOXES": "+{n}",
     "FILTERS": {
       "ALL_INBOXES": "همه صندوق‌های‌ورودی",
-      "ALL_LANGUAGES": "All languages"
+      "ALL_LANGUAGES": "All languages",
+      "ALL_TYPES": "همه انواع"
     },
     "TYPES": {
       "TEXT": "متن",
@@ -42,6 +43,13 @@
       "LANGUAGE": "زبان",
       "INBOXES": "صندوق‌های ورودی",
       "LAST_SYNC_ATTEMPT": "Last sync attempt"
+    },
+    "SYNC_TEMPLATES": "همگام‌سازی قالب‌ها",
+    "SYNC_SUCCESS": "همگام‌سازی قالب برای همه صندوق‌های واتساپ آغاز شد. به‌روزرسانی ممکن است چند دقیقه زمان ببرد.",
+    "PARTIAL_SYNC_ERROR": "همگام‌سازی قالب برای برخی صندوق‌های واتساپ آغاز شد، اما برخی همگام نشدند.",
+    "SYNC_ERROR": "شروع همگام‌سازی قالب ممکن نشد. لطفاً دوباره تلاش کنید.",
+    "STATUSES": {
+      "UNSUBMITTED": "برای تأیید واتساپ ارسال نشده"
     }
   }
 }

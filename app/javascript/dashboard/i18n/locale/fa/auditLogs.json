@@ -72,6 +72,36 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} deleted conversation #{id}"
+    },
+    "COUNT": "{n} رویداد",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "جستجو با نام یا ایمیل",
+      "ALL_EVENTS": "همه رویدادها",
+      "DATE_RANGE": "بازه تاریخ",
+      "CLEAR_ALL": "پاک کردن فیلترها",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "دسترسی",
+        "AGENTS_TEAMS": "ایجنت‌ها و تیم‌ها",
+        "CONFIGURATION": "پیکربندی",
+        "CONVERSATIONS": "گفتگوها"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "ورود / خروج",
+        "AGENTS": "ایجنت‌ها",
+        "TEAMS": "تیم‌ها",
+        "TEAM_MEMBERS": "اعضای تیم",
+        "INBOX_MEMBERS": "همکاران صندوق ورودی",
+        "ACCOUNT": "تنظیمات حساب",
+        "INBOXES": "صندوق‌های ورودی",
+        "WEBHOOKS": "وبهوک‌ها",
+        "AUTOMATION_RULES": "قوانین اتوماسیون",
+        "MACROS": "ماکروها",
+        "CONVERSATION_DELETIONS": "حذف گفتگوها"
+      },
+      "SORT": {
+        "NEWEST": "جدیدترین",
+        "OLDEST": "قدیمی‌ترین"
+      }
     }
   }
 }

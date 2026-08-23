@@ -608,6 +608,79 @@
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
           "ALLOW_CITATIONS": "Include source citations in responses",
           "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+        },
+        "INACTIVITY_RESOLUTION": {
+          "TITLE": "زمانی که مشتری‌ها پاسخ نمی‌دهند",
+          "DESCRIPTION": "انتخاب کنید کاپیتان با گفتگو چه کند.",
+          "MODE_LABEL": "عملکرد وقتی مشتری پاسخ نمی‌دهد",
+          "REVIEW_AFTER": "بازبینی بعد از",
+          "RESOLVE_AFTER": "بستن بعد از",
+          "ALWAYS_WARNING": "کاپیتان همه گفتگوها را پس از زمان انتخاب‌شده بدون بازبینی می‌بندد. برخی گفتگوها ممکن است هنوز نیاز داشته باشند.",
+          "PENDING_INFO": "گفتگو تا زمانی که مشتری پاسخ دهد معلق می‌ماند.",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "ارسال پیام هنگام بستن",
+            "DESCRIPTION": "کاپیتان پیش از بستن گفتگو، این پیام پایانی را می‌فرستد."
+          },
+          "MODES": {
+            "DISABLED": {
+              "LABEL": "انتظار برای مشتری",
+              "DESCRIPTION": "کاپیتان گفتگو را نمی‌بندد؛ اگر مشتری بخواهد همچنان می‌تواند آن را به اپراتور واگذار کند."
+            },
+            "LEGACY": {
+              "LABEL": "همیشه ببند",
+              "DESCRIPTION": "کاپیتان همه گفتگوها را پس از زمان انتخاب‌شده می‌بندد."
+            },
+            "EVALUATED": {
+              "LABEL": "بازبینی توسط کاپیتان (پیشنهادی)",
+              "DESCRIPTION": "کاپیتان تصمیم می‌گیرد گفتگو را ببندد یا به اپراتور واگذار کند."
+            }
+          },
+          "DURATION_HOURS_ARIA_LABEL": "ساعت تا انجام عملیات",
+          "DURATION_MINUTES_ARIA_LABEL": "دقیقه تا انجام عملیات",
+          "DURATION_HOURS_SHORT": "{count} ساعت",
+          "DURATION_MINUTES_SHORT": "{count} دقیقه"
+        },
+        "AUDIENCE": {
+          "EVERYONE": {
+            "LABEL": "همه",
+            "DESC": "کاپیتان به همه گفتگوهای صندوق‌های متصل پاسخ می‌دهد."
+          },
+          "SPECIFIC": {
+            "LABEL": "مخاطبان خاص",
+            "DESC": "کاپیتان فقط به مشتریانی پاسخ می‌دهد که با شرایط زیر مطابقت دارند."
+          },
+          "ADD_CONDITION": "افزودن شرط",
+          "ADD_GROUP": "افزودن گروه شرط",
+          "EMPTY_TITLE": "هنوز شرطی وجود ندارد",
+          "EMPTY_BODY": "برای هدف‌گیری مشتریان خاص یک شرط اضافه کنید، یا برای ترکیب شرط‌ها با منطق متفاوت یک گروه شرط بسازید.",
+          "EMPTY_ERROR": "برای مخاطبان خاص حداقل یک شرط اضافه کنید.",
+          "MATCH_PREFIX": "تطبیق",
+          "MATCH_SUFFIX": "از موارد زیر",
+          "MATCH_ALL": "همه",
+          "MATCH_ANY": "هرکدام",
+          "GROUP_CONTACT": "ویژگی‌های مخاطب",
+          "GROUP_CONVERSATION": "گفتگو",
+          "GROUP_CUSTOM": "ویژگی‌های سفارشی",
+          "BROWSER_LANGUAGE": "زبان مرورگر",
+          "CONVERSATION_LANGUAGE": "زبان اولین پیام",
+          "LOGGED_IN": "کاربر واردشده",
+          "LOGGED_IN_TRUE": "بله",
+          "LOGGED_IN_FALSE": "خیر"
+        },
+        "SCHEDULE": {
+          "ALWAYS": {
+            "LABEL": "همیشه",
+            "DESC": "کاپیتان بدون توجه به زمان به همه گفتگوها پاسخ می‌دهد."
+          },
+          "BUSINESS_HOURS": {
+            "LABEL": "در ساعات کاری",
+            "DESC": "کاپیتان فقط در ساعات کاری هر صندوق ورودی پاسخ می‌دهد."
+          },
+          "OUTSIDE_BUSINESS_HOURS": {
+            "LABEL": "خارج از ساعات کاری",
+            "DESC": "کاپیتان فقط وقتی صندوق ورودی بسته است پاسخ می‌دهد."
+          },
+          "HINT": "صندوق‌های ورودی بدون ساعات کاری همیشه تحت پوشش هستند."
         }
       },
       "EDIT": {
@@ -624,7 +697,8 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
+          "DESCRIPTION_V2": "مدیریت رفتار کاپیتان وقتی مشتری‌ها پاسخ نمی‌دهند و تنظیم پیام واگذاری."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",
@@ -644,6 +718,14 @@
           "TITLE": "Delete Assistant",
           "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
           "BUTTON_TEXT": "Delete {assistantName}"
+        },
+        "AUDIENCE": {
+          "TITLE": "مخاطبان",
+          "DESCRIPTION": "انتخاب کنید این دستیار به همه پاسخ دهد یا فقط به مخاطبان خاص."
+        },
+        "SCHEDULE": {
+          "TITLE": "زمان‌بندی",
+          "DESCRIPTION": "انتخاب کنید کاپیتان چه زمانی پاسخ دهد. خارج از این بازه، گفتگوها به تیم شما واگذار می‌شود."
         }
       },
       "OPTIONS": {
@@ -855,7 +937,8 @@
         },
         "SORT": {
           "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created"
+          "RECENTLY_CREATED": "Recently created",
+          "MOST_USED": "بیشترین استفاده در گفتگوها"
         },
         "SEARCH_PLACEHOLDER": "Search..."
       },
@@ -897,7 +980,8 @@
         "VIEW_RAW": "View raw",
         "VIEW_PREVIEW": "View preview",
         "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
-        "EMPTY_CONTENT": "No crawled content is available for this document yet."
+        "EMPTY_CONTENT": "No crawled content is available for this document yet.",
+        "USED_IN_CONVERSATIONS": "استفاده‌شده در گفتگوها"
       },
       "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
       "CREATE": {
@@ -951,7 +1035,9 @@
           "TITLE": "Captain Document",
           "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
         }
-      }
+      },
+      "USED_IN_CONVERSATIONS": "استفاده‌شده در {n} گفتگو",
+      "NO_USED_CONVERSATIONS": "هیچ گفتگویی برای این سند یافت نشد."
     },
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
@@ -1151,7 +1237,8 @@
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
-      }
+      },
+      "NO_USED_CONVERSATIONS": "هیچ گفتگویی برای این FAQ یافت نشد."
     },
     "FAQ_SUGGESTIONS": {
       "HEADER": "FAQ suggestions",

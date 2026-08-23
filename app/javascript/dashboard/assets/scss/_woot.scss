@@ -5,6 +5,8 @@
 
 @import 'shared/assets/fonts/InterDisplay/inter-display';
 @import 'shared/assets/fonts/inter';
+// [chatpaw] Persian/RTL typeface
+@import 'shared/assets/fonts/vazirmatn';
 
 // Next Colors
 @import 'next-colors';
@@ -22,6 +24,8 @@ html,
 body {
   font-family:
     'Inter',
+    // [chatpaw] Persian glyph fallback — Latin renders in Inter, Arabic script in Vazirmatn
+    'Vazirmatn',
     -apple-system,
     system-ui,
     BlinkMacSystemFont,

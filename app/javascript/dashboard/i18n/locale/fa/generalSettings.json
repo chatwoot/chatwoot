@@ -150,8 +150,8 @@
       "EMPTY_MESSAGE": "شما هیچ آگاه‌سازی‌ خوانده نشده‌ای ندارید"
     },
     "LIST": {
-      "LOADING_MESSAGE": "در حال بارگیری اعلان ها...",
       "404": "اعلانی وجود ندارد",
+      "LOADING_MESSAGE": "در حال بارگیری اعلان ها...",
       "TABLE_HEADER": [
         "نام",
         "شماره تلفن",
@@ -197,7 +197,8 @@
       "SETTINGS": "تنظیمات",
       "AI_ASSIST": "دستیار هوش مصنوعی",
       "APPEARANCE": "ظاهری",
-      "SNOOZE_NOTIFICATION": "به تعویق انداختن آگاه‌سازی"
+      "SNOOZE_NOTIFICATION": "به تعویق انداختن آگاه‌سازی",
+      "EXECUTE_MACRO": "اجرای ماکرو"
     },
     "COMMANDS": {
       "GO_TO_MY_INBOX": "Go to My Inbox",
@@ -255,7 +256,8 @@
       "LIGHT_MODE": "روشن",
       "DARK_MODE": "تیره",
       "SYSTEM_MODE": "سیستم",
-      "SNOOZE_NOTIFICATION": "به تعویق انداختن آگاه‌سازی"
+      "SNOOZE_NOTIFICATION": "به تعویق انداختن آگاه‌سازی",
+      "EXECUTE_A_MACRO": "اجرای یک ماکرو"
     }
   },
   "DASHBOARD_APPS": {

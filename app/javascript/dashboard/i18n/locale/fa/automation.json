@@ -80,13 +80,13 @@
       }
     },
     "LIST": {
+      "404": "هیچ قانون اتوماسیون یافت نشد",
       "TABLE_HEADER": {
         "NAME": "نام",
         "ACTIVE": "فعال",
         "CREATED_ON": "ایجاد شده در",
         "ACTIONS": "عملیات"
       },
-      "404": "هیچ قانون اتوماسیون یافت نشد",
       "404_DELAYED": "No rules run after a wait yet",
       "TABS": {
         "INSTANT": "Runs instantly",
@@ -143,7 +143,8 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "پیام خود را اینجا وارد کنید",
       "TEAM_DROPDOWN_PLACEHOLDER": "انتخاب تیم‌ها",
       "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "URL_INPUT_PLACEHOLDER": "Enter URL",
+      "INSERT_CONTACT_EMAIL": "استفاده از ایمیل مخاطب"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "فعال کردن قانون اتوماسیون",

@@ -56,11 +56,16 @@ export default {
 @tailwind utilities;
 
 @import '../dashboard/assets/scss/next-colors';
+// [chatpaw] brand typefaces for auth screens
+@import 'shared/assets/fonts/inter';
+@import 'shared/assets/fonts/vazirmatn';
 
 html,
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  // [chatpaw] Latin in Inter, Arabic script falls through to Vazirmatn
+  font-family: 'Inter', 'Vazirmatn', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue',
+    sans-serif;
   @apply h-full w-full;
 
   input,

@@ -1,8 +1,8 @@
 {
   "CONVERSATION": {
+    "404": "با عرض پوزش، ما نمی‌توانیم گفتگو را پیدا کنیم. لطفا دوباره تلاش کنید",
     "SELECT_A_CONVERSATION": "لطفا یک گفتگو را از پنجره گفتگوها انتخاب کنید",
     "CSAT_REPLY_MESSAGE": "لطفاً به گفتگو امتیاز دهید",
-    "404": "با عرض پوزش، ما نمی‌توانیم گفتگو را پیدا کنیم. لطفا دوباره تلاش کنید",
     "SWITCH_VIEW_LAYOUT": "تغییر طرح‌بندی",
     "DASHBOARD_APP_TAB_MESSAGES": "پیام‌ها",
     "UNVERIFIED_SESSION": "هویت این کاربر تایید نشده است",
@@ -363,6 +363,44 @@
       "UNMUTE": "Unmute mic",
       "VIEW_CHAT_HISTORY": "View chat history",
       "GO_TO_CONVERSATION": "Go to conversation thread"
+    },
+    "REFERRAL": {
+      "AD_LABEL": "آگهی",
+      "POST_LABEL": "پست",
+      "VIEW_AD": "مشاهده آگهی",
+      "WELCOME_MESSAGE_LABEL": "پیام از پیش پرشده: ",
+      "REPLIED_BELOW": "مشتری در پایین پاسخ داد"
+    },
+    "WHATSAPP_REFERRAL": {
+      "AD": "آگهی"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "جستجوی متغیرها",
+        "DESCRIPTION": "توضیحات",
+        "VALUE": "مقدار",
+        "NO_VALUE": "برای این گفتگو مقداری وجود ندارد"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "جستجوی ایموجی",
+        "EMPTY_STATE": "برای جستجوی ایموجی تایپ کنید"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "جستجوی ماکروها",
+        "ACTION_COUNT": "{count} عملکرد"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "جستجوی ایجنت‌ها و تیم‌ها",
+        "FILTER": {
+          "ALL": "همه"
+        },
+        "AVAILABILITY": "وضعیت حضور",
+        "ROLE": "نقش",
+        "AUTO_ASSIGN": "تخصیص خودکار",
+        "ENABLED": "فعال",
+        "DISABLED": "غیرفعال",
+        "YOU_ARE_A_MEMBER": "شما عضو این تیم هستید"
+      }
     }
   },
   "EMAIL_TRANSCRIPT": {
