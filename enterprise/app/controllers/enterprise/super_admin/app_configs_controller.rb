@@ -1,4 +1,16 @@
 module Enterprise::SuperAdmin::AppConfigsController
+  WEB_CRAWLING_PROVIDER_CONFIG = {
+    'firecrawl' => { api_key: 'CAPTAIN_FIRECRAWL_API_KEY', label: 'Firecrawl' },
+    'context_dev' => { api_key: 'CONTEXT_DEV_API_KEY', label: 'Context.dev' }
+  }.freeze
+
+  def create
+    error = web_crawling_provider_configuration_error
+    return redirect_to(super_admin_app_config_path(config: @config), alert: error) if error
+
+    super
+  end
+
   private
 
   def allowed_configs
@@ -47,7 +59,22 @@ module Enterprise::SuperAdmin::AppConfigsController
       CAPTAIN_OPEN_AI_ENDPOINT
       CAPTAIN_EMBEDDING_MODEL
       CAPTAIN_FIRECRAWL_API_KEY
+      CONTEXT_DEV_API_KEY
+      WEB_CRAWLING_PROVIDER
     ]
+  end
+
+  def web_crawling_provider_configuration_error
+    provider = params.dig('app_config', 'WEB_CRAWLING_PROVIDER')
+    provider_config = WEB_CRAWLING_PROVIDER_CONFIG[provider]
+    return if provider_config.blank?
+
+    api_key_name = provider_config[:api_key]
+    app_config = params.fetch('app_config', {})
+    api_key = app_config.key?(api_key_name) ? app_config[api_key_name] : InstallationConfig.find_by(name: api_key_name)&.value
+    return if api_key.present?
+
+    "#{provider_config[:label]} API key must be configured before selecting it as the web crawling provider"
   end
 
   def saml_config_options
