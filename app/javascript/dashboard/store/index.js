@@ -64,6 +64,7 @@ import captainTools from './captain/tools';
 import captainCustomTools from './captain/customTools';
 import whiskerAi from './modules/whisker_ai';
 import knowledgeBase from './modules/knowledge_base';
+import conversationFlows from './modules/conversation_flows';
 
 const plugins = [];
 
@@ -133,6 +134,7 @@ export default createStore({
     captainCustomTools,
     whiskerAi,
     knowledgeBase,
+    conversationFlows,
   },
   plugins,
 });

@@ -1117,6 +1117,25 @@
       "SAVE": "Save"
     }
   },
+  "FLOW_BUILDER": {
+    "TITLE": "Conversation Flows",
+    "DESC": "Build automated conversation workflows with triggers, conditions, AI replies, and actions.",
+    "ADD_BUTTON": "Create Flow",
+    "EDIT": "Edit",
+    "DELETE": {
+      "BUTTON": "Delete",
+      "SUCCESS": "Flow deleted"
+    },
+    "CREATE": {
+      "SUCCESS": "Flow created"
+    },
+    "UPDATE": {
+      "SUCCESS": "Flow updated"
+    },
+    "ERROR": "Something went wrong",
+    "ADD_TITLE": "Create Conversation Flow",
+    "EDIT_TITLE": "Edit Conversation Flow"
+  },
   "KNOWLEDGE_BASE": {
     "TITLE": "Knowledge Base (RAG)",
     "DESC": "Add knowledge articles that the AI uses to provide grounded, accurate responses. Content is embedded and searched via pgvector similarity.",

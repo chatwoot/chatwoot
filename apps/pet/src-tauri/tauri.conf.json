@@ -20,12 +20,18 @@
         "transparent": true,
         "alwaysOnTop": true,
         "skipTaskbar": true,
+        "visible": true,
         "x": 100,
         "y": 100
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; connect-src 'self' http://localhost:* https://localhost:*; img-src 'self' data:; style-src 'self' 'unsafe-inline'"
+    },
+    "trayIcon": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true,
+      "tooltip": "Pawly — Whisker Pet"
     }
   },
   "bundle": {
@@ -37,6 +43,29 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "windows": {
+      "nsis": {
+        "installMode": "both"
+      }
+    },
+    "macOS": {
+      "minimumSystemVersion": "10.15"
+    }
+  },
+  "plugins": {
+    "notification": {
+      "enabled": true
+    },
+    "http": {
+      "enabled": true,
+      "scope": ["http://localhost:*", "https://localhost:*"]
+    },
+    "shell": {
+      "enabled": true,
+      "scope": [
+        { "name": "open", "cmd": "open", "args": ["https://*"] }
+      ]
+    }
   }
 }

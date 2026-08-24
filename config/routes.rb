@@ -125,6 +125,12 @@ Rails.application.routes.draw do
               get :search
             end
           end
+          # [whisker] Conversation flows
+          resources :conversation_flows, only: [:index, :create, :update, :destroy] do
+            member do
+              post :toggle
+            end
+          end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
