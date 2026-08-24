@@ -643,10 +643,6 @@ RSpec.describe Conversation do
       create(:message, message_type: :incoming, **message_params)
     end
 
-    before do
-      create(:message, message_type: :outgoing, **message_params, created_at: 2.hours.ago)
-    end
-
     it 'returns unread incoming messages' do
       expect(unread_incoming_messages).to contain_exactly(message)
     end

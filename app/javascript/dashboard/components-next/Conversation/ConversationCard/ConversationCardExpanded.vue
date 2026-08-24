@@ -1,6 +1,9 @@
 <script setup>
 import { computed, useTemplateRef } from 'vue';
-import { getLastMessage } from 'dashboard/helper/conversationHelper';
+import {
+  getLastMessage,
+  getVisibleUnreadCount,
+} from 'dashboard/helper/conversationHelper';
 import CardAvatar from './CardAvatar.vue';
 import CardContent from './CardContent.vue';
 import CardLabels from './CardLabelsV5.vue';
@@ -46,7 +49,7 @@ const voiceCallData = computed(() => {
   };
 });
 
-const unreadCount = computed(() => props.chat.unread_count);
+const unreadCount = computed(() => getVisibleUnreadCount(props.chat));
 
 const slaCardLabel = useTemplateRef('slaCardLabel');
 

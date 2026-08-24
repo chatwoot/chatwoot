@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { getVisibleUnreadCount } from 'dashboard/helper/conversationHelper';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
@@ -34,10 +35,9 @@ const assignee = computed(() => {
   };
 });
 
-const unreadMessagesCount = computed(() => {
-  const { unreadCount } = props.conversation;
-  return unreadCount;
-});
+const unreadMessagesCount = computed(() =>
+  getVisibleUnreadCount(props.conversation)
+);
 </script>
 
 <template>

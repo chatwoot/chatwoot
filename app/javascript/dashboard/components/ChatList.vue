@@ -36,6 +36,7 @@ import { emitter } from 'shared/helpers/mitt';
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterOptions from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
+import { getVisibleUnreadCount } from 'dashboard/helper/conversationHelper';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
@@ -312,7 +313,7 @@ function filterByAssigneeTab(conversations) {
 
 function sortByUnreadStatus(conversations) {
   return [...conversations].sort((a, b) => {
-    const unreadCountDiff = (b.unread_count || 0) - (a.unread_count || 0);
+    const unreadCountDiff = getVisibleUnreadCount(b) - getVisibleUnreadCount(a);
     if (unreadCountDiff !== 0) return unreadCountDiff;
 
     return (b.last_activity_at || 0) - (a.last_activity_at || 0);

@@ -3,6 +3,7 @@ import {
   getLastMessage,
   getReadMessages,
   getUnreadMessages,
+  getVisibleUnreadCount,
 } from '../conversationHelper';
 import {
   conversationData,
@@ -96,6 +97,42 @@ describe('conversationHelper', () => {
       expect(getLastMessage(testConversation)).toEqual(
         testConversation.messages[1]
       );
+    });
+  });
+
+  describe('#getVisibleUnreadCount', () => {
+    it('returns 0 when staff have already replied', () => {
+      expect(
+        getVisibleUnreadCount({
+          unread_count: 9,
+          waiting_since: 0,
+          messages: [{ message_type: 1, private: false }],
+        })
+      ).toEqual(0);
+    });
+
+    it('returns 0 when the last message is a public outgoing reply', () => {
+      expect(
+        getVisibleUnreadCount({
+          unread_count: 2,
+          waiting_since: 1710000000,
+          messages: [
+            { message_type: 1, private: false, created_at: 1710000001 },
+          ],
+        })
+      ).toEqual(0);
+    });
+
+    it('returns the stored unread count when the customer is still waiting', () => {
+      expect(
+        getVisibleUnreadCount({
+          unread_count: 3,
+          waiting_since: 1710000000,
+          messages: [
+            { message_type: 0, private: false, created_at: 1710000001 },
+          ],
+        })
+      ).toEqual(3);
     });
   });
 });

@@ -3,6 +3,7 @@ import { computed, ref, watch, inject } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
+import { getVisibleUnreadCount } from 'dashboard/helper/conversationHelper';
 import ConversationCard from './widgets/conversation/ConversationCard.vue';
 import ConversationCardExpanded from 'dashboard/components-next/Conversation/ConversationCard/ConversationCardExpanded.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
@@ -226,7 +227,7 @@ const onDeleteConversation = () => {
       :inbox-id="inbox.id"
       :priority="source.priority"
       :chat-id="source.id"
-      :has-unread-messages="source.unread_count > 0"
+      :has-unread-messages="getVisibleUnreadCount(source) > 0"
       :conversation-labels="source.labels"
       :conversation-url="conversationPath"
       @update-conversation="onUpdateConversation"

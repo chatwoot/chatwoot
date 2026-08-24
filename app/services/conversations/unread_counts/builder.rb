@@ -46,6 +46,7 @@ class Conversations::UnreadCounts::Builder
   def unread_conversations
     account.conversations
            .open
+           .where.not(waiting_since: nil)
            .joins(:messages)
            .merge(Message.incoming.reorder(nil))
            .where(messages: { account_id: account.id })

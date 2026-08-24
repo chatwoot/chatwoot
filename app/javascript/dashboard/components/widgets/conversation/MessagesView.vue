@@ -28,6 +28,7 @@ import {
   filterDuplicateSourceMessages,
   getReadMessages,
   getUnreadMessages,
+  getVisibleUnreadCount,
 } from 'dashboard/helper/conversationHelper';
 
 // constants
@@ -234,7 +235,7 @@ export default {
       return '';
     },
     unreadMessageCount() {
-      return this.currentChat.unread_count || 0;
+      return getVisibleUnreadCount(this.currentChat);
     },
     unreadMessageLabel() {
       const count =

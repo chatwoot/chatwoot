@@ -1,6 +1,9 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
-import { getLastMessage } from 'dashboard/helper/conversationHelper';
+import {
+  getLastMessage,
+  getVisibleUnreadCount,
+} from 'dashboard/helper/conversationHelper';
 import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import MessagePreview from './MessagePreview.vue';
@@ -35,7 +38,7 @@ const emit = defineEmits([
 
 const hovered = ref(false);
 
-const unreadCount = computed(() => props.chat.unread_count);
+const unreadCount = computed(() => getVisibleUnreadCount(props.chat));
 const hasUnread = computed(() => unreadCount.value > 0);
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 

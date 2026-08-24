@@ -2,7 +2,7 @@ import types from '../../mutation-types';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
 import { findPendingMessageIndex } from './helpers';
-import { MESSAGE_STATUS } from 'shared/constants/messages';
+import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -220,8 +220,22 @@ export const mutations = {
     } else {
       chat.messages.push(message);
       chat.timestamp = message.created_at;
-      const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
-      chat.unread_count = unreadCount;
+      const isPublicOutgoing =
+        message.message_type === MESSAGE_TYPE.OUTGOING && !message.private;
+      if (isPublicOutgoing) {
+        chat.unread_count = 0;
+        chat.waiting_since = 0;
+      } else {
+        const { conversation: { unread_count: unreadCount = 0 } = {} } =
+          message;
+        chat.unread_count = unreadCount;
+      }
+      if (
+        message.message_type === MESSAGE_TYPE.INCOMING ||
+        message.message_type === MESSAGE_TYPE.OUTGOING
+      ) {
+        chat.last_non_activity_message = message;
+      }
       if (selectedChatId === conversationId) {
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }

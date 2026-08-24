@@ -135,6 +135,7 @@ class Conversations::UnreadCounts::FilterQueryCounter < Conversations::FilterSer
 
   def unread_conversations
     @account.conversations
+            .where.not(waiting_since: nil)
             .joins(:messages)
             .merge(Message.incoming.reorder(nil))
             .where(messages: { account_id: @account.id })

@@ -186,6 +186,8 @@ class Conversation < ApplicationRecord
   end
 
   def unread_incoming_messages
+    return Message.none if waiting_since.blank?
+
     incoming = unread_messages.where(account_id: account_id).incoming
     incoming.where(self.class.unanswered_by_staff_sql).last(10)
   end

@@ -1,3 +1,5 @@
+import { MESSAGE_TYPE } from 'shared/constants/messages';
+
 /**
  * Determines the last non-activity message between store and API messages.
  * @param {Object} messageInStore - The last non-activity message from the store.
@@ -91,4 +93,30 @@ export const getUnreadMessages = (messages, agentLastSeenAt) => {
   return messages.filter(
     message => message.created_at * 1000 > agentLastSeenAt * 1000
   );
+};
+
+/**
+ * Unread badge count for the conversation list.
+ * A conversation is not unread once staff have replied (waiting_since is cleared)
+ * or the last visible message is a public outgoing reply.
+ */
+export const getVisibleUnreadCount = conversation => {
+  if (!conversation) return 0;
+
+  const waitingSince =
+    conversation.waiting_since ?? conversation.waitingSince ?? 0;
+  if (!waitingSince) return 0;
+
+  const lastMessage = getLastMessage({
+    ...conversation,
+    messages: conversation.messages || [],
+  });
+  if (
+    lastMessage?.message_type === MESSAGE_TYPE.OUTGOING &&
+    !lastMessage.private
+  ) {
+    return 0;
+  }
+
+  return Number(conversation.unread_count || conversation.unreadCount || 0);
 };
