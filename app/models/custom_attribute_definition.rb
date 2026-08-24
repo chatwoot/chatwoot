@@ -50,6 +50,7 @@ class CustomAttributeDefinition < ApplicationRecord
   before_create :set_position
   before_update :set_position, if: :attribute_model_changed?
   after_update :update_widget_pre_chat_custom_fields, unless: :company_attribute?
+  before_destroy :lock_account
   after_destroy :sync_widget_pre_chat_custom_fields, unless: :company_attribute?
   after_update_commit :invalidate_filtered_unread_count_filters_update, if: :conversation_attribute_before_or_after?
   after_destroy_commit :invalidate_filtered_unread_count_filters_destroy, if: :conversation_attribute?
@@ -69,8 +70,12 @@ class CustomAttributeDefinition < ApplicationRecord
 
   private
 
-  def set_position
+  def lock_account
     account.lock!
+  end
+
+  def set_position
+    lock_account
     self.position = self.class.where(account_id: account_id, attribute_model: attribute_model).maximum(:position).to_i + 10
   end
 
