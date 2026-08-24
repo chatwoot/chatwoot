@@ -165,5 +165,10 @@
   },
   "FOOTER_REPLY_TO": {
     "REPLY_TO": "در حال پاسخ دهی به:"
+  },
+  "AI_ASSISTANT": {
+    "INDICATOR": "دستیار هوش مصنوعی",
+    "TYPING": "هوش مصنوعی در حال پردازش...",
+    "POWERED_BY": "با قدرت Whisker AI"
   }
 }

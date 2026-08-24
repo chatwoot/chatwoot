@@ -165,5 +165,10 @@
   },
   "FOOTER_REPLY_TO": {
     "REPLY_TO": "Replying to:"
+  },
+  "AI_ASSISTANT": {
+    "INDICATOR": "AI Assistant",
+    "TYPING": "AI is thinking...",
+    "POWERED_BY": "Powered by Whisker AI"
   }
 }

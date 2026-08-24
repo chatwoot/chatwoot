@@ -96,6 +96,7 @@ export default {
       avatarUrl: '',
       greetingEnabled: true,
       greetingMessage: '',
+      aiAutoReply: false,
       emailCollectEnabled: false,
       senderNameType: 'friendly',
       businessName: '',
@@ -549,6 +550,7 @@ export default {
       this.webhookUrl = this.inbox.webhook_url;
       this.greetingEnabled = this.inbox.greeting_enabled || false;
       this.greetingMessage = this.inbox.greeting_message || '';
+      this.aiAutoReply = this.inbox.ai_auto_reply || false;
       this.emailCollectEnabled = this.inbox.enable_email_collect;
       this.senderNameType = this.inbox.sender_name_type;
       this.businessName = this.inbox.business_name;
@@ -685,6 +687,7 @@ export default {
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
+          ai_auto_reply: this.aiAutoReply,
           portal_id: this.selectedPortalSlug
             ? this.portals.find(
                 portal => portal.slug === this.selectedPortalSlug
@@ -1320,6 +1323,12 @@ export default {
                     'INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT'
                   )
                 "
+              />
+
+              <SettingsToggleSection
+                v-model="aiAutoReply"
+                header="AI Auto-Reply"
+                description="Automatically respond to messages using AI when no agents are available. Uses your configured AI provider (Settings > AI Providers)."
               />
 
               <SettingsToggleSection
