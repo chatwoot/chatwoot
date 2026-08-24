@@ -86,10 +86,7 @@ onUnmounted(stopAutoRotation);
               :aria-label="$t('CAPTAIN.OVERVIEW.V2.SUMMARY.PREVIOUS')"
               @click="selectPoint(-1)"
             >
-              <Icon
-                icon="i-lucide-chevron-left"
-                class="size-3.5 rtl:hidden"
-              />
+              <Icon icon="i-lucide-chevron-left" class="size-3.5 rtl:hidden" />
               <Icon
                 icon="i-lucide-chevron-right"
                 class="hidden size-3.5 rtl:inline-block"
@@ -102,10 +99,7 @@ onUnmounted(stopAutoRotation);
               :aria-label="$t('CAPTAIN.OVERVIEW.V2.SUMMARY.NEXT')"
               @click="selectPoint(1)"
             >
-              <Icon
-                icon="i-lucide-chevron-right"
-                class="size-3.5 rtl:hidden"
-              />
+              <Icon icon="i-lucide-chevron-right" class="size-3.5 rtl:hidden" />
               <Icon
                 icon="i-lucide-chevron-left"
                 class="hidden size-3.5 rtl:inline-block"
