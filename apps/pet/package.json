@@ -1,0 +1,14 @@
+{
+  "name": "whisker-pet",
+  "version": "0.1.0",
+  "description": "Whisker Desktop Pet — Pawly",
+  "main": "index.html",
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}

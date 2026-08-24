@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pawly</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: transparent;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    #pet-container {
+      width: 200px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      position: relative;
+    }
+
+    #pet-container:active { cursor: grabbing; }
+
+    #pet-sprite {
+      width: 120px;
+      height: 120px;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+    }
+
+    #pet-sprite:hover {
+      transform: scale(1.1);
+    }
+
+    #pet-sprite.bounce {
+      animation: bounce 0.6s ease;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    #notification-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #ef4444;
+      color: white;
+      border-radius: 50%;
+      min-width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      display: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    #notification-badge.show { display: flex; }
+
+    #tooltip {
+      position: absolute;
+      bottom: -30px;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+
+    #pet-container:hover #tooltip { opacity: 1; }
+
+    .context-menu {
+      position: fixed;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      padding: 4px 0;
+      min-width: 160px;
+      z-index: 9999;
+      display: none;
+    }
+
+    .context-menu.show { display: block; }
+
+    .context-menu-item {
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #334155;
+    }
+
+    .context-menu-item:hover {
+      background: #f1f5f9;
+    }
+
+    .context-menu-divider {
+      height: 1px;
+      background: #e2e8f0;
+      margin: 4px 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="pet-container">
+    <svg id="pet-sprite" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <!-- Pawly blob robot body -->
+      <defs>
+        <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#1fe0b5"/>
+          <stop offset="100%" style="stop-color:#1ba5ff"/>
+        </linearGradient>
+      </defs>
+      <!-- Body -->
+      <ellipse cx="60" cy="65" rx="40" ry="38" fill="url(#bodyGrad)" />
+      <!-- Eyes -->
+      <circle cx="45" cy="55" r="6" fill="white"/>
+      <circle cx="75" cy="55" r="6" fill="white"/>
+      <circle cx="46" cy="56" r="3" fill="#1e293b"/>
+      <circle cx="76" cy="56" r="3" fill="#1e293b"/>
+      <!-- Eye shine -->
+      <circle cx="44" cy="53" r="1.5" fill="white"/>
+      <circle cx="74" cy="53" r="1.5" fill="white"/>
+      <!-- Mouth -->
+      <path d="M 50 70 Q 60 78 70 70" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Whiskers -->
+      <line x1="15" y1="58" x2="38" y2="62" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="15" y1="68" x2="38" y2="68" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="82" y1="62" x2="105" y2="58" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="82" y1="68" x2="105" y2="68" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Ears -->
+      <ellipse cx="30" cy="32" rx="10" ry="12" fill="url(#bodyGrad)" transform="rotate(-15, 30, 32)"/>
+      <ellipse cx="90" cy="32" rx="10" ry="12" fill="url(#bodyGrad)" transform="rotate(15, 90, 32)"/>
+      <!-- Inner ears -->
+      <ellipse cx="30" cy="33" rx="6" ry="8" fill="#ffc857" transform="rotate(-15, 30, 33)"/>
+      <ellipse cx="90" cy="33" rx="6" ry="8" fill="#ffc857" transform="rotate(15, 90, 33)"/>
+      <!-- Paw print badge -->
+      <circle cx="60" cy="95" r="8" fill="white" opacity="0.3"/>
+      <circle cx="55" cy="91" r="2.5" fill="white" opacity="0.4"/>
+      <circle cx="65" cy="91" r="2.5" fill="white" opacity="0.4"/>
+      <circle cx="52" cy="96" r="2" fill="white" opacity="0.4"/>
+      <circle cx="68" cy="96" r="2" fill="white" opacity="0.4"/>
+    </svg>
+    <div id="notification-badge">0</div>
+    <div id="tooltip">Pawly — Whisker Assistant</div>
+  </div>
+
+  <div class="context-menu" id="context-menu">
+    <div class="context-menu-item" onclick="openDashboard()">Open Dashboard</div>
+    <div class="context-menu-divider"></div>
+    <div class="context-menu-item" onclick="toggleSound()">Sound: On</div>
+    <div class="context-menu-divider"></div>
+    <div class="context-menu-item" onclick="quitPet()">Quit</div>
+  </div>
+
+  <script>
+    const { invoke } = window.__TAURI__.core;
+
+    let notificationCount = 0;
+    let soundEnabled = true;
+
+    // Pet sprite bounce animation
+    const sprite = document.getElementById('pet-sprite');
+    const badge = document.getElementById('notification-badge');
+
+    function bounce() {
+      sprite.classList.add('bounce');
+      setTimeout(() => sprite.classList.remove('bounce'), 600);
+    }
+
+    function updateBadge(count) {
+      notificationCount = count;
+      badge.textContent = count;
+      badge.classList.toggle('show', count > 0);
+      if (count > 0) bounce();
+    }
+
+    // Click to open dashboard
+    sprite.addEventListener('click', () => {
+      invoke('open_inbox');
+      bounce();
+    });
+
+    // Context menu
+    const contextMenu = document.getElementById('context-menu');
+
+    sprite.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      contextMenu.style.left = e.clientX + 'px';
+      contextMenu.style.top = e.clientY + 'px';
+      contextMenu.classList.add('show');
+    });
+
+    document.addEventListener('click', () => {
+      contextMenu.classList.remove('show');
+    });
+
+    function openDashboard() {
+      invoke('open_inbox');
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      contextMenu.querySelector('.context-menu-item:nth-child(3)').textContent =
+        `Sound: ${soundEnabled ? 'On' : 'Off'}`;
+    }
+
+    function quitPet() {
+      window.__TAURI__.process.exit(0);
+    }
+
+    // Poll for notifications every 30 seconds
+    async function checkNotifications() {
+      try {
+        const count = await invoke('get_notification_count');
+        updateBadge(count);
+      } catch (e) {
+        console.log('Notification check failed:', e);
+      }
+    }
+
+    setInterval(checkNotifications, 30000);
+    checkNotifications();
+
+    // Random idle animations
+    setInterval(() => {
+      if (Math.random() > 0.7) bounce();
+    }, 5000);
+  </script>
+</body>
+</html>
