@@ -163,4 +163,39 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(response).to have_http_status(:not_found)
     end
   end
+
+  describe 'POST /twilio/voice/conference_status/:phone' do
+    it 'preserves an in-flight teardown token while persisting the Twilio conference SID' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(
+        :call,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        contact: conversation.contact,
+        provider_call_id: 'CA_conference_status'
+      )
+      call.update!(
+        meta: call.meta.merge(
+          'conference_sid' => call.default_conference_sid,
+          'agent_termination_token' => 'owner-token'
+        )
+      )
+
+      manager = instance_double(Voice::Conference::Manager, process: nil)
+      allow(Voice::Conference::Manager).to receive(:new).and_return(manager)
+
+      post "/twilio/voice/conference_status/#{digits}", params: {
+        'CallSid' => call.provider_call_id,
+        'FriendlyName' => call.conference_sid,
+        'ConferenceSid' => 'CF_twilio_123',
+        'StatusCallbackEvent' => 'conference-start'
+      }
+
+      expect(response).to have_http_status(:no_content)
+      call.reload
+      expect(call.twilio_conference_sid).to eq('CF_twilio_123')
+      expect(call.meta['agent_termination_token']).to eq('owner-token')
+    end
+  end
 end
