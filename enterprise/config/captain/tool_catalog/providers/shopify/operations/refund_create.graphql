@@ -1,0 +1,23 @@
+mutation RefundOrderLineItem($orderId: ID!, $lineItemId: ID!, $quantity: Int!) {
+  refundCreate(
+    input: {
+      orderId: $orderId
+      refundLineItems: [{ lineItemId: $lineItemId, quantity: $quantity }]
+      transactions: []
+    }
+  ) {
+    refund {
+      id
+      totalRefundedSet {
+        shopMoney {
+          amount
+          currencyCode
+        }
+      }
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}

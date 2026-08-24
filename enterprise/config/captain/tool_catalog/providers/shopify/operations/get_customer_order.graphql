@@ -1,0 +1,24 @@
+query GetCustomerOrder($customerId: ID!, $orderQuery: String!) {
+  customer(id: $customerId) {
+    orders(first: 5, reverse: true, query: $orderQuery) {
+      nodes {
+        id
+        name
+        createdAt
+        displayFinancialStatus
+        displayFulfillmentStatus
+        fulfillments(first: 5) {
+          id
+          status
+          displayStatus
+          estimatedDeliveryAt
+          trackingInfo {
+            company
+            number
+            url
+          }
+        }
+      }
+    }
+  }
+}

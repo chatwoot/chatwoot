@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["order_number"],
+  "properties": {
+    "order_number": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^#?[A-Za-z0-9][A-Za-z0-9_-]*$"
+    }
+  }
+}

@@ -44,7 +44,9 @@ class Captain::ToolCatalog::ResponseClassifier
   end
 
   def user_errors?(value)
-    return value.any? { |key, child| key == 'userErrors' ? Array(child).any? : user_errors?(child) } if value.is_a?(Hash)
+    if value.is_a?(Hash)
+      return value.any? { |key, child| key.downcase.end_with?('usererrors') ? Array(child).any? : user_errors?(child) }
+    end
     return value.any? { |child| user_errors?(child) } if value.is_a?(Array)
 
     false

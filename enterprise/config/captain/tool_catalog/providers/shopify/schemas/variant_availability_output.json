@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["productVariants"],
+  "properties": {
+    "productVariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodes"],
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "displayName", "price", "availableForSale", "product"],
+            "properties": {
+              "id": { "type": "string" },
+              "displayName": { "type": "string" },
+              "sku": { "type": ["string", "null"] },
+              "price": { "type": "string" },
+              "availableForSale": { "type": "boolean" },
+              "inventoryQuantity": { "type": ["integer", "null"] },
+              "product": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["id", "title"],
+                "properties": {
+                  "id": { "type": "string" },
+                  "title": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

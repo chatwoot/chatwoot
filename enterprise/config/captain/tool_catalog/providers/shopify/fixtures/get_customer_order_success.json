@@ -1,0 +1,28 @@
+{
+  "data": {
+    "customer": {
+      "orders": {
+        "nodes": [
+          {
+            "id": "gid://shopify/Order/2001",
+            "name": "#1001",
+            "createdAt": "2026-08-20T10:00:00Z",
+            "displayFinancialStatus": "PAID",
+            "displayFulfillmentStatus": "FULFILLED",
+            "fulfillments": [
+              {
+                "id": "gid://shopify/Fulfillment/3001",
+                "status": "SUCCESS",
+                "displayStatus": "IN_TRANSIT",
+                "estimatedDeliveryAt": "2026-08-25T10:00:00Z",
+                "trackingInfo": [
+                  { "company": "Example Carrier", "number": "TRACK1001", "url": "https://tracking.example/1001" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

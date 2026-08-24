@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["orderCancel"],
+  "properties": {
+    "orderCancel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["job", "orderCancelUserErrors"],
+      "properties": {
+        "job": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "id": { "type": "string" },
+            "done": { "type": "boolean" }
+          }
+        },
+        "orderCancelUserErrors": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["message"],
+            "properties": {
+              "field": { "type": ["array", "null"], "maxItems": 10, "items": { "type": "string" } },
+              "message": { "type": "string" },
+              "code": { "type": ["string", "null"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}

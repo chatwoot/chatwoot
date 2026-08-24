@@ -1,0 +1,5 @@
+sources:
+  - url: https://shopify.dev/docs/api/admin-graphql/2026-07
+    revision: '2026-07'
+    license: Shopify API License and Terms of Use
+    reviewed_at: '2026-08-24'

@@ -1,0 +1,19 @@
+query FindCurrentCustomer($query: String!) {
+  customers(first: 1, query: $query) {
+    nodes {
+      id
+      displayName
+      defaultEmailAddress {
+        emailAddress
+      }
+      defaultPhoneNumber {
+        phoneNumber
+      }
+      tags
+      amountSpent {
+        amount
+        currencyCode
+      }
+    }
+  }
+}

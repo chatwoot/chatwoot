@@ -30,6 +30,16 @@ RSpec.describe Captain::ToolCatalog::ResponseClassifier do
       end
   end
 
+  it 'classifies Shopify mutation-specific user error collections' do
+    classifier = described_class.new(provider_key: 'shopify', source: 'graphql')
+    response = { data: { orderCancel: { orderCancelUserErrors: [{ field: ['orderId'], message: 'invalid' }] } } }
+
+    expect { classifier.classify(JSON.generate(response)) }
+      .to raise_error(Captain::ToolCatalog::ExecutionError) do |error|
+        expect(error).to have_attributes(category: 'validation', code: 'provider_validation_failed')
+      end
+  end
+
   it 'unwraps successful GraphQL data only after error checks' do
     classifier = described_class.new(provider_key: 'linear', source: 'graphql')
 

@@ -1,0 +1,16 @@
+query SearchVariants($query: String!) {
+  productVariants(first: 5, query: $query) {
+    nodes {
+      id
+      displayName
+      sku
+      price
+      availableForSale
+      inventoryQuantity
+      product {
+        id
+        title
+      }
+    }
+  }
+}

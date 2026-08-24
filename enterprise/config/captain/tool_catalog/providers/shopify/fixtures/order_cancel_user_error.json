@@ -1,0 +1,10 @@
+{
+  "data": {
+    "orderCancel": {
+      "job": null,
+      "orderCancelUserErrors": [
+        { "field": ["orderId"], "message": "The order cannot be cancelled.", "code": "INVALID" }
+      ]
+    }
+  }
+}

@@ -92,6 +92,7 @@ class Captain::ToolCatalog::ProviderPackTemplateCompiler
     step.fetch('bindings').each_value do |binding|
       validator.validate_binding!(
         binding,
+        provider_key: manifest.fetch('key'),
         step_index: step_index,
         input_schema: schemas.fetch('input_schema'),
         configuration_schema: schemas.fetch('configuration_schema')

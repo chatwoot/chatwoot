@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["order_id", "line_item_id", "quantity"],
+  "properties": {
+    "order_id": { "type": "string", "pattern": "^gid://shopify/Order/[0-9]+$" },
+    "line_item_id": { "type": "string", "pattern": "^gid://shopify/LineItem/[0-9]+$" },
+    "quantity": { "type": "integer", "minimum": 1, "maximum": 100 }
+  }
+}

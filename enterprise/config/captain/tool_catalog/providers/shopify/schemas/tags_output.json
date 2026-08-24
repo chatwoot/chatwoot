@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tagsAdd"],
+  "properties": {
+    "tagsAdd": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node", "userErrors"],
+      "properties": {
+        "node": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id"],
+          "properties": { "id": { "type": "string" } }
+        },
+        "userErrors": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["message"],
+            "properties": {
+              "field": { "type": ["array", "null"], "maxItems": 10, "items": { "type": "string" } },
+              "message": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

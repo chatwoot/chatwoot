@@ -1,0 +1,50 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["refundCreate"],
+  "properties": {
+    "refundCreate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["refund", "userErrors"],
+      "properties": {
+        "refund": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "id": { "type": "string" },
+            "totalRefundedSet": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["shopMoney"],
+              "properties": {
+                "shopMoney": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["amount", "currencyCode"],
+                  "properties": {
+                    "amount": { "type": "string" },
+                    "currencyCode": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "userErrors": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["message"],
+            "properties": {
+              "field": { "type": ["array", "null"], "maxItems": 10, "items": { "type": "string" } },
+              "message": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

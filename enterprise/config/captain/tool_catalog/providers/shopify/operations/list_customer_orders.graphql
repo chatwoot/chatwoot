@@ -1,0 +1,19 @@
+query ListCustomerOrders($customerId: ID!) {
+  customer(id: $customerId) {
+    orders(first: 5, reverse: true, sortKey: CREATED_AT) {
+      nodes {
+        id
+        name
+        createdAt
+        displayFinancialStatus
+        displayFulfillmentStatus
+        currentTotalPriceSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["customer"],
+  "properties": {
+    "customer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["orders"],
+      "properties": {
+        "orders": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["nodes"],
+          "properties": {
+            "nodes": {
+              "type": "array",
+              "maxItems": 5,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["id", "name", "createdAt", "displayFulfillmentStatus", "fulfillments"],
+                "properties": {
+                  "id": { "type": "string" },
+                  "name": { "type": "string" },
+                  "createdAt": { "type": "string" },
+                  "displayFinancialStatus": { "type": ["string", "null"] },
+                  "displayFulfillmentStatus": { "type": "string" },
+                  "fulfillments": {
+                    "type": "array",
+                    "maxItems": 5,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["id", "status", "trackingInfo"],
+                      "properties": {
+                        "id": { "type": "string" },
+                        "status": { "type": "string" },
+                        "displayStatus": { "type": ["string", "null"] },
+                        "estimatedDeliveryAt": { "type": ["string", "null"] },
+                        "trackingInfo": {
+                          "type": "array",
+                          "maxItems": 10,
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "company": { "type": ["string", "null"] },
+                              "number": { "type": ["string", "null"] },
+                              "url": { "type": ["string", "null"] }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

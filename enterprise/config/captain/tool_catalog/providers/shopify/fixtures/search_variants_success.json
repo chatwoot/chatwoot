@@ -1,0 +1,17 @@
+{
+  "data": {
+    "productVariants": {
+      "nodes": [
+        {
+          "id": "gid://shopify/ProductVariant/5001",
+          "displayName": "Example Shirt - Blue / Medium",
+          "sku": "SHIRT-BLU-M",
+          "price": "29.00",
+          "availableForSale": true,
+          "inventoryQuantity": 12,
+          "product": { "id": "gid://shopify/Product/4001", "title": "Example Shirt" }
+        }
+      ]
+    }
+  }
+}

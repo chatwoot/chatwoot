@@ -1,0 +1,53 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["customer"],
+  "properties": {
+    "customer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["orders"],
+      "properties": {
+        "orders": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["nodes"],
+          "properties": {
+            "nodes": {
+              "type": "array",
+              "maxItems": 5,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["id", "name", "createdAt", "displayFulfillmentStatus", "currentTotalPriceSet"],
+                "properties": {
+                  "id": { "type": "string" },
+                  "name": { "type": "string" },
+                  "createdAt": { "type": "string" },
+                  "displayFinancialStatus": { "type": ["string", "null"] },
+                  "displayFulfillmentStatus": { "type": "string" },
+                  "currentTotalPriceSet": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["shopMoney"],
+                    "properties": {
+                      "shopMoney": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["amount", "currencyCode"],
+                        "properties": {
+                          "amount": { "type": "string" },
+                          "currencyCode": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

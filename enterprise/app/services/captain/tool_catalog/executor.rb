@@ -53,6 +53,7 @@ class Captain::ToolCatalog::Executor
 
   def execute_step(step, operations, params, step_results)
     arguments = Captain::ToolCatalog::BindingResolver.new(
+      provider_key: custom_tool.provider_key,
       model_input: params,
       configuration: custom_tool.configuration,
       state: state,

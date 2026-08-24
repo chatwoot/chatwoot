@@ -1,0 +1,260 @@
+schema_version: 1
+key: shopify
+name: Shopify
+description: Look up customers, orders, tracking, and products in the connected Shopify store.
+api_version: '2026-07'
+authentication:
+  strategy: oauth
+allowed_origins:
+  - https://*.myshopify.com
+categories:
+  - key: customers
+    name: Customers
+    description: Match and update the Shopify customer associated with the current Chatwoot contact.
+  - key: orders
+    name: Orders
+    description: Read recent orders and tracking details owned by the current customer.
+  - key: products
+    name: Products
+    description: Search products, variants, pricing, and sellable inventory.
+operations:
+  - key: find_current_customer
+    source: graphql
+    reference: operations/find_current_customer.graphql
+    endpoint_strategy: shopify_admin_graphql
+    visibility: runtime
+    scopes: [read_customers]
+    risk_class: read
+    fixtures:
+      success: fixtures/find_current_customer_success.json
+      errors: [fixtures/graphql_error.json]
+  - key: tags_add
+    source: graphql
+    reference: operations/tags_add.graphql
+    endpoint_strategy: shopify_admin_graphql
+    visibility: runtime
+    scopes: [write_customers]
+    risk_class: low_impact_write
+    fixtures:
+      success: fixtures/tags_add_success.json
+      errors: [fixtures/user_error.json]
+  - key: list_customer_orders
+    source: graphql
+    reference: operations/list_customer_orders.graphql
+    endpoint_strategy: shopify_admin_graphql
+    visibility: runtime
+    scopes: [read_orders]
+    risk_class: read
+    fixtures:
+      success: fixtures/list_customer_orders_success.json
+      errors: [fixtures/graphql_error.json]
+  - key: get_customer_order
+    source: graphql
+    reference: operations/get_customer_order.graphql
+    endpoint_strategy: shopify_admin_graphql
+    visibility: runtime
+    scopes: [read_orders]
+    risk_class: read
+    fixtures:
+      success: fixtures/get_customer_order_success.json
+      errors: [fixtures/graphql_error.json]
+  - key: search_products
+    source: graphql
+    reference: operations/search_products.graphql
+    endpoint_strategy: shopify_admin_graphql
+    visibility: runtime
+    scopes: [read_products]
+    risk_class: read
+    fixtures:
+      success: fixtures/search_products_success.json
+      errors: [fixtures/graphql_error.json]
+  - key: search_variants
+    source: graphql
+    reference: operations/search_variants.graphql
+    endpoint_strategy: shopify_admin_graphql
+    visibility: runtime
+    scopes: [read_products]
+    risk_class: read
+    fixtures:
+      success: fixtures/search_variants_success.json
+      errors: [fixtures/graphql_error.json]
+  - key: refund_create
+    source: graphql
+    reference: operations/refund_create.graphql
+    endpoint_strategy: shopify_admin_graphql
+    visibility: runtime
+    scopes: [write_orders]
+    risk_class: approval_required
+    fixtures:
+      success: fixtures/refund_create_success.json
+      errors: [fixtures/user_error.json]
+  - key: order_cancel
+    source: graphql
+    reference: operations/order_cancel.graphql
+    endpoint_strategy: shopify_admin_graphql
+    visibility: runtime
+    scopes: [write_orders]
+    risk_class: approval_required
+    fixtures:
+      success: fixtures/order_cancel_success.json
+      errors: [fixtures/order_cancel_user_error.json]
+templates:
+  - key: get_current_customer
+    version: 1.0.0
+    name: Get current customer
+    description: Find the Shopify customer whose email or phone exactly matches the current Chatwoot contact.
+    category_key: customers
+    availability: available
+    input_schema: schemas/empty_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/customer_output.json
+    recipe:
+      - operation_key: find_current_customer
+        bindings:
+          query:
+            source: shopify_contact_query
+  - key: add_tag_to_current_customer
+    version: 1.0.0
+    name: Add tag to current customer
+    description: Add up to five tags to the Shopify customer matched to the current Chatwoot contact.
+    category_key: customers
+    availability: available
+    input_schema: schemas/tags_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/tags_output.json
+    recipe:
+      - operation_key: find_current_customer
+        bindings:
+          query:
+            source: shopify_contact_query
+      - operation_key: tags_add
+        bindings:
+          id:
+            source: step_output
+            step: 0
+            path: customers.nodes.0.id
+          tags:
+            source: model_input
+            path: tags
+  - key: list_recent_customer_orders
+    version: 1.0.0
+    name: List recent customer orders
+    description: List the five most recent Shopify orders owned by the current customer.
+    category_key: orders
+    availability: available
+    input_schema: schemas/empty_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/customer_orders_output.json
+    recipe:
+      - operation_key: find_current_customer
+        bindings:
+          query:
+            source: shopify_contact_query
+      - operation_key: list_customer_orders
+        bindings:
+          customerId:
+            source: step_output
+            step: 0
+            path: customers.nodes.0.id
+  - key: get_order_tracking_status
+    version: 1.0.0
+    name: Get order and tracking status
+    description: Find an order number only within the current customer's Shopify orders and return its tracking status.
+    category_key: orders
+    availability: available
+    input_schema: schemas/order_lookup_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/order_tracking_output.json
+    recipe:
+      - operation_key: find_current_customer
+        bindings:
+          query:
+            source: shopify_contact_query
+      - operation_key: get_customer_order
+        bindings:
+          customerId:
+            source: step_output
+            step: 0
+            path: customers.nodes.0.id
+          orderQuery:
+            source: shopify_order_query
+            path: order_number
+  - key: search_products_and_variants
+    version: 1.0.0
+    name: Search products and variants
+    description: Search the Shopify catalog and return concise product, variant, price, and availability fields.
+    category_key: products
+    availability: available
+    input_schema: schemas/search_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/product_search_output.json
+    recipe:
+      - operation_key: search_products
+        bindings:
+          query:
+            source: model_input
+            path: query
+  - key: check_variant_availability
+    version: 1.0.0
+    name: Check variant availability
+    description: Search Shopify variants by product, title, SKU, or barcode and return sellable availability.
+    category_key: products
+    availability: available
+    input_schema: schemas/search_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/variant_availability_output.json
+    recipe:
+      - operation_key: search_variants
+        bindings:
+          query:
+            source: model_input
+            path: query
+  - key: refund_order
+    version: 1.0.0
+    name: Refund order
+    description: Refund a Shopify order line item after explicit approval support is available.
+    category_key: orders
+    availability: approval_required
+    input_schema: schemas/refund_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/refund_output.json
+    recipe:
+      - operation_key: refund_create
+        bindings:
+          orderId:
+            source: model_input
+            path: order_id
+          lineItemId:
+            source: model_input
+            path: line_item_id
+          quantity:
+            source: model_input
+            path: quantity
+  - key: cancel_order
+    version: 1.0.0
+    name: Cancel order
+    description: Cancel and restock a Shopify order after explicit approval support is available.
+    category_key: orders
+    availability: approval_required
+    input_schema: schemas/cancel_order_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/cancel_order_output.json
+    recipe:
+      - operation_key: order_cancel
+        bindings:
+          orderId:
+            source: model_input
+            path: order_id
+          notifyCustomer:
+            source: model_input
+            path: notify_customer
+          restock:
+            source: literal
+            value: true
+          reason:
+            source: literal
+            value: CUSTOMER
+          refundMethod:
+            source: literal
+            value:
+              originalPaymentMethodsRefund: true

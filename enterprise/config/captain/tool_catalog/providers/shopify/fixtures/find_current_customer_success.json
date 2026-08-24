@@ -1,0 +1,16 @@
+{
+  "data": {
+    "customers": {
+      "nodes": [
+        {
+          "id": "gid://shopify/Customer/1001",
+          "displayName": "Example Customer",
+          "defaultEmailAddress": { "emailAddress": "customer@example.com" },
+          "defaultPhoneNumber": { "phoneNumber": "+15555550100" },
+          "tags": ["support"],
+          "amountSpent": { "amount": "125.50", "currencyCode": "USD" }
+        }
+      ]
+    }
+  }
+}

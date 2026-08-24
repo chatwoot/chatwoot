@@ -204,7 +204,16 @@
       "required": ["source"],
       "properties": {
         "source": {
-          "enum": ["model_input", "contact", "conversation", "configuration", "step_output", "literal"]
+          "enum": [
+            "model_input",
+            "contact",
+            "conversation",
+            "configuration",
+            "step_output",
+            "literal",
+            "shopify_contact_query",
+            "shopify_order_query"
+          ]
         },
         "path": {
           "$ref": "#/definitions/non_empty_string"
@@ -237,6 +246,21 @@
           "properties": {
             "source": {
               "const": "literal"
+            }
+          }
+        },
+        {
+          "properties": {
+            "source": {
+              "const": "shopify_contact_query"
+            }
+          }
+        },
+        {
+          "required": ["path"],
+          "properties": {
+            "source": {
+              "const": "shopify_order_query"
             }
           }
         }

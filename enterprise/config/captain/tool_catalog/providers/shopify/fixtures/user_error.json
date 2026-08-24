@@ -1,0 +1,10 @@
+{
+  "data": {
+    "tagsAdd": {
+      "node": null,
+      "userErrors": [
+        { "field": ["tags"], "message": "The tags are invalid." }
+      ]
+    }
+  }
+}

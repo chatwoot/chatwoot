@@ -1,0 +1,25 @@
+mutation CancelOrder(
+  $orderId: ID!
+  $notifyCustomer: Boolean!
+  $refundMethod: OrderCancelRefundMethodInput!
+  $restock: Boolean!
+  $reason: OrderCancelReason!
+) {
+  orderCancel(
+    orderId: $orderId
+    notifyCustomer: $notifyCustomer
+    refundMethod: $refundMethod
+    restock: $restock
+    reason: $reason
+  ) {
+    job {
+      id
+      done
+    }
+    orderCancelUserErrors {
+      field
+      message
+      code
+    }
+  }
+}

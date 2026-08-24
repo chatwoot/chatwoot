@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["order_id", "notify_customer"],
+  "properties": {
+    "order_id": { "type": "string", "pattern": "^gid://shopify/Order/[0-9]+$" },
+    "notify_customer": { "type": "boolean" }
+  }
+}

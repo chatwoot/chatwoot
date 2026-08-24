@@ -1,0 +1,20 @@
+query SearchProducts($query: String!) {
+  products(first: 5, query: $query) {
+    nodes {
+      id
+      title
+      handle
+      status
+      variants(first: 5) {
+        nodes {
+          id
+          title
+          sku
+          price
+          availableForSale
+          inventoryQuantity
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "data": {
+    "refundCreate": {
+      "refund": {
+        "id": "gid://shopify/Refund/6001",
+        "totalRefundedSet": { "shopMoney": { "amount": "29.00", "currencyCode": "USD" } }
+      },
+      "userErrors": []
+    }
+  }
+}
