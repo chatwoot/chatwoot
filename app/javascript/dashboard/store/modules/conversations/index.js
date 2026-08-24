@@ -20,7 +20,9 @@ const addConversationId = (conversationIds, conversationId) =>
     : [...conversationIds, conversationId];
 
 const removeConversationId = (conversationIds, conversationId) =>
-  conversationIds.filter(id => id !== conversationId);
+  conversationIds.includes(conversationId)
+    ? conversationIds.filter(id => id !== conversationId)
+    : conversationIds;
 
 const removeConversationIdsFromAssigneeCaches = (_state, conversationIds) => {
   const idsToRemove = new Set(conversationIds);

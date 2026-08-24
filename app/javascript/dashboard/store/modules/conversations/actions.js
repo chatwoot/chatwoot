@@ -31,6 +31,8 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
   return status === MESSAGE_STATUS.FAILED && externalError !== '';
 };
 
+let conversationListRequestId = 0;
+
 // actions
 const actions = {
   getConversation: async ({ commit, rootGetters }, conversationId) => {
@@ -48,6 +50,8 @@ const actions = {
   },
 
   fetchAllConversations: async ({ commit, state, dispatch }) => {
+    conversationListRequestId += 1;
+    const requestId = conversationListRequestId;
     commit(types.SET_LIST_LOADING_STATUS);
     try {
       const params = state.conversationFilters;
@@ -55,11 +59,7 @@ const actions = {
         data: { data },
       } = await ConversationApi.get(params);
 
-      // Filter mutations replace `conversationFilters` with a new object. If
-      // the reference changed while this request was in flight, a newer list
-      // request owns the active tab cache. Ignore this stale response before it
-      // can replace the current tab's IDs, counts, contacts, or loading state.
-      if (params !== state.conversationFilters) return;
+      if (requestId !== conversationListRequestId) return;
 
       buildConversationList(
         { commit, dispatch },

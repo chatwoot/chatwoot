@@ -344,14 +344,12 @@ const conversationList = computed(() => {
   }
 
   if (!hasAppliedFiltersOrActiveFolders.value) {
-    // The canonical store also contains conversations loaded by other tabs.
-    // Rebuild this list in the active tab's server-provided page order.
-    const conversationsById = new Map(
-      localConversationList.map(conversation => [conversation.id, conversation])
+    const activeConversationIds = new Set(
+      activeAssigneeTabConversationIds.value
     );
-    localConversationList = activeAssigneeTabConversationIds.value
-      .map(id => conversationsById.get(id))
-      .filter(Boolean);
+    localConversationList = localConversationList.filter(conversation =>
+      activeConversationIds.has(conversation.id)
+    );
   }
 
   if (activeFolder.value) {
