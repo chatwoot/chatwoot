@@ -1116,5 +1116,36 @@
       "CANCEL": "Cancel",
       "SAVE": "Save"
     }
+  },
+  "KNOWLEDGE_BASE": {
+    "TITLE": "Knowledge Base (RAG)",
+    "DESC": "Add knowledge articles that the AI uses to provide grounded, accurate responses. Content is embedded and searched via pgvector similarity.",
+    "ADD_BUTTON": "Add Knowledge Entry",
+    "DISABLED": "Disabled",
+    "EDIT": "Edit",
+    "DELETE": {
+      "BUTTON": "Delete",
+      "SUCCESS": "Entry deleted"
+    },
+    "CREATE": {
+      "SUCCESS": "Knowledge entry created"
+    },
+    "UPDATE": {
+      "SUCCESS": "Knowledge entry updated"
+    },
+    "ERROR": "Something went wrong",
+    "ADD_TITLE": "Add Knowledge Entry",
+    "EDIT_TITLE": "Edit Knowledge Entry",
+    "FORM": {
+      "NAME": "Title",
+      "NAME_PLACEHOLDER": "e.g. Pricing Policy, Refund Process",
+      "CONTENT": "Content",
+      "CONTENT_PLACEHOLDER": "Write the knowledge article content here...",
+      "CATEGORY": "Category",
+      "CATEGORY_PLACEHOLDER": "e.g. billing, support, product",
+      "ENABLED": "Enabled (used in AI responses)",
+      "CANCEL": "Cancel",
+      "SAVE": "Save"
+    }
   }
 }

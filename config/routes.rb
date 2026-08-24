@@ -119,6 +119,12 @@ Rails.application.routes.draw do
               end
             end
           end
+          # [whisker] RAG knowledge base
+          resources :knowledge_bases, only: [:index, :create, :update, :destroy] do
+            collection do
+              get :search
+            end
+          end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member

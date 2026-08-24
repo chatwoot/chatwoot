@@ -63,6 +63,7 @@ import captainScenarios from './captain/scenarios';
 import captainTools from './captain/tools';
 import captainCustomTools from './captain/customTools';
 import whiskerAi from './modules/whisker_ai';
+import knowledgeBase from './modules/knowledge_base';
 
 const plugins = [];
 
@@ -131,6 +132,7 @@ export default createStore({
     captainTools,
     captainCustomTools,
     whiskerAi,
+    knowledgeBase,
   },
   plugins,
 });

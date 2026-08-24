@@ -21,6 +21,9 @@ class Captain::BaseTaskService
 
   pattr_initialize [:account!, { conversation_display_id: nil }]
 
+  # [whisker] RAG context accessor — set by callers to inject knowledge base context
+  attr_accessor :rag_context
+
   private
 
   def event_name

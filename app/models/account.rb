@@ -98,6 +98,7 @@ class Account < ApplicationRecord
   has_many :teams, dependent: :destroy_async
   has_many :bale_channels, dependent: :destroy_async, class_name: '::Channel::Bale'
   has_many :whisker_ai_providers, dependent: :destroy_async, class_name: '::WhiskerAi::Provider'
+  has_many :knowledge_bases, dependent: :destroy_async
   has_many :telegram_channels, dependent: :destroy_async, class_name: '::Channel::Telegram'
   has_many :twilio_sms, dependent: :destroy_async, class_name: '::Channel::TwilioSms'
   has_many :twitter_profiles, dependent: :destroy_async, class_name: '::Channel::TwitterProfile'

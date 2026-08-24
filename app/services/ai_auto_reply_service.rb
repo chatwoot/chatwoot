@@ -40,11 +40,23 @@ class AiAutoReplyService
   end
 
   def generate_ai_response
+    rag_context = retrieve_rag_context
     task = AiReplyTask.new(account: account, conversation: conversation)
+    task.rag_context = rag_context if rag_context.present?
     result = task.perform
     return nil if result[:error]
 
     result[:message]
+  end
+
+  def retrieve_rag_context
+    RagRetrievalService.new(
+      query: message.content,
+      account: account,
+      limit: 3
+    ).retrieve_as_context
+  rescue StandardError
+    ''
   end
 
   def create_reply(content)
