@@ -30,8 +30,6 @@ class Voice::Provider::Twilio::ConferenceService
     return if call.provider_call_id.blank?
 
     call.inbox.channel.client.calls(call.provider_call_id).update(status: 'canceled')
-  rescue Twilio::REST::RestError => e
-    Rails.logger.warn("[TwilioVoice] Failed to cancel call #{call.provider_call_id}: #{e.message}")
   end
 
   def claim_call!(user)
