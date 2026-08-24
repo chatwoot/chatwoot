@@ -38,7 +38,7 @@ const metricFor = (key, label, hint, score) => ({
   value: formatScore(score?.current),
   trend: formatTrend(score?.trend),
   trendGood: Number(score?.trend || 0) === 0 ? null : score.trend > 0,
-  trendUp: Number(score?.trend || 0) >= 0,
+  trendUp: Number(score?.trend || 0) === 0 ? null : score.trend > 0,
   description: comparison(score),
   valueClass: 'text-n-blue-11',
 });
