@@ -99,4 +99,28 @@ RSpec.describe Captain::ToolCatalog::ProviderPackCompiler do
     expect { compiled_pack }
       .to raise_error(Captain::ToolCatalog::ProviderPackError, /contains a secret literal/)
   end
+
+  it 'requires installation configuration schemas to be closed objects' do
+    source_loader = Captain::ToolCatalog::ProviderPackSourceLoader.new(pack_path: pack_path)
+    allow(Captain::ToolCatalog::ProviderPackSourceLoader).to receive(:new).and_return(source_loader)
+    allow(source_loader).to receive(:load_schema).and_call_original
+    allow(source_loader).to receive(:load_schema).with('schemas/empty_configuration.json').and_return({})
+
+    expect { compiled_pack }
+      .to raise_error(Captain::ToolCatalog::ProviderPackError, /Configuration schema must be a closed object/)
+  end
+
+  it 'rejects credential fields in installation configuration schemas' do
+    configuration_schema = JSON.parse(
+      Rails.root.join('spec/fixtures/captain/tool_catalog/providers/example/schemas/empty_configuration.json').read
+    )
+    configuration_schema['properties']['api_key'] = { 'type' => 'string' }
+    source_loader = Captain::ToolCatalog::ProviderPackSourceLoader.new(pack_path: pack_path)
+    allow(Captain::ToolCatalog::ProviderPackSourceLoader).to receive(:new).and_return(source_loader)
+    allow(source_loader).to receive(:load_schema).and_call_original
+    allow(source_loader).to receive(:load_schema).with('schemas/empty_configuration.json').and_return(configuration_schema)
+
+    expect { compiled_pack }
+      .to raise_error(Captain::ToolCatalog::ProviderPackError, /Configuration schema contains credential fields: api_key/)
+  end
 end

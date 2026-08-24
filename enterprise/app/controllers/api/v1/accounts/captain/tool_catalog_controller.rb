@@ -1,7 +1,4 @@
-class Api::V1::Accounts::Captain::ToolCatalogController < Api::V1::Accounts::BaseController
-  before_action :check_admin_authorization?
-  before_action :ensure_tool_catalog_enabled
-
+class Api::V1::Accounts::Captain::ToolCatalogController < Api::V1::Accounts::Captain::ToolCatalogBaseController
   def index
     render json: catalog_query.summaries
   end
@@ -10,13 +7,31 @@ class Api::V1::Accounts::Captain::ToolCatalogController < Api::V1::Accounts::Bas
     render json: catalog_query.provider(params[:provider_key])
   end
 
+  def reconnect
+    installation = Captain::ToolCatalog::ReconnectWorkflow.new(
+      account: Current.account,
+      initiated_by: Current.user
+    ).perform(provider_key: params[:provider_key])
+    render_installation(installation, status: :created)
+  end
+
+  def update
+    installation = Captain::ToolCatalog::UpdateWorkflow.new(
+      account: Current.account,
+      initiated_by: Current.user
+    ).perform(provider_key: params[:provider_key], templates: update_params[:templates])
+    render_installation(installation, status: :created)
+  end
+
   private
 
   def catalog_query
     @catalog_query ||= Captain::ToolCatalog::CatalogQuery.new(account: Current.account)
   end
 
-  def ensure_tool_catalog_enabled
-    raise Pundit::NotAuthorizedError unless Current.account.feature_enabled?('captain_tool_catalog')
+  def update_params
+    params.require(:update).permit(
+      templates: [:template_key, :template_version, { configuration: {} }]
+    )
   end
 end

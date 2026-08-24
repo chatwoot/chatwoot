@@ -50,12 +50,14 @@ class Captain::ToolCatalog::ProviderPackTemplateCompiler
   end
 
   def load_schemas(template)
-    %w[input_schema configuration_schema output_schema].index_with do |key|
+    schemas = %w[input_schema configuration_schema output_schema].index_with do |key|
       path = template.fetch(key)
       schema = source_loader.load_schema(path)
       validator.reject_secret_literals!(schema, path)
       schema
     end
+    validator.validate_configuration_schema!(schemas.fetch('configuration_schema'), template.fetch('configuration_schema'))
+    schemas
   end
 
   def validate_recipe!(template, schemas)

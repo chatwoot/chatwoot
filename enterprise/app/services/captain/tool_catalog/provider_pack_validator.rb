@@ -11,6 +11,7 @@ class Captain::ToolCatalog::ProviderPackValidator
     /\bBearer\s+[A-Za-z0-9._-]{16,}\b/i,
     /-----BEGIN [A-Z ]*PRIVATE KEY-----/
   ].freeze
+  SECRET_CONFIGURATION_KEY = /(?:password|secret|token|api[_-]?key|credential|private[_-]?key)/i
   SOURCES_SCHEMA_PATH = Rails.root.join(
     'enterprise/config/captain/tool_catalog/provider_pack_sources_schema.json'
   ).freeze
@@ -28,6 +29,26 @@ class Captain::ToolCatalog::ProviderPackValidator
   def validate_sources!(sources)
     validate_schema!(sources, SOURCES_SCHEMA_PATH, 'sources.yml')
     reject_secret_literals!(sources, 'sources.yml')
+  end
+
+  def validate_configuration_schema!(schema, location)
+    unless schema['type'] == 'object' && schema['additionalProperties'] == false
+      raise Captain::ToolCatalog::ProviderPackError,
+            "Configuration schema must be a closed object: #{location}"
+    end
+
+    invalid_object = object_schemas(schema).find { |object_schema| object_schema['additionalProperties'] != false }
+    if invalid_object
+      raise Captain::ToolCatalog::ProviderPackError,
+            "Configuration object schemas must reject additional properties: #{location}"
+    end
+
+    secret_keys = object_schemas(schema).flat_map { |object_schema| object_schema.fetch('properties', {}).keys }
+                                        .grep(SECRET_CONFIGURATION_KEY)
+    return if secret_keys.empty?
+
+    raise Captain::ToolCatalog::ProviderPackError,
+          "Configuration schema contains credential fields: #{secret_keys.uniq.sort.join(', ')}"
   end
 
   def validate_binding!(binding, step_index:, input_schema:, configuration_schema:)
@@ -141,6 +162,19 @@ class Captain::ToolCatalog::ProviderPackValidator
     return value.each if value.is_a?(Array)
 
     []
+  end
+
+  def object_schemas(value)
+    return [] unless value.is_a?(Hash)
+
+    schemas = value['type'] == 'object' ? [value] : []
+    schemas + value.values.flat_map do |child|
+      if child.is_a?(Array)
+        child.flat_map { |item| object_schemas(item) }
+      else
+        object_schemas(child)
+      end
+    end
   end
 
   def secret_literal?(value)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_24_000100) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_24_000200) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -582,6 +582,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_24_000100) do
     t.datetime "completed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "workflow_kind", default: "install", null: false
     t.index ["account_id", "status"], name: "idx_catalog_installations_account_status"
     t.index ["account_id"], name: "index_captain_tool_catalog_installations_on_account_id"
     t.index ["expires_at"], name: "idx_catalog_installations_expires_at"
@@ -589,6 +590,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_24_000100) do
     t.index ["integration_hook_id"], name: "idx_on_integration_hook_id_49fcb99f37"
     t.index ["oauth_nonce_digest"], name: "idx_catalog_installations_oauth_nonce", unique: true, where: "(oauth_nonce_digest IS NOT NULL)"
     t.check_constraint "status::text = ANY (ARRAY['pending'::character varying, 'awaiting_connection'::character varying, 'validating'::character varying, 'installing'::character varying, 'completed'::character varying, 'failed'::character varying, 'expired'::character varying]::text[])", name: "captain_catalog_installations_status_check"
+    t.check_constraint "workflow_kind::text = ANY (ARRAY['install'::character varying, 'update'::character varying, 'reconnect'::character varying]::text[])", name: "captain_catalog_installations_workflow_kind_check"
   end
 
   create_table "categories", force: :cascade do |t|

@@ -11,6 +11,7 @@
 #  resulting_tool_ids  :bigint           default([]), not null, is an Array
 #  selected_templates  :jsonb            default([]), not null
 #  status              :string           default("pending"), not null
+#  workflow_kind       :string           default("install"), not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  account_id          :bigint           not null
@@ -28,6 +29,7 @@
 #
 class Captain::ToolCatalogInstallation < ApplicationRecord
   STATUSES = %w[pending awaiting_connection validating installing completed failed expired].freeze
+  WORKFLOW_KINDS = %w[install update reconnect].freeze
   ACTIVE_STATUSES = %w[pending awaiting_connection validating installing].freeze
   KEY_FORMAT = /\A[a-z][a-z0-9_]*\z/
   VERSION_FORMAT = /\A\d+\.\d+\.\d+\z/
@@ -42,6 +44,7 @@ class Captain::ToolCatalogInstallation < ApplicationRecord
   belongs_to :integration_hook, class_name: 'Integrations::Hook', optional: true
 
   enum :status, STATUSES.index_by(&:itself), default: :pending, validate: true
+  enum :workflow_kind, WORKFLOW_KINDS.index_by(&:itself), default: :install, validate: true, prefix: :workflow
 
   validates :provider_key, presence: true, format: { with: KEY_FORMAT }
   validates :expires_at, presence: true
@@ -55,6 +58,12 @@ class Captain::ToolCatalogInstallation < ApplicationRecord
   validate :validate_integration_hook_account
 
   scope :active, -> { where(status: ACTIVE_STATUSES) }
+
+  def expire_if_needed!
+    return unless ACTIVE_STATUSES.include?(status) && expires_at.past?
+
+    update!(status: 'expired', error_code: nil)
+  end
 
   private
 

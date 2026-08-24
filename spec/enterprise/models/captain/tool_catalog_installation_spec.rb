@@ -12,6 +12,14 @@ RSpec.describe Captain::ToolCatalogInstallation, type: :model do
       expect(build(:captain_tool_catalog_installation)).to be_valid
     end
 
+    it {
+      expect(subject).to define_enum_for(:workflow_kind).with_values(
+        'install' => 'install',
+        'update' => 'update',
+        'reconnect' => 'reconnect'
+      ).backed_by_column_of_type(:string).with_prefix(:workflow)
+    }
+
     it 'requires at least one selected template' do
       installation = build(:captain_tool_catalog_installation, selected_templates: [])
 
@@ -73,6 +81,30 @@ RSpec.describe Captain::ToolCatalogInstallation, type: :model do
 
       expect(described_class.active).to contain_exactly(pending)
       expect(described_class.active).not_to include(failed)
+    end
+  end
+
+  describe '#expire_if_needed!' do
+    it 'expires an active session after its deadline' do
+      installation = create(:captain_tool_catalog_installation, status: 'awaiting_connection', expires_at: 1.minute.ago)
+
+      installation.expire_if_needed!
+
+      expect(installation).to be_expired
+    end
+
+    it 'does not rewrite a completed session' do
+      tool = create(:captain_custom_tool)
+      installation = create(
+        :captain_tool_catalog_installation,
+        status: 'completed',
+        account: tool.account,
+        resulting_tool_ids: [tool.id],
+        completed_at: 1.hour.ago,
+        expires_at: 1.minute.ago
+      )
+
+      expect { installation.expire_if_needed! }.not_to(change { installation.reload.status })
     end
   end
 end
