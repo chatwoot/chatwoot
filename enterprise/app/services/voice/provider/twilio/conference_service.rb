@@ -5,10 +5,10 @@ class Voice::Provider::Twilio::ConferenceService
   TERMINAL_PROVIDER_STATUSES = %w[completed canceled failed busy no-answer].freeze
 
   def ensure_conference_sid
-    return call.conference_sid if call.conference_sid.present?
-
-    call.update!(conference_sid: call.default_conference_sid)
-    call.conference_sid
+    call.with_lock do
+      call.update!(conference_sid: call.default_conference_sid) if call.conference_sid.blank?
+      call.conference_sid
+    end
   end
 
   def mark_agent_joined(user:)
@@ -46,6 +46,7 @@ class Voice::Provider::Twilio::ConferenceService
 
   def claim_call!(user)
     call.with_lock do
+      raise CustomExceptions::CallTerminationInProgress.new({}) if call.meta['agent_termination_token'].present?
       raise_already_accepted!(call.accepted_by_agent) if claimed_by_other_agent?(user)
       call.update!(accepted_by_agent: user) if call.accepted_by_agent_id != user.id
     end
