@@ -6,7 +6,7 @@ RSpec.describe Voice::CallStatus::Manager do
   let(:conversation) { create(:conversation, account: account, inbox: channel.inbox) }
   let(:call) do
     create(:call, account: account, inbox: channel.inbox, conversation: conversation,
-                  contact: conversation.contact, status: 'in_progress')
+                  contact: conversation.contact, status: 'ringing')
   end
   let(:manager) { described_class.new(call: call) }
 
@@ -15,14 +15,24 @@ RSpec.describe Voice::CallStatus::Manager do
 
     manager.process_status_update('completed')
 
-    expect(call.reload.status).to eq('in_progress')
+    expect(call.reload.status).to eq('ringing')
   end
 
-  it 'allows the intended local terminal transition during agent teardown' do
+  it 'blocks late progress transitions while agent teardown is pending' do
     call.update!(meta: call.meta.merge('agent_termination_pending' => true))
 
-    manager.process_status_update('completed', allow_during_termination: true)
+    manager.process_status_update('in_progress')
 
-    expect(call.reload.status).to eq('completed')
+    call.reload
+    expect(call.status).to eq('ringing')
+    expect(call.started_at).to be_nil
+  end
+
+  it 'allows the snapshotted local terminal transition during agent teardown' do
+    call.update!(meta: call.meta.merge('agent_termination_pending' => true))
+
+    manager.process_status_update('rejected', allow_during_termination: true)
+
+    expect(call.reload.status).to eq('rejected')
   end
 end
