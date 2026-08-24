@@ -10,9 +10,6 @@ class Voice::CallStatus::Manager
       # Don't overwrite a terminal status — Twilio's late `completed` events would
       # otherwise clobber an agent-rejection reason.
       next if Call::TERMINAL_STATUSES.include?(call.status)
-      # Once an agent-initiated teardown starts, freeze provider/conference-driven
-      # status changes entirely. The controller snapshots the intended local result
-      # before teardown and is the only caller allowed to apply that transition.
       next if termination_blocks?(allow_during_termination)
 
       apply_call_updates!(status, duration: duration, timestamp: timestamp)
@@ -30,7 +27,7 @@ class Voice::CallStatus::Manager
   def termination_blocks?(allow_during_termination)
     return false if allow_during_termination
 
-    call.meta['agent_termination_pending'] == true
+    call.meta['agent_termination_token'].present?
   end
 
   def apply_call_updates!(status, duration:, timestamp:)
