@@ -1,7 +1,12 @@
-import * as types from '../mutation-types';
+import camelcaseKeys from 'camelcase-keys';
+import {
+  getUserPermissions,
+  getUserRole,
+} from 'dashboard/helper/permissionsHelper.js';
 import ContactAPI from '../../api/contacts';
 import ConversationApi from '../../api/conversations';
-import camelcaseKeys from 'camelcase-keys';
+import * as types from '../mutation-types';
+import { applyRoleFilter } from './conversations/helpers';
 
 export const createMessagePayload = (payload, message) => {
   const { content, cc_emails, bcc_emails } = message;
@@ -140,9 +145,22 @@ export const actions = {
       });
     }
   },
-  appendConversation: ({ commit, state: $state }, conversation) => {
+  appendConversation: (
+    { commit, state: $state, rootGetters },
+    conversation
+  ) => {
     const contactId = conversation?.meta?.sender?.id;
     if (!contactId || !$state.records[contactId]) return;
+    // Cable payloads are unfiltered; keep only what this agent's role may see.
+    const currentUser = rootGetters.getCurrentUser;
+    const accountId = rootGetters.getCurrentAccountId;
+    const allowedForRole = applyRoleFilter(
+      conversation,
+      getUserRole(currentUser, accountId),
+      getUserPermissions(currentUser, accountId),
+      currentUser?.id
+    );
+    if (!allowedForRole) return;
     commit(types.default.ADD_CONTACT_CONVERSATION, {
       id: contactId,
       data: conversation,

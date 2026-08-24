@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
+import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useConversationRoutePath } from 'dashboard/composables/useConversationRoutePath';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -17,6 +19,7 @@ const props = defineProps({
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
+const { t } = useI18n();
 const { buildConversationListPath } = useConversationRoutePath();
 const { isOnExpandedLayout } = useUISettings();
 
@@ -31,8 +34,7 @@ const isVisible = computed(() => {
 });
 
 // Applying a filter empties the store; refetch the open conversation if it was dropped.
-const restoreOpenConversation = () => {
-  const conversationId = Number(route.params.conversation_id);
+const restoreOpenConversation = conversationId => {
   if (!conversationId) return;
   if (!store.getters.getConversationById(conversationId)) {
     store.dispatch('getConversation', conversationId);
@@ -41,6 +43,7 @@ const restoreOpenConversation = () => {
 
 // On the expanded layout, move to the list first; the path keeps the current scope.
 const viewAllConversations = async () => {
+  const openConversationId = store.getters.getSelectedChat?.id;
   if (isOnExpandedLayout.value) {
     await router.push(buildConversationListPath());
   }
@@ -60,7 +63,8 @@ const viewAllConversations = async () => {
       // Match the chronological order of the in-thread navigation.
       sortBy: wootConstants.SORT_BY_TYPE.CREATED_AT_DESC,
     })
-    .finally(restoreOpenConversation);
+    .catch(() => useAlert(t('CHAT_LIST.FETCH_ERROR')))
+    .finally(() => restoreOpenConversation(openConversationId));
 };
 </script>
 
