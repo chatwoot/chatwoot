@@ -21,7 +21,6 @@ class Voice::StatusUpdateService
 
     call = Call.where(account_id: account.id).find_by(provider: :twilio, provider_call_id: call_sid)
     return unless call
-    return if agent_termination_pending?(call, normalized_status)
 
     Voice::CallStatus::Manager.new(call: call).process_status_update(
       normalized_status,
@@ -31,10 +30,6 @@ class Voice::StatusUpdateService
   end
 
   private
-
-  def agent_termination_pending?(call, normalized_status)
-    call.meta['agent_termination_pending'] && Call::TERMINAL_STATUSES.include?(normalized_status)
-  end
 
   def normalize_status(status)
     return if status.to_s.strip.empty?
