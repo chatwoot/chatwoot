@@ -854,19 +854,19 @@ const menuItems = computed(() => {
       icon: 'i-lucide-megaphone',
       children: [
         {
-          name: 'Live chat',
-          label: t('SIDEBAR.LIVE_CHAT'),
-          to: accountScopedRoute('campaigns_livechat_index'),
+          name: 'Broadcasts',
+          label: t('SIDEBAR.CAMPAIGN_BROADCAST'),
+          to: accountScopedRoute('campaigns_broadcast_index'),
         },
         {
-          name: 'SMS',
-          label: t('SIDEBAR.SMS'),
-          to: accountScopedRoute('campaigns_sms_index'),
+          name: 'Proactive',
+          label: t('SIDEBAR.CAMPAIGN_PROACTIVE'),
+          to: accountScopedRoute('campaigns_proactive_index'),
         },
         {
-          name: 'WhatsApp',
-          label: t('SIDEBAR.WHATSAPP'),
-          to: accountScopedRoute('campaigns_whatsapp_index'),
+          name: 'Campaign templates',
+          label: t('SIDEBAR.CAMPAIGN_TEMPLATES'),
+          to: accountScopedRoute('campaigns_templates_index'),
         },
       ],
     },

@@ -1,7 +1,112 @@
 {
   "CAMPAIGN": {
-    "LIVE_CHAT": {
-      "HEADER_TITLE": "Live chat campaigns",
+    "CHANNEL": {
+      "SMS": "SMS",
+      "WHATSAPP": "WhatsApp"
+    },
+    "VARIABLES": {
+      "LABEL": "Click a variable to insert it at the cursor"
+    },
+    "BROADCAST": {
+      "HEADER_TITLE": "Broadcasts",
+      "NEW_CAMPAIGN": "Create broadcast",
+      "EMPTY_STATE": {
+        "TITLE": "No broadcasts are available",
+        "SUBTITLE": "Send a one-off SMS or WhatsApp message to a group of contacts. Click 'Create broadcast' to get started."
+      },
+      "FILTER": {
+        "CHANNEL": {
+          "ALL": "All channels"
+        },
+        "STATUS": {
+          "ALL": "All statuses"
+        },
+        "NO_RESULTS": "No broadcasts match the selected filters."
+      },
+      "CARD": {
+        "STATUS": {
+          "PROCESSING": "Sending",
+          "COMPLETED": "Completed",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create a broadcast"
+      },
+      "EDIT": {
+        "TITLE": "Edit broadcast"
+      },
+      "FORM": {
+        "SECTIONS": {
+          "CHANNEL": "Channel and sender",
+          "MESSAGE": "Message",
+          "AUDIENCE": "Audience",
+          "SCHEDULE": "Schedule"
+        },
+        "CHANNEL": {
+          "SMS_DESCRIPTION": "Send a plain text message from an SMS inbox.",
+          "WHATSAPP_DESCRIPTION": "Send an approved WhatsApp template from a WhatsApp inbox.",
+          "NO_INBOX": "Connect an SMS or WhatsApp inbox before creating a broadcast.",
+          "LOCKED": "Channel: {channel}. The channel cannot be changed after a broadcast is created."
+        },
+        "TITLE": {
+          "LABEL": "Title",
+          "PLACEHOLDER": "Please enter the title of the broadcast",
+          "ERROR": "Title is required"
+        },
+        "INBOX": {
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox",
+          "ERROR": "Inbox is required"
+        },
+        "CAMPAIGN_TEMPLATE": {
+          "LABEL": "Start from a template (optional)",
+          "PLACEHOLDER": "Select a template",
+          "EMPTY_STATE": "No templates yet",
+          "OVERWRITE_WARNING": "Applying this template will replace the message you have written.",
+          "OVERWRITE_CONFIRM": "Replace message",
+          "OVERWRITE_CANCEL": "Keep my message"
+        },
+        "MESSAGE": {
+          "LABEL": "Message",
+          "PLACEHOLDER": "Please enter the message of the broadcast",
+          "ERROR": "Message is required"
+        },
+        "WHATSAPP_TEMPLATE": {
+          "LABEL": "WhatsApp Template",
+          "PLACEHOLDER": "Select a template",
+          "INFO": "Only templates approved by Meta can be used for broadcasts.",
+          "ERROR": "Template is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required",
+          "ESTIMATED_REACH": "Estimated reach: {count} contacts with a phone number"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "ERROR": "Scheduled time is required"
+        },
+        "BUTTONS": {
+          "SUBMIT": "Schedule broadcast",
+          "SAVE": "Save",
+          "CANCEL": "Cancel"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Broadcast scheduled successfully",
+          "UPDATE_SUCCESS_MESSAGE": "Broadcast updated successfully",
+          "ERROR_MESSAGE": "There was an error. Please try again."
+        }
+      }
+    },
+    "PROACTIVE": {
+      "HEADER_TITLE": "Proactive campaigns",
       "NEW_CAMPAIGN": "Create campaign",
       "CARD": {
         "STATUS": {
@@ -16,14 +121,19 @@
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No live chat campaigns are available",
+        "TITLE": "No proactive campaigns are available",
         "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
       },
       "CREATE": {
-        "TITLE": "Create a live chat campaign",
+        "TITLE": "Create a proactive campaign",
         "CANCEL_BUTTON_TEXT": "Cancel",
         "CREATE_BUTTON_TEXT": "Create",
         "FORM": {
+          "SECTIONS": {
+            "MESSAGE": "Message",
+            "TRIGGER": "Trigger",
+            "ADVANCED": "Advanced"
+          },
           "TITLE": {
             "LABEL": "Title",
             "PLACEHOLDER": "Please enter the title of campaign",
@@ -44,6 +154,16 @@
             "PLACEHOLDER": "Please select sender",
             "ERROR": "Sender is required"
           },
+          "TRIGGER_SCOPE": {
+            "ALL": {
+              "LABEL": "All pages",
+              "DESCRIPTION": "Trigger the campaign anywhere the widget is installed."
+            },
+            "SPECIFIC": {
+              "LABEL": "Specific pages",
+              "DESCRIPTION": "Trigger the campaign only on pages matching a URL pattern."
+            }
+          },
           "END_POINT": {
             "LABEL": "URL",
             "PLACEHOLDER": "Please enter the URL",
@@ -61,145 +181,95 @@
           },
           "BUTTONS": {
             "CREATE": "Create",
+            "EDIT": "Save",
             "CANCEL": "Cancel"
           },
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "SUCCESS_MESSAGE": "Proactive campaign created successfully",
             "ERROR_MESSAGE": "There was an error. Please try again."
           }
         }
       },
       "EDIT": {
-        "TITLE": "Edit live chat campaign",
+        "TITLE": "Edit proactive campaign",
         "FORM": {
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "SUCCESS_MESSAGE": "Proactive campaign updated successfully",
             "ERROR_MESSAGE": "There was an error. Please try again."
           }
         }
       }
     },
-    "SMS": {
-      "HEADER_TITLE": "SMS campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
-      "EMPTY_STATE": {
-        "TITLE": "No SMS campaigns are available",
-        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+    "TEMPLATES": {
+      "HEADER_TITLE": "Templates",
+      "NEW_TEMPLATE": "Create template",
+      "SOURCES": {
+        "OWN": "My templates",
+        "WHATSAPP": "WhatsApp (managed by Meta)",
+        "TWILIO": "Twilio Content"
       },
-      "CARD": {
-        "STATUS": {
-          "PROCESSING": "Processing",
-          "COMPLETED": "Completed",
-          "SCHEDULED": "Scheduled"
+      "EMPTY_STATE": {
+        "OWN": {
+          "TITLE": "No templates yet",
+          "SUBTITLE": "Save the messages you send often and reuse them in SMS broadcasts."
         },
-        "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "Sent from",
-          "ON": "on"
+        "SYNCED": {
+          "TITLE": "No synced templates are available",
+          "SUBTITLE": "Templates managed by Meta or Twilio show up here once a matching inbox is connected."
+        }
+      },
+      "SYNCED": {
+        "SYNC_BUTTON": "Resync",
+        "LAST_SYNCED": "Last synced {time}",
+        "NO_TEMPLATES": "No templates have been synced for this inbox yet.",
+        "API": {
+          "SUCCESS_MESSAGE": "Template sync started",
+          "ERROR_MESSAGE": "There was an error. Please try again."
         }
       },
       "CREATE": {
-        "TITLE": "Create SMS campaign",
-        "CANCEL_BUTTON_TEXT": "Cancel",
-        "CREATE_BUTTON_TEXT": "Create",
-        "FORM": {
-          "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Please enter the title of campaign",
-            "ERROR": "Title is required"
-          },
-          "MESSAGE": {
-            "LABEL": "Message",
-            "PLACEHOLDER": "Please enter the message of campaign",
-            "ERROR": "Message is required"
-          },
-          "INBOX": {
-            "LABEL": "Select Inbox",
-            "PLACEHOLDER": "Select Inbox",
-            "ERROR": "Inbox is required"
-          },
-          "AUDIENCE": {
-            "LABEL": "Audience",
-            "PLACEHOLDER": "Select the customer labels",
-            "ERROR": "Audience is required"
-          },
-          "SCHEDULED_AT": {
-            "LABEL": "Scheduled time",
-            "PLACEHOLDER": "Please select the time",
-            "ERROR": "Scheduled time is required"
-          },
-          "BUTTONS": {
-            "CREATE": "Create",
-            "CANCEL": "Cancel"
-          },
-          "API": {
-            "SUCCESS_MESSAGE": "SMS campaign created successfully",
-            "ERROR_MESSAGE": "There was an error. Please try again."
-          }
-        }
-      }
-    },
-    "WHATSAPP": {
-      "HEADER_TITLE": "WhatsApp campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
-      "EMPTY_STATE": {
-        "TITLE": "No WhatsApp campaigns are available",
-        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "Create a template"
       },
-      "CARD": {
-        "STATUS": {
-          "PROCESSING": "Processing",
-          "COMPLETED": "Completed",
-          "SCHEDULED": "Scheduled"
+      "EDIT": {
+        "TITLE": "Edit template"
+      },
+      "DELETE": {
+        "TITLE": "Are you sure to delete?",
+        "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+        "CONFIRM": "Delete",
+        "API": {
+          "SUCCESS_MESSAGE": "Template deleted successfully",
+          "ERROR_MESSAGE": "There was an error. Please try again."
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Name",
+          "PLACEHOLDER": "Please enter the name of the template",
+          "ERROR": "Name is required"
         },
-        "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "Sent from",
-          "ON": "on"
-        }
-      },
-      "CREATE": {
-        "TITLE": "Create WhatsApp campaign",
-        "CANCEL_BUTTON_TEXT": "Cancel",
-        "CREATE_BUTTON_TEXT": "Create",
-        "FORM": {
-          "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Please enter the title of campaign",
-            "ERROR": "Title is required"
-          },
-          "INBOX": {
-            "LABEL": "Select Inbox",
-            "PLACEHOLDER": "Select Inbox",
-            "ERROR": "Inbox is required"
-          },
-          "TEMPLATE": {
-            "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
-            "INFO": "Select a template to use for this campaign.",
-            "ERROR": "Template is required",
-            "PREVIEW_TITLE": "Process {templateName}",
-            "LANGUAGE": "Language",
-            "CATEGORY": "Category",
-            "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
-          },
-          "AUDIENCE": {
-            "LABEL": "Audience",
-            "PLACEHOLDER": "Select the customer labels",
-            "ERROR": "Audience is required"
-          },
-          "SCHEDULED_AT": {
-            "LABEL": "Scheduled time",
-            "PLACEHOLDER": "Please select the time",
-            "ERROR": "Scheduled time is required"
-          },
-          "BUTTONS": {
-            "CREATE": "Create",
-            "CANCEL": "Cancel"
-          },
-          "API": {
-            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
-            "ERROR_MESSAGE": "There was an error. Please try again."
+        "BODY": {
+          "LABEL": "Message",
+          "PLACEHOLDER": "Please enter the message of the template",
+          "ERROR": "Message is required"
+        },
+        "PREVIEW": {
+          "LABEL": "Preview with sample values",
+          "EMPTY": "The preview appears once you start writing.",
+          "SAMPLE": {
+            "CONTACT_NAME": "Jane Cooper",
+            "CONTACT_PHONE_NUMBER": "+1 555 000 1234",
+            "AGENT_NAME": "Alex Rivera",
+            "ACCOUNT_NAME": "Acme Inc"
           }
+        },
+        "BUTTONS": {
+          "SAVE": "Save"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Template created successfully",
+          "UPDATE_SUCCESS_MESSAGE": "Template updated successfully",
+          "ERROR_MESSAGE": "There was an error. Please try again."
         }
       }
     },

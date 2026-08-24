@@ -69,6 +69,7 @@ json.phone_number resource.channel.try(:phone_number)
 json.medium resource.channel.try(:medium) if resource.twilio?
 if resource.twilio?
   json.content_templates resource.channel.try(:content_templates)
+  json.content_templates_last_updated resource.channel.try(:content_templates_last_updated)
   if Current.account_user&.administrator?
     json.auth_token resource.channel.try(:auth_token)
     json.account_sid resource.channel.try(:account_sid)
@@ -134,6 +135,7 @@ json.bot_name resource.channel.try(:bot_name) if resource.telegram?
 ### WhatsApp Channel
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
+  json.message_templates_last_updated resource.channel.try(:message_templates_last_updated)
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
   if Current.account_user&.administrator? &&
      ChatwootApp.chatwoot_cloud? &&

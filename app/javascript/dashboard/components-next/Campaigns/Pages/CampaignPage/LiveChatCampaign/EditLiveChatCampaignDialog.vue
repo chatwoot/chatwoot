@@ -36,12 +36,12 @@ const updateCampaign = async campaignDetails => {
       ...campaignDetails,
     });
 
-    useAlert(t('CAMPAIGN.LIVE_CHAT.EDIT.FORM.API.SUCCESS_MESSAGE'));
+    useAlert(t('CAMPAIGN.PROACTIVE.EDIT.FORM.API.SUCCESS_MESSAGE'));
     dialogRef.value.close();
   } catch (error) {
     const errorMessage =
       error?.response?.message ||
-      t('CAMPAIGN.LIVE_CHAT.EDIT.FORM.API.ERROR_MESSAGE');
+      t('CAMPAIGN.PROACTIVE.EDIT.FORM.API.ERROR_MESSAGE');
     useAlert(errorMessage);
   }
 };
@@ -57,7 +57,7 @@ defineExpose({ dialogRef });
   <Dialog
     ref="dialogRef"
     type="edit"
-    :title="t('CAMPAIGN.LIVE_CHAT.EDIT.TITLE')"
+    :title="t('CAMPAIGN.PROACTIVE.EDIT.TITLE')"
     :is-loading="isUpdatingCampaign"
     :disable-confirm-button="isUpdatingCampaign || isInvalidForm"
     overflow-y-auto

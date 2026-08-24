@@ -36,7 +36,8 @@ export const filterCampaigns = ({
   isInBusinessHours,
 }) => {
   return campaigns.filter(campaign => {
-    if (!isPatternMatchingWithURL(campaign.url, currentURL)) {
+    // Campaigns without a URL rule are meant to run on every page.
+    if (campaign.url && !isPatternMatchingWithURL(campaign.url, currentURL)) {
       return false;
     }
     if (campaign.triggerOnlyDuringBusinessHours) {

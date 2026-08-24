@@ -8,7 +8,9 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   end
 
   def sync_templates
-    return render status: :unprocessable_entity, json: { error: 'Template sync is only available for WhatsApp channels' } unless whatsapp_channel?
+    unless template_sync_supported?
+      return render status: :unprocessable_entity, json: { error: 'Template sync is only available for WhatsApp and Twilio channels' }
+    end
 
     trigger_template_sync
     render status: :ok, json: { message: 'Template sync initiated successfully' }
@@ -85,6 +87,11 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
     @inbox.whatsapp? || (@inbox.twilio? && @inbox.channel.whatsapp?)
   end
 
+  # Twilio content templates live on channel_twilio_sms regardless of medium, so SMS inboxes can sync too.
+  def template_sync_supported?
+    @inbox.whatsapp? || @inbox.twilio?
+  end
+
   def message_template_data
     return [@inbox.channel.message_templates.presence || [], @inbox.channel.message_templates_last_updated, 'name'] unless @inbox.twilio_whatsapp?
 
@@ -94,7 +101,7 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   def trigger_template_sync
     if @inbox.whatsapp?
       Channels::Whatsapp::TemplatesSyncJob.perform_later(@inbox.channel)
-    elsif @inbox.twilio? && @inbox.channel.whatsapp?
+    elsif @inbox.twilio?
       Channels::Twilio::TemplatesSyncJob.perform_later(@inbox.channel)
     end
   end

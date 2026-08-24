@@ -1,9 +1,13 @@
 class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
-  before_action :campaign, except: [:index, :create]
+  before_action :campaign, except: [:index, :create, :audience_count]
   before_action :check_authorization
 
   def index
     @campaigns = Current.account.campaigns
+  end
+
+  def audience_count
+    render json: { count: audience_contacts.count }
   end
 
   def show; end
@@ -25,6 +29,13 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
 
   def campaign
     @campaign ||= Current.account.campaigns.find_by(display_id: params[:id])
+  end
+
+  def audience_contacts
+    labels = Current.account.labels.where(id: params[:label_ids]).pluck(:title)
+    return Contact.none if labels.blank?
+
+    Current.account.contacts.tagged_with(labels, any: true).where.not(phone_number: [nil, ''])
   end
 
   def campaign_params

@@ -11,6 +11,10 @@ defineProps({
     type: String,
     default: '',
   },
+  showActionButton: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['click', 'close']);
@@ -29,6 +33,7 @@ const handleButtonClick = () => {
             {{ headerTitle }}
           </span>
           <div
+            v-if="showActionButton"
             v-on-click-outside="[
               () => emit('close'),
               // This will prevent closing the modal when the editor Create link popup is open

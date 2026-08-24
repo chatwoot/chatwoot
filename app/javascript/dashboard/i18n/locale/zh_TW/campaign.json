@@ -1,7 +1,112 @@
 {
   "CAMPAIGN": {
-    "LIVE_CHAT": {
-      "HEADER_TITLE": "即時聊天活動",
+    "CHANNEL": {
+      "SMS": "簡訊",
+      "WHATSAPP": "WhatsApp"
+    },
+    "VARIABLES": {
+      "LABEL": "點選變數即可插入游標處"
+    },
+    "BROADCAST": {
+      "HEADER_TITLE": "群發",
+      "NEW_CAMPAIGN": "建立群發",
+      "EMPTY_STATE": {
+        "TITLE": "目前沒有群發",
+        "SUBTITLE": "一次把簡訊或 WhatsApp 訊息發送給一群聯絡人。點選「建立群發」以開始。"
+      },
+      "FILTER": {
+        "CHANNEL": {
+          "ALL": "所有管道"
+        },
+        "STATUS": {
+          "ALL": "所有狀態"
+        },
+        "NO_RESULTS": "沒有符合篩選條件的群發。"
+      },
+      "CARD": {
+        "STATUS": {
+          "PROCESSING": "發送中",
+          "COMPLETED": "已完成",
+          "SCHEDULED": "已排程"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "發送自",
+          "ON": "於"
+        }
+      },
+      "CREATE": {
+        "TITLE": "建立群發"
+      },
+      "EDIT": {
+        "TITLE": "編輯群發"
+      },
+      "FORM": {
+        "SECTIONS": {
+          "CHANNEL": "頻道與發送單位",
+          "MESSAGE": "訊息內容",
+          "AUDIENCE": "受眾",
+          "SCHEDULE": "排程"
+        },
+        "CHANNEL": {
+          "SMS_DESCRIPTION": "從簡訊收件匣發送純文字訊息。",
+          "WHATSAPP_DESCRIPTION": "從 WhatsApp 收件匣發送已核准的模板訊息。",
+          "NO_INBOX": "請先連接簡訊或 WhatsApp 收件匣，才能建立群發。",
+          "LOCKED": "頻道：{channel}。群發建立後就無法更換頻道。"
+        },
+        "TITLE": {
+          "LABEL": "標題",
+          "PLACEHOLDER": "請輸入群發標題",
+          "ERROR": "標題為必填"
+        },
+        "INBOX": {
+          "LABEL": "選擇收件匣",
+          "PLACEHOLDER": "選擇收件匣",
+          "ERROR": "收件匣為必填"
+        },
+        "CAMPAIGN_TEMPLATE": {
+          "LABEL": "從模板開始（選填）",
+          "PLACEHOLDER": "選擇模板",
+          "EMPTY_STATE": "尚未建立模板",
+          "OVERWRITE_WARNING": "套用模板會覆寫你目前寫好的訊息內容。",
+          "OVERWRITE_CONFIRM": "覆寫訊息",
+          "OVERWRITE_CANCEL": "保留原內容"
+        },
+        "MESSAGE": {
+          "LABEL": "訊息",
+          "PLACEHOLDER": "請輸入群發訊息",
+          "ERROR": "訊息為必填"
+        },
+        "WHATSAPP_TEMPLATE": {
+          "LABEL": "WhatsApp 模板",
+          "PLACEHOLDER": "選擇模板",
+          "INFO": "群發只能使用 Meta 已核准的模板。",
+          "ERROR": "模板為必填"
+        },
+        "AUDIENCE": {
+          "LABEL": "受眾",
+          "PLACEHOLDER": "選擇客戶標籤",
+          "ERROR": "受眾為必填",
+          "ESTIMATED_REACH": "預估觸達 {count} 位有電話號碼的聯絡人"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "排程時間",
+          "PLACEHOLDER": "請選擇時間",
+          "ERROR": "排程時間為必填"
+        },
+        "BUTTONS": {
+          "SUBMIT": "排程發送",
+          "SAVE": "儲存",
+          "CANCEL": "取消"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "群發排程成功",
+          "UPDATE_SUCCESS_MESSAGE": "群發更新成功",
+          "ERROR_MESSAGE": "發生錯誤，請重試。"
+        }
+      }
+    },
+    "PROACTIVE": {
+      "HEADER_TITLE": "主動觸發",
       "NEW_CAMPAIGN": "建立活動",
       "CARD": {
         "STATUS": {
@@ -16,14 +121,19 @@
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "目前沒有即時聊天活動",
+        "TITLE": "目前沒有主動觸發活動",
         "SUBTITLE": "透過主動訊息與您的客戶建立連結。點選「建立活動」以開始。"
       },
       "CREATE": {
-        "TITLE": "建立即時聊天活動",
+        "TITLE": "建立主動觸發活動",
         "CANCEL_BUTTON_TEXT": "取消",
         "CREATE_BUTTON_TEXT": "建立",
         "FORM": {
+          "SECTIONS": {
+            "MESSAGE": "訊息內容",
+            "TRIGGER": "觸發條件",
+            "ADVANCED": "進階"
+          },
           "TITLE": {
             "LABEL": "標題",
             "PLACEHOLDER": "請輸入活動標題",
@@ -44,6 +154,16 @@
             "PLACEHOLDER": "請選擇發送者",
             "ERROR": "發送者為必填"
           },
+          "TRIGGER_SCOPE": {
+            "ALL": {
+              "LABEL": "所有頁面",
+              "DESCRIPTION": "只要安裝了聊天元件的頁面都會觸發。"
+            },
+            "SPECIFIC": {
+              "LABEL": "特定頁面",
+              "DESCRIPTION": "只在符合指定網址規則的頁面觸發。"
+            }
+          },
           "END_POINT": {
             "LABEL": "URL",
             "PLACEHOLDER": "請輸入 URL",
@@ -61,145 +181,95 @@
           },
           "BUTTONS": {
             "CREATE": "建立",
+            "EDIT": "儲存",
             "CANCEL": "取消"
           },
           "API": {
-            "SUCCESS_MESSAGE": "即時聊天活動建立成功",
+            "SUCCESS_MESSAGE": "主動觸發活動建立成功",
             "ERROR_MESSAGE": "發生錯誤，請重試。"
           }
         }
       },
       "EDIT": {
-        "TITLE": "編輯即時聊天活動",
+        "TITLE": "編輯主動觸發活動",
         "FORM": {
           "API": {
-            "SUCCESS_MESSAGE": "即時聊天活動更新成功",
+            "SUCCESS_MESSAGE": "主動觸發活動更新成功",
             "ERROR_MESSAGE": "發生錯誤，請重試。"
           }
         }
       }
     },
-    "SMS": {
-      "HEADER_TITLE": "簡訊活動",
-      "NEW_CAMPAIGN": "建立活動",
-      "EMPTY_STATE": {
-        "TITLE": "目前沒有簡訊活動",
-        "SUBTITLE": "發起簡訊活動以直接聯繫您的客戶。輕鬆發送優惠或公告。點選「建立活動」以開始。"
+    "TEMPLATES": {
+      "HEADER_TITLE": "模板",
+      "NEW_TEMPLATE": "建立模板",
+      "SOURCES": {
+        "OWN": "自家模板",
+        "WHATSAPP": "WhatsApp（由 Meta 管理）",
+        "TWILIO": "Twilio Content"
       },
-      "CARD": {
-        "STATUS": {
-          "PROCESSING": "處理中",
-          "COMPLETED": "已完成",
-          "SCHEDULED": "已排程"
+      "EMPTY_STATE": {
+        "OWN": {
+          "TITLE": "尚未建立模板",
+          "SUBTITLE": "把常用的訊息存成模板，發簡訊群發時就能直接套用。"
         },
-        "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "發送自",
-          "ON": "於"
+        "SYNCED": {
+          "TITLE": "目前沒有同步的模板",
+          "SUBTITLE": "連接 WhatsApp 或 Twilio 收件匣後，由 Meta 與 Twilio 管理的模板就會顯示在這裡。"
+        }
+      },
+      "SYNCED": {
+        "SYNC_BUTTON": "重新同步",
+        "LAST_SYNCED": "上次同步：{time}",
+        "NO_TEMPLATES": "這個收件匣還沒有同步到任何模板。",
+        "API": {
+          "SUCCESS_MESSAGE": "已開始同步模板",
+          "ERROR_MESSAGE": "發生錯誤，請重試。"
         }
       },
       "CREATE": {
-        "TITLE": "建立簡訊活動",
-        "CANCEL_BUTTON_TEXT": "取消",
-        "CREATE_BUTTON_TEXT": "建立",
-        "FORM": {
-          "TITLE": {
-            "LABEL": "標題",
-            "PLACEHOLDER": "請輸入活動標題",
-            "ERROR": "標題為必填"
-          },
-          "MESSAGE": {
-            "LABEL": "訊息",
-            "PLACEHOLDER": "請輸入活動訊息",
-            "ERROR": "訊息為必填"
-          },
-          "INBOX": {
-            "LABEL": "選擇收件匣",
-            "PLACEHOLDER": "選擇收件匣",
-            "ERROR": "收件匣為必填"
-          },
-          "AUDIENCE": {
-            "LABEL": "受眾",
-            "PLACEHOLDER": "選擇客戶標籤",
-            "ERROR": "受眾為必填"
-          },
-          "SCHEDULED_AT": {
-            "LABEL": "排程時間",
-            "PLACEHOLDER": "請選擇時間",
-            "ERROR": "排程時間為必填"
-          },
-          "BUTTONS": {
-            "CREATE": "建立",
-            "CANCEL": "取消"
-          },
-          "API": {
-            "SUCCESS_MESSAGE": "簡訊活動建立成功",
-            "ERROR_MESSAGE": "發生錯誤，請重試。"
-          }
-        }
-      }
-    },
-    "WHATSAPP": {
-      "HEADER_TITLE": "WhatsApp 活動",
-      "NEW_CAMPAIGN": "建立活動",
-      "EMPTY_STATE": {
-        "TITLE": "目前沒有 WhatsApp 活動",
-        "SUBTITLE": "發起 WhatsApp 活動以直接聯繫您的客戶。輕鬆發送優惠或公告。點選「建立活動」以開始。"
+        "TITLE": "建立模板"
       },
-      "CARD": {
-        "STATUS": {
-          "PROCESSING": "處理中",
-          "COMPLETED": "已完成",
-          "SCHEDULED": "已排程"
+      "EDIT": {
+        "TITLE": "編輯模板"
+      },
+      "DELETE": {
+        "TITLE": "確定要刪除嗎？",
+        "DESCRIPTION": "刪除操作是永久性的，無法復原。",
+        "CONFIRM": "刪除",
+        "API": {
+          "SUCCESS_MESSAGE": "模板刪除成功",
+          "ERROR_MESSAGE": "發生錯誤，請重試。"
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "名稱",
+          "PLACEHOLDER": "請輸入模板名稱",
+          "ERROR": "名稱為必填"
         },
-        "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "發送自",
-          "ON": "於"
-        }
-      },
-      "CREATE": {
-        "TITLE": "建立 WhatsApp 活動",
-        "CANCEL_BUTTON_TEXT": "取消",
-        "CREATE_BUTTON_TEXT": "建立",
-        "FORM": {
-          "TITLE": {
-            "LABEL": "標題",
-            "PLACEHOLDER": "請輸入活動標題",
-            "ERROR": "標題為必填"
-          },
-          "INBOX": {
-            "LABEL": "選擇收件匣",
-            "PLACEHOLDER": "選擇收件匣",
-            "ERROR": "收件匣為必填"
-          },
-          "TEMPLATE": {
-            "LABEL": "WhatsApp 範本",
-            "PLACEHOLDER": "選擇範本",
-            "INFO": "選擇此活動要使用的範本。",
-            "ERROR": "範本為必填",
-            "PREVIEW_TITLE": "處理 {templateName}",
-            "LANGUAGE": "語言",
-            "CATEGORY": "類別",
-            "VARIABLES_LABEL": "變數",
-            "VARIABLE_PLACEHOLDER": "輸入 {variable} 的值"
-          },
-          "AUDIENCE": {
-            "LABEL": "受眾",
-            "PLACEHOLDER": "選擇客戶標籤",
-            "ERROR": "受眾為必填"
-          },
-          "SCHEDULED_AT": {
-            "LABEL": "排程時間",
-            "PLACEHOLDER": "請選擇時間",
-            "ERROR": "排程時間為必填"
-          },
-          "BUTTONS": {
-            "CREATE": "建立",
-            "CANCEL": "取消"
-          },
-          "API": {
-            "SUCCESS_MESSAGE": "WhatsApp 活動建立成功",
-            "ERROR_MESSAGE": "發生錯誤，請重試。"
+        "BODY": {
+          "LABEL": "訊息",
+          "PLACEHOLDER": "請輸入模板訊息",
+          "ERROR": "訊息為必填"
+        },
+        "PREVIEW": {
+          "LABEL": "以範例值預覽",
+          "EMPTY": "開始輸入後就會顯示預覽。",
+          "SAMPLE": {
+            "CONTACT_NAME": "王小明",
+            "CONTACT_PHONE_NUMBER": "+886 912 345 678",
+            "AGENT_NAME": "客服小幫手",
+            "ACCOUNT_NAME": "範例公司"
           }
+        },
+        "BUTTONS": {
+          "SAVE": "儲存"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "模板建立成功",
+          "UPDATE_SUCCESS_MESSAGE": "模板更新成功",
+          "ERROR_MESSAGE": "發生錯誤，請重試。"
         }
       }
     },

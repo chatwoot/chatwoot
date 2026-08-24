@@ -2,7 +2,7 @@
 import { reactive, computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength } from '@vuelidate/validators';
+import { required, requiredIf, minLength } from '@vuelidate/validators';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { URLPattern } from 'urlpattern-polyfill';
@@ -10,6 +10,7 @@ import { URLPattern } from 'urlpattern-polyfill';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 const props = defineProps({
@@ -33,6 +34,9 @@ const emit = defineEmits(['submit', 'cancel']);
 const { t } = useI18n();
 const store = useStore();
 
+const TRIGGER_ALL_PAGES = 'allPages';
+const TRIGGER_SPECIFIC_PAGES = 'specificPages';
+
 const formState = {
   uiFlags: useMapGetter('campaigns/getUIFlags'),
   inboxes: useMapGetter('inboxes/getWebsiteInboxes'),
@@ -47,14 +51,20 @@ const initialState = {
   senderId: 0,
   enabled: true,
   triggerOnlyDuringBusinessHours: false,
+  triggerScope: TRIGGER_ALL_PAGES,
   endPoint: '',
   timeOnPage: 10,
 };
 
 const state = reactive({ ...initialState });
 
+const isSpecificPages = computed(
+  () => state.triggerScope === TRIGGER_SPECIFIC_PAGES
+);
+
 const urlValidators = {
   shouldBeAValidURLPattern: value => {
+    if (!isSpecificPages.value) return true;
     try {
       // eslint-disable-next-line
       new URLPattern(value);
@@ -63,8 +73,12 @@ const urlValidators = {
       return false;
     }
   },
-  shouldStartWithHTTP: value =>
-    value ? value.startsWith('https://') || value.startsWith('http://') : false,
+  shouldStartWithHTTP: value => {
+    if (!isSpecificPages.value) return true;
+    return value
+      ? value.startsWith('https://') || value.startsWith('http://')
+      : false;
+  },
 };
 
 const validationRules = {
@@ -72,7 +86,10 @@ const validationRules = {
   message: { required, minLength: minLength(1) },
   inboxId: { required },
   senderId: { required },
-  endPoint: { required, ...urlValidators },
+  endPoint: {
+    required: requiredIf(isSpecificPages),
+    ...urlValidators,
+  },
   timeOnPage: { required },
 };
 
@@ -92,12 +109,12 @@ const inboxOptions = computed(() =>
 );
 
 const sendersAndBotList = computed(() => [
-  { value: 0, label: 'Bot' },
+  { value: 0, label: t('CAMPAIGN.PROACTIVE.CARD.CAMPAIGN_DETAILS.BOT') },
   ...mapToOptions(senderList.value, 'id', 'name'),
 ]);
 
 const getErrorMessage = (field, errorKey) => {
-  const baseKey = 'CAMPAIGN.LIVE_CHAT.CREATE.FORM';
+  const baseKey = 'CAMPAIGN.PROACTIVE.CREATE.FORM';
   return v$.value[field].$error ? t(`${baseKey}.${errorKey}.ERROR`) : '';
 };
 
@@ -114,6 +131,10 @@ const resetState = () => Object.assign(state, initialState);
 
 const handleCancel = () => emit('cancel');
 
+const handleTriggerScopeSelect = scope => {
+  state.triggerScope = scope;
+};
+
 const handleInboxChange = async inboxId => {
   if (!inboxId) {
     senderList.value = [];
@@ -127,7 +148,7 @@ const handleInboxChange = async inboxId => {
     senderList.value = [];
     useAlert(
       error?.response?.message ??
-        t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.API.ERROR_MESSAGE')
+        t('CAMPAIGN.PROACTIVE.CREATE.FORM.API.ERROR_MESSAGE')
     );
   }
 };
@@ -140,7 +161,7 @@ const prepareCampaignDetails = () => ({
   enabled: state.enabled,
   trigger_only_during_business_hours: state.triggerOnlyDuringBusinessHours,
   trigger_rules: {
-    url: state.endPoint,
+    url: isSpecificPages.value ? state.endPoint : '',
     time_on_page: state.timeOnPage,
   },
 });
@@ -176,7 +197,8 @@ const updateStateFromCampaign = campaign => {
     senderId: sender?.id ?? 0,
     enabled,
     triggerOnlyDuringBusinessHours,
-    endPoint,
+    triggerScope: endPoint ? TRIGGER_SPECIFIC_PAGES : TRIGGER_ALL_PAGES,
+    endPoint: endPoint ?? '',
     timeOnPage,
   });
 };
@@ -205,94 +227,132 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
 </script>
 
 <template>
-  <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
-    <Input
-      v-model="state.title"
-      :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.TITLE.LABEL')"
-      :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.TITLE.PLACEHOLDER')"
-      :message="formErrors.title"
-      :message-type="formErrors.title ? 'error' : 'info'"
-    />
+  <form class="flex flex-col gap-6" @submit.prevent="handleSubmit">
+    <section class="flex flex-col gap-4">
+      <h4 class="text-sm font-medium text-n-slate-12">
+        {{ t('CAMPAIGN.PROACTIVE.CREATE.FORM.SECTIONS.MESSAGE') }}
+      </h4>
 
-    <Editor
-      v-model="state.message"
-      :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.LABEL')"
-      :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.PLACEHOLDER')"
-      :message="formErrors.message"
-      :message-type="formErrors.message ? 'error' : 'info'"
-    />
-
-    <div class="flex flex-col gap-1">
-      <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
-        {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.INBOX.LABEL') }}
-      </label>
-      <ComboBox
-        id="inbox"
-        v-model="state.inboxId"
-        :options="inboxOptions"
-        :has-error="!!formErrors.inbox"
-        :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.INBOX.PLACEHOLDER')"
-        :message="formErrors.inbox"
-        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
+      <Input
+        v-model="state.title"
+        :label="t('CAMPAIGN.PROACTIVE.CREATE.FORM.TITLE.LABEL')"
+        :placeholder="t('CAMPAIGN.PROACTIVE.CREATE.FORM.TITLE.PLACEHOLDER')"
+        :message="formErrors.title"
+        :message-type="formErrors.title ? 'error' : 'info'"
       />
-    </div>
 
-    <div class="flex flex-col gap-1">
-      <label for="sentBy" class="mb-0.5 text-sm font-medium text-n-slate-12">
-        {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.SENT_BY.LABEL') }}
-      </label>
-      <ComboBox
-        id="sentBy"
-        v-model="state.senderId"
-        :options="sendersAndBotList"
-        :has-error="!!formErrors.sender"
-        :disabled="!state.inboxId"
-        :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.SENT_BY.PLACEHOLDER')"
-        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
-        :message="formErrors.sender"
+      <Editor
+        v-model="state.message"
+        :label="t('CAMPAIGN.PROACTIVE.CREATE.FORM.MESSAGE.LABEL')"
+        :placeholder="t('CAMPAIGN.PROACTIVE.CREATE.FORM.MESSAGE.PLACEHOLDER')"
+        :message="formErrors.message"
+        :message-type="formErrors.message ? 'error' : 'info'"
       />
-    </div>
 
-    <Input
-      v-model="state.endPoint"
-      type="url"
-      :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.END_POINT.LABEL')"
-      :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.END_POINT.PLACEHOLDER')"
-      :message="formErrors.endPoint"
-      :message-type="formErrors.endPoint ? 'error' : 'info'"
-    />
+      <div class="flex flex-col gap-1">
+        <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
+          {{ t('CAMPAIGN.PROACTIVE.CREATE.FORM.INBOX.LABEL') }}
+        </label>
+        <ComboBox
+          id="inbox"
+          v-model="state.inboxId"
+          :options="inboxOptions"
+          :has-error="!!formErrors.inbox"
+          :placeholder="t('CAMPAIGN.PROACTIVE.CREATE.FORM.INBOX.PLACEHOLDER')"
+          :message="formErrors.inbox"
+          class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
+        />
+      </div>
 
-    <Input
-      v-model="state.timeOnPage"
-      type="number"
-      :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.TIME_ON_PAGE.LABEL')"
-      :placeholder="
-        t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.TIME_ON_PAGE.PLACEHOLDER')
-      "
-      :message="formErrors.timeOnPage"
-      :message-type="formErrors.timeOnPage ? 'error' : 'info'"
-    />
+      <div class="flex flex-col gap-1">
+        <label for="sentBy" class="mb-0.5 text-sm font-medium text-n-slate-12">
+          {{ t('CAMPAIGN.PROACTIVE.CREATE.FORM.SENT_BY.LABEL') }}
+        </label>
+        <ComboBox
+          id="sentBy"
+          v-model="state.senderId"
+          :options="sendersAndBotList"
+          :has-error="!!formErrors.sender"
+          :disabled="!state.inboxId"
+          :placeholder="t('CAMPAIGN.PROACTIVE.CREATE.FORM.SENT_BY.PLACEHOLDER')"
+          class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
+          :message="formErrors.sender"
+        />
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h4 class="text-sm font-medium text-n-slate-12">
+        {{ t('CAMPAIGN.PROACTIVE.CREATE.FORM.SECTIONS.TRIGGER') }}
+      </h4>
+
+      <div class="flex flex-col gap-3">
+        <RadioCard
+          id="allPages"
+          :label="t('CAMPAIGN.PROACTIVE.CREATE.FORM.TRIGGER_SCOPE.ALL.LABEL')"
+          :description="
+            t('CAMPAIGN.PROACTIVE.CREATE.FORM.TRIGGER_SCOPE.ALL.DESCRIPTION')
+          "
+          :is-active="!isSpecificPages"
+          @select="handleTriggerScopeSelect"
+        />
+        <RadioCard
+          id="specificPages"
+          :label="
+            t('CAMPAIGN.PROACTIVE.CREATE.FORM.TRIGGER_SCOPE.SPECIFIC.LABEL')
+          "
+          :description="
+            t(
+              'CAMPAIGN.PROACTIVE.CREATE.FORM.TRIGGER_SCOPE.SPECIFIC.DESCRIPTION'
+            )
+          "
+          :is-active="isSpecificPages"
+          @select="handleTriggerScopeSelect"
+        />
+      </div>
+
+      <Input
+        v-if="isSpecificPages"
+        v-model="state.endPoint"
+        type="url"
+        :label="t('CAMPAIGN.PROACTIVE.CREATE.FORM.END_POINT.LABEL')"
+        :placeholder="t('CAMPAIGN.PROACTIVE.CREATE.FORM.END_POINT.PLACEHOLDER')"
+        :message="formErrors.endPoint"
+        :message-type="formErrors.endPoint ? 'error' : 'info'"
+      />
+
+      <Input
+        v-model="state.timeOnPage"
+        type="number"
+        :label="t('CAMPAIGN.PROACTIVE.CREATE.FORM.TIME_ON_PAGE.LABEL')"
+        :placeholder="
+          t('CAMPAIGN.PROACTIVE.CREATE.FORM.TIME_ON_PAGE.PLACEHOLDER')
+        "
+        :message="formErrors.timeOnPage"
+        :message-type="formErrors.timeOnPage ? 'error' : 'info'"
+      />
+    </section>
 
     <fieldset class="flex flex-col gap-2.5">
       <legend class="mb-2.5 text-sm font-medium text-n-slate-12">
-        {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.TITLE') }}
+        {{ t('CAMPAIGN.PROACTIVE.CREATE.FORM.SECTIONS.ADVANCED') }}
       </legend>
-
-      <label class="flex items-center gap-2">
-        <input v-model="state.enabled" type="checkbox" />
-        <span class="text-sm font-medium text-n-slate-12">
-          {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.ENABLED') }}
-        </span>
-      </label>
 
       <label class="flex items-center gap-2">
         <input v-model="state.triggerOnlyDuringBusinessHours" type="checkbox" />
         <span class="text-sm font-medium text-n-slate-12">
           {{
             t(
-              'CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.TRIGGER_ONLY_BUSINESS_HOURS'
+              'CAMPAIGN.PROACTIVE.CREATE.FORM.OTHER_PREFERENCES.TRIGGER_ONLY_BUSINESS_HOURS'
             )
           }}
+        </span>
+      </label>
+
+      <label class="flex items-center gap-2">
+        <input v-model="state.enabled" type="checkbox" />
+        <span class="text-sm font-medium text-n-slate-12">
+          {{ t('CAMPAIGN.PROACTIVE.CREATE.FORM.OTHER_PREFERENCES.ENABLED') }}
         </span>
       </label>
     </fieldset>
@@ -305,14 +365,14 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         type="button"
         variant="faded"
         color="slate"
-        :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.BUTTONS.CANCEL')"
+        :label="t('CAMPAIGN.PROACTIVE.CREATE.FORM.BUTTONS.CANCEL')"
         class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
         @click="handleCancel"
       />
       <Button
         type="submit"
         :label="
-          t(`CAMPAIGN.LIVE_CHAT.CREATE.FORM.BUTTONS.${mode.toUpperCase()}`)
+          t(`CAMPAIGN.PROACTIVE.CREATE.FORM.BUTTONS.${mode.toUpperCase()}`)
         "
         class="w-full"
         :is-loading="isCreating"

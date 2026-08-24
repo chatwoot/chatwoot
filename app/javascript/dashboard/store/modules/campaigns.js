@@ -36,17 +36,12 @@ export const getters = {
 
       return filteredRecords.sort((a1, a2) => a1.id - a2.id);
     },
-  getSMSCampaigns: (_state, _getters) => {
-    const smsChannelTypes = [INBOX_TYPES.SMS, INBOX_TYPES.TWILIO];
-    return _getters.getCampaigns(CAMPAIGN_TYPES.ONE_OFF, smsChannelTypes);
+  getBroadcastCampaigns: (_state, _getters) => {
+    return _getters.getCampaigns(CAMPAIGN_TYPES.ONE_OFF);
   },
-  getWhatsAppCampaigns: (_state, _getters) => {
-    const whatsappChannelTypes = [INBOX_TYPES.WHATSAPP];
-    return _getters.getCampaigns(CAMPAIGN_TYPES.ONE_OFF, whatsappChannelTypes);
-  },
-  getLiveChatCampaigns: (_state, _getters) => {
-    const liveChatChannelTypes = [INBOX_TYPES.WEB];
-    return _getters.getCampaigns(CAMPAIGN_TYPES.ONGOING, liveChatChannelTypes);
+  getProactiveCampaigns: (_state, _getters) => {
+    const proactiveChannelTypes = [INBOX_TYPES.WEB];
+    return _getters.getCampaigns(CAMPAIGN_TYPES.ONGOING, proactiveChannelTypes);
   },
   getAllCampaigns: _state => {
     return _state.records;

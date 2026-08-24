@@ -36,33 +36,24 @@ describe('#getters', () => {
     ).toEqual([campaigns[1], campaigns[4]]);
   });
 
-  it('get SMS campaigns', () => {
+  it('get broadcast campaigns across every channel', () => {
     const state = { records: campaigns };
     const mockGetters = {
       getCampaigns: getters.getCampaigns(state),
     };
-    expect(getters.getSMSCampaigns(state, mockGetters)).toEqual([
+    expect(getters.getBroadcastCampaigns(state, mockGetters)).toEqual([
       campaigns[1],
+      campaigns[3],
       campaigns[4],
     ]);
   });
 
-  it('get WhatsApp campaigns', () => {
+  it('get proactive campaigns', () => {
     const state = { records: campaigns };
     const mockGetters = {
       getCampaigns: getters.getCampaigns(state),
     };
-    expect(getters.getWhatsAppCampaigns(state, mockGetters)).toEqual([
-      campaigns[3],
-    ]);
-  });
-
-  it('get Live Chat campaigns', () => {
-    const state = { records: campaigns };
-    const mockGetters = {
-      getCampaigns: getters.getCampaigns(state),
-    };
-    expect(getters.getLiveChatCampaigns(state, mockGetters)).toEqual([
+    expect(getters.getProactiveCampaigns(state, mockGetters)).toEqual([
       campaigns[0],
       campaigns[2],
     ]);

@@ -1446,7 +1446,7 @@ RSpec.describe 'Inboxes API', type: :request do
         end
       end
 
-      context 'with non-WhatsApp inbox' do
+      context 'with unsupported inbox' do
         it 'returns unprocessable entity error' do
           post "/api/v1/accounts/#{account.id}/inboxes/#{non_whatsapp_inbox.id}/sync_templates",
                headers: admin.create_new_auth_token,
@@ -1454,7 +1454,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
           expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
-          expect(json_response['error']).to eq('Template sync is only available for WhatsApp channels')
+          expect(json_response['error']).to eq('Template sync is only available for WhatsApp and Twilio channels')
         end
       end
 

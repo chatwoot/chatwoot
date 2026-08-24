@@ -21,11 +21,11 @@ const addCampaign = async campaignDetails => {
       type: CAMPAIGN_TYPES.ONGOING,
     });
 
-    useAlert(t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.API.SUCCESS_MESSAGE'));
+    useAlert(t('CAMPAIGN.PROACTIVE.CREATE.FORM.API.SUCCESS_MESSAGE'));
   } catch (error) {
     const errorMessage =
       error?.response?.message ||
-      t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.API.ERROR_MESSAGE');
+      t('CAMPAIGN.PROACTIVE.CREATE.FORM.API.ERROR_MESSAGE');
     useAlert(errorMessage);
   }
 };
@@ -43,7 +43,7 @@ const handleSubmit = campaignDetails => {
     class="w-[25rem] z-50 min-w-0 absolute top-10 ltr:right-0 rtl:left-0 bg-n-alpha-3 backdrop-blur-[100px] p-6 rounded-xl border border-n-weak shadow-md flex flex-col gap-6 max-h-[85vh] overflow-y-auto"
   >
     <h3 class="text-base font-medium text-n-slate-12">
-      {{ t(`CAMPAIGN.LIVE_CHAT.CREATE.TITLE`) }}
+      {{ t(`CAMPAIGN.PROACTIVE.CREATE.TITLE`) }}
     </h3>
     <LiveChatCampaignForm
       mode="create"

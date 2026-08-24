@@ -10,7 +10,7 @@ import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage
 import LiveChatCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/LiveChatCampaign/LiveChatCampaignDialog.vue';
 import EditLiveChatCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/LiveChatCampaign/EditLiveChatCampaignDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
-import LiveChatCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/LiveChatCampaignEmptyState.vue';
+import ProactiveCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/ProactiveCampaignEmptyState.vue';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
@@ -24,12 +24,12 @@ const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
 
 const [showLiveChatCampaignDialog, toggleLiveChatCampaignDialog] = useToggle();
 
-const liveChatCampaigns = computed(
-  () => getters['campaigns/getLiveChatCampaigns'].value
+const proactiveCampaigns = computed(
+  () => getters['campaigns/getProactiveCampaigns'].value
 );
 
-const hasNoLiveChatCampaigns = computed(
-  () => liveChatCampaigns.value?.length === 0 && !isFetchingCampaigns.value
+const hasNoProactiveCampaigns = computed(
+  () => proactiveCampaigns.value?.length === 0 && !isFetchingCampaigns.value
 );
 
 const handleEdit = campaign => {
@@ -44,8 +44,8 @@ const handleDelete = campaign => {
 
 <template>
   <CampaignLayout
-    :header-title="t('CAMPAIGN.LIVE_CHAT.HEADER_TITLE')"
-    :button-label="t('CAMPAIGN.LIVE_CHAT.NEW_CAMPAIGN')"
+    :header-title="t('CAMPAIGN.PROACTIVE.HEADER_TITLE')"
+    :button-label="t('CAMPAIGN.PROACTIVE.NEW_CAMPAIGN')"
     @click="toggleLiveChatCampaignDialog()"
     @close="toggleLiveChatCampaignDialog(false)"
   >
@@ -63,16 +63,16 @@ const handleDelete = campaign => {
       <Spinner />
     </div>
     <CampaignList
-      v-else-if="!hasNoLiveChatCampaigns"
-      :campaigns="liveChatCampaigns"
+      v-else-if="!hasNoProactiveCampaigns"
+      :campaigns="proactiveCampaigns"
       is-live-chat-type
       @edit="handleEdit"
       @delete="handleDelete"
     />
-    <LiveChatCampaignEmptyState
+    <ProactiveCampaignEmptyState
       v-else
-      :title="t('CAMPAIGN.LIVE_CHAT.EMPTY_STATE.TITLE')"
-      :subtitle="t('CAMPAIGN.LIVE_CHAT.EMPTY_STATE.SUBTITLE')"
+      :title="t('CAMPAIGN.PROACTIVE.EMPTY_STATE.TITLE')"
+      :subtitle="t('CAMPAIGN.PROACTIVE.EMPTY_STATE.SUBTITLE')"
       class="pt-14"
     />
     <EditLiveChatCampaignDialog

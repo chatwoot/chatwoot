@@ -122,7 +122,8 @@ class Campaign < ApplicationRecord
   end
 
   def validate_url
-    return unless trigger_rules['url']
+    # A blank URL rule means the campaign targets every page.
+    return if trigger_rules['url'].blank?
 
     use_http_protocol = trigger_rules['url'].starts_with?('http://') || trigger_rules['url'].starts_with?('https://')
     errors.add(:url, 'invalid') if inbox.inbox_type == 'Website' && !use_http_protocol

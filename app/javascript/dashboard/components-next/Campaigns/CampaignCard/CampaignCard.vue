@@ -3,11 +3,15 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
+import {
+  BROADCAST_CHANNELS,
+  getBroadcastChannel,
+} from 'dashboard/helper/campaignHelper';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import LiveChatCampaignDetails from './LiveChatCampaignDetails.vue';
-import SMSCampaignDetails from './SMSCampaignDetails.vue';
+import ProactiveCampaignDetails from './ProactiveCampaignDetails.vue';
+import BroadcastCampaignDetails from './BroadcastCampaignDetails.vue';
 
 const props = defineProps({
   title: {
@@ -53,32 +57,52 @@ const STATUS_PROCESSING = 'processing';
 
 const { formatMessage } = useMessageFormatter();
 
-const isActive = computed(() =>
-  props.isLiveChatType ? props.isEnabled : props.status !== STATUS_COMPLETED
+const isScheduled = computed(
+  () =>
+    props.status !== STATUS_COMPLETED &&
+    props.status !== STATUS_PROCESSING &&
+    props.scheduledAt * 1000 > Date.now()
 );
 
-const statusTextColor = computed(() => ({
-  'text-n-teal-11': isActive.value,
-  'text-n-slate-12': !isActive.value,
-}));
+const statusChipClass = computed(() => {
+  if (props.isLiveChatType) {
+    return props.isEnabled
+      ? 'text-n-teal-11 bg-n-alpha-2'
+      : 'text-n-slate-12 bg-n-alpha-2';
+  }
+
+  if (props.status === STATUS_COMPLETED) return 'text-n-teal-11 bg-n-teal-2';
+  if (props.status === STATUS_PROCESSING) return 'text-n-blue-11 bg-n-blue-2';
+
+  return 'text-n-amber-11 bg-n-amber-2';
+});
 
 const campaignStatus = computed(() => {
   if (props.isLiveChatType) {
     return props.isEnabled
-      ? t('CAMPAIGN.LIVE_CHAT.CARD.STATUS.ENABLED')
-      : t('CAMPAIGN.LIVE_CHAT.CARD.STATUS.DISABLED');
+      ? t('CAMPAIGN.PROACTIVE.CARD.STATUS.ENABLED')
+      : t('CAMPAIGN.PROACTIVE.CARD.STATUS.DISABLED');
   }
 
   if (props.status === STATUS_COMPLETED) {
-    return t('CAMPAIGN.SMS.CARD.STATUS.COMPLETED');
+    return t('CAMPAIGN.BROADCAST.CARD.STATUS.COMPLETED');
   }
 
   if (props.status === STATUS_PROCESSING) {
-    return t('CAMPAIGN.SMS.CARD.STATUS.PROCESSING');
+    return t('CAMPAIGN.BROADCAST.CARD.STATUS.PROCESSING');
   }
 
-  return t('CAMPAIGN.SMS.CARD.STATUS.SCHEDULED');
+  return t('CAMPAIGN.BROADCAST.CARD.STATUS.SCHEDULED');
 });
+
+const channelLabel = computed(() =>
+  getBroadcastChannel(props.inbox) === BROADCAST_CHANNELS.WHATSAPP
+    ? t('CAMPAIGN.CHANNEL.WHATSAPP')
+    : t('CAMPAIGN.CHANNEL.SMS')
+);
+
+// Broadcasts can only be edited while they are still waiting to be sent.
+const isEditable = computed(() => props.isLiveChatType || isScheduled.value);
 
 const inboxName = computed(() => props.inbox?.name || '');
 
@@ -102,8 +126,14 @@ const inboxIcon = computed(() => {
           {{ title }}
         </span>
         <span
-          class="text-xs font-medium inline-flex items-center h-6 px-2 py-0.5 rounded-md bg-n-alpha-2"
-          :class="statusTextColor"
+          v-if="!isLiveChatType"
+          class="text-xs font-medium inline-flex items-center h-6 px-2 py-0.5 rounded-md bg-n-alpha-2 text-n-slate-11"
+        >
+          {{ channelLabel }}
+        </span>
+        <span
+          class="text-xs font-medium inline-flex items-center h-6 px-2 py-0.5 rounded-md"
+          :class="statusChipClass"
         >
           {{ campaignStatus }}
         </span>
@@ -113,13 +143,13 @@ const inboxIcon = computed(() => {
         class="text-sm text-n-slate-11 line-clamp-1 [&>p]:mb-0 h-6"
       />
       <div class="flex items-center w-full h-6 gap-2 overflow-hidden">
-        <LiveChatCampaignDetails
+        <ProactiveCampaignDetails
           v-if="isLiveChatType"
           :sender="sender"
           :inbox-name="inboxName"
           :inbox-icon="inboxIcon"
         />
-        <SMSCampaignDetails
+        <BroadcastCampaignDetails
           v-else
           :inbox-name="inboxName"
           :inbox-icon="inboxIcon"
@@ -129,7 +159,7 @@ const inboxIcon = computed(() => {
     </div>
     <div class="flex items-center justify-end w-20 gap-2">
       <Button
-        v-if="isLiveChatType"
+        v-if="isEditable"
         variant="faded"
         size="sm"
         color="slate"

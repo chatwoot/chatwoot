@@ -1,9 +1,5 @@
-class CampaignPolicy < ApplicationPolicy
+class CampaignTemplatePolicy < ApplicationPolicy
   def index?
-    @account_user.administrator?
-  end
-
-  def update?
     @account_user.administrator?
   end
 
@@ -15,11 +11,11 @@ class CampaignPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def destroy?
+  def update?
     @account_user.administrator?
   end
 
-  def audience_count?
+  def destroy?
     @account_user.administrator?
   end
 end

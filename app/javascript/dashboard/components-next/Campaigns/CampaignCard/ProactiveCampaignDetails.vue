@@ -23,7 +23,7 @@ const props = defineProps({
 const { t } = useI18n();
 
 const senderName = computed(
-  () => props.sender?.name || t('CAMPAIGN.LIVE_CHAT.CARD.CAMPAIGN_DETAILS.BOT')
+  () => props.sender?.name || t('CAMPAIGN.PROACTIVE.CARD.CAMPAIGN_DETAILS.BOT')
 );
 
 const senderThumbnailSrc = computed(() => props.sender?.thumbnail);
@@ -31,7 +31,7 @@ const senderThumbnailSrc = computed(() => props.sender?.thumbnail);
 
 <template>
   <span class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap">
-    {{ t('CAMPAIGN.LIVE_CHAT.CARD.CAMPAIGN_DETAILS.SENT_BY') }}
+    {{ t('CAMPAIGN.PROACTIVE.CARD.CAMPAIGN_DETAILS.SENT_BY') }}
   </span>
   <div class="flex items-center gap-1.5 flex-shrink-0">
     <Avatar
@@ -45,7 +45,7 @@ const senderThumbnailSrc = computed(() => props.sender?.thumbnail);
     </span>
   </div>
   <span class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap">
-    {{ t('CAMPAIGN.LIVE_CHAT.CARD.CAMPAIGN_DETAILS.FROM') }}
+    {{ t('CAMPAIGN.PROACTIVE.CARD.CAMPAIGN_DETAILS.FROM') }}
   </span>
   <div class="flex items-center gap-1.5 flex-shrink-0">
     <Icon :icon="inboxIcon" class="flex-shrink-0 text-n-slate-12 size-3" />
