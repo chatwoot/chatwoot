@@ -71,8 +71,6 @@ class CustomAttributeDefinition < ApplicationRecord
   private
 
   def lock_account
-    # account can be nil here when this runs from the account's destroy_async
-    # cleanup job, which only destroys definitions after the account row is gone.
     account&.lock!
   end
 
