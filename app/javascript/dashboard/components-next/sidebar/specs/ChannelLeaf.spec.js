@@ -1,5 +1,22 @@
 import { mount } from '@vue/test-utils';
+import { h, ref } from 'vue';
 import ChannelLeaf from '../ChannelLeaf.vue';
+import SidebarCollapsedPopover from '../SidebarCollapsedPopover.vue';
+
+vi.mock('dashboard/composables/store', () => ({
+  useMapGetter: () => ref(false),
+}));
+
+vi.mock('vue-router', () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}));
+
+vi.mock('../provider', () => ({
+  useSidebarContext: () => ({
+    isAllowed: () => true,
+    sidebarWidth: ref(64),
+  }),
+}));
 
 const mountChannelLeaf = props =>
   mount(ChannelLeaf, {
@@ -67,5 +84,54 @@ describe('ChannelLeaf', () => {
     expect(wrapper.find('[data-test-id="sidebar-unread-badge"]').exists()).toBe(
       false
     );
+  });
+
+  it('renders through the custom leaf in the collapsed sidebar popover', async () => {
+    const inbox = {
+      channel_type: 'Channel::Email',
+      email: 'support@example.com',
+      reauthorization_required: false,
+    };
+    const channel = {
+      name: 'Website-1',
+      label: 'Website',
+      to: { name: 'inbox_dashboard' },
+      component: leafProps =>
+        h(ChannelLeaf, {
+          label: leafProps.label,
+          active: leafProps.active,
+          badgeCount: leafProps.badgeCount,
+          inbox,
+        }),
+    };
+    const wrapper = mount(SidebarCollapsedPopover, {
+      props: {
+        label: 'Conversations',
+        children: [
+          {
+            name: 'Channels',
+            label: 'Channels',
+            children: [channel],
+          },
+        ],
+      },
+      global: {
+        mocks: {
+          $t: key => key,
+        },
+        stubs: {
+          ChannelIcon: true,
+          Icon: true,
+          TeleportWithDirection: {
+            template: '<div><slot /></div>',
+          },
+        },
+      },
+    });
+
+    await wrapper.get('button').trigger('click');
+
+    expect(wrapper.text()).toContain('Website');
+    expect(wrapper.text()).toContain('support@example.com');
   });
 });

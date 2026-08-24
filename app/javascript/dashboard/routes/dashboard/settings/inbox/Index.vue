@@ -2,7 +2,6 @@
 import { computed, onActivated, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import { picoSearch } from '@chatwoot/pico-search';
 import Avatar from 'next/avatar/Avatar.vue';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -15,7 +14,7 @@ import {
 import ChannelName from './components/ChannelName.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import { getInboxIdentifier } from 'dashboard/helper/inbox';
+import { getInboxIdentifier, searchInboxes } from 'dashboard/helper/inbox';
 
 const IDENTIFIER_SEPARATOR = '·';
 
@@ -46,11 +45,7 @@ const inboxesList = computed(() => {
 const filteredInboxesList = computed(() => {
   const query = searchQuery.value.trim();
   if (!query) return inboxesList.value;
-  return picoSearch(inboxesList.value, query, [
-    'name',
-    'channel_type',
-    'channel_identifier',
-  ]);
+  return searchInboxes(inboxesList.value, query);
 });
 
 const uiFlags = computed(() => getters['inboxes/getUIFlags'].value);
