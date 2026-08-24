@@ -129,7 +129,11 @@ class Twilio::VoiceController < ApplicationController
     lookup_sid = direction == 'outbound-dial' ? parent_sid || call_sid : call_sid
     call = inbox_calls.find_by!(provider_call_id: lookup_sid)
 
-    call.update!(parent_call_sid: parent_sid) if parent_sid.present? && call.parent_call_sid != parent_sid
+    if parent_sid.present?
+      call.with_lock do
+        call.update!(parent_call_sid: parent_sid) if call.parent_call_sid != parent_sid
+      end
+    end
     call
   end
 
@@ -160,10 +164,10 @@ class Twilio::VoiceController < ApplicationController
   end
 
   def ensure_conference_sid!(call)
-    return call.conference_sid if call.conference_sid.present?
-
-    call.update!(conference_sid: call.default_conference_sid)
-    call.conference_sid
+    call.with_lock do
+      call.update!(conference_sid: call.default_conference_sid) if call.conference_sid.blank?
+      call.conference_sid
+    end
   end
 
   def participant_label_for(from_number)
