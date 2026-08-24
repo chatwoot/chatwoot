@@ -111,6 +111,14 @@ Rails.application.routes.draw do
               post :follow_up
             end
           end
+          # [whisker] BYOR AI provider config
+          namespace :whisker_ai do
+            resources :providers, only: [:index, :create, :update, :destroy] do
+              member do
+                post :set_primary
+              end
+            end
+          end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member

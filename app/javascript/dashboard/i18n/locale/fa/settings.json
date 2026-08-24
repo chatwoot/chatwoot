@@ -1080,5 +1080,41 @@
       "CONFIRM_BUTTON_LABEL": "حذف",
       "CANCEL_BUTTON_LABEL": "انصراف"
     }
+  },
+  "AI_PROVIDERS": {
+    "TITLE": "ارائه‌دهندگان AI (BYOR)",
+    "DESC": "ارائه‌دهندگان AI خود را پیکربندی کنید. همه ارائه‌دهندگان از فرمت API سازگار با OpenAI استفاده می‌کنند — با OpenRouter، OmniRoute، NineRouter، Ollama، Groq، LiteLLM، vLLM و موارد دیگر کار می‌کند.",
+    "ADD_BUTTON": "افزودن ارائه‌دهنده",
+    "PRIMARY": "اصلی",
+    "SET_AS_PRIMARY": "تنظیم به عنوان اصلی",
+    "EDIT": "ویرایش",
+    "DELETE": {
+      "BUTTON": "حذف",
+      "SUCCESS": "ارائه‌دهنده حذف شد"
+    },
+    "SET_PRIMARY": {
+      "SUCCESS": "ارائه‌دهنده اصلی به‌روزرسانی شد"
+    },
+    "CREATE": {
+      "SUCCESS": "ارائه‌دهنده ایجاد شد"
+    },
+    "UPDATE": {
+      "SUCCESS": "ارائه‌دهنده به‌روزرسانی شد"
+    },
+    "ERROR": "خطایی پیش آمد",
+    "ADD_TITLE": "افزودن ارائه‌دهنده AI",
+    "EDIT_TITLE": "ویرایش ارائه‌دهنده AI",
+    "FORM": {
+      "NAME": "نام ارائه‌دهنده",
+      "NAME_PLACEHOLDER": "مثلاً OpenRouter، Ollama Local، Groq",
+      "BASE_URL": "آدرس پایه",
+      "API_KEY": "کلید API",
+      "MODELS": "مدل‌ها",
+      "MODELS_HELP": "لیست جدا شده با کاما از شناسه مدل‌های موجود در این ارائه‌دهنده",
+      "MONTHLY_CAP": "سقف بودجه ماهانه (دلار)",
+      "PRIMARY": "تنظیم به عنوان ارائه‌دهنده اصلی",
+      "CANCEL": "انصراف",
+      "SAVE": "ذخیره"
+    }
   }
 }

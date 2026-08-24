@@ -1080,5 +1080,41 @@
       "CONFIRM_BUTTON_LABEL": "Delete",
       "CANCEL_BUTTON_LABEL": "Cancel"
     }
+  },
+  "AI_PROVIDERS": {
+    "TITLE": "AI Providers (BYOR)",
+    "DESC": "Configure your own AI providers. All providers use the OpenAI-compatible API format — works with OpenRouter, OmniRoute, NineRouter, Ollama, Groq, LiteLLM, vLLM, and more.",
+    "ADD_BUTTON": "Add Provider",
+    "PRIMARY": "Primary",
+    "SET_AS_PRIMARY": "Set as Primary",
+    "EDIT": "Edit",
+    "DELETE": {
+      "BUTTON": "Delete",
+      "SUCCESS": "Provider deleted"
+    },
+    "SET_PRIMARY": {
+      "SUCCESS": "Primary provider updated"
+    },
+    "CREATE": {
+      "SUCCESS": "Provider created"
+    },
+    "UPDATE": {
+      "SUCCESS": "Provider updated"
+    },
+    "ERROR": "Something went wrong",
+    "ADD_TITLE": "Add AI Provider",
+    "EDIT_TITLE": "Edit AI Provider",
+    "FORM": {
+      "NAME": "Provider Name",
+      "NAME_PLACEHOLDER": "e.g. OpenRouter, Ollama Local, Groq",
+      "BASE_URL": "Base URL",
+      "API_KEY": "API Key",
+      "MODELS": "Models",
+      "MODELS_HELP": "Comma-separated list of model IDs available on this provider",
+      "MONTHLY_CAP": "Monthly Budget Cap (USD)",
+      "PRIMARY": "Set as primary provider",
+      "CANCEL": "Cancel",
+      "SAVE": "Save"
+    }
   }
 }
