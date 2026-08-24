@@ -3,8 +3,10 @@ import { computed, onMounted, ref, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useTrack } from 'dashboard/composables';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { usePolicy } from 'dashboard/composables/usePolicy';
+import { CAPTAIN_TOOL_CATALOG_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
@@ -155,6 +157,11 @@ const onDeleteSuccess = () => {
 };
 
 const setActiveView = view => {
+  if (view === 'browse') {
+    useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.CATALOG_VIEWED, {
+      source: 'tools_tab',
+    });
+  }
   router.replace({
     query: {
       ...route.query,
@@ -164,6 +171,10 @@ const setActiveView = view => {
 };
 
 const openProvider = providerKey => {
+  useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.PROVIDER_VIEWED, {
+    provider: providerKey,
+    source: activeView.value,
+  });
   router.push({
     name: 'captain_tools_catalog_provider',
     params: { ...route.params, providerKey },
@@ -173,7 +184,14 @@ const openProvider = providerKey => {
 onMounted(() => {
   if (!shouldShowPaywall(pageFeatureFlag.value)) {
     fetchCustomTools();
-    if (canManageCatalog.value) store.dispatch('captainToolCatalog/get');
+    if (canManageCatalog.value) {
+      store.dispatch('captainToolCatalog/get');
+      if (activeView.value === 'browse') {
+        useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.CATALOG_VIEWED, {
+          source: 'direct',
+        });
+      }
+    }
   }
 });
 </script>
@@ -317,7 +335,12 @@ onMounted(() => {
               {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.CAPACITY') }}
             </p>
             <p class="font-medium text-n-slate-12">
-              {{ capacity.used }} / {{ capacity.limit }}
+              {{
+                $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.CAPACITY_SUMMARY', {
+                  used: capacity.used,
+                  limit: capacity.limit,
+                })
+              }}
             </p>
           </div>
         </div>

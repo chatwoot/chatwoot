@@ -41,6 +41,24 @@ RSpec.describe Captain::ToolCatalog::InstallationWorkflow do
     expect(tool.definition.to_json).not_to include('provider-secret')
   end
 
+  it 'emits sanitized workflow funnel events' do
+    create(:integrations_hook, account: account, app_id: 'example', settings: { scope: 'customers:read' })
+    events = []
+    subscription = ActiveSupport::Notifications.subscribe(Captain::ToolCatalog::BaseWorkflow::EVENT_NAME) do |event|
+      events << event.payload
+    end
+
+    workflow.perform(provider_key: 'example', templates: templates)
+
+    expect(events).to contain_exactly(
+      include(provider: 'example', workflow: 'install', status: 'pending', template_count: 1),
+      include(provider: 'example', workflow: 'install', status: 'completed', resulting_tool_count: 1)
+    )
+    expect(events.to_json).not_to include('provider-secret', 'customers:read')
+  ensure
+    ActiveSupport::Notifications.unsubscribe(subscription) if subscription
+  end
+
   it 'returns an existing duplicate unchanged' do
     hook = create(:integrations_hook, account: account, app_id: 'example', settings: { scope: 'customers:read' })
     first_installation = workflow.perform(provider_key: 'example', templates: templates)

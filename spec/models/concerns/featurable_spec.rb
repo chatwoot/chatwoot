@@ -6,7 +6,7 @@ RSpec.describe Featurable do
   describe '.feature_flag_mappings_for' do
     it 'stores the Captain Tool Catalog flag in the extension column' do
       expect(described_class::FEATURES_BY_COLUMN['feature_flags_ext_1'].values)
-        .to include(:feature_captain_tool_catalog)
+        .to include(:feature_captain_tool_catalog, :feature_captain_tool_catalog_50_tool_beta)
     end
 
     it 'maps features to the default feature_flags column when column is omitted' do

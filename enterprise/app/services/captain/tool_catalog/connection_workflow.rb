@@ -12,6 +12,8 @@ class Captain::ToolCatalog::ConnectionWorkflow < Captain::ToolCatalog::BaseWorkf
   end
 
   def resume(installation)
+    @installation = installation
+    instrument_status('connected')
     installation
   end
 end

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "tools": [
+    "linear_create_issue_from_conversation",
+    "linear_get_linked_issue_status",
+    "shopify_add_tag_to_current_customer",
+    "shopify_check_variant_availability",
+    "shopify_get_current_customer",
+    "shopify_get_order_tracking_status",
+    "shopify_list_recent_customer_orders",
+    "shopify_search_products_and_variants",
+    "slack_find_user_by_email",
+    "slack_reply_to_thread",
+    "slack_send_message_to_channel",
+    "stripe_get_current_customer",
+    "stripe_get_last_five_invoices",
+    "stripe_get_last_five_payments",
+    "stripe_get_subscription_status"
+  ]
+}
+

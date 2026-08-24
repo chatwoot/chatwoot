@@ -1,0 +1,531 @@
+{
+  "schema_version": 1,
+  "intents": [
+    {
+      "id": "linear-create-issue-from-conversation-01",
+      "prompt": "Create a Linear issue from this customer conversation for engineering follow-up.",
+      "expected_tool": "linear_create_issue_from_conversation"
+    },
+    {
+      "id": "linear-create-issue-from-conversation-02",
+      "prompt": "Turn this conversation into a Linear bug for the configured support project.",
+      "expected_tool": "linear_create_issue_from_conversation"
+    },
+    {
+      "id": "linear-create-issue-from-conversation-03",
+      "prompt": "Escalate the problem by opening a Linear issue linked back to this chat.",
+      "expected_tool": "linear_create_issue_from_conversation"
+    },
+    {
+      "id": "linear-create-issue-from-conversation-04",
+      "prompt": "Please file this support request in Linear with the conversation context.",
+      "expected_tool": "linear_create_issue_from_conversation"
+    },
+    {
+      "id": "linear-create-issue-from-conversation-05",
+      "prompt": "Open a new Linear issue for the defect the customer just reported.",
+      "expected_tool": "linear_create_issue_from_conversation"
+    },
+    {
+      "id": "linear-create-issue-from-conversation-06",
+      "prompt": "Send this conversation to Linear as an engineering issue.",
+      "expected_tool": "linear_create_issue_from_conversation"
+    },
+    {
+      "id": "linear-create-issue-from-conversation-07",
+      "prompt": "Create a tracked Linear issue from the current support conversation.",
+      "expected_tool": "linear_create_issue_from_conversation"
+    },
+    {
+      "id": "linear-get-linked-issue-status-01",
+      "prompt": "What is the current status of the Linear issue linked to this conversation?",
+      "expected_tool": "linear_get_linked_issue_status"
+    },
+    {
+      "id": "linear-get-linked-issue-status-02",
+      "prompt": "Check whether the linked Linear ticket is still open.",
+      "expected_tool": "linear_get_linked_issue_status"
+    },
+    {
+      "id": "linear-get-linked-issue-status-03",
+      "prompt": "Has engineering moved the Linear issue attached to this chat?",
+      "expected_tool": "linear_get_linked_issue_status"
+    },
+    {
+      "id": "linear-get-linked-issue-status-04",
+      "prompt": "Look up the status of this conversation's linked Linear issue.",
+      "expected_tool": "linear_get_linked_issue_status"
+    },
+    {
+      "id": "linear-get-linked-issue-status-05",
+      "prompt": "Tell me the workflow state of the Linear ticket we created for this customer.",
+      "expected_tool": "linear_get_linked_issue_status"
+    },
+    {
+      "id": "linear-get-linked-issue-status-06",
+      "prompt": "Is the linked Linear issue completed yet?",
+      "expected_tool": "linear_get_linked_issue_status"
+    },
+    {
+      "id": "linear-get-linked-issue-status-07",
+      "prompt": "Check progress on the Linear issue associated with this conversation.",
+      "expected_tool": "linear_get_linked_issue_status"
+    },
+    {
+      "id": "shopify-add-tag-to-current-customer-01",
+      "prompt": "Add the VIP tag to this customer in Shopify.",
+      "expected_tool": "shopify_add_tag_to_current_customer"
+    },
+    {
+      "id": "shopify-add-tag-to-current-customer-02",
+      "prompt": "Tag the current Shopify customer as needs-review.",
+      "expected_tool": "shopify_add_tag_to_current_customer"
+    },
+    {
+      "id": "shopify-add-tag-to-current-customer-03",
+      "prompt": "Apply the wholesale tag to the customer from this conversation.",
+      "expected_tool": "shopify_add_tag_to_current_customer"
+    },
+    {
+      "id": "shopify-add-tag-to-current-customer-04",
+      "prompt": "Add churn-risk to this customer's Shopify tags.",
+      "expected_tool": "shopify_add_tag_to_current_customer"
+    },
+    {
+      "id": "shopify-add-tag-to-current-customer-05",
+      "prompt": "Update the current Shopify customer with the priority-support tag.",
+      "expected_tool": "shopify_add_tag_to_current_customer"
+    },
+    {
+      "id": "shopify-add-tag-to-current-customer-06",
+      "prompt": "Put the repeat-buyer tag on this customer's Shopify profile.",
+      "expected_tool": "shopify_add_tag_to_current_customer"
+    },
+    {
+      "id": "shopify-add-tag-to-current-customer-07",
+      "prompt": "Add the requested loyalty tag to the matching Shopify customer.",
+      "expected_tool": "shopify_add_tag_to_current_customer"
+    },
+    {
+      "id": "shopify-check-variant-availability-01",
+      "prompt": "Is the blue medium variant available in the Shopify store?",
+      "expected_tool": "shopify_check_variant_availability"
+    },
+    {
+      "id": "shopify-check-variant-availability-02",
+      "prompt": "Check Shopify inventory availability for SKU SHIRT-BLU-M.",
+      "expected_tool": "shopify_check_variant_availability"
+    },
+    {
+      "id": "shopify-check-variant-availability-03",
+      "prompt": "Can the customer buy the 128 GB black variant right now?",
+      "expected_tool": "shopify_check_variant_availability"
+    },
+    {
+      "id": "shopify-check-variant-availability-04",
+      "prompt": "Look up whether this Shopify product variant is sellable.",
+      "expected_tool": "shopify_check_variant_availability"
+    },
+    {
+      "id": "shopify-check-variant-availability-05",
+      "prompt": "Check availability for the variant with barcode 9912345.",
+      "expected_tool": "shopify_check_variant_availability"
+    },
+    {
+      "id": "shopify-check-variant-availability-06",
+      "prompt": "Is the requested size and color variant in stock on Shopify?",
+      "expected_tool": "shopify_check_variant_availability"
+    },
+    {
+      "id": "shopify-check-variant-availability-07",
+      "prompt": "Find the sellable availability of SKU BAG-TAN-01.",
+      "expected_tool": "shopify_check_variant_availability"
+    },
+    {
+      "id": "shopify-get-current-customer-01",
+      "prompt": "Find this conversation's customer in Shopify.",
+      "expected_tool": "shopify_get_current_customer"
+    },
+    {
+      "id": "shopify-get-current-customer-02",
+      "prompt": "Look up the current contact's Shopify customer profile.",
+      "expected_tool": "shopify_get_current_customer"
+    },
+    {
+      "id": "shopify-get-current-customer-03",
+      "prompt": "Does this customer have a matching Shopify account?",
+      "expected_tool": "shopify_get_current_customer"
+    },
+    {
+      "id": "shopify-get-current-customer-04",
+      "prompt": "Get the Shopify customer associated with the person in this chat.",
+      "expected_tool": "shopify_get_current_customer"
+    },
+    {
+      "id": "shopify-get-current-customer-05",
+      "prompt": "Match the current support contact to their Shopify customer record.",
+      "expected_tool": "shopify_get_current_customer"
+    },
+    {
+      "id": "shopify-get-current-customer-06",
+      "prompt": "Show the bounded Shopify profile for this conversation's customer.",
+      "expected_tool": "shopify_get_current_customer"
+    },
+    {
+      "id": "shopify-get-current-customer-07",
+      "prompt": "Retrieve the current customer's Shopify identity.",
+      "expected_tool": "shopify_get_current_customer"
+    },
+    {
+      "id": "shopify-get-order-tracking-status-01",
+      "prompt": "What is the tracking status for this customer's Shopify order 1042?",
+      "expected_tool": "shopify_get_order_tracking_status"
+    },
+    {
+      "id": "shopify-get-order-tracking-status-02",
+      "prompt": "Track order #5831 for the current customer.",
+      "expected_tool": "shopify_get_order_tracking_status"
+    },
+    {
+      "id": "shopify-get-order-tracking-status-03",
+      "prompt": "Has this customer's Shopify order shipped yet?",
+      "expected_tool": "shopify_get_order_tracking_status"
+    },
+    {
+      "id": "shopify-get-order-tracking-status-04",
+      "prompt": "Get delivery tracking for the order number the customer mentioned.",
+      "expected_tool": "shopify_get_order_tracking_status"
+    },
+    {
+      "id": "shopify-get-order-tracking-status-05",
+      "prompt": "Check the fulfillment and tracking status of Shopify order 7780.",
+      "expected_tool": "shopify_get_order_tracking_status"
+    },
+    {
+      "id": "shopify-get-order-tracking-status-06",
+      "prompt": "Where is this customer's order #9012?",
+      "expected_tool": "shopify_get_order_tracking_status"
+    },
+    {
+      "id": "shopify-get-order-tracking-status-07",
+      "prompt": "Look up tracking details for the current customer's Shopify order.",
+      "expected_tool": "shopify_get_order_tracking_status"
+    },
+    {
+      "id": "shopify-list-recent-customer-orders-01",
+      "prompt": "List this customer's recent Shopify orders.",
+      "expected_tool": "shopify_list_recent_customer_orders"
+    },
+    {
+      "id": "shopify-list-recent-customer-orders-02",
+      "prompt": "What are the last five orders placed by the current customer?",
+      "expected_tool": "shopify_list_recent_customer_orders"
+    },
+    {
+      "id": "shopify-list-recent-customer-orders-03",
+      "prompt": "Show recent Shopify purchases for the contact in this conversation.",
+      "expected_tool": "shopify_list_recent_customer_orders"
+    },
+    {
+      "id": "shopify-list-recent-customer-orders-04",
+      "prompt": "Get the current customer's latest orders.",
+      "expected_tool": "shopify_list_recent_customer_orders"
+    },
+    {
+      "id": "shopify-list-recent-customer-orders-05",
+      "prompt": "Which Shopify orders did this customer place most recently?",
+      "expected_tool": "shopify_list_recent_customer_orders"
+    },
+    {
+      "id": "shopify-list-recent-customer-orders-06",
+      "prompt": "List the five newest orders owned by this conversation's customer.",
+      "expected_tool": "shopify_list_recent_customer_orders"
+    },
+    {
+      "id": "shopify-list-recent-customer-orders-07",
+      "prompt": "Retrieve recent order history for the matching Shopify customer.",
+      "expected_tool": "shopify_list_recent_customer_orders"
+    },
+    {
+      "id": "shopify-search-products-and-variants-01",
+      "prompt": "Search Shopify for waterproof backpacks.",
+      "expected_tool": "shopify_search_products_and_variants"
+    },
+    {
+      "id": "shopify-search-products-and-variants-02",
+      "prompt": "Find products and variants matching red running shoes.",
+      "expected_tool": "shopify_search_products_and_variants"
+    },
+    {
+      "id": "shopify-search-products-and-variants-03",
+      "prompt": "Look up Shopify catalog items for a USB-C charger.",
+      "expected_tool": "shopify_search_products_and_variants"
+    },
+    {
+      "id": "shopify-search-products-and-variants-04",
+      "prompt": "Search the store for the product the customer described.",
+      "expected_tool": "shopify_search_products_and_variants"
+    },
+    {
+      "id": "shopify-search-products-and-variants-05",
+      "prompt": "Find matching Shopify variants for winter jacket.",
+      "expected_tool": "shopify_search_products_and_variants"
+    },
+    {
+      "id": "shopify-search-products-and-variants-06",
+      "prompt": "Show products, prices, and variants matching travel mug.",
+      "expected_tool": "shopify_search_products_and_variants"
+    },
+    {
+      "id": "shopify-search-products-and-variants-07",
+      "prompt": "Search the Shopify catalog for SKU-related products named Alpine.",
+      "expected_tool": "shopify_search_products_and_variants"
+    },
+    {
+      "id": "slack-find-user-by-email-01",
+      "prompt": "Find the Slack teammate with email alex@example.com.",
+      "expected_tool": "slack_find_user_by_email"
+    },
+    {
+      "id": "slack-find-user-by-email-02",
+      "prompt": "Look up Priya's Slack user by her work email.",
+      "expected_tool": "slack_find_user_by_email"
+    },
+    {
+      "id": "slack-find-user-by-email-03",
+      "prompt": "Get the minimal Slack identity for devon@example.com.",
+      "expected_tool": "slack_find_user_by_email"
+    },
+    {
+      "id": "slack-find-user-by-email-04",
+      "prompt": "Find who owns this support area in Slack using their email.",
+      "expected_tool": "slack_find_user_by_email"
+    },
+    {
+      "id": "slack-find-user-by-email-05",
+      "prompt": "Look up the Slack user matching sam@example.com.",
+      "expected_tool": "slack_find_user_by_email"
+    },
+    {
+      "id": "slack-find-user-by-email-06",
+      "prompt": "Resolve a teammate's Slack account from their email address.",
+      "expected_tool": "slack_find_user_by_email"
+    },
+    {
+      "id": "slack-find-user-by-email-07",
+      "prompt": "Find the Slack mention identity for lee@example.com.",
+      "expected_tool": "slack_find_user_by_email"
+    },
+    {
+      "id": "slack-reply-to-thread-01",
+      "prompt": "Reply to the trusted Slack thread from the earlier tool result.",
+      "expected_tool": "slack_reply_to_thread"
+    },
+    {
+      "id": "slack-reply-to-thread-02",
+      "prompt": "Post this update as a reply in the Slack thread we just created.",
+      "expected_tool": "slack_reply_to_thread"
+    },
+    {
+      "id": "slack-reply-to-thread-03",
+      "prompt": "Respond in the prior Slack message thread using its trusted reference.",
+      "expected_tool": "slack_reply_to_thread"
+    },
+    {
+      "id": "slack-reply-to-thread-04",
+      "prompt": "Add a threaded Slack reply to the message returned earlier.",
+      "expected_tool": "slack_reply_to_thread"
+    },
+    {
+      "id": "slack-reply-to-thread-05",
+      "prompt": "Reply with the resolution in the existing trusted Slack thread.",
+      "expected_tool": "slack_reply_to_thread"
+    },
+    {
+      "id": "slack-reply-to-thread-06",
+      "prompt": "Send this follow-up to the referenced Slack thread.",
+      "expected_tool": "slack_reply_to_thread"
+    },
+    {
+      "id": "slack-reply-to-thread-07",
+      "prompt": "Post a reply under the Slack message identified by the prior tool result.",
+      "expected_tool": "slack_reply_to_thread"
+    },
+    {
+      "id": "slack-send-message-to-channel-01",
+      "prompt": "Send a support update to the configured Slack channel.",
+      "expected_tool": "slack_send_message_to_channel"
+    },
+    {
+      "id": "slack-send-message-to-channel-02",
+      "prompt": "Post this escalation summary in our fixed Slack support channel.",
+      "expected_tool": "slack_send_message_to_channel"
+    },
+    {
+      "id": "slack-send-message-to-channel-03",
+      "prompt": "Notify the configured Slack channel about the incident.",
+      "expected_tool": "slack_send_message_to_channel"
+    },
+    {
+      "id": "slack-send-message-to-channel-04",
+      "prompt": "Send the customer's issue as a new Slack channel message.",
+      "expected_tool": "slack_send_message_to_channel"
+    },
+    {
+      "id": "slack-send-message-to-channel-05",
+      "prompt": "Post a bounded support update to the selected Slack channel.",
+      "expected_tool": "slack_send_message_to_channel"
+    },
+    {
+      "id": "slack-send-message-to-channel-06",
+      "prompt": "Share this conversation summary in the configured Slack destination.",
+      "expected_tool": "slack_send_message_to_channel"
+    },
+    {
+      "id": "slack-send-message-to-channel-07",
+      "prompt": "Send a new message to the Slack channel chosen during setup.",
+      "expected_tool": "slack_send_message_to_channel"
+    },
+    {
+      "id": "stripe-get-current-customer-01",
+      "prompt": "Find the Stripe customer for the current support contact.",
+      "expected_tool": "stripe_get_current_customer"
+    },
+    {
+      "id": "stripe-get-current-customer-02",
+      "prompt": "Look up this customer's Stripe billing profile.",
+      "expected_tool": "stripe_get_current_customer"
+    },
+    {
+      "id": "stripe-get-current-customer-03",
+      "prompt": "Match the person in this conversation to their Stripe customer.",
+      "expected_tool": "stripe_get_current_customer"
+    },
+    {
+      "id": "stripe-get-current-customer-04",
+      "prompt": "Does the current contact have a Stripe customer record?",
+      "expected_tool": "stripe_get_current_customer"
+    },
+    {
+      "id": "stripe-get-current-customer-05",
+      "prompt": "Retrieve the Stripe customer associated with this chat.",
+      "expected_tool": "stripe_get_current_customer"
+    },
+    {
+      "id": "stripe-get-current-customer-06",
+      "prompt": "Find this support contact in Stripe by the server-bound identity.",
+      "expected_tool": "stripe_get_current_customer"
+    },
+    {
+      "id": "stripe-get-current-customer-07",
+      "prompt": "Get the current customer's Stripe account details.",
+      "expected_tool": "stripe_get_current_customer"
+    },
+    {
+      "id": "stripe-get-last-five-invoices-01",
+      "prompt": "Show this customer's last five Stripe invoices.",
+      "expected_tool": "stripe_get_last_five_invoices"
+    },
+    {
+      "id": "stripe-get-last-five-invoices-02",
+      "prompt": "List the most recent invoices for the current Stripe customer.",
+      "expected_tool": "stripe_get_last_five_invoices"
+    },
+    {
+      "id": "stripe-get-last-five-invoices-03",
+      "prompt": "What invoices were generated recently for this customer?",
+      "expected_tool": "stripe_get_last_five_invoices"
+    },
+    {
+      "id": "stripe-get-last-five-invoices-04",
+      "prompt": "Retrieve the latest five Stripe invoices tied to this contact.",
+      "expected_tool": "stripe_get_last_five_invoices"
+    },
+    {
+      "id": "stripe-get-last-five-invoices-05",
+      "prompt": "Check this customer's recent Stripe invoice history.",
+      "expected_tool": "stripe_get_last_five_invoices"
+    },
+    {
+      "id": "stripe-get-last-five-invoices-06",
+      "prompt": "List recent billing invoices for the customer in this conversation.",
+      "expected_tool": "stripe_get_last_five_invoices"
+    },
+    {
+      "id": "stripe-get-last-five-invoices-07",
+      "prompt": "Get the five newest invoices from this customer's Stripe account.",
+      "expected_tool": "stripe_get_last_five_invoices"
+    },
+    {
+      "id": "stripe-get-last-five-payments-01",
+      "prompt": "Show the last five Stripe payments for this customer.",
+      "expected_tool": "stripe_get_last_five_payments"
+    },
+    {
+      "id": "stripe-get-last-five-payments-02",
+      "prompt": "List this customer's most recent payment attempts.",
+      "expected_tool": "stripe_get_last_five_payments"
+    },
+    {
+      "id": "stripe-get-last-five-payments-03",
+      "prompt": "What are the latest Stripe payments tied to the current contact?",
+      "expected_tool": "stripe_get_last_five_payments"
+    },
+    {
+      "id": "stripe-get-last-five-payments-04",
+      "prompt": "Retrieve five recent payments for this Stripe customer.",
+      "expected_tool": "stripe_get_last_five_payments"
+    },
+    {
+      "id": "stripe-get-last-five-payments-05",
+      "prompt": "Check the customer's latest Stripe payment history.",
+      "expected_tool": "stripe_get_last_five_payments"
+    },
+    {
+      "id": "stripe-get-last-five-payments-06",
+      "prompt": "List recent charges represented by this customer's payment intents.",
+      "expected_tool": "stripe_get_last_five_payments"
+    },
+    {
+      "id": "stripe-get-last-five-payments-07",
+      "prompt": "Get the five newest payments for the customer in this conversation.",
+      "expected_tool": "stripe_get_last_five_payments"
+    },
+    {
+      "id": "stripe-get-subscription-status-01",
+      "prompt": "What is this customer's Stripe subscription status?",
+      "expected_tool": "stripe_get_subscription_status"
+    },
+    {
+      "id": "stripe-get-subscription-status-02",
+      "prompt": "Check whether the current customer has an active subscription.",
+      "expected_tool": "stripe_get_subscription_status"
+    },
+    {
+      "id": "stripe-get-subscription-status-03",
+      "prompt": "Is this Stripe customer subscribed or canceled?",
+      "expected_tool": "stripe_get_subscription_status"
+    },
+    {
+      "id": "stripe-get-subscription-status-04",
+      "prompt": "Look up the subscription state for the contact in this conversation.",
+      "expected_tool": "stripe_get_subscription_status"
+    },
+    {
+      "id": "stripe-get-subscription-status-05",
+      "prompt": "Show current Stripe subscriptions for this customer.",
+      "expected_tool": "stripe_get_subscription_status"
+    },
+    {
+      "id": "stripe-get-subscription-status-06",
+      "prompt": "Check if this customer's subscription is trialing, active, or past due.",
+      "expected_tool": "stripe_get_subscription_status"
+    },
+    {
+      "id": "stripe-get-subscription-status-07",
+      "prompt": "Retrieve the current subscription status from Stripe.",
+      "expected_tool": "stripe_get_subscription_status"
+    }
+  ]
+}
+

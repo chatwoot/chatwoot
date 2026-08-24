@@ -1,0 +1,666 @@
+{
+  "schema_version": 1,
+  "tools": [
+    {
+      "name": "eval_zendesk_search_tickets",
+      "description": "Search Zendesk tickets by a support query.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_zendesk_create_ticket",
+      "description": "Create a new Zendesk support ticket.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_jira_search_issues",
+      "description": "Search Jira issues by keywords.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_jira_create_issue",
+      "description": "Create a Jira issue for engineering follow-up.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_asana_search_tasks",
+      "description": "Search Asana tasks.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_asana_create_task",
+      "description": "Create an Asana task.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_salesforce_find_contact",
+      "description": "Find a Salesforce contact.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_hubspot_find_contact",
+      "description": "Find a HubSpot contact.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_github_search_issues",
+      "description": "Search GitHub issues.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_github_create_issue",
+      "description": "Create a GitHub issue.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_twilio_send_sms",
+      "description": "Send an SMS through Twilio.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_intercom_search_conversations",
+      "description": "Search Intercom conversations.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_notion_search_pages",
+      "description": "Search Notion pages.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_google_calendar_find_events",
+      "description": "Find Google Calendar events.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_google_calendar_create_event",
+      "description": "Create a Google Calendar event.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_shippo_track_shipment",
+      "description": "Track a shipment through Shippo.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_fedex_track_shipment",
+      "description": "Track a FedEx shipment.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_ups_track_shipment",
+      "description": "Track a UPS shipment.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_chargebee_get_subscription",
+      "description": "Get a Chargebee subscription.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_recurly_get_subscription",
+      "description": "Get a Recurly subscription.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_xero_get_invoice",
+      "description": "Get an invoice from Xero.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_quickbooks_get_invoice",
+      "description": "Get an invoice from QuickBooks.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_snowflake_query_customer",
+      "description": "Query a customer record in Snowflake.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_segment_get_profile",
+      "description": "Get a customer profile from Segment.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_mailchimp_find_subscriber",
+      "description": "Find a Mailchimp subscriber.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_sendgrid_send_email",
+      "description": "Send a transactional email through SendGrid.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_pagerduty_create_incident",
+      "description": "Create a PagerDuty incident.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_statuspage_get_status",
+      "description": "Get the public service status from Statuspage.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_datadog_search_logs",
+      "description": "Search Datadog logs.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_sentry_search_errors",
+      "description": "Search Sentry errors.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_freshdesk_search_tickets",
+      "description": "Search Freshdesk tickets.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_helpscout_search_conversations",
+      "description": "Search Help Scout conversations.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    },
+    {
+      "name": "eval_airtable_find_record",
+      "description": "Find a record in Airtable.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "provider": "evaluation_distractor",
+      "availability": "available"
+    }
+  ]
+}
+

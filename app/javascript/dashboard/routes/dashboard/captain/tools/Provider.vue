@@ -3,7 +3,9 @@ import { computed, nextTick, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useTrack } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { CAPTAIN_TOOL_CATALOG_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 import IntegrationsAPI from 'dashboard/api/integrations';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -301,6 +303,10 @@ const selectStarterSet = async () => {
     availableKeys.has(key)
   );
   installationComplete.value = false;
+  useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.STARTER_SET_SELECTED, {
+    provider: providerKey.value,
+    templateCount: selectedKeys.value.length,
+  });
   await loadSetupOptions();
 };
 
@@ -317,6 +323,11 @@ const saveFlow = installation => {
 
 const startOAuth = async installation => {
   saveFlow(installation);
+  useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.CONNECTION_STARTED, {
+    provider: providerKey.value,
+    workflow: installation.workflow_kind,
+    templateCount: selectedCount.value,
+  });
   const data = { installation_id: installation.id };
   if (providerKey.value === 'shopify') {
     data.shop_domain = shopDomain.value;
@@ -372,9 +383,18 @@ const install = async () => {
     installationComplete.value = true;
     clearCatalogFlow(accountId.value, providerKey.value);
     await store.dispatch('captainToolCatalog/show', providerKey.value);
+    useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_COMPLETED, {
+      provider: providerKey.value,
+      workflow: 'install',
+      templateCount: installation.resulting_tool_ids.length,
+    });
     await announce(t('CAPTAIN.CUSTOM_TOOLS.CATALOG.INSTALL_SUCCESS'));
   } catch (error) {
     stripeCredential.value = '';
+    useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_FAILED, {
+      provider: providerKey.value,
+      workflow: 'install',
+    });
     await announce(formatError(error), { error: true });
   }
 };
@@ -395,9 +415,17 @@ const reconnect = async () => {
     }
     stripeCredential.value = '';
     await store.dispatch('captainToolCatalog/show', providerKey.value);
+    useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_COMPLETED, {
+      provider: providerKey.value,
+      workflow: 'reconnect',
+    });
     await announce(t('CAPTAIN.CUSTOM_TOOLS.CATALOG.RECONNECT_SUCCESS'));
   } catch (error) {
     stripeCredential.value = '';
+    useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_FAILED, {
+      provider: providerKey.value,
+      workflow: 'reconnect',
+    });
     await announce(formatError(error), { error: true });
   }
 };
@@ -414,8 +442,17 @@ const updateInstalledTools = async () => {
       return;
     }
     await store.dispatch('captainToolCatalog/show', providerKey.value);
+    useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_COMPLETED, {
+      provider: providerKey.value,
+      workflow: 'update',
+      templateCount: updates.value.length,
+    });
     await announce(t('CAPTAIN.CUSTOM_TOOLS.CATALOG.UPDATE_SUCCESS'));
   } catch (error) {
+    useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_FAILED, {
+      provider: providerKey.value,
+      workflow: 'update',
+    });
     await announce(formatError(error), { error: true });
   }
 };
@@ -455,6 +492,16 @@ const handleOAuthReturn = async () => {
 
   clearCatalogFlow(accountId.value, providerKey.value);
   installationComplete.value = installation.status === 'completed';
+  useTrack(
+    installation.status === 'completed'
+      ? CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_COMPLETED
+      : CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_FAILED,
+    {
+      provider: providerKey.value,
+      workflow: installation.workflow_kind,
+      templateCount: installation.resulting_tool_ids.length,
+    }
+  );
   await announce(
     installation.status === 'completed'
       ? t('CAPTAIN.CUSTOM_TOOLS.CATALOG.WORKFLOW_SUCCESS')
@@ -470,6 +517,10 @@ onMounted(async () => {
   }
   try {
     await store.dispatch('captainToolCatalog/show', providerKey.value);
+    useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.PROVIDER_VIEWED, {
+      provider: providerKey.value,
+      source: route.query.installation_id ? 'oauth_return' : 'direct',
+    });
     if (
       providerKey.value === 'shopify' &&
       providerDetails.value.connection.display_name

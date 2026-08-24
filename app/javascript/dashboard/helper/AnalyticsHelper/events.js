@@ -110,6 +110,15 @@ export const CAPTAIN_EVENTS = Object.freeze({
   LABEL_SUGGESTION_DISMISSED: 'Captain: Label suggestion dismissed',
 });
 
+export const CAPTAIN_TOOL_CATALOG_EVENTS = Object.freeze({
+  CATALOG_VIEWED: 'Captain Tool Catalog: Catalog viewed',
+  PROVIDER_VIEWED: 'Captain Tool Catalog: Provider viewed',
+  STARTER_SET_SELECTED: 'Captain Tool Catalog: Starter set selected',
+  CONNECTION_STARTED: 'Captain Tool Catalog: Connection started',
+  WORKFLOW_COMPLETED: 'Captain Tool Catalog: Workflow completed',
+  WORKFLOW_FAILED: 'Captain Tool Catalog: Workflow failed',
+});
+
 export const COPILOT_EVENTS = Object.freeze({
   SEND_SUGGESTED: 'Copilot: Send suggested message',
   SEND_MESSAGE: 'Copilot: Sent a message',

@@ -45,6 +45,7 @@ class Captain::CustomTool < ApplicationRecord
   MAX_PER_ACCOUNT = 15
   CATALOG_MAX_PER_ACCOUNT = 50
   CATALOG_FEATURE = 'captain_tool_catalog'.freeze
+  CATALOG_CAPACITY_FEATURE = 'captain_tool_catalog_50_tool_beta'.freeze
   SOURCE_KINDS = %w[custom generated catalog].freeze
   RISK_CLASSES = %w[read low_impact_write approval_required].freeze
   KEY_FORMAT = /\A[a-z][a-z0-9_]*\z/
@@ -106,7 +107,9 @@ class Captain::CustomTool < ApplicationRecord
   scope :catalog, -> { where(source_kind: 'catalog') }
 
   def self.limit_for(account)
-    account.feature_enabled?(CATALOG_FEATURE) ? CATALOG_MAX_PER_ACCOUNT : MAX_PER_ACCOUNT
+    return CATALOG_MAX_PER_ACCOUNT if account.feature_enabled?(CATALOG_FEATURE) && account.feature_enabled?(CATALOG_CAPACITY_FEATURE)
+
+    MAX_PER_ACCOUNT
   end
 
   def to_tool_metadata

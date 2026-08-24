@@ -53,7 +53,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolCatalog', type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(json_response.dig(:payload, 0, :key)).to eq('example')
-      expect(json_response.dig(:meta, :capacity)).to eq(used: 1, limit: 50)
+      expect(json_response.dig(:meta, :capacity)).to eq(used: 1, limit: 15)
     end
   end
 

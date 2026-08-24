@@ -1,5 +1,6 @@
 class Captain::ToolCatalog::BaseWorkflow
   SESSION_TTL = 30.minutes
+  EVENT_NAME = 'captain.tool_catalog.workflow'.freeze
 
   def initialize(account:, initiated_by:, registry: Captain::ToolCatalog::ProviderPackRegistry.default)
     @account = account
@@ -27,6 +28,8 @@ class Captain::ToolCatalog::BaseWorkflow
       workflow_kind: workflow_kind,
       expires_at: SESSION_TTL.from_now
     )
+    instrument_status('pending')
+    installation
   end
 
   def resume_installation!(installation)
@@ -68,6 +71,7 @@ class Captain::ToolCatalog::BaseWorkflow
       integration_hook: requirement.hook,
       error_code: nil
     )
+    instrument_status('awaiting_connection')
     installation
   end
 
@@ -79,6 +83,7 @@ class Captain::ToolCatalog::BaseWorkflow
       error_code: nil,
       completed_at: Time.current
     )
+    instrument_status('completed')
     installation
   end
 
@@ -96,5 +101,18 @@ class Captain::ToolCatalog::BaseWorkflow
     return if installation.blank? || installation.completed? || installation.expired?
 
     installation.update!(status: 'failed', error_code: error_code, completed_at: nil, resulting_tool_ids: [])
+    instrument_status('failed')
+  end
+
+  def instrument_status(status)
+    ActiveSupport::Notifications.instrument(
+      EVENT_NAME,
+      provider: installation.provider_key,
+      workflow: installation.workflow_kind,
+      status: status,
+      template_count: installation.selected_templates.length,
+      resulting_tool_count: installation.resulting_tool_ids.length,
+      error_code: installation.error_code
+    )
   end
 end

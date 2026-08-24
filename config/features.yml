@@ -278,3 +278,9 @@
   premium: true
   chatwoot_internal: true
   column: feature_flags_ext_1
+- name: captain_tool_catalog_50_tool_beta
+  display_name: Captain Tool Catalog 50 Tool Beta
+  enabled: false
+  premium: true
+  chatwoot_internal: true
+  column: feature_flags_ext_1

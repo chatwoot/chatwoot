@@ -39,7 +39,7 @@ RSpec.describe Captain::ToolCatalog::CatalogQuery do
       response = query.summaries
       provider = response.dig(:payload, 0)
 
-      expect(response.dig(:meta, :capacity)).to eq(used: 2, limit: 50)
+      expect(response.dig(:meta, :capacity)).to eq(used: 2, limit: 15)
       expect(provider).to include(
         'key' => 'example',
         'category_count' => 1,

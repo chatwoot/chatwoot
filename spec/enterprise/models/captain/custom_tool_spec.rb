@@ -163,8 +163,14 @@ RSpec.describe Captain::CustomTool, type: :model do
       expect(described_class.limit_for(account)).to eq(15)
     end
 
-    it 'uses the evaluation limit when the catalog feature is enabled' do
+    it 'keeps the existing limit while the catalog evaluation gate is closed' do
       account.enable_features('captain_tool_catalog')
+
+      expect(described_class.limit_for(account)).to eq(15)
+    end
+
+    it 'uses the evaluation limit only when the private beta gate is enabled' do
+      account.enable_features('captain_tool_catalog', 'captain_tool_catalog_50_tool_beta')
 
       expect(described_class.limit_for(account)).to eq(50)
     end
