@@ -58,7 +58,7 @@ describe Voice::Provider::Twilio::ConferenceService do
   describe '#end_conference' do
     it 'cancels the provider call and completes matching in-progress conferences' do
       call.update!(provider_call_id: 'CALL123', conference_sid: 'CF123_FRIENDLY')
-      call_context = double('Twilio call context')
+      call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
       conferences_proxy = instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceList)
       conf_instance = instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceInstance, sid: 'CF123')
       conf_context = instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceInstance)
@@ -78,7 +78,7 @@ describe Voice::Provider::Twilio::ConferenceService do
 
     it 'cancels the provider call when the conference has not started yet' do
       call.update!(provider_call_id: 'CALL123')
-      call_context = double('Twilio call context')
+      call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
 
       allow(twilio_client).to receive(:calls).with('CALL123').and_return(call_context)
       allow(call_context).to receive(:update).with(status: 'canceled')
@@ -92,7 +92,7 @@ describe Voice::Provider::Twilio::ConferenceService do
 
     it 'propagates provider cancellation failures' do
       call.update!(provider_call_id: 'CALL123')
-      call_context = double('Twilio call context')
+      call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
       provider_error = StandardError.new('provider teardown failed')
 
       allow(twilio_client).to receive(:calls).with('CALL123').and_return(call_context)
