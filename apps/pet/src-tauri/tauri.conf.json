@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/nicholasgasior/tauri-config-schema/tauri-v2/schema.json",
   "productName": "Whisker Pet",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "identifier": "com.whisker.pet",
   "build": {
     "frontendDist": "../src",
