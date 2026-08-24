@@ -32,6 +32,9 @@ class Captain::BaseTaskService
   end
 
   def api_base
+    byor = resolve_byor
+    return byor[:api_base] if byor
+
     endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence || 'https://api.openai.com/'
     endpoint = endpoint.chomp('/')
     "#{endpoint}/v1"
@@ -43,6 +46,8 @@ class Captain::BaseTaskService
     return { error: I18n.t('captain.disabled'), error_code: 403 } unless captain_tasks_enabled?
     return { error: I18n.t('captain.api_key_missing'), error_code: 401 } unless api_key_configured?
 
+    byor = resolve_byor
+    model = byor[:model] if byor
     model = resolved_model(model: model, feature: feature)
     instrumentation_params = build_instrumentation_params(model, messages)
     instrumentation_method = tools.any? ? :instrument_tool_session : :instrument_llm_call
@@ -177,6 +182,9 @@ class Captain::BaseTaskService
   end
 
   def llm_credential
+    byor = resolve_byor
+    return { api_key: byor[:api_key], source: :byor } if byor
+
     @llm_credential ||= if use_account_openai_hook?
                           hook_llm_credential || system_llm_credential
                         else
@@ -207,6 +215,19 @@ class Captain::BaseTaskService
 
   def exception_tracking_account
     account
+  end
+
+  # [whisker] BYOR — resolve per-account AI provider with fallback chain
+  def resolve_byor
+    return @byor_resolved if defined?(@byor_resolved)
+
+    @byor_resolved ||= resolve_byor_from_account
+  end
+
+  def resolve_byor_from_account
+    return nil unless account.whisker_ai_providers.exists?
+
+    WhiskerAi::ProviderResolver.new(account: account, feature: :default).resolve_with_fallback
   end
 
   def prompt_from_file(file_name)
