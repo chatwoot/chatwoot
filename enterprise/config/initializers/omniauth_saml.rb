@@ -29,13 +29,6 @@ SAML_SETUP_PROC = proc do |env|
       env['omniauth.strategy'].options[:idp_sso_service_url] = settings.sso_url
       env['omniauth.strategy'].options[:idp_cert] = settings.certificate
       env['omniauth.strategy'].options[:name_identifier_format] = 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
-      env['omniauth.strategy'].options[:certificate] = settings.sp_certificate
-      env['omniauth.strategy'].options[:private_key] = settings.sp_private_key
-      env['omniauth.strategy'].options[:security] = OneLogin::RubySaml::Settings::DEFAULTS[:security].merge(
-        authn_requests_signed: settings.sp_certificate.present? && settings.sp_private_key.present?,
-        signature_method: XMLSecurity::Document::RSA_SHA256,
-        digest_method: XMLSecurity::Document::SHA256
-      )
     else
       # Set a dummy certificate to avoid the error
       env['omniauth.strategy'].options[:idp_cert] = 'DUMMY'

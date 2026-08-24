@@ -23,6 +23,7 @@ const id = ref(null);
 const fingerprint = ref('');
 const spEntityId = ref('');
 const spSlsUrl = ref('');
+const spCertificate = ref('');
 const isEnabled = ref(false);
 const isSubmitting = ref(false);
 const isLoading = ref(true);
@@ -99,6 +100,7 @@ const loadSamlSettings = async () => {
       formState.certificate = settings.certificate || '';
       spEntityId.value = settings.sp_entity_id || '';
       spSlsUrl.value = settings.sp_sls_url || '';
+      spCertificate.value = settings.sp_certificate || '';
       formState.idpEntityId = settings.idp_entity_id || '';
       fingerprint.value = settings.fingerprint || '';
       isEnabled.value = formState.ssoUrl !== '';
@@ -132,6 +134,7 @@ const saveSamlSettings = async settings => {
         fingerprint.value = response.data.fingerprint || '';
         spEntityId.value = response.data.sp_entity_id || '';
         spSlsUrl.value = response.data.sp_sls_url || '';
+        spCertificate.value = response.data.sp_certificate || '';
       }
 
       useAlert(t('SECURITY_SETTINGS.SAML.API.SUCCESS'));
@@ -179,6 +182,7 @@ const handleDisable = async () => {
   formState.certificate = '';
   spEntityId.value = '';
   spSlsUrl.value = '';
+  spCertificate.value = '';
   formState.idpEntityId = '';
   fingerprint.value = '';
 
@@ -220,6 +224,7 @@ onMounted(() => {
       :fingerprint="fingerprint"
       :sp-entity-id="spEntityId"
       :sp-sls-url="spSlsUrl"
+      :sp-certificate="spCertificate"
     />
     <SamlAttributeMap class="mb-5" />
 

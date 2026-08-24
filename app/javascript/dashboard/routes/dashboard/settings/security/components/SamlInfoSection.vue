@@ -19,6 +19,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  spCertificate: {
+    type: String,
+    default: '',
+  },
 });
 
 const { t } = useI18n();
@@ -50,6 +54,13 @@ const allInfoItems = computed(() => [
     value: props.spSlsUrl,
     tooltip: t('SECURITY_SETTINGS.SAML.SP_SLS_URL.TOOLTIP'),
     show: !!props.spSlsUrl,
+  },
+  {
+    key: 'SP_CERTIFICATE',
+    label: t('SECURITY_SETTINGS.SAML.SP_CERTIFICATE.LABEL'),
+    value: props.spCertificate,
+    tooltip: t('SECURITY_SETTINGS.SAML.SP_CERTIFICATE.TOOLTIP'),
+    show: !!props.spCertificate,
   },
   {
     key: 'FINGERPRINT',
