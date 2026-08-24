@@ -4,6 +4,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -22,8 +23,8 @@ const PATHORS_LOGO_URL = '/dashboard/images/integrations/pathors.png';
 // `{PATHORS_BACKEND}/project/{projectId}/integration/chatwoot/callback`
 const PATHORS_CALLBACK_REGEX =
   /\/project\/([^/]+)\/integration\/chatwoot\/callback/;
-// The voice inbox is driven by the Pathors voice agent, never by the chat bot.
-const VOICE_INBOX_NAME = 'Pathors Voice';
+// Voice inboxes are driven by the Pathors voice agent, never by the chat bot.
+const isVoiceInbox = inbox => inbox.channel_type === INBOX_TYPES.VOICE;
 
 const store = useStore();
 const { t } = useI18n();
@@ -63,18 +64,62 @@ const manageUrl = computed(() => {
   return `${PATHORS_APP_URL}/project/${projectId}/integrations/chatwoot`;
 });
 
-const statusLabel = computed(() =>
-  isConnected.value
-    ? t('INTEGRATION_SETTINGS.PATHORS.STATUS.CONNECTED')
-    : t('INTEGRATION_SETTINGS.PATHORS.STATUS.NOT_CONNECTED')
+// The OAuth hook is written by this side when the authorization code is
+// redeemed; the agent bot is provisioned by the Pathors side. A hook without a
+// bot means the handshake started but never finished — either provisioning
+// failed, or the bot was deleted in Chatwoot afterwards. That is a different
+// state from "never connected" and needs its own copy, so the administrator
+// knows a retry is what is being offered.
+const isIncomplete = computed(
+  () => !isConnected.value && Boolean(pathorsApp.value?.hooks?.length)
 );
+
+const statusLabel = computed(() => {
+  if (isConnected.value)
+    return t('INTEGRATION_SETTINGS.PATHORS.STATUS.CONNECTED');
+  if (isIncomplete.value)
+    return t('INTEGRATION_SETTINGS.PATHORS.STATUS.INCOMPLETE');
+  return t('INTEGRATION_SETTINGS.PATHORS.STATUS.NOT_CONNECTED');
+});
+
+const statusColor = computed(() => {
+  if (isConnected.value) return 'teal';
+  return isIncomplete.value ? 'amber' : 'slate';
+});
 
 // OAuth connect URL, minted server-side (signed per-account token) and only
 // serialized for administrators. Absent when the deployment has no Pathors
-// OAuth client configured — the card then falls back to a plain link.
+// OAuth client configured — connecting is then impossible until an operator
+// sets it up, so the card says so instead of offering a link that dead-ends.
 const connectUrl = computed(() => pathorsApp.value?.action || null);
 
-const isVoiceInbox = inbox => inbox.name === VOICE_INBOX_NAME;
+// Nothing can be connected without the OAuth URL, so that state owns the whole
+// panel: no title about picking a project, and no button to press.
+const showIncompletePanel = computed(
+  () => Boolean(connectUrl.value) && isIncomplete.value
+);
+
+const connectPanelTitle = computed(() => {
+  if (!connectUrl.value)
+    return t('INTEGRATION_SETTINGS.PATHORS.UNCONFIGURED.TITLE');
+  if (showIncompletePanel.value)
+    return t('INTEGRATION_SETTINGS.PATHORS.INCOMPLETE.TITLE');
+  return t('INTEGRATION_SETTINGS.PATHORS.NOT_CONNECTED.TITLE');
+});
+
+const connectPanelDescription = computed(() => {
+  if (!connectUrl.value)
+    return t('INTEGRATION_SETTINGS.PATHORS.UNCONFIGURED.DESCRIPTION');
+  if (showIncompletePanel.value)
+    return t('INTEGRATION_SETTINGS.PATHORS.INCOMPLETE.DESCRIPTION');
+  return t('INTEGRATION_SETTINGS.PATHORS.NOT_CONNECTED.DESCRIPTION');
+});
+
+const connectButtonLabel = computed(() =>
+  showIncompletePanel.value
+    ? t('INTEGRATION_SETTINGS.PATHORS.INCOMPLETE.RECONNECT_BUTTON_TEXT')
+    : t('INTEGRATION_SETTINGS.PATHORS.NOT_CONNECTED.CONNECT_BUTTON_TEXT')
+);
 
 const managedInboxes = computed(() =>
   inboxes.value.filter(inbox => !isVoiceInbox(inbox))
@@ -184,11 +229,7 @@ onMounted(() => {
                     pathorsApp.name || $t('INTEGRATION_SETTINGS.PATHORS.HEADER')
                   }}
                 </h3>
-                <Label
-                  :label="statusLabel"
-                  :color="isConnected ? 'teal' : 'slate'"
-                  compact
-                />
+                <Label :label="statusLabel" :color="statusColor" compact />
               </div>
               <p class="text-n-slate-11 text-body-main">
                 {{ pathorsApp.description }}
@@ -217,36 +258,26 @@ onMounted(() => {
 
         <div
           v-if="!isConnected"
-          class="flex flex-col items-start gap-3 p-6 outline outline-1 outline-n-container bg-n-card rounded-xl"
+          class="flex flex-col items-start gap-3 p-6 outline outline-1 rounded-xl"
+          :class="
+            showIncompletePanel
+              ? 'outline-n-amber-4 bg-n-amber-2'
+              : 'outline-n-container bg-n-card'
+          "
         >
-          <h4 class="text-heading-3 text-n-slate-12">
-            {{ $t('INTEGRATION_SETTINGS.PATHORS.NOT_CONNECTED.TITLE') }}
+          <h4
+            class="text-heading-3"
+            :class="showIncompletePanel ? 'text-n-amber-11' : 'text-n-slate-12'"
+          >
+            {{ connectPanelTitle }}
           </h4>
           <p class="max-w-2xl text-n-slate-11 text-body-main">
-            {{ $t('INTEGRATION_SETTINGS.PATHORS.NOT_CONNECTED.DESCRIPTION') }}
+            {{ connectPanelDescription }}
           </p>
           <a v-if="connectUrl" :href="connectUrl">
             <Button
-              :label="
-                $t(
-                  'INTEGRATION_SETTINGS.PATHORS.NOT_CONNECTED.CONNECT_BUTTON_TEXT'
-                )
-              "
+              :label="connectButtonLabel"
               icon="i-lucide-plug"
-              trailing-icon
-            />
-          </a>
-          <a
-            v-else
-            :href="PATHORS_APP_URL"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button
-              :label="
-                $t('INTEGRATION_SETTINGS.PATHORS.NOT_CONNECTED.BUTTON_TEXT')
-              "
-              icon="i-lucide-external-link"
               trailing-icon
             />
           </a>

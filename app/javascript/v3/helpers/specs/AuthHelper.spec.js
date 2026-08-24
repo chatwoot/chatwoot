@@ -25,6 +25,55 @@ describe('#URL Helpers', () => {
       ).toBe('/app/accounts/7500/conversations/752');
     });
 
+    it('should return the requested route path if it is a safe relative path', () => {
+      expect(
+        getLoginRedirectURL({
+          ssoAccountId: '7500',
+          ssoRoutePath: 'settings/integrations/pathors',
+          user: {
+            accounts: [{ id: 7500, name: 'Test Account 7500' }],
+          },
+        })
+      ).toBe('/app/accounts/7500/settings/integrations/pathors');
+    });
+
+    it('should ignore a route path that traverses out of the account', () => {
+      expect(
+        getLoginRedirectURL({
+          ssoAccountId: '7500',
+          ssoRoutePath: '../../accounts/7501/dashboard',
+          user: {
+            accounts: [{ id: 7500, name: 'Test Account 7500' }],
+          },
+        })
+      ).toBe('/app/accounts/7500/dashboard');
+    });
+
+    it('should ignore a route path that is an absolute URL', () => {
+      expect(
+        getLoginRedirectURL({
+          ssoAccountId: '7500',
+          ssoRoutePath: 'https://evil.example.com',
+          user: {
+            accounts: [{ id: 7500, name: 'Test Account 7500' }],
+          },
+        })
+      ).toBe('/app/accounts/7500/dashboard');
+    });
+
+    it('should prefer the conversation URL over the route path', () => {
+      expect(
+        getLoginRedirectURL({
+          ssoAccountId: '7500',
+          ssoConversationId: '752',
+          ssoRoutePath: 'settings/integrations/pathors',
+          user: {
+            accounts: [{ id: 7500, name: 'Test Account 7500' }],
+          },
+        })
+      ).toBe('/app/accounts/7500/conversations/752');
+    });
+
     it('should return default URL if account id is not present', () => {
       expect(getLoginRedirectURL({ ssoAccountId: '7500', user: {} })).toBe(
         '/app/'

@@ -37,15 +37,29 @@ export const getCredentialsFromEmail = email => {
   };
 };
 
+// An SSO link may name the dashboard route to land on after login, so a
+// partner product can send the user straight to the page it is talking about.
+// The value is only ever appended to the account path, never used as a URL, so
+// it has to be a plain relative segment list — anything with a scheme, a host,
+// a traversal, a query or a fragment is dropped.
+const SAFE_SSO_ROUTE_PATH_REGEX = /^[A-Za-z0-9_-]+(\/[A-Za-z0-9_-]+)*$/;
+
+const isSafeSSORoutePath = ssoRoutePath =>
+  SAFE_SSO_ROUTE_PATH_REGEX.test(ssoRoutePath ?? '');
+
 export const getLoginRedirectURL = ({
   ssoAccountId,
   ssoConversationId,
+  ssoRoutePath,
   user,
 }) => {
   const accountPath = getSSOAccountPath({ ssoAccountId, user });
   if (accountPath) {
     if (ssoConversationId) {
       return frontendURL(`${accountPath}/conversations/${ssoConversationId}`);
+    }
+    if (isSafeSSORoutePath(ssoRoutePath)) {
+      return frontendURL(`${accountPath}/${ssoRoutePath}`);
     }
     return frontendURL(`${accountPath}/dashboard`);
   }

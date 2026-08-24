@@ -4,7 +4,8 @@
       "HEADER": "Pathors AI",
       "STATUS": {
         "CONNECTED": "已連接",
-        "NOT_CONNECTED": "尚未連接"
+        "NOT_CONNECTED": "尚未連接",
+        "INCOMPLETE": "連線未完成"
       },
       "MANAGE_BUTTON_TEXT": "在 Pathors 中管理",
       "DISCONNECT": {
@@ -18,8 +19,16 @@
       "NOT_CONNECTED": {
         "TITLE": "此帳號尚未連接 Pathors",
         "DESCRIPTION": "將此帳號連接到 Pathors 專案。你會在 Pathors 授權頁面選擇要連接的專案；連接完成後，AI agent 會出現在這裡，你可以選擇它要回覆哪些收件匣。",
-        "BUTTON_TEXT": "開啟 Pathors",
         "CONNECT_BUTTON_TEXT": "連接 Pathors"
+      },
+      "INCOMPLETE": {
+        "TITLE": "與 Pathors 的連線未完成",
+        "DESCRIPTION": "此帳號已在 Pathors 完成授權，但 AI agent 沒有建立起來——可能是授權過程中斷，或 agent 後來在這裡被刪除了。重新連線一次即可補完設定，重試不會造成任何損失。",
+        "RECONNECT_BUTTON_TEXT": "重新連線 Pathors"
+      },
+      "UNCONFIGURED": {
+        "TITLE": "此部署尚未開放 Pathors 連線",
+        "DESCRIPTION": "這個安裝環境沒有設定 Pathors 憑證，目前沒有可連接的對象。請聯絡此部署的管理員在伺服器端完成 Pathors 連線設定，再回到這個頁面。"
       },
       "INBOXES": {
         "TITLE": "AI 負責範圍",

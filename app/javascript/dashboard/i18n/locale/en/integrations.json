@@ -4,7 +4,8 @@
       "HEADER": "Pathors AI",
       "STATUS": {
         "CONNECTED": "Connected",
-        "NOT_CONNECTED": "Not connected"
+        "NOT_CONNECTED": "Not connected",
+        "INCOMPLETE": "Connection incomplete"
       },
       "MANAGE_BUTTON_TEXT": "Manage in Pathors",
       "DISCONNECT": {
@@ -18,8 +19,16 @@
       "NOT_CONNECTED": {
         "TITLE": "This account is not connected to Pathors yet",
         "DESCRIPTION": "Connect this account to a Pathors project. You will pick the project on the Pathors authorization page; once connected, the AI agent shows up here and you can choose the inboxes it replies in.",
-        "BUTTON_TEXT": "Open Pathors",
         "CONNECT_BUTTON_TEXT": "Connect to Pathors"
+      },
+      "INCOMPLETE": {
+        "TITLE": "The connection to Pathors was not completed",
+        "DESCRIPTION": "This account was authorized on Pathors, but the AI agent never arrived — the authorization may have been interrupted, or the agent was removed here afterwards. Connect again to finish the setup; nothing is lost by retrying.",
+        "RECONNECT_BUTTON_TEXT": "Reconnect to Pathors"
+      },
+      "UNCONFIGURED": {
+        "TITLE": "The Pathors connection is not available on this deployment",
+        "DESCRIPTION": "This installation has no Pathors credentials configured, so there is nothing to connect to yet. Ask the administrator of this deployment to set up the Pathors connection on the server, then come back to this page."
       },
       "INBOXES": {
         "TITLE": "AI coverage",
