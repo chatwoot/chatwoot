@@ -76,6 +76,18 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(conf_context).to have_received(:update).with(status: 'completed')
     end
 
+    it 'completes an in-progress provider call when requested' do
+      call.update!(provider_call_id: 'CALL123')
+      call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
+
+      allow(twilio_client).to receive(:calls).with('CALL123').and_return(call_context)
+      allow(call_context).to receive(:update).with(status: 'completed')
+
+      service.end_conference(provider_call_status: 'completed')
+
+      expect(call_context).to have_received(:update).with(status: 'completed')
+    end
+
     it 'cancels the provider call when the conference has not started yet' do
       call.update!(provider_call_id: 'CALL123')
       call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
