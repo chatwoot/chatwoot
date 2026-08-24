@@ -29,11 +29,10 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def destroy
     call = resolve_call!
-    provider_call_status = provider_call_status_for(call)
 
     mark_termination_pending!(call)
     begin
-      Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference(provider_call_status: provider_call_status)
+      Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference
       finalize_call!(call)
     ensure
       clear_termination_pending!(call)
@@ -74,17 +73,10 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     render json: { error: error.message }, status: :conflict
   end
 
-  def provider_call_status_for(call)
-    return 'completed' if call.incoming?
-
-    call.in_progress? ? 'completed' : 'canceled'
-  end
-
-  # Keep the call repairable until Twilio confirms teardown. While this flag is set,
-  # terminal provider callbacks caused by our own teardown are ignored by
-  # Voice::StatusUpdateService; after provider teardown succeeds we persist the intended
-  # local result below. If teardown raises, ensure clears the flag and the Call remains
-  # nonterminal so later provider callbacks can still repair it.
+  # Keep the call repairable until Twilio confirms teardown. The shared
+  # Voice::CallStatus::Manager atomically suppresses provider-driven terminal
+  # transitions while this flag is present. If teardown raises, ensure clears
+  # the flag and the Call remains nonterminal so later callbacks can repair it.
   def mark_termination_pending!(call)
     call.with_lock do
       next if call.terminal?
@@ -101,11 +93,6 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     end
   end
 
-  # Always persist a terminal status under a row lock before the :ended broadcast fires —
-  # otherwise a delayed join webhook can still pass Manager#join_agent!'s terminal? guard
-  # and broadcast voice_call.accepted after voice_call.ended. Mirrors Whatsapp::CallService#terminate.
-  # Routed through CallStatus::Manager (not a bare update!) so ended_at/duration_seconds are set here —
-  # the async Twilio webhook that would normally set them now finds the call already terminal and bails.
   def finalize_call!(call)
     status = nil
     call.with_lock do
@@ -121,7 +108,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
         status = 'no_answer'
         call.update!(end_reason: 'agent_hangup')
       end
-      Voice::CallStatus::Manager.new(call: call).process_status_update(status)
+      Voice::CallStatus::Manager.new(call: call).process_status_update(status, allow_during_termination: true)
     end
     Voice::CallMessageBuilder.new(call).update_status!(status: status, agent: Current.user) if status
   end
