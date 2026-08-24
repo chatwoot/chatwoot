@@ -18,16 +18,8 @@ class Voice::Provider::Twilio::ConferenceService
 
   def end_conference
     end_provider_call
-    return if call.conference_sid.blank?
-
-    client = call.inbox.channel.client
-    client
-      .conferences
-      .list(friendly_name: call.conference_sid, status: 'in-progress')
-      .each { |conf| client.conferences(conf.sid).update(status: 'completed') }
+    complete_conference
   end
-
-  private
 
   def end_provider_call
     return if call.provider_call_id.blank?
@@ -39,6 +31,18 @@ class Voice::Provider::Twilio::ConferenceService
     target_status = PRE_ANSWER_PROVIDER_STATUSES.include?(provider_status) ? 'canceled' : 'completed'
     call_context.update(status: target_status)
   end
+
+  def complete_conference
+    return if call.conference_sid.blank?
+
+    client = call.inbox.channel.client
+    client
+      .conferences
+      .list(friendly_name: call.conference_sid, status: 'in-progress')
+      .each { |conf| client.conferences(conf.sid).update(status: 'completed') }
+  end
+
+  private
 
   def claim_call!(user)
     call.with_lock do
