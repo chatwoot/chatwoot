@@ -1,6 +1,8 @@
 <script setup>
 import { computed, onMounted, ref, nextTick } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 
@@ -12,6 +14,7 @@ import CustomToolCard from 'dashboard/components-next/captain/pageComponents/cus
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 
 const store = useStore();
+const { t } = useI18n();
 const { isFeatureFlagEnabled, shouldShowPaywall } = usePolicy();
 
 const SOFT_LIMIT = 10;
@@ -30,6 +33,17 @@ const createDialogRef = ref(null);
 const deleteDialogRef = ref(null);
 const selectedTool = ref(null);
 const dialogType = ref('');
+const pendingToggleIds = ref(new Set());
+
+const setTogglePending = (id, isPending) => {
+  const pendingIds = new Set(pendingToggleIds.value);
+  if (isPending) {
+    pendingIds.add(id);
+  } else {
+    pendingIds.delete(id);
+  }
+  pendingToggleIds.value = pendingIds;
+};
 
 const fetchCustomTools = (page = 1) => {
   store.dispatch('captainCustomTools/get', { page });
@@ -55,11 +69,28 @@ const handleDelete = tool => {
 };
 
 const handleAction = ({ action, id }) => {
-  const tool = customTools.value.find(t => t.id === id);
+  const tool = customTools.value.find(item => item.id === id);
   if (action === 'edit') {
     handleEdit(tool);
   } else if (action === 'delete') {
     handleDelete(tool);
+  }
+};
+
+const toggleCustomTool = async ({ id, enabled }) => {
+  if (pendingToggleIds.value.has(id)) return;
+
+  setTogglePending(id, true);
+  try {
+    await store.dispatch('captainCustomTools/update', { id, enabled });
+    const successMessage = enabled
+      ? t('CAPTAIN.CUSTOM_TOOLS.TOGGLE.ENABLED')
+      : t('CAPTAIN.CUSTOM_TOOLS.TOGGLE.DISABLED');
+    useAlert(successMessage);
+  } catch {
+    useAlert(t('CAPTAIN.CUSTOM_TOOLS.TOGGLE.ERROR'));
+  } finally {
+    setTogglePending(id, false);
   }
 };
 
@@ -130,9 +161,11 @@ onMounted(() => {
           :auth-type="tool.auth_type"
           :param-schema="tool.param_schema"
           :enabled="tool.enabled"
+          :is-updating="pendingToggleIds.has(tool.id)"
           :created-at="tool.created_at"
           :updated-at="tool.updated_at"
           @action="handleAction"
+          @toggle="toggleCustomTool"
         />
       </div>
     </template>

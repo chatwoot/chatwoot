@@ -875,6 +875,11 @@
           "CANCEL": "Cancel",
           "UPDATE": "Update changes"
         },
+        "STATUS": {
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled",
+          "TOGGLE": "Toggle {title}"
+        },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Search..."
         },
@@ -888,6 +893,11 @@
           "UPDATE": {
             "SUCCESS": "Scenarios updated successfully",
             "ERROR": "There was an error updating scenarios, please try again."
+          },
+          "TOGGLE": {
+            "ENABLED": "Scenario enabled successfully",
+            "DISABLED": "Scenario disabled successfully",
+            "ERROR": "There was an error updating the scenario status, please try again."
           },
           "DELETE": {
             "SUCCESS": "Scenarios deleted successfully",
@@ -1056,6 +1066,16 @@
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
         "DELETE_TOOL": "Delete tool"
+      },
+      "STATUS": {
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled",
+        "TOGGLE": "Toggle {title}"
+      },
+      "TOGGLE": {
+        "ENABLED": "Tool enabled successfully",
+        "DISABLED": "Tool disabled successfully",
+        "ERROR": "Failed to update tool status"
       },
       "CREATE": {
         "TITLE": "Create Custom Tool",

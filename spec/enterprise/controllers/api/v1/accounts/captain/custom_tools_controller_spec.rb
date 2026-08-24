@@ -218,6 +218,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(response).to have_http_status(:success)
         expect(json_response[:title]).to eq('Updated Tool Title')
         expect(json_response[:enabled]).to be(false)
+        expect(custom_tool.reload.enabled).to be(false)
       end
 
       context 'with invalid parameters' do
