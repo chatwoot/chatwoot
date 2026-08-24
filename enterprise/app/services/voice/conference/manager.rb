@@ -32,6 +32,7 @@ class Voice::Conference::Manager
   def join_agent!
     user_id = extract_user_id
     return unless user_id
+    return if termination_pending?
 
     claim_for_user!(user_id)
     status_manager.process_status_update('in_progress', timestamp: now)
@@ -46,7 +47,8 @@ class Voice::Conference::Manager
   def claim_for_user!(user_id)
     claimed = false
     call.with_lock do
-      next if call.terminal? || (call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id)
+      next if call.terminal? || termination_pending_locked?
+      next if call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id
 
       call.update!(accepted_by_agent_id: user_id) if call.accepted_by_agent_id != user_id
       claimed = true
@@ -62,7 +64,7 @@ class Voice::Conference::Manager
   def mark_accepted_broadcast!
     first_time = false
     call.with_lock do
-      next if call.terminal? || call.accepted_broadcast_at.present?
+      next if call.terminal? || termination_pending_locked? || call.accepted_broadcast_at.present?
 
       call.update!(accepted_broadcast_at: now)
       first_time = true
@@ -101,6 +103,14 @@ class Voice::Conference::Manager
     return if Call::TERMINAL_STATUSES.include?(call.status)
 
     status_manager.process_status_update('completed', timestamp: now)
+  end
+
+  def termination_pending?
+    call.with_lock { termination_pending_locked? }
+  end
+
+  def termination_pending_locked?
+    call.meta['agent_termination_pending'] == true
   end
 
   def agent_participant?
