@@ -34,7 +34,13 @@ export default {
     this.fetchProviders();
   },
   methods: {
-    ...mapActions('whiskerAi', ['fetchProviders', 'createProvider', 'updateProvider', 'deleteProvider', 'setPrimaryProvider']),
+    ...mapActions('whiskerAi', [
+      'fetchProviders',
+      'createProvider',
+      'updateProvider',
+      'deleteProvider',
+      'setPrimaryProvider',
+    ]),
     resetForm() {
       this.form = {
         name: '',
@@ -65,12 +71,20 @@ export default {
     async handleSubmit() {
       const payload = {
         ...this.form,
-        models: this.form.models.split(',').map(m => m.trim()).filter(Boolean),
-        monthly_cap: this.form.monthly_cap ? parseFloat(this.form.monthly_cap) : null,
+        models: this.form.models
+          .split(',')
+          .map(m => m.trim())
+          .filter(Boolean),
+        monthly_cap: this.form.monthly_cap
+          ? parseFloat(this.form.monthly_cap)
+          : null,
       };
       try {
         if (this.editingProvider) {
-          await this.updateProvider({ id: this.editingProvider.id, ...payload });
+          await this.updateProvider({
+            id: this.editingProvider.id,
+            ...payload,
+          });
           useAlert(this.$t('AI_PROVIDERS.UPDATE.SUCCESS'));
         } else {
           await this.createProvider(payload);
@@ -123,7 +137,11 @@ export default {
           v-for="provider in providers"
           :key="provider.id"
           class="flex items-center justify-between p-4 border rounded-lg"
-          :class="provider.is_primary ? 'border-n-brand bg-n-brand-1' : 'border-n-slate-6'"
+          :class="
+            provider.is_primary
+              ? 'border-n-brand bg-n-brand-1'
+              : 'border-n-slate-6'
+          "
         >
           <div class="flex items-center gap-3">
             <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-n-slate-2">

@@ -30,7 +30,7 @@ class Api::V1::Accounts::WhiskerAi::ProvidersController < Api::V1::Accounts::Bas
 
   def set_primary
     @provider = current_account.whisker_ai_providers.find(params[:id])
-    current_account.whisker_ai_providers.update_all(is_primary: false)
+    current_account.whisker_ai_providers.find_each { |p| p.update!(is_primary: false) if p.is_primary? }
     @provider.update!(is_primary: true)
     render json: @provider
   end

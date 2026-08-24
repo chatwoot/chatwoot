@@ -43,6 +43,7 @@ class Bale::IncomingMessageService
 
   def update_contact_avatar
     return if @contact.avatar.attached?
+
     avatar_url = inbox.channel.get_bale_profile_image(bale_params_from_id)
     ::Avatar::AvatarFromUrlJob.perform_later(@contact, avatar_url) if avatar_url
   end
@@ -95,6 +96,7 @@ class Bale::IncomingMessageService
     return :image if image_message?
     return :audio if audio_message?
     return :video if video_message?
+
     file_type(params[:message][:document][:mime_type])
   end
 
@@ -133,6 +135,7 @@ class Bale::IncomingMessageService
 
   def attach_location
     return unless location
+
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: :location,
@@ -144,6 +147,7 @@ class Bale::IncomingMessageService
 
   def attach_contact
     return unless contact_card
+
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: :contact,
@@ -161,6 +165,7 @@ class Bale::IncomingMessageService
 
   def location_fallback_title
     return '' if venue.blank?
+
     venue[:title] || ''
   end
 

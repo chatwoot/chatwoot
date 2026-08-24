@@ -56,12 +56,10 @@ module WhiskerAi
 
       # Feature-specific model routing
       case feature
-      when :summary, :reply_suggestion
-        models.first # Use primary model for most features
-      when :rewrite
+      when :summary, :reply_suggestion, :rewrite
         models.first
       when :label_suggestion
-        models.last # Can use cheaper model
+        models.last
       else
         models.first
       end
@@ -71,7 +69,7 @@ module WhiskerAi
       api_key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
       endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
 
-      return nil unless api_key.present?
+      return nil if api_key.blank?
 
       {
         api_key: api_key,

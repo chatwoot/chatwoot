@@ -17,6 +17,7 @@ class Bale::SendAttachmentsService
   def process_attachments_by_type(type, attachments)
     response = send_attachments(type, attachments)
     return extract_attachment_message_id(response) if handle_response(response)
+
     nil
   end
 
@@ -114,6 +115,7 @@ class Bale::SendAttachmentsService
 
   def handle_response(response)
     return true if response.success?
+
     Rails.logger.error "Message Id: #{message.id}  - Error sending attachment to Bale: #{response.parsed_response}"
     channel.process_error(message, response)
     false
@@ -121,6 +123,7 @@ class Bale::SendAttachmentsService
 
   def extract_attachment_message_id(response)
     return unless response.success?
+
     result = response.parsed_response['result']
     result.is_a?(Array) ? result.first['message_id'] : result['message_id']
   end

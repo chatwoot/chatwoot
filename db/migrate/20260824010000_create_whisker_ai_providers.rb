@@ -6,10 +6,10 @@ class CreateWhiskerAiProviders < ActiveRecord::Migration[7.1]
       t.string :base_url, null: false
       t.string :api_key
       t.jsonb :models, null: false, default: []
-      t.boolean :is_primary, default: false
+      t.boolean :is_primary, null: false, default: false
       t.integer :fallback_order, default: 0
       t.decimal :monthly_cap, precision: 10, scale: 2
-      t.boolean :enabled, default: true
+      t.boolean :enabled, null: false, default: true
       t.timestamps
     end
     add_index :whisker_ai_providers, :account_id

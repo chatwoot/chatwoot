@@ -121,8 +121,8 @@ jobs:
       - name: Create database
         run: bundle exec rake db:create
 
-      - name: Seed database
-        run: bundle exec rake db:schema:load
+      - name: Run migrations
+        run: bundle exec rake db:migrate
 
       - name: Run backend tests (parallelized)
         run: |

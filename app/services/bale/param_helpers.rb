@@ -1,12 +1,14 @@
 module Bale::ParamHelpers
   def private_message?
     return true if callback_query_params?
+
     params.dig(:message, :chat, :type) == 'private'
   end
 
   def bale_params_content_attributes
     reply_to = params.dig(:message, :reply_to_message, :message_id)
     return { 'in_reply_to_external_id' => reply_to } if reply_to
+
     {}
   end
 

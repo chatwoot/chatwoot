@@ -219,9 +219,9 @@ class Captain::BaseTaskService
 
   # [whisker] BYOR — resolve per-account AI provider with fallback chain
   def resolve_byor
-    return @byor_resolved if defined?(@byor_resolved)
+    return @resolve_byor if defined?(@resolve_byor)
 
-    @byor_resolved ||= resolve_byor_from_account
+    @resolve_byor ||= resolve_byor_from_account
   end
 
   def resolve_byor_from_account
