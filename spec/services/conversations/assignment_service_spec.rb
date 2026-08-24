@@ -18,6 +18,7 @@ describe Conversations::AssignmentService do
         conversation.reload
         expect(conversation.assignee_id).to be_nil
         expect(conversation.assignee_agent_bot_id).to be_nil
+        expect(conversation.ai_assignee_type).to be_nil
       end
 
       it 'preserves conversation status' do
@@ -41,6 +42,7 @@ describe Conversations::AssignmentService do
         expect(result).to eq(agent)
         expect(conversation.assignee_id).to eq(agent.id)
         expect(conversation.assignee_agent_bot_id).to be_nil
+        expect(conversation.ai_assignee_type).to be_nil
         expect(conversation.status).to eq('open')
       end
 
@@ -88,6 +90,7 @@ describe Conversations::AssignmentService do
         conversation.reload
         expect(result).to eq(agent_bot)
         expect(conversation.assignee_agent_bot_id).to eq(agent_bot.id)
+        expect(conversation.ai_assignee_type).to eq('AgentBot')
         expect(conversation.assignee_id).to be_nil
         expect(conversation.status).to eq('pending')
       end

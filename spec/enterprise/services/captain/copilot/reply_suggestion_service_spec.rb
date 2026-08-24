@@ -39,6 +39,7 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
 
   before do
     incoming_message
+    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
     allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
       hash_including(
         assistant: assistant,
