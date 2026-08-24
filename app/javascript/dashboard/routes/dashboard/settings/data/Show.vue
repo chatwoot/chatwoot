@@ -26,6 +26,7 @@ const dataImport = ref(null);
 const isLoading = ref(true);
 const isRefreshing = ref(false);
 const isPolling = ref(false);
+const isRetrying = ref(false);
 const isAbandoning = ref(false);
 const isDownloadingErrorLogs = ref(false);
 const isDownloadingSkipLogs = ref(false);
@@ -35,6 +36,7 @@ const errorsOpen = ref(true);
 const skipLogsOpen = ref(true);
 let pollTimer;
 let isPageActive = false;
+let importRequestVersion = 0;
 
 const hasActiveImport = computed(() => isActiveImport(dataImport.value));
 
@@ -50,6 +52,7 @@ const fetchImport = async ({
   manual = false,
   requestedSkipLogsType = selectedSkipLogsType.value,
 } = {}) => {
+  const requestVersion = importRequestVersion;
   if (showLoader) {
     isLoading.value = true;
   } else if (manual) {
@@ -60,6 +63,8 @@ const fetchImport = async ({
     const response = await DataImportsAPI.show(route.params.dataImportId, {
       skip_logs_type: requestedSkipLogsType || undefined,
     });
+    if (requestVersion !== importRequestVersion) return;
+
     dataImport.value = response.data;
     selectedSkipLogsType.value =
       response.data.skip_logs_filters?.selected_source_object_type ||
@@ -105,6 +110,13 @@ const refreshImportInBackground = async () => {
   }
 };
 
+const startPolling = () => {
+  stopPolling();
+  if (!isPageActive || !hasActiveImport.value) return;
+
+  pollTimer = window.setInterval(refreshImportInBackground, POLL_INTERVAL_MS);
+};
+
 const abandonImport = async () => {
   isAbandoning.value = true;
   try {
@@ -114,6 +126,22 @@ const abandonImport = async () => {
     useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_ABANDONED'));
   } finally {
     isAbandoning.value = false;
+  }
+};
+
+const retryImport = async () => {
+  isRetrying.value = true;
+  importRequestVersion += 1;
+  stopPolling();
+  try {
+    const response = await DataImportsAPI.retry(dataImport.value.id);
+    dataImport.value = response.data;
+    useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_RETRIED'));
+  } catch {
+    useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_RETRY_FAILED'));
+  } finally {
+    isRetrying.value = false;
+    if (hasActiveImport.value) startPolling();
   }
 };
 
@@ -148,13 +176,6 @@ const downloadSkipLogs = async () => {
   } finally {
     isDownloadingSkipLogs.value = false;
   }
-};
-
-const startPolling = () => {
-  stopPolling();
-  if (!isPageActive || !hasActiveImport.value) return;
-
-  pollTimer = window.setInterval(refreshImportInBackground, POLL_INTERVAL_MS);
 };
 
 const handleVisibilityChange = () => {
@@ -197,9 +218,11 @@ onBeforeUnmount(() => {
       <ImportDetailHeader
         :data-import="dataImport"
         :is-refreshing="isRefreshing"
+        :is-retrying="isRetrying"
         :is-abandoning="isAbandoning"
         :is-polling="isPolling"
         @refresh="fetchImport({ manual: true })"
+        @retry="retryImport"
         @abandon="abandonImport"
       />
     </template>

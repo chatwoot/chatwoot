@@ -7,6 +7,7 @@
       "404": "In dieser Gruppe existieren keine aktiven Gespräche."
     },
     "FAILED_TO_SEND": "Fehler beim Senden",
+    "FETCH_ERROR": "Unterhaltungen konnten nicht geladen werden. Bitte versuche es erneut.",
     "TAB_HEADING": "Gespräche",
     "MENTION_HEADING": "Erwähnungen",
     "UNATTENDED_HEADING": "Unbeaufsichtigt",
@@ -81,7 +82,7 @@
         "TEXT": "Priority: Highest first, Created: Oldest first"
       },
       "unread": {
-        "TEXT": "Unread Count: Highest first"
+        "TEXT": "Ungelesene: höchste Anzahl zuerst"
       }
     },
     "ATTACHMENTS": {

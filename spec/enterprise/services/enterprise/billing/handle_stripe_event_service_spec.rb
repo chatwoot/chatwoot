@@ -9,6 +9,7 @@ describe Enterprise::Billing::HandleStripeEventService do
   let!(:account) { create(:account, custom_attributes: { stripe_customer_id: 'cus_123' }) }
 
   before do
+    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
     # Create cloud plans configuration
     create(:installation_config, {
              name: 'CHATWOOT_CLOUD_PLANS',
@@ -221,13 +222,13 @@ describe Enterprise::Billing::HandleStripeEventService do
         end
       end
 
-      it 'does not enable Captain V2 for existing paid accounts during reconciliation' do
+      it 'enables Captain V2 for existing paid accounts during reconciliation' do
         allow(subscription).to receive(:[]).with('plan')
                                            .and_return({ 'id' => 'test', 'product' => 'plan_id_startups', 'name' => 'Startups' })
 
         stripe_event_service.new.perform(event: event)
 
-        expect(account.reload).not_to be_feature_enabled('captain_integration_v2')
+        expect(account.reload).to be_feature_enabled('captain_integration_v2')
       end
 
       it 'enables Captain V2 for new cloud accounts marked as default eligible' do
@@ -242,6 +243,21 @@ describe Enterprise::Billing::HandleStripeEventService do
         stripe_event_service.new.perform(event: event)
 
         expect(account.reload).to be_feature_enabled('captain_integration_v2')
+      end
+
+      it 'disables Captain V2 for accounts explicitly held on V1' do
+        account.enable_features!('captain_integration_v2')
+        account.update!(
+          internal_attributes: account.internal_attributes.merge(
+            Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE => false
+          )
+        )
+        allow(subscription).to receive(:[]).with('plan')
+                                           .and_return({ 'id' => 'test', 'product' => 'plan_id_startups', 'name' => 'Startups' })
+
+        stripe_event_service.new.perform(event: event)
+
+        expect(account.reload).not_to be_feature_enabled('captain_integration_v2')
       end
     end
 

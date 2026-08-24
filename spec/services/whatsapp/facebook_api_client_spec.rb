@@ -154,6 +154,34 @@ describe Whatsapp::FacebookApiClient do
     end
   end
 
+  describe '#deregister_phone_number' do
+    let(:phone_number_id) { 'test_phone_id' }
+
+    context 'when successful' do
+      before do
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/deregister")
+          .with(headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' })
+          .to_return(status: 200, body: { success: true }.to_json, headers: { 'Content-Type' => 'application/json' })
+      end
+
+      it 'returns success response' do
+        result = api_client.deregister_phone_number(phone_number_id)
+        expect(result['success']).to be(true)
+      end
+    end
+
+    context 'when failed' do
+      before do
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/deregister")
+          .to_return(status: 400, body: { error: 'Deregistration failed' }.to_json)
+      end
+
+      it 'raises an error' do
+        expect { api_client.deregister_phone_number(phone_number_id) }.to raise_error(/Phone deregistration failed/)
+      end
+    end
+  end
+
   describe '#subscribe_phone_number_webhook' do
     let(:waba_id) { 'test_waba_id' }
     let(:phone_number_id) { 'test_phone_id' }

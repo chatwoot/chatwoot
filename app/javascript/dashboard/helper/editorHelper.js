@@ -1,15 +1,15 @@
 import {
+  InputRule,
+  inputRules,
   MessageMarkdownSerializer,
   MessageMarkdownTransformer,
   messageSchema,
   Selection,
 } from '@chatwoot/prosemirror-schema';
-import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
 import camelcaseKeys from 'camelcase-keys';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
 import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
-import { InputRule, inputRules } from 'prosemirror-inputrules';
 
 /**
  * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
@@ -432,11 +432,18 @@ export function stripUnsupportedFormatting(content, schema) {
 // Liquid delimiters ({{ }} / {% %}) the backend evaluates on send.
 const LIQUID_SYNTAX = /\{\{|\{%/;
 
+const VARIABLE_PLACEHOLDER = /{{(.*?)}}/g;
+
 // Value when set (and not itself Liquid), else the {{placeholder}} for the backend.
 export const resolveVariableText = (key, variables) => {
   const value = String(variables?.[key] ?? '');
   return value && !LIQUID_SYNTAX.test(value) ? value : `{{${key}}}`;
 };
+
+export const resolveVariablesInMessage = (message, variables) =>
+  message?.replace(VARIABLE_PLACEHOLDER, (_, key) =>
+    resolveVariableText(key.trim(), variables)
+  );
 
 // Name variables normalized like the backend drops (UserDrop/ContactDrop):
 // name split on whitespace, each word Ruby-capitalized (rest downcased).
@@ -536,10 +543,7 @@ const nodeCreators = {
     to,
   }),
   cannedResponse: (editorView, content, from, to, variables) => {
-    const updatedMessage = replaceVariablesInMessage({
-      message: content,
-      variables,
-    });
+    const updatedMessage = resolveVariablesInMessage(content, variables);
     const node = createNode(editorView, 'cannedResponse', updatedMessage);
     return {
       node,

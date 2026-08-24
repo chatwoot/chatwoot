@@ -9,6 +9,7 @@ const props = defineProps({
   // null = neutral, true = good direction, false = bad direction
   trendGood: { type: Boolean, default: null },
   clickable: { type: Boolean, default: false },
+  loading: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['click']);
@@ -45,7 +46,11 @@ const onActivate = () => {
         class="transition-opacity opacity-0 cursor-help i-lucide-info size-3.5 text-n-slate-10 group-hover:opacity-100"
       />
     </div>
-    <div class="flex items-end justify-between gap-2">
+    <div v-if="loading" class="flex items-end justify-between gap-2">
+      <div class="w-20 rounded h-9 bg-n-slate-3 animate-pulse" />
+      <div class="w-10 h-5 rounded bg-n-slate-3 animate-pulse" />
+    </div>
+    <div v-else class="flex items-end justify-between gap-2">
       <span
         class="text-3xl font-semibold tracking-tight tabular-nums text-n-slate-12"
       >

@@ -19,6 +19,8 @@ end
 json.inbox do
   json.id call.inbox_id
   json.name call.inbox.name
+  json.channel_type call.inbox.channel_type
+  json.medium call.inbox.channel.try(:medium)
 end
 
 if call.accepted_by_agent

@@ -2,7 +2,17 @@ require 'administrate/field/base'
 
 class CaptainModelOverridesField < Administrate::Field::Base
   def feature_rows
-    Llm::Models.feature_keys.map do |feature_key|
+    build_feature_rows(Llm::Models.feature_keys)
+  end
+
+  def internal_feature_rows
+    build_feature_rows(Llm::Models.internal_feature_keys)
+  end
+
+  private
+
+  def build_feature_rows(feature_keys)
+    feature_keys.map do |feature_key|
       route = Llm::FeatureRouter.resolve(feature: feature_key, account: resource)
 
       {
@@ -14,6 +24,7 @@ class CaptainModelOverridesField < Administrate::Field::Base
         model_id: route[:model],
         default_model: model_label(default_model_id(feature_key)),
         default_model_id: default_model_id(feature_key),
+        default_option_label: default_option_label(feature_key),
         source: route[:source],
         source_label: source_label(route[:source]),
         selected_override: selected_override(feature_key),
@@ -21,8 +32,6 @@ class CaptainModelOverridesField < Administrate::Field::Base
       }
     end
   end
-
-  private
 
   def selected_override(feature_key)
     resource.captain_models&.[](feature_key).presence
@@ -38,6 +47,24 @@ class CaptainModelOverridesField < Administrate::Field::Base
     Llm::Models.feature_config(feature_key)[:models].map do |model|
       [model[:display_name] || model[:id], model[:id]]
     end
+  end
+
+  def default_option_label(feature_key)
+    return internal_default_option_label(feature_key) if Llm::Models.internal_feature?(feature_key)
+
+    model_id = default_model_id(feature_key)
+    I18n.t('super_admin.captain_model_overrides.form.use_default', model: model_label(model_id), model_id: model_id)
+  end
+
+  def internal_default_option_label(feature_key)
+    route = Llm::FeatureRouter.resolve(feature: feature_key)
+    translation_key = route[:source] == :installation_override ? 'use_installation_model' : 'use_default'
+
+    I18n.t(
+      "super_admin.captain_model_overrides.form.#{translation_key}",
+      model: model_label(route[:model]),
+      model_id: route[:model]
+    )
   end
 
   def model_label(model_id)

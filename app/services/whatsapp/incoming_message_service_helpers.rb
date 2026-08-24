@@ -25,12 +25,21 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def message_content(message)
+    return I18n.t('conversations.messages.whatsapp.flow_response') if message.dig(:interactive, :nfm_reply).present?
+
     # TODO: map interactive messages back to button messages in chatwoot
     message.dig(:text, :body) ||
       message.dig(:button, :text) ||
       message.dig(:interactive, :button_reply, :title) ||
       message.dig(:interactive, :list_reply, :title) ||
       message.dig(:name, :formatted_name)
+  end
+
+  def parse_flow_response_json(response_json)
+    parsed_response = JSON.parse(response_json)
+    parsed_response.is_a?(Hash) ? parsed_response : response_json
+  rescue JSON::ParserError, TypeError
+    response_json
   end
 
   def file_content_type(file_type)
@@ -69,6 +78,12 @@ module Whatsapp::IncomingMessageServiceHelpers
 
   def process_in_reply_to(message)
     @in_reply_to_external_id = message['context']&.[]('id')
+    return if @in_reply_to_external_id.blank?
+
+    @in_reply_to_message_id = Whatsapp::InReplyToMessageFinder.new(
+      conversation: @conversation,
+      source_id: @in_reply_to_external_id
+    ).perform&.id
   end
 
   def referral_attributes(message)
