@@ -30,14 +30,13 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   def destroy
     call = resolve_call!
     conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
+    termination_intent = mark_termination_pending!(call)
 
-    mark_termination_pending!(call)
     begin
       conference_service.end_provider_call
-      # Once the provider leg is confirmed ended (or already terminal), persist the
-      # intended local result immediately. Conference cleanup is secondary and may fail
-      # independently without leaving the Call permanently nonterminal.
-      finalize_call!(call)
+      # The intended local result was snapshotted atomically before teardown began,
+      # so late answered/in-progress/conference callbacks cannot change its meaning.
+      finalize_call!(call, termination_intent)
       conference_service.complete_conference
     ensure
       clear_termination_pending!(call)
@@ -78,15 +77,27 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     render json: { error: error.message }, status: :conflict
   end
 
-  # Keep the call repairable until Twilio confirms provider-leg teardown. The shared
-  # Voice::CallStatus::Manager atomically suppresses provider-driven terminal
-  # transitions while this flag is present. If provider teardown raises, ensure clears
-  # the flag and the Call remains nonterminal so later callbacks can repair it.
+  # Snapshot the agent's intended terminal result under the same row lock that marks
+  # teardown pending. While pending, CallStatus::Manager freezes all provider/conference
+  # status transitions; after provider teardown succeeds we apply this exact snapshot.
   def mark_termination_pending!(call)
+    intent = nil
     call.with_lock do
       next if call.terminal?
 
+      intent = termination_intent_for(call)
       call.update!(meta: call.meta.merge('agent_termination_pending' => true))
+    end
+    intent
+  end
+
+  def termination_intent_for(call)
+    if call.ringing? && call.accepted_by_agent_id.nil?
+      { status: 'rejected', end_reason: 'agent_rejected', accepted_by_agent_id: Current.user.id }
+    elsif call.in_progress?
+      { status: 'completed', end_reason: 'agent_hangup' }
+    else
+      { status: 'no_answer', end_reason: 'agent_hangup' }
     end
   end
 
@@ -98,23 +109,21 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     end
   end
 
-  def finalize_call!(call)
-    status = nil
+  def finalize_call!(call, intent)
+    return if intent.blank?
+
+    applied = false
     call.with_lock do
       next if call.terminal?
 
-      if call.ringing? && call.accepted_by_agent_id.nil?
-        status = 'rejected'
-        call.update!(end_reason: 'agent_rejected', accepted_by_agent_id: Current.user.id)
-      elsif call.in_progress?
-        status = 'completed'
-        call.update!(end_reason: 'agent_hangup')
-      else
-        status = 'no_answer'
-        call.update!(end_reason: 'agent_hangup')
-      end
-      Voice::CallStatus::Manager.new(call: call).process_status_update(status, allow_during_termination: true)
+      attrs = { end_reason: intent[:end_reason] }
+      attrs[:accepted_by_agent_id] = intent[:accepted_by_agent_id] if intent[:accepted_by_agent_id]
+      call.update!(attrs)
+      Voice::CallStatus::Manager.new(call: call).process_status_update(
+        intent[:status], allow_during_termination: true
+      )
+      applied = true
     end
-    Voice::CallMessageBuilder.new(call).update_status!(status: status, agent: Current.user) if status
+    Voice::CallMessageBuilder.new(call).update_status!(status: intent[:status], agent: Current.user) if applied
   end
 end
