@@ -150,14 +150,15 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['id']).to eq(conversation.display_id)
-        expect(conference_service).to have_received(:end_conference)
+        expect(conference_service).to have_received(:end_conference).with(provider_call_status: 'canceled')
         call = Call.find_by(provider_call_id: 'CALL123')
         expect(call.status).to eq('rejected')
         expect(call.end_reason).to eq('agent_rejected')
       end
 
       it 'persists the terminal state before provider teardown' do
-        allow(conference_service).to receive(:end_conference) do
+        allow(conference_service).to receive(:end_conference) do |provider_call_status:|
+          expect(provider_call_status).to eq('canceled')
           call = Call.find_by(provider_call_id: 'CALL123')
           expect(call).to be_terminal
           expect(call.status).to eq('rejected')
@@ -169,10 +170,10 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
-        expect(conference_service).to have_received(:end_conference)
+        expect(conference_service).to have_received(:end_conference).with(provider_call_status: 'canceled')
       end
 
-      it 'marks an in-progress call as completed with duration, instead of leaving it non-terminal' do
+      it 'marks an in-progress call as completed and completes the provider call' do
         call = Call.find_by(provider_call_id: 'CALL123')
         call.update!(status: 'in_progress', accepted_by_agent_id: agent.id, started_at: 30.seconds.ago)
 
@@ -181,6 +182,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
+        expect(conference_service).to have_received(:end_conference).with(provider_call_status: 'completed')
         call.reload
         expect(call.status).to eq('completed')
         expect(call.end_reason).to eq('agent_hangup')
@@ -198,6 +200,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
+        expect(conference_service).to have_received(:end_conference).with(provider_call_status: 'canceled')
         call.reload
         expect(call.status).to eq('no_answer')
         expect(call.end_reason).to eq('agent_hangup')
