@@ -64,6 +64,12 @@ export const CHANNEL_LIST = [
     form: true,
   },
   {
+    type: 'bale',
+    labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.BALE.TITLE',
+    inbox: { channel_type: 'Channel::Bale' },
+    form: true,
+  },
+  {
     type: 'line',
     labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.LINE.TITLE',
     inbox: { channel_type: 'Channel::Line' },

@@ -7,6 +7,7 @@ export const INBOX_TYPES = {
   API: 'Channel::Api',
   EMAIL: 'Channel::Email',
   TELEGRAM: 'Channel::Telegram',
+  BALE: 'Channel::Bale',
   LINE: 'Channel::Line',
   SMS: 'Channel::Sms',
   INSTAGRAM: 'Channel::Instagram',

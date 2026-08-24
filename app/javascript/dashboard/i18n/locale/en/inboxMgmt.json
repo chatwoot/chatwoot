@@ -467,6 +467,19 @@
           "ERROR_MESSAGE": "We were not able to save the telegram channel"
         }
       },
+      "BALE_CHANNEL": {
+        "TITLE": "Bale Channel",
+        "DESC": "Integrate with Bale messenger and start supporting your customers.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Bale Bot.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Create Bale Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the Bale channel"
+        }
+      },
       "AUTH": {
         "TITLE": "Choose a channel",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
@@ -504,6 +517,10 @@
           "TELEGRAM": {
             "TITLE": "Telegram",
             "DESCRIPTION": "Configure Telegram channel using Bot token"
+          },
+          "BALE": {
+            "TITLE": "Bale",
+            "DESCRIPTION": "Configure Bale channel using Bot token"
           },
           "LINE": {
             "TITLE": "Line",

@@ -3,6 +3,7 @@ class Messages::MarkdownRendererService
     'Channel::Email' => :render_html,
     'Channel::WebWidget' => :render_html,
     'Channel::Telegram' => :render_telegram_html,
+    'Channel::Bale' => :render_telegram_html,
     'Channel::Whatsapp' => :render_whatsapp,
     'Channel::FacebookPage' => :render_instagram,
     'Channel::Instagram' => :render_instagram,

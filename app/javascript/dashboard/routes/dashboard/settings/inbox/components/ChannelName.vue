@@ -30,6 +30,7 @@ const i18nMap = {
   'Channel::Sms': 'SMS',
   'Channel::Email': 'EMAIL',
   'Channel::Telegram': 'TELEGRAM',
+  'Channel::Bale': 'BALE',
   'Channel::Line': 'LINE',
   'Channel::Api': 'API',
   'Channel::Instagram': 'INSTAGRAM',
