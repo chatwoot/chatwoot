@@ -580,6 +580,7 @@ Rails.application.routes.draw do
 
       post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
       post 'webhooks/firecrawl', to: 'webhooks/firecrawl#process_payload'
+      post 'webhooks/context_dev', to: 'webhooks/context_dev#process_payload'
     end
   end
 
