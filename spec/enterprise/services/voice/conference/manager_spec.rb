@@ -11,7 +11,7 @@ RSpec.describe Voice::Conference::Manager do
   end
 
   it 'ignores a late agent join while agent teardown is pending' do
-    call.update!(meta: call.meta.merge('agent_termination_pending' => true))
+    call.update!(meta: call.meta.merge('agent_termination_token' => 'termination-1'))
     allow(call).to receive(:broadcast_voice_call_event)
 
     described_class.new(
