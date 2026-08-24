@@ -85,7 +85,9 @@ onUnmounted(stopAutoRotation);
               :aria-label="$t('CAPTAIN.OVERVIEW.V2.SUMMARY.PREVIOUS')"
               @click="selectPoint(-1)"
             >
-              <span class="i-lucide-chevron-left size-3.5" />
+              <span
+                class="ltr:i-lucide-chevron-left rtl:i-lucide-chevron-right size-3.5"
+              />
             </button>
             <button
               v-tooltip="$t('CAPTAIN.OVERVIEW.V2.SUMMARY.NEXT')"
@@ -94,7 +96,9 @@ onUnmounted(stopAutoRotation);
               :aria-label="$t('CAPTAIN.OVERVIEW.V2.SUMMARY.NEXT')"
               @click="selectPoint(1)"
             >
-              <span class="i-lucide-chevron-right size-3.5" />
+              <span
+                class="ltr:i-lucide-chevron-right rtl:i-lucide-chevron-left size-3.5"
+              />
             </button>
           </div>
         </div>
