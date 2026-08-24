@@ -29,11 +29,12 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def destroy
     call = resolve_call!
+    provider_call_status = call.in_progress? ? 'completed' : 'canceled'
     # Persist the intended local terminal state before provider teardown. Twilio can emit
-    # the canceled callback immediately, and that callback must not overwrite the agent
+    # the terminal callback immediately, and that callback must not overwrite the agent
     # rejection/hangup reason with a provider failure status.
     finalize_call!(call)
-    Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference
+    Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference(provider_call_status: provider_call_status)
     # Account-wide, so every other tab/agent stops showing this call as ringing/active —
     # matches the equivalent WhatsApp broadcast (Whatsapp::CallService#broadcast).
     call.broadcast_voice_call_event(:ended, status: call.display_status)
