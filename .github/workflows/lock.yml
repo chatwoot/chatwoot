@@ -1,12 +1,11 @@
-# We often have cases where users would comment over stale closed Github Issues.
-# This creates unnecessary noise for the original reporter and makes it harder for triaging.
-# This action locks the closed threads once it is inactive for over a month.
+# Lock threads that have been inactive for over a month
+# Prevents noise from old closed issues/PRs
 
 name: 'Lock Threads'
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 permissions:
@@ -19,10 +18,9 @@ concurrency:
 jobs:
   action:
     runs-on: ubuntu-latest
-    if: ${{ github.repository == 'chatwoot/chatwoot' }}
     steps:
-      - uses: dessant/lock-threads@v3
-        with: 
+      - uses: dessant/lock-threads@v5
+        with:
           issue-inactive-days: '30'
           issue-lock-reason: 'resolved'
           pr-inactive-days: '30'

@@ -14,7 +14,7 @@ jobs:
   test:
     runs-on: ubuntu-22.04
     # Only run if MFA test keys are available
-    if: github.event_name == 'workflow_dispatch' || (github.repository == 'chatwoot/chatwoot' && github.actor != 'dependabot[bot]')
+    if: github.event_name == 'workflow_dispatch' || (github.repository == 'maddixmhn/Whisker' && github.actor != 'dependabot[bot]')
 
     services:
       postgres:
@@ -58,7 +58,7 @@ jobs:
 
       - name: Install pgvector extension
         run: |
-          PGPASSWORD="" psql -h localhost -U postgres -d chatwoot_test -c "CREATE EXTENSION IF NOT EXISTS vector;"
+          PGPASSWORD="" psql -h localhost -U postgres -d whisker_test -c "CREATE EXTENSION IF NOT EXISTS vector;"
 
       - name: Seed database
         run: bundle exec rake db:schema:load
