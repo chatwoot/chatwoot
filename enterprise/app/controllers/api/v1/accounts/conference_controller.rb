@@ -29,12 +29,16 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def destroy
     call = resolve_call!
-    provider_call_status = call.in_progress? ? 'completed' : 'canceled'
-    # Persist the intended local terminal state before provider teardown. Twilio can emit
-    # the terminal callback immediately, and that callback must not overwrite the agent
-    # rejection/hangup reason with a provider failure status.
-    finalize_call!(call)
-    Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference(provider_call_status: provider_call_status)
+    provider_call_status = provider_call_status_for(call)
+
+    mark_termination_pending!(call)
+    begin
+      Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference(provider_call_status: provider_call_status)
+      finalize_call!(call)
+    ensure
+      clear_termination_pending!(call)
+    end
+
     # Account-wide, so every other tab/agent stops showing this call as ringing/active —
     # matches the equivalent WhatsApp broadcast (Whatsapp::CallService#broadcast).
     call.broadcast_voice_call_event(:ended, status: call.display_status)
@@ -68,6 +72,33 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def render_call_already_accepted(error)
     render json: { error: error.message }, status: :conflict
+  end
+
+  def provider_call_status_for(call)
+    return 'completed' if call.incoming?
+
+    call.in_progress? ? 'completed' : 'canceled'
+  end
+
+  # Keep the call repairable until Twilio confirms teardown. While this flag is set,
+  # terminal provider callbacks caused by our own teardown are ignored by
+  # Voice::StatusUpdateService; after provider teardown succeeds we persist the intended
+  # local result below. If teardown raises, ensure clears the flag and the Call remains
+  # nonterminal so later provider callbacks can still repair it.
+  def mark_termination_pending!(call)
+    call.with_lock do
+      next if call.terminal?
+
+      call.update!(meta: call.meta.merge('agent_termination_pending' => true))
+    end
+  end
+
+  def clear_termination_pending!(call)
+    call.with_lock do
+      next unless call.meta['agent_termination_pending']
+
+      call.update!(meta: call.meta.except('agent_termination_pending'))
+    end
   end
 
   # Always persist a terminal status under a row lock before the :ended broadcast fires —
