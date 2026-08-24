@@ -160,4 +160,18 @@ RSpec.describe WebCrawling::ContextDev::Spider do
       )
     end
   end
+
+  describe '#batch_status' do
+    it 'returns the current batch status' do
+      stub_request(:get, 'https://api.context.dev/v1/batch/batch-123')
+        .with(query: {}, headers: headers)
+        .to_return(
+          status: 200,
+          headers: { 'Content-Type' => 'application/json' },
+          body: { id: 'batch-123', status: 'running' }.to_json
+        )
+
+      expect(spider.batch_status(batch_id: 'batch-123')).to eq('running')
+    end
+  end
 end

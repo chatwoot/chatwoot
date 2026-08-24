@@ -71,6 +71,12 @@ class WebCrawling::ContextDev::Spider < WebCrawling::BaseSpider
     )
   end
 
+  def batch_status(batch_id:)
+    response = get("/batch/#{batch_id}", query: {})
+    ensure_success!(response)
+    response.parsed_response.fetch('status')
+  end
+
   private
 
   def domain_for(url)

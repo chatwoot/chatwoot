@@ -92,6 +92,10 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
           callback_url: callback_url,
           limit: 25
         ).and_return(submission)
+        expect(Captain::Tools::ContextDevPollJob).to receive(:schedule).with(
+          document_id: document.id,
+          batch_id: 'batch-123'
+        )
 
         described_class.perform_now(document)
 

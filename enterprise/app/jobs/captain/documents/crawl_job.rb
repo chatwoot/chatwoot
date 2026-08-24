@@ -64,6 +64,7 @@ class Captain::Documents::CrawlJob < ApplicationJob
       web_crawling_external_id: submission.external_id,
       web_crawling_webhook_secret: submission.metadata.fetch('webhook_secret')
     )
+    Captain::Tools::ContextDevPollJob.schedule(document_id: document.id, batch_id: submission.external_id)
   end
 
   def firecrawl_webhook_url(document)
