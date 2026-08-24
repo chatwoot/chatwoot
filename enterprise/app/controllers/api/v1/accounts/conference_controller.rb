@@ -29,11 +29,16 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def destroy
     call = resolve_call!
+    conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
 
     mark_termination_pending!(call)
     begin
-      Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference
+      conference_service.end_provider_call
+      # Once the provider leg is confirmed ended (or already terminal), persist the
+      # intended local result immediately. Conference cleanup is secondary and may fail
+      # independently without leaving the Call permanently nonterminal.
       finalize_call!(call)
+      conference_service.complete_conference
     ensure
       clear_termination_pending!(call)
     end
@@ -73,9 +78,9 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     render json: { error: error.message }, status: :conflict
   end
 
-  # Keep the call repairable until Twilio confirms teardown. The shared
+  # Keep the call repairable until Twilio confirms provider-leg teardown. The shared
   # Voice::CallStatus::Manager atomically suppresses provider-driven terminal
-  # transitions while this flag is present. If teardown raises, ensure clears
+  # transitions while this flag is present. If provider teardown raises, ensure clears
   # the flag and the Call remains nonterminal so later callbacks can repair it.
   def mark_termination_pending!(call)
     call.with_lock do
