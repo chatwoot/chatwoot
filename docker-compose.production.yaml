@@ -1,22 +1,39 @@
-version: '3'
-
 services:
   base: &base
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
     image: whisker/whisker:latest
     env_file: .env ## Change this file for customized env variables
+    environment:
+      - RAILS_ENV=production
+      - NODE_ENV=production
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-whisker}
+      - POSTGRES_DB=whisker
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-whisker}@redis:6379
     volumes:
       - storage_data:/app/storage
+
+  db_setup:
+    <<: *base
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 'db:prepare']
+    restart: "no"
+    depends_on:
+      - postgres
+      - redis
 
   rails:
     <<: *base
     depends_on:
-      - postgres
-      - redis
+      db_setup:
+        condition: service_completed_successfully
     ports:
       - '127.0.0.1:3000:3000'
     environment:
-      - NODE_ENV=production
-      - RAILS_ENV=production
       - INSTALLATION_ENV=docker
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
@@ -25,11 +42,9 @@ services:
   sidekiq:
     <<: *base
     depends_on:
-      - postgres
-      - redis
+      db_setup:
+        condition: service_completed_successfully
     environment:
-      - NODE_ENV=production
-      - RAILS_ENV=production
       - INSTALLATION_ENV=docker
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
@@ -44,14 +59,14 @@ services:
     environment:
       - POSTGRES_DB=whisker
       - POSTGRES_USER=postgres
-      # Please provide your own password.
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-whisker}
 
   redis:
     image: redis:alpine
     restart: always
     command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
-    env_file: .env
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-whisker}
     volumes:
       - redis_data:/data
     ports:

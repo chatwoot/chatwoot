@@ -65,21 +65,35 @@ Teams, labels, automation rules, macros, canned responses, campaigns, reports & 
 
 ## 🚀 Quick start / نصب سریع
 
+**Production (self-hosted, single command):**
+
 ```bash
-# dev stack
+# 1. prepare env
+cp .env.example .env
+# edit .env and set a secure SECRET_KEY_BASE (run: openssl rand -hex 64)
+# and ACTIVE_RECORD_ENCRYPTION_* keys (run: docker compose run --rm rails \
+#   bundle exec rails db:encryption:init)
+
+# 2. build + run (first run migrates & seeds automatically)
+docker compose -f docker-compose.production.yaml up --build -d
+
+# → dashboard: http://localhost:3000
+```
+
+The production stack builds the `whisker/whisker` image locally (no external registry needed),
+runs `db:prepare` once, then starts `rails` + `sidekiq` behind `postgres` (pgvector) and `redis`.
+
+**Development stack:**
+
+```bash
 docker compose -f docker-compose.yaml up -d postgres redis mailhog
 overmind start -f Procfile.dev
 # → dashboard: http://localhost:3000
-
-# production, single command
-docker compose -f docker-compose.production.yaml up
 ```
 
 ### Requirements / پیش‌نیازها
-- Ruby 3.3+
-- Node.js 20+
-- PostgreSQL 14+
-- Redis 6+
+- Docker Engine 24+ & Docker Compose v2 (self-host)
+- For local dev only: Ruby 3.3+, Node.js 20+, PostgreSQL 14+, Redis 6+
 
 See [`docs/index.html`](./docs/index.html) for the full documentation.
 
