@@ -15,7 +15,8 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
       Voice::Provider::Twilio::ConferenceService,
       ensure_conference_sid: 'CF123',
       mark_agent_joined: true,
-      end_conference: true
+      end_provider_call: true,
+      complete_conference: true
     )
   end
 
@@ -129,14 +130,15 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['id']).to eq(conversation.display_id)
-        expect(conference_service).to have_received(:end_conference)
+        expect(conference_service).to have_received(:end_provider_call)
+        expect(conference_service).to have_received(:complete_conference)
         call = Call.find_by(provider_call_id: 'CALL123')
         expect(call.status).to eq('rejected')
         expect(call.end_reason).to eq('agent_rejected')
       end
 
       it 'keeps the local call nonterminal until provider teardown succeeds' do
-        allow(conference_service).to receive(:end_conference) do
+        allow(conference_service).to receive(:end_provider_call) do
           call = Call.find_by(provider_call_id: 'CALL123')
           expect(call).not_to be_terminal
           expect(call.meta['agent_termination_pending']).to be true
@@ -154,7 +156,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
 
       it 'leaves the local call repairable when provider teardown fails' do
         provider_error = StandardError.new('provider teardown failed')
-        allow(conference_service).to receive(:end_conference).and_raise(provider_error)
+        allow(conference_service).to receive(:end_provider_call).and_raise(provider_error)
 
         expect do
           delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
@@ -164,6 +166,24 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
 
         call = Call.find_by(provider_call_id: 'CALL123')
         expect(call).not_to be_terminal
+        expect(call.meta['agent_termination_pending']).to be_nil
+        expect(conference_service).not_to have_received(:complete_conference)
+      end
+
+      it 'keeps the local call terminal when conference cleanup fails after provider teardown' do
+        cleanup_error = StandardError.new('conference cleanup failed')
+        allow(conference_service).to receive(:complete_conference).and_raise(cleanup_error)
+
+        expect do
+          delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+                 headers: agent.create_new_auth_token,
+                 params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+        end.to raise_error(cleanup_error)
+
+        call = Call.find_by(provider_call_id: 'CALL123')
+        expect(call).to be_terminal
+        expect(call.status).to eq('rejected')
+        expect(call.end_reason).to eq('agent_rejected')
         expect(call.meta['agent_termination_pending']).to be_nil
       end
 
@@ -176,7 +196,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
-        expect(conference_service).to have_received(:end_conference)
+        expect(conference_service).to have_received(:end_provider_call)
         call.reload
         expect(call.status).to eq('rejected')
         expect(call.end_reason).to eq('agent_rejected')
@@ -191,7 +211,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
-        expect(conference_service).to have_received(:end_conference)
+        expect(conference_service).to have_received(:end_provider_call)
         call.reload
         expect(call.status).to eq('completed')
         expect(call.end_reason).to eq('agent_hangup')
@@ -209,7 +229,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
-        expect(conference_service).to have_received(:end_conference)
+        expect(conference_service).to have_received(:end_provider_call)
         call.reload
         expect(call.status).to eq('no_answer')
         expect(call.end_reason).to eq('agent_hangup')
