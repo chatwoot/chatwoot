@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_24_000100) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -441,17 +441,36 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.string "title", null: false
     t.text "description"
     t.string "http_method", default: "GET", null: false
-    t.text "endpoint_url", null: false
+    t.text "endpoint_url"
     t.text "request_template"
     t.text "response_template"
     t.string "auth_type", default: "none"
-    t.jsonb "auth_config", default: {}
+    t.jsonb "auth_config", default: {}, null: false
     t.jsonb "param_schema", default: []
     t.boolean "enabled", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "source_kind", default: "custom", null: false
+    t.string "provider_key"
+    t.string "category_key"
+    t.string "template_key"
+    t.string "template_version"
+    t.string "definition_digest"
+    t.jsonb "definition", default: {}, null: false
+    t.jsonb "configuration", default: {}, null: false
+    t.jsonb "input_schema", default: {}, null: false
+    t.jsonb "output_schema", default: {}, null: false
+    t.string "risk_class"
+    t.bigint "integration_hook_id"
+    t.index ["account_id", "provider_key", "template_key"], name: "idx_captain_tools_catalog_template", unique: true, where: "((source_kind)::text = 'catalog'::text)"
+    t.index ["account_id", "provider_key"], name: "idx_captain_tools_account_provider", where: "(provider_key IS NOT NULL)"
     t.index ["account_id", "slug"], name: "index_captain_custom_tools_on_account_id_and_slug", unique: true
+    t.index ["account_id", "source_kind"], name: "idx_captain_tools_account_source"
     t.index ["account_id"], name: "index_captain_custom_tools_on_account_id"
+    t.index ["integration_hook_id"], name: "idx_captain_tools_integration_hook"
+    t.check_constraint "risk_class IS NULL OR (risk_class::text = ANY (ARRAY['read'::character varying, 'low_impact_write'::character varying, 'approval_required'::character varying]::text[]))", name: "captain_custom_tools_risk_class_check"
+    t.check_constraint "source_kind::text <> 'catalog'::text OR auth_type::text = 'none'::text AND auth_config = '{}'::jsonb", name: "captain_custom_tools_catalog_auth_check"
+    t.check_constraint "source_kind::text = ANY (ARRAY['custom'::character varying, 'generated'::character varying, 'catalog'::character varying]::text[])", name: "captain_custom_tools_source_kind_check"
   end
 
   create_table "captain_documents", force: :cascade do |t|
@@ -547,6 +566,29 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.index ["assistant_id", "enabled"], name: "index_captain_scenarios_on_assistant_id_and_enabled"
     t.index ["assistant_id"], name: "index_captain_scenarios_on_assistant_id"
     t.index ["enabled"], name: "index_captain_scenarios_on_enabled"
+  end
+
+  create_table "captain_tool_catalog_installations", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "initiated_by_id", null: false
+    t.bigint "integration_hook_id"
+    t.string "provider_key", null: false
+    t.jsonb "selected_templates", default: [], null: false
+    t.string "status", default: "pending", null: false
+    t.string "oauth_nonce_digest"
+    t.datetime "expires_at", null: false
+    t.bigint "resulting_tool_ids", default: [], null: false, array: true
+    t.string "error_code"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "status"], name: "idx_catalog_installations_account_status"
+    t.index ["account_id"], name: "index_captain_tool_catalog_installations_on_account_id"
+    t.index ["expires_at"], name: "idx_catalog_installations_expires_at"
+    t.index ["initiated_by_id"], name: "index_captain_tool_catalog_installations_on_initiated_by_id"
+    t.index ["integration_hook_id"], name: "idx_on_integration_hook_id_49fcb99f37"
+    t.index ["oauth_nonce_digest"], name: "idx_catalog_installations_oauth_nonce", unique: true, where: "(oauth_nonce_digest IS NOT NULL)"
+    t.check_constraint "status::text = ANY (ARRAY['pending'::character varying, 'awaiting_connection'::character varying, 'validating'::character varying, 'installing'::character varying, 'completed'::character varying, 'failed'::character varying, 'expired'::character varying]::text[])", name: "captain_catalog_installations_status_check"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -1176,6 +1218,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "settings", default: {}
+    t.string "refresh_token"
+    t.index ["account_id", "app_id"], name: "idx_integrations_hooks_catalog_provider", unique: true, where: "((hook_type = 0) AND ((app_id)::text = ANY ((ARRAY['stripe'::character varying, 'shopify'::character varying, 'linear'::character varying, 'slack'::character varying])::text[])))"
   end
 
   create_table "labels", force: :cascade do |t|
@@ -1596,6 +1640,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
   add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
+  add_foreign_key "captain_custom_tools", "integrations_hooks", column: "integration_hook_id", on_delete: :nullify
+  add_foreign_key "captain_tool_catalog_installations", "accounts", on_delete: :cascade
+  add_foreign_key "captain_tool_catalog_installations", "integrations_hooks", column: "integration_hook_id", on_delete: :nullify
+  add_foreign_key "captain_tool_catalog_installations", "users", column: "initiated_by_id", on_delete: :cascade
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).

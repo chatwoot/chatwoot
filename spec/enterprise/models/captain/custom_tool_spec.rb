@@ -3,12 +3,21 @@ require 'rails_helper'
 RSpec.describe Captain::CustomTool, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
+    it { is_expected.to belong_to(:integration_hook).class_name('Integrations::Hook').optional }
   end
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:endpoint_url) }
     it { is_expected.to define_enum_for(:http_method).with_values('GET' => 'GET', 'POST' => 'POST').backed_by_column_of_type(:string) }
+
+    it {
+      expect(subject).to define_enum_for(:source_kind).with_values(
+        'custom' => 'custom',
+        'generated' => 'generated',
+        'catalog' => 'catalog'
+      ).backed_by_column_of_type(:string).with_prefix(:source)
+    }
 
     it {
       expect(subject).to define_enum_for(:auth_type).with_values('none' => 'none', 'bearer' => 'bearer', 'basic' => 'basic',
@@ -91,6 +100,73 @@ RSpec.describe Captain::CustomTool, type: :model do
 
         expect(tool).to be_valid
       end
+    end
+
+    describe 'catalog definitions' do
+      it 'accepts a compiled catalog tool without a custom endpoint' do
+        tool = build(:captain_custom_tool, :catalog)
+
+        expect(tool).to be_valid
+      end
+
+      it 'requires catalog identity and compiled definition fields' do
+        tool = build(
+          :captain_custom_tool,
+          :catalog,
+          provider_key: nil,
+          definition_digest: nil,
+          definition: {},
+          input_schema: {},
+          output_schema: {},
+          risk_class: nil
+        )
+
+        expect(tool).not_to be_valid
+        expect(tool.errors).to include(:provider_key, :definition_digest, :definition, :input_schema, :output_schema, :risk_class)
+      end
+
+      it 'rejects credentials stored on a catalog tool' do
+        tool = build(:captain_custom_tool, :catalog, auth_type: 'bearer', auth_config: { 'token' => 'secret' })
+
+        expect(tool).not_to be_valid
+        expect(tool.errors[:auth_type]).to include('must be none for catalog tools')
+        expect(tool.errors[:auth_config]).to include('must be empty for catalog tools')
+      end
+
+      it 'rejects a connection owned by another account' do
+        tool = build(:captain_custom_tool, :catalog, integration_hook: create(:integrations_hook))
+
+        expect(tool).not_to be_valid
+        expect(tool.errors[:integration_hook]).to include('must belong to the same account')
+      end
+
+      it 'allows each catalog template to be installed only once per account and provider' do
+        installed = create(:captain_custom_tool, :catalog)
+        duplicate = build(
+          :captain_custom_tool,
+          :catalog,
+          account: installed.account,
+          provider_key: installed.provider_key,
+          template_key: installed.template_key
+        )
+
+        expect(duplicate).not_to be_valid
+        expect(duplicate.errors[:template_key]).to include('has already been taken')
+      end
+    end
+  end
+
+  describe '.limit_for' do
+    let(:account) { create(:account) }
+
+    it 'uses the existing custom-tool limit without the catalog feature' do
+      expect(described_class.limit_for(account)).to eq(15)
+    end
+
+    it 'uses the evaluation limit when the catalog feature is enabled' do
+      account.enable_features('captain_tool_catalog')
+
+      expect(described_class.limit_for(account)).to eq(50)
     end
   end
 

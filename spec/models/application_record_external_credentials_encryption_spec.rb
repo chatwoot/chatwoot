@@ -24,6 +24,11 @@ RSpec.describe ApplicationRecord do
                   value: 'hook-secret'
 
   it_behaves_like 'encrypted external credential',
+                  factory: :integrations_hook,
+                  attribute: :refresh_token,
+                  value: 'hook-refresh-secret'
+
+  it_behaves_like 'encrypted external credential',
                   factory: :channel_facebook_page,
                   attribute: :page_access_token,
                   value: 'fb-page-secret'

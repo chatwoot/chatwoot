@@ -47,5 +47,21 @@ FactoryBot.define do
     trait :disabled do
       enabled { false }
     end
+
+    trait :catalog do
+      source_kind { 'catalog' }
+      provider_key { 'stripe' }
+      category_key { 'customers' }
+      sequence(:template_key) { |n| "find_customer_#{n}" }
+      template_version { '1.0.0' }
+      definition_digest { "sha256:#{'a' * 64}" }
+      definition { { 'recipe' => [{ 'operation_key' => 'find_customer', 'bindings' => {} }] } }
+      configuration { {} }
+      input_schema { { 'type' => 'object', 'properties' => {} } }
+      output_schema { { 'type' => 'object', 'properties' => {} } }
+      risk_class { 'read' }
+      endpoint_url { nil }
+      auth_config { {} }
+    end
   end
 end
