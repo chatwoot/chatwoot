@@ -96,7 +96,7 @@ const onActivate = () => {
       class="flex items-start justify-between gap-2"
     >
       <span
-        class="font-[520] leading-8 tracking-[-0.03rem] tabular-nums"
+        class="text-heading-1 tabular-nums"
         :class="[valueSizeClass, valueClass]"
       >
         {{ value }}
@@ -137,14 +137,14 @@ const onActivate = () => {
     <div v-else-if="layout === 'standard'" class="flex flex-col min-w-0 gap-1">
       <div class="flex items-baseline justify-between gap-2">
         <span
-          class="font-[520] leading-8 tracking-[-0.03rem] tabular-nums"
+          class="text-heading-1 tabular-nums"
           :class="[valueSizeClass, valueClass]"
         >
           {{ value }}
         </span>
         <span
           v-if="supportingValue || supportingText"
-          class="text-body-main text-right tabular-nums shrink-0"
+          class="text-body-main text-end tabular-nums shrink-0"
         >
           <span class="text-n-slate-12">{{ supportingValue }}</span>
           <span class="text-n-slate-10">
