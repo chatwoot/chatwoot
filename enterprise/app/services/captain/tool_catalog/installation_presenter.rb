@@ -74,9 +74,10 @@ class Captain::ToolCatalog::InstallationPresenter
   end
 
   def connection_payload(requirement)
+    connected = Captain::ToolCatalog::ConnectionStatus.connected?(requirement.hook)
     {
-      connected: requirement.hook&.enabled? || false,
-      status: requirement.hook&.status || 'disconnected',
+      connected: connected,
+      status: connected ? 'enabled' : requirement.hook&.status || 'disconnected',
       missing_scopes: requirement.missing_scopes
     }
   end

@@ -401,6 +401,9 @@ Rails.application.routes.draw do
               member do
                 get :list_all_channels
               end
+              collection do
+                post :auth if ChatwootApp.enterprise?
+              end
             end
             resource :dyte, controller: 'dyte', only: [] do
               collection do

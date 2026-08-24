@@ -95,10 +95,11 @@ class Captain::ToolCatalog::CatalogQuery
 
   def connection_for(provider_key)
     hook = hooks_by_provider[provider_key]
+    connected = Captain::ToolCatalog::ConnectionStatus.connected?(hook)
 
     {
-      'connected' => hook&.enabled? || false,
-      'status' => hook&.status || 'disconnected',
+      'connected' => connected,
+      'status' => connected ? 'enabled' : hook&.status || 'disconnected',
       'display_name' => connection_display_name(hook, provider_key),
       'granted_scopes' => granted_scopes(hook)
     }

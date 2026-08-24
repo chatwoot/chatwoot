@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "channel": "C012SUPPORT",
+  "ts": "1724493600.000100",
+  "message": {
+    "type": "message",
+    "text": "Support escalation ready.",
+    "ts": "1724493600.000100"
+  }
+}

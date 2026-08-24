@@ -120,6 +120,19 @@ RSpec.describe Captain::ToolCatalog::ProviderPackCompiler do
       .to raise_error(Captain::ToolCatalog::ProviderPackError, /only available to Linear Provider Packs/)
   end
 
+  it 'rejects Slack-only bindings for another provider' do
+    manifest = Captain::ToolCatalog::ProviderPackLoader.new(pack_path: pack_path).load.deep_dup
+    manifest.dig('templates', 0, 'recipe', 0, 'bindings', 'email').replace(
+      'source' => 'slack_reference_channel',
+      'path' => 'message_reference'
+    )
+    loader = instance_double(Captain::ToolCatalog::ProviderPackLoader, load: manifest)
+    allow(Captain::ToolCatalog::ProviderPackLoader).to receive(:new).and_return(loader)
+
+    expect { compiled_pack }
+      .to raise_error(Captain::ToolCatalog::ProviderPackError, /only available to Slack Provider Packs/)
+  end
+
   it 'keeps setup operations out of runtime recipes' do
     manifest = Captain::ToolCatalog::ProviderPackLoader.new(pack_path: pack_path).load.deep_dup
     manifest.dig('templates', 0, 'recipe', 0)['operation_key'] = 'list_customers_for_setup'

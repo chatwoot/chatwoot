@@ -10,6 +10,23 @@ RSpec.describe Captain::ToolCatalog::ResponseClassifier do
       end
   end
 
+  it 'classifies Slack missing scopes and missing trusted resources' do
+    classifier = described_class.new(provider_key: 'slack', source: 'openapi')
+
+    expect { classifier.classify(JSON.generate(ok: false, error: 'missing_scope')) }
+      .to raise_error(Captain::ToolCatalog::ExecutionError) do |error|
+        expect(error).to have_attributes(category: 'authorization', code: 'provider_authorization_failed')
+      end
+    expect { classifier.classify(JSON.generate(ok: false, error: 'message_not_found')) }
+      .to raise_error(Captain::ToolCatalog::ExecutionError) do |error|
+        expect(error).to have_attributes(category: 'not_found', code: 'provider_resource_not_found')
+      end
+    expect { classifier.classify(JSON.generate(ok: false, error: 'not_in_channel')) }
+      .to raise_error(Captain::ToolCatalog::ExecutionError) do |error|
+        expect(error).to have_attributes(category: 'authorization', code: 'provider_authorization_failed')
+      end
+  end
+
   it 'classifies top-level GraphQL errors returned with HTTP 200' do
     classifier = described_class.new(provider_key: 'linear', source: 'graphql')
     response = { errors: [{ message: 'rate limited', extensions: { code: 'RATELIMITED' } }] }

@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ok": { "type": "boolean" },
+    "channel": { "type": "string" },
+    "ts": { "type": "string" },
+    "message_reference": { "type": "string" }
+  }
+}

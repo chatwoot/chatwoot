@@ -28,7 +28,8 @@ class Captain::ToolCatalog::RuntimeEligibility
 
   def connected_hook!
     hook = custom_tool.integration_hook
-    connected = hook.present? && hook.enabled? && hook.account_id == custom_tool.account_id && hook.app_id == custom_tool.provider_key
+    connected = Captain::ToolCatalog::ConnectionStatus.connected?(hook) &&
+                hook.account_id == custom_tool.account_id && hook.app_id == custom_tool.provider_key
     raise execution_error('disconnected', 'provider_reconnect_required') unless connected
 
     hook

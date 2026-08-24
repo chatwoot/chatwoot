@@ -79,10 +79,14 @@ class Captain::ToolCatalog::ResponseClassifier
   def mapped_provider_error(code)
     value = code.to_s
     return Captain::ToolCatalog::ExecutionError.new('authentication', 'provider_authentication_failed') if value.match?(/auth|token|account_inactive/)
-    return Captain::ToolCatalog::ExecutionError.new('authorization', 'provider_authorization_failed') if value.match?(/permission|scope|forbidden/)
+    if value.match?(/permission|scope|forbidden|access_denied|not_in_channel|restricted/)
+      return Captain::ToolCatalog::ExecutionError.new('authorization', 'provider_authorization_failed')
+    end
     return Captain::ToolCatalog::ExecutionError.new('rate_limit', 'provider_rate_limited') if value.match?(/rate|ratelimited/)
     return Captain::ToolCatalog::ExecutionError.new('not_found', 'provider_resource_not_found') if value.include?('not_found')
-    return Captain::ToolCatalog::ExecutionError.new('validation', 'provider_validation_failed') if value.match?(/invalid|missing|bad_/)
+    if value.match?(/invalid|missing|bad_|already_reacted|not_reactable/)
+      return Captain::ToolCatalog::ExecutionError.new('validation', 'provider_validation_failed')
+    end
 
     Captain::ToolCatalog::ExecutionError.new('upstream', 'provider_request_failed')
   end

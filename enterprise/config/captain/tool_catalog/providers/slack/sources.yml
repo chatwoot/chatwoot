@@ -1,0 +1,25 @@
+sources:
+  - url: https://docs.slack.dev/authentication/installing-with-oauth/
+    revision: 'reviewed-2026-08-24'
+    license: Slack API Terms of Service
+    reviewed_at: '2026-08-24'
+  - url: https://docs.slack.dev/reference/methods/auth.test/
+    revision: 'reviewed-2026-08-24'
+    license: Slack API Terms of Service
+    reviewed_at: '2026-08-24'
+  - url: https://docs.slack.dev/reference/methods/chat.postMessage/
+    revision: 'reviewed-2026-08-24'
+    license: Slack API Terms of Service
+    reviewed_at: '2026-08-24'
+  - url: https://docs.slack.dev/reference/methods/conversations.list/
+    revision: 'reviewed-2026-08-24'
+    license: Slack API Terms of Service
+    reviewed_at: '2026-08-24'
+  - url: https://docs.slack.dev/reference/methods/reactions.add/
+    revision: 'reviewed-2026-08-24'
+    license: Slack API Terms of Service
+    reviewed_at: '2026-08-24'
+  - url: https://docs.slack.dev/reference/methods/users.lookupByEmail/
+    revision: 'reviewed-2026-08-24'
+    license: Slack API Terms of Service
+    reviewed_at: '2026-08-24'

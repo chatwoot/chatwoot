@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["channel_id"],
+  "properties": {
+    "channel_id": {
+      "type": "string",
+      "pattern": "^[CG][A-Z0-9]+$",
+      "minLength": 2,
+      "maxLength": 32
+    }
+  }
+}

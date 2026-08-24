@@ -1,7 +1,7 @@
 class Captain::ToolCatalog::ConnectionRequirement
   Result = Struct.new(:hook, :missing_scopes, keyword_init: true) do
     def satisfied?
-      hook&.enabled? && missing_scopes.empty?
+      Captain::ToolCatalog::ConnectionStatus.connected?(hook) && missing_scopes.empty?
     end
   end
 

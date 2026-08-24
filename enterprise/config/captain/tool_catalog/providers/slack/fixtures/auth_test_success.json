@@ -1,0 +1,9 @@
+{
+  "ok": true,
+  "url": "https://support-example.slack.com/",
+  "team": "Support Example",
+  "user": "chatwoot",
+  "team_id": "T012EXAMPLE",
+  "user_id": "U012EXAMPLE",
+  "bot_id": "B012EXAMPLE"
+}

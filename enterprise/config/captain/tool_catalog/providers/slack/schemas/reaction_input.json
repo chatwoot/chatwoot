@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["message_reference", "emoji"],
+  "properties": {
+    "message_reference": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "emoji": {
+      "type": "string",
+      "pattern": "^[a-z0-9_+-]+(?::skin-tone-[2-6])?$",
+      "minLength": 1,
+      "maxLength": 64
+    }
+  }
+}

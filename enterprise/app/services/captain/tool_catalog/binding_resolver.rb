@@ -1,5 +1,8 @@
 class Captain::ToolCatalog::BindingResolver
-  SPECIAL_BINDING_SOURCES = %w[literal step_output shopify_contact_query shopify_order_query linear_conversation_url linear_linked_issue_id].freeze
+  SPECIAL_BINDING_SOURCES = %w[
+    literal step_output shopify_contact_query shopify_order_query linear_conversation_url linear_linked_issue_id
+    slack_reference_channel slack_reference_timestamp
+  ].freeze
 
   def initialize(provider_key:, model_input:, configuration:, state:, step_results:)
     @provider_key = provider_key
@@ -36,8 +39,16 @@ class Captain::ToolCatalog::BindingResolver
     when 'step_output' then fetch_path(step_results.fetch(binding.fetch('step')), binding.fetch('path'))
     when 'shopify_contact_query' then shopify_contact_query
     when 'shopify_order_query' then shopify_order_query(binding)
+    else resolve_provider_binding(source, binding)
+    end
+  end
+
+  def resolve_provider_binding(source, binding)
+    case source
     when 'linear_conversation_url' then linear_conversation_url
     when 'linear_linked_issue_id' then linear_linked_issue_id(binding)
+    when 'slack_reference_channel' then slack_reference_value(binding, 'channel')
+    when 'slack_reference_timestamp' then slack_reference_value(binding, 'timestamp')
     end
   end
 
@@ -96,6 +107,19 @@ class Captain::ToolCatalog::BindingResolver
 
   def ensure_linear!
     raise KeyError, 'provider' unless provider_key == 'linear'
+  end
+
+  def slack_reference_value(binding, key)
+    raise KeyError, 'provider' unless provider_key == 'slack'
+
+    reference = fetch_path(sources.fetch('model_input'), binding.fetch('path'))
+    conversation_id = sources.fetch('conversation').to_h.with_indifferent_access[:id]
+    payload = Captain::ToolCatalog::SlackMessageReference.new.resolve(
+      reference: reference,
+      account_id: account_id,
+      conversation_id: conversation_id
+    )
+    payload.fetch(key)
   end
 
   def fetch_path(value, path)

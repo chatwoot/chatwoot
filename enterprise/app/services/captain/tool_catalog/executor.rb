@@ -63,9 +63,18 @@ class Captain::ToolCatalog::Executor
       custom_tool: custom_tool,
       operation: operations.fetch(step.fetch('operation_key'))
     )
-    client.perform(arguments)
+    process_result(step, client.perform(arguments))
   ensure
     @response_size += client.response_size if client
+  end
+
+  def process_result(step, result)
+    return result unless custom_tool.provider_key == 'slack'
+
+    Captain::ToolCatalog::SlackResponseProcessor.new(
+      account_id: custom_tool.account_id,
+      conversation_id: state.to_h.with_indifferent_access.dig(:conversation, :id)
+    ).process(operation_key: step.fetch('operation_key'), result: result)
   end
 
   def client_class

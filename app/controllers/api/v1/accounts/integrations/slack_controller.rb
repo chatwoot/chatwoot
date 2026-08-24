@@ -39,3 +39,4 @@ class Api::V1::Accounts::Integrations::SlackController < Api::V1::Accounts::Base
     params.permit(:reference_id)
   end
 end
+Api::V1::Accounts::Integrations::SlackController.prepend_mod_with('Api::V1::Accounts::Integrations::SlackController')

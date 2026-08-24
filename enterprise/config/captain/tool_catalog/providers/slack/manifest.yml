@@ -1,0 +1,165 @@
+schema_version: 1
+key: slack
+name: Slack
+description: Send bounded support updates and look up teammates without exposing workspace history.
+api_version: 'web-api-2026-08-24'
+authentication:
+  strategy: oauth
+allowed_origins:
+  - https://slack.com
+categories:
+  - key: messaging
+    name: Messaging
+    description: Send a new message or reply through a trusted Slack message reference.
+  - key: people
+    name: People
+    description: Find the minimal identity fields needed to mention a teammate.
+  - key: collaboration
+    name: Collaboration
+    description: Add a bounded reaction to a trusted Slack message reference.
+operations:
+  - key: auth_test
+    source: openapi
+    reference: openapi.yml#/paths/~1api~1auth.test/post
+    visibility: setup
+    scopes: []
+    risk_class: read
+    fixtures:
+      success: fixtures/auth_test_success.json
+      errors: [fixtures/invalid_auth.json]
+  - key: list_channels
+    source: openapi
+    reference: openapi.yml#/paths/~1api~1conversations.list/get
+    visibility: setup
+    scopes: [channels:read, groups:read]
+    risk_class: read
+    fixtures:
+      success: fixtures/list_channels_success.json
+      errors: [fixtures/missing_scope.json]
+  - key: send_message
+    source: openapi
+    reference: openapi.yml#/paths/~1api~1chat.postMessage/post
+    visibility: runtime
+    scopes: [channels:read, chat:write, groups:read]
+    risk_class: low_impact_write
+    fixtures:
+      success: fixtures/post_message_success.json
+      errors: [fixtures/invalid_auth.json, fixtures/missing_scope.json]
+  - key: reply_to_thread
+    source: openapi
+    reference: openapi.yml#/paths/~1api~1chat.postMessage/post
+    visibility: runtime
+    scopes: [chat:write]
+    risk_class: low_impact_write
+    fixtures:
+      success: fixtures/post_message_success.json
+      errors: [fixtures/invalid_auth.json, fixtures/missing_scope.json]
+  - key: lookup_user_by_email
+    source: openapi
+    reference: openapi.yml#/paths/~1api~1users.lookupByEmail/get
+    visibility: runtime
+    scopes: [users:read.email]
+    risk_class: read
+    fixtures:
+      success: fixtures/lookup_user_success.json
+      errors: [fixtures/invalid_auth.json, fixtures/user_not_found.json]
+  - key: add_reaction
+    source: openapi
+    reference: openapi.yml#/paths/~1api~1reactions.add/post
+    visibility: runtime
+    scopes: [reactions:write]
+    risk_class: low_impact_write
+    fixtures:
+      success: fixtures/add_reaction_success.json
+      errors: [fixtures/invalid_auth.json, fixtures/message_not_found.json]
+templates:
+  - key: send_message_to_channel
+    version: 1.0.0
+    name: Send message to configured channel
+    description: Send a bounded support update to the Slack channel fixed during installation.
+    category_key: messaging
+    availability: available
+    input_schema: schemas/message_input.json
+    configuration_schema: schemas/channel_configuration.json
+    output_schema: schemas/message_output.json
+    recipe:
+      - operation_key: send_message
+        bindings:
+          channel:
+            source: configuration
+            path: channel_id
+          text:
+            source: model_input
+            path: text
+          unfurl_links:
+            source: literal
+            value: false
+          unfurl_media:
+            source: literal
+            value: false
+  - key: reply_to_thread
+    version: 1.0.0
+    name: Reply to Slack thread
+    description: Reply only to a Slack message identified by a signed reference returned by a trusted tool result.
+    category_key: messaging
+    availability: available
+    input_schema: schemas/thread_reply_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/message_output.json
+    recipe:
+      - operation_key: reply_to_thread
+        bindings:
+          channel:
+            source: slack_reference_channel
+            path: message_reference
+          thread_ts:
+            source: slack_reference_timestamp
+            path: message_reference
+          text:
+            source: model_input
+            path: text
+          reply_broadcast:
+            source: literal
+            value: false
+          unfurl_links:
+            source: literal
+            value: false
+          unfurl_media:
+            source: literal
+            value: false
+  - key: find_user_by_email
+    version: 1.0.0
+    name: Find user by email
+    description: Find a Slack teammate and expose only the identity fields needed for a mention.
+    category_key: people
+    availability: available
+    input_schema: schemas/user_lookup_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/user_lookup_output.json
+    recipe:
+      - operation_key: lookup_user_by_email
+        bindings:
+          email:
+            source: model_input
+            path: email
+  - key: add_reaction_to_message
+    version: 1.0.0
+    name: Add reaction to message
+    description: Add a bounded emoji reaction only to a message identified by a signed trusted reference.
+    category_key: collaboration
+    availability: available
+    input_schema: schemas/reaction_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/reaction_output.json
+    recipe:
+      - operation_key: add_reaction
+        bindings:
+          channel:
+            source: slack_reference_channel
+            path: message_reference
+          timestamp:
+            source: slack_reference_timestamp
+            path: message_reference
+          name:
+            source: model_input
+            path: emoji

@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ok": { "type": "boolean" },
+    "user": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "real_name": { "type": "string" },
+        "is_bot": { "type": "boolean" },
+        "profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "display_name": { "type": "string" },
+            "real_name": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

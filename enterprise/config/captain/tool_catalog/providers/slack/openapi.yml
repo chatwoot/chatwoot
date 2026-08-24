@@ -1,0 +1,60 @@
+openapi: 3.0.3
+info:
+  title: Slack Web API
+  version: '2026-08-24'
+servers:
+  - url: https://slack.com
+paths:
+  /api/auth.test:
+    post:
+      operationId: AuthTest
+      responses:
+        '200':
+          description: Authentication identity
+  /api/conversations.list:
+    get:
+      operationId: ConversationsList
+      parameters:
+        - name: types
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: exclude_archived
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Channel list
+  /api/chat.postMessage:
+    post:
+      operationId: ChatPostMessage
+      responses:
+        '200':
+          description: Posted message
+  /api/users.lookupByEmail:
+    get:
+      operationId: UsersLookupByEmail
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+            format: email
+      responses:
+        '200':
+          description: User identity
+  /api/reactions.add:
+    post:
+      operationId: ReactionsAdd
+      responses:
+        '200':
+          description: Added reaction

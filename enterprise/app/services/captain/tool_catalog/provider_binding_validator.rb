@@ -1,7 +1,8 @@
 class Captain::ToolCatalog::ProviderBindingValidator
   VALIDATORS = {
     'shopify_' => Captain::ToolCatalog::ShopifyBindingValidator,
-    'linear_' => Captain::ToolCatalog::LinearBindingValidator
+    'linear_' => Captain::ToolCatalog::LinearBindingValidator,
+    'slack_' => Captain::ToolCatalog::SlackBindingValidator
   }.freeze
 
   def validate!(binding, provider_key:, step_index:, input_schema:)

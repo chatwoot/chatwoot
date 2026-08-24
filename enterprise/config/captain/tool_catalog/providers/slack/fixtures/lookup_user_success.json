@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "user": {
+    "id": "U012AGENT",
+    "name": "support-agent",
+    "real_name": "Support Agent",
+    "is_bot": false,
+    "profile": {
+      "display_name": "Support Agent",
+      "real_name": "Support Agent"
+    }
+  }
+}

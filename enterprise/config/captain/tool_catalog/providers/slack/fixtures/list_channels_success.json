@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "channels": [
+    { "id": "C012SUPPORT", "name": "support-escalations", "is_private": false },
+    { "id": "G012PRIVATE", "name": "support-private", "is_private": true }
+  ],
+  "response_metadata": { "next_cursor": "" }
+}

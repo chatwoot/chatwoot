@@ -214,7 +214,9 @@
             "shopify_contact_query",
             "shopify_order_query",
             "linear_conversation_url",
-            "linear_linked_issue_id"
+            "linear_linked_issue_id",
+            "slack_reference_channel",
+            "slack_reference_timestamp"
           ]
         },
         "path": {
@@ -278,6 +280,14 @@
           "properties": {
             "source": {
               "const": "linear_linked_issue_id"
+            }
+          }
+        },
+        {
+          "required": ["path"],
+          "properties": {
+            "source": {
+              "enum": ["slack_reference_channel", "slack_reference_timestamp"]
             }
           }
         }
