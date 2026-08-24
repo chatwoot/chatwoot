@@ -1,4 +1,8 @@
 module.exports = {
+  // Stop the config cascade here: a git worktree nested inside the repo (e.g.
+  // .claude/worktrees/*) otherwise inherits this same file from the parent
+  // checkout and eslint aborts on the duplicated plugins.
+  root: true,
   extends: [
     'airbnb-base/legacy',
     'prettier',

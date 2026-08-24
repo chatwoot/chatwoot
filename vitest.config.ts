@@ -1,4 +1,5 @@
 /// <reference types="vitest" />
+import { createRequire } from 'node:module';
 import path from 'path';
 import { defineConfig } from 'vitest/config';
 import vue from '@vitejs/plugin-vue';
@@ -35,7 +36,13 @@ export default defineConfig({
         inline: ['tinykeys', '@material/mwc-icon'],
       },
     },
-    setupFiles: ['fake-indexeddb/auto', 'vitest.setup.js'],
+    // Resolved from this file, not left to the vite resolver: in a nested git
+    // worktree the bare specifier resolves into the parent checkout's
+    // node_modules and setup fails before any test runs.
+    setupFiles: [
+      createRequire(import.meta.url).resolve('fake-indexeddb/auto'),
+      'vitest.setup.js',
+    ],
     mockReset: true,
     clearMocks: true,
   },
