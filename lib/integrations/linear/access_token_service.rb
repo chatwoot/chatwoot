@@ -6,6 +6,7 @@ class Integrations::Linear::AccessTokenService
   pattr_initialize [:hook!]
 
   def access_token
+    promote_legacy_refresh_token!
     return hook.access_token if token_valid?
     return refresh_access_token if refresh_token.present?
     return migrate_legacy_token if migration_applicable?
@@ -59,17 +60,17 @@ class Integrations::Linear::AccessTokenService
   def persist_tokens(token_data)
     raise ArgumentError, 'Missing access token in Linear token response' if token_data['access_token'].blank?
 
-    current_settings = hook_settings
+    current_settings = hook_settings.except(:refresh_token)
     updated_settings = current_settings.merge(
       token_type: token_data['token_type'] || current_settings[:token_type],
       expires_in: token_data['expires_in'] || current_settings[:expires_in],
       expires_on: expires_on(token_data['expires_in']),
-      scope: token_data['scope'] || current_settings[:scope],
-      refresh_token: token_data['refresh_token'] || current_settings[:refresh_token]
+      scope: token_data['scope'] || current_settings[:scope]
     ).compact
 
     hook.update!(
       access_token: token_data['access_token'],
+      refresh_token: token_data['refresh_token'].presence || refresh_token,
       settings: updated_settings
     )
   end
@@ -88,7 +89,7 @@ class Integrations::Linear::AccessTokenService
   end
 
   def refresh_token
-    hook_settings[:refresh_token]
+    hook.refresh_token.presence || hook_settings[:refresh_token]
   end
 
   def hook_settings
@@ -99,6 +100,19 @@ class Integrations::Linear::AccessTokenService
     return hook_settings[:expires_on] if expires_in.blank?
 
     (Time.current.utc + expires_in.to_i.seconds).to_s
+  end
+
+  def promote_legacy_refresh_token!
+    return if hook.refresh_token.present? || hook_settings[:refresh_token].blank?
+
+    hook.with_lock do
+      hook.reload
+      settings = hook_settings
+      legacy_refresh_token = settings.delete(:refresh_token)
+      next if hook.refresh_token.present? || legacy_refresh_token.blank?
+
+      hook.update!(refresh_token: legacy_refresh_token, settings: settings)
+    end
   end
 
   def url_encoded_headers

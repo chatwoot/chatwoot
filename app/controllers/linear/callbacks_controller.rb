@@ -4,6 +4,7 @@ class Linear::CallbacksController < ApplicationController
   def show
     return redirect_to(safe_linear_redirect_uri) if params[:code].blank? || account_id.blank?
 
+    verify_catalog_state!
     @response = oauth_client.auth_code.get_token(
       params[:code],
       redirect_uri: "#{base_url}/linear/callback"
@@ -38,10 +39,12 @@ class Linear::CallbacksController < ApplicationController
     hook = account.hooks.find_or_initialize_by(app_id: 'linear')
     hook.assign_attributes(
       access_token: parsed_body['access_token'],
+      refresh_token: refresh_token_for(hook),
       status: 'enabled',
       settings: merged_integration_settings(hook.settings)
     )
     hook.save!
+    after_linear_connection(hook)
     redirect_to linear_redirect_uri
   rescue StandardError => e
     Rails.logger.error("Linear callback error: #{e.message}")
@@ -55,7 +58,13 @@ class Linear::CallbacksController < ApplicationController
   def account_id
     return @account_id if instance_variable_defined?(:@account_id)
 
-    @account_id = params[:state].present? ? verify_linear_token(params[:state]) : nil
+    @account_id = linear_oauth_state&.[]('sub')
+  end
+
+  def linear_oauth_state
+    return @linear_oauth_state if instance_variable_defined?(:@linear_oauth_state)
+
+    @linear_oauth_state = verify_linear_state(params[:state])
   end
 
   def linear_redirect_uri
@@ -79,13 +88,16 @@ class Linear::CallbacksController < ApplicationController
       token_type: parsed_body['token_type'],
       expires_in: parsed_body['expires_in'],
       expires_on: expires_on,
-      scope: parsed_body['scope'],
-      refresh_token: parsed_body['refresh_token']
+      scope: parsed_body['scope']
     }.compact
   end
 
   def merged_integration_settings(existing_settings)
-    existing_settings.to_h.with_indifferent_access.merge(integration_settings)
+    existing_settings.to_h.with_indifferent_access.except(:refresh_token).merge(integration_settings)
+  end
+
+  def refresh_token_for(hook)
+    parsed_body['refresh_token'].presence || hook.refresh_token.presence || hook.settings.to_h.with_indifferent_access[:refresh_token]
   end
 
   def expires_on
@@ -97,4 +109,9 @@ class Linear::CallbacksController < ApplicationController
   def base_url
     ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
   end
+
+  def verify_catalog_state!; end
+
+  def after_linear_connection(_hook); end
 end
+Linear::CallbacksController.prepend_mod_with('Linear::CallbacksController')

@@ -1,4 +1,6 @@
 class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Integrations::BaseController
+  include Linear::IntegrationHelper
+
   before_action :fetch_conversation, only: [:create_issue, :link_issue, :unlink_issue, :linked_issues]
   before_action :fetch_hook, only: [:destroy]
   before_action :check_authorization, only: [:destroy]
@@ -127,10 +129,12 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Int
     return unless @hook&.access_token
 
     begin
-      linear_client = Linear.new(@hook.access_token, refresh_token: @hook.settings&.[]('refresh_token'))
+      refresh_token = @hook.refresh_token.presence || @hook.settings.to_h.with_indifferent_access[:refresh_token]
+      linear_client = Linear.new(@hook.access_token, refresh_token: refresh_token)
       linear_client.revoke_token
     rescue StandardError => e
       Rails.logger.error "Failed to revoke Linear token: #{e.message}"
     end
   end
 end
+Api::V1::Accounts::Integrations::LinearController.prepend_mod_with('Api::V1::Accounts::Integrations::LinearController')

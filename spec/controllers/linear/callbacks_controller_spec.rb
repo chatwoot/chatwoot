@@ -4,7 +4,13 @@ RSpec.describe Linear::CallbacksController, type: :request do
   let(:account) { create(:account) }
   let(:code) { SecureRandom.hex(10) }
   let(:client_secret) { 'test_linear_secret' }
-  let(:state) { JWT.encode({ sub: account.id, iat: Time.current.to_i }, client_secret, 'HS256') }
+  let(:state) do
+    JWT.encode(
+      { sub: account.id, iat: Time.current.to_i, exp: 10.minutes.from_now.to_i, aud: 'linear_oauth' },
+      client_secret,
+      'HS256'
+    )
+  end
   let(:linear_redirect_uri) { "#{ENV.fetch('FRONTEND_URL', '')}/app/accounts/#{account.id}/settings/integrations/linear" }
 
   describe 'GET /linear/callback' do
@@ -49,7 +55,8 @@ RSpec.describe Linear::CallbacksController, type: :request do
         expect(hook.settings['token_type']).to eq('Bearer')
         expect(hook.settings['expires_in']).to eq(7200)
         expect(hook.settings['scope']).to eq('read,write')
-        expect(hook.settings['refresh_token']).to eq(refresh_token)
+        expect(hook.refresh_token).to eq(refresh_token)
+        expect(hook.settings).not_to have_key('refresh_token')
         expect(hook.settings['expires_on']).to be_present
         expect(response).to redirect_to(linear_redirect_uri)
       end
@@ -122,7 +129,8 @@ RSpec.describe Linear::CallbacksController, type: :request do
 
         existing_hook.reload
         expect(existing_hook.access_token).to eq(access_token)
-        expect(existing_hook.settings['refresh_token']).to eq('existing_refresh_token')
+        expect(existing_hook.refresh_token).to eq('existing_refresh_token')
+        expect(existing_hook.settings).not_to have_key('refresh_token')
       end
     end
 
@@ -166,6 +174,7 @@ RSpec.describe Linear::CallbacksController, type: :request do
 
         existing_hook.reload
         expect(existing_hook.access_token).to eq('existing_access_token')
+        expect(existing_hook.refresh_token).to be_nil
         expect(existing_hook.settings['refresh_token']).to eq('existing_refresh_token')
         expect(response).to redirect_to(linear_redirect_uri)
       end
@@ -184,6 +193,124 @@ RSpec.describe Linear::CallbacksController, type: :request do
       it 'redirects to the linear_redirect_uri' do
         get linear_callback_path, params: { code: code, state: state }
         expect(response).to redirect_to(linear_redirect_uri)
+      end
+    end
+
+    context 'with a catalog installation state' do
+      let(:nonce) { SecureRandom.hex(32) }
+      let(:state) do
+        JWT.encode(
+          {
+            sub: account.id,
+            iat: Time.current.to_i,
+            exp: 10.minutes.from_now.to_i,
+            aud: 'linear_oauth',
+            installation_id: installation.id,
+            nonce: nonce
+          },
+          client_secret,
+          'HS256'
+        )
+      end
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:installation) do
+        create(
+          :captain_tool_catalog_installation,
+          account: account,
+          initiated_by: admin,
+          provider_key: 'linear',
+          status: 'awaiting_connection',
+          oauth_nonce_digest: Digest::SHA256.hexdigest(nonce)
+        )
+      end
+      let(:workflow_resumer) { instance_double(Captain::ToolCatalog::WorkflowResumer, perform: nil) }
+
+      before do
+        account.enable_features!('captain_tool_catalog')
+        allow(Captain::ToolCatalog::WorkflowResumer).to receive(:new).and_return(workflow_resumer)
+        stub_request(:post, 'https://api.linear.app/oauth/token')
+          .to_return(
+            status: 200,
+            body: response_body.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'consumes the nonce once, reuses the hook, and resumes the installation' do
+        existing_hook = create(:integrations_hook, :linear, account: account, access_token: 'old-access-token')
+
+        expect do
+          get linear_callback_path, params: { code: code, state: state }
+        end.not_to change(Integrations::Hook, :count)
+
+        expect(response).to redirect_to(linear_redirect_uri)
+        expect(installation.reload.oauth_nonce_digest).to be_nil
+        expect(installation.integration_hook).to eq(existing_hook)
+        expect(workflow_resumer).to have_received(:perform).with(installation)
+
+        get linear_callback_path, params: { code: code, state: state }
+
+        expect(response).to redirect_to(linear_redirect_uri)
+        expect(a_request(:post, 'https://api.linear.app/oauth/token')).to have_been_made.once
+      end
+
+      it 'rejects the callback before token exchange when encryption becomes unavailable' do
+        allow(Chatwoot).to receive(:encryption_configured?).and_return(false)
+
+        get linear_callback_path, params: { code: code, state: state }
+
+        expect(response).to redirect_to(linear_redirect_uri)
+        expect(a_request(:post, 'https://api.linear.app/oauth/token')).not_to have_been_made
+        expect(installation.reload.oauth_nonce_digest).to eq(Digest::SHA256.hexdigest(nonce))
+        expect(workflow_resumer).not_to have_received(:perform)
+      end
+
+      it 'expires the installation and rejects its state before token exchange' do
+        installation.update!(expires_at: 1.minute.ago)
+
+        get linear_callback_path, params: { code: code, state: state }
+
+        expect(response).to redirect_to(linear_redirect_uri)
+        expect(a_request(:post, 'https://api.linear.app/oauth/token')).not_to have_been_made
+        expect(installation.reload).to be_expired
+        expect(workflow_resumer).not_to have_received(:perform)
+      end
+    end
+
+    context 'with a cross-account catalog installation state' do
+      let(:other_account) { create(:account) }
+      let(:nonce) { SecureRandom.hex(32) }
+      let(:installation) do
+        create(
+          :captain_tool_catalog_installation,
+          account: other_account,
+          initiated_by: create(:user, account: other_account, role: :administrator),
+          provider_key: 'linear',
+          status: 'awaiting_connection',
+          oauth_nonce_digest: Digest::SHA256.hexdigest(nonce)
+        )
+      end
+      let(:state) do
+        JWT.encode(
+          {
+            sub: account.id,
+            exp: 10.minutes.from_now.to_i,
+            aud: 'linear_oauth',
+            installation_id: installation.id,
+            nonce: nonce
+          },
+          client_secret,
+          'HS256'
+        )
+      end
+
+      it 'rejects the state before exchanging the authorization code' do
+        get linear_callback_path, params: { code: code, state: state }
+
+        expect(response).to redirect_to(linear_redirect_uri)
+        expect(a_request(:post, 'https://api.linear.app/oauth/token')).not_to have_been_made
+        expect(installation.reload.oauth_nonce_digest).to eq(Digest::SHA256.hexdigest(nonce))
+        expect(account.hooks).to be_empty
       end
     end
   end

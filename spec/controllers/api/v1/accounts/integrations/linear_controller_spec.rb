@@ -16,10 +16,10 @@ RSpec.describe 'Linear Integration API', type: :request do
     let(:admin) { create(:user, account: account, role: :administrator) }
 
     it 'deletes the linear integration when the user is an administrator' do
-      # Stub the HTTP call to Linear's revoke endpoint
+      account.hooks.find_by!(app_id: 'linear').update!(refresh_token: 'encrypted-refresh-token')
       allow(HTTParty).to receive(:post).with(
         'https://api.linear.app/oauth/revoke',
-        anything
+        hash_including(body: { token: 'encrypted-refresh-token', token_type_hint: 'refresh_token' })
       ).and_return(instance_double(HTTParty::Response, success?: true))
 
       delete "/api/v1/accounts/#{account.id}/integrations/linear",
@@ -35,6 +35,106 @@ RSpec.describe 'Linear Integration API', type: :request do
              as: :json
       expect(response).to have_http_status(:unauthorized)
       expect(account.hooks.count).to eq(1)
+    end
+  end
+
+  describe 'POST /api/v1/accounts/:account_id/integrations/linear/auth' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+    let(:installation) do
+      create(
+        :captain_tool_catalog_installation,
+        account: account,
+        initiated_by: admin,
+        provider_key: 'linear',
+        status: 'awaiting_connection'
+      )
+    end
+
+    before do
+      account.enable_features!('captain_tool_catalog')
+      allow(GlobalConfigService).to receive(:load).and_call_original
+      allow(GlobalConfigService).to receive(:load).with('LINEAR_CLIENT_ID', nil).and_return('linear-client-id')
+      allow(GlobalConfigService).to receive(:load).with('LINEAR_CLIENT_SECRET', nil).and_return('linear-client-secret')
+    end
+
+    it 'binds a signed one-time nonce to the catalog installation' do
+      post "/api/v1/accounts/#{account.id}/integrations/linear/auth",
+           params: { installation_id: installation.id },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      redirect_uri = URI.parse(response.parsed_body.fetch('redirect_url'))
+      query = Rack::Utils.parse_nested_query(redirect_uri.query)
+      state = JWT.decode(
+        query.fetch('state'),
+        'linear-client-secret',
+        true,
+        algorithm: 'HS256',
+        aud: 'linear_oauth',
+        verify_aud: true
+      ).first
+
+      expect(response).to have_http_status(:ok)
+      expect(redirect_uri.host).to eq('linear.app')
+      expect(query).to include(
+        'response_type' => 'code',
+        'client_id' => 'linear-client-id',
+        'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', nil)}/linear/callback",
+        'scope' => 'read,write',
+        'prompt' => 'consent',
+        'actor' => 'app'
+      )
+      expect(state).to include('sub' => account.id, 'installation_id' => installation.id)
+      expect(installation.reload.oauth_nonce_digest).to eq(Digest::SHA256.hexdigest(state.fetch('nonce')))
+    end
+
+    it 'allows only administrators to initiate catalog OAuth' do
+      post "/api/v1/accounts/#{account.id}/integrations/linear/auth",
+           params: { installation_id: installation.id },
+           headers: agent.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(installation.reload.oauth_nonce_digest).to be_nil
+    end
+
+    it 'does not start catalog OAuth when credential encryption is unavailable' do
+      allow(Chatwoot).to receive(:encryption_configured?).and_return(false)
+
+      post "/api/v1/accounts/#{account.id}/integrations/linear/auth",
+           params: { installation_id: installation.id },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body).to eq('error' => { 'code' => 'encryption_required' })
+      expect(installation.reload.oauth_nonce_digest).to be_nil
+    end
+
+    it 'does not persist OAuth state when the Linear app credentials are unavailable' do
+      allow(GlobalConfigService).to receive(:load).with('LINEAR_CLIENT_SECRET', nil).and_return(nil)
+
+      post "/api/v1/accounts/#{account.id}/integrations/linear/auth",
+           params: { installation_id: installation.id },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body).to eq('error' => { 'code' => 'linear_oauth_unavailable' })
+      expect(installation.reload.oauth_nonce_digest).to be_nil
+    end
+
+    it 'rejects installations for another provider' do
+      installation.update!(provider_key: 'shopify')
+
+      post "/api/v1/accounts/#{account.id}/integrations/linear/auth",
+           params: { installation_id: installation.id },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body).to eq('error' => { 'code' => 'provider_mismatch' })
+      expect(installation.reload.oauth_nonce_digest).to be_nil
     end
   end
 

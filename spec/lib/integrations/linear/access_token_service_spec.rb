@@ -37,6 +37,8 @@ describe Integrations::Linear::AccessTokenService do
         service = described_class.new(hook: hook)
 
         expect(service.access_token).to eq('valid_access_token')
+        expect(hook.reload.refresh_token).to eq('refresh_token')
+        expect(hook.settings).not_to have_key('refresh_token')
         expect(WebMock).not_to have_requested(:post, 'https://api.linear.app/oauth/token')
         expect(WebMock).not_to have_requested(:post, 'https://api.linear.app/oauth/migrate_old_token')
       end
@@ -49,8 +51,8 @@ describe Integrations::Linear::AccessTokenService do
           :linear,
           account: account,
           access_token: 'expired_access_token',
+          refresh_token: 'old_refresh_token',
           settings: {
-            refresh_token: 'old_refresh_token',
             token_type: 'Bearer',
             scope: 'read,write',
             expires_on: 1.hour.ago.utc.to_s
@@ -77,7 +79,8 @@ describe Integrations::Linear::AccessTokenService do
         expect(service.access_token).to eq('new_access_token')
         hook.reload
         expect(hook.access_token).to eq('new_access_token')
-        expect(hook.settings['refresh_token']).to eq('new_refresh_token')
+        expect(hook.refresh_token).to eq('new_refresh_token')
+        expect(hook.settings).not_to have_key('refresh_token')
         expect(hook.settings['expires_in']).to eq(7200)
         expect(hook.settings['expires_on']).to be_present
       end
@@ -111,7 +114,24 @@ describe Integrations::Linear::AccessTokenService do
         expect(service.access_token).to eq('expired_access_token')
         hook.reload
         expect(hook.access_token).to eq('expired_access_token')
-        expect(hook.settings['refresh_token']).to eq('old_refresh_token')
+        expect(hook.refresh_token).to eq('old_refresh_token')
+      end
+
+      it 'preserves the existing refresh token when Linear does not rotate it' do
+        stub_request(:post, 'https://api.linear.app/oauth/token')
+          .to_return(
+            status: 200,
+            body: {
+              access_token: 'new_access_token',
+              token_type: 'Bearer',
+              expires_in: 7200,
+              scope: 'read,write'
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        expect(described_class.new(hook: hook).access_token).to eq('new_access_token')
+        expect(hook.reload.refresh_token).to eq('old_refresh_token')
       end
     end
 
@@ -148,7 +168,8 @@ describe Integrations::Linear::AccessTokenService do
         expect(service.access_token).to eq('migrated_access_token')
         hook.reload
         expect(hook.access_token).to eq('migrated_access_token')
-        expect(hook.settings['refresh_token']).to eq('migrated_refresh_token')
+        expect(hook.refresh_token).to eq('migrated_refresh_token')
+        expect(hook.settings).not_to have_key('refresh_token')
         expect(hook.settings['expires_in']).to eq(7200)
         expect(hook.settings['expires_on']).to be_present
       end
@@ -172,6 +193,40 @@ describe Integrations::Linear::AccessTokenService do
         hook.reload
         expect(hook.access_token).to eq('legacy_access_token')
         expect(hook.settings['token_type']).to eq('Bearer')
+      end
+    end
+
+    context 'when a legacy settings refresh token is present' do
+      let(:hook) do
+        create(
+          :integrations_hook,
+          :linear,
+          account: account,
+          access_token: 'expired_access_token',
+          settings: {
+            refresh_token: 'legacy_refresh_token',
+            token_type: 'Bearer',
+            expires_on: 1.hour.ago.utc.to_s
+          }
+        )
+      end
+
+      it 'promotes the secret before using it for refresh' do
+        stub_request(:post, 'https://api.linear.app/oauth/token')
+          .with(body: hash_including('refresh_token' => 'legacy_refresh_token'))
+          .to_return(
+            status: 200,
+            body: {
+              access_token: 'new_access_token',
+              refresh_token: 'rotated_refresh_token',
+              expires_in: 7200
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        expect(described_class.new(hook: hook).access_token).to eq('new_access_token')
+        expect(hook.reload.refresh_token).to eq('rotated_refresh_token')
+        expect(hook.settings).not_to have_key('refresh_token')
       end
     end
   end
