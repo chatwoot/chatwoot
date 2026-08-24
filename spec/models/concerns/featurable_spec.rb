@@ -4,6 +4,11 @@ require 'rails_helper'
 
 RSpec.describe Featurable do
   describe '.feature_flag_mappings_for' do
+    it 'stores the Captain Tool Catalog flag in the extension column' do
+      expect(described_class::FEATURES_BY_COLUMN['feature_flags_ext_1'].values)
+        .to include(:feature_captain_tool_catalog)
+    end
+
     it 'maps features to the default feature_flags column when column is omitted' do
       mappings = described_class.feature_flag_mappings_for([
                                                              { 'name' => 'inbound_emails' },

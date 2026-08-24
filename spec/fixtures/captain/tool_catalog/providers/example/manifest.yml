@@ -1,0 +1,36 @@
+schema_version: 1
+key: example
+name: Example Support
+description: Minimal provider pack used to prove the catalog contract.
+api_version: v1
+authentication:
+  strategy: oauth
+allowed_origins:
+  - https://api.example.com
+categories:
+  - key: customers
+    name: Customers
+    description: Look up customer information.
+operations:
+  - key: find_customer
+    source: openapi
+    reference: openapi.yml#/paths/~1customers/get
+    visibility: runtime
+    scopes:
+      - customers:read
+    risk_class: read
+templates:
+  - key: get_current_customer
+    version: 1.0.0
+    name: Get current customer
+    description: Find the provider customer bound to the current Chatwoot contact.
+    category_key: customers
+    availability: available
+    input_schema: schemas/get_current_customer_input.json
+    output_schema: schemas/get_current_customer_output.json
+    recipe:
+      - operation_key: find_customer
+        bindings:
+          email:
+            source: contact
+            path: email

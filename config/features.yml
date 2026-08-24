@@ -272,3 +272,9 @@
   display_name: Delayed Automations
   enabled: false
   column: feature_flags_ext_1
+- name: captain_tool_catalog
+  display_name: Captain Tool Catalog
+  enabled: false
+  premium: true
+  chatwoot_internal: true
+  column: feature_flags_ext_1

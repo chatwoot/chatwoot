@@ -1,0 +1,13 @@
+openapi: 3.0.3
+info:
+  title: Example Support API
+  version: v1
+servers:
+  - url: https://api.example.com
+paths:
+  /customers:
+    get:
+      operationId: findCustomer
+      responses:
+        '200':
+          description: Customer lookup result

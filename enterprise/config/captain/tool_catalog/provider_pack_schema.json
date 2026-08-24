@@ -1,0 +1,216 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://www.chatwoot.com/schemas/captain/provider-pack-v1.json",
+  "title": "Captain Provider Pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "key",
+    "name",
+    "description",
+    "api_version",
+    "authentication",
+    "allowed_origins",
+    "categories",
+    "operations",
+    "templates"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "key": {
+      "$ref": "#/definitions/key"
+    },
+    "name": {
+      "$ref": "#/definitions/non_empty_string"
+    },
+    "description": {
+      "$ref": "#/definitions/non_empty_string"
+    },
+    "api_version": {
+      "$ref": "#/definitions/non_empty_string"
+    },
+    "authentication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy"],
+      "properties": {
+        "strategy": {
+          "enum": ["oauth", "restricted_key"]
+        }
+      }
+    },
+    "allowed_origins": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "format": "uri",
+        "pattern": "^https://"
+      }
+    },
+    "categories": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/category"
+      }
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/operation"
+      }
+    },
+    "templates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/template"
+      }
+    }
+  },
+  "definitions": {
+    "key": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "category": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "name", "description"],
+      "properties": {
+        "key": {
+          "$ref": "#/definitions/key"
+        },
+        "name": {
+          "$ref": "#/definitions/non_empty_string"
+        },
+        "description": {
+          "$ref": "#/definitions/non_empty_string"
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "source", "reference", "visibility", "scopes", "risk_class"],
+      "properties": {
+        "key": {
+          "$ref": "#/definitions/key"
+        },
+        "source": {
+          "enum": ["openapi", "graphql"]
+        },
+        "reference": {
+          "$ref": "#/definitions/non_empty_string"
+        },
+        "visibility": {
+          "enum": ["runtime", "setup"]
+        },
+        "scopes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/non_empty_string"
+          }
+        },
+        "risk_class": {
+          "enum": ["read", "low_impact_write", "approval_required"]
+        }
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "path"],
+      "properties": {
+        "source": {
+          "enum": ["model_input", "contact", "conversation", "configuration", "step_output"]
+        },
+        "path": {
+          "$ref": "#/definitions/non_empty_string"
+        },
+        "step": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "recipe_step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operation_key", "bindings"],
+      "properties": {
+        "operation_key": {
+          "$ref": "#/definitions/key"
+        },
+        "bindings": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/binding"
+          }
+        }
+      }
+    },
+    "template": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "version",
+        "name",
+        "description",
+        "category_key",
+        "availability",
+        "input_schema",
+        "output_schema",
+        "recipe"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/definitions/key"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "name": {
+          "$ref": "#/definitions/non_empty_string"
+        },
+        "description": {
+          "$ref": "#/definitions/non_empty_string"
+        },
+        "category_key": {
+          "$ref": "#/definitions/key"
+        },
+        "availability": {
+          "enum": ["available", "planned", "approval_required"]
+        },
+        "input_schema": {
+          "type": "string",
+          "pattern": "^schemas/[a-z0-9_/-]+\\.json$"
+        },
+        "output_schema": {
+          "type": "string",
+          "pattern": "^schemas/[a-z0-9_/-]+\\.json$"
+        },
+        "recipe": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/recipe_step"
+          }
+        }
+      }
+    }
+  }
+}
