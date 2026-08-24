@@ -28,6 +28,7 @@ import security from './security/security.routes';
 import conversationWorkflow from './conversationWorkflow/conversationWorkflow.routes';
 import captain from './captain/captain.routes';
 import data from './data/data.routes';
+import whiskerExtensions from './whisker/whisker.routes';
 
 export default {
   routes: [
@@ -71,5 +72,6 @@ export default {
     ...security.routes,
     ...conversationWorkflow.routes,
     ...captain.routes,
+    ...whiskerExtensions.routes,
   ],
 };

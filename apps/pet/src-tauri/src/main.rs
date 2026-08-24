@@ -89,6 +89,7 @@ fn main() {
             get_api_config,
             toggle_sound,
             get_sound_enabled,
+            report_error,
         ])
         .run(tauri::generate_context!())
         .expect("error while running Whisker Pet");
@@ -174,4 +175,42 @@ fn toggle_sound(state: tauri::State<AppState>) -> bool {
 #[tauri::command]
 fn get_sound_enabled(state: tauri::State<AppState>) -> bool {
     *state.sound_enabled.lock().unwrap()
+}
+
+// [whisker] Report a client error to the Whisker backend for debugging
+#[tauri::command]
+async fn report_error(message: String, stack: Option<String>, state: tauri::State<'_, AppState>) {
+    let url = state.api_url.lock().unwrap().clone();
+    let token = state.api_token.lock().unwrap().clone();
+    if url.is_empty() {
+        return;
+    }
+
+    let client = reqwest::Client::new();
+    let _ = client
+        .post(format!("{}/api/v1/client_errors", url))
+        .header("Content-Type", "application/x-www-form-urlencoded")
+        .body(format!(
+            "client_error_report[website_token]={}&client_error_report[platform]=pet&client_error_report[message]={}&client_error_report[stack]={}",
+            token,
+            urlencode(&message),
+            urlencode(&stack.unwrap_or_default())
+        ))
+        .send()
+        .await;
+}
+
+fn urlencode(input: &str) -> String {
+    let mut encoded = String::with_capacity(input.len() * 3);
+    for byte in input.bytes() {
+        match byte {
+            b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'-' | b'_' | b'.' | b'~' => {
+                encoded.push(byte as char)
+            }
+            _ => {
+                encoded.push_str(&format!("%{:02X}", byte));
+            }
+        }
+    }
+    encoded
 }

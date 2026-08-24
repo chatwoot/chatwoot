@@ -2,7 +2,7 @@
 # It has the dependencies already installed so that codespace will boot up fast
 FROM ghcr.io/chatwoot/chatwoot_codespace:latest
 
-# Do the set up required for chatwoot app
+# Do the set up required for Whisker app
 WORKDIR /workspace
 
 # Copy dependency files first for better caching

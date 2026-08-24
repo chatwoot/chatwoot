@@ -33,7 +33,7 @@ const FUZZY_SEARCH_KEYS = [
 ];
 
 const TEMPLATE_LEARN_MORE_URL =
-  'https://www.chatwoot.com/hc/user-guide/articles/1754940076-whatsapp-templates';
+  'https://www.whisker.app/hc/user-guide/articles/1754940076-whatsapp-templates';
 
 const store = useStore();
 const { t } = useI18n();

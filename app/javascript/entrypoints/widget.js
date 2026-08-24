@@ -10,6 +10,7 @@ import router from '../widget/router';
 import { directive as onClickaway } from 'vue3-click-away';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import { plugin, defaultConfig } from '@formkit/vue';
+import { initClientErrorReporter } from '../shared/helpers/clientErrorReporter';
 
 import {
   startsWithPlus,
@@ -46,6 +47,7 @@ app.use(
 // Vue.config.productionTip = false;
 
 window.onload = () => {
+  initClientErrorReporter();
   window.WOOT_WIDGET = app.mount('#app');
   window.actionCable = new ActionCableConnector(
     window.WOOT_WIDGET,

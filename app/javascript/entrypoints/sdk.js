@@ -17,6 +17,7 @@ import {
 } from '../sdk/DOMHelpers';
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
+import { initClientErrorReporter } from '../shared/helpers/clientErrorReporter';
 
 const runSDK = ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
@@ -220,3 +221,5 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 window.chatwootSDK = {
   run: runSDK,
 };
+
+initClientErrorReporter();

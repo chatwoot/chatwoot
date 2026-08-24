@@ -14,7 +14,7 @@ description: |
   `multipart/form-data` content type and boundary automatically.
 
   ```bash
-  curl -X POST "https://app.chatwoot.com/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages" \
+  curl -X POST "https://app.whisker.im/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages" \
     -H "api_access_token: <your-api-token>" \
     -F "content=Here is the screenshot" \
     -F "message_type=outgoing" \
@@ -30,7 +30,7 @@ description: |
   By default, `content` is treated as the already-rendered transcript text for
   compatibility with existing API and mobile clients. To submit the original
   template body instead, set `template_params.content_mode` to `raw_template`;
-  Chatwoot will substitute `processed_params.body` before saving the transcript.
+  Whisker will substitute `processed_params.body` before saving the transcript.
   
   ### Example Templates
   

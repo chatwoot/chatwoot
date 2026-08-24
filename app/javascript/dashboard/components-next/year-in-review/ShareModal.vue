@@ -122,7 +122,7 @@ const downloadImage = () => {
 
   const link = document.createElement('a');
   link.href = shareImageUrl.value;
-  link.download = `chatwoot-year-in-review-${props.year}.png`;
+  link.download = `whisker-year-in-review-${props.year}.png`;
   link.click();
 };
 
@@ -132,7 +132,7 @@ const shareImage = async () => {
   try {
     const response = await fetch(shareImageUrl.value);
     const blob = await response.blob();
-    const file = new File([blob], `chatwoot-year-in-review-${props.year}.png`, {
+    const file = new File([blob], `whisker-year-in-review-${props.year}.png`, {
       type: 'image/png',
     });
 

@@ -243,7 +243,7 @@ const handleToggleWidget = () => {
           :script="widgetScript"
           lang="html"
           class="!text-start"
-          :codepen-title="`${websiteName} - Chatwoot Widget Test`"
+          :codepen-title="`${websiteName} - Whisker Widget Test`"
           enable-code-pen
         />
       </div>

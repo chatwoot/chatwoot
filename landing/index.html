@@ -5,26 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Whisker — Customer conversations with a soul</title>
   <meta name="description" content="Whisker is a free, open-source customer conversation platform + CRM. Self-hosted, privacy-first, RTL-ready, with BYOR AI that connects to any OpenAI-compatible router." />
+  <meta property="og:title" content="Whisker — Customer conversations with a soul" />
+  <meta property="og:description" content="Free & open-source live chat + CRM you fully own. Self-hosted, privacy-first, RTL-ready, BYOR AI included." />
+  <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   <style>
     :root {
-      --bg: #0d1f26; --surface: #122b34; --text: #e6f1ef; --muted: #9fb8b3;
+      --bg: #0a1a20; --surface: #112730; --text: #e6f1ef; --muted: #9fb8b3;
       --primary: #1fe0b5; --secondary: #1ba5ff; --accent: #ffc857;
       --grad: linear-gradient(135deg, #1fe0b5, #1ba5ff);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', 'Vazirmatn', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
     a { color: var(--primary); text-decoration: none; }
-    .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
-    nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
-    .logo { font-weight: 800; font-size: 22px; letter-spacing: -0.5px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; position: sticky; top: 0; backdrop-filter: blur(12px); background: rgba(10,26,32,.8); z-index: 50; }
+    .logo { font-weight: 800; font-size: 22px; letter-spacing: -0.5px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; display: flex; align-items: center; gap: 8px; }
     nav .links a { color: var(--muted); margin-inline-start: 22px; font-size: 15px; }
     nav .links a:hover { color: var(--text); }
-    header { padding: 90px 0 70px; text-align: center; position: relative; overflow: hidden; }
+    header { padding: 80px 0 60px; text-align: center; position: relative; overflow: hidden; }
     header::before { content: ''; position: absolute; inset: -40% -20% auto; height: 130%; background: radial-gradient(600px 300px at 50% 0%, rgba(31,224,181,.14), transparent 70%); pointer-events: none; }
-    h1 { font-size: clamp(34px, 6vw, 58px); letter-spacing: -1.5px; line-height: 1.12; }
+    .hero-blob { width: 130px; height: 130px; margin: 0 auto 24px; filter: drop-shadow(0 10px 30px rgba(31,224,181,.3)); animation: float 4s ease-in-out infinite; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    h1 { font-size: clamp(34px, 6vw, 58px); letter-spacing: -1.5px; line-height: 1.12; position: relative; }
     h1 span { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .tagline { color: var(--muted); font-size: clamp(16px, 2.4vw, 20px); margin-top: 18px; }
+    .tagline { color: var(--muted); font-size: clamp(16px, 2.4vw, 20px); margin-top: 18px; max-width: 640px; margin-inline: auto; }
     .cta-row { margin-top: 36px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
     .btn { display: inline-block; padding: 13px 28px; border-radius: 12px; font-weight: 600; font-size: 15px; transition: transform .15s ease, box-shadow .15s ease; }
     .btn:hover { transform: translateY(-2px); }
@@ -34,17 +39,18 @@
     section { padding: 64px 0; }
     h2 { font-size: clamp(24px, 3.6vw, 34px); letter-spacing: -0.5px; margin-bottom: 10px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; margin-top: 34px; }
-    .card { background: var(--surface); border: 1px solid #17333e; border-radius: 18px; padding: 24px; }
+    .card { background: var(--surface); border: 1px solid #17333e; border-radius: 18px; padding: 24px; transition: border-color .2s; }
+    .card:hover { border-color: var(--primary); }
     .card .emoji { font-size: 26px; }
     .card h3 { margin: 10px 0 8px; font-size: 17px; }
     .card p { color: var(--muted); font-size: 14.5px; }
     code.inline { background: #0a161c; padding: 3px 8px; border-radius: 7px; font-size: 13px; }
     pre { background: #0a161c; border: 1px solid #17333e; border-radius: 14px; padding: 20px; overflow-x: auto; font-size: 13.5px; color: #b9d9d2; margin-top: 20px; }
-    pre b { color: var(--accent); font-weight: 600; }
     .rtl { direction: rtl; }
     .rtl h2, .rtl p { text-align: right; }
     .fa { font-family: 'Vazirmatn', 'Inter', sans-serif; }
     footer { border-top: 1px solid #17333e; padding: 34px 0; color: var(--muted); font-size: 14px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .version-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(31,224,181,.12); color: var(--primary); padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 18px; }
     @media (max-width: 640px) { nav .links a:not(:last-child) { display: none; } }
   </style>
 </head>
@@ -62,6 +68,34 @@
     </nav>
 
     <header>
+      <svg class="hero-blob" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1fe0b5"/>
+            <stop offset="100%" style="stop-color:#1ba5ff"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="60" cy="65" rx="40" ry="38" fill="url(#bodyGrad)" />
+        <circle cx="45" cy="55" r="6" fill="white"/>
+        <circle cx="75" cy="55" r="6" fill="white"/>
+        <circle cx="46" cy="56" r="3" fill="#1e293b"/>
+        <circle cx="76" cy="56" r="3" fill="#1e293b"/>
+        <path d="M 50 70 Q 60 78 70 70" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <line x1="15" y1="58" x2="38" y2="62" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="15" y1="68" x2="38" y2="68" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="82" y1="62" x2="105" y2="58" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="82" y1="68" x2="105" y2="68" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+        <ellipse cx="30" cy="32" rx="10" ry="12" fill="url(#bodyGrad)" transform="rotate(-15, 30, 32)"/>
+        <ellipse cx="90" cy="32" rx="10" ry="12" fill="url(#bodyGrad)" transform="rotate(15, 90, 32)"/>
+        <ellipse cx="30" cy="33" rx="6" ry="8" fill="#ffc857" transform="rotate(-15, 30, 33)"/>
+        <ellipse cx="90" cy="33" rx="6" ry="8" fill="#ffc857" transform="rotate(15, 90, 33)"/>
+        <circle cx="60" cy="95" r="8" fill="white" opacity="0.3"/>
+        <circle cx="55" cy="91" r="2.5" fill="white" opacity="0.4"/>
+        <circle cx="65" cy="91" r="2.5" fill="white" opacity="0.4"/>
+        <circle cx="52" cy="96" r="2" fill="white" opacity="0.4"/>
+        <circle cx="68" cy="96" r="2" fill="white" opacity="0.4"/>
+      </svg>
+      <div class="version-pill">🚀 v1.0.0 — Stable Release</div>
       <h1>Customer conversations<br /><span>with a soul.</span></h1>
       <p class="tagline">Free &amp; open-source live chat + CRM you fully own.<br />Self-hosted, privacy-first, RTL-ready — with AI you bring yourself.</p>
       <div class="cta-row">
@@ -84,8 +118,10 @@
         <div class="card"><div class="emoji">🧠</div><h3>BYOR AI</h3><p>Connect any OpenAI-compatible router: OpenRouter, LiteLLM, OmniRoute, NineRouter, Ollama, Groq, vLLM. Your keys stay in your env.</p></div>
         <div class="card"><div class="emoji">📚</div><h3>Native RAG</h3><p>Feed your help-center articles to your own AI agent via pgvector. Grounded answers, no external SaaS.</p></div>
         <div class="card"><div class="emoji">🎨</div><h3>Theme-driven widget</h3><p>theme.json controls icon, colors, motion presets, sounds, position and pet-mode. 8 default mascots included.</p></div>
-        <div class="card"><div class="emoji">🐾</div><h3>Pawly the desktop pet</h3><p>A floating mascot on the operator's desktop that hops on new conversations (Tauri, roadmap P5).</p></div>
+        <div class="card"><div class="emoji">🐾</div><h3>Pawly the desktop pet</h3><p>A floating Tauri mascot that notifies operators on new conversations and opens the inbox in one click.</p></div>
+        <div class="card"><div class="emoji">🔀</div><h3>Conversation Flows</h3><p>Visual drag-and-drop builder to automate routing, conditions, AI replies and actions — no code required.</p></div>
         <div class="card"><div class="emoji">🌍</div><h3>RTL first-class</h3><p>Persian and Arabic as citizens, not afterthoughts — Vazirmatn typography, full RTL dashboard and widget.</p></div>
+        <div class="card"><div class="emoji">🛡️</div><h3>Enterprise-grade</h3><p>SSO/SAML, roles, audit logs, webhooks, APIs, CSAT, SLAs — everything a support team needs.</p></div>
       </div>
     </section>
 
@@ -97,7 +133,7 @@
           <div class="emoji">🐳</div>
           <h3>Docker</h3>
           <p>The fastest path to production.</p>
-          <pre style="margin-top:12px;padding:14px;font-size:12.5px">docker pull whisker/whisker:latest</pre>
+          <pre style="margin-top:12px;padding:14px;font-size:12.5px">docker compose -f docker-compose.production.yaml up</pre>
         </div>
         <div class="card">
           <div class="emoji">📦</div>
@@ -106,12 +142,10 @@
           <p style="margin-top:12px"><a href="https://github.com/maddixmhn/Whisker/releases/latest" class="btn btn-primary" style="padding:10px 18px;font-size:14px">Latest release ↗</a></p>
         </div>
         <div class="card">
-          <div class="emoji">🛠️</div>
-          <h3>From source</h3>
-          <p>Hack on it in minutes.</p>
-          <pre style="margin-top:12px;padding:14px;font-size:12.5px">git clone https://github.com/maddixmhn/Whisker
-cd Whisker
-docker compose -f docker-compose.production.yaml up</pre>
+          <div class="emoji">🖥️</div>
+          <h3>Desktop Pet</h3>
+          <p>Pawly for Windows, macOS &amp; Linux.</p>
+          <p style="margin-top:12px"><a href="https://github.com/maddixmhn/Whisker/releases/latest" class="btn btn-primary" style="padding:10px 18px;font-size:14px">Download Pawly ↗</a></p>
         </div>
       </div>
     </section>

@@ -85,7 +85,7 @@ export default {
     avatarUrl() {
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
-        : '/assets/images/chatwoot_bot.png';
+        : '/assets/images/whisker_bot.png';
 
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
         return displayImage;

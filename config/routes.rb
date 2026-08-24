@@ -42,6 +42,9 @@ Rails.application.routes.draw do
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
+      # [whisker] Public client error ingestion (widget/pet run on 3rd-party sites)
+      resources :client_error_reports, only: [:create], path: 'client_errors'
+
       # ----------------------------------
       # start of account scoped api routes
       resources :accounts, only: [:create, :show, :update] do
@@ -131,6 +134,8 @@ Rails.application.routes.draw do
               post :toggle
             end
           end
+          # [whisker] Client error reports (widget/pet debugging)
+          resources :client_error_reports, only: [:index, :show]
           resource :saml_settings, only: [:show, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member

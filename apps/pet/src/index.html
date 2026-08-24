@@ -240,6 +240,21 @@
     invoke('get_notification_count').then(setCount);
     invoke('get_sound_enabled').then(enabled => { soundOn = enabled; });
 
+    // Error reporting — sends client errors back to Whisker for debugging
+    window.addEventListener('error', (e) => {
+      invoke('report_error', {
+        message: e.message || 'Unknown error',
+        stack: e.error && e.error.stack ? e.error.stack : null,
+      }).catch(() => {});
+    });
+    window.addEventListener('unhandledrejection', (e) => {
+      const reason = e.reason || {};
+      invoke('report_error', {
+        message: reason.message || 'Unhandled promise rejection',
+        stack: reason.stack || null,
+      }).catch(() => {});
+    });
+
     // Idle animations
     setInterval(() => {
       if (Math.random() > 0.75) bounce();

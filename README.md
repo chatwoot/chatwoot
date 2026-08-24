@@ -6,7 +6,7 @@
   **«گفتگو با مشتری‌ها، با یک رفیق دیجیتال»**
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-1fe0b5.svg)](./LICENSE)
-  ![Fork of Chatwoot](https://img.shields.io/badge/fork%20of-Chatwoot%20v4.17-1ba5ff)
+  ![Version](https://img.shields.io/badge/version-1.0.0-1ba5ff)
   ![Platform](https://img.shields.io/badge/self--hosted-privacy--first-ffc857)
 </div>
 
@@ -38,7 +38,7 @@ We believe customer conversations deserve better than paywalled AI and locked fe
 
 ---
 
-## ✨ Highlights
+## ✨ Highlights / ویژگی‌ها
 
 ### 💬 Omnichannel Support Desk
 Live chat, email, Facebook, Instagram, WhatsApp, Telegram, SMS, Line and more — all inboxes unified in one powerful dashboard.
@@ -55,12 +55,15 @@ Feed your Help Center articles to your own AI agent. Grounded answers with citat
 ### 🐾 Desktop Pet (*Pawly*)
 A floating Tauri-based mascot on the operator's desktop: hops and notifies on new conversations, click to open inbox.
 
+### 🔀 Conversation Flows
+Visual drag-and-drop flow builder to automate routing, conditions, AI replies, and actions — no code required.
+
 ### 🗂️ Everything else you expect
 Teams, labels, automation rules, macros, canned responses, campaigns, reports & CSAT, help center portal, SLA, audit logs, SSO, platform APIs, webhooks, Slack integration…
 
 ---
 
-## 🚀 Quick start
+## 🚀 Quick start / نصب سریع
 
 ```bash
 # dev stack
@@ -72,40 +75,62 @@ overmind start -f Procfile.dev
 docker compose -f docker-compose.production.yaml up
 ```
 
-## 🌐 Website / Landing
+### Requirements / پیش‌نیازها
+- Ruby 3.3+
+- Node.js 20+
+- PostgreSQL 14+
+- Redis 6+
 
-The marketing/docs home lives in [`landing/`](./landing) — a static site deployable to Vercel in one click:
+See [`docs/index.html`](./docs/index.html) for the full documentation.
+
+---
+
+## 🌐 Website / وب‌سایت
+
+The official product website is live at **[whisker.im](https://whisker.im)** (deployed via Vercel).
+
+The source lives in [`landing/`](./landing) — a static single-page site. To deploy your own:
 
 ```bash
 cd landing && npx vercel --prod
 ```
 
-See [`landing/README.md`](./landing/README.md) for the custom-domain guide (e.g. `whisker.chat`).
+---
 
-## 🛣 Roadmap
+## 🛣 Roadmap / نقشه راه
 
 | Phase | Scope | Status |
 |---|---|---|
 | P0 | Enterprise detox, rebrand, tokens, docs | ✅ done |
-| P1 | Dashboard reskin + RTL + fa i18n | ⏳ next |
-| P2 | Widget revamp (themes, voice notes, dept picker) | ☐ |
-| P3 | Goftino parity backend (worktime, ban rules, NPS…) | ☐ |
-| P4 | AI layer (`whisker_ai` engine, RAG, copilot) | ☐ |
-| P5 | Desktop pet (Tauri) | ☐ |
-| P6 | Flow builder & launch | ☐ |
+| P1 | Dashboard reskin + RTL + fa i18n | ✅ done |
+| P2 | Widget revamp (themes, voice notes, dept picker) | ✅ done |
+| P3 | Goftino parity backend (Bale channel, worktime, ban rules, NPS…) | ✅ done |
+| P4 | AI layer (`whisker_ai` engine, RAG, copilot, widget auto-reply) | ✅ done |
+| P5 | Desktop pet (Tauri, tray, notifications, API polling) | ✅ done |
+| P6 | Flow builder, theme marketplace, docs site | ✅ done |
 
 See [`PLANNING.md`](./PLANNING.md) for the full plan.
 
-## 🌳 Branching
+---
+
+## 🐾 Desktop Pet / مَسکات دسکتاپ
+
+Pawly is a companion app for operators. Download the latest release for Windows / macOS / Linux from the [Releases](https://github.com/maddixmhn/Whisker/releases) page.
+
+---
+
+## 🌳 Branching / شاخه‌بندی
 
 git-flow, base branch `develop`. Stable releases are tagged from `master`.
 Upstream sync: monthly merge from `chatwoot/chatwoot` via the `upstream` remote.
 
-## 🔒 Security
+---
+
+## 🔒 Security / امنیت
 
 Please report vulnerabilities through [`SECURITY.md`](./SECURITY.md).
 
-## 📄 License
+## 📄 License / مجوز
 
 MIT — see [`LICENSE`](./LICENSE). This project is a fork of [Chatwoot](https://github.com/chatwoot/chatwoot); upstream copyright notice is preserved as required by the MIT license.
 

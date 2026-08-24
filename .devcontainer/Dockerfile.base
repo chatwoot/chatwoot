@@ -73,7 +73,7 @@ RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmi
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 
-# Do the set up required for chatwoot app
+# Do the set up required for Whisker app
 WORKDIR /workspace
 RUN chown vscode:vscode /workspace
 

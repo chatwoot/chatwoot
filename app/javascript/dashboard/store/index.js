@@ -66,6 +66,7 @@ import whiskerAi from './modules/whisker_ai';
 import knowledgeBase from './modules/knowledge_base';
 import conversationFlows from './modules/conversation_flows';
 import whiskerThemes from './modules/whisker_themes';
+import clientErrorReports from './modules/client_error_reports';
 
 const plugins = [];
 
@@ -137,6 +138,7 @@ export default createStore({
     knowledgeBase,
     conversationFlows,
     whiskerThemes,
+    clientErrorReports,
   },
   plugins,
 });

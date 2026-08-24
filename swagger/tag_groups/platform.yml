@@ -1,16 +1,16 @@
 openapi: '3.1.0'
 info:
-  title: Chatwoot - Platform API
-  description: Platform API endpoints for Chatwoot
+  title: Whisker - Platform API
+  description: Platform API endpoints for Whisker
   version: 1.1.0
-  termsOfService: https://www.chatwoot.com/terms-of-service/
+  termsOfService: https://www.whisker.im/terms-of-service/
   contact:
-    email: hello@chatwoot.com
+    email: info@whisker.im
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 servers:
-  - url: https://app.chatwoot.com/
+  - url: https://app.whisker.im/
 tags:
   - name: Accounts
     description: Platform account management

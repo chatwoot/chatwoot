@@ -66,6 +66,7 @@ export const getters = {
     $state.deploymentEnv === 'cloud' && $state.disableMetaMessageSending,
   isACustomBrandedInstance: $state => $state.installationName !== 'Chatwoot',
   isAChatwootInstance: $state => $state.installationName === 'Chatwoot',
+  isAWhiskerInstance: $state => $state.installationName === 'Whisker',
 };
 
 export const actions = {};

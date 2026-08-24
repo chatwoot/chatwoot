@@ -937,6 +937,37 @@ const menuItems = computed(() => {
           icon: 'i-lucide-credit-card',
           to: accountScopedRoute('billing_settings_index'),
         },
+        // [whisker] AI & automation settings
+        {
+          name: 'Settings AI Providers',
+          label: t('SIDEBAR.AI_PROVIDERS'),
+          icon: 'i-lucide-bot',
+          to: accountScopedRoute('ai_providers'),
+        },
+        {
+          name: 'Settings Knowledge Base',
+          label: t('SIDEBAR.KNOWLEDGE_BASE'),
+          icon: 'i-lucide-database',
+          to: accountScopedRoute('knowledge_base'),
+        },
+        {
+          name: 'Settings Flow Builder',
+          label: t('SIDEBAR.FLOW_BUILDER'),
+          icon: 'i-lucide-git-branch',
+          to: accountScopedRoute('flow_builder'),
+        },
+        {
+          name: 'Settings Theme Marketplace',
+          label: t('SIDEBAR.THEME_MARKETPLACE'),
+          icon: 'i-lucide-palette',
+          to: accountScopedRoute('theme_marketplace'),
+        },
+        {
+          name: 'Settings Error Reports',
+          label: t('SIDEBAR.ERROR_REPORTS'),
+          icon: 'i-lucide-triangle-alert',
+          to: accountScopedRoute('error_reports'),
+        },
       ],
     },
   ];

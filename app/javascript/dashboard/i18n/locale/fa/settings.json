@@ -354,6 +354,11 @@
     "MACROS": "ماکروها",
     "TEAMS": "تیم‌ها",
     "BILLING": "صورتحساب",
+    "AI_PROVIDERS": "ارائه‌دهندگان هوش مصنوعی",
+    "KNOWLEDGE_BASE": "پایگاه دانش",
+    "FLOW_BUILDER": "سازنده جریان",
+    "THEME_MARKETPLACE": "فروشگاه تم",
+    "ERROR_REPORTS": "گزارش خطاها",
     "CUSTOM_VIEWS_FOLDER": "پوشه‌ها",
     "CUSTOM_VIEWS_SEGMENTS": "بخش ها",
     "ALL_CONTACTS": "تمام مخاطبین",
@@ -1146,6 +1151,25 @@
       "ENABLED": "فعال (استفاده در پاسخ‌های AI)",
       "CANCEL": "انصراف",
       "SAVE": "ذخیره"
+    },
+    "FLOW_BUILDER": {
+      "TITLE": "جریان‌های گفتگو",
+      "DESC": "گردش‌های کار خودکار گفتگو با محرک‌ها، شرط‌ها، پاسخ‌های AI و اقدامات بسازید.",
+      "ADD_BUTTON": "ایجاد جریان",
+      "EDIT": "ویرایش",
+      "DELETE": {
+        "BUTTON": "حذف",
+        "SUCCESS": "جریان حذف شد"
+      },
+      "CREATE": {
+        "SUCCESS": "جریان ایجاد شد"
+      },
+      "UPDATE": {
+        "SUCCESS": "جریان به‌روزرسانی شد"
+      },
+      "ERROR": "مشکلی پیش آمد",
+      "ADD_TITLE": "ایجاد جریان گفتگو",
+      "EDIT_TITLE": "ویرایش جریان گفتگو"
     }
   }
 }

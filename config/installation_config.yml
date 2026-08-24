@@ -82,7 +82,7 @@
 - name: WEBHOOK_TIMEOUT
   value: 5
   display_title: 'Webhook request timeout (seconds)'
-  description: 'Maximum time Chatwoot waits for a webhook response before failing the request'
+  description: 'Maximum time Whisker waits for a webhook response before failing the request'
   locked: false
 - name: DIRECT_UPLOADS_ENABLED
   type: boolean
@@ -236,29 +236,29 @@
   type: secret
 # ------- End of Context.dev Config ------- #
 
-# ------- Chatwoot Internal Config for Cloud ----#
+# ------- Whisker Internal Config for Cloud ----#
 - name: DISABLE_META_INBOX_CREATION
   value: true
   display_title: 'Disable Meta Inbox Creation'
-  description: 'Disable Facebook, Instagram, and WhatsApp Embedded Signup inbox creation on Chatwoot Cloud during Meta incidents'
+  description: 'Disable Facebook, Instagram, and WhatsApp Embedded Signup inbox creation on Whisker during incidents'
   locked: false
   type: boolean
 - name: DISABLE_META_MESSAGE_SENDING
   value: true
   display_title: 'Disable Meta Message Sending'
-  description: 'Disable Instagram message sending on Chatwoot Cloud during Meta incidents'
+  description: 'Disable Instagram message sending on Whisker during incidents'
   locked: false
   type: boolean
 - name: CHATWOOT_INBOX_TOKEN
   value:
   display_title: 'Inbox Token'
-  description: 'The Chatwoot Inbox Token for Contact Support in Cloud'
+  description: 'The Whisker Inbox Token for Contact Support in Cloud'
   locked: false
   type: secret
 - name: CHATWOOT_INBOX_HMAC_KEY
   value:
   display_title: 'Inbox HMAC Key'
-  description: 'The Chatwoot Inbox HMAC Key for Contact Support in Cloud'
+  description: 'The Whisker Inbox HMAC Key for Contact Support in Cloud'
   locked: false
   type: secret
 - name: CHATWOOT_CLOUD_PLANS
@@ -279,7 +279,7 @@
 - name: MARKETING_CONVERSION_TRACKING_CONFIG
   value:
   display_title: 'Marketing Conversion Tracking Config'
-  description: 'JSON config for Chatwoot Cloud signup and plan activation conversion tracking'
+  description: 'JSON config for Whisker signup and plan activation conversion tracking'
   locked: true
   type: code
 - name: CHATWOOT_CLOUD_PLAN_FEATURES
@@ -288,11 +288,11 @@
   description: 'Config to features and their associated plans'
 - name: DEPLOYMENT_ENV
   value: self-hosted
-  description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
+  description: 'The deployment environment of the installation, to differentiate between Whisker cloud and self-hosted'
 - name: CLOUD_ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
-  description: 'The Amplitude analytics API key for Chatwoot cloud'
+  description: 'The Amplitude analytics API key for Whisker cloud'
   type: secret
 - name: CLEARBIT_API_KEY
   value:
@@ -318,9 +318,9 @@
   display_title: 'Inactive WhatsApp Numbers'
   description: 'Comma-separated list of WhatsApp numbers that should be rejected with a 422 error'
   type: code
-# ------- End of Chatwoot Internal Config for Cloud ----#
+# ------- End of Whisker Internal Config for Cloud ----#
 
-# ------- Chatwoot Internal Config for Self Hosted ----#
+# ------- Whisker Internal Config for Self Hosted ----#
 - name: INSTALLATION_PRICING_PLAN
   value: 'community'
   description: 'The pricing plan for the installation, retrieved from the billing API'
@@ -329,20 +329,20 @@
   description: 'The number of licenses purchased for the installation, retrieved from the billing API'
 - name: CHATWOOT_SUPPORT_WEBSITE_TOKEN
   value:
-  description: 'The Chatwoot website token, used to identify the Chatwoot inbox and display the "Contact Support" option on the billing page'
+  description: 'The Whisker website token, used to identify the Whisker inbox and display the "Contact Support" option on the billing page'
   type: secret
 - name: CHATWOOT_SUPPORT_SCRIPT_URL
   value:
-  description: 'The Chatwoot script base URL, to display the "Contact Support" option on the billing page'
+  description: 'The Whisker script base URL, to display the "Contact Support" option on the billing page'
 - name: CHATWOOT_SUPPORT_IDENTIFIER_HASH
   value:
-  description: 'The Chatwoot identifier hash, to validate the contact in the live chat window.'
+  description: 'The Whisker identifier hash, to validate the contact in the live chat window.'
   type: secret
 - name: ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL
   display_title: Webhook URL to post security analysis
   value:
-  description: Used to notify Chatwoot about account abuses, potential threads (Should be a Discord Webhook URL)
-# ------- End of Chatwoot Internal Config for Self Hosted ----#
+  description: Used to notify Whisker about account abuses, potential threats (Should be a Discord Webhook URL)
+# ------- End of Whisker Internal Config for Self Hosted ----#
 
 # ------- Compliance Related Config ----#
 - name: CHATWOOT_INSTANCE_ADMIN_EMAIL
