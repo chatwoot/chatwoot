@@ -3,11 +3,11 @@
     "HEADER": "Étiquettes",
     "HEADER_BTN_TXT": "Ajouter une étiquette",
     "LOADING": "Récupération des étiquettes",
-    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
-    "LEARN_MORE": "Learn more about labels",
-    "COUNT": "{n} label | {n} labels",
+    "DESCRIPTION": "Les étiquettes vous aident à catégoriser et à prioriser les conversations et les prospects. Vous pouvez assigner une étiquette à une conversation ou un contact à l'aide du panneau latéral.",
+    "LEARN_MORE": "En savoir plus sur les étiquettes",
+    "COUNT": "{n} étiquette | {n} étiquettes",
     "SEARCH_PLACEHOLDER": "Rechercher des étiquettes...",
-    "NO_RESULTS": "No labels found matching your search",
+    "NO_RESULTS": "Aucune étiquette trouvée correspondant à votre recherche",
     "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",
     "LIST": {
       "404": "Il n'y a aucune étiquette disponible dans ce compte.",
@@ -55,7 +55,7 @@
       "ADD_SELECTED_LABELS": "Ajouter les libellés sélectionnés",
       "ADD_SELECTED_LABEL": "Ajouter le libellé sélectionné",
       "ADD_ALL_LABELS": "Ajouter tous les libellés",
-      "SUGGESTED_LABELS": "Suggested labels"
+      "SUGGESTED_LABELS": "Libellés suggérés"
     },
     "ADD": {
       "TITLE": "Ajouter une étiquette",
