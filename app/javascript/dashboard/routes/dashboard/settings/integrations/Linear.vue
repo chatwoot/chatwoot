@@ -9,8 +9,12 @@ import {
 import Integration from './Integration.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import { useRoute, useRouter } from 'vue-router';
+import { catalogReturnLocation } from 'dashboard/routes/dashboard/captain/tools/catalogFlow';
 
 const store = useStore();
+const route = useRoute();
+const router = useRouter();
 
 const integrationLoaded = ref(false);
 
@@ -28,6 +32,15 @@ const integrationAction = computed(() => {
 const initializeLinearIntegration = async () => {
   await store.dispatch('integrations/get', 'linear');
   integrationLoaded.value = true;
+  const installationId = route.query.catalog_installation_id;
+  if (!installationId) return;
+
+  const returnLocation = catalogReturnLocation({
+    accountId: route.params.accountId,
+    providerKey: 'linear',
+    installationId,
+  });
+  if (returnLocation) await router.replace(returnLocation);
 };
 
 onMounted(() => {

@@ -249,7 +249,7 @@ RSpec.describe Linear::CallbacksController, type: :request do
         end.to change(account.captain_custom_tools.catalog, :count).by(1)
                                                                    .and not_change(Integrations::Hook, :count)
 
-        expect(response).to redirect_to(linear_redirect_uri)
+        expect(response).to redirect_to("#{linear_redirect_uri}?catalog_installation_id=#{installation.id}")
         expect(installation.reload.oauth_nonce_digest).to be_nil
         expect(installation).to be_completed
         expect(installation.integration_hook).to eq(existing_hook)

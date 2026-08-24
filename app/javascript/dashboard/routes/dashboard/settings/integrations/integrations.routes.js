@@ -58,7 +58,10 @@ export default {
             featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['administrator'],
           },
-          props: route => ({ code: route.query.code }),
+          props: route => ({
+            code: route.query.code,
+            state: route.query.state,
+          }),
         },
         {
           path: 'linear',

@@ -1,45 +1,466 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, nextTick, onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 
+import IntegrationsAPI from 'dashboard/api/integrations';
+import Button from 'dashboard/components-next/button/Button.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
+import Select from 'dashboard/components-next/select/Select.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ProviderIcon from 'dashboard/components-next/captain/pageComponents/toolCatalog/ProviderIcon.vue';
+import {
+  buildConnectionSelections,
+  buildSelections,
+  flattenTemplates,
+  missingRequiredConfiguration,
+  requiredScopes,
+  selectedTemplates,
+  updateSelections,
+} from './catalogSelection';
+import {
+  clearCatalogFlow,
+  getCatalogFlow,
+  saveCatalogFlow,
+} from './catalogFlow';
+
+const STARTER_SETS = {
+  stripe: [
+    'get_current_customer',
+    'get_subscription_status',
+    'get_last_five_payments',
+  ],
+  shopify: [
+    'get_current_customer',
+    'list_recent_customer_orders',
+    'get_order_tracking_status',
+  ],
+  linear: [
+    'create_issue_from_conversation',
+    'get_linked_issue_status',
+    'add_comment_to_linked_issue',
+  ],
+  slack: ['send_message_to_channel', 'reply_to_thread', 'find_user_by_email'],
+};
 
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
+const { t } = useI18n();
 const { isAdmin } = useAdmin();
 
+const selectedKeys = ref([]);
+const configurations = ref({});
+const stripeCredential = ref('');
+const shopDomain = ref('');
+const channelOptions = ref([]);
+const teamOptions = ref([]);
+const projectOptions = ref([]);
+const statusMessage = ref('');
+const errorMessage = ref('');
+const installationComplete = ref(false);
+const statusRef = ref(null);
+
 const providerKey = computed(() => route.params.providerKey);
+const accountId = computed(() => route.params.accountId);
 const provider = useMapGetter('captainToolCatalog/getProvider');
 const capacity = useMapGetter('captainToolCatalog/getCapacity');
 const uiFlags = useMapGetter('captainToolCatalog/getUIFlags');
 
 const providerDetails = computed(() => provider.value(providerKey.value));
 const isFetching = computed(() => uiFlags.value.fetchingProvider);
+const isMutating = computed(() => uiFlags.value.mutatingInstallation);
+const isFetchingSetup = computed(() => uiFlags.value.fetchingSetup);
+const allTemplates = computed(() => flattenTemplates(providerDetails.value));
+const newTemplates = computed(() =>
+  selectedTemplates(providerDetails.value, selectedKeys.value)
+);
+const scopes = computed(() => requiredScopes(newTemplates.value));
+const grantedScopes = computed(
+  () => new Set(providerDetails.value?.connection.granted_scopes || [])
+);
+const requiresConnection = computed(
+  () =>
+    providerKey.value !== 'stripe' &&
+    (!providerDetails.value?.connection.connected ||
+      scopes.value.some(scope => !grantedScopes.value.has(scope)))
+);
+const stripeRequiresCredential = computed(
+  () =>
+    providerKey.value === 'stripe' &&
+    (!providerDetails.value?.connection.connected ||
+      scopes.value.some(scope => !grantedScopes.value.has(scope)))
+);
+const selectedCount = computed(() => newTemplates.value.length);
+const projectedCapacity = computed(
+  () => capacity.value.used + selectedCount.value
+);
+const hasCapacity = computed(
+  () => projectedCapacity.value <= capacity.value.limit
+);
+const configurationMissing = computed(() =>
+  missingRequiredConfiguration(newTemplates.value, configurations.value)
+);
+const updates = computed(() => updateSelections(providerDetails.value));
+const canContinue = computed(() => {
+  if (!selectedCount.value || !hasCapacity.value || isMutating.value) {
+    return false;
+  }
+  if (requiresConnection.value) {
+    return providerKey.value !== 'shopify' || shopDomain.value.trim();
+  }
+  if (stripeRequiresCredential.value) {
+    return stripeCredential.value.trim();
+  }
+  return !configurationMissing.value;
+});
 const backUrl = computed(() => ({
   name: 'captain_tools_index',
   params: route.params,
   query: { view: 'browse' },
 }));
+const playgroundUrl = computed(() => ({
+  name: 'captain_assistants_playground_index',
+  params: {
+    accountId: route.params.accountId,
+    assistantId: route.params.assistantId,
+  },
+}));
 
 const riskLabel = riskClass =>
   riskClass === 'read'
-    ? 'CAPTAIN.CUSTOM_TOOLS.CATALOG.READ'
-    : 'CAPTAIN.CUSTOM_TOOLS.CATALOG.WRITE';
+    ? t('CAPTAIN.CUSTOM_TOOLS.CATALOG.READ')
+    : t('CAPTAIN.CUSTOM_TOOLS.CATALOG.WRITE');
 
 const availabilityLabel = template => {
   if (template.availability !== 'available') {
-    return 'CAPTAIN.CUSTOM_TOOLS.CATALOG.REQUIRES_APPROVAL';
+    return t('CAPTAIN.CUSTOM_TOOLS.CATALOG.REQUIRES_APPROVAL');
   }
   if (template.update_available) {
-    return 'CAPTAIN.CUSTOM_TOOLS.CATALOG.UPDATE_AVAILABLE';
+    return t('CAPTAIN.CUSTOM_TOOLS.CATALOG.UPDATE_AVAILABLE');
   }
-  if (template.installed) return 'CAPTAIN.CUSTOM_TOOLS.CATALOG.INSTALLED';
-  return 'CAPTAIN.CUSTOM_TOOLS.CATALOG.AVAILABLE';
+  if (template.installed) {
+    return t('CAPTAIN.CUSTOM_TOOLS.CATALOG.INSTALLED');
+  }
+  return t('CAPTAIN.CUSTOM_TOOLS.CATALOG.AVAILABLE');
+};
+
+const formatError = error => {
+  switch (error?.message) {
+    case 'encryption_required':
+      return t('CAPTAIN.CUSTOM_TOOLS.CATALOG.ERRORS.ENCRYPTION_REQUIRED');
+    case 'installation_expired':
+      return t('CAPTAIN.CUSTOM_TOOLS.CATALOG.ERRORS.INSTALLATION_EXPIRED');
+    case 'invalid_shopify_domain':
+      return t('CAPTAIN.CUSTOM_TOOLS.CATALOG.ERRORS.INVALID_SHOPIFY_DOMAIN');
+    case 'setup_connection_required':
+      return t('CAPTAIN.CUSTOM_TOOLS.CATALOG.ERRORS.SETUP_CONNECTION_REQUIRED');
+    case 'stripe_restricted_key_required':
+      return t(
+        'CAPTAIN.CUSTOM_TOOLS.CATALOG.ERRORS.STRIPE_RESTRICTED_KEY_REQUIRED'
+      );
+    case 'tool_capacity_exceeded':
+      return t('CAPTAIN.CUSTOM_TOOLS.CATALOG.ERRORS.TOOL_CAPACITY_EXCEEDED');
+    default:
+      return t('CAPTAIN.CUSTOM_TOOLS.CATALOG.ERRORS.GENERIC');
+  }
+};
+
+const announce = async (message, { error = false } = {}) => {
+  statusMessage.value = error ? '' : message;
+  errorMessage.value = error ? message : '';
+  await nextTick();
+  statusRef.value?.focus();
+};
+
+const setConfiguration = (templateKey, key, value) => {
+  configurations.value = {
+    ...configurations.value,
+    [templateKey]: {
+      ...(configurations.value[templateKey] || {}),
+      [key]: value,
+    },
+  };
+};
+
+const configurationValue = (templateKey, key) =>
+  configurations.value[templateKey]?.[key] || '';
+
+const templateNeedsConfiguration = templateKey =>
+  (
+    allTemplates.value.find(template => template.key === templateKey)
+      ?.configuration_schema.required || []
+  ).length > 0;
+
+const requiresSlackChannel = computed(
+  () =>
+    providerKey.value === 'slack' &&
+    selectedKeys.value.some(templateNeedsConfiguration)
+);
+const requiresLinearProject = computed(
+  () =>
+    providerKey.value === 'linear' &&
+    selectedKeys.value.some(templateNeedsConfiguration)
+);
+
+const loadSlackChannels = async () => {
+  if (
+    !requiresSlackChannel.value ||
+    !providerDetails.value.connection.connected
+  ) {
+    return;
+  }
+  const payload = await store.dispatch('captainToolCatalog/setup', {
+    providerKey: 'slack',
+    operationKey: 'list_channels',
+  });
+  channelOptions.value = payload.options.map(option => ({
+    value: option.id,
+    label: `${option.is_private ? 'Private: ' : ''}#${option.name}`,
+  }));
+};
+
+const loadLinearTeams = async () => {
+  if (
+    !requiresLinearProject.value ||
+    !providerDetails.value.connection.connected
+  ) {
+    return;
+  }
+  const payload = await store.dispatch('captainToolCatalog/setup', {
+    providerKey: 'linear',
+    operationKey: 'list_teams',
+  });
+  teamOptions.value = payload.options.map(option => ({
+    value: option.id,
+    label: option.name,
+  }));
+};
+
+const loadSetupOptions = async () => {
+  try {
+    await Promise.all([loadSlackChannels(), loadLinearTeams()]);
+  } catch (error) {
+    await announce(formatError(error), { error: true });
+  }
+};
+
+const selectLinearTeam = async value => {
+  const template = newTemplates.value.find(item =>
+    item.configuration_schema.required?.includes('team_id')
+  );
+  if (!template) return;
+
+  setConfiguration(template.key, 'team_id', value);
+  setConfiguration(template.key, 'project_id', '');
+  projectOptions.value = [];
+  try {
+    const payload = await store.dispatch('captainToolCatalog/setup', {
+      providerKey: 'linear',
+      operationKey: 'list_team_entities',
+      arguments: { teamId: value },
+    });
+    projectOptions.value = payload.projects.map(option => ({
+      value: option.id,
+      label: option.name,
+    }));
+  } catch (error) {
+    await announce(formatError(error), { error: true });
+  }
+};
+
+const setSlackChannel = value => {
+  const template = newTemplates.value.find(item =>
+    item.configuration_schema.required?.includes('channel_id')
+  );
+  if (template) setConfiguration(template.key, 'channel_id', value);
+};
+
+const toggleTemplate = async (template, selected) => {
+  if (template.installed || template.availability !== 'available') return;
+
+  selectedKeys.value = selected
+    ? [...new Set([...selectedKeys.value, template.key])]
+    : selectedKeys.value.filter(key => key !== template.key);
+  installationComplete.value = false;
+  if (selected) await loadSetupOptions();
+};
+
+const selectStarterSet = async () => {
+  const availableKeys = new Set(
+    allTemplates.value
+      .filter(
+        template => template.availability === 'available' && !template.installed
+      )
+      .map(template => template.key)
+  );
+  selectedKeys.value = (STARTER_SETS[providerKey.value] || []).filter(key =>
+    availableKeys.has(key)
+  );
+  installationComplete.value = false;
+  await loadSetupOptions();
+};
+
+const saveFlow = installation => {
+  saveCatalogFlow({
+    accountId: accountId.value,
+    assistantId: route.params.assistantId,
+    providerKey: providerKey.value,
+    installationId: installation.id,
+    selectedKeys: selectedKeys.value,
+    configurations: configurations.value,
+  });
+};
+
+const startOAuth = async installation => {
+  saveFlow(installation);
+  const data = { installation_id: installation.id };
+  if (providerKey.value === 'shopify') {
+    data.shop_domain = shopDomain.value;
+  }
+  const response = await IntegrationsAPI.startCatalogOAuth(
+    providerKey.value,
+    data
+  );
+  window.location.assign(response.data.redirect_url);
+};
+
+const install = async () => {
+  errorMessage.value = '';
+  installationComplete.value = false;
+  try {
+    if (requiresConnection.value) {
+      const installation = await store.dispatch(
+        'captainToolCatalog/prepareConnection',
+        {
+          provider_key: providerKey.value,
+          templates: buildConnectionSelections(
+            providerDetails.value,
+            selectedKeys.value
+          ),
+        }
+      );
+      await startOAuth(installation);
+      return;
+    }
+
+    const data = {
+      provider_key: providerKey.value,
+      templates: buildSelections(
+        providerDetails.value,
+        selectedKeys.value,
+        configurations.value
+      ),
+    };
+    if (providerKey.value === 'stripe') {
+      data.credential = stripeCredential.value || undefined;
+    }
+    const installation = await store.dispatch(
+      'captainToolCatalog/install',
+      data
+    );
+    if (installation.status === 'awaiting_connection') {
+      await startOAuth(installation);
+      return;
+    }
+
+    stripeCredential.value = '';
+    selectedKeys.value = [];
+    installationComplete.value = true;
+    clearCatalogFlow(accountId.value, providerKey.value);
+    await store.dispatch('captainToolCatalog/show', providerKey.value);
+    await announce(t('CAPTAIN.CUSTOM_TOOLS.CATALOG.INSTALL_SUCCESS'));
+  } catch (error) {
+    stripeCredential.value = '';
+    await announce(formatError(error), { error: true });
+  }
+};
+
+const reconnect = async () => {
+  errorMessage.value = '';
+  try {
+    const data = {};
+    if (providerKey.value === 'stripe')
+      data.credential = stripeCredential.value;
+    const installation = await store.dispatch('captainToolCatalog/reconnect', {
+      providerKey: providerKey.value,
+      data,
+    });
+    if (installation.status === 'awaiting_connection') {
+      await startOAuth(installation);
+      return;
+    }
+    stripeCredential.value = '';
+    await store.dispatch('captainToolCatalog/show', providerKey.value);
+    await announce(t('CAPTAIN.CUSTOM_TOOLS.CATALOG.RECONNECT_SUCCESS'));
+  } catch (error) {
+    stripeCredential.value = '';
+    await announce(formatError(error), { error: true });
+  }
+};
+
+const updateInstalledTools = async () => {
+  errorMessage.value = '';
+  try {
+    const installation = await store.dispatch('captainToolCatalog/update', {
+      providerKey: providerKey.value,
+      templates: updates.value,
+    });
+    if (installation.status === 'awaiting_connection') {
+      await startOAuth(installation);
+      return;
+    }
+    await store.dispatch('captainToolCatalog/show', providerKey.value);
+    await announce(t('CAPTAIN.CUSTOM_TOOLS.CATALOG.UPDATE_SUCCESS'));
+  } catch (error) {
+    await announce(formatError(error), { error: true });
+  }
+};
+
+const restoreFlow = () => {
+  const flow = getCatalogFlow(accountId.value, providerKey.value);
+  if (!flow) return;
+
+  selectedKeys.value = Array.isArray(flow.selectedKeys)
+    ? flow.selectedKeys
+    : [];
+  configurations.value = flow.configurations || {};
+};
+
+const handleOAuthReturn = async () => {
+  const installationId = route.query.installation_id;
+  if (!installationId) return;
+
+  const installation = await store.dispatch(
+    'captainToolCatalog/showInstallation',
+    installationId
+  );
+  if (installation.provider_key !== providerKey.value) {
+    throw new Error('provider_mismatch');
+  }
+  await store.dispatch('captainToolCatalog/show', providerKey.value);
+  await router.replace({
+    name: 'captain_tools_catalog_provider',
+    params: route.params,
+  });
+
+  if (installation.workflow_kind === 'connect') {
+    await loadSetupOptions();
+    await announce(t('CAPTAIN.CUSTOM_TOOLS.CATALOG.CONNECT_SUCCESS'));
+    return;
+  }
+
+  clearCatalogFlow(accountId.value, providerKey.value);
+  installationComplete.value = installation.status === 'completed';
+  await announce(
+    installation.status === 'completed'
+      ? t('CAPTAIN.CUSTOM_TOOLS.CATALOG.WORKFLOW_SUCCESS')
+      : t('CAPTAIN.CUSTOM_TOOLS.CATALOG.WORKFLOW_INCOMPLETE'),
+    { error: installation.status !== 'completed' }
+  );
 };
 
 onMounted(async () => {
@@ -47,7 +468,20 @@ onMounted(async () => {
     await router.replace({ name: 'captain_tools_index', params: route.params });
     return;
   }
-  await store.dispatch('captainToolCatalog/show', providerKey.value);
+  try {
+    await store.dispatch('captainToolCatalog/show', providerKey.value);
+    if (
+      providerKey.value === 'shopify' &&
+      providerDetails.value.connection.display_name
+    ) {
+      shopDomain.value = providerDetails.value.connection.display_name;
+    }
+    restoreFlow();
+    await handleOAuthReturn();
+    await loadSetupOptions();
+  } catch (error) {
+    await announce(formatError(error), { error: true });
+  }
 });
 </script>
 
@@ -101,21 +535,142 @@ onMounted(async () => {
               {{ providerDetails.connection.display_name }}
             </p>
           </div>
-          <div class="rounded-lg bg-n-alpha-1 px-4 py-3 text-sm sm:text-right">
+          <div
+            class="rounded-lg bg-n-alpha-1 px-4 py-3 text-sm sm:sticky sm:top-4 sm:text-right"
+          >
             <p class="text-n-slate-10">
               {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.CAPACITY') }}
             </p>
             <p class="font-medium text-n-slate-12">
-              {{ capacity.used }} / {{ capacity.limit }}
+              {{
+                $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.CAPACITY_SUMMARY', {
+                  used: projectedCapacity,
+                  limit: capacity.limit,
+                })
+              }}
             </p>
           </div>
         </section>
 
+        <div
+          ref="statusRef"
+          tabindex="-1"
+          role="status"
+          aria-live="polite"
+          class="outline-none"
+        >
+          <div
+            v-if="statusMessage"
+            class="rounded-lg bg-n-teal-3 p-4 text-sm text-n-teal-11"
+          >
+            <p>{{ statusMessage }}</p>
+            <router-link
+              v-if="installationComplete"
+              :to="playgroundUrl"
+              class="mt-2 inline-block font-medium underline"
+            >
+              {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.TRY_PLAYGROUND') }}
+            </router-link>
+          </div>
+          <p
+            v-if="errorMessage"
+            role="alert"
+            class="rounded-lg bg-n-ruby-3 p-4 text-sm text-n-ruby-11"
+          >
+            {{ errorMessage }}
+          </p>
+        </div>
+
         <section
+          v-if="
+            providerDetails.installed_count &&
+            !providerDetails.connection.connected
+          "
+          class="flex flex-col gap-3 rounded-xl border border-n-amber-7 bg-n-amber-2 p-5 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div>
+            <h2 class="font-medium text-n-slate-12">
+              {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.RECONNECT_REQUIRED') }}
+            </h2>
+            <p class="mt-1 text-sm text-n-slate-11">
+              {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.RECONNECT_NOTICE') }}
+            </p>
+          </div>
+          <Button
+            :label="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.RECONNECT')"
+            :is-loading="isMutating"
+            :disabled="providerKey === 'stripe' && !stripeCredential.trim()"
+            @click="reconnect"
+          />
+        </section>
+
+        <section
+          v-if="updates.length"
+          class="flex flex-col gap-3 rounded-xl border border-n-blue-7 bg-n-blue-2 p-5 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <p class="text-sm text-n-slate-11">
+            {{
+              $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.UPDATE_NOTICE', updates.length)
+            }}
+          </p>
+          <Button
+            :label="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.UPDATE_TOOLS')"
+            :is-loading="isMutating"
+            @click="updateInstalledTools"
+          />
+        </section>
+
+        <section
+          v-if="providerKey === 'stripe' && stripeRequiresCredential"
+          class="rounded-xl border border-n-weak bg-n-solid-1 p-5"
+        >
+          <Input
+            v-model="stripeCredential"
+            type="password"
+            autocomplete="new-password"
+            :label="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.STRIPE_KEY_LABEL')"
+            :message="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.STRIPE_KEY_HELP')"
+          />
+        </section>
+
+        <section
+          v-if="providerKey === 'shopify' && requiresConnection"
+          class="rounded-xl border border-n-weak bg-n-solid-1 p-5"
+        >
+          <Input
+            v-model="shopDomain"
+            autocomplete="url"
+            :label="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SHOPIFY_DOMAIN_LABEL')"
+            :placeholder="
+              $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SHOPIFY_DOMAIN_PLACEHOLDER')
+            "
+            :message="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SHOPIFY_DOMAIN_HELP')"
+          />
+        </section>
+
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="font-medium text-n-slate-12">
+              {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SELECT_ACTIONS') }}
+            </h2>
+            <p class="mt-1 text-sm text-n-slate-10">
+              {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.RISK_EXPLANATION') }}
+            </p>
+          </div>
+          <Button
+            outline
+            slate
+            :label="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SELECT_STARTER_SET')"
+            @click="selectStarterSet"
+          />
+        </div>
+
+        <fieldset
           v-for="category in providerDetails.categories"
           :key="category.key"
           class="overflow-hidden rounded-xl border border-n-weak bg-n-solid-1"
         >
+          <legend class="sr-only">{{ category.name }}</legend>
           <header class="border-b border-n-weak p-5">
             <h2 class="font-medium text-n-slate-12">{{ category.name }}</h2>
             <p class="mt-1 text-sm text-n-slate-10">
@@ -123,63 +678,180 @@ onMounted(async () => {
             </p>
           </header>
           <div class="divide-y divide-n-weak">
-            <article
+            <label
               v-for="template in category.templates"
               :key="template.key"
-              class="p-5"
-              :class="{ 'opacity-65': template.availability !== 'available' }"
+              class="flex cursor-pointer gap-3 p-5"
+              :class="{
+                'cursor-not-allowed opacity-65':
+                  template.installed || template.availability !== 'available',
+              }"
             >
-              <div class="flex flex-col gap-3 sm:flex-row sm:items-start">
-                <div class="min-w-0 flex-1">
-                  <div class="flex flex-wrap items-center gap-2">
-                    <h3 class="text-sm font-medium text-n-slate-12">
-                      {{ template.name }}
-                    </h3>
-                    <span
-                      class="rounded-md bg-n-alpha-2 px-2 py-0.5 text-xs text-n-slate-11"
-                    >
-                      {{ $t(riskLabel(template.risk_class)) }}
+              <input
+                type="checkbox"
+                class="mt-0.5 size-4 rounded border-n-slate-6 text-n-brand focus:ring-n-brand"
+                :checked="
+                  template.installed || selectedKeys.includes(template.key)
+                "
+                :disabled="
+                  template.installed || template.availability !== 'available'
+                "
+                @change="toggleTemplate(template, $event.target.checked)"
+              />
+              <span class="min-w-0 flex-1">
+                <span class="flex flex-wrap items-center gap-2">
+                  <span class="text-sm font-medium text-n-slate-12">
+                    {{ template.name }}
+                  </span>
+                  <span
+                    class="rounded-md bg-n-alpha-2 px-2 py-0.5 text-xs text-n-slate-11"
+                  >
+                    {{ riskLabel(template.risk_class) }}
+                  </span>
+                  <span
+                    class="rounded-md px-2 py-0.5 text-xs"
+                    :class="
+                      template.installed
+                        ? 'bg-n-teal-3 text-n-teal-11'
+                        : 'bg-n-alpha-2 text-n-slate-11'
+                    "
+                  >
+                    {{ availabilityLabel(template) }}
+                  </span>
+                </span>
+                <span class="mt-1 block text-sm leading-5 text-n-slate-10">
+                  {{ template.description }}
+                </span>
+                <details class="mt-3 text-sm text-n-slate-10" @click.stop>
+                  <summary class="cursor-pointer text-n-slate-11">
+                    {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.HOW_THIS_WORKS') }}
+                  </summary>
+                  <span
+                    class="mt-2 flex flex-col gap-1 rounded-lg bg-n-alpha-1 p-3"
+                  >
+                    <span>
+                      {{
+                        $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SCOPES_LIST', {
+                          scopes:
+                            template.required_scopes.join(', ') ||
+                            $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.NONE'),
+                        })
+                      }}
                     </span>
-                    <span
-                      class="rounded-md px-2 py-0.5 text-xs"
-                      :class="
-                        template.installed
-                          ? 'bg-n-teal-3 text-n-teal-11'
-                          : 'bg-n-alpha-2 text-n-slate-11'
-                      "
-                    >
-                      {{ $t(availabilityLabel(template)) }}
+                    <span>
+                      {{
+                        $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.OPERATIONS_LIST', {
+                          operations: template.operation_keys.join(', '),
+                        })
+                      }}
                     </span>
-                  </div>
-                  <p class="mt-1 text-sm leading-5 text-n-slate-10">
-                    {{ template.description }}
-                  </p>
-                </div>
-              </div>
-              <details class="mt-3 text-sm text-n-slate-10">
-                <summary class="cursor-pointer text-n-slate-11">
-                  {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.HOW_THIS_WORKS') }}
-                </summary>
-                <div
-                  class="mt-2 flex flex-col gap-1 rounded-lg bg-n-alpha-1 p-3"
-                >
-                  <p>
-                    {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.REQUIRED_SCOPES') }}:
-                    {{
-                      template.required_scopes.join(', ') ||
-                      $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.NONE')
-                    }}
-                  </p>
-                  <p>
-                    {{
-                      $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.REVIEWED_OPERATIONS')
-                    }}:
-                    {{ template.operation_keys.join(', ') }}
-                  </p>
-                </div>
-              </details>
-            </article>
+                  </span>
+                </details>
+              </span>
+            </label>
           </div>
+        </fieldset>
+
+        <section
+          v-if="requiresSlackChannel && providerDetails.connection.connected"
+          class="rounded-xl border border-n-weak bg-n-solid-1 p-5"
+        >
+          <h2 class="font-medium text-n-slate-12">
+            {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.FIXED_BINDINGS') }}
+          </h2>
+          <p class="mb-3 mt-1 text-sm text-n-slate-10">
+            {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SLACK_CHANNEL_HELP') }}
+          </p>
+          <Select
+            :model-value="
+              configurationValue('send_message_to_channel', 'channel_id')
+            "
+            :options="channelOptions"
+            :disabled="isFetchingSetup"
+            :placeholder="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SELECT_CHANNEL')"
+            :aria-label="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SELECT_CHANNEL')"
+            @update:model-value="setSlackChannel"
+          />
+        </section>
+
+        <section
+          v-if="requiresLinearProject && providerDetails.connection.connected"
+          class="rounded-xl border border-n-weak bg-n-solid-1 p-5"
+        >
+          <h2 class="font-medium text-n-slate-12">
+            {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.FIXED_BINDINGS') }}
+          </h2>
+          <p class="mb-3 mt-1 text-sm text-n-slate-10">
+            {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.LINEAR_PROJECT_HELP') }}
+          </p>
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <Select
+              :model-value="
+                configurationValue('create_issue_from_conversation', 'team_id')
+              "
+              :options="teamOptions"
+              :disabled="isFetchingSetup"
+              :placeholder="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SELECT_TEAM')"
+              :aria-label="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SELECT_TEAM')"
+              @update:model-value="selectLinearTeam"
+            />
+            <Select
+              :model-value="
+                configurationValue(
+                  'create_issue_from_conversation',
+                  'project_id'
+                )
+              "
+              :options="projectOptions"
+              :disabled="isFetchingSetup || !projectOptions.length"
+              :placeholder="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SELECT_PROJECT')"
+              :aria-label="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SELECT_PROJECT')"
+              @update:model-value="
+                value =>
+                  setConfiguration(
+                    'create_issue_from_conversation',
+                    'project_id',
+                    value
+                  )
+              "
+            />
+          </div>
+        </section>
+
+        <section
+          class="sticky bottom-0 flex flex-col gap-3 rounded-xl border border-n-weak bg-n-solid-1 p-5 shadow-lg sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div class="text-sm">
+            <p class="font-medium text-n-slate-12">
+              {{
+                $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SELECTION_SUMMARY', {
+                  count: selectedCount,
+                  used: projectedCapacity,
+                  limit: capacity.limit,
+                })
+              }}
+            </p>
+            <p v-if="scopes.length" class="mt-1 text-n-slate-10">
+              {{
+                $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SCOPES_LIST', {
+                  scopes: scopes.join(', '),
+                })
+              }}
+            </p>
+            <p v-if="!hasCapacity" class="mt-1 text-n-ruby-10">
+              {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.CAPACITY_ERROR') }}
+            </p>
+          </div>
+          <Button
+            :label="
+              requiresConnection
+                ? $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.CONNECT_AND_CONTINUE')
+                : $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.INSTALL_SELECTED')
+            "
+            :is-loading="isMutating"
+            :disabled="!canContinue"
+            @click="install"
+          />
         </section>
       </div>
     </template>

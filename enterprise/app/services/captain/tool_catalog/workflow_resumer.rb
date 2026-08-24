@@ -2,7 +2,8 @@ class Captain::ToolCatalog::WorkflowResumer
   WORKFLOWS = {
     'install' => Captain::ToolCatalog::InstallationWorkflow,
     'update' => Captain::ToolCatalog::UpdateWorkflow,
-    'reconnect' => Captain::ToolCatalog::ReconnectWorkflow
+    'reconnect' => Captain::ToolCatalog::ReconnectWorkflow,
+    'connect' => Captain::ToolCatalog::ConnectionWorkflow
   }.freeze
 
   def initialize(registry: Captain::ToolCatalog::ProviderPackRegistry.default)

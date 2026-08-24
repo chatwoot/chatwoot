@@ -29,7 +29,7 @@
 #
 class Captain::ToolCatalogInstallation < ApplicationRecord
   STATUSES = %w[pending awaiting_connection validating installing completed failed expired].freeze
-  WORKFLOW_KINDS = %w[install update reconnect].freeze
+  WORKFLOW_KINDS = %w[install update reconnect connect].freeze
   ACTIVE_STATUSES = %w[pending awaiting_connection validating installing].freeze
   KEY_FORMAT = /\A[a-z][a-z0-9_]*\z/
   VERSION_FORMAT = /\A\d+\.\d+\.\d+\z/

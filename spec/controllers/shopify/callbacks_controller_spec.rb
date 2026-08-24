@@ -211,7 +211,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         get shopify_callback_path, params: { code: code, state: state, shop: shop }
 
         hook = account.hooks.account_hooks.find_by!(app_id: 'shopify')
-        expect(response).to redirect_to(shopify_redirect_uri)
+        expect(response).to redirect_to("#{shopify_redirect_uri}?catalog_installation_id=#{installation.id}")
         expect(installation.reload).to be_completed
         expect(installation.oauth_nonce_digest).to be_nil
         expect(installation.integration_hook).to eq(hook)

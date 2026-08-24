@@ -16,7 +16,8 @@ RSpec.describe Captain::ToolCatalogInstallation, type: :model do
       expect(subject).to define_enum_for(:workflow_kind).with_values(
         'install' => 'install',
         'update' => 'update',
-        'reconnect' => 'reconnect'
+        'reconnect' => 'reconnect',
+        'connect' => 'connect'
       ).backed_by_column_of_type(:string).with_prefix(:workflow)
     }
 

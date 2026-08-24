@@ -43,7 +43,8 @@ class Captain::ToolCatalog::InstallationPresenter
 
     selection = Captain::ToolCatalog::TemplateSelection.new(registry: registry).resolve(
       provider_key: installation.provider_key,
-      templates: installation.selected_templates
+      templates: installation.selected_templates,
+      validate_configuration: !installation.workflow_connect?
     )
     selected_items = installation.workflow_install? ? missing_install_items(selection) : selection.items
     [selection.required_scopes(selected_items), false]

@@ -88,7 +88,8 @@ module Enterprise::Api::V1::Accounts::Integrations::SlackController
 
     Captain::ToolCatalog::TemplateSelection.new.resolve(
       provider_key: installation.provider_key,
-      templates: installation.selected_templates
+      templates: installation.selected_templates,
+      validate_configuration: !installation.workflow_connect?
     ).required_scopes
   end
 

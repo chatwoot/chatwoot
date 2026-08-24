@@ -8,9 +8,14 @@ import SelectChannelWarning from './Slack/SelectChannelWarning.vue';
 import SlackIntegrationHelpText from './Slack/SlackIntegrationHelpText.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import {
+  catalogReturnLocation,
+  getCatalogFlow,
+} from 'dashboard/routes/dashboard/captain/tools/catalogFlow';
 
 const props = defineProps({
   code: { type: String, default: '' },
+  state: { type: String, default: '' },
 });
 
 const store = useStore();
@@ -63,7 +68,22 @@ const integrationAction = computed(() => {
 const intializeSlackIntegration = async () => {
   await store.dispatch('integrations/get', 'slack');
   if (props.code) {
-    await store.dispatch('integrations/connectSlack', props.code);
+    await store.dispatch('integrations/connectSlack', {
+      code: props.code,
+      state: props.state,
+    });
+    const flow = getCatalogFlow(route.params.accountId, 'slack');
+    const returnLocation = flow
+      ? catalogReturnLocation({
+          accountId: route.params.accountId,
+          providerKey: 'slack',
+          installationId: flow.installationId,
+        })
+      : null;
+    if (props.state && returnLocation) {
+      await router.replace(returnLocation);
+      return;
+    }
     // Clear the query param `code` from the URL as the
     // subsequent reloads would result in an error
     router.replace(route.path);

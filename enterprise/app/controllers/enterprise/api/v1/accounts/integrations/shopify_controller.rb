@@ -20,7 +20,12 @@ module Enterprise::Api::V1::Accounts::Integrations::ShopifyController
   end
 
   def catalog_installation!
+    raise Captain::ToolCatalog::WorkflowError, 'catalog_unavailable' unless Current.account.feature_enabled?('captain_tool_catalog')
+
     installation = Current.account.captain_tool_catalog_installations.active.find(params[:installation_id])
+    installation.expire_if_needed!
+    active_statuses = Captain::ToolCatalogInstallation::ACTIVE_STATUSES
+    raise Captain::ToolCatalog::WorkflowError, 'installation_expired' unless active_statuses.include?(installation.status)
     return installation if installation.provider_key == 'shopify'
 
     raise Captain::ToolCatalog::WorkflowError, 'provider_mismatch'
@@ -60,7 +65,8 @@ module Enterprise::Api::V1::Accounts::Integrations::ShopifyController
 
     selection = Captain::ToolCatalog::TemplateSelection.new.resolve(
       provider_key: installation.provider_key,
-      templates: installation.selected_templates
+      templates: installation.selected_templates,
+      validate_configuration: !installation.workflow_connect?
     )
     selection.required_scopes
   end

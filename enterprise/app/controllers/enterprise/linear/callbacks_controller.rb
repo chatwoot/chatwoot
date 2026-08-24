@@ -38,4 +38,10 @@ module Enterprise::Linear::CallbacksController
     @catalog_installation.update!(integration_hook: hook)
     Captain::ToolCatalog::WorkflowResumer.new.perform(@catalog_installation)
   end
+
+  def linear_redirect_uri
+    return super if @catalog_installation.blank?
+
+    "#{super}?#{URI.encode_www_form(catalog_installation_id: @catalog_installation.id)}"
+  end
 end

@@ -20,6 +20,12 @@ class CaptainToolCatalog extends ApiClient {
     });
   }
 
+  prepareConnection(data) {
+    return axios.post(`${this.url}/connections`, {
+      connection: data,
+    });
+  }
+
   showInstallation(id) {
     return axios.get(`${this.url}/installations/${id}`);
   }
@@ -33,6 +39,12 @@ class CaptainToolCatalog extends ApiClient {
   update(providerKey, templates) {
     return axios.post(`${this.url}/${providerKey}/update`, {
       update: { templates },
+    });
+  }
+
+  setup(providerKey, operationKey, args = {}) {
+    return axios.post(`${this.url}/${providerKey}/setup/${operationKey}`, {
+      setup: { arguments: args },
     });
   }
 }

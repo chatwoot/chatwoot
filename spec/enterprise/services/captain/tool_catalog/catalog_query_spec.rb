@@ -98,6 +98,7 @@ RSpec.describe Captain::ToolCatalog::CatalogQuery do
         'installed' => true,
         'installed_tool_id' => installed_tool.id,
         'installed_version' => '0.9.0',
+        'installed_configuration' => {},
         'update_available' => true
       )
       expect(template.keys).not_to include('recipe', 'input_schema', 'output_schema')

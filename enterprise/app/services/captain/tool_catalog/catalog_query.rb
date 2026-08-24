@@ -86,6 +86,7 @@ class Captain::ToolCatalog::CatalogQuery
       'installed' => installed_tool.present?,
       'installed_tool_id' => installed_tool&.id,
       'installed_version' => installed_tool&.template_version,
+      'installed_configuration' => installed_tool&.configuration || {},
       'update_available' => installed_tool.present? && installed_tool.template_version != template.fetch('version')
     )
   end

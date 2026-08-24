@@ -14,6 +14,8 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import { useRoute, useRouter } from 'vue-router';
+import { catalogReturnLocation } from 'dashboard/routes/dashboard/captain/tools/catalogFlow';
 
 defineProps({
   error: {
@@ -23,6 +25,8 @@ defineProps({
 });
 
 const store = useStore();
+const route = useRoute();
+const router = useRouter();
 const { t } = useI18n();
 const dialogRef = ref(null);
 const integrationLoaded = ref(false);
@@ -83,6 +87,15 @@ const handleStoreUrlSubmit = async () => {
 const initializeShopifyIntegration = async () => {
   await store.dispatch('integrations/get', 'shopify');
   integrationLoaded.value = true;
+  const installationId = route.query.catalog_installation_id;
+  if (!installationId) return;
+
+  const returnLocation = catalogReturnLocation({
+    accountId: route.params.accountId,
+    providerKey: 'shopify',
+    installationId,
+  });
+  if (returnLocation) await router.replace(returnLocation);
 };
 
 onMounted(() => {

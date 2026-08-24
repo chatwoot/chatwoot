@@ -19,12 +19,12 @@ class Captain::ToolCatalog::TemplateSelection
     @registry = registry
   end
 
-  def resolve(provider_key:, templates:)
+  def resolve(provider_key:, templates:, validate_configuration: true)
     pack = registry.find(provider_key)
     normalized_templates = Array(templates).map { |template| template.to_h.stringify_keys }
     validate_template_list!(normalized_templates)
 
-    items = normalized_templates.map { |selection| resolve_template(pack, selection) }
+    items = normalized_templates.map { |selection| resolve_template(pack, selection, validate_configuration) }
     Selection.new(pack: pack, items: items)
   end
 
@@ -39,14 +39,14 @@ class Captain::ToolCatalog::TemplateSelection
     raise Captain::ToolCatalog::WorkflowError, 'duplicate_templates' if keys.uniq.length != keys.length
   end
 
-  def resolve_template(pack, selection)
+  def resolve_template(pack, selection, validate_configuration)
     template = pack.fetch('templates').find { |candidate| candidate.fetch('key') == selection['template_key'] }
     raise Captain::ToolCatalog::WorkflowError, 'template_not_found' if template.blank?
     raise Captain::ToolCatalog::WorkflowError, 'template_version_changed' if template.fetch('version') != selection['template_version']
     raise Captain::ToolCatalog::WorkflowError, 'template_unavailable' unless installable?(template)
 
     configuration = selection.fetch('configuration', {})
-    validate_configuration!(template, configuration)
+    validate_configuration!(template, configuration) if validate_configuration
     { template: template, configuration: configuration }
   end
 

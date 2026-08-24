@@ -7,8 +7,9 @@ class IntegrationsAPI extends ApiClient {
     super('integrations/apps', { accountScoped: true });
   }
 
-  connectSlack(code) {
-    return axios.post(`${this.baseUrl()}/integrations/slack`, { code });
+  connectSlack(payload) {
+    const params = typeof payload === 'string' ? { code: payload } : payload;
+    return axios.post(`${this.baseUrl()}/integrations/slack`, params);
   }
 
   updateSlack({ referenceId }) {
@@ -37,6 +38,13 @@ class IntegrationsAPI extends ApiClient {
     return axios.post(`${this.baseUrl()}/integrations/shopify/auth`, {
       shop_domain: shopDomain,
     });
+  }
+
+  startCatalogOAuth(providerKey, data) {
+    return axios.post(
+      `${this.baseUrl()}/integrations/${providerKey}/auth`,
+      data
+    );
   }
 }
 
