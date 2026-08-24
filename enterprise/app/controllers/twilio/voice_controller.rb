@@ -189,13 +189,16 @@ class Twilio::VoiceController < ApplicationController
   end
 
   # Twilio's recording webhook only sends its internal ConferenceSid (CF...),
-  # not our FriendlyName. Persist Twilio's id the first time we see it on a
-  # conference event so the recording lookup can match later.
+  # not our FriendlyName. Persist Twilio's id under the Call row lock so a webhook
+  # that loaded a stale JSON meta value cannot clobber an in-flight teardown token.
   def persist_twilio_conference_sid!(call, sid)
     return if sid.blank?
-    return if call.twilio_conference_sid == sid
 
-    call.update!(twilio_conference_sid: sid)
+    call.with_lock do
+      next if call.twilio_conference_sid == sid
+
+      call.update!(twilio_conference_sid: sid)
+    end
   end
 
   def set_inbox!
