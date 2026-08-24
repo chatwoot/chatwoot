@@ -31,7 +31,7 @@ class AccountSamlSettings < ApplicationRecord
   validates :sso_url, presence: true
   validates :certificate, presence: true
   validates :idp_entity_id, presence: true
-  validates :sls_url, format: URI::DEFAULT_PARSER.make_regexp(%w[http https]), allow_blank: true
+  validate :sls_url_must_be_http, if: -> { sls_url.present? }
   validate :certificate_must_be_valid_x509
   validate :sp_signing_credentials_must_match, if: :single_logout_configured?
 
@@ -69,6 +69,15 @@ class AccountSamlSettings < ApplicationRecord
   end
 
   private
+
+  def sls_url_must_be_http
+    uri = URI.parse(sls_url)
+    return if uri.is_a?(URI::HTTP) && uri.host.present?
+
+    errors.add(:sls_url, :invalid)
+  rescue URI::InvalidURIError
+    errors.add(:sls_url, :invalid)
+  end
 
   def set_sp_signing_credentials
     key = OpenSSL::PKey::RSA.new(2048)

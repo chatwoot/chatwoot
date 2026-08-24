@@ -15,6 +15,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  spSlsUrl: {
+    type: String,
+    default: '',
+  },
 });
 
 const { t } = useI18n();
@@ -39,6 +43,13 @@ const allInfoItems = computed(() => [
     value: props.spEntityId,
     tooltip: t('SECURITY_SETTINGS.SAML.SP_ENTITY_ID.TOOLTIP'),
     show: !!props.spEntityId,
+  },
+  {
+    key: 'SP_SLS_URL',
+    label: t('SECURITY_SETTINGS.SAML.SP_SLS_URL.LABEL'),
+    value: props.spSlsUrl,
+    tooltip: t('SECURITY_SETTINGS.SAML.SP_SLS_URL.TOOLTIP'),
+    show: !!props.spSlsUrl,
   },
   {
     key: 'FINGERPRINT',
@@ -78,15 +89,17 @@ const handleCopy = async text => {
         :key="item.key"
         class="ps-4 pe-1 py-1 flex justify-between items-center"
       >
-        <div class="flex items-center gap-2">
-          <span class="text-n-slate-11 w-32 flex items-center gap-1">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="text-n-slate-11 w-32 shrink-0 flex items-center gap-1">
             {{ item.label }}
             <i
               v-tooltip.top="item.tooltip"
               class="i-lucide-info text-n-slate-9 w-3 h-3 cursor-help"
             />
           </span>
-          <span class="flex-1">{{ item.value }}</span>
+          <span class="flex-1 truncate" :title="item.value">
+            {{ item.value }}
+          </span>
         </div>
         <NextButton
           type="button"

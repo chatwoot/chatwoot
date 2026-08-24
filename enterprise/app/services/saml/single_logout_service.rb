@@ -26,16 +26,18 @@ class Saml::SingleLogoutService
   end
 
   def perform
-    validate_configuration!
     validate_relay_state!
+    validate_identity_provider_configuration!
     @logout_request = validate_logout_request!
+    validate_response_signing_configuration!
     claim_request_id!
     revoke_user_sessions!
     logout_request.id
   end
 
   def logout_response_url(request_id:, status_code:, message:)
-    validate_configuration!
+    validate_response_signing_configuration!
+    configure_response_signing(ruby_saml_settings)
     OneLogin::RubySaml::SloLogoutresponse.new.create(
       ruby_saml_settings,
       request_id,
@@ -49,27 +51,34 @@ class Saml::SingleLogoutService
 
   attr_reader :saml_settings, :encoded_request, :relay_state, :logout_request, :replay_claim_token
 
-  def validate_configuration!
-    raise ConfigurationError, 'SAML single logout is not configured' unless signing_credentials_present?
+  def validate_identity_provider_configuration!
+    raise ConfigurationError, 'SAML single logout is not configured' unless saml_settings.single_logout_configured?
 
     idp_certificate = OpenSSL::X509::Certificate.new(saml_settings.certificate)
+    return if OneLogin::RubySaml::Utils.is_cert_active(idp_certificate)
+
+    raise ConfigurationError, 'SAML identity provider certificate is invalid or expired'
+  rescue OpenSSL::X509::CertificateError => e
+    raise ConfigurationError, e.message
+  end
+
+  def validate_response_signing_configuration!
+    unless saml_settings.sp_private_key.present? && saml_settings.sp_certificate.present?
+      raise ConfigurationError, 'SAML response signing credentials are not configured'
+    end
+
     sp_key = OpenSSL::PKey::RSA.new(saml_settings.sp_private_key)
     sp_certificate = OpenSSL::X509::Certificate.new(saml_settings.sp_certificate)
-    return if valid_signing_credentials?(idp_certificate, sp_certificate, sp_key)
+    return if valid_response_signing_credentials?(sp_certificate, sp_key)
 
-    raise ConfigurationError, 'SAML signing credentials are invalid or expired'
+    raise ConfigurationError, 'SAML response signing credentials are invalid or expired'
   rescue OpenSSL::PKey::PKeyError, OpenSSL::X509::CertificateError => e
     raise ConfigurationError, e.message
   end
 
-  def signing_credentials_present?
-    saml_settings.single_logout_configured? && saml_settings.sp_private_key.present? && saml_settings.sp_certificate.present?
-  end
-
-  def valid_signing_credentials?(idp_certificate, sp_certificate, sp_key)
-    certificates = [idp_certificate, sp_certificate]
-    certificates.all? { |certificate| OneLogin::RubySaml::Utils.is_cert_active(certificate) } &&
-      sp_key.private? && sp_key.n.num_bits >= 2048 && sp_certificate.check_private_key(sp_key)
+  def valid_response_signing_credentials?(certificate, key)
+    OneLogin::RubySaml::Utils.is_cert_active(certificate) &&
+      key.private? && key.n.num_bits >= 2048 && certificate.check_private_key(key)
   end
 
   def validate_relay_state!
@@ -101,7 +110,11 @@ class Saml::SingleLogoutService
     user = saml_user
     raise UnknownPrincipal.new('SAML subject does not match an account user', request_id: logout_request.id) unless user
 
-    user.update!(tokens: {})
+    User.transaction do
+      user.update!(tokens: {})
+      user.access_token&.regenerate_token
+    end
+    Rails.logger.info("[SAML SLO] Revoked sessions saml_settings_id=#{saml_settings.id} user_id=#{user.id}")
   rescue ActiveRecord::ActiveRecordError
     Redis::Alfred.delete_if_equals(replay_key, replay_claim_token)
     raise
@@ -139,9 +152,12 @@ class Saml::SingleLogoutService
 
   def configure_service_provider(settings)
     settings.sp_entity_id = saml_settings.sp_entity_id
+    settings.compress_response = true
+  end
+
+  def configure_response_signing(settings)
     settings.certificate = saml_settings.sp_certificate
     settings.private_key = saml_settings.sp_private_key
-    settings.compress_response = true
   end
 
   def configure_security(settings)

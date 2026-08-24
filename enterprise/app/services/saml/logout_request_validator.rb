@@ -12,6 +12,7 @@ class Saml::LogoutRequestValidator
   SIGNATURE_NAMESPACE = 'http://www.w3.org/2000/09/xmldsig#'.freeze
   MAX_REQUEST_AGE = 5.minutes
   ALLOWED_CLOCK_DRIFT = 1.minute
+  # Cache eviction can permit a replay only while the original request remains valid within this age-plus-drift window.
   REPLAY_TTL = (MAX_REQUEST_AGE + ALLOWED_CLOCK_DRIFT).to_i
   MAX_ENCODED_REQUEST_SIZE = 100.kilobytes
   MAX_XML_REQUEST_SIZE = 64.kilobytes
@@ -55,7 +56,7 @@ class Saml::LogoutRequestValidator
     raise InvalidRequest, 'SAMLRequest is missing' if encoded_request.blank?
     raise InvalidRequest, 'SAMLRequest is too large' unless valid_encoded_size?
 
-    decoded_request = Base64.strict_decode64(encoded_request)
+    decoded_request = Base64.strict_decode64(encoded_request.gsub(/\s/, ''))
     raise InvalidRequest, 'SAMLRequest is too large' if decoded_request.bytesize > MAX_XML_REQUEST_SIZE
 
     @xml_document = XMLSecurity::BaseDocument.safe_load_xml(decoded_request)
@@ -135,6 +136,8 @@ class Saml::LogoutRequestValidator
   end
 
   def validate_saml_request!
+    # ruby-saml skips signature validation without Redirect-binding query parameters.
+    # validate_xml_signature! must always run before this call.
     raise InvalidRequest.new(logout_request.errors.join(', '), request_id: logout_request.id) unless logout_request.is_valid?
     return if logout_request.issuer == saml_settings.idp_entity_id
 

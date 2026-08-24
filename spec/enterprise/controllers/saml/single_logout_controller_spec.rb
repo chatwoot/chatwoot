@@ -38,11 +38,18 @@ RSpec.describe Saml::SingleLogoutController, type: :request do
 
   describe 'POST /saml/slo/:settings_token' do
     it 'revokes every Chatwoot session' do
+      personal_access_token = saml_user.access_token.token
+      allow(Rails.logger).to receive(:info)
+
       post_logout_request
 
       expect(response).to have_http_status(:found)
       expect(saml_user.reload.tokens).to eq({})
       expect(saml_user.user_sessions).to be_empty
+      expect(saml_user.access_token.reload.token).not_to eq(personal_access_token)
+      expect(Rails.logger).to have_received(:info).with(
+        "[SAML SLO] Revoked sessions saml_settings_id=#{saml_settings.id} user_id=#{saml_user.id}"
+      )
     end
 
     it 'redirects the back-channel client with a signed LogoutResponse for the configured IdP' do
@@ -85,11 +92,105 @@ RSpec.describe Saml::SingleLogoutController, type: :request do
       expect(saml_user.reload.tokens.keys).to contain_exactly('client-a', 'client-b')
     end
 
+    it 'documents that ruby-saml considers an unsigned POST-binding LogoutRequest valid' do
+      unsigned_request = Base64.strict_decode64(build_logout_request(sign: false))
+      ruby_saml_settings = Saml::SingleLogoutService.new(
+        saml_settings: saml_settings,
+        encoded_request: nil
+      ).send(:ruby_saml_settings)
+      logout_request = OneLogin::RubySaml::SloLogoutrequest.new(
+        unsigned_request,
+        settings: ruby_saml_settings,
+        allowed_clock_drift: Saml::LogoutRequestValidator::ALLOWED_CLOCK_DRIFT
+      )
+
+      expect(logout_request.is_valid?).to be(true)
+    end
+
+    it 'rejects a signed LogoutRequest wrapped inside an unsigned attacker-controlled root' do
+      signed_request = decoded_logout_request.sub(/\A<\?xml.*?\?>/m, '')
+      wrapped_request = <<~XML
+        <samlp:LogoutRequest xmlns:samlp="#{Saml::LogoutRequestValidator::PROTOCOL_NAMESPACE}"
+          xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" ID="_attacker" Version="2.0"
+          IssueInstant="#{Time.current.utc.iso8601}" Destination="#{saml_settings.sp_sls_url}">
+          <saml:Issuer>#{saml_settings.idp_entity_id}</saml:Issuer>
+          <samlp:Extensions>#{signed_request}</samlp:Extensions>
+          <saml:NameID Format="#{Saml::SingleLogoutService::NAME_ID_FORMAT_EMAIL}">victim@example.com</saml:NameID>
+        </samlp:LogoutRequest>
+      XML
+
+      post_logout_request(encoded_request: Base64.strict_encode64(wrapped_request))
+
+      expect(response).to have_http_status(:bad_request)
+      expect(saml_user.reload.tokens.keys).to contain_exactly('client-a', 'client-b')
+    end
+
+    it 'rejects a root signature whose reference points to a wrapped LogoutRequest' do
+      signed_request = decoded_logout_request.sub(/\A<\?xml.*?\?>/m, '')
+      signature = signed_request[%r{<ds:Signature\b.*?</ds:Signature>}m]
+      unsigned_inner_request = signed_request.sub(signature, '')
+      wrapped_request = <<~XML
+        <samlp:LogoutRequest xmlns:samlp="#{Saml::LogoutRequestValidator::PROTOCOL_NAMESPACE}"
+          xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" ID="_attacker" Version="2.0"
+          IssueInstant="#{Time.current.utc.iso8601}" Destination="#{saml_settings.sp_sls_url}">
+          #{signature}
+          <saml:Issuer>#{saml_settings.idp_entity_id}</saml:Issuer>
+          <samlp:Extensions>#{unsigned_inner_request}</samlp:Extensions>
+          <saml:NameID Format="#{Saml::SingleLogoutService::NAME_ID_FORMAT_EMAIL}">victim@example.com</saml:NameID>
+        </samlp:LogoutRequest>
+      XML
+
+      post_logout_request(encoded_request: Base64.strict_encode64(wrapped_request))
+
+      expect(response).to have_http_status(:bad_request)
+      expect(saml_user.reload.tokens.keys).to contain_exactly('client-a', 'client-b')
+    end
+
+    it 'rejects duplicate ID attributes that make the signature reference ambiguous' do
+      signed_request = decoded_logout_request.sub(/\A<\?xml.*?\?>/m, '')
+      signature = signed_request[%r{<ds:Signature\b.*?</ds:Signature>}m]
+      unsigned_inner_request = signed_request.sub(signature, '')
+      wrapped_request = <<~XML
+        <samlp:LogoutRequest xmlns:samlp="#{Saml::LogoutRequestValidator::PROTOCOL_NAMESPACE}"
+          xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" ID="#{request_id}" Version="2.0"
+          IssueInstant="#{Time.current.utc.iso8601}" Destination="#{saml_settings.sp_sls_url}">
+          #{signature}
+          <saml:Issuer>#{saml_settings.idp_entity_id}</saml:Issuer>
+          <samlp:Extensions>#{unsigned_inner_request}</samlp:Extensions>
+          <saml:NameID Format="#{Saml::SingleLogoutService::NAME_ID_FORMAT_EMAIL}">victim@example.com</saml:NameID>
+        </samlp:LogoutRequest>
+      XML
+
+      post_logout_request(encoded_request: Base64.strict_encode64(wrapped_request))
+
+      expect(response).to have_http_status(:bad_request)
+      expect(saml_user.reload.tokens.keys).to contain_exactly('client-a', 'client-b')
+    end
+
+    it 'rejects a second signature smuggled inside LogoutRequest Extensions' do
+      signed_request = decoded_logout_request
+      signature = signed_request[%r{<ds:Signature\b.*?</ds:Signature>}m]
+      request_with_two_signatures = signed_request.sub(
+        '</samlp:LogoutRequest>',
+        "<samlp:Extensions>#{signature}</samlp:Extensions></samlp:LogoutRequest>"
+      )
+
+      post_logout_request(encoded_request: Base64.strict_encode64(request_with_two_signatures))
+
+      expect(response).to have_http_status(:bad_request)
+      expect(saml_user.reload.tokens.keys).to contain_exactly('client-a', 'client-b')
+    end
+
     it 'rejects a signed LogoutRequest from a different issuer' do
+      allow(Rails.logger).to receive(:warn)
+
       post_logout_request(issuer: 'https://attacker.example.com/saml/metadata')
 
       expect(response).to have_http_status(:bad_request)
       expect(saml_user.reload.tokens.keys).to contain_exactly('client-a', 'client-b')
+      expect(Rails.logger).to have_received(:warn).with(
+        a_string_including("saml_settings_id=#{saml_settings.id} reason=Doesn't match the issuer")
+      )
     end
 
     it 'rejects a signed LogoutRequest with a different Destination' do
@@ -104,6 +205,31 @@ RSpec.describe Saml::SingleLogoutController, type: :request do
 
       expect(response).to have_http_status(:bad_request)
       expect(saml_user.reload.tokens.keys).to contain_exactly('client-a', 'client-b')
+    end
+
+    it 'rejects an extra XML signature transform' do
+      signed_request = decoded_logout_request
+      enveloped_transform = signed_request[%r{<ds:Transform Algorithm=.http://www\.w3\.org/2000/09/xmldsig#enveloped-signature.\s*/?>}]
+      xpath_transform = <<~XML.squish
+        <ds:Transform Algorithm="http://www.w3.org/TR/1999/REC-xpath-19991116">
+          <ds:XPath>true()</ds:XPath>
+        </ds:Transform>
+      XML
+      request_with_extra_transform = signed_request.sub(enveloped_transform, "#{enveloped_transform}#{xpath_transform}")
+
+      post_logout_request(encoded_request: Base64.strict_encode64(request_with_extra_transform))
+
+      expect(response).to have_http_status(:bad_request)
+      expect(saml_user.reload.tokens.keys).to contain_exactly('client-a', 'client-b')
+    end
+
+    it 'accepts RFC 2045 line-wrapped base64' do
+      encoded_request = build_logout_request.scan(/.{1,64}/).join("\n")
+
+      post_logout_request(encoded_request: encoded_request)
+
+      expect(response).to have_http_status(:found)
+      expect(saml_user.reload.tokens).to eq({})
     end
 
     it 'rejects XML with a document type before parsing it with REXML' do
@@ -137,6 +263,21 @@ RSpec.describe Saml::SingleLogoutController, type: :request do
     it 'rejects a LogoutRequest signed by a different key' do
       attacker_key = OpenSSL::PKey::RSA.new(2048)
       attacker_certificate = build_certificate(attacker_key, 'attacker.example.com')
+      allow(Rails.logger).to receive(:warn)
+
+      post_logout_request(signing_key: attacker_key, signing_certificate: attacker_certificate)
+
+      expect(response).to have_http_status(:bad_request)
+      expect(saml_user.reload.tokens.keys).to contain_exactly('client-a', 'client-b')
+      expect(Rails.logger).to have_received(:warn).with(
+        a_string_including("saml_settings_id=#{saml_settings.id} reason=Certificate of the Signature element does not match")
+      )
+    end
+
+    it 'verifies the IdP signature before loading the SP private key' do
+      attacker_key = OpenSSL::PKey::RSA.new(2048)
+      attacker_certificate = build_certificate(attacker_key, 'attacker.example.com')
+      saml_settings.update_column(:sp_private_key, 'not-a-private-key') # rubocop:disable Rails/SkipsModelValidations
 
       post_logout_request(signing_key: attacker_key, signing_certificate: attacker_certificate)
 
@@ -182,12 +323,25 @@ RSpec.describe Saml::SingleLogoutController, type: :request do
       expect(response).to have_http_status(:found)
 
       saml_user.update!(tokens: { 'new-client' => { 'token' => 'new-token', 'expiry' => 1.month.from_now.to_i } })
+      allow(Rails.logger).to receive(:warn)
       post_logout_request(encoded_request: encoded_request)
 
       expect(response).to have_http_status(:found)
       expect(saml_user.reload.tokens.keys).to contain_exactly('new-client')
       expect(response_status_code).to eq(Saml::SingleLogoutService::STATUS_REQUESTER)
       expect(response_signature_valid?).to be(true)
+      expect(Rails.logger).to have_received(:warn).with(
+        a_string_including("saml_settings_id=#{saml_settings.id} reason=LogoutRequest has already been processed")
+      )
+    end
+
+    it 'fails closed when the replay store is unavailable' do
+      allow(Redis::Alfred).to receive(:set).and_raise(Redis::BaseError, 'Redis unavailable')
+
+      post_logout_request
+
+      expect(response).to have_http_status(:service_unavailable)
+      expect(saml_user.reload.tokens.keys).to contain_exactly('client-a', 'client-b')
     end
 
     it 'fails closed when the IdP SLS URL is not configured' do
@@ -200,10 +354,15 @@ RSpec.describe Saml::SingleLogoutController, type: :request do
     end
 
     it 'rejects a stale LogoutRequest' do
+      allow(Rails.logger).to receive(:warn)
+
       post_logout_request(issue_instant: 6.minutes.ago)
 
       expect(response).to have_http_status(:bad_request)
       expect(saml_user.reload.tokens.keys).to contain_exactly('client-a', 'client-b')
+      expect(Rails.logger).to have_received(:warn).with(
+        a_string_including("saml_settings_id=#{saml_settings.id} reason=LogoutRequest IssueInstant is outside the accepted time window")
+      )
     end
 
     it 'rejects a LogoutRequest with an IssueInstant too far in the future' do
@@ -291,6 +450,10 @@ RSpec.describe Saml::SingleLogoutController, type: :request do
     sign_logout_request(document, options) if options[:sign]
 
     Base64.strict_encode64(document.to_s)
+  end
+
+  def decoded_logout_request
+    Base64.strict_decode64(build_logout_request)
   end
 
   def build_logout_request_document(options)

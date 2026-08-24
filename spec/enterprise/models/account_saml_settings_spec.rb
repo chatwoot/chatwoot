@@ -79,11 +79,18 @@ RSpec.describe AccountSamlSettings, type: :model do
       expect(certificate.check_private_key(private_key)).to be true
     end
 
-    it 'rejects a non-HTTP SLS URL' do
-      settings = build(:account_saml_settings, account: account, sls_url: 'javascript:alert(1)')
+    [
+      'javascript:alert(1)/*http://a.com*/',
+      'javascript:https://a.com',
+      "http://a.com\nX-Injected: 1",
+      'data:text/html,<b>#https://a.com'
+    ].each do |sls_url|
+      it "rejects the non-HTTP SLS URL #{sls_url.inspect}" do
+        settings = build(:account_saml_settings, account: account, sls_url: sls_url)
 
-      expect(settings).not_to be_valid
-      expect(settings.errors[:sls_url]).to be_present
+        expect(settings).not_to be_valid
+        expect(settings.errors[:sls_url]).to be_present
+      end
     end
 
     it 'exposes a signed service provider SLS URL that resolves to the settings record' do

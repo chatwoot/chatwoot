@@ -2,7 +2,8 @@ class Saml::SingleLogoutController < ActionController::Base # rubocop:disable Ra
   skip_forgery_protection
 
   def create
-    return head :not_found unless saml_available?
+    unavailable_reason = saml_unavailable_reason
+    return reject_request(:not_found, unavailable_reason) if unavailable_reason
 
     @service = Saml::SingleLogoutService.new(
       saml_settings: saml_settings,
@@ -11,14 +12,10 @@ class Saml::SingleLogoutController < ActionController::Base # rubocop:disable Ra
     )
     request_id = @service.perform
     redirect_with_logout_response(request_id, Saml::SingleLogoutService::STATUS_SUCCESS, 'Successfully signed out')
-  rescue ActiveSupport::MessageVerifier::InvalidSignature, ActiveRecord::RecordNotFound
-    head :not_found
-  rescue Saml::SingleLogoutService::ConfigurationError
-    head :unprocessable_entity
-  rescue Saml::SingleLogoutService::ReplayDetected, Saml::SingleLogoutService::UnknownPrincipal => e
-    redirect_with_logout_response(e.request_id, Saml::SingleLogoutService::STATUS_REQUESTER, e.message)
-  rescue Saml::SingleLogoutService::InvalidRequest
-    head :bad_request
+  rescue ActiveSupport::MessageVerifier::InvalidSignature, ActiveRecord::RecordNotFound,
+         Saml::SingleLogoutService::ConfigurationError, Saml::SingleLogoutService::ReplayDetected,
+         Saml::SingleLogoutService::UnknownPrincipal, Saml::SingleLogoutService::InvalidRequest, Redis::BaseError => e
+    handle_rejection(e)
   end
 
   private
@@ -30,14 +27,43 @@ class Saml::SingleLogoutController < ActionController::Base # rubocop:disable Ra
     )
   end
 
-  def saml_available?
-    return false unless GlobalConfigService.load('ENABLE_SAML_SSO_LOGIN', 'true').to_s == 'true'
+  def saml_unavailable_reason
+    return 'SAML SSO is globally disabled' unless GlobalConfigService.load('ENABLE_SAML_SSO_LOGIN', 'true').to_s == 'true'
+    return 'SAML feature is disabled for tenant' unless saml_settings.account.feature_enabled?('saml')
 
-    saml_settings.account.feature_enabled?('saml')
+    nil
   end
 
   def redirect_with_logout_response(request_id, status_code, message)
     response_url = @service.logout_response_url(request_id: request_id, status_code: status_code, message: message)
     redirect_to response_url, allow_other_host: true
+  end
+
+  def handle_rejection(error)
+    case error
+    when ActiveSupport::MessageVerifier::InvalidSignature
+      reject_request(:not_found, 'settings token is invalid')
+    when ActiveRecord::RecordNotFound
+      reject_request(:not_found, 'SAML settings were not found')
+    when Saml::SingleLogoutService::ConfigurationError
+      reject_request(:unprocessable_entity, error.message)
+    when Saml::SingleLogoutService::ReplayDetected, Saml::SingleLogoutService::UnknownPrincipal
+      log_rejection(error.message)
+      redirect_with_logout_response(error.request_id, Saml::SingleLogoutService::STATUS_REQUESTER, error.message)
+    when Saml::SingleLogoutService::InvalidRequest
+      reject_request(:bad_request, error.message)
+    when Redis::BaseError
+      reject_request(:service_unavailable, "replay store unavailable: #{error.class.name}")
+    end
+  end
+
+  def reject_request(status, reason)
+    log_rejection(reason)
+    head status
+  end
+
+  def log_rejection(reason)
+    safe_reason = reason.to_s.squish
+    Rails.logger.warn("[SAML SLO] Rejected request saml_settings_id=#{@saml_settings&.id || 'unknown'} reason=#{safe_reason}")
   end
 end
