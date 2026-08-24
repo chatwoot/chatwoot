@@ -52,6 +52,36 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(response).to have_http_status(:success)
         expect(json_response[:payload].length).to eq(2)
       end
+
+      it 'returns safe catalog grouping metadata when only the catalog feature is enabled' do
+        account.disable_features!('custom_tools')
+        account.enable_features!('captain_tool_catalog')
+        catalog_tool = create(
+          :captain_custom_tool,
+          :catalog,
+          account: account,
+          provider_key: 'stripe',
+          category_key: 'customers',
+          template_key: 'get_current_customer'
+        )
+
+        get "/api/v1/accounts/#{account.id}/captain/custom_tools",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:payload].sole).to include(
+          id: catalog_tool.id,
+          source_kind: 'catalog',
+          provider_key: 'stripe',
+          category_key: 'customers',
+          template_key: 'get_current_customer',
+          template_version: '1.0.0',
+          risk_class: 'read',
+          connection_required: true
+        )
+        expect(response.body).not_to include('definition', 'configuration', 'input_schema', 'output_schema')
+      end
     end
   end
 
@@ -218,6 +248,19 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(response).to have_http_status(:success)
         expect(json_response[:title]).to eq('Updated Tool Title')
         expect(json_response[:enabled]).to be(false)
+      end
+
+      it 'keeps catalog snapshots read-only outside the explicit catalog update workflow' do
+        catalog_tool = create(:captain_custom_tool, :catalog, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/captain/custom_tools/#{catalog_tool.id}",
+              params: update_attributes,
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_content)
+        expect(json_response).to eq(error: { code: 'catalog_tool_read_only' })
+        expect(catalog_tool.reload.title).not_to eq('Updated Tool Title')
       end
 
       context 'with invalid parameters' do

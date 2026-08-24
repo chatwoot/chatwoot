@@ -2,6 +2,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   before_action :ensure_custom_tools_enabled
   before_action -> { check_authorization(Captain::CustomTool) }
   before_action :set_custom_tool, only: [:show, :update, :destroy]
+  before_action :ensure_editable_tool, only: [:update]
 
   def index
     @custom_tools = account_custom_tools
@@ -35,13 +36,20 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   private
 
   def ensure_custom_tools_enabled
-    return if Current.account.feature_enabled?('custom_tools') || Current.account.feature_enabled?('captain_integration_v2')
+    return if Current.account.feature_enabled?('custom_tools') || Current.account.feature_enabled?('captain_integration_v2') ||
+              Current.account.feature_enabled?('captain_tool_catalog')
 
     render json: { error: 'Custom tools are not enabled for this account' }, status: :forbidden
   end
 
   def set_custom_tool
     @custom_tool = account_custom_tools.find(params[:id])
+  end
+
+  def ensure_editable_tool
+    return unless @custom_tool.source_catalog?
+
+    render json: { error: { code: 'catalog_tool_read_only' } }, status: :unprocessable_content
   end
 
   def account_custom_tools

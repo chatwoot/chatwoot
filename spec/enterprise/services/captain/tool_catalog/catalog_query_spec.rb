@@ -46,6 +46,7 @@ RSpec.describe Captain::ToolCatalog::CatalogQuery do
         'available_template_count' => 1,
         'template_count' => 1,
         'installed_count' => 1,
+        'update_count' => 0,
         'availability_counts' => { 'available' => 1 }
       )
       expect(provider.fetch('connection')).to eq(

@@ -24,6 +24,7 @@ import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
 import FaqSuggestionsIndex from './responses/FaqSuggestions.vue';
 import CustomToolsIndex from './tools/Index.vue';
+import ToolCatalogProvider from './tools/Provider.vue';
 
 const meta = {
   permissions: ['administrator', 'agent'],
@@ -71,6 +72,14 @@ const assistantRoutes = [
     path: frontendURL('accounts/:accountId/captain/:assistantId/tools'),
     component: CustomToolsIndex,
     name: 'captain_tools_index',
+    meta: metaCustomTools,
+  },
+  {
+    path: frontendURL(
+      'accounts/:accountId/captain/:assistantId/tools/integrations/:providerKey'
+    ),
+    component: ToolCatalogProvider,
+    name: 'captain_tools_catalog_provider',
     meta: metaCustomTools,
   },
   {

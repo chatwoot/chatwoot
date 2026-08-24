@@ -34,15 +34,24 @@ class Captain::ToolCatalog::CatalogQuery
     provider = pack.fetch('provider')
     templates = pack.fetch('templates')
     provider_key = provider.fetch('key')
+    installed_tools = installed_tools_by_provider.fetch(provider_key, [])
 
     provider.merge(
       'category_count' => pack.fetch('categories').length,
       'available_template_count' => templates.count { |template| template.fetch('availability') == 'available' },
       'template_count' => templates.length,
       'availability_counts' => templates.map { |template| template.fetch('availability') }.tally,
-      'installed_count' => installed_tools_by_provider.fetch(provider_key, []).length,
+      'installed_count' => installed_tools.length,
+      'update_count' => update_count(templates, installed_tools),
       'connection' => connection_for(provider_key)
     )
+  end
+
+  def update_count(templates, installed_tools)
+    template_versions = templates.to_h { |template| [template.fetch('key'), template.fetch('version')] }
+    installed_tools.count do |tool|
+      template_versions[tool.template_key].present? && template_versions[tool.template_key] != tool.template_version
+    end
   end
 
   def provider_details(pack)
