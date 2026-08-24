@@ -90,6 +90,17 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(twilio_client).not_to have_received(:conferences)
     end
 
+    it 'propagates provider cancellation failures' do
+      call.update!(provider_call_id: 'CALL123')
+      call_context = double('Twilio call context')
+      provider_error = StandardError.new('provider teardown failed')
+
+      allow(twilio_client).to receive(:calls).with('CALL123').and_return(call_context)
+      allow(call_context).to receive(:update).with(status: 'canceled').and_raise(provider_error)
+
+      expect { service.end_conference }.to raise_error(provider_error)
+    end
+
     it 'does not call Twilio when neither provider_call_id nor conference_sid is present' do
       allow(twilio_client).to receive(:calls)
       allow(twilio_client).to receive(:conferences)
