@@ -69,6 +69,30 @@ RSpec.describe Voice::StatusUpdateService do
     expect(call.reload.status).to eq('no_answer')
   end
 
+  it 'ignores terminal callbacks while an agent-initiated provider teardown is pending' do
+    call.update!(meta: call.meta.merge('agent_termination_pending' => true))
+
+    described_class.new(
+      account: account,
+      call_sid: call_sid,
+      call_status: 'canceled'
+    ).perform
+
+    expect(call.reload.status).to eq('ringing')
+  end
+
+  it 'still processes nonterminal callbacks while agent termination is pending' do
+    call.update!(meta: call.meta.merge('agent_termination_pending' => true))
+
+    described_class.new(
+      account: account,
+      call_sid: call_sid,
+      call_status: 'in-progress'
+    ).perform
+
+    expect(call.reload.status).to eq('in_progress')
+  end
+
   it 'no-ops when no Call matches the provided call_sid' do
     expect do
       described_class.new(account: account, call_sid: 'UNKNOWN', call_status: 'busy').perform
