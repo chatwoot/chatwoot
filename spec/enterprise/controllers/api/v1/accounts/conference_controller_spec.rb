@@ -32,7 +32,6 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     context 'when unauthenticated' do
       it 'returns unauthorized' do
         get "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference/token"
-
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -60,7 +59,6 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     context 'when unauthenticated' do
       it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference"
-
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -68,14 +66,8 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     context 'when authenticated agent with inbox access' do
       before do
         create(:inbox_member, inbox: voice_inbox, user: agent)
-        create(
-          :call,
-          account: account,
-          inbox: voice_inbox,
-          conversation: conversation,
-          contact: conversation.contact,
-          provider_call_id: 'CALL123'
-        )
+        create(:call, account: account, inbox: voice_inbox, conversation: conversation,
+                      contact: conversation.contact, provider_call_id: 'CALL123')
       end
 
       it 'resolves the Call by call_sid and invokes the conference service' do
@@ -103,14 +95,8 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
       it 'does not allow accessing calls from inboxes without access' do
         other_inbox = create(:inbox, account: account)
         other_conversation = create(:conversation, account: account, inbox: other_inbox)
-        create(
-          :call,
-          account: account,
-          inbox: other_inbox,
-          conversation: other_conversation,
-          contact: other_conversation.contact,
-          provider_call_id: 'OTHER123'
-        )
+        create(:call, account: account, inbox: other_inbox, conversation: other_conversation,
+                      contact: other_conversation.contact, provider_call_id: 'OTHER123')
 
         post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
              headers: agent.create_new_auth_token,
@@ -125,7 +111,6 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     context 'when unauthenticated' do
       it 'returns unauthorized' do
         delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference"
-
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -133,33 +118,25 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     context 'when authenticated agent with inbox access' do
       before do
         create(:inbox_member, inbox: voice_inbox, user: agent)
-        create(
-          :call,
-          account: account,
-          inbox: voice_inbox,
-          conversation: conversation,
-          contact: conversation.contact,
-          provider_call_id: 'CALL123',
-          direction: :outgoing
-        )
+        create(:call, account: account, inbox: voice_inbox, conversation: conversation,
+                      contact: conversation.contact, provider_call_id: 'CALL123', direction: :outgoing)
       end
 
-      it 'ends the conference and marks a pre-pickup outbound hangup as rejected' do
+      it 'ends the provider call and marks a pre-pickup outbound hangup as rejected' do
         delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
                headers: agent.create_new_auth_token,
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['id']).to eq(conversation.display_id)
-        expect(conference_service).to have_received(:end_conference).with(provider_call_status: 'canceled')
+        expect(conference_service).to have_received(:end_conference)
         call = Call.find_by(provider_call_id: 'CALL123')
         expect(call.status).to eq('rejected')
         expect(call.end_reason).to eq('agent_rejected')
       end
 
       it 'keeps the local call nonterminal until provider teardown succeeds' do
-        allow(conference_service).to receive(:end_conference) do |provider_call_status:|
-          expect(provider_call_status).to eq('canceled')
+        allow(conference_service).to receive(:end_conference) do
           call = Call.find_by(provider_call_id: 'CALL123')
           expect(call).not_to be_terminal
           expect(call.meta['agent_termination_pending']).to be true
@@ -190,7 +167,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(call.meta['agent_termination_pending']).to be_nil
       end
 
-      it 'completes the already-answered inbound provider leg when rejecting before agent join' do
+      it 'marks an incoming rejection as rejected after provider teardown' do
         call = Call.find_by(provider_call_id: 'CALL123')
         call.update!(direction: :incoming)
 
@@ -199,13 +176,13 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
-        expect(conference_service).to have_received(:end_conference).with(provider_call_status: 'completed')
+        expect(conference_service).to have_received(:end_conference)
         call.reload
         expect(call.status).to eq('rejected')
         expect(call.end_reason).to eq('agent_rejected')
       end
 
-      it 'marks an in-progress call as completed and completes the provider call' do
+      it 'marks an in-progress call as completed after provider teardown' do
         call = Call.find_by(provider_call_id: 'CALL123')
         call.update!(status: 'in_progress', accepted_by_agent_id: agent.id, started_at: 30.seconds.ago)
 
@@ -214,7 +191,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
-        expect(conference_service).to have_received(:end_conference).with(provider_call_status: 'completed')
+        expect(conference_service).to have_received(:end_conference)
         call.reload
         expect(call.status).to eq('completed')
         expect(call.end_reason).to eq('agent_hangup')
@@ -223,7 +200,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(call.ended_at).to be_present
       end
 
-      it 'marks a claimed-but-not-yet-connected outbound call as no_answer instead of leaving it ringing' do
+      it 'marks a claimed-but-not-yet-connected outbound call as no_answer' do
         call = Call.find_by(provider_call_id: 'CALL123')
         call.update!(accepted_by_agent_id: agent.id)
 
@@ -232,7 +209,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
-        expect(conference_service).to have_received(:end_conference).with(provider_call_status: 'canceled')
+        expect(conference_service).to have_received(:end_conference)
         call.reload
         expect(call.status).to eq('no_answer')
         expect(call.end_reason).to eq('agent_hangup')
@@ -242,14 +219,8 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
       it 'does not allow ending conferences for calls from inboxes without access' do
         other_inbox = create(:inbox, account: account)
         other_conversation = create(:conversation, account: account, inbox: other_inbox)
-        create(
-          :call,
-          account: account,
-          inbox: other_inbox,
-          conversation: other_conversation,
-          contact: other_conversation.contact,
-          provider_call_id: 'OTHER123'
-        )
+        create(:call, account: account, inbox: other_inbox, conversation: other_conversation,
+                      contact: other_conversation.contact, provider_call_id: 'OTHER123')
 
         delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
                headers: agent.create_new_auth_token,
