@@ -1,20 +1,35 @@
 class Voice::CallStatus::Manager
   pattr_initialize [:call!]
 
-  def process_status_update(status, duration: nil, timestamp: nil)
+  def process_status_update(status, duration: nil, timestamp: nil, allow_during_termination: false)
     return unless Call::STATUSES.include?(status)
-    return if call.status == status
-    # Don't overwrite a terminal status — Twilio's late `completed` events would
-    # otherwise clobber an agent-rejection reason.
-    return if Call::TERMINAL_STATUSES.include?(call.status)
 
-    apply_call_updates!(status, duration: duration, timestamp: timestamp)
+    applied = false
+    call.with_lock do
+      next if call.status == status
+      # Don't overwrite a terminal status — Twilio's late `completed` events would
+      # otherwise clobber an agent-rejection reason.
+      next if Call::TERMINAL_STATUSES.include?(call.status)
+      next if termination_blocks?(status, allow_during_termination)
+
+      apply_call_updates!(status, duration: duration, timestamp: timestamp)
+      applied = true
+    end
+    return unless applied
+
     call.conversation.update!(last_activity_at: Time.zone.now)
     # Bump updated_at so the message.updated dispatcher rebroadcasts with the fresh Call embedded.
     call.message&.touch # rubocop:disable Rails/SkipsModelValidations
   end
 
   private
+
+  def termination_blocks?(status, allow_during_termination)
+    return false if allow_during_termination
+    return false unless Call::TERMINAL_STATUSES.include?(status)
+
+    call.meta['agent_termination_pending'] == true
+  end
 
   def apply_call_updates!(status, duration:, timestamp:)
     attrs = { status: status }
