@@ -179,6 +179,22 @@ budget:
 | **P5 — Pet** | Tauri app + widget pet-mode | pet روی ویندوز/مک اعلان بدهد و inbox باز کند |
 | **P6 — Flow builder & launch** | flow editor، marketplace تم، docs site، demo online | ویدیو دمو ۲ دقیقه‌ای + README نهایی |
 
+### Release-ready status (2026-08-24)
+
+**P0✅ P1✅ P2✅ P3✅ P4🔶** — platform is release-ready for self-hosted v4.19.0.
+
+| Capability | Status |
+|---|---|
+| Rebrand (Whisker) | ✅ Full — all ChatPaw/Chatwoot references removed |
+| RTL + Persian UX | ✅ Vazirmatn, 174 fa keys, RTL dashboard + widget |
+| Widget theme system | ✅ 8 themes, 8 icons, motions, voice notes, notification sounds |
+| Bale channel | ✅ End-to-end (model/webhook/services/dashboard form/i18n) |
+| BYOR AI (P4 partial) | ✅ Per-account provider config, resolver, wired into Captain |
+| CI/CD release pipeline | ✅ SemVer auto-bump, GitHub Release with SHA256SUMS |
+| Production config | ✅ .env.example with Whisker branding + Docker vars |
+
+**What's NOT in v4.19.0:** RAG (pgvector), widget AI toggle, Desktop Pet (Tauri), Flow builder, SMS adapter.
+
 **قانون merge upstream:** ماهانه `git fetch upstream && git merge upstream/main` در برنچ `sync/upstream` + رزولوشن تعارض (بهخاطر ایزولاسیون engines باید کم باشد).
 
 ---
