@@ -51,4 +51,9 @@ Rails.application.configure do
 
   # Amazon SES ActionMailbox configuration
   config.action_mailbox.ses.subscribed_topic = ENV['ACTION_MAILBOX_SES_SNS_TOPIC'] if ENV['ACTION_MAILBOX_SES_SNS_TOPIC'].present?
+
+  # [whisker] Opt-in per-account SMTP delivery interceptor (no-op unless explicitly set)
+  Rails.application.config.after_initialize do
+    ActionMailer::Base.register_interceptor(WhiskerSmtpInterceptor) if defined?(WhiskerSmtpInterceptor)
+  end
 end

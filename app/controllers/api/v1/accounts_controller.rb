@@ -115,12 +115,17 @@ class Api::V1::AccountsController < Api::BaseController
     params.permit(:industry, :company_size, :timezone, :referral_source, :user_role, :website)
   end
 
-  def settings_params
-    params.permit(*permitted_settings_attributes)
+  def permitted_settings_attributes
+    [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label,
+     :otp_via_email]
   end
 
-  def permitted_settings_attributes
-    [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label]
+  def settings_params
+    params.permit(*permitted_settings_attributes,
+                  crm_modules: {},
+                  smtp_config: %i[address port user_name password authentication domain
+                                  openssl_verify_mode enable_starttls_auto ssl tls
+                                  open_timeout read_timeout sender_email sender_name])
   end
 
   def check_signup_enabled

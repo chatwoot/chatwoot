@@ -18,6 +18,10 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 fa:
   hello: 'سلام دنیا'
+  whisker:
+    otp:
+      subject: 'کد تأیید ویسکر'
+      invalid: 'کد نامعتبر یا منقضی‌شده است'
   inbox:
     reauthorization:
       success: 'Channel reauthorized successfully'

@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   # AUTH STARTS
+  # [whisker] Email OTP (passwordless login / email verification) — must precede the mount
+  post 'auth/otp/send', to: 'auth/otp#send_code'
+  post 'auth/otp/verify', to: 'auth/otp#verify'
+
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',
     passwords: 'devise_overrides/passwords',

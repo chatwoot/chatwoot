@@ -968,6 +968,12 @@ const menuItems = computed(() => {
           icon: 'i-lucide-triangle-alert',
           to: accountScopedRoute('error_reports'),
         },
+        {
+          name: 'Settings Email / Webmail',
+          label: t('SIDEBAR.EMAIL_WEBMAIL'),
+          icon: 'i-lucide-mail',
+          to: accountScopedRoute('email_webmail'),
+        },
       ],
     },
   ];

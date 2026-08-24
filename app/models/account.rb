@@ -59,7 +59,39 @@ class Account < ApplicationRecord
   store_accessor :settings, :reporting_timezone
   store_accessor :settings, :keep_pending_on_bot_failure
   store_accessor :settings, :captain_auto_resolve_mode, :captain_false_promise_harness_enabled
+
+  # [whisker] Modular CRM + email/webmail configuration
+  store_accessor :settings, :crm_modules, :smtp_config, :otp_via_email
+
   include AccountCaptainAutoResolve
+
+  # [whisker] Modular CRM: optional modules the account can toggle on/off.
+  # An empty/undefined config means "all free modules enabled".
+  DEFAULT_CRM_MODULES = %w[deals companies tasks reports].freeze
+
+  def crm_module_enabled?(key)
+    modules = crm_modules || {}
+    return true if modules.empty?
+
+    modules[key.to_s] != false
+  end
+
+  def enable_crm_module(key)
+    self.crm_modules = (crm_modules || {}).merge(key.to_s => true)
+  end
+
+  def disable_crm_module(key)
+    self.crm_modules = (crm_modules || {}).merge(key.to_s => false)
+  end
+
+  # [whisker] Per-account webmail / SMTP configuration
+  def smtp_enabled?
+    smtp_config.is_a?(Hash) && smtp_config['address'].present?
+  end
+
+  def otp_via_email_enabled?
+    ActiveModel::Type::Boolean.new.cast(otp_via_email)
+  end
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async

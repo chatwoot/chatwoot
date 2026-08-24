@@ -359,6 +359,7 @@
     "FLOW_BUILDER": "Flow Builder",
     "THEME_MARKETPLACE": "Theme Marketplace",
     "ERROR_REPORTS": "Error Reports",
+    "EMAIL_WEBMAIL": "Email / Webmail",
     "CUSTOM_VIEWS_FOLDER": "Folders",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
@@ -1170,6 +1171,48 @@
       "ENABLED": "Enabled (used in AI responses)",
       "CANCEL": "Cancel",
       "SAVE": "Save"
+    }
+  },
+  "EMAIL_WEBMAIL": {
+    "TITLE": "Email / Webmail",
+    "NOTE": "Configure how Whisker sends emails (notifications, OTP, replies) for this workspace.",
+    "FORM": {
+      "METHOD": {
+        "LABEL": "Delivery method",
+        "SMTP": "SMTP",
+        "SENDMAIL": "Sendmail (server local)"
+      },
+      "SMTP": {
+        "ADDRESS": "SMTP host",
+        "PORT": "Port",
+        "USERNAME": "Username",
+        "PASSWORD": "Password",
+        "AUTH": "Authentication",
+        "DOMAIN": "Domain",
+        "SENDER_EMAIL": "From email",
+        "SENDER_NAME": "From name",
+        "STARTTLS": "Enable STARTTLS",
+        "SSL": "Use SSL",
+        "TLS": "Use TLS"
+      },
+      "OTP": {
+        "LABEL": "Login / verification via email OTP"
+      },
+      "SAVE": "Save email settings",
+      "API": {
+        "SUCCESS": "Email settings saved.",
+        "ERROR": "Could not save email settings."
+      }
+    }
+  },
+  "CRM_MODULES": {
+    "TITLE": "CRM Modules",
+    "NOTE": "Turn on only the modules your team needs. Everything is free — personalize Whisker to your workflow.",
+    "ITEMS": {
+      "DEALS": "Deals & Pipeline (sales)",
+      "COMPANIES": "Companies / Accounts (B2B)",
+      "TASKS": "Tasks & Reminders",
+      "REPORTS": "CRM Reports & Dashboards"
     }
   }
 }

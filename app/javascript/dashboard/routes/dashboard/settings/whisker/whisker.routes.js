@@ -47,5 +47,14 @@ export default {
         permissions: ['administrator'],
       },
     },
+    {
+      path: frontendURL('accounts/:accountId/settings/email-webmail'),
+      name: 'email_webmail',
+      component: () =>
+        import('./EmailWebmail.vue'),
+      meta: {
+        permissions: ['administrator'],
+      },
+    },
   ],
 };
