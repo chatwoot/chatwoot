@@ -4,15 +4,23 @@ class Labels::UpdateService
   def perform
     tagged_conversations.find_in_batches do |conversation_batch|
       conversation_batch.each do |conversation|
-        new_labels = (conversation.label_list - [old_label_title] + [new_label_title]).uniq
-        conversation.update_labels(new_labels)
+        conversation.label_list.remove(old_label_title)
+        conversation.label_list.add(new_label_title)
+        conversation.save!
+
+        event = Events::Base.new('conversation.updated', Time.zone.now, { conversation: conversation })
+        ActionCableListener.instance.conversation_updated(event)
       end
     end
 
     tagged_contacts.find_in_batches do |contact_batch|
       contact_batch.each do |contact|
-        new_labels = (contact.label_list - [old_label_title] + [new_label_title]).uniq
-        contact.update_labels(new_labels)
+        contact.label_list.remove(old_label_title)
+        contact.label_list.add(new_label_title)
+        contact.save!
+
+        event = Events::Base.new('contact.updated', Time.zone.now, { contact: contact })
+        ActionCableListener.instance.contact_updated(event)
       end
     end
   end
