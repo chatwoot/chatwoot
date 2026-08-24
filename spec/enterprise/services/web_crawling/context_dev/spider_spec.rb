@@ -84,6 +84,7 @@ RSpec.describe WebCrawling::ContextDev::Spider do
   describe '#crawl' do
     it 'submits an asynchronous Markdown crawl' do
       callback_url = 'https://chatwoot.example.com/context-webhook'
+      request_id = 'crawl-request-123'
       expected_body = {
         input: {
           mode: 'crawl',
@@ -100,14 +101,14 @@ RSpec.describe WebCrawling::ContextDev::Spider do
         webhookUrl: callback_url
       }.to_json
       stub_request(:post, 'https://api.context.dev/v1/batch/submit')
-        .with(body: expected_body, headers: headers)
+        .with(body: expected_body, headers: headers.merge('Idempotency-Key' => request_id))
         .to_return(
           status: 202,
           headers: { 'Content-Type' => 'application/json' },
           body: { id: 'batch-123', status: 'queued', webhook_secret: 'secret' }.to_json
         )
 
-      expect(spider.crawl(url: url, limit: 50, callback_url: callback_url)).to eq(
+      expect(spider.crawl(url: url, limit: 50, callback_url: callback_url, request_id: request_id)).to eq(
         WebCrawling::Types::CrawlSubmission.new(
           provider: :context_dev,
           external_id: 'batch-123',

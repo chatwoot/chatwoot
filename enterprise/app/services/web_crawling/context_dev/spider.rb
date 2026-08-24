@@ -42,10 +42,12 @@ class WebCrawling::ContextDev::Spider < WebCrawling::BaseSpider
     )
   end
 
-  def crawl(url:, limit:, callback_url: nil)
+  def crawl(url:, limit:, callback_url: nil, request_id: nil)
     raise ArgumentError, 'callback_url is required' if callback_url.blank?
 
-    response = post('/batch/submit', body: crawl_payload(url, limit, callback_url))
+    # Source: https://docs.context.dev/guides/scrape-websites-in-batches
+    additional_headers = request_id.present? ? { 'Idempotency-Key' => request_id } : {}
+    response = post('/batch/submit', body: crawl_payload(url, limit, callback_url), additional_headers: additional_headers)
     ensure_success!(response)
     payload = response.parsed_response
 
@@ -163,8 +165,8 @@ class WebCrawling::ContextDev::Spider < WebCrawling::BaseSpider
     HTTParty.get("#{WebCrawling::ContextDev::Configuration::BASE_URL}#{path}", query: query, headers: headers)
   end
 
-  def post(path, body:)
-    HTTParty.post("#{WebCrawling::ContextDev::Configuration::BASE_URL}#{path}", body: body, headers: headers)
+  def post(path, body:, additional_headers: {})
+    HTTParty.post("#{WebCrawling::ContextDev::Configuration::BASE_URL}#{path}", body: body, headers: headers.merge(additional_headers))
   end
 
   def headers

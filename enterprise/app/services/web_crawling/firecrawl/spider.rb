@@ -44,7 +44,8 @@ class WebCrawling::Firecrawl::Spider < WebCrawling::BaseSpider
     Array(job.data).map { |document| normalize_document(document) }
   end
 
-  def crawl(url:, limit:, callback_url: nil)
+  # Firecrawl accepts request_id to preserve the shared crawl contract, but its v2 API does not currently document idempotency support.
+  def crawl(url:, limit:, callback_url: nil, request_id: nil) # rubocop:disable Lint/UnusedMethodArgument
     raise ArgumentError, 'callback_url is required' if callback_url.blank?
 
     response = request_crawl(url, callback_url, limit)

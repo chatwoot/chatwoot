@@ -47,7 +47,7 @@ class Captain::Documents::CrawlJob < ApplicationJob
     document_limit = captain_usage_limits[:documents] || {}
     crawl_limit = [document_limit[:current_available] || 10, 500].min
     callback_url = callback_url_for(provider, document)
-    submission = spider.crawl(url: document.external_link, callback_url: callback_url, limit: crawl_limit)
+    submission = spider.crawl(url: document.external_link, callback_url: callback_url, limit: crawl_limit, request_id: job_id)
 
     store_context_dev_submission(document, submission) if submission.provider == :context_dev
   end

@@ -29,7 +29,8 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
           expect(firecrawl_spider).to receive(:crawl).with(
             url: document.external_link,
             callback_url: "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            limit: 20
+            limit: 20,
+            request_id: kind_of(String)
           )
 
           described_class.perform_now(document)
@@ -45,7 +46,8 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
           expect(firecrawl_spider).to receive(:crawl).with(
             url: document.external_link,
             callback_url: "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            limit: 500
+            limit: 500,
+            request_id: kind_of(String)
           )
 
           described_class.perform_now(document)
@@ -61,7 +63,8 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
           expect(firecrawl_spider).to receive(:crawl).with(
             url: document.external_link,
             callback_url: "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            limit: 10
+            limit: 10,
+            request_id: kind_of(String)
           )
 
           described_class.perform_now(document)
@@ -80,6 +83,7 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
       end
 
       it 'submits the crawl and stores its webhook credentials' do
+        job = described_class.new(document)
         callback_url = Rails.application.routes.url_helpers.enterprise_webhooks_context_dev_url(document_id: document.id)
         submission = WebCrawling::Types::CrawlSubmission.new(
           provider: :context_dev,
@@ -90,14 +94,15 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
         expect(context_spider).to receive(:crawl).with(
           url: document.external_link,
           callback_url: callback_url,
-          limit: 25
+          limit: 25,
+          request_id: job.job_id
         ).and_return(submission)
         expect(Captain::Tools::ContextDevPollJob).to receive(:schedule).with(
           document_id: document.id,
           batch_id: 'batch-123'
         )
 
-        described_class.perform_now(document)
+        job.perform_now
 
         expect(document.reload).to have_attributes(
           web_crawling_provider: 'context_dev',

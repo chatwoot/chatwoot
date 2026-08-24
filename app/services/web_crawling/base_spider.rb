@@ -17,7 +17,8 @@ class WebCrawling::BaseSpider
     urls.map { |url| scrape(url: url) }
   end
 
-  def crawl(url:, limit:, callback_url: nil)
+  # request_id is used as the idempotency key by providers that support idempotent crawl submission.
+  def crawl(url:, limit:, callback_url: nil, request_id: nil)
     raise NotImplementedError
   end
 end
