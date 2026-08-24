@@ -1,6 +1,9 @@
 class Voice::Provider::Twilio::ConferenceService
   pattr_initialize [:call!]
 
+  PRE_ANSWER_PROVIDER_STATUSES = %w[queued initiated ringing].freeze
+  TERMINAL_PROVIDER_STATUSES = %w[completed canceled failed busy no-answer].freeze
+
   def ensure_conference_sid
     return call.conference_sid if call.conference_sid.present?
 
@@ -13,8 +16,8 @@ class Voice::Provider::Twilio::ConferenceService
     assign_conversation!(user)
   end
 
-  def end_conference(provider_call_status: 'canceled')
-    end_provider_call(provider_call_status)
+  def end_conference
+    end_provider_call
     return if call.conference_sid.blank?
 
     client = call.inbox.channel.client
@@ -26,10 +29,15 @@ class Voice::Provider::Twilio::ConferenceService
 
   private
 
-  def end_provider_call(status)
+  def end_provider_call
     return if call.provider_call_id.blank?
 
-    call.inbox.channel.client.calls(call.provider_call_id).update(status: status)
+    call_context = call.inbox.channel.client.calls(call.provider_call_id)
+    provider_status = call_context.fetch.status.to_s
+    return if TERMINAL_PROVIDER_STATUSES.include?(provider_status)
+
+    target_status = PRE_ANSWER_PROVIDER_STATUSES.include?(provider_status) ? 'canceled' : 'completed'
+    call_context.update(status: target_status)
   end
 
   def claim_call!(user)
