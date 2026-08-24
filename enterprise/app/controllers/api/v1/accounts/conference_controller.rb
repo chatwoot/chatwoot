@@ -1,6 +1,7 @@
 class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseController
   before_action :set_voice_inbox_for_conference
   rescue_from CustomExceptions::CallAlreadyAccepted, with: :render_call_already_accepted
+  rescue_from CustomExceptions::CallTerminationInProgress, with: :render_call_termination_in_progress
 
   def token
     render json: Voice::Provider::Twilio::TokenService.new(
@@ -30,16 +31,16 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   def destroy
     call = resolve_call!
     conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
-    termination_intent = mark_termination_pending!(call)
+    termination = claim_termination!(call)
 
     begin
       conference_service.end_provider_call
       # The intended local result was snapshotted atomically before teardown began,
       # so late answered/in-progress/conference callbacks cannot change its meaning.
-      finalize_call!(call, termination_intent)
+      finalize_call!(call, termination)
       conference_service.complete_conference
     ensure
-      clear_termination_pending!(call)
+      release_termination!(call, termination[:token])
     end
 
     # Account-wide, so every other tab/agent stops showing this call as ringing/active —
@@ -77,18 +78,25 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     render json: { error: error.message }, status: :conflict
   end
 
-  # Snapshot the agent's intended terminal result under the same row lock that marks
-  # teardown pending. While pending, CallStatus::Manager freezes all provider/conference
-  # status transitions; after provider teardown succeeds we apply this exact snapshot.
-  def mark_termination_pending!(call)
-    intent = nil
+  def render_call_termination_in_progress(error)
+    render json: { error: error.message }, status: :conflict
+  end
+
+  # A teardown owns a unique token and snapshots the intended terminal result under
+  # the same row lock. A second teardown cannot reuse or clear another request's guard.
+  def claim_termination!(call)
+    termination = nil
     call.with_lock do
       next if call.terminal?
+      raise CustomExceptions::CallTerminationInProgress.new({}) if call.meta['agent_termination_token'].present?
 
-      intent = termination_intent_for(call)
-      call.update!(meta: call.meta.merge('agent_termination_pending' => true))
+      termination = {
+        token: SecureRandom.uuid,
+        intent: termination_intent_for(call)
+      }
+      call.update!(meta: call.meta.merge('agent_termination_token' => termination[:token]))
     end
-    intent
+    termination || { token: nil, intent: nil }
   end
 
   def termination_intent_for(call)
@@ -101,20 +109,27 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     end
   end
 
-  def clear_termination_pending!(call)
-    call.with_lock do
-      next unless call.meta['agent_termination_pending']
+  # Only the request that owns the marker may clear it. This makes concurrent DELETEs
+  # safe even if one request fails while another provider operation is still in flight.
+  def release_termination!(call, token)
+    return if token.blank?
 
-      call.update!(meta: call.meta.except('agent_termination_pending'))
+    call.with_lock do
+      next unless call.meta['agent_termination_token'] == token
+
+      call.update!(meta: call.meta.except('agent_termination_token'))
     end
   end
 
-  def finalize_call!(call, intent)
-    return if intent.blank?
+  def finalize_call!(call, termination)
+    intent = termination[:intent]
+    token = termination[:token]
+    return if intent.blank? || token.blank?
 
     applied = false
     call.with_lock do
       next if call.terminal?
+      next unless call.meta['agent_termination_token'] == token
 
       attrs = { end_reason: intent[:end_reason] }
       attrs[:accepted_by_agent_id] = intent[:accepted_by_agent_id] if intent[:accepted_by_agent_id]
