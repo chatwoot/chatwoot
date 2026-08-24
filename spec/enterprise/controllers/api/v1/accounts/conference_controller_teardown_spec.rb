@@ -34,7 +34,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
   it 'preserves the pre-answer rejection when a late progress callback races with teardown' do
     allow(conference_service).to receive(:end_provider_call) do
       call = Call.find_by!(provider_call_id: 'CALL123')
-      expect(call.meta['agent_termination_pending']).to be true
+      expect(call.meta['agent_termination_token']).to be_present
 
       Voice::CallStatus::Manager.new(call: call).process_status_update('in_progress')
       expect(call.reload.status).to eq('ringing')
@@ -49,6 +49,6 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     expect(call.status).to eq('rejected')
     expect(call.end_reason).to eq('agent_rejected')
     expect(call.accepted_by_agent_id).to eq(agent.id)
-    expect(call.meta['agent_termination_pending']).to be_nil
+    expect(call.meta['agent_termination_token']).to be_nil
   end
 end
