@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onUnmounted, ref, watch } from 'vue';
 import MetricCard from 'dashboard/components-next/captain/pageComponents/overview/MetricCard.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   userName: { type: String, default: '' },
@@ -85,8 +86,13 @@ onUnmounted(stopAutoRotation);
               :aria-label="$t('CAPTAIN.OVERVIEW.V2.SUMMARY.PREVIOUS')"
               @click="selectPoint(-1)"
             >
-              <span
-                class="ltr:i-lucide-chevron-left rtl:i-lucide-chevron-right size-3.5"
+              <Icon
+                icon="i-lucide-chevron-left"
+                class="size-3.5 rtl:hidden"
+              />
+              <Icon
+                icon="i-lucide-chevron-right"
+                class="hidden size-3.5 rtl:inline-block"
               />
             </button>
             <button
@@ -96,8 +102,13 @@ onUnmounted(stopAutoRotation);
               :aria-label="$t('CAPTAIN.OVERVIEW.V2.SUMMARY.NEXT')"
               @click="selectPoint(1)"
             >
-              <span
-                class="ltr:i-lucide-chevron-right rtl:i-lucide-chevron-left size-3.5"
+              <Icon
+                icon="i-lucide-chevron-right"
+                class="size-3.5 rtl:hidden"
+              />
+              <Icon
+                icon="i-lucide-chevron-left"
+                class="hidden size-3.5 rtl:inline-block"
               />
             </button>
           </div>
