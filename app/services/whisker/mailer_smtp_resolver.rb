@@ -55,17 +55,4 @@ module Whisker
       ActiveModel::Type::Boolean.new.cast(value)
     end
   end
-
-  # Helper to scope a mail delivery to an account's SMTP configuration.
-  # Example: Whisker::Mailer.with_smtp(account) { MyMailer.notify.deliver_now }
-  # Note: per-account SMTP applies to synchronous (deliver_now) sends within the block.
-  module Mailer
-    def self.with_smtp(account)
-      previous = Thread.current[:whisker_smtp_settings]
-      Thread.current[:whisker_smtp_settings] = Whisker::MailerSmtpResolver.new(account).resolve
-      yield
-    ensure
-      Thread.current[:whisker_smtp_settings] = previous
-    end
-  end
 end

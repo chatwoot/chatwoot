@@ -25,7 +25,6 @@ const smtp = ref({
   sender_email: '',
   sender_name: '',
 });
-const otpViaEmail = ref(false);
 const crmModules = ref({
   deals: true,
   companies: true,
@@ -61,7 +60,6 @@ const syncFromAccount = () => {
     sender_email: cfg.sender_email || '',
     sender_name: cfg.sender_name || '',
   };
-  otpViaEmail.value = !!settings.otp_via_email;
   crmModules.value = {
     deals: settings.crm_modules ? settings.crm_modules.deals !== false : true,
     companies: settings.crm_modules ? settings.crm_modules.companies !== false : true,
@@ -87,7 +85,6 @@ const updateAccountSettings = async payload => {
 const handleSubmit = () => {
   const payload = {
     smtp_config: method.value === 'smtp' ? smtp.value : {},
-    otp_via_email: otpViaEmail.value,
     crm_modules: crmModules.value,
   };
   return updateAccountSettings(payload);
@@ -153,8 +150,7 @@ const crmKeys = ['deals', 'companies', 'tasks', 'reports'];
           </template>
 
           <div class="rounded-xl border border-n-weak bg-n-solid-1 flex items-center justify-between p-3">
-            <span>{{ t('EMAIL_WEBMAIL.FORM.OTP.LABEL') }}</span>
-            <Switch v-model="otpViaEmail" />
+            <span>{{ t('EMAIL_WEBMAIL.FORM.SAVE_HINT') }}</span>
           </div>
 
           <NextButton blue type="submit" :is-loading="isSubmitting" :label="t('EMAIL_WEBMAIL.FORM.SAVE')" />

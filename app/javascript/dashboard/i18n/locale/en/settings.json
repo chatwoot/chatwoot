@@ -1198,6 +1198,7 @@
       "OTP": {
         "LABEL": "Login / verification via email OTP"
       },
+      "SAVE_HINT": "Changes apply to all outgoing emails for this workspace (notifications, replies, alerts).",
       "SAVE": "Save email settings",
       "API": {
         "SUCCESS": "Email settings saved.",

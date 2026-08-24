@@ -61,7 +61,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :captain_auto_resolve_mode, :captain_false_promise_harness_enabled
 
   # [whisker] Modular CRM + email/webmail configuration
-  store_accessor :settings, :crm_modules, :smtp_config, :otp_via_email
+  store_accessor :settings, :crm_modules, :smtp_config
 
   include AccountCaptainAutoResolve
 
@@ -87,10 +87,6 @@ class Account < ApplicationRecord
   # [whisker] Per-account webmail / SMTP configuration
   def smtp_enabled?
     smtp_config.is_a?(Hash) && smtp_config['address'].present?
-  end
-
-  def otp_via_email_enabled?
-    ActiveModel::Type::Boolean.new.cast(otp_via_email)
   end
 
   has_many :account_users, dependent: :destroy_async

@@ -31,10 +31,6 @@
 
 en:
   hello: 'Hello world'
-  whisker:
-    otp:
-      subject: 'Your Whisker verification code'
-      invalid: 'Invalid or expired code'
   inbox:
     reauthorization:
       success: 'Channel reauthorized successfully'

@@ -3,6 +3,7 @@ class ApplicationMailer < ActionMailer::Base
 
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
   before_action { ensure_current_account(params.try(:[], :account)) }
+  before_action :tag_whisker_account
   around_action :switch_locale
   layout 'mailer/base'
   # Fetch template from Database if available
@@ -72,6 +73,12 @@ class ApplicationMailer < ActionMailer::Base
   def ensure_current_account(account)
     Current.reset
     Current.account = account if account.present?
+  end
+
+  # [whisker] Tag outgoing mail with the account id so WhiskerSmtpInterceptor
+  # can apply this account's per-account webmail/SMTP configuration.
+  def tag_whisker_account
+    headers['X-Whisker-Account-Id'] = Current.account.id if Current.account&.id
   end
 
   def switch_locale(&)
