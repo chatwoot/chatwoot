@@ -1,0 +1,15 @@
+mutation AttachmentLinkURL($issueId: String!, $url: String!, $title: String!) {
+  attachmentLinkURL(issueId: $issueId, url: $url, title: $title) {
+    success
+    attachment {
+      issue {
+        identifier
+        title
+        url
+        state {
+          name
+        }
+      }
+    }
+  }
+}

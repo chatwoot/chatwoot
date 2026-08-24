@@ -1,0 +1,12 @@
+{
+  "data": {
+    "commentCreate": {
+      "success": true,
+      "comment": {
+        "id": "77217de3-fb52-4dad-bb9a-b356beb93de8",
+        "body": "The customer confirmed the issue is still occurring.",
+        "createdAt": "2026-08-24T10:05:00.000Z"
+      }
+    }
+  }
+}

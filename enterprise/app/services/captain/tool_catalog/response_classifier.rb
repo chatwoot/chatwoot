@@ -25,6 +25,7 @@ class Captain::ToolCatalog::ResponseClassifier
 
   def classify_graphql!(payload)
     validate_graphql_errors!(payload)
+    validate_linear_success!(payload) if provider_key == 'linear'
     validate_shopify_user_errors!(payload)
     data = payload['data'] if payload.is_a?(Hash)
     raise Captain::ToolCatalog::ExecutionError.new('invalid_response', 'graphql_data_missing') if data.nil?
@@ -41,6 +42,20 @@ class Captain::ToolCatalog::ResponseClassifier
     return unless provider_key == 'shopify' && user_errors?(payload)
 
     raise Captain::ToolCatalog::ExecutionError.new('validation', 'provider_validation_failed')
+  end
+
+  def validate_linear_success!(payload)
+    return unless mutation_failed?(payload)
+
+    raise Captain::ToolCatalog::ExecutionError.new('validation', 'provider_validation_failed')
+  end
+
+  def mutation_failed?(value)
+    return true if value.is_a?(Hash) && value['success'] == false
+    return value.any? { |_key, child| mutation_failed?(child) } if value.is_a?(Hash)
+    return value.any? { |child| mutation_failed?(child) } if value.is_a?(Array)
+
+    false
   end
 
   def user_errors?(value)

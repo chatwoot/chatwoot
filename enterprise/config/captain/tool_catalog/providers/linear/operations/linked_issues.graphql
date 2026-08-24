@@ -1,0 +1,10 @@
+query LinkedIssues($url: String!) {
+  attachmentsForURL(url: $url, first: 10) {
+    nodes {
+      issue {
+        id
+        identifier
+      }
+    }
+  }
+}

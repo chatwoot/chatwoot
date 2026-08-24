@@ -110,6 +110,16 @@ RSpec.describe Captain::ToolCatalog::ProviderPackCompiler do
       .to raise_error(Captain::ToolCatalog::ProviderPackError, /only available to Shopify Provider Packs/)
   end
 
+  it 'rejects Linear-only bindings for another provider' do
+    manifest = Captain::ToolCatalog::ProviderPackLoader.new(pack_path: pack_path).load.deep_dup
+    manifest.dig('templates', 0, 'recipe', 0, 'bindings', 'email').replace('source' => 'linear_conversation_url')
+    loader = instance_double(Captain::ToolCatalog::ProviderPackLoader, load: manifest)
+    allow(Captain::ToolCatalog::ProviderPackLoader).to receive(:new).and_return(loader)
+
+    expect { compiled_pack }
+      .to raise_error(Captain::ToolCatalog::ProviderPackError, /only available to Linear Provider Packs/)
+  end
+
   it 'keeps setup operations out of runtime recipes' do
     manifest = Captain::ToolCatalog::ProviderPackLoader.new(pack_path: pack_path).load.deep_dup
     manifest.dig('templates', 0, 'recipe', 0)['operation_key'] = 'list_customers_for_setup'

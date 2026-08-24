@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["issue_identifier", "body"],
+  "properties": {
+    "issue_identifier": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 50,
+      "pattern": "^[A-Za-z][A-Za-z0-9]*-[0-9]+$"
+    },
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5000
+    }
+  }
+}

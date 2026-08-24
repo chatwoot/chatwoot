@@ -219,15 +219,20 @@ RSpec.describe Linear::CallbacksController, type: :request do
           account: account,
           initiated_by: admin,
           provider_key: 'linear',
+          selected_templates: [
+            {
+              'template_key' => 'get_linked_issue_status',
+              'template_version' => '1.0.0',
+              'configuration' => {}
+            }
+          ],
           status: 'awaiting_connection',
           oauth_nonce_digest: Digest::SHA256.hexdigest(nonce)
         )
       end
-      let(:workflow_resumer) { instance_double(Captain::ToolCatalog::WorkflowResumer, perform: nil) }
 
       before do
         account.enable_features!('captain_tool_catalog')
-        allow(Captain::ToolCatalog::WorkflowResumer).to receive(:new).and_return(workflow_resumer)
         stub_request(:post, 'https://api.linear.app/oauth/token')
           .to_return(
             status: 200,
@@ -236,22 +241,30 @@ RSpec.describe Linear::CallbacksController, type: :request do
           )
       end
 
-      it 'consumes the nonce once, reuses the hook, and resumes the installation' do
+      it 'consumes the nonce once, reuses the hook, and resumes the installation', :aggregate_failures do
         existing_hook = create(:integrations_hook, :linear, account: account, access_token: 'old-access-token')
 
         expect do
           get linear_callback_path, params: { code: code, state: state }
-        end.not_to change(Integrations::Hook, :count)
+        end.to change(account.captain_custom_tools.catalog, :count).by(1)
+                                                                   .and not_change(Integrations::Hook, :count)
 
         expect(response).to redirect_to(linear_redirect_uri)
         expect(installation.reload.oauth_nonce_digest).to be_nil
+        expect(installation).to be_completed
         expect(installation.integration_hook).to eq(existing_hook)
-        expect(workflow_resumer).to have_received(:perform).with(installation)
+        installed_tool = account.captain_custom_tools.find(installation.resulting_tool_ids.sole)
+        expect(installed_tool).to have_attributes(
+          provider_key: 'linear',
+          template_key: 'get_linked_issue_status',
+          integration_hook_id: existing_hook.id
+        )
 
         get linear_callback_path, params: { code: code, state: state }
 
         expect(response).to redirect_to(linear_redirect_uri)
         expect(a_request(:post, 'https://api.linear.app/oauth/token')).to have_been_made.once
+        expect(account.captain_custom_tools.catalog.count).to eq(1)
       end
 
       it 'rejects the callback before token exchange when encryption becomes unavailable' do
@@ -262,7 +275,6 @@ RSpec.describe Linear::CallbacksController, type: :request do
         expect(response).to redirect_to(linear_redirect_uri)
         expect(a_request(:post, 'https://api.linear.app/oauth/token')).not_to have_been_made
         expect(installation.reload.oauth_nonce_digest).to eq(Digest::SHA256.hexdigest(nonce))
-        expect(workflow_resumer).not_to have_received(:perform)
       end
 
       it 'expires the installation and rejects its state before token exchange' do
@@ -273,7 +285,6 @@ RSpec.describe Linear::CallbacksController, type: :request do
         expect(response).to redirect_to(linear_redirect_uri)
         expect(a_request(:post, 'https://api.linear.app/oauth/token')).not_to have_been_made
         expect(installation.reload).to be_expired
-        expect(workflow_resumer).not_to have_received(:perform)
       end
     end
 

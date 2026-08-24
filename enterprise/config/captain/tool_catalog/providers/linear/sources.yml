@@ -1,0 +1,5 @@
+sources:
+  - url: https://github.com/linear/linear/blob/28aea7d685b918e673e83864ddb0d413eb86be0b/packages/sdk/src/schema.graphql
+    revision: 28aea7d685b918e673e83864ddb0d413eb86be0b
+    license: MIT
+    reviewed_at: '2026-08-24'

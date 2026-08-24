@@ -1,0 +1,8 @@
+query ListTeams {
+  teams(first: 50) {
+    nodes {
+      id
+      name
+    }
+  }
+}

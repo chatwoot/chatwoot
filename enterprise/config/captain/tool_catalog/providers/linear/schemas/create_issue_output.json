@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["attachmentLinkURL"],
+  "properties": {
+    "attachmentLinkURL": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["success", "attachment"],
+      "properties": {
+        "success": { "type": "boolean" },
+        "attachment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["issue"],
+          "properties": {
+            "issue": { "$ref": "#/definitions/issue" }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identifier", "title", "url", "state"],
+      "properties": {
+        "identifier": { "type": "string" },
+        "title": { "type": "string" },
+        "url": { "type": "string" },
+        "state": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name"],
+          "properties": {
+            "name": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

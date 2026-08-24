@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["commentCreate"],
+  "properties": {
+    "commentCreate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["success", "comment"],
+      "properties": {
+        "success": { "type": "boolean" },
+        "comment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "body", "createdAt"],
+          "properties": {
+            "id": { "type": "string" },
+            "body": { "type": "string" },
+            "createdAt": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

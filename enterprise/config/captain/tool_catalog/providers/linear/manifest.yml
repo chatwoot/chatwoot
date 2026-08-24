@@ -1,0 +1,163 @@
+schema_version: 1
+key: linear
+name: Linear
+description: Create and follow up on Linear issues linked to the current Chatwoot conversation.
+api_version: 'schema-2026-08-24'
+authentication:
+  strategy: oauth
+allowed_origins:
+  - https://api.linear.app
+categories:
+  - key: issues
+    name: Issues
+    description: Create issues and work only with issues linked to the current conversation.
+operations:
+  - key: list_teams
+    source: graphql
+    reference: operations/list_teams.graphql
+    endpoint: https://api.linear.app/graphql
+    visibility: setup
+    scopes: [read]
+    risk_class: read
+    fixtures:
+      success: fixtures/list_teams_success.json
+      errors: [fixtures/graphql_error.json]
+  - key: list_team_entities
+    source: graphql
+    reference: operations/list_team_entities.graphql
+    endpoint: https://api.linear.app/graphql
+    visibility: setup
+    scopes: [read]
+    risk_class: read
+    fixtures:
+      success: fixtures/list_team_entities_success.json
+      errors: [fixtures/graphql_error.json]
+  - key: issue_create
+    source: graphql
+    reference: operations/issue_create.graphql
+    endpoint: https://api.linear.app/graphql
+    visibility: runtime
+    scopes: [write]
+    risk_class: low_impact_write
+    fixtures:
+      success: fixtures/issue_create_success.json
+      errors: [fixtures/graphql_error.json]
+  - key: attachment_link_url
+    source: graphql
+    reference: operations/attachment_link_url.graphql
+    endpoint: https://api.linear.app/graphql
+    visibility: runtime
+    scopes: [write]
+    risk_class: low_impact_write
+    fixtures:
+      success: fixtures/attachment_link_url_success.json
+      errors: [fixtures/graphql_error.json]
+  - key: linked_issues
+    source: graphql
+    reference: operations/linked_issues.graphql
+    endpoint: https://api.linear.app/graphql
+    visibility: runtime
+    scopes: [read]
+    risk_class: read
+    fixtures:
+      success: fixtures/linked_issues_success.json
+      errors: [fixtures/graphql_error.json]
+  - key: issue_status
+    source: graphql
+    reference: operations/issue_status.graphql
+    endpoint: https://api.linear.app/graphql
+    visibility: runtime
+    scopes: [read]
+    risk_class: read
+    fixtures:
+      success: fixtures/issue_status_success.json
+      errors: [fixtures/graphql_error.json]
+  - key: comment_create
+    source: graphql
+    reference: operations/comment_create.graphql
+    endpoint: https://api.linear.app/graphql
+    visibility: runtime
+    scopes: [write]
+    risk_class: low_impact_write
+    fixtures:
+      success: fixtures/comment_create_success.json
+      errors: [fixtures/mutation_failed.json, fixtures/graphql_error.json]
+templates:
+  - key: create_issue_from_conversation
+    version: 1.0.0
+    name: Create issue from conversation
+    description: Create a Linear issue in a fixed team and project, then link it to the current Chatwoot conversation.
+    category_key: issues
+    availability: available
+    input_schema: schemas/create_issue_input.json
+    configuration_schema: schemas/issue_configuration.json
+    output_schema: schemas/create_issue_output.json
+    recipe:
+      - operation_key: issue_create
+        bindings:
+          teamId:
+            source: configuration
+            path: team_id
+          projectId:
+            source: configuration
+            path: project_id
+          title:
+            source: model_input
+            path: title
+          description:
+            source: model_input
+            path: description
+      - operation_key: attachment_link_url
+        bindings:
+          issueId:
+            source: step_output
+            step: 0
+            path: issueCreate.issue.id
+          url:
+            source: linear_conversation_url
+          title:
+            source: literal
+            value: Chatwoot conversation
+  - key: get_linked_issue_status
+    version: 1.0.0
+    name: Get linked issue status
+    description: Get the status of a Linear issue only when it is linked to the current Chatwoot conversation.
+    category_key: issues
+    availability: available
+    input_schema: schemas/linked_issue_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/issue_status_output.json
+    recipe:
+      - operation_key: linked_issues
+        bindings:
+          url:
+            source: linear_conversation_url
+      - operation_key: issue_status
+        bindings:
+          issueId:
+            source: linear_linked_issue_id
+            step: 0
+            path: issue_identifier
+  - key: add_comment_to_linked_issue
+    version: 1.0.0
+    name: Add comment to linked issue
+    description: Add a comment only to a Linear issue linked to the current Chatwoot conversation.
+    category_key: issues
+    availability: available
+    input_schema: schemas/comment_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/comment_output.json
+    recipe:
+      - operation_key: linked_issues
+        bindings:
+          url:
+            source: linear_conversation_url
+      - operation_key: comment_create
+        bindings:
+          issueId:
+            source: linear_linked_issue_id
+            step: 0
+            path: issue_identifier
+          body:
+            source: model_input
+            path: body

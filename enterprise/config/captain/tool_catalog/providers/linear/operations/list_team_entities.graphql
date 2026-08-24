@@ -1,0 +1,30 @@
+query ListTeamEntities($teamId: String!) {
+  team(id: $teamId) {
+    id
+    name
+  }
+  projects(first: 50) {
+    nodes {
+      id
+      name
+    }
+  }
+  users(first: 50) {
+    nodes {
+      id
+      name
+    }
+  }
+  workflowStates(first: 50, filter: { team: { id: { eq: $teamId } } }) {
+    nodes {
+      id
+      name
+    }
+  }
+  issueLabels(first: 50, filter: { team: { id: { eq: $teamId } } }) {
+    nodes {
+      id
+      name
+    }
+  }
+}

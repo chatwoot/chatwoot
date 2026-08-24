@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["issue"],
+  "properties": {
+    "issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identifier", "title", "url", "updatedAt", "state"],
+      "properties": {
+        "identifier": { "type": "string" },
+        "title": { "type": "string" },
+        "url": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "state": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name"],
+          "properties": {
+            "name": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

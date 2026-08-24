@@ -1,0 +1,11 @@
+{
+  "data": {
+    "issue": {
+      "identifier": "ENG-123",
+      "title": "Customer cannot complete checkout",
+      "url": "https://linear.app/example/issue/ENG-123/customer-cannot-complete-checkout",
+      "updatedAt": "2026-08-24T10:00:00.000Z",
+      "state": { "name": "In Progress" }
+    }
+  }
+}

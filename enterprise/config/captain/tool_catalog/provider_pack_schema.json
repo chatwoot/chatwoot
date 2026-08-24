@@ -212,7 +212,9 @@
             "step_output",
             "literal",
             "shopify_contact_query",
-            "shopify_order_query"
+            "shopify_order_query",
+            "linear_conversation_url",
+            "linear_linked_issue_id"
           ]
         },
         "path": {
@@ -261,6 +263,21 @@
           "properties": {
             "source": {
               "const": "shopify_order_query"
+            }
+          }
+        },
+        {
+          "properties": {
+            "source": {
+              "const": "linear_conversation_url"
+            }
+          }
+        },
+        {
+          "required": ["path", "step"],
+          "properties": {
+            "source": {
+              "const": "linear_linked_issue_id"
             }
           }
         }

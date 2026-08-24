@@ -121,7 +121,7 @@ class Captain::ToolCatalog::HttpClient
 
   def authentication_headers
     hook = custom_tool.integration_hook
-    token = hook&.access_token
+    token = access_token(hook)
     raise Captain::ToolCatalog::ExecutionError.new('authentication', 'provider_credential_missing') if token.blank?
 
     if custom_tool.provider_key == 'shopify'
@@ -129,6 +129,13 @@ class Captain::ToolCatalog::HttpClient
     else
       { 'Authorization' => "Bearer #{token}" }
     end
+  end
+
+  def access_token(hook)
+    return if hook.blank?
+    return Integrations::Linear::AccessTokenService.new(hook: hook).access_token if custom_tool.provider_key == 'linear'
+
+    hook.access_token
   end
 
   def fetch(url, body, headers)

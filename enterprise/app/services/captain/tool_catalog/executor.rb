@@ -56,7 +56,7 @@ class Captain::ToolCatalog::Executor
       provider_key: custom_tool.provider_key,
       model_input: params,
       configuration: custom_tool.configuration,
-      state: state,
+      state: state.merge(account_id: custom_tool.account_id),
       step_results: step_results
     ).resolve(step.fetch('bindings'))
     client = client_class.new(

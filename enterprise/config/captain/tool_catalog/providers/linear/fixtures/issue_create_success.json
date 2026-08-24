@@ -1,0 +1,14 @@
+{
+  "data": {
+    "issueCreate": {
+      "success": true,
+      "issue": {
+        "id": "590a1127-f98b-49fc-ba74-2df8751c089e",
+        "identifier": "ENG-123",
+        "title": "Customer cannot complete checkout",
+        "url": "https://linear.app/example/issue/ENG-123/customer-cannot-complete-checkout",
+        "state": { "name": "Backlog" }
+      }
+    }
+  }
+}

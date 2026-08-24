@@ -40,6 +40,16 @@ RSpec.describe Captain::ToolCatalog::ResponseClassifier do
       end
   end
 
+  it 'classifies unsuccessful Linear mutation payloads returned with HTTP 200' do
+    classifier = described_class.new(provider_key: 'linear', source: 'graphql')
+    response = { data: { commentCreate: { success: false, comment: nil } } }
+
+    expect { classifier.classify(JSON.generate(response)) }
+      .to raise_error(Captain::ToolCatalog::ExecutionError) do |error|
+        expect(error).to have_attributes(category: 'validation', code: 'provider_validation_failed')
+      end
+  end
+
   it 'unwraps successful GraphQL data only after error checks' do
     classifier = described_class.new(provider_key: 'linear', source: 'graphql')
 

@@ -1,0 +1,26 @@
+mutation IssueCreate(
+  $teamId: String!
+  $projectId: String!
+  $title: String!
+  $description: String!
+) {
+  issueCreate(
+    input: {
+      teamId: $teamId
+      projectId: $projectId
+      title: $title
+      description: $description
+    }
+  ) {
+    success
+    issue {
+      id
+      identifier
+      title
+      url
+      state {
+        name
+      }
+    }
+  }
+}

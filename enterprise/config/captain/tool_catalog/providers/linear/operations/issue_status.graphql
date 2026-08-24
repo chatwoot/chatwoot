@@ -1,0 +1,11 @@
+query IssueStatus($issueId: String!) {
+  issue(id: $issueId) {
+    identifier
+    title
+    url
+    updatedAt
+    state {
+      name
+    }
+  }
+}

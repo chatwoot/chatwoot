@@ -1,0 +1,14 @@
+{
+  "data": {
+    "attachmentsForURL": {
+      "nodes": [
+        {
+          "issue": {
+            "id": "590a1127-f98b-49fc-ba74-2df8751c089e",
+            "identifier": "ENG-123"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["team_id", "project_id"],
+  "properties": {
+    "team_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    }
+  }
+}

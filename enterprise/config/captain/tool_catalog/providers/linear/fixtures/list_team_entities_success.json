@@ -1,0 +1,9 @@
+{
+  "data": {
+    "team": { "id": "9cfb482a-81e3-4154-b5b9-2c805e70a02d", "name": "Engineering" },
+    "projects": { "nodes": [{ "id": "842f60b5-dc9c-4c81-9f55-8f8c02bc2bd0", "name": "Support" }] },
+    "users": { "nodes": [{ "id": "a963bf75-9b55-4b98-b705-8959887e739b", "name": "Example User" }] },
+    "workflowStates": { "nodes": [{ "id": "a1e0d8cf-5448-45b6-8c22-f781f4b3ca89", "name": "Backlog" }] },
+    "issueLabels": { "nodes": [{ "id": "01d4d927-33ce-4c06-994c-7bc6ea49c9ce", "name": "Support" }] }
+  }
+}

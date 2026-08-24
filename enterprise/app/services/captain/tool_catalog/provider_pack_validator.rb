@@ -74,9 +74,8 @@ class Captain::ToolCatalog::ProviderPackValidator
 
   def validate_binding!(binding, provider_key:, step_index:, input_schema:, configuration_schema:)
     source = binding.fetch('source')
-    if source.start_with?('shopify_')
-      return Captain::ToolCatalog::ShopifyBindingValidator.new.validate!(binding, provider_key: provider_key, input_schema: input_schema)
-    end
+    provider_binding = Captain::ToolCatalog::ProviderBindingValidator.new
+    return if provider_binding.validate!(binding, provider_key: provider_key, step_index: step_index, input_schema: input_schema)
 
     validate_binding_shape!(binding, source)
     return validate_server_binding!(binding, source) if SERVER_BINDING_PATHS.key?(source)

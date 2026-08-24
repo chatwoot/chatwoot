@@ -1,0 +1,8 @@
+{
+  "errors": [
+    {
+      "message": "The operation is not allowed",
+      "extensions": { "code": "FORBIDDEN" }
+    }
+  ]
+}

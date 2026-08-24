@@ -1,6 +1,9 @@
 class Captain::ToolCatalog::BindingResolver
+  SPECIAL_BINDING_SOURCES = %w[literal step_output shopify_contact_query shopify_order_query linear_conversation_url linear_linked_issue_id].freeze
+
   def initialize(provider_key:, model_input:, configuration:, state:, step_results:)
     @provider_key = provider_key
+    @account_id = state.to_h[:account_id] || state.to_h['account_id']
     @sources = {
       'model_input' => model_input,
       'configuration' => configuration,
@@ -16,18 +19,26 @@ class Captain::ToolCatalog::BindingResolver
 
   private
 
-  attr_reader :provider_key, :sources, :step_results
+  attr_reader :provider_key, :account_id, :sources, :step_results
 
   def resolve_binding(binding)
     source = binding.fetch('source')
-    return binding.fetch('value') if source == 'literal'
-    return fetch_path(step_results.fetch(binding.fetch('step')), binding.fetch('path')) if source == 'step_output'
-    return shopify_contact_query if source == 'shopify_contact_query'
-    return shopify_order_query(binding) if source == 'shopify_order_query'
+    return resolve_special_binding(source, binding) if SPECIAL_BINDING_SOURCES.include?(source)
 
     fetch_path(sources.fetch(source), binding.fetch('path'))
   rescue IndexError
     raise Captain::ToolCatalog::ExecutionError.new('validation', 'binding_unavailable')
+  end
+
+  def resolve_special_binding(source, binding)
+    case source
+    when 'literal' then binding.fetch('value')
+    when 'step_output' then fetch_path(step_results.fetch(binding.fetch('step')), binding.fetch('path'))
+    when 'shopify_contact_query' then shopify_contact_query
+    when 'shopify_order_query' then shopify_order_query(binding)
+    when 'linear_conversation_url' then linear_conversation_url
+    when 'linear_linked_issue_id' then linear_linked_issue_id(binding)
+    end
   end
 
   def shopify_contact_query
@@ -56,6 +67,35 @@ class Captain::ToolCatalog::BindingResolver
 
   def ensure_shopify!
     raise KeyError, 'provider' unless provider_key == 'shopify'
+  end
+
+  def linear_conversation_url
+    ensure_linear!
+    frontend_url = ENV.fetch('FRONTEND_URL', nil).to_s.delete_suffix('/')
+    display_id = sources.fetch('conversation').to_h.with_indifferent_access[:display_id]
+    raise KeyError, 'conversation identity' if frontend_url.blank? || account_id.blank? || display_id.blank?
+
+    "#{frontend_url}/app/accounts/#{account_id}/conversations/#{display_id}"
+  end
+
+  def linear_linked_issue_id(binding)
+    ensure_linear!
+    identifier = fetch_path(sources.fetch('model_input'), binding.fetch('path')).to_s
+    issue = linked_issues(binding).find do |candidate|
+      candidate.to_h.with_indifferent_access[:identifier].to_s.casecmp?(identifier)
+    end
+    issue.to_h.with_indifferent_access.fetch(:id)
+  end
+
+  def linked_issues(binding)
+    nodes = fetch_path(step_results.fetch(binding.fetch('step')), 'attachmentsForURL.nodes')
+    raise KeyError, 'linked issues' unless nodes.is_a?(Array)
+
+    nodes.filter_map { |attachment| attachment.to_h['issue'] || attachment.to_h[:issue] }
+  end
+
+  def ensure_linear!
+    raise KeyError, 'provider' unless provider_key == 'linear'
   end
 
   def fetch_path(value, path)
