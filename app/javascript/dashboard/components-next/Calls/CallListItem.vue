@@ -26,13 +26,14 @@ const route = useRoute();
 
 const kind = computed(() => getCallKind(props.call));
 
-const contactName = computed(
-  () =>
-    (props.call.contact?.name || props.call.contact?.phoneNumber || '').replace(
-      /^\+/,
-      ''
-    ) || t('CALLS_PAGE.ROW.DELETED_CONTACT')
-);
+const contactName = computed(() => {
+  if (!props.call.contact) return t('CALLS_PAGE.ROW.DELETED_CONTACT');
+  return (
+    props.call.contact.name ||
+    props.call.contact.phoneNumber ||
+    ''
+  ).replace(/^\+/, '');
+});
 
 const agentActionLabel = computed(() => {
   if (!props.call.agent) return '';
