@@ -1,6 +1,7 @@
 # TODO: Wrap the schema lib under ai-agents
 # So we can extend it as Agents::Schema
 class Captain::ResponseSchema < RubyLLM::Schema
+  string :reasoning, description: "Agent's thought process"
   array :response_parts,
         description: 'Ordered parts of the message to send to the user. Keep all customer-visible text within each part text field.',
         min_items: 1 do
@@ -12,5 +13,4 @@ class Captain::ResponseSchema < RubyLLM::Schema
       end
     end
   end
-  string :reasoning, description: "Agent's thought process"
 end
