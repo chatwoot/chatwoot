@@ -20,8 +20,11 @@ done
 
 echo "Database ready to accept connections."
 
-#install missing gems for local dev as we are using base image compiled for production
-bundle install
+# install missing gems only if they are not already satisfied
+# (production image already bundles gems; this keeps startup working offline)
+if ! bundle check >/dev/null 2>&1; then
+  bundle install
+fi
 
 BUNDLE="bundle check"
 
