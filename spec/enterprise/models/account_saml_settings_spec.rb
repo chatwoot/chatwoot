@@ -56,6 +56,84 @@ RSpec.describe AccountSamlSettings, type: :model do
     end
   end
 
+  describe 'single logout configuration' do
+    it 'keeps SAML enabled when an SLS URL is not configured' do
+      settings = build(:account_saml_settings, account: account, sls_url: nil)
+
+      expect(settings).to be_valid
+      expect(settings).to be_saml_enabled
+      expect(settings).not_to be_single_logout_configured
+
+      settings.save!
+
+      expect(settings.sp_private_key).to be_nil
+      expect(settings.sp_certificate).to be_nil
+    end
+
+    it 'generates matching service provider signing credentials when an SLS URL is configured' do
+      settings = create(:account_saml_settings, account: account, sls_url: 'https://idp.example.com/saml/slo')
+
+      private_key = OpenSSL::PKey::RSA.new(settings.sp_private_key)
+      certificate = OpenSSL::X509::Certificate.new(settings.sp_certificate)
+
+      expect(certificate.check_private_key(private_key)).to be true
+    end
+
+    it 'rejects a non-HTTP SLS URL' do
+      settings = build(:account_saml_settings, account: account, sls_url: 'javascript:alert(1)')
+
+      expect(settings).not_to be_valid
+      expect(settings.errors[:sls_url]).to be_present
+    end
+
+    it 'exposes a signed service provider SLS URL that resolves to the settings record' do
+      allow(GlobalConfigService).to receive(:load).and_call_original
+      allow(GlobalConfigService).to receive(:load)
+        .with('FRONTEND_URL', 'http://localhost:3000')
+        .and_return('https://chatwoot.example.com')
+
+      settings = create(:account_saml_settings, account: account, sls_url: 'https://idp.example.com/saml/slo')
+      uri = URI.parse(settings.sp_sls_url)
+      route = Rails.application.routes.recognize_path(uri.path, method: :post)
+      settings_token = route.fetch(:settings_token)
+
+      expect("#{uri.scheme}://#{uri.host}").to eq('https://chatwoot.example.com')
+      expect(route).to include(controller: 'saml/single_logout', action: 'create')
+      expect(described_class.find_signed!(settings_token, purpose: described_class::SINGLE_LOGOUT_SIGNED_ID_PURPOSE)).to eq(settings)
+    end
+
+    it 'rejects malformed service provider signing credentials' do
+      settings = build(
+        :account_saml_settings,
+        account: account,
+        sls_url: 'https://idp.example.com/saml/slo',
+        sp_private_key: 'not-a-private-key',
+        sp_certificate: 'not-a-certificate'
+      )
+
+      expect(settings).not_to be_valid
+      expect(settings.errors[:sp_certificate]).to include(I18n.t('profile.account_saml_settings.invalid_sp_signing_credentials'))
+    end
+
+    it 'rejects service provider signing credentials that do not match' do
+      configured_settings = create(
+        :account_saml_settings,
+        account: create(:account),
+        sls_url: 'https://idp.example.com/saml/slo'
+      )
+      settings = build(
+        :account_saml_settings,
+        account: account,
+        sls_url: 'https://idp.example.com/saml/slo',
+        sp_private_key: OpenSSL::PKey::RSA.new(2048).to_pem,
+        sp_certificate: configured_settings.sp_certificate
+      )
+
+      expect(settings).not_to be_valid
+      expect(settings.errors[:sp_certificate]).to include(I18n.t('profile.account_saml_settings.invalid_sp_signing_credentials'))
+    end
+  end
+
   describe 'sp_entity_id auto-generation' do
     it 'automatically generates sp_entity_id when creating' do
       settings = build(:account_saml_settings, account: account, sp_entity_id: nil)
