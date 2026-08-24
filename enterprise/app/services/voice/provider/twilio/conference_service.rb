@@ -13,8 +13,8 @@ class Voice::Provider::Twilio::ConferenceService
     assign_conversation!(user)
   end
 
-  def end_conference
-    cancel_provider_call
+  def end_conference(provider_call_status: 'canceled')
+    end_provider_call(provider_call_status)
     return if call.conference_sid.blank?
 
     client = call.inbox.channel.client
@@ -26,10 +26,10 @@ class Voice::Provider::Twilio::ConferenceService
 
   private
 
-  def cancel_provider_call
+  def end_provider_call(status)
     return if call.provider_call_id.blank?
 
-    call.inbox.channel.client.calls(call.provider_call_id).update(status: 'canceled')
+    call.inbox.channel.client.calls(call.provider_call_id).update(status: status)
   end
 
   def claim_call!(user)
