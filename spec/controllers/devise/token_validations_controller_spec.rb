@@ -47,6 +47,9 @@ RSpec.describe 'Token Validation API', type: :request do
         few_headers = user_with_accounts(2).create_new_auth_token
         many_headers = user_with_accounts(15).create_new_auth_token
 
+        # warmup so one-time app initialization queries don't skew the first measured request
+        get '/auth/validate_token', headers: few_headers
+
         few_queries = count_sql_queries { get '/auth/validate_token', headers: few_headers }
         expect(response).to have_http_status(:success)
 
