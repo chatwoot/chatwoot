@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["payment_intent"],
+  "properties": {
+    "payment_intent": { "type": "string", "minLength": 1 }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "id": "sub_example",
+  "status": "active",
+  "cancel_at_period_end": true,
+  "current_period_end": 1769904000
+}

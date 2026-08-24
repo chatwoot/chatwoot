@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["data"],
+  "properties": {
+    "data": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "status": { "type": "string" },
+          "current_period_start": { "type": "integer" },
+          "current_period_end": { "type": "integer" },
+          "cancel_at_period_end": { "type": "boolean" },
+          "canceled_at": { "type": ["integer", "null"] },
+          "trial_end": { "type": ["integer", "null"] }
+        }
+      }
+    }
+  }
+}

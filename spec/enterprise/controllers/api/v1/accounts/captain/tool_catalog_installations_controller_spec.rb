@@ -76,6 +76,54 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolCatalogInstallations', type: :re
 
       expect(response).to have_http_status(:unauthorized)
     end
+
+    context 'with a Stripe restricted key' do
+      let(:credential) { "rk_test_#{'a' * 24}" }
+      let(:pack) do
+        Captain::ToolCatalog::ProviderPackCompiler.new(
+          pack_path: Rails.root.join('enterprise/config/captain/tool_catalog/providers/stripe')
+        ).compile
+      end
+      let(:request_params) do
+        {
+          installation: {
+            provider_key: 'stripe',
+            credential: credential,
+            templates: [
+              {
+                template_key: 'get_current_customer',
+                template_version: '1.0.0',
+                configuration: {}
+              }
+            ]
+          }
+        }
+      end
+
+      it 'validates and stores the credential without persisting it in the installation session or response' do
+        allow(SafeFetch).to receive(:fetch) do |url, **_options, &block|
+          body = if url.end_with?('/account')
+                   JSON.generate(object: 'account', id: 'acct_example', business_profile: { name: 'Acme Billing' })
+                 else
+                   JSON.generate(object: 'list', data: [])
+                 end
+          block.call(SafeFetch::Result.new(tempfile: StringIO.new(body), filename: 'response', content_type: 'application/json'))
+        end
+
+        post installations_path, params: request_params, headers: admin.create_new_auth_token, as: :json
+
+        installation = account.captain_tool_catalog_installations.sole
+        hook = account.hooks.account_hooks.find_by!(app_id: 'stripe')
+        expect(response).to have_http_status(:created)
+        expect(json_response.dig(:payload, :status)).to eq('completed')
+        expect(hook.access_token).to eq(credential)
+        expect(installation.selected_templates).to eq(
+          [{ 'template_key' => 'get_current_customer', 'template_version' => '1.0.0', 'configuration' => {} }]
+        )
+        expect(response.body).not_to include(credential)
+        expect(installation.attributes.to_json).not_to include(credential)
+      end
+    end
   end
 
   describe 'GET /api/v1/accounts/:account_id/captain/tool_catalog/installations/:id' do

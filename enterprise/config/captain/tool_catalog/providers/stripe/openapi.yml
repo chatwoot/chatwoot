@@ -1,0 +1,98 @@
+openapi: 3.0.3
+info:
+  title: Stripe API
+  version: '2026-07-29.dahlia'
+servers:
+  - url: https://api.stripe.com
+paths:
+  /v1/customers:
+    get:
+      operationId: GetCustomers
+      parameters:
+        - name: email
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Customer list
+  /v1/subscriptions:
+    get:
+      operationId: GetSubscriptions
+      parameters:
+        - name: customer
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Subscription list
+  /v1/payment_intents:
+    get:
+      operationId: GetPaymentIntents
+      parameters:
+        - name: customer
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: PaymentIntent list
+  /v1/invoices:
+    get:
+      operationId: GetInvoices
+      parameters:
+        - name: customer
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Invoice list
+  /v1/refunds:
+    post:
+      operationId: PostRefunds
+      responses:
+        '200':
+          description: Refund
+  /v1/subscriptions/{subscription_exposed_id}:
+    parameters:
+      - name: subscription_exposed_id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: PostSubscriptionsSubscriptionExposedId
+      responses:
+        '200':
+          description: Subscription

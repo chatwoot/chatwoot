@@ -11,7 +11,7 @@ class Api::V1::Accounts::Captain::ToolCatalogController < Api::V1::Accounts::Cap
     installation = Captain::ToolCatalog::ReconnectWorkflow.new(
       account: Current.account,
       initiated_by: Current.user
-    ).perform(provider_key: params[:provider_key])
+    ).perform(provider_key: params[:provider_key], credential: reconnect_params[:credential])
     render_installation(installation, status: :created)
   end
 
@@ -33,5 +33,11 @@ class Api::V1::Accounts::Captain::ToolCatalogController < Api::V1::Accounts::Cap
     params.require(:update).permit(
       templates: [:template_key, :template_version, { configuration: {} }]
     )
+  end
+
+  def reconnect_params
+    return {} if params[:reconnect].blank?
+
+    params.require(:reconnect).permit(:credential)
   end
 end

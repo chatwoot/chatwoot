@@ -1,5 +1,5 @@
 class Captain::ToolCatalog::ReconnectWorkflow < Captain::ToolCatalog::BaseWorkflow
-  def perform(provider_key:)
+  def perform(provider_key:, credential: nil)
     registry.find(provider_key)
     tools = installed_tools(provider_key)
     raise Captain::ToolCatalog::WorkflowError, 'installed_tools_required' if tools.empty?
@@ -9,7 +9,7 @@ class Captain::ToolCatalog::ReconnectWorkflow < Captain::ToolCatalog::BaseWorkfl
       provider_key: provider_key,
       selected_templates: serialize_tools(tools)
     )
-    execute(tools)
+    execute(tools, credential: credential)
   end
 
   def resume(installation)
@@ -27,10 +27,12 @@ class Captain::ToolCatalog::ReconnectWorkflow < Captain::ToolCatalog::BaseWorkfl
 
   private
 
-  def execute(tools)
+  def execute(tools, credential: nil)
     track_failure do
       require_encryption!
-      requirement = connection_requirement(installation.provider_key, required_scopes(tools))
+      scopes = required_scopes(tools)
+      connect_provider!(provider_key: installation.provider_key, credential: credential, required_scopes: scopes)
+      requirement = connection_requirement(installation.provider_key, scopes)
       return await_connection!(requirement) unless requirement.satisfied?
 
       relink_tools!(tools, requirement.hook)

@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "status"],
+  "properties": {
+    "id": { "type": "string" },
+    "status": { "type": "string" },
+    "cancel_at_period_end": { "type": "boolean" },
+    "current_period_end": { "type": "integer" }
+  }
+}

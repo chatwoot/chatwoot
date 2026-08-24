@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["data"],
+  "properties": {
+    "data": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "currency", "total", "created"],
+        "properties": {
+          "id": { "type": "string" },
+          "number": { "type": ["string", "null"] },
+          "status": { "type": "string" },
+          "currency": { "type": "string" },
+          "total": { "type": "integer" },
+          "amount_due": { "type": "integer" },
+          "amount_paid": { "type": "integer" },
+          "hosted_invoice_url": { "type": ["string", "null"] },
+          "created": { "type": "integer" },
+          "due_date": { "type": ["integer", "null"] }
+        }
+      }
+    }
+  }
+}

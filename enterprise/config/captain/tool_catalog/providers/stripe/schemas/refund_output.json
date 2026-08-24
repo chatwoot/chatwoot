@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "amount", "currency", "status", "created"],
+  "properties": {
+    "id": { "type": "string" },
+    "amount": { "type": "integer" },
+    "currency": { "type": "string" },
+    "status": { "type": "string" },
+    "payment_intent": { "type": ["string", "null"] },
+    "created": { "type": "integer" }
+  }
+}

@@ -1,0 +1,237 @@
+schema_version: 1
+key: stripe
+name: Stripe
+description: Look up Stripe customers and billing status from a conversation.
+api_version: '2026-07-29.dahlia'
+authentication:
+  strategy: restricted_key
+allowed_origins:
+  - https://api.stripe.com
+categories:
+  - key: customers
+    name: Customers
+    description: Match the current Chatwoot contact to a Stripe customer.
+  - key: billing
+    name: Billing
+    description: Read payment, invoice, and subscription status.
+operations:
+  - key: find_customer
+    source: openapi
+    reference: openapi.yml#/paths/~1v1~1customers/get
+    visibility: runtime
+    scopes:
+      - customers:read
+    risk_class: read
+    fixtures:
+      success: fixtures/find_customer_success.json
+      errors:
+        - fixtures/authorization_error.json
+  - key: list_subscriptions
+    source: openapi
+    reference: openapi.yml#/paths/~1v1~1subscriptions/get
+    visibility: runtime
+    scopes:
+      - subscriptions:read
+    risk_class: read
+    fixtures:
+      success: fixtures/list_subscriptions_success.json
+      errors:
+        - fixtures/authorization_error.json
+  - key: list_payment_intents
+    source: openapi
+    reference: openapi.yml#/paths/~1v1~1payment_intents/get
+    visibility: runtime
+    scopes:
+      - payment_intents:read
+    risk_class: read
+    fixtures:
+      success: fixtures/list_payment_intents_success.json
+      errors:
+        - fixtures/authorization_error.json
+  - key: list_invoices
+    source: openapi
+    reference: openapi.yml#/paths/~1v1~1invoices/get
+    visibility: runtime
+    scopes:
+      - invoices:read
+    risk_class: read
+    fixtures:
+      success: fixtures/list_invoices_success.json
+      errors:
+        - fixtures/authorization_error.json
+  - key: create_refund
+    source: openapi
+    reference: openapi.yml#/paths/~1v1~1refunds/post
+    visibility: runtime
+    scopes:
+      - refunds:write
+    risk_class: approval_required
+    fixtures:
+      success: fixtures/create_refund_success.json
+      errors:
+        - fixtures/authorization_error.json
+  - key: update_subscription
+    source: openapi
+    reference: openapi.yml#/paths/~1v1~1subscriptions~1{subscription_exposed_id}/post
+    visibility: runtime
+    scopes:
+      - subscriptions:write
+    risk_class: approval_required
+    fixtures:
+      success: fixtures/update_subscription_success.json
+      errors:
+        - fixtures/authorization_error.json
+templates:
+  - key: get_current_customer
+    version: 1.0.0
+    name: Get current customer
+    description: Find the Stripe customer whose email exactly matches the current Chatwoot contact.
+    category_key: customers
+    availability: available
+    input_schema: schemas/empty_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/customer_list_output.json
+    recipe:
+      - operation_key: find_customer
+        bindings:
+          email:
+            source: contact
+            path: email
+          limit:
+            source: literal
+            value: 1
+  - key: get_subscription_status
+    version: 1.0.0
+    name: Get subscription status
+    description: Find subscriptions for the Stripe customer matched to the current Chatwoot contact.
+    category_key: billing
+    availability: available
+    input_schema: schemas/empty_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/subscription_list_output.json
+    recipe:
+      - operation_key: find_customer
+        bindings:
+          email:
+            source: contact
+            path: email
+          limit:
+            source: literal
+            value: 1
+      - operation_key: list_subscriptions
+        bindings:
+          customer:
+            source: step_output
+            step: 0
+            path: data.0.id
+          status:
+            source: literal
+            value: all
+          limit:
+            source: literal
+            value: 5
+  - key: get_last_five_payments
+    version: 1.0.0
+    name: Get last five payments
+    description: List the five most recent payments for the Stripe customer matched to the current contact.
+    category_key: billing
+    availability: available
+    input_schema: schemas/empty_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/payment_intent_list_output.json
+    recipe:
+      - operation_key: find_customer
+        bindings:
+          email:
+            source: contact
+            path: email
+          limit:
+            source: literal
+            value: 1
+      - operation_key: list_payment_intents
+        bindings:
+          customer:
+            source: step_output
+            step: 0
+            path: data.0.id
+          limit:
+            source: literal
+            value: 5
+  - key: get_last_five_invoices
+    version: 1.0.0
+    name: Get last five invoices
+    description: List the five most recent invoices for the Stripe customer matched to the current contact.
+    category_key: billing
+    availability: available
+    input_schema: schemas/empty_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/invoice_list_output.json
+    recipe:
+      - operation_key: find_customer
+        bindings:
+          email:
+            source: contact
+            path: email
+          limit:
+            source: literal
+            value: 1
+      - operation_key: list_invoices
+        bindings:
+          customer:
+            source: step_output
+            step: 0
+            path: data.0.id
+          limit:
+            source: literal
+            value: 5
+  - key: refund_payment
+    version: 1.0.0
+    name: Refund payment
+    description: Refund a Stripe payment after explicit approval support is available.
+    category_key: billing
+    availability: approval_required
+    input_schema: schemas/refund_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/refund_output.json
+    recipe:
+      - operation_key: create_refund
+        bindings:
+          payment_intent:
+            source: model_input
+            path: payment_intent
+  - key: cancel_subscription
+    version: 1.0.0
+    name: Cancel subscription
+    description: Schedule a Stripe subscription cancellation after explicit approval support is available.
+    category_key: billing
+    availability: approval_required
+    input_schema: schemas/subscription_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/subscription_output.json
+    recipe:
+      - operation_key: update_subscription
+        bindings:
+          subscription_exposed_id:
+            source: model_input
+            path: subscription_id
+          cancel_at_period_end:
+            source: literal
+            value: true
+  - key: change_subscription_plan
+    version: 1.0.0
+    name: Change subscription plan
+    description: Change a Stripe subscription plan after explicit approval support is available.
+    category_key: billing
+    availability: approval_required
+    input_schema: schemas/change_plan_input.json
+    configuration_schema: schemas/empty_configuration.json
+    output_schema: schemas/subscription_output.json
+    recipe:
+      - operation_key: update_subscription
+        bindings:
+          subscription_exposed_id:
+            source: model_input
+            path: subscription_id
+          price:
+            source: model_input
+            path: price_id

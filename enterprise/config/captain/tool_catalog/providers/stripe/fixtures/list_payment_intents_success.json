@@ -1,0 +1,13 @@
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "pi_example",
+      "amount": 2500,
+      "amount_received": 2500,
+      "currency": "usd",
+      "status": "succeeded",
+      "created": 1767225600
+    }
+  ]
+}

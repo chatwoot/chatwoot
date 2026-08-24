@@ -1,0 +1,7 @@
+{
+  "error": {
+    "type": "invalid_request_error",
+    "code": "permission_denied",
+    "message": "The restricted key cannot access this resource."
+  }
+}

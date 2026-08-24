@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["data"],
+  "properties": {
+    "data": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "amount", "currency", "status", "created"],
+        "properties": {
+          "id": { "type": "string" },
+          "amount": { "type": "integer" },
+          "amount_received": { "type": "integer" },
+          "currency": { "type": "string" },
+          "status": { "type": "string" },
+          "created": { "type": "integer" },
+          "description": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

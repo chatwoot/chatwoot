@@ -1,0 +1,12 @@
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "sub_example",
+      "status": "active",
+      "current_period_start": 1767225600,
+      "current_period_end": 1769904000,
+      "cancel_at_period_end": false
+    }
+  ]
+}

@@ -10,11 +10,12 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolCatalog', type: :request do
     ).compile
   end
   let(:registry) { instance_double(Captain::ToolCatalog::ProviderPackRegistry, all: [compiled_pack]) }
+  let(:provider_key) { 'example' }
 
   before do
     allow(Chatwoot).to receive(:encryption_configured?).and_return(true)
-    allow(registry).to receive(:find) do |provider_key|
-      raise ActiveRecord::RecordNotFound unless provider_key == 'example'
+    allow(registry).to receive(:find) do |requested_provider_key|
+      raise ActiveRecord::RecordNotFound unless requested_provider_key == provider_key
 
       compiled_pack
     end
@@ -123,6 +124,44 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolCatalog', type: :request do
       expect(json_response.dig(:payload, :workflow_kind)).to eq('reconnect')
       expect(json_response.dig(:payload, :status)).to eq('awaiting_connection')
       expect(json_response.dig(:payload, :connection, :missing_scopes)).to eq(['customers:read'])
+    end
+
+    context 'with Stripe' do
+      let(:provider_key) { 'stripe' }
+      let(:credential) { "rk_test_#{'a' * 24}" }
+      let(:compiled_pack) do
+        Captain::ToolCatalog::ProviderPackCompiler.new(
+          pack_path: Rails.root.join('enterprise/config/captain/tool_catalog/providers/stripe')
+        ).compile
+      end
+
+      it 'validates a write-only restricted key and relinks the installed tools' do
+        template = compiled_pack.fetch('templates').find { |candidate| candidate.fetch('key') == 'get_current_customer' }
+        snapshot = Captain::ToolCatalog::SnapshotBuilder.new(
+          pack: compiled_pack,
+          entry: { template: template, configuration: {} },
+          integration_hook: nil
+        ).attributes
+        tool = create(:captain_custom_tool, account: account, **snapshot)
+        allow(SafeFetch).to receive(:fetch) do |url, **_options, &block|
+          body = if url.end_with?('/account')
+                   JSON.generate(object: 'account', id: 'acct_example', business_profile: { name: 'Acme Billing' })
+                 else
+                   JSON.generate(object: 'list', data: [])
+                 end
+          block.call(SafeFetch::Result.new(tempfile: StringIO.new(body), filename: 'response', content_type: 'application/json'))
+        end
+
+        post "/api/v1/accounts/#{account.id}/captain/tool_catalog/stripe/reconnect",
+             params: { reconnect: { credential: credential } },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:created)
+        expect(json_response.dig(:payload, :status)).to eq('completed')
+        expect(tool.reload.integration_hook).to eq(account.hooks.account_hooks.find_by!(app_id: 'stripe'))
+        expect(response.body).not_to include(credential)
+      end
     end
   end
 

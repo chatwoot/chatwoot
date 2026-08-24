@@ -1,0 +1,11 @@
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "cus_example",
+      "email": "customer@example.com",
+      "name": "Example Customer",
+      "created": 1767225600
+    }
+  ]
+}

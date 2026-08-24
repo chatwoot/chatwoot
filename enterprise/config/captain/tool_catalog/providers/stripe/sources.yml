@@ -1,0 +1,5 @@
+sources:
+  - url: https://github.com/stripe/openapi/blob/f6c2a48fbac2819d1feba8143d942ffc65e1c0d2/openapi/spec3.yaml
+    revision: f6c2a48fbac2819d1feba8143d942ffc65e1c0d2
+    license: MIT
+    reviewed_at: '2026-08-24'

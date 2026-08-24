@@ -1,0 +1,8 @@
+{
+  "id": "re_example",
+  "amount": 2500,
+  "currency": "usd",
+  "status": "succeeded",
+  "payment_intent": "pi_example",
+  "created": 1767225600
+}

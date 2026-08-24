@@ -51,6 +51,16 @@ class Captain::ToolCatalog::BaseWorkflow
     raise Captain::ToolCatalog::WorkflowError, 'encryption_required'
   end
 
+  def connect_provider!(provider_key:, credential:, required_scopes:)
+    return if credential.nil?
+    raise Captain::ToolCatalog::WorkflowError, 'credential_not_supported' unless provider_key == 'stripe'
+
+    Captain::ToolCatalog::StripeConnection.new(account: account).connect!(
+      credential: credential,
+      required_scopes: required_scopes
+    )
+  end
+
   def await_connection!(requirement)
     installation.update!(
       status: 'awaiting_connection',

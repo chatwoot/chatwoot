@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["subscription_id", "price_id"],
+  "properties": {
+    "subscription_id": { "type": "string", "minLength": 1 },
+    "price_id": { "type": "string", "minLength": 1 }
+  }
+}

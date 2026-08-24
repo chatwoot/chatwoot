@@ -1,0 +1,15 @@
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "in_example",
+      "number": "EXAMPLE-0001",
+      "status": "paid",
+      "currency": "usd",
+      "total": 2500,
+      "amount_due": 2500,
+      "amount_paid": 2500,
+      "created": 1767225600
+    }
+  ]
+}

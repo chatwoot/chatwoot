@@ -25,7 +25,10 @@ class Captain::ToolCatalog::ProviderPackRuntimeValidator
   private
 
   def parse_url(url)
-    URI.parse(url)
+    normalized_url = url.gsub(/\{[a-zA-Z0-9_]+\}/, 'path-parameter')
+    raise URI::InvalidURIError if normalized_url.match?(/[{}]/)
+
+    URI.parse(normalized_url)
   rescue URI::InvalidURIError
     raise Captain::ToolCatalog::ProviderPackError, "Operation URL is invalid: #{url}"
   end
