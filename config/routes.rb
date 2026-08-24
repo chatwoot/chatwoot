@@ -99,6 +99,8 @@ Rails.application.routes.draw do
             resources :custom_tools do
               post :test, on: :collection
             end
+            get 'tool_catalog', to: 'tool_catalog#index'
+            get 'tool_catalog/:provider_key', to: 'tool_catalog#show'
             resources :documents, only: [:index, :show, :create, :destroy] do
               post :sync, on: :member
               get :drilldown, on: :member
