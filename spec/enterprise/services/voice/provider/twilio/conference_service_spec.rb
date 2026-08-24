@@ -56,12 +56,15 @@ describe Voice::Provider::Twilio::ConferenceService do
   end
 
   describe '#end_conference' do
-    it 'completes in-progress conferences matching the call conference_sid' do
-      call.update!(conference_sid: 'CF123_FRIENDLY')
+    it 'cancels the provider call and completes matching in-progress conferences' do
+      call.update!(provider_call_id: 'CALL123', conference_sid: 'CF123_FRIENDLY')
+      call_context = double('Twilio call context')
       conferences_proxy = instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceList)
       conf_instance = instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceInstance, sid: 'CF123')
       conf_context = instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceInstance)
 
+      allow(twilio_client).to receive(:calls).with('CALL123').and_return(call_context)
+      allow(call_context).to receive(:update).with(status: 'canceled')
       allow(twilio_client).to receive(:conferences).with(no_args).and_return(conferences_proxy)
       allow(conferences_proxy).to receive(:list).with(friendly_name: 'CF123_FRIENDLY', status: 'in-progress').and_return([conf_instance])
       allow(twilio_client).to receive(:conferences).with('CF123').and_return(conf_context)
@@ -69,12 +72,31 @@ describe Voice::Provider::Twilio::ConferenceService do
 
       service.end_conference
 
+      expect(call_context).to have_received(:update).with(status: 'canceled')
       expect(conf_context).to have_received(:update).with(status: 'completed')
     end
 
-    it 'no-ops when call has no conference_sid' do
+    it 'cancels the provider call when the conference has not started yet' do
+      call.update!(provider_call_id: 'CALL123')
+      call_context = double('Twilio call context')
+
+      allow(twilio_client).to receive(:calls).with('CALL123').and_return(call_context)
+      allow(call_context).to receive(:update).with(status: 'canceled')
       allow(twilio_client).to receive(:conferences)
+
       service.end_conference
+
+      expect(call_context).to have_received(:update).with(status: 'canceled')
+      expect(twilio_client).not_to have_received(:conferences)
+    end
+
+    it 'does not call Twilio when neither provider_call_id nor conference_sid is present' do
+      allow(twilio_client).to receive(:calls)
+      allow(twilio_client).to receive(:conferences)
+
+      service.end_conference
+
+      expect(twilio_client).not_to have_received(:calls)
       expect(twilio_client).not_to have_received(:conferences)
     end
   end
