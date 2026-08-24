@@ -17,4 +17,10 @@ module WebCrawling::Types
       super
     end
   end
+
+  BatchResults = Data.define(:pages, :has_more, :next_cursor) do
+    def initialize(pages:, has_more:, next_cursor: nil)
+      super(pages: pages.freeze, has_more: has_more, next_cursor: next_cursor)
+    end
+  end
 end
