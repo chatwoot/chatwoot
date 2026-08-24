@@ -5,13 +5,7 @@ describe Voice::Provider::Twilio::ConferenceService do
   let(:channel) { create(:channel_twilio_sms, :with_voice, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: channel.inbox) }
   let(:call) do
-    create(
-      :call,
-      account: account,
-      inbox: channel.inbox,
-      conversation: conversation,
-      contact: conversation.contact
-    )
+    create(:call, account: account, inbox: channel.inbox, conversation: conversation, contact: conversation.contact)
   end
   let(:twilio_client) { instance_double(Twilio::REST::Client) }
   let(:service) { described_class.new(call: call) }
@@ -25,7 +19,6 @@ describe Voice::Provider::Twilio::ConferenceService do
   describe '#ensure_conference_sid' do
     it 'returns existing sid if present on the Call' do
       call.update!(conference_sid: 'CF_EXISTING')
-
       expect(service.ensure_conference_sid).to eq('CF_EXISTING')
     end
 
@@ -38,9 +31,7 @@ describe Voice::Provider::Twilio::ConferenceService do
   describe '#mark_agent_joined' do
     it 'sets accepted_by_agent on the Call' do
       agent = create(:user, account: account)
-
       service.mark_agent_joined(user: agent)
-
       expect(call.reload.accepted_by_agent_id).to eq(agent.id)
     end
 
@@ -50,20 +41,21 @@ describe Voice::Provider::Twilio::ConferenceService do
       conversation.update!(assignee_agent_bot: agent_bot)
 
       service.mark_agent_joined(user: agent)
-
       expect(conversation.reload.assigned_entity).to eq(agent_bot)
     end
   end
 
   describe '#end_conference' do
-    it 'cancels the provider call and completes matching in-progress conferences' do
+    it 'cancels a provider leg that is still ringing and completes the active conference' do
       call.update!(provider_call_id: 'CALL123', conference_sid: 'CF123_FRIENDLY')
       call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
+      call_instance = instance_double(Twilio::REST::Api::V2010::AccountContext::CallInstance, status: 'ringing')
       conferences_proxy = instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceList)
       conf_instance = instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceInstance, sid: 'CF123')
       conf_context = instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceInstance)
 
       allow(twilio_client).to receive(:calls).with('CALL123').and_return(call_context)
+      allow(call_context).to receive(:fetch).and_return(call_instance)
       allow(call_context).to receive(:update).with(status: 'canceled')
       allow(twilio_client).to receive(:conferences).with(no_args).and_return(conferences_proxy)
       allow(conferences_proxy).to receive(:list).with(friendly_name: 'CF123_FRIENDLY', status: 'in-progress').and_return([conf_instance])
@@ -76,51 +68,57 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(conf_context).to have_received(:update).with(status: 'completed')
     end
 
-    it 'completes an in-progress provider call when requested' do
+    it 'completes a provider leg that is already in progress' do
       call.update!(provider_call_id: 'CALL123')
       call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
+      call_instance = instance_double(Twilio::REST::Api::V2010::AccountContext::CallInstance, status: 'in-progress')
 
       allow(twilio_client).to receive(:calls).with('CALL123').and_return(call_context)
+      allow(call_context).to receive(:fetch).and_return(call_instance)
       allow(call_context).to receive(:update).with(status: 'completed')
 
-      service.end_conference(provider_call_status: 'completed')
+      service.end_conference
 
       expect(call_context).to have_received(:update).with(status: 'completed')
     end
 
-    it 'cancels the provider call when the conference has not started yet' do
-      call.update!(provider_call_id: 'CALL123')
+    it 'uses provider state even when the local call is in progress but the customer is still ringing' do
+      call.update!(provider_call_id: 'CALL123', status: 'in_progress')
       call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
+      call_instance = instance_double(Twilio::REST::Api::V2010::AccountContext::CallInstance, status: 'ringing')
 
       allow(twilio_client).to receive(:calls).with('CALL123').and_return(call_context)
+      allow(call_context).to receive(:fetch).and_return(call_instance)
       allow(call_context).to receive(:update).with(status: 'canceled')
-      allow(twilio_client).to receive(:conferences)
 
       service.end_conference
 
       expect(call_context).to have_received(:update).with(status: 'canceled')
-      expect(twilio_client).not_to have_received(:conferences)
     end
 
-    it 'propagates provider cancellation failures' do
+    it 'does not update an already-terminal provider leg' do
+      call.update!(provider_call_id: 'CALL123')
+      call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
+      call_instance = instance_double(Twilio::REST::Api::V2010::AccountContext::CallInstance, status: 'completed')
+
+      allow(twilio_client).to receive(:calls).with('CALL123').and_return(call_context)
+      allow(call_context).to receive(:fetch).and_return(call_instance)
+      allow(call_context).to receive(:update)
+
+      service.end_conference
+
+      expect(call_context).not_to have_received(:update)
+    end
+
+    it 'propagates provider teardown failures' do
       call.update!(provider_call_id: 'CALL123')
       call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
       provider_error = StandardError.new('provider teardown failed')
 
       allow(twilio_client).to receive(:calls).with('CALL123').and_return(call_context)
-      allow(call_context).to receive(:update).with(status: 'canceled').and_raise(provider_error)
+      allow(call_context).to receive(:fetch).and_raise(provider_error)
 
       expect { service.end_conference }.to raise_error(provider_error)
-    end
-
-    it 'does not call Twilio when neither provider_call_id nor conference_sid is present' do
-      allow(twilio_client).to receive(:calls)
-      allow(twilio_client).to receive(:conferences)
-
-      service.end_conference
-
-      expect(twilio_client).not_to have_received(:calls)
-      expect(twilio_client).not_to have_received(:conferences)
     end
   end
 end
