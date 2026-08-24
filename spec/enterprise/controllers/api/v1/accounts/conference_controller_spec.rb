@@ -139,11 +139,12 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
           inbox: voice_inbox,
           conversation: conversation,
           contact: conversation.contact,
-          provider_call_id: 'CALL123'
+          provider_call_id: 'CALL123',
+          direction: :outgoing
         )
       end
 
-      it 'ends the conference and marks a pre-pickup hangup as rejected' do
+      it 'ends the conference and marks a pre-pickup outbound hangup as rejected' do
         delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
                headers: agent.create_new_auth_token,
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
@@ -156,13 +157,12 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(call.end_reason).to eq('agent_rejected')
       end
 
-      it 'persists the terminal state before provider teardown' do
+      it 'keeps the local call nonterminal until provider teardown succeeds' do
         allow(conference_service).to receive(:end_conference) do |provider_call_status:|
           expect(provider_call_status).to eq('canceled')
           call = Call.find_by(provider_call_id: 'CALL123')
-          expect(call).to be_terminal
-          expect(call.status).to eq('rejected')
-          expect(call.end_reason).to eq('agent_rejected')
+          expect(call).not_to be_terminal
+          expect(call.meta['agent_termination_pending']).to be true
         end
 
         delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
@@ -170,7 +170,39 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
-        expect(conference_service).to have_received(:end_conference).with(provider_call_status: 'canceled')
+        call = Call.find_by(provider_call_id: 'CALL123')
+        expect(call).to be_terminal
+        expect(call.meta['agent_termination_pending']).to be_nil
+      end
+
+      it 'leaves the local call repairable when provider teardown fails' do
+        provider_error = StandardError.new('provider teardown failed')
+        allow(conference_service).to receive(:end_conference).and_raise(provider_error)
+
+        expect do
+          delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+                 headers: agent.create_new_auth_token,
+                 params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+        end.to raise_error(provider_error)
+
+        call = Call.find_by(provider_call_id: 'CALL123')
+        expect(call).not_to be_terminal
+        expect(call.meta['agent_termination_pending']).to be_nil
+      end
+
+      it 'completes the already-answered inbound provider leg when rejecting before agent join' do
+        call = Call.find_by(provider_call_id: 'CALL123')
+        call.update!(direction: :incoming)
+
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).to have_http_status(:ok)
+        expect(conference_service).to have_received(:end_conference).with(provider_call_status: 'completed')
+        call.reload
+        expect(call.status).to eq('rejected')
+        expect(call.end_reason).to eq('agent_rejected')
       end
 
       it 'marks an in-progress call as completed and completes the provider call' do
@@ -191,7 +223,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(call.ended_at).to be_present
       end
 
-      it 'marks a claimed-but-not-yet-connected call as no_answer instead of leaving it ringing' do
+      it 'marks a claimed-but-not-yet-connected outbound call as no_answer instead of leaving it ringing' do
         call = Call.find_by(provider_call_id: 'CALL123')
         call.update!(accepted_by_agent_id: agent.id)
 
