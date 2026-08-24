@@ -137,11 +137,11 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(call.end_reason).to eq('agent_rejected')
       end
 
-      it 'keeps the local call nonterminal until provider teardown succeeds' do
+      it 'keeps the local call frozen until provider teardown succeeds' do
         allow(conference_service).to receive(:end_provider_call) do
           call = Call.find_by(provider_call_id: 'CALL123')
           expect(call).not_to be_terminal
-          expect(call.meta['agent_termination_pending']).to be true
+          expect(call.meta['agent_termination_token']).to be_present
         end
 
         delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
@@ -151,7 +151,22 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(response).to have_http_status(:ok)
         call = Call.find_by(provider_call_id: 'CALL123')
         expect(call).to be_terminal
-        expect(call.meta['agent_termination_pending']).to be_nil
+        expect(call.meta['agent_termination_token']).to be_nil
+      end
+
+      it 'rejects a concurrent teardown without clearing the existing owner token' do
+        call = Call.find_by(provider_call_id: 'CALL123')
+        call.update!(meta: call.meta.merge('agent_termination_token' => 'owner-token'))
+
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).to have_http_status(:conflict)
+        expect(response.parsed_body['error']).to eq('Call termination is already in progress')
+        expect(call.reload.meta['agent_termination_token']).to eq('owner-token')
+        expect(conference_service).not_to have_received(:end_provider_call)
+        expect(conference_service).not_to have_received(:complete_conference)
       end
 
       it 'leaves the local call repairable when provider teardown fails' do
@@ -166,7 +181,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
 
         call = Call.find_by(provider_call_id: 'CALL123')
         expect(call).not_to be_terminal
-        expect(call.meta['agent_termination_pending']).to be_nil
+        expect(call.meta['agent_termination_token']).to be_nil
         expect(conference_service).not_to have_received(:complete_conference)
       end
 
@@ -184,7 +199,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(call).to be_terminal
         expect(call.status).to eq('rejected')
         expect(call.end_reason).to eq('agent_rejected')
-        expect(call.meta['agent_termination_pending']).to be_nil
+        expect(call.meta['agent_termination_token']).to be_nil
       end
 
       it 'marks an incoming rejection as rejected after provider teardown' do
