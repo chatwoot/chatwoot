@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whisker Docs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --ws-teal: #1fe0b5;
+      --ws-blue: #1ba5ff;
+      --ws-dark: #0f172a;
+      --ws-slate: #1e293b;
+      --ws-gray: #64748b;
+      --ws-light: #f8fafc;
+    }
+    body { font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6; }
+    .layout { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px; background: var(--ws-dark); color: white; padding: 24px 16px;
+      position: fixed; height: 100vh; overflow-y: auto;
+    }
+    .sidebar-logo { font-size: 20px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 8px; }
+    .sidebar-logo span { background: linear-gradient(135deg, var(--ws-teal), var(--ws-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .sidebar-section { margin-bottom: 20px; }
+    .sidebar-section h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 8px; }
+    .sidebar a {
+      display: block; padding: 6px 12px; color: #cbd5e1; text-decoration: none; border-radius: 6px; font-size: 14px;
+      transition: background 0.15s;
+    }
+    .sidebar a:hover { background: rgba(255,255,255,0.08); }
+    .sidebar a.active { background: rgba(31,224,181,0.15); color: var(--ws-teal); }
+
+    /* Main content */
+    .main { margin-left: 260px; flex: 1; padding: 40px 48px; max-width: 860px; }
+    .main h1 { font-size: 32px; font-weight: 700; color: var(--ws-dark); margin-bottom: 8px; }
+    .main h2 { font-size: 22px; font-weight: 600; color: var(--ws-dark); margin: 32px 0 12px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
+    .main h3 { font-size: 16px; font-weight: 600; color: var(--ws-slate); margin: 20px 0 8px; }
+    .main p { margin-bottom: 16px; color: var(--ws-gray); }
+    .main code {
+      background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 13px; font-family: 'SF Mono', monospace;
+    }
+    .main pre {
+      background: var(--ws-dark); color: #e2e8f0; padding: 16px; border-radius: 8px; overflow-x: auto;
+      margin: 12px 0 20px; font-size: 13px; line-height: 1.5;
+    }
+    .main pre code { background: none; padding: 0; color: inherit; }
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600;
+    }
+    .badge-teal { background: rgba(31,224,181,0.15); color: #0d9373; }
+    .badge-blue { background: rgba(27,165,255,0.15); color: #0369a1; }
+    .callout {
+      padding: 12px 16px; border-radius: 8px; margin: 16px 0; font-size: 14px;
+    }
+    .callout-info { background: #eff6ff; border-left: 3px solid var(--ws-blue); }
+    .callout-warn { background: #fffbeb; border-left: 3px solid #f59e0b; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+    th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+    th { font-weight: 600; color: var(--ws-dark); }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="sidebar-logo">🐾 <span>Whisker</span></div>
+
+      <div class="sidebar-section">
+        <h4>Getting Started</h4>
+        <a href="#" class="active">Introduction</a>
+        <a href="#">Installation</a>
+        <a href="#">Quick Start</a>
+      </div>
+      <div class="sidebar-section">
+        <h4>Core Features</h4>
+        <a href="#">Conversations</a>
+        <a href="#">Inboxes</a>
+        <a href="#">Contacts</a>
+        <a href="#">Teams</a>
+      </div>
+      <div class="sidebar-section">
+        <h4>Widget</h4>
+        <a href="#">Embedding</a>
+        <a href="#">Theme Customization</a>
+        <a href="#">RTL Support</a>
+        <a href="#">Voice Notes</a>
+      </div>
+      <div class="sidebar-section">
+        <h4>AI Features</h4>
+        <a href="#">BYOR — Bring Your Own Router</a>
+        <a href="#">AI Auto-Reply</a>
+        <a href="#">RAG Knowledge Base</a>
+        <a href="#">Conversation Flows</a>
+      </div>
+      <div class="sidebar-section">
+        <h4>Channels</h4>
+        <a href="#">Bale (Telegram)</a>
+        <a href="#">WhatsApp</a>
+        <a href="#">API</a>
+      </div>
+      <div class="sidebar-section">
+        <h4>Desktop Pet</h4>
+        <a href="#">Pawly Setup</a>
+        <a href="#">Notifications</a>
+      </div>
+      <div class="sidebar-section">
+        <h4>Development</h4>
+        <a href="#">API Reference</a>
+        <a href="#">Contributing</a>
+        <a href="#">Changelog</a>
+      </div>
+    </nav>
+
+    <main class="main">
+      <h1>Whisker Documentation</h1>
+      <p style="color: #64748b; font-size: 16px;">Customer conversations with a soul.</p>
+
+      <h2>What is Whisker?</h2>
+      <p>Whisker is an open-source customer conversation platform with AI capabilities, RTL-first design, widget theming, and a desktop pet companion. It's built on top of Chatwoot with significant customizations for Persian/multilingual support.</p>
+
+      <div class="callout callout-info">
+        <strong>New to Whisker?</strong> Start with the <a href="#">Quick Start Guide</a> to get up and running in under 5 minutes.
+      </div>
+
+      <h2>Key Features</h2>
+      <table>
+        <tr><th>Feature</th><th>Status</th><th>Description</th></tr>
+        <tr><td>RTL + Persian UX</td><td><span class="badge badge-teal">Done</span></td><td>Full RTL layout, Vazirmatn font, 174 translated keys</td></tr>
+        <tr><td>Widget Themes</td><td><span class="badge badge-teal">Done</span></td><td>8 built-in themes, visual theme marketplace</td></tr>
+        <tr><td>Voice Notes</td><td><span class="badge badge-teal">Done</span></td><td>Record & play audio messages in widget</td></tr>
+        <tr><td>BYOR AI</td><td><span class="badge badge-teal">Done</span></td><td>Connect any OpenAI-compatible API (NineRouter, OmniRoute, Groq, Ollama...)</td></tr>
+        <tr><td>AI Auto-Reply</td><td><span class="badge badge-teal">Done</span></td><td>Automatic AI responses when agents are busy</td></tr>
+        <tr><td>RAG Knowledge Base</td><td><span class="badge badge-teal">Done</span></td><td>Upload docs, AI retrieves context for better replies</td></tr>
+        <tr><td>Conversation Flows</td><td><span class="badge badge-blue">Beta</span></td><td>Visual flow builder for automated routing</td></tr>
+        <tr><td>Bale Channel</td><td><span class="badge badge-teal">Done</span></td><td>Telegram-compatible Bale messenger integration</td></tr>
+        <tr><td>Desktop Pet</td><td><span class="badge badge-blue">Beta</span></td><td>Pawly — system tray companion with notifications</td></tr>
+      </table>
+
+      <h2>Quick Start</h2>
+      <h3>1. Clone & Install</h3>
+      <pre><code>git clone https://github.com/maddixmhn/Whisker.git
+cd Whisker
+bundle install && pnpm install</code></pre>
+
+      <h3>2. Setup Database</h3>
+      <pre><code>bin/rails db:setup
+bin/rails db:seed  # Optional: sample data</code></pre>
+
+      <h3>3. Start Development</h3>
+      <pre><code>pnpm dev
+# or
+overmind start -f Procfile.dev</code></pre>
+
+      <div class="callout callout-warn">
+        <strong>Prerequisites:</strong> Ruby 3.x, Node 20+, PostgreSQL 14+, Redis 6+
+      </div>
+
+      <h2>AI Configuration</h2>
+      <p>Whisker supports any OpenAI-compatible API endpoint. Configure your providers in Settings → AI Providers:</p>
+      <pre><code># Environment variables (optional)
+WHISKER_AI_API_BASE=https://api.ninerouter.com/v1
+WHISKER_AI_API_KEY=your-key-here
+WHISKER_AI_DEFAULT_MODEL=gpt-4o-mini</code></pre>
+
+      <p>Or configure per-account via the dashboard UI — no environment variables needed.</p>
+
+      <h2>Widget Embedding</h2>
+      <pre><code>&lt;script&gt;
+  (function(w,d,s,c){w.whiskerWidget=c;var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s);j.async=1;j.src='https://your-whisker.com/packs/js/sdk.js';
+  f.parentNode.insertBefore(j,f);})(window,document,'script',{
+    websiteToken: 'YOUR_TOKEN',
+    baseUrl: 'https://your-whisker.com'
+  });
+&lt;/script&gt;</code></pre>
+
+      <hr style="margin: 40px 0; border: none; border-top: 1px solid #e2e8f0;">
+      <p style="font-size: 13px; color: #94a3b8;">© 2026 Whisker · Built with 🐾</p>
+    </main>
+  </div>
+</body>
+</html>
