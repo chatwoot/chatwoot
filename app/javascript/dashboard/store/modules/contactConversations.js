@@ -94,7 +94,7 @@ export const getters = {
 };
 
 export const actions = {
-  create: async ({ commit }, { params, isFromWhatsApp }) => {
+  create: async ({ commit, state: $state }, { params, isFromWhatsApp }) => {
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isCreating: true,
     });
@@ -108,10 +108,13 @@ export const actions = {
       });
 
       const { data } = await ConversationApi.create(payload);
-      commit(types.default.ADD_CONTACT_CONVERSATION, {
-        id: contactId,
-        data,
-      });
+      // Only the full fetch may seed a contact's cache; extend it when it exists.
+      if ($state.records[contactId]) {
+        commit(types.default.ADD_CONTACT_CONVERSATION, {
+          id: contactId,
+          data,
+        });
+      }
 
       return data;
     } catch (error) {
