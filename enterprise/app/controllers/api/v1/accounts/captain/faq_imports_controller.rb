@@ -3,11 +3,7 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
 
   before_action -> { authorize(Captain::Assistant, :create?) }
   before_action :set_assistant
-  before_action :set_faq_import, only: [:show, :confirm, :invalid_rows]
-
-  def show
-    render json: serialize(@faq_import)
-  end
+  before_action :set_faq_import, only: [:confirm, :invalid_rows]
 
   def create
     return render json: { error: 'Choose a CSV file.' }, status: :unprocessable_content if params[:file].blank?

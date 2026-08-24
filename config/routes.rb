@@ -82,7 +82,7 @@ Rails.application.routes.draw do
               end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
               resources :scenarios
-              resources :faq_imports, only: [:create, :show] do
+              resources :faq_imports, only: [:create] do
                 get :latest, on: :collection
                 post :confirm, on: :member
                 get :invalid_rows, on: :member

@@ -57,52 +57,6 @@ vi.mock('dashboard/components-next/dropdown-menu/DropdownMenu.vue', () => ({
   },
 }));
 
-vi.mock('dashboard/components-next/banner/Banner.vue', () => ({
-  default: {
-    props: ['color'],
-    template: '<div data-banner :data-color="color"><slot /></div>',
-  },
-}));
-
-vi.mock('dashboard/components-next/button/Button.vue', () => ({
-  default: {
-    props: ['label', 'disabled'],
-    template:
-      '<button :data-button="label" :disabled="disabled">{{ label }}</button>',
-  },
-}));
-
-vi.mock('dashboard/components/policy.vue', () => ({
-  default: { template: '<div><slot /></div>' },
-}));
-
-vi.mock('dashboard/components-next/input/Input.vue', () => ({
-  default: { template: '<div />' },
-}));
-
-vi.mock(
-  'dashboard/components-next/captain/assistant/BulkSelectBar.vue',
-  () => ({ default: { template: '<div />' } })
-);
-
-vi.mock(
-  'dashboard/components-next/captain/pageComponents/DeleteDialog.vue',
-  () => ({ default: { template: '<div />' } })
-);
-
-vi.mock(
-  'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue',
-  () => ({ default: { template: '<div />' } })
-);
-
-vi.mock('dashboard/components-next/captain/pageComponents/Paywall.vue', () => ({
-  default: { template: '<div />' },
-}));
-
-vi.mock('dashboard/components-next/captain/assistant/ResponseCard.vue', () => ({
-  default: { template: '<div />' },
-}));
-
 vi.mock(
   'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue',
   () => ({
@@ -115,26 +69,6 @@ vi.mock(
       template: '<div data-create-dialog />',
     },
   })
-);
-
-vi.mock(
-  'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue',
-  () => ({ default: { template: '<div />' } })
-);
-
-vi.mock(
-  'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue',
-  () => ({ default: { template: '<div />' } })
-);
-
-vi.mock(
-  'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue',
-  () => ({ default: { template: '<div />' } })
-);
-
-vi.mock(
-  'dashboard/components-next/captain/pageComponents/ConversationUsageDrawer.vue',
-  () => ({ default: { template: '<div />' } })
 );
 
 vi.mock(
@@ -202,7 +136,6 @@ const mountPage = () =>
       mocks: { $t: key => key },
       stubs: {
         PageLayout: false,
-        Banner: false,
         DropdownMenu: false,
         CreateResponseDialog: false,
         FaqImportDialog: false,

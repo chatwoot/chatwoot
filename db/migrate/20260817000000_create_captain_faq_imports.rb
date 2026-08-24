@@ -20,7 +20,7 @@ class CreateCaptainFaqImports < ActiveRecord::Migration[7.1]
   def add_owner_columns(table)
     table.references :account, null: false, foreign_key: true
     table.references :assistant, null: false, foreign_key: { to_table: :captain_assistants }
-    table.references :user, null: false, foreign_key: true
+    table.references :user, null: true, foreign_key: { on_delete: :nullify }
   end
 
   def add_import_columns(table)

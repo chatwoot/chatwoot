@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onUnmounted, ref, nextTick, watch } from 'vue';
+import { useTimeoutFn } from '@vueuse/core';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
@@ -54,11 +55,44 @@ const faqImportDialog = ref(null);
 const showFaqActions = ref(false);
 const showFaqImportDialog = ref(false);
 const latestFaqImport = ref(null);
-let faqImportPollTimer = null;
 let faqImportStatusTimer = null;
 let latestFaqImportRequestId = 0;
 
+const FAQ_IMPORT_POLL_INTERVAL = 5000;
 const FAQ_IMPORT_STATUS_VISIBLE_FOR = 15000;
+const FAQ_IMPORT_STATUS_CONFIG = {
+  preparing: {
+    icon: 'i-lucide-file-up',
+    className: 'text-n-blue-11',
+    title: () => t('CAPTAIN.RESPONSES.IMPORT.STATUS.PREPARING.TITLE'),
+    description: counts =>
+      t('CAPTAIN.RESPONSES.IMPORT.STATUS.PREPARING.DESCRIPTION', counts),
+  },
+  completed: {
+    icon: 'i-lucide-circle-check',
+    className: 'text-n-teal-11',
+    title: () => t('CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED.TITLE'),
+    description: counts =>
+      t('CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED.DESCRIPTION', counts),
+  },
+  completed_with_errors: {
+    icon: 'i-lucide-triangle-alert',
+    className: 'text-n-amber-11',
+    title: () =>
+      t('CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED_WITH_ERRORS.TITLE'),
+    description: counts =>
+      t(
+        'CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED_WITH_ERRORS.DESCRIPTION',
+        counts
+      ),
+  },
+  failed: {
+    icon: 'i-lucide-circle-alert',
+    className: 'text-n-ruby-11',
+    title: () => t('CAPTAIN.RESPONSES.IMPORT.STATUS.FAILED.TITLE'),
+    description: () => t('CAPTAIN.RESPONSES.IMPORT.STATUS.FAILED.DESCRIPTION'),
+  },
+};
 
 const selectedAssistantId = computed(() => Number(route.params.assistantId));
 const canManageFaqs = computed(() => checkPermissions(['administrator']));
@@ -79,73 +113,21 @@ const faqActionItems = computed(() => [
 
 const suggestionCount = useMapGetter('captainFaqSuggestions/getOpenCount');
 
-const faqImportStatusIcon = computed(() => {
-  const iconByStatus = {
-    preparing: 'i-lucide-file-up',
-    completed: 'i-lucide-circle-check',
-    completed_with_errors: 'i-lucide-triangle-alert',
-    failed: 'i-lucide-circle-alert',
-  };
-
-  return iconByStatus[latestFaqImport.value?.status];
-});
-
-const faqImportStatusClass = computed(() => {
-  const classByStatus = {
-    preparing: 'text-n-blue-11',
-    completed: 'text-n-teal-11',
-    completed_with_errors: 'text-n-amber-11',
-    failed: 'text-n-ruby-11',
-  };
-
-  return classByStatus[latestFaqImport.value?.status] || 'text-n-slate-11';
-});
-
-const faqImportStatusCopy = computed(() => {
+const faqImportStatus = computed(() => {
+  const config = FAQ_IMPORT_STATUS_CONFIG[latestFaqImport.value?.status];
   const counts = {
     created: latestFaqImport.value?.created_count || 0,
     overwritten: latestFaqImport.value?.overwritten_count || 0,
     skipped: latestFaqImport.value?.skipped_count || 0,
   };
 
-  if (latestFaqImport.value?.status === 'preparing') {
-    return {
-      title: t('CAPTAIN.RESPONSES.IMPORT.STATUS.PREPARING.TITLE'),
-      description: t(
-        'CAPTAIN.RESPONSES.IMPORT.STATUS.PREPARING.DESCRIPTION',
-        counts
-      ),
-    };
-  }
-  if (latestFaqImport.value?.status === 'completed') {
-    return {
-      title: t('CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED.TITLE'),
-      description: t(
-        'CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED.DESCRIPTION',
-        counts
-      ),
-    };
-  }
-  if (latestFaqImport.value?.status === 'completed_with_errors') {
-    return {
-      title: t('CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED_WITH_ERRORS.TITLE'),
-      description: t(
-        'CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED_WITH_ERRORS.DESCRIPTION',
-        counts
-      ),
-    };
-  }
-
   return {
-    title: t('CAPTAIN.RESPONSES.IMPORT.STATUS.FAILED.TITLE'),
-    description: t('CAPTAIN.RESPONSES.IMPORT.STATUS.FAILED.DESCRIPTION'),
+    icon: config?.icon,
+    className: config?.className || 'text-n-slate-11',
+    title: config?.title() || '',
+    description: config?.description(counts) || '',
   };
 });
-
-const stopFaqImportPolling = () => {
-  if (faqImportPollTimer) clearTimeout(faqImportPollTimer);
-  faqImportPollTimer = null;
-};
 
 const stopFaqImportStatusTimer = () => {
   if (faqImportStatusTimer) clearTimeout(faqImportStatusTimer);
@@ -301,6 +283,8 @@ const fetchResponses = async (page = 1) => {
   }
 };
 
+let faqImportPollingControls;
+
 const fetchLatestFaqImport = async () => {
   const assistantId = selectedAssistantId.value;
   latestFaqImportRequestId += 1;
@@ -317,31 +301,36 @@ const fetchLatestFaqImport = async () => {
 
     const previousStatus = latestFaqImport.value?.status;
     displayFaqImportStatus(data);
-    stopFaqImportPolling();
 
     if (data?.status === 'preparing') {
-      faqImportPollTimer = setTimeout(fetchLatestFaqImport, 5000);
+      faqImportPollingControls.start();
     } else if (previousStatus === 'preparing' && data) {
+      faqImportPollingControls.stop();
       fetchResponses(responseMeta.value?.page || 1);
+    } else {
+      faqImportPollingControls.stop();
     }
   } catch {
     if (requestId !== latestFaqImportRequestId) return;
 
-    stopFaqImportPolling();
     if (latestFaqImport.value?.status === 'preparing') {
-      faqImportPollTimer = setTimeout(fetchLatestFaqImport, 5000);
+      faqImportPollingControls.start();
     }
   }
 };
+
+faqImportPollingControls = useTimeoutFn(
+  fetchLatestFaqImport,
+  FAQ_IMPORT_POLL_INTERVAL,
+  { immediate: false }
+);
 
 const handleFaqImportConfirmed = faqImport => {
   latestFaqImportRequestId += 1;
   displayFaqImportStatus(faqImport);
   fetchResponses(responseMeta.value?.page || 1);
-  stopFaqImportPolling();
-  if (faqImport?.status === 'preparing') {
-    faqImportPollTimer = setTimeout(fetchLatestFaqImport, 5000);
-  }
+  faqImportPollingControls.stop();
+  if (faqImport?.status === 'preparing') faqImportPollingControls.start();
 };
 
 // Bulk action
@@ -441,7 +430,7 @@ const navigateToFaqSuggestions = () => {
 watch(
   selectedAssistantId,
   () => {
-    stopFaqImportPolling();
+    faqImportPollingControls.stop();
     stopFaqImportStatusTimer();
     latestFaqImportRequestId += 1;
     latestFaqImport.value = null;
@@ -466,7 +455,7 @@ watch(
 );
 
 onUnmounted(() => {
-  stopFaqImportPolling();
+  faqImportPollingControls.stop();
   stopFaqImportStatusTimer();
   latestFaqImportRequestId += 1;
   store.dispatch('captainResponses/setFetchingList', false);
@@ -513,21 +502,21 @@ onUnmounted(() => {
           class="flex items-start gap-3 rounded-xl border border-n-weak bg-n-solid-1 px-4 py-3"
         >
           <Icon
-            :icon="faqImportStatusIcon"
+            :icon="faqImportStatus.icon"
             class="mt-0.5 size-4 shrink-0"
-            :class="faqImportStatusClass"
+            :class="faqImportStatus.className"
           />
           <div class="min-w-0 flex-1">
             <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
               <span class="text-sm font-medium text-n-slate-12">
-                {{ faqImportStatusCopy.title }}
+                {{ faqImportStatus.title }}
               </span>
               <span class="truncate text-xs text-n-slate-10">
                 {{ latestFaqImport.original_filename }}
               </span>
             </div>
             <p class="mb-0 mt-1 text-xs text-n-slate-11">
-              {{ faqImportStatusCopy.description }}
+              {{ faqImportStatus.description }}
             </p>
           </div>
         </div>
