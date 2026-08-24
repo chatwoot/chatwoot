@@ -156,6 +156,22 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(call.end_reason).to eq('agent_rejected')
       end
 
+      it 'persists the terminal state before provider teardown' do
+        allow(conference_service).to receive(:end_conference) do
+          call = Call.find_by(provider_call_id: 'CALL123')
+          expect(call).to be_terminal
+          expect(call.status).to eq('rejected')
+          expect(call.end_reason).to eq('agent_rejected')
+        end
+
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).to have_http_status(:ok)
+        expect(conference_service).to have_received(:end_conference)
+      end
+
       it 'marks an in-progress call as completed with duration, instead of leaving it non-terminal' do
         call = Call.find_by(provider_call_id: 'CALL123')
         call.update!(status: 'in_progress', accepted_by_agent_id: agent.id, started_at: 30.seconds.ago)
