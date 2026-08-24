@@ -351,6 +351,9 @@ Rails.application.routes.draw do
             resources :inboxes, only: [:index, :create, :destroy], module: :assignment_policies
           end
 
+          resource :whatsapp_usage, only: [:show], controller: 'whatsapp_usage'
+          resources :whatsapp_topup_requests, only: [:index, :create]
+
           resources :inboxes, only: [] do
             resource :assignment_policy, only: [:show, :create, :destroy], module: :inboxes
           end
@@ -727,6 +730,10 @@ Rails.application.routes.draw do
       resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         post :seed, on: :member
         post :reset_cache, on: :member
+      end
+      resources :whatsapp_topup_requests, only: [:index] do
+        post :approve, on: :member
+        post :reject, on: :member
       end
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         delete :avatar, on: :member, action: :destroy_avatar

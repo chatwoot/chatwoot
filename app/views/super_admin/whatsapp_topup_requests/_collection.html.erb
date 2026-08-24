@@ -1,0 +1,67 @@
+<%#
+Overrides super_admin/application/_collection for this resource only: swaps the
+generic Edit/Destroy columns for one-click Approve/Reject actions, since visiting
+the record's own show/edit page isn't needed (and isn't wired up) for this resource.
+%>
+
+<table aria-labelledby="<%= table_title %>">
+  <thead>
+    <tr>
+      <% collection_presenter.attribute_types.each do |attr_name, attr_type| %>
+        <th class="cell-label
+        cell-label--<%= attr_type.html_class %>
+        cell-label--<%= collection_presenter.ordered_html_class(attr_name) %>"
+        scope="col"
+        role="columnheader"
+        aria-sort="<%= sort_order(collection_presenter.ordered_html_class(attr_name)) %>">
+        <%= link_to(sanitized_order_params(page, collection_field_name).merge(
+          collection_presenter.order_params_for(attr_name, key: collection_field_name)
+        )) do %>
+        <%= t(
+          "helpers.label.#{collection_presenter.resource_name}.#{attr_name}",
+          default: attr_name.to_s,
+        ).titleize %>
+            <% if collection_presenter.ordered_by?(attr_name) %>
+              <span class="cell-label__sort-indicator cell-label__sort-indicator--<%= collection_presenter.ordered_html_class(attr_name) %>">
+                <svg aria-hidden="true">
+                  <use xlink:href="#icon-up-caret" />
+                </svg>
+              </span>
+            <% end %>
+          <% end %>
+        </th>
+      <% end %>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% resources.each do |resource| %>
+      <tr class="js-table-row">
+        <% collection_presenter.attributes_for(resource).each do |attribute| %>
+          <td class="cell-data cell-data--<%= attribute.html_class %>">
+            <%= render_field attribute %>
+          </td>
+        <% end %>
+
+        <td class="whitespace-nowrap">
+          <% if resource.pending? %>
+            <%= link_to(
+              t("administrate.actions.approve", default: "Approve"),
+              [:approve, namespace, resource],
+              class: "action-edit",
+              method: :post,
+            ) %>
+            <%= link_to(
+              t("administrate.actions.reject", default: "Reject"),
+              [:reject, namespace, resource],
+              class: "text-color-red",
+              method: :post,
+              data: { confirm: t("administrate.actions.confirm") },
+            ) %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

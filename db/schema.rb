@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
+ActiveRecord::Schema[7.2].define(version: 2026_08_25_000002) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -502,8 +502,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_captain_faq_suggestions_on_account_id"
     t.index ["account_id", "assistant_id", "status", "language"], name: "idx_cap_faq_suggestions_on_account_assistant_status_language"
+    t.index ["account_id"], name: "index_captain_faq_suggestions_on_account_id"
     t.index ["assistant_id"], name: "index_captain_faq_suggestions_on_assistant_id"
     t.index ["embedding"], name: "vector_idx_captain_faq_suggestions_embedding", opclass: :vector_cosine_ops, using: :ivfflat
   end
@@ -743,8 +743,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.jsonb "phone_number_health", default: {}, null: false
     t.datetime "phone_number_health_checked_at"
     t.string "phone_number_health_error", limit: 500
-    t.index ["phone_number_health_checked_at"], name: "index_channel_whatsapp_on_phone_number_health_checked_at"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
+    t.index ["phone_number_health_checked_at"], name: "index_channel_whatsapp_on_phone_number_health_checked_at"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -1083,10 +1083,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "inbox_id"
-    t.index ["account_id", "name", "template_type", "locale"], name: "index_email_templates_on_account_scope", unique: true, where: "(account_id IS NOT NULL) AND (inbox_id IS NULL)"
+    t.index ["account_id", "name", "template_type", "locale"], name: "index_email_templates_on_account_scope", unique: true, where: "((account_id IS NOT NULL) AND (inbox_id IS NULL))"
     t.index ["inbox_id", "name", "template_type", "locale"], name: "index_email_templates_on_inbox_scope", unique: true, where: "(inbox_id IS NOT NULL)"
     t.index ["inbox_id"], name: "index_email_templates_on_inbox_id"
-    t.index ["name", "template_type", "locale"], name: "index_email_templates_on_installation_scope", unique: true, where: "(account_id IS NULL) AND (inbox_id IS NULL)"
+    t.index ["name", "template_type", "locale"], name: "index_email_templates_on_installation_scope", unique: true, where: "((account_id IS NULL) AND (inbox_id IS NULL))"
   end
 
   create_table "folders", force: :cascade do |t|
@@ -1573,6 +1573,31 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 
+  create_table "whatsapp_conversation_usages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "inbox_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "message_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["account_id", "created_at"], name: "idx_on_account_id_created_at_35e4aba0e8"
+    t.index ["account_id"], name: "index_whatsapp_conversation_usages_on_account_id"
+    t.index ["conversation_id"], name: "index_whatsapp_conversation_usages_on_conversation_id"
+    t.index ["inbox_id"], name: "index_whatsapp_conversation_usages_on_inbox_id"
+    t.index ["message_id"], name: "index_whatsapp_conversation_usages_on_message_id"
+  end
+
+  create_table "whatsapp_topup_requests", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "credits", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "status"], name: "index_whatsapp_topup_requests_on_account_id_and_status"
+    t.index ["account_id"], name: "index_whatsapp_topup_requests_on_account_id"
+    t.index ["user_id"], name: "index_whatsapp_topup_requests_on_user_id"
+  end
+
   create_table "working_hours", force: :cascade do |t|
     t.bigint "inbox_id"
     t.bigint "account_id"
@@ -1597,6 +1622,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
+  add_foreign_key "whatsapp_conversation_usages", "accounts", on_delete: :cascade
+  add_foreign_key "whatsapp_conversation_usages", "conversations", on_delete: :cascade
+  add_foreign_key "whatsapp_conversation_usages", "inboxes", on_delete: :cascade
+  add_foreign_key "whatsapp_conversation_usages", "messages", on_delete: :cascade
+  add_foreign_key "whatsapp_topup_requests", "accounts", on_delete: :cascade
+  add_foreign_key "whatsapp_topup_requests", "users", on_delete: :cascade
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

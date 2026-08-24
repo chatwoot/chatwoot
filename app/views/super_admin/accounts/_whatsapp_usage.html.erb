@@ -1,0 +1,53 @@
+<% summary = Whatsapp::UsageSummaryService.new(account: page.resource).summary %>
+<section class="main-content__body">
+  <hr/>
+  <h2>WhatsApp conversation usage</h2>
+  <table>
+    <tbody>
+      <tr>
+        <td>Limit</td>
+        <td><%= summary[:limit] %></td>
+      </tr>
+      <tr>
+        <td>Used (lifetime)</td>
+        <td><%= summary[:used] %></td>
+      </tr>
+      <tr>
+        <td>Remaining</td>
+        <td><%= summary[:remaining] %></td>
+      </tr>
+      <tr>
+        <td>Spent today</td>
+        <td><%= summary[:spent_today] %></td>
+      </tr>
+      <tr>
+        <td>Spent this week</td>
+        <td><%= summary[:spent_this_week] %></td>
+      </tr>
+      <tr>
+        <td>Spent this month</td>
+        <td><%= summary[:spent_this_month] %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <% if summary[:by_inbox].present? %>
+    <h3>By WhatsApp number</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Inbox</th>
+          <th>Used</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% summary[:by_inbox].each do |row| %>
+          <tr>
+            <td><%= row[:inbox_name] %></td>
+            <td><%= row[:count] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</section>

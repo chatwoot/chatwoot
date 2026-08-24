@@ -170,7 +170,8 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
         'agents' => { 'type': 'number' },
         'captain_responses' => { 'type': 'number' },
         'captain_documents' => { 'type': 'number' },
-        'emails' => { 'type': 'number' }
+        'emails' => { 'type': 'number' },
+        'whatsapp_conversations' => { 'type': 'number' }
       },
       'required' => [],
       'additionalProperties' => false

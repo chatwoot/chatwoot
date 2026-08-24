@@ -1,0 +1,4 @@
+json.id whatsapp_topup_request.id
+json.credits whatsapp_topup_request.credits
+json.status whatsapp_topup_request.status
+json.created_at whatsapp_topup_request.created_at

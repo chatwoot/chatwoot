@@ -58,11 +58,10 @@ class Whatsapp::IncomingMessageBaseService
 
   def update_message_with_status(message, status)
     message.status = status[:status]
-    if status[:status] == 'failed' && status[:errors].present?
-      error = status[:errors]&.first
-      message.external_error = "#{error[:code]}: #{error[:title]}"
-    end
+    error = status[:errors]&.first if status[:status] == 'failed'
+    message.external_error = "#{error[:code]}: #{error[:title]}" if error
     message.save!
+    Whatsapp::ConversationBillingService.new(message: message).perform if status[:status] == 'delivered'
   end
 
   def create_messages

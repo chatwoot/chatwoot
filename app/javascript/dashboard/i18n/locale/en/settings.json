@@ -354,6 +354,7 @@
     "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
+    "WHATSAPP_USAGE": "Limits & Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
@@ -640,6 +641,47 @@
         "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
         "GO_BACK": "Go Back",
         "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
+  },
+  "WHATSAPP_USAGE": {
+    "TITLE": "Limits & Billing",
+    "DESCRIPTION": "Track your WhatsApp conversation usage and top up your balance.",
+    "FETCH_ERROR": "Failed to load usage data. Please try again.",
+    "BALANCE": {
+      "TITLE": "Balance",
+      "DESCRIPTION": "Your available WhatsApp conversation credits.",
+      "DEBT_WARNING": "You are over your limit by {count} conversations. Top up to avoid interruptions.",
+      "LIMIT": "Limit",
+      "USED": "Used",
+      "REMAINING": "Remaining"
+    },
+    "SPENT": {
+      "TITLE": "Usage",
+      "DESCRIPTION": "Conversations billed over the last periods.",
+      "TODAY": "Today",
+      "WEEK": "This week",
+      "MONTH": "This month"
+    },
+    "TOPUP": {
+      "TITLE": "Top up",
+      "DESCRIPTION": "Choose a package to top up your WhatsApp conversation credits.",
+      "BUTTON_TXT": "Top up",
+      "SUCCESS": "Your top-up request has been submitted.",
+      "ERROR": "Failed to submit your top-up request. Please try again."
+    },
+    "HISTORY": {
+      "TITLE": "Payment history",
+      "DESCRIPTION": "Your past top-up requests for this account.",
+      "EMPTY": "No top-up requests yet.",
+      "FETCH_ERROR": "Failed to load payment history. Please try again.",
+      "DATE": "Date",
+      "CREDITS": "Credits",
+      "STATUS": "Status",
+      "STATUSES": {
+        "approved": "Approved",
+        "pending": "Pending",
+        "rejected": "Rejected"
       }
     }
   },

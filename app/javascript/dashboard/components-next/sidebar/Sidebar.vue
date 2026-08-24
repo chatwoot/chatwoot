@@ -939,6 +939,13 @@ const menuItems = computed(() => {
         },
       ],
     },
+    {
+      name: 'WhatsappUsage',
+      label: t('SIDEBAR.WHATSAPP_USAGE'),
+      icon: 'i-lucide-wallet',
+      to: accountScopedRoute('whatsapp_usage_index'),
+      activeOn: ['whatsapp_usage_index'],
+    },
   ];
 });
 </script>
