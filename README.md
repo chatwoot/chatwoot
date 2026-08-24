@@ -87,7 +87,7 @@ See [`docs/index.html`](./docs/index.html) for the full documentation.
 
 ## 🌐 Website / وب‌سایت
 
-The official product website is live at **[whisker.im](https://whisker.im)** (deployed via Vercel).
+The official product website is live at **[whisker-site.vercel.app](https://whisker-site.vercel.app)** (deployed via Vercel).
 
 The source lives in [`landing/`](./landing) — a static single-page site. To deploy your own:
 
