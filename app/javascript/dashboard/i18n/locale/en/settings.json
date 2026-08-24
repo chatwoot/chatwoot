@@ -360,6 +360,7 @@
     "THEME_MARKETPLACE": "Theme Marketplace",
     "ERROR_REPORTS": "Error Reports",
     "EMAIL_WEBMAIL": "Email / Webmail",
+    "COMPANIES": "Companies",
     "CUSTOM_VIEWS_FOLDER": "Folders",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
@@ -1214,6 +1215,32 @@
       "COMPANIES": "Companies / Accounts (B2B)",
       "TASKS": "Tasks & Reminders",
       "REPORTS": "CRM Reports & Dashboards"
+    }
+  },
+  "CRM": {
+    "COMPANIES": {
+      "TITLE": "Companies",
+      "NOTE": "Group your contacts under organizations (B2B CRM).",
+      "NEW": "New company",
+      "EDIT": "Edit",
+      "DELETE": "Delete",
+      "SAVE": "Save",
+      "CREATE": "Create",
+      "CANCEL": "Cancel",
+      "LOADING": "Loading…",
+      "EMPTY": "No companies yet.",
+      "CONFIRM_DELETE": "Delete this company? Contacts will be unassigned.",
+      "API": {
+        "ERROR": "Could not load or save companies."
+      },
+      "FORM": {
+        "NAME": "Name",
+        "NAME_REQUIRED": "Company name is required.",
+        "EMAIL": "Email",
+        "PHONE": "Phone",
+        "WEBSITE": "Website",
+        "DESCRIPTION": "Description"
+      }
     }
   }
 }

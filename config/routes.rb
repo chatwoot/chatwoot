@@ -64,6 +64,8 @@ Rails.application.routes.draw do
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection
           end
+          # [whisker] CRM module: Companies (B2B)
+          resources :companies, only: [:index, :show, :create, :update, :destroy]
           namespace :captain do
             resource :preferences, only: [:show, :update]
             resources :assistants do

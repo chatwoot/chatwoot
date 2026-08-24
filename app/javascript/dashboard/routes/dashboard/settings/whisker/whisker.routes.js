@@ -56,5 +56,14 @@ export default {
         permissions: ['administrator'],
       },
     },
+    {
+      path: frontendURL('accounts/:accountId/settings/companies'),
+      name: 'companies',
+      component: () =>
+        import('./Companies.vue'),
+      meta: {
+        permissions: ['administrator'],
+      },
+    },
   ],
 };

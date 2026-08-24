@@ -974,6 +974,12 @@ const menuItems = computed(() => {
           icon: 'i-lucide-mail',
           to: accountScopedRoute('email_webmail'),
         },
+        {
+          name: 'Settings Companies',
+          label: t('SIDEBAR.COMPANIES'),
+          icon: 'i-lucide-building-2',
+          to: accountScopedRoute('companies'),
+        },
       ],
     },
   ];
