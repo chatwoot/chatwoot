@@ -40,7 +40,8 @@ const actions = {
   getConversation: async ({ commit }, conversationId) => {
     try {
       const response = await ConversationApi.show(conversationId);
-      commit(types.UPDATE_CONVERSATION, response.data);
+      // Callers fetch missing conversations; ADD also lands them on mention/participating views.
+      commit(types.ADD_CONVERSATION, response.data);
       commit(`contacts/${types.SET_CONTACT_ITEM}`, response.data.meta.sender);
     } catch (error) {
       // Ignore error

@@ -264,12 +264,7 @@ export const mutations = {
     } else {
       const { conversationType } = _state.conversationFilters || {};
       const { MENTION, PARTICIPATING } = wootConstants.CONVERSATION_TYPE;
-      // With custom filters active the filtered getter governs visibility, so the push is safe.
-      const hasAppliedFilters = _state.appliedFilters.length > 0;
-      if (
-        hasAppliedFilters ||
-        ![MENTION, PARTICIPATING].includes(conversationType)
-      ) {
+      if (![MENTION, PARTICIPATING].includes(conversationType)) {
         _state.allConversations.push(conversation);
       }
     }
