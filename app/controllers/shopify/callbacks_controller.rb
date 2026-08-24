@@ -3,6 +3,7 @@ class Shopify::CallbacksController < ApplicationController
 
   def show
     verify_account!
+    verify_shop!
 
     @response = oauth_client.auth_code.get_token(
       params[:code],
@@ -22,19 +23,26 @@ class Shopify::CallbacksController < ApplicationController
     raise StandardError, 'Invalid state parameter' if account.blank?
   end
 
+  def verify_shop!
+    @shop_domain = Shopify::ShopDomain.normalize(params[:shop])
+    raise StandardError, 'Invalid shop domain' unless Shopify::ShopDomain.valid?(@shop_domain)
+  end
+
   def handle_response
-    account.hooks.create!(
-      app_id: 'shopify',
+    hook = account.hooks.account_hooks.find_or_initialize_by(app_id: 'shopify')
+    hook.assign_attributes(
       access_token: parsed_body['access_token'],
       status: 'enabled',
-      reference_id: params[:shop],
-      settings: {
-        scope: parsed_body['scope']
-      }
+      reference_id: @shop_domain,
+      settings: hook.settings.to_h.merge('scope' => parsed_body['scope'])
     )
+    hook.save!
+    after_shopify_connection(hook)
 
     redirect_to shopify_integration_url
   end
+
+  def after_shopify_connection(_hook); end
 
   def parsed_body
     @parsed_body ||= @response.response.parsed
@@ -45,7 +53,7 @@ class Shopify::CallbacksController < ApplicationController
       client_id,
       client_secret,
       {
-        site: "https://#{params[:shop]}",
+        site: "https://#{@shop_domain}",
         authorize_url: '/admin/oauth/authorize',
         token_url: '/admin/oauth/access_token'
       }
@@ -70,3 +78,4 @@ class Shopify::CallbacksController < ApplicationController
     ENV.fetch('FRONTEND_URL', nil)
   end
 end
+Shopify::CallbacksController.prepend_mod_with('Shopify::CallbacksController')

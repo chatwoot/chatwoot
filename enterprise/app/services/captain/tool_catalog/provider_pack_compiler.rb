@@ -43,7 +43,11 @@ class Captain::ToolCatalog::ProviderPackCompiler
     operations = manifest.fetch('operations').map do |operation|
       source = source_loader.load_operation(operation)
       validator.reject_secret_literals!(source.definition, operation.fetch('reference'))
-      validator.validate_operation_request!(source.request, manifest.fetch('allowed_origins'))
+      validator.validate_operation_request!(
+        source.request,
+        manifest.fetch('allowed_origins'),
+        provider_key: manifest.fetch('key')
+      )
       validate_operation_fixtures!(operation)
 
       operation.slice('key', 'source', 'visibility', 'scopes', 'risk_class').merge(

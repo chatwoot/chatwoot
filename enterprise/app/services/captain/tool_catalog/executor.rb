@@ -58,13 +58,19 @@ class Captain::ToolCatalog::Executor
       state: state,
       step_results: step_results
     ).resolve(step.fetch('bindings'))
-    client = Captain::ToolCatalog::HttpClient.new(
+    client = client_class.new(
       custom_tool: custom_tool,
       operation: operations.fetch(step.fetch('operation_key'))
     )
     client.perform(arguments)
   ensure
     @response_size += client.response_size if client
+  end
+
+  def client_class
+    return Captain::ToolCatalog::ShopifyGraphqlClient if custom_tool.provider_key == 'shopify'
+
+    Captain::ToolCatalog::HttpClient
   end
 
   def validate_tool!

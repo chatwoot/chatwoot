@@ -1,9 +1,14 @@
 require 'uri'
 
 class Captain::ToolCatalog::ProviderPackRuntimeValidator
+  ENDPOINT_STRATEGY_ORIGINS = {
+    'shopify_admin_graphql' => Captain::ToolCatalog::ProviderPackValidator::SHOPIFY_DYNAMIC_ORIGIN
+  }.freeze
   UNSUPPORTED_PROJECTION_KEYWORDS = %w[allOf anyOf oneOf if then else not patternProperties].freeze
 
-  def validate_operation_request!(request, allowed_origins)
+  def validate_operation_request!(request, allowed_origins, provider_key:)
+    return validate_endpoint_strategy!(request, allowed_origins, provider_key) if request['endpoint_strategy'].present?
+
     uri = parse_url(request.fetch('url'))
     validate_fixed_url!(uri, request.fetch('url'), allowed_origins)
     validate_parameter_locations!(request.fetch('parameters'))
@@ -23,6 +28,13 @@ class Captain::ToolCatalog::ProviderPackRuntimeValidator
   end
 
   private
+
+  def validate_endpoint_strategy!(request, allowed_origins, provider_key)
+    expected_origin = ENDPOINT_STRATEGY_ORIGINS[request.fetch('endpoint_strategy')]
+    return if provider_key == 'shopify' && expected_origin.present? && allowed_origins.include?(expected_origin)
+
+    raise Captain::ToolCatalog::ProviderPackError, 'Operation endpoint strategy is not allowed by the provider'
+  end
 
   def parse_url(url)
     normalized_url = url.gsub(/\{[a-zA-Z0-9_]+\}/, 'path-parameter')

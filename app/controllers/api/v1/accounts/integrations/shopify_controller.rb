@@ -6,8 +6,10 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   before_action :validate_contact, only: [:orders]
 
   def auth
-    shop_domain = params[:shop_domain]
-    return render json: { error: 'Shop domain is required' }, status: :unprocessable_entity if shop_domain.blank?
+    shop_domain = Shopify::ShopDomain.normalize(params[:shop_domain])
+    unless Shopify::ShopDomain.valid?(shop_domain)
+      return render json: { error: 'A valid myshopify.com domain is required' }, status: :unprocessable_entity
+    end
 
     state = generate_shopify_token(Current.account.id)
 
@@ -110,3 +112,4 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
            status: :unprocessable_entity
   end
 end
+Api::V1::Accounts::Integrations::ShopifyController.prepend_mod_with('Api::V1::Accounts::Integrations::ShopifyController')

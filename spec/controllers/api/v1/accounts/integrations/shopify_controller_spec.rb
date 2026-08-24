@@ -30,13 +30,21 @@ RSpec.describe 'Shopify Integration API', type: :request do
         expect(response.parsed_body['redirect_url']).to include(shop_domain)
       end
 
-      it 'returns error when shop domain is missing' do
+      it 'returns error when shop domain is missing or not a canonical Shopify domain' do
         post "/api/v1/accounts/#{account.id}/integrations/shopify/auth",
              headers: agent.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['error']).to eq('Shop domain is required')
+        expect(response.parsed_body['error']).to eq('A valid myshopify.com domain is required')
+
+        post "/api/v1/accounts/#{account.id}/integrations/shopify/auth",
+             params: { shop_domain: 'test-store.myshopify.com.attacker.example' },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('A valid myshopify.com domain is required')
       end
     end
 
@@ -47,6 +55,94 @@ RSpec.describe 'Shopify Integration API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'with a catalog installation' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:installation) do
+        create(
+          :captain_tool_catalog_installation,
+          account: account,
+          initiated_by: admin,
+          provider_key: 'shopify',
+          status: 'awaiting_connection',
+          selected_templates: [
+            {
+              'template_key' => 'get_current_customer',
+              'template_version' => '1.0.0',
+              'configuration' => {}
+            }
+          ]
+        )
+      end
+      let(:pack) do
+        compiled = Captain::ToolCatalog::ProviderPackCompiler.new(
+          pack_path: Rails.root.join('spec/fixtures/captain/tool_catalog/providers/example')
+        ).compile.deep_dup
+        compiled['provider']['key'] = 'shopify'
+        compiled['templates'].sole['effective_scopes'] = ['write_customers']
+        compiled
+      end
+      let(:registry) { instance_double(Captain::ToolCatalog::ProviderPackRegistry, find: pack) }
+
+      before do
+        account.enable_features!('captain_tool_catalog')
+        allow(Captain::ToolCatalog::ProviderPackRegistry).to receive(:default).and_return(registry)
+        allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_ID', nil).and_return('shopify-client-id')
+        allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_SECRET', nil).and_return('shopify-client-secret')
+      end
+
+      it 'derives scopes server-side and binds a signed one-time nonce to the installation' do
+        post "/api/v1/accounts/#{account.id}/integrations/shopify/auth",
+             params: { shop_domain: shop_domain, installation_id: installation.id },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        redirect_uri = URI.parse(response.parsed_body.fetch('redirect_url'))
+        query = Rack::Utils.parse_nested_query(redirect_uri.query)
+        state = JWT.decode(
+          query.fetch('state'),
+          'shopify-client-secret',
+          true,
+          algorithm: 'HS256',
+          aud: 'shopify_oauth',
+          verify_aud: true
+        ).first
+
+        expect(response).to have_http_status(:ok)
+        expect(query.fetch('scope').split(',')).to contain_exactly(
+          'read_customers',
+          'read_fulfillments',
+          'read_orders',
+          'write_customers'
+        )
+        expect(state).to include('sub' => account.id, 'installation_id' => installation.id)
+        expect(installation.reload).to be_awaiting_connection
+        expect(installation.oauth_nonce_digest).to eq(Digest::SHA256.hexdigest(state.fetch('nonce')))
+      end
+
+      it 'allows only administrators to initiate catalog OAuth' do
+        post "/api/v1/accounts/#{account.id}/integrations/shopify/auth",
+             params: { shop_domain: shop_domain, installation_id: installation.id },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(installation.reload.oauth_nonce_digest).to be_nil
+      end
+
+      it 'does not start catalog OAuth when credential encryption is unavailable' do
+        allow(Chatwoot).to receive(:encryption_configured?).and_return(false)
+
+        post "/api/v1/accounts/#{account.id}/integrations/shopify/auth",
+             params: { shop_domain: shop_domain, installation_id: installation.id },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body).to eq('error' => { 'code' => 'encryption_required' })
+        expect(installation.reload.oauth_nonce_digest).to be_nil
       end
     end
   end

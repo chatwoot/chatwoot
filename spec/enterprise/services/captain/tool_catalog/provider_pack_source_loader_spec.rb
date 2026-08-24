@@ -30,6 +30,21 @@ RSpec.describe Captain::ToolCatalog::ProviderPackSourceLoader do
     expect(operation.request).to include('method' => 'POST', 'encoding' => 'graphql')
   end
 
+  it 'loads a reviewed GraphQL document with the Shopify tenant endpoint strategy' do
+    operation = source_loader.load_operation(
+      'source' => 'graphql',
+      'reference' => 'operations/list_customers.graphql',
+      'endpoint_strategy' => 'shopify_admin_graphql'
+    )
+
+    expect(operation.request).to eq(
+      'method' => 'POST',
+      'endpoint_strategy' => 'shopify_admin_graphql',
+      'encoding' => 'graphql',
+      'parameters' => []
+    )
+  end
+
   it 'rejects references that escape the Provider Pack directory' do
     expect { source_loader.load_fixture('../../../../../../config/database.yml') }
       .to raise_error(Captain::ToolCatalog::ProviderPackError, /escapes its directory/)

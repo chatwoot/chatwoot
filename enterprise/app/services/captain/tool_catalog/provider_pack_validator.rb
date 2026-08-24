@@ -1,6 +1,7 @@
 require 'uri'
 
 class Captain::ToolCatalog::ProviderPackValidator
+  SHOPIFY_DYNAMIC_ORIGIN = 'https://*.myshopify.com'.freeze
   SERVER_BINDING_PATHS = {
     'contact' => %w[id email phone_number],
     'conversation' => %w[id display_id]
@@ -31,8 +32,8 @@ class Captain::ToolCatalog::ProviderPackValidator
     reject_secret_literals!(sources, 'sources.yml')
   end
 
-  def validate_operation_request!(request, allowed_origins)
-    runtime_validator.validate_operation_request!(request, allowed_origins)
+  def validate_operation_request!(request, allowed_origins, provider_key:)
+    runtime_validator.validate_operation_request!(request, allowed_origins, provider_key: provider_key)
   end
 
   def validate_configuration_schema!(schema, location)
@@ -104,6 +105,12 @@ class Captain::ToolCatalog::ProviderPackValidator
   end
 
   def validate_origin!(origin)
+    return origin if origin == SHOPIFY_DYNAMIC_ORIGIN
+
+    validate_exact_origin!(origin)
+  end
+
+  def validate_exact_origin!(origin)
     uri = URI.parse(origin)
     raise_origin_error(origin) unless uri.scheme == 'https'
     raise_origin_error(origin) if uri.host.blank? || uri.userinfo.present?

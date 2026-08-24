@@ -42,15 +42,22 @@
         }
       }
     },
-    "allowed_origins": {
+        "allowed_origins": {
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
-      "items": {
-        "type": "string",
-        "format": "uri",
-        "pattern": "^https://"
-      }
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https://"
+              },
+              {
+                "const": "https://*.myshopify.com"
+              }
+            ]
+          }
     },
     "categories": {
       "type": "array",
@@ -118,6 +125,9 @@
           "format": "uri",
           "pattern": "^https://"
         },
+        "endpoint_strategy": {
+          "enum": ["shopify_admin_graphql"]
+        },
         "visibility": {
           "enum": ["runtime", "setup"]
         },
@@ -162,12 +172,28 @@
             }
           },
           "then": {
-            "required": ["endpoint"]
+            "oneOf": [
+              {
+                "required": ["endpoint"]
+              },
+              {
+                "required": ["endpoint_strategy"]
+              }
+            ]
           },
           "else": {
-            "not": {
-              "required": ["endpoint"]
-            }
+            "allOf": [
+              {
+                "not": {
+                  "required": ["endpoint"]
+                }
+              },
+              {
+                "not": {
+                  "required": ["endpoint_strategy"]
+                }
+              }
+            ]
           }
         }
       ]

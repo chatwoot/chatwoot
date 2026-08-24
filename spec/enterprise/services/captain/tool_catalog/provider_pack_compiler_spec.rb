@@ -71,6 +71,35 @@ RSpec.describe Captain::ToolCatalog::ProviderPackCompiler do
       .to raise_error(Captain::ToolCatalog::ProviderPackError, /outside the provider allowlist/)
   end
 
+  it 'compiles Shopify GraphQL operations against the allowlisted tenant endpoint strategy' do
+    manifest = Captain::ToolCatalog::ProviderPackLoader.new(pack_path: pack_path).load.deep_dup
+    manifest['key'] = 'shopify'
+    manifest['allowed_origins'] << 'https://*.myshopify.com'
+    graphql_operation = manifest['operations'].find { |operation| operation['source'] == 'graphql' }
+    graphql_operation.delete('endpoint')
+    graphql_operation['endpoint_strategy'] = 'shopify_admin_graphql'
+    loader = instance_double(Captain::ToolCatalog::ProviderPackLoader, load: manifest)
+    allow(Captain::ToolCatalog::ProviderPackLoader).to receive(:new).and_return(loader)
+
+    request = compiled_pack.fetch('operations').find { |operation| operation['source'] == 'graphql' }.fetch('request')
+
+    expect(request).to include('endpoint_strategy' => 'shopify_admin_graphql')
+    expect(request).not_to have_key('url')
+  end
+
+  it 'rejects the Shopify endpoint strategy for another provider' do
+    manifest = Captain::ToolCatalog::ProviderPackLoader.new(pack_path: pack_path).load.deep_dup
+    manifest['allowed_origins'] << 'https://*.myshopify.com'
+    graphql_operation = manifest['operations'].find { |operation| operation['source'] == 'graphql' }
+    graphql_operation.delete('endpoint')
+    graphql_operation['endpoint_strategy'] = 'shopify_admin_graphql'
+    loader = instance_double(Captain::ToolCatalog::ProviderPackLoader, load: manifest)
+    allow(Captain::ToolCatalog::ProviderPackLoader).to receive(:new).and_return(loader)
+
+    expect { compiled_pack }
+      .to raise_error(Captain::ToolCatalog::ProviderPackError, /endpoint strategy is not allowed/)
+  end
+
   it 'keeps setup operations out of runtime recipes' do
     manifest = Captain::ToolCatalog::ProviderPackLoader.new(pack_path: pack_path).load.deep_dup
     manifest.dig('templates', 0, 'recipe', 0)['operation_key'] = 'list_customers_for_setup'

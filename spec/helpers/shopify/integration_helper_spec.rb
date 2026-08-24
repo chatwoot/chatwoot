@@ -19,6 +19,8 @@ RSpec.describe Shopify::IntegrationHelper do
 
       expect(decoded_token['sub']).to eq(account_id)
       expect(decoded_token['iat']).to eq(current_time.to_i)
+      expect(decoded_token['exp']).to eq((current_time + 10.minutes).to_i)
+      expect(decoded_token['aud']).to eq('shopify_oauth')
     end
 
     context 'when client secret is not configured' do
@@ -45,7 +47,11 @@ RSpec.describe Shopify::IntegrationHelper do
     let(:account_id) { 1 }
     let(:client_secret) { 'test_secret' }
     let(:valid_token) do
-      JWT.encode({ sub: account_id, iat: Time.current.to_i }, client_secret, 'HS256')
+      JWT.encode(
+        { sub: account_id, iat: Time.current.to_i, exp: 10.minutes.from_now.to_i, aud: 'shopify_oauth' },
+        client_secret,
+        'HS256'
+      )
     end
 
     before do
@@ -54,6 +60,20 @@ RSpec.describe Shopify::IntegrationHelper do
 
     it 'successfully verifies and returns account_id from valid token' do
       expect(verify_shopify_token(valid_token)).to eq(account_id)
+    end
+
+    it 'returns the verified catalog claims without allowing them to replace base claims' do
+      token = generate_shopify_token(
+        account_id,
+        claims: { installation_id: 19, nonce: 'nonce-value', sub: 999, aud: 'attacker' }
+      )
+
+      expect(verify_shopify_state(token)).to include(
+        'sub' => account_id,
+        'aud' => 'shopify_oauth',
+        'installation_id' => 19,
+        'nonce' => 'nonce-value'
+      )
     end
 
     context 'when token is blank' do
@@ -76,6 +96,24 @@ RSpec.describe Shopify::IntegrationHelper do
       it 'logs the error and returns nil' do
         expect(Rails.logger).to receive(:error).with(/Unexpected error verifying Shopify token:/)
         expect(verify_shopify_token('invalid_token')).to be_nil
+      end
+    end
+
+    context 'when the token is expired or has the wrong audience' do
+      it 'returns nil' do
+        expired = JWT.encode(
+          { sub: account_id, exp: 1.minute.ago.to_i, aud: 'shopify_oauth' },
+          client_secret,
+          'HS256'
+        )
+        wrong_audience = JWT.encode(
+          { sub: account_id, exp: 10.minutes.from_now.to_i, aud: 'another_integration' },
+          client_secret,
+          'HS256'
+        )
+
+        expect(verify_shopify_token(expired)).to be_nil
+        expect(verify_shopify_token(wrong_audience)).to be_nil
       end
     end
   end

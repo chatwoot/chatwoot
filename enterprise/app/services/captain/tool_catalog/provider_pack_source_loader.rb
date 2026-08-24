@@ -13,12 +13,7 @@ class Captain::ToolCatalog::ProviderPackSourceLoader
     when 'graphql'
       OperationSource.new(
         definition: load_graphql_operation(operation.fetch('reference')),
-        request: {
-          'method' => 'POST',
-          'url' => operation.fetch('endpoint'),
-          'encoding' => 'graphql',
-          'parameters' => []
-        }
+        request: graphql_request(operation)
       )
     end
   end
@@ -42,6 +37,17 @@ class Captain::ToolCatalog::ProviderPackSourceLoader
   private
 
   attr_reader :pack_path
+
+  def graphql_request(operation)
+    request = {
+      'method' => 'POST',
+      'encoding' => 'graphql',
+      'parameters' => []
+    }
+    return request.merge('endpoint_strategy' => operation.fetch('endpoint_strategy')) if operation['endpoint_strategy'].present?
+
+    request.merge('url' => operation.fetch('endpoint'))
+  end
 
   def load_openapi_operation(reference)
     relative_path, pointer = reference.split('#', 2)
