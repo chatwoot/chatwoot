@@ -1,0 +1,13 @@
+{
+  "KANBAN": {
+    "TITLE": "Kanban",
+    "LOADING": "Loading conversations...",
+    "NO_LABELS": {
+      "TITLE": "No labels yet",
+      "DESCRIPTION": "Create labels to use them as columns on your Kanban board.",
+      "BUTTON_TEXT": "Manage labels"
+    },
+    "EMPTY_COLUMN": "No conversations",
+    "MOVE_ERROR": "Could not move the conversation, please try again"
+  }
+}
