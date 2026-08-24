@@ -11,16 +11,23 @@ RSpec.describe Captain::ToolCatalog::ProviderPackSourceLoader do
       'reference' => 'openapi.yml#/paths/~1customers/get'
     )
 
-    expect(operation['operationId']).to eq('findCustomer')
+    expect(operation.definition['operationId']).to eq('findCustomer')
+    expect(operation.request).to include(
+      'method' => 'GET',
+      'url' => 'https://api.example.com/customers',
+      'encoding' => 'query'
+    )
   end
 
   it 'loads a fixed GraphQL document' do
     operation = source_loader.load_operation(
       'source' => 'graphql',
-      'reference' => 'operations/list_customers.graphql'
+      'reference' => 'operations/list_customers.graphql',
+      'endpoint' => 'https://api.example.com/graphql'
     )
 
-    expect(operation).to include('query ListCustomersForSetup')
+    expect(operation.definition).to include('query ListCustomersForSetup')
+    expect(operation.request).to include('method' => 'POST', 'encoding' => 'graphql')
   end
 
   it 'rejects references that escape the Provider Pack directory' do

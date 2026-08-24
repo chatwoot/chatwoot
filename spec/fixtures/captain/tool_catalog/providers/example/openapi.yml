@@ -8,6 +8,12 @@ paths:
   /customers:
     get:
       operationId: findCustomer
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Customer lookup result

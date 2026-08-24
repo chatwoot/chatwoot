@@ -41,13 +41,15 @@ class Captain::ToolCatalog::ProviderPackCompiler
 
   def compile_operations
     operations = manifest.fetch('operations').map do |operation|
-      definition = source_loader.load_operation(operation)
-      validator.reject_secret_literals!(definition, operation.fetch('reference'))
+      source = source_loader.load_operation(operation)
+      validator.reject_secret_literals!(source.definition, operation.fetch('reference'))
+      validator.validate_operation_request!(source.request, manifest.fetch('allowed_origins'))
       validate_operation_fixtures!(operation)
 
       operation.slice('key', 'source', 'visibility', 'scopes', 'risk_class').merge(
         'scopes' => operation.fetch('scopes').sort,
-        'definition' => definition
+        'definition' => source.definition,
+        'request' => source.request
       )
     end
     operations.sort_by { |operation| operation.fetch('key') }

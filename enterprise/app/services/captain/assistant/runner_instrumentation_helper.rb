@@ -17,6 +17,7 @@ module Captain::Assistant::RunnerInstrumentationHelper
   def install_instrumentation(runner)
     return unless ChatwootApp.otel_enabled?
 
+    Captain::ToolCatalog::TracingSanitizer.install!
     config = trace_config
     Agents::Instrumentation.install(
       runner,

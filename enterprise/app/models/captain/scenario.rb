@@ -122,7 +122,7 @@ class Captain::Scenario < ApplicationRecord
 
     if tool_metadata[:custom]
       custom_tool = Captain::CustomTool.find_by(slug: tool_id, account_id: account_id, enabled: true)
-      custom_tool&.tool(assistant)
+      custom_tool&.tool(assistant) if custom_tool&.model_visible?
     else
       tool_class = self.class.resolve_tool_class(tool_id)
       tool_class&.new(assistant)

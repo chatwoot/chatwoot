@@ -124,7 +124,8 @@ class Captain::Assistant::AgentRunnerService
   def available_in_reply_suggestion?(tool)
     return true if tool.is_a?(Captain::Tools::FaqLookupTool)
 
-    tool.is_a?(Captain::Tools::HttpTool) && tool.available_in_reply_suggestion?
+    supported_tool = tool.is_a?(Captain::Tools::HttpTool) || tool.is_a?(Captain::Tools::CatalogTool)
+    supported_tool && tool.available_in_reply_suggestion?
   end
 
   def reply_suggestion? = @source == REPLY_SUGGESTION_SOURCE

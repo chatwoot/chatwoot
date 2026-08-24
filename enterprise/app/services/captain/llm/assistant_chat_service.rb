@@ -31,10 +31,10 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
 
   def build_tools
     tools = [Captain::Tools::SearchDocumentationService.new(@assistant, user: nil)]
-    return tools unless custom_tools_enabled?
+    return tools if model_visible_tools.empty?
 
-    tools + @assistant.account.captain_custom_tools.enabled.map do |ct|
-      ct.tool(@assistant, base_class: Captain::Tools::CustomHttpTool, conversation: @conversation)
+    tools + model_visible_tools.map do |ct|
+      ct.tool(@assistant, base_class: Captain::Tools::CustomHttpTool, pipeline: :ruby_llm, conversation: @conversation)
     end
   end
 
@@ -50,10 +50,14 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
   end
 
   def custom_tools_metadata
-    return [] unless custom_tools_enabled?
-
-    @assistant.account.captain_custom_tools.enabled.map do |ct|
+    model_visible_tools.map do |ct|
       { name: ct.slug, description: ct.description }
+    end
+  end
+
+  def model_visible_tools
+    @model_visible_tools ||= @assistant.account.captain_custom_tools.enabled.select do |custom_tool|
+      custom_tool.source_catalog? ? custom_tool.model_visible? : custom_tools_enabled?
     end
   end
 

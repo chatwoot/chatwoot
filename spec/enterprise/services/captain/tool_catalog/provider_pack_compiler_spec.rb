@@ -14,6 +14,11 @@ RSpec.describe Captain::ToolCatalog::ProviderPackCompiler do
     expect(compiled_pack['operations'].pluck('source')).to contain_exactly('openapi', 'graphql')
     expect(compiled_pack['operations'].find { |operation| operation['source'] == 'graphql' }['definition'])
       .to include('query ListCustomersForSetup')
+    expect(compiled_pack['operations'].find { |operation| operation['source'] == 'openapi' }['request']).to include(
+      'method' => 'GET',
+      'url' => 'https://api.example.com/customers',
+      'encoding' => 'query'
+    )
     expect(compiled_pack).to be_frozen
     expect(compiled_pack['templates']).to be_frozen
   end
@@ -54,6 +59,16 @@ RSpec.describe Captain::ToolCatalog::ProviderPackCompiler do
 
     expect { compiled_pack }
       .to raise_error(Captain::ToolCatalog::ProviderPackError, /must be an exact HTTPS origin/)
+  end
+
+  it 'rejects operation endpoints outside the provider allowlist' do
+    manifest = Captain::ToolCatalog::ProviderPackLoader.new(pack_path: pack_path).load.deep_dup
+    manifest['operations'].find { |operation| operation['source'] == 'graphql' }['endpoint'] = 'https://attacker.example/graphql'
+    loader = instance_double(Captain::ToolCatalog::ProviderPackLoader, load: manifest)
+    allow(Captain::ToolCatalog::ProviderPackLoader).to receive(:new).and_return(loader)
+
+    expect { compiled_pack }
+      .to raise_error(Captain::ToolCatalog::ProviderPackError, /outside the provider allowlist/)
   end
 
   it 'keeps setup operations out of runtime recipes' do
@@ -122,5 +137,52 @@ RSpec.describe Captain::ToolCatalog::ProviderPackCompiler do
 
     expect { compiled_pack }
       .to raise_error(Captain::ToolCatalog::ProviderPackError, /Configuration schema contains credential fields: api_key/)
+  end
+
+  it 'requires bounded arrays in model and projected output schemas' do
+    output_schema = {
+      'type' => 'object',
+      'additionalProperties' => false,
+      'properties' => {
+        'customers' => { 'type' => 'array', 'items' => { 'type' => 'string' } }
+      }
+    }
+    source_loader = Captain::ToolCatalog::ProviderPackSourceLoader.new(pack_path: pack_path)
+    allow(Captain::ToolCatalog::ProviderPackSourceLoader).to receive(:new).and_return(source_loader)
+    allow(source_loader).to receive(:load_schema).and_call_original
+    allow(source_loader).to receive(:load_schema).with('schemas/get_current_customer_output.json').and_return(output_schema)
+
+    expect { compiled_pack }
+      .to raise_error(Captain::ToolCatalog::ProviderPackError, /arrays must set maxItems between 1 and 10/)
+  end
+
+  it 'rejects external JSON Schema references' do
+    input_schema = {
+      'type' => 'object',
+      'additionalProperties' => false,
+      'properties' => { 'query' => { '$ref' => 'https://attacker.example/schema.json' } }
+    }
+    source_loader = Captain::ToolCatalog::ProviderPackSourceLoader.new(pack_path: pack_path)
+    allow(Captain::ToolCatalog::ProviderPackSourceLoader).to receive(:new).and_return(source_loader)
+    allow(source_loader).to receive(:load_schema).and_call_original
+    allow(source_loader).to receive(:load_schema).with('schemas/get_current_customer_input.json').and_return(input_schema)
+
+    expect { compiled_pack }
+      .to raise_error(Captain::ToolCatalog::ProviderPackError, /Schema contains an external reference/)
+  end
+
+  it 'rejects credential fields in projected output schemas' do
+    output_schema = {
+      'type' => 'object',
+      'additionalProperties' => false,
+      'properties' => { 'client_secret' => { 'type' => 'string' } }
+    }
+    source_loader = Captain::ToolCatalog::ProviderPackSourceLoader.new(pack_path: pack_path)
+    allow(Captain::ToolCatalog::ProviderPackSourceLoader).to receive(:new).and_return(source_loader)
+    allow(source_loader).to receive(:load_schema).and_call_original
+    allow(source_loader).to receive(:load_schema).with('schemas/get_current_customer_output.json').and_return(output_schema)
+
+    expect { compiled_pack }
+      .to raise_error(Captain::ToolCatalog::ProviderPackError, /Output schema contains credential fields/)
   end
 end

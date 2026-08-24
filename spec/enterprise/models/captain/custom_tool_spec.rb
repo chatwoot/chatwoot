@@ -582,6 +582,71 @@ RSpec.describe Captain::CustomTool, type: :model do
         tool_instance = tool.tool(assistant)
         expect(tool_instance.parameters).to be_empty
       end
+
+      it 'uses the canonical catalog tool and preserves the full JSON Schema' do
+        account.enable_features!('captain_tool_catalog')
+        hook = create(:integrations_hook, account: account, app_id: 'example', settings: { scope: 'customers:read' })
+        input_schema = {
+          'type' => 'object',
+          'additionalProperties' => false,
+          'required' => ['filters'],
+          'properties' => {
+            'filters' => {
+              'type' => 'array',
+              'maxItems' => 5,
+              'items' => { 'type' => 'string', 'enum' => %w[open closed] }
+            }
+          }
+        }
+        tool = create(
+          :captain_custom_tool,
+          :catalog,
+          account: account,
+          provider_key: 'example',
+          integration_hook: hook,
+          input_schema: input_schema
+        )
+
+        tool_instance = tool.tool(assistant)
+
+        expect(tool_instance).to be_a(Captain::Tools::CatalogTool)
+        expect(tool_instance.name).to eq(tool.slug)
+        expect(tool_instance.params_schema).to eq(input_schema)
+      end
+    end
+
+    describe '#model_visible?' do
+      before { account.enable_features!('captain_tool_catalog') }
+
+      it 'requires a live provider connection and every runtime scope' do
+        hook = create(:integrations_hook, account: account, app_id: 'example', settings: { scope: 'customers:read' })
+        tool = create(
+          :captain_custom_tool,
+          :catalog,
+          account: account,
+          provider_key: 'example',
+          integration_hook: hook
+        )
+
+        expect(tool).to be_model_visible
+
+        hook.update!(status: :disabled)
+        expect(tool.reload).not_to be_model_visible
+      end
+
+      it 'never exposes approval-required catalog tools to the model' do
+        hook = create(:integrations_hook, account: account, app_id: 'example', settings: { scope: 'customers:read' })
+        tool = create(
+          :captain_custom_tool,
+          :catalog,
+          account: account,
+          provider_key: 'example',
+          integration_hook: hook,
+          risk_class: 'approval_required'
+        )
+
+        expect(tool).not_to be_model_visible
+      end
     end
   end
 end

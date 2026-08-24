@@ -113,6 +113,11 @@
         "reference": {
           "$ref": "#/definitions/non_empty_string"
         },
+        "endpoint": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
         "visibility": {
           "enum": ["runtime", "setup"]
         },
@@ -146,7 +151,26 @@
             }
           }
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "source": {
+                "const": "graphql"
+              }
+            }
+          },
+          "then": {
+            "required": ["endpoint"]
+          },
+          "else": {
+            "not": {
+              "required": ["endpoint"]
+            }
+          }
+        }
+      ]
     },
     "binding": {
       "type": "object",
@@ -258,6 +282,7 @@
         "recipe": {
           "type": "array",
           "minItems": 1,
+          "maxItems": 5,
           "items": {
             "$ref": "#/definitions/recipe_step"
           }

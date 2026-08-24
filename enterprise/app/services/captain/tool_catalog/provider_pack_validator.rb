@@ -31,6 +31,10 @@ class Captain::ToolCatalog::ProviderPackValidator
     reject_secret_literals!(sources, 'sources.yml')
   end
 
+  def validate_operation_request!(request, allowed_origins)
+    runtime_validator.validate_operation_request!(request, allowed_origins)
+  end
+
   def validate_configuration_schema!(schema, location)
     unless schema['type'] == 'object' && schema['additionalProperties'] == false
       raise Captain::ToolCatalog::ProviderPackError,
@@ -49,6 +53,22 @@ class Captain::ToolCatalog::ProviderPackValidator
 
     raise Captain::ToolCatalog::ProviderPackError,
           "Configuration schema contains credential fields: #{secret_keys.uniq.sort.join(', ')}"
+  end
+
+  def validate_schema_references!(schema, location)
+    external_references = schema_references(schema).reject { |reference| reference.start_with?('#/') }
+    return if external_references.empty?
+
+    raise Captain::ToolCatalog::ProviderPackError,
+          "Schema contains an external reference: #{location}"
+  end
+
+  def validate_model_input_schema!(schema, location)
+    runtime_validator.validate_model_input_schema!(schema, location)
+  end
+
+  def validate_output_schema!(schema, location)
+    runtime_validator.validate_output_schema!(schema, location)
   end
 
   def validate_binding!(binding, step_index:, input_schema:, configuration_schema:)
@@ -175,6 +195,19 @@ class Captain::ToolCatalog::ProviderPackValidator
         object_schemas(child)
       end
     end
+  end
+
+  def schema_references(value)
+    return [] unless value.is_a?(Hash)
+
+    references = value['$ref'].present? ? [value['$ref']] : []
+    references + value.values.flat_map do |child|
+      child.is_a?(Array) ? child.flat_map { |item| schema_references(item) } : schema_references(child)
+    end
+  end
+
+  def runtime_validator
+    @runtime_validator ||= Captain::ToolCatalog::ProviderPackRuntimeValidator.new
   end
 
   def secret_literal?(value)

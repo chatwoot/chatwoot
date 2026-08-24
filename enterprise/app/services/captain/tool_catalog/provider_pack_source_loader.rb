@@ -1,4 +1,7 @@
 class Captain::ToolCatalog::ProviderPackSourceLoader
+  OperationSource = Data.define(:definition, :request)
+  HTTP_METHODS = %w[get post].freeze
+
   def initialize(pack_path:)
     @pack_path = Pathname(pack_path).realpath
   end
@@ -8,7 +11,15 @@ class Captain::ToolCatalog::ProviderPackSourceLoader
     when 'openapi'
       load_openapi_operation(operation.fetch('reference'))
     when 'graphql'
-      load_graphql_operation(operation.fetch('reference'))
+      OperationSource.new(
+        definition: load_graphql_operation(operation.fetch('reference')),
+        request: {
+          'method' => 'POST',
+          'url' => operation.fetch('endpoint'),
+          'encoding' => 'graphql',
+          'parameters' => []
+        }
+      )
     end
   end
 
@@ -36,10 +47,56 @@ class Captain::ToolCatalog::ProviderPackSourceLoader
     relative_path, pointer = reference.split('#', 2)
     invalid_pack!("OpenAPI reference must include a local JSON pointer: #{reference}") if pointer.blank?
 
-    operation = resolve_json_pointer(load_yaml(relative_path), pointer)
-    return operation if operation.is_a?(Hash)
+    document = load_yaml(relative_path)
+    path, method = openapi_request_target(pointer)
+    operation = resolve_json_pointer(document, pointer)
+    return openapi_operation_source(document, path, method, operation) if operation.is_a?(Hash)
 
     raise Captain::ToolCatalog::ProviderPackError, "OpenAPI reference does not resolve to an operation: #{reference}"
+  end
+
+  def openapi_request_target(pointer)
+    tokens = json_pointer_tokens(pointer)
+    valid = tokens.length == 3 && tokens.first == 'paths' && tokens.second.start_with?('/') && HTTP_METHODS.include?(tokens.third)
+    invalid_pack!("OpenAPI reference must target a GET or POST operation: ##{pointer}") unless valid
+
+    [tokens.second, tokens.third]
+  end
+
+  def openapi_operation_source(document, path, method, operation)
+    path_item = document.dig('paths', path)
+    server_url = fixed_server_url(operation, path_item, document)
+
+    OperationSource.new(
+      definition: operation,
+      request: {
+        'method' => method.upcase,
+        'url' => "#{server_url.delete_suffix('/')}#{path}",
+        'encoding' => method == 'get' ? 'query' : 'json',
+        'parameters' => openapi_parameters(path_item, operation)
+      }
+    )
+  end
+
+  def openapi_parameters(path_item, operation)
+    [*path_item.fetch('parameters', []), *operation.fetch('parameters', [])].map do |parameter|
+      invalid_pack!('OpenAPI operation parameters must define a name and location') unless valid_openapi_parameter?(parameter)
+
+      parameter.slice('name', 'in', 'required')
+    end
+  end
+
+  def fixed_server_url(operation, path_item, document)
+    servers = operation['servers'].presence || path_item['servers'].presence || document['servers']
+    invalid_pack!('OpenAPI operations must resolve to exactly one fixed server') unless servers.is_a?(Array) && servers.one?
+
+    server_url = servers.sole['url'] if servers.sole.is_a?(Hash)
+    invalid_pack!('OpenAPI operations must resolve to exactly one fixed server') if server_url.blank?
+    server_url
+  end
+
+  def valid_openapi_parameter?(parameter)
+    parameter.is_a?(Hash) && parameter['name'].present? && parameter['in'].present?
   end
 
   def load_graphql_operation(reference)
@@ -86,13 +143,17 @@ class Captain::ToolCatalog::ProviderPackSourceLoader
   def resolve_json_pointer(document, pointer)
     invalid_pack!("Invalid local JSON pointer: ##{pointer}") unless pointer.start_with?('/')
 
-    pointer.delete_prefix('/').split('/').reduce(document) do |value, token|
+    json_pointer_tokens(pointer).reduce(document) do |value, token|
       invalid_pack!("JSON pointer does not resolve: ##{pointer}") unless value.is_a?(Hash)
 
-      value.fetch(token.gsub('~1', '/').gsub('~0', '~'))
+      value.fetch(token)
     end
   rescue KeyError
     raise Captain::ToolCatalog::ProviderPackError, "JSON pointer does not resolve: ##{pointer}"
+  end
+
+  def json_pointer_tokens(pointer)
+    pointer.delete_prefix('/').split('/').map { |token| token.gsub('~1', '/').gsub('~0', '~') }
   end
 
   def invalid_pack!(message)

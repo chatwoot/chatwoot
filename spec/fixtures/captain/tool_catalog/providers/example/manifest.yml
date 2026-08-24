@@ -26,6 +26,7 @@ operations:
   - key: list_customers_for_setup
     source: graphql
     reference: operations/list_customers.graphql
+    endpoint: https://api.example.com/graphql
     visibility: setup
     scopes:
       - customers:read

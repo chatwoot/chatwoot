@@ -54,9 +54,12 @@ class Captain::ToolCatalog::ProviderPackTemplateCompiler
       path = template.fetch(key)
       schema = source_loader.load_schema(path)
       validator.reject_secret_literals!(schema, path)
+      validator.validate_schema_references!(schema, path)
       schema
     end
+    validator.validate_model_input_schema!(schemas.fetch('input_schema'), template.fetch('input_schema'))
     validator.validate_configuration_schema!(schemas.fetch('configuration_schema'), template.fetch('configuration_schema'))
+    validator.validate_output_schema!(schemas.fetch('output_schema'), template.fetch('output_schema'))
     schemas
   end
 

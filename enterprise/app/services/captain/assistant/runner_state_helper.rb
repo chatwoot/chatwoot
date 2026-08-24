@@ -20,6 +20,7 @@ module Captain::Assistant::RunnerStateHelper
       account_id: @assistant.account_id,
       assistant_id: @assistant.id,
       assistant_config: @assistant.config,
+      captain_catalog_tool_names: catalog_tool_names,
       timezone: @conversation&.inbox&.timezone.presence || 'UTC'
     }
     state[:source] = @source if @source.present?
@@ -41,5 +42,9 @@ module Captain::Assistant::RunnerStateHelper
 
   def slice_attrs(record, keys)
     record.attributes.symbolize_keys.slice(*keys)
+  end
+
+  def catalog_tool_names
+    @assistant.account.captain_custom_tools.catalog.enabled.select(&:model_visible?).map(&:slug)
   end
 end

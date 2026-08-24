@@ -118,6 +118,12 @@ class Captain::CustomTool < ApplicationRecord
     }
   end
 
+  def model_visible?
+    return enabled? unless source_catalog?
+
+    enabled? && Captain::ToolCatalog::RuntimeEligibility.new(self).eligible?
+  end
+
   private
 
   def ensure_within_limit

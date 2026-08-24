@@ -55,10 +55,27 @@ FactoryBot.define do
       sequence(:template_key) { |n| "find_customer_#{n}" }
       template_version { '1.0.0' }
       definition_digest { "sha256:#{'a' * 64}" }
-      definition { { 'recipe' => [{ 'operation_key' => 'find_customer', 'bindings' => {} }] } }
+      definition do
+        {
+          'allowed_origins' => ['https://api.example.com'],
+          'operations' => [{
+            'key' => 'find_customer',
+            'source' => 'openapi',
+            'scopes' => ['customers:read'],
+            'definition' => {},
+            'request' => {
+              'method' => 'GET',
+              'url' => 'https://api.example.com/customers',
+              'encoding' => 'query',
+              'parameters' => []
+            }
+          }],
+          'recipe' => [{ 'operation_key' => 'find_customer', 'bindings' => {} }]
+        }
+      end
       configuration { {} }
-      input_schema { { 'type' => 'object', 'properties' => {} } }
-      output_schema { { 'type' => 'object', 'properties' => {} } }
+      input_schema { { 'type' => 'object', 'additionalProperties' => false, 'properties' => {} } }
+      output_schema { { 'type' => 'object', 'additionalProperties' => false, 'properties' => {} } }
       risk_class { 'read' }
       endpoint_url { nil }
       auth_config { {} }

@@ -210,7 +210,7 @@ class Captain::Assistant < ApplicationRecord
     [
       self.class.resolve_tool_class('faq_lookup').new(self),
       self.class.resolve_tool_class('handoff').new(self),
-      *account.captain_custom_tools.enabled.map { |custom_tool| custom_tool.tool(self) }
+      *account.captain_custom_tools.enabled.select(&:model_visible?).map { |custom_tool| custom_tool.tool(self) }
     ]
   end
 

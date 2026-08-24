@@ -5,34 +5,13 @@ module Concerns::Toolable
   # Keeps them separate from built-in classes in Captain::Tools (e.g., HttpTool, CustomHttpTool).
   module CustomTools; end
 
-  def tool(assistant, base_class: Captain::Tools::HttpTool, **)
-    custom_tool_record = self
-    class_name = custom_tool_record.slug.underscore.camelize
-
-    # Always create a fresh class to reflect current metadata
-    tool_slug = custom_tool_record.slug
-    tool_class = Class.new(base_class) do
-      description custom_tool_record.description
-
-      # Override name to use the slug directly, avoiding the namespace prefix
-      # that RubyLLM's default normalization would produce (e.g., "captain--tools--custom_dog_facts").
-      define_method(:name) { tool_slug }
-
-      custom_tool_record.param_schema.each do |param_def|
-        param param_def['name'].to_sym,
-              type: param_def['type'],
-              desc: param_def['description'],
-              required: param_def.fetch('required', true)
-      end
-    end
-
-    # Register as a constant so the class gets a proper name (Class#name).
-    # Anonymous classes return nil for #name, which causes "Invalid 'tools[].function.name':
-    # empty string" errors from the LLM API. We use CustomTools as the namespace to avoid
-    # collisions with real classes in Captain::Tools.
-    CustomTools.send(:remove_const, class_name) if CustomTools.const_defined?(class_name, false)
-    CustomTools.const_set(class_name, tool_class)
-
+  def tool(assistant, base_class: Captain::Tools::HttpTool, pipeline: nil, **)
+    base_class = pipeline == :ruby_llm ? Captain::Tools::CatalogRubyLlmTool : Captain::Tools::CatalogTool if source_catalog?
+    tool_class = Captain::ToolCatalog::ToolClassBuilder.new(
+      custom_tool: self,
+      base_class: base_class,
+      namespace: CustomTools
+    ).build
     tool_class.new(assistant, self, **)
   end
 

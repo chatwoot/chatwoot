@@ -85,8 +85,19 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       handoff_tool = Captain::Tools::HandoffTool.new(assistant)
       get_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'GET'))
       post_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'POST'))
+      catalog_read_tool = Captain::Tools::CatalogTool.new(
+        assistant,
+        create(:captain_custom_tool, :catalog, account: account, risk_class: 'read')
+      )
+      catalog_write_tool = Captain::Tools::CatalogTool.new(
+        assistant,
+        create(:captain_custom_tool, :catalog, account: account, risk_class: 'low_impact_write')
+      )
       private_note_tool = Captain::Tools::AddPrivateNoteTool.new(assistant)
-      assistant_agent = Agents::Agent.new(name: 'assistant', tools: [faq_tool, handoff_tool, get_tool, post_tool, private_note_tool])
+      assistant_agent = Agents::Agent.new(
+        name: 'assistant',
+        tools: [faq_tool, handoff_tool, get_tool, post_tool, catalog_read_tool, catalog_write_tool, private_note_tool]
+      )
       service = described_class.new(
         assistant: assistant,
         conversation: conversation,
@@ -98,7 +109,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       configured_assistant = service.send(:build_and_wire_agents).sole
 
-      expect(configured_assistant.tools).to contain_exactly(faq_tool, get_tool)
+      expect(configured_assistant.tools).to contain_exactly(faq_tool, get_tool, catalog_read_tool)
       expect(configured_assistant.handoff_agents).to be_empty
     end
 

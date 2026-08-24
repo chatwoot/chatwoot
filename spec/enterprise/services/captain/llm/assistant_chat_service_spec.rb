@@ -28,6 +28,43 @@ RSpec.describe Captain::Llm::AssistantChatService do
     allow(mock_chat).to receive(:messages).and_return([])
   end
 
+  describe 'catalog tools' do
+    it 'uses the canonical RubyLLM tool when the catalog feature is enabled' do
+      account.enable_features!('captain_tool_catalog')
+      hook = create(:integrations_hook, account: account, app_id: 'example', settings: { scope: 'customers:read' })
+      catalog_tool = create(
+        :captain_custom_tool,
+        :catalog,
+        account: account,
+        provider_key: 'example',
+        integration_hook: hook
+      )
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      tools = service.instance_variable_get(:@tools)
+      tool = tools.find { |candidate| candidate.name == catalog_tool.slug }
+
+      expect(tool).to be_a(Captain::Tools::CatalogRubyLlmTool)
+      expect(tool.params_schema).to eq(catalog_tool.input_schema)
+    end
+
+    it 'keeps disconnected catalog tools out of the model tool list' do
+      account.enable_features!('captain_tool_catalog')
+      hook = create(:integrations_hook, account: account, app_id: 'example', status: :disabled, settings: { scope: 'customers:read' })
+      catalog_tool = create(
+        :captain_custom_tool,
+        :catalog,
+        account: account,
+        provider_key: 'example',
+        integration_hook: hook
+      )
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+
+      expect(service.instance_variable_get(:@tools).map(&:name)).not_to include(catalog_tool.slug)
+    end
+  end
+
   describe 'instrumentation metadata' do
     it 'uses the assistant feature model' do
       account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
