@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import Draggable from 'vuedraggable';
@@ -9,26 +9,68 @@ import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
-import { useKanbanBoard } from './composables/useKanbanBoard';
+import {
+  useKanbanBoard,
+  UNASSIGNED_COLUMN_KEY,
+} from './composables/useKanbanBoard';
 
 const { t } = useI18n();
 const router = useRouter();
 const store = useStore();
 
 const accountId = useMapGetter('getCurrentAccountId');
-const labels = useMapGetter('labels/getLabelsOnSidebar');
+const conversationAttributes = useMapGetter(
+  'attributes/getConversationAttributes'
+);
+
+// Only "List" type conversation attributes can drive the board — their
+// pre-defined values become the columns.
+const listAttributes = computed(() =>
+  conversationAttributes.value.filter(
+    attribute => attribute.attributeDisplayType === 'list'
+  )
+);
+
+const selectedAttributeKey = ref('');
+
+watch(
+  listAttributes,
+  newAttributes => {
+    const stillExists = newAttributes.some(
+      attribute => attribute.attributeKey === selectedAttributeKey.value
+    );
+    if (!stillExists) {
+      selectedAttributeKey.value = newAttributes[0]?.attributeKey ?? '';
+    }
+  },
+  { immediate: true }
+);
+
+const selectedAttribute = computed(() =>
+  listAttributes.value.find(
+    attribute => attribute.attributeKey === selectedAttributeKey.value
+  )
+);
+
+const columnValues = computed(() => [
+  ...(selectedAttribute.value?.attributeValues ?? []),
+  UNASSIGNED_COLUMN_KEY,
+]);
+
+const columnLabel = value =>
+  value === UNASSIGNED_COLUMN_KEY ? t('KANBAN.UNASSIGNED_COLUMN') : value;
 
 const { columns, fetchBoard, moveCard } = useKanbanBoard();
 
 onMounted(() => {
-  store.dispatch('labels/get');
+  store.dispatch('attributes/get');
 });
 
 watch(
-  labels,
-  newLabels => {
-    if (newLabels?.length) {
-      fetchBoard(newLabels.map(label => label.title));
+  [selectedAttributeKey, columnValues],
+  () => {
+    if (selectedAttributeKey.value) {
+      fetchBoard(selectedAttributeKey.value, columnValues.value);
     }
   },
   { immediate: true }
@@ -42,23 +84,29 @@ const openConversation = conversation => {
   );
 };
 
-const goToLabelSettings = () => {
-  router.push(frontendURL(`accounts/${accountId.value}/labels`));
+const goToAttributeSettings = () => {
+  router.push({
+    name: 'attributes_list',
+    params: { accountId: accountId.value },
+  });
 };
 
-const onColumnChange = async (event, toLabel) => {
+const onColumnChange = async (event, toValue) => {
   const added = event?.added;
   if (!added) return;
 
   const conversation = added.element;
-  const boardLabelTitles = labels.value.map(label => label.title);
-  const fromLabel = (conversation.labels || []).find(
-    label => label !== toLabel && boardLabelTitles.includes(label)
-  );
-  if (!fromLabel) return;
+  const fromValue =
+    conversation.custom_attributes?.[selectedAttributeKey.value] ??
+    UNASSIGNED_COLUMN_KEY;
 
   try {
-    await moveCard({ conversation, fromLabel, toLabel });
+    await moveCard({
+      conversation,
+      attributeKey: selectedAttributeKey.value,
+      fromValue,
+      toValue,
+    });
   } catch (error) {
     useAlert(t('KANBAN.MOVE_ERROR'));
   }
@@ -73,56 +121,62 @@ const onColumnChange = async (event, toLabel) => {
       <h1 class="text-lg font-medium text-n-slate-12">
         {{ t('KANBAN.TITLE') }}
       </h1>
+      <select
+        v-if="listAttributes.length > 1"
+        v-model="selectedAttributeKey"
+        class="reset-base !w-auto !mb-0 text-sm"
+      >
+        <option
+          v-for="attribute in listAttributes"
+          :key="attribute.attributeKey"
+          :value="attribute.attributeKey"
+        >
+          {{ attribute.attributeDisplayName }}
+        </option>
+      </select>
     </div>
 
     <div
-      v-if="!labels.length"
+      v-if="!selectedAttribute"
       class="flex flex-col items-center justify-center flex-1 gap-2 text-center"
     >
       <p class="text-n-slate-12 font-medium">
-        {{ t('KANBAN.NO_LABELS.TITLE') }}
+        {{ t('KANBAN.NO_ATTRIBUTE.TITLE') }}
       </p>
       <p class="text-n-slate-11 text-sm max-w-sm">
-        {{ t('KANBAN.NO_LABELS.DESCRIPTION') }}
+        {{ t('KANBAN.NO_ATTRIBUTE.DESCRIPTION') }}
       </p>
-      <NextButton size="sm" @click="goToLabelSettings">
-        {{ t('KANBAN.NO_LABELS.BUTTON_TEXT') }}
+      <NextButton size="sm" @click="goToAttributeSettings">
+        {{ t('KANBAN.NO_ATTRIBUTE.BUTTON_TEXT') }}
       </NextButton>
     </div>
 
     <div v-else class="flex flex-1 gap-4 p-4 overflow-x-auto">
       <div
-        v-for="label in labels"
-        :key="label.id"
+        v-for="value in columnValues"
+        :key="value"
         class="flex flex-col flex-shrink-0 w-72 rounded-lg bg-n-solid-1 border border-n-weak"
       >
         <div class="flex items-center gap-2 px-3 py-2 border-b border-n-weak">
-          <span
-            class="size-[8px] rounded-sm flex-shrink-0"
-            :style="{ backgroundColor: label.color }"
-          />
           <span class="text-sm font-medium text-n-slate-12 truncate">
-            {{ label.title }}
+            {{ columnLabel(value) }}
           </span>
           <span class="ms-auto text-xs text-n-slate-11">
-            {{ columns[label.title]?.conversations?.length ?? 0 }}
+            {{ columns[value]?.conversations?.length ?? 0 }}
           </span>
         </div>
 
         <div class="flex-1 overflow-y-auto min-h-[120px]">
-          <Spinner
-            v-if="columns[label.title]?.isFetching"
-            class="mx-auto my-4"
-          />
+          <Spinner v-if="columns[value]?.isFetching" class="mx-auto my-4" />
           <Draggable
             v-else
-            :list="columns[label.title]?.conversations ?? []"
+            :list="columns[value]?.conversations ?? []"
             :group="{ name: 'kanban-conversations' }"
             item-key="id"
             animation="150"
             ghost-class="opacity-40"
             class="min-h-[120px]"
-            @change="event => onColumnChange(event, label.title)"
+            @change="event => onColumnChange(event, value)"
           >
             <template #item="{ element: conversation }">
               <ConversationCard
@@ -137,8 +191,8 @@ const onColumnChange = async (event, toLabel) => {
           </Draggable>
           <p
             v-if="
-              !columns[label.title]?.isFetching &&
-              !columns[label.title]?.conversations?.length
+              !columns[value]?.isFetching &&
+              !columns[value]?.conversations?.length
             "
             class="px-3 py-4 text-xs text-center text-n-slate-11"
           >
