@@ -12,6 +12,7 @@ import CustomToolsPageEmptyState from 'dashboard/components-next/captain/pageCom
 import CreateCustomToolDialog from 'dashboard/components-next/captain/pageComponents/customTool/CreateCustomToolDialog.vue';
 import CustomToolCard from 'dashboard/components-next/captain/pageComponents/customTool/CustomToolCard.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 const store = useStore();
 const { t } = useI18n();
@@ -31,9 +32,29 @@ const showSoftLimitWarning = computed(
 
 const createDialogRef = ref(null);
 const deleteDialogRef = ref(null);
+const disableDialogRef = ref(null);
 const selectedTool = ref(null);
 const dialogType = ref('');
 const pendingToggleIds = ref(new Set());
+const pendingDisable = ref(null);
+const isDisableSaving = ref(false);
+
+const disableConfirmationTitle = computed(() =>
+  t('CAPTAIN.CUSTOM_TOOLS.DISABLE_CONFIRMATION.TITLE', {
+    title: pendingDisable.value?.title,
+  })
+);
+
+const disableConfirmationDescription = computed(() => {
+  const count = pendingDisable.value?.enabledScenariosCount || 0;
+  return count === 1
+    ? t('CAPTAIN.CUSTOM_TOOLS.DISABLE_CONFIRMATION.DESCRIPTION_ONE', {
+        count,
+      })
+    : t('CAPTAIN.CUSTOM_TOOLS.DISABLE_CONFIRMATION.DESCRIPTION_OTHER', {
+        count,
+      });
+});
 
 const setTogglePending = (id, isPending) => {
   const pendingIds = new Set(pendingToggleIds.value);
@@ -77,21 +98,66 @@ const handleAction = ({ action, id }) => {
   }
 };
 
-const toggleCustomTool = async ({ id, enabled }) => {
-  if (pendingToggleIds.value.has(id)) return;
-
-  setTogglePending(id, true);
+const updateCustomToolStatus = async ({ id, enabled }) => {
   try {
     await store.dispatch('captainCustomTools/update', { id, enabled });
     const successMessage = enabled
       ? t('CAPTAIN.CUSTOM_TOOLS.TOGGLE.ENABLED')
       : t('CAPTAIN.CUSTOM_TOOLS.TOGGLE.DISABLED');
     useAlert(successMessage);
+    return true;
   } catch {
     useAlert(t('CAPTAIN.CUSTOM_TOOLS.TOGGLE.ERROR'));
-  } finally {
-    setTogglePending(id, false);
+    return false;
   }
+};
+
+const toggleCustomTool = async ({ id, enabled }) => {
+  if (pendingToggleIds.value.has(id)) return;
+
+  setTogglePending(id, true);
+
+  if (!enabled) {
+    try {
+      const tool = await store.dispatch('captainCustomTools/show', id);
+      if (tool.enabled_scenarios_count > 0) {
+        pendingDisable.value = {
+          id,
+          enabled,
+          title: tool.title,
+          enabledScenariosCount: tool.enabled_scenarios_count,
+        };
+        await nextTick();
+        disableDialogRef.value?.open();
+        return;
+      }
+    } catch {
+      useAlert(t('CAPTAIN.CUSTOM_TOOLS.TOGGLE.ERROR'));
+      setTogglePending(id, false);
+      return;
+    }
+  }
+
+  await updateCustomToolStatus({ id, enabled });
+  setTogglePending(id, false);
+};
+
+const handleDisableConfirm = async () => {
+  if (!pendingDisable.value) return;
+
+  isDisableSaving.value = true;
+  const updated = await updateCustomToolStatus(pendingDisable.value);
+  isDisableSaving.value = false;
+
+  if (updated) disableDialogRef.value?.close();
+};
+
+const handleDisableDialogClose = () => {
+  if (pendingDisable.value) {
+    setTogglePending(pendingDisable.value.id, false);
+  }
+  pendingDisable.value = null;
+  isDisableSaving.value = false;
 };
 
 const handleDialogClose = () => {
@@ -186,5 +252,18 @@ onMounted(() => {
     type="CustomTools"
     translation-key="CUSTOM_TOOLS"
     @delete-success="onDeleteSuccess"
+  />
+
+  <Dialog
+    ref="disableDialogRef"
+    type="alert"
+    :title="disableConfirmationTitle"
+    :description="disableConfirmationDescription"
+    :confirm-button-label="
+      t('CAPTAIN.CUSTOM_TOOLS.DISABLE_CONFIRMATION.CONFIRM')
+    "
+    :is-loading="isDisableSaving"
+    @confirm="handleDisableConfirm"
+    @close="handleDisableDialogClose"
   />
 </template>
