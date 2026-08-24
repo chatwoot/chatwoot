@@ -11,7 +11,7 @@ RSpec.describe Voice::CallStatus::Manager do
   let(:manager) { described_class.new(call: call) }
 
   it 'blocks terminal provider transitions while agent teardown is pending' do
-    call.update!(meta: call.meta.merge('agent_termination_pending' => true))
+    call.update!(meta: call.meta.merge('agent_termination_token' => 'termination-1'))
 
     manager.process_status_update('completed')
 
@@ -19,7 +19,7 @@ RSpec.describe Voice::CallStatus::Manager do
   end
 
   it 'blocks late progress transitions while agent teardown is pending' do
-    call.update!(meta: call.meta.merge('agent_termination_pending' => true))
+    call.update!(meta: call.meta.merge('agent_termination_token' => 'termination-1'))
 
     manager.process_status_update('in_progress')
 
@@ -29,7 +29,7 @@ RSpec.describe Voice::CallStatus::Manager do
   end
 
   it 'allows the snapshotted local terminal transition during agent teardown' do
-    call.update!(meta: call.meta.merge('agent_termination_pending' => true))
+    call.update!(meta: call.meta.merge('agent_termination_token' => 'termination-1'))
 
     manager.process_status_update('rejected', allow_during_termination: true)
 
