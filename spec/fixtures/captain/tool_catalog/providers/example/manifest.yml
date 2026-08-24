@@ -19,6 +19,21 @@ operations:
     scopes:
       - customers:read
     risk_class: read
+    fixtures:
+      success: fixtures/find_customer_success.json
+      errors:
+        - fixtures/authorization_error.json
+  - key: list_customers_for_setup
+    source: graphql
+    reference: operations/list_customers.graphql
+    visibility: setup
+    scopes:
+      - customers:read
+    risk_class: read
+    fixtures:
+      success: fixtures/find_customer_success.json
+      errors:
+        - fixtures/graphql_error.json
 templates:
   - key: get_current_customer
     version: 1.0.0
@@ -27,6 +42,7 @@ templates:
     category_key: customers
     availability: available
     input_schema: schemas/get_current_customer_input.json
+    configuration_schema: schemas/empty_configuration.json
     output_schema: schemas/get_current_customer_output.json
     recipe:
       - operation_key: find_customer

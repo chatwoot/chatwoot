@@ -1,0 +1,5 @@
+sources:
+  - url: https://api.example.com/openapi.yml
+    revision: example-v1
+    license: MIT
+    reviewed_at: '2026-08-24'

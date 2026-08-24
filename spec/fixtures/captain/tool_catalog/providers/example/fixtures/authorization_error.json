@@ -1,0 +1,6 @@
+{
+  "error": {
+    "type": "authorization_error",
+    "message": "The example credential cannot read customers."
+  }
+}

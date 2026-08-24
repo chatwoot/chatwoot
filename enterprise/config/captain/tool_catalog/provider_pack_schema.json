@@ -102,7 +102,7 @@
     "operation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["key", "source", "reference", "visibility", "scopes", "risk_class"],
+      "required": ["key", "source", "reference", "visibility", "scopes", "risk_class", "fixtures"],
       "properties": {
         "key": {
           "$ref": "#/definitions/key"
@@ -125,16 +125,36 @@
         },
         "risk_class": {
           "enum": ["read", "low_impact_write", "approval_required"]
+        },
+        "fixtures": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["success", "errors"],
+          "properties": {
+            "success": {
+              "type": "string",
+              "pattern": "^fixtures/[a-z0-9_./-]+\\.json$"
+            },
+            "errors": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^fixtures/[a-z0-9_./-]+\\.json$"
+              }
+            }
+          }
         }
       }
     },
     "binding": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["source", "path"],
+      "required": ["source"],
       "properties": {
         "source": {
-          "enum": ["model_input", "contact", "conversation", "configuration", "step_output"]
+          "enum": ["model_input", "contact", "conversation", "configuration", "step_output", "literal"]
         },
         "path": {
           "$ref": "#/definitions/non_empty_string"
@@ -142,8 +162,35 @@
         "step": {
           "type": "integer",
           "minimum": 0
+        },
+        "value": {}
+      },
+      "oneOf": [
+        {
+          "required": ["path"],
+          "properties": {
+            "source": {
+              "enum": ["model_input", "contact", "conversation", "configuration"]
+            }
+          }
+        },
+        {
+          "required": ["path", "step"],
+          "properties": {
+            "source": {
+              "const": "step_output"
+            }
+          }
+        },
+        {
+          "required": ["value"],
+          "properties": {
+            "source": {
+              "const": "literal"
+            }
+          }
         }
-      }
+      ]
     },
     "recipe_step": {
       "type": "object",
@@ -172,6 +219,7 @@
         "category_key",
         "availability",
         "input_schema",
+        "configuration_schema",
         "output_schema",
         "recipe"
       ],
@@ -196,6 +244,10 @@
           "enum": ["available", "planned", "approval_required"]
         },
         "input_schema": {
+          "type": "string",
+          "pattern": "^schemas/[a-z0-9_/-]+\\.json$"
+        },
+        "configuration_schema": {
           "type": "string",
           "pattern": "^schemas/[a-z0-9_/-]+\\.json$"
         },

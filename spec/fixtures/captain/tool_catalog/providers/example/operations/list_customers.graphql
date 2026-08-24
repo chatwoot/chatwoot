@@ -1,0 +1,8 @@
+query ListCustomersForSetup($query: String!) {
+  customers(query: $query, first: 10) {
+    nodes {
+      id
+      email
+    }
+  }
+}

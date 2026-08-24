@@ -28,7 +28,7 @@ RSpec.describe Captain::ToolCatalog::ProviderPackLoader do
 
     it 'raises a validation error without accepting partial definitions' do
       expect { load_provider_pack }
-        .to raise_error(described_class::InvalidProviderPackError, /Invalid provider pack manifest/)
+        .to raise_error(Captain::ToolCatalog::ProviderPackError, /Invalid provider pack manifest/)
     end
   end
 
@@ -37,7 +37,7 @@ RSpec.describe Captain::ToolCatalog::ProviderPackLoader do
 
     it 'raises a specific missing-manifest error' do
       expect { load_provider_pack }
-        .to raise_error(described_class::InvalidProviderPackError, 'Provider pack manifest not found: manifest.yml')
+        .to raise_error(Captain::ToolCatalog::ProviderPackError, 'Provider pack manifest not found: manifest.yml')
     end
   end
 end
