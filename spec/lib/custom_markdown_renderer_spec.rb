@@ -92,6 +92,17 @@ describe CustomMarkdownRenderer do
         expect(output).to include('<video width="640" height="360" controls')
         expect(output).to include('<source src="https://example.com/video.mp4" type="video/mp4">')
       end
+
+      it 'sizes the video from a cw_video_width param without leaking it into the source' do
+        output = render_markdown_link("#{mp4_url}?cw_video_width=480px")
+        expect(output).to include('<video style="width: 480px; max-width: 100%; height: auto;"')
+        expect(output).to include('<source src="https://example.com/video.mp4" type="video/mp4">')
+      end
+
+      it 'reserves the aspect ratio from a cw_video_ar param' do
+        output = render_markdown_link("#{mp4_url}?cw_video_width=480px&cw_video_ar=886x1920")
+        expect(output).to include('<video style="width: 480px; max-width: 100%; aspect-ratio: 886 / 1920; height: auto;"')
+      end
     end
 
     context 'when link is a normal URL' do

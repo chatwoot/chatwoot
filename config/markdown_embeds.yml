@@ -46,8 +46,10 @@ vimeo:
 
 mp4:
   regex: '(?<link_url>https?://(?:www\.)?.+\.mp4)'
+  # Editor-only: the preview replaces the raw link line; ignored by this renderer.
+  hide_source: true
   template: |
-    <video width="640" height="360" controls>
+    <video width="640" height="360" controls preload="metadata">
       <source src="%{link_url}" type="video/mp4">
       Your browser does not support the video tag.
     </video>

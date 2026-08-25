@@ -126,14 +126,21 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   def extract_image_width(src)
+    extract_px_param(src, 'cw_image_width')
+  end
+
+  def query_param(src, key)
     query = URI.parse(src).query
-    raw = query && CGI.parse(query)['cw_image_width']&.first
-    return unless raw =~ /\A(\d+)px\z/
+    query && CGI.parse(query)[key]&.first
+  rescue URI::InvalidURIError
+    nil
+  end
+
+  def extract_px_param(src, key)
+    return unless query_param(src, key) =~ /\A(\d+)px\z/
 
     px = Regexp.last_match(1).to_i
     "#{px}px" if px.between?(1, 2000)
-  rescue URI::InvalidURIError
-    nil
   end
 
   def surrounded_by_empty_lines?(node)
@@ -158,8 +165,30 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
 
     return false unless embed_html
 
-    out(embed_html)
+    out(apply_embed_width(embed_html, link_url))
     true
+  end
+
+  # The editor stores a resized embed's width (cw_video_width) and real
+  # dimensions (cw_video_ar) on the link; size the root so nothing reflows on load.
+  def apply_embed_width(html, link_url)
+    width = extract_px_param(link_url, 'cw_video_width')
+    ratio = extract_ratio_param(link_url)
+    return html unless width || ratio
+
+    styles = []
+    styles << "width: #{width}; max-width: 100%;" if width
+    styles << "aspect-ratio: #{ratio};" if ratio
+    styles << 'height: auto;'
+    html.sub(/\A\s*<\w+/) { |tag| %(#{tag} style="#{styles.join(' ')}") }
+  end
+
+  def extract_ratio_param(src)
+    return unless query_param(src, 'cw_video_ar') =~ /\A(\d{1,5})x(\d{1,5})\z/
+
+    width = Regexp.last_match(1).to_i
+    height = Regexp.last_match(2).to_i
+    "#{width} / #{height}" if width.positive? && height.positive?
   end
 
   def find_matching_embed(link_url)
