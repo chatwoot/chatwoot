@@ -138,13 +138,7 @@ describe('#actions', () => {
         conversation
       );
       expect(commit.mock.calls).toEqual([]);
-      expect(dispatch.mock.calls).toEqual([
-        [
-          'contactConversations/appendConversation',
-          conversation,
-          { root: true },
-        ],
-      ]);
+      expect(dispatch.mock.calls).toEqual([]);
     });
 
     it('doesnot send mutation if conversation filters are applied', () => {
@@ -164,13 +158,7 @@ describe('#actions', () => {
         conversation
       );
       expect(commit.mock.calls).toEqual([]);
-      expect(dispatch.mock.calls).toEqual([
-        [
-          'contactConversations/appendConversation',
-          conversation,
-          { root: true },
-        ],
-      ]);
+      expect(dispatch.mock.calls).toEqual([]);
     });
 
     it('doesnot send mutation if the view is conversation mentions', () => {
@@ -190,13 +178,7 @@ describe('#actions', () => {
         conversation
       );
       expect(commit.mock.calls).toEqual([]);
-      expect(dispatch.mock.calls).toEqual([
-        [
-          'contactConversations/appendConversation',
-          conversation,
-          { root: true },
-        ],
-      ]);
+      expect(dispatch.mock.calls).toEqual([]);
     });
 
     it('doesnot send mutation if the view is conversation folders', () => {
@@ -216,13 +198,7 @@ describe('#actions', () => {
         conversation
       );
       expect(commit.mock.calls).toEqual([]);
-      expect(dispatch.mock.calls).toEqual([
-        [
-          'contactConversations/appendConversation',
-          conversation,
-          { root: true },
-        ],
-      ]);
+      expect(dispatch.mock.calls).toEqual([]);
     });
 
     it('sends correct mutations', () => {
@@ -245,11 +221,6 @@ describe('#actions', () => {
         [types.ADD_CONVERSATION, conversation],
       ]);
       expect(dispatch.mock.calls).toEqual([
-        [
-          'contactConversations/appendConversation',
-          conversation,
-          { root: true },
-        ],
         [
           'contacts/setContact',
           {
@@ -280,11 +251,6 @@ describe('#actions', () => {
         [types.ADD_CONVERSATION, conversation],
       ]);
       expect(dispatch.mock.calls).toEqual([
-        [
-          'contactConversations/appendConversation',
-          conversation,
-          { root: true },
-        ],
         [
           'contacts/setContact',
           {

@@ -393,10 +393,6 @@ const actions = {
   },
 
   addConversation({ commit, state, dispatch, rootState }, conversation) {
-    // Keep the cached contact history fresh for the in-thread navigation.
-    dispatch('contactConversations/appendConversation', conversation, {
-      root: true,
-    });
     const { currentInbox, appliedFilters } = state;
     const {
       inbox_id: inboxId,

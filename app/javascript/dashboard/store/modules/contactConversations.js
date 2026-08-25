@@ -1,12 +1,7 @@
-import camelcaseKeys from 'camelcase-keys';
-import {
-  getUserPermissions,
-  getUserRole,
-} from 'dashboard/helper/permissionsHelper.js';
+import * as types from '../mutation-types';
 import ContactAPI from '../../api/contacts';
 import ConversationApi from '../../api/conversations';
-import * as types from '../mutation-types';
-import { applyRoleFilter } from './conversations/helpers';
+import camelcaseKeys from 'camelcase-keys';
 
 export const createMessagePayload = (payload, message) => {
   const { content, cc_emails, bcc_emails } = message;
@@ -68,8 +63,6 @@ const setNewConversationPayload = ({
   });
 };
 
-const inFlightContactIds = new Set();
-
 const state = {
   records: {},
   uiFlags: {
@@ -126,48 +119,23 @@ export const actions = {
     }
   },
   get: async ({ commit }, contactId) => {
-    // The panel and the in-thread navigation may request the same contact at once.
-    const id = Number(contactId);
-    if (inFlightContactIds.has(id)) return;
-    inFlightContactIds.add(id);
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isFetching: true,
     });
     try {
-      const response = await ContactAPI.getConversations(id);
+      const response = await ContactAPI.getConversations(contactId);
       commit(types.default.SET_CONTACT_CONVERSATIONS, {
-        id,
+        id: contactId,
         data: response.data.payload,
       });
+      commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
+        isFetching: false,
+      });
     } catch (error) {
-      // components render from whatever is cached
-    } finally {
-      inFlightContactIds.delete(id);
       commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
         isFetching: false,
       });
     }
-  },
-  appendConversation: (
-    { commit, state: $state, rootGetters },
-    conversation
-  ) => {
-    const contactId = conversation?.meta?.sender?.id;
-    if (!contactId || !$state.records[contactId]) return;
-    // Cable payloads are unfiltered; keep only what this agent's role may see.
-    const currentUser = rootGetters.getCurrentUser;
-    const accountId = rootGetters.getCurrentAccountId;
-    const allowedForRole = applyRoleFilter(
-      conversation,
-      getUserRole(currentUser, accountId),
-      getUserPermissions(currentUser, accountId),
-      currentUser?.id
-    );
-    if (!allowedForRole) return;
-    commit(types.default.ADD_CONTACT_CONVERSATION, {
-      id: contactId,
-      data: conversation,
-    });
   },
 };
 

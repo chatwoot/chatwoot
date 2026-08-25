@@ -26,6 +26,8 @@ const { isOnExpandedLayout } = useUISettings();
 const contactConversations = useMapGetter(
   'contactConversations/getContactConversation'
 );
+const selectedChat = useMapGetter('getSelectedChat');
+const conversationById = useMapGetter('getConversationById');
 
 // Needs more than the open conversation, and a list to scope — the inbox view has none.
 const isVisible = computed(() => {
@@ -36,14 +38,14 @@ const isVisible = computed(() => {
 // Applying a filter empties the store; refetch the open conversation if it was dropped.
 const restoreOpenConversation = conversationId => {
   if (!conversationId) return;
-  if (!store.getters.getConversationById(conversationId)) {
+  if (!conversationById.value(conversationId)) {
     store.dispatch('getConversation', conversationId);
   }
 };
 
 // On the expanded layout, move to the list first; the path keeps the current scope.
 const viewAllConversations = async () => {
-  const openConversationId = store.getters.getSelectedChat?.id;
+  const openConversationId = selectedChat.value?.id;
   if (isOnExpandedLayout.value) {
     await router.push(buildConversationListPath());
   }
