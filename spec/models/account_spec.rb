@@ -50,6 +50,30 @@ RSpec.describe Account do
     end
   end
 
+  describe '#api_and_webhooks_enabled?' do
+    it 'is enabled for self-hosted accounts regardless of the stored feature flag' do
+      account = create(:account)
+      account.disable_features!('api_and_webhooks')
+
+      expect(account.api_and_webhooks_enabled?).to be true
+    end
+  end
+
+  describe 'captain defaults for new accounts' do
+    it 'does not store Captain model overrides or enable premium Captain features' do
+      InstallationConfig.find_or_initialize_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').update!(
+        value: Featurable::FEATURE_LIST,
+        locked: true
+      )
+
+      account = create(:account)
+
+      expect(account).not_to be_feature_enabled('captain_integration')
+      expect(account).not_to be_feature_enabled('captain_integration_v2')
+      expect(account.captain_models).to be_nil
+    end
+  end
+
   describe 'conversation unread counts feature flag' do
     let(:account) { create(:account) }
     let(:inbox) { create(:inbox, account: account) }
@@ -85,6 +109,73 @@ RSpec.describe Account do
       store.mark_base_ready!(account.id)
       store.mark_assignment_ready!(account.id)
       store.add_base_membership(account_id: account.id, inbox_id: inbox.id, label_ids: [], conversation_id: 1)
+    end
+  end
+
+  describe 'resuming delayed automations' do
+    let(:account) { create(:account) }
+
+    it 'reschedules the overdue backlog in the same transaction that re-enables the flag' do
+      row = create(:automation_rule_pending_execution, account: account, due_at: 5.days.ago)
+
+      ActiveRecord::Base.transaction(requires_new: true) do
+        account.enable_features!('delayed_automations')
+        # Still uncommitted: no sweep can see the flag yet, and the backlog is already re-clocked,
+        # so there is no window where the account is sweepable on a stale due_at.
+        expect(row.reload.due_at).to be_within(5.seconds).of(Time.current)
+        raise ActiveRecord::Rollback
+      end
+
+      expect(account.reload.feature_delayed_automations?).to be(false)
+      expect(row.reload.due_at).to be_within(5.seconds).of(5.days.ago)
+    end
+
+    it 'leaves the backlog alone when the flag is turned off' do
+      account.enable_features!('delayed_automations')
+      row = create(:automation_rule_pending_execution, account: account, due_at: 5.days.ago)
+
+      account.disable_features!('delayed_automations')
+
+      expect(row.reload.due_at).to be_within(5.seconds).of(5.days.ago)
+    end
+  end
+
+  describe 'feature flag columns' do
+    let(:account) { described_class.new(name: 'Test Account') }
+
+    it 'configures the account feature flag extension column' do
+      expect(described_class.flag_columns).to include('feature_flags', 'feature_flags_ext_1')
+      expect(described_class.flag_mapping['feature_flags_ext_1']).to eq(
+        feature_whatsapp_manual_transfer: 1,
+        feature_data_import: 1 << 1,
+        feature_api_and_webhooks: 1 << 2,
+        feature_whatsapp_reconfigure: 1 << 3,
+        feature_whatsapp_embedded_signup_inbox_creation: 1 << 4,
+        feature_delayed_automations: 1 << 5
+      )
+      expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
+      expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
+      expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_embedded_signup_inbox_creation]).to eq(16)
+    end
+
+    it 'keeps existing feature flags on the original column' do
+      expect(described_class.flag_mapping['feature_flags'][:feature_inbound_emails]).to eq(1)
+      expect(described_class.flag_mapping['feature_flags'][:feature_advanced_assignment]).to eq(1 << 62)
+    end
+
+    it 'keeps bulk selected feature assignment compatible with existing feature names' do
+      account.selected_feature_flags = [:feature_ip_lookup, :feature_assignment_v2, :feature_advanced_assignment, :feature_data_import]
+
+      expect(account).to be_feature_ip_lookup
+      expect(account).to be_feature_assignment_v2
+      expect(account).to be_feature_advanced_assignment
+      expect(account).to be_feature_data_import
+      expect(account.selected_feature_flags).to contain_exactly(
+        :feature_ip_lookup,
+        :feature_assignment_v2,
+        :feature_advanced_assignment,
+        :feature_data_import
+      )
     end
   end
 
@@ -337,6 +428,10 @@ RSpec.describe Account do
     let(:account) { create(:account) }
 
     describe 'with no saved preferences' do
+      before do
+        account.update!(captain_models: nil)
+      end
+
       it 'returns defaults from llm.yml' do
         prefs = account.captain_preferences
 
@@ -345,6 +440,13 @@ RSpec.describe Account do
         Llm::Models.feature_keys.each do |feature|
           expect(prefs[:models][feature]).to eq(Llm::Models.default_model_for(feature))
         end
+      end
+
+      it 'returns GPT-5.2 for assistant when Captain V2 is enabled' do
+        account.enable_features!('captain_integration_v2')
+
+        expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
+        expect(account.reload.captain_models).to be_nil
       end
     end
 

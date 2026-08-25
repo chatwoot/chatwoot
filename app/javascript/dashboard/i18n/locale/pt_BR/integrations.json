@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
       "LEARN_MORE": "Saiba mais sobre webhooks",
+      "PAYWALL": {
+        "TITLE": "Webhooks estão disponíveis nos planos pagos",
+        "AVAILABLE_ON": "Use webhooks para receber eventos em tempo real de sua conta Chatwoot.",
+        "UPGRADE_PROMPT": "Atualize para o plano Startups, Business ou Enterprise para usar webhooks.",
+        "UPGRADE_NOW": "Atualizar agora",
+        "CANCEL_ANYTIME": "Altere ou cancele seu plano a qualquer momento."
+      },
       "SECRET": {
         "LABEL": "Segredo",
         "COPY": "Copiar segredo para a área de transferência",
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "Capitão",
     "HEADER_KNOW_MORE": "Saiba mais",
+    "OVERVIEW": {
+      "HEADER": "Visão geral",
+      "WELCOME": {
+        "LABEL": "Resumo do Capitão",
+        "LOADING": "Gerando resumo…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "Este assistente ainda não está conectado a nenhuma caixa de entrada, por isso ele não responderá a conversas.",
+        "ACTION": "Conectar caixa de entrada",
+        "DISMISS": "Recusar"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} sugestões de FAQ estão prontas para revisão, mantendo a cobertura em {coverage}%. Aprove-as para que seu assistente consiga resolver ainda mais atendimentos de forma automática.",
+        "ACTION": "Revisar sugestões",
+        "DISMISS": "Fechar"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Últimos {count} dias",
+        "THIS_MONTH": "Este mês",
+        "LAST_MONTH": "Último mês"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversas atendidas",
+          "HINT": "Conversas distintas em que este assistente respondeu."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Taxa de resolução automática",
+          "HINT": "Percentual de conversas atendidas e encerradas sem resposta humana."
+        },
+        "HANDOFF": {
+          "LABEL": "Taxa de transferência para atendente",
+          "HINT": "Percentual de conversas atendidas que foram transferidas para um atendente humano."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Tempo economizado",
+          "HINT": "Estimativa: cada resposta do Captain equivale a aproximadamente 2 minutos do tempo que um atendente levaria para responder. Este é um valor estimado, não uma medição do tempo real de trabalho."
+        },
+        "REOPEN": {
+          "LABEL": "Taxa de reabertura",
+          "HINT": "Conversas resolvidas automaticamente que foram reabertas posteriormente."
+        },
+        "DEPTH": {
+          "LABEL": "Mensagens por conversa",
+          "HINT": "Média de respostas que o assistente envia por conversa."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "Não foram encontrados registros para essa métrica.",
+        "ERROR": "Não foi possível carregar os registros. Por favor, tente novamente.",
+        "LOAD_MORE": "Carregar mais",
+        "RESULT_COUNT_CONVERSATION": "{count} conversa | {count} conversas"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Cobertura da base de conhecimento",
+        "COVERAGE": "{pct}% aprovado",
+        "APPROVED": "FAQs aprovadas",
+        "SUGGESTIONS": "Sugestões de FAQ",
+        "DOCUMENTS": "Documentos"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Documentos do Captain",
+          "DESCRIPTION": "Guias e tutoriais para o Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Área de testes",
+          "DESCRIPTION": "Testar respostas deste assistente"
+        },
+        "BILLING": {
+          "TITLE": "Faturamento",
+          "DESCRIPTION": "Gerenciar créditos e plano"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Assistentes",
       "SWITCH_ASSISTANT": "Alternar entre assistentes",
@@ -493,10 +575,6 @@
           "LABEL": "Nome",
           "PLACEHOLDER": "Digite o nome do assistente",
           "ERROR": "O nome é obrigatório"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Temperatura da resposta",
-          "DESCRIPTION": "Ajuste o quão criativo ou restritivo as respostas do assistente devem ser. Valores mais baixos produzem respostas mais focadas e deterministas, enquanto valores mais altos permitem resultados mais criativos e variados."
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "Documentos",
       "ADD_NEW": "Criar um novo documento",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} selecionado",
       "SELECT_ALL": "Selecionar todos ({count})",
       "UNSELECT_ALL": "Desmarcar todos ({count})",
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "FAQs Relacionadas",
-        "DESCRIPTION": "Estes FAQs são gerados diretamente a partir do documento."
+        "EMPTY": "Ainda não foram geradas FAQs a partir deste documento."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Revise o conteúdo coletado e as FAQs geradas a partir desta fonte.",
+        "SOURCE": "Fonte",
+        "GENERATED_FAQS": "FAQs Geradas",
+        "LAST_UPDATED": "Última atualização",
+        "NOT_AVAILABLE": "Indisponível",
+        "CONTENT_TAB": "Conteúdo coletado",
+        "PDF_TAB": "Detalhes do PDF",
+        "CONTENT_TITLE": "Conteúdo coletado",
+        "PDF_TITLE": "Arquivo PDF",
+        "PDF_DESCRIPTION": "Revise a fonte PDF original.",
+        "CHARACTER_COUNT": "{count} caracteres extraídos",
+        "COPY_CONTENT": "Copiar",
+        "COPY_SUCCESS": "Conteúdo coletado copiado para a área de transferência",
+        "COPY_ERROR": "Não foi possível copiar o conteúdo coletado",
+        "VIEW_RAW": "Ver conteúdo bruto",
+        "VIEW_PREVIEW": "Ver pré-visualização",
+        "UNREADABLE_CONTENT": "Não foi possível extrair um conteúdo legível deste documento. Você pode visualizar o conteúdo bruto extraído.",
+        "EMPTY_CONTENT": "Ainda não há conteúdo coletado disponível para este documento."
       },
       "FORM_DESCRIPTION": "Digite o URL do documento para adicioná-lo como fonte de conhecimento e escolha o assistente para associá-lo.",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "Ocorreu um erro ao excluir o documento, por favor, tente novamente."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Visualizar Respostas relacionadas",
+        "VIEW_DETAILS": "Ver detalhes",
         "SYNC_NOW": "Atualizar agora",
         "RETRY_SYNC": "Tentar atualizar novamente",
         "DELETE_DOCUMENT": "Excluir Documento"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "FAQs",
-      "PENDING_FAQS": "FAQs pendentes",
       "ADD_NEW": "Criar nova FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversação #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "Selecionar todos ({count})",
       "UNSELECT_ALL": "Desmarcar todos ({count})",
       "SEARCH_PLACEHOLDER": "Pesquisar FAQs...",
-      "BULK_APPROVE_BUTTON": "Aprovar",
-      "BULK_DELETE_BUTTON": "Excluir",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "Perguntas Frequentes aprovadas com sucesso",
-        "ERROR_MESSAGE": "Ocorreu um erro ao aprovar as Perguntas Frequentes. Tente novamente."
+      "ERRORS": {
+        "LOAD": "Ocorreu um erro ao carregar as FAQs. Tente novamente."
       },
+      "BULK_DELETE_BUTTON": "Excluir",
       "BULK_DELETE": {
         "TITLE": "Excluir as Perguntas Frequentes?",
         "DESCRIPTION": "Tem certeza que deseja excluir as Perguntas Frequentes selecionadas? Esta ação não pode ser desfeita.",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ excluída com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro ao excluir a FAQ, por favor tente novamente."
       },
-      "FILTER": {
-        "ASSISTANT": "Assistente: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "Todos"
-      },
-      "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Pendentes",
-        "APPROVED": "Aceito",
-        "ALL": "Todos"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "O Capitão encontrou algumas FAQs que seus clientes estavam procurando.",
-        "ACTION": "Clique aqui para revisar"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "O Captain agrupou as perguntas recorrentes dos clientes em sugestões de FAQ.",
+        "ACTION": "Revisar sugestões"
       },
       "FORM_DESCRIPTION": "Adicione uma pergunta e sua resposta correspondente à base de conhecimento e selecione o assistente ao qual deve estar associado.",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Nenhuma FAQ encontrada",
-        "NO_PENDING_TITLE": "Não há mais FAQs pendentes para revisão",
         "SUBTITLE": "Perguntas Frequentes ajudam seu assistente a fornecer respostas rápidas e precisas para perguntas de seus clientes. Eles podem ser gerados automaticamente a partir do seu conteúdo ou podem ser adicionados manualmente.",
         "CLEAR_SEARCH": "Limpar filtros ativos",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "FAQ do Capitão",
           "NOTE": "As FAQs do Capitão identificam as perguntas mais comuns dos clientes — tanto as que ainda não existem na sua base de conhecimento quanto as mais recorrentes — e gera FAQs relevantes para melhorar o atendimento. Você pode revisar cada sugestão e decidir se aprova ou rejeita."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "Sugestões de FAQ",
+      "SEARCH_PLACEHOLDER": "Pesquisar sugestões...",
+      "QUEUE_COUNT": "{count} sugestão para revisar | {count} sugestões para revisar",
+      "QUEUE_HINT": "Classificadas por demanda dos clientes",
+      "SOURCE_COUNT": "{count} conversa | {count} conversas",
+      "REVIEW": "Revisar fontes",
+      "APPROVE": "Aprovar",
+      "APPROVE_FAQ": "Aprovar FAQ",
+      "DISMISS": "Recusar",
+      "SAVE": "Salvar Alterações",
+      "DETAILS": {
+        "TITLE": "Revisar sugestão de FAQ",
+        "DESCRIPTION": "O Captain agrupou {count} conversa nesta sugestão. Revise as evidências e refine a FAQ antes de aprová-la. | O Captain agrupou {count} conversas nesta sugestão. Revise as evidências e refine a FAQ antes de aprová-la.",
+        "SOURCES": "Conversas de origem",
+        "SOURCE_PROGRESS": "{visible} de {total}",
+        "NO_SOURCES": "Nenhuma conversa de origem acessível foi encontrada.",
+        "RETRY": "Tentar novamente"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "A fila de revisão está vazia",
+        "SUBTITLE": "Novas sugestões de FAQ aparecerão aqui quando estiverem prontas para revisão.",
+        "CLEAR_SEARCH": "Limpar busca"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ aprovada e adicionada à base de conhecimento do Captain.",
+        "DISMISSED": "Sugestão descartada.",
+        "SAVED": "Sugestão atualizada."
+      },
+      "ERRORS": {
+        "LOAD": "Ocorreu um erro ao carregar as sugestões de FAQ. Por favor, tente novamente.",
+        "LOAD_DETAILS": "Ocorreu um erro ao carregar as conversas de origem.",
+        "APPROVE": "Ocorreu um erro ao aprovar a FAQ. Por favor, tente novamente.",
+        "DISMISS": "Ocorreu um erro ao descartar a sugestão. Por favor, tente novamente.",
+        "SAVE": "Ocorreu um erro ao salvar a sugestão. Por favor, tente novamente."
       }
     },
     "INBOXES": {

@@ -1,8 +1,11 @@
 import {
   INBOX_TYPES,
+  VOICE_CALL_PROVIDERS,
   getInboxClassByType,
   getInboxIconByType,
+  getInboxVoiceIcon,
   getInboxWarningIconClass,
+  getVoiceCallIcon,
 } from '../inbox';
 
 describe('#Inbox Helpers', () => {
@@ -164,6 +167,65 @@ describe('#Inbox Helpers', () => {
       expect(getInboxWarningIconClass('Channel::FacebookPage', true)).toEqual(
         'warning'
       );
+    });
+  });
+
+  describe('getVoiceCallIcon', () => {
+    it('returns the WhatsApp voice glyph for the whatsapp provider', () => {
+      expect(getVoiceCallIcon(VOICE_CALL_PROVIDERS.WHATSAPP)).toBe(
+        'i-woot-whatsapp-voice'
+      );
+    });
+
+    it('returns the generic voice-call glyph for the twilio provider', () => {
+      expect(getVoiceCallIcon(VOICE_CALL_PROVIDERS.TWILIO)).toBe(
+        'i-woot-voice-call'
+      );
+    });
+
+    it('falls back to the generic voice-call glyph for an unknown provider', () => {
+      expect(getVoiceCallIcon('unknown')).toBe('i-woot-voice-call');
+      expect(getVoiceCallIcon(undefined)).toBe('i-woot-voice-call');
+    });
+  });
+
+  describe('getInboxVoiceIcon', () => {
+    it('returns the WhatsApp voice glyph for a WhatsApp inbox', () => {
+      expect(getInboxVoiceIcon(INBOX_TYPES.WHATSAPP)).toBe(
+        'i-woot-whatsapp-voice'
+      );
+    });
+
+    it('returns the WhatsApp voice glyph for a Twilio WhatsApp inbox', () => {
+      expect(getInboxVoiceIcon(INBOX_TYPES.TWILIO, 'whatsapp')).toBe(
+        'i-woot-whatsapp-voice'
+      );
+    });
+
+    it('returns the generic voice-call glyph for a Twilio voice inbox', () => {
+      expect(getInboxVoiceIcon(INBOX_TYPES.TWILIO, 'sms')).toBe(
+        'i-woot-voice-call'
+      );
+    });
+  });
+
+  describe('getInboxIconByType with voice enabled', () => {
+    it('returns the WhatsApp voice glyph for a voice-enabled WhatsApp inbox', () => {
+      expect(
+        getInboxIconByType(INBOX_TYPES.WHATSAPP, undefined, 'line', true)
+      ).toBe('i-woot-whatsapp-voice');
+    });
+
+    it('returns the generic voice-call glyph for a voice-enabled Twilio inbox', () => {
+      expect(getInboxIconByType(INBOX_TYPES.TWILIO, 'sms', 'line', true)).toBe(
+        'i-woot-voice-call'
+      );
+    });
+
+    it('returns the normal channel icon when voice is not enabled', () => {
+      expect(
+        getInboxIconByType(INBOX_TYPES.WHATSAPP, undefined, 'line', false)
+      ).toBe('i-woot-whatsapp');
     });
   });
 });

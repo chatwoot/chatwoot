@@ -39,6 +39,24 @@ RSpec.describe Captain::Llm::AssistantChatService do
       service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
     end
 
+    it 'uses default temperature when assistant config does not include temperature' do
+      expect(mock_chat).to receive(:with_temperature).with(0.5).and_return(mock_chat)
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+    end
+
+    it 'preserves explicit assistant config temperature' do
+      assistant.update!(config: assistant.config.merge('temperature' => 1.0))
+
+      expect(mock_chat).to receive(:with_temperature).with(1.0).and_return(mock_chat)
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+    end
+
     it 'passes channel_type to the agent session instrumentation' do
       service = described_class.new(assistant: assistant, conversation: conversation)
 

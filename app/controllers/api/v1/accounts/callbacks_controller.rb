@@ -6,6 +6,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
     page_access_token = params[:page_access_token]
     page_id = params[:page_id]
     inbox_name = params[:inbox_name]
+
     ActiveRecord::Base.transaction do
       facebook_channel = Current.account.facebook_pages.create!(
         page_id: page_id, user_access_token: user_access_token,
@@ -15,6 +16,8 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
       set_instagram_id(page_access_token, facebook_channel)
       set_avatar(@facebook_inbox, page_id)
     end
+  rescue CustomExceptions::Inbox::LimitExceeded => e
+    render_error_response(e)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
     Rails.logger.error "Error in register_facebook_page: #{e.message}"

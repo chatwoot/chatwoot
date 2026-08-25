@@ -6,6 +6,7 @@ import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned.vue';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
 import {
   ACCOUNT_EVENTS,
@@ -119,16 +120,20 @@ export default {
     handleClose(e) {
       this.$emit('close', e);
     },
-    handleTranslate() {
+    async handleTranslate() {
       const { locale: accountLocale } = this.getAccount(this.currentAccountId);
       const agentLocale = this.getUISettings?.locale;
       const targetLanguage = agentLocale || accountLocale || 'en';
-      this.$store.dispatch('translateMessage', {
-        conversationId: this.conversationId,
-        messageId: this.messageId,
-        targetLanguage,
-      });
-      useTrack(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
+      try {
+        await this.$store.dispatch('translateMessage', {
+          conversationId: this.conversationId,
+          messageId: this.messageId,
+          targetLanguage,
+        });
+        useTrack(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
+      } catch (error) {
+        useAlert(parseAPIErrorResponse(error));
+      }
       this.handleClose();
     },
     handleReplyTo() {

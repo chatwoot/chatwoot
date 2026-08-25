@@ -145,6 +145,11 @@ class AutomationRules::ConditionsFilterService < FilterService
   def conversation_query_string(table_name, current_filter, query_hash, current_index)
     attribute_key = query_hash['attribute_key']
     query_operator = query_hash['query_operator']
+
+    if attribute_key == 'assignee_id' && query_hash['filter_operator'].in?(%w[is_present is_not_present])
+      return assignee_presence_filter(table_name, query_hash)
+    end
+
     filter_operator_value = filter_operation(query_hash, current_index)
 
     case current_filter['attribute_type']

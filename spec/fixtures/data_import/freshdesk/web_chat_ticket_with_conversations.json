@@ -1,0 +1,183 @@
+{
+  "ticket": {
+    "id": 2101,
+    "subject": "FD-IMPORT-WEBCHAT-002 — Brew temperature drops",
+    "description": "<div>Ticket Description: FD-IMPORT-WEBCHAT-002 — The brew temperature drops after three cups.</div>",
+    "description_text": "Ticket Description: FD-IMPORT-WEBCHAT-002 — The brew temperature drops after three cups.",
+    "status": 2,
+    "priority": 1,
+    "source": 15,
+    "source_info": 1,
+    "requester_id": 1101,
+    "responder_id": 510,
+    "group_id": null,
+    "company_id": null,
+    "tags": [],
+    "custom_fields": {},
+    "created_at": "2026-07-31T08:00:00Z",
+    "updated_at": "2026-07-31T08:10:00Z",
+    "attachments": [],
+    "requester": {
+      "id": 1101,
+      "email": null,
+      "name": "",
+      "mobile": null,
+      "phone": null
+    }
+  },
+  "conversations": [
+    {
+      "id": 3101,
+      "body": "<div>Hello! How can we help you today?</div>",
+      "body_text": "Hello! How can we help you today?",
+      "structured_body": {
+        "body_contents": [
+          {
+            "type": "text",
+            "data": {
+              "content": "Hello! How can we help you today?"
+            }
+          }
+        ]
+      },
+      "incoming": false,
+      "private": false,
+      "source": 15,
+      "category": 5,
+      "user_id": null,
+      "from_email": null,
+      "created_at": "2026-07-31T08:00:00Z",
+      "updated_at": "2026-07-31T08:00:00Z",
+      "attachments": []
+    },
+    {
+      "id": 3102,
+      "body": "<div>FD-IMPORT-WEBCHAT-002 — The brew temperature drops after three cups.</div>",
+      "body_text": "FD-IMPORT-WEBCHAT-002 — The brew temperature drops after three cups.",
+      "structured_body": {
+        "body_contents": [
+          {
+            "type": "text",
+            "data": {
+              "content": "FD-IMPORT-WEBCHAT-002 — The brew temperature drops after three cups."
+            }
+          }
+        ]
+      },
+      "incoming": true,
+      "private": false,
+      "source": 20,
+      "category": 1,
+      "user_id": 1101,
+      "from_email": null,
+      "created_at": "2026-07-31T08:00:01Z",
+      "updated_at": "2026-07-31T08:00:01Z",
+      "attachments": []
+    },
+    {
+      "id": 3103,
+      "body": "<div>The display reads 82°C instead of 93°C.</div>",
+      "body_text": "The display reads 82°C instead of 93°C.",
+      "structured_body": {
+        "body_contents": [
+          {
+            "type": "text",
+            "data": {
+              "content": "The display reads 82°C instead of 93°C."
+            }
+          }
+        ]
+      },
+      "incoming": true,
+      "private": false,
+      "source": 20,
+      "category": 1,
+      "user_id": 1101,
+      "from_email": null,
+      "created_at": "2026-07-31T08:01:00Z",
+      "updated_at": "2026-07-31T08:01:00Z",
+      "attachments": []
+    },
+    {
+      "id": 3104,
+      "body": "<div>Please run one rinse cycle, then check the next brew.</div>",
+      "body_text": "Please run one rinse cycle, then check the next brew.",
+      "structured_body": {
+        "body_contents": [
+          {
+            "type": "text",
+            "data": {
+              "content": "Please run one rinse cycle, then check the next brew."
+            }
+          }
+        ]
+      },
+      "incoming": false,
+      "private": false,
+      "source": 20,
+      "category": 3,
+      "user_id": 510,
+      "from_email": null,
+      "created_at": "2026-07-31T08:03:00Z",
+      "updated_at": "2026-07-31T08:03:00Z",
+      "attachments": []
+    },
+    {
+      "id": 3105,
+      "body": "<div>The next brew reached 89°C.</div>",
+      "body_text": "The next brew reached 89°C.",
+      "structured_body": {
+        "body_contents": [
+          {
+            "type": "text",
+            "data": {
+              "content": "The next brew reached 89°C."
+            }
+          }
+        ]
+      },
+      "incoming": true,
+      "private": false,
+      "source": 20,
+      "category": 1,
+      "user_id": 1101,
+      "from_email": null,
+      "created_at": "2026-07-31T08:05:00Z",
+      "updated_at": "2026-07-31T08:05:00Z",
+      "attachments": []
+    },
+    {
+      "id": 3106,
+      "body": "<div>Attached is a harmless text diagnostic.</div>",
+      "body_text": "Attached is a harmless text diagnostic.",
+      "structured_body": {
+        "body_contents": [
+          {
+            "type": "text",
+            "data": {
+              "content": "Attached is a harmless text diagnostic."
+            }
+          }
+        ]
+      },
+      "incoming": false,
+      "private": false,
+      "source": 20,
+      "category": 3,
+      "user_id": 510,
+      "from_email": "support@example.com",
+      "created_at": "2026-07-31T08:10:00Z",
+      "updated_at": "2026-07-31T08:10:00Z",
+      "attachments": [
+        {
+          "id": 4101,
+          "content_type": "text/plain",
+          "size": 188,
+          "name": "freshdesk-validation-diagnostic.txt",
+          "created_at": "2026-07-31T08:10:00Z",
+          "updated_at": "2026-07-31T08:10:00Z"
+        }
+      ]
+    }
+  ]
+}

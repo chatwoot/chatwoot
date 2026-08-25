@@ -1,6 +1,12 @@
 class Onboarding::HelpCenterCurator
   MAP_LIMIT = 500
-  MAP_SEARCH = 'docs help support faq'.freeze
+  # Firecrawl `map` `search` is a substring filter (grep-style) across URL,
+  # title, and description — not a semantic query. The original 4-term list
+  # (`docs help support faq`) missed sites whose help content lives at
+  # non-standard paths, producing ~60% of all onboarding skips via
+  # "map returned no links". Broaden the term list so more paths match; the
+  # LLM curator (HelpCenterCurationService) filters the results by quality.
+  MAP_SEARCH = 'docs help support faq resources guides kb knowledge articles handbook learn tutorial troubleshooting'.freeze
   MIN_ARTICLES = 3
 
   Skipped = Onboarding::HelpCenterErrors::CurationSkipped

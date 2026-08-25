@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, useTemplateRef } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
@@ -7,7 +7,9 @@ import {
   ARTICLE_MENU_ITEMS,
   ARTICLE_MENU_OPTIONS,
   ARTICLE_STATUSES,
+  getArticleStatus,
 } from 'dashboard/helper/portalHelper';
+import ArticlePendingChangesPopover from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticlePendingChangesPopover.vue';
 
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useConfig } from 'dashboard/composables/useConfig';
@@ -53,6 +55,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hasPendingChanges: {
+    type: Boolean,
+    default: false,
+  },
   selectable: {
     type: Boolean,
     default: false,
@@ -68,11 +74,15 @@ const emit = defineEmits([
   'articleAction',
   'toggleSelect',
   'hover',
+  'draftResolved',
+  'draftFailed',
 ]);
 
 const { t } = useI18n();
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
+
+const pendingChangesPopoverRef = useTemplateRef('pendingChangesPopoverRef');
 
 const currentAccountId = useMapGetter('getCurrentAccountId');
 const isFeatureEnabledonAccount = useMapGetter(
@@ -105,7 +115,18 @@ const articleMenuItems = computed(() => {
     .filter(key => key !== 'translate' || isTranslationAvailable.value)
     .map(key => commonItems[key]);
 
-  return [...statusItems, commonItems.delete];
+  const draftItems = props.hasPendingChanges
+    ? [
+        {
+          label: t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.DISCARD_CHANGES'),
+          value: 'discard-draft',
+          action: 'discard-draft',
+          icon: 'i-lucide-undo-2',
+        },
+      ]
+    : [];
+
+  return [...statusItems, ...draftItems, commonItems.delete];
 });
 
 const statusTextColor = computed(() => {
@@ -153,6 +174,12 @@ const lastUpdatedAt = computed(() => {
 
 const handleArticleAction = ({ action, value }) => {
   toggleDropdown(false);
+  // Un-publishing an article with staged edits — confirm apply/discard first;
+  // the popover applies the chosen status itself.
+  if (props.hasPendingChanges && (action === 'draft' || action === 'archive')) {
+    pendingChangesPopoverRef.value?.open(getArticleStatus(value));
+    return;
+  }
   emit('articleAction', { action, value, id: props.id });
 };
 
@@ -185,6 +212,18 @@ const handleClick = id => {
       </div>
       <div class="flex items-center gap-2">
         <span
+          v-if="hasPendingChanges"
+          :title="
+            t(
+              'HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.PENDING_EDITS_TOOLTIP'
+            )
+          "
+          class="text-xs font-medium inline-flex items-center gap-1 h-6 px-2 py-0.5 rounded-md text-n-slate-11 bg-n-alpha-2 whitespace-nowrap shrink-0"
+        >
+          <span class="rounded-full size-1.5 bg-n-amber-9 shrink-0" />
+          {{ t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.PENDING_EDITS') }}
+        </span>
+        <span
           class="text-xs font-medium inline-flex items-center h-6 px-2 py-0.5 rounded-md bg-n-alpha-2"
           :class="statusTextColor"
         >
@@ -204,8 +243,14 @@ const handleClick = id => {
           <DropdownMenu
             v-if="showActionsDropdown"
             :menu-items="articleMenuItems"
-            class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 top-full"
+            class="mt-1 end-0 top-full w-40"
             @action="handleArticleAction($event)"
+          />
+          <ArticlePendingChangesPopover
+            ref="pendingChangesPopoverRef"
+            :article-id="id"
+            @resolved="emit('draftResolved', $event)"
+            @failed="emit('draftFailed', $event)"
           />
         </div>
       </div>
