@@ -85,19 +85,21 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     }, status: :locked
   end
 
-  # A teardown owns a unique token and snapshots the intended terminal result under
-  # the same row lock. A second teardown cannot reuse or clear another request's guard.
+  # A teardown owns a unique, expiring token and snapshots the intended terminal
+  # result under the same row lock. Abandoned ownership can recover after its TTL.
   def claim_termination!(call)
     termination = nil
     call.with_lock do
       next if call.terminal?
-      raise CustomExceptions::CallTerminationInProgress.new({}) if call.meta['agent_termination_token'].present?
+
+      Voice::CallTerminationGuard.clear_stale!(call)
+      raise CustomExceptions::CallTerminationInProgress.new({}) if Voice::CallTerminationGuard.active?(call)
 
       termination = {
         token: SecureRandom.uuid,
         intent: termination_intent_for(call)
       }
-      call.update!(meta: call.meta.merge('agent_termination_token' => termination[:token]))
+      call.update!(meta: Voice::CallTerminationGuard.claim_meta(call, token: termination[:token]))
     end
     termination || { token: nil, intent: nil }
   end
@@ -117,11 +119,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   def release_termination!(call, token)
     return if token.blank?
 
-    call.with_lock do
-      next unless call.meta['agent_termination_token'] == token
-
-      call.update!(meta: call.meta.except('agent_termination_token'))
-    end
+    call.with_lock { Voice::CallTerminationGuard.release!(call, token) }
   end
 
   def finalize_call!(call, termination)
@@ -132,7 +130,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     applied = false
     call.with_lock do
       next if call.terminal?
-      next unless call.meta['agent_termination_token'] == token
+      next unless Voice::CallTerminationGuard.owned_by?(call, token)
 
       attrs = { end_reason: intent[:end_reason] }
       attrs[:accepted_by_agent_id] = intent[:accepted_by_agent_id] if intent[:accepted_by_agent_id]
