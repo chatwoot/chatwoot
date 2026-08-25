@@ -8,7 +8,8 @@ class HookJob < MutexApplicationJob
     'dialogflow' => :process_dialogflow_integration,
     'google_translate' => :google_translate_integration,
     'leadsquared' => :process_leadsquared_integration_with_lock,
-    'linear' => :process_linear_integration
+    'linear' => :process_linear_integration,
+    'lark' => :process_lark_integration
   }.freeze
 
   def perform(hook, event_name, event_data = {})
@@ -62,6 +63,15 @@ class HookJob < MutexApplicationJob
 
     message = event_data[:message]
     Integrations::Linear::AutoLinkService.new(account: hook.account, message: message).perform
+  end
+
+  def process_lark_integration(hook, event_name, event_data)
+    case event_name
+    when 'message.created'
+      Integrations::Lark::SendOnLarkService.new(message: event_data[:message], hook: hook).perform
+    when 'conversation.resolved'
+      Integrations::Lark::SendOnLarkService.clear_announcement(event_data[:conversation])
+    end
   end
 
   def process_leadsquared_integration_with_lock(hook, event_name, event_data)

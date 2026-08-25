@@ -80,6 +80,45 @@ slack:
   hook_type: account
   allow_multiple_hooks: false
   visible_properties: ['channel_name']
+lark:
+  id: lark
+  logo: lark.png
+  i18n_key: lark
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'webhook_url':
+            {
+              'type': 'string',
+              'pattern': '\Ahttps://open\.(larksuite\.com|feishu\.cn)/open-apis/bot/v2/hook/\S+\z',
+            },
+          'secret': { 'type': 'string' },
+        },
+      'required': ['webhook_url'],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'Lark Webhook URL',
+        'type': 'text',
+        'name': 'webhook_url',
+        'validation': 'required|url',
+        'validationName': 'Webhook URL',
+        'help': 'In the Lark group: Settings → Bots → Add Bot → Custom Bot, then copy the webhook address.',
+      },
+      {
+        'label': 'Signing Secret',
+        'type': 'text',
+        'name': 'secret',
+        'help': 'Only required when the custom bot uses Signature Verification. Leave blank for keyword or IP allowlist security.',
+      },
+    ]
+  visible_properties: []
 dialogflow:
   id: dialogflow
   logo: dialogflow.png

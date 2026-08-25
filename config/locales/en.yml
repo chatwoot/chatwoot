@@ -402,6 +402,11 @@ en:
       name: 'Slack'
       short_description: 'Receive notifications and respond to conversations directly in Slack.'
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    lark:
+      name: 'Lark'
+      short_description: 'Get notified in Lark when a customer starts a new conversation.'
+      description: 'Integrate Chatwoot with Lark to keep your team in the loop. This integration posts a message to a Lark group whenever a customer starts a new conversation, with a link back to the conversation in Chatwoot.'
+      conversation_link: 'Open conversation'
     webhooks:
       name: 'Webhooks'
       description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
