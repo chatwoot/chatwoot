@@ -83,10 +83,12 @@ describe('#deleteIndexedDBOnLogout', () => {
   const unrelatedDatabaseName = 'unrelated-database';
   let dataManager;
   let unrelatedDatabase;
+  let blockingDatabase;
 
   afterEach(async () => {
     dataManager?.db?.close();
     unrelatedDatabase?.close();
+    blockingDatabase?.close();
     await Promise.all([
       deleteDB(cacheDatabaseName),
       deleteDB(unrelatedDatabaseName),
@@ -130,5 +132,16 @@ describe('#deleteIndexedDBOnLogout', () => {
 
     const databaseNames = (await indexedDB.databases()).map(({ name }) => name);
     expect(databaseNames).not.toContain(cacheDatabaseName);
+  });
+
+  it('continues logout and retains tracking when deletion is blocked', async () => {
+    blockingDatabase = await openDB(cacheDatabaseName);
+    localStorage.setItem('cw-idb-names', JSON.stringify([cacheDatabaseName]));
+
+    await deleteIndexedDBOnLogout();
+
+    expect(JSON.parse(localStorage.getItem('cw-idb-names'))).toContain(
+      cacheDatabaseName
+    );
   });
 });

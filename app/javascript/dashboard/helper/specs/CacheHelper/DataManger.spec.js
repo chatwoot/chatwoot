@@ -32,6 +32,20 @@ describe('DataManager', () => {
       expect(db1).toBe(db2);
     });
 
+    it('should share a database connection between concurrent initializations', async () => {
+      const concurrentAccountId = 'concurrent-account';
+      const concurrentManager = new DataManager(concurrentAccountId);
+      const [db1, db2] = await Promise.all([
+        concurrentManager.initDb(),
+        concurrentManager.initDb(),
+      ]);
+
+      expect(db1).toBe(db2);
+
+      db1.close();
+      await deleteDB(`cw-store-${concurrentAccountId}`);
+    });
+
     it('should add new stores to a database left behind by an earlier version', async () => {
       const legacyAccountId = 'legacy-account';
       const dbName = `cw-store-${legacyAccountId}`;

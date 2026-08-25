@@ -51,6 +51,16 @@ export const clearSessionStorageOnLogout = () => {
   SessionStorage.remove(SESSION_STORAGE_KEYS.IMPERSONATION_USER);
 };
 
+const deleteDatabase = dbName =>
+  new Promise(resolve => {
+    deleteDB(dbName, {
+      blocked: () => resolve(false),
+    }).then(
+      () => resolve(true),
+      () => resolve(false)
+    );
+  });
+
 export const deleteIndexedDBOnLogout = async () => {
   let dbs = [];
   try {
@@ -63,9 +73,13 @@ export const deleteIndexedDBOnLogout = async () => {
   const chatwootDatabases = dbs.filter(dbName =>
     dbName?.startsWith('cw-store-')
   );
-  await Promise.all(chatwootDatabases.map(dbName => deleteDB(dbName)));
+  const deletionResults = await Promise.all(
+    chatwootDatabases.map(deleteDatabase)
+  );
 
-  localStorage.removeItem('cw-idb-names');
+  if (deletionResults.every(Boolean)) {
+    localStorage.removeItem('cw-idb-names');
+  }
 };
 
 export const clearCookiesOnLogout = () => {
