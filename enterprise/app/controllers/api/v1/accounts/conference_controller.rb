@@ -34,17 +34,18 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     termination = claim_termination!(call)
 
     begin
-      end_provider_call!(conference_service, call)
-      # The intended local result was snapshotted atomically before teardown began,
-      # so late answered/in-progress/conference callbacks cannot change its meaning.
+      begin
+        conference_service.end_provider_call
+      rescue StandardError
+        call.with_lock { Voice::CallTerminationGuard.suppress_local_disconnect!(call) }
+        raise
+      end
       finalize_call!(call, termination)
       conference_service.complete_conference
     ensure
       release_termination!(call, termination[:token])
     end
 
-    # Account-wide, so every other tab/agent stops showing this call as ringing/active —
-    # matches the equivalent WhatsApp broadcast (Whatsapp::CallService#broadcast).
     call.broadcast_voice_call_event(:ended, status: call.display_status)
     render json: { status: 'success', id: call.conversation.display_id }
   end
@@ -85,18 +86,6 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     }, status: :locked
   end
 
-  def end_provider_call!(conference_service, call)
-    conference_service.end_provider_call
-  rescue StandardError
-    # The frontend deliberately closes its local Twilio Device after a failed
-    # provider teardown. Ignore the participant-leave/end callbacks caused by
-    # that cleanup without blocking an immediate retry of the provider teardown.
-    call.with_lock { Voice::CallTerminationGuard.suppress_local_disconnect!(call) }
-    raise
-  end
-
-  # A teardown owns a unique, expiring token and snapshots the intended terminal
-  # result under the same row lock. Abandoned ownership can recover after its TTL.
   def claim_termination!(call)
     termination = nil
     call.with_lock do
@@ -105,10 +94,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
       Voice::CallTerminationGuard.clear_stale!(call)
       raise CustomExceptions::CallTerminationInProgress.new({}) if Voice::CallTerminationGuard.active?(call)
 
-      termination = {
-        token: SecureRandom.uuid,
-        intent: termination_intent_for(call)
-      }
+      termination = { token: SecureRandom.uuid, intent: termination_intent_for(call) }
       call.update!(meta: Voice::CallTerminationGuard.claim_meta(call, token: termination[:token]))
     end
     termination || { token: nil, intent: nil }
@@ -124,8 +110,6 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     end
   end
 
-  # Only the request that owns the marker may clear it. This makes concurrent DELETEs
-  # safe even if one request fails while another provider operation is still in flight.
   def release_termination!(call, token)
     return if token.blank?
 
