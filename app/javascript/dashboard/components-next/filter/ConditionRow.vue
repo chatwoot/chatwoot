@@ -197,7 +197,11 @@ defineExpose({ validate, resetValidation });
         <MultiTextInput
           v-else-if="inputType === 'multiText'"
           v-model="values"
-          :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
+          :placeholder="
+            values.length
+              ? t('FILTER.MULTI_VALUE_INPUT_PLACEHOLDER_SHORT')
+              : t('FILTER.MULTI_VALUE_INPUT_PLACEHOLDER')
+          "
         />
         <Input
           v-else
