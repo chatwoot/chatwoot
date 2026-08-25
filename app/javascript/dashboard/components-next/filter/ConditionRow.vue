@@ -6,6 +6,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import FilterSelect from './inputs/FilterSelect.vue';
 import MultiSelect from './inputs/MultiSelect.vue';
 import SingleSelect from './inputs/SingleSelect.vue';
+import MultiTextInput from './inputs/MultiTextInput.vue';
 
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { validateSingleFilter } from 'dashboard/helper/validations.js';
@@ -119,7 +120,7 @@ const resetModelOnAttributeKeyChange = newAttributeKey => {
   const filter = getFilterFromFilterTypes(newAttributeKey);
   const newOperator = getOperator(filter, filterOperator.value);
   const newInputType = getInputType(newOperator, filter);
-  if (newInputType === 'multiSelect') {
+  if (['multiSelect', 'multiText'].includes(newInputType)) {
     values.value = [];
   } else if (['searchSelect', 'booleanSelect'].includes(newInputType)) {
     values.value = {};
@@ -190,6 +191,11 @@ defineExpose({ validate, resetValidation });
           v-model="values"
           disable-search
           :options="booleanOptions"
+        />
+        <MultiTextInput
+          v-else-if="inputType === 'multiText'"
+          v-model="values"
+          :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
         />
         <Input
           v-else
