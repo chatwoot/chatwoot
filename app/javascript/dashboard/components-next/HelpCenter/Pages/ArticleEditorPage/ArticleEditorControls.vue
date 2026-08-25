@@ -8,6 +8,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import ArticleEditorProperties from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditorProperties.vue';
 
 const props = defineProps({
@@ -84,28 +85,20 @@ const findCategoryFromSlug = slug => {
   return categories.value?.find(category => category.slug === slug);
 };
 
-const assignCategoryFromSlug = slug => {
-  const categoryFromSlug = findCategoryFromSlug(slug);
-  if (categoryFromSlug) {
-    selectedCategoryId.value = categoryFromSlug.id;
-    return categoryFromSlug;
-  }
-  return null;
-};
-
 const selectedCategory = computed(() => {
   if (isNewArticle.value) {
+    if (selectedCategoryId.value) {
+      return (
+        categories.value?.find(c => c.id === selectedCategoryId.value) || null
+      );
+    }
     if (categorySlugFromRoute.value) {
-      const categoryFromSlug = assignCategoryFromSlug(
+      const categoryFromSlug = findCategoryFromSlug(
         categorySlugFromRoute.value
       );
       if (categoryFromSlug) return categoryFromSlug;
     }
-    return selectedCategoryId.value
-      ? categories.value.find(
-          category => category.id === selectedCategoryId.value
-        )
-      : categories.value[0] || null;
+    return categories.value?.[0] || null;
   }
   return categories.value.find(
     category => category.id === props.article?.category?.id
@@ -115,10 +108,11 @@ const selectedCategory = computed(() => {
 const categoryList = computed(() => {
   return (
     categories.value
-      .map(({ name, id, icon }) => ({
+      .map(({ name, id, icon, icon_color: iconColor }) => ({
         label: name,
         value: id,
         emoji: icon,
+        iconColor,
         isSelected: isNewArticle.value
           ? id === (selectedCategoryId.value || selectedCategory.value?.id)
           : id === props.article?.category?.id,
@@ -201,7 +195,7 @@ onMounted(() => {
           v-if="openAgentsList && hasAgentList"
           :menu-items="agentList"
           show-search
-          class="z-[100] w-48 mt-2 overflow-y-auto ltr:left-0 rtl:right-0 top-full max-h-60"
+          class="z-[100] w-48 mt-2 ltr:left-0 rtl:right-0 top-full max-h-60"
           @action="handleArticleAction"
         />
       </OnClickOutside>
@@ -210,10 +204,6 @@ onMounted(() => {
     <div class="relative">
       <OnClickOutside @trigger="openCategoryList = false">
         <Button
-          :label="
-            selectedCategory?.name ||
-            t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.UNCATEGORIZED')
-          "
           :icon="!selectedCategory?.icon ? 'i-lucide-shapes' : ''"
           variant="ghost"
           color="slate"
@@ -221,19 +211,27 @@ onMounted(() => {
           @click="openCategoryList = !openCategoryList"
         >
           <span
-            v-if="selectedCategory"
-            class="text-sm text-n-slate-12 hover:text-n-slate-11"
+            class="flex items-center gap-1.5 min-w-0 text-sm text-n-slate-12 hover:text-n-slate-11"
           >
-            {{
-              `${selectedCategory.icon || ''} ${selectedCategory.name || t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.UNCATEGORIZED')}`
-            }}
+            <EmojiIcon
+              v-if="selectedCategory?.icon"
+              :value="selectedCategory.icon"
+              :color="selectedCategory.icon_color"
+              class="flex-shrink-0 size-4"
+            />
+            <span class="truncate">
+              {{
+                selectedCategory?.name ||
+                t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.UNCATEGORIZED')
+              }}
+            </span>
           </span>
         </Button>
         <DropdownMenu
           v-if="openCategoryList && hasCategoryMenuItems"
           :menu-items="categoryList"
           show-search
-          class="w-48 mt-2 z-[100] overflow-y-auto left-0 top-full max-h-60"
+          class="w-48 mt-2 z-[100] left-0 top-full max-h-60"
           @action="handleArticleAction"
         />
       </OnClickOutside>

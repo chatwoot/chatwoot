@@ -1,8 +1,8 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, onActivated, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 import Avatar from 'next/avatar/Avatar.vue';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -26,6 +26,10 @@ const selectedInbox = ref({});
 const searchQuery = ref('');
 
 const inboxes = useMapGetter('inboxes/getInboxes');
+
+onActivated(() => {
+  store.dispatch('inboxes/get');
+});
 
 const inboxesList = computed(() => {
   return inboxes.value?.slice().sort((a, b) => a.name.localeCompare(b.name));
@@ -145,6 +149,7 @@ const openDelete = inbox => {
               <ChannelName
                 :channel-type="inbox.channel_type"
                 :medium="inbox.medium"
+                :voice-enabled="inbox.voice_enabled"
                 class="text-body-main text-n-slate-11"
               />
             </div>

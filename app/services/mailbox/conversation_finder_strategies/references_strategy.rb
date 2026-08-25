@@ -21,7 +21,7 @@ class Mailbox::ConversationFinderStrategies::ReferencesStrategy < Mailbox::Conve
     return nil if mail.references.blank?
     return nil unless @channel # No valid channel found
 
-    references = Array.wrap(mail.references)
+    references = sanitize_mailbox_value(Array.wrap(mail.references))
 
     references.each do |reference|
       conversation = find_conversation_from_reference(reference)

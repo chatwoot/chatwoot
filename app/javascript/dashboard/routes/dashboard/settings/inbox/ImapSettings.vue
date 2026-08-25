@@ -5,11 +5,13 @@ import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFie
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SingleSelectDropdown from './components/SingleSelectDropdown.vue';
 
 export default {
   components: {
     SettingsFieldSection,
     NextButton,
+    SingleSelectDropdown,
   },
   props: {
     inbox: {
@@ -28,6 +30,12 @@ export default {
       login: '',
       password: '',
       isSSLEnabled: true,
+      authMechanism: 'plain',
+      authMechanisms: [
+        { key: 1, value: 'plain' },
+        { key: 2, value: 'login' },
+        { key: 3, value: 'cram-md5' },
+      ],
     };
   },
   validations: {
@@ -56,6 +64,7 @@ export default {
         imap_login,
         imap_password,
         imap_enable_ssl,
+        imap_authentication,
       } = this.inbox;
       this.isIMAPEnabled = imap_enabled;
       this.address = imap_address;
@@ -63,6 +72,7 @@ export default {
       this.login = imap_login;
       this.password = imap_password;
       this.isSSLEnabled = imap_enable_ssl;
+      this.authMechanism = imap_authentication || 'plain';
     },
     async updateInbox() {
       try {
@@ -77,6 +87,7 @@ export default {
             imap_login: this.login,
             imap_password: this.password,
             imap_enable_ssl: this.isSSLEnabled,
+            imap_authentication: this.authMechanism,
           },
         };
 
@@ -89,6 +100,9 @@ export default {
       } catch (error) {
         useAlert(error.message);
       }
+    },
+    handleAuthMechanismChange(mode) {
+      this.authMechanism = mode;
     },
   },
 };
@@ -155,6 +169,13 @@ export default {
           />
           {{ $t('INBOX_MGMT.IMAP.ENABLE_SSL') }}
         </label>
+        <SingleSelectDropdown
+          class="w-full"
+          :label="$t('INBOX_MGMT.IMAP.AUTH_MECHANISM')"
+          :selected="authMechanism"
+          :options="authMechanisms"
+          :action="handleAuthMechanismChange"
+        />
       </div>
       <NextButton
         type="submit"

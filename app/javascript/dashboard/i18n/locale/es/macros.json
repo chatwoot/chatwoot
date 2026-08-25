@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "Hubo un error al eliminar la macro. Por favor, inténtalo de nuevo más tarde"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "Ver macro"
+    },
     "EDIT": {
       "TOOLTIP": "Editar macro",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "Visibilidad de macro",
         "GLOBAL": {
           "LABEL": "Público",
-          "DESCRIPTION": "Esta macro está disponible públicamente para todos los agentes de esta cuenta."
+          "DESCRIPTION": "Esta macro está disponible públicamente para todos los agentes de esta cuenta.",
+          "CREATE_DISABLED_DESCRIPTION": "Sólo los administradores pueden crear macros públicas.",
+          "EDIT_DISABLED_DESCRIPTION": "Sólo los administradores pueden editar macros públicas."
         },
         "PERSONAL": {
           "LABEL": "Privado",
@@ -77,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Ejecutar",
       "PREVIEW": "Previsualizar macro",
-      "EXECUTED_SUCCESSFULLY": "Macro ejecutado correctamente"
+      "EXECUTED_SUCCESSFULLY": "Macro ejecutado correctamente",
+      "EXECUTED_WITHOUT_RESOLVING": "La macro se ejecutó. La conversación no se resolvió porque faltan atributos obligatorios."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Clave de atributo es requerida",

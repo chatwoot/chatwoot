@@ -11,12 +11,72 @@ export const INBOX_TYPES = {
   SMS: 'Channel::Sms',
   INSTAGRAM: 'Channel::Instagram',
   TIKTOK: 'Channel::Tiktok',
-  VOICE: 'Channel::Voice',
 };
+
+// Short channel-type slugs used to identify a channel without leaning on its
+// Channel:: class name — e.g. onboarding channel cards and OAuth provider maps.
+export const CHANNEL_TYPES = {
+  WEBSITE: 'website',
+  WHATSAPP: 'whatsapp',
+  FACEBOOK: 'facebook',
+  INSTAGRAM: 'instagram',
+  TIKTOK: 'tiktok',
+  TELEGRAM: 'telegram',
+  LINE: 'line',
+  GMAIL: 'gmail',
+  OUTLOOK: 'outlook',
+  SMS: 'sms',
+  API: 'api',
+  VOICE: 'voice',
+  EMAIL: 'email',
+};
+
+// Add providers here as they gain voice capability (e.g., WhatsApp Cloud, Twilio WhatsApp)
+export const VOICE_CALL_PROVIDERS = {
+  TWILIO: 'twilio',
+  WHATSAPP: 'whatsapp',
+};
+
+export const getVoiceCallProvider = inbox => {
+  if (!inbox) return null;
+
+  // Callers pass either snake_case (raw API) or camelCase (after camelcaseKeys) shapes.
+  const channelType = inbox.channel_type || inbox.channelType;
+  const voiceEnabled = inbox.voice_enabled || inbox.voiceEnabled;
+
+  if (!voiceEnabled) return null;
+
+  if (channelType === INBOX_TYPES.TWILIO) return VOICE_CALL_PROVIDERS.TWILIO;
+  if (channelType === INBOX_TYPES.WHATSAPP)
+    return VOICE_CALL_PROVIDERS.WHATSAPP;
+
+  return null;
+};
+
+export const isVoiceCallEnabled = inbox => getVoiceCallProvider(inbox) !== null;
+
+// Combined channel + voice-wave badge glyph per voice-call provider.
+export const VOICE_CALL_ICONS = {
+  [VOICE_CALL_PROVIDERS.WHATSAPP]: 'i-woot-whatsapp-voice',
+  [VOICE_CALL_PROVIDERS.TWILIO]: 'i-woot-voice-call',
+};
+
+export const getVoiceCallIcon = provider =>
+  VOICE_CALL_ICONS[provider] ?? VOICE_CALL_ICONS[VOICE_CALL_PROVIDERS.TWILIO];
 
 export const TWILIO_CHANNEL_MEDIUM = {
   WHATSAPP: 'whatsapp',
   SMS: 'sms',
+};
+
+export const getInboxVoiceIcon = (channelType, medium) => {
+  const isWhatsapp =
+    channelType === INBOX_TYPES.WHATSAPP ||
+    (channelType === INBOX_TYPES.TWILIO &&
+      medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP);
+  return getVoiceCallIcon(
+    isWhatsapp ? VOICE_CALL_PROVIDERS.WHATSAPP : VOICE_CALL_PROVIDERS.TWILIO
+  );
 };
 
 const INBOX_ICON_MAP_FILL = {
@@ -30,7 +90,6 @@ const INBOX_ICON_MAP_FILL = {
   [INBOX_TYPES.LINE]: 'i-ri-line-fill',
   [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-fill',
   [INBOX_TYPES.TIKTOK]: 'i-ri-tiktok-fill',
-  [INBOX_TYPES.VOICE]: 'i-ri-phone-fill',
 };
 
 const DEFAULT_ICON_FILL = 'i-ri-chat-1-fill';
@@ -45,7 +104,6 @@ const INBOX_ICON_MAP_LINE = {
   [INBOX_TYPES.TELEGRAM]: 'i-woot-telegram',
   [INBOX_TYPES.LINE]: 'i-woot-line',
   [INBOX_TYPES.INSTAGRAM]: 'i-woot-instagram',
-  [INBOX_TYPES.VOICE]: 'i-woot-voice',
   [INBOX_TYPES.TIKTOK]: 'i-woot-tiktok',
 };
 
@@ -58,7 +116,6 @@ export const getInboxSource = (type, phoneNumber, inbox) => {
 
     case INBOX_TYPES.TWILIO:
     case INBOX_TYPES.WHATSAPP:
-    case INBOX_TYPES.VOICE:
       return phoneNumber || '';
 
     case INBOX_TYPES.EMAIL:
@@ -96,9 +153,6 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.LINE:
       return 'line';
-
-    case INBOX_TYPES.VOICE:
-      return 'voice';
 
     default:
       return 'chat';
@@ -142,15 +196,19 @@ export const getInboxClassByType = (type, phoneNumber) => {
     case INBOX_TYPES.TIKTOK:
       return 'brand-tiktok';
 
-    case INBOX_TYPES.VOICE:
-      return 'phone';
-
     default:
       return 'chat';
   }
 };
 
-export const getInboxIconByType = (type, medium, variant = 'fill') => {
+export const getInboxIconByType = (
+  type,
+  medium,
+  variant = 'fill',
+  voiceEnabled = false
+) => {
+  if (voiceEnabled) return getInboxVoiceIcon(type, medium);
+
   const iconMap =
     variant === 'fill' ? INBOX_ICON_MAP_FILL : INBOX_ICON_MAP_LINE;
   const defaultIcon =

@@ -90,4 +90,25 @@ describe('#filterQueryGenerator', () => {
     const result = filterQueryGenerator(input);
     expect(result.payload[0].values).toEqual(['hello, world']);
   });
+
+  it('serializes a selected contact object to contact id', () => {
+    const result = filterQueryGenerator([
+      {
+        attribute_key: 'contact_id',
+        filter_operator: 'equal_to',
+        values: { id: 123, name: 'Jane Doe' },
+        query_operator: 'and',
+      },
+    ]);
+
+    expect(result).toMatchObject({
+      payload: [
+        {
+          attribute_key: 'contact_id',
+          filter_operator: 'equal_to',
+          values: [123],
+        },
+      ],
+    });
+  });
 });

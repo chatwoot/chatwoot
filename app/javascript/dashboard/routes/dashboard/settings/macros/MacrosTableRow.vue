@@ -11,6 +11,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  canManagePublicMacros: {
+    type: Boolean,
+    default: true,
+  },
 });
 defineEmits(['delete']);
 const { t } = useI18n();
@@ -32,6 +36,14 @@ const visibilityLabel = computed(() => {
       : 'MACROS.EDITOR.VISIBILITY.PERSONAL.LABEL';
   return t(i18nKey);
 });
+
+const canManageMacro = computed(
+  () => props.canManagePublicMacros || props.macro.visibility !== 'global'
+);
+
+const editTooltip = computed(() =>
+  canManageMacro.value ? t('MACROS.EDIT.TOOLTIP') : t('MACROS.VIEW.TOOLTIP')
+);
 </script>
 
 <template>
@@ -85,13 +97,14 @@ const visibilityLabel = computed(() => {
             :to="{ name: 'macros_edit', params: { macroId: macro.id } }"
           >
             <Button
-              v-tooltip.top="$t('MACROS.EDIT.TOOLTIP')"
+              v-tooltip.top="editTooltip"
               icon="i-woot-edit-pen"
               slate
               sm
             />
           </router-link>
           <Button
+            v-if="canManageMacro"
             v-tooltip.top="$t('MACROS.DELETE.TOOLTIP')"
             icon="i-woot-bin"
             slate

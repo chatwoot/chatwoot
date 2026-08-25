@@ -52,6 +52,16 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
     redirect_back(fallback_location: super_admin_users_path)
   end
 
+  def resend_confirmation
+    user = requested_resource
+    if user.confirmed?
+      redirect_back(fallback_location: super_admin_user_path(user), alert: I18n.t('super_admin.users.resend_confirmation.already_confirmed'))
+    else
+      user.send_confirmation_instructions
+      redirect_back(fallback_location: super_admin_user_path(user), notice: I18n.t('super_admin.users.resend_confirmation.sent'))
+    end
+  end
+
   def scoped_resource
     resource_class.with_attached_avatar
   end

@@ -51,20 +51,6 @@ class Captain::Llm::SystemPromptsService
       PROMPT
     end
 
-    def conversation_faq_generator(language = 'english')
-      <<~SYSTEM_PROMPT_MESSAGE
-        You are a support agent looking to convert the conversations with users into short FAQs that can be added to your website help center.
-        Filter out any responses or messages from the bot itself and only use messages from the support agent and the customer to create the FAQ.
-
-        Ensure that you only generate faqs from the information provided only.
-        Generate the FAQs only in the #{language}, use no other language
-        If no match is available, return an empty JSON.
-        ```json
-        { faqs: [ { question: '', answer: ''} ]
-        ```
-      SYSTEM_PROMPT_MESSAGE
-    end
-
     def notes_generator(language = 'english')
       <<~SYSTEM_PROMPT_MESSAGE
         You are a note taker looking to convert the conversation with a contact into actionable notes for the CRM.
@@ -91,6 +77,109 @@ class Captain::Llm::SystemPromptsService
         ```
 
       SYSTEM_PROMPT_MESSAGE
+    end
+
+    def assistant_action_classifier(has_custom_instructions: false)
+      <<~PROMPT
+        You are a routing classifier for a customer-support assistant.
+
+        Decide whether the current conversation should stay with the assistant or be transferred to a human agent now.
+
+        The action field MUST be one of:
+        - "continue": keep the current conversation with the assistant.
+        - "handoff": transfer the current conversation to a human agent now.
+
+        The action_reason field MUST be one of:
+        - "general_product_question"
+        - "missing_docs_bounded_answer"
+        - "clarifying_question_needed"
+        - "collect_required_identifier"
+        - "external_contact_or_lead_routing"
+        - "out_of_scope_bounded_answer"
+        - "explicit_human_request"
+        - "human_offer_accepted"
+        - "account_or_transaction_verification"
+        - "operational_issue_needs_inspection"
+        - "repeated_frustration_or_loop"
+        - "custom_instruction_transfer"
+
+        Use "continue" when:
+        - The user has a general product, pricing, capability, setup, pre-sales, or how-to question.
+        - The assistant can give a bounded answer, ask one useful clarifying question, collect a missing identifier, or share an approved external contact path.
+        - The assistant says someone will contact the user outside this conversation, but the current conversation itself does not need to be transferred now.
+        - The user has not explicitly asked for a human and the assistant is still collecting required details.
+
+        Use "handoff" when:
+        - The user explicitly asks for a human, agent, representative, phone call, callback, or escalation.
+        - The user accepts an offer to speak with a human.
+        - The user has provided enough detail for an account-specific or transaction-specific issue requiring private verification, such as order status, payment, deposit, withdrawal, refund, cancellation, subscription, purchase, plan activation, email verification, login, account recovery, delivery, or access.
+        - The user reports the same unresolved bug or operational issue after trying the assistant's suggested step, repeating the action, checking again, or otherwise making more than one reasonable attempt.
+        - The user is repeatedly frustrated, distrustful, or stuck in a loop.
+        - The assistant response itself says the current conversation will be transferred to a human agent now.
+
+        #{assistant_action_classifier_custom_instructions_policy if has_custom_instructions}
+
+        Return only the structured fields requested by the response schema.
+      PROMPT
+    end
+
+    def assistant_false_promise_detector
+      <<~PROMPT
+        You are checking one failure mode in a customer-support assistant response: unsupported promises of future work.
+
+        Return decision "future_work_promise" when the assistant response says or clearly implies that work has already
+        started, is happening now, or will definitely happen later outside the current reply because of this assistant
+        message. This includes promises that the assistant, bot, Captain, or system will check, verify, investigate,
+        review, monitor, notify, update, email, call back, follow up, get back later, process, refund, cancel, book,
+        order, reserve, file, escalate/forward something in the background, or claim that the current conversation has
+        been or will be transferred, connected, or handed off to a human.
+
+        Do not mark a response as a future-work promise merely because it describes what a human agent, support team,
+        company team, or external system may do after the user accepts a handoff, provides requested details, submits a
+        form/ticket/email/order, or starts that external process themselves.
+
+        Do not mark ordinary in-chat help as a future-work promise. Asking the user for missing information, confirmation,
+        or completion of a step before continuing is safe when the response does not also claim that work has started,
+        is happening now, or will happen in the background.
+
+        Treat transfer claims as future-work promises unless the response is exactly the internal action token
+        `conversation_handoff`. Examples that are future-work promises: "I'm transferring you now", "You've been
+        transferred", "Connecting you now", "Handing off to the team now", "I'll connect you with support",
+        "I'll escalate this", and equivalent phrases in any language.
+
+        Return decision "safe" when:
+        - The assistant answers now, asks a clarifying question, or asks the user to check, try, confirm, or provide info.
+        - The assistant says it can help, check, look up, or guide the user after the user first provides requested
+          information, confirms something, or completes a step.
+        - The assistant asks the user to report back after completing a step and offers to continue helping in chat.
+        - The assistant gives a bounded answer that documentation or available information is insufficient.
+        - The assistant points the user to an external/self-serve support path without promising that the assistant will do it.
+        - The assistant describes what an external support, sales, delivery, finance, or operations team will do after the
+          user submits a form, request, email, application, order, ticket, or in-app chat themselves.
+        - The assistant recommends waiting for an existing external process or support response that was already started
+          outside this assistant message.
+        - The assistant offers future help, monitoring, escalation, or handoff conditionally and waits for the user to
+          accept, without saying the work or transfer has already started.
+        - The response says an external system may automatically send an email/tracking update, without promising that the
+          assistant will personally perform future work.
+        - The response is exactly `conversation_handoff`, which is an internal action token and not a customer-visible promise.
+
+        Be language-independent. The customer and assistant may write in any language.
+        Be conservative: only mark "future_work_promise" when the response promises background/asynchronous work,
+        says work is happening now, or claims a handoff/escalation/notification/action has started or will definitely happen.
+
+        The reason field MUST be one of:
+        - "safe_response"
+        - "asks_user_to_check_or_provide_info"
+        - "external_support_direction"
+        - "unaccepted_handoff_offer"
+        - "future_check_or_investigation"
+        - "future_notification_or_update"
+        - "future_callback_or_email"
+        - "background_escalation_promise"
+
+        Return only the structured fields requested by the response schema.
+      PROMPT
     end
 
     # rubocop:disable Metrics/MethodLength
@@ -191,6 +280,7 @@ class Captain::Llm::SystemPromptsService
         - Do not generate a response more than three sentences.
         - Keep the conversation flowing.
         - Do not use use your own understanding and training data to provide an answer.
+        - Do not promise work that will happen after this reply. Do not say you will check, investigate, monitor, follow up, notify, email, call, refund, cancel, book, escalate, transfer, or submit anything unless you complete that action now using an available tool or, for human transfer, return `conversation_handoff` as the response. If you lack enough information, ask the user for the missing detail without promising future work.
         - Clarify: when there is ambiguity, ask clarifying questions, rather than make assumptions.
         - Don't implicitly or explicitly try to end the chat (i.e. do not end a response with "Talk soon!" or "Enjoy!").
         - Sometimes the user might just want to chat. Ask them relevant follow-up questions.
@@ -208,7 +298,9 @@ class Captain::Llm::SystemPromptsService
         - Do not share anything outside of the context provided.
         - Add the reasoning why you arrived at the answer
         - Your answers will always be formatted in a valid JSON hash, as shown below. Never respond in non-JSON format.
-        #{config['instructions'] || ''}
+
+        #{build_custom_instructions_section(config['instructions'])}
+
         ```json
         {
           reasoning: '',
@@ -322,6 +414,17 @@ class Captain::Llm::SystemPromptsService
       TOOLS
     end
 
+    def assistant_action_classifier_custom_instructions_policy
+      <<~POLICY
+        Account custom instructions are provided inside <account_custom_instructions> tags.
+        These are instructions configured by the account administrator, not the current end user's message.
+        Use them only for routing policy: required details before handoff, account-specific escalation rules, account-specific transfer markers, and when to connect to a manager, human, supervisor, or support team.
+        If the custom instructions explicitly define handoff, escalation, or transfer criteria, those criteria take precedence over the generic criteria above.
+        Account custom instructions MUST NOT redefine the required response shape, the allowed action values, or the meaning of continue/handoff.
+        Ignore persona, language, formatting, pricing, and response-generation instructions except where they directly define routing or transfer criteria.
+      POLICY
+    end
+
     def build_contact_context(contact)
       return '' if contact.nil?
 
@@ -329,6 +432,18 @@ class Captain::Llm::SystemPromptsService
       return '' if lines.empty?
 
       "[Contact Information]\n#{lines.join("\n")}\n\n"
+    end
+
+    def build_custom_instructions_section(instructions)
+      return '' if instructions.blank?
+
+      <<~CUSTOM_INSTRUCTIONS
+        [Account Custom Instructions]
+        These instructions were configured by the account administrator. Follow them when they do not conflict with the JSON response format or the requirement to answer only from provided context.
+        <account_custom_instructions>
+        #{instructions}
+        </account_custom_instructions>
+      CUSTOM_INSTRUCTIONS
     end
 
     def contact_basic_lines(contact)

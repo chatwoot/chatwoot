@@ -227,6 +227,9 @@ export const colors = {
 
     black: '#000000',
     brand: '#2781F6',
+    portal: 'var(--dynamic-portal-color)',
+    'portal-soft': 'var(--dynamic-portal-color-soft)',
+    'portal-faint': 'var(--dynamic-portal-color-faint)',
     background: 'rgb(var(--background-color) / <alpha-value>)',
     'input-background': 'rgba(var(--background-input-box))',
     surface: {
@@ -255,6 +258,11 @@ export const colors = {
       black2: 'rgba(var(--black-alpha-2))',
       white: 'rgba(var(--white-alpha))',
     },
+    // Voice call widget
+    'call-widget': 'rgba(var(--call-widget))',
+    'call-widget-border': 'rgba(var(--call-widget-border))',
+    'call-widget-text': 'rgba(var(--call-widget-text))',
+    'call-widget-sub-text': 'rgba(var(--call-widget-sub-text))',
     // Border colors
     weak: 'rgb(var(--border-weak) / <alpha-value>)',
     container: 'rgba(var(--border-container))',

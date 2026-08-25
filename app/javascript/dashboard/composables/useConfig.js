@@ -36,11 +36,18 @@ export function useConfig() {
    */
   const enterprisePlanName = config.enterprisePlanName;
 
+  /**
+   * Indicates whether inbox webhook events (ENABLE_INBOX_EVENTS) are enabled.
+   * @type {boolean}
+   */
+  const inboxEventsEnabled = config.inboxEventsEnabled === 'true';
+
   return {
     hostURL,
     vapidPublicKey,
     enabledLanguages,
     isEnterprise,
     enterprisePlanName,
+    inboxEventsEnabled,
   };
 }

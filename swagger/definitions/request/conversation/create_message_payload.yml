@@ -50,6 +50,14 @@ properties:
         type: string
         description: Language code of the template (BCP 47 format)
         example: 'en_US'
+      content_mode:
+        type: string
+        enum: ['raw_template', 'rendered']
+        default: 'rendered'
+        description: |
+          Format of the top-level `content` field. Existing clients may send rendered
+          content or omit this field. Set this to `raw_template` only when `content`
+          contains the original template body placeholders.
       processed_params:
         type: object
         description: Processed template parameters organized by component type

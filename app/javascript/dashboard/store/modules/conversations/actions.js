@@ -16,6 +16,7 @@ import * as Sentry from '@sentry/vue';
 import {
   handleVoiceCallCreated,
   handleVoiceCallUpdated,
+  syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
@@ -71,7 +72,8 @@ const actions = {
         'appliedFilters'
       );
     } catch (error) {
-      // Handle error
+      commit(types.CLEAR_LIST_LOADING_STATUS);
+      throw error;
     }
   },
 
@@ -207,23 +209,31 @@ const actions = {
     }
   },
 
-  assignAgent: async ({ dispatch }, { conversationId, agentId }) => {
+  assignAgent: async (
+    { dispatch },
+    { conversationId, agentId, assigneeType }
+  ) => {
     try {
       const response = await ConversationApi.assignAgent({
         conversationId,
         agentId,
+        assigneeType,
       });
       dispatch('setCurrentChatAssignee', {
         conversationId,
         assignee: response.data,
+        assigneeType,
       });
     } catch (error) {
       // Handle error
     }
   },
 
-  setCurrentChatAssignee({ commit }, { conversationId, assignee }) {
-    commit(types.ASSIGN_AGENT, { conversationId, assignee });
+  setCurrentChatAssignee(
+    { commit },
+    { conversationId, assignee, assigneeType }
+  ) {
+    commit(types.ASSIGN_AGENT, { conversationId, assignee, assigneeType });
   },
 
   assignTeam: async ({ dispatch }, { conversationId, teamId }) => {
@@ -328,12 +338,21 @@ const actions = {
       });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
     }
-    handleVoiceCallCreated(message, rootGetters?.getCurrentUserID);
+    handleVoiceCallCreated(
+      message,
+      rootGetters?.getCurrentUserID,
+      rootGetters?.getCurrentUserAvailability
+    );
   },
 
   updateMessage({ commit, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
-    handleVoiceCallUpdated(commit, message, rootGetters?.getCurrentUserID);
+    handleVoiceCallUpdated(
+      commit,
+      message,
+      rootGetters?.getCurrentUserID,
+      rootGetters?.getCurrentUserAvailability
+    );
   },
 
   deleteMessage: async function deleteLabels(
@@ -393,19 +412,18 @@ const actions = {
     }
   },
 
-  updateConversation({ commit, dispatch }, conversation) {
-    const {
-      meta: { sender },
-    } = conversation;
+  updateConversation({ commit, dispatch, rootGetters }, conversation) {
+    const sender = conversation.meta?.sender;
 
     commit(types.UPDATE_CONVERSATION, conversation);
+    syncConversationCallVisibility(conversation, rootGetters?.getCurrentUserID);
 
     dispatch('conversationLabels/setConversationLabel', {
       id: conversation.id,
       data: conversation.labels,
     });
 
-    dispatch('contacts/setContact', sender);
+    if (sender) dispatch('contacts/setContact', sender);
   },
 
   updateConversationLastActivity(
@@ -478,7 +496,7 @@ const actions = {
         customAttributes: custom_attributes,
       });
     } catch (error) {
-      // Handle error
+      throw new Error(error);
     }
   },
 

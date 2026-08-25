@@ -25,6 +25,29 @@ class SuperAdmin::InstallationConfigsController < SuperAdmin::ApplicationControl
     resource_class.editable
   end
 
+  def create
+    resource = new_resource(resource_params)
+    authorize_resource(resource)
+
+    if resource.save
+      redirect_to after_resource_created_path(resource), flash: success_flash(resource)
+    else
+      render :new, locals: {
+        page: Administrate::Page::Form.new(dashboard, resource)
+      }, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    if requested_resource.update(resource_params)
+      redirect_to after_resource_updated_path(requested_resource), flash: success_flash(requested_resource)
+    else
+      render :edit, locals: {
+        page: Administrate::Page::Form.new(dashboard, requested_resource)
+      }, status: :unprocessable_entity
+    end
+  end
+
   # Override `resource_params` if you want to transform the submitted
   # data before it's persisted. For example, the following would turn all
   # empty values into nil values. It uses other APIs such as `resource_class`
@@ -40,6 +63,20 @@ class SuperAdmin::InstallationConfigsController < SuperAdmin::ApplicationControl
     params.require(:installation_config)
           .permit(:name, :value)
           .transform_values { |value| value == '' ? nil : value }.merge(locked: false)
+  end
+
+  private
+
+  def success_flash(resource)
+    message = translate_with_resource('update.success')
+    message = translate_with_resource('create.success') if action_name == 'create'
+    return { notice: message } unless restart_required_config?(resource)
+
+    { success: "#{message.delete_suffix('.')}. Restart Chatwoot web and worker processes to apply this change everywhere." }
+  end
+
+  def restart_required_config?(resource)
+    resource.name.in?(InstallationConfig::RESTART_REQUIRED_CONFIG_KEYS)
   end
 
   # See https://administrate-prototype.herokuapp.com/customizing_controller_actions

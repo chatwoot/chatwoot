@@ -1,33 +1,153 @@
 {
   "COMPANIES": {
-    "HEADER": "Companies",
+    "HEADER": "Entreprises",
     "SORT_BY": {
       "LABEL": "Trier par",
       "OPTIONS": {
         "NAME": "Nom",
         "DOMAIN": "Domaine",
         "CREATED_AT": "Créé le",
-        "CONTACTS_COUNT": "Contacts count"
+        "LAST_ACTIVITY_AT": "Dernière activité",
+        "CONTACTS_COUNT": "Nombre de contacts"
       }
     },
     "ORDER": {
-      "LABEL": "Order",
+      "LABEL": "Ordre de tri",
       "OPTIONS": {
-        "ASCENDING": "Ascending",
+        "ASCENDING": "Ascendant",
         "DESCENDING": "Décroissant"
       }
     },
-    "SEARCH_PLACEHOLDER": "Search companies...",
-    "LOADING": "Loading companies...",
-    "UNNAMED": "Unnamed Company",
+    "SEARCH_PLACEHOLDER": "Rechercher des entreprises...",
+    "LOADING": "Chargement des entreprises...",
+    "UNNAMED": "Entreprise sans nom",
     "CONTACTS_COUNT": "{n} contact | {n} contacts",
+    "ACTIONS": {
+      "CREATE": "Ajouter une entreprise"
+    },
+    "SELECTOR": {
+      "PLACEHOLDER": "Sélectionner une entreprise",
+      "CREATE_OPTION": "Ajouter \"{name}\""
+    },
+    "CREATE": {
+      "TITLE": "Ajouter les informations de la société",
+      "ACTIONS": {
+        "SAVE": "Ajouter une entreprise"
+      },
+      "MESSAGES": {
+        "SUCCESS": "Société créée.",
+        "ERROR": "Impossible de créer la société."
+      }
+    },
+    "DETAIL": {
+      "LOADING": "Chargement des détails de l'entreprise...",
+      "EMPTY_STATE": {
+        "TITLE": "Société introuvable",
+        "SUBTITLE": "Cette entreprise a peut-être été supprimée ou n'est plus disponible sur ce compte."
+      },
+      "SIDEBAR": {
+        "TABS": {
+          "ATTRIBUTES": "Attributs",
+          "CONTACTS": "Contacts",
+          "HISTORY": "Historique",
+          "NOTES": "Notes"
+        }
+      },
+      "HISTORY": {
+        "EMPTY": "Aucune conversation n'a encore été trouvée pour les contacts de cette entreprise."
+      },
+      "NOTES": {
+        "EMPTY": "Aucune note n'a encore été trouvée pour les contacts de cette entreprise."
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Rechercher des attributs...",
+        "EMPTY_STATE": "Il n'y a pas encore d'attributs personnalisés de société configurés.",
+        "NO_ATTRIBUTES": "Aucun attribut correspondant trouvé.",
+        "UNUSED_ATTRIBUTES": "{count} attribut inutilisé | {count} attributs inutilisés",
+        "MESSAGES": {
+          "UPDATE_SUCCESS": "Attribut société mis à jour.",
+          "UPDATE_ERROR": "Impossible de mettre à jour l'attribut de la société.",
+          "DELETE_SUCCESS": "Attribut de la société supprimé.",
+          "DELETE_ERROR": "Impossible de supprimer l'attribut de la société."
+        }
+      },
+      "CONTACTS": {
+        "LOADING": "Chargement des contacts...",
+        "EMPTY": "Aucun contact n'est encore lié à cette entreprise.",
+        "UNNAMED_CONTACT": "Contact sans nom",
+        "ACTIONS": {
+          "ADD": "Ajouter un contact",
+          "REMOVE": "Supprimer le contact"
+        },
+        "DIALOGS": {
+          "ADD": {
+            "DESCRIPTION": "Rechercher un contact existant et le lier à cette entreprise.",
+            "SEARCH_PLACEHOLDER": "Rechercher des contacts...",
+            "INITIAL": "Commencez à taper pour rechercher des contacts.",
+            "EMPTY": "Aucun contact trouvé.",
+            "CONFIRM_TITLE": "Lier le contact",
+            "CONFIRM_DESCRIPTION": "Confirmez la société et le contact avant de les lier.",
+            "COMPANY_LABEL": "Société",
+            "CONTACT_LABEL": "Contact",
+            "CURRENT_COMPANY": "Actuellement lié à {companyName}",
+            "ADD": "Lier le contact",
+            "CANCEL": "Annuler"
+          }
+        },
+        "MESSAGES": {
+          "ADD_SUCCESS": "Contact lié à l'entreprise.",
+          "ADD_ERROR": "Impossible de lier le contact à la société.",
+          "REASSIGN_SUCCESS": "Contact réassigné à l'entreprise.",
+          "REASSIGN_ERROR": "Impossible de réaffecter le contact à la société.",
+          "REMOVE_SUCCESS": "Contact retiré de l'entreprise.",
+          "REMOVE_ERROR": "Impossible de supprimer le contact de la société."
+        }
+      },
+      "AVATAR": {
+        "UPDATING": "Mise à jour de l'avatar de l'entreprise...",
+        "UPLOAD_SUCCESS": "Avatar de la société mis à jour.",
+        "UPLOAD_ERROR": "Impossible de mettre à jour l'avatar de la société.",
+        "DELETE_SUCCESS": "Avatar de la société supprimé.",
+        "DELETE_ERROR": "Impossible de supprimer l'avatar de la société."
+      },
+      "PROFILE": {
+        "TITLE": "Modifier les informations de l'entreprise",
+        "CREATED_AT": "Créée le {date}",
+        "LAST_ACTIVE": "Dernière action {date}",
+        "DESCRIPTION_PLACEHOLDER": "Ajouter une courte description pour cette entreprise",
+        "ACTIONS": {
+          "SAVE": "Mettre à jour la société"
+        },
+        "MESSAGES": {
+          "UPDATE_SUCCESS": "Société mise à jour.",
+          "UPDATE_ERROR": "Impossible de mettre à jour la société."
+        },
+        "FIELDS": {
+          "NAME": "Nom",
+          "DOMAIN": "Domaine"
+        }
+      },
+      "DELETE": {
+        "SECTION_TITLE": "Zone de danger",
+        "SECTION_DESCRIPTION": "Supprimer cette entreprise et dissocier ses contacts. Les contacts resteront dans le compte.",
+        "BUTTON": "Supprimer la société",
+        "TITLE": "Supprimer la société ?",
+        "DESCRIPTION": "Ceci supprimera la société et dissociera tous les contacts associés. Les contacts eux-mêmes seront préservés.",
+        "DESCRIPTION_WITH_NAME": "Cela supprimera {companyName} et dissociera tous les contacts associés. Les contacts eux-mêmes seront préservés.",
+        "CONFIRM": "Supprimer la société",
+        "MESSAGES": {
+          "SUCCESS": "Société supprimée.",
+          "ERROR": "Impossible de supprimer la société."
+        }
+      }
+    },
     "EMPTY_STATE": {
-      "TITLE": "No companies found"
+      "TITLE": "Aucune entreprise trouvée"
     }
   },
   "COMPANIES_LAYOUT": {
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} – {endItem} of {totalItems} company | Showing {startItem} – {endItem} of {totalItems} companies"
+      "SHOWING": "Affichage {startItem} - {endItem} sur {totalItems} société | Affichage {startItem} - {endItem} sur {totalItems} sociétés"
     }
   }
 }

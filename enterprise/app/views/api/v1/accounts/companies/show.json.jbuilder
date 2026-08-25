@@ -1,3 +1,3 @@
 json.payload do
-  json.partial! 'company', company: @company
+  json.partial! 'api/v1/models/company', formats: [:json], resource: @company
 end

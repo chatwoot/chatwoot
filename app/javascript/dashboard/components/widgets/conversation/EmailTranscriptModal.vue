@@ -123,7 +123,13 @@ export default {
               $t('EMAIL_TRANSCRIPT.FORM.SEND_TO_CONTACT')
             }}</label>
           </div>
-          <div v-if="currentChat.meta.assignee" class="flex items-center gap-2">
+          <div
+            v-if="
+              currentChat.meta.assignee &&
+              currentChat.meta.assignee_type !== 'AgentBot'
+            "
+            class="flex items-center gap-2"
+          >
             <input
               id="assignee"
               v-model="selectedType"

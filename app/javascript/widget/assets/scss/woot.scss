@@ -34,13 +34,24 @@ body {
 
 .message-content {
   ul {
-    list-style: disc;
-    @apply ltr:pl-3 rtl:pr-3;
+    @apply list-disc list-inside;
   }
 
   ol {
-    list-style: decimal;
-    @apply ltr:pl-4 rtl:pr-4;
+    @apply list-decimal list-inside;
+  }
+
+  li {
+    padding-inline-start: 1.5em;
+    text-indent: -1.5em;
+
+    > p:first-child {
+      @apply inline;
+    }
+
+    > * {
+      text-indent: 0;
+    }
   }
 }
 
@@ -101,6 +112,15 @@ select:not(.reset-base) {
   background-repeat: no-repeat;
   background-size: 9px 6px;
   font-family: inherit;
+  @apply [color-scheme:light];
+
+  option:not(:disabled) {
+    @apply bg-n-solid-2 text-n-slate-12;
+  }
+}
+
+.dark select:not(.reset-base) {
+  @apply [color-scheme:dark];
 }
 
 p code {
@@ -252,6 +272,9 @@ blockquote {
     --gray-12: 32 32 32;
 
     --background-color: 253 253 253;
+    --surface-1: 254 254 254;
+    --surface-2: 255 255 255;
+    --surface-active: 255 255 255;
     --text-blue: 8 109 224;
     --border-container: 236 236 236;
     --border-strong: 235 235 235;
@@ -359,6 +382,9 @@ blockquote {
     --gray-12: 238 238 238;
 
     --background-color: 18 18 19;
+    --surface-1: 20 21 23;
+    --surface-2: 22 23 26;
+    --surface-active: 53 57 66;
     --border-strong: 52 52 52;
     --border-weak: 38 38 42;
     --solid-1: 23 23 26;

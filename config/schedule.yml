@@ -14,6 +14,12 @@ trigger_scheduled_items_job:
   class: 'TriggerScheduledItemsJob'
   queue: scheduled_jobs
 
+# executed hourly for scheduled jobs that do not need minute-level cadence
+trigger_hourly_scheduled_items_job:
+  cron: '0 * * * *'
+  class: 'Internal::TriggerHourlyScheduledItemsJob'
+  queue: scheduled_jobs
+
 # executed At every minute..
 trigger_imap_email_inboxes_job:
   cron: '*/1 * * * *'

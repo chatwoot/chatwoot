@@ -33,7 +33,7 @@ class Captain::FollowUpService < Captain::BaseTaskService
       { role: 'user', content: user_message }
     ]
 
-    response = make_api_call(model: GPT_MODEL, messages: messages)
+    response = make_api_call(feature: 'editor', messages: messages)
     return response if response[:error]
 
     response.merge(follow_up_context: update_follow_up_context(user_message, response[:message]))
@@ -102,5 +102,9 @@ class Captain::FollowUpService < Captain::BaseTaskService
 
   def event_name
     'follow_up'
+  end
+
+  def use_account_openai_hook?
+    true
   end
 end

@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useAlert } from 'dashboard/composables';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AddAttribute from './AddAttribute.vue';
 import EditAttribute from './EditAttribute.vue';
@@ -32,6 +32,7 @@ const uiFlags = computed(() => getters['attributes/getUIFlags'].value);
 const [showEditPopup, toggleEditPopup] = useToggle(false);
 const [showDeletePopup, toggleDeletePopup] = useToggle(false);
 const selectedAttribute = ref({});
+const attributeModels = ['conversation_attribute', 'contact_attribute'];
 
 const openAddPopup = () => {
   toggleAddPopup(true);
@@ -69,8 +70,8 @@ onMounted(() => {
   store.dispatch('attributes/get');
 });
 
-const attributeModel = computed(() =>
-  selectedTabIndex.value ? 'contact_attribute' : 'conversation_attribute'
+const attributeModel = computed(
+  () => attributeModels[selectedTabIndex.value] || 'conversation_attribute'
 );
 
 const attributes = computed(() =>

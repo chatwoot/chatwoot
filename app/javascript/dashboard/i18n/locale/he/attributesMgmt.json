@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "שיחה",
-      "CONTACT": "איש קשר"
+      "CONTACT": "איש קשר",
+      "COMPANY": "חברה"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "טקסט",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "מאפיינים מותאמים אישית",
       "CONVERSATION": "שיחה",
-      "CONTACT": "איש קשר"
+      "CONTACT": "איש קשר",
+      "COMPANY": "חברה"
     },
     "LIST": {
       "TABLE_HEADER": {

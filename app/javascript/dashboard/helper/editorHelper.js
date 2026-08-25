@@ -1,13 +1,15 @@
 import {
-  messageSchema,
-  MessageMarkdownTransformer,
+  InputRule,
+  inputRules,
   MessageMarkdownSerializer,
+  MessageMarkdownTransformer,
+  messageSchema,
+  Selection,
 } from '@chatwoot/prosemirror-schema';
-import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
+import camelcaseKeys from 'camelcase-keys';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
 import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
-import camelcaseKeys from 'camelcase-keys';
 
 /**
  * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
@@ -122,6 +124,13 @@ export function cleanSignature(signature) {
   }
 }
 
+// Strip `\<newline>` hardbreak markers trailing `--` after a signature slice
+const stripDelimiterHardbreaks = body =>
+  body.replace(/(--)\s*(?:\\\s*)+$/, '$1');
+
+// Strip standalone blank-paragraph markers (`\` on their own lines).
+const stripTrailingBlankLine = body => body.replace(/\n(?:\s*\\\n)+$/, '');
+
 /**
  * Adds the signature delimiter to the beginning of the signature.
  *
@@ -226,13 +235,19 @@ export function removeSignature(body, signature, channelType) {
   // trimming will ensure any spaces or new lines before the signature are removed
   // This means we will have the delimiter at the end
   if (signatureIndex > -1) {
-    newBody = newBody.substring(0, signatureIndex).trimEnd();
+    newBody = stripDelimiterHardbreaks(
+      newBody.substring(0, signatureIndex)
+    ).trimEnd();
   }
 
   // Remove delimiter if it's at the end
   if (newBody.endsWith(SIGNATURE_DELIMITER)) {
     // if the delimiter is at the end, remove it
     newBody = newBody.slice(0, -SIGNATURE_DELIMITER.length);
+    // strip any trailing blank-line markers
+    if (signatureIndex > -1) {
+      newBody = stripTrailingBlankLine(newBody);
+    }
   }
 
   return newBody;
@@ -271,6 +286,18 @@ export const scrollCursorIntoView = view => {
   if (node && node.scrollIntoView) {
     node.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
+};
+
+/**
+ * Collapse the current selection to a cursor near its head. Used to override
+ * the default Escape -> selectParentNode behavior which would otherwise keep
+ * the text highlight visible.
+ *
+ * @param {EditorView} view - The ProseMirror EditorView
+ */
+export const collapseSelection = view => {
+  const { tr, selection } = view.state;
+  view.dispatch(tr.setSelection(Selection.near(selection.$head)));
 };
 
 /**
@@ -354,31 +381,6 @@ export const findNodeToInsertImage = (editorState, fileUrl) => {
 };
 
 /**
- * Set URL with query and size.
- *
- * @param {Object} selectedImageNode - The current selected node.
- * @param {Object} size - The size to set.
- * @param {Object} editorView - The editor view.
- */
-export function setURLWithQueryAndSize(selectedImageNode, size, editorView) {
-  if (selectedImageNode) {
-    // Create and apply the transaction
-    const tr = editorView.state.tr.setNodeMarkup(
-      editorView.state.selection.from,
-      null,
-      {
-        src: selectedImageNode.src,
-        height: size.height,
-      }
-    );
-
-    if (tr.docChanged) {
-      editorView.dispatch(tr);
-    }
-  }
-}
-
-/**
  * Strips unsupported markdown formatting from content based on the editor schema.
  * This ensures canned responses with rich formatting can be inserted into channels
  * that don't support certain formatting (e.g., API channels don't support bold).
@@ -427,6 +429,62 @@ export function stripUnsupportedFormatting(content, schema) {
  * - emoji
  */
 
+// Liquid delimiters ({{ }} / {% %}) the backend evaluates on send.
+const LIQUID_SYNTAX = /\{\{|\{%/;
+
+const VARIABLE_PLACEHOLDER = /{{(.*?)}}/g;
+
+// Value when set (and not itself Liquid), else the {{placeholder}} for the backend.
+export const resolveVariableText = (key, variables) => {
+  const value = String(variables?.[key] ?? '');
+  return value && !LIQUID_SYNTAX.test(value) ? value : `{{${key}}}`;
+};
+
+export const resolveVariablesInMessage = (message, variables) =>
+  message?.replace(VARIABLE_PLACEHOLDER, (_, key) =>
+    resolveVariableText(key.trim(), variables)
+  );
+
+// Name variables normalized like the backend drops (UserDrop/ContactDrop):
+// name split on whitespace, each word Ruby-capitalized (rest downcased).
+const getNameVariables = (prefix, name) => {
+  const names = (name || '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  return {
+    [`${prefix}.name`]: names.join(' '),
+    [`${prefix}.first_name`]: names[0] || '',
+    [`${prefix}.last_name`]: names.length > 1 ? names[names.length - 1] : '',
+  };
+};
+
+// {{agent.*}} values for the message sender.
+export const getAgentVariables = user => ({
+  ...getNameVariables('agent', user.name),
+  'agent.email': user.email,
+});
+
+// {{contact.*}} name values.
+export const getContactVariables = contact =>
+  getNameVariables('contact', contact?.name);
+
+// Resolves a manually typed {{variable}} to its value on the closing braces.
+// Leaves the placeholder when there's no value, the value is Liquid, or it's a private note.
+export const createVariableInputRule = ({ isPrivate, getVariables }) => {
+  const rule = new InputRule(
+    /\{\{([^{}]+)\}\}$/,
+    (editorState, match, from, to) => {
+      if (isPrivate()) return null;
+      const [, key] = match;
+      const text = resolveVariableText(key, getVariables());
+      if (text === `{{${key}}}`) return null;
+      return editorState.tr.insertText(text, from, to);
+    }
+  );
+  return inputRules({ rules: [rule] });
+};
+
 /**
  * Centralized node creation function that handles the creation of different types of nodes based on the specified type.
  * @param {Object} editorView - The editor view instance.
@@ -461,7 +519,7 @@ const createNode = (editorView, nodeType, content) => {
       );
     }
     case 'variable':
-      return state.schema.text(`{{${content}}}`);
+      return state.schema.text(content);
     case 'emoji':
       return state.schema.text(content);
     case 'tool': {
@@ -485,10 +543,7 @@ const nodeCreators = {
     to,
   }),
   cannedResponse: (editorView, content, from, to, variables) => {
-    const updatedMessage = replaceVariablesInMessage({
-      message: content,
-      variables,
-    });
+    const updatedMessage = resolveVariablesInMessage(content, variables);
     const node = createNode(editorView, 'cannedResponse', updatedMessage);
     return {
       node,
@@ -496,8 +551,12 @@ const nodeCreators = {
       to,
     };
   },
-  variable: (editorView, content, from, to) => ({
-    node: createNode(editorView, 'variable', content),
+  variable: (editorView, content, from, to, variables) => ({
+    node: createNode(
+      editorView,
+      'variable',
+      resolveVariableText(content, variables)
+    ),
     from,
     to,
   }),

@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Samtale",
-      "CONTACT": "Kontakt"
+      "CONTACT": "Kontakt",
+      "COMPANY": "Virksomhed"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Tekst",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Brugerdefinerede Egenskaber",
       "CONVERSATION": "Samtale",
-      "CONTACT": "Kontakt"
+      "CONTACT": "Kontakt",
+      "COMPANY": "Virksomhed"
     },
     "LIST": {
       "TABLE_HEADER": {

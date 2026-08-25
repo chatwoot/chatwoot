@@ -2,7 +2,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import { required, minLength } from '@vuelidate/validators';
-import { getRegexp } from 'shared/helpers/Validators';
+import { getRegexp, normalizeRegexPattern } from 'shared/helpers/Validators';
 import { ATTRIBUTE_TYPES } from './constants';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
@@ -41,16 +41,9 @@ export default {
     };
   },
   validations: {
-    displayName: {
-      required,
-    },
-    attributeType: {
-      required,
-    },
-    description: {
-      required,
-      minLength: minLength(1),
-    },
+    displayName: { required },
+    attributeType: { required },
+    description: { required, minLength: minLength(1) },
     attributeKey: {
       required,
       isKey(value) {
@@ -118,7 +111,7 @@ export default {
     },
     setFormValues() {
       const regexPattern = this.selectedAttribute.regex_pattern
-        ? getRegexp(this.selectedAttribute.regex_pattern).source
+        ? getRegexp(this.selectedAttribute.regex_pattern).toString()
         : null;
       this.displayName = this.selectedAttribute.attribute_display_name;
       this.description = this.selectedAttribute.attribute_description;
@@ -144,9 +137,7 @@ export default {
           attribute_description: this.description,
           attribute_display_name: this.displayName,
           attribute_values: this.updatedAttributeListValues,
-          regex_pattern: this.regexPattern
-            ? new RegExp(this.regexPattern).toString()
-            : null,
+          regex_pattern: normalizeRegexPattern(this.regexPattern),
           regex_cue: this.regexCue,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE');

@@ -7,7 +7,9 @@ import MacroForm from './MacroForm.vue';
 import { MACRO_ACTION_TYPES } from './constants';
 import { useAlert } from 'dashboard/composables';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
+import { getActionIcon } from 'dashboard/helper/automationHelper';
 import { useMacros } from 'dashboard/composables/useMacros';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 const store = useStore();
 const getters = useStoreGetters();
@@ -18,6 +20,7 @@ const router = useRouter();
 const { t } = useI18n();
 
 const { getMacroDropdownValues } = useMacros();
+const { isAdmin } = useAdmin();
 
 const macro = ref(null);
 const mode = ref('CREATE');
@@ -26,6 +29,7 @@ const macroActionTypes = computed(() => {
   return MACRO_ACTION_TYPES.map(type => ({
     ...type,
     label: t(`MACROS.ACTIONS.${type.label}`),
+    icon: getActionIcon(type.key),
   }));
 });
 
@@ -33,12 +37,16 @@ provide('macroActionTypes', macroActionTypes);
 
 const uiFlags = computed(() => getters['macros/getUIFlags'].value);
 const macroId = computed(() => route.params.macroId);
+const isPublicMacroReadOnly = computed(
+  () => macro.value?.visibility === 'global' && !isAdmin.value
+);
 
-const fetchDropdownData = () => {
-  store.dispatch('agents/get');
-  store.dispatch('teams/get');
-  store.dispatch('labels/get');
-};
+const fetchDropdownData = () =>
+  Promise.all([
+    store.dispatch('agents/get'),
+    store.dispatch('teams/get'),
+    store.dispatch('labels/get'),
+  ]);
 
 const formatMacro = macroData => {
   const formattedActions = macroData.actions.map(action => {
@@ -51,13 +59,6 @@ const formatMacro = macroData => {
         actionParams = getMacroDropdownValues(action.action_name).filter(item =>
           [...action.action_params].includes(item.id)
         );
-      } else if (inputType === 'team_message') {
-        actionParams = {
-          team_ids: getMacroDropdownValues(action.action_name).filter(item =>
-            [...action.action_params[0].team_ids].includes(item.id)
-          ),
-          message: action.action_params[0].message,
-        };
       } else actionParams = [...action.action_params];
     }
     return {
@@ -72,7 +73,10 @@ const formatMacro = macroData => {
 };
 
 const manifestMacro = async () => {
-  await store.dispatch('macros/getSingleMacro', macroId.value);
+  await Promise.all([
+    fetchDropdownData(),
+    store.dispatch('macros/getSingleMacro', macroId.value),
+  ]);
   const singleMacro = store.getters['macros/getMacro'](macroId.value);
   macro.value = formatMacro(singleMacro);
 };
@@ -92,17 +96,17 @@ const initNewMacro = () => {
         action_params: [],
       },
     ],
-    visibility: 'global',
+    visibility: isAdmin.value ? 'global' : 'personal',
   };
 };
 
 watch(
   () => route,
   () => {
-    fetchDropdownData();
     if (route.params.macroId) {
       fetchMacro();
     } else {
+      fetchDropdownData();
       initNewMacro();
     }
   },
@@ -110,6 +114,8 @@ watch(
 );
 
 const saveMacro = async macroData => {
+  if (isPublicMacroReadOnly.value) return;
+
   try {
     const action = mode.value === 'EDIT' ? 'macros/update' : 'macros/create';
     const successMessage =
@@ -136,6 +142,8 @@ const saveMacro = async macroData => {
     <MacroForm
       v-if="macro && !uiFlags.isFetchingItem"
       :macro-data="macro"
+      :can-manage-public-macros="isAdmin"
+      :read-only="isPublicMacroReadOnly"
       @update:macro-data="macro = $event"
       @submit="saveMacro"
     />
