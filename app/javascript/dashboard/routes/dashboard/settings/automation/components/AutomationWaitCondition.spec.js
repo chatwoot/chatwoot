@@ -220,7 +220,6 @@ describe('AutomationWaitCondition', () => {
       attributeKey: 'status',
       showQueryOperator: false,
       allowWrap: true,
-      valuePlaceholder: 'AUTOMATION.ADD.FORM.WAIT.CONDITION_PLACEHOLDER',
     });
     expect(
       condition.props('filterTypes').map(filter => filter.attributeKey)

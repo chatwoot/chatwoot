@@ -351,9 +351,6 @@ defineExpose({ validate, resetValidation });
               allow-wrap
               class="w-full min-w-0"
               :filter-types="additionalFilterTypes"
-              :value-placeholder="
-                $t('AUTOMATION.ADD.FORM.WAIT.CONDITION_PLACEHOLDER')
-              "
               @remove="removeFilter(conditionIndex)"
             />
           </ul>

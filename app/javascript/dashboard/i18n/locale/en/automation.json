@@ -48,7 +48,6 @@
           "FOR_LABEL": "For",
           "INBOX_LABEL": "Inbox",
           "ERROR": "The wait must be between 10 minutes and 30 days",
-          "CONDITION_PLACEHOLDER": "Select...",
           "OPTIONS": {
             "CONVERSATION_STATUS": "Conversation stays in a status",
             "CUSTOMER_UNRESPONSIVE": "Customer hasn't replied",

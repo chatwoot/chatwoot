@@ -11,7 +11,7 @@ import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
 
-const { options, maxChips, dropdownMaxHeight, placeholder } = defineProps({
+const { options, maxChips, dropdownMaxHeight } = defineProps({
   options: {
     type: Array,
     required: true,
@@ -23,10 +23,6 @@ const { options, maxChips, dropdownMaxHeight, placeholder } = defineProps({
   dropdownMaxHeight: {
     type: String,
     default: 'max-h-80',
-  },
-  placeholder: {
-    type: String,
-    default: '',
   },
 });
 
@@ -159,9 +155,7 @@ const toggleOption = option => {
         <template #icon>
           <Icon icon="i-lucide-plus" class="text-n-slate-11" />
         </template>
-        <span class="text-n-slate-11">
-          {{ placeholder || t('COMBOBOX.PLACEHOLDER') }}
-        </span>
+        <span class="text-n-slate-11">{{ t('COMBOBOX.PLACEHOLDER') }}</span>
       </Button>
     </template>
     <DropdownBody class="top-0 min-w-48 z-50" strong>
