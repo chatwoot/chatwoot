@@ -101,6 +101,15 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
       callsStore.clearActiveCall();
       clearLocalCall(callSid);
     } catch (error) {
+      const terminationInProgress =
+        error?.response?.status === 423 &&
+        error?.response?.data?.code === 'call_termination_in_progress';
+
+      // Another teardown already owns this Call. Keep this tab's Twilio leg
+      // connected and untouched: disconnecting it would emit an unsuppressed
+      // participant-leave if the owning teardown later fails.
+      if (terminationInProgress) throw error;
+
       callsStore.markCallTeardownFailed(callSid);
       TwilioVoiceClient.endClientCall();
       globalDurationTimer?.stop();
