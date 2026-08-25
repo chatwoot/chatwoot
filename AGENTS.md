@@ -138,3 +138,20 @@ This repo is a fork of `chatwoot/chatwoot`; the `upstream` remote points at it.
 - **Syncing from upstream is not a fast-forward.** The fork carries its own commits, so use a real `git merge upstream/develop`, then rebuild the image.
 - `Notification::NOTIFICATION_TYPES` carries a MUToday entry, `all_conversations_new_message: 9`. The value doubles as a FlagShihTzu bit on `notification_settings`, so if an upstream release ever adds its own type 9, renumber the MUToday one and migrate both the existing `notifications` rows and the flag bits. Upstream still stops at 8 as of 4.17.0.
 - Upgrading production is `./upgrade.sh <version>-mutoday` in `mu-support`: it backs up, bumps `CHATWOOT_VERSION` in `.env`, rebuilds the image, migrates and restarts. It runs the migration with `POSTGRES_STATEMENT_TIMEOUT=0` on purpose — Chatwoot defaults to 14s, which kills `CREATE INDEX CONCURRENTLY` on large tables, and the migrations pass `if_not_exists`, so a retry skips the invalid index and reports success.
+
+### Shipping a change to production
+
+`mu-support/README.md` has the full procedure. The short version, after the change is merged into `develop` here:
+
+1. `rsync -av --exclude .git --exclude backups --exclude src <mu-support>/ root@<server>:/opt/mu-support/` — `--exclude src` matters, that is where `build.sh` keeps its checkout of this repo on the server.
+2. Pre-flight, read-only, against the real database:
+   `docker compose exec -T postgres psql -U postgres -d chatwoot_production -c "SELECT (SELECT count(*) FROM captain_assistant_responses WHERE status = 0) AS pending_captain_faq, (SELECT max(version) FROM schema_migrations) AS latest_migration;"`
+3. `cd /opt/mu-support && nohup ./upgrade.sh <chatwoot-version>-mutoday > upgrade.log 2>&1 &` then `tail -f upgrade.log`. Detach it: the build runs for tens of minutes and losing the SSH session partway through the migration is the worst case. The quiet stretch is `assets:precompile`, which needs about 4 GB of RAM and prints nothing.
+4. Verify: `curl -s https://support.mutoday.com/api` reports the new version with `queue_services` and `data_services` both `ok`, and `SELECT count(*) FROM pg_index WHERE NOT indisvalid` returns 0. A killed `CREATE INDEX CONCURRENTLY` leaves an invalid index that the migrations' `if_not_exists` then skips on retry while reporting success, so that query is the only signal.
+
+When the Chatwoot version has not moved and only this repo's code changed, skip `upgrade.sh` — `./build.sh <version>-mutoday && docker compose up -d` is enough, with no migration and no backup step.
+
+Two things that are easy to get wrong:
+
+- **Query the database with `-d chatwoot_production`.** `.env` sets no `POSTGRES_DATABASE`, so Rails falls back to the `config/database.yml` default. The `chatwoot` database that compose creates through `POSTGRES_DB` is empty and unused, and leaving the flag off gives answers that look plausible but come from the empty one.
+- **The image tag is `chatwoot/chatwoot:<version>-mutoday`**, built locally on the server. It shares the `chatwoot/chatwoot` name with the published image but is never pulled, so `docker compose pull` has nothing to fetch — that is why `upgrade.sh` calls `build.sh` instead.
