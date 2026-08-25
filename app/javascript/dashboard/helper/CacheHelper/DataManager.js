@@ -1,4 +1,4 @@
-import { openDB, deleteDB } from 'idb';
+import { openDB } from 'idb';
 import { DATA_VERSION } from './version';
 
 export class DataManager {
@@ -18,6 +18,10 @@ export class DataManager {
         db.createObjectStore('label', { keyPath: 'id' });
         db.createObjectStore('team', { keyPath: 'id' });
       },
+      blocking: () => {
+        this.db?.close();
+        this.db = null;
+      },
     });
 
     // Store the database name in LocalStorage
@@ -28,10 +32,6 @@ export class DataManager {
     }
 
     return this.db;
-  }
-
-  async deleteDb(dbName = `cw-store-${this.accountId}`) {
-    await deleteDB(dbName);
   }
 
   validateModel(name) {

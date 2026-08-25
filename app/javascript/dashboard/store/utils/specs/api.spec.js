@@ -117,4 +117,18 @@ describe('#deleteIndexedDBOnLogout', () => {
     unrelatedDatabase = await openDB(unrelatedDatabaseName);
     expect([...unrelatedDatabase.objectStoreNames]).toContain('sentinel');
   });
+
+  it('deletes tracked cache databases when database enumeration is unavailable', async () => {
+    dataManager = new DataManager(accountId);
+    await dataManager.initDb();
+    const databasesSpy = vi
+      .spyOn(indexedDB, 'databases')
+      .mockRejectedValueOnce(new Error('Database enumeration unavailable'));
+
+    await deleteIndexedDBOnLogout();
+    databasesSpy.mockRestore();
+
+    const databaseNames = (await indexedDB.databases()).map(({ name }) => name);
+    expect(databaseNames).not.toContain(cacheDatabaseName);
+  });
 });

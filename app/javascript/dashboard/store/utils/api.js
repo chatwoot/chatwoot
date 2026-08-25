@@ -1,5 +1,6 @@
 import fromUnixTime from 'date-fns/fromUnixTime';
 import differenceInDays from 'date-fns/differenceInDays';
+import { deleteDB } from 'idb';
 import Cookies from 'js-cookie';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
@@ -12,7 +13,6 @@ import {
   CHATWOOT_RESET,
   CHATWOOT_SET_USER,
 } from '../../constants/appEvents';
-import { DataManager } from '../../helper/CacheHelper/DataManager';
 
 Cookies.defaults = { sameSite: 'Lax' };
 
@@ -60,21 +60,10 @@ export const deleteIndexedDBOnLogout = async () => {
     dbs = JSON.parse(localStorage.getItem('cw-idb-names') || '[]');
   }
 
-  const dataManager = new DataManager(0);
-  dbs.forEach(dbName => {
-    const deleteRequest = window.indexedDB.deleteDatabase(dbName);
-
-    deleteRequest.onerror = event => {
-      // eslint-disable-next-line no-console
-      console.error(`Error deleting database ${dbName}.`, event);
-    };
-
-    deleteRequest.onsuccess = () => {
-      // eslint-disable-next-line no-console
-      console.log(`Database ${dbName} deleted successfully.`);
-    };
-    dataManager.deleteDb(dbName);
-  });
+  const chatwootDatabases = dbs.filter(dbName =>
+    dbName?.startsWith('cw-store-')
+  );
+  await Promise.all(chatwootDatabases.map(dbName => deleteDB(dbName)));
 
   localStorage.removeItem('cw-idb-names');
 };
