@@ -1,7 +1,6 @@
 class Voice::CallTerminationGuard
   TOKEN_KEY = 'agent_termination_token'.freeze
   STARTED_AT_KEY = 'agent_termination_started_at'.freeze
-  AGENT_PARTICIPANT_CALL_SID_KEY = 'agent_participant_call_sid'.freeze
   DISCONNECT_SUPPRESS_CALL_SID_KEY = 'agent_disconnect_suppress_call_sid'.freeze
   STALE_AFTER = 2.minutes
 
@@ -37,17 +36,10 @@ class Voice::CallTerminationGuard
       true
     end
 
-    def track_agent_participant!(call, call_sid)
-      return if call_sid.blank?
+    def suppress_local_disconnect!(call, participant_call_sid)
+      return false if participant_call_sid.blank?
 
-      call.update!(meta: call.meta.merge(AGENT_PARTICIPANT_CALL_SID_KEY => call_sid))
-    end
-
-    def suppress_local_disconnect!(call)
-      call_sid = call.meta[AGENT_PARTICIPANT_CALL_SID_KEY]
-      return false if call_sid.blank?
-
-      call.update!(meta: call.meta.merge(DISCONNECT_SUPPRESS_CALL_SID_KEY => call_sid))
+      call.update!(meta: call.meta.merge(DISCONNECT_SUPPRESS_CALL_SID_KEY => participant_call_sid))
       true
     end
 
