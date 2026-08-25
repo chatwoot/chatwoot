@@ -111,55 +111,31 @@ const INBOX_ICON_MAP_LINE = {
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
 
-export const getInboxIdentifier = inbox => {
-  if (!inbox) return '';
-
-  switch (inbox.channel_type) {
-    case INBOX_TYPES.WEB:
-      return inbox.website_url || '';
-
-    case INBOX_TYPES.TWILIO:
-      return (
-        inbox.phone_number?.replace(/^whatsapp:/, '') ||
-        inbox.messaging_service_sid ||
-        ''
-      );
-
-    case INBOX_TYPES.WHATSAPP:
-    case INBOX_TYPES.SMS:
-      return inbox.phone_number || '';
-
-    case INBOX_TYPES.EMAIL:
-      return inbox.email || '';
-
-    case INBOX_TYPES.FB:
-      return inbox.page_id || '';
-
-    case INBOX_TYPES.INSTAGRAM:
-      return inbox.instagram_id || '';
-
-    case INBOX_TYPES.TIKTOK:
-      return inbox.business_id || '';
-
-    case INBOX_TYPES.TWITTER:
-      return inbox.profile_id || '';
-
-    case INBOX_TYPES.TELEGRAM:
-      if (!inbox.bot_name) return '';
-      return inbox.bot_name.startsWith('@')
-        ? inbox.bot_name
-        : `@${inbox.bot_name}`;
-
-    case INBOX_TYPES.LINE:
-      return inbox.line_channel_id || '';
-
-    case INBOX_TYPES.API:
-      return inbox.inbox_identifier || '';
-
-    default:
-      return '';
-  }
+const INBOX_IDENTIFIER_RESOLVERS = {
+  [INBOX_TYPES.WEB]: inbox => inbox.website_url,
+  [INBOX_TYPES.EMAIL]: inbox => inbox.email,
+  [INBOX_TYPES.WHATSAPP]: inbox => inbox.phone_number,
+  [INBOX_TYPES.SMS]: inbox => inbox.phone_number,
+  [INBOX_TYPES.FB]: inbox => inbox.page_id,
+  [INBOX_TYPES.INSTAGRAM]: inbox => inbox.instagram_id,
+  [INBOX_TYPES.TIKTOK]: inbox => inbox.business_id,
+  [INBOX_TYPES.TWITTER]: inbox => inbox.profile_id,
+  [INBOX_TYPES.LINE]: inbox => inbox.line_channel_id,
+  [INBOX_TYPES.API]: inbox => inbox.inbox_identifier,
+  [INBOX_TYPES.TWILIO]: inbox =>
+    inbox.phone_number?.replace(/^whatsapp:/, '') ||
+    inbox.messaging_service_sid ||
+    '',
+  [INBOX_TYPES.TELEGRAM]: inbox => {
+    if (!inbox.bot_name) return '';
+    return inbox.bot_name.startsWith('@')
+      ? inbox.bot_name
+      : `@${inbox.bot_name}`;
+  },
 };
+
+export const getInboxIdentifier = inbox =>
+  INBOX_IDENTIFIER_RESOLVERS[inbox?.channel_type]?.(inbox) || '';
 
 export const searchInboxes = (inboxes, query) => {
   const primaryMatches = picoSearch(inboxes, query, ['name', 'channel_type']);
