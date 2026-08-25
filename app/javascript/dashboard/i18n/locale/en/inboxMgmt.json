@@ -351,11 +351,22 @@
           "PLACEHOLDER": "Enter a name for this inbox (e.g. Support Line)",
           "ERROR": "Please provide a name for this inbox"
         },
-        "PHONE_NUMBER": {
+        "PHONE_NUMBERS": {
           "LABEL": "Phone Number",
-          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
-          "HELP": "The number callers dial to reach this inbox. It cannot be changed later.",
-          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+          "HELP": "Callers dial this number to reach the inbox. It cannot be changed later.",
+          "LOADING": "Loading your Pathors phone numbers…",
+          "EXTENSION": "ext. {extension}",
+          "TAKEN_LABEL": "In use",
+          "FETCH_ERROR": "We were not able to load your Pathors phone numbers",
+          "NOT_CONNECTED": {
+            "TITLE": "Connect Pathors first",
+            "DESCRIPTION": "Voice inboxes use phone numbers from your Pathors account. Connect the Pathors integration and your numbers will show up here.",
+            "ACTION": "Go to Pathors integration"
+          },
+          "EMPTY": {
+            "TITLE": "No phone numbers available",
+            "DESCRIPTION": "Phone numbers are managed in the Pathors admin console. Add one there and it will appear here."
+          }
         },
         "TWILIO": {
           "ACCOUNT_SID": {

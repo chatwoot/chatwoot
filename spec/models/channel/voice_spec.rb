@@ -43,4 +43,25 @@ RSpec.describe Channel::Voice do
       expect(channel.reload.phone_number).to eq('+886222222222')
     end
   end
+
+  describe 'pathors_phone_number_id' do
+    let(:unbind_url) { 'https://api.pathors.com/project/proj_123/integration/chatwoot/phone_numbers/pn_x9k2/binding' }
+
+    before { create(:integrations_hook, :pathors, account: account, access_token: 'pathors_access_token') }
+
+    it 'releases the Pathors binding when the channel is destroyed' do
+      channel = create(:channel_voice, account: account, phone_number: '+886222222222', pathors_phone_number_id: 'pn_x9k2')
+      stub_request(:delete, unbind_url).to_return(status: 200, body: {}.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      channel.destroy!
+
+      expect(WebMock).to have_requested(:delete, unbind_url)
+    end
+
+    it 'does not call Pathors for a channel that never bound a number' do
+      create(:channel_voice, account: account, phone_number: '+886222222222').destroy!
+
+      expect(WebMock).not_to have_requested(:delete, unbind_url)
+    end
+  end
 end

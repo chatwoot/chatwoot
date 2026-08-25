@@ -41,6 +41,9 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
         )
       )
       @inbox.save!
+      # Inside the transaction on purpose: a number Pathors refuses to bind must
+      # not leave a voice inbox behind that no call can ever reach.
+      bind_pathors_phone_number(channel) if channel.is_a?(Channel::Voice)
     end
   end
 
@@ -102,6 +105,13 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     return unless allowed_channel_types.include?(permitted_params[:channel][:type])
 
     account_channels_method.create!(permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type))
+  end
+
+  # Also the gate on the integration itself: the service raises
+  # IntegrationNotConnected when the account has no enabled Pathors hook, which
+  # is the only way a voice inbox could otherwise be created without one.
+  def bind_pathors_phone_number(channel)
+    Pathors::PhoneNumbersService.new(account: Current.account).bind(phone_number_id: channel.pathors_phone_number_id, inbox: @inbox)
   end
 
   def allowed_channel_types

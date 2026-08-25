@@ -94,6 +94,10 @@ en:
       failed: Signup failed
     voice:
       call_already_accepted: '%{agent_name} is already handling the call.'
+    pathors:
+      integration_not_connected: 'Connect the Pathors integration before setting up a voice inbox.'
+      phone_number_already_bound: 'This phone number is already connected to another inbox.'
+      request_failed: 'Could not reach Pathors to set up this phone number. Please try again.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:

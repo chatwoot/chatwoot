@@ -77,6 +77,10 @@ zh_TW:
       failed: 註冊失敗。
     voice:
       call_already_accepted: '%{agent_name} is already handling the call.'
+    pathors:
+      integration_not_connected: 請先連接 Pathors 整合，再設定語音收件匣。
+      phone_number_already_bound: 這組電話號碼已經連接到其他收件匣。
+      request_failed: 無法連線至 Pathors 設定這組電話號碼，請稍後再試。
     assignment_policy:
       not_found: 找不到分配策略
     attachments:

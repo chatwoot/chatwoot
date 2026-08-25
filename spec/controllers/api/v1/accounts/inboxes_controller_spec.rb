@@ -528,10 +528,14 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('+123456789')
       end
 
-      it 'creates a voice inbox when administrator' do
+      it 'creates a voice inbox and binds the number when administrator' do
+        create(:integrations_hook, :pathors, account: account, access_token: 'pathors_access_token')
+        binding_request = stub_request(:put, 'https://api.pathors.com/project/proj_123/integration/chatwoot/phone_numbers/pn_x9k2/binding')
+                          .to_return(status: 200, body: { binding: {} }.to_json, headers: { 'Content-Type' => 'application/json' })
+
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
-             params: { name: 'Support Line', channel: { type: 'voice', phone_number: '+886222222222' } },
+             params: { name: 'Support Line', channel: { type: 'voice', phone_number: '+886222222222', pathors_phone_number_id: 'pn_x9k2' } },
              as: :json
 
         expect(response).to have_http_status(:success)
@@ -539,6 +543,36 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(json_response['name']).to eq('Support Line')
         expect(json_response['channel_type']).to eq('Channel::Voice')
         expect(json_response['phone_number']).to eq('+886222222222')
+        expect(account.voice_channels.last.pathors_phone_number_id).to eq('pn_x9k2')
+        expect(binding_request).to have_been_requested
+      end
+
+      it 'rolls the voice inbox back when Pathors reports the number is already bound' do
+        create(:integrations_hook, :pathors, account: account, access_token: 'pathors_access_token')
+        stub_request(:put, 'https://api.pathors.com/project/proj_123/integration/chatwoot/phone_numbers/pn_x9k2/binding')
+          .to_return(status: 409, body: { error: 'already_bound' }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'Support Line', channel: { type: 'voice', phone_number: '+886222222222', pathors_phone_number_id: 'pn_x9k2' } },
+             as: :json
+
+        expect(response).to have_http_status(:conflict)
+        expect(response.parsed_body['error']).to be_present
+        expect(account.voice_channels.count).to eq(0)
+        expect(account.inboxes.count).to eq(0)
+      end
+
+      it 'rejects a voice inbox when the Pathors integration is not connected' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'Support Line', channel: { type: 'voice', phone_number: '+886222222222', pathors_phone_number_id: 'pn_x9k2' } },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to be_present
+        expect(account.voice_channels.count).to eq(0)
+        expect(account.inboxes.count).to eq(0)
       end
 
       it 'rejects a voice inbox with a number that is not in E.164 format' do

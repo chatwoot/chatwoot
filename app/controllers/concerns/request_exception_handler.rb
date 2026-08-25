@@ -11,6 +11,9 @@ module RequestExceptionHandler
     rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
     rescue_from CustomExceptions::Inbox::LimitExceeded,
                 CustomExceptions::Account::EmailLimitExceeded,
+                CustomExceptions::Pathors::IntegrationNotConnected,
+                CustomExceptions::Pathors::PhoneNumberAlreadyBound,
+                CustomExceptions::Pathors::RequestFailed,
                 with: :render_error_response
   end
 

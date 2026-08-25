@@ -336,11 +336,22 @@
           "PLACEHOLDER": "為這個收件匣取個名稱（例：客服專線）",
           "ERROR": "請為這個收件匣填寫名稱"
         },
-        "PHONE_NUMBER": {
+        "PHONE_NUMBERS": {
           "LABEL": "電話號碼",
-          "PLACEHOLDER": "輸入您的電話號碼（例：+1234567890）",
           "HELP": "客戶撥打這個號碼即可接通此收件匣，建立後無法變更。",
-          "ERROR": "請提供 E.164 格式的有效電話號碼（例：+1234567890）"
+          "LOADING": "正在載入 Pathors 電話號碼…",
+          "EXTENSION": "分機 {extension}",
+          "TAKEN_LABEL": "已使用",
+          "FETCH_ERROR": "無法載入 Pathors 電話號碼",
+          "NOT_CONNECTED": {
+            "TITLE": "請先連接 Pathors",
+            "DESCRIPTION": "語音收件匣使用的是 Pathors 帳戶裡的電話號碼。連接 Pathors 整合後，號碼就會顯示在這裡。",
+            "ACTION": "前往 Pathors 整合設定"
+          },
+          "EMPTY": {
+            "TITLE": "沒有可用的電話號碼",
+            "DESCRIPTION": "電話號碼由 Pathors 管理後台管理。在後台新增號碼後，就會出現在這裡。"
+          }
         },
         "TWILIO": {
           "ACCOUNT_SID": {

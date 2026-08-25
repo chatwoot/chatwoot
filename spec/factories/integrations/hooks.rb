@@ -27,6 +27,19 @@ FactoryBot.define do
       settings { { api_key: 'api_key' } }
     end
 
+    trait :pathors do
+      app_id { 'pathors' }
+      access_token { SecureRandom.hex }
+      settings do
+        {
+          project_id: 'proj_123',
+          refresh_token: 'pathors_refresh_token',
+          token_type: 'Bearer',
+          expires_on: 30.minutes.from_now.utc.to_s
+        }
+      end
+    end
+
     trait :linear do
       app_id { 'linear' }
       access_token { SecureRandom.hex }
