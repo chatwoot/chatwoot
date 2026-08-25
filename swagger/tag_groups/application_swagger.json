@@ -5785,6 +5785,97 @@
           "$ref": "#/components/parameters/message_id"
         }
       ],
+      "patch": {
+        "tags": [
+          "Messages"
+        ],
+        "operationId": "update-message-status",
+        "summary": "Update message status",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Updates the delivery status of a single message. Available only for messages in\nAPI channel inboxes, where your own system is responsible for delivering messages\nand reporting what happened. Use this to push `sent`, `delivered`, and `read`\nreceipts into Chatwoot, for example, to mark an agent's message as read when the\nend user views it in your client, so the agent sees the read indicator on the\nmessage.\n\nA message already marked `read` cannot be moved back to `delivered`. When\nreporting a failure, include `external_error` with the reason, which is shown to\nthe agent along with the failed indicator.\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "sent",
+                      "delivered",
+                      "read",
+                      "failed"
+                    ],
+                    "description": "The new status of the message"
+                  },
+                  "external_error": {
+                    "type": "string",
+                    "description": "Error description, stored only when status is failed"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/generic_id"
+                    },
+                    {
+                      "$ref": "#/components/schemas/message"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The message does not belong to an API channel inbox",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The message or conversation does not exist in the account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      },
       "delete": {
         "tags": [
           "Messages"
