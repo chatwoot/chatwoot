@@ -53,6 +53,7 @@ export default {
       showEditModal: false,
       isEditingName: false,
       editName: '',
+      showAvatarZoom: false,
     };
   },
   computed: {
@@ -108,6 +109,9 @@ export default {
     dynamicTime,
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
+    },
+    openAvatarZoom() {
+      if (this.contact.thumbnail) this.showAvatarZoom = true;
     },
     findCountryFlag(countryCode, cityAndCountry) {
       try {
@@ -181,14 +185,20 @@ export default {
   <div class="relative items-center w-full p-4">
     <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
       <div class="flex flex-row justify-between">
-        <Avatar
+        <div
           v-if="showAvatar"
-          :src="contact.thumbnail"
-          :name="contact.name"
-          :status="contact.availability_status"
-          :size="48"
-          hide-offline-status
-        />
+          :class="{ 'cursor-pointer': contact.thumbnail }"
+          :title="contact.thumbnail ? 'คลิกเพื่อดูรูปโปรไฟล์' : undefined"
+          @click="openAvatarZoom"
+        >
+          <Avatar
+            :src="contact.thumbnail"
+            :name="contact.name"
+            :status="contact.availability_status"
+            :size="48"
+            hide-offline-status
+          />
+        </div>
       </div>
 
       <div class="flex flex-col items-start gap-1.5 min-w-0 w-full">
@@ -371,5 +381,38 @@ export default {
         @cancel="toggleEditModal"
       />
     </div>
+    <Teleport to="body">
+      <div
+        v-if="showAvatarZoom"
+        class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 p-6"
+        @click.self="showAvatarZoom = false"
+      >
+        <div
+          class="flex flex-col max-w-[92vw] max-h-[92vh] overflow-hidden shadow-xl rounded-xl bg-n-solid-1 border border-n-weak"
+        >
+          <div
+            class="flex items-center justify-between gap-4 px-4 py-2 border-b border-n-weak"
+          >
+            <span class="text-sm font-medium truncate text-n-slate-12">
+              {{ contact.name }}
+            </span>
+            <NextButton
+              ghost
+              slate
+              xs
+              icon="i-lucide-x"
+              @click="showAvatarZoom = false"
+            />
+          </div>
+          <div class="flex items-center justify-center p-3 overflow-auto">
+            <img
+              :src="contact.thumbnail"
+              :alt="contact.name"
+              class="max-w-full max-h-[78vh] object-contain rounded-md"
+            />
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>

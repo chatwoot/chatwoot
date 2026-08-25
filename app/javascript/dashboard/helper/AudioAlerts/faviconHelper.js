@@ -1,21 +1,26 @@
-export const showBadgeOnFavicon = () => {
-  const favicons = document.querySelectorAll('.favicon');
+import {
+  showDotOnFavicon,
+  clearDotOnFavicon,
+} from 'dashboard/helper/unreadBadgeHelper';
 
-  favicons.forEach(favicon => {
-    const newFileName = `/favicon-badge-${favicon.sizes[[0]]}.png`;
-    favicon.href = newFileName;
-  });
+let isFaviconSwitcherInitialized = false;
+
+export const showBadgeOnFavicon = () => {
+  // The unread badge helper owns the favicon. When there is an unread count it
+  // already renders a numbered badge, so the plain dot is only a fallback for
+  // alerts that don't create a notification record.
+  showDotOnFavicon();
 };
 
 export const initFaviconSwitcher = () => {
-  const favicons = document.querySelectorAll('.favicon');
+  // `set` on the audio helper runs on every profile update, the listener should
+  // still be registered only once.
+  if (isFaviconSwitcherInitialized) return;
+  isFaviconSwitcherInitialized = true;
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-      favicons.forEach(favicon => {
-        const oldFileName = `/favicon-${favicon.sizes[[0]]}.png`;
-        favicon.href = oldFileName;
-      });
+      clearDotOnFavicon();
     }
   });
 };

@@ -287,6 +287,7 @@ en:
       conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
       conversation_assignment: 'A conversation (#%{display_id}) has been assigned to you'
       assigned_conversation_new_message: 'A new message is created in conversation (#%{display_id})'
+      all_conversations_new_message: 'New message in conversation (#%{display_id})'
       conversation_mention: 'You have been mentioned in conversation (#%{display_id})'
       sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
       sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'

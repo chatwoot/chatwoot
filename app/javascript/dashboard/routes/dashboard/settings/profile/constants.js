@@ -23,6 +23,11 @@ export const NOTIFICATION_TYPES = [
   },
   {
     label:
+      'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.ALL_CONVERSATIONS_NEW_MESSAGE',
+    value: 'all_conversations_new_message',
+  },
+  {
+    label:
       'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_FIRST_RESPONSE',
     value: 'sla_missed_first_response',
   },
