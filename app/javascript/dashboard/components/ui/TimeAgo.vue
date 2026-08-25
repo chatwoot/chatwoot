@@ -3,11 +3,8 @@ const MINUTE_IN_MILLI_SECONDS = 60000;
 const HOUR_IN_MILLI_SECONDS = MINUTE_IN_MILLI_SECONDS * 60;
 const DAY_IN_MILLI_SECONDS = HOUR_IN_MILLI_SECONDS * 24;
 
-import {
-  dynamicTime,
-  exactTimestamp,
-  shortTimestamp,
-} from 'shared/helpers/timeHelper';
+import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 export default {
   name: 'TimeAgo',
@@ -29,6 +26,9 @@ export default {
       default: '',
     },
   },
+  setup() {
+    return { exactTimestamp: useExactTimestamp() };
+  },
   data() {
     return {
       lastActivityAtTimeAgo: dynamicTime(this.lastActivityTimestamp),
@@ -45,13 +45,13 @@ export default {
     },
     createdAt() {
       return `${this.$t(
-        'CHAT_LIST.CHAT_TIME_STAMP.CREATED'
-      )} ${exactTimestamp(this.createdAtTimestamp)}`;
+        'CHAT_LIST.CHAT_TIME_STAMP.CREATED.OLDEST'
+      )} ${this.exactTimestamp(this.createdAtTimestamp)}`;
     },
     lastActivity() {
       return `${this.$t(
-        'CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY'
-      )} ${exactTimestamp(this.lastActivityTimestamp)}`;
+        'CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.NOT_ACTIVE'
+      )} ${this.exactTimestamp(this.lastActivityTimestamp)}`;
     },
     tooltipText() {
       return `${this.createdAt}\n${this.lastActivity}`;
