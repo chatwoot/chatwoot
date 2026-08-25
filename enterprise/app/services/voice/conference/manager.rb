@@ -1,5 +1,5 @@
 class Voice::Conference::Manager
-  pattr_initialize [:call!, :event!, :participant_label]
+  pattr_initialize [:call!, :event!, :participant_label, :participant_call_sid]
 
   AGENT_LABEL_PATTERN = /\Aagent-(\d+)-account-(\d+)\z/
 
@@ -23,7 +23,6 @@ class Voice::Conference::Manager
   end
 
   def mark_ringing!
-    # Guard against delayed conference-start retries rolling a progressed call back to ringing.
     return unless call.status == 'ringing'
 
     status_manager.process_status_update('ringing')
@@ -41,9 +40,6 @@ class Voice::Conference::Manager
     call.broadcast_voice_call_event(:accepted, accepted_by_agent_id: call.accepted_by_agent_id)
   end
 
-  # First-join wins; later joins by other agents are silently ignored so the
-  # webhook doesn't stomp the original assignee. User-facing rejection happens
-  # at the API layer.
   def claim_for_user!(user_id)
     claimed = false
     call.with_lock do
@@ -57,10 +53,6 @@ class Voice::Conference::Manager
     auto_assign_conversation!(user_id) if claimed
   end
 
-  # Exactly-once gate for the accepted broadcast, tracked separately from the claim: the
-  # claim can already be set before this webhook runs (mark_agent_joined on POST /conference,
-  # or OutboundCallBuilder at call creation), and call.status can already be in_progress via
-  # the contact's own "answered" callback — neither is a reliable "already broadcast" signal.
   def mark_accepted_broadcast!
     first_time = false
     call.with_lock do
@@ -79,9 +71,6 @@ class Voice::Conference::Manager
     Conversations::AssignmentService.new(conversation: conversation, assignee_id: user_id).perform
   end
 
-  # Parses agent user_id from participant_label. Only returns an id when the
-  # label's embedded account id matches the call's account — protects against
-  # a spoofed/cross-account label attaching a foreign user to the call.
   def extract_user_id
     match = participant_label.to_s.match(AGENT_LABEL_PATTERN)
     return unless match
@@ -91,7 +80,7 @@ class Voice::Conference::Manager
   end
 
   def handle_leave!
-    return if local_disconnect_suppressed?
+    return if consume_deliberate_agent_disconnect?
 
     case call.status
     when 'ringing'
@@ -102,7 +91,6 @@ class Voice::Conference::Manager
   end
 
   def finalize!
-    return if local_disconnect_suppressed?
     return if Call::TERMINAL_STATUSES.include?(call.status)
 
     status_manager.process_status_update('completed', timestamp: now)
@@ -117,8 +105,12 @@ class Voice::Conference::Manager
     Voice::CallTerminationGuard.active?(call)
   end
 
-  def local_disconnect_suppressed?
-    call.with_lock { Voice::CallTerminationGuard.local_disconnect_suppressed?(call) }
+  def consume_deliberate_agent_disconnect?
+    return false unless agent_participant?
+
+    call.with_lock do
+      Voice::CallTerminationGuard.consume_local_disconnect!(call, participant_call_sid)
+    end
   end
 
   def agent_participant?
