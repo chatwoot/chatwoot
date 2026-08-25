@@ -12,6 +12,7 @@ import {
   DELAYED_TRIGGERS,
   DEFAULT_TRIGGER,
   DEFAULT_TRIGGER_STATUS,
+  DELAYED_UNSUPPORTED_ATTRIBUTES,
   MIN_DELAY_MINUTES,
   MAX_DELAY_MINUTES,
 } from '../constants';
@@ -55,7 +56,6 @@ const triggerStatus = ref(DEFAULT_TRIGGER_STATUS);
 // No inbox selected means the rule applies to every inbox.
 const triggerInboxes = ref([]);
 const conditionsRef = useTemplateRef('conditionsRef');
-const unsupportedDelayedAttributes = new Set(['labels']);
 
 const isStatusTrigger = computed(
   () => selectedTrigger.value === 'conversation_status'
@@ -75,17 +75,17 @@ const additionalFilterTypes = computed(() => {
   return props.filterTypes.filter(
     filter =>
       !managedAttributeKeys.value.has(filter.attributeKey) &&
-      !unsupportedDelayedAttributes.has(filter.attributeKey)
+      !DELAYED_UNSUPPORTED_ATTRIBUTES.includes(filter.attributeKey)
   );
 });
 
+const isAdditionalCondition = condition =>
+  !managedAttributeKeys.value.has(condition.attribute_key);
+
 const additionalConditionIndexes = computed(() =>
-  conditions.value.reduce((indexes, condition, index) => {
-    if (!managedAttributeKeys.value.has(condition.attribute_key)) {
-      indexes.push(index);
-    }
-    return indexes;
-  }, [])
+  conditions.value.flatMap((condition, index) =>
+    isAdditionalCondition(condition) ? [index] : []
+  )
 );
 
 const triggerOptions = computed(() =>
@@ -170,23 +170,11 @@ const buildCondition = (attributeKey, values) => ({
   custom_attribute_type: '',
 });
 
-const normalizedQueryOperator = operator =>
-  operator?.toLowerCase() === 'or' ? 'or' : 'and';
-
 const connectorBeforeCondition = conditionIndex => {
-  const previousCondition = conditions.value[conditionIndex - 1];
-  const connector = previousCondition?.query_operator;
+  const connectorSource =
+    conditions.value[conditionIndex === 0 ? 0 : conditionIndex - 1];
 
-  // Conditions created through the API can place an additional condition before the managed
-  // trigger condition. OR is commutative for this two-condition edge case, so show its connector
-  // rather than claiming the saved rule uses AND.
-  if (conditionIndex === 0) {
-    return normalizedQueryOperator(
-      conditions.value[conditionIndex]?.query_operator
-    );
-  }
-
-  return normalizedQueryOperator(connector);
+  return connectorSource?.query_operator?.toLowerCase() === 'or' ? 'or' : 'and';
 };
 
 const connectorLabel = conditionIndex =>
@@ -195,18 +183,9 @@ const connectorLabel = conditionIndex =>
     : t('FILTER.QUERY_DROPDOWN_LABELS.AND');
 
 const applyTrigger = ({ preserveAdditional = true } = {}) => {
-  const firstAdditionalConditionIndex = conditions.value.findIndex(
-    condition => !managedAttributeKeys.value.has(condition.attribute_key)
-  );
-  const additionalConditions =
-    preserveAdditional && firstAdditionalConditionIndex !== -1
-      ? conditions.value.filter(
-          condition => !managedAttributeKeys.value.has(condition.attribute_key)
-        )
-      : [];
-  const additionalConditionsConnector = connectorBeforeCondition(
-    firstAdditionalConditionIndex
-  );
+  const additionalConditions = preserveAdditional
+    ? conditions.value.filter(isAdditionalCondition)
+    : [];
   const trigger = DELAYED_TRIGGERS.find(
     item => item.key === selectedTrigger.value
   );
@@ -230,7 +209,9 @@ const applyTrigger = ({ preserveAdditional = true } = {}) => {
     );
   }
   if (additionalConditions.length) {
-    waitConditions.at(-1).query_operator = additionalConditionsConnector;
+    waitConditions.at(-1).query_operator = connectorBeforeCondition(
+      conditions.value.indexOf(additionalConditions[0])
+    );
   }
   conditions.value = [...waitConditions, ...additionalConditions];
 };
@@ -283,16 +264,18 @@ onMounted(() => {
   if (!props.isSavedWait) applyTrigger({ preserveAdditional: false });
 });
 
-watch(selectedTrigger, (nextTrigger, previousTrigger) => {
-  const nextEvent = DELAYED_TRIGGERS.find(
-    trigger => trigger.key === nextTrigger
-  ).eventName;
-  const previousEvent = DELAYED_TRIGGERS.find(
-    trigger => trigger.key === previousTrigger
-  ).eventName;
-  applyTrigger({ preserveAdditional: nextEvent === previousEvent });
-});
-watch([triggerStatus, triggerInboxes], () => applyTrigger());
+watch(
+  [selectedTrigger, triggerStatus, triggerInboxes],
+  ([nextTrigger], [previousTrigger]) => {
+    const triggerChanged = nextTrigger !== previousTrigger;
+    const nextEvent = DELAYED_TRIGGERS.find(
+      trigger => trigger.key === nextTrigger
+    ).eventName;
+    applyTrigger({
+      preserveAdditional: !triggerChanged || nextEvent === eventName.value,
+    });
+  }
+);
 
 defineExpose({ validate, resetValidation });
 </script>

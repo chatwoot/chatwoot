@@ -811,6 +811,7 @@ export const DEFAULT_DELAY_MINUTES = 240; // 4 hours
 export const MIN_DELAY_MINUTES = 10;
 export const MAX_DELAY_MINUTES = 43200; // 30 days
 export const DEFAULT_TRIGGER_STATUS = 'pending';
+export const DELAYED_UNSUPPORTED_ATTRIBUTES = ['labels'];
 
 // A delayed rule is expressed as one meaningful trigger instead of a raw event + conditions. Each
 // trigger maps to the automation's event_name plus a preset condition: message_type for the two

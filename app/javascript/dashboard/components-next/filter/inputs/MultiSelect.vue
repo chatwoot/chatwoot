@@ -159,7 +159,7 @@ const toggleOption = option => {
         <template #icon>
           <Icon icon="i-lucide-plus" class="text-n-slate-11" />
         </template>
-        <span class="text-n-slate-11 whitespace-nowrap">
+        <span class="text-n-slate-11">
           {{ placeholder || t('COMBOBOX.PLACEHOLDER') }}
         </span>
       </Button>
