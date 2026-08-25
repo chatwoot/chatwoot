@@ -91,6 +91,8 @@ class Voice::Conference::Manager
   end
 
   def handle_leave!
+    return if local_disconnect_suppressed?
+
     case call.status
     when 'ringing'
       status_manager.process_status_update('no_answer', timestamp: now)
@@ -100,6 +102,7 @@ class Voice::Conference::Manager
   end
 
   def finalize!
+    return if local_disconnect_suppressed?
     return if Call::TERMINAL_STATUSES.include?(call.status)
 
     status_manager.process_status_update('completed', timestamp: now)
@@ -112,6 +115,10 @@ class Voice::Conference::Manager
   def termination_pending_locked?
     Voice::CallTerminationGuard.clear_stale!(call)
     Voice::CallTerminationGuard.active?(call)
+  end
+
+  def local_disconnect_suppressed?
+    call.with_lock { Voice::CallTerminationGuard.local_disconnect_suppressed?(call) }
   end
 
   def agent_participant?
