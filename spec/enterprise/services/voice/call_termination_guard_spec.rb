@@ -37,16 +37,15 @@ RSpec.describe Voice::CallTerminationGuard do
     expect(described_class.active?(call, now: now)).to be false
   end
 
-  it 'suppresses and consumes only the matching agent participant leave' do
-    described_class.track_agent_participant!(call, 'CA_AGENT_1')
-    expect(described_class.suppress_local_disconnect!(call)).to be true
+  it 'suppresses and consumes only the initiating agent participant leave' do
+    expect(described_class.suppress_local_disconnect!(call, 'CA_OLD_TAB')).to be true
 
-    expect(described_class.consume_local_disconnect!(call, 'CA_OTHER')).to be false
-    expect(described_class.consume_local_disconnect!(call, 'CA_AGENT_1')).to be true
-    expect(described_class.consume_local_disconnect!(call, 'CA_AGENT_1')).to be false
+    expect(described_class.consume_local_disconnect!(call, 'CA_NEW_TAB')).to be false
+    expect(described_class.consume_local_disconnect!(call, 'CA_OLD_TAB')).to be true
+    expect(described_class.consume_local_disconnect!(call, 'CA_OLD_TAB')).to be false
   end
 
-  it 'does not create disconnect suppression when no agent participant sid is known' do
-    expect(described_class.suppress_local_disconnect!(call)).to be false
+  it 'does not create disconnect suppression without an initiating participant sid' do
+    expect(described_class.suppress_local_disconnect!(call, nil)).to be false
   end
 end
