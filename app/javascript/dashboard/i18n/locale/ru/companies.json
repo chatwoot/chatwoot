@@ -25,6 +25,10 @@
     "ACTIONS": {
       "CREATE": "Добавить компанию"
     },
+    "SELECTOR": {
+      "PLACEHOLDER": "Select company",
+      "CREATE_OPTION": "Add \"{name}\""
+    },
     "CREATE": {
       "TITLE": "Добавить информацию о компании",
       "ACTIONS": {

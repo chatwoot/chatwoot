@@ -53,8 +53,9 @@ const generateUid = () => {
 const uploadAttachment = ref(null);
 const isEmojiPickerOpen = ref(false);
 
-const EmojiInput = defineAsyncComponent(
-  () => import('shared/components/emoji/EmojiInput.vue')
+const EmojiIconPicker = defineAsyncComponent(
+  () =>
+    import('dashboard/components-next/emoji-icon-picker/EmojiIconPicker.vue')
 );
 
 const {
@@ -215,10 +216,11 @@ useEventListener(document, 'paste', onPaste);
           class="!w-10"
           @click="isEmojiPickerOpen = !isEmojiPickerOpen"
         />
-        <EmojiInput
+        <EmojiIconPicker
           v-if="isEmojiPickerOpen"
+          mode="emoji"
           class="!top-auto !bottom-full mb-1.5 ltr:left-0 rtl:right-0"
-          :on-click="onClickInsertEmoji"
+          @select="onClickInsertEmoji($event.value)"
         />
       </div>
       <FileUpload

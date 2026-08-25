@@ -34,6 +34,10 @@ class InboxPolicy < ApplicationPolicy
     true
   end
 
+  def message_templates?
+    true
+  end
+
   def campaigns?
     @account_user.administrator?
   end
@@ -62,6 +66,10 @@ class InboxPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def whatsapp_business_management_token?
+    @account_user.administrator?
+  end
+
   def health?
     @account_user.administrator?
   end
@@ -75,6 +83,10 @@ class InboxPolicy < ApplicationPolicy
   end
 
   def disable_whatsapp_calling?
+    @account_user.administrator?
+  end
+
+  def set_inbound_calls?
     @account_user.administrator?
   end
 end

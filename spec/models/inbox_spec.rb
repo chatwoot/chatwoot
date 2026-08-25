@@ -41,6 +41,34 @@ RSpec.describe Inbox do
     it_behaves_like 'avatarable'
   end
 
+  describe 'account teardown' do
+    it 'destroys an orphaned inbox after its account has been deleted' do
+      account = create(:account)
+      inbox = create(:inbox, account: account)
+      account.delete
+
+      orphaned_inbox = described_class.find(inbox.id)
+
+      expect { orphaned_inbox.destroy! }.not_to raise_error
+    end
+  end
+
+  describe 'filtered unread count invalidation' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:store) { Conversations::UnreadCounts::FilteredCountStore }
+
+    before do
+      account.enable_features!(:unread_count_for_filters)
+    end
+
+    it 'invalidates saved folder snapshots when destroyed' do
+      expect do
+        inbox.destroy!
+      end.to change { store.conversation_version(account.id) }.by(1)
+    end
+  end
+
   describe '#add_members' do
     let(:inbox) { FactoryBot.create(:inbox) }
 

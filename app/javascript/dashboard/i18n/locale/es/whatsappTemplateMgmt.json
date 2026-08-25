@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATE_MGMT": {
+    "TITLE": "Plantillas",
+    "DESCRIPTION": "Consulta las plantillas de mensajes sincronizadas desde tus bandejas de entrada de WhatsApp. Para crear o editar una plantilla, gestiónala con tu proveedor.",
+    "COUNT": "{n} plantilla | {n} plantillas",
+    "KNOW_MORE": "Más información",
+    "NEW_TEMPLATE": "Nueva plantilla",
+    "SEARCH_PLACEHOLDER": "Buscar por contenido o nombre...",
+    "MANAGE_IN_META": "Gestionar en Meta",
+    "MANAGE_IN_TWILIO": "Gestionar en Twilio",
+    "LOADING": "Cargando plantillas de WhatsApp...",
+    "EMPTY": "No se encontraron plantillas de WhatsApp.",
+    "NO_RESULTS": "Ninguna plantilla coincide con tus filtros.",
+    "FETCH_ERROR": "No se pudieron cargar las plantillas de WhatsApp. Inténtalo de nuevo.",
+    "PARTIAL_FETCH_ERROR": "No se pudieron cargar algunas plantillas de WhatsApp. Inténtalo de nuevo.",
+    "LAST_SYNC_ATTEMPT": "Último intento de sincronización: {date}",
+    "MORE_INBOXES": "+{n}",
+    "FILTERS": {
+      "ALL_INBOXES": "Todas las bandejas",
+      "ALL_LANGUAGES": "Todos los idiomas"
+    },
+    "TYPES": {
+      "TEXT": "Texto",
+      "IMAGE": "Imagen",
+      "VIDEO": "Vídeo",
+      "DOCUMENT": "Documento",
+      "MEDIA": "Multimedia",
+      "QUICK_REPLY": "Respuesta rápida",
+      "CALL_TO_ACTION": "Llamada a la acción",
+      "CATALOG": "Catálogo",
+      "COPY_CODE": "Copiar código"
+    },
+    "PREVIEW": {
+      "TITLE": "Vista previa de la plantilla",
+      "DESCRIPTION": "Consulta cómo aparece esta plantilla en WhatsApp.",
+      "OPEN": "Vista previa de {name}",
+      "CLOSE": "Cerrar vista previa",
+      "DETAILS": "Detalles de la plantilla",
+      "STATUS": "Estado",
+      "TYPE": "Tipo de contenido",
+      "CATEGORY": "Categoría",
+      "LANGUAGE": "Idioma",
+      "INBOXES": "Bandejas de entrada",
+      "LAST_SYNC_ATTEMPT": "Último intento de sincronización"
+    }
+  }
+}

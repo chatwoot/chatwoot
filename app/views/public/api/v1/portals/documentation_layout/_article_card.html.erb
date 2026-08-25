@@ -3,7 +3,7 @@
    class="group flex flex-col p-5 rounded-xl border border-solid border-n-weak hover:border-n-portal hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
   <% if show_category && article.category %>
     <span class="inline-flex items-center gap-1 self-start text-xs font-medium text-n-slate-11 mb-3">
-      <% if article.category.icon.present? %><span><%= article.category.icon %></span><% end %>
+      <% if article.category.icon.present? %><span><%= render_emoji_or_icon(article.category.icon, article.category.icon_color) %></span><% end %>
       <%= article.category.name %>
     </span>
   <% end %>

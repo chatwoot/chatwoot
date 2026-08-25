@@ -17,9 +17,9 @@ class Whatsapp::WebhookSetupService
     setup_webhook
   end
 
-  def register_callback(subscribed_fields: nil)
+  def register_callback
     validate_parameters!
-    setup_webhook(subscribed_fields: subscribed_fields)
+    setup_webhook
   end
 
   private
@@ -28,6 +28,7 @@ class Whatsapp::WebhookSetupService
     raise ArgumentError, 'Channel is required' if @channel.blank?
     raise ArgumentError, 'WABA ID is required' if @waba_id.blank?
     raise ArgumentError, 'Access token is required' if @access_token.blank?
+    raise ArgumentError, 'Phone number ID is required' if @channel.provider_config['phone_number_id'].blank?
   end
 
   def register_phone_number
@@ -55,19 +56,36 @@ class Whatsapp::WebhookSetupService
     @channel.save!
   end
 
-  def setup_webhook(subscribed_fields: nil)
+  def setup_webhook
     callback_url = build_callback_url
     verify_token = @channel.provider_config['webhook_verify_token']
+    phone_number_id = @channel.provider_config['phone_number_id']
 
-    args = [@waba_id, callback_url, verify_token]
-    if subscribed_fields
-      @api_client.subscribe_waba_webhook(*args, subscribed_fields: subscribed_fields)
-    else
-      @api_client.subscribe_waba_webhook(*args)
-    end
+    @api_client.subscribe_phone_number_webhook(@waba_id, phone_number_id, callback_url, verify_token, subscribed_fields: subscribed_fields)
   rescue StandardError => e
     Rails.logger.error("[WHATSAPP] Webhook setup failed: #{e.message}")
     raise "Webhook setup failed: #{e.message}"
+  end
+
+  # Subscribe to `calls` only when voice calling is enabled on the inbox
+  def subscribed_fields
+    fields = %w[messages smb_message_echoes]
+    fields << 'calls' if calls_enabled_on_waba?
+    fields
+  end
+
+  # `subscribed_fields` is a WABA-wide app subscription, so keep `calls` whenever this inbox or
+  # any sibling on the same WABA has voice on — otherwise a non-calling sibling's setup would
+  # rewrite the shared subscription and drop calls for a calling-enabled sibling.
+  def calls_enabled_on_waba?
+    return true if @channel.provider_config['calling_enabled']
+
+    Channel::Whatsapp
+      .where(provider: 'whatsapp_cloud')
+      .where.not(id: @channel.id)
+      .where("provider_config->>'business_account_id' = ?", @waba_id)
+      .where("provider_config->>'calling_enabled' = 'true'")
+      .exists?
   end
 
   def build_callback_url

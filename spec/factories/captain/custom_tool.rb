@@ -27,7 +27,7 @@ FactoryBot.define do
 
     trait :with_api_key do
       auth_type { 'api_key' }
-      auth_config { { key: 'test_api_key', location: 'header', name: 'X-API-Key' } }
+      auth_config { { key: 'test_api_key', name: 'X-API-Key' } }
     end
 
     trait :with_templates do

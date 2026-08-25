@@ -49,7 +49,9 @@
         "ADD_NAME": "Thêm tên cho hộp thư đến của bạn",
         "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Chọn một giá trị",
-        "CREATE_INBOX": "Tạo Hộp thư đến"
+        "CREATE_INBOX": "Tạo Hộp thư đến",
+        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "STATUS_LINK": "View status updates"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
@@ -58,14 +60,18 @@
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
         "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore.",
+        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
+        "STATUS_LINK": "View status updates"
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
         "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
         "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
         "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "ERROR_AUTH": "There was an error connecting to TikTok, please try again",
+        "NORTH_AMERICA_WARNING": "TikTok connections for North American accounts are temporarily unavailable while we wait for an update from the TikTok team."
       },
       "TWITTER": {
         "HELP": "Để thêm hồ sơ Twitter của bạn làm kênh, bạn cần xác thực Hồ sơ Twitter của mình bằng cách nhấp vào 'Đăng nhập bằng Twitter",
@@ -246,12 +252,14 @@
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "Đám mây WhatsApp",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "WHATSAPP_CLOUD_MANUAL_SETUP_DESC": "Manual setup with Cloud API credentials",
           "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
           "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials.",
+          "RESTRICTION_DESCRIPTION": "Choose your WhatsApp provider. You can connect WhatsApp Cloud manually using your Cloud API credentials, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "Tên hộp thư đến",
@@ -293,7 +301,7 @@
         "SUBMIT_BUTTON": "Tạo kênh WhatsApp",
         "EMBEDDED_SIGNUP": {
           "TITLE": "Quick setup with Meta",
-          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "DESC": "Use Quick setup with Meta to connect a new number or an existing number from the WhatsApp Business app. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
           "BENEFITS": {
             "TITLE": "Benefits of Embedded Signup:",
             "EASY_SETUP": "No manual configuration required",
@@ -301,7 +309,7 @@
             "AUTO_CONFIG": "Automatic webhook and phone number configuration"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
+            "TEXT": "To learn more about quick setup, pricing, and limitations, visit {link}.",
             "LINK_TEXT": "this link"
           },
           "SUBMIT_BUTTON": "Connect with WhatsApp Business",
@@ -319,10 +327,20 @@
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
           "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow",
+          "ACCESS_REQUEST": {
+            "TITLE": "Quick setup with Meta",
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
+            "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
+            "BUTTON": "Request access"
+          },
+          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
+          "STATUS_LINK": "View status updates",
           "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
-          "ERROR_MESSAGE": "Chúng tôi không thể lưu kênh WhatsApp"
+          "ERROR_MESSAGE": "Chúng tôi không thể lưu kênh WhatsApp",
+          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
+          "STATUS_LINK": "View status updates"
         }
       },
       "VOICE": {
@@ -653,6 +671,10 @@
       },
       "CREDENTIALS": {
         "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      },
+      "INBOUND": {
+        "LABEL": "Allow incoming calls",
+        "DESCRIPTION": "Let customers call this number. When turned off, incoming calls are declined automatically — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
       }
     },
     "WHATSAPP_CALLING": {
@@ -679,40 +701,98 @@
     "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
-      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
+      "DESCRIPTION": "Review your WhatsApp phone number health, messaging capacity, and linked Meta business details.",
       "GO_TO_SETTINGS": "Go to Meta Business Manager",
       "NO_DATA": "Health data is not available",
+      "ERRORS": {
+        "AUTHORIZATION": {
+          "EMBEDDED_TITLE": "WhatsApp connection needs to be refreshed",
+          "EMBEDDED_DESCRIPTION": "Meta could not validate the connection for this inbox. Go to Configuration to reconfigure it using Embedded Signup.",
+          "MANUAL_TITLE": "WhatsApp access token needs attention",
+          "MANUAL_DESCRIPTION": "Meta could not validate the access token for this inbox. Go to Configuration to verify or replace it."
+        },
+        "GENERIC_TITLE": "WhatsApp health data is unavailable",
+        "GENERIC_DESCRIPTION": "Meta could not return the current health details. Review the error below and try again later.",
+        "GO_TO_CONFIGURATION": "Go to Configuration"
+      },
+      "SECTIONS": {
+        "PHONE_NUMBER": "Số điện thoại",
+        "HEALTH_AND_CAPACITY": "Health and capacity",
+        "BUSINESS_ACCOUNT": "Business account"
+      },
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
           "LABEL": "Display phone number",
           "TOOLTIP": "Phone number displayed to customers"
         },
         "VERIFIED_NAME": {
-          "LABEL": "Business name",
-          "TOOLTIP": "Business name verified by WhatsApp"
+          "LABEL": "WhatsApp display name",
+          "TOOLTIP": "Display name associated with this phone number on WhatsApp"
+        },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "ID số điện thoại",
+          "TOOLTIP": "Meta identifier for this WhatsApp phone number"
+        },
+        "COEXISTENCE": {
+          "LABEL": "Coexistence",
+          "TOOLTIP": "This number is connected to both the WhatsApp Business app and Cloud API"
         },
         "DISPLAY_NAME_STATUS": {
           "LABEL": "Display name status",
-          "TOOLTIP": "Status of your business name verification"
+          "TOOLTIP": "Review status of the WhatsApp display name"
+        },
+        "LAST_ONBOARDED_TIME": {
+          "LABEL": "Last onboarded",
+          "TOOLTIP": "Most recent time Meta onboarded this phone number"
+        },
+        "PHONE_NUMBER_STATUS": {
+          "LABEL": "Phone number status",
+          "TOOLTIP": "Current connection status of this phone number on WhatsApp"
         },
         "QUALITY_RATING": {
           "LABEL": "Quality rating",
-          "TOOLTIP": "WhatsApp quality rating for your account"
+          "TOOLTIP": "Quality rating Meta assigns to this phone number based on recent messaging signals"
         },
         "MESSAGING_LIMIT_TIER": {
           "LABEL": "Messaging limit tier",
-          "TOOLTIP": "Daily messaging limit for your account"
+          "TOOLTIP": "Number of customers this phone number can initiate conversations with in 24 hours"
         },
         "ACCOUNT_MODE": {
           "LABEL": "Account mode",
-          "TOOLTIP": "Current operating mode of your WhatsApp account"
+          "TOOLTIP": "Current operating mode of this WhatsApp phone number"
+        },
+        "CODE_VERIFICATION_STATUS": {
+          "LABEL": "Code verification",
+          "TOOLTIP": "Verification-code status reported by Meta for this phone number"
+        },
+        "THROUGHPUT_LEVEL": {
+          "LABEL": "Throughput",
+          "TOOLTIP": "Message throughput level assigned to this phone number"
+        },
+        "BUSINESS_ACCOUNT_NAME": {
+          "LABEL": "WhatsApp Business Account name",
+          "TOOLTIP": "Name of the WhatsApp Business Account linked to this phone number"
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "WhatsApp Business Account ID",
+          "TOOLTIP": "Meta identifier for the linked WhatsApp Business Account"
+        },
+        "BUSINESS_PORTFOLIO_NAME": {
+          "LABEL": "Business portfolio name",
+          "TOOLTIP": "Name of the Meta business portfolio that owns the WhatsApp Business Account"
+        },
+        "BUSINESS_PORTFOLIO_ID": {
+          "LABEL": "Business portfolio ID",
+          "TOOLTIP": "Meta identifier for the business portfolio that owns the WhatsApp Business Account"
         }
       },
       "VALUES": {
+        "NOT_AVAILABLE": "Not available",
         "TIERS": {
           "TIER_250": "250 customers per 24h",
           "TIER_1000": "1K customers per 24h",
           "TIER_1K": "1K customers per 24h",
+          "TIER_2K": "2K customers per 24h",
           "TIER_10K": "10K customers per 24h",
           "TIER_100K": "100K customers per 24h",
           "TIER_UNLIMITED": "Unlimited customers per 24h",
@@ -720,6 +800,16 @@
         },
         "STATUSES": {
           "APPROVED": "Approved",
+          "CONNECTED": "Connected",
+          "VERIFIED": "Đã xác minh",
+          "STANDARD": "Chuẩn",
+          "ACTIVE": "Có hiệu lực",
+          "EXPIRED": "Expired",
+          "FLAGGED": "Flagged",
+          "RESTRICTED": "Restricted",
+          "BANNED": "Banned",
+          "DISCONNECTED": "Disconnected",
+          "UNKNOWN": "Not available",
           "PENDING_REVIEW": "Pending Review",
           "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
           "REJECTED": "Rejected",
@@ -739,7 +829,11 @@
         "REGISTER_SUCCESS": "Webhook registered successfully",
         "REGISTER_ERROR": "Failed to register webhook. Please try again.",
         "CONFIGURED_SUCCESS": "Webhook configured successfully",
-        "URL_MISMATCH": "Webhook URL mismatch"
+        "URL_MISMATCH": "Webhook URL mismatch",
+        "CONFIGURED_URL": "Configured URL",
+        "EXPECTED_URL": "Expected URL",
+        "COPY_URL": "Copy webhook URL",
+        "COPY_SUCCESS": "Webhook URL copied to clipboard"
       }
     },
     "SETTINGS": "Cài đặt",
@@ -806,10 +900,29 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Cập nhật",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when Chatwoot cannot retrieve its message templates. Chatwoot uses this token only for template synchronization.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Enter the business management token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "Thêm",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Replace",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS": "WhatsApp business management token updated successfully.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR": "Could not update the business management token. Verify its WhatsApp Business Management permission and account access, then try again.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK": "Learn how to generate a WhatsApp Business Management token",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
       "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_MANUAL_TRANSFER_TITLE": "Switch to Manual Setup",
+      "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "This inbox was connected through WhatsApp embedded signup, which is no longer supported. Enter the WhatsApp Cloud API credentials from your own Meta app to switch this inbox to a manual setup. Configure the webhook in your Meta app using the verification token above before switching.",
+      "WHATSAPP_MANUAL_TRANSFER_PHONE_NUMBER_ID_LABEL": "Phone Number ID",
+      "WHATSAPP_MANUAL_TRANSFER_BUSINESS_ACCOUNT_ID_LABEL": "ID tài khoản doanh nghiệp",
+      "WHATSAPP_MANUAL_TRANSFER_API_KEY_LABEL": "Khoá API",
+      "WHATSAPP_MANUAL_TRANSFER_API_KEY_PLACEHOLDER": "Enter a permanent access token from your Meta app",
+      "WHATSAPP_MANUAL_TRANSFER_BUTTON": "Switch to Manual Setup",
+      "WHATSAPP_MANUAL_TRANSFER_SUCCESS": "Inbox switched to manual setup successfully.",
+      "WHATSAPP_MANUAL_TRANSFER_ERROR": "Could not switch to manual setup. Please verify the credentials and try again.",
       "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
       "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
       "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
@@ -827,6 +940,70 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
+      "WHATSAPP_MANUAL_MIGRATION": {
+        "BANNER": {
+          "TITLE": "Manual setup recommended",
+          "DESCRIPTION": "This inbox connects through the shared Meta app used for embedded signup, which recent Meta restrictions have affected. To avoid similar issues in the future, we recommend reconnecting it with your own Meta app.",
+          "START": "Start manual migration",
+          "GUIDE": "View guide"
+        },
+        "DIALOG": {
+          "EYEBROW": "WhatsApp manual migration",
+          "TITLE": "Reconnect WhatsApp inbox",
+          "CLOSE": "Đóng",
+          "ACTION_REQUIRED_TITLE": "Reconnect with your own Meta app",
+          "ACTION_REQUIRED_DESCRIPTION": "Inboxes connected through your own Meta app are not affected by restrictions on the shared embedded signup app. This guided flow updates the WhatsApp API connection without creating a new inbox.",
+          "GUIDE_LINK": "Open the manual setup guide",
+          "PRESERVED_TITLE": "Preserved",
+          "PRESERVED_DESCRIPTION": "Conversations, contacts, collaborators, routing, business hours, and inbox settings.",
+          "UPDATED_TITLE": "Updated",
+          "UPDATED_DESCRIPTION": "WABA ID, phone number ID, access token, and webhook configuration.",
+          "WABA_ID": "WABA ID",
+          "WABA_PLACEHOLDER": "Enter WABA ID",
+          "WABA_HELP": "The WhatsApp Business Account that owns this phone number.",
+          "PHONE_NUMBER_ID": "Phone Number ID",
+          "PHONE_NUMBER_PLACEHOLDER": "Enter Phone Number ID",
+          "PHONE_NUMBER_HELP": "Meta's unique ID for the WhatsApp number connected to this inbox.",
+          "DISPLAY_PHONE_NUMBER": "Display phone number",
+          "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Enter display phone number",
+          "DISPLAY_PHONE_NUMBER_HELP": "The customer-facing WhatsApp number. This cannot be changed during migration.",
+          "ACCESS_TOKEN": "Permanent access token or system user token",
+          "ACCESS_TOKEN_PLACEHOLDER": "Paste access token",
+          "TOKEN_HELP_PREFIX": "The token must include",
+          "TOKEN_HELP_MIDDLE": "Thêm",
+          "TOKEN_HELP_SUFFIX": "for template sync and template management.",
+          "MESSAGING_PERMISSION": "whatsapp_business_messaging.",
+          "MANAGEMENT_PERMISSION": "whatsapp_business_management",
+          "REVIEW_TITLE": "Review before reconnecting",
+          "INBOX": "Hộp thư đến",
+          "PHONE_NUMBER": "Số điện thoại",
+          "NOT_ENTERED": "Not entered",
+          "VERIFY_NOTICE": "Chatwoot will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
+          "BACK": "Trờ về",
+          "CANCEL": "Huỷ",
+          "CONTINUE": "Continue",
+          "REVIEW_MIGRATION": "Review migration",
+          "RECONNECT": "Reconnect WhatsApp inbox"
+        },
+        "STEPS": {
+          "BEFORE_YOU_START": {
+            "TITLE": "Before you start",
+            "DESCRIPTION": "This reconnects the WhatsApp API details for this inbox. Conversations, collaborators, routing, business hours, CSAT, and bot settings will be preserved."
+          },
+          "BUSINESS_DETAILS": {
+            "TITLE": "Business details",
+            "DESCRIPTION": "Enter the WhatsApp assets from the customer Meta Business account."
+          },
+          "ACCESS_TOKEN": {
+            "TITLE": "Access token",
+            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions."
+          },
+          "REVIEW_MIGRATION": {
+            "TITLE": "Review migration",
+            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
+          }
+        }
+      },
       "WHATSAPP_CALLING_ENABLED": {
         "LABEL": "Enable voice calling",
         "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."

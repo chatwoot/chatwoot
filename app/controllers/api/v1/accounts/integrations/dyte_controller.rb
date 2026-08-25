@@ -15,7 +15,7 @@ class Api::V1::Accounts::Integrations::DyteController < Api::V1::Accounts::BaseC
     end
 
     render_response(
-      dyte_processor_service.add_participant_to_meeting(@message.content_attributes['data']['meeting_id'], Current.user)
+      dyte_processor_service.add_participant_to_meeting(@message.content_attributes['data']['meeting_id'], Current.user, @message)
     )
   end
 
