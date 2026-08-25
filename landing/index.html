@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Whisker — Customer conversations with a soul</title>
-  <meta name="description" content="Whisker is a free, open-source customer conversation platform + CRM. Self-hosted, privacy-first, RTL-ready, with BYOR AI that connects to any OpenAI-compatible router." />
+  <meta name="description" content="Whisker is a free, open-source customer conversation platform + CRM. Self-hosted, privacy-first, RTL-ready, with BYOR AI." />
   <meta property="og:title" content="Whisker — Customer conversations with a soul" />
-  <meta property="og:description" content="Free & open-source live chat + CRM you fully own. Self-hosted, privacy-first, RTL-ready, BYOR AI included." />
+  <meta property="og:description" content="Free & open-source live chat + CRM you fully own." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://whisker-site.vercel.app" />
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #0a1a20;
       --surface: #0f2129;
-      --surface-2: #112730;
       --border: #17333e;
       --border-hover: #1fe0b5;
       --text: #e6f1ef;
@@ -27,25 +26,22 @@
       --secondary: #1ba5ff;
       --accent: #ffc857;
       --grad: linear-gradient(135deg, #1fe0b5, #1ba5ff);
-      --grad-warm: linear-gradient(135deg, #1fe0b5, #ffc857);
       --radius: 18px;
       --radius-sm: 12px;
+      --font-en: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-fa: 'Vazirmatn', 'Inter', system-ui, sans-serif;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      font-family: var(--font-en);
+      background: var(--bg); color: var(--text);
+      line-height: 1.65; -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
+    html[dir="rtl"] body { font-family: var(--font-fa); }
     a { color: var(--primary); text-decoration: none; transition: color .2s; }
     a:hover { color: #5eebd5; }
-
-    /* ── Layout ── */
     .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
     section { padding: 80px 0; }
 
@@ -76,10 +72,24 @@
     }
     nav .links a.gh:hover { border-color: var(--primary); }
 
-    /* ── Hero ── */
-    .hero {
-      padding: 80px 0 60px; text-align: center; position: relative; overflow: hidden;
+    /* ── Lang toggle ── */
+    .lang-toggle {
+      display: inline-flex; align-items: center; gap: 0;
+      border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+      font-size: 13px; font-weight: 600; cursor: pointer;
     }
+    .lang-toggle button {
+      background: transparent; border: none; color: var(--muted);
+      padding: 5px 10px; cursor: pointer; font-size: 13px; font-weight: 600;
+      font-family: inherit; transition: background .2s, color .2s;
+    }
+    .lang-toggle button.active {
+      background: rgba(31,224,181,.15); color: var(--primary);
+    }
+    .lang-toggle button:hover:not(.active) { color: var(--text); }
+
+    /* ── Hero ── */
+    .hero { padding: 80px 0 60px; text-align: center; position: relative; overflow: hidden; }
     .hero::before {
       content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%);
       width: 800px; height: 600px; border-radius: 50%;
@@ -91,24 +101,17 @@
       filter: drop-shadow(0 12px 40px rgba(31,224,181,.3));
       animation: float 4s ease-in-out infinite;
     }
-    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
     .version-pill {
       display: inline-flex; align-items: center; gap: 7px;
       background: var(--primary-dim); color: var(--primary);
       padding: 5px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
       margin-bottom: 22px; border: 1px solid rgba(31,224,181,.2);
     }
-    h1 {
-      font-size: clamp(36px, 6vw, 62px); font-weight: 900;
-      letter-spacing: -1.8px; line-height: 1.08; position: relative;
-    }
-    h1 .grad {
-      background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .tagline {
-      color: var(--muted); font-size: clamp(16px, 2.2vw, 19px);
-      margin-top: 18px; max-width: 600px; margin-inline: auto;
-    }
+    h1 { font-size: clamp(36px,6vw,62px); font-weight: 900; letter-spacing: -1.8px; line-height: 1.08; }
+    html[dir="rtl"] h1 { letter-spacing: 0; }
+    h1 .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .tagline { color: var(--muted); font-size: clamp(16px,2.2vw,19px); margin-top: 18px; max-width: 600px; margin-inline: auto; }
     .cta-row { margin-top: 36px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
     .btn {
       display: inline-flex; align-items: center; gap: 8px;
@@ -117,82 +120,53 @@
       cursor: pointer; border: none;
     }
     .btn:hover { transform: translateY(-2px); }
-    .btn-primary {
-      background: var(--grad); color: #06251f;
-      box-shadow: 0 8px 32px rgba(31,224,181,.25);
-    }
+    .btn-primary { background: var(--grad); color: #06251f; box-shadow: 0 8px 32px rgba(31,224,181,.25); }
     .btn-primary:hover { box-shadow: 0 12px 40px rgba(31,224,181,.35); color: #06251f; }
-    .btn-ghost {
-      background: transparent; border: 1px solid var(--border); color: var(--text);
-    }
+    .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text); }
     .btn-ghost:hover { border-color: var(--primary); color: var(--text); }
-    .badges {
-      margin-top: 28px; color: var(--muted); font-size: 13.5px;
-      display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
-    }
+    .badges { margin-top: 28px; color: var(--muted); font-size: 13.5px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
     .badges span { display: inline-flex; align-items: center; gap: 5px; }
 
     /* ── Section headers ── */
-    .section-label {
-      font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
-      color: var(--primary); margin-bottom: 10px;
-    }
-    h2 { font-size: clamp(26px, 3.8vw, 38px); font-weight: 800; letter-spacing: -.8px; line-height: 1.15; }
-    h2 .grad {
-      background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .section-sub { color: var(--muted); font-size: clamp(15px, 2vw, 17px); margin-top: 10px; max-width: 560px; }
+    .section-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--primary); margin-bottom: 10px; }
+    h2 { font-size: clamp(26px,3.8vw,38px); font-weight: 800; letter-spacing: -.8px; line-height: 1.15; }
+    html[dir="rtl"] h2 { letter-spacing: 0; }
+    h2 .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .section-sub { color: var(--muted); font-size: clamp(15px,2vw,17px); margin-top: 10px; max-width: 560px; }
 
     /* ── Cards ── */
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 38px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 38px; }
-    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 38px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; margin-top: 38px; }
     .card {
       background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
       padding: 26px; transition: border-color .25s, box-shadow .25s, transform .2s;
-      position: relative; overflow: hidden;
     }
-    .card:hover {
-      border-color: var(--border-hover);
-      box-shadow: 0 0 0 1px var(--border-hover), 0 8px 30px rgba(31,224,181,.08);
-      transform: translateY(-3px);
-    }
-    .card-icon {
-      width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      font-size: 22px; margin-bottom: 16px;
-      background: linear-gradient(135deg, rgba(31,224,181,.15), rgba(27,165,255,.1));
-      border: 1px solid rgba(31,224,181,.15);
-    }
-    .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; letter-spacing: -.2px; }
+    .card:hover { border-color: var(--border-hover); box-shadow: 0 0 0 1px var(--border-hover), 0 8px 30px rgba(31,224,181,.08); transform: translateY(-3px); }
+    .card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; background: linear-gradient(135deg,rgba(31,224,181,.15),rgba(27,165,255,.1)); border: 1px solid rgba(31,224,181,.15); }
+    .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
     .card p { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
 
     /* ── Code block ── */
-    pre {
-      background: #07141a; border: 1px solid var(--border); border-radius: 14px;
-      padding: 22px 24px; overflow-x: auto; font-size: 13.5px; color: #b9d9d2;
-      margin-top: 24px; line-height: 1.7; position: relative;
-    }
+    pre { background: #07141a; border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; overflow-x: auto; font-size: 13.5px; color: #b9d9d2; margin-top: 24px; line-height: 1.7; }
     pre .comment { color: #5a8a7e; }
     pre .prompt { color: var(--primary); user-select: none; }
 
-    /* ── Feature highlight (split layout) ── */
+    /* ── Split layout ── */
     .split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-    .split.reverse { direction: rtl; }
-    .split.reverse > * { direction: ltr; }
-    .split-visual {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 32px; text-align: center; position: relative; overflow: hidden;
-    }
-    .split-visual::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(31,224,181,.06), transparent 70%);
-      pointer-events: none;
-    }
+    .split-visual { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; text-align: center; position: relative; overflow: hidden; }
+    .split-visual::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%,rgba(31,224,181,.06),transparent 70%); pointer-events: none; }
+
+    /* ── Feature list ── */
+    .feat-list { list-style: none; margin-top: 20px; color: var(--muted); font-size: 15px; }
+    .feat-list li { margin-bottom: 10px; }
+
+    /* ── Info cards row ── */
+    .info-row { display: flex; gap: 14px; margin-top: 22px; flex-wrap: wrap; }
+    .info-card { flex: 1; min-width: 200px; padding: 18px; }
+    .info-card strong { color: var(--text); font-weight: 600; font-size: 14px; display: block; margin-bottom: 4px; }
+    .info-card span { color: var(--muted); font-size: 13.5px; }
 
     /* ── GitHub / About ── */
-    .gh-stats {
-      display: flex; gap: 16px; margin-top: 28px; flex-wrap: wrap;
-    }
+    .gh-stats { display: flex; gap: 16px; margin-top: 28px; flex-wrap: wrap; }
     .gh-badge {
       display: inline-flex; align-items: center; gap: 8px;
       background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
@@ -202,17 +176,26 @@
     .gh-badge:hover { border-color: var(--primary); color: var(--text); }
     .gh-badge svg { width: 18px; height: 18px; flex-shrink: 0; }
     .gh-links { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+    .contrib-box { margin-top: 32px; padding: 22px 26px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); max-width: 640px; }
+    .contrib-box strong { color: var(--text); font-weight: 600; font-size: 15px; display: block; margin-bottom: 8px; }
+    .contrib-box p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+    code.inline { background: #0a161c; padding: 2px 7px; border-radius: 5px; font-size: 13px; }
 
-    /* ── Farsi ── */
-    .fa-block { direction: rtl; text-align: right; }
-    .fa-block h2, .fa-block p { text-align: right; }
+    /* ── Developer credit ── */
+    .dev-credit { margin-top: 40px; padding: 20px 26px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .dev-credit .dev-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--grad); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: #06251f; flex-shrink: 0; }
+    .dev-credit .dev-info { flex: 1; min-width: 180px; }
+    .dev-credit .dev-name { color: var(--text); font-weight: 700; font-size: 15px; }
+    .dev-credit .dev-role { color: var(--muted); font-size: 13px; margin-top: 2px; }
+    .dev-credit .dev-links { display: flex; gap: 10px; }
+    .dev-credit .dev-links a {
+      color: var(--muted); font-size: 13px; padding: 4px 10px;
+      border: 1px solid var(--border); border-radius: 6px; transition: border-color .2s, color .2s;
+    }
+    .dev-credit .dev-links a:hover { border-color: var(--primary); color: var(--text); }
 
     /* ── Footer ── */
-    footer {
-      border-top: 1px solid var(--border); padding: 36px 0;
-      color: var(--muted); font-size: 13.5px;
-      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
-    }
+    footer { border-top: 1px solid var(--border); padding: 36px 0; color: var(--muted); font-size: 13.5px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
     footer a { color: var(--muted); }
     footer a:hover { color: var(--text); }
 
@@ -221,17 +204,8 @@
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .grid-4 { grid-template-columns: repeat(2, 1fr); }
-      .split { grid-template-columns: 1fr; gap: 28px; }
-      .split.reverse { direction: ltr; }
-    }
-    @media (max-width: 640px) {
-      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-      nav .links a:not(.gh) { display: none; }
-      .hero { padding: 50px 0 40px; }
-      section { padding: 56px 0; }
-    }
+    @media (max-width: 900px) { .grid-4{grid-template-columns:repeat(2,1fr)} .split{grid-template-columns:1fr;gap:28px} }
+    @media (max-width: 640px) { .grid-4{grid-template-columns:1fr} nav .links a:not(.gh):not(.lang-toggle){display:none} .hero{padding:50px 0 40px} section{padding:56px 0} }
   </style>
 </head>
 <body>
@@ -241,12 +215,7 @@
     <nav>
       <div class="logo">
         <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="navGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:#1fe0b5"/>
-              <stop offset="100%" style="stop-color:#1ba5ff"/>
-            </linearGradient>
-          </defs>
+          <defs><linearGradient id="navGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1fe0b5"/><stop offset="100%" style="stop-color:#1ba5ff"/></linearGradient></defs>
           <ellipse cx="60" cy="65" rx="38" ry="36" fill="url(#navGrad)"/>
           <circle cx="46" cy="56" r="4.5" fill="#fff"/><circle cx="74" cy="56" r="4.5" fill="#fff"/>
           <circle cx="47" cy="57" r="2.2" fill="#1e293b"/><circle cx="75" cy="57" r="2.2" fill="#1e293b"/>
@@ -263,11 +232,14 @@
         Whisker
       </div>
       <div class="links">
-        <a href="#features">Features</a>
-        <a href="#usecases">Use Cases</a>
-        <a href="#selfhost">Self-host</a>
-        <a href="#about">About</a>
-        <a href="#fa">فارسی</a>
+        <a href="#features" data-i18n="nav.features">Features</a>
+        <a href="#usecases" data-i18n="nav.usecases">Use Cases</a>
+        <a href="#selfhost" data-i18n="nav.selfhost">Self-host</a>
+        <a href="#about" data-i18n="nav.about">About</a>
+        <div class="lang-toggle">
+          <button id="lang-en" class="active" onclick="setLang('en')">EN</button>
+          <button id="lang-fa" onclick="setLang('fa')">فا</button>
+        </div>
         <a class="gh" href="https://github.com/maddixmhn/Whisker" target="_blank" rel="noopener">
           <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
           GitHub
@@ -278,17 +250,10 @@
     <!-- ═══ HERO ═══ -->
     <header class="hero">
       <svg class="hero-pawly" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#1fe0b5"/>
-            <stop offset="100%" style="stop-color:#1ba5ff"/>
-          </linearGradient>
-        </defs>
+        <defs><linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1fe0b5"/><stop offset="100%" style="stop-color:#1ba5ff"/></linearGradient></defs>
         <ellipse cx="60" cy="65" rx="40" ry="38" fill="url(#bodyGrad)"/>
-        <circle cx="45" cy="55" r="6" fill="white"/>
-        <circle cx="75" cy="55" r="6" fill="white"/>
-        <circle cx="46" cy="56" r="3" fill="#1e293b"/>
-        <circle cx="76" cy="56" r="3" fill="#1e293b"/>
+        <circle cx="45" cy="55" r="6" fill="white"/><circle cx="75" cy="55" r="6" fill="white"/>
+        <circle cx="46" cy="56" r="3" fill="#1e293b"/><circle cx="76" cy="56" r="3" fill="#1e293b"/>
         <path d="M 50 70 Q 60 78 70 70" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
         <line x1="15" y1="58" x2="38" y2="62" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
         <line x1="15" y1="68" x2="38" y2="68" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
@@ -304,75 +269,75 @@
         <circle cx="52" cy="96" r="2" fill="white" opacity="0.4"/>
         <circle cx="68" cy="96" r="2" fill="white" opacity="0.4"/>
       </svg>
-      <div class="version-pill">🚀 v1.0.0 — Stable Release</div>
-      <h1>Customer conversations<br/><span class="grad">with a soul.</span></h1>
-      <p class="tagline">Free &amp; open-source live chat + CRM you fully own.<br/>Self-hosted, privacy-first, RTL-ready — with AI you bring yourself.</p>
+      <div class="version-pill" data-i18n="hero.pill">🚀 v1.0.0 — Stable Release</div>
+      <h1><span data-i18n="hero.title1">Customer conversations</span><br/><span class="grad" data-i18n="hero.title2">with a soul.</span></h1>
+      <p class="tagline" data-i18n-html="hero.tagline">Free &amp; open-source live chat + CRM you fully own.<br/>Self-hosted, privacy-first, RTL-ready — with AI you bring yourself.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="https://github.com/maddixmhn/Whisker" target="_blank" rel="noopener">⭐ Star on GitHub</a>
-        <a class="btn btn-ghost" href="#selfhost">Deploy in one command</a>
+        <a class="btn btn-primary" href="https://github.com/maddixmhn/Whisker" target="_blank" rel="noopener" data-i18n="hero.cta1">⭐ Star on GitHub</a>
+        <a class="btn btn-ghost" href="#selfhost" data-i18n="hero.cta2">Deploy in one command</a>
       </div>
       <div class="badges">
-        <span>♾️ Unlimited operators</span>
-        <span>🔒 No forced cloud calls</span>
-        <span>🤖 BYOR AI included</span>
-        <span>🌍 Persian · Arabic · English</span>
+        <span data-i18n="hero.badge1">♾️ Unlimited operators</span>
+        <span data-i18n="hero.badge2">🔒 No forced cloud calls</span>
+        <span data-i18n="hero.badge3">🤖 BYOR AI included</span>
+        <span data-i18n="hero.badge4">🌍 Persian · Arabic · English</span>
       </div>
     </header>
 
     <!-- ═══ CAPABILITIES ═══ -->
     <section id="features" class="reveal">
-      <div class="section-label">Capabilities</div>
-      <h2>Everything the paid tools charge for — <span class="grad">free.</span></h2>
-      <p class="section-sub">Forked from Chatwoot v4.17 with a pet-themed soul and zero locked features.</p>
+      <div class="section-label" data-i18n="cap.label">Capabilities</div>
+      <h2><span data-i18n="cap.title1">Everything the paid tools charge for —</span> <span class="grad" data-i18n="cap.title2">free.</span></h2>
+      <p class="section-sub" data-i18n="cap.sub">Forked from Chatwoot v4.17 with a pet-themed soul and zero locked features.</p>
       <div class="grid-4">
         <div class="card">
           <div class="card-icon">💬</div>
-          <h3>Omnichannel inbox</h3>
-          <p>Website chat, email, WhatsApp, Telegram, Facebook, Instagram, SMS — unified in one dashboard.</p>
+          <h3 data-i18n="cap.c1t">Omnichannel inbox</h3>
+          <p data-i18n="cap.c1d">Website chat, email, WhatsApp, Telegram, Facebook, Instagram, SMS — unified in one dashboard.</p>
         </div>
         <div class="card">
           <div class="card-icon">🧠</div>
-          <h3>BYOR AI</h3>
-          <p>Connect any OpenAI-compatible router: OpenRouter, LiteLLM, OmniRoute, Ollama, Groq. Your keys stay in your env.</p>
+          <h3 data-i18n="cap.c2t">BYOR AI</h3>
+          <p data-i18n="cap.c2d">Connect any OpenAI-compatible router: OpenRouter, LiteLLM, OmniRoute, Ollama, Groq. Your keys stay in your env.</p>
         </div>
         <div class="card">
           <div class="card-icon">📚</div>
-          <h3>Native RAG</h3>
-          <p>Feed your help-center articles to your own AI agent via pgvector. Grounded answers, no external SaaS.</p>
+          <h3 data-i18n="cap.c3t">Native RAG</h3>
+          <p data-i18n="cap.c3d">Feed your help-center articles to your own AI agent via pgvector. Grounded answers, no external SaaS.</p>
         </div>
         <div class="card">
           <div class="card-icon">🎨</div>
-          <h3>Theme-driven widget</h3>
-          <p>theme.json controls icon, colors, motion, sounds, position and pet-mode. 8 default mascots included.</p>
+          <h3 data-i18n="cap.c4t">Theme-driven widget</h3>
+          <p data-i18n="cap.c4d">theme.json controls icon, colors, motion, sounds, position and pet-mode. 8 default mascots included.</p>
         </div>
       </div>
     </section>
 
     <!-- ═══ USE CASES ═══ -->
     <section id="usecases" class="reveal">
-      <div class="section-label">Use Cases</div>
-      <h2>Built for how you <span class="grad">actually work.</span></h2>
-      <p class="section-sub">Whether you're a solo founder, a support team, or a developer — Whisker fits.</p>
+      <div class="section-label" data-i18n="use.label">Use Cases</div>
+      <h2><span data-i18n="use.title1">Built for how you</span> <span class="grad" data-i18n="use.title2">actually work.</span></h2>
+      <p class="section-sub" data-i18n="use.sub">Whether you're a solo founder, a support team, or a developer — Whisker fits.</p>
       <div class="grid-4">
         <div class="card">
           <div class="card-icon">🎧</div>
-          <h3>Support teams</h3>
-          <p>Unified inbox, collision detection, CSAT, SLAs, macros — everything your agents need without per-seat fees.</p>
+          <h3 data-i18n="use.c1t">Support teams</h3>
+          <p data-i18n="use.c1d">Unified inbox, collision detection, CSAT, SLAs, macros — everything your agents need without per-seat fees.</p>
         </div>
         <div class="card">
           <div class="card-icon">📈</div>
-          <h3>Sales &amp; CRM</h3>
-          <p>Deals pipeline, companies, tasks, custom attributes. Turn conversations into revenue — all data stays yours.</p>
+          <h3 data-i18n="use.c2t">Sales &amp; CRM</h3>
+          <p data-i18n="use.c2d">Deals pipeline, companies, tasks, custom attributes. Turn conversations into revenue — all data stays yours.</p>
         </div>
         <div class="card">
           <div class="card-icon">⚡</div>
-          <h3>Developers</h3>
-          <p>Full API, webhooks, custom channels, flow builder. Extend it however you want — it's your code.</p>
+          <h3 data-i18n="use.c3t">Developers</h3>
+          <p data-i18n="use.c3d">Full API, webhooks, custom channels, flow builder. Extend it however you want — it's your code.</p>
         </div>
         <div class="card">
           <div class="card-icon">🌐</div>
-          <h3>Persian &amp; Arabic businesses</h3>
-          <p>First-class RTL, Vazirmatn typography, right-to-left dashboard and widget. Not an afterthought — a feature.</p>
+          <h3 data-i18n="use.c4t">Persian &amp; Arabic businesses</h3>
+          <p data-i18n="use.c4d">First-class RTL, Vazirmatn typography, right-to-left dashboard and widget. Not an afterthought — a feature.</p>
         </div>
       </div>
     </section>
@@ -381,27 +346,22 @@
     <section class="reveal">
       <div class="split">
         <div>
-          <div class="section-label">Desktop Companion</div>
-          <h2>Your team's <span class="grad">friendly companion.</span></h2>
-          <p class="section-sub" style="margin-top:14px">Pawly is a floating Tauri mascot that sits on your desktop and keeps your team in the loop.</p>
-          <ul style="list-style:none;margin-top:20px;color:var(--muted);font-size:15px">
-            <li style="margin-bottom:10px">🔔 Real-time notifications on new conversations</li>
-            <li style="margin-bottom:10px">⚡ One-click jump to any open inbox</li>
-            <li style="margin-bottom:10px">🐾 Animated mascot with personality</li>
-            <li>🖥️ Windows, macOS &amp; Linux</li>
+          <div class="section-label" data-i18n="pet.label">Desktop Companion</div>
+          <h2><span data-i18n="pet.title1">Your team's</span> <span class="grad" data-i18n="pet.title2">friendly companion.</span></h2>
+          <p class="section-sub" style="margin-top:14px" data-i18n="pet.sub">Pawly is a floating Tauri mascot that sits on your desktop and keeps your team in the loop.</p>
+          <ul class="feat-list">
+            <li data-i18n="pet.li1">🔔 Real-time notifications on new conversations</li>
+            <li data-i18n="pet.li2">⚡ One-click jump to any open inbox</li>
+            <li data-i18n="pet.li3">🐾 Animated mascot with personality</li>
+            <li data-i18n="pet.li4">🖥️ Windows, macOS &amp; Linux</li>
           </ul>
           <div style="margin-top:24px">
-            <a class="btn btn-primary" href="https://github.com/maddixmhn/Whisker/releases/latest" target="_blank" rel="noopener">Download Pawly ↗</a>
+            <a class="btn btn-primary" href="https://github.com/maddixmhn/Whisker/releases/latest" target="_blank" rel="noopener" data-i18n="pet.cta">Download Pawly ↗</a>
           </div>
         </div>
         <div class="split-visual">
           <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" style="width:120px;height:120px;filter:drop-shadow(0 8px 30px rgba(31,224,181,.25));animation:float 4s ease-in-out infinite">
-            <defs>
-              <linearGradient id="petGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#1fe0b5"/>
-                <stop offset="100%" style="stop-color:#1ba5ff"/>
-              </linearGradient>
-            </defs>
+            <defs><linearGradient id="petGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1fe0b5"/><stop offset="100%" style="stop-color:#1ba5ff"/></linearGradient></defs>
             <ellipse cx="60" cy="65" rx="40" ry="38" fill="url(#petGrad)"/>
             <circle cx="45" cy="55" r="6" fill="white"/><circle cx="75" cy="55" r="6" fill="white"/>
             <circle cx="46" cy="56" r="3" fill="#1e293b"/><circle cx="76" cy="56" r="3" fill="#1e293b"/>
@@ -415,90 +375,80 @@
             <ellipse cx="30" cy="33" rx="6" ry="8" fill="#ffc857" transform="rotate(-15,30,33)"/>
             <ellipse cx="90" cy="33" rx="6" ry="8" fill="#ffc857" transform="rotate(15,90,33)"/>
           </svg>
-          <p style="color:var(--muted);font-size:14px;margin-top:18px">Pawly — your Whisker pet</p>
+          <p style="color:var(--muted);font-size:14px;margin-top:18px" data-i18n="pet.caption">Pawly — your Whisker pet</p>
         </div>
       </div>
     </section>
 
     <!-- ═══ SELF-HOST ═══ -->
     <section id="selfhost" class="reveal">
-      <div class="section-label">Self-host</div>
-      <h2>Your data. Your server. <span class="grad">One command.</span></h2>
-      <pre><span class="comment"># production stack — rails + sidekiq + postgres(pgvector) + redis</span>
+      <div class="section-label" data-i18n="host.label">Self-host</div>
+      <h2><span data-i18n="host.title1">Your data. Your server.</span> <span class="grad" data-i18n="host.title2">One command.</span></h2>
+      <pre><span class="comment" data-i18n="host.comment"># production stack — rails + sidekiq + postgres(pgvector) + redis</span>
 <span class="prompt">$ </span>git clone https://github.com/maddixmhn/Whisker whisker
 <span class="prompt">$ </span>cd whisker
-<span class="prompt">$ </span>cp .env.example .env     <span class="comment"># set SECRET_KEY_BASE</span>
+<span class="prompt">$ </span>cp .env.example .env     <span class="comment" data-i18n="host.hint"># set SECRET_KEY_BASE</span>
 <span class="prompt">$ </span>docker compose -f docker-compose.production.yaml up --build -d</pre>
-      <div style="display:flex;gap:14px;margin-top:22px;flex-wrap:wrap">
-        <div class="card" style="flex:1;min-width:200px;padding:18px">
-          <p style="color:var(--text);font-weight:600;font-size:14px">🔒 No telemetry</p>
-          <p style="color:var(--muted);font-size:13.5px;margin-top:4px">Zero phone-home. Your logs stay on your machine.</p>
+      <div class="info-row">
+        <div class="card info-card">
+          <strong data-i18n="host.c1t">🔒 No telemetry</strong>
+          <span data-i18n="host.c1d">Zero phone-home. Your logs stay on your machine.</span>
         </div>
-        <div class="card" style="flex:1;min-width:200px;padding:18px">
-          <p style="color:var(--text);font-weight:600;font-size:14px">♾️ No per-seat pricing</p>
-          <p style="color:var(--muted);font-size:13.5px;margin-top:4px">Unlimited operators, unlimited conversations. MIT licensed.</p>
+        <div class="card info-card">
+          <strong data-i18n="host.c2t">♾️ No per-seat pricing</strong>
+          <span data-i18n="host.c2d">Unlimited operators, unlimited conversations. MIT licensed.</span>
         </div>
-        <div class="card" style="flex:1;min-width:200px;padding:18px">
-          <p style="color:var(--text);font-weight:600;font-size:14px">🔌 BYOR AI</p>
-          <p style="color:var(--muted);font-size:13.5px;margin-top:4px">Bring your own router. OpenRouter, Ollama, Groq — you choose.</p>
+        <div class="card info-card">
+          <strong data-i18n="host.c3t">🔌 BYOR AI</strong>
+          <span data-i18n="host.c3d">Bring your own router. OpenRouter, Ollama, Groq — you choose.</span>
         </div>
       </div>
     </section>
 
     <!-- ═══ ABOUT / GITHUB ═══ -->
     <section id="about" class="reveal">
-      <div class="section-label">About Whisker</div>
-      <h2>Built by the community, <span class="grad">for the community.</span></h2>
-      <p class="section-sub">Whisker is forked from Chatwoot v4.17 and actively maintained as a free, open-source alternative. No venture capital, no enterprise lock-in — just code that works.</p>
+      <div class="section-label" data-i18n="about.label">About Whisker</div>
+      <h2><span data-i18n="about.title1">Built by the community,</span> <span class="grad" data-i18n="about.title2">for the community.</span></h2>
+      <p class="section-sub" data-i18n="about.sub">Whisker is forked from Chatwoot v4.17 and actively maintained as a free, open-source alternative. No venture capital, no enterprise lock-in — just code that works.</p>
 
       <div class="gh-stats">
         <a class="gh-badge" href="https://github.com/maddixmhn/Whisker" target="_blank" rel="noopener">
           <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.751.751 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
-          Star on GitHub
+          <span data-i18n="about.star">Star on GitHub</span>
         </a>
         <a class="gh-badge" href="https://github.com/maddixmhn/Whisker/releases" target="_blank" rel="noopener">
-          📦 Releases
+          📦 <span data-i18n="about.releases">Releases</span>
         </a>
         <a class="gh-badge" href="https://github.com/maddixmhn/Whisker/issues" target="_blank" rel="noopener">
-          🐛 Issues
+          🐛 <span data-i18n="about.issues">Issues</span>
         </a>
         <a class="gh-badge" href="https://github.com/maddixmhn/Whisker/blob/master/LICENSE" target="_blank" rel="noopener">
-          📄 MIT License
+          📄 <span data-i18n="about.license">MIT License</span>
         </a>
       </div>
 
       <div class="gh-links">
-        <a class="btn btn-ghost" href="https://github.com/maddixmhn/Whisker" target="_blank" rel="noopener" style="font-size:14px;padding:10px 20px">
-          View source code ↗
-        </a>
-        <a class="btn btn-ghost" href="https://github.com/maddixmhn/Whisker/issues/new" target="_blank" rel="noopener" style="font-size:14px;padding:10px 20px">
-          Report a bug ↗
-        </a>
-        <a class="btn btn-ghost" href="https://github.com/maddixmhn/Whisker/pulls" target="_blank" rel="noopener" style="font-size:14px;padding:10px 20px">
-          Contribute ↗
-        </a>
+        <a class="btn btn-ghost" href="https://github.com/maddixmhn/Whisker" target="_blank" rel="noopener" style="font-size:14px;padding:10px 20px" data-i18n="about.code">View source code ↗</a>
+        <a class="btn btn-ghost" href="https://github.com/maddixmhn/Whisker/issues/new" target="_blank" rel="noopener" style="font-size:14px;padding:10px 20px" data-i18n="about.bug">Report a bug ↗</a>
+        <a class="btn btn-ghost" href="https://github.com/maddixmhn/Whisker/pulls" target="_blank" rel="noopener" style="font-size:14px;padding:10px 20px" data-i18n="about.contribute">Contribute ↗</a>
       </div>
 
-      <div style="margin-top:32px;padding:22px 26px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);max-width:640px">
-        <p style="color:var(--text);font-weight:600;font-size:15px;margin-bottom:8px">How to contribute</p>
-        <p style="color:var(--muted);font-size:14px;line-height:1.7">
-          Fork the repo, create a feature branch, and open a PR against <code style="background:#0a161c;padding:2px 7px;border-radius:5px;font-size:13px">develop</code>.
-          We follow conventional commits (<code style="background:#0a161c;padding:2px 7px;border-radius:5px;font-size:13px">feat(scope): ...</code>).
-          No CI required — we review manually and test locally. Every contribution matters.
-        </p>
+      <div class="contrib-box">
+        <strong data-i18n="about.ct">How to contribute</strong>
+        <p data-i18n="about.cd">Fork the repo, create a feature branch, and open a PR against <code class="inline">develop</code>. We follow conventional commits (<code class="inline">feat(scope): ...</code>). No CI required — we review manually and test locally. Every contribution matters.</p>
       </div>
-    </section>
 
-    <!-- ═══ FARSI ═══ -->
-    <section id="fa" class="fa-block reveal">
-      <div class="section-label" style="text-align:right">فارسی</div>
-      <h2>گفتگو با مشتری‌ها، با یک رفیق دیجیتال 🐾</h2>
-      <p class="tagline" style="max-width:580px">
-        ویسکر یک پلتفرم گفتگوی مشتری متن‌باز و رایگان است؛ فورکی از Chatwoot با هویت تازه.
-        فارسی و RTL درجه‌یک دارد، هوش مصنوعی‌اش آزاد است و همه‌چیز روی سرور خودت اجرا می‌شود.
-      </p>
-      <div style="margin-top:24px">
-        <a class="btn btn-primary" href="https://github.com/maddixmhn/Whisker" target="_blank" rel="noopener">مشاهده در گیت‌هاب</a>
+      <!-- Developer credit -->
+      <div class="dev-credit">
+        <div class="dev-avatar">M</div>
+        <div class="dev-info">
+          <div class="dev-name">Maddix Mhn</div>
+          <div class="dev-role" data-i18n="about.devRole">Full Stack Developer — Creator of Whisker</div>
+        </div>
+        <div class="dev-links">
+          <a href="https://iodeck.ir" target="_blank" rel="noopener">🌐 iodeck.ir</a>
+          <a href="https://github.com/maddixmhn" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
       </div>
     </section>
 
@@ -513,9 +463,202 @@
     </footer>
   </div>
 
-  <!-- ═══ Scroll Reveal ═══ -->
   <script>
+    /* ══════════════════════════════════════════
+       i18n — English / Farsi translations
+       ══════════════════════════════════════════ */
+    const I18N = {
+      en: {
+        'nav.features': 'Features',
+        'nav.usecases': 'Use Cases',
+        'nav.selfhost': 'Self-host',
+        'nav.about': 'About',
+        'hero.pill': '🚀 v1.0.0 — Stable Release',
+        'hero.title1': 'Customer conversations',
+        'hero.title2': 'with a soul.',
+        'hero.tagline': 'Free & open-source live chat + CRM you fully own.<br/>Self-hosted, privacy-first, RTL-ready — with AI you bring yourself.',
+        'hero.cta1': '⭐ Star on GitHub',
+        'hero.cta2': 'Deploy in one command',
+        'hero.badge1': '♾️ Unlimited operators',
+        'hero.badge2': '🔒 No forced cloud calls',
+        'hero.badge3': '🤖 BYOR AI included',
+        'hero.badge4': '🌍 Persian · Arabic · English',
+        'cap.label': 'Capabilities',
+        'cap.title1': 'Everything the paid tools charge for —',
+        'cap.title2': 'free.',
+        'cap.sub': 'Forked from Chatwoot v4.17 with a pet-themed soul and zero locked features.',
+        'cap.c1t': 'Omnichannel inbox',
+        'cap.c1d': 'Website chat, email, WhatsApp, Telegram, Facebook, Instagram, SMS — unified in one dashboard.',
+        'cap.c2t': 'BYOR AI',
+        'cap.c2d': 'Connect any OpenAI-compatible router: OpenRouter, LiteLLM, OmniRoute, Ollama, Groq. Your keys stay in your env.',
+        'cap.c3t': 'Native RAG',
+        'cap.c3d': 'Feed your help-center articles to your own AI agent via pgvector. Grounded answers, no external SaaS.',
+        'cap.c4t': 'Theme-driven widget',
+        'cap.c4d': 'theme.json controls icon, colors, motion, sounds, position and pet-mode. 8 default mascots included.',
+        'use.label': 'Use Cases',
+        'use.title1': 'Built for how you',
+        'use.title2': 'actually work.',
+        'use.sub': "Whether you're a solo founder, a support team, or a developer — Whisker fits.",
+        'use.c1t': 'Support teams',
+        'use.c1d': 'Unified inbox, collision detection, CSAT, SLAs, macros — everything your agents need without per-seat fees.',
+        'use.c2t': 'Sales & CRM',
+        'use.c2d': 'Deals pipeline, companies, tasks, custom attributes. Turn conversations into revenue — all data stays yours.',
+        'use.c3t': 'Developers',
+        'use.c3d': "Full API, webhooks, custom channels, flow builder. Extend it however you want — it's your code.",
+        'use.c4t': 'Persian & Arabic businesses',
+        'use.c4d': 'First-class RTL, Vazirmatn typography, right-to-left dashboard and widget. Not an afterthought — a feature.',
+        'pet.label': 'Desktop Companion',
+        'pet.title1': "Your team's",
+        'pet.title2': 'friendly companion.',
+        'pet.sub': 'Pawly is a floating Tauri mascot that sits on your desktop and keeps your team in the loop.',
+        'pet.li1': '🔔 Real-time notifications on new conversations',
+        'pet.li2': '⚡ One-click jump to any open inbox',
+        'pet.li3': '🐾 Animated mascot with personality',
+        'pet.li4': '🖥️ Windows, macOS & Linux',
+        'pet.cta': 'Download Pawly ↗',
+        'pet.caption': 'Pawly — your Whisker pet',
+        'host.label': 'Self-host',
+        'host.title1': 'Your data. Your server.',
+        'host.title2': 'One command.',
+        'host.comment': '# production stack — rails + sidekiq + postgres(pgvector) + redis',
+        'host.hint': '# set SECRET_KEY_BASE',
+        'host.c1t': '🔒 No telemetry',
+        'host.c1d': 'Zero phone-home. Your logs stay on your machine.',
+        'host.c2t': '♾️ No per-seat pricing',
+        'host.c2d': 'Unlimited operators, unlimited conversations. MIT licensed.',
+        'host.c3t': '🔌 BYOR AI',
+        'host.c3d': 'Bring your own router. OpenRouter, Ollama, Groq — you choose.',
+        'about.label': 'About Whisker',
+        'about.title1': 'Built by the community,',
+        'about.title2': 'for the community.',
+        'about.sub': 'Whisker is forked from Chatwoot v4.17 and actively maintained as a free, open-source alternative. No venture capital, no enterprise lock-in — just code that works.',
+        'about.star': 'Star on GitHub',
+        'about.releases': 'Releases',
+        'about.issues': 'Issues',
+        'about.license': 'MIT License',
+        'about.code': 'View source code ↗',
+        'about.bug': 'Report a bug ↗',
+        'about.contribute': 'Contribute ↗',
+        'about.ct': 'How to contribute',
+        'about.cd': 'Fork the repo, create a feature branch, and open a PR against <code class="inline">develop</code>. We follow conventional commits (<code class="inline">feat(scope): ...</code>). No CI required — we review manually and test locally. Every contribution matters.',
+        'about.devRole': 'Full Stack Developer — Creator of Whisker',
+      },
+      fa: {
+        'nav.features': 'امکانات',
+        'nav.usecases': 'کاربردها',
+        'nav.selfhost': 'هاست اختصاصی',
+        'nav.about': 'درباره ما',
+        'hero.pill': '🚀 v1.0.0 — نسخه پایدار',
+        'hero.title1': 'گفتگو با مشتری‌ها',
+        'hero.title2': '، با یک رفیق دیجیتال.',
+        'hero.tagline': 'چت زنده و CRM متن‌باز و رایگان که مال خودتان است.<br/>هاست اختصاصی، حریم خصوصی، RTL — با هوش مصنوعی خودتان.',
+        'hero.cta1': '⭐ ستاره در گیت‌هاب',
+        'hero.cta2': 'استقرار با یک دستور',
+        'hero.badge1': '♾️ اپراتورهای نامحدود',
+        'hero.badge2': '🔒 بدون تماس اجباری ابری',
+        'hero.badge3': '🤖 هوش مصنوعی BYOR',
+        'hero.badge4': '🌍 فارسی · عربی · انگلیسی',
+        'cap.label': 'قابلیت‌ها',
+        'cap.title1': 'همه چیزی که ابزارهای پولی بابت آن هزینه می‌گیرند —',
+        'cap.title2': 'رایگان.',
+        'cap.sub': 'فورکی از Chatwoot v4.17 با هویت حیوان خانگی و بدون قفل.',
+        'cap.c1t': 'اینباکس omnichannel',
+        'cap.c1d': 'چت وبسایت، ایمیل، واتساپ، تلگرام، فیسبوک، اینستاگرام، SMS — همه در یک داشبورد.',
+        'cap.c2t': 'BYOR AI',
+        'cap.c2d': 'اتصال به هر روتر سازگار با OpenAI: OpenRouter, LiteLLM, OmniRoute, Ollama, Groq. کلیدهای شما در env می‌مانند.',
+        'cap.c3t': 'RAG بومی',
+        'cap.c3d': 'مقاله‌های مرکز کمک را به عامل هوش مصنوعی خودتان از طریق pgvector بدهید. پاسخ‌های مستند، بدون SaaS خارجی.',
+        'cap.c4t': 'ویجت مبتنی بر تم',
+        'cap.c4d': 'theme.json آیکون، رنگ‌ها، حرکت، صداها، موقعیت و حالت حیوان خانگی را کنترل می‌کند. ۸ مجسمه پیش‌فرض.',
+        'use.label': 'کاربردها',
+        'use.title1': 'ساخته شده برای نحوه',
+        'use.title2': 'کار واقعی شما.',
+        'use.sub': 'چه بنیان‌گذار تنها باشید، چه تیم پشتیبانی، چه توسعه‌دهنده — ویسکر جواب می‌دهد.',
+        'use.c1t': 'تیم‌های پشتیبانی',
+        'use.c1d': 'اینباکس یکپارچه، تشخیص تداخل، CSAT، SLA، ماکرو — همه چیزی که عاملان شما نیاز دارند بدون هزینه.',
+        'use.c2t': 'فروش و CRM',
+        'use.c2d': 'خط لوله معاملات، شرکت‌ها، وظایف، فیلدهای سفارشی. مکالمات را به درآمد تبدیل کنید.',
+        'use.c3t': 'توسعه‌دهندگان',
+        'use.c3d': 'API کامل، وب‌هوک، کانال‌های سفارشی، سازنده فلو. هر طور که می‌خواهید گسترش دهید.',
+        'use.c4t': 'کسب‌وکارهای فارسی و عربی',
+        'use.c4d': 'RTL درجه‌یک، تایپوگرافی وزیر متن، داشبورد و ویجت راست‌به‌چپ. نه فکر آخر — یک قابلیت.',
+        'pet.label': 'همراه دسکتاپ',
+        'pet.title1': 'همراه',
+        'pet.title2': 'صمیمی تیم شما.',
+        'pet.sub': 'پالی یک مجسمه شناور Tauri است که روی دسکتاپ شما می‌نشیند و تیم شما را در جریان نگه می‌دارد.',
+        'pet.li1': '🔔 اعلان‌های لحظه‌ای مکالمات جدید',
+        'pet.li2': '⚡ پرش یک‌کلیکی به هر اینباکس باز',
+        'pet.li3': '🐾 مجسمه متحرک با شخصیت',
+        'pet.li4': '🖥️ ویندوز، مک‌او‌اس و لینوکس',
+        'pet.cta': 'دانلود پالی ↗',
+        'pet.caption': 'پالی — حیوان خانگی ویسکر شما',
+        'host.label': 'هاست اختصاصی',
+        'host.title1': 'داده شما. سرور شما.',
+        'host.title2': 'یک دستور.',
+        'host.comment': '# پشته تولید — rails + sidekiq + postgres(pgvector) + redis',
+        'host.hint': '# SECRET_KEY_BASE را تنظیم کنید',
+        'host.c1t': '🔒 بدون تلهمتری',
+        'host.c1d': 'صفر اطلاع‌رسانی. گزارش‌های شما روی ماشینتان می‌مانند.',
+        'host.c2t': '♾️ بدون قیمت‌گذاری per-seat',
+        'host.c2d': 'اپراتورهای نامحدود، مکالمات نامحدود. مجوز MIT.',
+        'host.c3t': '🔌 BYOR AI',
+        'host.c3d': 'روتر خودتان را بیاورید. OpenRouter, Ollama, Groq — شما انتخاب کنید.',
+        'about.label': 'درباره ویسکر',
+        'about.title1': 'ساخته شده توسط جامعه،',
+        'about.title2': 'برای جامعه.',
+        'about.sub': 'ویسکر فورکی از Chatwoot v4.17 است و به عنوان یک جایگزین رایگان و متن‌باز فعالانه نگهداری می‌شود. بدون سرمایه‌گذاری خطرپذیر، بدون قفل سازمانی — فقط کدی که کار می‌کند.',
+        'about.star': 'ستاره در گیت‌هاب',
+        'about.releases': 'نسخه‌ها',
+        'about.issues': 'مشکلات',
+        'about.license': 'مجوز MIT',
+        'about.code': 'مشاهده کد منبع ↗',
+        'about.bug': 'گزارش باگ ↗',
+        'about.contribute': 'مشارکت ↗',
+        'about.ct': 'نحوه مشارکت',
+        'about.cd': 'ریپو را форک کنید، شاخه ویژگی بسازید و PR علیه <code class="inline">develop</code> باز کنید. ما از conventional commits پیروی می‌کنیم (<code class="inline">feat(scope): ...</code>). CI لازم نیست — ما دستی بررسی و محلی تست می‌کنیم.',
+        'about.devRole': 'توسعه‌دهنده فول‌استک — خالق ویسکر',
+      },
+    };
+
+    /* ══════════════════════════════════════════
+       Language switcher
+       ══════════════════════════════════════════ */
+    function setLang(lang) {
+      const dict = I18N[lang];
+      if (!dict) return;
+
+      // Update all text elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] !== undefined) el.textContent = dict[key];
+      });
+
+      // Update HTML elements (with <br>, <code>, etc.)
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (dict[key] !== undefined) el.innerHTML = dict[key];
+      });
+
+      // Toggle direction
+      document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+      document.documentElement.lang = lang;
+
+      // Toggle active button
+      document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+      document.getElementById('lang-fa').classList.toggle('active', lang === 'fa');
+
+      // Persist
+      localStorage.setItem('whisker-lang', lang);
+    }
+
+    /* ══════════════════════════════════════════
+       Init: load saved language
+       ══════════════════════════════════════════ */
     document.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('whisker-lang') || 'en';
+      setLang(saved);
+
+      // Scroll reveal
       const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
