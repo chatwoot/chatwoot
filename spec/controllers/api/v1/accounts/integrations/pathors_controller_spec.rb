@@ -19,9 +19,6 @@ RSpec.describe 'Pathors Integration API', type: :request do
     allow(GlobalConfigService).to receive(:load).with('PATHORS_API_URL', 'https://api.pathors.com').and_return('https://api.pathors.test')
     allow(GlobalConfigService).to receive(:load).with('PATHORS_OAUTH_CLIENT_ID', nil).and_return('test_client_id')
     allow(GlobalConfigService).to receive(:load).with('PATHORS_OAUTH_CLIENT_SECRET', nil).and_return('test_client_secret')
-    allow(Resolv).to receive(:getaddresses).and_call_original
-    allow(Resolv).to receive(:getaddresses).with('backend.pathors.test').and_return(['93.184.216.34'])
-    stub_request(:post, bot_url).to_return(status: 200, body: '', headers: {})
     stub_request(:post, revoke_url).to_return(status: 200, body: '', headers: {})
   end
 
@@ -65,16 +62,18 @@ RSpec.describe 'Pathors Integration API', type: :request do
         expect(account.agent_bots.count).to eq(0)
       end
 
-      it 'notifies Pathors through the signed agent bot webhook', :aggregate_failures do
+      it 'notifies Pathors exactly once through the signed agent bot webhook', :aggregate_failures do
         hook
-        agent_bot
+        secret = agent_bot.secret
 
         delete "/api/v1/accounts/#{account.id}/integrations/pathors",
                headers: admin.create_new_auth_token, as: :json
 
-        expect(WebMock).to have_requested(:post, bot_url).with(
-          body: { event: 'integration.disconnected', account_id: account.id }.to_json,
-          headers: { 'X-Chatwoot-Signature' => /\Asha256=\h{64}\z/, 'X-Chatwoot-Timestamp' => /\A\d+\z/ }
+        expect(AgentBots::WebhookJob).to have_been_enqueued.exactly(:once).with(
+          bot_url,
+          { event: 'integration.disconnected', account_id: account.id },
+          :agent_bot_webhook,
+          secret: secret
         )
       end
 
@@ -109,7 +108,6 @@ RSpec.describe 'Pathors Integration API', type: :request do
       end
 
       it 'completes the local cleanup when Pathors cannot be reached', :aggregate_failures do
-        stub_request(:post, bot_url).to_return(status: 500, body: '', headers: {})
         stub_request(:post, revoke_url).to_timeout
         hook
         agent_bot
@@ -130,7 +128,7 @@ RSpec.describe 'Pathors Integration API', type: :request do
 
         expect(response).to have_http_status(:ok)
         expect(account.hooks.count).to eq(0)
-        expect(WebMock).not_to have_requested(:post, bot_url)
+        expect(AgentBots::WebhookJob).not_to have_been_enqueued
       end
 
       it 'removes the agent bot when the hook is already gone', :aggregate_failures do

@@ -48,6 +48,28 @@ RSpec.describe AgentBot do
     end
   end
 
+  describe 'when a Pathors agent bot is destroyed' do
+    let(:account) { create(:account) }
+    let(:pathors_url) { 'https://backend.pathors.test/project/project-uuid-1/integration/chatwoot/callback' }
+
+    it 'tells Pathors the integration is disconnected' do
+      agent_bot = create(:agent_bot, account: account, outgoing_url: pathors_url)
+
+      expect { agent_bot.destroy! }.to have_enqueued_job(AgentBots::WebhookJob).with(
+        pathors_url,
+        { event: 'integration.disconnected', account_id: account.id },
+        :agent_bot_webhook,
+        secret: agent_bot.secret
+      )
+    end
+
+    it 'stays silent for a bot pointing somewhere else' do
+      agent_bot = create(:agent_bot, account: account, outgoing_url: 'https://example.com/webhook')
+
+      expect { agent_bot.destroy! }.not_to have_enqueued_job(AgentBots::WebhookJob)
+    end
+  end
+
   describe '#system_bot?' do
     context 'when account_id is nil' do
       let(:agent_bot) { create(:agent_bot, account_id: nil) }

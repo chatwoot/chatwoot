@@ -3,16 +3,21 @@ class Api::V1::Accounts::Integrations::PathorsController < Api::V1::Accounts::In
   before_action :fetch_pathors_records
 
   # Disconnecting is a two-sided operation. Pathors provisioned the agent bot
-  # and issued the tokens, so it is told first — best effort, because a Pathors
-  # outage must never leave the account stuck with an integration it cannot
-  # remove. The local records go last, in one transaction.
+  # and issued the tokens, so both are retired on its side too — best effort,
+  # because a Pathors outage must never leave the account stuck with an
+  # integration it cannot remove. The local records go last, in one transaction.
+  #
+  # The disconnect notification is not sent from here: it hangs off the agent
+  # bot's own destroy (Pathors::BotDisconnectNotifiable), so it fires for every
+  # route that removes the bot rather than only for this one. Without a bot
+  # there is no callback URL to notify, so a hook-only disconnect stays silent
+  # either way.
   #
   # Destroying the agent bot keeps history: its inbox assignments cascade away,
   # while the messages and conversations it produced are only detached from it.
   def destroy
     return head :not_found if @hook.blank? && @agent_bot.blank?
 
-    notify_pathors
     revoke_pathors_token
 
     ActiveRecord::Base.transaction do
@@ -28,21 +33,6 @@ class Api::V1::Accounts::Integrations::PathorsController < Api::V1::Accounts::In
   def fetch_pathors_records
     @hook = Current.account.hooks.find_by(app_id: 'pathors')
     @agent_bot = Current.account.agent_bots.find_by(['outgoing_url LIKE ?', "%#{Integrations::App::PATHORS_CALLBACK_URL_FRAGMENT}%"])
-  end
-
-  # Delivered through the agent bot webhook path, so the payload carries the
-  # same signature headers Pathors already verifies with the bot's secret.
-  def notify_pathors
-    return if @agent_bot.blank?
-
-    Webhooks::Trigger.execute(
-      @agent_bot.outgoing_url,
-      { event: 'integration.disconnected', account_id: Current.account.id },
-      :agent_bot_webhook,
-      secret: @agent_bot.secret
-    )
-  rescue StandardError => e
-    Rails.logger.error("Failed to notify Pathors about the disconnect: #{e.message}")
   end
 
   # RFC 7009 revocation, mirroring how the Linear integration retires its grant.
