@@ -57,7 +57,20 @@ const pathorsBot = computed(() =>
 
 const isConnected = computed(() => Boolean(pathorsBot.value));
 
+// Written into the OAuth hook when the authorization code is redeemed. The
+// hook payload only carries `settings` for administrators and only for the
+// app's visible_properties, which is exactly where this lives.
+const organizationId = computed(
+  () => pathorsApp.value?.hooks?.[0]?.settings?.organization_id ?? null
+);
+
 const manageUrl = computed(() => {
+  if (organizationId.value) {
+    return `${PATHORS_APP_URL}/org/${organizationId.value}/inbox`;
+  }
+  // Connections made before consent bound whole organizations have no
+  // organization on the hook; the project in the bot's callback URL is the
+  // only handle they leave behind.
   const [, projectId] =
     pathorsBot.value?.outgoing_url?.match(PATHORS_CALLBACK_REGEX) ?? [];
   if (!projectId) return PATHORS_APP_URL;

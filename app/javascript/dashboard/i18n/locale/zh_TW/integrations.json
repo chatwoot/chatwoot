@@ -18,7 +18,7 @@
       },
       "NOT_CONNECTED": {
         "TITLE": "此帳號尚未連接 Pathors",
-        "DESCRIPTION": "將此帳號連接到 Pathors 專案。你會在 Pathors 授權頁面選擇要連接的專案；連接完成後，AI agent 會出現在這裡，你可以選擇它要回覆哪些收件匣。",
+        "DESCRIPTION": "將此帳號連接到 Pathors 組織。你會在 Pathors 授權頁面選擇要連接的組織；連接完成後，組織內的 AI agent 會出現在這裡，你可以選擇它們要回覆哪些收件匣。",
         "CONNECT_BUTTON_TEXT": "連接 Pathors"
       },
       "INCOMPLETE": {

@@ -19,7 +19,7 @@ RSpec.describe Pathors::CallbacksController, type: :request do
         'token_type' => 'Bearer',
         'expires_in' => 3600,
         'scope' => 'chatwoot:connect',
-        'project_id' => 'project-uuid-1'
+        'organization_id' => 'org-uuid-1'
       }
     end
 
@@ -42,7 +42,7 @@ RSpec.describe Pathors::CallbacksController, type: :request do
           )
       end
 
-      it 'creates a pathors hook carrying the project binding', :aggregate_failures do
+      it 'creates a pathors hook carrying the organization binding', :aggregate_failures do
         expect do
           get pathors_callback_path, params: { code: code, state: state }
         end.to change(Integrations::Hook, :count).by(1)
@@ -51,7 +51,7 @@ RSpec.describe Pathors::CallbacksController, type: :request do
         expect(hook.app_id).to eq('pathors')
         expect(hook.access_token).to eq(access_token)
         expect(hook.status).to eq('enabled')
-        expect(hook.settings['project_id']).to eq('project-uuid-1')
+        expect(hook.settings['organization_id']).to eq('org-uuid-1')
         expect(hook.settings['refresh_token']).to eq(refresh_token)
         expect(hook.settings['expires_on']).to be_present
         expect(response).to redirect_to(pathors_redirect_uri)
@@ -59,13 +59,40 @@ RSpec.describe Pathors::CallbacksController, type: :request do
 
       it 'updates the existing hook on reconnect instead of adding a second one', :aggregate_failures do
         create(:integrations_hook, account: account, app_id: 'pathors', access_token: 'old-token',
-                                   settings: { project_id: 'project-uuid-0' })
+                                   settings: { organization_id: 'org-uuid-0' })
 
         expect do
           get pathors_callback_path, params: { code: code, state: state }
         end.not_to change(Integrations::Hook, :count)
 
         expect(Integrations::Hook.find_by(account: account, app_id: 'pathors').access_token).to eq(access_token)
+      end
+    end
+
+    context 'when the response still carries a project instead of an organization' do
+      let(:response_body) do
+        {
+          'access_token' => access_token,
+          'refresh_token' => refresh_token,
+          'token_type' => 'Bearer',
+          'expires_in' => 3600,
+          'scope' => 'chatwoot:connect',
+          'project_id' => 'project-uuid-1'
+        }
+      end
+
+      before do
+        stub_request(:post, 'https://api.pathors.test/oauth/token')
+          .to_return(status: 200, body: response_body.to_json, headers: { 'Content-Type' => 'application/json' })
+      end
+
+      it 'files the project binding instead', :aggregate_failures do
+        get pathors_callback_path, params: { code: code, state: state }
+
+        hook = Integrations::Hook.find_by(account: account, app_id: 'pathors')
+        expect(hook.settings['project_id']).to eq('project-uuid-1')
+        expect(hook.settings).not_to have_key('organization_id')
+        expect(response).to redirect_to(pathors_redirect_uri)
       end
     end
 

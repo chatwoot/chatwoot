@@ -91,7 +91,10 @@ class Pathors::CallbacksController < ApplicationController
       expires_on: expires_on,
       scope: parsed_body['scope'],
       refresh_token: parsed_body['refresh_token'],
-      # Which Pathors project this account was bound to at consent time.
+      # Which Pathors tenant this account was bound to at consent time. Consent
+      # now binds a whole organization; connections made before that carry a
+      # project instead, so whichever the response sends is what gets filed.
+      organization_id: parsed_body['organization_id'],
       project_id: parsed_body['project_id']
     }.compact
   end

@@ -68,6 +68,46 @@ RSpec.describe AgentBot do
 
       expect { agent_bot.destroy! }.not_to have_enqueued_job(AgentBots::WebhookJob)
     end
+
+    it 'removes the account OAuth hook so the integration card resets', :aggregate_failures do
+      agent_bot = create(:agent_bot, account: account, outgoing_url: pathors_url)
+      create(:integrations_hook, :pathors, account: account)
+
+      expect { agent_bot.destroy! }.to change { account.hooks.where(app_id: 'pathors').count }.from(1).to(0)
+      expect(AgentBots::WebhookJob).to have_been_enqueued.exactly(:once)
+    end
+
+    it 'leaves the hooks of other integrations alone' do
+      agent_bot = create(:agent_bot, account: account, outgoing_url: pathors_url)
+      create(:integrations_hook, account: account)
+
+      expect { agent_bot.destroy! }.not_to(change { account.hooks.where(app_id: 'slack').count })
+    end
+
+    it 'leaves the hooks of other accounts alone' do
+      agent_bot = create(:agent_bot, account: account, outgoing_url: pathors_url)
+      other_hook = create(:integrations_hook, :pathors, account: create(:account))
+
+      agent_bot.destroy!
+
+      expect(Integrations::Hook.exists?(other_hook.id)).to be true
+    end
+
+    it 'keeps the hook when the destroyed bot is not a Pathors bot' do
+      agent_bot = create(:agent_bot, account: account, outgoing_url: 'https://example.com/webhook')
+      create(:integrations_hook, :pathors, account: account)
+
+      expect { agent_bot.destroy! }.not_to(change { account.hooks.where(app_id: 'pathors').count })
+    end
+
+    it 'completes the destroy even when the hook cannot be removed', :aggregate_failures do
+      agent_bot = create(:agent_bot, account: account, outgoing_url: pathors_url)
+      create(:integrations_hook, :pathors, account: account)
+      allow_any_instance_of(Integrations::Hook).to receive(:destroy).and_raise(StandardError, 'boom') # rubocop:disable RSpec/AnyInstance
+
+      expect { agent_bot.destroy! }.not_to raise_error
+      expect(described_class.exists?(agent_bot.id)).to be false
+    end
   end
 
   describe '#system_bot?' do

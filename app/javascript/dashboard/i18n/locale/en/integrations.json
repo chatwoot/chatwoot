@@ -18,7 +18,7 @@
       },
       "NOT_CONNECTED": {
         "TITLE": "This account is not connected to Pathors yet",
-        "DESCRIPTION": "Connect this account to a Pathors project. You will pick the project on the Pathors authorization page; once connected, the AI agent shows up here and you can choose the inboxes it replies in.",
+        "DESCRIPTION": "Connect this account to a Pathors organization. You will pick the organization on the Pathors authorization page; once connected, its AI agents show up here and you can choose the inboxes they reply in.",
         "CONNECT_BUTTON_TEXT": "Connect to Pathors"
       },
       "INCOMPLETE": {

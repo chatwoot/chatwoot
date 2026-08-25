@@ -10,7 +10,7 @@ RSpec.describe 'Pathors Integration API', type: :request do
 
   let(:hook) do
     create(:integrations_hook, account: account, app_id: 'pathors', access_token: 'pat_access',
-                               settings: { project_id: 'project-uuid-1', refresh_token: refresh_token })
+                               settings: { organization_id: 'org-uuid-1', refresh_token: refresh_token })
   end
   let(:agent_bot) { create(:agent_bot, account: account, name: 'Pathors AI', outgoing_url: bot_url) }
 
@@ -94,9 +94,24 @@ RSpec.describe 'Pathors Integration API', type: :request do
         )
       end
 
+      # The agent bot destroy clears the account's Pathors hooks on its own
+      # (Pathors::BotDisconnectNotifiable), which here runs after this
+      # controller's transaction already removed the hook. It has to find
+      # nothing left and stay quiet rather than fail the request.
+      it 'is unaffected by the hook cleanup that hangs off the bot destroy', :aggregate_failures do
+        hook
+        agent_bot
+
+        delete "/api/v1/accounts/#{account.id}/integrations/pathors",
+               headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(Integrations::Hook.exists?(hook.id)).to be false
+      end
+
       it 'falls back to the access token when the hook has no refresh token' do
         create(:integrations_hook, account: account, app_id: 'pathors', access_token: 'pat_access',
-                                   settings: { project_id: 'project-uuid-1' })
+                                   settings: { organization_id: 'org-uuid-1' })
         agent_bot
 
         delete "/api/v1/accounts/#{account.id}/integrations/pathors",
