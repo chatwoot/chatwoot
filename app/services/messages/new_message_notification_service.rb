@@ -6,6 +6,7 @@ class Messages::NewMessageNotificationService
 
     notify_conversation_assignee
     notify_participating_users
+    notify_users_watching_all_conversations
   end
 
   private
@@ -36,6 +37,27 @@ class Messages::NewMessageNotificationService
       NotificationBuilder.new(
         notification_type: 'participating_conversation_new_message',
         user: participant,
+        account: account,
+        primary_actor: message.conversation,
+        secondary_actor: message
+      ).perform
+    end
+  end
+
+  # Notifies every user who opted in to being alerted about all incoming messages,
+  # even when the conversation is unassigned or handled by someone else.
+  # NotificationBuilder drops the users who can't access the conversation and the
+  # ones who don't have the flag enabled.
+  def notify_users_watching_all_conversations
+    return unless message.incoming?
+    return if conversation.pending?
+
+    account.users.each do |user|
+      next if already_notified?(user)
+
+      NotificationBuilder.new(
+        notification_type: 'all_conversations_new_message',
+        user: user,
         account: account,
         primary_actor: message.conversation,
         secondary_actor: message

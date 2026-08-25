@@ -1,4 +1,8 @@
 class NotificationBuilder
+  # Notification types that fan out to every user of the account, so they are
+  # only created for the users who asked for them.
+  OPT_IN_NOTIFICATION_TYPES = %w[conversation_creation all_conversations_new_message].freeze
+
   pattr_initialize [:notification_type!, :user!, :account!, :primary_actor!, :secondary_actor]
 
   def perform
@@ -23,8 +27,8 @@ class NotificationBuilder
   end
 
   def build_notification
-    # Create conversation_creation notification only if user is subscribed to it
-    return if notification_type == 'conversation_creation' && !user_subscribed_to_notification?
+    # Create fan out notifications only if user is subscribed to them
+    return if OPT_IN_NOTIFICATION_TYPES.include?(notification_type) && !user_subscribed_to_notification?
     # skip notifications for blocked conversations except for user mentions
     return if primary_actor.contact.blocked? && notification_type != 'conversation_mention'
     # respect conversation access (inbox/team membership and custom-role permissions)

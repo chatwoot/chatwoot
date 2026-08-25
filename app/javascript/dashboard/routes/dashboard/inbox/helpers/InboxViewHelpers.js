@@ -10,6 +10,10 @@ export const NOTIFICATION_TYPES_MAPPING = {
     'i-lucide-message-square-plus',
     'text-n-blue-11',
   ],
+  ALL_CONVERSATIONS_NEW_MESSAGE: [
+    'i-lucide-message-square-plus',
+    'text-n-blue-11',
+  ],
   SLA_MISSED_FIRST_RESPONSE: ['i-lucide-heart-crack', 'text-n-ruby-11'],
   SLA_MISSED_NEXT_RESPONSE: ['i-lucide-heart-crack', 'text-n-ruby-11'],
   SLA_MISSED_RESOLUTION: ['i-lucide-heart-crack', 'text-n-ruby-11'],

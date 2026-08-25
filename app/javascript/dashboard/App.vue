@@ -15,6 +15,7 @@ import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useFontSize } from 'dashboard/composables/useFontSize';
+import { useUnreadTabBadge } from 'dashboard/composables/useUnreadTabBadge';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -42,6 +43,8 @@ export default {
     // Use the font size composable (it automatically sets up the watcher)
     const { currentFontSize } = useFontSize();
     const { uiSettings } = useUISettings();
+    // Mirrors the unread notification count on the favicon and page title
+    useUnreadTabBadge();
 
     return {
       router,
