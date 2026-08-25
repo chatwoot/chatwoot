@@ -770,6 +770,16 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(state[:channel_type]).to eq(inbox.channel_type)
     end
 
+    it 'includes labels from a persisted conversation' do
+      conversation.label_list.add('lang_en')
+      conversation.save!
+      conversation.reload
+
+      state = service.send(:build_state)
+
+      expect(state.dig(:conversation, :label_list)).to contain_exactly('lang_en')
+    end
+
     it 'includes contact inbox attributes when conversation is present' do
       state = service.send(:build_state)
 
