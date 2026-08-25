@@ -37,11 +37,16 @@ RSpec.describe Voice::CallTerminationGuard do
     expect(described_class.active?(call, now: now)).to be false
   end
 
-  it 'suppresses deliberate local disconnect callbacks only for a short window' do
-    now = Time.zone.now
-    described_class.suppress_local_disconnect!(call, now: now)
+  it 'suppresses and consumes only the matching agent participant leave' do
+    described_class.track_agent_participant!(call, 'CA_AGENT_1')
+    expect(described_class.suppress_local_disconnect!(call)).to be true
 
-    expect(described_class.local_disconnect_suppressed?(call, now: now + 10.seconds)).to be true
-    expect(described_class.local_disconnect_suppressed?(call, now: now + 31.seconds)).to be false
+    expect(described_class.consume_local_disconnect!(call, 'CA_OTHER')).to be false
+    expect(described_class.consume_local_disconnect!(call, 'CA_AGENT_1')).to be true
+    expect(described_class.consume_local_disconnect!(call, 'CA_AGENT_1')).to be false
+  end
+
+  it 'does not create disconnect suppression when no agent participant sid is known' do
+    expect(described_class.suppress_local_disconnect!(call)).to be false
   end
 end
