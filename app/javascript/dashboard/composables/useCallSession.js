@@ -46,8 +46,14 @@ const handleBeforeUnloadGlobal = event => {
   event.returnValue = '';
 };
 const handlePageHideGlobal = () => sendWhatsappTerminateBeacon();
-const handleTwilioDisconnectedGlobal = () =>
+const handleTwilioDisconnectedGlobal = () => {
+  const activeCall = storedCallsStoreRef?.activeCall;
+  // A failed provider teardown intentionally closes the local Device/mic while
+  // keeping the provider Call surfaced for retry. Do not let the resulting
+  // local disconnect event remove that retry surface.
+  if (activeCall?.teardownFailed) return;
   storedCallsStoreRef?.clearActiveCall();
+};
 
 const attachGlobalsOnFirstMount = callsStore => {
   globalsAttachedCount += 1;
@@ -102,11 +108,12 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
       callsStore.clearActiveCall();
       clearLocalCall(callSid);
     } catch (error) {
-      // Always close the local Device/mic, but keep the Call surfaced when
-      // provider teardown fails so the agent still has a normal retry path.
+      // Mark the call before closing the local Device so the disconnect event
+      // cannot remove it. Keep it active in the store: this preserves a retry
+      // surface without moving outbound calls back into the auto-join queue.
+      callsStore.markCallTeardownFailed(callSid);
       TwilioVoiceClient.endClientCall();
       globalDurationTimer?.stop();
-      callsStore.setCallInactive(callSid);
       clearLocalCall(callSid);
       throw error;
     }
@@ -192,36 +199,33 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     }
   };
 
-  // Await provider-side reject before dismissing the local entry; if the API
-  // call fails the call should stay surfaced so the agent can retry instead of
-  // disappearing while the backend still rings.
+  // Dismiss only after provider-side rejection succeeds. If the API fails,
+  // keep the ringing entry visible so the agent can retry.
   const rejectIncomingCall = async callSid => {
     const call = findCall(callSid);
-    try {
-      if (isWhatsappCall(call) && call?.callId) {
-        if (call.callDirection === VOICE_CALL_DIRECTION.OUTBOUND) {
-          // Outbound calls that are still ringing must be terminated, not
-          // rejected (reject is the inbound-side verb on Meta's API).
-          await whatsappSession.endActiveCall(call.callId);
-        } else {
-          await whatsappSession.rejectIncomingCall(call.callId);
-        }
-      } else if (call?.inboxId && call?.conversationId) {
-        // Twilio incoming reject: agent hasn't joined the Device yet, so
-        // endClientCall is a no-op. End the conference server-side instead
-        // so Twilio hangs up the inbound leg.
-        await VoiceAPI.leaveConference({
-          inboxId: call.inboxId,
-          conversationId: call.conversationId,
-          callSid,
-        });
+    if (isWhatsappCall(call) && call?.callId) {
+      if (call.callDirection === VOICE_CALL_DIRECTION.OUTBOUND) {
+        // Outbound calls that are still ringing must be terminated, not
+        // rejected (reject is the inbound-side verb on Meta's API).
+        await whatsappSession.endActiveCall(call.callId);
       } else {
-        TwilioVoiceClient.endClientCall();
+        await whatsappSession.rejectIncomingCall(call.callId);
       }
-    } finally {
-      markCallDismissed(callSid);
-      callsStore.dismissCall(callSid);
+    } else if (call?.inboxId && call?.conversationId) {
+      // Twilio incoming reject: agent hasn't joined the Device yet, so
+      // endClientCall is a no-op. End the conference server-side instead
+      // so Twilio hangs up the inbound leg.
+      await VoiceAPI.leaveConference({
+        inboxId: call.inboxId,
+        conversationId: call.conversationId,
+        callSid,
+      });
+    } else {
+      TwilioVoiceClient.endClientCall();
     }
+
+    markCallDismissed(callSid);
+    callsStore.dismissCall(callSid);
   };
 
   const dismissCall = callSid => {
