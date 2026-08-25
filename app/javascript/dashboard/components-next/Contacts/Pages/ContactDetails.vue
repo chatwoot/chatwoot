@@ -12,6 +12,15 @@ import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/Contac
 import ConfirmContactDeleteDialog from 'dashboard/components-next/Contacts/ContactsForm/ConfirmContactDeleteDialog.vue';
 import Policy from 'dashboard/components/policy.vue';
 
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
+import ContactStats from 'dashboard/components-next/Contacts/Pages/ContactStats.vue';
+import ContactSidebarSection from 'dashboard/components-next/Contacts/ContactsSidebar/ContactSidebarSection.vue';
+import ContactCustomAttributes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactCustomAttributes.vue';
+import ContactHistory from 'dashboard/components-next/Contacts/ContactsSidebar/ContactHistory.vue';
+import ContactNotes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactNotes.vue';
+import ContactMedia from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMedia.vue';
+import ContactMerge from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMerge.vue';
+
 const props = defineProps({
   selectedContact: {
     type: Object,
@@ -38,6 +47,34 @@ const isFormInvalid = computed(() => contactsFormRef.value?.isFormInvalid);
 
 const contactData = ref({});
 
+const metaSeparator = '•';
+
+const contactId = computed(() => props.selectedContact?.id);
+
+const CONTACT_SECTIONS = [
+  { value: 'details', label: 'CONTACTS_LAYOUT.PROFILE.SECTIONS.DETAILS' },
+  { value: 'attributes', label: 'CONTACTS_LAYOUT.SIDEBAR.TABS.ATTRIBUTES' },
+  { value: 'history', label: 'CONTACTS_LAYOUT.PROFILE.STATS.CONVERSATIONS' },
+  { value: 'notes', label: 'CONTACTS_LAYOUT.PROFILE.STATS.NOTES' },
+  { value: 'media', label: 'CONTACTS_LAYOUT.PROFILE.STATS.FILES' },
+  { value: 'merge', label: 'CONTACTS_LAYOUT.SIDEBAR.TABS.MERGE' },
+];
+
+const activeSection = ref('details');
+
+const sectionTabs = computed(() =>
+  CONTACT_SECTIONS.map(section => ({ label: t(section.label) }))
+);
+
+const activeSectionIndex = computed(() =>
+  CONTACT_SECTIONS.findIndex(section => section.value === activeSection.value)
+);
+
+const handleSectionChange = tab => {
+  const index = sectionTabs.value.findIndex(item => item.label === tab.label);
+  if (index !== -1) activeSection.value = CONTACT_SECTIONS[index].value;
+};
+
 const getInitialContactData = () => {
   if (!props.selectedContact) return {};
   return { ...props.selectedContact };
@@ -45,6 +82,9 @@ const getInitialContactData = () => {
 
 onMounted(() => {
   Object.assign(contactData.value, getInitialContactData());
+  if (contactId.value) {
+    store.dispatch('contacts/fetchAttachments', contactId.value);
+  }
 });
 
 const createdAt = computed(() => {
@@ -121,8 +161,8 @@ const handleAvatarDelete = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start gap-8 pb-6">
-    <div class="flex flex-col items-start gap-3">
+  <div class="flex flex-col gap-8 pb-10">
+    <div class="flex items-start gap-5 min-w-0">
       <Avatar
         :src="avatarSrc || ''"
         :name="selectedContact?.name || ''"
@@ -131,73 +171,112 @@ const handleAvatarDelete = async () => {
         @upload="handleAvatarUpload"
         @delete="handleAvatarDelete"
       />
-      <div class="flex flex-col gap-1">
-        <h3 class="text-base font-medium text-n-slate-12">
+      <div class="flex flex-col gap-2 min-w-0">
+        <h1
+          class="text-xl font-semibold leading-tight tracking-tight truncate text-n-slate-12"
+        >
           {{ selectedContact?.name }}
-        </h3>
-        <div class="flex flex-col gap-1.5">
+        </h1>
+        <div
+          class="flex flex-wrap items-center text-sm gap-x-2 gap-y-1 text-n-slate-11"
+        >
           <span
             v-if="selectedContact?.identifier"
-            class="inline-flex items-center gap-1 text-sm text-n-slate-11"
+            class="inline-flex items-center gap-1"
           >
             <span class="i-ph-user-gear text-n-slate-10 size-4" />
             {{ selectedContact?.identifier }}
           </span>
-          <span class="inline-flex items-center gap-1 text-sm text-n-slate-11">
-            <span
-              v-if="selectedContact?.identifier"
-              class="i-ph-activity text-n-slate-10 size-4"
-            />
-            {{ $t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}
-            •
+          <span v-if="selectedContact?.identifier" class="text-n-slate-8">
+            {{ metaSeparator }}
+          </span>
+          <span>
+            {{ t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}
+          </span>
+          <span class="text-n-slate-8">{{ metaSeparator }}</span>
+          <span>
             {{
-              $t('CONTACTS_LAYOUT.DETAILS.LAST_ACTIVITY', {
+              t('CONTACTS_LAYOUT.DETAILS.LAST_ACTIVITY', {
                 date: lastActivityAt,
               })
             }}
           </span>
         </div>
+        <ContactLabels :contact-id="selectedContact?.id" />
       </div>
-      <ContactLabels :contact-id="selectedContact?.id" />
     </div>
-    <div class="flex flex-col items-start gap-6">
-      <ContactsForm
-        ref="contactsFormRef"
-        :contact-data="contactData"
-        is-details-view
-        @update="handleFormUpdate"
+
+    <ContactStats :contact-id="contactId" :last-seen="lastActivityAt" />
+
+    <div class="flex flex-col gap-4">
+      <TabBar
+        :tabs="sectionTabs"
+        :initial-active-tab="activeSectionIndex"
+        class="max-w-full bg-n-alpha-black2"
+        @tab-changed="handleSectionChange"
       />
-      <Button
-        :label="t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')"
-        size="sm"
-        :is-loading="isUpdating"
-        :disabled="isUpdating || isFormInvalid"
-        @click="updateContact"
-      />
-    </div>
-    <Policy :permissions="['administrator']">
-      <div
-        class="flex flex-col items-start w-full gap-4 pt-6 border-t border-n-strong"
-      >
-        <div class="flex flex-col gap-2">
-          <h6 class="text-base font-medium text-n-slate-12">
-            {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT') }}
-          </h6>
-          <span class="text-sm text-n-slate-11">
-            {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT_DESCRIPTION') }}
-          </span>
-        </div>
-        <Button
-          :label="t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT')"
-          color="ruby"
-          @click="openConfirmDeleteContactDialog"
+
+      <div>
+        <template v-if="activeSection === 'details'">
+          <div class="flex flex-col gap-4">
+            <ContactSidebarSection
+              :title="t('CONTACTS_LAYOUT.PROFILE.SECTIONS.DETAILS')"
+              body-class="px-4 py-4"
+            >
+              <div class="flex flex-col items-start gap-6">
+                <ContactsForm
+                  ref="contactsFormRef"
+                  :contact-data="contactData"
+                  is-details-view
+                  @update="handleFormUpdate"
+                />
+                <Button
+                  :label="
+                    t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')
+                  "
+                  size="sm"
+                  :is-loading="isUpdating"
+                  :disabled="isUpdating || isFormInvalid"
+                  @click="updateContact"
+                />
+              </div>
+            </ContactSidebarSection>
+            <Policy :permissions="['administrator']">
+              <ContactSidebarSection
+                :title="t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT')"
+                body-class="flex flex-col items-start gap-4 p-4"
+              >
+                <span class="text-sm text-n-slate-11">
+                  {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT_DESCRIPTION') }}
+                </span>
+                <Button
+                  :label="t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT')"
+                  color="ruby"
+                  size="sm"
+                  @click="openConfirmDeleteContactDialog"
+                />
+              </ContactSidebarSection>
+              <ConfirmContactDeleteDialog
+                ref="confirmDeleteContactDialogRef"
+                :selected-contact="selectedContact"
+                @go-to-contacts-list="emit('goToContactsList')"
+              />
+            </Policy>
+          </div>
+        </template>
+        <ContactCustomAttributes
+          v-else-if="activeSection === 'attributes'"
+          :selected-contact="selectedContact"
+        />
+        <ContactHistory v-else-if="activeSection === 'history'" />
+        <ContactNotes v-else-if="activeSection === 'notes'" />
+        <ContactMedia v-else-if="activeSection === 'media'" />
+        <ContactMerge
+          v-else-if="activeSection === 'merge'"
+          :selected-contact="selectedContact"
+          @go-to-contacts-list="emit('goToContactsList')"
         />
       </div>
-      <ConfirmContactDeleteDialog
-        ref="confirmDeleteContactDialogRef"
-        :selected-contact="selectedContact"
-        @go-to-contacts-list="emit('goToContactsList')"
-      />
-    </Policy>
+    </div>
   </div>
 </template>

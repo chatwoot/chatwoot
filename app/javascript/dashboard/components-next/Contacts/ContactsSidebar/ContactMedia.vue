@@ -12,9 +12,10 @@ import GalleryView from 'dashboard/components/widgets/conversation/components/Ga
 import Media from 'dashboard/components-next/SharedAttachments/Media.vue';
 import Files from 'dashboard/components-next/SharedAttachments/Files.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import ContactSidebarSection from 'dashboard/components-next/Contacts/ContactsSidebar/ContactSidebarSection.vue';
 
-const MEDIA_PEEK_LIMIT = 12;
-const FILES_PEEK_LIMIT = 6;
+const MEDIA_PEEK_LIMIT = 10;
+const FILES_PEEK_LIMIT = 4;
 
 const route = useRoute();
 const router = useRouter();
@@ -73,17 +74,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="px-6">
+  <div>
     <div v-if="isFetching" class="flex justify-center p-3">
       <Spinner class="size-5" />
     </div>
     <p v-else-if="!hasContent" class="p-3 text-sm text-center text-n-slate-11">
       {{ t('CONVERSATION_SIDEBAR.SHARED_FILES.EMPTY') }}
     </p>
-    <div v-else class="flex flex-col gap-5">
+    <ContactSidebarSection
+      v-else
+      body-class="flex flex-col gap-5 px-4 py-4 max-h-[60vh] overflow-y-auto"
+    >
       <Media
         :attachments="attachments"
         :peek-limit="MEDIA_PEEK_LIMIT"
+        :columns="5"
         show-jump-to-message
         @select="onMediaSelect"
         @jump-to-message="onJumpToMessage"
@@ -95,7 +100,7 @@ onMounted(() => {
         @select="onFileSelect"
         @jump-to-message="onJumpToMessage"
       />
-    </div>
+    </ContactSidebarSection>
     <GalleryView
       v-if="showGallery && selectedAttachment"
       v-model:show="showGallery"

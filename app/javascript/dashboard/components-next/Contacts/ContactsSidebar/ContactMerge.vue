@@ -12,6 +12,7 @@ import { CONTACTS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import ContactMergeForm from 'dashboard/components-next/Contacts/ContactsForm/ContactMergeForm.vue';
+import ContactSidebarSection from 'dashboard/components-next/Contacts/ContactsSidebar/ContactSidebarSection.vue';
 
 const props = defineProps({
   selectedContact: {
@@ -103,43 +104,44 @@ const onMergeContacts = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-8 px-6">
-    <div class="flex flex-col gap-2">
-      <h4 class="text-base text-n-slate-12">
-        {{ t('CONTACTS_LAYOUT.SIDEBAR.MERGE.TITLE') }}
-      </h4>
+  <div>
+    <ContactSidebarSection
+      :title="t('CONTACTS_LAYOUT.SIDEBAR.MERGE.TITLE')"
+      body-class="flex flex-col gap-5 px-4 py-4"
+    >
       <p class="text-sm text-n-slate-11">
         {{ t('CONTACTS_LAYOUT.SIDEBAR.MERGE.DESCRIPTION') }}
       </p>
-    </div>
-    <ContactMergeForm
-      v-model:primary-contact-id="state.primaryContactId"
-      :selected-contact="selectedContact"
-      :primary-contact-list="primaryContactList"
-      :is-searching="isSearching"
-      :has-error="!!v$.primaryContactId.$error"
-      :error-message="
-        v$.primaryContactId.$error
-          ? t('CONTACTS_LAYOUT.SIDEBAR.MERGE.PRIMARY_REQUIRED_ERROR')
-          : ''
-      "
-      @search="onContactSearch"
-    />
-    <div class="flex items-center justify-between gap-3">
-      <Button
-        variant="faded"
-        color="slate"
-        :label="t('CONTACTS_LAYOUT.SIDEBAR.MERGE.BUTTONS.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
-        @click="resetState"
+      <ContactMergeForm
+        v-model:primary-contact-id="state.primaryContactId"
+        :selected-contact="selectedContact"
+        :primary-contact-list="primaryContactList"
+        :is-searching="isSearching"
+        :has-error="!!v$.primaryContactId.$error"
+        :error-message="
+          v$.primaryContactId.$error
+            ? t('CONTACTS_LAYOUT.SIDEBAR.MERGE.PRIMARY_REQUIRED_ERROR')
+            : ''
+        "
+        @search="onContactSearch"
       />
-      <Button
-        :label="t('CONTACTS_LAYOUT.SIDEBAR.MERGE.BUTTONS.CONFIRM')"
-        class="w-full"
-        :is-loading="isMergingContact"
-        :disabled="isMergingContact"
-        @click="onMergeContacts"
-      />
-    </div>
+      <div class="flex items-center justify-end gap-3">
+        <Button
+          variant="faded"
+          color="slate"
+          size="sm"
+          :label="t('CONTACTS_LAYOUT.SIDEBAR.MERGE.BUTTONS.CANCEL')"
+          class="bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
+          @click="resetState"
+        />
+        <Button
+          :label="t('CONTACTS_LAYOUT.SIDEBAR.MERGE.BUTTONS.CONFIRM')"
+          size="sm"
+          :is-loading="isMergingContact"
+          :disabled="isMergingContact"
+          @click="onMergeContacts"
+        />
+      </div>
+    </ContactSidebarSection>
   </div>
 </template>

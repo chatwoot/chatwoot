@@ -506,6 +506,19 @@
         }
       }
     },
+    "PROFILE": {
+      "STATS": {
+        "CONVERSATIONS": "Conversations",
+        "NOTES": "Notes",
+        "FILES": "Files",
+        "LAST_SEEN": "Last seen",
+        "NEVER": "Never"
+      },
+      "SECTIONS": {
+        "DETAILS": "Details",
+        "NOTES": "Notes"
+      }
+    },
     "SIDEBAR": {
       "TABS": {
         "ATTRIBUTES": "Attributes",
@@ -564,6 +577,8 @@
       },
       "NOTES": {
         "PLACEHOLDER": "Add a note",
+        "SEARCH_PLACEHOLDER": "Search notes",
+        "NO_RESULTS": "No notes match your search",
         "WROTE": "wrote",
         "YOU": "You",
         "SAVE": "Save note",

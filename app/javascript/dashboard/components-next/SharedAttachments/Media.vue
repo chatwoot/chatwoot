@@ -20,9 +20,20 @@ const props = defineProps({
   attachments: { type: Array, default: () => [] },
   peekLimit: { type: Number, default: 0 },
   showJumpToMessage: { type: Boolean, default: false },
+  columns: { type: Number, default: 3 },
 });
 
 const emit = defineEmits(['select', 'jumpToMessage']);
+
+const gridColsClass = computed(
+  () =>
+    ({
+      3: 'grid-cols-3',
+      4: 'grid-cols-4',
+      5: 'grid-cols-5',
+      6: 'grid-cols-6',
+    })[props.columns] || 'grid-cols-3'
+);
 
 const { t } = useI18n();
 
@@ -177,7 +188,7 @@ const onDownloadFile = async attachment => {
         @click="showAll = !showAll"
       />
     </header>
-    <div class="grid grid-cols-3 gap-2">
+    <div class="grid gap-2" :class="gridColsClass">
       <div
         v-for="(attachment, index) in visibleMedia"
         :key="attachment.id"
