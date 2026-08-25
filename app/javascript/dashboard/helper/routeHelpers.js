@@ -148,9 +148,6 @@ export const isAInboxViewRoute = (routeName, includeBase = false) => {
   return routeNames.includes(routeName);
 };
 
-export const isNotificationRoute = routeName =>
-  routeName === 'notifications_index';
-
 export const isUpgradePageBypassRoute = routeName =>
   [
     'billing_settings_index',
