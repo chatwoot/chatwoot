@@ -38,8 +38,6 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
     context 'when user is logged in' do
       context 'with user as administrator' do
         it 'creates inbox and returns inbox object' do
-          expect(Twilio::WebhookSetupService).to receive(:new).and_return(twilio_webhook_setup_service)
-          expect(twilio_webhook_setup_service).to receive(:perform)
           allow(twilio_client).to receive(:messages).and_return(message_double)
           allow(message_double).to receive(:list).and_return([])
 
@@ -52,11 +50,11 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
 
           expect(json_response['name']).to eq('SMS Channel')
           expect(json_response['messaging_service_sid']).to eq('MGec8130512b5dd462cfe03095ec1342ed')
+          expect(Twilio::WebhookSetupService).to have_received(:new).with(inbox: an_instance_of(Inbox))
+          expect(twilio_webhook_setup_service).to have_received(:perform)
         end
 
         it 'creates inbox with blank phone number and returns inbox object' do
-          expect(Twilio::WebhookSetupService).to receive(:new).and_return(twilio_webhook_setup_service)
-          expect(twilio_webhook_setup_service).to receive(:perform)
           params = {
             twilio_channel: {
               account_sid: 'sid-1',
@@ -78,6 +76,26 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
           json_response = response.parsed_body
 
           expect(json_response['messaging_service_sid']).to eq('MGec8130512b5dd462cfe03095ec1111ed')
+          expect(Twilio::WebhookSetupService).to have_received(:new).with(inbox: an_instance_of(Inbox))
+          expect(twilio_webhook_setup_service).to have_received(:perform)
+        end
+
+        it 'keeps the inbox when Twilio webhook setup fails' do
+          allow(twilio_client).to receive(:messages).and_return(message_double)
+          allow(message_double).to receive(:list).and_return([])
+          allow(twilio_webhook_setup_service).to receive(:perform).and_raise(Twilio::REST::TwilioError, 'Webhook update failed')
+          allow(Rails.logger).to receive(:warn)
+
+          expect do
+            post api_v1_account_channels_twilio_channel_path(account),
+                 params: params,
+                 headers: admin.create_new_auth_token
+          end.to change(Inbox, :count).by(1)
+
+          expect(response).to have_http_status(:success)
+          expect(Rails.logger).to have_received(:warn).with(
+            a_string_including('TWILIO_WEBHOOK_SETUP_FAILED', 'Webhook update failed')
+          )
         end
 
         context 'with a phone number' do # rubocop:disable RSpec/NestedGroups
@@ -135,8 +153,6 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
         end
 
         it 'return error if Twilio tokens are incorrect' do
-          expect(twilio_webhook_setup_service).not_to receive(:perform)
-          expect(Twilio::WebhookSetupService).not_to receive(:new)
           allow(twilio_client).to receive(:messages).and_return(message_double)
           allow(message_double).to receive(:list).and_raise(Twilio::REST::TwilioError)
 
@@ -145,6 +161,8 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
                headers: admin.create_new_auth_token
 
           expect(response).to have_http_status(:unprocessable_entity)
+          expect(Twilio::WebhookSetupService).not_to have_received(:new)
+          expect(twilio_webhook_setup_service).not_to have_received(:perform)
         end
       end
 

@@ -35,6 +35,7 @@ const {
   isAnEmailChannel,
   isAFacebookInbox,
   isATelegramChannel,
+  isATwilioChannel,
   isATwilioSMSChannel,
 } = useInbox(route.params.inbox_id);
 
@@ -64,7 +65,19 @@ const shouldShowWhatsAppQr = computed(() => {
 });
 
 const shouldShowSmsQr = computed(() => {
-  return isATwilioSMSChannel.value && Boolean(currentInbox.value?.phone_number);
+  return (
+    isATwilioSMSChannel.value &&
+    !currentInbox.value?.voice_enabled &&
+    Boolean(currentInbox.value?.phone_number)
+  );
+});
+
+const shouldShowTwilioCallbackFallback = computed(() => {
+  return isATwilioChannel.value && !currentInbox.value?.voice_enabled;
+});
+
+const isABandwidthSmsChannel = computed(() => {
+  return isASmsInbox.value && !isATwilioChannel.value;
 });
 
 const message = computed(() => {
@@ -196,15 +209,24 @@ onMounted(() => {
             :script="currentInbox.callback_webhook_url"
           />
         </div>
-        <div
-          v-if="isASmsInbox && !isATwilioSMSChannel"
-          class="w-[50%] max-w-[50%] ml-[25%]"
-        >
+        <div v-if="isABandwidthSmsChannel" class="w-[50%] max-w-[50%] ml-[25%]">
           <p class="mt-8 font-medium text-n-slate-11">
             {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.TITLE') }}
           </p>
           <p class="mt-2 text-sm text-n-slate-9">
             {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE') }}
+          </p>
+          <woot-code lang="html" :script="currentInbox.callback_webhook_url" />
+        </div>
+        <div
+          v-if="shouldShowTwilioCallbackFallback"
+          class="w-[50%] max-w-[50%] ml-[25%]"
+        >
+          <p class="mt-8 font-medium text-n-slate-11">
+            {{ $t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE') }}
+          </p>
+          <p class="mt-2 text-sm text-n-slate-9">
+            {{ $t('INBOX_MGMT.FINISH.TWILIO_CALLBACK_FALLBACK') }}
           </p>
           <woot-code lang="html" :script="currentInbox.callback_webhook_url" />
         </div>
@@ -218,7 +240,7 @@ onMounted(() => {
           <div class="rounded-lg shadow outline-1 outline-n-strong outline">
             <img
               :src="qrCodes.sms"
-              alt="SMS QR Code"
+              :alt="$t('INBOX_MGMT.FINISH.SMS_QR_ALT')"
               class="rounded-lg size-48 dark:invert"
             />
           </div>

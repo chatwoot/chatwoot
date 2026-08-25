@@ -37,6 +37,8 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
 
   def setup_webhooks
     ::Twilio::WebhookSetupService.new(inbox: @inbox).perform
+  rescue Twilio::REST::TwilioError, Twilio::REST::RestError => e
+    Rails.logger.warn "TWILIO_WEBHOOK_SETUP_FAILED: #{e.class} #{e.message} channel=#{@twilio_channel.id} account=#{Current.account.id}"
   end
 
   def phone_number
