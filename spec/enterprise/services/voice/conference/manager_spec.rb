@@ -29,8 +29,7 @@ RSpec.describe Voice::Conference::Manager do
   end
 
   it 'consumes the matching delayed agent leave regardless of delivery time' do
-    Voice::CallTerminationGuard.track_agent_participant!(call, 'CA_AGENT_1')
-    Voice::CallTerminationGuard.suppress_local_disconnect!(call)
+    Voice::CallTerminationGuard.suppress_local_disconnect!(call, 'CA_AGENT_1')
 
     described_class.new(
       call: call,
@@ -44,15 +43,14 @@ RSpec.describe Voice::Conference::Manager do
     expect(call.meta['agent_disconnect_suppress_call_sid']).to be_nil
   end
 
-  it 'does not suppress an unrelated participant leave' do
-    Voice::CallTerminationGuard.track_agent_participant!(call, 'CA_AGENT_1')
-    Voice::CallTerminationGuard.suppress_local_disconnect!(call)
+  it 'does not suppress a different tab for the same agent' do
+    Voice::CallTerminationGuard.suppress_local_disconnect!(call, 'CA_OLD_TAB')
 
     described_class.new(
       call: call,
       event: 'leave',
       participant_label: "agent-#{agent.id}-account-#{account.id}",
-      participant_call_sid: 'CA_AGENT_2'
+      participant_call_sid: 'CA_NEW_TAB'
     ).process
 
     expect(call.reload.status).to eq('no_answer')
