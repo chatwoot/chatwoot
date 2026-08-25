@@ -4,13 +4,11 @@ import { useI18n } from 'vue-i18n';
 import { formatDistanceToNow, getUnixTime, parseISO } from 'date-fns';
 import { useAlert } from 'dashboard/composables';
 import authAPI from 'dashboard/api/auth';
-import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
+import { exactTimestamp } from 'shared/helpers/timeHelper';
 import AnalyticsHelper from 'dashboard/helper/AnalyticsHelper';
 import { SESSION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-
-const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 const sessions = ref([]);

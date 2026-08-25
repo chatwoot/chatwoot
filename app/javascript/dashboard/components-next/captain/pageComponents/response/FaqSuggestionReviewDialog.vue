@@ -5,8 +5,7 @@ import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
-import { dynamicTime } from 'shared/helpers/timeHelper';
-import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
+import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
 import CaptainFaqSuggestionsAPI from 'dashboard/api/captain/faqSuggestions';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -23,8 +22,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close', 'resolved']);
-
-const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 const router = useRouter();
