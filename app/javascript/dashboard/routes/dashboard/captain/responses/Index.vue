@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onUnmounted, ref, nextTick, watch } from 'vue';
+import { useTimeoutFn } from '@vueuse/core';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
@@ -8,10 +9,14 @@ import { useRouter, useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { debounce } from '@chatwoot/utils';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import CaptainResponseAPI from 'dashboard/api/captain/response';
+import CaptainFaqImportsAPI from 'dashboard/api/captain/faqImports';
 
 import Banner from 'dashboard/components-next/banner/Banner.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
@@ -23,11 +28,13 @@ import ResponsePageEmptyState from 'dashboard/components-next/captain/pageCompon
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
 import ConversationUsageDrawer from 'dashboard/components-next/captain/pageComponents/ConversationUsageDrawer.vue';
+import FaqImportDialog from 'dashboard/components-next/captain/pageComponents/response/FaqImportDialog.vue';
 
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
 const { isOnChatwootCloud } = useAccount();
+const { checkPermissions } = usePolicy();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
 const responseMeta = useMapGetter('captainResponses/getMeta');
 const responses = useMapGetter('captainResponses/getRecords');
@@ -44,10 +51,128 @@ const searchQuery = ref('');
 const { t } = useI18n();
 
 const createDialog = ref(null);
+const faqImportDialog = ref(null);
+const showFaqActions = ref(false);
+const showFaqImportDialog = ref(false);
+const latestFaqImport = ref(null);
+let faqImportStatusTimer = null;
+let latestFaqImportRequestId = 0;
+
+const FAQ_IMPORT_POLL_INTERVAL = 5000;
+const FAQ_IMPORT_STATUS_VISIBLE_FOR = 15000;
+const FAQ_IMPORT_STATUS_CONFIG = {
+  preparing: {
+    icon: 'i-lucide-file-up',
+    className: 'text-n-blue-11',
+    title: () => t('CAPTAIN.RESPONSES.IMPORT.STATUS.PREPARING.TITLE'),
+    description: counts =>
+      t('CAPTAIN.RESPONSES.IMPORT.STATUS.PREPARING.DESCRIPTION', counts),
+  },
+  completed: {
+    icon: 'i-lucide-circle-check',
+    className: 'text-n-teal-11',
+    title: () => t('CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED.TITLE'),
+    description: counts =>
+      t('CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED.DESCRIPTION', counts),
+  },
+  completed_with_errors: {
+    icon: 'i-lucide-triangle-alert',
+    className: 'text-n-amber-11',
+    title: () =>
+      t('CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED_WITH_ERRORS.TITLE'),
+    description: counts =>
+      t(
+        'CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED_WITH_ERRORS.DESCRIPTION',
+        counts
+      ),
+  },
+  failed: {
+    icon: 'i-lucide-circle-alert',
+    className: 'text-n-ruby-11',
+    title: () => t('CAPTAIN.RESPONSES.IMPORT.STATUS.FAILED.TITLE'),
+    description: () => t('CAPTAIN.RESPONSES.IMPORT.STATUS.FAILED.DESCRIPTION'),
+  },
+};
 
 const selectedAssistantId = computed(() => Number(route.params.assistantId));
+const canManageFaqs = computed(() => checkPermissions(['administrator']));
+
+const faqActionItems = computed(() => [
+  {
+    label: t('CAPTAIN.RESPONSES.CREATE_MANUALLY'),
+    action: 'create',
+    icon: 'i-lucide-square-pen',
+  },
+  {
+    label: t('CAPTAIN.RESPONSES.IMPORT.ACTION'),
+    action: 'import',
+    icon: 'i-lucide-file-up',
+    disabled: latestFaqImport.value?.status === 'preparing',
+  },
+]);
 
 const suggestionCount = useMapGetter('captainFaqSuggestions/getOpenCount');
+
+const faqImportStatus = computed(() => {
+  const config = FAQ_IMPORT_STATUS_CONFIG[latestFaqImport.value?.status];
+  const counts = {
+    created: latestFaqImport.value?.created_count || 0,
+    overwritten: latestFaqImport.value?.overwritten_count || 0,
+    skipped: latestFaqImport.value?.skipped_count || 0,
+  };
+
+  return {
+    icon: config?.icon,
+    className: config?.className || 'text-n-slate-11',
+    title: config?.title() || '',
+    description: config?.description(counts) || '',
+  };
+});
+
+const stopFaqImportStatusTimer = () => {
+  if (faqImportStatusTimer) clearTimeout(faqImportStatusTimer);
+  faqImportStatusTimer = null;
+};
+
+const displayFaqImportStatus = faqImport => {
+  stopFaqImportStatusTimer();
+
+  if (!faqImport || faqImport.status === 'preparing') {
+    latestFaqImport.value = faqImport;
+    return;
+  }
+
+  const completedAt = Date.parse(faqImport.completed_at);
+  const remainingTime = Math.min(
+    FAQ_IMPORT_STATUS_VISIBLE_FOR,
+    FAQ_IMPORT_STATUS_VISIBLE_FOR - (Date.now() - completedAt)
+  );
+
+  if (!Number.isFinite(completedAt) || remainingTime <= 0) {
+    latestFaqImport.value = null;
+    return;
+  }
+
+  latestFaqImport.value = faqImport;
+  faqImportStatusTimer = setTimeout(() => {
+    latestFaqImport.value = null;
+    faqImportStatusTimer = null;
+  }, remainingTime);
+};
+
+const handleFaqImportOpen = () => {
+  showFaqImportDialog.value = true;
+  nextTick(() => faqImportDialog.value.dialogRef.open());
+};
+
+const toggleFaqActions = () => {
+  if (!canManageFaqs.value) return;
+  showFaqActions.value = !showFaqActions.value;
+};
+
+const handleFaqImportClose = () => {
+  showFaqImportDialog.value = false;
+};
 
 const handleDelete = () => {
   deleteDialog.value.dialogRef.open();
@@ -56,6 +181,15 @@ const handleDelete = () => {
 const handleCreate = () => {
   dialogType.value = 'create';
   nextTick(() => createDialog.value.dialogRef.open());
+};
+
+const handleFaqAction = ({ action }) => {
+  showFaqActions.value = false;
+  if (action === 'import') {
+    handleFaqImportOpen();
+  } else {
+    handleCreate();
+  }
 };
 
 const handleEdit = () => {
@@ -147,6 +281,56 @@ const fetchResponses = async (page = 1) => {
     useAlert(error?.message || t('CAPTAIN.RESPONSES.ERRORS.LOAD'));
     store.dispatch('captainResponses/setFetchingList', false);
   }
+};
+
+let faqImportPollingControls;
+
+const fetchLatestFaqImport = async () => {
+  const assistantId = selectedAssistantId.value;
+  latestFaqImportRequestId += 1;
+  const requestId = latestFaqImportRequestId;
+
+  try {
+    const { data } = await CaptainFaqImportsAPI.latest({ assistantId });
+    if (
+      requestId !== latestFaqImportRequestId ||
+      assistantId !== selectedAssistantId.value
+    ) {
+      return;
+    }
+
+    const previousStatus = latestFaqImport.value?.status;
+    displayFaqImportStatus(data);
+
+    if (data?.status === 'preparing') {
+      faqImportPollingControls.start();
+    } else if (previousStatus === 'preparing' && data) {
+      faqImportPollingControls.stop();
+      fetchResponses(responseMeta.value?.page || 1);
+    } else {
+      faqImportPollingControls.stop();
+    }
+  } catch {
+    if (requestId !== latestFaqImportRequestId) return;
+
+    if (latestFaqImport.value?.status === 'preparing') {
+      faqImportPollingControls.start();
+    }
+  }
+};
+
+faqImportPollingControls = useTimeoutFn(
+  fetchLatestFaqImport,
+  FAQ_IMPORT_POLL_INTERVAL,
+  { immediate: false }
+);
+
+const handleFaqImportConfirmed = faqImport => {
+  latestFaqImportRequestId += 1;
+  displayFaqImportStatus(faqImport);
+  fetchResponses(responseMeta.value?.page || 1);
+  faqImportPollingControls.stop();
+  if (faqImport?.status === 'preparing') faqImportPollingControls.start();
 };
 
 // Bulk action
@@ -246,6 +430,12 @@ const navigateToFaqSuggestions = () => {
 watch(
   selectedAssistantId,
   () => {
+    faqImportPollingControls.stop();
+    stopFaqImportStatusTimer();
+    latestFaqImportRequestId += 1;
+    latestFaqImport.value = null;
+    showFaqActions.value = false;
+    showFaqImportDialog.value = false;
     selectedResponse.value = null;
     usageResponse.value = null;
     showResponseUsage.value = false;
@@ -259,11 +449,15 @@ watch(
       'captainFaqSuggestions/fetchOpenCount',
       selectedAssistantId.value
     );
+    if (canManageFaqs.value) fetchLatestFaqImport();
   },
   { immediate: true }
 );
 
 onUnmounted(() => {
+  faqImportPollingControls.stop();
+  stopFaqImportStatusTimer();
+  latestFaqImportRequestId += 1;
   store.dispatch('captainResponses/setFetchingList', false);
 });
 </script>
@@ -280,8 +474,55 @@ onUnmounted(() => {
     :show-pagination-footer="!isFetching && !!responses.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @update:current-page="onPageChange"
-    @click="handleCreate"
+    @click="toggleFaqActions"
+    @close="showFaqActions = false"
   >
+    <template #action>
+      <DropdownMenu
+        v-if="canManageFaqs && showFaqActions"
+        :menu-items="faqActionItems"
+        class="mt-1 min-w-48 ltr:right-0 rtl:left-0 top-full"
+        @action="handleFaqAction"
+      />
+    </template>
+
+    <template #controls>
+      <section
+        v-if="latestFaqImport"
+        data-testid="faq-import-status"
+        :data-status="latestFaqImport.status"
+        role="status"
+        aria-live="polite"
+        class="mb-4"
+      >
+        <h3 class="mb-2 text-sm font-medium text-n-slate-12">
+          {{ $t('CAPTAIN.RESPONSES.IMPORT.SECTION_TITLE') }}
+        </h3>
+        <div
+          class="flex items-start gap-3 rounded-xl border border-n-weak bg-n-solid-1 px-4 py-3"
+        >
+          <Icon
+            :icon="faqImportStatus.icon"
+            class="mt-0.5 size-4 shrink-0"
+            :class="faqImportStatus.className"
+          />
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <span class="text-sm font-medium text-n-slate-12">
+                {{ faqImportStatus.title }}
+              </span>
+              <span class="truncate text-xs text-n-slate-10">
+                {{ latestFaqImport.original_filename }}
+              </span>
+            </div>
+            <p class="mb-0 mt-1 text-xs text-n-slate-11">
+              {{ faqImportStatus.description }}
+            </p>
+          </div>
+        </div>
+      </section>
+    </template>
+
     <template #knowMore>
       <FeatureSpotlightPopover
         :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
@@ -404,6 +645,14 @@ onUnmounted(() => {
       :type="dialogType"
       :selected-response="selectedResponse"
       @close="handleCreateClose"
+    />
+
+    <FaqImportDialog
+      v-if="showFaqImportDialog"
+      ref="faqImportDialog"
+      :assistant-id="selectedAssistantId"
+      @close="handleFaqImportClose"
+      @confirmed="handleFaqImportConfirmed"
     />
   </PageLayout>
 </template>
