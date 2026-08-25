@@ -80,22 +80,19 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
           expect(twilio_webhook_setup_service).to have_received(:perform)
         end
 
-        it 'keeps the inbox when Twilio webhook setup fails' do
+        it 'rolls back the inbox when Twilio webhook setup fails' do
           allow(twilio_client).to receive(:messages).and_return(message_double)
           allow(message_double).to receive(:list).and_return([])
           allow(twilio_webhook_setup_service).to receive(:perform).and_raise(Twilio::REST::TwilioError, 'Webhook update failed')
-          allow(Rails.logger).to receive(:warn)
 
           expect do
             post api_v1_account_channels_twilio_channel_path(account),
                  params: params,
                  headers: admin.create_new_auth_token
-          end.to change(Inbox, :count).by(1)
+          end.not_to change(Inbox, :count)
 
-          expect(response).to have_http_status(:success)
-          expect(Rails.logger).to have_received(:warn).with(
-            a_string_including('TWILIO_WEBHOOK_SETUP_FAILED', 'Webhook update failed')
-          )
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to include('Webhook update failed')
         end
 
         context 'with a phone number' do # rubocop:disable RSpec/NestedGroups
