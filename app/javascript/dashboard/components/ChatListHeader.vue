@@ -10,7 +10,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   pageTitle: { type: String, required: true },
-  filterSummary: { type: String, default: '' },
+  contactFilter: { type: Object, default: null },
   hasAppliedFilters: { type: Boolean, required: true },
   hasActiveFolders: { type: Boolean, required: true },
   activeStatus: { type: String, required: true },
@@ -45,10 +45,13 @@ const showFilterScope = computed(
   () => props.hasAppliedFilters && !props.hasActiveFolders
 );
 
-const title = computed(() =>
-  showFilterScope.value && props.filterSummary
-    ? props.filterSummary
-    : props.pageTitle
+// The contact scope is set from the contact panel; it is exited, not edited.
+const isContactScoped = computed(
+  () => showFilterScope.value && !!props.contactFilter
+);
+
+const title = computed(
+  () => (isContactScoped.value && props.contactFilter.name) || props.pageTitle
 );
 
 const toggleConversationLayout = () => {
@@ -150,7 +153,7 @@ const toggleConversationLayout = () => {
           @click="emit('deleteFolders')"
         />
       </template>
-      <div v-else class="relative">
+      <div v-else-if="!isContactScoped" class="relative">
         <NextButton
           id="toggleConversationFilterButton"
           v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"

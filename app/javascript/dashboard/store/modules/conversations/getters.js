@@ -95,6 +95,12 @@ const getters = {
   getAppliedConversationFilters: _state => {
     return _state.appliedFilters;
   },
+  getAppliedContactFilter: ({ appliedFilters }) => {
+    const [filter, ...rest] = appliedFilters;
+    if (rest.length || filter?.attribute_key !== 'contact_id') return null;
+
+    return filter.values?.[0] ?? null;
+  },
   getAppliedConversationFiltersQuery: _state => {
     const hasAppliedFilters = _state.appliedFilters.length !== 0;
     return hasAppliedFilters ? filterQueryGenerator(_state.appliedFilters) : [];

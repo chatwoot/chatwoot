@@ -95,6 +95,7 @@ const chatListLoading = useMapGetter('getChatListLoadingStatus');
 const activeInbox = useMapGetter('getSelectedInbox');
 const conversationStats = useMapGetter('conversationStats/getStats');
 const appliedFilters = useMapGetter('getAppliedConversationFiltersV2');
+const appliedContactFilter = useMapGetter('getAppliedContactFilter');
 const folders = useMapGetter('customViews/getConversationCustomViews');
 const agentList = useMapGetter('agents/getAgents');
 const teamsList = useMapGetter('teams/getTeams');
@@ -133,15 +134,6 @@ const { checkMissingAttributes } = useConversationRequiredAttributes();
 
 const hasAppliedFilters = computed(() => {
   return appliedFilters.value.length !== 0;
-});
-
-// A lone contact filter comes from the contact panel; the header names the contact.
-const appliedFilterSummary = computed(() => {
-  const [filter, ...rest] = appliedFilters.value;
-  if (rest.length || filter?.attributeKey !== 'contact_id') return '';
-
-  const [value] = filter.values || [];
-  return value?.name || '';
 });
 
 const activeFolder = computed(() => {
@@ -882,7 +874,7 @@ watch(appliedFilters, () => resetBulkActions());
     <slot />
     <ChatListHeader
       :page-title="pageTitle"
-      :filter-summary="appliedFilterSummary"
+      :contact-filter="appliedContactFilter"
       :has-applied-filters="hasAppliedFilters"
       :has-active-folders="hasActiveFolders"
       :active-status="activeStatus"
