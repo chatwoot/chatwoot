@@ -74,12 +74,13 @@ export const useCallsStore = defineStore('calls', {
       this.calls = this.calls.map(call => ({
         ...call,
         isActive: call.callSid === callSid,
+        teardownFailed: call.callSid === callSid ? false : call.teardownFailed,
       }));
     },
 
-    setCallInactive(callSid) {
+    markCallTeardownFailed(callSid) {
       this.calls = this.calls.map(call =>
-        call.callSid === callSid ? { ...call, isActive: false } : call
+        call.callSid === callSid ? { ...call, teardownFailed: true } : call
       );
     },
 
