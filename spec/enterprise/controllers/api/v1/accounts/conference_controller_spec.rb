@@ -173,12 +173,11 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         provider_error = StandardError.new('provider teardown failed')
         allow(conference_service).to receive(:end_provider_call).and_raise(provider_error)
 
-        expect do
-          delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
-                 headers: agent.create_new_auth_token,
-                 params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
-        end.to raise_error(provider_error)
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
+        expect(response).to have_http_status(:internal_server_error)
         call = Call.find_by(provider_call_id: 'CALL123')
         expect(call).not_to be_terminal
         expect(call.meta['agent_termination_token']).to be_nil
@@ -189,12 +188,11 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         cleanup_error = StandardError.new('conference cleanup failed')
         allow(conference_service).to receive(:complete_conference).and_raise(cleanup_error)
 
-        expect do
-          delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
-                 headers: agent.create_new_auth_token,
-                 params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
-        end.to raise_error(cleanup_error)
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
+        expect(response).to have_http_status(:internal_server_error)
         call = Call.find_by(provider_call_id: 'CALL123')
         expect(call).to be_terminal
         expect(call.status).to eq('rejected')
