@@ -149,9 +149,11 @@ defineExpose({ validate, resetValidation });
 <template>
   <li class="list-none">
     <div
-      class="flex items-center gap-2 rounded-md"
+      class="flex gap-2 rounded-md"
       :class="{
         'animate-wiggle': showErrors && validationError,
+        'items-start': inputType === 'multiText',
+        'items-center': inputType !== 'multiText',
       }"
     >
       <FilterSelect
