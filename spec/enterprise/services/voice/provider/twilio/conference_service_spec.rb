@@ -82,6 +82,25 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(call_context).to have_received(:update).with(status: 'completed')
     end
 
+    it 'retries as completed when a ringing leg answers between fetch and update' do
+      call.update!(provider_call_id: 'CALL123')
+      call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
+      ringing_instance = instance_double(Twilio::REST::Api::V2010::AccountContext::CallInstance, status: 'ringing')
+      in_progress_instance = instance_double(Twilio::REST::Api::V2010::AccountContext::CallInstance, status: 'in-progress')
+      transition_error = Twilio::REST::RestError.allocate
+
+      allow(twilio_client).to receive(:calls).with('CALL123').and_return(call_context)
+      allow(call_context).to receive(:fetch).and_return(ringing_instance, in_progress_instance)
+      allow(call_context).to receive(:update).with(status: 'canceled').and_raise(transition_error)
+      allow(call_context).to receive(:update).with(status: 'completed')
+
+      service.end_conference
+
+      expect(call_context).to have_received(:fetch).twice
+      expect(call_context).to have_received(:update).with(status: 'canceled')
+      expect(call_context).to have_received(:update).with(status: 'completed')
+    end
+
     it 'uses provider state even when the local call is in progress but the customer is still ringing' do
       call.update!(provider_call_id: 'CALL123', status: 'in_progress')
       call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
