@@ -73,4 +73,22 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     expect(call.meta['agent_termination_token']).to be_nil
     expect(call.meta['agent_termination_started_at']).to be_nil
   end
+
+  it 'binds failed teardown cleanup to the initiating tab agent leg' do
+    allow(conference_service).to receive(:end_provider_call).and_raise(StandardError, 'provider teardown failed')
+
+    delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+           headers: agent.create_new_auth_token,
+           params: {
+             conversation_id: conversation.display_id,
+             call_sid: 'CALL123',
+             agent_call_sid: 'CA_OLD_TAB'
+           }
+
+    expect(response).to have_http_status(:internal_server_error)
+    call = Call.find_by!(provider_call_id: 'CALL123')
+    expect(call).not_to be_terminal
+    expect(call.meta['agent_termination_token']).to be_nil
+    expect(call.meta['agent_disconnect_suppress_call_sid']).to eq('CA_OLD_TAB')
+  end
 end
