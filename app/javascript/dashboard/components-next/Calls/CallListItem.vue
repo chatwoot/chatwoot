@@ -29,12 +29,14 @@ const route = useRoute();
 
 const kind = computed(() => getCallKind(props.call));
 
-const contactName = computed(() =>
-  (props.call.contact.name || props.call.contact.phoneNumber || '').replace(
-    /^\+/,
+const contactName = computed(() => {
+  if (!props.call.contact) return t('CALLS_PAGE.ROW.DELETED_CONTACT');
+  return (
+    props.call.contact.name ||
+    props.call.contact.phoneNumber ||
     ''
-  )
-);
+  ).replace(/^\+/, '');
+});
 
 const agentActionLabel = computed(() => {
   if (!props.call.agent) return '';
@@ -87,7 +89,7 @@ const conversationRoute = computed(() => ({
   <div class="flex flex-col gap-2 py-3.5 border-b border-n-weak lg:hidden">
     <div class="flex items-center gap-2 min-w-0">
       <Avatar
-        :src="call.contact.avatar"
+        :src="call.contact?.avatar"
         :name="contactName"
         :size="24"
         rounded-full
@@ -168,7 +170,7 @@ const conversationRoute = computed(() => ({
   >
     <div class="flex items-center gap-2.5 min-w-0 w-52 shrink-0 py-3.5">
       <Avatar
-        :src="call.contact.avatar"
+        :src="call.contact?.avatar"
         :name="contactName"
         :size="24"
         rounded-full
