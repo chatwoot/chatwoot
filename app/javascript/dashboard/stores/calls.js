@@ -77,6 +77,12 @@ export const useCallsStore = defineStore('calls', {
       }));
     },
 
+    setCallInactive(callSid) {
+      this.calls = this.calls.map(call =>
+        call.callSid === callSid ? { ...call, isActive: false } : call
+      );
+    },
+
     clearActiveCall() {
       const active = this.calls.find(c => c.isActive);
       teardownByProvider(active);
