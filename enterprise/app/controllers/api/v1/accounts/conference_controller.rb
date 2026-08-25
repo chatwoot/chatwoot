@@ -17,8 +17,6 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
     conference_sid = conference_service.ensure_conference_sid
     conference_service.mark_agent_joined(user: current_user)
-    # voice_call.accepted broadcasts from Voice::Conference::Manager#join_agent! once
-    # Twilio confirms the leg joined, not here — joinClientCall can still fail after this.
 
     render json: {
       status: 'success',
