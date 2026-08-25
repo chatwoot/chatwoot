@@ -13,7 +13,7 @@ overrides:
 
 patchedDependencies:
   '@chatwoot/utils@0.0.57':
-    hash: b9a766a3ab3bea3cb5e79f9a272ca78d0d95bcf03c4f722f032d5470220b4e02
+    hash: 7044826525528f9bed5cbde8d7812455b2cf1e89e9360069ddd01dbbd5b9ef79
     path: patches/@chatwoot__utils@0.0.57.patch
 
 importers:
@@ -37,7 +37,7 @@ importers:
         version: 1.4.1
       '@chatwoot/utils':
         specifier: ^0.0.57
-        version: 0.0.57(patch_hash=b9a766a3ab3bea3cb5e79f9a272ca78d0d95bcf03c4f722f032d5470220b4e02)
+        version: 0.0.57(patch_hash=7044826525528f9bed5cbde8d7812455b2cf1e89e9360069ddd01dbbd5b9ef79)
       '@chatwoot/viz':
         specifier: ^0.1.5
         version: 0.1.5(vue@3.5.12(typescript@5.6.2))
@@ -5214,7 +5214,7 @@ snapshots:
       prosemirror-utils: 1.2.2(prosemirror-model@1.22.3)(prosemirror-state@1.4.3)
       prosemirror-view: 1.34.1
 
-  '@chatwoot/utils@0.0.57(patch_hash=b9a766a3ab3bea3cb5e79f9a272ca78d0d95bcf03c4f722f032d5470220b4e02)':
+  '@chatwoot/utils@0.0.57(patch_hash=7044826525528f9bed5cbde8d7812455b2cf1e89e9360069ddd01dbbd5b9ef79)':
     dependencies:
       date-fns: 2.30.0
 
