@@ -1,7 +1,9 @@
 class Voice::CallTerminationGuard
   TOKEN_KEY = 'agent_termination_token'.freeze
   STARTED_AT_KEY = 'agent_termination_started_at'.freeze
+  DISCONNECT_SUPPRESS_UNTIL_KEY = 'agent_disconnect_suppress_until'.freeze
   STALE_AFTER = 2.minutes
+  DISCONNECT_SUPPRESSION = 30.seconds
 
   class << self
     def active?(call, now: Time.zone.now)
@@ -33,6 +35,14 @@ class Voice::CallTerminationGuard
 
       call.update!(meta: cleared_meta(call))
       true
+    end
+
+    def suppress_local_disconnect!(call, now: Time.zone.now)
+      call.update!(meta: call.meta.merge(DISCONNECT_SUPPRESS_UNTIL_KEY => (now + DISCONNECT_SUPPRESSION).to_i))
+    end
+
+    def local_disconnect_suppressed?(call, now: Time.zone.now)
+      call.meta[DISCONNECT_SUPPRESS_UNTIL_KEY].to_i > now.to_i
     end
 
     private
