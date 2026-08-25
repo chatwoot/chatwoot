@@ -110,7 +110,8 @@ class Voice::Conference::Manager
   end
 
   def termination_pending_locked?
-    call.meta['agent_termination_token'].present?
+    Voice::CallTerminationGuard.clear_stale!(call)
+    Voice::CallTerminationGuard.active?(call)
   end
 
   def agent_participant?
