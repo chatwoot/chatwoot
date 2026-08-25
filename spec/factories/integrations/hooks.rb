@@ -32,7 +32,7 @@ FactoryBot.define do
       access_token { SecureRandom.hex }
       settings do
         {
-          project_id: 'proj_123',
+          organization_id: 'org_ac9',
           refresh_token: 'pathors_refresh_token',
           token_type: 'Bearer',
           expires_on: 30.minutes.from_now.utc.to_s

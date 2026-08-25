@@ -4,7 +4,7 @@ RSpec.describe 'Pathors Phone Numbers API', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  let(:numbers_url) { 'https://api.pathors.com/project/proj_123/integration/chatwoot/phone_numbers' }
+  let(:numbers_url) { 'https://api.pathors.com/org/org_ac9/integration/chatwoot/phone_numbers' }
   let(:number_payload) do
     { id: 'pn_x9k2', phone_number: '+886277001234', extension: nil, label: '台北客服代表號', status: 'active', binding: nil }
   end

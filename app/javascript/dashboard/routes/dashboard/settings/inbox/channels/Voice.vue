@@ -7,6 +7,7 @@ import { required } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import PathorsPhoneNumbersAPI from 'dashboard/api/pathorsPhoneNumbers';
+import PathorsAgentBotsAPI from 'dashboard/api/pathorsAgentBots';
 
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -21,10 +22,13 @@ const router = useRouter();
 const state = reactive({
   inboxName: '',
   phoneNumberId: '',
+  agentBotId: '',
 });
 
 const phoneNumbers = ref([]);
+const agentBots = ref([]);
 const isLoadingPhoneNumbers = ref(true);
+const isLoadingAgentBots = ref(true);
 const isIntegrationConnected = ref(true);
 
 const uiFlags = useMapGetter('inboxes/getUIFlags');
@@ -40,8 +44,14 @@ const selectedPhoneNumber = computed(() =>
   phoneNumbers.value.find(number => number.id === state.phoneNumberId)
 );
 
+// RadioCard identifies its options by string, agent bot ids are numeric.
+const selectedAgentBot = computed(() =>
+  agentBots.value.find(bot => String(bot.id) === state.agentBotId)
+);
+
 const isSubmitDisabled = computed(
-  () => v$.value.$invalid || !selectedPhoneNumber.value
+  () =>
+    v$.value.$invalid || !selectedPhoneNumber.value || !selectedAgentBot.value
 );
 
 const formErrors = computed(() => ({
@@ -50,7 +60,7 @@ const formErrors = computed(() => ({
     : '',
 }));
 
-onMounted(async () => {
+async function fetchPhoneNumbers() {
   try {
     const { data } = await PathorsPhoneNumbersAPI.get();
     phoneNumbers.value = data.payload;
@@ -63,10 +73,31 @@ onMounted(async () => {
   } finally {
     isLoadingPhoneNumbers.value = false;
   }
+}
+
+async function fetchAgentBots() {
+  try {
+    const { data } = await PathorsAgentBotsAPI.get();
+    agentBots.value = data.payload;
+  } catch (error) {
+    useAlert(t('INBOX_MGMT.ADD.VOICE.AGENT_BOTS.FETCH_ERROR'));
+  } finally {
+    isLoadingAgentBots.value = false;
+  }
+}
+
+// Independent lists from independent endpoints, so neither waits on the other.
+onMounted(() => {
+  fetchPhoneNumbers();
+  fetchAgentBots();
 });
 
 function selectPhoneNumber(id) {
   state.phoneNumberId = id;
+}
+
+function selectAgentBot(id) {
+  state.agentBotId = id;
 }
 
 async function createChannel() {
@@ -80,6 +111,7 @@ async function createChannel() {
         phone_number: selectedPhoneNumber.value.phone_number,
         pathors_phone_number_id: selectedPhoneNumber.value.id,
       },
+      agent_bot: selectedAgentBot.value.id,
     });
 
     router.replace({
@@ -203,6 +235,64 @@ async function createChannel() {
           </div>
           <p class="mt-1 mb-0 text-label-small text-n-slate-11">
             {{ t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBERS.HELP') }}
+          </p>
+        </template>
+      </div>
+
+      <div v-if="isIntegrationConnected" class="flex flex-col gap-1">
+        <span class="mb-0.5 text-heading-3 text-n-slate-12">
+          {{ t('INBOX_MGMT.ADD.VOICE.AGENT_BOTS.LABEL') }}
+        </span>
+
+        <div
+          v-if="isLoadingAgentBots"
+          class="flex items-center gap-2 py-6 text-n-slate-11"
+        >
+          <Spinner :size="16" />
+          <span class="text-body-main">
+            {{ t('INBOX_MGMT.ADD.VOICE.AGENT_BOTS.LOADING') }}
+          </span>
+        </div>
+
+        <div
+          v-else-if="!agentBots.length"
+          class="flex flex-col items-start gap-3 p-6 rounded-xl outline outline-1 outline-n-container bg-n-card"
+        >
+          <h4 class="text-heading-3 text-n-slate-12">
+            {{ t('INBOX_MGMT.ADD.VOICE.AGENT_BOTS.EMPTY.TITLE') }}
+          </h4>
+          <p class="max-w-2xl text-body-main text-n-slate-11">
+            {{ t('INBOX_MGMT.ADD.VOICE.AGENT_BOTS.EMPTY.DESCRIPTION') }}
+          </p>
+          <router-link
+            :to="{
+              name: 'settings_applications_pathors',
+              params: { accountId },
+            }"
+          >
+            <NextButton
+              type="button"
+              :label="t('INBOX_MGMT.ADD.VOICE.AGENT_BOTS.EMPTY.ACTION')"
+              icon="i-lucide-plug"
+              trailing-icon
+            />
+          </router-link>
+        </div>
+
+        <template v-else>
+          <div class="flex flex-col gap-2">
+            <RadioCard
+              v-for="bot in agentBots"
+              :id="String(bot.id)"
+              :key="bot.id"
+              :label="bot.name"
+              :description="t('INBOX_MGMT.ADD.VOICE.AGENT_BOTS.DESCRIPTION')"
+              :is-active="state.agentBotId === String(bot.id)"
+              @select="selectAgentBot"
+            />
+          </div>
+          <p class="mt-1 mb-0 text-label-small text-n-slate-11">
+            {{ t('INBOX_MGMT.ADD.VOICE.AGENT_BOTS.HELP') }}
           </p>
         </template>
       </div>

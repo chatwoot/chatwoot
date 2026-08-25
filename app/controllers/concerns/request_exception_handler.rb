@@ -13,6 +13,8 @@ module RequestExceptionHandler
                 CustomExceptions::Account::EmailLimitExceeded,
                 CustomExceptions::Pathors::IntegrationNotConnected,
                 CustomExceptions::Pathors::PhoneNumberAlreadyBound,
+                CustomExceptions::Pathors::BindingRejected,
+                CustomExceptions::Pathors::AgentBotRequired,
                 CustomExceptions::Pathors::RequestFailed,
                 with: :render_error_response
   end

@@ -4,7 +4,7 @@ describe Pathors::PhoneNumbersService do
   let(:account) { create(:account) }
   let!(:hook) { create(:integrations_hook, :pathors, account: account, access_token: 'pathors_access_token') }
   let(:inbox) { create(:channel_voice, account: account, phone_number: '+886277001234').inbox }
-  let(:base_url) { 'https://api.pathors.com/project/proj_123/integration/chatwoot' }
+  let(:base_url) { 'https://api.pathors.com/org/org_ac9/integration/chatwoot' }
   let(:numbers_url) { "#{base_url}/phone_numbers" }
   let(:binding_url) { "#{base_url}/phone_numbers/pn_x9k2/binding" }
   let(:number_payload) do
@@ -45,7 +45,7 @@ describe Pathors::PhoneNumbersService do
         .to_return(status: 200, body: { payload: [number_payload] }.to_json, headers: { 'Content-Type' => 'application/json' })
 
       expect(described_class.new(account: account).list.first['id']).to eq('pn_x9k2')
-      expect(hook.reload.settings['project_id']).to eq('proj_123')
+      expect(hook.reload.settings['organization_id']).to eq('org_ac9')
     end
 
     it 'raises when the registry keeps failing' do
@@ -57,11 +57,11 @@ describe Pathors::PhoneNumbersService do
   end
 
   describe '#bind' do
-    it 'sends the account, inbox and number and returns the binding' do
+    it 'sends the account, inbox, number and answering project and returns the binding' do
       stub_request(:put, binding_url)
         .with(
           headers: { 'Authorization' => 'Bearer pathors_access_token' },
-          body: { account_id: account.id, inbox_id: inbox.id, phone_number: '+886277001234' }.to_json
+          body: { account_id: account.id, inbox_id: inbox.id, phone_number: '+886277001234', project_id: 'proj_123' }.to_json
         )
         .to_return(
           status: 200,
@@ -69,9 +69,24 @@ describe Pathors::PhoneNumbersService do
           headers: { 'Content-Type' => 'application/json' }
         )
 
-      result = described_class.new(account: account).bind(phone_number_id: 'pn_x9k2', inbox: inbox)
+      result = described_class.new(account: account).bind(phone_number_id: 'pn_x9k2', inbox: inbox, project_id: 'proj_123')
 
       expect(result['inbox_id']).to eq(inbox.id)
+    end
+
+    it 're-routes the number when the same inbox is bound to another project' do
+      rebind_request = stub_request(:put, binding_url)
+                       .with(body: { account_id: account.id, inbox_id: inbox.id, phone_number: '+886277001234', project_id: 'proj_456' }.to_json)
+                       .to_return(
+                         status: 200,
+                         body: { binding: { account_id: account.id, inbox_id: inbox.id, project_id: 'proj_456' } }.to_json,
+                         headers: { 'Content-Type' => 'application/json' }
+                       )
+
+      result = described_class.new(account: account).bind(phone_number_id: 'pn_x9k2', inbox: inbox, project_id: 'proj_456')
+
+      expect(result['project_id']).to eq('proj_456')
+      expect(rebind_request).to have_been_requested
     end
 
     it 'raises a distinct error when the number is already bound' do
@@ -81,17 +96,26 @@ describe Pathors::PhoneNumbersService do
         headers: { 'Content-Type' => 'application/json' }
       )
 
-      expect { described_class.new(account: account).bind(phone_number_id: 'pn_x9k2', inbox: inbox) }
+      expect { described_class.new(account: account).bind(phone_number_id: 'pn_x9k2', inbox: inbox, project_id: 'proj_123') }
         .to(raise_error { |error| expect(error.class.name).to eq('CustomExceptions::Pathors::PhoneNumberAlreadyBound') })
     end
 
-    it 'raises on a number mismatch' do
+    it 'raises a binding rejection on a number mismatch' do
       stub_request(:put, binding_url).to_return(
         status: 422, body: { error: 'number_mismatch' }.to_json, headers: { 'Content-Type' => 'application/json' }
       )
 
-      expect { described_class.new(account: account).bind(phone_number_id: 'pn_x9k2', inbox: inbox) }
-        .to(raise_error { |error| expect(error.class.name).to eq('CustomExceptions::Pathors::RequestFailed') })
+      expect { described_class.new(account: account).bind(phone_number_id: 'pn_x9k2', inbox: inbox, project_id: 'proj_123') }
+        .to(raise_error { |error| expect(error.class.name).to eq('CustomExceptions::Pathors::BindingRejected') })
+    end
+
+    it 'raises a binding rejection on a project mismatch' do
+      stub_request(:put, binding_url).to_return(
+        status: 422, body: { error: 'project_mismatch' }.to_json, headers: { 'Content-Type' => 'application/json' }
+      )
+
+      expect { described_class.new(account: account).bind(phone_number_id: 'pn_x9k2', inbox: inbox, project_id: 'proj_123') }
+        .to(raise_error { |error| expect(error.class.name).to eq('CustomExceptions::Pathors::BindingRejected') })
     end
   end
 
@@ -130,8 +154,8 @@ describe Pathors::PhoneNumbersService do
         .to(raise_error { |error| expect(error.class.name).to eq('CustomExceptions::Pathors::IntegrationNotConnected') })
     end
 
-    it 'raises when the hook carries no project id' do
-      hook.update!(settings: { refresh_token: 'pathors_refresh_token' })
+    it 'raises when the hook carries no organization id' do
+      hook.update!(settings: { project_id: 'proj_123', refresh_token: 'pathors_refresh_token' })
 
       expect { described_class.new(account: account).list }
         .to(raise_error { |error| expect(error.class.name).to eq('CustomExceptions::Pathors::IntegrationNotConnected') })

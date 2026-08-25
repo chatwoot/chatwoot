@@ -97,6 +97,8 @@ en:
     pathors:
       integration_not_connected: 'Connect the Pathors integration before setting up a voice inbox.'
       phone_number_already_bound: 'This phone number is already connected to another inbox.'
+      binding_rejected: 'Pathors no longer recognises this phone number or agent. Reload the page and try again.'
+      agent_bot_required: 'Choose a Pathors agent to answer calls on this inbox.'
       request_failed: 'Could not reach Pathors to set up this phone number. Please try again.'
     assignment_policy:
       not_found: Assignment policy not found

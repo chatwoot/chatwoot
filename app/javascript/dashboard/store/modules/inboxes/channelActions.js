@@ -39,6 +39,9 @@ export const channelActions = {
       const response = await InboxesAPI.create({
         name: params.name,
         channel: { ...params.voice, type: 'voice' },
+        // The Pathors agent bot that answers this number. Required: it decides
+        // which Pathors project the call is routed to.
+        agent_bot: params.agent_bot,
       });
       commit(types.default.ADD_INBOXES, response.data);
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });

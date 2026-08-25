@@ -528,14 +528,18 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('+123456789')
       end
 
-      it 'creates a voice inbox and binds the number when administrator' do
+      it 'creates a voice inbox, attaches the answering bot and binds the number to its project' do
         create(:integrations_hook, :pathors, account: account, access_token: 'pathors_access_token')
-        binding_request = stub_request(:put, 'https://api.pathors.com/project/proj_123/integration/chatwoot/phone_numbers/pn_x9k2/binding')
+        pathors_bot = create(:agent_bot, account: account,
+                                         outgoing_url: 'https://api.pathors.com/project/proj_123/integration/chatwoot/callback')
+        binding_request = stub_request(:put, 'https://api.pathors.com/org/org_ac9/integration/chatwoot/phone_numbers/pn_x9k2/binding')
+                          .with(body: hash_including('project_id' => 'proj_123'))
                           .to_return(status: 200, body: { binding: {} }.to_json, headers: { 'Content-Type' => 'application/json' })
 
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
-             params: { name: 'Support Line', channel: { type: 'voice', phone_number: '+886222222222', pathors_phone_number_id: 'pn_x9k2' } },
+             params: { name: 'Support Line', agent_bot: pathors_bot.id,
+                       channel: { type: 'voice', phone_number: '+886222222222', pathors_phone_number_id: 'pn_x9k2' } },
              as: :json
 
         expect(response).to have_http_status(:success)
@@ -544,26 +548,49 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(json_response['channel_type']).to eq('Channel::Voice')
         expect(json_response['phone_number']).to eq('+886222222222')
         expect(account.voice_channels.last.pathors_phone_number_id).to eq('pn_x9k2')
+        expect(account.inboxes.last.agent_bot).to eq(pathors_bot)
         expect(binding_request).to have_been_requested
       end
 
-      it 'rolls the voice inbox back when Pathors reports the number is already bound' do
+      it 'rolls the voice inbox and the bot assignment back when Pathors reports the number is already bound' do
         create(:integrations_hook, :pathors, account: account, access_token: 'pathors_access_token')
-        stub_request(:put, 'https://api.pathors.com/project/proj_123/integration/chatwoot/phone_numbers/pn_x9k2/binding')
+        pathors_bot = create(:agent_bot, account: account,
+                                         outgoing_url: 'https://api.pathors.com/project/proj_123/integration/chatwoot/callback')
+        stub_request(:put, 'https://api.pathors.com/org/org_ac9/integration/chatwoot/phone_numbers/pn_x9k2/binding')
           .to_return(status: 409, body: { error: 'already_bound' }.to_json, headers: { 'Content-Type' => 'application/json' })
 
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
-             params: { name: 'Support Line', channel: { type: 'voice', phone_number: '+886222222222', pathors_phone_number_id: 'pn_x9k2' } },
+             params: { name: 'Support Line', agent_bot: pathors_bot.id,
+                       channel: { type: 'voice', phone_number: '+886222222222', pathors_phone_number_id: 'pn_x9k2' } },
              as: :json
 
         expect(response).to have_http_status(:conflict)
         expect(response.parsed_body['error']).to be_present
         expect(account.voice_channels.count).to eq(0)
         expect(account.inboxes.count).to eq(0)
+        expect(AgentBotInbox.where(agent_bot: pathors_bot).count).to eq(0)
       end
 
       it 'rejects a voice inbox when the Pathors integration is not connected' do
+        pathors_bot = create(:agent_bot, account: account,
+                                         outgoing_url: 'https://api.pathors.com/project/proj_123/integration/chatwoot/callback')
+
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'Support Line', agent_bot: pathors_bot.id,
+                       channel: { type: 'voice', phone_number: '+886222222222', pathors_phone_number_id: 'pn_x9k2' } },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to be_present
+        expect(account.voice_channels.count).to eq(0)
+        expect(account.inboxes.count).to eq(0)
+      end
+
+      it 'rejects a voice inbox without an answering agent bot' do
+        create(:integrations_hook, :pathors, account: account, access_token: 'pathors_access_token')
+
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
              params: { name: 'Support Line', channel: { type: 'voice', phone_number: '+886222222222', pathors_phone_number_id: 'pn_x9k2' } },
@@ -571,7 +598,21 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to be_present
-        expect(account.voice_channels.count).to eq(0)
+        expect(account.inboxes.count).to eq(0)
+      end
+
+      it 'rejects a voice inbox whose agent bot is not a Pathors bot' do
+        create(:integrations_hook, :pathors, account: account, access_token: 'pathors_access_token')
+        other_bot = create(:agent_bot, account: account, outgoing_url: 'https://example.com/webhook')
+
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'Support Line', agent_bot: other_bot.id,
+                       channel: { type: 'voice', phone_number: '+886222222222', pathors_phone_number_id: 'pn_x9k2' } },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to be_present
         expect(account.inboxes.count).to eq(0)
       end
 
@@ -1326,6 +1367,96 @@ RSpec.describe 'Inboxes API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unauthorized)
+      end
+
+      context 'when the inbox is a voice inbox bound to a Pathors number' do
+        let(:voice_inbox) do
+          channel = create(:channel_voice, account: account, phone_number: '+886277001234')
+          channel.update!(pathors_phone_number_id: 'pn_x9k2')
+          channel.inbox
+        end
+        let(:new_pathors_bot) do
+          create(:agent_bot, account: account, outgoing_url: 'https://api.pathors.com/project/proj_456/integration/chatwoot/callback')
+        end
+        let(:current_pathors_bot) do
+          create(:agent_bot, account: account, outgoing_url: 'https://api.pathors.com/project/proj_123/integration/chatwoot/callback')
+        end
+        let(:binding_url) { 'https://api.pathors.com/org/org_ac9/integration/chatwoot/phone_numbers/pn_x9k2/binding' }
+
+        before do
+          create(:integrations_hook, :pathors, account: account, access_token: 'pathors_access_token')
+          create(:agent_bot_inbox, inbox: voice_inbox, agent_bot: current_pathors_bot)
+        end
+
+        it 're-routes the number to the new bot project' do
+          rebind_request = stub_request(:put, binding_url)
+                           .with(body: hash_including('project_id' => 'proj_456'))
+                           .to_return(status: 200, body: { binding: {} }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+          post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/set_agent_bot",
+               headers: admin.create_new_auth_token,
+               params: { agent_bot: new_pathors_bot.id },
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(voice_inbox.reload.agent_bot).to eq(new_pathors_bot)
+          expect(rebind_request).to have_been_requested
+        end
+
+        it 'surfaces the error when Pathors refuses to re-route' do
+          stub_request(:put, binding_url)
+            .to_return(status: 409, body: { error: 'already_bound' }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+          post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/set_agent_bot",
+               headers: admin.create_new_auth_token,
+               params: { agent_bot: new_pathors_bot.id },
+               as: :json
+
+          expect(response).to have_http_status(:conflict)
+          expect(response.parsed_body['error']).to be_present
+          expect(voice_inbox.reload.agent_bot).to eq(current_pathors_bot)
+        end
+
+        it 'refuses a bot that names no Pathors project' do
+          plain_bot = create(:agent_bot, account: account, outgoing_url: 'https://example.com/webhook')
+
+          post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/set_agent_bot",
+               headers: admin.create_new_auth_token,
+               params: { agent_bot: plain_bot.id },
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to be_present
+          # The refusal has to roll the assignment back, or the dashboard would
+          # credit a bot that answers nothing while calls reach proj_123.
+          expect(voice_inbox.reload.agent_bot).to eq(current_pathors_bot)
+          expect(WebMock).not_to have_requested(:any, binding_url)
+        end
+
+        it 'leaves the routing untouched when the bot is removed' do
+          post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/set_agent_bot",
+               headers: admin.create_new_auth_token,
+               params: { agent_bot: nil },
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(voice_inbox.reload.agent_bot).to be_nil
+          expect(WebMock).not_to have_requested(:any, binding_url)
+        end
+      end
+
+      it 'allows any bot on a voice inbox that holds no Pathors number' do
+        channel = create(:channel_voice, account: account, phone_number: '+886277009999')
+        legacy_voice_inbox = channel.inbox
+        plain_bot = create(:agent_bot, account: account, outgoing_url: 'https://example.com/webhook')
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{legacy_voice_inbox.id}/set_agent_bot",
+             headers: admin.create_new_auth_token,
+             params: { agent_bot: plain_bot.id },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(legacy_voice_inbox.reload.agent_bot).to eq(plain_bot)
       end
 
       it 'does not allow binding an agent bot from another account' do

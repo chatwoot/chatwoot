@@ -378,6 +378,7 @@ Rails.application.routes.draw do
             resource :context, only: [:show]
             resources :voice_inboxes, only: [:index]
             resources :phone_numbers, only: [:index]
+            resources :agent_bots, only: [:index]
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]

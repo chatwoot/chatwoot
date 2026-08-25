@@ -23,6 +23,7 @@ class AgentBot < ApplicationRecord
   include Avatarable
 
   include WebhookSecretable
+  include Pathors::BotEndpoint
   include Pathors::BotDisconnectNotifiable
 
   scope :accessible_to, lambda { |account|

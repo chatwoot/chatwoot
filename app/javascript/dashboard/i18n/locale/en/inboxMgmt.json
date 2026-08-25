@@ -368,6 +368,18 @@
             "DESCRIPTION": "Phone numbers are managed in the Pathors admin console. Add one there and it will appear here."
           }
         },
+        "AGENT_BOTS": {
+          "LABEL": "Answering agent",
+          "DESCRIPTION": "Answers calls through Pathors",
+          "HELP": "The Pathors agent that picks up calls on this number. You can change it later from the inbox settings.",
+          "LOADING": "Loading your Pathors agents…",
+          "FETCH_ERROR": "We were not able to load your Pathors agents",
+          "EMPTY": {
+            "TITLE": "No Pathors agents yet",
+            "DESCRIPTION": "Calls are answered by an agent you deploy in Pathors. Deploy one there and come back to finish this inbox.",
+            "ACTION": "Go to Pathors integration"
+          }
+        },
         "TWILIO": {
           "ACCOUNT_SID": {
             "LABEL": "Account SID",

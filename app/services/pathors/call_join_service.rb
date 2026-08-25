@@ -7,8 +7,6 @@
 # project id, and its webhook secret keys the request signature. There is no
 # extra config surface to keep in sync.
 class Pathors::CallJoinService
-  # https://api.pathors.com/project/{projectId}/integration/chatwoot/callback
-  CALLBACK_PATH_PATTERN = %r{\A/project/([^/]+)/integration/chatwoot/callback/*\z}
   REQUEST_TIMEOUT = 10
   # Statuses the Pathors contract defines as meaningful to the browser; anything
   # else is an upstream malfunction and is collapsed into a 502.
@@ -105,28 +103,10 @@ class Pathors::CallJoinService
   end
 
   def build_endpoint
-    uri = parsed_callback_uri
-    return nil if uri.blank?
-
-    project_id = uri.path.match(CALLBACK_PATH_PATTERN)&.captures&.first
+    project_id = agent_bot&.pathors_project_id
     return nil if project_id.blank?
 
-    "#{origin_of(uri)}/project/#{project_id}/integration/chatwoot/voice/join"
-  end
-
-  def origin_of(uri)
-    port = uri.port == uri.default_port ? '' : ":#{uri.port}"
-    "#{uri.scheme}://#{uri.host}#{port}"
-  end
-
-  def parsed_callback_uri
-    url = agent_bot&.outgoing_url
-    return nil if url.blank?
-
-    uri = URI.parse(url)
-    uri.host.present? ? uri : nil
-  rescue URI::InvalidURIError
-    nil
+    "#{agent_bot.pathors_origin}/project/#{project_id}/integration/chatwoot/voice/join"
   end
 
   # An account can hold more than one Pathors bot — one per project — so the

@@ -1,5 +1,5 @@
 # Reads and mutates the phone-number registry the Pathors platform keeps for the
-# project this account was bound to at consent time.
+# organization this account was bound to at consent time.
 #
 # Binding is what makes a voice inbox real: until Pathors records the number as
 # belonging to this account and inbox, an incoming call has nowhere to land. The
@@ -24,13 +24,20 @@ class Pathors::PhoneNumbersService
     Array(parsed(response)['payload'])
   end
 
-  def bind(phone_number_id:, inbox:)
+  # `project_id` is the project of the agent bot that answers this inbox: the
+  # organization owns the number, a project answers on it. Re-binding the same
+  # account and inbox with a different project is how a bot swap re-routes the
+  # number, so this is not a create-once call.
+  def bind(phone_number_id:, inbox:, project_id:)
     response = request(
       :put,
       "phone_numbers/#{phone_number_id}/binding",
-      body: { account_id: account.id, inbox_id: inbox.id, phone_number: inbox.channel.phone_number }.to_json
+      body: { account_id: account.id, inbox_id: inbox.id, phone_number: inbox.channel.phone_number, project_id: project_id }.to_json
     )
     raise CustomExceptions::Pathors::PhoneNumberAlreadyBound.new({}) if response.code.to_i == 409
+    # 422 is Pathors telling us the number or the project we sent no longer
+    # matches what it holds — stale wizard data, not an outage.
+    raise CustomExceptions::Pathors::BindingRejected.new({}) if response.code.to_i == 422
     raise request_failed(response) unless response.code.to_i == 200
 
     parsed(response)['binding']
@@ -52,8 +59,9 @@ class Pathors::PhoneNumbersService
 
   private
 
-  # The URL is built first on purpose: a missing project id means the integration
-  # is not connected, and that must surface before we go looking for a token.
+  # The URL is built first on purpose: a missing organization id means the
+  # integration is not connected, and that must surface before we go looking for
+  # a token.
   def request(method, path, body: nil, token: nil)
     url = "#{base_url}/#{path}"
     HTTParty.public_send(
@@ -74,7 +82,7 @@ class Pathors::PhoneNumbersService
   end
 
   def base_url
-    "#{GlobalConfigService.load('PATHORS_API_URL', 'https://api.pathors.com')}/project/#{project_id}/integration/chatwoot"
+    "#{GlobalConfigService.load('PATHORS_API_URL', 'https://api.pathors.com')}/org/#{organization_id}/integration/chatwoot"
   end
 
   def access_token
@@ -89,8 +97,13 @@ class Pathors::PhoneNumbersService
     @token_service ||= Integrations::Pathors::AccessTokenService.new(hook: hook)
   end
 
-  def project_id
-    @project_id ||= hook.settings.to_h['project_id'].presence || raise(CustomExceptions::Pathors::IntegrationNotConnected.new({}))
+  # Consent binds a whole Pathors organization, and the registry lives there. A
+  # hook carrying only the older `project_id` was granted before organizations
+  # existed — which is also before voice binding existed — so reconnecting the
+  # integration is the fix, not a second URL shape kept alive here.
+  def organization_id
+    @organization_id ||= hook.settings.to_h['organization_id'].presence ||
+                         raise(CustomExceptions::Pathors::IntegrationNotConnected.new({}))
   end
 
   def hook

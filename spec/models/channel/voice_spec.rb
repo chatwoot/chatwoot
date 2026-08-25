@@ -45,7 +45,7 @@ RSpec.describe Channel::Voice do
   end
 
   describe 'pathors_phone_number_id' do
-    let(:unbind_url) { 'https://api.pathors.com/project/proj_123/integration/chatwoot/phone_numbers/pn_x9k2/binding' }
+    let(:unbind_url) { 'https://api.pathors.com/org/org_ac9/integration/chatwoot/phone_numbers/pn_x9k2/binding' }
 
     before { create(:integrations_hook, :pathors, account: account, access_token: 'pathors_access_token') }
 

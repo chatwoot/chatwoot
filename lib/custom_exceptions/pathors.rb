@@ -33,6 +33,39 @@ module CustomExceptions::Pathors
     end
   end
 
+  # Pathors holds a different number or a different project than the one the
+  # dashboard sent — the page was built from registry data that has since moved.
+  class BindingRejected < CustomExceptions::Base
+    def message
+      I18n.t('errors.pathors.binding_rejected')
+    end
+
+    def to_hash
+      { error: message }
+    end
+
+    def http_status
+      :unprocessable_entity
+    end
+  end
+
+  # A voice inbox is answered by a Pathors agent bot, and the bot is what tells
+  # Pathors which project should pick up the call. Without one there is nothing
+  # to bind the number to.
+  class AgentBotRequired < CustomExceptions::Base
+    def message
+      I18n.t('errors.pathors.agent_bot_required')
+    end
+
+    def to_hash
+      { error: message }
+    end
+
+    def http_status
+      :unprocessable_entity
+    end
+  end
+
   class RequestFailed < CustomExceptions::Base
     def message
       I18n.t('errors.pathors.request_failed')

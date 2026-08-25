@@ -353,6 +353,18 @@
             "DESCRIPTION": "電話號碼由 Pathors 管理後台管理。在後台新增號碼後，就會出現在這裡。"
           }
         },
+        "AGENT_BOTS": {
+          "LABEL": "誰接聽",
+          "DESCRIPTION": "透過 Pathors 接聽來電",
+          "HELP": "由這個 Pathors agent 接聽打進這組號碼的電話，建立後可在收件匣設定中更換。",
+          "LOADING": "正在載入 Pathors agent…",
+          "FETCH_ERROR": "無法載入 Pathors agent",
+          "EMPTY": {
+            "TITLE": "尚未有 Pathors agent",
+            "DESCRIPTION": "來電由您在 Pathors 部署的 agent 接聽。在 Pathors 部署 agent 後再回來完成這個收件匣。",
+            "ACTION": "前往 Pathors 整合設定"
+          }
+        },
         "TWILIO": {
           "ACCOUNT_SID": {
             "LABEL": "帳戶 SID",
