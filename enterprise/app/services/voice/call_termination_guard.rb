@@ -39,15 +39,26 @@ class Voice::CallTerminationGuard
     def suppress_local_disconnect!(call, participant_call_sid)
       return false if participant_call_sid.blank?
 
-      call.update!(meta: call.meta.merge(DISCONNECT_SUPPRESS_CALL_SID_KEY => participant_call_sid))
+      pending_sids = disconnect_suppress_call_sids(call)
+      return true if pending_sids.include?(participant_call_sid)
+
+      call.update!(meta: call.meta.merge(DISCONNECT_SUPPRESS_CALL_SID_KEY => pending_sids + [participant_call_sid]))
       true
     end
 
     def consume_local_disconnect!(call, participant_call_sid)
       return false if participant_call_sid.blank?
-      return false unless call.meta[DISCONNECT_SUPPRESS_CALL_SID_KEY] == participant_call_sid
 
-      call.update!(meta: call.meta.except(DISCONNECT_SUPPRESS_CALL_SID_KEY))
+      pending_sids = disconnect_suppress_call_sids(call)
+      return false unless pending_sids.include?(participant_call_sid)
+
+      remaining_sids = pending_sids - [participant_call_sid]
+      meta = if remaining_sids.empty?
+               call.meta.except(DISCONNECT_SUPPRESS_CALL_SID_KEY)
+             else
+               call.meta.merge(DISCONNECT_SUPPRESS_CALL_SID_KEY => remaining_sids)
+             end
+      call.update!(meta: meta)
       true
     end
 
@@ -55,6 +66,10 @@ class Voice::CallTerminationGuard
 
     def token(call)
       call.meta[TOKEN_KEY]
+    end
+
+    def disconnect_suppress_call_sids(call)
+      Array(call.meta[DISCONNECT_SUPPRESS_CALL_SID_KEY]).compact_blank.uniq
     end
 
     def started_at(call)
