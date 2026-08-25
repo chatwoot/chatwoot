@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, reactive, watch } from 'vue';
+import { computed, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -76,7 +76,7 @@ const shouldShowTwilioCallbackFallback = computed(() => {
   return isATwilioChannel.value && !currentInbox.value?.voice_enabled;
 });
 
-const isABandwidthSmsChannel = computed(() => {
+const shouldShowBandwidthCallback = computed(() => {
   return isASmsInbox.value && !isATwilioChannel.value;
 });
 
@@ -158,10 +158,6 @@ watch(
   },
   { immediate: true }
 );
-
-onMounted(() => {
-  generateQRCodes();
-});
 </script>
 
 <template>
@@ -209,7 +205,10 @@ onMounted(() => {
             :script="currentInbox.callback_webhook_url"
           />
         </div>
-        <div v-if="isABandwidthSmsChannel" class="w-[50%] max-w-[50%] ml-[25%]">
+        <div
+          v-if="shouldShowBandwidthCallback"
+          class="w-[50%] max-w-[50%] ml-[25%]"
+        >
           <p class="mt-8 font-medium text-n-slate-11">
             {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.TITLE') }}
           </p>

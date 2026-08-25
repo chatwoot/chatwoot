@@ -22,58 +22,22 @@ vi.mock('vuex', () => ({
   }),
 }));
 
+vi.mock('dashboard/composables/store', () => ({
+  useMapGetter: key => {
+    if (key === 'inboxes/getInboxById') {
+      return computed(() => () => mocks.inbox);
+    }
+
+    return computed(() => null);
+  },
+}));
+
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
 }));
 
 vi.mock('qrcode', () => ({
   default: { toDataURL: mocks.toDataURL },
-}));
-
-vi.mock('dashboard/composables/useInbox', () => ({
-  useInbox: () => {
-    const isATwilioChannel = computed(
-      () => mocks.inbox.channel_type === INBOX_TYPES.TWILIO
-    );
-    const isATwilioSMSChannel = computed(
-      () => isATwilioChannel.value && mocks.inbox.medium === 'sms'
-    );
-    const isATwilioWhatsAppChannel = computed(
-      () => isATwilioChannel.value && mocks.inbox.medium === 'whatsapp'
-    );
-
-    return {
-      isAWhatsAppCloudChannel: computed(
-        () =>
-          mocks.inbox.channel_type === INBOX_TYPES.WHATSAPP &&
-          mocks.inbox.provider === 'whatsapp_cloud'
-      ),
-      isAWhatsAppChannel: computed(
-        () =>
-          mocks.inbox.channel_type === INBOX_TYPES.WHATSAPP ||
-          isATwilioWhatsAppChannel.value
-      ),
-      isASmsInbox: computed(
-        () =>
-          mocks.inbox.channel_type === INBOX_TYPES.SMS ||
-          isATwilioSMSChannel.value
-      ),
-      isALineChannel: computed(
-        () => mocks.inbox.channel_type === INBOX_TYPES.LINE
-      ),
-      isAnEmailChannel: computed(
-        () => mocks.inbox.channel_type === INBOX_TYPES.EMAIL
-      ),
-      isAFacebookInbox: computed(
-        () => mocks.inbox.channel_type === INBOX_TYPES.FB
-      ),
-      isATelegramChannel: computed(
-        () => mocks.inbox.channel_type === INBOX_TYPES.TELEGRAM
-      ),
-      isATwilioChannel,
-      isATwilioSMSChannel,
-    };
-  },
 }));
 
 const mountComponent = () =>
