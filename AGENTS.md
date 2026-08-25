@@ -128,3 +128,14 @@ Practical checklist for any change impacting core logic or public APIs
 ## Branding / White-labeling note
 
 - For user-facing strings that currently contain "Chatwoot" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.
+
+## MU Today fork — deployment and upstream sync
+
+This repo is a fork of `chatwoot/chatwoot`; the `upstream` remote points at it.
+
+- **Merging here does not deploy anything.** Production (`support.mutoday.com`, Hetzner, Docker Compose) is driven by the separate `mu-support` folder, which is rsynced to `/opt/mu-support` on the server. Code only reaches the server once the image is rebuilt there.
+- The production image is `mu-support/chatwoot:<version>`, built by `mu-support/build.sh` from `docker/Dockerfile.mu`. That file is an **overlay** — it starts from the official `chatwoot/chatwoot:<version>` image and copies this fork's additions on top, so the build is a few COPY layers rather than a source build.
+- The overlay works only because everything this fork adds is backend Ruby, config, and static files under `public/`. **Adding Vue or JS means the overlay is no longer enough**, because the frontend bundle would need compiling; the image would have to be built from `docker/Dockerfile` instead.
+- The overlay copies `config/integration/apps.yml` and `config/locales/en.yml` whole, so the checkout must sit on the same Chatwoot version as the base image, otherwise every other integration's config silently reverts. `docker/Dockerfile.mu` compares `VERSION_CW` and fails the build when they disagree.
+- **Syncing from upstream is no longer a fast-forward.** The fork carries its own commits, so use a real `git merge upstream/develop`, then rebuild the image.
+- Upgrading production is `./upgrade.sh <version>` in `mu-support`: it backs up, bumps `CHATWOOT_VERSION` in `.env`, rebuilds the image, migrates and restarts. It runs the migration with `POSTGRES_STATEMENT_TIMEOUT=0` on purpose — Chatwoot defaults to 14s, which kills `CREATE INDEX CONCURRENTLY` on large tables, and the migrations pass `if_not_exists`, so a retry skips the invalid index and reports success.
