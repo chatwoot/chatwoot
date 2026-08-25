@@ -187,10 +187,11 @@ const stopRecorderAndUpload = async callId => {
   if (!recorderChunks.length || !callId) return;
 
   let blob = new Blob(recorderChunks, { type: recorderChunks[0].type });
-  let filename = 'call-recording.webm';
+  const isWebm = blob.type.startsWith('audio/webm');
+  let filename = isWebm ? 'call-recording.webm' : 'call-recording.ogg';
   // Remux to OGG so the file carries a real duration (MediaRecorder never
   // backfills the WebM duration header, which breaks mobile players).
-  if (blob.size <= MAX_REMUX_BYTES) {
+  if (isWebm && blob.size <= MAX_REMUX_BYTES) {
     try {
       blob = await remuxWebmToOgg(blob);
       filename = 'call-recording.ogg';
