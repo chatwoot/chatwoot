@@ -49,11 +49,38 @@ describe('ChannelLeaf', () => {
     expect(wrapper.text()).toContain('Website');
     expect(wrapper.text()).toContain('support@example.com');
     expect(
-      wrapper.get('[data-test-id="channel-identifier"]').attributes()
-    ).toMatchObject({
-      dir: 'auto',
-      title: 'support@example.com',
+      wrapper.get('[data-test-id="channel-identifier"]').attributes('dir')
+    ).toBe('auto');
+  });
+
+  it('exposes the name and identifier from the truncating container', () => {
+    const wrapper = mountChannelLeaf({
+      inbox: {
+        channel_type: 'Channel::Email',
+        email: 'support@example.com',
+        reauthorization_required: false,
+      },
     });
+
+    expect(
+      wrapper.get('[data-test-id="channel-leaf-label"]').attributes('title')
+    ).toBe('Website \u00b7 support@example.com');
+    expect(
+      wrapper.get('[data-test-id="channel-identifier"]').attributes('title')
+    ).toBeUndefined();
+  });
+
+  it('falls back to the inbox name when there is no identifier', () => {
+    const wrapper = mountChannelLeaf({
+      inbox: {
+        channel_type: 'Channel::Email',
+        reauthorization_required: false,
+      },
+    });
+
+    expect(
+      wrapper.get('[data-test-id="channel-leaf-label"]').attributes('title')
+    ).toBe('Website');
   });
 
   it('keeps the current label when the channel has no identifier', () => {

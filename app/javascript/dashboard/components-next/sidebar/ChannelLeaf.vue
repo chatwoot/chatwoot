@@ -32,24 +32,29 @@ const reauthorizationRequired = computed(() => {
 });
 
 const channelIdentifier = computed(() => getInboxIdentifier(props.inbox));
+
+const rowTitle = computed(() =>
+  channelIdentifier.value
+    ? `${props.label} ${IDENTIFIER_SEPARATOR} ${channelIdentifier.value}`
+    : props.label
+);
 </script>
 
 <template>
   <span class="size-4 grid place-content-center rounded-full">
     <ChannelIcon :inbox="inbox" class="size-4" />
   </span>
-  <div class="flex-1 truncate min-w-0">
+  <div
+    :title="rowTitle"
+    class="flex-1 truncate min-w-0"
+    data-test-id="channel-leaf-label"
+  >
     {{ label }}
     <template v-if="channelIdentifier">
       <span aria-hidden="true" class="text-n-slate-9 mx-0.5">
         {{ IDENTIFIER_SEPARATOR }}
       </span>
-      <bdi
-        dir="auto"
-        :title="channelIdentifier"
-        class="text-n-slate-9"
-        data-test-id="channel-identifier"
-      >
+      <bdi dir="auto" class="text-n-slate-9" data-test-id="channel-identifier">
         {{ channelIdentifier }}
       </bdi>
     </template>
