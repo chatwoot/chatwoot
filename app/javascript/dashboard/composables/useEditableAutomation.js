@@ -1,8 +1,8 @@
 import useAutomationValues from './useAutomationValues';
 
 import {
-  getCustomAttributeInputType,
   filterCustomAttributes,
+  getCustomAttributeInputType,
   getStandardAttributeInputType,
   isCustomAttribute,
 } from 'dashboard/helper/automationHelper';
@@ -40,11 +40,16 @@ export function useEditableAutomation() {
           condition.attribute_key
         );
       }
+      const base = {
+        ...condition,
+        query_operator: condition.query_operator || 'and',
+      };
+
       if (inputType === 'plain_text' || inputType === 'date') {
-        return { ...condition, values: condition.values[0] };
+        return { ...base, values: condition.values[0] };
       }
       if (inputType === 'comma_separated_plain_text') {
-        return { ...condition, values: condition.values.join(',') };
+        return { ...base, values: condition.values.join(',') };
       }
       const dropdownValues = getConditionDropdownValues(
         condition.attribute_key
@@ -56,14 +61,12 @@ export function useEditableAutomation() {
 
       if (hasBooleanOptions) {
         return {
-          ...condition,
-          query_operator: condition.query_operator || 'and',
+          ...base,
           values: dropdownValues.find(item => item.id === condition.values[0]),
         };
       }
       return {
-        ...condition,
-        query_operator: condition.query_operator || 'and',
+        ...base,
         values: [...dropdownValues].filter(item =>
           [...condition.values].includes(item.id)
         ),

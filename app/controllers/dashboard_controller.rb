@@ -23,6 +23,8 @@ class DashboardController < ActionController::Base
     HCAPTCHA_SITE_KEY
     LOGOUT_REDIRECT_LINK
     DISABLE_USER_PROFILE_UPDATE
+    DISABLE_META_INBOX_CREATION
+    DISABLE_META_MESSAGE_SENDING
     DEPLOYMENT_ENV
     INSTALLATION_PRICING_PLAN
   ].freeze
@@ -64,10 +66,8 @@ class DashboardController < ActionController::Base
     return unless @portal
 
     @locale = @portal.default_locale
-    if @portal.layout == 'documentation'
-      request.variant = :documentation
-      load_home_data
-    end
+    request.variant = :documentation if @portal.layout == 'documentation'
+    load_home_data
     render 'public/api/v1/portals/show', layout: 'portal', portal: @portal and return
   end
 
