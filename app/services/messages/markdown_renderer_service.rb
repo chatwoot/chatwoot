@@ -9,6 +9,7 @@ class Messages::MarkdownRendererService
     'Channel::Line' => :render_line,
     'Channel::TwitterProfile' => :render_plain_text,
     'Channel::Sms' => :render_plain_text,
+    'Channel::TelnyxSms' => :render_plain_text,
     'Channel::TwilioSms' => :render_plain_text
   }.freeze
 

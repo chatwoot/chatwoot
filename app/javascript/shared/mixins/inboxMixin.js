@@ -73,7 +73,11 @@ export default {
       return this.isATwilioChannel && medium === 'sms';
     },
     isASmsInbox() {
-      return this.channelType === INBOX_TYPES.SMS || this.isATwilioSMSChannel;
+      return (
+        this.channelType === INBOX_TYPES.SMS ||
+        this.channelType === INBOX_TYPES.TELNYX_SMS ||
+        this.isATwilioSMSChannel
+      );
     },
     isATwilioWhatsAppChannel() {
       const { medium: medium = '' } = this.inbox;

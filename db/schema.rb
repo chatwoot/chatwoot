@@ -665,6 +665,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.index ["bot_token"], name: "index_channel_telegram_on_bot_token", unique: true
   end
 
+  create_table "channel_telnyx_sms", force: :cascade do |t|
+    t.string "phone_number", null: false
+    t.integer "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["phone_number"], name: "index_channel_telnyx_sms_on_phone_number", unique: true
+  end
+
   create_table "channel_tiktok", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "business_id", null: false
@@ -1501,6 +1509,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
   end
 
+  create_table "telnyx_sms_configs", force: :cascade do |t|
+    t.bigint "channel_telnyx_sms_id", null: false
+    t.string "api_key", null: false
+    t.string "messaging_profile_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel_telnyx_sms_id"], name: "index_telnyx_sms_configs_on_channel_telnyx_sms_id", unique: true
+  end
+
   create_table "user_sessions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "client_id", null: false
@@ -1597,6 +1614,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "telnyx_sms_configs", "channel_telnyx_sms", column: "channel_telnyx_sms_id"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

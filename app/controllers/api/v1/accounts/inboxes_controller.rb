@@ -104,9 +104,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     account_channels_method.create!(permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type))
   end
 
-  def allowed_channel_types
-    %w[web_widget api email line telegram whatsapp sms]
-  end
+  def allowed_channel_types = %w[web_widget api email line telegram whatsapp sms telnyx_sms]
 
   def update_inbox_working_hours
     @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
@@ -215,7 +213,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       'line' => Channel::Line,
       'telegram' => Channel::Telegram,
       'whatsapp' => Channel::Whatsapp,
-      'sms' => Channel::Sms
+      'sms' => Channel::Sms,
+      'telnyx_sms' => Channel::TelnyxSms
     }[permitted_params[:channel][:type]]
   end
 

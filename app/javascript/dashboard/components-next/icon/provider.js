@@ -12,6 +12,7 @@ const channelTypeIconMap = {
   'Channel::FacebookPage': 'i-woot-messenger',
   'Channel::Line': 'i-woot-line',
   'Channel::Sms': 'i-woot-sms',
+  'Channel::TelnyxSms': 'i-woot-sms',
   'Channel::Telegram': 'i-woot-telegram',
   'Channel::TwilioSms': 'i-woot-sms',
   'Channel::TwitterProfile': 'i-woot-x',

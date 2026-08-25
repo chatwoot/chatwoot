@@ -34,6 +34,9 @@ Rails.application.configure do
 
   config.active_job.queue_adapter = :sidekiq
 
+  # Barnes is used for Heroku metrics and relies on process clocks unavailable on Windows.
+  config.barnes[:statsd] = nil
+
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
 
   # Print deprecation notices to the Rails logger.

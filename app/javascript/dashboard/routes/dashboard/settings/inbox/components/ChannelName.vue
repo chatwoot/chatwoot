@@ -28,6 +28,7 @@ const i18nMap = {
   'Channel::TwilioSms': 'TWILIO_SMS',
   'Channel::Whatsapp': 'WHATSAPP',
   'Channel::Sms': 'SMS',
+  'Channel::TelnyxSms': 'TELNYX_SMS',
   'Channel::Email': 'EMAIL',
   'Channel::Telegram': 'TELEGRAM',
   'Channel::Line': 'LINE',

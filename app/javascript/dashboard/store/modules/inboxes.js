@@ -110,6 +110,7 @@ export const getters = {
     return $state.records.filter(
       item =>
         item.channel_type === INBOX_TYPES.SMS ||
+        item.channel_type === INBOX_TYPES.TELNYX_SMS ||
         (item.channel_type === INBOX_TYPES.TWILIO && item.medium === 'sms')
     );
   },

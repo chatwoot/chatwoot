@@ -101,7 +101,11 @@ export const useInbox = (inboxId = null) => {
   });
 
   const isASmsInbox = computed(() => {
-    return channelType.value === INBOX_TYPES.SMS || isATwilioSMSChannel.value;
+    return (
+      channelType.value === INBOX_TYPES.SMS ||
+      channelType.value === INBOX_TYPES.TELNYX_SMS ||
+      isATwilioSMSChannel.value
+    );
   });
 
   const isATwilioWhatsAppChannel = computed(() => {
