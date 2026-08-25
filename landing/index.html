@@ -8,74 +8,283 @@
   <meta property="og:title" content="Whisker — Customer conversations with a soul" />
   <meta property="og:description" content="Free & open-source live chat + CRM you fully own. Self-hosted, privacy-first, RTL-ready, BYOR AI included." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://whisker-site.vercel.app" />
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0a1a20; --surface: #112730; --text: #e6f1ef; --muted: #9fb8b3;
-      --primary: #1fe0b5; --secondary: #1ba5ff; --accent: #ffc857;
+      --bg: #0a1a20;
+      --surface: #0f2129;
+      --surface-2: #112730;
+      --border: #17333e;
+      --border-hover: #1fe0b5;
+      --text: #e6f1ef;
+      --muted: #9fb8b3;
+      --primary: #1fe0b5;
+      --primary-dim: rgba(31,224,181,.12);
+      --secondary: #1ba5ff;
+      --accent: #ffc857;
       --grad: linear-gradient(135deg, #1fe0b5, #1ba5ff);
+      --grad-warm: linear-gradient(135deg, #1fe0b5, #ffc857);
+      --radius: 18px;
+      --radius-sm: 12px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
-    a { color: var(--primary); text-decoration: none; }
-    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-    nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; position: sticky; top: 0; backdrop-filter: blur(12px); background: rgba(10,26,32,.8); z-index: 50; }
-    .logo { font-weight: 800; font-size: 22px; letter-spacing: -0.5px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; display: flex; align-items: center; gap: 8px; }
-    nav .links a { color: var(--muted); margin-inline-start: 22px; font-size: 15px; }
-    nav .links a:hover { color: var(--text); }
-    header { padding: 80px 0 60px; text-align: center; position: relative; overflow: hidden; }
-    header::before { content: ''; position: absolute; inset: -40% -20% auto; height: 130%; background: radial-gradient(600px 300px at 50% 0%, rgba(31,224,181,.14), transparent 70%); pointer-events: none; }
-    .hero-blob { width: 130px; height: 130px; margin: 0 auto 24px; filter: drop-shadow(0 10px 30px rgba(31,224,181,.3)); animation: float 4s ease-in-out infinite; }
-    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-    h1 { font-size: clamp(34px, 6vw, 58px); letter-spacing: -1.5px; line-height: 1.12; position: relative; }
-    h1 span { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .tagline { color: var(--muted); font-size: clamp(16px, 2.4vw, 20px); margin-top: 18px; max-width: 640px; margin-inline: auto; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+    a { color: var(--primary); text-decoration: none; transition: color .2s; }
+    a:hover { color: #5eebd5; }
+
+    /* ── Layout ── */
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 80px 0; }
+
+    /* ── Navbar ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0; position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      background: rgba(10,26,32,.75);
+      border-bottom: 1px solid rgba(23,51,62,.5);
+    }
+    .logo {
+      font-weight: 800; font-size: 22px; letter-spacing: -.5px;
+      background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .logo svg { width: 28px; height: 28px; flex-shrink: 0; }
+    nav .links { display: flex; align-items: center; gap: 6px; }
+    nav .links a {
+      color: var(--muted); font-size: 14.5px; padding: 6px 12px;
+      border-radius: 8px; transition: color .2s, background .2s;
+    }
+    nav .links a:hover { color: var(--text); background: rgba(31,224,181,.08); }
+    nav .links a.gh {
+      display: inline-flex; align-items: center; gap: 5px;
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 5px 12px; font-weight: 600;
+    }
+    nav .links a.gh:hover { border-color: var(--primary); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 80px 0 60px; text-align: center; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(31,224,181,.12) 0%, rgba(27,165,255,.06) 40%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-pawly {
+      width: 140px; height: 140px; margin: 0 auto 28px;
+      filter: drop-shadow(0 12px 40px rgba(31,224,181,.3));
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+    .version-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--primary-dim); color: var(--primary);
+      padding: 5px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+      margin-bottom: 22px; border: 1px solid rgba(31,224,181,.2);
+    }
+    h1 {
+      font-size: clamp(36px, 6vw, 62px); font-weight: 900;
+      letter-spacing: -1.8px; line-height: 1.08; position: relative;
+    }
+    h1 .grad {
+      background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .tagline {
+      color: var(--muted); font-size: clamp(16px, 2.2vw, 19px);
+      margin-top: 18px; max-width: 600px; margin-inline: auto;
+    }
     .cta-row { margin-top: 36px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-    .btn { display: inline-block; padding: 13px 28px; border-radius: 12px; font-weight: 600; font-size: 15px; transition: transform .15s ease, box-shadow .15s ease; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px; border-radius: var(--radius-sm); font-weight: 600; font-size: 15px;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .2s;
+      cursor: pointer; border: none;
+    }
     .btn:hover { transform: translateY(-2px); }
-    .btn-primary { background: var(--grad); color: #06251f; box-shadow: 0 8px 30px rgba(31,224,181,.25); }
-    .btn-ghost { border: 1px solid #23444f; color: var(--text); }
-    .badges { margin-top: 26px; color: var(--muted); font-size: 14px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
-    section { padding: 64px 0; }
-    h2 { font-size: clamp(24px, 3.6vw, 34px); letter-spacing: -0.5px; margin-bottom: 10px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; margin-top: 34px; }
-    .card { background: var(--surface); border: 1px solid #17333e; border-radius: 18px; padding: 24px; transition: border-color .2s; }
-    .card:hover { border-color: var(--primary); }
-    .card .emoji { font-size: 26px; }
-    .card h3 { margin: 10px 0 8px; font-size: 17px; }
-    .card p { color: var(--muted); font-size: 14.5px; }
-    code.inline { background: #0a161c; padding: 3px 8px; border-radius: 7px; font-size: 13px; }
-    pre { background: #0a161c; border: 1px solid #17333e; border-radius: 14px; padding: 20px; overflow-x: auto; font-size: 13.5px; color: #b9d9d2; margin-top: 20px; }
-    .rtl { direction: rtl; }
-    .rtl h2, .rtl p { text-align: right; }
-    .fa { font-family: 'Vazirmatn', 'Inter', sans-serif; }
-    footer { border-top: 1px solid #17333e; padding: 34px 0; color: var(--muted); font-size: 14px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-    .version-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(31,224,181,.12); color: var(--primary); padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 18px; }
-    @media (max-width: 640px) { nav .links a:not(:last-child) { display: none; } }
+    .btn-primary {
+      background: var(--grad); color: #06251f;
+      box-shadow: 0 8px 32px rgba(31,224,181,.25);
+    }
+    .btn-primary:hover { box-shadow: 0 12px 40px rgba(31,224,181,.35); color: #06251f; }
+    .btn-ghost {
+      background: transparent; border: 1px solid var(--border); color: var(--text);
+    }
+    .btn-ghost:hover { border-color: var(--primary); color: var(--text); }
+    .badges {
+      margin-top: 28px; color: var(--muted); font-size: 13.5px;
+      display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+    }
+    .badges span { display: inline-flex; align-items: center; gap: 5px; }
+
+    /* ── Section headers ── */
+    .section-label {
+      font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--primary); margin-bottom: 10px;
+    }
+    h2 { font-size: clamp(26px, 3.8vw, 38px); font-weight: 800; letter-spacing: -.8px; line-height: 1.15; }
+    h2 .grad {
+      background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .section-sub { color: var(--muted); font-size: clamp(15px, 2vw, 17px); margin-top: 10px; max-width: 560px; }
+
+    /* ── Cards ── */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 38px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 38px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 38px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 26px; transition: border-color .25s, box-shadow .25s, transform .2s;
+      position: relative; overflow: hidden;
+    }
+    .card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 0 0 1px var(--border-hover), 0 8px 30px rgba(31,224,181,.08);
+      transform: translateY(-3px);
+    }
+    .card-icon {
+      width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 16px;
+      background: linear-gradient(135deg, rgba(31,224,181,.15), rgba(27,165,255,.1));
+      border: 1px solid rgba(31,224,181,.15);
+    }
+    .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; letter-spacing: -.2px; }
+    .card p { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+
+    /* ── Code block ── */
+    pre {
+      background: #07141a; border: 1px solid var(--border); border-radius: 14px;
+      padding: 22px 24px; overflow-x: auto; font-size: 13.5px; color: #b9d9d2;
+      margin-top: 24px; line-height: 1.7; position: relative;
+    }
+    pre .comment { color: #5a8a7e; }
+    pre .prompt { color: var(--primary); user-select: none; }
+
+    /* ── Feature highlight (split layout) ── */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .split.reverse { direction: rtl; }
+    .split.reverse > * { direction: ltr; }
+    .split-visual {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 32px; text-align: center; position: relative; overflow: hidden;
+    }
+    .split-visual::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(31,224,181,.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ── GitHub / About ── */
+    .gh-stats {
+      display: flex; gap: 16px; margin-top: 28px; flex-wrap: wrap;
+    }
+    .gh-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px 18px; font-size: 14px; color: var(--text); font-weight: 600;
+      transition: border-color .2s;
+    }
+    .gh-badge:hover { border-color: var(--primary); color: var(--text); }
+    .gh-badge svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .gh-links { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+
+    /* ── Farsi ── */
+    .fa-block { direction: rtl; text-align: right; }
+    .fa-block h2, .fa-block p { text-align: right; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border); padding: 36px 0;
+      color: var(--muted); font-size: 13.5px;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); }
+
+    /* ── Scroll animations ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .split { grid-template-columns: 1fr; gap: 28px; }
+      .split.reverse { direction: ltr; }
+    }
+    @media (max-width: 640px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      nav .links a:not(.gh) { display: none; }
+      .hero { padding: 50px 0 40px; }
+      section { padding: 56px 0; }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
+
+    <!-- ═══ NAV ═══ -->
     <nav>
-      <div class="logo">🐾 Whisker</div>
+      <div class="logo">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="navGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#1fe0b5"/>
+              <stop offset="100%" style="stop-color:#1ba5ff"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="60" cy="65" rx="38" ry="36" fill="url(#navGrad)"/>
+          <circle cx="46" cy="56" r="4.5" fill="#fff"/><circle cx="74" cy="56" r="4.5" fill="#fff"/>
+          <circle cx="47" cy="57" r="2.2" fill="#1e293b"/><circle cx="75" cy="57" r="2.2" fill="#1e293b"/>
+          <path d="M50 70 Q60 77 70 70" stroke="#1e293b" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <line x1="16" y1="59" x2="39" y2="63" stroke="#94a3b8" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="16" y1="69" x2="39" y2="69" stroke="#94a3b8" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="81" y1="63" x2="104" y2="59" stroke="#94a3b8" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="81" y1="69" x2="104" y2="69" stroke="#94a3b8" stroke-width="1.4" stroke-linecap="round"/>
+          <ellipse cx="32" cy="34" rx="9" ry="11" fill="url(#navGrad)" transform="rotate(-15,32,34)"/>
+          <ellipse cx="88" cy="34" rx="9" ry="11" fill="url(#navGrad)" transform="rotate(15,88,34)"/>
+          <ellipse cx="32" cy="35" rx="5.5" ry="7" fill="#ffc857" transform="rotate(-15,32,35)"/>
+          <ellipse cx="88" cy="35" rx="5.5" ry="7" fill="#ffc857" transform="rotate(15,88,35)"/>
+        </svg>
+        Whisker
+      </div>
       <div class="links">
         <a href="#features">Features</a>
-        <a href="#download">Download</a>
+        <a href="#usecases">Use Cases</a>
         <a href="#selfhost">Self-host</a>
+        <a href="#about">About</a>
         <a href="#fa">فارسی</a>
-        <a href="https://github.com/maddixmhn/Whisker">GitHub ↗</a>
+        <a class="gh" href="https://github.com/maddixmhn/Whisker" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
       </div>
     </nav>
 
-    <header>
-      <svg class="hero-blob" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <!-- ═══ HERO ═══ -->
+    <header class="hero">
+      <svg class="hero-pawly" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" style="stop-color:#1fe0b5"/>
             <stop offset="100%" style="stop-color:#1ba5ff"/>
           </linearGradient>
         </defs>
-        <ellipse cx="60" cy="65" rx="40" ry="38" fill="url(#bodyGrad)" />
+        <ellipse cx="60" cy="65" rx="40" ry="38" fill="url(#bodyGrad)"/>
         <circle cx="45" cy="55" r="6" fill="white"/>
         <circle cx="75" cy="55" r="6" fill="white"/>
         <circle cx="46" cy="56" r="3" fill="#1e293b"/>
@@ -85,10 +294,10 @@
         <line x1="15" y1="68" x2="38" y2="68" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
         <line x1="82" y1="62" x2="105" y2="58" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
         <line x1="82" y1="68" x2="105" y2="68" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
-        <ellipse cx="30" cy="32" rx="10" ry="12" fill="url(#bodyGrad)" transform="rotate(-15, 30, 32)"/>
-        <ellipse cx="90" cy="32" rx="10" ry="12" fill="url(#bodyGrad)" transform="rotate(15, 90, 32)"/>
-        <ellipse cx="30" cy="33" rx="6" ry="8" fill="#ffc857" transform="rotate(-15, 30, 33)"/>
-        <ellipse cx="90" cy="33" rx="6" ry="8" fill="#ffc857" transform="rotate(15, 90, 33)"/>
+        <ellipse cx="30" cy="32" rx="10" ry="12" fill="url(#bodyGrad)" transform="rotate(-15,30,32)"/>
+        <ellipse cx="90" cy="32" rx="10" ry="12" fill="url(#bodyGrad)" transform="rotate(15,90,32)"/>
+        <ellipse cx="30" cy="33" rx="6" ry="8" fill="#ffc857" transform="rotate(-15,30,33)"/>
+        <ellipse cx="90" cy="33" rx="6" ry="8" fill="#ffc857" transform="rotate(15,90,33)"/>
         <circle cx="60" cy="95" r="8" fill="white" opacity="0.3"/>
         <circle cx="55" cy="91" r="2.5" fill="white" opacity="0.4"/>
         <circle cx="65" cy="91" r="2.5" fill="white" opacity="0.4"/>
@@ -96,10 +305,10 @@
         <circle cx="68" cy="96" r="2" fill="white" opacity="0.4"/>
       </svg>
       <div class="version-pill">🚀 v1.0.0 — Stable Release</div>
-      <h1>Customer conversations<br /><span>with a soul.</span></h1>
-      <p class="tagline">Free &amp; open-source live chat + CRM you fully own.<br />Self-hosted, privacy-first, RTL-ready — with AI you bring yourself.</p>
+      <h1>Customer conversations<br/><span class="grad">with a soul.</span></h1>
+      <p class="tagline">Free &amp; open-source live chat + CRM you fully own.<br/>Self-hosted, privacy-first, RTL-ready — with AI you bring yourself.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="https://github.com/maddixmhn/Whisker">★ Star on GitHub</a>
+        <a class="btn btn-primary" href="https://github.com/maddixmhn/Whisker" target="_blank" rel="noopener">⭐ Star on GitHub</a>
         <a class="btn btn-ghost" href="#selfhost">Deploy in one command</a>
       </div>
       <div class="badges">
@@ -110,71 +319,213 @@
       </div>
     </header>
 
-    <section id="features">
-      <h2>Everything the paid tools charge for — free.</h2>
-      <p class="tagline">Forked from Chatwoot v4.17 with a pet-themed soul and zero locked features.</p>
-      <div class="grid">
-        <div class="card"><div class="emoji">💬</div><h3>Omnichannel inbox</h3><p>Website chat, email, WhatsApp, Telegram, Facebook, Instagram, SMS — unified in one dashboard.</p></div>
-        <div class="card"><div class="emoji">🧠</div><h3>BYOR AI</h3><p>Connect any OpenAI-compatible router: OpenRouter, LiteLLM, OmniRoute, NineRouter, Ollama, Groq, vLLM. Your keys stay in your env.</p></div>
-        <div class="card"><div class="emoji">📚</div><h3>Native RAG</h3><p>Feed your help-center articles to your own AI agent via pgvector. Grounded answers, no external SaaS.</p></div>
-        <div class="card"><div class="emoji">🎨</div><h3>Theme-driven widget</h3><p>theme.json controls icon, colors, motion presets, sounds, position and pet-mode. 8 default mascots included.</p></div>
-        <div class="card"><div class="emoji">🐾</div><h3>Pawly the desktop pet</h3><p>A floating Tauri mascot that notifies operators on new conversations and opens the inbox in one click.</p></div>
-        <div class="card"><div class="emoji">🔀</div><h3>Conversation Flows</h3><p>Visual drag-and-drop builder to automate routing, conditions, AI replies and actions — no code required.</p></div>
-        <div class="card"><div class="emoji">🌍</div><h3>RTL first-class</h3><p>Persian and Arabic as citizens, not afterthoughts — Vazirmatn typography, full RTL dashboard and widget.</p></div>
-        <div class="card"><div class="emoji">🛡️</div><h3>Enterprise-grade</h3><p>SSO/SAML, roles, audit logs, webhooks, APIs, CSAT, SLAs — everything a support team needs.</p></div>
-      </div>
-    </section>
-
-    <section id="download">
-      <h2>Get Whisker</h2>
-      <p class="tagline">Pick your flavor — every release is checksummed and signed.</p>
-      <div class="grid">
+    <!-- ═══ CAPABILITIES ═══ -->
+    <section id="features" class="reveal">
+      <div class="section-label">Capabilities</div>
+      <h2>Everything the paid tools charge for — <span class="grad">free.</span></h2>
+      <p class="section-sub">Forked from Chatwoot v4.17 with a pet-themed soul and zero locked features.</p>
+      <div class="grid-4">
         <div class="card">
-          <div class="emoji">🐳</div>
-          <h3>Docker</h3>
-          <p>The fastest path to production.</p>
-          <pre style="margin-top:12px;padding:14px;font-size:12.5px">docker compose -f docker-compose.production.yaml up</pre>
+          <div class="card-icon">💬</div>
+          <h3>Omnichannel inbox</h3>
+          <p>Website chat, email, WhatsApp, Telegram, Facebook, Instagram, SMS — unified in one dashboard.</p>
         </div>
         <div class="card">
-          <div class="emoji">📦</div>
-          <h3>Releases</h3>
-          <p>Signed source tarballs + SHA256SUMS for every version.</p>
-          <p style="margin-top:12px"><a href="https://github.com/maddixmhn/Whisker/releases/latest" class="btn btn-primary" style="padding:10px 18px;font-size:14px">Latest release ↗</a></p>
+          <div class="card-icon">🧠</div>
+          <h3>BYOR AI</h3>
+          <p>Connect any OpenAI-compatible router: OpenRouter, LiteLLM, OmniRoute, Ollama, Groq. Your keys stay in your env.</p>
         </div>
         <div class="card">
-          <div class="emoji">🖥️</div>
-          <h3>Desktop Pet</h3>
-          <p>Pawly for Windows, macOS &amp; Linux.</p>
-          <p style="margin-top:12px"><a href="https://github.com/maddixmhn/Whisker/releases/latest" class="btn btn-primary" style="padding:10px 18px;font-size:14px">Download Pawly ↗</a></p>
+          <div class="card-icon">📚</div>
+          <h3>Native RAG</h3>
+          <p>Feed your help-center articles to your own AI agent via pgvector. Grounded answers, no external SaaS.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎨</div>
+          <h3>Theme-driven widget</h3>
+          <p>theme.json controls icon, colors, motion, sounds, position and pet-mode. 8 default mascots included.</p>
         </div>
       </div>
     </section>
 
-    <section id="selfhost">
-      <h2>Your data. Your server. One command.</h2>
-      <pre>
-# production stack — rails + sidekiq + postgres(pgvector) + redis
-$ git clone https://github.com/maddixmhn/Whisker whisker
-$ cd whisker
-$ docker compose -f docker-compose.production.yaml up</pre>
-      <p class="tagline" style="margin-top:16px">No telemetry, no phone-home, no per-seat pricing. MIT licensed.</p>
+    <!-- ═══ USE CASES ═══ -->
+    <section id="usecases" class="reveal">
+      <div class="section-label">Use Cases</div>
+      <h2>Built for how you <span class="grad">actually work.</span></h2>
+      <p class="section-sub">Whether you're a solo founder, a support team, or a developer — Whisker fits.</p>
+      <div class="grid-4">
+        <div class="card">
+          <div class="card-icon">🎧</div>
+          <h3>Support teams</h3>
+          <p>Unified inbox, collision detection, CSAT, SLAs, macros — everything your agents need without per-seat fees.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📈</div>
+          <h3>Sales &amp; CRM</h3>
+          <p>Deals pipeline, companies, tasks, custom attributes. Turn conversations into revenue — all data stays yours.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>Developers</h3>
+          <p>Full API, webhooks, custom channels, flow builder. Extend it however you want — it's your code.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌐</div>
+          <h3>Persian &amp; Arabic businesses</h3>
+          <p>First-class RTL, Vazirmatn typography, right-to-left dashboard and widget. Not an afterthought — a feature.</p>
+        </div>
+      </div>
     </section>
 
-    <section id="fa" class="rtl fa">
+    <!-- ═══ DESKTOP PET ═══ -->
+    <section class="reveal">
+      <div class="split">
+        <div>
+          <div class="section-label">Desktop Companion</div>
+          <h2>Your team's <span class="grad">friendly companion.</span></h2>
+          <p class="section-sub" style="margin-top:14px">Pawly is a floating Tauri mascot that sits on your desktop and keeps your team in the loop.</p>
+          <ul style="list-style:none;margin-top:20px;color:var(--muted);font-size:15px">
+            <li style="margin-bottom:10px">🔔 Real-time notifications on new conversations</li>
+            <li style="margin-bottom:10px">⚡ One-click jump to any open inbox</li>
+            <li style="margin-bottom:10px">🐾 Animated mascot with personality</li>
+            <li>🖥️ Windows, macOS &amp; Linux</li>
+          </ul>
+          <div style="margin-top:24px">
+            <a class="btn btn-primary" href="https://github.com/maddixmhn/Whisker/releases/latest" target="_blank" rel="noopener">Download Pawly ↗</a>
+          </div>
+        </div>
+        <div class="split-visual">
+          <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" style="width:120px;height:120px;filter:drop-shadow(0 8px 30px rgba(31,224,181,.25));animation:float 4s ease-in-out infinite">
+            <defs>
+              <linearGradient id="petGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#1fe0b5"/>
+                <stop offset="100%" style="stop-color:#1ba5ff"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="60" cy="65" rx="40" ry="38" fill="url(#petGrad)"/>
+            <circle cx="45" cy="55" r="6" fill="white"/><circle cx="75" cy="55" r="6" fill="white"/>
+            <circle cx="46" cy="56" r="3" fill="#1e293b"/><circle cx="76" cy="56" r="3" fill="#1e293b"/>
+            <path d="M 50 70 Q 60 78 70 70" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <line x1="15" y1="58" x2="38" y2="62" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="15" y1="68" x2="38" y2="68" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="82" y1="62" x2="105" y2="58" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="82" y1="68" x2="105" y2="68" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+            <ellipse cx="30" cy="32" rx="10" ry="12" fill="url(#petGrad)" transform="rotate(-15,30,32)"/>
+            <ellipse cx="90" cy="32" rx="10" ry="12" fill="url(#petGrad)" transform="rotate(15,90,32)"/>
+            <ellipse cx="30" cy="33" rx="6" ry="8" fill="#ffc857" transform="rotate(-15,30,33)"/>
+            <ellipse cx="90" cy="33" rx="6" ry="8" fill="#ffc857" transform="rotate(15,90,33)"/>
+          </svg>
+          <p style="color:var(--muted);font-size:14px;margin-top:18px">Pawly — your Whisker pet</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SELF-HOST ═══ -->
+    <section id="selfhost" class="reveal">
+      <div class="section-label">Self-host</div>
+      <h2>Your data. Your server. <span class="grad">One command.</span></h2>
+      <pre><span class="comment"># production stack — rails + sidekiq + postgres(pgvector) + redis</span>
+<span class="prompt">$ </span>git clone https://github.com/maddixmhn/Whisker whisker
+<span class="prompt">$ </span>cd whisker
+<span class="prompt">$ </span>cp .env.example .env     <span class="comment"># set SECRET_KEY_BASE</span>
+<span class="prompt">$ </span>docker compose -f docker-compose.production.yaml up --build -d</pre>
+      <div style="display:flex;gap:14px;margin-top:22px;flex-wrap:wrap">
+        <div class="card" style="flex:1;min-width:200px;padding:18px">
+          <p style="color:var(--text);font-weight:600;font-size:14px">🔒 No telemetry</p>
+          <p style="color:var(--muted);font-size:13.5px;margin-top:4px">Zero phone-home. Your logs stay on your machine.</p>
+        </div>
+        <div class="card" style="flex:1;min-width:200px;padding:18px">
+          <p style="color:var(--text);font-weight:600;font-size:14px">♾️ No per-seat pricing</p>
+          <p style="color:var(--muted);font-size:13.5px;margin-top:4px">Unlimited operators, unlimited conversations. MIT licensed.</p>
+        </div>
+        <div class="card" style="flex:1;min-width:200px;padding:18px">
+          <p style="color:var(--text);font-weight:600;font-size:14px">🔌 BYOR AI</p>
+          <p style="color:var(--muted);font-size:13.5px;margin-top:4px">Bring your own router. OpenRouter, Ollama, Groq — you choose.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ ABOUT / GITHUB ═══ -->
+    <section id="about" class="reveal">
+      <div class="section-label">About Whisker</div>
+      <h2>Built by the community, <span class="grad">for the community.</span></h2>
+      <p class="section-sub">Whisker is forked from Chatwoot v4.17 and actively maintained as a free, open-source alternative. No venture capital, no enterprise lock-in — just code that works.</p>
+
+      <div class="gh-stats">
+        <a class="gh-badge" href="https://github.com/maddixmhn/Whisker" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.751.751 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+          Star on GitHub
+        </a>
+        <a class="gh-badge" href="https://github.com/maddixmhn/Whisker/releases" target="_blank" rel="noopener">
+          📦 Releases
+        </a>
+        <a class="gh-badge" href="https://github.com/maddixmhn/Whisker/issues" target="_blank" rel="noopener">
+          🐛 Issues
+        </a>
+        <a class="gh-badge" href="https://github.com/maddixmhn/Whisker/blob/master/LICENSE" target="_blank" rel="noopener">
+          📄 MIT License
+        </a>
+      </div>
+
+      <div class="gh-links">
+        <a class="btn btn-ghost" href="https://github.com/maddixmhn/Whisker" target="_blank" rel="noopener" style="font-size:14px;padding:10px 20px">
+          View source code ↗
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/maddixmhn/Whisker/issues/new" target="_blank" rel="noopener" style="font-size:14px;padding:10px 20px">
+          Report a bug ↗
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/maddixmhn/Whisker/pulls" target="_blank" rel="noopener" style="font-size:14px;padding:10px 20px">
+          Contribute ↗
+        </a>
+      </div>
+
+      <div style="margin-top:32px;padding:22px 26px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);max-width:640px">
+        <p style="color:var(--text);font-weight:600;font-size:15px;margin-bottom:8px">How to contribute</p>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7">
+          Fork the repo, create a feature branch, and open a PR against <code style="background:#0a161c;padding:2px 7px;border-radius:5px;font-size:13px">develop</code>.
+          We follow conventional commits (<code style="background:#0a161c;padding:2px 7px;border-radius:5px;font-size:13px">feat(scope): ...</code>).
+          No CI required — we review manually and test locally. Every contribution matters.
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══ FARSI ═══ -->
+    <section id="fa" class="fa-block reveal">
+      <div class="section-label" style="text-align:right">فارسی</div>
       <h2>گفتگو با مشتری‌ها، با یک رفیق دیجیتال 🐾</h2>
-      <p class="tagline">
+      <p class="tagline" style="max-width:580px">
         ویسکر یک پلتفرم گفتگوی مشتری متن‌باز و رایگان است؛ فورکی از Chatwoot با هویت تازه.
         فارسی و RTL درجه‌یک دارد، هوش مصنوعی‌اش آزاد است و همه‌چیز روی سرور خودت اجرا می‌شود.
       </p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="https://github.com/maddixmhn/Whisker">مشاهده در گیت‌هاب</a>
+      <div style="margin-top:24px">
+        <a class="btn btn-primary" href="https://github.com/maddixmhn/Whisker" target="_blank" rel="noopener">مشاهده در گیت‌هاب</a>
       </div>
     </section>
 
+    <!-- ═══ FOOTER ═══ -->
     <footer>
       <div>© 2026 Whisker contributors · upstream © Chatwoot Inc · MIT</div>
-      <div><a href="https://github.com/maddixmhn/Whisker">GitHub</a> · <a href="https://github.com/maddixmhn/Whisker/issues">Issues</a></div>
+      <div>
+        <a href="https://github.com/maddixmhn/Whisker" target="_blank" rel="noopener">GitHub</a> ·
+        <a href="https://github.com/maddixmhn/Whisker/issues" target="_blank" rel="noopener">Issues</a> ·
+        <a href="https://whisker-site.vercel.app" target="_blank" rel="noopener">whisker-site.vercel.app</a>
+      </div>
     </footer>
   </div>
+
+  <!-- ═══ Scroll Reveal ═══ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    });
+  </script>
 </body>
 </html>
