@@ -46,10 +46,7 @@ import SelectInput from 'dashboard/components-next/select/Select.vue';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
-import {
-  IS_META_INBOX_CREATION_DISABLED,
-  META_RESTRICTION_STATUS_URL,
-} from 'dashboard/constants/globals';
+import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 
 export default {
   components: {
@@ -130,6 +127,7 @@ export default {
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
+      isMetaMessageSendingDisabled: 'globalConfig/isMetaMessageSendingDisabled',
       uiFlags: 'inboxes/getUIFlags',
       portals: 'portals/allPortals',
     }),
@@ -356,11 +354,7 @@ export default {
       return this.isAnInstagramChannel && this.inbox.reauthorization_required;
     },
     showInstagramRestrictionSettingsBanner() {
-      return (
-        this.isOnChatwootCloud &&
-        IS_META_INBOX_CREATION_DISABLED &&
-        this.isAnInstagramChannel
-      );
+      return this.isMetaMessageSendingDisabled && this.isAnInstagramChannel;
     },
     metaRestrictionStatusUrl() {
       return META_RESTRICTION_STATUS_URL;
@@ -427,6 +421,7 @@ export default {
       return (
         this.isAWhatsAppCloudChannel &&
         this.isEmbeddedSignupWhatsApp &&
+        this.healthData?.is_on_biz_app === false &&
         this.healthError?.type !== 'authorization' &&
         this.isFeatureEnabledonAccount(
           this.accountId,

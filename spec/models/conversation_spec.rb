@@ -16,6 +16,7 @@ RSpec.describe Conversation do
     it { is_expected.to belong_to(:contact) }
     it { is_expected.to belong_to(:contact_inbox) }
     it { is_expected.to belong_to(:assignee).optional }
+    it { is_expected.to belong_to(:ai_assignee).optional }
     it { is_expected.to belong_to(:team).optional }
     it { is_expected.to belong_to(:campaign).optional }
   end
@@ -192,6 +193,17 @@ RSpec.describe Conversation do
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
                                                                     changed_attributes: changed_attributes, performed_by: nil)
+    end
+
+    it 'dispatches an assignee changed event when an agent bot is assigned' do
+      conversation = create(:conversation, status: 'open', account: account)
+      agent_bot = create(:agent_bot, account: account)
+
+      conversation.update!(assignee_agent_bot: agent_bot)
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
+                                                                changed_attributes: conversation.previous_changes, performed_by: nil)
     end
 
     it 'will not run conversation_updated event for empty updates' do
