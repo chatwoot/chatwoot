@@ -35,6 +35,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     allow(conference_service).to receive(:end_provider_call) do
       call = Call.find_by!(provider_call_id: 'CALL123')
       expect(call.meta['agent_termination_token']).to be_present
+      expect(call.meta['agent_termination_started_at']).to be_present
 
       Voice::CallStatus::Manager.new(call: call).process_status_update('in_progress')
       expect(call.reload.status).to eq('ringing')
@@ -50,5 +51,26 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     expect(call.end_reason).to eq('agent_rejected')
     expect(call.accepted_by_agent_id).to eq(agent.id)
     expect(call.meta['agent_termination_token']).to be_nil
+    expect(call.meta['agent_termination_started_at']).to be_nil
+  end
+
+  it 'recovers an abandoned teardown guard and allows a new termination attempt' do
+    call = Call.find_by!(provider_call_id: 'CALL123')
+    call.update!(
+      meta: call.meta.merge(
+        'agent_termination_token' => 'abandoned-token',
+        'agent_termination_started_at' => 3.minutes.ago.to_i
+      )
+    )
+
+    delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+           headers: agent.create_new_auth_token,
+           params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+    expect(response).to have_http_status(:ok)
+    expect(conference_service).to have_received(:end_provider_call)
+    expect(call.reload.status).to eq('rejected')
+    expect(call.meta['agent_termination_token']).to be_nil
+    expect(call.meta['agent_termination_started_at']).to be_nil
   end
 end
