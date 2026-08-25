@@ -50,10 +50,14 @@ class Conversations::FilterService < FilterService
   end
 
   def conversations
-    @conversations.sort_on_last_activity_at.page(current_page)
+    @conversations.sort_on_last_activity_at(sort_direction).page(current_page)
   end
 
   private
+
+  def sort_direction
+    @params[:sort_by] == 'last_activity_at_asc' ? :asc : :desc
+  end
 
   # The planner hint only pays off when the label condition positively narrows the
   # result set: `equal_to` joined by AND. Negative/presence operators or an OR in the

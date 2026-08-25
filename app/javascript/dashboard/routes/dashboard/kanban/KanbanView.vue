@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import Draggable from 'vuedraggable';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -19,6 +20,26 @@ const router = useRouter();
 const store = useStore();
 
 const accountId = useMapGetter('getCurrentAccountId');
+const currentUserId = useMapGetter('getCurrentUserID');
+const { isAdmin } = useAdmin();
+
+// Agents only ever see conversations assigned to themselves on the board;
+// administrators see every conversation in the selected column.
+const assigneeId = computed(() => (isAdmin.value ? null : currentUserId.value));
+
+const sortOrder = ref('desc');
+const sortBy = computed(() =>
+  sortOrder.value === 'asc' ? 'last_activity_at_asc' : 'last_activity_at_desc'
+);
+const toggleSortOrder = () => {
+  sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+};
+
+const fetchOptions = computed(() => ({
+  assigneeId: assigneeId.value,
+  sortBy: sortBy.value,
+}));
+
 const conversationAttributes = useMapGetter(
   'attributes/getConversationAttributes'
 );
@@ -60,17 +81,21 @@ const columnValues = computed(() => [
 const columnLabel = value =>
   value === UNASSIGNED_COLUMN_KEY ? t('KANBAN.UNASSIGNED_COLUMN') : value;
 
-const { columns, fetchBoard, moveCard } = useKanbanBoard();
+const { columns, fetchBoard, fetchMore, moveCard } = useKanbanBoard();
 
 onMounted(() => {
   store.dispatch('attributes/get');
 });
 
 watch(
-  [selectedAttributeKey, columnValues],
+  [selectedAttributeKey, columnValues, sortBy],
   () => {
     if (selectedAttributeKey.value) {
-      fetchBoard(selectedAttributeKey.value, columnValues.value);
+      fetchBoard(
+        selectedAttributeKey.value,
+        columnValues.value,
+        fetchOptions.value
+      );
     }
   },
   { immediate: true }
@@ -91,6 +116,10 @@ const goToAttributeSettings = () => {
   });
 };
 
+const onLoadMore = value => {
+  fetchMore(selectedAttributeKey.value, value, fetchOptions.value);
+};
+
 const onColumnChange = async (event, toValue) => {
   const added = event?.added;
   if (!added) return;
@@ -106,6 +135,8 @@ const onColumnChange = async (event, toValue) => {
       attributeKey: selectedAttributeKey.value,
       fromValue,
       toValue,
+      assigneeId: assigneeId.value,
+      sortBy: sortBy.value,
     });
   } catch (error) {
     useAlert(t('KANBAN.MOVE_ERROR'));
@@ -118,22 +149,43 @@ const onColumnChange = async (event, toValue) => {
     <div
       class="flex items-center justify-between px-4 py-3 border-b border-n-weak"
     >
-      <h1 class="text-lg font-medium text-n-slate-12">
-        {{ t('KANBAN.TITLE') }}
-      </h1>
-      <select
-        v-if="listAttributes.length > 1"
-        v-model="selectedAttributeKey"
-        class="reset-base !w-auto !mb-0 text-sm"
-      >
-        <option
-          v-for="attribute in listAttributes"
-          :key="attribute.attributeKey"
-          :value="attribute.attributeKey"
+      <div>
+        <h1 class="text-lg font-medium text-n-slate-12">
+          {{ t('KANBAN.TITLE') }}
+        </h1>
+        <p v-if="!isAdmin" class="text-xs text-n-slate-11 m-0">
+          {{ t('KANBAN.MINE_ONLY_HINT') }}
+        </p>
+      </div>
+      <div class="flex items-center gap-2">
+        <NextButton
+          size="sm"
+          variant="ghost"
+          :icon="
+            sortOrder === 'asc' ? 'i-lucide-arrow-up' : 'i-lucide-arrow-down'
+          "
+          @click="toggleSortOrder"
         >
-          {{ attribute.attributeDisplayName }}
-        </option>
-      </select>
+          {{
+            sortOrder === 'asc'
+              ? t('KANBAN.SORT_OLDEST_FIRST')
+              : t('KANBAN.SORT_NEWEST_FIRST')
+          }}
+        </NextButton>
+        <select
+          v-if="listAttributes.length > 1"
+          v-model="selectedAttributeKey"
+          class="reset-base !w-auto !mb-0 text-sm"
+        >
+          <option
+            v-for="attribute in listAttributes"
+            :key="attribute.attributeKey"
+            :value="attribute.attributeKey"
+          >
+            {{ attribute.attributeDisplayName }}
+          </option>
+        </select>
+      </div>
     </div>
 
     <div
@@ -162,7 +214,7 @@ const onColumnChange = async (event, toValue) => {
             {{ columnLabel(value) }}
           </span>
           <span class="ms-auto text-xs text-n-slate-11">
-            {{ columns[value]?.conversations?.length ?? 0 }}
+            {{ columns[value]?.totalCount ?? 0 }}
           </span>
         </div>
 
@@ -198,6 +250,17 @@ const onColumnChange = async (event, toValue) => {
           >
             {{ t('KANBAN.EMPTY_COLUMN') }}
           </p>
+          <div v-if="columns[value]?.hasMore" class="flex justify-center py-2">
+            <Spinner v-if="columns[value]?.isFetchingMore" />
+            <NextButton
+              v-else
+              size="sm"
+              variant="ghost"
+              @click="onLoadMore(value)"
+            >
+              {{ t('KANBAN.LOAD_MORE') }}
+            </NextButton>
+          </div>
         </div>
       </div>
     </div>

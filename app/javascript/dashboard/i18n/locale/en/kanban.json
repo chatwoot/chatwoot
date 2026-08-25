@@ -3,6 +3,10 @@
     "TITLE": "Kanban",
     "LOADING": "Loading conversations...",
     "UNASSIGNED_COLUMN": "Not set",
+    "MINE_ONLY_HINT": "Showing only conversations assigned to you",
+    "LOAD_MORE": "Load more",
+    "SORT_NEWEST_FIRST": "Newest first",
+    "SORT_OLDEST_FIRST": "Oldest first",
     "NO_ATTRIBUTE": {
       "TITLE": "No board attribute yet",
       "DESCRIPTION": "Create a conversation custom attribute of type List — its values become the columns on your Kanban board.",
