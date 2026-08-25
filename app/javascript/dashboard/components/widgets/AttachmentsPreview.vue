@@ -100,7 +100,7 @@ const openPreview = async attachment => {
     >
       <div
         class="flex items-center flex-1 min-w-0 gap-1 cursor-pointer"
-        title="คลิกเพื่อดูตัวอย่างไฟล์"
+        :title="$t('CONVERSATION.ATTACHMENT_PREVIEW.OPEN')"
         @click="openPreview(attachment)"
       >
         <div class="max-w-[4rem] flex-shrink-0 w-6 flex items-center">
@@ -132,7 +132,7 @@ const openPreview = async attachment => {
           slate
           xs
           icon="i-lucide-eye"
-          title="ดูตัวอย่างไฟล์"
+          :title="$t('CONVERSATION.ATTACHMENT_PREVIEW.BUTTON')"
           @click="openPreview(attachment)"
         />
         <Button

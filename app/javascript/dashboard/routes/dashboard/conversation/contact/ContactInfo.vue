@@ -188,7 +188,11 @@ export default {
         <div
           v-if="showAvatar"
           :class="{ 'cursor-pointer': contact.thumbnail }"
-          :title="contact.thumbnail ? 'คลิกเพื่อดูรูปโปรไฟล์' : undefined"
+          :title="
+            contact.thumbnail
+              ? $t('CONTACT_PANEL.CLICK_TO_VIEW_AVATAR')
+              : undefined
+          "
           @click="openAvatarZoom"
         >
           <Avatar
