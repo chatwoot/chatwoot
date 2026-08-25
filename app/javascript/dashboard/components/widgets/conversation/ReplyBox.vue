@@ -1264,7 +1264,8 @@ export default {
         this.lastEmail,
         conversationContact,
         inboxEmail,
-        forwardToEmail
+        forwardToEmail,
+        this.currentChat?.uuid
       );
 
       this.toEmails = to.join(', ');
