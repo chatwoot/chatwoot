@@ -79,7 +79,10 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   end
 
   def render_call_termination_in_progress(error)
-    render json: { error: error.message }, status: :conflict
+    render json: {
+      error: error.message,
+      code: 'call_termination_in_progress'
+    }, status: :locked
   end
 
   # A teardown owns a unique token and snapshots the intended terminal result under
