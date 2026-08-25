@@ -1,5 +1,6 @@
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { computed, watch } from 'vue';
+import wootConstants from 'dashboard/constants/globals';
 import { useConversationRoutePath } from './useConversationRoutePath';
 
 // Resolves the conversations before and after the active one in the contact's history.
@@ -11,6 +12,7 @@ export function useContactConversationNavigation() {
   const contactConversations = useMapGetter(
     'contactConversations/getContactConversation'
   );
+  const appliedContactFilter = useMapGetter('getAppliedContactFilter');
 
   const contactId = computed(() => currentChat.value?.meta?.sender?.id);
 
@@ -27,6 +29,13 @@ export function useContactConversationNavigation() {
     )
   );
 
+  // Moving forward is a review move; on a live chat it pulls the agent off the open one.
+  const canMoveForward = computed(
+    () =>
+      appliedContactFilter.value?.id === contactId.value ||
+      currentChat.value?.status === wootConstants.STATUS_TYPE.RESOLVED
+  );
+
   const olderConversation = computed(() =>
     currentIndex.value > 0
       ? orderedConversations.value[currentIndex.value - 1]
@@ -34,9 +43,9 @@ export function useContactConversationNavigation() {
   );
 
   const newerConversation = computed(() =>
-    currentIndex.value < 0
-      ? null
-      : (orderedConversations.value[currentIndex.value + 1] ?? null)
+    canMoveForward.value && currentIndex.value >= 0
+      ? (orderedConversations.value[currentIndex.value + 1] ?? null)
+      : null
   );
 
   // Refetch when the cached list cannot place the open conversation.
