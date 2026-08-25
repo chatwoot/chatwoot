@@ -40,7 +40,7 @@ RSpec.describe Synapseos::LeadLifecycle do
           lead.reload
           expect(lead.estado).to eq('quer_depois')
           expect(lead.pipeline_stage_id).to eq(stage_futuro.id)
-          expect(lead.retomada_at).to eq(Time.current + 4.months)
+          expect(lead.retomada_at).to eq(Time.current + 3.months)
           expect(lead.next_action_at).to eq(lead.retomada_at)
         end
       end

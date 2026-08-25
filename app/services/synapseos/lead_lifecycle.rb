@@ -36,12 +36,16 @@ module Synapseos
     CADENCE_OFFSETS = [1.hour, 1.day, 3.days, 7.days, 21.days].freeze
 
     # Baldes de horizonte de compra -> offset de retomada (Futuro).
+    # Regra (2026-08-25, conv 330): retomar no LIMITE INFERIOR do balde, não no
+    # meio. Cliente que 'troca em outubro' (~60d, balde 1-3m) era retomado em
+    # +2 meses = depois de já ter comprado. O consultor precisa do lead ANTES
+    # da decisão, não durante. Espelhado no n8n (schedule_followup.json).
     HORIZONTE_OFFSETS = {
       'imediato' => nil,
-      '1-3m' => 2.months,
-      '3-6m' => 4.months,
-      '6-12m' => 9.months,
-      '+12m' => 13.months
+      '1-3m' => 1.month,
+      '3-6m' => 3.months,
+      '6-12m' => 6.months,
+      '+12m' => 12.months
     }.freeze
 
     # Slugs de stage usados pela máquina (criados sob demanda pelo template
