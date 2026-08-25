@@ -96,16 +96,19 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
       return;
     }
 
-    // try/finally so a failed leaveConference (e.g. backend 5xx) still
-    // tears down the local Device and UI state — otherwise the call stays
-    // visually active with the mic open.
     try {
       await VoiceAPI.leaveConference({ inboxId, conversationId, callSid });
-    } finally {
-      TwilioVoiceClient.endClientCall();
       globalDurationTimer?.stop();
       callsStore.clearActiveCall();
       clearLocalCall(callSid);
+    } catch (error) {
+      // Always close the local Device/mic, but keep the Call surfaced when
+      // provider teardown fails so the agent still has a normal retry path.
+      TwilioVoiceClient.endClientCall();
+      globalDurationTimer?.stop();
+      callsStore.setCallInactive(callSid);
+      clearLocalCall(callSid);
+      throw error;
     }
   };
 
@@ -167,7 +170,8 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     } catch (error) {
       useAlert(error?.response?.data?.error || t('CONTACT_PANEL.CALL_FAILED'));
       if (!isWhatsappCall(call)) clearLocalCall(callSid);
-      // 409 = the call already ended before accept landed (e.g. caller hung up mid-ring).
+      // 409 is reserved for a terminal/ownership conflict such as another
+      // agent already accepting the call. Transient teardown overlap uses 423.
       if (error?.response?.status === 409) {
         TwilioVoiceClient.endClientCall();
         markCallDismissed(callSid);
