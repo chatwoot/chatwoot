@@ -1,4 +1,7 @@
+import { deleteDB, openDB } from 'idb';
+import { DataManager } from 'dashboard/helper/CacheHelper/DataManager';
 import {
+  deleteIndexedDBOnLogout,
   getLoadingStatus,
   parseAPIErrorResponse,
   setLoadingStatus,
@@ -71,5 +74,47 @@ describe('#parseLinearAPIErrorResponse', () => {
         'Default Message'
       )
     ).toBe('Error Message [message]');
+  });
+});
+
+describe('#deleteIndexedDBOnLogout', () => {
+  const accountId = 'logout-test';
+  const cacheDatabaseName = `cw-store-${accountId}`;
+  const unrelatedDatabaseName = 'unrelated-database';
+  let dataManager;
+  let unrelatedDatabase;
+
+  afterEach(async () => {
+    dataManager?.db?.close();
+    unrelatedDatabase?.close();
+    await Promise.all([
+      deleteDB(cacheDatabaseName),
+      deleteDB(unrelatedDatabaseName),
+    ]);
+    localStorage.removeItem('cw-idb-names');
+  });
+
+  it('waits for active cache connections to close before deleting the database', async () => {
+    dataManager = new DataManager(accountId);
+    await dataManager.initDb();
+
+    await deleteIndexedDBOnLogout();
+
+    const databaseNames = (await indexedDB.databases()).map(({ name }) => name);
+    expect(databaseNames).not.toContain(cacheDatabaseName);
+  });
+
+  it('preserves IndexedDB databases that are not owned by Chatwoot', async () => {
+    unrelatedDatabase = await openDB(unrelatedDatabaseName, 1, {
+      upgrade(database) {
+        database.createObjectStore('sentinel');
+      },
+    });
+    unrelatedDatabase.close();
+
+    await deleteIndexedDBOnLogout();
+
+    unrelatedDatabase = await openDB(unrelatedDatabaseName);
+    expect([...unrelatedDatabase.objectStoreNames]).toContain('sentinel');
   });
 });
