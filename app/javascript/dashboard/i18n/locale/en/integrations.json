@@ -423,27 +423,30 @@
       "METRICS": {
         "HANDLED": {
           "LABEL": "Conversations handled",
-          "HINT": "Distinct conversations this assistant replied in."
+          "HINT": "Conversations where Captain replied to the customer or handed the conversation to your team."
         },
         "AUTO_RESOLUTION": {
           "LABEL": "Auto-resolution rate",
-          "HINT": "Share of handled conversations closed without a human reply."
+          "HINT": "The share of handled conversations Captain resolved without help from your team. Higher means Captain resolved more on its own."
         },
         "HANDOFF": {
           "LABEL": "Handoff rate",
-          "HINT": "Share of handled conversations escalated to a human agent."
+          "HINT": "The share of handled conversations Captain passed to your team. Lower means fewer conversations needed an agent."
         },
         "HOURS_SAVED": {
           "LABEL": "Time saved",
-          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+          "HINT": "An estimate of how much agent reply time Captain saved.",
+          "NOTE": "Based on two minutes saved for each public Captain reply."
         },
         "REOPEN": {
           "LABEL": "Reopen rate",
-          "HINT": "Auto-resolved conversations that were reopened afterwards."
+          "HINT": "The share of Captain-resolved conversations that customers returned to later.",
+          "NOTE": "Lower means more resolutions stayed resolved."
         },
         "DEPTH": {
           "LABEL": "Messages / conversation",
-          "HINT": "Average replies the assistant sends per conversation."
+          "HINT": "The average number of replies Captain sent in each conversation it handled.",
+          "NOTE": "A lower number can mean quicker answers, but complex questions may need more replies."
         }
       },
       "DRILLDOWN": {
@@ -471,6 +474,95 @@
         "BILLING": {
           "TITLE": "Billing",
           "DESCRIPTION": "Manage credits and plan"
+        }
+      },
+      "V2": {
+        "EMPTY": "No data available for this period.",
+        "SUMMARY": {
+          "GREETING": "Hello, {name}!",
+          "DEFAULT_NAME": "there",
+          "EMPTY": "Captain's performance summary will appear here when enough activity is available.",
+          "PREVIOUS": "Previous summary point",
+          "NEXT": "Next summary point"
+        },
+        "UNITS": {
+          "DAYS": "{value}d",
+          "HOURS": "{value}h",
+          "MINUTES": "{value} min"
+        },
+        "METRICS": {
+          "TIME_SAVED": {
+            "LABEL": "Saved in agent effort and time"
+          },
+          "DURABLE": {
+            "LABEL": "Captain resolutions remained closed",
+            "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
+            "NOTE": "Only resolutions old enough to observe for seven days are included."
+          },
+          "MEDIAN_RESOLUTION": {
+            "LABEL": "Median resolution time",
+            "HINT": "The typical time from when a conversation reached Captain until it was resolved.",
+            "NOTE": "Lower means customers generally got resolved sooner."
+          },
+          "DEPTH": {
+            "LABEL": "Messages per conversation"
+          },
+          "OF_TOTAL": "of {total}"
+        },
+        "RESOLUTION_FLOW": {
+          "ARIA_LABEL": "Flow of handled conversations through Captain and team outcomes",
+          "NODES": {
+            "HANDLED": "Handled",
+            "RESOLVED_BY_CAPTAIN": "Resolved by Captain",
+            "HANDED_OFF": "Handed off",
+            "CLOSED_WITH_TEAM": "Closed with team",
+            "REOPENED": "Reopened in 7d",
+            "STAYED_CLOSED": "Stayed closed",
+            "OTHER_REASONS": "Other reasons"
+          }
+        },
+        "HANDOFF_REASONS": {
+          "TITLE": "Handoff reasons",
+          "CUSTOMER_REQUEST": "Customer requested",
+          "MISSING_KNOWLEDGE": "Missing knowledge",
+          "UNSUPPORTED_REQUEST": "Unsupported request",
+          "POLICY_RESTRICTION": "Policy restriction",
+          "TOOL_FAILURE": "Tool failure",
+          "PENDING_CLARIFICATION": "Pending customer clarification",
+          "PERCENTAGE": "({value}%)",
+          "USAGE_LIMIT": "Usage limit",
+          "UNCLASSIFIED": "Unclassified"
+        },
+        "RESOLUTION_TREND": {
+          "TITLE": "Resolution trend",
+          "CONVERSATION_COUNT": "Conversation count",
+          "RESOLUTION_RATE": "Resolution rate",
+          "CURRENT_PERIOD": "Current period",
+          "PREVIOUS_PERIOD": "Previous period",
+          "HANDLED": "Handled",
+          "RESOLVED": "Resolved by Captain",
+          "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period",
+          "RATE_ARIA_LABEL": "Current and previous Captain resolution rates"
+        },
+        "CSAT": {
+          "TITLE": "Captain CSAT",
+          "AUTONOMOUS": "Captain-resolved conversations",
+          "AUTONOMOUS_HINT": "The average customer rating for conversations Captain resolved without help from your team.",
+          "ASSISTED": "Captain-assisted conversations",
+          "ASSISTED_HINT": "The average customer rating when Captain helped before your team resolved the conversation.",
+          "VS_HUMANS": "{value} vs humans"
+        },
+        "USAGE": {
+          "TITLE": "Usage",
+          "CREDITS": "Credits",
+          "DOCUMENTS": "Documents",
+          "USED": "({percentage}% used)",
+          "VALUE": "{used}/{total}",
+          "REFRESH": "Refresh usage",
+          "BUY_MORE": "Buy more credits"
+        },
+        "KNOWLEDGE": {
+          "REVIEW": "Review FAQs"
         }
       }
     },
