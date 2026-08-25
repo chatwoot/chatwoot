@@ -53,6 +53,7 @@ const mockStore = createStore({
               voice_enabled: true,
             },
             15: { id: 15, channel_type: INBOX_TYPES.TIKTOK },
+            16: { id: 16, channel_type: INBOX_TYPES.GOOGLE_PLAY },
           };
           return inboxes[id] || null;
         },
@@ -226,6 +227,12 @@ describe('useInbox', () => {
         global: { plugins: [mockStore] },
       });
       expect(wrapper.vm.isATiktokChannel).toBe(true);
+
+      // Test Google Play
+      wrapper = mount(createTestComponent(16), {
+        global: { plugins: [mockStore] },
+      });
+      expect(wrapper.vm.isAGooglePlayChannel).toBe(true);
     });
   });
 
@@ -278,6 +285,7 @@ describe('useInbox', () => {
         'isAnEmailChannel',
         'isAnInstagramChannel',
         'isATiktokChannel',
+        'isAGooglePlayChannel',
         'voiceCallEnabled',
         'voiceCallProvider',
       ];

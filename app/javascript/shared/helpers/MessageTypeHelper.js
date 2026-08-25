@@ -22,4 +22,6 @@ export const MESSAGE_MAX_LENGTH = {
   TELEGRAM: 4096,
   LINE: 2000,
   EMAIL: 25000,
+  // https://developers.google.com/android-publisher/reviews — developer replies are capped at 350 characters
+  GOOGLE_PLAY: 350,
 };

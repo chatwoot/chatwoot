@@ -11,6 +11,7 @@ class SendReplyJob < ApplicationJob
     'Channel::Instagram' => ::Instagram::SendOnInstagramService,
     'Channel::Tiktok' => ::Tiktok::SendOnTiktokService,
     'Channel::Email' => ::Email::SendOnEmailService,
+    'Channel::GooglePlay' => ::GooglePlay::SendOnGooglePlayService,
     'Channel::WebWidget' => ::Messages::SendEmailNotificationService,
     'Channel::Api' => ::Messages::SendEmailNotificationService
   }.freeze

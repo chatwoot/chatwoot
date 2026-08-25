@@ -625,4 +625,22 @@ RSpec.describe Conversations::MessageWindowService do
       expect(service.can_reply?).to be true
     end
   end
+
+  describe 'on Google Play channels' do
+    let!(:google_play_channel) { create(:channel_google_play) }
+    let(:inbox) { google_play_channel.inbox }
+    let(:conversation) { create(:conversation, inbox: inbox, account: google_play_channel.account) }
+
+    it 'allows replies when the most recent incoming review is within 7 days' do
+      create(:message, account: conversation.account, inbox: inbox, conversation: conversation, created_at: 3.days.ago)
+
+      expect(described_class.new(conversation).can_reply?).to be true
+    end
+
+    it 'blocks replies when the most recent incoming review is older than 7 days' do
+      create(:message, account: conversation.account, inbox: inbox, conversation: conversation, created_at: 10.days.ago)
+
+      expect(described_class.new(conversation).can_reply?).to be false
+    end
+  end
 end
