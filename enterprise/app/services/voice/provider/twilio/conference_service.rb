@@ -26,10 +26,7 @@ class Voice::Provider::Twilio::ConferenceService
 
     call_context = call.inbox.channel.client.calls(call.provider_call_id)
     provider_status = call_context.fetch.status.to_s
-    return if TERMINAL_PROVIDER_STATUSES.include?(provider_status)
-
-    target_status = PRE_ANSWER_PROVIDER_STATUSES.include?(provider_status) ? 'canceled' : 'completed'
-    call_context.update(status: target_status)
+    terminate_provider_call(call_context, provider_status)
   end
 
   def complete_conference
@@ -43,6 +40,25 @@ class Voice::Provider::Twilio::ConferenceService
   end
 
   private
+
+  def terminate_provider_call(call_context, provider_status, retry_state_race: true)
+    return if TERMINAL_PROVIDER_STATUSES.include?(provider_status)
+
+    target_status = provider_target_status(provider_status)
+    call_context.update(status: target_status)
+  rescue Twilio::REST::RestError => error
+    refreshed_status = call_context.fetch.status.to_s
+    return if TERMINAL_PROVIDER_STATUSES.include?(refreshed_status)
+
+    refreshed_target = provider_target_status(refreshed_status)
+    raise error unless retry_state_race && refreshed_target != target_status
+
+    terminate_provider_call(call_context, refreshed_status, retry_state_race: false)
+  end
+
+  def provider_target_status(provider_status)
+    PRE_ANSWER_PROVIDER_STATUSES.include?(provider_status) ? 'canceled' : 'completed'
+  end
 
   def claim_call!(user)
     call.with_lock do
