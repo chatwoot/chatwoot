@@ -47,6 +47,7 @@ class Voice::Provider::Twilio::ConferenceService
   def claim_call!(user)
     call.with_lock do
       raise CustomExceptions::CallTerminationInProgress.new({}) if call.meta['agent_termination_token'].present?
+
       raise_already_accepted!(call.accepted_by_agent) if claimed_by_other_agent?(user)
       call.update!(accepted_by_agent: user) if call.accepted_by_agent_id != user.id
     end
