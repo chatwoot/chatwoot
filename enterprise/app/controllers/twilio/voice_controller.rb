@@ -45,7 +45,8 @@ class Twilio::VoiceController < ApplicationController
     Voice::Conference::Manager.new(
       call: call,
       event: event,
-      participant_label: participant_label
+      participant_label: participant_label,
+      participant_call_sid: twilio_call_sid
     ).process
 
     head :no_content
@@ -90,8 +91,6 @@ class Twilio::VoiceController < ApplicationController
     from_number.start_with?('client:')
   end
 
-  # A fresh contact-initiated leg on an inbox with inbound calls turned off.
-  # Reject it so no conference, conversation, or Call row is created.
   def reject_inbound?
     twilio_direction == 'inbound' && !agent_leg?(twilio_from) && !inbox.channel.inbound_calls_enabled?
   end
@@ -121,7 +120,9 @@ class Twilio::VoiceController < ApplicationController
     sid = params[:call_sid].presence
     raise ArgumentError, 'call_sid is required for agent leg' if sid.blank?
 
-    inbox_calls.find_by!(provider_call_id: sid)
+    call = inbox_calls.find_by!(provider_call_id: sid)
+    call.with_lock { Voice::CallTerminationGuard.track_agent_participant!(call, twilio_call_sid) }
+    call
   end
 
   def sync_outbound_leg(call_sid:, direction:)
@@ -189,9 +190,6 @@ class Twilio::VoiceController < ApplicationController
     call || inbox_calls.find_by!(provider_call_id: call_sid)
   end
 
-  # Twilio's recording webhook only sends its internal ConferenceSid (CF...),
-  # not our FriendlyName. Persist Twilio's id under the Call row lock so a webhook
-  # that loaded a stale JSON meta value cannot clobber an in-flight teardown token.
   def persist_twilio_conference_sid!(call, sid)
     return if sid.blank?
 
