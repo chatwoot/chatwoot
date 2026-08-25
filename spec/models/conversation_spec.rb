@@ -16,6 +16,7 @@ RSpec.describe Conversation do
     it { is_expected.to belong_to(:contact) }
     it { is_expected.to belong_to(:contact_inbox) }
     it { is_expected.to belong_to(:assignee).optional }
+    it { is_expected.to belong_to(:ai_assignee).optional }
     it { is_expected.to belong_to(:team).optional }
     it { is_expected.to belong_to(:campaign).optional }
   end
@@ -194,6 +195,17 @@ RSpec.describe Conversation do
                                                                     changed_attributes: changed_attributes, performed_by: nil)
     end
 
+    it 'dispatches an assignee changed event when an agent bot is assigned' do
+      conversation = create(:conversation, status: 'open', account: account)
+      agent_bot = create(:agent_bot, account: account)
+
+      conversation.update!(assignee_agent_bot: agent_bot)
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
+                                                                changed_attributes: conversation.previous_changes, performed_by: nil)
+    end
+
     it 'will not run conversation_updated event for empty updates' do
       conversation.save!
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
@@ -264,7 +276,8 @@ RSpec.describe Conversation do
       expect(Conversations::ActivityMessageJob)
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                              content: "Conversation was marked resolved by #{old_assignee.name}" }))
+                              content: "Conversation was marked resolved by #{old_assignee.name}",
+                              content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } } }))
       expect(Conversations::ActivityMessageJob)
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
@@ -287,7 +300,8 @@ RSpec.describe Conversation do
       expect { conversation2.update(status: :resolved) }
         .to have_enqueued_job(Conversations::ActivityMessageJob)
         .with(conversation2, { account_id: conversation2.account_id, inbox_id: conversation2.inbox_id, message_type: :activity,
-                               content: system_resolved_message })
+                               content: system_resolved_message,
+                               content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } } })
     end
   end
 
@@ -404,6 +418,14 @@ RSpec.describe Conversation do
     it 'changes status to open' do
       conversation.bot_handoff!
       expect(conversation.reload.status).to eq('open')
+    end
+
+    it 'clears agent bot ownership' do
+      conversation.update!(assignee_agent_bot: create(:agent_bot, account: conversation.account))
+
+      conversation.bot_handoff!
+
+      expect(conversation.reload.assignee_agent_bot).to be_nil
     end
 
     it 'dispatches CONVERSATION_BOT_HANDOFF event' do
@@ -717,6 +739,19 @@ RSpec.describe Conversation do
       expect(conversation.status).to eq('pending')
     end
 
+    it 'sets connected agent bot as the conversation owner' do
+      expect(conversation.assignee_agent_bot).to eq(bot_inbox.agent_bot)
+      expect(conversation.assignee).to be_nil
+    end
+
+    it 'preserves explicit human assignee' do
+      agent = create(:user, account: bot_inbox.inbox.account)
+      conversation = create(:conversation, inbox: bot_inbox.inbox, assignee: agent)
+
+      expect(conversation.assignee).to eq(agent)
+      expect(conversation.assignee_agent_bot).to be_nil
+    end
+
     context 'with campaigns' do
       let(:user) { create(:user, account: bot_inbox.inbox.account) }
 
@@ -724,12 +759,14 @@ RSpec.describe Conversation do
         campaign = create(:campaign, inbox: bot_inbox.inbox, account: bot_inbox.inbox.account, sender: user)
         conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: campaign)
         expect(conversation.status).to eq('open')
+        expect(conversation.assignee_agent_bot).to be_nil
       end
 
       it 'returns conversation as pending if campaign has no sender (bot-initiated) and bot is active' do
         campaign = create(:campaign, inbox: bot_inbox.inbox, account: bot_inbox.inbox.account, sender: nil)
         conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: campaign)
         expect(conversation.status).to eq('pending')
+        expect(conversation.assignee_agent_bot).to eq(bot_inbox.agent_bot)
       end
     end
 
@@ -759,6 +796,10 @@ RSpec.describe Conversation do
 
     it 'returns conversation status as pending' do
       expect(conversation.status).to eq('pending')
+    end
+
+    it 'does not set agent bot ownership' do
+      expect(conversation.assignee_agent_bot).to be_nil
     end
   end
 
@@ -1226,6 +1267,30 @@ RSpec.describe Conversation do
         # Reply time should be 1 hour (from customer message 2 to agent reply)
         expect(reply_events.first.value).to be_within(60).of(3600)
       end
+    end
+  end
+
+  describe '#status_changed_at' do
+    let(:conversation) { create(:conversation) }
+
+    it 'is set on create' do
+      expect(conversation.status_changed_at).to be_present
+    end
+
+    it 'is updated on every status transition' do
+      original = conversation.status_changed_at
+
+      travel_to(1.hour.from_now) { conversation.update!(status: :resolved) }
+
+      expect(conversation.reload.status_changed_at).to be > original
+    end
+
+    it 'is untouched by non-status saves' do
+      original = conversation.status_changed_at
+
+      travel_to(1.hour.from_now) { conversation.update!(priority: :high) }
+
+      expect(conversation.reload.status_changed_at).to be_within(1.second).of(original)
     end
   end
 end

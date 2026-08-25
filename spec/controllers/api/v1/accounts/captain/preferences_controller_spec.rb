@@ -31,6 +31,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
         expect(json_response).to have_key(:providers)
         expect(json_response).to have_key(:models)
         expect(json_response).to have_key(:features)
+        expect(json_response[:features]).not_to have_key(:conversation_completion)
       end
     end
 
@@ -150,14 +151,21 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
         expect(account.reload.captain_models['editor']).to eq('gpt-4.1-mini')
       end
 
-      it 'does not persist unknown captain model feature keys' do
+      it 'does not persist unknown or internal captain model feature keys' do
         put "/api/v1/accounts/#{account.id}/captain/preferences",
             headers: admin.create_new_auth_token,
-            params: { captain_models: { editor: 'gpt-4.1-mini', unknown_feature: 'gpt-4.1' } },
+            params: {
+              captain_models: {
+                editor: 'gpt-4.1-mini',
+                unknown_feature: 'gpt-4.1',
+                conversation_completion: 'gpt-4.1'
+              }
+            },
             as: :json
 
         expect(response).to have_http_status(:success)
         expect(account.reload.captain_models).to eq('editor' => 'gpt-4.1-mini')
+        expect(json_response[:features]).not_to have_key(:conversation_completion)
       end
 
       it 'rejects invalid captain model values for the feature' do
@@ -196,6 +204,17 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
         expect(response).to have_http_status(:success)
         expect(json_response.dig(:features, :document_faq_generation, :selected)).to eq('gpt-5.2')
         expect(account.reload.captain_models['document_faq_generation']).to eq('gpt-5.2')
+      end
+
+      it 'updates captain_models for conversation FAQ generation' do
+        put "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            params: { captain_models: { conversation_faq_generation: 'gpt-4.1-mini' } },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response.dig(:features, :conversation_faq_generation, :selected)).to eq('gpt-4.1-mini')
+        expect(account.reload.captain_models['conversation_faq_generation']).to eq('gpt-4.1-mini')
       end
 
       it 'updates captain_models for PDF FAQ generation' do

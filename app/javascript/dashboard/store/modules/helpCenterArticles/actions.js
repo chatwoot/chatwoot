@@ -96,6 +96,32 @@ export const actions = {
     }
   },
 
+  // Push the draft to live and clear it, optionally changing status in the same
+  // update. Only edited fields are sent so an untouched live value survives.
+  publishDraft: ({ dispatch, state }, { portalSlug, articleId, status }) => {
+    const article = state.articles.byId[articleId];
+    const payload = {
+      portalSlug,
+      articleId,
+      status,
+      draft_title: null,
+      draft_content: null,
+    };
+    if (article?.draftTitle != null) payload.title = article.draftTitle;
+    if (article?.draftContent != null) payload.content = article.draftContent;
+    return dispatch('update', payload);
+  },
+
+  // Clear the draft (optionally changing status); live content is left untouched.
+  discardDraft: ({ dispatch }, { portalSlug, articleId, status }) =>
+    dispatch('update', {
+      portalSlug,
+      articleId,
+      status,
+      draft_title: null,
+      draft_content: null,
+    }),
+
   updateArticleMeta: async ({ commit }, { portalSlug, locale }) => {
     try {
       const { data } = await articlesAPI.getArticles({

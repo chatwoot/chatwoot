@@ -4,6 +4,8 @@ json.title article.title
 json.content article.content
 json.description article.description
 json.status article.status
+json.draft_title article.draft_title
+json.draft_content article.draft_content
 json.position article.position
 json.account_id article.account_id
 json.updated_at article.updated_at.to_i
@@ -20,7 +22,7 @@ end
 
 json.views article.views
 
-if article.author.present?
+if article.author&.current_account_user
   json.author do
     json.partial! 'api/v1/models/agent', formats: [:json], resource: article.author
   end

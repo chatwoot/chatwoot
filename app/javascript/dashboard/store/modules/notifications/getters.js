@@ -2,9 +2,6 @@ import { sortComparator } from './helpers';
 import camelcaseKeys from 'camelcase-keys';
 
 export const getters = {
-  getNotifications($state) {
-    return Object.values($state.records).sort((n1, n2) => n2.id - n1.id);
-  },
   getFilteredNotifications: $state => filters => {
     const sortOrder = filters.sortOrder === 'desc' ? 'newest' : 'oldest';
     const sortedNotifications = Object.values($state.records).sort((n1, n2) =>

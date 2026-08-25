@@ -45,6 +45,66 @@ shared_examples_for 'auto_assignment_handler' do
       expect(conversation.reload.assignee).to be_nil
     end
 
+    it 'keeps AgentBot ownership when the conversation opens' do
+      agent_bot = create(:agent_bot, account: account)
+      conversation = create(:conversation, account: account, inbox: inbox, status: 'pending', assignee_agent_bot: agent_bot)
+
+      conversation.update!(status: 'open')
+
+      expect(conversation.reload.assigned_entity).to eq(agent_bot)
+    end
+
+    it 'assigns an agent when bot handoff clears the agent bot in the same save' do
+      agent_bot = create(:agent_bot, account: account)
+      handoff_conversation = create(:conversation, account: account, inbox: inbox, status: 'pending', assignee_agent_bot: agent_bot)
+
+      handoff_conversation.bot_handoff!
+
+      expect(handoff_conversation.reload.assignee).to eq(agent)
+      expect(handoff_conversation.assignee_agent_bot).to be_nil
+    end
+
+    it 'emits conversation.opened when auto assignment runs on the open transition' do
+      conversation.update!(status: 'pending', assignee: nil)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      conversation.update!(status: 'open')
+
+      expect(conversation.assignee).to eq(agent)
+      expect(conversation.previous_changes.keys).to include('status', 'assignee_id')
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::CONVERSATION_OPENED, kind_of(Time), hash_including(conversation: conversation))
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), hash_including(conversation: conversation))
+    end
+
+    it 'does not re-announce an open transition a concurrent request already committed' do
+      conversation.update!(status: 'pending', assignee: nil)
+      stale = Conversation.find(conversation.id)
+      conversation.update!(status: 'open')
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      stale.update!(status: 'open')
+
+      expect(stale.reload.assignee).to eq(agent)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+    end
+
+    it 'still assigns on a stale open transition when the earlier open found no agent' do
+      allow(Redis::Alfred).to receive(:rpoplpush).and_return(nil)
+      conversation.update!(status: 'pending', assignee: nil)
+      stale = Conversation.find(conversation.id)
+      conversation.update!(status: 'open')
+      allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent.id)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      stale.update!(status: 'open')
+
+      expect(stale.reload.assignee).to eq(agent)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+        .with(described_class::CONVERSATION_OPENED, kind_of(Time), hash_including(conversation: stale))
+    end
+
     it 'gets triggered on update only when status changes to open' do
       conversation.status = 'resolved'
       conversation.save!

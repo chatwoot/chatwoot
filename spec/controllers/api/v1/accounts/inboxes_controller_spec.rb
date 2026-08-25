@@ -36,6 +36,18 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(2)
       end
 
+      it 'does not include branded email layout in index responses' do
+        email_inbox = create(:inbox, :with_email, account: account)
+        create(:email_template, :layout, account: account, inbox: email_inbox, body: '<html>{{ content_for_layout }} Branded</html>')
+
+        get "/api/v1/accounts/#{account.id}/inboxes",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        inbox_data = JSON.parse(response.body, symbolize_names: true)[:payload].find { |item| item[:id] == email_inbox.id }
+        expect(inbox_data).not_to have_key(:branded_email_layout)
+      end
+
       it 'returns only assigned inboxes of current_account as agent' do
         get "/api/v1/accounts/#{account.id}/inboxes",
             headers: agent.create_new_auth_token,
@@ -114,6 +126,28 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.parsed_body['reauthorization_required']).to be(true)
       end
 
+      it 'returns only the configured state for an embedded signup WhatsApp business management token' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        whatsapp_channel = create(
+          :channel_whatsapp,
+          account: account,
+          provider: 'whatsapp_cloud',
+          business_management_token: 'business-token',
+          sync_templates: false,
+          validate_provider_config: false
+        )
+        whatsapp_inbox = create(:inbox, channel: whatsapp_channel, account: account)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['business_management_token_configured']).to be(true)
+        expect(response.parsed_body).not_to have_key('business_management_token')
+        expect(response.body).not_to include('business-token')
+      end
+
       it 'does not flag reauthorization_required for manual whatsapp channel even when reauth required' do
         whatsapp_channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false,
                                                      validate_provider_config: false)
@@ -161,8 +195,10 @@ RSpec.describe 'Inboxes API', type: :request do
       end
 
       it 'returns imap details in inbox when admin' do
+        account.enable_features!(:branded_email_templates)
         email_channel = create(:channel_email, account: account, imap_enabled: true, imap_login: 'test@test.com')
         email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:email_template, :layout, account: account, inbox: email_inbox, body: '<html>{{ content_for_layout }} Branded</html>')
 
         imap_connection = double
         allow(Mail).to receive(:connection).and_return(imap_connection)
@@ -176,6 +212,35 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(data[:imap_enabled]).to be_truthy
         expect(data[:imap_login]).to eq('test@test.com')
+        expect(data[:branded_email_layout]).to eq('<html>{{ content_for_layout }} Branded</html>')
+      end
+
+      it 'does not return saved branded email layout when feature is disabled' do
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:email_template, :layout, account: account, inbox: email_inbox, body: '<html>{{ content_for_layout }} Branded</html>')
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body).not_to have_key('branded_email_layout')
+      end
+
+      it 'does not return branded email layout for an agent' do
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:inbox_member, user: agent, inbox: email_inbox)
+        create(:email_template, :layout, account: account, inbox: email_inbox, body: '<html>{{ content_for_layout }} Branded</html>')
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        data = JSON.parse(response.body, symbolize_names: true)
+        expect(data[:branded_email_layout]).to be_nil
       end
 
       context 'when it is a Twilio inbox' do
@@ -575,6 +640,162 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         expect(email_inbox.reload.enable_auto_assignment).to be_falsey
         expect(email_channel.reload.email).to eq('emailtest@email.test')
+      end
+
+      it 'updates branded email layout for email inbox when feature is enabled' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        layout = '<html><body><header>Brand</header>{{ content_for_layout }}</body></html>'
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: layout },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_inbox.reload.branded_email_layout).to eq(layout)
+        expect(response.parsed_body['branded_email_layout']).to eq(layout)
+      end
+
+      it 'rejects branded email layouts larger than 256 KiB' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        slot = '{{ content_for_layout }}'
+        large_layout = "#{'a' * (EmailTemplate::MAX_BODY_LENGTH - slot.length + 1)}#{slot}"
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: large_layout },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to include('is too long (maximum is 262144 characters)')
+      end
+
+      it 'rolls back branded email layout when inbox update fails' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { name: '', branded_email_layout: '<html>{{ content_for_layout }} Branded</html>' },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(email_inbox.reload.branded_email_layout).to be_nil
+      end
+
+      it 'clears branded email layout when blank value is passed' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:email_template, :layout, account: account, inbox: email_inbox)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: '' },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_inbox.reload.branded_email_layout).to be_nil
+      end
+
+      it 'clears branded email layout when null string value is passed' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:email_template, :layout, account: account, inbox: email_inbox)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: 'null' },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_inbox.reload.branded_email_layout).to be_nil
+      end
+
+      it 'rejects branded email layout when feature is disabled' do
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: '<html>{{ content_for_layout }}</html>' },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Branded email templates feature is not enabled')
+        expect(email_inbox.reload.branded_email_layout).to be_nil
+      end
+
+      it 'ignores blank branded email layout when feature is disabled' do
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { name: 'Renamed Email Inbox', branded_email_layout: nil },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_inbox.reload.name).to eq('Renamed Email Inbox')
+        expect(email_inbox.branded_email_layout).to be_nil
+      end
+
+      it 'rejects branded email layout for non-email inboxes' do
+        account.enable_features!(:branded_email_templates)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: '<html>{{ content_for_layout }}</html>' },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Branded email layout is only supported for email inboxes')
+      end
+
+      it 'ignores blank branded email layout for non-email inboxes' do
+        account.enable_features!(:branded_email_templates)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { name: 'Renamed Inbox', branded_email_layout: '' },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(inbox.reload.name).to eq('Renamed Inbox')
+      end
+
+      it 'rejects branded email layout without content slot' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: '<html>No slot</html>' },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to include('must include {{ content_for_layout }}')
+      end
+
+      it 'rejects branded email layout with invalid liquid syntax' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: '<html>{{ content_for_layout }} {{ broken </html>' },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to include('has invalid Liquid syntax')
       end
 
       it 'updates twilio sms inbox when administrator' do
@@ -1053,6 +1274,91 @@ RSpec.describe 'Inboxes API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/:id/message_templates' do
+    let(:last_sync_attempt_at) { 1.hour.ago.change(usec: 0) }
+    let(:message_templates) do
+      [
+        { 'name' => 'shipping_update', 'language' => 'en_US' },
+        { 'name' => 'shipping_update', 'language' => 'es' },
+        { 'name' => 'account_update', 'language' => 'en_US' }
+      ]
+    end
+    let(:whatsapp_channel) do
+      create(
+        :channel_whatsapp,
+        account: account,
+        message_templates: message_templates,
+        message_templates_last_updated: last_sync_attempt_at,
+        sync_templates: false,
+        validate_provider_config: false
+      )
+    end
+    let(:whatsapp_inbox) { whatsapp_channel.inbox }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      it 'returns unauthorized when the agent is not assigned to the inbox' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns the templates when the agent is assigned to the inbox' do
+        create(:inbox_member, user: agent, inbox: whatsapp_inbox)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq(message_templates)
+        expect(Time.zone.parse(response.parsed_body.dig('meta', 'last_sync_attempt_at'))).to eq(last_sync_attempt_at)
+      end
+    end
+
+    context 'when it is an authenticated administrator' do
+      it 'filters templates by exact name' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: admin.create_new_auth_token,
+            params: { name: 'shipping_update' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq(message_templates.first(2))
+      end
+
+      it 'returns an empty payload when the template name does not match' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: admin.create_new_auth_token,
+            params: { name: 'missing_template' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq([])
+      end
+
+      it 'returns unprocessable entity for a non-WhatsApp inbox' do
+        inbox = create(:inbox, account: account)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/message_templates",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Message templates are only available for WhatsApp channels')
+      end
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/sync_templates' do
     let(:whatsapp_channel) do
       create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
@@ -1138,19 +1444,24 @@ RSpec.describe 'Inboxes API', type: :request do
     let(:health_service) { instance_double(Whatsapp::HealthService) }
     let(:health_data) do
       {
+        id: 'phone123',
         display_phone_number: '+1234567890',
         verified_name: 'Test Business',
         name_status: 'APPROVED',
         quality_rating: 'GREEN',
         messaging_limit_tier: 'TIER_1000',
         account_mode: 'LIVE',
-        business_id: 'business123'
+        status: 'CONNECTED',
+        business_account_id: 'waba123',
+        business_account_name: 'Test WABA',
+        business_portfolio_id: 'business123',
+        business_portfolio_name: 'Test Business Portfolio'
       }
     end
 
     before do
       allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
-      allow(health_service).to receive(:fetch_health_status).and_return(health_data)
+      allow(health_service).to receive(:sync_health_status!).and_return(health_data)
     end
 
     context 'when it is an unauthenticated user' do
@@ -1171,13 +1482,18 @@ RSpec.describe 'Inboxes API', type: :request do
           expect(response).to have_http_status(:success)
           json_response = response.parsed_body
           expect(json_response).to include(
+            'id' => 'phone123',
             'display_phone_number' => '+1234567890',
             'verified_name' => 'Test Business',
             'name_status' => 'APPROVED',
             'quality_rating' => 'GREEN',
             'messaging_limit_tier' => 'TIER_1000',
             'account_mode' => 'LIVE',
-            'business_id' => 'business123'
+            'status' => 'CONNECTED',
+            'business_account_id' => 'waba123',
+            'business_account_name' => 'Test WABA',
+            'business_portfolio_id' => 'business123',
+            'business_portfolio_name' => 'Test Business Portfolio'
           )
         end
 
@@ -1203,7 +1519,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
         it 'calls the health service with correct channel' do
           expect(Whatsapp::HealthService).to receive(:new).with(whatsapp_channel).and_return(health_service)
-          expect(health_service).to receive(:fetch_health_status)
+          expect(health_service).to receive(:sync_health_status!)
 
           get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
               headers: admin.create_new_auth_token,
@@ -1213,7 +1529,7 @@ RSpec.describe 'Inboxes API', type: :request do
         end
 
         it 'handles service errors gracefully' do
-          allow(health_service).to receive(:fetch_health_status).and_raise(StandardError, 'API Error')
+          allow(health_service).to receive(:sync_health_status!).and_raise(StandardError, 'API Error')
 
           get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
               headers: admin.create_new_auth_token,
@@ -1222,6 +1538,29 @@ RSpec.describe 'Inboxes API', type: :request do
           expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
           expect(json_response['error']).to include('API Error')
+        end
+
+        it 'classifies Meta authorization failures for the recovery UI' do
+          error = Whatsapp::HealthService::ApiError.new(
+            message: 'The access token cannot authorize this request.',
+            http_status: 400,
+            code: 190,
+            subcode: 464
+          )
+          allow(health_service).to receive(:sync_health_status!).and_raise(error)
+
+          get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq(
+            'type' => 'authorization',
+            'message' => 'The access token cannot authorize this request.',
+            'http_status' => 400,
+            'code' => 190,
+            'subcode' => 464
+          )
         end
       end
 

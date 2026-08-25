@@ -32,6 +32,7 @@ class Captain::OverviewSummaryService < Captain::BaseTaskService
     {
       'first_name' => first_name.to_s,
       'assistant_name' => assistant.name.to_s,
+      'language' => account.locale_english_name,
       'conversations_handled' => current(:conversations_handled),
       'hours_saved' => current(:hours_saved),
       'auto_resolution_rate' => current(:auto_resolution_rate),

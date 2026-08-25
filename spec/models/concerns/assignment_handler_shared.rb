@@ -50,6 +50,17 @@ shared_examples_for 'assignment_handler' do
                                 content: "Assigned to #{conversation.assignee.name} via #{team.name} by #{agent.name}" }))
       end
 
+      it 'keeps AgentBot ownership when assigning an auto-assigning team' do
+        team.update!(allow_auto_assign: true)
+        agent_bot = create(:agent_bot, account: conversation.account)
+        conversation.update!(assignee: nil, assignee_agent_bot: agent_bot)
+
+        conversation.update!(team: team)
+
+        expect(conversation.reload.assigned_entity).to eq(agent_bot)
+        expect(conversation.assignee).to be_nil
+      end
+
       it 'wont change assignee if he is already a team member' do
         team.update!(allow_auto_assign: true)
         assignee = create(:user, account: conversation.account, role: :agent)

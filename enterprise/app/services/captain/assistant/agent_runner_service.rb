@@ -2,44 +2,48 @@ require 'agents'
 require 'agents/instrumentation'
 
 class Captain::Assistant::AgentRunnerService
-  include Integrations::LlmInstrumentationConstants
   include Captain::Assistant::RunnerCallbacksHelper
+  include Captain::Assistant::AgentRunResponse
+  include Captain::Assistant::RunnerInstrumentationHelper
   include Captain::Assistant::TracePayloadHelper
+  include Captain::Assistant::RunnerStateHelper
 
-  CONVERSATION_STATE_ATTRIBUTES = %i[
-    id display_id inbox_id contact_id status priority
-    label_list custom_attributes additional_attributes
-  ].freeze
+  attr_reader :last_run_result
 
-  CONTACT_STATE_ATTRIBUTES = %i[
-    id name email phone_number identifier contact_type
-    custom_attributes additional_attributes
-  ].freeze
+  REPLY_SUGGESTION_SOURCE = 'copilot_reply_suggestion'.freeze
 
-  CONTACT_INBOX_STATE_ATTRIBUTES = %i[id hmac_verified].freeze
-
-  CAMPAIGN_STATE_ATTRIBUTES = %i[id title message campaign_type description].freeze
-  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil)
+  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil)
     @assistant = assistant
     @conversation = conversation
     @callbacks = callbacks
     @source = source
+    @responding_to_message_id = responding_to_message_id
+
     @handoff_tool_called = false
+    @handoff_tool_completed = false
   end
 
   def generate_response(message_history: [])
     message_to_process, context = run_payload(message_history)
-    result = runner.run(message_to_process, context: context, max_turns: 10)
+    @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
+    record_turn_start(@last_run_result)
+    @last_run_result = rewrite_oversized_response(@last_run_result) if response_too_long?(@last_run_result)
 
-    process_agent_result(result)
+    raise "Captain response exceeds the channel limit of #{message_length_limit} characters" if response_too_long?(@last_run_result)
+
+    process_agent_result(@last_run_result)
   rescue StandardError => e
     # In rake/local runs, conversation may not be present, so account is optional here.
     ChatwootExceptionTracker.new(e, account: @conversation&.account).capture_exception
     Rails.logger.error "[Captain V2] AgentRunnerService error: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
 
-    error_response(e.message)
+    error_response(e)
   end
+
+  def response_discarded? = @response_discarded == true
+
+  def handoff_completed? = @handoff_tool_completed == true
 
   private
 
@@ -86,7 +90,10 @@ class Captain::Assistant::AgentRunnerService
 
   def extract_text_from_content(content)
     # Handle structured output from agents
-    return content[:response] || content['response'] || content.to_s if content.is_a?(Hash)
+    if content.is_a?(Hash)
+      response_text = Captain::Assistant::ResponseParts.from_response(content).plain_text
+      return response_text.presence || content.to_s
+    end
 
     return content unless content.is_a?(Array)
 
@@ -94,49 +101,9 @@ class Captain::Assistant::AgentRunnerService
     text_parts.join(' ')
   end
 
-  def process_agent_result(result)
-    Rails.logger.info "[Captain V2] Agent result: #{result.inspect}"
-    output = result.output
-    response = output.is_a?(Hash) ? output.with_indifferent_access : { 'response' => output.to_s, 'reasoning' => 'Processed by agent' }
-    response['agent_name'] = result.context&.dig(:current_agent)
-    response['handoff_tool_called'] = result.context&.dig(:captain_v2_handoff_tool_called) || false
-    response
-  end
-
-  def error_response(error_message)
-    {
-      'response' => 'conversation_handoff',
-      'reasoning' => "Error occurred: #{error_message}",
-      'handoff_tool_called' => @handoff_tool_called
-    }
-  end
-
-  def build_state
-    state = {
-      account_id: @assistant.account_id,
-      assistant_id: @assistant.id,
-      assistant_config: @assistant.config,
-      timezone: @conversation&.inbox&.timezone.presence || 'UTC'
-    }
-    state[:source] = @source if @source.present?
-
-    build_conversation_state(state) if @conversation
-    state
-  end
-
-  def build_conversation_state(state)
-    state[:conversation] = slice_attrs(@conversation, CONVERSATION_STATE_ATTRIBUTES)
-    state[:channel_type] = @conversation.inbox&.channel_type
-    state[:contact] = slice_attrs(@conversation.contact, CONTACT_STATE_ATTRIBUTES) if @conversation.contact
-    state[:campaign] = slice_attrs(@conversation.campaign, CAMPAIGN_STATE_ATTRIBUTES) if @conversation.campaign
-    state[:contact_inbox] = slice_attrs(@conversation.contact_inbox, CONTACT_INBOX_STATE_ATTRIBUTES) if @conversation.contact_inbox
-  end
-
-  def slice_attrs(record, keys)
-    record.attributes.symbolize_keys.slice(*keys)
-  end
-
   def build_and_wire_agents
+    return [reply_suggestion_agent] if reply_suggestion?
+
     assistant_agent = @assistant.agent
     scenario_agents = @assistant.scenarios.enabled.map(&:agent)
 
@@ -146,70 +113,21 @@ class Captain::Assistant::AgentRunnerService
     [assistant_agent] + scenario_agents
   end
 
-  def install_instrumentation(runner)
-    return unless ChatwootApp.otel_enabled?
-
-    Agents::Instrumentation.install(
-      runner,
-      tracer: OpentelemetryConfig.tracer,
-      trace_name: 'llm.captain_v2',
-      span_attributes: {
-        ATTR_LANGFUSE_TAGS => ['captain_v2'].to_json
-      },
-      attribute_provider: Captain::Assistant::InstrumentationAttributeProvider.new(self)
+  def reply_suggestion_agent
+    agent = @assistant.agent
+    agent.clone(
+      instructions: ->(context) { @assistant.agent_instructions(context, prompt_template: 'copilot_reply_suggestion') },
+      tools: agent.tools.select { |tool| available_in_reply_suggestion?(tool) }
     )
-    register_trace_input_callback(runner)
   end
 
-  def dynamic_trace_attributes(context_wrapper)
-    state = context_wrapper&.context&.dig(:state) || {}
-    conversation = state[:conversation] || {}
-    trace_input = context_wrapper&.context&.dig(:captain_v2_trace_input)
+  def available_in_reply_suggestion?(tool)
+    return true if tool.is_a?(Captain::Tools::FaqLookupTool)
 
-    {
-      ATTR_LANGFUSE_USER_ID => state[:account_id],
-      format(ATTR_LANGFUSE_METADATA, 'assistant_id') => state[:assistant_id],
-      format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => conversation[:display_id],
-      format(ATTR_LANGFUSE_METADATA, 'channel_type') => state[:channel_type],
-      format(ATTR_LANGFUSE_METADATA, 'source') => state[:source],
-      ATTR_LANGFUSE_TRACE_INPUT => trace_input,
-      ATTR_LANGFUSE_OBSERVATION_INPUT => trace_input
-    }.compact.transform_values(&:to_s)
+    tool.is_a?(Captain::Tools::HttpTool) && tool.available_in_reply_suggestion?
   end
 
-  def add_usage_metadata_callback(runner)
-    handoff_tool_name = Captain::Tools::HandoffTool.new(@assistant).name
-
-    # Tool tracking always runs — process_response in the job consumes the resulting
-    # handoff_tool_called flag regardless of whether OTEL is enabled.
-    runner.on_tool_complete do |tool_name, _tool_result, context_wrapper|
-      track_handoff_usage(tool_name, handoff_tool_name, context_wrapper)
-    end
-
-    if ChatwootApp.otel_enabled?
-      runner.on_run_complete do |_agent_name, _result, context_wrapper|
-        write_credits_used_metadata(context_wrapper)
-      end
-    end
-    runner
-  end
-
-  def track_handoff_usage(tool_name, handoff_tool_name, context_wrapper)
-    return unless context_wrapper&.context
-    return unless tool_name.to_s == handoff_tool_name
-
-    # Mirror the flag onto the instance so error_response can surface it even when
-    # the runner raises before returning a result (the context is unreachable then).
-    context_wrapper.context[:captain_v2_handoff_tool_called] = true
-    @handoff_tool_called = true
-  end
-
-  def write_credits_used_metadata(context_wrapper)
-    root_span = context_wrapper&.context&.dig(:__otel_tracing, :root_span)
-    return unless root_span
-
-    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), @handoff_tool_called ? 'false' : 'true')
-  end
+  def reply_suggestion? = @source == REPLY_SUGGESTION_SOURCE
 
   def runner
     @runner ||= begin

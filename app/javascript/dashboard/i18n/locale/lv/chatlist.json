@@ -7,6 +7,7 @@
       "404": "Šajā grupā nav aktīvu sarunu."
     },
     "FAILED_TO_SEND": "Neizdevās nosūtīt",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "Sarunas",
     "MENTION_HEADING": "Pieminēšanas",
     "UNATTENDED_HEADING": "Bez uzraudzības",
@@ -79,6 +80,9 @@
       },
       "priority_desc_created_at_asc": {
         "TEXT": "Priority: Highest first, Created: Oldest first"
+      },
+      "unread": {
+        "TEXT": "Unread Count: Highest first"
       }
     },
     "ATTACHMENTS": {

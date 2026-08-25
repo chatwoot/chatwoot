@@ -4,6 +4,7 @@ RSpec.describe 'Conversation Participants API', type: :request do
   let(:account) { create(:account) }
   let(:conversation) { create(:conversation, account: account) }
   let(:agent) { create(:user, account: account, role: :agent) }
+  let(:foreign_participant) { create(:user, account: create(:account), role: :agent) }
 
   before do
     create(:inbox_member, inbox: conversation.inbox, user: agent)
@@ -69,6 +70,20 @@ RSpec.describe 'Conversation Participants API', type: :request do
         expect(conversation.conversation_participants.count).to eq(1)
       end
 
+      it 'rejects foreign participant ids without exposing user details' do
+        params = { user_ids: [participant.id, foreign_participant.id] }
+
+        post api_v1_account_conversation_participants_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body).to eq('error' => 'Invalid participant IDs')
+        expect(response.body).not_to include(foreign_participant.email)
+        expect(conversation.conversation_participants).to be_empty
+      end
+
       it 'notifies unread counts when a participant is added' do
         account.enable_features!(:conversation_unread_counts, :unread_count_for_filters)
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
@@ -122,6 +137,21 @@ RSpec.describe 'Conversation Participants API', type: :request do
         expect(response.body).to include(participant.email)
         expect(response.body).to include(participant_to_be_added.email)
         expect(conversation.conversation_participants.count).to eq(2)
+      end
+
+      it 'rejects foreign participant ids without changing existing participants' do
+        create(:conversation_participant, conversation: conversation, user: participant)
+        params = { user_ids: [participant_to_be_added.id, foreign_participant.id] }
+
+        patch api_v1_account_conversation_participants_url(account_id: account.id, conversation_id: conversation.display_id),
+              params: params,
+              headers: agent.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body).to eq('error' => 'Invalid participant IDs')
+        expect(response.body).not_to include(foreign_participant.email)
+        expect(conversation.conversation_participants.reload.pluck(:user_id)).to eq([participant.id])
       end
 
       it 'notifies unread counts when participant membership changes' do

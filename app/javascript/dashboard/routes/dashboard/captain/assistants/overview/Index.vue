@@ -1,15 +1,20 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import CaptainAssistant from 'dashboard/api/captain/assistant';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
+import OverviewV2 from 'dashboard/components-next/captain/pageComponents/overview/v2/OverviewV2.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import RangeSelector from 'dashboard/components-next/captain/pageComponents/overview/RangeSelector.vue';
 import WelcomeCard from 'dashboard/components-next/captain/pageComponents/overview/WelcomeCard.vue';
 import MetricCard from 'dashboard/components-next/captain/pageComponents/overview/MetricCard.vue';
+import AssistantDrilldownDrawer from 'dashboard/components-next/captain/pageComponents/overview/AssistantDrilldownDrawer.vue';
 import KnowledgeCard from 'dashboard/components-next/captain/pageComponents/overview/KnowledgeCard.vue';
 import QuickLinks from 'dashboard/components-next/captain/pageComponents/overview/QuickLinks.vue';
 import InboxBanner from 'dashboard/components-next/captain/pageComponents/overview/InboxBanner.vue';
@@ -17,25 +22,94 @@ import CoverageBanner from 'dashboard/components-next/captain/pageComponents/ove
 
 const { t } = useI18n();
 const route = useRoute();
+const isOverviewV2Enabled =
+  LocalStorage.get(LOCAL_STORAGE_KEYS.CAPTAIN_OVERVIEW_V2) === true;
+// Drilldown is admin-only; the backend policy enforces the same restriction.
+const { checkPermissions } = usePolicy();
+const canDrilldown = computed(() => checkPermissions(['administrator']));
 
-const selectedRange = ref('this_month');
+const selectedRange = ref('7');
 
 const assistantId = computed(() => route.params.assistantId);
-const stats = ref(null);
+const metricStats = ref(null);
+const faqStats = ref(null);
+const isFetchingMetrics = ref(false);
 
-const fetchStats = async () => {
-  try {
-    const { data } = await CaptainAssistant.getStats({
+// Increments on every fetch so a response (or retry) from a superseded
+// range/assistant can't clobber the latest request's state.
+let metricsFetchToken = 0;
+let faqStatsFetchToken = 0;
+let metricsAbortController = null;
+let faqStatsAbortController = null;
+
+const fetchMetrics = async () => {
+  metricsFetchToken += 1;
+  const token = metricsFetchToken;
+  metricsAbortController?.abort();
+  metricsAbortController = new AbortController();
+  const { signal } = metricsAbortController;
+  metricStats.value = null;
+  isFetchingMetrics.value = true;
+
+  const requestMetrics = () =>
+    CaptainAssistant.getMetrics({
       assistantId: assistantId.value,
       range: selectedRange.value,
+      signal,
     });
-    stats.value = data;
+
+  let data = null;
+  try {
+    ({ data } = await requestMetrics());
   } catch {
-    stats.value = null;
+    // One silent retry before giving up, unless the request was aborted.
+    try {
+      if (token === metricsFetchToken && !signal.aborted)
+        ({ data } = await requestMetrics());
+    } catch {
+      data = null;
+    }
+  }
+
+  if (token !== metricsFetchToken || signal.aborted) return;
+  metricStats.value = data;
+  isFetchingMetrics.value = false;
+};
+
+const fetchFaqStats = async () => {
+  faqStatsFetchToken += 1;
+  const token = faqStatsFetchToken;
+  faqStatsAbortController?.abort();
+  faqStatsAbortController = new AbortController();
+  const { signal } = faqStatsAbortController;
+  faqStats.value = null;
+
+  try {
+    const { data } = await CaptainAssistant.getFaqStats({
+      assistantId: assistantId.value,
+      signal,
+    });
+    if (token === faqStatsFetchToken && !signal.aborted) faqStats.value = data;
+  } catch {
+    if (token === faqStatsFetchToken && !signal.aborted) faqStats.value = null;
   }
 };
 
-watch([selectedRange, assistantId], fetchStats, { immediate: true });
+const summaryStats = computed(() => {
+  if (!metricStats.value || !faqStats.value) return null;
+
+  return { ...metricStats.value, knowledge: faqStats.value };
+});
+
+onUnmounted(() => {
+  metricsAbortController?.abort();
+  faqStatsAbortController?.abort();
+});
+
+if (!isOverviewV2Enabled) {
+  watch([selectedRange, assistantId], fetchMetrics, { immediate: true });
+  watch(assistantId, fetchFaqStats, { immediate: true });
+}
 
 // `direction` says whether a rising trend is good ('up'), bad ('down'), or
 // neutral, so we can colour the delta independently of its sign.
@@ -55,7 +129,7 @@ const formatDuration = hours =>
   hours >= 100 ? `${Math.round(hours / 24)}d` : `${hours}h`;
 
 const metricFor = (statKey, formatValue, direction, trendKind = 'percent') => {
-  const data = stats.value?.[statKey];
+  const data = metricStats.value?.[statKey];
   if (!data) return { value: '—', trend: '', trendGood: null };
 
   const sign = data.trend > 0 ? '+' : '';
@@ -69,33 +143,37 @@ const metricFor = (statKey, formatValue, direction, trendKind = 'percent') => {
 const metrics = computed(() => [
   {
     key: 'handled',
+    metric: 'conversations_handled',
     label: t('CAPTAIN.OVERVIEW.METRICS.HANDLED.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HANDLED.HINT'),
     ...metricFor('conversations_handled', v => v.toLocaleString(), 'up'),
   },
   {
     key: 'autoResolution',
+    metric: 'auto_resolution_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.HINT'),
     ...metricFor('auto_resolution_rate', v => `${v}%`, 'up', 'point'),
   },
   {
     key: 'handoff',
+    metric: 'handoff_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.HANDOFF.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HANDOFF.HINT'),
     ...metricFor('handoff_rate', v => `${v}%`, 'down', 'point'),
+  },
+  {
+    key: 'reopen',
+    metric: 'reopen_rate',
+    label: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.HINT'),
+    ...metricFor('reopen_rate', v => `${v}%`, 'down', 'point'),
   },
   {
     key: 'hoursSaved',
     label: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.HINT'),
     ...metricFor('hours_saved', formatDuration, 'up'),
-  },
-  {
-    key: 'reopen',
-    label: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.HINT'),
-    ...metricFor('reopen_rate', v => `${v}%`, 'down', 'point'),
   },
   {
     key: 'depth',
@@ -109,10 +187,28 @@ const metrics = computed(() => [
     ),
   },
 ]);
+
+const drilldown = ref({ metric: '', label: '', value: '' });
+const isDrilldownOpen = ref(false);
+
+const openDrilldown = metric => {
+  drilldown.value = {
+    metric: metric.metric,
+    label: metric.label,
+    value: metric.value,
+  };
+  isDrilldownOpen.value = true;
+};
+
+const closeDrilldown = () => {
+  isDrilldownOpen.value = false;
+};
 </script>
 
 <template>
+  <OverviewV2 v-if="isOverviewV2Enabled" />
   <PageLayout
+    v-else
     :header-title="$t('CAPTAIN.OVERVIEW.HEADER')"
     :is-empty="false"
     :show-pagination-footer="false"
@@ -129,9 +225,9 @@ const metrics = computed(() => [
       <div class="flex flex-col gap-6 pb-8">
         <InboxBanner />
 
-        <CoverageBanner :knowledge="stats?.knowledge" />
+        <CoverageBanner :knowledge="faqStats ?? undefined" />
 
-        <WelcomeCard :range="selectedRange" />
+        <WelcomeCard :range="selectedRange" :stats="summaryStats" />
 
         <div
           class="grid grid-cols-1 gap-px overflow-hidden border rounded-xl sm:grid-cols-2 lg:grid-cols-3 bg-n-weak border-n-weak"
@@ -144,13 +240,29 @@ const metrics = computed(() => [
             :trend="metric.trend"
             :hint="metric.hint"
             :trend-good="metric.trendGood"
+            :loading="isFetchingMetrics"
+            :clickable="
+              canDrilldown && Boolean(metric.metric) && !isFetchingMetrics
+            "
+            @click="openDrilldown(metric)"
           />
         </div>
 
-        <KnowledgeCard :knowledge="stats?.knowledge" />
+        <KnowledgeCard :knowledge="faqStats ?? undefined" />
 
         <QuickLinks />
       </div>
+
+      <AssistantDrilldownDrawer
+        v-if="canDrilldown"
+        :open="isDrilldownOpen"
+        :assistant-id="assistantId"
+        :metric="drilldown.metric"
+        :metric-name="drilldown.label"
+        :metric-value="drilldown.value"
+        :range="selectedRange"
+        @close="closeDrilldown"
+      />
     </template>
   </PageLayout>
 </template>

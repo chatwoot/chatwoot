@@ -3,7 +3,7 @@ import { DATA_VERSION } from './version';
 
 export class DataManager {
   constructor(accountId) {
-    this.modelsToSync = ['inbox', 'label', 'team'];
+    this.modelsToSync = ['inbox', 'label', 'team', 'canned_response'];
     this.accountId = accountId;
     this.db = null;
   }
@@ -13,10 +13,18 @@ export class DataManager {
     const dbName = `cw-store-${this.accountId}`;
     this.db = await openDB(`cw-store-${this.accountId}`, DATA_VERSION, {
       upgrade(db) {
-        db.createObjectStore('cache-keys');
-        db.createObjectStore('inbox', { keyPath: 'id' });
-        db.createObjectStore('label', { keyPath: 'id' });
-        db.createObjectStore('team', { keyPath: 'id' });
+        // Existing databases already carry the stores added in earlier versions,
+        // and createObjectStore throws on a name that is already taken.
+        const createStore = (name, options) => {
+          if (db.objectStoreNames.contains(name)) return;
+          db.createObjectStore(name, options);
+        };
+
+        createStore('cache-keys');
+        createStore('inbox', { keyPath: 'id' });
+        createStore('label', { keyPath: 'id' });
+        createStore('team', { keyPath: 'id' });
+        createStore('canned_response', { keyPath: 'id' });
       },
     });
 
@@ -41,7 +49,7 @@ export class DataManager {
   async replace({ modelName, data }) {
     this.validateModel(modelName);
 
-    this.db.clear(modelName);
+    await this.db.clear(modelName);
     return this.push({ modelName, data });
   }
 
