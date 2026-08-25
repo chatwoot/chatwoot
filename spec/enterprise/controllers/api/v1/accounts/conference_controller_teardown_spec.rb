@@ -92,6 +92,6 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     call = Call.find_by!(provider_call_id: 'CALL123')
     expect(call).not_to be_terminal
     expect(call.meta['agent_termination_token']).to be_nil
-    expect(call.meta['agent_disconnect_suppress_call_sid']).to eq('CA_OLD_TAB')
+    expect(call.meta['agent_disconnect_suppress_call_sid']).to eq(['CA_OLD_TAB'])
   end
 end
