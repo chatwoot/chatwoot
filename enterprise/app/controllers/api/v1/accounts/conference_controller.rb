@@ -34,7 +34,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     termination = claim_termination!(call)
 
     begin
-      conference_service.end_provider_call
+      end_provider_call!(conference_service, call)
       # The intended local result was snapshotted atomically before teardown began,
       # so late answered/in-progress/conference callbacks cannot change its meaning.
       finalize_call!(call, termination)
@@ -83,6 +83,16 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
       error: error.message,
       code: 'call_termination_in_progress'
     }, status: :locked
+  end
+
+  def end_provider_call!(conference_service, call)
+    conference_service.end_provider_call
+  rescue StandardError
+    # The frontend deliberately closes its local Twilio Device after a failed
+    # provider teardown. Ignore the participant-leave/end callbacks caused by
+    # that cleanup without blocking an immediate retry of the provider teardown.
+    call.with_lock { Voice::CallTerminationGuard.suppress_local_disconnect!(call) }
+    raise
   end
 
   # A teardown owns a unique, expiring token and snapshots the intended terminal
