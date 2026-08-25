@@ -37,12 +37,25 @@ RSpec.describe Voice::CallTerminationGuard do
     expect(described_class.active?(call, now: now)).to be false
   end
 
-  it 'suppresses and consumes only the initiating agent participant leave' do
+  it 'retains and independently consumes every pending agent participant leave' do
     expect(described_class.suppress_local_disconnect!(call, 'CA_OLD_TAB')).to be true
+    expect(described_class.suppress_local_disconnect!(call, 'CA_NEW_TAB')).to be true
 
-    expect(described_class.consume_local_disconnect!(call, 'CA_NEW_TAB')).to be false
+    call.reload
+    expect(call.meta['agent_disconnect_suppress_call_sid']).to contain_exactly('CA_OLD_TAB', 'CA_NEW_TAB')
+
     expect(described_class.consume_local_disconnect!(call, 'CA_OLD_TAB')).to be true
+    expect(call.reload.meta['agent_disconnect_suppress_call_sid']).to eq(['CA_NEW_TAB'])
     expect(described_class.consume_local_disconnect!(call, 'CA_OLD_TAB')).to be false
+    expect(described_class.consume_local_disconnect!(call, 'CA_NEW_TAB')).to be true
+    expect(call.reload.meta['agent_disconnect_suppress_call_sid']).to be_nil
+  end
+
+  it 'accepts a legacy single pending participant sid while consuming it' do
+    call.update!(meta: call.meta.merge('agent_disconnect_suppress_call_sid' => 'CA_LEGACY'))
+
+    expect(described_class.consume_local_disconnect!(call, 'CA_LEGACY')).to be true
+    expect(call.reload.meta['agent_disconnect_suppress_call_sid']).to be_nil
   end
 
   it 'does not create disconnect suppression without an initiating participant sid' do
