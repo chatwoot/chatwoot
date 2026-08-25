@@ -27,7 +27,8 @@ class Voice::CallStatus::Manager
   def termination_blocks?(allow_during_termination)
     return false if allow_during_termination
 
-    call.meta['agent_termination_token'].present?
+    Voice::CallTerminationGuard.clear_stale!(call)
+    Voice::CallTerminationGuard.active?(call)
   end
 
   def apply_call_updates!(status, duration:, timestamp:)
