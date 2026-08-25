@@ -2,6 +2,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include Events::Types
   include DateRangeHelper
   include HmacConcern
+  include ConversationCustomAttributesConcern
 
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
@@ -80,7 +81,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def toggle_status
     # FIXME: move this logic into a service object
-    if pending_to_open_by_bot?
+    if bot_handoff?
       @conversation.bot_handoff!
     elsif params[:status].present?
       set_conversation_status
@@ -88,17 +89,13 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     else
       @status = @conversation.toggle_status
     end
-    assign_conversation if should_assign_conversation?
+    handle_human_open if @conversation.open? && Current.user.is_a?(User)
   end
 
-  def pending_to_open_by_bot?
+  def bot_handoff?
     return false unless Current.user.is_a?(AgentBot)
 
     @conversation.status == 'pending' && params[:status] == 'open'
-  end
-
-  def should_assign_conversation?
-    @conversation.status == 'open' && Current.user.is_a?(User) && Current.user&.agent?
   end
 
   def toggle_priority
@@ -131,11 +128,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     last_incoming_message = @conversation.messages.incoming.last
     last_seen_at = last_incoming_message.created_at - 1.second if last_incoming_message.present?
     update_last_seen_on_conversation(last_seen_at, true)
-  end
-
-  def custom_attributes
-    @conversation.custom_attributes = params.permit(custom_attributes: {})[:custom_attributes]
-    @conversation.save!
   end
 
   def destroy
@@ -183,9 +175,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
   end
 
-  def assign_conversation
-    @conversation.assignee = current_user
-    @conversation.save!
+  def handle_human_open
+    @conversation.with_lock do
+      @conversation.ai_assignee = nil
+      @conversation.assignee = Current.user if Current.user.agent?
+      @conversation.save!
+    end
   end
 
   def conversation
@@ -212,7 +207,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     # fallback for the old case where we do look up only using source id
     # In future we need to change this and make sure we do look up on combination of inbox_id and source_id
     # and deprecate the support of passing only source_id as the param
-    @contact_inbox ||= ::ContactInbox.find_by!(source_id: params[:source_id])
+    lookup_scope = @inbox ? @inbox.contact_inboxes : ContactInbox.joins(:inbox).where(inboxes: { account_id: Current.account.id })
+    @contact_inbox ||= lookup_scope.find_by!(source_id: params[:source_id])
     authorize @contact_inbox.inbox, :show?
   rescue ActiveRecord::RecordNotUnique
     render json: { error: 'source_id should be unique' }, status: :unprocessable_entity

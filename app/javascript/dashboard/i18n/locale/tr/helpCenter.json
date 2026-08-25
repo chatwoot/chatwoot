@@ -404,6 +404,12 @@
         "PLACEHOLDER": "Makaleleri arayın"
       }
     },
+    "BREADCRUMB": {
+      "ARTICLES": "Makaleler",
+      "CATEGORIES": "Kategoriler",
+      "LOCALES": "Diller",
+      "SETTINGS": "Ayarlar"
+    },
     "CATEGORY": {
       "ADD": {
         "TITLE": "Kategori oluştur",
@@ -533,6 +539,8 @@
             "PUBLISHED": "Yayınlandı",
             "ARCHIVED": "Arşivlendi"
           },
+          "PENDING_EDITS": "Unpublished edits",
+          "PENDING_EDITS_TOOLTIP": "This published article has unpublished edits",
           "CATEGORY": {
             "UNCATEGORISED": "Kategorilendirilmemiş"
           }
@@ -552,6 +560,7 @@
         "LOCALE": {
           "ALL": "Tüm Diller"
         },
+        "SEARCH_PLACEHOLDER": "Makaleleri Ara...",
         "NEW_ARTICLE": "Yeni Makale"
       },
       "EMPTY_STATE": {
@@ -579,6 +588,10 @@
         "CATEGORY": {
           "TITLE": "Bu kategoride makale bulunmamaktadır",
           "SUBTITLE": "Bu kategorideki makaleler burada görünecektir"
+        },
+        "SEARCH": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "We couldn't find any articles matching your search. Try a different term."
         }
       },
       "BULK_TRANSLATE": {
@@ -611,6 +624,8 @@
         "DELETE": "Sil",
         "STATUS_SUCCESS": "Articles updated successfully",
         "STATUS_ERROR": "Failed to update articles",
+        "STATUS_SKIPPED": "1 article with unpublished edits was skipped — open it to publish or discard. | {count} articles with unpublished edits were skipped — open them to publish or discard.",
+        "STATUS_SKIPPED_ALL": "These articles have unpublished edits — open each to publish or discard.",
         "CATEGORY_SUCCESS": "Articles moved successfully",
         "CATEGORY_ERROR": "Failed to move articles",
         "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
@@ -624,6 +639,7 @@
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "Yeni kategori",
         "EDIT_CATEGORY": "Kategori düzenle",
+        "SEARCH_PLACEHOLDER": "Search categories...",
         "CATEGORIES_COUNT": "{n} kategori | {n} kategori",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "Kategoriler ({localeCode})",
@@ -633,6 +649,10 @@
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "Hiç kategori bulunamadı",
         "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching categories",
+        "SUBTITLE": "We couldn't find any categories matching your search. Try a different term."
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} makale | {count} makale"
@@ -691,6 +711,11 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
       "NEW_LOCALE_BUTTON_TEXT": "Yeni Dil",
+      "SEARCH_PLACEHOLDER": "Search locales...",
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching locales",
+        "SUBTITLE": "We couldn't find any locales matching your search. Try a different term."
+      },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} makale | {count} makale",
         "CATEGORIES_COUNT": "{count} kategori | {count} kategori",
@@ -700,7 +725,49 @@
           "MAKE_DEFAULT": "Make default",
           "MOVE_TO_DRAFT": "Move to draft",
           "PUBLISH_LOCALE": "Publish locale",
+          "CUSTOMIZE_CONTENT": "Localize content",
+          "SELECT_POPULAR_CONTENT": "Select recommended content",
           "DELETE": "Sil"
+        }
+      },
+      "POPULAR_CONTENT_DIALOG": {
+        "TITLE": "Recommended content",
+        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on this locale's help center home page. Drag them into the order you want visitors to see.",
+        "SEARCH": "Ara...",
+        "EMPTY": "No matching results",
+        "ADD_ANOTHER": "Add another...",
+        "SLOTS_LEFT": "{count} slots left",
+        "OVERRIDING_DEFAULTS": "Overriding defaults for this locale",
+        "CONFIRM": "Save recommendations",
+        "CATEGORIES": {
+          "LABEL": "Recommended categories",
+          "ARTICLES_COUNT": "No articles | {count} article | {count} articles"
+        },
+        "ARTICLES": {
+          "LABEL": "Recommended articles",
+          "IN_CATEGORY": "in {category}",
+          "UNCATEGORIZED": "Kategorize Edilmemiş"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Recommended content updated successfully",
+          "ERROR_MESSAGE": "Unable to update recommended content. Try again."
+        }
+      },
+      "CONTENT_DIALOG": {
+        "TITLE": "Localize content",
+        "DESCRIPTION": "Set values specific to this locale. Anything left blank falls back to the default locale.",
+        "NAME": {
+          "LABEL": "İsim"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Sayfa Başlığı"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Başlık Metni"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Locale content updated successfully",
+          "ERROR_MESSAGE": "Unable to update locale content. Try again."
         }
       },
       "ADD_LOCALE_DIALOG": {
@@ -730,9 +797,29 @@
         },
         "PREVIEW": "Önizleme",
         "PUBLISH": "Yayınla",
+        "PUBLISH_CHANGES": "Publish changes",
+        "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
+        "PUBLISH_CHANGES_ERROR": "Could not publish changes",
+        "SAVE_IN_PROGRESS": "Still saving your latest changes — please try again in a moment.",
+        "DISCARD_CHANGES": "Discard changes",
+        "DISCARD_CHANGES_SUCCESS": "Changes discarded",
+        "DISCARD_CHANGES_ERROR": "Could not discard changes",
+        "PENDING_CHANGES": "Pending changes",
+        "VIEW_CHANGES": "View unpublished changes",
         "DRAFT": "Taslak",
         "ARCHIVE": "Archive",
         "BACK_TO_ARTICLES": "Makalelere geri dön"
+      },
+      "PENDING_CHANGES_POPOVER": {
+        "TITLE": "Unpublished changes",
+        "DESCRIPTION": "This article has draft changes that aren't live yet. Apply them before changing the status, or discard them?",
+        "APPLY": "Apply changes",
+        "DISCARD": "Discard changes"
+      },
+      "DIFF_DIALOG": {
+        "TITLE": "Unpublished changes",
+        "DESCRIPTION": "Compare your draft against the version that's currently live.",
+        "TITLE_LABEL": "Başlık"
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "More properties",
@@ -809,12 +896,6 @@
           "LABEL": "Slug",
           "PLACEHOLDER": "Portal slug"
         },
-        "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Yardım merkezinizde görünecek bir canlı widget seçin",
-          "NONE_OPTION": "Widget yok"
-        },
         "BRAND_COLOR": {
           "LABEL": "Marka rengi"
         },
@@ -890,6 +971,72 @@
           "REMOVE": "Kaldır"
         },
         "SAVE": "Değişiklikleri Kaydet"
+      },
+      "INTEGRATIONS": {
+        "HEADER": "Entegrasyonlar",
+        "DESCRIPTION": "Connect tools that extend what your help center can do.",
+        "LIVE_CHAT": {
+          "TITLE": "Live chat with Chatwoot",
+          "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
+          "PLACEHOLDER": "Select live chat widget",
+          "NONE_OPTION": "Widget yok"
+        },
+        "GTM": {
+          "TITLE": "Google Tag Manager",
+          "DESCRIPTION": "Add analytics and marketing tags by connecting your Tag Manager container.",
+          "PLACEHOLDER": "GTM-XXXXXXX",
+          "HELP": "Find this in your Google Tag Manager workspace. Leave empty to disable.",
+          "INVALID": "Enter a valid container ID, for example GTM-XXXXXXX."
+        },
+        "GA4": {
+          "TITLE": "Google Analytics 4",
+          "DESCRIPTION": "Measure traffic and visitor behavior on your help center with Google Analytics.",
+          "PLACEHOLDER": "G-XXXXXXXXXX",
+          "HELP": "Find the measurement ID under Admin → Data streams in Google Analytics. Leave empty to disable.",
+          "INVALID": "Enter a valid measurement ID, for example G-XXXXXXXXXX."
+        },
+        "HOTJAR": {
+          "TITLE": "Hotjar",
+          "DESCRIPTION": "Understand how visitors use your help center with heatmaps and session recordings.",
+          "PLACEHOLDER": "1234567",
+          "HELP": "Find your site ID under Sites & organizations in Hotjar. Leave empty to disable.",
+          "INVALID": "Enter a numeric Hotjar site ID."
+        },
+        "PLAUSIBLE": {
+          "TITLE": "Plausible",
+          "DESCRIPTION": "Track help center traffic with privacy-friendly Plausible Analytics.",
+          "PLACEHOLDER": "example.com",
+          "HELP": "Enter the domain configured in your Plausible site settings. Leave empty to disable.",
+          "INVALID": "Enter a valid domain, for example example.com."
+        },
+        "AMPLITUDE": {
+          "TITLE": "Amplitude",
+          "DESCRIPTION": "Analyze visitor behavior on your help center with Amplitude.",
+          "PLACEHOLDER": "0123456789abcdef0123456789abcdef",
+          "HELP": "Find the API key in your Amplitude project settings. Leave empty to disable.",
+          "INVALID": "Enter a valid Amplitude API key."
+        },
+        "CLARITY": {
+          "TITLE": "Microsoft Clarity",
+          "DESCRIPTION": "Capture heatmaps and session recordings with Microsoft Clarity.",
+          "PLACEHOLDER": "abcd1234ef",
+          "HELP": "Find the project ID in your Clarity project settings. Leave empty to disable.",
+          "INVALID": "Enter a valid Clarity project ID."
+        },
+        "META_PIXEL": {
+          "TITLE": "Meta Pixel",
+          "DESCRIPTION": "Measure ad conversions and build audiences from help center visits with Meta Pixel.",
+          "PLACEHOLDER": "123456789012345",
+          "HELP": "Find the pixel ID in Meta Events Manager. Leave empty to disable.",
+          "INVALID": "Enter a numeric pixel ID."
+        },
+        "SAVE": "Değişiklikleri Kaydet"
+      },
+      "NAV": {
+        "GENERAL": "Genel",
+        "DOMAIN": "Alan",
+        "APPEARANCE": "Görünüm",
+        "INTEGRATIONS": "Entegrasyonlar"
       },
       "API": {
         "CREATE_PORTAL": {

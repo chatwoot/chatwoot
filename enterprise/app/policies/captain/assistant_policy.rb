@@ -7,7 +7,11 @@ class Captain::AssistantPolicy < ApplicationPolicy
     true
   end
 
-  def stats?
+  def metrics?
+    true
+  end
+
+  def faq_stats?
     true
   end
 
@@ -29,6 +33,14 @@ class Captain::AssistantPolicy < ApplicationPolicy
 
   def update?
     @account_user.administrator?
+  end
+
+  def approve?
+    update?
+  end
+
+  def dismiss?
+    update?
   end
 
   def destroy?

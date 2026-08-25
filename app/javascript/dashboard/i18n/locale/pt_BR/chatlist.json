@@ -7,6 +7,7 @@
       "404": "Não há conversas ativas neste grupo."
     },
     "FAILED_TO_SEND": "Falha ao enviar",
+    "FETCH_ERROR": "Não foi possível carregar as conversas. Por favor, tente novamente.",
     "TAB_HEADING": "Conversas",
     "MENTION_HEADING": "Menções",
     "UNATTENDED_HEADING": "Não Atendidas",
@@ -79,6 +80,9 @@
       },
       "priority_desc_created_at_asc": {
         "TEXT": "Prioridade: Maior primeiro, Criação: Mais antiga primeiro"
+      },
+      "unread": {
+        "TEXT": "Contagem de não lidas: Maior primeiro"
       }
     },
     "ATTACHMENTS": {

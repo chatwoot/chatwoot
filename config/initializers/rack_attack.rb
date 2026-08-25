@@ -31,10 +31,11 @@ class Rack::Attack
       (default_allowed_ips + env_allowed_ips).include?(remote_ip)
     end
 
-    # Rails would allow requests to paths with extensions, so lets compare against the path with extension stripped
-    # example /auth & /auth.json would both work
+    # Rails allows paths with extensions and trailing slashes, so compare against a normalized path.
+    # For example, /auth, /auth.json, and /auth/ should all use the same throttle.
     def path_without_extensions
-      path[/^[^.]+/]
+      normalized_path = path[/^[^.]+/]
+      normalized_path == '/' ? normalized_path : normalized_path.sub(%r{/+\z}, '')
     end
   end
 
@@ -170,23 +171,60 @@ class Rack::Attack
   ###-----------Widget API Throttling---------------###
   ###-----------------------------------------------###
 
-  # Rack attack on widget APIs can be disabled by setting ENABLE_RACK_ATTACK_WIDGET_API to false
-  # For clients using the widgets in specific conditions like inside and iframe
-  # TODO: Deprecate this feature in future after finding a better solution
+  # Set ENABLE_RACK_ATTACK_WIDGET_API to false to disable all widget throttles (e.g. iframe embeds).
+  # Each throttle also has its own ENABLE_*/RATE_LIMIT_* override.
+  # TODO: Deprecate the blanket ENABLE_RACK_ATTACK_WIDGET_API switch after finding a better solution
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_API', true))
-    ## Prevent Conversation Bombing on Widget APIs ###
-    throttle('api/v1/widget/conversations', limit: 6, period: 12.hours) do |req|
-      req.ip if req.path_without_extensions == '/api/v1/widget/conversations' && req.post?
+    ## Conversation creation, keyed on (IP, website_token) so widgets behind a shared NAT get separate buckets.
+    if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_CONVERSATIONS', true))
+      throttle('api/v1/widget/conversations',
+               limit: ENV.fetch('RATE_LIMIT_WIDGET_CONVERSATIONS', '30').to_i,
+               period: 1.minute) do |req|
+        next unless req.path_without_extensions == '/api/v1/widget/conversations' && req.post?
+
+        # ActionDispatch precedence (query wins) matches the controller, so a body token can't fork the bucket.
+        token = ActionDispatch::Request.new(req.env).params['website_token'].presence
+        "#{req.ip}:#{token}" if token
+      end
+    end
+
+    ## Message creation, keyed the same way, to cap single-conversation floods.
+    if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_MESSAGES', true))
+      throttle('api/v1/widget/messages',
+               limit: ENV.fetch('RATE_LIMIT_WIDGET_MESSAGES', '60').to_i,
+               period: 1.minute) do |req|
+        next unless req.path_without_extensions == '/api/v1/widget/messages' && req.post?
+
+        token = ActionDispatch::Request.new(req.env).params['website_token'].presence
+        "#{req.ip}:#{token}" if token
+      end
     end
 
     ## Prevent Contact update Bombing in Widget API ###
-    throttle('api/v1/widget/contacts', limit: 60, period: 1.hour) do |req|
-      req.ip if req.path_without_extensions == '/api/v1/widget/contacts' && (req.patch? || req.put?)
+    if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_CONTACTS', true))
+      throttle('api/v1/widget/contact',
+               limit: ENV.fetch('RATE_LIMIT_WIDGET_CONTACTS', '60').to_i,
+               period: 1.hour) do |req|
+        req.ip if req.path_without_extensions == '/api/v1/widget/contact' && (req.patch? || req.put?)
+      end
     end
 
-    ## Prevent Conversation Bombing through multiple sessions
-    throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
-      req.ip if req.path_without_extensions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
+    ## Prevent Conversation Bombing through repeated widget loads
+    if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_LOAD', true))
+      throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}',
+               limit: ENV.fetch('RATE_LIMIT_WIDGET_LOAD', '200').to_i,
+               period: 1.hour) do |req|
+        req.ip if req.path_without_extensions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
+      end
+    end
+
+    ## Prevent Transcript Bombing on Widget API ###
+    if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_TRANSCRIPT', true))
+      throttle('api/v1/widget/conversations/transcript',
+               limit: ENV.fetch('RATE_LIMIT_WIDGET_TRANSCRIPT', '5').to_i,
+               period: 1.hour) do |req|
+        req.ip if req.path_without_extensions == '/api/v1/widget/conversations/transcript' && req.post?
+      end
     end
   end
 
@@ -209,6 +247,24 @@ class Rack::Attack
     next unless req.delete?
 
     match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/conversations/(?<id>\d+)/?\z}.match(req.path_without_extensions)
+    match_data[:account_id] if match_data.present?
+  end
+
+  ## Prevent abuse of agent create APIs (per account, covers bulk_create)
+  throttle('/api/v1/accounts/:account_id/agents POST',
+           limit: ENV.fetch('RATE_LIMIT_AGENT_CREATE', '100').to_i, period: 1.day) do |req|
+    next unless req.post?
+
+    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/agents(?:/bulk_create)?/?\z}.match(req.path_without_extensions)
+    match_data[:account_id] if match_data.present?
+  end
+
+  ## Prevent abuse of agent delete API (per account)
+  throttle('/api/v1/accounts/:account_id/agents/:id DELETE',
+           limit: ENV.fetch('RATE_LIMIT_AGENT_DELETE', '50').to_i, period: 1.day) do |req|
+    next unless req.delete?
+
+    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/agents/(?<id>\d+)/?\z}.match(req.path_without_extensions)
     match_data[:account_id] if match_data.present?
   end
 

@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "已訂閱的事件",
       "LEARN_MORE": "進一步瞭解 webhook",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "立即升級",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "密鑰",
         "COPY": "複製密鑰至剪貼簿",
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "瞭解更多",
+    "OVERVIEW": {
+      "HEADER": "總覽",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "關閉"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "關閉"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "本月",
+        "LAST_MONTH": "上個月"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "載入更多",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "文件"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Playground",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "帳單",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "助理",
       "SWITCH_ASSISTANT": "切換助理",
@@ -493,10 +575,6 @@
           "LABEL": "名稱",
           "PLACEHOLDER": "請輸入助理名稱",
           "ERROR": "名稱為必填"
-        },
-        "TEMPERATURE": {
-          "LABEL": "回應溫度",
-          "DESCRIPTION": "調整助理回應的創造性或限制性。較低的值會產生更聚焦且確定性的回應，而較高的值則允許更多創意和多樣化的輸出。"
         },
         "DESCRIPTION": {
           "LABEL": "描述",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "文件",
       "ADD_NEW": "建立新文件",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "已選擇 {count} 個",
       "SELECT_ALL": "全選（{count}）",
       "UNSELECT_ALL": "取消全選（{count}）",
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "相關常見問答",
-        "DESCRIPTION": "這些常見問答是直接從文件中生成的。"
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "不可用",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "複製",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "請輸入文件的 URL 將其新增為知識來源，並選擇要關聯的助理。",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "刪除文件時發生錯誤，請重試。"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "檢視相關回應",
+        "VIEW_DETAILS": "查看詳細資訊",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "刪除文件"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "常見問答",
-      "PENDING_FAQS": "待審核的常見問答",
       "ADD_NEW": "建立新的常見問答",
       "DOCUMENTABLE": {
         "CONVERSATION": "對話 #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "全選（{count}）",
       "UNSELECT_ALL": "取消全選（{count}）",
       "SEARCH_PLACEHOLDER": "搜尋常見問答...",
-      "BULK_APPROVE_BUTTON": "核准",
-      "BULK_DELETE_BUTTON": "刪除",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "常見問答已成功核准",
-        "ERROR_MESSAGE": "核准常見問答時發生錯誤，請重試。"
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "刪除",
       "BULK_DELETE": {
         "TITLE": "刪除常見問答？",
         "DESCRIPTION": "您確定要刪除所選的常見問答嗎？此操作無法復原。",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "常見問答已成功刪除",
         "ERROR_MESSAGE": "刪除常見問答時發生錯誤，請重試。"
       },
-      "FILTER": {
-        "ASSISTANT": "助理：{selected}",
-        "STATUS": "狀態：{selected}",
-        "ALL_ASSISTANTS": "全部"
-      },
-      "STATUS": {
-        "TITLE": "狀態",
-        "PENDING": "待審核",
-        "APPROVED": "已核准",
-        "ALL": "全部"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain 發現了一些客戶正在尋找的常見問答。",
-        "ACTION": "點此檢視"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "新增問題及其對應的答案至知識庫，並選擇要關聯的助理。",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "找不到常見問答",
-        "NO_PENDING_TITLE": "沒有更多待審核的常見問答",
         "SUBTITLE": "常見問答可幫助助理為客戶的問題提供快速且準確的回答。它們可以從您的內容自動生成，也可以手動新增。",
         "CLEAR_SEARCH": "清除篩選條件",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain 常見問答",
           "NOTE": "Captain 常見問答會偵測常見的客戶問題——無論是知識庫中缺少的還是經常被問到的——並生成相關的常見問答以改善支援服務。您可以檢視每個建議並決定是否核准或拒絕。"
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "核准",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "關閉",
+      "SAVE": "儲存變更",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

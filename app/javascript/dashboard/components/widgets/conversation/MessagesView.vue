@@ -12,6 +12,7 @@ import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
+import ReferralBubble from 'dashboard/components-next/Conversation/ReferralBubble.vue';
 
 // stores and apis
 import { mapGetters } from 'vuex';
@@ -47,6 +48,7 @@ export default {
     ConversationLabelSuggestion,
     Spinner,
     ResizableEditorWrapper,
+    ReferralBubble,
   },
   mixins: [inboxMixin],
   setup() {
@@ -95,7 +97,7 @@ export default {
       currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
-      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
+      isMetaMessageSendingDisabled: 'globalConfig/isMetaMessageSendingDisabled',
     }),
     isOpen() {
       return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
@@ -140,6 +142,9 @@ export default {
       }
       return messages;
     },
+    referralData() {
+      return this.currentChat?.additional_attributes?.referral || null;
+    },
     readMessages() {
       return getReadMessages(
         this.getMessages,
@@ -174,12 +179,11 @@ export default {
       );
     },
     isInstagramRestrictionBannerVisible() {
-      return this.isOnChatwootCloud && this.isAnInstagramChannel;
+      return this.isMetaMessageSendingDisabled && this.isAnInstagramChannel;
     },
     instagramRestrictionStatusUrl() {
       return META_RESTRICTION_STATUS_URL;
     },
-
     replyWindowBannerMessage() {
       if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
@@ -466,13 +470,13 @@ export default {
       <Banner
         v-if="isInstagramRestrictionBannerVisible"
         color-scheme="warning"
-        class="mx-2 mt-2 overflow-hidden rounded-lg"
+        class="mx-2 mt-2 min-h-12 !h-auto rounded-lg"
         :banner-message="$t('CONVERSATION.INSTAGRAM_RESTRICTION_BANNER')"
         :href-link="instagramRestrictionStatusUrl"
         :href-link-text="$t('CONVERSATION.INSTAGRAM_RESTRICTION_STATUS_LINK')"
       />
       <Banner
-        v-else-if="!currentChat.can_reply"
+        v-if="!currentChat.can_reply"
         color-scheme="alert"
         class="mx-2 mt-2 overflow-hidden rounded-lg"
         :banner-message="replyWindowBannerMessage"
@@ -480,7 +484,7 @@ export default {
         :href-link-text="replyWindowLinkText"
       />
       <Banner
-        v-else-if="hasDuplicateInstagramInbox"
+        v-if="hasDuplicateInstagramInbox"
         color-scheme="alert"
         class="mx-2 mt-2 overflow-hidden rounded-lg"
         :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
@@ -505,6 +509,7 @@ export default {
             <Spinner v-if="shouldShowSpinner" class="text-n-brand" />
           </li>
         </transition>
+        <ReferralBubble v-if="referralData" :referral="referralData" />
       </template>
       <template #unreadBadge>
         <li

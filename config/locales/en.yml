@@ -75,6 +75,8 @@ en:
 
   errors:
     account:
+      not_authorized: You are not authorized to access this account
+      email_limit_exceeded: The daily email limit for this account has been reached
       reporting_timezone:
         invalid: is not a valid timezone
       support_email:
@@ -109,7 +111,9 @@ en:
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
+      multi_account_invitation_not_allowed: Users associated with another account cannot be added while SAML is enabled
     conversations:
+      resolved: Conversation is resolved and does not accept new messages
       unread_counts:
         feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
@@ -153,12 +157,14 @@ en:
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
       phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      message_outside_messaging_window: 'Message not sent because the WhatsApp 24-hour customer service window is closed and no template parameters were provided. Send an approved template message instead.'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
       calls:
         not_enabled: 'Calling is not enabled for this inbox'
         already_ended: 'This call has already ended'
+        already_accepted: 'Call already accepted by another agent'
         no_recording: 'No recording file provided'
         no_message: 'Call has no associated message'
         sdp_offer_required: 'sdp_offer is required'
@@ -299,6 +305,7 @@ en:
       whatsapp:
         list_button_label: 'Choose an item'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        flow_response: 'Submitted a flow response'
         unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
@@ -439,6 +446,8 @@ en:
       completed_tool_call: 'Completed %{function_name} tool call'
       invalid_tool_call: 'Invalid tool call'
       tool_not_available: 'Tool not available'
+      reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
+      reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
@@ -492,7 +501,10 @@ en:
       browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
       popular_articles: Popular articles
       popular_articles_subtitle: What other people are reading right now.
+      recommended: Recommended articles
+      recommended_subtitle: Hand-picked articles to get you started.
       popular_label: 'Popular topics:'
+      recommended_label: 'Recommended topics:'
       authors_others: "%{names} and %{count} others"
       primary_nav: Primary
     hero:
@@ -528,6 +540,7 @@ en:
         light: Light
         dark: Dark
       featured_articles: Featured Articles
+      recommended: Recommended articles
       uncategorized: Uncategorized
     404:
       title: Page not found
@@ -587,6 +600,8 @@ en:
   agent_capacity_policy:
     inbox_already_assigned: 'Inbox has already been assigned to this policy'
   portals:
+    analytics:
+      invalid_configuration: 'Invalid analytics configuration'
     articles:
       captain_not_available: 'Translation requires Captain to be enabled for this account'
       locale_not_available: 'Locale not available in this portal'
@@ -602,24 +617,45 @@ en:
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
   super_admin:
+    account_suspension:
+      categories:
+        spam: 'Spam'
+        non_payment: 'Non-payment'
+        other: 'Other'
+      form:
+        category: 'Suspension category'
+        category_prompt: 'Select a category'
+        reason: 'Suspension reason'
+        reason_hint: 'Enter a reason of up to 256 characters.'
+      history:
+        suspended_at: 'Suspended at'
+        category: 'Category'
+        reason: 'Reason'
+        empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:
-        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        helper_text: 'Leave a model blank to use the default routing for that AI feature.'
+        customer_features: 'Customer features'
+        internal_features: 'Internal features'
         use_default: 'Use default: %{model} (%{model_id})'
+        use_installation_model: 'Use installation model: %{model} (%{model_id})'
       show:
         summary: 'View model routing'
         provider: 'Provider'
         model: 'Model'
       sources:
         account_override: 'Account override'
+        installation_override: 'Installation setting'
         default: 'Default'
       features:
+        conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: 'Assistant'
         copilot: 'Copilot'
         label_suggestion: 'Label suggestion'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
+        conversation_faq_matching: 'Conversation FAQ matching'
         help_center_article_generation: 'Help center article generation'
         onboarding_content_generation: 'Onboarding content generation'
         help_center_query_translation: 'Help center query translation'
@@ -629,4 +665,11 @@ en:
       user_not_found: 'User not found.'
       no_subscriptions_to_test: 'Select at least one subscription to test.'
       no_subscriptions_to_delete: 'Select at least one subscription to delete.'
-      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
+      subscriptions_deleted:
+        one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
+        other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+    users:
+      resend_confirmation:
+        button: 'Resend confirmation email'
+        sent: 'Confirmation email sent.'
+        already_confirmed: 'User is already confirmed.'

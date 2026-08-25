@@ -11,6 +11,10 @@ class DataImportsAPI extends ApiClient {
     return axios.post(`${this.url}/${id}/start`);
   }
 
+  retry(id) {
+    return axios.post(`${this.url}/${id}/retry`);
+  }
+
   abandon(id) {
     return axios.post(`${this.url}/${id}/abandon`);
   }

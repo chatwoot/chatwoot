@@ -6,15 +6,26 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
   pattr_initialize [:assistant!]
 
   def perform
-    response = make_api_call(model: CLASSIFIER_MODEL, messages: messages, schema: RESPONSE_SCHEMA)
-    return error_response(response) if response[:error]
+    classifier_response = make_api_call(model: CLASSIFIER_MODEL, messages: messages, schema: RESPONSE_SCHEMA)
+    return error_response(classifier_response) if classifier_response[:error]
+
+    generated_draft = normalized_payload(classifier_response[:message])
+    auditor_response = Captain::AssistantMigration::InstructionAuditor.new(
+      assistant: assistant,
+      source_payload: assistant_payload,
+      draft: generated_draft,
+      available_additions: available_additions(generated_draft)
+    ).perform
+    return error_response(auditor_response) if auditor_response[:error]
 
     {
       assistant: assistant_metadata,
-      draft: normalized_payload(response[:message]),
-      usage: response[:usage],
-      request_messages: response[:request_messages]
+      draft: audited_payload(generated_draft, auditor_response[:message]),
+      usage: combined_usage(classifier_response, auditor_response),
+      request_messages: classifier_response[:request_messages]
     }
+  rescue ArgumentError => e
+    error_response(error: e.message, request_messages: auditor_response&.dig(:request_messages))
   end
 
   private
@@ -101,15 +112,49 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
       scenario_candidates: [],
       conversation_messages: {},
       faq_document_candidates: [],
-      needs_review: [],
-      classification_notes: []
+      needs_review: []
     )
+  end
+
+  def combined_usage(*responses)
+    %w[prompt_tokens completion_tokens total_tokens].index_with do |key|
+      responses.sum { |response| response.dig(:usage, key).to_i }
+    end
+  end
+
+  def available_additions(draft)
+    {
+      response_guidelines: 20 - draft[:response_guidelines].length,
+      guardrails: 20 - draft[:guardrails].length,
+      scenario_candidates: 15 - draft[:scenario_candidates].length,
+      faq_document_candidates: 25 - draft[:faq_document_candidates].length,
+      needs_review: 20 - draft[:needs_review].length
+    }
+  end
+
+  def audited_payload(generated_draft, audit_message)
+    audit = audit_message.is_a?(Hash) ? audit_message.deep_symbolize_keys : {}
+    generated_draft.merge(
+      response_guidelines: merged_items(generated_draft, audit, :response_guidelines, 20),
+      guardrails: merged_items(generated_draft, audit, :guardrails, 20),
+      scenario_candidates: merged_items(generated_draft, audit, :scenario_candidates, 15),
+      faq_document_candidates: merged_items(generated_draft, audit, :faq_document_candidates, 25),
+      needs_review: merged_items(generated_draft, audit, :needs_review, 20)
+    )
+  end
+
+  def merged_items(generated_draft, audit, key, limit)
+    items = (Array(generated_draft[key]) + Array(audit[key])).uniq
+    raise ArgumentError, "Audited #{key} exceeds #{limit} items" if items.length > limit
+
+    items
   end
 
   def assistant_metadata # rubocop:disable Metrics/AbcSize
     {
       id: assistant.id,
       name: assistant.name,
+      description: assistant.description.to_s,
       account_id: assistant.account_id,
       account_name: assistant.account.name,
       inbox_count: assistant.captain_inboxes.size,

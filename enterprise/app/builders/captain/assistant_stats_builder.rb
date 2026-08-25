@@ -23,10 +23,11 @@ class Captain::AssistantStatsBuilder
   # ('this_month', 'last_month'). `timezone_offset` is the viewer's UTC offset in
   # hours (as the reports API sends it), so month/day boundaries anchor to the
   # viewer's day rather than UTC. Both windows are resolved by AssistantStatsWindow.
-  def initialize(assistant, range = Captain::AssistantStatsWindow::DEFAULT_RANGE, timezone_offset = nil)
+  def initialize(assistant, range = Captain::AssistantStatsWindow::DEFAULT_RANGE, timezone_offset = nil, suggestions_scope: nil)
     @assistant = assistant
     @account = assistant.account
     @window = Captain::AssistantStatsWindow.new(range, timezone_offset)
+    @suggestions_scope = suggestions_scope || assistant.faq_suggestions
   end
 
   def metrics
@@ -37,9 +38,26 @@ class Captain::AssistantStatsBuilder
     build_metrics(current, previous)
   end
 
+  # Approved FAQ, open suggestion, and document counts in a single round trip.
+  def faq_stats
+    approved, suggestions, documents = Captain::AssistantResponse.by_assistant(assistant.id).reorder(nil).pick(
+      Arel.sql("COUNT(*) FILTER (WHERE status = #{Captain::AssistantResponse.statuses['approved']})"),
+      Arel.sql("(#{open_suggestion_count_sql})"),
+      Arel.sql("(SELECT COUNT(*) FROM captain_documents WHERE assistant_id = #{assistant.id.to_i})")
+    )
+    total = approved + suggestions
+
+    {
+      approved: approved,
+      suggestions: suggestions,
+      documents: documents,
+      coverage: total.zero? ? 0 : (approved.to_f / total * 100).round
+    }
+  end
+
   private
 
-  attr_reader :window
+  attr_reader :window, :suggestions_scope
 
   def current_range
     window.current
@@ -56,8 +74,7 @@ class Captain::AssistantStatsBuilder
       handoff_rate: pack(current[:handoff], previous[:handoff], :point),
       hours_saved: pack(current[:hours_saved], previous[:hours_saved], :percent),
       reopen_rate: pack(current[:reopen], previous[:reopen], :point),
-      conversation_depth: pack(current[:depth], previous[:depth], :absolute),
-      knowledge: knowledge
+      conversation_depth: pack(current[:depth], previous[:depth], :absolute)
     }
   end
 
@@ -73,7 +90,7 @@ class Captain::AssistantStatsBuilder
       auto_resolution: rate(resolution[:resolved], handled),
       handoff: rate(resolution[:handoff], handled),
       hours_saved: (public_count * SECONDS_SAVED_PER_REPLY / 3600.0).round,
-      reopen: reopen_rate(range),
+      reopen: reopen_rate(range, resolution[:resolved]),
       depth: depth_conversations.zero? ? 0 : (public_count.to_f / depth_conversations).round(1)
     }
   end
@@ -158,7 +175,9 @@ class Captain::AssistantStatsBuilder
   # derived from the assistant's handled conversations (not current inbox membership) so a later
   # inbox reassignment doesn't drop historical resolves, and covers both the evaluated (inference)
   # and time-based (bot) resolve paths so the denominator matches auto_resolution_rate.
-  def reopen_rate(range)
+  def reopen_rate(range, resolved_count)
+    return 0 if resolved_count.zero?
+
     resolved_scope = account.reporting_events
                             .where(name: RESOLVED_EVENT_NAMES, created_at: range,
                                    conversation_id: handled_scope(range).select(:conversation_id))
@@ -178,24 +197,11 @@ class Captain::AssistantStatsBuilder
                              'ON resolves.conversation_id = reporting_events.conversation_id ' \
                              'AND reporting_events.event_end_time >= resolves.event_end_time')
                       .distinct.count('reporting_events.conversation_id')
-    rate(reopened, resolved_scope.distinct.count(:conversation_id))
+    rate(reopened, resolved_count)
   end
 
-  # Approved/pending FAQ counts and the document total in a single round trip.
-  def knowledge
-    approved, pending, documents = Captain::AssistantResponse.by_assistant(assistant.id).reorder(nil).pick(
-      Arel.sql("COUNT(*) FILTER (WHERE status = #{Captain::AssistantResponse.statuses['approved']})"),
-      Arel.sql("COUNT(*) FILTER (WHERE status = #{Captain::AssistantResponse.statuses['pending']})"),
-      Arel.sql("(SELECT COUNT(*) FROM captain_documents WHERE assistant_id = #{assistant.id.to_i})")
-    )
-    total = approved + pending
-
-    {
-      approved: approved,
-      pending: pending,
-      documents: documents,
-      coverage: total.zero? ? 0 : (approved.to_f / total * 100).round
-    }
+  def open_suggestion_count_sql
+    suggestions_scope.where(assistant_id: assistant.id).open.reorder(nil).select('COUNT(*)').to_sql
   end
 
   def rate(numerator, denominator)
