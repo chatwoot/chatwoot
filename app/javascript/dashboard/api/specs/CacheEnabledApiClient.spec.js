@@ -3,6 +3,7 @@
 /* eslint-disable max-classes-per-file */
 import axios from 'axios';
 import { deleteDB } from 'idb';
+import { INDEXED_DB_OPERATION_TIMEOUT_MS } from 'dashboard/helper/CacheHelper/timeout';
 import CacheEnabledApiClient from '../CacheEnabledApiClient';
 
 global.axios = axios;
@@ -219,5 +220,39 @@ describe('CacheEnabledApiClient', () => {
     const response = await client.get(true);
 
     expect(response.data.payload).toEqual(inboxes);
+  });
+
+  it('falls back to the network without retrying a blocked cache open', async () => {
+    stubEndpoints({
+      cacheKeys: { inbox: 'key-1' },
+      payload: { payload: inboxes },
+    });
+    const client = buildClient(WrappedClient);
+    let releaseOpen;
+    const blockedOpen = new Promise(resolve => {
+      releaseOpen = resolve;
+    });
+    const openDbSpy = vi
+      .spyOn(client.dataManager, 'openDb')
+      .mockReturnValue(blockedOpen);
+
+    vi.useFakeTimers();
+    try {
+      const firstResponsePromise = client.get(true);
+      await vi.advanceTimersByTimeAsync(INDEXED_DB_OPERATION_TIMEOUT_MS);
+      const firstResponse = await firstResponsePromise;
+
+      const secondResponsePromise = client.get(true);
+      await vi.advanceTimersByTimeAsync(INDEXED_DB_OPERATION_TIMEOUT_MS);
+      const secondResponse = await secondResponsePromise;
+
+      expect(firstResponse.data.payload).toEqual(inboxes);
+      expect(secondResponse.data.payload).toEqual(inboxes);
+      expect(listRequests()).toHaveLength(2);
+      expect(openDbSpy).toHaveBeenCalledTimes(1);
+    } finally {
+      vi.useRealTimers();
+      releaseOpen();
+    }
   });
 });

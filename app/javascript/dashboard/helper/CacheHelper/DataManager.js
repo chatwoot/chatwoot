@@ -1,4 +1,5 @@
 import { openDB } from 'idb';
+import { withIndexedDBTimeout } from './timeout';
 import { DATA_VERSION } from './version';
 
 export class DataManager {
@@ -6,12 +7,30 @@ export class DataManager {
     this.modelsToSync = ['inbox', 'label', 'team', 'canned_response'];
     this.accountId = accountId;
     this.db = null;
+    this.dbPromise = null;
   }
 
   async initDb() {
     if (this.db) return this.db;
+
+    if (!this.dbPromise) {
+      const dbPromise = this.openDb();
+      this.dbPromise = dbPromise;
+      dbPromise.catch(() => {
+        if (this.dbPromise === dbPromise) this.dbPromise = null;
+      });
+    }
+
+    // A blocked delete cannot be cancelled and keeps later opens queued. Bound
+    // each caller so cache reads can use the network, while retaining the shared
+    // promise to avoid adding more open requests to that queue.
+    return withIndexedDBTimeout(this.dbPromise);
+  }
+
+  async openDb() {
     const dbName = `cw-store-${this.accountId}`;
-    this.db = await openDB(`cw-store-${this.accountId}`, DATA_VERSION, {
+    let database;
+    database = await openDB(dbName, DATA_VERSION, {
       upgrade(db) {
         // Existing databases already carry the stores added in earlier versions,
         // and createObjectStore throws on a name that is already taken.
@@ -26,7 +45,15 @@ export class DataManager {
         createStore('team', { keyPath: 'id' });
         createStore('canned_response', { keyPath: 'id' });
       },
+      blocking: () => {
+        database.close();
+        if (this.db === database) {
+          this.db = null;
+          this.dbPromise = null;
+        }
+      },
     });
+    this.db = database;
 
     // Store the database name in LocalStorage
     const dbNames = JSON.parse(localStorage.getItem('cw-idb-names') || '[]');
@@ -35,7 +62,7 @@ export class DataManager {
       localStorage.setItem('cw-idb-names', JSON.stringify(dbNames));
     }
 
-    return this.db;
+    return database;
   }
 
   validateModel(name) {

@@ -1,6 +1,8 @@
 import fromUnixTime from 'date-fns/fromUnixTime';
 import differenceInDays from 'date-fns/differenceInDays';
+import { deleteDB, openDB } from 'idb';
 import Cookies from 'js-cookie';
+import { withIndexedDBTimeout } from 'dashboard/helper/CacheHelper/timeout';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -50,6 +52,45 @@ export const clearSessionStorageOnLogout = () => {
   SessionStorage.remove(SESSION_STORAGE_KEYS.IMPERSONATION_USER);
 };
 
+const deleteDatabase = dbName =>
+  new Promise(resolve => {
+    deleteDB(dbName, {
+      blocked: () => resolve(false),
+    }).then(
+      () => resolve(true),
+      () => resolve(false)
+    );
+  });
+
+const clearDatabase = async dbName => {
+  let database;
+  try {
+    database = await openDB(dbName);
+    const storeNames = [...database.objectStoreNames];
+    if (!storeNames.length) return;
+
+    const transaction = database.transaction(storeNames, 'readwrite');
+    await Promise.all(
+      storeNames.map(storeName => transaction.objectStore(storeName).clear())
+    );
+    await transaction.done;
+  } finally {
+    database?.close();
+  }
+};
+
+const clearAndDeleteDatabase = async dbName => {
+  // Clearing removes the current session's cache even if another tab blocks
+  // deletion. The queued delete remains best-effort so data written later by
+  // that stale tab is removed when it eventually releases the connection.
+  try {
+    await clearDatabase(dbName);
+  } catch {
+    // A failed clear must not prevent deletion from completing the cleanup.
+  }
+  return deleteDatabase(dbName);
+};
+
 export const deleteIndexedDBOnLogout = async () => {
   let dbs = [];
   try {
@@ -59,21 +100,20 @@ export const deleteIndexedDBOnLogout = async () => {
     dbs = JSON.parse(localStorage.getItem('cw-idb-names') || '[]');
   }
 
-  dbs.forEach(dbName => {
-    const deleteRequest = window.indexedDB.deleteDatabase(dbName);
+  const chatwootDatabases = dbs.filter(dbName =>
+    dbName?.startsWith('cw-store-')
+  );
+  const deletionResults = await Promise.all(
+    chatwootDatabases.map(dbName =>
+      // A prior blocked delete can hold this database's connection queue. Do
+      // not let that browser-owned request delay logout indefinitely.
+      withIndexedDBTimeout(clearAndDeleteDatabase(dbName)).catch(() => false)
+    )
+  );
 
-    deleteRequest.onerror = event => {
-      // eslint-disable-next-line no-console
-      console.error(`Error deleting database ${dbName}.`, event);
-    };
-
-    deleteRequest.onsuccess = () => {
-      // eslint-disable-next-line no-console
-      console.log(`Database ${dbName} deleted successfully.`);
-    };
-  });
-
-  localStorage.removeItem('cw-idb-names');
+  if (deletionResults.every(Boolean)) {
+    localStorage.removeItem('cw-idb-names');
+  }
 };
 
 export const clearCookiesOnLogout = () => {

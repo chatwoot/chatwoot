@@ -12,21 +12,17 @@ export default {
     const urlData = endPoints('validityCheck');
     return axios.get(urlData.url);
   },
-  logout() {
+  async logout() {
     const urlData = endPoints('logout');
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .delete(urlData.url)
-        .then(response => {
-          deleteIndexedDBOnLogout();
-          clearCookiesOnLogout();
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-    return fetchPromise;
+    const response = await axios.delete(urlData.url);
+
+    try {
+      await deleteIndexedDBOnLogout();
+    } finally {
+      clearCookiesOnLogout();
+    }
+
+    return response;
   },
   hasAuthCookie() {
     return !!Cookies.get('cw_d_session_info');
