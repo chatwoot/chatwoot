@@ -1,7 +1,8 @@
 import fromUnixTime from 'date-fns/fromUnixTime';
 import differenceInDays from 'date-fns/differenceInDays';
-import { deleteDB } from 'idb';
+import { deleteDB, openDB } from 'idb';
 import Cookies from 'js-cookie';
+import { withIndexedDBTimeout } from 'dashboard/helper/CacheHelper/timeout';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -61,6 +62,35 @@ const deleteDatabase = dbName =>
     );
   });
 
+const clearDatabase = async dbName => {
+  let database;
+  try {
+    database = await openDB(dbName);
+    const storeNames = [...database.objectStoreNames];
+    if (!storeNames.length) return;
+
+    const transaction = database.transaction(storeNames, 'readwrite');
+    await Promise.all(
+      storeNames.map(storeName => transaction.objectStore(storeName).clear())
+    );
+    await transaction.done;
+  } finally {
+    database?.close();
+  }
+};
+
+const clearAndDeleteDatabase = async dbName => {
+  // Clearing removes the current session's cache even if another tab blocks
+  // deletion. The queued delete remains best-effort so data written later by
+  // that stale tab is removed when it eventually releases the connection.
+  try {
+    await clearDatabase(dbName);
+  } catch {
+    // A failed clear must not prevent deletion from completing the cleanup.
+  }
+  return deleteDatabase(dbName);
+};
+
 export const deleteIndexedDBOnLogout = async () => {
   let dbs = [];
   try {
@@ -74,7 +104,11 @@ export const deleteIndexedDBOnLogout = async () => {
     dbName?.startsWith('cw-store-')
   );
   const deletionResults = await Promise.all(
-    chatwootDatabases.map(deleteDatabase)
+    chatwootDatabases.map(dbName =>
+      // A prior blocked delete can hold this database's connection queue. Do
+      // not let that browser-owned request delay logout indefinitely.
+      withIndexedDBTimeout(clearAndDeleteDatabase(dbName)).catch(() => false)
+    )
   );
 
   if (deletionResults.every(Boolean)) {

@@ -134,14 +134,31 @@ describe('#deleteIndexedDBOnLogout', () => {
     expect(databaseNames).not.toContain(cacheDatabaseName);
   });
 
-  it('continues logout and retains tracking when deletion is blocked', async () => {
-    blockingDatabase = await openDB(cacheDatabaseName);
+  it('clears cached data and retains tracking when deletion is blocked', async () => {
+    blockingDatabase = await openDB(cacheDatabaseName, 1, {
+      upgrade(database) {
+        database.createObjectStore('sentinel');
+      },
+    });
+    await blockingDatabase.put('sentinel', 'cached value', 'cache key');
     localStorage.setItem('cw-idb-names', JSON.stringify([cacheDatabaseName]));
 
     await deleteIndexedDBOnLogout();
 
+    expect(await blockingDatabase.getAll('sentinel')).toEqual([]);
     expect(JSON.parse(localStorage.getItem('cw-idb-names'))).toContain(
       cacheDatabaseName
     );
+
+    await blockingDatabase.put('sentinel', 'late value', 'late key');
+    blockingDatabase.close();
+    blockingDatabase = null;
+
+    await vi.waitFor(async () => {
+      const databaseNames = (await indexedDB.databases()).map(
+        ({ name }) => name
+      );
+      expect(databaseNames).not.toContain(cacheDatabaseName);
+    });
   });
 });

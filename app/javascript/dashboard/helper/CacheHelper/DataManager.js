@@ -1,4 +1,5 @@
 import { openDB } from 'idb';
+import { withIndexedDBTimeout } from './timeout';
 import { DATA_VERSION } from './version';
 
 export class DataManager {
@@ -11,16 +12,19 @@ export class DataManager {
 
   async initDb() {
     if (this.db) return this.db;
-    if (this.dbPromise) return this.dbPromise;
 
-    this.dbPromise = this.openDb();
-
-    try {
-      return await this.dbPromise;
-    } catch (error) {
-      this.dbPromise = null;
-      throw error;
+    if (!this.dbPromise) {
+      const dbPromise = this.openDb();
+      this.dbPromise = dbPromise;
+      dbPromise.catch(() => {
+        if (this.dbPromise === dbPromise) this.dbPromise = null;
+      });
     }
+
+    // A blocked delete cannot be cancelled and keeps later opens queued. Bound
+    // each caller so cache reads can use the network, while retaining the shared
+    // promise to avoid adding more open requests to that queue.
+    return withIndexedDBTimeout(this.dbPromise);
   }
 
   async openDb() {
