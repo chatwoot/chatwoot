@@ -308,7 +308,8 @@ export function useWhatsappCallSession() {
     }
   };
 
-  const initiateOutboundCall = async conversationId => {
+  // target: { conversationId } or { contactId, inboxId }
+  const initiateOutboundCall = async target => {
     // Module-scoped lock + active-session guard so a second click — from the
     // same composable instance OR a different one (header vs contact panel)
     // OR while a call is already live — can't tear down the in-flight setup
@@ -320,10 +321,7 @@ export function useWhatsappCallSession() {
     isInitiatingOutbound.value = true;
     try {
       const sdpOffer = await prepareOutboundOffer();
-      const response = await WhatsappCallsAPI.initiate(
-        conversationId,
-        sdpOffer
-      );
+      const response = await WhatsappCallsAPI.initiate(target, sdpOffer);
       if (response?.id) {
         activeCallId = response.id;
         // A connect webhook that raced ahead of this response was buffered;
@@ -354,7 +352,7 @@ export function useWhatsappCallSession() {
         data?.status === VOICE_CALL_OUTBOUND_INIT_STATUS.PERMISSION_REQUESTED ||
         data?.status === VOICE_CALL_OUTBOUND_INIT_STATUS.PERMISSION_PENDING
       ) {
-        return { status: data.status };
+        return { status: data.status, conversation_id: data.conversation_id };
       }
       throw e;
     } finally {

@@ -15,6 +15,7 @@ import { required } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
+import WhatsappBusinessManagementToken from './WhatsappBusinessManagementToken.vue';
 
 export default {
   components: {
@@ -25,6 +26,7 @@ export default {
     SmtpSettings,
     NextButton,
     TextArea,
+    WhatsappBusinessManagementToken,
   },
   mixins: [inboxMixin],
   props: {
@@ -56,6 +58,7 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
     }),
     isEmbeddedSignupWhatsApp() {
       return this.inbox.provider_config?.source === 'embedded_signup';
@@ -65,7 +68,9 @@ export default {
         this.isEmbeddedSignupWhatsApp &&
         this.isFeatureEnabledonAccount(
           this.accountId,
-          FEATURE_FLAGS.WHATSAPP_RECONFIGURE
+          this.isOnChatwootCloud
+            ? FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_FLOW
+            : FEATURE_FLAGS.WHATSAPP_RECONFIGURE
         )
       );
     },
@@ -466,6 +471,14 @@ export default {
           </div>
         </SettingsFieldSection>
       </template>
+      <WhatsappBusinessManagementToken
+        v-if="
+          isOnChatwootCloud &&
+          inbox.provider === 'whatsapp_cloud' &&
+          isEmbeddedSignupWhatsApp
+        "
+        :inbox="inbox"
+      />
       <SettingsFieldSection
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
         :help-text="

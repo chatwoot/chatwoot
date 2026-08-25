@@ -6,7 +6,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
-const modelValue = defineModel({ type: String, default: '30' });
+const modelValue = defineModel({ type: String, default: '7' });
 
 const { t } = useI18n();
 const [showDropdown, toggleDropdown] = useToggle();

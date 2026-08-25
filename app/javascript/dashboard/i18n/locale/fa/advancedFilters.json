@@ -19,6 +19,8 @@
       "OR": "یا"
     },
     "INPUT_PLACEHOLDER": "Enter value",
+    "CONTACT_SEARCH_PLACEHOLDER": "جستجوی مخاطبین",
+    "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "مساوی با",
       "not_equal_to": "مساوی نیست با",
@@ -49,6 +51,7 @@
       "ASSIGNEE_NAME": "نام مسئول",
       "INBOX_NAME": "نام صندوق ورودی",
       "TEAM_NAME": "نام تیم",
+      "CONTACT": "مخاطب",
       "CONVERSATION_IDENTIFIER": "شناسه گفتگو",
       "CAMPAIGN_NAME": "نام کمپین",
       "LABELS": "برچسب‌ها",

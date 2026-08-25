@@ -79,6 +79,293 @@ shared_examples_for 'liqudable' do
     context 'when message is outgoing with template_params' do
       let(:message) { build(:message, conversation: conversation, message_type: 'outgoing') }
 
+      context 'when sending a WhatsApp template message' do
+        let(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false, validate_provider_config: false) }
+        let(:whatsapp_inbox) { whatsapp_channel.reload.inbox }
+        let(:conversation) { create(:conversation, account: whatsapp_channel.account, inbox: whatsapp_inbox) }
+        let(:message) do
+          build(:message, account: whatsapp_channel.account, inbox: whatsapp_inbox, conversation: conversation, message_type: 'outgoing')
+        end
+
+        it 'replaces positional placeholders in the saved content' do
+          message.content = 'Hello {{1}}, {{2}} is your contact.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                'body' => {
+                  '1' => 'Ahmad',
+                  '2' => 'Furqan'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Hello Ahmad, Furqan is your contact.'
+          expect(message.processed_message_content).to eq 'Hello Ahmad, Furqan is your contact.'
+          expect(message.additional_attributes.dig('template_params', 'content_mode')).to eq 'rendered'
+        end
+
+        it 'replaces named placeholders in the saved content' do
+          message.content = 'Hello {{customer_name}}, {{agent_name}} is your contact.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                'body' => {
+                  'customer_name' => 'Ahmad',
+                  'agent_name' => 'Furqan'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Hello Ahmad, Furqan is your contact.'
+        end
+
+        it 'uses provider-normalized text values in the saved content' do
+          message.content = 'Hello {{1}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                'body' => {
+                  '1' => " <\"#{'a' * 1_005}\"> "
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq "Hello #{'a' * 1_000}."
+        end
+
+        it 'preserves placeholders when body parameters are empty' do
+          message.content = 'Hello {{1}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                'body' => {}
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Hello {{1}}.'
+        end
+
+        it 'renders liquid variables used as body parameter values' do
+          message.content = 'Hello {{1}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                'body' => {
+                  '1' => '{{contact.name}}'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq "Hello #{conversation.contact.name}."
+        end
+
+        it 'does not evaluate rendered body parameter values twice' do
+          conversation.contact.update!(name: '{{contact.email}}')
+          message.content = 'Hello {{1}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                'body' => {
+                  '1' => '{{contact.name}}'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Hello {{contact.email}}.'
+          expect(message.additional_attributes.dig('template_params', 'processed_params', 'body', '1')).to eq '{{contact.email}}'
+        end
+
+        it 'uses fallback text for structured body parameters' do
+          message.content = 'Total {{1}} on {{2}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'receipt',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                'body' => {
+                  '1' => {
+                    'type' => 'currency',
+                    'fallback_value' => '$10.00',
+                    'code' => 'USD',
+                    'amount_1000' => 10_000
+                  },
+                  '2' => {
+                    'type' => 'date_time',
+                    'fallback_value' => 'July 30, 2026',
+                    'day_of_month' => 30,
+                    'month' => 7,
+                    'year' => 2026
+                  }
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Total $10.00 on July 30, 2026.'
+        end
+
+        it 'replaces body parameters inside code formatting' do
+          message.content = 'Use `{{1}}`.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'verification_code',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                'body' => {
+                  '1' => '123456'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Use `123456`.'
+        end
+
+        it 'preserves missing placeholders inside code formatting while replacing available parameters' do
+          message.content = 'Use `{{1}}` and {{2}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'verification_code',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                'body' => {
+                  '2' => 'Bob'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Use `{{1}}` and Bob.'
+          expect(message.additional_attributes.dig('template_params', 'content_mode')).to eq 'rendered'
+        end
+
+        it 'validates non-object template parameters before rendering' do
+          message.content = 'Hello {{1}}.'
+          message.additional_attributes = { 'template_params' => [] }
+
+          expect(message).not_to be_valid
+          expect(message.errors[:template_params]).to include('must be of type hash')
+        end
+
+        it 'validates non-object processed parameters before rendering' do
+          message.content = 'Hello {{1}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'content_mode' => 'raw_template',
+              'processed_params' => 'Ahmad'
+            }
+          }
+
+          expect(message).not_to be_valid
+          expect(message.errors[:'template_params/processed_params']).to include('must be of type hash')
+        end
+
+        it 'replaces placeholders from legacy flat parameters' do
+          message.content = 'Hello {{1}}, {{2}} is your contact.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                '1' => 'Ahmad',
+                '2' => 'Furqan'
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Hello Ahmad, Furqan is your contact.'
+        end
+
+        it 'rejects raw template content that exceeds the content limit after rendering' do
+          message.content = "#{'a' * 149_995}{{1}}"
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'oversized',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                'body' => {
+                  '1' => 'b' * 10
+                }
+              }
+            }
+          }
+
+          expect(message).not_to be_valid
+          expect(message.errors[:content]).to include('is too long (maximum is 150000 characters)')
+        end
+
+        it 'preserves rendered content from clients that do not opt into raw template rendering' do
+          message.content = '{{2}} / Bob'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'token_values',
+              'language' => 'en',
+              'processed_params' => {
+                'body' => {
+                  '1' => '{{2}}',
+                  '2' => 'Bob'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq '2 / Bob'
+          expect(message.additional_attributes.dig('template_params', 'processed_params', 'body', '1')).to eq '2'
+        end
+      end
+
       it 'replaces liquid variables in template_params body' do
         message.additional_attributes = {
           'template_params' => {
