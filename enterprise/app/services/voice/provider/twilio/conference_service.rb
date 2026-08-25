@@ -46,12 +46,12 @@ class Voice::Provider::Twilio::ConferenceService
 
     target_status = provider_target_status(provider_status)
     call_context.update(status: target_status)
-  rescue Twilio::REST::RestError => error
+  rescue Twilio::REST::RestError => e
     refreshed_status = call_context.fetch.status.to_s
     return if TERMINAL_PROVIDER_STATUSES.include?(refreshed_status)
 
     refreshed_target = provider_target_status(refreshed_status)
-    raise error unless retry_state_race && refreshed_target != target_status
+    raise e unless retry_state_race && refreshed_target != target_status
 
     terminate_provider_call(call_context, refreshed_status, retry_state_race: false)
   end
