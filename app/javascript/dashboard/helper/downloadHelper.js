@@ -3,7 +3,9 @@ import format from 'date-fns/format';
 
 export const downloadCsvFile = (fileName, content) => {
   const contentType = 'data:text/csv;charset=utf-8;';
-  const blob = new Blob([content], { type: contentType });
+  // Prepend a UTF-8 BOM so spreadsheet apps (Excel) decode non-ASCII
+  // characters (e.g. Persian) correctly instead of showing mojibake.
+  const blob = new Blob(['\uFEFF', content], { type: contentType });
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement('a');
