@@ -197,6 +197,11 @@ RSpec.describe 'Public Articles API', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{source_article.slug}\"")
+
+      get "/hc/#{portal.slug}/articles/#{source_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{nested_translation.slug}\"")
     end
   end
 

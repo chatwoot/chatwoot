@@ -32,9 +32,9 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
   def set_locale_switch_urls
     root_category_id = Category.find_root_category_id(@category)
     categories = @portal.categories
+    category_ids = translation_family_ids(categories, root_category_id, :associated_category_id)
 
-    locale_categories = categories.where(id: root_category_id)
-                                  .or(categories.where(associated_category_id: root_category_id))
+    locale_categories = categories.where(id: category_ids)
 
     @locale_switch_urls = locale_categories.group_by(&:locale).transform_values { |matches| matches.max_by(&:id) }
     @locale_switch_urls[@category.locale] = @category

@@ -77,6 +77,11 @@ RSpec.describe 'Public Categories API', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include("value=\"/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}\"")
+
+      get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/#{nested_translation.locale}/categories/#{nested_translation.slug}\"")
     end
 
     it 'links to the translated category in the documentation layout' do
