@@ -38,8 +38,8 @@ RSpec.describe Voice::CallTerminationGuard do
   end
 
   it 'retains and independently consumes every pending agent participant leave' do
-    expect(described_class.suppress_local_disconnect!(call, 'CA_OLD_TAB')).to be true
-    expect(described_class.suppress_local_disconnect!(call, 'CA_NEW_TAB')).to be true
+    suppressions = %w[CA_OLD_TAB CA_NEW_TAB].map { |sid| described_class.suppress_local_disconnect!(call, sid) }
+    expect(suppressions).to all(be true)
 
     call.reload
     expect(call.meta['agent_disconnect_suppress_call_sid']).to contain_exactly('CA_OLD_TAB', 'CA_NEW_TAB')
