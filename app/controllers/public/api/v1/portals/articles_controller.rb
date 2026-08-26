@@ -22,6 +22,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def show
+    set_locale_switch_urls
     @og_image_url = helpers.set_og_image_url(@portal.name, @article.title)
     @parsed_content = render_article_content(@article.content.to_s)
   end
@@ -71,6 +72,20 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def set_article
     @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
+  end
+
+  def set_locale_switch_urls
+    root_article_id = Article.find_root_article_id(@article)
+    articles = @portal.articles.published
+
+    @locale_switch_urls = articles.where(id: root_article_id)
+                                  .or(articles.where(associated_article_id: root_article_id))
+                                  .index_by(&:locale)
+    @locale_switch_urls[@article.locale] = @article if @article.published?
+
+    @locale_switch_urls.transform_values! do |article|
+      helpers.generate_article_link(@portal.slug, article.slug, @theme_from_params, @is_plain_layout_enabled)
+    end
   end
 
   def set_category

@@ -72,8 +72,7 @@ export const InitializationHelpers = {
       const localeSwitcher = e.target.closest('.locale-switcher');
       if (!localeSwitcher) return;
 
-      const { portalSlug } = localeSwitcher.dataset;
-      window.location.href = `/hc/${encodeURIComponent(portalSlug)}/${encodeURIComponent(localeSwitcher.value)}/`;
+      window.location.href = localeSwitcher.value;
     });
   },
 
