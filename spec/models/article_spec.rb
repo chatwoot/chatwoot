@@ -39,6 +39,34 @@ RSpec.describe Article do
       expect(duplicate).not_to be_valid
       expect(duplicate.errors[:locale]).to include('has already been taken')
     end
+
+    it 'rejects a translation with the root article locale' do
+      root_article = create(:article, portal: portal_1, author: user, locale: 'en')
+
+      duplicate = build(:article, portal: portal_1, author: user, locale: 'en', associated_article_id: root_article.id)
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:locale]).to include('has already been taken')
+    end
+
+    it 'ignores draft articles when validating a published locale' do
+      root_article = create(:article, portal: portal_1, author: user, locale: 'en')
+      create(:article, :draft, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+
+      published_translation = build(:article, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+
+      expect(published_translation).to be_valid
+    end
+
+    it 'rejects changing the root locale to a translation locale' do
+      root_article = create(:article, portal: portal_1, author: user, locale: 'en')
+      create(:article, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+
+      root_article.locale = 'es'
+
+      expect(root_article).not_to be_valid
+      expect(root_article.errors[:locale]).to include('has already been taken')
+    end
   end
 
   describe 'translation associations' do

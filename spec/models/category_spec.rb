@@ -37,6 +37,26 @@ RSpec.describe Category do
       expect(duplicate).not_to be_valid
       expect(duplicate.errors[:locale]).to include('has already been taken')
     end
+
+    it 'rejects a translation with the root category locale' do
+      root_category = create(:category, portal: portal, locale: 'en', slug: 'root-category')
+
+      duplicate = build(:category, portal: portal, locale: 'en', slug: 'translated-category', associated_category_id: root_category.id)
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:locale]).to include('has already been taken')
+    end
+
+    it 'rejects changing the root locale to a translation locale' do
+      portal.update!(config: { allowed_locales: %w[en es] })
+      root_category = create(:category, portal: portal, locale: 'en', slug: 'root-category')
+      create(:category, portal: portal, locale: 'es', slug: 'translated-category', associated_category_id: root_category.id)
+
+      root_category.locale = 'es'
+
+      expect(root_category).not_to be_valid
+      expect(root_category.errors[:locale]).to include('has already been taken')
+    end
   end
 
   describe 'translation associations' do

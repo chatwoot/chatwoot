@@ -25,14 +25,13 @@
 #
 # Indexes
 #
-#  index_articles_on_account_id              (account_id)
-#  index_articles_on_associated_article_id   (associated_article_id)
-#  index_articles_on_author_id               (author_id)
-#  index_articles_on_portal_id               (portal_id)
-#  index_articles_on_slug                    (slug) UNIQUE
-#  index_articles_on_status                  (status)
-#  index_articles_on_translation_and_locale  (associated_article_id,locale) UNIQUE WHERE ((associated_article_id IS NOT NULL) AND (status = 1))
-#  index_articles_on_views                   (views)
+#  index_articles_on_account_id             (account_id)
+#  index_articles_on_associated_article_id  (associated_article_id)
+#  index_articles_on_author_id              (author_id)
+#  index_articles_on_portal_id              (portal_id)
+#  index_articles_on_slug                   (slug) UNIQUE
+#  index_articles_on_status                 (status)
+#  index_articles_on_views                  (views)
 #
 class Article < ApplicationRecord
   include PgSearch::Model
@@ -67,7 +66,7 @@ class Article < ApplicationRecord
   validates :title, presence: true
   validates :content, presence: true, if: :published?
   validates :slug, exclusion: { in: RESERVED_SLUGS }
-  validates :locale, uniqueness: { scope: :associated_article_id }, if: -> { associated_article_id? && published? }
+  validate :unique_published_locale_in_translation_family, if: :published?
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
@@ -172,6 +171,16 @@ class Article < ApplicationRecord
   def associate_with_root_article
     article = portal&.articles&.find_by(id: associated_article_id)
     self.associated_article_id = self.class.find_root_article_id(article) if article
+  end
+
+  def unique_published_locale_in_translation_family
+    root_id = associated_article_id || id
+    return if root_id.blank? || locale.blank?
+
+    matching_articles = portal.articles.published.where(locale: locale)
+                              .where('id = :root_id OR associated_article_id = :root_id', root_id: root_id)
+    matching_articles = matching_articles.where.not(id: id) if persisted?
+    errors.add(:locale, :taken) if matching_articles.exists?
   end
 
   def category_id_changed_action

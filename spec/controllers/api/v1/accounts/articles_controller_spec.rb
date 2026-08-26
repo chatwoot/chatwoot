@@ -154,7 +154,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
         article_params = {
           article: {
-            category_id: category.id,
+            category_id: spanish_category.id,
             description: 'test description',
             title: 'MyTitle',
             slug: 'MyTitle',
