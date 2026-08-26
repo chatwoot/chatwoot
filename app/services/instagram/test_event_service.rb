@@ -14,7 +14,7 @@ class Instagram::TestEventService
   private
 
   def test_webhook_event?
-    @messaging[:sender][:id] == '12334' && @messaging[:recipient][:id] == '23245'
+    @messaging.dig(:sender, :id) == '12334' && @messaging.dig(:recipient, :id) == '23245'
   end
 
   def create_test_text
