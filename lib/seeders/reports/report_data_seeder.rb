@@ -18,8 +18,8 @@
 #   - 30 labels with random assignments
 #   - 3 inboxes with agent assignments
 #   - 1 Captain assistant bound to a single web inbox, with knowledge (FAQs + documents)
-#     and a variety of assistant-handled conversations (auto-resolved, handed off,
-#     handled with a human, resolved-then-reopened) for the assistant overview page
+#     and 1000 assistant-handled conversations from the last 30 days (auto-resolved,
+#     handed off, handled with a human, resolved-then-reopened) for the assistant overview page
 #   - Realistic reporting events with historical timestamps
 #
 # Note: This seeder clears existing data for the account before seeding.
@@ -41,10 +41,12 @@ class Seeders::Reports::ReportDataSeeder
   TOTAL_INBOXES = 3
   MESSAGES_PER_CONVERSATION = 5
   # Captain assistant conversations, split across the outcomes the overview page reports on.
-  TOTAL_ASSISTANT_CONVERSATIONS = 120
+  TOTAL_ASSISTANT_CONVERSATIONS = 1000
   ASSISTANT_KNOWLEDGE_APPROVED = 14
-  ASSISTANT_KNOWLEDGE_PENDING = 6
+  ASSISTANT_KNOWLEDGE_SUGGESTIONS = 6
   ASSISTANT_DOCUMENTS = 4
+  ASSISTANT_START_DATE = 30.days.ago # rubocop:disable Rails/RelativeDateConstant
+  ASSISTANT_END_DATE = 2.days.ago # rubocop:disable Rails/RelativeDateConstant
   START_DATE = 3.months.ago # rubocop:disable Rails/RelativeDateConstant
   END_DATE = Time.current
 
@@ -98,7 +100,9 @@ class Seeders::Reports::ReportDataSeeder
   # would leave rows around mid-reseed); order respects foreign keys.
   def clear_assistant_data
     assistant_ids = Captain::Assistant.for_account(@account.id).select(:id)
+    ConversationOutcome.where(account_id: @account.id).delete_all
     Captain::AssistantResponse.by_account(@account.id).delete_all
+    Captain::FaqSuggestion.where(account_id: @account.id).delete_all
     Captain::Document.for_account(@account.id).delete_all
     CaptainInbox.where(captain_assistant_id: assistant_ids).delete_all
     Captain::Assistant.for_account(@account.id).delete_all
@@ -250,7 +254,7 @@ class Seeders::Reports::ReportDataSeeder
 
   def create_assistant_knowledge
     ASSISTANT_KNOWLEDGE_APPROVED.times { create_assistant_response(:approved) }
-    ASSISTANT_KNOWLEDGE_PENDING.times { create_assistant_response(:pending) }
+    ASSISTANT_KNOWLEDGE_SUGGESTIONS.times { create_assistant_suggestion }
 
     ASSISTANT_DOCUMENTS.times do
       Captain::Document.create!(
@@ -275,6 +279,17 @@ class Seeders::Reports::ReportDataSeeder
     )
   end
 
+  def create_assistant_suggestion
+    Captain::FaqSuggestion.create!(
+      account: @account,
+      assistant: @assistant,
+      question: "#{Faker::Lorem.sentence(word_count: rand(4..8)).chomp('.')}?",
+      answer: Faker::Lorem.paragraph(sentence_count: rand(2..4)),
+      source_count: rand(1..10),
+      status: :open
+    )
+  end
+
   def create_assistant_conversations
     creator = Seeders::Reports::AssistantConversationCreator.new(
       account: @account,
@@ -285,7 +300,7 @@ class Seeders::Reports::ReportDataSeeder
 
     outcomes = assistant_outcome_distribution
     outcomes.each_with_index do |outcome, i|
-      created_at = Faker::Time.between(from: 65.days.ago, to: END_DATE)
+      created_at = Faker::Time.between(from: ASSISTANT_START_DATE, to: ASSISTANT_END_DATE)
       creator.create_conversation(created_at: created_at, outcome: outcome)
 
       print "\rCreating assistant conversations: #{i + 1}/#{outcomes.size}"
