@@ -66,6 +66,7 @@ class Article < ApplicationRecord
   validates :title, presence: true
   validates :content, presence: true, if: :published?
   validates :slug, exclusion: { in: RESERVED_SLUGS }
+  validate :cannot_reassociate_translation_family, if: -> { persisted? && will_save_change_to_associated_article_id? }
   validate :unique_published_locale_in_translation_family, if: :published?
 
   # ensuring that the position is always set correctly
@@ -191,6 +192,10 @@ class Article < ApplicationRecord
     matching_articles = portal.articles.published.where(id: translation_family_ids(root_id), locale: locale)
     matching_articles = matching_articles.where.not(id: id) if persisted?
     errors.add(:locale, :taken) if matching_articles.exists?
+  end
+
+  def cannot_reassociate_translation_family
+    errors.add(:associated_article_id, :invalid) if associated_articles.exists?
   end
 
   def translation_family_ids(root_id)

@@ -104,6 +104,17 @@ RSpec.describe Article do
       expect(nested_translation).not_to be_valid
       expect(nested_translation.errors[:locale]).to include('has already been taken')
     end
+
+    it 'rejects moving an article with translations into another family' do
+      root_article = create(:article, portal: portal_1, author: user, locale: 'en')
+      create(:article, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+      destination_root = create(:article, portal: portal_1, author: user, locale: 'en')
+
+      root_article.associated_article_id = destination_root.id
+
+      expect(root_article).not_to be_valid
+      expect(root_article.errors[:associated_article_id]).to include('is invalid')
+    end
   end
 
   describe 'associations' do

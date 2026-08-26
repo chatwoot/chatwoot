@@ -62,6 +62,7 @@ class Category < ApplicationRecord
   validate :allowed_locales
   validates :locale, uniqueness: { scope: %i[slug portal_id],
                                    message: I18n.t('errors.categories.locale.unique') }
+  validate :cannot_reassociate_translation_family, if: -> { persisted? && will_save_change_to_associated_category_id? }
   validate :unique_locale_in_translation_family, if: -> { errors[:locale].empty? }
   accepts_nested_attributes_for :related_categories
 
@@ -115,6 +116,10 @@ class Category < ApplicationRecord
     matching_categories = portal.categories.where(id: translation_family_ids(root_id), locale: locale)
     matching_categories = matching_categories.where.not(id: id) if persisted?
     errors.add(:locale, :taken) if matching_categories.exists?
+  end
+
+  def cannot_reassociate_translation_family
+    errors.add(:associated_category_id, :invalid) if associated_categories.exists?
   end
 
   def translation_family_ids(root_id)

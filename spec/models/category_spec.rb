@@ -95,6 +95,18 @@ RSpec.describe Category do
       expect(nested_translation).not_to be_valid
       expect(nested_translation.errors[:locale]).to include('has already been taken')
     end
+
+    it 'rejects moving a category with translations into another family' do
+      portal = create(:portal, config: { allowed_locales: %w[en es] })
+      root_category = create(:category, portal: portal, locale: 'en', slug: 'root-category')
+      create(:category, portal: portal, locale: 'es', slug: 'translation', associated_category_id: root_category.id)
+      destination_root = create(:category, portal: portal, locale: 'en', slug: 'destination-root')
+
+      root_category.associated_category_id = destination_root.id
+
+      expect(root_category).not_to be_valid
+      expect(root_category.errors[:associated_category_id]).to include('is invalid')
+    end
   end
 
   describe 'search' do
