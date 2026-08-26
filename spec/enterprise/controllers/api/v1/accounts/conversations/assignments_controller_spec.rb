@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Captain conversation assignment API', type: :request do
+RSpec.describe 'Captain assistant conversation assignment API', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:inbox) { create(:inbox, account: account) }
@@ -13,7 +13,7 @@ RSpec.describe 'Captain conversation assignment API', type: :request do
     create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
   end
 
-  it 'assigns the connected Captain and marks the conversation pending' do
+  it 'assigns the connected Captain assistant and marks the conversation pending' do
     conversation.update!(assignee: agent, status: :open)
 
     post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
@@ -38,7 +38,7 @@ RSpec.describe 'Captain conversation assignment API', type: :request do
     expect(response.parsed_body.dig('meta', 'assignee_type')).to eq('Captain::Assistant')
   end
 
-  it 'does not assign an unconnected Captain' do
+  it 'does not assign an unconnected Captain assistant' do
     unconnected_assistant = create(:captain_assistant, account: account)
 
     post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
@@ -51,7 +51,7 @@ RSpec.describe 'Captain conversation assignment API', type: :request do
     expect(conversation.reload.ai_assignee).to be_nil
   end
 
-  it 'clears Captain ownership when a human takes over' do
+  it 'clears Captain assistant ownership when a human takes over' do
     conversation.update!(ai_assignee: assistant, status: :pending)
 
     post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
