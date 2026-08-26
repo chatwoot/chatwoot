@@ -105,15 +105,14 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
         error?.response?.status === 423 &&
         error?.response?.data?.code === 'call_termination_in_progress';
 
-      // Another teardown already owns this Call. Keep this tab's Twilio leg
-      // connected and untouched: disconnecting it would emit an unsuppressed
-      // participant-leave if the owning teardown later fails.
       if (terminationInProgress) throw error;
 
+      // A failed HTTP request does not prove Rails registered disconnect
+      // suppression. Keep this browser's Twilio participant connected so an
+      // unconfirmed transport/auth/proxy failure cannot emit a leave webhook
+      // that terminalizes a still-live provider call. The call remains visible
+      // and marked retryable; a later successful teardown performs cleanup.
       callsStore.markCallTeardownFailed(callSid);
-      TwilioVoiceClient.endClientCall();
-      globalDurationTimer?.stop();
-      clearLocalCall(callSid);
       throw error;
     }
   };
