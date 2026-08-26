@@ -72,7 +72,13 @@ export const InitializationHelpers = {
       const localeSwitcher = e.target.closest('.locale-switcher');
       if (!localeSwitcher) return;
 
-      window.location.href = localeSwitcher.value;
+      const targetUrl = new URL(localeSwitcher.value, window.location.origin);
+      const isHelpCenterUrl = targetUrl.pathname.startsWith('/hc/');
+
+      if (targetUrl.origin !== window.location.origin || !isHelpCenterUrl)
+        return;
+
+      window.location.assign(targetUrl.href);
     });
   },
 

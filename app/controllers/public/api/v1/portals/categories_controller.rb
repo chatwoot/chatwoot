@@ -33,9 +33,10 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
     root_category_id = @category.associated_category_id || @category.id
     categories = @portal.categories
 
-    @locale_switch_urls = categories.where(id: root_category_id)
-                                    .or(categories.where(associated_category_id: root_category_id))
-                                    .index_by(&:locale)
+    locale_categories = categories.where(id: root_category_id)
+                                  .or(categories.where(associated_category_id: root_category_id))
+
+    @locale_switch_urls = locale_categories.group_by(&:locale).transform_values { |matches| matches.max_by(&:id) }
     @locale_switch_urls[@category.locale] = @category
 
     @locale_switch_urls.transform_values! do |category|
