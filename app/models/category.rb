@@ -73,6 +73,18 @@ class Category < ApplicationRecord
     params[:page] || 1
   end
 
+  def self.find_root_category_id(category)
+    current_category = category
+    visited_ids = []
+
+    while current_category.associated_category_id.present? && visited_ids.exclude?(current_category.id)
+      visited_ids << current_category.id
+      current_category = current_category.root_category
+    end
+
+    current_category.id
+  end
+
   def self.update_positions(portal:, positions_hash:)
     return if positions_hash.blank?
 

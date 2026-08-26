@@ -66,6 +66,19 @@ RSpec.describe 'Public Categories API', type: :request do
       expect(response.body).not_to include('/es/categories/older-translation')
     end
 
+    it 'links to the root category when the current translation has a nested association' do
+      category = portal.categories.first
+      parent_translation = create(:category, slug: 'parent-translation', locale: 'es', portal: portal,
+                                             account_id: account.id, associated_category_id: category.id)
+      nested_translation = create(:category, slug: 'nested-translation', locale: 'es', portal: portal,
+                                             account_id: account.id, associated_category_id: parent_translation.id)
+
+      get "/hc/#{portal.slug}/#{nested_translation.locale}/categories/#{nested_translation.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}\"")
+    end
+
     it 'links to the translated category in the documentation layout' do
       category = portal.categories.first
       translated_category = create(:category, slug: 'translated-category', locale: 'es', portal: portal,

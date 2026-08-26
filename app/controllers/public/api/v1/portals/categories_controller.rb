@@ -30,7 +30,7 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
   end
 
   def set_locale_switch_urls
-    root_category_id = @category.associated_category_id || @category.id
+    root_category_id = Category.find_root_category_id(@category)
     categories = @portal.categories
 
     locale_categories = categories.where(id: root_category_id)

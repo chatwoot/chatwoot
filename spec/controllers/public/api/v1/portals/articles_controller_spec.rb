@@ -185,6 +185,19 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{latest_translation.slug}\"")
       expect(response.body).not_to include('/articles/older-translation')
     end
+
+    it 'links to the root article when the current translation has a nested association' do
+      source_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, slug: 'source-article')
+      parent_translation = create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id,
+                                            slug: 'parent-translation', associated_article_id: source_article.id)
+      nested_translation = create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id,
+                                            slug: 'nested-translation', associated_article_id: parent_translation.id)
+
+      get "/hc/#{portal.slug}/articles/#{nested_translation.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{source_article.slug}\"")
+    end
   end
 
   describe 'GET /public/api/v1/portals/:slug/articles/:slug.md (markdown)' do

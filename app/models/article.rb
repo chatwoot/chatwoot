@@ -123,9 +123,16 @@ class Article < ApplicationRecord
     update(associated_article_id: root_article_id) if root_article_id.present?
   end
 
-  # Make sure we always associate the parent's associated id to avoid the deeper associations od articles.
   def self.find_root_article_id(article)
-    article.associated_article_id || article.id
+    current_article = article
+    visited_ids = []
+
+    while current_article.associated_article_id.present? && visited_ids.exclude?(current_article.id)
+      visited_ids << current_article.id
+      current_article = current_article.root_article
+    end
+
+    current_article.id
   end
 
   def draft!
