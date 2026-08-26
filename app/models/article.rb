@@ -188,7 +188,7 @@ class Article < ApplicationRecord
     root_id = self.class.find_root_article_id(self)
     return if root_id.blank? || locale.blank?
 
-    portal.articles.lock.find(root_id)
+    lock_translation_family_roots(root_id)
     matching_articles = portal.articles.published.where(id: translation_family_ids(root_id), locale: locale)
     matching_articles = matching_articles.where.not(id: id) if persisted?
     errors.add(:locale, :taken) if matching_articles.exists?
@@ -196,6 +196,18 @@ class Article < ApplicationRecord
 
   def cannot_reassociate_translation_family
     errors.add(:associated_article_id, :invalid) if associated_articles.exists?
+  end
+
+  def lock_translation_family_roots(root_id)
+    root_ids = [root_id]
+
+    if persisted? && will_save_change_to_associated_article_id?
+      previous_parent_id = associated_article_id_in_database
+      previous_root_id = previous_parent_id ? self.class.find_root_article_id(portal.articles.find(previous_parent_id)) : id
+      root_ids << previous_root_id
+    end
+
+    portal.articles.where(id: root_ids.compact.uniq.sort).order(:id).lock.load
   end
 
   def translation_family_ids(root_id)
