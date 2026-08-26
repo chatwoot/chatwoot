@@ -84,6 +84,16 @@ RSpec.describe 'Public Categories API', type: :request do
       expect(response.body).to include("value=\"/hc/#{portal.slug}/#{nested_translation.locale}/categories/#{nested_translation.slug}\"")
     end
 
+    it 'renders a category with a dangling translation association' do
+      category = portal.categories.first
+      category.update!(associated_category_id: Category.maximum(:id).to_i + 1)
+
+      get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}\"")
+    end
+
     it 'links to the translated category in the documentation layout' do
       category = portal.categories.first
       translated_category = create(:category, slug: 'translated-category', locale: 'es', portal: portal,

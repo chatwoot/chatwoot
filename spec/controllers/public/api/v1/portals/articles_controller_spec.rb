@@ -203,6 +203,16 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{nested_translation.slug}\"")
     end
+
+    it 'renders an article with a dangling translation association' do
+      source_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, slug: 'source-article')
+      source_article.update!(associated_article_id: Article.maximum(:id).to_i + 1)
+
+      get "/hc/#{portal.slug}/articles/#{source_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{source_article.slug}\"")
+    end
   end
 
   describe 'GET /public/api/v1/portals/:slug/articles/:slug.md (markdown)' do

@@ -79,7 +79,10 @@ class Category < ApplicationRecord
 
     while current_category.associated_category_id.present? && visited_ids.exclude?(current_category.id)
       visited_ids << current_category.id
-      current_category = current_category.root_category
+      root_category = current_category.root_category
+      break if root_category.nil?
+
+      current_category = root_category
     end
 
     current_category.id

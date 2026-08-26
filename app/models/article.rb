@@ -129,7 +129,10 @@ class Article < ApplicationRecord
 
     while current_article.associated_article_id.present? && visited_ids.exclude?(current_article.id)
       visited_ids << current_article.id
-      current_article = current_article.root_article
+      root_article = current_article.root_article
+      break if root_article.nil?
+
+      current_article = root_article
     end
 
     current_article.id
