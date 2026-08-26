@@ -52,20 +52,6 @@ RSpec.describe 'Public Categories API', type: :request do
       expect(response.body).to include("value=\"/hc/#{portal.slug}/es\"")
     end
 
-    it 'links to the most recently created category when multiple translations share a locale' do
-      category = portal.categories.first
-      create(:category, slug: 'older-translation', locale: 'es', portal: portal,
-                        account_id: account.id, associated_category_id: category.id)
-      latest_translation = create(:category, slug: 'latest-translation', locale: 'es', portal: portal,
-                                             account_id: account.id, associated_category_id: category.id)
-
-      get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}"
-
-      expect(response).to have_http_status(:success)
-      expect(response.body).to include("value=\"/hc/#{portal.slug}/es/categories/#{latest_translation.slug}\"")
-      expect(response.body).not_to include('/es/categories/older-translation')
-    end
-
     it 'links to the root category when the current translation has a nested association' do
       category = portal.categories.first
       parent_translation = create(:category, slug: 'parent-translation', locale: 'es', portal: portal,

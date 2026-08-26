@@ -81,7 +81,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
     locale_articles = articles.where(id: article_ids)
 
-    @locale_switch_urls = locale_articles.group_by(&:locale).transform_values { |matches| matches.max_by(&:id) }
+    @locale_switch_urls = locale_articles.index_by(&:locale)
     @locale_switch_urls[@article.locale] = @article if @article.published?
 
     @locale_switch_urls.transform_values! do |article|

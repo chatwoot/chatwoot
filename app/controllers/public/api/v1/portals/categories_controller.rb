@@ -36,7 +36,7 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
 
     locale_categories = categories.where(id: category_ids)
 
-    @locale_switch_urls = locale_categories.group_by(&:locale).transform_values { |matches| matches.max_by(&:id) }
+    @locale_switch_urls = locale_categories.index_by(&:locale)
     @locale_switch_urls[@category.locale] = @category
 
     @locale_switch_urls.transform_values! do |category|
