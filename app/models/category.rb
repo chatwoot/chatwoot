@@ -109,18 +109,17 @@ class Category < ApplicationRecord
   end
 
   def unique_locale_in_translation_family
-    root_id = self.class.find_root_category_id(self)
+    root_id = translation_family_root_id
     return if root_id.blank? || locale.blank?
 
-    lock_translation_family_roots(root_id)
+    root_id = lock_translation_family_roots(root_id)
+    self.associated_category_id = root_id if associated_category_id.present?
     matching_categories = portal.categories.where(id: translation_family_ids(root_id), locale: locale)
-    matching_categories = matching_categories.where.not(id: id) if persisted?
+    matching_categories = matching_categories.where.not(id: id)
     errors.add(:locale, :taken) if matching_categories.exists?
   end
 
-  def cannot_reassociate_translation_family
-    errors.add(:associated_category_id, :invalid) if associated_categories.exists?
-  end
+  def cannot_reassociate_translation_family = (errors.add(:associated_category_id, :invalid) if associated_categories.exists?)
 
   def lock_translation_family_roots(root_id)
     root_ids = [root_id]
@@ -132,14 +131,20 @@ class Category < ApplicationRecord
     end
 
     portal.categories.where(id: root_ids.compact.uniq.sort).order(:id).lock.load
+    translation_family_root_id.tap { |current_root_id| portal.categories.lock.find(current_root_id) }
+  end
+
+  def translation_family_root_id
+    return id if associated_category_id.blank?
+
+    self.class.uncached { self.class.find_root_category_id(portal.categories.find(associated_category_id)) }
   end
 
   def translation_family_ids(root_id)
     category_ids = [root_id]
     parent_ids = [root_id]
 
-    while parent_ids.any?
-      parent_ids = portal.categories.where(associated_category_id: parent_ids).where.not(id: category_ids).pluck(:id)
+    while (parent_ids = portal.categories.where(associated_category_id: parent_ids).where.not(id: category_ids).pluck(:id)).any?
       category_ids.concat(parent_ids)
     end
 

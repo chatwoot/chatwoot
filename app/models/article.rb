@@ -131,9 +131,7 @@ class Article < ApplicationRecord
     current_article.id
   end
 
-  def draft!
-    update(status: :draft)
-  end
+  def draft! = update(status: :draft)
 
   def increment_view_count
     # rubocop:disable Rails/SkipsModelValidations
@@ -185,18 +183,17 @@ class Article < ApplicationRecord
   end
 
   def unique_published_locale_in_translation_family
-    root_id = self.class.find_root_article_id(self)
+    root_id = translation_family_root_id
     return if root_id.blank? || locale.blank?
 
-    lock_translation_family_roots(root_id)
+    root_id = lock_translation_family_roots(root_id)
+    self.associated_article_id = root_id if associated_article_id.present?
     matching_articles = portal.articles.published.where(id: translation_family_ids(root_id), locale: locale)
-    matching_articles = matching_articles.where.not(id: id) if persisted?
+    matching_articles = matching_articles.where.not(id: id)
     errors.add(:locale, :taken) if matching_articles.exists?
   end
 
-  def cannot_reassociate_translation_family
-    errors.add(:associated_article_id, :invalid) if associated_articles.exists?
-  end
+  def cannot_reassociate_translation_family = (errors.add(:associated_article_id, :invalid) if associated_articles.exists?)
 
   def lock_translation_family_roots(root_id)
     root_ids = [root_id]
@@ -208,14 +205,20 @@ class Article < ApplicationRecord
     end
 
     portal.articles.where(id: root_ids.compact.uniq.sort).order(:id).lock.load
+    translation_family_root_id.tap { |current_root_id| portal.articles.lock.find(current_root_id) }
+  end
+
+  def translation_family_root_id
+    return id if associated_article_id.blank?
+
+    self.class.uncached { self.class.find_root_article_id(portal.articles.find(associated_article_id)) }
   end
 
   def translation_family_ids(root_id)
     article_ids = [root_id]
     parent_ids = [root_id]
 
-    while parent_ids.any?
-      parent_ids = portal.articles.where(associated_article_id: parent_ids).where.not(id: article_ids).pluck(:id)
+    while (parent_ids = portal.articles.where(associated_article_id: parent_ids).where.not(id: article_ids).pluck(:id)).any?
       article_ids.concat(parent_ids)
     end
 
