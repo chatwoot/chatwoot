@@ -100,6 +100,7 @@ class Category < ApplicationRecord
     root_id = associated_category_id || id
     return if root_id.blank? || locale.blank?
 
+    portal.categories.lock.find(root_id)
     matching_categories = portal.categories.where(locale: locale)
                                 .where('id = :root_id OR associated_category_id = :root_id', root_id: root_id)
     matching_categories = matching_categories.where.not(id: id) if persisted?

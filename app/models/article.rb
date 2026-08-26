@@ -177,6 +177,7 @@ class Article < ApplicationRecord
     root_id = associated_article_id || id
     return if root_id.blank? || locale.blank?
 
+    portal.articles.lock.find(root_id)
     matching_articles = portal.articles.published.where(locale: locale)
                               .where('id = :root_id OR associated_article_id = :root_id', root_id: root_id)
     matching_articles = matching_articles.where.not(id: id) if persisted?
