@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_26_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -220,6 +220,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.string "draft_title"
     t.text "draft_content"
     t.index ["account_id"], name: "index_articles_on_account_id"
+    t.index ["associated_article_id", "locale"], name: "index_articles_on_translation_and_locale", unique: true, where: "((associated_article_id IS NOT NULL) AND (status = 1))"
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
     t.index ["portal_id"], name: "index_articles_on_portal_id"
@@ -563,6 +564,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.bigint "associated_category_id"
     t.string "icon", default: ""
     t.string "icon_color", default: ""
+    t.index ["associated_category_id", "locale"], name: "index_categories_on_translation_and_locale", unique: true, where: "(associated_category_id IS NOT NULL)"
     t.index ["associated_category_id"], name: "index_categories_on_associated_category_id"
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
     t.index ["locale"], name: "index_categories_on_locale"

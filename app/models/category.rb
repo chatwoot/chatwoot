@@ -23,6 +23,7 @@
 #  index_categories_on_locale_and_account_id          (locale,account_id)
 #  index_categories_on_parent_category_id             (parent_category_id)
 #  index_categories_on_slug_and_locale_and_portal_id  (slug,locale,portal_id) UNIQUE
+#  index_categories_on_translation_and_locale         (associated_category_id,locale) UNIQUE WHERE (associated_category_id IS NOT NULL)
 #
 class Category < ApplicationRecord
   paginates_per Limits::CATEGORIES_PER_PAGE
@@ -55,12 +56,15 @@ class Category < ApplicationRecord
              optional: true
 
   before_validation :ensure_account_id
+  before_validation :associate_with_root_category, if: :will_save_change_to_associated_category_id?
   validates :account_id, presence: true
   validates :slug, presence: true
   validates :name, presence: true
   validate :allowed_locales
   validates :locale, uniqueness: { scope: %i[slug portal_id],
                                    message: I18n.t('errors.categories.locale.unique') }
+  validates :locale, uniqueness: { scope: :associated_category_id },
+                     if: -> { associated_category_id? && errors[:locale].empty? }
   accepts_nested_attributes_for :related_categories
 
   scope :search_by_locale, ->(locale) { where(locale: locale) if locale.present? }
@@ -71,6 +75,10 @@ class Category < ApplicationRecord
 
   def self.current_page(params)
     params[:page] || 1
+  end
+
+  def self.find_root_category_id(category)
+    category.associated_category_id || category.id
   end
 
   def self.update_positions(portal:, positions_hash:)
@@ -84,6 +92,11 @@ class Category < ApplicationRecord
   end
 
   private
+
+  def associate_with_root_category
+    category = portal&.categories&.find_by(id: associated_category_id)
+    self.associated_category_id = self.class.find_root_category_id(category) if category
+  end
 
   def ensure_account_id
     self.account_id = portal&.account_id

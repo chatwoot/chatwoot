@@ -26,6 +26,29 @@ RSpec.describe Category do
       category.update(locale: 'es')
       expect(category.errors.full_messages[0]).to eq("Locale es of category is not part of portal's [\"en\"].")
     end
+
+    it 'rejects duplicate locales in a translation family' do
+      portal.update!(config: { allowed_locales: %w[en es] })
+      root_category = create(:category, portal: portal, locale: 'en', slug: 'root-category')
+      create(:category, portal: portal, locale: 'es', slug: 'spanish-category', associated_category_id: root_category.id)
+
+      duplicate = build(:category, portal: portal, locale: 'es', slug: 'duplicate-spanish-category', associated_category_id: root_category.id)
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:locale]).to include('has already been taken')
+    end
+  end
+
+  describe 'translation associations' do
+    it 'associates nested translations with the root category' do
+      portal = create(:portal, config: { allowed_locales: %w[en es pt] })
+      root_category = create(:category, portal: portal, locale: 'en')
+      translation = create(:category, portal: portal, locale: 'es', associated_category_id: root_category.id)
+
+      nested_translation = create(:category, portal: portal, locale: 'pt', associated_category_id: translation.id)
+
+      expect(nested_translation.associated_category_id).to eq(root_category.id)
+    end
   end
 
   describe 'search' do
