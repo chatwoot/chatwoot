@@ -676,6 +676,14 @@
       "INBOUND": {
         "LABEL": "Allow incoming calls",
         "DESCRIPTION": "Let customers call this number. When turned off, incoming calls are declined automatically — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
+      },
+      "RECORDING": {
+        "LABEL": "Record calls",
+        "DESCRIPTION": "Record calls and attach the recording to the conversation. Turn this off where recording calls isn't permitted."
+      },
+      "TRANSCRIPTION": {
+        "LABEL": "Transcribe recordings",
+        "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
       }
     },
     "WHATSAPP_CALLING": {

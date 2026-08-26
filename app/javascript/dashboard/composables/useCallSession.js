@@ -82,7 +82,7 @@ const detachGlobalsOnLastUnmount = () => {
 // Build the action surface used by both the root session composable and the
 // lighter useCallActions consumer. All state is module-scoped — the actions
 // don't depend on per-instance refs, so they're cheap to call from anywhere.
-const buildCallActions = ({ callsStore, whatsappSession, t }) => {
+const buildCallActions = ({ store, callsStore, whatsappSession, t }) => {
   const findCall = callSid => callsStore.calls.find(c => c.callSid === callSid);
 
   const endCall = async ({ conversationId, inboxId, callSid }) => {
@@ -129,10 +129,12 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     globalIsJoining.value = true;
     try {
       if (isWhatsappCall(call)) {
+        const inbox = store.getters['inboxes/getInbox'](inboxId);
         await whatsappSession.acceptIncomingCall({
           callId: call.callId,
           sdpOffer: call.sdpOffer,
           iceServers: call.iceServers,
+          recordingEnabled: inbox?.recording_enabled !== false,
         });
         callsStore.setCallActive(callSid);
         globalDurationTimer?.start();
@@ -304,7 +306,7 @@ export function useCallSession() {
 
   onUnmounted(() => detachGlobalsOnLastUnmount());
 
-  const actions = buildCallActions({ callsStore, whatsappSession, t });
+  const actions = buildCallActions({ store, callsStore, whatsappSession, t });
 
   return { ...reactive, ...actions };
 }
@@ -314,12 +316,13 @@ export function useCallSession() {
 // rendered in a thread). Reads from the same module-level state that
 // useCallSession owns, so the duration timer and dismissed set stay coherent.
 export function useCallActions() {
+  const store = useStore();
   const callsStore = useCallsStore();
   const whatsappSession = useWhatsappCallSession();
   const { t } = useI18n();
 
   const reactive = buildReactiveSurface(callsStore);
-  const actions = buildCallActions({ callsStore, whatsappSession, t });
+  const actions = buildCallActions({ store, callsStore, whatsappSession, t });
 
   return { ...reactive, ...actions };
 }

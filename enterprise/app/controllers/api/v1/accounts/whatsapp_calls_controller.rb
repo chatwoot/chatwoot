@@ -4,6 +4,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   before_action :ensure_calling_enabled, only: :initiate
   before_action :ensure_sdp_offer, only: :initiate
   before_action :ensure_contact_phone, only: :initiate
+  before_action :ensure_recording_enabled, only: :upload_recording
   before_action :ensure_recording_present, only: :upload_recording
   before_action :ensure_call_message, only: :upload_recording
 
@@ -106,6 +107,12 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     return if @contact.phone_number.present?
 
     render_could_not_create_error(I18n.t('errors.whatsapp.calls.contact_phone_required'))
+  end
+
+  def ensure_recording_enabled
+    return if @call.inbox.channel.recording_enabled?
+
+    render_could_not_create_error(I18n.t('errors.whatsapp.calls.recording_disabled'))
   end
 
   def ensure_recording_present

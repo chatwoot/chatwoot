@@ -4,3 +4,4 @@ json.id @call.id
 json.message_id @message.id
 json.conversation_id @conversation.display_id
 json.provider 'whatsapp'
+json.recording_enabled @inbox.channel.recording_enabled?

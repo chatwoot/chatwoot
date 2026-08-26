@@ -9,6 +9,7 @@ class Messages::AudioTranscriptionService
 
   def perform
     return { error: 'Message not found' } if message.blank?
+    return { error: 'Transcription disabled for this inbox' } if call_recording_transcription_disabled?
     return { error: 'Transcription limit exceeded' } unless Llm::SpeechToTextService.available_for?(account)
     return { error: 'Audio too large for transcription' } if Llm::SpeechToTextService.too_large?(attachment.file&.blob)
 
@@ -21,6 +22,11 @@ class Messages::AudioTranscriptionService
   end
 
   private
+
+  # Call recordings honour the inbox's "Transcribe recordings" setting; voice notes are unaffected.
+  def call_recording_transcription_disabled?
+    message.voice_call? && !message.inbox.channel.transcription_enabled?
+  end
 
   def transcribe_audio
     transcribed_text = attachment.meta&.[]('transcribed_text') || ''

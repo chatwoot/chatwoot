@@ -50,6 +50,23 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(response.body).to include(call.conference_sid)
     end
 
+    it 'does not record the conference when recording is disabled on the inbox' do
+      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact, provider_call_id: call_sid)
+      allow(Voice::InboundCallBuilder).to receive(:perform!).and_return(call)
+
+      post "/twilio/voice/call/#{digits}", params: {
+        'CallSid' => call_sid,
+        'From' => from_number,
+        'To' => to_number,
+        'Direction' => 'inbound'
+      }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('record="do-not-record"')
+    end
+
     it 'looks up the Call when Twilio sends the outbound-api PSTN leg' do
       conversation = create(:conversation, account: account, inbox: inbox)
       call = create(
