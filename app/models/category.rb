@@ -76,7 +76,18 @@ class Category < ApplicationRecord
   end
 
   def self.find_root_category_id(category)
-    category.associated_category_id || category.id
+    current_category = category
+    visited_ids = []
+
+    while current_category.associated_category_id.present? && visited_ids.exclude?(current_category.id)
+      visited_ids << current_category.id
+      root_category = current_category.root_category
+      break if root_category.nil?
+
+      current_category = root_category
+    end
+
+    current_category.id
   end
 
   def self.update_positions(portal:, positions_hash:)
@@ -101,10 +112,21 @@ class Category < ApplicationRecord
     return if root_id.blank? || locale.blank?
 
     portal.categories.lock.find(root_id)
-    matching_categories = portal.categories.where(locale: locale)
-                                .where('id = :root_id OR associated_category_id = :root_id', root_id: root_id)
+    matching_categories = portal.categories.where(id: translation_family_ids(root_id), locale: locale)
     matching_categories = matching_categories.where.not(id: id) if persisted?
     errors.add(:locale, :taken) if matching_categories.exists?
+  end
+
+  def translation_family_ids(root_id)
+    category_ids = [root_id]
+    parent_ids = [root_id]
+
+    while parent_ids.any?
+      parent_ids = portal.categories.where(associated_category_id: parent_ids).where.not(id: category_ids).pluck(:id)
+      category_ids.concat(parent_ids)
+    end
+
+    category_ids
   end
 
   def ensure_account_id

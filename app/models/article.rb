@@ -115,9 +115,19 @@ class Article < ApplicationRecord
     records
   end
 
-  # Make sure we always associate the parent's associated id to avoid the deeper associations od articles.
   def self.find_root_article_id(article)
-    article.associated_article_id || article.id
+    current_article = article
+    visited_ids = []
+
+    while current_article.associated_article_id.present? && visited_ids.exclude?(current_article.id)
+      visited_ids << current_article.id
+      root_article = current_article.root_article
+      break if root_article.nil?
+
+      current_article = root_article
+    end
+
+    current_article.id
   end
 
   def draft!
@@ -178,10 +188,21 @@ class Article < ApplicationRecord
     return if root_id.blank? || locale.blank?
 
     portal.articles.lock.find(root_id)
-    matching_articles = portal.articles.published.where(locale: locale)
-                              .where('id = :root_id OR associated_article_id = :root_id', root_id: root_id)
+    matching_articles = portal.articles.published.where(id: translation_family_ids(root_id), locale: locale)
     matching_articles = matching_articles.where.not(id: id) if persisted?
     errors.add(:locale, :taken) if matching_articles.exists?
+  end
+
+  def translation_family_ids(root_id)
+    article_ids = [root_id]
+    parent_ids = [root_id]
+
+    while parent_ids.any?
+      parent_ids = portal.articles.where(associated_article_id: parent_ids).where.not(id: article_ids).pluck(:id)
+      article_ids.concat(parent_ids)
+    end
+
+    article_ids
   end
 
   def category_id_changed_action
