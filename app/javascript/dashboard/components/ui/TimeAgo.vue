@@ -37,21 +37,30 @@ export default {
     };
   },
   computed: {
+    currentLocale() {
+      return this.$i18n?.locale?.replace(/_/g, '-') || 'en';
+    },
     lastActivityTime() {
-      return shortTimestamp(this.lastActivityAtTimeAgo);
+      return shortTimestamp(
+        this.lastActivityAtTimeAgo,
+        false,
+        this.currentLocale
+      );
     },
     createdAtTime() {
-      return shortTimestamp(this.createdAtTimeAgo);
+      return shortTimestamp(this.createdAtTimeAgo, false, this.currentLocale);
     },
     createdAt() {
       const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;
       const isBeforeAMonth = createdTimeDiff > DAY_IN_MILLI_SECONDS * 30;
       return !isBeforeAMonth
         ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.LATEST')} ${
-            this.createdAtTimeAgo
+            this.createdAtTime
           }`
         : `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.OLDEST')} ${dateFormat(
-            this.createdAtTimestamp
+            this.createdAtTimestamp,
+            undefined,
+            this.currentLocale
           )}`;
     },
     lastActivity() {
@@ -60,11 +69,15 @@ export default {
       const isNotActive = lastActivityTimeDiff > DAY_IN_MILLI_SECONDS * 30;
       return !isNotActive
         ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.ACTIVE')} ${
-            this.lastActivityAtTimeAgo
+            this.lastActivityTime
           }`
         : `${this.$t(
             'CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.NOT_ACTIVE'
-          )} ${dateFormat(this.lastActivityTimestamp)}`;
+          )} ${dateFormat(
+            this.lastActivityTimestamp,
+            undefined,
+            this.currentLocale
+          )}`;
     },
     tooltipText() {
       return `${this.createdAt}

@@ -9,29 +9,126 @@ import {
   differenceInDays,
 } from 'date-fns';
 
+const getLocalizedDateOptions = dateFormat => {
+  const options = {
+    'h:mm a': {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    },
+    'LLL d, h:mm a': {
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    },
+    'LLL d y, h:mm a': {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    },
+    'LLL d yyyy, h:mm a': {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    },
+    'MMM d, yyyy': {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    },
+    'LLL d, yyyy': {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    },
+  };
+
+  return options[dateFormat];
+};
+
+const formatLocalizedDate = (date, dateFormat, localeCode) => {
+  const options = getLocalizedDateOptions(dateFormat);
+  if (!localeCode || !options) return format(date, dateFormat);
+
+  return new Intl.DateTimeFormat(localeCode, options).format(date);
+};
+
+const getRelativeTimeParts = time => {
+  const normalizedTime = time.replace(/about|over|almost/g, '').trim();
+  const direction = normalizedTime.startsWith('in ') ? 1 : -1;
+  const cleanedTime = normalizedTime
+    .replace(/^in\s+/, '')
+    .replace(/\s+ago$/, '')
+    .trim();
+
+  const singularMappings = {
+    'less than a minute': [0, 'second'],
+    'a minute': [1, 'minute'],
+    'an hour': [1, 'hour'],
+    'a day': [1, 'day'],
+    'a month': [1, 'month'],
+    'a year': [1, 'year'],
+  };
+
+  if (singularMappings[cleanedTime]) {
+    const [value, unit] = singularMappings[cleanedTime];
+    return { value: value * direction, unit };
+  }
+
+  const match = cleanedTime.match(
+    /^(\d+)\s+(minute|minutes|hour|hours|day|days|month|months|year|years)$/
+  );
+
+  if (!match) return null;
+
+  const [, value, unit] = match;
+  return {
+    value: Number(value) * direction,
+    unit: unit.replace(/s$/, ''),
+  };
+};
+
 /**
  * Formats a Unix timestamp into a human-readable time format.
  * @param {number} time - Unix timestamp.
  * @param {string} [dateFormat='h:mm a'] - Desired format of the time.
+ * @param {string} [localeCode] - Locale code for date formatting.
  * @returns {string} Formatted time string.
  */
-export const messageStamp = (time, dateFormat = 'h:mm a') => {
+export const messageStamp = (
+  time,
+  dateFormat = 'h:mm a',
+  localeCode = null
+) => {
   const unixTime = fromUnixTime(time);
-  return format(unixTime, dateFormat);
+  return formatLocalizedDate(unixTime, dateFormat, localeCode);
 };
 
 /**
  * Provides a formatted timestamp, adjusting the format based on the current year.
  * @param {number} time - Unix timestamp.
  * @param {string} [dateFormat='MMM d, yyyy'] - Desired date format.
+ * @param {string} [localeCode] - Locale code for date formatting.
  * @returns {string} Formatted date string.
  */
-export const messageTimestamp = (time, dateFormat = 'MMM d, yyyy') => {
+export const messageTimestamp = (
+  time,
+  dateFormat = 'MMM d, yyyy',
+  localeCode = null
+) => {
   const messageTime = fromUnixTime(time);
   const now = new Date();
-  const messageDate = format(messageTime, dateFormat);
+  const messageDate = formatLocalizedDate(messageTime, dateFormat, localeCode);
   if (!isSameYear(messageTime, now)) {
-    return format(messageTime, 'LLL d y, h:mm a');
+    return formatLocalizedDate(messageTime, 'LLL d y, h:mm a', localeCode);
   }
   return messageDate;
 };
@@ -66,20 +163,31 @@ export const dynamicTime = time => {
  * Formats a Unix timestamp into a specified date format.
  * @param {number} time - Unix timestamp.
  * @param {string} [dateFormat='MMM d, yyyy'] - Desired date format.
+ * @param {string} [localeCode] - Locale code for date formatting.
  * @returns {string} Formatted date string.
  */
-export const dateFormat = (time, df = 'MMM d, yyyy') => {
+export const dateFormat = (time, df = 'MMM d, yyyy', localeCode = null) => {
   const unixTime = fromUnixTime(time);
-  return format(unixTime, df);
+  return formatLocalizedDate(unixTime, df, localeCode);
 };
 
 /**
  * Converts a detailed time description into a shorter format, optionally appending 'ago'.
  * @param {string} time - Detailed time description (e.g., 'a minute ago').
  * @param {boolean} [withAgo=false] - Whether to append 'ago' to the result.
+ * @param {string} [localeCode] - Locale code for timestamp formatting.
  * @returns {string} Shortened time description.
  */
-export const shortTimestamp = (time, withAgo = false) => {
+export const shortTimestamp = (time, withAgo = false, localeCode = null) => {
+  if (localeCode && !localeCode.toLowerCase().startsWith('en')) {
+    const relativeTime = getRelativeTimeParts(time);
+    if (relativeTime) {
+      return new Intl.RelativeTimeFormat(localeCode, {
+        numeric: relativeTime.value === 0 ? 'auto' : 'always',
+      }).format(relativeTime.value, relativeTime.unit);
+    }
+  }
+
   // This function takes a time string and converts it to a short time string
   // with the following format: 1m, 1h, 1d, 1mo, 1y
   // The function also takes an optional boolean parameter withAgo

@@ -27,6 +27,18 @@ describe('#messageStamp', () => {
       'Feb 10, 3:35 PM'
     );
   });
+
+  it('returns localized value when locale is provided', () => {
+    expect(messageStamp(1612971343, 'LLL d, h:mm a', 'zh-CN')).toEqual(
+      '2月10日 下午3:35'
+    );
+  });
+
+  it('keeps LLL month names abbreviated for English locales', () => {
+    expect(messageStamp(1612971343, 'LLL d, h:mm a', 'en-US')).toEqual(
+      'Feb 10, 3:35 PM'
+    );
+  });
 });
 
 describe('#messageTimestamp', () => {
@@ -35,6 +47,11 @@ describe('#messageTimestamp', () => {
   });
   it('should return the message date and time in a different format if the message was sent in a different year', () => {
     expect(messageTimestamp(1612971343)).toEqual('Feb 10 2021, 3:35 PM');
+  });
+  it('should return localized message date and time when locale is provided', () => {
+    expect(messageTimestamp(1612971343, 'LLL d, h:mm a', 'zh-CN')).toEqual(
+      '2021年2月10日 下午3:35'
+    );
   });
 });
 
@@ -76,6 +93,12 @@ describe('#dateFormat', () => {
   it('returns correct value', () => {
     expect(dateFormat(1612971343)).toEqual('Feb 10, 2021');
     expect(dateFormat(1612971343, 'LLL d, yyyy')).toEqual('Feb 10, 2021');
+  });
+
+  it('returns localized value when locale is provided', () => {
+    expect(dateFormat(1612971343, 'LLL d, yyyy', 'zh-CN')).toEqual(
+      '2021年2月10日'
+    );
   });
 });
 
@@ -119,6 +142,16 @@ describe('#shortTimestamp', () => {
     expect(shortTimestamp('a year ago', true)).toEqual('1y ago');
     expect(shortTimestamp('1 year ago', true)).toEqual('1y ago');
     expect(shortTimestamp('4 years ago', true)).toEqual('4y ago');
+  });
+
+  it('returns localized relative timestamp for Chinese locale', () => {
+    expect(shortTimestamp('21 minutes ago', false, 'zh-CN')).toEqual(
+      '21分钟前'
+    );
+    expect(shortTimestamp('2 hours ago', false, 'zh-CN')).toEqual('2小时前');
+    expect(shortTimestamp('14 days ago', false, 'zh-CN')).toEqual('14天前');
+    expect(shortTimestamp('a month ago', false, 'zh-CN')).toEqual('1个月前');
+    expect(shortTimestamp('in 2 hours', false, 'zh-CN')).toEqual('2小时后');
   });
 });
 

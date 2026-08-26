@@ -4,6 +4,7 @@ import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { useRouter, useRoute } from 'vue-router';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper.js';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { useLocale } from 'shared/composables/useLocale';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -32,6 +33,7 @@ const props = defineProps({
 
 const router = useRouter();
 const route = useRoute();
+const { resolvedLocale } = useLocale();
 
 const cardMessagePreviewWithMetaRef = ref(null);
 
@@ -54,7 +56,9 @@ const inboxIcon = computed(() => {
 
 const lastActivityAt = computed(() => {
   const timestamp = props.conversation?.timestamp;
-  return timestamp ? shortTimestamp(dynamicTime(timestamp)) : '';
+  return timestamp
+    ? shortTimestamp(dynamicTime(timestamp), false, resolvedLocale.value)
+    : '';
 });
 
 const hasVisibleLabels = computed(() => {
