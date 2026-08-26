@@ -2,6 +2,8 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useElementBounding, useWindowSize } from '@vueuse/core';
+import { picoSearch } from '@chatwoot/pico-search';
+import { DROPDOWN_SEARCH_THRESHOLD } from '../helper/filterHelper';
 import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
 import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
@@ -12,9 +14,10 @@ import Icon from 'next/icon/Icon.vue';
 
 // [{label, icon, value}]
 const props = defineProps({
+  // Empty while an attribute the saved filter refers to no longer exists.
   options: {
     type: Array,
-    required: true,
+    default: () => [],
   },
   hideLabel: {
     type: Boolean,
@@ -32,12 +35,9 @@ const props = defineProps({
     type: String,
     default: null,
   },
-  searchable: {
-    type: Boolean,
-    default: false,
-  },
 });
 
+const { t } = useI18n();
 const selected = defineModel({
   type: [String, Number],
   required: true,
@@ -45,19 +45,21 @@ const selected = defineModel({
 
 const vFocus = { mounted: el => el.focus() };
 
-const { t } = useI18n();
-
-const searchQuery = ref('');
 const triggerRef = ref(null);
 const dropdownRef = ref(null);
+const searchTerm = ref('');
 
-const filteredOptions = computed(() => {
-  const query = searchQuery.value.trim().toLowerCase();
-  if (!props.searchable || !query) return props.options;
-  return props.options.filter(
-    option =>
-      !option.disabled && (option.label || '').toLowerCase().includes(query)
-  );
+const showSearch = computed(
+  () => props.options.length > DROPDOWN_SEARCH_THRESHOLD
+);
+
+const searchResults = computed(() => {
+  // picoSearch throws on a whitespace-only query, which trims down to no search terms.
+  const query = searchTerm.value.trim();
+  if (!query) return props.options;
+  // Section headers are not selectable, so they are dropped once a query narrows the list.
+  const selectableOptions = props.options.filter(option => !option.disabled);
+  return picoSearch(selectableOptions, query, ['label']);
 });
 
 const { top } = useElementBounding(triggerRef);
@@ -65,7 +67,7 @@ const { height } = useWindowSize();
 const { height: dropdownHeight } = useElementBounding(dropdownRef);
 
 const selectedOption = computed(() => {
-  return props.options?.find(o => o.value === selected.value) || {};
+  return props.options.find(o => o.value === selected.value) || {};
 });
 
 const iconToRender = computed(() => {
@@ -85,11 +87,10 @@ const dropdownPosition = computed(() => {
 
 const updateSelected = newValue => {
   selected.value = newValue;
-  searchQuery.value = '';
 };
 
-const handleTriggerClick = toggle => {
-  searchQuery.value = '';
+const toggleDropdown = toggle => {
+  searchTerm.value = '';
   toggle();
 };
 </script>
@@ -97,7 +98,7 @@ const handleTriggerClick = toggle => {
 <template>
   <DropdownContainer>
     <template #trigger="{ toggle }">
-      <slot name="trigger" :toggle="toggle">
+      <slot name="trigger" :toggle="() => toggleDropdown(toggle)">
         <Button
           ref="triggerRef"
           type="button"
@@ -107,7 +108,7 @@ const handleTriggerClick = toggle => {
           :icon="iconToRender"
           :trailing-icon="selectedOption.icon ? false : true"
           :label="label || (hideLabel ? null : selectedOption.label)"
-          @click="handleTriggerClick(toggle)"
+          @click="toggleDropdown(toggle)"
         />
       </slot>
     </template>
@@ -117,17 +118,17 @@ const handleTriggerClick = toggle => {
       :class="dropdownPosition"
       strong
     >
-      <div v-if="searchable" class="relative">
+      <div v-if="showSearch" class="relative">
         <Icon class="absolute size-4 left-2 top-2" icon="i-lucide-search" />
         <input
-          v-model="searchQuery"
+          v-model="searchTerm"
           v-focus
           class="w-full p-1.5 pl-8 rounded-lg text-n-slate-11 bg-n-alpha-1"
-          :placeholder="t('FILTER.SEARCH_PLACEHOLDER')"
+          :placeholder="t('COMBOBOX.SEARCH_PLACEHOLDER')"
         />
       </div>
       <DropdownSection class="[&>ul]:max-h-72">
-        <template v-for="option in filteredOptions" :key="option.value">
+        <template v-for="option in searchResults" :key="option.value">
           <li
             v-if="option.disabled"
             class="px-2 py-1.5 text-xs font-medium text-n-slate-10 select-none"
@@ -141,12 +142,13 @@ const handleTriggerClick = toggle => {
             @click="updateSelected(option.value)"
           />
         </template>
-        <li
-          v-if="searchable && !filteredOptions.length"
-          class="px-2 py-1.5 text-sm text-n-slate-10 select-none"
-        >
-          {{ t('FILTER.NO_RESULTS') }}
-        </li>
+        <DropdownItem v-if="!searchResults.length" disabled>
+          {{
+            searchTerm
+              ? t('COMBOBOX.EMPTY_SEARCH_RESULTS', { searchTerm })
+              : t('COMBOBOX.EMPTY_STATE')
+          }}
+        </DropdownItem>
       </DropdownSection>
     </DropdownBody>
   </DropdownContainer>

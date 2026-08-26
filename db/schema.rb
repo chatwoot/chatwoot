@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -171,6 +171,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.index ["account_id"], name: "index_agent_sessions_on_account_id"
     t.index ["assistant_id"], name: "index_agent_sessions_on_assistant_id"
     t.index ["cited_document_ids"], name: "index_agent_sessions_on_cited_document_ids", using: :gin
+    t.index ["document_ids"], name: "index_agent_sessions_on_document_ids", using: :gin
     t.index ["used_faq_ids"], name: "index_agent_sessions_on_used_faq_ids", using: :gin
     t.index ["user_id"], name: "index_agent_sessions_on_user_id"
   end
@@ -275,6 +276,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.string "remote_address"
     t.string "request_uuid"
     t.datetime "created_at", precision: nil
+    t.index ["associated_type", "associated_id", "created_at"], name: "index_audits_on_associated_and_created_at"
     t.index ["associated_type", "associated_id"], name: "associated_index"
     t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
     t.index ["created_at"], name: "index_audits_on_created_at"
@@ -340,6 +342,33 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.index ["provider", "provider_call_id"], name: "index_calls_on_provider_and_provider_call_id", unique: true
   end
 
+  create_table "campaign_recipients", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "campaign_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "inbox_id", null: false
+    t.string "source_id"
+    t.integer "status", default: 0, null: false
+    t.string "error_code"
+    t.string "error_title"
+    t.text "error_message"
+    t.text "message_content"
+    t.datetime "sent_at"
+    t.datetime "delivered_at"
+    t.datetime "read_at"
+    t.datetime "failed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "campaign_id"], name: "index_campaign_recipients_on_account_id_and_campaign_id"
+    t.index ["account_id"], name: "index_campaign_recipients_on_account_id"
+    t.index ["campaign_id", "contact_id"], name: "index_campaign_recipients_on_campaign_id_and_contact_id", unique: true
+    t.index ["campaign_id", "status"], name: "index_campaign_recipients_on_campaign_id_and_status"
+    t.index ["campaign_id"], name: "index_campaign_recipients_on_campaign_id"
+    t.index ["contact_id"], name: "index_campaign_recipients_on_contact_id"
+    t.index ["inbox_id"], name: "index_campaign_recipients_on_inbox_id"
+    t.index ["source_id"], name: "index_campaign_recipients_on_source_id", unique: true, where: "(source_id IS NOT NULL)"
+  end
+
   create_table "campaigns", force: :cascade do |t|
     t.integer "display_id", null: false
     t.string "title", null: false
@@ -358,6 +387,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.datetime "scheduled_at", precision: nil
     t.boolean "trigger_only_during_business_hours", default: false
     t.jsonb "template_params"
+    t.datetime "started_at"
+    t.datetime "completed_at"
     t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"
@@ -849,10 +880,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.datetime "waiting_since"
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
+    t.string "ai_assignee_type"
     t.datetime "status_changed_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
+    t.index ["account_id", "status", "created_at"], name: "index_conversations_on_account_id_status_created_at"
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
@@ -1559,6 +1592,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "campaign_recipients", "accounts", on_delete: :cascade
+  add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
+  add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
+  add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).

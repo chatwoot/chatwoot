@@ -7,8 +7,11 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 import {
   generateAutomationPayload,
+  getActionIcon,
   getAttributes,
 } from 'dashboard/helper/automationHelper';
+import { getAttributeIcon } from 'dashboard/components-next/filter/helper/filterAttributeIcons';
+import { provideDropdownTeleport } from 'dashboard/components-next/dropdown-menu/base/provider';
 import { validateAutomation } from 'dashboard/helper/validations';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
@@ -73,13 +76,15 @@ const INPUT_TYPE_MAP = {
   multi_select: 'multiSelect',
   search_select: 'searchSelect',
   plain_text: 'plainText',
-  comma_separated_plain_text: 'plainText',
+  multi_text: 'multiText',
   date: 'date',
 };
 
 const { t } = useI18n();
 const { isCloudFeatureEnabled } = useAccount();
 const { operators } = useOperators();
+
+provideDropdownTeleport();
 
 const panelRef = ref(null);
 const instantTriggerRef = useTemplateRef('instantTriggerRef');
@@ -198,6 +203,10 @@ const filterTypes = computed(() => {
       value: attr.key,
       attributeName: attr.name,
       label: attr.name,
+      icon: getAttributeIcon({
+        attributeKey: attr.key,
+        attributeDisplayType: attr.attributeDisplayType,
+      }),
       inputType: mappedInputType,
       options,
       filterOperators,
@@ -229,6 +238,7 @@ const automationActionTypes = computed(() => {
   return actionTypes.map(action => ({
     ...action,
     label: t(`AUTOMATION.ACTIONS.${action.label}`),
+    icon: getActionIcon(action.key),
   }));
 });
 

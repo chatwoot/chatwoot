@@ -404,6 +404,12 @@
         "PLACEHOLDER": "Buscar artigos"
       }
     },
+    "BREADCRUMB": {
+      "ARTICLES": "Artigos",
+      "CATEGORIES": "Categorias",
+      "LOCALES": "Localidades",
+      "SETTINGS": "Configurações"
+    },
     "CATEGORY": {
       "ADD": {
         "TITLE": "Criar uma categoria",
@@ -534,7 +540,7 @@
             "ARCHIVED": "Arquivado"
           },
           "PENDING_EDITS": "Edições não publicadas",
-          "PENDING_EDITS_TOOLTIP": "Este artigo publicado tem edições não publicadas",
+          "PENDING_EDITS_TOOLTIP": "Este artigo publicado possui alterações não publicadas",
           "CATEGORY": {
             "UNCATEGORISED": "Sem categoria"
           }
@@ -618,7 +624,7 @@
         "DELETE": "Excluir",
         "STATUS_SUCCESS": "Artigos atualizados com sucesso",
         "STATUS_ERROR": "Falha ao atualizar artigos",
-        "STATUS_SKIPPED": "1 artigo com edições não publicadas foi ignorado - abra-o para publicar ou descartar. Artigos de {count} com edições não publicadas foram ignorados - abra-os para publicar ou descartar.",
+        "STATUS_SKIPPED": "1 artigo com alterações não publicadas foi ignorado — abra-o para publicar ou descartar as alterações. | {count} artigos com alterações não publicadas foram ignorados — abra-os para publicar ou descartar as alterações.",
         "STATUS_SKIPPED_ALL": "Esses artigos têm edições não publicadas — abra cada um para publicar ou descartar.",
         "CATEGORY_SUCCESS": "Artigos movidos com sucesso",
         "CATEGORY_ERROR": "Falha ao mover artigos",
@@ -705,10 +711,10 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "Localizações não disponíveis | {n} local | {n} localidades",
       "NEW_LOCALE_BUTTON_TEXT": "Nova localização",
-      "SEARCH_PLACEHOLDER": "Pesquisar locais...",
+      "SEARCH_PLACEHOLDER": "Pesquisar localidade...",
       "SEARCH_EMPTY_STATE": {
-        "TITLE": "No matching locales",
-        "SUBTITLE": "Não conseguimos encontrar nenhum idioma correspondente à sua pesquisa. Tente um termo diferente."
+        "TITLE": "Nenhuma localidade correspondente encontrada",
+        "SUBTITLE": "Não conseguimos encontrar nenhuma localidade correspondente à sua pesquisa. Tente um termo diferente."
       },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "artigo {count} | {count} artigos",
@@ -726,7 +732,7 @@
       },
       "POPULAR_CONTENT_DIALOG": {
         "TITLE": "Conteúdo recomendado",
-        "DESCRIPTION": "Pegue até 3 categorias e 6 artigos para destacar na página central de ajuda desta localidade. Arraste-os para a ordem que você deseja que os visitantes vejam.",
+        "DESCRIPTION": "Escolha até 3 categorias e 6 artigos para destacar na página inicial da central de ajuda deste idioma. Arraste-os para a ordem em que deseja que os visitantes os vejam.",
         "SEARCH": "Pesquisar...",
         "EMPTY": "Nenhum resultado correspondente",
         "ADD_ANOTHER": "Adicionar outro...",
@@ -806,13 +812,13 @@
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Alterações não publicadas",
-        "DESCRIPTION": "Este artigo possui alterações de rascunho que não estão disponíveis ainda. Aplique-as antes de alterar o status ou descartá-las?",
-        "APPLY": "Aplicar as alterações",
+        "DESCRIPTION": "Este artigo possui alterações em rascunho que ainda não foram publicadas. Deseja aplicá-las antes de alterar o status ou descartá-las?",
+        "APPLY": "Aplicar alterações",
         "DISCARD": "Descartar alterações"
       },
       "DIFF_DIALOG": {
         "TITLE": "Alterações não publicadas",
-        "DESCRIPTION": "Compara seu rascunho com a versão que está disponível no momento.",
+        "DESCRIPTION": "Compare seu rascunho com a versão atualmente publicada.",
         "TITLE_LABEL": "Título"
       },
       "EDIT_ARTICLE": {
@@ -890,12 +896,6 @@
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug do portal"
         },
-        "LIVE_CHAT_WIDGET": {
-          "LABEL": "Widget de chat ao vivo",
-          "PLACEHOLDER": "Selecionar widget de chat ao vivo",
-          "HELP_TEXT": "Selecione um widget de chat ao vivo que aparecerá no centro de ajuda",
-          "NONE_OPTION": "Sem widget"
-        },
         "BRAND_COLOR": {
           "LABEL": "Cor da Marca"
         },
@@ -971,6 +971,72 @@
           "REMOVE": "Excluir"
         },
         "SAVE": "Salvar Alterações"
+      },
+      "INTEGRATIONS": {
+        "HEADER": "Integrações",
+        "DESCRIPTION": "Conecte ferramentas que ampliam os recursos da sua central de ajuda.",
+        "LIVE_CHAT": {
+          "TITLE": "Chat ao vivo com o Chatwoot",
+          "DESCRIPTION": "Exiba um widget de chat ao vivo na sua central de ajuda para que os visitantes possam entrar em contato enquanto leem.",
+          "PLACEHOLDER": "Selecionar widget de chat ao vivo",
+          "NONE_OPTION": "Sem widget"
+        },
+        "GTM": {
+          "TITLE": "Google Tag Manager",
+          "DESCRIPTION": "Adicione tags de analytics e marketing conectando seu contêiner do Tag Manager.",
+          "PLACEHOLDER": "GTM-XXXXXXX",
+          "HELP": "Encontre isso no seu espaço de trabalho do Google Tag Manager. Deixe em branco para desativar.",
+          "INVALID": "Insira um ID de contêiner válido, por exemplo GTM-XXXXXXX."
+        },
+        "GA4": {
+          "TITLE": "Google Analytics 4",
+          "DESCRIPTION": "Meça o tráfego e o comportamento dos visitantes na sua central de ajuda com o Google Analytics.",
+          "PLACEHOLDER": "G-XXXXXXXXXX",
+          "HELP": "Encontre o ID de medição em Administrador → Fluxos de dados no Google Analytics. Deixe em branco para desativar.",
+          "INVALID": "Insira um ID de medição válido, por exemplo G-XXXXXXXXXX."
+        },
+        "HOTJAR": {
+          "TITLE": "Hotjar",
+          "DESCRIPTION": "Entenda como os visitantes usam sua central de ajuda com mapas de calor e gravações de sessões.",
+          "PLACEHOLDER": "1234567",
+          "HELP": "Encontre o ID do seu site em Sites e organizações no Hotjar. Deixe em branco para desativar.",
+          "INVALID": "Insira um ID numérico de site do Hotjar."
+        },
+        "PLAUSIBLE": {
+          "TITLE": "Plausible",
+          "DESCRIPTION": "Acompanhe o tráfego da sua central de ajuda com o Plausible Analytics, que prioriza a privacidade.",
+          "PLACEHOLDER": "example.com",
+          "HELP": "Insira o domínio configurado nas definições do seu site no Plausible. Deixe em branco para desativar.",
+          "INVALID": "Insira um domínio válido, por exemplo example.com."
+        },
+        "AMPLITUDE": {
+          "TITLE": "Amplitude",
+          "DESCRIPTION": "Analise o comportamento dos visitantes na sua central de ajuda com o Amplitude.",
+          "PLACEHOLDER": "0123456789abcdef0123456789abcdef",
+          "HELP": "Encontre a chave da API nas configurações do seu projeto no Amplitude. Deixe em branco para desativar.",
+          "INVALID": "Insira uma chave de API válida do Amplitude."
+        },
+        "CLARITY": {
+          "TITLE": "Microsoft Clarity",
+          "DESCRIPTION": "Capture mapas de calor e gravações de sessões com o Microsoft Clarity.",
+          "PLACEHOLDER": "abcd1234ef",
+          "HELP": "Encontre o ID do projeto nas configurações do seu projeto no Clarity. Deixe em branco para desativar.",
+          "INVALID": "Insira um ID de projeto válido do Clarity."
+        },
+        "META_PIXEL": {
+          "TITLE": "Meta Pixel",
+          "DESCRIPTION": "Meça as conversões de anúncios e crie públicos a partir das visitas à central de ajuda com o Meta Pixel.",
+          "PLACEHOLDER": "123456789012345",
+          "HELP": "Encontre o ID do pixel no Gerenciador de Eventos da Meta. Deixe em branco para desativar.",
+          "INVALID": "Insira um ID numérico do pixel."
+        },
+        "SAVE": "Salvar Alterações"
+      },
+      "NAV": {
+        "GENERAL": "Geral",
+        "DOMAIN": "Domínio",
+        "APPEARANCE": "Tema",
+        "INTEGRATIONS": "Integrações"
       },
       "API": {
         "CREATE_PORTAL": {
