@@ -174,6 +174,28 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         category = Article.find(json_response['payload']['id'])
         expect(category.associated_article_id).to eql(parent_article.id)
       end
+
+      it 'rejects an article association from another portal' do
+        other_portal = create(:portal, account: account)
+        other_article = create(:article, portal: other_portal, account: account, author: agent)
+        article_params = {
+          article: {
+            category_id: category.id,
+            title: 'MyTitle',
+            slug: 'my-title',
+            author_id: agent.id,
+            associated_article_id: other_article.id
+          }
+        }
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+               params: article_params,
+               headers: admin.create_new_auth_token
+        end.not_to change(Article, :count)
+
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 

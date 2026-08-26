@@ -178,8 +178,8 @@ class Article < ApplicationRecord
   private
 
   def associate_with_root_article
-    article = portal&.articles&.find_by(id: associated_article_id)
-    self.associated_article_id = self.class.find_root_article_id(article) if article
+    article = portal.articles.find(associated_article_id)
+    self.associated_article_id = self.class.find_root_article_id(article)
   end
 
   def unique_published_locale_in_translation_family
