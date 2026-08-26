@@ -60,6 +60,7 @@ zh_CN:
   errors:
     account:
       not_authorized: 您无权访问此账户
+      email_limit_exceeded: 此账户已达到每日电子邮件发送上限
       reporting_timezone:
         invalid: 不是有效的时区
       support_email:
@@ -138,12 +139,14 @@ zh_CN:
       invalid_token_permissions: '访问令牌不具备 WhatsApp 所需的权限。'
       phone_info_fetch_failed: '无法获取电话号码信息，请重试。'
       phone_number_already_exists: '电话号码 %{phone_number} 已存在对应频道。如果问题仍然存在，请联系支持团队。'
+      message_outside_messaging_window: '由于 WhatsApp 的 24 小时客户服务窗口已关闭，且未提供模板参数，消息未发送。请改为发送已批准的模板消息。'
       reauthorization:
         generic: 'WhatsApp 重新授权失败，请重试。'
         not_supported: '此类型的 WhatsApp 频道不支持重新授权。'
       calls:
         not_enabled: '此收件箱未启用通话功能'
         already_ended: '此通话已结束'
+        already_accepted: '此通话已被其他客服接听'
         no_recording: '未提供录音文件'
         no_message: '此通话没有关联消息'
         sdp_offer_required: 'sdp_offer 为必填项'
@@ -284,6 +287,7 @@ zh_CN:
       whatsapp:
         list_button_label: '选择一项'
         call_permission_request_body: '我们希望就您的对话致电给您。'
+        flow_response: '已提交流程回复'
         unsupported_message: '此消息不可用。'
       voice_call:
         twilio: '语音通话'
@@ -576,6 +580,8 @@ zh_CN:
   agent_capacity_policy:
     inbox_already_assigned: '此收件箱已分配给该策略'
   portals:
+    analytics:
+      invalid_configuration: 'Invalid analytics configuration'
     articles:
       captain_not_available: '翻译功能要求此账户启用 Captain'
       locale_not_available: '此门户不支持该语言环境'
@@ -591,6 +597,21 @@ zh_CN:
     ssl_status:
       custom_domain_not_configured: '未配置自定义域名'
   super_admin:
+    account_suspension:
+      categories:
+        spam: 'Spam'
+        non_payment: 'Non-payment'
+        other: 'Other'
+      form:
+        category: 'Suspension category'
+        category_prompt: 'Select a category'
+        reason: 'Suspension reason'
+        reason_hint: 'Enter a reason of up to 256 characters.'
+      history:
+        suspended_at: 'Suspended at'
+        category: '类别'
+        reason: 'Reason'
+        empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:
         helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
@@ -609,6 +630,7 @@ zh_CN:
         label_suggestion: 'Label suggestion'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
+        conversation_faq_matching: 'Conversation FAQ matching'
         help_center_article_generation: 'Help center article generation'
         onboarding_content_generation: 'Onboarding content generation'
         help_center_query_translation: 'Help center query translation'

@@ -49,7 +49,9 @@
         "ADD_NAME": "为收件箱添加名称",
         "PICK_NAME": "为收件箱选择一个名称",
         "PICK_A_VALUE": "选择一个数值",
-        "CREATE_INBOX": "新增收件箱"
+        "CREATE_INBOX": "新增收件箱",
+        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "STATUS_LINK": "View status updates"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "在 Instagram 中继续",
@@ -59,7 +61,8 @@
         "ERROR_AUTH": "连接到 Instagram 时出错，请重试",
         "NEW_INBOX_SUGGESTION": "这个 Instagram 账户先前已连接到一个不同的收件箱，现在已经迁移到这里。 所有新消息都将出现在这里。旧收件箱将无法再发送或接收此账户的消息。",
         "DUPLICATE_INBOX_BANNER": "此 Instagram 账户已迁移到新的 Instagram 通道收件箱。您将无法从此收件箱发送/接收 Instagram 消息。",
-        "SETTINGS_RESTRICTED_WARNING": "Instagram 当前受到限制。在我们恢复完整支持期间，部分消息或操作可能会延迟或暂时不可用。",
+        "RESTRICTED_WARNING": "由于 Meta 端的 API 问题（并非 Chatwoot 的问题），Instagram 收件箱创建暂时不可用。我们正在与 Meta 密切合作，尽快解决此问题。",
+        "SETTINGS_RESTRICTED_WARNING": "由于 Meta 端的 API 问题（并非 Chatwoot 的问题），Instagram 消息功能目前受到影响。部分消息或操作可能会延迟或不可用。我们正在与 Meta 密切合作，尽快解决此问题。",
         "STATUS_LINK": "查看状态更新"
       },
       "TIKTOK": {
@@ -250,12 +253,14 @@
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp 云服务",
           "WHATSAPP_CLOUD_DESC": "通过 Meta 快速完成设置",
+          "WHATSAPP_CLOUD_MANUAL_SETUP_DESC": "Manual setup with Cloud API credentials",
           "TWILIO_DESC": "通过 Twilio 凭据连接",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
           "TITLE": "选择您的 API 提供商",
-          "DESCRIPTION": "选择您的 WhatsApp 提供商。您可以直接通过 Meta 连接（无需设置），或使用账户凭据通过 Twilio 连接。"
+          "DESCRIPTION": "选择您的 WhatsApp 提供商。您可以直接通过 Meta 连接（无需设置），或使用账户凭据通过 Twilio 连接。",
+          "RESTRICTION_DESCRIPTION": "选择您的 WhatsApp 提供商。您可以使用 Cloud API 凭据手动连接 WhatsApp Cloud，或使用账户凭据通过 Twilio 连接。"
         },
         "INBOX_NAME": {
           "LABEL": "收件箱名称",
@@ -297,7 +302,7 @@
         "SUBMIT_BUTTON": "创建WhatsApp频道",
         "EMBEDDED_SIGNUP": {
           "TITLE": "使用 Meta 快速设置",
-          "DESC": "使用 WhatsApp 嵌入式注册流程快速连接新号码。您将被重定向到 Meta 登录 WhatsApp Business 账户。拥有管理员权限将使设置更顺畅。",
+          "DESC": "使用 Meta 快速设置连接新号码或 WhatsApp Business 应用中的现有号码。您将被重定向到 Meta，以登录 WhatsApp Business 账户。拥有管理员权限可使设置过程更加顺畅。",
           "BENEFITS": {
             "TITLE": "嵌入式注册的优势：",
             "EASY_SETUP": "无需手动配置",
@@ -305,7 +310,7 @@
             "AUTO_CONFIG": "自动 Webhook 和电话号码配置"
           },
           "LEARN_MORE": {
-            "TEXT": "如需了解更多关于集成注册、定价和限制的信息，请访问 {link}。",
+            "TEXT": "如需了解有关快速设置、定价和限制的更多信息，请访问{link}。",
             "LINK_TEXT": "此链接"
           },
           "SUBMIT_BUTTON": "连接 WhatsApp Business",
@@ -325,10 +330,20 @@
           "SUCCESS_FALLBACK": "WhatsApp Business 账户已成功配置",
           "MANUAL_FALLBACK": "如果您的号码已连接到 WhatsApp Business Platform（API），或者您是接入自有号码的技术提供商，请使用{link}",
           "MANUAL_LINK_TEXT": "手动设置流程",
+          "ACCESS_REQUEST": {
+            "TITLE": "使用 Meta 快速设置",
+            "DESCRIPTION": "无需手动配置即可连接新号码或 WhatsApp Business 应用中的现有号码。如需申请此选项，请告诉我们的团队您的业务内容、WhatsApp 使用方式以及需要访问权限的 Chatwoot 账户。",
+            "FOOTNOTE": "我们将审核您的申请，并告知是否可以启用此选项。您也可以继续使用下方的手动设置。",
+            "BUTTON": "申请访问权限"
+          },
+          "RESTRICTED_WARNING": "由于 Meta 端的 API 问题（并非 Chatwoot 的问题），WhatsApp 嵌入式注册暂时不可用。符合条件的 Cloud API 号码仍可使用手动设置。我们正在与 Meta 密切合作，尽快解决此问题。",
+          "STATUS_LINK": "查看状态更新",
           "CALLING_ENABLE_FAILED": "您的 WhatsApp 收件箱已就绪，但无法启用语音通话：此号码尚未加入 WhatsApp Business Calling API。请联系 Meta 或您的 WhatsApp Business Solution Provider 完成接入，然后在收件箱的“通话”设置中启用通话。"
         },
         "API": {
-          "ERROR_MESSAGE": "我们无法保存 WhatsApp 通道"
+          "ERROR_MESSAGE": "我们无法保存 WhatsApp 通道",
+          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
+          "STATUS_LINK": "View status updates"
         }
       },
       "VOICE": {
@@ -689,41 +704,98 @@
     "WIDGET_FEATURES": "小组件功能",
     "ACCOUNT_HEALTH": {
       "TITLE": "管理您的 WhatsApp 账户",
-      "DESCRIPTION": "查看您的 WhatsApp 账户状态、消息限制和质量。如有需要，请更新设置或解决问题",
+      "DESCRIPTION": "查看您的 WhatsApp 电话号码健康状态、消息容量和关联的 Meta 业务详情。",
       "GO_TO_SETTINGS": "前往 Meta 商业管理器",
       "NO_DATA": "健康数据不可用",
-      "FETCH_ERROR": "无法获取账户健康状态",
+      "ERRORS": {
+        "AUTHORIZATION": {
+          "EMBEDDED_TITLE": "需要刷新 WhatsApp 连接",
+          "EMBEDDED_DESCRIPTION": "Meta 无法验证此收件箱的连接。请前往“配置”，使用嵌入式注册重新配置。",
+          "MANUAL_TITLE": "WhatsApp 访问令牌需要处理",
+          "MANUAL_DESCRIPTION": "Meta 无法验证此收件箱的访问令牌。请前往“配置”验证或替换令牌。"
+        },
+        "GENERIC_TITLE": "WhatsApp 健康数据不可用",
+        "GENERIC_DESCRIPTION": "Meta 无法返回当前健康状态详情。请查看下方错误并稍后重试。",
+        "GO_TO_CONFIGURATION": "前往配置"
+      },
+      "SECTIONS": {
+        "PHONE_NUMBER": "电话号码",
+        "HEALTH_AND_CAPACITY": "健康状态和容量",
+        "BUSINESS_ACCOUNT": "商业账户"
+      },
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
           "LABEL": "显示电话号码",
           "TOOLTIP": "向客户显示的电话号码"
         },
         "VERIFIED_NAME": {
-          "LABEL": "商业名称",
-          "TOOLTIP": "经 WhatsApp 验证的商业名称"
+          "LABEL": "WhatsApp 显示名称",
+          "TOOLTIP": "此电话号码在 WhatsApp 上关联的显示名称"
+        },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "电话号码标识",
+          "TOOLTIP": "此 WhatsApp 电话号码的 Meta 标识"
+        },
+        "COEXISTENCE": {
+          "LABEL": "共存模式",
+          "TOOLTIP": "此号码同时连接到 WhatsApp Business 应用和 Cloud API"
         },
         "DISPLAY_NAME_STATUS": {
           "LABEL": "显示名称状态",
-          "TOOLTIP": "您的商业名称验证状态"
+          "TOOLTIP": "WhatsApp 显示名称的审核状态"
+        },
+        "LAST_ONBOARDED_TIME": {
+          "LABEL": "最近接入时间",
+          "TOOLTIP": "Meta 最近一次接入此电话号码的时间"
+        },
+        "PHONE_NUMBER_STATUS": {
+          "LABEL": "电话号码状态",
+          "TOOLTIP": "此电话号码当前在 WhatsApp 上的连接状态"
         },
         "QUALITY_RATING": {
           "LABEL": "质量评级",
-          "TOOLTIP": "您账户的 WhatsApp 质量评级"
+          "TOOLTIP": "Meta 根据近期消息信号为此电话号码评定的质量等级"
         },
         "MESSAGING_LIMIT_TIER": {
           "LABEL": "消息限制等级",
-          "TOOLTIP": "您账户的每日消息限制"
+          "TOOLTIP": "此电话号码在 24 小时内可主动发起对话的客户数量"
         },
         "ACCOUNT_MODE": {
           "LABEL": "账户模式",
-          "TOOLTIP": "您的 WhatsApp 账户当前运营模式"
+          "TOOLTIP": "此 WhatsApp 电话号码当前的运行模式"
+        },
+        "CODE_VERIFICATION_STATUS": {
+          "LABEL": "验证码状态",
+          "TOOLTIP": "Meta 报告的此电话号码验证码状态"
+        },
+        "THROUGHPUT_LEVEL": {
+          "LABEL": "吞吐量",
+          "TOOLTIP": "分配给此电话号码的消息吞吐量等级"
+        },
+        "BUSINESS_ACCOUNT_NAME": {
+          "LABEL": "WhatsApp Business 账户名称",
+          "TOOLTIP": "与此电话号码关联的 WhatsApp Business 账户名称"
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "WhatsApp Business 账户 ID",
+          "TOOLTIP": "关联 WhatsApp Business 账户的 Meta 标识"
+        },
+        "BUSINESS_PORTFOLIO_NAME": {
+          "LABEL": "业务资产组合名称",
+          "TOOLTIP": "拥有此 WhatsApp Business 账户的 Meta 业务资产组合名称"
+        },
+        "BUSINESS_PORTFOLIO_ID": {
+          "LABEL": "业务资产组合 ID",
+          "TOOLTIP": "拥有此 WhatsApp Business 账户的业务资产组合 Meta 标识"
         }
       },
       "VALUES": {
+        "NOT_AVAILABLE": "暂无",
         "TIERS": {
           "TIER_250": "每 24 小时 250 个客户",
           "TIER_1000": "每 24 小时 1K 个客户",
           "TIER_1K": "每 24 小时 1K 个客户",
+          "TIER_2K": "每 24 小时 2K 个客户",
           "TIER_10K": "每 24 小时 10K 个客户",
           "TIER_100K": "每 24 小时 100K 个客户",
           "TIER_UNLIMITED": "每 24 小时无限制客户",
@@ -731,6 +803,16 @@
         },
         "STATUSES": {
           "APPROVED": "已批准",
+          "CONNECTED": "已连接",
+          "VERIFIED": "已认证",
+          "STANDARD": "标准",
+          "ACTIVE": "有效",
+          "EXPIRED": "已过期",
+          "FLAGGED": "已标记",
+          "RESTRICTED": "受限",
+          "BANNED": "已封禁",
+          "DISCONNECTED": "已断开",
+          "UNKNOWN": "暂无",
           "PENDING_REVIEW": "待审核",
           "AVAILABLE_WITHOUT_REVIEW": "无需审核即可使用",
           "REJECTED": "已拒绝",
@@ -750,7 +832,11 @@
         "REGISTER_SUCCESS": "Webhook 注册成功",
         "REGISTER_ERROR": "Webhook 注册失败，请重试。",
         "CONFIGURED_SUCCESS": "Webhook 配置成功",
-        "URL_MISMATCH": "Webhook URL 不匹配"
+        "URL_MISMATCH": "Webhook URL 不匹配",
+        "CONFIGURED_URL": "已配置的 URL",
+        "EXPECTED_URL": "预期 URL",
+        "COPY_URL": "复制 Webhook URL",
+        "COPY_SUCCESS": "Webhook URL 已复制到剪贴板"
       }
     },
     "SETTINGS": "设置",
@@ -817,6 +903,16 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "更新API密钥",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "在此处输入新的API密钥",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "更新",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when Chatwoot cannot retrieve its message templates. Chatwoot uses this token only for template synchronization.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Enter the business management token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "添加",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Replace",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS": "WhatsApp business management token updated successfully.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR": "Could not update the business management token. Verify its WhatsApp Business Management permission and account access, then try again.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK": "Learn how to generate a WhatsApp Business Management token",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp 嵌入注册",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "此收件箱已通过嵌入注册的 WhatsApp 连接。",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "您可以重新配置此收件箱来更新您的 WhatsApp Business 设置。",

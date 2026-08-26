@@ -264,7 +264,8 @@
     "EMAIL_VERIFICATION_SENT": "验证邮件已发送。请检查您的收件箱。",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "账户已暂停",
-      "MESSAGE": "您的账户已被暂停。请联系支持团队以获取更多信息。"
+      "MESSAGE": "您的账户已被暂停。请联系支持团队以获取更多信息。",
+      "MANAGE_BILLING": "Manage billing"
     },
     "NO_ACCOUNTS": {
       "TITLE": "未找到账户",
@@ -324,6 +325,7 @@
     "COMPANIES": "公司",
     "ALL_COMPANIES": "所有公司",
     "CAPTAIN": "Captain",
+    "CALLS": "Calls",
     "CAPTAIN_ASSISTANTS": "助手",
     "CAPTAIN_OVERVIEW": "概览",
     "CAPTAIN_DOCUMENTS": "文档",
@@ -338,6 +340,7 @@
     "AGENT_BOTS": "机器人",
     "AUDIT_LOGS": "审计日志",
     "INBOXES": "收件箱",
+    "WHATSAPP_TEMPLATES": "Templates",
     "NOTIFICATIONS": "消息通知",
     "CANNED_RESPONSES": "预设回复",
     "INTEGRATIONS": "集成方式",
@@ -418,6 +421,10 @@
     "DESCRIPTION": "将其他客服支持工具中的现有联系人和历史对话导入此账户。每次导入都会在后台运行，您可以在导入期间继续工作、跟踪进度，并查看过程中被跳过的内容。",
     "LOADING": "正在获取导入任务",
     "DEFAULT_IMPORT_NAME": "Intercom 导入",
+    "DEFAULT_IMPORT_NAMES": {
+      "INTERCOM": "Intercom 导入",
+      "FRESHDESK": "Freshdesk 导入"
+    },
     "TABS": {
       "IMPORT": "导入",
       "EXPORT": "导出"
@@ -434,6 +441,12 @@
       "NAME_PLACEHOLDER": "7 月 Intercom 迁移",
       "ACCESS_KEY": "Intercom 访问密钥",
       "ACCESS_KEY_PLACEHOLDER": "粘贴您的 Intercom 访问密钥",
+      "INTERCOM_ACCESS_KEY": "Intercom 访问密钥",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "粘贴您的 Intercom 访问密钥",
+      "FRESHDESK_API_KEY": "Freshdesk API 密钥",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "粘贴您的 Freshdesk API 密钥",
+      "FRESHDESK_DOMAIN": "Freshdesk 域名",
+      "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
       "DATA_TYPES": "要导入的数据",
       "VALIDATING": "正在验证访问密钥...",
       "VALID_KEY": "访问密钥验证成功。",
@@ -461,6 +474,7 @@
       "STATUS": "状态",
       "IMPORTED": "已导入",
       "CREATED": "创建时间",
+      "RETRY": "重试",
       "ABANDON": "终止"
     },
     "DETAIL": {
@@ -506,9 +520,11 @@
       }
     },
     "ALERTS": {
-      "IMPORT_STARTED": "Intercom 导入已开始。",
-      "IMPORT_ABANDONED": "Intercom 导入已终止。",
-      "IMPORT_FAILED": "无法开始 Intercom 导入。"
+      "IMPORT_STARTED": "导入已开始。",
+      "IMPORT_RETRIED": "导入已加入恢复队列。",
+      "IMPORT_RETRY_FAILED": "无法重试导入。",
+      "IMPORT_ABANDONED": "导入已终止。",
+      "IMPORT_FAILED": "无法开始导入。"
     }
   },
   "CAPTAIN_SETTINGS": {

@@ -129,7 +129,6 @@
       "ERROR": "无法加载记录，请重试。",
       "ADMIN_ONLY": "只有管理员可以查看报表记录详情。",
       "LOAD_MORE": "加载更多",
-      "CLOSE": "关闭详情",
       "PREVIOUS_BUCKET": "上一个数据项",
       "NEXT_BUCKET": "下一个数据项",
       "UNKNOWN_CONTACT": "未知联系人",

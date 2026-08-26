@@ -411,8 +411,8 @@
         "DISMISS": "取消"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "有 {count} 个常见问题待审核，知识覆盖率目前为 {coverage}%。批准这些内容，让助手能够自行解决更多问题。",
-        "ACTION": "审核常见问题",
+        "TEXT": "有 {count} 个常见问题建议待审核，当前知识覆盖率为 {coverage}%。批准这些建议，让助手能够自行解决更多问题。",
+        "ACTION": "审核建议",
         "DISMISS": "取消"
       },
       "RANGES": {
@@ -447,7 +447,6 @@
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "关闭详情",
         "EMPTY": "未找到此指标的记录。",
         "ERROR": "无法加载记录，请重试。",
         "LOAD_MORE": "加载更多",
@@ -457,7 +456,7 @@
         "TITLE": "知识覆盖率",
         "COVERAGE": "已批准 {pct}%",
         "APPROVED": "已批准的常见问题",
-        "PENDING": "待审核的常见问题",
+        "SUGGESTIONS": "常见问题建议",
         "DOCUMENTS": "文档"
       },
       "LINKS": {
@@ -674,7 +673,7 @@
             "TITLE": "示例护栏",
             "ADD": "添加全部",
             "ADD_SINGLE": "添加此项",
-            "SAVE": "添加并保存",
+            "SAVE": "添加并保存 (↵)",
             "PLACEHOLDER": "输入另一条护栏..."
           },
           "NEW": {
@@ -719,7 +718,7 @@
             "TITLE": "示例回复指南",
             "ADD": "添加全部",
             "ADD_SINGLE": "添加此项",
-            "SAVE": "添加并保存",
+            "SAVE": "添加并保存 (↵)",
             "PLACEHOLDER": "输入另一条回复指南..."
           },
           "NEW": {
@@ -1085,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "常见问题",
-      "PENDING_FAQS": "待处理的常见问题",
       "ADD_NEW": "创建新常见问题",
       "DOCUMENTABLE": {
         "CONVERSATION": "对话 #{id}"
@@ -1094,12 +1092,10 @@
       "SELECT_ALL": "全选 ({count})",
       "UNSELECT_ALL": "取消全选({count})",
       "SEARCH_PLACEHOLDER": "搜索常见问题...",
-      "BULK_APPROVE_BUTTON": "批准",
-      "BULK_DELETE_BUTTON": "删除",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "常见问题已成功批准",
-        "ERROR_MESSAGE": "批准常见问题时出错，请重试"
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "删除",
       "BULK_DELETE": {
         "TITLE": "删除常见问题？",
         "DESCRIPTION": "您确定要删除选中的常见问题吗？此操作无法撤销。",
@@ -1114,20 +1110,9 @@
         "SUCCESS_MESSAGE": "常见问题已成功删除",
         "ERROR_MESSAGE": "删除常见问题时出错，请重试"
       },
-      "FILTER": {
-        "ASSISTANT": "助手：{selected}",
-        "STATUS": "状态：{selected}",
-        "ALL_ASSISTANTS": "所有"
-      },
-      "STATUS": {
-        "TITLE": "状态",
-        "PENDING": "待处理",
-        "APPROVED": "已批准",
-        "ALL": "所有"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain 发现了一些客户正在搜索的常见问题。",
-        "ACTION": "点击此处查看"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain 已将客户反复提出的问题整理为常见问题建议。",
+        "ACTION": "审核建议"
       },
       "FORM_DESCRIPTION": "将问题及其对应的答案添加到知识库，并选择应关联的助手。",
       "CREATE": {
@@ -1160,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "未找到常见问题",
-        "NO_PENDING_TITLE": "没有更多待处理的常见问题需要审阅",
         "SUBTITLE": "常见问题帮助您的助手为客户提供快速准确的答案。它们可以从您的内容自动生成，也可以手动添加。",
         "CLEAR_SEARCH": "清除活跃筛选器",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain 常见问题",
           "NOTE": "Captain FAQs 检测常见的客户问题——无论是知识库中缺失的问题还是经常被问到的问题——并生成相关的常见问题以改善支持。您可以查看每个建议，并决定是否批准或拒绝它。"
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "批准",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "取消",
+      "SAVE": "保存更改",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "重试"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

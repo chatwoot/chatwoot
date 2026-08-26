@@ -64,6 +64,15 @@
     "BULLET_LIST": "项目符号列表",
     "ORDERED_LIST": "有序列表",
     "TABLE": "表格",
-    "IMAGE": "图片"
+    "IMAGE": "图片",
+    "VIDEO": "视频",
+    "DIVIDER": "分割线"
+  },
+  "VIDEO_EMBED": {
+    "PLACEHOLDER": "粘贴视频链接",
+    "HINT": "支持 YouTube、Vimeo、Loom、Wistia、Arcade、Bunny、CodePen、GuideJar 和 mp4 链接",
+    "ERROR": "这似乎不是受支持的视频链接",
+    "ADD": "嵌入",
+    "CANCEL": "取消"
   }
 }

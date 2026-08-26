@@ -6,6 +6,70 @@ RSpec.describe Captain::Assistant, type: :model do
   let(:contact) { create(:contact, account: account, additional_attributes: { 'country_code' => 'US' }) }
   let(:conversation) { create(:conversation, account: account, contact: contact) }
 
+  describe 'inactive conversation settings' do
+    it 'uses safe defaults when settings are unavailable' do
+      assistant.account.enable_features('captain_integration_v2')
+      assistant.auto_resolve_after = nil
+
+      expect(assistant.inactivity_threshold_minutes).to eq(60)
+
+      assistant.auto_resolve_after = 5
+      assistant.send_inactivity_resolution_message = false
+      assistant.account.disable_features('captain_integration_v2')
+
+      expect(assistant.inactivity_threshold_minutes).to eq(60)
+      expect(assistant.send_inactivity_resolution_message?).to be(true)
+    end
+
+    it 'validates the inactivity timer range' do
+      assistant.auto_resolve_after = 4
+
+      expect(assistant).not_to be_valid
+      expect(assistant.errors[:auto_resolve_after]).to be_present
+
+      assistant.auto_resolve_after = 61.5
+
+      expect(assistant).not_to be_valid
+      expect(assistant.errors[:auto_resolve_after]).to be_present
+    end
+
+    it 'rounds the inactivity timer to the nearest five minutes' do
+      assistant.auto_resolve_after = 61
+
+      assistant.validate
+
+      expect(assistant.auto_resolve_after).to eq(60)
+
+      assistant.auto_resolve_after = 63
+      assistant.validate
+
+      expect(assistant.auto_resolve_after).to eq(65)
+    end
+  end
+
+  describe '#auto_resolve_mode' do
+    let(:account) { create(:account, captain_auto_resolve_mode: 'legacy') }
+
+    it 'uses the assistant setting when configured' do
+      assistant = create(:captain_assistant, account: account, config: { 'auto_resolve_mode' => 'disabled' })
+
+      expect(assistant.auto_resolve_mode).to eq('disabled')
+    end
+
+    it 'falls back to the account setting for assistants that have not been migrated' do
+      assistant = create(:captain_assistant, account: account)
+
+      expect(assistant.auto_resolve_mode).to eq('legacy')
+    end
+
+    it 'rejects unsupported modes' do
+      assistant = build(:captain_assistant, account: account, config: { 'auto_resolve_mode' => 'unsupported' })
+
+      expect(assistant).not_to be_valid
+      expect(assistant.errors[:auto_resolve_mode]).to be_present
+    end
+  end
+
   describe '#responds_to_audience?' do
     it 'returns true when no audience is configured' do
       expect(assistant.responds_to_audience?(contact, conversation)).to be(true)
@@ -235,6 +299,32 @@ RSpec.describe Captain::Assistant, type: :model do
         an_instance_of(Captain::Tools::FaqLookupTool),
         an_instance_of(Captain::Tools::HandoffTool)
       )
+    end
+  end
+
+  describe '#agent_instructions' do
+    it 'keeps the Assistant human handoff prompt unchanged' do
+      instructions = assistant.agent_instructions
+
+      expect(instructions).to include('# Human Handoff Protocol', 'captain--tools--handoff')
+      expect(instructions).not_to include('You are drafting a reply for a support agent to review.')
+    end
+
+    it 'renders the separate Copilot reply suggestion prompt when requested' do
+      assistant.update!(
+        response_guidelines: ['Include the raw guide URL https://yc.ms/eglb1H.'],
+        guardrails: ['Never add citation numbers or footnotes.']
+      )
+      scenario = create(:captain_scenario, assistant: assistant, account: account, title: 'Refund workflow')
+
+      instructions = assistant.agent_instructions(nil, prompt_template: 'copilot_reply_suggestion')
+
+      expect(instructions).to include(
+        'You are drafting a reply for a support agent to review.',
+        'Include the raw guide URL https://yc.ms/eglb1H.',
+        'Never add citation numbers or footnotes.'
+      )
+      expect(instructions).not_to include('# Human Handoff Protocol', scenario.title, "handoff_to_#{scenario.handoff_key}")
     end
   end
 end

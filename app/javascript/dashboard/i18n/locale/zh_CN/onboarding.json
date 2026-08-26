@@ -39,6 +39,10 @@
     "ERROR": "出错了。请重试。",
     "WHATSAPP_CONNECTED": "WhatsApp 连接成功",
     "FACEBOOK_CONNECTED": "Facebook 连接成功",
+    "META_RESTRICTION": {
+      "MESSAGE": "由于 Meta 端的 API 问题（并非 Chatwoot 的问题），Facebook、Instagram 和 WhatsApp 收件箱设置暂时不可用。我们正在与 Meta 密切合作，尽快解决此问题。",
+      "STATUS_LINK": "查看状态更新"
+    },
     "CREATED_FOR_YOU": {
       "TITLE": "我们已为您创建以下内容",
       "LIVE_CHAT": "在线聊天小组件",

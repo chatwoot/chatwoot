@@ -60,6 +60,7 @@ zh_TW:
   errors:
     account:
       not_authorized: You are not authorized to access this account
+      email_limit_exceeded: The daily email limit for this account has been reached
       reporting_timezone:
         invalid: 不是有效的時區
       support_email:
@@ -138,12 +139,14 @@ zh_TW:
       invalid_token_permissions: '存取權杖不具備 WhatsApp 所需的權限。'
       phone_info_fetch_failed: '無法取得電話號碼資訊，請再試一次。'
       phone_number_already_exists: '此電話號碼 %{phone_number} 的頻道已存在，若問題持續請聯繫客服'
+      message_outside_messaging_window: 'Message not sent because the WhatsApp 24-hour customer service window is closed and no template parameters were provided. Send an approved template message instead.'
       reauthorization:
         generic: '無法重新授權 WhatsApp，請再試一次。'
         not_supported: '此類型的 WhatsApp 頻道不支援重新授權。'
       calls:
         not_enabled: 'Calling is not enabled for this inbox'
         already_ended: 'This call has already ended'
+        already_accepted: 'Call already accepted by another agent'
         no_recording: 'No recording file provided'
         no_message: 'Call has no associated message'
         sdp_offer_required: 'sdp_offer is required'
@@ -284,6 +287,7 @@ zh_TW:
       whatsapp:
         list_button_label: '選擇一個項目'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        flow_response: 'Submitted a flow response'
         unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
@@ -571,6 +575,8 @@ zh_TW:
   agent_capacity_policy:
     inbox_already_assigned: '收件匣已被分配給此策略'
   portals:
+    analytics:
+      invalid_configuration: 'Invalid analytics configuration'
     articles:
       captain_not_available: 'Translation requires Captain to be enabled for this account'
       locale_not_available: 'Locale not available in this portal'
@@ -586,6 +592,21 @@ zh_TW:
     ssl_status:
       custom_domain_not_configured: '尚未設定自訂網域'
   super_admin:
+    account_suspension:
+      categories:
+        spam: 'Spam'
+        non_payment: 'Non-payment'
+        other: 'Other'
+      form:
+        category: 'Suspension category'
+        category_prompt: 'Select a category'
+        reason: 'Suspension reason'
+        reason_hint: 'Enter a reason of up to 256 characters.'
+      history:
+        suspended_at: 'Suspended at'
+        category: '類別'
+        reason: 'Reason'
+        empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:
         helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
@@ -604,6 +625,7 @@ zh_TW:
         label_suggestion: 'Label suggestion'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
+        conversation_faq_matching: 'Conversation FAQ matching'
         help_center_article_generation: 'Help center article generation'
         onboarding_content_generation: 'Onboarding content generation'
         help_center_query_translation: 'Help center query translation'
