@@ -85,6 +85,26 @@ RSpec.describe MessageContentPresenter do
       end
     end
 
+    context 'when message contains image only' do
+      let(:content_type) { 'text' }
+      let(:content) { nil }
+
+      it 'returns the attachment external_url if present' do
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image, external_url: 'https://example.com/external.png')
+        attachment.save!
+
+        expect(presenter.webhook_content).to eq('https://example.com/external.png')
+      end
+
+      it 'returns the attachment file_url if external_url is not present' do
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment.save!
+
+        expect(presenter.webhook_content).to eq(attachment.file_url)
+      end
+    end
+
     context 'when message is input_csat and inbox is not web widget' do
       let(:content_type) { 'input_csat' }
       let(:content) { 'Rate your experience' }

@@ -172,7 +172,7 @@ class Message < ApplicationRecord
 
   def webhook_push_event_data
     push_event_data.merge(
-      content: Messages::WebhookContentNormalizer.normalize(content),
+      content: webhook_content,
       processed_message_content: Messages::WebhookContentNormalizer.normalize(processed_message_content)
     )
   end

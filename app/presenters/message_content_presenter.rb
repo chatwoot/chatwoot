@@ -8,7 +8,11 @@ class MessageContentPresenter < SimpleDelegator
   end
 
   def webhook_content
-    Messages::WebhookContentNormalizer.normalize(content_with_survey_link)
+    raw_content = content_with_survey_link
+    if raw_content.blank? && attachments.present?
+      raw_content = attachments.first.external_url.presence || attachments.first.file_url
+    end
+    Messages::WebhookContentNormalizer.normalize(raw_content)
   end
 
   private
