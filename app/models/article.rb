@@ -184,7 +184,7 @@ class Article < ApplicationRecord
   end
 
   def unique_published_locale_in_translation_family
-    root_id = associated_article_id || id
+    root_id = self.class.find_root_article_id(self)
     return if root_id.blank? || locale.blank?
 
     portal.articles.lock.find(root_id)

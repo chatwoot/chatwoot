@@ -91,6 +91,19 @@ RSpec.describe Article do
       expect(duplicate).not_to be_valid
       expect(duplicate.errors[:locale]).to include('has already been taken')
     end
+
+    it 'rejects publishing a legacy nested translation with the root locale' do
+      portal_1.update!(config: { allowed_locales: %w[en es] })
+      root_article = create(:article, portal: portal_1, author: user, locale: 'en')
+      parent_translation = create(:article, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+      nested_translation = create(:article, :draft, portal: portal_1, author: user, locale: 'en')
+      nested_translation.update_column(:associated_article_id, parent_translation.id) # rubocop:disable Rails/SkipsModelValidations
+
+      nested_translation.status = :published
+
+      expect(nested_translation).not_to be_valid
+      expect(nested_translation.errors[:locale]).to include('has already been taken')
+    end
   end
 
   describe 'associations' do

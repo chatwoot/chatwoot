@@ -108,7 +108,7 @@ class Category < ApplicationRecord
   end
 
   def unique_locale_in_translation_family
-    root_id = associated_category_id || id
+    root_id = self.class.find_root_category_id(self)
     return if root_id.blank? || locale.blank?
 
     portal.categories.lock.find(root_id)

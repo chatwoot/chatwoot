@@ -72,15 +72,28 @@ RSpec.describe Category do
 
     it 'rejects a locale used by a legacy nested translation' do
       portal = create(:portal, config: { allowed_locales: %w[en es pt] })
-      root_category = create(:category, portal: portal, locale: 'en')
-      parent_translation = create(:category, portal: portal, locale: 'es', associated_category_id: root_category.id)
-      nested_translation = create(:category, portal: portal, locale: 'pt')
+      root_category = create(:category, portal: portal, locale: 'en', slug: 'root-category')
+      parent_translation = create(:category, portal: portal, locale: 'es', slug: 'parent-translation', associated_category_id: root_category.id)
+      nested_translation = create(:category, portal: portal, locale: 'pt', slug: 'nested-translation')
       nested_translation.update_column(:associated_category_id, parent_translation.id) # rubocop:disable Rails/SkipsModelValidations
 
       duplicate = build(:category, portal: portal, locale: 'pt', slug: 'duplicate-pt', associated_category_id: parent_translation.id)
 
       expect(duplicate).not_to be_valid
       expect(duplicate.errors[:locale]).to include('has already been taken')
+    end
+
+    it 'rejects changing a legacy nested translation to the root locale' do
+      portal = create(:portal, config: { allowed_locales: %w[en es pt] })
+      root_category = create(:category, portal: portal, locale: 'en', slug: 'root-category')
+      parent_translation = create(:category, portal: portal, locale: 'es', slug: 'parent-translation', associated_category_id: root_category.id)
+      nested_translation = create(:category, portal: portal, locale: 'pt', slug: 'nested-translation')
+      nested_translation.update_column(:associated_category_id, parent_translation.id) # rubocop:disable Rails/SkipsModelValidations
+
+      nested_translation.locale = 'en'
+
+      expect(nested_translation).not_to be_valid
+      expect(nested_translation.errors[:locale]).to include('has already been taken')
     end
   end
 
