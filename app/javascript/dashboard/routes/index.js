@@ -41,6 +41,14 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     isAdmin &&
     isActive;
 
+  if (to.name === 'captain_toolset_install_entry') {
+    return next({
+      name: 'captain_toolset_install',
+      params: { accountId: routeAccountId },
+      query: to.query,
+    });
+  }
+
   if (to.name === 'no_accounts' || !to.name) {
     const target = needsOnboarding
       ? onboardingPath(userAccount?.onboarding_step)

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -20,6 +21,8 @@ import Policy from 'dashboard/components/policy.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 const store = useStore();
+const route = useRoute();
+const router = useRouter();
 const { t } = useI18n();
 const { isFeatureFlagEnabled, shouldShowPaywall } = usePolicy();
 
@@ -104,7 +107,8 @@ const handleDownload = async tool => {
   }
 };
 
-const openImportDialog = () => importDialogRef.value.dialogRef.open();
+const openImportDialog = source =>
+  importDialogRef.value.open(typeof source === 'string' ? source : '');
 
 const handleAction = ({ action, id }) => {
   const tool = customTools.value.find(item => item.id === id);
@@ -196,9 +200,17 @@ const onDeleteSuccess = () => {
   }
 };
 
-onMounted(() => {
+onMounted(async () => {
   if (!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)) {
     fetchCustomTools();
+  }
+
+  if (route.query.source) {
+    await nextTick();
+    openImportDialog(route.query.source);
+    const query = { ...route.query };
+    delete query.source;
+    router.replace({ query });
   }
 });
 </script>

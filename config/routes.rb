@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   }, via: [:get, :post]
 
   post 'resend_confirmation', to: 'auth/resend_confirmations#create'
+  get '/captain/toolsets/install', to: 'captain/toolset_installs#show', as: :captain_toolset_install
 
   ## renders the frontend paths only if its not an api only server
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
@@ -99,11 +100,11 @@ Rails.application.routes.draw do
             resources :custom_tools do
               collection do
                 post :test
-                post :preview_import
-                post :import
               end
               get :export, on: :member
             end
+            post 'custom_tools/preview_import', to: 'toolset_imports#preview_import', as: :preview_import_custom_tools
+            post 'custom_tools/import', to: 'toolset_imports#import', as: :import_custom_tools
             resources :documents, only: [:index, :show, :create, :destroy] do
               post :sync, on: :member
               get :drilldown, on: :member

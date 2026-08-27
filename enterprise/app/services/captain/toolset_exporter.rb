@@ -14,7 +14,7 @@ class Captain::ToolsetExporter
   def manifest
     auth_config, inputs, secrets = authentication
     {
-      'version' => Captain::ToolsetService::VERSION,
+      'version' => Captain::ToolsetService::DEFAULT_VERSION,
       'kind' => Captain::ToolsetService::KIND,
       'name' => tool.title,
       'description' => tool.description,
@@ -26,6 +26,7 @@ class Captain::ToolsetExporter
 
   def tool_definition(auth_config)
     {
+      'id' => tool.slug,
       'title' => tool.title,
       'description' => tool.description,
       'http_method' => tool.http_method,

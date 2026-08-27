@@ -38,18 +38,20 @@ class CaptainCustomTools extends ApiClient {
     });
   }
 
-  previewImport(file, { signal } = {}) {
+  previewImport({ file, source }, { signal } = {}) {
     const formData = new FormData();
-    formData.append('file', file);
+    if (file) formData.append('file', file);
+    if (source) formData.append('source', source);
     return axios.post(`${this.url}/preview_import`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
       signal,
     });
   }
 
-  importToolset(file, configuration) {
+  importToolset({ file, source }, configuration) {
     const formData = new FormData();
-    formData.append('file', file);
+    if (file) formData.append('file', file);
+    if (source) formData.append('source', source);
     formData.append('configuration', JSON.stringify(configuration));
     return axios.post(`${this.url}/import`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },

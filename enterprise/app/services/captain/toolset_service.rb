@@ -1,14 +1,15 @@
 class Captain::ToolsetService
   class InvalidManifestError < StandardError; end
 
-  VERSION = 1
+  DEFAULT_VERSION = '1.0.0'.freeze
   KIND = 'captain_toolset'.freeze
   MAX_FILE_SIZE = 256.kilobytes
+  VERSION_PATTERN = /\A\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?\z/
   VARIABLE_PATTERN = /\$\{\{\s*(inputs|secrets)\.([a-z][a-z0-9_]*)\s*\}\}/i
   VARIABLE_NAME_PATTERN = /\A[a-z][a-z0-9_]*\z/i
   ROOT_KEYS = %w[version kind name description inputs secrets tools].freeze
   CONFIG_KEYS = %w[label type placeholder required].freeze
-  TOOL_KEYS = %w[title description endpoint_url http_method request_template response_template auth_type auth_config param_schema enabled].freeze
+  TOOL_KEYS = %w[id title description endpoint_url http_method request_template response_template auth_type auth_config param_schema enabled].freeze
 
   def self.export(tool) = Captain::ToolsetExporter.new(tool).to_yaml
 
@@ -24,6 +25,7 @@ class Captain::ToolsetService
     {
       name: manifest['name'],
       description: manifest['description'],
+      version: manifest['version'],
       fields: configuration_fields,
       tools: tool_definitions.map { |tool| tool.slice('title', 'description', 'http_method', 'endpoint_url') }
     }
@@ -69,7 +71,8 @@ class Captain::ToolsetService
   end
 
   def validate_metadata!
-    raise InvalidManifestError, "Toolset version must be #{VERSION}" unless manifest['version'] == VERSION
+    raise InvalidManifestError, 'Toolset version must be a semantic version' unless VERSION_PATTERN.match?(manifest['version'].to_s)
+
     raise InvalidManifestError, "Toolset kind must be #{KIND}" unless manifest['kind'] == KIND
     raise InvalidManifestError, 'Toolset name is required' if manifest['name'].blank?
   end
@@ -100,6 +103,7 @@ class Captain::ToolsetService
     raise InvalidManifestError, "Tool #{index + 1} must be a YAML object" unless tool.is_a?(Hash)
 
     reject_unknown_keys!(tool, TOOL_KEYS, "tool #{index + 1}")
+    raise InvalidManifestError, "Invalid tool ID: #{tool['id']}" unless tool['id'].is_a?(String) && VARIABLE_NAME_PATTERN.match?(tool['id'])
   end
 
   def validate_placeholders!
@@ -194,18 +198,13 @@ class Captain::ToolsetService
   def tool_definitions = (@tool_definitions ||= manifest['tools'].is_a?(Array) ? manifest['tools'] : [])
 
   def tool_attributes(attributes)
-    {
-      title: attributes['title'],
-      description: attributes['description'],
-      endpoint_url: attributes['endpoint_url'],
+    attributes.slice(*(TOOL_KEYS - ['id'])).symbolize_keys.merge(
       http_method: attributes['http_method'].presence || 'GET',
-      request_template: attributes['request_template'],
-      response_template: attributes['response_template'],
       auth_type: attributes['auth_type'].presence || 'none',
       auth_config: attributes['auth_config'] || {},
       param_schema: attributes['param_schema'] || [],
       enabled: attributes.fetch('enabled', true)
-    }
+    )
   end
 
   def reject_unknown_keys!(object, allowed_keys, context)

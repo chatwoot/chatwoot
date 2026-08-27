@@ -14,9 +14,15 @@ import Suspended from './suspended/Index.vue';
 import NoAccounts from './noAccounts/Index.vue';
 import OnboardingAccountDetails from './onboarding/Index.vue';
 import OnboardingInboxSetup from './onboarding/InboxSetup.vue';
+import ToolsetInstall from './captain/tools/Install.vue';
 
 export default {
   routes: [
+    {
+      path: frontendURL('captain/toolsets/install'),
+      name: 'captain_toolset_install_entry',
+      component: ToolsetInstall,
+    },
     {
       path: frontendURL('accounts/:accountId'),
       component: AppContainer,
