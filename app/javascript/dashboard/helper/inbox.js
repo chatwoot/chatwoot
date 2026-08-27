@@ -1,3 +1,5 @@
+import { picoSearch } from '@chatwoot/pico-search';
+
 export const INBOX_TYPES = {
   WEB: 'Channel::WebWidget',
   FB: 'Channel::FacebookPage',
@@ -134,6 +136,17 @@ const INBOX_IDENTIFIER_RESOLVERS = {
 
 export const getInboxIdentifier = inbox =>
   INBOX_IDENTIFIER_RESOLVERS[inbox?.channel_type]?.(inbox) || '';
+
+export const searchInboxes = (inboxes, query) => {
+  const primaryMatches = picoSearch(inboxes, query, ['name', 'channel_type']);
+  const primaryMatchIds = new Set(primaryMatches.map(inbox => inbox.id));
+  const identifierMatches = picoSearch(inboxes, query, ['channel_identifier']);
+
+  return [
+    ...primaryMatches,
+    ...identifierMatches.filter(inbox => !primaryMatchIds.has(inbox.id)),
+  ];
+};
 
 export const getReadableInboxByType = (type, phoneNumber) => {
   switch (type) {

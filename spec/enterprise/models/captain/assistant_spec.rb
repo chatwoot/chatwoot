@@ -302,6 +302,24 @@ RSpec.describe Captain::Assistant, type: :model do
     end
   end
 
+  describe '#available_tool_ids' do
+    it 'excludes disabled custom tools' do
+      enabled_tool = create(:captain_custom_tool, account: account)
+      disabled_tool = create(:captain_custom_tool, :disabled, account: account)
+
+      expect(assistant.available_tool_ids).to include(enabled_tool.slug)
+      expect(assistant.available_tool_ids).not_to include(disabled_tool.slug)
+    end
+  end
+
+  describe '#known_tool_ids' do
+    it 'includes disabled custom tools as valid references' do
+      disabled_tool = create(:captain_custom_tool, :disabled, account: account)
+
+      expect(assistant.known_tool_ids).to include(disabled_tool.slug)
+    end
+  end
+
   describe '#agent_instructions' do
     it 'keeps the Assistant human handoff prompt unchanged' do
       instructions = assistant.agent_instructions
