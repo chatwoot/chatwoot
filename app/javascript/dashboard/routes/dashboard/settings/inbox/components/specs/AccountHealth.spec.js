@@ -80,6 +80,22 @@ describe('AccountHealth', () => {
     expect(wrapper.text()).toContain('2026');
   });
 
+  it('renders multiple business profile websites on separate lines', () => {
+    const wrapper = mountComponent({
+      business_profile: {
+        websites: ['https://example.com', 'https://docs.example.com'],
+      },
+    });
+
+    const websites = wrapper
+      .findAll('span')
+      .find(element => element.text().includes('https://example.com'));
+
+    expect(websites.text()).toBe(
+      'https://example.com\nhttps://docs.example.com'
+    );
+  });
+
   it('shows the current error instead of stale health data', () => {
     const wrapper = mountComponent(
       { verified_name: 'Stale Business Name' },

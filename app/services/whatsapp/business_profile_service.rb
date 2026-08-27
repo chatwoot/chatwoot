@@ -25,14 +25,18 @@ class Whatsapp::BusinessProfileService
     profile = parsed_response.is_a?(Hash) ? Array(parsed_response['data']).first : nil
     profile if profile.is_a?(Hash)
   rescue StandardError => e
-    Rails.logger.warn("[WHATSAPP HEALTH] Business profile unavailable: error_class=#{e.class.name}")
+    phone_number_id = @channel.provider_config['phone_number_id']
+    Rails.logger.warn("[WHATSAPP HEALTH] Business profile unavailable: phone_number_id=#{phone_number_id} error_class=#{e.class.name}")
     nil
   end
 
   private
 
   def log_error(response)
-    error_data = response.parsed_response.is_a?(Hash) ? response.parsed_response['error'].to_h : {}
+    parsed_response = response.parsed_response
+    error_data = parsed_response['error'] if parsed_response.is_a?(Hash)
+    error_data = {} unless error_data.is_a?(Hash)
+
     Rails.logger.warn(
       "[WHATSAPP HEALTH] Business profile unavailable: http_status=#{response.code} " \
       "code=#{error_data['code']} subcode=#{error_data['error_subcode']} message=#{error_data['message']}"

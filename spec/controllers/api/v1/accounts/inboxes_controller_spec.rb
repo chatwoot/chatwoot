@@ -1519,7 +1519,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
         it 'calls the health service with correct channel' do
           expect(Whatsapp::HealthService).to receive(:new).with(whatsapp_channel).and_return(health_service)
-          expect(health_service).to receive(:sync_health_status!)
+          expect(health_service).to receive(:sync_health_status!).with(include_business_profile: true)
 
           get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
               headers: admin.create_new_auth_token,

@@ -130,7 +130,7 @@ const businessProfileDetails = computed(() => {
   if (!businessProfile.value) return [];
 
   const notAvailable = t('INBOX_MGMT.ACCOUNT_HEALTH.VALUES.NOT_AVAILABLE');
-  const websites = Array(businessProfile.value.websites).filter(Boolean);
+  const websites = businessProfile.value.websites?.filter(Boolean) || [];
 
   return [
     {
