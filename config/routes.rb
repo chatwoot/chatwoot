@@ -97,7 +97,12 @@ Rails.application.routes.draw do
               resources :copilot_messages, only: [:index, :create]
             end
             resources :custom_tools do
-              post :test, on: :collection
+              collection do
+                post :test
+                post :preview_import
+                post :import
+              end
+              get :export, on: :member
             end
             resources :documents, only: [:index, :show, :create, :destroy] do
               post :sync, on: :member

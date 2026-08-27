@@ -15,6 +15,18 @@ class Captain::CustomToolPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def preview_import?
+    @account_user.administrator?
+  end
+
+  def import?
+    @account_user.administrator?
+  end
+
+  def export?
+    @account_user.administrator?
+  end
+
   def update?
     @account_user.administrator?
   end

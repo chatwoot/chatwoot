@@ -1,7 +1,7 @@
 class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::BaseController
   before_action :ensure_custom_tools_enabled
   before_action -> { check_authorization(Captain::CustomTool) }
-  before_action :set_custom_tool, only: [:show, :update, :destroy]
+  before_action :set_custom_tool, only: [:show, :update, :destroy, :export]
 
   def index
     @custom_tools = account_custom_tools
@@ -32,6 +32,27 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
     render json: { error: e.message }, status: :unprocessable_content
   end
 
+  def preview_import
+    render json: toolset_service.preview
+  rescue Captain::ToolsetService::InvalidManifestError => e
+    render json: { error: e.message }, status: :unprocessable_content
+  end
+
+  def import
+    tools = toolset_service.import!(toolset_configuration)
+    render json: { imported_count: tools.size }, status: :created
+  rescue Captain::ToolsetService::InvalidManifestError, Captain::CustomTool::LimitExceededError => e
+    render_could_not_create_error(e.message)
+  end
+
+  def export
+    send_data(
+      Captain::ToolsetService.export(@custom_tool),
+      filename: "#{@custom_tool.slug}.yml",
+      type: 'application/yaml'
+    )
+  end
+
   private
 
   def ensure_custom_tools_enabled
@@ -51,6 +72,24 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   def execute_test_request(tool)
     http_tool = Captain::Tools::HttpTool.new(nil, tool)
     http_tool.send(:execute_http_request, tool.endpoint_url, nil, nil)
+  end
+
+  def toolset_service
+    @toolset_service ||= Captain::ToolsetService.new(account: Current.account, source: toolset_source)
+  end
+
+  def toolset_source
+    file = params[:file]
+    raise Captain::ToolsetService::InvalidManifestError, 'Select a YAML toolset file' unless file.respond_to?(:read)
+    raise Captain::ToolsetService::InvalidManifestError, 'Toolset file is too large' if file.size > Captain::ToolsetService::MAX_FILE_SIZE
+
+    file.read
+  end
+
+  def toolset_configuration
+    JSON.parse(params[:configuration].presence || '{}')
+  rescue JSON::ParserError
+    raise Captain::ToolsetService::InvalidManifestError, 'Toolset configuration must be valid JSON'
   end
 
   def custom_tool_params
