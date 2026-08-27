@@ -137,42 +137,24 @@ const requestEmbeddedSignupAccess = () => {
     <div v-if="isManualSetup">
       <div
         v-if="shouldShowEmbeddedSignupAccessRequest"
-        class="w-full p-4 mb-6 border rounded-xl border-n-weak bg-n-solid-2"
+        class="w-full p-5 mb-6 border rounded-xl border-n-weak bg-n-surface-2 text-start"
       >
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
+        <div class="flex flex-wrap items-center gap-3">
           <div
-            class="flex items-center justify-center flex-shrink-0 rounded-lg size-9 bg-n-blue-3"
+            class="flex items-center justify-center flex-shrink-0 rounded-lg size-7 bg-n-slate-3"
           >
-            <Icon icon="i-woot-whatsapp" class="size-5 text-n-slate-10" />
+            <Icon icon="i-woot-whatsapp" class="size-5 text-n-slate-11" />
           </div>
-          <div class="flex-1 min-w-0 text-start">
-            <div class="font-medium text-n-slate-12">
-              {{
-                $t(
-                  'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.TITLE'
-                )
-              }}
-            </div>
-            <p class="mt-1 text-sm leading-5 text-n-slate-11">
-              {{
-                $t(
-                  'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.DESCRIPTION'
-                )
-              }}
-            </p>
-            <p class="mt-2 text-xs leading-5 text-n-slate-10">
-              {{
-                $t(
-                  'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.FOOTNOTE'
-                )
-              }}
-            </p>
-          </div>
+          <span class="flex-1 min-w-0 text-heading-2 text-n-slate-12">
+            {{
+              $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.TITLE')
+            }}
+          </span>
           <Button
             solid
             blue
             sm
-            class="self-start flex-shrink-0 sm:mt-0.5"
+            class="flex-shrink-0"
             icon="i-lucide-life-buoy"
             :label="
               $t(
@@ -182,6 +164,20 @@ const requestEmbeddedSignupAccess = () => {
             @click="requestEmbeddedSignupAccess"
           />
         </div>
+        <p class="mt-3 ms-10 max-w-3xl text-body-main text-n-slate-11">
+          {{
+            $t(
+              'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.DESCRIPTION'
+            )
+          }}
+        </p>
+        <p class="mt-2 ms-10 max-w-3xl text-label-small text-n-slate-10">
+          {{
+            $t(
+              'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.FOOTNOTE'
+            )
+          }}
+        </p>
       </div>
       <Banner
         v-if="

@@ -389,7 +389,7 @@
           },
           "ERRORS": {
             "IDS_REQUIRED": "Enter the Phone Number ID and WhatsApp Business Account ID.",
-            "REQUIRED": "Enter the WABA ID, Phone Number ID, and permanent access token.",
+            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, and permanent access token.",
             "INVALID_TOKEN": "This access token is invalid or expired. Generate a new permanent token and try again.",
             "GENERIC": "We could not complete the WhatsApp setup. Check your details and try again."
           }
