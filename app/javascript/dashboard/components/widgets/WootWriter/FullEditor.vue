@@ -466,11 +466,8 @@ export default {
       editorView.dispatch(tr.setSelection(selection));
       editorView.focus();
     },
-    // A value we emitted within the echo window is treated as our own
-    // autosave echo and re-checked (not dropped) once the window passes.
-    // Anything else is a definitive reset — discarding a draft, switching
-    // articles — and applies immediately: rebuilding aborts any in-flight
-    // uploads, which belonged to the content being replaced.
+    // A recent emission is our own autosave echo — re-check it once the
+    // window passes. Anything else is a definitive reset: apply it now.
     syncFromModel() {
       clearTimeout(this.pendingSync);
       this.pendingSync = null;

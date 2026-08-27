@@ -101,7 +101,17 @@ describe CustomMarkdownRenderer do
 
       it 'merges the width into an embed root that already has a style attribute' do
         output = render_markdown_link('https://www.youtube.com/watch?v=VIDEO_ID&cw_video_width=480px')
-        expect(output).to include('style="width: 480px; max-width: 100%; height: auto; position: relative; padding-bottom: 62.5%; height: 0;"')
+        expect(output).to include('style="position: relative; padding-bottom: 62.5%; height: 0; width: 480px; max-width: 100%; height: auto;"')
+      end
+
+      it 'lets the saved width override a template width' do
+        output = render_markdown_link('https://app.arcade.software/share/ARCADE_ID?cw_video_width=480px')
+        expect(output).to include('width: 100%; width: 480px; max-width: 100%; height: auto;')
+      end
+
+      it 'keeps the sizing param out of captured embed ids' do
+        output = render_markdown_link('https://youtu.be/VIDEO_ID?cw_video_width=480px')
+        expect(output).to include('src="https://www.youtube-nocookie.com/embed/VIDEO_ID"')
       end
     end
 

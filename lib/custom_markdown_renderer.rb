@@ -176,8 +176,8 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
 
     fragment = Nokogiri::HTML5.fragment(html)
     root = fragment.elements.first
-    # Prepend so the template's own declarations win any conflict.
-    root['style'] = "width: #{width}; max-width: 100%; height: auto; #{root['style']}".strip
+    # Append so the saved width beats a template width; aspect boxes are unaffected (children are absolute).
+    root['style'] = [root['style'], "width: #{width}; max-width: 100%; height: auto;"].compact.join(' ')
     fragment.to_html
   end
 

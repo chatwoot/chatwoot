@@ -72,11 +72,19 @@ const {
   { immediate: false }
 );
 
+// Definitive reseeds bump the id so the editor reloads instead of guessing echoes.
+const editorResets = ref(0);
+
 const syncLocalState = () => {
   cancelSave();
   localTitle.value = effectiveTitle();
   localContent.value = effectiveContent();
+  editorResets.value += 1;
 };
+
+const editorSessionId = computed(
+  () => `${props.article?.id || 'new'}-${editorResets.value}`
+);
 
 // Reseed on article switch or once a draft is published/discarded; close the
 // diff panel in the latter case since there's nothing left to compare.
@@ -181,6 +189,7 @@ const handleCreateArticle = event => {
       </div>
       <FullEditor
         v-model="articleContent"
+        :editor-id="editorSessionId"
         class="py-0 pb-10 pl-4 rtl:pr-4 rtl:pl-0 h-fit"
         :placeholder="
           t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.EDITOR_PLACEHOLDER')
