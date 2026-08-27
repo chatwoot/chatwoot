@@ -140,15 +140,15 @@
       },
       "MESSAGE_MODE": {
         "TITLE": "Slack thread behaviour",
-        "DESCRIPTION": "Choose what happens when your team replies inside the Slack thread of a conversation.",
+        "DESCRIPTION": "Decide whether replies in the Slack thread reach the customer or stay internal.",
         "OPTIONS": {
           "TWO_WAY": {
             "LABEL": "Two-way sync",
-            "DESCRIPTION": "Replies posted in the Slack thread are sent to the customer. Start a message with `note:` to keep it as a private note."
+            "DESCRIPTION": "Replies in the Slack thread are sent to the customer. Start a message with `note:` to keep it internal."
           },
           "ALERT": {
             "LABEL": "Alerts only",
-            "DESCRIPTION": "Conversations are posted to Slack for internal discussion. Nothing your team writes in the thread reaches the customer, so replies must be sent from the Chatwoot dashboard."
+            "DESCRIPTION": "Conversations are posted to Slack for internal discussion only. Nothing in the thread reaches the customer."
           }
         },
         "UPDATE_SUCCESS": "The Slack thread behaviour is updated successfully"
