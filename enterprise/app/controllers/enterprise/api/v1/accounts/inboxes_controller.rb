@@ -68,12 +68,14 @@ module Enterprise::Api::V1::Accounts::InboxesController
     ActiveModel::Type::Boolean.new.cast(params[key])
   end
 
-  # Flags live in provider_config. Saved with validate: false so WhatsApp's remote credential
-  # re-check (validate_provider_config) can't reject a simple toggle, mirroring enable_voice_calling!.
+  # Flags live in provider_config. The row lock serializes concurrent toggles (each merges only its
+  # own keys), and validate: false keeps WhatsApp's remote credential re-check from rejecting a toggle.
   def save_call_flags!(flags)
     channel = @inbox.channel
-    channel.provider_config = (channel.provider_config || {}).merge(flags)
-    channel.save!(validate: false)
+    channel.with_lock do
+      channel.provider_config = channel.provider_config.merge(flags)
+      channel.save!(validate: false)
+    end
     @inbox.update_account_cache # bump inbox cache key so the cached inbox list refetches the new flags
     head :ok
   end

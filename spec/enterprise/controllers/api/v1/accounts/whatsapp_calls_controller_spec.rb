@@ -32,7 +32,6 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(body['id']).to eq(call.id)
       expect(body['call_id']).to eq('wacid_abc')
       expect(body['provider']).to eq('whatsapp')
-      expect(body['recording_enabled']).to be true
     end
 
     it 'returns 401 when unauthenticated' do
@@ -50,6 +49,7 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
            params: { sdp_answer: 'sdp_answer' }, headers: agent.create_new_auth_token
 
       expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['recording_enabled']).to be true
       expect(call.reload.status).to eq('in_progress')
     end
 
