@@ -13,9 +13,8 @@ import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { validateSingleFilter } from 'dashboard/helper/validations.js';
 
 // filterTypes: import('vue').ComputedRef<FilterType[]>
-const { filterTypes, allowWrap } = defineProps({
+const { filterTypes } = defineProps({
   showQueryOperator: { type: Boolean, default: false },
-  allowWrap: { type: Boolean, default: false },
   filterTypes: { type: Array, required: true },
 });
 
@@ -184,10 +183,9 @@ defineExpose({ validate, resetValidation });
 <template>
   <li class="list-none">
     <div
-      class="flex gap-2 rounded-md"
+      class="flex flex-wrap gap-2 rounded-md"
       :class="{
         'animate-wiggle': showErrors && validationError,
-        'flex-wrap': allowWrap,
         'items-start': inputType === 'multiText',
         'items-center': inputType !== 'multiText',
       }"
@@ -197,97 +195,84 @@ defineExpose({ validate, resetValidation });
         v-model="queryOperator"
         variant="faded"
         hide-icon
-        class="text-sm"
-        :class="{ 'shrink-0': allowWrap }"
+        class="text-sm shrink-0"
         :options="queryOperatorOptions"
       />
       <FilterSelect
         v-model="attributeKey"
         variant="faded"
-        :class="{ 'shrink-0': allowWrap }"
+        class="shrink-0"
         :options="filterTypes"
         @update:model-value="resetModelOnAttributeKeyChange"
       />
       <FilterSelect
         v-model="filterOperator"
         variant="ghost"
-        :class="{ 'shrink-0': allowWrap }"
+        class="shrink-0"
         :options="currentFilter?.filterOperators"
       />
-      <template v-if="currentOperator?.hasInput">
-        <MultiSelect
-          v-if="inputType === 'multiSelect'"
-          v-model="values"
-          :options="currentFilter.options"
-          :class="{
-            'flex-1 min-w-24 basis-[calc(100%-2.5rem)] sm:basis-auto':
-              allowWrap,
-          }"
-          dropdown-max-height="max-h-72"
+      <div
+        :class="
+          currentOperator?.hasInput
+            ? 'flex items-start gap-2 min-w-0'
+            : 'contents'
+        "
+      >
+        <template v-if="currentOperator?.hasInput">
+          <MultiSelect
+            v-if="inputType === 'multiSelect'"
+            v-model="values"
+            :options="currentFilter.options"
+            dropdown-max-height="max-h-72"
+          />
+          <SingleSelect
+            v-else-if="inputType === 'searchSelect'"
+            v-model="values"
+            :options="currentFilter.options"
+            dropdown-max-height="max-h-64"
+          />
+          <SingleSelect
+            v-else-if="inputType === 'asyncSearchSelect'"
+            v-model="values"
+            async-search
+            :options="asyncOptions"
+            :is-searching="isSearching"
+            :search-placeholder="currentFilter.searchPlaceholder"
+            dropdown-max-height="max-h-64"
+            @search="onAsyncSearch"
+          />
+          <SingleSelect
+            v-else-if="inputType === 'booleanSelect'"
+            v-model="values"
+            disable-search
+            :options="booleanOptions"
+          />
+          <MultiTextInput
+            v-else-if="inputType === 'multiText'"
+            v-model="values"
+            :placeholder="
+              values.length
+                ? t('FILTER.MULTI_VALUE_INPUT_PLACEHOLDER_SHORT')
+                : t('FILTER.MULTI_VALUE_INPUT_PLACEHOLDER')
+            "
+          />
+          <Input
+            v-else
+            v-model="values"
+            :type="inputFieldType"
+            class="[&>input]:h-8 [&>input]:py-1.5 [&>input]:outline-offset-0"
+            :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
+          />
+        </template>
+        <Button
+          sm
+          solid
+          slate
+          icon="i-lucide-trash"
+          class="flex-shrink-0"
+          @click.stop="emit('remove')"
         />
-        <SingleSelect
-          v-else-if="inputType === 'searchSelect'"
-          v-model="values"
-          :options="currentFilter.options"
-          :class="{
-            'flex-1 min-w-24 basis-[calc(100%-2.5rem)] sm:basis-auto':
-              allowWrap,
-          }"
-          dropdown-max-height="max-h-64"
-        />
-        <SingleSelect
-          v-else-if="inputType === 'asyncSearchSelect'"
-          v-model="values"
-          async-search
-          :options="asyncOptions"
-          :is-searching="isSearching"
-          :search-placeholder="currentFilter.searchPlaceholder"
-          :class="{
-            'flex-1 min-w-24 basis-[calc(100%-2.5rem)] sm:basis-auto':
-              allowWrap,
-          }"
-          dropdown-max-height="max-h-64"
-          @search="onAsyncSearch"
-        />
-        <SingleSelect
-          v-else-if="inputType === 'booleanSelect'"
-          v-model="values"
-          disable-search
-          :options="booleanOptions"
-          :class="{
-            'flex-1 min-w-24 basis-[calc(100%-2.5rem)] sm:basis-auto':
-              allowWrap,
-          }"
-        />
-        <MultiTextInput
-          v-else-if="inputType === 'multiText'"
-          v-model="values"
-          :placeholder="
-            values.length
-              ? t('FILTER.MULTI_VALUE_INPUT_PLACEHOLDER_SHORT')
-              : t('FILTER.MULTI_VALUE_INPUT_PLACEHOLDER')
-          "
-        />
-        <Input
-          v-else
-          v-model="values"
-          :type="inputFieldType"
-          class="[&>input]:h-8 [&>input]:py-1.5 [&>input]:outline-offset-0"
-          :class="{
-            'flex-1 min-w-24 basis-[calc(100%-2.5rem)] sm:basis-auto':
-              allowWrap,
-          }"
-          :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
-        />
-      </template>
-      <Button
-        sm
-        solid
-        slate
-        icon="i-lucide-trash"
-        class="flex-shrink-0"
-        @click.stop="emit('remove')"
-      />
+      </div>
     </div>
     <span v-if="showErrors && validationError" class="text-sm text-n-ruby-11">
       {{ t(`FILTER.ERRORS.${validationError}`) }}

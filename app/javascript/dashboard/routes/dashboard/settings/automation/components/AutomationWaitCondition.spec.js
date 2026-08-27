@@ -219,7 +219,6 @@ describe('AutomationWaitCondition', () => {
     expect(condition.props()).toMatchObject({
       attributeKey: 'status',
       showQueryOperator: false,
-      allowWrap: true,
     });
     expect(
       condition.props('filterTypes').map(filter => filter.attributeKey)

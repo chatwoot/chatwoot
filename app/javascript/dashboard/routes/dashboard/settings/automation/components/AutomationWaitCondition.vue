@@ -286,93 +286,94 @@ defineExpose({ validate, resetValidation });
       {{ $t('AUTOMATION.ADD.FORM.WAIT.LABEL') }}
     </label>
     <div
-      class="grid gap-3 sm:grid-cols-[minmax(0,1fr)_13rem] lg:grid-cols-[minmax(0,1fr)_17rem]"
+      class="flex flex-col min-w-0 gap-3 p-4 outline outline-1 -outline-offset-1 rounded-xl"
+      :class="
+        hasError
+          ? 'outline-n-ruby-5 bg-n-ruby-2/50'
+          : 'outline-n-weak dark:outline-n-strong'
+      "
     >
-      <div
-        class="flex flex-col min-w-0 gap-3 p-4 outline outline-1 -outline-offset-1 rounded-xl"
-        :class="
-          hasError
-            ? 'outline-n-ruby-5 bg-n-ruby-2/50'
-            : 'outline-n-weak dark:outline-n-strong'
-        "
-      >
-        <div class="flex items-center gap-3 min-h-8">
-          <span class="text-sm w-20 shrink-0 text-n-slate-11">
-            {{ $t('AUTOMATION.ADD.FORM.WAIT.WHEN_LABEL') }}
-          </span>
-          <FilterSelect v-model="selectedTrigger" :options="triggerOptions" />
-        </div>
-        <div v-if="isStatusTrigger" class="flex items-center gap-3 min-h-8">
-          <span class="text-sm w-20 shrink-0 text-n-slate-11">
-            {{ $t('AUTOMATION.ADD.FORM.WAIT.STATUS_LABEL') }}
-          </span>
-          <FilterSelect v-model="triggerStatus" :options="statusOptions" />
-        </div>
-        <div class="flex items-center gap-3 min-h-8">
-          <span class="text-sm w-20 shrink-0 text-n-slate-11">
-            {{ $t('AUTOMATION.ADD.FORM.WAIT.FOR_LABEL') }}
-          </span>
-          <div class="flex items-center w-64 gap-2">
-            <DurationInput
-              v-model="delay"
-              v-model:unit="unit"
-              :min="minDelay"
-              :max="MAX_DELAY_MINUTES"
-            />
+      <div class="grid gap-3 md:grid-cols-[minmax(0,1fr)_20rem]">
+        <div class="flex flex-col min-w-0 gap-3">
+          <div class="flex items-center gap-3 min-h-8">
+            <span class="text-sm w-20 shrink-0 text-n-slate-11">
+              {{ $t('AUTOMATION.ADD.FORM.WAIT.WHEN_LABEL') }}
+            </span>
+            <FilterSelect v-model="selectedTrigger" :options="triggerOptions" />
+          </div>
+          <div v-if="isStatusTrigger" class="flex items-center gap-3 min-h-8">
+            <span class="text-sm w-20 shrink-0 text-n-slate-11">
+              {{ $t('AUTOMATION.ADD.FORM.WAIT.STATUS_LABEL') }}
+            </span>
+            <FilterSelect v-model="triggerStatus" :options="statusOptions" />
+          </div>
+          <div class="flex items-center gap-3 min-h-8">
+            <span class="text-sm w-20 shrink-0 text-n-slate-11">
+              {{ $t('AUTOMATION.ADD.FORM.WAIT.FOR_LABEL') }}
+            </span>
+            <div class="flex items-center w-64 gap-2">
+              <DurationInput
+                v-model="delay"
+                v-model:unit="unit"
+                :min="minDelay"
+                :max="MAX_DELAY_MINUTES"
+              />
+            </div>
+          </div>
+          <div class="flex items-center gap-3 min-h-8">
+            <span class="text-sm w-20 shrink-0 text-n-slate-11">
+              {{ $t('AUTOMATION.ADD.FORM.WAIT.INBOX_LABEL') }}
+            </span>
+            <MultiSelect v-model="triggerInboxes" :options="inboxOptions" />
           </div>
         </div>
-        <div class="flex items-center gap-3 min-h-8">
-          <span class="text-sm w-20 shrink-0 text-n-slate-11">
-            {{ $t('AUTOMATION.ADD.FORM.WAIT.INBOX_LABEL') }}
-          </span>
-          <MultiSelect v-model="triggerInboxes" :options="inboxOptions" />
-        </div>
-        <div
-          v-if="additionalConditionIndexes.length"
-          class="grid gap-3 pt-3 border-t border-n-weak"
+        <aside
+          class="flex gap-2 p-3 min-w-0 rounded-xl bg-n-alpha-1 md:self-start"
         >
-          <ul
-            v-for="conditionIndex in additionalConditionIndexes"
-            :key="conditionIndex"
-            class="flex flex-col items-stretch gap-2 p-0 m-0 list-none"
-          >
-            <li
-              class="flex items-center self-start h-8 px-3 text-sm font-medium rounded-md bg-n-alpha-2 text-n-slate-11 shrink-0"
-            >
-              {{ connectorLabel(conditionIndex) }}
-            </li>
-            <ConditionRow
-              ref="conditionsRef"
-              v-model:attribute-key="conditions[conditionIndex].attribute_key"
-              v-model:filter-operator="
-                conditions[conditionIndex].filter_operator
-              "
-              v-model:values="conditions[conditionIndex].values"
-              allow-wrap
-              class="w-full min-w-0"
-              :filter-types="additionalFilterTypes"
-              @remove="removeFilter(conditionIndex)"
-            />
-          </ul>
-        </div>
-        <div v-if="additionalFilterTypes.length">
-          <NextButton
-            icon="i-lucide-plus"
-            blue
-            faded
-            sm
-            :label="$t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL')"
-            @click="addCondition"
-          />
-        </div>
+          <Icon icon="i-lucide-info" class="mt-0.5 shrink-0 text-n-slate-10" />
+          <div class="flex flex-col min-w-0 gap-2">
+            <p class="mb-0 text-xs text-n-slate-11">{{ explanation }}</p>
+            <p class="mb-0 text-xs text-n-slate-11">
+              {{ $t('AUTOMATION.ADD.FORM.WAIT.FOOTNOTE') }}
+            </p>
+          </div>
+        </aside>
       </div>
-      <aside class="flex flex-col min-w-0 gap-3 p-4 rounded-xl bg-n-alpha-1">
-        <Icon icon="i-lucide-info" class="text-n-slate-10" />
-        <p class="mb-0 text-xs text-n-slate-11">{{ explanation }}</p>
-        <p class="mb-0 text-xs text-n-slate-11">
-          {{ $t('AUTOMATION.ADD.FORM.WAIT.FOOTNOTE') }}
-        </p>
-      </aside>
+      <div
+        v-if="additionalConditionIndexes.length"
+        class="grid gap-3 pt-3 border-t border-n-weak"
+      >
+        <ul
+          v-for="conditionIndex in additionalConditionIndexes"
+          :key="conditionIndex"
+          class="flex flex-col items-stretch gap-2 p-0 m-0 list-none min-w-0"
+        >
+          <li
+            class="flex items-center self-start h-8 px-3 text-sm font-medium rounded-md bg-n-alpha-2 text-n-slate-11 shrink-0"
+          >
+            {{ connectorLabel(conditionIndex) }}
+          </li>
+          <ConditionRow
+            ref="conditionsRef"
+            v-model:attribute-key="conditions[conditionIndex].attribute_key"
+            v-model:filter-operator="conditions[conditionIndex].filter_operator"
+            v-model:values="conditions[conditionIndex].values"
+            class="w-full min-w-0"
+            :filter-types="additionalFilterTypes"
+            @remove="removeFilter(conditionIndex)"
+          />
+        </ul>
+      </div>
+      <div v-if="additionalFilterTypes.length">
+        <NextButton
+          icon="i-lucide-plus"
+          blue
+          faded
+          sm
+          :label="$t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL')"
+          @click="addCondition"
+        />
+      </div>
     </div>
     <span v-if="hasError" class="text-xs text-n-ruby-9">
       {{ $t('AUTOMATION.ADD.FORM.WAIT.ERROR') }}
