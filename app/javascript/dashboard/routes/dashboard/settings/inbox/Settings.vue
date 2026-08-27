@@ -307,10 +307,10 @@ export default {
       return 'max-w-7xl';
     },
     inboxName() {
-      const identifier = getInboxIdentifier(this.inbox);
-      return identifier
-        ? `${this.inbox.name} (${identifier})`
-        : this.inbox.name;
+      return this.inbox.name;
+    },
+    inboxIdentifier() {
+      return getInboxIdentifier(this.inbox);
     },
     canLocktoSingleConversation() {
       return (
@@ -770,6 +770,7 @@ export default {
     <SettingIntroBanner
       :header-image="inbox.avatarUrl"
       :header-title="inboxName"
+      :header-identifier="inboxIdentifier"
     >
       <woot-tabs
         class="[&_ul]:p-0 top-px relative"
