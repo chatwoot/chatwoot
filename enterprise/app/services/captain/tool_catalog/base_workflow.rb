@@ -49,12 +49,6 @@ class Captain::ToolCatalog::BaseWorkflow
     )
   end
 
-  def require_encryption!
-    return if Chatwoot.encryption_configured?
-
-    raise Captain::ToolCatalog::WorkflowError, 'encryption_required'
-  end
-
   def connect_provider!(provider_key:, credential:, required_scopes:)
     return if credential.nil?
     raise Captain::ToolCatalog::WorkflowError, 'credential_not_supported' unless provider_key == 'stripe'

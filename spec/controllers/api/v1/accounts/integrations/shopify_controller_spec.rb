@@ -132,7 +132,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
         expect(installation.reload.oauth_nonce_digest).to be_nil
       end
 
-      it 'does not start catalog OAuth when credential encryption is unavailable' do
+      it 'starts catalog OAuth when credential encryption is unavailable' do
         allow(Chatwoot).to receive(:encryption_configured?).and_return(false)
 
         post "/api/v1/accounts/#{account.id}/integrations/shopify/auth",
@@ -140,9 +140,9 @@ RSpec.describe 'Shopify Integration API', type: :request do
              headers: admin.create_new_auth_token,
              as: :json
 
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body).to eq('error' => { 'code' => 'encryption_required' })
-        expect(installation.reload.oauth_nonce_digest).to be_nil
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body.fetch('redirect_url')).to start_with("https://#{shop_domain}/admin/oauth/authorize?")
+        expect(installation.reload.oauth_nonce_digest).to be_present
       end
     end
   end

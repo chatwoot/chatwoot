@@ -22,7 +22,6 @@ class Captain::ToolCatalog::UpdateWorkflow < Captain::ToolCatalog::BaseWorkflow
     track_failure do
       installed_by_key = installed_tools(selection).index_by(&:template_key)
       ensure_all_installed!(selection, installed_by_key)
-      require_encryption!
 
       requirement = connection_requirement(selection.pack.dig('provider', 'key'), selection.required_scopes)
       return await_connection!(requirement) unless requirement.satisfied?

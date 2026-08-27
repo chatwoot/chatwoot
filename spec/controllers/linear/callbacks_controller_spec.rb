@@ -267,14 +267,17 @@ RSpec.describe Linear::CallbacksController, type: :request do
         expect(account.captain_custom_tools.catalog.count).to eq(1)
       end
 
-      it 'rejects the callback before token exchange when encryption becomes unavailable' do
+      it 'completes the callback when credential encryption is unavailable' do
         allow(Chatwoot).to receive(:encryption_configured?).and_return(false)
 
-        get linear_callback_path, params: { code: code, state: state }
+        expect do
+          get linear_callback_path, params: { code: code, state: state }
+        end.to change(account.captain_custom_tools.catalog, :count).by(1)
 
-        expect(response).to redirect_to(linear_redirect_uri)
-        expect(a_request(:post, 'https://api.linear.app/oauth/token')).not_to have_been_made
-        expect(installation.reload.oauth_nonce_digest).to eq(Digest::SHA256.hexdigest(nonce))
+        expect(response).to redirect_to("#{linear_redirect_uri}?catalog_installation_id=#{installation.id}")
+        expect(a_request(:post, 'https://api.linear.app/oauth/token')).to have_been_made.once
+        expect(installation.reload).to be_completed
+        expect(installation.oauth_nonce_digest).to be_nil
       end
 
       it 'expires the installation and rejects its state before token exchange' do

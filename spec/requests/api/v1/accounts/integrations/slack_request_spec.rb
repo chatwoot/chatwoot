@@ -70,7 +70,9 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks' do
           .and_return(hook_builder)
       end
 
-      it 'consumes the nonce once, reuses the disabled catalog connection, and installs the tool', :aggregate_failures do
+      it 'consumes the nonce and installs the tool without configured credential encryption', :aggregate_failures do
+        allow(Chatwoot).to receive(:encryption_configured?).and_return(false)
+
         expect do
           post "/api/v1/accounts/#{account.id}/integrations/slack",
                params: { code: 'catalog-code', state: state },
@@ -208,7 +210,7 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks' do
       expect(installation.reload.oauth_nonce_digest).to be_nil
     end
 
-    it 'does not start OAuth when credential encryption is unavailable' do
+    it 'starts OAuth when credential encryption is unavailable' do
       allow(Chatwoot).to receive(:encryption_configured?).and_return(false)
 
       post "/api/v1/accounts/#{account.id}/integrations/slack/auth",
@@ -216,9 +218,9 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks' do
            headers: admin.create_new_auth_token,
            as: :json
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body).to eq('error' => { 'code' => 'encryption_required' })
-      expect(installation.reload.oauth_nonce_digest).to be_nil
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body.fetch('redirect_url')).to start_with('https://slack.com/oauth/v2/authorize?')
+      expect(installation.reload.oauth_nonce_digest).to be_present
     end
 
     it 'rejects an installation for another provider' do

@@ -53,7 +53,8 @@ RSpec.describe Captain::ToolCatalog::CatalogQuery do
         'connected' => true,
         'status' => 'enabled',
         'display_name' => 'Acme',
-        'granted_scopes' => ['customers:read', 'customers:write']
+        'granted_scopes' => ['customers:read', 'customers:write'],
+        'credential_storage' => 'encrypted'
       )
       expect(response.to_json).not_to include('catalog-access-secret', 'catalog-refresh-secret', 'legacy-settings-secret')
     end
@@ -68,6 +69,14 @@ RSpec.describe Captain::ToolCatalog::CatalogQuery do
       expect(response.dig(:payload, 0, 'installed_count')).to eq(0)
       expect(response.dig(:payload, 0, 'connection', 'status')).to eq('disconnected')
       expect(response.to_json).not_to include('other-account-secret')
+    end
+
+    it 'reports the plaintext credential fallback when encryption is not configured' do
+      allow(Chatwoot).to receive(:encryption_configured?).and_return(false)
+
+      response = query.summaries
+
+      expect(response.dig(:payload, 0, 'connection', 'credential_storage')).to eq('plaintext')
     end
   end
 

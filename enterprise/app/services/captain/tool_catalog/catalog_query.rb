@@ -111,7 +111,8 @@ class Captain::ToolCatalog::CatalogQuery
       'connected' => connected,
       'status' => connected ? 'enabled' : hook&.status || 'disconnected',
       'display_name' => connection_display_name(hook, provider_key),
-      'granted_scopes' => granted_scopes(hook)
+      'granted_scopes' => granted_scopes(hook),
+      'credential_storage' => Chatwoot.encryption_configured? ? 'encrypted' : 'plaintext'
     }
   end
 

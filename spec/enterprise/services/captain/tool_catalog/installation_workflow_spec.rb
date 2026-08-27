@@ -91,14 +91,13 @@ RSpec.describe Captain::ToolCatalog::InstallationWorkflow do
     expect(account.captain_custom_tools.catalog).to be_empty
   end
 
-  it 'fails safely when credential encryption is unavailable' do
+  it 'continues with the model plaintext fallback when credential encryption is unavailable' do
     allow(Chatwoot).to receive(:encryption_configured?).and_return(false)
 
-    expect do
-      workflow.perform(provider_key: 'example', templates: templates)
-    end.to raise_error(Captain::ToolCatalog::WorkflowError) { |error| expect(error.code).to eq('encryption_required') }
+    installation = workflow.perform(provider_key: 'example', templates: templates)
 
-    expect(account.captain_tool_catalog_installations.sole).to have_attributes(status: 'failed', error_code: 'encryption_required')
+    expect(installation).to be_awaiting_connection
+    expect(installation.error_code).to be_nil
   end
 
   it 'rejects stale versions before creating a session' do

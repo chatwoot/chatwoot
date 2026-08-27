@@ -165,6 +165,30 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolCatalog', type: :request do
     end
   end
 
+  describe 'DELETE /api/v1/accounts/:account_id/captain/tool_catalog/:provider_key/connection' do
+    before { account.enable_features!('captain_tool_catalog') }
+
+    it 'revokes the reusable connection while keeping installed tools' do
+      hook = create(:integrations_hook, account: account, app_id: 'example', settings: { scope: 'customers:read' })
+      tool = create(
+        :captain_custom_tool,
+        :catalog,
+        account: account,
+        provider_key: 'example',
+        template_key: 'get_current_customer',
+        integration_hook: hook
+      )
+
+      delete "/api/v1/accounts/#{account.id}/captain/tool_catalog/example/connection",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+      expect(response).to have_http_status(:no_content)
+      expect(account.hooks.account_hooks.find_by(app_id: 'example')).to be_nil
+      expect(tool.reload).to have_attributes(integration_hook_id: nil, provider_key: 'example')
+    end
+  end
+
   def json_response
     JSON.parse(response.body, symbolize_names: true)
   end

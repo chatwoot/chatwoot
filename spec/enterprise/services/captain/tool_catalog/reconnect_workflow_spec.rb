@@ -53,4 +53,19 @@ RSpec.describe Captain::ToolCatalog::ReconnectWorkflow do
     expect(reconnect).to be_awaiting_connection
     expect(tool.reload.integration_hook).to be_nil
   end
+
+  it 'requires fresh OAuth when replacing a currently connected provider' do
+    hook = create(:integrations_hook, account: account, app_id: 'example', settings: { scope: 'customers:read' })
+    installation = Captain::ToolCatalog::InstallationWorkflow.new(
+      account: account,
+      initiated_by: admin,
+      registry: registry
+    ).perform(provider_key: 'example', templates: templates)
+    tool = Captain::CustomTool.find(installation.resulting_tool_ids.sole)
+
+    reconnect = reconnect_workflow.perform(provider_key: 'example', force_reauthorization: true)
+
+    expect(reconnect).to be_awaiting_connection
+    expect(tool.reload.integration_hook).to eq(hook)
+  end
 end

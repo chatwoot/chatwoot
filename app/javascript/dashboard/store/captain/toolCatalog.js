@@ -110,6 +110,19 @@ const actions = {
     );
   },
 
+  async disconnect({ commit }, providerKey) {
+    commit('SET_UI_FLAG', { mutatingInstallation: true });
+    try {
+      await CaptainToolCatalog.disconnect(providerKey);
+      commit('SET_INSTALLATION', null);
+      return true;
+    } catch (error) {
+      return throwErrorMessage(error);
+    } finally {
+      commit('SET_UI_FLAG', { mutatingInstallation: false });
+    }
+  },
+
   async update({ commit }, { providerKey, templates }) {
     return mutateInstallation(commit, () =>
       CaptainToolCatalog.update(providerKey, templates)

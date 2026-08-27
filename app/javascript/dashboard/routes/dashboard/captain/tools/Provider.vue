@@ -9,6 +9,7 @@ import { CAPTAIN_TOOL_CATALOG_EVENTS } from 'dashboard/helper/AnalyticsHelper/ev
 
 import IntegrationsAPI from 'dashboard/api/integrations';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
@@ -64,6 +65,8 @@ const projectOptions = ref([]);
 const statusMessage = ref('');
 const errorMessage = ref('');
 const installationComplete = ref(false);
+const isChangingStripeKey = ref(false);
+const revokeDialogRef = ref(null);
 const statusRef = ref(null);
 
 const providerKey = computed(() => route.params.providerKey);
@@ -95,6 +98,24 @@ const stripeRequiresCredential = computed(
     providerKey.value === 'stripe' &&
     (!providerDetails.value?.connection.connected ||
       scopes.value.some(scope => !grantedScopes.value.has(scope)))
+);
+const credentialsEncrypted = computed(
+  () => providerDetails.value?.connection.credential_storage !== 'plaintext'
+);
+const changeConnectionLabel = computed(() =>
+  providerKey.value === 'stripe'
+    ? t('CAPTAIN.CUSTOM_TOOLS.CATALOG.CHANGE_KEY')
+    : t('CAPTAIN.CUSTOM_TOOLS.CATALOG.CHANGE_CONNECTION')
+);
+const revokeConnectionLabel = computed(() =>
+  providerKey.value === 'stripe'
+    ? t('CAPTAIN.CUSTOM_TOOLS.CATALOG.REVOKE_KEY')
+    : t('CAPTAIN.CUSTOM_TOOLS.CATALOG.REVOKE_CONNECTION')
+);
+const revokeConfirmationNotice = computed(() =>
+  providerKey.value === 'stripe'
+    ? t('CAPTAIN.CUSTOM_TOOLS.CATALOG.REVOKE_KEY_CONFIRM_NOTICE')
+    : t('CAPTAIN.CUSTOM_TOOLS.CATALOG.REVOKE_CONFIRM_NOTICE')
 );
 const selectedCount = computed(() => newTemplates.value.length);
 const projectedCapacity = computed(
@@ -152,8 +173,6 @@ const availabilityLabel = template => {
 
 const formatError = error => {
   switch (error?.message) {
-    case 'encryption_required':
-      return t('CAPTAIN.CUSTOM_TOOLS.CATALOG.ERRORS.ENCRYPTION_REQUIRED');
     case 'installation_expired':
       return t('CAPTAIN.CUSTOM_TOOLS.CATALOG.ERRORS.INSTALLATION_EXPIRED');
     case 'invalid_shopify_domain':
@@ -399,10 +418,10 @@ const install = async () => {
   }
 };
 
-const reconnect = async () => {
+const reconnect = async ({ forceReauthorization = false } = {}) => {
   errorMessage.value = '';
   try {
-    const data = {};
+    const data = { force_reauthorization: forceReauthorization };
     if (providerKey.value === 'stripe')
       data.credential = stripeCredential.value;
     const installation = await store.dispatch('captainToolCatalog/reconnect', {
@@ -414,6 +433,7 @@ const reconnect = async () => {
       return;
     }
     stripeCredential.value = '';
+    isChangingStripeKey.value = false;
     await store.dispatch('captainToolCatalog/show', providerKey.value);
     useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_COMPLETED, {
       provider: providerKey.value,
@@ -426,6 +446,32 @@ const reconnect = async () => {
       provider: providerKey.value,
       workflow: 'reconnect',
     });
+    await announce(formatError(error), { error: true });
+  }
+};
+
+const changeConnection = async () => {
+  if (providerKey.value === 'stripe') {
+    isChangingStripeKey.value = true;
+    return;
+  }
+
+  await reconnect({ forceReauthorization: true });
+};
+
+const openRevokeDialog = () => revokeDialogRef.value?.open();
+
+const revokeConnection = async () => {
+  errorMessage.value = '';
+  try {
+    await store.dispatch('captainToolCatalog/disconnect', providerKey.value);
+    revokeDialogRef.value?.close();
+    stripeCredential.value = '';
+    isChangingStripeKey.value = false;
+    await store.dispatch('captainToolCatalog/show', providerKey.value);
+    await announce(t('CAPTAIN.CUSTOM_TOOLS.CATALOG.REVOKE_SUCCESS'));
+  } catch (error) {
+    revokeDialogRef.value?.close();
     await announce(formatError(error), { error: true });
   }
 };
@@ -603,6 +649,18 @@ onMounted(async () => {
           </div>
         </section>
 
+        <section
+          v-if="!credentialsEncrypted"
+          class="rounded-xl border border-n-amber-7 bg-n-amber-2 p-5"
+        >
+          <h2 class="font-medium text-n-slate-12">
+            {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.PLAINTEXT_STORAGE_TITLE') }}
+          </h2>
+          <p class="mt-1 text-sm text-n-slate-11">
+            {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.PLAINTEXT_STORAGE_NOTICE') }}
+          </p>
+        </section>
+
         <div
           ref="statusRef"
           tabindex="-1"
@@ -631,6 +689,58 @@ onMounted(async () => {
             {{ errorMessage }}
           </p>
         </div>
+
+        <section
+          v-if="providerDetails.connection.connected"
+          class="flex flex-col gap-4 rounded-xl border border-n-weak bg-n-solid-1 p-5"
+        >
+          <div>
+            <h2 class="font-medium text-n-slate-12">
+              {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.MANAGE_CONNECTION') }}
+            </h2>
+            <p class="mt-1 text-sm text-n-slate-10">
+              {{ $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.MANAGE_CONNECTION_NOTICE') }}
+            </p>
+          </div>
+          <Input
+            v-if="providerKey === 'stripe' && isChangingStripeKey"
+            v-model="stripeCredential"
+            type="password"
+            autocomplete="new-password"
+            :label="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.STRIPE_KEY_LABEL')"
+            :message="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.STRIPE_KEY_HELP')"
+          />
+          <div class="flex flex-wrap gap-3">
+            <Button
+              v-if="providerDetails.installed_count"
+              outline
+              slate
+              :label="
+                providerKey === 'stripe' && isChangingStripeKey
+                  ? $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SAVE_NEW_KEY')
+                  : changeConnectionLabel
+              "
+              :is-loading="isMutating"
+              :disabled="
+                providerKey === 'stripe' &&
+                isChangingStripeKey &&
+                !stripeCredential.trim()
+              "
+              @click="
+                providerKey === 'stripe' && isChangingStripeKey
+                  ? reconnect()
+                  : changeConnection()
+              "
+            />
+            <Button
+              outline
+              ruby
+              :label="revokeConnectionLabel"
+              :disabled="isMutating"
+              @click="openRevokeDialog"
+            />
+          </div>
+        </section>
 
         <section
           v-if="
@@ -907,4 +1017,13 @@ onMounted(async () => {
       </div>
     </template>
   </PageLayout>
+  <Dialog
+    ref="revokeDialogRef"
+    type="alert"
+    :title="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.REVOKE_CONFIRM_TITLE')"
+    :description="revokeConfirmationNotice"
+    :confirm-button-label="revokeConnectionLabel"
+    :is-loading="isMutating"
+    @confirm="revokeConnection"
+  />
 </template>

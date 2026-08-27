@@ -14,8 +14,6 @@ module Enterprise::Shopify::CallbacksController
     super
     return if @catalog_oauth_state.blank?
 
-    raise Captain::ToolCatalog::WorkflowError, 'encryption_required' unless Chatwoot.encryption_configured?
-
     consume_catalog_nonce!(@catalog_oauth_state.fetch('installation_id'), @catalog_oauth_state['nonce'])
   end
 

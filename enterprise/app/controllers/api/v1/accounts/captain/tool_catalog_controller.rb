@@ -11,8 +11,17 @@ class Api::V1::Accounts::Captain::ToolCatalogController < Api::V1::Accounts::Cap
     installation = Captain::ToolCatalog::ReconnectWorkflow.new(
       account: Current.account,
       initiated_by: Current.user
-    ).perform(provider_key: params[:provider_key], credential: reconnect_params[:credential])
+    ).perform(
+      provider_key: params[:provider_key],
+      credential: reconnect_params[:credential],
+      force_reauthorization: reconnect_params[:force_reauthorization]
+    )
     render_installation(installation, status: :created)
+  end
+
+  def disconnect
+    Captain::ToolCatalog::ConnectionRevoker.new(account: Current.account).perform(provider_key: params[:provider_key])
+    head :no_content
   end
 
   def update
@@ -38,6 +47,6 @@ class Api::V1::Accounts::Captain::ToolCatalogController < Api::V1::Accounts::Cap
   def reconnect_params
     return {} if params[:reconnect].blank?
 
-    params.require(:reconnect).permit(:credential)
+    params.require(:reconnect).permit(:credential, :force_reauthorization)
   end
 end

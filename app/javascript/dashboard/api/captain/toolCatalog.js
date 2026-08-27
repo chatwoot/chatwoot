@@ -36,6 +36,10 @@ class CaptainToolCatalog extends ApiClient {
     });
   }
 
+  disconnect(providerKey) {
+    return axios.delete(`${this.url}/${providerKey}/connection`);
+  }
+
   update(providerKey, templates) {
     return axios.post(`${this.url}/${providerKey}/update`, {
       update: { templates },

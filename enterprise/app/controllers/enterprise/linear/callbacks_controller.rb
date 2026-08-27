@@ -5,8 +5,6 @@ module Enterprise::Linear::CallbacksController
     installation_id = linear_oauth_state&.[]('installation_id')
     return if installation_id.blank?
 
-    raise Captain::ToolCatalog::WorkflowError, 'encryption_required' unless Chatwoot.encryption_configured?
-
     consume_catalog_nonce!(installation_id, linear_oauth_state['nonce'])
   end
 

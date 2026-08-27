@@ -1,7 +1,6 @@
 module Enterprise::Api::V1::Accounts::Integrations::SlackController
   def auth
     authorize(:hook, :create?)
-    require_catalog_encryption!
     installation = catalog_installation!
     raise Captain::ToolCatalog::WorkflowError, 'slack_oauth_unavailable' if slack_client_id.blank? || slack_client_secret.blank?
 
@@ -16,7 +15,6 @@ module Enterprise::Api::V1::Accounts::Integrations::SlackController
   def create
     return super if params[:state].blank?
 
-    require_catalog_encryption!
     installation = consume_catalog_state!
     @hook = Integrations::Slack::HookBuilder.new(account: Current.account, code: params[:code], catalog: true).perform
     installation.update!(integration_hook: @hook)
@@ -28,10 +26,6 @@ module Enterprise::Api::V1::Accounts::Integrations::SlackController
   end
 
   private
-
-  def require_catalog_encryption!
-    raise Captain::ToolCatalog::WorkflowError, 'encryption_required' unless Chatwoot.encryption_configured?
-  end
 
   def catalog_installation!
     raise Captain::ToolCatalog::WorkflowError, 'catalog_unavailable' unless Current.account.feature_enabled?('captain_tool_catalog')

@@ -1,7 +1,6 @@
 class Captain::ToolCatalog::ConnectionWorkflow < Captain::ToolCatalog::BaseWorkflow
   def perform(provider_key:, templates:)
     selection = resolve_selection(provider_key, templates, validate_configuration: false)
-    require_encryption!
     create_installation!(
       workflow_kind: 'connect',
       provider_key: provider_key,

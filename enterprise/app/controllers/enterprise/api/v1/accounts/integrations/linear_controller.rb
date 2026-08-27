@@ -1,7 +1,6 @@
 module Enterprise::Api::V1::Accounts::Integrations::LinearController
   def auth
     authorize(:hook, :create?)
-    require_catalog_encryption!
     installation = catalog_installation!
     raise Captain::ToolCatalog::WorkflowError, 'linear_oauth_unavailable' if client_id.blank? || client_secret.blank?
 
@@ -14,10 +13,6 @@ module Enterprise::Api::V1::Accounts::Integrations::LinearController
   end
 
   private
-
-  def require_catalog_encryption!
-    raise Captain::ToolCatalog::WorkflowError, 'encryption_required' unless Chatwoot.encryption_configured?
-  end
 
   def catalog_installation!
     raise Captain::ToolCatalog::WorkflowError, 'catalog_unavailable' unless Current.account.feature_enabled?('captain_tool_catalog')

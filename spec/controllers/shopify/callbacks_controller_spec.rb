@@ -207,7 +207,9 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         )
       end
 
-      it 'consumes the nonce once, reuses the hook, and resumes the same installation' do
+      it 'consumes the nonce and resumes the installation without configured credential encryption' do
+        allow(Chatwoot).to receive(:encryption_configured?).and_return(false)
+
         get shopify_callback_path, params: { code: code, state: state, shop: shop }
 
         hook = account.hooks.account_hooks.find_by!(app_id: 'shopify')

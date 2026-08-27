@@ -3,7 +3,6 @@ module Enterprise::Api::V1::Accounts::Integrations::ShopifyController
     return super if params[:installation_id].blank?
 
     authorize(:hook, :create?)
-    require_catalog_encryption!
     installation = catalog_installation!
     state = catalog_oauth_state(installation)
     raise Captain::ToolCatalog::WorkflowError, 'shopify_oauth_unavailable' if state.blank?
@@ -14,10 +13,6 @@ module Enterprise::Api::V1::Accounts::Integrations::ShopifyController
   end
 
   private
-
-  def require_catalog_encryption!
-    raise Captain::ToolCatalog::WorkflowError, 'encryption_required' unless Chatwoot.encryption_configured?
-  end
 
   def catalog_installation!
     raise Captain::ToolCatalog::WorkflowError, 'catalog_unavailable' unless Current.account.feature_enabled?('captain_tool_catalog')

@@ -35,7 +35,6 @@ class Captain::ToolCatalog::InstallationWorkflow < Captain::ToolCatalog::BaseWor
 
   def prepare_connection(selection, missing_entries, credential)
     provider_key = selection.pack.dig('provider', 'key')
-    require_encryption!
     connect_provider!(provider_key: provider_key, credential: credential, required_scopes: required_connection_scopes(selection))
     connection_requirement(provider_key, selection.required_scopes(missing_entries))
   end

@@ -15,7 +15,6 @@ class Captain::ToolCatalog::StripeConnection
   end
 
   def connect!(credential:, required_scopes:)
-    require_encryption!
     validate_credential!(credential)
     scopes = normalize_scopes(required_scopes)
     stripe_account = fetch_json(ACCOUNT_URL, credential)
@@ -29,12 +28,6 @@ class Captain::ToolCatalog::StripeConnection
   private
 
   attr_reader :account
-
-  def require_encryption!
-    return if Chatwoot.encryption_configured?
-
-    raise Captain::ToolCatalog::WorkflowError, 'encryption_required'
-  end
 
   def validate_credential!(credential)
     return if credential.is_a?(String) && credential.match?(RESTRICTED_KEY_PATTERN)

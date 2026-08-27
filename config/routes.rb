@@ -106,6 +106,7 @@ Rails.application.routes.draw do
             post 'tool_catalog/:provider_key/setup/:operation_key', to: 'tool_catalog_setup_operations#create'
             post 'tool_catalog/:provider_key/reconnect', to: 'tool_catalog#reconnect'
             post 'tool_catalog/:provider_key/update', to: 'tool_catalog#update'
+            delete 'tool_catalog/:provider_key/connection', to: 'tool_catalog#disconnect'
             get 'tool_catalog/:provider_key', to: 'tool_catalog#show'
             resources :documents, only: [:index, :show, :create, :destroy] do
               post :sync, on: :member
