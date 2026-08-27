@@ -13,7 +13,6 @@ import {
   insertImageFiles,
   insertFileUploads,
   fileUploadPlugin,
-  hasActiveUploads,
   setUploadLabels,
   toggleMark,
   wrapInList,
@@ -467,20 +466,17 @@ export default {
       editorView.dispatch(tr.setSelection(selection));
       editorView.focus();
     },
-    // Held-back syncs are re-checked, not dropped: a value we emitted within
-    // the echo window is treated as our own autosave echo, and a reseed while
-    // uploads are in flight would destroy the placeholders — in both cases we
-    // try again once the window passes, so a real external reset (e.g.
-    // discarding a draft) still lands even if no further prop update comes.
+    // A value we emitted within the echo window is treated as our own
+    // autosave echo and re-checked (not dropped) once the window passes.
+    // Anything else is a definitive reset — discarding a draft, switching
+    // articles — and applies immediately: rebuilding aborts any in-flight
+    // uploads, which belonged to the content being replaced.
     syncFromModel() {
       clearTimeout(this.pendingSync);
       this.pendingSync = null;
       const value = this.modelValue || '';
       if (value === this.contentFromEditor()) return;
-      if (
-        this.recentlyEmitted(value) ||
-        (editorView && hasActiveUploads(editorView))
-      ) {
+      if (this.recentlyEmitted(value)) {
         this.pendingSync = setTimeout(
           () => this.syncFromModel(),
           STALE_ECHO_WINDOW

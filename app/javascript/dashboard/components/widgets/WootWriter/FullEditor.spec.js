@@ -293,42 +293,33 @@ describe('FullEditor', () => {
       expect(view.state.doc.textContent).toBe('Hello world');
     });
 
-    it('refuses to rebuild from foreign content while a file upload is pending', async () => {
+    it('applies a draft reset during a file upload and cancels the upload', async () => {
       mountEditor({ modelValue: 'Hello' });
       attachImage.mockImplementation(pendingUpload);
       await selectFile(new File(['x'], 'clip.mp4', { type: 'video/mp4' }));
       expect(view.dom.querySelector('.pm-upload-card')).not.toBeNull();
 
-      // A failed or draft-clearing autosave reseeds the model from the store.
-      await wrapper.setProps({ modelValue: 'Stale store copy' });
+      // Discarding a draft reseeds the model with the live article.
+      await wrapper.setProps({ modelValue: 'Published copy' });
+      await flushPromises();
 
-      expect(view.dom.querySelector('.pm-upload-card')).not.toBeNull();
-      expect(view.state.doc.textContent).toBe('Hello');
-      expect(attachImage.mock.calls[0][0].signal.aborted).toBe(false);
+      expect(view.state.doc.textContent).toBe('Published copy');
+      expect(view.dom.querySelector('.pm-upload-card')).toBeNull();
+      expect(attachImage.mock.calls[0][0].signal.aborted).toBe(true);
     });
 
-    it('refuses to rebuild from foreign content while an image upload is pending', async () => {
+    it('applies a draft reset during an image upload and cancels the upload', async () => {
       mountEditor({ modelValue: 'Hello' });
       attachImage.mockImplementation(pendingUpload);
       await selectFile(fileOfSize(1));
       expect(view.dom.querySelector('.pm-image-uploading')).not.toBeNull();
 
-      await wrapper.setProps({ modelValue: 'Stale store copy' });
-
-      expect(view.dom.querySelector('.pm-image-uploading')).not.toBeNull();
-      expect(attachImage.mock.calls[0][0].signal.aborted).toBe(false);
-    });
-
-    it('rebuilds from foreign content again once uploads settle', async () => {
-      mountEditor({ modelValue: 'Hello' });
-      attachImage.mockImplementation(pendingUpload);
-      await selectFile(new File(['x'], 'clip.mp4', { type: 'video/mp4' }));
-      expect(swallowedByEditor('Backspace')).toBe(true);
+      await wrapper.setProps({ modelValue: 'Published copy' });
       await flushPromises();
 
-      await wrapper.setProps({ modelValue: 'Replaced' });
-
-      expect(view.state.doc.textContent).toBe('Replaced');
+      expect(view.state.doc.textContent).toBe('Published copy');
+      expect(view.dom.querySelector('.pm-image-uploading')).toBeNull();
+      expect(attachImage.mock.calls[0][0].signal.aborted).toBe(true);
     });
 
     it('lets an external reset replace content once an image upload has failed', async () => {
