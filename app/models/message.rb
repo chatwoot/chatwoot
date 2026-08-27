@@ -185,7 +185,9 @@ class Message < ApplicationRecord
       content_attributes: content_attributes,
       content_type: content_type,
       content: webhook_content,
-      conversation: conversation.webhook_data,
+      # conversation.webhook_data re-queries the conversation for its newest chat message,
+      # which is not this message when the payload is built in a background job.
+      conversation: conversation.webhook_data.merge(messages: [webhook_push_event_data]),
       created_at: created_at,
       id: id,
       inbox: inbox.webhook_data,
