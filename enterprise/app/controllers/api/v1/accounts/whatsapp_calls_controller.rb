@@ -4,7 +4,6 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   before_action :ensure_calling_enabled, only: :initiate
   before_action :ensure_sdp_offer, only: :initiate
   before_action :ensure_contact_phone, only: :initiate
-  before_action :ensure_recording_enabled, only: :upload_recording
   before_action :ensure_recording_present, only: :upload_recording
   before_action :ensure_call_message, only: :upload_recording
 
@@ -31,6 +30,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def upload_recording
     @upload_status = @call.message.with_lock { attach_recording_idempotently }
+    render_could_not_create_error(I18n.t('errors.whatsapp.calls.recording_disabled')) if @upload_status == 'recording_disabled'
   end
 
   def initiate
@@ -109,12 +109,6 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     render_could_not_create_error(I18n.t('errors.whatsapp.calls.contact_phone_required'))
   end
 
-  def ensure_recording_enabled
-    return if @call.inbox.channel.recording_enabled?
-
-    render_could_not_create_error(I18n.t('errors.whatsapp.calls.recording_disabled'))
-  end
-
   def ensure_recording_present
     return if params[:recording].present?
 
@@ -130,8 +124,13 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   def attach_recording_idempotently
     return 'already_uploaded' if @call.message.attachments.exists?(file_type: :audio)
 
-    @call.message.attachments.create!(account_id: @call.account_id, file_type: :audio, file: params[:recording])
-    'uploaded'
+    # The flag is read under the channel row lock, so this serializes with set_call_recording's write.
+    @call.inbox.channel.with_lock do
+      next 'recording_disabled' unless @call.inbox.channel.recording_enabled?
+
+      @call.message.attachments.create!(account_id: @call.account_id, file_type: :audio, file: params[:recording])
+      'uploaded'
+    end
   end
 
   def create_outbound_call
