@@ -249,5 +249,41 @@ RSpec.describe UserSessionTrackingService do
 
       expect(session.reload.last_activity_at).to be_within(1.second).of(Time.current)
     end
+
+    context 'when the client reports different metadata than it did at sign in' do
+      let(:headers) do
+        {
+          'X-Chatwoot-Client-Name' => 'Chatwoot Mobile',
+          'X-Chatwoot-Client-Version' => '4.9.1',
+          'X-Chatwoot-Platform' => 'ios',
+          'X-Chatwoot-Platform-Version' => '26.5.2',
+          'X-Chatwoot-Device-Model' => 'iPhone 15'
+        }
+      end
+
+      it 'refreshes the stored version so an in-place app upgrade is reflected' do
+        session = user.user_sessions.create!(
+          client_id: client_id, browser_name: 'Chatwoot Mobile', browser_version: '4.8.5',
+          device_name: 'iPhone', platform_name: 'iPhone 15', platform_version: '26.5.2',
+          last_activity_at: 10.minutes.ago
+        )
+
+        service.update_activity!
+
+        expect(session.reload.browser_version).to eq('4.9.1')
+      end
+
+      it 'leaves the ip address alone so the resolved location is not invalidated' do
+        session = user.user_sessions.create!(
+          client_id: client_id, browser_version: '4.8.5', ip_address: '1.1.1.1',
+          city: 'Lisbon', last_activity_at: 10.minutes.ago
+        )
+
+        service.update_activity!
+
+        expect(session.reload.ip_address).to eq('1.1.1.1')
+        expect(session.city).to eq('Lisbon')
+      end
+    end
   end
 end

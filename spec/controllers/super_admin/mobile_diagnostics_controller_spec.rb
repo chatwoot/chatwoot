@@ -209,6 +209,7 @@ RSpec.describe 'Super Admin Mobile diagnostics', type: :request do
 
         expect(response.body).to include('duplicate')
         expect(response.body).to include('holds more than one active subscription')
+        expect(response.body).not_to include('translation missing')
       end
 
       it 'does not flag distinct devices' do

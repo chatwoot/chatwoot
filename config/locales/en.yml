@@ -663,6 +663,57 @@ en:
         help_center_search: 'Help center search'
     mobile_diagnostics:
       unavailable: 'Mobile App diagnostics is not available on this installation.'
+      title: 'Mobile App'
+      description: 'Look up which app version, device and OS a user is running. Populated from the X-Chatwoot-* headers the mobile app sends on every request, so it reflects the build installed on the device.'
+      search:
+        placeholder: 'user@example.com or numeric user ID'
+        submit: 'Look up'
+        not_found: 'No user found for "%{query}".'
+      user:
+        id: 'ID %{id}'
+        accounts: 'Accounts:'
+        details_link: 'User details →'
+      sessions:
+        heading: 'Mobile sessions (%{count})'
+        empty: 'No mobile sessions recorded — this user has not signed in from the iOS or Android app.'
+        web_sessions:
+          one: 'They have %{count} active web session.'
+          other: 'They have %{count} active web sessions.'
+        legacy_build: 'legacy build'
+        legacy_note: '"legacy build" means the session predates app version 4.8.0, which is when the app began sending X-Chatwoot-Client-Version. The exact build is unknown.'
+        columns:
+          app_version: 'App version'
+          platform: 'Platform'
+          os_version: 'OS version'
+          device: 'Device'
+          first_seen: 'First seen'
+          last_active: 'Last active'
+      devices:
+        heading: 'Registered devices (%{count})'
+        empty: 'No push-registered devices.'
+        duplicate: 'duplicate'
+        push_diagnostics_link: 'Push diagnostics'
+        duplicate_note_html:
+          one: '%{count} device holds more than one active subscription. A device that re-registers with a fresh FCM token adds a row rather than replacing the old one, so the same phone can receive duplicate notifications. Delete the stale rows from %{link}.'
+          other: '%{count} devices hold more than one active subscription. A device that re-registers with a fresh FCM token adds a row rather than replacing the old one, so the same phone can receive duplicate notifications. Delete the stale rows from %{link}.'
+        build_number_note: 'buildNumber here is the native build number, not the app version shown above.'
+        columns:
+          id: 'ID'
+          device_id: 'Device ID'
+          details: 'Device details'
+          registered: 'Registered'
+          last_updated: 'Last updated'
+      push_settings:
+        heading: 'Push notification settings'
+        description: 'Set per account. With every type switched off the user receives no push at all, however healthy the device registration above looks.'
+        empty: 'No notification settings recorded for this user.'
+        notification_type: 'Notification type'
+        unnamed_account: 'Account %{id}'
+        sla_unavailable: 'SLA is not enabled on this account'
+        none_enabled:
+          one: 'No push types are enabled for %{names}. This user receives no push notification from that account, however healthy the device registration above looks.'
+          other: 'No push types are enabled for %{names}. This user receives no push notification from those accounts, however healthy the device registration above looks.'
+        diagnostics_link: 'Send a test push or remove subscriptions in Push diagnostics →'
       push_types:
         conversation_creation: 'A new conversation is created'
         conversation_assignment: 'A conversation is assigned to the user'

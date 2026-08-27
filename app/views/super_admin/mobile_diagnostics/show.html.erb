@@ -1,26 +1,23 @@
-<% content_for(:title) do %>Mobile App<% end %>
+<% scope = 'super_admin.mobile_diagnostics' %>
+<% content_for(:title) do %><%= t("#{scope}.title") %><% end %>
 
 <header class="main-content__header" role="banner">
-  <h1 class="main-content__page-title" id="page-title">Mobile App</h1>
+  <h1 class="main-content__page-title" id="page-title"><%= t("#{scope}.title") %></h1>
 </header>
 
 <section class="main-content__body">
-  <p class="text-sm text-slate-600 mb-6">
-    Look up which app version, device and OS a user is running. Populated from the
-    <code class="text-xs">X-Chatwoot-*</code> headers the mobile app sends on every request, so it reflects
-    the build actually installed on the device.
-  </p>
+  <p class="text-sm text-slate-600 mb-6"><%= t("#{scope}.description") %></p>
 
   <div class="mb-8">
     <%= form_with url: super_admin_mobile_diagnostics_path, method: :get, local: true, class: 'flex gap-2 items-center' do |f| %>
       <%= f.text_field :user_query,
                        value: @query,
-                       placeholder: 'user@example.com or numeric user ID',
+                       placeholder: t("#{scope}.search.placeholder"),
                        class: 'border border-slate-100 p-1.5 rounded-md w-80' %>
-      <%= f.submit 'Look up', class: 'border border-slate-200 bg-slate-50 px-3 py-1.5 rounded-md cursor-pointer' %>
+      <%= f.submit t("#{scope}.search.submit"), class: 'border border-slate-200 bg-slate-50 px-3 py-1.5 rounded-md cursor-pointer' %>
     <% end %>
     <% if @query.present? && @user.nil? %>
-      <p class="text-sm text-red-600 mt-2">No user found for "<%= @query %>".</p>
+      <p class="text-sm text-red-600 mt-2"><%= t("#{scope}.search.not_found", query: @query) %></p>
     <% end %>
   </div>
 
@@ -29,42 +26,39 @@
       <p class="text-sm">
         <strong><%= @user.name %></strong>
         &middot; <%= @user.email %>
-        &middot; ID <%= @user.id %>
+        &middot; <%= t("#{scope}.user.id", id: @user.id) %>
       </p>
       <% if @user.accounts.any? %>
         <p class="text-xs text-slate-500 mt-1">
-          Accounts:
+          <%= t("#{scope}.user.accounts") %>
           <% @user.accounts.each_with_index do |account, index| %>
             <%= ', ' if index.positive? %>
-            <%= account.name %> (ID <%= account.id %>)
+            <%= account.name %> (<%= t("#{scope}.user.id", id: account.id) %>)
           <% end %>
         </p>
       <% end %>
       <p class="text-xs mt-2">
-        <%= link_to 'User details →', super_admin_user_path(@user), class: 'text-woot-500' %>
+        <%= link_to t("#{scope}.user.details_link"), super_admin_user_path(@user), class: 'text-woot-500' %>
       </p>
     </div>
 
     <div class="mb-8">
-      <h2 class="text-base font-semibold mb-2">Mobile sessions (<%= @mobile_sessions.count %>)</h2>
+      <h2 class="text-base font-semibold mb-2"><%= t("#{scope}.sessions.heading", count: @mobile_sessions.count) %></h2>
 
       <% if @mobile_sessions.empty? %>
         <p class="text-sm text-slate-600">
-          No mobile sessions recorded &mdash; this user has not signed in from the iOS or Android app.
+          <%= t("#{scope}.sessions.empty") %>
           <% if @web_session_count.positive? %>
-            They have <%= pluralize(@web_session_count, 'active web session') %>.
+            <%= t("#{scope}.sessions.web_sessions", count: @web_session_count) %>
           <% end %>
         </p>
       <% else %>
         <table class="w-full text-sm border border-slate-100 rounded-md">
           <thead class="text-left text-xs text-slate-500 bg-slate-25">
             <tr>
-              <th class="px-3 py-2 first:!pl-4 last:!pr-4">App version</th>
-              <th class="px-3 py-2 first:!pl-4 last:!pr-4">Platform</th>
-              <th class="px-3 py-2 first:!pl-4 last:!pr-4">OS version</th>
-              <th class="px-3 py-2 first:!pl-4 last:!pr-4">Device</th>
-              <th class="px-3 py-2 first:!pl-4 last:!pr-4">First seen</th>
-              <th class="px-3 py-2 first:!pl-4 last:!pr-4">Last active</th>
+              <% %w[app_version platform os_version device first_seen last_active].each do |column| %>
+                <th class="px-3 py-2 first:!pl-4 last:!pr-4"><%= t("#{scope}.sessions.columns.#{column}") %></th>
+              <% end %>
             </tr>
           </thead>
           <tbody>
@@ -74,7 +68,7 @@
                   <% if session.browser_version.present? %>
                     <%= session.browser_version %>
                   <% else %>
-                    <span class="text-amber-11">legacy build</span>
+                    <span class="text-amber-11"><%= t("#{scope}.sessions.legacy_build") %></span>
                   <% end %>
                 </td>
                 <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= session.device_name.presence || '—' %></td>
@@ -95,26 +89,21 @@
             <% end %>
           </tbody>
         </table>
-        <p class="text-xs text-slate-400 mt-2">
-          "legacy build" means the session predates app version 4.8.0, which is when the app began
-          sending <code>X-Chatwoot-Client-Version</code>. The exact build is unknown.
-        </p>
+        <p class="text-xs text-slate-400 mt-2"><%= t("#{scope}.sessions.legacy_note") %></p>
       <% end %>
     </div>
 
     <div class="mb-8">
-      <h2 class="text-base font-semibold mb-2">Registered devices (<%= @device_subscriptions.count %>)</h2>
+      <h2 class="text-base font-semibold mb-2"><%= t("#{scope}.devices.heading", count: @device_subscriptions.count) %></h2>
       <% if @device_subscriptions.empty? %>
-        <p class="text-sm text-slate-600">No push-registered devices.</p>
+        <p class="text-sm text-slate-600"><%= t("#{scope}.devices.empty") %></p>
       <% else %>
         <table class="w-full text-sm border border-slate-100 rounded-md">
           <thead class="text-left text-xs text-slate-500 bg-slate-25">
             <tr>
-              <th class="px-3 py-2 first:!pl-4 last:!pr-4">ID</th>
-              <th class="px-3 py-2 first:!pl-4 last:!pr-4">Device ID</th>
-              <th class="px-3 py-2 first:!pl-4 last:!pr-4">Device details</th>
-              <th class="px-3 py-2 first:!pl-4 last:!pr-4">Registered</th>
-              <th class="px-3 py-2 first:!pl-4 last:!pr-4">Last updated</th>
+              <% %w[id device_id details registered last_updated].each do |column| %>
+                <th class="px-3 py-2 first:!pl-4 last:!pr-4"><%= t("#{scope}.devices.columns.#{column}") %></th>
+              <% end %>
             </tr>
           </thead>
           <tbody>
@@ -127,7 +116,7 @@
                   <% if raw_attrs['device_id'].present? %>
                     &hellip;<%= raw_attrs['device_id'].to_s.last(6) %>
                     <% if duplicate_device?(sub) %>
-                      <span class="ml-1 text-amber-11 font-sans">duplicate</span>
+                      <span class="ml-1 text-amber-11 font-sans"><%= t("#{scope}.devices.duplicate") %></span>
                     <% end %>
                   <% else %>
                     <span class="text-slate-400">—</span>
@@ -150,38 +139,32 @@
         </table>
         <% if @duplicate_device_ids.any? %>
           <p class="text-xs text-amber-11 mt-2">
-            <%= pluralize(@duplicate_device_ids.size, 'device') %>
-            <%= @duplicate_device_ids.size == 1 ? 'holds' : 'hold' %> more than one active subscription.
-            A device that re-registers with a fresh FCM token adds a row rather than replacing the old
-            one, so the same phone can receive duplicate notifications. Delete the stale rows from
-            <%= link_to 'Push diagnostics', super_admin_push_diagnostics_path(user_query: @user.id), class: 'underline' %>.
+            <%= t("#{scope}.devices.duplicate_note_html",
+                  count: @duplicate_device_ids.size,
+                  link: link_to(t("#{scope}.devices.push_diagnostics_link"),
+                                super_admin_push_diagnostics_path(user_query: @user.id),
+                                class: 'underline')) %>
           </p>
         <% end %>
-        <p class="text-xs text-slate-400 mt-2">
-          <code>buildNumber</code> here is the native build number, not the app version shown above.
-        </p>
+        <p class="text-xs text-slate-400 mt-2"><%= t("#{scope}.devices.build_number_note") %></p>
       <% end %>
     </div>
 
-
     <div class="mb-8">
-      <h2 class="text-base font-semibold mb-2">Push notification settings</h2>
-      <p class="text-xs text-slate-500 mb-3">
-        Set per account. With every type switched off the user receives no push at all, however
-        healthy the device registration above looks.
-      </p>
+      <h2 class="text-base font-semibold mb-2"><%= t("#{scope}.push_settings.heading") %></h2>
+      <p class="text-xs text-slate-500 mb-3"><%= t("#{scope}.push_settings.description") %></p>
 
       <% if @notification_settings.empty? %>
-        <p class="text-sm text-slate-600">No notification settings recorded for this user.</p>
+        <p class="text-sm text-slate-600"><%= t("#{scope}.push_settings.empty") %></p>
       <% else %>
         <table class="w-full text-sm border border-slate-100 rounded-md">
           <thead class="text-left text-xs text-slate-500 bg-slate-25">
             <tr>
-              <th class="px-3 py-2 first:!pl-4 last:!pr-4">Notification type</th>
+              <th class="px-3 py-2 first:!pl-4 last:!pr-4"><%= t("#{scope}.push_settings.notification_type") %></th>
               <% @notification_settings.each do |setting| %>
                 <th class="px-3 py-2 first:!pl-4 last:!pr-4">
-                  <div><%= setting.account&.name || "Account #{setting.account_id}" %></div>
-                  <div class="text-slate-400 font-normal">ID <%= setting.account_id %></div>
+                  <div><%= setting.account&.name || t("#{scope}.push_settings.unnamed_account", id: setting.account_id) %></div>
+                  <div class="text-slate-400 font-normal"><%= t("#{scope}.user.id", id: setting.account_id) %></div>
                 </th>
               <% end %>
             </tr>
@@ -194,7 +177,7 @@
                   <td class="px-3 py-2 first:!pl-4 last:!pr-4">
                     <% case push_state(setting, type) %>
                     <% when :unavailable %>
-                      <span class="text-slate-300" title="SLA is not enabled on this account">—</span>
+                      <span class="text-slate-300" title="<%= t("#{scope}.push_settings.sla_unavailable") %>">—</span>
                     <% when :on %>
                       <input type="checkbox" class="pointer-events-none" checked tabindex="-1" aria-disabled="true">
                     <% else %>
@@ -208,18 +191,15 @@
         </table>
 
         <% if @accounts_without_push.any? %>
-          <% names = @accounts_without_push.map { |setting| setting.account&.name || "account #{setting.account_id}" }.join(', ') %>
+          <% names = @accounts_without_push.map { |setting| setting.account&.name || t("#{scope}.push_settings.unnamed_account", id: setting.account_id) }.join(', ') %>
           <p class="text-xs text-amber-11 mt-2">
-            <%= "No push types are enabled for #{names}." %>
-            This user receives no push notification from
-            <%= @accounts_without_push.size == 1 ? 'that account' : 'those accounts' %>, however healthy
-            the device registration above looks.
+            <%= t("#{scope}.push_settings.none_enabled", count: @accounts_without_push.size, names: names) %>
           </p>
         <% end %>
       <% end %>
 
       <p class="text-xs mt-3">
-        <%= link_to 'Send a test push or remove subscriptions in Push diagnostics →',
+        <%= link_to t("#{scope}.push_settings.diagnostics_link"),
                     super_admin_push_diagnostics_path(user_query: @user.id),
                     class: 'text-woot-500' %>
       </p>
