@@ -661,6 +661,17 @@ en:
         help_center_query_translation: 'Help center query translation'
         audio_transcription: 'Audio transcription'
         help_center_search: 'Help center search'
+    mobile_diagnostics:
+      unavailable: 'Mobile App diagnostics is not available on this installation.'
+      push_types:
+        conversation_creation: 'A new conversation is created'
+        conversation_assignment: 'A conversation is assigned to the user'
+        conversation_mention: 'The user is mentioned in a conversation'
+        assigned_conversation_new_message: 'A new message is created in an assigned conversation'
+        participating_conversation_new_message: 'A new message is created in a participating conversation'
+        sla_missed_first_response: 'A conversation misses first response SLA'
+        sla_missed_next_response: 'A conversation misses next response SLA'
+        sla_missed_resolution: 'A conversation misses resolution SLA'
     push_diagnostics:
       user_not_found: 'User not found.'
       no_subscriptions_to_test: 'Select at least one subscription to test.'
