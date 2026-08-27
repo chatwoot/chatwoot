@@ -36,18 +36,19 @@ class Voice::Provider::Twilio::ConferenceService
   end
 
   # Stops whichever recording is live: the conference's (TwiML record-from-start) or the contact leg's (start_recording).
+  # The stopped segments are remembered so their completion callbacks are discarded even if recording is re-enabled.
   def stop_recording
     client = call.inbox.channel.client
-    twilio_conference_sids(client).each { |sid| stop_current_recording(client.conferences(sid)) }
-    stop_current_recording(client.calls(call.provider_call_id))
-    call.update!(recording_started: false)
+    stopped = twilio_conference_sids(client).map { |sid| stop_current_recording(client.conferences(sid)) }
+    stopped << stop_current_recording(client.calls(call.provider_call_id))
+    call.update!(recording_started: false, discarded_recording_sids: (Array(call.discarded_recording_sids) + stopped.compact).uniq)
   end
 
   private
 
-  # A 404 means that resource has no recording in progress.
+  # Returns the stopped recording's sid; a 404 means that resource has no recording in progress.
   def stop_current_recording(resource)
-    resource.recordings('Twilio.CURRENT').update(status: 'stopped')
+    resource.recordings('Twilio.CURRENT').update(status: 'stopped').sid
   rescue Twilio::REST::RestError => e
     raise unless e.status_code == 404
   end

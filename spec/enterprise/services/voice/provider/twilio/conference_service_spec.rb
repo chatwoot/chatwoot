@@ -80,10 +80,14 @@ describe Voice::Provider::Twilio::ConferenceService do
   end
 
   describe 'recording controls' do
-    let(:recording_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::RecordingContext, update: true) }
+    let(:stopped_conference_recording) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::RecordingInstance, sid: 'RE_conf') }
+    let(:stopped_leg_recording) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext::RecordingInstance, sid: 'RE_leg') }
+    let(:recording_context) do
+      instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::RecordingContext, update: stopped_conference_recording)
+    end
     let(:conf_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext, recordings: recording_context) }
     let(:call_recordings) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext::RecordingList, create: true) }
-    let(:call_recording_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext::RecordingContext, update: true) }
+    let(:call_recording_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext::RecordingContext, update: stopped_leg_recording) }
     let(:call_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext) }
 
     before do
@@ -115,7 +119,7 @@ describe Voice::Provider::Twilio::ConferenceService do
         expect(conf_context).to have_received(:recordings).with('Twilio.CURRENT')
         expect(recording_context).to have_received(:update).with(status: 'stopped')
         expect(call_recording_context).to have_received(:update).with(status: 'stopped')
-        expect(call.reload.recording_started).to be false
+        expect(call.reload).to have_attributes(recording_started: false, discarded_recording_sids: %w[RE_conf RE_leg])
       end
 
       it 'resolves the conference by friendly name when the Twilio sid is not persisted yet' do
@@ -139,7 +143,7 @@ describe Voice::Provider::Twilio::ConferenceService do
         allow(call_recording_context).to receive(:update).and_raise(not_found)
 
         expect { service.stop_recording }.not_to raise_error
-        expect(call.reload.recording_started).to be false
+        expect(call.reload).to have_attributes(recording_started: false, discarded_recording_sids: [])
       end
     end
   end

@@ -6,7 +6,7 @@ class Voice::RecordingStatusService
     return if recording_sid.blank? || recording_url.blank?
 
     call = find_call
-    return if call.blank?
+    return if call.blank? || Array(call.discarded_recording_sids).include?(recording_sid)
 
     Voice::Provider::Twilio::RecordingAttachmentJob.perform_later(
       call.id,
