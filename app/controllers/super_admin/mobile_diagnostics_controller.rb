@@ -20,7 +20,7 @@ class SuperAdmin::MobileDiagnosticsController < SuperAdmin::ApplicationControlle
   SLA_PUSH_TYPES = %i[sla_missed_first_response sla_missed_next_response sla_missed_resolution].freeze
 
   before_action :ensure_available
-  helper_method :push_state, :push_type_label, :device_details, :duplicate_device?
+  helper_method :push_state, :push_type_label, :device_details
 
   def show
     @query = params[:user_query].to_s.strip
@@ -28,7 +28,6 @@ class SuperAdmin::MobileDiagnosticsController < SuperAdmin::ApplicationControlle
     @mobile_sessions, web_sessions = sessions_for_user.partition { |session| mobile?(session) }
     @web_session_count = web_sessions.size
     @device_subscriptions = @user ? @user.notification_subscriptions.fcm.order(:id) : []
-    @duplicate_device_ids = duplicate_device_ids
     @notification_settings = @user ? @user.notification_settings.includes(:account).order(:account_id) : []
     @push_types = push_types
     @accounts_without_push = @notification_settings.select { |setting| all_push_off?(setting) }
@@ -47,11 +46,6 @@ class SuperAdmin::MobileDiagnosticsController < SuperAdmin::ApplicationControlle
 
   def device_details(subscription)
     subscription.subscription_attributes.to_h.stringify_keys.slice(*DEVICE_DETAIL_KEYS)
-  end
-
-  def duplicate_device?(subscription)
-    device_id = device_id_for(subscription)
-    device_id.present? && @duplicate_device_ids.include?(device_id)
   end
 
   private
@@ -81,18 +75,6 @@ class SuperAdmin::MobileDiagnosticsController < SuperAdmin::ApplicationControlle
     return [] if @user.nil?
 
     @user.user_sessions.order(Arel.sql('COALESCE(last_activity_at, created_at) DESC'))
-  end
-
-  # Device ids holding more than one active subscription.
-  def duplicate_device_ids
-    @device_subscriptions
-      .group_by { |subscription| device_id_for(subscription) }
-      .select { |device_id, subscriptions| device_id.present? && subscriptions.size > 1 }
-      .keys
-  end
-
-  def device_id_for(subscription)
-    subscription.subscription_attributes.to_h.stringify_keys['device_id'].presence
   end
 
   def mobile?(session)

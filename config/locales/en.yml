@@ -691,11 +691,6 @@ en:
       devices:
         heading: 'Registered devices (%{count})'
         empty: 'No push-registered devices.'
-        duplicate: 'duplicate'
-        push_diagnostics_link: 'Push diagnostics'
-        duplicate_note_html:
-          one: '%{count} device holds more than one active subscription. A device that re-registers with a fresh FCM token adds a row rather than replacing the old one, so the same phone can receive duplicate notifications. Delete the stale rows from %{link}.'
-          other: '%{count} devices hold more than one active subscription. A device that re-registers with a fresh FCM token adds a row rather than replacing the old one, so the same phone can receive duplicate notifications. Delete the stale rows from %{link}.'
         build_number_note: 'buildNumber here is the native build number, not the app version shown above.'
         columns:
           id: 'ID'

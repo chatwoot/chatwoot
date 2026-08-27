@@ -68,7 +68,7 @@
                   <% if session.browser_version.present? %>
                     <%= session.browser_version %>
                   <% else %>
-                    <span class="text-amber-11"><%= t("#{scope}.sessions.legacy_build") %></span>
+                    <span class="text-n-amber-11"><%= t("#{scope}.sessions.legacy_build") %></span>
                   <% end %>
                 </td>
                 <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= session.device_name.presence || '—' %></td>
@@ -110,14 +110,11 @@
             <% @device_subscriptions.each do |sub| %>
               <% raw_attrs = (sub.subscription_attributes || {}).stringify_keys %>
               <% attrs = device_details(sub) %>
-              <tr class="border-t border-slate-100 align-top <%= 'bg-amber-3' if duplicate_device?(sub) %>">
+              <tr class="border-t border-slate-100 align-top">
                 <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= sub.id %></td>
                 <td class="px-3 py-2 first:!pl-4 last:!pr-4 font-mono text-xs">
                   <% if raw_attrs['device_id'].present? %>
                     &hellip;<%= raw_attrs['device_id'].to_s.last(6) %>
-                    <% if duplicate_device?(sub) %>
-                      <span class="ml-1 text-amber-11 font-sans"><%= t("#{scope}.devices.duplicate") %></span>
-                    <% end %>
                   <% else %>
                     <span class="text-slate-400">—</span>
                   <% end %>
@@ -137,15 +134,6 @@
             <% end %>
           </tbody>
         </table>
-        <% if @duplicate_device_ids.any? %>
-          <p class="text-xs text-amber-11 mt-2">
-            <%= t("#{scope}.devices.duplicate_note_html",
-                  count: @duplicate_device_ids.size,
-                  link: link_to(t("#{scope}.devices.push_diagnostics_link"),
-                                super_admin_push_diagnostics_path(user_query: @user.id),
-                                class: 'underline')) %>
-          </p>
-        <% end %>
         <p class="text-xs text-slate-400 mt-2"><%= t("#{scope}.devices.build_number_note") %></p>
       <% end %>
     </div>
@@ -192,7 +180,7 @@
 
         <% if @accounts_without_push.any? %>
           <% names = @accounts_without_push.map { |setting| setting.account&.name || t("#{scope}.push_settings.unnamed_account", id: setting.account_id) }.join(', ') %>
-          <p class="text-xs text-amber-11 mt-2">
+          <p class="text-xs text-n-amber-11 mt-2">
             <%= t("#{scope}.push_settings.none_enabled", count: @accounts_without_push.size, names: names) %>
           </p>
         <% end %>

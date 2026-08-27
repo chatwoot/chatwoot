@@ -192,37 +192,10 @@ RSpec.describe 'Super Admin Mobile diagnostics', type: :request do
         get '/super_admin/mobile_diagnostics', params: { user_query: user.email }
 
         expect(response.body).to include('iPhone 15')
+        expect(response.body).not_to include('translation missing')
         expect(response.body).not_to include('SECRET-TOKEN')
         expect(response.body).not_to include('LEAKED')
         expect(response.body).not_to include('some_future_field')
-      end
-
-      it 'flags a device holding more than one active subscription' do
-        2.times do |i|
-          user.notification_subscriptions.create!(
-            subscription_type: 'fcm', identifier: "token-#{i}",
-            subscription_attributes: { 'device_id' => 'SAME-DEVICE-ABC123', 'push_token' => "token-#{i}" }
-          )
-        end
-
-        get '/super_admin/mobile_diagnostics', params: { user_query: user.email }
-
-        expect(response.body).to include('duplicate')
-        expect(response.body).to include('holds more than one active subscription')
-        expect(response.body).not_to include('translation missing')
-      end
-
-      it 'does not flag distinct devices' do
-        2.times do |i|
-          user.notification_subscriptions.create!(
-            subscription_type: 'fcm', identifier: "token-#{i}",
-            subscription_attributes: { 'device_id' => "DEVICE-#{i}", 'push_token' => "token-#{i}" }
-          )
-        end
-
-        get '/super_admin/mobile_diagnostics', params: { user_query: user.email }
-
-        expect(response.body).not_to include('more than one active subscription')
       end
 
       it 'flags sessions from builds that predate version reporting' do
