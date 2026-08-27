@@ -19,6 +19,10 @@ describe('#actions', () => {
         inboxes: { 1: '2' },
         labels: { 3: 4 },
         teams: { 5: 6 },
+        mentions_count: 7,
+        participating_count: 8,
+        unattended_count: 9,
+        folders: { 10: 11 },
       };
       axios.get.mockResolvedValue({ data: { payload } });
 

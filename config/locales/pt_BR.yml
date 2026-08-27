@@ -33,8 +33,34 @@ pt_BR:
     login_saml_user: Esta conta usa autenticação SAML. Por favor, faça login através do provedor SAML da sua organização.
     saml_not_available: A autenticação SAML não está disponível nesta instalação.
     inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado dentro de algum tempo.
+  data_imports:
+    intercom:
+      activities:
+        assignment: '%{actor} atribuiu a conversa'
+        assignment_with_target: '%{actor} atribuiu a conversa para %{target}'
+        assign_and_reopen: '%{actor} atribuiu e reabriu a conversa'
+        assign_and_reopen_with_target: '%{actor} atribuiu a conversa para %{target} e a reabriu'
+        open: '%{actor} abriu a conversa'
+        close: '%{actor} fechou a conversa'
+        snoozed: '%{actor} colocou a conversa em modo de espera'
+        participant_added: '%{actor} adicionou um participante'
+        participant_added_with_target: '%{actor} adicionou %{target} como participante'
+        participant_removed: '%{actor} removeu um participante'
+        participant_removed_with_target: '%{actor} removeu %{target} como participante'
+        conversation_attribute_updated: '%{actor} atualizou atributos de conversa'
+        ticket_attribute_updated: '%{actor} atualizou os atributos do ticket'
+        ticket_state_updated: '%{actor} atualizou o estado do ticket'
+        custom_action_started: '%{actor} iniciou uma ação personalizada'
+        custom_action_finished: '%{actor} finalizou uma ação personalizada'
+        quick_reply: '%{actor} usou uma resposta rápida'
+        generic: '%{actor} gravou %{event}'
+  profile_settings:
+    sessions:
+      cannot_revoke_current: Você não pode revogar a sessão atual.
   errors:
     account:
+      not_authorized: Você não está autorizado a acessar esta conta
+      email_limit_exceeded: O limite diário de envio de e-mails desta conta foi atingido
       reporting_timezone:
         invalid: não é um fuso horário válido
       support_email:
@@ -64,9 +90,14 @@ pt_BR:
       file_too_large: 'O arquivo excede o tamanho máximo permitido'
       unsupported_content_type: 'Tipo de arquivo não suportado (apenas imagens e vídeos são permitidos)'
       unexpected: 'Ocorreu um erro inesperado'
+    database:
+      query_canceled: 'A solicitação demorou muito para ser concluída. Tente novamente.'
     saml:
       feature_not_enabled: SAML não está habilitado para esta conta
       sso_not_enabled: O SSO via SAML não está habilitado para esta instalação
+    conversations:
+      unread_counts:
+        feature_not_enabled: O recurso de contagem de conversas não lidas não está habilitado para esta conta
     data_import:
       data_type:
         invalid: Tipo de dado inválido
@@ -92,6 +123,15 @@ pt_BR:
         unique: deve ser único na categoria e no portal
     dyte:
       invalid_message_type: 'Tipo de mensagem inválido. Ação não permitida'
+      realtimekit_credentials_required: 'As credenciais do Cloudflare RealtimeKit são obrigatórias. Exclua a integração existente do Dyte e crie-a novamente usando as credenciais do Cloudflare RealtimeKit.'
+    cloudflare:
+      realtimekit:
+        invalid_credentials: 'As credenciais do Cloudflare RealtimeKit são inválidas. Verifique o ID da conta, o ID do aplicativo RealtimeKit e as permissões do token da API.'
+        missing_credentials: 'O ID da conta do Cloudflare, o ID do aplicativo RealtimeKit e o token da API são obrigatórios.'
+        invalid_api_token: 'O token da API do Cloudflare é inválido ou está inativo. Crie um novo token com permissões de Realtime Admin.'
+        invalid_account_or_permissions: 'O ID da conta do Cloudflare é inválido ou o token da API não possui acesso de Realtime Admin a esta conta.'
+        app_not_found: 'O ID do aplicativo RealtimeKit não foi encontrado nesta conta do Cloudflare. Verifique se o aplicativo selecionado está correto.'
+        verification_failed: 'Não foi possível verificar as credenciais do Cloudflare RealtimeKit no momento. Por favor, tente novamente.'
     slack:
       invalid_channel_id: 'Canal de slack inválido. Por favor, tente novamente'
     whatsapp:
@@ -99,11 +139,14 @@ pt_BR:
       invalid_token_permissions: 'O token de acesso não tem as permissões necessárias para o WhatsApp.'
       phone_info_fetch_failed: 'Falha ao obter a informação do número de telefone. Por favor, tente novamente.'
       phone_number_already_exists: 'Já existe um canal para este número de telefone: %{phone_number}. Entre em contato com o suporte se o erro persistir'
+      message_outside_messaging_window: 'A mensagem não foi enviada porque a janela de atendimento de 24 horas do WhatsApp foi encerrada e nenhum parâmetro de modelo foi fornecido. Envie uma mensagem de modelo aprovada.'
       reauthorization:
         generic: 'Falha ao reautenticar o WhatsApp. Por favor, tente novamente.'
         not_supported: 'Reautenticação não é suportado por este tipo de canal WhatsApp.'
       calls:
         not_enabled: 'As chamadas não estão habilitadas para esta caixa de entrada'
+        already_ended: 'Esta chamada já terminou'
+        already_accepted: 'Chamada já aceita por outro agente'
         no_recording: 'Nenhum arquivo de gravação fornecido'
         no_message: 'A chamada não possui mensagem associada'
         sdp_offer_required: 'sdp_offer é obrigatório'
@@ -142,6 +185,9 @@ pt_BR:
       invalid_token: Token MFA inválido ou expirado
       invalid_credentials: Credenciais ou código de verificação inválidos
       feature_unavailable: O recurso MFA não está disponível. Por favor, configure as chaves de criptografia.
+    billing:
+      invalid_currency: Moeda de faturamento inválida
+      currency_locked: Moeda de faturamento não pode ser alterada após o faturamento ter sido configurado
     topup:
       credits_required: A quantidade de créditos é obrigatória
       invalid_credits: Quantidade de créditos inválida
@@ -241,6 +287,7 @@ pt_BR:
       whatsapp:
         list_button_label: 'Escolha um item'
         call_permission_request_body: 'Gostaríamos de ligar para você em relação à sua conversa.'
+        flow_response: 'Enviou uma resposta de um Flow'
         unsupported_message: 'Esta mensagem não está disponível.'
       voice_call:
         twilio: 'Chamada de Voz'
@@ -329,9 +376,9 @@ pt_BR:
       name: 'Painel de Aplicativos'
       description: 'O Painel de Aplicativos permite que você crie e incorpore aplicativos que exibem informações, pedidos ou histórico de pagamento, fornecendo mais contexto aos seus agentes de suporte ao cliente.'
     dyte:
-      name: 'Dyte'
+      name: 'Cloudflare RealtimeKit'
       short_description: 'Iniciar chamadas de vídeo/voz com clientes diretamente do Chatwoot.'
-      description: 'Dyte é um produto que integra as funcionalidades de áudio e vídeo em sua aplicação. Com esta integração, os seus agentes podem iniciar chamadas de vídeo/voz com seus clientes diretamente do chatwoot.'
+      description: 'O Cloudflare RealtimeKit permite que seus atendentes iniciem chamadas de vídeo e voz com seus clientes diretamente pelo Chatwoot.'
       meeting_name: '%{agent_name} começou a reunião'
     slack:
       name: 'Slack'
@@ -414,11 +461,11 @@ pt_BR:
       loading_placeholder: Procurando...
       results_title: Resultados de pesquisa
       results: Resultados da Pesquisa
-      results_for: "Search Results for '%{query}'"
-      no_results: "No results found for '%{query}'"
+      results_for: "Resultados da pesquisa para '%{query}'"
+      no_results: "Nenhum resultado encontrado para '%{query}'"
       found_results:
         one: Um resultado encontrado
-        other: 'Found %{count} results'
+        other: 'Encontrados %{count} resultados'
       submit: Pesquisar
     toc_header: 'Nesta página'
     sidebar:
@@ -434,7 +481,10 @@ pt_BR:
       browse_by_topic_subtitle: Encontre guias, tutoriais e respostas organizados por categoria.
       popular_articles: Artigos populares
       popular_articles_subtitle: O que outras pessoas estão lendo agora.
+      recommended: Artigos recomendados
+      recommended_subtitle: Artigos selecionados para ajudar você a começar.
       popular_label: 'Tópicos populares:'
+      recommended_label: 'Tópicos recomendados:'
       authors_others: "%{names} e %{count} outros"
       primary_nav: Primário
     hero:
@@ -470,6 +520,7 @@ pt_BR:
         light: Claro
         dark: Escuro
       featured_articles: Artigos em Destaque
+      recommended: Artigos recomendados
       uncategorized: Não categorizado
     404:
       title: Página não encontrada
@@ -529,6 +580,8 @@ pt_BR:
   agent_capacity_policy:
     inbox_already_assigned: 'A caixa de entrada já foi atribuída a esta política'
   portals:
+    analytics:
+      invalid_configuration: 'Configuração de analytics inválida'
     articles:
       captain_not_available: 'A tradução requer que o Capitão esteja ativado para esta conta'
       locale_not_available: 'Localidade não disponível neste portal'
@@ -544,6 +597,45 @@ pt_BR:
     ssl_status:
       custom_domain_not_configured: 'Domínio personalizado não está configurado'
   super_admin:
+    account_suspension:
+      categories:
+        spam: 'Spam'
+        non_payment: 'Inadimplência'
+        other: 'Outro'
+      form:
+        category: 'Categoria da suspensão'
+        category_prompt: 'Selecione uma categoria'
+        reason: 'Motivo da suspensão'
+        reason_hint: 'Informe um motivo de até 256 caracteres.'
+      history:
+        suspended_at: 'Suspenso em'
+        category: 'Categoria'
+        reason: 'Motivo'
+        empty: 'Nenhum histórico de suspensão registrado.'
+    captain_model_overrides:
+      form:
+        helper_text: 'Deixe um modelo em branco para usar o padrão definido no YAML para esse recurso de IA.'
+        use_default: 'Usar padrão: %{model} (%{model_id})'
+      show:
+        summary: 'Ver roteamento de modelo'
+        provider: 'Fornecedor'
+        model: 'Modelo'
+      sources:
+        account_override: 'Sobrescrever para esta conta'
+        default: 'Padrão'
+      features:
+        editor: 'Editores'
+        assistant: 'Assistente'
+        copilot: 'Copiloto'
+        label_suggestion: 'Sugestão de etiqueta'
+        document_faq_generation: 'Geração de FAQs para documentos'
+        conversation_faq_generation: 'Geração de FAQs para conversas'
+        conversation_faq_matching: 'Correspondência de FAQs da conversa'
+        help_center_article_generation: 'Geração de artigos da central de ajuda'
+        onboarding_content_generation: 'Geração de conteúdo de onboarding'
+        help_center_query_translation: 'Tradução de consultas da central de ajuda'
+        audio_transcription: 'Transcrição de áudio'
+        help_center_search: 'Pesquisa na central de ajuda'
     push_diagnostics:
       user_not_found: 'Usuário não encontrado.'
       no_subscriptions_to_test: 'Selecione pelo menos uma assinatura para teste.'

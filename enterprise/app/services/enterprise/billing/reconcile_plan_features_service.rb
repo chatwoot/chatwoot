@@ -18,6 +18,8 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     advanced_search
     linear_integration
     channel_voice
+    api_and_webhooks
+    data_import
   ].freeze
 
   BUSINESS_PLAN_FEATURES = %w[
@@ -36,7 +38,9 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
 
   def perform
     account.disable_features(*PREMIUM_PLAN_FEATURES)
+    account.disable_features('captain_integration_v2')
     account.enable_features(*current_plan_features)
+    account.enable_features('captain_integration_v2') unless default_plan?
     account.enable_features(*manually_managed_features)
     account.save!
   end

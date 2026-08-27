@@ -510,6 +510,7 @@
         "ATTRIBUTES": "Свойства",
         "HISTORY": "История",
         "NOTES": "Заметки",
+        "MEDIA": "Медиа",
         "MERGE": "Объединить"
       },
       "HISTORY": {
@@ -610,6 +611,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "Поиск не удался. Пожалуйста, попробуйте еще раз."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Просмотр",

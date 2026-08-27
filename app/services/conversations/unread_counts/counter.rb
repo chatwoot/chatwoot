@@ -14,7 +14,7 @@ class Conversations::UnreadCounts::Counter
   end
 
   def perform
-    return empty_counts if permission_mode == :none
+    return with_filtered_counts(empty_counts, build: false) if permission_mode == :none
 
     ensure_base_cache!
     ensure_assignment_cache! if assignment_mode?
@@ -26,10 +26,16 @@ class Conversations::UnreadCounts::Counter
       inboxes: inbox_counts,
       labels: unread_label_counts,
       teams: unread_team_counts
-    }
+    }.then { |counts| with_filtered_counts(counts) }
   end
 
   private
+
+  def with_filtered_counts(counts, build: true)
+    return counts unless account.feature_enabled?(::Conversations::UnreadCounts::FilteredCounter::FEATURE_FLAG)
+
+    counts.merge(build ? filtered_counter.perform : ::Conversations::UnreadCounts::FilteredCounter.empty_counts)
+  end
 
   def ensure_base_cache!
     ensure_cache_ready!(
@@ -199,5 +205,9 @@ class Conversations::UnreadCounts::Counter
 
   def store
     ::Conversations::UnreadCounts::Store
+  end
+
+  def filtered_counter
+    @filtered_counter ||= ::Conversations::UnreadCounts::FilteredCounter.new(account: account, user: user)
   end
 end

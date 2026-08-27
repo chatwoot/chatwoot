@@ -16,6 +16,7 @@ RSpec.describe Conversation do
     it { is_expected.to belong_to(:contact) }
     it { is_expected.to belong_to(:contact_inbox) }
     it { is_expected.to belong_to(:assignee).optional }
+    it { is_expected.to belong_to(:ai_assignee).optional }
     it { is_expected.to belong_to(:team).optional }
     it { is_expected.to belong_to(:campaign).optional }
   end
@@ -117,12 +118,17 @@ RSpec.describe Conversation do
     end
     let(:assignment_mailer) { instance_double(AssignmentMailer, deliver: true) }
     let(:label) { create(:label, account: account) }
+    let(:filtered_store) { Conversations::UnreadCounts::FilteredCountStore }
 
     before do
       create(:inbox_member, user: old_assignee, inbox: conversation.inbox)
       create(:inbox_member, user: new_assignee, inbox: conversation.inbox)
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
       Current.user = old_assignee
+    end
+
+    after do
+      Redis::Alfred.delete(filtered_store.conversation_version_key(account.id))
     end
 
     it 'sends conversation updated event if labels are updated' do
@@ -137,6 +143,33 @@ RSpec.describe Conversation do
           changed_attributes: changed_attributes,
           performed_by: nil
         )
+    end
+
+    it 'invalidates filtered counts without sending conversation updated event if last activity time is updated' do
+      account.enable_features!(:unread_count_for_filters)
+
+      expect do
+        conversation.update!(last_activity_at: 1.hour.from_now)
+      end.to change { filtered_store.conversation_version(account.id) }.by(1)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(
+        described_class::CONVERSATION_UPDATED,
+        kind_of(Time),
+        anything
+      )
+    end
+
+    it 'invalidates filtered counts without sending conversation updated event if campaign assignment is updated' do
+      account.enable_features!(:unread_count_for_filters)
+      campaign = create(:campaign, account: account, inbox: conversation.inbox)
+
+      expect do
+        conversation.update!(campaign: campaign)
+      end.to change { filtered_store.conversation_version(account.id) }.by(1)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(
+        described_class::CONVERSATION_UPDATED,
+        kind_of(Time),
+        anything
+      )
     end
 
     it 'runs after_update callbacks' do
@@ -162,6 +195,17 @@ RSpec.describe Conversation do
                                                                     changed_attributes: changed_attributes, performed_by: nil)
     end
 
+    it 'dispatches an assignee changed event when an agent bot is assigned' do
+      conversation = create(:conversation, status: 'open', account: account)
+      agent_bot = create(:agent_bot, account: account)
+
+      conversation.update!(assignee_agent_bot: agent_bot)
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
+                                                                changed_attributes: conversation.previous_changes, performed_by: nil)
+    end
+
     it 'will not run conversation_updated event for empty updates' do
       conversation.save!
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
@@ -174,20 +218,47 @@ RSpec.describe Conversation do
         .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
     end
 
-    it 'will run conversation_updated event for conversation_language in additional_attributes' do
-      conversation.additional_attributes[:conversation_language] = 'es'
-      conversation.save!
+    it 'will run conversation_updated event for conversation language changes' do
+      conversation.update!(additional_attributes: { 'conversation_language' => 'es' })
       changed_attributes = conversation.previous_changes
+
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
                                                                     changed_attributes: changed_attributes, performed_by: nil)
     end
 
-    it 'will not run conversation_updated event for bowser_language in additional_attributes' do
-      conversation.additional_attributes[:browser_language] = 'es'
+    it 'invalidates filtered counts without sending conversation_updated for filtered-only additional_attributes' do
+      account.enable_features!(:unread_count_for_filters)
+
+      expect do
+        conversation.update!(additional_attributes: { 'browser_language' => 'es' })
+      end.to change { filtered_store.conversation_version(account.id) }.by(1)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(
+        described_class::CONVERSATION_UPDATED,
+        kind_of(Time),
+        anything
+      )
+    end
+
+    it 'invalidates filtered counts when filterable additional_attributes are removed' do
+      account.enable_features!(:unread_count_for_filters)
+      conversation.update!(additional_attributes: { 'referer' => 'https://www.chatwoot.com/' })
+
+      expect do
+        conversation.update!(additional_attributes: {})
+      end.to change { filtered_store.conversation_version(account.id) }.by(1)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(
+        described_class::CONVERSATION_UPDATED,
+        kind_of(Time),
+        anything
+      )
+    end
+
+    it 'will not run conversation_updated event for non-filterable additional_attributes' do
+      conversation.additional_attributes[:source_id] = 'es'
       conversation.save!
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
-        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), anything)
     end
 
     it 'creates conversation activities' do
@@ -205,7 +276,8 @@ RSpec.describe Conversation do
       expect(Conversations::ActivityMessageJob)
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                              content: "Conversation was marked resolved by #{old_assignee.name}" }))
+                              content: "Conversation was marked resolved by #{old_assignee.name}",
+                              content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } } }))
       expect(Conversations::ActivityMessageJob)
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
@@ -228,7 +300,8 @@ RSpec.describe Conversation do
       expect { conversation2.update(status: :resolved) }
         .to have_enqueued_job(Conversations::ActivityMessageJob)
         .with(conversation2, { account_id: conversation2.account_id, inbox_id: conversation2.inbox_id, message_type: :activity,
-                               content: system_resolved_message })
+                               content: system_resolved_message,
+                               content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } } })
     end
   end
 
@@ -345,6 +418,14 @@ RSpec.describe Conversation do
     it 'changes status to open' do
       conversation.bot_handoff!
       expect(conversation.reload.status).to eq('open')
+    end
+
+    it 'clears agent bot ownership' do
+      conversation.update!(assignee_agent_bot: create(:agent_bot, account: conversation.account))
+
+      conversation.bot_handoff!
+
+      expect(conversation.reload.assignee_agent_bot).to be_nil
     end
 
     it 'dispatches CONVERSATION_BOT_HANDOFF event' do
@@ -658,6 +739,19 @@ RSpec.describe Conversation do
       expect(conversation.status).to eq('pending')
     end
 
+    it 'sets connected agent bot as the conversation owner' do
+      expect(conversation.assignee_agent_bot).to eq(bot_inbox.agent_bot)
+      expect(conversation.assignee).to be_nil
+    end
+
+    it 'preserves explicit human assignee' do
+      agent = create(:user, account: bot_inbox.inbox.account)
+      conversation = create(:conversation, inbox: bot_inbox.inbox, assignee: agent)
+
+      expect(conversation.assignee).to eq(agent)
+      expect(conversation.assignee_agent_bot).to be_nil
+    end
+
     context 'with campaigns' do
       let(:user) { create(:user, account: bot_inbox.inbox.account) }
 
@@ -665,12 +759,14 @@ RSpec.describe Conversation do
         campaign = create(:campaign, inbox: bot_inbox.inbox, account: bot_inbox.inbox.account, sender: user)
         conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: campaign)
         expect(conversation.status).to eq('open')
+        expect(conversation.assignee_agent_bot).to be_nil
       end
 
       it 'returns conversation as pending if campaign has no sender (bot-initiated) and bot is active' do
         campaign = create(:campaign, inbox: bot_inbox.inbox, account: bot_inbox.inbox.account, sender: nil)
         conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: campaign)
         expect(conversation.status).to eq('pending')
+        expect(conversation.assignee_agent_bot).to eq(bot_inbox.agent_bot)
       end
     end
 
@@ -700,6 +796,10 @@ RSpec.describe Conversation do
 
     it 'returns conversation status as pending' do
       expect(conversation.status).to eq('pending')
+    end
+
+    it 'does not set agent bot ownership' do
+      expect(conversation.assignee_agent_bot).to be_nil
     end
   end
 
@@ -1167,6 +1267,30 @@ RSpec.describe Conversation do
         # Reply time should be 1 hour (from customer message 2 to agent reply)
         expect(reply_events.first.value).to be_within(60).of(3600)
       end
+    end
+  end
+
+  describe '#status_changed_at' do
+    let(:conversation) { create(:conversation) }
+
+    it 'is set on create' do
+      expect(conversation.status_changed_at).to be_present
+    end
+
+    it 'is updated on every status transition' do
+      original = conversation.status_changed_at
+
+      travel_to(1.hour.from_now) { conversation.update!(status: :resolved) }
+
+      expect(conversation.reload.status_changed_at).to be > original
+    end
+
+    it 'is untouched by non-status saves' do
+      original = conversation.status_changed_at
+
+      travel_to(1.hour.from_now) { conversation.update!(priority: :high) }
+
+      expect(conversation.reload.status_changed_at).to be_within(1.second).of(original)
     end
   end
 end

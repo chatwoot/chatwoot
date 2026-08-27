@@ -50,6 +50,15 @@ describe Whatsapp::CallService do
       expect(conversation.reload.assignee_id).to eq(agent.id)
     end
 
+    it 'keeps the AgentBot owner when accepting the call' do
+      agent_bot = create(:agent_bot, account: account)
+      conversation.update!(assignee_agent_bot: agent_bot)
+
+      described_class.new(call: call, agent: agent, sdp_answer: sdp_answer).accept
+
+      expect(conversation.reload.assigned_entity).to eq(agent_bot)
+    end
+
     it 'raises AlreadyAccepted when another agent has already accepted the call' do
       call.update!(status: 'in_progress')
 
@@ -57,11 +66,11 @@ describe Whatsapp::CallService do
         .to raise_error(StandardError) { |error| expect(error.class.name).to eq('Voice::CallErrors::AlreadyAccepted') }
     end
 
-    it 'raises NotRinging when the call has reached a terminal state' do
+    it 'raises CallAlreadyEnded when the call has reached a terminal state' do
       call.update!(status: 'completed')
 
       expect { described_class.new(call: call, agent: agent, sdp_answer: sdp_answer).accept }
-        .to raise_error(StandardError) { |error| expect(error.class.name).to eq('Voice::CallErrors::NotRinging') }
+        .to raise_error(StandardError) { |error| expect(error.class.name).to eq('Voice::CallErrors::CallAlreadyEnded') }
     end
 
     it 'raises CallFailed when sdp_answer is missing' do

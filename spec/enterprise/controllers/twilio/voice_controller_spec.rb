@@ -33,8 +33,8 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
 
       expect(Voice::InboundCallBuilder).to receive(:perform!).with(
         inbox: inbox,
-        from_number: from_number,
-        call_sid: call_sid
+        call_sid: call_sid,
+        caller: { source_ids: [from_number], contact_attributes: { name: from_number, phone_number: from_number } }
       ).and_return(call)
 
       post "/twilio/voice/call/#{digits}", params: {
