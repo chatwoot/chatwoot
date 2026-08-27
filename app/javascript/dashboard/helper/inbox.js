@@ -109,22 +109,32 @@ const INBOX_ICON_MAP_LINE = {
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
 
-export const getInboxSource = (type, phoneNumber, inbox) => {
-  switch (type) {
-    case INBOX_TYPES.WEB:
-      return inbox.website_url || '';
-
-    case INBOX_TYPES.TWILIO:
-    case INBOX_TYPES.WHATSAPP:
-      return phoneNumber || '';
-
-    case INBOX_TYPES.EMAIL:
-      return inbox.email || '';
-
-    default:
-      return '';
-  }
+const INBOX_IDENTIFIER_RESOLVERS = {
+  [INBOX_TYPES.WEB]: inbox => inbox.website_url,
+  [INBOX_TYPES.EMAIL]: inbox => inbox.email,
+  [INBOX_TYPES.WHATSAPP]: inbox => inbox.phone_number,
+  [INBOX_TYPES.SMS]: inbox => inbox.phone_number,
+  [INBOX_TYPES.FB]: inbox => inbox.page_id,
+  [INBOX_TYPES.INSTAGRAM]: inbox => inbox.instagram_id,
+  [INBOX_TYPES.TIKTOK]: inbox => inbox.business_id,
+  [INBOX_TYPES.TWITTER]: inbox => inbox.profile_id,
+  [INBOX_TYPES.LINE]: inbox => inbox.line_channel_id,
+  [INBOX_TYPES.API]: inbox => inbox.inbox_identifier,
+  [INBOX_TYPES.TWILIO]: inbox =>
+    inbox.phone_number?.replace(/^whatsapp:/, '') ||
+    inbox.messaging_service_sid ||
+    '',
+  [INBOX_TYPES.TELEGRAM]: inbox => {
+    if (!inbox.bot_name) return '';
+    return inbox.bot_name.startsWith('@')
+      ? inbox.bot_name
+      : `@${inbox.bot_name}`;
+  },
 };
+
+export const getInboxIdentifier = inbox =>
+  INBOX_IDENTIFIER_RESOLVERS[inbox?.channel_type]?.(inbox) || '';
+
 export const getReadableInboxByType = (type, phoneNumber) => {
   switch (type) {
     case INBOX_TYPES.WEB:
