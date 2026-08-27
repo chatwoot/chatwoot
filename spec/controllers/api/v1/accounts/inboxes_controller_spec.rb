@@ -57,6 +57,25 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(1)
       end
 
+      it 'returns safe channel identifiers for assigned inboxes' do
+        tiktok_channel = create(:channel_tiktok, account: account, business_id: 'tiktok-business-id')
+        twitter_inbox = create(:inbox, account: account, channel: create(:channel_twitter_profile, account: account, profile_id: 'x-profile-id'))
+        line_inbox = create(:inbox, account: account,
+                                    channel: build(:channel_line, account: account, inbox: nil, line_channel_id: 'line-channel-id'))
+        [tiktok_channel.inbox, twitter_inbox, line_inbox].each do |channel_inbox|
+          create(:inbox_member, user: agent, inbox: channel_inbox)
+        end
+
+        get "/api/v1/accounts/#{account.id}/inboxes",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        inboxes_by_id = response.parsed_body['payload'].index_by { |item| item['id'] }
+        expect(inboxes_by_id[tiktok_channel.inbox.id]['business_id']).to eq('tiktok-business-id')
+        expect(inboxes_by_id[twitter_inbox.id]['profile_id']).to eq('x-profile-id')
+        expect(inboxes_by_id[line_inbox.id]['line_channel_id']).to eq('line-channel-id')
+      end
+
       context 'when provider_config' do
         let(:inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
 

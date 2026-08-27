@@ -3,12 +3,78 @@ import {
   VOICE_CALL_PROVIDERS,
   getInboxClassByType,
   getInboxIconByType,
+  getInboxIdentifier,
   getInboxVoiceIcon,
   getInboxWarningIconClass,
   getVoiceCallIcon,
 } from '../inbox';
 
 describe('#Inbox Helpers', () => {
+  describe('getInboxIdentifier', () => {
+    it.each([
+      [
+        INBOX_TYPES.WEB,
+        { website_url: 'https://example.com' },
+        'https://example.com',
+      ],
+      [
+        INBOX_TYPES.EMAIL,
+        { email: 'support@example.com' },
+        'support@example.com',
+      ],
+      [INBOX_TYPES.WHATSAPP, { phone_number: '+15555550100' }, '+15555550100'],
+      [INBOX_TYPES.SMS, { phone_number: '+15555550101' }, '+15555550101'],
+      [INBOX_TYPES.FB, { page_id: 'page-123' }, 'page-123'],
+      [
+        INBOX_TYPES.INSTAGRAM,
+        { instagram_id: 'instagram-123' },
+        'instagram-123',
+      ],
+      [INBOX_TYPES.TIKTOK, { business_id: 'business-123' }, 'business-123'],
+      [INBOX_TYPES.TWITTER, { profile_id: 'profile-123' }, 'profile-123'],
+      [INBOX_TYPES.TELEGRAM, { bot_name: 'support_bot' }, '@support_bot'],
+      [INBOX_TYPES.LINE, { line_channel_id: 'line-123' }, 'line-123'],
+      [INBOX_TYPES.API, { inbox_identifier: 'api-123' }, 'api-123'],
+    ])('returns the identifier for %s', (channelType, attributes, expected) => {
+      expect(
+        getInboxIdentifier({ channel_type: channelType, ...attributes })
+      ).toBe(expected);
+    });
+
+    it('normalizes the Twilio WhatsApp prefix', () => {
+      expect(
+        getInboxIdentifier({
+          channel_type: INBOX_TYPES.TWILIO,
+          phone_number: 'whatsapp:+15555550102',
+        })
+      ).toBe('+15555550102');
+    });
+
+    it('falls back to the Twilio messaging service SID', () => {
+      expect(
+        getInboxIdentifier({
+          channel_type: INBOX_TYPES.TWILIO,
+          messaging_service_sid: 'MG123',
+        })
+      ).toBe('MG123');
+    });
+
+    it('preserves an existing Telegram handle prefix', () => {
+      expect(
+        getInboxIdentifier({
+          channel_type: INBOX_TYPES.TELEGRAM,
+          bot_name: '@support_bot',
+        })
+      ).toBe('@support_bot');
+    });
+
+    it('returns an empty identifier for missing and unknown inboxes', () => {
+      expect(getInboxIdentifier()).toBe('');
+      expect(getInboxIdentifier({ channel_type: 'Channel::Unknown' })).toBe('');
+      expect(getInboxIdentifier({ channel_type: INBOX_TYPES.EMAIL })).toBe('');
+    });
+  });
+
   describe('getInboxClassByType', () => {
     it('should return correct class for web widget', () => {
       expect(getInboxClassByType('Channel::WebWidget')).toEqual(
