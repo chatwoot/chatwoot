@@ -1,7 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -17,6 +18,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['showCompany']);
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 

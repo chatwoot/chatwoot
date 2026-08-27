@@ -27,7 +27,7 @@ vi.mock('dashboard/api/captain/faqSuggestions', () => ({
 vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
 
 vi.mock('vue-i18n', () => ({
-  useI18n: () => ({ t: key => key }),
+  useI18n: () => ({ t: key => key, locale: { value: 'en' } }),
 }));
 
 vi.mock('vue-router', () => ({
