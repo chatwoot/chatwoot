@@ -177,82 +177,44 @@ RSpec.describe AutomationRules::ConditionsFilterService do
     end
 
     context 'when conditions based on labels' do
-      before do
-        conversation.add_labels(['bug'])
-      end
+      selected_labels = %w[crm refund enterprise]
+      cases = [
+        { name: 'matches the exact selected set', operator: 'equal_to', labels: selected_labels, values: selected_labels, expected: true },
+        { name: 'rejects a subset for equality', operator: 'equal_to', labels: ['crm'], values: selected_labels, expected: false },
+        { name: 'rejects a superset for equality', operator: 'equal_to', labels: selected_labels + ['vip'], values: selected_labels,
+          expected: false },
+        { name: 'rejects the exact selected set for inequality', operator: 'not_equal_to', labels: selected_labels, values: selected_labels,
+          expected: false },
+        { name: 'matches a subset for inequality', operator: 'not_equal_to', labels: ['crm'], values: selected_labels, expected: true },
+        { name: 'matches a superset for inequality', operator: 'not_equal_to', labels: selected_labels + ['vip'], values: selected_labels,
+          expected: true },
+        { name: 'matches when any selected label is present', operator: 'contains', labels: ['refund'], values: selected_labels, expected: true },
+        { name: 'rejects when selected labels are absent', operator: 'contains', labels: ['vip'], values: selected_labels, expected: false },
+        { name: 'rejects an unlabeled conversation for containment', operator: 'contains', labels: [], values: selected_labels, expected: false },
+        { name: 'rejects when any selected label is present', operator: 'does_not_contain', labels: %w[crm vip], values: selected_labels,
+          expected: false },
+        { name: 'matches when selected labels are absent', operator: 'does_not_contain', labels: ['vip'], values: selected_labels, expected: true },
+        { name: 'matches an unlabeled conversation for non-containment', operator: 'does_not_contain', labels: [], values: selected_labels,
+          expected: true },
+        { name: 'matches a labeled conversation for presence', operator: 'is_present', labels: ['vip'], values: [], expected: true },
+        { name: 'rejects an unlabeled conversation for presence', operator: 'is_present', labels: [], values: [], expected: false },
+        { name: 'rejects a labeled conversation for absence', operator: 'is_not_present', labels: ['vip'], values: [], expected: false },
+        { name: 'matches an unlabeled conversation for absence', operator: 'is_not_present', labels: [], values: [], expected: true }
+      ]
 
-      context 'when filter_operator is equal_to' do
-        before do
-          rule.conditions = [
-            { 'values': ['bug'], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'equal_to' }
-          ]
-          rule.save
-        end
+      cases.each do |test_case|
+        it test_case[:name] do
+          conversation.update_labels(test_case[:labels])
+          rule.update!(conditions: [{
+                         'values' => test_case[:values],
+                         'attribute_key' => 'labels',
+                         'query_operator' => nil,
+                         'filter_operator' => test_case[:operator]
+                       }])
 
-        it 'will return true when conversation has the label' do
-          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
-        end
+          result = described_class.new(rule, conversation, { changed_attributes: {} }).perform
 
-        it 'will return false when conversation does not have the label' do
-          rule.conditions = [
-            { 'values': ['feature'], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'equal_to' }
-          ]
-          rule.save
-          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
-        end
-      end
-
-      context 'when filter_operator is not_equal_to' do
-        before do
-          rule.conditions = [
-            { 'values': ['feature'], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'not_equal_to' }
-          ]
-          rule.save
-        end
-
-        it 'will return true when conversation does not have the label' do
-          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
-        end
-
-        it 'will return false when conversation has the label' do
-          conversation.add_labels(['feature'])
-          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
-        end
-      end
-
-      context 'when filter_operator is is_present' do
-        before do
-          rule.conditions = [
-            { 'values': [], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'is_present' }
-          ]
-          rule.save
-        end
-
-        it 'will return true when conversation has any labels' do
-          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
-        end
-
-        it 'will return false when conversation has no labels' do
-          conversation.update_labels([])
-          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
-        end
-      end
-
-      context 'when filter_operator is is_not_present' do
-        before do
-          rule.conditions = [
-            { 'values': [], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'is_not_present' }
-          ]
-          rule.save
-        end
-
-        it 'will return false when conversation has any labels' do
-          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
-        end
-
-        it 'will return true when conversation has no labels' do
-          conversation.update_labels([])
-          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+          expect(result).to be(test_case[:expected])
         end
       end
     end
