@@ -80,14 +80,18 @@ describe Voice::Provider::Twilio::ConferenceService do
   end
 
   describe 'recording controls' do
-    let(:stopped_conference_recording) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::RecordingInstance, sid: 'RE_conf') }
+    let(:stopped_conference_recording) do
+      instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::RecordingInstance, sid: 'RE_conf')
+    end
     let(:stopped_leg_recording) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext::RecordingInstance, sid: 'RE_leg') }
     let(:recording_context) do
       instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::RecordingContext, update: stopped_conference_recording)
     end
     let(:conf_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext, recordings: recording_context) }
     let(:call_recordings) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext::RecordingList, create: true) }
-    let(:call_recording_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext::RecordingContext, update: stopped_leg_recording) }
+    let(:call_recording_context) do
+      instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext::RecordingContext, update: stopped_leg_recording)
+    end
     let(:call_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext) }
 
     before do
