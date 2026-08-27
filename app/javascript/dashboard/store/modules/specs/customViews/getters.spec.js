@@ -1,5 +1,5 @@
 import { getters } from '../../customViews';
-import { contactViewList, customViewList } from './fixtures';
+import { contactFilterView, contactViewList, customViewList } from './fixtures';
 
 describe('#getters', () => {
   it('getCustomViewsByFilterType', () => {
@@ -42,5 +42,21 @@ describe('#getters', () => {
     expect(getters.getActiveConversationFolder(state)).toEqual(
       customViewList[0]
     );
+  });
+
+  it('getActiveFolderContactId', () => {
+    expect(
+      getters.getActiveFolderContactId({
+        activeConversationFolder: contactFilterView,
+      })
+    ).toEqual(42);
+  });
+
+  it('getActiveFolderContactId returns undefined without a contact filter', () => {
+    expect(
+      getters.getActiveFolderContactId({
+        activeConversationFolder: customViewList[0],
+      })
+    ).toBeUndefined();
   });
 });

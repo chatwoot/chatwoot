@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "സംഭാഷണം",
-      "CONTACT": "ബന്ധപ്പെടുക"
+      "CONTACT": "ബന്ധപ്പെടുക",
+      "COMPANY": "കമ്പനി"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Text",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ",
       "CONVERSATION": "സംഭാഷണം",
-      "CONTACT": "ബന്ധപ്പെടുക"
+      "CONTACT": "ബന്ധപ്പെടുക",
+      "COMPANY": "കമ്പനി"
     },
     "LIST": {
       "TABLE_HEADER": {

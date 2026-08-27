@@ -29,12 +29,16 @@
 #  index_calls_on_provider_and_provider_call_id   (provider,provider_call_id) UNIQUE
 #
 class Call < ApplicationRecord
-  # All valid call statuses
-  STATUSES = %w[ringing in_progress completed no_answer failed].freeze
-  # Statuses where the call is finished and won't change again
-  TERMINAL_STATUSES = %w[completed no_answer failed].freeze
+  STATUSES = %w[ringing in_progress completed no_answer failed rejected].freeze
+  TERMINAL_STATUSES = %w[completed no_answer failed rejected].freeze
 
-  store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at
+  store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at,
+                 :accepted_broadcast_at
+
+  # Frontend voice bubbles/stores expect inbound/outbound string values
+  DISPLAY_DIRECTION = { 'incoming' => 'inbound', 'outgoing' => 'outbound' }.freeze
+
+  DEFAULT_STUN_URL = 'stun:stun.l.google.com:19302'.freeze
 
   enum :provider, { twilio: 0, whatsapp: 1 }
   enum :direction, { incoming: 0, outgoing: 1 }
@@ -42,7 +46,7 @@ class Call < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :conversation
-  belongs_to :contact
+  belongs_to :contact, optional: true
   belongs_to :message, optional: true, inverse_of: :call
   belongs_to :accepted_by_agent, class_name: 'User', optional: true
 
@@ -65,16 +69,60 @@ class Call < ApplicationRecord
     "conf_account_#{account_id}_call_#{id}"
   end
 
+  # Browser ↔ Meta WebRTC needs at least one STUN server to discover its public srflx candidate.
+  def self.default_ice_servers
+    urls = ENV.fetch('VOICE_CALL_STUN_URLS', DEFAULT_STUN_URL).split(',').filter_map { |u| u.strip.presence }
+    [{ urls: urls }]
+  end
+
+  def direction_label
+    DISPLAY_DIRECTION[direction]
+  end
+
+  # Normalize filter values back to stored forms so API/dashboard clients can
+  # query using either the display value (inbound/outbound, in-progress) or the
+  # stored value (incoming/outgoing, in_progress).
+  def self.direction_from_label(value)
+    DISPLAY_DIRECTION.key(value) || value
+  end
+
+  def self.status_from_display(value)
+    value.to_s.tr('-', '_')
+  end
+
+  def ringing?
+    status == 'ringing'
+  end
+
+  def in_progress?
+    status == 'in_progress'
+  end
+
+  def terminal?
+    TERMINAL_STATUSES.include?(status)
+  end
+
   def display_status
     status.to_s.tr('_', '-')
   end
 
+  # Payload shape matches Whatsapp::CallService#broadcast so the frontend's
+  # onVoiceCallAccepted/onVoiceCallEnded handlers can treat both providers uniformly.
+  def broadcast_voice_call_event(event, **extra)
+    payload = {
+      event: "voice_call.#{event}",
+      data: { id: id, call_id: provider_call_id, provider: provider,
+              conversation_id: conversation_id, account_id: account_id }.merge(extra)
+    }
+    ActionCable.server.broadcast("account_#{account_id}", payload)
+  end
+
   def from_number
-    incoming? ? contact.phone_number : inbox.channel&.phone_number
+    incoming? ? contact&.phone_number : inbox.channel&.phone_number
   end
 
   def to_number
-    incoming? ? inbox.channel&.phone_number : contact.phone_number
+    incoming? ? inbox.channel&.phone_number : contact&.phone_number
   end
 
   def recording_url
@@ -91,6 +139,7 @@ class Call < ApplicationRecord
       direction: direction,
       status: display_status,
       duration_seconds: duration_seconds,
+      end_reason: end_reason,
       conference_sid: conference_sid,
       accepted_by_agent_id: accepted_by_agent_id,
       accepted_by_agent_name: accepted_by_agent&.available_name,

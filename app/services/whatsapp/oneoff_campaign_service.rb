@@ -3,9 +3,8 @@ class Whatsapp::OneoffCampaignService
 
   def perform
     validate_campaign!
-    # marks campaign completed so that other jobs won't pick it up
-    campaign.completed!
     process_audience(extract_audience_labels)
+    campaign.completed!
   end
 
   private
@@ -109,3 +108,5 @@ class Whatsapp::OneoffCampaignService
     nil
   end
 end
+
+Whatsapp::OneoffCampaignService.prepend_mod_with('Whatsapp::OneoffCampaignService')

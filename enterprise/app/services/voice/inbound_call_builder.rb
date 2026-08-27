@@ -1,15 +1,19 @@
 class Voice::InboundCallBuilder
-  attr_reader :account, :inbox, :from_number, :call_sid
+  attr_reader :inbox, :call_sid, :provider, :extra_meta, :source_ids, :contact_attributes
 
-  def self.perform!(account:, inbox:, from_number:, call_sid:)
-    new(account: account, inbox: inbox, from_number: from_number, call_sid: call_sid).perform!
+  # `caller` carries the contact identity: { source_ids:, contact_attributes: }. Twilio passes
+  # its single +phone source_id; WhatsApp passes the message-path phone/user_id/parent_user_id set.
+  def self.perform!(inbox:, call_sid:, caller:, provider: :twilio, extra_meta: {})
+    new(inbox: inbox, call_sid: call_sid, caller: caller, provider: provider, extra_meta: extra_meta).perform!
   end
 
-  def initialize(account:, inbox:, from_number:, call_sid:)
-    @account = account
+  def initialize(inbox:, call_sid:, caller:, provider: :twilio, extra_meta: {})
     @inbox = inbox
-    @from_number = from_number
     @call_sid = call_sid
+    @provider = provider.to_sym
+    @extra_meta = extra_meta || {}
+    @source_ids = Array(caller[:source_ids]).compact_blank
+    @contact_attributes = caller[:contact_attributes] || {}
   end
 
   def perform!
@@ -17,8 +21,8 @@ class Voice::InboundCallBuilder
     return existing if existing
 
     ActiveRecord::Base.transaction do
-      contact = ensure_contact!
-      contact_inbox = ensure_contact_inbox!(contact)
+      contact_inbox = ensure_contact_inbox!
+      contact = contact_inbox.contact
       conversation = resolve_conversation!(contact, contact_inbox)
       call = create_call!(contact, conversation)
       message = Voice::CallMessageBuilder.new(call).perform!
@@ -26,41 +30,39 @@ class Voice::InboundCallBuilder
       call
     end
   rescue ActiveRecord::RecordNotUnique
-    # A concurrent Twilio retry won the create race; return what now exists.
+    # A concurrent provider retry won the create race; return what now exists.
     find_existing_call || raise
   end
 
   private
 
+  def account
+    inbox.account
+  end
+
   def find_existing_call
     Call.where(account_id: account.id, inbox_id: inbox.id)
-        .find_by(provider: :twilio, provider_call_id: call_sid)
+        .find_by(provider: provider, provider_call_id: call_sid)
   end
 
-  def ensure_contact!
-    account.contacts.find_or_create_by!(phone_number: from_number) do |record|
-      record.name = from_number if record.name.blank?
-    end
+  # Resolve the contact/ContactInbox the same way inbound messages do — match across every
+  # candidate source_id (phone + BSUID aliases) so a call reuses the existing thread, creating
+  # one keyed on the first (phone, else BSUID) only when none exists. Shared with messaging via
+  # ContactInboxSourceIdResolver, which also rescues the concurrent-webhook create race.
+  def ensure_contact_inbox!
+    ContactInboxSourceIdResolver.new(
+      inbox: inbox, source_ids: source_ids, contact_attributes: contact_attributes
+    ).perform
   end
 
-  def ensure_contact_inbox!(contact)
-    ContactInbox.find_or_create_by!(
-      contact_id: contact.id,
-      inbox_id: inbox.id
-    ) do |record|
-      record.source_id = from_number
-    end
-  end
-
+  # Mirror Whatsapp::IncomingMessageBaseService#set_conversation: reuse this row's open conversation (or last when locked), else create.
   def resolve_conversation!(contact, contact_inbox)
-    if inbox.lock_to_single_conversation
-      reusable = account.conversations
-                        .where(contact_id: contact.id, inbox_id: inbox.id)
-                        .where.not(status: :resolved)
-                        .order(last_activity_at: :desc)
-                        .first
-      return reusable if reusable
-    end
+    reusable = if inbox.lock_to_single_conversation
+                 contact_inbox.conversations.last
+               else
+                 contact_inbox.conversations.where.not(status: :resolved).last
+               end
+    return reusable if reusable
 
     account.conversations.create!(
       contact_inbox_id: contact_inbox.id,
@@ -76,13 +78,14 @@ class Voice::InboundCallBuilder
       inbox: inbox,
       conversation: conversation,
       contact: contact,
-      provider: :twilio,
+      provider: provider,
       direction: :incoming,
       status: 'ringing',
       provider_call_id: call_sid,
-      meta: { 'initiated_at' => Time.zone.now.to_i }
+      meta: { 'initiated_at' => Time.zone.now.to_i }.merge(extra_meta.stringify_keys)
     )
-    call.update!(conference_sid: call.default_conference_sid)
+    # `conference_sid` is a Twilio bridging concept; WhatsApp goes browser↔Meta.
+    call.update!(conference_sid: call.default_conference_sid) if call.twilio?
     call
   end
 end

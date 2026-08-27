@@ -310,4 +310,43 @@ describe V2::Reports::Timeseries::ReportBuilder do
       end
     end
   end
+
+  describe 'bot resolution counts' do
+    subject(:builder) { described_class.new(account, params) }
+
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:current_time) { Time.current }
+    let(:params) do
+      {
+        type: 'account',
+        metric: 'bot_resolutions_count',
+        since: (current_time - 1.day).beginning_of_day.to_i.to_s,
+        until: current_time.end_of_day.to_i.to_s,
+        timezone_offset: nil,
+        group_by: 'day'
+      }
+    end
+
+    before do
+      travel_to current_time
+
+      resolved_conversation = create(:conversation, account: account, inbox: inbox)
+      double_counted_conversation = create(:conversation, account: account, inbox: inbox)
+
+      create(:reporting_event, name: 'conversation_bot_resolved', account: account, conversation: resolved_conversation,
+                               created_at: current_time)
+      create(:reporting_event, name: 'conversation_bot_resolved', account: account, conversation: double_counted_conversation,
+                               created_at: current_time)
+      create(:reporting_event, name: 'conversation_bot_handoff', account: account, conversation: double_counted_conversation,
+                               created_at: current_time)
+      create(:reporting_event, name: 'conversation_bot_handoff', account: account, inbox: inbox, conversation: nil, conversation_id: nil,
+                               created_at: current_time)
+    end
+
+    it 'excludes conversations that also had a bot handoff in the range' do
+      expect(builder.aggregate_value).to eq(1)
+      expect(builder.timeseries.sum { |row| row[:value] }).to eq(1)
+    end
+  end
 end

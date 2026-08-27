@@ -61,10 +61,10 @@ const triggerAction = () => {
     <div>
       <slot />
     </div>
-    <div>
+    <div class="flex-shrink-0">
       <button
         v-if="actionLabel"
-        class="px-3 py-1 w-auto grid place-content-center rounded-lg"
+        class="px-3 py-1 w-auto grid place-content-center rounded-lg whitespace-nowrap"
         :class="buttonClass"
         @click="triggerAction"
       >

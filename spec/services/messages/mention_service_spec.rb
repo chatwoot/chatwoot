@@ -117,6 +117,26 @@ describe Messages::MentionService do
 
         expect(conversation.conversation_participants.map(&:user_id)).to include(first_agent.id)
       end
+
+      it 'adds the mentioned user as a participant before generating the notification' do
+        message = build(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hi (mention://user/#{first_agent.id}/#{first_agent.name})",
+          private: true
+        )
+
+        participant_user_ids_when_notified = nil
+        allow(NotificationBuilder).to receive(:new) do |**_kwargs|
+          participant_user_ids_when_notified = conversation.conversation_participants.reload.map(&:user_id)
+          builder
+        end
+
+        described_class.new(message: message).perform
+
+        expect(participant_user_ids_when_notified).to include(first_agent.id)
+      end
     end
 
     context 'when message contains multiple user mentions' do

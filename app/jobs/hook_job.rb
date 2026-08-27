@@ -3,19 +3,19 @@ class HookJob < MutexApplicationJob
 
   queue_as :medium
 
+  INTEGRATION_PROCESSORS = {
+    'slack' => :process_slack_integration,
+    'dialogflow' => :process_dialogflow_integration,
+    'google_translate' => :google_translate_integration,
+    'leadsquared' => :process_leadsquared_integration_with_lock,
+    'linear' => :process_linear_integration
+  }.freeze
+
   def perform(hook, event_name, event_data = {})
     return if hook.disabled?
 
-    case hook.app_id
-    when 'slack'
-      process_slack_integration(hook, event_name, event_data)
-    when 'dialogflow'
-      process_dialogflow_integration(hook, event_name, event_data)
-    when 'google_translate'
-      google_translate_integration(hook, event_name, event_data)
-    when 'leadsquared'
-      process_leadsquared_integration_with_lock(hook, event_name, event_data)
-    end
+    processor = INTEGRATION_PROCESSORS[hook.app_id]
+    send(processor, hook, event_name, event_data) if processor
   rescue StandardError => e
     Rails.logger.error e
   end
@@ -55,6 +55,13 @@ class HookJob < MutexApplicationJob
 
     message = event_data[:message]
     Integrations::GoogleTranslate::DetectLanguageService.new(hook: hook, message: message).perform
+  end
+
+  def process_linear_integration(hook, event_name, event_data)
+    return unless event_name == 'message.created'
+
+    message = event_data[:message]
+    Integrations::Linear::AutoLinkService.new(account: hook.account, message: message).perform
   end
 
   def process_leadsquared_integration_with_lock(hook, event_name, event_data)

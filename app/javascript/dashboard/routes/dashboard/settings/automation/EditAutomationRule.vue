@@ -34,29 +34,33 @@ const {
 
 const { formatAutomation } = useEditableAutomation();
 
-const open = () => formRef.value?.open();
+const syncAutomationFromSelected = (source = props.selectedResponse) => {
+  if (!source?.conditions) return;
+
+  manifestCustomAttributes();
+  automation.value = formatAutomation(
+    source,
+    allCustomAttributes.value,
+    automationTypes,
+    AUTOMATION_ACTION_TYPES
+  );
+};
+
+// Format from the rule passed to open(): the prop updates a tick later, so at open() time
+// automation still holds the previously selected rule (its execution_delay hydrates the form).
+const open = rule => {
+  syncAutomationFromSelected(rule);
+  formRef.value?.open(rule?.execution_delay);
+};
 const close = () => formRef.value?.close();
 
 const onSave = (payload, mode) => {
   emit('saveAutomation', payload, mode);
 };
 
-watch(
-  () => props.selectedResponse,
-  value => {
-    if (!value?.conditions) return;
-
-    manifestCustomAttributes();
-
-    automation.value = formatAutomation(
-      value,
-      allCustomAttributes.value,
-      automationTypes,
-      AUTOMATION_ACTION_TYPES
-    );
-  },
-  { immediate: true }
-);
+watch(() => props.selectedResponse, syncAutomationFromSelected, {
+  immediate: true,
+});
 
 defineExpose({ open, close });
 </script>

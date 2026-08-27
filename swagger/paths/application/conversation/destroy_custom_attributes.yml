@@ -1,0 +1,47 @@
+tags:
+  - Conversations
+operationId: destroy-custom-attributes-of-a-conversation
+summary: Destroy Custom Attributes
+description: Removes the given custom attribute keys from a conversation
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - custom_attributes
+        properties:
+          custom_attributes:
+            type: array
+            items:
+              type: string
+            description: The list of custom attribute keys to remove from the conversation
+            example:
+              - order_id
+              - previous_conversation
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            custom_attributes:
+              type: object
+              description: The remaining custom attributes of the conversation
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

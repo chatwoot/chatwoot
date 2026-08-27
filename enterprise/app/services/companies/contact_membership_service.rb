@@ -7,6 +7,7 @@ class Companies::ContactMembershipService
 
   def assign(contact:)
     contact.update!(company: company)
+    company.record_activity_at!(contact.last_activity_at) if contact.last_activity_at.present?
   end
 
   def remove(contact:)

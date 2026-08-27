@@ -56,9 +56,14 @@ const closeMobileSidebar = () => {
 
     <div
       v-if="slots.sidebar"
-      class="hidden lg:block overflow-y-auto justify-end min-w-52 w-full py-6 max-w-md border-l border-n-weak bg-n-solid-2"
+      class="hidden lg:flex flex-col min-w-52 w-full max-w-md border-l border-n-weak bg-n-solid-2"
     >
-      <slot name="sidebar" />
+      <div class="shrink-0">
+        <slot name="sidebarHeader" />
+      </div>
+      <div class="flex-1 overflow-y-auto pb-6 pt-3">
+        <slot name="sidebar" />
+      </div>
     </div>
 
     <div
@@ -105,9 +110,14 @@ const closeMobileSidebar = () => {
         <div
           v-if="isSidebarOpen"
           id="details-sidebar-content"
-          class="order-2 w-[85%] sm:w-[50%] bg-n-solid-2 ltr:border-l rtl:border-r border-n-weak overflow-y-auto py-6 shadow-lg"
+          class="order-2 w-[85%] sm:w-[50%] flex flex-col bg-n-solid-2 ltr:border-l rtl:border-r border-n-weak shadow-lg"
         >
-          <slot name="sidebar" />
+          <div class="shrink-0">
+            <slot name="sidebarHeader" />
+          </div>
+          <div class="flex-1 overflow-y-auto pb-6 pt-3">
+            <slot name="sidebar" />
+          </div>
         </div>
       </Transition>
     </div>

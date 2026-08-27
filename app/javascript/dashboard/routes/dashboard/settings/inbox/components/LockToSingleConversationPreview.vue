@@ -13,7 +13,7 @@ defineEmits(['update']);
 
 <template>
   <div
-    class="flex flex-col sm:flex-row md:flex-col xl:flex-row items-start gap-4 mt-3 min-w-0"
+    class="flex flex-col sm:flex-row flex-col items-start gap-4 mt-3 min-w-0"
   >
     <RadioCard
       id="disabled"

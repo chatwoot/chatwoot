@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Companies::ContactsController < Api::V1::Accounts::EnterpriseAccountsController
+class Api::V1::Accounts::Companies::ContactsController < Api::V1::Accounts::Companies::BaseController
   RESULTS_PER_PAGE = 15
   CONTACT_SEARCH_QUERY = [
     'contacts.name ILIKE :search',
@@ -7,8 +7,6 @@ class Api::V1::Accounts::Companies::ContactsController < Api::V1::Accounts::Ente
     'contacts.identifier ILIKE :search'
   ].join(' OR ')
 
-  before_action :ensure_companies_enabled!
-  before_action :fetch_company
   before_action :authorize_company_read!, only: [:index, :search]
   before_action :authorize_company_update!, only: [:create, :destroy]
   before_action :set_current_page, only: [:index, :search]
@@ -45,10 +43,6 @@ class Api::V1::Accounts::Companies::ContactsController < Api::V1::Accounts::Ente
     @current_page = params[:page] || 1
   end
 
-  def fetch_company
-    @company = Current.account.companies.find(params[:company_id])
-  end
-
   def fetch_contact
     @contact = @company.contacts.find(params[:id])
   end
@@ -69,19 +63,5 @@ class Api::V1::Accounts::Companies::ContactsController < Api::V1::Accounts::Ente
 
   def membership_service
     @membership_service ||= Companies::ContactMembershipService.new(company: @company)
-  end
-
-  def ensure_companies_enabled!
-    return if Current.account.feature_enabled?('companies')
-
-    render json: { error: 'Companies are not enabled for this account' }, status: :forbidden
-  end
-
-  def authorize_company_read!
-    authorize(@company, :show?)
-  end
-
-  def authorize_company_update!
-    authorize(@company, :update?)
   end
 end

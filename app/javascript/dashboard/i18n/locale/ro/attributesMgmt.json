@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Conversație",
-      "CONTACT": "Contact"
+      "CONTACT": "Contact",
+      "COMPANY": "Companie"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Text",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Editează atribut personalizat",
       "CONVERSATION": "Conversație",
-      "CONTACT": "Contact"
+      "CONTACT": "Contact",
+      "COMPANY": "Companie"
     },
     "LIST": {
       "TABLE_HEADER": {

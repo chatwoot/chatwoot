@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Gesprek",
-      "CONTACT": "Contact"
+      "CONTACT": "Contact",
+      "COMPANY": "Bedrijfsnaam"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Tekst",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Aangepaste attributen",
       "CONVERSATION": "Gesprek",
-      "CONTACT": "Contact"
+      "CONTACT": "Contact",
+      "COMPANY": "Bedrijfsnaam"
     },
     "LIST": {
       "TABLE_HEADER": {

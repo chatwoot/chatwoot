@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Pokalbis",
-      "CONTACT": "Kontaktas"
+      "CONTACT": "Kontaktas",
+      "COMPANY": "Įmonė"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Tekstas",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Personalizuoti Požymiai",
       "CONVERSATION": "Pokalbis",
-      "CONTACT": "Kontaktas"
+      "CONTACT": "Kontaktas",
+      "COMPANY": "Įmonė"
     },
     "LIST": {
       "TABLE_HEADER": {

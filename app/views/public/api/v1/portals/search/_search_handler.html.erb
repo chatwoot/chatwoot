@@ -1,0 +1,33 @@
+<script>
+(function() {
+  const searchInputs = document.querySelectorAll('[data-search-input]');
+
+  searchInputs.forEach(function(input) {
+    let debounceTimer;
+
+    if (input.value.length > 0) {
+      setTimeout(function() {
+        input.setSelectionRange(input.value.length, input.value.length);
+      }, 0);
+    }
+
+    input.addEventListener('input', function() {
+      const form = input.closest('[data-search-form]');
+      const query = input.value.trim();
+
+      clearTimeout(debounceTimer);
+
+      debounceTimer = setTimeout(function() {
+        const currentQuery = new URLSearchParams(window.location.search).get('query') || '';
+        if (query !== currentQuery) {
+          form.requestSubmit();
+        }
+      }, 500);
+    });
+
+    input.closest('[data-search-form]').addEventListener('submit', function() {
+      clearTimeout(debounceTimer);
+    });
+  });
+})();
+</script>

@@ -1,25 +1,35 @@
 class Voice::OutboundCallBuilder
   attr_reader :account, :inbox, :user, :contact
 
-  def self.perform!(account:, inbox:, user:, contact:)
-    new(account: account, inbox: inbox, user: user, contact: contact).perform!
+  def self.perform!(account:, inbox:, user:, contact:, conversation: nil)
+    new(account: account, inbox: inbox, user: user, contact: contact, conversation: conversation).perform!
   end
 
-  def initialize(account:, inbox:, user:, contact:)
+  def initialize(account:, inbox:, user:, contact:, conversation: nil)
     @account = account
     @inbox = inbox
     @user = user
     @contact = contact
+    @existing_conversation = conversation
   end
 
   def perform!
     raise ArgumentError, 'Contact phone number required' if contact.phone_number.blank?
     raise ArgumentError, 'Agent required' if user.blank?
 
+    # Claim for the caller if a reused conversation is unassigned at trigger time; wins over auto-assignment.
+    # New conversations set the assignee at creation instead (see create_conversation!).
+    claim_for_caller = @existing_conversation && @existing_conversation.assigned_entity.nil?
+
     ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
-      conversation = create_conversation!(contact_inbox)
+      conversation = @existing_conversation || create_conversation!(contact_inbox)
+      # Dial before locking so the Twilio round-trip doesn't hold the conversation row lock.
       call_sid = initiate_call!
+      if claim_for_caller
+        @existing_conversation.lock!
+        @existing_conversation.update!(assignee: user)
+      end
       call = create_call!(conversation, call_sid)
       message = Voice::CallMessageBuilder.new(call).perform!
       call.update!(message_id: message.id)
@@ -43,6 +53,7 @@ class Voice::OutboundCallBuilder
       contact_inbox_id: contact_inbox.id,
       inbox_id: inbox.id,
       contact_id: contact.id,
+      assignee_id: user.id,
       status: :open
     )
   end

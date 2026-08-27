@@ -83,9 +83,18 @@ class Reports::RawDataSource < Reports::DataSource
       created_at: range
     )
 
+    return events.where.not(conversation_id: bot_handoff_conversation_ids_subquery) if raw_count_strategy == :exclude_bot_handoffs
     return events unless raw_count_strategy == :distinct_conversation
 
     events.joins(:conversation).select(:conversation_id).distinct
+  end
+
+  def bot_handoff_conversation_ids_subquery
+    scope.reporting_events.where(
+      name: :conversation_bot_handoff,
+      account_id: account.id,
+      created_at: range
+    ).where.not(conversation_id: nil).select(:conversation_id)
   end
 
   def summary_scope
