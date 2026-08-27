@@ -2,11 +2,12 @@
 import { computed } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 import Policy from 'dashboard/components/policy.vue';
 
 const props = defineProps({
@@ -26,6 +27,14 @@ const props = defineProps({
     type: String,
     default: 'none',
   },
+  enabled: {
+    type: Boolean,
+    default: true,
+  },
+  isUpdating: {
+    type: Boolean,
+    default: false,
+  },
   updatedAt: {
     type: Number,
     required: true,
@@ -36,11 +45,22 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['action']);
+const emit = defineEmits(['action', 'toggle']);
 
 const { t } = useI18n();
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
+
+const enabledState = computed({
+  get: () => props.enabled,
+  set: enabled => emit('toggle', { id: props.id, enabled }),
+});
+
+const statusLabel = computed(() =>
+  props.enabled
+    ? t('CAPTAIN.CUSTOM_TOOLS.STATUS.ENABLED')
+    : t('CAPTAIN.CUSTOM_TOOLS.STATUS.DISABLED')
+);
 
 const menuItems = computed(() => [
   {
@@ -80,6 +100,21 @@ const authTypeLabel = computed(() => {
         {{ title }}
       </span>
       <div class="flex items-center gap-2">
+        <span class="text-xs text-n-slate-11">
+          {{ statusLabel }}
+        </span>
+        <Policy
+          as="span"
+          :permissions="['administrator']"
+          class="inline-flex items-center"
+        >
+          <Switch
+            v-model="enabledState"
+            :disabled="isUpdating"
+            :aria-label="t('CAPTAIN.CUSTOM_TOOLS.STATUS.TOGGLE', { title })"
+            :class="{ 'opacity-50 cursor-not-allowed': isUpdating }"
+          />
+        </Policy>
         <Policy
           v-on-clickaway="() => toggleDropdown(false)"
           :permissions="['administrator']"
@@ -114,7 +149,13 @@ const authTypeLabel = computed(() => {
           {{ authTypeLabel }}
         </span>
       </div>
-      <span class="text-sm text-n-slate-11 line-clamp-1 shrink-0">
+      <span
+        v-tooltip.top="{
+          content: exactTimestamp(updatedAt || createdAt),
+          delay: { show: 500, hide: 0 },
+        }"
+        class="text-sm text-n-slate-11 line-clamp-1 shrink-0"
+      >
         {{ timestamp }}
       </span>
     </div>

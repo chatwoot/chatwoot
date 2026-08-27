@@ -134,8 +134,10 @@ class Captain::Assistant < ApplicationRecord
     tools
   end
 
-  def available_tool_ids
-    available_agent_tools.pluck(:id)
+  def available_tool_ids = available_agent_tools.pluck(:id)
+
+  def known_tool_ids
+    self.class.built_in_tool_ids + account.captain_custom_tools.pluck(:slug)
   end
 
   def push_event_data

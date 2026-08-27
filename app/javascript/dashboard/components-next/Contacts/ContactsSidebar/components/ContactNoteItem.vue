@@ -1,7 +1,7 @@
 <script setup>
 import { useTemplateRef, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
 import { useToggle } from '@vueuse/core';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -65,7 +65,13 @@ onMounted(() => {
           <span class="inline-flex items-center gap-1 text-sm text-n-slate-11">
             <span class="font-medium text-n-slate-12">{{ writtenBy }}</span>
             {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.WROTE') }}
-            <span class="font-medium text-n-slate-12">
+            <span
+              v-tooltip.top="{
+                content: exactTimestamp(note.createdAt),
+                delay: { show: 500, hide: 0 },
+              }"
+              class="font-medium text-n-slate-12"
+            >
               {{ dynamicTime(note.createdAt) }}
             </span>
           </span>
