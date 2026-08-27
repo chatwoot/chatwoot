@@ -717,11 +717,28 @@
         "GO_TO_CONFIGURATION": "Go to Configuration"
       },
       "SECTIONS": {
+        "BUSINESS_PROFILE": "Business profile",
         "PHONE_NUMBER": "Phone number",
         "HEALTH_AND_CAPACITY": "Health and capacity",
         "BUSINESS_ACCOUNT": "Business account"
       },
       "FIELDS": {
+        "PROFILE_DESCRIPTION": {
+          "LABEL": "Description",
+          "TOOLTIP": "Description shown to customers in the WhatsApp business profile"
+        },
+        "PROFILE_ADDRESS": {
+          "LABEL": "Address",
+          "TOOLTIP": "Business address shown in the WhatsApp business profile"
+        },
+        "PROFILE_EMAIL": {
+          "LABEL": "Email",
+          "TOOLTIP": "Contact email shown in the WhatsApp business profile"
+        },
+        "PROFILE_WEBSITES": {
+          "LABEL": "Websites",
+          "TOOLTIP": "Website links shown in the WhatsApp business profile"
+        },
         "DISPLAY_PHONE_NUMBER": {
           "LABEL": "Display phone number",
           "TOOLTIP": "Phone number displayed to customers"
@@ -740,7 +757,16 @@
         },
         "DISPLAY_NAME_STATUS": {
           "LABEL": "Display name status",
-          "TOOLTIP": "Review status of the WhatsApp display name"
+          "TOOLTIP": "Whether Meta has reviewed and approved the WhatsApp display name",
+          "DESCRIPTIONS": {
+            "APPROVED": "The display name is approved and can appear at the top of WhatsApp chats. A name saved by the recipient can appear instead.",
+            "AVAILABLE_WITHOUT_REVIEW": "The display name is saved to your WhatsApp profile, but recipients may see the phone number until Meta reviews and approves it. Meta starts this review after your business reaches a higher messaging limit.",
+            "PENDING_REVIEW": "Meta is reviewing the display name. No action is needed unless Meta requests more information.",
+            "REJECTED": "Meta did not approve the display name. Review the display name guidelines, then update the name or appeal in Meta.",
+            "DECLINED": "Meta did not approve the display name. Review the display name guidelines, then update the name or appeal in Meta.",
+            "EXPIRED": "The phone number's certificate has expired, so this number cannot be registered for API use.",
+            "UNKNOWN": "Meta did not return a display name review status."
+          }
         },
         "LAST_ONBOARDED_TIME": {
           "LABEL": "Last onboarded",
@@ -755,8 +781,9 @@
           "TOOLTIP": "Quality rating Meta assigns to this phone number based on recent messaging signals"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Messaging limit tier",
-          "TOOLTIP": "Number of customers this phone number can initiate conversations with in 24 hours"
+          "LABEL": "Business messaging limit",
+          "TOOLTIP": "Number of unique customers your business can message outside the customer service window in a rolling 24-hour period",
+          "DESCRIPTION": "This limit is shared by all WhatsApp phone numbers in the business portfolio."
         },
         "ACCOUNT_MODE": {
           "LABEL": "Account mode",
@@ -811,16 +838,19 @@
           "BANNED": "Banned",
           "DISCONNECTED": "Disconnected",
           "UNKNOWN": "Not available",
-          "PENDING_REVIEW": "Pending Review",
-          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
-          "REJECTED": "Rejected",
-          "DECLINED": "Declined",
+          "PENDING_REVIEW": "Under review",
+          "AVAILABLE_WITHOUT_REVIEW": "Not reviewed yet",
+          "REJECTED": "Not approved",
+          "DECLINED": "Not approved",
           "NON_EXISTS": "Non exists"
         },
         "MODES": {
           "SANDBOX": "Sandbox",
           "LIVE": "Live"
         }
+      },
+      "BUSINESS_PROFILE": {
+        "PREVIEW_LABEL": "WhatsApp business profile"
       },
       "WEBHOOK": {
         "TITLE": "Webhook Configuration",
