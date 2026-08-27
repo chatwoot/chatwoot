@@ -87,11 +87,11 @@ const helpURL = getHelpUrlForFeature(props.featureName);
   </div>
   <div
     v-if="searchPlaceholder || slots.actions || slots.tabs"
-    class="gap-3 flex justify-between sm:mt-4 min-w-0"
+    class="gap-3 flex flex-wrap sm:flex-nowrap justify-between sm:mt-4 min-w-0"
   >
     <div
       v-if="slots.tabs || searchPlaceholder"
-      class="flex items-center gap-3"
+      class="flex items-center gap-3 min-w-0"
       :class="{
         'hidden sm:flex': !slots.tabs,
       }"
@@ -114,7 +114,7 @@ const helpURL = getHelpUrlForFeature(props.featureName);
       </Input>
     </div>
     <div
-      class="flex items-center gap-3 min-w-0"
+      class="flex items-center gap-3 shrink-0"
       :class="{ 'flex-row-reverse sm:flex-row': !slots.tabs }"
     >
       <slot name="count" />

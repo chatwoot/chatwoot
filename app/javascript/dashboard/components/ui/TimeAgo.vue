@@ -5,7 +5,7 @@ const DAY_IN_MILLI_SECONDS = HOUR_IN_MILLI_SECONDS * 24;
 
 import {
   dynamicTime,
-  dateFormat,
+  exactTimestamp,
   shortTimestamp,
 } from 'shared/helpers/timeHelper';
 
@@ -44,31 +44,17 @@ export default {
       return shortTimestamp(this.createdAtTimeAgo);
     },
     createdAt() {
-      const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;
-      const isBeforeAMonth = createdTimeDiff > DAY_IN_MILLI_SECONDS * 30;
-      return !isBeforeAMonth
-        ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.LATEST')} ${
-            this.createdAtTimeAgo
-          }`
-        : `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.OLDEST')} ${dateFormat(
-            this.createdAtTimestamp
-          )}`;
+      return `${this.$t(
+        'CHAT_LIST.CHAT_TIME_STAMP.CREATED.OLDEST'
+      )} ${exactTimestamp(this.createdAtTimestamp)}`;
     },
     lastActivity() {
-      const lastActivityTimeDiff =
-        Date.now() - this.lastActivityTimestamp * 1000;
-      const isNotActive = lastActivityTimeDiff > DAY_IN_MILLI_SECONDS * 30;
-      return !isNotActive
-        ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.ACTIVE')} ${
-            this.lastActivityAtTimeAgo
-          }`
-        : `${this.$t(
-            'CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.NOT_ACTIVE'
-          )} ${dateFormat(this.lastActivityTimestamp)}`;
+      return `${this.$t(
+        'CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.NOT_ACTIVE'
+      )} ${exactTimestamp(this.lastActivityTimestamp)}`;
     },
     tooltipText() {
-      return `${this.createdAt}
-              ${this.lastActivity}`;
+      return `${this.createdAt}\n${this.lastActivity}`;
     },
   },
   watch: {
@@ -123,6 +109,7 @@ export default {
   <div
     v-tooltip.top="{
       content: tooltipText,
+      popperClass: 'whitespace-pre-line',
       delay: { show: 1000, hide: 0 },
     }"
     class="ml-auto leading-4 text-xxs text-n-slate-10 hover:text-n-slate-11"

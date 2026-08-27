@@ -251,9 +251,10 @@ export default {
         </div>
         <p
           v-if="message.showAvatar || hasRecordedResponse"
-          v-dompurify-html="agentName"
           class="agent-name text-n-slate-11"
-        />
+        >
+          {{ agentName }}
+        </p>
       </div>
     </div>
 
