@@ -706,8 +706,8 @@ en:
         unnamed_account: 'Account %{id}'
         sla_unavailable: 'SLA is not enabled on this account'
         none_enabled:
-          one: 'No push types are enabled for %{names}. This user receives no push notification from that account, however healthy the device registration above looks.'
-          other: 'No push types are enabled for %{names}. This user receives no push notification from those accounts, however healthy the device registration above looks.'
+          one: 'No push types are enabled for %{names}. This user receives no push notification from that account.'
+          other: 'No push types are enabled for %{names}. This user receives no push notification from those accounts.'
         diagnostics_link: 'Send a test push or remove subscriptions in Push diagnostics →'
       push_types:
         conversation_creation: 'A new conversation is created'
