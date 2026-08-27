@@ -7,6 +7,7 @@ import {
   getInboxVoiceIcon,
   getInboxWarningIconClass,
   getVoiceCallIcon,
+  searchInboxes,
 } from '../inbox';
 
 describe('#Inbox Helpers', () => {
@@ -72,6 +73,33 @@ describe('#Inbox Helpers', () => {
       expect(getInboxIdentifier()).toBe('');
       expect(getInboxIdentifier({ channel_type: 'Channel::Unknown' })).toBe('');
       expect(getInboxIdentifier({ channel_type: INBOX_TYPES.EMAIL })).toBe('');
+    });
+  });
+
+  describe('searchInboxes', () => {
+    const inboxes = [
+      {
+        id: 1,
+        name: 'Billing',
+        channel_type: INBOX_TYPES.WEB,
+        channel_identifier: 'billing@example.com',
+      },
+      {
+        id: 2,
+        name: 'Support',
+        channel_type: INBOX_TYPES.EMAIL,
+        channel_identifier: 'team@example.com',
+      },
+    ];
+
+    it('preserves fuzzy name and channel type matches', () => {
+      expect(searchInboxes(inboxes, 'ling')).toEqual([inboxes[0]]);
+      expect(searchInboxes(inboxes, 'Web')).toEqual([inboxes[0]]);
+    });
+
+    it('adds identifier matches without duplicating primary matches', () => {
+      expect(searchInboxes(inboxes, 'team@example.com')).toEqual([inboxes[1]]);
+      expect(searchInboxes(inboxes, 'Billing')).toEqual([inboxes[0]]);
     });
   });
 
