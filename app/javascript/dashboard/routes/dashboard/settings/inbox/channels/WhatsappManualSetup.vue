@@ -356,9 +356,9 @@ const continueToAgents = async () => {
         </div>
 
         <ol
-          class="ml-5 list-decimal space-y-3 text-body-main text-n-slate-11 marker:font-medium marker:text-n-slate-12"
+          class="ms-5 list-decimal space-y-3 text-body-main text-n-slate-11 marker:font-medium marker:text-n-slate-12"
         >
-          <li class="pl-2">
+          <li class="ps-2">
             <I18nT
               keypath="INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.APP.ITEM_1"
               tag="span"
@@ -382,7 +382,7 @@ const continueToAgents = async () => {
           <li
             v-for="instruction in appInstructions"
             :key="instruction"
-            class="pl-2"
+            class="ps-2"
           >
             {{ instruction }}
           </li>
@@ -429,12 +429,12 @@ const continueToAgents = async () => {
         </div>
 
         <ol
-          class="ml-5 list-decimal space-y-3 text-body-main text-n-slate-11 marker:font-medium marker:text-n-slate-12"
+          class="ms-5 list-decimal space-y-3 text-body-main text-n-slate-11 marker:font-medium marker:text-n-slate-12"
         >
           <li
             v-for="instruction in numberInstructions"
             :key="instruction"
-            class="pl-2"
+            class="ps-2"
           >
             {{ instruction }}
           </li>
@@ -529,12 +529,12 @@ const continueToAgents = async () => {
         </div>
 
         <ol
-          class="ml-5 list-decimal space-y-3 text-body-main text-n-slate-11 marker:font-medium marker:text-n-slate-12"
+          class="ms-5 list-decimal space-y-3 text-body-main text-n-slate-11 marker:font-medium marker:text-n-slate-12"
         >
           <li
             v-for="instruction in tokenInstructions"
             :key="instruction"
-            class="pl-2"
+            class="ps-2"
           >
             {{ instruction }}
           </li>
