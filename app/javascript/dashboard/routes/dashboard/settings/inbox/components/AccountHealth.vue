@@ -98,6 +98,10 @@ const getDisplayNameStatusDescription = status => {
       return t(
         'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.DECLINED'
       );
+    case 'EXPIRED':
+      return t(
+        'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.EXPIRED'
+      );
     default:
       return t(
         'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.UNKNOWN'

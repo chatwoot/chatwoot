@@ -81,18 +81,29 @@ describe('AccountHealth', () => {
   });
 
   it('renders multiple business profile websites on separate lines', () => {
+    const expectedWebsites =
+      'https://business.test\nhttps://docs.business.test';
     const wrapper = mountComponent({
       business_profile: {
-        websites: ['https://example.com', 'https://docs.example.com'],
+        websites: expectedWebsites.split('\n'),
       },
     });
 
     const websites = wrapper
       .findAll('span')
-      .find(element => element.text().includes('https://example.com'));
+      .find(element => element.text() === expectedWebsites);
 
-    expect(websites.text()).toBe(
-      'https://example.com\nhttps://docs.example.com'
+    expect(websites).toBeDefined();
+  });
+
+  it('shows specific guidance for an expired display name status', () => {
+    const wrapper = mountComponent({ name_status: 'EXPIRED' });
+
+    expect(wrapper.text()).toContain(
+      'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.EXPIRED'
+    );
+    expect(wrapper.text()).not.toContain(
+      'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.UNKNOWN'
     );
   });
 

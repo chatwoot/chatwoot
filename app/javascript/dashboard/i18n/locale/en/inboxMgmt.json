@@ -764,6 +764,7 @@
             "PENDING_REVIEW": "Meta is reviewing the display name. No action is needed unless Meta requests more information.",
             "REJECTED": "Meta did not approve the display name. Review the display name guidelines, then update the name or appeal in Meta.",
             "DECLINED": "Meta did not approve the display name. Review the display name guidelines, then update the name or appeal in Meta.",
+            "EXPIRED": "The phone number's certificate has expired, so this number cannot be registered for API use.",
             "UNKNOWN": "Meta did not return a display name review status."
           }
         },
