@@ -76,38 +76,21 @@ const formatStatusDisplay = status => {
     .join(' ');
 };
 
-const getDisplayNameStatusDescription = status => {
-  switch (status) {
-    case 'APPROVED':
-      return t(
-        'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.APPROVED'
-      );
-    case 'AVAILABLE_WITHOUT_REVIEW':
-      return t(
-        'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.AVAILABLE_WITHOUT_REVIEW'
-      );
-    case 'PENDING_REVIEW':
-      return t(
-        'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.PENDING_REVIEW'
-      );
-    case 'REJECTED':
-      return t(
-        'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.REJECTED'
-      );
-    case 'DECLINED':
-      return t(
-        'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.DECLINED'
-      );
-    case 'EXPIRED':
-      return t(
-        'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.EXPIRED'
-      );
-    default:
-      return t(
-        'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.UNKNOWN'
-      );
-  }
-};
+const STATUSES = [
+  'APPROVED',
+  'AVAILABLE_WITHOUT_REVIEW',
+  'PENDING_REVIEW',
+  'REJECTED',
+  'DECLINED',
+  'EXPIRED',
+];
+
+const getDisplayNameStatusDescription = status =>
+  t(
+    `INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.${
+      STATUSES.includes(status) ? status : 'UNKNOWN'
+    }`
+  );
 
 const formatDateTime = value => {
   const date = new Date(value);
