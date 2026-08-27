@@ -27,6 +27,7 @@ module Enterprise::Api::V1::Accounts::InboxesController
     return unless ensure_calling_supported
 
     save_call_flags!('inbound_calls_enabled' => ActiveModel::Type::Boolean.new.cast(params[:inbound_calls_enabled]))
+    head :ok
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
@@ -37,6 +38,8 @@ module Enterprise::Api::V1::Accounts::InboxesController
 
     flags = params.permit(:recording_enabled, :transcription_enabled).to_h
     save_call_flags!(flags.transform_values { |value| ActiveModel::Type::Boolean.new.cast(value) })
+    Voice::RecordingSettingChangeService.new(inbox: @inbox).perform if flags.key?('recording_enabled')
+    head :ok
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
@@ -72,7 +75,6 @@ module Enterprise::Api::V1::Accounts::InboxesController
       channel.save!(validate: false)
     end
     @inbox.update_account_cache # bump inbox cache key so the cached inbox list refetches the new flags
-    head :ok
   end
 
   def allowed_channel_types

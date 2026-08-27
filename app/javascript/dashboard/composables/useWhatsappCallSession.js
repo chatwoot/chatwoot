@@ -13,6 +13,7 @@ let mediaRecorder = null;
 let recorderChunks = [];
 let audioContext = null;
 let activeCallId = null;
+let activeInboxId = null;
 // voice_call.outbound_connected (the sole source of the outbound SDP answer) is
 // broadcast account-wide and can arrive before the /initiate response sets
 // activeCallId in this tab. Until we know our own call id we can't tell our
@@ -33,9 +34,9 @@ const isInitiatingOutboundReadonly = readonly(isInitiatingOutbound);
 // and we don't want pre-pickup audio in the recording. This flag is flipped to
 // true by armOutboundRecorder() when the ACCEPTED status arrives.
 let recorderArmed = false;
-// Inbox-level "Record calls" flag as decided by the server at pickup for THIS
-// call (inbound: the /accept response; outbound: the ACCEPTED event), so a
-// setting changed while the call was ringing is honoured.
+// Inbox-level "Record calls" flag read from the server at pickup (inbound: GET
+// show right before /accept; outbound: the ACCEPTED event) and kept live by
+// voice_call.recording_setting for the rest of the call.
 let inboxRecordingEnabled = true;
 
 const ensureRemoteAudioElement = () => {
@@ -118,6 +119,26 @@ const setupRecorder = () => {
   mediaRecorder.start(RECORDING_TIMESLICE_MS);
 };
 
+// Stops capture and drops everything captured so far; nothing reaches upload.
+const discardRecorder = () => {
+  if (mediaRecorder) {
+    mediaRecorder.ondataavailable = null;
+    if (mediaRecorder.state !== 'inactive') {
+      try {
+        mediaRecorder.stop();
+      } catch (_) {
+        /* noop */
+      }
+    }
+  }
+  if (audioContext && audioContext.state !== 'closed') {
+    audioContext.close().catch(() => {});
+  }
+  mediaRecorder = null;
+  audioContext = null;
+  recorderChunks = [];
+};
+
 const cleanup = () => {
   if (mediaRecorder && mediaRecorder.state !== 'inactive') {
     try {
@@ -138,6 +159,7 @@ const cleanup = () => {
   localStream = null;
   remoteStream = null;
   mediaRecorder = null;
+  activeInboxId = null;
   inboxRecordingEnabled = true;
   recorderChunks = [];
   audioContext = null;
@@ -294,12 +316,16 @@ export function useWhatsappCallSession() {
     try {
       const sdpAnswer = await prepareInboundAnswer(offer, ice);
       activeCallId = callId;
-      const accepted = await WhatsappCallsAPI.accept(callId, sdpAnswer);
-      // Media only flows once Meta has our answer, so arming after the accept
-      // round-trip loses nothing and lets the server's live flag decide.
-      inboxRecordingEnabled = accepted?.recording_enabled !== false;
+      // Meta starts sending media the moment the server's accept lands, so the
+      // recorder must be armed before the round-trip. Read the flag as late as
+      // possible; anything that changes afterwards arrives via
+      // voice_call.recording_setting.
+      const latest = await WhatsappCallsAPI.show(callId);
+      activeInboxId = latest.inbox_id;
+      inboxRecordingEnabled = latest.recording_enabled !== false;
       recorderArmed = true;
       setupRecorder();
+      await WhatsappCallsAPI.accept(callId, sdpAnswer);
     } catch (e) {
       cleanup();
       throw e;
@@ -330,6 +356,7 @@ export function useWhatsappCallSession() {
       const response = await WhatsappCallsAPI.initiate(target, sdpOffer);
       if (response?.id) {
         activeCallId = response.id;
+        activeInboxId = response.inbox_id;
         // A connect webhook that raced ahead of this response was buffered;
         // apply our own by id now that we know it, then drop every buffered
         // answer (concurrent agents' calls aren't ours to apply).
@@ -424,6 +451,19 @@ export const armOutboundRecorder = recordingEnabled => {
   inboxRecordingEnabled = recordingEnabled;
   recorderArmed = true;
   setupRecorder();
+};
+
+// Cable handler for voice_call.recording_setting: an admin flipped "Record
+// calls" on this call's inbox mid-call. Off discards what was captured so far;
+// on starts capturing from now (only once the pickup gate has opened).
+export const applyRecordingSetting = (inboxId, enabled) => {
+  if (!activeCallId || inboxId !== activeInboxId) return;
+  inboxRecordingEnabled = enabled;
+  if (enabled) {
+    if (recorderArmed) setupRecorder();
+    return;
+  }
+  discardRecorder();
 };
 
 export const cleanupWhatsappSession = () => cleanup();
