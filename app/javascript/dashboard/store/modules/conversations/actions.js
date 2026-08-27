@@ -35,14 +35,10 @@ let conversationListRequestId = 0;
 
 // actions
 const actions = {
-  getConversation: async ({ commit, rootGetters }, conversationId) => {
+  getConversation: async ({ commit }, conversationId) => {
     try {
       const response = await ConversationApi.show(conversationId);
       commit(types.UPDATE_CONVERSATION, response.data);
-      commit(types.SYNC_CONVERSATION_ASSIGNEE_CACHE, {
-        conversationId,
-        currentUserId: rootGetters.getCurrentUserID,
-      });
       commit(`contacts/${types.SET_CONTACT_ITEM}`, response.data.meta.sender);
     } catch (error) {
       // Ignore error
@@ -90,6 +86,10 @@ const actions = {
 
   emptyAllConversations({ commit }) {
     commit(types.EMPTY_ALL_CONVERSATION);
+  },
+
+  resetConversationList({ commit }) {
+    commit(types.RESET_CONVERSATION_LIST);
   },
 
   clearSelectedState({ commit }) {
@@ -241,14 +241,10 @@ const actions = {
   },
 
   setCurrentChatAssignee(
-    { commit, rootGetters },
+    { commit },
     { conversationId, assignee, assigneeType }
   ) {
     commit(types.ASSIGN_AGENT, { conversationId, assignee, assigneeType });
-    commit(types.SYNC_CONVERSATION_ASSIGNEE_CACHE, {
-      conversationId,
-      currentUserId: rootGetters.getCurrentUserID,
-    });
   },
 
   assignTeam: async ({ dispatch }, { conversationId, teamId }) => {
@@ -393,10 +389,7 @@ const actions = {
     }
   },
 
-  addConversation(
-    { commit, state, dispatch, rootState, rootGetters },
-    conversation
-  ) {
+  addConversation({ commit, state, dispatch, rootState }, conversation) {
     const { currentInbox, appliedFilters } = state;
     const {
       inbox_id: inboxId,
@@ -414,10 +407,6 @@ const actions = {
       isMatchingInboxFilter
     ) {
       commit(types.ADD_CONVERSATION, conversation);
-      commit(types.SYNC_CONVERSATION_ASSIGNEE_CACHE, {
-        conversationId: conversation.id,
-        currentUserId: rootGetters.getCurrentUserID,
-      });
       dispatch('contacts/setContact', sender);
     }
   },
@@ -438,10 +427,6 @@ const actions = {
     const sender = conversation.meta?.sender;
 
     commit(types.UPDATE_CONVERSATION, conversation);
-    commit(types.SYNC_CONVERSATION_ASSIGNEE_CACHE, {
-      conversationId: conversation.id,
-      currentUserId: rootGetters.getCurrentUserID,
-    });
     syncConversationCallVisibility(conversation, rootGetters?.getCurrentUserID);
 
     dispatch('conversationLabels/setConversationLabel', {
@@ -470,12 +455,8 @@ const actions = {
     commit(types.CHANGE_CHAT_SORT_FILTER, data);
   },
 
-  updateAssignee({ commit, rootGetters }, data) {
+  updateAssignee({ commit }, data) {
     commit(types.UPDATE_ASSIGNEE, data);
-    commit(types.SYNC_CONVERSATION_ASSIGNEE_CACHE, {
-      conversationId: data.id,
-      currentUserId: rootGetters.getCurrentUserID,
-    });
   },
 
   updateConversationContact({ commit }, data) {

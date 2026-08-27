@@ -7,6 +7,12 @@ const state = {
     all: 0,
     appliedFilters: 0,
   },
+  loadedCount: {
+    me: 0,
+    unassigned: 0,
+    all: 0,
+    appliedFilters: 0,
+  },
   hasEndReached: {
     me: false,
     unassigned: false,
@@ -21,20 +27,20 @@ export const getters = {
   getCurrentPageFilter: $state => filter => {
     return $state.currentPage[filter];
   },
+  getLoadedCountFilter: $state => filter => {
+    return $state.loadedCount[filter];
+  },
   getCurrentPage: $state => {
     return $state.currentPage;
   },
 };
 
 export const actions = {
-  setCurrentPage({ commit }, { filter, page }) {
-    commit(types.default.SET_CURRENT_PAGE, { filter, page });
+  setCurrentPage({ commit }, pageData) {
+    commit(types.default.SET_CURRENT_PAGE, pageData);
   },
   setEndReached({ commit }, { filter }) {
     commit(types.default.SET_CONVERSATION_END_REACHED, { filter });
-  },
-  resetFilter({ commit }, { filter }) {
-    commit(types.default.CLEAR_CONVERSATION_PAGE_FILTER, { filter });
   },
   reset({ commit }) {
     commit(types.default.CLEAR_CONVERSATION_PAGE);
@@ -42,26 +48,26 @@ export const actions = {
 };
 
 export const mutations = {
-  [types.default.SET_CURRENT_PAGE]: ($state, { filter, page }) => {
+  [types.default.SET_CURRENT_PAGE]: (
+    $state,
+    { filter, page, loadedCount = 0 }
+  ) => {
     $state.currentPage = {
       ...$state.currentPage,
       [filter]: page,
+    };
+    $state.loadedCount = {
+      ...$state.loadedCount,
+      [filter]:
+        page === 1
+          ? loadedCount
+          : ($state.loadedCount[filter] || 0) + loadedCount,
     };
   },
   [types.default.SET_CONVERSATION_END_REACHED]: ($state, { filter }) => {
     $state.hasEndReached = {
       ...$state.hasEndReached,
       [filter]: true,
-    };
-  },
-  [types.default.CLEAR_CONVERSATION_PAGE_FILTER]: ($state, { filter }) => {
-    $state.currentPage = {
-      ...$state.currentPage,
-      [filter]: 0,
-    };
-    $state.hasEndReached = {
-      ...$state.hasEndReached,
-      [filter]: false,
     };
   },
   [types.default.CLEAR_CONVERSATION_PAGE]: $state => {
@@ -77,6 +83,12 @@ export const mutations = {
       unassigned: false,
       all: false,
       appliedFilters: false,
+    };
+    $state.loadedCount = {
+      me: 0,
+      unassigned: 0,
+      all: 0,
+      appliedFilters: 0,
     };
   },
 };

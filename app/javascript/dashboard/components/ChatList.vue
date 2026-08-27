@@ -45,6 +45,7 @@ import {
   isOnParticipatingView,
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
+import { sortComparator } from '../store/modules/conversations/helpers';
 import {
   getUserPermissions,
   filterItemsByPermission,
@@ -205,6 +206,10 @@ const currentPage = useFunctionGetter(
   'conversationPage/getCurrentPageFilter',
   activeAssigneeTab
 );
+const activeAssigneeTabLoadedCount = useFunctionGetter(
+  'conversationPage/getLoadedCountFilter',
+  activeAssigneeTab
+);
 const currentFiltersPage = useFunctionGetter(
   'conversationPage/getCurrentPageFilter',
   currentPageFilterKey
@@ -213,11 +218,6 @@ const hasCurrentPageEndReached = useFunctionGetter(
   'conversationPage/getHasEndReached',
   currentPageFilterKey
 );
-const activeAssigneeTabConversationIds = useFunctionGetter(
-  'getConversationIdsForAssignee',
-  activeAssigneeTab
-);
-
 const conversationCustomAttributes = useFunctionGetter(
   'attributes/getAttributesByModel',
   'conversation_attribute'
@@ -344,11 +344,15 @@ const conversationList = computed(() => {
   }
 
   if (!hasAppliedFiltersOrActiveFolders.value) {
-    const activeConversationIds = new Set(
-      activeAssigneeTabConversationIds.value
-    );
-    localConversationList = localConversationList.filter(conversation =>
-      activeConversationIds.has(conversation.id)
+    localConversationList =
+      activeSortBy.value === wootConstants.SORT_BY_TYPE.UNREAD
+        ? sortByUnreadStatus(localConversationList)
+        : localConversationList.sort((a, b) =>
+            sortComparator(a, b, activeSortBy.value)
+          );
+    localConversationList = localConversationList.slice(
+      0,
+      activeAssigneeTabLoadedCount.value
     );
   }
 
@@ -357,13 +361,6 @@ const conversationList = computed(() => {
     localConversationList = localConversationList.filter(conversation => {
       return matchesFilters(conversation, payload);
     });
-  }
-
-  if (
-    !hasAppliedFiltersOrActiveFolders.value &&
-    activeSortBy.value === wootConstants.SORT_BY_TYPE.UNREAD
-  ) {
-    localConversationList = sortByUnreadStatus(localConversationList);
   }
 
   return localConversationList;
@@ -625,19 +622,6 @@ function updateAssigneeTab(selectedTab) {
     resetBulkActions();
     emitter.emit('clearSearchInput');
     activeAssigneeTab.value = selectedTab;
-
-    // Live status and assignment changes can make a tab's cached membership
-    // disagree with its server count while its pagination still says EOF.
-    // Restart only that tab so page one replaces its stale conversation IDs.
-    const hasStalePagination =
-      hasCurrentPageEndReached.value &&
-      activeAssigneeTabCount.value !== conversationList.value.length;
-    if (hasStalePagination) {
-      store.dispatch('conversationPage/resetFilter', {
-        filter: selectedTab,
-      });
-    }
-
     if (!currentPage.value) {
       fetchConversations();
     }

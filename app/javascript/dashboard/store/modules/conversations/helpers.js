@@ -136,8 +136,11 @@ const sortConfig = {
 
     const p1 = CONVERSATION_PRIORITY_ORDER[a.priority] || DEFAULT_FOR_NULL;
     const p2 = CONVERSATION_PRIORITY_ORDER[b.priority] || DEFAULT_FOR_NULL;
+    const priorityOrder = getSortOrderFunction(sortDirection)(p1, p2);
 
-    return getSortOrderFunction(sortDirection)(p1, p2);
+    return (
+      priorityOrder || sortDescending(a.last_activity_at, b.last_activity_at)
+    );
   },
 
   sortOnPriorityCreatedAt: (a, b) => {
@@ -149,15 +152,21 @@ const sortConfig = {
   },
 
   sortOnWaitingSince: (a, b, sortDirection) => {
-    const sortFunc = getSortOrderFunction(sortDirection);
-    if (!a.waiting_since || !b.waiting_since) {
-      if (!a.waiting_since && !b.waiting_since) {
-        return sortFunc(a.created_at, b.created_at);
-      }
-      return sortFunc(a.waiting_since ? 0 : 1, b.waiting_since ? 0 : 1);
+    const isWaitingSinceMissingA = !a.waiting_since;
+    const isWaitingSinceMissingB = !b.waiting_since;
+
+    if (isWaitingSinceMissingA !== isWaitingSinceMissingB) {
+      return isWaitingSinceMissingA ? 1 : -1;
     }
 
-    return sortFunc(a.waiting_since, b.waiting_since);
+    if (isWaitingSinceMissingA) {
+      return sortAscending(a.created_at, b.created_at);
+    }
+
+    const sortFunc = getSortOrderFunction(sortDirection);
+    const waitingSinceOrder = sortFunc(a.waiting_since, b.waiting_since);
+
+    return waitingSinceOrder || sortAscending(a.created_at, b.created_at);
   },
 };
 

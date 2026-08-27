@@ -6,9 +6,15 @@ const commit = vi.fn();
 describe('#actions', () => {
   describe('#setCurrentPage', () => {
     it('sends correct actions', () => {
-      actions.setCurrentPage({ commit }, { filter: 'me', page: 1 });
+      actions.setCurrentPage(
+        { commit },
+        { filter: 'me', page: 1, loadedCount: 25 }
+      );
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CURRENT_PAGE, { filter: 'me', page: 1 }],
+        [
+          types.default.SET_CURRENT_PAGE,
+          { filter: 'me', page: 1, loadedCount: 25 },
+        ],
       ]);
     });
   });

@@ -128,31 +128,13 @@ describe('ReconnectService', () => {
   });
 
   describe('fetchConversations', () => {
-    it('should update the filters with disconnected time and the threshold', async () => {
-      reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
-      await reconnectService.fetchConversations();
-      expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
-        page: null,
-        updatedWithin: 115,
-      });
-    });
-
     it('should dispatch updateChatListFilters and fetchAllConversations', async () => {
-      reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
       await reconnectService.fetchConversations();
       expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
-        page: null,
-        updatedWithin: 115,
-      });
-      expect(storeMock.dispatch).toHaveBeenCalledWith('fetchAllConversations');
-    });
-
-    it('should dispatch updateChatListFilters and reset updatedWithin', async () => {
-      reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
-      await reconnectService.fetchConversations();
-      expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
+        page: 1,
         updatedWithin: null,
       });
+      expect(storeMock.dispatch).toHaveBeenCalledWith('fetchAllConversations');
     });
   });
 
@@ -168,6 +150,24 @@ describe('ReconnectService', () => {
   });
 
   describe('fetchConversationsOnReconnect', () => {
+    it('should reset pagination and cached conversations before fetching', async () => {
+      storeMock.getters.getAppliedConversationFiltersQuery = [];
+      storeMock.getters['customViews/getActiveConversationFolder'] = {
+        query: null,
+      };
+
+      await reconnectService.fetchConversationsOnReconnect();
+
+      expect(storeMock.dispatch).toHaveBeenNthCalledWith(
+        1,
+        'conversationPage/reset'
+      );
+      expect(storeMock.dispatch).toHaveBeenNthCalledWith(
+        2,
+        'resetConversationList'
+      );
+    });
+
     it('should fetch filtered or saved conversations if query exists', async () => {
       storeMock.getters.getAppliedConversationFiltersQuery = {
         payload: [

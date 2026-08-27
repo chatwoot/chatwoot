@@ -13,6 +13,21 @@ vi.mock('shared/helpers/mitt', () => ({
 import { emitter } from 'shared/helpers/mitt';
 
 describe('#mutations', () => {
+  describe('#RESET_CONVERSATION_LIST', () => {
+    it('keeps only the selected conversation', () => {
+      const selectedConversation = { id: 1, messages: [{ id: 1 }] };
+      const state = {
+        allConversations: [selectedConversation, { id: 2 }],
+        selectedChatId: 1,
+      };
+
+      mutations[types.RESET_CONVERSATION_LIST](state);
+
+      expect(state.allConversations).toEqual([selectedConversation]);
+      expect(state.selectedChatId).toBe(1);
+    });
+  });
+
   describe('#EMPTY_ALL_CONVERSATION', () => {
     it('empty conversations', () => {
       const state = { allConversations: [{ id: 1 }], selectedChatId: 1 };
@@ -1047,11 +1062,6 @@ describe('#mutations', () => {
           { id: 2, meta: { sender: { id: 2 } } },
           { id: 3, meta: { sender: { id: 1 } } },
         ],
-        conversationIdsByAssignee: {
-          me: [1, 2],
-          unassigned: [3],
-          all: [1, 2, 3],
-        },
       };
 
       mutations[types.CLEAR_CONTACT_CONVERSATIONS](state, 1);
@@ -1086,11 +1096,6 @@ describe('#mutations', () => {
     it('should delete a conversation', () => {
       const state = {
         allConversations: [{ id: 1, messages: [] }],
-        conversationIdsByAssignee: {
-          me: [1],
-          unassigned: [],
-          all: [1],
-        },
       };
 
       mutations[types.DELETE_CONVERSATION](state, 1);

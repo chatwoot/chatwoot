@@ -56,23 +56,24 @@ describe('#hasMessageFailedWithExternalError', () => {
 });
 
 describe('#actions', () => {
+  describe('#resetConversationList', () => {
+    it('resets the canonical conversation list', () => {
+      actions.resetConversationList({ commit });
+
+      expect(commit).toHaveBeenCalledWith(types.RESET_CONVERSATION_LIST);
+    });
+  });
+
   describe('#getConversation', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({
         data: { id: 1, meta: { sender: { id: 1, name: 'Contact 1' } } },
       });
-      await actions.getConversation(
-        { commit, rootGetters: { getCurrentUserID: 1 } },
-        1
-      );
+      await actions.getConversation({ commit }, 1);
       expect(commit.mock.calls).toEqual([
         [
           types.UPDATE_CONVERSATION,
           { id: 1, meta: { sender: { id: 1, name: 'Contact 1' } } },
-        ],
-        [
-          types.SYNC_CONVERSATION_ASSIGNEE_CACHE,
-          { conversationId: 1, currentUserId: 1 },
         ],
         ['contacts/SET_CONTACT_ITEM', { id: 1, name: 'Contact 1' }],
       ]);
@@ -115,10 +116,6 @@ describe('#actions', () => {
       );
       expect(commit.mock.calls).toEqual([
         [types.UPDATE_CONVERSATION, conversation],
-        [
-          types.SYNC_CONVERSATION_ASSIGNEE_CACHE,
-          { conversationId: 1, currentUserId: 1 },
-        ],
       ]);
       expect(dispatch.mock.calls).toEqual([
         [
@@ -228,7 +225,6 @@ describe('#actions', () => {
         {
           commit,
           rootState: { route: { name: 'home' } },
-          rootGetters: { getCurrentUserID: 1 },
           dispatch,
           state: { currentInbox: 1, appliedFilters: [] },
         },
@@ -236,10 +232,6 @@ describe('#actions', () => {
       );
       expect(commit.mock.calls).toEqual([
         [types.ADD_CONVERSATION, conversation],
-        [
-          types.SYNC_CONVERSATION_ASSIGNEE_CACHE,
-          { conversationId: 1, currentUserId: 1 },
-        ],
       ]);
       expect(dispatch.mock.calls).toEqual([
         [
@@ -263,7 +255,6 @@ describe('#actions', () => {
         {
           commit,
           rootState: { route: { name: 'home' } },
-          rootGetters: { getCurrentUserID: 1 },
           dispatch,
           state: { appliedFilters: [] },
         },
@@ -271,10 +262,6 @@ describe('#actions', () => {
       );
       expect(commit.mock.calls).toEqual([
         [types.ADD_CONVERSATION, conversation],
-        [
-          types.SYNC_CONVERSATION_ASSIGNEE_CACHE,
-          { conversationId: 1, currentUserId: 1 },
-        ],
       ]);
       expect(dispatch.mock.calls).toEqual([
         [
@@ -400,18 +387,9 @@ describe('#actions', () => {
         assignee: { id: 1, name: 'User' },
         assigneeType: 'AgentBot',
       };
-      await actions.setCurrentChatAssignee(
-        { commit, rootGetters: { getCurrentUserID: 1 } },
-        payload
-      );
-      expect(commit).toHaveBeenCalledTimes(2);
-      expect(commit.mock.calls).toEqual([
-        ['ASSIGN_AGENT', payload],
-        [
-          types.SYNC_CONVERSATION_ASSIGNEE_CACHE,
-          { conversationId: 1, currentUserId: 1 },
-        ],
-      ]);
+      await actions.setCurrentChatAssignee({ commit }, payload);
+      expect(commit).toHaveBeenCalledTimes(1);
+      expect(commit.mock.calls).toEqual([['ASSIGN_AGENT', payload]]);
     });
   });
 

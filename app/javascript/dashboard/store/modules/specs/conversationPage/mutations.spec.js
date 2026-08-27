@@ -4,14 +4,28 @@ import { mutations } from '../../conversationPage';
 describe('#mutations', () => {
   describe('#SET_CURRENT_PAGE', () => {
     it('set current page correctly', () => {
-      const state = { currentPage: { me: 1 } };
+      const state = { currentPage: { me: 1 }, loadedCount: { me: 25 } };
       mutations[types.default.SET_CURRENT_PAGE](state, {
         filter: 'me',
         page: 2,
+        loadedCount: 20,
       });
       expect(state.currentPage).toEqual({
         me: 2,
       });
+      expect(state.loadedCount).toEqual({ me: 45 });
+    });
+
+    it('replaces the loaded count for the first page', () => {
+      const state = { currentPage: { me: 3 }, loadedCount: { me: 60 } };
+
+      mutations[types.default.SET_CURRENT_PAGE](state, {
+        filter: 'me',
+        page: 1,
+        loadedCount: 25,
+      });
+
+      expect(state.loadedCount).toEqual({ me: 25 });
     });
   });
 
@@ -20,6 +34,7 @@ describe('#mutations', () => {
       const state = {
         currentPage: { me: 1, unassigned: 2, all: 3 },
         hasEndReached: { me: true, unassigned: true, all: true },
+        loadedCount: { me: 25, unassigned: 50, all: 75 },
       };
       mutations[types.default.CLEAR_CONVERSATION_PAGE](state);
       expect(state).toEqual({
@@ -29,6 +44,12 @@ describe('#mutations', () => {
           unassigned: false,
           all: false,
           appliedFilters: false,
+        },
+        loadedCount: {
+          me: 0,
+          unassigned: 0,
+          all: 0,
+          appliedFilters: 0,
         },
       });
     });
