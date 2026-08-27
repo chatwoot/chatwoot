@@ -1016,6 +1016,84 @@ describe('FullEditor', () => {
       expect(view.dom.querySelector('.cw-embed-source-hidden')).toBeNull();
     });
 
+    it('selects the whole document with Cmd+A outside a table', async () => {
+      mountEditor({
+        modelValue: 'before\n\n[clip.mp4](https://cdn.test/clip.mp4)\n\nafter',
+      });
+      placeCursor(2);
+
+      expect(swallowedByEditor('a', { ctrlKey: true })).toBe(true);
+      expect(view.state.selection.toJSON().type).toBe('all');
+    });
+
+    it('steps onto a video with arrow keys instead of skipping past it', async () => {
+      mountEditor({
+        modelValue: 'before\n\n[clip.mp4](https://cdn.test/clip.mp4)\n\nafter',
+      });
+      placeCursor(view.state.doc.child(0).nodeSize - 1);
+
+      expect(swallowedByEditor('ArrowRight')).toBe(true);
+      expect(view.state.selection.node?.textContent).toBe('clip.mp4');
+
+      expect(swallowedByEditor('ArrowRight')).toBe(true);
+      expect(view.state.selection.$from.parent.textContent).toBe('after');
+    });
+
+    it('creates a line above a leading video and lands the caret in it', async () => {
+      mountEditor({
+        modelValue: '[clip.mp4](https://cdn.test/clip.mp4)\n\nafter',
+      });
+      placeCursor(view.state.doc.child(0).nodeSize + 1);
+
+      expect(swallowedByEditor('ArrowLeft')).toBe(true);
+      expect(view.state.selection.node?.textContent).toBe('clip.mp4');
+
+      expect(swallowedByEditor('ArrowLeft')).toBe(true);
+      expect(view.state.doc.child(0).textContent).toBe('');
+      expect(view.state.selection.from).toBe(1);
+    });
+
+    it('starts a new line below a selected video on Enter', async () => {
+      mountEditor({
+        modelValue:
+          '[a.mp4](https://cdn.test/a.mp4)\n\n[b.mp4](https://cdn.test/b.mp4)\n\nafter',
+      });
+      view.dispatch(
+        view.state.tr.setSelection(
+          Selection.fromJSON(view.state.doc, { type: 'node', anchor: 0 })
+        )
+      );
+
+      expect(swallowedByEditor('Enter')).toBe(true);
+      expect(view.state.doc.child(1).type.name).toBe('paragraph');
+      expect(view.state.doc.child(1).textContent).toBe('');
+      expect(view.state.selection.from).toBe(
+        view.state.doc.child(0).nodeSize + 1
+      );
+    });
+
+    it('keeps a paragraph after a trailing video so there is a place to type', async () => {
+      mountEditor({
+        modelValue: 'before\n\n[clip.mp4](https://cdn.test/clip.mp4)',
+      });
+      placeCursor(2);
+      type('x');
+
+      const last = view.state.doc.lastChild;
+      expect(last.type.name).toBe('paragraph');
+      expect(last.textContent).toBe('');
+    });
+
+    it('steps a caret stuck in the hidden source line out with an arrow key', async () => {
+      mountEditor({
+        modelValue: 'before\n\n[clip.mp4](https://cdn.test/clip.mp4)\n\nafter',
+      });
+      placeCursor(view.state.doc.child(0).nodeSize + 1);
+
+      expect(swallowedByEditor('ArrowRight')).toBe(true);
+      expect(view.state.selection.$from.parent.textContent).toBe('after');
+    });
+
     it('removes the whole video embed on backspace after it', async () => {
       mountEditor({
         modelValue: '[clip.mp4](https://cdn.test/clip.mp4)\n\nafter',
@@ -1092,6 +1170,144 @@ describe('FullEditor', () => {
       // so the video player still renders from this shape.
       expect(lastEmittedValue()).toContain(
         '[clip.mp4](https://cdn.test/clip.mp4)'
+      );
+    });
+
+    it('drops a decoded image insert when the document was reset meanwhile', async () => {
+      mountEditor({ modelValue: 'Hello' });
+      const decodes = [];
+      // eslint-disable-next-line func-names
+      window.Image.prototype.decode = function () {
+        return new Promise(resolve => {
+          decodes.push(resolve);
+        });
+      };
+      try {
+        await selectFile(fileOfSize(1));
+        // The preview is still decoding: nothing is in the doc yet, so an
+        // external reset (e.g. discard draft) is accepted.
+        await wrapper.setProps({ modelValue: 'reset content' });
+        decodes.shift()();
+        await flushPromises();
+
+        expect(view.state.doc.textContent).toBe('reset content');
+        expect(nodeNames()).not.toContain('image');
+        expect(attachImage).not.toHaveBeenCalled();
+      } finally {
+        decodes.forEach(resolve => resolve());
+        delete window.Image.prototype.decode;
+      }
+    });
+
+    it('undo after cancelling an upload does not revive the preview', async () => {
+      mountEditor();
+      attachImage.mockImplementation(pendingUpload);
+      await selectFile(fileOfSize(1));
+      view.dom.querySelector('.pm-upload-overlay .pm-upload-cancel').click();
+      await flushPromises();
+      expect(view.dom.querySelector('.pm-image-wrapper')).toBeNull();
+
+      pressInEditor('z', { ctrlKey: true });
+      await wrapper.vm.$nextTick();
+
+      expect(view.dom.querySelector('.pm-image-wrapper')).toBeNull();
+      expect(nodeNames()).not.toContain('image');
+    });
+
+    it('undo after a completed upload removes the image instead of reviving the preview', async () => {
+      mountEditor();
+      await selectFile(fileOfSize(1));
+      expect(lastEmittedValue()).toContain('![](https://cdn.test/photo.png)');
+
+      pressInEditor('z', { ctrlKey: true });
+      await wrapper.vm.$nextTick();
+      // The whole image goes, not just the swap — a surviving blob preview
+      // would display in the editor while vanishing from the saved markdown.
+      expect(view.dom.querySelector('.pm-image-wrapper')).toBeNull();
+      expect(lastEmittedValue() || '').not.toContain('photo.png');
+
+      pressInEditor('z', { ctrlKey: true, shiftKey: true });
+      await wrapper.vm.$nextTick();
+      expect(lastEmittedValue()).toContain('![](https://cdn.test/photo.png)');
+    });
+
+    it('cancelling a duplicate paste mirror keeps every matching image', async () => {
+      mountEditor({ modelValue: '![](https://web.test/a.png)' });
+      uploadExternalImage.mockImplementation(pendingUpload);
+      view.pasteHTML('<p><img src="https://web.test/a.png"></p>');
+      await new Promise(resolve => {
+        setTimeout(resolve);
+      });
+      await flushPromises();
+      expect(view.dom.querySelectorAll('.pm-image-wrapper')).toHaveLength(2);
+
+      view.dom.querySelector('.pm-upload-overlay .pm-upload-cancel').click();
+      await flushPromises();
+
+      expect(view.dom.querySelectorAll('.pm-image-wrapper')).toHaveLength(2);
+      expect(view.dom.querySelector('.pm-image-uploading')).toBeNull();
+      expect(lastEmittedValue()).toContain('![](https://web.test/a.png)');
+    });
+
+    it('resizes the existing video preview when the sizing param changes', async () => {
+      mountEditor({
+        modelValue:
+          '[clip.mp4](https://cdn.test/clip.mp4?cw_video_width=300px)\n\nafter',
+      });
+      const preview = view.dom.querySelector('.cw-embed-preview');
+      expect(preview.style.width).toBe('300px');
+
+      // Rewrite the hidden source link the way a resize commit (or its undo)
+      // does — the widget survives, so its width must sync in place.
+      const linkType = view.state.schema.marks.link;
+      const end = 1 + view.state.doc.child(0).content.size;
+      const tr = view.state.tr;
+      tr.removeMark(1, end, linkType);
+      tr.addMark(
+        1,
+        end,
+        linkType.create({
+          href: 'https://cdn.test/clip.mp4?cw_video_width=500px',
+        })
+      );
+      view.dispatch(tr);
+
+      expect(view.dom.querySelector('.cw-embed-preview')).toBe(preview);
+      expect(preview.style.width).toBe('500px');
+    });
+
+    it('inserts videos in the order picked even when uploads finish out of order', async () => {
+      mountEditor();
+      const settle = new Map();
+      attachImage.mockImplementation(
+        ({ file }) =>
+          new Promise(resolve => {
+            settle.set(file.name, resolve);
+          })
+      );
+      const first = new File(['x'], 'first.mp4', { type: 'video/mp4' });
+      const second = new File(['x'], 'second.mp4', { type: 'video/mp4' });
+      const input = wrapper.find('input[type="file"]');
+      Object.defineProperty(input.element, 'files', {
+        value: [first, second],
+        configurable: true,
+      });
+      await input.trigger('change');
+      await flushPromises();
+
+      settle.get('second.mp4')('https://cdn.test/second.mp4');
+      await flushPromises();
+      // The finished second file waits for the first pick to land.
+      expect(lastEmittedValue() || '').not.toContain('second.mp4');
+
+      settle.get('first.mp4')('https://cdn.test/first.mp4');
+      await flushPromises();
+
+      const content = lastEmittedValue();
+      expect(content).toContain('[first.mp4](https://cdn.test/first.mp4)');
+      expect(content).toContain('[second.mp4](https://cdn.test/second.mp4)');
+      expect(content.indexOf('first.mp4')).toBeLessThan(
+        content.indexOf('second.mp4')
       );
     });
   });

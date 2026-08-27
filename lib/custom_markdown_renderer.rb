@@ -169,26 +169,16 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     true
   end
 
-  # The editor stores a resized embed's width (cw_video_width) and real
-  # dimensions (cw_video_ar) on the link; size the root so nothing reflows on load.
+  # The editor stores a resized embed's width (cw_video_width) on the link.
   def apply_embed_width(html, link_url)
     width = extract_px_param(link_url, 'cw_video_width')
-    ratio = extract_ratio_param(link_url)
-    return html unless width || ratio
+    return html unless width
 
-    styles = []
-    styles << "width: #{width}; max-width: 100%;" if width
-    styles << "aspect-ratio: #{ratio};" if ratio
-    styles << 'height: auto;'
-    html.sub(/\A\s*<\w+/) { |tag| %(#{tag} style="#{styles.join(' ')}") }
-  end
-
-  def extract_ratio_param(src)
-    return unless query_param(src, 'cw_video_ar') =~ /\A(\d{1,5})x(\d{1,5})\z/
-
-    width = Regexp.last_match(1).to_i
-    height = Regexp.last_match(2).to_i
-    "#{width} / #{height}" if width.positive? && height.positive?
+    fragment = Nokogiri::HTML5.fragment(html)
+    root = fragment.elements.first
+    # Prepend so the template's own declarations win any conflict.
+    root['style'] = "width: #{width}; max-width: 100%; height: auto; #{root['style']}".strip
+    fragment.to_html
   end
 
   def find_matching_embed(link_url)
