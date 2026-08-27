@@ -427,7 +427,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     const store = useCallsStore();
     if (!store.calls.some(c => c.callSid === data.call_id)) return;
     store.setCallActive(data.call_id);
-    armOutboundRecorder();
+    armOutboundRecorder(data.recording_enabled !== false);
   };
 
   // eslint-disable-next-line class-methods-use-this

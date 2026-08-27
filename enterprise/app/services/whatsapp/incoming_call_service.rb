@@ -48,7 +48,7 @@ class Whatsapp::IncomingCallService
 
       started_at = Time.zone.at(payload[:timestamp].to_i) if payload[:timestamp].present?
       update_call!(call, 'in_progress', started_at: started_at || Time.current)
-      broadcast(call, 'voice_call.outbound_accepted')
+      broadcast(call, 'voice_call.outbound_accepted', recording_enabled: inbox.channel.recording_enabled?)
     end
   end
 

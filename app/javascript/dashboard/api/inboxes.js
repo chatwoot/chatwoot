@@ -83,11 +83,9 @@ class Inboxes extends CacheEnabledApiClient {
     });
   }
 
-  setCallRecording(inboxId, { recordingEnabled, transcriptionEnabled }) {
-    return axios.post(`${this.url}/${inboxId}/set_call_recording`, {
-      recording_enabled: recordingEnabled,
-      transcription_enabled: transcriptionEnabled,
-    });
+  // Pass only the flag being changed ({ recording_enabled } or { transcription_enabled }).
+  setCallRecording(inboxId, flags) {
+    return axios.post(`${this.url}/${inboxId}/set_call_recording`, flags);
   }
 }
 

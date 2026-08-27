@@ -26,18 +26,17 @@ module Enterprise::Api::V1::Accounts::InboxesController
   def set_inbound_calls
     return unless ensure_calling_supported
 
-    save_call_flags!('inbound_calls_enabled' => call_flag(:inbound_calls_enabled))
+    save_call_flags!('inbound_calls_enabled' => ActiveModel::Type::Boolean.new.cast(params[:inbound_calls_enabled]))
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
 
+  # Only the flags present in the request are merged, so two admins toggling different settings can't clobber each other.
   def set_call_recording
     return unless ensure_calling_supported
 
-    save_call_flags!(
-      'recording_enabled' => call_flag(:recording_enabled),
-      'transcription_enabled' => call_flag(:transcription_enabled)
-    )
+    flags = params.permit(:recording_enabled, :transcription_enabled).to_h
+    save_call_flags!(flags.transform_values { |value| ActiveModel::Type::Boolean.new.cast(value) })
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
@@ -62,10 +61,6 @@ module Enterprise::Api::V1::Accounts::InboxesController
 
     render_could_not_create_error('Inbox does not support calling')
     false
-  end
-
-  def call_flag(key)
-    ActiveModel::Type::Boolean.new.cast(params[key])
   end
 
   # Flags live in provider_config. The row lock serializes concurrent toggles (each merges only its

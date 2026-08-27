@@ -33,8 +33,8 @@ const isInitiatingOutboundReadonly = readonly(isInitiatingOutbound);
 // and we don't want pre-pickup audio in the recording. This flag is flipped to
 // true by armOutboundRecorder() when the ACCEPTED status arrives.
 let recorderArmed = false;
-// Inbox-level "Record calls" flag as decided by the server for THIS call
-// (inbound: the /accept response; outbound: the /initiate response), so a
+// Inbox-level "Record calls" flag as decided by the server at pickup for THIS
+// call (inbound: the /accept response; outbound: the ACCEPTED event), so a
 // setting changed while the call was ringing is honoured.
 let inboxRecordingEnabled = true;
 
@@ -330,7 +330,6 @@ export function useWhatsappCallSession() {
       const response = await WhatsappCallsAPI.initiate(target, sdpOffer);
       if (response?.id) {
         activeCallId = response.id;
-        inboxRecordingEnabled = response.recording_enabled !== false;
         // A connect webhook that raced ahead of this response was buffered;
         // apply our own by id now that we know it, then drop every buffered
         // answer (concurrent agents' calls aren't ours to apply).
@@ -421,7 +420,8 @@ export const applyOutboundAnswer = async (callId, sdpAnswer) => {
 // outbound call (real pickup). Flips the recorder gate and starts the
 // MediaRecorder. Idempotent — safe if ontrack hasn't fired yet (setupRecorder
 // bails until the remote stream has audio tracks; ontrack will retry).
-export const armOutboundRecorder = () => {
+export const armOutboundRecorder = recordingEnabled => {
+  inboxRecordingEnabled = recordingEnabled;
   recorderArmed = true;
   setupRecorder();
 };
