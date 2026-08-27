@@ -3,7 +3,11 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { formatBytes } from 'shared/helpers/FileHelper';
-import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import {
+  dynamicTime,
+  exactTimestamp,
+  shortTimestamp,
+} from 'shared/helpers/timeHelper';
 import { downloadFile } from '@chatwoot/utils';
 import {
   MEDIA_TYPES,
@@ -134,7 +138,15 @@ const onDownloadFile = async attachment => {
           <p class="text-xs text-n-slate-11">
             {{ displaySize(attachment) }}
             <template v-if="displayTime(attachment)">
-              · {{ displayTime(attachment) }}
+              ·
+              <span
+                v-tooltip.top="{
+                  content: exactTimestamp(attachment.created_at),
+                  delay: { show: 500, hide: 0 },
+                }"
+              >
+                {{ displayTime(attachment) }}
+              </span>
             </template>
           </p>
         </div>
