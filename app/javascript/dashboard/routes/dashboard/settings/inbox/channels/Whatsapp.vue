@@ -164,7 +164,7 @@ const requestEmbeddedSignupAccess = () => {
             @click="requestEmbeddedSignupAccess"
           />
         </div>
-        <p class="mt-3 ms-10 max-w-3xl text-body-main text-n-slate-11">
+        <p class="mt-2 ms-10 max-w-3xl text-body-main text-n-slate-11">
           {{
             $t(
               'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.DESCRIPTION'
