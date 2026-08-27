@@ -111,6 +111,28 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
       expect(call.reload.recording.blob.checksum).to be_present
     end
 
+    it 'enqueues transcription for the invocation that stored the recording' do
+      expect { perform_service }.to have_enqueued_job(Voice::CallTranscriptionJob).with(call.id)
+    end
+
+    it 'does not enqueue transcription when another invocation already stored the recording' do
+      perform_service
+
+      expect { perform_service }.not_to have_enqueued_job(Voice::CallTranscriptionJob)
+    end
+
+    it 'does not enqueue transcription when it loses the race inside the lock' do
+      call.recording.attach(io: StringIO.new('AUDIO'), filename: 'winner.wav', content_type: 'audio/wav')
+      # The outer guard passes while recording_sid is still blank; the winning writer's
+      # value only lands once this invocation takes the lock, so the inner guard trips.
+      allow(call).to receive(:with_lock) do |&block|
+        call.recording_sid = recording_sid
+        block.call
+      end
+
+      expect { perform_service }.not_to have_enqueued_job(Voice::CallTranscriptionJob)
+    end
+
     it 'is a no-op when recording_sid is blank' do
       expect { perform_service(recording_sid: '') }.not_to change { call.reload.recording.attached? }.from(false)
       expect(SafeFetch).not_to have_received(:fetch)

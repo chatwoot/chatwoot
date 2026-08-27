@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :conversation_outcome do
     account { create(:account) }
+    started_at { Time.current }
 
     after(:build) do |outcome|
       outcome.assistant ||= create(:captain_assistant, account: outcome.account)

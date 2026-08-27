@@ -201,6 +201,9 @@ const onPopoverShow = () => {
   // Flag to prevent triggering drag n drop,
   // When compose modal is active
   emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, true);
+  // Cache-aware refetch, so newly synced WhatsApp templates show up here
+  // even if the account-cache-invalidated websocket event was missed.
+  store.dispatch('inboxes/get');
 };
 
 const onPopoverHide = () => {

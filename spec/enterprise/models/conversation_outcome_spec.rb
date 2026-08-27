@@ -15,6 +15,13 @@ RSpec.describe ConversationOutcome, type: :model do
         .backed_by_column_of_type(:string)
         .with_prefix(:handoff_reason)
     }
+
+    it {
+      expect(subject).to define_enum_for(:episode_trigger)
+        .with_values(described_class::EPISODE_TRIGGERS.index_by(&:itself))
+        .backed_by_column_of_type(:string)
+        .with_prefix(:trigger)
+    }
   end
 
   describe 'validations' do
@@ -48,18 +55,34 @@ RSpec.describe ConversationOutcome, type: :model do
       expect(outcome.errors[:inbox]).to be_present
     end
 
-    it 'requires unique conversations per assistant and account' do
-      existing = create(:conversation_outcome)
+    it 'allows a later episode on the same conversation' do
+      existing = create(:conversation_outcome, started_at: 1.hour.ago, ended_at: 30.minutes.ago)
+      second_episode = build(
+        :conversation_outcome,
+        account: existing.account,
+        assistant: existing.assistant,
+        conversation: existing.conversation,
+        inbox: existing.inbox,
+        episode_trigger: 'reopen',
+        started_at: 30.minutes.ago
+      )
+
+      expect(second_episode).to be_valid
+    end
+
+    it 'rejects a duplicate boundary on the same conversation' do
+      existing = create(:conversation_outcome, started_at: 1.hour.ago)
       duplicate = build(
         :conversation_outcome,
         account: existing.account,
         assistant: existing.assistant,
         conversation: existing.conversation,
-        inbox: existing.inbox
+        inbox: existing.inbox,
+        started_at: existing.started_at
       )
 
       expect(duplicate).not_to be_valid
-      expect(duplicate.errors[:conversation_id]).to be_present
+      expect(duplicate.errors[:started_at]).to be_present
     end
   end
 

@@ -182,3 +182,5 @@ class Channel::Whatsapp < ApplicationRecord
     provider == 'whatsapp_cloud' && explicitly_configured_sources.exclude?(provider_config['source'])
   end
 end
+
+Channel::Whatsapp.prepend_mod_with('Channel::Whatsapp')

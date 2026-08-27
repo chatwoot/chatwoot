@@ -17,16 +17,21 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   end
 
   def message_templates
-    return render status: :unprocessable_entity, json: { error: 'Message templates are only available for WhatsApp channels' } unless @inbox.whatsapp?
+    unless whatsapp_channel?
+      return render status: :unprocessable_entity, json: { error: 'Message templates are only available for WhatsApp channels' }
+    end
 
-    templates = @inbox.channel.message_templates.presence || []
-    templates = templates.select { |template| template['name'] == params[:name] } if params[:name].present?
+    templates, last_sync_attempt_at, name_key = message_template_data
+    templates = templates.select { |template| template[name_key] == params[:name] } if params[:name].present?
 
-    render json: { payload: templates }
+    render json: {
+      payload: templates,
+      meta: { last_sync_attempt_at: last_sync_attempt_at }
+    }
   end
 
   def health
-    health_data = Whatsapp::HealthService.new(@inbox.channel).sync_health_status!
+    health_data = Whatsapp::HealthService.new(@inbox.channel).sync_health_status!(include_business_profile: true)
     render json: health_data
   rescue Whatsapp::HealthService::ApiError => e
     Rails.logger.error "[INBOX HEALTH] Error fetching health data: #{e.message}"
@@ -78,6 +83,12 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
 
   def whatsapp_channel?
     @inbox.whatsapp? || (@inbox.twilio? && @inbox.channel.whatsapp?)
+  end
+
+  def message_template_data
+    return [@inbox.channel.message_templates.presence || [], @inbox.channel.message_templates_last_updated, 'name'] unless @inbox.twilio_whatsapp?
+
+    [@inbox.channel.content_templates&.dig('templates') || [], @inbox.channel.content_templates_last_updated, 'friendly_name']
   end
 
   def trigger_template_sync
