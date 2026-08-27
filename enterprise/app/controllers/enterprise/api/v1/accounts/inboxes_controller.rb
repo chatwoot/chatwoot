@@ -36,9 +36,10 @@ module Enterprise::Api::V1::Accounts::InboxesController
   def set_call_recording
     return unless ensure_calling_supported
 
+    was_recording = @inbox.channel.recording_enabled?
     flags = params.permit(:recording_enabled, :transcription_enabled).to_h
     save_call_flags!(flags.transform_values { |value| ActiveModel::Type::Boolean.new.cast(value) })
-    Voice::RecordingSettingChangeService.new(inbox: @inbox).perform if flags.key?('recording_enabled')
+    Voice::RecordingSettingChangeService.new(inbox: @inbox).perform if @inbox.channel.recording_enabled? != was_recording
     head :ok
   rescue StandardError => e
     render_could_not_create_error(e.message)

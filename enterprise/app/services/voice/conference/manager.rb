@@ -7,7 +7,7 @@ class Voice::Conference::Manager
     case event
     when 'start'
       mark_ringing!
-      stop_recording_if_disabled!
+      reconcile_recording!
     when 'join'
       join_agent! if agent_participant?
     when 'leave'
@@ -23,12 +23,16 @@ class Voice::Conference::Manager
     @status_manager ||= Voice::CallStatus::Manager.new(call: call)
   end
 
-  # Twilio takes conference attributes from the first participant, so a contact leg answered with
-  # record-from-start keeps recording after a toggle-off unless we stop it once the conference exists.
-  def stop_recording_if_disabled!
-    return if call.inbox.channel.recording_enabled?
+  # The contact leg's TwiML fixed the conference's recording mode before an admin may have flipped the
+  # inbox flag; now that the conference exists, bring the live recording in line with the flag.
+  def reconcile_recording!
+    enabled = call.inbox.channel.recording_enabled?
+    return if enabled == (call.recording_started != false) # legacy calls predate the flag and recorded from start
 
-    Voice::Provider::Twilio::ConferenceService.new(call: call).stop_recording
+    service = Voice::Provider::Twilio::ConferenceService.new(call: call)
+    enabled ? service.start_recording : service.stop_recording
+  rescue Twilio::REST::RestError => e
+    Rails.logger.warn("TWILIO_VOICE_RECONCILE_RECORDING_FAILED call=#{call.id} #{e.message}")
   end
 
   def mark_ringing!

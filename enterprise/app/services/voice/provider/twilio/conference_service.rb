@@ -23,17 +23,34 @@ class Voice::Provider::Twilio::ConferenceService
       .each { |conf| client.conferences(conf.sid).update(status: 'completed') }
   end
 
-  # Stops Twilio's live recording of this call's conference; a 404 means nothing was recording.
+  # Twilio can't start a conference recording over REST, so record the contact's leg instead —
+  # both tracks of that leg are the whole conversation.
+  def start_recording
+    channel = call.inbox.channel
+    channel.client.calls(call.provider_call_id).recordings.create(
+      recording_status_callback: channel.voice_recording_status_webhook_url,
+      recording_status_callback_event: ['completed'],
+      recording_status_callback_method: 'POST'
+    )
+    call.update!(recording_started: true)
+  end
+
+  # Stops whichever recording is live: the conference's (TwiML record-from-start) or the contact leg's (start_recording).
   def stop_recording
     client = call.inbox.channel.client
-    twilio_conference_sids(client).each do |sid|
-      client.conferences(sid).recordings('Twilio.CURRENT').update(status: 'stopped')
-    rescue Twilio::REST::RestError => e
-      raise unless e.status_code == 404
-    end
+    twilio_conference_sids(client).each { |sid| stop_current_recording(client.conferences(sid)) }
+    stop_current_recording(client.calls(call.provider_call_id))
+    call.update!(recording_started: false)
   end
 
   private
+
+  # A 404 means that resource has no recording in progress.
+  def stop_current_recording(resource)
+    resource.recordings('Twilio.CURRENT').update(status: 'stopped')
+  rescue Twilio::REST::RestError => e
+    raise unless e.status_code == 404
+  end
 
   # Twilio's SID is only persisted by the first conference callback; before that, resolve it by our FriendlyName.
   def twilio_conference_sids(client)

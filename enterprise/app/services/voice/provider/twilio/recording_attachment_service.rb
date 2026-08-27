@@ -5,8 +5,7 @@ class Voice::Provider::Twilio::RecordingAttachmentService
   pattr_initialize [:call!, :recording_sid!, :recording_url!, { recording_duration: nil }]
 
   def perform
-    return if recording_sid.blank? || recording_url.blank?
-    return if already_attached?
+    return unless storable?
 
     SafeFetch.fetch(
       recording_url,
@@ -26,6 +25,11 @@ class Voice::Provider::Twilio::RecordingAttachmentService
   end
 
   private
+
+  # Checked before the download so a disabled inbox never pulls audio; rechecked under the lock when persisting.
+  def storable?
+    recording_sid.present? && recording_url.present? && channel.recording_enabled? && !already_attached?
+  end
 
   def persist_recording!(result)
     call.with_lock do

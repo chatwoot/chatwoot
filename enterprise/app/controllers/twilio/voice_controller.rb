@@ -139,6 +139,8 @@ class Twilio::VoiceController < ApplicationController
 
   def conference_twiml(call)
     conference_sid = ensure_conference_sid!(call)
+    # Twilio takes conference attributes from the first participant, so the first leg's mode is the one that applies.
+    call.update!(recording_started: inbox_channel.recording_enabled?) if call.recording_started.nil?
 
     Twilio::TwiML::VoiceResponse.new.tap do |response|
       response.dial do |dial|
@@ -147,7 +149,7 @@ class Twilio::VoiceController < ApplicationController
           start_conference_on_enter: agent_leg?(twilio_from),
           end_conference_on_exit: false,
           record: inbox_channel.recording_enabled? ? 'record-from-start' : 'do-not-record',
-          recording_status_callback: recording_status_callback_url,
+          recording_status_callback: inbox_channel.voice_recording_status_webhook_url,
           recording_status_callback_event: 'completed',
           recording_status_callback_method: 'POST',
           status_callback: conference_status_callback_url,
@@ -175,11 +177,6 @@ class Twilio::VoiceController < ApplicationController
   def conference_status_callback_url
     phone_digits = inbox_channel.phone_number.delete_prefix('+')
     Rails.application.routes.url_helpers.twilio_voice_conference_status_url(phone: phone_digits)
-  end
-
-  def recording_status_callback_url
-    phone_digits = inbox_channel.phone_number.delete_prefix('+')
-    Rails.application.routes.url_helpers.twilio_voice_recording_status_url(phone: phone_digits)
   end
 
   def find_call_for_conference!(friendly_name, call_sid)

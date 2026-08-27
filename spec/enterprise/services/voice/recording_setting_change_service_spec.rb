@@ -5,9 +5,10 @@ RSpec.describe Voice::RecordingSettingChangeService do
   let(:channel) { create(:channel_twilio_sms, :with_voice, account: account, phone_number: '+15551238888') }
   let(:inbox) { channel.inbox }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
-  let(:conference_service) { instance_double(Voice::Provider::Twilio::ConferenceService, stop_recording: true) }
+  let(:conference_service) { instance_double(Voice::Provider::Twilio::ConferenceService, start_recording: true, stop_recording: true) }
   let!(:live_call) do
-    create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact, status: 'in_progress')
+    create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
+                  status: 'in_progress', recording_started: true)
   end
 
   before do
@@ -16,10 +17,10 @@ RSpec.describe Voice::RecordingSettingChangeService do
     allow(Voice::Provider::Twilio::ConferenceService).to receive(:new).and_return(conference_service)
     allow(ActionCable.server).to receive(:broadcast)
     create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
-                  status: 'completed', provider_call_id: 'CA_done')
+                  status: 'ringing', provider_call_id: 'CA_ringing', recording_started: true)
   end
 
-  it 'stops recording on every active Twilio call when recording is turned off' do
+  it 'stops recording on calls in progress and broadcasts when recording is turned off' do
     channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
 
     described_class.new(inbox: inbox).perform
@@ -32,12 +33,21 @@ RSpec.describe Voice::RecordingSettingChangeService do
     )
   end
 
-  it 'only broadcasts when recording is turned on' do
+  it 'starts recording on calls in progress that are not recording when recording is turned on' do
+    live_call.update!(recording_started: false)
+
     described_class.new(inbox: inbox).perform
 
-    expect(Voice::Provider::Twilio::ConferenceService).not_to have_received(:new)
+    expect(Voice::Provider::Twilio::ConferenceService).to have_received(:new).with(call: live_call).once
+    expect(conference_service).to have_received(:start_recording).once
     expect(ActionCable.server).to have_received(:broadcast).with(
       "account_#{account.id}", hash_including(data: hash_including(recording_enabled: true))
     )
+  end
+
+  it 'leaves calls whose recording already matches the setting alone' do
+    described_class.new(inbox: inbox).perform
+
+    expect(Voice::Provider::Twilio::ConferenceService).not_to have_received(:new)
   end
 end
