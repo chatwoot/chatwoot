@@ -33,8 +33,9 @@ const isInitiatingOutboundReadonly = readonly(isInitiatingOutbound);
 // answers, and we don't want pre-pickup audio in the recording. This flag is
 // flipped to true by armOutboundRecorder() when the ACCEPTED status arrives.
 let recorderArmed = false;
-// Inbox-level "Record calls" flag, taken from the server for the current call
-// (accept: inbox in the store; outbound: the /initiate response).
+// Inbox-level "Record calls" flag, carried on the call payload itself
+// (inbound: voice_call.incoming / GET show; outbound: the /initiate response)
+// so a stale inbox cache can never start a recording.
 let inboxRecordingEnabled = true;
 
 const ensureRemoteAudioElement = () => {
@@ -268,17 +269,20 @@ export function useWhatsappCallSession() {
     callId,
     sdpOffer,
     iceServers,
-    recordingEnabled = true,
+    recordingEnabled,
   }) => {
-    // The store may not have sdpOffer yet (the cable broadcast can race the
-    // click). Fall back to GET /whatsapp_calls/:id which exposes it.
+    // The store may not have sdpOffer / recordingEnabled yet (the cable
+    // broadcast can race the click, or the store was seeded from a message on
+    // reload). Fall back to GET /whatsapp_calls/:id which exposes both.
     let offer = sdpOffer;
     let ice = iceServers;
-    if (!offer && callId) {
+    let canRecord = recordingEnabled;
+    if ((!offer || canRecord === undefined) && callId) {
       try {
         const fresh = await WhatsappCallsAPI.show(callId);
-        offer = fresh?.sdp_offer || fresh?.sdpOffer;
+        offer = offer || fresh?.sdp_offer || fresh?.sdpOffer;
         ice = ice || fresh?.ice_servers || fresh?.iceServers;
+        if (canRecord === undefined) canRecord = fresh?.recording_enabled;
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error(
@@ -298,7 +302,7 @@ export function useWhatsappCallSession() {
     try {
       const sdpAnswer = await prepareInboundAnswer(offer, ice);
       activeCallId = callId;
-      inboxRecordingEnabled = recordingEnabled;
+      inboxRecordingEnabled = canRecord !== false;
       // Inbound: agent's click is the pickup. Arm the recorder before the API
       // round-trip so when ontrack fires (triggered by setRemoteDescription
       // back in prepareInboundAnswer) the recorder is already authorized.

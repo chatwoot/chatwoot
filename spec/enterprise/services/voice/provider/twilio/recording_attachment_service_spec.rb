@@ -115,13 +115,6 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
       expect { perform_service }.to have_enqueued_job(Voice::CallTranscriptionJob).with(call.id)
     end
 
-    it 'does not enqueue transcription when the inbox has transcription turned off' do
-      channel.update!(provider_config: channel.provider_config.merge('transcription_enabled' => false))
-
-      expect { perform_service }.not_to have_enqueued_job(Voice::CallTranscriptionJob)
-      expect(call.reload.recording).to be_attached
-    end
-
     it 'does not enqueue transcription when another invocation already stored the recording' do
       perform_service
 

@@ -375,6 +375,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       provider: VOICE_CALL_PROVIDERS.WHATSAPP,
       sdpOffer: data.sdp_offer,
       iceServers: data.ice_servers,
+      recordingEnabled: data.recording_enabled,
       caller: data.caller,
     });
   };

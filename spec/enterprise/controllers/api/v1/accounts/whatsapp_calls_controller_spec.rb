@@ -32,6 +32,7 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(body['id']).to eq(call.id)
       expect(body['call_id']).to eq('wacid_abc')
       expect(body['provider']).to eq('whatsapp')
+      expect(body['recording_enabled']).to be true
     end
 
     it 'returns 401 when unauthenticated' do
