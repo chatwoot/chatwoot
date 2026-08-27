@@ -1147,7 +1147,23 @@
       "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
+        "DOWNLOAD_TOOL": "Download YAML",
         "DELETE_TOOL": "Delete tool"
+      },
+      "IMPORT": {
+        "BUTTON": "Import YAML",
+        "TITLE": "Import toolset",
+        "DESCRIPTION": "Upload a Captain toolset and provide the configuration it requires.",
+        "FILE_LABEL": "Toolset file",
+        "FILE_HINT": "Choose a .yml or .yaml file up to 256 KB.",
+        "PREVIEWING": "Checking toolset…",
+        "TOOLS_LABEL": "Tools to import",
+        "CONFIRM": "Import tools",
+        "SUCCESS_MESSAGE": "Imported {count} tool successfully | Imported {count} tools successfully",
+        "ERROR_MESSAGE": "Could not import this toolset"
+      },
+      "EXPORT": {
+        "ERROR_MESSAGE": "Could not download this tool"
       },
       "CREATE": {
         "TITLE": "Create Custom Tool",

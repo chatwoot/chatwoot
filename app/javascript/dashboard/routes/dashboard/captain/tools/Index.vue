@@ -3,6 +3,10 @@ import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { usePolicy } from 'dashboard/composables/usePolicy';
+import { useAlert } from 'dashboard/composables';
+import { useI18n } from 'vue-i18n';
+import CustomToolsAPI from 'dashboard/api/captain/customTools';
+import { downloadFile } from 'dashboard/helper/downloadHelper';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
@@ -10,8 +14,12 @@ import CustomToolsPageEmptyState from 'dashboard/components-next/captain/pageCom
 import CreateCustomToolDialog from 'dashboard/components-next/captain/pageComponents/customTool/CreateCustomToolDialog.vue';
 import CustomToolCard from 'dashboard/components-next/captain/pageComponents/customTool/CustomToolCard.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
+import ImportToolsetDialog from 'dashboard/components-next/captain/pageComponents/customTool/ImportToolsetDialog.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import Policy from 'dashboard/components/policy.vue';
 
 const store = useStore();
+const { t } = useI18n();
 const { isFeatureFlagEnabled, shouldShowPaywall } = usePolicy();
 
 const SOFT_LIMIT = 10;
@@ -28,6 +36,7 @@ const showSoftLimitWarning = computed(
 
 const createDialogRef = ref(null);
 const deleteDialogRef = ref(null);
+const importDialogRef = ref(null);
 const selectedTool = ref(null);
 const dialogType = ref('');
 
@@ -54,10 +63,23 @@ const handleDelete = tool => {
   nextTick(() => deleteDialogRef.value.dialogRef.open());
 };
 
+const handleDownload = async tool => {
+  try {
+    const { data } = await CustomToolsAPI.exportToolset(tool.id);
+    downloadFile(`${tool.slug}.yml`, data, 'application/yaml');
+  } catch {
+    useAlert(t('CAPTAIN.CUSTOM_TOOLS.EXPORT.ERROR_MESSAGE'));
+  }
+};
+
+const openImportDialog = () => importDialogRef.value.dialogRef.open();
+
 const handleAction = ({ action, id }) => {
-  const tool = customTools.value.find(t => t.id === id);
+  const tool = customTools.value.find(item => item.id === id);
   if (action === 'edit') {
     handleEdit(tool);
+  } else if (action === 'download') {
+    handleDownload(tool);
   } else if (action === 'delete') {
     handleDelete(tool);
   }
@@ -102,6 +124,21 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="openCreateDialog"
   >
+    <template #headerActions>
+      <Policy
+        v-if="!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)"
+        :permissions="['administrator']"
+      >
+        <Button
+          variant="faded"
+          color="slate"
+          size="sm"
+          icon="i-lucide-upload"
+          :label="$t('CAPTAIN.CUSTOM_TOOLS.IMPORT.BUTTON')"
+          @click="openImportDialog"
+        />
+      </Policy>
+    </template>
     <template #paywall>
       <CaptainPaywall feature-prefix="CAPTAIN.CUSTOM_TOOLS" />
     </template>
@@ -154,4 +191,6 @@ onMounted(() => {
     translation-key="CUSTOM_TOOLS"
     @delete-success="onDeleteSuccess"
   />
+
+  <ImportToolsetDialog ref="importDialogRef" @imported="fetchCustomTools()" />
 </template>
