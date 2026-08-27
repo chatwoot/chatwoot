@@ -7,6 +7,7 @@ class Voice::Conference::Manager
     case event
     when 'start'
       mark_ringing!
+      stop_recording_if_disabled!
     when 'join'
       join_agent! if agent_participant?
     when 'leave'
@@ -20,6 +21,14 @@ class Voice::Conference::Manager
 
   def status_manager
     @status_manager ||= Voice::CallStatus::Manager.new(call: call)
+  end
+
+  # Twilio takes conference attributes from the first participant, so a contact leg answered with
+  # record-from-start keeps recording after a toggle-off unless we stop it once the conference exists.
+  def stop_recording_if_disabled!
+    return if call.inbox.channel.recording_enabled?
+
+    Voice::Provider::Twilio::ConferenceService.new(call: call).stop_recording
   end
 
   def mark_ringing!

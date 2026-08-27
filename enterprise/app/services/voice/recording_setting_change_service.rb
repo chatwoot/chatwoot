@@ -20,11 +20,8 @@ class Voice::RecordingSettingChangeService
 
   # The recording callback already refuses to store audio; this stops Twilio capturing it in the first place.
   def stop_twilio_recordings
-    client = inbox.channel.client
-    Call.twilio.where(inbox: inbox, status: 'in_progress').find_each do |call|
-      next if call.twilio_conference_sid.blank?
-
-      client.conferences(call.twilio_conference_sid).recordings('Twilio.CURRENT').update(status: 'stopped')
+    Call.twilio.active.where(inbox: inbox).find_each do |call|
+      Voice::Provider::Twilio::ConferenceService.new(call: call).stop_recording
     rescue Twilio::REST::RestError => e
       Rails.logger.warn("TWILIO_VOICE_STOP_RECORDING_FAILED call=#{call.id} #{e.message}")
     end

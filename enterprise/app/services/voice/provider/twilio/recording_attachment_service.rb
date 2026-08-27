@@ -5,7 +5,8 @@ class Voice::Provider::Twilio::RecordingAttachmentService
   pattr_initialize [:call!, :recording_sid!, :recording_url!, { recording_duration: nil }]
 
   def perform
-    return unless storable?
+    return if recording_sid.blank? || recording_url.blank?
+    return if already_attached?
 
     SafeFetch.fetch(
       recording_url,
@@ -26,14 +27,11 @@ class Voice::Provider::Twilio::RecordingAttachmentService
 
   private
 
-  # The inbox flag is read at callback time, so a recording switched off mid-call is never stored.
-  def storable?
-    recording_sid.present? && recording_url.present? && channel.recording_enabled? && !already_attached?
-  end
-
   def persist_recording!(result)
     call.with_lock do
       next if already_attached?
+      # Re-read under the lock so a toggle-off during the download still wins.
+      next unless channel.reload.recording_enabled?
 
       attach_recording!(result)
       call.recording_sid = recording_sid

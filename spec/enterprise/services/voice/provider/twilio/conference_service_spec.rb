@@ -78,4 +78,40 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(twilio_client).not_to have_received(:conferences)
     end
   end
+
+  describe '#stop_recording' do
+    let(:recording_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::RecordingContext, update: true) }
+    let(:conf_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext, recordings: recording_context) }
+
+    it 'stops the current recording using the persisted Twilio conference sid' do
+      call.update!(twilio_conference_sid: 'CF_live')
+      allow(twilio_client).to receive(:conferences).with('CF_live').and_return(conf_context)
+
+      service.stop_recording
+
+      expect(conf_context).to have_received(:recordings).with('Twilio.CURRENT')
+      expect(recording_context).to have_received(:update).with(status: 'stopped')
+    end
+
+    it 'resolves the conference by friendly name when the Twilio sid is not persisted yet' do
+      call.update!(conference_sid: 'CF123_FRIENDLY')
+      conferences_proxy = instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceList)
+      conf_instance = instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceInstance, sid: 'CF_found')
+      allow(twilio_client).to receive(:conferences).with(no_args).and_return(conferences_proxy)
+      allow(conferences_proxy).to receive(:list).with(friendly_name: 'CF123_FRIENDLY', status: 'in-progress').and_return([conf_instance])
+      allow(twilio_client).to receive(:conferences).with('CF_found').and_return(conf_context)
+
+      service.stop_recording
+
+      expect(recording_context).to have_received(:update).with(status: 'stopped')
+    end
+
+    it 'ignores a 404 when nothing is being recorded' do
+      call.update!(twilio_conference_sid: 'CF_live')
+      allow(twilio_client).to receive(:conferences).with('CF_live').and_return(conf_context)
+      allow(recording_context).to receive(:update).and_raise(Twilio::REST::RestError.new('not found', OpenStruct.new(status_code: 404, body: {})))
+
+      expect { service.stop_recording }.not_to raise_error
+    end
+  end
 end
