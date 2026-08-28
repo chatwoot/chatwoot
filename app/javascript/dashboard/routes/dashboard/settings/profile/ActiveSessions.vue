@@ -1,9 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { formatDistanceToNow, parseISO } from 'date-fns';
+import { formatDistanceToNow, getUnixTime, parseISO } from 'date-fns';
 import { useAlert } from 'dashboard/composables';
 import authAPI from 'dashboard/api/auth';
+import { exactTimestamp } from 'shared/helpers/timeHelper';
 import AnalyticsHelper from 'dashboard/helper/AnalyticsHelper';
 import { SESSION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -17,6 +18,9 @@ const relativeTime = dateStr => {
   if (!dateStr) return '';
   return formatDistanceToNow(parseISO(dateStr), { addSuffix: true });
 };
+
+const exactTime = dateStr =>
+  dateStr ? exactTimestamp(getUnixTime(parseISO(dateStr))) : '';
 
 const isUnknown = val => !val || val === 'Unknown' || val === 'Unknown Browser';
 
@@ -116,6 +120,10 @@ onMounted(fetchSessions);
           </span>
           <span
             v-if="session.last_activity_at"
+            v-tooltip.top="{
+              content: exactTime(session.last_activity_at),
+              delay: { show: 500, hide: 0 },
+            }"
             class="text-body-b3 text-n-slate-10"
           >
             {{ $t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.LAST_ACTIVE') }}

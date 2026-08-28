@@ -80,8 +80,10 @@ RSpec.describe AppliedSla, type: :model do
       blocked_applied_sla.conversation.contact.update!(blocked: true)
       missing_contact_applied_sla.conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
 
-      expect(described_class.with_sla_applicable_conversation).to include(applied_sla, missing_contact_applied_sla)
-      expect(described_class.with_sla_applicable_conversation).not_to include(blocked_applied_sla)
+      applicable_sla_ids = described_class.with_sla_applicable_conversation.ids
+
+      expect(applicable_sla_ids).to include(applied_sla.id, missing_contact_applied_sla.id)
+      expect(applicable_sla_ids).not_to include(blocked_applied_sla.id)
     end
   end
 

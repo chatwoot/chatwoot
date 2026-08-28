@@ -18,8 +18,8 @@
       "AND": "ET",
       "OR": "OU"
     },
-    "INPUT_PLACEHOLDER": "Enter value",
-    "CONTACT_SEARCH_PLACEHOLDER": "Search contacts",
+    "INPUT_PLACEHOLDER": "Entrez une valeur",
+    "CONTACT_SEARCH_PLACEHOLDER": "Rechercher des contacts",
     "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "Égal à",
@@ -69,9 +69,9 @@
     },
     "ERRORS": {
       "VALUE_REQUIRED": "La valeur est requise",
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+      "ATTRIBUTE_KEY_REQUIRED": "La clé d'attribut est requise",
+      "FILTER_OPERATOR_REQUIRED": "L'opérateur de filtre est requis",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "La valeur doit être comprise entre 1 et 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtres standards",

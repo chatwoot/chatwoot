@@ -1,14 +1,6 @@
 module Enterprise::Conversation
   attr_accessor :captain_activity_reason, :captain_activity_reason_type
 
-  def dispatch_captain_inference_resolved_event
-    dispatch_captain_inference_event(Events::Types::CONVERSATION_CAPTAIN_INFERENCE_RESOLVED)
-  end
-
-  def dispatch_captain_inference_handoff_event
-    dispatch_captain_inference_event(Events::Types::CONVERSATION_CAPTAIN_INFERENCE_HANDOFF)
-  end
-
   def list_of_keys
     super + %w[sla_policy_id]
   end
@@ -33,6 +25,15 @@ module Enterprise::Conversation
 
   private
 
+  def determine_conversation_status
+    super
+    return unless pending?
+    return if inbox.external_bot_active?
+
+    assistant = inbox.captain_assistant
+    self.status = :open if assistant.present? && !assistant.engages?(contact, self)
+  end
+
   def handle_resolved_status_change
     super
     update_applied_sla_completion
@@ -48,10 +49,6 @@ module Enterprise::Conversation
     return if terminal_sla && (!resolved? || current_applied_sla.completed_at.present?)
 
     current_applied_sla.update!(completed_at: resolved? ? Time.current : nil)
-  end
-
-  def dispatch_captain_inference_event(event_name)
-    dispatcher_dispatch(event_name)
   end
 
   def call_attributes_changed?

@@ -36,8 +36,7 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
 
     context 'when transcription is successful' do
       before do
-        # Mock can_transcribe? to return true and transcribe_audio method
-        allow(service).to receive(:can_transcribe?).and_return(true)
+        allow(Llm::SpeechToTextService).to receive(:available_for?).and_return(true)
         allow(service).to receive(:transcribe_audio).and_return('Hello world transcription')
       end
 
@@ -61,7 +60,7 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
     context 'when attachment already has transcribed text' do
       before do
         attachment.update!(meta: { transcribed_text: 'Existing transcription' })
-        allow(service).to receive(:can_transcribe?).and_return(true)
+        allow(Llm::SpeechToTextService).to receive(:available_for?).and_return(true)
       end
 
       it 'returns existing transcription without calling API' do
@@ -70,66 +69,21 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
       end
     end
 
-    context 'when the audio exceeds Whisper byte limit' do
+    context 'when the audio exceeds the transcription byte limit' do
       before do
         attachment.file.attach(
           io: File.open(Rails.public_path.join('audio/widget/ding.mp3')),
           filename: 'large.mp3',
           content_type: 'audio/mpeg'
         )
-        allow(service).to receive(:can_transcribe?).and_return(true)
-        allow(attachment.file.blob).to receive(:byte_size).and_return(described_class::TRANSCRIPTION_BYTE_LIMIT + 1)
+        allow(Llm::SpeechToTextService).to receive(:available_for?).and_return(true)
+        allow(attachment.file.blob).to receive(:byte_size).and_return(Llm::SpeechToTextService::BYTE_LIMIT + 1)
       end
 
-      it 'returns an error without calling Whisper' do
+      it 'returns an error without transcribing' do
         expect(service).not_to receive(:transcribe_audio)
-        expect(service.perform).to eq({ error: 'Audio too large for Whisper' })
+        expect(service.perform).to eq({ error: 'Audio too large for transcription' })
       end
-    end
-  end
-
-  describe '#fetch_audio_file' do
-    let(:service) { described_class.new(attachment) }
-
-    before do
-      attachment.file.attach(
-        io: File.open(Rails.public_path.join('audio/widget/ding.mp3')),
-        filename: 'speech',
-        content_type: 'audio/mpeg'
-      )
-    end
-
-    it 'adds extension from content type when filename has no extension' do
-      temp_file_path = service.send(:fetch_audio_file)
-
-      expect(File.extname(temp_file_path)).to eq('.mpeg')
-    ensure
-      FileUtils.rm_f(temp_file_path) if temp_file_path.present?
-    end
-  end
-
-  describe '#transcribe_audio' do
-    let(:service) { described_class.new(attachment) }
-    let(:audio_api) { double('audio_api') } # rubocop:disable RSpec/VerifiedDoubles
-    let(:audio_file_path) { Rails.root.join('tmp/audio_transcription_service_spec.mp3').to_s }
-
-    before do
-      File.binwrite(audio_file_path, 'audio')
-      allow(service).to receive(:fetch_audio_file).and_return(audio_file_path)
-      allow(service).to receive(:update_transcription)
-      allow(service.client).to receive(:audio).and_return(audio_api)
-    end
-
-    after do
-      FileUtils.rm_f(audio_file_path)
-    end
-
-    it 'uses the audio transcription feature model' do
-      expect(audio_api).to receive(:transcribe).with(
-        parameters: hash_including(model: 'gpt-4o-mini-transcribe', temperature: 0.0)
-      ).and_return({ 'text' => 'Audio transcript' })
-
-      expect(service.send(:transcribe_audio)).to eq('Audio transcript')
     end
   end
 end

@@ -6,20 +6,17 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { useAccount } from 'dashboard/composables/useAccount';
-import {
-  IS_META_INBOX_CREATION_DISABLED,
-  META_RESTRICTION_STATUS_URL,
-} from 'dashboard/constants/globals';
+import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 
 const { t } = useI18n();
-const { isOnChatwootCloud } = useAccount();
+const { isMetaInboxCreationDisabled } = useAccount();
 
 const hasError = ref(false);
 const errorStateMessage = ref('');
 const errorStateDescription = ref('');
 const isRequestingAuthorization = ref(false);
 const isInstagramConnectionDisabled = computed(
-  () => isOnChatwootCloud.value && IS_META_INBOX_CREATION_DISABLED
+  () => isMetaInboxCreationDisabled.value
 );
 
 onMounted(() => {

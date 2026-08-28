@@ -1,0 +1,45 @@
+{
+  "CALLS_PAGE": {
+    "HEADER": "Llamadas",
+    "ALL_CALLS": "Todas las llamadas",
+    "ALL_CALLS_COUNT": "Todas las llamadas ({count})",
+    "EMPTY_STATE": "No se encontraron llamadas",
+    "SETUP": {
+      "TITLE": "Haz y recibe llamadas en un solo lugar",
+      "SUBTITLE": "Configura un canal de voz para empezar a gestionar llamadas con tu equipo. Todas las llamadas, junto con sus grabaciones, aparecerán aquí.",
+      "ACTION": "Configurar canal de voz"
+    },
+    "FILTERS": {
+      "MISSED": "Perdidas",
+      "NO_REPLY": "Sin respuesta",
+      "OTHER_ACTIVITY": "Otra actividad",
+      "INCOMING": "Entrantes",
+      "OUTGOING": "Salientes",
+      "IN_PROGRESS": "En curso",
+      "ASSIGNEE": "Responsable",
+      "ALL_ASSIGNEES": "Todos los responsables",
+      "MORE_FILTERS": "Más filtros",
+      "INBOX": "Bandeja de entrada",
+      "ALL_INBOXES": "Todas las bandejas"
+    },
+    "STATUS": {
+      "ONGOING": "En Curso",
+      "INCOMING": "Entrante",
+      "OUTGOING": "Saliente",
+      "MISSED": "Perdida",
+      "NO_REPLY": "Sin respuesta",
+      "FAILED": "Fallida"
+    },
+    "ROW": {
+      "PICKED_BY": "Atendida por",
+      "DIALED_BY": "Marcada por",
+      "ANSWERED": "Respondida",
+      "RINGING": "Sonando",
+      "IN_PROGRESS": "En progreso",
+      "NO_AGENT": "Ningún agente respondió esta llamada",
+      "NO_CONTACT_ANSWER": "El contacto no respondió",
+      "FAILED": "La llamada no se ha podido conectar",
+      "YESTERDAY": "Ayer"
+    }
+  }
+}
