@@ -115,11 +115,6 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       end
     end
 
-    it 'increments response usage on successful execution' do
-      expect(account).to receive(:increment_response_usage)
-      service.perform
-    end
-
     context 'when result has an error' do
       let(:perform_result) { { error: 'API Error' } }
 
@@ -178,8 +173,10 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       end
 
       it 'still increments usage for services that do not opt into BYOK' do
-        expect(account).to receive(:increment_response_usage)
-        service.perform
+        expect do
+          service.perform
+          account.reload
+        end.to change { account.custom_attributes['captain_responses_usage'].to_i }.by(1)
       end
 
       context 'when the captain_responses quota is exhausted on Cloud' do
@@ -280,8 +277,10 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       end
 
       it 'increments usage' do
-        expect(account).to receive(:increment_response_usage)
-        service.perform
+        expect do
+          service.perform
+          account.reload
+        end.to change { account.custom_attributes['captain_responses_usage'].to_i }.by(1)
       end
     end
 
