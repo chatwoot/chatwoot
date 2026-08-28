@@ -31,13 +31,29 @@ class Voice::Conference::Manager
   def join_agent!
     user_id = extract_user_id
     return unless user_id
-    return if termination_pending?
+    return if defer_join_if_termination_pending!
 
     claim_for_user!(user_id)
     status_manager.process_status_update('in_progress', timestamp: now)
     return unless call.accepted_by_agent_id == user_id && mark_accepted_broadcast!
 
     call.broadcast_voice_call_event(:accepted, accepted_by_agent_id: call.accepted_by_agent_id)
+  end
+
+  def defer_join_if_termination_pending!
+    deferred = false
+    call.with_lock do
+      Voice::CallTerminationGuard.clear_stale!(call)
+      next unless Voice::CallTerminationGuard.active?(call)
+
+      Voice::CallTerminationGuard.persist_pending_join!(
+        call,
+        participant_label: participant_label,
+        participant_call_sid: participant_call_sid
+      )
+      deferred = true
+    end
+    deferred
   end
 
   def claim_for_user!(user_id)
@@ -94,10 +110,6 @@ class Voice::Conference::Manager
     return if Call::TERMINAL_STATUSES.include?(call.status)
 
     status_manager.process_status_update('completed', timestamp: now)
-  end
-
-  def termination_pending?
-    call.with_lock { termination_pending_locked? }
   end
 
   def termination_pending_locked?
