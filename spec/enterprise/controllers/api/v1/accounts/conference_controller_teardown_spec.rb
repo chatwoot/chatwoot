@@ -174,4 +174,38 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     expect(call.meta['agent_termination_token']).to be_nil
     expect(call.meta['agent_termination_pending_status']).to be_nil
   end
+
+  it 'does not clear deferred state created by a newer teardown while replaying' do
+    allow(conference_service).to receive(:end_provider_call) do
+      call = Call.find_by!(provider_call_id: 'CALL123')
+      Voice::CallTerminationGuard.persist_pending_status!(
+        call,
+        status: 'in_progress',
+        duration: nil,
+        timestamp: Time.zone.now.to_i
+      )
+      raise StandardError, 'provider teardown failed'
+    end
+
+    allow_any_instance_of(described_class).to receive(:replay_pending_status!).and_wrap_original do |method, call, pending|
+      call.with_lock do
+        call.update!(meta: Voice::CallTerminationGuard.claim_meta(call, token: 'new-owner'))
+        Voice::CallTerminationGuard.persist_pending_join!(
+          call,
+          participant_label: "agent-#{agent.id}-account-#{account.id}",
+          participant_call_sid: 'CA_NEW_OWNER'
+        )
+      end
+      method.call(call, pending)
+    end
+
+    delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+           headers: agent.create_new_auth_token,
+           params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+    expect(response).to have_http_status(:internal_server_error)
+    call = Call.find_by!(provider_call_id: 'CALL123')
+    expect(call.meta['agent_termination_token']).to eq('new-owner')
+    expect(call.meta.dig('agent_termination_pending_join', 'participant_call_sid')).to eq('CA_NEW_OWNER')
+  end
 end
