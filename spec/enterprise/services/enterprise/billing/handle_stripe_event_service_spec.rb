@@ -166,6 +166,33 @@ describe Enterprise::Billing::HandleStripeEventService do
     end
   end
 
+  context 'when a Stripe customer id belongs to a Shopify-billed account' do
+    let!(:account) do
+      create(
+        :account,
+        internal_attributes: { 'billing_provider' => 'shopify' },
+        custom_attributes: { 'stripe_customer_id' => 'cus_123' }
+      )
+    end
+
+    it 'ignores subscription updates' do
+      allow(subscription).to receive(:[]).with('plan')
+                                         .and_return({ 'id' => 'test', 'product' => 'plan_id_startups', 'name' => 'Startups' })
+      previous_attributes = account.custom_attributes.deep_dup
+
+      stripe_event_service.new.perform(event: event)
+
+      expect(account.reload.custom_attributes).to eq(previous_attributes)
+    end
+
+    it 'ignores subscription deletions' do
+      allow(event).to receive(:type).and_return('customer.subscription.deleted')
+      expect(Enterprise::Billing::CreateStripeCustomerService).not_to receive(:new)
+
+      stripe_event_service.new.perform(event: event)
+    end
+  end
+
   describe 'plan-specific feature management' do
     context 'with default plan (Hacker)' do
       it 'disables all premium features' do

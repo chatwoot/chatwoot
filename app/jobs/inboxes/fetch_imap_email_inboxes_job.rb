@@ -20,8 +20,13 @@ class Inboxes::FetchImapEmailInboxesJob < ApplicationJob
     return false if inbox.channel.reauthorization_required?
 
     return true unless ChatwootApp.chatwoot_cloud?
-    return false if default_plan?(inbox.account)
 
-    true
+    cloud_account_can_fetch_emails?(inbox.account)
+  end
+
+  def cloud_account_can_fetch_emails?(account)
+    !default_plan?(account)
   end
 end
+
+Inboxes::FetchImapEmailInboxesJob.prepend_mod_with('Inboxes::FetchImapEmailInboxesJob')

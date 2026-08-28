@@ -1,9 +1,12 @@
 class Enterprise::Api::V1::AccountsController < Api::BaseController
   include BillingHelper
+  STRIPE_ONLY_BILLING_ACTIONS = %i[checkout subscription select_billing_currency topup_checkout topup_options].freeze
+
   before_action :fetch_account
   before_action :validate_token_api_access, if: :authenticate_by_access_token?
   before_action :check_authorization
   before_action :check_cloud_env, only: [:limits, :toggle_deletion, :topup_options]
+  before_action :ensure_stripe_billing_action, only: STRIPE_ONLY_BILLING_ACTIONS
 
   def subscription
     return render json: currency_selection_payload if @account.billing_currency_selection_required?
@@ -25,7 +28,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def limits
-    limits = if default_plan?(@account)
+    limits = if @account.billing_provider == Account::DEFAULT_BILLING_PROVIDER && default_plan?(@account)
                {
                  'conversation' => {
                    'allowed' => 500,
@@ -89,6 +92,12 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   private
+
+  def ensure_stripe_billing_action
+    return if @account.billing_provider == Account::DEFAULT_BILLING_PROVIDER
+
+    render_could_not_create_error(I18n.t('errors.billing.provider_action_unavailable'))
+  end
 
   def validate_token_api_access
     return if @account.api_and_webhooks_enabled?
