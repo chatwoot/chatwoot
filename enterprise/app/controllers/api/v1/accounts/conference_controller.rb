@@ -118,12 +118,14 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
         pending_status = Voice::CallTerminationGuard.pending_status(call)
         pending_join = Voice::CallTerminationGuard.pending_join(call)
       end
-      released = Voice::CallTerminationGuard.release!(call, token, clear_pending: true)
+      released = Voice::CallTerminationGuard.release!(call, token, clear_pending: !replay_pending)
     end
     return unless released
 
     replay_pending_status!(call, pending_status)
+    clear_replayed_pending_status!(call, pending_status)
     replay_pending_join!(call, pending_join)
+    clear_replayed_pending_join!(call, pending_join)
   end
 
   def replay_pending_status!(call, pending)
@@ -136,6 +138,14 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     )
   end
 
+  def clear_replayed_pending_status!(call, pending)
+    return if pending.blank?
+
+    call.with_lock do
+      Voice::CallTerminationGuard.clear_pending_status_if_matches!(call, pending)
+    end
+  end
+
   def replay_pending_join!(call, pending)
     return if pending.blank?
 
@@ -145,6 +155,14 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
       participant_label: pending['participant_label'],
       participant_call_sid: pending['participant_call_sid']
     ).process
+  end
+
+  def clear_replayed_pending_join!(call, pending)
+    return if pending.blank?
+
+    call.with_lock do
+      Voice::CallTerminationGuard.clear_pending_join_if_matches!(call, pending)
+    end
   end
 
   def finalize_call!(call, termination)
