@@ -33,9 +33,6 @@ class Voice::Conference::Manager
     return unless user_id
     return if defer_join_if_termination_pending!
     return if claim_for_user!(user_id) == :deferred
-
-    status_manager.process_status_update('in_progress', timestamp: now)
-    return if defer_join_if_termination_pending!
     return unless call.accepted_by_agent_id == user_id && mark_accepted_broadcast!
 
     call.broadcast_voice_call_event(:accepted, accepted_by_agent_id: call.accepted_by_agent_id)
@@ -67,6 +64,7 @@ class Voice::Conference::Manager
       next if call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id
 
       call.update!(accepted_by_agent_id: user_id) if call.accepted_by_agent_id != user_id
+      status_manager.process_status_update('in_progress', timestamp: now)
       claimed = true
     end
 
