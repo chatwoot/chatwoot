@@ -44,7 +44,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     account.disable_features(*managed_plan_features)
     account.disable_features('captain_integration_v2') if default_plan?
     account.enable_features(*current_plan_features)
-    account.enable_features('captain_integration_v2') if captain_v2_default_eligible?
+    account.enable_features('captain_integration_v2') if captain_v2_enabled_by_default?
     account.enable_features(*manually_managed_features)
     update_shopify_managed_features
     account.save!
@@ -109,7 +109,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     @manually_managed_features ||= Internal::Accounts::InternalAttributesService.new(account).manually_managed_features
   end
 
-  def captain_v2_default_eligible?
-    !shopify_billing? && !default_plan? && account.internal_attributes[Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE] == true
+  def captain_v2_enabled_by_default?
+    !shopify_billing? && !default_plan?
   end
 end
