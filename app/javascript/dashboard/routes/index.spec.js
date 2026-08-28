@@ -41,6 +41,42 @@ describe('#validateAuthenticateRoutePermission', () => {
 
       expect(mockAssign).toHaveBeenCalledWith('/app/login');
     });
+
+    it('preserves Shopify App Pricing return parameters through login', () => {
+      const to = {
+        query: {
+          plan_handle: 'growth',
+          shop: 'store.myshopify.com',
+        },
+      };
+      store.getters.isLoggedIn = false;
+      const mockAssign = vi.fn();
+      delete window.location;
+      window.location = { assign: mockAssign };
+
+      validateAuthenticateRoutePermission(to, next);
+
+      expect(mockAssign).toHaveBeenCalledWith(
+        '/app/login?redirect_url=settings%2Fbilling%3Fplan_handle%3Dgrowth%26shop%3Dstore.myshopify.com'
+      );
+    });
+
+    it('preserves the target account for a Shopify reinstall through login', () => {
+      const to = {
+        params: { accountId: 42 },
+        query: { shop: 'store.myshopify.com' },
+      };
+      store.getters.isLoggedIn = false;
+      const mockAssign = vi.fn();
+      delete window.location;
+      window.location = { assign: mockAssign };
+
+      validateAuthenticateRoutePermission(to, next);
+
+      expect(mockAssign).toHaveBeenCalledWith(
+        '/app/login?sso_account_id=42&redirect_url=settings%2Fbilling%3Fshop%3Dstore.myshopify.com'
+      );
+    });
   });
 
   describe('when user is logged in', () => {
@@ -205,6 +241,75 @@ describe('#validateAuthenticateRoutePermission', () => {
         await validateAuthenticateRoutePermission(to, next);
 
         expect(next).toHaveBeenCalledWith();
+      });
+
+      it('routes an entitled Shopify account return to billing with its parameters', async () => {
+        store.getters.getCurrentUser.accounts[0] = {
+          ...store.getters.getCurrentUser.accounts[0],
+          billing_provider: 'shopify',
+          shopify_integration: true,
+          subscription_status: 'active',
+          shopify_shop_domain: 'store.myshopify.com',
+        };
+        const to = {
+          params: {},
+          query: {
+            plan_handle: 'growth',
+            shop: 'store.myshopify.com',
+          },
+        };
+
+        await validateAuthenticateRoutePermission(to, next);
+
+        expect(next).toHaveBeenCalledWith(
+          '/app/accounts/1/settings/billing?plan_handle=growth&shop=store.myshopify.com'
+        );
+      });
+
+      it('routes raw Shopify return parameters to the matching account', async () => {
+        store.getters.getCurrentUser.accounts.push({
+          id: 2,
+          role: 'administrator',
+          permissions: ['administrator'],
+          status: 'active',
+          billing_provider: 'shopify',
+          shopify_integration: true,
+          subscription_status: 'active',
+          shopify_shop_domain: 'second-store.myshopify.com',
+        });
+        const to = {
+          params: {},
+          query: {
+            plan_handle: 'growth',
+            shop: 'second-store.myshopify.com',
+          },
+        };
+
+        await validateAuthenticateRoutePermission(to, next);
+
+        expect(next).toHaveBeenCalledWith(
+          '/app/accounts/2/settings/billing?plan_handle=growth&shop=second-store.myshopify.com'
+        );
+      });
+
+      it('does not use Shopify return parameters when the account gate is disabled', async () => {
+        store.getters.getCurrentUser.accounts[0] = {
+          ...store.getters.getCurrentUser.accounts[0],
+          billing_provider: 'shopify',
+          shopify_integration: false,
+          subscription_status: 'active',
+        };
+        const to = {
+          params: {},
+          query: {
+            plan_handle: 'growth',
+            shop: 'store.myshopify.com',
+          },
+        };
+
+        await validateAuthenticateRoutePermission(to, next);
+
+        expect(next).toHaveBeenCalledWith('/app/accounts/1/dashboard');
       });
     });
   });

@@ -19,6 +19,7 @@ const props = defineProps({
   integrationDescription: { type: String, default: '' },
   integrationEnabled: { type: Boolean, default: false },
   integrationAction: { type: String, default: '' },
+  hideEnabledAction: { type: Boolean, default: false },
   actionButtonText: { type: String, default: '' },
   deleteConfirmationText: { type: Object, default: () => ({}) },
 });
@@ -86,7 +87,10 @@ const confirmDeletion = () => {
         </p>
       </div>
     </div>
-    <div class="flex justify-center items-center mb-0">
+    <div
+      v-if="!integrationEnabled || !hideEnabledAction"
+      class="flex justify-center items-center mb-0"
+    >
       <router-link
         :to="
           frontendURL(

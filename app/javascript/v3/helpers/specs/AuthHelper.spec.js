@@ -4,6 +4,7 @@ import {
   getCredentialsFromEmail,
   getSignupRoute,
   getTargetAccount,
+  isShopifyBillingAccount,
   requiresShopifyBilling,
 } from '../AuthHelper';
 
@@ -176,6 +177,30 @@ describe('#URL Helpers', () => {
       ).toBe('/app/');
     });
 
+    it('uses an explicit matching account for a Shopify billing redirect after login', () => {
+      const user = {
+        account_id: 1,
+        accounts: [
+          { id: 1 },
+          {
+            id: 7500,
+            billing_provider: 'shopify',
+            shopify_integration: true,
+            subscription_status: 'pending',
+            shopify_shop_domain: 'store.myshopify.com',
+          },
+        ],
+      };
+
+      expect(
+        getLoginRedirectURL({
+          ssoAccountId: '7500',
+          redirectUrl: 'settings/billing?shop=store.myshopify.com',
+          user,
+        })
+      ).toBe('/app/accounts/7500/settings/billing?shop=store.myshopify.com');
+    });
+
     it('preserves the regular redirect when the Shopify feature is disabled', () => {
       const user = {
         account_id: 7500,
@@ -236,6 +261,29 @@ describe('#URL Helpers', () => {
           user: { accounts: [{ id: 7500 }, shopifyAccount] },
         })
       ).toBe(shopifyAccount);
+    });
+  });
+
+  describe('isShopifyBillingAccount', () => {
+    it('requires both Shopify billing ownership and the account feature gate', () => {
+      expect(
+        isShopifyBillingAccount({
+          billing_provider: 'shopify',
+          shopify_integration: true,
+        })
+      ).toBe(true);
+      expect(
+        isShopifyBillingAccount({
+          billing_provider: 'shopify',
+          shopify_integration: false,
+        })
+      ).toBe(false);
+      expect(
+        isShopifyBillingAccount({
+          billing_provider: 'stripe',
+          shopify_integration: true,
+        })
+      ).toBe(false);
     });
   });
 

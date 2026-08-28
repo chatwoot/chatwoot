@@ -114,6 +114,18 @@ RSpec.describe 'Shopify Integration API', type: :request do
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['orders']).to eq([])
       end
+
+      it 'rejects a disabled retained hook before calling Shopify' do
+        account.hooks.find_by!(app_id: 'shopify').update!(status: :disabled, access_token: nil)
+
+        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
+            params: { contact_id: contact.id },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(shopify_client).not_to have_received(:get)
+      end
       # rubocop:enable RSpec/AnyInstance
     end
 
@@ -278,6 +290,29 @@ RSpec.describe 'Shopify Integration API', type: :request do
         end.to change { account.hooks.count }.by(-1)
 
         expect(response).to have_http_status(:ok)
+      end
+
+      context 'when the account is billed through Shopify' do
+        let(:account) do
+          create(
+            :account,
+            internal_attributes: {
+              'billing_provider' => 'shopify',
+              'signup_source' => 'shopify'
+            }
+          )
+        end
+
+        it 'keeps the integration because Shopify owns its lifecycle' do
+          expect do
+            delete "/api/v1/accounts/#{account.id}/integrations/shopify",
+                   headers: admin.create_new_auth_token,
+                   as: :json
+          end.not_to(change { account.hooks.count })
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('Shopify-billed integrations must be managed in Shopify')
+        end
       end
     end
 

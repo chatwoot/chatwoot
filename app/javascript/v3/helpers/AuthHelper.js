@@ -8,9 +8,12 @@ export const hasAuthCookie = () => {
 
 const SHOPIFY_ENTITLED_STATES = ['active', 'trialing', 'cancelled'];
 
-export const requiresShopifyBilling = account =>
+export const isShopifyBillingAccount = account =>
   account?.billing_provider === 'shopify' &&
-  account.shopify_integration === true &&
+  account.shopify_integration === true;
+
+export const requiresShopifyBilling = account =>
+  isShopifyBillingAccount(account) &&
   !SHOPIFY_ENTITLED_STATES.includes(account.subscription_status);
 
 export const getShopifyBillingRedirect = query => {

@@ -35,7 +35,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     before do
       stub_const('ENV', ENV.to_hash.merge('FRONTEND_URL' => frontend_url))
-      account.enable_features('shopify_integration')
+      account.enable_features!('shopify_integration')
       allow(GlobalConfigService).to receive(:load)
         .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
         .and_return(true)
@@ -81,8 +81,10 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         expect(hook.app_id).to eq('shopify')
         expect(hook.status).to eq('enabled')
         expect(hook.reference_id).to eq(shop)
-        expect(hook.settings).to eq(
-          'scope' => 'read_products,write_products'
+        expect(hook.settings).to include(
+          'scope' => 'read_products,write_products',
+          'connected_at' => be_present,
+          'installation_id' => match(/\A[0-9a-f-]{36}\z/)
         )
         expect(response).to redirect_to(shopify_redirect_uri)
       end
@@ -200,8 +202,213 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         ).and_return(pending_install_token)
 
         get shopify_callback_path, params: params
-        expect(response).to redirect_to(%r{#{Regexp.escape(frontend_url)}/app/auth/signup\?shopify_pending_install=})
-        expect(CGI.unescape(response.location)).to include("shopify_pending_install=#{pending_install_token}")
+        expect(response).to redirect_to(
+          "#{frontend_url}/app/auth/signup?shopify_pending_install=#{pending_install_token}"
+        )
+      end
+    end
+
+    context 'when a Shopify-billed account is reinstalled' do
+      let(:shopify_account) do
+        create(
+          :account,
+          internal_attributes: {
+            'billing_provider' => 'shopify',
+            'signup_source' => 'shopify'
+          },
+          custom_attributes: {
+            'subscription_status' => 'expired',
+            'shopify_subscription_snapshot' => {
+              'state' => 'expired',
+              'plan_handles' => [],
+              'shop_domain' => shop
+            }
+          }
+        )
+      end
+
+      before do
+        shopify_account.enable_features!('shopify_integration')
+        allow(described_class).to receive(:new).and_wrap_original do |original, *args|
+          controller = original.call(*args)
+          allow(controller).to receive(:verify_shopify_token).and_return(nil)
+          allow(controller).to receive(:oauth_client).and_return(oauth_client)
+          allow(controller).to receive(:client_secret).and_return(client_secret)
+          controller
+        end
+        allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
+        allow(auth_code_strategy).to receive(:get_token).and_return(token_response)
+      end
+
+      it 'reactivates a retained hook and redirects to billing' do
+        previous_installation_id = SecureRandom.uuid
+        hook = create(
+          :integrations_hook,
+          :shopify,
+          account: shopify_account,
+          reference_id: shop,
+          status: :disabled,
+          access_token: nil,
+          settings: {
+            'connected_at' => 1.day.ago.utc.iso8601(6),
+            'installation_id' => previous_installation_id
+          }
+        )
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        expect(Shopify::PendingInstallation).not_to receive(:create)
+
+        get shopify_callback_path, params: params
+
+        expect(hook.reload).to have_attributes(
+          status: 'enabled',
+          access_token: access_token
+        )
+        expect(hook.settings).to include(
+          'scope' => 'read_products,write_products',
+          'connected_at' => be_present,
+          'installation_id' => match(/\A[0-9a-f-]{36}\z/)
+        )
+        expect(hook.settings['installation_id']).not_to eq(previous_installation_id)
+        expect(response).to redirect_to(
+          "#{frontend_url}/app/accounts/#{shopify_account.id}/settings/billing?shop=#{shop}"
+        )
+      end
+
+      it 'recreates the hook from the retained billing snapshot after privacy cleanup' do
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        expect do
+          get shopify_callback_path, params: params
+        end.to change { shopify_account.hooks.where(app_id: 'shopify').count }.by(1)
+
+        recreated_hook = shopify_account.hooks.find_by!(app_id: 'shopify')
+        expect(recreated_hook).to have_attributes(
+          status: 'enabled',
+          access_token: access_token,
+          reference_id: shop
+        )
+        expect(recreated_hook.settings).to include(
+          'scope' => 'read_products,write_products',
+          'connected_at' => be_present,
+          'installation_id' => match(/\A[0-9a-f-]{36}\z/)
+        )
+        expect(response).to redirect_to(
+          "#{frontend_url}/app/accounts/#{shopify_account.id}/settings/billing?shop=#{shop}"
+        )
+      end
+
+      it 'recreates a hook deleted while the OAuth code is being exchanged' do
+        hook = create(
+          :integrations_hook,
+          :shopify,
+          account: shopify_account,
+          reference_id: shop,
+          status: :disabled,
+          access_token: nil
+        )
+        allow(auth_code_strategy).to receive(:get_token) do
+          hook.destroy!
+          token_response
+        end
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
+
+        replacement_hook = shopify_account.hooks.find_by!(app_id: 'shopify')
+        expect(replacement_hook.id).not_to eq(hook.id)
+        expect(replacement_hook).to have_attributes(
+          status: 'enabled',
+          access_token: access_token,
+          reference_id: shop
+        )
+        expect(response).to redirect_to(
+          "#{frontend_url}/app/accounts/#{shopify_account.id}/settings/billing?shop=#{shop}"
+        )
+      end
+
+      it 'recreates a hook deleted while the reconnect lock is being acquired' do
+        hook = create(
+          :integrations_hook,
+          :shopify,
+          account: shopify_account,
+          reference_id: shop,
+          status: :disabled,
+          access_token: nil
+        )
+        deleted = false
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(Integrations::Hook).to receive(:with_lock).and_wrap_original do |original, *args, &block|
+          if original.receiver.id == hook.id && !deleted
+            deleted = true
+            hook.delete
+            raise ActiveRecord::RecordNotFound
+          end
+
+          original.call(*args, &block)
+        end
+        # rubocop:enable RSpec/AnyInstance
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
+
+        replacement_hook = shopify_account.hooks.find_by!(app_id: 'shopify')
+        expect(replacement_hook.id).not_to eq(hook.id)
+        expect(replacement_hook).to have_attributes(
+          status: 'enabled',
+          access_token: access_token,
+          reference_id: shop
+        )
+        expect(response).to redirect_to(
+          "#{frontend_url}/app/accounts/#{shopify_account.id}/settings/billing?shop=#{shop}"
+        )
+      end
+
+      it 'does not exchange the OAuth code when the account feature is disabled' do
+        create(:integrations_hook, :shopify, account: shopify_account, reference_id: shop)
+        shopify_account.disable_features!('shopify_integration')
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        expect(auth_code_strategy).not_to receive(:get_token)
+
+        get shopify_callback_path, params: params
+
+        expect(response).to redirect_to(
+          "#{frontend_url}/app/accounts/#{shopify_account.id}/settings/integrations/shopify?error=true"
+        )
+      end
+    end
+
+    context 'when cleanup completes during the OAuth exchange' do
+      before do
+        allow(described_class).to receive(:new).and_wrap_original do |original, *args|
+          controller = original.call(*args)
+          allow(controller).to receive(:verify_shopify_token).and_return(nil)
+          allow(controller).to receive(:oauth_client).and_return(oauth_client)
+          allow(controller).to receive(:client_secret).and_return(client_secret)
+          controller
+        end
+        allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
+      end
+
+      it 'does not restore the hook from the older callback' do
+        hook = create(:integrations_hook, :shopify, account: account, reference_id: shop)
+        allow(auth_code_strategy).to receive(:get_token) do
+          Shopify::UninstallationService.new(hook: hook, occurred_at: Time.current).perform
+          token_response
+        end
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
+
+        expect(account.hooks.where(app_id: 'shopify')).to be_empty
+        expect(response).to redirect_to("#{shopify_redirect_uri}?error=true")
       end
     end
   end
