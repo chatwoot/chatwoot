@@ -37,6 +37,17 @@ RSpec.describe Voice::CallTerminationGuard do
     expect(described_class.active?(call, now: now)).to be false
   end
 
+  it 'preserves a deferred terminal status from later progress callbacks' do
+    described_class.persist_pending_status!(call, status: 'completed', duration: 12, timestamp: 100)
+    described_class.persist_pending_status!(call, status: 'in_progress', duration: nil, timestamp: 90)
+
+    expect(call.reload.meta['agent_termination_pending_status']).to eq(
+      'status' => 'completed',
+      'duration' => 12,
+      'timestamp' => 100
+    )
+  end
+
   it 'retains and independently consumes every pending agent participant leave' do
     suppressions = %w[CA_OLD_TAB CA_NEW_TAB].map { |sid| described_class.suppress_local_disconnect!(call, sid) }
     expect(suppressions).to all(be true)
