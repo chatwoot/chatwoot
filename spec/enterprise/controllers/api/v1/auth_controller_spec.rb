@@ -106,6 +106,15 @@ RSpec.describe 'Api::V1::Auth', type: :request do
 
         expect(response.location).to include("/auth/saml?account_id=#{account.id}&RelayState=mobile")
       end
+
+      it 'carries a Shopify pricing redirect in the relay state' do
+        redirect_url = 'settings/billing?plan_handle=growth&shop=store.myshopify.com'
+
+        post '/api/v1/auth/saml_login', params: { email: user.email, redirect_url: redirect_url }
+
+        query = URI.decode_www_form(URI.parse(response.location).query).to_h
+        expect(query).to include('account_id' => account.id.to_s, 'RelayState' => redirect_url)
+      end
     end
 
     context 'when user has multiple accounts with SAML' do
@@ -131,6 +140,17 @@ RSpec.describe 'Api::V1::Auth', type: :request do
 
         returned_account_id = response.location.match(/account_id=(\d+)/)[1].to_i
         expect([account.id, account2.id]).to include(returned_account_id)
+      end
+
+      it 'uses the Shopify store in the billing redirect to select the SAML account' do
+        create(:integrations_hook, :shopify, account: account, reference_id: 'first-store.myshopify.com')
+        create(:integrations_hook, :shopify, account: account2, reference_id: 'second-store.myshopify.com')
+        redirect_url = 'settings/billing?plan_handle=growth&shop=second-store.myshopify.com'
+
+        post '/api/v1/auth/saml_login', params: { email: user.email, redirect_url: redirect_url }
+
+        query = URI.decode_www_form(URI.parse(response.location).query).to_h
+        expect(query).to include('account_id' => account2.id.to_s, 'RelayState' => redirect_url)
       end
     end
   end

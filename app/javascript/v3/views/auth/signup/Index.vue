@@ -4,8 +4,8 @@ import { useStore } from 'vuex';
 import SignupForm from './components/Signup/Form.vue';
 import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import signupBg from 'assets/images/auth/signup-bg.jpg';
 import { useBranding } from 'shared/composables/useBranding';
+import signupBg from 'assets/images/auth/signup-bg.jpg';
 
 const props = defineProps({
   shopifyPendingInstall: {
@@ -70,7 +70,7 @@ const resizeContainers = () => {
               }}
             </h2>
             <p v-if="isShopifySignup" class="mt-2 text-sm text-n-slate-11">
-              {{ $t('REGISTER.SHOPIFY.DESCRIPTION') }}
+              {{ replaceInstallationName($t('REGISTER.SHOPIFY.DESCRIPTION')) }}
             </p>
             <p v-else class="mt-2 text-sm text-n-slate-11">
               {{ $t('REGISTER.HAVE_AN_ACCOUNT') }}{{ ' '

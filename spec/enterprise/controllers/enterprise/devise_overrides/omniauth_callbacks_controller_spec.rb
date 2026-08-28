@@ -49,6 +49,20 @@ RSpec.describe 'Enterprise SAML OmniAuth Callbacks', type: :request do
       end
     end
 
+    it 'returns a Shopify pricing redirect to the login flow' do
+      with_modified_env FRONTEND_URL: 'http://www.example.com' do
+        create(:user, email: 'billing@example.com', account: account)
+        set_saml_config('billing@example.com')
+        redirect_url = 'settings/billing?plan_handle=growth&shop=store.myshopify.com'
+
+        get '/omniauth/saml/callback', params: { account_id: account.id, RelayState: redirect_url }
+
+        query = URI.decode_www_form(URI.parse(response.location).query).to_h
+        expect(query['redirect_url']).to eq(redirect_url)
+        expect(query).to include('email', 'sso_auth_token')
+      end
+    end
+
     it 'redirects mobile SAML login to the mobile deep link' do
       with_modified_env FRONTEND_URL: 'http://www.example.com' do
         create(:user, email: 'mobile@example.com', account: account)

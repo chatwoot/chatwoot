@@ -94,9 +94,11 @@ export const verifyPasswordToken = async ({ confirmationToken }) => {
       confirmation_token: confirmationToken,
     });
     setAuthCredentials(response);
+    return response.data.data;
   } catch (error) {
     throwErrorMessage(error);
   }
+  return null;
 };
 
 export const setNewPassword = async ({
@@ -111,10 +113,12 @@ export const setNewPassword = async ({
       password,
     });
     setAuthCredentials(response);
+    return response.data.data;
   } catch (error) {
     throwErrorMessage(error);
   }
+  return null;
 };
 
-export const resetPassword = async ({ email }) =>
-  wootAPI.post('auth/password', { email });
+export const resetPassword = async ({ email, redirectUrl }) =>
+  wootAPI.post('auth/password', { email, redirect_url: redirectUrl });

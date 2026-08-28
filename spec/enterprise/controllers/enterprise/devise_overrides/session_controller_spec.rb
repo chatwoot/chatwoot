@@ -68,6 +68,42 @@ RSpec.describe 'Enterprise Audit API', type: :request do
       end
     end
 
+    context 'with Shopify billing' do
+      it 'returns the Shopify billing route state for feature-enabled accounts' do
+        shopify_account = create(
+          :account,
+          internal_attributes: {
+            'billing_provider' => 'shopify',
+            'signup_source' => 'shopify'
+          },
+          custom_attributes: {
+            'subscription_status' => 'pending'
+          }
+        )
+        shopify_account.enable_features!('shopify_integration')
+        create(
+          :integrations_hook,
+          :shopify,
+          account: shopify_account,
+          reference_id: 'billing-test-store.myshopify.com'
+        )
+        shopify_user = create(:user, password: 'Password1!', account: shopify_account)
+        allow(Shopify::FeatureGate).to receive(:enabled?).with(account: shopify_account).and_return(true)
+
+        post new_user_session_url,
+             params: { email: shopify_user.email, password: 'Password1!' },
+             as: :json
+
+        account_payload = response.parsed_body['data']['accounts'].first
+        expect(account_payload).to include(
+          'billing_provider' => 'shopify',
+          'subscription_status' => 'pending',
+          'shopify_integration' => true,
+          'shopify_shop_domain' => 'billing-test-store.myshopify.com'
+        )
+      end
+    end
+
     context 'with a user belonging to multiple accounts' do
       before do
         create_list(:account, 3).each { |extra_account| create(:account_user, account: extra_account, user: user) }

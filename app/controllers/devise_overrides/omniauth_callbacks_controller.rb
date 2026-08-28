@@ -4,12 +4,14 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   def omniauth_success
     get_resource_from_auth_hash
 
-    @resource.present? ? sign_in_user : sign_up_user
+    @resource.present? ? sign_in_user(redirect_url: oauth_redirect_url) : sign_up_user
   end
 
   private
 
-  def sign_in_user
+  def oauth_redirect_url; end
+
+  def sign_in_user(redirect_url: nil)
     # Capture before skip_confirmation! sets confirmed_at, which would
     # make oauth_user_needs_password_reset? return false and skip the
     # password reset for persisted unconfirmed users.
@@ -21,7 +23,11 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     # we can just send them to the login page again with the SSO params
     # that will log them in
     encoded_email = ERB::Util.url_encode(@resource.email)
-    redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token)
+    redirect_to login_page_url(
+      email: encoded_email,
+      sso_auth_token: @resource.generate_sso_auth_token,
+      redirect_url: redirect_url
+    )
   end
 
   def sign_in_user_on_mobile
@@ -51,9 +57,9 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     redirect_to "#{frontend_url}/app/auth/password/edit?config=default&reset_password_token=#{token}"
   end
 
-  def login_page_url(error: nil, email: nil, sso_auth_token: nil)
+  def login_page_url(error: nil, email: nil, sso_auth_token: nil, redirect_url: nil)
     frontend_url = ENV.fetch('FRONTEND_URL', nil)
-    params = { email: email, sso_auth_token: sso_auth_token }.compact
+    params = { email: email, sso_auth_token: sso_auth_token, redirect_url: redirect_url }.compact
     params[:error] = error if error.present?
 
     "#{frontend_url}/app/login?#{params.to_query}"

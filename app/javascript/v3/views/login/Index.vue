@@ -10,6 +10,7 @@ import SessionStorage from 'shared/helpers/sessionStorage';
 import { useBranding } from 'shared/composables/useBranding';
 import AnalyticsHelper from 'dashboard/helper/AnalyticsHelper';
 import { SESSION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { getLoginRedirectURL, getSignupRoute } from 'v3/helpers/AuthHelper';
 
 // components
 import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
@@ -102,10 +103,28 @@ export default {
       );
     },
     showSignupLink() {
-      return window.chatwootConfig.signupEnabled === 'true';
+      return (
+        window.chatwootConfig.signupEnabled === 'true' ||
+        Boolean(this.signupRoute.query?.shopify_pending_install)
+      );
+    },
+    signupRoute() {
+      return getSignupRoute(this.redirectUrl);
+    },
+    resetPasswordRoute() {
+      const route = { name: 'auth_reset_password' };
+      return this.redirectUrl
+        ? { ...route, query: { redirect_url: this.redirectUrl } }
+        : route;
     },
     showSamlLogin() {
       return this.allowedLoginMethods.includes('saml');
+    },
+    samlLoginRoute() {
+      const route = { name: 'sso_login' };
+      return this.redirectUrl
+        ? { ...route, query: { redirect_url: this.redirectUrl } }
+        : route;
     },
   },
   created() {
@@ -230,10 +249,15 @@ export default {
 
       this.submitLogin();
     },
-    handleMfaVerified() {
+    handleMfaVerified(user) {
       // MFA verification successful, continue with login
       this.handleImpersonation();
-      window.location = '/app';
+      window.location = getLoginRedirectURL({
+        ssoAccountId: this.ssoAccountId,
+        ssoConversationId: this.ssoConversationId,
+        redirectUrl: this.redirectUrl,
+        user,
+      });
     },
     handleMfaCancel() {
       // User cancelled MFA, reset state
@@ -250,6 +274,7 @@ export default {
         sso_auth_token: this.ssoAuthToken,
         ssoAccountId: this.ssoAccountId,
         ssoConversationId: this.ssoConversationId,
+        redirectUrl: this.redirectUrl,
         ...extraParams,
       };
 
@@ -311,7 +336,7 @@ export default {
       </h2>
       <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
         {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="lowercase text-link text-n-brand">
+        <router-link :to="signupRoute" class="lowercase text-link text-n-brand">
           {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
@@ -347,10 +372,13 @@ export default {
     >
       <div v-if="!email">
         <div class="flex flex-col gap-4">
-          <GoogleOAuthButton v-if="showGoogleOAuth" />
+          <GoogleOAuthButton
+            v-if="showGoogleOAuth"
+            :redirect-url="redirectUrl"
+          />
           <div v-if="showSamlLogin" class="text-center">
             <router-link
-              to="/app/login/sso"
+              :to="samlLoginRoute"
               class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
             >
               <Icon
@@ -395,7 +423,7 @@ export default {
           >
             <p v-if="!globalConfig.disableUserProfileUpdate">
               <router-link
-                to="auth/reset/password"
+                :to="resetPasswordRoute"
                 class="text-sm text-link"
                 tabindex="4"
               >

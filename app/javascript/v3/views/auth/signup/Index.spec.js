@@ -16,7 +16,7 @@ vi.mock('vuex', () => ({
 }));
 vi.mock('shared/composables/useBranding', () => ({
   useBranding: () => ({
-    replaceInstallationName: value => value.replace('Chatwoot', 'Acme'),
+    replaceInstallationName: text => text.replace(/chatwoot/gi, 'Acme'),
   }),
 }));
 
@@ -25,10 +25,14 @@ const mountComponent = props =>
     props,
     global: {
       mocks: {
-        $t: key =>
-          key === 'REGISTER.SHOPIFY.TITLE'
-            ? 'Set up Chatwoot for your Shopify store'
-            : key,
+        $t: key => {
+          const translations = {
+            'REGISTER.SHOPIFY.TITLE': 'Set up Chatwoot for your Shopify store',
+            'REGISTER.SHOPIFY.DESCRIPTION':
+              'Create your Chatwoot account to continue.',
+          };
+          return translations[key] || key;
+        },
       },
       stubs: {
         RouterLink: {
@@ -48,6 +52,8 @@ describe('Shopify signup', () => {
       wrapper.findComponent(SignupForm).props('shopifyPendingInstall')
     ).toBe('pending-install-token');
     expect(wrapper.text()).toContain('Set up Acme for your Shopify store');
+    expect(wrapper.text()).toContain('Create your Acme account to continue.');
+    expect(wrapper.text()).not.toContain('Chatwoot');
     expect(wrapper.find('a').exists()).toBe(false);
   });
 

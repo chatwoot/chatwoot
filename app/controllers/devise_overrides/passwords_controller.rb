@@ -6,7 +6,7 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
 
   def create
     @user = User.from_email(params[:email])
-    @user&.send_reset_password_instructions
+    @user&.send_reset_password_instructions(redirect_url: params[:redirect_url])
     build_response(I18n.t('messages.reset_password'), 200)
   end
 

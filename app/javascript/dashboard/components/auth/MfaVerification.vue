@@ -4,6 +4,7 @@ import { ref, computed, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { handleOtpPaste } from 'shared/helpers/clipboard';
 import {
+  clearLocalStorageOnLogout,
   parseAPIErrorResponse,
   setAuthCredentials,
 } from 'dashboard/store/utils/api';
@@ -71,8 +72,10 @@ const handleVerification = async () => {
     }
 
     const response = await axios.post('/auth/sign_in', payload);
+
     setAuthCredentials(response);
-    emit('verified', response.data);
+    clearLocalStorageOnLogout();
+    emit('verified', response.data?.data);
   } catch (error) {
     errorMessage.value =
       parseAPIErrorResponse(error) || t('MFA_VERIFICATION.VERIFICATION_FAILED');

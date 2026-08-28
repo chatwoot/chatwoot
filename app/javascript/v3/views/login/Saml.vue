@@ -19,6 +19,10 @@ const props = defineProps({
     type: String,
     default: 'web',
   },
+  redirectUrl: {
+    type: String,
+    default: '',
+  },
 });
 
 const store = useStore();
@@ -56,6 +60,12 @@ const v$ = useVuelidate(validations, { credentials });
 
 const globalConfig = computed(() => store.getters['globalConfig/get']);
 const csrfToken = ref('');
+const loginRoute = computed(() => {
+  const route = { name: 'login' };
+  return props.redirectUrl
+    ? { ...route, query: { redirect_url: props.redirectUrl } }
+    : route;
+});
 
 onMounted(async () => {
   csrfToken.value =
@@ -112,6 +122,13 @@ onMounted(async () => {
           :value="csrfToken"
         />
         <input type="hidden" class="h-0" name="target" :value="target" />
+        <input
+          v-if="redirectUrl"
+          type="hidden"
+          class="h-0"
+          name="redirect_url"
+          :value="redirectUrl"
+        />
         <NextButton
           lg
           type="submit"
@@ -124,7 +141,7 @@ onMounted(async () => {
       </form>
     </section>
     <p class="mt-6 text-sm text-center text-n-slate-11">
-      <router-link to="/app/login" class="text-link text-n-brand">
+      <router-link :to="loginRoute" class="text-link text-n-brand">
         {{ t('LOGIN.SAML.BACK_TO_LOGIN') }}
       </router-link>
     </p>

@@ -1,24 +1,31 @@
 import { flushPromises, shallowMount } from '@vue/test-utils';
+import { ref } from 'vue';
 import axios from 'axios';
-import { setAuthCredentials } from 'dashboard/store/utils/api';
+
 import MfaVerification from './MfaVerification.vue';
+import {
+  clearLocalStorageOnLogout,
+  setAuthCredentials,
+} from 'dashboard/store/utils/api';
 
 vi.mock('axios');
-
+vi.mock('vue-i18n', () => ({
+  useI18n: () => ({ t: key => key }),
+}));
+vi.mock('dashboard/composables/useAccount', () => ({
+  useAccount: () => ({ isOnChatwootCloud: ref(false) }),
+}));
 vi.mock('dashboard/store/utils/api', () => ({
+  clearLocalStorageOnLogout: vi.fn(),
   parseAPIErrorResponse: vi.fn(),
   setAuthCredentials: vi.fn(),
 }));
 
-vi.mock('dashboard/composables/useAccount', async () => {
-  const { ref } = await import('vue');
-  return { useAccount: () => ({ isOnChatwootCloud: ref(true) }) };
-});
-
 describe('MfaVerification', () => {
-  it('stores successful MFA credentials using the persistent auth flow', async () => {
+  it('stores persistent credentials and returns the authenticated user to the login flow', async () => {
+    const user = { id: 1, accounts: [{ id: 2 }] };
     const response = {
-      data: { data: { id: 1 } },
+      data: { data: user },
       headers: {
         'access-token': 'token',
         'token-type': 'Bearer',
@@ -28,10 +35,11 @@ describe('MfaVerification', () => {
       },
     };
     axios.post.mockResolvedValue(response);
-
     const wrapper = shallowMount(MfaVerification, {
       props: { mfaToken: 'mfa-token' },
-      global: { mocks: { $t: key => key } },
+      global: {
+        mocks: { $t: key => key },
+      },
     });
 
     const otpInputs = wrapper.findAll('input[inputmode="numeric"]');
@@ -48,6 +56,7 @@ describe('MfaVerification', () => {
       otp_code: '123456',
     });
     expect(setAuthCredentials).toHaveBeenCalledWith(response);
-    expect(wrapper.emitted('verified')).toEqual([[response.data]]);
+    expect(clearLocalStorageOnLogout).toHaveBeenCalledTimes(1);
+    expect(wrapper.emitted('verified')).toEqual([[user]]);
   });
 });
