@@ -80,6 +80,7 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
     tools << Captain::Tools::Copilot::SearchArticlesService.new(@assistant, user: @user)
     tools << Captain::Tools::Copilot::SearchContactsService.new(@assistant, user: @user)
     tools << Captain::Tools::Copilot::SearchLinearIssuesService.new(@assistant, user: @user)
+    tools.concat(Captain::Tools::Admin::Registry.build(@assistant, user: @user, copilot_thread: @copilot_thread))
 
     tools.select(&:active?)
   end
@@ -90,13 +91,18 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
       content: Captain::Llm::SystemPromptsService.copilot_response_generator(
         @assistant.config['product_name'],
         tools_summary,
-        @assistant.config
+        @assistant.config,
+        admin_tools_enabled: admin_tools_enabled?
       )
     }
   end
 
   def tools_summary
-    @tools.map { |tool| "- #{tool.class.name}: #{tool.class.description}" }.join("\n")
+    @tools.map { |tool| "- #{tool.name}: #{tool.description}" }.join("\n")
+  end
+
+  def admin_tools_enabled?
+    @tools.any?(Captain::Tools::Admin::BaseTool)
   end
 
   def account_id_context

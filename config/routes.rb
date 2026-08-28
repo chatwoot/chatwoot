@@ -95,6 +95,12 @@ Rails.application.routes.draw do
             resources :bulk_actions, only: [:create]
             resources :copilot_threads, only: [:index, :create] do
               resources :copilot_messages, only: [:index, :create]
+              resources :copilot_pending_admin_actions, only: [:index] do
+                member do
+                  post :confirm
+                  post :reject
+                end
+              end
             end
             resources :custom_tools do
               post :test, on: :collection

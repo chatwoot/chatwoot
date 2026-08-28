@@ -11,6 +11,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import wootConstants from 'dashboard/constants/globals';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
+import CopilotPendingAdminActionsAPI from 'dashboard/api/captain/copilotPendingAdminActions';
 
 defineProps({
   conversationInboxType: {
@@ -40,6 +41,8 @@ const isSmallScreen = computed(
 );
 
 const selectedCopilotThreadId = ref(null);
+const pendingAdminActions = ref([]);
+const isProcessingAdminAction = ref(false);
 const messages = computed(() =>
   store.getters['copilotMessages/getMessagesByThreadId'](
     selectedCopilotThreadId.value
@@ -104,9 +107,65 @@ const shouldShowCopilotPanel = computed(() => {
 
 const handleReset = () => {
   selectedCopilotThreadId.value = null;
+  pendingAdminActions.value = [];
+};
+
+const fetchPendingAdminActions = async () => {
+  if (!selectedCopilotThreadId.value) {
+    pendingAdminActions.value = [];
+    return;
+  }
+
+  try {
+    const { data } = await CopilotPendingAdminActionsAPI.get(
+      selectedCopilotThreadId.value
+    );
+    pendingAdminActions.value = data;
+  } catch {
+    pendingAdminActions.value = [];
+  }
+};
+
+const confirmAdminAction = async actionId => {
+  if (!selectedCopilotThreadId.value || isProcessingAdminAction.value) return;
+
+  isProcessingAdminAction.value = true;
+  try {
+    const { data } = await CopilotPendingAdminActionsAPI.confirm(
+      selectedCopilotThreadId.value,
+      actionId
+    );
+    if (data.copilot_message) {
+      store.dispatch('copilotMessages/upsert', data.copilot_message);
+    }
+    await fetchPendingAdminActions();
+  } catch (error) {
+    useAlert(error.message);
+  } finally {
+    isProcessingAdminAction.value = false;
+  }
+};
+
+const rejectAdminAction = async actionId => {
+  if (!selectedCopilotThreadId.value || isProcessingAdminAction.value) return;
+
+  isProcessingAdminAction.value = true;
+  try {
+    await CopilotPendingAdminActionsAPI.reject(
+      selectedCopilotThreadId.value,
+      actionId
+    );
+    await fetchPendingAdminActions();
+  } catch (error) {
+    useAlert(error.message);
+  } finally {
+    isProcessingAdminAction.value = false;
+  }
 };
 
 watch(() => currentChat.value?.id, handleReset);
+watch(selectedCopilotThreadId, fetchPendingAdminActions);
+watch(messages, fetchPendingAdminActions, { deep: true });
 
 const sendMessage = async payload => {
   const message = typeof payload === 'string' ? payload : payload.message;
@@ -164,9 +223,13 @@ onMounted(() => {
       :assistants="assistants"
       :active-assistant="activeAssistant"
       :can-suggest-reply="canSuggestReply"
+      :pending-admin-actions="pendingAdminActions"
+      :is-processing-admin-action="isProcessingAdminAction"
       @set-assistant="setAssistant"
       @send-message="sendMessage"
       @reset="handleReset"
+      @confirm-admin-action="confirmAdminAction"
+      @reject-admin-action="rejectAdminAction"
     />
   </div>
   <template v-else />

@@ -601,6 +601,12 @@
       "RESET": "Reset",
       "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Select Assistant",
+      "ADMIN_ACTION": {
+        "TITLE": "Pending change",
+        "DESCRIPTION": "Review this configuration change before it is applied to your account.",
+        "CONFIRM": "Confirm",
+        "REJECT": "Reject"
+      },
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "Summarize this conversation",

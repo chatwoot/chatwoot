@@ -183,7 +183,7 @@ class Captain::Llm::SystemPromptsService
     end
 
     # rubocop:disable Metrics/MethodLength
-    def copilot_response_generator(product_name, available_tools, config = {})
+    def copilot_response_generator(product_name, available_tools, config = {}, admin_tools_enabled: false)
       citation_guidelines = if config['feature_citation']
                               <<~CITATION_TEXT
                                 - Always include citations for any information provided, referencing the specific source.
@@ -243,7 +243,26 @@ class Captain::Llm::SystemPromptsService
         - draft_response: Draft a response for the support agent
         - rate_conversation: Rate the conversation
         #{available_tools}
+        #{admin_tools_guidelines(admin_tools_enabled)}
       SYSTEM_PROMPT_MESSAGE
+    end
+
+    def admin_tools_guidelines(admin_tools_enabled)
+      return '' unless admin_tools_enabled
+
+      <<~ADMIN_TOOLS_TEXT
+
+        [Admin Configuration]
+        You can also help administrators inspect and update account settings.
+        - Use read tools to inspect current configuration before proposing changes.
+        - For any create, update, or delete tool, first describe the exact change and call the tool with `confirmed: false`.
+        - Write tools create a pending change card in the copilot panel for the user to confirm or reject.
+        - Do not call write tools with `confirmed: true`; the user confirms through the copilot UI.
+        - For inbox, automation rule, and macro changes, pass complex values as JSON strings (`conditions_json`, `actions_json`, `working_hours_json`, `csat_config_json`).
+        - Use `get_inbox`, `get_automation_rule`, and `get_macro` to inspect current values before updating.
+        - `create_inbox` supports `api` and `web_widget` channels only. OAuth channels must be set up in Settings.
+        - Do not modify integrations, billing, SAML, or channel credentials through these tools.
+      ADMIN_TOOLS_TEXT
     end
     # rubocop:enable Metrics/MethodLength
 

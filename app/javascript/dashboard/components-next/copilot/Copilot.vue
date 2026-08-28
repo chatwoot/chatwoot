@@ -11,6 +11,7 @@ import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
 import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
 import CopilotEmptyState from './CopilotEmptyState.vue';
+import CopilotPendingAdminAction from './CopilotPendingAdminAction.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import { useI18n } from 'vue-i18n';
 
@@ -35,9 +36,23 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  pendingAdminActions: {
+    type: Array,
+    default: () => [],
+  },
+  isProcessingAdminAction: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['sendMessage', 'reset', 'setAssistant']);
+const emit = defineEmits([
+  'sendMessage',
+  'reset',
+  'setAssistant',
+  'confirmAdminAction',
+  'rejectAdminAction',
+]);
 
 const { t } = useI18n();
 
@@ -158,6 +173,15 @@ watch(
             :default-collapsed="isLastMessageFromAssistant"
           />
         </template>
+
+        <CopilotPendingAdminAction
+          v-for="pendingAction in pendingAdminActions"
+          :key="pendingAction.id"
+          :pending-action="pendingAction"
+          :is-processing="isProcessingAdminAction"
+          @confirm="emit('confirmAdminAction', $event)"
+          @reject="emit('rejectAdminAction', $event)"
+        />
 
         <CopilotLoader v-if="!isLastMessageFromAssistant" />
       </div>
