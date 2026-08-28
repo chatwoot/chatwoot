@@ -5,21 +5,51 @@ class Voice::CallStatus::Manager
     return unless Call::STATUSES.include?(status)
 
     applied = false
+    deferred = false
     call.with_lock do
       next if call.status == status
-      # Don't overwrite a terminal status — Twilio's late `completed` events would
-      # otherwise clobber an agent-rejection reason.
       next if Call::TERMINAL_STATUSES.include?(call.status)
-      next if termination_blocks?(allow_during_termination)
+
+      if termination_blocks?(allow_during_termination)
+        if Call::TERMINAL_STATUSES.include?(status)
+          Voice::CallTerminationGuard.persist_pending_terminal!(
+            call,
+            status: status,
+            duration: duration,
+            timestamp: timestamp
+          )
+          deferred = true
+        end
+        next
+      end
 
       apply_call_updates!(status, duration: duration, timestamp: timestamp)
       applied = true
     end
-    return unless applied
 
-    call.conversation.update!(last_activity_at: Time.zone.now)
-    # Bump updated_at so the message.updated dispatcher rebroadcasts with the fresh Call embedded.
-    call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+    schedule_reconciliation if deferred
+    publish_update if applied
+  end
+
+  def reconcile_suppressed_terminal!
+    applied = false
+    call.with_lock do
+      next if Call::TERMINAL_STATUSES.include?(call.status)
+      next if Voice::CallTerminationGuard.active?(call)
+
+      pending = Voice::CallTerminationGuard.pending_terminal(call)
+      next if pending.blank?
+
+      Voice::CallTerminationGuard.clear_stale!(call)
+      apply_call_updates!(
+        pending['status'],
+        duration: pending['duration'],
+        timestamp: pending['timestamp']
+      )
+      Voice::CallTerminationGuard.clear_pending_terminal!(call)
+      applied = true
+    end
+    publish_update if applied
   end
 
   private
@@ -31,13 +61,20 @@ class Voice::CallStatus::Manager
     Voice::CallTerminationGuard.active?(call)
   end
 
+  def schedule_reconciliation
+    Voice::ReconcileSuppressedTerminationJob.set(wait: Voice::CallTerminationGuard::STALE_AFTER + 5.seconds).perform_later(call.id)
+  end
+
+  def publish_update
+    call.conversation.update!(last_activity_at: Time.zone.now)
+    call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+  end
+
   def apply_call_updates!(status, duration:, timestamp:)
     attrs = { status: status }
     ts = timestamp || now_seconds
 
     if status == 'in_progress'
-      # Twilio can emit multiple in-progress updates (answered + in-progress, retries).
-      # Keep the earliest timestamp so duration_seconds doesn't shift forward.
       started_at = Time.zone.at(ts)
       attrs[:started_at] = started_at if call.started_at.nil? || started_at < call.started_at
     elsif Call::TERMINAL_STATUSES.include?(status)
