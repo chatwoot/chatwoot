@@ -30,13 +30,15 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     call = resolve_call!
     conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
     termination = claim_termination!(call)
+    provider_teardown_succeeded = false
 
     begin
       conference_service.end_provider_call
+      provider_teardown_succeeded = true
       finalize_call!(call, termination)
       conference_service.complete_conference
     ensure
-      release_termination!(call, termination[:token])
+      release_termination!(call, termination[:token], replay_pending: !provider_teardown_succeeded)
     end
 
     call.broadcast_voice_call_event(:ended, status: call.display_status)
@@ -103,10 +105,21 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     end
   end
 
-  def release_termination!(call, token)
+  def release_termination!(call, token, replay_pending: false)
     return if token.blank?
 
-    call.with_lock { Voice::CallTerminationGuard.release!(call, token) }
+    pending = nil
+    call.with_lock do
+      pending = Voice::CallTerminationGuard.pending_status(call) if replay_pending
+      Voice::CallTerminationGuard.release!(call, token)
+    end
+    return if pending.blank?
+
+    Voice::CallStatus::Manager.new(call: call).process_status_update(
+      pending['status'],
+      duration: pending['duration'],
+      timestamp: pending['timestamp']
+    )
   end
 
   def finalize_call!(call, termination)
