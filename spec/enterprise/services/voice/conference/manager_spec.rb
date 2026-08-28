@@ -10,7 +10,7 @@ RSpec.describe Voice::Conference::Manager do
                   contact: conversation.contact, status: 'ringing')
   end
 
-  it 'ignores a late agent join while agent teardown is pending' do
+  it 'defers a late agent join while agent teardown is pending' do
     call.update!(meta: call.meta.merge('agent_termination_token' => 'termination-1'))
     allow(call).to receive(:broadcast_voice_call_event)
 
@@ -25,6 +25,10 @@ RSpec.describe Voice::Conference::Manager do
     expect(call.status).to eq('ringing')
     expect(call.accepted_by_agent_id).to be_nil
     expect(call.accepted_broadcast_at).to be_nil
+    expect(call.meta['agent_termination_pending_join']).to eq(
+      'participant_label' => "agent-#{agent.id}-account-#{account.id}",
+      'participant_call_sid' => 'CA_AGENT_1'
+    )
     expect(call).not_to have_received(:broadcast_voice_call_event)
   end
 
