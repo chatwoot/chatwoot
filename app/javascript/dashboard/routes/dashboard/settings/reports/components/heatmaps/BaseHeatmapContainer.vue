@@ -113,6 +113,34 @@ const selectedInboxFilter = computed(() => {
 });
 
 const isLoading = computed(() => uiFlags.value[props.uiFlagKey]);
+const isResolutionHeatmap = computed(
+  () => props.metric === 'resolutions_count'
+);
+const heatmapAriaLabel = computed(() =>
+  t('OVERVIEW_REPORTS.HEATMAP_ARIA_LABEL', { metric: props.title })
+);
+
+const formatHeatmapValue = value => {
+  if (isResolutionHeatmap.value) {
+    if (!value) {
+      return t('OVERVIEW_REPORTS.RESOLUTION_HEATMAP.NO_CONVERSATIONS');
+    }
+    return value === 1
+      ? t('OVERVIEW_REPORTS.RESOLUTION_HEATMAP.CONVERSATION', { count: value })
+      : t('OVERVIEW_REPORTS.RESOLUTION_HEATMAP.CONVERSATIONS', {
+          count: value,
+        });
+  }
+
+  if (!value) {
+    return t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.NO_CONVERSATIONS');
+  }
+  return value === 1
+    ? t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATION', { count: value })
+    : t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATIONS', {
+        count: value,
+      });
+};
 
 // Keeps relative presets (last 7 days / this month) aligned with "now" during live refreshes.
 const resolveActiveRange = () => {
@@ -307,6 +335,8 @@ onMounted(() => {
         :number-of-rows="numberOfRows"
         :is-loading="isLoading"
         :color-scheme="colorScheme"
+        :aria-label="heatmapAriaLabel"
+        :format-value="formatHeatmapValue"
       />
     </MetricCard>
   </div>

@@ -1,4 +1,4 @@
-import { shallowMount, flushPromises } from '@vue/test-utils';
+import { flushPromises, shallowMount } from '@vue/test-utils';
 import { ref } from 'vue';
 import axios from 'axios';
 
@@ -22,11 +22,17 @@ vi.mock('dashboard/store/utils/api', () => ({
 }));
 
 describe('MfaVerification', () => {
-  it('returns the authenticated user to the login flow after verification', async () => {
+  it('stores persistent credentials and returns the authenticated user to the login flow', async () => {
     const user = { id: 1, accounts: [{ id: 2 }] };
     const response = {
       data: { data: user },
-      headers: { 'access-token': 'token' },
+      headers: {
+        'access-token': 'token',
+        'token-type': 'Bearer',
+        client: 'client',
+        expiry: '1789084800',
+        uid: 'user@example.com',
+      },
     };
     axios.post.mockResolvedValue(response);
     const wrapper = shallowMount(MfaVerification, {
@@ -36,15 +42,19 @@ describe('MfaVerification', () => {
       },
     });
 
-    const inputs = wrapper.findAll('input');
-    await inputs[0].setValue('1');
-    await inputs[1].setValue('2');
-    await inputs[2].setValue('3');
-    await inputs[3].setValue('4');
-    await inputs[4].setValue('5');
-    await inputs[5].setValue('6');
+    const otpInputs = wrapper.findAll('input[inputmode="numeric"]');
+    await otpInputs[0].setValue('1');
+    await otpInputs[1].setValue('2');
+    await otpInputs[2].setValue('3');
+    await otpInputs[3].setValue('4');
+    await otpInputs[4].setValue('5');
+    await otpInputs[5].setValue('6');
     await flushPromises();
 
+    expect(axios.post).toHaveBeenCalledWith('/auth/sign_in', {
+      mfa_token: 'mfa-token',
+      otp_code: '123456',
+    });
     expect(setAuthCredentials).toHaveBeenCalledWith(response);
     expect(clearLocalStorageOnLogout).toHaveBeenCalledTimes(1);
     expect(wrapper.emitted('verified')).toEqual([[user]]);
