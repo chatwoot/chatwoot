@@ -39,22 +39,6 @@ RSpec.describe Voice::RecordingStatusService do
   end
 
   describe '#perform' do
-    it 'finds the call by CallSid for recordings started on the contact leg' do
-      leg_payload = complete_payload.except('ConferenceSid').merge('CallSid' => call.provider_call_id)
-
-      expect do
-        described_class.new(account: account, payload: leg_payload).perform
-      end.to have_enqueued_job(Voice::Provider::Twilio::RecordingAttachmentJob).with(call.id, recording_sid, recording_url, recording_duration)
-    end
-
-    it 'ignores segments that were stopped by turning recording off, even once recording is back on' do
-      call.update!(discarded_recording_sids: [recording_sid])
-
-      expect do
-        described_class.new(account: account, payload: complete_payload).perform
-      end.not_to have_enqueued_job(Voice::Provider::Twilio::RecordingAttachmentJob)
-    end
-
     it 'enqueues the recording attachment job for the matching call' do
       expect do
         described_class.new(account: account, payload: complete_payload).perform

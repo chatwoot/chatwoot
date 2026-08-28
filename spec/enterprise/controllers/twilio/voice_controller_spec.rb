@@ -65,7 +65,6 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('record="do-not-record"')
-      expect(call.reload.recording_started).to be false
     end
 
     it 'looks up the Call when Twilio sends the outbound-api PSTN leg' do

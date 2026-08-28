@@ -3,10 +3,10 @@ class Voice::RecordingStatusService
 
   def perform
     return unless completed_recording?
-    return if recording_sid.blank? || recording_url.blank?
+    return if conference_sid.blank? || recording_sid.blank? || recording_url.blank?
 
-    call = find_call
-    return if call.blank? || Array(call.discarded_recording_sids).include?(recording_sid)
+    call = Call.where(account_id: account.id).by_twilio_conference_sid(conference_sid).first
+    return if call.blank?
 
     Voice::Provider::Twilio::RecordingAttachmentJob.perform_later(
       call.id,
@@ -17,14 +17,6 @@ class Voice::RecordingStatusService
   end
 
   private
-
-  # Conference recordings carry ConferenceSid; recordings started on the contact leg mid-call carry only CallSid.
-  def find_call
-    calls = Call.where(account_id: account.id)
-    return calls.by_twilio_conference_sid(conference_sid).first if conference_sid.present?
-
-    calls.find_by(provider: :twilio, provider_call_id: payload['CallSid'].to_s.presence)
-  end
 
   def completed_recording?
     payload['RecordingStatus'].to_s.casecmp('completed').zero?

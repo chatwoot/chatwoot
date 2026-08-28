@@ -30,11 +30,6 @@ module Enterprise::Channel::TwilioSms
     Rails.application.routes.url_helpers.twilio_voice_status_url(phone: digits)
   end
 
-  def voice_recording_status_webhook_url
-    digits = phone_number.delete_prefix('+')
-    Rails.application.routes.url_helpers.twilio_voice_recording_status_url(phone: digits)
-  end
-
   # Voice channels store the secret in api_key_secret; SMS channels keep using auth_token via super.
   def client
     if api_key_sid.present? && api_key_secret.present?

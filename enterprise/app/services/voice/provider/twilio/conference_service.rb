@@ -23,43 +23,7 @@ class Voice::Provider::Twilio::ConferenceService
       .each { |conf| client.conferences(conf.sid).update(status: 'completed') }
   end
 
-  # Twilio can't start a conference recording over REST, so record the contact's leg instead —
-  # both tracks of that leg are the whole conversation.
-  def start_recording
-    channel = call.inbox.channel
-    channel.client.calls(call.provider_call_id).recordings.create(
-      recording_status_callback: channel.voice_recording_status_webhook_url,
-      recording_status_callback_event: ['completed'],
-      recording_status_callback_method: 'POST'
-    )
-    call.update!(recording_started: true)
-  end
-
-  # Stops whichever recording is live: the conference's (TwiML record-from-start) or the contact leg's (start_recording).
-  # The stopped segments are remembered so their completion callbacks are discarded even if recording is re-enabled.
-  def stop_recording
-    client = call.inbox.channel.client
-    stopped = twilio_conference_sids(client).map { |sid| stop_current_recording(client.conferences(sid)) }
-    stopped << stop_current_recording(client.calls(call.provider_call_id))
-    call.update!(recording_started: false, discarded_recording_sids: (Array(call.discarded_recording_sids) + stopped.compact).uniq)
-  end
-
   private
-
-  # Returns the stopped recording's sid; a 404 means that resource has no recording in progress.
-  def stop_current_recording(resource)
-    resource.recordings('Twilio.CURRENT').update(status: 'stopped').sid
-  rescue Twilio::REST::RestError => e
-    raise unless e.status_code == 404
-  end
-
-  # Twilio's SID is only persisted by the first conference callback; before that, resolve it by our FriendlyName.
-  def twilio_conference_sids(client)
-    return [call.twilio_conference_sid] if call.twilio_conference_sid.present?
-    return [] if call.conference_sid.blank?
-
-    client.conferences.list(friendly_name: call.conference_sid, status: 'in-progress').map(&:sid)
-  end
 
   def claim_call!(user)
     call.with_lock do

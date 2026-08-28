@@ -7,7 +7,6 @@ import { useImpersonation } from 'dashboard/composables/useImpersonation';
 import { useCallsStore } from 'dashboard/stores/calls';
 import {
   applyOutboundAnswer,
-  applyRecordingSetting,
   armOutboundRecorder,
   handleWhatsappRemoteEnd,
   isLocalWhatsappCall,
@@ -66,7 +65,6 @@ class ActionCableConnector extends BaseActionCableConnector {
       'voice_call.accepted': this.onVoiceCallAccepted,
       'voice_call.outbound_connected': this.onVoiceCallOutboundConnected,
       'voice_call.outbound_accepted': this.onVoiceCallOutboundAccepted,
-      'voice_call.recording_setting': this.onVoiceCallRecordingSetting,
       'voice_call.ended': this.onVoiceCallEnded,
     };
   }
@@ -377,6 +375,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       provider: VOICE_CALL_PROVIDERS.WHATSAPP,
       sdpOffer: data.sdp_offer,
       iceServers: data.ice_servers,
+      recordingEnabled: data.recording_enabled !== false,
       caller: data.caller,
     });
   };
@@ -429,14 +428,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     const store = useCallsStore();
     if (!store.calls.some(c => c.callSid === data.call_id)) return;
     store.setCallActive(data.call_id);
-    armOutboundRecorder(data.recording_enabled !== false);
-  };
-
-  // An admin flipped "Record calls" on an inbox; a live call on that inbox
-  // stops (or starts) its recorder immediately instead of at the next call.
-  // eslint-disable-next-line class-methods-use-this
-  onVoiceCallRecordingSetting = data => {
-    applyRecordingSetting(data.inbox_id, data.recording_enabled !== false);
+    armOutboundRecorder();
   };
 
   // eslint-disable-next-line class-methods-use-this

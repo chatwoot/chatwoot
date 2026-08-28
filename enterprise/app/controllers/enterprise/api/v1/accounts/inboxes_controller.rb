@@ -32,16 +32,12 @@ module Enterprise::Api::V1::Accounts::InboxesController
     render_could_not_create_error(e.message)
   end
 
-  # Only the flags present in the request are merged, so two admins toggling different settings can't clobber each other.
+  # Only the flags present in the request are merged, so a toggle never clobbers the other setting.
   def set_call_recording
     return unless ensure_calling_supported
 
     flags = params.permit(:recording_enabled, :transcription_enabled).to_h
-    save_call_flags!(flags.transform_values { |value| ActiveModel::Type::Boolean.new.cast(value) }) do |previous|
-      # Still inside the row lock, so concurrent toggles apply their side effects in the same order as their writes.
-      was_recording = previous['recording_enabled'] != false
-      Voice::RecordingSettingChangeService.new(inbox: @inbox).perform if @inbox.channel.recording_enabled? != was_recording
-    end
+    save_call_flags!(flags.transform_values { |value| ActiveModel::Type::Boolean.new.cast(value) })
     head :ok
   rescue StandardError => e
     render_could_not_create_error(e.message)
@@ -69,16 +65,12 @@ module Enterprise::Api::V1::Accounts::InboxesController
     false
   end
 
-  # Flags live in provider_config. The row lock serializes concurrent toggles (each merges only its
-  # own keys), and validate: false keeps WhatsApp's remote credential re-check from rejecting a toggle.
+  # Flags live in provider_config. Saved with validate: false so WhatsApp's remote credential
+  # re-check (validate_provider_config) can't reject a simple toggle, mirroring enable_voice_calling!.
   def save_call_flags!(flags)
     channel = @inbox.channel
-    channel.with_lock do
-      previous = channel.provider_config
-      channel.provider_config = previous.merge(flags)
-      channel.save!(validate: false)
-      yield(previous) if block_given?
-    end
+    channel.provider_config = channel.provider_config.merge(flags)
+    channel.save!(validate: false)
     @inbox.update_account_cache # bump inbox cache key so the cached inbox list refetches the new flags
   end
 

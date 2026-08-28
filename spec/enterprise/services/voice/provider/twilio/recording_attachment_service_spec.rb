@@ -111,25 +111,6 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
       expect(call.reload.recording.blob.checksum).to be_present
     end
 
-    it 'does not download the recording when the inbox already has recording turned off' do
-      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
-
-      perform_service
-
-      expect(SafeFetch).not_to have_received(:fetch)
-      expect(call.reload.recording).not_to be_attached
-    end
-
-    it 'does not store the recording when recording was turned off by the time the audio is persisted' do
-      allow(SafeFetch).to receive(:fetch) do |&block|
-        channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
-        block.call(safe_fetch_result)
-      end
-
-      expect { perform_service }.not_to have_enqueued_job(Voice::CallTranscriptionJob)
-      expect(call.reload.recording).not_to be_attached
-    end
-
     it 'enqueues transcription for the invocation that stored the recording' do
       expect { perform_service }.to have_enqueued_job(Voice::CallTranscriptionJob).with(call.id)
     end

@@ -30,7 +30,6 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def upload_recording
     @upload_status = @call.message.with_lock { attach_recording_idempotently }
-    render_could_not_create_error(I18n.t('errors.whatsapp.calls.recording_disabled')) if @upload_status == 'recording_disabled'
   end
 
   def initiate
@@ -123,14 +122,11 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def attach_recording_idempotently
     return 'already_uploaded' if @call.message.attachments.exists?(file_type: :audio)
+    # A call already in progress when recording was turned off still uploads; drop it here.
+    return 'recording_disabled' unless @call.inbox.channel.recording_enabled?
 
-    # The flag is read under the channel row lock, so this serializes with set_call_recording's write.
-    @call.inbox.channel.with_lock do
-      next 'recording_disabled' unless @call.inbox.channel.recording_enabled?
-
-      @call.message.attachments.create!(account_id: @call.account_id, file_type: :audio, file: params[:recording])
-      'uploaded'
-    end
+    @call.message.attachments.create!(account_id: @call.account_id, file_type: :audio, file: params[:recording])
+    'uploaded'
   end
 
   def create_outbound_call

@@ -109,9 +109,8 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
     end
 
     context 'when administrator' do
-      it 'turns recording and transcription off on a Twilio voice inbox and notifies live calls' do
+      it 'turns recording and transcription off on a Twilio voice inbox' do
         channel = create(:channel_twilio_sms, :with_voice, account: account)
-        allow(ActionCable.server).to receive(:broadcast)
 
         post "/api/v1/accounts/#{account.id}/inboxes/#{channel.inbox.id}/set_call_recording",
              headers: admin.create_new_auth_token,
@@ -120,11 +119,6 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
 
         expect(response).to have_http_status(:ok)
         expect(channel.reload).to have_attributes(recording_enabled?: false, transcription_enabled?: false)
-        expect(ActionCable.server).to have_received(:broadcast).with(
-          "account_#{account.id}",
-          { event: 'voice_call.recording_setting',
-            data: { account_id: account.id, inbox_id: channel.inbox.id, recording_enabled: false } }
-        )
       end
 
       it 'merges only the supplied flag on a WhatsApp inbox without re-validating provider config' do
