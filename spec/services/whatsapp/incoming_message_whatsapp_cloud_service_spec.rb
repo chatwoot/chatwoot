@@ -452,7 +452,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
           described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
 
-          reply_message = whatsapp_channel.inbox.messages.last
+          reply_message = whatsapp_channel.inbox.messages.find_by(source_id: 'wamid.REPLY_MESSAGE_ID')
           expect(reply_message.content).to eq('This is a reply')
           expect(reply_message.content_attributes['in_reply_to']).to eq(original_message.id)
           expect(reply_message.content_attributes['in_reply_to_external_id']).to eq('wamid.ORIGINAL_MESSAGE_ID')
@@ -468,6 +468,37 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           expect(reply_message.content_attributes['in_reply_to']).to be_nil
           expect(reply_message.content_attributes['in_reply_to_external_id']).to be_nil
         end
+      end
+    end
+
+    context 'when the webhook provides a message timestamp' do
+      let(:timestamp_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: '2423423243' }],
+                messages: [{
+                  from: '2423423243',
+                  id: 'wamid.delayed-message',
+                  text: { body: 'Sent before the webhook was processed' },
+                  timestamp: '1664799904',
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'stores the message using the WhatsApp timestamp instead of the processing time' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: timestamp_params).perform
+
+        message = whatsapp_channel.inbox.messages.last
+        expect(message.created_at).to eq(Time.zone.at(1_664_799_904))
+        expect(message.updated_at).to eq(Time.zone.at(1_664_799_904))
       end
     end
   end

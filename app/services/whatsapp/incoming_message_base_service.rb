@@ -170,8 +170,15 @@ class Whatsapp::IncomingMessageBaseService
       status: outgoing_echo ? :delivered : :sent,
       sender: outgoing_echo ? nil : @contact,
       source_id: (source_id || message[:id]).to_s,
-      content_attributes: message_content_attributes(content_attributes_source)
+      content_attributes: message_content_attributes(content_attributes_source),
+      created_at: message_timestamp,
+      updated_at: message_timestamp
     )
+  end
+
+  def message_timestamp
+    timestamp = messages_data.first[:timestamp]
+    Time.zone.at(timestamp.to_i) if timestamp.present?
   end
 
   def message_content_attributes(message)
