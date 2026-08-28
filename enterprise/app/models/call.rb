@@ -53,7 +53,8 @@ class Call < ApplicationRecord
   has_one_attached :recording
 
   # Snapshot the inbox setting so a mid-call toggle can't change this call's outcome.
-  before_create { self.recording_enabled = inbox.channel.recording_enabled? if recording_enabled.nil? }
+  # try: only voice-capable channels define the flag; anything else leaves it unset.
+  before_create { self.recording_enabled = inbox.channel.try(:recording_enabled?) if recording_enabled.nil? }
 
   validates :provider_call_id, presence: true
   validates :provider, presence: true
