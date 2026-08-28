@@ -57,6 +57,10 @@ class AgentNotifications::ConversationNotificationsMailer < ApplicationMailer
 
   private
 
+  def liquid_locals
+    super.merge({ notification_settings_url: "#{app_account_url(@conversation.account_id)}/profile/settings" })
+  end
+
   def liquid_droppables
     super.merge({
                   user: @agent,

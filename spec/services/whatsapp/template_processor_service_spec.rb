@@ -64,6 +64,42 @@ describe Whatsapp::TemplateProcessorService do
     end
   end
 
+  context 'with positional body parameters' do
+    let(:template) do
+      {
+        'name' => 'positional_body',
+        'language' => 'en_US',
+        'status' => 'APPROVED',
+        'parameter_format' => 'POSITIONAL',
+        'components' => [{ 'type' => 'BODY', 'text' => '{{1}} / {{2}}' }]
+      }
+    end
+    let(:template_params) do
+      {
+        'name' => template['name'],
+        'language' => template['language'],
+        'processed_params' => {
+          'body' => {
+            '2' => 'Bob',
+            '1' => 'Alice'
+          }
+        }
+      }
+    end
+
+    it 'orders parameters by their positional key' do
+      expect(processed_components).to eq([
+                                           {
+                                             type: 'body',
+                                             parameters: [
+                                               { type: 'text', text: 'Alice' },
+                                               { type: 'text', text: 'Bob' }
+                                             ]
+                                           }
+                                         ])
+    end
+  end
+
   context 'with a media header' do
     let(:template) do
       {

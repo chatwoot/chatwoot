@@ -34,6 +34,10 @@ class InboxPolicy < ApplicationPolicy
     true
   end
 
+  def message_templates?
+    true
+  end
+
   def campaigns?
     @account_user.administrator?
   end

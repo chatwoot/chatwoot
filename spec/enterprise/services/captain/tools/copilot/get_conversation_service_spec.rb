@@ -106,6 +106,8 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
       let(:inbox) { create(:inbox, account: account) }
       let(:conversation) { create(:conversation, account: account, inbox: inbox) }
 
+      before { create(:inbox_member, user: user, inbox: inbox) }
+
       it 'returns the conversation in llm text format' do
         result = service.execute(conversation_id: conversation.display_id)
         expect(result).to eq(conversation.to_llm_text)
@@ -142,6 +144,106 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
         it 'returns not found message' do
           expect(service.execute(conversation_id: other_conversation.display_id)).to eq('Conversation not found')
         end
+      end
+    end
+
+    context 'when conversation is in an inbox the user does not belong to' do
+      let(:other_inbox) { create(:inbox, account: account) }
+      let(:conversation) { create(:conversation, account: account, inbox: other_inbox) }
+
+      it 'returns not found message' do
+        expect(service.execute(conversation_id: conversation.display_id)).to eq('Conversation not found')
+      end
+
+      context 'when user is an administrator' do
+        let(:user) { create(:user, :administrator, account: account) }
+
+        it 'returns the conversation in llm text format' do
+          expect(service.execute(conversation_id: conversation.display_id)).to eq(conversation.to_llm_text)
+        end
+      end
+    end
+
+    context 'when conversation is accessible through team membership' do
+      let(:team) { create(:team, account: account) }
+      let(:conversation) { create(:conversation, :with_team, account: account, team: team) }
+
+      before { create(:team_member, team: team, user: user) }
+
+      it 'returns the conversation in llm text format' do
+        expect(service.execute(conversation_id: conversation.display_id)).to eq(conversation.to_llm_text)
+      end
+    end
+
+    context 'when user only has conversation_participating_manage permission' do
+      let(:inbox) { create(:inbox, account: account) }
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_participating_manage']) }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+
+      before do
+        create(:inbox_member, user: user, inbox: inbox)
+        AccountUser.find_by(user: user, account: account).update(role: :agent, custom_role: custom_role)
+      end
+
+      it 'returns not found message for a conversation they neither own nor participate in' do
+        expect(service.execute(conversation_id: conversation.display_id)).to eq('Conversation not found')
+      end
+
+      it 'returns the conversation when it is assigned to them' do
+        conversation.update(assignee: user)
+        expect(service.execute(conversation_id: conversation.display_id)).to eq(conversation.to_llm_text)
+      end
+    end
+
+    context 'when user only has conversation_unassigned_manage permission' do
+      let(:inbox) { create(:inbox, account: account) }
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_unassigned_manage']) }
+      let(:agent_bot) { create(:agent_bot, account: account) }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee_agent_bot: agent_bot) }
+
+      before do
+        create(:inbox_member, user: user, inbox: inbox)
+        AccountUser.find_by!(user: user, account: account).update!(role: :agent, custom_role: custom_role)
+        create(:message, conversation: conversation, private: true, content: 'Agent bot private note')
+      end
+
+      it 'does not return a conversation assigned to an agent bot' do
+        expect(service.execute(conversation_id: conversation.display_id)).to eq('Conversation not found')
+      end
+    end
+
+    context 'when an administrator has a limited custom role' do
+      let(:user) { create(:user, :administrator, account: account) }
+      let(:inbox) { create(:inbox, account: account) }
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_participating_manage']) }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+
+      before do
+        create(:inbox_member, user: user, inbox: inbox)
+        AccountUser.find_by(user: user, account: account).update!(custom_role: custom_role)
+        create(:message, conversation: conversation, private: true, content: 'Restricted private note')
+      end
+
+      it 'does not return an unrelated conversation or its private messages' do
+        expect(service.execute(conversation_id: conversation.display_id)).to eq('Conversation not found')
+      end
+
+      it 'returns a conversation assigned to the user outside their inboxes' do
+        assigned_conversation = create(:conversation, account: account, assignee: user)
+
+        expect(service.execute(conversation_id: assigned_conversation.display_id)).to eq(assigned_conversation.to_llm_text)
+      end
+    end
+
+    context 'when an administrator has a conversation_manage custom role' do
+      let(:user) { create(:user, :administrator, account: account) }
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_manage']) }
+      let(:conversation) { create(:conversation, account: account) }
+
+      before { AccountUser.find_by(user: user, account: account).update!(custom_role: custom_role) }
+
+      it 'returns a conversation outside their inboxes' do
+        expect(service.execute(conversation_id: conversation.display_id)).to eq(conversation.to_llm_text)
       end
     end
   end
