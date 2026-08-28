@@ -65,7 +65,8 @@
     "ORDERED_LIST": "Ordered List",
     "TABLE": "Table",
     "IMAGE": "Image",
-    "VIDEO": "Video"
+    "VIDEO": "Video",
+    "DIVIDER": "Divider"
   },
   "VIDEO_EMBED": {
     "PLACEHOLDER": "Paste a video link",

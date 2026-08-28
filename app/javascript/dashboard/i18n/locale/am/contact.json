@@ -612,6 +612,9 @@
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "ፍለጋው አልተጠናቀቀም። እባክዎ ደግመው ይሞክሩ።."
     },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
+    },
     "FORM": {
       "GO_TO_CONVERSATION": "እይ",
       "SUCCESS_MESSAGE": "መልእክቱ በተሳካ ሁኔታ ተልኳል!",

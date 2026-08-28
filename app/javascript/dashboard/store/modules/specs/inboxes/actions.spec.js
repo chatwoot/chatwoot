@@ -95,8 +95,9 @@ describe('#actions', () => {
       ]);
     });
     it('sends correct actions if API is error', async () => {
-      axios.post.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(actions.createFBChannel({ commit })).rejects.toThrow(Error);
+      const error = { response: { data: { error: 'Incorrect header' } } };
+      axios.post.mockRejectedValue(error);
+      await expect(actions.createFBChannel({ commit })).rejects.toBe(error);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_INBOXES_UI_FLAG, { isCreating: true }],
         [types.default.SET_INBOXES_UI_FLAG, { isCreating: false }],
