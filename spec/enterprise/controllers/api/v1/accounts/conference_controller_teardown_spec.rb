@@ -115,6 +115,32 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     expect(call.meta['agent_termination_pending_status']).to be_nil
   end
 
+  it 'replays an agent join when provider teardown fails' do
+    allow(conference_service).to receive(:end_provider_call) do
+      call = Call.find_by!(provider_call_id: 'CALL123')
+      Voice::Conference::Manager.new(
+        call: call,
+        event: 'join',
+        participant_label: "agent-#{agent.id}-account-#{account.id}",
+        participant_call_sid: 'CA_AGENT_1'
+      ).process
+      expect(call.reload.status).to eq('ringing')
+      raise StandardError, 'provider teardown failed'
+    end
+
+    delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+           headers: agent.create_new_auth_token,
+           params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+    expect(response).to have_http_status(:internal_server_error)
+    call = Call.find_by!(provider_call_id: 'CALL123')
+    expect(call.status).to eq('in_progress')
+    expect(call.accepted_by_agent_id).to eq(agent.id)
+    expect(call.accepted_broadcast_at).to be_present
+    expect(call.meta['agent_termination_token']).to be_nil
+    expect(call.meta['agent_termination_pending_join']).to be_nil
+  end
+
   it 'replays a deferred terminal callback when local finalization fails' do
     allow(conference_service).to receive(:end_provider_call) do
       call = Call.find_by!(provider_call_id: 'CALL123')
