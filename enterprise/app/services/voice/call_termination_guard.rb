@@ -2,6 +2,7 @@ class Voice::CallTerminationGuard
   TOKEN_KEY = 'agent_termination_token'.freeze
   STARTED_AT_KEY = 'agent_termination_started_at'.freeze
   DISCONNECT_SUPPRESS_CALL_SID_KEY = 'agent_disconnect_suppress_call_sid'.freeze
+  PENDING_TERMINAL_KEY = 'agent_termination_pending_terminal'.freeze
   STALE_AFTER = 2.minutes
 
   class << self
@@ -14,12 +15,12 @@ class Voice::CallTerminationGuard
     def clear_stale!(call, now: Time.zone.now)
       return false if token(call).blank? || active?(call, now: now)
 
-      call.update!(meta: cleared_meta(call))
+      call.update!(meta: cleared_ownership_meta(call))
       true
     end
 
     def claim_meta(call, token:, now: Time.zone.now)
-      cleared_meta(call).merge(
+      cleared_ownership_meta(call).merge(
         TOKEN_KEY => token,
         STARTED_AT_KEY => now.to_i
       )
@@ -33,6 +34,29 @@ class Voice::CallTerminationGuard
       return false unless owned_by?(call, token)
 
       call.update!(meta: cleared_meta(call))
+      true
+    end
+
+    def persist_pending_terminal!(call, status:, duration:, timestamp:)
+      call.update!(
+        meta: call.meta.merge(
+          PENDING_TERMINAL_KEY => {
+            'status' => status,
+            'duration' => duration,
+            'timestamp' => timestamp
+          }.compact
+        )
+      )
+    end
+
+    def pending_terminal(call)
+      call.meta[PENDING_TERMINAL_KEY]
+    end
+
+    def clear_pending_terminal!(call)
+      return false if pending_terminal(call).blank?
+
+      call.update!(meta: call.meta.except(PENDING_TERMINAL_KEY))
       true
     end
 
@@ -76,13 +100,15 @@ class Voice::CallTerminationGuard
       value = call.meta[STARTED_AT_KEY]
       return Time.zone.at(value.to_i) if value.to_i.positive?
 
-      # Backward compatibility for guards written before STARTED_AT_KEY existed.
-      # They remain protected briefly, then recover automatically.
       call.updated_at
     end
 
-    def cleared_meta(call)
+    def cleared_ownership_meta(call)
       call.meta.except(TOKEN_KEY, STARTED_AT_KEY)
+    end
+
+    def cleared_meta(call)
+      cleared_ownership_meta(call).except(PENDING_TERMINAL_KEY)
     end
   end
 end
