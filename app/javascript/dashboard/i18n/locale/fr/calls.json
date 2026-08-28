@@ -1,0 +1,45 @@
+{
+  "CALLS_PAGE": {
+    "HEADER": "Appels",
+    "ALL_CALLS": "Tous les appels",
+    "ALL_CALLS_COUNT": "Tous les appels ({count})",
+    "EMPTY_STATE": "Aucun appel trouvé",
+    "SETUP": {
+      "TITLE": "Passer et recevoir des appels en un seul endroit",
+      "SUBTITLE": "Configurez un canal vocal pour commencer à traiter les appels avec votre équipe. Chaque appel, ainsi que son enregistrement, apparaîtra ici.",
+      "ACTION": "Configurer un canal vocal"
+    },
+    "FILTERS": {
+      "MISSED": "Manqué",
+      "NO_REPLY": "Pas de réponse",
+      "OTHER_ACTIVITY": "Autre activité",
+      "INCOMING": "Entrant",
+      "OUTGOING": "Sortant",
+      "IN_PROGRESS": "En cours",
+      "ASSIGNEE": "Assigné à",
+      "ALL_ASSIGNEES": "Tous les assignés",
+      "MORE_FILTERS": "Plus de filtres",
+      "INBOX": "Boîte de réception",
+      "ALL_INBOXES": "Toutes les boîtes de réception"
+    },
+    "STATUS": {
+      "ONGOING": "En cours",
+      "INCOMING": "Entrant",
+      "OUTGOING": "Sortant",
+      "MISSED": "Manqué",
+      "NO_REPLY": "Pas de réponse",
+      "FAILED": "Échec"
+    },
+    "ROW": {
+      "PICKED_BY": "Pris en charge par",
+      "DIALED_BY": "Composé par",
+      "ANSWERED": "Répondu",
+      "RINGING": "Sonnerie en cours",
+      "IN_PROGRESS": "En cours",
+      "NO_AGENT": "Aucun agent n'a répondu à cet appel",
+      "NO_CONTACT_ANSWER": "Le contact n'a pas répondu",
+      "FAILED": "Cet appel n'a pas pu être connecté",
+      "YESTERDAY": "Hier"
+    }
+  }
+}

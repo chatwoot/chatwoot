@@ -264,7 +264,8 @@
     "EMAIL_VERIFICATION_SENT": "인증 이메일이 전송되었습니다. 받은 편지함을 확인하십시오.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "계정 정지됨",
-      "MESSAGE": "계정이 정지되었습니다. 자세한 정보는 지원팀에 문의하십시오."
+      "MESSAGE": "계정이 정지되었습니다. 자세한 정보는 지원팀에 문의하십시오.",
+      "MANAGE_BILLING": "Manage billing"
     },
     "NO_ACCOUNTS": {
       "TITLE": "계정을 찾을 수 없습니다",
@@ -324,6 +325,7 @@
     "COMPANIES": "회사",
     "ALL_COMPANIES": "모든 회사",
     "CAPTAIN": "Captain",
+    "CALLS": "Calls",
     "CAPTAIN_ASSISTANTS": "어시스턴트",
     "CAPTAIN_OVERVIEW": "개요",
     "CAPTAIN_DOCUMENTS": "문서",
@@ -338,6 +340,7 @@
     "AGENT_BOTS": "봇",
     "AUDIT_LOGS": "감사 로그",
     "INBOXES": "받은 메시지함",
+    "WHATSAPP_TEMPLATES": "Templates",
     "NOTIFICATIONS": "알림",
     "CANNED_RESPONSES": "미리 준비된 답변",
     "INTEGRATIONS": "통합",
@@ -418,6 +421,10 @@
     "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
     "LOADING": "Fetching imports",
     "DEFAULT_IMPORT_NAME": "Intercom import",
+    "DEFAULT_IMPORT_NAMES": {
+      "INTERCOM": "Intercom import",
+      "FRESHDESK": "Freshdesk import"
+    },
     "TABS": {
       "IMPORT": "가져오기",
       "EXPORT": "내보내기"
@@ -431,9 +438,15 @@
       "TITLE": "New import",
       "SOURCE": "Source",
       "NAME": "Import name",
-      "NAME_PLACEHOLDER": "July Intercom migration",
+      "NAME_PLACEHOLDER": "July support migration",
       "ACCESS_KEY": "Intercom access key",
       "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "INTERCOM_ACCESS_KEY": "Intercom access key",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "FRESHDESK_API_KEY": "Freshdesk API key",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "Paste your Freshdesk API key",
+      "FRESHDESK_DOMAIN": "Freshdesk domain",
+      "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
       "DATA_TYPES": "Data to import",
       "VALIDATING": "Validating access key...",
       "VALID_KEY": "Access key validated.",
@@ -461,6 +474,7 @@
       "STATUS": "상태",
       "IMPORTED": "Imported",
       "CREATED": "생성일",
+      "RETRY": "재시도",
       "ABANDON": "Abandon"
     },
     "DETAIL": {
@@ -506,9 +520,11 @@
       }
     },
     "ALERTS": {
-      "IMPORT_STARTED": "Intercom import has started.",
-      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
-      "IMPORT_FAILED": "Could not start the Intercom import."
+      "IMPORT_STARTED": "Import has started.",
+      "IMPORT_RETRIED": "Import has been queued to resume.",
+      "IMPORT_RETRY_FAILED": "Could not retry the import.",
+      "IMPORT_ABANDONED": "Import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the import."
     }
   },
   "CAPTAIN_SETTINGS": {

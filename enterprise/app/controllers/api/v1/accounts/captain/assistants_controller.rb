@@ -14,7 +14,12 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def update
-    @assistant.update!(assistant_params)
+    @assistant.with_lock do
+      permitted_params = assistant_params
+      permitted_params[:config] = @assistant.config.merge(permitted_params[:config].to_h) if permitted_params[:config]
+
+      @assistant.update!(permitted_params)
+    end
   end
 
   def destroy
@@ -119,20 +124,37 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def assistant_params
+    assistant_config_attributes = [
+      :product_name, :feature_faq, :feature_memory, :feature_citation,
+      :feature_contact_attributes, :welcome_message, :handoff_message,
+      :resolution_message, :instructions, :temperature, :auto_resolve_mode,
+      :response_window
+    ]
+    if Current.account.feature_enabled?('captain_integration_v2')
+      assistant_config_attributes += [:auto_resolve_after, :send_inactivity_resolution_message]
+    end
+
     permitted = params.require(:assistant).permit(:name, :description,
-                                                  config: [
-                                                    :product_name, :feature_faq, :feature_memory, :feature_citation,
-                                                    :feature_contact_attributes,
-                                                    :welcome_message, :handoff_message, :resolution_message,
-                                                    :instructions, :temperature
-                                                  ])
+                                                  config: assistant_config_attributes)
 
     # Handle array parameters separately to allow partial updates
     permitted[:response_guidelines] = params[:assistant][:response_guidelines] if params[:assistant].key?(:response_guidelines)
 
     permitted[:guardrails] = params[:assistant][:guardrails] if params[:assistant].key?(:guardrails)
 
+    permit_audience_config(permitted)
+
     permitted
+  end
+
+  # The audience is a recursive condition tree that strong params can't whitelist by shape;
+  # pass it through raw and let Captain::AudienceValidator enforce validity.
+  def permit_audience_config(permitted)
+    config = params[:assistant][:config]
+    return unless config.try(:key?, :audience)
+
+    audience = config[:audience]
+    permitted[:config][:audience] = audience.respond_to?(:permit!) ? audience.permit!.to_h : audience
   end
 
   def playground_params

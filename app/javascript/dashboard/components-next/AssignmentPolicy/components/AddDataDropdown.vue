@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import { useToggle, useWindowSize, useElementBounding } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 
 import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';

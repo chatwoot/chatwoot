@@ -1,0 +1,77 @@
+<%# Analytics tags. Every value below is validated against Portal::ANALYTICS_CONFIG_FORMATS, %>
+<%# so it is restricted to a safe shape (no quotes/angle brackets) before interpolation. %>
+<% if @portal.gtm_container_id.present? %>
+  <!-- Google Tag Manager -->
+  <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','<%= j @portal.gtm_container_id %>');
+  </script>
+  <!-- End Google Tag Manager -->
+<% end %>
+<% if @portal.ga4_measurement_id.present? %>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= @portal.ga4_measurement_id %>"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '<%= j @portal.ga4_measurement_id %>');
+  </script>
+  <!-- End Google Analytics 4 -->
+<% end %>
+<% if @portal.hotjar_site_id.present? %>
+  <!-- Hotjar -->
+  <script>
+    (function(h,o,t,j,a,r){
+    h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+    h._hjSettings={hjid:<%= @portal.hotjar_site_id.to_i %>,hjsv:6};
+    a=o.getElementsByTagName('head')[0];
+    r=o.createElement('script');r.async=1;
+    r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+    a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+  <!-- End Hotjar -->
+<% end %>
+<% if @portal.plausible_domain.present? %>
+  <!-- Plausible -->
+  <script defer data-domain="<%= @portal.plausible_domain %>" src="https://plausible.io/js/script.js"></script>
+  <!-- End Plausible -->
+<% end %>
+<% if @portal.amplitude_api_key.present? %>
+  <!-- Amplitude (analytics-only SDK, not the unified loader) -->
+  <script src="https://cdn.amplitude.com/libs/analytics-browser-2.45.5-min.js.gz"></script>
+  <script>window.amplitude.init('<%= j @portal.amplitude_api_key %>');</script>
+  <!-- End Amplitude -->
+<% end %>
+<% if @portal.clarity_project_id.present? %>
+  <!-- Microsoft Clarity -->
+  <script>
+    (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "<%= j @portal.clarity_project_id %>");
+  </script>
+  <!-- End Microsoft Clarity -->
+<% end %>
+<% if @portal.meta_pixel_id.present? %>
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '<%= j @portal.meta_pixel_id %>');
+    // Bind to turbo:load so PageView re-fires on Turbo navigations, not just initial load.
+    document.addEventListener('turbo:load', function () { fbq('track', 'PageView'); });
+  </script>
+  <!-- End Meta Pixel -->
+<% end %>

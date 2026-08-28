@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "اجرا کردن",
       "PREVIEW": "پیش‌نمایش ماکرو",
-      "EXECUTED_SUCCESSFULLY": "ماکرو با موفقیت اجرا شد"
+      "EXECUTED_SUCCESSFULLY": "ماکرو با موفقیت اجرا شد",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",

@@ -60,6 +60,7 @@ tr:
   errors:
     account:
       not_authorized: You are not authorized to access this account
+      email_limit_exceeded: The daily email limit for this account has been reached
       reporting_timezone:
         invalid: geçerli bir saat dilimi değil
       support_email:
@@ -138,12 +139,14 @@ tr:
       invalid_token_permissions: 'Erişim tokeni WhatsApp için gerekli izinlere sahip değildir.'
       phone_info_fetch_failed: 'Telefon numarası bilgisi alınamadı. Lütfen tekrar deneyin.'
       phone_number_already_exists: 'Bu telefon numarası için zaten bir kanal mevcut: %{phone_number}, hata devam ederse lütfen destek ile iletişime geçin'
+      message_outside_messaging_window: 'Message not sent because the WhatsApp 24-hour customer service window is closed and no template parameters were provided. Send an approved template message instead.'
       reauthorization:
         generic: 'WhatsApp''ı yeniden yetkilendirme işlemi başarısız oldu. Lütfen tekrar deneyin.'
         not_supported: 'Bu tür WhatsApp kanalları için yeniden yetkilendirme desteklenmemektedir.'
       calls:
         not_enabled: 'Calling is not enabled for this inbox'
         already_ended: 'This call has already ended'
+        already_accepted: 'Call already accepted by another agent'
         no_recording: 'No recording file provided'
         no_message: 'Call has no associated message'
         sdp_offer_required: 'sdp_offer is required'
@@ -284,6 +287,7 @@ tr:
       whatsapp:
         list_button_label: 'Bir öğe seçin'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        flow_response: 'Submitted a flow response'
         unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
@@ -576,6 +580,8 @@ tr:
   agent_capacity_policy:
     inbox_already_assigned: 'Gelen Kutusu bu politikaya zaten atanmış'
   portals:
+    analytics:
+      invalid_configuration: 'Invalid analytics configuration'
     articles:
       captain_not_available: 'Translation requires Captain to be enabled for this account'
       locale_not_available: 'Locale not available in this portal'
@@ -591,6 +597,21 @@ tr:
     ssl_status:
       custom_domain_not_configured: 'Özel alan adı yapılandırılmamış'
   super_admin:
+    account_suspension:
+      categories:
+        spam: 'Spam'
+        non_payment: 'Non-payment'
+        other: 'Other'
+      form:
+        category: 'Suspension category'
+        category_prompt: 'Select a category'
+        reason: 'Suspension reason'
+        reason_hint: 'Enter a reason of up to 256 characters.'
+      history:
+        suspended_at: 'Suspended at'
+        category: 'Kategori'
+        reason: 'Reason'
+        empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:
         helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
@@ -609,6 +630,7 @@ tr:
         label_suggestion: 'Label suggestion'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
+        conversation_faq_matching: 'Conversation FAQ matching'
         help_center_article_generation: 'Help center article generation'
         onboarding_content_generation: 'Onboarding content generation'
         help_center_query_translation: 'Help center query translation'

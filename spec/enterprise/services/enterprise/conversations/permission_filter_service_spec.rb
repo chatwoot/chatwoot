@@ -145,6 +145,8 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         # Create some conversations
         assigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: test_agent)
         unassigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: nil)
+        agent_bot_conversation = create(:conversation, account: test_account, inbox: test_inbox,
+                                                       assignee_agent_bot: create(:agent_bot, account: test_account))
         other_assigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: create(:user, account: test_account))
         other_inbox_conversation = create(:conversation, account: test_account, inbox: test_inbox2, assignee: nil)
 
@@ -161,6 +163,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         expect(result).to include(assigned_conversation)
 
         # Should NOT include conversations assigned to others
+        expect(result).not_to include(agent_bot_conversation)
         expect(result).not_to include(other_assigned_conversation)
         expect(result).not_to include(other_inbox_conversation)
       end
