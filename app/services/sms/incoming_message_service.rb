@@ -83,10 +83,7 @@ class Sms::IncomingMessageService
       # we don't need to process this files since chatwoot doesn't support it
       next if media_url.end_with?('.smil', '.xml')
 
-      attachment_file = Down.download(
-        media_url,
-        http_basic_authentication: [channel.provider_config['api_key'], channel.provider_config['api_secret']]
-      )
+      attachment_file = Down.download(media_url, **download_options(media_url))
 
       @message.attachments.new(
         account_id: @message.account_id,
@@ -98,5 +95,31 @@ class Sms::IncomingMessageService
         }
       )
     end
+  end
+
+  # Attach the provider credentials only for media on the provider's own host, and
+  # do not follow redirects on that request.
+  def download_options(media_url)
+    return {} unless provider_hosted?(media_url)
+
+    {
+      http_basic_authentication: [channel.provider_config['api_key'], channel.provider_config['api_secret']],
+      max_redirects: 0
+    }
+  end
+
+  # Attach credentials only to the provider's exact configured endpoint: same
+  # scheme, host and port, and no embedded userinfo. Anything else from the
+  # payload is treated as untrusted and fetched without credentials.
+  def provider_hosted?(media_url)
+    uri = URI.parse(media_url)
+    uri.userinfo.nil? && uri.scheme == provider_uri.scheme &&
+      uri.port == provider_uri.port && provider_uri.host.casecmp?(uri.host.to_s)
+  rescue URI::InvalidURIError
+    false
+  end
+
+  def provider_uri
+    @provider_uri ||= URI.parse(channel.api_base_path)
   end
 end
