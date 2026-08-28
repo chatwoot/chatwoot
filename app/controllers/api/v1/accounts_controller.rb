@@ -15,6 +15,7 @@ class Api::V1::AccountsController < Api::BaseController
               CustomExceptions::Account::UserExists,
               CustomExceptions::Account::UserErrors,
               with: :render_error_response
+  rescue_from Shopify::PendingInstallation::Error, with: :render_shopify_signup_error
 
   def show
     @latest_chatwoot_version = latest_chatwoot_version
@@ -22,14 +23,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def create
-    @user, @account = AccountBuilder.new(
-      account_name: account_params[:account_name],
-      user_full_name: account_params[:user_full_name],
-      email: account_params[:email],
-      user_password: account_params[:password],
-      locale: account_params[:locale],
-      user: current_user
-    ).perform
+    @user, @account = AccountBuilder.new(**account_builder_params).perform
     enqueue_branding_enrichment
     if @user
       # Authenticated users (dashboard "add account") and api_only signups
@@ -74,6 +68,20 @@ class Api::V1::AccountsController < Api::BaseController
     Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION)
   end
 
+  def account_builder_params
+    attributes = {
+      account_name: account_params[:account_name],
+      user_full_name: account_params[:user_full_name],
+      email: account_params[:email],
+      user_password: account_params[:password],
+      locale: account_params[:locale],
+      user: current_user
+    }
+    pending_install_token = account_params[:shopify_pending_install_token]
+    attributes[:shopify_pending_install_token] = pending_install_token if pending_install_token.present?
+    attributes
+  end
+
   def enqueue_branding_enrichment
     email = account_params[:email].presence || @user&.email
     return if email.blank?
@@ -108,7 +116,22 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :user_full_name)
+    params.permit(
+      :account_name,
+      :email,
+      :name,
+      :password,
+      :locale,
+      :domain,
+      :support_email,
+      :user_full_name,
+      :shopify_pending_install_token
+    )
+  end
+
+  def render_shopify_signup_error(exception)
+    log_handled_error(exception)
+    render json: { message: exception.message }, status: :unprocessable_entity
   end
 
   def custom_attributes_params
@@ -124,7 +147,14 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def check_signup_enabled
-    raise ActionController::RoutingError, 'Not Found' unless GlobalConfigService.account_signup_enabled?
+    return if GlobalConfigService.account_signup_enabled? || pending_shopify_signup?
+
+    raise ActionController::RoutingError, 'Not Found'
+  end
+
+  def pending_shopify_signup?
+    token = account_params[:shopify_pending_install_token]
+    Shopify::FeatureGate.enabled? && Shopify::PendingInstallation.pending?(token: token)
   end
 
   def api_only_signup?

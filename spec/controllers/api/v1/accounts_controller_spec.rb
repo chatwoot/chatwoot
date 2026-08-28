@@ -68,6 +68,158 @@ RSpec.describe 'Accounts API', type: :request do
       end
     end
 
+    context 'with a Shopify pending installation token' do
+      let(:pending_install_token) { SecureRandom.hex(16) }
+      let(:pending_installation) do
+        instance_double(
+          Shopify::PendingInstallation,
+          data: {
+            'access_token' => 'shopify-access-token',
+            'shop' => 'my-store.myshopify.com',
+            'scope' => 'read_customers,read_orders'
+          }
+        )
+      end
+      let(:params) do
+        {
+          account_name: 'Shopify Store',
+          email: email,
+          user_full_name: user_full_name,
+          password: 'Password1!',
+          shopify_pending_install_token: pending_install_token
+        }
+      end
+
+      before do
+        allow(Shopify::FeatureGate).to receive(:enabled?).and_return(true)
+        allow(Shopify::FeatureGate).to receive(:globally_enabled?).and_return(true)
+        allow(Shopify::PendingInstallation).to receive(:pending?)
+          .with(token: pending_install_token)
+          .and_return(true)
+        allow(Shopify::PendingInstallation).to receive(:claim)
+          .with(token: pending_install_token)
+          .and_return(pending_installation)
+        allow(pending_installation).to receive(:consume!)
+        allow(pending_installation).to receive(:release!)
+      end
+
+      after { GlobalConfig.clear_cache }
+
+      it 'creates a new Shopify-billed account and consumes the token' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post api_v1_accounts_url, params: params, as: :json
+        end
+
+        account = Account.order(:id).last
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['email']).to eq(email)
+        expect(account).to have_attributes(billing_provider: 'shopify', signup_source: 'shopify')
+        expect(account).to be_feature_enabled('shopify_integration')
+        expect(account.hooks.find_by!(app_id: 'shopify').reference_id).to eq('my-store.myshopify.com')
+        expect(pending_installation).to have_received(:consume!)
+      end
+
+      it 'creates a Shopify-billed account when general account signup is disabled' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
+          post api_v1_accounts_url, params: params, as: :json
+        end
+
+        expect(response).to have_http_status(:success)
+        expect(Account.order(:id).last).to have_attributes(billing_provider: 'shopify', signup_source: 'shopify')
+      end
+
+      it 'does not bypass disabled account signup for an invalid pending token' do
+        allow(Shopify::PendingInstallation).to receive(:pending?).and_return(false)
+
+        expect do
+          with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
+            post api_v1_accounts_url, params: params, as: :json
+          end
+        end.not_to change(Account, :count)
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'returns a clear error for an invalid or expired token' do
+        allow(Shopify::PendingInstallation).to receive(:claim)
+          .and_raise(Shopify::PendingInstallation::InvalidToken, 'Invalid or expired install token')
+
+        expect do
+          with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+            post api_v1_accounts_url, params: params, as: :json
+          end
+        end.not_to change(Account, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Invalid or expired install token')
+      end
+
+      it 'consumes a real pending installation and prevents replay' do
+        encryption_env = {
+          'ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY' => 'primary-key',
+          'ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY' => 'deterministic-key',
+          'ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT' => 'key-derivation-salt'
+        }
+
+        with_modified_env(encryption_env.merge('ENABLE_ACCOUNT_SIGNUP' => 'true')) do
+          allow(Shopify::PendingInstallation).to receive(:claim).and_call_original
+          real_token = Shopify::PendingInstallation.create(
+            access_token: 'shopify-access-token',
+            shop: 'my-store.myshopify.com',
+            scope: 'read_customers,read_orders'
+          )
+
+          post api_v1_accounts_url,
+               params: params.merge(shopify_pending_install_token: real_token),
+               as: :json
+          expect(response).to have_http_status(:success)
+
+          expect do
+            post api_v1_accounts_url,
+                 params: params.merge(email: 'replay@example.com', shopify_pending_install_token: real_token),
+                 as: :json
+          end.not_to change(Account, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['message']).to eq('Invalid or expired install token')
+        ensure
+          Redis::Alfred.delete("shopify_pending_install:#{real_token}") if real_token
+          Redis::Alfred.delete("shopify_pending_install_claim:#{real_token}") if real_token
+        end
+      end
+
+      it 'does not claim the token or create an account when Shopify is disabled' do
+        allow(Shopify::FeatureGate).to receive(:enabled?).and_return(false)
+        expect(Shopify::PendingInstallation).not_to receive(:claim)
+
+        expect do
+          with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+            post api_v1_accounts_url, params: params, as: :json
+          end
+        end.not_to change(Account, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Shopify signup is unavailable')
+      end
+
+      it 'does not let an authenticated user claim the token for a new account' do
+        existing_user = create(:user)
+        expect(Shopify::PendingInstallation).not_to receive(:claim)
+
+        expect do
+          with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+            post api_v1_accounts_url,
+                 params: params.merge(email: 'new-user@example.com'),
+                 headers: existing_user.create_new_auth_token,
+                 as: :json
+          end
+        end.not_to change(Account, :count)
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['message']).to include(existing_user.email)
+      end
+    end
+
     context 'when an authenticated user creates a second account' do
       let(:existing_user) { create(:user, password: 'Password1!') }
 

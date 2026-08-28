@@ -33,9 +33,13 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
       redirect_url: requestedRedirectUrl,
       shopify_pending_install: pendingInstallToken,
     } = to.query || {};
-    const redirectUrl = pendingInstallToken
-      ? `settings/integrations/shopify?shopify_pending_install=${encodeURIComponent(pendingInstallToken)}`
-      : requestedRedirectUrl;
+    if (to.name === 'auth_signup' && pendingInstallToken) {
+      clearBrowserSessionCookies();
+      next();
+      return;
+    }
+
+    const redirectUrl = requestedRedirectUrl;
     const redirectTarget = redirectUrl
       ? `${DEFAULT_REDIRECT_URL}?redirect_url=${encodeURIComponent(redirectUrl)}`
       : DEFAULT_REDIRECT_URL;
@@ -46,7 +50,10 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
   // If the URL is an invalid path, redirect to login page
   // Disable navigation to signup page if signups are disabled
   // Signup route has an attribute (requireSignupEnabled) in it's definition
+  const isPendingShopifySignup =
+    to.name === 'auth_signup' && to.query?.shopify_pending_install;
   const isAnInalidSignupNavigation =
+    !isPendingShopifySignup &&
     chatwootConfig.signupEnabled !== 'true' &&
     to.meta &&
     to.meta.requireSignupEnabled;

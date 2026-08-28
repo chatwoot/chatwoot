@@ -46,8 +46,7 @@ class Shopify::CallbacksController < ApplicationController
       scope: parsed_body['scope']
     )
 
-    redirect_url = "settings/integrations/shopify?shopify_pending_install=#{CGI.escape(token_key)}"
-    redirect_to "#{frontend_url}/app/login?redirect_url=#{CGI.escape(redirect_url)}", allow_other_host: true
+    redirect_to "#{frontend_url}/app/auth/signup?shopify_pending_install=#{CGI.escape(token_key)}", allow_other_host: true
   end
 
   def create_hook

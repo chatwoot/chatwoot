@@ -3,6 +3,8 @@ class Shopify::PendingInstallation
   class InvalidToken < Error; end
   class AlreadyClaimed < Error; end
   class CommitOutcomeUnknown < Error; end
+  class FeatureDisabled < Error; end
+  class DuplicateShop < Error; end
 
   PAYLOAD_TTL = 10.minutes
   CLAIM_TTL = 1.minute
@@ -14,15 +16,18 @@ class Shopify::PendingInstallation
 
   def self.create(access_token:, shop:, scope:)
     token = SecureRandom.hex(16)
-    payload = { access_token: access_token, shop: shop, scope: scope }
+    normalized_shop = Shopify::ShopDomain.normalize(shop)
+    raise InvalidToken, 'Invalid shop domain' unless Shopify::ShopDomain.valid?(normalized_shop)
+
+    payload = { access_token: access_token, shop: normalized_shop, scope: scope }
     Redis::SecureStorage.set(payload_key(token), payload, PAYLOAD_TTL)
     token
   end
 
-  def self.claim(token:, account_id:)
+  def self.claim(token:)
     raise InvalidToken, 'Invalid or expired install token' unless token.is_a?(String) && token.match?(TOKEN_FORMAT)
 
-    claim_token = "#{account_id}:#{SecureRandom.uuid}"
+    claim_token = SecureRandom.uuid
     claim_key = claim_key(token)
     claimed = ::Redis::Alfred.set(claim_key, claim_token, nx: true, ex: CLAIM_TTL.to_i)
     raise AlreadyClaimed, 'Install token is already being used' unless claimed
@@ -31,6 +36,12 @@ class Shopify::PendingInstallation
   rescue StandardError
     ::Redis::Alfred.delete_if_equals(claim_key, claim_token) if claim_key && claim_token
     raise
+  end
+
+  def self.pending?(token:)
+    return false unless token.is_a?(String) && token.match?(TOKEN_FORMAT)
+
+    Redis::SecureStorage.get(payload_key(token)).present?
   end
 
   def initialize(token:, claim_key:, claim_token:)
@@ -104,6 +115,9 @@ class Shopify::PendingInstallation
 
     required_values = data.values_at('access_token', 'shop', 'scope')
     raise InvalidToken, 'Invalid or expired install token' unless required_values.all?(&:present?)
+
+    data['shop'] = Shopify::ShopDomain.normalize(data['shop'])
+    raise InvalidToken, 'Invalid or expired install token' unless Shopify::ShopDomain.valid?(data['shop'])
 
     data
   rescue JSON::ParserError, TypeError
