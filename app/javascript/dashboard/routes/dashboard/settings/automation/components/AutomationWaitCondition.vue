@@ -196,7 +196,18 @@ const removeManagedCondition = (nextConditions, attributeKey) => {
   const conditionIndex = nextConditions.findIndex(
     condition => condition.attribute_key === attributeKey
   );
-  if (conditionIndex !== -1) nextConditions.splice(conditionIndex, 1);
+  if (conditionIndex === -1) return;
+
+  const hasPreviousCondition = conditionIndex > 0;
+  const hasFollowingCondition = conditionIndex < nextConditions.length - 1;
+  if (hasPreviousCondition && hasFollowingCondition) {
+    nextConditions[conditionIndex - 1] = {
+      ...nextConditions[conditionIndex - 1],
+      query_operator: nextConditions[conditionIndex].query_operator,
+    };
+  }
+
+  nextConditions.splice(conditionIndex, 1);
 };
 
 const insertManagedConditionAfter = (
