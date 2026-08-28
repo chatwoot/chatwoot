@@ -18,6 +18,31 @@ RSpec.describe Voice::CallStatus::Manager do
     expect(call.reload.status).to eq('ringing')
   end
 
+  it 'persists a suppressed terminal transition and replays it after an abandoned teardown expires' do
+    call.update!(
+      meta: call.meta.merge(
+        'agent_termination_token' => 'termination-1',
+        'agent_termination_started_at' => Time.zone.now.to_i
+      )
+    )
+
+    manager.process_status_update('completed', duration: 12, timestamp: Time.zone.now.to_i)
+
+    call.reload
+    expect(call.status).to eq('ringing')
+    expect(call.meta['agent_termination_pending_terminal']).to include('status' => 'completed', 'duration' => 12)
+
+    travel 3.minutes do
+      manager.reconcile_suppressed_terminal!
+    end
+
+    call.reload
+    expect(call.status).to eq('completed')
+    expect(call.duration_seconds).to eq(12)
+    expect(call.meta['agent_termination_token']).to be_nil
+    expect(call.meta['agent_termination_pending_terminal']).to be_nil
+  end
+
   it 'blocks late progress transitions while agent teardown is pending' do
     call.update!(meta: call.meta.merge('agent_termination_token' => 'termination-1'))
 
