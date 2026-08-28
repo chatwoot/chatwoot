@@ -383,11 +383,21 @@ describe Whatsapp::Providers::WhatsappCloudService do
           )
 
         timstamp = whatsapp_channel.reload.message_templates_last_updated
-        expect(subject.sync_templates).to be(true)
+        expect(whatsapp_channel.account).to receive(:update_cache_key).with('inbox').and_call_original
+        subject.sync_templates
         expect(whatsapp_channel.reload.message_templates.first).to eq({ id: '123456789', name: 'test_template' }.stringify_keys)
         expect(whatsapp_channel.reload.message_templates.second).to eq({ id: '123456789', name: 'next_template' }.stringify_keys)
         expect(whatsapp_channel.reload.message_templates.last).to eq({ id: '123456789', name: 'last_template' }.stringify_keys)
         expect(whatsapp_channel.reload.message_templates_last_updated).not_to eq(timstamp)
+      end
+
+      it 'does not bump the inbox cache key when no templates are returned' do
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates')
+          .with(headers: { 'Authorization' => 'Bearer test_key' })
+          .to_return(status: 200, headers: response_headers, body: { data: [] }.to_json)
+
+        expect(whatsapp_channel.account).not_to receive(:update_cache_key)
+        subject.sync_templates
       end
 
       it 'updates message_templates_last_updated even when template request fails' do

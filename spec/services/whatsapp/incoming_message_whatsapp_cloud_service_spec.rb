@@ -7,6 +7,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
     end
 
     let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
+    let(:sender_number) { '2423423243' }
     let(:params) do
       {
         phone_number: whatsapp_channel.phone_number,
@@ -14,9 +15,9 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         entry: [{
           changes: [{
             value: {
-              contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: '2423423243' }],
+              contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: sender_number }],
               messages: [{
-                from: '2423423243',
+                from: sender_number,
                 image: {
                   id: 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
                   mime_type: 'image/jpeg',
@@ -52,7 +53,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect_contact_name
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Check out my product!')
         expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be false
         expect(whatsapp_channel.authorization_error_count).to eq(1)
@@ -94,6 +95,101 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    context 'when a contact submits a WhatsApp Flow response' do
+      let(:response_json) do
+        {
+          flow_token: 'flow-correlation-token',
+          rating: 'excellent',
+          comments: 'Great support',
+          appointment: { day: 'Monday', windows: %w[morning afternoon] }
+        }.to_json
+      end
+
+      let(:flow_response_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Flow Contact' }, wa_id: '2423423243' }],
+                messages: [{
+                  context: { from: whatsapp_channel.phone_number, id: 'wamid.original-flow-message' },
+                  from: '2423423243',
+                  id: 'wamid.flow-response-message',
+                  timestamp: '1664799904',
+                  type: 'interactive',
+                  interactive: {
+                    type: 'nfm_reply',
+                    nfm_reply: {
+                      name: 'flow',
+                      body: 'Sent',
+                      response_json: response_json
+                    }
+                  }
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'stores the complete response as a visible incoming message' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: flow_response_params).perform
+
+        message = whatsapp_channel.inbox.messages.last
+        flow_response = message.content_attributes['whatsapp_flow_response']
+
+        expect(message).to have_attributes(
+          content: 'Submitted a flow response',
+          content_type: 'text',
+          message_type: 'incoming',
+          source_id: 'wamid.flow-response-message'
+        )
+        expect(flow_response).to eq(
+          'name' => 'flow',
+          'body' => 'Sent',
+          'response_json' => {
+            'flow_token' => 'flow-correlation-token',
+            'rating' => 'excellent',
+            'comments' => 'Great support',
+            'appointment' => { 'day' => 'Monday', 'windows' => %w[morning afternoon] }
+          }
+        )
+        expect(message.webhook_data[:content_attributes]['whatsapp_flow_response']).to eq(flow_response)
+      end
+
+      context 'when response_json contains invalid JSON' do
+        let(:response_json) { '{invalid-json' }
+
+        it 'stores the raw response without dropping the message' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: flow_response_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+
+          expect(message.content).to eq('Submitted a flow response')
+          expect(message.content_attributes.dig('whatsapp_flow_response', 'response_json')).to eq('{invalid-json')
+          expect(message.webhook_data[:content_attributes].dig('whatsapp_flow_response', 'response_json')).to eq('{invalid-json')
+        end
+      end
+
+      context 'when response_json is missing' do
+        let(:response_json) { nil }
+
+        it 'stores the flow metadata without dropping the message' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: flow_response_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+
+          expect(message.content).to eq('Submitted a flow response')
+          expect(message.content_attributes['whatsapp_flow_response']).to eq(
+            'name' => 'flow',
+            'body' => 'Sent'
+          )
+        end
+      end
+    end
+
     context 'when invalid attachment message params' do
       let(:error_params) do
         {
@@ -102,9 +198,9 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           entry: [{
             changes: [{
               value: {
-                contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: '2423423243' }],
+                contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: sender_number }],
                 messages: [{
-                  from: '2423423243',
+                  from: sender_number,
                   image: {
                     id: 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
                     mime_type: 'image/jpeg',
@@ -127,7 +223,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       it 'with attachment errors' do
         described_class.new(inbox: whatsapp_channel.inbox, params: error_params).perform
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect_contact_name
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
       end
     end
@@ -229,7 +325,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         described_class.new(inbox: whatsapp_channel.inbox, params: { phone_number: whatsapp_channel.phone_number,
                                                                      object: 'whatsapp_business_account', entry: {} }).perform
         expect(whatsapp_channel.inbox.conversations.count).to eq(0)
-        expect(Contact.all.first).to be_nil
+        expect(Contact.find_by(phone_number: contact_phone_number)).to be_nil
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
       end
     end
@@ -408,7 +504,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
   end
 
   def expect_contact_name
-    expect(Contact.all.first.name).to eq('Sojan Jose')
+    expect(contact_from_number&.name).to eq('Sojan Jose')
   end
 
   def expect_message_content
@@ -417,5 +513,13 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
   def expect_message_has_attachment
     expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be true
+  end
+
+  def contact_phone_number
+    "+#{sender_number}"
+  end
+
+  def contact_from_number
+    Contact.find_by(phone_number: contact_phone_number)
   end
 end

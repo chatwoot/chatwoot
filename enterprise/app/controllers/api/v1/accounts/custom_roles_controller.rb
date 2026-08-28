@@ -1,4 +1,5 @@
 class Api::V1::Accounts::CustomRolesController < Api::V1::Accounts::EnterpriseAccountsController
+  before_action :ensure_custom_roles_feature_enabled
   before_action :fetch_custom_role, only: [:show, :update, :destroy]
   before_action :check_authorization
 
@@ -27,5 +28,9 @@ class Api::V1::Accounts::CustomRolesController < Api::V1::Accounts::EnterpriseAc
 
   def fetch_custom_role
     @custom_role = Current.account.custom_roles.find_by(id: params[:id])
+  end
+
+  def ensure_custom_roles_feature_enabled
+    raise Pundit::NotAuthorizedError unless Current.account.feature_enabled?('custom_roles')
   end
 end

@@ -8,3 +8,5 @@ class SyncDispatcher < BaseDispatcher
     [ActionCableListener.instance, AgentBotListener.instance]
   end
 end
+
+SyncDispatcher.prepend_mod_with('SyncDispatcher')

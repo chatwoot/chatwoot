@@ -95,6 +95,17 @@ RSpec.describe Captain::PromptRenderer do
 
       expect(result).to include('Liquid error')
     end
+
+    it 'renders structured citation instructions only when citations are enabled' do
+      allow(File).to receive(:read).with(template_path).and_return("{% render 'citations', citation_enabled: citation_enabled %}")
+
+      enabled_result = described_class.render(template_name, { citation_enabled: true })
+      disabled_result = described_class.render(template_name, { citation_enabled: false })
+
+      expect(enabled_result).to include('citation_indexes', 'numeric citation index')
+      expect(enabled_result).not_to include('[[faq:')
+      expect(disabled_result).to be_blank
+    end
   end
 
   describe '.load_template' do
