@@ -136,6 +136,15 @@ describe Sms::IncomingMessageService do
         expect(a_request(:get, url).with(basic_auth: %w[1 1])).not_to have_been_made
       end
 
+      it 'does not attach credentials to a provider url with embedded userinfo' do
+        stub_request(:get, provider_media_url).to_return(status: 200, body: File.read('spec/assets/sample.png'))
+        media_params = { 'media': ['https://user@messaging.bandwidth.com/api/v2/users/1/media/real.png'] }.with_indifferent_access
+
+        described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
+
+        expect(a_request(:get, provider_media_url).with(basic_auth: %w[1 1])).not_to have_been_made
+      end
+
       it 'does not follow redirects on the credentialed request' do
         stub_request(:get, provider_media_url).to_return(status: 302, headers: { 'Location' => 'http://other.example/file.png' })
         redirected_request = stub_request(:get, 'http://other.example/file.png').to_return(status: 200, body: File.read('spec/assets/sample.png'))
