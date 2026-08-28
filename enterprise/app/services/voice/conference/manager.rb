@@ -32,9 +32,10 @@ class Voice::Conference::Manager
     user_id = extract_user_id
     return unless user_id
     return if defer_join_if_termination_pending!
+    return if claim_for_user!(user_id) == :deferred
 
-    claim_for_user!(user_id)
     status_manager.process_status_update('in_progress', timestamp: now)
+    return if defer_join_if_termination_pending!
     return unless call.accepted_by_agent_id == user_id && mark_accepted_broadcast!
 
     call.broadcast_voice_call_event(:accepted, accepted_by_agent_id: call.accepted_by_agent_id)
@@ -46,38 +47,68 @@ class Voice::Conference::Manager
       Voice::CallTerminationGuard.clear_stale!(call)
       next unless Voice::CallTerminationGuard.active?(call)
 
-      Voice::CallTerminationGuard.persist_pending_join!(
-        call,
-        participant_label: participant_label,
-        participant_call_sid: participant_call_sid
-      )
+      persist_pending_join_locked!
       deferred = true
     end
+    schedule_join_reconciliation if deferred
     deferred
   end
 
   def claim_for_user!(user_id)
     claimed = false
+    deferred = false
     call.with_lock do
-      next if call.terminal? || termination_pending_locked?
+      if termination_pending_locked?
+        persist_pending_join_locked!
+        deferred = true
+        next
+      end
+      next if call.terminal?
       next if call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id
 
       call.update!(accepted_by_agent_id: user_id) if call.accepted_by_agent_id != user_id
       claimed = true
     end
 
+    if deferred
+      schedule_join_reconciliation
+      return :deferred
+    end
+
     auto_assign_conversation!(user_id) if claimed
+    claimed
   end
 
   def mark_accepted_broadcast!
     first_time = false
+    deferred = false
     call.with_lock do
-      next if call.terminal? || termination_pending_locked? || call.accepted_broadcast_at.present?
+      if termination_pending_locked?
+        persist_pending_join_locked!
+        deferred = true
+        next
+      end
+      next if call.terminal? || call.accepted_broadcast_at.present?
 
       call.update!(accepted_broadcast_at: now)
       first_time = true
     end
+    schedule_join_reconciliation if deferred
     first_time
+  end
+
+  def persist_pending_join_locked!
+    Voice::CallTerminationGuard.persist_pending_join!(
+      call,
+      participant_label: participant_label,
+      participant_call_sid: participant_call_sid
+    )
+  end
+
+  def schedule_join_reconciliation
+    Voice::ReconcileSuppressedTerminationJob
+      .set(wait: Voice::CallTerminationGuard::STALE_AFTER + 5.seconds)
+      .perform_later(call.id)
   end
 
   def auto_assign_conversation!(user_id)
