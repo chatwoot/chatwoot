@@ -11,15 +11,13 @@ class Voice::CallStatus::Manager
       next if Call::TERMINAL_STATUSES.include?(call.status)
 
       if termination_blocks?(allow_during_termination)
-        if Call::TERMINAL_STATUSES.include?(status)
-          Voice::CallTerminationGuard.persist_pending_terminal!(
-            call,
-            status: status,
-            duration: duration,
-            timestamp: timestamp
-          )
-          deferred = true
-        end
+        Voice::CallTerminationGuard.persist_pending_status!(
+          call,
+          status: status,
+          duration: duration,
+          timestamp: timestamp
+        )
+        deferred = true
         next
       end
 
@@ -31,13 +29,13 @@ class Voice::CallStatus::Manager
     publish_update if applied
   end
 
-  def reconcile_suppressed_terminal!
+  def reconcile_suppressed_status!
     applied = false
     call.with_lock do
       next if Call::TERMINAL_STATUSES.include?(call.status)
       next if Voice::CallTerminationGuard.active?(call)
 
-      pending = Voice::CallTerminationGuard.pending_terminal(call)
+      pending = Voice::CallTerminationGuard.pending_status(call)
       next if pending.blank?
 
       Voice::CallTerminationGuard.clear_stale!(call)
@@ -46,7 +44,7 @@ class Voice::CallStatus::Manager
         duration: pending['duration'],
         timestamp: pending['timestamp']
       )
-      Voice::CallTerminationGuard.clear_pending_terminal!(call)
+      Voice::CallTerminationGuard.clear_pending_status!(call)
       applied = true
     end
     publish_update if applied
