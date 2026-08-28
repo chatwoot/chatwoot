@@ -30,27 +30,43 @@ RSpec.describe Voice::CallStatus::Manager do
 
     call.reload
     expect(call.status).to eq('ringing')
-    expect(call.meta['agent_termination_pending_terminal']).to include('status' => 'completed', 'duration' => 12)
+    expect(call.meta['agent_termination_pending_status']).to include('status' => 'completed', 'duration' => 12)
 
     travel 3.minutes do
-      manager.reconcile_suppressed_terminal!
+      manager.reconcile_suppressed_status!
     end
 
     call.reload
     expect(call.status).to eq('completed')
     expect(call.duration_seconds).to eq(12)
     expect(call.meta['agent_termination_token']).to be_nil
-    expect(call.meta['agent_termination_pending_terminal']).to be_nil
+    expect(call.meta['agent_termination_pending_status']).to be_nil
   end
 
-  it 'blocks late progress transitions while agent teardown is pending' do
-    call.update!(meta: call.meta.merge('agent_termination_token' => 'termination-1'))
+  it 'persists a suppressed progress transition and replays it after an abandoned teardown expires' do
+    timestamp = Time.zone.now.to_i
+    call.update!(
+      meta: call.meta.merge(
+        'agent_termination_token' => 'termination-1',
+        'agent_termination_started_at' => Time.zone.now.to_i
+      )
+    )
 
-    manager.process_status_update('in_progress')
+    manager.process_status_update('in_progress', timestamp: timestamp)
 
     call.reload
     expect(call.status).to eq('ringing')
     expect(call.started_at).to be_nil
+    expect(call.meta['agent_termination_pending_status']).to include('status' => 'in_progress', 'timestamp' => timestamp)
+
+    travel 3.minutes do
+      manager.reconcile_suppressed_status!
+    end
+
+    call.reload
+    expect(call.status).to eq('in_progress')
+    expect(call.started_at.to_i).to eq(timestamp)
+    expect(call.meta['agent_termination_pending_status']).to be_nil
   end
 
   it 'allows provider progress after an abandoned teardown guard expires' do
