@@ -114,4 +114,38 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     expect(call.meta['agent_termination_token']).to be_nil
     expect(call.meta['agent_termination_pending_status']).to be_nil
   end
+
+  it 'replays a deferred terminal callback when local finalization fails' do
+    allow(conference_service).to receive(:end_provider_call) do
+      call = Call.find_by!(provider_call_id: 'CALL123')
+      Voice::CallTerminationGuard.persist_pending_status!(
+        call,
+        status: 'completed',
+        duration: 18,
+        timestamp: Time.zone.now.to_i
+      )
+    end
+    allow(Voice::CallStatus::Manager).to receive(:new).and_wrap_original do |original, *args, **kwargs|
+      manager = original.call(*args, **kwargs)
+      allow(manager).to receive(:process_status_update).and_wrap_original do |method, status, **status_kwargs|
+        if status == 'rejected' && status_kwargs[:allow_during_termination]
+          raise StandardError, 'local finalization failed'
+        end
+
+        method.call(status, **status_kwargs)
+      end
+      manager
+    end
+
+    delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+           headers: agent.create_new_auth_token,
+           params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+    expect(response).to have_http_status(:internal_server_error)
+    call = Call.find_by!(provider_call_id: 'CALL123')
+    expect(call.status).to eq('completed')
+    expect(call.duration_seconds).to eq(18)
+    expect(call.meta['agent_termination_token']).to be_nil
+    expect(call.meta['agent_termination_pending_status']).to be_nil
+  end
 end
