@@ -14,12 +14,29 @@ RSpec.describe 'Api::V1::Integrations::Webhooks' do
       before { allow(GlobalConfigService).to receive(:load).with('SLACK_SIGNING_SECRET', nil).and_return(nil) }
 
       it 'skips verification and processes the webhook' do
-        builder = instance_double(Integrations::Slack::IncomingMessageBuilder, perform: true)
-        allow(Integrations::Slack::IncomingMessageBuilder).to receive(:new).and_return(builder)
+        with_modified_env SLACK_SIGNING_SECRET: nil do
+          builder = instance_double(Integrations::Slack::IncomingMessageBuilder, perform: true)
+          allow(Integrations::Slack::IncomingMessageBuilder).to receive(:new).and_return(builder)
 
-        post '/api/v1/integrations/webhooks', params: {}
+          post '/api/v1/integrations/webhooks', params: {}
 
-        expect(response).to have_http_status(:success)
+          expect(response).to have_http_status(:success)
+        end
+      end
+    end
+
+    context 'when a signing secret is configured only via ENV and config reconciliation left a blank row' do
+      before { InstallationConfig.create!(name: 'SLACK_SIGNING_SECRET', value: nil, locked: false) }
+
+      it 'still verifies the signature' do
+        with_modified_env SLACK_SIGNING_SECRET: secret do
+          expect(Integrations::Slack::IncomingMessageBuilder).not_to receive(:new)
+          body = payload.to_json
+
+          post '/api/v1/integrations/webhooks', params: body, headers: slack_headers(body, signature: 'v0=deadbeef')
+
+          expect(response).to have_http_status(:unauthorized)
+        end
       end
     end
 

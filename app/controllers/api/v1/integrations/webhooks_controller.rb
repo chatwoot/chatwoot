@@ -13,13 +13,19 @@ class Api::V1::Integrations::WebhooksController < ApplicationController
 
   # Skip (rather than reject) when no secret is configured, so existing installs keep working.
   def verify_slack_signature!
-    secret = GlobalConfigService.load('SLACK_SIGNING_SECRET', nil)
+    secret = slack_signing_secret
     if secret.blank?
       Rails.logger.warn('[SLACK] SLACK_SIGNING_SECRET not configured; skipping webhook signature verification')
       return
     end
 
     head :unauthorized unless valid_slack_signature?(secret)
+  end
+
+  # Config reconciliation creates a blank row for this key on upgrade, and that blank row
+  # makes GlobalConfigService skip its ENV fallback, so read ENV directly as a last resort.
+  def slack_signing_secret
+    GlobalConfigService.load('SLACK_SIGNING_SECRET', nil).presence || ENV.fetch('SLACK_SIGNING_SECRET', nil)
   end
 
   def valid_slack_signature?(secret)
