@@ -19,6 +19,8 @@ end
 json.inbox do
   json.id call.inbox_id
   json.name call.inbox.name
+  json.channel_type call.inbox.channel_type
+  json.medium call.inbox.channel.try(:medium)
 end
 
 if call.accepted_by_agent
@@ -32,9 +34,13 @@ else
 end
 
 contact = call.contact
-json.contact do
-  json.id contact.id
-  json.name contact.name
-  json.phone_number contact.phone_number
-  json.avatar contact.avatar_url
+if contact
+  json.contact do
+    json.id contact.id
+    json.name contact.name
+    json.phone_number contact.phone_number
+    json.avatar contact.avatar_url
+  end
+else
+  json.contact nil
 end

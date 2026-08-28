@@ -7,7 +7,6 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   isAConversationRoute,
   isAInboxViewRoute,
-  isNotificationRoute,
 } from 'dashboard/helper/routeHelpers';
 import { useEventListener } from '@vueuse/core';
 
@@ -47,9 +46,7 @@ const closeNotification = () => {
 
 const isInAnyOfTheRoutes = routeName => {
   return (
-    isAConversationRoute(routeName, true) ||
-    isAInboxViewRoute(routeName, true) ||
-    isNotificationRoute(routeName, true)
+    isAConversationRoute(routeName, true) || isAInboxViewRoute(routeName, true)
   );
 };
 

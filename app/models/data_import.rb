@@ -32,9 +32,12 @@
 #  index_data_imports_on_source_provider  (source_provider)
 #
 class DataImport < ApplicationRecord
+  ACTIVE_IMPORT_RUN_ID_KEY = 'active_import_run_id'.freeze
   ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY = 'active_intercom_import_run_id'.freeze
+  IMPORT_STALLED_AFTER = 15.minutes
+  INTERCOM_STALLED_AFTER = IMPORT_STALLED_AFTER
   LEGACY_DATA_TYPES = ['contacts'].freeze
-  INTEGRATION_DATA_TYPES = ['intercom'].freeze
+  INTEGRATION_DATA_TYPES = %w[freshdesk intercom].freeze
   IMPORT_TYPES = %w[contacts conversations].freeze
 
   belongs_to :account
@@ -47,16 +50,21 @@ class DataImport < ApplicationRecord
   has_many :import_errors, class_name: 'DataImportError', dependent: :destroy_async
 
   validates :data_type, inclusion: { in: LEGACY_DATA_TYPES + INTEGRATION_DATA_TYPES, message: I18n.t('errors.data_import.data_type.invalid') }
-  validates :access_token, presence: true, on: :create, if: :intercom_import?
+  validates :access_token, presence: true, on: :create, if: :integration_import?
   validate :validate_import_types
+  validate :validate_integration_provider
 
   enum status: { pending: 0, processing: 1, completed: 2, failed: 3, completed_with_errors: 6, abandoned: 7 }
 
   scope :active_intercom, -> { where(data_type: 'intercom', source_provider: 'intercom', status: [:pending, :processing]) }
+  scope :active_integrations, lambda {
+    where(data_type: INTEGRATION_DATA_TYPES, status: [:pending, :processing]).where('source_provider = data_type')
+  }
 
   has_one_attached :import_file
   has_one_attached :failed_records
 
+  before_validation :set_default_name, on: :create
   after_create_commit :process_data_import
 
   def legacy_contacts_csv_import?
@@ -67,37 +75,61 @@ class DataImport < ApplicationRecord
     data_type == 'intercom' && source_provider == 'intercom'
   end
 
+  def freshdesk_import?
+    data_type == 'freshdesk' && source_provider == 'freshdesk'
+  end
+
+  def integration_import?
+    INTEGRATION_DATA_TYPES.include?(data_type) && data_type == source_provider
+  end
+
   def restartable?
     failed? || abandoned?
   end
 
+  def stalled?
+    integration_import? && (pending? || processing?) && updated_at <= IMPORT_STALLED_AFTER.ago
+  end
+
   def abandonable?
-    intercom_import? && (pending? || processing?)
+    integration_import? && (pending? || processing?)
   end
 
   def abandon!
     self.class.transaction do
-      abandonable_import = self.class.lock.find_by(
-        id: id,
-        data_type: 'intercom',
-        source_provider: 'intercom',
-        status: [:pending, :processing]
-      )
+      active_imports = self.class.lock.where(id: id, data_type: INTEGRATION_DATA_TYPES, status: [:pending, :processing])
+      abandonable_import = active_imports.where('source_provider = data_type').first
       abandonable_import&.update!(status: :abandoned, abandoned_at: Time.current)
     end
     reload
   end
 
   def active_intercom_import_run_id
-    source_metadata.to_h[ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY]
+    active_import_run_id
   end
 
   def assign_active_intercom_import_run_id
-    self.source_metadata = source_metadata.to_h.merge(ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => SecureRandom.uuid)
-    active_intercom_import_run_id
+    assign_active_import_run_id
+  end
+
+  def active_import_run_id
+    source_metadata.to_h[ACTIVE_IMPORT_RUN_ID_KEY] || source_metadata.to_h[ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY]
+  end
+
+  def assign_active_import_run_id
+    run_id = SecureRandom.uuid
+    self.source_metadata = source_metadata.to_h.merge(ACTIVE_IMPORT_RUN_ID_KEY => run_id)
+    source_metadata[ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY] = run_id if intercom_import?
+    run_id
   end
 
   private
+
+  def set_default_name
+    return if name.present? || data_type.blank?
+
+    self.name = "#{data_type.titleize} - #{Date.current.iso8601}"
+  end
 
   def process_data_import
     return unless legacy_contacts_csv_import?
@@ -113,5 +145,12 @@ class DataImport < ApplicationRecord
     return if invalid_types.blank?
 
     errors.add(:import_types, "contains unsupported values: #{invalid_types.join(', ')}")
+  end
+
+  def validate_integration_provider
+    return unless INTEGRATION_DATA_TYPES.include?(data_type)
+    return if source_provider == data_type
+
+    errors.add(:source_provider, 'must match the integration data type')
   end
 end

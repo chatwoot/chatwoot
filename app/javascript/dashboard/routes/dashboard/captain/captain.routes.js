@@ -1,5 +1,9 @@
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
+import {
+  CONVERSATION_PERMISSIONS,
+  ROLES,
+} from 'dashboard/constants/permissions';
 import { frontendURL } from '../../../helper/URLHelper';
 
 import CaptainPageRouteView from './pages/CaptainPageRouteView.vue';
@@ -7,7 +11,10 @@ import AssistantsIndexPage from './pages/AssistantsIndexPage.vue';
 import AssistantEmptyStateIndex from './assistants/Index.vue';
 
 import AssistantOverviewIndex from './assistants/overview/Index.vue';
-import AssistantSettingsIndex from './assistants/settings/Settings.vue';
+import AssistantSettingsIndex from './assistants/settings/Index.vue';
+import AssistantSystemSettingsIndex from './assistants/settings/System.vue';
+import AssistantAudienceSettingsIndex from './assistants/settings/Audience.vue';
+import AssistantScheduleSettingsIndex from './assistants/settings/Schedule.vue';
 import AssistantInboxesIndex from './assistants/inboxes/Index.vue';
 import AssistantPlaygroundIndex from './assistants/playground/Index.vue';
 import AssistantGuardrailsIndex from './assistants/guardrails/Index.vue';
@@ -15,13 +22,18 @@ import AssistantGuidelinesIndex from './assistants/guidelines/Index.vue';
 import AssistantScenariosIndex from './assistants/scenarios/Index.vue';
 import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
-import ResponsesPendingIndex from './responses/Pending.vue';
+import FaqSuggestionsIndex from './responses/FaqSuggestions.vue';
 import CustomToolsIndex from './tools/Index.vue';
 
 const meta = {
   permissions: ['administrator', 'agent'],
   featureFlag: FEATURE_FLAGS.CAPTAIN,
   installationTypes: [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE],
+};
+
+const faqSuggestionsMeta = {
+  ...meta,
+  permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
 };
 
 const metaCustomTools = {
@@ -80,10 +92,20 @@ const assistantRoutes = [
     meta,
   },
   {
+    path: frontendURL(
+      'accounts/:accountId/captain/:assistantId/faqs/suggestions'
+    ),
+    component: FaqSuggestionsIndex,
+    name: 'captain_assistants_faq_suggestions',
+    meta: faqSuggestionsMeta,
+  },
+  {
     path: frontendURL('accounts/:accountId/captain/:assistantId/faqs/pending'),
-    component: ResponsesPendingIndex,
-    name: 'captain_assistants_responses_pending',
-    meta,
+    redirect: to => ({
+      name: 'captain_assistants_faq_suggestions',
+      params: to.params,
+      query: to.query,
+    }),
   },
   {
     path: frontendURL('accounts/:accountId/captain/:assistantId/settings'),
@@ -91,7 +113,31 @@ const assistantRoutes = [
     name: 'captain_assistants_settings_index',
     meta,
   },
-  // Settings sub-pages (guardrails and guidelines)
+  // Settings sub-pages
+  {
+    path: frontendURL(
+      'accounts/:accountId/captain/:assistantId/settings/system'
+    ),
+    component: AssistantSystemSettingsIndex,
+    name: 'captain_assistants_settings_system_index',
+    meta,
+  },
+  {
+    path: frontendURL(
+      'accounts/:accountId/captain/:assistantId/settings/audience'
+    ),
+    component: AssistantAudienceSettingsIndex,
+    name: 'captain_assistants_settings_audience_index',
+    meta,
+  },
+  {
+    path: frontendURL(
+      'accounts/:accountId/captain/:assistantId/settings/schedule'
+    ),
+    component: AssistantScheduleSettingsIndex,
+    name: 'captain_assistants_settings_schedule_index',
+    meta,
+  },
   {
     path: frontendURL(
       'accounts/:accountId/captain/:assistantId/settings/guardrails'

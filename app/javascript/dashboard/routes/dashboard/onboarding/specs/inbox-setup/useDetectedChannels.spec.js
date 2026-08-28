@@ -16,6 +16,7 @@ const mountComposable = ({
   features = { channel_instagram: true },
   inboxes = [],
   isOnChatwootCloud = false,
+  disableMetaInboxCreation = false,
 } = {}) => {
   const store = createStore({
     modules: {
@@ -24,6 +25,9 @@ const mountComposable = ({
         getters: {
           get: () => ({}),
           isOnChatwootCloud: () => isOnChatwootCloud,
+          isMetaInboxCreationDisabled: () =>
+            isOnChatwootCloud && disableMetaInboxCreation,
+          isMetaMessageSendingDisabled: () => false,
         },
       },
       accounts: {
@@ -211,11 +215,18 @@ describe('useDetectedChannels', () => {
       ]);
     });
 
-    it('keeps Instagram available on Chatwoot Cloud when enabled for the account', () => {
+    it('hides Meta channels on Chatwoot Cloud during the Meta restriction', () => {
       const { displayedChannels } = mountComposable({
+        features: {
+          channel_instagram: true,
+          whatsapp_embedded_signup_inbox_creation: true,
+        },
         isOnChatwootCloud: true,
+        disableMetaInboxCreation: true,
         brandInfo: {
           socials: [
+            { type: 'whatsapp', url: 'https://wa.me/14155552671' },
+            { type: 'facebook', url: 'https://facebook.com/acme' },
             { type: 'instagram', url: 'https://instagram.com/acme' },
             { type: 'tiktok', url: 'https://tiktok.com/@acme' },
           ],
@@ -223,7 +234,6 @@ describe('useDetectedChannels', () => {
       });
 
       expect(displayedChannels.value.map(channel => channel.type)).toEqual([
-        'instagram',
         'tiktok',
       ]);
     });

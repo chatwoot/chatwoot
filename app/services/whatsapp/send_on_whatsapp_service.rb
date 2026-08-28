@@ -6,12 +6,10 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
   end
 
   def perform_reply
-    should_send_template_message = template_params.present? || !message.conversation.can_reply?
-    if should_send_template_message
-      send_template_message
-    else
-      send_session_message
-    end
+    return send_template_message if template_params.present?
+    return send_session_message if message.conversation.can_reply?
+
+    message.update!(status: :failed, external_error: I18n.t('errors.whatsapp.message_outside_messaging_window'))
   end
 
   def send_template_message

@@ -125,6 +125,32 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(json_response[:config][:feature_citation]).to be(false)
         expect(response).to have_http_status(:success)
       end
+
+      it 'stores evaluated mode on the assistant when captain_tasks is enabled' do
+        account.enable_features!('captain_tasks')
+
+        post "/api/v1/accounts/#{account.id}/captain/assistants",
+             params: valid_attributes,
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        assistant = Captain::Assistant.find(json_response[:id])
+        expect(assistant.config['auto_resolve_mode']).to eq('evaluated')
+        expect(account.reload.settings).not_to have_key('captain_auto_resolve_mode')
+      end
+
+      it 'stores legacy mode on the assistant when captain_tasks is disabled' do
+        account.disable_features!('captain_tasks')
+
+        post "/api/v1/accounts/#{account.id}/captain/assistants",
+             params: valid_attributes,
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        assistant = Captain::Assistant.find(json_response[:id])
+        expect(assistant.config['auto_resolve_mode']).to eq('legacy')
+        expect(account.reload.settings).not_to have_key('captain_auto_resolve_mode')
+      end
     end
   end
 
@@ -206,7 +232,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       end
 
       it 'updates feature_citation config' do
-        assistant.update!(config: { 'feature_citation' => true })
+        assistant.update!(config: { 'feature_citation' => true, 'auto_resolve_mode' => 'disabled' })
 
         patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
               params: { assistant: { config: { feature_citation: false } } },
@@ -214,7 +240,117 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
-        expect(json_response[:config][:feature_citation]).to be(false)
+        expect(assistant.reload.config).to include('feature_citation' => false, 'auto_resolve_mode' => 'disabled')
+      end
+
+      it 'updates auto_resolve_mode without replacing other config' do
+        assistant.update!(config: { 'product_name' => 'Chatwoot', 'auto_resolve_mode' => 'legacy' })
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: { assistant: { config: { auto_resolve_mode: 'disabled' } } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(assistant.reload.config).to include('product_name' => 'Chatwoot', 'auto_resolve_mode' => 'disabled')
+      end
+
+      it 'keeps inactivity timer settings behind Captain V2' do
+        account.disable_features!('captain_integration_v2')
+        assistant.update!(
+          config: {
+            'auto_resolve_mode' => 'evaluated',
+            'auto_resolve_after' => 60,
+            'send_inactivity_resolution_message' => true
+          }
+        )
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: {
+                assistant: {
+                  config: {
+                    auto_resolve_mode: 'disabled',
+                    auto_resolve_after: 90,
+                    send_inactivity_resolution_message: false
+                  }
+                }
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(assistant.reload.config).to include(
+          'auto_resolve_mode' => 'disabled',
+          'auto_resolve_after' => 60,
+          'send_inactivity_resolution_message' => true
+        )
+      end
+
+      it 'updates inactive conversation settings for Captain v2' do
+        account.enable_features!('captain_integration_v2')
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: {
+                assistant: {
+                  config: {
+                    auto_resolve_mode: 'evaluated',
+                    auto_resolve_after: 61,
+                    send_inactivity_resolution_message: false,
+                    resolution_message: 'Saved closing message'
+                  }
+                }
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:config]).to include(
+          auto_resolve_mode: 'evaluated',
+          auto_resolve_after: 60,
+          send_inactivity_resolution_message: false,
+          resolution_message: 'Saved closing message'
+        )
+      end
+
+      it 'persists the nested audience condition tree' do
+        create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute,
+                                             attribute_display_type: :text, attribute_key: 'plan_tier')
+        audience = {
+          operator: 'and',
+          conditions: [
+            { attribute_key: 'country_code', filter_operator: 'equal_to', values: ['US'] },
+            { operator: 'or', conditions: [
+              { attribute_key: 'plan_tier', filter_operator: 'equal_to', values: ['paid'] }
+            ] }
+          ]
+        }
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: { assistant: { config: { audience: audience } } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        stored = assistant.reload.config['audience']
+        expect(stored['operator']).to eq('and')
+        expect(stored['conditions'].first['attribute_key']).to eq('country_code')
+        expect(stored['conditions'].last['conditions'].first['values']).to eq(['paid'])
+      end
+
+      it 'rejects invalid audience attributes and operators' do
+        invalid_audiences = [
+          { attribute_key: 'missing_attribute', filter_operator: 'not_equal_to', values: ['known'] },
+          { attribute_key: 'blocked', filter_operator: 'is_not_present', values: [] }
+        ]
+
+        invalid_audiences.each do |audience|
+          patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+                params: { assistant: { config: { audience: audience } } },
+                headers: admin.create_new_auth_token,
+                as: :json
+
+          expect(response).to have_http_status(:unprocessable_content)
+        end
       end
     end
   end
@@ -252,15 +388,80 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/captain/assistants/{id}/faq_stats' do
+    let(:assistant) { create(:captain_assistant, account: account) }
+
+    it 'returns approved FAQ, open suggestion, document counts and coverage' do
+      create_list(:captain_assistant_response, 3, assistant: assistant, account: account, status: :approved)
+      assistant.faq_suggestions.create!(question: 'How do I enable the feature?', answer: 'Turn it on in settings.')
+      create_list(:captain_document, 2, assistant: assistant, account: account)
+
+      get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/faq_stats",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(json_response).to eq(approved: 3, suggestions: 1, documents: 2, coverage: 75)
+    end
+
+    it 'returns zero coverage when there are no FAQs or suggestions' do
+      get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/faq_stats",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(json_response).to include(approved: 0, suggestions: 0, coverage: 0)
+    end
+
+    it 'counts only suggestions backed by conversations the agent can access' do
+      accessible_inbox = create(:inbox, account: account)
+      hidden_inbox = create(:inbox, account: account)
+      create(:inbox_member, user: agent, inbox: accessible_inbox)
+      create(:captain_assistant_response, assistant: assistant, account: account, status: :approved)
+
+      accessible_suggestion = assistant.faq_suggestions.create!(question: 'Visible question', answer: 'Visible answer')
+      accessible_suggestion.observations.create!(
+        conversation: create(:conversation, account: account, inbox: accessible_inbox),
+        generated_question: accessible_suggestion.question,
+        generated_answer: accessible_suggestion.answer,
+        language: accessible_suggestion.language
+      )
+      hidden_suggestion = assistant.faq_suggestions.create!(question: 'Hidden question', answer: 'Hidden answer')
+      hidden_suggestion.observations.create!(
+        conversation: create(:conversation, account: account, inbox: hidden_inbox),
+        generated_question: hidden_suggestion.question,
+        generated_answer: hidden_suggestion.answer,
+        language: hidden_suggestion.language
+      )
+
+      get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/faq_stats",
+          headers: agent.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(json_response).to include(approved: 1, suggestions: 1, coverage: 50)
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/captain/assistants/{id}/summary' do
     let(:assistant) { create(:captain_assistant, account: account) }
     let(:alice) { create(:user, account: account, role: :administrator, name: 'Alice Adams') }
     let(:bob) { create(:user, account: account, role: :administrator, name: 'Bob Brown') }
     let(:summary_service) { instance_double(Captain::OverviewSummaryService) }
+    let(:summary_stats) do
+      {
+        conversations_handled: { current: 42 },
+        hours_saved: { current: 12 },
+        auto_resolution_rate: { current: 65.0, trend: 5.0 },
+        handoff_rate: { current: 20.0, trend: -2.0 },
+        reopen_rate: { current: 5.0, trend: -1.0 },
+        knowledge: { coverage: 80, approved: 8, documents: 3 }
+      }
+    end
 
     def get_summary(user)
       get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/summary",
-          params: { range: '30' },
+          params: { range: '30', stats: summary_stats },
           headers: user.create_new_auth_token,
           as: :json
     end
@@ -273,6 +474,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
 
     it 'caches the summary per viewer so one user never receives another user\'s greeting' do
       allow(summary_service).to receive(:perform).and_return({ message: 'Hi Alice' })
+      expect(Captain::AssistantStatsBuilder).not_to receive(:new)
 
       get_summary(alice)
       get_summary(alice) # served from Alice's cache, no regeneration
@@ -280,6 +482,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(Captain::OverviewSummaryService).to have_received(:new).twice
+      expect(Captain::OverviewSummaryService).to have_received(:new).with(hash_including(stats: summary_stats)).twice
     end
 
     it 'does not cache failures so a transient error is retried' do
@@ -372,7 +575,12 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           assistant: assistant,
           source: 'playground'
         ).and_return(agent_runner_service)
-        allow(agent_runner_service).to receive(:generate_response).and_return({ response: 'Assistant response' })
+        allow(agent_runner_service).to receive(:generate_response).and_return(
+          {
+            response: 'Assistant response',
+            response_parts: [{ text: 'Assistant response', citation_indexes: [] }]
+          }
+        )
         expect(Captain::Llm::AssistantChatService).not_to receive(:new)
 
         post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
@@ -385,6 +593,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           message_history: valid_params[:message_history] + [{ role: 'user', content: valid_params[:message_content] }]
         )
         expect(json_response[:response]).to eq('Assistant response')
+        expect(json_response[:response_parts]).to eq([{ text: 'Assistant response', citation_indexes: [] }])
       end
 
       it 'does not duplicate the latest user message if it is already in history' do

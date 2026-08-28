@@ -159,19 +159,33 @@ RSpec.describe 'Shopify Integration API', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/:account_id/integrations/shopify' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+
     before do
       create(:integrations_hook, :shopify, account: account)
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an administrator' do
       it 'deletes the shopify integration' do
         expect do
           delete "/api/v1/accounts/#{account.id}/integrations/shopify",
-                 headers: agent.create_new_auth_token,
+                 headers: admin.create_new_auth_token,
                  as: :json
         end.to change { account.hooks.count }.by(-1)
 
         expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'when it is an agent' do
+      it 'returns unauthorized and keeps the integration' do
+        expect do
+          delete "/api/v1/accounts/#{account.id}/integrations/shopify",
+                 headers: agent.create_new_auth_token,
+                 as: :json
+        end.not_to(change { account.hooks.count })
+
+        expect(response).to have_http_status(:unauthorized)
       end
     end
 

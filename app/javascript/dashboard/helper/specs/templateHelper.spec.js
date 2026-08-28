@@ -156,12 +156,18 @@ describe('templateHelper', () => {
       ]);
     });
 
-    it('should handle templates with no variables', () => {
+    it('should handle templates with no variables but a media header', () => {
       const emptyTemplate = templates.find(
         t => t.name === 'no_variable_template'
       );
-      const result = buildTemplateParameters(emptyTemplate, false);
-      expect(result).toEqual({});
+      const result = buildTemplateParameters(emptyTemplate);
+      // hasMediaHeader is derived from the template, so the document header is kept.
+      expect(result.body).toBeUndefined();
+      expect(result.header).toEqual({
+        media_url: '',
+        media_type: 'document',
+        media_name: '',
+      });
     });
 
     it('should build parameters for templates with multiple component types', () => {

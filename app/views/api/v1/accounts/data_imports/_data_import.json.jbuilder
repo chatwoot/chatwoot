@@ -5,6 +5,7 @@ json.source_type data_import.source_type
 json.source_provider data_import.source_provider
 json.import_types data_import.import_types
 json.status data_import.status
+json.stalled data_import.stalled?
 json.total_records data_import.total_records
 json.processed_records data_import.processed_records
 json.stats data_import.stats
