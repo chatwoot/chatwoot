@@ -16,7 +16,7 @@ RSpec.describe Captain::ToolCatalog::Executor do
       status: 'disabled',
       settings: {
         catalog_connected: true,
-        scope: 'channels:read,chat:write,groups:read,reactions:write,users:read.email'
+        scope: 'channels:join,channels:read,chat:write,groups:read,reactions:write,users:read,users:read.email'
       }
     )
   end

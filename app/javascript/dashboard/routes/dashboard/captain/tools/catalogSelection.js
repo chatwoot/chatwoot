@@ -9,10 +9,22 @@ export const flattenTemplates = provider =>
 
 export const selectedTemplates = (provider, selectedKeys) => {
   const selected = new Set(selectedKeys);
-  return flattenTemplates(provider).filter(
-    template => selected.has(template.key) && !template.installed
+  return flattenTemplates(provider).filter(template =>
+    selected.has(template.key)
   );
 };
+
+export const installedTemplateKeys = provider =>
+  flattenTemplates(provider)
+    .filter(template => template.installed)
+    .map(template => template.key);
+
+export const installedConfigurations = provider =>
+  Object.fromEntries(
+    flattenTemplates(provider)
+      .filter(template => template.installed)
+      .map(template => [template.key, template.installed_configuration || {}])
+  );
 
 export const buildSelections = (provider, selectedKeys, configurations) =>
   selectedTemplates(provider, selectedKeys).map(template => ({
@@ -37,11 +49,15 @@ export const missingRequiredConfiguration = (templates, configurations) =>
     )
   );
 
-export const updateSelections = provider =>
+const installedSelections = provider =>
   flattenTemplates(provider)
-    .filter(template => template.update_available)
+    .filter(template => template.installed)
     .map(template => ({
       template_key: template.key,
-      template_version: template.version,
+      template_version: template.installed_version,
       configuration: template.installed_configuration || {},
     }));
+
+export const selectionChanged = (provider, selectedKeys, configurations) =>
+  JSON.stringify(buildSelections(provider, selectedKeys, configurations)) !==
+  JSON.stringify(installedSelections(provider));

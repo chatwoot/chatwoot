@@ -19,10 +19,10 @@ class Captain::ToolCatalog::TemplateSelection
     @registry = registry
   end
 
-  def resolve(provider_key:, templates:, validate_configuration: true)
+  def resolve(provider_key:, templates:, validate_configuration: true, allow_empty: false)
     pack = registry.find(provider_key)
     normalized_templates = Array(templates).map { |template| template.to_h.stringify_keys }
-    validate_template_list!(normalized_templates)
+    validate_template_list!(normalized_templates, allow_empty: allow_empty)
 
     items = normalized_templates.map { |selection| resolve_template(pack, selection, validate_configuration) }
     Selection.new(pack: pack, items: items)
@@ -32,8 +32,8 @@ class Captain::ToolCatalog::TemplateSelection
 
   attr_reader :registry
 
-  def validate_template_list!(templates)
-    raise Captain::ToolCatalog::WorkflowError, 'templates_required' if templates.empty?
+  def validate_template_list!(templates, allow_empty:)
+    raise Captain::ToolCatalog::WorkflowError, 'templates_required' if templates.empty? && !allow_empty
 
     keys = templates.pluck('template_key')
     raise Captain::ToolCatalog::WorkflowError, 'duplicate_templates' if keys.uniq.length != keys.length

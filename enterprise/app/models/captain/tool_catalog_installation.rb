@@ -68,7 +68,9 @@ class Captain::ToolCatalogInstallation < ApplicationRecord
   private
 
   def validate_selected_templates
-    return errors.add(:selected_templates, 'must be a non-empty array') unless selected_templates.is_a?(Array) && selected_templates.any?
+    return errors.add(:selected_templates, 'must be an array') unless selected_templates.is_a?(Array)
+    return if selected_templates.empty? && workflow_update?
+    return errors.add(:selected_templates, 'must be a non-empty array') if selected_templates.empty?
 
     selected_templates.each do |template|
       next if valid_selected_template?(template)
@@ -96,7 +98,10 @@ class Captain::ToolCatalogInstallation < ApplicationRecord
   end
 
   def validate_completed_result
-    errors.add(:resulting_tool_ids, 'must be present for completed installations') if completed? && resulting_tool_ids.empty?
+    return unless completed? && resulting_tool_ids.empty?
+    return if workflow_update? && selected_templates.empty?
+
+    errors.add(:resulting_tool_ids, 'must be present for completed installations')
   end
 
   def validate_resulting_tool_accounts

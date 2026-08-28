@@ -64,7 +64,8 @@ class Integrations::Slack::ChannelBuilder
     return if channel.blank?
 
     slack_client.conversations_join(channel: channel[:id]) if channel[:is_private] == false
-    @hook.update!(reference_id: channel[:id], settings: { channel_name: channel[:name] }, status: 'enabled')
+    settings = hook.settings.to_h.merge('channel_name' => channel[:name])
+    @hook.update!(reference_id: channel[:id], settings: settings, status: 'enabled')
     @hook
   end
 end

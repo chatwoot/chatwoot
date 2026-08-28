@@ -103,6 +103,29 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolCatalog', type: :request do
       expect(json_response.dig(:payload, :status)).to eq('completed')
       expect(tool.reload.template_version).to eq('1.0.0')
     end
+
+    it 'accepts an empty desired set and removes every provider tool' do
+      hook = create(:integrations_hook, account: account, app_id: 'example', settings: { scope: 'customers:read' })
+      tool = create(
+        :captain_custom_tool,
+        :catalog,
+        account: account,
+        provider_key: 'example',
+        template_key: 'get_current_customer',
+        integration_hook: hook
+      )
+
+      post "/api/v1/accounts/#{account.id}/captain/tool_catalog/example/update",
+           params: { update: { templates: [] } },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:created)
+      expect(json_response.dig(:payload, :status)).to eq('completed')
+      expect(json_response.dig(:payload, :resulting_tool_ids)).to eq([])
+      expect(tool.class.exists?(tool.id)).to be(false)
+      expect(hook.reload).to be_present
+    end
   end
 
   describe 'POST /api/v1/accounts/:account_id/captain/tool_catalog/:provider_key/reconnect' do

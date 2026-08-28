@@ -28,6 +28,19 @@ RSpec.describe Captain::ToolCatalogInstallation, type: :model do
       expect(installation.errors[:selected_templates]).to include('must be a non-empty array')
     end
 
+    it 'allows an update to remove every selected tool' do
+      installation = build(
+        :captain_tool_catalog_installation,
+        workflow_kind: 'update',
+        selected_templates: [],
+        status: 'completed',
+        resulting_tool_ids: [],
+        completed_at: Time.current
+      )
+
+      expect(installation).to be_valid
+    end
+
     it 'rejects unversioned or non-object template configuration' do
       installation = build(
         :captain_tool_catalog_installation,

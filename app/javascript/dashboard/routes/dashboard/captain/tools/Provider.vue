@@ -19,10 +19,12 @@ import {
   buildConnectionSelections,
   buildSelections,
   flattenTemplates,
+  installedConfigurations,
+  installedTemplateKeys,
   missingRequiredConfiguration,
   requiredScopes,
+  selectionChanged,
   selectedTemplates,
-  updateSelections,
 } from './catalogSelection';
 import {
   clearCatalogFlow,
@@ -80,22 +82,29 @@ const isFetching = computed(() => uiFlags.value.fetchingProvider);
 const isMutating = computed(() => uiFlags.value.mutatingInstallation);
 const isFetchingSetup = computed(() => uiFlags.value.fetchingSetup);
 const allTemplates = computed(() => flattenTemplates(providerDetails.value));
-const newTemplates = computed(() =>
+const desiredTemplates = computed(() =>
   selectedTemplates(providerDetails.value, selectedKeys.value)
 );
-const scopes = computed(() => requiredScopes(newTemplates.value));
+const connectionTemplates = computed(() =>
+  desiredTemplates.value.filter(
+    template => !template.installed || template.update_available
+  )
+);
+const scopes = computed(() => requiredScopes(connectionTemplates.value));
 const grantedScopes = computed(
   () => new Set(providerDetails.value?.connection.granted_scopes || [])
 );
 const requiresConnection = computed(
   () =>
     providerKey.value !== 'stripe' &&
+    connectionTemplates.value.length > 0 &&
     (!providerDetails.value?.connection.connected ||
       scopes.value.some(scope => !grantedScopes.value.has(scope)))
 );
 const stripeRequiresCredential = computed(
   () =>
     providerKey.value === 'stripe' &&
+    connectionTemplates.value.length > 0 &&
     (!providerDetails.value?.connection.connected ||
       scopes.value.some(scope => !grantedScopes.value.has(scope)))
 );
@@ -117,19 +126,31 @@ const revokeConfirmationNotice = computed(() =>
     ? t('CAPTAIN.CUSTOM_TOOLS.CATALOG.REVOKE_KEY_CONFIRM_NOTICE')
     : t('CAPTAIN.CUSTOM_TOOLS.CATALOG.REVOKE_CONFIRM_NOTICE')
 );
-const selectedCount = computed(() => newTemplates.value.length);
+const selectedCount = computed(() => desiredTemplates.value.length);
 const projectedCapacity = computed(
-  () => capacity.value.used + selectedCount.value
+  () =>
+    capacity.value.used -
+    (providerDetails.value?.installed_count || 0) +
+    selectedCount.value
 );
 const hasCapacity = computed(
   () => projectedCapacity.value <= capacity.value.limit
 );
 const configurationMissing = computed(() =>
-  missingRequiredConfiguration(newTemplates.value, configurations.value)
+  missingRequiredConfiguration(desiredTemplates.value, configurations.value)
 );
-const updates = computed(() => updateSelections(providerDetails.value));
+const hasSelectionChanges = computed(() =>
+  selectionChanged(
+    providerDetails.value,
+    selectedKeys.value,
+    configurations.value
+  )
+);
+const updates = computed(() =>
+  allTemplates.value.filter(template => template.update_available)
+);
 const canContinue = computed(() => {
-  if (!selectedCount.value || !hasCapacity.value || isMutating.value) {
+  if (!hasSelectionChanges.value || !hasCapacity.value || isMutating.value) {
     return false;
   }
   if (requiresConnection.value) {
@@ -244,6 +265,23 @@ const loadSlackChannels = async () => {
   }));
 };
 
+const loadLinearProjects = async teamId => {
+  if (!teamId) {
+    projectOptions.value = [];
+    return;
+  }
+
+  const payload = await store.dispatch('captainToolCatalog/setup', {
+    providerKey: 'linear',
+    operationKey: 'list_team_entities',
+    arguments: { teamId },
+  });
+  projectOptions.value = payload.projects.map(option => ({
+    value: option.id,
+    label: option.name,
+  }));
+};
+
 const loadLinearTeams = async () => {
   if (
     !requiresLinearProject.value ||
@@ -259,6 +297,9 @@ const loadLinearTeams = async () => {
     value: option.id,
     label: option.name,
   }));
+  await loadLinearProjects(
+    configurationValue('create_issue_from_conversation', 'team_id')
+  );
 };
 
 const loadSetupOptions = async () => {
@@ -270,38 +311,29 @@ const loadSetupOptions = async () => {
 };
 
 const selectLinearTeam = async value => {
-  const template = newTemplates.value.find(item =>
+  const template = desiredTemplates.value.find(item =>
     item.configuration_schema.required?.includes('team_id')
   );
   if (!template) return;
 
   setConfiguration(template.key, 'team_id', value);
   setConfiguration(template.key, 'project_id', '');
-  projectOptions.value = [];
   try {
-    const payload = await store.dispatch('captainToolCatalog/setup', {
-      providerKey: 'linear',
-      operationKey: 'list_team_entities',
-      arguments: { teamId: value },
-    });
-    projectOptions.value = payload.projects.map(option => ({
-      value: option.id,
-      label: option.name,
-    }));
+    await loadLinearProjects(value);
   } catch (error) {
     await announce(formatError(error), { error: true });
   }
 };
 
 const setSlackChannel = value => {
-  const template = newTemplates.value.find(item =>
+  const template = desiredTemplates.value.find(item =>
     item.configuration_schema.required?.includes('channel_id')
   );
   if (template) setConfiguration(template.key, 'channel_id', value);
 };
 
 const toggleTemplate = async (template, selected) => {
-  if (template.installed || template.availability !== 'available') return;
+  if (template.availability !== 'available' && !template.installed) return;
 
   selectedKeys.value = selected
     ? [...new Set([...selectedKeys.value, template.key])]
@@ -313,14 +345,13 @@ const toggleTemplate = async (template, selected) => {
 const selectStarterSet = async () => {
   const availableKeys = new Set(
     allTemplates.value
-      .filter(
-        template => template.availability === 'available' && !template.installed
-      )
+      .filter(template => template.availability === 'available')
       .map(template => template.key)
   );
-  selectedKeys.value = (STARTER_SETS[providerKey.value] || []).filter(key =>
+  const starterKeys = (STARTER_SETS[providerKey.value] || []).filter(key =>
     availableKeys.has(key)
   );
+  selectedKeys.value = [...new Set([...selectedKeys.value, ...starterKeys])];
   installationComplete.value = false;
   useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.STARTER_SET_SELECTED, {
     provider: providerKey.value,
@@ -358,9 +389,15 @@ const startOAuth = async installation => {
   window.location.assign(response.data.redirect_url);
 };
 
-const install = async () => {
+const resetSelection = () => {
+  selectedKeys.value = installedTemplateKeys(providerDetails.value);
+  configurations.value = installedConfigurations(providerDetails.value);
+};
+
+const saveSelection = async () => {
   errorMessage.value = '';
   installationComplete.value = false;
+  const workflow = providerDetails.value.installed_count ? 'update' : 'install';
   try {
     if (requiresConnection.value) {
       const installation = await store.dispatch(
@@ -377,42 +414,50 @@ const install = async () => {
       return;
     }
 
-    const data = {
-      provider_key: providerKey.value,
-      templates: buildSelections(
-        providerDetails.value,
-        selectedKeys.value,
-        configurations.value
-      ),
-    };
-    if (providerKey.value === 'stripe') {
-      data.credential = stripeCredential.value || undefined;
-    }
-    const installation = await store.dispatch(
-      'captainToolCatalog/install',
-      data
+    const templates = buildSelections(
+      providerDetails.value,
+      selectedKeys.value,
+      configurations.value
     );
+    const data = {
+      templates,
+      credential: stripeCredential.value || undefined,
+    };
+    const installation =
+      workflow === 'update'
+        ? await store.dispatch('captainToolCatalog/update', {
+            providerKey: providerKey.value,
+            data,
+          })
+        : await store.dispatch('captainToolCatalog/install', {
+            provider_key: providerKey.value,
+            ...data,
+          });
     if (installation.status === 'awaiting_connection') {
       await startOAuth(installation);
       return;
     }
 
     stripeCredential.value = '';
-    selectedKeys.value = [];
-    installationComplete.value = true;
     clearCatalogFlow(accountId.value, providerKey.value);
     await store.dispatch('captainToolCatalog/show', providerKey.value);
+    resetSelection();
+    installationComplete.value = installation.resulting_tool_ids.length > 0;
     useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_COMPLETED, {
       provider: providerKey.value,
-      workflow: 'install',
+      workflow,
       templateCount: installation.resulting_tool_ids.length,
     });
-    await announce(t('CAPTAIN.CUSTOM_TOOLS.CATALOG.INSTALL_SUCCESS'));
+    const successMessage =
+      workflow === 'update'
+        ? t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SAVE_SUCCESS')
+        : t('CAPTAIN.CUSTOM_TOOLS.CATALOG.INSTALL_SUCCESS');
+    await announce(successMessage);
   } catch (error) {
     stripeCredential.value = '';
     useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_FAILED, {
       provider: providerKey.value,
-      workflow: 'install',
+      workflow,
     });
     await announce(formatError(error), { error: true });
   }
@@ -477,30 +522,7 @@ const revokeConnection = async () => {
 };
 
 const updateInstalledTools = async () => {
-  errorMessage.value = '';
-  try {
-    const installation = await store.dispatch('captainToolCatalog/update', {
-      providerKey: providerKey.value,
-      templates: updates.value,
-    });
-    if (installation.status === 'awaiting_connection') {
-      await startOAuth(installation);
-      return;
-    }
-    await store.dispatch('captainToolCatalog/show', providerKey.value);
-    useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_COMPLETED, {
-      provider: providerKey.value,
-      workflow: 'update',
-      templateCount: updates.value.length,
-    });
-    await announce(t('CAPTAIN.CUSTOM_TOOLS.CATALOG.UPDATE_SUCCESS'));
-  } catch (error) {
-    useTrack(CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_FAILED, {
-      provider: providerKey.value,
-      workflow: 'update',
-    });
-    await announce(formatError(error), { error: true });
-  }
+  await saveSelection();
 };
 
 const restoreFlow = () => {
@@ -537,7 +559,10 @@ const handleOAuthReturn = async () => {
   }
 
   clearCatalogFlow(accountId.value, providerKey.value);
-  installationComplete.value = installation.status === 'completed';
+  resetSelection();
+  installationComplete.value =
+    installation.status === 'completed' &&
+    installation.resulting_tool_ids.length > 0;
   useTrack(
     installation.status === 'completed'
       ? CAPTAIN_TOOL_CATALOG_EVENTS.WORKFLOW_COMPLETED
@@ -573,6 +598,7 @@ onMounted(async () => {
     ) {
       shopDomain.value = providerDetails.value.connection.display_name;
     }
+    resetSelection();
     restoreFlow();
     await handleOAuthReturn();
     await loadSetupOptions();
@@ -845,17 +871,18 @@ onMounted(async () => {
               class="flex cursor-pointer gap-3 p-5"
               :class="{
                 'cursor-not-allowed opacity-65':
-                  template.installed || template.availability !== 'available',
+                  isMutating ||
+                  (template.availability !== 'available' &&
+                    !template.installed),
               }"
             >
               <input
                 type="checkbox"
                 class="mt-0.5 size-4 rounded border-n-slate-6 text-n-brand focus:ring-n-brand"
-                :checked="
-                  template.installed || selectedKeys.includes(template.key)
-                "
+                :checked="selectedKeys.includes(template.key)"
                 :disabled="
-                  template.installed || template.availability !== 'available'
+                  isMutating ||
+                  (template.availability !== 'available' && !template.installed)
                 "
                 @change="toggleTemplate(template, $event.target.checked)"
               />
@@ -1007,11 +1034,13 @@ onMounted(async () => {
             :label="
               requiresConnection
                 ? $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.CONNECT_AND_CONTINUE')
-                : $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.INSTALL_SELECTED')
+                : providerDetails.installed_count
+                  ? $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SAVE_CHANGES')
+                  : $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.INSTALL_SELECTED')
             "
             :is-loading="isMutating"
             :disabled="!canContinue"
-            @click="install"
+            @click="saveSelection"
           />
         </section>
       </div>

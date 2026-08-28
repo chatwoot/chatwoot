@@ -27,7 +27,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolCatalogConnections', type: :requ
     expect(response).to have_http_status(:created)
     expect(response.parsed_body.dig('payload', 'workflow_kind')).to eq('connect')
     expect(response.parsed_body.dig('payload', 'connection', 'missing_scopes')).to contain_exactly(
-      'channels:read', 'chat:write', 'groups:read'
+      'channels:join', 'channels:read', 'chat:write', 'groups:read'
     )
     expect(response.body).not_to include('admin')
   end

@@ -152,6 +152,7 @@ en:
         verification_failed: 'Could not verify Cloudflare RealtimeKit credentials right now. Please try again.'
     slack:
       invalid_channel_id: 'Invalid slack channel. Please try again'
+      missing_scope: 'Slack permissions are incomplete. Reconnect Slack and try again.'
     whatsapp:
       token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'

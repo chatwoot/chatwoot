@@ -49,6 +49,8 @@ RSpec.describe Captain::ToolCatalog::ProviderPackCompiler do
     expect(pack.fetch('allowed_origins')).to eq(['https://slack.com'])
     expect(definitions).not_to include('history', 'search')
     expect(operations.find { |operation| operation.fetch('key') == 'lookup_user_by_email' }.fetch('scopes'))
-      .to eq(['users:read.email'])
+      .to eq(['users:read', 'users:read.email'])
+    expect(operations.find { |operation| operation.fetch('key') == 'send_message' }.fetch('scopes'))
+      .to include('channels:join')
   end
 end

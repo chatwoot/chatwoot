@@ -61,7 +61,7 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks' do
         account.enable_features!('captain_tool_catalog')
         hook.update!(
           status: 'disabled',
-          settings: { catalog_connected: true, scope: 'users:read.email', workspace_name: 'Support Workspace' }
+          settings: { catalog_connected: true, scope: 'users:read,users:read.email', workspace_name: 'Support Workspace' }
         )
         allow(GlobalConfigService).to receive(:load).and_call_original
         allow(GlobalConfigService).to receive(:load).with('SLACK_CLIENT_SECRET', nil).and_return('slack-client-secret')
@@ -189,7 +189,7 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks' do
 
       expect(response).to have_http_status(:ok)
       expect(redirect_uri.host).to eq('slack.com')
-      expect(query.fetch('scope').split(',')).to contain_exactly('channels:read', 'chat:write', 'commands', 'groups:read')
+      expect(query.fetch('scope').split(',')).to contain_exactly('channels:join', 'channels:read', 'chat:write', 'commands', 'groups:read')
       expect(query).to include(
         'client_id' => 'slack-client-id',
         'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/settings/integrations/slack"
@@ -272,6 +272,19 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks' do
         expect(response).to have_http_status(:unprocessable_entity)
         json_response = response.parsed_body
         expect(json_response['error']).to eql('Invalid slack channel. Please try again')
+      end
+
+      it 'returns a reconnectable error when Slack permissions are incomplete' do
+        channel_builder = instance_double(Integrations::Slack::ChannelBuilder)
+        allow(channel_builder).to receive(:update).and_raise(Slack::Web::Api::Errors::MissingScope.new('missing_scope'))
+        allow(Integrations::Slack::ChannelBuilder).to receive(:new).and_return(channel_builder)
+
+        put "/api/v1/accounts/#{account.id}/integrations/slack",
+            params: { channel: SecureRandom.hex },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Slack permissions are incomplete. Reconnect Slack and try again.')
       end
     end
   end

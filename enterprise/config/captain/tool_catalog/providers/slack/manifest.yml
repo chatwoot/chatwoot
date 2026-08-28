@@ -40,7 +40,7 @@ operations:
     source: openapi
     reference: openapi.yml#/paths/~1api~1chat.postMessage/post
     visibility: runtime
-    scopes: [channels:read, chat:write, groups:read]
+    scopes: [channels:join, channels:read, chat:write, groups:read]
     risk_class: low_impact_write
     fixtures:
       success: fixtures/post_message_success.json
@@ -58,7 +58,7 @@ operations:
     source: openapi
     reference: openapi.yml#/paths/~1api~1users.lookupByEmail/get
     visibility: runtime
-    scopes: [users:read.email]
+    scopes: [users:read, users:read.email]
     risk_class: read
     fixtures:
       success: fixtures/lookup_user_success.json

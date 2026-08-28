@@ -123,9 +123,9 @@ const actions = {
     }
   },
 
-  async update({ commit }, { providerKey, templates }) {
+  async update({ commit }, { providerKey, data }) {
     return mutateInstallation(commit, () =>
-      CaptainToolCatalog.update(providerKey, templates)
+      CaptainToolCatalog.update(providerKey, data)
     );
   },
   async setup({ commit }, { providerKey, operationKey, arguments: args = {} }) {

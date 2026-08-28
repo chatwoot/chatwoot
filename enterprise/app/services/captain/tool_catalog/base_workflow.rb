@@ -12,11 +12,12 @@ class Captain::ToolCatalog::BaseWorkflow
 
   attr_reader :account, :initiated_by, :registry, :installation
 
-  def resolve_selection(provider_key, templates, validate_configuration: true)
+  def resolve_selection(provider_key, templates, validate_configuration: true, allow_empty: false)
     Captain::ToolCatalog::TemplateSelection.new(registry: registry).resolve(
       provider_key: provider_key,
       templates: templates,
-      validate_configuration: validate_configuration
+      validate_configuration: validate_configuration,
+      allow_empty: allow_empty
     )
   end
 

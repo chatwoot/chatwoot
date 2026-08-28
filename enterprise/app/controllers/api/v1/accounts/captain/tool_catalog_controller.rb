@@ -28,7 +28,11 @@ class Api::V1::Accounts::Captain::ToolCatalogController < Api::V1::Accounts::Cap
     installation = Captain::ToolCatalog::UpdateWorkflow.new(
       account: Current.account,
       initiated_by: Current.user
-    ).perform(provider_key: params[:provider_key], templates: update_params[:templates])
+    ).perform(
+      provider_key: params[:provider_key],
+      templates: update_params[:templates],
+      credential: update_params[:credential]
+    )
     render_installation(installation, status: :created)
   end
 
@@ -40,6 +44,7 @@ class Api::V1::Accounts::Captain::ToolCatalogController < Api::V1::Accounts::Cap
 
   def update_params
     params.require(:update).permit(
+      :credential,
       templates: [:template_key, :template_version, { configuration: {} }]
     )
   end
