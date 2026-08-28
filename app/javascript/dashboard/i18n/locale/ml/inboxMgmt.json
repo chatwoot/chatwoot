@@ -49,7 +49,9 @@
         "ADD_NAME": "നിങ്ങളുടെ ഇൻ‌ബോക്‌സിനായി ഒരു പേര് ചേർക്കുക",
         "PICK_NAME": "നിങ്ങളുടെ ഇൻബോക്സിന് ഒരു പേര് തിരഞ്ഞെടുക്കുക",
         "PICK_A_VALUE": "ഒരു മൂല്യം തിരഞ്ഞെടുക്കുക",
-        "CREATE_INBOX": "ഇൻ‌ബോക്സ് സൃഷ്ടിക്കുക"
+        "CREATE_INBOX": "ഇൻ‌ബോക്സ് സൃഷ്ടിക്കുക",
+        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "STATUS_LINK": "View status updates"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Instagram ഉപയോഗിച്ച് തുടരുക",
@@ -59,8 +61,9 @@
         "ERROR_AUTH": "Instagram-ലേക്ക് കണക്ട് ചെയ്യുന്നതിൽ പിഴവ് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
         "NEW_INBOX_SUGGESTION": "ഈ Instagram അക്കൗണ്ട് മുമ്പ് മറ്റൊരു ഇൻബോക്സുമായി ബന്ധിപ്പിച്ചിരുന്നതാണ്, ഇപ്പോൾ ഇത് ഇവിടെ മൈഗ്രേറ്റ് ചെയ്തിരിക്കുന്നു. എല്ലാ പുതിയ സന്ദേശങ്ങളും ഇവിടെ പ്രത്യക്ഷപ്പെടും. പഴയ ഇൻബോക്സ് ഈ അക്കൗണ്ടിനായി സന്ദേശങ്ങൾ അയക്കാനും സ്വീകരിക്കാനും കഴിയില്ല.",
         "DUPLICATE_INBOX_BANNER": "ഈ Instagram അക്കൗണ്ട് പുതിയ Instagram ചാനൽ ഇൻബോക്സിലേക്ക് മൈഗ്രേറ്റ് ചെയ്തിരിക്കുന്നു. ഇനി ഈ ഇൻബോക്സിൽ നിന്ന് Instagram സന്ദേശങ്ങൾ അയക്കാനും സ്വീകരിക്കാനും കഴിയില്ല.",
-        "SETTINGS_RESTRICTED_WARNING": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
-        "STATUS_LINK": "View status update"
+        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
+        "STATUS_LINK": "View status updates"
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "TikTok ഉപയോഗിച്ച് തുടരുക",
@@ -249,12 +252,14 @@
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp ക്ലൗഡ്",
           "WHATSAPP_CLOUD_DESC": "Meta വഴി വേഗത്തിലുള്ള ക്രമീകരണം",
+          "WHATSAPP_CLOUD_MANUAL_SETUP_DESC": "Manual setup with Cloud API credentials",
           "TWILIO_DESC": "Twilio ക്രെഡൻഷ്യലുകൾ വഴി ബന്ധിപ്പിക്കുക",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
           "TITLE": "നിങ്ങളുടെ API പ്രൊവൈഡർ തിരഞ്ഞെടുക്കുക",
-          "DESCRIPTION": "നിങ്ങളുടെ WhatsApp പ്രൊവൈഡർ തിരഞ്ഞെടുക്കുക. ക്രമീകരണം ആവശ്യമില്ലാത്ത Meta വഴി നേരിട്ട് ബന്ധിപ്പിക്കാം, അല്ലെങ്കിൽ നിങ്ങളുടെ അക്കൗണ്ട് ക്രെഡൻഷ്യലുകൾ ഉപയോഗിച്ച് Twilio വഴി ബന്ധിപ്പിക്കാം."
+          "DESCRIPTION": "നിങ്ങളുടെ WhatsApp പ്രൊവൈഡർ തിരഞ്ഞെടുക്കുക. ക്രമീകരണം ആവശ്യമില്ലാത്ത Meta വഴി നേരിട്ട് ബന്ധിപ്പിക്കാം, അല്ലെങ്കിൽ നിങ്ങളുടെ അക്കൗണ്ട് ക്രെഡൻഷ്യലുകൾ ഉപയോഗിച്ച് Twilio വഴി ബന്ധിപ്പിക്കാം.",
+          "RESTRICTION_DESCRIPTION": "Choose your WhatsApp provider. You can connect WhatsApp Cloud manually using your Cloud API credentials, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "ഇൻ‌ബോക്സ് നാമം",
@@ -296,7 +301,7 @@
         "SUBMIT_BUTTON": "WhatsApp ചാനൽ സൃഷ്ടിക്കുക",
         "EMBEDDED_SIGNUP": {
           "TITLE": "Meta ഉപയോഗിച്ച് വേഗത്തിലുള്ള ക്രമീകരണം",
-          "DESC": "പുതിയ നമ്പറുകൾ വേഗത്തിൽ ബന്ധിപ്പിക്കാൻ WhatsApp Embedded Signup ഫ്ലോ ഉപയോഗിക്കുക. നിങ്ങളുടെ WhatsApp ബിസിനസ് അക്കൗണ്ടിൽ ലോഗിൻ ചെയ്യാൻ Meta-യിലേക്ക് റീഡയറക്ട് ചെയ്യപ്പെടും. അഡ്മിൻ ആക്‌സസ് ഉണ്ടെങ്കിൽ ക്രമീകരണം സുഖകരവും എളുപ്പവുമാകും.",
+          "DESC": "Use Quick setup with Meta to connect a new number or an existing number from the WhatsApp Business app. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
           "BENEFITS": {
             "TITLE": "എംബെഡഡ് സൈൻഅപ്പ് ന്റെ ഗുണങ്ങൾ:",
             "EASY_SETUP": "മാനുവൽ ക്രമീകരണം ആവശ്യമില്ല",
@@ -304,7 +309,7 @@
             "AUTO_CONFIG": "സ്വയം പ്രവർത്തിക്കുന്ന webhook, ഫോൺ നമ്പർ ക്രമീകരണം"
           },
           "LEARN_MORE": {
-            "TEXT": "ഇന്റഗ്രേറ്റഡ് സൈൻഅപ്പ്, വിലനിർണ്ണയം, പരിമിതികൾ എന്നിവയെക്കുറിച്ച് കൂടുതൽ അറിയാൻ {link} സന്ദർശിക്കുക.",
+            "TEXT": "To learn more about quick setup, pricing, and limitations, visit {link}.",
             "LINK_TEXT": "ഈ ലിങ്ക്"
           },
           "SUBMIT_BUTTON": "WhatsApp ബിസിനസ്സുമായി ബന്ധിപ്പിക്കുക",
@@ -322,10 +327,20 @@
           "SUCCESS_FALLBACK": "WhatsApp ബിസിനസ് അക്കൗണ്ട് വിജയകരമായി ക്രമീകരിച്ചു",
           "MANUAL_FALLBACK": "നിങ്ങളുടെ നമ്പർ ഇതിനകം WhatsApp ബിസിനസ് പ്ലാറ്റ്ഫോം (API) യുമായി ബന്ധിപ്പിച്ചിട്ടുണ്ടെങ്കിൽ, അല്ലെങ്കിൽ നിങ്ങൾ ഒരു ടെക് പ്രൊവൈഡറായി നിങ്ങളുടെ സ്വന്തം നമ്പർ ഓൺബോർഡ് ചെയ്യുകയാണെങ്കിൽ, ദയവായി {link} ഫ്ലോ ഉപയോഗിക്കുക",
           "MANUAL_LINK_TEXT": "മാനുവൽ സെറ്റപ്പ് ഫ്ലോ",
+          "ACCESS_REQUEST": {
+            "TITLE": "Meta ഉപയോഗിച്ച് വേഗത്തിലുള്ള ക്രമീകരണം",
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
+            "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
+            "BUTTON": "Request access"
+          },
+          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
+          "STATUS_LINK": "View status updates",
           "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
-          "ERROR_MESSAGE": "ഞങ്ങൾ WhatsApp ചാനൽ സേവ് ചെയ്യാൻ കഴിഞ്ഞില്ല"
+          "ERROR_MESSAGE": "ഞങ്ങൾ WhatsApp ചാനൽ സേവ് ചെയ്യാൻ കഴിഞ്ഞില്ല",
+          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
+          "STATUS_LINK": "View status updates"
         }
       },
       "VOICE": {
@@ -686,40 +701,98 @@
     "WIDGET_FEATURES": "വിഡ്ജറ്റ് സവിശേഷതകൾ",
     "ACCOUNT_HEALTH": {
       "TITLE": "നിങ്ങളുടെ WhatsApp അക്കൗണ്ട് നിയന്ത്രിക്കുക",
-      "DESCRIPTION": "നിങ്ങളുടെ WhatsApp അക്കൗണ്ട് നില, സന്ദേശ പരിധികൾ, ഗുണനിലവാരം പരിശോധിക്കുക. ആവശ്യമായെങ്കിൽ ക്രമീകരണങ്ങൾ പുതുക്കുക അല്ലെങ്കിൽ പ്രശ്നങ്ങൾ പരിഹരിക്കുക",
+      "DESCRIPTION": "Review your WhatsApp phone number health, messaging capacity, and linked Meta business details.",
       "GO_TO_SETTINGS": "Meta Business Manager-ലേക്ക് പോകുക",
       "NO_DATA": "ആരോഗ്യ ഡാറ്റ ലഭ്യമല്ല",
+      "ERRORS": {
+        "AUTHORIZATION": {
+          "EMBEDDED_TITLE": "WhatsApp connection needs to be refreshed",
+          "EMBEDDED_DESCRIPTION": "Meta could not validate the connection for this inbox. Go to Configuration to reconfigure it using Embedded Signup.",
+          "MANUAL_TITLE": "WhatsApp access token needs attention",
+          "MANUAL_DESCRIPTION": "Meta could not validate the access token for this inbox. Go to Configuration to verify or replace it."
+        },
+        "GENERIC_TITLE": "WhatsApp health data is unavailable",
+        "GENERIC_DESCRIPTION": "Meta could not return the current health details. Review the error below and try again later.",
+        "GO_TO_CONFIGURATION": "Go to Configuration"
+      },
+      "SECTIONS": {
+        "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+        "HEALTH_AND_CAPACITY": "Health and capacity",
+        "BUSINESS_ACCOUNT": "Business account"
+      },
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
           "LABEL": "ഫോൺ നമ്പർ പ്രദർശിപ്പിക്കുക",
           "TOOLTIP": "ഉപഭോക്താക്കൾക്ക് കാണിക്കുന്ന ഫോൺ നമ്പർ"
         },
         "VERIFIED_NAME": {
-          "LABEL": "ബിസിനസ് പേര്",
-          "TOOLTIP": "WhatsApp വഴി സ്ഥിരീകരിച്ച ബിസിനസ് പേര്"
+          "LABEL": "WhatsApp display name",
+          "TOOLTIP": "Display name associated with this phone number on WhatsApp"
+        },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "ഫോൺ നമ്പർ ഐഡി",
+          "TOOLTIP": "Meta identifier for this WhatsApp phone number"
+        },
+        "COEXISTENCE": {
+          "LABEL": "Coexistence",
+          "TOOLTIP": "This number is connected to both the WhatsApp Business app and Cloud API"
         },
         "DISPLAY_NAME_STATUS": {
           "LABEL": "പ്രദർശന നാമത്തിന്റെ നില",
-          "TOOLTIP": "നിങ്ങളുടെ ബിസിനസ് നാമം സ്ഥിരീകരണത്തിന്റെ നില"
+          "TOOLTIP": "Review status of the WhatsApp display name"
+        },
+        "LAST_ONBOARDED_TIME": {
+          "LABEL": "Last onboarded",
+          "TOOLTIP": "Most recent time Meta onboarded this phone number"
+        },
+        "PHONE_NUMBER_STATUS": {
+          "LABEL": "Phone number status",
+          "TOOLTIP": "Current connection status of this phone number on WhatsApp"
         },
         "QUALITY_RATING": {
           "LABEL": "ഗുണമേന്മാ റേറ്റിംഗ്",
-          "TOOLTIP": "നിങ്ങളുടെ അക്കൗണ്ടിന്റെ WhatsApp ഗുണമേന്മാ റേറ്റിംഗ്"
+          "TOOLTIP": "Quality rating Meta assigns to this phone number based on recent messaging signals"
         },
         "MESSAGING_LIMIT_TIER": {
           "LABEL": "സന്ദേശം പരിധി നില",
-          "TOOLTIP": "നിങ്ങളുടെ അക്കൗണ്ടിനുള്ള പ്രതിദിന സന്ദേശ പരിധി"
+          "TOOLTIP": "Number of customers this phone number can initiate conversations with in 24 hours"
         },
         "ACCOUNT_MODE": {
           "LABEL": "അക്കൗണ്ട് മോഡ്",
-          "TOOLTIP": "നിങ്ങളുടെ WhatsApp അക്കൗണ്ടിന്റെ നിലവിലെ പ്രവർത്തന മോഡ്"
+          "TOOLTIP": "Current operating mode of this WhatsApp phone number"
+        },
+        "CODE_VERIFICATION_STATUS": {
+          "LABEL": "Code verification",
+          "TOOLTIP": "Verification-code status reported by Meta for this phone number"
+        },
+        "THROUGHPUT_LEVEL": {
+          "LABEL": "Throughput",
+          "TOOLTIP": "Message throughput level assigned to this phone number"
+        },
+        "BUSINESS_ACCOUNT_NAME": {
+          "LABEL": "WhatsApp Business Account name",
+          "TOOLTIP": "Name of the WhatsApp Business Account linked to this phone number"
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "WhatsApp Business Account ID",
+          "TOOLTIP": "Meta identifier for the linked WhatsApp Business Account"
+        },
+        "BUSINESS_PORTFOLIO_NAME": {
+          "LABEL": "Business portfolio name",
+          "TOOLTIP": "Name of the Meta business portfolio that owns the WhatsApp Business Account"
+        },
+        "BUSINESS_PORTFOLIO_ID": {
+          "LABEL": "Business portfolio ID",
+          "TOOLTIP": "Meta identifier for the business portfolio that owns the WhatsApp Business Account"
         }
       },
       "VALUES": {
+        "NOT_AVAILABLE": "Not available",
         "TIERS": {
           "TIER_250": "250 customers per 24h",
           "TIER_1000": "1K customers per 24h",
           "TIER_1K": "1K customers per 24h",
+          "TIER_2K": "2K customers per 24h",
           "TIER_10K": "10K customers per 24h",
           "TIER_100K": "100K customers per 24h",
           "TIER_UNLIMITED": "Unlimited customers per 24h",
@@ -727,6 +800,16 @@
         },
         "STATUSES": {
           "APPROVED": "അംഗീകൃതം",
+          "CONNECTED": "Connected",
+          "VERIFIED": "പരിശോധിച്ചു",
+          "STANDARD": "സ്റ്റാൻഡേർഡ്",
+          "ACTIVE": "സജീവമാണ്",
+          "EXPIRED": "Expired",
+          "FLAGGED": "Flagged",
+          "RESTRICTED": "Restricted",
+          "BANNED": "Banned",
+          "DISCONNECTED": "Disconnected",
+          "UNKNOWN": "Not available",
           "PENDING_REVIEW": "പരിശോധനയ്ക്ക് കാത്തിരിക്കുന്നു",
           "AVAILABLE_WITHOUT_REVIEW": "പരിശോധന കൂടാതെ ലഭ്യമാണ്",
           "REJECTED": "നിഷേധിച്ചു",
@@ -746,7 +829,11 @@
         "REGISTER_SUCCESS": "Webhook വിജയകരമായി രജിസ്റ്റർ ചെയ്തു",
         "REGISTER_ERROR": "Webhook രജിസ്റ്റർ ചെയ്യാൻ പരാജയപ്പെട്ടു. ദയവായി വീണ്ടും ശ്രമിക്കുക.",
         "CONFIGURED_SUCCESS": "Webhook വിജയകരമായി ക്രമീകരിച്ചു",
-        "URL_MISMATCH": "Webhook URL പൊരുത്തക്കേട്"
+        "URL_MISMATCH": "Webhook URL പൊരുത്തക്കേട്",
+        "CONFIGURED_URL": "Configured URL",
+        "EXPECTED_URL": "Expected URL",
+        "COPY_URL": "Copy webhook URL",
+        "COPY_SUCCESS": "Webhook URL copied to clipboard"
       }
     },
     "SETTINGS": "ക്രമീകരണങ്ങൾ",
@@ -813,6 +900,16 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "API കീ അപ്ഡേറ്റ് ചെയ്യുക",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "പുതിയ API കീ ഇവിടെ നൽകുക",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "അപ്‌ഡേറ്റ്",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when Chatwoot cannot retrieve its message templates. Chatwoot uses this token only for template synchronization.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Enter the business management token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "ചേർക്കുക",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Replace",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS": "WhatsApp business management token updated successfully.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR": "Could not update the business management token. Verify its WhatsApp Business Management permission and account access, then try again.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK": "Learn how to generate a WhatsApp Business Management token",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp എംബെഡഡ് സൈൻഅപ്പ്",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "ഈ ഇൻബോക്സ് WhatsApp എംബെഡഡ് സൈൻഅപ്പ് വഴി ബന്ധിപ്പിച്ചിരിക്കുന്നു.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "നിങ്ങളുടെ WhatsApp ബിസിനസ് ക്രമീകരണങ്ങൾ അപ്ഡേറ്റ് ചെയ്യാൻ ഈ ഇൻബോക്സ് പുനഃക്രമീകരിക്കാം.",

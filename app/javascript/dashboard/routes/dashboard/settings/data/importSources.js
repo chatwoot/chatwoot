@@ -4,7 +4,16 @@ export const IMPORT_SOURCES = [
     label: 'Intercom',
     icon: '/dashboard/images/integrations/intercom.png',
   },
+  {
+    value: 'freshdesk',
+    label: 'Freshdesk',
+    iconClass: 'i-lucide-life-buoy',
+    requiresDomain: true,
+  },
 ];
+
+export const importSourceConfigFor = provider =>
+  IMPORT_SOURCES.find(source => source.value === provider);
 
 const DEFAULT_IMPORT_SOURCE = {
   value: 'file',
@@ -13,5 +22,4 @@ const DEFAULT_IMPORT_SOURCE = {
 };
 
 export const importSourceFor = dataImport =>
-  IMPORT_SOURCES.find(source => source.value === dataImport?.source_provider) ||
-  DEFAULT_IMPORT_SOURCE;
+  importSourceConfigFor(dataImport?.source_provider) || DEFAULT_IMPORT_SOURCE;

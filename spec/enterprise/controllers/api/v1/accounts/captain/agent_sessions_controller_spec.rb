@@ -26,21 +26,14 @@ RSpec.describe 'Api::V1::Accounts::Captain::AgentSessions', type: :request do
     end
 
     context 'when the message has an agent session' do
-      let(:document) { create(:captain_document, account: account, assistant: assistant) }
+      let(:document) { create(:captain_document, account: account, assistant: assistant, name: 'Password reset guide') }
       let(:documented_faq) do
         create(:captain_assistant_response, account: account, assistant: assistant,
                                             question: 'How do I reset my password?', documentable: document)
       end
-      let(:plain_faq) do
-        create(:captain_assistant_response, account: account, assistant: assistant, question: 'How do I change my email?')
-      end
-      let(:pdf_document) do
-        create(:captain_document, account: account, assistant: assistant, external_link: nil,
-                                  pdf_file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/sample.pdf'), 'application/pdf'))
-      end
-      let(:pdf_faq) do
+      let(:used_faq) do
         create(:captain_assistant_response, account: account, assistant: assistant,
-                                            question: 'What are the pricing tiers?', documentable: pdf_document)
+                                            question: 'How long do refunds take?', documentable: agent, status: :approved)
       end
       let(:scenario) { create(:captain_scenario, account: account, assistant: assistant, title: 'Refund flow') }
       let(:run_context) do
@@ -56,7 +49,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::AgentSessions', type: :request do
         create(:captain_agent_session, account: account, assistant: assistant,
                                        subject: conversation, result: message,
                                        llm_model: 'openai-gpt-5.2', credits_consumed: 1.0,
-                                       faq_ids: [documented_faq.id, plain_faq.id, pdf_faq.id, documented_faq.id + 100_000],
+                                       faq_ids: [documented_faq.id],
+                                       used_faq_ids: [used_faq.id],
+                                       document_ids: [document.id],
+                                       cited_document_ids: [document.id],
                                        scenario_ids: [scenario.id],
                                        run_context: run_context)
       end
@@ -75,13 +71,11 @@ RSpec.describe 'Api::V1::Accounts::Captain::AgentSessions', type: :request do
           expect(json_response[:run_context].second[:tool_calls].first[:arguments][:query]).to eq('refund')
 
           citations = json_response[:citations].index_by { |citation| citation[:id] }
-          expect(citations.keys).to contain_exactly(documented_faq.id, plain_faq.id, pdf_faq.id)
-          expect(citations[documented_faq.id][:title]).to eq('How do I reset my password?')
-          expect(citations[documented_faq.id][:link]).to eq(document.external_link)
-          expect(citations[plain_faq.id][:link]).to be_nil
-          expect(pdf_document.external_link).to start_with('PDF:')
-          expect(citations[pdf_faq.id][:link]).to eq(pdf_document.display_url)
-          expect(citations[pdf_faq.id][:link]).to match(%r{\Ahttps?://})
+          expect(citations.keys).to contain_exactly(document.id)
+          expect(citations[document.id][:title]).to eq('Password reset guide')
+          expect(citations[document.id][:link]).to eq(document.external_link)
+
+          expect(json_response[:used_faqs]).to eq([{ id: used_faq.id, title: 'How long do refunds take?' }])
 
           expect(json_response[:scenarios]).to eq([{ id: scenario.id, title: 'Refund flow' }])
         end

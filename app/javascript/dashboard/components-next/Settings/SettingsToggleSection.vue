@@ -27,8 +27,8 @@ const modelValue = defineModel({ type: Boolean, default: false });
   <div
     class="flex flex-col items-start outline outline-1 -outline-offset-1 outline-n-weak rounded-xl [interpolate-size:allow-keywords]"
   >
-    <div class="flex flex-col gap-1 items-start w-full px-4 py-3">
-      <div class="flex items-center gap-3 w-full justify-between">
+    <div class="flex flex-col gap-1 items-start w-full py-3">
+      <div class="flex items-center gap-3 w-full justify-between px-4">
         <span class="text-heading-3 text-n-slate-12">
           {{ header }}
         </span>
@@ -39,9 +39,10 @@ const modelValue = defineModel({ type: Boolean, default: false });
         </template>
         <ToggleSwitch v-else v-model="modelValue" />
       </div>
-      <span v-if="description" class="text-body-main text-n-slate-11">
+      <span v-if="description" class="text-body-main text-n-slate-11 px-4">
         {{ description }}
       </span>
+      <slot />
     </div>
     <div
       v-if="$slots.editor"
