@@ -207,6 +207,8 @@ en:
       invalid_currency: Invalid billing currency
       currency_locked: Billing currency cannot be changed after billing has been set up
       provider_action_unavailable: This billing action is not available for Shopify-billed accounts
+      shopify_pricing_unavailable: Shopify App Pricing is not available right now
+      shopify_verification_failed: Shopify billing could not be verified right now
     topup:
       credits_required: Credits amount is required
       invalid_credits: Invalid credits amount

@@ -43,3 +43,5 @@ class AccountPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 end
+
+AccountPolicy.prepend_mod_with('AccountPolicy')
