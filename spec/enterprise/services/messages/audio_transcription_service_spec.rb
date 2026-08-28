@@ -50,6 +50,13 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
         expect(service.perform).to eq({ error: 'Transcription disabled for this inbox' })
         expect(Llm::SpeechToTextService).not_to have_received(:new)
       end
+
+      # The setting is about call recordings; an ordinary voice note on the same inbox is untouched.
+      it 'still transcribes a voice note sent by the contact' do
+        message.update!(content_type: 'text')
+
+        expect(service.perform).not_to eq({ error: 'Transcription disabled for this inbox' })
+      end
     end
 
     context 'when transcription is successful' do

@@ -72,6 +72,32 @@ describe Whatsapp::IncomingCallService do
         hash_including(event: 'voice_call.incoming')
       )
     end
+
+    # The agent's browser is what records a WhatsApp call, so the ring payload has to carry the inbox setting.
+    it 'tells the ringing agent that recording is on by default' do
+      allow(ActionCable.server).to receive(:broadcast)
+
+      params = call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' })
+      described_class.new(inbox: inbox, params: params).perform
+
+      expect(ActionCable.server).to have_received(:broadcast).with(
+        agent.pubsub_token,
+        hash_including(data: hash_including(recording_enabled: true))
+      )
+    end
+
+    it 'tells the ringing agent not to record when the inbox has recording turned off' do
+      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
+      allow(ActionCable.server).to receive(:broadcast)
+
+      params = call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' })
+      described_class.new(inbox: inbox, params: params).perform
+
+      expect(ActionCable.server).to have_received(:broadcast).with(
+        agent.pubsub_token,
+        hash_including(data: hash_including(recording_enabled: false))
+      )
+    end
   end
 
   describe 'inbound connect from a username (BSUID) caller' do
