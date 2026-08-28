@@ -138,6 +138,19 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(initiate_conversation.reload.assignee_id).to eq(other_agent.id)
     end
 
+    it 'keeps the AgentBot owner when the conversation is already assigned' do
+      agent_bot = create(:agent_bot, account: account)
+      initiate_conversation.update!(assignee_agent_bot: agent_bot)
+      allow(provider_service).to receive(:initiate_call).and_return({ 'calls' => [{ 'id' => 'wacid_outbound' }] })
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+           headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      expect(initiate_conversation.reload.assigned_entity).to eq(agent_bot)
+    end
+
     it 'sends a permission request and records the wamid when Meta returns NoCallPermission' do
       allow(provider_service).to receive(:initiate_call).and_raise(Voice::CallErrors::NoCallPermission)
       allow(provider_service).to receive(:send_call_permission_request).and_return({ 'messages' => [{ 'id' => 'wamid.req_xyz' }] })

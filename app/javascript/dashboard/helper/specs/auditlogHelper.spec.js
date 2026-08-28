@@ -2,6 +2,8 @@ import {
   extractChangedAccountUserValues,
   generateTranslationPayload,
   generateLogActionKey,
+  auditLogFiltersFromQuery,
+  buildAuditLogRouteQuery,
 } from '../auditlogHelper'; // import the functions
 
 describe('Helper functions', () => {
@@ -189,6 +191,51 @@ describe('Helper functions', () => {
 
       const logActionKey = generateLogActionKey(auditLogItem);
       expect(logActionKey).toEqual('AUDIT_LOGS.ACCOUNT_USER.EDIT.DELETED');
+    });
+  });
+
+  describe('#auditLogFiltersFromQuery', () => {
+    it('maps route query params to API filters', () => {
+      expect(
+        auditLogFiltersFromQuery({
+          page: '2',
+          q: 'jane',
+          type: 'Inbox',
+          sort: 'asc',
+          since: '100',
+          until: '200',
+        })
+      ).toEqual({
+        page: 2,
+        q: 'jane',
+        types: ['Inbox'],
+        sort: 'asc',
+        since: 100,
+        until: 200,
+      });
+    });
+
+    it('defaults to page 1 and drops unknown values', () => {
+      expect(
+        auditLogFiltersFromQuery({ sort: 'sideways', range: 'last7days' })
+      ).toEqual({ page: 1 });
+    });
+
+    it('ignores a half open date window', () => {
+      expect(auditLogFiltersFromQuery({ since: '100' })).toEqual({ page: 1 });
+    });
+  });
+
+  describe('#buildAuditLogRouteQuery', () => {
+    it('drops blank values', () => {
+      expect(
+        buildAuditLogRouteQuery({
+          q: '',
+          type: 'Inbox',
+          range: 'last7days',
+          page: undefined,
+        })
+      ).toEqual({ type: 'Inbox', range: 'last7days' });
     });
   });
 });

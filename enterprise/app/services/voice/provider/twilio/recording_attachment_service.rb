@@ -19,6 +19,10 @@ class Voice::Provider::Twilio::RecordingAttachmentService
     # Bump the message updated_at so the message.updated dispatcher rebroadcasts
     # the embedded Call payload (now with recording_url) to connected clients.
     call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+
+    # Duplicate callbacks can both clear the outer already_attached? check, so only
+    # the invocation that actually stored the blob pays for transcription.
+    Voice::CallTranscriptionJob.perform_later(call.id) if @persisted
   end
 
   private
@@ -31,6 +35,7 @@ class Voice::Provider::Twilio::RecordingAttachmentService
       call.recording_sid = recording_sid
       call.duration_seconds ||= normalized_recording_duration
       call.save!
+      @persisted = true
     end
   end
 

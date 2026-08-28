@@ -144,7 +144,12 @@ const keyboardEvents = {
     allowOnFocusedInput: true,
   },
   'Alt+KeyE': {
-    action: async () => {
+    action: async event => {
+      // Chrome on Windows treats Alt+E as a legacy shortcut for its own
+      // menu (Alt+E / Alt+F both open "Customize and control Google
+      // Chrome"). Without preventDefault, our resolve action still runs,
+      // but Chrome's menu also opens on top of it.
+      event.preventDefault();
       onCmdResolveConversation();
     },
   },
