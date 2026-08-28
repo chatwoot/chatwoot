@@ -101,6 +101,22 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(call_context).to have_received(:update).with(status: 'completed')
     end
 
+    it 'reconciles an ambiguous Twilio transport error after provider termination' do
+      call.update!(provider_call_id: 'CALL123')
+      call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
+      ringing_instance = instance_double(Twilio::REST::Api::V2010::AccountContext::CallInstance, status: 'ringing')
+      completed_instance = instance_double(Twilio::REST::Api::V2010::AccountContext::CallInstance, status: 'completed')
+      transport_error = Twilio::REST::TwilioError.new('connection reset after update')
+
+      allow(twilio_client).to receive(:calls).with('CALL123').and_return(call_context)
+      allow(call_context).to receive(:fetch).and_return(ringing_instance, completed_instance)
+      allow(call_context).to receive(:update).with(status: 'canceled').and_raise(transport_error)
+
+      expect { service.end_conference }.not_to raise_error
+      expect(call_context).to have_received(:fetch).twice
+      expect(call_context).to have_received(:update).with(status: 'canceled').once
+    end
+
     it 'uses provider state even when the local call is in progress but the customer is still ringing' do
       call.update!(provider_call_id: 'CALL123', status: 'in_progress')
       call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
