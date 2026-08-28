@@ -16,6 +16,8 @@ class ArticlesAPI extends PortalsAPI {
     authorId,
     categorySlug,
     sort,
+    query,
+    signal,
   }) {
     const url = getArticleSearchURL({
       pageNumber,
@@ -25,10 +27,11 @@ class ArticlesAPI extends PortalsAPI {
       authorId,
       categorySlug,
       sort,
+      query,
       host: this.url,
     });
 
-    return axios.get(url);
+    return axios.get(url, { signal });
   }
 
   searchArticles({ portalSlug, query }) {

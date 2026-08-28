@@ -39,7 +39,7 @@
       <% end %>
         <summary class="flex items-center gap-2 px-3 py-2 text-sm rounded-md cursor-pointer list-none select-none <%= is_active ? 'text-n-portal font-semibold' : 'text-n-slate-12 font-medium' %> hover:bg-n-alpha-2 transition">
           <% if sidebar_category.icon.present? %>
-            <span class="text-base leading-none w-4 flex items-center justify-center"><%= sidebar_category.icon %></span>
+            <span class="text-base leading-none w-4 flex items-center justify-center"><%= render_emoji_or_icon(sidebar_category.icon, sidebar_category.icon_color) %></span>
           <% else %>
             <span class="i-lucide-folder size-4 text-n-slate-10" aria-hidden="true"></span>
           <% end %>

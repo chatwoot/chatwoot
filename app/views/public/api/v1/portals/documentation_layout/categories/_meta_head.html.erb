@@ -1,5 +1,5 @@
-<title><%= category.name %> | <%= portal.display_title %></title>
-<meta name="title" content="<%= category.name %> | <%= portal.display_title %>">
+<title><%= category.name %> | <%= portal.display_title(category.locale) %></title>
+<meta name="title" content="<%= category.name %> | <%= portal.display_title(category.locale) %>">
 <% if category.description.present? %>
   <meta name="description" content="<%= category.description %>">
   <meta property="og:description" content="<%= category.description %>">

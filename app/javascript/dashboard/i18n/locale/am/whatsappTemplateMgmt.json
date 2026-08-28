@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATE_MGMT": {
+    "TITLE": "Templates",
+    "DESCRIPTION": "View the message templates synced from your WhatsApp inboxes. To create or edit a template, manage it with your provider.",
+    "COUNT": "{n} template | {n} templates",
+    "KNOW_MORE": "ተጨማሪ ያውቁ",
+    "NEW_TEMPLATE": "New template",
+    "SEARCH_PLACEHOLDER": "Search by content or name...",
+    "MANAGE_IN_META": "Manage in Meta",
+    "MANAGE_IN_TWILIO": "Manage in Twilio",
+    "LOADING": "Loading WhatsApp templates...",
+    "EMPTY": "No WhatsApp templates found.",
+    "NO_RESULTS": "No templates match your filters.",
+    "FETCH_ERROR": "Unable to load WhatsApp templates. Please try again.",
+    "PARTIAL_FETCH_ERROR": "Some WhatsApp templates could not be loaded. Please try again.",
+    "LAST_SYNC_ATTEMPT": "Last sync attempt on {date}",
+    "MORE_INBOXES": "+{n}",
+    "FILTERS": {
+      "ALL_INBOXES": "All inboxes",
+      "ALL_LANGUAGES": "All languages"
+    },
+    "TYPES": {
+      "TEXT": "Text",
+      "IMAGE": "Image",
+      "VIDEO": "Video",
+      "DOCUMENT": "Document",
+      "MEDIA": "Media",
+      "QUICK_REPLY": "Quick reply",
+      "CALL_TO_ACTION": "Call to action",
+      "CATALOG": "Catalog",
+      "COPY_CODE": "Copy code"
+    },
+    "PREVIEW": {
+      "TITLE": "Template preview",
+      "DESCRIPTION": "Preview how this template appears in WhatsApp.",
+      "OPEN": "Preview {name}",
+      "CLOSE": "Close preview",
+      "DETAILS": "Template details",
+      "STATUS": "Status",
+      "TYPE": "Content type",
+      "CATEGORY": "Category",
+      "LANGUAGE": "Language",
+      "INBOXES": "ኢንቦክሶች",
+      "LAST_SYNC_ATTEMPT": "Last sync attempt"
+    }
+  }
+}

@@ -78,6 +78,14 @@ class Crm::BaseProcessorService
     contact.save!
   end
 
+  def clear_external_id(contact)
+    return if contact.additional_attributes.blank?
+    return if contact.additional_attributes['external'].blank?
+
+    contact.additional_attributes['external'].delete("#{crm_name}_id")
+    contact.save!
+  end
+
   def store_conversation_metadata(conversation, metadata)
     # Initialize additional_attributes if it's nil
     conversation.additional_attributes = {} if conversation.additional_attributes.nil?

@@ -14,11 +14,11 @@ const { accountId, currentAccount } = useAccount();
 
 const globalConfig = useMapGetter('globalConfig/get');
 
+const enabledFeatures = computed(() => currentAccount.value?.features || {});
+
 const hasTiktokConfigured = computed(() => {
   return window.chatwootConfig?.tiktokAppId;
 });
-
-const enabledFeatures = computed(() => currentAccount.value?.features || {});
 
 const channelList = computed(() => {
   const { apiChannelName } = globalConfig.value;

@@ -38,6 +38,19 @@ RSpec.describe Channel::TwilioSms do
     end
   end
 
+  describe '#inbound_calls_enabled?' do
+    it 'returns true by default when nothing has been toggled' do
+      channel = create(:channel_twilio_sms, :with_voice, account: account)
+      expect(channel.inbound_calls_enabled?).to be true
+    end
+
+    it 'returns false only when explicitly disabled in provider_config' do
+      channel = create(:channel_twilio_sms, :with_voice, account: account,
+                                                         provider_config: { 'inbound_calls_enabled' => false })
+      expect(channel.inbound_calls_enabled?).to be false
+    end
+  end
+
   describe '#voice_call_webhook_url' do
     it 'returns the webhook URL based on phone number' do
       channel = create(:channel_twilio_sms, :with_voice)

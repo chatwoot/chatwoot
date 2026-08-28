@@ -26,6 +26,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
 
     result = described_class.new(account: account, user: agent).perform
 
+    expect(result[:all_count]).to eq(2)
     expect(result[:inboxes]).to eq(inbox.id.to_s => 2)
     expect(result[:labels]).to eq(label.id.to_s => 2)
     expect(result[:teams]).to eq(team.id.to_s => 2)
@@ -37,9 +38,12 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     create_unread_conversation(account: account, inbox: inbox, labels: [label.title], assignee: agent, team: team)
     create_unread_conversation(account: account, inbox: inbox, labels: [label.title], team: team)
     create_unread_conversation(account: account, inbox: inbox, labels: [label.title], assignee: other_agent, team: team)
+    agent_bot_conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title], team: team)
+    agent_bot_conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
 
     result = described_class.new(account: account, user: agent).perform
 
+    expect(result[:all_count]).to eq(2)
     expect(result[:inboxes]).to eq(inbox.id.to_s => 2)
     expect(result[:labels]).to eq(label.id.to_s => 2)
     expect(result[:teams]).to eq(team.id.to_s => 2)
@@ -53,6 +57,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
 
     result = described_class.new(account: account, user: agent).perform
 
+    expect(result[:all_count]).to eq(1)
     expect(result[:inboxes]).to eq(inbox.id.to_s => 1)
     expect(result[:labels]).to eq(label.id.to_s => 1)
     expect(result[:teams]).to eq(team.id.to_s => 1)
@@ -65,7 +70,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
 
     result = described_class.new(account: account, user: agent).perform
 
-    expect(result).to eq(inboxes: {}, labels: {}, teams: {})
+    expect(result).to eq(all_count: 0, inboxes: {}, labels: {}, teams: {})
     expect(store.base_ready?(account.id)).to be(false)
     expect(store.assignment_ready?(account.id)).to be(false)
   end

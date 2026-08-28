@@ -16,10 +16,12 @@ vi.mock('vue-i18n');
 vi.mock('dashboard/api/captain/tasks');
 vi.mock('dashboard/helper/AnalyticsHelper/index', async importOriginal => {
   const actual = await importOriginal();
-  actual.default = {
-    track: vi.fn(),
+  return {
+    ...actual,
+    default: {
+      track: vi.fn(),
+    },
   };
-  return actual;
 });
 vi.mock('dashboard/helper/AnalyticsHelper/events', () => ({
   CAPTAIN_EVENTS: {

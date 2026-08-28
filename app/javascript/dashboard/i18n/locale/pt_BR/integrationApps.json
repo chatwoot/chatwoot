@@ -46,7 +46,7 @@
           "PLACEHOLDER": "Selecionar caixa de entrada"
         },
         "SUBMIT": "Criar",
-        "VALIDATING_OPENAI": "Validating with OpenAI...",
+        "VALIDATING_OPENAI": "Validando com a OpenAI...",
         "CANCEL": "Cancelar"
       },
       "API": {

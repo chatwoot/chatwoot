@@ -72,6 +72,21 @@ describe Whatsapp::SendOnWhatsappService do
         expect(message.reload.source_id).to eq('123456789')
       end
 
+      it 'fails a free-form message without contacting the provider when outside the 24 hour limit' do
+        create(:message, message_type: :incoming, content: 'test', created_at: 25.hours.ago,
+                         conversation: conversation, account: conversation.account)
+        message = create(:message, message_type: :outgoing, content: 'test',
+                                   conversation: conversation, account: conversation.account)
+
+        expect(Whatsapp::TemplateProcessorService).not_to receive(:new)
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to eq(I18n.t('errors.whatsapp.message_outside_messaging_window'))
+        expect(a_request(:post, 'https://waba.360dialog.io/v1/messages')).not_to have_been_made
+      end
+
       it 'marks message as failed when template name is blank' do
         processor = instance_double(Whatsapp::TemplateProcessorService)
         allow(Whatsapp::TemplateProcessorService).to receive(:new).and_return(processor)

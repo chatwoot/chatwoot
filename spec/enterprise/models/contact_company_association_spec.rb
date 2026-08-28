@@ -4,6 +4,26 @@ RSpec.describe Contact, type: :model do
   describe 'company auto-association' do
     let(:account) { create(:account) }
 
+    before { account.enable_features!(:companies) }
+
+    context 'when the companies feature is disabled' do
+      before { account.disable_features!(:companies) }
+
+      it 'does not create or associate a company' do
+        expect do
+          create(:contact, email: 'john@acme.com', account: account)
+        end.not_to change(Company, :count)
+        expect(described_class.last.company).to be_nil
+      end
+
+      it 'preserves a contact-supplied company_name' do
+        contact = create(:contact, email: 'john@acme.com', account: account,
+                                   additional_attributes: { 'company_name' => 'John Personal Co' })
+
+        expect(contact.reload.additional_attributes['company_name']).to eq('John Personal Co')
+      end
+    end
+
     context 'when creating a new contact with business email' do
       it 'automatically creates and associates a company' do
         expect do
@@ -65,6 +85,22 @@ RSpec.describe Contact, type: :model do
         company = Company.find_by(domain: 'acme.com', account: account)
         expect(company.contacts.count).to eq(contacts.length)
       end
+    end
+  end
+
+  describe '#push_event_data' do
+    let(:account) { create(:account) }
+    let(:company) { create(:company, account: account) }
+    let(:contact) { create(:contact, account: account, company: company) }
+
+    it 'includes company_id when companies feature is enabled' do
+      account.enable_features!(:companies)
+
+      expect(contact.push_event_data[:company_id]).to eq(company.id)
+    end
+
+    it 'does not include company_id when companies feature is disabled' do
+      expect(contact.push_event_data).not_to have_key(:company_id)
     end
   end
 end

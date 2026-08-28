@@ -1,4 +1,10 @@
 /**
+ * Number of options a filter dropdown can hold before it renders a search field.
+ * Shared so the attribute and value dropdowns never disagree on when to show one.
+ */
+export const DROPDOWN_SEARCH_THRESHOLD = 8;
+
+/**
  * Standard attributes of the conversation model
  */
 export const CONVERSATION_ATTRIBUTES = {
@@ -7,6 +13,7 @@ export const CONVERSATION_ATTRIBUTES = {
   ASSIGNEE_ID: 'assignee_id',
   INBOX_ID: 'inbox_id',
   TEAM_ID: 'team_id',
+  CONTACT_ID: 'contact_id',
   DISPLAY_ID: 'display_id',
   CAMPAIGN_ID: 'campaign_id',
   LABELS: 'labels',
@@ -77,6 +84,7 @@ export const buildAttributesFilterTypes = (
       attributeName: attr.attributeDisplayName,
       label: attr.attributeDisplayName,
       inputType: getCustomAttributeInputType(attr.attributeDisplayType),
+      attributeDisplayType: attr.attributeDisplayType,
       filterOperators: getOperatorTypes(attr.attributeDisplayType),
       options:
         attr.attributeDisplayType === 'list'

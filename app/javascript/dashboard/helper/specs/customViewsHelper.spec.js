@@ -273,6 +273,41 @@ describe('customViewsHelper', () => {
       };
       expect(generateValuesForEditCustomViews(filter, params)).toEqual('1');
     });
+
+    it('returns contact name for contact filters when contact is available', () => {
+      const filter = {
+        attribute_key: 'contact_id',
+        filter_operator: 'equal_to',
+        values: [123],
+      };
+      const params = {
+        contacts: [{ id: 123, name: 'John Doe' }],
+        filterTypes: advancedFilterTypes,
+        allCustomAttributes: [],
+      };
+
+      expect(generateValuesForEditCustomViews(filter, params)).toEqual({
+        id: 123,
+        name: 'John Doe',
+      });
+    });
+
+    it('returns fallback contact display value when contact is not available', () => {
+      const filter = {
+        attribute_key: 'contact_id',
+        filter_operator: 'equal_to',
+        values: [123],
+      };
+      const params = {
+        filterTypes: advancedFilterTypes,
+        allCustomAttributes: [],
+      };
+
+      expect(generateValuesForEditCustomViews(filter, params)).toEqual({
+        id: 123,
+        name: 'Contact #123',
+      });
+    });
   });
 
   describe('#generateCustomAttributesInputType', () => {
