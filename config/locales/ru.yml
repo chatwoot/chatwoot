@@ -60,6 +60,7 @@ ru:
   errors:
     account:
       not_authorized: You are not authorized to access this account
+      email_limit_exceeded: The daily email limit for this account has been reached
       reporting_timezone:
         invalid: неверный часовой пояс
       support_email:
@@ -138,12 +139,14 @@ ru:
       invalid_token_permissions: 'Токен доступа не имеет необходимых прав для WhatsApp.'
       phone_info_fetch_failed: 'Не удалось получить информацию о номере телефона. Пожалуйста, попробуйте еще раз.'
       phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      message_outside_messaging_window: 'Message not sent because the WhatsApp 24-hour customer service window is closed and no template parameters were provided. Send an approved template message instead.'
       reauthorization:
         generic: 'Не удалось повторно авторизовать WhatsApp. Пожалуйста, попробуйте еще раз.'
         not_supported: 'Повторная авторизация не поддерживается для данного типа канала WhatsApp.'
       calls:
         not_enabled: 'Вызов не включен для этого входящего сообщения'
         already_ended: 'This call has already ended'
+        already_accepted: 'Call already accepted by another agent'
         no_recording: 'Файл записи не указан'
         no_message: 'Звонок не имеет связанных сообщений'
         sdp_offer_required: 'Необходимо указать sdp_offer'
@@ -284,6 +287,7 @@ ru:
       whatsapp:
         list_button_label: 'Выберите элемент'
         call_permission_request_body: 'Мы хотели бы позвонить Вам по поводу Вашего разговора.'
+        flow_response: 'Submitted a flow response'
         unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Голосовой звонок'
@@ -586,6 +590,8 @@ ru:
   agent_capacity_policy:
     inbox_already_assigned: 'Входящие уже были назначены на эту политику'
   portals:
+    analytics:
+      invalid_configuration: 'Invalid analytics configuration'
     articles:
       captain_not_available: 'Перевод требует включения Captain для этой учетной записи'
       locale_not_available: 'Язык не доступен на этом портале'
@@ -601,6 +607,21 @@ ru:
     ssl_status:
       custom_domain_not_configured: 'Пользовательский домен не настроен'
   super_admin:
+    account_suspension:
+      categories:
+        spam: 'Spam'
+        non_payment: 'Non-payment'
+        other: 'Other'
+      form:
+        category: 'Suspension category'
+        category_prompt: 'Выберите категорию'
+        reason: 'Suspension reason'
+        reason_hint: 'Enter a reason of up to 256 characters.'
+      history:
+        suspended_at: 'Suspended at'
+        category: 'Категория'
+        reason: 'Reason'
+        empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:
         helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
@@ -619,6 +640,7 @@ ru:
         label_suggestion: 'Label suggestion'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
+        conversation_faq_matching: 'Conversation FAQ matching'
         help_center_article_generation: 'Help center article generation'
         onboarding_content_generation: 'Onboarding content generation'
         help_center_query_translation: 'Help center query translation'

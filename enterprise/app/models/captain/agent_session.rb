@@ -2,23 +2,25 @@
 #
 # Table name: agent_sessions
 #
-#  id               :bigint           not null, primary key
-#  credits_consumed :float
-#  document_ids     :jsonb
-#  faq_ids          :jsonb
-#  llm_model        :string
-#  result_type      :string
-#  run_context      :jsonb
-#  scenario_ids     :jsonb
-#  session_type     :integer          not null
-#  subject_type     :string           not null
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  account_id       :bigint           not null
-#  assistant_id     :bigint           not null
-#  result_id        :bigint
-#  subject_id       :bigint           not null
-#  user_id          :bigint
+#  id                 :bigint           not null, primary key
+#  cited_document_ids :jsonb            not null
+#  credits_consumed   :float
+#  document_ids       :jsonb
+#  faq_ids            :jsonb
+#  llm_model          :string
+#  result_type        :string
+#  run_context        :jsonb
+#  scenario_ids       :jsonb
+#  session_type       :integer          not null
+#  subject_type       :string           not null
+#  used_faq_ids       :jsonb            not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :bigint           not null
+#  assistant_id       :bigint           not null
+#  result_id          :bigint
+#  subject_id         :bigint           not null
+#  user_id            :bigint
 #
 # Indexes
 #
@@ -27,6 +29,8 @@
 #  idx_on_account_id_subject_type_subject_id_6d60963b3d  (account_id,subject_type,subject_id)
 #  index_agent_sessions_on_account_id                    (account_id)
 #  index_agent_sessions_on_assistant_id                  (assistant_id)
+#  index_agent_sessions_on_cited_document_ids            (cited_document_ids) USING gin
+#  index_agent_sessions_on_used_faq_ids                  (used_faq_ids) USING gin
 #  index_agent_sessions_on_user_id                       (user_id)
 #
 class Captain::AgentSession < ApplicationRecord
@@ -42,6 +46,8 @@ class Captain::AgentSession < ApplicationRecord
   belongs_to :result, ->(session) { where(account_id: session.account_id) }, polymorphic: true, optional: true
 
   enum :session_type, { assistant: 0, copilot: 1 }, prefix: :session
+
+  scope :with_delivered_answer, -> { where(arel_table[:credits_consumed].gt(0)) }
 
   before_validation :ensure_account
 

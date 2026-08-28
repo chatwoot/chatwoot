@@ -64,6 +64,15 @@
     "BULLET_LIST": "Bullet List",
     "ORDERED_LIST": "Ordered List",
     "TABLE": "Table",
-    "IMAGE": "Image"
+    "IMAGE": "Image",
+    "VIDEO": "Video",
+    "DIVIDER": "Divider"
+  },
+  "VIDEO_EMBED": {
+    "PLACEHOLDER": "Paste a video link",
+    "HINT": "Works with YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar and mp4 links",
+    "ERROR": "That doesn't look like a supported video link",
+    "ADD": "Embed",
+    "CANCEL": "Zrušit"
   }
 }

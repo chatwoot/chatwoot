@@ -23,6 +23,8 @@ const {
   TERMS_URL: termsURL,
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
+  DISABLE_META_INBOX_CREATION: disableMetaInboxCreation,
+  DISABLE_META_MESSAGE_SENDING: disableMetaMessageSending,
   DEPLOYMENT_ENV: deploymentEnv,
   ACTIVE_PLATFORM_BANNERS: activePlatformBanners,
 } = window.globalConfig || {};
@@ -38,6 +40,8 @@ const state = {
   createNewAccountFromDashboard,
   directUploadsEnabled: parseBoolean(directUploadsEnabled),
   disableUserProfileUpdate: parseBoolean(disableUserProfileUpdate),
+  disableMetaInboxCreation: parseBoolean(disableMetaInboxCreation),
+  disableMetaMessageSending: parseBoolean(disableMetaMessageSending),
   displayManifest,
   gitSha,
   maximumFileUploadSize: resolveMaximumFileUploadSize(maximumFileUploadSize),
@@ -56,6 +60,10 @@ const state = {
 export const getters = {
   get: $state => $state,
   isOnChatwootCloud: $state => $state.deploymentEnv === 'cloud',
+  isMetaInboxCreationDisabled: $state =>
+    $state.deploymentEnv === 'cloud' && $state.disableMetaInboxCreation,
+  isMetaMessageSendingDisabled: $state =>
+    $state.deploymentEnv === 'cloud' && $state.disableMetaMessageSending,
   isACustomBrandedInstance: $state => $state.installationName !== 'Chatwoot',
   isAChatwootInstance: $state => $state.installationName === 'Chatwoot',
 };

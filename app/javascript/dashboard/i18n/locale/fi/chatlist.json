@@ -7,6 +7,7 @@
       "404": "Tässä ryhmässä ei ole aktiivisia keskusteluja."
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "Keskustelut",
     "MENTION_HEADING": "Mentions",
     "UNATTENDED_HEADING": "Unattended",

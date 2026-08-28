@@ -344,6 +344,7 @@ watch(
     :total-items="articlesCount"
     :items-per-page="25"
     :header="portalName"
+    :breadcrumb-label="$t('HELP_CENTER.BREADCRUMB.ARTICLES')"
     :show-pagination-footer="shouldShowPaginationFooter"
     @update:current-page="handlePageChange"
   >
