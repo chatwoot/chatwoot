@@ -94,4 +94,24 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     expect(call.meta['agent_termination_token']).to be_nil
     expect(call.meta['agent_disconnect_suppress_call_sid']).to be_blank
   end
+
+  it 'replays a provider progress callback when provider teardown fails' do
+    timestamp = Time.zone.now.to_i
+    allow(conference_service).to receive(:end_provider_call) do
+      call = Call.find_by!(provider_call_id: 'CALL123')
+      Voice::CallStatus::Manager.new(call: call).process_status_update('in_progress', timestamp: timestamp)
+      raise StandardError, 'provider teardown failed'
+    end
+
+    delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+           headers: agent.create_new_auth_token,
+           params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+    expect(response).to have_http_status(:internal_server_error)
+    call = Call.find_by!(provider_call_id: 'CALL123')
+    expect(call.status).to eq('in_progress')
+    expect(call.started_at.to_i).to eq(timestamp)
+    expect(call.meta['agent_termination_token']).to be_nil
+    expect(call.meta['agent_termination_pending_status']).to be_nil
+  end
 end
