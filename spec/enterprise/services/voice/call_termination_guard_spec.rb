@@ -48,6 +48,18 @@ RSpec.describe Voice::CallTerminationGuard do
     )
   end
 
+  it 'clears a replayed pending status only when the captured entry still matches' do
+    call.update!(meta: described_class.claim_meta(call, token: 'owner-one'))
+    described_class.persist_pending_status!(call, status: 'in_progress', duration: nil, timestamp: 100)
+    captured = described_class.pending_status(call.reload)
+
+    call.update!(meta: described_class.claim_meta(call, token: 'owner-two'))
+    described_class.persist_pending_status!(call, status: 'completed', duration: 12, timestamp: 120)
+
+    expect(described_class.clear_pending_status_if_matches!(call.reload, captured)).to be false
+    expect(call.reload.meta.dig('agent_termination_pending_status', 'termination_token')).to eq('owner-two')
+  end
+
   it 'retains and independently consumes every pending agent participant leave' do
     suppressions = %w[CA_OLD_TAB CA_NEW_TAB].map { |sid| described_class.suppress_local_disconnect!(call, sid) }
     expect(suppressions).to all(be true)
