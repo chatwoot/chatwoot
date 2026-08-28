@@ -67,6 +67,22 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(response.body).to include('record="record-from-start"')
     end
 
+    it 'keeps recording a call that started before the inbox turned recording off' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact, provider_call_id: call_sid)
+      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
+      allow(Voice::InboundCallBuilder).to receive(:perform!).and_return(call)
+
+      post "/twilio/voice/call/#{digits}", params: {
+        'CallSid' => call_sid,
+        'From' => from_number,
+        'To' => to_number,
+        'Direction' => 'inbound'
+      }
+
+      expect(response.body).to include('record="record-from-start"')
+    end
+
     it 'does not record the conference when recording is disabled on the inbox' do
       channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
       conversation = create(:conversation, account: account, inbox: inbox)

@@ -146,7 +146,7 @@ class Twilio::VoiceController < ApplicationController
           conference_sid,
           start_conference_on_enter: agent_leg?(twilio_from),
           end_conference_on_exit: false,
-          record: inbox_channel.recording_enabled? ? 'record-from-start' : 'do-not-record',
+          record: call.recording_enabled == false ? 'do-not-record' : 'record-from-start',
           recording_status_callback: recording_status_callback_url,
           recording_status_callback_event: 'completed',
           recording_status_callback_method: 'POST',
