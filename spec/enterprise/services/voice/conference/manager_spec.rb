@@ -14,12 +14,14 @@ RSpec.describe Voice::Conference::Manager do
     call.update!(meta: call.meta.merge('agent_termination_token' => 'termination-1'))
     allow(call).to receive(:broadcast_voice_call_event)
 
-    described_class.new(
-      call: call,
-      event: 'join',
-      participant_label: "agent-#{agent.id}-account-#{account.id}",
-      participant_call_sid: 'CA_AGENT_1'
-    ).process
+    expect do
+      described_class.new(
+        call: call,
+        event: 'join',
+        participant_label: "agent-#{agent.id}-account-#{account.id}",
+        participant_call_sid: 'CA_AGENT_1'
+      ).process
+    end.to have_enqueued_job(Voice::ReconcileSuppressedTerminationJob).with(call.id)
 
     call.reload
     expect(call.status).to eq('ringing')
@@ -30,6 +32,26 @@ RSpec.describe Voice::Conference::Manager do
       'participant_call_sid' => 'CA_AGENT_1'
     )
     expect(call).not_to have_received(:broadcast_voice_call_event)
+  end
+
+  it 'defers the join if teardown is claimed after the initial guard check' do
+    manager = described_class.new(
+      call: call,
+      event: 'join',
+      participant_label: "agent-#{agent.id}-account-#{account.id}",
+      participant_call_sid: 'CA_AGENT_RACE'
+    )
+    allow(manager).to receive(:defer_join_if_termination_pending!) do
+      call.update!(meta: Voice::CallTerminationGuard.claim_meta(call, token: 'termination-race'))
+      false
+    end
+
+    manager.process
+
+    call.reload
+    expect(call.status).to eq('ringing')
+    expect(call.accepted_by_agent_id).to be_nil
+    expect(call.meta['agent_termination_pending_join']).to include('participant_call_sid' => 'CA_AGENT_RACE')
   end
 
   it 'consumes the matching delayed agent leave regardless of delivery time' do
