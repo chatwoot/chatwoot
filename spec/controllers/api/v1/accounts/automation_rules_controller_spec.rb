@@ -496,7 +496,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(account.automation_rules.last.conditions.map(&:deep_symbolize_keys)).to eq(conditions)
       end
 
-      it 'rejects delayed rules with label conditions' do
+      it 'persists a delayed message rule with label conditions' do
         conditions = [
           { attribute_key: 'message_type', filter_operator: 'equal_to', values: ['outgoing'], query_operator: 'and' },
           { attribute_key: 'labels', filter_operator: 'equal_to', values: ['feature'], query_operator: nil }
@@ -507,8 +507,29 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
              params: delayed_rule_params.merge(event_name: 'message_created', conditions: conditions),
              as: :json
 
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(account.automation_rules.find_by(name: delayed_rule_params[:name])).to be_nil
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.last.conditions.map(&:deep_symbolize_keys)).to eq(conditions)
+      end
+
+      it 'can deactivate an existing delayed message rule with label conditions' do
+        automation_rule = create(
+          :automation_rule,
+          account: account,
+          event_name: 'message_created',
+          execution_delay: 240,
+          conditions: [
+            { 'attribute_key' => 'message_type', 'filter_operator' => 'equal_to', 'values' => ['outgoing'],
+              'query_operator' => 'and' },
+            { 'attribute_key' => 'labels', 'filter_operator' => 'equal_to', 'values' => ['feature'], 'query_operator' => nil }
+          ]
+        )
+
+        patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
+              headers: administrator.create_new_auth_token,
+              params: { active: false }
+
+        expect(response).to have_http_status(:success)
+        expect(automation_rule.reload).not_to be_active
       end
 
       it 'copies execution_delay on clone' do

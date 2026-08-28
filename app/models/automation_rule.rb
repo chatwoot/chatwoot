@@ -111,14 +111,9 @@ class AutomationRule < ApplicationRecord
   # cannot use attribute_changed conditions.
   def execution_delay_supported_conditions
     return if execution_delay.blank? || conditions.blank?
+    return if conditions.none? { |obj| obj['filter_operator'] == 'attribute_changed' }
 
-    if conditions.any? { |obj| obj['filter_operator'] == 'attribute_changed' }
-      errors.add(:execution_delay, 'cannot be used with attribute_changed conditions.')
-    end
-
-    return if conditions.none? { |obj| obj['attribute_key'] == 'labels' }
-
-    errors.add(:execution_delay, 'cannot be used with label conditions.')
+    errors.add(:execution_delay, 'cannot be used with attribute_changed conditions.')
   end
 
   # Conversation-level episodes key on status_changed_at alone. Mutable attributes would collapse

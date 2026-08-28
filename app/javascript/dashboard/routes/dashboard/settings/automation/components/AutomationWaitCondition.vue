@@ -12,7 +12,6 @@ import {
   DELAYED_TRIGGERS,
   DEFAULT_TRIGGER,
   DEFAULT_TRIGGER_STATUS,
-  DELAYED_UNSUPPORTED_ATTRIBUTES,
   MIN_DELAY_MINUTES,
   MAX_DELAY_MINUTES,
 } from '../constants';
@@ -73,9 +72,7 @@ const additionalFilterTypes = computed(() => {
   if (isStatusTrigger.value) return [];
 
   return props.filterTypes.filter(
-    filter =>
-      !managedAttributeKeys.value.has(filter.attributeKey) &&
-      !DELAYED_UNSUPPORTED_ATTRIBUTES.includes(filter.attributeKey)
+    filter => !managedAttributeKeys.value.has(filter.attributeKey)
   );
 });
 
@@ -182,14 +179,111 @@ const connectorLabel = conditionIndex =>
     ? t('FILTER.QUERY_DROPDOWN_LABELS.OR')
     : t('FILTER.QUERY_DROPDOWN_LABELS.AND');
 
+const replaceManagedCondition = (nextConditions, replacement) => {
+  const conditionIndex = nextConditions.findIndex(
+    condition => condition.attribute_key === replacement.attribute_key
+  );
+  if (conditionIndex === -1) return false;
+
+  nextConditions[conditionIndex] = {
+    ...replacement,
+    query_operator: nextConditions[conditionIndex].query_operator,
+  };
+  return true;
+};
+
+const removeManagedCondition = (nextConditions, attributeKey) => {
+  const conditionIndex = nextConditions.findIndex(
+    condition => condition.attribute_key === attributeKey
+  );
+  if (conditionIndex !== -1) nextConditions.splice(conditionIndex, 1);
+};
+
+const insertManagedConditionAfter = (
+  nextConditions,
+  anchorAttributeKey,
+  newCondition
+) => {
+  const anchorIndex = nextConditions.findIndex(
+    condition => condition.attribute_key === anchorAttributeKey
+  );
+  if (anchorIndex === -1) return;
+
+  const connectorAfterAnchor = nextConditions[anchorIndex].query_operator;
+  nextConditions[anchorIndex] = {
+    ...nextConditions[anchorIndex],
+    query_operator: 'and',
+  };
+  nextConditions.splice(anchorIndex + 1, 0, {
+    ...newCondition,
+    query_operator: connectorAfterAnchor,
+  });
+};
+
+const patchMessageWaitConditions = trigger => {
+  const nextConditions = conditions.value.map(condition => ({ ...condition }));
+  replaceManagedCondition(
+    nextConditions,
+    buildCondition('message_type', trigger.messageType)
+  );
+
+  const privateNoteCondition = buildCondition('private_note', [false]);
+  if (trigger.messageType === 'outgoing') {
+    const privateNoteExists = replaceManagedCondition(
+      nextConditions,
+      privateNoteCondition
+    );
+    if (!privateNoteExists) {
+      insertManagedConditionAfter(
+        nextConditions,
+        'message_type',
+        privateNoteCondition
+      );
+    }
+  } else {
+    removeManagedCondition(nextConditions, 'private_note');
+  }
+
+  const inboxCondition = triggerInboxes.value.length
+    ? buildCondition(
+        'inbox_id',
+        triggerInboxes.value.map(inbox => inbox.id)
+      )
+    : null;
+  if (inboxCondition) {
+    const inboxExists = replaceManagedCondition(nextConditions, inboxCondition);
+    if (!inboxExists) {
+      const inboxAnchor =
+        trigger.messageType === 'outgoing' ? 'private_note' : 'message_type';
+      insertManagedConditionAfter(nextConditions, inboxAnchor, inboxCondition);
+    }
+  } else {
+    removeManagedCondition(nextConditions, 'inbox_id');
+  }
+
+  if (nextConditions.length) nextConditions.at(-1).query_operator = null;
+  conditions.value = nextConditions;
+};
+
 const applyTrigger = ({ preserveAdditional = true } = {}) => {
-  const additionalConditions = preserveAdditional
-    ? conditions.value.filter(isAdditionalCondition)
-    : [];
   const trigger = DELAYED_TRIGGERS.find(
     item => item.key === selectedTrigger.value
   );
+  const canPatchMessageWait =
+    preserveAdditional &&
+    eventName.value === 'message_created' &&
+    trigger.eventName === 'message_created' &&
+    conditionFor('message_type');
+
   eventName.value = trigger.eventName;
+  if (canPatchMessageWait) {
+    patchMessageWaitConditions(trigger);
+    return;
+  }
+
+  const additionalConditions = preserveAdditional
+    ? conditions.value.filter(isAdditionalCondition)
+    : [];
   const waitConditions = [
     trigger.messageType
       ? buildCondition('message_type', trigger.messageType)

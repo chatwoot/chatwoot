@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import ConditionRow from 'dashboard/components-next/filter/ConditionRow.vue';
 import FilterSelect from 'dashboard/components-next/filter/inputs/FilterSelect.vue';
+import MultiSelect from 'dashboard/components-next/filter/inputs/MultiSelect.vue';
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 import AutomationWaitCondition from './AutomationWaitCondition.vue';
 
@@ -222,7 +223,7 @@ describe('AutomationWaitCondition', () => {
     });
     expect(
       condition.props('filterTypes').map(filter => filter.attributeKey)
-    ).toEqual(['status', 'assignee_id']);
+    ).toEqual(['status', 'assignee_id', 'labels']);
     expect(wrapper.emitted('update:conditions')).toBeUndefined();
 
     expect(wrapper.text()).toContain('FILTER.QUERY_DROPDOWN_LABELS.AND');
@@ -345,19 +346,87 @@ describe('AutomationWaitCondition', () => {
 
     expect(wrapper.emitted('update:conditions').at(-1)[0]).toEqual([
       {
-        attribute_key: 'message_type',
-        filter_operator: 'equal_to',
-        values: 'incoming',
-        query_operator: 'and',
-        custom_attribute_type: '',
-      },
-      {
         attribute_key: 'status',
         filter_operator: 'equal_to',
         values: [{ id: 'pending', name: 'Pending' }],
         query_operator: 'and',
         custom_attribute_type: '',
       },
+      {
+        attribute_key: 'message_type',
+        filter_operator: 'equal_to',
+        values: 'incoming',
+        query_operator: null,
+        custom_attribute_type: '',
+      },
+    ]);
+  });
+
+  it('preserves mixed connectors and condition order when an inbox is added', async () => {
+    const wrapper = mountComponent({
+      eventName: 'message_created',
+      isSavedWait: true,
+      inboxOptions: [{ id: 7, name: 'Support' }],
+      conditions: [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'open', name: 'Open' }],
+          query_operator: 'or',
+          custom_attribute_type: '',
+        },
+        {
+          attribute_key: 'message_type',
+          filter_operator: 'equal_to',
+          values: [{ id: 'outgoing', name: 'Outgoing' }],
+          query_operator: 'and',
+          custom_attribute_type: '',
+        },
+        {
+          attribute_key: 'private_note',
+          filter_operator: 'equal_to',
+          values: [{ id: false, name: 'False' }],
+          query_operator: 'and',
+          custom_attribute_type: '',
+        },
+        {
+          attribute_key: 'priority',
+          filter_operator: 'equal_to',
+          values: [{ id: 'high', name: 'High' }],
+          query_operator: null,
+          custom_attribute_type: '',
+        },
+      ],
+    });
+    await nextTick();
+
+    wrapper
+      .findComponent(MultiSelect)
+      .vm.$emit('update:modelValue', [{ id: 7, name: 'Support' }]);
+    await nextTick();
+
+    expect(wrapper.emitted('update:conditions').at(-1)[0]).toEqual([
+      expect.objectContaining({
+        attribute_key: 'status',
+        query_operator: 'or',
+      }),
+      expect.objectContaining({
+        attribute_key: 'message_type',
+        query_operator: 'and',
+      }),
+      expect.objectContaining({
+        attribute_key: 'private_note',
+        query_operator: 'and',
+      }),
+      expect.objectContaining({
+        attribute_key: 'inbox_id',
+        values: [7],
+        query_operator: 'and',
+      }),
+      expect.objectContaining({
+        attribute_key: 'priority',
+        query_operator: null,
+      }),
     ]);
   });
 
