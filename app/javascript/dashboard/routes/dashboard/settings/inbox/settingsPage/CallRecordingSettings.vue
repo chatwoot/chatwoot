@@ -29,31 +29,31 @@ watch(
   }
 );
 
-const save = async () => {
+// Applies both toggles optimistically and rolls them back if the save fails,
+// so the switches never show a state the server didn't accept.
+const save = async (recording, transcription) => {
+  const previous = [recordingEnabled.value, transcriptionEnabled.value];
+  recordingEnabled.value = recording;
+  transcriptionEnabled.value = transcription;
   isSaving.value = true;
   try {
     await InboxesAPI.setCallRecording(props.inbox.id, {
-      recordingEnabled: recordingEnabled.value,
-      transcriptionEnabled: transcriptionEnabled.value,
+      recordingEnabled: recording,
+      transcriptionEnabled: transcription,
     });
     await store.dispatch('inboxes/get', props.inbox.id);
     useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
   } catch (_) {
+    [recordingEnabled.value, transcriptionEnabled.value] = previous;
     useAlert(t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
   } finally {
     isSaving.value = false;
   }
 };
 
-const toggleRecording = value => {
-  recordingEnabled.value = value;
-  save();
-};
+const toggleRecording = value => save(value, transcriptionEnabled.value);
 
-const toggleTranscription = value => {
-  transcriptionEnabled.value = value;
-  save();
-};
+const toggleTranscription = value => save(recordingEnabled.value, value);
 </script>
 
 <template>
