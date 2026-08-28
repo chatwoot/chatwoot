@@ -23,21 +23,35 @@ module Enterprise::Api::V1::Accounts::InboxesController
     render_could_not_create_error(e.message)
   end
 
+  # Toggles only the inbound-calls flag in provider_config. Saved with validate: false
+  # so WhatsApp's remote credential re-check (validate_provider_config) can't reject a
+  # simple toggle, mirroring enable_voice_calling!. Voice support (WhatsApp calling or
+  # Twilio voice) is guarded inline by ensure_calling_supported.
   def set_inbound_calls
     return unless ensure_calling_supported
 
-    save_call_flags!('inbound_calls_enabled' => ActiveModel::Type::Boolean.new.cast(params[:inbound_calls_enabled]))
+    channel = @inbox.channel
+    channel.provider_config = (channel.provider_config || {}).merge(
+      'inbound_calls_enabled' => ActiveModel::Type::Boolean.new.cast(params[:inbound_calls_enabled])
+    )
+    channel.save!(validate: false)
+    @inbox.update_account_cache # bump inbox cache key so the cached inbox list refetches the new flag
     head :ok
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
 
-  # Only the flags present in the request are merged, so a toggle never clobbers the other setting.
+  # Both recording flags are always sent together, so the UI's current state is what gets saved.
   def set_call_recording
     return unless ensure_calling_supported
 
-    flags = params.permit(:recording_enabled, :transcription_enabled).to_h
-    save_call_flags!(flags.transform_values { |value| ActiveModel::Type::Boolean.new.cast(value) })
+    channel = @inbox.channel
+    channel.provider_config = (channel.provider_config || {}).merge(
+      'recording_enabled' => ActiveModel::Type::Boolean.new.cast(params[:recording_enabled]),
+      'transcription_enabled' => ActiveModel::Type::Boolean.new.cast(params[:transcription_enabled])
+    )
+    channel.save!(validate: false)
+    @inbox.update_account_cache # bump inbox cache key so the cached inbox list refetches the new flags
     head :ok
   rescue StandardError => e
     render_could_not_create_error(e.message)
@@ -57,21 +71,12 @@ module Enterprise::Api::V1::Accounts::InboxesController
     false
   end
 
-  # Call flags can be toggled on any voice-enabled inbox (WhatsApp calling or Twilio voice).
+  # Call settings can be toggled on any voice-enabled inbox (WhatsApp calling or Twilio voice).
   def ensure_calling_supported
     return true if @inbox.channel.try(:voice_enabled?)
 
     render_could_not_create_error('Inbox does not support calling')
     false
-  end
-
-  # Flags live in provider_config. Saved with validate: false so WhatsApp's remote credential
-  # re-check (validate_provider_config) can't reject a simple toggle, mirroring enable_voice_calling!.
-  def save_call_flags!(flags)
-    channel = @inbox.channel
-    channel.provider_config = channel.provider_config.merge(flags)
-    channel.save!(validate: false)
-    @inbox.update_account_cache # bump inbox cache key so the cached inbox list refetches the new flags
   end
 
   def allowed_channel_types

@@ -121,7 +121,7 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
         expect(channel.reload).to have_attributes(recording_enabled?: false, transcription_enabled?: false)
       end
 
-      it 'merges only the supplied flag on a WhatsApp inbox without re-validating provider config' do
+      it 'saves the flags on a WhatsApp inbox without re-validating provider config' do
         account.enable_features('channel_voice')
         account.save!
         channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
@@ -130,7 +130,7 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
 
         post "/api/v1/accounts/#{account.id}/inboxes/#{channel.inbox.id}/set_call_recording",
              headers: admin.create_new_auth_token,
-             params: { transcription_enabled: false },
+             params: { recording_enabled: true, transcription_enabled: false },
              as: :json
 
         expect(response).to have_http_status(:ok)

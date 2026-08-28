@@ -122,8 +122,6 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def attach_recording_idempotently
     return 'already_uploaded' if @call.message.attachments.exists?(file_type: :audio)
-    # A call already in progress when recording was turned off still uploads; drop it here.
-    return 'recording_disabled' unless @call.inbox.channel.recording_enabled?
 
     @call.message.attachments.create!(account_id: @call.account_id, file_type: :audio, file: params[:recording])
     'uploaded'

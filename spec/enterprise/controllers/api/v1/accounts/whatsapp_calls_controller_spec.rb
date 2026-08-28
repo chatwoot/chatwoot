@@ -49,7 +49,6 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
            params: { sdp_answer: 'sdp_answer' }, headers: agent.create_new_auth_token
 
       expect(response).to have_http_status(:ok)
-      expect(response.parsed_body['recording_enabled']).to be true
       expect(call.reload.status).to eq('in_progress')
     end
 
@@ -241,18 +240,6 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body['status']).to eq('uploaded')
-    end
-
-    it 'drops the upload when recording is disabled for the inbox' do
-      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
-
-      post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/upload_recording",
-           params: { recording: fixture_file_upload(Rails.root.join('spec/assets/sample.mp3'), 'audio/mpeg') },
-           headers: agent.create_new_auth_token
-
-      expect(response).to have_http_status(:ok)
-      expect(response.parsed_body['status']).to eq('recording_disabled')
-      expect(call.message.attachments.count).to eq(0)
     end
 
     it 'is idempotent: returns already_uploaded if an audio attachment exists' do

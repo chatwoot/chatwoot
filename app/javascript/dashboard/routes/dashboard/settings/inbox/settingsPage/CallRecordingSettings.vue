@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
@@ -17,36 +17,42 @@ const props = defineProps({
 const store = useStore();
 const { t } = useI18n();
 
-// Keyed by the API param so a toggle posts exactly the flag it changed.
-const flags = reactive({
-  recording_enabled: props.inbox.recording_enabled !== false,
-  transcription_enabled: props.inbox.transcription_enabled !== false,
-});
+const recordingEnabled = ref(props.inbox.recording_enabled !== false);
+const transcriptionEnabled = ref(props.inbox.transcription_enabled !== false);
 const isSaving = ref(false);
 
 watch(
   () => [props.inbox.recording_enabled, props.inbox.transcription_enabled],
   ([recording, transcription]) => {
-    flags.recording_enabled = recording !== false;
-    flags.transcription_enabled = transcription !== false;
+    recordingEnabled.value = recording !== false;
+    transcriptionEnabled.value = transcription !== false;
   }
 );
 
-const save = async (key, value) => {
-  if (isSaving.value) return;
-  const previous = flags[key];
-  flags[key] = value;
+const save = async () => {
   isSaving.value = true;
   try {
-    await InboxesAPI.setCallRecording(props.inbox.id, { [key]: value });
+    await InboxesAPI.setCallRecording(props.inbox.id, {
+      recordingEnabled: recordingEnabled.value,
+      transcriptionEnabled: transcriptionEnabled.value,
+    });
     await store.dispatch('inboxes/get', props.inbox.id);
     useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
   } catch (_) {
-    flags[key] = previous;
     useAlert(t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
   } finally {
     isSaving.value = false;
   }
+};
+
+const toggleRecording = value => {
+  recordingEnabled.value = value;
+  save();
+};
+
+const toggleTranscription = value => {
+  transcriptionEnabled.value = value;
+  save();
 };
 </script>
 
@@ -56,25 +62,25 @@ const save = async (key, value) => {
     :class="{ 'pointer-events-none opacity-60': isSaving }"
   >
     <SettingsToggleSection
-      :model-value="flags.recording_enabled"
+      :model-value="recordingEnabled"
       :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.RECORDING.LABEL')"
       :description="$t('INBOX_MGMT.VOICE_CONFIGURATION.RECORDING.DESCRIPTION')"
       :hide-toggle="isSaving"
-      @update:model-value="save('recording_enabled', $event)"
+      @update:model-value="toggleRecording"
     >
       <template v-if="isSaving" #hiddenToggle>
         <Spinner class="size-4 text-n-slate-11" />
       </template>
     </SettingsToggleSection>
     <SettingsToggleSection
-      v-if="flags.recording_enabled"
-      :model-value="flags.transcription_enabled"
+      v-if="recordingEnabled"
+      :model-value="transcriptionEnabled"
       :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.TRANSCRIPTION.LABEL')"
       :description="
         $t('INBOX_MGMT.VOICE_CONFIGURATION.TRANSCRIPTION.DESCRIPTION')
       "
       :hide-toggle="isSaving"
-      @update:model-value="save('transcription_enabled', $event)"
+      @update:model-value="toggleTranscription"
     >
       <template v-if="isSaving" #hiddenToggle>
         <Spinner class="size-4 text-n-slate-11" />
