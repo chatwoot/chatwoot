@@ -5,6 +5,6 @@ class Voice::ReconcileSuppressedTerminationJob < ApplicationJob
     call = Call.find_by(id: call_id)
     return unless call
 
-    Voice::CallStatus::Manager.new(call: call).reconcile_suppressed_terminal!
+    Voice::CallStatus::Manager.new(call: call).reconcile_suppressed_status!
   end
 end
