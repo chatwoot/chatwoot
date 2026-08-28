@@ -3,6 +3,7 @@ class Voice::CallTerminationGuard
   STARTED_AT_KEY = 'agent_termination_started_at'.freeze
   DISCONNECT_SUPPRESS_CALL_SID_KEY = 'agent_disconnect_suppress_call_sid'.freeze
   PENDING_STATUS_KEY = 'agent_termination_pending_status'.freeze
+  PENDING_JOIN_KEY = 'agent_termination_pending_join'.freeze
   STALE_AFTER = 2.minutes
 
   class << self
@@ -34,7 +35,7 @@ class Voice::CallTerminationGuard
       return false unless owned_by?(call, token)
 
       meta = cleared_ownership_meta(call)
-      meta = meta.except(PENDING_STATUS_KEY) if clear_pending
+      meta = meta.except(PENDING_STATUS_KEY, PENDING_JOIN_KEY) if clear_pending
       call.update!(meta: meta)
       true
     end
@@ -63,6 +64,29 @@ class Voice::CallTerminationGuard
       return false if pending_status(call).blank?
 
       call.update!(meta: call.meta.except(PENDING_STATUS_KEY))
+      true
+    end
+
+    def persist_pending_join!(call, participant_label:, participant_call_sid:)
+      call.update!(
+        meta: call.meta.merge(
+          PENDING_JOIN_KEY => {
+            'participant_label' => participant_label,
+            'participant_call_sid' => participant_call_sid
+          }.compact
+        )
+      )
+      true
+    end
+
+    def pending_join(call)
+      call.meta[PENDING_JOIN_KEY]
+    end
+
+    def clear_pending_join!(call)
+      return false if pending_join(call).blank?
+
+      call.update!(meta: call.meta.except(PENDING_JOIN_KEY))
       true
     end
 
