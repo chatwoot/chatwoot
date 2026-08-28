@@ -2,7 +2,7 @@ class Voice::CallTerminationGuard
   TOKEN_KEY = 'agent_termination_token'.freeze
   STARTED_AT_KEY = 'agent_termination_started_at'.freeze
   DISCONNECT_SUPPRESS_CALL_SID_KEY = 'agent_disconnect_suppress_call_sid'.freeze
-  PENDING_TERMINAL_KEY = 'agent_termination_pending_terminal'.freeze
+  PENDING_STATUS_KEY = 'agent_termination_pending_status'.freeze
   STALE_AFTER = 2.minutes
 
   class << self
@@ -37,10 +37,10 @@ class Voice::CallTerminationGuard
       true
     end
 
-    def persist_pending_terminal!(call, status:, duration:, timestamp:)
+    def persist_pending_status!(call, status:, duration:, timestamp:)
       call.update!(
         meta: call.meta.merge(
-          PENDING_TERMINAL_KEY => {
+          PENDING_STATUS_KEY => {
             'status' => status,
             'duration' => duration,
             'timestamp' => timestamp
@@ -49,14 +49,14 @@ class Voice::CallTerminationGuard
       )
     end
 
-    def pending_terminal(call)
-      call.meta[PENDING_TERMINAL_KEY]
+    def pending_status(call)
+      call.meta[PENDING_STATUS_KEY]
     end
 
-    def clear_pending_terminal!(call)
-      return false if pending_terminal(call).blank?
+    def clear_pending_status!(call)
+      return false if pending_status(call).blank?
 
-      call.update!(meta: call.meta.except(PENDING_TERMINAL_KEY))
+      call.update!(meta: call.meta.except(PENDING_STATUS_KEY))
       true
     end
 
@@ -108,7 +108,7 @@ class Voice::CallTerminationGuard
     end
 
     def cleared_meta(call)
-      cleared_ownership_meta(call).except(PENDING_TERMINAL_KEY)
+      cleared_ownership_meta(call).except(PENDING_STATUS_KEY)
     end
   end
 end
