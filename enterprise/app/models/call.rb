@@ -33,7 +33,7 @@ class Call < ApplicationRecord
   TERMINAL_STATUSES = %w[completed no_answer failed rejected].freeze
 
   store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at,
-                 :accepted_broadcast_at
+                 :accepted_broadcast_at, :recording_enabled
 
   # Frontend voice bubbles/stores expect inbound/outbound string values
   DISPLAY_DIRECTION = { 'incoming' => 'inbound', 'outgoing' => 'outbound' }.freeze
@@ -51,6 +51,9 @@ class Call < ApplicationRecord
   belongs_to :accepted_by_agent, class_name: 'User', optional: true
 
   has_one_attached :recording
+
+  # Snapshot the inbox setting so a mid-call toggle can't change this call's outcome.
+  before_create { self.recording_enabled = inbox.channel.recording_enabled? if recording_enabled.nil? }
 
   validates :provider_call_id, presence: true
   validates :provider, presence: true

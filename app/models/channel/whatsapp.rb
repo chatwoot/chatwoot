@@ -24,7 +24,6 @@
 
 class Channel::Whatsapp < ApplicationRecord
   include Channelable
-  include CallRecordingSettings
   include Reauthorizable
 
   self.table_name = 'channel_whatsapp'

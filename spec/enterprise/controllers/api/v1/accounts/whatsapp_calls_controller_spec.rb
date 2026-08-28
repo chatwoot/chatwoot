@@ -39,13 +39,24 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(response).to have_http_status(:unauthorized)
     end
 
-    # The accept path falls back to this payload when the ring broadcast raced the agent's click.
-    it 'carries the inbox recording setting' do
+    # The accept path falls back to this payload when the ring broadcast raced the agent's click,
+    # so it must report the decision taken when the call started, not the inbox's current flag.
+    it 'reports the recording decision taken when the call started' do
       get "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}", headers: agent.create_new_auth_token
       expect(response.parsed_body['recording_enabled']).to be true
 
       channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
       get "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}", headers: agent.create_new_auth_token
+      expect(response.parsed_body['recording_enabled']).to be true
+    end
+
+    it 'reports recording off for a call that started while the inbox had it off' do
+      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
+      disabled_call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
+                                    provider: :whatsapp, direction: :incoming, status: 'ringing', provider_call_id: 'wacid_off')
+
+      get "/api/v1/accounts/#{account.id}/whatsapp_calls/#{disabled_call.id}", headers: agent.create_new_auth_token
+
       expect(response.parsed_body['recording_enabled']).to be false
     end
   end

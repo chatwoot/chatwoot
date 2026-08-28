@@ -12,7 +12,7 @@ json.accepted_by_agent_id call.accepted_by_agent_id
 json.elapsed_seconds(call.started_at ? (Time.current - call.started_at).to_i : 0)
 json.sdp_offer call.meta&.dig('sdp_offer')
 json.ice_servers(call.meta&.dig('ice_servers') || Call.default_ice_servers)
-json.recording_enabled call.inbox.channel.recording_enabled?
+json.recording_enabled call.recording_enabled != false
 
 if contact
   json.caller do

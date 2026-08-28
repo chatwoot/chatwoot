@@ -28,7 +28,6 @@
 
 class Channel::TwilioSms < ApplicationRecord
   include Channelable
-  include CallRecordingSettings
   include Rails.application.routes.url_helpers
 
   self.table_name = 'channel_twilio_sms'

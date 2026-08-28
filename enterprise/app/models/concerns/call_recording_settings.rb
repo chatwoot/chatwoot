@@ -1,5 +1,5 @@
 # Per-inbox call recording flags kept in provider_config. Both default on; only an explicit false disables.
-module CallRecordingSettings
+module Concerns::CallRecordingSettings
   extend ActiveSupport::Concern
 
   def recording_enabled?

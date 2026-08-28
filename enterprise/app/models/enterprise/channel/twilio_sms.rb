@@ -1,4 +1,6 @@
 module Enterprise::Channel::TwilioSms
+  include Concerns::CallRecordingSettings
+
   extend ActiveSupport::Concern
 
   def self.prepended(base)
