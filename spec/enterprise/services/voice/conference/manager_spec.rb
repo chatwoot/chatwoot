@@ -10,6 +10,20 @@ RSpec.describe Voice::Conference::Manager do
                   contact: conversation.contact, status: 'ringing')
   end
 
+  it 'records the confirmed agent join status with the agent claim' do
+    described_class.new(
+      call: call,
+      event: 'join',
+      participant_label: "agent-#{agent.id}-account-#{account.id}",
+      participant_call_sid: 'CA_AGENT_CONFIRMED'
+    ).process
+
+    call.reload
+    expect(call.status).to eq('in_progress')
+    expect(call.accepted_by_agent_id).to eq(agent.id)
+    expect(call.started_at).to be_present
+  end
+
   it 'defers a late agent join while agent teardown is pending' do
     call.update!(meta: call.meta.merge('agent_termination_token' => 'termination-1'))
     allow(call).to receive(:broadcast_voice_call_event)
@@ -29,7 +43,8 @@ RSpec.describe Voice::Conference::Manager do
     expect(call.accepted_broadcast_at).to be_nil
     expect(call.meta['agent_termination_pending_join']).to eq(
       'participant_label' => "agent-#{agent.id}-account-#{account.id}",
-      'participant_call_sid' => 'CA_AGENT_1'
+      'participant_call_sid' => 'CA_AGENT_1',
+      'termination_token' => 'termination-1'
     )
     expect(call).not_to have_received(:broadcast_voice_call_event)
   end
