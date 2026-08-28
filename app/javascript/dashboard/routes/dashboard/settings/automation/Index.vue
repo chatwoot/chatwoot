@@ -7,10 +7,12 @@ import SettingsLayout from '../SettingsLayout.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 import AutomationRuleRow from './AutomationRuleRow.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import { BaseTable } from 'dashboard/components-next/table';
+import { DEFAULT_DELAY_MINUTES } from './constants';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -35,8 +37,67 @@ const filteredRecords = computed(() => {
   if (!query) return records.value;
   return picoSearch(records.value, query, ['name', 'description']);
 });
+
 const uiFlags = computed(() => getters['automations/getUIFlags'].value);
 const accountId = computed(() => getters.getCurrentAccountId.value);
+
+const isDelayedAutomationsEnabled = computed(() =>
+  getters['accounts/isFeatureEnabledonAccount'].value(
+    accountId.value,
+    'delayed_automations'
+  )
+);
+
+const instantRecords = computed(() =>
+  filteredRecords.value.filter(automation => !automation.execution_delay)
+);
+const delayedRecords = computed(() =>
+  filteredRecords.value.filter(automation => automation.execution_delay)
+);
+
+// Accounts that can't create delayed rules, and have none left over, just see the plain list.
+const showTabs = computed(
+  () =>
+    isDelayedAutomationsEnabled.value ||
+    records.value.some(automation => automation.execution_delay)
+);
+
+const activeTab = ref('instant');
+
+const tabs = computed(() => [
+  {
+    key: 'instant',
+    label: t('AUTOMATION.LIST.TABS.INSTANT'),
+    count: instantRecords.value.length,
+  },
+  {
+    key: 'delayed',
+    label: t('AUTOMATION.LIST.TABS.DELAYED'),
+    count: delayedRecords.value.length,
+  },
+]);
+
+const activeTabIndex = computed(() =>
+  tabs.value.findIndex(tab => tab.key === activeTab.value)
+);
+
+const visibleRecords = computed(() => {
+  if (!showTabs.value) return filteredRecords.value;
+  return activeTab.value === 'delayed'
+    ? delayedRecords.value
+    : instantRecords.value;
+});
+
+const noDataMessage = computed(() => {
+  if (searchQuery.value) return t('AUTOMATION.NO_RESULTS');
+  return showTabs.value && activeTab.value === 'delayed'
+    ? t('AUTOMATION.LIST.404_DELAYED')
+    : t('AUTOMATION.LIST.404');
+});
+
+const onTabChanged = tab => {
+  activeTab.value = tab.key;
+};
 
 const deleteConfirmText = computed(
   () => `${t('AUTOMATION.DELETE.CONFIRM.YES')} ${selectedAutomation.value.name}`
@@ -50,6 +111,12 @@ const deleteMessage = computed(() => ` ${selectedAutomation.value.name}?`);
 
 const isSLAEnabled = computed(() =>
   getters['accounts/isFeatureEnabledonAccount'].value(accountId.value, 'sla')
+);
+
+const showDelayDisabledBanner = computed(
+  () =>
+    !isDelayedAutomationsEnabled.value &&
+    records.value.some(automation => automation.execution_delay)
 );
 
 onMounted(() => {
@@ -66,7 +133,9 @@ onMounted(() => {
 });
 
 const openAddPopup = () => {
-  addDialogRef.value?.open();
+  const startsWithWait =
+    isDelayedAutomationsEnabled.value && activeTab.value === 'delayed';
+  addDialogRef.value?.open(startsWithWait ? DEFAULT_DELAY_MINUTES : null);
 };
 const hideAddPopup = () => {
   addDialogRef.value?.close();
@@ -74,7 +143,7 @@ const hideAddPopup = () => {
 
 const openEditPopup = response => {
   selectedAutomation.value = { ...response };
-  editDialogRef.value?.open();
+  editDialogRef.value?.open(response);
 };
 const hideEditPopup = () => {
   editDialogRef.value?.close();
@@ -128,11 +197,11 @@ const submitAutomation = async (payload, mode) => {
     hideAddPopup();
     hideEditPopup();
   } catch (error) {
-    const errorMessage =
+    const fallbackMessage =
       mode === 'edit'
         ? t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
         : t('AUTOMATION.ADD.API.ERROR_MESSAGE');
-    useAlert(errorMessage);
+    useAlert(error?.response?.data?.error || fallbackMessage);
   }
 };
 const toggleAutomation = async ({ id, name, status }) => {
@@ -197,9 +266,16 @@ const tableHeaders = computed(() => {
         :search-placeholder="$t('AUTOMATION.SEARCH_PLACEHOLDER')"
         feature-name="automation"
       >
-        <template v-if="records?.length" #count>
+        <template v-if="showTabs" #tabs>
+          <TabBar
+            :tabs="tabs"
+            :initial-active-tab="activeTabIndex"
+            @tab-changed="onTabChanged"
+          />
+        </template>
+        <template v-if="visibleRecords.length" #count>
           <span class="text-body-main text-n-slate-11">
-            {{ $t('AUTOMATION.COUNT', { n: records.length }) }}
+            {{ $t('AUTOMATION.COUNT', { n: visibleRecords.length }) }}
           </span>
         </template>
         <template #actions>
@@ -212,12 +288,16 @@ const tableHeaders = computed(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
+      <div
+        v-if="showDelayDisabledBanner"
+        class="px-4 py-3 mb-4 text-sm rounded-lg bg-n-amber-3 text-n-amber-12"
+      >
+        {{ $t('AUTOMATION.LIST.DELAY_DISABLED_BANNER') }}
+      </div>
       <BaseTable
         :headers="tableHeaders"
-        :items="filteredRecords"
-        :no-data-message="
-          searchQuery ? $t('AUTOMATION.NO_RESULTS') : $t('AUTOMATION.LIST.404')
-        "
+        :items="visibleRecords"
+        :no-data-message="noDataMessage"
       >
         <template #row="{ items }">
           <AutomationRuleRow

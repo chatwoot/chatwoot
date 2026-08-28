@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "משתנים",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "שפה",
       "CATEGORY": "קטגוריה",
       "VARIABLE_PLACEHOLDER": "הזן ערך {variable}",

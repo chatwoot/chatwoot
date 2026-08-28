@@ -54,11 +54,9 @@ const handleDelete = () => {
 const showDocumentDetails = ref(false);
 const showCreateDialog = ref(false);
 const createDocumentDialog = ref(null);
-const documentDetailsDialog = ref(null);
 
 const handleShowDocumentDetails = () => {
   showDocumentDetails.value = true;
-  nextTick(() => documentDetailsDialog.value.dialogRef.open());
 };
 const handleCreateDocument = () => {
   showCreateDialog.value = true;
@@ -430,7 +428,6 @@ onUnmounted(() => {
 
     <DocumentDetails
       v-if="showDocumentDetails"
-      ref="documentDetailsDialog"
       :captain-document="selectedDocument"
       @close="handleDocumentDetailsClose"
     />

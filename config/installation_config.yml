@@ -237,6 +237,18 @@
 # ------- End of Context.dev Config ------- #
 
 # ------- Chatwoot Internal Config for Cloud ----#
+- name: DISABLE_META_INBOX_CREATION
+  value: true
+  display_title: 'Disable Meta Inbox Creation'
+  description: 'Disable Facebook, Instagram, and WhatsApp Embedded Signup inbox creation on Chatwoot Cloud during Meta incidents'
+  locked: false
+  type: boolean
+- name: DISABLE_META_MESSAGE_SENDING
+  value: true
+  display_title: 'Disable Meta Message Sending'
+  description: 'Disable Instagram message sending on Chatwoot Cloud during Meta incidents'
+  locked: false
+  type: boolean
 - name: CHATWOOT_INBOX_TOKEN
   value:
   display_title: 'Inbox Token'

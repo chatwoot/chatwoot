@@ -612,6 +612,9 @@
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "検索を完了できませんでした。もう一度お試しください。"
     },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
+    },
     "FORM": {
       "GO_TO_CONVERSATION": "表示",
       "SUCCESS_MESSAGE": "メッセージが正常に送信されました！",
