@@ -187,16 +187,25 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
       raise StandardError, 'provider teardown failed'
     end
 
-    allow_any_instance_of(described_class).to receive(:replay_pending_status!).and_wrap_original do |method, call, pending|
-      call.with_lock do
-        call.update!(meta: Voice::CallTerminationGuard.claim_meta(call, token: 'new-owner'))
-        Voice::CallTerminationGuard.persist_pending_join!(
-          call,
-          participant_label: "agent-#{agent.id}-account-#{account.id}",
-          participant_call_sid: 'CA_NEW_OWNER'
-        )
+    new_owner_created = false
+    allow(Voice::CallStatus::Manager).to receive(:new).and_wrap_original do |original, *args, **kwargs|
+      manager = original.call(*args, **kwargs)
+      call = kwargs[:call]
+      allow(manager).to receive(:process_status_update).and_wrap_original do |method, status, **status_kwargs|
+        if !new_owner_created && !Voice::CallTerminationGuard.active?(call)
+          call.with_lock do
+            call.update!(meta: Voice::CallTerminationGuard.claim_meta(call, token: 'new-owner'))
+          end
+          Voice::CallTerminationGuard.persist_pending_join!(
+            call,
+            participant_label: "agent-#{agent.id}-account-#{account.id}",
+            participant_call_sid: 'CA_NEW_OWNER'
+          )
+          new_owner_created = true
+        end
+        method.call(status, **status_kwargs)
       end
-      method.call(call, pending)
+      manager
     end
 
     delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
