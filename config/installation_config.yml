@@ -457,6 +457,24 @@
   display_title: 'Shopify App Store URL'
   description: 'The Shopify App Store listing URL (e.g., https://apps.shopify.com/your-app)'
   locked: false
+- name: SHOPIFY_PARTNER_ORGANIZATION_ID
+  display_title: 'Shopify Partner Organization ID'
+  description: 'The numeric organization ID used to access the Shopify Partner API'
+  locked: false
+- name: SHOPIFY_PARTNER_APP_ID
+  display_title: 'Shopify Partner App ID'
+  description: 'The Shopify App GID used to query managed pricing subscriptions'
+  locked: false
+- name: SHOPIFY_PARTNER_ACCESS_TOKEN
+  display_title: 'Shopify Partner Access Token'
+  description: 'The Partner API token with Manage apps permission'
+  locked: false
+  type: secret
+- name: SHOPIFY_PARTNER_API_VERSION
+  display_title: 'Shopify Partner API Version'
+  description: 'The pinned Partner API version used for managed pricing'
+  value: '2026-07'
+  locked: false
 # ------- End of Shopify Related Config ------- #
 
 # ------- Instagram Channel Related Config ------- #

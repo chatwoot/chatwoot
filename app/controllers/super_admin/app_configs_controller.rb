@@ -1,4 +1,14 @@
 class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
+  SHOPIFY_CONFIGS = %w[
+    ENABLE_SHOPIFY_INTEGRATION
+    SHOPIFY_CLIENT_ID
+    SHOPIFY_CLIENT_SECRET
+    SHOPIFY_APP_STORE_URL
+    SHOPIFY_PARTNER_ORGANIZATION_ID
+    SHOPIFY_PARTNER_APP_ID
+    SHOPIFY_PARTNER_ACCESS_TOKEN
+    SHOPIFY_PARTNER_API_VERSION
+  ].freeze
   GENERAL_CONFIGS = %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT MAXIMUM_FILE_UPLOAD_SIZE
                        WIDGET_TOKEN_EXPIRY].freeze
   META_INCIDENT_CONFIGS = %w[DISABLE_META_INBOX_CREATION DISABLE_META_MESSAGE_SENDING].freeze
@@ -19,8 +29,9 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   end
 
   def create
-    errors = []
+    errors = shopify_partner_config_errors
     params['app_config'].each do |key, value|
+      break if errors.any?
       next unless @allowed_configs.include?(key)
 
       i = InstallationConfig.where(name: key).first_or_create(value: value, locked: false)
@@ -46,7 +57,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
 
     mapping = {
       'facebook' => %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN FACEBOOK_API_VERSION ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT],
-      'shopify' => %w[ENABLE_SHOPIFY_INTEGRATION SHOPIFY_CLIENT_ID SHOPIFY_CLIENT_SECRET SHOPIFY_APP_STORE_URL],
+      'shopify' => SHOPIFY_CONFIGS,
       'microsoft' => %w[AZURE_APP_ID AZURE_APP_SECRET],
       'email' => %w[MAILER_INBOUND_EMAIL_DOMAIN ACCOUNT_EMAILS_LIMIT ACCOUNT_EMAILS_PLAN_LIMITS],
       'linear' => %w[LINEAR_CLIENT_ID LINEAR_CLIENT_SECRET],
@@ -60,6 +71,19 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     }
 
     @allowed_configs = mapping.fetch(@config, general_configs)
+  end
+
+  def shopify_partner_config_errors
+    return [] unless @config == 'shopify'
+
+    saved_values = InstallationConfig.where(name: Shopify::PartnerConfiguration::KEYS).each_with_object({}) do |config, values|
+      values[config.name] = config.value
+    end
+    submitted_values = params.fetch('app_config', {}).permit(*SHOPIFY_CONFIGS).to_h
+    Shopify::PartnerConfiguration.validate_for_save!(saved_values.merge(submitted_values))
+    []
+  rescue Shopify::PartnerClient::ConfigurationError => e
+    [e.message]
   end
 
   def success_notice
