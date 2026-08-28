@@ -6,6 +6,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   before_action :check_authorization, except: [:show]
 
   include Api::V1::Accounts::Concerns::WhatsappHealthManagement
+  include Api::V1::Accounts::Concerns::EmailChannelCreation
 
   def index
     @inboxes = policy_scope(Current.account.inboxes)
@@ -36,12 +37,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     ActiveRecord::Base.transaction do
       channel = create_channel
       @inbox = Current.account.inboxes.build(
-        {
-          name: inbox_name(channel),
-          channel: channel
-        }.merge(
-          permitted_params.except(:channel, :imap_fetch_interval)
-        )
+        { name: inbox_name(channel), channel: channel }.merge(permitted_params.except(:channel, :imap_fetch_interval))
       )
       @inbox.save!
     end
@@ -106,26 +102,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     return unless allowed_channel_types.include?(permitted_params[:channel][:type])
 
     account_channels_method.create!(permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type))
-  end
-
-  def validate_new_email_channel
-    return unless params.dig(:channel, :type) == 'email'
-
-    validate_email_channel(Channel::Email::EDITABLE_ATTRS)
-  rescue StandardError => e
-    render json: { message: e }, status: :unprocessable_entity
-  end
-
-  def enqueue_initial_imap_fetch
-    return unless @inbox.channel.is_a?(Channel::Email)
-    return unless @inbox.channel.imap_enabled?
-
-    ::Inboxes::FetchImapEmailsJob.perform_later(@inbox.channel, initial_imap_fetch_interval)
-  end
-
-  def initial_imap_fetch_interval
-    interval = params[:imap_fetch_interval].to_i
-    [1, 7, 30].include?(interval) ? interval : 1
   end
 
   def allowed_channel_types
