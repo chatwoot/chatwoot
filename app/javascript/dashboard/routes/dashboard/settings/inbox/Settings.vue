@@ -116,7 +116,7 @@ export default {
       showBusinessNameInput: false,
       healthData: null,
       isLoadingHealth: false,
-      healthError: null,
+      healthError: '',
       isRegisteringWebhook: false,
       isTransferringWhatsAppToManual: false,
       widgetBubblePosition: 'right',
@@ -593,11 +593,16 @@ export default {
 
       try {
         this.isLoadingHealth = true;
-        this.healthError = null;
+        this.healthError = '';
         const response = await InboxHealthAPI.getHealthStatus(this.inbox.id);
         this.healthData = response.data;
       } catch (error) {
-        this.healthError = error.message || 'Failed to fetch health data';
+        this.healthData = null;
+        // The provider's own message (bad credentials, unknown number) is the actionable part.
+        this.healthError =
+          error.response?.data?.error ||
+          error.message ||
+          this.$t('INBOX_MGMT.ACCOUNT_HEALTH.NO_DATA');
       } finally {
         this.isLoadingHealth = false;
       }
@@ -1419,6 +1424,8 @@ export default {
         <div v-if="selectedTabKey === 'whatsapp-health'">
           <AccountHealth
             :health-data="healthData"
+            :is-loading="isLoadingHealth"
+            :error="healthError"
             :is-registering-webhook="isRegisteringWebhook"
             @register-webhook="registerWebhook"
           />
@@ -1426,6 +1433,8 @@ export default {
         <div v-if="selectedTabKey === 'twilio-health'">
           <TwilioHealth
             :health-data="healthData"
+            :is-loading="isLoadingHealth"
+            :error="healthError"
             :is-registering-webhook="isRegisteringWebhook"
             @register-webhook="registerWebhook"
           />

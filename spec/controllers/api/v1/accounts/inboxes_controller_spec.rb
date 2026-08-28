@@ -1303,6 +1303,39 @@ RSpec.describe 'Inboxes API', type: :request do
       expect(response.parsed_body['status']).to eq('misconfigured')
     end
 
+    it 'serializes the full health payload over http' do
+      allow(Twilio::HealthService).to receive(:new).with(channel: twilio_channel).and_call_original
+      twilio_client = instance_double(Twilio::REST::Client)
+      number = instance_double(Twilio::REST::Api::V2010::AccountContext::IncomingPhoneNumberInstance,
+                               sid: 'PN123', phone_number: twilio_channel.phone_number, friendly_name: 'Support line',
+                               capabilities: { 'voice' => false, 'sms' => true, 'mms' => true },
+                               sms_url: 'https://elsewhere.example.com/hook', sms_method: 'POST', sms_application_sid: nil)
+      allow(Twilio::REST::Client).to receive(:new).and_return(twilio_client)
+      allow(twilio_client).to receive(:incoming_phone_numbers).and_return(
+        instance_double(Twilio::REST::Api::V2010::AccountContext::IncomingPhoneNumberList, list: [number])
+      )
+      allow(twilio_client).to receive(:api).and_return(
+        instance_double(Twilio::REST::Api,
+                        accounts: instance_double(Twilio::REST::Api::V2010::AccountContext,
+                                                  fetch: instance_double(Twilio::REST::Api::V2010::AccountInstance,
+                                                                         sid: 'AC123', friendly_name: 'Acme Support',
+                                                                         status: 'active', type: 'Trial')))
+      )
+
+      get "/api/v1/accounts/#{account.id}/inboxes/#{twilio_inbox.id}/health",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body).to include(
+        'status' => 'misconfigured',
+        'voice_enabled' => false,
+        'account' => { 'sid' => 'AC123', 'friendly_name' => 'Acme Support', 'status' => 'active', 'type' => 'Trial' }
+      )
+      expect(response.parsed_body['sender']).to include('type' => 'phone_number', 'label' => twilio_channel.phone_number)
+      expect(response.parsed_body['webhooks'].first).to include('name' => 'messaging', 'configured' => false, 'reason' => 'url_mismatch')
+    end
+
     it 'returns bad request for a twilio whatsapp inbox' do
       whatsapp_medium_inbox = create(:inbox, account: account, channel: create(:channel_twilio_sms, :whatsapp, account: account))
 

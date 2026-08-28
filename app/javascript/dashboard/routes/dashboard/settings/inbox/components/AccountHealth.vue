@@ -4,11 +4,20 @@ import { useI18n } from 'vue-i18n';
 
 import ButtonV4 from 'next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import InboxHealthState from './InboxHealthState.vue';
 
 const props = defineProps({
   healthData: {
     type: Object,
     default: null,
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+  error: {
+    type: String,
+    default: '',
   },
   isRegisteringWebhook: {
     type: Boolean,
@@ -192,7 +201,10 @@ const handleRegisterWebhook = () => {
         </ButtonV4>
       </div>
 
-      <div v-if="healthData" class="grid grid-cols-1 gap-4 xs:grid-cols-2">
+      <div
+        v-if="healthData && !isLoading && !error"
+        class="grid grid-cols-1 gap-4 xs:grid-cols-2"
+      >
         <div
           v-for="item in healthItems"
           :key="item.key"
@@ -292,18 +304,14 @@ const handleRegisterWebhook = () => {
         </div>
       </div>
 
-      <div v-else class="pt-8">
-        <div
-          class="flex justify-center items-center p-8 text-center text-n-slate-11"
-        >
-          <div>
-            <Icon icon="i-lucide-activity" class="mb-2 w-8 h-8" />
-            <p class="text-body-main text-n-slate-11">
-              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.NO_DATA') }}
-            </p>
-          </div>
-        </div>
-      </div>
+      <InboxHealthState
+        v-else
+        :is-loading="isLoading"
+        :error="error"
+        :loading-label="t('INBOX_MGMT.ACCOUNT_HEALTH.LOADING')"
+        :error-title="t('INBOX_MGMT.ACCOUNT_HEALTH.ERROR_TITLE')"
+        :empty-label="t('INBOX_MGMT.ACCOUNT_HEALTH.NO_DATA')"
+      />
     </div>
   </div>
 </template>
