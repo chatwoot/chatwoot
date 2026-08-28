@@ -32,12 +32,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     termination = claim_termination!(call)
 
     begin
-      begin
-        conference_service.end_provider_call
-      rescue StandardError
-        suppress_initiating_agent_disconnect!(call)
-        raise
-      end
+      conference_service.end_provider_call
       finalize_call!(call, termination)
       conference_service.complete_conference
     ensure
@@ -82,13 +77,6 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
       error: error.message,
       code: 'call_termination_in_progress'
     }, status: :locked
-  end
-
-  def suppress_initiating_agent_disconnect!(call)
-    agent_call_sid = params[:agent_call_sid].presence
-    return if agent_call_sid.blank?
-
-    call.with_lock { Voice::CallTerminationGuard.suppress_local_disconnect!(call, agent_call_sid) }
   end
 
   def claim_termination!(call)
