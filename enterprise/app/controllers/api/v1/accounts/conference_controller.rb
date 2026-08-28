@@ -108,11 +108,26 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   def release_termination!(call, token, replay_pending: false)
     return if token.blank?
 
-    pending = nil
+    pending_status = nil
+    pending_join = nil
     call.with_lock do
-      pending = Voice::CallTerminationGuard.pending_status(call) if replay_pending
+      if replay_pending
+        pending_status = Voice::CallTerminationGuard.pending_status(call)
+        pending_join = Voice::CallTerminationGuard.pending_join(call)
+      end
       Voice::CallTerminationGuard.release!(call, token, clear_pending: !replay_pending)
     end
+
+    replay_pending_status!(call, pending_status)
+    replay_pending_join!(call, pending_join)
+
+    call.with_lock do
+      Voice::CallTerminationGuard.clear_pending_status!(call)
+      Voice::CallTerminationGuard.clear_pending_join!(call)
+    end
+  end
+
+  def replay_pending_status!(call, pending)
     return if pending.blank?
 
     Voice::CallStatus::Manager.new(call: call).process_status_update(
@@ -120,7 +135,17 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
       duration: pending['duration'],
       timestamp: pending['timestamp']
     )
-    call.with_lock { Voice::CallTerminationGuard.clear_pending_status!(call) }
+  end
+
+  def replay_pending_join!(call, pending)
+    return if pending.blank?
+
+    Voice::Conference::Manager.new(
+      call: call,
+      event: 'join',
+      participant_label: pending['participant_label'],
+      participant_call_sid: pending['participant_call_sid']
+    ).process
   end
 
   def finalize_call!(call, termination)
