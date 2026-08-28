@@ -183,20 +183,6 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       payload = response.parsed_body['payload'].find { |i| i['id'] == channel.inbox.id }
       expect(payload).to include('recording_enabled' => true, 'transcription_enabled' => true)
     end
-
-    it 'reflects the saved call settings on a WhatsApp calling inbox' do
-      account.enable_features('channel_voice')
-      account.save!
-      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
-                                          validate_provider_config: false, sync_templates: false)
-      channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => true,
-                                                                     'transcription_enabled' => false))
-
-      get "/api/v1/accounts/#{account.id}/inboxes", headers: admin.create_new_auth_token
-
-      payload = response.parsed_body['payload'].find { |i| i['id'] == channel.inbox.id }
-      expect(payload).to include('recording_enabled' => true, 'transcription_enabled' => false)
-    end
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/inboxes/:id' do

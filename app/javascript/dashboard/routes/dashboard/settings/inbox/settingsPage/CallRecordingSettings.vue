@@ -5,7 +5,6 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import InboxesAPI from 'dashboard/api/inboxes';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
   inbox: {
@@ -65,13 +64,8 @@ const toggleTranscription = value => save(recordingEnabled.value, value);
       :model-value="recordingEnabled"
       :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.RECORDING.LABEL')"
       :description="$t('INBOX_MGMT.VOICE_CONFIGURATION.RECORDING.DESCRIPTION')"
-      :hide-toggle="isSaving"
       @update:model-value="toggleRecording"
-    >
-      <template v-if="isSaving" #hiddenToggle>
-        <Spinner class="size-4 text-n-slate-11" />
-      </template>
-    </SettingsToggleSection>
+    />
     <SettingsToggleSection
       v-if="recordingEnabled"
       :model-value="transcriptionEnabled"
@@ -79,12 +73,7 @@ const toggleTranscription = value => save(recordingEnabled.value, value);
       :description="
         $t('INBOX_MGMT.VOICE_CONFIGURATION.TRANSCRIPTION.DESCRIPTION')
       "
-      :hide-toggle="isSaving"
       @update:model-value="toggleTranscription"
-    >
-      <template v-if="isSaving" #hiddenToggle>
-        <Spinner class="size-4 text-n-slate-11" />
-      </template>
-    </SettingsToggleSection>
+    />
   </div>
 </template>

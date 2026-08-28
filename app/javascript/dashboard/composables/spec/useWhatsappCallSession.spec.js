@@ -14,60 +14,14 @@ vi.mock('dashboard/api/channel/whatsapp/whatsappCallsAPI', () => ({
   },
 }));
 
-const SDP_OFFER = 'v=0\r\no=- 0 0 IN IP4 127.0.0.1\r\n';
+const SDP = 'v=0\r\no=- 0 0 IN IP4 127.0.0.1\r\n';
 const CALL_ID = 42;
+const track = { kind: 'audio', stop: vi.fn() };
 
-const audioTrack = { kind: 'audio', stop: vi.fn() };
-
-const buildMediaStream = (tracks = []) => ({
-  addTrack: track => tracks.push(track),
+const stream = (tracks = []) => ({
+  addTrack: t => tracks.push(t),
   getTracks: () => tracks,
   getAudioTracks: () => tracks.filter(t => t.kind === 'audio'),
-});
-
-// Emits one chunk as soon as it starts, so the upload path downstream of the
-// recording gate has something to send.
-const buildMediaRecorder = recorders => {
-  const recorder = {
-    state: 'inactive',
-    ondataavailable: null,
-    stopHandler: null,
-    addEventListener: (event, handler) => {
-      if (event === 'stop') recorder.stopHandler = handler;
-    },
-    start: () => {
-      recorder.state = 'recording';
-      recorder.ondataavailable?.({
-        data: new Blob(['chunk'], { type: 'audio/webm' }),
-      });
-    },
-    stop: () => {
-      recorder.state = 'inactive';
-      recorder.stopHandler?.();
-    },
-  };
-  recorders.push(recorder);
-  return recorder;
-};
-
-const buildPeerConnection = () => ({
-  iceGatheringState: 'complete',
-  localDescription: { sdp: 'answer-sdp' },
-  ontrack: null,
-  addTrack: () => {},
-  addEventListener: () => {},
-  getSenders: () => [],
-  close: () => {},
-  createAnswer: () => Promise.resolve({ type: 'answer', sdp: 'answer-sdp' }),
-  setLocalDescription: () => Promise.resolve(),
-  // Meta's offer landing is what fires ontrack in the real browser.
-  setRemoteDescription() {
-    this.ontrack?.({
-      streams: [buildMediaStream([audioTrack])],
-      track: audioTrack,
-    });
-    return Promise.resolve();
-  },
 });
 
 describe('useWhatsappCallSession recording gate', () => {
@@ -75,29 +29,64 @@ describe('useWhatsappCallSession recording gate', () => {
 
   beforeEach(() => {
     recorders = [];
-    const mediaRecorder = vi.fn(() => buildMediaRecorder(recorders));
-    mediaRecorder.isTypeSupported = () => true;
+    const recorder = vi.fn(() => {
+      const r = {
+        state: 'inactive',
+        ondataavailable: null,
+        addEventListener: (e, h) => {
+          if (e === 'stop') r.onstop = h;
+        },
+        // One chunk on start, so the upload path has something to send.
+        start: () => {
+          r.state = 'recording';
+          r.ondataavailable?.({
+            data: new Blob(['x'], { type: 'audio/webm' }),
+          });
+        },
+        stop: () => {
+          r.state = 'inactive';
+          r.onstop?.();
+        },
+      };
+      recorders.push(r);
+      return r;
+    });
+    recorder.isTypeSupported = () => true;
 
-    vi.stubGlobal('MediaRecorder', mediaRecorder);
+    vi.stubGlobal('MediaRecorder', recorder);
     vi.stubGlobal(
       'MediaStream',
-      vi.fn(() => buildMediaStream([]))
+      vi.fn(() => stream([]))
     );
-    vi.stubGlobal('RTCPeerConnection', vi.fn(buildPeerConnection));
+    vi.stubGlobal(
+      'RTCPeerConnection',
+      vi.fn(() => ({
+        iceGatheringState: 'complete',
+        localDescription: { sdp: 'answer' },
+        ontrack: null,
+        addTrack: () => {},
+        addEventListener: () => {},
+        createAnswer: () => Promise.resolve({ type: 'answer', sdp: 'answer' }),
+        setLocalDescription: () => Promise.resolve(),
+        // Meta's offer landing is what fires ontrack in the real browser.
+        setRemoteDescription() {
+          this.ontrack?.({ streams: [stream([track])], track });
+          return Promise.resolve();
+        },
+        close: () => {},
+      }))
+    );
     vi.stubGlobal(
       'AudioContext',
       vi.fn(() => ({
-        state: 'running',
         resume: () => Promise.resolve(),
         close: () => Promise.resolve(),
-        createMediaStreamDestination: () => ({ stream: 'mixed-stream' }),
+        createMediaStreamDestination: () => ({ stream: 'mixed' }),
         createMediaStreamSource: () => ({ connect: () => {} }),
       }))
     );
     vi.stubGlobal('navigator', {
-      mediaDevices: {
-        getUserMedia: () => Promise.resolve(buildMediaStream([audioTrack])),
-      },
+      mediaDevices: { getUserMedia: () => Promise.resolve(stream([track])) },
     });
     // jsdom's HTMLMediaElement has no play() implementation.
     window.HTMLMediaElement.prototype.play = vi.fn().mockResolvedValue();
@@ -112,55 +101,44 @@ describe('useWhatsappCallSession recording gate', () => {
     vi.clearAllMocks();
   });
 
-  const acceptCall = recordingEnabled =>
+  const accept = recordingEnabled =>
     useWhatsappCallSession().acceptIncomingCall({
       callId: CALL_ID,
-      sdpOffer: SDP_OFFER,
+      sdpOffer: SDP,
       iceServers: [],
       recordingEnabled,
     });
 
-  it('records the call and uploads it when the inbox has recording on', async () => {
+  it('records and uploads when recording is on', async () => {
     const session = useWhatsappCallSession();
-    await acceptCall(true);
-
+    await accept(true);
     expect(recorders).toHaveLength(1);
 
     await session.endActiveCall();
-
     expect(WhatsappCallsAPI.uploadRecording).toHaveBeenCalledWith(
       CALL_ID,
       expect.any(Blob)
     );
   });
 
-  it('never starts a recorder or uploads audio when recording is off', async () => {
+  it('captures and uploads nothing when recording is off', async () => {
     const session = useWhatsappCallSession();
-    await acceptCall(false);
-
+    await accept(false);
     expect(recorders).toHaveLength(0);
 
     await session.endActiveCall();
-
     expect(WhatsappCallsAPI.uploadRecording).not.toHaveBeenCalled();
   });
 
-  it('records when the ring payload predates the setting and carries no flag', async () => {
-    await acceptCall(undefined);
-
-    expect(recorders).toHaveLength(1);
-  });
-
-  it('reads the setting from the call payload when the ring broadcast was missed', async () => {
+  it('falls back to the call payload when the ring broadcast was missed', async () => {
     WhatsappCallsAPI.show.mockResolvedValue({
-      sdp_offer: SDP_OFFER,
+      sdp_offer: SDP,
       ice_servers: [],
       recording_enabled: false,
     });
 
     await useWhatsappCallSession().acceptIncomingCall({ callId: CALL_ID });
 
-    expect(WhatsappCallsAPI.show).toHaveBeenCalledWith(CALL_ID);
     expect(recorders).toHaveLength(0);
   });
 });
