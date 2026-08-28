@@ -30,14 +30,19 @@ class Voice::CallTerminationGuard
       token.present? && self.token(call) == token
     end
 
-    def release!(call, token)
+    def release!(call, token, clear_pending: true)
       return false unless owned_by?(call, token)
 
-      call.update!(meta: cleared_meta(call))
+      meta = cleared_ownership_meta(call)
+      meta = meta.except(PENDING_STATUS_KEY) if clear_pending
+      call.update!(meta: meta)
       true
     end
 
     def persist_pending_status!(call, status:, duration:, timestamp:)
+      existing_status = pending_status(call)&.dig('status')
+      return false if terminal_status?(existing_status) && !terminal_status?(status)
+
       call.update!(
         meta: call.meta.merge(
           PENDING_STATUS_KEY => {
@@ -47,6 +52,7 @@ class Voice::CallTerminationGuard
           }.compact
         )
       )
+      true
     end
 
     def pending_status(call)
@@ -103,12 +109,12 @@ class Voice::CallTerminationGuard
       call.updated_at
     end
 
-    def cleared_ownership_meta(call)
-      call.meta.except(TOKEN_KEY, STARTED_AT_KEY)
+    def terminal_status?(status)
+      status.present? && Call::TERMINAL_STATUSES.include?(status)
     end
 
-    def cleared_meta(call)
-      cleared_ownership_meta(call).except(PENDING_STATUS_KEY)
+    def cleared_ownership_meta(call)
+      call.meta.except(TOKEN_KEY, STARTED_AT_KEY)
     end
   end
 end
