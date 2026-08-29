@@ -1,4 +1,9 @@
 class Voice::CallStatus::Manager
+  STATUS_ORDER = {
+    'ringing' => 0,
+    'in_progress' => 1
+  }.freeze
+
   pattr_initialize [:call!]
 
   def process_status_update(status, duration: nil, timestamp: nil, allow_during_termination: false)
@@ -28,6 +33,11 @@ class Voice::CallStatus::Manager
         next
       end
 
+      if regressive_status?(pending['status'])
+        Voice::CallTerminationGuard.clear_pending_status_if_matches!(call, pending)
+        next
+      end
+
       apply_call_updates!(
         pending['status'],
         duration: pending['duration'],
@@ -48,10 +58,17 @@ class Voice::CallStatus::Manager
   def process_locked_status_update(status, duration, timestamp, allow_during_termination)
     return [false, false] if call.status == status
     return [false, false] if Call::TERMINAL_STATUSES.include?(call.status)
+    return [false, false] if regressive_status?(status)
     return [false, true] if defer_status_update?(status, duration, timestamp, allow_during_termination)
 
     apply_call_updates!(status, duration: duration, timestamp: timestamp)
     [true, false]
+  end
+
+  def regressive_status?(status)
+    current_order = STATUS_ORDER[call.status]
+    next_order = STATUS_ORDER[status]
+    current_order && next_order && next_order < current_order
   end
 
   def defer_status_update?(status, duration, timestamp, allow_during_termination)
