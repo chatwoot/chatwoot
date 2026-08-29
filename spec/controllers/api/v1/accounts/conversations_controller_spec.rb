@@ -343,6 +343,22 @@ RSpec.describe 'Conversations API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
       end
     end
+
+    context 'when it is an authenticated bot' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+      let(:team) { create(:team, account: account) }
+
+      it 'shows a team-assigned conversation' do
+        conversation.update!(team: team)
+
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+            headers: { api_access_token: agent_bot.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body.dig('meta', 'team', 'is_member')).to be(false)
+      end
+    end
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/conversations/:id' do

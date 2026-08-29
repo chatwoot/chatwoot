@@ -215,7 +215,18 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         end
 
         it 'will return false when conversation has the label' do
-          conversation.add_labels(['feature'])
+          conversation.update_labels(%w[bug feature])
+          expect(conversation.reload.label_list).to match_array(%w[bug feature])
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        end
+
+        it 'will return false when conversation has any excluded label' do
+          rule.update!(conditions: [
+                         { 'values': %w[feature enterprise], 'attribute_key': 'labels', 'query_operator': nil,
+                           'filter_operator': 'not_equal_to' }
+                       ])
+          conversation.update_labels(%w[bug enterprise])
+
           expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
         end
       end
