@@ -1155,6 +1155,9 @@
         }
       },
       "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "SOURCE": {
+        "UPLOAD": "Uploaded toolset"
+      },
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
         "DOWNLOAD_TOOL": "Download YAML",

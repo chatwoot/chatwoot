@@ -13,9 +13,13 @@ class Captain::ToolsetService
 
   def self.export(tool) = Captain::ToolsetExporter.new(tool).to_yaml
 
-  def initialize(account:, source:)
+  def initialize(account:, source:, source_metadata: nil)
     @account = account
     @manifest = parse(source)
+    @source_metadata = source_metadata&.merge(
+      'toolset_name' => @manifest['name'], 'toolset_version' => @manifest['version'],
+      'manifest_digest' => "sha256:#{Digest::SHA256.hexdigest(source)}"
+    )
   end
 
   def preview
@@ -42,7 +46,7 @@ class Captain::ToolsetService
     ensure_capacity!(resolved_tools.size)
 
     ApplicationRecord.transaction do
-      resolved_tools.map { |attributes| account.captain_custom_tools.create!(tool_attributes(attributes)) }
+      resolved_tools.map { |attributes| account.captain_custom_tools.create!(tool_attributes(attributes).merge(source_metadata: source_metadata)) }
     end
   rescue ActiveRecord::RecordInvalid => e
     raise InvalidManifestError, e.record.errors.full_messages.join(', ')
@@ -50,7 +54,7 @@ class Captain::ToolsetService
 
   private
 
-  attr_reader :account, :manifest
+  attr_reader :account, :manifest, :source_metadata
 
   def parse(source)
     parsed = YAML.safe_load(source, permitted_classes: [], permitted_symbols: [], aliases: false)
@@ -179,9 +183,8 @@ class Captain::ToolsetService
   end
 
   def configuration_fields
-    input_fields = manifest.fetch('inputs', {}).map { |name, definition| field_definition(name, definition, 'inputs', false) }
-    secret_fields = manifest.fetch('secrets', {}).map { |name, definition| field_definition(name, definition, 'secrets', true) }
-    input_fields + secret_fields
+    manifest.fetch('inputs', {}).map { |name, definition| field_definition(name, definition, 'inputs', false) } +
+      manifest.fetch('secrets', {}).map { |name, definition| field_definition(name, definition, 'secrets', true) }
   end
 
   def field_definition(name, definition, section, secret)

@@ -276,6 +276,7 @@ onMounted(async () => {
           :is-updating="pendingToggleIds.has(tool.id)"
           :created-at="tool.created_at"
           :updated-at="tool.updated_at"
+          :source-metadata="tool.source_metadata"
           @action="handleAction"
           @toggle="toggleCustomTool"
         />

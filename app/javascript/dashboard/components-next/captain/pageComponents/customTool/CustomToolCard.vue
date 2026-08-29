@@ -43,6 +43,10 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  sourceMetadata: {
+    type: Object,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['action', 'toggle']);
@@ -95,6 +99,18 @@ const handleAction = ({ action, value }) => {
 const authTypeLabel = computed(() => {
   return t(
     `CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_TYPES.${props.authType.toUpperCase()}`
+  );
+});
+
+const sourceLabel = computed(() => {
+  if (!props.sourceMetadata) return '';
+  if (props.sourceMetadata.type === 'github') {
+    const path = props.sourceMetadata.path?.replace(/\/toolset\.ya?ml$/, '');
+    return [props.sourceMetadata.repository, path].filter(Boolean).join('/');
+  }
+
+  return (
+    props.sourceMetadata.filename || t('CAPTAIN.CUSTOM_TOOLS.SOURCE.UPLOAD')
   );
 });
 </script>
@@ -153,6 +169,20 @@ const authTypeLabel = computed(() => {
         >
           <i class="i-lucide-lock text-base" />
           {{ authTypeLabel }}
+        </span>
+        <span
+          v-if="sourceLabel"
+          class="text-sm shrink-0 text-n-slate-11 inline-flex items-center gap-1"
+        >
+          <i
+            :class="
+              sourceMetadata.type === 'github'
+                ? 'i-lucide-github'
+                : 'i-lucide-file-up'
+            "
+            class="text-base"
+          />
+          {{ sourceLabel }}
         </span>
       </div>
       <span

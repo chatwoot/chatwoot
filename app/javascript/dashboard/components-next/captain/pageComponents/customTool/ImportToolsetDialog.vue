@@ -308,13 +308,12 @@ defineExpose({ dialogRef, open });
         <span class="text-heading-3 text-n-slate-12">
           {{ t('CAPTAIN.CUSTOM_TOOLS.IMPORT.TOOLS_LABEL') }}
         </span>
-        <ul class="flex flex-col gap-2 list-none">
+        <ul class="flex flex-col gap-2 pe-1 overflow-y-auto list-none max-h-80">
           <li
             v-for="tool in preview.tools"
             :key="tool.title"
-            class="flex items-start gap-2 px-3 py-2 rounded-lg bg-n-alpha-2"
+            class="px-3 py-2 rounded-lg bg-n-alpha-2"
           >
-            <span class="i-lucide-wrench size-4 mt-0.5 text-n-slate-10" />
             <div class="flex flex-col min-w-0">
               <span class="text-sm font-medium text-n-slate-12">
                 {{ tool.title }}

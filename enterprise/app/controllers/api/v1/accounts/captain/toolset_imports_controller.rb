@@ -26,7 +26,11 @@ class Api::V1::Accounts::Captain::ToolsetImportsController < Api::V1::Accounts::
   end
 
   def toolset_service
-    @toolset_service ||= Captain::ToolsetService.new(account: Current.account, source: toolset_source)
+    @toolset_service ||= Captain::ToolsetService.new(
+      account: Current.account,
+      source: toolset_source,
+      source_metadata: toolset_source_metadata
+    )
   end
 
   def toolset_source
@@ -37,6 +41,31 @@ class Api::V1::Accounts::Captain::ToolsetImportsController < Api::V1::Accounts::
     raise Captain::ToolsetService::InvalidManifestError, 'Toolset file is too large' if file.size > Captain::ToolsetService::MAX_FILE_SIZE
 
     file.read
+  end
+
+  def toolset_source_metadata
+    return github_source_metadata if params[:source].present?
+
+    {
+      'type' => 'upload',
+      'filename' => params[:file].original_filename
+    }
+  end
+
+  def github_source_metadata
+    uri = URI.parse(github_raw_url(params[:source]))
+    owner, repository, ref, *path = uri.path.split('/').reject(&:blank?)
+    revision = fetch_github_json("https://api.github.com/repos/#{owner}/#{repository}/commits/#{ref}").fetch('sha')
+
+    {
+      'type' => 'github',
+      'repository' => "#{owner}/#{repository}",
+      'path' => path.join('/'),
+      'ref' => ref,
+      'revision' => revision
+    }
+  rescue SafeFetch::Error, JSON::ParserError, KeyError => e
+    raise Captain::ToolsetService::InvalidManifestError, "Could not resolve the GitHub toolset revision: #{e.message}"
   end
 
   def source_from_url
