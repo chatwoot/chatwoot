@@ -14,6 +14,7 @@ import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Pay
 import CustomToolsPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/CustomToolsPageEmptyState.vue';
 import CreateCustomToolDialog from 'dashboard/components-next/captain/pageComponents/customTool/CreateCustomToolDialog.vue';
 import CustomToolCard from 'dashboard/components-next/captain/pageComponents/customTool/CustomToolCard.vue';
+import ToolsetCard from 'dashboard/components-next/captain/pageComponents/customTool/ToolsetCard.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import ImportToolsetDialog from 'dashboard/components-next/captain/pageComponents/customTool/ImportToolsetDialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -37,6 +38,34 @@ const customToolsMeta = useMapGetter('captainCustomTools/getMeta');
 const showSoftLimitWarning = computed(
   () => !isV2.value && customToolsMeta.value.totalCount > SOFT_LIMIT
 );
+
+const toolEntries = computed(() => {
+  const entries = [];
+  const toolsets = new Map();
+
+  customTools.value.forEach(tool => {
+    const installationKey =
+      tool.source_metadata?.installation_id ||
+      tool.source_metadata?.manifest_digest;
+    if (!installationKey) {
+      entries.push({ type: 'tool', key: `tool-${tool.id}`, tool });
+      return;
+    }
+
+    if (!toolsets.has(installationKey)) {
+      const entry = {
+        type: 'toolset',
+        key: `toolset-${installationKey}`,
+        tools: [],
+      };
+      toolsets.set(installationKey, entry);
+      entries.push(entry);
+    }
+    toolsets.get(installationKey).tools.push(tool);
+  });
+
+  return entries;
+});
 
 const createDialogRef = ref(null);
 const deleteDialogRef = ref(null);
@@ -262,24 +291,29 @@ onMounted(async () => {
           <span class="i-lucide-triangle-alert size-4 shrink-0" />
           {{ $t('CAPTAIN.CUSTOM_TOOLS.SOFT_LIMIT_WARNING') }}
         </div>
-        <CustomToolCard
-          v-for="tool in customTools"
-          :id="tool.id"
-          :key="tool.id"
-          :title="tool.title"
-          :description="tool.description"
-          :endpoint-url="tool.endpoint_url"
-          :http-method="tool.http_method"
-          :auth-type="tool.auth_type"
-          :param-schema="tool.param_schema"
-          :enabled="tool.enabled"
-          :is-updating="pendingToggleIds.has(tool.id)"
-          :created-at="tool.created_at"
-          :updated-at="tool.updated_at"
-          :source-metadata="tool.source_metadata"
-          @action="handleAction"
-          @toggle="toggleCustomTool"
-        />
+        <template v-for="entry in toolEntries" :key="entry.key">
+          <ToolsetCard
+            v-if="entry.type === 'toolset'"
+            :tools="entry.tools"
+            :pending-toggle-ids="pendingToggleIds"
+            @action="handleAction"
+            @toggle="toggleCustomTool"
+          />
+          <CustomToolCard
+            v-else
+            :id="entry.tool.id"
+            :title="entry.tool.title"
+            :description="entry.tool.description"
+            :auth-type="entry.tool.auth_type"
+            :enabled="entry.tool.enabled"
+            :is-updating="pendingToggleIds.has(entry.tool.id)"
+            :created-at="entry.tool.created_at"
+            :updated-at="entry.tool.updated_at"
+            :source-metadata="entry.tool.source_metadata"
+            @action="handleAction"
+            @toggle="toggleCustomTool"
+          />
+        </template>
       </div>
     </template>
   </PageLayout>

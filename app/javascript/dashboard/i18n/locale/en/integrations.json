@@ -1158,6 +1158,10 @@
       "SOURCE": {
         "UPLOAD": "Uploaded toolset"
       },
+      "TOOLSET": {
+        "TOOL_COUNT": "{n} tool | {n} tools",
+        "SOURCE_DETAILS": "{source} · v{version}"
+      },
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
         "DOWNLOAD_TOOL": "Download YAML",

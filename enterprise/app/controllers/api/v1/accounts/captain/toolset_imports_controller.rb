@@ -48,6 +48,7 @@ class Api::V1::Accounts::Captain::ToolsetImportsController < Api::V1::Accounts::
 
     {
       'type' => 'upload',
+      'installation_id' => SecureRandom.uuid,
       'filename' => params[:file].original_filename
     }
   end
@@ -59,6 +60,7 @@ class Api::V1::Accounts::Captain::ToolsetImportsController < Api::V1::Accounts::
 
     {
       'type' => 'github',
+      'installation_id' => SecureRandom.uuid,
       'repository' => "#{owner}/#{repository}",
       'path' => path.join('/'),
       'ref' => ref,

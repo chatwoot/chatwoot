@@ -47,6 +47,10 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  showSource: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['action', 'toggle']);
@@ -171,7 +175,7 @@ const sourceLabel = computed(() => {
           {{ authTypeLabel }}
         </span>
         <span
-          v-if="sourceLabel"
+          v-if="showSource && sourceLabel"
           class="text-sm shrink-0 text-n-slate-11 inline-flex items-center gap-1"
         >
           <i

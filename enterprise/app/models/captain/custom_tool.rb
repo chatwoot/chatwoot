@@ -62,18 +62,20 @@ class Captain::CustomTool < ApplicationRecord
         'type': 'object',
         'properties': {
           'type': { 'const': 'upload' },
+          'installation_id': { 'type': 'string', 'format': 'uuid' },
           'filename': { 'type': 'string', 'minLength': 1 },
           'toolset_name': { 'type': 'string', 'minLength': 1 },
           'toolset_version': { 'type': 'string', 'pattern': TOOLSET_VERSION_PATTERN },
           'manifest_digest': { 'type': 'string', 'pattern': '^sha256:[0-9a-f]{64}$' }
         },
-        'required': %w[type filename toolset_name toolset_version manifest_digest],
+        'required': %w[type installation_id filename toolset_name toolset_version manifest_digest],
         'additionalProperties': false
       },
       {
         'type': 'object',
         'properties': {
           'type': { 'const': 'github' },
+          'installation_id': { 'type': 'string', 'format': 'uuid' },
           'repository': { 'type': 'string', 'pattern': '^[\\w.-]+/[\\w.-]+$' },
           'path': { 'type': 'string', 'minLength': 1 },
           'ref': { 'type': 'string', 'minLength': 1 },
@@ -82,7 +84,7 @@ class Captain::CustomTool < ApplicationRecord
           'toolset_version': { 'type': 'string', 'pattern': TOOLSET_VERSION_PATTERN },
           'manifest_digest': { 'type': 'string', 'pattern': '^sha256:[0-9a-f]{64}$' }
         },
-        'required': %w[type repository path ref revision toolset_name toolset_version manifest_digest],
+        'required': %w[type installation_id repository path ref revision toolset_name toolset_version manifest_digest],
         'additionalProperties': false
       }
     ]
