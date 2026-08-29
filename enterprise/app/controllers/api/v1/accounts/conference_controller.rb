@@ -34,8 +34,9 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
     begin
       conference_service.end_provider_call
-      finalize_call!(call, termination)
-      local_finalization_succeeded = true
+      local_finalization_succeeded = finalize_call!(call, termination)
+      raise CustomExceptions::CallTerminationInProgress.new({}) unless local_finalization_succeeded
+
       conference_service.complete_conference
     ensure
       release_termination!(call, termination[:token], replay_pending: !local_finalization_succeeded)
@@ -107,10 +108,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
       pending_join = Voice::CallTerminationGuard.pending_join(call)
     end
 
-    replay_pending_status!(call, pending_status)
-    clear_replayed_pending_status!(call, pending_status)
-    replay_pending_join!(call, pending_join)
-    clear_replayed_pending_join!(call, pending_join)
+    replay_pending_callbacks!(call, pending_status, pending_join)
   end
 
   def termination_intent_for(call)
@@ -140,10 +138,35 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     end
     return unless released
 
-    replay_pending_status!(call, pending_status)
-    clear_replayed_pending_status!(call, pending_status)
-    replay_pending_join!(call, pending_join)
-    clear_replayed_pending_join!(call, pending_join)
+    replay_pending_callbacks!(call, pending_status, pending_join)
+  end
+
+  def replay_pending_callbacks!(call, pending_status, pending_join)
+    if replay_join_first?(pending_status, pending_join)
+      replay_pending_join_and_clear!(call, pending_join)
+      replay_pending_status_and_clear!(call, pending_status)
+    else
+      replay_pending_status_and_clear!(call, pending_status)
+      replay_pending_join_and_clear!(call, pending_join)
+    end
+  end
+
+  def replay_join_first?(pending_status, pending_join)
+    return false if pending_join.blank?
+    return true if pending_status.blank? || pending_status['timestamp'].blank?
+    return false if pending_join['timestamp'].blank?
+
+    pending_join['timestamp'].to_i <= pending_status['timestamp'].to_i
+  end
+
+  def replay_pending_status_and_clear!(call, pending)
+    replay_pending_status!(call, pending)
+    clear_replayed_pending_status!(call, pending)
+  end
+
+  def replay_pending_join_and_clear!(call, pending)
+    replay_pending_join!(call, pending)
+    clear_replayed_pending_join!(call, pending)
   end
 
   def replay_pending_status!(call, pending)
@@ -187,11 +210,15 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   def finalize_call!(call, termination)
     intent = termination[:intent]
     token = termination[:token]
-    return if intent.blank? || token.blank?
+    return call.reload.terminal? if intent.blank? || token.blank?
 
     applied = false
+    already_terminal = false
     call.with_lock do
-      next if call.terminal?
+      if call.terminal?
+        already_terminal = true
+        next
+      end
       next unless Voice::CallTerminationGuard.owned_by?(call, token)
 
       attrs = { end_reason: intent[:end_reason] }
@@ -202,6 +229,10 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
       )
       applied = true
     end
-    Voice::CallMessageBuilder.new(call).update_status!(status: intent[:status], agent: Current.user) if applied
+    return true if already_terminal
+    return false unless applied
+
+    Voice::CallMessageBuilder.new(call).update_status!(status: intent[:status], agent: Current.user)
+    true
   end
 end
