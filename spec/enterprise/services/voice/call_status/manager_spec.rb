@@ -69,6 +69,31 @@ RSpec.describe Voice::CallStatus::Manager do
     expect(call.meta['agent_termination_pending_status']).to be_nil
   end
 
+  it 'retains a deferred status until its replay publishes successfully' do
+    timestamp = Time.zone.now.to_i
+    call.update!(
+      meta: call.meta.merge(
+        'agent_termination_token' => 'termination-1',
+        'agent_termination_started_at' => Time.zone.now.to_i
+      )
+    )
+    manager.process_status_update('in_progress', timestamp: timestamp)
+    allow(conversation).to receive(:update!).and_raise(StandardError, 'publish failed')
+
+    expect do
+      travel 3.minutes { manager.reconcile_suppressed_status! }
+    end.to raise_error(StandardError, 'publish failed')
+
+    call.reload
+    expect(call.status).to eq('in_progress')
+    expect(call.meta['agent_termination_pending_status']).to include('status' => 'in_progress', 'timestamp' => timestamp)
+
+    allow(conversation).to receive(:update!).and_call_original
+    manager.reconcile_suppressed_status!
+
+    expect(call.reload.meta['agent_termination_pending_status']).to be_nil
+  end
+
   it 'allows provider progress after an abandoned teardown guard expires' do
     call.update!(
       meta: call.meta.merge(
