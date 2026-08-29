@@ -11,9 +11,8 @@ class Whatsapp::IncomingMessageBaseService
     processed_params
 
     return process_statuses if processed_params.try(:[], :statuses).present?
+    return process_system_messages if system_messages?
     return process_messages if messages_data.present?
-
-    process_user_id_updates if processed_params.try(:[], :user_id_update).present?
   end
 
   # Returns messages array for both regular messages and echo events
@@ -22,6 +21,14 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   private
+
+  def system_messages?
+    messages_data&.any? { |message| message[:type] == 'system' }
+  end
+
+  def process_system_messages
+    Whatsapp::UserIdRotationService.new(inbox: inbox, messages: messages_data).perform
+  end
 
   def process_messages
     # We don't support reactions & ephemeral message now, we need to skip processing the message

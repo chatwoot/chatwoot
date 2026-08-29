@@ -3,57 +3,140 @@ require 'rails_helper'
 describe Whatsapp::UserIdRotationService do
   let!(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
   let!(:inbox) { channel.inbox }
-  let(:payload) { { wa_id: '2423423243', user_id: { previous: 'IN.PREVIOUSBSUID', current: 'IN.CURRENTBSUID' } }.with_indifferent_access }
-
-  describe 'when a batch carries more than one rotation' do
-    it 'acquires the mutex for the entries the job did not lock' do
-      create(:contact_inbox, inbox: inbox, source_id: 'IN.FIRSTPREVIOUS')
-      create(:contact_inbox, inbox: inbox, source_id: 'IN.SECONDPREVIOUS')
-      batch = [
-        { wa_id: '2423423243', user_id: { previous: 'IN.FIRSTPREVIOUS', current: 'IN.FIRSTCURRENT' } },
-        { wa_id: '2423423243', user_id: { previous: 'IN.SECONDPREVIOUS', current: 'IN.SECONDCURRENT' } }
-      ].map(&:with_indifferent_access)
-      locks = []
-      allow_any_instance_of(Redis::LockManager).to receive(:with_lock) do |_manager, key, _ttl, &block| # rubocop:disable RSpec/AnyInstance
-        locks << key
-        block.call
-        true
-      end
-
-      described_class.new(inbox: inbox, updates: batch).perform
-
-      # The job holds the key for the first entry, so only the second one has to be taken here.
-      expect(locks).to contain_exactly(format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: inbox.id, sender_id: 'IN.SECONDCURRENT'))
-    end
+  let(:system) do
+    {
+      type: 'user_changed_user_id',
+      previous_user_id: 'IN.PREVIOUSBSUID',
+      user_id: 'IN.CURRENTBSUID'
+    }.with_indifferent_access
   end
+  let(:messages) { [{ id: 'wamid-system', type: 'system', system: system }.with_indifferent_access] }
 
-  describe 'when the insert loses the uniqueness race' do
-    it 'reports that the identifiers ended up on different contacts' do
-      previous = create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
-      # The row a concurrent message created for its own contact: invisible when the service looks,
-      # because that transaction had not committed, and present by the time the insert reaches the index.
-      claimed = create(:contact_inbox, inbox: inbox, source_id: 'IN.CURRENTBSUID')
-      allow(inbox.contact_inboxes).to receive(:find_by).and_call_original
-      allow(inbox.contact_inboxes).to receive(:find_by).with(source_id: 'IN.CURRENTBSUID').and_return(nil, claimed)
-      allow(inbox.contact_inboxes).to receive(:create!).and_raise(ActiveRecord::RecordNotUnique)
+  describe '#perform' do
+    it 'records the current regular and parent identifiers on the contact owning the previous identifiers' do
+      contact = create(:contact, account: inbox.account)
+      create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+      create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.ENT.PREVIOUSBSUID')
+      system.merge!(
+        previous_parent_user_id: 'IN.ENT.PREVIOUSBSUID',
+        parent_user_id: 'IN.ENT.CURRENTBSUID'
+      )
 
-      expect(Rails.logger).to receive(:warn).with(/IN.CURRENTBSUID already belongs to contact #{claimed.contact_id}/)
+      described_class.new(inbox: inbox, messages: messages).perform
 
-      described_class.new(inbox: inbox, updates: [payload]).perform
-
-      expect(previous.reload.contact_id).not_to eq(claimed.contact_id)
+      expect(inbox.contact_inboxes.where(contact: contact).pluck(:source_id)).to include('IN.CURRENTBSUID', 'IN.ENT.CURRENTBSUID')
     end
 
-    it 'stays quiet when the row that won belongs to the same contact' do
+    it 'falls back to a current identifier when the lifecycle event follows the first message' do
+      current = create(:contact_inbox, inbox: inbox, source_id: 'IN.CURRENTBSUID')
+
+      described_class.new(inbox: inbox, messages: messages).perform
+
+      expect(inbox.contact_inboxes.find_by(source_id: 'IN.CURRENTBSUID').contact).to eq(current.contact)
+    end
+
+    it 'updates the phone and stores its alias for user_changed_number' do
       previous = create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
-      claimed = create(:contact_inbox, inbox: inbox, contact: previous.contact, source_id: 'IN.CURRENTBSUID')
-      allow(inbox.contact_inboxes).to receive(:find_by).and_call_original
-      allow(inbox.contact_inboxes).to receive(:find_by).with(source_id: 'IN.CURRENTBSUID').and_return(nil, claimed)
-      allow(inbox.contact_inboxes).to receive(:create!).and_raise(ActiveRecord::RecordNotUnique)
+      previous.contact.update!(phone_number: '+16505550001')
+      system.merge!(type: 'user_changed_number', wa_id: '16505550002')
 
-      expect(Rails.logger).not_to receive(:warn)
+      described_class.new(inbox: inbox, messages: messages).perform
 
-      described_class.new(inbox: inbox, updates: [payload]).perform
+      expect(previous.contact.reload.phone_number).to eq('+16505550002')
+      expect(inbox.contact_inboxes.find_by(source_id: '16505550002').contact).to eq(previous.contact)
+    end
+
+    it 'clears the stale phone and does not merge when the new phone belongs to another contact' do
+      previous = create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
+      previous.contact.update!(phone_number: '+16505550001')
+      conflicting_contact = create(:contact, account: inbox.account, phone_number: '+16505550002')
+      system.merge!(type: 'user_changed_number', wa_id: '16505550002')
+
+      expect(Rails.logger).to receive(:warn).with(/already belongs to contact #{conflicting_contact.id}/)
+
+      described_class.new(inbox: inbox, messages: messages).perform
+
+      expect(previous.contact.reload.phone_number).to be_nil
+      expect(conflicting_contact.reload.phone_number).to eq('+16505550002')
+      expect(inbox.contact_inboxes.exists?(contact: previous.contact, source_id: '16505550002')).to be(false)
+    end
+
+    it 'does not claim a new phone alias that belongs to another contact' do
+      previous = create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
+      previous.contact.update!(phone_number: '+16505550001')
+      conflicting_alias = create(:contact_inbox, inbox: inbox, source_id: '16505550002')
+      system.merge!(type: 'user_changed_number', wa_id: '16505550002')
+
+      expect(Rails.logger).to receive(:warn).with(/16505550002 already belongs to contact #{conflicting_alias.contact_id}/)
+
+      described_class.new(inbox: inbox, messages: messages).perform
+
+      expect(previous.contact.reload.phone_number).to be_nil
+      expect(conflicting_alias.reload.contact_id).not_to eq(previous.contact_id)
+    end
+
+    it 'leaves conflicting aliases on separate contacts and reports the collision' do
+      previous = create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
+      current = create(:contact_inbox, inbox: inbox, source_id: 'IN.CURRENTBSUID')
+
+      expect(Rails.logger).to receive(:warn).with(/IN.CURRENTBSUID already belongs to contact #{current.contact_id}/)
+
+      described_class.new(inbox: inbox, messages: messages).perform
+
+      expect(previous.reload.contact_id).not_to eq(current.reload.contact_id)
+    end
+
+    it 'does not parse unsupported system messages' do
+      create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
+      system[:type] = 'some_other_system_event'
+
+      expect { described_class.new(inbox: inbox, messages: messages).perform }.not_to change(ContactInbox, :count)
+    end
+
+    it 'acquires locks for current identifiers not already locked by the job' do
+      contact = create(:contact, account: inbox.account)
+      create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+      create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.ENT.PREVIOUSBSUID')
+      system.merge!(
+        previous_parent_user_id: 'IN.ENT.PREVIOUSBSUID',
+        parent_user_id: 'IN.ENT.CURRENTBSUID'
+      )
+      lock_manager = instance_double(Redis::LockManager)
+      allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
+      expect(lock_manager).to receive(:with_lock)
+        .with(format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: inbox.id, sender_id: 'IN.CURRENTBSUID'), 30.seconds)
+        .and_yield
+        .and_return(true)
+
+      described_class.new(inbox: inbox, messages: messages).perform
+    end
+
+    it 'raises for job retry instead of writing without the identifier lock' do
+      create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
+      system.merge!(
+        previous_parent_user_id: 'IN.ENT.PREVIOUSBSUID',
+        parent_user_id: 'IN.ENT.CURRENTBSUID'
+      )
+      lock_manager = instance_double(Redis::LockManager, with_lock: false)
+      allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
+      stub_const("#{described_class}::LOCK_RETRY_INTERVAL", 0)
+
+      expect do
+        described_class.new(inbox: inbox, messages: messages).perform
+      end.to raise_error(MutexApplicationJob::LockAcquisitionError)
+      expect(inbox.contact_inboxes.exists?(source_id: 'IN.CURRENTBSUID')).to be(false)
+    end
+
+    it 'stays idempotent when the same event is delivered twice' do
+      create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
+      service = described_class.new(inbox: inbox, messages: messages)
+      service.perform
+
+      expect { service.perform }.not_to change(ContactInbox, :count)
+    end
+
+    it 'does nothing when neither previous nor current identifiers are known' do
+      expect { described_class.new(inbox: inbox, messages: messages).perform }.not_to change(ContactInbox, :count)
     end
   end
 end

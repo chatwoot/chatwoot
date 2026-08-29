@@ -120,10 +120,6 @@ module Whatsapp::IncomingMessageIdentifierHelper
     )
   end
 
-  def process_user_id_updates
-    Whatsapp::UserIdRotationService.new(inbox: inbox, updates: processed_params[:user_id_update]).perform
-  end
-
   def status_source_ids(status)
     contact_params = @processed_params[:contacts]&.first || {}
 

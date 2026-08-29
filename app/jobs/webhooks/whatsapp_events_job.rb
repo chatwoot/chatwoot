@@ -101,18 +101,8 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   def contact_sender_id(params)
     value = params.dig(:entry, 0, :changes, 0, :value) || params
     return contact_sender_id_from_message_echoes(value[:message_echoes]) if value[:message_echoes].present?
-    return contact_sender_id_from_user_id_update(value[:user_id_update]) if value[:user_id_update].present?
 
     contact_sender_id_from_messages(value[:messages], value[:contacts])
-  end
-
-  # An id rotation races with the first message that arrives under the new identifier,
-  # so it locks on the current values to serialize with it.
-  def contact_sender_id_from_user_id_update(user_id_update)
-    update = user_id_update&.first
-    return if update.blank?
-
-    [update.dig(:parent_user_id, :current), update.dig(:user_id, :current), update[:wa_id]].compact_blank.first
   end
 
   # Echo payloads are outbound messages from the WhatsApp Business app, so `to`
@@ -131,6 +121,7 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   def contact_sender_id_from_messages(messages, contacts)
     message = messages&.first
     return if message.blank?
+    return contact_sender_id_from_system_message(message) if message[:type] == 'system'
 
     contact = contacts&.first || {}
 
@@ -141,6 +132,15 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
       contact[:user_id],
       message[:from]
     ].compact_blank.first
+  end
+
+  # Identity changes arrive on the existing messages subscription as system messages. Lock on
+  # the newly introduced identity so the lifecycle event serializes with the first inbound
+  # message that uses it. The rotation service acquires the remaining current-identifier locks.
+  def contact_sender_id_from_system_message(message)
+    system = message[:system] || {}
+
+    [system[:parent_user_id], system[:user_id], system[:wa_id], message[:from]].compact_blank.first
   end
 
   def channel_is_inactive?(channel)
