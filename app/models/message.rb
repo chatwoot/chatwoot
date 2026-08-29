@@ -192,10 +192,15 @@ class Message < ApplicationRecord
       message_type: message_type,
       private: private,
       sender: sender.try(:webhook_data),
-      source_id: source_id
+      source_id: source_id,
+      whatsapp_identity: whatsapp_identity
     }
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     data
+  end
+
+  def whatsapp_identity
+    Whatsapp::IdentityPresenter.new(conversation.contact_inbox).identity
   end
 
   # Method to get content with survey URL for outgoing channel delivery

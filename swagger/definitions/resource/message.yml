@@ -41,6 +41,8 @@ properties:
       - string
       - 'null'
     description: The source ID of the message
+  whatsapp_identity:
+    $ref: '#/components/schemas/whatsapp_identity'
   content_type:
     type:
       - string

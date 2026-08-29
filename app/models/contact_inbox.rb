@@ -41,7 +41,7 @@ class ContactInbox < ApplicationRecord
   }
 
   def webhook_data
-    {
+    data = {
       id: id,
       contact: contact.try(:webhook_data),
       inbox: inbox.webhook_data,
@@ -49,6 +49,9 @@ class ContactInbox < ApplicationRecord
       current_conversation: current_conversation.try(:webhook_data),
       source_id: source_id
     }
+    whatsapp_identity = Whatsapp::IdentityPresenter.new(self).identity
+    data[:whatsapp_identity] = whatsapp_identity if whatsapp_identity.present?
+    data
   end
 
   def current_conversation

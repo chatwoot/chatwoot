@@ -34,6 +34,13 @@ properties:
   inbox_id:
     type: number
     description: ID of the inbox
+  whatsapp_identity:
+    $ref: '#/components/schemas/whatsapp_identity'
+  whatsapp_username:
+    type:
+      - string
+      - 'null'
+    description: The latest WhatsApp username reported for the contact.
   labels:
     type: array
     items:
@@ -99,4 +106,3 @@ properties:
     items:
       type: object
       description: SLA event objects
-

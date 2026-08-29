@@ -27,6 +27,12 @@ json.meta do
 end
 
 json.id conversation.display_id
+whatsapp_identity_presenter = Whatsapp::IdentityPresenter.new(conversation.contact_inbox)
+whatsapp_identity = whatsapp_identity_presenter.identity
+if whatsapp_identity.present?
+  json.whatsapp_identity whatsapp_identity
+  json.whatsapp_username whatsapp_identity_presenter.username
+end
 # The dashboard seeds the message thread from this array and then paginates BACKWARD
 # by id (before: messages[0].id). Keep the seed as the chronologically latest message,
 # but add an id tiebreaker: without it, same-second siblings (e.g. the input_csat survey

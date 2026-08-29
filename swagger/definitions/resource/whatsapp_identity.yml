@@ -1,0 +1,21 @@
+type: object
+required:
+  - type
+  - value
+  - provider
+  - inbox_id
+properties:
+  type:
+    type: string
+    enum: [phone_number, bsuid, parent_bsuid]
+    description: The explicit WhatsApp identifier type.
+  value:
+    type: string
+    description: The provider-shaped destination value. Twilio values retain the `whatsapp:` prefix.
+  provider:
+    type: string
+    enum: [whatsapp_cloud, twilio]
+    description: The provider that owns and validates this identifier.
+  inbox_id:
+    type: integer
+    description: The Chatwoot inbox that scopes this identifier.

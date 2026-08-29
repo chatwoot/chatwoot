@@ -23,9 +23,16 @@ class Conversations::EventDataPresenter < SimpleDelegator
 
   # Like #push_data but with message text normalized for external integrations (webhooks).
   def webhook_data
-    push_data.merge(
+    data = push_data.merge(
       account: account.webhook_data,
       messages: webhook_push_messages
+    )
+    identity_presenter = Whatsapp::IdentityPresenter.new(contact_inbox)
+    return data if identity_presenter.identity.blank?
+
+    data.merge(
+      whatsapp_identity: identity_presenter.identity,
+      whatsapp_username: identity_presenter.username
     )
   end
 

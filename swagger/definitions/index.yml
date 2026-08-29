@@ -54,6 +54,8 @@ agent_bot:
   $ref: ./resource/agent_bot.yml
 contact_inboxes:
   $ref: ./resource/contact_inboxes.yml
+whatsapp_identity:
+  $ref: ./resource/whatsapp_identity.yml
 contactable_inboxes:
   $ref: ./resource/contactable_inboxes.yml
 custom_filter:

@@ -2,6 +2,8 @@ type: object
 properties:
   source_id:
     type: string
-    description: Contact Inbox Source Id
+    description: Contact Inbox Source Id. This field remains unchanged for backward compatibility.
+  whatsapp_identity:
+    $ref: '#/components/schemas/whatsapp_identity'
   inbox:
     $ref: '#/components/schemas/inbox_contact'
