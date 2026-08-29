@@ -7,8 +7,13 @@ RSpec.describe Conversation, type: :model do
     let(:assistant) { create(:captain_assistant, account: account) }
     let(:us_contact) { create(:contact, account: account, additional_attributes: { 'country_code' => 'US' }) }
     let(:ca_contact) { create(:contact, account: account, additional_attributes: { 'country_code' => 'CA' }) }
+    let(:assignment_enabled) { true }
 
     before do
+      allow(GlobalConfigService).to receive(:load).and_call_original
+      allow(GlobalConfigService).to receive(:load)
+        .with('ENABLE_CAPTAIN_CONVERSATION_ASSIGNMENT', false)
+        .and_return(assignment_enabled)
       create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
       assistant.update!(config: assistant.config.merge('audience' => {
                                                          'attribute_key' => 'country_code', 'filter_operator' => 'equal_to', 'values' => ['US']
@@ -20,6 +25,17 @@ RSpec.describe Conversation, type: :model do
 
       expect(conversation.status).to eq('pending')
       expect(conversation.ai_assignee).to eq(assistant)
+    end
+
+    context 'when Captain conversation assignment is disabled' do
+      let(:assignment_enabled) { false }
+
+      it 'does not write Captain ownership' do
+        conversation = create(:conversation, account: account, inbox: inbox, contact: us_contact)
+
+        expect(conversation.status).to eq('pending')
+        expect(conversation.ai_assignee).to be_nil
+      end
     end
 
     it 'routes an out-of-audience contact conversation to open' do
