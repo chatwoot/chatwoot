@@ -18,7 +18,6 @@ class Voice::ReconcileSuppressedTerminationJob < ApplicationJob
 
       Voice::CallTerminationGuard.clear_stale!(call)
       pending = Voice::CallTerminationGuard.pending_join(call)
-      Voice::CallTerminationGuard.clear_pending_join!(call) if pending.present?
     end
     return if pending.blank?
 
@@ -26,7 +25,12 @@ class Voice::ReconcileSuppressedTerminationJob < ApplicationJob
       call: call,
       event: 'join',
       participant_label: pending['participant_label'],
-      participant_call_sid: pending['participant_call_sid']
+      participant_call_sid: pending['participant_call_sid'],
+      participant_timestamp: pending['timestamp']
     ).process
+
+    call.with_lock do
+      Voice::CallTerminationGuard.clear_pending_join_if_matches!(call, pending)
+    end
   end
 end
