@@ -154,9 +154,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     allow(Voice::CallStatus::Manager).to receive(:new).and_wrap_original do |original, *args, **kwargs|
       manager = original.call(*args, **kwargs)
       allow(manager).to receive(:process_status_update).and_wrap_original do |method, status, **status_kwargs|
-        if status == 'rejected' && status_kwargs[:allow_during_termination]
-          raise StandardError, 'local finalization failed'
-        end
+        raise StandardError, 'local finalization failed' if status == 'rejected' && status_kwargs[:allow_during_termination]
 
         method.call(status, **status_kwargs)
       end
