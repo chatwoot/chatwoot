@@ -76,6 +76,9 @@ class Voice::CallTerminationGuard
     end
 
     def persist_pending_join!(call, participant_label:, participant_call_sid:, timestamp:)
+      existing = pending_join(call)
+      return false if earlier_or_same_join?(existing, timestamp)
+
       call.update!(
         meta: call.meta.merge(
           PENDING_JOIN_KEY => {
@@ -151,6 +154,14 @@ class Voice::CallTerminationGuard
 
     def terminal_status?(status)
       status.present? && Call::TERMINAL_STATUSES.include?(status)
+    end
+
+    def earlier_or_same_join?(existing, timestamp)
+      return false if existing.blank?
+
+      existing_timestamp = existing['timestamp'].to_i
+      new_timestamp = timestamp.to_i
+      existing_timestamp.positive? && (new_timestamp.zero? || existing_timestamp <= new_timestamp)
     end
 
     def cleared_ownership_meta(call)
