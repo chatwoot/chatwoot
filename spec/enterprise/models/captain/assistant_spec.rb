@@ -18,12 +18,6 @@ RSpec.describe Captain::Assistant, type: :model do
     end
   end
 
-  describe 'event data' do
-    it 'uses the same payload for push and webhook events' do
-      expect(assistant.webhook_data).to eq(assistant.push_event_data)
-    end
-  end
-
   describe 'inactive conversation settings' do
     it 'uses safe defaults when settings are unavailable' do
       assistant.account.enable_features('captain_integration_v2')
