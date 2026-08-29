@@ -56,6 +56,7 @@ class Voice::CallStatus::Manager
   private
 
   def process_locked_status_update(status, duration, timestamp, allow_during_termination)
+    return [true, false] if republish_pending_status?(status)
     return [false, false] if call.status == status
     return [false, false] if Call::TERMINAL_STATUSES.include?(call.status)
     return [false, false] if regressive_status?(status)
@@ -63,6 +64,11 @@ class Voice::CallStatus::Manager
 
     apply_call_updates!(status, duration: duration, timestamp: timestamp)
     [true, false]
+  end
+
+  def republish_pending_status?(status)
+    pending = Voice::CallTerminationGuard.pending_status(call)
+    pending.present? && pending['status'] == status && !Voice::CallTerminationGuard.active?(call)
   end
 
   def regressive_status?(status)
