@@ -9,7 +9,7 @@ class Telegram::IncomingMessageService
   def perform
     # chatwoot doesn't support group conversations at the moment
     transform_business_message!
-    acknowledge_callback_query!
+    Telegram::CallbackQueryService.new(inbox: inbox, params: params).perform
     return unless private_message?
 
     set_contact
@@ -223,33 +223,5 @@ class Telegram::IncomingMessageService
 
   def transform_business_message!
     params[:message] = params[:business_message] if params[:business_message] && !params[:message]
-  end
-
-  def acknowledge_callback_query!
-    callback_query_id = params.dig(:callback_query, :id)
-    return if callback_query_id.blank?
-
-    response = HTTParty.post("#{inbox.channel.telegram_api_url}/answerCallbackQuery",
-                             body: { callback_query_id: callback_query_id }, timeout: 3)
-    return if callback_query_acknowledged?(response)
-
-    Rails.logger.warn(
-      "Telegram callback ack failed " \
-      "inbox_id=#{inbox.id} callback_query_id=#{callback_query_id} " \
-      "status=#{response&.code} body=#{response&.body}"
-    )
-  rescue StandardError => e
-    Rails.logger.warn(
-      "Telegram callback ack error " \
-      "inbox_id=#{inbox&.id} callback_query_id=#{callback_query_id} " \
-      "#{e.class}: #{e.message}"
-    )
-  end
-
-  def callback_query_acknowledged?(response)
-    return false unless response&.success?
-
-    parsed_response = response.parsed_response
-    !parsed_response.is_a?(Hash) || parsed_response['ok'] != false
   end
 end
