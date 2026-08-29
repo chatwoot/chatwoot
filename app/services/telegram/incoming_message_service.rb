@@ -172,7 +172,7 @@ class Telegram::IncomingMessageService
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: :location,
-      fallback_title: params.dig(:message, :venue, :title).to_s,
+      fallback_title: location_fallback_title,
       coordinates_lat: location['latitude'],
       coordinates_long: location['longitude']
     )
@@ -194,6 +194,16 @@ class Telegram::IncomingMessageService
 
   def file
     @file ||= visual_media_params || params[:message][:voice].presence || params[:message][:audio].presence || params[:message][:document].presence
+  end
+
+  def location_fallback_title
+    return '' if venue.blank?
+
+    venue[:title] || ''
+  end
+
+  def venue
+    @venue ||= params.dig(:message, :venue).presence
   end
 
   def location
@@ -219,9 +229,27 @@ class Telegram::IncomingMessageService
     callback_query_id = params.dig(:callback_query, :id)
     return if callback_query_id.blank?
 
-    HTTParty.post("#{inbox.channel.telegram_api_url}/answerCallbackQuery",
-                  body: { callback_query_id: callback_query_id }, timeout: 3)
-  rescue StandardError
-    nil
+    response = HTTParty.post("#{inbox.channel.telegram_api_url}/answerCallbackQuery",
+                             body: { callback_query_id: callback_query_id }, timeout: 3)
+    return if callback_query_acknowledged?(response)
+
+    Rails.logger.warn(
+      "Telegram callback ack failed " \
+      "inbox_id=#{inbox.id} callback_query_id=#{callback_query_id} " \
+      "status=#{response&.code} body=#{response&.body}"
+    )
+  rescue StandardError => e
+    Rails.logger.warn(
+      "Telegram callback ack error " \
+      "inbox_id=#{inbox&.id} callback_query_id=#{callback_query_id} " \
+      "#{e.class}: #{e.message}"
+    )
+  end
+
+  def callback_query_acknowledged?(response)
+    return false unless response&.success?
+
+    parsed_response = response.parsed_response
+    !parsed_response.is_a?(Hash) || parsed_response['ok'] != false
   end
 end

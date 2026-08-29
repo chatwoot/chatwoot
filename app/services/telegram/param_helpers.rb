@@ -1,7 +1,7 @@
 module Telegram::ParamHelpers
   # ensures that message is from a private chat and not a group chat
   def private_message?
-    return true if callback_query_params?
+    return params.dig(:callback_query, :message, :chat, :type) == 'private' if callback_query_params?
 
     params.dig(:message, :chat, :type) == 'private'
   end
