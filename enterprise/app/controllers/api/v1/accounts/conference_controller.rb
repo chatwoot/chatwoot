@@ -153,7 +153,8 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
       call: call,
       event: 'join',
       participant_label: pending['participant_label'],
-      participant_call_sid: pending['participant_call_sid']
+      participant_call_sid: pending['participant_call_sid'],
+      participant_timestamp: pending['timestamp']
     ).process
   end
 
