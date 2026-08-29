@@ -24,6 +24,20 @@ RSpec.describe Voice::Conference::Manager do
     expect(call.started_at).to be_present
   end
 
+  it 'uses the original participant timestamp when replaying a deferred join' do
+    join_timestamp = 1_800_000_000
+
+    described_class.new(
+      call: call,
+      event: 'join',
+      participant_label: "agent-#{agent.id}-account-#{account.id}",
+      participant_call_sid: 'CA_AGENT_REPLAY',
+      participant_timestamp: join_timestamp
+    ).process
+
+    expect(call.reload.started_at).to eq(Time.zone.at(join_timestamp))
+  end
+
   it 'defers a late agent join while agent teardown is pending' do
     call.update!(meta: call.meta.merge('agent_termination_token' => 'termination-1'))
     allow(call).to receive(:broadcast_voice_call_event)
@@ -41,10 +55,11 @@ RSpec.describe Voice::Conference::Manager do
     expect(call.status).to eq('ringing')
     expect(call.accepted_by_agent_id).to be_nil
     expect(call.accepted_broadcast_at).to be_nil
-    expect(call.meta['agent_termination_pending_join']).to eq(
+    expect(call.meta['agent_termination_pending_join']).to include(
       'participant_label' => "agent-#{agent.id}-account-#{account.id}",
       'participant_call_sid' => 'CA_AGENT_1',
-      'termination_token' => 'termination-1'
+      'termination_token' => 'termination-1',
+      'timestamp' => be_present
     )
     expect(call).not_to have_received(:broadcast_voice_call_event)
   end
