@@ -1,4 +1,8 @@
 module Whatsapp::IncomingMessageIdentifierHelper
+  def process_identity_change_messages
+    Whatsapp::UserIdRotationService.new(inbox: inbox, messages: messages_data).perform
+  end
+
   def set_contact_from_echo
     message = messages_data.first
     source_ids = outgoing_message_source_ids(message)

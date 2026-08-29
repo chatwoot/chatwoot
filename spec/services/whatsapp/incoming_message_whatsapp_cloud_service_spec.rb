@@ -742,6 +742,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
     end
 
     context 'when an identity-change system message is received' do
+      let(:contact) { create(:contact, account: whatsapp_channel.inbox.account) }
       let(:system) do
         {
           type: 'user_changed_user_id',
@@ -780,7 +781,6 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
 
       it 'records current regular and parent identifiers as aliases of the previous contact' do
-        contact = create(:contact, account: whatsapp_channel.inbox.account)
         create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
         create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.ENT.PREVIOUSBSUID')
         system.merge!(
@@ -796,7 +796,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
 
       it 'leaves existing conversations on the contact inbox that opened them' do
-        previous = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
+        previous = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
         conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: previous,
                                              contact: previous.contact, account: whatsapp_channel.inbox.account)
 
@@ -806,15 +806,15 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
 
       it 'does not create a visible message or conversation for the system event' do
-        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
 
         expect { rotate }.to change(ContactInbox, :count).by(1)
-          .and not_change(Message, :count)
-          .and not_change(Conversation, :count)
+        expect(whatsapp_channel.inbox.messages).to be_empty
+        expect(whatsapp_channel.inbox.conversations).to be_empty
       end
 
       it 'updates the contact phone and records the phone alias for a number change' do
-        previous = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
+        previous = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
         previous.contact.update!(phone_number: '+16505550001')
         system.merge!(type: 'user_changed_number', wa_id: '16505550002')
 
@@ -825,8 +825,9 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
 
       it 'keeps conflicting aliases on separate contacts' do
-        previous = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
-        current = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.CURRENTBSUID')
+        previous = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+        current = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: create(:contact, account: whatsapp_channel.inbox.account),
+                                         source_id: 'IN.CURRENTBSUID')
 
         rotate
 
@@ -834,7 +835,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
 
       it 'is idempotent when the same system event is delivered again' do
-        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
         rotate
 
         expect { rotate }.not_to change(ContactInbox, :count)

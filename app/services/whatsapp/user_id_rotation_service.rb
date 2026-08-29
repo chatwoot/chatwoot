@@ -89,17 +89,13 @@ class Whatsapp::UserIdRotationService
 
   def record_phone_identity(contact, phone_source_id)
     phone_number = "+#{phone_source_id}"
-    conflicting_contact = contact.account.contacts.where(phone_number: phone_number).where.not(id: contact.id).first
+    conflicting_contact = conflicting_phone_contact(contact, phone_number)
     if conflicting_contact.present?
-      clear_stale_phone_number(contact)
-      Rails.logger.warn(
-        "[WHATSAPP] identity rotation: #{phone_number} already belongs to contact #{conflicting_contact.id} " \
-        "in account #{contact.account_id}; cleared the previous phone from contact #{contact.id}"
-      )
+      handle_phone_contact_collision(contact, conflicting_contact, phone_number)
       return
     end
 
-    conflicting_contact_inbox = inbox.contact_inboxes.where(source_id: phone_source_id).where.not(contact_id: contact.id).first
+    conflicting_contact_inbox = conflicting_phone_alias(contact, phone_source_id)
     if conflicting_contact_inbox.present?
       clear_stale_phone_number(contact)
       log_alias_collision(conflicting_contact_inbox, contact, phone_source_id)
@@ -110,6 +106,22 @@ class Whatsapp::UserIdRotationService
     return if contact.phone_number == phone_number
 
     contact.update!(phone_number: phone_number)
+  end
+
+  def conflicting_phone_contact(contact, phone_number)
+    contact.account.contacts.where(phone_number: phone_number).where.not(id: contact.id).first
+  end
+
+  def conflicting_phone_alias(contact, phone_source_id)
+    inbox.contact_inboxes.where(source_id: phone_source_id).where.not(contact_id: contact.id).first
+  end
+
+  def handle_phone_contact_collision(contact, conflicting_contact, phone_number)
+    clear_stale_phone_number(contact)
+    Rails.logger.warn(
+      "[WHATSAPP] identity rotation: #{phone_number} already belongs to contact #{conflicting_contact.id} " \
+      "in account #{contact.account_id}; cleared the previous phone from contact #{contact.id}"
+    )
   end
 
   def clear_stale_phone_number(contact)
@@ -126,12 +138,12 @@ class Whatsapp::UserIdRotationService
   # The job already holds the preferred current identifier. Keep every other current identifier
   # locked together while resolving and writing aliases so a concurrent inbound webhook cannot
   # create a second contact halfway through the rotation.
-  def with_rotation_locks(source_ids, &block)
+  def with_rotation_locks(source_ids, &)
     unlocked_source_ids = source_ids.reject { |source_id| source_id == job_locked_source_id }.sort
-    acquire_locks(unlocked_source_ids, &block)
+    acquire_locks(unlocked_source_ids, &)
   end
 
-  def acquire_locks(source_ids, &block)
+  def acquire_locks(source_ids, &)
     return yield if source_ids.empty?
 
     source_id = source_ids.first
@@ -139,7 +151,7 @@ class Whatsapp::UserIdRotationService
     lock_manager = Redis::LockManager.new
 
     LOCK_ATTEMPTS.times do
-      acquired = lock_manager.with_lock(key, LOCK_TTL) { acquire_locks(source_ids.drop(1), &block) }
+      acquired = lock_manager.with_lock(key, LOCK_TTL) { acquire_locks(source_ids.drop(1), &) }
       return if acquired
 
       sleep(LOCK_RETRY_INTERVAL)

@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Whatsapp::UserIdRotationService do
   let!(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
   let!(:inbox) { channel.inbox }
+  let(:contact) { create(:contact, account: inbox.account) }
   let(:system) do
     {
       type: 'user_changed_user_id',
@@ -14,7 +15,6 @@ describe Whatsapp::UserIdRotationService do
 
   describe '#perform' do
     it 'records the current regular and parent identifiers on the contact owning the previous identifiers' do
-      contact = create(:contact, account: inbox.account)
       create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
       create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.ENT.PREVIOUSBSUID')
       system.merge!(
@@ -28,7 +28,7 @@ describe Whatsapp::UserIdRotationService do
     end
 
     it 'falls back to a current identifier when the lifecycle event follows the first message' do
-      current = create(:contact_inbox, inbox: inbox, source_id: 'IN.CURRENTBSUID')
+      current = create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.CURRENTBSUID')
 
       described_class.new(inbox: inbox, messages: messages).perform
 
@@ -36,7 +36,7 @@ describe Whatsapp::UserIdRotationService do
     end
 
     it 'updates the phone and stores its alias for user_changed_number' do
-      previous = create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
+      previous = create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
       previous.contact.update!(phone_number: '+16505550001')
       system.merge!(type: 'user_changed_number', wa_id: '16505550002')
 
@@ -47,7 +47,7 @@ describe Whatsapp::UserIdRotationService do
     end
 
     it 'clears the stale phone and does not merge when the new phone belongs to another contact' do
-      previous = create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
+      previous = create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
       previous.contact.update!(phone_number: '+16505550001')
       conflicting_contact = create(:contact, account: inbox.account, phone_number: '+16505550002')
       system.merge!(type: 'user_changed_number', wa_id: '16505550002')
@@ -62,9 +62,9 @@ describe Whatsapp::UserIdRotationService do
     end
 
     it 'does not claim a new phone alias that belongs to another contact' do
-      previous = create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
+      previous = create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
       previous.contact.update!(phone_number: '+16505550001')
-      conflicting_alias = create(:contact_inbox, inbox: inbox, source_id: '16505550002')
+      conflicting_alias = create(:contact_inbox, inbox: inbox, contact: create(:contact, account: inbox.account), source_id: '16505550002')
       system.merge!(type: 'user_changed_number', wa_id: '16505550002')
 
       expect(Rails.logger).to receive(:warn).with(/16505550002 already belongs to contact #{conflicting_alias.contact_id}/)
@@ -76,8 +76,8 @@ describe Whatsapp::UserIdRotationService do
     end
 
     it 'leaves conflicting aliases on separate contacts and reports the collision' do
-      previous = create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
-      current = create(:contact_inbox, inbox: inbox, source_id: 'IN.CURRENTBSUID')
+      previous = create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+      current = create(:contact_inbox, inbox: inbox, contact: create(:contact, account: inbox.account), source_id: 'IN.CURRENTBSUID')
 
       expect(Rails.logger).to receive(:warn).with(/IN.CURRENTBSUID already belongs to contact #{current.contact_id}/)
 
@@ -87,14 +87,13 @@ describe Whatsapp::UserIdRotationService do
     end
 
     it 'does not parse unsupported system messages' do
-      create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
+      create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
       system[:type] = 'some_other_system_event'
 
       expect { described_class.new(inbox: inbox, messages: messages).perform }.not_to change(ContactInbox, :count)
     end
 
     it 'acquires locks for current identifiers not already locked by the job' do
-      contact = create(:contact, account: inbox.account)
       create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
       create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.ENT.PREVIOUSBSUID')
       system.merge!(
@@ -112,7 +111,7 @@ describe Whatsapp::UserIdRotationService do
     end
 
     it 'raises for job retry instead of writing without the identifier lock' do
-      create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
+      create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
       system.merge!(
         previous_parent_user_id: 'IN.ENT.PREVIOUSBSUID',
         parent_user_id: 'IN.ENT.CURRENTBSUID'
@@ -128,7 +127,7 @@ describe Whatsapp::UserIdRotationService do
     end
 
     it 'stays idempotent when the same event is delivered twice' do
-      create(:contact_inbox, inbox: inbox, source_id: 'IN.PREVIOUSBSUID')
+      create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
       service = described_class.new(inbox: inbox, messages: messages)
       service.perform
 
