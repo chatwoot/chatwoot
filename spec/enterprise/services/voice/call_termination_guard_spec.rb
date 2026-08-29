@@ -48,6 +48,27 @@ RSpec.describe Voice::CallTerminationGuard do
     )
   end
 
+  it 'preserves the earliest deferred agent join' do
+    call.update!(meta: described_class.claim_meta(call, token: 'owner-token'))
+    described_class.persist_pending_join!(
+      call,
+      participant_label: 'agent-1-account-1',
+      participant_call_sid: 'CA_FIRST',
+      timestamp: 100
+    )
+    described_class.persist_pending_join!(
+      call,
+      participant_label: 'agent-1-account-1',
+      participant_call_sid: 'CA_LATER',
+      timestamp: 120
+    )
+
+    expect(call.reload.meta['agent_termination_pending_join']).to include(
+      'participant_call_sid' => 'CA_FIRST',
+      'timestamp' => 100
+    )
+  end
+
   it 'clears a replayed pending status only when the captured entry still matches' do
     call.update!(meta: described_class.claim_meta(call, token: 'owner-one'))
     described_class.persist_pending_status!(call, status: 'in_progress', duration: nil, timestamp: 100)
