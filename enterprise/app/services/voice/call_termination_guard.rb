@@ -5,6 +5,10 @@ class Voice::CallTerminationGuard
   PENDING_STATUS_KEY = 'agent_termination_pending_status'.freeze
   PENDING_JOIN_KEY = 'agent_termination_pending_join'.freeze
   PENDING_OWNER_TOKEN_KEY = 'termination_token'.freeze
+  STATUS_ORDER = {
+    'ringing' => 0,
+    'in_progress' => 1
+  }.freeze
   STALE_AFTER = 2.minutes
 
   class << self
@@ -43,7 +47,7 @@ class Voice::CallTerminationGuard
 
     def persist_pending_status!(call, status:, duration:, timestamp:)
       existing_status = pending_status(call)&.dig('status')
-      return false if terminal_status?(existing_status) && !terminal_status?(status)
+      return false if preserve_existing_status?(existing_status, status)
 
       call.update!(
         meta: call.meta.merge(
@@ -154,6 +158,16 @@ class Voice::CallTerminationGuard
 
     def terminal_status?(status)
       status.present? && Call::TERMINAL_STATUSES.include?(status)
+    end
+
+    def preserve_existing_status?(existing_status, new_status)
+      return false if existing_status.blank?
+      return true if terminal_status?(existing_status) && !terminal_status?(new_status)
+      return false if terminal_status?(new_status)
+
+      existing_order = STATUS_ORDER[existing_status]
+      new_order = STATUS_ORDER[new_status]
+      existing_order && new_order && existing_order >= new_order
     end
 
     def earlier_or_same_join?(existing, timestamp)
