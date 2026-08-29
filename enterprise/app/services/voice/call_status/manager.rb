@@ -4,19 +4,8 @@ class Voice::CallStatus::Manager
   def process_status_update(status, duration: nil, timestamp: nil, allow_during_termination: false)
     return unless Call::STATUSES.include?(status)
 
-    applied = false
-    deferred = false
-    call.with_lock do
-      next if call.status == status
-      next if Call::TERMINAL_STATUSES.include?(call.status)
-
-      if defer_status_update?(status, duration, timestamp, allow_during_termination)
-        deferred = true
-        next
-      end
-
-      apply_call_updates!(status, duration: duration, timestamp: timestamp)
-      applied = true
+    applied, deferred = call.with_lock do
+      process_locked_status_update(status, duration, timestamp, allow_during_termination)
     end
 
     schedule_reconciliation if deferred
@@ -55,6 +44,15 @@ class Voice::CallStatus::Manager
   end
 
   private
+
+  def process_locked_status_update(status, duration, timestamp, allow_during_termination)
+    return [false, false] if call.status == status
+    return [false, false] if Call::TERMINAL_STATUSES.include?(call.status)
+    return [false, true] if defer_status_update?(status, duration, timestamp, allow_during_termination)
+
+    apply_call_updates!(status, duration: duration, timestamp: timestamp)
+    [true, false]
+  end
 
   def defer_status_update?(status, duration, timestamp, allow_during_termination)
     return false unless termination_blocks?(allow_during_termination)
