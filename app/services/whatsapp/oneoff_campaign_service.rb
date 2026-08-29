@@ -25,7 +25,9 @@ class Whatsapp::OneoffCampaignService
   end
 
   def validate_provider!
-    raise 'WhatsApp Cloud provider required' if channel.provider != 'whatsapp_cloud'
+    return if whatsapp_cloud_channel? || twilio_whatsapp_channel?
+
+    raise 'WhatsApp Cloud provider required'
   end
 
   def validate_feature_flag!
@@ -47,8 +49,9 @@ class Whatsapp::OneoffCampaignService
   def process_contact(contact)
     Rails.logger.info "Processing contact: #{contact.name} (#{contact.phone_number})"
 
-    if contact.phone_number.blank?
-      Rails.logger.info "Skipping contact #{contact.name} - no phone number"
+    recipient, recipient_error = campaign_destination(contact)
+    if recipient.blank?
+      Rails.logger.warn "Skipping campaign recipient contact_id=#{contact.id}: #{recipient_error}"
       return
     end
 
@@ -60,7 +63,7 @@ class Whatsapp::OneoffCampaignService
     processed_template_params = process_liquid_template_params(contact)
     return if processed_template_params.nil?
 
-    send_whatsapp_template_message(to: contact.phone_number, template_params: processed_template_params)
+    send_whatsapp_template_message(to: recipient, template_params: processed_template_params)
   end
 
   def process_audience(audience_labels)
@@ -87,6 +90,17 @@ class Whatsapp::OneoffCampaignService
   def send_whatsapp_template_message(to:, template_params:)
     return if authentication_template_blocked?(to, template_params)
 
+    submit_template(to, template_params)
+  rescue StandardError => e
+    Rails.logger.error "Failed to send WhatsApp template message to #{to}: #{e.message}"
+    Rails.logger.error "Backtrace: #{e.backtrace.first(5).join('\n')}"
+    # continue processing remaining contacts
+    nil
+  end
+
+  def submit_template(to, template_params)
+    return submit_twilio_template(to, template_params) if twilio_whatsapp_channel?
+
     processor = Whatsapp::TemplateProcessorService.new(
       channel: channel,
       template_params: template_params
@@ -94,7 +108,7 @@ class Whatsapp::OneoffCampaignService
 
     name, namespace, lang_code, processed_parameters = processor.call
 
-    return if name.blank?
+    raise 'Template name could not be resolved' if name.blank?
 
     channel.send_template(to, {
                             name: name,
@@ -102,12 +116,17 @@ class Whatsapp::OneoffCampaignService
                             lang_code: lang_code,
                             parameters: processed_parameters
                           }, nil)
+  end
 
-  rescue StandardError => e
-    Rails.logger.error "Failed to send WhatsApp template message to #{to}: #{e.message}"
-    Rails.logger.error "Backtrace: #{e.backtrace.first(5).join('\n')}"
-    # continue processing remaining contacts
-    nil
+  def submit_twilio_template(to, template_params)
+    content_sid, content_variables = Twilio::TemplateProcessorService.new(channel: channel, template_params: template_params).call
+    raise 'Template could not be resolved' if content_sid.blank?
+
+    send_params = { to: to, content_sid: content_sid }.merge(channel.send(:send_message_from))
+    send_params[:content_variables] = content_variables.to_json if content_variables.present?
+    send_params[:status_callback] = channel.send(:twilio_delivery_status_index_url)
+
+    channel.client.messages.create(**send_params)&.sid
   end
 
   def authentication_template_blocked?(recipient, params)
@@ -116,6 +135,36 @@ class Whatsapp::OneoffCampaignService
 
     Rails.logger.warn "Skipping BSUID campaign recipient: #{error}"
     true
+  end
+
+  def campaign_destination(contact)
+    return [phone_recipient(contact.phone_number), nil] if contact.phone_number.present?
+
+    bsuid_recipients = bsuid_recipients_for(contact)
+    return [bsuid_recipients.first, nil] if bsuid_recipients.one?
+    return [nil, 'Phone number and BSUID are missing'] if bsuid_recipients.empty?
+
+    [nil, 'Multiple WhatsApp identities found; refusing to choose a destination']
+  end
+
+  def bsuid_recipients_for(contact)
+    contact.contact_inboxes.where(inbox_id: inbox.id).pluck(:source_id).select do |source_id|
+      source_id.to_s.delete_prefix('whatsapp:').match?(RegexHelper::WHATSAPP_BSUID_REGEX)
+    end.uniq
+  end
+
+  def phone_recipient(phone_number)
+    return phone_number unless twilio_whatsapp_channel?
+
+    "whatsapp:#{phone_number.to_s.delete_prefix('whatsapp:')}"
+  end
+
+  def whatsapp_cloud_channel?
+    channel.is_a?(Channel::Whatsapp) && channel.provider == 'whatsapp_cloud'
+  end
+
+  def twilio_whatsapp_channel?
+    channel.is_a?(Channel::TwilioSms) && channel.whatsapp?
   end
 end
 

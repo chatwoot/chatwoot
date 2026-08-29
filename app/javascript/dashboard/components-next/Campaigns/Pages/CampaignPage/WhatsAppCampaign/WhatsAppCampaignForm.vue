@@ -4,12 +4,15 @@ import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
+import { applyTwilioMediaFilename } from '@chatwoot/utils';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
 import WhatsAppTemplateParser from 'dashboard/components-next/whatsapp/WhatsAppTemplateParser.vue';
+import ContentTemplateParser from 'dashboard/components-next/content-templates/ContentTemplateParser.vue';
 
 const emit = defineEmits(['submit', 'cancel']);
 
@@ -68,17 +71,26 @@ const inboxOptions = computed(() =>
   mapToOptions(formState.inboxes.value, 'id', 'name')
 );
 
+const selectedInbox = computed(() =>
+  formState.inboxes.value.find(inbox => inbox.id === Number(state.inboxId))
+);
+
+const isTwilioWhatsApp = computed(
+  () => selectedInbox.value?.channel_type === INBOX_TYPES.TWILIO
+);
+
 const templateOptions = computed(() => {
   if (!state.inboxId) return [];
   const templates = formState.getFilteredWhatsAppTemplates.value(state.inboxId);
   return templates.map(template => {
+    const name = template.name || template.friendly_name;
     // Create a more user-friendly label from template name
-    const friendlyName = template.name
+    const friendlyName = name
       .replace(/_/g, ' ')
       .replace(/\b\w/g, l => l.toUpperCase());
 
     return {
-      value: template.id,
+      value: template.id || template.content_sid,
       label: `${friendlyName} (${template.language || 'en'})`,
       template: template,
     };
@@ -130,14 +142,22 @@ const prepareCampaignDetails = () => {
   // Extract template content - this should be the template message body
   const templateContent = parserData?.renderedTemplate || '';
 
-  // Prepare template_params object with the same structure as used in contacts
-  const templateParams = {
-    name: currentTemplate?.name || '',
-    namespace: currentTemplate?.namespace || '',
-    category: currentTemplate?.category || 'UTILITY',
-    language: currentTemplate?.language || 'en_US',
-    processed_params: parserData?.processedParams || {},
-  };
+  const templateParams = isTwilioWhatsApp.value
+    ? {
+        name: currentTemplate?.friendly_name || '',
+        language: currentTemplate?.language || 'en',
+        processed_params: applyTwilioMediaFilename(
+          currentTemplate,
+          parserData?.processedParams || {}
+        ),
+      }
+    : {
+        name: currentTemplate?.name || '',
+        namespace: currentTemplate?.namespace || '',
+        category: currentTemplate?.category || 'UTILITY',
+        language: currentTemplate?.language || 'en_US',
+        processed_params: parserData?.processedParams || {},
+      };
 
   return {
     title: state.title,
@@ -214,8 +234,13 @@ watch(
     </div>
 
     <!-- Template Parser -->
+    <ContentTemplateParser
+      v-if="selectedTemplate && isTwilioWhatsApp"
+      ref="templateParserRef"
+      :template="selectedTemplate"
+    />
     <WhatsAppTemplateParser
-      v-if="selectedTemplate"
+      v-else-if="selectedTemplate"
       ref="templateParserRef"
       :template="selectedTemplate"
     />

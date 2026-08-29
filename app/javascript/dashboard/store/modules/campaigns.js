@@ -38,11 +38,23 @@ export const getters = {
     },
   getSMSCampaigns: (_state, _getters) => {
     const smsChannelTypes = [INBOX_TYPES.SMS, INBOX_TYPES.TWILIO];
-    return _getters.getCampaigns(CAMPAIGN_TYPES.ONE_OFF, smsChannelTypes);
+    return _getters
+      .getCampaigns(CAMPAIGN_TYPES.ONE_OFF, smsChannelTypes)
+      .filter(
+        campaign =>
+          campaign.inbox.channel_type !== INBOX_TYPES.TWILIO ||
+          campaign.inbox.medium !== 'whatsapp'
+      );
   },
   getWhatsAppCampaigns: (_state, _getters) => {
-    const whatsappChannelTypes = [INBOX_TYPES.WHATSAPP];
-    return _getters.getCampaigns(CAMPAIGN_TYPES.ONE_OFF, whatsappChannelTypes);
+    const whatsappChannelTypes = [INBOX_TYPES.WHATSAPP, INBOX_TYPES.TWILIO];
+    return _getters
+      .getCampaigns(CAMPAIGN_TYPES.ONE_OFF, whatsappChannelTypes)
+      .filter(
+        campaign =>
+          campaign.inbox.channel_type === INBOX_TYPES.WHATSAPP ||
+          campaign.inbox.medium === 'whatsapp'
+      );
   },
   getLiveChatCampaigns: (_state, _getters) => {
     const liveChatChannelTypes = [INBOX_TYPES.WEB];

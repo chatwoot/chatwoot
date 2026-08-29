@@ -55,6 +55,21 @@ export const getters = {
       record => record.id === Number(inboxId)
     );
 
+    if (
+      inbox?.channel_type === INBOX_TYPES.TWILIO &&
+      inbox?.medium === 'whatsapp'
+    ) {
+      const templates = inbox.content_templates?.templates;
+      if (!Array.isArray(templates)) return [];
+
+      return templates.filter(
+        template =>
+          template.status?.toLowerCase() === 'approved' &&
+          template.friendly_name &&
+          template.category?.toLowerCase() !== 'authentication'
+      );
+    }
+
     const {
       message_templates: whatsAppMessageTemplates,
       additional_attributes: additionalAttributes,
@@ -115,7 +130,9 @@ export const getters = {
   },
   getWhatsAppInboxes($state) {
     return $state.records.filter(
-      item => item.channel_type === INBOX_TYPES.WHATSAPP
+      item =>
+        item.channel_type === INBOX_TYPES.WHATSAPP ||
+        (item.channel_type === INBOX_TYPES.TWILIO && item.medium === 'whatsapp')
     );
   },
   dialogFlowEnabledInboxes($state) {

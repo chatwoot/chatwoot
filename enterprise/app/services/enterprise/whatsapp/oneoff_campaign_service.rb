@@ -12,9 +12,9 @@ module Enterprise::Whatsapp::OneoffCampaignService
     contact = recipient.contact
     Rails.logger.info "Processing contact: #{contact.name} (#{contact.phone_number})"
 
-    if contact.phone_number.blank?
-      Rails.logger.info "Skipping contact #{contact.name} - no phone number"
-      recipient.mark_skipped!('Phone number is missing')
+    destination, destination_error = campaign_destination(contact)
+    if destination.blank?
+      recipient.mark_failed!(message: destination_error)
       return
     end
 
@@ -32,7 +32,7 @@ module Enterprise::Whatsapp::OneoffCampaignService
 
     recipient.update!(message_content: rendered_message_content(contact))
 
-    send_whatsapp_template_message(recipient: recipient, to: contact.phone_number, template_params: processed_template_params)
+    send_whatsapp_template_message(recipient: recipient, to: destination, template_params: processed_template_params)
   end
 
   def create_recipients(audience_labels)
@@ -60,19 +60,7 @@ module Enterprise::Whatsapp::OneoffCampaignService
   def send_whatsapp_template_message(recipient:, to:, template_params:)
     return if authentication_template_blocked?(recipient, to, template_params)
 
-    processor = Whatsapp::TemplateProcessorService.new(
-      channel: channel,
-      template_params: template_params
-    )
-
-    name, namespace, lang_code, processed_parameters = processor.call
-
-    if name.blank?
-      recipient.mark_skipped!('Template name could not be resolved')
-      return
-    end
-
-    source_id = channel.send_template(to, template_info(name, namespace, lang_code, processed_parameters), nil)
+    source_id = submit_template(to, template_params)
 
     update_recipient_from_provider_response(recipient, source_id)
   rescue StandardError => e
@@ -81,15 +69,6 @@ module Enterprise::Whatsapp::OneoffCampaignService
     recipient.mark_failed!(message: e.message)
     # continue processing remaining contacts
     nil
-  end
-
-  def template_info(name, namespace, lang_code, processed_parameters)
-    {
-      name: name,
-      namespace: namespace,
-      lang_code: lang_code,
-      parameters: processed_parameters
-    }
   end
 
   def authentication_template_blocked?(campaign_recipient, recipient, params)
@@ -104,7 +83,8 @@ module Enterprise::Whatsapp::OneoffCampaignService
     if source_id.present?
       recipient.mark_sent!(source_id)
     else
-      recipient.mark_failed!(channel.last_provider_error || { message: 'WhatsApp provider did not return a message id' })
+      provider_error = channel.last_provider_error if channel.respond_to?(:last_provider_error)
+      recipient.mark_failed!(provider_error || { message: 'WhatsApp provider did not return a message id' })
     end
   end
 end

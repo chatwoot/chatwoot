@@ -158,6 +158,7 @@ defineExpose({
   hasVariables,
   hasMediaTemplate,
   renderedTemplate,
+  isFormInvalid,
   v$,
   sendMessage,
   resetTemplate,
