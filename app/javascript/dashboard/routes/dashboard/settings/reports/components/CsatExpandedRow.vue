@@ -8,7 +8,7 @@ import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import CsatReviewNotesPaywall from './CsatReviewNotesPaywall.vue';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
 
 const props = defineProps({
   response: {
@@ -152,7 +152,13 @@ const saveReviewNotes = async () => {
             {{ response.review_notes_updated_by.name }}
           </span>
           <span class="text-n-slate-10">·</span>
-          <span class="text-sm text-n-slate-10">
+          <span
+            v-tooltip.top="{
+              content: exactTimestamp(response.review_notes_updated_at),
+              delay: { show: 500, hide: 0 },
+            }"
+            class="text-sm text-n-slate-10"
+          >
             {{ dynamicTime(response.review_notes_updated_at) }}
           </span>
         </div>
