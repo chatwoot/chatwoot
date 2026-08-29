@@ -77,6 +77,29 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     expect(call.meta['agent_termination_started_at']).to be_nil
   end
 
+  it 'replays stale progress before snapshotting a retry teardown intent' do
+    timestamp = 1.minute.ago.to_i
+    call = Call.find_by!(provider_call_id: 'CALL123')
+    call.update!(meta: Voice::CallTerminationGuard.claim_meta(call, token: 'abandoned-token', now: 3.minutes.ago))
+    Voice::CallTerminationGuard.persist_pending_status!(
+      call,
+      status: 'in_progress',
+      duration: nil,
+      timestamp: timestamp
+    )
+
+    delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+           headers: agent.create_new_auth_token,
+           params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+    expect(response).to have_http_status(:ok)
+    call.reload
+    expect(call.status).to eq('completed')
+    expect(call.end_reason).to eq('agent_hangup')
+    expect(call.started_at.to_i).to eq(timestamp)
+    expect(call.meta['agent_termination_pending_status']).to be_nil
+  end
+
   it 'does not suppress a future disconnect when failed teardown keeps the agent participant connected' do
     allow(conference_service).to receive(:end_provider_call).and_raise(StandardError, 'provider teardown failed')
 
