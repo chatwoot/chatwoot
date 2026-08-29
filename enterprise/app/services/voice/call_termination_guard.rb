@@ -75,12 +75,13 @@ class Voice::CallTerminationGuard
       clear_pending_status!(call)
     end
 
-    def persist_pending_join!(call, participant_label:, participant_call_sid:)
+    def persist_pending_join!(call, participant_label:, participant_call_sid:, timestamp:)
       call.update!(
         meta: call.meta.merge(
           PENDING_JOIN_KEY => {
             'participant_label' => participant_label,
             'participant_call_sid' => participant_call_sid,
+            'timestamp' => timestamp,
             PENDING_OWNER_TOKEN_KEY => token(call)
           }.compact
         )
