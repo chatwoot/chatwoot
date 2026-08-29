@@ -82,6 +82,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   end
 
   def claim_termination!(call)
+    replay_stale_pending!(call)
     termination = nil
     call.with_lock do
       next if call.terminal?
@@ -93,6 +94,23 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
       call.update!(meta: Voice::CallTerminationGuard.claim_meta(call, token: termination[:token]))
     end
     termination || { token: nil, intent: nil }
+  end
+
+  def replay_stale_pending!(call)
+    pending_status = nil
+    pending_join = nil
+    call.with_lock do
+      next if call.terminal? || Voice::CallTerminationGuard.active?(call)
+
+      Voice::CallTerminationGuard.clear_stale!(call)
+      pending_status = Voice::CallTerminationGuard.pending_status(call)
+      pending_join = Voice::CallTerminationGuard.pending_join(call)
+    end
+
+    replay_pending_status!(call, pending_status)
+    clear_replayed_pending_status!(call, pending_status)
+    replay_pending_join!(call, pending_join)
+    clear_replayed_pending_join!(call, pending_join)
   end
 
   def termination_intent_for(call)
