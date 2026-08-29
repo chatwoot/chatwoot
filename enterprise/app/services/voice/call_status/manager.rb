@@ -18,33 +18,7 @@ class Voice::CallStatus::Manager
   end
 
   def reconcile_suppressed_status!
-    pending = nil
-    publish_pending = false
-    call.with_lock do
-      next if Voice::CallTerminationGuard.active?(call)
-
-      pending = Voice::CallTerminationGuard.pending_status(call)
-      next if pending.blank?
-
-      Voice::CallTerminationGuard.clear_stale!(call)
-      if Call::TERMINAL_STATUSES.include?(call.status)
-        publish_pending = call.status == pending['status']
-        Voice::CallTerminationGuard.clear_pending_status_if_matches!(call, pending) unless publish_pending
-        next
-      end
-
-      if regressive_status?(pending['status'])
-        Voice::CallTerminationGuard.clear_pending_status_if_matches!(call, pending)
-        next
-      end
-
-      apply_call_updates!(
-        pending['status'],
-        duration: pending['duration'],
-        timestamp: pending['timestamp']
-      )
-      publish_pending = true
-    end
+    pending, publish_pending = call.with_lock { prepare_suppressed_status_replay }
     return unless publish_pending
 
     publish_update
@@ -54,6 +28,39 @@ class Voice::CallStatus::Manager
   end
 
   private
+
+  def prepare_suppressed_status_replay
+    return [nil, false] if Voice::CallTerminationGuard.active?(call)
+
+    pending = Voice::CallTerminationGuard.pending_status(call)
+    return [nil, false] if pending.blank?
+
+    Voice::CallTerminationGuard.clear_stale!(call)
+    return terminal_replay_result(pending) if Call::TERMINAL_STATUSES.include?(call.status)
+    return clear_regressive_pending_status(pending) if regressive_status?(pending['status'])
+
+    apply_pending_status!(pending)
+    [pending, true]
+  end
+
+  def terminal_replay_result(pending)
+    publish_pending = call.status == pending['status']
+    Voice::CallTerminationGuard.clear_pending_status_if_matches!(call, pending) unless publish_pending
+    [pending, publish_pending]
+  end
+
+  def clear_regressive_pending_status(pending)
+    Voice::CallTerminationGuard.clear_pending_status_if_matches!(call, pending)
+    [pending, false]
+  end
+
+  def apply_pending_status!(pending)
+    apply_call_updates!(
+      pending['status'],
+      duration: pending['duration'],
+      timestamp: pending['timestamp']
+    )
+  end
 
   def process_locked_status_update(status, duration, timestamp, allow_during_termination)
     return [true, false] if republish_pending_status?(status)
