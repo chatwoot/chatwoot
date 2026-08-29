@@ -24,24 +24,34 @@ class Voice::CallStatus::Manager
   end
 
   def reconcile_suppressed_status!
-    applied = false
+    pending = nil
+    publish_pending = false
     call.with_lock do
-      next if Call::TERMINAL_STATUSES.include?(call.status)
       next if Voice::CallTerminationGuard.active?(call)
 
       pending = Voice::CallTerminationGuard.pending_status(call)
       next if pending.blank?
 
       Voice::CallTerminationGuard.clear_stale!(call)
+      if Call::TERMINAL_STATUSES.include?(call.status)
+        publish_pending = call.status == pending['status']
+        Voice::CallTerminationGuard.clear_pending_status_if_matches!(call, pending) unless publish_pending
+        next
+      end
+
       apply_call_updates!(
         pending['status'],
         duration: pending['duration'],
         timestamp: pending['timestamp']
       )
-      Voice::CallTerminationGuard.clear_pending_status!(call)
-      applied = true
+      publish_pending = true
     end
-    publish_update if applied
+    return unless publish_pending
+
+    publish_update
+    call.with_lock do
+      Voice::CallTerminationGuard.clear_pending_status_if_matches!(call, pending)
+    end
   end
 
   private
