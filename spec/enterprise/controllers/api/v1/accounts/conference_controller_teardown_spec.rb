@@ -192,7 +192,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
       manager = original.call(*args, **kwargs)
       call = kwargs[:call]
       allow(manager).to receive(:process_status_update).and_wrap_original do |method, status, **status_kwargs|
-        if !new_owner_created && !Voice::CallTerminationGuard.active?(call)
+        unless new_owner_created || Voice::CallTerminationGuard.active?(call)
           call.with_lock do
             call.update!(meta: Voice::CallTerminationGuard.claim_meta(call, token: 'new-owner'))
           end
