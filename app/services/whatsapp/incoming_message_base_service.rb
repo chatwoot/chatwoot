@@ -5,7 +5,7 @@ class Whatsapp::IncomingMessageBaseService
   include ::Whatsapp::IncomingMessageServiceHelpers
   include ::Whatsapp::IncomingMessageIdentifierHelper
 
-  pattr_initialize [:inbox!, :params!, :outgoing_echo]
+  pattr_initialize [:inbox!, :params!, :outgoing_echo, { locked_sender_id: nil }]
 
   def perform
     processed_params

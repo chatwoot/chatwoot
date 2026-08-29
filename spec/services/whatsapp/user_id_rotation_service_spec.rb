@@ -120,7 +120,24 @@ describe Whatsapp::UserIdRotationService do
         .and_yield
         .and_return(true)
 
-      described_class.new(inbox: inbox, messages: messages).perform
+      described_class.new(inbox: inbox, messages: messages, job_locked_source_id: 'IN.ENT.CURRENTBSUID').perform
+    end
+
+    it 'skips the actual outer job lock when it differs from the system-message preference' do
+      create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+      create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.ENT.PREVIOUSBSUID')
+      system.merge!(
+        previous_parent_user_id: 'IN.ENT.PREVIOUSBSUID',
+        parent_user_id: 'IN.ENT.CURRENTBSUID'
+      )
+      lock_manager = instance_double(Redis::LockManager)
+      allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
+      expect(lock_manager).to receive(:with_lock)
+        .with(format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: inbox.id, sender_id: 'IN.ENT.CURRENTBSUID'), 30.seconds)
+        .and_yield
+        .and_return(true)
+
+      described_class.new(inbox: inbox, messages: messages, job_locked_source_id: 'IN.CURRENTBSUID').perform
     end
 
     it 'raises for job retry instead of writing without the identifier lock' do

@@ -11,7 +11,7 @@ class Whatsapp::UserIdRotationService
   LOCK_RETRY_INTERVAL = 0.2
   LOCK_TTL = 30.seconds
 
-  pattr_initialize [:inbox!, :messages!]
+  pattr_initialize [:inbox!, :messages!, { job_locked_source_id: nil }]
 
   def perform
     messages.each do |message|
@@ -163,14 +163,6 @@ class Whatsapp::UserIdRotationService
     end
 
     raise MutexApplicationJob::LockAcquisitionError, "Failed to acquire WhatsApp identity rotation lock: #{key}"
-  end
-
-  # Mirrors Webhooks::WhatsappEventsJob#contact_sender_id_from_system_message.
-  def job_locked_source_id
-    @job_locked_source_id ||= begin
-      system = messages.first&.dig(:system) || {}
-      [system[:parent_user_id], system[:user_id], system[:wa_id], messages.first&.[](:from)].compact_blank.first
-    end
   end
 
   def log_alias_collision(existing, contact, source_id)

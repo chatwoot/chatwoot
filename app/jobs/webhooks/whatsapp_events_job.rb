@@ -22,15 +22,15 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
     # mid-processing and lets a concurrent webhook re-acquire before the first commit.
     key = format(::Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: sender_id)
     with_lock(key, 30.seconds) do
-      process_events(channel, params)
+      process_events(channel, params, sender_id)
     end
   end
 
-  def process_events(channel, params)
+  def process_events(channel, params, locked_sender_id = nil)
     if message_echo_event?(params)
       handle_message_echo(channel, params)
     else
-      handle_message_events(channel, params)
+      handle_message_events(channel, params, locked_sender_id)
     end
   end
 
@@ -85,10 +85,12 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
     Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params, outgoing_echo: true).perform
   end
 
-  def handle_message_events(channel, params)
+  def handle_message_events(channel, params, locked_sender_id = nil)
     case channel.provider
     when 'whatsapp_cloud'
-      Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params).perform
+      service_params = { inbox: channel.inbox, params: params }
+      service_params[:locked_sender_id] = locked_sender_id if locked_sender_id.present?
+      Whatsapp::IncomingMessageWhatsappCloudService.new(**service_params).perform
     else
       Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
     end

@@ -1,7 +1,9 @@
 module Whatsapp::IncomingMessageIdentifierHelper
   def process_identity_change_messages
     system_messages, @messages_data = messages_data.to_a.partition { |message| message[:type] == 'system' }
-    Whatsapp::UserIdRotationService.new(inbox: inbox, messages: system_messages).perform if system_messages.present?
+    return if system_messages.blank?
+
+    Whatsapp::UserIdRotationService.new(inbox: inbox, messages: system_messages, job_locked_source_id: locked_sender_id).perform
   end
 
   def set_contact_from_echo
@@ -87,9 +89,7 @@ module Whatsapp::IncomingMessageIdentifierHelper
     processed_waid(phone_number)
   end
 
-  def whatsapp_source_id(identifier)
-    identifier.to_s.presence
-  end
+  def whatsapp_source_id(identifier) = identifier.to_s.presence
 
   def contact_attributes_from_contact_params(contact_params, source_identifier)
     phone_identifier = contact_params[:wa_id].presence || messages_data.first[:from].presence
