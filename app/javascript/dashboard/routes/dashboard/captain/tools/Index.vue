@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, nextTick } from 'vue';
+import { computed, onMounted, ref, nextTick, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
@@ -29,6 +29,9 @@ const { isFeatureFlagEnabled, shouldShowPaywall } = usePolicy();
 
 const SOFT_LIMIT = 10;
 const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
+const showPaywall = computed(() =>
+  shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
+);
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
 const customTools = useMapGetter('captainCustomTools/getRecords');
@@ -76,6 +79,7 @@ const dialogType = ref('');
 const pendingToggleIds = ref(new Set());
 const pendingDisable = ref(null);
 const isDisableSaving = ref(false);
+const hasRequestedTools = ref(false);
 
 const disableConfirmationTitle = computed(() =>
   t('CAPTAIN.CUSTOM_TOOLS.DISABLE_CONFIRMATION.TITLE', {
@@ -105,6 +109,7 @@ const setTogglePending = (id, isPending) => {
 };
 
 const fetchCustomTools = (page = 1) => {
+  hasRequestedTools.value = true;
   store.dispatch('captainCustomTools/get', { page });
 };
 
@@ -229,11 +234,17 @@ const onDeleteSuccess = () => {
   }
 };
 
-onMounted(async () => {
-  if (!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)) {
-    fetchCustomTools();
-  }
+watch(
+  showPaywall,
+  isPaywallVisible => {
+    if (!isPaywallVisible && !hasRequestedTools.value) {
+      fetchCustomTools();
+    }
+  },
+  { immediate: true }
+);
 
+onMounted(async () => {
   if (route.query.source) {
     await nextTick();
     openImportDialog(route.query.source);
