@@ -26,7 +26,8 @@ class Whatsapp::UserIdRotationService
 
   def process_system_message(system)
     rotations = rotations(system)
-    phone_source_id = whatsapp_phone_source_id(system[:wa_id]) if system[:type] == 'user_changed_number'
+    raw_phone_source_id = raw_whatsapp_phone_source_id(system[:wa_id]) if system[:type] == 'user_changed_number'
+    phone_source_id = normalized_whatsapp_phone_source_id(raw_phone_source_id) if raw_phone_source_id.present?
     rotated_source_ids = rotations.map(&:last)
     current_source_ids = [*rotated_source_ids, phone_source_id].compact_blank.uniq
 
@@ -35,7 +36,7 @@ class Whatsapp::UserIdRotationService
       next if contact.blank?
 
       record_aliases(contact, rotated_source_ids)
-      record_phone_identity(contact, phone_source_id) if phone_source_id.present?
+      record_phone_identity(contact, phone_source_id, raw_phone_source_id) if phone_source_id.present?
     end
   end
 
@@ -87,8 +88,8 @@ class Whatsapp::UserIdRotationService
     end
   end
 
-  def record_phone_identity(contact, phone_source_id)
-    phone_number = "+#{phone_source_id}"
+  def record_phone_identity(contact, phone_source_id, raw_phone_source_id)
+    phone_number = "+#{raw_phone_source_id}"
     conflicting_contact = conflicting_phone_contact(contact, phone_number)
     if conflicting_contact.present?
       handle_phone_contact_collision(contact, conflicting_contact, phone_number)
@@ -128,10 +129,14 @@ class Whatsapp::UserIdRotationService
     contact.update!(phone_number: nil) if contact.phone_number.present?
   end
 
-  def whatsapp_phone_source_id(value)
+  def raw_whatsapp_phone_source_id(value)
     value = value.to_s
     return unless value.match?(/\A[1-9]\d{1,14}\z/)
 
+    value
+  end
+
+  def normalized_whatsapp_phone_source_id(value)
     Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(value, :cloud)
   end
 

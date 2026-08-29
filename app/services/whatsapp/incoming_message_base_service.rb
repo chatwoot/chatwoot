@@ -11,12 +11,15 @@ class Whatsapp::IncomingMessageBaseService
     processed_params
 
     return process_statuses if processed_params.try(:[], :statuses).present?
-    return process_identity_change_messages if messages_data&.any? { |message| message[:type] == 'system' }
+
+    process_identity_change_messages
     return process_messages if messages_data.present?
   end
 
   # Returns messages array for both regular messages and echo events
   def messages_data
+    return @messages_data if defined?(@messages_data)
+
     @processed_params&.dig(:messages) || @processed_params&.dig(:message_echoes)
   end
 

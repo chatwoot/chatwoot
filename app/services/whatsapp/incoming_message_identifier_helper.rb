@@ -1,6 +1,7 @@
 module Whatsapp::IncomingMessageIdentifierHelper
   def process_identity_change_messages
-    Whatsapp::UserIdRotationService.new(inbox: inbox, messages: messages_data).perform
+    system_messages, @messages_data = messages_data.to_a.partition { |message| message[:type] == 'system' }
+    Whatsapp::UserIdRotationService.new(inbox: inbox, messages: system_messages).perform if system_messages.present?
   end
 
   def set_contact_from_echo
@@ -64,9 +65,7 @@ module Whatsapp::IncomingMessageIdentifierHelper
     ordered.compact_blank.uniq
   end
 
-  def addressable_identifiers?
-    inbox.channel.try(:provider) == 'whatsapp_cloud'
-  end
+  def addressable_identifiers? = inbox.channel.try(:provider) == 'whatsapp_cloud'
 
   # An echo has to land on the same alias an inbound message would, otherwise the two entry
   # points anchor the same contact on different rows and split the thread in half.

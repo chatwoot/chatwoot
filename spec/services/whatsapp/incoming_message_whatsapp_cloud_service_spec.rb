@@ -813,6 +813,24 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(whatsapp_channel.inbox.conversations).to be_empty
       end
 
+      it 'processes an ordinary message delivered in the same batch as the system event' do
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+        value = system_message_params[:entry][0][:changes][0][:value]
+        value[:contacts] = [{ profile: { name: 'Rotated customer' }, user_id: 'IN.CURRENTBSUID' }]
+        value[:messages].prepend(
+          {
+            from_user_id: 'IN.CURRENTBSUID', id: 'wamid.ORDINARY_MESSAGE_ID', timestamp: '1664799905',
+            type: 'text', text: { body: 'Message delivered with the lifecycle event' }
+          }
+        )
+
+        rotate
+
+        expect(whatsapp_channel.inbox.messages.last.content).to eq('Message delivered with the lifecycle event')
+        expect(whatsapp_channel.inbox.messages.last.conversation.contact).to eq(contact)
+        expect(whatsapp_channel.inbox.contact_inboxes.find_by(source_id: 'IN.CURRENTBSUID').contact).to eq(contact)
+      end
+
       it 'updates the contact phone and records the phone alias for a number change' do
         previous = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
         previous.contact.update!(phone_number: '+16505550001')

@@ -46,6 +46,19 @@ describe Whatsapp::UserIdRotationService do
       expect(inbox.contact_inboxes.find_by(source_id: '16505550002').contact).to eq(previous.contact)
     end
 
+    it 'keeps the raw WA ID as the phone while reusing a normalized routing alias' do
+      previous = create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+      previous.contact.update!(phone_number: '+541123456788')
+      normalized_phone_alias = create(:contact_inbox, inbox: inbox, contact: contact, source_id: '541123456789')
+      system.merge!(type: 'user_changed_number', wa_id: '5491123456789')
+
+      described_class.new(inbox: inbox, messages: messages).perform
+
+      expect(previous.contact.reload.phone_number).to eq('+5491123456789')
+      expect(normalized_phone_alias.reload.contact).to eq(previous.contact)
+      expect(inbox.contact_inboxes.exists?(source_id: '5491123456789')).to be(false)
+    end
+
     it 'clears the stale phone and does not merge when the new phone belongs to another contact' do
       previous = create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
       previous.contact.update!(phone_number: '+16505550001')
