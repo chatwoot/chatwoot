@@ -10,13 +10,7 @@ class Voice::CallStatus::Manager
       next if call.status == status
       next if Call::TERMINAL_STATUSES.include?(call.status)
 
-      if termination_blocks?(allow_during_termination)
-        Voice::CallTerminationGuard.persist_pending_status!(
-          call,
-          status: status,
-          duration: duration,
-          timestamp: timestamp
-        )
+      if defer_status_update?(status, duration, timestamp, allow_during_termination)
         deferred = true
         next
       end
@@ -51,6 +45,18 @@ class Voice::CallStatus::Manager
   end
 
   private
+
+  def defer_status_update?(status, duration, timestamp, allow_during_termination)
+    return false unless termination_blocks?(allow_during_termination)
+
+    Voice::CallTerminationGuard.persist_pending_status!(
+      call,
+      status: status,
+      duration: duration,
+      timestamp: timestamp
+    )
+    true
+  end
 
   def termination_blocks?(allow_during_termination)
     return false if allow_during_termination
