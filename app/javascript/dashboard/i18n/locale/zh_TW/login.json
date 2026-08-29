@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "登入 Chatwoot",
+    "TITLE": "登入到 Chatwoot",
     "EMAIL": {
       "LABEL": "電子郵件",
       "PLACEHOLDER": "example{'@'}companyname.com",

@@ -82,6 +82,19 @@ describe Whatsapp::OneoffCampaignService do
         expect(campaign.reload.completed?).to be true
       end
 
+      it 'marks the campaign completed after processing the audience' do
+        contact = create(:contact, :with_phone_number, account: account)
+        contact.update_labels([label1.title])
+
+        expect(whatsapp_channel).to receive(:send_template) do
+          expect(campaign.reload.completed?).to be false
+        end
+
+        described_class.new(campaign: campaign).perform
+
+        expect(campaign.reload.completed?).to be true
+      end
+
       it 'processes contacts with matching labels' do
         contact_with_label1, contact_with_label2, contact_with_both_labels =
           create_list(:contact, 3, :with_phone_number, account: account)

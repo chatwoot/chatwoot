@@ -49,12 +49,21 @@
       "DISABLE_MFA_DESC": "Remove two-factor authentication from your account",
       "DISABLE_BUTTON": "Disable Two-Factor Authentication"
     },
+    "LOW_BACKUP_CODES": {
+      "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
+      "NONE_LEFT": "You have no backup codes remaining. Generate new codes now to avoid getting locked out if you lose access to your authenticator.",
+      "ACTION": "Generate codes"
+    },
     "DISABLE": {
       "TITLE": "Disable Two-Factor Authentication",
       "DESCRIPTION": "You'll need to enter your password and a verification code to disable two-factor authentication.",
       "PASSWORD": "Slaptažodis",
       "OTP_CODE": "Verification Code",
       "OTP_CODE_PLACEHOLDER": "000000",
+      "BACKUP_CODE": "Backup Code",
+      "BACKUP_CODE_PLACEHOLDER": "Enter one of your backup codes",
+      "USE_BACKUP_CODE": "Lost access to your authenticator? Use a backup code instead",
+      "USE_OTP_CODE": "Use a verification code from your authenticator app",
       "CONFIRM": "Disable 2FA",
       "CANCEL": "Atšaukti",
       "SUCCESS": "Two-factor authentication has been disabled",

@@ -122,8 +122,8 @@ RSpec.describe SamlUserBuilder do
         it 'does not add the user to the target account' do
           expect do
             builder.perform
-          rescue SamlUserBuilder::AuthenticationFailed
-            nil
+          rescue StandardError => e
+            raise unless e.class.name == 'SamlUserBuilder::AuthenticationFailed' # rubocop:disable Style/ClassEqualityComparison
           end.not_to change(AccountUser, :count)
           expect(existing_user.reload.accounts).not_to include(account)
         end
@@ -131,8 +131,8 @@ RSpec.describe SamlUserBuilder do
         it 'does not convert the user provider to saml' do
           expect do
             builder.perform
-          rescue SamlUserBuilder::AuthenticationFailed
-            nil
+          rescue StandardError => e
+            raise unless e.class.name == 'SamlUserBuilder::AuthenticationFailed' # rubocop:disable Style/ClassEqualityComparison
           end.not_to(change { existing_user.reload.provider })
         end
       end
@@ -218,10 +218,18 @@ RSpec.describe SamlUserBuilder do
 
         before { saml_settings }
 
-        it 'applies custom role based on SAML groups' do
+        it 'applies custom role based on SAML groups when the custom_roles feature is enabled' do
+          account.enable_features!('custom_roles')
+
           user = builder.perform
           account_user = AccountUser.find_by(user: user, account: account)
           expect(account_user.custom_role_id).to eq(custom_role.id)
+        end
+
+        it 'ignores the custom role mapping when the custom_roles feature is disabled' do
+          user = builder.perform
+          account_user = AccountUser.find_by(user: user, account: account)
+          expect(account_user.custom_role_id).to be_nil
         end
       end
 

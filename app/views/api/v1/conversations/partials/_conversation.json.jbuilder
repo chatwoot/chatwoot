@@ -27,13 +27,18 @@ json.meta do
 end
 
 json.id conversation.display_id
-if conversation.messages.where(account_id: conversation.account_id).last.blank?
+# The dashboard seeds the message thread from this array and then paginates BACKWARD
+# by id (before: messages[0].id). Keep the seed as the chronologically latest message,
+# but add an id tiebreaker: without it, same-second siblings (e.g. the input_csat survey
+# created alongside activity messages during an auto-resolve burst) could resolve to a
+# lower-id activity, and backward pagination would then never load the higher-id survey.
+last_message = conversation.messages.where(account_id: conversation.account_id)
+                           .includes([{ attachments: [{ file_attachment: [:blob] }] }])
+                           .reorder(created_at: :desc, id: :desc).first
+if last_message.blank?
   json.messages []
 else
-  json.messages [
-    conversation.messages.where(account_id: conversation.account_id)
-                .includes([{ attachments: [{ file_attachment: [:blob] }] }]).last.try(:push_event_data)
-  ]
+  json.messages [last_message.try(:push_event_data)]
 end
 
 json.account_id conversation.account_id
@@ -58,5 +63,6 @@ json.last_non_activity_message conversation.messages.where(account_id: conversat
 json.last_activity_at conversation.last_activity_at.to_i
 json.priority conversation.priority
 json.waiting_since conversation.waiting_since.to_i.to_i
-json.sla_policy_id conversation.sla_policy_id
+sla_applicable = conversation.account.feature_enabled?('sla') && (!conversation.respond_to?(:sla_applicable?) || conversation.sla_applicable?)
+json.sla_policy_id sla_applicable ? conversation.sla_policy_id : nil
 json.partial! 'enterprise/api/v1/conversations/partials/conversation', conversation: conversation if ChatwootApp.enterprise?

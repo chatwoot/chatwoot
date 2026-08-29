@@ -7,6 +7,9 @@ import {
   ArticleMarkdownTransformer,
   EditorState,
   Selection,
+  imageResizeView,
+  toggleMark,
+  wrapInList,
 } from '@chatwoot/prosemirror-schema';
 import {
   suggestionsPlugin,
@@ -16,8 +19,6 @@ import imagePastePlugin from '@chatwoot/prosemirror-schema/src/plugins/image';
 import embedPreviewPlugin from '@chatwoot/prosemirror-schema/src/plugins/embedPreview';
 import trailingParagraphPlugin from '@chatwoot/prosemirror-schema/src/plugins/trailingParagraph';
 import { embeds as markdownEmbeds } from 'dashboard/helper/markdownEmbeds';
-import { toggleMark } from 'prosemirror-commands';
-import { wrapInList } from 'prosemirror-schema-list';
 import { toggleBlockType } from '@chatwoot/prosemirror-schema/src/menu/common';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
@@ -26,6 +27,7 @@ import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import SlashCommandMenu from './SlashCommandMenu.vue';
+import VideoEmbedInput from './VideoEmbedInput.vue';
 
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const SLASH_MENU_OFFSET = 4;
@@ -54,7 +56,7 @@ let editorView = null;
 let state;
 
 export default {
-  components: { SlashCommandMenu },
+  components: { SlashCommandMenu, VideoEmbedInput },
   mixins: [keyboardEventListenerMixins],
   props: {
     modelValue: { type: String, default: '' },
@@ -88,6 +90,9 @@ export default {
       slashSearchTerm: '',
       slashRange: null,
       slashMenuPosition: null,
+      isSlashMenuInTable: false,
+      showVideoInput: false,
+      videoInputPosition: null,
     };
   },
   watch: {
@@ -133,6 +138,7 @@ export default {
           this.showSlashMenu = true;
           this.slashRange = args.range;
           this.slashSearchTerm = args.text || '';
+          this.isSlashMenuInTable = this.isSelectionInsideTable();
           this.updateSlashMenuPosition(args.range.from);
           return false;
         },
@@ -147,14 +153,17 @@ export default {
           this.slashMenuPosition = null;
           return false;
         },
-        onKeyDown: ({ event }) => {
-          return (
-            event.keyCode === 13 &&
-            this.showSlashMenu &&
-            this.$refs.slashMenu?.hasItems
-          );
-        },
+        onKeyDown: ({ event }) =>
+          this.$refs.slashMenu?.handleKeyDown(event) ?? false,
       });
+    },
+    isSelectionInsideTable() {
+      const { $from } = editorView.state.selection;
+      const { table } = editorView.state.schema.nodes;
+      for (let depth = $from.depth; depth > 0; depth -= 1) {
+        if ($from.node(depth).type === table) return true;
+      }
+      return false;
     },
     updateSlashMenuPosition(pos) {
       if (!editorView) return;
@@ -176,6 +185,11 @@ export default {
     },
     executeSlashCommand(actionKey) {
       if (!editorView) return;
+
+      if (actionKey === 'video') {
+        this.openVideoInput();
+        return;
+      }
 
       this.removeSlashTriggerText();
 
@@ -235,6 +249,18 @@ export default {
           const tr = editorView.state.tr.replaceSelectionWith(tableNode);
           editorView.dispatch(tr.scrollIntoView());
         },
+        horizontalRule: () => {
+          editorView.dispatch(
+            editorView.state.tr
+              .replaceSelectionWith(schema.nodes.horizontal_rule.create())
+              .scrollIntoView()
+          );
+          const { doc, selection, tr } = editorView.state;
+          editorView.dispatch(
+            tr.setSelection(Selection.near(doc.resolve(selection.to), 1))
+          );
+        },
+        imageUpload: () => this.openFileBrowser(),
       };
 
       const command = commandMap[actionKey];
@@ -244,6 +270,34 @@ export default {
         this.emitOnChange();
         editorView.focus();
       }
+    },
+    openVideoInput() {
+      // Capture the caret position before removing the trigger clears it.
+      this.videoInputPosition = this.slashMenuPosition;
+      this.removeSlashTriggerText();
+      this.showVideoInput = true;
+    },
+    insertVideoEmbed(url) {
+      this.showVideoInput = false;
+      this.videoInputPosition = null;
+      if (!editorView) return;
+
+      const { schema } = editorView.state;
+      const linkMark = schema.marks.link.create({ href: url });
+      const paragraph = schema.nodes.paragraph.create(
+        null,
+        schema.text(url, [linkMark])
+      );
+      const tr = editorView.state.tr.replaceSelectionWith(paragraph);
+      editorView.dispatch(tr.scrollIntoView());
+      state = editorView.state;
+      this.emitOnChange();
+      editorView.focus();
+    },
+    cancelVideoInput() {
+      this.showVideoInput = false;
+      this.videoInputPosition = null;
+      editorView?.focus();
     },
     contentFromEditor() {
       if (editorView) {
@@ -332,6 +386,9 @@ export default {
     createEditorView() {
       editorView = new EditorView(this.$refs.editor, {
         state: state,
+        nodeViews: {
+          image: imageResizeView,
+        },
         dispatchTransaction: tx => {
           state = state.apply(tx);
           editorView.updateState(state);
@@ -462,7 +519,14 @@ export default {
         :search-key="slashSearchTerm"
         :enabled-menu-options="enabledMenuOptions"
         :position="slashMenuPosition"
+        :is-in-table="isSlashMenuInTable"
         @select-action="executeSlashCommand"
+      />
+      <VideoEmbedInput
+        v-if="showVideoInput"
+        :position="videoInputPosition"
+        @submit="insertVideoEmbed"
+        @cancel="cancelVideoInput"
       />
       <input
         ref="imageUploadInput"

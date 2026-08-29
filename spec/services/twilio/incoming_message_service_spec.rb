@@ -10,6 +10,11 @@ describe Twilio::IncomingMessageService do
   let(:contact_inbox) { create(:contact_inbox, source_id: '+12345', contact: contact, inbox: twilio_channel.inbox) }
   let!(:conversation) { create(:conversation, contact: contact, inbox: twilio_channel.inbox, contact_inbox: contact_inbox) }
 
+  before do
+    allow(Resolv).to receive(:getaddresses).and_call_original
+    allow(Resolv).to receive(:getaddresses).with('chatwoot-assets.local').and_return(['93.184.216.34'])
+  end
+
   describe '#perform' do
     it 'creates a new message in existing conversation' do
       params = {
@@ -200,10 +205,10 @@ describe Twilio::IncomingMessageService do
     context 'when there is an error downloading the attachment' do
       before do
         stub_request(:get, 'https://chatwoot-assets.local/sample.png')
-          .to_raise(Down::Error.new('Download error'))
-
-        stub_request(:get, 'https://chatwoot-assets.local/sample.png')
-          .to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
+          .to_return(
+            { status: 503 },
+            { status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' } }
+          )
       end
 
       let(:params_with_attachment_error) do
@@ -219,7 +224,7 @@ describe Twilio::IncomingMessageService do
         }
       end
 
-      it 'retries downloading the attachment without a token after an error' do
+      it 'retries downloading public media without channel credentials after an error' do
         expect do
           described_class.new(params: params_with_attachment_error).perform
         end.not_to raise_error
@@ -227,6 +232,38 @@ describe Twilio::IncomingMessageService do
         expect(conversation.reload.messages.last.content).to eq('testing3')
         expect(conversation.reload.messages.last.attachments.count).to eq(1)
         expect(conversation.reload.messages.last.attachments.first.file_type).to eq('image')
+      end
+    end
+
+    context 'when authenticated media retries are exhausted' do
+      it 'preserves the inbound text without an attachment' do
+        account_sid = "AC#{'1' * 32}"
+        message_sid = "MM#{'2' * 32}"
+        media_sid = "ME#{'3' * 32}"
+        media_url = "https://api.twilio.com/2010-04-01/Accounts/#{account_sid}/Messages/#{message_sid}/Media/#{media_sid}"
+        twilio_channel.update!(account_sid: account_sid)
+        allow(Resolv).to receive(:getaddresses).with('api.twilio.com').and_return(['54.172.60.0'])
+        stub_request(:get, media_url).to_return(status: 404)
+        allow(Twilio::MediaDownloadService).to receive(:new).and_wrap_original do |method, **args|
+          method.call(**args).tap { |service| allow(service).to receive(:sleep) }
+        end
+
+        described_class.new(
+          params: {
+            SmsSid: message_sid,
+            From: '+12345',
+            AccountSid: account_sid,
+            MessagingServiceSid: twilio_channel.messaging_service_sid,
+            Body: 'testing exhausted media retries',
+            NumMedia: '1',
+            MediaContentType0: 'image/jpeg',
+            MediaUrl0: media_url
+          }
+        ).perform
+
+        message = conversation.reload.messages.last
+        expect(message.content).to eq('testing exhausted media retries')
+        expect(message.attachments.count).to eq(0)
       end
     end
 
@@ -401,6 +438,168 @@ describe Twilio::IncomingMessageService do
         described_class.new(params: params).perform
         existing_contact.reload
         expect(existing_contact.name).to eq('Alice Johnson')
+      end
+
+      describe 'When the incoming WhatsApp message only has BSUID identifiers' do
+        let!(:whatsapp_twilio_channel) do
+          create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                                 inbox: create(:inbox, account: account, greeting_enabled: false))
+        end
+
+        it 'creates a contact and conversation without a phone number' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:IN.2081978709342942',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'testing bsuid',
+            ProfileName: 'Muhsin',
+            ProfileUsername: 'muhsin',
+            ExternalUserId: 'IN.2081978709342942',
+            ParentExternalUserId: 'IN.ENT.9081726354'
+          }
+
+          described_class.new(params: params).perform
+
+          contact_inbox = whatsapp_twilio_channel.inbox.contact_inboxes.find_by!(source_id: 'whatsapp:IN.2081978709342942')
+          contact = contact_inbox.contact
+          parent_contact_inbox = whatsapp_twilio_channel.inbox.contact_inboxes.find_by!(source_id: 'whatsapp:IN.ENT.9081726354')
+          expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
+          expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('testing bsuid')
+          expect(contact).to have_attributes(name: 'Muhsin', phone_number: nil)
+          expect(contact.additional_attributes).to include(
+            'social_whatsapp_user_name' => 'muhsin',
+            'social_profiles' => { 'whatsapp' => 'muhsin' }
+          )
+          expect(parent_contact_inbox.contact).to eq(contact)
+        end
+
+        it 'uses the BSUID without the provider prefix as the fallback contact name' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:IN.2081978709342942',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'testing bsuid',
+            ExternalUserId: 'IN.2081978709342942'
+          }
+
+          described_class.new(params: params).perform
+
+          expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('IN.2081978709342942')
+        end
+
+        it 'links phone and BSUID source ids to the same contact' do
+          phone_with_bsuid_params = {
+            SmsSid: 'SMxx1',
+            From: 'whatsapp:+919745786257',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'phone and bsuid',
+            ProfileName: 'Muhsin',
+            ExternalUserId: 'IN.2081978709342942'
+          }
+          bsuid_only_params = {
+            SmsSid: 'SMxx2',
+            From: 'whatsapp:IN.2081978709342942',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'bsuid only',
+            ExternalUserId: 'IN.2081978709342942'
+          }
+
+          described_class.new(params: phone_with_bsuid_params).perform
+          contact_inbox = whatsapp_twilio_channel.inbox.contact_inboxes.find_by!(source_id: 'whatsapp:+919745786257')
+          bsuid_contact_inbox = whatsapp_twilio_channel.inbox.contact_inboxes.find_by!(source_id: 'whatsapp:IN.2081978709342942')
+
+          expect { described_class.new(params: bsuid_only_params).perform }.not_to raise_error
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.count).to eq(2)
+          expect(whatsapp_twilio_channel.inbox.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'bsuid only')
+          expect(bsuid_contact_inbox.contact).to eq(contact_inbox.contact)
+        end
+
+        it 'backfills contact phone number when a phone arrives after BSUID-only creation' do
+          bsuid_only_params = {
+            SmsSid: 'SMxx1',
+            From: 'whatsapp:IN.2081978709342942',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'bsuid first',
+            ExternalUserId: 'IN.2081978709342942'
+          }
+          phone_with_bsuid_params = {
+            SmsSid: 'SMxx2',
+            From: 'whatsapp:+919745786257',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'phone follow up',
+            ProfileName: 'Muhsin',
+            ExternalUserId: 'IN.2081978709342942'
+          }
+
+          described_class.new(params: bsuid_only_params).perform
+          bsuid_contact_inbox = whatsapp_twilio_channel.inbox.contact_inboxes.find_by!(source_id: 'whatsapp:IN.2081978709342942')
+
+          described_class.new(params: phone_with_bsuid_params).perform
+
+          phone_contact_inbox = whatsapp_twilio_channel.inbox.contact_inboxes.find_by!(source_id: 'whatsapp:+919745786257')
+          expect(phone_contact_inbox.contact).to eq(bsuid_contact_inbox.contact)
+          expect(bsuid_contact_inbox.contact.reload.phone_number).to eq('+919745786257')
+        end
+      end
+
+      describe 'When the incoming WhatsApp message has CTWA referral parameters' do
+        let!(:whatsapp_twilio_channel) do
+          create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                                 inbox: create(:inbox, account: account, greeting_enabled: false))
+        end
+
+        it 'stores normalized referral attributes on the message' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+491741763110',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Hallo! Kann ich hierzu mehr Informationen erhalten?',
+            ReferralCtwaClid: 'AfjyUDlaIoiweZDnlzmDTEaG',
+            ReferralSourceId: '120237244350960485',
+            ReferralSourceUrl: 'https://fb.me/4tBfhWhjr',
+            ReferralSourceType: 'ad',
+            ReferralHeadline: 'German citizenship lawyer',
+            ReferralBody: 'Fast-track your German citizenship',
+            ReferralMediaId: '',
+            ReferralNumMedia: '0'
+          }
+
+          described_class.new(params: params).perform
+
+          message = whatsapp_twilio_channel.inbox.messages.last
+          expect(message.content_attributes['referral']).to eq(
+            'ctwa_clid' => 'AfjyUDlaIoiweZDnlzmDTEaG',
+            'source_id' => '120237244350960485',
+            'source_url' => 'https://fb.me/4tBfhWhjr',
+            'source_type' => 'ad',
+            'headline' => 'German citizenship lawyer',
+            'body' => 'Fast-track your German citizenship',
+            'num_media' => '0'
+          )
+        end
+
+        it 'does not add referral attributes when ReferralSourceId is absent' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+491741763110',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Regular WhatsApp message',
+            ReferralCtwaClid: 'AfjyUDlaIoiweZDnlzmDTEaG'
+          }
+
+          described_class.new(params: params).perform
+
+          message = whatsapp_twilio_channel.inbox.messages.last
+          expect(message.content_attributes).not_to have_key('referral')
+        end
       end
 
       describe 'When the incoming number is a Brazilian number in new format with 9 included' do
@@ -624,6 +823,57 @@ describe Twilio::IncomingMessageService do
           expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('Diego López')
           expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Argentina')
           expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+541123456789')
+        end
+      end
+
+      describe 'When the incoming number is a Mexican WhatsApp number with 1 after country code' do
+        let!(:whatsapp_twilio_channel) do
+          create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                                 inbox: create(:inbox, account: account, greeting_enabled: false))
+        end
+
+        it 'appends to existing contact when contact inbox exists without the extra 1' do
+          contact = create(:contact, account: account, phone_number: '+525512345678')
+          contact_inbox = create(:contact_inbox,
+                                 source_id: 'whatsapp:+525512345678',
+                                 contact: contact,
+                                 inbox: whatsapp_twilio_channel.inbox)
+          last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
+
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+5215512345678',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Mexico',
+            ProfileName: 'Maria Lopez'
+          }
+
+          described_class.new(params: params).perform
+
+          expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
+          expect(last_conversation.messages.last.content).to eq('Test message from Mexico')
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id)
+            .to eq('whatsapp:+525512345678')
+        end
+
+        it 'creates contact inbox with incoming number when no existing contact matches' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+5215512345678',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Mexico',
+            ProfileName: 'Maria Lopez'
+          }
+
+          described_class.new(params: params).perform
+
+          expect(whatsapp_twilio_channel.inbox.conversations.count).not_to eq(0)
+          expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('Maria Lopez')
+          expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Mexico')
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id)
+            .to eq('whatsapp:+5215512345678')
         end
       end
     end

@@ -34,6 +34,12 @@ disable_branding:
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: 'icon-sailbot-fill'
   enterprise: true
+voice_calls:
+  name: 'Voice Calls'
+  description: 'Enable voice calling capabilities for your agents and customers.'
+  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  icon: 'icon-voice-line'
+  enterprise: true
 
 # ------- Product Features ------- #
 help_center:

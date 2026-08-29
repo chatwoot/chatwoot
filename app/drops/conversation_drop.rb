@@ -1,6 +1,10 @@
 class ConversationDrop < BaseDrop
   include MessageFormatHelper
 
+  def id
+    @obj.try(:display_id)
+  end
+
   def display_id
     @obj.try(:display_id)
   end

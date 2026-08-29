@@ -1,5 +1,7 @@
 class Twilio::IncomingMessageService
   include ::FileTypeHelper
+  include ::Twilio::WhatsappIdentifierHelper
+  include ::Twilio::ReferralParamsHelper
 
   pattr_initialize [:params!]
 
@@ -14,7 +16,8 @@ class Twilio::IncomingMessageService
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
-      source_id: params[:SmsSid]
+      source_id: params[:SmsSid],
+      content_attributes: message_content_attributes
     )
     attach_files
     attach_location if location_message?
@@ -51,17 +54,27 @@ class Twilio::IncomingMessageService
     @account ||= inbox.account
   end
 
+  # Twilio WhatsApp phone payloads arrive as `whatsapp:+E164`. BSUID-only
+  # payloads use `whatsapp:<BSUID>` in `From`, so this intentionally returns
+  # nil when `From` is not phone-shaped.
   def phone_number
-    twilio_channel.sms? ? params[:From] : params[:From].gsub('whatsapp:', '')
+    return params[:From] if twilio_channel.sms?
+    return unless twilio_whatsapp_phone_source?
+
+    params[:From].gsub('whatsapp:', '')
   end
 
+  # Keep Twilio WhatsApp source ids in Twilio's native shape. Phone messages use
+  # `whatsapp:+E164`; BSUID-only messages fall back to `whatsapp:<BSUID>`.
   def normalized_phone_number
     return phone_number unless twilio_channel.whatsapp?
 
-    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider("whatsapp:#{phone_number}", :twilio)
+    twilio_whatsapp_primary_source_id
   end
 
   def formatted_phone_number
+    return if phone_number.blank?
+
     TelephoneNumber.parse(phone_number).international_number
   end
 
@@ -71,15 +84,9 @@ class Twilio::IncomingMessageService
 
   def set_contact
     source_id = twilio_channel.whatsapp? ? normalized_phone_number : params[:From]
-
-    contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: source_id,
-      inbox: inbox,
-      contact_attributes: contact_attributes
-    ).perform
-
-    @contact_inbox = contact_inbox
-    @contact = contact_inbox.contact
+    @contact_inbox = twilio_contact_inbox(source_id)
+    @contact = @contact_inbox.contact
+    update_twilio_whatsapp_identifiers
 
     # Update existing contact name if ProfileName is available and current name is just phone number
     update_contact_name_if_needed
@@ -111,13 +118,13 @@ class Twilio::IncomingMessageService
   def contact_attributes
     {
       name: contact_name,
-      phone_number: phone_number,
+      phone_number: phone_number.presence,
       additional_attributes: additional_attributes
     }
   end
 
   def contact_name
-    params[:ProfileName].presence || formatted_phone_number
+    params[:ProfileName].presence || formatted_phone_number || twilio_whatsapp_display_identifier || params[:From]
   end
 
   def additional_attributes
@@ -138,12 +145,18 @@ class Twilio::IncomingMessageService
 
     num_media.times do |i|
       media_url = params[:"MediaUrl#{i}"]
-      attach_single_file(media_url) if media_url.present?
+      attach_single_file(media_url, i) if media_url.present?
     end
   end
 
-  def attach_single_file(media_url)
-    attachment_file = download_attachment_file(media_url)
+  def attach_single_file(media_url, media_index)
+    attachment_file = Twilio::MediaDownloadService.new(
+      channel: twilio_channel,
+      media_url: media_url,
+      message_sid: params[:SmsSid].presence || params[:MessageSid],
+      media_index: media_index,
+      retry_delays: media_retry_delays
+    ).perform
     return if attachment_file.blank?
 
     @message.attachments.new(
@@ -157,30 +170,8 @@ class Twilio::IncomingMessageService
     )
   end
 
-  def download_attachment_file(media_url)
-    download_with_auth(media_url)
-  rescue Down::Error, Down::ClientError => e
-    handle_download_attachment_error(e, media_url)
-  end
-
-  def download_with_auth(media_url)
-    auth_credentials = if twilio_channel.api_key_sid.present?
-                         # When using api_key_sid, the auth token should be the api_secret_key
-                         [twilio_channel.api_key_sid, twilio_channel.auth_token]
-                       else
-                         # When using account_sid, the auth token is the account's auth token
-                         [twilio_channel.account_sid, twilio_channel.auth_token]
-                       end
-
-    Down.download(media_url, http_basic_authentication: auth_credentials)
-  end
-
-  def handle_download_attachment_error(error, media_url)
-    Rails.logger.info "Error downloading attachment from Twilio: #{error.message}: Retrying without auth"
-    Down.download(media_url)
-  rescue StandardError => e
-    Rails.logger.info "Error downloading attachment from Twilio: #{e.message}: Skipping"
-    nil
+  def media_retry_delays
+    @media_retry_delays ||= Twilio::MediaDownloadService::RETRY_DELAYS.dup
   end
 
   def location_message?
@@ -207,6 +198,8 @@ class Twilio::IncomingMessageService
   end
 
   def contact_name_matches_phone_number?
+    return false if phone_number.blank?
+
     @contact.name == phone_number || @contact.name == formatted_phone_number
   end
 end

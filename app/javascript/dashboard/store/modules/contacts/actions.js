@@ -2,19 +2,23 @@ import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
-import types from '../../mutation-types';
-import ContactAPI from '../../../api/contacts';
 import snakecaseKeys from 'snakecase-keys';
 import AccountActionsAPI from '../../../api/accountActions';
+import ContactAPI from '../../../api/contacts';
 import AnalyticsHelper from '../../../helper/AnalyticsHelper';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import types from '../../mutation-types';
 
 const buildContactFormData = contactParams => {
   const formData = new FormData();
   const { additional_attributes = {}, ...contactProperties } = contactParams;
   Object.keys(contactProperties).forEach(key => {
-    if (contactProperties[key]) {
-      formData.append(key, contactProperties[key]);
+    const value = contactProperties[key];
+    const shouldAppendBlankCompanyId =
+      key === 'company_id' && value !== undefined;
+
+    if (value || shouldAppendBlankCompanyId) {
+      formData.append(key, value ?? '');
     }
   });
   const { social_profiles, ...additionalAttributesProperties } =
@@ -111,6 +115,19 @@ export const actions = {
       commit(types.SET_CONTACT_UI_FLAG, {
         isFetchingItem: false,
       });
+    }
+  },
+
+  fetchAttachments: async ({ commit }, id) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: true });
+    try {
+      const response = await ContactAPI.getAttachments(id);
+      commit(types.SET_CONTACT_ATTACHMENTS, {
+        id,
+        data: response.data.payload,
+      });
+    } finally {
+      commit(types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: false });
     }
   },
 
@@ -312,10 +329,14 @@ export const actions = {
     commit(types.CLEAR_CONTACT_FILTERS);
   },
 
-  initiateCall: async ({ commit }, { contactId, inboxId }) => {
+  initiateCall: async ({ commit }, { contactId, inboxId, conversationId }) => {
     commit(types.SET_CONTACT_UI_FLAG, { isInitiatingCall: true });
     try {
-      const response = await ContactAPI.initiateCall(contactId, inboxId);
+      const response = await ContactAPI.initiateCall(
+        contactId,
+        inboxId,
+        conversationId
+      );
       commit(types.SET_CONTACT_UI_FLAG, { isInitiatingCall: false });
       return response.data;
     } catch (error) {

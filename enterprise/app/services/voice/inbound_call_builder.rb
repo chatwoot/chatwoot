@@ -1,17 +1,19 @@
 class Voice::InboundCallBuilder
-  attr_reader :inbox, :from_number, :call_sid, :provider, :extra_meta
+  attr_reader :inbox, :call_sid, :provider, :extra_meta, :source_ids, :contact_attributes
 
-  def self.perform!(inbox:, from_number:, call_sid:, provider: :twilio, extra_meta: {})
-    new(inbox: inbox, from_number: from_number, call_sid: call_sid,
-        provider: provider, extra_meta: extra_meta).perform!
+  # `caller` carries the contact identity: { source_ids:, contact_attributes: }. Twilio passes
+  # its single +phone source_id; WhatsApp passes the message-path phone/user_id/parent_user_id set.
+  def self.perform!(inbox:, call_sid:, caller:, provider: :twilio, extra_meta: {})
+    new(inbox: inbox, call_sid: call_sid, caller: caller, provider: provider, extra_meta: extra_meta).perform!
   end
 
-  def initialize(inbox:, from_number:, call_sid:, provider: :twilio, extra_meta: {})
+  def initialize(inbox:, call_sid:, caller:, provider: :twilio, extra_meta: {})
     @inbox = inbox
-    @from_number = from_number
     @call_sid = call_sid
     @provider = provider.to_sym
     @extra_meta = extra_meta || {}
+    @source_ids = Array(caller[:source_ids]).compact_blank
+    @contact_attributes = caller[:contact_attributes] || {}
   end
 
   def perform!
@@ -43,46 +45,24 @@ class Voice::InboundCallBuilder
         .find_by(provider: provider, provider_call_id: call_sid)
   end
 
-  # Always look up by (inbox, source_id) first — that pair has a UNIQUE index, so
-  # creating with a colliding source_id under a different contact would raise
-  # RecordNotUnique. Reuse the existing ContactInbox (and its contact) when found.
-  # A concurrent message webhook for the same wa_id can win the (inbox_id, source_id)
-  # race; rescue and re-find so the call path doesn't drop the connect.
+  # Resolve the contact/ContactInbox the same way inbound messages do — match across every
+  # candidate source_id (phone + BSUID aliases) so a call reuses the existing thread, creating
+  # one keyed on the first (phone, else BSUID) only when none exists. Shared with messaging via
+  # ContactInboxSourceIdResolver, which also rescues the concurrent-webhook create race.
   def ensure_contact_inbox!
-    sid = source_id_for_provider
-    existing = inbox.contact_inboxes.find_by(source_id: sid)
-    return existing if existing
-
-    ContactInbox.create!(contact: ensure_contact!, inbox: inbox, source_id: sid)
-  rescue ActiveRecord::RecordNotUnique
-    inbox.contact_inboxes.find_by!(source_id: sid)
+    ContactInboxSourceIdResolver.new(
+      inbox: inbox, source_ids: source_ids, contact_attributes: contact_attributes
+    ).perform
   end
 
-  def ensure_contact!
-    account.contacts.find_or_create_by!(phone_number: from_number) do |record|
-      record.name = from_number if record.name.blank?
-    end
-  end
-
-  # WhatsApp ContactInbox.source_id must be digits-only (the wa_id); Twilio accepts the +.
-  # Run BR/AR-style wa_id normalization (same path messaging uses) so an inbound call
-  # finds the existing ContactInbox instead of forking a new contact/conversation.
-  def source_id_for_provider
-    return from_number unless provider == :whatsapp
-
-    digits = from_number.to_s.delete_prefix('+')
-    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(digits, :cloud)
-  end
-
+  # Mirror Whatsapp::IncomingMessageBaseService#set_conversation: reuse this row's open conversation (or last when locked), else create.
   def resolve_conversation!(contact, contact_inbox)
-    if inbox.lock_to_single_conversation
-      reusable = account.conversations
-                        .where(contact_id: contact.id, inbox_id: inbox.id)
-                        .where.not(status: :resolved)
-                        .order(last_activity_at: :desc)
-                        .first
-      return reusable if reusable
-    end
+    reusable = if inbox.lock_to_single_conversation
+                 contact_inbox.conversations.last
+               else
+                 contact_inbox.conversations.where.not(status: :resolved).last
+               end
+    return reusable if reusable
 
     account.conversations.create!(
       contact_inbox_id: contact_inbox.id,

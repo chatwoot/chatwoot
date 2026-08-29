@@ -46,6 +46,7 @@
           "PLACEHOLDER": "انتخاب صندوق ورودی"
         },
         "SUBMIT": "ايجاد كردن",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "انصراف"
       },
       "API": {
