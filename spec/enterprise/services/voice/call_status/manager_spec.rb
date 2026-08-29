@@ -69,6 +69,29 @@ RSpec.describe Voice::CallStatus::Manager do
     expect(call.meta['agent_termination_pending_status']).to be_nil
   end
 
+  it 'does not replay a deferred status that would move an in-progress call backward' do
+    timestamp = 1.minute.ago.to_i
+    call.update!(status: 'in_progress', started_at: 2.minutes.ago)
+    call.update!(
+      meta: call.meta.merge(
+        'agent_termination_token' => 'termination-1',
+        'agent_termination_started_at' => 3.minutes.ago.to_i,
+        'agent_termination_pending_status' => {
+          'status' => 'ringing',
+          'duration' => nil,
+          'timestamp' => timestamp,
+          'owner_token' => 'termination-1'
+        }
+      )
+    )
+
+    manager.reconcile_suppressed_status!
+
+    call.reload
+    expect(call.status).to eq('in_progress')
+    expect(call.meta['agent_termination_pending_status']).to be_nil
+  end
+
   it 'retains a deferred status until its replay publishes successfully' do
     timestamp = Time.zone.now.to_i
     call.update!(
