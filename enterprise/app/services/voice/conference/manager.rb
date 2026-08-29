@@ -60,8 +60,7 @@ class Voice::Conference::Manager
         deferred = true
         next
       end
-      next if call.terminal?
-      next if call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id
+      next unless claimable_by?(user_id)
 
       call.update!(accepted_by_agent_id: user_id) if call.accepted_by_agent_id != user_id
       status_manager.process_status_update('in_progress', timestamp: join_timestamp)
@@ -75,6 +74,12 @@ class Voice::Conference::Manager
 
     auto_assign_conversation!(user_id) if claimed
     claimed
+  end
+
+  def claimable_by?(user_id)
+    return false if call.terminal?
+
+    call.accepted_by_agent_id.blank? || call.accepted_by_agent_id == user_id
   end
 
   def mark_accepted_broadcast!
