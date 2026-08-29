@@ -23,9 +23,7 @@ module Telegram::ParamHelpers
   # This is our messages posted via telegram client.
   # Such messages should be outgoing (from us to client)
   def business_message_outgoing?
-    if callback_query_params?
-      return business_message? && callback_chat_id != callback_sender_id
-    end
+    return business_message? && callback_chat_id != callback_sender_id if callback_query_params?
 
     business_message? && telegram_params_base_object[:chat][:id] != telegram_params_base_object[:from][:id]
   end

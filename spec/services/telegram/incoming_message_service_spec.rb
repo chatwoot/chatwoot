@@ -537,7 +537,7 @@ describe Telegram::IncomingMessageService do
           }.with_indifferent_access
 
           expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
-            .not_to change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] }
+            .not_to(change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] })
         end
       end
     end
@@ -563,7 +563,7 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
 
         expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
-          .not_to change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] }
+          .not_to(change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] })
       end
     end
 
@@ -587,7 +587,7 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
 
         expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
-          .not_to change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] }
+          .not_to(change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] })
       end
     end
 
@@ -605,7 +605,7 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
 
         expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
-          .not_to change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] }
+          .not_to(change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] })
       end
     end
 
@@ -617,7 +617,7 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
 
         expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
-          .not_to change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] }
+          .not_to(change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] })
       end
     end
 
