@@ -1,5 +1,5 @@
 class Voice::Conference::Manager
-  pattr_initialize [:call!, :event!, :participant_label, :participant_call_sid]
+  pattr_initialize [:call!, :event!, :participant_label, :participant_call_sid, :participant_timestamp]
 
   AGENT_LABEL_PATTERN = /\Aagent-(\d+)-account-(\d+)\z/
 
@@ -64,7 +64,7 @@ class Voice::Conference::Manager
       next if call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id
 
       call.update!(accepted_by_agent_id: user_id) if call.accepted_by_agent_id != user_id
-      status_manager.process_status_update('in_progress', timestamp: now)
+      status_manager.process_status_update('in_progress', timestamp: join_timestamp)
       claimed = true
     end
 
@@ -99,7 +99,8 @@ class Voice::Conference::Manager
     Voice::CallTerminationGuard.persist_pending_join!(
       call,
       participant_label: participant_label,
-      participant_call_sid: participant_call_sid
+      participant_call_sid: participant_call_sid,
+      timestamp: join_timestamp
     )
   end
 
@@ -156,6 +157,10 @@ class Voice::Conference::Manager
 
   def agent_participant?
     participant_label.to_s.start_with?('agent-')
+  end
+
+  def join_timestamp
+    participant_timestamp.presence || now
   end
 
   def now
