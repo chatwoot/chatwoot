@@ -75,7 +75,7 @@ class Voice::CallStatus::Manager
 
   def republish_pending_status?(status)
     pending = Voice::CallTerminationGuard.pending_status(call)
-    pending.present? && pending['status'] == status && !Voice::CallTerminationGuard.active?(call)
+    call.status == status && pending.present? && pending['status'] == status && !Voice::CallTerminationGuard.active?(call)
   end
 
   def regressive_status?(status)
