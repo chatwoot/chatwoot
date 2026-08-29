@@ -199,7 +199,8 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
           Voice::CallTerminationGuard.persist_pending_join!(
             call,
             participant_label: "agent-#{agent.id}-account-#{account.id}",
-            participant_call_sid: 'CA_NEW_OWNER'
+            participant_call_sid: 'CA_NEW_OWNER',
+            timestamp: Time.zone.now.to_i
           )
           new_owner_created = true
         end
