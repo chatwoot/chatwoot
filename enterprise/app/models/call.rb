@@ -46,7 +46,7 @@ class Call < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :conversation
-  belongs_to :contact
+  belongs_to :contact, optional: true
   belongs_to :message, optional: true, inverse_of: :call
   belongs_to :accepted_by_agent, class_name: 'User', optional: true
 
@@ -118,11 +118,11 @@ class Call < ApplicationRecord
   end
 
   def from_number
-    incoming? ? contact.phone_number : inbox.channel&.phone_number
+    incoming? ? contact&.phone_number : inbox.channel&.phone_number
   end
 
   def to_number
-    incoming? ? inbox.channel&.phone_number : contact.phone_number
+    incoming? ? inbox.channel&.phone_number : contact&.phone_number
   end
 
   def recording_url
