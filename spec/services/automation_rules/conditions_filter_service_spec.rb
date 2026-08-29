@@ -67,7 +67,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       let(:agent_bot) { create(:agent_bot, account: account) }
 
       before do
-        conversation.update!(assignee_agent_bot: agent_bot)
+        conversation.update!(ai_assignee: agent_bot)
       end
 
       it 'treats AgentBot ownership as present' do

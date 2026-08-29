@@ -616,7 +616,7 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       it 'does not self assign and clears the agent bot owner if admin changes the conversation status to open' do
-        conversation.update!(status: 'pending', assignee: nil, assignee_agent_bot: agent_bot)
+        conversation.update!(status: 'pending', assignee: nil, ai_assignee: agent_bot)
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: administrator.create_new_auth_token,
@@ -625,7 +625,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.status).to eq('open')
         expect(conversation.reload.assignee_id).not_to eq(administrator.id)
-        expect(conversation.reload.assignee_agent_bot).to be_nil
+        expect(conversation.reload.ai_assignee).to be_nil
       end
 
       it 'toggles the conversation status to specific status when parameter is passed' do
