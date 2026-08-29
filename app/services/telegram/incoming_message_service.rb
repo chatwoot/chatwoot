@@ -9,7 +9,6 @@ class Telegram::IncomingMessageService
   def perform
     # chatwoot doesn't support group conversations at the moment
     transform_business_message!
-    Telegram::CallbackQueryService.new(inbox: inbox, params: params).perform
     return unless private_message?
 
     set_contact

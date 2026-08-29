@@ -407,7 +407,7 @@ describe Telegram::IncomingMessageService do
               'language_code' => 'en',
               'is_premium' => true
             },
-            'message' => message_params,
+            'message' => message_params.deep_merge('chat' => { 'id' => 5_171_248 }),
             'chat_instance' => '-89923842384923492',
             'data' => 'Option 1'
           }
@@ -418,8 +418,7 @@ describe Telegram::IncomingMessageService do
         expect(contact_for(5_171_248).name).to eq('Sojan Jose')
         expect(contact_for(5_171_248).additional_attributes['social_telegram_user_id']).to eq(5_171_248)
         expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
-        expect(a_request(:post, %r{/answerCallbackQuery})
-          .with(body: hash_including('callback_query_id' => '2342342309929423'))).to have_been_made.once
+        expect(a_request(:post, %r{/answerCallbackQuery})).not_to have_been_made
       end
     end
 
@@ -430,14 +429,23 @@ describe Telegram::IncomingMessageService do
           'callback_query' => {
             'id' => '2342342309929423',
             'from' => {
-              'id' => 42,
+              'id' => 23,
               'is_bot' => false,
-              'first_name' => 'John',
-              'last_name' => 'Doe',
-              'username' => 'johndoe',
+              'first_name' => 'Sojan',
+              'last_name' => 'Jose',
+              'username' => 'sojan',
               'language_code' => 'en'
             },
-            'message' => message_params.merge('business_connection_id' => 'eooW3KF5WB5HxTD7T826'),
+            'message' => message_params.deep_merge(
+              'business_connection_id' => 'eooW3KF5WB5HxTD7T826',
+              'from' => {
+                'id' => 42,
+                'is_bot' => false,
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'username' => 'johndoe'
+              }
+            ),
             'chat_instance' => '-89923842384923492',
             'data' => 'Option 1'
           }
@@ -445,21 +453,71 @@ describe Telegram::IncomingMessageService do
 
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
 
-        expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
-        expect(telegram_channel.inbox.messages.first.message_type).to eq('incoming')
-        contact = Contact.all.first
+        message = telegram_channel.inbox.messages.first
+        contact = contact_for(23)
+        expect(message.content).to eq('Option 1')
+        expect(message.message_type).to eq('incoming')
+        aggregate_failures do
+          expect(message.sender).to eq(contact)
+          expect(message.conversation.contact).to eq(contact)
+          expect(contact.name).to eq('Sojan Jose')
+          expect(contact.additional_attributes).to include(
+            'social_telegram_user_id' => 23,
+            'social_telegram_user_name' => 'sojan',
+            'language_code' => 'en'
+          )
+          expect(message.conversation.additional_attributes).to include(
+            'chat_id' => 23,
+            'business_connection_id' => 'eooW3KF5WB5HxTD7T826'
+          )
+        end
+      end
+    end
+
+    context 'when the business account owner triggers a callback query' do
+      it 'creates an outgoing message in the customer conversation' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => {
+            'id' => '2342342309929423',
+            'from' => {
+              'id' => 42,
+              'is_bot' => false,
+              'first_name' => 'John',
+              'last_name' => 'Doe',
+              'username' => 'johndoe'
+            },
+            'message' => message_params.deep_merge(
+              'business_connection_id' => 'eooW3KF5WB5HxTD7T826',
+              'from' => {
+                'id' => 42,
+                'is_bot' => false,
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'username' => 'johndoe'
+              }
+            ),
+            'chat_instance' => '-89923842384923492',
+            'data' => 'Option 1'
+          }
+        }.with_indifferent_access
+
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+
+        message = telegram_channel.inbox.messages.first
+        expect(message.content).to eq('Option 1')
+        expect(message.message_type).to eq('outgoing')
+        expect(message.sender).to be_nil
+        contact = contact_for(23)
+        expect(message.conversation.contact).to eq(contact)
         expect(contact.name).to eq('Sojan Jose')
-        expect(contact.additional_attributes['social_telegram_user_id']).to eq(23)
         expect(contact.additional_attributes['social_telegram_user_name']).to eq('sojan')
-        expect(contact.additional_attributes['language_code']).to be_nil
-        expect(a_request(:post, %r{/answerCallbackQuery})
-          .with(body: hash_including('callback_query_id' => '2342342309929423'))).to have_been_made.once
       end
     end
 
     %w[group supergroup].each do |chat_type|
       context "when callback_query comes from a #{chat_type}" do
-        it 'acknowledges the callback without creating a conversation' do
+        it 'does not create a conversation' do
           params = {
             'update_id' => 2_342_342_343_242,
             'callback_query' => {
@@ -479,25 +537,13 @@ describe Telegram::IncomingMessageService do
           }.with_indifferent_access
 
           expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
-            .not_to change(telegram_channel.inbox.conversations, :count)
-          expect(a_request(:post, %r{/answerCallbackQuery})
-            .with(body: hash_including('callback_query_id' => '2342342309929423'))).to have_been_made.once
+            .not_to change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] }
         end
       end
     end
 
-    context 'when callback_query ack is stale' do
-      it 'still processes callback query message' do
-        allow(Rails.logger).to receive(:warn)
-        stub_request(:post, %r{/answerCallbackQuery}).to_return(
-          status: 400,
-          body: {
-            ok: false,
-            description: 'Bad Request: query is too old and response timeout expired or query id is invalid'
-          }.to_json,
-          headers: { content_type: 'application/json' }
-        )
-
+    context 'when callback_query comes from inline mode without a message' do
+      it 'does not create a conversation' do
         params = {
           'update_id' => 2_342_342_343_242,
           'callback_query' => {
@@ -510,27 +556,19 @@ describe Telegram::IncomingMessageService do
               'username' => 'sojan',
               'language_code' => 'en'
             },
-            'message' => message_params,
+            'inline_message_id' => 'inline-message-id',
             'chat_instance' => '-89923842384923492',
             'data' => 'Option 1'
           }
         }.with_indifferent_access
 
-        expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }.not_to raise_error
-        expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
-        expect(Rails.logger).to have_received(:warn).with(include('Telegram callback ack failed'))
+        expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
+          .not_to change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] }
       end
     end
 
-    context 'when callback_query ack returns ok=false' do
-      it 'still processes the callback' do
-        allow(Rails.logger).to receive(:warn)
-        stub_request(:post, %r{/answerCallbackQuery}).to_return(
-          status: 200,
-          body: { ok: false, description: 'Bad Request: query is too old' }.to_json,
-          headers: { content_type: 'application/json' }
-        )
-
+    context 'when a non-business callback sender does not match the private chat' do
+      it 'does not create a conversation' do
         params = {
           'update_id' => 2_342_342_343_242,
           'callback_query' => {
@@ -540,8 +578,7 @@ describe Telegram::IncomingMessageService do
               'is_bot' => false,
               'first_name' => 'Sojan',
               'last_name' => 'Jose',
-              'username' => 'sojan',
-              'language_code' => 'en'
+              'username' => 'sojan'
             },
             'message' => message_params,
             'chat_instance' => '-89923842384923492',
@@ -549,9 +586,38 @@ describe Telegram::IncomingMessageService do
           }
         }.with_indifferent_access
 
-        expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }.not_to raise_error
-        expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
-        expect(Rails.logger).to have_received(:warn).with(include('Telegram callback ack failed'))
+        expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
+          .not_to change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] }
+      end
+    end
+
+    context 'when callback_query has a game payload instead of data' do
+      it 'does not create a conversation' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => {
+            'id' => '2342342309929423',
+            'from' => message_params['from'],
+            'message' => message_params,
+            'chat_instance' => '-89923842384923492',
+            'game_short_name' => 'test-game'
+          }
+        }.with_indifferent_access
+
+        expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
+          .not_to change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] }
+      end
+    end
+
+    context 'when callback_query is malformed' do
+      it 'does not create a conversation' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => 'invalid'
+        }.with_indifferent_access
+
+        expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
+          .not_to change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] }
       end
     end
 

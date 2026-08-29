@@ -1,7 +1,9 @@
 module Telegram::ParamHelpers
+  include Telegram::CallbackQueryParamHelpers
+
   # ensures that message is from a private chat and not a group chat
   def private_message?
-    return params.dig(:callback_query, :message, :chat, :type) == 'private' if callback_query_params?
+    return processable_private_callback_query? if callback_query_params?
 
     params.dig(:message, :chat, :type) == 'private'
   end
@@ -21,7 +23,9 @@ module Telegram::ParamHelpers
   # This is our messages posted via telegram client.
   # Such messages should be outgoing (from us to client)
   def business_message_outgoing?
-    return false if callback_query_params?
+    if callback_query_params?
+      return business_message? && callback_chat_id != callback_sender_id
+    end
 
     business_message? && telegram_params_base_object[:chat][:id] != telegram_params_base_object[:from][:id]
   end
@@ -30,13 +34,9 @@ module Telegram::ParamHelpers
     params[:message].present?
   end
 
-  def callback_query_params?
-    params[:callback_query].present?
-  end
-
   def telegram_params_base_object
     if callback_query_params?
-      params[:callback_query]
+      callback_query
     else
       params[:message]
     end
@@ -53,22 +53,16 @@ module Telegram::ParamHelpers
   end
 
   def callback_query_contact_params
-    callback_message_chat = params.dig(:callback_query, :message, :chat)
-    callback_sender = params.dig(:callback_query, :from)
+    return callback_message_chat if business_message_outgoing?
 
-    if business_message?
-      callback_message_chat.presence || callback_sender
-    else
-      callback_sender.presence || callback_message_chat
-    end
+    callback_sender.presence || callback_message_chat
   end
 
   def telegram_params_from_id
     if callback_query_params?
-      callback_chat_id = params.dig(:callback_query, :message, :chat, :id)
       return callback_chat_id if business_message? && callback_chat_id.present?
 
-      return params.dig(:callback_query, :from, :id)
+      return callback_sender_id
     end
 
     return telegram_params_base_object[:chat][:id] if business_message?
@@ -94,7 +88,7 @@ module Telegram::ParamHelpers
 
   def telegram_params_chat_id
     if callback_query_params?
-      params[:callback_query][:message][:chat][:id]
+      callback_chat_id
     else
       telegram_params_base_object[:chat][:id]
     end
@@ -102,7 +96,7 @@ module Telegram::ParamHelpers
 
   def telegram_params_business_connection_id
     if callback_query_params?
-      params[:callback_query][:message][:business_connection_id]
+      callback_business_connection_id
     else
       telegram_params_base_object[:business_connection_id]
     end
@@ -110,7 +104,7 @@ module Telegram::ParamHelpers
 
   def telegram_params_message_content
     if callback_query_params?
-      params[:callback_query][:data]
+      callback_query_data
     else
       params[:message][:text].presence || params[:message][:caption]
     end
@@ -118,7 +112,7 @@ module Telegram::ParamHelpers
 
   def telegram_params_message_id
     if callback_query_params?
-      params[:callback_query][:id]
+      callback_query_id
     else
       params[:message][:message_id]
     end
