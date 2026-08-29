@@ -47,7 +47,7 @@ class Twilio::VoiceController < ApplicationController
       event: event,
       participant_label: participant_label,
       participant_call_sid: twilio_call_sid,
-      participant_timestamp: params[:Timestamp]
+      participant_timestamp: participant_timestamp
     ).process
 
     head :no_content
@@ -219,6 +219,11 @@ class Twilio::VoiceController < ApplicationController
 
   def participant_label
     params[:ParticipantLabel].to_s
+  end
+
+  def participant_timestamp
+    timestamp = params[:Timestamp].presence
+    Time.zone.parse(timestamp).to_i if timestamp
   end
 
   attr_reader :inbox
