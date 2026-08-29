@@ -100,6 +100,57 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     expect(call.meta['agent_termination_pending_status']).to be_nil
   end
 
+  it 'replays a confirmed join before a later deferred terminal status' do
+    join_timestamp = 2.minutes.ago.to_i
+    terminal_timestamp = 1.minute.ago.to_i
+    allow(conference_service).to receive(:end_provider_call) do
+      call = Call.find_by!(provider_call_id: 'CALL123')
+      Voice::Conference::Manager.new(
+        call: call,
+        event: 'join',
+        participant_label: "agent-#{agent.id}-account-#{account.id}",
+        participant_call_sid: 'CA_AGENT_1',
+        participant_timestamp: join_timestamp
+      ).process
+      Voice::CallStatus::Manager.new(call: call).process_status_update(
+        'completed', duration: 30, timestamp: terminal_timestamp
+      )
+      raise StandardError, 'provider teardown failed'
+    end
+
+    delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+           headers: agent.create_new_auth_token,
+           params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+    expect(response).to have_http_status(:internal_server_error)
+    call = Call.find_by!(provider_call_id: 'CALL123')
+    expect(call.status).to eq('completed')
+    expect(call.accepted_by_agent_id).to eq(agent.id)
+    expect(call.started_at.to_i).to eq(join_timestamp)
+    expect(call.duration_seconds).to eq(30)
+    expect(call.meta['agent_termination_pending_join']).to be_nil
+    expect(call.meta['agent_termination_pending_status']).to be_nil
+  end
+
+  it 'does not report success after losing teardown ownership before local finalization' do
+    allow(conference_service).to receive(:end_provider_call) do
+      call = Call.find_by!(provider_call_id: 'CALL123')
+      call.with_lock do
+        call.update!(meta: Voice::CallTerminationGuard.claim_meta(call, token: 'new-owner'))
+      end
+    end
+
+    delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+           headers: agent.create_new_auth_token,
+           params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+    expect(response).to have_http_status(:locked)
+    expect(conference_service).not_to have_received(:complete_conference)
+    call = Call.find_by!(provider_call_id: 'CALL123')
+    expect(call.status).to eq('ringing')
+    expect(call.meta['agent_termination_token']).to eq('new-owner')
+  end
+
   it 'does not suppress a future disconnect when failed teardown keeps the agent participant connected' do
     allow(conference_service).to receive(:end_provider_call).and_raise(StandardError, 'provider teardown failed')
 
