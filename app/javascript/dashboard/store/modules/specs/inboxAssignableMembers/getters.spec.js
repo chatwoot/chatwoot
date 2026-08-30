@@ -30,7 +30,12 @@ describe('#getters', () => {
     ).toEqual([agentBot, agentsData[0]]);
   });
 
-  it('keeps Captain scoped to the type-aware assignment list', () => {
+  it('keeps AI assignees scoped to the type-aware assignment list', () => {
+    const agentBot = {
+      id: 1,
+      name: 'Agent Bot',
+      assignee_type: 'AgentBot',
+    };
     const captain = {
       id: 2,
       name: 'Captain',
@@ -38,15 +43,15 @@ describe('#getters', () => {
     };
     const state = {
       records: {
-        1: [captain, agentsData[0]],
-        '1:with_ai_assignees': [captain, agentsData[0]],
+        1: [agentBot, captain, agentsData[0]],
+        '1:with_ai_assignees': [agentBot, captain, agentsData[0]],
       },
     };
 
     expect(getters.getAssignableAgents(state)(1)).toEqual([agentsData[0]]);
     expect(
-      getters.getAssignableAgents(state)(1, { includeCaptain: true })
-    ).toEqual([captain, agentsData[0]]);
+      getters.getAssignableAgents(state)(1, { includeAIAssignees: true })
+    ).toEqual([agentBot, captain, agentsData[0]]);
   });
 
   it('getUIFlags', () => {

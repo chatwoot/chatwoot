@@ -64,8 +64,7 @@ export default {
         if (inboxId) {
           this.$store.dispatch('inboxAssignableAgents/fetch', {
             inboxIds: [inboxId],
-            includeAgentBots: true,
-            includeCaptain: true,
+            includeAIAssignees: true,
           });
         }
       },

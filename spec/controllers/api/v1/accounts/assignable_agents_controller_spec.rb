@@ -79,6 +79,19 @@ RSpec.describe 'Assignable Agents API', type: :request do
           expect(response_data.pluck('assignee_type')).to include('User', 'AgentBot')
           expect(response_data.pluck('name')).to include(agent1.name, admin.name, account_bot.name, global_bot.name)
         end
+
+        it 'returns accessible agent bots with the AI assignees flag' do
+          get "/api/v1/accounts/#{account.id}/assignable_agents",
+              params: { inbox_ids: [inbox1.id, inbox2.id], include_ai_assignees: true },
+              headers: agent1.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+
+          response_data = response.parsed_body['payload']
+          expect(response_data.pluck('assignee_type')).to include('User', 'AgentBot')
+          expect(response_data.pluck('name')).to include(agent1.name, admin.name, account_bot.name, global_bot.name)
+        end
       end
     end
   end

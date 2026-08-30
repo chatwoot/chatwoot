@@ -58,7 +58,7 @@ describe('useAgentsList', () => {
       useMapGetter('inboxAssignableAgents/getAssignableAgents').value
     ).toHaveBeenCalledWith(1, {
       includeAgentBots: false,
-      includeCaptain: false,
+      includeAIAssignees: false,
     });
     expect(agentsList.value[0]).toEqual(mockNoneAgent);
     expect(agentsList.value.length).toBe(
@@ -76,7 +76,7 @@ describe('useAgentsList', () => {
       useMapGetter('inboxAssignableAgents/getAssignableAgents').value
     ).toHaveBeenCalledWith(1, {
       includeAgentBots: true,
-      includeCaptain: false,
+      includeAIAssignees: false,
     });
     expect(agentsList.value[0]).toEqual(mockNoneAgent);
     expect(agentsList.value.length).toBe(
@@ -84,18 +84,17 @@ describe('useAgentsList', () => {
     );
   });
 
-  it('requests Captain when explicitly included', () => {
+  it('requests AI assignees when explicitly included', () => {
     const { assignableAgents } = useAgentsList(true, {
-      includeAgentBots: true,
-      includeCaptain: true,
+      includeAIAssignees: true,
     });
     expect(assignableAgents.value).toEqual(allAgentsData);
 
     expect(
       useMapGetter('inboxAssignableAgents/getAssignableAgents').value
     ).toHaveBeenCalledWith(1, {
-      includeAgentBots: true,
-      includeCaptain: true,
+      includeAgentBots: false,
+      includeAIAssignees: true,
     });
   });
 
