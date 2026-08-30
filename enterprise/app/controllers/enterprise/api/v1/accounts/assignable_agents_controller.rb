@@ -2,7 +2,6 @@ module Enterprise::Api::V1::Accounts::AssignableAgentsController
   def index
     super
     return unless @include_ai_assignees
-    return unless GlobalConfigService.load('ENABLE_CAPTAIN_CONVERSATION_ASSIGNMENT', false)
 
     assistants = @inboxes.filter_map { |inbox| inbox.captain_assistant if captain_assignable?(inbox) }
     @captain_assistants = assistants.uniq if assistants.size == @inboxes.size && assistants.uniq.one?
