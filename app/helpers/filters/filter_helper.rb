@@ -113,7 +113,7 @@ module Filters::FilterHelper
     values = Array.wrap(condition['values'])
     raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: condition['attribute_key']) if values.any? { |v| v.respond_to?(:to_h) }
 
-    return if condition['query_operator'].blank?
+    return if condition['query_operator'].to_s.empty?
 
     raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) unless %w[AND OR].include?(condition['query_operator'].upcase)
   end

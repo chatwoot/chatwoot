@@ -725,13 +725,14 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.priority).to eq('low')
       end
 
-      it 'toggles the conversation priority' do
+      it 'clears the conversation priority with none' do
         conversation.priority = 'low'
         conversation.save!
         expect(conversation.reload.priority).to eq('low')
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
              headers: agent.create_new_auth_token,
+             params: { priority: 'none' },
              as: :json
 
         expect(response).to have_http_status(:success)
@@ -741,7 +742,7 @@ RSpec.describe 'Conversations API', type: :request do
       it 'returns unprocessable entity for an invalid priority' do
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
              headers: agent.create_new_auth_token,
-             params: { priority: 'none' },
+             params: { priority: 'invalid' },
              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)

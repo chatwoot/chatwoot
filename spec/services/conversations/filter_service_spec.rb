@@ -406,7 +406,7 @@ describe Conversations::FilterService do
               user_1.id,
               user_2.id
             ],
-            query_operator: 'INVALID',
+            query_operator: ' ',
             custom_attribute_type: ''
           }.with_indifferent_access,
           {
