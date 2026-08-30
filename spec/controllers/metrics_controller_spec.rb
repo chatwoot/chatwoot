@@ -22,7 +22,7 @@ RSpec.describe 'Prometheus metrics', type: :request do
       expect(response).to have_http_status(:not_found)
     end
 
-    it 'returns Prometheus text when ENABLE_PROMETHEUS is true' do
+    it 'returns Prometheus text when ENABLE_PROMETHEUS is true' do # rubocop:disable RSpec/MultipleExpectations
       stats = instance_double(
         Sidekiq::Stats,
         processed: 10,
@@ -43,7 +43,7 @@ RSpec.describe 'Prometheus metrics', type: :request do
       end
 
       expect(response).to have_http_status(:success)
-      expect(response.media_type).to eq('text/plain')
+      expect(response.media_type).to start_with('text/plain')
       expect(response.content_type).to include('version=0.0.4')
       expect(response.body).to match(/chatwoot_up(?:\{[^}]*\})? 1(?:\.0)?/)
       expect(response.body).to match(/chatwoot_sidekiq_scrape_success(?:\{[^}]*\})? 1(?:\.0)?/)

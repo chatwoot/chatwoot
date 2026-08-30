@@ -20,7 +20,7 @@ RSpec.describe ChatwootPrometheus do
   end
 
   describe '.text' do
-    it 'emits chatwoot_up and Sidekiq snapshot gauges' do
+    it 'emits chatwoot_up and Sidekiq snapshot gauges' do # rubocop:disable RSpec/MultipleExpectations
       stats = instance_double(
         Sidekiq::Stats,
         processed: 10,
