@@ -616,8 +616,9 @@ export default {
         useAlert(this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_SUCCESS'));
         await this.fetchHealthData();
       } catch (error) {
+        // Same as the health fetch: the provider's own message is the actionable part.
         useAlert(
-          error.message ||
+          error.response?.data?.error ||
             this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_ERROR')
         );
       } finally {

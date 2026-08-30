@@ -253,11 +253,16 @@ describe('TwilioHealth', () => {
       healthData: {
         ...healthyData,
         status: 'misconfigured',
-        webhooks: [broken('messaging'), broken('voice'), broken('voice_status')],
+        webhooks: [
+          broken('messaging'),
+          broken('voice'),
+          broken('voice_status'),
+        ],
       },
     });
 
-    const hint = 'Twilio is calling a different URL, so traffic goes elsewhere.';
+    const hint =
+      'Twilio is calling a different URL, so traffic goes elsewhere.';
     expect(wrapper.text().split(hint)).toHaveLength(2);
     // The per-webhook status pill still appears on every card.
     expect(wrapper.text().split('Webhook URL mismatch').length - 1).toBe(4);

@@ -29,6 +29,25 @@ describe Twilio::WebhookSetupService do
       end
     end
 
+    context 'with api key credentials' do
+      let(:channel_twilio_sms) { create(:channel_twilio_sms, api_key_sid: 'SK123') }
+
+      let(:messaging) { instance_double(Twilio::REST::Messaging) }
+      let(:services) { instance_double(Twilio::REST::Messaging::V1::ServiceContext) }
+
+      before do
+        allow(twilio_client).to receive(:messaging).and_return(messaging)
+        allow(messaging).to receive(:services).and_return(services)
+        allow(services).to receive(:update)
+      end
+
+      it 'authenticates with the api key tuple' do
+        described_class.new(channel: channel_twilio_sms).perform
+
+        expect(Twilio::REST::Client).to have_received(:new).with('SK123', channel_twilio_sms.auth_token, channel_twilio_sms.account_sid)
+      end
+    end
+
     context 'with a phone number' do
       let(:channel_twilio_sms) { create(:channel_twilio_sms, :with_phone_number) }
 

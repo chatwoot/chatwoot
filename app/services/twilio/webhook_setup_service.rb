@@ -41,7 +41,8 @@ class Twilio::WebhookSetupService
     @phone_numbers ||= twilio_client.incoming_phone_numbers.list(phone_number: channel.phone_number)
   end
 
+  # The channel knows which credential pair to use (account token vs API key), so never rebuild it here.
   def twilio_client
-    @twilio_client ||= ::Twilio::REST::Client.new(channel.account_sid, channel.auth_token)
+    @twilio_client ||= channel.client
   end
 end
