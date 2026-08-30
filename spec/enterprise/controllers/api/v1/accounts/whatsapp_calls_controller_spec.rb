@@ -38,6 +38,17 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       get "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}"
       expect(response).to have_http_status(:unauthorized)
     end
+
+    # acceptIncomingCall falls back to this payload when the ring broadcast raced the agent's click,
+    # so it must report the decision taken when the call started, not the inbox's current flag.
+    it 'reports the recording decision taken when the call started' do
+      call # created while the inbox still had recording on
+      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
+
+      get "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}", headers: agent.create_new_auth_token
+
+      expect(response.parsed_body['recording_enabled']).to be true
+    end
   end
 
   describe 'POST /api/v1/accounts/:account_id/whatsapp_calls/:id/accept' do
@@ -111,6 +122,17 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body).to include('status' => 'calling', 'call_id' => 'wacid_outbound')
       expect(Call.find_by(provider_call_id: 'wacid_outbound')).to have_attributes(direction: 'outgoing', status: 'ringing')
+    end
+
+    it 'tells the calling agent whether to record' do
+      allow(provider_service).to receive(:initiate_call).and_return({ 'calls' => [{ 'id' => 'wacid_outbound' }] })
+      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+           headers: agent.create_new_auth_token
+
+      expect(response.parsed_body['recording_enabled']).to be false
     end
 
     it 'assigns the conversation to the agent placing the call when it is unassigned' do

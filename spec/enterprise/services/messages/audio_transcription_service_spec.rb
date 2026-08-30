@@ -34,6 +34,31 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
       end
     end
 
+    context 'when the message is a call recording on an inbox with transcription turned off' do
+      let(:channel) do
+        create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+      end
+      let(:conversation) { create(:conversation, account: account, inbox: channel.inbox) }
+      let(:message) { create(:message, account: account, conversation: conversation, inbox: channel.inbox, content_type: 'voice_call') }
+
+      before do
+        channel.update!(provider_config: channel.provider_config.merge('transcription_enabled' => false))
+        allow(Llm::SpeechToTextService).to receive(:new)
+      end
+
+      it 'skips transcription' do
+        expect(service.perform).to eq({ error: 'Transcription disabled for this inbox' })
+        expect(Llm::SpeechToTextService).not_to have_received(:new)
+      end
+
+      # The setting is about call recordings; an ordinary voice note on the same inbox is untouched.
+      it 'still transcribes a voice note sent by the contact' do
+        message.update!(content_type: 'text')
+
+        expect(service.perform).not_to eq({ error: 'Transcription disabled for this inbox' })
+      end
+    end
+
     context 'when transcription is successful' do
       before do
         allow(Llm::SpeechToTextService).to receive(:available_for?).and_return(true)
