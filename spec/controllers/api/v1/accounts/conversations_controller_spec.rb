@@ -725,13 +725,14 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.priority).to eq('low')
       end
 
-      it 'toggles the conversation priority' do
+      it 'clears the conversation priority when priority is nil' do
         conversation.priority = 'low'
         conversation.save!
         expect(conversation.reload.priority).to eq('low')
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
              headers: agent.create_new_auth_token,
+             params: { priority: nil },
              as: :json
 
         expect(response).to have_http_status(:success)
