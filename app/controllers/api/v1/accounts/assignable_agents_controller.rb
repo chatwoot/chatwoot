@@ -4,6 +4,8 @@ class Api::V1::Accounts::AssignableAgentsController < Api::V1::Accounts::BaseCon
   def index
     # TODO: Remove this opt-in once mobile clients support AI assignees in this payload.
     @include_ai_assignees = params[:include_ai_assignees].present?
+    # TODO: Remove the legacy parameter after clients using the Agent Bot-only contract have aged out.
+    @include_agent_bots = params[:include_agent_bots].present? || @include_ai_assignees
     agent_ids = @inboxes.map do |inbox|
       authorize inbox, :show?
       member_ids = inbox.members.pluck(:user_id)
@@ -12,7 +14,7 @@ class Api::V1::Accounts::AssignableAgentsController < Api::V1::Accounts::BaseCon
     agent_ids = agent_ids.inject(:&)
     agents = Current.account.users.where(id: agent_ids)
     @assignable_agents = (agents + Current.account.administrators).uniq
-    @agent_bots = @include_ai_assignees ? AgentBot.accessible_to(Current.account) : []
+    @agent_bots = @include_agent_bots ? AgentBot.accessible_to(Current.account) : []
   end
 
   private
