@@ -5,6 +5,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   before_action :ensure_sdp_offer, only: :initiate
   before_action :ensure_contact_phone, only: :initiate
   before_action :ensure_recording_present, only: :upload_recording
+  before_action :ensure_recording_enabled, only: :upload_recording
   before_action :ensure_call_message, only: :upload_recording
 
   rescue_from Voice::CallErrors::NotRinging,
@@ -112,6 +113,14 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     return if params[:recording].present?
 
     render_could_not_create_error(I18n.t('errors.whatsapp.calls.no_recording'))
+  end
+
+  # The browser gates on this too, but that gate ships in JS: a tab loaded before the setting
+  # changed still has the old bundle, so storage is refused here as well.
+  def ensure_recording_enabled
+    return if @call.recording_enabled?
+
+    render_could_not_create_error(I18n.t('errors.whatsapp.calls.recording_disabled'))
   end
 
   def ensure_call_message

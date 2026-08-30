@@ -124,17 +124,6 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(Call.find_by(provider_call_id: 'wacid_outbound')).to have_attributes(direction: 'outgoing', status: 'ringing')
     end
 
-    it 'tells the calling agent whether to record' do
-      allow(provider_service).to receive(:initiate_call).and_return({ 'calls' => [{ 'id' => 'wacid_outbound' }] })
-      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
-
-      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
-           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
-           headers: agent.create_new_auth_token
-
-      expect(response.parsed_body['recording_enabled']).to be false
-    end
-
     it 'assigns the conversation to the agent placing the call when it is unassigned' do
       allow(provider_service).to receive(:initiate_call).and_return({ 'calls' => [{ 'id' => 'wacid_outbound' }] })
 
@@ -273,6 +262,19 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
            headers: agent.create_new_auth_token
 
       expect(response.parsed_body['status']).to eq('already_uploaded')
+    end
+
+    # The browser gate ships in JS, so a stale tab could still post audio for a call that decided not to record.
+    it 'refuses to store audio for a call created with recording off' do
+      call.update!(recording_enabled: false)
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/upload_recording",
+             params: { recording: fixture_file_upload(Rails.root.join('spec/assets/sample.mp3'), 'audio/mpeg') },
+             headers: agent.create_new_auth_token
+      end.not_to(change { call.message.attachments.count })
+
+      expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 end

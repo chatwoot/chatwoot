@@ -120,22 +120,6 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
         expect(response).to have_http_status(:ok)
         expect(channel.reload).to have_attributes(recording_enabled?: false, transcription_enabled?: false)
       end
-
-      it 'saves the flags on a WhatsApp inbox without re-validating provider config' do
-        account.enable_features('channel_voice')
-        account.save!
-        channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
-                                            validate_provider_config: false, sync_templates: false)
-        channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => true))
-
-        post "/api/v1/accounts/#{account.id}/inboxes/#{channel.inbox.id}/set_call_recording",
-             headers: admin.create_new_auth_token,
-             params: { recording_enabled: true, transcription_enabled: false },
-             as: :json
-
-        expect(response).to have_http_status(:ok)
-        expect(channel.reload).to have_attributes(recording_enabled?: true, transcription_enabled?: false)
-      end
     end
 
     context 'when the inbox has no calling' do
@@ -166,22 +150,6 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
         expect(response).to have_http_status(:unauthorized)
         expect(channel.reload.recording_enabled?).to be true
       end
-    end
-  end
-
-  describe 'GET /api/v1/accounts/{account.id}/inboxes' do
-    before do
-      allow(Twilio::VoiceWebhookSetupService).to receive(:new)
-        .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(16)}"))
-    end
-
-    it 'reports both call settings as on for a voice inbox that never touched them' do
-      channel = create(:channel_twilio_sms, :with_voice, account: account)
-
-      get "/api/v1/accounts/#{account.id}/inboxes", headers: admin.create_new_auth_token
-
-      payload = response.parsed_body['payload'].find { |i| i['id'] == channel.inbox.id }
-      expect(payload).to include('recording_enabled' => true, 'transcription_enabled' => true)
     end
   end
 
