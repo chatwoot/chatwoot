@@ -6,11 +6,10 @@ class AssignableAgents extends ApiClient {
     super('assignable_agents', { accountScoped: true });
   }
 
-  get(inboxIds, { includeAgentBots = false, includeAIAssignees = false } = {}) {
+  get(inboxIds, { includeAIAssignees = false } = {}) {
     return axios.get(this.url, {
       params: {
         inbox_ids: inboxIds,
-        ...(includeAgentBots ? { include_agent_bots: true } : {}),
         ...(includeAIAssignees ? { include_ai_assignees: true } : {}),
       },
     });

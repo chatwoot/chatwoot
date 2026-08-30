@@ -7,13 +7,8 @@ const state = {
   },
 };
 
-const recordKey = (
-  inboxId,
-  { includeAgentBots = false, includeAIAssignees = false } = {}
-) => {
-  if (includeAIAssignees) return `${inboxId}:with_ai_assignees`;
-  return includeAgentBots ? `${inboxId}:with_agent_bots` : inboxId;
-};
+const recordKey = (inboxId, { includeAIAssignees = false } = {}) =>
+  includeAIAssignees ? `${inboxId}:with_ai_assignees` : inboxId;
 
 export const types = {
   SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG: 'SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG',
@@ -24,14 +19,12 @@ export const getters = {
   getAssignableAgents:
     $state =>
     (inboxId, options = {}) => {
-      const includeAgentBots = options.includeAgentBots || false;
       const includeAIAssignees = options.includeAIAssignees || false;
       const allAgents = $state.records[recordKey(inboxId, options)] || [];
       const verifiedAgents = allAgents.filter(
         record =>
           record.confirmed ||
-          ((includeAgentBots || includeAIAssignees) &&
-            record.assignee_type === 'AgentBot') ||
+          (includeAIAssignees && record.assignee_type === 'AgentBot') ||
           (includeAIAssignees && record.assignee_type === 'Captain::Assistant')
       );
       return verifiedAgents;
@@ -46,8 +39,6 @@ export const actions = {
     const inboxIds = Array.isArray(actionPayload)
       ? actionPayload
       : actionPayload.inboxIds;
-    const includeAgentBots =
-      !Array.isArray(actionPayload) && actionPayload.includeAgentBots;
     const includeAIAssignees =
       !Array.isArray(actionPayload) && actionPayload.includeAIAssignees;
     commit(types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: true });
@@ -55,10 +46,9 @@ export const actions = {
       const {
         data: { payload },
       } = await AssignableAgentsAPI.get(inboxIds, {
-        includeAgentBots,
         includeAIAssignees,
       });
-      if (includeAgentBots || includeAIAssignees) {
+      if (includeAIAssignees) {
         commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
           inboxId: inboxIds.join(','),
           members: payload,
@@ -66,7 +56,6 @@ export const actions = {
       }
       commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
         inboxId: recordKey(inboxIds.join(','), {
-          includeAgentBots,
           includeAIAssignees,
         }),
         members: payload,
