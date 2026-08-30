@@ -143,6 +143,7 @@
     "SHOW_QUOTED_TEXT": "Show Quoted Text",
     "MESSAGE_READ": "Read",
     "SENDING": "Sending",
+    "DEFERRED": "Waiting to retry",
     "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

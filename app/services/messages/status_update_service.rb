@@ -26,6 +26,9 @@ class Messages::StatusUpdateService
   def valid_status_transition?
     return false unless Message.statuses.key?(status)
 
+    # `deferred` exists as foundation only; the transition into it is enabled by CW-7882.
+    return false if status.to_s == 'deferred'
+
     # Don't allow changing from 'read' to 'delivered'
     return false if message.read? && status == 'delivered'
 

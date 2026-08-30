@@ -125,6 +125,7 @@ const isRead = computed(() => {
 });
 
 const statusToShow = computed(() => {
+  if (status.value === MESSAGE_STATUS.DEFERRED) return MESSAGE_STATUS.DEFERRED;
   if (isRead.value) return MESSAGE_STATUS.READ;
   if (isDelivered.value) return MESSAGE_STATUS.DELIVERED;
   if (isSent.value) return MESSAGE_STATUS.SENT;
