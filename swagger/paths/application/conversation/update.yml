@@ -15,7 +15,7 @@ requestBody:
         properties:
           priority:
             type: string
-            enum: ['urgent', 'high', 'medium', 'low', 'none']
+            enum: ['urgent', 'high', 'medium', 'low']
             description: 'The priority of the conversation'
             example: 'high'
           sla_policy_id:
