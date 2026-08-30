@@ -739,14 +739,16 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.priority).to be_nil
       end
 
-      it 'returns unprocessable entity for an invalid priority' do
-        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
-             headers: agent.create_new_auth_token,
-             params: { priority: 'none' },
-             as: :json
+      it 'returns unprocessable entity for invalid priority values' do
+        ['none', '', false].each do |invalid_priority|
+          post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
+               headers: agent.create_new_auth_token,
+               params: { priority: invalid_priority },
+               as: :json
 
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['error']).to include('priority')
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to include('priority')
+        end
       end
     end
 

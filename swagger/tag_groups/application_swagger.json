@@ -3297,15 +3297,18 @@
                 "type": "object",
                 "properties": {
                   "priority": {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "enum": [
                       "urgent",
                       "high",
                       "medium",
                       "low",
-                      "none"
+                      null
                     ],
-                    "description": "The priority of the conversation",
+                    "description": "The priority of the conversation. Set to null to clear the priority.",
                     "example": "high"
                   },
                   "sla_policy_id": {
@@ -3501,15 +3504,18 @@
                 ],
                 "properties": {
                   "priority": {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "enum": [
                       "urgent",
                       "high",
                       "medium",
                       "low",
-                      "none"
+                      null
                     ],
-                    "description": "The priority of the conversation",
+                    "description": "The priority of the conversation. Set to null to clear the priority.",
                     "example": "high"
                   }
                 }

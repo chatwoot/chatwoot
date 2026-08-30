@@ -17,7 +17,7 @@ requestBody:
         properties:
           priority:
             type: [string, "null"]
-            enum: ['urgent', 'high', 'medium', 'low']
+            enum: ['urgent', 'high', 'medium', 'low', null]
             description: 'The priority of the conversation. Set to null to clear the priority.'
             example: 'high'
 responses:
