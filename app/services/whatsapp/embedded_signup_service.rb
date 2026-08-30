@@ -15,15 +15,14 @@ class Whatsapp::EmbeddedSignupService
     phone_info = fetch_phone_info(access_token)
 
     channel = create_or_reauthorize_channel(access_token, phone_info)
-    # NOTE: We call setup_webhooks explicitly here instead of relying on after_commit callback because:
+    # Enqueue webhook setup explicitly instead of relying on the after_commit callback because:
     # 1. Reauthorization flow updates an existing channel (not a create), so after_commit on: :create won't trigger
-    # 2. We need to run check_channel_health_and_prompt_reauth after webhook setup completes
-    # 3. The channel is marked with source: 'embedded_signup' to skip the after_commit callback
-    channel.setup_webhooks
-    # Skip health check during reauthorization — phone numbers in pending provisioning state
-    # (platform_type: NOT_APPLICABLE) would incorrectly trigger a disconnect email right after
-    # a successful reauth. Only run health check for new channel creation.
-    check_channel_health_and_prompt_reauth(channel) if @inbox_id.blank?
+    # 2. The channel is marked with source: 'embedded_signup' to skip the after_commit callback
+    # The job runs Meta's slow phone-registration/subscription calls off the request thread so they
+    # can't trip Rack::Timeout and roll back the just-created channel. The provisioning health check
+    # runs inside the job, after registration — and only for new channels, since a reauthorized
+    # number in a pending state would otherwise trigger a spurious disconnect right after reauth.
+    channel.enqueue_webhook_setup(run_health_check: @inbox_id.blank?)
     channel
 
   rescue StandardError => e
@@ -53,24 +52,6 @@ class Whatsapp::EmbeddedSignupService
       waba_info = { waba_id: @waba_id, business_name: phone_info[:business_name] }
       Whatsapp::ChannelCreationService.new(@account, waba_info, phone_info, access_token).perform
     end
-  end
-
-  def check_channel_health_and_prompt_reauth(channel)
-    health_data = Whatsapp::HealthService.new(channel).fetch_health_status
-    return unless health_data
-
-    if channel_in_pending_state?(health_data)
-      channel.prompt_reauthorization!
-    else
-      Rails.logger.info "[WHATSAPP] Channel #{channel.phone_number} health check passed"
-    end
-  rescue StandardError => e
-    Rails.logger.error "[WHATSAPP] Health check failed for channel #{channel.phone_number}: #{e.message}"
-  end
-
-  def channel_in_pending_state?(health_data)
-    health_data[:platform_type] == 'NOT_APPLICABLE' ||
-      health_data.dig(:throughput, 'level') == 'NOT_APPLICABLE'
   end
 
   def validate_parameters!

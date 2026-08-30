@@ -186,26 +186,25 @@ RSpec.describe Channel::Whatsapp do
     end
 
     context 'when channel is created through manual setup' do
-      it 'setups webhooks via after_commit callback' do
-        expect(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
-        expect(webhook_service).to receive(:perform)
-
+      it 'enqueues webhook setup via after_commit callback' do
         # Explicitly set source to nil to test manual setup behavior (not embedded_signup)
-        create(:channel_whatsapp,
-               account: account,
-               provider: 'whatsapp_cloud',
-               provider_config: {
-                 'business_account_id' => 'test_waba_id',
-                 'api_key' => 'test_access_token',
-                 'source' => nil
-               },
-               validate_provider_config: false,
-               sync_templates: false)
+        expect do
+          create(:channel_whatsapp,
+                 account: account,
+                 provider: 'whatsapp_cloud',
+                 provider_config: {
+                   'business_account_id' => 'test_waba_id',
+                   'api_key' => 'test_access_token',
+                   'source' => nil
+                 },
+                 validate_provider_config: false,
+                 sync_templates: false)
+        end.to have_enqueued_job(Channels::Whatsapp::WebhookSetupJob)
       end
     end
 
     context 'when channel is created with different provider' do
-      it 'does not setup webhooks for 360dialog provider' do
+      it 'does not enqueue webhook setup for 360dialog provider' do
         expect(Whatsapp::WebhookSetupService).not_to receive(:new)
 
         create(:channel_whatsapp,
@@ -218,6 +217,60 @@ RSpec.describe Channel::Whatsapp do
                validate_provider_config: false,
                sync_templates: false)
       end
+    end
+  end
+
+  describe '#enqueue_webhook_setup' do
+    let(:channel) do
+      create(:channel_whatsapp, account: create(:account),
+                                validate_provider_config: false, sync_templates: false)
+    end
+
+    it 'enqueues the setup job with the health-check flag' do
+      expect { channel.enqueue_webhook_setup(run_health_check: true) }
+        .to have_enqueued_job(Channels::Whatsapp::WebhookSetupJob).with(channel, run_health_check: true)
+    end
+
+    it 'prompts reauthorization when the queue is unavailable' do
+      allow(Channels::Whatsapp::WebhookSetupJob).to receive(:perform_later).and_raise(StandardError, 'redis down')
+
+      expect(channel.reauthorization_required?).to be false
+      channel.enqueue_webhook_setup
+      expect(channel.reauthorization_required?).to be true
+    end
+  end
+
+  describe '#check_provisioning_health' do
+    let(:channel) do
+      create(:channel_whatsapp, account: create(:account),
+                                validate_provider_config: false, sync_templates: false)
+    end
+    let(:health_service) { instance_double(Whatsapp::HealthService) }
+
+    before { allow(Whatsapp::HealthService).to receive(:new).with(channel).and_return(health_service) }
+
+    it 'prompts reauthorization when platform_type is NOT_APPLICABLE' do
+      allow(health_service).to receive(:fetch_health_status)
+        .and_return(platform_type: 'NOT_APPLICABLE', throughput: { 'level' => 'STANDARD' })
+
+      channel.check_provisioning_health
+      expect(channel.reauthorization_required?).to be true
+    end
+
+    it 'prompts reauthorization when throughput level is NOT_APPLICABLE' do
+      allow(health_service).to receive(:fetch_health_status)
+        .and_return(platform_type: 'CLOUD_API', throughput: { 'level' => 'NOT_APPLICABLE' })
+
+      channel.check_provisioning_health
+      expect(channel.reauthorization_required?).to be true
+    end
+
+    it 'does not prompt reauthorization for a healthy number' do
+      allow(health_service).to receive(:fetch_health_status)
+        .and_return(platform_type: 'CLOUD_API', throughput: { 'level' => 'STANDARD' })
+
+      channel.check_provisioning_health
+      expect(channel.reauthorization_required?).to be false
     end
   end
 
