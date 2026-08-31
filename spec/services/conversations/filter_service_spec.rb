@@ -524,10 +524,10 @@ describe Conversations::FilterService do
       end
 
       it 'rejects invalid filter values' do
-        [{ id: 1 }, 1].each do |invalid_value|
+        [[{ id: 1 }], [1], 'open'].each do |invalid_values|
           params[:payload] = [
             ActionController::Parameters.new(
-              attribute_key: 'status', filter_operator: 'equal_to', values: [invalid_value], query_operator: nil
+              attribute_key: 'status', filter_operator: 'equal_to', values: invalid_values, query_operator: nil
             ).permit!
           ]
 

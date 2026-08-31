@@ -210,7 +210,7 @@ class FilterService
 
   def validate_string_values(query_hash)
     return unless STRING_VALUE_ATTRIBUTES.include?(query_hash['attribute_key'])
-    return if Array.wrap(query_hash['values']).all?(String)
+    return if query_hash['values'].is_a?(Array) && query_hash['values'].all?(String)
 
     raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash['attribute_key'])
   end
