@@ -17,19 +17,19 @@ describe('useExactTimestamp', () => {
   it('formats the full date and time in the dashboard language', () => {
     vi.mocked(useI18n).mockReturnValue({ locale: ref('de') });
     const exactTimestamp = useExactTimestamp();
-    expect(exactTimestamp(TIMESTAMP)).toBe('⁨10.02.2021, 15:35⁩');
+    expect(exactTimestamp(TIMESTAMP)).toBe('10.02.2021, 15:35');
   });
 
   it('translates the month name and clock convention per locale', () => {
     vi.mocked(useI18n).mockReturnValue({ locale: ref('fr') });
     const exactTimestamp = useExactTimestamp();
-    expect(exactTimestamp(TIMESTAMP)).toBe('⁨10 févr. 2021, 15:35⁩');
+    expect(exactTimestamp(TIMESTAMP)).toBe('10 févr. 2021, 15:35');
   });
 
   it('keeps the 12 hour clock for locales that use it', () => {
     const exactTimestamp = useExactTimestamp();
     // The space before the meridiem differs between ICU versions.
-    expect(exactTimestamp(TIMESTAMP)).toMatch(/^⁨Feb 10, 2021, 3:35\sPM⁩$/);
+    expect(exactTimestamp(TIMESTAMP)).toMatch(/^Feb 10, 2021, 3:35\sPM$/);
   });
 
   it('reformats when the dashboard language changes', () => {
@@ -39,13 +39,14 @@ describe('useExactTimestamp', () => {
     expect(exactTimestamp(TIMESTAMP)).toContain('Feb 10, 2021');
 
     locale.value = 'ja';
-    expect(exactTimestamp(TIMESTAMP)).toBe('⁨2021/02/10 15:35⁩');
+    expect(exactTimestamp(TIMESTAMP)).toBe('2021/02/10 15:35');
   });
 
-  it('wraps the timestamp in directional isolates so it stays intact inside RTL labels', () => {
-    vi.mocked(useI18n).mockReturnValue({ locale: ref('ar') });
+  it('keeps the Gregorian calendar for locales that default to another one', () => {
+    vi.mocked(useI18n).mockReturnValue({ locale: ref('th') });
     const exactTimestamp = useExactTimestamp();
-    expect(exactTimestamp(TIMESTAMP)).toMatch(/^⁨.+⁩$/);
+    // The Buddhist calendar Thai defaults to would date this to 2564.
+    expect(exactTimestamp(TIMESTAMP)).toContain('2021');
   });
 
   it('returns an empty string when there is no timestamp', () => {

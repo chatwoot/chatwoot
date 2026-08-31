@@ -13,18 +13,15 @@ const formatterFor = locale => {
       new Intl.DateTimeFormat(locale, {
         dateStyle: 'medium',
         timeStyle: 'short',
+        // `fa` and `th` default to the Solar Hijri and Buddhist calendars, which
+        // would date the tooltip to a different year than the Gregorian relative
+        // time it annotates. Localize the presentation, not the calendar.
+        calendar: 'gregory',
       })
     );
   }
   return formatters.get(locale);
 };
-
-// Timestamps are interpolated into labels ("last updated {time}"), where a
-// locale-formatted date can run in the opposite direction to the surrounding
-// text and get reordered into it. Isolating the value keeps it intact, the way
-// a `<bdi>` element would for markup.
-const FIRST_STRONG_ISOLATE = '⁨';
-const POP_DIRECTIONAL_ISOLATE = '⁩';
 
 /**
  * Composable for the full, unambiguous date and time shown on hover next to a
@@ -44,9 +41,6 @@ export function useExactTimestamp() {
   return time => {
     if (!time) return '';
 
-    const timestamp = formatterFor(resolvedLocale.value).format(
-      fromUnixTime(time)
-    );
-    return `${FIRST_STRONG_ISOLATE}${timestamp}${POP_DIRECTIONAL_ISOLATE}`;
+    return formatterFor(resolvedLocale.value).format(fromUnixTime(time));
   };
 }
