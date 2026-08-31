@@ -546,6 +546,60 @@ describe Twilio::IncomingMessageService do
           expect(phone_contact_inbox.contact).to eq(bsuid_contact_inbox.contact)
           expect(bsuid_contact_inbox.contact.reload.phone_number).to eq('+919745786257')
         end
+
+        it 'routes merged-contact messages through each exact provider-shaped source' do
+          contact_a = create(:contact, account: account, name: 'Customer A')
+          contact_b = create(:contact, account: account, name: 'Customer B')
+          contact_inbox_a = create(:contact_inbox, inbox: whatsapp_twilio_channel.inbox, contact: contact_a,
+                                                   source_id: 'whatsapp:IN.2081978709342942')
+          contact_inbox_b = create(:contact_inbox, inbox: whatsapp_twilio_channel.inbox, contact: contact_b,
+                                                   source_id: 'whatsapp:IN.3081978709342942')
+          conversation_a = create(:conversation, account: account, inbox: whatsapp_twilio_channel.inbox, contact: contact_a,
+                                                 contact_inbox: contact_inbox_a)
+          conversation_b = create(:conversation, account: account, inbox: whatsapp_twilio_channel.inbox, contact: contact_b,
+                                                 contact_inbox: contact_inbox_b)
+          ContactMergeAction.new(account: account, base_contact: contact_a, mergee_contact: contact_b).perform
+          params_a = {
+            SmsSid: 'SMcustomerA', From: contact_inbox_a.source_id, AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid, Body: 'message from customer A',
+            ExternalUserId: contact_inbox_a.source_id.delete_prefix('whatsapp:')
+          }
+          params_b = {
+            SmsSid: 'SMcustomerB', From: contact_inbox_b.source_id, AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid, Body: 'message from customer B',
+            ExternalUserId: contact_inbox_b.source_id.delete_prefix('whatsapp:')
+          }
+
+          described_class.new(params: params_b).perform
+          described_class.new(params: params_a).perform
+
+          expect(conversation_a.reload.messages.pluck(:content)).to contain_exactly('message from customer A')
+          expect(conversation_b.reload.messages.pluck(:content)).to contain_exactly('message from customer B')
+        end
+
+        it 'keeps provider-shaped From active when merged-contact identifier fields disagree' do
+          contact_a = create(:contact, account: account, name: 'Customer A')
+          contact_b = create(:contact, account: account, name: 'Customer B')
+          contact_inbox_a = create(:contact_inbox, inbox: whatsapp_twilio_channel.inbox, contact: contact_a,
+                                                   source_id: 'whatsapp:IN.2081978709342942')
+          contact_inbox_b = create(:contact_inbox, inbox: whatsapp_twilio_channel.inbox, contact: contact_b,
+                                                   source_id: 'whatsapp:IN.3081978709342942')
+          conversation_a = create(:conversation, account: account, inbox: whatsapp_twilio_channel.inbox, contact: contact_a,
+                                                 contact_inbox: contact_inbox_a)
+          conversation_b = create(:conversation, account: account, inbox: whatsapp_twilio_channel.inbox, contact: contact_b,
+                                                 contact_inbox: contact_inbox_b)
+          ContactMergeAction.new(account: account, base_contact: contact_a, mergee_contact: contact_b).perform
+          params = {
+            SmsSid: 'SMconflictingIdentifiers', From: contact_inbox_a.source_id, AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid, Body: 'route by provider-shaped From',
+            ExternalUserId: contact_inbox_b.source_id.delete_prefix('whatsapp:')
+          }
+
+          described_class.new(params: params).perform
+
+          expect(conversation_a.reload.messages.pluck(:content)).to contain_exactly('route by provider-shaped From')
+          expect(conversation_b.reload.messages).to be_empty
+        end
       end
 
       describe 'When the incoming WhatsApp message has CTWA referral parameters' do
