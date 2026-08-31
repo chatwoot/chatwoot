@@ -207,34 +207,36 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
-    it('should not match an AgentBot-owned conversation to a human assignee id', () => {
-      const conversation = {
-        meta: { assignee: { id: 1 }, assignee_type: 'AgentBot' },
-      };
-      const filters = [
-        {
-          attribute_key: 'assignee_id',
-          filter_operator: 'equal_to',
-          values: { id: 1, name: 'John Doe' },
-          query_operator: 'and',
-        },
-      ];
-      expect(matchesFilters(conversation, filters)).toBe(false);
-    });
+    ['AgentBot', 'Captain::Assistant'].forEach(assigneeType => {
+      it(`should not match a ${assigneeType}-owned conversation to a human assignee id`, () => {
+        const conversation = {
+          meta: { assignee: { id: 1 }, assignee_type: assigneeType },
+        };
+        const filters = [
+          {
+            attribute_key: 'assignee_id',
+            filter_operator: 'equal_to',
+            values: { id: 1, name: 'John Doe' },
+            query_operator: 'and',
+          },
+        ];
+        expect(matchesFilters(conversation, filters)).toBe(false);
+      });
 
-    it('should not match an AgentBot-owned conversation to a human assignee not-equal filter', () => {
-      const conversation = {
-        meta: { assignee: { id: 1 }, assignee_type: 'AgentBot' },
-      };
-      const filters = [
-        {
-          attribute_key: 'assignee_id',
-          filter_operator: 'not_equal_to',
-          values: { id: 1, name: 'John Doe' },
-          query_operator: 'and',
-        },
-      ];
-      expect(matchesFilters(conversation, filters)).toBe(false);
+      it(`should not match a ${assigneeType}-owned conversation to a human assignee not-equal filter`, () => {
+        const conversation = {
+          meta: { assignee: { id: 1 }, assignee_type: assigneeType },
+        };
+        const filters = [
+          {
+            attribute_key: 'assignee_id',
+            filter_operator: 'not_equal_to',
+            values: { id: 1, name: 'John Doe' },
+            query_operator: 'and',
+          },
+        ];
+        expect(matchesFilters(conversation, filters)).toBe(false);
+      });
     });
 
     it('should not match conversation with equal_to operator when assignee is null', () => {
@@ -1170,14 +1172,14 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
-    it('should handle empty arrays in conversation', () => {
+    it('should treat an empty labels array as not present', () => {
       const conversation = {
         labels: [],
       };
       const filters = [
         {
           attribute_key: 'labels',
-          filter_operator: 'is_present',
+          filter_operator: 'is_not_present',
           values: [],
           query_operator: 'and',
         },
