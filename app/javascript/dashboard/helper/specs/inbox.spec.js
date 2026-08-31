@@ -7,6 +7,7 @@ import {
   getInboxVoiceIcon,
   getInboxWarningIconClass,
   getVoiceCallIcon,
+  searchInboxes,
 } from '../inbox';
 
 describe('#Inbox Helpers', () => {
@@ -25,12 +26,6 @@ describe('#Inbox Helpers', () => {
       [INBOX_TYPES.WHATSAPP, { phone_number: '+15555550100' }, '+15555550100'],
       [INBOX_TYPES.SMS, { phone_number: '+15555550101' }, '+15555550101'],
       [INBOX_TYPES.FB, { page_id: 'page-123' }, 'page-123'],
-      [
-        INBOX_TYPES.INSTAGRAM,
-        { instagram_id: 'instagram-123' },
-        'instagram-123',
-      ],
-      [INBOX_TYPES.TIKTOK, { business_id: 'business-123' }, 'business-123'],
       [INBOX_TYPES.TWITTER, { profile_id: 'profile-123' }, 'profile-123'],
       [INBOX_TYPES.TELEGRAM, { bot_name: 'support_bot' }, '@support_bot'],
       [INBOX_TYPES.LINE, { line_channel_id: 'line-123' }, 'line-123'],
@@ -68,10 +63,49 @@ describe('#Inbox Helpers', () => {
       ).toBe('@support_bot');
     });
 
-    it('returns an empty identifier for missing and unknown inboxes', () => {
+    it('returns an empty identifier for missing, unknown, and opaque social identifiers', () => {
       expect(getInboxIdentifier()).toBe('');
       expect(getInboxIdentifier({ channel_type: 'Channel::Unknown' })).toBe('');
       expect(getInboxIdentifier({ channel_type: INBOX_TYPES.EMAIL })).toBe('');
+      expect(
+        getInboxIdentifier({
+          channel_type: INBOX_TYPES.INSTAGRAM,
+          instagram_id: 'instagram-123',
+        })
+      ).toBe('');
+      expect(
+        getInboxIdentifier({
+          channel_type: INBOX_TYPES.TIKTOK,
+          business_id: 'business-123',
+        })
+      ).toBe('');
+    });
+  });
+
+  describe('searchInboxes', () => {
+    const inboxes = [
+      {
+        id: 1,
+        name: 'Billing',
+        channel_type: INBOX_TYPES.WEB,
+        channel_identifier: 'billing@example.com',
+      },
+      {
+        id: 2,
+        name: 'Support',
+        channel_type: INBOX_TYPES.EMAIL,
+        channel_identifier: 'team@example.com',
+      },
+    ];
+
+    it('preserves fuzzy name and channel type matches', () => {
+      expect(searchInboxes(inboxes, 'ling')).toEqual([inboxes[0]]);
+      expect(searchInboxes(inboxes, 'Web')).toEqual([inboxes[0]]);
+    });
+
+    it('adds identifier matches without duplicating primary matches', () => {
+      expect(searchInboxes(inboxes, 'team@example.com')).toEqual([inboxes[1]]);
+      expect(searchInboxes(inboxes, 'Billing')).toEqual([inboxes[0]]);
     });
   });
 
