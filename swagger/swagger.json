@@ -4969,11 +4969,14 @@
           }
         ],
         "requestBody": {
-          "required": false,
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
+                "required": [
+                  "priority"
+                ],
                 "properties": {
                   "priority": {
                     "type": [
@@ -4987,7 +4990,7 @@
                       "low",
                       null
                     ],
-                    "description": "The priority of the conversation. Omit or set to null to clear the priority.",
+                    "description": "The priority of the conversation. Set to null to clear the priority.",
                     "example": "high"
                   }
                 }
