@@ -145,12 +145,18 @@ class Twilio::IncomingMessageService
 
     num_media.times do |i|
       media_url = params[:"MediaUrl#{i}"]
-      attach_single_file(media_url) if media_url.present?
+      attach_single_file(media_url, i) if media_url.present?
     end
   end
 
-  def attach_single_file(media_url)
-    attachment_file = download_attachment_file(media_url)
+  def attach_single_file(media_url, media_index)
+    attachment_file = Twilio::MediaDownloadService.new(
+      channel: twilio_channel,
+      media_url: media_url,
+      message_sid: params[:SmsSid].presence || params[:MessageSid],
+      media_index: media_index,
+      retry_delays: media_retry_delays
+    ).perform
     return if attachment_file.blank?
 
     @message.attachments.new(
@@ -164,30 +170,8 @@ class Twilio::IncomingMessageService
     )
   end
 
-  def download_attachment_file(media_url)
-    download_with_auth(media_url)
-  rescue Down::Error, Down::ClientError => e
-    handle_download_attachment_error(e, media_url)
-  end
-
-  def download_with_auth(media_url)
-    auth_credentials = if twilio_channel.api_key_sid.present?
-                         # When using api_key_sid, the auth token should be the api_secret_key
-                         [twilio_channel.api_key_sid, twilio_channel.auth_token]
-                       else
-                         # When using account_sid, the auth token is the account's auth token
-                         [twilio_channel.account_sid, twilio_channel.auth_token]
-                       end
-
-    Down.download(media_url, http_basic_authentication: auth_credentials)
-  end
-
-  def handle_download_attachment_error(error, media_url)
-    Rails.logger.info "Error downloading attachment from Twilio: #{error.message}: Retrying without auth"
-    Down.download(media_url)
-  rescue StandardError => e
-    Rails.logger.info "Error downloading attachment from Twilio: #{e.message}: Skipping"
-    nil
+  def media_retry_delays
+    @media_retry_delays ||= Twilio::MediaDownloadService::RETRY_DELAYS.dup
   end
 
   def location_message?

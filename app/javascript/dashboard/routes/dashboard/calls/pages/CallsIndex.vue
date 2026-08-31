@@ -129,22 +129,22 @@ onMounted(async () => {
     v-else
     class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1"
   >
-    <header class="px-6 pt-6 pb-4 shrink-0">
-      <div class="w-full">
+    <header class="shrink-0">
+      <div class="w-full px-6 pt-6">
         <h1 class="text-xl font-medium text-n-slate-12">
           {{ t('CALLS_PAGE.HEADER') }}
         </h1>
-        <CallsFilterBar
-          v-model:activity="activity"
-          v-model:assignee-id="assigneeId"
-          v-model:inbox-id="inboxId"
-          class="mt-5"
-          :total-count="isFetching ? null : meta.count"
-          :agents="agents"
-          :inboxes="voiceInboxes"
-          :show-assignee="isAdmin"
-        />
       </div>
+      <CallsFilterBar
+        v-model:activity="activity"
+        v-model:assignee-id="assigneeId"
+        v-model:inbox-id="inboxId"
+        class="mt-5 pb-4 border-b border-n-weak mx-6"
+        :total-count="isFetching ? null : meta.count"
+        :agents="agents"
+        :inboxes="voiceInboxes"
+        :show-assignee="isAdmin"
+      />
     </header>
     <main class="flex-1 px-6 overflow-y-auto">
       <div class="w-full">

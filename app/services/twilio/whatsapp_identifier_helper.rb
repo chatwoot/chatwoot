@@ -25,8 +25,8 @@ module Twilio::WhatsappIdentifierHelper
 
   def twilio_whatsapp_source_ids
     [
-      twilio_whatsapp_phone_source_id,
-      twilio_whatsapp_source_id(params[:ExternalUserId].presence) || twilio_whatsapp_bsuid_source_id,
+      twilio_whatsapp_phone_source_id || twilio_whatsapp_bsuid_source_id,
+      twilio_whatsapp_source_id(params[:ExternalUserId].presence),
       twilio_whatsapp_source_id(params[:ParentExternalUserId].presence)
     ].compact_blank.uniq
   end

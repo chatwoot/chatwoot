@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { ARTICLE_STATUSES } from 'dashboard/helper/portalHelper';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
@@ -19,6 +20,8 @@ const props = defineProps({
   status: { type: String, default: '' },
   updatedAt: { type: Number, default: 0 },
 });
+
+const exactTimestamp = useExactTimestamp();
 
 const MAX_LENGTH = 300;
 
@@ -88,6 +91,10 @@ const statusTextColor = computed(() => {
           </div>
           <span
             v-if="updatedAtTime"
+            v-tooltip.top="{
+              content: exactTimestamp(updatedAt),
+              delay: { show: 500, hide: 0 },
+            }"
             class="text-sm font-normal min-w-0 truncate text-n-slate-11"
           >
             {{ updatedAtTime }}

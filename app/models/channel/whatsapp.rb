@@ -3,9 +3,13 @@
 # Table name: channel_whatsapp
 #
 #  id                             :bigint           not null, primary key
+#  business_management_token      :text
 #  message_templates              :jsonb
 #  message_templates_last_updated :datetime
 #  phone_number                   :string           not null
+#  phone_number_health            :jsonb            not null
+#  phone_number_health_checked_at :datetime
+#  phone_number_health_error      :string
 #  provider                       :string           default("default")
 #  provider_config                :jsonb
 #  created_at                     :datetime         not null
@@ -14,7 +18,8 @@
 #
 # Indexes
 #
-#  index_channel_whatsapp_on_phone_number  (phone_number) UNIQUE
+#  index_channel_whatsapp_on_phone_number                    (phone_number) UNIQUE
+#  index_channel_whatsapp_on_phone_number_health_checked_at  (phone_number_health_checked_at)
 #
 
 class Channel::Whatsapp < ApplicationRecord
@@ -23,6 +28,7 @@ class Channel::Whatsapp < ApplicationRecord
 
   self.table_name = 'channel_whatsapp'
   EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
+  encrypts :business_management_token if Chatwoot.encryption_configured?
 
   # default at the moment is 360dialog lets change later.
   PROVIDERS = %w[default whatsapp_cloud].freeze
@@ -68,6 +74,16 @@ class Channel::Whatsapp < ApplicationRecord
     else
       Whatsapp::Providers::Whatsapp360DialogService.new(whatsapp_channel: self)
     end
+  end
+
+  def template_access_token
+    return provider_config['api_key'] unless ChatwootApp.chatwoot_cloud? && provider_config['source'] == 'embedded_signup'
+
+    business_management_token.presence || provider_config['api_key']
+  end
+
+  def serializable_hash(options = nil)
+    super.except('business_management_token')
   end
 
   # Enables voice: turns calling on at Meta (idempotent), then re-registers webhooks
@@ -165,3 +181,5 @@ class Channel::Whatsapp < ApplicationRecord
     provider == 'whatsapp_cloud' && provider_config['source'] != 'embedded_signup'
   end
 end
+
+Channel::Whatsapp.prepend_mod_with('Channel::Whatsapp')

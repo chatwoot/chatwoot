@@ -1,15 +1,24 @@
-/* global axios */
+import CacheEnabledApiClient from './CacheEnabledApiClient';
 
-import ApiClient from './ApiClient';
-
-class CannedResponse extends ApiClient {
+class CannedResponse extends CacheEnabledApiClient {
   constructor() {
     super('canned_responses', { accountScoped: true });
   }
 
-  get({ searchKey }) {
-    const url = searchKey ? `${this.url}?search=${searchKey}` : this.url;
-    return axios.get(url);
+  // eslint-disable-next-line class-methods-use-this
+  get cacheModelName() {
+    return 'canned_response';
+  }
+
+  // The index endpoint returns a bare array instead of a payload wrapper
+  // eslint-disable-next-line class-methods-use-this
+  extractDataFromResponse(response) {
+    return response.data;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  marshallData(dataToParse) {
+    return { data: dataToParse };
   }
 }
 

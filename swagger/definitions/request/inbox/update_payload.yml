@@ -113,8 +113,9 @@ properties:
     type:
       - string
       - 'null'
+    maxLength: 262144
     description: |
-      Liquid HTML layout for outbound email replies. Must include `{{ content_for_layout }}`.
+      Liquid HTML layout for outbound email replies. Must include `{{ content_for_layout }}` and be 262,144 characters or shorter.
 
       Available for: `Email`
     example: '<html><body>{{ content_for_layout }}</body></html>'

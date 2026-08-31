@@ -49,6 +49,11 @@
       "DISABLE_MFA_DESC": "계정에서 2단계 인증을 제거합니다",
       "DISABLE_BUTTON": "2단계 인증 비활성화"
     },
+    "LOW_BACKUP_CODES": {
+      "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
+      "NONE_LEFT": "You have no backup codes remaining. Generate new codes now to avoid getting locked out if you lose access to your authenticator.",
+      "ACTION": "Generate codes"
+    },
     "DISABLE": {
       "TITLE": "2단계 인증 비활성화",
       "DESCRIPTION": "2단계 인증을 비활성화하려면 비밀번호와 인증 코드를 입력해야 합니다.",

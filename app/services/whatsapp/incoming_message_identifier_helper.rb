@@ -4,7 +4,9 @@ module Whatsapp::IncomingMessageIdentifierHelper
     source_ids = outgoing_message_source_ids(message)
     return if source_ids.blank?
 
-    contact_attributes = contact_attributes_for_identifier(source_ids.first, message[:to])
+    # The name falls back to the phone number rather than to the first source id: that one is now
+    # the identifier, and a contact created by an echo alone would be displayed as `IN.2081978...`.
+    contact_attributes = contact_attributes_for_identifier(message[:to].presence || source_ids.first, message[:to])
     @contact_inbox = find_or_create_contact_inbox(
       source_ids: source_ids,
       contact_attributes: contact_attributes
@@ -34,24 +36,45 @@ module Whatsapp::IncomingMessageIdentifierHelper
     ContactInboxSourceIdResolver.new(
       inbox: inbox,
       source_ids: source_ids,
-      contact_attributes: contact_attributes
+      contact_attributes: contact_attributes,
+      prefer_first_source_id: true
     ).perform
   end
 
+  # Parent business scoped user id, then the regular one, then the phone number. The parent is the
+  # identifier that survives across the payload shapes Meta sends: an event carrying both and a
+  # later parent-only event describe the same sender, so leading with it keeps them on one
+  # ContactInbox instead of anchoring each on a row of its own. It is addressable in its own right,
+  # through `recipient`, for messages and for calls alike.
+  #
+  # Only the Cloud provider can address an identifier back: 360Dialog always sends to `to`, so there
+  # the phone number stays the identity a conversation anchors to and a reply keeps working.
   def incoming_message_source_ids(contact_params)
-    [
-      whatsapp_phone_source_id(contact_params[:wa_id].presence || messages_data.first[:from].presence),
-      whatsapp_source_id(contact_params[:user_id].presence || messages_data.first[:from_user_id].presence),
-      whatsapp_source_id(contact_params[:parent_user_id].presence || messages_data.first[:from_parent_user_id].presence)
-    ].compact_blank.uniq
+    phone_source_id = whatsapp_phone_source_id(contact_params[:wa_id].presence || messages_data.first[:from].presence)
+    identifiers = [
+      whatsapp_source_id(contact_params[:parent_user_id].presence || messages_data.first[:from_parent_user_id].presence),
+      whatsapp_source_id(contact_params[:user_id].presence || messages_data.first[:from_user_id].presence)
+    ]
+    ordered = addressable_identifiers? ? [*identifiers, phone_source_id] : [phone_source_id, *identifiers]
+
+    ordered.compact_blank.uniq
   end
 
+  def addressable_identifiers?
+    inbox.channel.try(:provider) == 'whatsapp_cloud'
+  end
+
+  # An echo has to land on the same alias an inbound message would, otherwise the two entry
+  # points anchor the same contact on different rows and split the thread in half.
   def outgoing_message_source_ids(message)
-    [
-      whatsapp_phone_source_id(message[:to].presence),
-      whatsapp_source_id(message[:to_user_id].presence),
-      whatsapp_source_id(message[:to_parent_user_id].presence)
-    ].compact_blank.uniq
+    phone_source_id = whatsapp_phone_source_id(message[:to].presence)
+    identifiers = [
+      whatsapp_source_id(message[:to_parent_user_id].presence),
+      whatsapp_source_id(message[:to_user_id].presence)
+    ]
+    ordered = addressable_identifiers? ? [*identifiers, phone_source_id] : [phone_source_id, *identifiers]
+
+    ordered.compact_blank.uniq
   end
 
   def whatsapp_phone_source_id(identifier)
@@ -66,9 +89,11 @@ module Whatsapp::IncomingMessageIdentifierHelper
   end
 
   def contact_attributes_from_contact_params(contact_params, source_identifier)
+    phone_identifier = contact_params[:wa_id].presence || messages_data.first[:from].presence
+
     contact_attributes_for_identifier(
-      contact_params.dig(:profile, :name).presence || source_identifier,
-      contact_params[:wa_id].presence || messages_data.first[:from].presence
+      contact_params.dig(:profile, :name).presence || phone_identifier.presence || source_identifier,
+      phone_identifier
     )
   end
 

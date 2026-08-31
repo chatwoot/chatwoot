@@ -28,6 +28,7 @@ import pt_BR from './locale/pt_BR';
 import ro from './locale/ro';
 import ru from './locale/ru';
 import sk from './locale/sk';
+import sl from './locale/sl';
 import sr from './locale/sr';
 import sv from './locale/sv';
 import ta from './locale/ta';
@@ -72,6 +73,7 @@ export default {
   ro,
   ru,
   sk,
+  sl,
   sr,
   sv,
   ta,
