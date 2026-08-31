@@ -67,6 +67,24 @@ RSpec.describe 'Captain assistant conversation assignment API', type: :request d
     expect(conversation.reload.ai_assignee).to be_nil
   end
 
+  it 'does not assign Captain outside its configured audience' do
+    assistant.update!(config: assistant.config.merge('audience' => {
+                                                       'attribute_key' => 'country_code',
+                                                       'filter_operator' => 'equal_to',
+                                                       'values' => ['US']
+                                                     }))
+    conversation.contact.update!(additional_attributes: { 'country_code' => 'CA' })
+
+    post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+         params: { assignee_id: assistant.id, assignee_type: 'Captain::Assistant' },
+         headers: agent.create_new_auth_token,
+         as: :json
+
+    expect(response).to have_http_status(:success)
+    expect(response.parsed_body).to be_nil
+    expect(conversation.reload.ai_assignee).to be_nil
+  end
+
   it 'clears Captain assistant ownership when a human takes over' do
     conversation.update!(ai_assignee: assistant, status: :pending)
 

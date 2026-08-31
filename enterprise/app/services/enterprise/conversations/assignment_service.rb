@@ -4,7 +4,10 @@ module Enterprise::Conversations::AssignmentService
     return if conversation.inbox.external_bot_active?
     return unless conversation.inbox.captain_active?
 
-    assign_ai_assignee(captain_assistant)
+    assistant = captain_assistant
+    return unless assistant&.engages?(conversation.contact, conversation)
+
+    assign_ai_assignee(assistant)
   end
 
   private
