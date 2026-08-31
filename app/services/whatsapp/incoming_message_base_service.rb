@@ -113,17 +113,8 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def set_conversation
-    # Reuse is scoped to the contact inbox that resolved this message, never to the contact. A contact
-    # can hold unrelated WhatsApp identities in the same inbox, either from coexistence or from a
-    # dashboard merge, and a contact wide lookup cannot tell them apart: it would answer one identity
-    # through another one's source id. The conversation opened under a previous identity stays where it
-    # is and remains reachable under previous conversations.
-    #
-    # Only where an identifier can be replied to, though. 360Dialog always sends the destination in
-    # `to` and has no way to address one, so anchoring a thread there would produce a conversation
-    # nobody can answer. That provider keeps the contact wide reuse it had, which lands every message
-    # on the phone backed thread it can actually reply through.
-    conversations = addressable_identifiers? ? @contact_inbox.conversations : @contact.conversations.where(inbox_id: @inbox.id)
+    conversations = Whatsapp::ReusableConversationsResolver.new(inbox: @inbox, contact: @contact, contact_inbox: @contact_inbox,
+                                                                addressable_identifiers: addressable_identifiers?).perform
     # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
     @conversation = if @inbox.lock_to_single_conversation
                       conversations.last

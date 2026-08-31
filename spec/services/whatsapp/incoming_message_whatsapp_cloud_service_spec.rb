@@ -394,7 +394,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(whatsapp_channel.inbox.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'echo reply')
       end
 
-      it 'leaves a conversation opened under the phone identity untouched' do
+      it 'reuses the conversation opened under the phone identity' do
         phone_contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '919745786257')
         contact = phone_contact_inbox.contact
         phone_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: phone_contact_inbox,
@@ -404,7 +404,8 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_only_params).perform
 
         expect(phone_conversation.reload.contact_inbox).to eq(phone_contact_inbox)
-        expect(contact.conversations.count).to eq(2)
+        expect(contact.conversations.count).to eq(1)
+        expect(phone_conversation.messages.pluck(:content)).to contain_exactly('bsuid only')
       end
 
       it 'names a contact created by an echo after the phone number, not the identifier' do
@@ -435,31 +436,32 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(whatsapp_channel.inbox.conversations.first.contact_inbox.source_id).to eq('IN.2081978709342942')
       end
 
-      it 'moves a phone-backed contact on the first payload that carries an identifier' do
+      it 'records the identifier without splitting the phone-backed conversation' do
         phone_contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '919745786257')
         contact = phone_contact_inbox.contact
-        create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: phone_contact_inbox,
-                              contact: contact, account: whatsapp_channel.inbox.account)
+        phone_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: phone_contact_inbox,
+                                                   contact: contact, account: whatsapp_channel.inbox.account)
 
         described_class.new(inbox: whatsapp_channel.inbox, params: phone_with_bsuid_params).perform
 
         bsuid_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
 
         expect(bsuid_contact_inbox.contact).to eq(contact)
-        expect(contact.conversations.count).to eq(2)
-        expect(whatsapp_channel.inbox.messages.last.conversation.contact_inbox).to eq(bsuid_contact_inbox)
+        expect(contact.conversations.count).to eq(1)
+        expect(whatsapp_channel.inbox.messages.last.conversation).to eq(phone_conversation)
       end
 
-      it 'does not open a third conversation on the payload after that' do
+      it 'keeps an identifier-only payload after that on the same conversation' do
         phone_contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '919745786257')
         contact = phone_contact_inbox.contact
-        create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: phone_contact_inbox,
-                              contact: contact, account: whatsapp_channel.inbox.account)
+        phone_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: phone_contact_inbox,
+                                                   contact: contact, account: whatsapp_channel.inbox.account)
 
         described_class.new(inbox: whatsapp_channel.inbox, params: phone_with_bsuid_params).perform
         described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_only_params).perform
 
-        expect(contact.conversations.count).to eq(2)
+        expect(contact.conversations.count).to eq(1)
+        expect(phone_conversation.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'bsuid only')
       end
 
       context 'when a merged contact owns multiple WhatsApp identities' do
