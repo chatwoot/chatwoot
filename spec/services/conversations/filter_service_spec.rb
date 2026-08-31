@@ -406,7 +406,7 @@ describe Conversations::FilterService do
               user_1.id,
               user_2.id
             ],
-            query_operator: ' ',
+            query_operator: nil,
             custom_attribute_type: ''
           }.with_indifferent_access,
           {
@@ -418,7 +418,11 @@ describe Conversations::FilterService do
           }.with_indifferent_access
         ]
 
-        expect { filter_service.new(params, user_1, account).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidQueryOperator)
+        [' ', false, 7].each do |invalid_query_operator|
+          params[:payload].first[:query_operator] = invalid_query_operator
+
+          expect { filter_service.new(params, user_1, account).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidQueryOperator)
+        end
       end
 
       it 'rejects a query operator on the final condition' do

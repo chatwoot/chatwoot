@@ -35,3 +35,9 @@ responses:
       application/json:
         schema:
           $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: Validation error
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

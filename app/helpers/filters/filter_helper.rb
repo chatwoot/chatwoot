@@ -115,7 +115,7 @@ module Filters::FilterHelper
 
     return if condition['query_operator'].to_s.empty?
 
-    raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) unless %w[AND OR].include?(condition['query_operator'].upcase)
+    raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) unless %w[AND OR].include?(condition['query_operator'].to_s.upcase)
   end
 
   def conversation_status_values(values)
