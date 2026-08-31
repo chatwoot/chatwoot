@@ -113,7 +113,7 @@ describe Whatsapp::WebhookSetupService do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
         allow(health_service).to receive(:fetch_health_status).and_return({
                                                                             platform_type: 'APPLICABLE',
-                                                                            throughput: { level: 'NOT_APPLICABLE' }
+                                                                            throughput_level: 'NOT_APPLICABLE'
                                                                           })
         allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
         allow(api_client).to receive(:register_phone_number).with('123456789', 223_456)
