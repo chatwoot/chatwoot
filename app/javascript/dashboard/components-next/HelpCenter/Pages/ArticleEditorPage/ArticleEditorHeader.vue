@@ -70,6 +70,12 @@ const isUpdatingArticle = computed(
   () => articleUiFlags.value(props.articleId).isUpdating
 );
 
+const blockedByUploads = () => {
+  if (!props.hasPendingUploads()) return false;
+  useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
+  return true;
+};
+
 // Publishing while a save is in flight would promote a stale draft; resolving
 // a draft while a file is uploading reloads the editor and drops the file.
 const blockedWhileBusy = () => {
@@ -77,11 +83,7 @@ const blockedWhileBusy = () => {
     useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.SAVE_IN_PROGRESS'));
     return true;
   }
-  if (props.hasPendingUploads()) {
-    useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
-    return true;
-  }
-  return false;
+  return blockedByUploads();
 };
 
 const isPublished = computed(() => props.status === ARTICLE_STATUSES.PUBLISHED);
@@ -120,7 +122,10 @@ const statusText = computed(() =>
   )
 );
 
-const onClickGoBack = () => emit('goBack');
+const onClickGoBack = () => {
+  if (blockedByUploads()) return;
+  emit('goBack');
+};
 
 const previewArticle = () => emit('previewArticle');
 

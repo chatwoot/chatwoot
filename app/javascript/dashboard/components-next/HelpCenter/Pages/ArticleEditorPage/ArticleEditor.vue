@@ -2,6 +2,7 @@
 import { ref, computed, watch, onBeforeUnmount, useTemplateRef } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
@@ -149,9 +150,13 @@ const previewArticle = () => {
 const handleCreateArticle = event => {
   if (!isNewArticle.value) return;
   const title = event?.target?.value || '';
-  if (title.trim()) {
-    emit('createArticle', { title, content: localContent.value });
+  if (!title.trim()) return;
+  // Creating navigates to the edit route, which would unmount mid-upload.
+  if (hasPendingUploads()) {
+    useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
+    return;
   }
+  emit('createArticle', { title, content: localContent.value });
 };
 </script>
 

@@ -388,10 +388,16 @@ export default {
       if (videos.length) insertFileUploads(editorView, videos, { upload });
       if (images.length || videos.length) editorView.focus();
     },
-    // Parents gate draft-resolving actions (publish/discard) on this: they
-    // reload the editor, which would abort the upload and drop the file.
+    // In-flight uploads and failed cards: resolving a draft or navigating
+    // away would drop them.
     hasPendingUploads() {
-      return !!editorView && hasActiveUploads(editorView);
+      if (!editorView) return false;
+      return (
+        hasActiveUploads(editorView) ||
+        !!editorView.dom.querySelector(
+          '.pm-upload-card[data-state="error"], .pm-upload-overlay[data-state="error"]'
+        )
+      );
     },
     uploadFileToStorage(file, onProgress, signal) {
       return this.$store.dispatch('articles/attachImage', {

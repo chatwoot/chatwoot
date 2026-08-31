@@ -806,7 +806,7 @@
         "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
         "PUBLISH_CHANGES_ERROR": "Could not publish changes",
         "SAVE_IN_PROGRESS": "Still saving your latest changes. Please try again in a moment.",
-        "UPLOAD_IN_PROGRESS": "A file is still uploading. Wait for it to finish or remove it first.",
+        "UPLOAD_IN_PROGRESS": "A file upload is unfinished. Wait for it to finish or remove it first.",
         "DISCARD_CHANGES": "Discard changes",
         "DISCARD_CHANGES_SUCCESS": "Changes discarded",
         "DISCARD_CHANGES_ERROR": "Could not discard changes",

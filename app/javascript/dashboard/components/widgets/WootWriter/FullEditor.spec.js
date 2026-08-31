@@ -372,13 +372,17 @@ describe('FullEditor', () => {
       expect(wrapper.vm.hasPendingUploads()).toBe(false);
     });
 
-    it('does not report a failed upload as pending', async () => {
+    it('reports a failed upload as pending until it is removed', async () => {
       mountEditor({ modelValue: 'Hello' });
       attachImage.mockRejectedValue(new Error('nope'));
       await selectFile(new File(['x'], 'clip.mp4', { type: 'video/mp4' }));
       expect(view.dom.querySelector('.pm-upload-card').dataset.state).toBe(
         'error'
       );
+      expect(wrapper.vm.hasPendingUploads()).toBe(true);
+
+      view.dom.querySelector('.pm-upload-card [aria-label="Remove"]').click();
+      await flushPromises();
       expect(wrapper.vm.hasPendingUploads()).toBe(false);
     });
 
