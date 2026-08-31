@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_07_133000) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -276,6 +276,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_07_133000) do
     t.string "remote_address"
     t.string "request_uuid"
     t.datetime "created_at", precision: nil
+    t.index ["associated_type", "associated_id", "created_at"], name: "index_audits_on_associated_and_created_at"
     t.index ["associated_type", "associated_id"], name: "associated_index"
     t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
     t.index ["created_at"], name: "index_audits_on_created_at"
@@ -879,6 +880,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_07_133000) do
     t.datetime "waiting_since"
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
+    t.string "ai_assignee_type"
     t.datetime "status_changed_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"

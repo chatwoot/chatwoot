@@ -36,8 +36,11 @@ import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue'
 import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SpinnerLoader from 'dashboard/components-next/spinner/Spinner.vue';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
-import { getInboxIconByType } from 'dashboard/helper/inbox';
+import {
+  getInboxIconByType,
+  getInboxIdentifier,
+  INBOX_TYPES,
+} from 'dashboard/helper/inbox';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
@@ -304,18 +307,10 @@ export default {
       return 'max-w-7xl';
     },
     inboxName() {
-      if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
-        return `${this.inbox.name} (${
-          this.inbox.messaging_service_sid || this.inbox.phone_number
-        })`;
-      }
-      if (this.isAWhatsAppChannel) {
-        return `${this.inbox.name} (${this.inbox.phone_number})`;
-      }
-      if (this.isAnEmailChannel) {
-        return `${this.inbox.name} (${this.inbox.email})`;
-      }
       return this.inbox.name;
+    },
+    inboxIdentifier() {
+      return getInboxIdentifier(this.inbox);
     },
     canLocktoSingleConversation() {
       return (
@@ -775,6 +770,7 @@ export default {
     <SettingIntroBanner
       :header-image="inbox.avatarUrl"
       :header-title="inboxName"
+      :header-identifier="inboxIdentifier"
     >
       <woot-tabs
         class="[&_ul]:p-0 top-px relative"

@@ -98,6 +98,15 @@
 
 - Use compact `module/class` definitions; avoid nested styles
 
+## Frontend Conventions
+
+- Prefer existing design-system utilities and shared composables.
+- Use typography utilities instead of manually recreating font styles.
+- Use logical Tailwind utilities (`ms`, `me`, `start`, `end`) for direction-aware layouts.
+- Use `rem` for arbitrary CSS dimensions; preserve native numeric values required by chart/SVG APIs.
+- Extract repeated or domain-specific strings, thresholds, colors, and durations into named constants.
+- Use shared request-cancellation utilities instead of local `AbortController` logic.
+
 ## Enterprise Edition Notes
 
 - Chatwoot has an Enterprise overlay under `enterprise/` that extends/overrides OSS code.
