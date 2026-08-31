@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import { useBranding } from 'shared/composables/useBranding';
+
 import ButtonV4 from 'next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import InboxHealthState from './InboxHealthState.vue';
@@ -28,11 +30,13 @@ const props = defineProps({
 const emit = defineEmits(['registerWebhook']);
 
 const { t, te } = useI18n();
+const { replaceInstallationName } = useBranding();
 
 // Twilio can return values we have no copy for (a new account type, an unknown capability);
 // fall back to the raw value rather than leaking a translation key into the UI.
+// Branded installs get their own name in place of ours.
 const translate = (key, fallback, named) =>
-  te(key) ? t(key, named ?? {}) : fallback;
+  replaceInstallationName(te(key) ? t(key, named ?? {}) : fallback);
 
 const CONSOLE_URLS = {
   phone_number:
@@ -248,7 +252,9 @@ const handleRegisterWebhook = () => emit('registerWebhook');
             </span>
           </div>
           <p class="mt-1 text-body-main text-n-slate-11">
-            {{ t('INBOX_MGMT.TWILIO_HEALTH.DESCRIPTION') }}
+            {{
+              replaceInstallationName(t('INBOX_MGMT.TWILIO_HEALTH.DESCRIPTION'))
+            }}
           </p>
         </div>
         <ButtonV4

@@ -19,6 +19,14 @@ vi.mock('vue-i18n', () => ({
   }),
 }));
 
+// Stand in for a white-labelled install so branded copy is verifiable.
+vi.mock('shared/composables/useBranding', () => ({
+  useBranding: () => ({
+    replaceInstallationName: text =>
+      typeof text === 'string' ? text.replace(/chatwoot/gi, 'Acme Desk') : text,
+  }),
+}));
+
 const ButtonStub = {
   template: '<button data-test="button"><slot /></button>',
 };
@@ -78,6 +86,15 @@ describe('TwilioHealth', () => {
     expect(wrapper.text()).toContain('+15551234567');
     expect(wrapper.text()).toContain('Webhook configured successfully');
     expect(wrapper.find('[data-test="button"]').exists()).toBe(true);
+  });
+
+  it('uses the installation name instead of ours in the health copy', () => {
+    const wrapper = mountHealth({
+      healthData: withWebhook({ reason: 'not_set', configured: false }),
+    });
+
+    expect(wrapper.text()).toContain('Acme Desk');
+    expect(wrapper.text()).not.toContain('Chatwoot');
   });
 
   it('flags the account type so trial restrictions are visible', () => {
