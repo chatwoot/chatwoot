@@ -5,7 +5,7 @@ import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Avatar from 'next/avatar/Avatar.vue';
@@ -46,6 +46,7 @@ export default {
     const { isAdmin } = useAdmin();
     return {
       isAdmin,
+      exactTimestamp: useExactTimestamp(),
     };
   },
   data() {
@@ -105,7 +106,6 @@ export default {
     },
   },
   methods: {
-    dynamicTime,
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },
@@ -231,7 +231,7 @@ export default {
             <span
               v-if="contact.created_at"
               v-tooltip.left="
-                `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${dynamicTime(
+                `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${exactTimestamp(
                   contact.created_at
                 )}`
               "

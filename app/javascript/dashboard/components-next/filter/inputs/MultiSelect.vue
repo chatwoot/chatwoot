@@ -112,17 +112,17 @@ const toggleOption = option => {
 </script>
 
 <template>
-  <DropdownContainer>
+  <DropdownContainer class="min-w-0">
     <template #trigger="{ toggle }">
       <button
         v-if="hasItems"
-        class="bg-n-alpha-2 py-2 rounded-lg h-8 flex items-center px-0"
+        class="bg-n-alpha-2 py-2 rounded-lg h-8 flex items-center px-0 max-w-full"
         @click="toggleDropdown(toggle)"
       >
         <div
           v-for="item in selectedVisibleItems"
           :key="item.name"
-          class="px-3 border-r rtl:border-l rtl:border-r-0 border-n-weak text-n-slate-12 text-sm flex gap-2 items-center max-w-[100px]"
+          class="px-3 border-e border-n-weak text-n-slate-12 text-sm flex gap-2 items-center max-w-[100px] min-w-0"
         >
           <Icon v-if="item.icon" :icon="item.icon" class="flex-shrink-0" />
           <EmojiIcon
@@ -141,13 +141,13 @@ const toggleOption = option => {
         <div
           v-if="remainingItems.length > 0"
           v-tooltip.top="remainingTooltip"
-          class="px-3 border-r rtl:border-l rtl:border-r-0 border-n-weak text-n-slate-12 text-sm flex gap-2 items-center max-w-[100px]"
+          class="px-3 border-e border-n-weak text-n-slate-12 text-sm flex gap-2 items-center max-w-[100px] flex-shrink-0"
         >
           <span class="truncate">{{
             t('COMBOBOX.MORE', { count: remainingItems.length })
           }}</span>
         </div>
-        <div class="flex items-center border-none px-3 gap-2">
+        <div class="flex items-center border-none px-3 gap-2 flex-shrink-0">
           <Icon icon="i-lucide-plus" />
         </div>
       </button>
@@ -155,16 +155,18 @@ const toggleOption = option => {
         <template #icon>
           <Icon icon="i-lucide-plus" class="text-n-slate-11" />
         </template>
-        <span class="text-n-slate-11">{{ t('COMBOBOX.PLACEHOLDER') }}</span>
+        <span class="text-n-slate-11 min-w-0 truncate">{{
+          t('COMBOBOX.PLACEHOLDER')
+        }}</span>
       </Button>
     </template>
     <DropdownBody class="top-0 min-w-48 z-50" strong>
       <div v-if="showSearch" class="relative">
-        <Icon class="absolute size-4 left-2 top-2" icon="i-lucide-search" />
+        <Icon class="absolute size-4 start-2 top-2" icon="i-lucide-search" />
         <input
           v-model="searchTerm"
           v-focus
-          class="p-1.5 pl-8 text-n-slate-11 bg-n-alpha-1 rounded-lg w-full"
+          class="p-1.5 ps-8 text-n-slate-11 bg-n-alpha-1 rounded-lg w-full"
           :placeholder="t('COMBOBOX.SEARCH_PLACEHOLDER')"
         />
       </div>
