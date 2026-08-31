@@ -28,8 +28,8 @@ importers:
         specifier: 0.6.2
         version: 0.6.2
       '@chatwoot/prosemirror-schema':
-        specifier: 1.4.3
-        version: 1.4.3
+        specifier: 1.4.4
+        version: 1.4.4
       '@chatwoot/utils':
         specifier: ^0.0.57
         version: 0.0.57
@@ -452,8 +452,8 @@ packages:
   '@chatwoot/pico-search@0.6.2':
     resolution: {integrity: sha512-uZnt/c06sN3epXv42uzweoqKLCY94s+h9vpbw/1SYCPTww4kCo18vUUD3QZ7tPPSBQB130Fjc79tLQMSWoGt4w==}
 
-  '@chatwoot/prosemirror-schema@1.4.3':
-    resolution: {integrity: sha512-2askRI0PlAtiZb7mNSBfcBp5OHZlwPAdSYwE6XgxQwKhRp+w2Qs+5I5v71vlNhWOAuSDNCT2WHFqpD5Ts6LoGA==}
+  '@chatwoot/prosemirror-schema@1.4.4':
+    resolution: {integrity: sha512-HwOEtzcOcX8mLgOeHMngNLLmVQFWJODbJw6yl7VArg1gsZv2gAsjbtqdyGNt0DTwleJsOwBZdNMNrSaAU8V7+A==}
 
   '@chatwoot/utils@0.0.57':
     resolution: {integrity: sha512-L4QrCmimkULY9ZQk0MJRLfwry3Pqq2e7psETqoZGYopMZ+8DSWe4t6cModSjTCBnDjqgp/gTl0oorntCYrDE8w==}
@@ -5189,7 +5189,7 @@ snapshots:
 
   '@chatwoot/pico-search@0.6.2': {}
 
-  '@chatwoot/prosemirror-schema@1.4.3':
+  '@chatwoot/prosemirror-schema@1.4.4':
     dependencies:
       linkify-it: 5.0.2
       markdown-it: 14.3.0
