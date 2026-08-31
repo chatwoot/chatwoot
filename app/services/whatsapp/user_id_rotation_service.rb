@@ -90,6 +90,7 @@ class Whatsapp::UserIdRotationService
 
   def record_phone_identity(contact, phone_source_id, raw_phone_source_id)
     phone_number = "+#{raw_phone_source_id}"
+    previous_phone_number = contact.phone_number
     conflicting_contact = conflicting_phone_contact(contact, phone_number)
     if conflicting_contact.present?
       handle_phone_contact_collision(contact, conflicting_contact, phone_number)
@@ -106,7 +107,20 @@ class Whatsapp::UserIdRotationService
     record_aliases(contact, [phone_source_id])
     return if contact.phone_number == phone_number
 
-    contact.update!(phone_number: phone_number)
+    contact.update!(phone_identity_attributes(contact, previous_phone_number, phone_number))
+  end
+
+  def phone_identity_attributes(contact, previous_phone_number, phone_number)
+    attributes = { phone_number: phone_number }
+    attributes[:name] = phone_number if auto_generated_phone_name?(contact.name, previous_phone_number)
+    attributes
+  end
+
+  def auto_generated_phone_name?(name, phone_number)
+    return false if name.blank? || phone_number.blank?
+
+    normalized_phone_number = TelephoneNumber.parse(phone_number).international_number
+    [phone_number, normalized_phone_number].compact_blank.uniq.include?(name)
   end
 
   def conflicting_phone_contact(contact, phone_number)
