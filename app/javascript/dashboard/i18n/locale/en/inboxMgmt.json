@@ -611,7 +611,8 @@
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "Connect your TikTok account",
+            "ACCESS_REQUEST_DESCRIPTION": "Contact our support team to request TikTok access"
           },
           "VOICE": {
             "TITLE": "Voice",

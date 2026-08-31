@@ -32,7 +32,10 @@ export function useChannelConfig() {
       !isMetaInboxCreationDisabled.value &&
       Boolean(installationConfig.instagramAppId) &&
       isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_INSTAGRAM),
-    tiktok: () => Boolean(installationConfig.tiktokAppId),
+    tiktok: () =>
+      Boolean(installationConfig.tiktokAppId) &&
+      (!isOnChatwootCloud.value ||
+        isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_TIKTOK)),
     gmail: () => Boolean(installationConfig.googleOAuthClientId),
     outlook: () => Boolean(globalConfig.value.azureAppId),
   };
