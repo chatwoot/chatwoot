@@ -36,7 +36,8 @@ class AgentBot < ApplicationRecord
   has_many :assigned_conversations, class_name: 'Conversation',
                                     foreign_key: :assignee_agent_bot_id,
                                     dependent: :nullify,
-                                    inverse_of: :assignee_agent_bot
+                                    as: :ai_assignee,
+                                    inverse_of: :ai_assignee
   belongs_to :account, optional: true
   enum bot_type: { webhook: 0 }
 
