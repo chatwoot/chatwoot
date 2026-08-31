@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import BaseBubble from './Base.vue';
+import FormattedContent from './Text/FormattedContent.vue';
 import { useI18n } from 'vue-i18n';
 import { CSAT_RATINGS, CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
 import { useMessageContext } from '../provider.js';
@@ -41,7 +42,8 @@ const starRatingValue = computed(() => {
 
 <template>
   <BaseBubble class="px-4 py-3" data-bubble-name="csat">
-    <h4>{{ content || t('CONVERSATION.CSAT_REPLY_MESSAGE') }}</h4>
+    <FormattedContent v-if="content" :content="content" />
+    <h4 v-else>{{ t('CONVERSATION.CSAT_REPLY_MESSAGE') }}</h4>
     <dl v-if="isRatingSubmitted" class="mt-4">
       <dt class="text-n-slate-11 italic">
         {{ t('CONVERSATION.RATING_TITLE') }}

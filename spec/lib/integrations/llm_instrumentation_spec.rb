@@ -144,7 +144,10 @@ RSpec.describe Integrations::LlmInstrumentation do
 
         expect(mock_span).to have_received(:set_attribute).with('langfuse.user.id', '123')
         expect(mock_span).to have_received(:set_attribute).with('langfuse.session.id', '123_456')
-        expect(mock_span).to have_received(:set_attribute).with('langfuse.trace.tags', '["reply_suggestion"]')
+        expect(mock_span).to have_received(:set_attribute).with('langfuse.trace.tags', ['reply_suggestion'])
+        expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.metadata.user_id', '123')
+        expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.metadata.session_id', '123_456')
+        expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.metadata.feature_name', 'reply_suggestion')
       end
 
       it 'sets completion message attributes when result contains message' do
@@ -251,6 +254,76 @@ RSpec.describe Integrations::LlmInstrumentation do
 
           expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.input', params[:messages].to_json)
           expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.output', result_data.to_json)
+        end
+
+        it 'propagates trace attributes as observation metadata to child tool spans' do
+          root_span = instance_double(OpenTelemetry::Trace::Span)
+          tool_span = instance_double(OpenTelemetry::Trace::Span)
+          tool_instance = test_class.new
+          allow(root_span).to receive(:set_attribute)
+          allow(tool_span).to receive(:set_attribute)
+          allow(instance).to receive(:tracer).and_return(mock_tracer)
+          allow(tool_instance).to receive(:tracer).and_return(mock_tracer)
+          allow(mock_tracer).to receive(:in_span).with('llm.test').and_yield(root_span)
+          allow(mock_tracer).to receive(:in_span).with('tool.search').and_yield(tool_span)
+
+          instance.instrument_agent_session(params) do
+            tool_instance.instrument_tool_call('search', { query: 'test' }) { 'tool result' }
+          end
+
+          expect(tool_span).to have_received(:set_attribute).with('langfuse.observation.metadata.user_id', '123')
+          expect(tool_span).to have_received(:set_attribute).with('langfuse.observation.metadata.session_id', '123_456')
+          expect(tool_span).to have_received(:set_attribute).with('langfuse.observation.metadata.feature_name', 'reply_suggestion')
+        end
+
+        it 'keeps inherited session metadata for nested service spans with their own feature tag' do
+          root_span = instance_double(OpenTelemetry::Trace::Span)
+          nested_span = instance_double(OpenTelemetry::Trace::Span)
+          nested_instance = test_class.new
+          nested_params = params.merge(span_name: 'llm.translate_query', conversation_id: nil, feature_name: 'translate_query')
+          allow(root_span).to receive(:set_attribute)
+          allow(nested_span).to receive(:set_attribute)
+          allow(instance).to receive(:tracer).and_return(mock_tracer)
+          allow(nested_instance).to receive(:tracer).and_return(mock_tracer)
+          allow(mock_tracer).to receive(:in_span).with('llm.test').and_yield(root_span)
+          allow(mock_tracer).to receive(:in_span).with('llm.translate_query').and_yield(nested_span)
+
+          instance.instrument_agent_session(params) do
+            nested_instance.instrument_llm_call(nested_params) { 'translated query' }
+          end
+
+          expect(nested_span).to have_received(:set_attribute).with('langfuse.session.id', '123_456')
+          expect(nested_span).to have_received(:set_attribute).with('langfuse.trace.tags', ['translate_query'])
+          expect(nested_span).to have_received(:set_attribute).with('langfuse.observation.metadata.session_id', '123_456')
+          expect(nested_span).to have_received(:set_attribute).with('langfuse.observation.metadata.feature_name', 'translate_query')
+        end
+
+        it 'propagates session metadata to nested embedding spans' do
+          root_span = instance_double(OpenTelemetry::Trace::Span)
+          embedding_span = instance_double(OpenTelemetry::Trace::Span)
+          embedding_instance = test_class.new
+          embedding_params = {
+            span_name: 'llm.captain.embedding',
+            account_id: 123,
+            feature_name: 'embedding',
+            model: 'text-embedding-3-small',
+            input: 'search result'
+          }
+          allow(root_span).to receive(:set_attribute)
+          allow(embedding_span).to receive(:set_attribute)
+          allow(instance).to receive(:tracer).and_return(mock_tracer)
+          allow(embedding_instance).to receive(:tracer).and_return(mock_tracer)
+          allow(mock_tracer).to receive(:in_span).with('llm.test').and_yield(root_span)
+          allow(mock_tracer).to receive(:in_span).with('llm.captain.embedding').and_yield(embedding_span)
+
+          instance.instrument_agent_session(params) do
+            embedding_instance.instrument_embedding_call(embedding_params) { [0.1, 0.2, 0.3] }
+          end
+
+          expect(embedding_span).to have_received(:set_attribute).with('langfuse.session.id', '123_456')
+          expect(embedding_span).to have_received(:set_attribute).with('langfuse.trace.tags', ['embedding'])
+          expect(embedding_span).to have_received(:set_attribute).with('langfuse.observation.metadata.session_id', '123_456')
+          expect(embedding_span).to have_received(:set_attribute).with('langfuse.observation.metadata.feature_name', 'embedding')
         end
 
         # Regression test for Langfuse double-counting bug.

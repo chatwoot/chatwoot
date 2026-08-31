@@ -1,0 +1,15 @@
+type: object
+title: LINE channel settings
+properties:
+  line_channel_id:
+    type: string
+    description: LINE channel ID
+    example: '1234567890'
+  line_channel_secret:
+    type: string
+    description: LINE channel secret
+    example: line-channel-secret
+  line_channel_token:
+    type: string
+    description: LINE channel access token
+    example: line-channel-token

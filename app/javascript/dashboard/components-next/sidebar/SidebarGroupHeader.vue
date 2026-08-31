@@ -45,7 +45,9 @@ const count = computed(() =>
         class="size-2 -top-px ltr:-right-px rtl:-left-px bg-n-brand absolute rounded-full border border-n-solid-2"
       />
     </div>
-    <div class="flex items-center gap-1.5 flex-grow min-w-0 flex-1">
+    <div
+      class="flex items-center gap-1.5 flex-grow justify-between min-w-0 flex-1"
+    >
       <span
         class="truncate"
         :class="{
@@ -57,11 +59,7 @@ const count = computed(() =>
       </span>
       <span
         v-if="dynamicCount && !expandable"
-        class="rounded-md capitalize text-xs leading-5 font-medium text-center outline outline-1 px-1 flex-shrink-0"
-        :class="{
-          'text-n-slate-12 outline-n-slate-6': isActive,
-          'text-n-slate-11 outline-n-strong': !isActive,
-        }"
+        class="inline-grid h-5 min-w-5 place-items-center rounded-full bg-n-slate-4 px-1 text-xxs font-medium leading-3 text-n-slate-12 dark:bg-n-slate-5 flex-shrink-0"
       >
         {{ count }}
       </span>

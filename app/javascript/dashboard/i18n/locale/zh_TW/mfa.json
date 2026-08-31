@@ -49,12 +49,21 @@
       "DISABLE_MFA_DESC": "移除帳號的雙重驗證",
       "DISABLE_BUTTON": "停用雙重驗證"
     },
+    "LOW_BACKUP_CODES": {
+      "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
+      "NONE_LEFT": "You have no backup codes remaining. Generate new codes now to avoid getting locked out if you lose access to your authenticator.",
+      "ACTION": "Generate codes"
+    },
     "DISABLE": {
       "TITLE": "停用雙重驗證",
       "DESCRIPTION": "您需要輸入密碼和驗證碼才能停用雙重驗證。",
       "PASSWORD": "密碼",
       "OTP_CODE": "驗證碼",
       "OTP_CODE_PLACEHOLDER": "000000",
+      "BACKUP_CODE": "備用碼",
+      "BACKUP_CODE_PLACEHOLDER": "請輸入您的其中一組備用碼",
+      "USE_BACKUP_CODE": "Lost access to your authenticator? Use a backup code instead",
+      "USE_OTP_CODE": "Use a verification code from your authenticator app",
       "CONFIRM": "停用 2FA",
       "CANCEL": "取消",
       "SUCCESS": "雙重驗證已停用",

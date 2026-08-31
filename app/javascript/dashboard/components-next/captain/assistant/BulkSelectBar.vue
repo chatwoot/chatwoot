@@ -1,5 +1,5 @@
 <script setup>
-import { computed, useSlots } from 'vue';
+import { computed } from 'vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -47,9 +47,6 @@ const allSelected = computed(
     selectedVisibleCount.value === visibleItemCount.value
 );
 
-const slots = useSlots();
-const hasSecondaryActions = computed(() => Boolean(slots['secondary-actions']));
-
 const bulkCheckboxState = computed({
   get: () => allSelected.value,
   set: shouldSelectAll => {
@@ -95,10 +92,12 @@ const bulkCheckboxState = computed({
         <span class="text-sm text-n-slate-10 truncate tabular-nums">
           {{ selectedCountLabel }}
         </span>
+        <div v-if="$slots.primaryActions" class="h-4 w-px bg-n-strong" />
+        <slot v-if="$slots.primaryActions" name="primaryActions" />
       </div>
       <div class="flex items-center gap-3">
-        <slot v-if="hasSecondaryActions" name="secondary-actions" />
-        <div v-if="hasSecondaryActions" class="h-4 w-px bg-n-strong" />
+        <slot v-if="$slots.secondaryActions" name="secondaryActions" />
+        <div v-if="$slots.secondaryActions" class="h-4 w-px bg-n-strong" />
         <div class="flex items-center gap-3">
           <slot name="actions" :selected-count="selectedCount">
             <Button

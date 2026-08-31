@@ -21,6 +21,27 @@ RSpec.describe 'Agents API', type: :request do
         expect(response).to have_http_status(:payment_required)
         expect(response.body).to include('Account limit exceeded. Please purchase more licenses')
       end
+
+      it 'prevents adding an agent if the last seat is consumed before creation' do
+        account.update!(limits: { agents: account.account_users.count + 1 })
+        competing_agent_created = false
+
+        allow(AgentBuilder).to receive(:new).and_wrap_original do |method, *args|
+          unless competing_agent_created
+            create(:user, account: account, role: :agent)
+            competing_agent_created = true
+          end
+
+          method.call(*args)
+        end
+
+        post "/api/v1/accounts/#{account.id}/agents", params: params, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:payment_required)
+        expect(response.body).to include('Account limit exceeded. Please purchase more licenses')
+        expect(User.from_email(params[:email])).to be_nil
+        expect(account.account_users.count).to eq(account.usage_limits[:agents])
+      end
     end
   end
 

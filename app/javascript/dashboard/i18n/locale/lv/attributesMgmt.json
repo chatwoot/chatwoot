@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Saruna",
-      "CONTACT": "Kontaktpersona"
+      "CONTACT": "Kontaktpersona",
+      "COMPANY": "Uzņēmums"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Teksts",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Pielāgotās Īpašības",
       "CONVERSATION": "Saruna",
-      "CONTACT": "Kontaktpersona"
+      "CONTACT": "Kontaktpersona",
+      "COMPANY": "Uzņēmums"
     },
     "LIST": {
       "TABLE_HEADER": {

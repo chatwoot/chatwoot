@@ -21,6 +21,8 @@
 #  index_captain_scenarios_on_enabled                   (enabled)
 #
 class Captain::Scenario < ApplicationRecord
+  DESCRIPTION_LENGTH_LIMIT = 500
+
   include Concerns::CaptainToolsHelpers
   include Concerns::Agentable
 
@@ -43,7 +45,7 @@ class Captain::Scenario < ApplicationRecord
   belongs_to :account
 
   validates :title, presence: true
-  validates :description, presence: true
+  validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :instruction, presence: true
   validates :assistant_id, presence: true
   validates :account_id, presence: true
@@ -65,6 +67,7 @@ class Captain::Scenario < ApplicationRecord
       instructions: resolved_instructions,
       tools: resolved_tools,
       assistant_name: assistant.name.downcase.gsub(/\s+/, '_'),
+      citation_enabled: assistant.citations_enabled?,
       response_guidelines: response_guidelines || [],
       guardrails: guardrails || []
     }
@@ -146,8 +149,7 @@ class Captain::Scenario < ApplicationRecord
     tool_ids = extract_tool_ids_from_text(instruction)
     return if tool_ids.empty?
 
-    all_available_tool_ids = assistant.available_tool_ids
-    invalid_tools = tool_ids - all_available_tool_ids
+    invalid_tools = tool_ids - assistant.known_tool_ids
 
     return unless invalid_tools.any?
 

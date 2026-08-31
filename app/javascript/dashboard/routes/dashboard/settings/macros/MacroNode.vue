@@ -1,5 +1,5 @@
 <script setup>
-import { computed, inject, defineModel } from 'vue';
+import { computed, inject } from 'vue';
 import { useMacros } from 'dashboard/composables/useMacros';
 import { useI18n } from 'vue-i18n';
 import ActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
@@ -37,11 +37,7 @@ const errorMessage = computed(() => {
 });
 
 const showActionInput = computed(() => {
-  if (
-    actionData.value.action_name === 'send_email_to_team' ||
-    actionData.value.action_name === 'send_message'
-  )
-    return false;
+  if (actionData.value.action_name === 'send_message') return false;
   const type = macroActionTypes.value.find(
     action => action.key === actionData.value.action_name
   ).inputType;

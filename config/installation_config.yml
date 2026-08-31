@@ -182,6 +182,12 @@
 # End of Microsoft Email Channel Config
 
 # MARK: Captain Config
+- name: ENABLE_CAPTAIN_CONVERSATION_ASSIGNMENT
+  display_title: 'Enable Captain Conversation Assignment'
+  description: 'Enable assigning conversations to Captain assistants.'
+  value: false
+  locked: true
+  type: boolean
 - name: CAPTAIN_OPEN_AI_API_KEY
   display_title: 'OpenAI API Key'
   description: 'The API key used to authenticate requests to OpenAI services for Captain AI.'
@@ -209,6 +215,24 @@
   description: 'The limits for the Captain AI service for different plans'
   value:
   type: code
+- name: CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS
+  display_title: 'Captain Document Auto Sync Intervals'
+  description: 'JSON map of plan-wise Captain document auto-sync intervals in hours. Use null to disable auto-sync for a plan.'
+  value:
+  locked: false
+  type: code
+- name: CAPTAIN_DOCUMENT_AUTO_SYNC_PER_ACCOUNT_BATCH_LIMIT
+  display_title: 'Captain Document Auto Sync Per Account Batch Limit'
+  description: 'Maximum syncable Captain documents to enqueue per account in one scheduler run. Defaults to 50.'
+  value: 50
+  locked: false
+  type: number
+- name: CAPTAIN_DOCUMENT_AUTO_SYNC_GLOBAL_BATCH_LIMIT
+  display_title: 'Captain Document Auto Sync Global Batch Limit'
+  description: 'Maximum syncable Captain documents to enqueue globally in one scheduler run. Defaults to 1000.'
+  value: 1000
+  locked: false
+  type: number
 # End of Captain Config
 
 # ------- Context.dev Config ------- #
@@ -219,6 +243,18 @@
 # ------- End of Context.dev Config ------- #
 
 # ------- Chatwoot Internal Config for Cloud ----#
+- name: DISABLE_META_INBOX_CREATION
+  value: true
+  display_title: 'Disable Meta Inbox Creation'
+  description: 'Disable Facebook, Instagram, and WhatsApp Embedded Signup inbox creation on Chatwoot Cloud during Meta incidents'
+  locked: false
+  type: boolean
+- name: DISABLE_META_MESSAGE_SENDING
+  value: true
+  display_title: 'Disable Meta Message Sending'
+  description: 'Disable Instagram message sending on Chatwoot Cloud during Meta incidents'
+  locked: false
+  type: boolean
 - name: CHATWOOT_INBOX_TOKEN
   value:
   display_title: 'Inbox Token'
@@ -235,6 +271,23 @@
   display_title: 'Cloud Plans'
   value:
   description: 'Config to store stripe plans for cloud'
+- name: CAPTAIN_TOPUP_OPTIONS
+  display_title: 'Captain Topup Options'
+  value: {}
+  description: 'Currency-keyed AI credit top-up packages, e.g. {"usd":[{"credits":1000,"amount":20.0}],"brl":[{"credits":1000,"amount":100.0}]}'
+  type: code
+- name: ENABLE_MULTI_CURRENCY_BILLING
+  display_title: 'Enable Multi-currency Billing'
+  value: false
+  locked: false
+  description: 'Bill new accounts in their local currency (e.g. BRL) and show currency-aware credit top-ups; when off, everyone is billed in USD'
+  type: boolean
+- name: MARKETING_CONVERSION_TRACKING_CONFIG
+  value:
+  display_title: 'Marketing Conversion Tracking Config'
+  description: 'JSON config for Chatwoot Cloud signup and plan activation conversion tracking'
+  locked: true
+  type: code
 - name: CHATWOOT_CLOUD_PLAN_FEATURES
   display_title: 'Planwise Features List'
   value:
@@ -380,6 +433,12 @@
   value:
   locked: false
   description: 'Slack client secret'
+  type: secret
+- name: SLACK_SIGNING_SECRET
+  display_title: 'Slack Signing Secret'
+  value:
+  locked: false
+  description: 'Slack signing secret used to verify inbound webhook signatures'
   type: secret
 ## ------ End of Configs added for Slack ------ ##
 

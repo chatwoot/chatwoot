@@ -35,7 +35,7 @@ module Integrations::Slack::SlackMessageHelper
       message_type: :outgoing,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      content: Slack::Messages::Formatting.unescape(params[:event][:text] || ''),
+      content: formatted_message_content,
       external_source_id_slack: params[:event][:ts],
       private: private_note?,
       sender: resolved_sender,
@@ -102,6 +102,11 @@ module Integrations::Slack::SlackMessageHelper
     raise
   rescue StandardError
     [nil, nil, nil]
+  end
+
+  def formatted_message_content
+    text = Slack::Messages::Formatting.unescape(params[:event][:text] || '')
+    Integrations::Slack::EmojiFormatter.format(text)
   end
 
   def private_note?

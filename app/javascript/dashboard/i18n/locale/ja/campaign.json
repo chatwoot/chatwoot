@@ -88,6 +88,7 @@
       },
       "CARD": {
         "STATUS": {
+          "PROCESSING": "Processing",
           "COMPLETED": "完了",
           "SCHEDULED": "スケジュール済み"
         },
@@ -146,6 +147,7 @@
       },
       "CARD": {
         "STATUS": {
+          "PROCESSING": "Processing",
           "COMPLETED": "完了",
           "SCHEDULED": "スケジュール済み"
         },

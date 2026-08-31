@@ -39,6 +39,19 @@ RSpec.describe 'Platform Agent Bot API', type: :request do
         expect(data.length).to eq(1)
         expect(data.first['outgoing_url']).to eq(agent_bot.outgoing_url)
       end
+
+      it 'returns 200 and skips orphaned permissibles when an agent bot has been deleted' do
+        create(:platform_app_permissible, platform_app: platform_app, permissible: agent_bot)
+        # Use delete (not destroy!) to bypass dependent: :destroy callbacks so the
+        # permissible row survives — exactly the orphan scenario described in the issue.
+        agent_bot.delete
+
+        get '/platform/api/v1/agent_bots',
+            headers: { api_access_token: platform_app.access_token.token }, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body).to be_empty
+      end
     end
   end
 

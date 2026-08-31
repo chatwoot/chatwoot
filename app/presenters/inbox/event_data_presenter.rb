@@ -23,7 +23,7 @@ class Inbox::EventDataPresenter < SimpleDelegator
       timezone: timezone,
       out_of_office_message: out_of_office_message,
       working_hours_enabled: working_hours_enabled,
-      working_hours: working_hours,
+      working_hours: working_hours.as_json,
 
       created_at: created_at,
       updated_at: updated_at,
@@ -31,5 +31,9 @@ class Inbox::EventDataPresenter < SimpleDelegator
       # Associated channel attributes
       channel: channel
     }
+  end
+
+  def webhook_data
+    push_data.merge(account: account.webhook_data)
   end
 end

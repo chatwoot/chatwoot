@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Messages::AudioTranscriptionService, type: :service do
   let(:account) { create(:account, audio_transcriptions: true) }
   let(:conversation) { create(:conversation, account: account) }
-  let(:message) { create(:message, conversation: conversation) }
+  let(:message) { create(:message, account: account, conversation: conversation) }
   let(:attachment) { message.attachments.create!(account: account, file_type: :audio) }
 
   before do
@@ -12,7 +12,13 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
     InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_MODEL') { |config| config.value = 'gpt-4o-mini' }
 
     # Mock usage limits for transcription to be available
-    allow(account).to receive(:usage_limits).and_return({ captain: { responses: { current_available: 100 } } })
+    allow(account).to receive(:usage_limits).and_return(
+      {
+        agents: ChatwootApp.max_limit,
+        inboxes: ChatwootApp.max_limit,
+        captain: { responses: { current_available: 100 } }
+      }
+    )
   end
 
   describe '#perform' do
@@ -30,8 +36,7 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
 
     context 'when transcription is successful' do
       before do
-        # Mock can_transcribe? to return true and transcribe_audio method
-        allow(service).to receive(:can_transcribe?).and_return(true)
+        allow(Llm::SpeechToTextService).to receive(:available_for?).and_return(true)
         allow(service).to receive(:transcribe_audio).and_return('Hello world transcription')
       end
 
@@ -55,7 +60,7 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
     context 'when attachment already has transcribed text' do
       before do
         attachment.update!(meta: { transcribed_text: 'Existing transcription' })
-        allow(service).to receive(:can_transcribe?).and_return(true)
+        allow(Llm::SpeechToTextService).to receive(:available_for?).and_return(true)
       end
 
       it 'returns existing transcription without calling API' do
@@ -63,25 +68,22 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
         expect(result).to eq({ success: true, transcriptions: 'Existing transcription' })
       end
     end
-  end
 
-  describe '#fetch_audio_file' do
-    let(:service) { described_class.new(attachment) }
+    context 'when the audio exceeds the transcription byte limit' do
+      before do
+        attachment.file.attach(
+          io: File.open(Rails.public_path.join('audio/widget/ding.mp3')),
+          filename: 'large.mp3',
+          content_type: 'audio/mpeg'
+        )
+        allow(Llm::SpeechToTextService).to receive(:available_for?).and_return(true)
+        allow(attachment.file.blob).to receive(:byte_size).and_return(Llm::SpeechToTextService::BYTE_LIMIT + 1)
+      end
 
-    before do
-      attachment.file.attach(
-        io: File.open(Rails.public_path.join('audio/widget/ding.mp3')),
-        filename: 'speech',
-        content_type: 'audio/mpeg'
-      )
-    end
-
-    it 'adds extension from content type when filename has no extension' do
-      temp_file_path = service.send(:fetch_audio_file)
-
-      expect(File.extname(temp_file_path)).to eq('.mpeg')
-    ensure
-      FileUtils.rm_f(temp_file_path) if temp_file_path.present?
+      it 'returns an error without transcribing' do
+        expect(service).not_to receive(:transcribe_audio)
+        expect(service.perform).to eq({ error: 'Audio too large for transcription' })
+      end
     end
   end
 end

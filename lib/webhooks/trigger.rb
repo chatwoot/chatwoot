@@ -1,5 +1,15 @@
 class Webhooks::Trigger
   SUPPORTED_ERROR_HANDLE_EVENTS = %w[message_created message_updated].freeze
+  RETRYABLE_AGENT_BOT_STATUSES = [429, 500].freeze
+
+  class RetryableError < StandardError
+    attr_reader :status
+
+    def initialize(status:, message:)
+      @status = status
+      super(message)
+    end
+  end
 
   def initialize(url, payload, webhook_type, secret: nil, delivery_id: nil)
     @url = url
@@ -15,11 +25,9 @@ class Webhooks::Trigger
 
   def execute
     perform_request
-  rescue RestClient::TooManyRequests, RestClient::InternalServerError => e
-    raise if @webhook_type == :agent_bot_webhook
-
-    handle_failure(e)
   rescue StandardError => e
+    raise RetryableError.new(status: http_status(e), message: e.message) if retryable_agent_bot_error?(e)
+
     handle_failure(e)
   end
 
@@ -32,17 +40,19 @@ class Webhooks::Trigger
 
   def perform_request
     body = @payload.to_json
-    RestClient::Request.execute(
+    SafeFetch.fetch(
+      @url,
       method: :post,
-      url: @url,
-      payload: body,
+      body: body,
       headers: request_headers(body),
-      timeout: webhook_timeout
-    )
+      open_timeout: webhook_timeout,
+      read_timeout: webhook_timeout,
+      validate_content_type: false
+    ) { |_response| nil }
   end
 
   def request_headers(body)
-    headers = { content_type: :json, accept: :json }
+    headers = { 'Content-Type' => 'application/json', 'Accept' => 'application/json' }
     headers['X-Chatwoot-Delivery'] = @delivery_id if @delivery_id.present?
     if @secret.present?
       ts = Time.now.to_i.to_s
@@ -110,5 +120,15 @@ class Webhooks::Trigger
     timeout = raw_timeout.presence&.to_i
 
     timeout&.positive? ? timeout : 5
+  end
+
+  def retryable_agent_bot_error?(error)
+    @webhook_type == :agent_bot_webhook && RETRYABLE_AGENT_BOT_STATUSES.include?(http_status(error))
+  end
+
+  def http_status(error)
+    return unless error.is_a?(SafeFetch::HttpError)
+
+    error.message.to_s[/\A(\d{3})\b/, 1]&.to_i
   end
 end

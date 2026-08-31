@@ -54,6 +54,7 @@ module Linear::Queries
             title
             description
             identifier
+            url
             state {
               name
               color

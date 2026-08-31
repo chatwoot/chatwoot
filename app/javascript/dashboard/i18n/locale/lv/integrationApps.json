@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Izvēlieties Iesūtni"
         },
         "SUBMIT": "Izveidot",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Atcelt"
       },
       "API": {

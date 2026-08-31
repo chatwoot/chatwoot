@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Selectați Inbox"
         },
         "SUBMIT": "Creeaza",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Renunță"
       },
       "API": {

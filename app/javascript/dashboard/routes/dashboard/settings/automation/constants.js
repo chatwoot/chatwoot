@@ -23,7 +23,7 @@ export const AUTOMATIONS = {
       {
         key: 'content',
         name: 'MESSAGE_CONTAINS',
-        inputType: 'comma_separated_plain_text',
+        inputType: 'multi_text',
         filterOperators: OPERATOR_TYPES_2,
       },
       {
@@ -73,6 +73,12 @@ export const AUTOMATIONS = {
         name: 'PHONE_NUMBER',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_6,
+      },
+      {
+        key: 'company_name',
+        name: 'COMPANY_NAME',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
       },
       {
         key: 'labels',
@@ -179,6 +185,12 @@ export const AUTOMATIONS = {
         name: 'PHONE_NUMBER',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_6,
+      },
+      {
+        key: 'company_name',
+        name: 'COMPANY_NAME',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
       },
       {
         key: 'referer',
@@ -313,6 +325,12 @@ export const AUTOMATIONS = {
         name: 'PHONE_NUMBER',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_6,
+      },
+      {
+        key: 'company_name',
+        name: 'COMPANY_NAME',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
       },
       {
         key: 'assignee_id',
@@ -461,6 +479,12 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_6,
       },
       {
+        key: 'company_name',
+        name: 'COMPANY_NAME',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
         key: 'team_id',
         name: 'TEAM_NAME',
         inputType: 'search_select',
@@ -589,6 +613,12 @@ export const AUTOMATIONS = {
         name: 'PHONE_NUMBER',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_6,
+      },
+      {
+        key: 'company_name',
+        name: 'COMPANY_NAME',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
       },
       {
         key: 'team_id',
@@ -776,3 +806,27 @@ export const AUTOMATION_ACTION_TYPES = [
     inputType: 'search_select',
   },
 ];
+
+export const DEFAULT_DELAY_MINUTES = 240; // 4 hours
+export const MIN_DELAY_MINUTES = 10;
+export const MAX_DELAY_MINUTES = 43200; // 30 days
+export const DEFAULT_TRIGGER_STATUS = 'pending';
+
+// A delayed rule is expressed as one meaningful trigger instead of a raw event + conditions. Each
+// trigger maps to the automation's event_name plus a preset condition: message_type for the two
+// unresponsive cases (reply-chase / awaiting-agent), or a chosen status for conversation_updated.
+export const DELAYED_TRIGGERS = [
+  { key: 'conversation_status', eventName: 'conversation_updated' },
+  {
+    key: 'customer_unresponsive',
+    eventName: 'message_created',
+    messageType: 'outgoing',
+  },
+  {
+    key: 'agent_unresponsive',
+    eventName: 'message_created',
+    messageType: 'incoming',
+  },
+];
+
+export const DEFAULT_TRIGGER = DELAYED_TRIGGERS[0].key;

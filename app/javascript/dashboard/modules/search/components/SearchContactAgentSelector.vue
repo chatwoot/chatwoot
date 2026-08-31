@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, defineModel, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
@@ -232,7 +232,7 @@ watch(() => modelValue.value, resolveContactName, { immediate: true });
       show-search
       disable-local-filtering
       :is-searching="isSearching"
-      class="mt-1 ltr:left-0 rtl:right-0 top-full w-64 max-h-80 overflow-y-auto"
+      class="mt-1 ltr:left-0 rtl:right-0 top-full w-64 max-h-80"
       @search="performSearch"
       @action="handleAction"
     />
