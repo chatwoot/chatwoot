@@ -9,6 +9,8 @@ import {
   initWhatsAppEmbeddedSignup,
   createMessageHandler,
   isValidBusinessData,
+  classifySignupEvent,
+  SIGNUP_RESULT,
 } from './utils';
 
 const props = defineProps({
@@ -72,11 +74,9 @@ const handleEmbeddedSignupEvents = async (data, authCode) => {
     return;
   }
 
-  // Handle different event types
-  if (
-    data.event === 'FINISH' ||
-    data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
-  ) {
+  const result = classifySignupEvent(data);
+
+  if (result.type === SIGNUP_RESULT.FINISH) {
     const businessData = data.data;
 
     // phone_number_id isn't required here: the backend resolves it from the WABA
@@ -87,8 +87,7 @@ const handleEmbeddedSignupEvents = async (data, authCode) => {
         business_id: businessData.business_id || '',
         waba_id: businessData.waba_id,
         phone_number_id: businessData.phone_number_id || '',
-        is_coexistence:
-          data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING',
+        is_coexistence: result.isCoexistence,
       });
     } else {
       isRequestingAuthorization.value = false;
@@ -96,13 +95,18 @@ const handleEmbeddedSignupEvents = async (data, authCode) => {
         t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.INVALID_BUSINESS_DATA')
       );
     }
-  } else if (data.event === 'CANCEL') {
-    isRequestingAuthorization.value = false;
-    useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
-  } else if (data.event === 'error') {
+  } else if (result.type === SIGNUP_RESULT.UNSUPPORTED) {
     isRequestingAuthorization.value = false;
     useAlert(
-      data.error_message ||
+      t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.UNSUPPORTED_COMPLETION')
+    );
+  } else if (result.type === SIGNUP_RESULT.CANCEL) {
+    isRequestingAuthorization.value = false;
+    useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
+  } else if (result.type === SIGNUP_RESULT.ERROR) {
+    isRequestingAuthorization.value = false;
+    useAlert(
+      result.errorMessage ||
         t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SIGNUP_ERROR')
     );
   }
@@ -131,18 +135,20 @@ const startEmbeddedSignup = () => {
   };
 
   messageHandler = createMessageHandler(data => {
-    if (
-      data.event === 'FINISH' ||
-      data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
-    ) {
+    const { type } = classifySignupEvent(data);
+    // Non-terminal payloads must not tear down the listener — the flow is still live.
+    if (type === SIGNUP_RESULT.IGNORE) return;
+
+    if (type === SIGNUP_RESULT.FINISH) {
       // Keep the first terminal event: a coexistence FINISH must win over a
       // later normal FINISH that can arrive before the auth code is known.
       pendingEvent = pendingEvent || data;
       process();
-    } else {
-      settle();
-      handleEmbeddedSignupEvents(data, authCode);
+      return;
     }
+
+    settle();
+    handleEmbeddedSignupEvents(data, authCode);
   });
   window.addEventListener('message', messageHandler);
 
@@ -162,22 +168,27 @@ const createFinishEventWaiter = () => {
   let listener;
   const promise = new Promise((resolve, reject) => {
     listener = createMessageHandler(data => {
-      if (
-        data?.event === 'FINISH' ||
-        data?.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
-      ) {
-        window.removeEventListener('message', listener);
-        resolve(data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING');
-      } else if (data?.event === 'CANCEL') {
-        window.removeEventListener('message', listener);
+      const result = classifySignupEvent(data);
+      if (result.type === SIGNUP_RESULT.IGNORE) return;
+
+      window.removeEventListener('message', listener);
+
+      if (result.type === SIGNUP_RESULT.FINISH) {
+        resolve(result.isCoexistence);
+      } else if (result.type === SIGNUP_RESULT.UNSUPPORTED) {
+        reject(
+          new Error(
+            t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.UNSUPPORTED_COMPLETION')
+          )
+        );
+      } else if (result.type === SIGNUP_RESULT.CANCEL) {
         reject(
           new Error(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'))
         );
-      } else if (data?.event === 'error') {
-        window.removeEventListener('message', listener);
+      } else {
         reject(
           new Error(
-            data.error_message ||
+            result.errorMessage ||
               t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SIGNUP_ERROR')
           )
         );
