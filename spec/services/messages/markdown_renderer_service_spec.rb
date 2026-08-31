@@ -362,6 +362,13 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         result = described_class.new(content, channel_type).render
         expect(result).to include('<del>strikethrough text</del>')
       end
+
+      it 'keeps the signature delimiter when an empty line sits above it' do
+        content = "Answer\n\n\\\n--\n\nRegards"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include("<p><br />\n--</p>")
+        expect(result).not_to include('<h2>')
+      end
     end
 
     context 'when channel is Channel::WebWidget' do

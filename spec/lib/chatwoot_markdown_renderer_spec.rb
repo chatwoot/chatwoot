@@ -84,6 +84,14 @@ RSpec.describe ChatwootMarkdownRenderer do
         expect(renderer.render_message.to_s).to eq("<p>Visit <a href=\"https://example.com\">https://example.com</a> for details</p>\n")
       end
     end
+
+    context 'with an empty line above the signature delimiter' do
+      let(:markdown_content) { "Answer\n\n\\\n--\n\nRegards" }
+
+      it 'keeps the delimiter and the empty line instead of rendering a setext heading' do
+        expect(rendered_message.to_s).to eq("<p>Answer</p>\n<p><br />\n--</p>\n<p>Regards</p>\n")
+      end
+    end
   end
 
   describe '#render_markdown_to_plain_text' do
