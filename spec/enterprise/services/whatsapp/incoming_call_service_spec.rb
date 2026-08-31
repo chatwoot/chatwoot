@@ -81,7 +81,7 @@ describe Whatsapp::IncomingCallService do
 
     before { create(:inbox_member, inbox: inbox, user: agent) }
 
-    it 'keys a phone caller by the phone (matching messaging) even when a BSUID is also present' do
+    it 'keys a caller by the BSUID when one is present, matching messaging' do
       allow(ActionCable.server).to receive(:broadcast)
 
       params = {
@@ -93,7 +93,7 @@ describe Whatsapp::IncomingCallService do
         .to change(Call, :count).by(1).and change(Conversation, :count).by(1)
 
       contact_inbox = Call.last.conversation.contact_inbox
-      expect(contact_inbox.source_id).to eq(from_number)
+      expect(contact_inbox.source_id).to eq(bsuid)
       expect(contact_inbox.contact.name).to eq('Ada Lovelace')
     end
 
@@ -113,23 +113,24 @@ describe Whatsapp::IncomingCallService do
       expect(contact_inbox.contact.name).to eq('Ada Lovelace')
     end
 
-    it 'reuses the phone-keyed ContactInbox messaging created for a phone caller and backfills the BSUID alias' do
+    it 'keeps the contact messaging created by phone but answers on its BSUID ContactInbox' do
       allow(ActionCable.server).to receive(:broadcast)
       contact = create(:contact, account: account)
-      existing = create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
+      phone_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
 
       params = {
         calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
                   session: { sdp: sdp_offer, sdp_type: 'offer' } }],
         contacts: [{ wa_id: from_number, user_id: bsuid }]
       }
-      # The conversation reuses the existing phone thread; the BSUID alias is backfilled onto the same contact.
+      # The contact is the same one messaging created; the call lands on the BSUID row, the
+      # identity a message would resolve, rather than answering through the phone alias.
       expect { described_class.new(inbox: inbox, params: params).perform }
         .to change(Call, :count).by(1).and change(ContactInbox, :count).by(1)
 
       expect(Call.last.contact).to eq(contact)
-      expect(Call.last.conversation.contact_inbox).to eq(existing)
-      expect(inbox.contact_inboxes.find_by(source_id: bsuid).contact).to eq(contact)
+      expect(Call.last.conversation.contact_inbox.source_id).to eq(bsuid)
+      expect(Call.last.conversation.contact_inbox).not_to eq(phone_contact_inbox)
     end
 
     it 'reuses a phone ContactInbox via the same wa_id normalization messaging uses' do
@@ -185,6 +186,49 @@ describe Whatsapp::IncomingCallService do
       expect(Call.last.contact).to eq(contact)
       expect(Call.last.conversation.contact_inbox).to eq(existing)
       expect(inbox.contact_inboxes.find_by(source_id: from_number).contact).to eq(contact)
+    end
+
+    it 'reuses the BSUID conversation when a later call carries both phone and BSUID' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      phone_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
+      bsuid_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: bsuid_contact_inbox)
+
+      params = {
+        calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: from_number, user_id: bsuid }]
+      }
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(Conversation, :count)
+
+      expect(Call.last.conversation).to eq(conversation)
+      expect(Call.last.conversation.contact_inbox).to eq(bsuid_contact_inbox)
+      expect(phone_contact_inbox.reload.contact).to eq(contact)
+    end
+
+    it 'opens a BSUID-backed conversation and leaves the phone one untouched' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      phone_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
+      bsuid_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
+      phone_conversation = create(:conversation, account: account, inbox: inbox, contact: contact,
+                                                 contact_inbox: phone_contact_inbox)
+
+      params = {
+        calls: [{ id: provider_call_id, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ user_id: bsuid }]
+      }
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and change(Conversation, :count).by(1)
+
+      expect(Call.last.conversation).not_to eq(phone_conversation)
+      expect(Call.last.conversation.contact_inbox).to eq(bsuid_contact_inbox)
+      expect(phone_conversation.reload.contact_inbox).to eq(phone_contact_inbox)
     end
   end
 
