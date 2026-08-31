@@ -170,15 +170,16 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   # The editor stores a resized embed's width (cw_video_width) on the link.
+  # Percentage padding (aspect-ratio boxes) resolves against the containing
+  # block, so the saved width goes on a wrapper and the root fills it.
   def apply_embed_width(html, link_url)
     width = extract_px_param(link_url, 'cw_video_width')
     return html unless width
 
     fragment = Nokogiri::HTML5.fragment(html)
     root = fragment.elements.first
-    # Append so the saved width beats a template width; aspect boxes are unaffected (children are absolute).
-    root['style'] = [root['style'], "width: #{width}; max-width: 100%; height: auto;"].compact.join(' ')
-    fragment.to_html
+    root['style'] = [root['style'], 'width: 100%; height: auto;'].compact.join(' ')
+    %(<div style="width: #{width}; max-width: 100%;">#{fragment.to_html}</div>)
   end
 
   def find_matching_embed(link_url)

@@ -34,6 +34,15 @@ const onTabChange = tab => {
   activeTabIndex.value = tabs.value.findIndex(item => item.id === tab.id);
 };
 
+// Arrow keys swap tabs from anywhere in the popover except the link field,
+// where they must keep moving the caret.
+const moveTab = (event, step) => {
+  if (event.target.tagName === 'INPUT') return;
+  event.preventDefault();
+  const count = tabs.value.length;
+  activeTabIndex.value = (activeTabIndex.value + step + count) % count;
+};
+
 const isSupported = value =>
   embeds.some(({ regex }) => regex.test(value.trim()));
 
@@ -83,6 +92,9 @@ const onDrop = event => emitFile(event.dataTransfer?.files[0]);
   <div
     class="absolute z-50 flex flex-col p-3 shadow-lg gap-2.5 w-[22rem] bg-n-solid-2 outline outline-1 outline-n-weak rounded-xl"
     :style="menuStyle"
+    @keydown.esc.prevent="emit('cancel')"
+    @keydown.left="moveTab($event, -1)"
+    @keydown.right="moveTab($event, 1)"
   >
     <TabBar
       :tabs="tabs"
@@ -99,7 +111,6 @@ const onDrop = event => emitFile(event.dataTransfer?.files[0]);
         :message-type="showError ? 'error' : 'info'"
         @input="onInput"
         @enter="onSubmit"
-        @keydown.esc.prevent="emit('cancel')"
       >
         <template #prefix>
           <Icon
@@ -123,7 +134,6 @@ const onDrop = event => emitFile(event.dataTransfer?.files[0]);
         @click="openFilePicker"
         @dragover.prevent
         @drop.prevent="onDrop"
-        @keydown.esc.prevent="emit('cancel')"
       >
         <Icon icon="i-lucide-upload" class="size-5 text-n-slate-11" />
         <span class="text-sm font-medium text-n-slate-12">

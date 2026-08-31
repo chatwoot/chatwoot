@@ -353,6 +353,35 @@ describe('FullEditor', () => {
       expect(view.dom.querySelector('.pm-upload-card')).toBeNull();
     });
 
+    it('reports a pending upload so parents can gate publish on it', async () => {
+      mountEditor({ modelValue: 'Hello' });
+      expect(wrapper.vm.hasPendingUploads()).toBe(false);
+
+      let finishUpload;
+      attachImage.mockImplementation(
+        () =>
+          new Promise(resolve => {
+            finishUpload = resolve;
+          })
+      );
+      await selectFile(new File(['x'], 'clip.mp4', { type: 'video/mp4' }));
+      expect(wrapper.vm.hasPendingUploads()).toBe(true);
+
+      finishUpload('https://cdn.test/clip.mp4');
+      await flushPromises();
+      expect(wrapper.vm.hasPendingUploads()).toBe(false);
+    });
+
+    it('does not report a failed upload as pending', async () => {
+      mountEditor({ modelValue: 'Hello' });
+      attachImage.mockRejectedValue(new Error('nope'));
+      await selectFile(new File(['x'], 'clip.mp4', { type: 'video/mp4' }));
+      expect(view.dom.querySelector('.pm-upload-card').dataset.state).toBe(
+        'error'
+      );
+      expect(wrapper.vm.hasPendingUploads()).toBe(false);
+    });
+
     it('reloads when the editor id changes', async () => {
       mountEditor({ modelValue: 'Hello', editorId: 'article-1' });
       type(' edited');
@@ -794,6 +823,53 @@ describe('FullEditor', () => {
         false
       );
       expect(view.state.doc.textContent).toBe('Hello ');
+    });
+
+    it('closes on escape from anywhere inside the popover', async () => {
+      mountEditor();
+      await openEmbedInput();
+      // Keyboard tab switching leaves focus on the tab button, not the panel.
+      await wrapper
+        .findComponent({ name: 'VideoEmbedInput' })
+        .find('button')
+        .trigger('keydown', { key: 'Escape' });
+
+      expect(wrapper.findComponent({ name: 'VideoEmbedInput' }).exists()).toBe(
+        false
+      );
+    });
+
+    it('switches tabs with the arrow keys', async () => {
+      mountEditor();
+      await openEmbedInput();
+      const embedInput = () =>
+        wrapper.findComponent({ name: 'VideoEmbedInput' });
+
+      await embedInput()
+        .find('button')
+        .trigger('keydown', { key: 'ArrowRight' });
+      expect(embedInput().find('input[type="file"]').exists()).toBe(true);
+
+      await embedInput()
+        .find('button')
+        .trigger('keydown', { key: 'ArrowLeft' });
+      expect(embedInput().find('input[type="url"]').exists()).toBe(true);
+    });
+
+    it('keeps arrow keys for the caret inside the link field', async () => {
+      mountEditor();
+      await openEmbedInput();
+      await wrapper
+        .findComponent({ name: 'VideoEmbedInput' })
+        .find('input[type="url"]')
+        .trigger('keydown', { key: 'ArrowRight' });
+
+      expect(
+        wrapper
+          .findComponent({ name: 'VideoEmbedInput' })
+          .find('input[type="url"]')
+          .exists()
+      ).toBe(true);
     });
   });
 

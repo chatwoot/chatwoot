@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, onBeforeUnmount } from 'vue';
+import { ref, computed, watch, onBeforeUnmount, useTemplateRef } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
@@ -54,6 +54,9 @@ const localTitle = ref(effectiveTitle());
 const localContent = ref(effectiveContent());
 
 const diffPanelRef = ref(null);
+const editorRef = useTemplateRef('editorRef');
+
+const hasPendingUploads = () => !!editorRef.value?.hasPendingUploads();
 
 // Autosave 500ms after the last edit. It sends both title and content so an
 // edit to one never drops a recent edit to the other. `stop` cancels a queued
@@ -162,6 +165,7 @@ const handleCreateArticle = event => {
         :article-id="article.id"
         :pending-changes="hasPendingChanges"
         :is-saving="isSaving"
+        :has-pending-uploads="hasPendingUploads"
         @go-back="onClickGoBack"
         @preview-article="previewArticle"
         @show-diff="diffPanelRef?.open()"
@@ -188,6 +192,7 @@ const handleCreateArticle = event => {
         />
       </div>
       <FullEditor
+        ref="editorRef"
         v-model="articleContent"
         :editor-id="editorSessionId"
         class="py-0 pb-10 pl-4 rtl:pr-4 rtl:pl-0 h-fit"

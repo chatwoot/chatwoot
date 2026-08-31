@@ -12,6 +12,7 @@ import {
   embedPreviewPlugin,
   insertImageFiles,
   insertFileUploads,
+  hasActiveUploads,
   fileUploadPlugin,
   setUploadLabels,
   toggleMark,
@@ -386,6 +387,11 @@ export default {
       if (images.length) insertImageFiles(editorView, images, { upload });
       if (videos.length) insertFileUploads(editorView, videos, { upload });
       if (images.length || videos.length) editorView.focus();
+    },
+    // Parents gate draft-resolving actions (publish/discard) on this: they
+    // reload the editor, which would abort the upload and drop the file.
+    hasPendingUploads() {
+      return !!editorView && hasActiveUploads(editorView);
     },
     uploadFileToStorage(file, onProgress, signal) {
       return this.$store.dispatch('articles/attachImage', {
