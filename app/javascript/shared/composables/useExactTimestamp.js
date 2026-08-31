@@ -1,9 +1,7 @@
 import { fromUnixTime } from 'date-fns';
 import { useLocale } from './useLocale';
 
-// Intl formatters are expensive to construct and built for reuse, and the
-// formatter runs in the render path of every conversation card, so keep one
-// per locale.
+// Cache formatters by locale since this runs in the render path.
 const formatters = new Map();
 
 const formatterFor = locale => {
@@ -13,9 +11,8 @@ const formatterFor = locale => {
       new Intl.DateTimeFormat(locale, {
         dateStyle: 'medium',
         timeStyle: 'short',
-        // `fa` and `th` default to the Solar Hijri and Buddhist calendars, which
-        // would date the tooltip to a different year than the Gregorian relative
-        // time it annotates. Localize the presentation, not the calendar.
+        // `fa` and `th` would otherwise use the Solar Hijri and Buddhist
+        // calendars, dating this differently to the relative time it annotates.
         calendar: 'gregory',
       })
     );
