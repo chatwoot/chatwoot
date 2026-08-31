@@ -109,17 +109,26 @@ class Twilio::HealthService
 
   def voice_webhooks
     [
-      webhook('voice', channel.voice_call_webhook_url, number.voice_url, method: number.voice_method, override: voice_override),
+      inbound_voice_webhook,
       webhook('voice_status', channel.voice_status_webhook_url, number.status_callback, method: number.status_callback_method),
       # Outbound calls dial through the TwiML app, so a stale voice_url here breaks them silently.
       twiml_app_webhook
-    ]
+    ].compact
+  end
+
+  # With our own app attached, Twilio routes inbound calls through it and ignores the number's
+  # voice_url, so checking that url here would only misreport a working inbox. The TwiML app entry
+  # below is the real check in that setup.
+  def inbound_voice_webhook
+    return if number.voice_application_sid.present? && number.voice_application_sid == channel.twiml_app_sid
+
+    webhook('voice', channel.voice_call_webhook_url, number.voice_url, method: number.voice_method, override: voice_override)
   end
 
   # A trunk or a foreign TwiML app on the number makes Twilio ignore voice_url entirely.
   def voice_override
     return 'overridden_by_trunk' if number.trunk_sid.present?
-    return 'overridden_by_application' if number.voice_application_sid.present? && number.voice_application_sid != channel.twiml_app_sid
+    return 'overridden_by_application' if number.voice_application_sid.present?
 
     nil
   end

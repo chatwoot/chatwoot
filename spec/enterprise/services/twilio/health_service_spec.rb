@@ -10,11 +10,12 @@ describe Twilio::HealthService do
   let(:channel) { create(:channel_twilio_sms, :with_voice) }
   let(:trunk_sid) { nil }
   let(:voice_application_sid) { nil }
+  let(:number_voice_url) { channel.voice_call_webhook_url }
   let(:number) do
     instance_double(number_instance, sid: 'PN123', phone_number: channel.phone_number, friendly_name: 'Support line',
                                      capabilities: { 'voice' => true, 'sms' => true, 'mms' => true },
                                      sms_url: twilio_callback_index_url, sms_method: 'POST', sms_application_sid: nil,
-                                     voice_url: channel.voice_call_webhook_url, voice_method: 'POST',
+                                     voice_url: number_voice_url, voice_method: 'POST',
                                      status_callback: channel.voice_status_webhook_url, status_callback_method: 'POST',
                                      trunk_sid: trunk_sid, voice_application_sid: voice_application_sid)
   end
@@ -89,9 +90,17 @@ describe Twilio::HealthService do
     context 'when our own twiml app is attached to the number' do
       let(:twiml_app_voice_url) { channel.voice_call_webhook_url }
       let(:voice_application_sid) { channel.twiml_app_sid }
+      # Twilio ignores this once the application takes over inbound routing.
+      let(:number_voice_url) { nil }
 
       it 'leaves the inbound voice webhook healthy because the app points back at us' do
         expect(described_class.new(channel: channel).perform[:status]).to eq('healthy')
+      end
+
+      it 'drops the number level voice check that twilio would ignore' do
+        names = described_class.new(channel: channel).perform[:webhooks].pluck(:name)
+
+        expect(names).to contain_exactly('messaging', 'voice_status', 'voice_app')
       end
     end
 
@@ -118,6 +127,11 @@ describe Twilio::HealthService do
       it 'reports outbound calling as unavailable' do
         expect(described_class.new(channel: channel).perform[:webhooks])
           .to include(hash_including(name: 'voice_app', configured: false, reason: 'missing_twiml_app'))
+      end
+
+      it 'still checks the number level voice webhook' do
+        expect(described_class.new(channel: channel).perform[:webhooks])
+          .to include(hash_including(name: 'voice'))
       end
     end
   end
