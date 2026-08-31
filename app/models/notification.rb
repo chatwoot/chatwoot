@@ -43,7 +43,9 @@ class Notification < ApplicationRecord
     participating_conversation_new_message: 5,
     sla_missed_first_response: 6,
     sla_missed_next_response: 7,
-    sla_missed_resolution: 8
+    sla_missed_resolution: 8,
+    assigned_conversation_message_reaction: 9,
+    participating_conversation_message_reaction: 10
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -96,7 +98,9 @@ class Notification < ApplicationRecord
       'conversation_mention' => 'notifications.notification_title.conversation_mention',
       'sla_missed_first_response' => 'notifications.notification_title.sla_missed_first_response',
       'sla_missed_next_response' => 'notifications.notification_title.sla_missed_next_response',
-      'sla_missed_resolution' => 'notifications.notification_title.sla_missed_resolution'
+      'sla_missed_resolution' => 'notifications.notification_title.sla_missed_resolution',
+      'assigned_conversation_message_reaction' => 'notifications.notification_title.conversation_message_reaction',
+      'participating_conversation_message_reaction' => 'notifications.notification_title.conversation_message_reaction'
     }
 
     i18n_key = notification_title_map[notification_type]
@@ -105,7 +109,8 @@ class Notification < ApplicationRecord
     if notification_type == 'conversation_creation'
       I18n.t(i18n_key, display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
     elsif %w[conversation_assignment assigned_conversation_new_message participating_conversation_new_message
-             conversation_mention].include?(notification_type)
+             conversation_mention assigned_conversation_message_reaction
+             participating_conversation_message_reaction].include?(notification_type)
       I18n.t(i18n_key, display_id: conversation.display_id)
     else
       I18n.t(i18n_key, display_id: primary_actor.display_id)
@@ -121,6 +126,8 @@ class Notification < ApplicationRecord
       message_body(secondary_actor)
     when 'conversation_assignment', 'sla_missed_next_response', 'sla_missed_resolution'
       message_body((conversation.messages.incoming.last || conversation.messages.outgoing.last))
+    when 'assigned_conversation_message_reaction', 'participating_conversation_message_reaction'
+      reaction_message_body(secondary_actor)
     else
       ''
     end
@@ -140,6 +147,12 @@ class Notification < ApplicationRecord
 
   def sender_name(actor)
     actor.try(:sender)&.name || ''
+  end
+
+  def reaction_message_body(reaction)
+    sender_name = reaction.try(:sender)&.name || ''
+    emoji_or_type = reaction.try(:emoji).presence || reaction.try(:reaction_type)
+    I18n.t('notifications.message_reaction.push_message', sender: sender_name, emoji: emoji_or_type)
   end
 
   def message_content(actor)

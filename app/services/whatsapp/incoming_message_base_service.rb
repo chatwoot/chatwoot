@@ -4,6 +4,7 @@
 class Whatsapp::IncomingMessageBaseService
   include ::Whatsapp::IncomingMessageServiceHelpers
   include ::Whatsapp::IncomingMessageIdentifierHelper
+  include ::Whatsapp::IncomingMessageReactionHandler
 
   pattr_initialize [:inbox!, :params!, :outgoing_echo]
 
@@ -25,10 +26,16 @@ class Whatsapp::IncomingMessageBaseService
   private
 
   def process_messages
-    # We don't support reactions & ephemeral message now, we need to skip processing the message
-    # if the webhook event is a reaction or an ephermal message or an unsupported message.
+    return process_reaction_message(messages_data.first) if message_type == 'reaction'
+
+    # We don't support ephemeral message now, we need to skip processing the message
+    # if the webhook event is an ephermal message or an unsupported message.
     return if unprocessable_message_type?(message_type)
 
+    process_regular_message
+  end
+
+  def process_regular_message
     # Multiple webhook events can be received for the same message due to
     # misconfigurations in the Meta business manager account.
     # We use an atomic Redis SET NX to prevent concurrent workers from both

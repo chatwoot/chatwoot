@@ -20,6 +20,18 @@ class Conversations::UnreadCounts::Listener < BaseListener
     notify_filtered_count_change(conversation) unless message.incoming? && refreshed
   end
 
+  def message_reaction_created(event)
+    refresh_for_reaction(event)
+  end
+
+  def message_reaction_updated(event)
+    refresh_for_reaction(event)
+  end
+
+  def message_reaction_removed(event)
+    refresh_for_reaction(event)
+  end
+
   def conversation_status_changed(event)
     conversation, = extract_conversation_and_account(event)
     refresh_then_invalidate(conversation, event.data[:changed_attributes])
@@ -80,6 +92,13 @@ class Conversations::UnreadCounts::Listener < BaseListener
 
   def refresh(conversation, changed_attributes = nil)
     ::Conversations::UnreadCounts::Notifier.new(conversation, changed_attributes: changed_attributes).perform
+  end
+
+  def refresh_for_reaction(event)
+    conversation = event.data[:conversation]
+    return unless conversation.account.feature_enabled?('conversation_unread_counts')
+
+    refresh(conversation)
   end
 
   def remove_deleted_conversation(account, conversation_data)

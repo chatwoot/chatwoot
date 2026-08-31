@@ -23,6 +23,8 @@
       "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in",
+      "ASSIGNED_CONVERSATION_MESSAGE_REACTION": "Message reaction in an assigned conversation",
+      "PARTICIPATING_CONVERSATION_MESSAGE_REACTION": "Message reaction in a conversation you are participating in",
       "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
       "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
       "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
@@ -36,6 +38,8 @@
       "SLA_MISSED_RESOLUTION": "SLA breach",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message",
+      "PARTICIPATING_CONVERSATION_MESSAGE_REACTION": "Message reaction",
+      "ASSIGNED_CONVERSATION_MESSAGE_REACTION": "Message reaction",
       "SNOOZED_UNTIL": "Snoozed for {time}",
       "SNOOZED_ENDS": "Snooze ended"
     },

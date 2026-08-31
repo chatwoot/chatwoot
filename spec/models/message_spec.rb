@@ -141,7 +141,7 @@ RSpec.describe Message do
             source_id: message.conversation.contact_inbox.source_id
           },
           last_activity_at: message.conversation.last_activity_at.to_i,
-          unread_count: message.conversation.unread_incoming_messages.count
+          unread_count: message.conversation.unread_activity_count
         },
         sentiment: {},
         sender: message.sender.push_event_data,
@@ -151,6 +151,16 @@ RSpec.describe Message do
 
     it 'returns push event payload' do
       expect(push_event_data).to eq(expected_data)
+    end
+
+    it 'includes active reactions' do
+      message = create(:message)
+      active_reaction = create(:message_reaction, message: message, conversation: message.conversation,
+                                                  inbox: message.inbox, account: message.account)
+      create(:message_reaction, :removed, message: message, conversation: message.conversation,
+                                          inbox: message.inbox, account: message.account)
+
+      expect(message.push_event_data[:reactions]).to eq([active_reaction.push_event_data])
     end
   end
 

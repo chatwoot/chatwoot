@@ -110,4 +110,44 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer do
       expect(mail).to be_nil
     end
   end
+
+  describe 'assigned_conversation_message_reaction' do
+    let(:message) { create(:message, conversation: conversation, account: account) }
+    let(:message_reaction) { create(:message_reaction, message: message, conversation: conversation, account: account, inbox: conversation.inbox) }
+    let(:mail) { described_class.with(account: account).assigned_conversation_message_reaction(conversation, agent, message_reaction).deliver_now }
+
+    it 'renders the subject' do
+      expect(mail.subject).to eq("#{agent.available_name}, New reaction in your assigned conversation [ID - #{conversation.display_id}].")
+    end
+
+    it 'renders the receiver email' do
+      expect(mail.to).to eq([agent.email])
+    end
+
+    it 'will not send email if agent is online' do
+      OnlineStatusTracker.update_presence(conversation.account.id, 'User', agent.id)
+      expect(mail).to be_nil
+    end
+  end
+
+  describe 'participating_conversation_message_reaction' do
+    let(:message) { create(:message, conversation: conversation, account: account) }
+    let(:message_reaction) { create(:message_reaction, message: message, conversation: conversation, account: account, inbox: conversation.inbox) }
+    let(:mail) do
+      described_class.with(account: account).participating_conversation_message_reaction(conversation, agent, message_reaction).deliver_now
+    end
+
+    it 'renders the subject' do
+      expect(mail.subject).to eq("#{agent.available_name}, New reaction in your participating conversation [ID - #{conversation.display_id}].")
+    end
+
+    it 'renders the receiver email' do
+      expect(mail.to).to eq([agent.email])
+    end
+
+    it 'will not send email if agent is online' do
+      OnlineStatusTracker.update_presence(conversation.account.id, 'User', agent.id)
+      expect(mail).to be_nil
+    end
+  end
 end

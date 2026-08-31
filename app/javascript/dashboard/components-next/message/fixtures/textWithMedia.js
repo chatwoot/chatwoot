@@ -29,6 +29,22 @@ export default camelcaseKeys(
         thumbnail: '',
         type: 'contact',
       },
+      reactions: [
+        {
+          id: 1,
+          emoji: '👍',
+          reaction_type: '👍',
+          message_id: 5296,
+          status: 'active',
+        },
+        {
+          id: 2,
+          emoji: '👎',
+          reaction_type: '👎',
+          message_id: 5296,
+          status: 'removed',
+        },
+      ],
     },
     {
       id: 5296,

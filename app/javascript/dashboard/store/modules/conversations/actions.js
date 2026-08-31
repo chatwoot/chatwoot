@@ -355,6 +355,39 @@ const actions = {
     );
   },
 
+  updateMessageReactions({ commit }, payload) {
+    const {
+      conversation = {},
+      message = {},
+      message_reaction: messageReaction,
+      conversationId,
+      messageId,
+      reactions,
+    } = payload;
+    const targetConversationId =
+      conversationId ||
+      conversation.id ||
+      message.conversation_id ||
+      messageReaction?.conversation_id;
+    const targetMessageId =
+      messageId || message.id || messageReaction?.message_id;
+    const targetReactions = reactions || message.reactions;
+
+    commit(types.UPDATE_MESSAGE_REACTIONS, {
+      conversationId: targetConversationId,
+      messageId: targetMessageId,
+      reactions: targetReactions,
+      messageReaction,
+    });
+
+    if (conversation.last_activity_at) {
+      commit(types.UPDATE_CONVERSATION_LAST_ACTIVITY, {
+        conversationId: targetConversationId,
+        lastActivityAt: conversation.last_activity_at,
+      });
+    }
+  },
+
   deleteMessage: async function deleteLabels(
     { commit },
     { conversationId, messageId }

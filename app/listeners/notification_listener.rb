@@ -53,4 +53,56 @@ class NotificationListener < BaseListener
     Messages::MentionService.new(message: message).perform
     Messages::NewMessageNotificationService.new(message: message).perform
   end
+
+  def message_reaction_created(event)
+    message_reaction = event.data[:message_reaction]
+    conversation = event.data[:conversation]
+    account = event.data[:account]
+
+    notify_conversation_assignee(message_reaction, conversation, account)
+    notify_participating_users(message_reaction, conversation, account)
+  end
+
+  def message_reaction_updated(event)
+    return unless event.data[:message_reaction]&.active?
+
+    message_reaction_created(event)
+  end
+
+  private
+
+  def notify_conversation_assignee(message_reaction, conversation, account)
+    assignee = conversation.assignee
+    return if assignee.blank?
+    return if reaction_from?(message_reaction, assignee)
+
+    NotificationBuilder.new(
+      notification_type: 'assigned_conversation_message_reaction',
+      user: assignee,
+      account: account,
+      primary_actor: conversation,
+      secondary_actor: message_reaction
+    ).perform
+  end
+
+  def notify_participating_users(message_reaction, conversation, account)
+    participating_users = conversation.conversation_participants.map(&:user)
+    participating_users -= [conversation.assignee]
+
+    participating_users.uniq.each do |participant|
+      next if reaction_from?(message_reaction, participant)
+
+      NotificationBuilder.new(
+        notification_type: 'participating_conversation_message_reaction',
+        user: participant,
+        account: account,
+        primary_actor: conversation,
+        secondary_actor: message_reaction
+      ).perform
+    end
+  end
+
+  def reaction_from?(message_reaction, agent)
+    message_reaction.sender_type == 'User' && message_reaction.sender_id == agent.id
+  end
 end

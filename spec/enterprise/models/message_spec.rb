@@ -24,6 +24,15 @@ RSpec.describe Message do
     expect(conversation.waiting_since).to be_nil
   end
 
+  describe '#push_event_data' do
+    it 'passes through reactions added by the OSS Message#push_event_data' do
+      message = create(:message, conversation: conversation)
+      create(:message_reaction, message: message, conversation: conversation, account: conversation.account, inbox: conversation.inbox)
+
+      expect(message.push_event_data[:reactions]).to be_present
+    end
+  end
+
   describe '#mark_pending_conversation_as_open_for_human_response' do
     let(:conversation) { create(:conversation, status: :pending) }
     let(:captain_assistant) { create(:captain_assistant, account: conversation.account) }

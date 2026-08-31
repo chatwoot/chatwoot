@@ -38,6 +38,30 @@ class Integrations::Facebook::MessageParser
     @messaging['delivery']
   end
 
+  def reaction
+    @messaging['reaction']
+  end
+
+  def reaction?
+    reaction.present?
+  end
+
+  def reaction_mid
+    reaction&.dig('mid')
+  end
+
+  def reaction_action
+    reaction&.dig('action')
+  end
+
+  def reaction_type
+    reaction&.dig('reaction')
+  end
+
+  def reaction_emoji
+    reaction&.dig('emoji')
+  end
+
   def read
     @messaging['read']
   end

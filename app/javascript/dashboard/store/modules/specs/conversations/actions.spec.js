@@ -290,6 +290,38 @@ describe('#actions', () => {
     });
   });
 
+  describe('#updateMessageReactions', () => {
+    it('commits reaction updates without adding a message', () => {
+      const payload = {
+        message: {
+          id: 10,
+          conversation_id: 1,
+          reactions: [{ id: 1, emoji: '👍', status: 'active' }],
+        },
+        message_reaction: { id: 1, message_id: 10, status: 'active' },
+        conversation: { id: 1, last_activity_at: 1602256198 },
+      };
+
+      actions.updateMessageReactions({ commit }, payload);
+
+      expect(commit.mock.calls).toEqual([
+        [
+          types.UPDATE_MESSAGE_REACTIONS,
+          {
+            conversationId: 1,
+            messageId: 10,
+            reactions: payload.message.reactions,
+            messageReaction: payload.message_reaction,
+          },
+        ],
+        [
+          types.UPDATE_CONVERSATION_LAST_ACTIVITY,
+          { conversationId: 1, lastActivityAt: 1602256198 },
+        ],
+      ]);
+    });
+  });
+
   describe('#markMessagesRead', () => {
     beforeEach(() => {
       vi.useFakeTimers();

@@ -753,5 +753,105 @@ describe Whatsapp::IncomingMessageService do
         expect(existing_contact.name).to eq(phone_number) # Should not change
       end
     end
+
+    context 'when message is a reaction' do
+      let!(:contact) { create(:contact, account: whatsapp_channel.account) }
+      let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: whatsapp_channel.inbox, source_id: wa_id) }
+      let!(:conversation) { create(:conversation, contact: contact, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox) }
+      let!(:target_message) { create(:message, conversation: conversation, source_id: 'wamid.target-message') }
+
+      let(:reaction_params) do
+        {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => wa_id }],
+          'messages' => [{
+            'from' => wa_id,
+            'id' => 'wamid.reaction.1',
+            'timestamp' => Time.current.to_i.to_s,
+            'type' => 'reaction',
+            'reaction' => { 'message_id' => target_message.source_id, 'emoji' => '👍' }
+          }]
+        }.with_indifferent_access
+      end
+
+      context 'when the target message exists' do
+        it 'creates a MessageReaction without creating a new message' do
+          expect { described_class.new(inbox: whatsapp_channel.inbox, params: reaction_params).perform }
+            .to change(MessageReaction, :count).by(1)
+            .and not_change(Message, :count)
+
+          reaction = MessageReaction.last
+          expect(reaction.message).to eq(target_message)
+          expect(reaction.emoji).to eq('👍')
+          expect(reaction.status).to eq('active')
+          expect(reaction.actor_external_id).to eq(wa_id)
+          expect(reaction.sender).to eq(contact)
+        end
+
+        it 'does not change conversation.waiting_since' do
+          conversation.update!(waiting_since: 1.hour.ago)
+          previous_waiting_since = conversation.waiting_since
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: reaction_params).perform
+
+          expect(conversation.reload.waiting_since.to_i).to eq(previous_waiting_since.to_i)
+        end
+
+        it 'removes an existing reaction when emoji is omitted (unreact)' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reaction_params).perform
+          reaction = MessageReaction.last
+          expect(reaction.status).to eq('active')
+
+          removal_params = reaction_params.deep_dup
+          removal_params['messages'].first['id'] = 'wamid.reaction.2'
+          removal_params['messages'].first['reaction'].delete('emoji')
+
+          expect { described_class.new(inbox: whatsapp_channel.inbox, params: removal_params).perform }
+            .not_to change(MessageReaction, :count)
+
+          expect(reaction.reload.status).to eq('removed')
+        end
+      end
+
+      context 'when the target message does not exist' do
+        it 'does not create a contact, conversation, message, or reaction' do
+          missing_target_params = {
+            'contacts' => [{ 'profile' => { 'name' => 'Someone New' }, 'wa_id' => '9999999999' }],
+            'messages' => [{
+              'from' => '9999999999',
+              'id' => 'wamid.reaction.missing',
+              'timestamp' => Time.current.to_i.to_s,
+              'type' => 'reaction',
+              'reaction' => { 'message_id' => 'wamid.does-not-exist', 'emoji' => '👍' }
+            }]
+          }.with_indifferent_access
+
+          expect do
+            described_class.new(inbox: whatsapp_channel.inbox, params: missing_target_params).perform
+          end.not_to change(MessageReaction, :count)
+
+          expect(Contact.where(phone_number: '+9999999999').count).to eq(0)
+          expect(whatsapp_channel.inbox.messages.count).to eq(1) # only target_message
+        end
+      end
+
+      context 'when another inbox happens to have a message with the same source_id' do
+        let!(:other_whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }
+        let!(:other_contact) { create(:contact, account: other_whatsapp_channel.account) }
+        let!(:other_contact_inbox) { create(:contact_inbox, contact: other_contact, inbox: other_whatsapp_channel.inbox, source_id: wa_id) }
+        let!(:other_conversation) do
+          create(:conversation, contact: other_contact, inbox: other_whatsapp_channel.inbox, contact_inbox: other_contact_inbox)
+        end
+        let!(:other_target_message) { create(:message, conversation: other_conversation, source_id: target_message.source_id) }
+
+        it 'resolves the reaction target scoped to this inbox instead of any inbox that shares the source_id' do
+          expect { described_class.new(inbox: whatsapp_channel.inbox, params: reaction_params).perform }
+            .to change(MessageReaction, :count).by(1)
+
+          reaction = MessageReaction.last
+          expect(reaction.message).to eq(target_message)
+          expect(reaction.message).not_to eq(other_target_message)
+        end
+      end
+    end
   end
 end

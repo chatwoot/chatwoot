@@ -26,6 +26,30 @@ RSpec.describe Conversations::UnreadCounts::Builder do
       expect(redis_set_members(store.team_inbox_key(account.id, team.id, inbox.id))).to contain_exactly(unread_conversation.id.to_s)
     end
 
+    it 'treats a conversation with only an unread incoming reaction as unread' do
+      reaction_only_conversation = create_reaction_only_unread_conversation(account: account, inbox: inbox, labels: [label.title], team: team)
+      create_read_conversation
+
+      described_class.new(account).build_base!
+
+      expect(redis_set_members(store.inbox_key(account.id, inbox.id))).to contain_exactly(reaction_only_conversation.id.to_s)
+      expect(redis_set_members(store.label_inbox_key(account.id, label.id, inbox.id))).to contain_exactly(reaction_only_conversation.id.to_s)
+      expect(redis_set_members(store.team_inbox_key(account.id, team.id, inbox.id))).to contain_exactly(reaction_only_conversation.id.to_s)
+    end
+
+    it 'counts a conversation with multiple unread messages and multiple unread reactions exactly once' do
+      conversation = create(:conversation, account: account, inbox: inbox, agent_last_seen_at: 1.hour.ago)
+      create_list(:message, 3, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, created_at: 5.minutes.ago)
+      outgoing_message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :outgoing,
+                                          created_at: 1.month.ago)
+      create_list(:message_reaction, 2, account: account, inbox: inbox, conversation: conversation, message: outgoing_message,
+                                        created_at: 5.minutes.ago)
+
+      unread_conversation_ids = described_class.new(account).send(:unread_conversations).pluck(:id)
+
+      expect(unread_conversation_ids).to contain_exactly(conversation.id)
+    end
+
     it 'clears assignment-aware cache data before rebuilding base data' do
       assigned_conversation = create_unread_conversation(
         account: account,
@@ -74,6 +98,14 @@ RSpec.describe Conversations::UnreadCounts::Builder do
       expect(redis_set_members(store.team_inbox_unassigned_key(account.id, team.id, inbox.id))).to contain_exactly(
         unassigned_conversation.id.to_s
       )
+    end
+
+    it 'treats a conversation with only an unread incoming reaction as unread for the assignee' do
+      reaction_only_conversation = create_reaction_only_unread_conversation(account: account, inbox: inbox, assignee: assignee, team: team)
+
+      described_class.new(account).build_assignment!
+
+      expect(redis_set_members(store.inbox_assignee_key(account.id, inbox.id, assignee.id))).to contain_exactly(reaction_only_conversation.id.to_s)
     end
   end
 

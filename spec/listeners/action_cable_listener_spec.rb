@@ -78,6 +78,38 @@ describe ActionCableListener do
     end
   end
 
+  describe '#message_reaction_created' do
+    let(:event_name) { :'message.reaction.created' }
+    let!(:message) do
+      create(:message, message_type: 'incoming', account: account, inbox: inbox, conversation: conversation)
+    end
+    let!(:message_reaction) do
+      create(:message_reaction, message: message, conversation: conversation, account: account, inbox: inbox)
+    end
+    let!(:event) do
+      Events::Base.new(event_name, Time.zone.now, message_reaction: message_reaction, message: message, conversation: conversation, account: account)
+    end
+
+    it 'sends message reaction to account admins, inbox agents and the contact' do
+      # HACK: to reload conversation inbox members
+      expect(conversation.inbox.reload.inbox_members.count).to eq(1)
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(
+          agent.pubsub_token, admin.pubsub_token, conversation.contact_inbox.pubsub_token
+        ),
+        'message.reaction.created',
+        {
+          message_reaction: message_reaction.push_event_data,
+          message: message.push_event_data,
+          conversation: conversation.push_event_data,
+          account_id: account.id
+        }
+      )
+      listener.message_reaction_created(event)
+    end
+  end
+
   describe '#typing_on' do
     let(:event_name) { :'conversation.typing_on' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, is_private: false) }

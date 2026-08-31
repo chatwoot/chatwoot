@@ -108,7 +108,15 @@ class Conversations::UnreadCounts::Refresher
     if conversation.agent_last_seen_at
       incoming_messages = incoming_messages.where(Message.arel_table[:created_at].gt(conversation.agent_last_seen_at))
     end
-    incoming_messages.exists?
+    incoming_messages.exists? || unread_reactions?
+  end
+
+  def unread_reactions?
+    incoming_reactions = conversation.message_reactions.incoming.active.where(account_id: account.id)
+    if conversation.agent_last_seen_at
+      incoming_reactions = incoming_reactions.where(MessageReaction.arel_table[:created_at].gt(conversation.agent_last_seen_at))
+    end
+    incoming_reactions.exists?
   end
 
   def affected_inbox_ids

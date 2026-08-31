@@ -134,6 +134,7 @@ class Message < ApplicationRecord
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
+  has_many :message_reactions, dependent: :destroy
 
   after_create_commit :execute_after_create_commit_callbacks
 
@@ -153,16 +154,30 @@ class Message < ApplicationRecord
     )
     data[:echo_id] = echo_id if echo_id.present?
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
+    merge_reaction_attributes(data)
     merge_sender_attributes(data)
+  end
+
+  # Returns active reactions without ever issuing more than one query: reuses the
+  # already-loaded `message_reactions` association when it was preloaded (e.g. by
+  # MessageFinder), otherwise runs a single fresh query. Callers should memoize the
+  # result locally rather than calling this more than once per serialization.
+  def active_reactions
+    message_reactions.loaded? ? message_reactions.select(&:active?) : message_reactions.active.to_a
   end
 
   def conversation_push_event_data
     {
       assignee_id: conversation.assignee_id,
-      unread_count: conversation.unread_incoming_messages.count,
+      unread_count: conversation.unread_activity_count,
       last_activity_at: conversation.last_activity_at.to_i,
       contact_inbox: { source_id: conversation.contact_inbox.source_id }
     }
+  end
+
+  def merge_reaction_attributes(data)
+    reactions = active_reactions
+    data[:reactions] = reactions.map(&:push_event_data) if reactions.present?
   end
 
   def merge_sender_attributes(data)

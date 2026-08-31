@@ -44,21 +44,55 @@ class Conversations::UnreadCounts::Builder
     end
   end
 
+  # Uses EXISTS subqueries (rather than LEFT JOINs on :messages and :message_reactions) so each
+  # conversation is scanned once instead of producing a messages x reactions cartesian product
+  # per conversation, and so we never touch outgoing messages, which this check never needed.
   def unread_conversations
     account.conversations
            .open
-           .joins(:messages)
-           .merge(Message.incoming.reorder(nil))
-           .where(messages: { account_id: account.id })
-           .where(unread_since_last_seen_condition)
-           .distinct
+           .where(unread_message_exists.or(unread_reaction_exists))
   end
 
-  def unread_since_last_seen_condition
-    conversations = Conversation.arel_table
+  def unread_message_exists
+    Arel::Nodes::Exists.new(unread_message_subquery.arel)
+  end
+
+  def unread_reaction_exists
+    Arel::Nodes::Exists.new(unread_reaction_subquery.arel)
+  end
+
+  def unread_message_subquery
+    Message.select(1).where(unread_message_condition).where(correlate_to_conversation(Message.arel_table))
+  end
+
+  def unread_reaction_subquery
+    MessageReaction.select(1).where(unread_reaction_condition).where(correlate_to_conversation(MessageReaction.arel_table))
+  end
+
+  def correlate_to_conversation(table)
+    table[:conversation_id].eq(Conversation.arel_table[:id])
+  end
+
+  def unread_message_condition
     messages = Message.arel_table
 
-    conversations[:agent_last_seen_at].eq(nil).or(messages[:created_at].gt(conversations[:agent_last_seen_at]))
+    messages[:account_id].eq(account.id)
+                         .and(messages[:message_type].eq(Message.message_types[:incoming]))
+                         .and(last_seen_null_or_before(messages[:created_at]))
+  end
+
+  def unread_reaction_condition
+    reactions = MessageReaction.arel_table
+
+    reactions[:account_id].eq(account.id)
+                          .and(reactions[:direction].eq(MessageReaction.directions[:incoming]))
+                          .and(reactions[:status].eq(MessageReaction.statuses[:active]))
+                          .and(last_seen_null_or_before(reactions[:created_at]))
+  end
+
+  def last_seen_null_or_before(timestamp_column)
+    conversations = Conversation.arel_table
+    conversations[:agent_last_seen_at].eq(nil).or(timestamp_column.gt(conversations[:agent_last_seen_at]))
   end
 
   def label_ids_for(cached_label_list)

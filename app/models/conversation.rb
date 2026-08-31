@@ -131,6 +131,7 @@ class Conversation < ApplicationRecord
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :attachments, through: :messages
   has_many :reporting_events, dependent: :destroy_async
+  has_many :message_reactions, dependent: :destroy
   has_many :automation_rule_pending_executions, dependent: :delete_all
 
   before_save :ensure_snooze_until_reset
@@ -199,8 +200,20 @@ class Conversation < ApplicationRecord
     assignee_last_seen_at.present? ? messages.created_since(assignee_last_seen_at) : messages
   end
 
+  def unread_reactions
+    agent_last_seen_at.present? ? message_reactions.where(MessageReaction.arel_table[:created_at].gt(agent_last_seen_at)) : message_reactions
+  end
+
   def unread_incoming_messages
     unread_messages.where(account_id: account_id).incoming.last(10)
+  end
+
+  def unread_incoming_reactions
+    unread_reactions.where(account_id: account_id).incoming.active.last(10)
+  end
+
+  def unread_activity_count
+    [unread_incoming_messages.count + unread_incoming_reactions.count, 10].min
   end
 
   def cached_label_list_array

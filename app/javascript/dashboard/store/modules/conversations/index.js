@@ -230,6 +230,43 @@ export const mutations = {
     }
   },
 
+  [types.UPDATE_MESSAGE_REACTIONS](
+    _state,
+    { conversationId, messageId, reactions, messageReaction }
+  ) {
+    const chat = getConversationById(_state)(conversationId);
+    if (!chat) return;
+
+    const message = (chat.messages || []).find(item => item.id === messageId);
+    if (!message) return;
+
+    if (Array.isArray(reactions)) {
+      message.reactions = reactions;
+      return;
+    }
+
+    if (!messageReaction) return;
+
+    const existingReactions = message.reactions || [];
+    if (messageReaction.status === 'removed') {
+      message.reactions = existingReactions.filter(
+        reaction => reaction.id !== messageReaction.id
+      );
+      return;
+    }
+
+    const reactionIndex = existingReactions.findIndex(
+      reaction => reaction.id === messageReaction.id
+    );
+    if (reactionIndex === -1) {
+      message.reactions = [...existingReactions, messageReaction];
+    } else {
+      message.reactions = existingReactions.map(reaction =>
+        reaction.id === messageReaction.id ? messageReaction : reaction
+      );
+    }
+  },
+
   [types.ADD_CONVERSATION](_state, conversation) {
     const exists = _state.allConversations.some(c => c.id === conversation.id);
     if (!exists) {

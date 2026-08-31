@@ -210,6 +210,75 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#UPDATE_MESSAGE_REACTIONS', () => {
+    it('replaces reactions from the target message without appending a message', () => {
+      const state = {
+        allConversations: [{ id: 1, messages: [{ id: 10, reactions: [] }] }],
+      };
+
+      mutations[types.UPDATE_MESSAGE_REACTIONS](state, {
+        conversationId: 1,
+        messageId: 10,
+        reactions: [{ id: 1, emoji: '👍', status: 'active' }],
+      });
+
+      expect(state.allConversations[0].messages).toHaveLength(1);
+      expect(state.allConversations[0].messages[0].reactions).toEqual([
+        { id: 1, emoji: '👍', status: 'active' },
+      ]);
+    });
+
+    it('applies a single reaction update when the full message reaction list is absent', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            messages: [
+              {
+                id: 10,
+                reactions: [{ id: 1, emoji: '👍', status: 'active' }],
+              },
+            ],
+          },
+        ],
+      };
+
+      mutations[types.UPDATE_MESSAGE_REACTIONS](state, {
+        conversationId: 1,
+        messageId: 10,
+        messageReaction: { id: 1, emoji: '❤️', status: 'active' },
+      });
+
+      expect(state.allConversations[0].messages[0].reactions).toEqual([
+        { id: 1, emoji: '❤️', status: 'active' },
+      ]);
+    });
+
+    it('removes a single removed reaction when the full message reaction list is absent', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            messages: [
+              {
+                id: 10,
+                reactions: [{ id: 1, emoji: '👍', status: 'active' }],
+              },
+            ],
+          },
+        ],
+      };
+
+      mutations[types.UPDATE_MESSAGE_REACTIONS](state, {
+        conversationId: 1,
+        messageId: 10,
+        messageReaction: { id: 1, emoji: '👍', status: 'removed' },
+      });
+
+      expect(state.allConversations[0].messages[0].reactions).toEqual([]);
+    });
+  });
+
   describe('#CHANGE_CONVERSATION_STATUS', () => {
     it('updates the conversation status correctly', () => {
       const state = {

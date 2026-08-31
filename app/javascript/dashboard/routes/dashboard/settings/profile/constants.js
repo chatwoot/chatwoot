@@ -23,6 +23,16 @@ export const NOTIFICATION_TYPES = [
   },
   {
     label:
+      'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.ASSIGNED_CONVERSATION_MESSAGE_REACTION',
+    value: 'assigned_conversation_message_reaction',
+  },
+  {
+    label:
+      'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.PARTICIPATING_CONVERSATION_MESSAGE_REACTION',
+    value: 'participating_conversation_message_reaction',
+  },
+  {
+    label:
       'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_FIRST_RESPONSE',
     value: 'sla_missed_first_response',
   },

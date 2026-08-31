@@ -13,4 +13,7 @@ json.source_id message.source_id
 json.sender message.sender.push_event_data if message.sender
 json.attachments message.attachments.map(&:push_event_data) if message.attachments.present?
 
+active_reactions = message.active_reactions
+json.reactions active_reactions.map(&:push_event_data) if active_reactions.present?
+
 json.set! :call, message.call.push_event_data if message.content_type == 'voice_call' && message.respond_to?(:call) && message.call.present?

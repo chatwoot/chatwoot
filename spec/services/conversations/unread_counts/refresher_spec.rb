@@ -37,6 +37,21 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
     )
   end
 
+  it 'adds a reaction-only unread conversation to base cache' do
+    conversation = create(:conversation, account: account, inbox: inbox, agent_last_seen_at: 1.hour.ago)
+    conversation.update_labels([label.title])
+    message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :outgoing, created_at: 1.month.ago)
+    create(:message_reaction, account: account, inbox: inbox, conversation: conversation, message: message, created_at: 5.minutes.ago)
+    store.mark_base_ready!(account.id)
+
+    expect(described_class.new(conversation.reload).perform).to be(true)
+
+    expect(store.counts_for_keys(base_keys)).to eq(
+      store.inbox_key(account.id, inbox.id) => 1,
+      store.label_inbox_key(account.id, label.id, inbox.id) => 1
+    )
+  end
+
   it 'returns false when refresh does not change unread counts' do
     conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title])
     Conversations::UnreadCounts::Builder.new(account).build_base!

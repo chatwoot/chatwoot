@@ -377,4 +377,50 @@ describe('ActionCableConnector - Copilot Tests', () => {
       expect(mockDispatch).toHaveBeenCalledTimes(2);
     });
   });
+
+  describe('message reaction event handlers', () => {
+    it.each([
+      'message.reaction.created',
+      'message.reaction.updated',
+      'message.reaction.removed',
+    ])('should register the %s event handler', eventName => {
+      expect(Object.keys(actionCable.events)).toContain(eventName);
+      expect(actionCable.events[eventName]).toBe(
+        actionCable.onMessageReactionUpdated
+      );
+    });
+
+    it('should dispatch reaction updates without adding a message', () => {
+      const payload = {
+        account_id: 1,
+        message: {
+          id: 10,
+          conversation_id: 1,
+          reactions: [{ id: 1, emoji: '👍', status: 'active' }],
+        },
+        message_reaction: { id: 1, message_id: 10, status: 'active' },
+        conversation: { id: 1, last_activity_at: 1602256198 },
+      };
+
+      actionCable.onReceived({
+        event: 'message.reaction.created',
+        data: payload,
+      });
+
+      expect(mockDispatch).toHaveBeenCalledWith(
+        'updateMessageReactions',
+        expect.objectContaining({
+          conversationId: 1,
+          messageId: 10,
+          reactions: payload.message.reactions,
+          message_reaction: payload.message_reaction,
+          conversation: payload.conversation,
+        })
+      );
+      expect(mockDispatch).not.toHaveBeenCalledWith(
+        'addMessage',
+        expect.anything()
+      );
+    });
+  });
 });

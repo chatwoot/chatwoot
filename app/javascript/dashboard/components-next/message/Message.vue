@@ -45,6 +45,7 @@ import WhatsappFlowResponseBubble from './bubbles/WhatsappFlowResponse.vue';
 import WhatsappReferral from './bubbles/Text/WhatsappReferral.vue';
 
 import MessageError from './MessageError.vue';
+import MessageReactions from './MessageReactions.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import { useBranding } from 'shared/composables/useBranding';
 
@@ -100,6 +101,7 @@ import { useBranding } from 'shared/composables/useBranding';
  * @property {boolean} [isEmailInbox=false] - Whether the message is from an email inbox
  * @property {number} conversationId - The ID of the conversation to which the message belongs
  * @property {number} inboxId - The ID of the inbox to which the message belongs
+ * @property {Array} [reactions=[]] - Reactions associated with the message
  */
 
 // eslint-disable-next-line vue/define-macros-order
@@ -133,6 +135,7 @@ const props = defineProps({
   inReplyTo: { type: Object, default: null }, // eslint-disable-line vue/no-unused-properties
   isEmailInbox: { type: Boolean, default: false },
   private: { type: Boolean, default: false },
+  reactions: { type: Array, default: () => [] },
   additionalAttributes: { type: Object, default: () => ({}) }, // eslint-disable-line vue/no-unused-properties
   sender: { type: Object, default: null },
   senderId: { type: Number, default: null },
@@ -268,10 +271,12 @@ const gridTemplate = computed(() => {
   const map = {
     [ORIENTATION.LEFT]: `
       "bubble"
+      "reactions"
       "meta"
     `,
     [ORIENTATION.RIGHT]: `
       "bubble avatar"
+      "reactions spacer"
       "meta spacer"
     `,
   };
@@ -290,6 +295,10 @@ const shouldShowAvatar = computed(() => {
   if (orientation.value === ORIENTATION.LEFT) return false;
 
   return true;
+});
+
+const activeReactions = computed(() => {
+  return props.reactions.filter(reaction => reaction.status === 'active');
 });
 
 const componentToRender = computed(() => {
@@ -597,6 +606,16 @@ provideMessageContext({
           :referral="contentAttributes.referral"
         />
         <Component :is="componentToRender" />
+      </div>
+      <div
+        v-if="activeReactions.length"
+        class="[grid-area:reactions] flex min-w-0 mt-1"
+        :class="{
+          'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
+          'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
+        }"
+      >
+        <MessageReactions :reactions="activeReactions" />
       </div>
       <MessageError
         v-if="contentAttributes.externalError"

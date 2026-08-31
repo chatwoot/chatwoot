@@ -240,4 +240,69 @@ describe NotificationListener do
       end
     end
   end
+
+  describe 'message_reaction_created' do
+    let(:event_name) { :'message.reaction.created' }
+    let!(:message) { create(:message, conversation: conversation, account: account) }
+
+    before do
+      create(:inbox_member, user: user, inbox: inbox)
+      create(:inbox_member, user: first_agent, inbox: inbox)
+      create(:conversation_participant, conversation: conversation, user: first_agent)
+      conversation.reload
+    end
+
+    it 'creates a notification for the assignee' do
+      message_reaction = create(:message_reaction, message: message, conversation: conversation, account: account, inbox: inbox)
+      event = Events::Base.new(event_name, Time.zone.now, message_reaction: message_reaction, conversation: conversation, account: account)
+
+      listener.message_reaction_created(event)
+
+      expect(user.notifications.where(notification_type: 'assigned_conversation_message_reaction', account: account,
+                                      primary_actor: conversation, secondary_actor: message_reaction)).to exist
+    end
+
+    it 'creates a notification for participants without double-notifying the assignee' do
+      conversation.conversation_participants.create!(user: user, account: account)
+      message_reaction = create(:message_reaction, message: message, conversation: conversation, account: account, inbox: inbox)
+      event = Events::Base.new(event_name, Time.zone.now, message_reaction: message_reaction, conversation: conversation, account: account)
+
+      listener.message_reaction_created(event)
+
+      expect(first_agent.notifications.where(notification_type: 'participating_conversation_message_reaction', account: account,
+                                             primary_actor: conversation, secondary_actor: message_reaction)).to exist
+      expect(user.notifications.where(notification_type: 'participating_conversation_message_reaction')).not_to exist
+      expect(user.notifications.where(notification_type: 'assigned_conversation_message_reaction').count).to eq(1)
+    end
+
+    it 'does not notify the reaction sender even if the sender is a user' do
+      message_reaction = create(:message_reaction, message: message, conversation: conversation, account: account, inbox: inbox, sender: user)
+      event = Events::Base.new(event_name, Time.zone.now, message_reaction: message_reaction, conversation: conversation, account: account)
+
+      listener.message_reaction_created(event)
+
+      expect(user.notifications.where(notification_type: 'assigned_conversation_message_reaction')).not_to exist
+    end
+
+    it 'creates a notification when an existing reaction is updated to active' do
+      message_reaction = create(:message_reaction, message: message, conversation: conversation, account: account, inbox: inbox)
+      event = Events::Base.new(:'message.reaction.updated', Time.zone.now, message_reaction: message_reaction,
+                                                                           conversation: conversation, account: account)
+
+      listener.message_reaction_updated(event)
+
+      expect(user.notifications.where(notification_type: 'assigned_conversation_message_reaction', account: account,
+                                      primary_actor: conversation, secondary_actor: message_reaction)).to exist
+    end
+
+    it 'does not notify agents when a reaction is updated to removed' do
+      message_reaction = create(:message_reaction, :removed, message: message, conversation: conversation, account: account, inbox: inbox)
+      event = Events::Base.new(:'message.reaction.updated', Time.zone.now, message_reaction: message_reaction,
+                                                                           conversation: conversation, account: account)
+
+      listener.message_reaction_updated(event)
+
+      expect(user.notifications.where(notification_type: 'assigned_conversation_message_reaction')).not_to exist
+    end
+  end
 end

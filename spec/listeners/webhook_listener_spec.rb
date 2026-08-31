@@ -126,6 +126,57 @@ describe WebhookListener do
     end
   end
 
+  describe '#message_reaction_created' do
+    let(:event_name) { :'message.reaction.created' }
+    let!(:message_reaction) do
+      create(:message_reaction, message: message, conversation: conversation, account: account, inbox: inbox)
+    end
+    let!(:message_reaction_created_event) do
+      Events::Base.new(event_name, Time.zone.now, message_reaction: message_reaction, message: message, conversation: conversation, account: account)
+    end
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.message_reaction_created(message_reaction_created_event)
+      end
+    end
+
+    context 'when webhook is configured and event is subscribed' do
+      it 'triggers the webhook event' do
+        webhook = create(:webhook, account: account, subscriptions: ['message_reaction_created'])
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url,
+          message_reaction.webhook_data.merge(event: 'message_reaction_created'),
+          :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
+        listener.message_reaction_created(message_reaction_created_event)
+      end
+    end
+
+    context 'when webhook is configured and event is not subscribed' do
+      it 'does not trigger the webhook event' do
+        create(:webhook, subscriptions: ['conversation_created'], account: account)
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.message_reaction_created(message_reaction_created_event)
+      end
+    end
+
+    it 'does not deliver a message_created webhook alongside the reaction event' do
+      webhook = create(:webhook, account: account, subscriptions: ['message_reaction_created'])
+      expect(WebhookJob).to receive(:perform_later).with(
+        webhook.url, hash_including(event: 'message_reaction_created'), :account_webhook,
+        secret: webhook.secret, delivery_id: instance_of(String)
+      ).once
+      expect(WebhookJob).not_to receive(:perform_later).with(
+        webhook.url, hash_including(event: 'message_created'), :account_webhook,
+        secret: webhook.secret, delivery_id: instance_of(String)
+      )
+      listener.message_reaction_created(message_reaction_created_event)
+    end
+  end
+
   describe '#conversation_created' do
     let(:event_name) { :'conversation.created' }
 

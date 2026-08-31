@@ -9,6 +9,16 @@ RSpec.describe Webhook do
     it { is_expected.to belong_to(:account) }
   end
 
+  describe 'subscriptions' do
+    let!(:account) { create(:account) }
+
+    it 'allows message reaction events as valid subscriptions' do
+      webhook = build(:webhook, account: account,
+                                subscriptions: %w[message_reaction_created message_reaction_updated message_reaction_removed])
+      expect(webhook).to be_valid
+    end
+  end
+
   describe 'secret token' do
     let!(:account) { create(:account) }
 

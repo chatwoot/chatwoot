@@ -720,6 +720,28 @@ RSpec.describe Conversation do
     end
   end
 
+  describe '#unread_activity_count' do
+    let(:conversation) { create(:conversation, agent_last_seen_at: 1.hour.ago) }
+
+    it 'counts active incoming reactions after the agent last saw the conversation' do
+      message = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation,
+                                 message_type: :outgoing, created_at: 1.month.ago)
+      create(:message_reaction, account: conversation.account, inbox: conversation.inbox, conversation: conversation,
+                                message: message, created_at: 5.minutes.ago)
+
+      expect(conversation.unread_activity_count).to eq(1)
+    end
+
+    it 'ignores removed reactions' do
+      message = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation,
+                                 message_type: :outgoing, created_at: 1.month.ago)
+      create(:message_reaction, :removed, account: conversation.account, inbox: conversation.inbox, conversation: conversation,
+                                          message: message, created_at: 5.minutes.ago)
+
+      expect(conversation.unread_activity_count).to eq(0)
+    end
+  end
+
   describe 'when conversation is created by blocked contact' do
     let(:account) { create(:account) }
     let(:blocked_contact) { create(:contact, account: account, blocked: true) }
@@ -1094,6 +1116,10 @@ RSpec.describe Conversation do
 
   describe 'reply time calculation flows' do
     include ActiveJob::TestHelper
+
+    around do |example|
+      freeze_time { example.run }
+    end
 
     let(:account) { create(:account) }
     let(:inbox) { create(:inbox, account: account) }
