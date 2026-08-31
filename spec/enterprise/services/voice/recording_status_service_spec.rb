@@ -78,6 +78,17 @@ RSpec.describe Voice::RecordingStatusService do
       end.not_to have_enqueued_job(Voice::Provider::Twilio::RecordingAttachmentJob)
     end
 
+    it 'does not download, attach, or transcribe when recording is disabled for the call' do
+      call.update!(recording_enabled: false)
+
+      expect do
+        described_class.new(account: account, payload: complete_payload).perform
+      end.not_to have_enqueued_job(Voice::Provider::Twilio::RecordingAttachmentJob)
+
+      expect(Voice::CallTranscriptionJob).not_to have_been_enqueued
+      expect(call.reload.recording).not_to be_attached
+    end
+
     it 'is a no-op when no Call matches the ConferenceSid' do
       payload = complete_payload.merge('ConferenceSid' => 'CFunknown')
 

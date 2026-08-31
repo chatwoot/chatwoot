@@ -8,6 +8,12 @@ class Voice::RecordingStatusService
     call = Call.where(account_id: account.id).by_twilio_conference_sid(conference_sid).first
     return if call.blank?
 
+    # This call's TwiML asked Twilio not to record, so drop anything it still reports.
+    if call.recording_enabled == false
+      Rails.logger.warn("TWILIO_VOICE_RECORDING_DISCARDED call_id=#{call.id} recording_sid=#{recording_sid}")
+      return
+    end
+
     Voice::Provider::Twilio::RecordingAttachmentJob.perform_later(
       call.id,
       recording_sid,
