@@ -50,6 +50,31 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
         # the number must also receive SMS, not just calls
         expect(messaging_webhook_service).to have_received(:perform)
       end
+
+      it 'leaves the twilio number untouched when the inbox fails to save' do
+        account.enable_features('channel_voice')
+        account.save!
+        stub_request(:get, %r{api\.twilio\.com/2010-04-01/Accounts/.*/IncomingPhoneNumbers\.json})
+          .to_return(status: 200, body: { incoming_phone_numbers: [{ capabilities: { 'voice' => true } }] }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+        allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(instance_double(Twilio::VoiceWebhookSetupService,
+                                                                                            perform: "AP#{SecureRandom.hex(16)}"))
+        messaging_webhook_service = instance_double(Twilio::WebhookSetupService, perform: true)
+        allow(Twilio::WebhookSetupService).to receive(:new).and_return(messaging_webhook_service)
+
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { channel: { type: 'voice', phone_number: '+15551234567',
+                                  provider_config: { account_sid: "AC#{SecureRandom.hex(16)}",
+                                                     auth_token: SecureRandom.hex(16),
+                                                     api_key_sid: SecureRandom.hex(8),
+                                                     api_key_secret: SecureRandom.hex(16) } } },
+             as: :json
+
+        expect(response).not_to have_http_status(:success)
+        # the rollback discarded the channel, so the number must not be left pointing at us
+        expect(messaging_webhook_service).not_to have_received(:perform)
+      end
     end
   end
 

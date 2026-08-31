@@ -83,6 +83,11 @@ const sender = computed(() => props.healthData?.sender ?? {});
 
 const isHealthy = computed(() => props.healthData?.status === 'healthy');
 
+// A stale verdict beside a fresh error would misreport the inbox, so the two never show together.
+const showHealthData = computed(
+  () => Boolean(props.healthData) && !props.isLoading && !props.error
+);
+
 const requiredCapabilities = computed(() =>
   props.healthData?.voice_enabled ? ['sms', 'voice'] : ['sms']
 );
@@ -232,7 +237,7 @@ const handleRegisterWebhook = () => emit('registerWebhook');
               {{ t('INBOX_MGMT.TWILIO_HEALTH.TITLE') }}
             </span>
             <span
-              v-if="healthData"
+              v-if="showHealthData"
               class="inline-flex items-center gap-1.5 px-2 py-0.5 min-h-6 text-label-small rounded-md bg-n-alpha-2"
               :class="isHealthy ? 'text-n-teal-11' : 'text-n-amber-11'"
             >
@@ -268,7 +273,7 @@ const handleRegisterWebhook = () => emit('registerWebhook');
         </ButtonV4>
       </div>
 
-      <template v-if="healthData && !isLoading && !error">
+      <template v-if="showHealthData">
         <div class="grid grid-cols-1 gap-4 xs:grid-cols-2">
           <div
             v-for="item in healthItems"

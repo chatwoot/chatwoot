@@ -110,9 +110,10 @@ module Enterprise::Api::V1::Accounts::InboxesController
       voice_enabled: true
     )
 
-    # A voice channel is an SMS channel with voice_enabled, so it needs the messaging
-    # webhook too. Voice webhooks are provisioned by the model's provision_twiml_app hook.
-    ::Twilio::WebhookSetupService.new(channel: channel).perform
+    # A voice channel is an SMS channel with voice_enabled, so it needs the messaging webhook too.
+    # Deferred past the enclosing transaction: a failed inbox save would roll the channel back and
+    # leave the number routing SMS to an inbox that does not exist.
+    ActiveRecord.after_all_transactions_commit { ::Twilio::WebhookSetupService.new(channel: channel).perform }
     channel
   end
 end

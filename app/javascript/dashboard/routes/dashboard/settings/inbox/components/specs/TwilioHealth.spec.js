@@ -97,6 +97,18 @@ describe('TwilioHealth', () => {
     expect(wrapper.text()).not.toContain('Chatwoot');
   });
 
+  it('drops the stale verdict when a later refresh fails', () => {
+    const wrapper = mountHealth({
+      healthData: healthyData,
+      error: 'Twilio could not be reached',
+    });
+
+    expect(wrapper.text()).toContain('Twilio could not be reached');
+    expect(wrapper.text()).not.toContain(
+      translate('INBOX_MGMT.TWILIO_HEALTH.STATUS.HEALTHY')
+    );
+  });
+
   it('flags the account type so trial restrictions are visible', () => {
     const wrapper = mountHealth({
       healthData: {
