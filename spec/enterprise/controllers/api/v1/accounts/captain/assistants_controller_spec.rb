@@ -9,6 +9,26 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
     JSON.parse(response.body, symbolize_names: true)
   end
 
+  def create_pending_follow_up_automation(inbox:, delay: 240)
+    create(
+      :automation_rule,
+      account: account,
+      event_name: 'message_created',
+      execution_delay: delay,
+      conditions: [
+        { 'attribute_key' => 'message_type', 'filter_operator' => 'equal_to',
+          'values' => ['outgoing'], 'query_operator' => 'and' },
+        { 'attribute_key' => 'private_note', 'filter_operator' => 'equal_to',
+          'values' => [false], 'query_operator' => 'and' },
+        { 'attribute_key' => 'inbox_id', 'filter_operator' => 'equal_to',
+          'values' => [inbox.id], 'query_operator' => 'and' },
+        { 'attribute_key' => 'status', 'filter_operator' => 'equal_to',
+          'values' => ['pending'], 'query_operator' => nil }
+      ],
+      actions: [{ 'action_name' => 'send_message', 'action_params' => ['Are you still there?'] }]
+    )
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/captain/assistants' do
     context 'when it is an un-authenticated user' do
       it 'does not fetch assistants' do
@@ -53,6 +73,45 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(json_response[:id]).to eq(assistant.id)
+      end
+
+      it 'does not expose delayed automation details' do
+        account.enable_features!('delayed_automations')
+        inbox = create(:inbox, account: account)
+        create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
+        create_pending_follow_up_automation(inbox: inbox)
+
+        get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response).not_to have_key(:pending_follow_up_automations)
+      end
+    end
+
+    context 'when it is an administrator' do
+      it 'includes only the delays that can conflict with Captain inactivity resolution' do
+        account.enable_features!('delayed_automations')
+        supported_inbox = create(:inbox, account: account)
+        email_inbox = create(:inbox, :with_email, account: account)
+        external_bot_inbox = create(:inbox, account: account)
+        create(:agent_bot_inbox, inbox: external_bot_inbox, agent_bot: create(:agent_bot, account: account))
+        [supported_inbox, email_inbox, external_bot_inbox].each do |inbox|
+          create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
+        end
+        supported_automation = create_pending_follow_up_automation(inbox: supported_inbox, delay: 120)
+        create_pending_follow_up_automation(inbox: email_inbox, delay: 180)
+        create_pending_follow_up_automation(inbox: external_bot_inbox, delay: 240)
+
+        get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:pending_follow_up_automations]).to eq(
+          [{ id: supported_automation.id, execution_delay: 120 }]
+        )
       end
     end
   end
@@ -199,6 +258,23 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(json_response[:name]).to eq('Updated Assistant')
         expect(json_response[:response_guidelines]).to eq(['Updated guideline'])
         expect(json_response[:guardrails]).to eq(['Updated guardrail'])
+      end
+
+      it 'keeps delayed pending follow ups in the updated assistant response' do
+        account.enable_features!('delayed_automations')
+        inbox = create(:inbox, account: account)
+        create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
+        automation = create_pending_follow_up_automation(inbox: inbox)
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: { assistant: { name: 'Updated Assistant' } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:pending_follow_up_automations]).to eq(
+          [{ id: automation.id, execution_delay: 240 }]
+        )
       end
 
       it 'updates only response_guidelines when only that is provided' do

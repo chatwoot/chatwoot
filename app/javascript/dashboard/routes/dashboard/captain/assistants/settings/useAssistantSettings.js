@@ -15,17 +15,22 @@ export function useAssistantSettings() {
     assistantId
   );
 
+  const fetchAssistant = () =>
+    store.dispatch('captainAssistants/show', assistantId.value);
+
   const updateAssistant = async updatedAssistant => {
     try {
-      await store.dispatch('captainAssistants/update', {
+      const savedAssistant = await store.dispatch('captainAssistants/update', {
         id: assistantId.value,
         ...updatedAssistant,
       });
       useAlert(t('CAPTAIN.ASSISTANTS.EDIT.SUCCESS_MESSAGE'));
+      return savedAssistant;
     } catch (error) {
       useAlert(error?.message || t('CAPTAIN.ASSISTANTS.EDIT.ERROR_MESSAGE'));
+      return undefined;
     }
   };
 
-  return { assistantId, assistant, updateAssistant };
+  return { assistantId, assistant, fetchAssistant, updateAssistant };
 }

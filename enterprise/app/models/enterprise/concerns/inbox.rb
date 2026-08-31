@@ -16,4 +16,8 @@ module Enterprise::Concerns::Inbox
   def ensure_create_permitted
     raise CustomExceptions::Inbox::LimitExceeded.new({}) if account.inboxes.count >= account.usage_limits[:inboxes]
   end
+
+  def captain_inactivity_resolution_supported?
+    !email? && !external_bot_active?
+  end
 end

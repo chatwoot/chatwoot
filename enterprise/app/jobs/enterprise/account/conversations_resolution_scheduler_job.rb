@@ -12,7 +12,7 @@ module Enterprise::Account::ConversationsResolutionSchedulerJob
       inbox = captain_inbox.inbox
       assistant = captain_inbox.captain_assistant
 
-      next if inbox.email? || inbox.external_bot_active?
+      next unless inbox.captain_inactivity_resolution_supported?
       next if assistant.blank? || assistant.inactive_conversation_resolution_disabled?
 
       Captain::InboxPendingConversationsResolutionJob.perform_later(

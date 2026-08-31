@@ -7,7 +7,9 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     @assistants = account_assistants.ordered
   end
 
-  def show; end
+  def show
+    load_pending_follow_up_automations
+  end
 
   def create
     @assistant = account_assistants.create!(assistant_params)
@@ -20,6 +22,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
       @assistant.update!(permitted_params)
     end
+    load_pending_follow_up_automations
   end
 
   def destroy
@@ -78,6 +81,12 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   private
+
+  def load_pending_follow_up_automations
+    return unless Current.account_user.administrator?
+
+    @pending_follow_up_automations = Captain::PendingFollowUpAutomationFinder.new(@assistant).perform
+  end
 
   def drilldown_params
     params.permit(:metric, :range, :timezone_offset, :page, :per_page)

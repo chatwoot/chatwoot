@@ -12,7 +12,10 @@ vi.mock('vue-i18n', () => ({
 }));
 
 vi.mock('dashboard/composables/useAccount', () => ({
-  useAccount: () => ({ isCloudFeatureEnabled: () => true }),
+  useAccount: () => ({
+    accountScopedRoute: (name, params, query) => ({ name, params, query }),
+    isCloudFeatureEnabled: () => true,
+  }),
 }));
 
 const assistant = {
@@ -26,10 +29,20 @@ const assistant = {
   },
 };
 
-const mountComponent = () =>
+const mountComponent = (assistantProp = assistant) =>
   shallowMount(AssistantSystemSettingsForm, {
-    props: { assistant },
-    global: { stubs: { Banner: false, SettingsToggleSection: false } },
+    props: { assistant: assistantProp },
+    global: {
+      stubs: {
+        Banner: false,
+        RouterLink: {
+          name: 'RouterLink',
+          props: ['to'],
+          template: '<a><slot /></a>',
+        },
+        SettingsToggleSection: false,
+      },
+    },
   });
 
 const submitForm = async wrapper => {
@@ -105,5 +118,50 @@ describe('AssistantSystemSettingsForm', () => {
     expect(wrapper.text()).toContain(
       'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.ALWAYS_WARNING'
     );
+  });
+
+  it('warns while the Captain timer can run before a pending follow up', async () => {
+    const wrapper = mountComponent({
+      ...assistant,
+      pending_follow_up_automations: [
+        { id: 1, execution_delay: 60 },
+        { id: 2, execution_delay: 120 },
+      ],
+    });
+
+    expect(wrapper.text()).toContain(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TIMER_CONFLICT_WARNING'
+    );
+
+    wrapper.findComponent(DurationSelect).vm.$emit('update:modelValue', 120);
+    await nextTick();
+
+    expect(wrapper.text()).toContain(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TIMER_CONFLICT_WARNING'
+    );
+
+    wrapper.findComponent(DurationSelect).vm.$emit('update:modelValue', 125);
+    await nextTick();
+
+    expect(wrapper.text()).not.toContain(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TIMER_CONFLICT_WARNING'
+    );
+  });
+
+  it('links a single conflict to that automation', () => {
+    const wrapper = mountComponent({
+      ...assistant,
+      pending_follow_up_automations: [{ id: 7, execution_delay: 240 }],
+    });
+
+    const link = wrapper.findComponent({ name: 'RouterLink' });
+    expect(link.text()).toBe(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TIMER_CONFLICT_LINK'
+    );
+    expect(link.props('to')).toEqual({
+      name: 'automation_list',
+      params: {},
+      query: { automationId: 7 },
+    });
   });
 });

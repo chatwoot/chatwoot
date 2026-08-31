@@ -6,6 +6,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { picoSearch } from '@chatwoot/pico-search';
 import AutomationRuleRow from './AutomationRuleRow.vue';
@@ -17,6 +18,7 @@ import { DEFAULT_DELAY_MINUTES } from './constants';
 const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
+const route = useRoute();
 const confirmDialog = ref(null);
 
 const loading = ref({});
@@ -62,7 +64,7 @@ const showTabs = computed(
     records.value.some(automation => automation.execution_delay)
 );
 
-const activeTab = ref('instant');
+const activeTab = ref(route.query.tab === 'delayed' ? 'delayed' : 'instant');
 
 const tabs = computed(() => [
   {
@@ -119,19 +121,6 @@ const showDelayDisabledBanner = computed(
     records.value.some(automation => automation.execution_delay)
 );
 
-onMounted(() => {
-  store.dispatch('inboxes/get');
-  store.dispatch('agents/get');
-  store.dispatch('contacts/get');
-  store.dispatch('teams/get');
-  store.dispatch('labels/get');
-  store.dispatch('campaigns/get');
-  store.dispatch('automations/get');
-  if (isSLAEnabled.value) {
-    store.dispatch('sla/get');
-  }
-});
-
 const openAddPopup = () => {
   const startsWithWait =
     isDelayedAutomationsEnabled.value && activeTab.value === 'delayed';
@@ -148,6 +137,31 @@ const openEditPopup = response => {
 const hideEditPopup = () => {
   editDialogRef.value?.close();
 };
+
+onMounted(async () => {
+  const loadRequests = [
+    store.dispatch('inboxes/get'),
+    store.dispatch('agents/get'),
+    store.dispatch('contacts/get'),
+    store.dispatch('teams/get'),
+    store.dispatch('labels/get'),
+    store.dispatch('campaigns/get'),
+    store.dispatch('automations/get'),
+  ];
+  if (isSLAEnabled.value) {
+    loadRequests.push(store.dispatch('sla/get'));
+  }
+  await Promise.all(loadRequests);
+
+  const automationId = Number(route.query.automationId);
+  if (!automationId) return;
+
+  const automation = records.value.find(record => record.id === automationId);
+  if (!automation) return;
+
+  activeTab.value = automation.execution_delay ? 'delayed' : 'instant';
+  openEditPopup(automation);
+});
 
 const openDeletePopup = response => {
   showDeleteConfirmationPopup.value = true;
