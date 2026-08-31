@@ -510,6 +510,7 @@
         "ATTRIBUTES": "गुणहरू",
         "HISTORY": "इतिहास",
         "NOTES": "टिप्पणीहरू",
+        "MEDIA": "Media",
         "MERGE": "मर्ज गर्नुहोस्"
       },
       "HISTORY": {
@@ -610,6 +611,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "हामीले खोजी पूरा गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।"
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "हेर्नुहोस्",

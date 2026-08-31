@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "გამოწერილი მოვლენები",
       "LEARN_MORE": "გაიგეთ მეტი webhook-ების შესახებ",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "საიდუმლო",
         "COPY": "საიდუმლოს კოპირება კლიპბორდზე",
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "კაპიტანი",
     "HEADER_KNOW_MORE": "გაიგე მეტი",
+    "OVERVIEW": {
+      "HEADER": "მიმოხილვა",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "დოკუმენტები"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "სათამაშო მოედანი",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "გადახდები",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "მხარდაჭერები",
       "SWITCH_ASSISTANT": "გაართეთ მხარდაჭერებს შორის",
@@ -493,10 +575,6 @@
           "LABEL": "სახელი",
           "PLACEHOLDER": "ჩაწერეთ ასისტენტის სახელი",
           "ERROR": "სახელი აუცილებელია"
-        },
-        "TEMPERATURE": {
-          "LABEL": "პასუხის ტემპერატურა",
-          "DESCRIPTION": "დაარეგულირეთ, თუ რამდენად კრეატიული ან შეზღუდული უნდა იყოს ასისტენტის პასუხები. დაბალი მნიშვნელობები იძლევა უფრო ფოკუსირებულ და დეტერმინისტულ პასუხებს, ხოლო მაღალი მნიშვნელობები საშუალებას აძლევს უფრო კრეატიულ და მრავალფეროვან პასუხებს."
         },
         "DESCRIPTION": {
           "LABEL": "აღწერა",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "დოკუმენტები",
       "ADD_NEW": "ახალი დოკუმენტის შექმნა",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} არჩეული",
       "SELECT_ALL": "ყველას არჩევა ({count})",
       "UNSELECT_ALL": "ყველას არჩევის გაუქმება ({count})",
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "მიმართებული ხშირად დასმული კითხვები",
-        "DESCRIPTION": "ეს ხშირად დასმული კითხვები პირდაპირ დოკუმენტიდან არის გენერირებული."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "მიუწვდომელია",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "კოპირება",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "შეიყვანეთ დოკუმენტის URL, რომ დაამატოთ იგი ცოდნის წყაროდ და აირჩიეთ ასისტენტი, რომელთანაც დაკავშირება გსურთ.",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "დოკუმენტის წაშლისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "იხილეთ დაკავშირებული პასუხები",
+        "VIEW_DETAILS": "View details",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "დოკუმენტის წაშლა"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "ხშირად დასმული კითხვები",
-      "PENDING_FAQS": "მოლოდინში FAQ-ები",
       "ADD_NEW": "ახალი FAQ-ის შექმნა",
       "DOCUMENTABLE": {
         "CONVERSATION": "შეტყობინება #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "ყველას არჩევა ({count})",
       "UNSELECT_ALL": "ყველას არჩევის გაუქმება ({count})",
       "SEARCH_PLACEHOLDER": "ძიება ხშირად დასმულ კითხვებში...",
-      "BULK_APPROVE_BUTTON": "დამტკიცება",
-      "BULK_DELETE_BUTTON": "წაშლა",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "ხშირად დასმული კითხვები წარმატებით დამტკიცდა",
-        "ERROR_MESSAGE": "ხშირად დასმული კითხვების დამტკიცებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "წაშლა",
       "BULK_DELETE": {
         "TITLE": "ხშირად დასმული კითხვების წაშლა?",
         "DESCRIPTION": "დარწმუნებული ხართ, რომ გინდათ არჩეული ხშირად დასმული კითხვების წაშლა? ეს მოქმედება არ არის გაუქმებადი.",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ წარმატებით წაიშალა",
         "ERROR_MESSAGE": "FAQ-ის წაშლისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
       },
-      "FILTER": {
-        "ASSISTANT": "დამხმარე: {selected}",
-        "STATUS": "სტატუსი: {selected}",
-        "ALL_ASSISTANTS": "ყველა"
-      },
-      "STATUS": {
-        "TITLE": "სტატუსი",
-        "PENDING": "მიმდინარე",
-        "APPROVED": "დამტკიცებული",
-        "ALL": "ყველა"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain-მა იპოვა რამდენიმე FAQ, რომელსაც თქვენი მომხმარებლები ეძებდნენ.",
-        "ACTION": "დააჭირეთ აქ გადახედვისთვის"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "დაამატეთ კითხვა და მისი შესაბამისი პასუხი ცოდნის ბაზაში და აირჩიეთ ასისტენტი, რომელთანაც უნდა იყოს დაკავშირებული.",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "არ მოიძებნა ხშირად დასმული კითხვები",
-        "NO_PENDING_TITLE": "მიმდინარე კითხვები განხილვისთვის აღარ არის",
         "SUBTITLE": "ხშირად დასმული კითხვები ეხმარება თქვენს ასისტენტს სწრაფ და ზუსტ პასუხებს გასცეს მომხმარებელთა შეკითხვებს. ისინი შეიძლება ავტომატურად შეიქმნას თქვენი კონტენტიდან ან ხელით დაემატოს.",
         "CLEAR_SEARCH": "აქტიური ფილტრების გასუფთავება",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "კაპიტანის ხშირად დასმული კითხვები",
           "NOTE": "Captain FAQs ამოიცნობს ხშირ მომხმარებლის კითხვებს — იქნება ისინი თქვენი ცოდნის ბაზაში არარსებული ან ხშირად დასმული — და ქმნის შესაბამის ხშირად დასმულ კითხვებს მხარდაჭერის გაუმჯობესებისთვის. შეგიძლიათ შეამოწმოთ თითოეული წინადადება და გადაწყვიტოთ მისი დამტკიცება თუ უარყოფა."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "მიღება",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "ცვლილებების შენახვა",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

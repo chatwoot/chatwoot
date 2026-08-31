@@ -82,6 +82,7 @@ describe('filterHelper', () => {
           attributeName: 'Test Name',
           label: 'Test Name',
           inputType: 'plainText',
+          attributeDisplayType: 'text',
           filterOperators: ['contains', 'not_contains'],
           options: [],
           attributeModel: 'customAttributes',
@@ -111,6 +112,7 @@ describe('filterHelper', () => {
           attributeName: 'List Name',
           label: 'List Name',
           inputType: 'searchSelect',
+          attributeDisplayType: 'list',
           filterOperators: ['is', 'is_not'],
           options: [
             { id: 'option1', name: 'option1' },

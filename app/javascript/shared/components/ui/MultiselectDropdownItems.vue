@@ -53,7 +53,9 @@ export default {
   computed: {
     filteredOptions() {
       return this.options.filter(option => {
-        return option.name.toLowerCase().includes(this.search.toLowerCase());
+        return (option.name || '')
+          .toLowerCase()
+          .includes(this.search.toLowerCase());
       });
     },
     noResult() {

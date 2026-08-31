@@ -11,14 +11,21 @@
 class Captain::AssistantStatsWindow
   include TimezoneHelper
 
-  DEFAULT_RANGE = '30'.freeze
+  DEFAULT_RANGE = '7'.freeze
   ALLOWED_RANGES = %w[7 30 90 this_month last_month].freeze
 
-  attr_reader :range
+  attr_reader :range, :timezone
 
   def initialize(range = DEFAULT_RANGE, timezone_offset = nil)
     @range = ALLOWED_RANGES.include?(range.to_s) ? range.to_s : DEFAULT_RANGE
-    @timezone = timezone_name_from_offset(timezone_offset) || Time.zone
+    offset = Float(timezone_offset, exception: false) if timezone_offset.present?
+    @timezone = timezone_name_from_offset(offset) if offset
+    @timezone_offset_valid = timezone_offset.blank? || @timezone.present?
+    @timezone ||= Time.zone.name
+  end
+
+  def timezone_offset_valid?
+    @timezone_offset_valid
   end
 
   def current
@@ -48,7 +55,7 @@ class Captain::AssistantStatsWindow
   # Current time anchored to the viewer's timezone, so calendar boundaries land on
   # the viewer's day instead of UTC's.
   def now
-    @now ||= Time.current.in_time_zone(@timezone)
+    @now ||= Time.current.in_time_zone(timezone)
   end
 
   def this_month_ranges

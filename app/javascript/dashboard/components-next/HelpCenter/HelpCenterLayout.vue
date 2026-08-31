@@ -30,6 +30,10 @@ defineProps({
     type: Boolean,
     default: true,
   },
+  breadcrumbLabel: {
+    type: String,
+    default: '',
+  },
 });
 
 const emit = defineEmits(['update:currentPage']);
@@ -44,10 +48,11 @@ const portals = useMapGetter('portals/allPortals');
 
 const currentPortalSlug = computed(() => route.params.portalSlug);
 
-const activePortalName = computed(() => {
-  return portals.value?.find(portal => portal.slug === currentPortalSlug.value)
-    ?.name;
-});
+const activePortal = computed(() =>
+  portals.value?.find(portal => portal.slug === currentPortalSlug.value)
+);
+
+const activePortalName = computed(() => activePortal.value?.name);
 
 const updateCurrentPage = page => {
   emit('update:currentPage', page);
@@ -65,32 +70,40 @@ const togglePortalSwitcher = () => {
           v-if="showHeaderTitle"
           class="flex items-center justify-start h-20 gap-2"
         >
-          <span
-            v-if="activePortalName"
-            class="min-w-0 text-xl font-medium truncate text-n-slate-12"
-          >
-            {{ activePortalName }}
-          </span>
-          <div v-if="activePortalName" class="relative shrink-0 group">
-            <OnClickOutside @trigger="showPortalSwitcher = false">
-              <Button
-                icon="i-lucide-chevron-down"
-                variant="ghost"
-                color="slate"
-                size="xs"
-                class="rounded-md group-hover:bg-n-slate-3 hover:bg-n-slate-3"
-                @click="togglePortalSwitcher"
-              />
+          <nav v-if="activePortalName" class="flex items-center min-w-0 gap-3">
+            <div class="flex items-center min-w-0 gap-1.5">
+              <span class="text-lg font-medium truncate text-n-slate-12">
+                {{ activePortalName }}
+              </span>
+              <div class="relative shrink-0 group">
+                <OnClickOutside @trigger="showPortalSwitcher = false">
+                  <Button
+                    icon="i-lucide-chevron-down"
+                    :variant="showPortalSwitcher ? 'faded' : 'ghost'"
+                    slate
+                    xs
+                    class="rounded-md group-hover:bg-n-slate-3 hover:bg-n-slate-3 [&>span]:size-4"
+                    @click="togglePortalSwitcher"
+                  />
 
-              <PortalSwitcher
-                v-if="showPortalSwitcher"
-                class="absolute ltr:left-0 rtl:right-0 top-9"
-                @close="showPortalSwitcher = false"
-                @create-portal="createPortalDialogRef.dialogRef.open()"
-              />
-            </OnClickOutside>
-            <CreatePortalDialog ref="createPortalDialogRef" />
-          </div>
+                  <PortalSwitcher
+                    v-if="showPortalSwitcher"
+                    class="absolute ltr:left-0 rtl:right-0 top-9"
+                    @close="showPortalSwitcher = false"
+                    @create-portal="createPortalDialogRef.dialogRef.open()"
+                  />
+                </OnClickOutside>
+                <CreatePortalDialog ref="createPortalDialogRef" />
+              </div>
+            </div>
+
+            <template v-if="breadcrumbLabel">
+              <div class="w-0.5 h-4 rounded-2xl bg-n-weak shrink-0" />
+              <span class="pl-1.5 text-lg font-medium truncate text-n-slate-12">
+                {{ breadcrumbLabel }}
+              </span>
+            </template>
+          </nav>
           <div class="flex justify-end min-w-0 grow">
             <slot name="title-actions" />
           </div>

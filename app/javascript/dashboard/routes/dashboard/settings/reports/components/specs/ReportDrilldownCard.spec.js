@@ -46,6 +46,7 @@ vi.mock('shared/helpers/timeHelper', () => ({
     return timestamps[time] || 'now';
   },
   dateFormat: timestamp => `date-${timestamp}`,
+  exactTimestamp: timestamp => `exact-${timestamp}`,
 }));
 
 describe('ReportDrilldownCard.vue', () => {

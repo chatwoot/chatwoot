@@ -1,0 +1,12 @@
+{
+  "SESSION_LIMIT": {
+    "TITLE": "Límite de sesión activa alcanzado",
+    "DESCRIPTION": "Ha alcanzado su límite de sesiones activas. Por favor, finalice una sesión antes de iniciar sesión.",
+    "END": "Finalizar",
+    "END_ALL": "Finalizar todas las sesiones",
+    "LOG_IN": "Iniciar sesión",
+    "CANCEL": "Volver a iniciar sesión",
+    "UNKNOWN_DEVICE": "Dispositivo desconocido",
+    "STARTED": "Iniciado"
+  }
+}

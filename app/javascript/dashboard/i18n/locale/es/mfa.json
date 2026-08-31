@@ -49,6 +49,11 @@
       "DISABLE_MFA_DESC": "Remove two-factor authentication from your account",
       "DISABLE_BUTTON": "Disable Two-Factor Authentication"
     },
+    "LOW_BACKUP_CODES": {
+      "MESSAGE": "Te queda {n} código de recuperación. Genera códigos nuevos para evitar perder el acceso si ya no puedes usar tu autenticador. | Te quedan {n} códigos de recuperación. Genera códigos nuevos para evitar perder el acceso si ya no puedes usar tu autenticador.",
+      "NONE_LEFT": "No te queda ningún código de recuperación. Genera códigos nuevos ahora para evitar perder el acceso si ya no puedes usar tu autenticador.",
+      "ACTION": "Generar códigos"
+    },
     "DISABLE": {
       "TITLE": "Disable Two-Factor Authentication",
       "DESCRIPTION": "You'll need to enter your password and a verification code to disable two-factor authentication.",
@@ -57,8 +62,8 @@
       "OTP_CODE_PLACEHOLDER": "000000",
       "BACKUP_CODE": "Backup Code",
       "BACKUP_CODE_PLACEHOLDER": "Enter one of your backup codes",
-      "USE_BACKUP_CODE": "Lost access to your authenticator? Use a backup code instead",
-      "USE_OTP_CODE": "Use a verification code from your authenticator app",
+      "USE_BACKUP_CODE": "¿Perdiste el acceso a su autenticador? Utilice un código de respaldo en su lugar",
+      "USE_OTP_CODE": "Usa un código de verificación de tu aplicación de autenticación",
       "CONFIRM": "Disable 2FA",
       "CANCEL": "Cancelar",
       "SUCCESS": "Two-factor authentication has been disabled",

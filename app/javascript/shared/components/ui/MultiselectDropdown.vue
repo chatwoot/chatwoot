@@ -68,6 +68,10 @@ const isAgentBot = computed(
   () => props.selectedItem?.assignee_type === 'AgentBot'
 );
 
+const selectedItemName = computed(() =>
+  !props.selectedItem?.name && isAgentBot.value ? '-' : props.selectedItem?.name
+);
+
 const selectedThumbnail = computed(
   () => props.selectedItem?.thumbnail || props.selectedItem?.avatar_url
 );
@@ -95,16 +99,16 @@ const selectedThumbnail = computed(
           <h4
             v-else
             class="items-center overflow-hidden text-sm leading-tight whitespace-nowrap text-ellipsis text-n-slate-12"
-            :title="selectedItem.name"
+            :title="selectedItemName"
           >
-            {{ selectedItem.name }}
+            {{ selectedItemName }}
           </h4>
         </div>
         <Avatar
           v-if="hasValue && hasThumbnail && (isAgentBot || !hasIcon)"
           :src="selectedThumbnail"
           :status="selectedItem.availability_status"
-          :name="selectedItem.name"
+          :name="selectedItemName"
           :icon-name="isAgentBot ? 'i-lucide-bot' : undefined"
           :size="24"
           hide-offline-status

@@ -13,8 +13,10 @@ vi.mock('vue-router');
 // channel_type, social ordering) derived from CHANNEL_LIST.
 const mountComposable = ({
   brandInfo,
+  features = { channel_instagram: true },
   inboxes = [],
   isOnChatwootCloud = false,
+  disableMetaInboxCreation = false,
 } = {}) => {
   const store = createStore({
     modules: {
@@ -23,6 +25,9 @@ const mountComposable = ({
         getters: {
           get: () => ({}),
           isOnChatwootCloud: () => isOnChatwootCloud,
+          isMetaInboxCreationDisabled: () =>
+            isOnChatwootCloud && disableMetaInboxCreation,
+          isMetaMessageSendingDisabled: () => false,
         },
       },
       accounts: {
@@ -30,8 +35,11 @@ const mountComposable = ({
         getters: {
           getAccount: () => () => ({
             id: 1,
+            features,
             custom_attributes: { brand_info: brandInfo },
           }),
+          isFeatureEnabledonAccount: () => (_accountId, feature) =>
+            Boolean(features[feature]),
         },
       },
       inboxes: {
@@ -207,8 +215,32 @@ describe('useDetectedChannels', () => {
       ]);
     });
 
-    it('hides Instagram from onboarding on Chatwoot Cloud', () => {
+    it('hides Meta channels on Chatwoot Cloud during the Meta restriction', () => {
       const { displayedChannels } = mountComposable({
+        features: {
+          channel_instagram: true,
+          whatsapp_embedded_signup_inbox_creation: true,
+        },
+        isOnChatwootCloud: true,
+        disableMetaInboxCreation: true,
+        brandInfo: {
+          socials: [
+            { type: 'whatsapp', url: 'https://wa.me/14155552671' },
+            { type: 'facebook', url: 'https://facebook.com/acme' },
+            { type: 'instagram', url: 'https://instagram.com/acme' },
+            { type: 'tiktok', url: 'https://tiktok.com/@acme' },
+          ],
+        },
+      });
+
+      expect(displayedChannels.value.map(channel => channel.type)).toEqual([
+        'tiktok',
+      ]);
+    });
+
+    it('hides Instagram when disabled for the account', () => {
+      const { displayedChannels } = mountComposable({
+        features: { channel_instagram: false },
         isOnChatwootCloud: true,
         brandInfo: {
           socials: [

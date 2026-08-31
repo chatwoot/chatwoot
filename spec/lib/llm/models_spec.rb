@@ -26,9 +26,16 @@ RSpec.describe Llm::Models do
       end
     end
 
-    it 'routes document and conversation FAQ generation independently' do
+    it 'routes each FAQ operation independently' do
       expect(described_class.default_model_for('document_faq_generation')).to eq('gpt-4.1-mini')
       expect(described_class.default_model_for('conversation_faq_generation')).to eq('gpt-5.2')
+      expect(described_class.default_model_for('conversation_faq_matching')).to eq('gpt-4.1-mini')
+    end
+
+    it 'offers only supported OpenAI models for conversation completion' do
+      expect(described_class.models_for('conversation_completion')).to eq(
+        %w[gpt-4.1-mini gpt-5-mini gpt-4.1 gpt-5.1 gpt-5.2]
+      )
     end
   end
 
