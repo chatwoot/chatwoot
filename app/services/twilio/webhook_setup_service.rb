@@ -6,6 +6,8 @@ class Twilio::WebhookSetupService
   def perform
     if channel.messaging_service_sid?
       update_messaging_service
+    elsif channel.whatsapp?
+      update_whatsapp_sender
     else
       update_phone_number
     end
@@ -24,21 +26,34 @@ class Twilio::WebhookSetupService
   end
 
   def update_phone_number
-    if phone_numbers.empty?
+    phone_number = twilio_client.incoming_phone_numbers.list(phone_number: channel.phone_number).first
+
+    if phone_number.nil?
       Rails.logger.warn "TWILIO_PHONE_NUMBER_NOT_FOUND: #{channel.phone_number}"
     else
       twilio_client
-        .incoming_phone_numbers(phonenumber_sid)
+        .incoming_phone_numbers(phone_number.sid)
         .update(sms_method: 'POST', sms_url: twilio_callback_index_url)
     end
   end
 
-  def phonenumber_sid
-    phone_numbers.first.sid
-  end
+  def update_whatsapp_sender
+    senders = twilio_client.messaging.v2.channels_senders.list(channel: 'whatsapp')
+    sender = senders.find { |item| item.sender_id == channel.phone_number }
 
-  def phone_numbers
-    @phone_numbers ||= twilio_client.incoming_phone_numbers.list(phone_number: channel.phone_number)
+    unless sender
+      Rails.logger.warn "TWILIO_WHATSAPP_SENDER_NOT_FOUND: #{channel.phone_number}"
+      return
+    end
+
+    twilio_client.messaging.v2.channels_senders(sender.sid).update(
+      messaging_v2_channels_sender_requests_update: {
+        webhook: {
+          callback_url: twilio_callback_index_url,
+          callback_method: 'POST'
+        }
+      }
+    )
   end
 
   def channel
@@ -46,6 +61,6 @@ class Twilio::WebhookSetupService
   end
 
   def twilio_client
-    @twilio_client ||= ::Twilio::REST::Client.new(channel.account_sid, channel.auth_token)
+    @twilio_client ||= channel.client
   end
 end
