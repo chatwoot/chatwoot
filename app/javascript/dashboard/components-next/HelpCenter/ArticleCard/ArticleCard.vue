@@ -3,6 +3,7 @@ import { computed, useTemplateRef } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import {
   ARTICLE_MENU_ITEMS,
   ARTICLE_MENU_OPTIONS,
@@ -77,6 +78,8 @@ const emit = defineEmits([
   'draftResolved',
   'draftFailed',
 ]);
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 
@@ -290,7 +293,13 @@ const handleClick = id => {
           </span>
         </div>
       </div>
-      <span class="text-sm text-n-slate-11 line-clamp-1 shrink-0">
+      <span
+        v-tooltip.top="{
+          content: exactTimestamp(updatedAt),
+          delay: { show: 500, hide: 0 },
+        }"
+        class="text-sm text-n-slate-11 line-clamp-1 shrink-0"
+      >
         {{ lastUpdatedAt }}
       </span>
     </div>
