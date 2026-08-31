@@ -40,7 +40,7 @@ class Whatsapp::UserIdRotationService
     end
   end
 
-  # Parent first keeps the alias order aligned with normal Cloud message routing.
+  # Parent first keeps lifecycle lock ordering aligned with BSUID-only Cloud payloads.
   def rotations(system)
     [
       [system[:previous_parent_user_id], system[:parent_user_id]],
