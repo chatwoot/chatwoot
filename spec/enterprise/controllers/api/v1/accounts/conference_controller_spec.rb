@@ -156,6 +156,38 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(call.end_reason).to eq('agent_rejected')
       end
 
+      it 'marks an in-progress call as completed with duration, instead of leaving it non-terminal' do
+        call = Call.find_by(provider_call_id: 'CALL123')
+        call.update!(status: 'in_progress', accepted_by_agent_id: agent.id, started_at: 30.seconds.ago)
+
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).to have_http_status(:ok)
+        call.reload
+        expect(call.status).to eq('completed')
+        expect(call.end_reason).to eq('agent_hangup')
+        expect(call.terminal?).to be true
+        expect(call.duration_seconds).to be >= 30
+        expect(call.ended_at).to be_present
+      end
+
+      it 'marks a claimed-but-not-yet-connected call as no_answer instead of leaving it ringing' do
+        call = Call.find_by(provider_call_id: 'CALL123')
+        call.update!(accepted_by_agent_id: agent.id)
+
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).to have_http_status(:ok)
+        call.reload
+        expect(call.status).to eq('no_answer')
+        expect(call.end_reason).to eq('agent_hangup')
+        expect(call.terminal?).to be true
+      end
+
       it 'does not allow ending conferences for calls from inboxes without access' do
         other_inbox = create(:inbox, account: account)
         other_conversation = create(:conversation, account: account, inbox: other_inbox)

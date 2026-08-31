@@ -9,6 +9,46 @@ properties:
   website_url:
     type: string
     description: Website URL
+  page_id:
+    type:
+      - string
+      - 'null'
+    description: Facebook Page ID associated with the inbox
+  instagram_id:
+    type:
+      - string
+      - 'null'
+    description: Instagram account ID associated with the inbox
+  business_id:
+    type:
+      - string
+      - 'null'
+    description: TikTok business ID associated with the inbox
+  profile_id:
+    type:
+      - string
+      - 'null'
+    description: X profile ID associated with the inbox
+  line_channel_id:
+    type:
+      - string
+      - 'null'
+    description: LINE channel ID associated with the inbox
+  email:
+    type:
+      - string
+      - 'null'
+    description: Email address associated with the inbox
+  bot_name:
+    type:
+      - string
+      - 'null'
+    description: Telegram bot name associated with the inbox
+  inbox_identifier:
+    type:
+      - string
+      - 'null'
+    description: Public identifier associated with an API inbox
   channel_type:
     type: string
     description: The type of the inbox
