@@ -110,14 +110,6 @@ module Whatsapp::IncomingMessageIdentifierHelper
     attributes
   end
 
-  def phone_number_candidates(phone_number)
-    phone_number_normalization_service.phone_number_candidates(phone_number)
-  end
-
-  def phone_number_normalization_service
-    @phone_number_normalization_service ||= Whatsapp::PhoneNumberNormalizationService.new(inbox)
-  end
-
   def update_whatsapp_identifiers(source_ids: [], username: nil, phone_number: nil)
     Whatsapp::IdentifierSyncService.new(contact_inbox: @contact_inbox, contact: @contact).perform(source_ids: source_ids, username: username,
                                                                                                   phone_number: phone_number)
