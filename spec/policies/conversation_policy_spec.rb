@@ -8,6 +8,8 @@ RSpec.describe ConversationPolicy, type: :policy do
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:administrator_context) { { user: administrator, account: account, account_user: administrator.account_users.find_by(account: account) } }
   let(:agent_context) { { user: agent, account: account, account_user: agent.account_users.find_by(account: account) } }
+  let(:agent_bot) { create(:agent_bot, account: account) }
+  let(:agent_bot_context) { { user: agent_bot, account: account, account_user: nil } }
 
   let(:conversation) { create(:conversation, account: account) }
 
@@ -67,6 +69,22 @@ RSpec.describe ConversationPolicy, type: :policy do
 
       it 'denies access' do
         expect(subject).not_to permit(agent_context, conversation)
+      end
+    end
+
+    context 'when an agent bot is attached to the conversation inbox' do
+      before { create(:agent_bot_inbox, agent_bot: agent_bot, inbox: conversation.inbox) }
+
+      it 'allows access' do
+        expect(subject).to permit(agent_bot_context, conversation)
+      end
+    end
+
+    context 'when an agent bot is only attached to another inbox' do
+      before { create(:agent_bot_inbox, agent_bot: agent_bot, inbox: create(:inbox, account: account)) }
+
+      it 'denies access' do
+        expect(subject).not_to permit(agent_bot_context, conversation)
       end
     end
   end

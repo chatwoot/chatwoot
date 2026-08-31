@@ -382,6 +382,7 @@ RSpec.describe 'Conversations API', type: :request do
       let(:team) { create(:team, account: account) }
 
       it 'shows a team-assigned conversation' do
+        create(:agent_bot_inbox, agent_bot: agent_bot, inbox: conversation.inbox)
         conversation.update!(team: team)
 
         get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
@@ -390,6 +391,16 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.parsed_body.dig('meta', 'team', 'is_member')).to be(false)
+      end
+
+      it 'rejects a conversation from an inbox the bot is not attached to' do
+        create(:agent_bot_inbox, agent_bot: agent_bot, inbox: create(:inbox, account: account))
+
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+            headers: { api_access_token: agent_bot.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
@@ -635,6 +646,8 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       it 'creates a conversation for a source_id in its own account' do
+        create(:agent_bot_inbox, inbox: contact_inbox.inbox, agent_bot: bot)
+
         expect do
           post "/api/v1/accounts/#{account.id}/conversations",
                headers: { api_access_token: bot.access_token.token },
@@ -643,6 +656,17 @@ RSpec.describe 'Conversations API', type: :request do
         end.to change(account.conversations, :count).by(1)
 
         expect(response).to have_http_status(:success)
+      end
+
+      it 'does not create a conversation in an inbox it is not attached to' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: { api_access_token: bot.access_token.token },
+               params: { source_id: contact_inbox.source_id },
+               as: :json
+        end.not_to change(account.conversations, :count)
+
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
@@ -747,7 +771,7 @@ RSpec.describe 'Conversations API', type: :request do
       # this test will basically ensure that the status actually changes
       # regardless of the value to be done
       it 'returns authorized for arbritrary status' do
-        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        create(:agent_bot_inbox, inbox: conversation.inbox, agent_bot: agent_bot)
 
         conversation.update!(status: 'open')
         expect(conversation.reload.status).to eq('open')
@@ -854,7 +878,7 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated bot' do
       it 'toggle the priority of the bot agent conversation' do
-        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        create(:agent_bot_inbox, inbox: conversation.inbox, agent_bot: agent_bot)
 
         conversation.update!(priority: 'low')
         expect(conversation.reload.priority).to eq('low')
