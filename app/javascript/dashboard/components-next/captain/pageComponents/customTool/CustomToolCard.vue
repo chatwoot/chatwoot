@@ -2,7 +2,8 @@
 import { computed } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -46,6 +47,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['action', 'toggle']);
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 
