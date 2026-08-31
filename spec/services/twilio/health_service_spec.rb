@@ -79,6 +79,18 @@ describe Twilio::HealthService do
         end
       end
 
+      context 'when the account lookup fails for a reason other than permissions' do
+        before do
+          allow(twilio_client).to receive(:api).and_raise(
+            Twilio::REST::RestError.new('Too many requests', Twilio::Response.new(429, '{"code": 20429}'))
+          )
+        end
+
+        it 'raises rather than reporting healthy with the account unchecked' do
+          expect { described_class.new(channel: channel).perform }.to raise_error(Twilio::REST::RestError)
+        end
+      end
+
       context 'when the account is suspended' do
         let(:account_status) { 'suspended' }
 

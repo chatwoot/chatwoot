@@ -6,6 +6,9 @@ class Twilio::HealthService
   # Our Twilio routes are POST-only, so a matching URL on the wrong HTTP method never reaches us.
   HTTP_METHOD = 'POST'.freeze
 
+  # What a restricted API key returns when it may not read the Account resource.
+  AUTHORIZATION_STATUSES = [401, 403].freeze
+
   # Reports what Twilio actually has configured against what Chatwoot expects, so a number that
   # looks connected but silently drops traffic (wrong method, trunk, foreign TwiML app) is visible.
   # Errors (bad credentials, unknown number) bubble up to the controller as a 422.
@@ -46,12 +49,15 @@ class Twilio::HealthService
     channel.voice_enabled? ? %w[sms voice] : %w[sms]
   end
 
-  # Restricted API keys can read numbers and applications but not the Account resource, so this is
-  # supplementary context only — the webhook checks below are the real health signal and still fail loudly.
+  # Restricted API keys can read numbers and applications but not the Account resource, so a refusal
+  # is expected and reported as absent context. Anything else (timeout, 429, 5xx) would leave the
+  # account unchecked while still claiming a verdict, so it fails the whole check instead.
   def account_details
     account = channel.client.api.accounts(channel.account_sid).fetch
     { sid: account.sid, friendly_name: account.friendly_name, status: account.status, type: account.type }
-  rescue Twilio::REST::RestError
+  rescue Twilio::REST::RestError => e
+    raise unless AUTHORIZATION_STATUSES.include?(e.status_code)
+
     nil
   end
 

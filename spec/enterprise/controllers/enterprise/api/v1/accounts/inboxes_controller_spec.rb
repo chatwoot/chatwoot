@@ -31,9 +31,6 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
                      headers: { 'Content-Type' => 'application/json' })
         allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(instance_double(Twilio::VoiceWebhookSetupService,
                                                                                             perform: "AP#{SecureRandom.hex(16)}"))
-        messaging_webhook_service = instance_double(Twilio::WebhookSetupService, perform: true)
-        allow(Twilio::WebhookSetupService).to receive(:new).and_return(messaging_webhook_service)
-
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
              params: { name: 'Voice Inbox',
@@ -48,7 +45,7 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
         expect(response.body).to include('Voice Inbox')
         expect(response.body).to include('+15551234567')
         # the number must also receive SMS, not just calls
-        expect(messaging_webhook_service).to have_received(:perform)
+        expect(Channels::Twilio::WebhookSetupJob).to have_been_enqueued
       end
 
       it 'leaves the twilio number untouched when the inbox fails to save' do
@@ -59,9 +56,6 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
                      headers: { 'Content-Type' => 'application/json' })
         allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(instance_double(Twilio::VoiceWebhookSetupService,
                                                                                             perform: "AP#{SecureRandom.hex(16)}"))
-        messaging_webhook_service = instance_double(Twilio::WebhookSetupService, perform: true)
-        allow(Twilio::WebhookSetupService).to receive(:new).and_return(messaging_webhook_service)
-
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
              params: { channel: { type: 'voice', phone_number: '+15551234567',
@@ -73,7 +67,7 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
 
         expect(response).not_to have_http_status(:success)
         # the rollback discarded the channel, so the number must not be left pointing at us
-        expect(messaging_webhook_service).not_to have_received(:perform)
+        expect(Channels::Twilio::WebhookSetupJob).not_to have_been_enqueued
       end
     end
   end
