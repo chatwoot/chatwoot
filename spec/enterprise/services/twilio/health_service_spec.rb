@@ -95,6 +95,21 @@ describe Twilio::HealthService do
       end
     end
 
+    context 'when the twiml app was deleted in twilio' do
+      let(:twiml_app_voice_url) { channel.voice_call_webhook_url }
+
+      before do
+        allow(twiml_app).to receive(:fetch).and_raise(
+          Twilio::REST::RestError.new('The requested resource was not found', Twilio::Response.new(404, '{"code": 20404}'))
+        )
+      end
+
+      it 'reports the app as missing instead of failing the whole health check' do
+        expect(described_class.new(channel: channel).perform[:webhooks])
+          .to include(hash_including(name: 'voice_app', configured: false, reason: 'missing_twiml_app'))
+      end
+    end
+
     context 'when the twiml app has not been created' do
       let(:twiml_app_voice_url) { channel.voice_call_webhook_url }
 

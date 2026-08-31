@@ -85,6 +85,18 @@ describe Twilio::HealthService do
         it 'surfaces the account status' do
           expect(described_class.new(channel: channel).perform[:account][:status]).to eq('suspended')
         end
+
+        it 'reports misconfigured even though the webhooks are correct' do
+          expect(described_class.new(channel: channel).perform[:status]).to eq('misconfigured')
+        end
+      end
+
+      context 'when the number cannot send sms' do
+        let(:capabilities) { { 'voice' => true, 'sms' => false, 'mms' => false } }
+
+        it 'reports misconfigured because the inbox cannot receive its traffic' do
+          expect(described_class.new(channel: channel).perform[:status]).to eq('misconfigured')
+        end
       end
 
       context 'when the messaging webhook points elsewhere' do

@@ -24,6 +24,9 @@ class Twilio::VoiceWebhookSetupService
     )
     channel.twiml_app_sid
   rescue StandardError => e
+    # The stored app was deleted in Twilio, so there is nothing to update; make a fresh one.
+    return create_twiml_app! if e.is_a?(Twilio::REST::RestError) && e.status_code == 404
+
     log_twilio_error('TWIML_APP_UPDATE', e)
     raise
   end

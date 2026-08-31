@@ -11,17 +11,40 @@ class Twilio::HealthService
   # Errors (bad credentials, unknown number) bubble up to the controller as a 422.
   def perform
     webhooks = channel.messaging_service_sid? ? messaging_service_webhooks : phone_number_webhooks
+    account = account_details
+    sender = sender_details
 
     {
-      status: webhooks.all? { |webhook| webhook[:configured] } ? 'healthy' : 'misconfigured',
-      account: account_details,
-      sender: sender_details,
+      status: healthy?(account, sender, webhooks) ? 'healthy' : 'misconfigured',
+      account: account,
+      sender: sender,
       voice_enabled: channel.voice_enabled?,
       webhooks: webhooks
     }
   end
 
   private
+
+  # Correct webhooks are not enough: a suspended account or a number missing a capability the inbox
+  # needs still drops traffic, and reporting that as healthy contradicts the details rendered beside it.
+  def healthy?(account, sender, webhooks)
+    webhooks.all? { |webhook| webhook[:configured] } && account_usable?(account) && capabilities_present?(sender)
+  end
+
+  # Restricted API keys cannot read the account at all, which is not itself a health problem.
+  def account_usable?(account)
+    account.nil? || account[:status].to_s.casecmp?('active')
+  end
+
+  def capabilities_present?(sender)
+    return true unless sender[:type] == 'phone_number'
+
+    required_capabilities.all? { |capability| sender[:capabilities][capability] }
+  end
+
+  def required_capabilities
+    channel.voice_enabled? ? %w[sms voice] : %w[sms]
+  end
 
   # Restricted API keys can read numbers and applications but not the Account resource, so this is
   # supplementary context only — the webhook checks below are the real health signal and still fail loudly.
@@ -96,10 +119,19 @@ class Twilio::HealthService
   end
 
   def twiml_app_webhook
-    return webhook('voice_app', channel.voice_call_webhook_url, nil, override: 'missing_twiml_app') if channel.twiml_app_sid.blank?
+    return missing_twiml_app_webhook if channel.twiml_app_sid.blank?
 
     app = channel.client.applications(channel.twiml_app_sid).fetch
     webhook('voice_app', channel.voice_call_webhook_url, app.voice_url, method: app.voice_method)
+  rescue Twilio::REST::RestError => e
+    raise unless e.status_code == 404
+
+    # The stored app was deleted in Twilio; repair recreates it.
+    missing_twiml_app_webhook
+  end
+
+  def missing_twiml_app_webhook
+    webhook('voice_app', channel.voice_call_webhook_url, nil, override: 'missing_twiml_app')
   end
 
   def webhook(name, expected, actual, method: nil, override: nil)
