@@ -332,6 +332,7 @@ const onDraftFailed = error => {
         <ArticlePendingChangesPopover
           ref="pendingChangesPopoverRef"
           :article-id="articleId"
+          :blocked="blockedWhileBusy"
           @resolved="onDraftResolved"
           @failed="onDraftFailed"
         />

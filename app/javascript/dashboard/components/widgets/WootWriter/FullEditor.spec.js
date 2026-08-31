@@ -871,6 +871,46 @@ describe('FullEditor', () => {
           .exists()
       ).toBe(true);
     });
+
+    it('rejects a non-video file dropped on the upload tab', async () => {
+      mountEditor();
+      await openEmbedInput();
+      const embedInput = () =>
+        wrapper.findComponent({ name: 'VideoEmbedInput' });
+      await embedInput()
+        .find('button')
+        .trigger('keydown', { key: 'ArrowRight' });
+
+      await embedInput()
+        .find('[class*="border-dashed"]')
+        .trigger('drop', { dataTransfer: { files: [fileOfSize(1)] } });
+
+      expect(embedInput().exists()).toBe(true);
+      expect(embedInput().text()).toContain('Only MP4');
+      expect(attachImage).not.toHaveBeenCalled();
+    });
+
+    it('uploads an mp4 dropped on the upload tab', async () => {
+      mountEditor();
+      await openEmbedInput();
+      const embedInput = () =>
+        wrapper.findComponent({ name: 'VideoEmbedInput' });
+      await embedInput()
+        .find('button')
+        .trigger('keydown', { key: 'ArrowRight' });
+
+      await embedInput()
+        .find('[class*="border-dashed"]')
+        .trigger('drop', {
+          dataTransfer: {
+            files: [new File(['x'], 'clip.mp4', { type: 'video/mp4' })],
+          },
+        });
+      await flushPromises();
+
+      expect(embedInput().exists()).toBe(false);
+      expect(attachImage).toHaveBeenCalled();
+    });
   });
 
   describe('image upload', () => {

@@ -76,6 +76,7 @@
     "ERROR": "That doesn't look like a supported video link",
     "UPLOAD_LABEL": "Choose a video file",
     "UPLOAD_HINT": "MP4 · up to {size}MB · or drop it here",
+    "UPLOAD_ERROR": "Only MP4 files can be uploaded",
     "ADD": "Embed",
     "CANCEL": "Cancel"
   }

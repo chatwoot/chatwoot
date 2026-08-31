@@ -21,6 +21,7 @@ const { t } = useI18n();
 
 const url = ref('');
 const showError = ref(false);
+const showUploadError = ref(false);
 const fileInput = ref(null);
 
 const tabs = computed(() => [
@@ -77,7 +78,11 @@ const onInput = () => {
 const openFilePicker = () => fileInput.value?.click();
 
 const emitFile = file => {
-  if (file) emit('upload', file);
+  if (!file) return;
+  // The accept attr doesn't constrain drag-and-drop; mirrors bucketFor in
+  // FullEditor so a dropped image can't slip through as an image insert.
+  showUploadError.value = file.type !== 'video/mp4';
+  if (!showUploadError.value) emit('upload', file);
 };
 
 const onFileChange = event => {
@@ -139,11 +144,16 @@ const onDrop = event => emitFile(event.dataTransfer?.files[0]);
         <span class="text-sm font-medium text-n-slate-12">
           {{ t('VIDEO_EMBED.UPLOAD_LABEL') }}
         </span>
-        <span class="text-xs text-n-slate-10">
+        <span
+          class="text-xs"
+          :class="showUploadError ? 'text-n-ruby-11' : 'text-n-slate-10'"
+        >
           {{
-            t('VIDEO_EMBED.UPLOAD_HINT', {
-              size: DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE,
-            })
+            showUploadError
+              ? t('VIDEO_EMBED.UPLOAD_ERROR')
+              : t('VIDEO_EMBED.UPLOAD_HINT', {
+                  size: DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE,
+                })
           }}
         </span>
       </button>
