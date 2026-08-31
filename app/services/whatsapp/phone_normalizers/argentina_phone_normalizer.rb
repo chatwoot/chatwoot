@@ -10,6 +10,12 @@ class Whatsapp::PhoneNormalizers::ArgentinaPhoneNormalizer < Whatsapp::PhoneNorm
     waid.sub(/^549/, '54')
   end
 
+  # Contacts may already be stored with the "9", so look that format up too
+  def variants(waid)
+    normalized = normalize(waid)
+    [normalized, normalized.sub(/^54/, '549')]
+  end
+
   private
 
   def country_code_pattern

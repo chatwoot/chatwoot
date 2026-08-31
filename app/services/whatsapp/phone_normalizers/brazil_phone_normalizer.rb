@@ -7,15 +7,25 @@
 class Whatsapp::PhoneNormalizers::BrazilPhoneNormalizer < Whatsapp::PhoneNormalizers::BasePhoneNormalizer
   COUNTRY_CODE_LENGTH = 2
   DDD_LENGTH = 2
+  MOBILE_DIGIT_INDEX = COUNTRY_CODE_LENGTH + DDD_LENGTH
+  MOBILE_LENGTH = 13
 
   def normalize(waid)
     return waid unless handles_country?(waid)
 
     ddd = waid[COUNTRY_CODE_LENGTH, DDD_LENGTH]
-    number = waid[COUNTRY_CODE_LENGTH + DDD_LENGTH, waid.length - (COUNTRY_CODE_LENGTH + DDD_LENGTH)]
+    number = waid[MOBILE_DIGIT_INDEX, waid.length - MOBILE_DIGIT_INDEX]
     normalized_number = "55#{ddd}#{number}"
-    normalized_number = "55#{ddd}9#{number}" if normalized_number.length != 13
+    normalized_number = "55#{ddd}9#{number}" if normalized_number.length != MOBILE_LENGTH
     normalized_number
+  end
+
+  # Contacts may already be stored without the "9", so look that format up too
+  def variants(waid)
+    normalized = normalize(waid)
+    return [normalized] unless normalized.length == MOBILE_LENGTH && normalized[MOBILE_DIGIT_INDEX] == '9'
+
+    [normalized, "#{normalized[0, MOBILE_DIGIT_INDEX]}#{normalized[(MOBILE_DIGIT_INDEX + 1)..]}"]
   end
 
   private

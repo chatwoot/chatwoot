@@ -15,6 +15,12 @@ class Whatsapp::PhoneNormalizers::MexicoPhoneNormalizer < Whatsapp::PhoneNormali
     waid.sub(/^521/, '52')
   end
 
+  # Contacts may already be stored with the "1", so look that format up too
+  def variants(waid)
+    normalized = normalize(waid)
+    [normalized, normalized.sub(/^52/, '521')]
+  end
+
   private
 
   def country_code_pattern
