@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch, onBeforeUnmount, useTemplateRef } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
+import { onBeforeRouteLeave } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
@@ -58,6 +59,12 @@ const diffPanelRef = ref(null);
 const editorRef = useTemplateRef('editorRef');
 
 const hasPendingUploads = () => !!editorRef.value?.hasPendingUploads();
+
+onBeforeRouteLeave(() => {
+  if (!hasPendingUploads()) return true;
+  useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
+  return false;
+});
 
 // Autosave 500ms after the last edit. It sends both title and content so an
 // edit to one never drops a recent edit to the other. `stop` cancels a queued

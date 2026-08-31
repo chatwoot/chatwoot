@@ -122,10 +122,7 @@ const statusText = computed(() =>
   )
 );
 
-const onClickGoBack = () => {
-  if (blockedByUploads()) return;
-  emit('goBack');
-};
+const onClickGoBack = () => emit('goBack');
 
 const previewArticle = () => emit('previewArticle');
 
