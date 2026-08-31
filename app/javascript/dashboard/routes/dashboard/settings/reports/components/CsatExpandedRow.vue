@@ -8,7 +8,8 @@ import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import CsatReviewNotesPaywall from './CsatReviewNotesPaywall.vue';
-import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 const props = defineProps({
   response: {
@@ -16,6 +17,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 const store = useStore();
