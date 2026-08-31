@@ -9,6 +9,7 @@ class FilterService
   ATTRIBUTE_TYPES = {
     date: 'date', text: 'text', number: 'numeric', link: 'text', list: 'text', checkbox: 'boolean'
   }.with_indifferent_access
+  STRING_VALUE_ATTRIBUTES = %w[status priority message_type content].freeze
 
   def initialize(params, user)
     @params = params
@@ -200,9 +201,17 @@ class FilterService
   def validate_query_operator
     @params[:payload].each_with_index do |query_hash, index|
       validate_single_condition(query_hash)
+      validate_string_values(query_hash)
       next unless index == @params[:payload].length - 1
 
       raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) if query_hash['query_operator'].present?
     end
+  end
+
+  def validate_string_values(query_hash)
+    return unless STRING_VALUE_ATTRIBUTES.include?(query_hash['attribute_key'])
+    return if Array.wrap(query_hash['values']).all?(String)
+
+    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash['attribute_key'])
   end
 end

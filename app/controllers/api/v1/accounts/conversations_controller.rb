@@ -99,6 +99,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def toggle_priority
+    raise ActionController::ParameterMissing, :priority unless params.key?(:priority)
+
     @conversation.toggle_priority(permitted_update_params[:priority])
     head :ok
   end

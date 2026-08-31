@@ -523,13 +523,17 @@ describe Conversations::FilterService do
         expect(result[:conversations][0][:id]).to be user_2_assigned_conversation.id
       end
 
-      it 'rejects structured filter values' do
-        params[:payload] = [
-          ActionController::Parameters.new(attribute_key: 'status', filter_operator: 'equal_to', values: [{ id: 1 }], query_operator: nil).permit!
-        ]
+      it 'rejects invalid filter values' do
+        [{ id: 1 }, 1].each do |invalid_value|
+          params[:payload] = [
+            ActionController::Parameters.new(
+              attribute_key: 'status', filter_operator: 'equal_to', values: [invalid_value], query_operator: nil
+            ).permit!
+          ]
 
-        expect { filter_service.new(params, user_1, account).perform }
-          .to raise_error(CustomExceptions::CustomFilter::InvalidValue)
+          expect { filter_service.new(params, user_1, account).perform }
+            .to raise_error(CustomExceptions::CustomFilter::InvalidValue)
+        end
       end
 
       it 'filter by custom_attributes' do
