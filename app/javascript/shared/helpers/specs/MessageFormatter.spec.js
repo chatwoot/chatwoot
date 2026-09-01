@@ -195,6 +195,8 @@ After`;
       ['lone dash after a break', 'a\\\n\\-', 1],
       ['lone dash below an empty line', 'x\n\n\\\n\\-', 1],
       ['bold dashes after a break', 'a\\\n**--**', 1],
+      ['dashes led by a bold space below an empty line', 'a\n\n\n --', 0],
+      ['dashes trailed by a bold space', 'a\n\n\\\n\\-- ', 1],
       ['empty line between paragraphs', 'a\n\n\\\nb', 1],
       ['double break inside a paragraph', 'a\\\n\\\nb', 2],
       ['plain hard break', 'line one\\\nline two', 1],

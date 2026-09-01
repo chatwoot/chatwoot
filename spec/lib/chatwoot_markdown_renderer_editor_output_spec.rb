@@ -39,7 +39,9 @@ describe ChatwootMarkdownRenderer do
                                whatsapp: "e2\n- \n\n--\n\nThanks \nSivin | Chatwoot" },
     bold_underline_after_break: { markdown: "a\\\n**--**", email_breaks: 1, whatsapp: "a\n*--*",
                                   email_delimiter: '<strong>--</strong></p>' },
-    indented_underline_detached: { markdown: "b2\n\n  --", email_breaks: 0, whatsapp: "b2\n\n  --" }
+    indented_underline_detached: { markdown: "b2\n\n  --", email_breaks: 0, whatsapp: "b2\n\n  --" },
+    dashes_led_by_bold_space: { markdown: "a\n\n\n --", email_breaks: 0, whatsapp: "a\n\n\n --" },
+    dashes_trailed_by_bold_space: { markdown: "a\n\n\\\n\\-- ", email_breaks: 1, whatsapp: "a\n\n\n--" }
   }
 
   html_channels = %w[Channel::Email Channel::WebWidget]
