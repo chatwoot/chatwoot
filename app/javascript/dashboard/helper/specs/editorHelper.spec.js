@@ -357,6 +357,11 @@ describe('removeSignature', () => {
       'hey\n\n'
     );
   });
+  it('strips the hard-break marker with the escape when Shift+Enter precedes the delimiter', () => {
+    expect(removeSignature('hey\\\n\\--\n\nHello there', 'Hello there')).toBe(
+      'hey'
+    );
+  });
   it('preserves trailing backslash in user text when appending', () => {
     expect(appendSignature('The path is C:\\', 'Best\nAgent')).toContain(
       'C:\\'

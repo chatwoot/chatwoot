@@ -130,9 +130,11 @@ const stripDelimiterHardbreaks = body =>
 
 // Strip standalone blank-paragraph markers (`\` on their own lines), plus
 // the bare `\` the serializer writes to escape the `--` delimiter into `\--`
-// (left behind once the delimiter itself is sliced off).
+// (left behind once the delimiter itself is sliced off). The leading `\\?`
+// also consumes a hard-break marker directly before the escape (`hey\\\n\\--`,
+// the Shift+Enter shape) so no stray `\` survives the slice.
 const stripTrailingBlankLine = body =>
-  body.replace(/\n(?:\s*\\\n)*\s*\\$/, '').replace(/\n(?:\s*\\\n)+$/, '');
+  body.replace(/\\?\n(?:\s*\\\n)*\s*\\$/, '').replace(/\n(?:\s*\\\n)+$/, '');
 
 /**
  * Adds the signature delimiter to the beginning of the signature.
