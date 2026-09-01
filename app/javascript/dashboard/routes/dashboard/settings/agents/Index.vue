@@ -196,9 +196,17 @@ const confirmDeletion = () => {
               hide-offline-status
             />
             <div class="flex flex-col gap-1.5 items-start">
-              <span class="block text-heading-3 text-n-slate-12 capitalize">
-                {{ agent.name }}
-              </span>
+              <div class="flex items-center gap-2">
+                <span class="block text-heading-3 text-n-slate-12 capitalize">
+                  {{ agent.name }}
+                </span>
+                <span
+                  v-if="agent.custom_title"
+                  class="text-body-main text-n-slate-10 italic"
+                >
+                  ({{ agent.custom_title }})
+                </span>
+              </div>
               <div class="flex items-center gap-2">
                 <span class="text-body-main text-n-slate-11">
                   {{ agent.email }}
@@ -291,6 +299,7 @@ const confirmDeletion = () => {
         :email="currentAgent.email"
         :availability="currentAgent.availability_status"
         :custom-role-id="currentAgent.custom_role_id"
+        :custom-title="currentAgent.custom_title"
         @close="hideEditPopup"
       />
     </woot-modal>
