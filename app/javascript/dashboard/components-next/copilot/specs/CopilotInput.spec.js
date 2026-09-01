@@ -57,4 +57,31 @@ describe('CopilotInput', () => {
     resolveSend(true);
     await flushPromises();
   });
+
+  it('prevents edits while a send is in flight', async () => {
+    let resolveSend;
+    const onSend = vi.fn(
+      () =>
+        new Promise(resolve => {
+          resolveSend = resolve;
+        })
+    );
+    const wrapper = mountCopilotInput(onSend);
+    const textarea = wrapper.find('textarea');
+    const button = wrapper.find('button');
+
+    await textarea.setValue('Keep this message');
+    await wrapper.find('form').trigger('submit');
+
+    expect(textarea.attributes('disabled')).toBeDefined();
+    expect(button.attributes('disabled')).toBeDefined();
+    expect(textarea.element.value).toBe('Keep this message');
+
+    resolveSend(false);
+    await flushPromises();
+
+    expect(textarea.attributes('disabled')).toBeUndefined();
+    expect(button.attributes('disabled')).toBeUndefined();
+    expect(textarea.element.value).toBe('Keep this message');
+  });
 });
