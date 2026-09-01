@@ -128,8 +128,11 @@ export function cleanSignature(signature) {
 const stripDelimiterHardbreaks = body =>
   body.replace(/(--)\s*(?:\\\s*)+$/, '$1');
 
-// Strip standalone blank-paragraph markers (`\` on their own lines).
-const stripTrailingBlankLine = body => body.replace(/\n(?:\s*\\\n)+$/, '');
+// Strip standalone blank-paragraph markers (`\` on their own lines), plus
+// the bare `\` the serializer writes to escape the `--` delimiter into `\--`
+// (left behind once the delimiter itself is sliced off).
+const stripTrailingBlankLine = body =>
+  body.replace(/\n(?:\s*\\\n)*\s*\\$/, '').replace(/\n(?:\s*\\\n)+$/, '');
 
 /**
  * Adds the signature delimiter to the beginning of the signature.

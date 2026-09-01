@@ -37,5 +37,21 @@ RSpec.describe Messages::WebhookContentNormalizer do
     it 'handles both hard line breaks and trailing newlines together' do
       expect(described_class.normalize("hello\\\nworld\n\n\n")).to eq("hello\nworld")
     end
+
+    it 'unescapes the signature delimiter the editor escapes below an empty line' do
+      expect(described_class.normalize("hey\n\n\\\n\\--\n\nThanks")).to eq("hey\n\n\n--\n\nThanks")
+    end
+
+    it 'unescapes an equals underline the same way' do
+      expect(described_class.normalize("a\n\n\\\n\\==")).to eq("a\n\n\n==")
+    end
+
+    it 'unescapes a lone dash underline' do
+      expect(described_class.normalize("a\\\n\\-")).to eq("a\n-")
+    end
+
+    it 'keeps backslashes that are not underline escapes' do
+      expect(described_class.normalize('path C:\\temp and a \\- dash')).to eq('path C:\\temp and a \\- dash')
+    end
   end
 end
