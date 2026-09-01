@@ -73,6 +73,8 @@ jobs:
           name: Install Application Dependencies
           command: |
             source ~/.rvm/scripts/rvm
+            # Prevent detached Git maintenance from racing Bundler's local Git clones.
+            git config --global maintenance.auto false
             bundle install
 
       - node/install:
@@ -219,6 +221,8 @@ jobs:
           name: Install Application Dependencies
           command: |
             source ~/.rvm/scripts/rvm
+            # Prevent detached Git maintenance from racing Bundler's local Git clones.
+            git config --global maintenance.auto false
             bundle install
 
       # Install and configure OpenSearch

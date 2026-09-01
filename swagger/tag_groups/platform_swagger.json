@@ -3939,8 +3939,16 @@
           },
           "content_attributes": {
             "type": "object",
-            "description": "Attributes based on the content type",
-            "example": {}
+            "description": "Attributes based on the content type. For `input_select`, provide an `items` array with\n`title`, `value`, and optional `description`. WhatsApp list messages use `description`\nas the row subtitle when present.\n",
+            "example": {
+              "items": [
+                {
+                  "title": "Option 1",
+                  "value": "option_1",
+                  "description": "Optional WhatsApp list row subtitle"
+                }
+              ]
+            }
           },
           "campaign_id": {
             "type": "integer",
