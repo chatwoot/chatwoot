@@ -5,20 +5,21 @@ class Whatsapp::IncomingMessageBaseService
   include ::Whatsapp::IncomingMessageServiceHelpers
   include ::Whatsapp::IncomingMessageIdentifierHelper
 
-  pattr_initialize [:inbox!, :params!, :outgoing_echo]
+  pattr_initialize [:inbox!, :params!, :outgoing_echo, { locked_sender_id: nil }]
 
   def perform
     processed_params
 
-    if processed_params.try(:[], :statuses).present?
-      process_statuses
-    elsif messages_data.present?
-      process_messages
-    end
+    return process_statuses if processed_params.try(:[], :statuses).present?
+
+    process_identity_change_messages
+    return process_messages if messages_data.present?
   end
 
   # Returns messages array for both regular messages and echo events
   def messages_data
+    return @messages_data if defined?(@messages_data)
+
     @processed_params&.dig(:messages) || @processed_params&.dig(:message_echoes)
   end
 
