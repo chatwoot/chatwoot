@@ -102,4 +102,13 @@ describe('CopilotInput', () => {
     expect(textarea.element.value).toBe('Keep this message');
     expect(document.activeElement).toBe(textarea.element);
   });
+
+  it('allows vertical scrolling when the input reaches its max height', () => {
+    const wrapper = mountCopilotInput(vi.fn());
+    const textarea = wrapper.find('textarea');
+
+    expect(textarea.classes()).toContain('max-h-[200px]');
+    expect(textarea.classes()).toContain('overflow-y-auto');
+    expect(textarea.classes()).not.toContain('overflow-hidden');
+  });
 });
