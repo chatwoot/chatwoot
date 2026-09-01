@@ -1,10 +1,10 @@
+import { Selection } from '@chatwoot/prosemirror-schema';
 import { flushPromises, mount } from '@vue/test-utils';
+import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import { emitter } from 'shared/helpers/mitt';
+import { withFullI18n } from 'test-i18n';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createStore } from 'vuex';
-import { Selection } from '@chatwoot/prosemirror-schema';
-import { withFullI18n } from 'test-i18n';
-import { emitter } from 'shared/helpers/mitt';
-import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import FullEditor from './FullEditor.vue';
 
 // The slash menu specs assert on translated labels, so this spec needs the
@@ -32,6 +32,17 @@ Range.prototype.getClientRects = () => [zeroRect];
 Range.prototype.getBoundingClientRect = () => zeroRect;
 Element.prototype.scrollIntoView = () => {};
 
+// jsdom has no ClipboardEvent; pasteHTML only needs a bare event object.
+window.ClipboardEvent = window.ClipboardEvent || Event;
+
+// jsdom has no object URLs, and uploads preview through blob: URLs.
+let objectUrlCount = 0;
+URL.createObjectURL = () => {
+  objectUrlCount += 1;
+  return `blob:vitest-${objectUrlCount}`;
+};
+URL.revokeObjectURL = () => {};
+
 const attachImage = vi.fn();
 const uploadExternalImage = vi.fn();
 
@@ -41,7 +52,7 @@ const store = createStore({
     'articles/uploadExternalImage': (_, payload) =>
       uploadExternalImage(payload),
   },
-  getters: { getUISettings: () => ({}) },
+  getters: { getUISettings: () => ({}), 'globalConfig/get': () => ({}) },
 });
 
 let wrapper = null;
@@ -159,9 +170,21 @@ const fileOfSize = sizeInMb => {
   return file;
 };
 
+// Like a real axios call: never resolves, but rejects when its signal aborts
+// (also releasing the upload queue's concurrency slot).
+const pendingUpload = payload =>
+  new Promise((resolve, reject) => {
+    payload.signal?.addEventListener('abort', () =>
+      reject(new Error('canceled'))
+    );
+  });
+
 const selectFile = async file => {
   const input = wrapper.find('input[type="file"]');
-  Object.defineProperty(input.element, 'files', { value: [file] });
+  Object.defineProperty(input.element, 'files', {
+    value: [file],
+    configurable: true,
+  });
   await input.trigger('change');
   await flushPromises();
 };
@@ -219,6 +242,150 @@ describe('FullEditor', () => {
       expect(view.state.selection.from).toBe(1);
     });
 
+    it('ignores a stale echo of its own earlier output', async () => {
+      mountEditor({ modelValue: 'Hello' });
+      type(' world');
+      await wrapper.vm.$nextTick();
+      type('!');
+      await wrapper.vm.$nextTick();
+
+      // A slow autosave answering late hands back an older emission.
+      await wrapper.setProps({ modelValue: 'Hello world' });
+
+      expect(view.state.doc.textContent).toBe('Hello world!');
+    });
+
+    it('applies an external reset it initially held back once the echo window passes', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
+      try {
+        mountEditor({ modelValue: 'Hello' });
+        type(' world');
+        await wrapper.vm.$nextTick();
+        type('!');
+        await wrapper.vm.$nextTick();
+
+        // A discard arrives while its text still looks like our own echo,
+        // and no further prop update ever follows.
+        await wrapper.setProps({ modelValue: 'Hello world' });
+        expect(view.state.doc.textContent).toBe('Hello world!');
+
+        vi.advanceTimersByTime(31000);
+        expect(view.state.doc.textContent).toBe('Hello world');
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('accepts external content matching an old emission once the echo window has passed', async () => {
+      mountEditor({ modelValue: 'Hello' });
+      type(' world');
+      await wrapper.vm.$nextTick();
+      type('!');
+      await wrapper.vm.$nextTick();
+
+      // E.g. discarding a draft after undoing back to the published copy.
+      const nowSpy = vi
+        .spyOn(Date, 'now')
+        .mockImplementation(() => new Date().getTime() + 31000);
+      await wrapper.setProps({ modelValue: 'Hello world' });
+      nowSpy.mockRestore();
+
+      expect(view.state.doc.textContent).toBe('Hello world');
+    });
+
+    it('applies a draft reset during a file upload and cancels the upload', async () => {
+      mountEditor({ modelValue: 'Hello' });
+      attachImage.mockImplementation(pendingUpload);
+      await selectFile(new File(['x'], 'clip.mp4', { type: 'video/mp4' }));
+      expect(view.dom.querySelector('.pm-upload-card')).not.toBeNull();
+
+      // Discarding a draft reseeds the model with the live article.
+      await wrapper.setProps({ modelValue: 'Published copy' });
+      await flushPromises();
+
+      expect(view.state.doc.textContent).toBe('Published copy');
+      expect(view.dom.querySelector('.pm-upload-card')).toBeNull();
+      expect(attachImage.mock.calls[0][0].signal.aborted).toBe(true);
+    });
+
+    it('applies a draft reset during an image upload and cancels the upload', async () => {
+      mountEditor({ modelValue: 'Hello' });
+      attachImage.mockImplementation(pendingUpload);
+      await selectFile(fileOfSize(1));
+      expect(view.dom.querySelector('.pm-image-uploading')).not.toBeNull();
+
+      await wrapper.setProps({ modelValue: 'Published copy' });
+      await flushPromises();
+
+      expect(view.state.doc.textContent).toBe('Published copy');
+      expect(view.dom.querySelector('.pm-image-uploading')).toBeNull();
+      expect(attachImage.mock.calls[0][0].signal.aborted).toBe(true);
+    });
+
+    it('lets an external reset replace content once an image upload has failed', async () => {
+      mountEditor({ modelValue: 'Hello' });
+      attachImage.mockRejectedValue(new Error('nope'));
+      await selectFile(fileOfSize(1));
+      expect(view.dom.querySelector('.pm-upload-overlay').dataset.state).toBe(
+        'error'
+      );
+
+      // Discarding a draft reseeds the model with the live article.
+      await wrapper.setProps({ modelValue: 'Published copy' });
+      await flushPromises();
+
+      expect(view.state.doc.textContent).toBe('Published copy');
+      expect(view.dom.querySelector('.pm-upload-overlay')).toBeNull();
+    });
+
+    it('lets an external reset replace content once a file upload has failed', async () => {
+      mountEditor({ modelValue: 'Hello' });
+      attachImage.mockRejectedValue(new Error('nope'));
+      await selectFile(new File(['x'], 'clip.mp4', { type: 'video/mp4' }));
+      expect(view.dom.querySelector('.pm-upload-card').dataset.state).toBe(
+        'error'
+      );
+
+      await wrapper.setProps({ modelValue: 'Published copy' });
+      await flushPromises();
+
+      expect(view.state.doc.textContent).toBe('Published copy');
+      expect(view.dom.querySelector('.pm-upload-card')).toBeNull();
+    });
+
+    it('reports a pending upload so parents can gate publish on it', async () => {
+      mountEditor({ modelValue: 'Hello' });
+      expect(wrapper.vm.hasPendingUploads()).toBe(false);
+
+      let finishUpload;
+      attachImage.mockImplementation(
+        () =>
+          new Promise(resolve => {
+            finishUpload = resolve;
+          })
+      );
+      await selectFile(new File(['x'], 'clip.mp4', { type: 'video/mp4' }));
+      expect(wrapper.vm.hasPendingUploads()).toBe(true);
+
+      finishUpload('https://cdn.test/clip.mp4');
+      await flushPromises();
+      expect(wrapper.vm.hasPendingUploads()).toBe(false);
+    });
+
+    it('reports a failed upload as pending until it is removed', async () => {
+      mountEditor({ modelValue: 'Hello' });
+      attachImage.mockRejectedValue(new Error('nope'));
+      await selectFile(new File(['x'], 'clip.mp4', { type: 'video/mp4' }));
+      expect(view.dom.querySelector('.pm-upload-card').dataset.state).toBe(
+        'error'
+      );
+      expect(wrapper.vm.hasPendingUploads()).toBe(true);
+
+      view.dom.querySelector('.pm-upload-card [aria-label="Remove"]').click();
+      await flushPromises();
+      expect(wrapper.vm.hasPendingUploads()).toBe(false);
+    });
+
     it('reloads when the editor id changes', async () => {
       mountEditor({ modelValue: 'Hello', editorId: 'article-1' });
       type(' edited');
@@ -256,6 +423,16 @@ describe('FullEditor', () => {
       await wrapper.vm.$nextTick();
 
       expect(wrapper.vm.showSlashMenu).toBe(false);
+    });
+
+    it('opens with a clean term when the trigger sits right before a line break', async () => {
+      mountEditor({ modelValue: 'a \\\nafter' });
+      placeCursor(3);
+      type('/div');
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.vm.showSlashMenu).toBe(true);
+      expect(menuLabels()).toEqual(['Divider']);
     });
 
     it('filters the list by the typed term', async () => {
@@ -651,6 +828,93 @@ describe('FullEditor', () => {
       );
       expect(view.state.doc.textContent).toBe('Hello ');
     });
+
+    it('closes on escape from anywhere inside the popover', async () => {
+      mountEditor();
+      await openEmbedInput();
+      // Keyboard tab switching leaves focus on the tab button, not the panel.
+      await wrapper
+        .findComponent({ name: 'VideoEmbedInput' })
+        .find('button')
+        .trigger('keydown', { key: 'Escape' });
+
+      expect(wrapper.findComponent({ name: 'VideoEmbedInput' }).exists()).toBe(
+        false
+      );
+    });
+
+    it('switches tabs with the arrow keys', async () => {
+      mountEditor();
+      await openEmbedInput();
+      const embedInput = () =>
+        wrapper.findComponent({ name: 'VideoEmbedInput' });
+
+      await embedInput()
+        .find('button')
+        .trigger('keydown', { key: 'ArrowRight' });
+      expect(embedInput().find('input[type="file"]').exists()).toBe(true);
+
+      await embedInput()
+        .find('button')
+        .trigger('keydown', { key: 'ArrowLeft' });
+      expect(embedInput().find('input[type="url"]').exists()).toBe(true);
+    });
+
+    it('keeps arrow keys for the caret inside the link field', async () => {
+      mountEditor();
+      await openEmbedInput();
+      await wrapper
+        .findComponent({ name: 'VideoEmbedInput' })
+        .find('input[type="url"]')
+        .trigger('keydown', { key: 'ArrowRight' });
+
+      expect(
+        wrapper
+          .findComponent({ name: 'VideoEmbedInput' })
+          .find('input[type="url"]')
+          .exists()
+      ).toBe(true);
+    });
+
+    it('rejects a non-video file dropped on the upload tab', async () => {
+      mountEditor();
+      await openEmbedInput();
+      const embedInput = () =>
+        wrapper.findComponent({ name: 'VideoEmbedInput' });
+      await embedInput()
+        .find('button')
+        .trigger('keydown', { key: 'ArrowRight' });
+
+      await embedInput()
+        .find('[class*="border-dashed"]')
+        .trigger('drop', { dataTransfer: { files: [fileOfSize(1)] } });
+
+      expect(embedInput().exists()).toBe(true);
+      expect(embedInput().text()).toContain('Only MP4');
+      expect(attachImage).not.toHaveBeenCalled();
+    });
+
+    it('uploads an mp4 dropped on the upload tab', async () => {
+      mountEditor();
+      await openEmbedInput();
+      const embedInput = () =>
+        wrapper.findComponent({ name: 'VideoEmbedInput' });
+      await embedInput()
+        .find('button')
+        .trigger('keydown', { key: 'ArrowRight' });
+
+      await embedInput()
+        .find('[class*="border-dashed"]')
+        .trigger('drop', {
+          dataTransfer: {
+            files: [new File(['x'], 'clip.mp4', { type: 'video/mp4' })],
+          },
+        });
+      await flushPromises();
+
+      expect(embedInput().exists()).toBe(false);
+      expect(attachImage).toHaveBeenCalled();
+    });
   });
 
   describe('image upload', () => {
@@ -672,13 +936,115 @@ describe('FullEditor', () => {
       expect(alerts).toHaveLength(1);
     });
 
-    it('alerts when the upload fails', async () => {
+    it('rejects an image type the picker does not advertise', async () => {
+      mountEditor();
+      await selectFile(
+        new File(['x'], 'diagram.svg', { type: 'image/svg+xml' })
+      );
+
+      expect(attachImage).not.toHaveBeenCalled();
+      expect(alerts).toHaveLength(1);
+    });
+
+    it('keeps the preview with retry and remove controls when the upload fails', async () => {
       mountEditor();
       attachImage.mockRejectedValue(new Error('nope'));
       await selectFile(fileOfSize(1));
 
-      expect(alerts).toHaveLength(1);
-      expect(lastEmittedValue()).toBeNull();
+      expect(alerts).toHaveLength(0);
+      const overlay = view.dom.querySelector('.pm-upload-overlay');
+      expect(overlay.dataset.state).toBe('error');
+      const buttons = [...overlay.querySelectorAll('.pm-upload-action')];
+      expect(buttons.map(button => button.getAttribute('aria-label'))).toEqual([
+        'Retry',
+        'Remove',
+      ]);
+      // The half-uploaded preview must never reach the serialized document.
+      expect(lastEmittedValue() || '').not.toContain('blob:');
+    });
+
+    it('inserts the image where the files arrived even if the caret moves while decoding', async () => {
+      mountEditor({ modelValue: 'Hello world' });
+      const decodes = [];
+      // eslint-disable-next-line func-names
+      window.Image.prototype.decode = function () {
+        return new Promise(resolve => {
+          decodes.push(resolve);
+        });
+      };
+      try {
+        placeCursor(6);
+        await selectFile(fileOfSize(1));
+        // The caret moves away while the preview is still decoding.
+        placeCursor(1);
+        decodes.shift()();
+        await flushPromises();
+        // Release the post-upload preload of the final URL too.
+        decodes.shift()?.();
+        await flushPromises();
+
+        const doc = view.state.doc;
+        expect(doc.child(0).textContent).toBe('Hello');
+        expect(doc.child(1).firstChild.type.name).toBe('image');
+        expect(doc.child(2).textContent).toBe(' world');
+      } finally {
+        decodes.forEach(resolve => resolve());
+        delete window.Image.prototype.decode;
+      }
+    });
+
+    it('reports a pending upload while a picked image is still decoding', async () => {
+      mountEditor();
+      const decodes = [];
+      // eslint-disable-next-line func-names
+      window.Image.prototype.decode = function () {
+        return new Promise(resolve => {
+          decodes.push(resolve);
+        });
+      };
+      try {
+        await selectFile(fileOfSize(1));
+        // No preview node exists yet — the insert anchor keeps the guard on.
+        expect(view.dom.querySelector('img')).toBeNull();
+        expect(wrapper.vm.hasPendingUploads()).toBe(true);
+
+        decodes.shift()();
+        await flushPromises();
+        // Release the post-upload preload of the final URL too.
+        decodes.shift()?.();
+        await flushPromises();
+
+        expect(wrapper.vm.hasPendingUploads()).toBe(false);
+      } finally {
+        decodes.forEach(resolve => resolve());
+        delete window.Image.prototype.decode;
+      }
+    });
+
+    it('retries a failed upload in place', async () => {
+      mountEditor();
+      attachImage.mockRejectedValueOnce(new Error('nope'));
+      await selectFile(fileOfSize(1));
+
+      view.dom.querySelector('.pm-upload-overlay .pm-upload-action').click();
+      await flushPromises();
+
+      expect(attachImage).toHaveBeenCalledTimes(2);
+      expect(lastEmittedValue()).toContain('![](https://cdn.test/photo.png)');
+    });
+
+    it('removes a failed upload on request', async () => {
+      mountEditor();
+      attachImage.mockRejectedValue(new Error('nope'));
+      await selectFile(fileOfSize(1));
+
+      const buttons = view.dom.querySelectorAll(
+        '.pm-upload-overlay .pm-upload-action'
+      );
+      buttons[1].click();
+      await flushPromises();
+
+      expect(view.dom.querySelector('.pm-image-wrapper')).toBeNull();
     });
 
     it('uploads an image pasted as a file', async () => {
@@ -703,13 +1069,395 @@ describe('FullEditor', () => {
       expect(url).toBe('https://cdn.test/remote.png');
     });
 
-    it('alerts and returns an empty url when the paste upload fails', async () => {
+    it('propagates a failed paste mirror to the plugin instead of alerting', async () => {
       mountEditor();
       uploadExternalImage.mockRejectedValue(new Error('nope'));
-      const url = await wrapper.vm.handleImageUpload('https://web.test/a.png');
 
-      expect(url).toBe('');
-      expect(alerts).toHaveLength(1);
+      await expect(
+        wrapper.vm.handleImageUpload('https://web.test/a.png')
+      ).rejects.toThrow('nope');
+      expect(alerts).toHaveLength(0);
+    });
+
+    it('leaves pasted same-origin images alone instead of re-mirroring them', async () => {
+      mountEditor();
+      const ownUrl = `${window.location.origin}/rails/active_storage/blobs/abc/pic.png`;
+      view.pasteHTML(`<p><img src="${ownUrl}"></p>`);
+      await new Promise(resolve => {
+        setTimeout(resolve);
+      });
+      await flushPromises();
+
+      expect(uploadExternalImage).not.toHaveBeenCalled();
+      expect(
+        view.dom.querySelector('.pm-image-wrapper img').getAttribute('src')
+      ).toBe(ownUrl);
+      expect(view.dom.querySelector('.pm-upload-overlay')).toBeNull();
+    });
+
+    it('mirrors a pasted external image and swaps to the uploaded url', async () => {
+      mountEditor();
+      view.pasteHTML('<p><img src="https://web.test/a.png"></p>');
+      // The paste plugin defers its work with setTimeout(0).
+      await new Promise(resolve => {
+        setTimeout(resolve);
+      });
+      await flushPromises();
+
+      expect(uploadExternalImage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          portalSlug: 'handbook',
+          url: 'https://web.test/a.png',
+        })
+      );
+      expect(lastEmittedValue()).toContain('![](https://cdn.test/remote.png)');
+    });
+
+    it('keeps a pasted external image with retry controls when the mirror fails', async () => {
+      mountEditor();
+      uploadExternalImage.mockRejectedValue(new Error('nope'));
+      view.pasteHTML('<p><img src="https://web.test/a.png"></p>');
+      await new Promise(resolve => {
+        setTimeout(resolve);
+      });
+      await flushPromises();
+
+      const img = view.dom.querySelector('.pm-image-wrapper img');
+      expect(img.getAttribute('src')).toBe('https://web.test/a.png');
+      expect(view.dom.querySelector('.pm-upload-overlay').dataset.state).toBe(
+        'error'
+      );
+    });
+
+    it('aborts the request and drops the preview when an upload is cancelled', async () => {
+      mountEditor();
+      attachImage.mockImplementation(pendingUpload);
+      await selectFile(fileOfSize(1));
+
+      expect(view.dom.querySelector('.pm-image-wrapper')).not.toBeNull();
+      view.dom.querySelector('.pm-upload-overlay .pm-upload-cancel').click();
+      await flushPromises();
+
+      expect(attachImage.mock.calls[0][0].signal.aborted).toBe(true);
+      expect(view.dom.querySelector('.pm-image-wrapper')).toBeNull();
+    });
+
+    it('aborts the request when the uploading image is deleted from the doc', async () => {
+      mountEditor();
+      attachImage.mockImplementation(pendingUpload);
+      await selectFile(fileOfSize(1));
+
+      view.dispatch(view.state.tr.delete(0, view.state.doc.content.size));
+      await flushPromises();
+
+      expect(attachImage.mock.calls[0][0].signal.aborted).toBe(true);
+    });
+
+    it('hides the video source line and removes the embed from its button', async () => {
+      mountEditor({
+        modelValue: '[clip.mp4](https://cdn.test/clip.mp4)\n\nafter',
+      });
+
+      expect(view.dom.querySelector('.cw-embed-source-hidden')).not.toBeNull();
+      view.dom.querySelector('.cw-embed-remove').click();
+
+      expect(view.state.doc.textContent).toBe('after');
+      expect(view.dom.querySelector('.cw-embed-source-hidden')).toBeNull();
+    });
+
+    it('selects the whole document with Cmd+A outside a table', async () => {
+      mountEditor({
+        modelValue: 'before\n\n[clip.mp4](https://cdn.test/clip.mp4)\n\nafter',
+      });
+      placeCursor(2);
+
+      expect(swallowedByEditor('a', { ctrlKey: true })).toBe(true);
+      expect(view.state.selection.toJSON().type).toBe('all');
+    });
+
+    it('steps onto a video with arrow keys instead of skipping past it', async () => {
+      mountEditor({
+        modelValue: 'before\n\n[clip.mp4](https://cdn.test/clip.mp4)\n\nafter',
+      });
+      placeCursor(view.state.doc.child(0).nodeSize - 1);
+
+      expect(swallowedByEditor('ArrowRight')).toBe(true);
+      expect(view.state.selection.node?.textContent).toBe('clip.mp4');
+
+      expect(swallowedByEditor('ArrowRight')).toBe(true);
+      expect(view.state.selection.$from.parent.textContent).toBe('after');
+    });
+
+    it('creates a line above a leading video and lands the caret in it', async () => {
+      mountEditor({
+        modelValue: '[clip.mp4](https://cdn.test/clip.mp4)\n\nafter',
+      });
+      placeCursor(view.state.doc.child(0).nodeSize + 1);
+
+      expect(swallowedByEditor('ArrowLeft')).toBe(true);
+      expect(view.state.selection.node?.textContent).toBe('clip.mp4');
+
+      expect(swallowedByEditor('ArrowLeft')).toBe(true);
+      expect(view.state.doc.child(0).textContent).toBe('');
+      expect(view.state.selection.from).toBe(1);
+    });
+
+    it('starts a new line below a selected video on Enter', async () => {
+      mountEditor({
+        modelValue:
+          '[a.mp4](https://cdn.test/a.mp4)\n\n[b.mp4](https://cdn.test/b.mp4)\n\nafter',
+      });
+      view.dispatch(
+        view.state.tr.setSelection(
+          Selection.fromJSON(view.state.doc, { type: 'node', anchor: 0 })
+        )
+      );
+
+      expect(swallowedByEditor('Enter')).toBe(true);
+      expect(view.state.doc.child(1).type.name).toBe('paragraph');
+      expect(view.state.doc.child(1).textContent).toBe('');
+      expect(view.state.selection.from).toBe(
+        view.state.doc.child(0).nodeSize + 1
+      );
+    });
+
+    it('keeps a paragraph after a trailing video so there is a place to type', async () => {
+      mountEditor({
+        modelValue: 'before\n\n[clip.mp4](https://cdn.test/clip.mp4)',
+      });
+      placeCursor(2);
+      type('x');
+
+      const last = view.state.doc.lastChild;
+      expect(last.type.name).toBe('paragraph');
+      expect(last.textContent).toBe('');
+    });
+
+    it('steps a caret stuck in the hidden source line out with an arrow key', async () => {
+      mountEditor({
+        modelValue: 'before\n\n[clip.mp4](https://cdn.test/clip.mp4)\n\nafter',
+      });
+      placeCursor(view.state.doc.child(0).nodeSize + 1);
+
+      expect(swallowedByEditor('ArrowRight')).toBe(true);
+      expect(view.state.selection.$from.parent.textContent).toBe('after');
+    });
+
+    it('removes the whole video embed on backspace after it', async () => {
+      mountEditor({
+        modelValue: '[clip.mp4](https://cdn.test/clip.mp4)\n\nafter',
+      });
+
+      placeCursor(11);
+      expect(swallowedByEditor('Backspace')).toBe(true);
+      expect(view.state.doc.textContent).toBe('after');
+    });
+
+    it('reloads a video that failed to load once the connection returns', async () => {
+      mountEditor({
+        modelValue: '[clip.mp4](https://cdn.test/clip.mp4)\n\nafter',
+      });
+      const media = view.dom.querySelector('.cw-embed-preview video');
+      media.load = vi.fn();
+
+      // Online again without a prior failure: nothing to reload.
+      window.dispatchEvent(new Event('online'));
+      expect(media.load).not.toHaveBeenCalled();
+
+      // All sources failed: the element parks in NETWORK_NO_SOURCE.
+      Object.defineProperty(media, 'networkState', {
+        value: 3,
+        configurable: true,
+      });
+      window.dispatchEvent(new Event('online'));
+      expect(media.load).toHaveBeenCalledTimes(1);
+
+      // The plugin view removes its listener when the editor is destroyed.
+      wrapper.unmount();
+      wrapper = null;
+      window.dispatchEvent(new Event('online'));
+      expect(media.load).toHaveBeenCalledTimes(1);
+    });
+
+    it('keeps an uploading video card when an image is pasted at the same spot', async () => {
+      mountEditor();
+      attachImage.mockImplementationOnce(pendingUpload);
+      const video = new File(['x'], 'clip.mp4', { type: 'video/mp4' });
+      await selectFile(video);
+      expect(view.dom.querySelector('.pm-upload-card')).not.toBeNull();
+
+      await selectFile(fileOfSize(1));
+
+      expect(view.dom.querySelector('.pm-upload-card')).not.toBeNull();
+      expect(attachImage.mock.calls[0][0].signal.aborted).toBe(false);
+      expect(lastEmittedValue()).toContain('![](https://cdn.test/photo.png)');
+    });
+
+    it('cancels the uploading card on backspace at its position', async () => {
+      mountEditor();
+      attachImage.mockImplementation(pendingUpload);
+      const file = new File(['x'], 'clip.mp4', { type: 'video/mp4' });
+      await selectFile(file);
+
+      expect(view.dom.querySelector('.pm-upload-card')).not.toBeNull();
+      expect(swallowedByEditor('Backspace')).toBe(true);
+      await flushPromises();
+
+      expect(view.dom.querySelector('.pm-upload-card')).toBeNull();
+      expect(attachImage.mock.calls[0][0].signal.aborted).toBe(true);
+    });
+
+    it('uploads a video through a progress card and inserts its link', async () => {
+      mountEditor();
+      attachImage.mockResolvedValue('https://cdn.test/clip.mp4');
+      const file = new File(['x'], 'clip.mp4', { type: 'video/mp4' });
+
+      await selectFile(file);
+
+      expect(view.dom.querySelector('.pm-upload-card')).toBeNull();
+      // The file name links to the upload; embed previews match on the href,
+      // so the video player still renders from this shape.
+      expect(lastEmittedValue()).toContain(
+        '[clip.mp4](https://cdn.test/clip.mp4)'
+      );
+    });
+
+    it('drops a decoded image insert when the document was reset meanwhile', async () => {
+      mountEditor({ modelValue: 'Hello' });
+      const decodes = [];
+      // eslint-disable-next-line func-names
+      window.Image.prototype.decode = function () {
+        return new Promise(resolve => {
+          decodes.push(resolve);
+        });
+      };
+      try {
+        await selectFile(fileOfSize(1));
+        // The preview is still decoding: nothing is in the doc yet, so an
+        // external reset (e.g. discard draft) is accepted.
+        await wrapper.setProps({ modelValue: 'reset content' });
+        decodes.shift()();
+        await flushPromises();
+
+        expect(view.state.doc.textContent).toBe('reset content');
+        expect(nodeNames()).not.toContain('image');
+        expect(attachImage).not.toHaveBeenCalled();
+      } finally {
+        decodes.forEach(resolve => resolve());
+        delete window.Image.prototype.decode;
+      }
+    });
+
+    it('undo after cancelling an upload does not revive the preview', async () => {
+      mountEditor();
+      attachImage.mockImplementation(pendingUpload);
+      await selectFile(fileOfSize(1));
+      view.dom.querySelector('.pm-upload-overlay .pm-upload-cancel').click();
+      await flushPromises();
+      expect(view.dom.querySelector('.pm-image-wrapper')).toBeNull();
+
+      pressInEditor('z', { ctrlKey: true });
+      await wrapper.vm.$nextTick();
+
+      expect(view.dom.querySelector('.pm-image-wrapper')).toBeNull();
+      expect(nodeNames()).not.toContain('image');
+    });
+
+    it('undo after a completed upload removes the image instead of reviving the preview', async () => {
+      mountEditor();
+      await selectFile(fileOfSize(1));
+      expect(lastEmittedValue()).toContain('![](https://cdn.test/photo.png)');
+
+      pressInEditor('z', { ctrlKey: true });
+      await wrapper.vm.$nextTick();
+      // The whole image goes, not just the swap — a surviving blob preview
+      // would display in the editor while vanishing from the saved markdown.
+      expect(view.dom.querySelector('.pm-image-wrapper')).toBeNull();
+      expect(lastEmittedValue() || '').not.toContain('photo.png');
+
+      pressInEditor('z', { ctrlKey: true, shiftKey: true });
+      await wrapper.vm.$nextTick();
+      expect(lastEmittedValue()).toContain('![](https://cdn.test/photo.png)');
+    });
+
+    it('cancelling a duplicate paste mirror keeps every matching image', async () => {
+      mountEditor({ modelValue: '![](https://web.test/a.png)' });
+      uploadExternalImage.mockImplementation(pendingUpload);
+      view.pasteHTML('<p><img src="https://web.test/a.png"></p>');
+      await new Promise(resolve => {
+        setTimeout(resolve);
+      });
+      await flushPromises();
+      expect(view.dom.querySelectorAll('.pm-image-wrapper')).toHaveLength(2);
+
+      view.dom.querySelector('.pm-upload-overlay .pm-upload-cancel').click();
+      await flushPromises();
+
+      expect(view.dom.querySelectorAll('.pm-image-wrapper')).toHaveLength(2);
+      expect(view.dom.querySelector('.pm-image-uploading')).toBeNull();
+      expect(lastEmittedValue()).toContain('![](https://web.test/a.png)');
+    });
+
+    it('resizes the existing video preview when the sizing param changes', async () => {
+      mountEditor({
+        modelValue:
+          '[clip.mp4](https://cdn.test/clip.mp4?cw_video_width=300px)\n\nafter',
+      });
+      const preview = view.dom.querySelector('.cw-embed-preview');
+      expect(preview.style.width).toBe('300px');
+
+      // Rewrite the hidden source link the way a resize commit (or its undo)
+      // does — the widget survives, so its width must sync in place.
+      const linkType = view.state.schema.marks.link;
+      const end = 1 + view.state.doc.child(0).content.size;
+      const tr = view.state.tr;
+      tr.removeMark(1, end, linkType);
+      tr.addMark(
+        1,
+        end,
+        linkType.create({
+          href: 'https://cdn.test/clip.mp4?cw_video_width=500px',
+        })
+      );
+      view.dispatch(tr);
+
+      expect(view.dom.querySelector('.cw-embed-preview')).toBe(preview);
+      expect(preview.style.width).toBe('500px');
+    });
+
+    it('inserts videos in the order picked even when uploads finish out of order', async () => {
+      mountEditor();
+      const settle = new Map();
+      attachImage.mockImplementation(
+        ({ file }) =>
+          new Promise(resolve => {
+            settle.set(file.name, resolve);
+          })
+      );
+      const first = new File(['x'], 'first.mp4', { type: 'video/mp4' });
+      const second = new File(['x'], 'second.mp4', { type: 'video/mp4' });
+      const input = wrapper.find('input[type="file"]');
+      Object.defineProperty(input.element, 'files', {
+        value: [first, second],
+        configurable: true,
+      });
+      await input.trigger('change');
+      await flushPromises();
+
+      settle.get('second.mp4')('https://cdn.test/second.mp4');
+      await flushPromises();
+      // The finished second file waits for the first pick to land.
+      expect(lastEmittedValue() || '').not.toContain('second.mp4');
+
+      settle.get('first.mp4')('https://cdn.test/first.mp4');
+      await flushPromises();
+
+      const content = lastEmittedValue();
+      expect(content).toContain('[first.mp4](https://cdn.test/first.mp4)');
+      expect(content).toContain('[second.mp4](https://cdn.test/second.mp4)');
+      expect(content.indexOf('first.mp4')).toBeLessThan(
+        content.indexOf('second.mp4')
+      );
     });
   });
 
