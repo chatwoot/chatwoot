@@ -108,7 +108,7 @@ export default {
           @blur="v$.title.$touch"
         />
         <div class="absolute top-[1.75rem] start-0">
-          <Popover align="start">
+          <Popover align="start" disable-mobile-view>
             <NextButton
               type="button"
               variant="ghost"
