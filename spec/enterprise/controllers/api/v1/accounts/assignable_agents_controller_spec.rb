@@ -14,7 +14,7 @@ RSpec.describe 'Assignable Captain API', type: :request do
 
   it 'returns the active connected Captain when requested' do
     get "/api/v1/accounts/#{account.id}/assignable_agents",
-        params: { inbox_ids: [inbox.id], conversation_id: conversation.id, include_ai_assignees: true },
+        params: { inbox_ids: [inbox.id], conversation_id: conversation.display_id, include_ai_assignees: true },
         headers: agent.create_new_auth_token,
         as: :json
 
@@ -36,7 +36,7 @@ RSpec.describe 'Assignable Captain API', type: :request do
     create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: account))
 
     get "/api/v1/accounts/#{account.id}/assignable_agents",
-        params: { inbox_ids: [inbox.id], conversation_id: conversation.id, include_ai_assignees: true },
+        params: { inbox_ids: [inbox.id], conversation_id: conversation.display_id, include_ai_assignees: true },
         headers: agent.create_new_auth_token,
         as: :json
 
@@ -49,7 +49,7 @@ RSpec.describe 'Assignable Captain API', type: :request do
     create(:inbox_member, user: agent, inbox: other_inbox)
 
     get "/api/v1/accounts/#{account.id}/assignable_agents",
-        params: { inbox_ids: [other_inbox.id], conversation_id: other_conversation.id, include_ai_assignees: true },
+        params: { inbox_ids: [other_inbox.id], conversation_id: other_conversation.display_id, include_ai_assignees: true },
         headers: agent.create_new_auth_token,
         as: :json
 
@@ -65,7 +65,7 @@ RSpec.describe 'Assignable Captain API', type: :request do
     conversation.contact.update!(additional_attributes: { 'country_code' => 'CA' })
 
     get "/api/v1/accounts/#{account.id}/assignable_agents",
-        params: { inbox_ids: [inbox.id], conversation_id: conversation.id, include_ai_assignees: true },
+        params: { inbox_ids: [inbox.id], conversation_id: conversation.display_id, include_ai_assignees: true },
         headers: agent.create_new_auth_token,
         as: :json
 
