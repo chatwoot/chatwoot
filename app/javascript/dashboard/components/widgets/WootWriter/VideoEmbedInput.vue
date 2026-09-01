@@ -13,6 +13,10 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  maxUploadSize: {
+    type: Number,
+    default: DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE,
+  },
 });
 
 const emit = defineEmits(['submit', 'upload', 'cancel']);
@@ -152,7 +156,7 @@ const onDrop = event => emitFile(event.dataTransfer?.files[0]);
             showUploadError
               ? t('VIDEO_EMBED.UPLOAD_ERROR')
               : t('VIDEO_EMBED.UPLOAD_HINT', {
-                  size: DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE,
+                  size: props.maxUploadSize,
                 })
           }}
         </span>

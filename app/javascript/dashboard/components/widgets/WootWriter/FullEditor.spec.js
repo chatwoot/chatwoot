@@ -52,7 +52,7 @@ const store = createStore({
     'articles/uploadExternalImage': (_, payload) =>
       uploadExternalImage(payload),
   },
-  getters: { getUISettings: () => ({}) },
+  getters: { getUISettings: () => ({}), 'globalConfig/get': () => ({}) },
 });
 
 let wrapper = null;
@@ -987,6 +987,34 @@ describe('FullEditor', () => {
         expect(doc.child(0).textContent).toBe('Hello');
         expect(doc.child(1).firstChild.type.name).toBe('image');
         expect(doc.child(2).textContent).toBe(' world');
+      } finally {
+        decodes.forEach(resolve => resolve());
+        delete window.Image.prototype.decode;
+      }
+    });
+
+    it('reports a pending upload while a picked image is still decoding', async () => {
+      mountEditor();
+      const decodes = [];
+      // eslint-disable-next-line func-names
+      window.Image.prototype.decode = function () {
+        return new Promise(resolve => {
+          decodes.push(resolve);
+        });
+      };
+      try {
+        await selectFile(fileOfSize(1));
+        // No preview node exists yet — the insert anchor keeps the guard on.
+        expect(view.dom.querySelector('img')).toBeNull();
+        expect(wrapper.vm.hasPendingUploads()).toBe(true);
+
+        decodes.shift()();
+        await flushPromises();
+        // Release the post-upload preload of the final URL too.
+        decodes.shift()?.();
+        await flushPromises();
+
+        expect(wrapper.vm.hasPendingUploads()).toBe(false);
       } finally {
         decodes.forEach(resolve => resolve());
         delete window.Image.prototype.decode;

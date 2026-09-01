@@ -27,11 +27,12 @@ import { embeds as markdownEmbeds } from 'dashboard/helper/markdownEmbeds';
 import { toggleBlockType } from '@chatwoot/prosemirror-schema/src/menu/common';
 import {
   checkFileSizeLimit,
-  DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE,
+  resolveMaximumFileUploadSize,
 } from 'shared/helpers/FileHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import { collapseSelection } from 'dashboard/helper/editorHelper';
 import { useAlert } from 'dashboard/composables';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import SlashCommandMenu from './SlashCommandMenu.vue';
@@ -91,10 +92,12 @@ export default {
   emits: ['blur', 'input', 'update:modelValue', 'keyup', 'focus', 'keydown'],
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
+    const globalConfig = useMapGetter('globalConfig/get');
 
     return {
       uiSettings,
       updateUISettings,
+      globalConfig,
     };
   },
   data() {
@@ -118,6 +121,13 @@ export default {
       videoInputPosition: null,
       acceptedFileTypes: ACCEPTED_FILE_TYPES,
     };
+  },
+  computed: {
+    maximumVideoUploadSize() {
+      return resolveMaximumFileUploadSize(
+        this.globalConfig?.maximumFileUploadSize
+      );
+    },
   },
   watch: {
     modelValue() {
@@ -368,13 +378,13 @@ export default {
           })
         );
       } else if (file.type === 'video/mp4') {
-        if (checkFileSizeLimit(file, DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE)) {
+        if (checkFileSizeLimit(file, this.maximumVideoUploadSize)) {
           return 'videos';
         }
         useAlert(
           this.$t(
             'HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.ERROR_ATTACHMENT_FILE_SIZE',
-            { size: DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE }
+            { size: this.maximumVideoUploadSize }
           )
         );
       } else {
@@ -615,6 +625,7 @@ export default {
       <VideoEmbedInput
         v-if="showVideoInput"
         :position="videoInputPosition"
+        :max-upload-size="maximumVideoUploadSize"
         @submit="insertVideoEmbed"
         @upload="insertVideoFile"
         @cancel="cancelVideoInput"
