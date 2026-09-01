@@ -17,8 +17,9 @@ class MessageTemplates::Template::EmailCollect
   delegate :inbox, to: :message
 
   def ways_to_reach_you_message_params
-    content = I18n.t('conversations.templates.ways_to_reach_you_message_body',
-                     account_name: account.name)
+    content = I18n.with_locale(account.locale) do
+      I18n.t('conversations.templates.ways_to_reach_you_message_body', account_name: account.name)
+    end
 
     {
       account_id: @conversation.account_id,
@@ -29,8 +30,9 @@ class MessageTemplates::Template::EmailCollect
   end
 
   def email_input_box_template_message_params
-    content = I18n.t('conversations.templates.email_input_box_message_body',
-                     account_name: account.name)
+    content = I18n.with_locale(account.locale) do
+      I18n.t('conversations.templates.email_input_box_message_body', account_name: account.name)
+    end
 
     {
       account_id: @conversation.account_id,
