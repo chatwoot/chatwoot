@@ -63,6 +63,45 @@ describe Facebook::SendOnFacebookService do
         expect(message.reload.external_error).to eq('Error validating access token')
       end
 
+      it 'marks missing granular facebook scopes (code 190) as an authorization error' do
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
+        allow(bot).to receive(:deliver).and_raise(
+          Facebook::Messenger::FacebookError.new(
+            'message' => "permission(s) must be granted before impersonating a user's page.",
+            'type' => 'OAuthException',
+            'code' => 190,
+            'fbtrace_id' => 'BLBz/WZt8dN'
+          )
+        )
+        described_class.new(message: message).perform
+
+        expect(facebook_channel.authorization_error_count).to eq(1)
+        expect(message.reload.status).to eq('failed')
+      end
+
+      it 'does not flag a per-recipient OAuthException (code 200) as an authorization error' do
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
+        allow(bot).to receive(:deliver).and_raise(
+          Facebook::Messenger::FacebookError.new('message' => "This person isn't available right now.", 'type' => 'OAuthException', 'code' => 200,
+                                                 'error_subcode' => 1_545_041)
+        )
+        described_class.new(message: message).perform
+
+        expect(facebook_channel.authorization_error_count).to eq(0)
+        expect(message.reload.status).to eq('failed')
+      end
+
+      it 'does not flag unrelated errors as authorization errors' do
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
+        allow(bot).to receive(:deliver).and_raise(
+          Facebook::Messenger::FacebookError.new('message' => 'Temporary server error', 'type' => 'FacebookApiException', 'code' => 2)
+        )
+        described_class.new(message: message).perform
+
+        expect(facebook_channel.authorization_error_count).to eq(0)
+        expect(message.reload.status).to eq('failed')
+      end
+
       it 'if message with attachment is sent from chatwoot and is outgoing' do
         message = build(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
