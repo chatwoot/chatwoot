@@ -69,6 +69,9 @@ const uploadsBlockedMessage = computed(() =>
 );
 
 onBeforeRouteLeave(() => {
+  // Always let the post-create redirect through: blocking it strands a "new"
+  // page whose article already exists, and the next blur would duplicate it.
+  if (isNewArticle.value && props.isUpdating) return true;
   if (!hasPendingUploads()) return true;
   useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
   return false;
