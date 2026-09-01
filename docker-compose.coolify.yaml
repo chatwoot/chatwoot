@@ -1,17 +1,17 @@
-# Chatwoot — Docker Compose para Coolify
-# ======================================
+# Chatwoot — Docker Compose para Coolify (amd64)
+# ==============================================
 # DB Postgres EXTERNA (recurso de Coolify) + Valkey + Rails/Sidekiq en este compose.
 # NO define servicio `postgres`: la DB la provee Coolify (hostname interno).
+# Arquitectura: linux/amd64 — el servidor de Coolify NO es ARM (distinto al local Pi/arm64).
 #
 # En Coolify (build pack "Docker Compose"):
 #   - Compose file path : docker-compose.coolify.yaml
 #   - Ports Exposes     : 3000
-#   - Dominio           : chatwoot.<tudominio>   (el proxy de Coolify/Traefik ya
-#                         escucha en 80/443; el dominio funciona SIN puerto sin
-#                         mapear el 80 aquí — mapearlo chocaría con Traefik)
+#   - Dominio           : chatwoot.<tudominio>
 #   - Variables de entorno: ver lista al final de este archivo / en el chat
 
 x-app: &app
+  platform: linux/amd64
   image: chatwoot/chatwoot:v4.17.1
   restart: always
   environment:
@@ -68,6 +68,7 @@ services:
       - coolify
 
   valkey:
+    platform: linux/amd64
     image: valkey/valkey:8-alpine
     restart: always
     command: ['valkey-server', '--requirepass', '${REDIS_PASSWORD}']

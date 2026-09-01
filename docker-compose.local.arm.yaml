@@ -1,0 +1,75 @@
+# Chatwoot local dev stack — arm64 (Pi 5)
+# Levantar: docker compose -f docker-compose.local.arm.yaml up -d
+# Arquitectura: linux/arm64 — SOLO para la Raspberry Pi 5 (NO usar en Coolify).
+# Usa la imagen oficial pre-built (multi-arch, incluye arm64) en vez de
+# buildear desde fuente, para arranque rápido en la Pi.
+# Valkey reemplaza a Redis (fork drop-in compatible con el protocolo RESP).
+# Mailpit reemplaza a Mailhog (mailhog no tiene build arm64).
+
+x-app: &base
+  platform: linux/arm64
+  image: chatwoot/chatwoot:v4.17.1
+  env_file: .env
+  restart: always
+
+services:
+  rails:
+    <<: *base
+    depends_on:
+      - postgres
+      - valkey
+    ports:
+      - '0.0.0.0:3000:3000'
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+
+  sidekiq:
+    <<: *base
+    depends_on:
+      - postgres
+      - valkey
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+
+  postgres:
+    platform: linux/arm64
+    image: pgvector/pgvector:pg16
+    restart: always
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=5f440b4d789c1c3057a199c59a462d210fc4dbadc695c6f5
+
+  valkey:
+    platform: linux/arm64
+    image: valkey/valkey:8-alpine
+    restart: always
+    command: ["sh", "-c", "valkey-server --requirepass \"$$REDIS_PASSWORD\""]
+    env_file: .env
+    volumes:
+      - valkey_data:/data
+    ports:
+      - '127.0.0.1:6379:6379'
+
+  mailpit:
+    platform: linux/arm64
+    image: axllent/mailpit:latest
+    restart: always
+    ports:
+      - '127.0.0.1:1025:1025'
+      - '127.0.0.1:8025:8025'
+
+volumes:
+  postgres_data:
+  valkey_data:
