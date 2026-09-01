@@ -273,7 +273,7 @@ describe('useDetectedChannels', () => {
       );
     });
 
-    it('keeps disabled TikTok out of detected channels on self-hosted installations', () => {
+    it('shows configured TikTok on self-hosted installations even when the Cloud feature is disabled', () => {
       const { displayedChannels, remainingChannels } = mountComposable({
         features: { channel_tiktok: false },
         isOnChatwootCloud: false,
@@ -282,12 +282,12 @@ describe('useDetectedChannels', () => {
         },
       });
 
-      expect(
-        displayedChannels.value.map(channel => channel.type)
-      ).not.toContain('tiktok');
-      expect(remainingChannels.value.map(channel => channel.type)).toContain(
+      expect(displayedChannels.value.map(channel => channel.type)).toContain(
         'tiktok'
       );
+      expect(
+        remainingChannels.value.map(channel => channel.type)
+      ).not.toContain('tiktok');
     });
   });
 
