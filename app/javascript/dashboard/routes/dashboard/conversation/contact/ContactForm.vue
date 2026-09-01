@@ -67,6 +67,7 @@ export default {
         { key: 'github', prefixURL: 'https://github.com/' },
         { key: 'telegram', prefixURL: 'https://t.me/' },
         { key: 'tiktok', prefixURL: 'https://tiktok.com/@' },
+        { key: 'instagram', prefixURL: 'https://www.instagram.com/' },
       ],
     };
   },
