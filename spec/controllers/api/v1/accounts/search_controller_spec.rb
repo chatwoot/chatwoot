@@ -103,6 +103,21 @@ RSpec.describe 'Search', type: :request do
         expect(contact_result).not_to have_key(:created_at)
       end
 
+      it 'returns thumbnail in contact search results' do
+        contact = create(:contact, :with_avatar, email: 'avatar@test.com', account: account)
+
+        get "/api/v1/accounts/#{account.id}/search/contacts",
+            headers: agent.create_new_auth_token,
+            params: { q: 'avatar' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+
+        contact_result = response_data[:payload][:contacts].first
+        expect(contact_result[:thumbnail]).to eq(contact.avatar_url)
+      end
+
       context 'with advanced_search feature enabled', :opensearch do
         before do
           account.enable_features!('advanced_search')
