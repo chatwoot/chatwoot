@@ -536,6 +536,50 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
       end
     end
 
+    context 'when content contains HTML tags on their own lines (HTML block nodes)' do
+      %w[
+        Channel::Whatsapp
+        Channel::Telegram
+        Channel::Instagram
+        Channel::FacebookPage
+        Channel::Line
+        Channel::Sms
+        Channel::TwitterProfile
+      ].each do |channel_type|
+        context "when channel is #{channel_type}" do
+          it 'does not return an empty string' do
+            content = "<a>\n<b></b></a>asdf"
+            result = described_class.new(content, channel_type).render
+            expect(result).not_to be_empty
+          end
+
+          it 'strips HTML block tags and preserves surrounding text' do
+            content = "<a>\n<b></b></a>asdf"
+            result = described_class.new(content, channel_type).render
+            expect(result).to include('asdf')
+          end
+
+          it 'strips inline HTML tags within paragraph text' do
+            content = 'hello <strong>world</strong>'
+            result = described_class.new(content, channel_type).render
+            expect(result).to include('hello')
+            expect(result).to include('world')
+            expect(result).not_to include('<strong>')
+          end
+        end
+      end
+
+      context 'when channel is Channel::TwilioSms with WhatsApp' do
+        it 'does not return an empty string and preserves surrounding text' do
+          content = "<a>\n<b></b></a>asdf"
+          channel = instance_double(Channel::TwilioSms, whatsapp?: true)
+          result = described_class.new(content, 'Channel::TwilioSms', channel).render
+          expect(result).not_to be_empty
+          expect(result).to include('asdf')
+        end
+      end
+    end
+
     # Shared test for all text-based channels that preserve multiple newlines
     # This tests the real-world scenario where frontend sends newlines with whitespace between them
     context 'when content has multiple newlines with whitespace between them' do
