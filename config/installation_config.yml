@@ -210,6 +210,10 @@
   description: 'The FireCrawl API key for the Captain AI service'
   locked: false
   type: secret
+- name: CAPTAIN_FIRECRAWL_BASE_URL
+  display_title: 'FireCrawl API Base URL (optional)'
+  description: 'The FireCrawl API base URL for the Captain AI service. Default: https://api.firecrawl.dev'
+  locked: false
 - name: CAPTAIN_CLOUD_PLAN_LIMITS
   display_title: 'Captain Cloud Plan Limits'
   description: 'The limits for the Captain AI service for different plans'

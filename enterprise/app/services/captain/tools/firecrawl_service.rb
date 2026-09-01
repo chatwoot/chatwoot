@@ -1,5 +1,4 @@
 class Captain::Tools::FirecrawlService
-  BASE_URL = 'https://api.firecrawl.dev/v2'.freeze
   FIRECRAWL_EXCLUDE_TAGS = %w[iframe .sidebar .cookie-banner [role=navigation] [role=banner] [role=contentinfo]].freeze
 
   def self.configured?
@@ -14,7 +13,7 @@ class Captain::Tools::FirecrawlService
 
   def perform(url, webhook_url, crawl_limit = 10)
     HTTParty.post(
-      "#{BASE_URL}/crawl",
+      "#{base_url}/crawl",
       body: crawl_payload(url, webhook_url, crawl_limit),
       headers: headers
     )
@@ -24,7 +23,7 @@ class Captain::Tools::FirecrawlService
 
   def scrape(url)
     HTTParty.post(
-      "#{BASE_URL}/scrape",
+      "#{base_url}/scrape",
       body: scrape_payload(url),
       headers: headers
     )
@@ -61,5 +60,9 @@ class Captain::Tools::FirecrawlService
       'Authorization' => "Bearer #{@api_key}",
       'Content-Type' => 'application/json'
     }
+  end
+
+  def base_url
+    Firecrawl::Configuration.v2_base_url
   end
 end
