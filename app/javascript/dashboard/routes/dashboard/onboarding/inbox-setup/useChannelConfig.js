@@ -32,15 +32,16 @@ export function useChannelConfig() {
       !isMetaInboxCreationDisabled.value &&
       Boolean(installationConfig.instagramAppId) &&
       isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_INSTAGRAM),
-    tiktok: () =>
-      Boolean(installationConfig.tiktokAppId) &&
-      (!isOnChatwootCloud.value ||
-        isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_TIKTOK)),
+    tiktok: () => Boolean(installationConfig.tiktokAppId),
     gmail: () => Boolean(installationConfig.googleOAuthClientId),
     outlook: () => Boolean(globalConfig.value.azureAppId),
   };
 
   const isConfigured = type => CHANNEL_CONFIGURED[type]?.() ?? true;
+  const isEnabled = type =>
+    type !== 'tiktok' ||
+    !isOnChatwootCloud.value ||
+    isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_TIKTOK);
 
-  return { isConfigured };
+  return { isConfigured, isEnabled };
 }
