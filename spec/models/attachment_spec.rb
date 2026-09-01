@@ -331,4 +331,91 @@ RSpec.describe Attachment do
       expect(attachment.errors[:file]).to include('size is too big')
     end
   end
+
+  describe 'inbound audio transcoding (issue #13210)' do
+    let(:ogg_io) { Rails.root.join('spec/assets/sample.ogg').open }
+    let(:mp3_io) { Rails.root.join('spec/assets/sample.mp3').open }
+
+    context 'when an incoming OGG voice note is attached via attachments.new(file: { io: })' do
+      it 'stores it transcoded to mp3' do
+        attachment = message.attachments.new(
+          account_id: message.account_id,
+          file_type: :audio,
+          file: { io: ogg_io, filename: 'voice.ogg', content_type: 'audio/ogg' }
+        )
+        attachment.save!
+
+        expect(attachment.file.content_type).to eq('audio/mpeg')
+        expect(attachment.extension).to eq('mp3')
+      end
+    end
+
+    context 'when an incoming OGG voice note is attached via file.attach(io:)' do
+      it 'stores it transcoded to mp3' do
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :audio)
+        attachment.file.attach(io: ogg_io, filename: 'voice.ogg', content_type: 'audio/ogg')
+        attachment.save!
+
+        expect(attachment.file.content_type).to eq('audio/mpeg')
+      end
+    end
+
+    context 'when an incoming OGG is attached via a signed blob id (direct upload / API)' do
+      it 'transcodes it to mp3 and replaces the original blob' do
+        source_blob = ActiveStorage::Blob.create_and_upload!(io: ogg_io, filename: 'voice.ogg', content_type: 'audio/ogg')
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :audio, file: source_blob.signed_id)
+        attachment.save!
+
+        expect(attachment.file.content_type).to eq('audio/mpeg')
+        # the direct-upload source blob is swapped out (and purged) rather than stored as-is
+        expect(attachment.file.blob.id).not_to eq(source_blob.id)
+      end
+    end
+
+    context 'when the incoming audio is already mp3' do
+      it 'stores it unchanged' do
+        attachment = message.attachments.new(
+          account_id: message.account_id,
+          file_type: :audio,
+          file: { io: mp3_io, filename: 'voice.mp3', content_type: 'audio/mpeg' }
+        )
+        attachment.save!
+
+        expect(attachment.file.content_type).to eq('audio/mpeg')
+        expect(attachment.file.filename.to_s).to eq('voice.mp3')
+      end
+    end
+
+    context 'when the audio is outgoing' do
+      let(:outgoing_message) { create(:message, message_type: :outgoing) }
+
+      it 'is left untouched (inbound-only guard)' do
+        attachment = outgoing_message.attachments.new(
+          account_id: outgoing_message.account_id,
+          file_type: :audio,
+          file: { io: ogg_io, filename: 'voice.ogg', content_type: 'audio/ogg' }
+        )
+        attachment.save!
+
+        expect(attachment.file.content_type).to eq('audio/ogg')
+      end
+    end
+
+    context 'when transcoding fails' do
+      it 'keeps the original file and still saves the message' do
+        allow(Audio::TranscoderService).to receive(:new).and_return(
+          instance_double(Audio::TranscoderService, perform: { transcoded: false })
+        )
+
+        attachment = message.attachments.new(
+          account_id: message.account_id,
+          file_type: :audio,
+          file: { io: ogg_io, filename: 'voice.ogg', content_type: 'audio/ogg' }
+        )
+        attachment.save!
+
+        expect(attachment.file.content_type).to eq('audio/ogg')
+      end
+    end
+  end
 end

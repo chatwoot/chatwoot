@@ -964,6 +964,8 @@ GEM
     ssrf_filter (1.5.0)
     stackprof (0.2.25)
     statsd-ruby (1.5.0)
+    streamio-ffmpeg (3.0.2)
+      multi_json (~> 1.8)
     stripe (18.0.1)
     telephone_number (1.4.20)
     test-prof (1.6.3)
@@ -1190,6 +1192,7 @@ DEPENDENCIES
   squasher
   ssrf_filter (~> 1.5)
   stackprof
+  streamio-ffmpeg (~> 3.0)
   stripe (~> 18.0)
   telephone_number
   test-prof

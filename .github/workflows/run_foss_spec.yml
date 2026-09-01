@@ -123,6 +123,9 @@ jobs:
           rm -rf enterprise
           rm -rf spec/enterprise
 
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ffmpeg
+
       - name: Create database
         run: bundle exec rake db:create
 
