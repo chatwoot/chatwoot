@@ -68,25 +68,14 @@ const applyColumnWidths = (doc, widths) => {
   table.style.width = `${sized.reduce((sum, width) => sum + width, 0)}px`;
 };
 
-// Match the portal renderer: solo video links become players, and media
-// resized in the editor (cw_image_width / cw_video_width) keeps its size.
+// Match the portal renderer: solo video links become players, sized by their
+// cw_video_width param. (Images are sized by MessageFormatter itself.)
 const videoEmbeds = embeds.filter(embed => embed.hideSource);
-const DEFAULT_VIDEO_WIDTH = '640px';
+const DEFAULT_VIDEO_WIDTH = 640;
 
-const savedMediaWidth = (src, key) => {
-  const width = Number(
-    (src || '').match(new RegExp(`[?&]${key}=(\\d+)px(?:[&#]|$)`))?.[1]
-  );
-  return width >= 1 && width <= 2000 ? `${width}px` : null;
-};
-
-const applyImageSizes = doc => {
-  doc.body.querySelectorAll('img').forEach(image => {
-    const width = savedMediaWidth(image.getAttribute('src'), 'cw_image_width');
-    if (width) {
-      image.style.cssText = `width: ${width}; max-width: 100%; height: auto;`;
-    }
-  });
+const savedVideoWidth = href => {
+  const width = Number(href.match(/[?&]cw_video_width=(\d+)px(?:[&#]|$)/)?.[1]);
+  return width >= 1 && width <= 2000 ? width : null;
 };
 
 const applyVideoPreviews = doc => {
@@ -100,12 +89,10 @@ const applyVideoPreviews = doc => {
       controls: true,
       preload: 'metadata',
       src: href,
+      width: savedVideoWidth(href) || DEFAULT_VIDEO_WIDTH,
+      className: 'max-w-full h-auto',
     });
-    video.style.cssText = 'width: 100%; height: auto;';
-    const wrapper = doc.createElement('div');
-    wrapper.style.cssText = `width: ${savedMediaWidth(href, 'cw_video_width') || DEFAULT_VIDEO_WIDTH}; max-width: 100%;`;
-    wrapper.append(video);
-    paragraph.replaceWith(wrapper);
+    paragraph.replaceWith(video);
   });
 };
 
@@ -115,7 +102,6 @@ const renderMarkdown = markdown => {
   const doc = new DOMParser().parseFromString(html, 'text/html');
   const match = markdown.match(COLWIDTHS_RE);
   if (match) applyColumnWidths(doc, match[1].split(',').map(Number));
-  applyImageSizes(doc);
   applyVideoPreviews(doc);
   return doc.body.innerHTML;
 };
