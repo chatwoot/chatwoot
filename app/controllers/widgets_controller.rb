@@ -80,9 +80,32 @@ class WidgetsController < ActionController::Base
     if @web_widget.allowed_domains.blank? || embedded_from_non_web_origin?
       response.headers.delete('X-Frame-Options')
     else
-      domains = @web_widget.allowed_domains.split(',').map(&:strip).join(' ')
-      response.headers['Content-Security-Policy'] = "frame-ancestors #{domains}"
+      response.headers['Content-Security-Policy'] = "frame-ancestors #{embed_policy.frame_ancestors_source}"
     end
+
+    allow_cross_origin_isolation if @web_widget.allow_cross_origin_isolation?
+  end
+
+  # When an inbox opts into cross-origin isolation, emit the headers that let the
+  # widget load inside a cross-origin-isolated parent page: COEP/CORP, plus a CORS
+  # allow-origin echoed back for any origin already trusted via allowed_domains.
+  def allow_cross_origin_isolation
+    response.headers['Cross-Origin-Embedder-Policy'] = 'credentialless'
+    response.headers['Cross-Origin-Resource-Policy'] = 'cross-origin'
+    echo_allowed_embed_origin
+  end
+
+  # Echo the request Origin for CORS only when the embed policy trusts it.
+  def echo_allowed_embed_origin
+    origin = request.headers['Origin']
+    return if origin.blank? || !embed_policy.allows_origin?(origin, request_scheme: request.scheme)
+
+    response.headers['Access-Control-Allow-Origin'] = origin
+    response.headers['Vary'] = [response.headers['Vary'], 'Origin'].compact_blank.join(', ')
+  end
+
+  def embed_policy
+    @embed_policy ||= ::Widget::EmbedPolicy.new(@web_widget.allowed_domains)
   end
 
   # Mobile WebViews (iOS/Android) load content from file:// or null origins,

@@ -985,6 +985,10 @@
         "LABEL": "Enable widget in mobile apps",
         "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
       },
+      "ALLOW_CROSS_ORIGIN_ISOLATION": {
+        "LABEL": "Enable cross-origin isolation",
+        "SUBTITLE": "Check this if you embed the widget inside a cross-origin-isolated page (one that sets Cross-Origin-Embedder-Policy). Adds the COEP/CORP headers the browser needs to load the widget there, and shares it with the domains listed above."
+      },
       "IDENTITY_VALIDATION": {
         "TITLE": "Identity Validation",
         "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",

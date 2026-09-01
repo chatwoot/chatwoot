@@ -17,6 +17,14 @@ import TextArea from 'next/textarea/TextArea.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
 import WhatsappBusinessManagementToken from './WhatsappBusinessManagementToken.vue';
 
+// Widget feature flags surfaced as toggles below, paired with their local data
+// field. Single source of truth so setDefaults() and saveWidgetFeatureFlags()
+// stay in sync as flags are added.
+const WIDGET_FEATURE_TOGGLES = [
+  { flag: 'allow_mobile_webview', field: 'allowMobileWebview' },
+  { flag: 'allow_cross_origin_isolation', field: 'allowCrossOriginIsolation' },
+];
+
 export default {
   components: {
     SettingsFieldSection,
@@ -43,12 +51,14 @@ export default {
     return {
       hmacMandatory: false,
       allowMobileWebview: false,
+      allowCrossOriginIsolation: false,
       whatsAppInboxAPIKey: '',
       isSyncingTemplates: false,
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
       isSettingDefaults: false,
       isReconfiguring: false,
+      featureFlagSaveTimer: null,
     };
   },
   validations: {
@@ -79,16 +89,28 @@ export default {
     },
   },
   watch: {
-    inbox() {
+    inbox(newInbox, oldInbox) {
+      // Leaving the inbox: flush any queued save to the inbox we're leaving so an
+      // unsaved toggle isn't silently discarded. A same-inbox refresh (e.g. after
+      // saving Allowed Domains) keeps the timer running.
+      if (newInbox?.id !== oldInbox?.id) {
+        this.flushWidgetFeatureFlagsSave(oldInbox);
+      }
       this.setDefaults();
     },
     allowMobileWebview() {
-      if (!this.isSettingDefaults) this.handleMobileWebviewFlag();
+      if (!this.isSettingDefaults) this.scheduleWidgetFeatureFlagsSave();
+    },
+    allowCrossOriginIsolation() {
+      if (!this.isSettingDefaults) this.scheduleWidgetFeatureFlagsSave();
     },
     hmacMandatory() {
       if (!this.isSettingDefaults && this.isAWebWidgetInbox)
         this.handleHmacFlag();
     },
+  },
+  beforeUnmount() {
+    this.flushWidgetFeatureFlagsSave(this.inbox);
   },
   mounted() {
     this.setDefaults();
@@ -97,9 +119,15 @@ export default {
     setDefaults() {
       this.isSettingDefaults = true;
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
-      this.allowMobileWebview = (
-        this.inbox.selected_feature_flags || []
-      ).includes('allow_mobile_webview');
+      // Don't overwrite the widget toggles while a save is still pending, or an
+      // unrelated same-inbox refresh (e.g. updating Allowed Domains) would revert
+      // the not-yet-saved toggle before the debounced save reads it.
+      if (!this.featureFlagSaveTimer) {
+        const flags = this.inbox.selected_feature_flags || [];
+        WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
+          this[field] = flags.includes(flag);
+        });
+      }
       this.allowedDomains = this.inbox.allowed_domains || '';
       this.$nextTick(() => {
         this.isSettingDefaults = false;
@@ -123,21 +151,39 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
-    async handleMobileWebviewFlag() {
-      try {
-        const currentFlags = this.inbox.selected_feature_flags || [];
-        const selectedFlags = this.allowMobileWebview
-          ? [...currentFlags, 'allow_mobile_webview']
-          : currentFlags.filter(f => f !== 'allow_mobile_webview');
+    scheduleWidgetFeatureFlagsSave() {
+      // Debounce so flipping several toggles in quick succession sends one PATCH
+      // with the final state (no racing/reordered requests). Cleared on inbox
+      // switch and unmount so a pending save can't target the wrong inbox.
+      clearTimeout(this.featureFlagSaveTimer);
+      this.featureFlagSaveTimer = setTimeout(this.saveWidgetFeatureFlags, 500);
+    },
+    // Send a queued save immediately (e.g. before leaving the inbox) so an
+    // unsaved toggle isn't discarded.
+    flushWidgetFeatureFlagsSave(targetInbox) {
+      if (!this.featureFlagSaveTimer) return;
+      clearTimeout(this.featureFlagSaveTimer);
+      this.saveWidgetFeatureFlags(targetInbox);
+    },
+    async saveWidgetFeatureFlags(targetInbox = this.inbox) {
+      // The save is running now, so nothing is queued anymore. Build from the
+      // local toggle state (read synchronously, before any setDefaults resync),
+      // preserving non-widget flags on the target inbox, and write back to it.
+      this.featureFlagSaveTimer = null;
+      const managedFlags = WIDGET_FEATURE_TOGGLES.map(t => t.flag);
+      const selectedFlags = (targetInbox.selected_feature_flags || []).filter(
+        f => !managedFlags.includes(f)
+      );
+      WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
+        if (this[field]) selectedFlags.push(flag);
+      });
 
-        const payload = {
-          id: this.inbox.id,
+      try {
+        await this.$store.dispatch('inboxes/updateInbox', {
+          id: targetInbox.id,
           formData: false,
-          channel: {
-            selected_feature_flags: selectedFlags,
-          },
-        };
-        await this.$store.dispatch('inboxes/updateInbox', payload);
+          channel: { selected_feature_flags: selectedFlags },
+        });
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
@@ -285,6 +331,15 @@ export default {
         :header="$t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MOBILE_WEBVIEW.LABEL')"
         :description="
           $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MOBILE_WEBVIEW.SUBTITLE')
+        "
+      />
+      <SettingsToggleSection
+        v-model="allowCrossOriginIsolation"
+        :header="
+          $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_CROSS_ORIGIN_ISOLATION.LABEL')
+        "
+        :description="
+          $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_CROSS_ORIGIN_ISOLATION.SUBTITLE')
         "
       />
     </div>
