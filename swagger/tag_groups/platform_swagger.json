@@ -870,6 +870,61 @@
           }
         }
       },
+      "reusable_attachment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the reusable attachment"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the reusable attachment"
+          },
+          "file_type": {
+            "type": "string",
+            "enum": [
+              "image",
+              "audio",
+              "video",
+              "file"
+            ],
+            "description": "Type of the attached file, detected from its content type"
+          },
+          "extension": {
+            "type": "string",
+            "description": "File extension of the attached file"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the reusable attachment"
+          },
+          "file_url": {
+            "type": "string",
+            "description": "URL of the attached file"
+          },
+          "download_url": {
+            "type": "string",
+            "description": "Direct download URL of the attached file"
+          },
+          "thumb_url": {
+            "type": "string",
+            "description": "Thumbnail URL, available only for image attachments"
+          },
+          "file_size": {
+            "type": "integer",
+            "description": "Size of the attached file in bytes"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The date and time when the reusable attachment was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "The date and time when the reusable attachment was updated"
+          }
+        }
+      },
       "custom_attribute": {
         "type": "object",
         "properties": {
@@ -3946,6 +4001,17 @@
             "type": "integer",
             "description": "The campaign id to which the message belongs",
             "example": 1
+          },
+          "attachment_ids": {
+            "type": "array",
+            "description": "IDs of reusable attachments to attach to the message, reusing the already uploaded files",
+            "items": {
+              "type": "integer"
+            },
+            "example": [
+              1,
+              2
+            ]
           },
           "template_params": {
             "type": "object",
@@ -7684,6 +7750,7 @@
         "Agents",
         "Audit Logs",
         "Canned Responses",
+        "Reusable Attachments",
         "Contacts",
         "Contact Labels",
         "Conversation Assignments",

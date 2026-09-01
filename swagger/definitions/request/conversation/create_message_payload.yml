@@ -28,6 +28,12 @@ properties:
     type: integer
     description: The campaign id to which the message belongs
     example: 1
+  attachment_ids:
+    type: array
+    description: IDs of reusable attachments to attach to the message, reusing the already uploaded files
+    items:
+      type: integer
+    example: [1, 2]
   template_params:
     type: object
     description: WhatsApp template parameters for sending structured messages
