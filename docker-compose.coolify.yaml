@@ -1,0 +1,87 @@
+# Chatwoot — Docker Compose para Coolify
+# ======================================
+# DB Postgres EXTERNA (recurso de Coolify) + Valkey + Rails/Sidekiq en este compose.
+# NO define servicio `postgres`: la DB la provee Coolify (hostname interno).
+#
+# En Coolify (build pack "Docker Compose"):
+#   - Compose file path : docker-compose.coolify.yaml
+#   - Ports Exposes     : 3000
+#   - Dominio           : chatwoot.<tudominio>   (el proxy de Coolify/Traefik ya
+#                         escucha en 80/443; el dominio funciona SIN puerto sin
+#                         mapear el 80 aquí — mapearlo chocaría con Traefik)
+#   - Variables de entorno: ver lista al final de este archivo / en el chat
+
+x-app: &app
+  image: chatwoot/chatwoot:v4.17.1
+  restart: always
+  environment:
+    NODE_ENV: production
+    RAILS_ENV: production
+    INSTALLATION_ENV: docker
+    # --- Base de datos (externa, recurso Postgres de Coolify) ---
+    POSTGRES_HOST: ${POSTGRES_HOST:-vaajzbnxwx1iyatwvdq40n6t}
+    POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+    POSTGRES_DATABASE: ${POSTGRES_DATABASE:-chatwoot}
+    POSTGRES_USERNAME: ${POSTGRES_USERNAME:-postgres}
+    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    # --- Redis (Valkey) ---
+    REDIS_URL: redis://:${REDIS_PASSWORD}@valkey:6379/0
+    # --- App ---
+    SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    FRONTEND_URL: ${FRONTEND_URL}
+    ENABLE_ACCOUNT_SIGNUP: ${ENABLE_ACCOUNT_SIGNUP:-false}
+    FORCE_SSL: ${FORCE_SSL:-true}
+    # --- Active Record Encryption (MFA/2FA) ---
+    ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: ${ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY}
+    ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: ${ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY}
+    ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: ${ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT}
+    # --- SMTP (opcional; dejar vacío si aún no hay SMTP configurado) ---
+    SMTP_ADDRESS: ${SMTP_ADDRESS:-}
+    SMTP_PORT: ${SMTP_PORT:-587}
+    SMTP_USERNAME: ${SMTP_USERNAME:-}
+    SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+    SMTP_AUTHENTICATION: ${SMTP_AUTHENTICATION:-plain}
+    SMTP_ENABLE_STARTTLS_AUTO: ${SMTP_ENABLE_STARTTLS_AUTO:-true}
+    SMTP_DOMAIN: ${SMTP_DOMAIN:-}
+    MAILER_SENDER_EMAIL: ${MAILER_SENDER_EMAIL:-}
+  volumes:
+    - chatwoot_storage:/app/storage
+
+services:
+  rails:
+    <<: *app
+    depends_on:
+      - valkey
+    expose:
+      - '3000'
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    networks:
+      - coolify
+
+  sidekiq:
+    <<: *app
+    depends_on:
+      - valkey
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    networks:
+      - coolify
+
+  valkey:
+    image: valkey/valkey:8-alpine
+    restart: always
+    command: ['valkey-server', '--requirepass', '${REDIS_PASSWORD}']
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    volumes:
+      - valkey_data:/data
+    networks:
+      - coolify
+
+volumes:
+  chatwoot_storage:
+  valkey_data:
+
+networks:
+  coolify:
+    external: true
