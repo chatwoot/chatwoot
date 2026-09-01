@@ -144,6 +144,9 @@ onMounted(() => {
         animation="200"
         ghost-class="ghost"
         handle=".drag-handle"
+        :delay="200"
+        delay-on-touch-only
+        :touch-start-threshold="5"
         item-key="name"
         class="flex flex-col gap-3"
         @start="dragging = true"
