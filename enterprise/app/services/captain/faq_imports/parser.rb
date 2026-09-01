@@ -20,6 +20,7 @@ class Captain::FaqImports::Parser
     rows = build_rows(table, headers)
     mark_csv_duplicates!(rows)
     mark_existing_faqs!(rows)
+    remove_temporary_fields!(rows)
     rows
   rescue CSV::MalformedCSVError => e
     raise InvalidCsvError, "The CSV could not be read: #{e.message}"
@@ -114,6 +115,10 @@ class Captain::FaqImports::Parser
       row['existing_answer'] = existing.answer
       row['resolution'] = Captain::FaqImport::RESOLUTIONS[:skip]
     end
+  end
+
+  def remove_temporary_fields!(rows)
+    rows.each { |row| row.delete('normalized_answer') }
   end
 
   def existing_faqs_by_question

@@ -19,8 +19,16 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
   # A reply-chase rule whose action is customer-facing, so a replay is visible as a duplicate message.
   let(:follow_up_rule) do
     create(:automation_rule, account: account, event_name: 'message_created', execution_delay: 60,
-                             conditions: [{ 'values' => ['outgoing'], 'attribute_key' => 'message_type',
-                                            'query_operator' => nil, 'filter_operator' => 'equal_to' }],
+                             conditions: [
+                               { 'values' => ['outgoing'], 'attribute_key' => 'message_type',
+                                 'query_operator' => 'and', 'filter_operator' => 'equal_to' },
+                               { 'values' => [false], 'attribute_key' => 'private_note',
+                                 'query_operator' => 'and', 'filter_operator' => 'equal_to' },
+                               { 'values' => [conversation.inbox_id], 'attribute_key' => 'inbox_id',
+                                 'query_operator' => 'and', 'filter_operator' => 'equal_to' },
+                               { 'values' => ['pending'], 'attribute_key' => 'status',
+                                 'query_operator' => nil, 'filter_operator' => 'equal_to' }
+                             ],
                              actions: [{ 'action_name' => 'send_message', 'action_params' => ['Just checking in'] }])
   end
   let(:agent_reply) { create(:message, conversation: conversation, account: account, message_type: :outgoing) }
@@ -72,14 +80,7 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
   end
 
   it 'skips with conditions_changed when the conversation drifts but the episode is intact' do
-    # A message_created (reply-chase) rule whose extra condition is the conversation status.
-    message_rule = create(:automation_rule, account: account, event_name: 'message_created', execution_delay: 60,
-                                            conditions: [{ 'values' => ['pending'], 'attribute_key' => 'status',
-                                                           'query_operator' => nil, 'filter_operator' => 'equal_to' }],
-                                            actions: [{ 'action_name' => 'add_label', 'action_params' => ['stale'] }])
-    agent_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
-    AutomationRulePendingExecution.schedule(rule: message_rule, conversation: conversation, message: agent_reply)
-    row = AutomationRulePendingExecution.last.tap { |r| r.update!(due_at: 1.minute.ago) }
+    row = follow_up_execution
 
     # Status change fails the condition but leaves the reply_chase episode (max incoming id) intact.
     conversation.update!(status: :open)
@@ -87,6 +88,25 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
 
     expect(row.reload).to be_skipped
     expect(row.skip_reason).to eq('conditions_changed')
+    expect(conversation.messages.outgoing.where(content: 'Just checking in')).to be_empty
+  end
+
+  it 'skips when any excluded label is present at execution time' do
+    conditions = follow_up_rule.conditions.deep_dup
+    conditions.last['query_operator'] = 'and'
+    conditions << {
+      'values' => ['feature'], 'attribute_key' => 'labels', 'query_operator' => nil,
+      'filter_operator' => 'not_equal_to'
+    }
+    follow_up_rule.update!(conditions: conditions)
+    row = follow_up_execution
+    conversation.add_labels(%w[bug feature])
+
+    job.perform(row)
+
+    expect(row.reload).to be_skipped
+    expect(row.skip_reason).to eq('conditions_changed')
+    expect(conversation.messages.outgoing.where(content: 'Just checking in')).to be_empty
   end
 
   it 'skips with expired when the row is past the due window' do

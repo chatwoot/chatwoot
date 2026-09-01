@@ -15,6 +15,7 @@ RSpec.describe Captain::FaqImports::Parser do
       'answer' => "On the first\nfloor",
       'state' => 'valid'
     )
+    expect(rows.first).not_to have_key('normalized_answer')
   end
 
   it 'accepts a UTF-8 byte order mark' do

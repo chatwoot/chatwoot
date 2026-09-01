@@ -15,7 +15,7 @@ class Captain::Llm::UpdateEmbeddingJob < ApplicationJob
     embedding = Captain::Llm::EmbeddingService.new(account_id: account_id).get_embedding(content)
     record.update!(embedding: embedding)
     faq_import&.mark_embedding!(record.id, success: true)
-  rescue StandardError => e
+  rescue Captain::Llm::EmbeddingService::EmbeddingsError => e
     raise if faq_import.blank?
 
     raise ImportEmbeddingError, e.message

@@ -87,4 +87,16 @@ RSpec.describe Captain::Llm::UpdateEmbeddingJob, type: :job do
       embedding_failed_count: 1
     )
   end
+
+  it 'does not hide unexpected failures while embedding an imported FAQ' do
+    embedding_service = instance_double(Captain::Llm::EmbeddingService)
+    allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(embedding_service)
+    allow(embedding_service).to receive(:get_embedding).and_raise(ActiveRecord::ConnectionNotEstablished, 'database unavailable')
+
+    expect do
+      described_class.perform_now(response.id, 'Question: Answer', faq_import)
+    end.to raise_error(ActiveRecord::ConnectionNotEstablished, 'database unavailable')
+
+    expect(faq_import.reload).to have_attributes(status: 'preparing', embedding_ready_count: 0, embedding_failed_count: 0)
+  end
 end

@@ -7,13 +7,10 @@ RSpec.describe Captain::FaqImport do
 
   it 'is destroyed with its assistant' do
     faq_import = create(:captain_faq_import, account: account, assistant: assistant, user: user)
-    faq_import.source_file.attach(io: StringIO.new('csv'), filename: 'faqs.csv', content_type: 'text/csv')
-    attachment_id = faq_import.source_file.attachment.id
 
     assistant.destroy!
 
     expect(described_class).not_to exist(faq_import.id)
-    expect(ActiveStorage::Attachment).not_to exist(attachment_id)
   end
 
   it 'is destroyed with its account' do

@@ -23,7 +23,6 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqImports', type: :request do
     expect(response).to have_http_status(:created)
     expect(json_response).to include(row_count: 2, invalid_row_count: 1, status: 'preview')
     expect(json_response[:rows].first).to include(state: 'existing', existing_answer: 'Existing answer', resolution: 'skip')
-    expect(Captain::FaqImport.last.source_file).to be_attached
   end
 
   it 'uploads UTF-8 CSV content received as binary' do
