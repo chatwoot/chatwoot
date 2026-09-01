@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import MessageFormatter from 'shared/helpers/MessageFormatter';
+import { embeds } from 'dashboard/helper/markdownEmbeds';
 import {
   renderInlineDiff,
   buildDiffBlocks,
@@ -50,10 +51,9 @@ const contentChanged = computed(() =>
 const COLWIDTHS_RE = /<!--cw-colwidths:([\d,]+)-->/;
 const DEFAULT_COL_WIDTH = 50;
 
-const applyColumnWidths = (html, widths) => {
-  const doc = new DOMParser().parseFromString(html, 'text/html');
+const applyColumnWidths = (doc, widths) => {
   const table = doc.body.querySelector('table');
-  if (!table) return html;
+  if (!table) return;
 
   const sized = widths.map(width => (width > 0 ? width : DEFAULT_COL_WIDTH));
   const colgroup = doc.createElement('colgroup');
@@ -66,16 +66,58 @@ const applyColumnWidths = (html, widths) => {
 
   table.style.tableLayout = 'fixed';
   table.style.width = `${sized.reduce((sum, width) => sum + width, 0)}px`;
-  return doc.body.innerHTML;
+};
+
+// Match the portal renderer: solo video links become players, and media
+// resized in the editor (cw_image_width / cw_video_width) keeps its size.
+const videoEmbeds = embeds.filter(embed => embed.hideSource);
+const DEFAULT_VIDEO_WIDTH = '640px';
+
+const savedMediaWidth = (src, key) => {
+  const width = Number(
+    (src || '').match(new RegExp(`[?&]${key}=(\\d+)px(?:[&#]|$)`))?.[1]
+  );
+  return width >= 1 && width <= 2000 ? `${width}px` : null;
+};
+
+const applyImageSizes = doc => {
+  doc.body.querySelectorAll('img').forEach(image => {
+    const width = savedMediaWidth(image.getAttribute('src'), 'cw_image_width');
+    if (width) {
+      image.style.cssText = `width: ${width}; max-width: 100%; height: auto;`;
+    }
+  });
+};
+
+const applyVideoPreviews = doc => {
+  doc.body.querySelectorAll('p > a:only-child').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || !videoEmbeds.some(({ regex }) => regex.test(href))) return;
+    const paragraph = link.parentElement;
+    if (paragraph.textContent.trim() !== link.textContent.trim()) return;
+
+    const video = Object.assign(doc.createElement('video'), {
+      controls: true,
+      preload: 'metadata',
+      src: href,
+    });
+    video.style.cssText = 'width: 100%; height: auto;';
+    const wrapper = doc.createElement('div');
+    wrapper.style.cssText = `width: ${savedMediaWidth(href, 'cw_video_width') || DEFAULT_VIDEO_WIDTH}; max-width: 100%;`;
+    wrapper.append(video);
+    paragraph.replaceWith(wrapper);
+  });
 };
 
 const renderMarkdown = markdown => {
   if (!markdown) return '';
   const html = new MessageFormatter(markdown).formattedMessage;
+  const doc = new DOMParser().parseFromString(html, 'text/html');
   const match = markdown.match(COLWIDTHS_RE);
-  return match
-    ? applyColumnWidths(html, match[1].split(',').map(Number))
-    : html;
+  if (match) applyColumnWidths(doc, match[1].split(',').map(Number));
+  applyImageSizes(doc);
+  applyVideoPreviews(doc);
+  return doc.body.innerHTML;
 };
 
 const blockClass = type => {

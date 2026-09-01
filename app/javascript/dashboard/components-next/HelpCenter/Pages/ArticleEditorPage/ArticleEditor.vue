@@ -60,6 +60,14 @@ const editorRef = useTemplateRef('editorRef');
 
 const hasPendingUploads = () => !!editorRef.value?.hasPendingUploads();
 
+// Files picked between the create dispatch and its redirect would die with
+// this editor instance; hold them off for that window.
+const uploadsBlockedMessage = computed(() =>
+  isNewArticle.value && props.isUpdating
+    ? t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.CREATE_IN_PROGRESS')
+    : ''
+);
+
 onBeforeRouteLeave(() => {
   if (!hasPendingUploads()) return true;
   useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
@@ -228,6 +236,7 @@ const handleCreateArticle = event => {
           t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.EDITOR_PLACEHOLDER')
         "
         :enabled-menu-options="ARTICLE_EDITOR_MENU_OPTIONS"
+        :uploads-blocked-message="uploadsBlockedMessage"
         :autofocus="!isNewArticle"
       />
     </template>
