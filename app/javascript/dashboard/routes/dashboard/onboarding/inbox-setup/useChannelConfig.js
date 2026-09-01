@@ -39,9 +39,7 @@ export function useChannelConfig() {
 
   const isConfigured = type => CHANNEL_CONFIGURED[type]?.() ?? true;
   const isEnabled = type =>
-    type !== 'tiktok' ||
-    !isOnChatwootCloud.value ||
-    isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_TIKTOK);
+    type !== 'tiktok' || isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_TIKTOK);
 
   return { isConfigured, isEnabled };
 }

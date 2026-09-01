@@ -13,7 +13,7 @@ vi.mock('vue-router');
 // channel_type, social ordering) derived from CHANNEL_LIST.
 const mountComposable = ({
   brandInfo,
-  features = { channel_instagram: true },
+  features = { channel_instagram: true, channel_tiktok: true },
   inboxes = [],
   isOnChatwootCloud = false,
   disableMetaInboxCreation = false,
@@ -260,6 +260,23 @@ describe('useDetectedChannels', () => {
       const { displayedChannels, remainingChannels } = mountComposable({
         features: { channel_instagram: true, channel_tiktok: false },
         isOnChatwootCloud: true,
+        brandInfo: {
+          socials: [{ type: 'tiktok', url: 'https://tiktok.com/@acme' }],
+        },
+      });
+
+      expect(
+        displayedChannels.value.map(channel => channel.type)
+      ).not.toContain('tiktok');
+      expect(remainingChannels.value.map(channel => channel.type)).toContain(
+        'tiktok'
+      );
+    });
+
+    it('keeps disabled TikTok out of detected channels on self-hosted installations', () => {
+      const { displayedChannels, remainingChannels } = mountComposable({
+        features: { channel_tiktok: false },
+        isOnChatwootCloud: false,
         brandInfo: {
           socials: [{ type: 'tiktok', url: 'https://tiktok.com/@acme' }],
         },
