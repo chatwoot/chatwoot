@@ -1,21 +1,32 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import Icon from 'next/icon/Icon.vue';
+import { useLoadWithRetry } from 'dashboard/composables/loadWithRetry';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useMessageContext } from '../provider.js';
 
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 
-defineProps({
+const { attachment } = defineProps({
   attachment: {
     type: Object,
     required: true,
   },
 });
-const hasError = ref(false);
+
 const showGallery = ref(false);
 
 const { filteredCurrentChatAttachments } = useMessageContext();
+
+const { isLoaded, hasError, loadWithRetry } = useLoadWithRetry({
+  mediaType: 'image',
+});
+
+onMounted(() => {
+  if (attachment.dataUrl) {
+    loadWithRetry(attachment.dataUrl);
+  }
+});
 
 const handleError = () => {
   hasError.value = true;
@@ -35,10 +46,9 @@ const handleError = () => {
       {{ $t('COMPONENTS.MEDIA.LOADING_FAILED') }}
     </div>
     <img
-      v-else
+      v-else-if="isLoaded"
       class="object-cover w-full h-full skip-context-menu"
       :src="attachment.dataUrl"
-      @error="handleError"
     />
   </div>
   <GalleryView
