@@ -298,15 +298,12 @@
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Add bcc",
+        "SEARCH_PLACEHOLDER": "Search a contact or type an email address",
         "CC": {
-          "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "LABEL": "CC"
         },
         "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "LABEL": "BCC"
         }
       },
       "UNDEFINED_VARIABLES": {
