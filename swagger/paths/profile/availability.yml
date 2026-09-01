@@ -1,0 +1,48 @@
+tags:
+  - Profile
+operationId: updateProfileAvailability
+summary: Update profile availability
+description: Update the current user's availability for an account.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - profile
+        properties:
+          profile:
+            type: object
+            required:
+              - account_id
+              - availability
+            properties:
+              account_id:
+                type: integer
+                description: The numeric ID of the account.
+              availability:
+                type: string
+                enum: ['online', 'busy', 'offline']
+                description: The availability value to store for the current user in the account.
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/user'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Account membership not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

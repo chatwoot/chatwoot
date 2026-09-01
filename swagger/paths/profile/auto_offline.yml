@@ -1,0 +1,47 @@
+tags:
+  - Profile
+operationId: updateProfileAutoOffline
+summary: Update profile auto offline
+description: Update whether the current user should automatically go offline for an account.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - profile
+        properties:
+          profile:
+            type: object
+            required:
+              - account_id
+              - auto_offline
+            properties:
+              account_id:
+                type: integer
+                description: The numeric ID of the account.
+              auto_offline:
+                type: boolean
+                description: Whether the current user should automatically switch offline when away.
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/user'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Account membership not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
