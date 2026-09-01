@@ -1,4 +1,11 @@
 module Whatsapp::IncomingMessageIdentifierHelper
+  def process_identity_change_messages
+    system_messages, @messages_data = messages_data.to_a.partition { |message| message[:type] == 'system' }
+    return if system_messages.blank?
+
+    Whatsapp::UserIdRotationService.new(inbox: inbox, messages: system_messages, job_locked_source_id: locked_sender_id).perform
+  end
+
   def set_contact_from_echo
     message = messages_data.first
     source_ids = outgoing_message_source_ids(message)
@@ -57,6 +64,8 @@ module Whatsapp::IncomingMessageIdentifierHelper
     inbox.channel.try(:provider) == 'whatsapp_cloud'
   end
 
+  # An echo has to land on the same alias an inbound message would, otherwise the two entry points
+  # can anchor the same contact on different rows and split the thread in half.
   def outgoing_message_source_ids(message)
     phone_source_id = whatsapp_phone_source_id(message[:to].presence)
     identifiers = [
@@ -74,9 +83,7 @@ module Whatsapp::IncomingMessageIdentifierHelper
     processed_waid(phone_number)
   end
 
-  def whatsapp_source_id(identifier)
-    identifier.to_s.presence
-  end
+  def whatsapp_source_id(identifier) = identifier.to_s.presence
 
   def contact_attributes_from_contact_params(contact_params, source_identifier)
     phone_identifier = contact_params[:wa_id].presence || messages_data.first[:from].presence
