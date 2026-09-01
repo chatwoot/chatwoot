@@ -182,7 +182,7 @@ describe('#actions', () => {
           getters: { getCampaigns: campaigns },
           commit,
           rootState: {
-            appConfig: { isWidgetOpen: true },
+            appConfig: { isWidgetOpenedByUser: true },
           },
         },
         { campaignId: 32 }
@@ -196,7 +196,24 @@ describe('#actions', () => {
           getters: { getCampaigns: campaigns },
           commit,
           rootState: {
-            appConfig: { isWidgetOpen: false },
+            appConfig: { isWidgetOpenedByUser: false },
+          },
+        },
+        { campaignId: 1 }
+      );
+      expect(commit.mock.calls).toEqual([['setActiveCampaign', campaigns[0]]]);
+    });
+    it('still fires campaign when widget was opened programmatically, not by user', async () => {
+      // Reproduces #14022: `window.$chatwoot.toggle('open')` inside
+      // `chatwoot:ready` → isWidgetOpen=true but isWidgetOpenedByUser=false.
+      API.get.mockResolvedValue({ data: campaigns });
+      await actions.startCampaign(
+        {
+          dispatch,
+          getters: { getCampaigns: campaigns },
+          commit,
+          rootState: {
+            appConfig: { isWidgetOpen: true, isWidgetOpenedByUser: false },
           },
         },
         { campaignId: 1 }

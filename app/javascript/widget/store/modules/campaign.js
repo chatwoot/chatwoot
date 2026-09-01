@@ -106,13 +106,17 @@ export const actions = {
     {
       commit,
       rootState: {
-        appConfig: { isWidgetOpen },
+        appConfig: { isWidgetOpenedByUser },
       },
     },
     { websiteToken, campaignId }
   ) => {
-    // Disable campaign execution if widget is opened
-    if (!isWidgetOpen) {
+    // Suppress campaign execution only when the visitor has actively opened
+    // the widget themselves. If the widget was pre-opened programmatically
+    // via `window.$chatwoot.toggle('open')` (e.g. inside a `chatwoot:ready`
+    // listener), the visitor hasn't engaged yet and the campaign should
+    // still fire. See #14022.
+    if (!isWidgetOpenedByUser) {
       const { data: campaigns } = await getCampaigns(websiteToken);
       // Check campaign is disabled or not
       const campaign = campaigns.find(item => item.id === campaignId);
