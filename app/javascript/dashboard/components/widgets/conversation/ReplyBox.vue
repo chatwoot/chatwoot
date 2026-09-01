@@ -1257,14 +1257,19 @@ export default {
     },
     setCCAndToEmailsFromLastChat() {
       const conversationContact = this.currentChat?.meta?.sender?.email || '';
-      const { email: inboxEmail, forward_to_email: forwardToEmail } =
-        this.inbox;
+      const {
+        email: inboxEmail,
+        forward_to_email: forwardToEmail,
+        reply_email_domain: replyEmailDomain,
+      } = this.inbox;
 
       const { cc, bcc, to } = getRecipients(
         this.lastEmail,
         conversationContact,
         inboxEmail,
-        forwardToEmail
+        forwardToEmail,
+        this.currentChat?.uuid,
+        replyEmailDomain
       );
 
       this.toEmails = to.join(', ');

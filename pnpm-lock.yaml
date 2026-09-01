@@ -11,6 +11,11 @@ overrides:
   minimatch@>=9.0.0 <9.0.7: 9.0.9
   rollup: '>=4.59.0'
 
+patchedDependencies:
+  '@chatwoot/utils@0.0.57':
+    hash: 167363d213a590dba34c4fcf1a3c8ce1355f81bbd84ed9655412352cee2e204b
+    path: patches/@chatwoot__utils@0.0.57.patch
+
 importers:
 
   .:
@@ -32,7 +37,7 @@ importers:
         version: 1.4.1
       '@chatwoot/utils':
         specifier: ^0.0.57
-        version: 0.0.57
+        version: 0.0.57(patch_hash=167363d213a590dba34c4fcf1a3c8ce1355f81bbd84ed9655412352cee2e204b)
       '@chatwoot/viz':
         specifier: ^0.1.5
         version: 0.1.5(vue@3.5.12(typescript@5.6.2))
@@ -1886,9 +1891,6 @@ packages:
   change-case@4.1.2:
     resolution: {integrity: sha512-bSxY2ws9OtviILG1EiY5K7NNxkqg/JnRnFxLtKQ96JaviiIxi7djMrSd0ECT9AC+lttClmYwKw53BWpOMblo7A==}
 
-  chart.js@4.4.4:
-    resolution: {integrity: sha512-emICKGBABnxhMjUjlYRR12PmOXhJ2eJjEHL2/dZlWjxRAZT1D8xplLFq5M0tMQK8ja+wBS/tuVEJB5C6r7VxJA==}
-    engines: {pnpm: '>=8'}
   check-error@2.1.1:
     resolution: {integrity: sha512-OAlb+T7V4Op9OwdkjmguYRqncdlx5JiofwOAUkmTF+jNdHwzTaTs4sRAGpzLF3oOz5xAyDGrPgeIDFQmDOTiJw==}
     engines: {node: '>= 16'}
@@ -5212,7 +5214,7 @@ snapshots:
       prosemirror-utils: 1.2.2(prosemirror-model@1.22.3)(prosemirror-state@1.4.3)
       prosemirror-view: 1.34.1
 
-  '@chatwoot/utils@0.0.57':
+  '@chatwoot/utils@0.0.57(patch_hash=167363d213a590dba34c4fcf1a3c8ce1355f81bbd84ed9655412352cee2e204b)':
     dependencies:
       date-fns: 2.30.0
 
@@ -6759,9 +6761,6 @@ snapshots:
       snake-case: 3.0.4
       tslib: 2.7.0
 
-  chart.js@4.4.4:
-    dependencies:
-      '@kurkle/color': 0.3.2
   check-error@2.1.1: {}
 
   chokidar@3.5.3:
