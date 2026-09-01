@@ -17,7 +17,6 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
 
     response = make_api_call(
       feature: 'conversation_completion',
-      model: self_hosted_model_override,
       messages: [
         { role: 'system', content: prompt_from_file('conversation_completion') },
         { role: 'user', content: content }
@@ -31,12 +30,6 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
   end
 
   private
-
-  def self_hosted_model_override
-    return unless ChatwootApp.self_hosted_enterprise?
-
-    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence
-  end
 
   def prompt_from_file(file_name)
     Rails.root.join('enterprise/lib/captain/prompts', "#{file_name}.liquid").read
