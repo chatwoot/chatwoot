@@ -29,7 +29,7 @@ const mockUseMapGetter = (overrides = {}) => {
   const getAssignableAgents = vi.fn(() => allAgentsData);
   const defaultGetters = {
     getCurrentUser: ref(allAgentsData[0]),
-    getSelectedChat: ref({ inbox_id: 1, meta: { assignee: true } }),
+    getSelectedChat: ref({ id: 42, inbox_id: 1, meta: { assignee: true } }),
     getCurrentAccountId: ref(1),
     'inboxAssignableAgents/getAssignableAgents': ref(getAssignableAgents),
   };
@@ -58,6 +58,7 @@ describe('useAgentsList', () => {
       useMapGetter('inboxAssignableAgents/getAssignableAgents').value
     ).toHaveBeenCalledWith(1, {
       includeAIAssignees: false,
+      conversationId: 42,
     });
     expect(agentsList.value[0]).toEqual(mockNoneAgent);
     expect(agentsList.value.length).toBe(
@@ -75,6 +76,7 @@ describe('useAgentsList', () => {
       useMapGetter('inboxAssignableAgents/getAssignableAgents').value
     ).toHaveBeenCalledWith(1, {
       includeAIAssignees: true,
+      conversationId: 42,
     });
   });
 

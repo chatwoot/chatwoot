@@ -10,6 +10,8 @@ module Enterprise::Api::V1::Accounts::AssignableAgentsController
   private
 
   def captain_assignable?(inbox)
-    inbox.captain_active? && !inbox.external_bot_active?
+    assistant = inbox.captain_assistant
+    @conversation&.inbox_id == inbox.id && inbox.captain_active? && !inbox.external_bot_active? &&
+      assistant.engages?(@conversation.contact, @conversation)
   end
 end
