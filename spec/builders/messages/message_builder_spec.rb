@@ -252,6 +252,21 @@ describe Messages::MessageBuilder do
         expect { described_class.new(user, conversation, params).perform }.to raise_error 'Invalid email address'
       end
 
+      it 'accepts semicolon separated display name forms' do
+        cc_emails = 'Jane Smith <jane@test.com>; John Doe <john@test.com>'
+        params = ActionController::Parameters.new({ cc_emails: cc_emails })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:cc_emails]).to eq ['jane@test.com', 'john@test.com']
+      end
+
+      it 'rejects a bare address followed by a display name instead of dropping the first one' do
+        params = ActionController::Parameters.new({ cc_emails: 'jane@test.com John Doe <john@test.com>' })
+
+        expect { described_class.new(user, conversation, params).perform }.to raise_error 'Invalid email address'
+      end
+
       context 'when custom email content is provided' do
         it 'creates message with custom HTML email content' do
           params = ActionController::Parameters.new({

@@ -17,7 +17,12 @@ module EmailHelper
     return [] if email_string.blank?
 
     normalized = email_string.match?(/[<"]/) ? email_string : email_string.strip.gsub(/[\s,;]+/, ',')
-    Mail::AddressList.new(normalized).addresses.map(&:address)
+    addresses = Mail::AddressList.new(normalized).addresses
+    # `a@example.com Jane Doe <b@example.com>` parses as one recipient with the first address
+    # swallowed into the display name. Reject that rather than dropping a recipient silently.
+    raise StandardError, 'Invalid email address' if addresses.any? { |address| address.display_name.to_s.include?('@') }
+
+    addresses.map(&:address)
   rescue Mail::Field::ParseError
     raise StandardError, 'Invalid email address'
   end
