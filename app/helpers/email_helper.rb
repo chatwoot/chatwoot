@@ -10,6 +10,18 @@ module EmailHelper
     ChatwootMarkdownRenderer.new(content).render_message(hardbreaks: true).to_s
   end
 
+  # Recipient lists reach us comma, semicolon or space separated. Mail::AddressList handles the
+  # first two along with display name forms such as `Jane Smith <jane@example.com>`, but not a
+  # plain space separated list, so collapse the separators unless a display name needs its spaces.
+  def process_email_string(email_string)
+    return [] if email_string.blank?
+
+    normalized = email_string.match?(/[<"]/) ? email_string : email_string.strip.gsub(/[\s,;]+/, ',')
+    Mail::AddressList.new(normalized).addresses.map(&:address)
+  rescue Mail::Field::ParseError
+    raise StandardError, 'Invalid email address'
+  end
+
   # Raise a standard error if any email address is invalid
   def validate_email_addresses(emails_to_test)
     emails_to_test&.each do |email|
