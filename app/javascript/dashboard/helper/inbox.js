@@ -1,3 +1,5 @@
+import { picoSearch } from '@chatwoot/pico-search';
+
 export const INBOX_TYPES = {
   WEB: 'Channel::WebWidget',
   FB: 'Channel::FacebookPage',
@@ -109,15 +111,13 @@ const INBOX_ICON_MAP_LINE = {
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
 
+// Facebook, Instagram, TikTok, and X initialize the editable inbox name from
+// the provider account name; their opaque routing IDs should not be displayed.
 const INBOX_IDENTIFIER_RESOLVERS = {
   [INBOX_TYPES.WEB]: inbox => inbox.website_url,
   [INBOX_TYPES.EMAIL]: inbox => inbox.email,
   [INBOX_TYPES.WHATSAPP]: inbox => inbox.phone_number,
   [INBOX_TYPES.SMS]: inbox => inbox.phone_number,
-  [INBOX_TYPES.FB]: inbox => inbox.page_id,
-  [INBOX_TYPES.INSTAGRAM]: inbox => inbox.instagram_id,
-  [INBOX_TYPES.TIKTOK]: inbox => inbox.business_id,
-  [INBOX_TYPES.TWITTER]: inbox => inbox.profile_id,
   [INBOX_TYPES.LINE]: inbox => inbox.line_channel_id,
   [INBOX_TYPES.API]: inbox => inbox.inbox_identifier,
   [INBOX_TYPES.TWILIO]: inbox =>
@@ -134,6 +134,17 @@ const INBOX_IDENTIFIER_RESOLVERS = {
 
 export const getInboxIdentifier = inbox =>
   INBOX_IDENTIFIER_RESOLVERS[inbox?.channel_type]?.(inbox) || '';
+
+export const searchInboxes = (inboxes, query) => {
+  const primaryMatches = picoSearch(inboxes, query, ['name', 'channel_type']);
+  const primaryMatchIds = new Set(primaryMatches.map(inbox => inbox.id));
+  const identifierMatches = picoSearch(inboxes, query, ['channel_identifier']);
+
+  return [
+    ...primaryMatches,
+    ...identifierMatches.filter(inbox => !primaryMatchIds.has(inbox.id)),
+  ];
+};
 
 export const getReadableInboxByType = (type, phoneNumber) => {
   switch (type) {

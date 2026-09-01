@@ -44,7 +44,7 @@ describe AgentBotListener do
 
         before do
           create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
-          conversation.update!(assignee_agent_bot: conversation_bot, assignee: nil)
+          conversation.update!(ai_assignee: conversation_bot, assignee: nil)
         end
 
         it 'sends message to both bots exactly once' do
@@ -92,7 +92,7 @@ describe AgentBotListener do
 
     context 'when conversation is assigned to an agent bot' do
       before do
-        conversation.update!(assignee_agent_bot: agent_bot, assignee: nil)
+        conversation.update!(ai_assignee: agent_bot, assignee: nil)
       end
 
       it 'sends webhook to the assigned agent bot' do
@@ -140,7 +140,7 @@ describe AgentBotListener do
       end
 
       before do
-        conversation.update!(assignee_agent_bot: agent_bot, assignee: nil)
+        conversation.update!(ai_assignee: agent_bot, assignee: nil)
       end
 
       it 'sends webhook with changed_attributes to the assigned agent bot' do
