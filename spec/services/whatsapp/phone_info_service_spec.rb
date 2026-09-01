@@ -27,7 +27,7 @@ describe Whatsapp::PhoneInfoService do
 
     context 'when all parameters are valid' do
       before do
-        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
       end
 
       it 'returns formatted phone info' do
@@ -57,7 +57,7 @@ describe Whatsapp::PhoneInfoService do
       end
 
       before do
-        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
       end
 
       it 'uses the first available phone number' do
@@ -82,7 +82,7 @@ describe Whatsapp::PhoneInfoService do
       end
 
       before do
-        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
       end
 
       it 'raises instead of falling back to a different number' do
@@ -104,7 +104,7 @@ describe Whatsapp::PhoneInfoService do
       end
 
       before do
-        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
       end
 
       it 'raises instead of arbitrarily selecting the first number' do
@@ -127,7 +127,7 @@ describe Whatsapp::PhoneInfoService do
       end
 
       before do
-        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
       end
 
       it 'resolves the reauthorized phone number instead of taking the first' do
@@ -141,7 +141,7 @@ describe Whatsapp::PhoneInfoService do
       let(:phone_response) { { 'data' => [] } }
 
       before do
-        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
       end
 
       it 'raises an error' do
@@ -180,7 +180,7 @@ describe Whatsapp::PhoneInfoService do
       end
 
       before do
-        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
       end
 
       it 'sanitizes the phone number' do

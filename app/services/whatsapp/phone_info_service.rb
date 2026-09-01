@@ -20,8 +20,9 @@ class Whatsapp::PhoneInfoService
   end
 
   def fetch_and_process_phone_info
-    response = @api_client.fetch_phone_numbers(@waba_id)
-    phone_numbers = response['data']
+    # Paginated fetch: a WABA can hold more numbers than one Graph page, and both the id match
+    # and the ambiguity check below need the complete list to be correct.
+    phone_numbers = @api_client.fetch_all_phone_numbers(@waba_id)
     raise "No phone numbers found for WABA #{@waba_id}" if phone_numbers.blank?
 
     phone_data = find_phone_data(phone_numbers)
