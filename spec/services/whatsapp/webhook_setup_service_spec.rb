@@ -38,7 +38,7 @@ describe Whatsapp::WebhookSetupService do
     allow(api_client).to receive(:phone_number_verified?).and_return(false)
     allow(health_service).to receive(:fetch_health_status).and_return({
                                                                         platform_type: 'APPLICABLE',
-                                                                        throughput: { level: 'APPLICABLE' }
+                                                                        throughput_level: 'APPLICABLE'
                                                                       })
   end
 
@@ -156,7 +156,7 @@ describe Whatsapp::WebhookSetupService do
         allow(health_service).to receive(:fetch_health_status).and_return({
                                                                             is_on_biz_app: false,
                                                                             platform_type: 'APPLICABLE',
-                                                                            throughput: { level: 'APPLICABLE' }
+                                                                            throughput_level: 'APPLICABLE'
                                                                           })
         allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
         allow(api_client).to receive(:register_phone_number).with('123456789', 223_456)
@@ -182,7 +182,7 @@ describe Whatsapp::WebhookSetupService do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
         allow(health_service).to receive(:fetch_health_status).and_return({
                                                                             platform_type: 'APPLICABLE',
-                                                                            throughput: { level: 'APPLICABLE' }
+                                                                            throughput_level: 'APPLICABLE'
                                                                           })
         allow(api_client).to receive(:subscribe_phone_number_webhook)
           .with(waba_id, '123456789', anything, 'test_verify_token',
@@ -205,7 +205,7 @@ describe Whatsapp::WebhookSetupService do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
         allow(health_service).to receive(:fetch_health_status).and_return({
                                                                             platform_type: 'NOT_APPLICABLE',
-                                                                            throughput: { level: 'APPLICABLE' }
+                                                                            throughput_level: 'APPLICABLE'
                                                                           })
         allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
         allow(api_client).to receive(:register_phone_number).with('123456789', 223_456)
@@ -231,7 +231,7 @@ describe Whatsapp::WebhookSetupService do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
         allow(health_service).to receive(:fetch_health_status).and_return({
                                                                             platform_type: 'APPLICABLE',
-                                                                            throughput: { level: 'NOT_APPLICABLE' }
+                                                                            throughput_level: 'NOT_APPLICABLE'
                                                                           })
         allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
         allow(api_client).to receive(:register_phone_number).with('123456789', 223_456)
@@ -257,7 +257,7 @@ describe Whatsapp::WebhookSetupService do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_raise('API down')
         allow(health_service).to receive(:fetch_health_status).and_return({
                                                                             platform_type: 'APPLICABLE',
-                                                                            throughput: { level: 'APPLICABLE' }
+                                                                            throughput_level: 'APPLICABLE'
                                                                           })
         allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
         allow(api_client).to receive(:register_phone_number)
@@ -402,7 +402,7 @@ describe Whatsapp::WebhookSetupService do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
         allow(health_service).to receive(:fetch_health_status).and_return({
                                                                             platform_type: 'APPLICABLE',
-                                                                            throughput: { level: 'APPLICABLE' }
+                                                                            throughput_level: 'APPLICABLE'
                                                                           })
         allow(api_client).to receive(:subscribe_phone_number_webhook)
           .with(waba_id, '123456789', anything, 'existing_verify_token',
@@ -434,7 +434,7 @@ describe Whatsapp::WebhookSetupService do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
         allow(health_service).to receive(:fetch_health_status).and_return({
                                                                             platform_type: 'APPLICABLE',
-                                                                            throughput: { level: 'APPLICABLE' }
+                                                                            throughput_level: 'APPLICABLE'
                                                                           })
         allow(api_client).to receive(:subscribe_phone_number_webhook)
           .with(waba_id, '123456789', anything, 'test_verify_token',

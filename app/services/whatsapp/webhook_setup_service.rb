@@ -1,4 +1,6 @@
 class Whatsapp::WebhookSetupService
+  attr_reader :registration_error
+
   def initialize(channel, waba_id = nil, access_token = nil, is_coexistence: nil)
     @channel = channel
     @waba_id = waba_id || channel.provider_config['business_account_id']
@@ -26,6 +28,8 @@ class Whatsapp::WebhookSetupService
   # FE's FINISH event) skips the health API call entirely; the is_on_biz_app fallback only runs for
   # callers that pass no signal at all (nil) — manual setup, voice toggle, direct webhook
   # re-registration — since an explicit `false` already means the FE positively ruled out coexistence.
+  # Otherwise register only when the number is neither connected nor ownership-verified, or when
+  # Meta still reports a pending provisioning state.
   def should_register_phone_number?
     return false if @is_coexistence
     return false if @is_coexistence.nil? && health_data[:is_on_biz_app]
@@ -47,6 +51,7 @@ class Whatsapp::WebhookSetupService
     @api_client.register_phone_number(phone_number_id, pin)
     store_pin(pin)
   rescue StandardError => e
+    @registration_error = e
     Rails.logger.warn("[WHATSAPP] Phone registration failed but continuing: #{e.message}")
   end
 
@@ -107,10 +112,10 @@ class Whatsapp::WebhookSetupService
   def phone_number_verified?
     phone_number_id = @channel.provider_config['phone_number_id']
 
-    # Check with WhatsApp API if the phone number code verification is complete
-    # This checks code_verification_status == 'VERIFIED'
+    # A connected number is already registered even if its one-time code verification has expired.
+    # Otherwise, ownership verification makes it eligible for registration.
     verified = @api_client.phone_number_verified?(phone_number_id)
-    Rails.logger.info("[WHATSAPP] Phone number #{phone_number_id} code verification status: #{verified}")
+    Rails.logger.info("[WHATSAPP] Phone number #{phone_number_id} is ready for setup: #{verified}")
 
     verified
   rescue StandardError => e
@@ -119,10 +124,10 @@ class Whatsapp::WebhookSetupService
     false
   end
 
-  # platform_type/throughput.level == 'NOT_APPLICABLE' means the number is still pending provisioning
+  # platform_type/throughput_level == 'NOT_APPLICABLE' means the number is still pending provisioning
   def phone_number_needs_registration?
     health_data[:platform_type] == 'NOT_APPLICABLE' ||
-      health_data.dig(:throughput, :level) == 'NOT_APPLICABLE'
+      health_data[:throughput_level] == 'NOT_APPLICABLE'
   end
 
   def health_data
