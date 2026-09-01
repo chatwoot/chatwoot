@@ -122,24 +122,23 @@
       "EMPTY_LIST": "Nenhum resultado encontrado"
     },
     "DRILLDOWN": {
-      "TITLE": "Detalhes {metric}",
-      "RESULT_COUNT_CONVERSATION": "Conversa {count} + Conversas {count}",
-      "RESULT_COUNT_MESSAGE": "Mensagem de {count} + {count}",
+      "TITLE": "Detalhes de {metric}",
+      "RESULT_COUNT_CONVERSATION": "{count} conversa | {count} conversas",
+      "RESULT_COUNT_MESSAGE": "{count} mensagem | {count} mensagens",
       "EMPTY": "Nenhum registro encontrado para esta barra.",
       "ERROR": "Não foi possível carregar os registros. Por favor, tente novamente.",
-      "ADMIN_ONLY": "Apenas os administradores podem detalhar nos registros do relatório.",
+      "ADMIN_ONLY": "Apenas administradores podem visualizar os detalhes dos registros do relatório.",
       "LOAD_MORE": "Carregar mais",
-      "CLOSE": "Detalhes do fechamento",
       "PREVIOUS_BUCKET": "Barra anterior",
       "NEXT_BUCKET": "Próxima barra",
       "UNKNOWN_CONTACT": "Contato desconhecido",
       "UNKNOWN_INBOX": "Caixa de entrada desconhecida",
       "UNASSIGNED_AGENT": "Não atribuídas",
-      "NO_MESSAGE_CONTENT": "Nenhum conteúdo de mensagem",
+      "NO_MESSAGE_CONTENT": "Sem conteúdo da mensagem",
       "MESSAGE_CREATED_AT": "Mensagem criada em {time}",
-      "EVENT_OCCURRED_AT": "Ocorreu um evento em {time}",
-      "INCOMING_MESSAGE": "Mensagem de entrada",
-      "OUTGOING_MESSAGE": "Mensagem de saída"
+      "EVENT_OCCURRED_AT": "Evento ocorrido em {time}",
+      "INCOMING_MESSAGE": "Mensagem recebida",
+      "OUTGOING_MESSAGE": "Mensagem enviada"
     },
     "PAGINATION": {
       "RESULTS": "Exibindo {start} — {end} de {total} resultados",

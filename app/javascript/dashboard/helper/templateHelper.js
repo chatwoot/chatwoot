@@ -7,6 +7,7 @@ export {
   COMPONENT_TYPES,
   findComponentByType,
   processVariable,
+  renderTemplatePreview,
 } from '@chatwoot/utils';
 
 export const DEFAULT_LANGUAGE = 'en';
