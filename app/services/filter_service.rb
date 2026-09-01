@@ -9,7 +9,7 @@ class FilterService
   ATTRIBUTE_TYPES = {
     date: 'date', text: 'text', number: 'numeric', link: 'text', list: 'text', checkbox: 'boolean'
   }.with_indifferent_access
-  STRING_VALUE_ATTRIBUTES = %w[status priority message_type content].freeze
+  STRING_VALUE_ATTRIBUTES = %w[status priority].freeze
 
   def initialize(params, user)
     @params = params
@@ -210,6 +210,7 @@ class FilterService
 
   def validate_string_values(query_hash)
     return unless STRING_VALUE_ATTRIBUTES.include?(query_hash['attribute_key'])
+    return unless @filters[filter_config[:entity].downcase.pluralize].key?(query_hash['attribute_key'])
     return if query_hash['values'].is_a?(Array) && query_hash['values'].all?(String)
 
     raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash['attribute_key'])

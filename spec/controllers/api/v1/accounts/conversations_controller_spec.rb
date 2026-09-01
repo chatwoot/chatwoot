@@ -725,15 +725,15 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.priority).to eq('low')
       end
 
-      it 'returns unprocessable entity when priority is missing' do
+      it 'clears the conversation priority when priority is missing' do
         conversation.update!(priority: 'low')
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
              headers: agent.create_new_auth_token,
              as: :json
 
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(conversation.reload.priority).to eq('low')
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.priority).to be_nil
       end
 
       it 'clears the conversation priority when priority is nil' do
