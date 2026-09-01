@@ -13,9 +13,14 @@ module Avatarable
   end
 
   def avatar_url
-    return url_for(avatar.representation(resize_to_fill: [250, nil])) if avatar.attached? && avatar.representable?
+    return '' unless avatar.attached? && avatar.representable?
 
-    ''
+    representation = avatar.representation(resize_to_fill: [250, nil])
+    url_options = ActiveStorage::Current.url_options
+
+    return polymorphic_url(representation, url_options) if url_options.present?
+
+    url_for(representation)
   end
 
   def fetch_avatar_from_gravatar
