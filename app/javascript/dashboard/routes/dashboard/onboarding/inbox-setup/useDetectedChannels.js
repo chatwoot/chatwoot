@@ -35,7 +35,7 @@ const extractHandle = ({ type, url }) => {
 export function useDetectedChannels() {
   const { currentAccount } = useAccount();
   const inboxes = useMapGetter('inboxes/getInboxes');
-  const { isConfigured } = useChannelConfig();
+  const { isConfigured, isEnabled } = useChannelConfig();
 
   const brandSocials = computed(
     () => currentAccount.value?.custom_attributes?.brand_info?.socials || []
@@ -88,6 +88,8 @@ export function useDetectedChannels() {
       // Hide channels whose installation OAuth credentials are missing — their
       // connect flow would only error.
       .filter(channel => isConfigured(channel.type))
+      // Account-gated channels stay in the secondary catalog until enabled.
+      .filter(channel => isEnabled(channel.type))
   );
 
   const defaultChannels = computed(() =>

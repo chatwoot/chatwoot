@@ -2,7 +2,7 @@ class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::
   def index
     conversations = Current.account.conversations.includes(
       :assignee, :contact, :inbox, :taggings
-    ).where(contact_id: @contact.id)
+    ).preload(ai_assignee: { avatar_attachment: [:blob] }).where(contact_id: @contact.id)
 
     conversations = Conversations::PermissionFilterService.new(
       conversations,
