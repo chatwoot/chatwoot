@@ -17,7 +17,7 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
 
     content = params[:file].read
     rows = Captain::FaqImports::Parser.new(assistant: @assistant, content: content).perform
-    faq_import = create_preview!(content, rows)
+    faq_import = create_preview!(rows)
     Captain::FaqImports::CleanupJob.set(wait: 24.hours).perform_later(faq_import)
 
     render json: serialize(faq_import), status: :created
@@ -64,25 +64,20 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
     @faq_import = @assistant.faq_imports.find(params[:id])
   end
 
-  def create_preview!(content, rows)
+  def create_preview!(rows)
     @assistant.with_lock do
       raise Captain::FaqImport::ActiveImportError if @assistant.faq_imports.preparing.exists?
 
       @assistant.faq_imports.preview.destroy_all
-      faq_import = @assistant.faq_imports.create!(preview_attributes(content, rows))
-      faq_import.source_file.attach(
-        io: StringIO.new(content), filename: faq_import.original_filename, content_type: 'text/csv'
-      )
-      faq_import
+      @assistant.faq_imports.create!(preview_attributes(rows))
     end
   end
 
-  def preview_attributes(content, rows)
+  def preview_attributes(rows)
     {
       account: Current.account,
       user: Current.user,
       original_filename: params[:file].original_filename,
-      checksum: Digest::SHA256.hexdigest(content),
       rows: rows,
       row_count: rows.length
     }

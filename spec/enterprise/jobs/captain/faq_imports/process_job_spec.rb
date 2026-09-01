@@ -33,15 +33,6 @@ RSpec.describe Captain::FaqImports::ProcessJob, type: :job do
     expect(faq_import.reload).to have_attributes(status: 'completed', embedding_ready_count: 1, embedding_failed_count: 0)
   end
 
-  it 'purges the original CSV after saving the FAQ rows' do
-    faq_import = confirmed_import("question,answer\nNew question,New answer\n")
-    faq_import.source_file.attach(io: StringIO.new('csv'), filename: 'faqs.csv', content_type: 'text/csv')
-
-    described_class.perform_now(faq_import)
-
-    expect(faq_import.reload.source_file).not_to be_attached
-  end
-
   it 'skips existing FAQs by default' do
     existing = create(:captain_assistant_response, assistant: assistant, question: 'Existing question', answer: 'Old answer')
     faq_import = confirmed_import("question,answer\nExisting question,Imported answer\n")
@@ -73,6 +64,22 @@ RSpec.describe Captain::FaqImports::ProcessJob, type: :job do
       embedding: nil
     )
     expect(faq_import.reload).to have_attributes(status: 'preparing', overwritten_count: 1)
+  end
+
+  it 'does not overwrite an answer edited after the preview' do
+    existing = create(
+      :captain_assistant_response,
+      assistant: assistant,
+      question: 'Existing question',
+      answer: 'Previewed answer'
+    )
+    faq_import = confirmed_import("question,answer\nExisting question,Imported answer\n", overwrite_rows: [2])
+    existing.update!(answer: 'Edited after preview')
+
+    described_class.perform_now(faq_import)
+
+    expect(existing.reload.answer).to eq('Edited after preview')
+    expect(faq_import.reload).to have_attributes(status: 'completed', overwritten_count: 0, skipped_count: 1, rows: [])
   end
 
   it 'does not overwrite a replacement FAQ that was not shown in the preview' do
@@ -129,8 +136,32 @@ RSpec.describe Captain::FaqImports::ProcessJob, type: :job do
     expect(faq_import.reload).to have_attributes(
       status: 'completed_with_errors',
       embedding_ready_count: 0,
-      embedding_failed_count: 1
+      embedding_failed_count: 1,
+      rows: []
     )
+  end
+
+  it 'keeps the error result but clears invalid row payloads after completion' do
+    faq_import = confirmed_import("question,answer\n,Missing question\n")
+
+    described_class.perform_now(faq_import)
+
+    expect(faq_import.reload).to have_attributes(status: 'completed_with_errors', skipped_count: 1, rows: [])
+  end
+
+  it 'retries unexpected failures and marks the import failed after retries are exhausted' do
+    faq_import = confirmed_import("question,answer\nNew question,New answer\n")
+    error = StandardError.new('unexpected failure')
+    job = described_class.new(faq_import)
+    job.exception_executions = { [StandardError].to_s => 2 }
+    tracker = instance_double(ChatwootExceptionTracker, capture_exception: nil)
+    allow(job).to receive(:process_rows).and_raise(error)
+    allow(ChatwootExceptionTracker).to receive(:new).with(error, account: account).and_return(tracker)
+
+    expect { job.perform_now }.not_to have_enqueued_job(described_class)
+
+    expect(faq_import.reload).to have_attributes(status: 'failed', error_message: 'unexpected failure')
+    expect(tracker).to have_received(:capture_exception)
   end
 
   private

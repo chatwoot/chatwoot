@@ -4,7 +4,6 @@ FactoryBot.define do
     account { assistant.account }
     user { association :user, account: account }
     original_filename { 'faqs.csv' }
-    checksum { 'checksum' }
     rows { [] }
   end
 end

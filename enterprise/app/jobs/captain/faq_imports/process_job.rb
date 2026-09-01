@@ -1,15 +1,19 @@
 class Captain::FaqImports::ProcessJob < ApplicationJob
   queue_as :low
 
+  retry_on StandardError, wait: 5.seconds, attempts: 3 do |job, error|
+    faq_import = job.arguments.first
+    faq_import.fail!(error.message)
+    ChatwootExceptionTracker.new(error, account: faq_import.account).capture_exception
+  end
+
+  discard_on ActiveJob::DeserializationError
+
   def perform(faq_import)
     return unless faq_import.preparing?
 
     process_rows(faq_import)
     faq_import.complete_if_ready!
-  rescue StandardError => e
-    faq_import.fail!(e.message)
-  ensure
-    faq_import.source_file.purge if faq_import.source_file.attached?
   end
 
   private
@@ -84,6 +88,7 @@ class Captain::FaqImports::ProcessJob < ApplicationJob
 
     response.lock!
     return false unless Captain::FaqImports::Parser.normalize(response.question) == row['normalized_question']
+    return false unless response.answer == row['existing_answer']
 
     response.assign_attributes(
       question: row['question'],

@@ -25,7 +25,6 @@ class CreateCaptainFaqImports < ActiveRecord::Migration[7.1]
 
   def add_import_columns(table)
     table.string :original_filename, null: false
-    table.string :checksum, null: false
     table.integer :status, null: false, default: 0
     table.jsonb :rows, null: false, default: []
   end

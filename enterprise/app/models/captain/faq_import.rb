@@ -20,8 +20,6 @@ class Captain::FaqImport < ApplicationRecord
   belongs_to :assistant, class_name: 'Captain::Assistant'
   belongs_to :user, optional: true
 
-  has_one_attached :source_file
-
   enum :status, {
     preview: 0,
     preparing: 1,
@@ -30,11 +28,10 @@ class Captain::FaqImport < ApplicationRecord
     failed: 4
   }
 
-  scope :active, -> { where(status: [:preview, :preparing]) }
   scope :confirmed, -> { where.not(confirmed_at: nil) }
   scope :latest_first, -> { order(created_at: :desc) }
 
-  validates :original_filename, :checksum, presence: true
+  validates :original_filename, presence: true
   validates :user, presence: true, on: :create
   validate :assistant_belongs_to_account
 
@@ -126,8 +123,11 @@ class Captain::FaqImport < ApplicationRecord
   end
 
   def finish!
-    self.status = import_has_errors? ? :completed_with_errors : :completed
+    has_errors = import_has_errors?
+
+    self.status = has_errors ? :completed_with_errors : :completed
     self.completed_at = Time.current
+    self.rows = []
   end
 
   def import_has_errors?
