@@ -38,6 +38,16 @@ import SlashCommandMenu from './SlashCommandMenu.vue';
 import VideoEmbedInput from './VideoEmbedInput.vue';
 
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
+// Drop and paste bypass the file input's accept filter, so bucketFor gates
+// every entry point with the same allowlist the picker advertises.
+const ALLOWED_IMAGE_TYPES = [
+  'image/png',
+  'image/jpeg',
+  'image/jpg',
+  'image/gif',
+  'image/webp',
+];
+const ACCEPTED_FILE_TYPES = [...ALLOWED_IMAGE_TYPES, 'video/mp4'].join(', ');
 const SLASH_MENU_OFFSET = 4;
 // Longest a slow autosave response can realistically lag behind its request.
 const STALE_ECHO_WINDOW = 30000; // in ms
@@ -106,6 +116,7 @@ export default {
       isSlashMenuInTable: false,
       showVideoInput: false,
       videoInputPosition: null,
+      acceptedFileTypes: ACCEPTED_FILE_TYPES,
     };
   },
   watch: {
@@ -349,7 +360,7 @@ export default {
     },
     // Returns the pipeline for a file that passes its size gate; alerts otherwise.
     bucketFor(file) {
-      if (file.type.startsWith('image/')) {
+      if (ALLOWED_IMAGE_TYPES.includes(file.type)) {
         if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) return 'images';
         useAlert(
           this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.ERROR_FILE_SIZE', {
@@ -611,7 +622,7 @@ export default {
       <input
         ref="imageUploadInput"
         type="file"
-        accept="image/png, image/jpeg, image/jpg, image/gif, image/webp, video/mp4"
+        :accept="acceptedFileTypes"
         multiple
         hidden
         @change="onFileChange"

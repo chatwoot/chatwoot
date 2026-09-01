@@ -112,6 +112,20 @@ const scheduleSave = () => {
   debouncedSave();
 };
 
+// A create blocked by uploads re-runs on the next content change once they
+// settle — upload completion and card removal both land here as doc changes.
+const pendingCreate = ref(false);
+
+const retryPendingCreate = () => {
+  if (!pendingCreate.value || hasPendingUploads()) return;
+  pendingCreate.value = false;
+  if (!localTitle.value.trim()) return;
+  emit('createArticle', {
+    title: localTitle.value,
+    content: localContent.value,
+  });
+};
+
 // Flush a queued save on unmount so leaving the editor doesn't drop the last edit.
 onBeforeUnmount(() => {
   if (isNewArticle.value || !isSaving.value) return;
@@ -134,6 +148,7 @@ const articleContent = computed({
   get: () => localContent.value,
   set: content => {
     localContent.value = content;
+    retryPendingCreate();
     scheduleSave();
   },
 });
@@ -160,6 +175,7 @@ const handleCreateArticle = event => {
   if (!title.trim()) return;
   // Creating navigates to the edit route, which would unmount mid-upload.
   if (hasPendingUploads()) {
+    pendingCreate.value = true;
     useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
     return;
   }

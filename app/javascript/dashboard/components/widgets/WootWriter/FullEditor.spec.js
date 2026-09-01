@@ -936,6 +936,16 @@ describe('FullEditor', () => {
       expect(alerts).toHaveLength(1);
     });
 
+    it('rejects an image type the picker does not advertise', async () => {
+      mountEditor();
+      await selectFile(
+        new File(['x'], 'diagram.svg', { type: 'image/svg+xml' })
+      );
+
+      expect(attachImage).not.toHaveBeenCalled();
+      expect(alerts).toHaveLength(1);
+    });
+
     it('keeps the preview with retry and remove controls when the upload fails', async () => {
       mountEditor();
       attachImage.mockRejectedValue(new Error('nope'));
