@@ -1,9 +1,11 @@
 import { describe, it, expect, vi } from 'vitest';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import ContactAPI from 'dashboard/api/contacts';
+import { getActiveCountryCode } from 'shared/components/PhoneInput/helper';
 import * as helpers from '../composeConversationHelper';
 
 vi.mock('dashboard/api/contacts');
+vi.mock('shared/components/PhoneInput/helper');
 
 describe('composeConversationHelper', () => {
   describe('generateLabelForContactableInboxesList', () => {
@@ -393,6 +395,49 @@ describe('composeConversationHelper', () => {
         );
       });
 
+      it('normalizes phone-like queries to E.164 digits', async () => {
+        getActiveCountryCode.mockReturnValue('CA');
+        ContactAPI.search.mockResolvedValue({ data: { payload: [] } });
+
+        await searchContacts('901-788-0795');
+
+        expect(ContactAPI.search).toHaveBeenCalledWith(
+          '19017880795',
+          1,
+          'name',
+          '',
+          expect.objectContaining({ signal: expect.any(AbortSignal) })
+        );
+      });
+
+      it('falls back to digits-only for partial phone-like queries', async () => {
+        ContactAPI.search.mockResolvedValue({ data: { payload: [] } });
+
+        await searchContacts('+1 901');
+
+        expect(ContactAPI.search).toHaveBeenCalledWith(
+          '1901',
+          1,
+          'name',
+          '',
+          expect.objectContaining({ signal: expect.any(AbortSignal) })
+        );
+      });
+
+      it('leaves name and email queries untouched', async () => {
+        ContactAPI.search.mockResolvedValue({ data: { payload: [] } });
+
+        await searchContacts('john doe');
+
+        expect(ContactAPI.search).toHaveBeenCalledWith(
+          'john doe',
+          1,
+          'name',
+          '',
+          expect.objectContaining({ signal: expect.any(AbortSignal) })
+        );
+      });
+
       it('returns empty array for queries shorter than 2 characters', async () => {
         const result = await searchContacts('j');
         expect(result).toEqual([]);
@@ -612,6 +657,41 @@ describe('composeConversationHelper', () => {
         expect(ContactAPI.create).toHaveBeenCalledWith({
           name: '919999999999',
           phone_number: '+919999999999',
+        });
+      });
+
+      it('normalizes formatted phone numbers to E.164', async () => {
+        const mockContact = {
+          id: 1,
+          name: '19017880795',
+          phone_number: '+19017880795',
+        };
+        ContactAPI.create.mockResolvedValue({
+          data: { payload: { contact: mockContact } },
+        });
+
+        await helpers.createNewContact('+1 901-788-0795');
+        expect(ContactAPI.create).toHaveBeenCalledWith({
+          name: '19017880795',
+          phone_number: '+19017880795',
+        });
+      });
+
+      it('creates contact from a national number using the inferred country', async () => {
+        getActiveCountryCode.mockReturnValue('CA');
+        const mockContact = {
+          id: 1,
+          name: '19017880795',
+          phone_number: '+19017880795',
+        };
+        ContactAPI.create.mockResolvedValue({
+          data: { payload: { contact: mockContact } },
+        });
+
+        await helpers.createNewContact('(901) 788-0795');
+        expect(ContactAPI.create).toHaveBeenCalledWith({
+          name: '19017880795',
+          phone_number: '+19017880795',
         });
       });
     });

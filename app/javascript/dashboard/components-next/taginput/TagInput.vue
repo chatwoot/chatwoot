@@ -13,6 +13,7 @@ import {
   buildTagMenuItems,
   canAddTag,
   findMatchingMenuItem,
+  resolveDropdownSelection,
 } from './helper/tagInputHelper';
 
 const props = defineProps({
@@ -101,7 +102,11 @@ const filteredMenuItems = computed(() => {
 });
 
 const emitDataOnAdd = value => {
-  const matchingMenuItem = findMatchingMenuItem(props.menuItems, value);
+  const matchingMenuItem = findMatchingMenuItem(
+    props.menuItems,
+    value,
+    props.type
+  );
   return matchingMenuItem
     ? emit('add', { value: value, ...matchingMenuItem })
     : emit('add', { value: value, action: 'create' });
@@ -151,10 +156,12 @@ const handleDropdownAction = async ({
   if (props.mode === MODE.SINGLE && tags.value.length >= 1) return;
   if (!props.showDropdown) return;
 
-  const isEmail = props.type === INPUT_TYPES.EMAIL;
-  const tagValue = isEmail ? emailAddress : phoneNumber || label;
+  const { isEmail, tagValue, shouldValidate } = resolveDropdownSelection(
+    props.type,
+    { email: emailAddress, phoneNumber, label }
+  );
 
-  if (isEmail || props.type === INPUT_TYPES.TEL) {
+  if (shouldValidate) {
     newTag.value = tagValue;
     if (!(await v$.value.$validate())) return;
   }
