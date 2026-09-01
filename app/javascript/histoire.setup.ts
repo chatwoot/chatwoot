@@ -9,6 +9,7 @@ import FloatingVue from 'floating-vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 import { directive as onClickaway } from 'vue3-click-away';
+import useVuelidate from '@vuelidate/core';
 
 function mergeMessages(...sources) {
   return sources.reduce((acc, src) => {
@@ -28,7 +29,7 @@ function mergeMessages(...sources) {
 }
 
 const i18n = createI18n({
-  legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
+  legacy: false,
   locale: 'en',
   messages: mergeMessages(
     structuredClone(dashboardI18n),

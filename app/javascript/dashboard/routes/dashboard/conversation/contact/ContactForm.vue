@@ -5,13 +5,30 @@ import {
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
 import { required, email } from '@vuelidate/validators';
-import { useVuelidate } from '@vuelidate/core';
 import countries from 'shared/constants/countries.js';
 import { isPhoneNumberValid } from 'shared/helpers/Validators';
 import parsePhoneNumber from 'libphonenumber-js';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import { reactive, toRefs } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { url } from '@vuelidate/validators';
+import { helpers } from '@vuelidate/validators';
+
+const socialValidator = helpers.withMessage(
+  'Invalid URL',
+  value => {
+    if (!value) return true
+
+    // allow usernames
+    if (!value.includes('http')) return true
+
+    return /^https?:\/\/[^\s/$.?#].[^\s]*$/.test(value)
+  }
+)
+
+
 
 export default {
   components: {
@@ -19,69 +36,82 @@ export default {
     Avatar,
     ComboBox,
   },
+  setup() {
+  return { v$: useVuelidate() };
+},
   props: {
     contact: {
-      type: Object,
-      default: () => ({}),
+      name: '',
     },
     inProgress: {
       type: Boolean,
       default: false,
     },
     onSubmit: {
-      type: Function,
-      default: () => {},
-    },
+    type: Function,
+    required: true,
+  },
   },
   emits: ['cancel', 'success'],
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      countries: countries,
-      companyName: '',
-      description: '',
-      email: '',
-      name: '',
-      phoneNumber: '',
-      activeDialCode: '',
-      avatarFile: null,
-      avatarUrl: '',
-      country: {
-        id: '',
-        name: '',
-      },
-      city: '',
-      socialProfileUserNames: {
-        facebook: '',
-        twitter: '',
-        linkedin: '',
-        github: '',
-        telegram: '',
-      },
-      socialProfileKeys: [
-        { key: 'facebook', prefixURL: 'https://facebook.com/' },
-        { key: 'twitter', prefixURL: 'https://twitter.com/' },
-        { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
-        { key: 'github', prefixURL: 'https://github.com/' },
-        { key: 'telegram', prefixURL: 'https://t.me/' },
-        { key: 'tiktok', prefixURL: 'https://tiktok.com/@' },
-      ],
-    };
-  },
-  validations: {
-    name: {
-      required,
+data() {
+  return {
+    countries: countries,
+    companyName: '',
+    description: '',
+    email: '',
+    name: '',
+    phoneNumber: '',
+    activeDialCode: '',
+    avatarFile: null,
+    avatarUrl: '',
+    country: { id: '', name: '' },
+    city: '',
+    socialProfileUserNames: {
+      facebook: '',
+      twitter: '',
+      linkedin: '',
+      github: '',
+      telegram: '',
+      tiktok: '',
+      instagram: '',
     },
-    description: {},
-    email: {
-      email,
-    },
-    companyName: {},
-    phoneNumber: {},
-    bio: {},
+    socialProfileErrors: {
+      facebook: null,
+      twitter: null,
+      linkedin: null,
+      github: null,
+      telegram: null,
+      tiktok: null,
+      instagram: null,
+},
+    socialProfileKeys: [
+      { key: 'facebook', prefixURL: 'https://facebook.com/' },
+      { key: 'twitter', prefixURL: 'https://twitter.com/' },
+      { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
+      { key: 'github', prefixURL: 'https://github.com/' },
+      { key: 'telegram', prefixURL: 'https://t.me/' },
+      { key: 'tiktok', prefixURL: 'https://tiktok.com/@' },
+      { key: 'instagram', prefixURL: 'https://www.instagram.com/' },
+    ],
+  };
+},
+validations: {
+  name: { required },
+  description: {},
+  email: { email },
+  companyName: {},
+  phoneNumber: {},
+  bio: {},
+  socialProfileUserNames: {
+    facebook: { socialValidator },
+    twitter: { socialValidator },
+    linkedin: { socialValidator },
+    github: { socialValidator },
+    telegram: { socialValidator },
+    tiktok: { socialValidator },
+    instagram: { socialValidator },
   },
+},
   computed: {
     parsePhoneNumber() {
       return parsePhoneNumber(this.phoneNumber);
@@ -126,12 +156,35 @@ export default {
     this.setDialCode();
   },
   methods: {
+    updateSocialProfile(key, value) {
+    this.socialProfileUserNames[key] = value
+    this.validateSocialProfiles()
+  },
     onCancel() {
       this.$emit('cancel');
     },
     onSuccess() {
       this.$emit('success');
     },
+    validateSocialProfiles() {
+  const urlRegex = /^https?:\/\/[^\s/$.?#].[^\s]*$/
+
+  this.socialProfileKeys.forEach(({ key }) => {
+    const value = this.socialProfileUserNames[key]
+
+    if (!value) {
+      this.socialProfileErrors[key] = null
+      return
+    }
+
+    const isValid = urlRegex.test(value)
+
+    this.socialProfileErrors[key] = isValid
+      ? null
+      : `Invalid ${key} URL`
+    })
+    this.$nextTick?.(() => {})
+  },
     countryNameWithCode({ name, id }) {
       if (!id) return name;
       if (!name && !id) return '';
@@ -239,6 +292,7 @@ export default {
     },
     async handleSubmit() {
       this.v$.$touch();
+      this.validateSocialProfiles();
       if (this.v$.$invalid || this.isPhoneNumberNotValid) {
         return;
       }
@@ -402,21 +456,29 @@ export default {
 
     <div class="w-full">
       <label>{{ $t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES') }}</label>
-      <div
-        v-for="socialProfile in socialProfileKeys"
-        :key="socialProfile.key"
-        class="flex items-stretch w-full mb-4"
-      >
+    <div
+      v-for="socialProfile in socialProfileKeys"
+      :key="socialProfile.key"
+      class="flex items-stretch w-full mb-4"
+    >
         <span
           class="flex items-center h-10 px-2 text-sm border-solid border-y ltr:border-l rtl:border-r ltr:rounded-l-md rtl:rounded-r-md bg-n-solid-3 text-n-slate-11 border-n-weak"
         >
           {{ socialProfile.prefixURL }}
         </span>
         <input
-          v-model="socialProfileUserNames[socialProfile.key]"
-          class="input-group-field ltr:!rounded-l-none rtl:!rounded-r-none !mb-0"
-          type="text"
+          :value="socialProfileUserNames[socialProfile.key]"
+          @input="updateSocialProfile(socialProfile.key, $event.target.value)"
+          :data-testid="`social-${socialProfile.key}`"
         />
+        <!-- Error message per profile -->
+        <span
+          v-if="socialProfileErrors[socialProfile.key]"
+          :data-test="`social-error-${socialProfile.key}`"
+          class="error-message"
+        >
+          {{ socialProfileErrors[socialProfile.key] }}
+        </span>
       </div>
     </div>
     <div class="flex flex-row justify-start w-full gap-2 px-0 py-2">
@@ -435,3 +497,12 @@ export default {
     </div>
   </form>
 </template>
+
+<style scoped>
+.error-message {
+  color: red;
+  font-size: 0.85em;
+  margin-left: 8px;
+}
+</style>
+
