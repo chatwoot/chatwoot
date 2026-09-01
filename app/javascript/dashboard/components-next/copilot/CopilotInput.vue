@@ -58,9 +58,9 @@ onMounted(() => {
     <textarea
       ref="textareaRef"
       v-model="message"
-      :disabled="isSending"
+      :readonly="isSending"
       :placeholder="$t('CAPTAIN.COPILOT.SEND_MESSAGE')"
-      class="w-full reset-base bg-n-alpha-3 ltr:pl-4 ltr:pr-12 rtl:pl-12 rtl:pr-4 py-3 text-sm border border-n-weak rounded-lg focus:outline-0 focus:outline-none focus:ring-2 focus:ring-n-blue-11 focus:border-n-blue-11 resize-none overflow-hidden max-h-[200px] mb-0 text-n-slate-12 disabled:cursor-not-allowed disabled:opacity-60"
+      class="w-full reset-base bg-n-alpha-3 ltr:pl-4 ltr:pr-12 rtl:pl-12 rtl:pr-4 py-3 text-sm border border-n-weak rounded-lg focus:outline-0 focus:outline-none focus:ring-2 focus:ring-n-blue-11 focus:border-n-blue-11 resize-none overflow-hidden max-h-[200px] mb-0 text-n-slate-12 read-only:cursor-wait read-only:opacity-60"
       rows="1"
       @input="handleInput"
       @keydown.enter.exact="handleEnterKey"
