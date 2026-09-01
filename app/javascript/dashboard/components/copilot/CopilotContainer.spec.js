@@ -1,5 +1,5 @@
 import { nextTick, ref } from 'vue';
-import { flushPromises, shallowMount } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import CopilotContainer from './CopilotContainer.vue';
 
 const testState = vi.hoisted(() => ({
@@ -56,7 +56,7 @@ const mountComponent = () =>
       stubs: {
         Copilot: {
           name: 'Copilot',
-          props: ['messages'],
+          props: ['messages', 'onSendMessage'],
           template: '<div />',
         },
       },
@@ -79,8 +79,9 @@ describe('CopilotContainer', () => {
     const wrapper = mountComponent();
     const copilot = wrapper.findComponent({ name: 'Copilot' });
 
-    copilot.vm.$emit('sendMessage', 'Draft a reply');
-    await flushPromises();
+    const result = await copilot.props('onSendMessage')('Draft a reply');
+
+    expect(result).toBe(true);
     expect(copilot.props('messages')).toEqual([{ id: 99 }]);
 
     testState.refs.getSelectedChat.value = { id: 2 };
@@ -100,13 +101,24 @@ describe('CopilotContainer', () => {
     const wrapper = mountComponent();
     const copilot = wrapper.findComponent({ name: 'Copilot' });
 
-    copilot.vm.$emit('sendMessage', 'Draft a reply');
+    const sendPromise = copilot.props('onSendMessage')('Draft a reply');
     await nextTick();
     testState.refs.getSelectedChat.value = { id: 2 };
     await nextTick();
     resolveRequest({ id: 99 });
-    await flushPromises();
+
+    expect(await sendPromise).toBe(true);
 
     expect(copilot.props('messages')).toEqual([]);
+  });
+
+  it('reports a failed send', async () => {
+    testState.dispatch.mockRejectedValue(new Error('Could not send'));
+    const wrapper = mountComponent();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    const result = await copilot.props('onSendMessage')('Draft a reply');
+
+    expect(result).toBe(false);
   });
 });

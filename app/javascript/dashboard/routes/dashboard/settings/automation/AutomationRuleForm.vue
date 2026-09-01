@@ -1,5 +1,13 @@
 <script setup>
-import { ref, computed, h, useTemplateRef, watch } from 'vue';
+import {
+  ref,
+  computed,
+  h,
+  shallowRef,
+  toRaw,
+  useTemplateRef,
+  watch,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useOperators } from 'dashboard/components-next/filter/operators';
@@ -88,6 +96,7 @@ provideDropdownTeleport();
 
 const panelRef = ref(null);
 const instantTriggerRef = useTemplateRef('instantTriggerRef');
+const waitConditionRef = useTemplateRef('waitConditionRef');
 const errors = ref({});
 
 const isEditMode = computed(() => props.mode === 'edit');
@@ -102,6 +111,9 @@ const isDelayed = ref(false);
 const isSavedWait = ref(false);
 const delayMinutes = ref(DEFAULT_DELAY_MINUTES);
 const delayUnit = ref(DURATION_UNITS.HOURS);
+const instantTriggerDraft = shallowRef(null);
+const waitTriggerDraft = shallowRef(null);
+const isSyncingDelayState = ref(false);
 // Bumped on every open() so the wait section remounts and re-reads the rule it is given.
 const waitSectionKey = ref(0);
 
@@ -119,10 +131,28 @@ const inboxOptions = computed(
   () => props.getConditionDropdownValues('inbox_id') || []
 );
 
+const captureTriggerDraft = () => {
+  if (!automation.value) return null;
+
+  return {
+    eventName: automation.value.event_name,
+    conditions: structuredClone(toRaw(automation.value.conditions)),
+  };
+};
+
+const restoreTriggerDraft = draft => {
+  if (!automation.value || !draft) return;
+
+  automation.value.event_name = draft.eventName;
+  automation.value.conditions = structuredClone(draft.conditions);
+};
+
 // Show the wait in the largest whole unit (240 min → 4 hours). The delay is passed in by open()
 // rather than read from `automation`, whose model prop only settles a tick later.
 const syncDelayState = executionDelay => {
+  isSyncingDelayState.value = true;
   isDelayed.value = Boolean(executionDelay);
+  isSyncingDelayState.value = false;
   isSavedWait.value = isEditMode.value && Boolean(executionDelay);
   const minutes = executionDelay || DEFAULT_DELAY_MINUTES;
   if (minutes % 1440 === 0) delayUnit.value = DURATION_UNITS.DAYS;
@@ -130,12 +160,32 @@ const syncDelayState = executionDelay => {
   else delayUnit.value = DURATION_UNITS.MINUTES;
   delayMinutes.value = minutes;
   waitSectionKey.value += 1;
+
+  const triggerDraft = captureTriggerDraft();
+  instantTriggerDraft.value = executionDelay ? null : triggerDraft;
+  waitTriggerDraft.value = executionDelay ? triggerDraft : null;
 };
 
-watch([isDelayed, delayMinutes], () => {
-  // Switching to "run instantly" hands the conditions back to the instant editor.
-  if (!isDelayed.value) isSavedWait.value = false;
+watch(
+  isDelayed,
+  (nextIsDelayed, previousIsDelayed) => {
+    if (isSyncingDelayState.value) return;
 
+    const currentDraft = captureTriggerDraft();
+    if (previousIsDelayed) waitTriggerDraft.value = currentDraft;
+    else instantTriggerDraft.value = currentDraft;
+
+    const nextDraft = nextIsDelayed
+      ? waitTriggerDraft.value
+      : instantTriggerDraft.value;
+    restoreTriggerDraft(nextDraft);
+    // A restored in-form wait draft must hydrate like a saved wait instead of being reset on mount.
+    isSavedWait.value = nextIsDelayed && Boolean(nextDraft);
+  },
+  { flush: 'sync' }
+);
+
+watch([isDelayed, delayMinutes], () => {
   if (!automation.value || !allowsDelayedExecution.value) return;
   automation.value.execution_delay = isDelayed.value
     ? delayMinutes.value
@@ -252,11 +302,14 @@ watch(
   { deep: true }
 );
 
-const isConditionsValid = () => instantTriggerRef.value?.validate() ?? true;
+const isConditionsValid = () =>
+  (isDelayed.value ? waitConditionRef : instantTriggerRef).value?.validate() ??
+  true;
 
 const resetValidation = () => {
   errors.value = {};
   instantTriggerRef.value?.resetValidation();
+  waitConditionRef.value?.resetValidation();
 };
 
 const syncCustomAttributeTypes = () => {
@@ -330,12 +383,15 @@ defineExpose({ open, close });
       <AutomationWaitCondition
         v-if="isDelayed"
         :key="waitSectionKey"
+        ref="waitConditionRef"
         v-model:event-name="automation.event_name"
         v-model:conditions="automation.conditions"
         v-model:delay="delayMinutes"
         v-model:unit="delayUnit"
         :status-options="statusOptions"
         :inbox-options="inboxOptions"
+        :filter-types="filterTypes"
+        :remove-filter="removeFilter"
         :is-saved-wait="isSavedWait"
         :has-error="Boolean(errors.execution_delay)"
       />
