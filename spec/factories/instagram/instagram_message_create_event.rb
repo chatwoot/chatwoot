@@ -517,4 +517,35 @@ FactoryBot.define do
     end
     initialize_with { attributes }
   end
+
+  factory :instagram_postback_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
+    entry do
+      [
+        {
+          'id': ig_entry_id,
+          'time': '2021-09-08T06:34:04+0000',
+          'messaging': [
+            {
+              'sender': {
+                'id': sender_id
+              },
+              'recipient': {
+                'id': 'chatwoot-app-user-id-1'
+              },
+              'timestamp': '2021-09-08T06:34:04+0000',
+              'postback': {
+                'title': 'Buy Now',
+                'payload': 'BUY_ITEM_123'
+              }
+            }
+          ]
+        }
+      ]
+    end
+    initialize_with { attributes }
+  end
 end

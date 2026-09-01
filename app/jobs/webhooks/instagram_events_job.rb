@@ -11,7 +11,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   retry_on_lock_conflict wait: ->(executions) { executions.seconds }, attempts: 3, on_exhaustion: :process_without_lock
 
   # @return [Array] We will support further events like reaction or seen in future
-  SUPPORTED_EVENTS = [:message, :read].freeze
+  SUPPORTED_EVENTS = [:message, :read, :postback].freeze
 
   def perform(entries)
     @entries = entries
@@ -140,6 +140,14 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   def read(messaging, channel)
     # Use a single service to handle read status for both channel types since the params are same
     ::Instagram::ReadStatusService.new(params: messaging, channel: channel).perform
+  end
+
+  def postback(messaging, channel)
+    if channel.is_a?(Channel::Instagram)
+      ::Instagram::PostbackService.new(messaging, channel).perform
+    else
+      ::Instagram::Messenger::PostbackService.new(messaging, channel).perform
+    end
   end
 
   def messages(entry)
