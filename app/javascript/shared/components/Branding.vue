@@ -1,11 +1,14 @@
 <script>
 import { useBranding } from 'shared/composables/useBranding';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 const {
-  LOGO_THUMBNAIL: logoThumbnail,
+  LOGO_THUMBNAIL: rawLogoThumbnail,
   BRAND_NAME: brandName,
   WIDGET_BRAND_URL: widgetBrandURL,
 } = window.globalConfig || {};
+
+const logoThumbnail = useAssetUrl()(rawLogoThumbnail);
 
 export default {
   props: {

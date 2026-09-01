@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { toPng } from 'html-to-image';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 const props = defineProps({
   show: {
@@ -23,6 +24,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close']);
+
+const assetUrl = useAssetUrl();
 
 const { t } = useI18n();
 
@@ -95,17 +98,25 @@ const generateImage = async () => {
     );
 
     const logo = new Image();
-    logo.src = '/brand-assets/logo.svg';
-    await new Promise(resolve => {
-      logo.onload = resolve;
+    logo.crossOrigin = 'anonymous';
+    const logoLoaded = new Promise(resolve => {
+      logo.onload = () => resolve(true);
+      logo.onerror = () => resolve(false);
     });
+    logo.src = assetUrl('/brand-assets/logo.svg');
+    const logoOk = await logoLoaded;
 
-    const logoHeight = 30;
-    const logoWidth = (logo.width / logo.height) * logoHeight;
-    const logoX = finalCanvas.width - borderSize - logoWidth;
-    const logoY = img.height + borderSize + 15;
+    // Skip drawing the logo if it failed to load (e.g. CDN CORS misconfigured
+    // or 404). Without this guard `isGenerating` would hang waiting for an
+    // onload that never fires.
+    if (logoOk && logo.naturalWidth > 0) {
+      const logoHeight = 30;
+      const logoWidth = (logo.width / logo.height) * logoHeight;
+      const logoX = finalCanvas.width - borderSize - logoWidth;
+      const logoY = img.height + borderSize + 15;
 
-    ctx.drawImage(logo, logoX, logoY, logoWidth, logoHeight);
+      ctx.drawImage(logo, logoX, logoY, logoWidth, logoHeight);
+    }
 
     shareImageUrl.value = finalCanvas.toDataURL('image/png');
   } catch (err) {

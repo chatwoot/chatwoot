@@ -3,11 +3,14 @@ import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useStoreGetters } from 'dashboard/composables/store';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 import YearInReviewModal from './YearInReviewModal.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 
-const yearInReviewBannerImage =
-  '/assets/images/dashboard/year-in-review/year-in-review-sidebar.png';
+const assetUrl = useAssetUrl();
+const yearInReviewBannerImage = assetUrl(
+  '/assets/images/dashboard/year-in-review/year-in-review-sidebar.png'
+);
 const { t } = useI18n();
 const { uiSettings, updateUISettings } = useUISettings();
 const getters = useStoreGetters();

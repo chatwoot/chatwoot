@@ -33,6 +33,7 @@
       window.authToken = '<%= @token %>'
       window.globalConfig = <%= raw @global_config.to_json %>
     </script>
+    <%= render 'shared/vite_base' %>
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'widget' %>
   </head>

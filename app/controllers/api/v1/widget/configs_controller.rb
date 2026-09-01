@@ -16,6 +16,8 @@ class Api::V1::Widget::ConfigsController < Api::V1::Widget::BaseController
       'MAXIMUM_FILE_UPLOAD_SIZE',
       'INSTALLATION_NAME'
     )
+    @global_config['ASSET_CDN_HOST'] = Cdn.host_or_empty
+    Cdn.normalize_logo_paths!(@global_config)
   end
 
   def set_contact

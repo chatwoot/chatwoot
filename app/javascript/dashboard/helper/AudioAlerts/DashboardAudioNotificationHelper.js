@@ -12,12 +12,14 @@ import {
 } from './AudioMessageHelper';
 import WindowVisibilityHelper from './WindowVisibilityHelper';
 import { useAlert } from 'dashboard/composables';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 const NOTIFICATION_TIME = 30000;
 const ALERT_DURATION = 10000;
-const ALERT_PATH_PREFIX = '/audio/dashboard/';
 const DEFAULT_TONE = 'ding';
 const DEFAULT_ALERT_TYPE = ['none'];
+
+const alertResourceUrl = tone => useAssetUrl()(`/audio/dashboard/${tone}.mp3`);
 
 export class DashboardAudioNotificationHelper {
   constructor(store) {
@@ -44,8 +46,7 @@ export class DashboardAudioNotificationHelper {
   }
 
   intializeAudio = () => {
-    const resourceUrl = `${ALERT_PATH_PREFIX}${this.audioConfig.tone}.mp3`;
-    this.audioConfig.audio = new Audio(resourceUrl);
+    this.audioConfig.audio = new Audio(alertResourceUrl(this.audioConfig.tone));
     return this.audioConfig.audio.load();
   };
 
