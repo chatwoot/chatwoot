@@ -75,7 +75,7 @@ const triggerAction = () => {
         :disabled="isLoading"
         @click="triggerAction"
       >
-        <Spinner v-if="isLoading" size="16" />
+        <Spinner v-if="isLoading" :size="16" />
         <span v-else>{{ actionLabel }}</span>
       </button>
     </div>
