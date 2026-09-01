@@ -17,6 +17,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     advanced_search
     linear_integration
     channel_voice
+    whatsapp_embedded_signup_inbox_creation
     api_and_webhooks
     data_import
   ].freeze
