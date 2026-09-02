@@ -137,9 +137,8 @@ describe('usePlaygroundSession', () => {
     const { scope, session } = createSession();
     await session.initialize();
     session.toggleScenario(2);
-    session.addTemporaryScenario();
+    session.addTemporaryScenario('Refund request');
     Object.assign(session.temporaryScenarios.value[0], {
-      title: 'Refund request',
       description: 'Handle refunds',
       instruction: 'Follow the refund policy',
     });
@@ -179,10 +178,9 @@ describe('usePlaygroundSession', () => {
     });
     const { scope, session } = createSession();
     await session.initialize();
-    session.addTemporaryScenario();
+    session.addTemporaryScenario(savedScenario.title);
     const temporary = session.temporaryScenarios.value[0];
     Object.assign(temporary, {
-      title: savedScenario.title,
       description: savedScenario.description,
       instruction: savedScenario.instruction,
     });
@@ -191,6 +189,21 @@ describe('usePlaygroundSession', () => {
 
     expect(session.temporaryScenarios.value).toHaveLength(0);
     expect(session.includedScenarioIds.value).toContain(3);
+    scope.stop();
+  });
+
+  it('adds only temporary scenarios that have a title', () => {
+    const { scope, session } = createSession();
+
+    session.addTemporaryScenario('   ');
+    session.addTemporaryScenario('  Refund request  ');
+
+    expect(session.temporaryScenarios.value).toEqual([
+      expect.objectContaining({
+        title: 'Refund request',
+        included: true,
+      }),
+    ]);
     scope.stop();
   });
 

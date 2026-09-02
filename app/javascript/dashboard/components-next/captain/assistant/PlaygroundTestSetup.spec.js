@@ -3,10 +3,10 @@ import { shallowMount } from '@vue/test-utils';
 import Accordion from 'dashboard/components-next/Accordion/Accordion.vue';
 import AddNewRulesInput from 'dashboard/components-next/captain/assistant/AddNewRulesInput.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import PlaygroundTestSetup from './PlaygroundTestSetup.vue';
-import PlaygroundTemporaryEmptyState from './PlaygroundTemporaryEmptyState.vue';
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({
@@ -60,7 +60,7 @@ const mountSetup = (overrides = {}) =>
   shallowMount(PlaygroundTestSetup, {
     props: { session: buildSession(overrides) },
     global: {
-      stubs: { Accordion: false, PlaygroundTemporaryEmptyState: false },
+      stubs: { Accordion: false },
     },
   });
 
@@ -162,6 +162,9 @@ describe('PlaygroundTestSetup', () => {
     });
     await selectTab(wrapper, 'scenarios');
 
+    expect(wrapper.findComponent(InlineInput).props('modelValue')).toBe(
+      'Refund request'
+    );
     expect(wrapper.find('#temporary-scenario-temporary-1').exists()).toBe(true);
     const collapseButton = wrapper
       .findAllComponents(Button)
@@ -177,7 +180,9 @@ describe('PlaygroundTestSetup', () => {
     expect(wrapper.find('#temporary-scenario-temporary-1').exists()).toBe(
       false
     );
-    expect(wrapper.text()).toContain('Refund request');
+    expect(wrapper.findComponent(InlineInput).props('modelValue')).toBe(
+      'Refund request'
+    );
     expect(
       wrapper
         .findAllComponents(Button)
@@ -189,7 +194,7 @@ describe('PlaygroundTestSetup', () => {
     ).toBe(true);
   });
 
-  it('uses quick entry for knowledge and rules while retaining the scenario empty state', async () => {
+  it('uses quick entry for knowledge, scenarios, and rules', async () => {
     const addTemporaryScenario = vi.fn();
     const addTemporaryRule = vi.fn();
     const setKnowledgeText = vi.fn();
@@ -211,18 +216,15 @@ describe('PlaygroundTestSetup', () => {
     expect(wrapper.findComponent(TextArea).exists()).toBe(true);
 
     await selectTab(wrapper, 'scenarios');
-    const emptyState = wrapper.findComponent(PlaygroundTemporaryEmptyState);
-    expect(emptyState.props()).toMatchObject({
-      message: 'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.TEMPORARY_EMPTY',
-      actionLabel: 'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.ADD',
+    rulesInput = wrapper.findComponent(AddNewRulesInput);
+    expect(rulesInput.props()).toMatchObject({
+      placeholder: 'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.COMPOSER_PLACEHOLDER',
+      label: 'CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST',
     });
-    emptyState.vm.$emit('add');
-    expect(addTemporaryScenario).toHaveBeenCalledOnce();
+    rulesInput.vm.$emit('add', 'Refund request');
+    expect(addTemporaryScenario).toHaveBeenCalledWith('Refund request');
 
     await selectTab(wrapper, 'guidelines');
-    expect(wrapper.findComponent(PlaygroundTemporaryEmptyState).exists()).toBe(
-      false
-    );
     rulesInput = wrapper.findComponent(AddNewRulesInput);
     expect(rulesInput.props()).toMatchObject({
       placeholder: 'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.COMPOSER_PLACEHOLDER',
@@ -235,9 +237,6 @@ describe('PlaygroundTestSetup', () => {
     );
 
     await selectTab(wrapper, 'guardrails');
-    expect(wrapper.findComponent(PlaygroundTemporaryEmptyState).exists()).toBe(
-      false
-    );
     rulesInput = wrapper.findComponent(AddNewRulesInput);
     expect(rulesInput.props()).toMatchObject({
       placeholder: 'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.COMPOSER_PLACEHOLDER',

@@ -659,9 +659,7 @@
           "ADD_PERMANENTLY": "Add scenario permanently",
           "DISABLED": "Disabled",
           "EMPTY": "This assistant has no saved scenarios.",
-          "TEMPORARY_EMPTY": "There are no temporary scenarios yet.",
-          "TEMPORARY_TITLE": "Temporary scenario",
-          "ADD": "Add temporary scenario",
+          "COMPOSER_PLACEHOLDER": "Type a temporary scenario title...",
           "COLLAPSE": "Collapse temporary scenario",
           "EXPAND": "Expand temporary scenario",
           "REMOVE": "Remove temporary scenario"

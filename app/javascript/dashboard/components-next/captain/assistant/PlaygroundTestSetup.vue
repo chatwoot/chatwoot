@@ -7,12 +7,12 @@ import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 import Label from 'dashboard/components-next/label/Label.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import AddNewRulesInput from 'dashboard/components-next/captain/assistant/AddNewRulesInput.vue';
-import PlaygroundTemporaryEmptyState from './PlaygroundTemporaryEmptyState.vue';
 
 const props = defineProps({
   session: { type: Object, required: true },
@@ -26,6 +26,7 @@ const activeTab = ref('knowledge');
 const collapsedScenarioIds = ref(new Set());
 const isKnowledgeEditorVisible = ref(Boolean(props.session.knowledgeText));
 const newKnowledge = ref('');
+const newScenario = ref('');
 const newGuideline = ref('');
 const newGuardrail = ref('');
 
@@ -103,6 +104,10 @@ const addTemporaryKnowledge = content => {
   isKnowledgeEditorVisible.value = true;
 };
 
+const addTemporaryScenario = title => {
+  props.session.addTemporaryScenario(title);
+};
+
 const addTemporaryGuideline = content => {
   props.session.addTemporaryRule('guideline', content);
 };
@@ -119,6 +124,7 @@ const resetSetup = () => {
   activeTab.value = 'knowledge';
   collapsedScenarioIds.value = new Set();
   isKnowledgeEditorVisible.value = false;
+  newScenario.value = '';
   emit('reset');
 };
 </script>
@@ -178,54 +184,61 @@ const resetSetup = () => {
         </div>
 
         <section v-if="activeTab === 'scenarios'" class="flex flex-col gap-4">
-          <div class="flex items-start justify-between gap-4">
-            <div class="min-w-0">
-              <h4 class="text-sm font-medium">
-                {{ t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.CREATE_TITLE') }}
-              </h4>
-              <p class="mt-1 text-xs leading-5 text-n-slate-11">
-                {{ t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.CREATE_HINT') }}
-              </p>
-            </div>
-            <Button
-              v-if="session.temporaryScenarios.length"
-              :label="t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.ADD')"
-              icon="i-lucide-plus"
-              variant="faded"
-              color="blue"
-              size="sm"
-              class="shrink-0"
-              @click="session.addTemporaryScenario"
-            />
+          <div class="min-w-0">
+            <h4 class="text-sm font-medium">
+              {{ t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.CREATE_TITLE') }}
+            </h4>
+            <p class="mt-1 text-xs leading-5 text-n-slate-11">
+              {{ t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.CREATE_HINT') }}
+            </p>
           </div>
 
-          <PlaygroundTemporaryEmptyState
-            v-if="!session.temporaryScenarios.length"
-            :message="t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.TEMPORARY_EMPTY')"
-            :action-label="t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.ADD')"
-            @add="session.addTemporaryScenario"
+          <AddNewRulesInput
+            v-model="newScenario"
+            :placeholder="
+              t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.COMPOSER_PLACEHOLDER')
+            "
+            :label="t('CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST')"
+            @add="addTemporaryScenario"
           />
 
           <div
             v-for="scenario in session.temporaryScenarios"
             :key="scenario.clientId"
-            class="flex flex-col gap-3 rounded-xl border border-n-strong bg-n-solid-2 p-4"
+            class="overflow-hidden rounded-xl border border-n-strong bg-n-solid-2"
           >
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex min-w-0 items-center gap-2">
-                <span class="truncate text-sm font-medium text-n-slate-12">
-                  {{
-                    scenario.title ||
-                    t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.TEMPORARY_TITLE')
-                  }}
-                </span>
+            <div class="flex min-h-16 items-center gap-3 px-4 py-3">
+              <Icon
+                icon="i-lucide-workflow"
+                class="size-5 shrink-0 text-n-slate-10"
+              />
+              <InlineInput
+                :id="`temporary-scenario-title-${scenario.clientId}`"
+                v-model="scenario.title"
+                :label="
+                  t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.TITLE.LABEL')
+                "
+                custom-label-class="sr-only"
+                :placeholder="
+                  t(
+                    'CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.TITLE.PLACEHOLDER'
+                  )
+                "
+              />
+              <div class="flex shrink-0 items-center gap-1">
                 <Label
                   :label="t('CAPTAIN.PLAYGROUND.SETUP.SESSION_ONLY')"
                   compact
                   color="amber"
                 />
-              </div>
-              <div class="flex shrink-0 items-center gap-1">
+                <Button
+                  icon="i-lucide-trash-2"
+                  variant="ghost"
+                  color="ruby"
+                  size="xs"
+                  :aria-label="t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.REMOVE')"
+                  @click="session.removeTemporaryScenario(scenario.clientId)"
+                />
                 <Button
                   :icon="
                     isTemporaryScenarioCollapsed(scenario)
@@ -240,27 +253,13 @@ const resetSetup = () => {
                   :aria-controls="`temporary-scenario-${scenario.clientId}`"
                   @click="toggleTemporaryScenario(scenario)"
                 />
-                <Button
-                  icon="i-lucide-trash-2"
-                  variant="ghost"
-                  color="ruby"
-                  size="xs"
-                  :aria-label="t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.REMOVE')"
-                  @click="session.removeTemporaryScenario(scenario.clientId)"
-                />
               </div>
             </div>
             <div
               v-if="!isTemporaryScenarioCollapsed(scenario)"
               :id="`temporary-scenario-${scenario.clientId}`"
-              class="flex flex-col gap-3"
+              class="flex flex-col gap-3 border-t border-n-weak p-4"
             >
-              <Input
-                v-model="scenario.title"
-                :label="
-                  t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.TITLE.LABEL')
-                "
-              />
               <TextArea
                 v-model="scenario.description"
                 :max-length="500"

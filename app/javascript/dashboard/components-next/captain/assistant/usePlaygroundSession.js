@@ -97,10 +97,13 @@ export function usePlaygroundSession({ assistantId }) {
       : [...includedScenarioIds.value, id];
   };
 
-  const addTemporaryScenario = () => {
+  const addTemporaryScenario = title => {
+    const normalizedTitle = title?.trim();
+    if (!normalizedTitle) return;
+
     temporaryScenarios.value.push({
       clientId: createClientId(),
-      title: '',
+      title: normalizedTitle,
       description: '',
       instruction: '',
       included: true,
