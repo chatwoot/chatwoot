@@ -73,6 +73,66 @@ describe('AgentDailyTable.vue', () => {
     });
   });
 
+  it('scrolls on both axes inside a keyboard-reachable region', () => {
+    const region = mountTable().find('[role="region"]');
+
+    expect(region.classes()).toContain('overflow-auto');
+    expect(region.classes()).toContain('max-h-[30rem]');
+    expect(region.attributes('tabindex')).toBe('0');
+  });
+
+  it('pins the header row so it survives a vertical scroll', () => {
+    const headers = mountTable().findAll('thead th');
+
+    headers.forEach(header => {
+      expect(header.classes()).toContain('sticky');
+      expect(header.classes()).toContain('top-0');
+    });
+  });
+
+  it('pins the agent column and the total column to opposite edges', () => {
+    const wrapper = mountTable();
+    const row = wrapper.findAll('tbody tr')[0];
+    const nameCell = row.find('th');
+    const cells = row.findAll('td');
+    const totalCell = cells[cells.length - 1];
+
+    expect(nameCell.classes()).toEqual(
+      expect.arrayContaining(['sticky', 'start-0'])
+    );
+    expect(totalCell.classes()).toEqual(
+      expect.arrayContaining(['sticky', 'end-0'])
+    );
+  });
+
+  it('stacks the pinned corners above the pinned edges', () => {
+    const headers = mountTable().findAll('thead th');
+    const corner = headers[0];
+    const dayHeader = headers[1];
+    const totalHeader = headers[headers.length - 1];
+    const nameCell = mountTable().findAll('tbody tr')[0].find('th');
+
+    // Both-axis corners must outrank the single-axis edges they overlap.
+    expect(corner.classes()).toContain('z-30');
+    expect(totalHeader.classes()).toContain('z-30');
+    expect(dayHeader.classes()).toContain('z-20');
+    expect(nameCell.classes()).toContain('z-10');
+  });
+
+  it('keeps the whole sticky ladder below the app chrome band', () => {
+    // The mobile sidebar drawer is fixed at z-40 and a tie resolves by tree order,
+    // where main follows aside — so a z-40 cell here would paint over the drawer.
+    const sticky = mountTable()
+      .findAll('.sticky')
+      .flatMap(cell => cell.classes())
+      .filter(name => name.startsWith('z-'));
+
+    expect(sticky.length).toBeGreaterThan(0);
+    sticky.forEach(name => {
+      expect(Number(name.replace('z-', ''))).toBeLessThan(40);
+    });
+  });
+
   it('renders an empty state when there are no agents', () => {
     const wrapper = mountTable({ agents: [], matrix: [] });
 

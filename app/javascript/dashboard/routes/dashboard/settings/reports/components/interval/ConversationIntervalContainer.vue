@@ -109,6 +109,7 @@ onMounted(() => {
 <template>
   <div class="flex max-w-full flex-row flex-wrap">
     <MetricCard
+      class="min-w-0"
       :header="t('OVERVIEW_REPORTS.CONVERSATION_INTERVAL.HEADER')"
       :is-loading="isLoading"
       :loading-message="
