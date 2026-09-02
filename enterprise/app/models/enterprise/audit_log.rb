@@ -56,6 +56,15 @@ class Enterprise::AuditLog < Audited::Audit
     update_columns(city: result.city, country: result.country, country_code: result.country_code) # rubocop:disable Rails/SkipsModelValidations
   end
 
+  scope :with_auditable_types, ->(types) { where(auditable_type: types) }
+  scope :created_after, ->(time) { where(created_at: time..) }
+  scope :created_before, ->(time) { where(created_at: ..time) }
+  scope :search_by_user, lambda { |query|
+    term = "%#{ActiveRecord::Base.sanitize_sql_like(query)}%"
+    joins("LEFT JOIN users ON users.id = audits.user_id AND audits.user_type = 'User'")
+      .where('audits.username ILIKE :term OR users.name ILIKE :term OR users.email ILIKE :term', term: term)
+  }
+
   private
 
   def enqueue_ip_lookup

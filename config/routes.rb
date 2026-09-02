@@ -71,6 +71,12 @@ Rails.application.routes.draw do
                 get :summary
                 get :drilldown
               end
+              resource :stats, only: [], controller: :assistant_stats do
+                get :overview
+                get :overview_summary
+                get :resolution_flow
+                get :resolution_trend
+              end
               collection do
                 get :tools
               end
@@ -78,7 +84,9 @@ Rails.application.routes.draw do
               resources :scenarios
             end
             resources :agent_sessions, only: [:show]
-            resources :assistant_responses
+            resources :assistant_responses do
+              get :drilldown, on: :member
+            end
             resources :faq_suggestions, only: [:index, :show, :update] do
               post :approve, on: :member
               post :dismiss, on: :member
@@ -93,6 +101,7 @@ Rails.application.routes.draw do
             end
             resources :documents, only: [:index, :show, :create, :destroy] do
               post :sync, on: :member
+              get :drilldown, on: :member
             end
             resource :tasks, only: [], controller: 'tasks' do
               post :rewrite
@@ -138,7 +147,12 @@ Rails.application.routes.draw do
               resources :inbox_limits, only: [:create, :update, :destroy]
             end
           end
-          resources :campaigns, only: [:index, :create, :show, :update, :destroy]
+          resources :campaigns, only: [:index, :create, :show, :update, :destroy] do
+            if ChatwootApp.enterprise?
+              get 'analytics/metrics', to: 'campaigns/analytics#metrics'
+              get 'analytics/contacts', to: 'campaigns/analytics#contacts'
+            end
+          end
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
@@ -367,6 +381,10 @@ Rails.application.routes.draw do
 
           namespace :whatsapp do
             resource :authorization, only: [:create]
+            post 'manual/preview', to: 'manual_setup#preview'
+            post 'manual/connect', to: 'manual_setup#connect'
+            get 'manual/:inbox_id/webhook_status', to: 'manual_setup#webhook_status'
+            post 'manual/:inbox_id/setup_webhook', to: 'manual_setup#setup_webhook'
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
@@ -716,6 +734,7 @@ Rails.application.routes.draw do
       end
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         delete :avatar, on: :member, action: :destroy_avatar
+        post :resend_confirmation, on: :member
       end
 
       resources :access_tokens, only: [:index, :show]
