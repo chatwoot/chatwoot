@@ -3,21 +3,27 @@ import { describe, expect, it, vi } from 'vitest';
 import App from '../App.vue';
 
 const handleInitialMessage = App.methods.handleInitialMessage;
+const handleSetUser = App.methods.handleSetUser;
 const setConversationHistoryFetchPromise =
   App.methods.setConversationHistoryFetchPromise;
 
 const buildContext = ({
   conversationSize = 0,
   initialConversationFetchPromise = null,
+  pendingInitialMessage = '',
   routeName = 'home',
   shouldShowPreChatForm = false,
 } = {}) => ({
   conversationSize,
   initialConversationFetchPromise,
   initialMessageSequence: 0,
+  pendingInitialMessage,
   shouldShowPreChatForm,
+  handleInitialMessage: vi.fn(),
   setInitialMessage: vi.fn(),
   unsetUnreadView: vi.fn(),
+  setConversationHistoryFetchPromise: vi.fn(),
+  $store: { dispatch: vi.fn() },
   $route: { name: routeName },
   router: { replace: vi.fn() },
 });
@@ -50,6 +56,7 @@ describe('App handleInitialMessage', () => {
     expect(context.setInitialMessage).toHaveBeenCalledWith(
       'Need help with this item'
     );
+    expect(context.pendingInitialMessage).toBe('');
     expect(context.router.replace).toHaveBeenCalledWith({ name: 'messages' });
   });
 
@@ -170,5 +177,39 @@ describe('App setConversationHistoryFetchPromise', () => {
     await Promise.resolve();
 
     expect(context.initialConversationFetchPromise).toBeNull();
+  });
+});
+
+describe('App handleSetUser', () => {
+  it('replays a pending initial message after the identified user history fetch', () => {
+    const setUserPromise = Promise.resolve();
+    const message = { identifier: 'visitor-1' };
+    const context = buildContext({
+      pendingInitialMessage: 'Need help with this item',
+    });
+    context.$store.dispatch.mockReturnValue(setUserPromise);
+
+    handleSetUser.call(context, message);
+
+    expect(context.initialMessageSequence).toBe(1);
+    expect(context.$store.dispatch).toHaveBeenCalledWith(
+      'contacts/setUser',
+      message
+    );
+    expect(context.setConversationHistoryFetchPromise).toHaveBeenCalledWith(
+      setUserPromise
+    );
+    expect(context.handleInitialMessage).toHaveBeenCalledWith(
+      'Need help with this item'
+    );
+  });
+
+  it('does not replay an initial message after it has already been published', () => {
+    const context = buildContext();
+    context.$store.dispatch.mockResolvedValue();
+
+    handleSetUser.call(context, { identifier: 'visitor-1' });
+
+    expect(context.handleInitialMessage).not.toHaveBeenCalled();
   });
 });

@@ -41,6 +41,7 @@ export default {
       isMobile: false,
       campaignsSnoozedTill: undefined,
       initialConversationFetchPromise: null,
+      pendingInitialMessage: '',
       initialMessageSequence: 0,
     };
   },
@@ -275,11 +276,13 @@ export default {
     async handleInitialMessage(initialMessage) {
       if (!initialMessage) return;
 
+      this.pendingInitialMessage = initialMessage;
       this.initialMessageSequence += 1;
       const initialMessageSequence = this.initialMessageSequence;
       await this.initialConversationFetchPromise;
       if (initialMessageSequence !== this.initialMessageSequence) return;
 
+      this.pendingInitialMessage = '';
       const routeName =
         this.shouldShowPreChatForm && !this.conversationSize
           ? 'prechat-form'
@@ -299,6 +302,16 @@ export default {
           this.initialConversationFetchPromise = null;
         }
       });
+    },
+    handleSetUser(message) {
+      const pendingInitialMessage = this.pendingInitialMessage;
+      this.initialMessageSequence += 1;
+      this.setConversationHistoryFetchPromise(
+        this.$store.dispatch('contacts/setUser', message)
+      );
+      if (pendingInitialMessage) {
+        this.handleInitialMessage(pendingInitialMessage);
+      }
     },
     registerListeners() {
       const { websiteToken } = window.chatwootWebChannel;
@@ -342,10 +355,7 @@ export default {
         } else if (message.event === 'remove-label') {
           this.$store.dispatch('conversationLabels/destroy', message.label);
         } else if (message.event === 'set-user') {
-          this.initialMessageSequence += 1;
-          this.setConversationHistoryFetchPromise(
-            this.$store.dispatch('contacts/setUser', message)
-          );
+          this.handleSetUser(message);
         } else if (message.event === 'set-custom-attributes') {
           this.$store.dispatch(
             'contacts/setCustomAttributes',

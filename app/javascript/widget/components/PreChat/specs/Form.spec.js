@@ -93,4 +93,29 @@ describe('PreChat Form initial message draft', () => {
       expect.objectContaining({ message: 'Need help with this item' })
     );
   });
+
+  it('keeps the shared initial message when submitting campaign-owned pre-chat', () => {
+    const context = {
+      activeCampaign: { id: 1 },
+      conversationCustomAttributes: {},
+      contactCustomAttributes: {},
+      formValues: {
+        emailAddress: 'jane@example.com',
+        fullName: 'Jane',
+      },
+      hasActiveCampaign: true,
+      $emit: vi.fn(),
+      $store: { dispatch: vi.fn() },
+    };
+
+    onSubmit.call(context);
+
+    expect(context.$store.dispatch).not.toHaveBeenCalledWith(
+      'conversation/clearInitialMessage'
+    );
+    expect(context.$emit).toHaveBeenCalledWith(
+      'submitPreChat',
+      expect.objectContaining({ activeCampaignId: 1 })
+    );
+  });
 });
