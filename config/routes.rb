@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post '/saml/slo/:settings_token', to: 'saml/single_logout#create', as: :saml_single_logout if ChatwootApp.enterprise?
+
   # AUTH STARTS
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',

@@ -221,6 +221,7 @@ en:
       disabled: MFA disabled successfully
     account_saml_settings:
       invalid_certificate: must be a valid X.509 certificate in PEM format
+      invalid_sp_signing_credentials: must contain a matching X.509 certificate and private key
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone

@@ -74,6 +74,10 @@ class Rack::Attack
   ###-----Authentication Related Throttling---------###
   ###-----------------------------------------------###
 
+  throttle('saml_slo/ip', limit: 30, period: 1.minute) do |req|
+    req.ip if req.path.start_with?('/saml/slo/')
+  end
+
   ### Prevent Brute-Force Super Admin Login Attacks ###
   throttle('super_admin_login/ip', limit: 5, period: 5.minutes) do |req|
     req.ip if req.path_without_extensions == '/super_admin/sign_in' && req.post?

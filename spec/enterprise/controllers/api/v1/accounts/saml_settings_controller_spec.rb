@@ -30,6 +30,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
           create(:account_saml_settings,
                  account: account,
                  sso_url: 'https://idp.example.com/saml/sso',
+                 sls_url: 'https://idp.example.com/saml/slo',
                  role_mappings: { 'Admins' => { 'role' => 1 } })
         end
 
@@ -44,6 +45,10 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
 
           expect(response).to have_http_status(:success)
           expect(json_response[:sso_url]).to eq('https://idp.example.com/saml/sso')
+          expect(json_response[:sls_url]).to eq('https://idp.example.com/saml/slo')
+          expect(json_response[:sp_sls_url]).to eq(saml_settings.sp_sls_url)
+          expect(json_response[:sp_certificate]).to eq(saml_settings.sp_certificate)
+          expect(json_response).not_to have_key(:sp_private_key)
           expect(json_response[:role_mappings]).to eq({ Admins: { role: 1 } })
         end
       end
@@ -100,6 +105,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
       {
         saml_settings: {
           sso_url: 'https://idp.example.com/saml/sso',
+          sls_url: 'https://idp.example.com/saml/slo',
           certificate: cert.to_pem,
           idp_entity_id: 'https://idp.example.com/saml/metadata',
           role_mappings: { 'Admins' => { 'role' => 1 }, 'Users' => { 'role' => 0 } }
@@ -127,8 +133,18 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
           expect(response).to have_http_status(:success)
 
           saml_settings = AccountSamlSettings.find_by(account: account)
-          expect(saml_settings.sso_url).to eq('https://idp.example.com/saml/sso')
-          expect(saml_settings.role_mappings).to eq({ 'Admins' => { 'role' => 1 }, 'Users' => { 'role' => 0 } })
+          expect(saml_settings).to have_attributes(
+            sso_url: 'https://idp.example.com/saml/sso',
+            sls_url: 'https://idp.example.com/saml/slo',
+            role_mappings: { 'Admins' => { 'role' => 1 }, 'Users' => { 'role' => 0 } }
+          )
+          expect(saml_settings.sp_private_key).to be_present
+          expect(json_response).to include(
+            sls_url: saml_settings.sls_url,
+            sp_sls_url: saml_settings.sp_sls_url,
+            sp_certificate: saml_settings.sp_certificate
+          )
+          expect(json_response).not_to have_key(:sp_private_key)
         end
       end
 
@@ -184,6 +200,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
       {
         saml_settings: {
           sso_url: 'https://new.example.com/saml/sso',
+          sls_url: 'https://idp.example.com/saml/slo',
           certificate: cert.to_pem,
           role_mappings: { 'NewGroup' => { 'custom_role_id' => 5 } }
         }
@@ -211,8 +228,18 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
         expect(response).to have_http_status(:success)
 
         saml_settings.reload
-        expect(saml_settings.sso_url).to eq('https://new.example.com/saml/sso')
-        expect(saml_settings.role_mappings).to eq({ 'NewGroup' => { 'custom_role_id' => 5 } })
+        expect(saml_settings).to have_attributes(
+          sso_url: 'https://new.example.com/saml/sso',
+          sls_url: 'https://idp.example.com/saml/slo',
+          role_mappings: { 'NewGroup' => { 'custom_role_id' => 5 } }
+        )
+        expect(saml_settings.sp_private_key).to be_present
+        expect(json_response).to include(
+          sls_url: saml_settings.sls_url,
+          sp_sls_url: saml_settings.sp_sls_url,
+          sp_certificate: saml_settings.sp_certificate
+        )
+        expect(json_response).not_to have_key(:sp_private_key)
       end
     end
 
