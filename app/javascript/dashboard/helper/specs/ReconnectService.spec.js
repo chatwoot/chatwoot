@@ -134,7 +134,9 @@ describe('ReconnectService', () => {
         page: 1,
         updatedWithin: null,
       });
-      expect(storeMock.dispatch).toHaveBeenCalledWith('fetchAllConversations');
+      expect(storeMock.dispatch).toHaveBeenCalledWith('fetchAllConversations', {
+        replaceExisting: true,
+      });
     });
   });
 
@@ -144,30 +146,16 @@ describe('ReconnectService', () => {
       await reconnectService.fetchFilteredOrSavedConversations(payload);
       expect(storeMock.dispatch).toHaveBeenCalledWith(
         'fetchFilteredConversations',
-        { queryData: payload, page: 1 }
+        {
+          queryData: payload,
+          page: 1,
+          replaceExisting: true,
+        }
       );
     });
   });
 
   describe('fetchConversationsOnReconnect', () => {
-    it('should reset pagination and cached conversations before fetching', async () => {
-      storeMock.getters.getAppliedConversationFiltersQuery = [];
-      storeMock.getters['customViews/getActiveConversationFolder'] = {
-        query: null,
-      };
-
-      await reconnectService.fetchConversationsOnReconnect();
-
-      expect(storeMock.dispatch).toHaveBeenNthCalledWith(
-        1,
-        'conversationPage/reset'
-      );
-      expect(storeMock.dispatch).toHaveBeenNthCalledWith(
-        2,
-        'resetConversationList'
-      );
-    });
-
     it('should fetch filtered or saved conversations if query exists', async () => {
       storeMock.getters.getAppliedConversationFiltersQuery = {
         payload: [

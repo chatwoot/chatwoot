@@ -56,14 +56,6 @@ describe('#hasMessageFailedWithExternalError', () => {
 });
 
 describe('#actions', () => {
-  describe('#resetConversationList', () => {
-    it('resets the canonical conversation list', () => {
-      actions.resetConversationList({ commit });
-
-      expect(commit).toHaveBeenCalledWith(types.RESET_CONVERSATION_LIST);
-    });
-  });
-
   describe('#getConversation', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({
@@ -106,12 +98,7 @@ describe('#actions', () => {
         labels: ['support'],
       };
       actions.updateConversation(
-        {
-          commit,
-          rootState: { route: { name: 'home' } },
-          rootGetters: { getCurrentUserID: 1 },
-          dispatch,
-        },
+        { commit, rootState: { route: { name: 'home' } }, dispatch },
         conversation
       );
       expect(commit.mock.calls).toEqual([

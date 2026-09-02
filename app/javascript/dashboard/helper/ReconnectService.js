@@ -48,7 +48,9 @@ class ReconnectService {
       page: 1,
       updatedWithin: null,
     });
-    await this.store.dispatch('fetchAllConversations');
+    await this.store.dispatch('fetchAllConversations', {
+      replaceExisting: true,
+    });
   };
 
   fetchFilteredOrSavedConversations = async queryData => {
@@ -56,6 +58,7 @@ class ReconnectService {
       await this.store.dispatch('fetchFilteredConversations', {
         queryData,
         page: 1,
+        replaceExisting: true,
       });
     } catch (error) {
       // Ignore error, reconnect flow should continue
@@ -63,9 +66,6 @@ class ReconnectService {
   };
 
   fetchConversationsOnReconnect = async () => {
-    await this.store.dispatch('conversationPage/reset');
-    await this.store.dispatch('resetConversationList');
-
     const {
       getAppliedConversationFiltersQuery,
       'customViews/getActiveConversationFolder': activeFolder,
