@@ -274,10 +274,13 @@ export default {
       this.$store.dispatch('events/create', { name: eventName });
     },
     async handleInitialMessage(initialMessage) {
-      if (!initialMessage) return;
-
       this.pendingInitialMessage = initialMessage;
       this.initialMessageSequence += 1;
+      if (!initialMessage) {
+        this.setInitialMessage('');
+        return;
+      }
+
       const initialMessageSequence = this.initialMessageSequence;
       await this.initialConversationFetchPromise;
       if (initialMessageSequence !== this.initialMessageSequence) return;

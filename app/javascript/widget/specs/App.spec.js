@@ -141,13 +141,34 @@ describe('App handleInitialMessage', () => {
     });
   });
 
-  it('ignores empty initial messages', async () => {
-    const context = buildContext();
+  it('clears initial message drafts without routing for empty updates', async () => {
+    const context = buildContext({
+      pendingInitialMessage: 'Need help with this item',
+    });
 
     await handleInitialMessage.call(context, '');
 
-    expect(context.setInitialMessage).not.toHaveBeenCalled();
+    expect(context.pendingInitialMessage).toBe('');
+    expect(context.setInitialMessage).toHaveBeenCalledWith('');
     expect(context.router.replace).not.toHaveBeenCalled();
+  });
+
+  it('cancels pending initial messages with empty updates', async () => {
+    let resolveHistory;
+    const initialConversationFetchPromise = new Promise(resolve => {
+      resolveHistory = resolve;
+    });
+    const context = buildContext({ initialConversationFetchPromise });
+
+    const result = handleInitialMessage.call(context, 'Old draft');
+    await Promise.resolve();
+    await handleInitialMessage.call(context, '');
+
+    resolveHistory();
+    await result;
+
+    expect(context.setInitialMessage).toHaveBeenCalledTimes(1);
+    expect(context.setInitialMessage).toHaveBeenCalledWith('');
   });
 });
 

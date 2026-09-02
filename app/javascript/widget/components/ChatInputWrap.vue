@@ -48,6 +48,7 @@ export default {
       userInput: '',
       showEmojiPicker: false,
       isFocused: false,
+      hasInitialMessageDraft: false,
     };
   },
 
@@ -75,13 +76,27 @@ export default {
       immediate: true,
       handler(initialMessage) {
         if (!initialMessage) {
-          this.userInput = '';
+          if (this.hasInitialMessageDraft) {
+            this.userInput = '';
+          }
+          this.hasInitialMessageDraft = false;
           return;
         }
+
+        this.hasInitialMessageDraft = true;
+        if (this.userInput === initialMessage) return;
 
         this.userInput = initialMessage;
         this.$nextTick(() => this.focusInput());
       },
+    },
+    userInput(userInput) {
+      if (!this.hasInitialMessageDraft) return;
+
+      this.$store.dispatch('conversation/setInitialMessage', userInput);
+      if (!userInput) {
+        this.hasInitialMessageDraft = false;
+      }
     },
   },
   unmounted() {
