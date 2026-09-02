@@ -1,4 +1,11 @@
 module Whatsapp::IncomingMessageIdentifierHelper
+  def process_identity_change_messages
+    system_messages, @messages_data = messages_data.to_a.partition { |message| message[:type] == 'system' }
+    return if system_messages.blank?
+
+    Whatsapp::UserIdRotationService.new(inbox: inbox, messages: system_messages, job_locked_source_id: locked_sender_id).perform
+  end
+
   def set_contact_from_echo
     message = messages_data.first
     source_ids = outgoing_message_source_ids(message)
@@ -41,40 +48,32 @@ module Whatsapp::IncomingMessageIdentifierHelper
     ).perform
   end
 
-  # Parent business scoped user id, then the regular one, then the phone number. The parent is the
-  # identifier that survives across the payload shapes Meta sends: an event carrying both and a
-  # later parent-only event describe the same sender, so leading with it keeps them on one
-  # ContactInbox instead of anchoring each on a row of its own. It is addressable in its own right,
-  # through `recipient`, for messages and for calls alike.
-  #
-  # Only the Cloud provider can address an identifier back: 360Dialog always sends to `to`, so there
-  # the phone number stays the identity a conversation anchors to and a reply keeps working.
+  # Preserve existing conversation history: phone history wins for mixed payloads, BSUID history
+  # wins if the caller was first seen BSUID-only, and new mixed callers start on the phone.
   def incoming_message_source_ids(contact_params)
     phone_source_id = whatsapp_phone_source_id(contact_params[:wa_id].presence || messages_data.first[:from].presence)
     identifiers = [
       whatsapp_source_id(contact_params[:parent_user_id].presence || messages_data.first[:from_parent_user_id].presence),
       whatsapp_source_id(contact_params[:user_id].presence || messages_data.first[:from_user_id].presence)
     ]
-    ordered = addressable_identifiers? ? [*identifiers, phone_source_id] : [phone_source_id, *identifiers]
 
-    ordered.compact_blank.uniq
+    Whatsapp::IdentitySourceIdOrderer.new(inbox: inbox, phone_source_id: phone_source_id, source_ids: identifiers).perform
   end
 
   def addressable_identifiers?
     inbox.channel.try(:provider) == 'whatsapp_cloud'
   end
 
-  # An echo has to land on the same alias an inbound message would, otherwise the two entry
-  # points anchor the same contact on different rows and split the thread in half.
+  # An echo has to land on the same alias an inbound message would, otherwise the two entry points
+  # can anchor the same contact on different rows and split the thread in half.
   def outgoing_message_source_ids(message)
     phone_source_id = whatsapp_phone_source_id(message[:to].presence)
     identifiers = [
       whatsapp_source_id(message[:to_parent_user_id].presence),
       whatsapp_source_id(message[:to_user_id].presence)
     ]
-    ordered = addressable_identifiers? ? [*identifiers, phone_source_id] : [phone_source_id, *identifiers]
 
-    ordered.compact_blank.uniq
+    Whatsapp::IdentitySourceIdOrderer.new(inbox: inbox, phone_source_id: phone_source_id, source_ids: identifiers).perform
   end
 
   def whatsapp_phone_source_id(identifier)
@@ -84,9 +83,7 @@ module Whatsapp::IncomingMessageIdentifierHelper
     processed_waid(phone_number)
   end
 
-  def whatsapp_source_id(identifier)
-    identifier.to_s.presence
-  end
+  def whatsapp_source_id(identifier) = identifier.to_s.presence
 
   def contact_attributes_from_contact_params(contact_params, source_identifier)
     phone_identifier = contact_params[:wa_id].presence || messages_data.first[:from].presence

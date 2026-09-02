@@ -348,20 +348,25 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(bsuid_contact_inbox.contact).to eq(contact_inbox.contact)
       end
 
-      it 'opens the conversation on the BSUID contact inbox when a payload carries both identities' do
+      it 'opens the conversation on the phone contact inbox when a payload carries both identities' do
         described_class.new(inbox: whatsapp_channel.inbox, params: phone_with_bsuid_params).perform
 
-        bsuid_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
+        phone_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: '919745786257')
 
         expect(whatsapp_channel.inbox.conversations.count).to eq(1)
-        expect(whatsapp_channel.inbox.conversations.first.contact_inbox).to eq(bsuid_contact_inbox)
+        expect(whatsapp_channel.inbox.conversations.first.contact_inbox).to eq(phone_contact_inbox)
       end
 
-      it 'reuses that conversation on a BSUID only follow-up' do
+      it 'moves to the BSUID contact inbox only when a follow-up omits the phone' do
         described_class.new(inbox: whatsapp_channel.inbox, params: phone_with_bsuid_params).perform
         described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_only_params).perform
 
-        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        phone_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: '919745786257')
+        bsuid_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
+
+        expect(whatsapp_channel.inbox.conversations.count).to eq(2)
+        expect(phone_contact_inbox.conversations.first.messages.pluck(:content)).to contain_exactly('phone and bsuid')
+        expect(bsuid_contact_inbox.conversations.first.messages.pluck(:content)).to contain_exactly('bsuid only')
         expect(whatsapp_channel.inbox.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'bsuid only')
       end
 
@@ -432,10 +437,10 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         described_class.new(inbox: whatsapp_channel.inbox, params: echo_params, outgoing_echo: true).perform
 
         expect(Contact.last.name).to eq('+919745786257')
-        expect(whatsapp_channel.inbox.conversations.first.contact_inbox.source_id).to eq('IN.2081978709342942')
+        expect(whatsapp_channel.inbox.conversations.first.contact_inbox.source_id).to eq('919745786257')
       end
 
-      it 'moves a phone-backed contact on the first payload that carries an identifier' do
+      it 'keeps a phone-backed contact on the phone conversation when a payload carries an identifier' do
         phone_contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '919745786257')
         contact = phone_contact_inbox.contact
         create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: phone_contact_inbox,
@@ -446,8 +451,8 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         bsuid_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
 
         expect(bsuid_contact_inbox.contact).to eq(contact)
-        expect(contact.conversations.count).to eq(2)
-        expect(whatsapp_channel.inbox.messages.last.conversation.contact_inbox).to eq(bsuid_contact_inbox)
+        expect(contact.conversations.count).to eq(1)
+        expect(whatsapp_channel.inbox.messages.last.conversation.contact_inbox).to eq(phone_contact_inbox)
       end
 
       it 'does not open a third conversation on the payload after that' do
@@ -574,7 +579,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
                 contacts: [{ profile: { name: 'Conflicting identifiers' }, wa_id: '971501234567', user_id: 'AE.QACONFLICT' }],
                 messages: [{
                   from: '971501234567', from_user_id: 'AE.QACONFLICT', id: 'wamid.cloud-conflicting-identifiers',
-                  text: { body: 'route by exact BSUID' }, timestamp: '1778579800', type: 'text'
+                  text: { body: 'route by phone when present' }, timestamp: '1778579800', type: 'text'
                 }]
               }
             }]
@@ -583,8 +588,8 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
         described_class.new(inbox: whatsapp_channel.inbox, params: conflicting_params).perform
 
-        expect(bsuid_conversation.reload.messages.pluck(:content)).to contain_exactly('route by exact BSUID')
-        expect(phone_conversation.reload.messages).to be_empty
+        expect(phone_conversation.reload.messages.pluck(:content)).to contain_exactly('route by phone when present')
+        expect(bsuid_conversation.reload.messages).to be_empty
         expect(bsuid_contact_inbox.reload.contact).to eq(bsuid_contact)
         expect(phone_contact_inbox.reload.contact).to eq(phone_contact)
       end
@@ -867,6 +872,129 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         contact = whatsapp_channel.inbox.conversations.last.contact
         expect(contact).not_to eq(mobile_contact)
         expect(contact.phone_number).to eq('+541123456789')
+      end
+    end
+
+    context 'when an identity-change system message is received' do
+      let(:contact) { create(:contact, account: whatsapp_channel.inbox.account) }
+      let(:system) do
+        {
+          type: 'user_changed_user_id',
+          previous_user_id: 'IN.PREVIOUSBSUID',
+          user_id: 'IN.CURRENTBSUID'
+        }
+      end
+
+      let(:system_message_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              field: 'messages',
+              value: {
+                messaging_product: 'whatsapp',
+                metadata: {
+                  display_phone_number: whatsapp_channel.phone_number.delete('+'),
+                  phone_number_id: whatsapp_channel.provider_config['phone_number_id']
+                },
+                messages: [{
+                  id: 'wamid.SYSTEM_MESSAGE_ID',
+                  timestamp: '1664799904',
+                  type: 'system',
+                  system: system
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      def rotate
+        described_class.new(inbox: whatsapp_channel.inbox, params: system_message_params).perform
+      end
+
+      it 'records current regular and parent identifiers as aliases of the previous contact' do
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.ENT.PREVIOUSBSUID')
+        system.merge!(
+          previous_parent_user_id: 'IN.ENT.PREVIOUSBSUID',
+          parent_user_id: 'IN.ENT.CURRENTBSUID'
+        )
+
+        rotate
+
+        expect(whatsapp_channel.inbox.contact_inboxes.where(contact: contact).pluck(:source_id)).to contain_exactly(
+          'IN.PREVIOUSBSUID', 'IN.ENT.PREVIOUSBSUID', 'IN.CURRENTBSUID', 'IN.ENT.CURRENTBSUID'
+        )
+      end
+
+      it 'leaves existing conversations on the contact inbox that opened them' do
+        previous = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+        conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: previous,
+                                             contact: previous.contact, account: whatsapp_channel.inbox.account)
+
+        rotate
+
+        expect(conversation.reload.contact_inbox).to eq(previous)
+      end
+
+      it 'does not create a visible message or conversation for the system event' do
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+
+        expect { rotate }.to change(ContactInbox, :count).by(1)
+        expect(whatsapp_channel.inbox.messages).to be_empty
+        expect(whatsapp_channel.inbox.conversations).to be_empty
+      end
+
+      it 'processes an ordinary message delivered in the same batch as the system event' do
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+        value = system_message_params[:entry][0][:changes][0][:value]
+        value[:contacts] = [{ profile: { name: 'Rotated customer' }, user_id: 'IN.CURRENTBSUID' }]
+        value[:messages].prepend(
+          {
+            from_user_id: 'IN.CURRENTBSUID', id: 'wamid.ORDINARY_MESSAGE_ID', timestamp: '1664799905',
+            type: 'text', text: { body: 'Message delivered with the lifecycle event' }
+          }
+        )
+
+        rotate
+
+        expect(whatsapp_channel.inbox.messages.last.content).to eq('Message delivered with the lifecycle event')
+        expect(whatsapp_channel.inbox.messages.last.conversation.contact).to eq(contact)
+        expect(whatsapp_channel.inbox.contact_inboxes.find_by(source_id: 'IN.CURRENTBSUID').contact).to eq(contact)
+      end
+
+      it 'updates the contact phone and records the phone alias for a number change' do
+        previous = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+        previous.contact.update!(phone_number: '+16505550001')
+        system.merge!(type: 'user_changed_number', wa_id: '16505550002')
+
+        rotate
+
+        expect(previous.contact.reload.phone_number).to eq('+16505550002')
+        expect(whatsapp_channel.inbox.contact_inboxes.find_by(source_id: '16505550002').contact).to eq(previous.contact)
+      end
+
+      it 'keeps conflicting aliases on separate contacts' do
+        previous = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+        current = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: create(:contact, account: whatsapp_channel.inbox.account),
+                                         source_id: 'IN.CURRENTBSUID')
+
+        rotate
+
+        expect(previous.reload.contact_id).not_to eq(current.reload.contact_id)
+      end
+
+      it 'is idempotent when the same system event is delivered again' do
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+        rotate
+
+        expect { rotate }.not_to change(ContactInbox, :count)
+      end
+
+      it 'does nothing when neither the previous nor current identifier is known' do
+        expect { rotate }.not_to change(ContactInbox, :count)
       end
     end
   end
