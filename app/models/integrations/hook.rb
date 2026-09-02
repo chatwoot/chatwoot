@@ -18,7 +18,7 @@ class Integrations::Hook < ApplicationRecord
   include Reauthorizable
 
   attr_readonly :app_id, :account_id, :inbox_id, :hook_type
-  before_validation :ensure_hook_type
+  before_validation :ensure_hook_type, on: :create
   after_create :trigger_setup_if_crm
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
@@ -52,6 +52,12 @@ class Integrations::Hook < ApplicationRecord
 
   def slack?
     app_id == 'slack'
+  end
+
+  # Alert mode makes the Slack integration one way. Conversations are pushed to Slack,
+  # but replies posted in the Slack thread are never synced back to the customer.
+  def slack_alert_mode?
+    slack? && settings['message_mode'] == 'alert'
   end
 
   def dialogflow?
@@ -96,7 +102,9 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def ensure_hook_type
-    self.hook_type = app.params[:hook_type] if app.present?
+    return if app.blank?
+
+    self.hook_type = app.params[:hook_type]
   end
 
   def validate_settings_json_schema

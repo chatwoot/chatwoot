@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -10,11 +10,11 @@ import ChannelItem from 'dashboard/components/widgets/ChannelItem.vue';
 
 const { t } = useI18n();
 const router = useRouter();
-const { accountId, currentAccount } = useAccount();
+const { accountId, currentAccount, isOnChatwootCloud } = useAccount();
 
 const globalConfig = useMapGetter('globalConfig/get');
 
-const enabledFeatures = ref({});
+const enabledFeatures = computed(() => currentAccount.value?.features || {});
 
 const hasTiktokConfigured = computed(() => {
   return window.chatwootConfig?.tiktokAppId;
@@ -83,7 +83,12 @@ const channelList = computed(() => {
     channels.push({
       key: 'tiktok',
       title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.TIKTOK.TITLE'),
-      description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.TIKTOK.DESCRIPTION'),
+      description:
+        currentAccount.value &&
+        isOnChatwootCloud.value &&
+        !enabledFeatures.value.channel_tiktok
+          ? t('INBOX_MGMT.ADD.AUTH.CHANNEL.TIKTOK.ACCESS_REQUEST_DESCRIPTION')
+          : t('INBOX_MGMT.ADD.AUTH.CHANNEL.TIKTOK.DESCRIPTION'),
       icon: 'i-woot-tiktok',
     });
   }
@@ -105,10 +110,6 @@ const channelList = computed(() => {
   return channels;
 });
 
-const initializeEnabledFeatures = async () => {
-  enabledFeatures.value = currentAccount.value.features;
-};
-
 const initChannelAuth = channel => {
   const params = {
     sub_page: channel,
@@ -116,10 +117,6 @@ const initChannelAuth = channel => {
   };
   router.push({ name: 'settings_inboxes_page_channel', params });
 };
-
-onMounted(() => {
-  initializeEnabledFeatures();
-});
 </script>
 
 <template>

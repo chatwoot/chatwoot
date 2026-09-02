@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Pretplaćeni događaji",
       "LEARN_MORE": "Learn more about webhooks",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Tajna",
         "COPY": "Kopiraj tajnu u međuspremnik",
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "Kapetan",
     "HEADER_KNOW_MORE": "Saznaj više",
+    "OVERVIEW": {
+      "HEADER": "Pregled",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "Dokumenti"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Igralište",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "Naplate",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Asistenti",
       "SWITCH_ASSISTANT": "Prebaci između asistenata",
@@ -493,10 +575,6 @@
           "LABEL": "Ime",
           "PLACEHOLDER": "Unesite ime asistenta",
           "ERROR": "Ime je obavezno"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Temperatura odgovora",
-          "DESCRIPTION": "Prilagodite koliko kreativni ili ograničeni trebaju biti odgovori asistenta. Niže vrijednosti daju fokusiranije i determinističke odgovore, dok više vrijednosti dopuštaju kreativnije i raznovrsnije rezultate."
         },
         "DESCRIPTION": {
           "LABEL": "Opis",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "Dokumenti",
       "ADD_NEW": "Kreiraj novi dokument",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} odabrano",
       "SELECT_ALL": "Odaberi sve ({count})",
       "UNSELECT_ALL": "Poništi odabir svih ({count})",
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "Povezana često postavljana pitanja",
-        "DESCRIPTION": "Ova često postavljana pitanja generirana su izravno iz dokumenta."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "Kopiraj",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "Unesite URL dokumenta da ga dodate kao izvor znanja i odaberite asistenta s kojim će biti povezan.",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "Došlo je do pogreške pri brisanju dokumenta, molimo pokušajte ponovno."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Pogledaj povezane odgovore",
+        "VIEW_DETAILS": "View details",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Izbriši dokument"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "ČPP",
-      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Kreiraj novi FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Razgovor #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "Odaberi sve ({count})",
       "UNSELECT_ALL": "Poništi odabir svih ({count})",
       "SEARCH_PLACEHOLDER": "Pretraži ČPP...",
-      "BULK_APPROVE_BUTTON": "Odobri",
-      "BULK_DELETE_BUTTON": "Izbriši",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "Česta pitanja su uspješno odobrena",
-        "ERROR_MESSAGE": "Došlo je do pogreške pri odobravanju čestih pitanja, molimo pokušajte ponovno."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "Izbriši",
       "BULK_DELETE": {
         "TITLE": "Izbrisati česta pitanja?",
         "DESCRIPTION": "Jeste li sigurni da želite izbrisati odabrana često postavljana pitanja? Ova radnja se ne može poništiti.",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ je uspješno izbrisan",
         "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
-      "FILTER": {
-        "ASSISTANT": "Asistent: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "Svi"
-      },
-      "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Na čekanju",
-        "APPROVED": "Odobreno",
-        "ALL": "Sve"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Kliknite ovdje za pregled"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "Dodajte pitanje i njegov odgovarajući odgovor u bazu znanja i odaberite asistenta s kojim bi trebao biti povezan.",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Nema pronađenih ČPP",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
         "CLEAR_SEARCH": "Očisti aktivne filtre",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "Odobri",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "Save changes",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

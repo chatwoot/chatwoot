@@ -42,6 +42,11 @@ describe Telegram::IncomingMessageService do
     }
   end
 
+  def contact_for(source_id = nil)
+    source_id ||= message_params.dig('from', 'id')
+    ContactInbox.find_by!(inbox: telegram_channel.inbox, source_id: source_id).contact
+  end
+
   describe '#perform' do
     context 'when valid text message params' do
       it 'creates appropriate conversations, message and contacts' do
@@ -51,7 +56,7 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(contact_for.name).to eq('Sojan Jose')
         expect(telegram_channel.inbox.messages.first.content).to eq('test')
       end
     end
@@ -64,9 +69,9 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
-        expect(Contact.all.first.additional_attributes['social_telegram_user_id']).to eq(23)
-        expect(Contact.all.first.additional_attributes['social_telegram_user_name']).to eq('sojan')
+        expect(contact_for.name).to eq('Sojan Jose')
+        expect(contact_for.additional_attributes['social_telegram_user_id']).to eq(23)
+        expect(contact_for.additional_attributes['social_telegram_user_name']).to eq('sojan')
         expect(telegram_channel.inbox.messages.first.content).to eq('test')
       end
     end
@@ -107,7 +112,7 @@ describe Telegram::IncomingMessageService do
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
         expect(telegram_channel.inbox.conversations.last.additional_attributes).to include({ 'chat_id' => 23,
                                                                                              'business_connection_id' => 'eooW3KF5WB5HxTD7T826' })
-        contact = Contact.all.first
+        contact = contact_for
         expect(contact.name).to eq('Sojan Jose')
         expect(contact.additional_attributes['language_code']).to eq('en')
         message = telegram_channel.inbox.messages.first
@@ -131,7 +136,7 @@ describe Telegram::IncomingMessageService do
           expect(telegram_channel.inbox.conversations.count).not_to eq(0)
           expect(telegram_channel.inbox.conversations.last.additional_attributes).to include({ 'chat_id' => 23,
                                                                                                'business_connection_id' => 'eooW3KF5WB5HxTD7T826' })
-          contact = Contact.all.first
+          contact = contact_for
           expect(contact.name).to eq('Sojan Jose')
           # TODO: The language code is not present when we send the first message to the client.
           # Should we update it when the user replies?
@@ -161,9 +166,9 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
-        expect(Contact.all.first.additional_attributes['social_telegram_user_id']).to eq(23)
-        expect(Contact.all.first.additional_attributes['social_telegram_user_name']).to eq('sojan')
+        expect(contact_for.name).to eq('Sojan Jose')
+        expect(contact_for.additional_attributes['social_telegram_user_id']).to eq(23)
+        expect(contact_for.additional_attributes['social_telegram_user_name']).to eq('sojan')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('audio')
       end
     end
@@ -182,7 +187,7 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(contact_for.name).to eq('Sojan Jose')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('image')
       end
     end
@@ -207,7 +212,7 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(contact_for.name).to eq('Sojan Jose')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('image')
       end
     end
@@ -229,7 +234,7 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(contact_for.name).to eq('Sojan Jose')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('video')
       end
     end
@@ -258,7 +263,7 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(contact_for.name).to eq('Sojan Jose')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('video')
       end
     end
@@ -277,7 +282,7 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(contact_for.name).to eq('Sojan Jose')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('audio')
       end
     end
@@ -298,8 +303,30 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
-        expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('file')
+        expect(contact_for.name).to eq('Sojan Jose')
+        attachment = telegram_channel.inbox.messages.first.attachments.first
+        expect(attachment.file_type).to eq('file')
+        # Retain the original filename from the payload instead of Telegram's internal download name
+        expect(attachment.file.filename.to_s).to eq('Screenshot 2021-09-27 at 2.01.14 PM.png')
+      end
+    end
+
+    context 'when attachment params have no file_name' do
+      it 'falls back to the downloaded file name' do
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.png')
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'photo' => [{
+              'file_id' => 'AgACAgUAAxkBAAODYV3aGZlD6vhzKsE2WNmblsr6zKwAAi-tMRvCoeBWNQ1ENVBzJdwBAAMCAANzAAMhBA',
+              'file_unique_id' => 'AQADL60xG8Kh4FZ4', 'file_size' => 1883, 'width' => 90, 'height' => 67
+            }]
+          }.merge(message_params)
+        }.with_indifferent_access
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        attachment = telegram_channel.inbox.messages.first.attachments.first
+        expect(attachment.file_type).to eq('image')
+        expect(attachment.file.filename.to_s).to eq('sample.png')
       end
     end
 
@@ -336,7 +363,7 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(contact_for.name).to eq('Sojan Jose')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('location')
       end
 
@@ -355,7 +382,7 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(contact_for.name).to eq('Sojan Jose')
 
         attachment = telegram_channel.inbox.messages.first.attachments.first
         expect(attachment.file_type).to eq('location')
@@ -380,7 +407,7 @@ describe Telegram::IncomingMessageService do
               'language_code' => 'en',
               'is_premium' => true
             },
-            'message' => message_params,
+            'message' => message_params.deep_merge('chat' => { 'id' => 5_171_248 }),
             'chat_instance' => '-89923842384923492',
             'data' => 'Option 1'
           }
@@ -388,9 +415,209 @@ describe Telegram::IncomingMessageService do
 
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
-        expect(Contact.all.first.additional_attributes['social_telegram_user_id']).to eq(5_171_248)
+        expect(contact_for(5_171_248).name).to eq('Sojan Jose')
+        expect(contact_for(5_171_248).additional_attributes['social_telegram_user_id']).to eq(5_171_248)
         expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
+        expect(a_request(:post, %r{/answerCallbackQuery})).not_to have_been_made
+      end
+    end
+
+    context 'when callback_query params include business_connection_id' do
+      it 'creates an incoming message for the customer contact' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => {
+            'id' => '2342342309929423',
+            'from' => {
+              'id' => 23,
+              'is_bot' => false,
+              'first_name' => 'Sojan',
+              'last_name' => 'Jose',
+              'username' => 'sojan',
+              'language_code' => 'en'
+            },
+            'message' => message_params.deep_merge(
+              'business_connection_id' => 'eooW3KF5WB5HxTD7T826',
+              'from' => {
+                'id' => 42,
+                'is_bot' => false,
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'username' => 'johndoe'
+              }
+            ),
+            'chat_instance' => '-89923842384923492',
+            'data' => 'Option 1'
+          }
+        }.with_indifferent_access
+
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+
+        message = telegram_channel.inbox.messages.first
+        contact = contact_for(23)
+        expect(message.content).to eq('Option 1')
+        expect(message.message_type).to eq('incoming')
+        aggregate_failures do
+          expect(message.sender).to eq(contact)
+          expect(message.conversation.contact).to eq(contact)
+          expect(contact.name).to eq('Sojan Jose')
+          expect(contact.additional_attributes).to include(
+            'social_telegram_user_id' => 23,
+            'social_telegram_user_name' => 'sojan',
+            'language_code' => 'en'
+          )
+          expect(message.conversation.additional_attributes).to include(
+            'chat_id' => 23,
+            'business_connection_id' => 'eooW3KF5WB5HxTD7T826'
+          )
+        end
+      end
+    end
+
+    context 'when the business account owner triggers a callback query' do
+      it 'creates an outgoing message in the customer conversation' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => {
+            'id' => '2342342309929423',
+            'from' => {
+              'id' => 42,
+              'is_bot' => false,
+              'first_name' => 'John',
+              'last_name' => 'Doe',
+              'username' => 'johndoe'
+            },
+            'message' => message_params.deep_merge(
+              'business_connection_id' => 'eooW3KF5WB5HxTD7T826',
+              'from' => {
+                'id' => 42,
+                'is_bot' => false,
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'username' => 'johndoe'
+              }
+            ),
+            'chat_instance' => '-89923842384923492',
+            'data' => 'Option 1'
+          }
+        }.with_indifferent_access
+
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+
+        message = telegram_channel.inbox.messages.first
+        expect(message.content).to eq('Option 1')
+        expect(message.message_type).to eq('outgoing')
+        expect(message.sender).to be_nil
+        contact = contact_for(23)
+        expect(message.conversation.contact).to eq(contact)
+        expect(contact.name).to eq('Sojan Jose')
+        expect(contact.additional_attributes['social_telegram_user_name']).to eq('sojan')
+      end
+    end
+
+    %w[group supergroup].each do |chat_type|
+      context "when callback_query comes from a #{chat_type}" do
+        it 'does not create a conversation' do
+          params = {
+            'update_id' => 2_342_342_343_242,
+            'callback_query' => {
+              'id' => '2342342309929423',
+              'from' => {
+                'id' => 5_171_248,
+                'is_bot' => false,
+                'first_name' => 'Sojan',
+                'last_name' => 'Jose',
+                'username' => 'sojan',
+                'language_code' => 'en'
+              },
+              'message' => message_params.deep_merge('chat' => { 'type' => chat_type }),
+              'chat_instance' => '-89923842384923492',
+              'data' => 'Option 1'
+            }
+          }.with_indifferent_access
+
+          expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
+            .not_to(change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] })
+        end
+      end
+    end
+
+    context 'when callback_query comes from inline mode without a message' do
+      it 'does not create a conversation' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => {
+            'id' => '2342342309929423',
+            'from' => {
+              'id' => 5_171_248,
+              'is_bot' => false,
+              'first_name' => 'Sojan',
+              'last_name' => 'Jose',
+              'username' => 'sojan',
+              'language_code' => 'en'
+            },
+            'inline_message_id' => 'inline-message-id',
+            'chat_instance' => '-89923842384923492',
+            'data' => 'Option 1'
+          }
+        }.with_indifferent_access
+
+        expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
+          .not_to(change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] })
+      end
+    end
+
+    context 'when a non-business callback sender does not match the private chat' do
+      it 'does not create a conversation' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => {
+            'id' => '2342342309929423',
+            'from' => {
+              'id' => 5_171_248,
+              'is_bot' => false,
+              'first_name' => 'Sojan',
+              'last_name' => 'Jose',
+              'username' => 'sojan'
+            },
+            'message' => message_params,
+            'chat_instance' => '-89923842384923492',
+            'data' => 'Option 1'
+          }
+        }.with_indifferent_access
+
+        expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
+          .not_to(change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] })
+      end
+    end
+
+    context 'when callback_query has a game payload instead of data' do
+      it 'does not create a conversation' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => {
+            'id' => '2342342309929423',
+            'from' => message_params['from'],
+            'message' => message_params,
+            'chat_instance' => '-89923842384923492',
+            'game_short_name' => 'test-game'
+          }
+        }.with_indifferent_access
+
+        expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
+          .not_to(change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] })
+      end
+    end
+
+    context 'when callback_query is malformed' do
+      it 'does not create a conversation' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => 'invalid'
+        }.with_indifferent_access
+
+        expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }
+          .not_to(change { [Conversation.count, Message.count, Contact.count, ContactInbox.count] })
       end
     end
 
@@ -406,7 +633,7 @@ describe Telegram::IncomingMessageService do
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(contact_for.name).to eq('Sojan Jose')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('contact')
       end
     end

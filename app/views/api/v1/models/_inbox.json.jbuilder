@@ -61,7 +61,16 @@ json.reauthorization_required resource.channel.try(:reauthorization_required?) i
 json.instagram_id resource.channel.try(:instagram_id) if resource.instagram?
 
 ## Tiktok Attributes
-json.reauthorization_required resource.channel.try(:reauthorization_required?) if resource.tiktok?
+if resource.tiktok?
+  json.business_id resource.channel.try(:business_id)
+  json.reauthorization_required resource.channel.try(:reauthorization_required?)
+end
+
+## Twitter Attributes
+json.profile_id resource.channel.try(:profile_id) if resource.twitter?
+
+## LINE Attributes
+json.line_channel_id resource.channel.try(:line_channel_id) if resource.channel_type == 'Channel::Line'
 
 ## Twilio Attributes
 json.messaging_service_sid resource.channel.try(:messaging_service_sid)
@@ -81,6 +90,10 @@ if resource.email?
   json.email resource.channel.try(:email)
   json.forwarding_enabled ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', '').present?
   json.forward_to_email resource.channel.try(:forward_to_email) if ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', '').present?
+  if Current.account_user&.administrator? && defined?(with_branded_email_layout) && with_branded_email_layout.present? &&
+     Current.account.feature_enabled?(:branded_email_templates)
+    json.branded_email_layout resource.branded_email_layout
+  end
 
   ## IMAP
   if Current.account_user&.administrator?
@@ -128,8 +141,14 @@ json.bot_name resource.channel.try(:bot_name) if resource.telegram?
 
 ### WhatsApp Channel
 if resource.whatsapp?
-  json.message_templates resource.channel.try(:message_templates)
+  message_templates = resource.channel.try(:message_templates)
+  json.message_templates message_templates.is_a?(Array) ? message_templates : []
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
+  if Current.account_user&.administrator? &&
+     ChatwootApp.chatwoot_cloud? &&
+     (resource.channel.try(:provider_config) || {}).to_h['source'] == 'embedded_signup'
+    json.business_management_token_configured resource.channel.try(:business_management_token).present?
+  end
   # Only show reauthorization for embedded signup; manual flow uses API keys, not OAuth
   json.reauthorization_required(
     (resource.channel.try(:provider_config) || {}).to_h['source'] == 'embedded_signup' &&

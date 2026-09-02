@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Բաժանորդագրված իրադարձություններ",
       "LEARN_MORE": "Իմացեք ավելին webhook-ների մասին",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Գաղտնաբառ",
         "COPY": "Պատճենել գաղտնաբառը",
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Իմանալ ավելին",
+    "OVERVIEW": {
+      "HEADER": "Ընդհանուր տեսք",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "Այս ամիս",
+        "LAST_MONTH": "Նախորդ ամիս"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "Փաստաթղթեր"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Խաղադաշտ",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "Վճարում",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Օգնականներ",
       "SWITCH_ASSISTANT": "Փոխել օգնականը",
@@ -493,10 +575,6 @@
           "LABEL": "Անուն",
           "PLACEHOLDER": "Մուտքագրեք օգնականի անունը",
           "ERROR": "Անունը պարտադիր է"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Պատասխանի ջերմաստիճան",
-          "DESCRIPTION": "Կարգավորեք, թե որքան ստեղծագործ կամ սահմանափակ պետք է լինեն օգնականի պատասխանները։ Նվազագույն արժեքները տալիս են ավելի կենտրոնացած և որոշակի պատասխաններ, իսկ բարձր արժեքները թույլ են տալիս ավելի ստեղծագործ և բազմազան արդյունքներ։"
         },
         "DESCRIPTION": {
           "LABEL": "Նկարագրություն",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "Փաստաթղթեր",
       "ADD_NEW": "Ստեղծել նոր փաստաթուղթ",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} ընտրված",
       "SELECT_ALL": "Ընտրել բոլորը ({count})",
       "UNSELECT_ALL": "Չընտրել բոլորը ({count})",
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "Համապատասխան ՀՏՀ-ներ",
-        "DESCRIPTION": "Այս ՀՏՀ-ները ստեղծվել են ուղղակիորեն փաստաթղթից։"
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "Պատճենել",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "Մուտքագրեք փաստաթղթի URL հասցեն՝ այն ավելացնելու համար որպես գիտելիքների աղբյուր և ընտրեք օգնականին, որի հետ կապել այն։",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "Փաստաթղթի ջնջման ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Դիտել կապված պատասխանները",
+        "VIEW_DETAILS": "Դիտել մանրամասները",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Ջնջել փաստաթուղթը"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "ՀՏՀ-ներ",
-      "PENDING_FAQS": "Սպասող ՀՏՀ-ներ",
       "ADD_NEW": "Ստեղծել նոր FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Զրույց #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "Ընտրել բոլորը ({count})",
       "UNSELECT_ALL": "Չընտրել բոլորը ({count})",
       "SEARCH_PLACEHOLDER": "Cari Soalan Lazim...",
-      "BULK_APPROVE_BUTTON": "Հաստատել",
-      "BULK_DELETE_BUTTON": "Ջնջել",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "ՀՏՀ-ները հաջողությամբ հաստատվեցին",
-        "ERROR_MESSAGE": "ՀՏՀ-ները հաստատելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "Ջնջել",
       "BULK_DELETE": {
         "TITLE": "Ջնջե՞լ ՀՏՀ-ները։",
         "DESCRIPTION": "Համոզված եք, որ ցանկանում եք ջնջել ընտրված ՀՏՀ-ները։ Այս գործողությունը չի կարող հետ վերադարձվել։",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "ՀՏՀ-ն հաջողությամբ ջնջվեց",
         "ERROR_MESSAGE": "ՀՏՀ-ն ջնջելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
       },
-      "FILTER": {
-        "ASSISTANT": "Օգնական՝ {selected}",
-        "STATUS": "Կարգավիճակ՝ {selected}",
-        "ALL_ASSISTANTS": "Բոլորը"
-      },
-      "STATUS": {
-        "TITLE": "Կարգավիճակ",
-        "PENDING": "Սպասման մեջ",
-        "APPROVED": "Հաստատված",
-        "ALL": "Բոլորը"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain-ը գտել է հաճախորդների փնտրած ՀՏՀ-ները։",
-        "ACTION": "Սեղմեք այստեղ՝ դիտարկելու համար"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "Ավելացրեք հարց և նրա համապատասխան պատասխան գիտելիքների բազայում և ընտրեք օգնականին, որի հետ այն պետք է կապվի։",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "ՀՏՀ-ներ չեն գտնվել",
-        "NO_PENDING_TITLE": "Վերանայման սպասող ՀՏՀ-ներ չկան",
         "SUBTITLE": "ՀՏՀ-ները օգնում են ձեր օգնականին արագ և ճշգրիտ պատասխաններ տրամադրել ձեր հաճախորդների հարցերին։ Դրանք կարող են ավտոմատ կերպով ստեղծվել ձեր բովանդակությունից կամ ձեռքով ավելացվել։",
         "CLEAR_SEARCH": "Մաքրել ակտիվ ֆիլտրերը",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Կապտեն Հաճախ տրվող հարցեր",
           "NOTE": "Կապտեն Հաճախ տրվող հարցերը հայտնաբերում են հաճախորդների ընդհանուր հարցերը՝ անկախ նրանից, թե դրանք բացակայում են ձեր գիտելիքների բազայում, թե հաճախ են տրվում, և ստեղծում են համապատասխան ՀՏՀ-ներ՝ աջակցությունը բարելավելու համար։ Դուք կարող եք վերանայել յուրաքանչյուր առաջարկ և որոշել՝ հաստատել կամ մերժել այն։"
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "Հաստատել",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "Պահպանել փոփոխությունները",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

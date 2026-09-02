@@ -3,6 +3,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   before_action :fetch_portal, except: [:index, :create]
   before_action :check_authorization
+  before_action :validate_analytics_params, only: [:create, :update]
   before_action :set_current_page, only: [:index]
 
   def index
@@ -23,6 +24,9 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def update
     ActiveRecord::Base.transaction do
+      # Lock the row so concurrent saves merge onto the latest committed config
+      # instead of a stale snapshot, which would drop the other save's keys.
+      @portal.lock!
       @portal.update!(portal_params.merge(live_chat_widget_params)) if params[:portal].present?
       # @portal.custom_domain = parsed_custom_domain
       process_attached_logo if params[:blob_id].present?
@@ -75,18 +79,43 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     params.permit(:id, :email)
   end
 
+  def validate_analytics_params
+    analytics = params.dig(:portal, :config, :analytics)
+    return if analytics.blank?
+
+    valid = analytics.respond_to?(:each_pair) &&
+            analytics.keys.all? { |key| Portal::ANALYTICS_CONFIG_FORMATS.key?(key.to_s) } &&
+            analytics.values.all?(String)
+    return if valid
+
+    render json: { error: I18n.t('portals.analytics.invalid_configuration') }, status: :unprocessable_entity
+  end
+
   def portal_params
     params.require(:portal).permit(
       :id, :color, :custom_domain, :header_text, :homepage_link,
       :name, :page_title, :slug, :archived,
-      { config: [:default_locale, :layout, { allowed_locales: [] }, { draft_locales: [] },
-                 { social_profiles: %i[facebook x instagram linkedin youtube tiktok github whatsapp] },
-                 { locale_translations: locale_translation_keys.index_with { %i[name page_title header_text] } }] }
+      { config: config_param_keys }
     )
+  end
+
+  def config_param_keys
+    keys = [:default_locale, :layout, { allowed_locales: [] }, { draft_locales: [] },
+            { social_profiles: %i[facebook x instagram linkedin youtube tiktok github whatsapp] },
+            { locale_translations: locale_translation_keys.index_with { %i[name page_title header_text] } },
+            { popular_content: popular_content_keys.index_with { { category_ids: [], article_ids: [] } } }]
+    # Analytics injects tracking scripts into every public page, so keep it admin-only even though
+    # Enterprise lets knowledge_base_manage roles edit other portal settings.
+    keys << { analytics: Portal::ANALYTICS_CONFIG_FORMATS.keys.map(&:to_sym) } if Current.account_user&.administrator?
+    keys
   end
 
   def locale_translation_keys
     params.dig(:portal, :config, :locale_translations)&.keys || []
+  end
+
+  def popular_content_keys
+    params.dig(:portal, :config, :popular_content)&.keys || []
   end
 
   def live_chat_widget_params
