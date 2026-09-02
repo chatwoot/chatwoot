@@ -179,6 +179,66 @@ RSpec.describe MailPresenter do
       end
     end
 
+    describe '#mail_receiver' do
+      context 'when mail has both To and Cc recipients' do
+        let(:mail_with_to_and_cc) do
+          Mail.new do
+            from 'Sender <sender@example.com>'
+            to 'to@example.com'
+            cc 'cc@example.com'
+            subject :header
+            body 'Hi'
+          end
+        end
+
+        it 'returns To and Cc recipients' do
+          expect(described_class.new(mail_with_to_and_cc).mail_receiver).to eq(%w[to@example.com cc@example.com])
+        end
+      end
+
+      context 'when mail has Cc but no To recipients' do
+        let(:mail_with_cc_only) do
+          Mail.new do
+            from 'Sender <sender@example.com>'
+            cc 'cc@example.com'
+            subject :header
+            body 'Hi'
+          end
+        end
+
+        it 'returns Cc recipients' do
+          expect(described_class.new(mail_with_cc_only).mail_receiver).to eq(['cc@example.com'])
+        end
+      end
+
+      context 'when mail has no To or Cc recipients' do
+        let(:mail_with_forwarded_header) do
+          Mail.new do
+            from 'Sender <sender@example.com>'
+            subject :header
+            body 'Hi'
+            header['X-Forwarded-For'] = 'forwarder@example.com'
+          end
+        end
+
+        let(:mail_without_recipients) do
+          Mail.new do
+            from 'Sender <sender@example.com>'
+            subject :header
+            body 'Hi'
+          end
+        end
+
+        it 'falls back to the X-Forwarded-For header' do
+          expect(described_class.new(mail_with_forwarded_header).mail_receiver).to eq(['forwarder@example.com'])
+        end
+
+        it 'returns an empty array' do
+          expect(described_class.new(mail_without_recipients).mail_receiver).to eq([])
+        end
+      end
+    end
+
     describe 'malformed sender headers' do
       let(:mail_with_malformed_from) do
         Mail.new do
