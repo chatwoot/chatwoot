@@ -2,7 +2,8 @@
 import { computed } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import {
   isSafeHttpLink,
@@ -89,6 +90,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['action', 'select', 'hover']);
+
+const exactTimestamp = useExactTimestamp();
+
 const { checkPermissions } = usePolicy();
 
 const { t } = useI18n();
