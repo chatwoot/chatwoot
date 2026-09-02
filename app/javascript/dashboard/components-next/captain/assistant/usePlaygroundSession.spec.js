@@ -194,6 +194,21 @@ describe('usePlaygroundSession', () => {
     scope.stop();
   });
 
+  it('adds only temporary rules that contain content', () => {
+    const { scope, session } = createSession();
+
+    session.addTemporaryRule('guideline', '   ');
+    session.addTemporaryRule('guideline', '  Keep replies concise  ');
+
+    expect(session.temporaryGuidelines.value).toEqual([
+      expect.objectContaining({
+        content: 'Keep replies concise',
+        included: true,
+      }),
+    ]);
+    scope.stop();
+  });
+
   it('refetches the assistant before saving one rule and avoids exact duplicates', async () => {
     const latestAssistant = {
       ...assistant,
@@ -220,16 +235,14 @@ describe('usePlaygroundSession', () => {
     });
     const { scope, session } = createSession();
     await session.initialize();
-    session.addTemporaryRule('guideline');
-    session.temporaryGuidelines.value[0].content = 'Use short paragraphs';
+    session.addTemporaryRule('guideline', 'Use short paragraphs');
 
     await session.saveTemporaryRule(
       'guideline',
       session.temporaryGuidelines.value[0]
     );
 
-    session.addTemporaryRule('guideline');
-    session.temporaryGuidelines.value[0].content = 'Already saved';
+    session.addTemporaryRule('guideline', 'Already saved');
     await session.saveTemporaryRule(
       'guideline',
       session.temporaryGuidelines.value[0]
@@ -247,8 +260,7 @@ describe('usePlaygroundSession', () => {
     const { scope, session } = createSession();
     await session.initialize();
     session.toggleScenario(2);
-    session.addTemporaryRule('guardrail');
-    session.temporaryGuardrails.value[0].content = 'Temporary';
+    session.addTemporaryRule('guardrail', 'Temporary');
     session.knowledgeText.value = 'Temporary knowledge';
 
     await session.reset();
@@ -312,9 +324,8 @@ describe('usePlaygroundSession', () => {
     });
     const assistantId = ref(7);
     const { scope, session } = createSession(assistantId);
-    session.addTemporaryRule('guideline');
+    session.addTemporaryRule('guideline', 'Save this rule');
     const temporaryRule = session.temporaryGuidelines.value[0];
-    temporaryRule.content = 'Save this rule';
 
     const saveRequest = session.saveTemporaryRule('guideline', temporaryRule);
     assistantId.value = 8;

@@ -11,6 +11,7 @@ import Label from 'dashboard/components-next/label/Label.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
+import AddNewRulesInput from 'dashboard/components-next/captain/assistant/AddNewRulesInput.vue';
 import PlaygroundTemporaryEmptyState from './PlaygroundTemporaryEmptyState.vue';
 
 const props = defineProps({
@@ -19,10 +20,14 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'reset']);
 const { t } = useI18n();
+const KNOWLEDGE_MAX_LENGTH = 10_000;
 
 const activeTab = ref('knowledge');
 const collapsedScenarioIds = ref(new Set());
 const isKnowledgeEditorVisible = ref(Boolean(props.session.knowledgeText));
+const newKnowledge = ref('');
+const newGuideline = ref('');
+const newGuardrail = ref('');
 
 const tabs = computed(() => [
   {
@@ -90,8 +95,20 @@ const toggleTemporaryScenario = scenario => {
   collapsedScenarioIds.value = nextCollapsedScenarioIds;
 };
 
-const showKnowledgeEditor = () => {
+const addTemporaryKnowledge = content => {
+  const normalizedContent = content?.trim();
+  if (!normalizedContent) return;
+
+  props.session.setKnowledgeText(normalizedContent);
   isKnowledgeEditorVisible.value = true;
+};
+
+const addTemporaryGuideline = content => {
+  props.session.addTemporaryRule('guideline', content);
+};
+
+const addTemporaryGuardrail = content => {
+  props.session.addTemporaryRule('guardrail', content);
 };
 
 const selectTab = tab => {
@@ -340,32 +357,22 @@ const resetSetup = () => {
           v-else-if="activeTab === 'guidelines'"
           class="flex flex-col gap-4"
         >
-          <div class="flex items-start justify-between gap-4">
-            <div class="min-w-0">
-              <h4 class="text-sm font-medium">
-                {{ t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.CREATE_TITLE') }}
-              </h4>
-              <p class="mt-1 text-xs leading-5 text-n-slate-11">
-                {{ t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.CREATE_HINT') }}
-              </p>
-            </div>
-            <Button
-              v-if="session.temporaryGuidelines.length"
-              :label="t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.ADD')"
-              icon="i-lucide-plus"
-              variant="faded"
-              color="blue"
-              size="sm"
-              class="shrink-0"
-              @click="session.addTemporaryRule('guideline')"
-            />
+          <div class="min-w-0">
+            <h4 class="text-sm font-medium">
+              {{ t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.CREATE_TITLE') }}
+            </h4>
+            <p class="mt-1 text-xs leading-5 text-n-slate-11">
+              {{ t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.CREATE_HINT') }}
+            </p>
           </div>
 
-          <PlaygroundTemporaryEmptyState
-            v-if="!session.temporaryGuidelines.length"
-            :message="t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.TEMPORARY_EMPTY')"
-            :action-label="t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.ADD')"
-            @add="session.addTemporaryRule('guideline')"
+          <AddNewRulesInput
+            v-model="newGuideline"
+            :placeholder="
+              t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.COMPOSER_PLACEHOLDER')
+            "
+            :label="t('CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST')"
+            @add="addTemporaryGuideline"
           />
 
           <div
@@ -451,32 +458,22 @@ const resetSetup = () => {
           v-else-if="activeTab === 'guardrails'"
           class="flex flex-col gap-4"
         >
-          <div class="flex items-start justify-between gap-4">
-            <div class="min-w-0">
-              <h4 class="text-sm font-medium">
-                {{ t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.CREATE_TITLE') }}
-              </h4>
-              <p class="mt-1 text-xs leading-5 text-n-slate-11">
-                {{ t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.CREATE_HINT') }}
-              </p>
-            </div>
-            <Button
-              v-if="session.temporaryGuardrails.length"
-              :label="t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.ADD')"
-              icon="i-lucide-plus"
-              variant="faded"
-              color="blue"
-              size="sm"
-              class="shrink-0"
-              @click="session.addTemporaryRule('guardrail')"
-            />
+          <div class="min-w-0">
+            <h4 class="text-sm font-medium">
+              {{ t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.CREATE_TITLE') }}
+            </h4>
+            <p class="mt-1 text-xs leading-5 text-n-slate-11">
+              {{ t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.CREATE_HINT') }}
+            </p>
           </div>
 
-          <PlaygroundTemporaryEmptyState
-            v-if="!session.temporaryGuardrails.length"
-            :message="t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.TEMPORARY_EMPTY')"
-            :action-label="t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.ADD')"
-            @add="session.addTemporaryRule('guardrail')"
+          <AddNewRulesInput
+            v-model="newGuardrail"
+            :placeholder="
+              t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.COMPOSER_PLACEHOLDER')
+            "
+            :label="t('CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST')"
+            @add="addTemporaryGuardrail"
           />
 
           <div
@@ -616,11 +613,15 @@ const resetSetup = () => {
               />
             </div>
 
-            <PlaygroundTemporaryEmptyState
+            <AddNewRulesInput
               v-if="!isKnowledgeEditorVisible"
-              :message="t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.TEMPORARY_EMPTY')"
-              :action-label="t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.ADD')"
-              @add="showKnowledgeEditor"
+              v-model="newKnowledge"
+              :placeholder="
+                t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.COMPOSER_PLACEHOLDER')
+              "
+              :label="t('CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST')"
+              :max-length="KNOWLEDGE_MAX_LENGTH"
+              @add="addTemporaryKnowledge"
             />
 
             <div v-else class="flex flex-col gap-3">
@@ -630,7 +631,7 @@ const resetSetup = () => {
                 :placeholder="
                   t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.PLACEHOLDER')
                 "
-                :max-length="10000"
+                :max-length="KNOWLEDGE_MAX_LENGTH"
                 show-character-count
                 resize
                 @update:model-value="session.setKnowledgeText"

@@ -1,6 +1,7 @@
 import { nextTick } from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import Accordion from 'dashboard/components-next/Accordion/Accordion.vue';
+import AddNewRulesInput from 'dashboard/components-next/captain/assistant/AddNewRulesInput.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
@@ -188,22 +189,29 @@ describe('PlaygroundTestSetup', () => {
     ).toBe(true);
   });
 
-  it('uses the referenced empty state for each temporary item section', async () => {
+  it('uses quick entry for knowledge and rules while retaining the scenario empty state', async () => {
     const addTemporaryScenario = vi.fn();
     const addTemporaryRule = vi.fn();
-    const wrapper = mountSetup({ addTemporaryScenario, addTemporaryRule });
-
-    let emptyState = wrapper.findComponent(PlaygroundTemporaryEmptyState);
-    expect(emptyState.props()).toMatchObject({
-      message: 'CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.TEMPORARY_EMPTY',
-      actionLabel: 'CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.ADD',
+    const setKnowledgeText = vi.fn();
+    const wrapper = mountSetup({
+      addTemporaryScenario,
+      addTemporaryRule,
+      setKnowledgeText,
     });
-    emptyState.vm.$emit('add');
+
+    let rulesInput = wrapper.findComponent(AddNewRulesInput);
+    expect(rulesInput.props()).toMatchObject({
+      placeholder: 'CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.COMPOSER_PLACEHOLDER',
+      label: 'CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST',
+      maxLength: 10000,
+    });
+    rulesInput.vm.$emit('add', 'Refunds take five days');
     await nextTick();
+    expect(setKnowledgeText).toHaveBeenCalledWith('Refunds take five days');
     expect(wrapper.findComponent(TextArea).exists()).toBe(true);
 
     await selectTab(wrapper, 'scenarios');
-    emptyState = wrapper.findComponent(PlaygroundTemporaryEmptyState);
+    const emptyState = wrapper.findComponent(PlaygroundTemporaryEmptyState);
     expect(emptyState.props()).toMatchObject({
       message: 'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.TEMPORARY_EMPTY',
       actionLabel: 'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.ADD',
@@ -212,22 +220,84 @@ describe('PlaygroundTestSetup', () => {
     expect(addTemporaryScenario).toHaveBeenCalledOnce();
 
     await selectTab(wrapper, 'guidelines');
-    emptyState = wrapper.findComponent(PlaygroundTemporaryEmptyState);
-    expect(emptyState.props()).toMatchObject({
-      message: 'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.TEMPORARY_EMPTY',
-      actionLabel: 'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.ADD',
+    expect(wrapper.findComponent(PlaygroundTemporaryEmptyState).exists()).toBe(
+      false
+    );
+    rulesInput = wrapper.findComponent(AddNewRulesInput);
+    expect(rulesInput.props()).toMatchObject({
+      placeholder: 'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.COMPOSER_PLACEHOLDER',
+      label: 'CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST',
     });
-    emptyState.vm.$emit('add');
-    expect(addTemporaryRule).toHaveBeenCalledWith('guideline');
+    rulesInput.vm.$emit('add', 'Keep replies concise');
+    expect(addTemporaryRule).toHaveBeenCalledWith(
+      'guideline',
+      'Keep replies concise'
+    );
 
     await selectTab(wrapper, 'guardrails');
-    emptyState = wrapper.findComponent(PlaygroundTemporaryEmptyState);
-    expect(emptyState.props()).toMatchObject({
-      message: 'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.TEMPORARY_EMPTY',
-      actionLabel: 'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.ADD',
+    expect(wrapper.findComponent(PlaygroundTemporaryEmptyState).exists()).toBe(
+      false
+    );
+    rulesInput = wrapper.findComponent(AddNewRulesInput);
+    expect(rulesInput.props()).toMatchObject({
+      placeholder: 'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.COMPOSER_PLACEHOLDER',
+      label: 'CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST',
     });
-    emptyState.vm.$emit('add');
-    expect(addTemporaryRule).toHaveBeenCalledWith('guardrail');
+    rulesInput.vm.$emit('add', 'Never expose passwords');
+    expect(addTemporaryRule).toHaveBeenCalledWith(
+      'guardrail',
+      'Never expose passwords'
+    );
+  });
+
+  it('shows permanent and inclusion actions beneath temporary rules', async () => {
+    const wrapper = mountSetup({
+      isAdmin: true,
+      temporaryGuidelines: [
+        {
+          clientId: 'guideline-1',
+          content: 'Keep replies concise',
+          included: true,
+          isSaving: false,
+        },
+      ],
+      temporaryGuardrails: [
+        {
+          clientId: 'guardrail-1',
+          content: 'Never expose passwords',
+          included: true,
+          isSaving: false,
+        },
+      ],
+    });
+
+    await selectTab(wrapper, 'guidelines');
+    expect(
+      wrapper
+        .findAllComponents(Button)
+        .some(
+          button =>
+            button.props('label') ===
+            'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.ADD_PERMANENTLY'
+        )
+    ).toBe(true);
+    expect(wrapper.text()).toContain(
+      'CAPTAIN.PLAYGROUND.SETUP.INCLUDE_IN_TEST'
+    );
+
+    await selectTab(wrapper, 'guardrails');
+    expect(
+      wrapper
+        .findAllComponents(Button)
+        .some(
+          button =>
+            button.props('label') ===
+            'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.ADD_PERMANENTLY'
+        )
+    ).toBe(true);
+    expect(wrapper.text()).toContain(
+      'CAPTAIN.PLAYGROUND.SETUP.INCLUDE_IN_TEST'
+    );
   });
 
   it('hides persisted actions from non-administrators', async () => {
@@ -259,9 +329,7 @@ describe('PlaygroundTestSetup', () => {
     expect(wrapper.text()).toContain('12');
     expect(wrapper.text()).toContain('48');
     expect(wrapper.findComponent(TextArea).exists()).toBe(false);
-    expect(wrapper.findComponent(PlaygroundTemporaryEmptyState).exists()).toBe(
-      true
-    );
+    expect(wrapper.findComponent(AddNewRulesInput).exists()).toBe(true);
     expect(wrapper.findAllComponents(Accordion)).toHaveLength(0);
     expect(wrapper.text()).not.toContain('Enabled scenario');
   });

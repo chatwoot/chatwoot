@@ -12,6 +12,10 @@ defineProps({
     type: String,
     default: '',
   },
+  maxLength: {
+    type: Number,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['add']);
@@ -37,6 +41,7 @@ const onClickAdd = () => {
     <InlineInput
       v-model="modelValue"
       :placeholder="placeholder"
+      :max-length="maxLength"
       @keyup.enter="onClickAdd"
     />
     <Button

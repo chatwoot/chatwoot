@@ -146,12 +146,15 @@ export function usePlaygroundSession({ assistantId }) {
     }
   };
 
-  const addTemporaryRule = type => {
+  const addTemporaryRule = (type, content) => {
+    const normalizedContent = content?.trim();
+    if (!normalizedContent) return;
+
     const target =
       type === 'guideline' ? temporaryGuidelines : temporaryGuardrails;
     target.value.push({
       clientId: createClientId(),
-      content: '',
+      content: normalizedContent,
       included: true,
       isSaving: false,
     });
