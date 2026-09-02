@@ -46,6 +46,15 @@ RSpec.describe Captain::ConversationCompletionService do
         expect(service.perform).to include(complete: true)
       end
 
+      it 'uses the account override ahead of the installation model on self-hosted Enterprise' do
+        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
+        account.update!(captain_models: { 'conversation_completion' => 'gpt-5.2' })
+        allow(mock_context).to receive(:chat).with(model: 'gpt-5.2').and_return(mock_chat)
+
+        expect(service.perform).to include(complete: true)
+      end
+
       it 'falls back to the internal GPT-4.1 route when the self-hosted installation model is blank' do
         allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: '')

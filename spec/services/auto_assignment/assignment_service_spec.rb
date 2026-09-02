@@ -109,13 +109,13 @@ RSpec.describe AutoAssignment::AssignmentService do
 
       it 'does not reassign conversations owned by an agent bot' do
         agent_bot = create(:agent_bot, account: account)
-        agent_bot_conversation = create(:conversation, inbox: inbox, status: 'open', assignee_agent_bot: agent_bot)
+        agent_bot_conversation = create(:conversation, inbox: inbox, status: 'open', ai_assignee: agent_bot)
         allow(service).to receive(:unassigned_conversations).and_return([agent_bot_conversation])
 
         assigned_count = service.perform_bulk_assignment(limit: 1)
 
         expect(assigned_count).to eq(0)
-        expect(agent_bot_conversation.reload.assignee_agent_bot).to eq(agent_bot)
+        expect(agent_bot_conversation.reload.ai_assignee).to eq(agent_bot)
         expect(agent_bot_conversation.assignee).to be_nil
       end
 

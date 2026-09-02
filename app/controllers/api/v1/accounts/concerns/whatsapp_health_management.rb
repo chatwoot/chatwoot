@@ -31,7 +31,7 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   end
 
   def health
-    health_data = Whatsapp::HealthService.new(@inbox.channel).sync_health_status!
+    health_data = Whatsapp::HealthService.new(@inbox.channel).sync_health_status!(include_business_profile: true)
     render json: health_data
   rescue Whatsapp::HealthService::ApiError => e
     Rails.logger.error "[INBOX HEALTH] Error fetching health data: #{e.message}"

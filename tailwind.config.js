@@ -205,6 +205,7 @@ const tailwindConfig = {
     },
     fontSize: {
       ...defaultTheme.fontSize,
+      xxxs: '0.5rem',
       xxs: '0.625rem',
     },
     colors: {
