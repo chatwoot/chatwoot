@@ -249,6 +249,38 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
     end
   end
 
+  describe 'GET /api/v2/accounts/{account.id}/reports/agent_daily_matrix' do
+    context 'when unauthenticated' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/agent_daily_matrix"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as agent' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/agent_daily_matrix",
+            headers: agent.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as admin' do
+      it 'returns the agent daily matrix' do
+        get "/api/v2/accounts/#{account.id}/reports/agent_daily_matrix",
+            params: { since: 1.week.ago.to_i.to_s, until: Time.current.to_i.to_s, timezone_offset: 0 },
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+
+        body = response.parsed_body
+        expect(body['agents']).to be_an(Array)
+        expect(body['days']).to be_an(Array)
+        expect(body['matrix']).to be_an(Array)
+      end
+    end
+  end
+
   describe 'GET /api/v2/accounts/{account.id}/reports/first_response_time_distribution' do
     let!(:web_widget_inbox) { create(:inbox, account: account, channel: create(:channel_widget, account: account)) }
 

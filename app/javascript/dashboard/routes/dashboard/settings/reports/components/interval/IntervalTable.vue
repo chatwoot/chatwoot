@@ -5,6 +5,12 @@ import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 
 import { buildIntervalMatrix } from '../../helpers/intervalHelper';
+import {
+  DAY_LABEL_FORMAT,
+  EMPTY_CELL,
+  intensityClassFor,
+  isWeekend,
+} from '../../helpers/matrixCellHelper';
 
 const props = defineProps({
   intervalData: {
@@ -13,18 +19,6 @@ const props = defineProps({
   },
 });
 
-// Steps 3-8 are the only blue tokens that stay a background in both themes,
-// so the count keeps AA contrast against text-n-slate-12 in light and dark mode.
-const CELL_INTENSITY_CLASSES = [
-  'bg-n-blue-3 text-n-slate-12',
-  'bg-n-blue-5 text-n-slate-12',
-  'bg-n-blue-6 text-n-slate-12',
-  'bg-n-blue-7 text-n-slate-12',
-  'bg-n-blue-8 text-n-slate-12',
-];
-
-const DATE_FORMAT = 'dd/MM';
-const EMPTY_CELL = '·';
 const HOURS = Array.from(
   { length: 24 },
   (_, hour) => `${String(hour).padStart(2, '0')}:00`
@@ -43,7 +37,6 @@ const daysShort = computed(() => [
   t('OVERVIEW_REPORTS.CONVERSATION_INTERVAL.DAYS_SHORT.SATURDAY'),
 ]);
 
-const isWeekend = date => [0, 6].includes(getDay(date));
 // The reports API fills every hour in the range, using 0 for hours with no
 // conversations, so an absent bucket and a zero bucket render the same way.
 const getValue = (hour, dayKey) => matrix.value.values[dayKey]?.[hour] ?? 0;
@@ -56,12 +49,7 @@ const getCellClasses = (hour, day) => {
       : 'text-n-slate-11';
   }
 
-  const ratio = matrix.value.maxValue ? value / matrix.value.maxValue : 0;
-  const level = Math.max(
-    0,
-    Math.min(CELL_INTENSITY_CLASSES.length - 1, Math.ceil(ratio * 5) - 1)
-  );
-  return CELL_INTENSITY_CLASSES[level];
+  return intensityClassFor(value, matrix.value.maxValue);
 };
 
 const getConversationLabel = value => {
@@ -78,7 +66,7 @@ const getConversationLabel = value => {
 
 const getCellTitle = (hour, day) => {
   const value = getValue(hour, day.key);
-  return `${format(day.date, DATE_FORMAT)} ${HOURS[hour]}: ${getConversationLabel(value)}`;
+  return `${format(day.date, DAY_LABEL_FORMAT)} ${HOURS[hour]}: ${getConversationLabel(value)}`;
 };
 </script>
 
@@ -109,7 +97,7 @@ const getCellTitle = (hour, day) => {
               {{ daysShort[getDay(day.date)] }}
             </span>
             <span class="block tabular-nums">
-              {{ format(day.date, DATE_FORMAT) }}
+              {{ format(day.date, DAY_LABEL_FORMAT) }}
             </span>
           </th>
         </tr>

@@ -58,6 +58,7 @@ const state = {
       isFetchingAccountConversationMetric: false,
       isFetchingAccountConversationsHeatmap: false,
       isFetchingAccountConversationInterval: false,
+      isFetchingAgentDailyMatrix: false,
       isFetchingAccountResolutionsHeatmap: false,
       isFetchingAgentConversationMetric: false,
       isFetchingTeamConversationMetric: false,
@@ -65,6 +66,7 @@ const state = {
     accountConversationMetric: {},
     accountConversationHeatmap: [],
     accountConversationInterval: [],
+    agentDailyMatrix: { agents: [], days: [], matrix: [] },
     accountResolutionHeatmap: [],
     agentConversationMetric: [],
     teamConversationMetric: [],
@@ -95,6 +97,9 @@ const getters = {
   },
   getAccountConversationIntervalData(_state) {
     return _state.overview.accountConversationInterval;
+  },
+  getAgentDailyMatrixData(_state) {
+    return _state.overview.agentDailyMatrix;
   },
   getAccountResolutionHeatmapData(_state) {
     return _state.overview.accountResolutionHeatmap;
@@ -148,6 +153,13 @@ export const actions = {
 
       commit(types.default.SET_CONVERSATION_INTERVAL_DATA, data);
       commit(types.default.TOGGLE_CONVERSATION_INTERVAL_LOADING, false);
+    });
+  },
+  fetchAgentDailyMatrix({ commit }, reportObj) {
+    commit(types.default.TOGGLE_AGENT_DAILY_MATRIX_LOADING, true);
+    Report.getAgentDailyMatrix(reportObj).then(({ data }) => {
+      commit(types.default.SET_AGENT_DAILY_MATRIX, data);
+      commit(types.default.TOGGLE_AGENT_DAILY_MATRIX_LOADING, false);
     });
   },
   fetchAccountResolutionHeatmap({ commit }, reportObj) {
@@ -333,6 +345,9 @@ const mutations = {
   [types.default.SET_CONVERSATION_INTERVAL_DATA](_state, intervalData) {
     _state.overview.accountConversationInterval = intervalData;
   },
+  [types.default.SET_AGENT_DAILY_MATRIX](_state, matrixData) {
+    _state.overview.agentDailyMatrix = matrixData;
+  },
   [types.default.SET_RESOLUTION_HEATMAP_DATA](_state, heatmapData) {
     _state.overview.accountResolutionHeatmap = heatmapData;
   },
@@ -350,6 +365,9 @@ const mutations = {
   },
   [types.default.TOGGLE_CONVERSATION_INTERVAL_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAccountConversationInterval = flag;
+  },
+  [types.default.TOGGLE_AGENT_DAILY_MATRIX_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingAgentDailyMatrix = flag;
   },
   [types.default.TOGGLE_RESOLUTION_HEATMAP_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAccountResolutionsHeatmap = flag;

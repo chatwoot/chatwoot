@@ -31,6 +31,16 @@ class ReportsAPI extends ApiClient {
     });
   }
 
+  getAgentDailyMatrix({ from, to }) {
+    return axios.get(`${this.url}/agent_daily_matrix`, {
+      params: {
+        since: from,
+        until: to,
+        timezone_offset: getTimeOffset(),
+      },
+    });
+  }
+
   getDrilldown({
     metric,
     bucketTimestamp,

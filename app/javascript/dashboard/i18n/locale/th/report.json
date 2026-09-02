@@ -584,6 +584,25 @@
         "SATURDAY": "ส"
       }
     },
+    "AGENT_RANKING": {
+      "HEADER": "อันดับ Productivity รายคน",
+      "LOADING_MESSAGE": "กำลังโหลด",
+      "ARIA_LABEL": "อันดับ Productivity แยกตามพนักงาน",
+      "RANK": "อันดับ",
+      "AGENT": "พนักงาน",
+      "CONVERSATIONS": "การสนทนา",
+      "RESOLVED": "ปิดได้",
+      "BAR_LABEL": "สัดส่วนการสนทนาที่ปิดได้",
+      "NO_AGENTS": "ช่วงนี้ยังไม่มีผลงาน"
+    },
+    "AGENT_DAILY": {
+      "HEADER": "รายวัน · แต่ละคน",
+      "LOADING_MESSAGE": "กำลังโหลด",
+      "ARIA_LABEL": "การสนทนาที่ปิดได้ แยกตามพนักงานและวัน",
+      "AGENT": "พนักงาน",
+      "TOTAL": "รวม",
+      "NO_AGENTS": "ช่วงนี้ยังไม่มีผลงาน"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "การสนทนาที่พนักงานดูแล",
       "LOADING_MESSAGE": "กำลังโหลดตัวชี้วัดพนักงาน",
