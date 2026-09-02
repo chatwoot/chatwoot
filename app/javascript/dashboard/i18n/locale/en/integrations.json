@@ -655,10 +655,14 @@
           "CREATE_TITLE": "Add a temporary scenario",
           "CREATE_HINT": "Try a new behavior without changing the assistant configuration.",
           "SAVED_SUMMARY": "Existing scenarios ({count})",
-          "ADD_AS_SAVED": "Add as real scenario",
+          "ADD_PERMANENTLY": "Add scenario permanently",
           "DISABLED": "Disabled",
           "EMPTY": "This assistant has no saved scenarios.",
+          "TEMPORARY_EMPTY": "There are no temporary scenarios yet.",
+          "TEMPORARY_TITLE": "Temporary scenario",
           "ADD": "Add temporary scenario",
+          "COLLAPSE": "Collapse temporary scenario",
+          "EXPAND": "Expand temporary scenario",
           "REMOVE": "Remove temporary scenario"
         },
         "GUIDELINES": {
@@ -666,8 +670,9 @@
           "CREATE_TITLE": "Add a temporary guideline",
           "CREATE_HINT": "Test a response preference before adding it to the assistant.",
           "SAVED_SUMMARY": "Existing guidelines ({count})",
-          "ADD_AS_SAVED": "Add as guideline",
+          "ADD_PERMANENTLY": "Add guideline permanently",
           "ADD": "Add temporary guideline",
+          "TEMPORARY_EMPTY": "There are no temporary guidelines yet.",
           "EMPTY": "This assistant has no saved response guidelines.",
           "PLACEHOLDER": "Add a response guideline",
           "REMOVE": "Remove temporary response guideline"
@@ -677,8 +682,9 @@
           "CREATE_TITLE": "Add a temporary guardrail",
           "CREATE_HINT": "Test a safety boundary before adding it to the assistant.",
           "SAVED_SUMMARY": "Existing guardrails ({count})",
-          "ADD_AS_SAVED": "Add as guardrail",
+          "ADD_PERMANENTLY": "Add guardrail permanently",
           "ADD": "Add temporary guardrail",
+          "TEMPORARY_EMPTY": "There are no temporary guardrails yet.",
           "EMPTY": "This assistant has no saved guardrails.",
           "PLACEHOLDER": "Add a guardrail",
           "REMOVE": "Remove temporary guardrail"
@@ -690,7 +696,9 @@
           "DOCUMENTS": "Documents",
           "FAQS": "FAQs",
           "TEMPORARY_TITLE": "Temporary knowledge",
-          "ADD_AS_DOCUMENT": "Add as document",
+          "TEMPORARY_EMPTY": "There is no temporary knowledge yet.",
+          "ADD": "Add temporary knowledge",
+          "ADD_PERMANENTLY": "Add document permanently",
           "LABEL": "Reference text",
           "PLACEHOLDER": "Paste or write new knowledge for this test",
           "HINT": "This text is attached only to playground requests unless you add it as a document."

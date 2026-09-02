@@ -11,6 +11,7 @@ import Label from 'dashboard/components-next/label/Label.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
+import PlaygroundTemporaryEmptyState from './PlaygroundTemporaryEmptyState.vue';
 
 const props = defineProps({
   session: { type: Object, required: true },
@@ -20,6 +21,8 @@ const emit = defineEmits(['close', 'reset']);
 const { t } = useI18n();
 
 const activeTab = ref('knowledge');
+const collapsedScenarioIds = ref(new Set());
+const isKnowledgeEditorVisible = ref(Boolean(props.session.knowledgeText));
 
 const tabs = computed(() => [
   {
@@ -66,12 +69,39 @@ const toggleRule = rule => {
   rule.included = !rule.included;
 };
 
+const isTemporaryScenarioCollapsed = scenario =>
+  collapsedScenarioIds.value.has(scenario.clientId);
+
+const temporaryScenarioToggleLabel = scenario => {
+  if (isTemporaryScenarioCollapsed(scenario)) {
+    return t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.EXPAND');
+  }
+
+  return t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.COLLAPSE');
+};
+
+const toggleTemporaryScenario = scenario => {
+  const nextCollapsedScenarioIds = new Set(collapsedScenarioIds.value);
+  if (nextCollapsedScenarioIds.has(scenario.clientId)) {
+    nextCollapsedScenarioIds.delete(scenario.clientId);
+  } else {
+    nextCollapsedScenarioIds.add(scenario.clientId);
+  }
+  collapsedScenarioIds.value = nextCollapsedScenarioIds;
+};
+
+const showKnowledgeEditor = () => {
+  isKnowledgeEditorVisible.value = true;
+};
+
 const selectTab = tab => {
   activeTab.value = tab.id;
 };
 
 const resetSetup = () => {
   activeTab.value = 'knowledge';
+  collapsedScenarioIds.value = new Set();
+  isKnowledgeEditorVisible.value = false;
   emit('reset');
 };
 </script>
@@ -141,6 +171,7 @@ const resetSetup = () => {
               </p>
             </div>
             <Button
+              v-if="session.temporaryScenarios.length"
               :label="t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.ADD')"
               icon="i-lucide-plus"
               variant="faded"
@@ -151,68 +182,111 @@ const resetSetup = () => {
             />
           </div>
 
+          <PlaygroundTemporaryEmptyState
+            v-if="!session.temporaryScenarios.length"
+            :message="t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.TEMPORARY_EMPTY')"
+            :action-label="t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.ADD')"
+            @add="session.addTemporaryScenario"
+          />
+
           <div
             v-for="scenario in session.temporaryScenarios"
             :key="scenario.clientId"
             class="flex flex-col gap-3 rounded-xl border border-n-strong bg-n-solid-2 p-4"
           >
             <div class="flex items-center justify-between gap-3">
-              <Label
-                :label="t('CAPTAIN.PLAYGROUND.SETUP.SESSION_ONLY')"
-                compact
-                color="amber"
-              />
-              <Button
-                icon="i-lucide-trash-2"
-                variant="ghost"
-                color="ruby"
-                size="xs"
-                :aria-label="t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.REMOVE')"
-                @click="session.removeTemporaryScenario(scenario.clientId)"
-              />
+              <div class="flex min-w-0 items-center gap-2">
+                <span class="truncate text-sm font-medium text-n-slate-12">
+                  {{
+                    scenario.title ||
+                    t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.TEMPORARY_TITLE')
+                  }}
+                </span>
+                <Label
+                  :label="t('CAPTAIN.PLAYGROUND.SETUP.SESSION_ONLY')"
+                  compact
+                  color="amber"
+                />
+              </div>
+              <div class="flex shrink-0 items-center gap-1">
+                <Button
+                  :icon="
+                    isTemporaryScenarioCollapsed(scenario)
+                      ? 'i-lucide-chevron-down'
+                      : 'i-lucide-chevron-up'
+                  "
+                  variant="ghost"
+                  color="slate"
+                  size="xs"
+                  :aria-label="temporaryScenarioToggleLabel(scenario)"
+                  :aria-expanded="!isTemporaryScenarioCollapsed(scenario)"
+                  :aria-controls="`temporary-scenario-${scenario.clientId}`"
+                  @click="toggleTemporaryScenario(scenario)"
+                />
+                <Button
+                  icon="i-lucide-trash-2"
+                  variant="ghost"
+                  color="ruby"
+                  size="xs"
+                  :aria-label="t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.REMOVE')"
+                  @click="session.removeTemporaryScenario(scenario.clientId)"
+                />
+              </div>
             </div>
-            <Input
-              v-model="scenario.title"
-              :label="
-                t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.TITLE.LABEL')
-              "
-            />
-            <TextArea
-              v-model="scenario.description"
-              :max-length="500"
-              show-character-count
-              :label="
-                t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.DESCRIPTION.LABEL')
-              "
-            />
-            <Editor
-              v-model="scenario.instruction"
-              :label="
-                t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.INSTRUCTION.LABEL')
-              "
-              :show-character-count="false"
-              enable-captain-tools
-            />
             <div
-              class="flex flex-wrap items-center justify-between gap-3 border-t border-n-weak pt-3"
+              v-if="!isTemporaryScenarioCollapsed(scenario)"
+              :id="`temporary-scenario-${scenario.clientId}`"
+              class="flex flex-col gap-3"
             >
-              <Button
-                v-if="session.isAdmin"
-                :label="t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.ADD_AS_SAVED')"
-                variant="outline"
-                color="slate"
-                size="sm"
-                :disabled="!session.scenarioIsValid(scenario)"
-                :is-loading="scenario.isSaving"
-                @click="session.saveTemporaryScenario(scenario)"
+              <Input
+                v-model="scenario.title"
+                :label="
+                  t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.TITLE.LABEL')
+                "
               />
-              <span v-else />
-              <label
-                class="flex cursor-pointer items-center gap-2 text-xs font-medium text-n-slate-12"
+              <TextArea
+                v-model="scenario.description"
+                :max-length="500"
+                show-character-count
+                :label="
+                  t(
+                    'CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.DESCRIPTION.LABEL'
+                  )
+                "
+              />
+              <Editor
+                v-model="scenario.instruction"
+                :label="
+                  t(
+                    'CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.INSTRUCTION.LABEL'
+                  )
+                "
+                :show-character-count="false"
+                enable-captain-tools
+              />
+              <div
+                class="flex flex-wrap items-center justify-between gap-3 border-t border-n-weak pt-3"
               >
-                {{ t('CAPTAIN.PLAYGROUND.SETUP.INCLUDE_IN_TEST') }}
-                <Checkbox v-model="scenario.included" />
-              </label>
+                <Button
+                  v-if="session.isAdmin"
+                  :label="
+                    t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.ADD_PERMANENTLY')
+                  "
+                  variant="outline"
+                  color="slate"
+                  size="sm"
+                  :disabled="!session.scenarioIsValid(scenario)"
+                  :is-loading="scenario.isSaving"
+                  @click="session.saveTemporaryScenario(scenario)"
+                />
+                <span v-else />
+                <label
+                  class="flex cursor-pointer items-center gap-2 text-xs font-medium text-n-slate-12"
+                >
+                  {{ t('CAPTAIN.PLAYGROUND.SETUP.INCLUDE_IN_TEST') }}
+                  <Checkbox v-model="scenario.included" />
+                </label>
+              </div>
             </div>
           </div>
 
@@ -276,6 +350,7 @@ const resetSetup = () => {
               </p>
             </div>
             <Button
+              v-if="session.temporaryGuidelines.length"
               :label="t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.ADD')"
               icon="i-lucide-plus"
               variant="faded"
@@ -285,6 +360,13 @@ const resetSetup = () => {
               @click="session.addTemporaryRule('guideline')"
             />
           </div>
+
+          <PlaygroundTemporaryEmptyState
+            v-if="!session.temporaryGuidelines.length"
+            :message="t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.TEMPORARY_EMPTY')"
+            :action-label="t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.ADD')"
+            @add="session.addTemporaryRule('guideline')"
+          />
 
           <div
             v-for="rule in session.temporaryGuidelines"
@@ -318,7 +400,9 @@ const resetSetup = () => {
             >
               <Button
                 v-if="session.isAdmin"
-                :label="t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.ADD_AS_SAVED')"
+                :label="
+                  t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.ADD_PERMANENTLY')
+                "
                 variant="outline"
                 color="slate"
                 size="sm"
@@ -377,6 +461,7 @@ const resetSetup = () => {
               </p>
             </div>
             <Button
+              v-if="session.temporaryGuardrails.length"
               :label="t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.ADD')"
               icon="i-lucide-plus"
               variant="faded"
@@ -386,6 +471,13 @@ const resetSetup = () => {
               @click="session.addTemporaryRule('guardrail')"
             />
           </div>
+
+          <PlaygroundTemporaryEmptyState
+            v-if="!session.temporaryGuardrails.length"
+            :message="t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.TEMPORARY_EMPTY')"
+            :action-label="t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.ADD')"
+            @add="session.addTemporaryRule('guardrail')"
+          />
 
           <div
             v-for="rule in session.temporaryGuardrails"
@@ -419,7 +511,9 @@ const resetSetup = () => {
             >
               <Button
                 v-if="session.isAdmin"
-                :label="t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.ADD_AS_SAVED')"
+                :label="
+                  t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.ADD_PERMANENTLY')
+                "
                 variant="outline"
                 color="slate"
                 size="sm"
@@ -521,40 +615,54 @@ const resetSetup = () => {
                 color="amber"
               />
             </div>
-            <TextArea
-              :model-value="session.knowledgeText"
-              :label="t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.LABEL')"
-              :placeholder="t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.PLACEHOLDER')"
-              :max-length="10000"
-              show-character-count
-              resize
-              @update:model-value="session.setKnowledgeText"
+
+            <PlaygroundTemporaryEmptyState
+              v-if="!isKnowledgeEditorVisible"
+              :message="t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.TEMPORARY_EMPTY')"
+              :action-label="t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.ADD')"
+              @add="showKnowledgeEditor"
             />
-            <div
-              class="flex flex-wrap items-center justify-between gap-3 border-t border-n-weak pt-3"
-            >
-              <Button
-                v-if="session.isAdmin"
-                :label="t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.ADD_AS_DOCUMENT')"
-                variant="outline"
-                color="slate"
-                size="sm"
-                :disabled="
-                  !session.knowledgeText.trim() || session.isSavingKnowledge
+
+            <div v-else class="flex flex-col gap-3">
+              <TextArea
+                :model-value="session.knowledgeText"
+                :label="t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.LABEL')"
+                :placeholder="
+                  t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.PLACEHOLDER')
                 "
-                :is-loading="session.isSavingKnowledge"
-                @click="session.saveKnowledgeAsDocument"
+                :max-length="10000"
+                show-character-count
+                resize
+                @update:model-value="session.setKnowledgeText"
               />
-              <span v-else />
-              <label
-                class="flex cursor-pointer items-center gap-2 text-xs font-medium text-n-slate-12"
+              <div
+                class="flex flex-wrap items-center justify-between gap-3 border-t border-n-weak pt-3"
               >
-                {{ t('CAPTAIN.PLAYGROUND.SETUP.INCLUDE_IN_TEST') }}
-                <Checkbox
-                  :model-value="session.isKnowledgeIncluded"
-                  @update:model-value="session.setKnowledgeIncluded"
+                <Button
+                  v-if="session.isAdmin"
+                  :label="
+                    t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.ADD_PERMANENTLY')
+                  "
+                  variant="outline"
+                  color="slate"
+                  size="sm"
+                  :disabled="
+                    !session.knowledgeText.trim() || session.isSavingKnowledge
+                  "
+                  :is-loading="session.isSavingKnowledge"
+                  @click="session.saveKnowledgeAsDocument"
                 />
-              </label>
+                <span v-else />
+                <label
+                  class="flex cursor-pointer items-center gap-2 text-xs font-medium text-n-slate-12"
+                >
+                  {{ t('CAPTAIN.PLAYGROUND.SETUP.INCLUDE_IN_TEST') }}
+                  <Checkbox
+                    :model-value="session.isKnowledgeIncluded"
+                    @update:model-value="session.setKnowledgeIncluded"
+                  />
+                </label>
+              </div>
             </div>
           </div>
         </section>

@@ -5,6 +5,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import PlaygroundTestSetup from './PlaygroundTestSetup.vue';
+import PlaygroundTemporaryEmptyState from './PlaygroundTemporaryEmptyState.vue';
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({
@@ -58,7 +59,7 @@ const mountSetup = (overrides = {}) =>
   shallowMount(PlaygroundTestSetup, {
     props: { session: buildSession(overrides) },
     global: {
-      stubs: { Accordion: false },
+      stubs: { Accordion: false, PlaygroundTemporaryEmptyState: false },
     },
   });
 
@@ -136,11 +137,97 @@ describe('PlaygroundTestSetup', () => {
       .findAllComponents(Button)
       .map(button => button.props('label'));
 
-    expect(labels).toContain('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.ADD_AS_SAVED');
+    expect(labels).toContain(
+      'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.ADD_PERMANENTLY'
+    );
     expect(labels).not.toContain('CAPTAIN.PLAYGROUND.SETUP.SAVE_TO_SCENARIOS');
     expect(wrapper.text()).toContain(
       'CAPTAIN.PLAYGROUND.SETUP.INCLUDE_IN_TEST'
     );
+  });
+
+  it('collapses and expands temporary scenarios', async () => {
+    const wrapper = mountSetup({
+      temporaryScenarios: [
+        {
+          clientId: 'temporary-1',
+          title: 'Refund request',
+          description: 'Handle refunds',
+          instruction: 'Follow the refund policy',
+          included: true,
+          isSaving: false,
+        },
+      ],
+    });
+    await selectTab(wrapper, 'scenarios');
+
+    expect(wrapper.find('#temporary-scenario-temporary-1').exists()).toBe(true);
+    const collapseButton = wrapper
+      .findAllComponents(Button)
+      .find(
+        button =>
+          button.attributes('aria-label') ===
+          'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.COLLAPSE'
+      );
+
+    collapseButton.vm.$emit('click');
+    await nextTick();
+
+    expect(wrapper.find('#temporary-scenario-temporary-1').exists()).toBe(
+      false
+    );
+    expect(wrapper.text()).toContain('Refund request');
+    expect(
+      wrapper
+        .findAllComponents(Button)
+        .some(
+          button =>
+            button.attributes('aria-label') ===
+            'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.EXPAND'
+        )
+    ).toBe(true);
+  });
+
+  it('uses the referenced empty state for each temporary item section', async () => {
+    const addTemporaryScenario = vi.fn();
+    const addTemporaryRule = vi.fn();
+    const wrapper = mountSetup({ addTemporaryScenario, addTemporaryRule });
+
+    let emptyState = wrapper.findComponent(PlaygroundTemporaryEmptyState);
+    expect(emptyState.props()).toMatchObject({
+      message: 'CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.TEMPORARY_EMPTY',
+      actionLabel: 'CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.ADD',
+    });
+    emptyState.vm.$emit('add');
+    await nextTick();
+    expect(wrapper.findComponent(TextArea).exists()).toBe(true);
+
+    await selectTab(wrapper, 'scenarios');
+    emptyState = wrapper.findComponent(PlaygroundTemporaryEmptyState);
+    expect(emptyState.props()).toMatchObject({
+      message: 'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.TEMPORARY_EMPTY',
+      actionLabel: 'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.ADD',
+    });
+    emptyState.vm.$emit('add');
+    expect(addTemporaryScenario).toHaveBeenCalledOnce();
+
+    await selectTab(wrapper, 'guidelines');
+    emptyState = wrapper.findComponent(PlaygroundTemporaryEmptyState);
+    expect(emptyState.props()).toMatchObject({
+      message: 'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.TEMPORARY_EMPTY',
+      actionLabel: 'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.ADD',
+    });
+    emptyState.vm.$emit('add');
+    expect(addTemporaryRule).toHaveBeenCalledWith('guideline');
+
+    await selectTab(wrapper, 'guardrails');
+    emptyState = wrapper.findComponent(PlaygroundTemporaryEmptyState);
+    expect(emptyState.props()).toMatchObject({
+      message: 'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.TEMPORARY_EMPTY',
+      actionLabel: 'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.ADD',
+    });
+    emptyState.vm.$emit('add');
+    expect(addTemporaryRule).toHaveBeenCalledWith('guardrail');
   });
 
   it('hides persisted actions from non-administrators', async () => {
@@ -162,17 +249,19 @@ describe('PlaygroundTestSetup', () => {
       .map(button => button.props('label'));
 
     expect(labels).not.toContain(
-      'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.ADD_AS_SAVED'
+      'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.ADD_PERMANENTLY'
     );
   });
 
-  it('shows only aggregate saved knowledge and the temporary field', () => {
+  it('shows only aggregate saved knowledge before adding temporary content', () => {
     const wrapper = mountSetup();
 
-    const knowledge = wrapper.findComponent(TextArea);
-    expect(knowledge.props('maxLength')).toBe(10000);
     expect(wrapper.text()).toContain('12');
     expect(wrapper.text()).toContain('48');
+    expect(wrapper.findComponent(TextArea).exists()).toBe(false);
+    expect(wrapper.findComponent(PlaygroundTemporaryEmptyState).exists()).toBe(
+      true
+    );
     expect(wrapper.findAllComponents(Accordion)).toHaveLength(0);
     expect(wrapper.text()).not.toContain('Enabled scenario');
   });
@@ -190,7 +279,7 @@ describe('PlaygroundTestSetup', () => {
       .find(
         button =>
           button.props('label') ===
-          'CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.ADD_AS_DOCUMENT'
+          'CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.ADD_PERMANENTLY'
       );
 
     expect(knowledgeField.props('placeholder')).toBe(
