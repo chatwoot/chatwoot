@@ -59,6 +59,23 @@ RSpec.describe 'Enterprise Audit API', type: :request do
           'total_entries' => 3
         )
       end
+
+      it 'omits the deleted body and the message payload from message deletion entries' do
+        account.enable_features(:audit_logs)
+        account.save!
+        message = create(:message, account: account, content: 'Secret original content')
+        Enterprise::AuditLog.create!(auditable: message, associated: account, action: 'destroy',
+                                     audited_changes: { 'content' => message.content, 'display_id' => 1234 })
+
+        get "/api/v1/accounts/#{account.id}/audit_logs",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        entry = JSON.parse(response.body)['audit_logs'].find { |log| log['auditable_type'] == 'Message' }
+        expect(entry['auditable']).to be_nil
+        expect(entry['audited_changes']).not_to have_key('content')
+        expect(entry['audited_changes']['display_id']).to eq(1234)
+      end
     end
 
     context 'when filtering audit logs as an admin' do
