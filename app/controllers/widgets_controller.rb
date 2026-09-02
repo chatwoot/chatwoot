@@ -20,6 +20,7 @@ class WidgetsController < ActionController::Base
       'WIDGET_BRAND_URL',
       'DIRECT_UPLOADS_ENABLED',
       'MAXIMUM_FILE_UPLOAD_SIZE',
+      'ENABLE_FILE_TYPE_VALIDATION',
       'INSTALLATION_NAME'
     )
   end
