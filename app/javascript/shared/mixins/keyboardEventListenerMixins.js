@@ -1,4 +1,8 @@
-import { isActiveElementTypeable, isEscape } from '../helpers/KeyboardHelpers';
+import {
+  isActiveElementTypeable,
+  isAltGraphEvent,
+  isEscape,
+} from '../helpers/KeyboardHelpers';
 
 import { createKeybindingsHandler } from 'tinykeys';
 
@@ -11,7 +15,12 @@ export default {
     if (events) {
       const wrappedEvents = this.wrapEventsInKeybindingsHandler(events);
       const keydownHandler = createKeybindingsHandler(wrappedEvents);
-      this.addEventHandler(keydownHandler);
+      // Drop AltGr keystrokes (e.g. Polish ą/ę) before tinykeys matches them
+      // against the $mod+Alt+<letter> keybindings.
+      this.addEventHandler(event => {
+        if (isAltGraphEvent(event)) return;
+        keydownHandler(event);
+      });
     }
   },
   unmounted() {
@@ -48,6 +57,8 @@ export default {
     },
     keydownWrapper(handler) {
       return e => {
+        if (isAltGraphEvent(e)) return;
+
         const actionToPerform =
           typeof handler === 'function' ? handler : handler.action;
         const allowOnFocusedInput =

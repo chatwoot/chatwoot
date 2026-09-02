@@ -2,6 +2,7 @@
 import SearchSuggestions from './SearchSuggestions.vue';
 import PublicSearchInput from './PublicSearchInput.vue';
 
+import { isAltGraphEvent } from 'shared/helpers/KeyboardHelpers';
 import ArticlesAPI from '../api/article';
 
 export default {
@@ -107,6 +108,10 @@ export default {
       this.searchTerm = '';
     },
     onKeydown(e) {
+      // AltGr is reported as Ctrl+Alt, so without this guard AltGr+K would
+      // trigger the Ctrl+K search shortcut.
+      if (isAltGraphEvent(e)) return;
+
       if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
         e.preventDefault();
         if (this.$refs.searchInput) this.$refs.searchInput.focusInput();
