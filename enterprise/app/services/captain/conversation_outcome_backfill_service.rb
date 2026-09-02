@@ -128,7 +128,7 @@ class Captain::ConversationOutcomeBackfillService # rubocop:disable Metrics/Clas
     return skipped(conversation, :no_assistant_activity) if participant_ids.empty?
     return skipped(conversation, :multiple_assistants) if participant_ids != [assistant.id]
 
-    initial_trigger = initial_trigger(timeline)
+    initial_trigger = initial_trigger(conversation, timeline)
     return skipped(conversation, :missing_initial_demand) unless initial_trigger
 
     attributes = build_outcomes(conversation, timeline, initial_trigger.created_at)
@@ -146,13 +146,16 @@ class Captain::ConversationOutcomeBackfillService # rubocop:disable Metrics/Clas
     (message_ids + session_ids).compact.uniq.sort
   end
 
-  def initial_trigger(timeline)
+  def initial_trigger(conversation, timeline)
     first_activity_at = (
       timeline.assistant_messages.map(&:created_at) + timeline.sessions.map(&:created_at)
     ).min
     return unless first_activity_at
 
-    timeline.trigger_messages.find { |message| message.created_at <= first_activity_at }
+    captain_inbox = assistant.captain_inboxes.find { |connection| connection.inbox_id == conversation.inbox_id }
+    eligibility_started_at = [assistant.created_at, captain_inbox&.created_at].compact.max
+
+    timeline.trigger_messages.find { |message| message.created_at.between?(eligibility_started_at, first_activity_at) }
   end
 
   def build_outcomes(conversation, timeline, initial_started_at)
