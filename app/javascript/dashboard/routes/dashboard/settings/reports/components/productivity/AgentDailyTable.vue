@@ -63,7 +63,10 @@ const getCellTitle = (agent, day, value) =>
 
 <template>
   <div
-    class="w-full max-w-full overflow-x-auto rounded-lg border border-n-weak"
+    class="w-full max-w-full overflow-auto rounded-lg border border-n-weak max-h-[30rem]"
+    tabindex="0"
+    role="region"
+    :aria-label="t('OVERVIEW_REPORTS.AGENT_DAILY.ARIA_LABEL')"
   >
     <table
       class="min-w-max border-separate border-spacing-0 text-sm"
@@ -73,7 +76,7 @@ const getCellTitle = (agent, day, value) =>
         <tr>
           <th
             scope="col"
-            class="sticky start-0 z-20 min-w-48 border-b border-e border-n-weak bg-n-solid-2 px-3 py-2 text-start font-medium text-n-slate-11"
+            class="sticky start-0 top-0 z-30 min-w-48 border-b border-e border-n-weak bg-n-solid-2 px-3 py-2 text-start font-medium text-n-slate-11"
           >
             {{ t('OVERVIEW_REPORTS.AGENT_DAILY.AGENT') }}
           </th>
@@ -81,7 +84,7 @@ const getCellTitle = (agent, day, value) =>
             v-for="day in parsedDays"
             :key="day.key"
             scope="col"
-            class="min-w-20 border-b border-e border-n-weak px-3 py-2 text-center font-medium text-n-slate-12"
+            class="sticky top-0 z-20 min-w-20 border-b border-e border-n-weak px-3 py-2 text-center font-medium text-n-slate-12"
             :class="isWeekend(day.date) ? 'bg-n-slate-2' : 'bg-n-solid-2'"
           >
             <span class="block text-xs text-n-slate-11">
@@ -93,7 +96,7 @@ const getCellTitle = (agent, day, value) =>
           </th>
           <th
             scope="col"
-            class="min-w-20 border-b border-n-weak bg-n-solid-2 px-3 py-2 text-end font-semibold text-n-slate-12"
+            class="sticky end-0 top-0 z-30 min-w-20 border-b border-s border-n-weak bg-n-solid-2 px-3 py-2 text-end font-semibold text-n-slate-12"
           >
             {{ t('OVERVIEW_REPORTS.AGENT_DAILY.TOTAL') }}
           </th>
@@ -134,7 +137,7 @@ const getCellTitle = (agent, day, value) =>
               </template>
             </td>
             <td
-              class="min-w-20 border-b border-n-weak bg-n-solid-2 px-3 py-2 text-end font-semibold tabular-nums text-n-slate-12"
+              class="sticky end-0 z-10 min-w-20 border-b border-s border-n-weak bg-n-solid-2 px-3 py-2 text-end font-semibold tabular-nums text-n-slate-12"
             >
               {{ agent.total }}
             </td>
