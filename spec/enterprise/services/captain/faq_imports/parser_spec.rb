@@ -39,6 +39,11 @@ RSpec.describe Captain::FaqImports::Parser do
       .to raise_error(described_class::InvalidCsvError, 'The CSV must use UTF-8 encoding.')
   end
 
+  it 'rejects null bytes' do
+    expect { parse("question,answer\nQuestion,Answer\0tail\n") }
+      .to raise_error(described_class::InvalidCsvError, 'The CSV cannot contain null bytes.')
+  end
+
   it 'rejects missing and additional columns' do
     expect { parse("question\nWhere?\n") }
       .to raise_error(described_class::InvalidCsvError, /exactly two columns/)
@@ -55,13 +60,21 @@ RSpec.describe Captain::FaqImports::Parser do
     expect { parse(content) }.to raise_error(described_class::InvalidCsvError, /at most 1000 rows/)
   end
 
-  it 'marks blank values and extra row values as invalid' do
-    rows = parse("question,answer\n,Answer\nQuestion,Answer,Extra\n")
+  it 'stops parsing after the row limit is reached' do
+    data_rows = "Question,Answer\n" * 1001
+    content = "question,answer\n#{data_rows}\"Malformed"
 
-    expect(rows.map { |row| row.slice('state', 'error') }).to eq(
+    expect { parse(content) }.to raise_error(described_class::InvalidCsvError, /at most 1000 rows/)
+  end
+
+  it 'marks malformed rows as invalid while preserving recognized fields' do
+    rows = parse("question,answer\n,Answer\nQuestion only\nQuestion,Answer,Extra\n")
+
+    expect(rows.map { |row| row.slice('question', 'answer', 'state', 'error') }).to eq(
       [
-        { 'state' => 'invalid', 'error' => 'Question is required.' },
-        { 'state' => 'invalid', 'error' => 'Expected two columns.' }
+        { 'question' => '', 'answer' => 'Answer', 'state' => 'invalid', 'error' => 'Question is required.' },
+        { 'question' => 'Question only', 'answer' => '', 'state' => 'invalid', 'error' => 'Expected two columns.' },
+        { 'question' => 'Question', 'answer' => 'Answer', 'state' => 'invalid', 'error' => 'Expected two columns.' }
       ]
     )
   end

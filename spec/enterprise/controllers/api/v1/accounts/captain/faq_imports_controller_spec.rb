@@ -41,6 +41,17 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqImports', type: :request do
     file&.close!
   end
 
+  it 'rejects null bytes without creating a preview' do
+    file = generate_csv_file([%w[question answer], ['Question', "Answer\0tail"]])
+
+    expect do
+      post base_path, params: { file: file }, headers: admin.create_new_auth_token
+    end.not_to change(Captain::FaqImport, :count)
+
+    expect(response).to have_http_status(:unprocessable_content)
+    expect(json_response).to include(error: 'The CSV cannot contain null bytes.')
+  end
+
   it 'rejects invalid headers and files over the row limit' do
     post base_path,
          params: { file: generate_csv_file([%w[question answer notes], %w[One Two Three]]) },
@@ -199,6 +210,32 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqImports', type: :request do
     expect(response).to have_http_status(:ok)
     expect(CSV.parse(response.body)).to eq(
       [['question', 'answer', 'error'], ['', 'Missing question', 'Question is required.']]
+    )
+  end
+
+  it 'preserves recognized fields from malformed rows in the correction CSV' do
+    file = generate_csv_file(
+      [
+        %w[question answer],
+        ['Missing answer'],
+        ['Kept question', 'Kept answer', 'Unexpected']
+      ]
+    )
+
+    post base_path, params: { file: file }, headers: admin.create_new_auth_token
+
+    expect(response).to have_http_status(:created)
+    faq_import_id = json_response[:id]
+
+    get "#{base_path}/#{faq_import_id}/invalid_rows", headers: admin.create_new_auth_token
+
+    expect(response).to have_http_status(:ok)
+    expect(CSV.parse(response.body)).to eq(
+      [
+        %w[question answer error],
+        ['Missing answer', '', 'Expected two columns.'],
+        ['Kept question', 'Kept answer', 'Expected two columns.']
+      ]
     )
   end
 
