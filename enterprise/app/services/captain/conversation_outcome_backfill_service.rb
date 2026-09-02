@@ -291,9 +291,11 @@ class Captain::ConversationOutcomeBackfillService # rubocop:disable Metrics/Clas
   end
 
   def csat_response(timeline, starts_at, ends_at)
-    timeline.csat_responses.select do |response|
+    responses = timeline.csat_responses.select do |response|
       within_episode?(response.message.created_at, starts_at, ends_at)
-    end.max_by(&:created_at)
+    end
+
+    responses.max_by { |response| [response.message.created_at, response.id] }
   end
 
   def event_time(event)
