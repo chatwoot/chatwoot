@@ -1,10 +1,12 @@
 module Enterprise::Api::V1::Accounts::Conversations::MessagesController
   def destroy
     audited_message = message
-    return super if audited_message.deleted
 
-    audit_context = message_deletion_audit_context(audited_message)
-    ActiveRecord::Base.transaction do
+    # Lock before the deleted check so concurrent deletes cannot both write an audit entry.
+    audited_message.with_lock do
+      next super if audited_message.deleted
+
+      audit_context = message_deletion_audit_context(audited_message)
       super
       create_message_deletion_audit_log(audited_message, audit_context)
     end
