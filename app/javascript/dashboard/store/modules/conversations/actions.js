@@ -31,6 +31,8 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
   return status === MESSAGE_STATUS.FAILED && externalError !== '';
 };
 
+let conversationListRequestId = 0;
+
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -43,35 +45,55 @@ const actions = {
     }
   },
 
-  fetchAllConversations: async ({ commit, state, dispatch }) => {
+  fetchAllConversations: async (
+    { commit, state, dispatch },
+    { replaceExisting = false } = {}
+  ) => {
+    conversationListRequestId += 1;
+    const requestId = conversationListRequestId;
     commit(types.SET_LIST_LOADING_STATUS);
     try {
       const params = state.conversationFilters;
       const {
         data: { data },
       } = await ConversationApi.get(params);
+
+      if (requestId !== conversationListRequestId) return;
+
       buildConversationList(
         { commit, dispatch },
         params,
         data,
-        params.assigneeType
+        params.assigneeType,
+        { replaceExisting }
       );
     } catch (error) {
-      // Handle error
+      if (requestId === conversationListRequestId) {
+        commit(types.CLEAR_LIST_LOADING_STATUS);
+      }
     }
   },
 
   fetchFilteredConversations: async ({ commit, dispatch }, params) => {
+    conversationListRequestId += 1;
+    const requestId = conversationListRequestId;
+    const { replaceExisting = false, ...requestParams } = params;
     commit(types.SET_LIST_LOADING_STATUS);
     try {
-      const { data } = await ConversationApi.filter(params);
+      const { data } = await ConversationApi.filter(requestParams);
+
+      if (requestId !== conversationListRequestId) return;
+
       buildConversationList(
         { commit, dispatch },
-        params,
+        requestParams,
         data,
-        'appliedFilters'
+        'appliedFilters',
+        { replaceExisting }
       );
     } catch (error) {
+      if (requestId !== conversationListRequestId) return;
+
       commit(types.CLEAR_LIST_LOADING_STATUS);
       throw error;
     }

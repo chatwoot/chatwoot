@@ -8,11 +8,6 @@ import {
 
 const MAX_DISCONNECT_SECONDS = 10800;
 
-// The disconnect delay threshold is added to account for delays in identifying
-// disconnections (for example, the websocket disconnection takes up to 3 seconds)
-// while fetching the latest updated conversations or messages.
-const DISCONNECT_DELAY_THRESHOLD = 15;
-
 class ReconnectService {
   constructor(store, router) {
     this.store = store;
@@ -50,14 +45,11 @@ class ReconnectService {
 
   fetchConversations = async () => {
     await this.store.dispatch('updateChatListFilters', {
-      page: null,
-      updatedWithin:
-        this.getSecondsSinceDisconnect() + DISCONNECT_DELAY_THRESHOLD,
-    });
-    await this.store.dispatch('fetchAllConversations');
-    // Reset the updatedWithin in the store chat list filter after fetching conversations when the user is reconnected
-    await this.store.dispatch('updateChatListFilters', {
+      page: 1,
       updatedWithin: null,
+    });
+    await this.store.dispatch('fetchAllConversations', {
+      replaceExisting: true,
     });
   };
 
@@ -66,6 +58,7 @@ class ReconnectService {
       await this.store.dispatch('fetchFilteredConversations', {
         queryData,
         page: 1,
+        replaceExisting: true,
       });
     } catch (error) {
       // Ignore error, reconnect flow should continue

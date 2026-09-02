@@ -59,6 +59,14 @@ export const mutations = {
     });
     _state.allConversations = newAllConversations;
   },
+  [types.RESET_CONVERSATION_LIST](_state) {
+    const selectedConversation = getConversationById(_state)(
+      _state.selectedChatId
+    );
+    _state.allConversations = selectedConversation
+      ? [selectedConversation]
+      : [];
+  },
   [types.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
     _state.selectedChatId = null;

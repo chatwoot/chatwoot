@@ -128,30 +128,14 @@ describe('ReconnectService', () => {
   });
 
   describe('fetchConversations', () => {
-    it('should update the filters with disconnected time and the threshold', async () => {
-      reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
-      await reconnectService.fetchConversations();
-      expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
-        page: null,
-        updatedWithin: 115,
-      });
-    });
-
     it('should dispatch updateChatListFilters and fetchAllConversations', async () => {
-      reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
       await reconnectService.fetchConversations();
       expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
-        page: null,
-        updatedWithin: 115,
-      });
-      expect(storeMock.dispatch).toHaveBeenCalledWith('fetchAllConversations');
-    });
-
-    it('should dispatch updateChatListFilters and reset updatedWithin', async () => {
-      reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
-      await reconnectService.fetchConversations();
-      expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
+        page: 1,
         updatedWithin: null,
+      });
+      expect(storeMock.dispatch).toHaveBeenCalledWith('fetchAllConversations', {
+        replaceExisting: true,
       });
     });
   });
@@ -162,7 +146,11 @@ describe('ReconnectService', () => {
       await reconnectService.fetchFilteredOrSavedConversations(payload);
       expect(storeMock.dispatch).toHaveBeenCalledWith(
         'fetchFilteredConversations',
-        { queryData: payload, page: 1 }
+        {
+          queryData: payload,
+          page: 1,
+          replaceExisting: true,
+        }
       );
     });
   });
