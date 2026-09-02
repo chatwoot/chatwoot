@@ -473,9 +473,15 @@ describe('#actions', () => {
     };
     const setAllCalls = () =>
       commit.mock.calls.filter(call => call[0] === 'SET_ALL_CONVERSATION');
+    const fetchList = page =>
+      actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: filtersForPage(page) },
+      });
 
-    // Stays pending until settled by hand, and rejects the way axios does once
-    // its signal fires, so aborts behave as they do against a real network.
+    // Rejects the way axios does once its signal fires, so aborts behave as
+    // they do against a real network.
     const pending = [];
     const mockAbortableRequest = method => {
       method.mockImplementation((...args) => {
@@ -498,19 +504,9 @@ describe('#actions', () => {
 
     it('supersedes an in-flight list load when a first page is requested', async () => {
       mockAbortableRequest(axios.get);
+      const superseded = fetchList(1);
+      const latest = fetchList(1);
 
-      const superseded = actions.fetchAllConversations({
-        commit,
-        dispatch,
-        state: { conversationFilters: filtersForPage(1) },
-      });
-      const latest = actions.fetchAllConversations({
-        commit,
-        dispatch,
-        state: { conversationFilters: filtersForPage(1) },
-      });
-
-      // The superseded request is already aborted, so only the latest settles.
       await superseded;
       pending[1]({ data: { data: laterPage } });
       await latest;
@@ -520,27 +516,36 @@ describe('#actions', () => {
       ]);
     });
 
-    it('does not cancel a reconnect refresh or a paginated load', async () => {
+    it('cancels an in-flight paginated load when the list is replaced', async () => {
       mockAbortableRequest(axios.get);
+      // A late page 2 would otherwise merge the previous filter's rows and
+      // push the shared page counter past the replacement's own second page.
+      const paginated = fetchList(2);
+      const replacement = fetchList(1);
 
-      // Reconnect deltas send `page: null` and pagination sends `page > 1`.
-      // Both only add to the list, so neither may discard the other.
-      const delta = actions.fetchAllConversations({
-        commit,
-        dispatch,
-        state: { conversationFilters: filtersForPage(null) },
-      });
-      const nextPage = actions.fetchAllConversations({
-        commit,
-        dispatch,
-        state: { conversationFilters: filtersForPage(2) },
-      });
-
+      await paginated;
       pending[1]({ data: { data: laterPage } });
-      pending[0]({ data: { data: dataReceived } });
-      await Promise.all([delta, nextPage]);
+      await replacement;
 
       expect(setAllCalls()).toEqual([
+        ['SET_ALL_CONVERSATION', laterPage.payload],
+      ]);
+    });
+
+    it('never lets pagination or a reconnect refresh supersede a full load', async () => {
+      mockAbortableRequest(axios.get);
+      const fullLoad = fetchList(1);
+      const reconnectDelta = fetchList(null);
+      const nextPage = fetchList(2);
+
+      pending[1]({ data: { data: laterPage } });
+      pending[2]({ data: { data: laterPage } });
+      pending[0]({ data: { data: dataReceived } });
+      await Promise.all([fullLoad, reconnectDelta, nextPage]);
+
+      // The first page was never cancelled by the additive requests.
+      expect(setAllCalls()).toEqual([
+        ['SET_ALL_CONVERSATION', laterPage.payload],
         ['SET_ALL_CONVERSATION', laterPage.payload],
         ['SET_ALL_CONVERSATION', dataReceived.payload],
       ]);
@@ -548,11 +553,7 @@ describe('#actions', () => {
 
     it('clears the loading state when a list fetch genuinely fails', async () => {
       axios.get.mockRejectedValue(new Error('network error'));
-      await actions.fetchAllConversations({
-        commit,
-        dispatch,
-        state: { conversationFilters: filtersForPage(1) },
-      });
+      await fetchList(1);
       expect(commit.mock.calls).toEqual([
         ['SET_LIST_LOADING_STATUS'],
         ['CLEAR_LIST_LOADING_STATUS'],
@@ -561,7 +562,6 @@ describe('#actions', () => {
 
     it('does not clear loading or rethrow when a filtered fetch is superseded', async () => {
       mockAbortableRequest(axios.post);
-
       const superseded = actions.fetchFilteredConversations(
         { commit, dispatch },
         { ...dataToSend, page: 1 }
@@ -571,8 +571,7 @@ describe('#actions', () => {
         { ...dataToSend, page: 1 }
       );
 
-      // A rethrow here would raise CHAT_LIST.FETCH_ERROR in ChatList.vue for a
-      // list the user has already navigated away from.
+      // A rethrow would raise CHAT_LIST.FETCH_ERROR for a replaced list.
       await expect(superseded).resolves.toBeUndefined();
       pending[1]({ data: dataReceived });
       await latest;
