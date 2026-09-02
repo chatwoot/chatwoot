@@ -6,6 +6,8 @@ import { createPendingMessage } from 'dashboard/helper/commons';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import {
   buildConversationList,
+  mergeConversations,
+  setContacts,
   isOnMentionsView,
   isOnParticipatingView,
   isOnUnattendedView,
@@ -92,6 +94,29 @@ const actions = {
     } catch (error) {
       commit(types.CLEAR_LIST_LOADING_STATUS);
       throw error;
+    }
+  },
+
+  // A reconnect catch-up only merges the conversations that changed while the
+  // socket was down. It does not own the list, so it stays out of the loading
+  // state, the pagination counters and the cancellation that the user-driven
+  // loads rely on, and can therefore never displace one of them.
+  syncConversationsOnReconnect: async (
+    { commit, dispatch, state },
+    updatedWithin
+  ) => {
+    try {
+      const {
+        data: { data },
+      } = await ConversationApi.get({
+        ...state.conversationFilters,
+        page: null,
+        updatedWithin,
+      });
+      mergeConversations({ commit, dispatch }, data.payload, data.meta);
+      setContacts(commit, data.payload);
+    } catch (error) {
+      // A failed catch-up must not disturb the list the user is looking at.
     }
   },
 

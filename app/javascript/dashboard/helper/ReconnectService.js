@@ -49,16 +49,10 @@ class ReconnectService {
   };
 
   fetchConversations = async () => {
-    await this.store.dispatch('updateChatListFilters', {
-      page: null,
-      updatedWithin:
-        this.getSecondsSinceDisconnect() + DISCONNECT_DELAY_THRESHOLD,
-    });
-    await this.store.dispatch('fetchAllConversations');
-    // Reset the updatedWithin in the store chat list filter after fetching conversations when the user is reconnected
-    await this.store.dispatch('updateChatListFilters', {
-      updatedWithin: null,
-    });
+    await this.store.dispatch(
+      'syncConversationsOnReconnect',
+      this.getSecondsSinceDisconnect() + DISCONNECT_DELAY_THRESHOLD
+    );
   };
 
   fetchFilteredOrSavedConversations = async queryData => {
@@ -73,11 +67,6 @@ class ReconnectService {
   };
 
   fetchConversationsOnReconnect = async () => {
-    // A list request already in flight will deliver current data on its own.
-    // Refreshing on top of it would cancel that load and replace a full page
-    // with an incremental one.
-    if (this.store.getters.getChatListLoadingStatus) return;
-
     const {
       getAppliedConversationFiltersQuery,
       'customViews/getActiveConversationFolder': activeFolder,

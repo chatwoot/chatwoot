@@ -27,7 +27,6 @@ vi.mock('dashboard/helper/routeHelpers', () => ({
 const storeMock = {
   dispatch: vi.fn(),
   getters: {
-    getChatListLoadingStatus: false,
     getAppliedConversationFiltersQuery: [],
     'customViews/getActiveConversationFolder': { query: {} },
     'notifications/getNotificationFilters': {},
@@ -47,7 +46,6 @@ describe('ReconnectService', () => {
   let reconnectService;
 
   beforeEach(() => {
-    storeMock.getters.getChatListLoadingStatus = false;
     window.addEventListener = vi.fn();
     window.removeEventListener = vi.fn();
     Object.defineProperty(window, 'location', {
@@ -130,31 +128,23 @@ describe('ReconnectService', () => {
   });
 
   describe('fetchConversations', () => {
-    it('should update the filters with disconnected time and the threshold', async () => {
+    it('should sync the conversations changed while disconnected', async () => {
       reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
       await reconnectService.fetchConversations();
-      expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
-        page: null,
-        updatedWithin: 115,
-      });
+      expect(storeMock.dispatch).toHaveBeenCalledWith(
+        'syncConversationsOnReconnect',
+        115
+      );
     });
 
-    it('should dispatch updateChatListFilters and fetchAllConversations', async () => {
+    it('should not touch the chat list filters', async () => {
+      // The catch-up must not mutate the filters a running list load reads.
       reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
       await reconnectService.fetchConversations();
-      expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
-        page: null,
-        updatedWithin: 115,
-      });
-      expect(storeMock.dispatch).toHaveBeenCalledWith('fetchAllConversations');
-    });
-
-    it('should dispatch updateChatListFilters and reset updatedWithin', async () => {
-      reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
-      await reconnectService.fetchConversations();
-      expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
-        updatedWithin: null,
-      });
+      expect(storeMock.dispatch).not.toHaveBeenCalledWith(
+        'updateChatListFilters',
+        expect.anything()
+      );
     });
   });
 
@@ -170,22 +160,6 @@ describe('ReconnectService', () => {
   });
 
   describe('fetchConversationsOnReconnect', () => {
-    it('should not refresh while a conversation list request is in flight', async () => {
-      // Refreshing on top of a running load would cancel it and replace a full
-      // page with an incremental one.
-      storeMock.getters.getChatListLoadingStatus = true;
-      const filtered = vi.spyOn(
-        reconnectService,
-        'fetchFilteredOrSavedConversations'
-      );
-      const all = vi.spyOn(reconnectService, 'fetchConversations');
-
-      await reconnectService.fetchConversationsOnReconnect();
-
-      expect(filtered).not.toHaveBeenCalled();
-      expect(all).not.toHaveBeenCalled();
-    });
-
     it('should fetch filtered or saved conversations if query exists', async () => {
       storeMock.getters.getAppliedConversationFiltersQuery = {
         payload: [

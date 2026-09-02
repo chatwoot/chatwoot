@@ -592,6 +592,58 @@ describe('#actions', () => {
     });
   });
 
+  describe('#syncConversationsOnReconnect', () => {
+    const state = { conversationFilters: { assigneeType: 'me', page: 3 } };
+
+    it('merges the changed conversations without owning the list', async () => {
+      axios.get.mockResolvedValue({ data: { data: dataReceived } });
+      await actions.syncConversationsOnReconnect(
+        { commit, dispatch, state },
+        115
+      );
+
+      // No loading state and no pagination: a catch-up must not clear the
+      // spinner of a running load or move its page counter.
+      expect(commit.mock.calls).toEqual([
+        ['SET_ALL_CONVERSATION', dataReceived.payload],
+        [
+          `contacts/${types.SET_CONTACTS}`,
+          dataReceived.payload.map(chat => chat.meta.sender),
+        ],
+      ]);
+      expect(dispatch.mock.calls.map(call => call[0])).not.toContain(
+        'conversationPage/setCurrentPage'
+      );
+    });
+
+    it('requests the current filters without a page', async () => {
+      axios.get.mockResolvedValue({ data: { data: dataReceived } });
+      await actions.syncConversationsOnReconnect(
+        { commit, dispatch, state },
+        115
+      );
+      expect(axios.get).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          params: expect.objectContaining({
+            assignee_type: 'me',
+            page: null,
+            updated_within: 115,
+          }),
+        })
+      );
+    });
+
+    it('leaves the list alone when the catch-up fails', async () => {
+      axios.get.mockRejectedValue(new Error('network error'));
+      await actions.syncConversationsOnReconnect(
+        { commit, dispatch, state },
+        115
+      );
+      expect(commit.mock.calls).toEqual([]);
+    });
+  });
+
   describe('#setConversationFilter', () => {
     it('commits the correct mutation and sets filter state', () => {
       const filters = [

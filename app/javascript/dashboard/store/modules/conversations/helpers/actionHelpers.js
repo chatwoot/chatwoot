@@ -46,6 +46,17 @@ export const isOnFoldersView = ({ route: { name: routeName } }) => {
   return FOLDER_ROUTES.includes(routeName);
 };
 
+// Adds conversations to the list without claiming ownership of it: no loading
+// state and no pagination, so a background refresh can reuse this.
+export const mergeConversations = (context, conversationList, metaData) => {
+  context.commit(types.SET_ALL_CONVERSATION, conversationList);
+  context.dispatch('conversationStats/set', metaData);
+  context.dispatch(
+    'conversationLabels/setBulkConversationLabels',
+    conversationList
+  );
+};
+
 export const buildConversationList = (
   context,
   requestPayload,
@@ -53,12 +64,7 @@ export const buildConversationList = (
   filterType
 ) => {
   const { payload: conversationList, meta: metaData } = responseData;
-  context.commit(types.SET_ALL_CONVERSATION, conversationList);
-  context.dispatch('conversationStats/set', metaData);
-  context.dispatch(
-    'conversationLabels/setBulkConversationLabels',
-    conversationList
-  );
+  mergeConversations(context, conversationList, metaData);
   context.commit(types.CLEAR_LIST_LOADING_STATUS);
   setContacts(context.commit, conversationList);
   setPageFilter({
