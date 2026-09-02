@@ -1,11 +1,11 @@
-import ReconnectService from 'dashboard/helper/ReconnectService';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { differenceInSeconds } from 'date-fns';
 import {
   isAConversationRoute,
   isAInboxViewRoute,
 } from 'dashboard/helper/routeHelpers';
-import { differenceInSeconds } from 'date-fns';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { emitter } from 'shared/helpers/mitt';
+import ReconnectService from 'dashboard/helper/ReconnectService';
 
 vi.mock('shared/helpers/mitt', () => ({
   emitter: {
@@ -128,23 +128,31 @@ describe('ReconnectService', () => {
   });
 
   describe('fetchConversations', () => {
-    it('should sync the conversations changed while disconnected', async () => {
+    it('should update the filters with disconnected time and the threshold', async () => {
       reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
       await reconnectService.fetchConversations();
-      expect(storeMock.dispatch).toHaveBeenCalledWith(
-        'syncConversationsOnReconnect',
-        115
-      );
+      expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
+        page: null,
+        updatedWithin: 115,
+      });
     });
 
-    it('should not touch the chat list filters', async () => {
-      // The catch-up must not mutate the filters a running list load reads.
+    it('should dispatch updateChatListFilters and fetchAllConversations', async () => {
       reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
       await reconnectService.fetchConversations();
-      expect(storeMock.dispatch).not.toHaveBeenCalledWith(
-        'updateChatListFilters',
-        expect.anything()
-      );
+      expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
+        page: null,
+        updatedWithin: 115,
+      });
+      expect(storeMock.dispatch).toHaveBeenCalledWith('fetchAllConversations');
+    });
+
+    it('should dispatch updateChatListFilters and reset updatedWithin', async () => {
+      reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
+      await reconnectService.fetchConversations();
+      expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
+        updatedWithin: null,
+      });
     });
   });
 

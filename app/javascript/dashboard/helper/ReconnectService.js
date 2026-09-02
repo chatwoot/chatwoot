@@ -49,10 +49,16 @@ class ReconnectService {
   };
 
   fetchConversations = async () => {
-    await this.store.dispatch(
-      'syncConversationsOnReconnect',
-      this.getSecondsSinceDisconnect() + DISCONNECT_DELAY_THRESHOLD
-    );
+    await this.store.dispatch('updateChatListFilters', {
+      page: null,
+      updatedWithin:
+        this.getSecondsSinceDisconnect() + DISCONNECT_DELAY_THRESHOLD,
+    });
+    await this.store.dispatch('fetchAllConversations');
+    // Reset the updatedWithin in the store chat list filter after fetching conversations when the user is reconnected
+    await this.store.dispatch('updateChatListFilters', {
+      updatedWithin: null,
+    });
   };
 
   fetchFilteredOrSavedConversations = async queryData => {

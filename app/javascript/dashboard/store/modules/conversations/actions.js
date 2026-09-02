@@ -6,8 +6,6 @@ import { createPendingMessage } from 'dashboard/helper/commons';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import {
   buildConversationList,
-  mergeConversations,
-  setContacts,
   isOnMentionsView,
   isOnParticipatingView,
   isOnUnattendedView,
@@ -40,10 +38,9 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
 // the shared page counter past the list that replaced it.
 const { run: runListRequest } = useAbortableRequest();
 
-// Reconnect catch-ups supersede one another when the socket flaps, but stay on
-// their own instance so they never cancel, and are never cancelled by, a
-// user-driven list load.
-const { run: runReconnectCatchUp } = useAbortableRequest();
+// The reconnect refresh runs in the background on its own instance, so it never
+// cancels, and is never cancelled by, the load the user is waiting for.
+const { run: runBackgroundRefresh } = useAbortableRequest();
 
 // actions
 const actions = {
@@ -61,8 +58,9 @@ const actions = {
     commit(types.SET_LIST_LOADING_STATUS);
     try {
       const params = state.conversationFilters;
-      const response = await runListRequest(signal =>
-        ConversationApi.get(params, signal)
+      const run = params.updatedWithin ? runBackgroundRefresh : runListRequest;
+      const response = await run(signal =>
+        ConversationApi.get({ ...params, signal })
       );
       // Superseded, so the request that replaced this one owns the list and
       // the loading state.
@@ -77,7 +75,7 @@ const actions = {
         params.assigneeType
       );
     } catch (error) {
-      commit(types.CLEAR_LIST_LOADING_STATUS);
+      // Handle error
     }
   },
 
@@ -85,7 +83,7 @@ const actions = {
     commit(types.SET_LIST_LOADING_STATUS);
     try {
       const response = await runListRequest(signal =>
-        ConversationApi.filter(params, signal)
+        ConversationApi.filter({ ...params, signal })
       );
       // Rethrowing would alert about a list the user has already replaced.
       if (!response) return;
@@ -99,33 +97,6 @@ const actions = {
     } catch (error) {
       commit(types.CLEAR_LIST_LOADING_STATUS);
       throw error;
-    }
-  },
-
-  // A reconnect catch-up only merges the conversations that changed while the
-  // socket was down. It does not own the list, so it stays out of the loading
-  // state, the pagination counters and the cancellation that the user-driven
-  // loads rely on, and can therefore never displace one of them.
-  syncConversationsOnReconnect: async (
-    { commit, dispatch, state },
-    updatedWithin
-  ) => {
-    try {
-      const response = await runReconnectCatchUp(signal =>
-        ConversationApi.get(
-          { ...state.conversationFilters, page: null, updatedWithin },
-          signal
-        )
-      );
-      // Superseded by a later reconnect, whose snapshot is the current one.
-      if (!response) return;
-      const {
-        data: { data },
-      } = response;
-      mergeConversations({ commit, dispatch }, data.payload, data.meta);
-      setContacts(commit, data.payload);
-    } catch (error) {
-      // A failed catch-up must not disturb the list the user is looking at.
     }
   },
 

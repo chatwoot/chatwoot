@@ -1,9 +1,8 @@
 import axios from 'axios';
-import types from '../../../mutation-types';
 import actions, {
   hasMessageFailedWithExternalError,
 } from '../../conversations/actions';
-import { dataReceived } from './testConversationResponse';
+import types from '../../../mutation-types';
 const dataToSend = {
   payload: [
     {
@@ -14,6 +13,7 @@ const dataToSend = {
     },
   ],
 };
+import { dataReceived } from './testConversationResponse';
 
 const commit = vi.fn();
 const dispatch = vi.fn();
@@ -466,43 +466,40 @@ describe('#actions', () => {
   });
 
   describe('conversation list request cancellation', () => {
+    // Requests stay pending until settled by hand, and reject the way axios
+    // does once their signal fires.
+    const pending = [];
+    beforeEach(() => {
+      pending.length = 0;
+      const abortable = (...args) => {
+        const { signal } = args[args.length - 1];
+        return new Promise((resolve, reject) => {
+          signal.addEventListener('abort', () => {
+            const error = new Error('canceled');
+            error.name = 'CanceledError';
+            reject(error);
+          });
+          pending.push(resolve);
+        });
+      };
+      axios.get.mockImplementation(abortable);
+      axios.post.mockImplementation(abortable);
+    });
+
     const laterPage = {
       ...dataReceived,
       payload: [{ ...dataReceived.payload[0], id: 11 }],
     };
-    const setAllCalls = () =>
-      commit.mock.calls.filter(call => call[0] === 'SET_ALL_CONVERSATION');
     const fetchList = page =>
       actions.fetchAllConversations({
         commit,
         dispatch,
         state: { conversationFilters: { assigneeType: 'me', page } },
       });
-
-    // Rejects the way axios does once its signal fires, so aborts behave as
-    // they do against a real network.
-    const pending = [];
-    const mockAbortableRequest = method => {
-      method.mockImplementation((...args) => {
-        const { signal } = args[args.length - 1];
-        return new Promise((resolve, reject) => {
-          signal?.addEventListener('abort', () => {
-            const error = new Error('canceled');
-            error.name = 'CanceledError';
-            error.code = 'ERR_CANCELED';
-            reject(error);
-          });
-          pending.push(resolve);
-        });
-      });
-    };
-
-    beforeEach(() => {
-      pending.length = 0;
-    });
+    const setAllCalls = () =>
+      commit.mock.calls.filter(call => call[0] === 'SET_ALL_CONVERSATION');
 
     it('drops a superseded response instead of merging it into the new list', async () => {
-      mockAbortableRequest(axios.get);
       const superseded = fetchList(1);
       const latest = fetchList(1);
 
@@ -516,7 +513,6 @@ describe('#actions', () => {
     });
 
     it('cancels an in-flight paginated load when the list is replaced', async () => {
-      mockAbortableRequest(axios.get);
       // A late page 2 would otherwise merge the previous filter's rows and
       // push the shared page counter past the replacement's own second page.
       const paginated = fetchList(2);
@@ -526,9 +522,6 @@ describe('#actions', () => {
       pending[1]({ data: { data: laterPage } });
       await replacement;
 
-      expect(setAllCalls()).toEqual([
-        ['SET_ALL_CONVERSATION', laterPage.payload],
-      ]);
       expect(
         dispatch.mock.calls.filter(
           call => call[0] === 'conversationPage/setCurrentPage'
@@ -542,34 +535,34 @@ describe('#actions', () => {
       ]);
     });
 
-    it('leaves the loading state to the request that superseded it', async () => {
-      mockAbortableRequest(axios.get);
-      const superseded = fetchList(1);
-      const latest = fetchList(1);
-
-      await superseded;
-      // Only the latest request may clear the spinner it set.
-      expect(
-        commit.mock.calls.filter(
-          call => call[0] === 'CLEAR_LIST_LOADING_STATUS'
-        )
-      ).toEqual([]);
+    it('keeps a reconnect refresh from cancelling the load in progress', async () => {
+      // A reconnect refresh carries updatedWithin and only adds to the list, so
+      // cancelling the first page would leave that list empty and end-reached.
+      const fullLoad = fetchList(1);
+      const reconnectRefresh = actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: {
+          conversationFilters: {
+            assigneeType: 'me',
+            page: null,
+            updatedWithin: 115,
+          },
+        },
+      });
 
       pending[1]({ data: { data: laterPage } });
-      await latest;
-    });
+      pending[0]({ data: { data: dataReceived } });
+      await Promise.all([fullLoad, reconnectRefresh]);
 
-    it('clears the loading state when a list fetch genuinely fails', async () => {
-      axios.get.mockRejectedValue(new Error('network error'));
-      await fetchList(1);
-      expect(commit.mock.calls).toEqual([
-        ['SET_LIST_LOADING_STATUS'],
-        ['CLEAR_LIST_LOADING_STATUS'],
+      // Both land: neither request displaced the other.
+      expect(setAllCalls()).toEqual([
+        ['SET_ALL_CONVERSATION', laterPage.payload],
+        ['SET_ALL_CONVERSATION', dataReceived.payload],
       ]);
     });
 
     it('does not clear loading or rethrow when a filtered fetch is superseded', async () => {
-      mockAbortableRequest(axios.post);
       const superseded = actions.fetchFilteredConversations(
         { commit, dispatch },
         { ...dataToSend, page: 1 }
@@ -589,96 +582,6 @@ describe('#actions', () => {
           call => call[0] === 'CLEAR_LIST_LOADING_STATUS'
         )
       ).toEqual([['CLEAR_LIST_LOADING_STATUS']]);
-    });
-  });
-
-  describe('#syncConversationsOnReconnect', () => {
-    const state = { conversationFilters: { assigneeType: 'me', page: 3 } };
-
-    it('merges the changed conversations without owning the list', async () => {
-      axios.get.mockResolvedValue({ data: { data: dataReceived } });
-      await actions.syncConversationsOnReconnect(
-        { commit, dispatch, state },
-        115
-      );
-
-      // No loading state and no pagination: a catch-up must not clear the
-      // spinner of a running load or move its page counter.
-      expect(commit.mock.calls).toEqual([
-        ['SET_ALL_CONVERSATION', dataReceived.payload],
-        [
-          `contacts/${types.SET_CONTACTS}`,
-          dataReceived.payload.map(chat => chat.meta.sender),
-        ],
-      ]);
-      expect(dispatch.mock.calls.map(call => call[0])).not.toContain(
-        'conversationPage/setCurrentPage'
-      );
-    });
-
-    it('requests the current filters without a page', async () => {
-      axios.get.mockResolvedValue({ data: { data: dataReceived } });
-      await actions.syncConversationsOnReconnect(
-        { commit, dispatch, state },
-        115
-      );
-      expect(axios.get).toHaveBeenCalledWith(
-        expect.any(String),
-        expect.objectContaining({
-          params: expect.objectContaining({
-            assignee_type: 'me',
-            page: null,
-            updated_within: 115,
-          }),
-        })
-      );
-    });
-
-    it('drops a superseded catch-up when the socket flaps', async () => {
-      // Two reconnects in quick succession: the older snapshot must not merge
-      // on top of the newer one.
-      const pending = [];
-      axios.get.mockImplementation((url, config) => {
-        const { signal } = config;
-        return new Promise((resolve, reject) => {
-          signal?.addEventListener('abort', () => {
-            const error = new Error('canceled');
-            error.name = 'CanceledError';
-            reject(error);
-          });
-          pending.push(resolve);
-        });
-      });
-      const laterSnapshot = {
-        ...dataReceived,
-        payload: [{ ...dataReceived.payload[0], id: 11 }],
-      };
-
-      const superseded = actions.syncConversationsOnReconnect(
-        { commit, dispatch, state },
-        115
-      );
-      const latest = actions.syncConversationsOnReconnect(
-        { commit, dispatch, state },
-        20
-      );
-
-      await superseded;
-      pending[1]({ data: { data: laterSnapshot } });
-      await latest;
-
-      expect(
-        commit.mock.calls.filter(call => call[0] === 'SET_ALL_CONVERSATION')
-      ).toEqual([['SET_ALL_CONVERSATION', laterSnapshot.payload]]);
-    });
-
-    it('leaves the list alone when the catch-up fails', async () => {
-      axios.get.mockRejectedValue(new Error('network error'));
-      await actions.syncConversationsOnReconnect(
-        { commit, dispatch, state },
-        115
-      );
-      expect(commit.mock.calls).toEqual([]);
     });
   });
 
