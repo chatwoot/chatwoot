@@ -77,6 +77,14 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: builder.build
   end
 
+  def agent_daily_matrix
+    builder = V2::Reports::AgentDailyMatrixBuilder.new(
+      account: Current.account,
+      params: agent_daily_matrix_params
+    )
+    render json: builder.build
+  end
+
   def first_response_time_distribution
     builder = V2::Reports::FirstResponseTimeDistributionBuilder.new(
       account: Current.account,
@@ -194,6 +202,14 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       until: params[:until],
       inbox_ids: params[:inbox_ids],
       label_ids: params[:label_ids]
+    }
+  end
+
+  def agent_daily_matrix_params
+    {
+      since: params[:since],
+      until: params[:until],
+      timezone_offset: params[:timezone_offset]
     }
   end
 

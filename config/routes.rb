@@ -544,6 +544,7 @@ Rails.application.routes.draw do
               get :drilldown
               get :bot_metrics
               get :inbox_label_matrix
+              get :agent_daily_matrix
               get :first_response_time_distribution
               get :outgoing_messages_count
             end

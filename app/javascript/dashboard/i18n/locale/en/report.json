@@ -589,6 +589,25 @@
         "SATURDAY": "Sat"
       }
     },
+    "AGENT_RANKING": {
+      "HEADER": "Productivity by agent",
+      "LOADING_MESSAGE": "Loading agent productivity...",
+      "ARIA_LABEL": "Productivity ranking by agent",
+      "RANK": "#",
+      "AGENT": "Agent",
+      "CONVERSATIONS": "Conversations",
+      "RESOLVED": "Resolved",
+      "BAR_LABEL": "Share of resolved conversations",
+      "NO_AGENTS": "No agent activity in this range"
+    },
+    "AGENT_DAILY": {
+      "HEADER": "Daily by agent",
+      "LOADING_MESSAGE": "Loading daily figures...",
+      "ARIA_LABEL": "Conversations resolved by agent and day",
+      "AGENT": "Agent",
+      "TOTAL": "Total",
+      "NO_AGENTS": "No agent activity in this range"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
       "LOADING_MESSAGE": "Loading agent metrics...",
