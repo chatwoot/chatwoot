@@ -634,6 +634,44 @@ describe('#actions', () => {
       );
     });
 
+    it('drops a superseded catch-up when the socket flaps', async () => {
+      // Two reconnects in quick succession: the older snapshot must not merge
+      // on top of the newer one.
+      const pending = [];
+      axios.get.mockImplementation((url, config) => {
+        const { signal } = config;
+        return new Promise((resolve, reject) => {
+          signal?.addEventListener('abort', () => {
+            const error = new Error('canceled');
+            error.name = 'CanceledError';
+            reject(error);
+          });
+          pending.push(resolve);
+        });
+      });
+      const laterSnapshot = {
+        ...dataReceived,
+        payload: [{ ...dataReceived.payload[0], id: 11 }],
+      };
+
+      const superseded = actions.syncConversationsOnReconnect(
+        { commit, dispatch, state },
+        115
+      );
+      const latest = actions.syncConversationsOnReconnect(
+        { commit, dispatch, state },
+        20
+      );
+
+      await superseded;
+      pending[1]({ data: { data: laterSnapshot } });
+      await latest;
+
+      expect(
+        commit.mock.calls.filter(call => call[0] === 'SET_ALL_CONVERSATION')
+      ).toEqual([['SET_ALL_CONVERSATION', laterSnapshot.payload]]);
+    });
+
     it('leaves the list alone when the catch-up fails', async () => {
       axios.get.mockRejectedValue(new Error('network error'));
       await actions.syncConversationsOnReconnect(

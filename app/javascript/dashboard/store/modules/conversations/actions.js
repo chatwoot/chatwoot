@@ -40,6 +40,11 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
 // the shared page counter past the list that replaced it.
 const { run: runListRequest } = useAbortableRequest();
 
+// Reconnect catch-ups supersede one another when the socket flaps, but stay on
+// their own instance so they never cancel, and are never cancelled by, a
+// user-driven list load.
+const { run: runReconnectCatchUp } = useAbortableRequest();
+
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -106,13 +111,17 @@ const actions = {
     updatedWithin
   ) => {
     try {
+      const response = await runReconnectCatchUp(signal =>
+        ConversationApi.get(
+          { ...state.conversationFilters, page: null, updatedWithin },
+          signal
+        )
+      );
+      // Superseded by a later reconnect, whose snapshot is the current one.
+      if (!response) return;
       const {
         data: { data },
-      } = await ConversationApi.get({
-        ...state.conversationFilters,
-        page: null,
-        updatedWithin,
-      });
+      } = response;
       mergeConversations({ commit, dispatch }, data.payload, data.meta);
       setContacts(commit, data.payload);
     } catch (error) {
