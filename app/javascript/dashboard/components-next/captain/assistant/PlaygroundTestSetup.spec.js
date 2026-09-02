@@ -7,7 +7,10 @@ import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import PlaygroundTestSetup from './PlaygroundTestSetup.vue';
 
 vi.mock('vue-i18n', () => ({
-  useI18n: () => ({ t: key => key }),
+  useI18n: () => ({
+    t: (key, params = {}) =>
+      params.count === undefined ? key : `${key} (${params.count})`,
+  }),
 }));
 
 const buildSession = overrides => ({
@@ -65,16 +68,17 @@ const selectTab = async (wrapper, id) => {
 };
 
 describe('PlaygroundTestSetup', () => {
-  it('uses one tabbed content area with saved counts and no scroll container', () => {
+  it('uses one tabbed content area without counts or a scroll container', () => {
     const wrapper = mountSetup();
     const tabs = wrapper.findComponent(TabBar).props('tabs');
 
-    expect(tabs.map(tab => [tab.id, tab.count])).toEqual([
-      ['knowledge', 60],
-      ['scenarios', 2],
-      ['guidelines', 1],
-      ['guardrails', 1],
+    expect(tabs.map(tab => tab.id)).toEqual([
+      'knowledge',
+      'scenarios',
+      'guidelines',
+      'guardrails',
     ]);
+    expect(tabs.every(tab => tab.count === undefined)).toBe(true);
     expect(
       wrapper.get('[data-testid="playground-setup-tabs"]').classes()
     ).not.toContain('overflow-x-auto');
@@ -89,11 +93,28 @@ describe('PlaygroundTestSetup', () => {
     await selectTab(wrapper, 'scenarios');
     const savedScenarios = wrapper.findComponent(Accordion);
 
+    expect(savedScenarios.props('title')).toBe(
+      'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.SAVED_SUMMARY (2)'
+    );
     expect(wrapper.text()).not.toContain('Disabled scenario');
 
     await savedScenarios.get('button').trigger('click');
 
     expect(wrapper.text()).toContain('Disabled scenario');
+  });
+
+  it('shows only the total count in each saved section header', async () => {
+    const wrapper = mountSetup();
+
+    await selectTab(wrapper, 'guidelines');
+    expect(wrapper.findComponent(Accordion).props('title')).toBe(
+      'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.SAVED_SUMMARY (1)'
+    );
+
+    await selectTab(wrapper, 'guardrails');
+    expect(wrapper.findComponent(Accordion).props('title')).toBe(
+      'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.SAVED_SUMMARY (1)'
+    );
   });
 
   it('prioritizes temporary actions and keeps persistence secondary', async () => {

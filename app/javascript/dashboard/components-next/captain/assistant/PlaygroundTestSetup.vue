@@ -21,31 +21,22 @@ const { t } = useI18n();
 
 const activeTab = ref('knowledge');
 
-const knowledgeCount = computed(() => {
-  const { documents = 0, faqs = 0 } = props.session.knowledgeStats || {};
-  return documents + faqs;
-});
-
 const tabs = computed(() => [
   {
     id: 'knowledge',
     label: t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.TAB_TITLE'),
-    count: knowledgeCount.value,
   },
   {
     id: 'scenarios',
     label: t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.TAB_TITLE'),
-    count: props.session.savedScenarios.length,
   },
   {
     id: 'guidelines',
     label: t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.TAB_TITLE'),
-    count: props.session.savedGuidelines.length,
   },
   {
     id: 'guardrails',
     label: t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.TAB_TITLE'),
-    count: props.session.savedGuardrails.length,
   },
 ]);
 
@@ -55,24 +46,19 @@ const activeTabIndex = computed(() =>
 
 const savedScenarioTitle = computed(() =>
   t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.SAVED_SUMMARY', {
-    saved: props.session.savedScenarios.length,
-    included: props.session.includedScenarioIds.length,
+    count: props.session.savedScenarios.length,
   })
 );
 
 const savedGuidelineTitle = computed(() =>
   t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.SAVED_SUMMARY', {
-    saved: props.session.savedGuidelines.length,
-    included: props.session.savedGuidelines.filter(rule => rule.included)
-      .length,
+    count: props.session.savedGuidelines.length,
   })
 );
 
 const savedGuardrailTitle = computed(() =>
   t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.SAVED_SUMMARY', {
-    saved: props.session.savedGuardrails.length,
-    included: props.session.savedGuardrails.filter(rule => rule.included)
-      .length,
+    count: props.session.savedGuardrails.length,
   })
 );
 
