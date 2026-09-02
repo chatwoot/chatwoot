@@ -10,6 +10,7 @@ class Captain::ConversationOutcomeBackfillService # rubocop:disable Metrics/Clas
     conversation_captain_inference_handoff
   ].freeze
   RELEVANT_EVENT_NAMES = (RESOLUTION_EVENT_NAMES + HANDOFF_EVENT_NAMES + ['conversation_opened']).freeze
+  EPISODE_SIGNAL_ORDER = { resolution: 0, reopen: 1 }.freeze
 
   Result = Data.define(:conversation_id, :status, :episode_count, :reason, :error)
   Timeline = Data.define(
@@ -159,7 +160,7 @@ class Captain::ConversationOutcomeBackfillService # rubocop:disable Metrics/Clas
   end
 
   def build_outcomes(conversation, timeline, initial_started_at)
-    boundaries = episode_boundaries(timeline.events, initial_started_at)
+    boundaries = episode_boundaries(timeline.events, timeline.trigger_messages, initial_started_at)
 
     boundaries.each_with_index.map do |boundary, index|
       ends_at = boundaries[index + 1]&.fetch(:started_at)
@@ -167,14 +168,17 @@ class Captain::ConversationOutcomeBackfillService # rubocop:disable Metrics/Clas
     end
   end
 
-  def episode_boundaries(events, initial_started_at)
+  def episode_boundaries(events, trigger_messages, initial_started_at)
     resolved = false
-    reopens = ordered_events(events).filter_map do |event|
-      time = event_time(event)
+    reopens = ordered_episode_signals(events, trigger_messages).filter_map do |type, time, _id|
       next if time < initial_started_at
 
-      resolved = true if RESOLUTION_EVENT_NAMES.include?(event.name)
-      next unless reopen_event?(event, resolved, time, initial_started_at)
+      if type == :resolution
+        resolved = true
+        next
+      end
+
+      next unless resolved && time > initial_started_at
 
       resolved = false
       time
@@ -184,8 +188,16 @@ class Captain::ConversationOutcomeBackfillService # rubocop:disable Metrics/Clas
       reopens.uniq.map { |time| { episode_trigger: 'reopen', started_at: time } }
   end
 
-  def reopen_event?(event, resolved, time, initial_started_at)
-    event.name == 'conversation_opened' && resolved && time > initial_started_at
+  def ordered_episode_signals(events, trigger_messages)
+    resolution_signals = events.select { |event| RESOLUTION_EVENT_NAMES.include?(event.name) }
+                               .map { |event| [:resolution, event_time(event), event.id] }
+    reopen_signals = events.select { |event| event.name == 'conversation_opened' }
+                           .map { |event| [:reopen, event_time(event), event.id] }
+    demand_signals = trigger_messages.map { |message| [:reopen, message.created_at, message.id] }
+
+    (resolution_signals + reopen_signals + demand_signals).sort_by do |type, time, id|
+      [time, EPISODE_SIGNAL_ORDER.fetch(type), id]
+    end
   end
 
   def outcome_attributes(conversation, timeline, boundary, ends_at)
@@ -282,10 +294,6 @@ class Captain::ConversationOutcomeBackfillService # rubocop:disable Metrics/Clas
     timeline.csat_responses.select do |response|
       within_episode?(response.message.created_at, starts_at, ends_at)
     end.max_by(&:created_at)
-  end
-
-  def ordered_events(events)
-    events.sort_by { |event| [event_time(event), event.id] }
   end
 
   def event_time(event)
