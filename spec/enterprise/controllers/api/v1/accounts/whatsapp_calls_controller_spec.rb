@@ -140,7 +140,7 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
 
     it 'keeps the AgentBot owner when the conversation is already assigned' do
       agent_bot = create(:agent_bot, account: account)
-      initiate_conversation.update!(assignee_agent_bot: agent_bot)
+      initiate_conversation.update!(ai_assignee: agent_bot)
       allow(provider_service).to receive(:initiate_call).and_return({ 'calls' => [{ 'id' => 'wacid_outbound' }] })
 
       post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",

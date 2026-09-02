@@ -1,9 +1,12 @@
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import {
   setupFacebookSdk,
   initWhatsAppEmbeddedSignup,
   createMessageHandler,
   isValidBusinessData,
+  classifySignupEvent,
+  SIGNUP_RESULT,
 } from 'dashboard/routes/dashboard/settings/inbox/channels/whatsapp/utils';
 
 // Drives Meta's WhatsApp embedded-signup popup (Facebook JS SDK). FB.login()
@@ -14,9 +17,11 @@ import {
 // `runEmbeddedSignup` returns the signup credentials; the caller exchanges them
 // for an inbox via `inboxes/createWhatsAppEmbeddedSignup` and owns its own UX
 // (alerts, navigation, etc). Resolves `null` when the user cancels the popup;
-// rejects on SDK load or signup errors. The window listener is scoped to a
-// single run, so this is safe to call from anywhere without lifecycle wiring.
+// rejects on SDK load errors, signup errors, and completions that yield no usable
+// phone number. The window listener is scoped to a single run, so this is safe to
+// call from anywhere without lifecycle wiring.
 export function useWhatsappEmbeddedSignup() {
+  const { t } = useI18n();
   const isAuthenticating = ref(false);
 
   const runEmbeddedSignup = () => {
@@ -26,6 +31,7 @@ export function useWhatsappEmbeddedSignup() {
     return new Promise((resolve, reject) => {
       let authCode = null;
       let businessData = null;
+      let isCoexistence = false;
       let settled = false;
       let messageHandler;
 
@@ -43,27 +49,42 @@ export function useWhatsappEmbeddedSignup() {
         if (!authCode || !businessData) return;
         settle(resolve, {
           code: authCode,
-          business_id: businessData.business_id,
+          business_id: businessData.business_id || '',
           waba_id: businessData.waba_id,
           phone_number_id: businessData.phone_number_id || '',
+          is_coexistence: isCoexistence,
         });
       };
 
       messageHandler = createMessageHandler(data => {
-        if (
-          data.event === 'FINISH' ||
-          data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
-        ) {
+        const result = classifySignupEvent(data);
+
+        if (result.type === SIGNUP_RESULT.FINISH) {
+          // Keep the first terminal event: a coexistence FINISH must win over a
+          // later normal FINISH that can arrive before the auth code is known.
+          if (businessData) return;
           if (!isValidBusinessData(data.data)) {
-            settle(reject, new Error('Invalid business data'));
+            const invalidData = t(
+              'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.INVALID_BUSINESS_DATA'
+            );
+            settle(reject, new Error(invalidData));
             return;
           }
           businessData = data.data;
+          isCoexistence = result.isCoexistence;
           resolveIfReady();
-        } else if (data.event === 'CANCEL') {
+        } else if (result.type === SIGNUP_RESULT.UNSUPPORTED) {
+          const unsupported = t(
+            'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.UNSUPPORTED_COMPLETION'
+          );
+          settle(reject, new Error(unsupported));
+        } else if (result.type === SIGNUP_RESULT.CANCEL) {
           settle(resolve, null);
-        } else if (data.event === 'error') {
-          settle(reject, new Error(data.error_message || 'Signup error'));
+        } else if (result.type === SIGNUP_RESULT.ERROR) {
+          const signupError = t(
+            'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SIGNUP_ERROR'
+          );
+          settle(reject, new Error(result.errorMessage || signupError));
         }
       });
 
