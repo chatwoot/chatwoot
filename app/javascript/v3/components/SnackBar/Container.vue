@@ -26,6 +26,8 @@ export default {
   },
   methods: {
     onNewToastMessage({ message, action }) {
+      const duration = action?.duration || this.duration;
+
       this.snackbarAlertMessages.push({
         key: new Date().getTime(),
         message,
@@ -33,7 +35,7 @@ export default {
       });
       window.setTimeout(() => {
         this.snackbarAlertMessages.splice(0, 1);
-      }, this.duration);
+      }, duration);
     },
   },
 };
