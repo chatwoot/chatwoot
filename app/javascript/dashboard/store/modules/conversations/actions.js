@@ -3,7 +3,7 @@ import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
-import { isAbortError } from 'dashboard/composables/useAbortableRequest';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import {
   buildConversationList,
   isOnMentionsView,
@@ -32,20 +32,11 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
   return status === MESSAGE_STATUS.FAILED && externalError !== '';
 };
 
-// A first page replaces the visible list, so it cancels every list request in
-// flight and starts a new controller. Pagination and reconnect refreshes share
-// that controller without renewing it: they are additive, so they never
-// supersede a full load, but they are dropped once the list they were appending
-// to has been replaced.
-let listRequests = new AbortController();
-
-const loadConversationList = (page, request) => {
-  if (page === 1) {
-    listRequests.abort();
-    listRequests = new AbortController();
-  }
-  return request(listRequests.signal);
-};
+// Only the newest conversation list request is ever meaningful, so starting one
+// cancels the request before it. A slow response can then never merge into a
+// list the user has already moved on from, and a superseded page can never move
+// the shared page counter past the list that replaced it.
+const { run: runListRequest } = useAbortableRequest();
 
 // actions
 const actions = {
@@ -63,11 +54,15 @@ const actions = {
     commit(types.SET_LIST_LOADING_STATUS);
     try {
       const params = state.conversationFilters;
-      const {
-        data: { data },
-      } = await loadConversationList(params.page, signal =>
+      const response = await runListRequest(signal =>
         ConversationApi.get(params, signal)
       );
+      // Superseded, so the request that replaced this one owns the list and
+      // the loading state.
+      if (!response) return;
+      const {
+        data: { data },
+      } = response;
       buildConversationList(
         { commit, dispatch },
         params,
@@ -75,7 +70,6 @@ const actions = {
         params.assigneeType
       );
     } catch (error) {
-      if (isAbortError(error)) return;
       commit(types.CLEAR_LIST_LOADING_STATUS);
     }
   },
@@ -83,9 +77,12 @@ const actions = {
   fetchFilteredConversations: async ({ commit, dispatch }, params) => {
     commit(types.SET_LIST_LOADING_STATUS);
     try {
-      const { data } = await loadConversationList(params.page, signal =>
+      const response = await runListRequest(signal =>
         ConversationApi.filter(params, signal)
       );
+      // Rethrowing would alert about a list the user has already replaced.
+      if (!response) return;
+      const { data } = response;
       buildConversationList(
         { commit, dispatch },
         params,
@@ -93,8 +90,6 @@ const actions = {
         'appliedFilters'
       );
     } catch (error) {
-      // Rethrowing would alert about a list the user has already replaced.
-      if (isAbortError(error)) return;
       commit(types.CLEAR_LIST_LOADING_STATUS);
       throw error;
     }

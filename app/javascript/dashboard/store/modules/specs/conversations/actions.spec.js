@@ -1,8 +1,9 @@
 import axios from 'axios';
+import types from '../../../mutation-types';
 import actions, {
   hasMessageFailedWithExternalError,
 } from '../../conversations/actions';
-import types from '../../../mutation-types';
+import { dataReceived } from './testConversationResponse';
 const dataToSend = {
   payload: [
     {
@@ -13,7 +14,6 @@ const dataToSend = {
     },
   ],
 };
-import { dataReceived } from './testConversationResponse';
 
 const commit = vi.fn();
 const dispatch = vi.fn();
@@ -466,7 +466,6 @@ describe('#actions', () => {
   });
 
   describe('conversation list request cancellation', () => {
-    const filtersForPage = page => ({ assigneeType: 'me', page });
     const laterPage = {
       ...dataReceived,
       payload: [{ ...dataReceived.payload[0], id: 11 }],
@@ -477,7 +476,7 @@ describe('#actions', () => {
       actions.fetchAllConversations({
         commit,
         dispatch,
-        state: { conversationFilters: filtersForPage(page) },
+        state: { conversationFilters: { assigneeType: 'me', page } },
       });
 
     // Rejects the way axios does once its signal fires, so aborts behave as
@@ -502,7 +501,7 @@ describe('#actions', () => {
       pending.length = 0;
     });
 
-    it('supersedes an in-flight list load when a first page is requested', async () => {
+    it('drops a superseded response instead of merging it into the new list', async () => {
       mockAbortableRequest(axios.get);
       const superseded = fetchList(1);
       const latest = fetchList(1);
@@ -530,25 +529,34 @@ describe('#actions', () => {
       expect(setAllCalls()).toEqual([
         ['SET_ALL_CONVERSATION', laterPage.payload],
       ]);
+      expect(
+        dispatch.mock.calls.filter(
+          call => call[0] === 'conversationPage/setCurrentPage'
+        )
+      ).toEqual([
+        [
+          'conversationPage/setCurrentPage',
+          { filter: 'me', page: 1 },
+          { root: true },
+        ],
+      ]);
     });
 
-    it('never lets pagination or a reconnect refresh supersede a full load', async () => {
+    it('leaves the loading state to the request that superseded it', async () => {
       mockAbortableRequest(axios.get);
-      const fullLoad = fetchList(1);
-      const reconnectDelta = fetchList(null);
-      const nextPage = fetchList(2);
+      const superseded = fetchList(1);
+      const latest = fetchList(1);
+
+      await superseded;
+      // Only the latest request may clear the spinner it set.
+      expect(
+        commit.mock.calls.filter(
+          call => call[0] === 'CLEAR_LIST_LOADING_STATUS'
+        )
+      ).toEqual([]);
 
       pending[1]({ data: { data: laterPage } });
-      pending[2]({ data: { data: laterPage } });
-      pending[0]({ data: { data: dataReceived } });
-      await Promise.all([fullLoad, reconnectDelta, nextPage]);
-
-      // The first page was never cancelled by the additive requests.
-      expect(setAllCalls()).toEqual([
-        ['SET_ALL_CONVERSATION', laterPage.payload],
-        ['SET_ALL_CONVERSATION', laterPage.payload],
-        ['SET_ALL_CONVERSATION', dataReceived.payload],
-      ]);
+      await latest;
     });
 
     it('clears the loading state when a list fetch genuinely fails', async () => {

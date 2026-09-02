@@ -73,6 +73,11 @@ class ReconnectService {
   };
 
   fetchConversationsOnReconnect = async () => {
+    // A list request already in flight will deliver current data on its own.
+    // Refreshing on top of it would cancel that load and replace a full page
+    // with an incremental one.
+    if (this.store.getters.getChatListLoadingStatus) return;
+
     const {
       getAppliedConversationFiltersQuery,
       'customViews/getActiveConversationFolder': activeFolder,

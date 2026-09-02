@@ -1,11 +1,11 @@
-import { emitter } from 'shared/helpers/mitt';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { differenceInSeconds } from 'date-fns';
+import ReconnectService from 'dashboard/helper/ReconnectService';
 import {
   isAConversationRoute,
   isAInboxViewRoute,
 } from 'dashboard/helper/routeHelpers';
-import ReconnectService from 'dashboard/helper/ReconnectService';
+import { differenceInSeconds } from 'date-fns';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 vi.mock('shared/helpers/mitt', () => ({
   emitter: {
@@ -27,6 +27,7 @@ vi.mock('dashboard/helper/routeHelpers', () => ({
 const storeMock = {
   dispatch: vi.fn(),
   getters: {
+    getChatListLoadingStatus: false,
     getAppliedConversationFiltersQuery: [],
     'customViews/getActiveConversationFolder': { query: {} },
     'notifications/getNotificationFilters': {},
@@ -46,6 +47,7 @@ describe('ReconnectService', () => {
   let reconnectService;
 
   beforeEach(() => {
+    storeMock.getters.getChatListLoadingStatus = false;
     window.addEventListener = vi.fn();
     window.removeEventListener = vi.fn();
     Object.defineProperty(window, 'location', {
@@ -168,6 +170,22 @@ describe('ReconnectService', () => {
   });
 
   describe('fetchConversationsOnReconnect', () => {
+    it('should not refresh while a conversation list request is in flight', async () => {
+      // Refreshing on top of a running load would cancel it and replace a full
+      // page with an incremental one.
+      storeMock.getters.getChatListLoadingStatus = true;
+      const filtered = vi.spyOn(
+        reconnectService,
+        'fetchFilteredOrSavedConversations'
+      );
+      const all = vi.spyOn(reconnectService, 'fetchConversations');
+
+      await reconnectService.fetchConversationsOnReconnect();
+
+      expect(filtered).not.toHaveBeenCalled();
+      expect(all).not.toHaveBeenCalled();
+    });
+
     it('should fetch filtered or saved conversations if query exists', async () => {
       storeMock.getters.getAppliedConversationFiltersQuery = {
         payload: [
