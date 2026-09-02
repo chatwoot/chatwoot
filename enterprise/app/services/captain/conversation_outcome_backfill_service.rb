@@ -152,7 +152,7 @@ class Captain::ConversationOutcomeBackfillService # rubocop:disable Metrics/Clas
     ).min
     return unless first_activity_at
 
-    timeline.trigger_messages.reverse.find { |message| message.created_at <= first_activity_at }
+    timeline.trigger_messages.find { |message| message.created_at <= first_activity_at }
   end
 
   def build_outcomes(conversation, timeline, initial_started_at)
