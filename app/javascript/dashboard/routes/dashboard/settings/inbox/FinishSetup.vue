@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, reactive, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -8,6 +8,8 @@ import EmptyState from '../../../../components/widgets/EmptyState.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
 import EmailInboxFinish from './channels/emailChannels/EmailInboxFinish.vue';
+import WhatsappChannelAPI from 'dashboard/api/channel/whatsappChannel';
+import { useAlert } from 'dashboard/composables';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
@@ -20,6 +22,7 @@ const qrCodes = reactive({
   messenger: '',
   telegram: '',
 });
+const isRetryingWebhook = ref(false);
 
 const currentInbox = computed(() =>
   store.getters['inboxes/getInbox'](route.params.inbox_id)
@@ -49,9 +52,14 @@ const hasDuplicateInstagramInbox = computed(() => {
 });
 
 const shouldShowWhatsAppWebhookDetails = computed(() => {
+  const source = currentInbox.value.provider_config?.source;
+  return isAWhatsAppCloudChannel.value && source !== 'embedded_signup';
+});
+
+const isWhatsAppManualSetup = computed(() => {
   return (
     isAWhatsAppCloudChannel.value &&
-    currentInbox.value.provider_config?.source !== 'embedded_signup'
+    currentInbox.value.provider_config?.source === 'manual_setup_v2'
   );
 });
 
@@ -149,6 +157,21 @@ async function generateQRCodes() {
   }
 }
 
+async function retryWhatsAppWebhookSetup() {
+  isRetryingWebhook.value = true;
+  try {
+    await WhatsappChannelAPI.setupManualWebhook(route.params.inbox_id);
+    useAlert(t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.VERIFY.RETRY_SUCCESS'));
+  } catch (error) {
+    useAlert(
+      error.response?.data?.message ||
+        t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.VERIFY.RETRY_ERROR')
+    );
+  } finally {
+    isRetryingWebhook.value = false;
+  }
+}
+
 // Watch for currentInbox changes and regenerate QR codes when available
 watch(
   currentInbox,
@@ -208,6 +231,18 @@ onMounted(() => {
           <woot-code
             lang="html"
             :script="currentInbox.provider_config.webhook_verify_token"
+          />
+          <NextButton
+            v-if="isWhatsAppManualSetup"
+            class="mt-4"
+            outline
+            slate
+            :is-loading="isRetryingWebhook"
+            :disabled="isRetryingWebhook"
+            :label="
+              $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.ACTIONS.RETRY_WEBHOOK')
+            "
+            @click="retryWhatsAppWebhookSetup"
           />
         </div>
         <div class="w-[50%] max-w-[50%] ml-[25%]">

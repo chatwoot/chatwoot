@@ -14,7 +14,8 @@ require 'active_support/testing/time_helpers'
 #   - :resolved_and_reopened  Captain resolves, then the conversation reopens
 #
 # Reporting events are fired through ReportingEventListener directly (mirroring
-# ConversationCreator) so the same rows the builder reads from get populated.
+# ConversationCreator), while ConversationOutcomeTracker records the episode data
+# consumed by the Captain overview.
 class Seeders::Reports::AssistantConversationCreator
   include ActiveSupport::Testing::TimeHelpers
 
@@ -101,24 +102,32 @@ class Seeders::Reports::AssistantConversationCreator
     case outcome
     when :resolved_by_assistant
       resolve_by_captain(conversation, resolved_at)
+      seed_csat(conversation, resolved_at)
     when :handled_by_both
       resolve_by_human(conversation, resolved_at)
+      seed_csat(conversation, resolved_at)
     when :handed_off
-      resolve_by_human(conversation, resolved_at) if rand < 0.6
+      if rand < 0.6
+        resolve_by_human(conversation, resolved_at)
+        seed_csat(conversation, resolved_at)
+      end
     when :resolved_and_reopened
       resolve_by_captain(conversation, resolved_at)
+      seed_csat(conversation, resolved_at)
       reopen(conversation, resolved_at + rand((1.hour)..(24.hours)))
     end
   end
 
   def incoming_message(conversation)
-    conversation.messages.create!(
+    message = conversation.messages.create!(
       account: @account,
       inbox: @inbox,
       message_type: :incoming,
       content: Faker::Lorem.paragraph(sentence_count: rand(1..3)),
       sender: conversation.contact
     )
+    outcome_tracker(conversation).record_eligibility(at: message.created_at)
+    message
   end
 
   def assistant_reply(conversation, waiting_since:)
@@ -138,7 +147,7 @@ class Seeders::Reports::AssistantConversationCreator
     agent = @agents.sample
     conversation.update_column(:assignee_id, agent.id) if conversation.assignee_id.nil? # rubocop:disable Rails/SkipsModelValidations
 
-    conversation.messages.create!(
+    message = conversation.messages.create!(
       account: @account,
       inbox: @inbox,
       message_type: :outgoing,
@@ -146,6 +155,7 @@ class Seeders::Reports::AssistantConversationCreator
       content: Faker::Lorem.paragraph(sentence_count: rand(1..4)),
       sender: agent
     )
+    outcome_tracker(conversation).record_human_reply(message: message)
   end
 
   def resolve_by_captain(conversation, resolved_at)
@@ -153,6 +163,7 @@ class Seeders::Reports::AssistantConversationCreator
     travel_to(resolved_at) do
       trigger_event('conversation_resolved', conversation)
       trigger_captain_event(Events::Types::CAPTAIN_CONVERSATION_RESOLVED, conversation)
+      outcome_tracker(conversation).record_resolution(at: Time.current)
     end
     travel_back
   end
@@ -161,6 +172,7 @@ class Seeders::Reports::AssistantConversationCreator
     mark_resolved(conversation, resolved_at)
     travel_to(resolved_at) do
       trigger_event('conversation_resolved', conversation)
+      outcome_tracker(conversation).record_resolution(at: Time.current)
     end
     travel_back
   end
@@ -173,12 +185,28 @@ class Seeders::Reports::AssistantConversationCreator
 
     travel_to(reopened_at) do
       trigger_event('conversation_opened', conversation)
+      outcome_tracker(conversation).record_reopen(at: Time.current)
     end
     travel_back
   end
 
   def handoff_to_human(conversation)
     trigger_captain_event(Events::Types::CAPTAIN_CONVERSATION_HANDED_OFF, conversation)
+    outcome_tracker(conversation).record_handoff(
+      at: Time.current,
+      reason_category: ConversationOutcome::HANDOFF_REASON_CATEGORIES.sample
+    )
+  end
+
+  def seed_csat(conversation, resolved_at)
+    return unless rand < 0.7
+
+    outcome = conversation.conversation_outcomes.covering(resolved_at).chronological.last
+    outcome.update!(csat_rating: [3, 4, 4, 5, 5, 5].sample, csat_received_at: resolved_at + rand((1.minute)..(30.minutes)))
+  end
+
+  def outcome_tracker(conversation)
+    Captain::ConversationOutcomeTracker.new(conversation: conversation, assistant: @assistant)
   end
 
   def mark_resolved(conversation, resolved_at)

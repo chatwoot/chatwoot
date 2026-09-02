@@ -47,6 +47,8 @@ class Captain::AgentSession < ApplicationRecord
 
   enum :session_type, { assistant: 0, copilot: 1 }, prefix: :session
 
+  scope :with_delivered_answer, -> { where(arel_table[:credits_consumed].gt(0)) }
+
   before_validation :ensure_account
 
   validate :subject_type_matches_session_type

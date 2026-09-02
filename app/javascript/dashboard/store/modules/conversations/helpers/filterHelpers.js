@@ -242,6 +242,11 @@ const matchesCondition = (conversationValue, filter) => {
 
   const isNullish =
     conversationValue === null || conversationValue === undefined;
+  const isEmptyLabels =
+    filter.attribute_key === 'labels' &&
+    Array.isArray(conversationValue) &&
+    conversationValue.length === 0;
+  const isAbsent = isNullish || isEmptyLabels;
 
   const filterValue = Array.isArray(values)
     ? values.map(resolveValue)
@@ -261,10 +266,10 @@ const matchesCondition = (conversationValue, filter) => {
       return !contains(filterValue, conversationValue);
 
     case 'is_present':
-      return !isNullish;
+      return !isAbsent;
 
     case 'is_not_present':
-      return isNullish;
+      return isAbsent;
 
     case 'is_greater_than':
       return compareDates(conversationValue, filterValue, (a, b) => a > b);
@@ -292,11 +297,11 @@ const matchesConversationCondition = (conversation, filter) => {
   const isHumanAssigneeFilter =
     filter.attribute_key === 'assignee_id' &&
     ['equal_to', 'not_equal_to'].includes(filter.filter_operator);
+  const isAiAssignee =
+    conversation.meta?.assignee_type &&
+    conversation.meta.assignee_type !== 'User';
 
-  if (
-    isHumanAssigneeFilter &&
-    conversation.meta?.assignee_type === 'AgentBot'
-  ) {
+  if (isHumanAssigneeFilter && isAiAssignee) {
     return false;
   }
 
