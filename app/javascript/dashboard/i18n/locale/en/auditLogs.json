@@ -30,7 +30,8 @@
         "WEBHOOKS": "Webhooks",
         "AUTOMATION_RULES": "Automation rules",
         "MACROS": "Macros",
-        "CONVERSATION_DELETIONS": "Conversation deletions"
+        "CONVERSATION_DELETIONS": "Conversation deletions",
+      "MESSAGE_DELETIONS": "Message deletions"
       },
       "SORT": {
         "NEWEST": "Newest first",
