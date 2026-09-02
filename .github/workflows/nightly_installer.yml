@@ -20,6 +20,7 @@ permissions:
 jobs:
   nightly:
     runs-on: ubuntu-24.04
+    if: ${{ github.repository == 'chatwoot/chatwoot' }}
     steps:
 
     - name: get installer
