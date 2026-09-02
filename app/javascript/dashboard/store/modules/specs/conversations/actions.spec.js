@@ -465,85 +465,123 @@ describe('#actions', () => {
     });
   });
 
-  describe('conversation list stale response guard', () => {
-    it('ignores a slower earlier fetch when a newer one has started', async () => {
-      const localCommit = vi.fn();
-      const localDispatch = vi.fn();
-      const state = { conversationFilters: { assigneeType: 'me' } };
-      const staleData = { payload: [{ id: 1 }], meta: {} };
-      const freshData = { payload: [{ id: 2 }], meta: {} };
+  describe('conversation list request cancellation', () => {
+    const filtersForPage = page => ({ assigneeType: 'me', page });
+    const laterPage = {
+      ...dataReceived,
+      payload: [{ ...dataReceived.payload[0], id: 11 }],
+    };
+    const setAllCalls = () =>
+      commit.mock.calls.filter(call => call[0] === 'SET_ALL_CONVERSATION');
 
-      // First (stale) request stays pending until we resolve it manually,
-      // second (fresh) request resolves immediately.
-      let resolveStale;
-      const stalePromise = new Promise(resolve => {
-        resolveStale = resolve;
+    // Stays pending until settled by hand, and rejects the way axios does once
+    // its signal fires, so aborts behave as they do against a real network.
+    const pending = [];
+    const mockAbortableRequest = method => {
+      method.mockImplementation((...args) => {
+        const { signal } = args[args.length - 1];
+        return new Promise((resolve, reject) => {
+          signal?.addEventListener('abort', () => {
+            const error = new Error('canceled');
+            error.name = 'CanceledError';
+            error.code = 'ERR_CANCELED';
+            reject(error);
+          });
+          pending.push(resolve);
+        });
       });
-      axios.get
-        .mockReturnValueOnce(stalePromise)
-        .mockResolvedValueOnce({ data: { data: freshData } });
+    };
 
-      const staleCall = actions.fetchAllConversations({
-        commit: localCommit,
-        state,
-        dispatch: localDispatch,
+    beforeEach(() => {
+      pending.length = 0;
+    });
+
+    it('supersedes an in-flight list load when a first page is requested', async () => {
+      mockAbortableRequest(axios.get);
+
+      const superseded = actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: filtersForPage(1) },
       });
-      const freshCall = actions.fetchAllConversations({
-        commit: localCommit,
-        state,
-        dispatch: localDispatch,
+      const latest = actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: filtersForPage(1) },
       });
 
-      await freshCall;
-      resolveStale({ data: { data: staleData } });
-      await staleCall;
+      // The superseded request is already aborted, so only the latest settles.
+      await superseded;
+      pending[1]({ data: { data: laterPage } });
+      await latest;
 
-      // Only the newest (fresh) response is committed; the stale one is dropped.
-      const setAllCalls = localCommit.mock.calls.filter(
-        call => call[0] === 'SET_ALL_CONVERSATION'
-      );
-      expect(setAllCalls).toEqual([
-        ['SET_ALL_CONVERSATION', freshData.payload],
+      expect(setAllCalls()).toEqual([
+        ['SET_ALL_CONVERSATION', laterPage.payload],
       ]);
     });
 
-    it('clears loading when the newest fetch fails and only a stale one succeeds', async () => {
-      const localCommit = vi.fn();
-      const localDispatch = vi.fn();
-      const state = { conversationFilters: { assigneeType: 'me' } };
-      const staleData = { payload: [{ id: 1 }], meta: {} };
+    it('does not cancel a reconnect refresh or a paginated load', async () => {
+      mockAbortableRequest(axios.get);
 
-      // First (stale) request succeeds but resolves last; second (newest) fails.
-      let resolveStale;
-      const stalePromise = new Promise(resolve => {
-        resolveStale = resolve;
+      // Reconnect deltas send `page: null` and pagination sends `page > 1`.
+      // Both only add to the list, so neither may discard the other.
+      const delta = actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: filtersForPage(null) },
       });
-      axios.get
-        .mockReturnValueOnce(stalePromise)
-        .mockRejectedValueOnce(new Error('network error'));
-
-      const staleCall = actions.fetchAllConversations({
-        commit: localCommit,
-        state,
-        dispatch: localDispatch,
-      });
-      const freshCall = actions.fetchAllConversations({
-        commit: localCommit,
-        state,
-        dispatch: localDispatch,
+      const nextPage = actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: filtersForPage(2) },
       });
 
-      await freshCall;
-      resolveStale({ data: { data: staleData } });
-      await staleCall;
+      pending[1]({ data: { data: laterPage } });
+      pending[0]({ data: { data: dataReceived } });
+      await Promise.all([delta, nextPage]);
 
-      // Newest fetch failed -> loading is cleared so the list can recover,
-      // and the stale success is still dropped.
-      expect(localCommit).toHaveBeenCalledWith('CLEAR_LIST_LOADING_STATUS');
-      const setAllCalls = localCommit.mock.calls.filter(
-        call => call[0] === 'SET_ALL_CONVERSATION'
+      expect(setAllCalls()).toEqual([
+        ['SET_ALL_CONVERSATION', laterPage.payload],
+        ['SET_ALL_CONVERSATION', dataReceived.payload],
+      ]);
+    });
+
+    it('clears the loading state when a list fetch genuinely fails', async () => {
+      axios.get.mockRejectedValue(new Error('network error'));
+      await actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: filtersForPage(1) },
+      });
+      expect(commit.mock.calls).toEqual([
+        ['SET_LIST_LOADING_STATUS'],
+        ['CLEAR_LIST_LOADING_STATUS'],
+      ]);
+    });
+
+    it('does not clear loading or rethrow when a filtered fetch is superseded', async () => {
+      mockAbortableRequest(axios.post);
+
+      const superseded = actions.fetchFilteredConversations(
+        { commit, dispatch },
+        { ...dataToSend, page: 1 }
       );
-      expect(setAllCalls).toEqual([]);
+      const latest = actions.fetchFilteredConversations(
+        { commit, dispatch },
+        { ...dataToSend, page: 1 }
+      );
+
+      // A rethrow here would raise CHAT_LIST.FETCH_ERROR in ChatList.vue for a
+      // list the user has already navigated away from.
+      await expect(superseded).resolves.toBeUndefined();
+      pending[1]({ data: dataReceived });
+      await latest;
+
+      expect(
+        commit.mock.calls.filter(
+          call => call[0] === 'CLEAR_LIST_LOADING_STATUS'
+        )
+      ).toEqual([['CLEAR_LIST_LOADING_STATUS']]);
     });
   });
 

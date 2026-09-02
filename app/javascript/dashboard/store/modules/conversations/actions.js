@@ -3,6 +3,7 @@ import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import {
   buildConversationList,
   isOnMentionsView,
@@ -31,13 +32,15 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
   return status === MESSAGE_STATUS.FAILED && externalError !== '';
 };
 
-// Shared, monotonically increasing token for conversation-list fetches.
-// fetchAllConversations and fetchFilteredConversations both bump it and only
-// commit their result while they are still the latest in-flight request. This
-// prevents a slower earlier response from overwriting a newer one when the user
-// switches filters/assignee tabs quickly ("last response wins" -> "last click
-// wins"). See #10511.
-let conversationListRequestId = 0;
+// Loading a first page replaces the visible list, so it supersedes any list
+// request still in flight. Switching assignee tabs or filters on a slow
+// connection otherwise stacks requests and lets an earlier response merge into
+// a list the user has already moved on from. Pagination and reconnect
+// refreshes only ever add to the list, so they run without cancellation.
+const { run: runListRequest } = useAbortableRequest();
+
+const loadConversationList = (page, request) =>
+  page === 1 ? runListRequest(request) : request();
 
 // actions
 const actions = {
@@ -53,15 +56,16 @@ const actions = {
 
   fetchAllConversations: async ({ commit, state, dispatch }) => {
     commit(types.SET_LIST_LOADING_STATUS);
-    conversationListRequestId += 1;
-    const requestId = conversationListRequestId;
     try {
       const params = state.conversationFilters;
+      const response = await loadConversationList(params.page, signal =>
+        ConversationApi.get(params, signal)
+      );
+      // Superseded by a newer first page, which owns the loading state now.
+      if (!response) return;
       const {
         data: { data },
-      } = await ConversationApi.get(params);
-      // Discard a stale response if a newer fetch has started meanwhile.
-      if (requestId !== conversationListRequestId) return;
+      } = response;
       buildConversationList(
         { commit, dispatch },
         params,
@@ -69,24 +73,20 @@ const actions = {
         params.assigneeType
       );
     } catch (error) {
-      // Clear loading only if this is still the latest request; otherwise a
-      // failed newer fetch plus a discarded stale success would leave the list
-      // stuck in the loading state (buildConversationList clears it on success,
-      // but is skipped here and on stale responses).
-      if (requestId === conversationListRequestId) {
-        commit(types.CLEAR_LIST_LOADING_STATUS);
-      }
+      commit(types.CLEAR_LIST_LOADING_STATUS);
     }
   },
 
   fetchFilteredConversations: async ({ commit, dispatch }, params) => {
     commit(types.SET_LIST_LOADING_STATUS);
-    conversationListRequestId += 1;
-    const requestId = conversationListRequestId;
     try {
-      const { data } = await ConversationApi.filter(params);
-      // Discard a stale response if a newer fetch has started meanwhile.
-      if (requestId !== conversationListRequestId) return;
+      const response = await loadConversationList(params.page, signal =>
+        ConversationApi.filter(params, signal)
+      );
+      // Superseded, so the newer request owns both the loading state and the
+      // CHAT_LIST.FETCH_ERROR alert that the rethrow below drives.
+      if (!response) return;
+      const { data } = response;
       buildConversationList(
         { commit, dispatch },
         params,
@@ -94,12 +94,6 @@ const actions = {
         'appliedFilters'
       );
     } catch (error) {
-      // A superseded request must not touch the UI of the newer one: clearing
-      // the loading state would hide the newer fetch's spinner, and rethrowing
-      // would surface CHAT_LIST.FETCH_ERROR (see #15320) for a list the user
-      // has already navigated away from. While this IS the latest request,
-      // behaviour is unchanged from #15320.
-      if (requestId !== conversationListRequestId) return;
       commit(types.CLEAR_LIST_LOADING_STATUS);
       throw error;
     }
