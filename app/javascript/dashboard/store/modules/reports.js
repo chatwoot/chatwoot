@@ -57,12 +57,14 @@ const state = {
     uiFlags: {
       isFetchingAccountConversationMetric: false,
       isFetchingAccountConversationsHeatmap: false,
+      isFetchingAccountConversationInterval: false,
       isFetchingAccountResolutionsHeatmap: false,
       isFetchingAgentConversationMetric: false,
       isFetchingTeamConversationMetric: false,
     },
     accountConversationMetric: {},
     accountConversationHeatmap: [],
+    accountConversationInterval: [],
     accountResolutionHeatmap: [],
     agentConversationMetric: [],
     teamConversationMetric: [],
@@ -90,6 +92,9 @@ const getters = {
   },
   getAccountConversationHeatmapData(_state) {
     return _state.overview.accountConversationHeatmap;
+  },
+  getAccountConversationIntervalData(_state) {
+    return _state.overview.accountConversationInterval;
   },
   getAccountResolutionHeatmapData(_state) {
     return _state.overview.accountResolutionHeatmap;
@@ -133,6 +138,16 @@ export const actions = {
 
       commit(types.default.SET_HEATMAP_DATA, data);
       commit(types.default.TOGGLE_HEATMAP_LOADING, false);
+    });
+  },
+  fetchAccountConversationInterval({ commit }, reportObj) {
+    commit(types.default.TOGGLE_CONVERSATION_INTERVAL_LOADING, true);
+    Report.getReports({ ...reportObj, groupBy: 'hour' }).then(intervalData => {
+      let { data } = intervalData;
+      data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
+
+      commit(types.default.SET_CONVERSATION_INTERVAL_DATA, data);
+      commit(types.default.TOGGLE_CONVERSATION_INTERVAL_LOADING, false);
     });
   },
   fetchAccountResolutionHeatmap({ commit }, reportObj) {
@@ -315,6 +330,9 @@ const mutations = {
   [types.default.SET_HEATMAP_DATA](_state, heatmapData) {
     _state.overview.accountConversationHeatmap = heatmapData;
   },
+  [types.default.SET_CONVERSATION_INTERVAL_DATA](_state, intervalData) {
+    _state.overview.accountConversationInterval = intervalData;
+  },
   [types.default.SET_RESOLUTION_HEATMAP_DATA](_state, heatmapData) {
     _state.overview.accountResolutionHeatmap = heatmapData;
   },
@@ -329,6 +347,9 @@ const mutations = {
   },
   [types.default.TOGGLE_HEATMAP_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAccountConversationsHeatmap = flag;
+  },
+  [types.default.TOGGLE_CONVERSATION_INTERVAL_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingAccountConversationInterval = flag;
   },
   [types.default.TOGGLE_RESOLUTION_HEATMAP_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAccountResolutionsHeatmap = flag;

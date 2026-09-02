@@ -566,6 +566,24 @@
       "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
+    "CONVERSATION_INTERVAL": {
+      "HEADER": "Interval · จำนวนการสนทนาตามชั่วโมง",
+      "HOUR": "ชั่วโมง",
+      "LOADING_MESSAGE": "กำลังโหลด",
+      "ARIA_LABEL": "จำนวนการสนทนาแยกตามชั่วโมงและวัน",
+      "NO_CONVERSATIONS": "ไม่มีการสนทนา",
+      "CONVERSATION": "{count} การสนทนา",
+      "CONVERSATIONS": "{count} การสนทนา",
+      "DAYS_SHORT": {
+        "SUNDAY": "อา",
+        "MONDAY": "จ",
+        "TUESDAY": "อ",
+        "WEDNESDAY": "พ",
+        "THURSDAY": "พฤ",
+        "FRIDAY": "ศ",
+        "SATURDAY": "ส"
+      }
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "การสนทนาที่พนักงานดูแล",
       "LOADING_MESSAGE": "กำลังโหลดตัวชี้วัดพนักงาน",
