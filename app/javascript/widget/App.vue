@@ -276,6 +276,10 @@ export default {
       this.$store.dispatch('events/create', { name: eventName });
     },
     async handleInitialMessage(initialMessage) {
+      if (initialMessage !== undefined && typeof initialMessage !== 'string') {
+        return;
+      }
+
       this.pendingInitialMessage = initialMessage;
       this.initialMessageSequence += 1;
       if (!initialMessage) {

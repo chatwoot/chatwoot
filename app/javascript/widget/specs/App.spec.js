@@ -160,6 +160,19 @@ describe('App handleInitialMessage', () => {
     expect(context.router.replace).not.toHaveBeenCalled();
   });
 
+  it('ignores non-string initial message updates', async () => {
+    const context = buildContext({
+      pendingInitialMessage: 'Need help with this item',
+    });
+
+    await handleInitialMessage.call(context, { message: 'Broken draft' });
+
+    expect(context.pendingInitialMessage).toBe('Need help with this item');
+    expect(context.initialMessageSequence).toBe(0);
+    expect(context.setInitialMessage).not.toHaveBeenCalled();
+    expect(context.router.replace).not.toHaveBeenCalled();
+  });
+
   it('cancels pending initial messages with empty updates', async () => {
     let resolveHistory;
     const initialConversationFetchPromise = new Promise(resolve => {

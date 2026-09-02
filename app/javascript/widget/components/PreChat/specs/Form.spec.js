@@ -4,6 +4,7 @@ import Form from '../Form.vue';
 
 const getValidation = Form.methods.getValidation;
 const initialMessageHandler = Form.watch.initialMessage.handler;
+const formValuesHandler = Form.watch.formValues.handler;
 const onSubmit = Form.methods.onSubmit;
 
 const validationFor = (field, required) =>
@@ -85,6 +86,52 @@ describe('PreChat Form initial message draft', () => {
 
     expect(context.formValues.message).toBe('');
     expect(context.hasInitialMessageDraft).toBe(false);
+  });
+
+  it('preserves edits by syncing active initial message drafts', () => {
+    const context = {
+      activeCampaign: {},
+      hasActiveCampaign: false,
+      hasInitialMessageDraft: true,
+      initialMessage: 'Need help with this item',
+      $store: { dispatch: vi.fn() },
+    };
+
+    formValuesHandler.call(context, { message: 'Edited pre-chat draft' });
+
+    expect(context.$store.dispatch).toHaveBeenCalledWith(
+      'conversation/setInitialMessage',
+      'Edited pre-chat draft'
+    );
+    expect(context.hasInitialMessageDraft).toBe(true);
+  });
+
+  it('does not sync regular pre-chat input as an initial message draft', () => {
+    const context = {
+      activeCampaign: {},
+      hasActiveCampaign: false,
+      hasInitialMessageDraft: false,
+      initialMessage: '',
+      $store: { dispatch: vi.fn() },
+    };
+
+    formValuesHandler.call(context, { message: 'Regular pre-chat message' });
+
+    expect(context.$store.dispatch).not.toHaveBeenCalled();
+  });
+
+  it('does not sync campaign-owned pre-chat input as an initial message draft', () => {
+    const context = {
+      activeCampaign: { id: 1 },
+      hasActiveCampaign: true,
+      hasInitialMessageDraft: true,
+      initialMessage: 'Need help with this item',
+      $store: { dispatch: vi.fn() },
+    };
+
+    formValuesHandler.call(context, { message: 'Edited campaign draft' });
+
+    expect(context.$store.dispatch).not.toHaveBeenCalled();
   });
 
   it('clears the shared initial message on form submission', () => {

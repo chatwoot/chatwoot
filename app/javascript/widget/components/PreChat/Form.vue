@@ -164,6 +164,20 @@ export default {
         };
       },
     },
+    formValues: {
+      deep: true,
+      handler(formValues) {
+        if (!this.hasInitialMessageDraft || this.hasActiveCampaign) return;
+
+        const message = formValues.message || '';
+        if (this.initialMessage === message) return;
+
+        this.$store.dispatch('conversation/setInitialMessage', message);
+        if (!message) {
+          this.hasInitialMessageDraft = false;
+        }
+      },
+    },
   },
   methods: {
     inputClass(input) {
