@@ -49,11 +49,20 @@ class Captain::AssistantResponse < ApplicationRecord
 
   def self.search(query, account_id: nil)
     embedding = Captain::Llm::EmbeddingService.new(account_id: account_id).get_embedding(query)
-    nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(5)
+    nearest_neighbors(:embedding, embedding, distance: 'cosine')
+      .includes(:documentable)
+      .limit(5)
+      .select(&:available_for_retrieval?)
   end
 
   def customer_visible_source_url
     documentable.customer_visible_source_url if documentable.is_a?(Captain::Document)
+  end
+
+  def available_for_retrieval?
+    return true unless documentable.is_a?(Captain::Document)
+
+    documentable.available_for_retrieval?
   end
 
   private
