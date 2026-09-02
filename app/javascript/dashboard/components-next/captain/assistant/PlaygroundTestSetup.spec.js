@@ -64,23 +64,28 @@ const selectTab = async (wrapper, id) => {
 };
 
 describe('PlaygroundTestSetup', () => {
-  it('uses one tabbed content area with saved counts', () => {
+  it('uses one tabbed content area with saved counts and no scroll container', () => {
     const wrapper = mountSetup();
     const tabs = wrapper.findComponent(TabBar).props('tabs');
 
     expect(tabs.map(tab => [tab.id, tab.count])).toEqual([
+      ['knowledge', 60],
       ['scenarios', 2],
       ['guidelines', 1],
       ['guardrails', 1],
-      ['knowledge', 60],
     ]);
-    expect(wrapper.findAllComponents(Accordion)).toHaveLength(1);
+    expect(
+      wrapper.get('[data-testid="playground-setup-tabs"]').classes()
+    ).not.toContain('overflow-x-auto');
+    expect(wrapper.findComponent(TabBar).classes()).toContain('!w-full');
+    expect(wrapper.findAllComponents(Accordion)).toHaveLength(0);
     expect(wrapper.text()).not.toContain('Be concise');
     expect(wrapper.text()).not.toContain('Protect secrets');
   });
 
   it('keeps saved scenarios collapsed until requested', async () => {
     const wrapper = mountSetup();
+    await selectTab(wrapper, 'scenarios');
     const savedScenarios = wrapper.findComponent(Accordion);
 
     expect(wrapper.text()).not.toContain('Disabled scenario');
@@ -90,7 +95,7 @@ describe('PlaygroundTestSetup', () => {
     expect(wrapper.text()).toContain('Disabled scenario');
   });
 
-  it('prioritizes temporary actions and keeps persistence secondary', () => {
+  it('prioritizes temporary actions and keeps persistence secondary', async () => {
     const wrapper = mountSetup({
       isAdmin: true,
       temporaryScenarios: [
@@ -104,6 +109,7 @@ describe('PlaygroundTestSetup', () => {
         },
       ],
     });
+    await selectTab(wrapper, 'scenarios');
     const labels = wrapper
       .findAllComponents(Button)
       .map(button => button.props('label'));
@@ -115,8 +121,8 @@ describe('PlaygroundTestSetup', () => {
     );
   });
 
-  it('hides persisted actions from non-administrators', () => {
-    const labels = mountSetup({
+  it('hides persisted actions from non-administrators', async () => {
+    const wrapper = mountSetup({
       temporaryScenarios: [
         {
           clientId: 'temporary-1',
@@ -127,7 +133,9 @@ describe('PlaygroundTestSetup', () => {
           isSaving: false,
         },
       ],
-    })
+    });
+    await selectTab(wrapper, 'scenarios');
+    const labels = wrapper
       .findAllComponents(Button)
       .map(button => button.props('label'));
 
@@ -136,10 +144,8 @@ describe('PlaygroundTestSetup', () => {
     );
   });
 
-  it('shows only aggregate saved knowledge and the temporary field', async () => {
+  it('shows only aggregate saved knowledge and the temporary field', () => {
     const wrapper = mountSetup();
-
-    await selectTab(wrapper, 'knowledge');
 
     const knowledge = wrapper.findComponent(TextArea);
     expect(knowledge.props('maxLength')).toBe(10000);
@@ -151,7 +157,7 @@ describe('PlaygroundTestSetup', () => {
 
   it('resets the active tab and emits reset separately', async () => {
     const wrapper = mountSetup();
-    await selectTab(wrapper, 'knowledge');
+    await selectTab(wrapper, 'guardrails');
     const resetButton = wrapper
       .findAllComponents(Button)
       .find(

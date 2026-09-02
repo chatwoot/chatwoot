@@ -20,7 +20,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'reset']);
 const { t } = useI18n();
 
-const activeTab = ref('scenarios');
+const activeTab = ref('knowledge');
 const faqDialog = ref(null);
 const faqDraft = ref({});
 const showFaqDialog = ref(false);
@@ -31,6 +31,11 @@ const knowledgeCount = computed(() => {
 });
 
 const tabs = computed(() => [
+  {
+    id: 'knowledge',
+    label: t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.TAB_TITLE'),
+    count: knowledgeCount.value,
+  },
   {
     id: 'scenarios',
     label: t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.TAB_TITLE'),
@@ -45,11 +50,6 @@ const tabs = computed(() => [
     id: 'guardrails',
     label: t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.TAB_TITLE'),
     count: props.session.savedGuardrails.length,
-  },
-  {
-    id: 'knowledge',
-    label: t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.TAB_TITLE'),
-    count: knowledgeCount.value,
   },
 ]);
 
@@ -108,7 +108,7 @@ const handleFaqSaved = () => {
 };
 
 const resetSetup = () => {
-  activeTab.value = 'scenarios';
+  activeTab.value = 'knowledge';
   emit('reset');
 };
 </script>
@@ -116,7 +116,7 @@ const resetSetup = () => {
 <template>
   <aside
     aria-labelledby="playground-test-setup-title"
-    class="flex h-full w-full flex-col border-s border-n-weak bg-n-solid-1 text-n-slate-12 lg:w-[32rem]"
+    class="flex h-full w-full flex-col border-s border-n-weak bg-n-solid-1 text-n-slate-12 lg:w-[38rem]"
   >
     <div
       class="flex items-start justify-between gap-3 border-b border-n-weak p-5"
@@ -147,10 +147,11 @@ const resetSetup = () => {
     </div>
     <template v-else>
       <div class="border-b border-n-weak px-4 py-3">
-        <div class="overflow-x-auto pb-0.5">
+        <div data-testid="playground-setup-tabs" class="min-w-0">
           <TabBar
             :tabs="tabs"
             :initial-active-tab="activeTabIndex"
+            class="!w-full [&>button]:min-w-0 [&>button]:flex-1 [&>button]:px-2"
             @tab-changed="selectTab"
           />
         </div>

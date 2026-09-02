@@ -238,7 +238,7 @@ const handleEnterKey = event => {
     />
     <div
       v-if="isV2 && isSetupOpen"
-      class="fixed inset-y-0 end-0 z-40 w-full max-w-lg lg:static lg:z-auto lg:w-[32rem] lg:max-w-none lg:flex-none"
+      class="fixed inset-y-0 end-0 z-40 w-full max-w-lg lg:static lg:z-auto lg:w-[38rem] lg:max-w-none lg:flex-none"
     >
       <PlaygroundTestSetup
         :session="session"

@@ -155,7 +155,7 @@ describe('AssistantPlayground', () => {
     const setupWrapper = wrapper.getComponent({ name: 'PlaygroundTestSetup' })
       .element.parentElement;
 
-    expect(setupWrapper.className).toContain('lg:w-[32rem]');
+    expect(setupWrapper.className).toContain('lg:w-[38rem]');
     expect(setupWrapper.className).toContain('lg:flex-none');
   });
 
