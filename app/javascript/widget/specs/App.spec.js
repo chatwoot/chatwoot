@@ -17,6 +17,7 @@ const buildContext = ({
   initialMessageSequence: 0,
   shouldShowPreChatForm,
   setInitialMessage: vi.fn(),
+  unsetUnreadView: vi.fn(),
   $route: { name: routeName },
   router: { replace: vi.fn() },
 });
@@ -62,6 +63,23 @@ describe('App handleInitialMessage', () => {
     expect(context.router.replace).toHaveBeenCalledWith({
       name: 'prechat-form',
     });
+    expect(context.router.replace.mock.invocationCallOrder[0]).toBeLessThan(
+      context.setInitialMessage.mock.invocationCallOrder[0]
+    );
+  });
+
+  it('clears unread mode before showing the message composer', async () => {
+    const context = buildContext({
+      conversationSize: 1,
+    });
+
+    await handleInitialMessage.call(context, 'Need help with this item');
+
+    expect(context.unsetUnreadView).toHaveBeenCalled();
+    expect(context.router.replace).toHaveBeenCalledWith({ name: 'messages' });
+    expect(context.unsetUnreadView.mock.invocationCallOrder[0]).toBeLessThan(
+      context.router.replace.mock.invocationCallOrder[0]
+    );
     expect(context.router.replace.mock.invocationCallOrder[0]).toBeLessThan(
       context.setInitialMessage.mock.invocationCallOrder[0]
     );

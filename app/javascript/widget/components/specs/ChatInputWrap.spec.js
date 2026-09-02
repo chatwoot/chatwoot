@@ -41,4 +41,17 @@ describe('ChatInputWrap initial message draft', () => {
     );
     expect(context.userInput).toBe('');
   });
+
+  it('clears the local input when the shared initial message is cleared', () => {
+    const context = {
+      userInput: 'Previous identity draft',
+      focusInput: vi.fn(),
+      $nextTick: callback => callback(),
+    };
+
+    initialMessageHandler.call(context, '');
+
+    expect(context.userInput).toBe('');
+    expect(context.focusInput).not.toHaveBeenCalled();
+  });
 });

@@ -284,6 +284,9 @@ export default {
         this.shouldShowPreChatForm && !this.conversationSize
           ? 'prechat-form'
           : 'messages';
+      if (routeName === 'messages') {
+        this.unsetUnreadView();
+      }
       if (this.$route.name !== routeName) {
         await this.router.replace({ name: routeName });
       }

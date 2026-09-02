@@ -74,7 +74,10 @@ export default {
     initialMessage: {
       immediate: true,
       handler(initialMessage) {
-        if (!initialMessage) return;
+        if (!initialMessage) {
+          this.userInput = '';
+          return;
+        }
 
         this.userInput = initialMessage;
         this.$nextTick(() => this.focusInput());
