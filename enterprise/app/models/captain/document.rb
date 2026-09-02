@@ -30,7 +30,7 @@
 class Captain::Document < ApplicationRecord
   class LimitExceededError < StandardError; end
   SYNC_STALE_TIMEOUT = 2.hours
-  HELP_CENTER_ARTICLE_PATH = %r{\A/hc/([^/]+)/articles/([^/]+)/?\z}
+  HELP_CENTER_ARTICLE_PATH = %r{\A/hc/([^/]+)/articles/([^/]+?)(?:\.md)?/?\z}
   self.table_name = 'captain_documents'
 
   belongs_to :assistant, class_name: 'Captain::Assistant'

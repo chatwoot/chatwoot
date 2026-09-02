@@ -65,6 +65,14 @@ RSpec.describe Captain::Document, type: :model do
       expect(document.available_for_retrieval?).to be true
     end
 
+    it 'uses the article slug from markdown URLs' do
+      document.update!(external_link: "#{help_center_url}.md")
+      expect(document.available_for_retrieval?).to be true
+
+      article.update!(status: :archived)
+      expect(document.available_for_retrieval?).to be false
+    end
+
     it 'rejects draft and archived articles' do
       article.update!(status: :draft)
       expect(document.available_for_retrieval?).to be false
