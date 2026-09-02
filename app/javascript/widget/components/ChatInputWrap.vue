@@ -53,6 +53,7 @@ export default {
 
   computed: {
     ...mapGetters({
+      initialMessage: 'conversation/getInitialMessage',
       widgetColor: 'appConfig/getWidgetColor',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
       shouldShowEmojiPicker: 'appConfig/getShouldShowEmojiPicker',
@@ -69,6 +70,16 @@ export default {
       if (isWidgetOpen) {
         this.focusInput();
       }
+    },
+    initialMessage: {
+      immediate: true,
+      handler(initialMessage) {
+        if (!initialMessage) return;
+
+        this.userInput = initialMessage;
+        this.$store.dispatch('conversation/clearInitialMessage');
+        this.$nextTick(() => this.focusInput());
+      },
     },
   },
   unmounted() {
@@ -126,7 +137,7 @@ export default {
       this.$store.dispatch('conversation/toggleUserTyping', { typingStatus });
     },
     focusInput() {
-      this.$refs.chatInput.focus();
+      this.$refs.chatInput?.focus();
     },
   },
 };

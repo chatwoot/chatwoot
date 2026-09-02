@@ -9,6 +9,29 @@ const commit = vi.fn();
 const dispatch = vi.fn();
 
 describe('#actions', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  describe('#setInitialMessage', () => {
+    it('commits the initial message', () => {
+      actions.setInitialMessage({ commit }, 'I need help with invoice 42');
+
+      expect(commit).toBeCalledWith(
+        'setInitialMessage',
+        'I need help with invoice 42'
+      );
+    });
+  });
+
+  describe('#clearInitialMessage', () => {
+    it('clears the initial message', () => {
+      actions.clearInitialMessage({ commit });
+
+      expect(commit).toBeCalledWith('clearInitialMessage');
+    });
+  });
+
   describe('#createConversation', () => {
     it('sends correct mutations', async () => {
       API.post.mockResolvedValue({

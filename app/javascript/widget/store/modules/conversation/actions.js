@@ -30,6 +30,12 @@ export const actions = {
       commit('setConversationUIFlag', { isCreating: false });
     }
   },
+  setInitialMessage: ({ commit }, initialMessage = '') => {
+    commit('setInitialMessage', initialMessage);
+  },
+  clearInitialMessage: ({ commit }) => {
+    commit('clearInitialMessage');
+  },
   sendMessage: async ({ dispatch, state: conversationState }, params) => {
     const { content, replyTo } = params;
     const message = createTemporaryMessage({ content, replyTo });

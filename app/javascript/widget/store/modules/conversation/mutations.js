@@ -6,6 +6,7 @@ export const mutations = {
     $state.conversations = {};
     $state.pendingCustomAttributes = {};
     $state.pendingLabels = [];
+    $state.initialMessage = '';
   },
   pushMessageToConversation($state, message) {
     const { id, status, message_type: type } = message;
@@ -141,5 +142,13 @@ export const mutations = {
   clearPendingConversationMetadata($state) {
     $state.pendingCustomAttributes = {};
     $state.pendingLabels = [];
+  },
+
+  setInitialMessage($state, initialMessage) {
+    $state.initialMessage = initialMessage;
+  },
+
+  clearInitialMessage($state) {
+    $state.initialMessage = '';
   },
 };

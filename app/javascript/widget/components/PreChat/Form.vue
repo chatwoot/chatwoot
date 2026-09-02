@@ -47,6 +47,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      initialMessage: 'conversation/getInitialMessage',
       widgetColor: 'appConfig/getWidgetColor',
       isCreating: 'conversation/getIsCreating',
       isConversationRouting: 'appConfig/getIsUpdatingRoute',
@@ -137,6 +138,20 @@ export default {
         }
       });
       return contactAttributes;
+    },
+  },
+  watch: {
+    initialMessage: {
+      immediate: true,
+      handler(initialMessage) {
+        if (!initialMessage) return;
+
+        this.formValues = {
+          ...this.formValues,
+          message: initialMessage,
+        };
+        this.$store.dispatch('conversation/clearInitialMessage');
+      },
     },
   },
   methods: {

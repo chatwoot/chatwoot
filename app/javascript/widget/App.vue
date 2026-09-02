@@ -40,6 +40,7 @@ export default {
     return {
       isMobile: false,
       campaignsSnoozedTill: undefined,
+      initialConversationFetchPromise: null,
     };
   },
   computed: {
@@ -119,7 +120,10 @@ export default {
       'setBubbleVisibility',
       'setColorScheme',
     ]),
-    ...mapActions('conversation', ['fetchOldConversations']),
+    ...mapActions('conversation', [
+      'fetchOldConversations',
+      'setInitialMessage',
+    ]),
     ...mapActions('campaign', [
       'initCampaigns',
       'executeCampaign',
@@ -267,6 +271,19 @@ export default {
       }
       this.$store.dispatch('events/create', { name: eventName });
     },
+    async handleInitialMessage(initialMessage) {
+      if (!initialMessage) return;
+
+      await this.initialConversationFetchPromise;
+      this.setInitialMessage(initialMessage);
+      const routeName =
+        this.shouldShowPreChatForm && !this.conversationSize
+          ? 'prechat-form'
+          : 'messages';
+      if (this.$route.name !== routeName) {
+        this.router.replace({ name: routeName });
+      }
+    },
     registerListeners() {
       const { websiteToken } = window.chatwootWebChannel;
       window.addEventListener('message', e => {
@@ -277,7 +294,22 @@ export default {
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
-          this.fetchOldConversations().then(() => this.setUnreadView());
+          const initialConversationFetchPromise =
+            this.fetchOldConversations().then(() => {
+              this.setUnreadView();
+            });
+          this.initialConversationFetchPromise =
+            initialConversationFetchPromise;
+          initialConversationFetchPromise
+            .then(() => this.handleInitialMessage(message.initialMessage))
+            .finally(() => {
+              if (
+                this.initialConversationFetchPromise ===
+                initialConversationFetchPromise
+              ) {
+                this.initialConversationFetchPromise = null;
+              }
+            });
           this.fetchAvailableAgents(websiteToken);
           this.setAppConfig(message);
           this.$store.dispatch('contacts/get');
@@ -323,6 +355,8 @@ export default {
             'conversation/deleteCustomAttribute',
             message.customAttribute
           );
+        } else if (message.event === 'set-initial-message') {
+          this.handleInitialMessage(message.initialMessage);
         } else if (message.event === 'set-locale') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
