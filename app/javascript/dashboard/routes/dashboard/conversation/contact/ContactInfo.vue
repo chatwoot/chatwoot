@@ -5,7 +5,7 @@ import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
-import { exactTimestamp } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Avatar from 'next/avatar/Avatar.vue';
@@ -46,6 +46,7 @@ export default {
     const { isAdmin } = useAdmin();
     return {
       isAdmin,
+      exactTimestamp: useExactTimestamp(),
     };
   },
   data() {
@@ -105,7 +106,6 @@ export default {
     },
   },
   methods: {
-    exactTimestamp,
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },

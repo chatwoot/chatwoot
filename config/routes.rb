@@ -381,6 +381,10 @@ Rails.application.routes.draw do
 
           namespace :whatsapp do
             resource :authorization, only: [:create]
+            post 'manual/preview', to: 'manual_setup#preview'
+            post 'manual/connect', to: 'manual_setup#connect'
+            get 'manual/:inbox_id/webhook_status', to: 'manual_setup#webhook_status'
+            post 'manual/:inbox_id/setup_webhook', to: 'manual_setup#setup_webhook'
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]

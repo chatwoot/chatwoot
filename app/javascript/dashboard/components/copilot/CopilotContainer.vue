@@ -133,8 +133,10 @@ const sendMessage = async payload => {
         selectedCopilotThreadId.value = response.id;
       }
     }
+    return true;
   } catch (error) {
     useAlert(error.message);
+    return false;
   }
 };
 
@@ -164,8 +166,8 @@ onMounted(() => {
       :assistants="assistants"
       :active-assistant="activeAssistant"
       :can-suggest-reply="canSuggestReply"
+      :on-send-message="sendMessage"
       @set-assistant="setAssistant"
-      @send-message="sendMessage"
       @reset="handleReset"
     />
   </div>
