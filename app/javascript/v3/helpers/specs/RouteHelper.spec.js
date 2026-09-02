@@ -51,6 +51,23 @@ describe('#validateRouteAccess', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
+  it('preserves a pending Shopify install for an authenticated user', () => {
+    vi.spyOn(Cookies, 'get').mockReturnValueOnce(true);
+
+    validateRouteAccess(
+      {
+        name: 'auth_signup',
+        query: { shopify_pending_install: 'pending-token' },
+      },
+      next
+    );
+
+    expect(replaceRouteWithReload).toHaveBeenCalledWith(
+      '/app/?redirect_url=settings%2Fintegrations%2Fshopify%3Fshopify_pending_install%3Dpending-token'
+    );
+    expect(next).not.toHaveBeenCalled();
+  });
+
   it('redirects to login if route is empty', () => {
     validateRouteAccess({}, next);
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();

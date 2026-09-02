@@ -40,15 +40,11 @@ class Shopify::CallbacksController < ApplicationController
     # Shopify will reject any attempt to exchange a code at a different shop's endpoint.
     @response = oauth_client.auth_code.get_token(params[:code], redirect_uri: redirect_callback_uri)
 
-    token_key = SecureRandom.hex(16)
-    pending_data = {
+    token_key = Shopify::PendingInstallation.create(
       access_token: parsed_body['access_token'],
       shop: params[:shop],
-      scope: parsed_body['scope'],
-      claimed: false
-    }
-
-    Redis::SecureStorage.set("shopify_pending_install:#{token_key}", pending_data, 10.minutes)
+      scope: parsed_body['scope']
+    )
 
     redirect_url = "settings/integrations/shopify?shopify_pending_install=#{CGI.escape(token_key)}"
     redirect_to "#{frontend_url}/app/login?redirect_url=#{CGI.escape(redirect_url)}", allow_other_host: true

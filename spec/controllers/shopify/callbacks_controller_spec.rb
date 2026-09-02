@@ -126,7 +126,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         params[:hmac] = compute_hmac(params, client_secret)
 
         expect(OAuth2::Client).not_to receive(:new)
-        expect(Redis::SecureStorage).not_to receive(:set)
+        expect(Shopify::PendingInstallation).not_to receive(:create)
 
         get shopify_callback_path, params: params
 
@@ -191,10 +191,17 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       it 'handles as Shopify-initiated install and redirects to login with pending install token' do
         params = { code: code, state: state, shop: shop }
         params[:hmac] = compute_hmac(params, client_secret)
+        pending_install_token = SecureRandom.hex(16)
+
+        expect(Shopify::PendingInstallation).to receive(:create).with(
+          access_token: access_token,
+          shop: shop,
+          scope: 'read_products,write_products'
+        ).and_return(pending_install_token)
 
         get shopify_callback_path, params: params
         expect(response).to redirect_to(%r{#{Regexp.escape(frontend_url)}/app/login\?redirect_url=})
-        expect(CGI.unescape(response.location)).to include('shopify_pending_install=')
+        expect(CGI.unescape(response.location)).to include("shopify_pending_install=#{pending_install_token}")
       end
     end
   end

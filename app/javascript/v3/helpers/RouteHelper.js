@@ -29,7 +29,13 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
   // Redirect to dashboard if a cookie is present, the cookie
   // cleanup and token validation happens in the application pack.
   if (hasAuthCookie()) {
-    const { redirect_url: redirectUrl } = to.query || {};
+    const {
+      redirect_url: requestedRedirectUrl,
+      shopify_pending_install: pendingInstallToken,
+    } = to.query || {};
+    const redirectUrl = pendingInstallToken
+      ? `settings/integrations/shopify?shopify_pending_install=${encodeURIComponent(pendingInstallToken)}`
+      : requestedRedirectUrl;
     const redirectTarget = redirectUrl
       ? `${DEFAULT_REDIRECT_URL}?redirect_url=${encodeURIComponent(redirectUrl)}`
       : DEFAULT_REDIRECT_URL;

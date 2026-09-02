@@ -56,6 +56,19 @@ const formattedHelpText = computed(() => {
   );
 });
 
+const clearPendingInstallQuery = async () => {
+  const query = { ...route.query };
+  delete query.shopify_pending_install;
+
+  try {
+    await router.replace({ query });
+  } catch {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('shopify_pending_install');
+    window.history.replaceState({}, document.title, url.toString());
+  }
+};
+
 const completePendingInstall = async token => {
   try {
     await shopifyAPI.completeInstall(token);
@@ -64,7 +77,7 @@ const completePendingInstall = async token => {
   } catch {
     useAlert(t('INTEGRATION_SETTINGS.SHOPIFY.PENDING_INSTALL.ERROR'));
   } finally {
-    router.replace({ query: {} });
+    await clearPendingInstallQuery();
   }
 };
 

@@ -3,7 +3,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   before_action :ensure_shopify_enabled
   before_action :setup_shopify_context, only: [:orders]
   before_action :fetch_hook, except: [:complete_install]
-  before_action :check_authorization, only: [:destroy]
+  before_action :check_authorization, only: [:complete_install, :destroy]
   before_action :validate_contact, only: [:orders]
 
   def orders
@@ -17,20 +17,20 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   end
 
   def complete_install
-    token_key = "shopify_pending_install:#{params[:pending_install_token]}"
-    data = claim_pending_install_token(token_key, Current.account.id)
-    return render json: { error: data[:error] }, status: :unprocessable_entity if data[:error]
-
-    Current.account.hooks.create!(
-      app_id: 'shopify',
-      access_token: data['access_token'],
-      status: 'enabled',
-      reference_id: data['shop'],
-      settings: { scope: data['scope'] }
+    pending_installation = Shopify::PendingInstallation.claim(
+      token: params[:pending_install_token],
+      account_id: Current.account.id
     )
-
-    ::Redis::Alfred.delete(token_key)
+    install_pending_shopify_hook(pending_installation)
     head :ok
+  rescue Shopify::PendingInstallation::CommitOutcomeUnknown
+    raise
+  rescue Shopify::PendingInstallation::Error => e
+    pending_installation&.release!
+    render json: { error: e.message }, status: :unprocessable_entity
+  rescue StandardError
+    pending_installation&.release!
+    raise
   end
 
   def destroy
@@ -41,6 +41,23 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   end
 
   private
+
+  def install_pending_shopify_hook(pending_installation)
+    data = pending_installation.data
+    hook = Current.account.hooks.create!(
+      app_id: 'shopify',
+      access_token: data['access_token'],
+      status: 'enabled',
+      reference_id: data['shop'],
+      settings: { scope: data['scope'] }
+    )
+    pending_installation.consume!
+  rescue Shopify::PendingInstallation::CommitOutcomeUnknown
+    raise
+  rescue StandardError
+    hook&.destroy!
+    raise
+  end
 
   def ensure_shopify_enabled
     head :not_found unless Shopify::FeatureGate.enabled?(account: Current.account)
@@ -109,32 +126,5 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
 
     render json: { error: 'Contact information missing' },
            status: :unprocessable_entity
-  end
-
-  def claim_pending_install_token(token_key, account_id)
-    json_data = Redis::SecureStorage.get(token_key)
-    return { error: 'Invalid or expired install token' } if json_data.blank?
-
-    begin
-      data = JSON.parse(json_data)
-    rescue JSON::ParserError
-      return { error: 'Invalid or corrupted install token' }
-    end
-
-    if data['claimed']
-      Redis::SecureStorage.delete(token_key)
-      return { error: 'Install token already used' }
-    end
-
-    # Check if already bound to a different account (prevents token theft)
-    return { error: 'Install token cannot be used by this account' } if data['account_id'].present? && data['account_id'] != account_id
-
-    # Bind to this account and mark as claimed to prevent replay
-    data['claimed'] = true
-    data['account_id'] = account_id
-    ttl = ::Redis::Alfred.ttl(token_key)
-    Redis::SecureStorage.set(token_key, data, [ttl, 60].max) if ttl.positive?
-
-    data
   end
 end
