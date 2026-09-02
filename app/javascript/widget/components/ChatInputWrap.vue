@@ -77,7 +77,6 @@ export default {
         if (!initialMessage) return;
 
         this.userInput = initialMessage;
-        this.$store.dispatch('conversation/clearInitialMessage');
         this.$nextTick(() => this.focusInput());
       },
     },
@@ -102,6 +101,7 @@ export default {
     handleButtonClick() {
       if (this.userInput && this.userInput.trim()) {
         this.onSendMessage(this.userInput);
+        this.$store.dispatch('conversation/clearInitialMessage');
       }
       this.userInput = '';
       this.focusInput();

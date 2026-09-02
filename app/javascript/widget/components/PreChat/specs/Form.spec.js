@@ -1,8 +1,10 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import Form from '../Form.vue';
 
 const getValidation = Form.methods.getValidation;
+const initialMessageHandler = Form.watch.initialMessage.handler;
+const onSubmit = Form.methods.onSubmit;
 
 const validationFor = (field, required) =>
   getValidation.call(
@@ -35,5 +37,60 @@ describe('PreChat Form getValidation', () => {
     expect(
       validationFor({ type: 'email', name: 'emailAddress' }, true)
     ).toEqual([['required'], ['email']]);
+  });
+});
+
+describe('PreChat Form initial message draft', () => {
+  it('keeps the shared initial message when copying it to the visible form field', () => {
+    const context = {
+      formValues: {},
+      hasActiveCampaign: false,
+      $store: { dispatch: vi.fn() },
+    };
+
+    initialMessageHandler.call(context, 'Need help with this item');
+
+    expect(context.formValues.message).toBe('Need help with this item');
+    expect(context.$store.dispatch).not.toHaveBeenCalledWith(
+      'conversation/clearInitialMessage'
+    );
+  });
+
+  it('does not consume the shared initial message when campaigns hide the message field', () => {
+    const context = {
+      formValues: {},
+      hasActiveCampaign: true,
+      $store: { dispatch: vi.fn() },
+    };
+
+    initialMessageHandler.call(context, 'Need help with this item');
+
+    expect(context.formValues.message).toBeUndefined();
+    expect(context.$store.dispatch).not.toHaveBeenCalled();
+  });
+
+  it('clears the shared initial message on form submission', () => {
+    const context = {
+      activeCampaign: {},
+      conversationCustomAttributes: {},
+      contactCustomAttributes: {},
+      formValues: {
+        emailAddress: 'jane@example.com',
+        fullName: 'Jane',
+        message: 'Need help with this item',
+      },
+      $emit: vi.fn(),
+      $store: { dispatch: vi.fn() },
+    };
+
+    onSubmit.call(context);
+
+    expect(context.$store.dispatch).toHaveBeenCalledWith(
+      'conversation/clearInitialMessage'
+    );
+    expect(context.$emit).toHaveBeenCalledWith(
+      'submitPreChat',
+      expect.objectContaining({ message: 'Need help with this item' })
+    );
   });
 });

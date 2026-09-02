@@ -41,6 +41,7 @@ export default {
       isMobile: false,
       campaignsSnoozedTill: undefined,
       initialConversationFetchPromise: null,
+      initialMessageSequence: 0,
     };
   },
   computed: {
@@ -274,15 +275,27 @@ export default {
     async handleInitialMessage(initialMessage) {
       if (!initialMessage) return;
 
+      this.initialMessageSequence += 1;
+      const initialMessageSequence = this.initialMessageSequence;
       await this.initialConversationFetchPromise;
-      this.setInitialMessage(initialMessage);
+      if (initialMessageSequence !== this.initialMessageSequence) return;
+
       const routeName =
         this.shouldShowPreChatForm && !this.conversationSize
           ? 'prechat-form'
           : 'messages';
       if (this.$route.name !== routeName) {
-        this.router.replace({ name: routeName });
+        await this.router.replace({ name: routeName });
       }
+      this.setInitialMessage(initialMessage);
+    },
+    setConversationHistoryFetchPromise(fetchPromise) {
+      this.initialConversationFetchPromise = fetchPromise;
+      fetchPromise.finally(() => {
+        if (this.initialConversationFetchPromise === fetchPromise) {
+          this.initialConversationFetchPromise = null;
+        }
+      });
     },
     registerListeners() {
       const { websiteToken } = window.chatwootWebChannel;
@@ -298,18 +311,10 @@ export default {
             this.fetchOldConversations().then(() => {
               this.setUnreadView();
             });
-          this.initialConversationFetchPromise =
-            initialConversationFetchPromise;
-          initialConversationFetchPromise
-            .then(() => this.handleInitialMessage(message.initialMessage))
-            .finally(() => {
-              if (
-                this.initialConversationFetchPromise ===
-                initialConversationFetchPromise
-              ) {
-                this.initialConversationFetchPromise = null;
-              }
-            });
+          this.setConversationHistoryFetchPromise(
+            initialConversationFetchPromise
+          );
+          this.handleInitialMessage(message.initialMessage);
           this.fetchAvailableAgents(websiteToken);
           this.setAppConfig(message);
           this.$store.dispatch('contacts/get');
@@ -334,7 +339,10 @@ export default {
         } else if (message.event === 'remove-label') {
           this.$store.dispatch('conversationLabels/destroy', message.label);
         } else if (message.event === 'set-user') {
-          this.$store.dispatch('contacts/setUser', message);
+          this.initialMessageSequence += 1;
+          this.setConversationHistoryFetchPromise(
+            this.$store.dispatch('contacts/setUser', message)
+          );
         } else if (message.event === 'set-custom-attributes') {
           this.$store.dispatch(
             'contacts/setCustomAttributes',

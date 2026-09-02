@@ -144,13 +144,12 @@ export default {
     initialMessage: {
       immediate: true,
       handler(initialMessage) {
-        if (!initialMessage) return;
+        if (!initialMessage || this.hasActiveCampaign) return;
 
         this.formValues = {
           ...this.formValues,
           message: initialMessage,
         };
-        this.$store.dispatch('conversation/clearInitialMessage');
       },
     },
   },
@@ -250,6 +249,7 @@ export default {
     },
     onSubmit() {
       const { emailAddress, fullName, phoneNumber, message } = this.formValues;
+      this.$store.dispatch('conversation/clearInitialMessage');
       this.$emit('submitPreChat', {
         fullName,
         phoneNumber,
