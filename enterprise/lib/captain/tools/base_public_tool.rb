@@ -31,6 +31,10 @@ class Captain::Tools::BasePublicTool < Agents::Tool
     model_class.where(account_id: @assistant.account_id)
   end
 
+  def failure_result(message, state)
+    state&.dig(:source) == 'playground' ? "ERROR: #{message}" : message
+  end
+
   def find_conversation(state)
     conversation_id = state&.dig(:conversation, :id)
     return nil unless conversation_id

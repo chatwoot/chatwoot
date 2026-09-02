@@ -12,12 +12,15 @@ class Captain::Assistant::AgentRunnerService
 
   REPLY_SUGGESTION_SOURCE = 'copilot_reply_suggestion'.freeze
 
-  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil)
+  # The runtime configuration is request-scoped and intentionally optional so production callers retain their current graph.
+  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil, # rubocop:disable Metrics/ParameterLists
+                 runtime_configuration: nil) # rubocop:enable Metrics/ParameterLists
     @assistant = assistant
     @conversation = conversation
     @callbacks = callbacks
     @source = source
     @responding_to_message_id = responding_to_message_id
+    @runtime_configuration = runtime_configuration
 
     @handoff_tool_called = false
     @handoff_tool_completed = false
@@ -26,6 +29,8 @@ class Captain::Assistant::AgentRunnerService
   def generate_response(message_history: [])
     message_to_process, context = run_payload(message_history)
     @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
+    raise @last_run_result.error if @last_run_result.error
+
     record_turn_start(@last_run_result)
     @last_run_result = rewrite_oversized_response(@last_run_result) if response_too_long?(@last_run_result)
 
@@ -104,9 +109,27 @@ class Captain::Assistant::AgentRunnerService
   def build_and_wire_agents
     return [reply_suggestion_agent] if reply_suggestion?
 
+    return default_agent_graph unless @runtime_configuration
+
+    assistant_agent = @assistant.agent(runtime_configuration: @runtime_configuration)
+    scenario_agents = @runtime_configuration.scenarios.map do |scenario|
+      scenario.agent(
+        runtime_configuration: @runtime_configuration,
+        runtime_agent_name: @runtime_configuration.agent_name_for(scenario)
+      )
+    end
+
+    wire_agents(assistant_agent, scenario_agents)
+  end
+
+  def default_agent_graph
     assistant_agent = @assistant.agent
     scenario_agents = @assistant.scenarios.enabled.map(&:agent)
 
+    wire_agents(assistant_agent, scenario_agents)
+  end
+
+  def wire_agents(assistant_agent, scenario_agents)
     assistant_agent.register_handoffs(*scenario_agents) if scenario_agents.any?
     scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }
 

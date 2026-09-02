@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { ref, watch, nextTick } from 'vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import PlaygroundRunDetails from './PlaygroundRunDetails.vue';
 
 const props = defineProps({
   messages: {
@@ -38,6 +39,11 @@ const getMessageStyle = sender =>
     ? 'bg-n-solid-blue text-n-slate-12 rounded-br-sm rounded-bl-xl rounded-t-xl'
     : 'bg-n-solid-iris text-n-slate-12 rounded-bl-sm rounded-br-xl rounded-t-xl';
 
+const messageStyle = message =>
+  message.isError
+    ? 'bg-n-ruby-3 text-n-ruby-11 rounded-bl-sm rounded-br-xl rounded-t-xl'
+    : getMessageStyle(message.sender);
+
 const scrollToBottom = async () => {
   await nextTick();
   if (messageContainer.value) {
@@ -60,7 +66,7 @@ watch(() => props.messages.length, scrollToBottom);
       :class="getMessageAlignment(message.sender)"
     >
       <div
-        class="flex items-end gap-1.5 max-w-[90%] md:max-w-[60%]"
+        class="flex max-w-[90%] items-end gap-1.5 md:max-w-[75%]"
         :class="getMessageDirection(message.sender)"
       >
         <Avatar
@@ -71,9 +77,14 @@ watch(() => props.messages.length, scrollToBottom);
         />
         <div
           class="px-4 py-3 text-sm [overflow-wrap:break-word]"
-          :class="getMessageStyle(message.sender)"
+          :class="messageStyle(message)"
         >
           <div v-html="formatMessage(message.content)" />
+          <PlaygroundRunDetails
+            v-if="message.runDetails && message.setupSummary"
+            :run-details="message.runDetails"
+            :setup-summary="message.setupSummary"
+          />
         </div>
       </div>
     </div>

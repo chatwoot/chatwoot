@@ -401,7 +401,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           as: :json
 
       expect(response).to have_http_status(:success)
-      expect(json_response).to eq(approved: 3, suggestions: 1, documents: 2, coverage: 75)
+      expect(json_response).to eq(approved: 3, faqs: 3, suggestions: 1, documents: 2, coverage: 75)
     end
 
     it 'returns zero coverage when there are no FAQs or suggestions' do
@@ -410,7 +410,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           as: :json
 
       expect(response).to have_http_status(:success)
-      expect(json_response).to include(approved: 0, suggestions: 0, coverage: 0)
+      expect(json_response).to include(approved: 0, faqs: 0, suggestions: 0, coverage: 0)
     end
 
     it 'counts only suggestions backed by conversations the agent can access' do
@@ -563,6 +563,16 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           message_history: []
         )
       end
+
+      it 'rejects enhanced playground configuration' do
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+             params: valid_params.merge(playground_config: { scenario_ids: [] }),
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:errors]).to eq(playground_config: ['is only available with Captain V2'])
+      end
     end
 
     context 'when captain v2 is enabled' do
@@ -616,6 +626,60 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(agent_runner_service).to have_received(:generate_response).with(
           message_history: params_with_latest_message[:message_history]
         )
+      end
+
+      it 'runs enhanced requests through the session-only playground runner' do
+        playground_runner = instance_double(Captain::Playground::Runner)
+        enhanced_params = valid_params.merge(
+          playground_config: {
+            scenario_ids: [],
+            temporary_scenarios: [],
+            response_guidelines: ['Be concise'],
+            guardrails: [],
+            knowledge_text: 'Refunds take five days.'
+          }
+        )
+        allow(Captain::Playground::Runner).to receive(:new).with(
+          assistant: assistant,
+          configuration_params: kind_of(ActionController::Parameters),
+          message_history: valid_params[:message_history] + [{ role: 'user', content: valid_params[:message_content] }]
+        ).and_return(playground_runner)
+        allow(playground_runner).to receive(:generate_response).and_return(
+          response: 'Assistant response',
+          run_details: { duration_ms: 12, events: [] }
+        )
+
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+             params: enhanced_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:run_details]).to eq(duration_ms: 12, events: [])
+      end
+
+      it 'returns structured validation errors without modifying Captain configuration' do
+        assistant
+        original_counts = [Captain::Assistant.count, Captain::Scenario.count]
+
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+             params: valid_params.merge(playground_config: { knowledge_text: 'a' * 10_001 }),
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:errors][:knowledge_text]).to eq(['is limited to 10000 characters'])
+        expect([Captain::Assistant.count, Captain::Scenario.count]).to eq(original_counts)
+      end
+
+      it 'returns a structured error for a malformed playground configuration' do
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+             params: valid_params.merge(playground_config: 'invalid'),
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:errors]).to eq(playground_config: ['must be an object'])
       end
     end
   end

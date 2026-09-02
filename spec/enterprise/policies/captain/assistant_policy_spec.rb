@@ -22,7 +22,33 @@ RSpec.describe Captain::AssistantPolicy, type: :policy do
     end
   end
 
-  permissions :tools?, :create?, :update?, :destroy?, :sync?, :drilldown? do
+  permissions :tools? do
+    context 'when Captain V2 is disabled' do
+      context 'when administrator' do
+        it { expect(assistant_policy).to permit(administrator_context, assistant) }
+      end
+
+      context 'when agent' do
+        it { expect(assistant_policy).not_to permit(agent_context, assistant) }
+      end
+    end
+
+    context 'when Captain V2 is enabled' do
+      before do
+        account.enable_features!('captain_integration_v2')
+      end
+
+      context 'when administrator' do
+        it { expect(assistant_policy).to permit(administrator_context, assistant) }
+      end
+
+      context 'when agent' do
+        it { expect(assistant_policy).to permit(agent_context, assistant) }
+      end
+    end
+  end
+
+  permissions :create?, :update?, :destroy?, :sync?, :drilldown? do
     context 'when administrator' do
       it { expect(assistant_policy).to permit(administrator_context, assistant) }
     end
