@@ -1071,6 +1071,38 @@ RSpec.describe Conversation do
     end
   end
 
+  describe '#csat_survey_agent_id' do
+    let(:account) { create(:account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:other_agent) { create(:user, account: account, role: :agent) }
+    let(:conversation) { create(:conversation, account: account, assignee: nil) }
+
+    it 'returns the assignee when the conversation is assigned' do
+      conversation.update!(assignee: agent)
+
+      expect(conversation.csat_survey_agent_id).to eq(agent.id)
+    end
+
+    it 'falls back to the last replying agent when the conversation is unassigned' do
+      create(:message, conversation: conversation, account: account, message_type: :outgoing, sender: other_agent)
+      create(:message, conversation: conversation, account: account, message_type: :outgoing, sender: agent)
+
+      expect(conversation.csat_survey_agent_id).to eq(agent.id)
+    end
+
+    it 'ignores private notes and incoming messages' do
+      create(:message, conversation: conversation, account: account, message_type: :incoming)
+      create(:message, conversation: conversation, account: account, message_type: :outgoing, sender: agent)
+      create(:message, conversation: conversation, account: account, message_type: :outgoing, private: true, sender: other_agent)
+
+      expect(conversation.csat_survey_agent_id).to eq(agent.id)
+    end
+
+    it 'returns nil when nobody was assigned and no agent replied' do
+      expect(conversation.csat_survey_agent_id).to be_nil
+    end
+  end
+
   describe '#can_reply?' do
     let(:conversation) { create(:conversation) }
     let(:message_window_service) { instance_double(Conversations::MessageWindowService) }
