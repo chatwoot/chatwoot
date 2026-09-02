@@ -2,6 +2,36 @@ require 'rails_helper'
 
 RSpec.describe Channel::Telegram do
   let(:telegram_channel) { create(:channel_telegram) }
+  let(:custom_api_base_url) { 'https://telegram.internal:8081' }
+
+  describe '#telegram_api_url' do
+    it 'points to the default endpoint' do
+      expect(telegram_channel.telegram_api_url).to eq("https://api.telegram.org/bot#{telegram_channel.bot_token}")
+    end
+
+    it 'points to the endpoint configured via TELEGRAM_API_BASE_URL' do
+      with_modified_env TELEGRAM_API_BASE_URL: custom_api_base_url do
+        expect(telegram_channel.telegram_api_url).to eq("#{custom_api_base_url}/bot#{telegram_channel.bot_token}")
+      end
+    end
+  end
+
+  describe '#get_telegram_file_path' do
+    it 'builds the file download url from the configured endpoint' do
+      with_modified_env TELEGRAM_API_BASE_URL: custom_api_base_url do
+        stub_request(:get, "#{custom_api_base_url}/bot#{telegram_channel.bot_token}/getFile")
+          .with(query: { file_id: 'file_123' })
+          .to_return(
+            status: 200,
+            body: { result: { file_path: 'photos/file_0.jpg' } }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        expect(telegram_channel.get_telegram_file_path('file_123'))
+          .to eq("#{custom_api_base_url}/file/bot#{telegram_channel.bot_token}/photos/file_0.jpg")
+      end
+    end
+  end
 
   describe '#convert_markdown_to_telegram_html' do
     subject { telegram_channel.send(:convert_markdown_to_telegram_html, text) }
@@ -60,7 +90,7 @@ RSpec.describe Channel::Telegram do
       message = create(:message, message_type: :outgoing, content: 'test',
                                  conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: { 'chat_id' => '123' }))
 
-      stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
+      stub_request(:post, "#{telegram_channel.telegram_api_url}/sendMessage")
         .with(
           body: 'chat_id=123&text=test&reply_markup=&parse_mode=HTML&reply_to_message_id='
         )
@@ -77,7 +107,7 @@ RSpec.describe Channel::Telegram do
       message = create(:message, message_type: :outgoing, content: '**test** *test* ~test~',
                                  conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: { 'chat_id' => '123' }))
 
-      stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
+      stub_request(:post, "#{telegram_channel.telegram_api_url}/sendMessage")
         .with(
           body: "chat_id=123&text=#{
             ERB::Util.url_encode('<strong>test</strong> <em>test</em> ~test~')
@@ -99,7 +129,7 @@ RSpec.describe Channel::Telegram do
                   conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: { 'chat_id' => '123' })
       )
 
-      stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
+      stub_request(:post, "#{telegram_channel.telegram_api_url}/sendMessage")
         .with(
           body: 'chat_id=123&text=test' \
                 '&reply_markup=%7B%22one_time_keyboard%22%3Atrue%2C%22inline_keyboard%22%3A%5B%5B%7B%22text%22%3A%22test%22%2C%22' \
@@ -119,7 +149,7 @@ RSpec.describe Channel::Telegram do
       message = create(:message, message_type: :outgoing, content: 'test',
                                  conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: additional_attributes))
 
-      stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
+      stub_request(:post, "#{telegram_channel.telegram_api_url}/sendMessage")
         .with(
           body: 'chat_id=123&text=test&reply_markup=&parse_mode=HTML&reply_to_message_id=&business_connection_id=eooW3KF5WB5HxTD7T826'
         )
@@ -136,7 +166,7 @@ RSpec.describe Channel::Telegram do
       message = create(:message, message_type: :outgoing, content: 'test',
                                  conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: { 'chat_id' => '123' }))
 
-      stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
+      stub_request(:post, "#{telegram_channel.telegram_api_url}/sendMessage")
         .with(
           body: 'chat_id=123&text=test&reply_markup=&parse_mode=HTML&reply_to_message_id='
         )
