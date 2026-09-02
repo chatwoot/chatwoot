@@ -124,7 +124,10 @@ const resetSetup = () => {
   activeTab.value = 'knowledge';
   collapsedScenarioIds.value = new Set();
   isKnowledgeEditorVisible.value = false;
+  newKnowledge.value = '';
   newScenario.value = '';
+  newGuideline.value = '';
+  newGuardrail.value = '';
   emit('reset');
 };
 </script>
@@ -412,7 +415,9 @@ const resetSetup = () => {
                 variant="outline"
                 color="slate"
                 size="sm"
-                :disabled="!rule.content.trim()"
+                :disabled="
+                  !rule.content.trim() || session.isRuleTypeSaving('guideline')
+                "
                 :is-loading="rule.isSaving"
                 @click="session.saveTemporaryRule('guideline', rule)"
               />
@@ -513,7 +518,9 @@ const resetSetup = () => {
                 variant="outline"
                 color="slate"
                 size="sm"
-                :disabled="!rule.content.trim()"
+                :disabled="
+                  !rule.content.trim() || session.isRuleTypeSaving('guardrail')
+                "
                 :is-loading="rule.isSaving"
                 @click="session.saveTemporaryRule('guardrail', rule)"
               />

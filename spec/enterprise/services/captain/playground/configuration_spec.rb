@@ -138,6 +138,31 @@ RSpec.describe Captain::Playground::Configuration do
       end
     end
 
+    it 'rejects malformed configuration fields instead of coercing them' do
+      build_configuration = lambda do
+        described_class.new(
+          assistant: assistant,
+          params: {
+            scenario_ids: enabled_scenario.id,
+            temporary_scenarios: { title: 'Invalid' },
+            response_guidelines: 'Be concise',
+            guardrails: [1],
+            knowledge_text: { content: 'Invalid' }
+          }
+        )
+      end
+
+      expect(&build_configuration).to raise_error(described_class::Invalid) do |error|
+        expect(error.errors).to include(
+          'scenario_ids' => ['must be an array'],
+          'temporary_scenarios' => ['must be an array'],
+          'response_guidelines' => ['must be an array'],
+          'guardrails' => ['must contain only strings'],
+          'knowledge_text' => ['must be a string']
+        )
+      end
+    end
+
     it 'rejects fractional scenario IDs instead of coercing them' do
       expect do
         described_class.new(assistant: assistant, params: { scenario_ids: [enabled_scenario.id.to_f] })

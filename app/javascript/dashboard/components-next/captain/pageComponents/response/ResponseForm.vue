@@ -83,10 +83,9 @@ const updateStateFromResponse = response => {
 };
 
 watch(
-  [() => props.mode, () => props.response],
-  ([mode, newResponse]) => {
-    const hasInitialContent = newResponse?.question || newResponse?.answer;
-    if (mode === 'edit' || hasInitialContent) {
+  () => props.response,
+  newResponse => {
+    if (props.mode === 'edit' && newResponse) {
       updateStateFromResponse(newResponse);
     }
   },

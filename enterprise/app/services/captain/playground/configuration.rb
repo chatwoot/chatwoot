@@ -31,17 +31,11 @@ class Captain::Playground::Configuration
     raise Invalid, @errors if @errors.any?
   end
 
-  def scenarios
-    @selected_scenarios + @temporary_scenarios
-  end
+  def scenarios = @selected_scenarios + @temporary_scenarios
 
-  def temporary?(scenario)
-    @temporary_metadata.key?(scenario)
-  end
+  def temporary?(scenario) = @temporary_metadata.key?(scenario)
 
-  def agent_name_for(scenario)
-    @scenario_agent_names.fetch(scenario)
-  end
+  def agent_name_for(scenario) = @scenario_agent_names.fetch(scenario)
 
   def prompt_context_for(agentable, context)
     overrides = {
@@ -99,12 +93,10 @@ class Captain::Playground::Configuration
   def selected_scenario_ids
     return assistant.scenarios.enabled.pluck(:id) unless @params.key?(:scenario_ids)
 
-    Array(@params[:scenario_ids]).map { |id| parse_id(id) }
+    array_param(:scenario_ids).map { |id| parse_id(id) }
   end
 
-  def valid_scenario_ids?(ids)
-    ids.none?(&:nil?) && ids.all?(&:positive?) && ids.uniq.length == ids.length
-  end
+  def valid_scenario_ids?(ids) = ids.none?(&:nil?) && ids.all?(&:positive?) && ids.uniq.length == ids.length
 
   def parse_id(value)
     return value if value.is_a?(Integer)
@@ -114,7 +106,7 @@ class Captain::Playground::Configuration
   end
 
   def temporary_scenario_params
-    Array(@params[:temporary_scenarios])
+    array_param(:temporary_scenarios)
   end
 
   def build_temporary_scenario(attributes, index)
@@ -175,27 +167,33 @@ class Captain::Playground::Configuration
   end
 
   def resolve_rule_list(key, persisted_rules)
-    rules = @params.key?(key) ? Array(@params[key]) : Array(persisted_rules)
-    normalized = rules.map { |rule| rule.to_s.strip }
+    rules = array_param(key, default: persisted_rules)
+    unless rules.all?(String)
+      add_error(key, 'must contain only strings')
+      return []
+    end
+
+    normalized = rules.map(&:strip)
     add_error(key, 'must not contain blank rules') if normalized.any?(&:blank?)
     normalized.reject(&:blank?).uniq
   end
 
   def resolve_knowledge
-    @knowledge_text = @params[:knowledge_text].to_s
+    value = @params[:knowledge_text]
+    unless value.nil? || value.is_a?(String)
+      add_error(:knowledge_text, 'must be a string')
+      @knowledge_text = ''
+      return
+    end
+
+    @knowledge_text = value.to_s
     return if knowledge_text.length <= MAX_KNOWLEDGE_LENGTH
 
     add_error(:knowledge_text, "is limited to #{MAX_KNOWLEDGE_LENGTH} characters")
   end
 
   def scenario_prompt_context
-    scenarios.map do |scenario|
-      {
-        title: scenario.title,
-        key: agent_name_for(scenario),
-        description: scenario.description
-      }
-    end
+    scenarios.map { |scenario| { title: scenario.title, key: agent_name_for(scenario), description: scenario.description } }
   end
 
   def assistant_handler
@@ -209,5 +207,13 @@ class Captain::Playground::Configuration
 
   def add_error(key, message)
     (@errors[key.to_s] ||= []) << message
+  end
+
+  def array_param(key, default: [])
+    value = @params.key?(key) ? @params[key] : Array(default)
+    return value if value.is_a?(Array)
+
+    add_error(key, 'must be an array')
+    []
   end
 end

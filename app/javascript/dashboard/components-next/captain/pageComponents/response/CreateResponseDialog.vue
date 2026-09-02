@@ -19,7 +19,7 @@ const props = defineProps({
     validator: value => ['create', 'edit'].includes(value),
   },
 });
-const emit = defineEmits(['close', 'saved']);
+const emit = defineEmits(['close']);
 const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
@@ -40,20 +40,18 @@ const createResponse = responseDetails =>
 
 const handleSubmit = async updatedResponse => {
   try {
-    let savedResponse;
     if (props.type === 'edit') {
-      savedResponse = await updateResponse({
+      await updateResponse({
         ...updatedResponse,
         assistant_id: route.params.assistantId,
       });
     } else {
-      savedResponse = await createResponse({
+      await createResponse({
         ...updatedResponse,
         assistant_id: route.params.assistantId,
       });
     }
     useAlert(t(`${i18nKey.value}.SUCCESS_MESSAGE`));
-    emit('saved', savedResponse);
     dialogRef.value.close();
   } catch (error) {
     const errorMessage =

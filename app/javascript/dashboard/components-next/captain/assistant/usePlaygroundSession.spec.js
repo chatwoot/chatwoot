@@ -166,12 +166,15 @@ describe('usePlaygroundSession', () => {
       instruction: 'Follow policy',
       enabled: true,
     };
+    const loadedScenarios = [...scenarios];
     mocks.dispatch.mockImplementation((action, payload) => {
       if (action === 'captainAssistants/show')
         return Promise.resolve(assistant);
-      if (action === 'captainScenarios/get') return Promise.resolve(scenarios);
+      if (action === 'captainScenarios/get')
+        return Promise.resolve(loadedScenarios);
       if (action === 'captainScenarios/create') {
         expect(payload).toMatchObject({ assistantId: 7, enabled: true });
+        loadedScenarios.push(savedScenario);
         return Promise.resolve(savedScenario);
       }
       return Promise.resolve();
@@ -188,7 +191,13 @@ describe('usePlaygroundSession', () => {
     await session.saveTemporaryScenario(temporary);
 
     expect(session.temporaryScenarios.value).toHaveLength(0);
-    expect(session.includedScenarioIds.value).toContain(3);
+    expect(
+      session.savedScenarios.value.filter(scenario => scenario.id === 3)
+    ).toHaveLength(1);
+    expect(session.includedScenarioIds.value.filter(id => id === 3)).toEqual([
+      3,
+    ]);
+    expect(session.playgroundConfig.value.scenario_ids).toEqual([3, 1]);
     scope.stop();
   });
 
@@ -222,10 +231,10 @@ describe('usePlaygroundSession', () => {
     scope.stop();
   });
 
-  it('refetches the assistant before saving one rule and avoids exact duplicates', async () => {
+  it('normalizes saved rules before counting, sending, and saving them', async () => {
     const latestAssistant = {
       ...assistant,
-      response_guidelines: ['Be concise', 'Already saved'],
+      response_guidelines: [' Be concise ', 'Already saved', 'Already saved '],
     };
     mocks.dispatch.mockImplementation((action, payload) => {
       if (action === 'captainAssistants/show')
@@ -255,7 +264,7 @@ describe('usePlaygroundSession', () => {
       session.temporaryGuidelines.value[0]
     );
 
-    session.addTemporaryRule('guideline', 'Already saved');
+    session.addTemporaryRule('guideline', ' Already saved ');
     await session.saveTemporaryRule(
       'guideline',
       session.temporaryGuidelines.value[0]
@@ -266,6 +275,42 @@ describe('usePlaygroundSession', () => {
         ([action]) => action === 'captainAssistants/update'
       )
     ).toHaveLength(1);
+    expect(session.playgroundConfig.value.response_guidelines).toEqual([
+      'Be concise',
+      'Already saved',
+    ]);
+    expect(session.configurationSummary().guidelineCount).toBe(2);
+    scope.stop();
+  });
+
+  it('serializes saves for rules of the same type', async () => {
+    const latestAssistantRequest = deferred();
+    mocks.dispatch.mockImplementation(action => {
+      if (action === 'captainAssistants/show')
+        return latestAssistantRequest.promise;
+      if (action === 'captainAssistants/update') return Promise.resolve();
+      return Promise.resolve();
+    });
+    const { scope, session } = createSession();
+    session.addTemporaryRule('guideline', 'First guideline');
+    session.addTemporaryRule('guideline', 'Second guideline');
+    const [firstRule, secondRule] = session.temporaryGuidelines.value;
+
+    const firstSave = session.saveTemporaryRule('guideline', firstRule);
+    const secondSave = session.saveTemporaryRule('guideline', secondRule);
+
+    expect(session.isRuleTypeSaving('guideline')).toBe(true);
+    expect(
+      mocks.dispatch.mock.calls.filter(
+        ([action]) => action === 'captainAssistants/show'
+      )
+    ).toHaveLength(1);
+
+    latestAssistantRequest.resolve(assistant);
+    await Promise.all([firstSave, secondSave]);
+
+    expect(session.isRuleTypeSaving('guideline')).toBe(false);
+    expect(session.temporaryGuidelines.value).toContain(secondRule);
     scope.stop();
   });
 
@@ -341,7 +386,9 @@ describe('usePlaygroundSession', () => {
     const temporaryRule = session.temporaryGuidelines.value[0];
 
     const saveRequest = session.saveTemporaryRule('guideline', temporaryRule);
+    expect(session.isRuleTypeSaving('guideline')).toBe(true);
     assistantId.value = 8;
+    expect(session.isRuleTypeSaving('guideline')).toBe(false);
     latestAssistantRequest.resolve(assistant);
     await saveRequest;
 
@@ -352,6 +399,28 @@ describe('usePlaygroundSession', () => {
       },
     });
     expect(session.temporaryGuidelines.value).toContain(temporaryRule);
+    scope.stop();
+  });
+
+  it('keeps an in-flight knowledge save from blocking another assistant', async () => {
+    const documentRequest = deferred();
+    mocks.dispatch.mockImplementation(action => {
+      if (action === 'captainDocuments/create') return documentRequest.promise;
+      return Promise.resolve();
+    });
+    const assistantId = ref(7);
+    const { scope, session } = createSession(assistantId);
+    session.setKnowledgeText('Save this knowledge');
+
+    const saveRequest = session.saveKnowledgeAsDocument();
+    expect(session.isSavingKnowledge.value).toBe(true);
+
+    assistantId.value = 8;
+    expect(session.isSavingKnowledge.value).toBe(false);
+    documentRequest.resolve({ id: 13 });
+    await saveRequest;
+
+    expect(session.isSavingKnowledge.value).toBe(false);
     scope.stop();
   });
 });

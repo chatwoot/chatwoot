@@ -45,6 +45,7 @@ class Captain::Document < ApplicationRecord
   validates :pdf_file, presence: true, if: :pdf_document?
   validate :validate_pdf_format, if: :pdf_document?
   validate :validate_pdf_file_size, if: -> { pdf_file.attached? }
+  validate :validate_single_file_attachment
   before_validation :ensure_account_id
   before_validation :set_external_link_for_pdf
   before_validation :normalize_external_link
@@ -204,6 +205,12 @@ class Captain::Document < ApplicationRecord
     return unless pdf_file.blob.byte_size > 10.megabytes
 
     errors.add(:pdf_file, I18n.t('captain.documents.pdf_size_error'))
+  end
+
+  def validate_single_file_attachment
+    return unless pdf_file.attached? && markdown_file.attached?
+
+    errors.add(:base, I18n.t('captain.documents.multiple_files_error'))
   end
 
   def set_external_link_for_pdf

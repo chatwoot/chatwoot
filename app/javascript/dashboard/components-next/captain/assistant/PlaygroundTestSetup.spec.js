@@ -41,6 +41,7 @@ const buildSession = overrides => ({
   knowledgeText: '',
   isKnowledgeIncluded: true,
   isSavingKnowledge: false,
+  isRuleTypeSaving: vi.fn(() => false),
   knowledgeStats: { documents: 12, faqs: 48 },
   toggleScenario: vi.fn(),
   addTemporaryScenario: vi.fn(),
@@ -299,6 +300,33 @@ describe('PlaygroundTestSetup', () => {
     );
   });
 
+  it('disables same-type persistence actions while a rule is being saved', async () => {
+    const wrapper = mountSetup({
+      isAdmin: true,
+      isRuleTypeSaving: type => type === 'guideline',
+      temporaryGuidelines: [
+        {
+          clientId: 'guideline-1',
+          content: 'Keep replies concise',
+          included: true,
+          isSaving: true,
+        },
+      ],
+    });
+
+    await selectTab(wrapper, 'guidelines');
+    const saveButton = wrapper
+      .findAllComponents(Button)
+      .find(
+        button =>
+          button.props('label') ===
+          'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.ADD_PERMANENTLY'
+      );
+
+    expect(saveButton.attributes('disabled')).toBe('true');
+    expect(saveButton.props('isLoading')).toBe(true);
+  });
+
   it('hides persisted actions from non-administrators', async () => {
     const wrapper = mountSetup({
       temporaryScenarios: [
@@ -356,6 +384,52 @@ describe('PlaygroundTestSetup', () => {
     await nextTick();
 
     expect(saveKnowledgeAsDocument).toHaveBeenCalledOnce();
+  });
+
+  it('clears every quick-entry draft when test setup is reset', async () => {
+    const wrapper = mountSetup();
+
+    wrapper
+      .findComponent(AddNewRulesInput)
+      .vm.$emit('update:modelValue', 'Temporary knowledge draft');
+    await selectTab(wrapper, 'scenarios');
+    wrapper
+      .findComponent(AddNewRulesInput)
+      .vm.$emit('update:modelValue', 'Temporary scenario draft');
+    await selectTab(wrapper, 'guidelines');
+    wrapper
+      .findComponent(AddNewRulesInput)
+      .vm.$emit('update:modelValue', 'Temporary guideline draft');
+    await selectTab(wrapper, 'guardrails');
+    wrapper
+      .findComponent(AddNewRulesInput)
+      .vm.$emit('update:modelValue', 'Temporary guardrail draft');
+    await nextTick();
+
+    const resetButton = wrapper
+      .findAllComponents(Button)
+      .find(
+        button => button.props('label') === 'CAPTAIN.PLAYGROUND.SETUP.RESET'
+      );
+    resetButton.vm.$emit('click');
+    await nextTick();
+
+    expect(wrapper.emitted('reset')).toHaveLength(1);
+    expect(wrapper.findComponent(AddNewRulesInput).props('modelValue')).toBe(
+      ''
+    );
+    await selectTab(wrapper, 'scenarios');
+    expect(wrapper.findComponent(AddNewRulesInput).props('modelValue')).toBe(
+      ''
+    );
+    await selectTab(wrapper, 'guidelines');
+    expect(wrapper.findComponent(AddNewRulesInput).props('modelValue')).toBe(
+      ''
+    );
+    await selectTab(wrapper, 'guardrails');
+    expect(wrapper.findComponent(AddNewRulesInput).props('modelValue')).toBe(
+      ''
+    );
   });
 
   it('resets the active tab and emits reset separately', async () => {

@@ -12,8 +12,12 @@ const createClientId = () =>
 const createMarkdownFilename = () =>
   `playground-knowledge-${new Date().toISOString().replace(/[:.]/g, '-')}.md`;
 
+const normalizedRuleContents = rules => [
+  ...new Set((rules || []).map(content => content.trim()).filter(Boolean)),
+];
+
 const ruleEntries = (type, rules) =>
-  (rules || []).map((content, index) => ({
+  normalizedRuleContents(rules).map((content, index) => ({
     key: `${type}-saved-${index}`,
     content,
     included: true,
@@ -35,7 +39,8 @@ export function usePlaygroundSession({ assistantId }) {
   const temporaryGuardrails = ref([]);
   const knowledgeText = ref('');
   const isKnowledgeIncluded = ref(true);
-  const isSavingKnowledge = ref(false);
+  const savingKnowledgeAssistantIds = ref(new Set());
+  const savingRuleTypes = ref(new Set());
   const knowledgeStats = ref({ documents: 0, faqs: 0 });
   let initializationSequence = 0;
 
@@ -59,12 +64,12 @@ export function usePlaygroundSession({ assistantId }) {
     includedTemporaryScenarios.value.every(scenarioIsValid)
   );
 
-  const includedRules = (saved, temporary) => [
-    ...saved.value.filter(rule => rule.included).map(rule => rule.content),
-    ...temporary.value
-      .filter(rule => rule.included && rule.content.trim())
-      .map(rule => rule.content.trim()),
-  ];
+  const includedRules = (saved, temporary) =>
+    normalizedRuleContents(
+      [...saved.value, ...temporary.value]
+        .filter(rule => rule.included)
+        .map(rule => rule.content)
+    );
 
   const playgroundConfig = computed(() => ({
     scenario_ids: includedScenarios.value.map(scenario => scenario.id),
@@ -131,10 +136,12 @@ export function usePlaygroundSession({ assistantId }) {
       });
       if (assistantId.value !== targetAssistantId) return;
 
-      savedScenarios.value = [savedScenario, ...savedScenarios.value];
+      savedScenarios.value = [
+        savedScenario,
+        ...savedScenarios.value.filter(item => item.id !== savedScenario.id),
+      ];
       includedScenarioIds.value = [
-        ...includedScenarioIds.value,
-        savedScenario.id,
+        ...new Set([...includedScenarioIds.value, savedScenario.id]),
       ];
       removeTemporaryScenario(scenario.clientId);
       useAlert(t('CAPTAIN.PLAYGROUND.SETUP.SAVE_SCENARIO_SUCCESS'));
@@ -172,19 +179,38 @@ export function usePlaygroundSession({ assistantId }) {
   const replaceSavedRules = (type, rules, newlySavedContent) => {
     const target = type === 'guideline' ? savedGuidelines : savedGuardrails;
     const includedContent = new Set(
-      target.value.filter(rule => rule.included).map(rule => rule.content)
+      target.value
+        .filter(rule => rule.included)
+        .map(rule => rule.content.trim())
     );
     target.value = ruleEntries(type, rules).map(rule => ({
       ...rule,
       included:
-        rule.content === newlySavedContent || includedContent.has(rule.content),
+        rule.content === newlySavedContent.trim() ||
+        includedContent.has(rule.content),
     }));
+  };
+
+  const ruleSaveKey = (type, targetAssistantId = assistantId.value) =>
+    `${targetAssistantId}:${type}`;
+  const isRuleTypeSaving = type => savingRuleTypes.value.has(ruleSaveKey(type));
+
+  const setRuleTypeSaving = (type, targetAssistantId, isSaving) => {
+    const nextSavingRuleTypes = new Set(savingRuleTypes.value);
+    const key = ruleSaveKey(type, targetAssistantId);
+    if (isSaving) {
+      nextSavingRuleTypes.add(key);
+    } else {
+      nextSavingRuleTypes.delete(key);
+    }
+    savingRuleTypes.value = nextSavingRuleTypes;
   };
 
   const saveTemporaryRule = async (type, rule) => {
     const content = rule.content.trim();
-    if (!content || rule.isSaving) return;
+    if (!content || rule.isSaving || isRuleTypeSaving(type)) return;
     const targetAssistantId = assistantId.value;
+    setRuleTypeSaving(type, targetAssistantId, true);
     rule.isSaving = true;
     try {
       const latestAssistant = await store.dispatch(
@@ -192,7 +218,7 @@ export function usePlaygroundSession({ assistantId }) {
         targetAssistantId
       );
       const field = type === 'guideline' ? 'response_guidelines' : 'guardrails';
-      const latestRules = latestAssistant?.[field] || [];
+      const latestRules = normalizedRuleContents(latestAssistant?.[field]);
 
       if (latestRules.includes(content)) {
         if (assistantId.value !== targetAssistantId) return;
@@ -219,6 +245,7 @@ export function usePlaygroundSession({ assistantId }) {
       useAlert(error?.message || t('CAPTAIN.PLAYGROUND.SETUP.SAVE_RULE_ERROR'));
     } finally {
       rule.isSaving = false;
+      setRuleTypeSaving(type, targetAssistantId, false);
     }
   };
 
@@ -245,7 +272,7 @@ export function usePlaygroundSession({ assistantId }) {
       ]);
       if (!isCurrentInitialization()) return;
 
-      savedScenarios.value = scenarios || [];
+      savedScenarios.value = [...(scenarios || [])];
       includedScenarioIds.value = savedScenarios.value
         .filter(scenario => scenario.enabled)
         .map(scenario => scenario.id);
@@ -289,6 +316,20 @@ export function usePlaygroundSession({ assistantId }) {
     isKnowledgeIncluded.value = value;
   };
 
+  const isSavingKnowledge = computed(() =>
+    savingKnowledgeAssistantIds.value.has(assistantId.value)
+  );
+
+  const setKnowledgeSaving = (targetAssistantId, isSaving) => {
+    const nextSavingAssistantIds = new Set(savingKnowledgeAssistantIds.value);
+    if (isSaving) {
+      nextSavingAssistantIds.add(targetAssistantId);
+    } else {
+      nextSavingAssistantIds.delete(targetAssistantId);
+    }
+    savingKnowledgeAssistantIds.value = nextSavingAssistantIds;
+  };
+
   const saveKnowledgeAsDocument = async () => {
     const content = knowledgeText.value.trim();
     if (!content || isSavingKnowledge.value) return;
@@ -296,7 +337,7 @@ export function usePlaygroundSession({ assistantId }) {
     const targetAssistantId = assistantId.value;
     const filename = createMarkdownFilename();
 
-    isSavingKnowledge.value = true;
+    setKnowledgeSaving(targetAssistantId, true);
     try {
       await store.dispatch('captainDocuments/create', {
         document: {
@@ -319,7 +360,7 @@ export function usePlaygroundSession({ assistantId }) {
         error?.message || t('CAPTAIN.PLAYGROUND.SETUP.SAVE_KNOWLEDGE_ERROR')
       );
     } finally {
-      isSavingKnowledge.value = false;
+      setKnowledgeSaving(targetAssistantId, false);
     }
   };
 
@@ -337,6 +378,7 @@ export function usePlaygroundSession({ assistantId }) {
     knowledgeText,
     isKnowledgeIncluded,
     isSavingKnowledge,
+    isRuleTypeSaving,
     knowledgeStats,
     playgroundConfig,
     isValid,

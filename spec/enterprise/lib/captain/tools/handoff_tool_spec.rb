@@ -343,6 +343,16 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
         expect(result).to eq('Conversation not found')
       end
     end
+
+    context 'when a playground call cannot hand off' do
+      let(:tool_context) { Struct.new(:state).new({ source: 'playground' }) }
+
+      it 'marks the result as an error for run details' do
+        result = tool.perform(tool_context, reason: 'Test')
+
+        expect(result).to eq('ERROR: Conversation not found')
+      end
+    end
   end
 
   describe '#active?' do

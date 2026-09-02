@@ -241,6 +241,7 @@ const handleEnterKey = event => {
       class="fixed inset-y-0 end-0 z-40 w-full max-w-lg lg:static lg:z-auto lg:w-[38rem] lg:max-w-none lg:flex-none"
     >
       <PlaygroundTestSetup
+        :key="assistantId"
         :session="session"
         @close="isSetupOpen = false"
         @reset="resetTestSetup"

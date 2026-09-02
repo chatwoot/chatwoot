@@ -194,6 +194,17 @@ RSpec.describe Captain::Document, type: :model do
       expect(invalid_document).not_to be_valid
       expect(invalid_document.errors[:markdown_file]).to include(I18n.t('captain.documents.markdown_format_error'))
     end
+
+    it 'rejects a document with both PDF and Markdown attachments' do
+      markdown_document.pdf_file.attach(
+        io: StringIO.new('PDF content'),
+        filename: 'refund-policy.pdf',
+        content_type: 'application/pdf'
+      )
+
+      expect(markdown_document).not_to be_valid
+      expect(markdown_document.errors[:base]).to include(I18n.t('captain.documents.multiple_files_error'))
+    end
   end
 
   describe 'response builder job callback' do

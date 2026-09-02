@@ -195,6 +195,9 @@ describe('AssistantPlayground', () => {
 
   it('clears messages and resets session state when assistants change', async () => {
     const wrapper = mountPlayground();
+    expect(
+      wrapper.getComponent({ name: 'PlaygroundTestSetup' }).vm.$.vnode.key
+    ).toBe(7);
     await wrapper.get('input').setValue('Hello');
     await wrapper.get('input').trigger('keydown', { key: 'Enter' });
     await flushPromises();
@@ -207,6 +210,9 @@ describe('AssistantPlayground', () => {
 
     expect(wrapper.getComponent(MessageListStub).props('messages')).toEqual([]);
     expect(mocks.reset).toHaveBeenCalled();
+    expect(
+      wrapper.getComponent({ name: 'PlaygroundTestSetup' }).vm.$.vnode.key
+    ).toBe(8);
   });
 
   it('discards an in-flight response after the conversation is cleared', async () => {

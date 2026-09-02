@@ -189,7 +189,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   def playground_configuration_params
     return unless playground_configuration_supplied?
 
-    playground_params[:playground_config] ||
+    params[:playground_config] || params[:assistant]&.[](:playground_config) ||
       raise(Captain::Playground::Configuration::Invalid, { 'playground_config' => ['must be an object'] })
   end
 

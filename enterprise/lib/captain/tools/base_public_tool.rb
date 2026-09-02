@@ -9,7 +9,9 @@ class Captain::Tools::BasePublicTool < Agents::Tool
   def execute(tool_context, **params)
     return super unless captain_v2_enabled?
     return super if safe_to_run_after_new_customer_message?
-    return 'Tool skipped because a newer customer message arrived' if newer_customer_message_arrived?(tool_context.state)
+    if newer_customer_message_arrived?(tool_context.state)
+      return failure_result('Tool skipped because a newer customer message arrived', tool_context.state)
+    end
 
     super
   end

@@ -681,6 +681,16 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).to eq(playground_config: ['must be an object'])
       end
+
+      it 'returns a structured error for malformed playground configuration fields' do
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+             params: valid_params.merge(playground_config: { scenario_ids: 1 }),
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:errors]).to eq(scenario_ids: ['must be an array'])
+      end
     end
   end
 end
