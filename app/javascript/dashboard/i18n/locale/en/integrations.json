@@ -690,11 +690,13 @@
           "DOCUMENTS": "Documents",
           "FAQS": "FAQs",
           "TEMPORARY_TITLE": "Temporary knowledge",
-          "ADD_AS_FAQ": "Add as FAQ",
+          "ADD_AS_DOCUMENT": "Add as document",
           "LABEL": "Reference text",
-          "PLACEHOLDER": "Paste FAQ content or other reference material",
-          "HINT": "This text is attached only to playground requests and is not saved as a Captain source."
-        }
+          "PLACEHOLDER": "Paste or write new knowledge for this test",
+          "HINT": "This text is attached only to playground requests unless you add it as a document."
+        },
+        "SAVE_KNOWLEDGE_SUCCESS": "Knowledge added as a document.",
+        "SAVE_KNOWLEDGE_ERROR": "Unable to add knowledge as a document."
       },
       "RUN_DETAILS": {
         "SUMMARY": "Run details · {duration}ms",

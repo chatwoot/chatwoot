@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Accordion from 'dashboard/components-next/Accordion/Accordion.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -11,7 +11,6 @@ import Label from 'dashboard/components-next/label/Label.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
-import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
 
 const props = defineProps({
   session: { type: Object, required: true },
@@ -21,9 +20,6 @@ const emit = defineEmits(['close', 'reset']);
 const { t } = useI18n();
 
 const activeTab = ref('knowledge');
-const faqDialog = ref(null);
-const faqDraft = ref({});
-const showFaqDialog = ref(false);
 
 const knowledgeCount = computed(() => {
   const { documents = 0, faqs = 0 } = props.session.knowledgeStats || {};
@@ -86,25 +82,6 @@ const toggleRule = rule => {
 
 const selectTab = tab => {
   activeTab.value = tab.id;
-};
-
-const openFaqDialog = async () => {
-  faqDraft.value = {
-    question: '',
-    answer: props.session.knowledgeText.trim(),
-  };
-  showFaqDialog.value = true;
-  await nextTick();
-  faqDialog.value.dialogRef.open();
-};
-
-const closeFaqDialog = () => {
-  showFaqDialog.value = false;
-};
-
-const handleFaqSaved = () => {
-  props.session.incrementFaqCount();
-  showFaqDialog.value = false;
 };
 
 const resetSetup = () => {
@@ -572,12 +549,15 @@ const resetSetup = () => {
             >
               <Button
                 v-if="session.isAdmin"
-                :label="t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.ADD_AS_FAQ')"
+                :label="t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.ADD_AS_DOCUMENT')"
                 variant="outline"
                 color="slate"
                 size="sm"
-                :disabled="!session.knowledgeText.trim()"
-                @click="openFaqDialog"
+                :disabled="
+                  !session.knowledgeText.trim() || session.isSavingKnowledge
+                "
+                :is-loading="session.isSavingKnowledge"
+                @click="session.saveKnowledgeAsDocument"
               />
               <span v-else />
               <label
@@ -607,14 +587,5 @@ const resetSetup = () => {
         />
       </div>
     </template>
-
-    <CreateResponseDialog
-      v-if="showFaqDialog"
-      ref="faqDialog"
-      type="create"
-      :selected-response="faqDraft"
-      @close="closeFaqDialog"
-      @saved="handleFaqSaved"
-    />
   </aside>
 </template>

@@ -13,7 +13,9 @@ responses_count = resource.respond_to?(:responses_count) ? resource.responses_co
 json.responses_count responses_count.to_i
 json.id resource.id
 json.name resource.name
+json.markdown_document resource.markdown_document?
 json.status resource.status
+json.syncable resource.syncable?
 json.sync_status resource.sync_status
 json.sync_in_progress resource.sync_in_progress?
 json.last_synced_at resource.last_synced_at&.to_i

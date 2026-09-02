@@ -131,6 +131,71 @@ RSpec.describe Captain::Document, type: :model do
     end
   end
 
+  describe 'Markdown support' do
+    let(:markdown_content) { "# Refund policy\n\nRefunds are processed within five business days." }
+    let(:markdown_document) do
+      build(
+        :captain_document,
+        assistant: assistant,
+        account: account,
+        external_link: nil,
+        name: 'playground-knowledge.md',
+        markdown_content: markdown_content
+      )
+    end
+
+    it 'stores the uploaded file as an available document' do
+      markdown_document.save!
+
+      expect(markdown_document).to be_available
+      expect(markdown_document).to be_markdown_document
+      expect(markdown_document).not_to be_syncable
+      expect(markdown_document.content).to eq(markdown_content)
+      expect(markdown_document.external_link).to start_with('MARKDOWN: playground-knowledge_')
+    end
+
+    it 'attaches the content as a Markdown file' do
+      markdown_document.save!
+
+      expect(markdown_document.markdown_file.filename.to_s).to eq('playground-knowledge.md')
+      expect(markdown_document.markdown_file.content_type).to eq('text/markdown')
+      expect(markdown_document.markdown_file.download).to eq(markdown_content)
+    end
+
+    it 'uses the Markdown filename when a name is not provided' do
+      markdown_document.name = nil
+      markdown_document.save!
+
+      expect(markdown_document.name).to eq('playground-knowledge.md')
+    end
+
+    it 'rejects Markdown content longer than the playground limit' do
+      markdown_document.markdown_content = 'a' * 10_001
+
+      expect(markdown_document).not_to be_valid
+      expect(markdown_document.errors[:markdown_file]).to include(I18n.t('captain.documents.markdown_size_error'))
+    end
+
+    it 'rejects non-Markdown attachments' do
+      invalid_document = build(
+        :captain_document,
+        assistant: assistant,
+        account: account,
+        external_link: nil,
+        content: 'not markdown',
+        status: :available
+      )
+      invalid_document.markdown_file.attach(
+        io: StringIO.new('not markdown'),
+        filename: 'knowledge.txt',
+        content_type: 'text/plain'
+      )
+
+      expect(invalid_document).not_to be_valid
+      expect(invalid_document.errors[:markdown_file]).to include(I18n.t('captain.documents.markdown_format_error'))
+    end
+  end
+
   describe 'response builder job callback' do
     before { clear_enqueued_jobs }
 

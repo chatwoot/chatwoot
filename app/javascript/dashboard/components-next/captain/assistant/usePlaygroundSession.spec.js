@@ -102,6 +102,37 @@ describe('usePlaygroundSession', () => {
     scope.stop();
   });
 
+  it('saves temporary knowledge as a Markdown document', async () => {
+    mocks.dispatch.mockImplementation((action, payload) => {
+      if (action === 'captainAssistants/show')
+        return Promise.resolve(assistant);
+      if (action === 'captainScenarios/get') return Promise.resolve(scenarios);
+      if (action === 'captainDocuments/create') {
+        expect(payload).toEqual({
+          document: {
+            assistant_id: 7,
+            name: expect.stringMatching(/^playground-knowledge-.*\.md$/),
+            markdown_content: '# Refund policy',
+          },
+        });
+        return Promise.resolve({ id: 13 });
+      }
+      return Promise.resolve();
+    });
+    const { scope, session } = createSession();
+    await session.initialize();
+    session.setKnowledgeText('# Refund policy');
+
+    await session.saveKnowledgeAsDocument();
+
+    expect(session.knowledgeStats.value.documents).toBe(13);
+    expect(session.knowledgeText.value).toBe('# Refund policy');
+    expect(mocks.useAlert).toHaveBeenCalledWith(
+      'CAPTAIN.PLAYGROUND.SETUP.SAVE_KNOWLEDGE_SUCCESS'
+    );
+    scope.stop();
+  });
+
   it('allows disabled and temporary scenarios to be included without persistence', async () => {
     const { scope, session } = createSession();
     await session.initialize();

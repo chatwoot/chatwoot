@@ -35,6 +35,7 @@ const buildSession = overrides => ({
   temporaryGuardrails: [],
   knowledgeText: '',
   isKnowledgeIncluded: true,
+  isSavingKnowledge: false,
   knowledgeStats: { documents: 12, faqs: 48 },
   toggleScenario: vi.fn(),
   addTemporaryScenario: vi.fn(),
@@ -46,7 +47,7 @@ const buildSession = overrides => ({
   saveTemporaryRule: vi.fn(),
   setKnowledgeText: vi.fn(),
   setKnowledgeIncluded: vi.fn(),
-  incrementFaqCount: vi.fn(),
+  saveKnowledgeAsDocument: vi.fn(),
   ...overrides,
 });
 
@@ -153,6 +154,31 @@ describe('PlaygroundTestSetup', () => {
     expect(wrapper.text()).toContain('48');
     expect(wrapper.findAllComponents(Accordion)).toHaveLength(0);
     expect(wrapper.text()).not.toContain('Enabled scenario');
+  });
+
+  it('saves temporary knowledge as a document', async () => {
+    const saveKnowledgeAsDocument = vi.fn();
+    const wrapper = mountSetup({
+      isAdmin: true,
+      knowledgeText: '# Refund policy',
+      saveKnowledgeAsDocument,
+    });
+    const knowledgeField = wrapper.findComponent(TextArea);
+    const saveButton = wrapper
+      .findAllComponents(Button)
+      .find(
+        button =>
+          button.props('label') ===
+          'CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.ADD_AS_DOCUMENT'
+      );
+
+    expect(knowledgeField.props('placeholder')).toBe(
+      'CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.PLACEHOLDER'
+    );
+    saveButton.vm.$emit('click');
+    await nextTick();
+
+    expect(saveKnowledgeAsDocument).toHaveBeenCalledOnce();
   });
 
   it('resets the active tab and emits reset separately', async () => {

@@ -9,6 +9,9 @@ const createClientId = () =>
   globalThis.crypto?.randomUUID?.() ||
   `playground-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
+const createMarkdownFilename = () =>
+  `playground-knowledge-${new Date().toISOString().replace(/[:.]/g, '-')}.md`;
+
 const ruleEntries = (type, rules) =>
   (rules || []).map((content, index) => ({
     key: `${type}-saved-${index}`,
@@ -32,6 +35,7 @@ export function usePlaygroundSession({ assistantId }) {
   const temporaryGuardrails = ref([]);
   const knowledgeText = ref('');
   const isKnowledgeIncluded = ref(true);
+  const isSavingKnowledge = ref(false);
   const knowledgeStats = ref({ documents: 0, faqs: 0 });
   let initializationSequence = 0;
 
@@ -279,11 +283,38 @@ export function usePlaygroundSession({ assistantId }) {
     isKnowledgeIncluded.value = value;
   };
 
-  const incrementFaqCount = () => {
-    knowledgeStats.value = {
-      ...knowledgeStats.value,
-      faqs: knowledgeStats.value.faqs + 1,
-    };
+  const saveKnowledgeAsDocument = async () => {
+    const content = knowledgeText.value.trim();
+    if (!content || isSavingKnowledge.value) return;
+
+    const targetAssistantId = assistantId.value;
+    const filename = createMarkdownFilename();
+
+    isSavingKnowledge.value = true;
+    try {
+      await store.dispatch('captainDocuments/create', {
+        document: {
+          assistant_id: targetAssistantId,
+          name: filename,
+          markdown_content: content,
+        },
+      });
+      if (assistantId.value !== targetAssistantId) return;
+
+      knowledgeStats.value = {
+        ...knowledgeStats.value,
+        documents: knowledgeStats.value.documents + 1,
+      };
+      useAlert(t('CAPTAIN.PLAYGROUND.SETUP.SAVE_KNOWLEDGE_SUCCESS'));
+    } catch (error) {
+      if (assistantId.value !== targetAssistantId) return;
+
+      useAlert(
+        error?.message || t('CAPTAIN.PLAYGROUND.SETUP.SAVE_KNOWLEDGE_ERROR')
+      );
+    } finally {
+      isSavingKnowledge.value = false;
+    }
   };
 
   return {
@@ -299,6 +330,7 @@ export function usePlaygroundSession({ assistantId }) {
     temporaryGuardrails,
     knowledgeText,
     isKnowledgeIncluded,
+    isSavingKnowledge,
     knowledgeStats,
     playgroundConfig,
     isValid,
@@ -315,6 +347,6 @@ export function usePlaygroundSession({ assistantId }) {
     saveTemporaryRule,
     setKnowledgeText,
     setKnowledgeIncluded,
-    incrementFaqCount,
+    saveKnowledgeAsDocument,
   };
 }
