@@ -36,6 +36,7 @@ export default {
     return {
       locale: this.$root.$i18n.locale,
       hasErrorInPhoneInput: false,
+      hasInitialMessageDraft: false,
       message: '',
       formValues: {},
       labels: {
@@ -144,8 +145,19 @@ export default {
     initialMessage: {
       immediate: true,
       handler(initialMessage) {
-        if (!initialMessage || this.hasActiveCampaign) return;
+        if (!initialMessage) {
+          if (this.hasInitialMessageDraft) {
+            this.formValues = {
+              ...this.formValues,
+              message: '',
+            };
+          }
+          this.hasInitialMessageDraft = false;
+          return;
+        }
+        if (this.hasActiveCampaign) return;
 
+        this.hasInitialMessageDraft = true;
         this.formValues = {
           ...this.formValues,
           message: initialMessage,

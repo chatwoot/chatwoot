@@ -9,12 +9,16 @@ const setConversationHistoryFetchPromise =
 
 const buildContext = ({
   conversationSize = 0,
+  currentUser = {},
+  initialMessage = '',
   initialConversationFetchPromise = null,
   pendingInitialMessage = '',
   routeName = 'home',
   shouldShowPreChatForm = false,
 } = {}) => ({
   conversationSize,
+  currentUser,
+  initialMessage,
   initialConversationFetchPromise,
   initialMessageSequence: 0,
   pendingInitialMessage,
@@ -82,13 +86,16 @@ describe('App handleInitialMessage', () => {
 
     await handleInitialMessage.call(context, 'Need help with this item');
 
-    expect(context.unsetUnreadView).toHaveBeenCalled();
+    expect(context.unsetUnreadView).toHaveBeenCalledTimes(2);
     expect(context.router.replace).toHaveBeenCalledWith({ name: 'messages' });
     expect(context.unsetUnreadView.mock.invocationCallOrder[0]).toBeLessThan(
       context.router.replace.mock.invocationCallOrder[0]
     );
     expect(context.router.replace.mock.invocationCallOrder[0]).toBeLessThan(
       context.setInitialMessage.mock.invocationCallOrder[0]
+    );
+    expect(context.setInitialMessage.mock.invocationCallOrder[0]).toBeLessThan(
+      context.unsetUnreadView.mock.invocationCallOrder[1]
     );
   });
 
@@ -170,6 +177,25 @@ describe('App handleInitialMessage', () => {
     expect(context.setInitialMessage).toHaveBeenCalledTimes(1);
     expect(context.setInitialMessage).toHaveBeenCalledWith('');
   });
+
+  it('does not publish an initial message when the sequence changes while routing', async () => {
+    let resolveNavigation;
+    const routeNavigation = new Promise(resolve => {
+      resolveNavigation = resolve;
+    });
+    const context = buildContext({
+      conversationSize: 1,
+    });
+    context.router.replace.mockReturnValue(routeNavigation);
+
+    const result = handleInitialMessage.call(context, 'Old draft');
+    await Promise.resolve();
+    context.initialMessageSequence += 1;
+    resolveNavigation();
+    await result;
+
+    expect(context.setInitialMessage).not.toHaveBeenCalled();
+  });
 });
 
 describe('App setConversationHistoryFetchPromise', () => {
@@ -223,6 +249,30 @@ describe('App handleSetUser', () => {
     expect(context.handleInitialMessage).toHaveBeenCalledWith(
       'Need help with this item'
     );
+  });
+
+  it('replays a published initial message while identifying an anonymous visitor', () => {
+    const context = buildContext({
+      currentUser: {},
+      initialMessage: 'Edited draft',
+    });
+    context.$store.dispatch.mockResolvedValue();
+
+    handleSetUser.call(context, { identifier: 'visitor-1' });
+
+    expect(context.handleInitialMessage).toHaveBeenCalledWith('Edited draft');
+  });
+
+  it('does not replay a published initial message when changing identified visitors', () => {
+    const context = buildContext({
+      currentUser: { identifier: 'visitor-1' },
+      initialMessage: 'Previous visitor draft',
+    });
+    context.$store.dispatch.mockResolvedValue();
+
+    handleSetUser.call(context, { identifier: 'visitor-2' });
+
+    expect(context.handleInitialMessage).not.toHaveBeenCalled();
   });
 
   it('does not replay an initial message after it has already been published', () => {

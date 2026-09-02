@@ -44,6 +44,7 @@ describe('PreChat Form initial message draft', () => {
   it('keeps the shared initial message when copying it to the visible form field', () => {
     const context = {
       formValues: {},
+      hasInitialMessageDraft: false,
       hasActiveCampaign: false,
       $store: { dispatch: vi.fn() },
     };
@@ -51,6 +52,7 @@ describe('PreChat Form initial message draft', () => {
     initialMessageHandler.call(context, 'Need help with this item');
 
     expect(context.formValues.message).toBe('Need help with this item');
+    expect(context.hasInitialMessageDraft).toBe(true);
     expect(context.$store.dispatch).not.toHaveBeenCalledWith(
       'conversation/clearInitialMessage'
     );
@@ -59,6 +61,7 @@ describe('PreChat Form initial message draft', () => {
   it('does not consume the shared initial message when campaigns hide the message field', () => {
     const context = {
       formValues: {},
+      hasInitialMessageDraft: false,
       hasActiveCampaign: true,
       $store: { dispatch: vi.fn() },
     };
@@ -66,7 +69,22 @@ describe('PreChat Form initial message draft', () => {
     initialMessageHandler.call(context, 'Need help with this item');
 
     expect(context.formValues.message).toBeUndefined();
+    expect(context.hasInitialMessageDraft).toBe(false);
     expect(context.$store.dispatch).not.toHaveBeenCalled();
+  });
+
+  it('clears the visible message field when the shared initial message is cleared', () => {
+    const context = {
+      formValues: { message: 'Need help with this item' },
+      hasInitialMessageDraft: true,
+      hasActiveCampaign: false,
+      $store: { dispatch: vi.fn() },
+    };
+
+    initialMessageHandler.call(context, '');
+
+    expect(context.formValues.message).toBe('');
+    expect(context.hasInitialMessageDraft).toBe(false);
   });
 
   it('clears the shared initial message on form submission', () => {

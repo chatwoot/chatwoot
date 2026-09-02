@@ -49,7 +49,9 @@ export default {
     ...mapGetters({
       activeCampaign: 'campaign/getActiveCampaign',
       conversationSize: 'conversation/getConversationSize',
+      currentUser: 'contacts/getCurrentUser',
       hideMessageBubble: 'appConfig/getHideMessageBubble',
+      initialMessage: 'conversation/getInitialMessage',
       isFetchingList: 'conversation/getIsFetchingList',
       isRightAligned: 'appConfig/isRightAligned',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
@@ -285,7 +287,6 @@ export default {
       await this.initialConversationFetchPromise;
       if (initialMessageSequence !== this.initialMessageSequence) return;
 
-      this.pendingInitialMessage = '';
       const routeName =
         this.shouldShowPreChatForm && !this.conversationSize
           ? 'prechat-form'
@@ -296,7 +297,13 @@ export default {
       if (this.$route.name !== routeName) {
         await this.router.replace({ name: routeName });
       }
+      if (initialMessageSequence !== this.initialMessageSequence) return;
+
       this.setInitialMessage(initialMessage);
+      this.pendingInitialMessage = '';
+      if (routeName === 'messages') {
+        this.unsetUnreadView();
+      }
     },
     setConversationHistoryFetchPromise(fetchPromise) {
       this.initialConversationFetchPromise = fetchPromise;
@@ -307,7 +314,9 @@ export default {
       });
     },
     handleSetUser(message) {
-      const pendingInitialMessage = this.pendingInitialMessage;
+      const pendingInitialMessage =
+        this.pendingInitialMessage ||
+        (!this.currentUser.identifier ? this.initialMessage : '');
       this.initialMessageSequence += 1;
       this.setConversationHistoryFetchPromise(
         this.$store.dispatch('contacts/setUser', message)
