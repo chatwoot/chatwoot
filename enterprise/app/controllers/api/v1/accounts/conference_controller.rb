@@ -1,5 +1,6 @@
 class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseController
   before_action :set_voice_inbox_for_conference
+  before_action :ensure_twilio_voice_channel!, only: [:token]
   rescue_from CustomExceptions::CallAlreadyAccepted, with: :render_call_already_accepted
 
   def token
@@ -52,6 +53,18 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   def set_voice_inbox_for_conference
     @voice_inbox = Current.account.inboxes.find(params[:inbox_id])
     authorize @voice_inbox, :show?
+  end
+
+  # Voice::Provider::Twilio::TokenService assumes a Twilio voice channel (channel.account_sid,
+  # channel.api_key_sid, channel.twiml_app_sid, ...) unconditionally. Inboxes on other providers
+  # (e.g. WhatsApp Cloud, which handles calls over WebRTC and never calls this endpoint from the
+  # dashboard) don't expose those methods, so calling it directly -- a stale client, a future
+  # frontend regression, or a direct API request -- would 500 with a NoMethodError instead of a
+  # clean error response.
+  def ensure_twilio_voice_channel!
+    return if @voice_inbox.channel.is_a?(Channel::TwilioSms) && @voice_inbox.channel.voice_enabled?
+
+    render json: { error: 'Voice calling is not supported for this inbox' }, status: :unprocessable_entity
   end
 
   def fetch_conversation_by_display_id
