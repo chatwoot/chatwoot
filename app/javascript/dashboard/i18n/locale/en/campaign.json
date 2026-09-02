@@ -157,50 +157,87 @@
           "ON": "on"
         }
       },
-      "CREATE": {
-        "TITLE": "Create WhatsApp campaign",
-        "CANCEL_BUTTON_TEXT": "Cancel",
-        "CREATE_BUTTON_TEXT": "Create",
-        "FORM": {
-          "TITLE": {
+      "FORM": {
+        "CREATE_TITLE": "Create campaign",
+        "LIVE_TEST": "Live test",
+        "LIVE_TEST_TOOLTIP": "Live test will be available soon",
+        "SCHEDULE": "Schedule campaign",
+        "SCHEDULED_FOR": "Scheduled for {date}",
+        "RESCHEDULE": "Reschedule",
+        "DISCARD": "Discard changes",
+        "SAVE": "Save changes",
+        "BASIC_SETTINGS": {
+          "TITLE": "Basic settings",
+          "NAME": {
             "LABEL": "Title",
-            "PLACEHOLDER": "Please enter the title of campaign",
-            "ERROR": "Title is required"
+            "PLACEHOLDER": "Enter the title of the campaign"
           },
           "INBOX": {
-            "LABEL": "Select Inbox",
-            "PLACEHOLDER": "Select Inbox",
-            "ERROR": "Inbox is required"
-          },
-          "TEMPLATE": {
-            "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
-            "INFO": "Select a template to use for this campaign.",
-            "ERROR": "Template is required",
-            "PREVIEW_TITLE": "Process {templateName}",
-            "LANGUAGE": "Language",
-            "CATEGORY": "Category",
-            "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
-          },
-          "AUDIENCE": {
-            "LABEL": "Audience",
-            "PLACEHOLDER": "Select the customer labels",
-            "ERROR": "Audience is required"
-          },
-          "SCHEDULED_AT": {
-            "LABEL": "Scheduled time",
-            "PLACEHOLDER": "Please select the time",
-            "ERROR": "Scheduled time is required"
-          },
-          "BUTTONS": {
-            "CREATE": "Create",
-            "CANCEL": "Cancel"
-          },
-          "API": {
-            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
-            "ERROR_MESSAGE": "There was an error. Please try again."
+            "LABEL": "Inbox",
+            "PLACEHOLDER": "Select an inbox"
           }
+        },
+        "AUDIENCE": {
+          "TITLE": "Audience",
+          "TIER_DESCRIPTION": "Your WhatsApp account can message up to {tier}.",
+          "TIER_UNKNOWN": "Select an inbox to see the messaging limit of your WhatsApp account.",
+          "LEARN_MORE": "Learn more",
+          "LABELS": {
+            "LABEL": "Labels",
+            "PLACEHOLDER": "Select the customer labels"
+          },
+          "SELECTED_COUNT": "{count} contacts selected",
+          "VIEW": "View",
+          "EMPTY_STATE": "Select at least one label to build the audience.",
+          "CONTACTS": {
+            "TITLE": "Contacts",
+            "TAGGED_WITH": "tagged with",
+            "SEARCH_PLACEHOLDER": "Search by name, email or phone number",
+            "EMPTY_STATE": "No contacts found"
+          }
+        },
+        "TEMPLATE": {
+          "TITLE": "Template",
+          "SELECT": {
+            "LABEL": "Template",
+            "PLACEHOLDER": "Select a template"
+          },
+          "EMPTY_STATE": "Select an inbox to load its approved templates",
+          "NO_TEMPLATES": "This inbox has no approved templates that can be used in a campaign",
+          "HEADER_LABEL": "Header",
+          "HEADER_PLACEHOLDER": "Enter {type} header",
+          "DOCUMENT_NAME_PLACEHOLDER": "Enter document name",
+          "BODY_LABEL": "Body",
+          "BUTTONS_LABEL": "Buttons",
+          "VARIABLE_PLACEHOLDER": "Enter variable {variable}",
+          "BUTTON_PLACEHOLDER": "Enter parameter for button {index}"
+        },
+        "ACCOUNT_INFORMATION": {
+          "TITLE": "Account information",
+          "MESSAGING_TIER": "Messaging tier",
+          "ACCOUNT_STATUS": "Account status",
+          "ACCOUNT_HEALTH": "Account health",
+          "STATUS_DESCRIPTION": "Current mode of this WhatsApp number",
+          "HEALTH_DESCRIPTION": "Quality rating assigned by Meta",
+          "EMPTY_STATE": "Select an inbox to see its WhatsApp account information.",
+          "UNAVAILABLE": "Not available",
+          "OPEN": "Open in WhatsApp Manager"
+        },
+        "PREVIEW": {
+          "TITLE": "Message preview",
+          "EMPTY_STATE": "Select a template to preview the message.",
+          "FOOTNOTE": "This may vary slightly per OS. Perform a live test to confirm. Default values for the highlighted variables will be stored upon saving."
+        },
+        "SCHEDULE_POPOVER": {
+          "LABEL": "Schedule",
+          "CANCEL": "Cancel",
+          "CREATE": "Create"
+        },
+        "API": {
+          "CREATE_SUCCESS": "WhatsApp campaign created successfully",
+          "CREATE_ERROR": "There was an error. Please try again.",
+          "UPDATE_SUCCESS": "WhatsApp campaign updated successfully",
+          "UPDATE_ERROR": "There was an error. Please try again."
         }
       },
       "ANALYTICS": {

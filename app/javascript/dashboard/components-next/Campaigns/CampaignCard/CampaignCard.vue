@@ -42,6 +42,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  showEdit: {
+    type: Boolean,
+    default: false,
+  },
   showAnalytics: {
     type: Boolean,
     default: false,
@@ -59,6 +63,10 @@ const { formatMessage } = useMessageFormatter();
 
 const isActive = computed(() =>
   props.isLiveChatType ? props.isEnabled : props.status !== STATUS_COMPLETED
+);
+
+const isEditable = computed(
+  () => props.isLiveChatType || (props.showEdit && isActive.value)
 );
 
 const statusTextColor = computed(() => ({
@@ -131,7 +139,7 @@ const inboxIcon = computed(() => {
         />
       </div>
     </div>
-    <div class="flex items-center justify-end w-20 gap-2">
+    <div class="flex items-center justify-end w-28 gap-2">
       <Button
         v-if="showAnalytics"
         v-tooltip.top="t('CAMPAIGN.WHATSAPP.CARD.ANALYTICS')"
@@ -143,7 +151,7 @@ const inboxIcon = computed(() => {
         @click="emit('analytics')"
       />
       <Button
-        v-if="isLiveChatType"
+        v-if="isEditable"
         variant="faded"
         size="sm"
         color="slate"

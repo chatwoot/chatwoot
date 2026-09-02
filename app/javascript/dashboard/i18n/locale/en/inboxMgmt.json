@@ -945,6 +945,20 @@
         "MODES": {
           "SANDBOX": "Sandbox",
           "LIVE": "Live"
+        },
+        "QUALITY": {
+          "GREEN": "Green",
+          "YELLOW": "Yellow",
+          "RED": "Red"
+        },
+        "TIER_NAMES": {
+          "TIER_250": "Tier 250",
+          "TIER_1000": "Tier 1K",
+          "TIER_1K": "Tier 1K",
+          "TIER_2K": "Tier 2K",
+          "TIER_10K": "Tier 10K",
+          "TIER_100K": "Tier 100K",
+          "TIER_UNLIMITED": "Unlimited"
         }
       },
       "BUSINESS_PROFILE": {
