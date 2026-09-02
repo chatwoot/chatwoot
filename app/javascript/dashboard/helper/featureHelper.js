@@ -17,6 +17,8 @@ const FEATURE_HELP_URLS = {
   sla: 'https://chwt.app/hc/sla',
   team_management: 'https://chwt.app/hc/teams',
   webhook: 'https://chwt.app/hc/webhooks',
+  whatsapp_templates:
+    'https://www.chatwoot.com/hc/user-guide/articles/1754940076-whatsapp-templates',
   billing: 'https://chwt.app/pricing',
   saml: 'https://chwt.app/hc/saml',
   captain: 'https://chwt.app/captain-docs',

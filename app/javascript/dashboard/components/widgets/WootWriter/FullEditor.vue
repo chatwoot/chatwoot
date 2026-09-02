@@ -8,6 +8,13 @@ import {
   EditorState,
   Selection,
   imageResizeView,
+  imagePastePlugin,
+  embedPreviewPlugin,
+  insertImageFiles,
+  insertFileUploads,
+  hasActiveUploads,
+  fileUploadPlugin,
+  setUploadLabels,
   toggleMark,
   wrapInList,
 } from '@chatwoot/prosemirror-schema';
@@ -15,22 +22,36 @@ import {
   suggestionsPlugin,
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
-import imagePastePlugin from '@chatwoot/prosemirror-schema/src/plugins/image';
-import embedPreviewPlugin from '@chatwoot/prosemirror-schema/src/plugins/embedPreview';
 import trailingParagraphPlugin from '@chatwoot/prosemirror-schema/src/plugins/trailingParagraph';
 import { embeds as markdownEmbeds } from 'dashboard/helper/markdownEmbeds';
 import { toggleBlockType } from '@chatwoot/prosemirror-schema/src/menu/common';
-import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import {
+  checkFileSizeLimit,
+  resolveMaximumFileUploadSize,
+} from 'shared/helpers/FileHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import { collapseSelection } from 'dashboard/helper/editorHelper';
 import { useAlert } from 'dashboard/composables';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import SlashCommandMenu from './SlashCommandMenu.vue';
 import VideoEmbedInput from './VideoEmbedInput.vue';
 
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
+// Drop and paste bypass the file input's accept filter, so bucketFor gates
+// every entry point with the same allowlist the picker advertises.
+const ALLOWED_IMAGE_TYPES = [
+  'image/png',
+  'image/jpeg',
+  'image/jpg',
+  'image/gif',
+  'image/webp',
+];
+const ACCEPTED_FILE_TYPES = [...ALLOWED_IMAGE_TYPES, 'video/mp4'].join(', ');
 const SLASH_MENU_OFFSET = 4;
+// Longest a slow autosave response can realistically lag behind its request.
+const STALE_ECHO_WINDOW = 30000; // in ms
 const createState = (
   content,
   placeholder,
@@ -71,20 +92,25 @@ export default {
   emits: ['blur', 'input', 'update:modelValue', 'keyup', 'focus', 'keydown'],
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
+    const globalConfig = useMapGetter('globalConfig/get');
 
     return {
       uiSettings,
       updateUISettings,
+      globalConfig,
     };
   },
   data() {
     return {
       plugins: [
         imagePastePlugin(this.handleImageUpload),
+        fileUploadPlugin(),
         this.createSlashPlugin(),
         embedPreviewPlugin(markdownEmbeds),
         trailingParagraphPlugin(),
       ],
+      emittedValues: [],
+      pendingSync: null,
       isTextSelected: false, // Tracks text selection and prevents unnecessary re-renders on mouse selection
       showSlashMenu: false,
       slashSearchTerm: '',
@@ -93,13 +119,19 @@ export default {
       isSlashMenuInTable: false,
       showVideoInput: false,
       videoInputPosition: null,
+      acceptedFileTypes: ACCEPTED_FILE_TYPES,
     };
   },
+  computed: {
+    maximumVideoUploadSize() {
+      return resolveMaximumFileUploadSize(
+        this.globalConfig?.maximumFileUploadSize
+      );
+    },
+  },
   watch: {
-    modelValue(newValue = '') {
-      if (newValue !== this.contentFromEditor()) {
-        this.reloadState();
-      }
+    modelValue() {
+      this.syncFromModel();
     },
     editorId() {
       this.reloadState();
@@ -107,6 +139,16 @@ export default {
   },
 
   created() {
+    setUploadLabels({
+      uploading: this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.UPLOADING'),
+      failed: this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.UPLOAD_FAILED'),
+      rateLimited: this.$t(
+        'HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.RATE_LIMITED'
+      ),
+      retry: this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.RETRY'),
+      remove: this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.REMOVE'),
+      cancel: this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.CANCEL'),
+    });
     state = createState(
       this.modelValue || '',
       this.placeholder,
@@ -124,6 +166,7 @@ export default {
     }
   },
   beforeUnmount() {
+    clearTimeout(this.pendingSync);
     if (editorView) {
       editorView.destroy();
       editorView = null;
@@ -277,9 +320,12 @@ export default {
       this.removeSlashTriggerText();
       this.showVideoInput = true;
     },
-    insertVideoEmbed(url) {
+    closeVideoInput() {
       this.showVideoInput = false;
       this.videoInputPosition = null;
+    },
+    insertVideoEmbed(url) {
+      this.closeVideoInput();
       if (!editorView) return;
 
       const { schema } = editorView.state;
@@ -295,9 +341,12 @@ export default {
       editorView.focus();
     },
     cancelVideoInput() {
-      this.showVideoInput = false;
-      this.videoInputPosition = null;
+      this.closeVideoInput();
       editorView?.focus();
+    },
+    insertVideoFile(file) {
+      this.closeVideoInput();
+      this.handleFiles([file]);
     },
     contentFromEditor() {
       if (editorView) {
@@ -308,71 +357,82 @@ export default {
     openFileBrowser() {
       this.$refs.imageUploadInput.click();
     },
-    async handleImageUpload(url) {
-      try {
-        const fileUrl = await this.$store.dispatch(
-          'articles/uploadExternalImage',
-          {
-            portalSlug: this.$route.params.portalSlug,
-            url,
-          }
-        );
-
-        return fileUrl;
-      } catch (error) {
-        useAlert(
-          this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.UN_AUTHORIZED_ERROR')
-        );
-        return '';
-      }
+    handleImageUpload(url, signal) {
+      return this.$store.dispatch('articles/uploadExternalImage', {
+        portalSlug: this.$route.params.portalSlug,
+        url,
+        signal,
+      });
     },
     onFileChange() {
-      const file = this.$refs.imageUploadInput.files[0];
-
-      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-        this.uploadImageToStorage(file);
-      } else {
+      this.handleFiles(Array.from(this.$refs.imageUploadInput.files));
+      this.$refs.imageUploadInput.value = '';
+    },
+    // Returns the pipeline for a file that passes its size gate; alerts otherwise.
+    bucketFor(file) {
+      if (ALLOWED_IMAGE_TYPES.includes(file.type)) {
+        if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) return 'images';
         useAlert(
           this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.ERROR_FILE_SIZE', {
             size: MAXIMUM_FILE_UPLOAD_SIZE,
           })
         );
-      }
-
-      this.$refs.imageUploadInput.value = '';
-    },
-    async uploadImageToStorage(file) {
-      try {
-        const fileUrl = await this.$store.dispatch('articles/attachImage', {
-          portalSlug: this.$route.params.portalSlug,
-          file,
-        });
-
-        if (fileUrl) {
-          this.onImageUploadStart(fileUrl);
+      } else if (file.type === 'video/mp4') {
+        if (checkFileSizeLimit(file, this.maximumVideoUploadSize)) {
+          return 'videos';
         }
-      } catch (error) {
-        useAlert(this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.ERROR'));
+        useAlert(
+          this.$t(
+            'HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.ERROR_ATTACHMENT_FILE_SIZE',
+            { size: this.maximumVideoUploadSize }
+          )
+        );
+      } else {
+        useAlert(
+          this.$t(
+            'HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.ERROR_UNSUPPORTED_TYPE'
+          )
+        );
       }
+      return null;
     },
-    onImageUploadStart(fileUrl) {
-      const { selection } = editorView.state;
-      const from = selection.from;
-      const node = editorView.state.schema.nodes.image.create({
-        src: fileUrl,
+    handleFiles(files) {
+      if (!editorView || !files.length) return;
+      const buckets = { images: [], videos: [] };
+      files.forEach(file => {
+        const bucket = this.bucketFor(file);
+        if (bucket) buckets[bucket].push(file);
       });
-      const paragraphNode = editorView.state.schema.node('paragraph');
-      if (node) {
-        // Insert the image and the caption wrapped inside a paragraph
-        const tr = editorView.state.tr
-          .replaceSelectionWith(paragraphNode)
-          .insert(from + 1, node);
-
-        editorView.dispatch(tr.scrollIntoView());
-        this.focusEditorInputField();
-      }
+      const upload = this.uploadFileToStorage;
+      const { images, videos } = buckets;
+      if (images.length) insertImageFiles(editorView, images, { upload });
+      if (videos.length) insertFileUploads(editorView, videos, { upload });
+      if (images.length || videos.length) editorView.focus();
+    },
+    // In-flight uploads and failed cards: resolving a draft or navigating
+    // away would drop them.
+    hasPendingUploads() {
+      if (!editorView) return false;
+      return (
+        hasActiveUploads(editorView) ||
+        !!editorView.dom.querySelector(
+          '.pm-upload-card[data-state="error"], .pm-upload-overlay[data-state="error"]'
+        )
+      );
+    },
+    uploadFileToStorage(file, onProgress, signal) {
+      return this.$store.dispatch('articles/attachImage', {
+        portalSlug: this.$route.params.portalSlug,
+        file,
+        onProgress,
+        signal,
+      });
     },
     reloadState() {
+      clearTimeout(this.pendingSync);
+      this.pendingSync = null;
+      // Old emissions are history of a superseded document.
+      this.emittedValues = [];
       state = createState(
         this.modelValue || '',
         this.placeholder,
@@ -397,20 +457,34 @@ export default {
           }
           this.checkSelection(state);
         },
+        handleDrop: (view, event, slice, moved) => {
+          if (moved) return false;
+          const files = Array.from(event.dataTransfer?.files || []);
+          if (!files.length) return false;
+          const coords = view.posAtCoords({
+            left: event.clientX,
+            top: event.clientY,
+          });
+          if (coords) {
+            view.dispatch(
+              view.state.tr.setSelection(
+                Selection.near(view.state.doc.resolve(coords.pos))
+              )
+            );
+          }
+          this.handleFiles(files);
+          event.preventDefault();
+          return true;
+        },
         handleDOMEvents: {
           keyup: this.onKeyup,
           focus: this.onFocus,
           blur: this.onBlur,
           keydown: this.onKeydown,
           paste: (view, event) => {
-            const data = event.clipboardData.files;
-            if (data.length > 0) {
-              data.forEach(file => {
-                // Check if the file is an image
-                if (file.type.includes('image')) {
-                  this.uploadImageToStorage(file);
-                }
-              });
+            const files = Array.from(event.clipboardData?.files || []);
+            if (files.length > 0) {
+              this.handleFiles(files);
               event.preventDefault();
             }
           },
@@ -425,9 +499,35 @@ export default {
       editorView.dispatch(tr.setSelection(selection));
       editorView.focus();
     },
+    // A recent emission is our own autosave echo — re-check it once the
+    // window passes. Anything else is a definitive reset: apply it now.
+    syncFromModel() {
+      clearTimeout(this.pendingSync);
+      this.pendingSync = null;
+      const value = this.modelValue || '';
+      if (value === this.contentFromEditor()) return;
+      if (this.recentlyEmitted(value)) {
+        this.pendingSync = setTimeout(
+          () => this.syncFromModel(),
+          STALE_ECHO_WINDOW
+        );
+        return;
+      }
+      this.reloadState();
+    },
+    recentlyEmitted(value) {
+      const now = Date.now();
+      this.emittedValues = this.emittedValues.filter(
+        entry => now - entry.at < STALE_ECHO_WINDOW
+      );
+      return this.emittedValues.some(entry => entry.value === value);
+    },
     emitOnChange() {
-      this.$emit('update:modelValue', this.contentFromEditor());
-      this.$emit('input', this.contentFromEditor());
+      const content = this.contentFromEditor();
+      this.emittedValues.push({ value: content, at: Date.now() });
+      if (this.emittedValues.length > 20) this.emittedValues.shift();
+      this.$emit('update:modelValue', content);
+      this.$emit('input', content);
     },
     onKeyup() {
       this.$emit('keyup');
@@ -525,13 +625,16 @@ export default {
       <VideoEmbedInput
         v-if="showVideoInput"
         :position="videoInputPosition"
+        :max-upload-size="maximumVideoUploadSize"
         @submit="insertVideoEmbed"
+        @upload="insertVideoFile"
         @cancel="cancelVideoInput"
       />
       <input
         ref="imageUploadInput"
         type="file"
-        accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
+        :accept="acceptedFileTypes"
+        multiple
         hidden
         @change="onFileChange"
       />

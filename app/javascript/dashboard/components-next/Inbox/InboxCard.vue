@@ -2,11 +2,8 @@
 import { computed, ref, onBeforeMount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
-import {
-  dynamicTime,
-  exactTimestamp,
-  shortTimestamp,
-} from 'shared/helpers/timeHelper';
+import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import {
   snoozedReopenTimeToTimestamp,
   shortenSnoozeTime,
@@ -32,6 +29,8 @@ const emit = defineEmits([
   'markNotificationAsUnRead',
   'deleteNotification',
 ]);
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 
