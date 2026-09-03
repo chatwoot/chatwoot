@@ -81,7 +81,7 @@ describe Whatsapp::IncomingCallService do
 
     before { create(:inbox_member, inbox: inbox, user: agent) }
 
-    it 'keys a caller by the BSUID when one is present, matching messaging' do
+    it 'keys a caller by the phone when Meta still provides it' do
       allow(ActionCable.server).to receive(:broadcast)
 
       params = {
@@ -93,7 +93,7 @@ describe Whatsapp::IncomingCallService do
         .to change(Call, :count).by(1).and change(Conversation, :count).by(1)
 
       contact_inbox = Call.last.conversation.contact_inbox
-      expect(contact_inbox.source_id).to eq(bsuid)
+      expect(contact_inbox.source_id).to eq(from_number)
       expect(contact_inbox.contact.name).to eq('Ada Lovelace')
     end
 
@@ -113,24 +113,26 @@ describe Whatsapp::IncomingCallService do
       expect(contact_inbox.contact.name).to eq('Ada Lovelace')
     end
 
-    it 'keeps the contact messaging created by phone but answers on its BSUID ContactInbox' do
+    it 'keeps the contact messaging created by phone on its phone ContactInbox when both identifiers are present' do
       allow(ActionCable.server).to receive(:broadcast)
       contact = create(:contact, account: account)
       phone_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
+      phone_conversation = create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: phone_contact_inbox)
 
       params = {
         calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
                   session: { sdp: sdp_offer, sdp_type: 'offer' } }],
         contacts: [{ wa_id: from_number, user_id: bsuid }]
       }
-      # The contact is the same one messaging created; the call lands on the BSUID row, the
-      # identity a message would resolve, rather than answering through the phone alias.
+      # The contact is the same one messaging created; the call stays on the phone conversation
+      # because Meta still supplied the phone and the phone identity already has history.
       expect { described_class.new(inbox: inbox, params: params).perform }
-        .to change(Call, :count).by(1).and change(ContactInbox, :count).by(1)
+        .to change(Call, :count).by(1).and change(ContactInbox, :count).by(1).and not_change(Conversation, :count)
 
       expect(Call.last.contact).to eq(contact)
-      expect(Call.last.conversation.contact_inbox.source_id).to eq(bsuid)
-      expect(Call.last.conversation.contact_inbox).not_to eq(phone_contact_inbox)
+      expect(Call.last.conversation).to eq(phone_conversation)
+      expect(Call.last.conversation.contact_inbox).to eq(phone_contact_inbox)
+      expect(inbox.contact_inboxes.find_by(source_id: bsuid).contact).to eq(contact)
     end
 
     it 'reuses a phone ContactInbox via the same wa_id normalization messaging uses' do
@@ -147,6 +149,23 @@ describe Whatsapp::IncomingCallService do
         .to change(Call, :count).by(1).and not_change(ContactInbox, :count)
 
       expect(Call.last.conversation.contact_inbox).to eq(existing)
+    end
+
+    it 'reuses a normalized phone contact when no ContactInbox exists yet' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account, phone_number: '+5541988887777')
+
+      params = {
+        calls: [{ id: provider_call_id, from: '554188887777', event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: '554188887777' }]
+      }
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(Contact, :count)
+
+      expect(Call.last.contact).to eq(contact)
+      expect(Call.last.conversation.contact_inbox).to have_attributes(contact: contact, source_id: '554188887777')
     end
 
     it 'reuses the BSUID-keyed ContactInbox messaging created for a username-only caller' do
@@ -166,13 +185,13 @@ describe Whatsapp::IncomingCallService do
       expect(Call.last.conversation.contact_inbox).to eq(existing)
     end
 
-    # The gap: messaging created the contact username-only (BSUID-keyed), and the call now
-    # also exposes a phone. Matching across every source_id reuses the BSUID thread instead
-    # of forking a new phone-keyed contact.
-    it 'reuses a BSUID-keyed ContactInbox even when the call also carries a phone and backfills the phone alias' do
+    # The caller was first seen username-only, so the BSUID row already owns the conversation.
+    # When Meta later exposes the phone, keep that thread and only backfill the phone alias.
+    it 'reuses a BSUID-keyed ContactInbox when that is the only identity with conversation history' do
       allow(ActionCable.server).to receive(:broadcast)
       contact = create(:contact, account: account)
       existing = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
+      create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: existing)
 
       params = {
         calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
@@ -188,12 +207,12 @@ describe Whatsapp::IncomingCallService do
       expect(inbox.contact_inboxes.find_by(source_id: from_number).contact).to eq(contact)
     end
 
-    it 'reuses the BSUID conversation when a later call carries both phone and BSUID' do
+    it 'reuses the phone conversation when a later call carries both phone and BSUID' do
       allow(ActionCable.server).to receive(:broadcast)
       contact = create(:contact, account: account)
       phone_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
       bsuid_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
-      conversation = create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: bsuid_contact_inbox)
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: phone_contact_inbox)
 
       params = {
         calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
@@ -205,7 +224,8 @@ describe Whatsapp::IncomingCallService do
         .to change(Call, :count).by(1).and not_change(Conversation, :count)
 
       expect(Call.last.conversation).to eq(conversation)
-      expect(Call.last.conversation.contact_inbox).to eq(bsuid_contact_inbox)
+      expect(Call.last.conversation.contact_inbox).to eq(phone_contact_inbox)
+      expect(bsuid_contact_inbox.reload.contact).to eq(contact)
       expect(phone_contact_inbox.reload.contact).to eq(contact)
     end
 

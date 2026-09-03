@@ -7,6 +7,7 @@
 # on length to avoid stripping a legitimate "1" from a shorter national number.
 class Whatsapp::PhoneNormalizers::MexicoPhoneNormalizer < Whatsapp::PhoneNormalizers::BasePhoneNormalizer
   COUNTRY_CODE_WITH_MOBILE_LENGTH = 13
+  NATIONAL_NUMBER_LENGTH = 12
 
   def normalize(waid)
     return waid unless handles_country?(waid)
@@ -15,9 +16,13 @@ class Whatsapp::PhoneNormalizers::MexicoPhoneNormalizer < Whatsapp::PhoneNormali
     waid.sub(/^521/, '52')
   end
 
-  # Contacts may already be stored with the "1", so look that format up too
+  # Safe in both directions, unlike Brazil and Argentina: the mobile "1" is a WhatsApp artifact
+  # rather than part of the national number, so both forms carry the identical ten-digit
+  # subscriber and there is no other number to collide with.
   def variants(waid)
     normalized = normalize(waid)
+    return [normalized] unless normalized.length == NATIONAL_NUMBER_LENGTH
+
     [normalized, normalized.sub(/^52/, '521')]
   end
 

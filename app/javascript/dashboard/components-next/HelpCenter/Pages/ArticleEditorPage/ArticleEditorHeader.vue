@@ -44,6 +44,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hasPendingUploads: {
+    type: Function,
+    default: () => false,
+  },
 });
 
 const emit = defineEmits(['goBack', 'previewArticle', 'showDiff']);
@@ -66,11 +70,20 @@ const isUpdatingArticle = computed(
   () => articleUiFlags.value(props.articleId).isUpdating
 );
 
-// Publishing while a save is still in flight would promote a stale draft, so we show an alert
-const blockedWhileSaving = () => {
-  if (!props.isSaving && !isUpdatingArticle.value) return false;
-  useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.SAVE_IN_PROGRESS'));
+const blockedByUploads = () => {
+  if (!props.hasPendingUploads()) return false;
+  useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
   return true;
+};
+
+// Publishing while a save is in flight would promote a stale draft; resolving
+// a draft while a file is uploading reloads the editor and drops the file.
+const blockedWhileBusy = () => {
+  if (props.isSaving || isUpdatingArticle.value) {
+    useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.SAVE_IN_PROGRESS'));
+    return true;
+  }
+  return blockedByUploads();
 };
 
 const isPublished = computed(() => props.status === ARTICLE_STATUSES.PUBLISHED);
@@ -204,7 +217,7 @@ const discardDraftChanges = async () => {
 };
 
 const onPrimaryAction = () => {
-  if (blockedWhileSaving()) return;
+  if (blockedWhileBusy()) return;
   if (hasPendingChanges.value) {
     publishDraftChanges();
   } else if (props.pendingChanges) {
@@ -219,7 +232,7 @@ const onMenuAction = event => {
   showArticleActionMenu.value = false;
   // Don't resolve a draft while an autosave is still in flight — it could land
   // after and recreate the draft we just discarded/applied.
-  if (blockedWhileSaving()) return;
+  if (blockedWhileBusy()) return;
   if (event.action === 'discard-draft') {
     discardDraftChanges();
   } else {
@@ -321,6 +334,7 @@ const onDraftFailed = error => {
         <ArticlePendingChangesPopover
           ref="pendingChangesPopoverRef"
           :article-id="articleId"
+          :blocked="blockedWhileBusy"
           @resolved="onDraftResolved"
           @failed="onDraftFailed"
         />

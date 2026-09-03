@@ -2,8 +2,6 @@
 # Each country normalizer should inherit from this class and implement:
 # - country_code_pattern: regex to identify the country code
 # - normalize: logic to convert phone number to normalized format for contact lookup
-# - variants: every equivalent format the same subscriber can arrive in, when the
-#   country has more than one (override only if normalize is not reversible)
 class Whatsapp::PhoneNormalizers::BasePhoneNormalizer
   def handles_country?(waid)
     waid.match(country_code_pattern)
@@ -13,9 +11,17 @@ class Whatsapp::PhoneNormalizers::BasePhoneNormalizer
     raise NotImplementedError, 'Subclasses must implement #normalize'
   end
 
-  # Equivalent formats to look an existing contact up by, most canonical first
+  # Formats an existing contact_inbox may already be stored under, most canonical first so a
+  # sender keeps the thread they already have. Same safety bar as #contact_candidates, and
+  # stricter in consequence: a wrong match here answers as another subscriber's conversation.
   def variants(waid)
     [normalize(waid)]
+  end
+
+  # Contact matching needs stronger safety than source-id lookup because two
+  # valid phone numbers can share digits across country-specific formats.
+  def contact_candidates(waid)
+    [waid]
   end
 
   private

@@ -27,6 +27,17 @@ class Whatsapp::PhoneNumberNormalizationService
     existing_contact_inbox&.source_id || raw_number
   end
 
+  # Keep the provider value first so exact contact matches always win. Each
+  # country normalizer explicitly opts into contact-safe alternatives; source-id
+  # normalization alone is not enough because the alternate may be another
+  # valid number (for example an Argentina landline without the mobile 9).
+  def phone_number_candidates(clean_number)
+    normalizer = find_normalizer_for_country(clean_number)
+    return [clean_number] unless normalizer
+
+    normalizer.contact_candidates(clean_number)
+  end
+
   private
 
   attr_reader :inbox
