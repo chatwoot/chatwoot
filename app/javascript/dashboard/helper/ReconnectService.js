@@ -80,10 +80,11 @@ class ReconnectService {
     }
   };
 
-  fetchConversationMessagesOnReconnect = async () => {
+  refreshActiveConversationOnReconnect = async () => {
     const { conversation_id: conversationId } =
       this.router.currentRoute.value.params;
     if (conversationId) {
+      await this.store.dispatch('getConversation', Number(conversationId));
       await this.store.dispatch('syncActiveConversationMessages', {
         conversationId: Number(conversationId),
       });
@@ -109,7 +110,7 @@ class ReconnectService {
     const currentRoute = this.router.currentRoute.value.name;
     if (isAConversationRoute(currentRoute, true)) {
       await this.fetchConversationsOnReconnect();
-      await this.fetchConversationMessagesOnReconnect();
+      await this.refreshActiveConversationOnReconnect();
     } else if (isAInboxViewRoute(currentRoute, true)) {
       await this.fetchNotificationsOnReconnect(
         this.store.getters['notifications/getNotificationFilters']
