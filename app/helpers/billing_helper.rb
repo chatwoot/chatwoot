@@ -34,4 +34,12 @@ module BillingHelper
 
     Time.zone.at(period_end)
   end
+
+  # Stripe schedules cancellations on cancel_at; older subscriptions only set cancel_at_period_end.
+  def subscription_cancels_on(subscription)
+    cancel_at = subscription['cancel_at']
+    return Time.zone.at(cancel_at) if cancel_at.present?
+
+    subscription_ends_on(subscription) if subscription['cancel_at_period_end']
+  end
 end
