@@ -124,7 +124,7 @@ class Captain::Document < ApplicationRecord
     return true unless help_center_source
 
     portal, article_slug = help_center_source
-    !portal.archived? && portal.articles.published.exists?(slug: article_slug)
+    portal.present? && !portal.archived? && portal.articles.published.exists?(slug: article_slug)
   end
 
   def to_llm_metadata
@@ -173,7 +173,7 @@ class Captain::Document < ApplicationRecord
     return unless path_match
 
     portal = account.portals.find_by(slug: path_match[1])
-    return unless portal && local_help_center_host?(uri.host, portal)
+    return unless local_help_center_host?(uri.host, portal)
 
     [portal, path_match[2]]
   rescue URI::InvalidURIError
@@ -181,7 +181,11 @@ class Captain::Document < ApplicationRecord
   end
 
   def local_help_center_host?(host, portal)
-    local_hosts = [portal.custom_domain, ChatwootApp.help_center_root].filter_map { |url| host_from(url) }
+    local_hosts = [
+      portal&.custom_domain,
+      ChatwootApp.help_center_root,
+      ENV.fetch('FRONTEND_URL', nil)
+    ].filter_map { |url| host_from(url) }
     local_hosts.include?(host&.downcase)
   end
 

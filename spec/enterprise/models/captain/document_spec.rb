@@ -95,6 +95,21 @@ RSpec.describe Captain::Document, type: :model do
       expect(document.available_for_retrieval?).to be false
     end
 
+    it 'uses the frontend host when the Help Center host is different' do
+      with_modified_env FRONTEND_URL: 'https://app.chatwoot.test' do
+        document.update!(external_link: "https://app.chatwoot.test/hc/#{portal.slug}/articles/#{article.slug}")
+        article.update!(status: :archived)
+
+        expect(document.available_for_retrieval?).to be false
+      end
+    end
+
+    it 'rejects documents after their portal is deleted' do
+      portal.destroy!
+
+      expect(document.available_for_retrieval?).to be false
+    end
+
     it 'does not apply local article state to external sites' do
       article.update!(status: :archived)
       document.update!(external_link: "https://example.com/hc/#{portal.slug}/articles/#{article.slug}")
