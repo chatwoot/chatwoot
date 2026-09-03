@@ -318,9 +318,12 @@ export default {
       });
     },
     handleSetUser(message) {
+      const currentIdentifier = this.currentUser.identifier;
+      const shouldReplayInitialMessage =
+        !currentIdentifier || currentIdentifier === message.identifier;
       const pendingInitialMessage =
         this.pendingInitialMessage ||
-        (!this.currentUser.identifier ? this.initialMessage : '');
+        (shouldReplayInitialMessage ? this.initialMessage : '');
       this.initialMessageSequence += 1;
       this.setConversationHistoryFetchPromise(
         this.$store.dispatch('contacts/setUser', message)

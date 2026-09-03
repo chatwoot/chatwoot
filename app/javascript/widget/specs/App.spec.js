@@ -288,6 +288,18 @@ describe('App handleSetUser', () => {
     expect(context.handleInitialMessage).not.toHaveBeenCalled();
   });
 
+  it('replays a published initial message when refreshing the same identified visitor', () => {
+    const context = buildContext({
+      currentUser: { identifier: 'visitor-1' },
+      initialMessage: 'Edited draft',
+    });
+    context.$store.dispatch.mockResolvedValue();
+
+    handleSetUser.call(context, { identifier: 'visitor-1' });
+
+    expect(context.handleInitialMessage).toHaveBeenCalledWith('Edited draft');
+  });
+
   it('does not replay an initial message after it has already been published', () => {
     const context = buildContext();
     context.$store.dispatch.mockResolvedValue();
