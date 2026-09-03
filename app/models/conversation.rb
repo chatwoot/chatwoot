@@ -68,7 +68,10 @@ class Conversation < ApplicationRecord
   SENDER_TRIAGE_LABELS = {
     'vip' => { title: 'vip', color: '#8F6EF2' },
     'newsletter' => { title: 'newsletter', color: '#6FD4EF' },
-    'blocklist' => { title: 'filtered', color: '#A53326' }
+    'blocklist' => { title: 'filtered', color: '#A53326' },
+    'bounce' => { title: 'bounce', color: '#E6A44E' },
+    'auto_reply' => { title: 'auto-reply', color: '#5CCC8D' },
+    'notification' => { title: 'notification', color: '#9AA5B1' }
   }.freeze
 
   CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS = %w[conversation_language].freeze
@@ -162,7 +165,8 @@ class Conversation < ApplicationRecord
     additional_attributes&.dig('conversation_language')
   end
 
-  # True for email conversations parked by Email::SenderTriageService (blocklisted sender or newsletter).
+  # True for email conversations parked by Email::SenderTriageService (blocklisted sender,
+  # newsletter, bounce, auto-reply or notification sender).
   # These stay resolved and silent: no notifications, automations, templates or reopens.
   def sender_filtered?
     additional_attributes&.dig('filtered').present?

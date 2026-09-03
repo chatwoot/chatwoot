@@ -165,7 +165,7 @@ class MailPresenter < SimpleDelegator
   end
 
   def auto_reply?
-    auto_submitted? || x_auto_reply?
+    auto_submitted? || x_auto_reply? || x_auto_response_suppress?
   end
 
   def newsletter?
@@ -213,6 +213,12 @@ class MailPresenter < SimpleDelegator
 
   def x_auto_reply?
     @mail['X-Autoreply'].present? && @mail['X-Autoreply'].value == 'yes'
+  end
+
+  # Exchange/Outlook stamp this on machine-generated mail; 'None' explicitly opts out.
+  def x_auto_response_suppress?
+    value = header_value('X-Auto-Response-Suppress')
+    value.present? && !value.casecmp?('none')
   end
 
   # forcing the encoding of the content to UTF-8 so as to be compatible with database and serializers
