@@ -4,6 +4,7 @@
 class Whatsapp::IncomingMessageBaseService
   include ::Whatsapp::IncomingMessageServiceHelpers
   include ::Whatsapp::IncomingMessageIdentifierHelper
+  include ::Whatsapp::IncomingContactMessageHandler
 
   pattr_initialize [:inbox!, :params!, :outgoing_echo, { locked_sender_id: nil }]
 
@@ -87,15 +88,6 @@ class Whatsapp::IncomingMessageBaseService
     @message.content = I18n.t('conversations.messages.whatsapp.unsupported_message')
     @message.content_attributes = @message.content_attributes.merge(is_unsupported: true)
     @message.save!
-  end
-
-  def create_contact_messages(message)
-    message['contacts'].each do |contact|
-      # Pass source_id from parent message since contact objects don't have :id
-      create_message(contact, source_id: message[:id], content_attributes_source: message)
-      attach_contact(contact)
-      @message.save!
-    end
   end
 
   def create_regular_message(message)
@@ -200,26 +192,6 @@ class Whatsapp::IncomingMessageBaseService
     end
 
     content_attrs
-  end
-
-  def attach_contact(contact)
-    phones = contact[:phones]
-    phones = [{ phone: 'Phone number is not available' }] if phones.blank?
-
-    name_info = contact['name'] || {}
-    contact_meta = {
-      firstName: name_info['first_name'],
-      lastName: name_info['last_name']
-    }.compact
-
-    phones.each do |phone|
-      @message.attachments.new(
-        account_id: @message.account_id,
-        file_type: file_content_type(message_type),
-        fallback_title: phone[:phone].to_s,
-        meta: contact_meta
-      )
-    end
   end
 
   def update_contact_with_profile_name(contact_params)

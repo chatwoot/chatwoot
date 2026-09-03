@@ -19,6 +19,31 @@ import {
   syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
 
+const TERMINAL_CONTACT_INFO_REQUEST_STATES = ['shared', 'identity_conflict'];
+
+const contactInfoSourceId = message =>
+  message.conversation?.contact_inbox?.source_id;
+
+const hasContactInfoSource = (conversation, sourceId) => {
+  return (conversation.messages || []).some(message => {
+    return contactInfoSourceId(message) === sourceId;
+  });
+};
+
+const contactInfoRefreshConversationIds = (state, message) => {
+  const conversationIds = new Set([message.conversation_id].filter(Boolean));
+  const sourceId = contactInfoSourceId(message);
+  if (!sourceId) return [...conversationIds];
+
+  (state.allConversations || []).forEach(conversation => {
+    if (hasContactInfoSource(conversation, sourceId)) {
+      conversationIds.add(conversation.id);
+    }
+  });
+
+  return [...conversationIds];
+};
+
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
   // We have two cases
@@ -329,6 +354,12 @@ const actions = {
     }
   },
 
+  requestContactInfo: async ({ commit }, conversationId) => {
+    const { data } = await ConversationApi.requestContactInfo(conversationId);
+    commit(types.ADD_MESSAGE, data);
+    return data;
+  },
+
   addMessage({ commit, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
     if (message.message_type === MESSAGE_TYPE.INCOMING) {
@@ -345,8 +376,25 @@ const actions = {
     );
   },
 
-  updateMessage({ commit, rootGetters }, message) {
+  updateMessage({ commit, dispatch, rootGetters, state }, message) {
     commit(types.ADD_MESSAGE, message);
+
+    const contactInfoRequest =
+      message.content_attributes?.whatsapp_contact_info;
+    const isTerminalContactInfoRequest =
+      contactInfoRequest?.type === 'request' &&
+      (message.status === MESSAGE_STATUS.FAILED ||
+        TERMINAL_CONTACT_INFO_REQUEST_STATES.includes(
+          contactInfoRequest.state
+        ));
+    if (isTerminalContactInfoRequest) {
+      contactInfoRefreshConversationIds(state, message).forEach(
+        conversationId => {
+          dispatch('getConversation', conversationId);
+        }
+      );
+    }
+
     handleVoiceCallUpdated(
       commit,
       message,
