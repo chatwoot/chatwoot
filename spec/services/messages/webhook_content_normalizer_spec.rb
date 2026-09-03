@@ -53,5 +53,21 @@ RSpec.describe Messages::WebhookContentNormalizer do
     it 'keeps backslashes that are not underline escapes' do
       expect(described_class.normalize('path C:\\temp and a \\- dash')).to eq('path C:\\temp and a \\- dash')
     end
+
+    it 'preserves a literal escaped delimiter inside a fenced code block' do
+      expect(described_class.normalize("```\n\\--\n```")).to eq("```\n\\--\n```")
+    end
+
+    it 'preserves trailing line-continuation backslashes inside a fenced code block' do
+      expect(described_class.normalize("```c\n#define X \\\nint y;\n```")).to eq("```c\n#define X \\\nint y;\n```")
+    end
+
+    it 'normalizes the text around a fenced code block but not inside it' do
+      expect(described_class.normalize("a\\\nb\n~~~\n\\==\n~~~\nc\\\nd")).to eq("a\nb\n~~~\n\\==\n~~~\nc\nd")
+    end
+
+    it 'keeps an unclosed fence untouched to the end of the message' do
+      expect(described_class.normalize("```\n\\--")).to eq("```\n\\--")
+    end
   end
 end
