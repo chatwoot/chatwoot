@@ -105,6 +105,8 @@ class Attachment < ApplicationRecord
   end
 
   def audio_metadata
+    return { data_url: external_url, thumb_url: '' } unless file.attached?
+
     audio_file_data = base_data.merge(file_metadata)
     audio_file_data.merge(
       {

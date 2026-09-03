@@ -251,6 +251,20 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'push_event_data for audio attachments' do
+    it 'returns external_url as data_url when no file is attached' do
+      attachment = message.attachments.create!(
+        account_id: message.account_id,
+        file_type: :audio,
+        external_url: 'https://lookaside.fbsbx.com/ig_messaging_cdn/?asset_id=123'
+      )
+
+      event_data = attachment.push_event_data
+      expect(event_data[:data_url]).to eq('https://lookaside.fbsbx.com/ig_messaging_cdn/?asset_id=123')
+      expect(event_data[:thumb_url]).to eq('')
+    end
+  end
+
   describe 'push_event_data for embed attachments' do
     it 'returns external url as data_url' do
       attachment = message.attachments.create!(account_id: message.account_id, file_type: :embed, external_url: 'https://example.com/embed')
