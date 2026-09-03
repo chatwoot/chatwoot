@@ -60,9 +60,10 @@ describe('ChatInputWrap initial message draft', () => {
     expect(context.focusInput).not.toHaveBeenCalled();
   });
 
-  it('preserves edits by syncing active initial message drafts', () => {
+  it('marks edited initial message drafts as user-owned after syncing them', () => {
     const context = {
       hasInitialMessageDraft: true,
+      initialMessage: 'Need help with this item',
       $store: { dispatch: vi.fn() },
     };
 
@@ -72,7 +73,23 @@ describe('ChatInputWrap initial message draft', () => {
       'conversation/setInitialMessage',
       'Edited draft'
     );
-    expect(context.hasInitialMessageDraft).toBe(true);
+    expect(context.hasInitialMessageDraft).toBe(false);
+  });
+
+  it('does not overwrite user-owned input with later initial message updates', () => {
+    const context = {
+      userInput: 'Edited draft',
+      hasInitialMessageDraft: false,
+      focusInput: vi.fn(),
+      $nextTick: callback => callback(),
+      $store: { dispatch: vi.fn() },
+    };
+
+    initialMessageHandler.call(context, 'Updated SDK draft');
+
+    expect(context.userInput).toBe('Edited draft');
+    expect(context.hasInitialMessageDraft).toBe(false);
+    expect(context.focusInput).not.toHaveBeenCalled();
   });
 
   it('does not sync regular composer input as an initial message draft', () => {

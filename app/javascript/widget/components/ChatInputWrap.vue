@@ -82,6 +82,7 @@ export default {
           this.hasInitialMessageDraft = false;
           return;
         }
+        if (this.userInput && !this.hasInitialMessageDraft) return;
 
         this.hasInitialMessageDraft = true;
         if (this.userInput === initialMessage) return;
@@ -94,7 +95,7 @@ export default {
       if (!this.hasInitialMessageDraft) return;
 
       this.$store.dispatch('conversation/setInitialMessage', userInput);
-      if (!userInput) {
+      if (!userInput || userInput !== this.initialMessage) {
         this.hasInitialMessageDraft = false;
       }
     },
