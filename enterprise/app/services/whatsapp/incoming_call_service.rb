@@ -99,7 +99,7 @@ class Whatsapp::IncomingCallService
       extra_meta = { 'sdp_offer' => sdp_offer, 'ice_servers' => Call.default_ice_servers }
       call = Voice::InboundCallBuilder.perform!(inbox: inbox, call_sid: payload[:id],
                                                 provider: :whatsapp, extra_meta: extra_meta, caller: identity)
-      sync_caller_identifiers(call, identity)
+      sync_caller_identity(call, identity)
       tombstone = consume_terminate_tombstone(payload[:id])
       finalize_terminate(call, tombstone['duration'], tombstone['terminate_reason']) if tombstone
       call
@@ -107,9 +107,15 @@ class Whatsapp::IncomingCallService
   end
 
   # Backfill every caller alias (the builder only stores the first) so a later event keyed on any one lands on this thread.
-  def sync_caller_identifiers(call, identity)
+  def sync_caller_identity(call, identity)
+    attributes = identity[:contact_attributes]
     Whatsapp::IdentifierSyncService.new(contact_inbox: call.conversation.contact_inbox, contact: call.contact)
-                                   .perform(source_ids: identity[:source_ids], phone_number: identity.dig(:contact_attributes, :phone_number))
+                                   .perform(source_ids: identity[:source_ids], phone_number: attributes[:phone_number])
+    # A reused contact keeps its old name, so one created phone-only stays named after its number.
+    Contacts::PlaceholderNameUpdater.new(
+      contact: call.contact, name: identity[:profile_name],
+      phone_numbers: [attributes[:phone_number], *attributes[:phone_number_candidates]]
+    ).perform
   end
 
   # `connect` is the WebRTC tunnel-ready signal, not the pickup signal. Apply
