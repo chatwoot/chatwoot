@@ -13,6 +13,7 @@ const buildContext = ({
   initialMessage = '',
   initialConversationFetchPromise = null,
   pendingInitialMessage = '',
+  preChatFormEnabled = false,
   routeName = 'home',
   shouldShowPreChatForm = false,
 } = {}) => ({
@@ -22,6 +23,7 @@ const buildContext = ({
   initialConversationFetchPromise,
   initialMessageSequence: 0,
   pendingInitialMessage,
+  preChatFormEnabled,
   shouldShowPreChatForm,
   handleInitialMessage: vi.fn(),
   setInitialMessage: vi.fn(),
@@ -41,7 +43,7 @@ describe('App handleInitialMessage', () => {
     const context = buildContext({
       conversationSize: 0,
       initialConversationFetchPromise,
-      shouldShowPreChatForm: true,
+      preChatFormEnabled: true,
     });
 
     const result = handleInitialMessage.call(
@@ -66,7 +68,7 @@ describe('App handleInitialMessage', () => {
 
   it('routes before publishing the initial message draft', async () => {
     const context = buildContext({
-      shouldShowPreChatForm: true,
+      preChatFormEnabled: true,
     });
 
     await handleInitialMessage.call(context, 'Need help with this item');
@@ -135,7 +137,7 @@ describe('App handleInitialMessage', () => {
   it('routes new visitors to the pre-chat form when it is enabled', async () => {
     const context = buildContext({
       initialConversationFetchPromise: Promise.resolve(),
-      shouldShowPreChatForm: true,
+      preChatFormEnabled: true,
     });
 
     await handleInitialMessage.call(context, 'Need help with this item');
@@ -146,6 +148,23 @@ describe('App handleInitialMessage', () => {
     expect(context.router.replace).toHaveBeenCalledWith({
       name: 'prechat-form',
     });
+  });
+
+  it('routes pre-chat enabled inboxes to the form when optional fields are disabled', async () => {
+    const context = buildContext({
+      initialConversationFetchPromise: Promise.resolve(),
+      preChatFormEnabled: true,
+      shouldShowPreChatForm: false,
+    });
+
+    await handleInitialMessage.call(context, 'Need help with this item');
+
+    expect(context.router.replace).toHaveBeenCalledWith({
+      name: 'prechat-form',
+    });
+    expect(context.setInitialMessage).toHaveBeenCalledWith(
+      'Need help with this item'
+    );
   });
 
   it('clears initial message drafts without routing for empty updates', async () => {

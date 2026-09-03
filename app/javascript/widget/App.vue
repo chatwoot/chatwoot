@@ -292,7 +292,7 @@ export default {
       if (initialMessageSequence !== this.initialMessageSequence) return;
 
       const routeName =
-        this.shouldShowPreChatForm && !this.conversationSize
+        this.preChatFormEnabled && !this.conversationSize
           ? 'prechat-form'
           : 'messages';
       if (routeName === 'messages') {
