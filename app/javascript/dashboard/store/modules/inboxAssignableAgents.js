@@ -7,13 +7,8 @@ const state = {
   },
 };
 
-const recordKey = (
-  inboxId,
-  { includeAIAssignees = false, conversationId = null } = {}
-) =>
-  includeAIAssignees
-    ? `${inboxId}:with_ai_assignees:${conversationId}`
-    : inboxId;
+const recordKey = (inboxId, { includeAIAssignees = false } = {}) =>
+  includeAIAssignees ? `${inboxId}:with_ai_assignees` : inboxId;
 
 export const types = {
   SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG: 'SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG',
@@ -46,15 +41,12 @@ export const actions = {
       : actionPayload.inboxIds;
     const includeAIAssignees =
       !Array.isArray(actionPayload) && actionPayload.includeAIAssignees;
-    const conversationId =
-      !Array.isArray(actionPayload) && actionPayload.conversationId;
     commit(types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload },
       } = await AssignableAgentsAPI.get(inboxIds, {
         includeAIAssignees,
-        conversationId,
       });
       if (includeAIAssignees) {
         commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
@@ -65,7 +57,6 @@ export const actions = {
       commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
         inboxId: recordKey(inboxIds.join(','), {
           includeAIAssignees,
-          conversationId,
         }),
         members: payload,
       });

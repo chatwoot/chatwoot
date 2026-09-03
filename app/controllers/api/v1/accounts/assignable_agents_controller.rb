@@ -19,11 +19,10 @@ class Api::V1::Accounts::AssignableAgentsController < Api::V1::Accounts::BaseCon
 
   def fetch_inboxes
     @inboxes = Current.account.inboxes.find(permitted_params[:inbox_ids])
-    @conversation = Current.account.conversations.find_by!(display_id: permitted_params[:conversation_id]) if permitted_params[:conversation_id]
   end
 
   def permitted_params
-    params.permit(:conversation_id, inbox_ids: [])
+    params.permit(inbox_ids: [])
   end
 end
 

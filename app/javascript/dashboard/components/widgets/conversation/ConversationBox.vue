@@ -68,7 +68,6 @@ export default {
           this.$store.dispatch('inboxAssignableAgents/fetch', {
             inboxIds: [this.currentChat.inbox_id],
             includeAIAssignees: true,
-            conversationId: this.currentChat.id,
           });
         }
       },

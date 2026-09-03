@@ -47,7 +47,6 @@ export function useAgentsList(
     return inboxId.value
       ? assignable.value(inboxId.value, {
           includeAIAssignees,
-          conversationId: currentChat.value.id,
         })
       : [];
   });

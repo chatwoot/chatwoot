@@ -25,7 +25,7 @@ describe('#getters', () => {
     const state = {
       records: {
         1: [agentBot, captain, agentsData[0]],
-        '1:with_ai_assignees:42': [agentBot, captain, agentsData[0]],
+        '1:with_ai_assignees': [agentBot, captain, agentsData[0]],
       },
     };
 
@@ -33,7 +33,6 @@ describe('#getters', () => {
     expect(
       getters.getAssignableAgents(state)(1, {
         includeAIAssignees: true,
-        conversationId: 42,
       })
     ).toEqual([agentBot, captain, agentsData[0]]);
   });

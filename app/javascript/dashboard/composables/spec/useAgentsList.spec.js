@@ -58,7 +58,6 @@ describe('useAgentsList', () => {
       useMapGetter('inboxAssignableAgents/getAssignableAgents').value
     ).toHaveBeenCalledWith(1, {
       includeAIAssignees: false,
-      conversationId: 42,
     });
     expect(agentsList.value[0]).toEqual(mockNoneAgent);
     expect(agentsList.value.length).toBe(
@@ -76,7 +75,6 @@ describe('useAgentsList', () => {
       useMapGetter('inboxAssignableAgents/getAssignableAgents').value
     ).toHaveBeenCalledWith(1, {
       includeAIAssignees: true,
-      conversationId: 42,
     });
   });
 
