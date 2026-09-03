@@ -176,7 +176,10 @@ describe('Captain FAQ imports on the responses page', () => {
     const wrapper = mountPage();
     await flushPromises();
 
-    expect(mocks.latestImport).toHaveBeenCalledWith({ assistantId: 42 });
+    expect(mocks.latestImport).toHaveBeenCalledWith({
+      assistantId: 42,
+      signal: expect.any(AbortSignal),
+    });
     expect(wrapper.get('[data-testid="faq-import-status"]').text()).toContain(
       `CAPTAIN.RESPONSES.IMPORT.STATUS.${copyKey}.TITLE`
     );
@@ -203,6 +206,7 @@ describe('Captain FAQ imports on the responses page', () => {
     expect(wrapper.find('[data-testid="faq-import-status"]').exists()).toBe(
       false
     );
+    expect(mocks.getResponses).toHaveBeenCalledTimes(1);
     wrapper.unmount();
   });
 
@@ -267,6 +271,22 @@ describe('Captain FAQ imports on the responses page', () => {
     wrapper.unmount();
   });
 
+  it('refreshes FAQs for a recent import that is complete on page load', async () => {
+    mocks.latestImport.mockResolvedValueOnce({
+      data: {
+        id: 9,
+        status: 'completed',
+        completed_at: new Date().toISOString(),
+      },
+    });
+
+    const wrapper = mountPage();
+    await flushPromises();
+
+    expect(mocks.getResponses).toHaveBeenCalledTimes(2);
+    wrapper.unmount();
+  });
+
   it('keeps checking an active import after a temporary status error', async () => {
     vi.useFakeTimers();
     mocks.latestImport
@@ -297,11 +317,11 @@ describe('Captain FAQ imports on the responses page', () => {
   });
 
   it('does not replace a confirmed import with an older status response', async () => {
-    let resolveLatestImport;
-    mocks.latestImport.mockReturnValueOnce(
-      new Promise(resolve => {
-        resolveLatestImport = resolve;
-      })
+    mocks.latestImport.mockImplementationOnce(
+      ({ signal }) =>
+        new Promise((_, reject) => {
+          signal.addEventListener('abort', () => reject(new Error('Aborted')));
+        })
     );
 
     const wrapper = mountPage();
@@ -314,18 +334,10 @@ describe('Captain FAQ imports on the responses page', () => {
       .vm.$emit('confirmed', { id: 10, status: 'preparing' });
     await flushPromises();
 
-    resolveLatestImport({
-      data: {
-        id: 9,
-        status: 'completed',
-        completed_at: new Date().toISOString(),
-      },
-    });
-    await flushPromises();
-
     expect(
       wrapper.get('[data-testid="faq-import-status"]').attributes('data-status')
     ).toBe('preparing');
+    expect(mocks.getResponses).toHaveBeenCalledTimes(1);
     wrapper.unmount();
   });
 

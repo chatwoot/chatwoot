@@ -56,7 +56,9 @@ const showFaqActions = ref(false);
 const showFaqImportDialog = ref(false);
 const latestFaqImport = ref(null);
 let faqImportStatusTimer = null;
-let latestFaqImportRequestId = 0;
+
+const { run: runFaqImportRequest, abort: abortFaqImportRequest } =
+  useAbortableRequest();
 
 const FAQ_IMPORT_POLL_INTERVAL = 5000;
 const FAQ_IMPORT_STATUS_VISIBLE_FOR = 15000;
@@ -287,32 +289,32 @@ let faqImportPollingControls;
 
 const fetchLatestFaqImport = async () => {
   const assistantId = selectedAssistantId.value;
-  latestFaqImportRequestId += 1;
-  const requestId = latestFaqImportRequestId;
 
   try {
-    const { data } = await CaptainFaqImportsAPI.latest({ assistantId });
-    if (
-      requestId !== latestFaqImportRequestId ||
-      assistantId !== selectedAssistantId.value
-    ) {
-      return;
-    }
+    const response = await runFaqImportRequest(signal =>
+      CaptainFaqImportsAPI.latest({ assistantId, signal })
+    );
+    if (!response || assistantId !== selectedAssistantId.value) return;
+
+    const { data } = response;
 
     const previousStatus = latestFaqImport.value?.status;
     displayFaqImportStatus(data);
+    const isRecentTerminalImport = Boolean(
+      data &&
+        data.status !== 'preparing' &&
+        latestFaqImport.value?.id === data.id
+    );
 
     if (data?.status === 'preparing') {
       faqImportPollingControls.start();
-    } else if (previousStatus === 'preparing' && data) {
-      faqImportPollingControls.stop();
-      fetchResponses(responseMeta.value?.page || 1);
     } else {
       faqImportPollingControls.stop();
+      if (previousStatus === 'preparing' || isRecentTerminalImport) {
+        fetchResponses(responseMeta.value?.page || 1);
+      }
     }
   } catch {
-    if (requestId !== latestFaqImportRequestId) return;
-
     if (latestFaqImport.value?.status === 'preparing') {
       faqImportPollingControls.start();
     }
@@ -326,11 +328,14 @@ faqImportPollingControls = useTimeoutFn(
 );
 
 const handleFaqImportConfirmed = faqImport => {
-  latestFaqImportRequestId += 1;
+  abortFaqImportRequest();
   displayFaqImportStatus(faqImport);
-  fetchResponses(responseMeta.value?.page || 1);
   faqImportPollingControls.stop();
-  if (faqImport?.status === 'preparing') faqImportPollingControls.start();
+  if (faqImport?.status === 'preparing') {
+    faqImportPollingControls.start();
+  } else if (faqImport) {
+    fetchResponses(responseMeta.value?.page || 1);
+  }
 };
 
 // Bulk action
@@ -432,7 +437,7 @@ watch(
   () => {
     faqImportPollingControls.stop();
     stopFaqImportStatusTimer();
-    latestFaqImportRequestId += 1;
+    abortFaqImportRequest();
     latestFaqImport.value = null;
     showFaqActions.value = false;
     showFaqImportDialog.value = false;
@@ -457,7 +462,7 @@ watch(
 onUnmounted(() => {
   faqImportPollingControls.stop();
   stopFaqImportStatusTimer();
-  latestFaqImportRequestId += 1;
+  abortFaqImportRequest();
   store.dispatch('captainResponses/setFetchingList', false);
 });
 </script>

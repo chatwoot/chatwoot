@@ -55,6 +55,12 @@ const preview = {
   ],
 };
 
+const zeroReadyPreview = {
+  ...preview,
+  row_count: 2,
+  rows: [preview.rows[0], preview.rows[2]],
+};
+
 const mountDialog = () =>
   mount(FaqImportDialog, {
     props: { assistantId: 42 },
@@ -77,11 +83,18 @@ const selectFile = async wrapper => {
   return file;
 };
 
-const clickButton = async (wrapper, label) => {
-  const button = wrapper
-    .findAllComponents(Button)
-    .find(item => item.props('label') === label);
-  await button.trigger('click');
+const findButton = (wrapper, label) =>
+  wrapper.findAllComponents(Button).find(item => item.props('label') === label);
+
+const clickButton = (wrapper, label) =>
+  findButton(wrapper, label).trigger('click');
+
+const deferred = () => {
+  let resolve;
+  const promise = new Promise(resolvePromise => {
+    resolve = resolvePromise;
+  });
+  return { promise, resolve };
 };
 
 describe('FaqImportDialog', () => {
@@ -126,6 +139,9 @@ describe('FaqImportDialog', () => {
     expect(wrapper.text()).toContain('Imported answer');
     expect(wrapper.text()).toContain('Question is required.');
     expect(wrapper.find('input[value="skip"]').element.checked).toBe(true);
+    expect(
+      wrapper.get('[role="radiogroup"]').attributes('aria-labelledby')
+    ).toBe('faq-import-row-2 faq-import-question-2');
     expect(wrapper.find('input[type="text"]').exists()).toBe(false);
     expect(wrapper.find('textarea').exists()).toBe(false);
   });
@@ -170,6 +186,24 @@ describe('FaqImportDialog', () => {
     });
   });
 
+  it('does not offer an import when no FAQs are ready', async () => {
+    create.mockResolvedValueOnce({ data: zeroReadyPreview });
+    const wrapper = mountDialog();
+    await selectFile(wrapper);
+    await clickButton(wrapper, 'CAPTAIN.RESPONSES.IMPORT.PREVIEW');
+    await flushPromises();
+
+    expect(findButton(wrapper, 'CAPTAIN.RESPONSES.IMPORT.CONFIRM')).toBeFalsy();
+    expect(findButton(wrapper, 'CAPTAIN.RESPONSES.IMPORT.PREVIEW')).toBeFalsy();
+    expect(confirm).not.toHaveBeenCalled();
+
+    await wrapper.get('input[value="overwrite"]').setValue(true);
+
+    expect(
+      findButton(wrapper, 'CAPTAIN.RESPONSES.IMPORT.CONFIRM')
+    ).toBeTruthy();
+  });
+
   it('downloads invalid rows from the preview', async () => {
     const invalidRows = new Blob(['question,answer,error']);
     const createObjectURL = vi.fn(() => 'blob:invalid-rows');
@@ -203,6 +237,64 @@ describe('FaqImportDialog', () => {
     expect(click).toHaveBeenCalledOnce();
     expect(revokeObjectURL).toHaveBeenCalledWith('blob:invalid-rows');
     click.mockRestore();
+  });
+
+  it('keeps the preview open while invalid rows are downloading', async () => {
+    const pendingDownload = deferred();
+    Object.defineProperty(URL, 'createObjectURL', {
+      configurable: true,
+      value: vi.fn(() => 'blob:invalid-rows'),
+    });
+    Object.defineProperty(URL, 'revokeObjectURL', {
+      configurable: true,
+      value: vi.fn(),
+    });
+    const click = vi
+      .spyOn(HTMLAnchorElement.prototype, 'click')
+      .mockImplementation(() => {});
+    create.mockResolvedValueOnce({ data: preview });
+    downloadInvalidRows.mockReturnValueOnce(pendingDownload.promise);
+    const wrapper = mountDialog();
+    await selectFile(wrapper);
+    await clickButton(wrapper, 'CAPTAIN.RESPONSES.IMPORT.PREVIEW');
+    await flushPromises();
+
+    await clickButton(wrapper, 'CAPTAIN.RESPONSES.IMPORT.DOWNLOAD_INVALID');
+    const uploadAnotherButton = findButton(
+      wrapper,
+      'CAPTAIN.RESPONSES.IMPORT.UPLOAD_ANOTHER'
+    );
+
+    expect(uploadAnotherButton.attributes('disabled')).toBeDefined();
+    await uploadAnotherButton.trigger('click');
+    expect(wrapper.text()).toContain('Existing question');
+
+    pendingDownload.resolve({ data: new Blob(['question,answer,error']) });
+    await flushPromises();
+    click.mockRestore();
+  });
+
+  it('keeps the preview open while confirmation is pending', async () => {
+    const pendingConfirmation = deferred();
+    create.mockResolvedValueOnce({ data: preview });
+    confirm.mockReturnValueOnce(pendingConfirmation.promise);
+    const wrapper = mountDialog();
+    await selectFile(wrapper);
+    await clickButton(wrapper, 'CAPTAIN.RESPONSES.IMPORT.PREVIEW');
+    await flushPromises();
+
+    await clickButton(wrapper, 'CAPTAIN.RESPONSES.IMPORT.CONFIRM');
+    const uploadAnotherButton = findButton(
+      wrapper,
+      'CAPTAIN.RESPONSES.IMPORT.UPLOAD_ANOTHER'
+    );
+
+    expect(uploadAnotherButton.attributes('disabled')).toBeDefined();
+    await uploadAnotherButton.trigger('click');
+    expect(wrapper.text()).toContain('Existing question');
+
+    pendingConfirmation.resolve({ data: { id: 9, status: 'preparing' } });
+    await flushPromises();
   });
 
   it('shows the validation error returned by the server', async () => {

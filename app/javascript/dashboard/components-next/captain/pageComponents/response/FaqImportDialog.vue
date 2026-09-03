@@ -16,6 +16,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close', 'confirmed']);
+const EXISTING_ROW_ACTIONS = ['skip', 'overwrite'];
 const { t } = useI18n();
 
 const dialogRef = ref(null);
@@ -26,6 +27,9 @@ const overwriteRowNumbers = ref(new Set());
 const isUploading = ref(false);
 const isConfirming = ref(false);
 const isDownloading = ref(false);
+const isPreviewActionPending = computed(
+  () => isConfirming.value || isDownloading.value
+);
 
 const rows = computed(() => preview.value?.rows || []);
 const invalidCount = computed(() => preview.value?.invalid_row_count || 0);
@@ -52,9 +56,11 @@ const sampleRows = computed(() => [
   },
 ]);
 
-const close = () => dialogRef.value.close();
+const close = () => dialogRef.value?.close();
 
 const reset = () => {
+  if (isPreviewActionPending.value) return;
+
   preview.value = null;
   selectedFile.value = null;
   overwriteRowNumbers.value = new Set();
@@ -102,6 +108,8 @@ const existingRowActionLabel = action =>
     : t('CAPTAIN.RESPONSES.IMPORT.ACTIONS.SKIP');
 
 const confirmImport = async () => {
+  if (!readyCount.value || isPreviewActionPending.value) return;
+
   isConfirming.value = true;
   try {
     const { data } = await CaptainFaqImportsAPI.confirm({
@@ -125,22 +133,25 @@ const confirmImport = async () => {
 };
 
 const downloadInvalidRows = async () => {
+  if (!preview.value || isPreviewActionPending.value) return;
+
   isDownloading.value = true;
+  let url;
   try {
     const { data } = await CaptainFaqImportsAPI.downloadInvalidRows({
       assistantId: props.assistantId,
       importId: preview.value.id,
     });
-    const url = URL.createObjectURL(data);
+    url = URL.createObjectURL(data);
     const link = document.createElement('a');
     const originalName = preview.value.original_filename.replace(/\.csv$/i, '');
     link.href = url;
     link.download = `${originalName}-invalid-rows.csv`;
     link.click();
-    URL.revokeObjectURL(url);
   } catch (error) {
     useAlert(error?.message || t('CAPTAIN.RESPONSES.IMPORT.ERRORS.DOWNLOAD'));
   } finally {
+    if (url) URL.revokeObjectURL(url);
     isDownloading.value = false;
   }
 };
@@ -262,6 +273,7 @@ defineExpose({ dialogRef });
           color="slate"
           size="sm"
           :is-loading="isDownloading"
+          :disabled="isPreviewActionPending"
           @click="downloadInvalidRows"
         />
       </div>
@@ -294,10 +306,14 @@ defineExpose({ dialogRef });
               :key="row.row_number"
               class="align-top text-n-slate-11"
             >
-              <td class="px-3 py-3 tabular-nums text-n-slate-10">
+              <td
+                :id="`faq-import-row-${row.row_number}`"
+                class="px-3 py-3 tabular-nums text-n-slate-10"
+              >
                 {{ row.row_number }}
               </td>
               <td
+                :id="`faq-import-question-${row.row_number}`"
                 class="whitespace-pre-wrap break-words px-3 py-3 font-medium text-n-slate-12"
               >
                 {{ row.question }}
@@ -330,11 +346,20 @@ defineExpose({ dialogRef });
                   <span class="text-xs font-medium text-n-amber-11">
                     {{ $t('CAPTAIN.RESPONSES.IMPORT.STATES.EXISTING') }}
                   </span>
-                  <div class="flex flex-col gap-1.5" role="radiogroup">
+                  <div
+                    class="flex flex-col gap-1.5"
+                    role="radiogroup"
+                    :aria-labelledby="`faq-import-row-${row.row_number} faq-import-question-${row.row_number}`"
+                  >
                     <label
-                      v-for="action in ['skip', 'overwrite']"
+                      v-for="action in EXISTING_ROW_ACTIONS"
                       :key="action"
-                      class="inline-flex cursor-pointer items-center gap-2"
+                      class="inline-flex items-center gap-2"
+                      :class="
+                        isConfirming
+                          ? 'cursor-not-allowed opacity-50'
+                          : 'cursor-pointer'
+                      "
                     >
                       <input
                         type="radio"
@@ -345,6 +370,7 @@ defineExpose({ dialogRef });
                             ? overwriteRowNumbers.has(row.row_number)
                             : !overwriteRowNumbers.has(row.row_number)
                         "
+                        :disabled="isConfirming"
                         class="size-4 accent-n-blue-9"
                         @change="setExistingRowAction(row.row_number, action)"
                       />
@@ -403,6 +429,7 @@ defineExpose({ dialogRef });
           :label="$t('CAPTAIN.RESPONSES.IMPORT.UPLOAD_ANOTHER')"
           variant="ghost"
           color="slate"
+          :disabled="isPreviewActionPending"
           @click="reset"
         />
         <Button
@@ -413,14 +440,14 @@ defineExpose({ dialogRef });
           @click="close"
         />
         <Button
-          v-if="preview"
+          v-if="preview && readyCount > 0"
           :label="$t('CAPTAIN.RESPONSES.IMPORT.CONFIRM', { count: readyCount })"
           :is-loading="isConfirming"
-          :disabled="isConfirming"
+          :disabled="isPreviewActionPending"
           @click="confirmImport"
         />
         <Button
-          v-else
+          v-else-if="!preview"
           :label="$t('CAPTAIN.RESPONSES.IMPORT.PREVIEW')"
           :is-loading="isUploading"
           :disabled="!selectedFile || isUploading"
