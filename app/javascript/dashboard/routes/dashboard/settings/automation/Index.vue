@@ -4,7 +4,7 @@ import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { picoSearch } from '@chatwoot/pico-search';
@@ -113,6 +113,18 @@ const isSLAEnabled = computed(() =>
   getters['accounts/isFeatureEnabledonAccount'].value(accountId.value, 'sla')
 );
 
+let slaFetchPromise = Promise.resolve();
+
+watch(
+  isSLAEnabled,
+  isEnabled => {
+    if (isEnabled) {
+      slaFetchPromise = store.dispatch('sla/get');
+    }
+  },
+  { immediate: true }
+);
+
 const showDelayDisabledBanner = computed(
   () =>
     !isDelayedAutomationsEnabled.value &&
@@ -127,9 +139,6 @@ onMounted(() => {
   store.dispatch('labels/get');
   store.dispatch('campaigns/get');
   store.dispatch('automations/get');
-  if (isSLAEnabled.value) {
-    store.dispatch('sla/get');
-  }
 });
 
 const openAddPopup = () => {
@@ -141,8 +150,9 @@ const hideAddPopup = () => {
   addDialogRef.value?.close();
 };
 
-const openEditPopup = response => {
+const openEditPopup = async response => {
   selectedAutomation.value = { ...response };
+  await slaFetchPromise;
   editDialogRef.value?.open(response);
 };
 const hideEditPopup = () => {
