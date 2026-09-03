@@ -156,6 +156,7 @@ export default {
           return;
         }
         if (this.hasActiveCampaign) return;
+        if (this.formValues.message && !this.hasInitialMessageDraft) return;
 
         this.hasInitialMessageDraft = true;
         this.formValues = {
@@ -182,7 +183,7 @@ export default {
         if (this.initialMessage === message) return;
 
         this.$store.dispatch('conversation/setInitialMessage', message);
-        if (!message) {
+        if (!message || message !== this.initialMessage) {
           this.hasInitialMessageDraft = false;
         }
       },

@@ -353,6 +353,22 @@ describe('App handleSetUser', () => {
     expect(context.latestUserIdentifier).toBe('visitor-2');
   });
 
+  it('treats numeric zero as an identified visitor when switching before contact refresh completes', () => {
+    const context = buildContext({
+      currentUser: {},
+      latestUserIdentifier: 0,
+      pendingInitialMessage: 'Previous visitor draft',
+    });
+    context.$store.dispatch.mockResolvedValue();
+
+    handleSetUser.call(context, { identifier: 'visitor-2' });
+
+    expect(context.pendingInitialMessage).toBe('');
+    expect(context.setInitialMessage).toHaveBeenCalledWith('');
+    expect(context.handleInitialMessage).not.toHaveBeenCalled();
+    expect(context.latestUserIdentifier).toBe('visitor-2');
+  });
+
   it('does not replay an initial message after it has already been published', () => {
     const context = buildContext();
     context.$store.dispatch.mockResolvedValue();

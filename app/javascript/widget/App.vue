@@ -319,10 +319,19 @@ export default {
       });
     },
     handleSetUser(message) {
-      const currentIdentifier =
-        this.latestUserIdentifier || this.currentUser.identifier;
+      const hasLatestUserIdentifier =
+        this.latestUserIdentifier !== undefined &&
+        this.latestUserIdentifier !== null &&
+        this.latestUserIdentifier !== '';
+      const currentIdentifier = hasLatestUserIdentifier
+        ? this.latestUserIdentifier
+        : this.currentUser.identifier;
+      const hasCurrentIdentifier =
+        currentIdentifier !== undefined &&
+        currentIdentifier !== null &&
+        currentIdentifier !== '';
       const isChangingIdentifiedVisitor =
-        currentIdentifier &&
+        hasCurrentIdentifier &&
         String(currentIdentifier) !== String(message.identifier);
       if (isChangingIdentifiedVisitor) {
         this.pendingInitialMessage = '';

@@ -115,7 +115,7 @@ describe('PreChat Form initial message draft', () => {
     expect(context.hasInitialMessageDraft).toBe(false);
   });
 
-  it('preserves edits by syncing active initial message drafts', () => {
+  it('marks edited initial message drafts as user-owned after syncing them', () => {
     const context = {
       activeCampaign: {},
       hasActiveCampaign: false,
@@ -130,7 +130,21 @@ describe('PreChat Form initial message draft', () => {
       'conversation/setInitialMessage',
       'Edited pre-chat draft'
     );
-    expect(context.hasInitialMessageDraft).toBe(true);
+    expect(context.hasInitialMessageDraft).toBe(false);
+  });
+
+  it('does not overwrite user-owned input with later initial message updates', () => {
+    const context = {
+      formValues: { message: 'Edited pre-chat draft' },
+      hasActiveCampaign: false,
+      hasInitialMessageDraft: false,
+      $store: { dispatch: vi.fn() },
+    };
+
+    initialMessageHandler.call(context, 'Updated SDK draft');
+
+    expect(context.formValues.message).toBe('Edited pre-chat draft');
+    expect(context.hasInitialMessageDraft).toBe(false);
   });
 
   it('does not sync regular pre-chat input as an initial message draft', () => {
