@@ -893,4 +893,51 @@ RSpec.describe ConversationReplyMailer do
       end
     end
   end
+
+  describe 'conversation_transcript' do
+    # Regression test for https://github.com/chatwoot/chatwoot/issues/14845
+    # The Send Transcript email did not set a Reply-To header, so visitors
+    # who replied to the transcript via email lost their reply. The
+    # reply_with_summary / email_reply mailers all set reply_to to the
+    # conversation's reply+<uuid>@<domain> address; conversation_transcript
+    # must do the same.
+
+    let(:account) { create(:account) }
+    let!(:agent) { create(:user, email: 'agent1@example.com', account: account) }
+    let(:class_instance) { described_class.new }
+    let(:email_channel) { create(:channel_email, account: account) }
+    let(:inbox) { create(:inbox, channel: email_channel, account: account) }
+    let(:conversation) do
+      create(:conversation, account: account, inbox: inbox, assignee: agent).reload
+    end
+
+    before do
+      allow(described_class).to receive(:new).and_return(class_instance)
+      allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(true)
+      conversation.contact.update!(email: 'visitor@example.com')
+      account.update!(domain: 'example.com', support_email: 'support@example.com')
+      account.enable_features('inbound_emails')
+    end
+
+    context 'when the custom domain emails are enabled' do
+      let(:mail) { described_class.conversation_transcript(conversation, 'visitor@example.com').deliver_now }
+
+      it 'sets reply-to to the conversation reply+<uuid>@<domain> address' do
+        reply_to_email = "reply+#{conversation.uuid}@#{account.domain}"
+        expect(mail.reply_to).to eq([reply_to_email])
+      end
+    end
+
+    context 'when the transcript is sent at all' do
+      let(:mail) { described_class.conversation_transcript(conversation, 'visitor@example.com').deliver_now }
+
+      it 'sets a reply-to header (not nil/empty) on the transcript email' do
+        # Before the fix, mail.reply_to was nil because the mail() call omitted it.
+        # The exact value of email_reply_to depends on IMAP/Mailer-Migration
+        # feature flags and GlobalConfig that are not relevant to this bug —
+        # we only assert that the header is populated, not what it points to.
+        expect(mail.reply_to).to be_present
+      end
+    end
+  end
 end

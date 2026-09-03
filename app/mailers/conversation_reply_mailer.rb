@@ -56,6 +56,7 @@ class ConversationReplyMailer < ApplicationMailer
     mail({
            to: to_email,
            from: from_email_with_name,
+           reply_to: email_reply_to,
            subject: "[##{@conversation.display_id}] #{I18n.t('conversations.reply.transcript_subject')}"
          })
   end
