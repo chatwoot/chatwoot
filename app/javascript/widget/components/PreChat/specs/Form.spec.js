@@ -4,6 +4,7 @@ import Form from '../Form.vue';
 
 const getValidation = Form.methods.getValidation;
 const initialMessageHandler = Form.watch.initialMessage.handler;
+const hasActiveCampaignHandler = Form.watch.hasActiveCampaign;
 const formValuesHandler = Form.watch.formValues.handler;
 const onSubmit = Form.methods.onSubmit;
 
@@ -85,6 +86,32 @@ describe('PreChat Form initial message draft', () => {
     initialMessageHandler.call(context, '');
 
     expect(context.formValues.message).toBe('');
+    expect(context.hasInitialMessageDraft).toBe(false);
+  });
+
+  it('applies a retained draft when campaign ownership ends', () => {
+    const context = {
+      formValues: {},
+      hasInitialMessageDraft: false,
+      initialMessage: 'Need help with this item',
+    };
+
+    hasActiveCampaignHandler.call(context, false);
+
+    expect(context.formValues.message).toBe('Need help with this item');
+    expect(context.hasInitialMessageDraft).toBe(true);
+  });
+
+  it('does not apply a retained draft while campaign ownership is active', () => {
+    const context = {
+      formValues: {},
+      hasInitialMessageDraft: false,
+      initialMessage: 'Need help with this item',
+    };
+
+    hasActiveCampaignHandler.call(context, true);
+
+    expect(context.formValues.message).toBeUndefined();
     expect(context.hasInitialMessageDraft).toBe(false);
   });
 

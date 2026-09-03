@@ -5,6 +5,8 @@ import './sdk';
 vi.mock('../sdk/IFrameHelper', () => ({
   IFrameHelper: {
     createFrame: vi.fn(),
+    getAppFrame: vi.fn(() => ({ src: '' })),
+    getUrl: vi.fn(() => 'https://app.chatwoot.com/widget'),
     sendMessage: vi.fn(),
     events: {
       toggleBubble: vi.fn(),
@@ -19,6 +21,7 @@ describe('$chatwoot SDK', () => {
     window.chatwootSettings = {};
     vi.spyOn(Cookies, 'get').mockReturnValue(undefined);
     vi.spyOn(Cookies, 'set').mockImplementation(() => {});
+    vi.spyOn(Cookies, 'remove').mockImplementation(() => {});
 
     window.chatwootSDK.run({
       baseUrl: 'https://app.chatwoot.com',
@@ -117,6 +120,18 @@ describe('$chatwoot SDK', () => {
       expect(() => window.$chatwoot.setInitialMessage({ id: 42 })).toThrow(
         'Initial message should be a string'
       );
+    });
+
+    it('clears queued initial messages when resetting the widget', () => {
+      window.$chatwoot.setInitialMessage('I need help with invoice 42');
+
+      window.$chatwoot.reset();
+
+      expect(window.$chatwoot.initialMessage).toBe('');
+      expect(IFrameHelper.getUrl).toHaveBeenCalledWith({
+        baseUrl: 'https://app.chatwoot.com',
+        websiteToken: 'website-token',
+      });
     });
   });
 });

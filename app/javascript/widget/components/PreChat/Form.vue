@@ -164,6 +164,15 @@ export default {
         };
       },
     },
+    hasActiveCampaign(hasActiveCampaign) {
+      if (hasActiveCampaign || !this.initialMessage) return;
+
+      this.hasInitialMessageDraft = true;
+      this.formValues = {
+        ...this.formValues,
+        message: this.initialMessage,
+      };
+    },
     formValues: {
       deep: true,
       handler(formValues) {
