@@ -3,9 +3,9 @@ require 'rails_helper'
 # Tests for automation conditions that match NULL (empty) field values.
 # Regression coverage for: https://github.com/chatwoot/chatwoot/issues/12797
 #
-# Root cause: fields like `priority = none` resolve to [nil] via
-# conversation_priority_values. Binding nil into `IN (NULL)` always
-# returns FALSE in SQL. The fix emits `IS NULL` / `IS NOT NULL` instead.
+# Root cause: the priority "None" option is stored as `nil`. Binding nil into
+# `IN (NULL)` always returns FALSE in SQL. The fix emits `IS NULL` / `IS NOT
+# NULL` instead.
 RSpec.describe AutomationRules::ConditionsFilterService do
   let(:account) { create(:account) }
   let(:inbox)   { create(:inbox, account: account) }
@@ -23,37 +23,37 @@ RSpec.describe AutomationRules::ConditionsFilterService do
   end
 
   # ---------------------------------------------------------------------------
-  # priority = none
+  # priority = nil
   # ---------------------------------------------------------------------------
   describe 'priority condition' do
-    context 'when filter_operator is equal_to and value is none' do
+    context 'when filter_operator is equal_to and value is nil' do
       it 'matches a conversation with no priority set (NULL)' do
         conversation = create(:conversation, account: account, inbox: inbox, contact: contact, priority: nil)
         conditions = [{ 'attribute_key' => 'priority', 'filter_operator' => 'equal_to',
-                        'values' => ['none'], 'query_operator' => nil }]
+                        'values' => ['nil'], 'query_operator' => nil }]
         expect(run_service(conversation, conditions)).to be true
       end
 
       it 'does not match a conversation that has a priority set' do
         conversation = create(:conversation, account: account, inbox: inbox, contact: contact, priority: :medium)
         conditions = [{ 'attribute_key' => 'priority', 'filter_operator' => 'equal_to',
-                        'values' => ['none'], 'query_operator' => nil }]
+                        'values' => ['nil'], 'query_operator' => nil }]
         expect(run_service(conversation, conditions)).to be false
       end
     end
 
-    context 'when filter_operator is not_equal_to and value is none' do
+    context 'when filter_operator is not_equal_to and value is nil' do
       it 'matches a conversation that has any priority set' do
         conversation = create(:conversation, account: account, inbox: inbox, contact: contact, priority: :high)
         conditions = [{ 'attribute_key' => 'priority', 'filter_operator' => 'not_equal_to',
-                        'values' => ['none'], 'query_operator' => nil }]
+                        'values' => ['nil'], 'query_operator' => nil }]
         expect(run_service(conversation, conditions)).to be true
       end
 
       it 'does not match a conversation with no priority (NULL)' do
         conversation = create(:conversation, account: account, inbox: inbox, contact: contact, priority: nil)
         conditions = [{ 'attribute_key' => 'priority', 'filter_operator' => 'not_equal_to',
-                        'values' => ['none'], 'query_operator' => nil }]
+                        'values' => ['nil'], 'query_operator' => nil }]
         expect(run_service(conversation, conditions)).to be false
       end
     end
@@ -69,7 +69,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
   end
 
   # ---------------------------------------------------------------------------
-  # AND compound condition: priority = none AND status = open
+  # AND compound condition: priority = nil AND status = open
   # ---------------------------------------------------------------------------
   describe 'compound AND condition with a NULL field' do
     it 'matches when both conditions are satisfied' do
@@ -77,7 +77,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
                              priority: nil, status: :open)
       conditions = [
         { 'attribute_key' => 'priority', 'filter_operator' => 'equal_to',
-          'values' => ['none'], 'query_operator' => 'AND' },
+          'values' => ['nil'], 'query_operator' => 'AND' },
         { 'attribute_key' => 'status', 'filter_operator' => 'equal_to',
           'values' => ['open'], 'query_operator' => nil }
       ]
@@ -89,7 +89,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
                              priority: :low, status: :open)
       conditions = [
         { 'attribute_key' => 'priority', 'filter_operator' => 'equal_to',
-          'values' => ['none'], 'query_operator' => 'AND' },
+          'values' => ['nil'], 'query_operator' => 'AND' },
         { 'attribute_key' => 'status', 'filter_operator' => 'equal_to',
           'values' => ['open'], 'query_operator' => nil }
       ]

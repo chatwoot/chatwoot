@@ -60,6 +60,14 @@ class AutomationRules::ConditionsFilterService < FilterService
     end
   end
 
+  def filter_values(query_hash)
+    return super unless query_hash[:attribute_key] == 'priority'
+
+    query_hash[:values].map do |value|
+      value.nil? || value == 'nil' ? nil : Conversation.priorities.fetch(value.to_s)
+    end
+  end
+
   def apply_filter(query_hash, current_index)
     conversation_filter = @conversation_filters[query_hash['attribute_key']]
     contact_filter = @contact_filters[query_hash['attribute_key']]
@@ -192,7 +200,7 @@ class AutomationRules::ConditionsFilterService < FilterService
   private
 
   # Returns true when all resolved filter values for this condition are nil.
-  # This happens for fields like `priority = none` or `assignee = unassigned`
+  # This happens for fields like `priority = nil` or `assignee = unassigned`
   # where the DB stores NULL. `IN (NULL)` is always FALSE in SQL, so we must
   # emit `IS NULL` / `IS NOT NULL` instead.
   def null_value_condition?(query_hash)
