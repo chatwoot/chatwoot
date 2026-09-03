@@ -46,7 +46,7 @@ class Notification < ApplicationRecord
     sla_missed_resolution: 8
   }.freeze
 
-  enum notification_type: NOTIFICATION_TYPES
+  enum :notification_type, NOTIFICATION_TYPES
 
   before_create :set_last_activity_at
   after_create_commit :process_notification_delivery, :dispatch_create_event
