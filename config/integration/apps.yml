@@ -367,3 +367,70 @@ leadsquared:
       'conversation_activity_score',
       'transcript_activity_score',
     ]
+mutoday_faq_reply:
+  id: mutoday_faq_reply
+  logo: mutoday_faq_reply.png
+  i18n_key: mutoday_faq_reply
+  hook_type: inbox
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'api_token': { 'type': 'string', 'minLength': 1 },
+          'mode': { 'type': 'string', 'enum': ['off', 'shadow', 'live'] },
+          'faq':
+            {
+              'type': 'array',
+              'maxItems': 200,
+              'items':
+                {
+                  'type': 'object',
+                  'properties':
+                    {
+                      'id': { 'type': 'string', 'pattern': '^[a-z0-9_]{3,64}$' },
+                      'q': { 'type': 'string', 'minLength': 1, 'maxLength': 300 },
+                      'aliases':
+                        {
+                          'type': 'array',
+                          'maxItems': 10,
+                          'items':
+                            { 'type': 'string', 'minLength': 1, 'maxLength': 300 },
+                        },
+                      'a': { 'type': 'string', 'minLength': 1, 'maxLength': 1200 },
+                    },
+                  'required': ['id', 'q', 'a'],
+                  'additionalProperties': false,
+                },
+            },
+        },
+      'required': ['api_token', 'mode'],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'OpenAI API Token',
+        'type': 'text',
+        'name': 'api_token',
+        'validation': 'required',
+        'validationName': 'API Token',
+        'help': 'An OpenAI-compatible API key. Stored on the hook, never returned by the API, and rotatable without a restart.',
+      },
+      {
+        'label': 'Mode',
+        'type': 'select',
+        'name': 'mode',
+        'value': 'shadow',
+        'validation': 'required',
+        'options':
+          [
+            { 'label': 'Shadow - private note only, customer sees nothing', 'value': 'shadow' },
+            { 'label': 'Live - reply to the customer', 'value': 'live' },
+            { 'label': 'Off - do nothing', 'value': 'off' },
+          ],
+        'help': 'Always start in Shadow. See docs/mutoday-faq-first-reply-plan.md section 3 for the promotion gate.',
+      },
+    ]
+  visible_properties: ['mode']

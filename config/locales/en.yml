@@ -411,6 +411,10 @@ en:
     webhooks:
       name: 'Webhooks'
       description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
+    mutoday_faq_reply:
+      name: 'MUToday FAQ First Reply'
+      short_description: 'Answer the first LINE message instantly with an AI-labelled Thai reply, then hand to a human.'
+      description: 'Replies to the first message of every new LINE conversation within seconds, using a curated list of approved Thai FAQ answers. Every reply carries a code-enforced AI disclosure and tells the customer a human will follow up. The conversation stays in the normal open queue and is never resolved or closed by the AI.'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'Build chatbots to handle initial queries before transferring to agents.'
