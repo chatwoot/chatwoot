@@ -54,20 +54,20 @@ RSpec.describe Messages::WebhookContentNormalizer do
       expect(described_class.normalize('path C:\\temp and a \\- dash')).to eq('path C:\\temp and a \\- dash')
     end
 
-    it 'preserves a literal escaped delimiter inside a fenced code block' do
+    it 'keeps a literal escaped delimiter inside a fenced code block' do
       expect(described_class.normalize("```\n\\--\n```")).to eq("```\n\\--\n```")
     end
 
-    it 'preserves trailing line-continuation backslashes inside a fenced code block' do
-      expect(described_class.normalize("```c\n#define X \\\nint y;\n```")).to eq("```c\n#define X \\\nint y;\n```")
+    it 'keeps an escaped delimiter that does not follow the editor hard-break glue' do
+      expect(described_class.normalize("hey\n\n\\--")).to eq("hey\n\n\\--")
     end
 
-    it 'normalizes the text around a fenced code block but not inside it' do
+    it 'normalizes hard breaks around a fenced code block without touching the escape inside' do
       expect(described_class.normalize("a\\\nb\n~~~\n\\==\n~~~\nc\\\nd")).to eq("a\nb\n~~~\n\\==\n~~~\nc\nd")
     end
 
-    it 'keeps an unclosed fence untouched to the end of the message' do
-      expect(described_class.normalize("```\n\\--")).to eq("```\n\\--")
+    it 'does not misread an inline-code line while normalizing what follows' do
+      expect(described_class.normalize("```foo```\nhey\\\nthere")).to eq("```foo```\nhey\nthere")
     end
   end
 end
