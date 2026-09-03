@@ -27,14 +27,19 @@ export default {
   methods: {
     onNewToastMessage({ message, action }) {
       const duration = action?.duration || this.duration;
-
-      this.snackbarAlertMessages.push({
+      const snackbarAlertMessage = {
         key: new Date().getTime(),
         message,
         action,
-      });
+      };
+
+      this.snackbarAlertMessages.push(snackbarAlertMessage);
       window.setTimeout(() => {
-        this.snackbarAlertMessages.splice(0, 1);
+        const messageIndex =
+          this.snackbarAlertMessages.indexOf(snackbarAlertMessage);
+        if (messageIndex !== -1) {
+          this.snackbarAlertMessages.splice(messageIndex, 1);
+        }
       }, duration);
     },
   },
