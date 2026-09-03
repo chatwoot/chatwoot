@@ -67,6 +67,24 @@ describe Twilio::IncomingMessageService do
       expect(twilio_channel.inbox.conversations.count).to eq(2)
     end
 
+    it 'creates a message from a short code without storing it as a phone number' do
+      params = {
+        SmsSid: 'SM-shortcode',
+        From: '12345',
+        AccountSid: 'ACxxx',
+        MessagingServiceSid: twilio_channel.messaging_service_sid,
+        Body: 'Your verification code is 123456'
+      }
+
+      described_class.new(params: params).perform
+
+      shortcode_conversation = twilio_channel.inbox.conversations.order(:created_at).last
+      expect(shortcode_conversation.contact_inbox.source_id).to eq('12345')
+      expect(shortcode_conversation.contact.name).to eq('12345')
+      expect(shortcode_conversation.contact.phone_number).to be_nil
+      expect(shortcode_conversation.messages.last.content).to eq('Your verification code is 123456')
+    end
+
     # Since we support the case with phone number as well. the previous case is with accoud_sid and messaging_service_sid
     context 'with a phone number' do
       let!(:twilio_channel) do
