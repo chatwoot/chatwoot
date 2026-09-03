@@ -20,6 +20,12 @@ vi.mock('vue-i18n', () => ({
 }));
 
 const DialogStub = {
+  props: {
+    disableDismissal: {
+      type: Boolean,
+      default: false,
+    },
+  },
   methods: { close: vi.fn() },
   template: '<div><slot /><slot name="footer" /></div>',
 };
@@ -290,11 +296,18 @@ describe('FaqImportDialog', () => {
     );
 
     expect(uploadAnotherButton.attributes('disabled')).toBeDefined();
+    expect(wrapper.getComponent(DialogStub).props('disableDismissal')).toBe(
+      true
+    );
     await uploadAnotherButton.trigger('click');
     expect(wrapper.text()).toContain('Existing question');
 
     pendingConfirmation.resolve({ data: { id: 9, status: 'preparing' } });
     await flushPromises();
+
+    expect(wrapper.getComponent(DialogStub).props('disableDismissal')).toBe(
+      false
+    );
   });
 
   it('shows the validation error returned by the server', async () => {

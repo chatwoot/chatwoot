@@ -169,6 +169,7 @@ defineExpose({ dialogRef });
     :description="$t('CAPTAIN.RESPONSES.IMPORT.DESCRIPTION')"
     :show-cancel-button="false"
     :show-confirm-button="false"
+    :disable-dismissal="isConfirming"
     @close="emit('close')"
   >
     <div v-if="!preview" class="flex flex-col gap-4">
