@@ -115,6 +115,8 @@ const isSLAEnabled = computed(() =>
 
 let slaFetchPromise = Promise.resolve();
 
+// Account feature flags may load after this page mounts, so watch the SLA flag
+// to ensure its options are fetched after a hard refresh.
 watch(
   isSLAEnabled,
   isEnabled => {
