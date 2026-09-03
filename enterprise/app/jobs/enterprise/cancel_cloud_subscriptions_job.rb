@@ -6,6 +6,9 @@ class Enterprise::CancelCloudSubscriptionsJob < ApplicationJob
   retry_on Stripe::StripeError, wait: :polynomially_longer, attempts: 10
 
   def perform(account)
+    # A retry can land after the admin cancelled the deletion; don't cancel a retained account's plan.
+    return if account.custom_attributes['marked_for_deletion_at'].blank?
+
     Enterprise::Billing::CancelCloudSubscriptionsService.new(account: account).perform
   end
 end
