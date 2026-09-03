@@ -1306,6 +1306,74 @@
     "RESPONSES": {
       "HEADER": "FAQs",
       "ADD_NEW": "Create new FAQ",
+      "CREATE_MANUALLY": "Create manually",
+      "IMPORT": {
+        "ACTION": "Import from CSV",
+        "SECTION_TITLE": "Import",
+        "TITLE": "Import FAQs from CSV",
+        "DESCRIPTION": "Upload a CSV to review its FAQs before importing them.",
+        "CHOOSE_FILE": "Choose a CSV file",
+        "FILE_HELP": "Use question and answer columns. You can import up to 1,000 rows.",
+        "SAMPLE": {
+          "QUESTION_HEADER": "question",
+          "ANSWER_HEADER": "answer",
+          "QUESTION_1": "How do I track my order?",
+          "ANSWER_1": "Open your order to see its status.",
+          "QUESTION_2": "Can I change my plan?",
+          "ANSWER_2": "Yes. You can change it from Billing.",
+          "QUESTION_3": "When will my order arrive?",
+          "ANSWER_3": "Delivery usually takes three days."
+        },
+        "PREVIEW": "Review CSV",
+        "PREVIEW_HELP": "You cannot edit this preview. Invalid and repeated rows will be skipped. Fix the CSV and upload it again to import them.",
+        "UPLOAD_ANOTHER": "Upload another CSV",
+        "CONFIRM": "Import {count} FAQ | Import {count} FAQs",
+        "SUCCESS": "The FAQ import has started.",
+        "ROW_COUNT": "{count} row | {count} rows",
+        "EXISTING_COUNT": "{count} already exists | {count} already exist",
+        "INVALID_COUNT": "{count} invalid row | {count} invalid rows",
+        "DOWNLOAD_INVALID": "Download invalid rows",
+        "EXISTING_ANSWER": "Existing answer",
+        "IMPORTED_ANSWER": "Imported answer",
+        "TABLE": {
+          "ROW": "Row",
+          "QUESTION": "Question",
+          "ANSWER": "Answer",
+          "STATUS": "Status"
+        },
+        "STATES": {
+          "READY": "Ready",
+          "EXISTING": "Already exists",
+          "SKIPPED": "Repeated row. Skipped."
+        },
+        "ACTIONS": {
+          "SKIP": "Skip",
+          "OVERWRITE": "Overwrite"
+        },
+        "STATUS": {
+          "PREPARING": {
+            "TITLE": "Importing FAQs",
+            "DESCRIPTION": "Captain is preparing the imported FAQs for search."
+          },
+          "COMPLETED": {
+            "TITLE": "FAQ import complete",
+            "DESCRIPTION": "{created} created, {overwritten} overwritten, and {skipped} skipped."
+          },
+          "COMPLETED_WITH_ERRORS": {
+            "TITLE": "FAQ import completed with errors",
+            "DESCRIPTION": "{created} created, {overwritten} overwritten, and {skipped} skipped."
+          },
+          "FAILED": {
+            "TITLE": "FAQ import failed",
+            "DESCRIPTION": "The import could not be completed."
+          }
+        },
+        "ERRORS": {
+          "PREVIEW": "There was an error reading the CSV. Please check the file and try again.",
+          "CONFIRM": "There was an error starting the import. Please try again.",
+          "DOWNLOAD": "There was an error downloading the invalid rows. Please try again."
+        }
+      },
       "NO_USED_CONVERSATIONS": "No conversations found for this FAQ.",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
