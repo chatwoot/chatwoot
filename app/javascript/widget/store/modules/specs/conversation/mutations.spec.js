@@ -169,7 +169,7 @@ describe('#mutations', () => {
   });
 
   describe('#clearConversations', () => {
-    it('clears conversations and pending metadata', () => {
+    it('clears conversations and pending metadata without clearing initial message drafts', () => {
       const state = {
         conversations: { 1: { id: 1 } },
         pendingCustomAttributes: { plan: 'enterprise' },
@@ -180,7 +180,7 @@ describe('#mutations', () => {
       expect(state.conversations).toEqual({});
       expect(state.pendingCustomAttributes).toEqual({});
       expect(state.pendingLabels).toEqual([]);
-      expect(state.initialMessage).toEqual('');
+      expect(state.initialMessage).toEqual('I need help with invoice 42');
     });
   });
 

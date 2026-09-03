@@ -286,6 +286,7 @@ describe('App handleSetUser', () => {
     handleSetUser.call(context, { identifier: 'visitor-2' });
 
     expect(context.handleInitialMessage).not.toHaveBeenCalled();
+    expect(context.setInitialMessage).toHaveBeenCalledWith('');
   });
 
   it('replays a published initial message when refreshing the same identified visitor', () => {
@@ -298,6 +299,20 @@ describe('App handleSetUser', () => {
     handleSetUser.call(context, { identifier: 'visitor-1' });
 
     expect(context.handleInitialMessage).toHaveBeenCalledWith('Edited draft');
+  });
+
+  it('drops pending initial messages when changing identified visitors', () => {
+    const context = buildContext({
+      currentUser: { identifier: 'visitor-1' },
+      pendingInitialMessage: 'Previous visitor draft',
+    });
+    context.$store.dispatch.mockResolvedValue();
+
+    handleSetUser.call(context, { identifier: 'visitor-2' });
+
+    expect(context.pendingInitialMessage).toBe('');
+    expect(context.setInitialMessage).toHaveBeenCalledWith('');
+    expect(context.handleInitialMessage).not.toHaveBeenCalled();
   });
 
   it('does not replay an initial message after it has already been published', () => {

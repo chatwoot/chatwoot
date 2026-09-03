@@ -319,11 +319,16 @@ export default {
     },
     handleSetUser(message) {
       const currentIdentifier = this.currentUser.identifier;
-      const shouldReplayInitialMessage =
-        !currentIdentifier || currentIdentifier === message.identifier;
+      const isChangingIdentifiedVisitor =
+        currentIdentifier &&
+        String(currentIdentifier) !== String(message.identifier);
+      if (isChangingIdentifiedVisitor) {
+        this.pendingInitialMessage = '';
+        this.setInitialMessage('');
+      }
       const pendingInitialMessage =
         this.pendingInitialMessage ||
-        (shouldReplayInitialMessage ? this.initialMessage : '');
+        (!isChangingIdentifiedVisitor ? this.initialMessage : '');
       this.initialMessageSequence += 1;
       this.setConversationHistoryFetchPromise(
         this.$store.dispatch('contacts/setUser', message)
