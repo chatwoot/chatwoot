@@ -49,12 +49,30 @@ class Whatsapp::IncomingMessageBaseService
 
   def process_statuses
     status = @processed_params[:statuses].first
-    return unless find_message_by_source_id(status[:id])
+    return log_unmatched_failed_status(status) unless find_message_by_source_id(status[:id])
 
     update_whatsapp_identifiers_from_status(status)
     update_message_with_status(@message, status)
   rescue ArgumentError => e
     Rails.logger.error "Error while processing whatsapp status update #{e.message}"
+  end
+
+  # WhatsApp Cloud API reports failures downloading INBOUND media (e.g. error
+  # code 131052 "Media download error") through this same "statuses" webhook,
+  # but since the download failure happens before the message can be
+  # persisted, `find_message_by_source_id` never matches and the event was
+  # silently dropped with no trace anywhere -- not in the database, not in
+  # the logs. Self-hosted instances have no way to detect that a contact's
+  # media never arrived, or to let the agent/contact know something needs
+  # to be resent. Log it at warn level so it's at least observable.
+  def log_unmatched_failed_status(status)
+    return unless status[:status] == 'failed'
+
+    error = status[:errors]&.first || {}
+    Rails.logger.warn(
+      "WhatsApp status=failed for unknown message (source_id=#{status[:id]}, " \
+      "recipient=#{status[:recipient_id]}, error=#{error[:code]}: #{error[:title]})"
+    )
   end
 
   def update_message_with_status(message, status)
