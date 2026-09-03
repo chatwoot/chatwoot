@@ -10,8 +10,9 @@ class Messages::AudioTranscriptionService
   def perform
     return { error: 'Message not found' } if message.blank?
     return { error: 'Transcription disabled for this inbox' } if call_recording_transcription_disabled?
+    return { error: 'Audio file not available' } unless attachment.file.attached?
     return { error: 'Transcription limit exceeded' } unless Llm::SpeechToTextService.available_for?(account)
-    return { error: 'Audio too large for transcription' } if Llm::SpeechToTextService.too_large?(attachment.file&.blob)
+    return { error: 'Audio too large for transcription' } if Llm::SpeechToTextService.too_large?(attachment.file.blob)
 
     transcriptions = transcribe_audio
     Rails.logger.info "Audio transcription successful: #{transcriptions}"

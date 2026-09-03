@@ -143,6 +143,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def build_files_array
     message.attachments.filter_map do |attachment|
       next unless attachment.with_attached_file?
+      next unless attachment.file.attached?
 
       build_file_payload(attachment)
     end

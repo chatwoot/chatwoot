@@ -47,7 +47,8 @@ class Messages::Messenger::MessageBuilder
     # discards the entire inbound message - along with the conversation and contact_inbox
     # when it is that contact's first message. The attachment already stores external_url,
     # so keep the message and lose only the stored copy of the file.
-    Rails.logger.warn "Failed to download attachment #{file_url}: #{e.message}"
+    # file_url is a signed CDN link, so log the attachment instead of the URL.
+    Rails.logger.warn "Failed to download attachment #{attachment.id}: #{e.message}"
   end
 
   def attachment_params(attachment)
@@ -83,6 +84,7 @@ class Messages::Messenger::MessageBuilder
   def update_attachment_file_type(attachment)
     return if @message.reload.attachments.blank?
     return unless attachment.file_type == 'share' || attachment.file_type == 'story_mention'
+    return unless attachment.file.attached?
 
     attachment.file_type = file_type(attachment.file&.content_type)
     attachment.save!
