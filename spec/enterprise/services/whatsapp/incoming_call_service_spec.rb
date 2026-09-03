@@ -151,6 +151,23 @@ describe Whatsapp::IncomingCallService do
       expect(Call.last.conversation.contact_inbox).to eq(existing)
     end
 
+    it 'reuses a normalized phone contact when no ContactInbox exists yet' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account, phone_number: '+5541988887777')
+
+      params = {
+        calls: [{ id: provider_call_id, from: '554188887777', event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: '554188887777' }]
+      }
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(Contact, :count)
+
+      expect(Call.last.contact).to eq(contact)
+      expect(Call.last.conversation.contact_inbox).to have_attributes(contact: contact, source_id: '554188887777')
+    end
+
     it 'reuses the BSUID-keyed ContactInbox messaging created for a username-only caller' do
       allow(ActionCable.server).to receive(:broadcast)
       contact = create(:contact, account: account)
