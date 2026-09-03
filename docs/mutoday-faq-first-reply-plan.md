@@ -74,14 +74,11 @@ Right, and the spec never noticed. Today a customer at 23:00 is told the hours; 
 
 Correct, and it violated the spec's own rule 29. The only trace of a deny-list hit was a jsonb key no agent view surfaces.
 
-**Fix:** a deny-list hit now writes a **conversation label** so the promise is true and agents can filter: `ai-ส่งต่อเจ้าหน้าที่` for money/legal/complaint/human/credential, `ai-เร่งด่วน` for crisis. Verified D6-safe (see C4). The copy is also softened to claim only what happens.
+**Fix:** a deny-list hit now writes a **conversation label** so the promise is true and agents can filter: `ai-ส่งต่อเจ้าหน้าที่`, for every hard-stop topic including `crisis` (see C20). Verified D6-safe (see C4). The copy is also softened to claim only what happens.
 
-### C9 — crisis is detected and then ignored — **FIXED**
-*(R3 B8; Appendix A item B is withdrawn as an owner-preference item)*
+### C9 — crisis is detected and then ignored — **SUPERSEDED BY C20**
 
-Shipping the crisis term list with no crisis response is worse than not detecting it, because detection creates the impression the case is handled.
-
-**Fix:** a distinct `CRISIS_BODY` ships in v1 with a real 24-hour referral (Thai Department of Mental Health hotline **1323**), plus the `ai-เร่งด่วน` label. Wording needs owner (or Mahidol student-affairs) sign-off before go-live — Owner decision **O-2**. If nobody will own it, the `crisis` group is deleted entirely; detect-and-ignore is not an option.
+The original fix was a dedicated `CRISIS_BODY` with a 24-hour referral, pending owner sign-off on the wording. The owner has declined to own that copy, so the special crisis response is cut. See **C20** for what ships instead and why the terms nevertheless stay.
 
 ### C10 — `JSON.parse(response.content)` raises `TypeError` on every successful classification — **FIXED**
 *(R3 B1)*
@@ -107,7 +104,7 @@ Thai LINE users greet first and ask second. G7 fired on the greeting, claimed th
 
 **Fix:** two constants, enforced identically in Ruby, chosen by the recorded route — never by the model:
 - `AI_DISCLOSURE = '[ตอบอัตโนมัติด้วย AI]'` when the model actually ran (`model`, `model_low_confidence`, `model_no_match`, and every `model_*` failure route).
-- `AUTO_DISCLOSURE = '[ข้อความอัตโนมัติ]'` when it did not (`no_corpus`, `non_text`, `denylist`, `crisis`, `noise_forced`).
+- `AUTO_DISCLOSURE = '[ข้อความอัตโนมัติ]'` when it did not (`no_corpus`, `non_text`, `denylist`, `noise_forced`).
 
 This is **stronger** than D1, not a departure from it: when the AI speaks, the AI label still ships, unconditionally, from Ruby. E2 and success criterion 5 are rewritten to assert that the prefix **matches the recorded route**, which is the check that actually tests D1. An owner who wants a single label collapses the two constants to the same string — a one-line change (Owner decision **O-3**).
 
@@ -191,6 +188,23 @@ The mirror is baked into the image, there is no editor in the container, and aft
 
 ---
 
+### C20 — the crisis-specific response is cut; the crisis terms stay — **OWNER DECISION, 2026-09-03**
+
+The owner declined to own crisis copy (`ตัดหมวด crisis ทิ้งก่อน`), which closes **O-2**.
+
+"Cut the crisis group" has two readings and they are not equally safe:
+
+- **(a) Delete the terms too.** `ฆ่าตัวตาย · อยากตาย · ทำร้ายตัวเอง` then stop being hard stops and flow to the classifier like any other text. A student writing `อยากตาย` to a university OA could receive an LLM-selected FAQ answer about event registration. This introduces a hazard that did not exist before the feature.
+- **(b) Delete the special response, keep the hard stop.** The terms still short-circuit before any model call; they route to the same `ai-ส่งต่อเจ้าหน้าที่` label and the same generic routed body as money and legal. No crisis-specific wording, no referral number, nobody has to own any copy.
+
+**Shipping (b).** It is what makes the decision safe, and it costs nothing: no new copy, no sign-off, no extra code path. Reading (a) is a one-line change (delete the `crisis:` key from `THAI_TERMS`) if the owner meant it literally — but it should be a deliberate choice, not a side effect.
+
+**What is cut:** `CRISIS_BODY`, the 1323 referral, the `ai-เร่งด่วน` label, task **T19**, and gate item **G11**.
+
+**What stays:** the `crisis` key in `THAI_TERMS`, its telemetry label (`deny_topic == 'crisis'`), and its hard-stop behaviour. Keeping the telemetry label is the point — after the shadow window the standing SQL shows exactly how often these messages arrive, which is the evidence a real crisis response would need if anyone later wants to own one.
+
+---
+
 ## 2. Ordered task list
 
 Tags: **[CODE]** this repo · **[SERVER]** production configuration · **[OWNER]** content/curation the owner must do.
@@ -208,7 +222,7 @@ Ordering rule: the three things that could invalidate the design — the ruby_ll
 | **T7** | `RateLimiter` — three-state reservation | **[CODE]** | `lib/integrations/mutoday_faq_reply/rate_limiter.rb`, `.../rate_limiter_spec.rb` | Specs pass: allows to the limit, returns `:limited` at limit+1; **a refused reservation does not increment**; TTL set on first increment; **two concurrent reserves both return `:ok` while capacity remains** (C3); a simulated WATCH abort returns `:contended` and is retried, never `:limited`. Contact limit is 12/h (C15). | T3 | 2.5h |
 | **T8** | `Telemetry` — structured log, deduped Sentry, never raises | **[CODE]** | `lib/integrations/mutoday_faq_reply/telemetry.rb`, `.../circuit_breaker_tripped.rb` | The logger accepts only the fixed keyword set (no parameter can carry a content string); a raise inside Sentry capture does not propagate; the alert dedup slot is keyed per *kind*. Closed sets for `outcome` and `guard` are frozen constants. | T3 | 1.5h |
 | **T9** | `ReplyService` — day-one path, no model, shadow-capable | **[CODE]** | `lib/integrations/mutoday_faq_reply/reply_service.rb`, `.../reply_service_spec.rb`, `app/jobs/mutoday_faq_reply_job.rb` | **This is the first shippable increment.** Specs pass, classifier absent: **D6 regression** (`inbox.active_bot?` false, status `open`, no `AgentBotInbox`); disclosure present and route-matched; `message_type == 'template'`, `sender_id` nil, `content_type == 'text'`, no `source_id`; **reporting untouched** (`waiting_since` unchanged, `first_reply_created_at` nil, still `unattended`) — this replaces `preserve_waiting_since`, which is deliberately not passed; empty corpus → reply created with `route == 'no_corpus'`; non-text → `route == 'non_text'`; **G8 re-checked immediately before create** (C2) with `guard=human_replied_during_classify`; idempotent (two runs → one row); shadow → `private == true`; telemetry lands in **`additional_attributes`** (C1); the customer's text never appears in a logged line. | T4, T5, T6, T7, T8 | 4h |
-| **T10** | Deny-list routing: labels, crisis body, after-hours note | **[CODE]** | `reply_service.rb`, `copy.rb`, `apps.yml` (`after_hours_note` key), `.../reply_service_spec.rb` | Specs pass: a money term → `route == 'denylist'`, `deny_topic == 'money'`, routed body, no classifier call, **and the conversation carries `ai-ส่งต่อเจ้าหน้าที่`** (C8); a crisis term → `CRISIS_BODY` containing `1323` and the `ai-เร่งด่วน` label (C9); **`conversation.reload.status` is still `'open'` after both** (D6 with labels); with `after_hours_note` set and `inbox.out_of_office?` stubbed true, the note is appended (C6). | T9 | 3h |
+| **T10** | Deny-list routing: labels, after-hours note | **[CODE]** | `reply_service.rb`, `copy.rb`, `apps.yml` (`after_hours_note` key), `.../reply_service_spec.rb` | Specs pass: a money term → `route == 'denylist'`, `deny_topic == 'money'`, routed body, no classifier call, **and the conversation carries `ai-ส่งต่อเจ้าหน้าที่`** (C8); a crisis term → `route == 'denylist'`, `deny_topic == 'crisis'`, the **same** routed body as money, and the **same** `ai-ส่งต่อเจ้าหน้าที่` label — no crisis-specific copy exists (C20); **`conversation.reload.status` is still `'open'` after both** (D6 with labels); with `after_hours_note` set and `inbox.out_of_office?` stubbed true, the note is appended (C6). | T9 | 3h |
 | **T11** | `Classifier` — the only file that touches the network | **[CODE]** | `lib/integrations/mutoday_faq_reply/classifier.rb` | `request_timeout = 8`, `max_retries = 0`, `api_base` passed explicitly (never nil-ed), plain-Hash strict schema, `raw = response.content; raw = JSON.parse(raw) if raw.is_a?(String)` (C10), **`rescue StandardError` returning `nil`** so it can never raise into the job. Prompt and payload wrap both the corpus and the customer text in the untrusted-data delimiters; only `id`/`q`/`aliases` are sent, never `a`. **The rendered corpus payload is capped** (C19 nit) at 20 000 chars. Verified against the real API once, by hand, with the spike token. | T1, T9 | 3h |
 | **T12** | Wire the classifier into `ReplyService` | **[CODE]** | `reply_service.rb`, `.../reply_service_spec.rb` | Specs pass with the classifier stubbed: matched → the corpus answer ships, `outcome == 'matched'`; confidence 0.4 → `model_low_confidence`; invented id → `model_invalid_id`; classifier returns `nil` → **a reply is still created** (the A2 no-silence guarantee); every `model_*` route carries `AI_DISCLOSURE`, every non-model route carries `AUTO_DISCLOSURE` (C12). `rubocop` clean — Cyclomatic ≤ 7 (split early; the guard chain is in `Eligibility`, body selection is one small `case`). | T11 | 2h |
 | **T13** | Rake tasks: `doctor · export · import[path] · diff · mode` | **[CODE]** | `lib/tasks/mutoday_faq_reply.rake` | `doctor` exits non-zero on any of P1–P4, on a non-LINE inbox, on `active_bot?`, on an invalid corpus, on an unresolvable model id, on a Redis round-trip failure, and prints the **manual** checklist item for the LINE OA's own platform greeting. `import[path]` takes a path, validates every entry (id pattern, id uniqueness, plain-text `a` including line-leading `-`/`*`/`1.`/`>`, no Liquid, ≤1200 chars, **no deny term is a substring of any `q`/alias**), merges rather than replacing settings, and **refuses when the hook holds ids the file lacks unless `FORCE=1`** (C18). `diff` prints the delta. `mode[live\|shadow\|off]` prints old → new. Constants and helpers live in a `MutodayFaq` module, not on `Object`. | T12 | 3h |
@@ -217,11 +231,10 @@ Ordering rule: the three things that could invalidate the design — the ruby_ll
 | **T16** | Deploy the code (no version bump, no migration) | **[SERVER]** | none | `rsync -av --exclude .git --exclude backups --exclude src <mu-support>/ root@<server>:/opt/mu-support/`, then `nohup ./build.sh <version>-mutoday > build.log 2>&1 &`, then `docker compose up -d`. Verified: `curl -s https://support.mutoday.com/api` reports `queue_services` and `data_services` both `ok`; `SELECT count(*) FROM pg_index WHERE NOT indisvalid` returns 0; the integration card appears in the dashboard. No `upgrade.sh` — the Chatwoot version has not moved. | T15 | 1h + build |
 | **T17** | Blank the greeting / OOO and move the OOO text into settings | **[SERVER]** + **[OWNER]** sign-off | none | Owner has signed off on switching the inbox greeting off (**O-1**). `out_of_office_message` blanked, `working_hours_enabled` left **on**, the same Thai text stored in `hook.settings['after_hours_note']`. `rake mutoday:faq:doctor` exits 0. | T16, O-1 | 0.5h |
 | **T18** | Connect the hook in Shadow mode | **[SERVER]** | none | Dashboard → Integrations → Connect, with the OpenAI token, Mode = **Shadow**, Inbox = the LINE OA. Then `rake mutoday:faq:doctor` exits 0 with the hook present, and `docker compose logs rails \| grep -c 'sk-'` returns 0 (C19 — the credential never hit a log). | T17 | 0.5h |
-| **T19** | Write the crisis body and get it approved | **[OWNER]** | `copy.rb` (one constant) | The Thai crisis wording, including the 1323 referral, is approved by the owner or Mahidol student affairs, in writing. **Blocks go-live** (C9). | T4 | owner |
 | **T20** | Write the real Thai corpus entries | **[OWNER]** | `config/mutoday_faq_corpus.yml` | ≥ 5 entries whose `a` text is real MUToday copy, each passing the T13 importer validations. Written **from what agents actually answered during the shadow window**, not guessed in advance (§8.4 argument 3). | T18, shadow week 1 | owner |
 | **T21** | Import the corpus and re-run the shadow window | **[SERVER]** + **[OWNER]** | none | `docker cp` + `rake "mutoday:faq:import[/tmp/corpus.yml]"`, `doctor` exits 0, timed and recorded as the §15.15 acceptance step. The shadow clock restarts for the model-in-the-path evidence. | T20 | 0.5h |
 
-**Total engineering: ~33 h** across T1–T16, plus owner time on T19–T21.
+**Total engineering: ~33 h** across T1–T16, plus owner time on T20–T21.
 
 ---
 
@@ -302,7 +315,6 @@ docker compose logs rails --since 24h | grep -c 'guard=foreign_template'   # mus
 
 **G10 — Human read of 50.** The owner reads 50 randomly sampled shadow notes and judges **at most 2** "would have been wrong to send". With the corpus loaded, additionally **zero** money / legal / crisis messages that received `route=model` instead of `route=denylist` — a deny-list gap is fixed before promotion, never after.
 
-**G11 — Crisis wording approved** (T19) and the two labels appear on the right conversations.
 
 Any failure: fix, reset the clock, run another 7 days.
 
@@ -365,7 +377,7 @@ Each has a recommended default so nothing blocks.
 | # | Decision | Recommended default | Consequence of the default |
 |---|---|---|---|
 | **O-1** | **Switch the LINE inbox's greeting message off?** Required for the feature to work at all (C5) — the greeting fires synchronously and permanently blocks our reply. | **Yes, switch it off.** The AI acknowledgment replaces it and says strictly more. The OOO text is preserved via `after_hours_note` (C6), so nothing is lost there. | Blocks T17 and therefore go-live. If the answer is no, the feature cannot ship and the plan stops at T16. |
-| **O-2** | **The crisis reply's exact Thai wording**, including whether the 1323 hotline referral is acceptable to publish from a Mahidol channel. | Ship the referral. `รับเรื่องไว้แล้วครับ เจ้าหน้าที่จะติดต่อกลับโดยเร็วที่สุด` + `ถ้าต้องการคุยกับผู้เชี่ยวชาญทันที โทรสายด่วนสุขภาพจิต 1323 ได้ตลอด 24 ชั่วโมงครับ` | If nobody will own a crisis response, the `crisis` term group is **deleted** — detect-and-ignore is not an option (C9). |
+| ~~**O-2**~~ | ~~The crisis reply's exact Thai wording.~~ | **CLOSED 2026-09-03 — cut.** No crisis-specific response ships. The crisis terms remain a hard stop routed to the generic handoff body and label. See **C20**. | None. Revisit only if someone volunteers to own crisis copy. |
 | **O-3** | **One disclosure label or two?** (C12) `[ตอบอัตโนมัติด้วย AI]` only when the model ran, vs. the same label on every automated reply. | **Two.** On day one, one label would put "AI" on a system containing no AI, and a label that means "canned" stops disclosing anything by the time a real model answer arrives. | Collapsing to one is a one-line change (set both constants to the same string). |
 | **O-4** | **Thai politeness register.** Announcement voice (no particle) vs. pinned `ครับ`. | **`ครับ`.** It is the safe institutional default; particle-free Thai from a university OA reads machine-translated, which undercuts exactly the trust the disclosure is meant to build. | Four constants in `copy.rb`, nothing else. |
 | **O-5** | **The four circuit-breaker numbers**, once T15's baseline exists. | Conversation 1 (ever) · contact **12**/h · inbox 60/h · inbox 500/day, then re-derived at ≥ 5× observed peak during the shadow gate (G8). | A breaker that fires in normal operation trains everyone to ignore the alert (A3). Never tune down "to be safe". |

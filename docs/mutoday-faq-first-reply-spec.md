@@ -416,7 +416,7 @@ The `:money` group, as an actual compiled regex, for the reader:
 
 - The error budget is deliberately generous, borrowed from the jodjam routing matcher: a false positive costs one slightly-less-specific acknowledgment; a false negative sends a refund dispute or a person in crisis to a language model. Under A1 the false positive costs nothing at all.
 - `ราคา`, `ค่าสมัคร`, `ค่าเทอม`, `สมัคร` are **deliberately absent.** Those are exactly what the FAQ corpus is for.
-- `crisis` is not in the brief and is added on purpose: a university LINE OA will receive these messages, and the one thing the system must never do is hand them to a model. ⚠ **OWNER:** confirm the routed body's wording is acceptable for crisis messages, or add a separate crisis body with a referral number.
+- `crisis` is not in the brief and is added on purpose: a university LINE OA will receive these messages, and the one thing the system must never do is hand them to a model. **Resolved 2026-09-03 (plan C20):** no crisis-specific body ships. These terms stay a hard stop and route to the same generic handoff body and label as `money` and `legal`; only the telemetry label distinguishes them.
 - Terms are matched against the **customer's message only**, never against FAQ answers.
 
 Required non-matching fixtures (§14 asserts every one of these returns `nil`):
@@ -1428,7 +1428,7 @@ Everything else in this document is decided. These five are not, and each names 
 | # | Decision | Default if you say nothing |
 | --- | --- | --- |
 | A | Thai politeness register — announcement voice (no `ครับ`/`ค่ะ`) vs. pinned `ครับ`. Changes only the four constants in `copy.rb`. | Announcement voice, as written in §7.1. |
-| B | The exact wording of the crisis-topic routed reply. §5 currently sends all deny-list topics to one body; a crisis message may warrant a referral number. | One shared routed body. |
+| ~~B~~ | ~~The exact wording of the crisis-topic routed reply.~~ | **CLOSED 2026-09-03 — cut (plan C20).** One shared routed body for every hard-stop topic, crisis included. |
 | C | The four circuit-breaker numbers in §9.1. | 1 / 3-per-hour / 60-per-hour / 500-per-day. |
 | D | Whether to add a dashboard Edit affordance for `hook.settings` later (needs frontend code, breaks the zero-frontend Lark shape). | No — rake task only. |
 | E | Whether to promote to live with an empty corpus first (one extra week, splits the two risks cleanly) or to import the corpus during shadow. | Import during shadow; promote once. |
