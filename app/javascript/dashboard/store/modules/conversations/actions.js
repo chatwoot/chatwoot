@@ -3,6 +3,7 @@ import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import {
   buildConversationList,
   isOnMentionsView,
@@ -31,6 +32,16 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
   return status === MESSAGE_STATUS.FAILED && externalError !== '';
 };
 
+// Only the newest conversation list request is ever meaningful, so starting one
+// cancels the request before it. A slow response can then never merge into a
+// list the user has already moved on from, and a superseded page can never move
+// the shared page counter past the list that replaced it.
+const { run: runListRequest } = useAbortableRequest();
+
+// The reconnect refresh runs in the background on its own instance, so it never
+// cancels, and is never cancelled by, the load the user is waiting for.
+const { run: runBackgroundRefresh } = useAbortableRequest();
+
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -47,9 +58,16 @@ const actions = {
     commit(types.SET_LIST_LOADING_STATUS);
     try {
       const params = state.conversationFilters;
+      const run = params.updatedWithin ? runBackgroundRefresh : runListRequest;
+      const response = await run(signal =>
+        ConversationApi.get({ ...params, signal })
+      );
+      // Superseded, so the request that replaced this one owns the list and
+      // the loading state.
+      if (!response) return;
       const {
         data: { data },
-      } = await ConversationApi.get(params);
+      } = response;
       buildConversationList(
         { commit, dispatch },
         params,
@@ -64,7 +82,12 @@ const actions = {
   fetchFilteredConversations: async ({ commit, dispatch }, params) => {
     commit(types.SET_LIST_LOADING_STATUS);
     try {
-      const { data } = await ConversationApi.filter(params);
+      const response = await runListRequest(signal =>
+        ConversationApi.filter({ ...params, signal })
+      );
+      // Rethrowing would alert about a list the user has already replaced.
+      if (!response) return;
+      const { data } = response;
       buildConversationList(
         { commit, dispatch },
         params,
