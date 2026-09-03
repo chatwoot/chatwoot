@@ -12,9 +12,9 @@ module Enterprise::Whatsapp::OneoffCampaignService
     contact = recipient.contact
     Rails.logger.info "Processing contact: #{contact.name} (#{contact.phone_number})"
 
-    if contact.phone_number.blank?
-      Rails.logger.info "Skipping contact #{contact.name} - no phone number"
-      recipient.mark_skipped!('Phone number is missing')
+    destination, destination_error = campaign_destination(contact)
+    if destination.blank?
+      recipient.mark_skipped!(destination_error)
       return
     end
 
@@ -32,7 +32,7 @@ module Enterprise::Whatsapp::OneoffCampaignService
 
     recipient.update!(message_content: rendered_message_content(contact))
 
-    send_whatsapp_template_message(recipient: recipient, to: contact.phone_number, template_params: processed_template_params)
+    send_whatsapp_template_message(recipient: recipient, to: destination, template_params: processed_template_params)
   end
 
   def create_recipients(audience_labels)
@@ -58,6 +58,8 @@ module Enterprise::Whatsapp::OneoffCampaignService
   end
 
   def send_whatsapp_template_message(recipient:, to:, template_params:)
+    return if authentication_template_blocked?(recipient, to, template_params)
+
     processor = Whatsapp::TemplateProcessorService.new(
       channel: channel,
       template_params: template_params
@@ -88,6 +90,14 @@ module Enterprise::Whatsapp::OneoffCampaignService
       lang_code: lang_code,
       parameters: processed_parameters
     }
+  end
+
+  def authentication_template_blocked?(campaign_recipient, recipient, params)
+    error = Whatsapp::AuthenticationTemplateGuard.new(channel: channel, recipient: recipient, template_params: params).error
+    return false unless error
+
+    campaign_recipient.mark_skipped!(error)
+    true
   end
 
   def update_recipient_from_provider_response(recipient, source_id)
