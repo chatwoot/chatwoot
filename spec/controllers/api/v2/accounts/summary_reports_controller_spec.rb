@@ -22,7 +22,8 @@ RSpec.describe 'Summary Reports API', type: :request do
         {
           since: start_of_today.to_s,
           until: end_of_today.to_s,
-          business_hours: true
+          business_hours: true,
+          timezone_offset: 330
         }
       end
 
@@ -76,7 +77,8 @@ RSpec.describe 'Summary Reports API', type: :request do
         {
           since: start_of_today.to_s,
           until: end_of_today.to_s,
-          business_hours: true
+          business_hours: true,
+          timezone_offset: 330
         }
       end
 
@@ -130,7 +132,8 @@ RSpec.describe 'Summary Reports API', type: :request do
         {
           since: start_of_today.to_s,
           until: end_of_today.to_s,
-          business_hours: true
+          business_hours: true,
+          timezone_offset: 330
         }
       end
 
