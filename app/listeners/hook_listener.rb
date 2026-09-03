@@ -64,7 +64,8 @@ class HookListener < BaseListener
       'google_translate' => ['message.created'],
       'leadsquared' => ['contact.updated', 'conversation.created', 'conversation.resolved'],
       'linear' => ['message.created'],
-      'lark' => ['message.created', 'conversation.resolved']
+      'lark' => ['message.created', 'conversation.resolved'],
+      'mutoday_faq_reply' => ['message.created']
     }
 
     return false unless supported_events_map.key?(hook.app_id)

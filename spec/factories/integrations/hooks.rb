@@ -38,6 +38,19 @@ FactoryBot.define do
       reference_id { 'test-store.myshopify.com' }
     end
 
+    trait :mutoday_faq_reply do
+      app_id { 'mutoday_faq_reply' }
+      settings { { 'api_token' => 'test-token', 'mode' => 'shadow' } }
+
+      # hook_type is not set here: Hook#ensure_hook_type overwrites it from apps.yml.
+      # The channel and the inbox must share the hook's account — create(:channel_line)
+      # on its own builds its inbox under a second, unrelated account.
+      after(:build) do |hook|
+        hook.inbox ||= create(:inbox, account: hook.account, name: 'LINE OA',
+                                      channel: create(:channel_line, account: hook.account, inbox: nil))
+      end
+    end
+
     trait :leadsquared do
       app_id { 'leadsquared' }
       settings do

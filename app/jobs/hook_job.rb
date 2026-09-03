@@ -9,7 +9,8 @@ class HookJob < MutexApplicationJob
     'google_translate' => :google_translate_integration,
     'leadsquared' => :process_leadsquared_integration_with_lock,
     'linear' => :process_linear_integration,
-    'lark' => :process_lark_integration
+    'lark' => :process_lark_integration,
+    'mutoday_faq_reply' => :process_mutoday_faq_reply_integration
   }.freeze
 
   def perform(hook, event_name, event_data = {})
@@ -72,6 +73,15 @@ class HookJob < MutexApplicationJob
     when 'conversation.resolved'
       Integrations::Lark::SendOnLarkService.clear_announcement(event_data[:conversation])
     end
+  end
+
+  # Deliberately dumb. HookJob rescues StandardError and only logs (see #perform), so all
+  # eligibility, guards, telemetry and retry semantics live in MutodayFaqReplyJob, which
+  # owns its own failure surface. queue :high there matches SendReplyJob.
+  def process_mutoday_faq_reply_integration(hook, event_name, event_data)
+    return unless event_name == 'message.created'
+
+    MutodayFaqReplyJob.perform_later(hook, event_data[:message])
   end
 
   def process_leadsquared_integration_with_lock(hook, event_name, event_data)
