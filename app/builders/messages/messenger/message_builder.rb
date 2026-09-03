@@ -41,6 +41,13 @@ class Messages::Messenger::MessageBuilder
     # after_create_commit broadcast bails on `file.attached?`. Re-fire here
     # for audio so the bubble updates without waiting on transcription.
     attachment.message&.reload&.send_update_event if attachment.file_type.to_sym == :audio
+  rescue Down::Error => e
+    # Meta's CDN links expire and intermittently 404. Letting this raise unwinds the
+    # ActiveRecord transaction in Messages::Instagram::BaseMessageBuilder#perform, which
+    # discards the entire inbound message - along with the conversation and contact_inbox
+    # when it is that contact's first message. The attachment already stores external_url,
+    # so keep the message and lose only the stored copy of the file.
+    Rails.logger.warn "Failed to download attachment #{file_url}: #{e.message}"
   end
 
   def attachment_params(attachment)
