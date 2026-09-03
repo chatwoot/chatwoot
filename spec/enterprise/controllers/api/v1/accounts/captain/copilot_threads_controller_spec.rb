@@ -136,6 +136,27 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
           )
         end
 
+        it 'truncates the thread title but stores the full message when the message exceeds 255 characters' do
+          account.limits = { captain_responses: 2 }
+          account.custom_attributes = { captain_responses_usage: 0 }
+          account.save!
+
+          long_message = 'a' * 300
+
+          post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+               params: { message: long_message, assistant_id: assistant.id, conversation_id: conversation.display_id },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+
+          thread = CopilotThread.last
+          expect(thread.title).to eq(long_message.truncate(255, omission: ''))
+
+          message = thread.copilot_messages.last
+          expect(message.message).to eq({ 'content' => long_message })
+        end
+
         it 'enqueues the dedicated reply suggestion job' do
           account.limits = { captain_responses: 2 }
           account.custom_attributes = { captain_responses_usage: 0 }
