@@ -56,9 +56,10 @@ export const buildConversationList = (
   const { payload: conversationList, meta: metaData } = responseData;
   if (replaceExisting) {
     context.dispatch('conversationPage/reset', null, { root: true });
-    context.commit(types.RESET_CONVERSATION_LIST);
+    context.commit(types.REPLACE_CONVERSATION_LIST, conversationList);
+  } else {
+    context.commit(types.SET_ALL_CONVERSATION, conversationList);
   }
-  context.commit(types.SET_ALL_CONVERSATION, conversationList);
   context.dispatch('conversationStats/set', metaData);
   context.dispatch(
     'conversationLabels/setBulkConversationLabels',

@@ -29,6 +29,16 @@ const getConversationById = _state => conversationId => {
   return _state.allConversations.find(c => c.id === conversationId);
 };
 
+const preserveConversationMessageState = (
+  conversation,
+  existingConversation
+) => ({
+  ...conversation,
+  allMessagesLoaded: existingConversation.allMessagesLoaded,
+  messages: existingConversation.messages,
+  dataFetched: existingConversation.dataFetched,
+});
+
 // mutations
 export const mutations = {
   [types.SET_ALL_CONVERSATION](_state, conversationList) {
@@ -49,23 +59,32 @@ export const mutations = {
         // If the conversation is already in the list and selectedChatId is the same,
         // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
         const existingConversation = newAllConversations[indexInCurrentList];
-        newAllConversations[indexInCurrentList] = {
-          ...conversation,
-          allMessagesLoaded: existingConversation.allMessagesLoaded,
-          messages: existingConversation.messages,
-          dataFetched: existingConversation.dataFetched,
-        };
+        newAllConversations[indexInCurrentList] =
+          preserveConversationMessageState(conversation, existingConversation);
       }
     });
     _state.allConversations = newAllConversations;
   },
-  [types.RESET_CONVERSATION_LIST](_state) {
+  [types.REPLACE_CONVERSATION_LIST](_state, conversationList) {
     const selectedConversation = getConversationById(_state)(
       _state.selectedChatId
     );
-    _state.allConversations = selectedConversation
-      ? [selectedConversation]
-      : [];
+    const replacementList = [...conversationList];
+    if (selectedConversation) {
+      const selectedConversationIndex = replacementList.findIndex(
+        conversation => conversation.id === selectedConversation.id
+      );
+      if (selectedConversationIndex === -1) {
+        replacementList.push(selectedConversation);
+      } else {
+        replacementList[selectedConversationIndex] =
+          preserveConversationMessageState(
+            replacementList[selectedConversationIndex],
+            selectedConversation
+          );
+      }
+    }
+    _state.allConversations = replacementList;
   },
   [types.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
