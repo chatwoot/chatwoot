@@ -131,6 +131,21 @@ const log =
       />
     </Variant>
 
+    <Variant title="Ongoing · WhatsApp with keypad">
+      <CallCard
+        :call="whatsappCall"
+        :call-info="richCallInfo"
+        :state="VOICE_CALL_DIRECTION.ONGOING"
+        duration="03:47"
+        show-mute
+        show-keypad
+        @end="log('end')"
+        @toggle-mute="log('toggleMute')"
+        @send-digit="log('sendDigit')"
+        @go-to-conversation="log('goToConversation')"
+      />
+    </Variant>
+
     <Variant title="Ongoing · Twilio (no mute control)">
       <CallCard
         :call="twilioCall"
@@ -138,6 +153,21 @@ const log =
         :state="VOICE_CALL_DIRECTION.ONGOING"
         duration="00:42"
         @end="log('end')"
+        @go-to-conversation="log('goToConversation')"
+      />
+    </Variant>
+
+    <Variant title="Ongoing · Twilio with keypad">
+      <CallCard
+        :call="twilioCall"
+        :call-info="richCallInfo"
+        :state="VOICE_CALL_DIRECTION.ONGOING"
+        duration="00:42"
+        show-mute
+        show-keypad
+        @end="log('end')"
+        @toggle-mute="log('toggleMute')"
+        @send-digit="log('sendDigit')"
         @go-to-conversation="log('goToConversation')"
       />
     </Variant>

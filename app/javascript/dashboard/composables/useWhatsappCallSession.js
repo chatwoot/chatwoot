@@ -464,6 +464,23 @@ export const setWhatsappCallMuted = muted => {
   return muted;
 };
 
+export const sendWhatsappDigits = digit => {
+  if (!pc) return false;
+  const audioSender = pc
+    .getSenders()
+    .find(sender => sender.track?.kind === 'audio');
+  const dtmf = audioSender?.dtmf;
+  if (!dtmf?.canInsertDTMF) return false;
+
+  try {
+    dtmf.insertDTMF(`${dtmf.toneBuffer}${digit}`, 500, 100);
+    return true;
+  } catch (error) {
+    if (error.name === 'InvalidStateError') return false;
+    throw error;
+  }
+};
+
 export const sendWhatsappTerminateBeacon = () => {
   // Always fire when there's a live callId. The beacon endpoint is idempotent,
   // so racing it with an in-flight Axios terminate (which unload may abort) is

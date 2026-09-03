@@ -297,6 +297,7 @@ const handleCallBack = async () => {
       conversationId: response?.conversation_id ?? conversationId.value,
       inboxId: inboxId.value,
       callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
+      provider: VOICE_CALL_PROVIDERS.TWILIO,
     });
   } catch (error) {
     useAlert(error?.message || t('CONTACT_PANEL.CALL_FAILED'));

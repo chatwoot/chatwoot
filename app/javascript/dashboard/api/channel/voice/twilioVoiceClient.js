@@ -1,4 +1,4 @@
-import { Device } from '@twilio/voice-sdk';
+import { Call, Device } from '@twilio/voice-sdk';
 import VoiceAPI from './voiceAPIClient';
 
 const createCallDisconnectedEvent = () => new CustomEvent('call:disconnected');
@@ -52,6 +52,18 @@ class TwilioVoiceClient extends EventTarget {
     if (!this.activeConnection) return false;
     this.activeConnection.mute(shouldMute);
     return shouldMute;
+  }
+
+  sendDigits(digit) {
+    if (
+      !this.activeConnection ||
+      this.activeConnection.status() !== Call.State.Open
+    ) {
+      return false;
+    }
+
+    this.activeConnection.sendDigits(digit);
+    return true;
   }
 
   endClientCall() {
