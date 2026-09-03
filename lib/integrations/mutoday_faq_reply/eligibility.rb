@@ -82,7 +82,7 @@ class Integrations::MutodayFaqReply::Eligibility
   def structural_rejection
     return skipped('not_incoming') unless message.incoming?
     return skipped('no_source_id') if message.source_id.blank?
-    return skipped('sender_not_contact') unless message.sender.is_a?(Contact)
+    return skipped('not_contact_sender') unless message.sender.is_a?(Contact)
 
     nil
   end
@@ -101,7 +101,7 @@ class Integrations::MutodayFaqReply::Eligibility
     return answered == 'foreign_template' ? misconfigured(answered) : skipped(answered) if answered
 
     return skipped('noise_deferred') if defer_noise?
-    return skipped('marker_claimed') unless claim_conversation
+    return skipped('already_claimed') unless claim_conversation
 
     nil
   end

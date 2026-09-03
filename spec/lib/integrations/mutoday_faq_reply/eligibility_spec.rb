@@ -72,7 +72,7 @@ describe Integrations::MutodayFaqReply::Eligibility do
 
   describe 'G4 — a customer is speaking' do
     it 'rejects a User sender' do
-      expect(gate(inbound(sender: agent)).rejection).to eq({ outcome: 'skipped', guard: 'sender_not_contact' })
+      expect(gate(inbound(sender: agent)).rejection).to eq({ outcome: 'skipped', guard: 'not_contact_sender' })
     end
 
     it 'rejects a message with no sender at all' do
@@ -83,7 +83,7 @@ describe Integrations::MutodayFaqReply::Eligibility do
         sender: nil, content: 'ถามหน่อยครับ', source_id: 'line-no-sender'
       )
 
-      expect(gate(message).rejection).to eq({ outcome: 'skipped', guard: 'sender_not_contact' })
+      expect(gate(message).rejection).to eq({ outcome: 'skipped', guard: 'not_contact_sender' })
     end
   end
 
@@ -225,7 +225,7 @@ describe Integrations::MutodayFaqReply::Eligibility do
     it 'blocks a different message on the same conversation' do
       expect(gate(inbound).rejection).to be_nil
 
-      expect(gate(inbound(content: 'ถามอีกเรื่องครับ')).rejection).to eq({ outcome: 'skipped', guard: 'marker_claimed' })
+      expect(gate(inbound(content: 'ถามอีกเรื่องครับ')).rejection).to eq({ outcome: 'skipped', guard: 'already_claimed' })
     end
 
     it 'sets the marker to the winning message id, with a TTL' do
