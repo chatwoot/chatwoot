@@ -535,6 +535,7 @@ const actions = {
   },
 
   updateChatListFilters({ commit }, data) {
+    conversationListRequestId += 1;
     commit(types.UPDATE_CHAT_LIST_FILTERS, data);
   },
 
