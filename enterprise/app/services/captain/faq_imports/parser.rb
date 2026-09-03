@@ -12,12 +12,13 @@ class Captain::FaqImports::Parser
   end
 
   def perform
-    table = CSV.parse(utf8_content.delete_prefix("\uFEFF"), headers: false)
-    headers = table.shift
+    content = utf8_content
+    content.delete_prefix!("\uFEFF")
+    csv = CSV.new(content, headers: false)
+    headers = csv.shift
     validate_headers!(headers)
-    raise InvalidCsvError, "CSV files can contain at most #{MAX_ROWS} rows." if table.length > MAX_ROWS
 
-    rows = build_rows(table, headers)
+    rows = build_rows(csv, headers)
     mark_csv_duplicates!(rows)
     mark_existing_faqs!(rows)
     remove_temporary_fields!(rows)
@@ -34,9 +35,10 @@ class Captain::FaqImports::Parser
 
   def utf8_content
     content = @content.to_s.dup.force_encoding(Encoding::UTF_8)
-    return content if content.valid_encoding?
+    raise InvalidCsvError, 'The CSV must use UTF-8 encoding.' unless content.valid_encoding?
+    raise InvalidCsvError, 'The CSV cannot contain null bytes.' if content.include?("\0")
 
-    raise InvalidCsvError, 'The CSV must use UTF-8 encoding.'
+    content
   end
 
   def validate_headers!(headers)
@@ -46,19 +48,21 @@ class Captain::FaqImports::Parser
     raise InvalidCsvError, 'The CSV must have exactly two columns named question and answer.'
   end
 
-  def build_rows(table, headers)
+  def build_rows(csv, headers)
     normalized_headers = headers.map { |header| self.class.normalize(header) }
     question_index = normalized_headers.index('question')
     answer_index = normalized_headers.index('answer')
 
-    table.each_with_index.map do |values, index|
+    csv.each_with_index.map do |values, index|
+      raise InvalidCsvError, "CSV files can contain at most #{MAX_ROWS} rows." if index >= MAX_ROWS
+
       build_row(values, index + 2, question_index, answer_index)
     end
   end
 
   def build_row(values, row_number, question_index, answer_index)
-    question = values[question_index].to_s.strip if values.length == 2
-    answer = values[answer_index].to_s.strip if values.length == 2
+    question = values[question_index].to_s.strip
+    answer = values[answer_index].to_s.strip
     error = row_error(values, question, answer)
 
     {
