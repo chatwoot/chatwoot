@@ -126,14 +126,21 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   def extract_image_width(src)
+    extract_px_param(src, 'cw_image_width')
+  end
+
+  def query_param(src, key)
     query = URI.parse(src).query
-    raw = query && CGI.parse(query)['cw_image_width']&.first
-    return unless raw =~ /\A(\d+)px\z/
+    query && CGI.parse(query)[key]&.first
+  rescue URI::InvalidURIError
+    nil
+  end
+
+  def extract_px_param(src, key)
+    return unless query_param(src, key) =~ /\A(\d+)px\z/
 
     px = Regexp.last_match(1).to_i
     "#{px}px" if px.between?(1, 2000)
-  rescue URI::InvalidURIError
-    nil
   end
 
   def surrounded_by_empty_lines?(node)
@@ -158,8 +165,21 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
 
     return false unless embed_html
 
-    out(embed_html)
+    out(apply_embed_width(embed_html, link_url))
     true
+  end
+
+  # The editor stores a resized embed's width (cw_video_width) on the link.
+  # Percentage padding (aspect-ratio boxes) resolves against the containing
+  # block, so the saved width goes on a wrapper and the root fills it.
+  def apply_embed_width(html, link_url)
+    width = extract_px_param(link_url, 'cw_video_width')
+    return html unless width
+
+    fragment = Nokogiri::HTML5.fragment(html)
+    root = fragment.elements.first
+    root['style'] = [root['style'], 'width: 100%; height: auto;'].compact.join(' ')
+    %(<div style="width: #{width}; max-width: 100%;">#{fragment.to_html}</div>)
   end
 
   def find_matching_embed(link_url)

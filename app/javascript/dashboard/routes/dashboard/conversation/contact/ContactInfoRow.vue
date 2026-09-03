@@ -156,6 +156,15 @@ export default {
         {{ $t('CONTACT_PANEL.NOT_AVAILABLE') }}
       </span>
       <NextButton
+        v-if="showCopy"
+        ghost
+        xs
+        slate
+        class="ltr:-ml-1 rtl:-mr-1"
+        icon="i-lucide-clipboard"
+        @click="onCopy"
+      />
+      <NextButton
         v-if="editable"
         ghost
         xs

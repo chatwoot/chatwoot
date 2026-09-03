@@ -298,6 +298,102 @@
           "WEBHOOK_URL": "Webhook URL",
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
+        "MANUAL_SETUP": {
+          "HEADER": {
+            "TITLE": "Connect WhatsApp manually",
+            "DESCRIPTION": "Follow these steps to prepare your Meta account and connect your number to Chatwoot."
+          },
+          "APP": {
+            "TITLE": "Create or select a Meta app",
+            "DESCRIPTION": "Your WhatsApp number must belong to a Meta app with the WhatsApp use case enabled.",
+            "ITEM_1": "Open {metaDevelopers} and sign in with an administrator account.",
+            "META_DEVELOPERS": "Meta Developers",
+            "ITEM_2": "Create a new app, or select the app you already use for this WhatsApp number.",
+            "ITEM_3": "Choose the option to connect with customers through WhatsApp.",
+            "ITEM_4": "Select the business portfolio that owns, or will own, the WhatsApp number.",
+            "VIDEO_TITLE": "Watch: Create a Meta app",
+            "VIDEO_DESCRIPTION": "This short walkthrough shows where to start a new app in Meta Developers."
+          },
+          "NUMBER": {
+            "TITLE": "Add your phone number and get its IDs",
+            "DESCRIPTION": "Add and verify the production number in your Meta app, then copy the two identifiers shown in API Setup.",
+            "ITEM_1": "Open the WhatsApp use case in your Meta app and choose API Setup.",
+            "ITEM_2": "In the Send and receive messages section, open the From selector.",
+            "ITEM_3": "Select an existing production number, or choose Add phone number.",
+            "ITEM_4": "Complete the WhatsApp business profile requested by Meta.",
+            "ITEM_5": "Verify the phone number using the OTP sent by SMS or voice call.",
+            "ITEM_6": "Copy the Phone Number ID and WhatsApp Business Account ID shown in API Setup.",
+            "VIDEO_TITLE": "Watch: Add a phone number and find its IDs",
+            "VIDEO_DESCRIPTION": "This walkthrough shows how to add or select a production number and copy the identifiers from Meta."
+          },
+          "TOKEN": {
+            "TITLE": "Generate a permanent access token",
+            "DESCRIPTION": "Create a Meta system user with access to your app and WhatsApp Business Account.",
+            "ITEM_1": "Open Meta Business Settings and go to Users → System users.",
+            "ITEM_2": "Create an admin system user, or select an existing one.",
+            "ITEM_3": "Assign your Meta app and WhatsApp Business Account to the system user.",
+            "ITEM_4": "Grant full control for the assigned WhatsApp assets.",
+            "ITEM_5": "Generate a token for your Meta app and set its expiration to Never.",
+            "ITEM_6": "Select whatsapp_business_management and whatsapp_business_messaging, then copy the token.",
+            "VIDEO_TITLE": "Watch: Generate a permanent access token",
+            "VIDEO_DESCRIPTION": "This walkthrough shows how to select your Meta app, choose a non-expiring token, and grant the required WhatsApp permissions.",
+            "WARNING": "Meta shows the token only once. Copy it before closing the dialog."
+          },
+          "DETAILS": {
+            "WABA_LABEL": "WhatsApp Business Account ID",
+            "WABA_PLACEHOLDER": "Enter WABA ID",
+            "PHONE_ID_LABEL": "Phone Number ID",
+            "PHONE_ID_PLACEHOLDER": "Enter Phone Number ID",
+            "TOKEN_LABEL": "Permanent access token",
+            "TOKEN_PLACEHOLDER": "Paste access token"
+          },
+          "REVIEW": {
+            "TITLE": "Create your WhatsApp inbox",
+            "DESCRIPTION": "Review the number details and choose a name for the inbox.",
+            "VERIFIED": "Your Meta number and access token are valid.",
+            "BUSINESS_NAME": "Business name",
+            "PHONE_NUMBER": "Phone number",
+            "PHONE_ID": "Phone Number ID",
+            "WABA_ID": "WhatsApp Business Account ID",
+            "INBOX_NAME": "Inbox name",
+            "INBOX_NAME_HELP": "We generated this name from your verified Meta business name. You can change it."
+          },
+          "VERIFY": {
+            "TITLE": "Verify your connection",
+            "DESCRIPTION": "Chatwoot is checking number access and configuring your Meta webhook.",
+            "NUMBER_ACCESS": "Number access",
+            "TEMPLATE_ACCESS": "Template access",
+            "CALLBACK": "Webhook callback",
+            "SUBSCRIPTION": "Webhook subscription",
+            "WEBHOOK_URL": "Webhook URL",
+            "COPY": "Copy",
+            "COPY_SUCCESS": "Webhook URL copied to clipboard",
+            "COMPLETE": "Verified",
+            "PENDING": "Pending",
+            "SUCCESS": "Your WhatsApp number is connected and ready for agent assignment.",
+            "RETRY_SUCCESS": "Webhook setup retried successfully.",
+            "RETRY_ERROR": "We could not retry the webhook setup. Try again."
+          },
+          "ACTIONS": {
+            "BACK": "Back",
+            "OPEN_META_APPS": "Open Meta Apps",
+            "APP_READY": "My Meta app is ready",
+            "NEXT": "Next",
+            "OPEN_BUSINESS_SETTINGS": "Open Meta Business Settings",
+            "SHOW_TOKEN": "Show token",
+            "HIDE_TOKEN": "Hide token",
+            "VERIFY_DETAILS": "Verify details",
+            "CONNECT": "Create inbox",
+            "RETRY_WEBHOOK": "Retry webhook setup",
+            "CONTINUE": "Continue to add agents"
+          },
+          "ERRORS": {
+            "IDS_REQUIRED": "Enter the Phone Number ID and WhatsApp Business Account ID.",
+            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, and permanent access token.",
+            "INVALID_TOKEN": "This access token is invalid or expired. Generate a new permanent token and try again.",
+            "GENERIC": "We could not complete the WhatsApp setup. Check your details and try again."
+          }
+        },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "EMBEDDED_SIGNUP": {
           "TITLE": "Quick setup with Meta",
@@ -322,6 +418,7 @@
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
           "WAITING_FOR_AUTH": "Waiting for authentication...",
           "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "UNSUPPORTED_COMPLETION": "The Meta setup finished without a WhatsApp phone number that can be connected. Please run the setup again and add a phone number.",
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
@@ -515,7 +612,8 @@
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "Connect your TikTok account",
+            "ACCESS_REQUEST_DESCRIPTION": "Contact our support team to request TikTok access"
           },
           "VOICE": {
             "TITLE": "Voice",
