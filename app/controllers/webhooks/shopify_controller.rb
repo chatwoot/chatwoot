@@ -1,4 +1,8 @@
 class Webhooks::ShopifyController < ActionController::API
+  COMPLIANCE_TOPICS = %w[customers/data_request customers/redact shop/redact].freeze
+  class CleanupIncomplete < StandardError; end
+
+  before_action :ensure_shopify_enabled, unless: :compliance_event?
   before_action :verify_hmac!
 
   def events
@@ -11,6 +15,14 @@ class Webhooks::ShopifyController < ActionController::API
   end
 
   private
+
+  def ensure_shopify_enabled
+    head :not_found unless Shopify::FeatureGate.enabled?
+  end
+
+  def compliance_event?
+    COMPLIANCE_TOPICS.include?(request.headers['X-Shopify-Topic'])
+  end
 
   def verify_hmac!
     secret = GlobalConfigService.load('SHOPIFY_CLIENT_SECRET', nil)
@@ -30,6 +42,8 @@ class Webhooks::ShopifyController < ActionController::API
     shop_domain = params[:shop_domain]
     return if shop_domain.blank?
 
-    Integrations::Hook.where(app_id: 'shopify', reference_id: shop_domain).destroy_all
+    hooks = Integrations::Hook.where(app_id: 'shopify', reference_id: shop_domain)
+    hooks.find_each(&:destroy!)
+    raise CleanupIncomplete, 'Shopify shop redaction is incomplete' if hooks.exists?
   end
 end

@@ -35,6 +35,10 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     before do
       stub_const('ENV', ENV.to_hash.merge('FRONTEND_URL' => frontend_url))
+      account.enable_features('shopify_integration')
+      allow(GlobalConfigService).to receive(:load)
+        .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+        .and_return(true)
     end
 
     shared_context 'with stubbed account' do
@@ -81,6 +85,52 @@ RSpec.describe Shopify::CallbacksController, type: :request do
           'scope' => 'read_products,write_products'
         )
         expect(response).to redirect_to(shopify_redirect_uri)
+      end
+    end
+
+    context 'when the account feature is disabled' do
+      include_context 'with stubbed account'
+
+      before do
+        account.disable_features('shopify_integration')
+      end
+
+      it 'does not exchange the OAuth code or create a hook' do
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        expect(auth_code_strategy).not_to receive(:get_token)
+
+        expect do
+          get shopify_callback_path, params: params
+        end.not_to change(Integrations::Hook, :count)
+
+        expect(response).to redirect_to("#{shopify_redirect_uri}?error=true")
+      end
+    end
+
+    context 'when the installation switch is disabled' do
+      before do
+        allow(described_class).to receive(:new).and_wrap_original do |original, *args|
+          controller = original.call(*args)
+          allow(controller).to receive(:verify_shopify_token).and_return(nil)
+          controller
+        end
+        allow(GlobalConfigService).to receive(:load)
+          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+          .and_return(false)
+      end
+
+      it 'does not exchange the OAuth code or store a pending install' do
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        expect(OAuth2::Client).not_to receive(:new)
+        expect(Redis::SecureStorage).not_to receive(:set)
+
+        get shopify_callback_path, params: params
+
+        expect(response).to redirect_to("#{frontend_url}?error=true")
       end
     end
 

@@ -15,6 +15,13 @@ RSpec.describe 'Shopify Integration API', type: :request do
   let(:unauthorized_agent) { create(:user, account: account, role: :agent) }
   let(:contact) { create(:contact, account: account, email: 'test@example.com', phone_number: '+1234567890') }
 
+  before do
+    account.enable_features!('shopify_integration')
+    allow(GlobalConfigService).to receive(:load)
+      .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+      .and_return(true)
+  end
+
   describe 'GET /api/v1/accounts/:account_id/integrations/shopify/orders' do
     before do
       create(:integrations_hook, :shopify, account: account)
@@ -119,6 +126,51 @@ RSpec.describe 'Shopify Integration API', type: :request do
 
         expect(response).to have_http_status(:unauthorized)
       end
+    end
+
+    context 'when Shopify is disabled' do
+      it 'returns not found when the installation switch is disabled' do
+        allow(GlobalConfigService).to receive(:load)
+          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+          .and_return(false)
+
+        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
+            params: { contact_id: contact.id },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'returns not found when the account feature is disabled' do
+        account.disable_features!('shopify_integration')
+
+        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
+            params: { contact_id: contact.id },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/:account_id/integrations/shopify/complete_install' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+
+    it 'does not read a pending install when Shopify is disabled' do
+      allow(GlobalConfigService).to receive(:load)
+        .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+        .and_return(false)
+
+      expect(Redis::SecureStorage).not_to receive(:get)
+
+      post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
+           params: { pending_install_token: SecureRandom.hex(16) },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:not_found)
     end
   end
 

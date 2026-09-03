@@ -15,12 +15,14 @@ class Shopify::CallbacksController < ApplicationController
   private
 
   def chatwoot_initiated?
-    verify_shopify_token(params[:state]).present?
+    verified_account_id.present?
   end
 
   def handle_chatwoot_initiated_flow
-    @account_id = verify_shopify_token(params[:state])
+    @account_id = verified_account_id
     raise StandardError, 'Invalid state parameter' if account.blank?
+
+    ensure_shopify_enabled!(account: account)
     raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
 
     @response = oauth_client.auth_code.get_token(params[:code], redirect_uri: redirect_callback_uri)
@@ -29,6 +31,7 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def handle_shopify_initiated_flow
+    ensure_shopify_enabled!
     raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
     raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
 
@@ -86,6 +89,14 @@ class Shopify::CallbacksController < ApplicationController
 
   def account
     @account ||= Account.find(@account_id)
+  end
+
+  def verified_account_id
+    @verified_account_id ||= verify_shopify_token(params[:state])
+  end
+
+  def ensure_shopify_enabled!(account: nil)
+    raise StandardError, 'Shopify integration is disabled' unless Shopify::FeatureGate.enabled?(account: account)
   end
 
   def redirect_callback_uri

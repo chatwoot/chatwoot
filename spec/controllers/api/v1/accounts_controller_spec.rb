@@ -208,6 +208,34 @@ RSpec.describe 'Accounts API', type: :request do
 
         expect(response.parsed_body['latest_chatwoot_version']).to eq('4.16.1')
       end
+
+      it 'exposes the Shopify account feature when the installation switch is enabled' do
+        account.enable_features!('shopify_integration')
+        allow(GlobalConfigService).to receive(:load).and_call_original
+        allow(GlobalConfigService).to receive(:load)
+          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+          .and_return(true)
+
+        get "/api/v1/accounts/#{account.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response.parsed_body.dig('features', 'shopify_integration')).to be true
+      end
+
+      it 'hides the Shopify account feature when the installation switch is disabled' do
+        account.enable_features!('shopify_integration')
+        allow(GlobalConfigService).to receive(:load).and_call_original
+        allow(GlobalConfigService).to receive(:load)
+          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+          .and_return(false)
+
+        get "/api/v1/accounts/#{account.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response.parsed_body.fetch('features')).not_to have_key('shopify_integration')
+      end
     end
 
     context 'when API and webhook access is disabled for the account' do
