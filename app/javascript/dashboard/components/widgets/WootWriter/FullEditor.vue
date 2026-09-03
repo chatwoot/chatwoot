@@ -34,7 +34,6 @@ import { collapseSelection } from 'dashboard/helper/editorHelper';
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import SlashCommandMenu from './SlashCommandMenu.vue';
 import VideoEmbedInput from './VideoEmbedInput.vue';
 
@@ -78,7 +77,6 @@ let state;
 
 export default {
   components: { SlashCommandMenu, VideoEmbedInput },
-  mixins: [keyboardEventListenerMixins],
   props: {
     modelValue: { type: String, default: '' },
     editorId: { type: String, default: '' },
@@ -491,7 +489,6 @@ export default {
         },
       });
     },
-    handleKeyEvents() {},
     focusEditorInputField() {
       const { tr } = editorView.state;
       const selection = Selection.atEnd(tr.doc);

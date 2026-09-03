@@ -98,6 +98,17 @@ export default {
         telegram,
       };
     },
+    whatsappUsername() {
+      const username =
+        this.socialProfiles.whatsapp ||
+        this.additionalAttributes.social_whatsapp_user_name ||
+        '';
+
+      return username.toString().replace(/^@+/, '');
+    },
+    formattedWhatsappUsername() {
+      return this.whatsappUsername ? `@${this.whatsappUsername}` : '';
+    },
   },
   watch: {
     'contact.id': {
@@ -273,6 +284,14 @@ export default {
             show-copy
             editable
             @update="value => onFieldUpdate('phone_number', value)"
+          />
+          <ContactInfoRow
+            v-if="formattedWhatsappUsername"
+            :value="formattedWhatsappUsername"
+            icon="brand-whatsapp"
+            emoji="💬"
+            :title="$t('CONTACT_PANEL.WHATSAPP_USERNAME')"
+            show-copy
           />
           <ContactInfoRow
             v-if="contact.identifier"
