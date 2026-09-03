@@ -161,7 +161,7 @@ describe('PreChat Form initial message draft', () => {
     expect(context.$store.dispatch).not.toHaveBeenCalled();
   });
 
-  it('clears the shared initial message on form submission', () => {
+  it('keeps the shared initial message on form submission', () => {
     const context = {
       activeCampaign: {},
       conversationCustomAttributes: {},
@@ -177,9 +177,7 @@ describe('PreChat Form initial message draft', () => {
 
     onSubmit.call(context);
 
-    expect(context.$store.dispatch).toHaveBeenCalledWith(
-      'conversation/clearInitialMessage'
-    );
+    expect(context.$store.dispatch).not.toHaveBeenCalled();
     expect(context.$emit).toHaveBeenCalledWith(
       'submitPreChat',
       expect.objectContaining({ message: 'Need help with this item' })

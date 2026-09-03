@@ -284,9 +284,6 @@ export default {
     },
     onSubmit() {
       const { emailAddress, fullName, phoneNumber, message } = this.formValues;
-      if (!this.hasActiveCampaign) {
-        this.$store.dispatch('conversation/clearInitialMessage');
-      }
       this.$emit('submitPreChat', {
         fullName,
         phoneNumber,
