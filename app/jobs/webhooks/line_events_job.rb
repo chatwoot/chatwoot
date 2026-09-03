@@ -4,7 +4,14 @@ class Webhooks::LineEventsJob < ApplicationJob
   def perform(params: {}, signature: '', post_body: '')
     @params = params
     return unless valid_event_payload?
-    return unless valid_post_body?(post_body, signature)
+
+    unless valid_post_body?(post_body, signature)
+      Rails.logger.warn(
+        "[LINE] Invalid webhook signature channel_id=#{@channel.line_channel_id} account_id=#{@channel.account_id} " \
+        "inbox_id=#{@channel.inbox_id} signature_present=#{signature.present?} body_sha256=#{Digest::SHA256.hexdigest(post_body)}"
+      )
+      return
+    end
 
     Line::IncomingMessageService.new(inbox: @channel.inbox, params: @params['line'].with_indifferent_access).perform
   end
