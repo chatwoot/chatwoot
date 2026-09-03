@@ -12,6 +12,7 @@ const buildContext = ({
   currentUser = {},
   initialMessage = '',
   initialConversationFetchPromise = null,
+  latestUserIdentifier = '',
   pendingInitialMessage = '',
   preChatFormEnabled = false,
   routeName = 'home',
@@ -22,6 +23,7 @@ const buildContext = ({
   initialMessage,
   initialConversationFetchPromise,
   initialMessageSequence: 0,
+  latestUserIdentifier,
   pendingInitialMessage,
   preChatFormEnabled,
   shouldShowPreChatForm,
@@ -271,6 +273,7 @@ describe('App handleSetUser', () => {
     handleSetUser.call(context, message);
 
     expect(context.initialMessageSequence).toBe(1);
+    expect(context.latestUserIdentifier).toBe('visitor-1');
     expect(context.$store.dispatch).toHaveBeenCalledWith(
       'contacts/setUser',
       message
@@ -332,6 +335,22 @@ describe('App handleSetUser', () => {
     expect(context.pendingInitialMessage).toBe('');
     expect(context.setInitialMessage).toHaveBeenCalledWith('');
     expect(context.handleInitialMessage).not.toHaveBeenCalled();
+  });
+
+  it('drops pending initial messages when switching visitors before contact refresh completes', () => {
+    const context = buildContext({
+      currentUser: {},
+      latestUserIdentifier: 'visitor-1',
+      pendingInitialMessage: 'Previous visitor draft',
+    });
+    context.$store.dispatch.mockResolvedValue();
+
+    handleSetUser.call(context, { identifier: 'visitor-2' });
+
+    expect(context.pendingInitialMessage).toBe('');
+    expect(context.setInitialMessage).toHaveBeenCalledWith('');
+    expect(context.handleInitialMessage).not.toHaveBeenCalled();
+    expect(context.latestUserIdentifier).toBe('visitor-2');
   });
 
   it('does not replay an initial message after it has already been published', () => {

@@ -43,6 +43,7 @@ export default {
       initialConversationFetchPromise: null,
       pendingInitialMessage: '',
       initialMessageSequence: 0,
+      latestUserIdentifier: '',
     };
   },
   computed: {
@@ -318,7 +319,8 @@ export default {
       });
     },
     handleSetUser(message) {
-      const currentIdentifier = this.currentUser.identifier;
+      const currentIdentifier =
+        this.latestUserIdentifier || this.currentUser.identifier;
       const isChangingIdentifiedVisitor =
         currentIdentifier &&
         String(currentIdentifier) !== String(message.identifier);
@@ -326,6 +328,7 @@ export default {
         this.pendingInitialMessage = '';
         this.setInitialMessage('');
       }
+      this.latestUserIdentifier = message.identifier;
       const pendingInitialMessage =
         this.pendingInitialMessage ||
         (!isChangingIdentifiedVisitor ? this.initialMessage : '');
