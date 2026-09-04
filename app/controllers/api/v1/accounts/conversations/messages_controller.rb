@@ -70,7 +70,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
       Messages::StatusUpdateService.new(message, 'sent').perform
       previous_source_id = message.source_id
-      retry_attributes = { content_attributes: {} }
+      retry_attributes = { content_attributes: retry_content_attributes }
       retry_attributes[:source_id] = nil unless @conversation.inbox.api? || @conversation.inbox.web_widget?
       message.update!(retry_attributes)
       if retry_attributes.key?(:source_id) && previous_source_id.present?
@@ -78,6 +78,12 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
       end
       true
     end
+  end
+
+  def retry_content_attributes
+    return message.content_attributes if message.content_attributes.dig('whatsapp_contact_info', 'type') == 'request'
+
+    {}
   end
 
   def permitted_params

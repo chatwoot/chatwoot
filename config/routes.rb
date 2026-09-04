@@ -171,6 +171,7 @@ Rails.application.routes.draw do
                   post :retry
                 end
               end
+              resource :contact_info_request, only: [:create]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]

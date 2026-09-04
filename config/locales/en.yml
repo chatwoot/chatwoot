@@ -158,6 +158,13 @@ en:
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
       phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
       message_outside_messaging_window: 'Message not sent because the WhatsApp 24-hour customer service window is closed and no template parameters were provided. Send an approved template message instead.'
+      contact_info_request:
+        unsupported_provider: 'Contact information requests are currently available only for WhatsApp Cloud inboxes.'
+        phone_already_available: 'This contact already has a phone number.'
+        invalid_identifier: 'Contact information can only be requested from a business-scoped WhatsApp user.'
+        outside_messaging_window: 'Contact information can only be requested within the WhatsApp 24-hour customer service window.'
+        template_not_configured: 'An approved WhatsApp template with a Request contact info button is required outside the 24-hour customer service window.'
+        pending_request: 'A contact information request is already pending.'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
@@ -307,6 +314,7 @@ en:
         list_button_label: 'Choose an item'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
         flow_response: 'Submitted a flow response'
+        request_contact_info: 'Would you like to share your phone number with us?'
         unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
