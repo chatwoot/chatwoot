@@ -31,47 +31,76 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
   return status === MESSAGE_STATUS.FAILED && externalError !== '';
 };
 
+let conversationListRequestId = 0;
+
 // actions
 const actions = {
-  getConversation: async ({ commit }, conversationId) => {
+  getConversation: async ({ commit, dispatch }, conversationId) => {
     try {
       const response = await ConversationApi.show(conversationId);
-      commit(types.UPDATE_CONVERSATION, response.data);
+      // API refreshes can run in the background after reconnecting. Use the
+      // list merge to preserve local message state without moving the agent's
+      // scroll position or marking messages as read.
+      commit(types.SET_ALL_CONVERSATION, [response.data]);
       commit(`contacts/${types.SET_CONTACT_ITEM}`, response.data.meta.sender);
+      dispatch('conversationLabels/setConversationLabel', {
+        id: response.data.id,
+        data: response.data.labels,
+      });
     } catch (error) {
       // Ignore error
     }
   },
 
-  fetchAllConversations: async ({ commit, state, dispatch }) => {
+  fetchAllConversations: async (
+    { commit, state, dispatch },
+    { replaceExisting = false } = {}
+  ) => {
+    conversationListRequestId += 1;
+    const requestId = conversationListRequestId;
     commit(types.SET_LIST_LOADING_STATUS);
     try {
       const params = state.conversationFilters;
       const {
         data: { data },
       } = await ConversationApi.get(params);
+
+      if (requestId !== conversationListRequestId) return;
+
       buildConversationList(
         { commit, dispatch },
         params,
         data,
-        params.assigneeType
+        params.assigneeType,
+        { replaceExisting }
       );
     } catch (error) {
-      // Handle error
+      if (requestId === conversationListRequestId) {
+        commit(types.CLEAR_LIST_LOADING_STATUS);
+      }
     }
   },
 
   fetchFilteredConversations: async ({ commit, dispatch }, params) => {
+    conversationListRequestId += 1;
+    const requestId = conversationListRequestId;
+    const { replaceExisting = false, ...requestParams } = params;
     commit(types.SET_LIST_LOADING_STATUS);
     try {
-      const { data } = await ConversationApi.filter(params);
+      const { data } = await ConversationApi.filter(requestParams);
+
+      if (requestId !== conversationListRequestId) return;
+
       buildConversationList(
         { commit, dispatch },
-        params,
+        requestParams,
         data,
-        'appliedFilters'
+        'appliedFilters',
+        { replaceExisting }
       );
     } catch (error) {
+      if (requestId !== conversationListRequestId) return;
+
       commit(types.CLEAR_LIST_LOADING_STATUS);
       throw error;
     }
@@ -514,6 +543,11 @@ const actions = {
 
   updateChatListFilters({ commit }, data) {
     commit(types.UPDATE_CHAT_LIST_FILTERS, data);
+  },
+
+  invalidateConversationListRequests({ commit }) {
+    conversationListRequestId += 1;
+    commit(types.CLEAR_LIST_LOADING_STATUS);
   },
 
   assignPriority: async ({ dispatch }, { conversationId, priority }) => {
