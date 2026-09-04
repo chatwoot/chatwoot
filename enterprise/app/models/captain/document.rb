@@ -30,6 +30,7 @@
 class Captain::Document < ApplicationRecord
   class LimitExceededError < StandardError; end
   SYNC_STALE_TIMEOUT = 2.hours
+  HELP_CENTER_ARTICLE_PATH = %r{\A/hc/([^/]+)/articles/([^/]+?)(?:\.md)?/?\z}
   self.table_name = 'captain_documents'
 
   belongs_to :assistant, class_name: 'Captain::Assistant'
@@ -118,6 +119,14 @@ class Captain::Document < ApplicationRecord
     nil
   end
 
+  def available_for_retrieval?
+    help_center_source = local_help_center_source
+    return true unless help_center_source
+
+    portal, article_slug = help_center_source
+    portal.present? && !portal.archived? && portal.articles.published.exists?(slug: article_slug)
+  end
+
   def to_llm_metadata
     { document_id: id, assistant_id: assistant_id, external_link: external_link }
   end
@@ -154,6 +163,39 @@ class Captain::Document < ApplicationRecord
 
     blocked_ranges = ip.ipv4? ? SsrfFilter::IPV4_BLACKLIST : SsrfFilter::IPV6_BLACKLIST
     blocked_ranges.none? { |range| range.include?(ip) }
+  end
+
+  def local_help_center_source
+    return if external_link.blank?
+
+    uri = URI.parse(external_link)
+    path_match = uri.path&.match(HELP_CENTER_ARTICLE_PATH)
+    return unless path_match
+
+    portal = account.portals.find_by(slug: path_match[1])
+    return unless local_help_center_host?(uri.host, portal)
+
+    [portal, path_match[2]]
+  rescue URI::InvalidURIError
+    nil
+  end
+
+  def local_help_center_host?(host, portal)
+    local_hosts = [
+      portal&.custom_domain,
+      ChatwootApp.help_center_root,
+      ENV.fetch('FRONTEND_URL', nil)
+    ].filter_map { |url| host_from(url) }
+    local_hosts.include?(host&.downcase)
+  end
+
+  def host_from(url)
+    return if url.blank?
+
+    normalized_url = url.include?('://') ? url : "https://#{url}"
+    URI.parse(normalized_url).host&.downcase
+  rescue URI::InvalidURIError
+    nil
   end
 
   def enqueue_crawl_job

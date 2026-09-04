@@ -47,6 +47,83 @@ RSpec.describe Captain::Document, type: :model do
     end
   end
 
+  describe '#available_for_retrieval?' do
+    let(:portal) { create(:portal, account: account, slug: 'customer-help') }
+    let(:article) { create(:article, account: account, portal: portal, status: :published) }
+    let(:help_center_url) { "https://help.chatwoot.test/hc/#{portal.slug}/articles/#{article.slug}" }
+    let(:document) do
+      create(:captain_document, assistant: assistant, account: account, external_link: help_center_url)
+    end
+
+    around do |example|
+      with_modified_env HELPCENTER_URL: 'https://help.chatwoot.test' do
+        example.run
+      end
+    end
+
+    it 'allows published articles from active portals' do
+      expect(document.available_for_retrieval?).to be true
+    end
+
+    it 'uses the article slug from markdown URLs' do
+      document.update!(external_link: "#{help_center_url}.md")
+      expect(document.available_for_retrieval?).to be true
+
+      article.update!(status: :archived)
+      expect(document.available_for_retrieval?).to be false
+    end
+
+    it 'rejects draft and archived articles' do
+      article.update!(status: :draft)
+      expect(document.available_for_retrieval?).to be false
+
+      article.update!(status: :archived)
+      expect(document.available_for_retrieval?).to be false
+    end
+
+    it 'rejects articles from archived portals' do
+      portal.update!(archived: true)
+
+      expect(document.available_for_retrieval?).to be false
+    end
+
+    it 'uses a matching portal custom domain' do
+      portal.update!(custom_domain: 'support.example.com')
+      document.update!(external_link: "https://support.example.com/hc/#{portal.slug}/articles/#{article.slug}")
+      article.update!(status: :archived)
+
+      expect(document.available_for_retrieval?).to be false
+    end
+
+    it 'uses the frontend host when the Help Center host is different' do
+      with_modified_env FRONTEND_URL: 'https://app.chatwoot.test' do
+        document.update!(external_link: "https://app.chatwoot.test/hc/#{portal.slug}/articles/#{article.slug}")
+        article.update!(status: :archived)
+
+        expect(document.available_for_retrieval?).to be false
+      end
+    end
+
+    it 'rejects documents after their portal is deleted' do
+      portal.destroy!
+
+      expect(document.available_for_retrieval?).to be false
+    end
+
+    it 'does not apply local article state to external sites' do
+      article.update!(status: :archived)
+      document.update!(external_link: "https://example.com/hc/#{portal.slug}/articles/#{article.slug}")
+
+      expect(document.available_for_retrieval?).to be true
+    end
+
+    it 'allows non-Help-Center documents' do
+      document.update!(external_link: 'https://example.com/docs/shipping')
+
+      expect(document.available_for_retrieval?).to be true
+    end
+  end
+
   describe 'PDF support' do
     let(:pdf_document) do
       doc = build(:captain_document, assistant: assistant, account: account)
