@@ -7,13 +7,15 @@ class Twitter::DirectMessageParserService < Twitter::WebhooksBaseService
     set_inbox
     ensure_contacts
     set_conversation
+    content_attrs = outgoing_message? ? { external_echo: true } : {}
     @message = @conversation.messages.create!(
       content: message_create_data['message_data']['text'],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: outgoing_message? ? :outgoing : :incoming,
       sender: @contact,
-      source_id: direct_message_data['id']
+      source_id: direct_message_data['id'],
+      content_attributes: content_attrs
     )
     attach_files
   end
