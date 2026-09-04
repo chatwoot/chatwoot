@@ -148,6 +148,57 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include('lang="es"')
     end
+
+    it 'links to the matching published translation from the locale switcher' do
+      source_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, slug: 'source-article')
+      translated_article = create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id,
+                                            slug: 'translated-article', associated_article_id: source_article.id)
+
+      get "/hc/#{portal.slug}/articles/#{source_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{translated_article.slug}\"")
+    end
+
+    it 'links to the locale home when the matching translation is not published' do
+      source_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, slug: 'source-article')
+      draft_translation = create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id,
+                                           slug: 'draft-translation', status: :draft, associated_article_id: source_article.id)
+
+      get "/hc/#{portal.slug}/articles/#{source_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/es\"")
+      expect(response.body).not_to include("/hc/#{portal.slug}/articles/#{draft_translation.slug}")
+    end
+
+    it 'links to the root article when the current translation has a nested association' do
+      source_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, slug: 'source-article')
+      parent_translation = create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id,
+                                            slug: 'parent-translation', associated_article_id: source_article.id)
+      nested_translation = create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id,
+                                            slug: 'nested-translation', associated_article_id: parent_translation.id)
+
+      get "/hc/#{portal.slug}/articles/#{nested_translation.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{source_article.slug}\"")
+
+      get "/hc/#{portal.slug}/articles/#{source_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{nested_translation.slug}\"")
+    end
+
+    it 'renders an article with a dangling translation association' do
+      source_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, slug: 'source-article')
+      source_article.update!(associated_article_id: Article.maximum(:id).to_i + 1)
+
+      get "/hc/#{portal.slug}/articles/#{source_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{source_article.slug}\"")
+    end
   end
 
   describe 'GET /public/api/v1/portals/:slug/articles/:slug.md (markdown)' do
