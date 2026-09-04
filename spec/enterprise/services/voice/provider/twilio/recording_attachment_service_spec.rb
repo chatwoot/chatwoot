@@ -133,6 +133,17 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
       expect { perform_service }.not_to have_enqueued_job(Voice::CallTranscriptionJob)
     end
 
+    it 'is a no-op when the call was created with recording disabled' do
+      call.update!(recording_enabled: false)
+
+      expect { perform_service }.not_to have_enqueued_job(Voice::CallTranscriptionJob)
+
+      aggregate_failures do
+        expect(SafeFetch).not_to have_received(:fetch)
+        expect(call.reload.recording).not_to be_attached
+      end
+    end
+
     it 'is a no-op when recording_sid is blank' do
       expect { perform_service(recording_sid: '') }.not_to change { call.reload.recording.attached? }.from(false)
       expect(SafeFetch).not_to have_received(:fetch)
