@@ -82,6 +82,7 @@ export default {
     editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     enabledMenuOptions: { type: Array, default: () => [] },
+    uploadsBlockedMessage: { type: String, default: '' },
     autofocus: {
       type: Boolean,
       default: true,
@@ -396,6 +397,10 @@ export default {
     },
     handleFiles(files) {
       if (!editorView || !files.length) return;
+      if (this.uploadsBlockedMessage) {
+        useAlert(this.uploadsBlockedMessage);
+        return;
+      }
       const buckets = { images: [], videos: [] };
       files.forEach(file => {
         const bucket = this.bucketFor(file);
