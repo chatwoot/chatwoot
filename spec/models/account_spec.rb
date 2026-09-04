@@ -151,7 +151,8 @@ RSpec.describe Account do
         feature_api_and_webhooks: 1 << 2,
         feature_whatsapp_reconfigure: 1 << 3,
         feature_whatsapp_embedded_signup_inbox_creation: 1 << 4,
-        feature_delayed_automations: 1 << 5
+        feature_delayed_automations: 1 << 5,
+        feature_audit_log_ip_address: 1 << 6
       )
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)

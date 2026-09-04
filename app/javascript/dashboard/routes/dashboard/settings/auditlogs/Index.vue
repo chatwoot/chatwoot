@@ -101,7 +101,7 @@ const tableHeaders = computed(() => {
   return [
     t('AUDIT_LOGS.LIST.TABLE_HEADER.ACTIVITY'),
     t('AUDIT_LOGS.LIST.TABLE_HEADER.TIME'),
-    t('AUDIT_LOGS.LIST.TABLE_HEADER.IP_ADDRESS'),
+    t('AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION'),
   ];
 });
 
@@ -216,7 +216,7 @@ onMounted(() => {
 
                 <BaseTableCell class="w-36">
                   <span class="text-body-main text-n-slate-11">
-                    {{ auditLogItem.remote_address }}
+                    {{ auditLogItem.location || auditLogItem.remote_address }}
                   </span>
                 </BaseTableCell>
               </template>
