@@ -10,7 +10,6 @@ export class DataManager {
 
   async initDb() {
     if (this.db) return this.db;
-    const dbName = `cw-store-${this.accountId}`;
     this.db = await openDB(`cw-store-${this.accountId}`, DATA_VERSION, {
       upgrade(db, oldVersion, _newVersion, transaction) {
         const shouldInvalidateInboxCache =
@@ -35,13 +34,6 @@ export class DataManager {
         createStore('canned_response', { keyPath: 'id' });
       },
     });
-
-    // Store the database name in LocalStorage
-    const dbNames = JSON.parse(localStorage.getItem('cw-idb-names') || '[]');
-    if (!dbNames.includes(dbName)) {
-      dbNames.push(dbName);
-      localStorage.setItem('cw-idb-names', JSON.stringify(dbNames));
-    }
 
     return this.db;
   }
