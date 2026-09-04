@@ -4,10 +4,8 @@ class Captain::Documents::CrawlJob < ApplicationJob
   def perform(document)
     if document.pdf_document?
       perform_pdf_processing(document)
-    elsif InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')&.value.present?
-      perform_firecrawl_crawl(document)
     else
-      perform_simple_crawl(document)
+      perform_web_crawl(document)
     end
   end
 
@@ -39,18 +37,34 @@ class Captain::Documents::CrawlJob < ApplicationJob
     )
   end
 
-  def perform_firecrawl_crawl(document)
+  def perform_web_crawl(document)
+    provider = WebCrawling::Factory.configured_provider
+    return perform_simple_crawl(document) if provider == :native
+
+    spider = WebCrawling::Factory.build(provider: provider)
+
     captain_usage_limits = document.account.usage_limits[:captain] || {}
     document_limit = captain_usage_limits[:documents] || {}
     crawl_limit = [document_limit[:current_available] || 10, 500].min
+    callback_url = callback_url_for(provider, document)
+    submission = spider.crawl(url: document.external_link, callback_url: callback_url, limit: crawl_limit, request_id: job_id)
 
-    Captain::Tools::FirecrawlService
-      .new
-      .perform(
-        document.external_link,
-        firecrawl_webhook_url(document),
-        crawl_limit
-      )
+    store_context_dev_submission(document, submission) if submission.provider == :context_dev
+  end
+
+  def callback_url_for(provider, document)
+    return firecrawl_webhook_url(document) if provider == :firecrawl
+
+    Rails.application.routes.url_helpers.enterprise_webhooks_context_dev_url(document_id: document.id)
+  end
+
+  def store_context_dev_submission(document, submission)
+    document.update!(
+      web_crawling_provider: submission.provider,
+      web_crawling_external_id: submission.external_id,
+      web_crawling_webhook_secret: submission.metadata.fetch('webhook_secret')
+    )
+    Captain::Tools::ContextDevPollJob.schedule(document_id: document.id, batch_id: submission.external_id)
   end
 
   def firecrawl_webhook_url(document)
