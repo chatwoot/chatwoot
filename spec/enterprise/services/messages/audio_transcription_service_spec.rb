@@ -4,7 +4,15 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
   let(:account) { create(:account, audio_transcriptions: true) }
   let(:conversation) { create(:conversation, account: account) }
   let(:message) { create(:message, account: account, conversation: conversation) }
-  let(:attachment) { message.attachments.create!(account: account, file_type: :audio) }
+  let(:attachment) do
+    message.attachments.create!(account: account, file_type: :audio).tap do |a|
+      a.file.attach(
+        io: File.open(Rails.public_path.join('audio/widget/ding.mp3')),
+        filename: 'ding.mp3',
+        content_type: 'audio/mpeg'
+      )
+    end
+  end
 
   before do
     # Create required installation configs
@@ -91,6 +99,15 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
       it 'returns existing transcription without calling API' do
         result = service.perform
         expect(result).to eq({ success: true, transcriptions: 'Existing transcription' })
+      end
+    end
+
+    context 'when the attachment has no blob because the download failed' do
+      let(:attachment) { message.attachments.create!(account: account, file_type: :audio, external_url: 'https://lookaside.fbsbx.com/example.mp3') }
+
+      it 'returns an error without transcribing' do
+        expect(service).not_to receive(:transcribe_audio)
+        expect(service.perform).to eq({ error: 'Audio file not available' })
       end
     end
 

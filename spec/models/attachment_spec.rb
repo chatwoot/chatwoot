@@ -32,6 +32,24 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'link_url and link_title' do
+    it 'returns the file url and filename when a file is attached' do
+      attachment = message.attachments.create!(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+
+      expect(attachment.link_url).to eq(attachment.file_url)
+      expect(attachment.link_title).to eq('avatar.png')
+    end
+
+    it 'falls back to the external url when no file is attached' do
+      url = 'https://lookaside.fbsbx.com/example.jpeg'
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image, external_url: url)
+
+      expect(attachment.link_url).to eq(url)
+      expect(attachment.link_title).to eq(url)
+    end
+  end
+
   describe 'with_attached_file?' do
     it 'returns true if its an attachment with file' do
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
@@ -248,6 +266,20 @@ RSpec.describe Attachment do
 
       event_data = attachment.push_event_data
       expect(event_data[:data_url]).to be_present
+    end
+  end
+
+  describe 'push_event_data for audio attachments' do
+    it 'returns external_url as data_url when no file is attached' do
+      attachment = message.attachments.create!(
+        account_id: message.account_id,
+        file_type: :audio,
+        external_url: 'https://lookaside.fbsbx.com/ig_messaging_cdn/?asset_id=123'
+      )
+
+      event_data = attachment.push_event_data
+      expect(event_data[:data_url]).to eq('https://lookaside.fbsbx.com/ig_messaging_cdn/?asset_id=123')
+      expect(event_data[:thumb_url]).to eq('')
     end
   end
 
