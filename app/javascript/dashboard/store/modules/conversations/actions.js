@@ -3,6 +3,7 @@ import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
+import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import {
   buildConversationList,
   isOnMentionsView,
@@ -18,6 +19,9 @@ import {
   handleVoiceCallUpdated,
   syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
+
+// Page size MessageFinder uses when walking backwards through a conversation.
+const MESSAGES_PER_PAGE = 20;
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
@@ -36,7 +40,8 @@ const actions = {
   getConversation: async ({ commit }, conversationId) => {
     try {
       const response = await ConversationApi.show(conversationId);
-      commit(types.UPDATE_CONVERSATION, response.data);
+      // Callers fetch missing conversations; ADD also lands them on mention/participating views.
+      commit(types.ADD_CONVERSATION, response.data);
       commit(`contacts/${types.SET_CONTACT_ITEM}`, response.data.meta.sender);
     } catch (error) {
       // Ignore error
@@ -61,10 +66,13 @@ const actions = {
     }
   },
 
-  fetchFilteredConversations: async ({ commit, dispatch }, params) => {
+  fetchFilteredConversations: async ({ commit, dispatch, state }, params) => {
     commit(types.SET_LIST_LOADING_STATUS);
     try {
-      const { data } = await ConversationApi.filter(params);
+      const queryData = state.appliedFiltersSortBy
+        ? { ...params.queryData, sort_by: state.appliedFiltersSortBy }
+        : params.queryData;
+      const { data } = await ConversationApi.filter({ ...params, queryData });
       buildConversationList(
         { commit, dispatch },
         params,
@@ -98,7 +106,11 @@ const actions = {
         id: data.conversationId,
         data: payload,
       });
-      if (!payload.length) {
+      // A short backward page means the start is reached; `after` requests only prove it when empty.
+      const hasReachedFirstMessage = data.after
+        ? !payload.length
+        : payload.length < MESSAGES_PER_PAGE;
+      if (hasReachedFirstMessage) {
         commit(types.SET_ALL_MESSAGES_LOADED, data.conversationId);
       }
     } catch (error) {
@@ -194,12 +206,14 @@ const actions = {
 
   async setActiveChat({ commit, dispatch }, { data, after }) {
     commit(types.SET_CURRENT_CHAT_WINDOW, data);
-    commit(types.CLEAR_ALL_MESSAGES_LOADED, data.id);
     if (data.dataFetched === undefined) {
+      // Reset only when refetching — a re-activated short conversation has no scroll to earn it back.
+      commit(types.CLEAR_ALL_MESSAGES_LOADED, data.id);
       try {
         await dispatch('fetchPreviousMessages', {
           after,
-          before: data.messages[0].id,
+          // A conversation created without an initial message has nothing to anchor on.
+          before: data.messages[0]?.id,
           conversationId: data.id,
         });
         commit(types.SET_CHAT_DATA_FETCHED, data.id);
@@ -502,6 +516,22 @@ const actions = {
 
   setConversationFilters({ commit }, data) {
     commit(types.SET_CONVERSATION_FILTERS, data);
+  },
+
+  // Replaces the list with page 1 of the snake_case filters; sortBy overrides the activity order.
+  applyConversationFilters: (
+    { commit, dispatch },
+    { filters, sortBy = null }
+  ) => {
+    commit(types.SET_CONVERSATION_FILTERS, filters);
+    commit(types.SET_CONVERSATION_FILTERS_SORT, sortBy);
+    commit(types.EMPTY_ALL_CONVERSATION);
+    dispatch('conversationPage/reset', {}, { root: true });
+
+    return dispatch('fetchFilteredConversations', {
+      queryData: filterQueryGenerator(filters),
+      page: 1,
+    });
   },
 
   clearConversationFilters({ commit }) {

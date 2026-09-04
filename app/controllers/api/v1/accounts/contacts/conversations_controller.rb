@@ -1,17 +1,16 @@
 class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::Contacts::BaseController
   def index
-    # Start with all conversations for this contact
     conversations = Current.account.conversations.includes(
       :assignee, :contact, :inbox, :taggings
     ).preload(ai_assignee: { avatar_attachment: [:blob] }).where(contact_id: @contact.id)
 
-    # Apply permission-based filtering using the existing service
     conversations = Conversations::PermissionFilterService.new(
       conversations,
       Current.user,
       Current.account
     ).perform
 
-    @conversations = conversations.order(last_activity_at: :desc).limit(20)
+    # A contact's own history is small enough to send whole; newest-created first.
+    @conversations = conversations.order(created_at: :desc, id: :desc)
   end
 end

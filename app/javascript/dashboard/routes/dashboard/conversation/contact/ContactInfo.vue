@@ -8,6 +8,7 @@ import {
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
+import ViewAllConversations from './ViewAllConversations.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SocialIcons from './SocialIcons.vue';
 import EditContact from './EditContact.vue';
@@ -22,6 +23,7 @@ export default {
   components: {
     NextButton,
     ContactInfoRow,
+    ViewAllConversations,
     EditContact,
     Avatar,
     ComposeConversation,
@@ -336,6 +338,7 @@ export default {
             />
           </template>
         </ComposeConversation>
+        <ViewAllConversations :contact="contact" />
         <VoiceCallButton
           :phone="contact.phone_number"
           :contact-id="contact.id"

@@ -47,7 +47,7 @@ describe('#actions', () => {
     it('sends correct actions if API is success', async () => {
       axios.post.mockResolvedValue({ data: conversationList[0] });
       await actions.create(
-        { commit },
+        { commit, state: { records: { 4: [] } } },
         {
           params: {
             inboxId: 1,
@@ -73,10 +73,27 @@ describe('#actions', () => {
         ],
       ]);
     });
+    it('does not seed an unloaded contact cache', async () => {
+      axios.post.mockResolvedValue({ data: conversationList[0] });
+      await actions.create(
+        { commit, state: { records: {} } },
+        {
+          params: { inboxId: 1, message: { content: 'hi' }, contactId: 4 },
+          isFromWhatsApp: false,
+        }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, { isCreating: true }],
+        [
+          types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG,
+          { isCreating: false },
+        ],
+      ]);
+    });
     it('sends correct actions with files if API is success', async () => {
       axios.post.mockResolvedValue({ data: conversationList[0] });
       await actions.create(
-        { commit },
+        { commit, state: { records: { 4: [] } } },
         {
           params: {
             inboxId: 1,
@@ -105,7 +122,7 @@ describe('#actions', () => {
     it('sends correct actions actions if API is success for whatsapp conversation', async () => {
       axios.post.mockResolvedValue({ data: conversationList[0] });
       await actions.create(
-        { commit },
+        { commit, state: { records: { 4: [] } } },
         {
           params: {
             inboxId: 1,
