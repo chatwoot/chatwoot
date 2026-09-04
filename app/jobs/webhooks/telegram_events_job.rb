@@ -33,12 +33,35 @@ class Webhooks::TelegramEventsJob < ApplicationJob
   end
 
   def process_event_params(channel, params)
-    return unless params[:telegram]
+    telegram_params = params[:telegram] || params['telegram']
+    return unless telegram_params
 
-    if params.dig(:telegram, :edited_message).present? || params.dig(:telegram, :edited_business_message).present?
-      Telegram::UpdateMessageService.new(inbox: channel.inbox, params: params['telegram'].with_indifferent_access).perform
-    else
-      Telegram::IncomingMessageService.new(inbox: channel.inbox, params: params['telegram'].with_indifferent_access).perform
+    telegram_params = telegram_params.with_indifferent_access
+    business_connection_service = Telegram::BusinessConnectionService.new(channel: channel)
+    begin
+      if telegram_params[:business_connection].present?
+        business_connection_service.process(
+          telegram_params[:business_connection], update_id: telegram_params[:update_id]
+        )
+      elsif telegram_params[:edited_message].present? || telegram_params[:edited_business_message].present?
+        Telegram::UpdateMessageService.new(inbox: channel.inbox, params: telegram_params).perform
+      else
+        sync_business_connection(business_connection_service, telegram_params)
+        Telegram::IncomingMessageService.new(inbox: channel.inbox, params: telegram_params).perform
+      end
+    ensure
+      observe_update(business_connection_service, telegram_params[:update_id], channel.id)
     end
+  end
+
+  def observe_update(business_connection_service, update_id, channel_id)
+    business_connection_service.observe_update(update_id)
+  rescue StandardError => e
+    Rails.logger.error("Failed to record Telegram update ID for channel #{channel_id}: #{e.message}")
+  end
+
+  def sync_business_connection(business_connection_service, telegram_params)
+    connection_id = telegram_params.dig(:business_message, :business_connection_id)
+    business_connection_service.sync(connection_id, update_id: telegram_params[:update_id]) if connection_id.present?
   end
 end

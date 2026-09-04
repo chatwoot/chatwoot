@@ -12,8 +12,10 @@ class Telegram::IncomingMessageService
     return unless private_message?
 
     set_contact
-    update_contact_avatar
+    return if update_already_processed?
+
     set_conversation
+    update_contact_avatar
     # TODO: Since the recent Telegram Business update, we need to explicitly mark messages as read using an additional request.
     # Otherwise, the client will see their messages as unread.
     # Chatwoot defines a 'read' status in its enum but does not currently update this status for Telegram conversations.
@@ -28,11 +30,12 @@ class Telegram::IncomingMessageService
       message_type: message_type,
       sender: message_sender,
       content_attributes: telegram_params_content_attributes,
+      external_source_ids: { telegram_update_id: params[:update_id].to_s },
       source_id: telegram_params_message_id.to_s
     )
 
     process_message_attachments if message_params?
-    @message.save!
+    @contact_inbox.with_lock { @message.save! unless update_already_processed? }
   end
 
   private
@@ -77,16 +80,24 @@ class Telegram::IncomingMessageService
   end
 
   def set_conversation
-    # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
-    @conversation = if @inbox.lock_to_single_conversation
-                      @contact_inbox.conversations.last
-                    else
-                      @contact_inbox.conversations
-                                    .where.not(status: :resolved).last
-                    end
-    return if @conversation
+    @contact_inbox.with_lock do
+      # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
+      @conversation = if @inbox.lock_to_single_conversation
+                        @contact_inbox.conversations.last
+                      else
+                        @contact_inbox.conversations
+                                      .where.not(status: :resolved).last
+                      end
+      next if @conversation
 
-    @conversation = ::Conversation.create!(conversation_params)
+      @conversation = ::Conversation.create!(conversation_params)
+    end
+  end
+
+  def update_already_processed?
+    return false if params[:update_id].blank?
+
+    @contact_inbox.conversations.joins(:messages).exists?(messages: { source_id: telegram_params_message_id.to_s })
   end
 
   def contact_attributes

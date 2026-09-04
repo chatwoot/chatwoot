@@ -662,6 +662,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.string "bot_token", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "business_config", default: {}, null: false
+    t.datetime "business_config_checked_at"
+    t.string "business_config_error", limit: 500
     t.index ["bot_token"], name: "index_channel_telegram_on_bot_token", unique: true
   end
 
