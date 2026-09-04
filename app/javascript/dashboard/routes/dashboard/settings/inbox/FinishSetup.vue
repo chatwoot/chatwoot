@@ -34,6 +34,7 @@ const {
   isATwilioChannel,
   isASmsInbox,
   isALineChannel,
+  isAZaloOaChannel,
   isAnEmailChannel,
   isAWhatsAppChannel,
   isAFacebookInbox,
@@ -86,6 +87,12 @@ const message = computed(() => {
   if (isALineChannel.value) {
     return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
       'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
+    )}`;
+  }
+
+  if (isAZaloOaChannel.value) {
+    return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
+      'INBOX_MGMT.ADD.ZALO_OA_CHANNEL.API_CALLBACK.SUBTITLE'
     )}`;
   }
 
@@ -255,6 +262,13 @@ onMounted(() => {
         <div class="w-[50%] max-w-[50%] ml-[25%]">
           <woot-code
             v-if="isASmsInbox"
+            lang="html"
+            :script="currentInbox.callback_webhook_url"
+          />
+        </div>
+        <div class="w-[50%] max-w-[50%] ml-[25%]">
+          <woot-code
+            v-if="isAZaloOaChannel"
             lang="html"
             :script="currentInbox.callback_webhook_url"
           />

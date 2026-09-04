@@ -84,9 +84,12 @@ module Redis::RedisKeys
   IG_MESSAGE_MUTEX = 'IG_MESSAGE_CREATE_LOCK::%<sender_id>s::%<ig_account_id>s'.freeze
   TIKTOK_MESSAGE_MUTEX = 'TIKTOK_MESSAGE_CREATE_LOCK::%<business_id>s::%<conversation_id>s'.freeze
   TIKTOK_REFRESH_TOKEN_MUTEX = 'TIKTOK_REFRESH_TOKEN_LOCK::%<channel_id>s'.freeze
+  ZALO_OA_REFRESH_TOKEN_MUTEX = 'ZALO_OA_REFRESH_TOKEN_LOCK::%<channel_id>s'.freeze
   SLACK_MESSAGE_MUTEX = 'SLACK_MESSAGE_LOCK::%<conversation_id>s::%<reference_id>s'.freeze
   EMAIL_MESSAGE_MUTEX = 'EMAIL_CHANNEL_LOCK::%<inbox_id>s'.freeze
   WHATSAPP_MESSAGE_MUTEX = 'WHATSAPP_MESSAGE_CREATE_LOCK::%<inbox_id>s::%<sender_id>s'.freeze
+  ZALO_OA_MESSAGE_MUTEX = 'ZALO_OA_MESSAGE_CREATE_LOCK::%<inbox_id>s::%<user_id>s'.freeze
+  ZALO_OA_SENT_MESSAGE = 'ZALO_OA_SENT_MESSAGE::%<inbox_id>s::%<zalo_message_id>s'.freeze
   CRM_PROCESS_MUTEX = 'CRM_PROCESS_MUTEX::%<hook_id>s'.freeze
   CAPTAIN_DOCUMENT_SYNC_MUTEX = 'CAPTAIN_DOCUMENT_SYNC_LOCK::%<document_id>s'.freeze
   CAPTAIN_CONVERSATION_FAQ_MUTEX = 'CAPTAIN_CONVERSATION_FAQ_LOCK::%<assistant_id>s::%<language>s'.freeze
