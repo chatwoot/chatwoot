@@ -6,6 +6,7 @@ import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsTo
 import NextInput from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import CallRecordingSettings from './CallRecordingSettings.vue';
 
 export default {
   components: {
@@ -14,6 +15,7 @@ export default {
     NextInput,
     NextButton,
     Spinner,
+    CallRecordingSettings,
   },
   props: {
     inbox: {
@@ -164,6 +166,8 @@ export default {
         </template>
       </SettingsToggleSection>
     </div>
+
+    <CallRecordingSettings v-if="inbox.voice_enabled" :inbox="inbox" />
 
     <div v-if="inbox.voice_enabled && inbox.voice_call_webhook_url">
       <SettingsFieldSection
