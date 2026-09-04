@@ -77,6 +77,39 @@ RSpec.describe Contact do
     end
   end
 
+  context 'when phone number uniqueness is enforced at the database level' do
+    it 'raises RecordNotUnique when the model-level validation is bypassed' do
+      account = create(:account)
+      create(:contact, account: account, phone_number: '+12312312321')
+      duplicate = build(:contact, account: account, phone_number: '+12312312321')
+
+      expect { duplicate.save!(validate: false) }.to raise_error(ActiveRecord::RecordNotUnique)
+    end
+
+    it 'allows multiple contacts with a blank phone number in the same account' do
+      account = create(:account)
+      create(:contact, account: account, phone_number: nil)
+
+      expect(build(:contact, account: account, phone_number: nil)).to be_valid
+    end
+
+    it 'does not raise RecordNotUnique for duplicate whitespace-only phone numbers, matching model blank semantics' do
+      account = create(:account)
+      create(:contact, account: account, phone_number: nil).update_column(:phone_number, ' ')
+      duplicate = create(:contact, account: account, phone_number: nil)
+
+      expect { duplicate.update_column(:phone_number, ' ') }.not_to raise_error
+    end
+
+    it 'does not raise RecordNotUnique for duplicate tab/newline-only phone numbers' do
+      account = create(:account)
+      create(:contact, account: account, phone_number: nil).update_column(:phone_number, "\t\n")
+      duplicate = create(:contact, account: account, phone_number: nil)
+
+      expect { duplicate.update_column(:phone_number, "\t\n") }.not_to raise_error
+    end
+  end
+
   context 'when email format' do
     it 'will throw error for existing invalid email' do
       contact = create(:contact)
