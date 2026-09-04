@@ -36,6 +36,7 @@ export default {
     return {
       locale: this.$root.$i18n.locale,
       hasErrorInPhoneInput: false,
+      hasInitialMessageDraft: false,
       message: '',
       formValues: {},
       labels: {
@@ -47,6 +48,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      initialMessage: 'conversation/getInitialMessage',
       widgetColor: 'appConfig/getWidgetColor',
       isCreating: 'conversation/getIsCreating',
       isConversationRouting: 'appConfig/getIsUpdatingRoute',
@@ -137,6 +139,54 @@ export default {
         }
       });
       return contactAttributes;
+    },
+  },
+  watch: {
+    initialMessage: {
+      immediate: true,
+      handler(initialMessage) {
+        if (!initialMessage) {
+          if (this.hasInitialMessageDraft) {
+            this.formValues = {
+              ...this.formValues,
+              message: '',
+            };
+          }
+          this.hasInitialMessageDraft = false;
+          return;
+        }
+        if (this.hasActiveCampaign) return;
+        if (this.formValues.message && !this.hasInitialMessageDraft) return;
+
+        this.hasInitialMessageDraft = true;
+        this.formValues = {
+          ...this.formValues,
+          message: initialMessage,
+        };
+      },
+    },
+    hasActiveCampaign(hasActiveCampaign) {
+      if (hasActiveCampaign || !this.initialMessage) return;
+
+      this.hasInitialMessageDraft = true;
+      this.formValues = {
+        ...this.formValues,
+        message: this.initialMessage,
+      };
+    },
+    formValues: {
+      deep: true,
+      handler(formValues) {
+        if (!this.hasInitialMessageDraft || this.hasActiveCampaign) return;
+
+        const message = formValues.message || '';
+        if (this.initialMessage === message) return;
+
+        this.$store.dispatch('conversation/setInitialMessage', message);
+        if (!message || message !== this.initialMessage) {
+          this.hasInitialMessageDraft = false;
+        }
+      },
     },
   },
   methods: {

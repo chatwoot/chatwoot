@@ -71,6 +71,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     showUnreadMessagesDialog: chatwootSettings.showUnreadMessagesDialog ?? true,
     widgetStyle: getWidgetStyle(chatwootSettings.widgetStyle) || 'standard',
     resetTriggered: false,
+    initialMessage: '',
     darkMode: getDarkMode(chatwootSettings.darkMode),
     welcomeTitle: chatwootSettings.welcomeTitle || '',
     welcomeDescription: chatwootSettings.welcomeDescription || '',
@@ -80,8 +81,25 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     enableEmojiPicker: chatwootSettings.enableEmojiPicker ?? true,
     enableEndConversation: chatwootSettings.enableEndConversation ?? true,
 
-    toggle(state) {
+    toggle(state, initialMessage) {
+      if (initialMessage !== undefined) {
+        window.$chatwoot.setInitialMessage(initialMessage);
+      }
       IFrameHelper.events.toggleBubble(state);
+    },
+
+    setInitialMessage(initialMessage = '') {
+      if (typeof initialMessage !== 'string') {
+        throw new Error('Initial message should be a string');
+      }
+
+      window.$chatwoot.initialMessage = initialMessage;
+      if (!window.$chatwoot.hasLoaded) {
+        return;
+      }
+
+      IFrameHelper.sendMessage('set-initial-message', { initialMessage });
+      window.$chatwoot.initialMessage = '';
     },
 
     toggleBubbleVisibility(visibility) {
@@ -201,6 +219,8 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       Cookies.remove(getUserCookieName());
 
       const iframe = IFrameHelper.getAppFrame();
+      window.$chatwoot.hasLoaded = false;
+      window.$chatwoot.initialMessage = '';
       iframe.src = IFrameHelper.getUrl({
         baseUrl: window.$chatwoot.baseUrl,
         websiteToken: window.$chatwoot.websiteToken,

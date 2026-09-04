@@ -40,13 +40,19 @@ export default {
     return {
       isMobile: false,
       campaignsSnoozedTill: undefined,
+      initialConversationFetchPromise: null,
+      pendingInitialMessage: '',
+      initialMessageSequence: 0,
+      latestUserIdentifier: '',
     };
   },
   computed: {
     ...mapGetters({
       activeCampaign: 'campaign/getActiveCampaign',
       conversationSize: 'conversation/getConversationSize',
+      currentUser: 'contacts/getCurrentUser',
       hideMessageBubble: 'appConfig/getHideMessageBubble',
+      initialMessage: 'conversation/getInitialMessage',
       isFetchingList: 'conversation/getIsFetchingList',
       isRightAligned: 'appConfig/isRightAligned',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
@@ -119,7 +125,10 @@ export default {
       'setBubbleVisibility',
       'setColorScheme',
     ]),
-    ...mapActions('conversation', ['fetchOldConversations']),
+    ...mapActions('conversation', [
+      'fetchOldConversations',
+      'setInitialMessage',
+    ]),
     ...mapActions('campaign', [
       'initCampaigns',
       'executeCampaign',
@@ -267,6 +276,79 @@ export default {
       }
       this.$store.dispatch('events/create', { name: eventName });
     },
+    async handleInitialMessage(initialMessage) {
+      if (initialMessage !== undefined && typeof initialMessage !== 'string') {
+        return;
+      }
+
+      this.pendingInitialMessage = initialMessage;
+      this.initialMessageSequence += 1;
+      if (!initialMessage) {
+        this.setInitialMessage('');
+        return;
+      }
+
+      const initialMessageSequence = this.initialMessageSequence;
+      await this.initialConversationFetchPromise;
+      if (initialMessageSequence !== this.initialMessageSequence) return;
+
+      const routeName =
+        this.preChatFormEnabled && !this.conversationSize
+          ? 'prechat-form'
+          : 'messages';
+      if (routeName === 'messages') {
+        this.unsetUnreadView();
+      }
+      if (this.$route.name !== routeName) {
+        await this.router.replace({ name: routeName });
+      }
+      if (initialMessageSequence !== this.initialMessageSequence) return;
+
+      this.setInitialMessage(initialMessage);
+      this.pendingInitialMessage = '';
+      if (routeName === 'messages') {
+        this.unsetUnreadView();
+      }
+    },
+    setConversationHistoryFetchPromise(fetchPromise) {
+      this.initialConversationFetchPromise = fetchPromise;
+      fetchPromise.finally(() => {
+        if (this.initialConversationFetchPromise === fetchPromise) {
+          this.initialConversationFetchPromise = null;
+        }
+      });
+    },
+    handleSetUser(message) {
+      const hasLatestUserIdentifier =
+        this.latestUserIdentifier !== undefined &&
+        this.latestUserIdentifier !== null &&
+        this.latestUserIdentifier !== '';
+      const currentIdentifier = hasLatestUserIdentifier
+        ? this.latestUserIdentifier
+        : this.currentUser.identifier;
+      const hasCurrentIdentifier =
+        currentIdentifier !== undefined &&
+        currentIdentifier !== null &&
+        currentIdentifier !== '';
+      const isChangingIdentifiedVisitor =
+        hasCurrentIdentifier &&
+        String(currentIdentifier) !== String(message.identifier);
+      if (isChangingIdentifiedVisitor) {
+        this.pendingInitialMessage = '';
+        this.setInitialMessage('');
+      }
+      this.latestUserIdentifier = message.identifier;
+      const pendingInitialMessage =
+        this.pendingInitialMessage ||
+        (!isChangingIdentifiedVisitor ? this.initialMessage : '');
+      this.initialMessageSequence += 1;
+      this.setConversationHistoryFetchPromise(
+        this.$store.dispatch('contacts/setUser', message)
+      );
+      if (pendingInitialMessage) {
+        this.handleInitialMessage(pendingInitialMessage);
+      }
+    },
     registerListeners() {
       const { websiteToken } = window.chatwootWebChannel;
       window.addEventListener('message', e => {
@@ -277,7 +359,14 @@ export default {
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
-          this.fetchOldConversations().then(() => this.setUnreadView());
+          const initialConversationFetchPromise =
+            this.fetchOldConversations().then(() => {
+              this.setUnreadView();
+            });
+          this.setConversationHistoryFetchPromise(
+            initialConversationFetchPromise
+          );
+          this.handleInitialMessage(message.initialMessage);
           this.fetchAvailableAgents(websiteToken);
           this.setAppConfig(message);
           this.$store.dispatch('contacts/get');
@@ -302,7 +391,7 @@ export default {
         } else if (message.event === 'remove-label') {
           this.$store.dispatch('conversationLabels/destroy', message.label);
         } else if (message.event === 'set-user') {
-          this.$store.dispatch('contacts/setUser', message);
+          this.handleSetUser(message);
         } else if (message.event === 'set-custom-attributes') {
           this.$store.dispatch(
             'contacts/setCustomAttributes',
@@ -323,6 +412,8 @@ export default {
             'conversation/deleteCustomAttribute',
             message.customAttribute
           );
+        } else if (message.event === 'set-initial-message') {
+          this.handleInitialMessage(message.initialMessage);
         } else if (message.event === 'set-locale') {
           this.setLocale(message.locale);
           this.setBubbleLabel();

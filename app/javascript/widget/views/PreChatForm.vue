@@ -23,11 +23,15 @@ export default {
     emitter.off(ON_CONVERSATION_CREATED, this.handleConversationCreated);
   },
   methods: {
-    ...mapActions('conversation', ['clearConversations']),
+    ...mapActions('conversation', [
+      'clearConversations',
+      'clearInitialMessage',
+    ]),
     ...mapActions('conversationAttributes', ['clearConversationAttributes']),
     handleConversationCreated() {
       // Redirect to messages page after conversation is created
       this.router.replace({ name: 'messages' });
+      this.clearInitialMessage();
       // Only after successful navigation, reset the isUpdatingRoute UIflag in app/javascript/widget/router.js
       // See issue: https://github.com/chatwoot/chatwoot/issues/10736
     },

@@ -32,6 +32,13 @@ describe('#getters', () => {
     expect(getters.getConversationSize(state)).toEqual(1);
   });
 
+  it('getInitialMessage', () => {
+    const state = { initialMessage: 'I need help with invoice 42' };
+    expect(getters.getInitialMessage(state)).toEqual(
+      'I need help with invoice 42'
+    );
+  });
+
   it('getEarliestMessage', () => {
     const state = {
       conversations: {
