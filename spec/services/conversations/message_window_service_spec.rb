@@ -203,6 +203,16 @@ RSpec.describe Conversations::MessageWindowService do
     let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: instagram_channel.account) }
     let!(:conversation) { create(:conversation, inbox: instagram_inbox, account: instagram_channel.account) }
 
+    context 'when the conversation is an Instagram comment thread' do
+      it 'can always reply, ignoring the DM messaging window' do
+        conversation.update!(additional_attributes: { 'type' => 'instagram_comment' })
+        create(:message, account: conversation.account, inbox: instagram_inbox,
+                         conversation: conversation, created_at: 30.days.ago)
+
+        expect(described_class.new(conversation).can_reply?).to be true
+      end
+    end
+
     context 'when the HUMAN_AGENT is enabled' do
       it 'return false if the last message is outgoing' do
         with_modified_env ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT: 'true' do
