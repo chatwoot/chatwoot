@@ -35,11 +35,15 @@ let conversationListRequestId = 0;
 
 // actions
 const actions = {
-  getConversation: async ({ commit }, conversationId) => {
+  getConversation: async ({ commit, dispatch }, conversationId) => {
     try {
       const response = await ConversationApi.show(conversationId);
       commit(types.UPDATE_CONVERSATION, response.data);
       commit(`contacts/${types.SET_CONTACT_ITEM}`, response.data.meta.sender);
+      dispatch('conversationLabels/setConversationLabel', {
+        id: response.data.id,
+        data: response.data.labels,
+      });
     } catch (error) {
       // Ignore error
     }
