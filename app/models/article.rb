@@ -56,6 +56,7 @@ class Article < ApplicationRecord
   before_validation :ensure_account_id
   before_validation :ensure_article_slug
   before_validation :ensure_locale_in_article
+  before_validation :associate_with_root_article, if: :will_save_change_to_associated_article_id?
 
   # Slugs that collide with help center routes (e.g. /hc/:slug/:locale/search)
   RESERVED_SLUGS = %w[search articles categories].freeze
@@ -65,6 +66,8 @@ class Article < ApplicationRecord
   validates :title, presence: true
   validates :content, presence: true, if: :published?
   validates :slug, exclusion: { in: RESERVED_SLUGS }
+  validate :cannot_reassociate_translation_family, if: -> { persisted? && will_save_change_to_associated_article_id? }
+  validate :unique_published_locale_in_translation_family, if: :published?
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
@@ -113,24 +116,22 @@ class Article < ApplicationRecord
     records
   end
 
-  def associate_root_article(associated_article_id)
-    article = portal.articles.find(associated_article_id) if associated_article_id.present?
-
-    return if article.nil?
-
-    root_article_id = self.class.find_root_article_id(article)
-
-    update(associated_article_id: root_article_id) if root_article_id.present?
-  end
-
-  # Make sure we always associate the parent's associated id to avoid the deeper associations od articles.
   def self.find_root_article_id(article)
-    article.associated_article_id || article.id
+    current_article = article
+    visited_ids = []
+
+    while current_article.associated_article_id.present? && visited_ids.exclude?(current_article.id)
+      visited_ids << current_article.id
+      root_article = current_article.root_article
+      break if root_article.nil?
+
+      current_article = root_article
+    end
+
+    current_article.id
   end
 
-  def draft!
-    update(status: :draft)
-  end
+  def draft! = update(status: :draft)
 
   def increment_view_count
     # rubocop:disable Rails/SkipsModelValidations
@@ -175,6 +176,54 @@ class Article < ApplicationRecord
   private_class_method :rebalance_positions, :resequence_category
 
   private
+
+  def associate_with_root_article
+    article = portal.articles.find(associated_article_id)
+    self.associated_article_id = self.class.find_root_article_id(article)
+  end
+
+  def unique_published_locale_in_translation_family
+    root_id = translation_family_root_id
+    return if root_id.blank? || locale.blank?
+
+    root_id = lock_translation_family_roots(root_id)
+    self.associated_article_id = root_id if associated_article_id.present?
+    matching_articles = portal.articles.published.where(id: translation_family_ids(root_id), locale: locale)
+    matching_articles = matching_articles.where.not(id: id)
+    errors.add(:locale, :taken) if matching_articles.exists?
+  end
+
+  def cannot_reassociate_translation_family = (errors.add(:associated_article_id, :invalid) if associated_articles.exists?)
+
+  def lock_translation_family_roots(root_id)
+    root_ids = [root_id]
+
+    if persisted? && will_save_change_to_associated_article_id?
+      previous_parent_id = associated_article_id_in_database
+      previous_root_id = previous_parent_id ? self.class.find_root_article_id(portal.articles.find(previous_parent_id)) : id
+      root_ids << previous_root_id
+    end
+
+    portal.articles.where(id: root_ids.compact.uniq.sort).order(:id).lock.load
+    translation_family_root_id.tap { |current_root_id| portal.articles.lock.find(current_root_id) }
+  end
+
+  def translation_family_root_id
+    return id if associated_article_id.blank?
+
+    self.class.uncached { self.class.find_root_article_id(portal.articles.find(associated_article_id)) }
+  end
+
+  def translation_family_ids(root_id)
+    article_ids = [root_id]
+    parent_ids = [root_id]
+
+    while (parent_ids = portal.articles.where(associated_article_id: parent_ids).where.not(id: article_ids).pluck(:id)).any?
+      article_ids.concat(parent_ids)
+    end
+
+    article_ids
+  end
 
   def category_id_changed_action
     # We need to update the position of the article in the new category

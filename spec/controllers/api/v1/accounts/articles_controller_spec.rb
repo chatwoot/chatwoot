@@ -4,8 +4,10 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:admin) { create(:user, account: account, role: :administrator) }
-  let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id) }
+  let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id, config: { allowed_locales: %w[en es fr] }) }
   let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, locale: 'en', slug: 'category_slug') }
+  let!(:spanish_category) { create(:category, name: 'Spanish category', portal: portal, locale: 'es', slug: 'spanish-category') }
+  let!(:french_category) { create(:category, name: 'French category', portal: portal, locale: 'fr', slug: 'french-category') }
   let!(:article) { create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id) }
 
   describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/articles' do
@@ -121,12 +123,12 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
       it 'associate to the root article' do
         root_article = create(:article, category: category, slug: 'root-article', portal: portal, account_id: account.id, author_id: agent.id,
                                         associated_article_id: nil)
-        parent_article = create(:article, category: category, slug: 'parent-article', portal: portal, account_id: account.id, author_id: agent.id,
-                                          associated_article_id: root_article.id)
+        parent_article = create(:article, category: spanish_category, slug: 'parent-article', portal: portal, account_id: account.id,
+                                          author_id: agent.id, associated_article_id: root_article.id)
 
         article_params = {
           article: {
-            category_id: category.id,
+            category_id: french_category.id,
             description: 'test description',
             title: 'MyTitle',
             slug: 'MyTitle',
@@ -152,7 +154,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
         article_params = {
           article: {
-            category_id: category.id,
+            category_id: spanish_category.id,
             description: 'test description',
             title: 'MyTitle',
             slug: 'MyTitle',
@@ -171,6 +173,28 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
         category = Article.find(json_response['payload']['id'])
         expect(category.associated_article_id).to eql(parent_article.id)
+      end
+
+      it 'rejects an article association from another portal' do
+        other_portal = create(:portal, account: account)
+        other_article = create(:article, portal: other_portal, account: account, author: agent)
+        article_params = {
+          article: {
+            category_id: category.id,
+            title: 'MyTitle',
+            slug: 'my-title',
+            author_id: agent.id,
+            associated_article_id: other_article.id
+          }
+        }
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+               params: article_params,
+               headers: admin.create_new_auth_token
+        end.not_to change(Article, :count)
+
+        expect(response).to have_http_status(:not_found)
       end
     end
   end
@@ -404,9 +428,9 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
       it 'get associated articles' do
         root_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: nil)
-        child_article_1 = create(:article, slug: 'child-1', category: category, portal: portal, account_id: account.id, author_id: agent.id,
+        child_article_1 = create(:article, slug: 'child-1', category: spanish_category, portal: portal, account_id: account.id, author_id: agent.id,
                                            associated_article_id: root_article.id)
-        child_article_2 = create(:article, slug: 'child-2', category: category, portal: portal, account_id: account.id, author_id: agent.id,
+        child_article_2 = create(:article, slug: 'child-2', category: french_category, portal: portal, account_id: account.id, author_id: agent.id,
                                            associated_article_id: root_article.id)
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{root_article.id}",
