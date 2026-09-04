@@ -16,12 +16,26 @@ class Enterprise::Billing::HandleStripeEventService
       process_subscription_updated
     when 'customer.subscription.deleted'
       process_subscription_deleted
+    when 'invoice.paid'
+      process_invoice_paid
     else
       Rails.logger.debug { "Unhandled event type: #{event.type}" }
     end
   end
 
   private
+
+  def process_invoice_paid
+    return if account.blank? || invoice_subscription_id.blank?
+    return unless Stripe::Subscription.retrieve(invoice_subscription_id).status == 'active'
+
+    account.with_lock do
+      account.reload
+      next unless account.suspended? && account.suspension_history.last&.dig('category') == 'non_payment'
+
+      account.update!(status: :active)
+    end
+  end
 
   def process_subscription_updated
     plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
@@ -148,6 +162,11 @@ class Enterprise::Billing::HandleStripeEventService
     @subscription ||= @event.data.object
   end
 
+  def invoice_subscription_id
+    invoice = @event.data.object
+    invoice['subscription'] || invoice['parent']&.[]('subscription_details')&.[]('subscription')
+  end
+
   def previous_attributes
     @previous_attributes ||= JSON.parse((@event.data.previous_attributes || {}).to_json)
   end
@@ -168,7 +187,7 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def account
-    @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", subscription.customer).first
+    @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", @event.data.object.customer).first
   end
 
   def find_plan(product_id)
