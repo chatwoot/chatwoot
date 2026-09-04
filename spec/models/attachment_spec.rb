@@ -259,6 +259,42 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'audio_metadata data_url' do
+    let(:audio_attachment) do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :audio)
+      attachment.file.attach(io: StringIO.new('fake audio'), filename: 'test.ogg', content_type: 'audio/ogg')
+      attachment.save!
+      attachment
+    end
+
+    around do |example|
+      # config.active_storage.resolve_model_to_route is only read once, at boot, by
+      # ActiveStorage's railtie initializer, which copies it into this module attribute.
+      # url_for (and therefore inline_audio_url/file_url) reads ActiveStorage.resolve_model_to_route
+      # at request time, so that's what needs to change for this spec, not the Rails config object.
+      original_route = ActiveStorage.resolve_model_to_route
+      example.run
+      ActiveStorage.resolve_model_to_route = original_route
+    end
+
+    it 'uses the proxy route when resolve_model_to_route is :rails_storage_proxy' do
+      ActiveStorage.resolve_model_to_route = :rails_storage_proxy
+
+      data_url = audio_attachment.push_event_data[:data_url]
+
+      expect(data_url).to include('/rails/active_storage/blobs/')
+      expect(data_url).not_to include('/rails/active_storage/blobs/redirect/')
+    end
+
+    it 'uses the redirect route when resolve_model_to_route is :rails_storage_redirect' do
+      ActiveStorage.resolve_model_to_route = :rails_storage_redirect
+
+      data_url = audio_attachment.push_event_data[:data_url]
+
+      expect(data_url).to include('/rails/active_storage/blobs/redirect/')
+    end
+  end
+
   describe 'set_extension' do
     it 'sets extension from filename on save' do
       attachment = message.attachments.new(account_id: message.account_id, file_type: :file)

@@ -108,17 +108,19 @@ class Attachment < ApplicationRecord
     audio_file_data = base_data.merge(file_metadata)
     audio_file_data.merge(
       {
-        # Keep audio playback inline while avoiding the ActiveStorage proxy path.
         data_url: inline_audio_url,
         transcribed_text: meta&.[]('transcribed_text') || ''
       }
     )
   end
 
+  # NOTE: uses url_for (like file_url) so this respects config.active_storage.resolve_model_to_route.
+  # Self-hosted installs using S3 with resolve_model_to_route = :rails_storage_proxy rely on this to
+  # avoid Chrome blocking the direct-to-S3 redirect with ERR_BLOCKED_BY_ORB.
   def inline_audio_url
     return '' unless file.attached?
 
-    Rails.application.routes.url_helpers.rails_storage_redirect_url(file, disposition: 'inline')
+    url_for(file)
   end
 
   def file_metadata
