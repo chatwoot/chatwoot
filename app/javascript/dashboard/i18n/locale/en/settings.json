@@ -585,6 +585,7 @@
       "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
       "SEAT_COUNT": "Number of seats",
       "RENEWS_ON": "Renews on",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
