@@ -36,7 +36,7 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
   end
 
   def setup_webhooks
-    ::Twilio::WebhookSetupService.new(inbox: @inbox).perform
+    ::Twilio::WebhookSetupService.new(channel: @twilio_channel).perform
   end
 
   def phone_number

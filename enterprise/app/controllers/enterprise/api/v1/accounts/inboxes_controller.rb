@@ -100,7 +100,7 @@ module Enterprise::Api::V1::Accounts::InboxesController
     )
     config = voice_params[:provider_config] || {}
 
-    Current.account.twilio_sms.create!(
+    channel = Current.account.twilio_sms.create!(
       phone_number: voice_params[:phone_number],
       account_sid: config[:account_sid],
       auth_token: config[:auth_token],
@@ -109,5 +109,11 @@ module Enterprise::Api::V1::Accounts::InboxesController
       medium: :sms,
       voice_enabled: true
     )
+
+    # A voice channel is an SMS channel with voice_enabled, so it needs the messaging webhook too.
+    # Enqueued after the enclosing transaction commits: a rollback would otherwise leave the number
+    # routing SMS to an inbox that never existed, and a Twilio outage must not fail a saved inbox.
+    ActiveRecord.after_all_transactions_commit { Channels::Twilio::WebhookSetupJob.perform_later(channel) }
+    channel
   end
 end

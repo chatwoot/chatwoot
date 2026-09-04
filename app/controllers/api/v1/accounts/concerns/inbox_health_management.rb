@@ -1,10 +1,10 @@
-module Api::V1::Accounts::Concerns::WhatsappHealthManagement
+module Api::V1::Accounts::Concerns::InboxHealthManagement
   extend ActiveSupport::Concern
 
   included do
     skip_before_action :check_authorization, only: [:health, :register_webhook]
     before_action :check_admin_authorization?, only: [:register_webhook]
-    before_action :validate_whatsapp_cloud_channel, only: [:health, :register_webhook]
+    before_action :validate_health_supported_channel, only: [:health, :register_webhook]
   end
 
   def sync_templates
@@ -31,8 +31,7 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   end
 
   def health
-    health_data = Whatsapp::HealthService.new(@inbox.channel).sync_health_status!(include_business_profile: true)
-    render json: health_data
+    render json: fetch_health_data
   rescue Whatsapp::HealthService::ApiError => e
     Rails.logger.error "[INBOX HEALTH] Error fetching health data: #{e.message}"
     render json: {
@@ -50,7 +49,7 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   end
 
   def register_webhook
-    Whatsapp::WebhookSetupService.new(@inbox.channel).register_callback
+    register_channel_webhook
 
     render json: { message: 'Webhook registered successfully' }, status: :ok
   rescue StandardError => e
@@ -68,6 +67,26 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
 
   private
 
+  def fetch_health_data
+    return Whatsapp::HealthService.new(@inbox.channel).sync_health_status!(include_business_profile: true) if whatsapp_cloud_channel?
+
+    Twilio::HealthService.new(channel: @inbox.channel).perform
+  end
+
+  def register_channel_webhook
+    return Whatsapp::WebhookSetupService.new(@inbox.channel).register_callback if whatsapp_cloud_channel?
+
+    Twilio::WebhookSetupService.new(channel: @inbox.channel).perform
+    # No-op unless voice is enabled; keeps the number's voice webhooks in sync alongside messaging.
+    @inbox.channel.try(:reprovision_voice_webhooks!)
+  end
+
+  def validate_health_supported_channel
+    return if whatsapp_cloud_channel? || twilio_sms_channel?
+
+    render json: { error: 'Health data only available for WhatsApp Cloud API and Twilio SMS channels' }, status: :bad_request
+  end
+
   def whatsapp_channel
     channel = @inbox.channel
     raise ActiveRecord::RecordNotFound unless channel.is_a?(Channel::Whatsapp)
@@ -75,10 +94,12 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
     channel
   end
 
-  def validate_whatsapp_cloud_channel
-    return if @inbox.channel.is_a?(Channel::Whatsapp) && @inbox.channel.provider == 'whatsapp_cloud'
+  def whatsapp_cloud_channel?
+    @inbox.channel.is_a?(Channel::Whatsapp) && @inbox.channel.provider == 'whatsapp_cloud'
+  end
 
-    render json: { error: 'Health data only available for WhatsApp Cloud API channels' }, status: :bad_request
+  def twilio_sms_channel?
+    @inbox.channel.is_a?(Channel::TwilioSms) && @inbox.channel.sms?
   end
 
   def whatsapp_channel?
