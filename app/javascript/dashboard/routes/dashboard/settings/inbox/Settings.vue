@@ -140,6 +140,12 @@ export default {
         FEATURE_FLAGS.INBOUND_EMAILS
       );
     },
+    isVoiceRecorderEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.VOICE_RECORDER
+      );
+    },
     showContinuityToggle() {
       if (this.isInboundEmailEnabled) return true;
       return this.isOnChatwootCloud;
@@ -1259,6 +1265,17 @@ export default {
                     />
                     <label for="use_inbox_avatar_for_bot">
                       {{ $t('INBOX_MGMT.FEATURES.USE_INBOX_AVATAR_FOR_BOT') }}
+                    </label>
+                  </div>
+                  <div v-if="isVoiceRecorderEnabled" class="flex gap-2 py-0.5">
+                    <input
+                      v-model="selectedFeatureFlags"
+                      type="checkbox"
+                      value="voice_recorder"
+                      @input="handleFeatureFlag"
+                    />
+                    <label for="voice_recorder">
+                      {{ $t('INBOX_MGMT.FEATURES.ENABLE_VOICE_RECORDER') }}
                     </label>
                   </div>
                 </div>

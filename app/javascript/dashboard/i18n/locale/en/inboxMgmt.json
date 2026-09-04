@@ -979,7 +979,8 @@
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
       "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot",
+      "ENABLE_VOICE_RECORDER": "Enable voice-to-text microphone on the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
