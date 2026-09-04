@@ -14,9 +14,9 @@ requestBody:
         type: object
         properties:
           priority:
-            type: string
-            enum: ['urgent', 'high', 'medium', 'low', 'none']
-            description: 'The priority of the conversation'
+            type: [string, "null"]
+            enum: ['urgent', 'high', 'medium', 'low', null]
+            description: 'The priority of the conversation. Set to null to clear the priority.'
             example: 'high'
           sla_policy_id:
             type: number
@@ -41,3 +41,13 @@ responses:
       application/json:
         schema:
           $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: Validation error
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [error]
+          properties:
+            error:
+              type: string
