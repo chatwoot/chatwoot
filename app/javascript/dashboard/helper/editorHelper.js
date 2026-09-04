@@ -128,8 +128,20 @@ export function cleanSignature(signature) {
 const stripDelimiterHardbreaks = body =>
   body.replace(/(--)\s*(?:\\\s*)+$/, '$1');
 
-// Strip standalone blank-paragraph markers (`\` on their own lines).
-const stripTrailingBlankLine = body => body.replace(/\n(?:\s*\\\n)+$/, '');
+// Strip standalone blank-paragraph markers (`\` on their own lines), plus
+// the bare `\` the serializer writes to escape the `--` delimiter into `\--`
+// (left behind once the delimiter itself is sliced off). Two shapes end in that
+// escape after the slice: `hey\` LF `\` (Shift+Enter, the trailing `\` on the
+// content line is a hard-break marker and goes too) and `C:\` LF LF `\` LF `\`
+// (a blank line separates content from the glue; the serializer emits authored
+// backslashes verbatim, so a `\` before a blank line is user content and must
+// stay). A marker's newline is never blank, so the marker alternative only
+// crosses single newlines ([^\S\n] excludes `\n`) while the plain alternative
+// starts at the newline and may cross blank lines.
+const stripTrailingBlankLine = body =>
+  body
+    .replace(/(?:\\\n(?:[^\S\n]*\\\n)*[^\S\n]*\\|\n(?:\s*\\\n)*\s*\\)$/, '')
+    .replace(/\n(?:\s*\\\n)+$/, '');
 
 /**
  * Adds the signature delimiter to the beginning of the signature.
