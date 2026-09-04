@@ -161,6 +161,16 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(conversation_ids).to contain_exactly(conversation1.display_id, conversation2.display_id)
       end
 
+      it 'prepends a UTF-8 BOM so that spreadsheet applications detect the encoding' do
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, sla_status: 'missed')
+
+        get "/api/v1/accounts/#{account.id}/applied_slas/download",
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.body.bytes[0..2]).to eq([0xEF, 0xBB, 0xBF])
+      end
+
       it 'excludes conversations with blocked contacts from the CSV file' do
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, sla_status: 'missed')
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, sla_status: 'missed')
