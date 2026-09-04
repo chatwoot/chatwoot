@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_17_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -473,6 +473,30 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.index ["account_id"], name: "index_captain_documents_on_account_id"
     t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
     t.index ["status"], name: "index_captain_documents_on_status"
+  end
+
+  create_table "captain_faq_imports", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id", null: false
+    t.bigint "user_id"
+    t.string "original_filename", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "rows", default: [], null: false
+    t.integer "row_count", default: 0, null: false
+    t.integer "created_count", default: 0, null: false
+    t.integer "overwritten_count", default: 0, null: false
+    t.integer "skipped_count", default: 0, null: false
+    t.integer "embedding_ready_count", default: 0, null: false
+    t.integer "embedding_failed_count", default: 0, null: false
+    t.text "error_message"
+    t.datetime "confirmed_at"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_faq_imports_on_account_id"
+    t.index ["assistant_id"], name: "idx_captain_faq_imports_one_active_per_assistant", unique: true, where: "(status = ANY (ARRAY[0, 1]))"
+    t.index ["assistant_id"], name: "index_captain_faq_imports_on_assistant_id"
+    t.index ["user_id"], name: "index_captain_faq_imports_on_user_id"
   end
 
   create_table "captain_faq_observations", force: :cascade do |t|
@@ -1596,6 +1620,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
   add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
+  add_foreign_key "captain_faq_imports", "accounts"
+  add_foreign_key "captain_faq_imports", "captain_assistants", column: "assistant_id"
+  add_foreign_key "captain_faq_imports", "users", on_delete: :nullify
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
