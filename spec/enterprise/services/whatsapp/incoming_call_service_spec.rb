@@ -476,4 +476,59 @@ describe Whatsapp::IncomingCallService do
       expect(Call.where(provider_call_id: %w[wacid_a wacid_b]).pluck(:provider_call_id)).to contain_exactly('wacid_a', 'wacid_b')
     end
   end
+
+  describe 'caller profile name on an existing contact' do
+    let(:offer) { { session: { sdp_type: 'offer', sdp: 'v=0' } } }
+
+    def ring(from, name: 'John Doe', extra: {})
+      params = { contacts: [{ profile: { name: name }, wa_id: from }.merge(extra)],
+                 calls: [{ id: 'wacid_name', from: from, event: 'connect', **offer }] }.with_indifferent_access
+      described_class.new(inbox: inbox, params: params).perform
+    end
+
+    it 'replaces a phone-number placeholder name on the contact the call reused' do
+      contact = create(:contact, name: "+#{from_number}", phone_number: "+#{from_number}", account: account)
+      create(:contact_inbox, contact: contact, inbox: inbox, source_id: from_number)
+
+      ring(from_number)
+
+      expect(contact.reload.name).to eq('John Doe')
+    end
+
+    it 'replaces an internationally formatted placeholder name' do
+      contact = create(:contact, name: TelephoneNumber.parse("+#{from_number}").international_number,
+                                 phone_number: "+#{from_number}", account: account)
+      create(:contact_inbox, contact: contact, inbox: inbox, source_id: from_number)
+
+      ring(from_number)
+
+      expect(contact.reload.name).to eq('John Doe')
+    end
+
+    it 'replaces a placeholder matching a normalized phone candidate' do
+      contact = create(:contact, name: '+5541988887777', phone_number: '+5541988887777', account: account)
+
+      ring('554188887777', name: 'Maria Silva')
+
+      expect(contact.reload.name).to eq('Maria Silva')
+    end
+
+    it 'leaves a real name untouched' do
+      contact = create(:contact, name: 'Existing Human', phone_number: "+#{from_number}", account: account)
+      create(:contact_inbox, contact: contact, inbox: inbox, source_id: from_number)
+
+      ring(from_number, name: 'Impostor')
+
+      expect(contact.reload.name).to eq('Existing Human')
+    end
+
+    it 'leaves the placeholder alone when Meta sends no profile name' do
+      contact = create(:contact, name: "+#{from_number}", phone_number: "+#{from_number}", account: account)
+      create(:contact_inbox, contact: contact, inbox: inbox, source_id: from_number)
+
+      ring(from_number, name: nil)
+
+      expect(contact.reload.name).to eq("+#{from_number}")
+    end
+  end
 end

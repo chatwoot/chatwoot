@@ -223,24 +223,14 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def update_contact_with_profile_name(contact_params)
-    profile_name = contact_params.dig(:profile, :name)
-    return if profile_name.blank?
-    return if @contact.name == profile_name
+    message_phone_number = whatsapp_phone_number(messages_data.first[:from])
+    return if message_phone_number.blank?
 
-    # Only update if current name exactly matches a phone number candidate
-    return unless contact_name_matches_phone_number?
-
-    @contact.update!(name: profile_name)
-  end
-
-  def contact_name_matches_phone_number?
-    return false if (message_phone_number = whatsapp_phone_number(messages_data.first[:from])).blank?
-
-    phone_number_candidates(message_phone_number).any? do |number|
-      phone_number = "+#{number}"
-      formatted_phone_number = TelephoneNumber.parse(phone_number).international_number
-      @contact.name == phone_number || @contact.name == formatted_phone_number
-    end
+    Contacts::PlaceholderNameUpdater.new(
+      contact: @contact,
+      name: contact_params.dig(:profile, :name),
+      phone_numbers: phone_number_candidates(message_phone_number).map { |number| "+#{number}" }
+    ).perform
   end
 end
 
