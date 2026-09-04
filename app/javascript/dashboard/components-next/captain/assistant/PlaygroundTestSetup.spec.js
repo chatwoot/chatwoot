@@ -386,66 +386,30 @@ describe('PlaygroundTestSetup', () => {
     expect(saveKnowledgeAsDocument).toHaveBeenCalledOnce();
   });
 
-  it('clears every quick-entry draft when test setup is reset', async () => {
+  it('keeps a separate quick-entry draft per tab', async () => {
     const wrapper = mountSetup();
 
     wrapper
       .findComponent(AddNewRulesInput)
       .vm.$emit('update:modelValue', 'Temporary knowledge draft');
-    await selectTab(wrapper, 'scenarios');
-    wrapper
-      .findComponent(AddNewRulesInput)
-      .vm.$emit('update:modelValue', 'Temporary scenario draft');
     await selectTab(wrapper, 'guidelines');
     wrapper
       .findComponent(AddNewRulesInput)
       .vm.$emit('update:modelValue', 'Temporary guideline draft');
     await selectTab(wrapper, 'guardrails');
-    wrapper
-      .findComponent(AddNewRulesInput)
-      .vm.$emit('update:modelValue', 'Temporary guardrail draft');
-    await nextTick();
 
-    const resetButton = wrapper
-      .findAllComponents(Button)
-      .find(
-        button => button.props('label') === 'CAPTAIN.PLAYGROUND.SETUP.RESET'
-      );
-    resetButton.vm.$emit('click');
-    await nextTick();
-
-    expect(wrapper.emitted('reset')).toHaveLength(1);
     expect(wrapper.findComponent(AddNewRulesInput).props('modelValue')).toBe(
       ''
     );
-    await selectTab(wrapper, 'scenarios');
-    expect(wrapper.findComponent(AddNewRulesInput).props('modelValue')).toBe(
-      ''
-    );
+
     await selectTab(wrapper, 'guidelines');
     expect(wrapper.findComponent(AddNewRulesInput).props('modelValue')).toBe(
-      ''
+      'Temporary guideline draft'
     );
-    await selectTab(wrapper, 'guardrails');
+    await selectTab(wrapper, 'knowledge');
     expect(wrapper.findComponent(AddNewRulesInput).props('modelValue')).toBe(
-      ''
+      'Temporary knowledge draft'
     );
-  });
-
-  it('resets the active tab and emits reset separately', async () => {
-    const wrapper = mountSetup();
-    await selectTab(wrapper, 'guardrails');
-    const resetButton = wrapper
-      .findAllComponents(Button)
-      .find(
-        button => button.props('label') === 'CAPTAIN.PLAYGROUND.SETUP.RESET'
-      );
-
-    resetButton.vm.$emit('click');
-    await nextTick();
-
-    expect(wrapper.findComponent(TabBar).props('initialActiveTab')).toBe(0);
-    expect(wrapper.emitted('reset')).toEqual([[]]);
   });
 
   it('does not reintroduce customer or conversation filters', () => {

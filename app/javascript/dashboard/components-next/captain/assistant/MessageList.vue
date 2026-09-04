@@ -34,15 +34,15 @@ const getAvatarName = sender =>
     ? t('CAPTAIN.PLAYGROUND.USER')
     : t('CAPTAIN.PLAYGROUND.ASSISTANT');
 
-const getMessageStyle = sender =>
-  isUserMessage(sender)
-    ? 'bg-n-solid-blue text-n-slate-12 rounded-br-sm rounded-bl-xl rounded-t-xl'
-    : 'bg-n-solid-iris text-n-slate-12 rounded-bl-sm rounded-br-xl rounded-t-xl';
+const messageStyle = message => {
+  if (message.isError) {
+    return 'bg-n-ruby-3 text-n-ruby-11 rounded-es-sm rounded-ee-xl rounded-t-xl';
+  }
 
-const messageStyle = message =>
-  message.isError
-    ? 'bg-n-ruby-3 text-n-ruby-11 rounded-bl-sm rounded-br-xl rounded-t-xl'
-    : getMessageStyle(message.sender);
+  return isUserMessage(message.sender)
+    ? 'bg-n-solid-blue text-n-slate-12 rounded-ee-sm rounded-es-xl rounded-t-xl'
+    : 'bg-n-solid-iris text-n-slate-12 rounded-es-sm rounded-ee-xl rounded-t-xl';
+};
 
 const scrollToBottom = async () => {
   await nextTick();

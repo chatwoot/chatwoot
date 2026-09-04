@@ -155,8 +155,27 @@ describe('AssistantPlayground', () => {
     const setupWrapper = wrapper.getComponent({ name: 'PlaygroundTestSetup' })
       .element.parentElement;
 
-    expect(setupWrapper.className).toContain('lg:w-[38rem]');
-    expect(setupWrapper.className).toContain('lg:flex-none');
+    expect(setupWrapper.tagName).toBe('ASIDE');
+    expect(setupWrapper.className).toContain('w-[38rem]');
+    expect(setupWrapper.className).toContain('flex-none');
+  });
+
+  it('resets the test setup and remounts the panel to clear its drafts', async () => {
+    const wrapper = mountPlayground();
+    await wrapper.get('input').setValue('Hello');
+    await wrapper.get('input').trigger('keydown', { key: 'Enter' });
+    await flushPromises();
+    const keyBefore = wrapper.getComponent({ name: 'PlaygroundTestSetup' }).vm.$
+      .vnode.key;
+
+    await wrapper.get('[data-icon="i-lucide-refresh-cw"]').trigger('click');
+    await flushPromises();
+
+    expect(mocks.reset).toHaveBeenCalledOnce();
+    expect(wrapper.getComponent(MessageListStub).props('messages')).toEqual([]);
+    expect(
+      wrapper.getComponent({ name: 'PlaygroundTestSetup' }).vm.$.vnode.key
+    ).toBe(keyBefore + 1);
   });
 
   it('keeps the legacy playground UI and request contract unchanged', async () => {
@@ -195,9 +214,8 @@ describe('AssistantPlayground', () => {
 
   it('clears messages and resets session state when assistants change', async () => {
     const wrapper = mountPlayground();
-    expect(
-      wrapper.getComponent({ name: 'PlaygroundTestSetup' }).vm.$.vnode.key
-    ).toBe(7);
+    const keyBefore = wrapper.getComponent({ name: 'PlaygroundTestSetup' }).vm.$
+      .vnode.key;
     await wrapper.get('input').setValue('Hello');
     await wrapper.get('input').trigger('keydown', { key: 'Enter' });
     await flushPromises();
@@ -212,7 +230,7 @@ describe('AssistantPlayground', () => {
     expect(mocks.reset).toHaveBeenCalled();
     expect(
       wrapper.getComponent({ name: 'PlaygroundTestSetup' }).vm.$.vnode.key
-    ).toBe(8);
+    ).toBe(keyBefore + 1);
   });
 
   it('discards an in-flight response after the conversation is cleared', async () => {

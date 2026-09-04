@@ -1,7 +1,9 @@
 <script setup>
 import { computed, reactive, ref, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import MessageList from './MessageList.vue';
@@ -19,16 +21,26 @@ const props = defineProps({
 const { t } = useI18n();
 const { isFeatureFlagEnabled } = usePolicy();
 const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
+const isBelowXL = useBreakpoints(breakpointsTailwind).smaller('xl');
+
 const messages = ref([]);
 const newMessage = ref('');
 const isLoading = ref(false);
 const isSetupOpen = ref(true);
+const setupPanelRef = ref(null);
+const setupInstanceKey = ref(0);
 let conversationVersion = 0;
 
 const session = reactive(
   usePlaygroundSession({
     assistantId: toRef(props, 'assistantId'),
   })
+);
+
+const isSendDisabled = computed(
+  () =>
+    !newMessage.value.trim() ||
+    (isV2.value && (session.isInitializing || Boolean(session.loadError)))
 );
 
 const formatMessagesForApi = () => {
@@ -48,6 +60,15 @@ const formatMessagesForApi = () => {
     });
 };
 
+const pushAssistantError = content => {
+  messages.value.push({
+    content,
+    sender: 'assistant',
+    isError: true,
+    timestamp: new Date().toISOString(),
+  });
+};
+
 const resetConversation = () => {
   conversationVersion += 1;
   messages.value = [];
@@ -57,15 +78,24 @@ const resetConversation = () => {
 
 const resetTestSetup = async () => {
   resetConversation();
+  setupInstanceKey.value += 1;
   await session.reset();
 };
 
-// Watch for assistant ID changes and reset conversation
+const toggleSetup = () => {
+  if (isBelowXL.value) {
+    setupPanelRef.value?.open();
+  } else {
+    isSetupOpen.value = !isSetupOpen.value;
+  }
+};
+
 watch(
   () => props.assistantId,
   (newId, oldId) => {
     if (oldId && newId !== oldId) {
       resetConversation();
+      setupInstanceKey.value += 1;
       if (isV2.value) {
         isSetupOpen.value = true;
         session.reset();
@@ -91,21 +121,11 @@ const sendMessage = async () => {
     return;
   }
   if (isV2.value && session.loadError) {
-    messages.value.push({
-      content: session.loadError,
-      sender: 'assistant',
-      isError: true,
-      timestamp: new Date().toISOString(),
-    });
+    pushAssistantError(session.loadError);
     return;
   }
   if (isV2.value && !session.isValid) {
-    messages.value.push({
-      content: t('CAPTAIN.PLAYGROUND.SETUP.INVALID_CONFIGURATION'),
-      sender: 'assistant',
-      isError: true,
-      timestamp: new Date().toISOString(),
-    });
+    pushAssistantError(t('CAPTAIN.PLAYGROUND.SETUP.INVALID_CONFIGURATION'));
     return;
   }
 
@@ -144,15 +164,11 @@ const sendMessage = async () => {
   } catch (error) {
     if (requestVersion !== conversationVersion) return;
 
-    messages.value.push({
-      content:
-        error?.response?.data?.error ||
+    pushAssistantError(
+      error?.response?.data?.error ||
         error?.response?.data?.message ||
-        t('CAPTAIN.PLAYGROUND.RESPONSE_ERROR'),
-      sender: 'assistant',
-      isError: true,
-      timestamp: new Date().toISOString(),
-    });
+        t('CAPTAIN.PLAYGROUND.RESPONSE_ERROR')
+    );
   } finally {
     if (requestVersion === conversationVersion) isLoading.value = false;
   }
@@ -168,7 +184,7 @@ const handleEnterKey = event => {
 <template>
   <div
     class="h-full rounded-xl border border-n-weak text-n-slate-11"
-    :class="isV2 ? 'relative flex overflow-hidden' : 'flex flex-col'"
+    :class="isV2 ? 'flex overflow-hidden' : 'flex flex-col'"
   >
     <div class="flex min-w-0 flex-1 flex-col py-6">
       <div class="mb-8 px-6">
@@ -192,7 +208,7 @@ const handleEnterKey = event => {
               slate
               icon="i-lucide-settings-2"
               :aria-label="t('CAPTAIN.PLAYGROUND.SETUP.TOGGLE')"
-              @click="isSetupOpen = !isSetupOpen"
+              @click="toggleSetup"
             />
           </div>
         </div>
@@ -215,10 +231,7 @@ const handleEnterKey = event => {
         <NextButton
           ghost
           sm
-          :disabled="
-            !newMessage.trim() ||
-            (isV2 && (session.isInitializing || Boolean(session.loadError)))
-          "
+          :disabled="isSendDisabled"
           icon="i-lucide-send"
           :aria-label="t('CAPTAIN.PLAYGROUND.SEND_MESSAGE')"
           @click="sendMessage"
@@ -230,22 +243,70 @@ const handleEnterKey = event => {
       </p>
     </div>
 
-    <div
-      v-if="isV2 && isSetupOpen"
-      aria-hidden="true"
-      class="fixed inset-0 z-30 bg-n-alpha-black2 lg:hidden"
-      @click="isSetupOpen = false"
-    />
-    <div
-      v-if="isV2 && isSetupOpen"
-      class="fixed inset-y-0 end-0 z-40 w-full max-w-lg lg:static lg:z-auto lg:w-[38rem] lg:max-w-none lg:flex-none"
+    <aside
+      v-if="isV2 && isSetupOpen && !isBelowXL"
+      aria-labelledby="playground-test-setup-title"
+      class="flex w-[36rem] flex-none flex-col border-s border-n-weak bg-n-surface-1 text-n-slate-12"
     >
+      <div
+        class="flex items-start justify-between gap-3 border-b border-n-weak p-5"
+      >
+        <div>
+          <h3 id="playground-test-setup-title" class="text-base font-medium">
+            {{ t('CAPTAIN.PLAYGROUND.SETUP.TITLE') }}
+          </h3>
+          <p class="mt-1 text-sm text-n-slate-11">
+            {{ t('CAPTAIN.PLAYGROUND.SETUP.DESCRIPTION') }}
+          </p>
+        </div>
+        <NextButton
+          ghost
+          sm
+          slate
+          icon="i-lucide-x"
+          :aria-label="t('CAPTAIN.PLAYGROUND.SETUP.CLOSE')"
+          @click="isSetupOpen = false"
+        />
+      </div>
       <PlaygroundTestSetup
-        :key="assistantId"
+        :key="setupInstanceKey"
         :session="session"
-        @close="isSetupOpen = false"
-        @reset="resetTestSetup"
+        class="min-h-0 flex-1"
       />
-    </div>
+      <div class="border-t border-n-weak bg-n-solid-2 p-4">
+        <NextButton
+          ghost
+          sm
+          slate
+          :label="t('CAPTAIN.PLAYGROUND.SETUP.RESET')"
+          icon="i-lucide-refresh-cw"
+          :disabled="session.isInitializing"
+          :is-loading="session.isInitializing"
+          @click="resetTestSetup"
+        />
+      </div>
+    </aside>
+
+    <SidePanel
+      v-if="isV2 && isBelowXL"
+      ref="setupPanelRef"
+      width="lg"
+      :title="t('CAPTAIN.PLAYGROUND.SETUP.TITLE')"
+      :description="t('CAPTAIN.PLAYGROUND.SETUP.DESCRIPTION')"
+    >
+      <PlaygroundTestSetup :key="setupInstanceKey" :session="session" />
+      <template #footer>
+        <NextButton
+          ghost
+          sm
+          slate
+          :label="t('CAPTAIN.PLAYGROUND.SETUP.RESET')"
+          icon="i-lucide-refresh-cw"
+          :disabled="session.isInitializing"
+          :is-loading="session.isInitializing"
+          @click="resetTestSetup"
+        />
+      </template>
+    </SidePanel>
   </div>
 </template>

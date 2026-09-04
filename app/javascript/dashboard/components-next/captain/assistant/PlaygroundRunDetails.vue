@@ -19,7 +19,7 @@ const runSummary = computed(() =>
 </script>
 
 <template>
-  <details class="mt-3 border-t border-n-weak pt-2 text-xs text-n-slate-11">
+  <details class="mt-3 border-t border-n-iris-6 pt-2 text-xs text-n-slate-11">
     <summary class="cursor-pointer font-medium text-n-slate-12">
       {{ runSummary }}
     </summary>
@@ -68,9 +68,11 @@ const runSummary = computed(() =>
               <span class="font-medium text-n-slate-12">{{ event.name }}</span>
               <span>{{ event.status }}</span>
             </div>
-            <pre class="mt-2 whitespace-pre-wrap break-all font-mono">{{
-              formattedArguments(event.arguments)
-            }}</pre>
+            <pre
+              dir="ltr"
+              class="mt-2 whitespace-pre-wrap break-all text-start font-mono"
+              >{{ formattedArguments(event.arguments) }}</pre
+            >
             <p v-if="event.result_preview" class="mt-2 break-words">
               {{ event.result_preview }}
             </p>

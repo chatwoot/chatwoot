@@ -22,7 +22,10 @@ const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
   >
     <template #body>
       <div class="flex flex-col h-full">
-        <AssistantPlayground :assistant-id="assistantId" class="bg-n-solid-1" />
+        <AssistantPlayground
+          :assistant-id="assistantId"
+          class="bg-n-surface-1"
+        />
       </div>
     </template>
   </PageLayout>

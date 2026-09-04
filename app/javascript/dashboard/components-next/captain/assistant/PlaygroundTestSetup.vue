@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Accordion from 'dashboard/components-next/Accordion/Accordion.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -18,17 +18,45 @@ const props = defineProps({
   session: { type: Object, required: true },
 });
 
-const emit = defineEmits(['close', 'reset']);
 const { t } = useI18n();
 const KNOWLEDGE_MAX_LENGTH = 10_000;
+
+const RULE_TABS = {
+  guidelines: {
+    type: 'guideline',
+    createTitle: 'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.CREATE_TITLE',
+    createHint: 'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.CREATE_HINT',
+    composerPlaceholder:
+      'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.COMPOSER_PLACEHOLDER',
+    fieldLabel: 'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.PLACEHOLDER',
+    remove: 'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.REMOVE',
+    addPermanently: 'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.ADD_PERMANENTLY',
+    savedSummary: 'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.SAVED_SUMMARY',
+    empty: 'CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.EMPTY',
+  },
+  guardrails: {
+    type: 'guardrail',
+    createTitle: 'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.CREATE_TITLE',
+    createHint: 'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.CREATE_HINT',
+    composerPlaceholder:
+      'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.COMPOSER_PLACEHOLDER',
+    fieldLabel: 'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.PLACEHOLDER',
+    remove: 'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.REMOVE',
+    addPermanently: 'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.ADD_PERMANENTLY',
+    savedSummary: 'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.SAVED_SUMMARY',
+    empty: 'CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.EMPTY',
+  },
+};
 
 const activeTab = ref('knowledge');
 const collapsedScenarioIds = ref(new Set());
 const isKnowledgeEditorVisible = ref(Boolean(props.session.knowledgeText));
-const newKnowledge = ref('');
-const newScenario = ref('');
-const newGuideline = ref('');
-const newGuardrail = ref('');
+const drafts = reactive({
+  knowledge: '',
+  scenarios: '',
+  guidelines: '',
+  guardrails: '',
+});
 
 const tabs = computed(() => [
   {
@@ -53,26 +81,42 @@ const activeTabIndex = computed(() =>
   tabs.value.findIndex(tab => tab.id === activeTab.value)
 );
 
+const activeRuleTab = computed(() => RULE_TABS[activeTab.value]);
+
+const temporaryRules = computed(() =>
+  activeRuleTab.value?.type === 'guideline'
+    ? props.session.temporaryGuidelines
+    : props.session.temporaryGuardrails
+);
+
+const savedRules = computed(() =>
+  activeRuleTab.value?.type === 'guideline'
+    ? props.session.savedGuidelines
+    : props.session.savedGuardrails
+);
+
+const savedRuleTitle = computed(() =>
+  activeRuleTab.value
+    ? t(activeRuleTab.value.savedSummary, { count: savedRules.value.length })
+    : ''
+);
+
 const savedScenarioTitle = computed(() =>
   t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.SAVED_SUMMARY', {
     count: props.session.savedScenarios.length,
   })
 );
 
-const savedGuidelineTitle = computed(() =>
-  t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.SAVED_SUMMARY', {
-    count: props.session.savedGuidelines.length,
-  })
-);
-
-const savedGuardrailTitle = computed(() =>
-  t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.SAVED_SUMMARY', {
-    count: props.session.savedGuardrails.length,
-  })
+const includedScenarioIdSet = computed(
+  () => new Set(props.session.includedScenarioIds)
 );
 
 const toggleRule = rule => {
   rule.included = !rule.included;
+};
+
+const addTemporaryRule = content => {
+  props.session.addTemporaryRule(activeRuleTab.value.type, content);
 };
 
 const isTemporaryScenarioCollapsed = scenario =>
@@ -104,68 +148,21 @@ const addTemporaryKnowledge = content => {
   isKnowledgeEditorVisible.value = true;
 };
 
-const addTemporaryScenario = title => {
-  props.session.addTemporaryScenario(title);
-};
-
-const addTemporaryGuideline = content => {
-  props.session.addTemporaryRule('guideline', content);
-};
-
-const addTemporaryGuardrail = content => {
-  props.session.addTemporaryRule('guardrail', content);
-};
-
 const selectTab = tab => {
   activeTab.value = tab.id;
-};
-
-const resetSetup = () => {
-  activeTab.value = 'knowledge';
-  collapsedScenarioIds.value = new Set();
-  isKnowledgeEditorVisible.value = false;
-  newKnowledge.value = '';
-  newScenario.value = '';
-  newGuideline.value = '';
-  newGuardrail.value = '';
-  emit('reset');
 };
 </script>
 
 <template>
-  <aside
-    aria-labelledby="playground-test-setup-title"
-    class="flex h-full w-full flex-col border-s border-n-weak bg-n-solid-1 text-n-slate-12 lg:w-[38rem]"
-  >
-    <div
-      class="flex items-start justify-between gap-3 border-b border-n-weak p-5"
-    >
-      <div>
-        <h3 id="playground-test-setup-title" class="text-base font-medium">
-          {{ t('CAPTAIN.PLAYGROUND.SETUP.TITLE') }}
-        </h3>
-        <p class="mt-1 text-sm text-n-slate-11">
-          {{ t('CAPTAIN.PLAYGROUND.SETUP.DESCRIPTION') }}
-        </p>
-      </div>
-      <Button
-        icon="i-lucide-x"
-        variant="ghost"
-        color="slate"
-        size="sm"
-        :aria-label="t('CAPTAIN.PLAYGROUND.SETUP.CLOSE')"
-        @click="emit('close')"
-      />
-    </div>
-
+  <section class="flex min-h-0 flex-col text-n-slate-12">
     <div
       v-if="session.isInitializing"
-      class="flex flex-1 items-center justify-center"
+      class="flex flex-1 items-center justify-center py-10"
     >
       <Spinner />
     </div>
     <template v-else>
-      <div class="border-b border-n-weak px-4 py-3">
+      <div class="border-b border-n-weak pb-3 xl:px-4 xl:pt-3">
         <div data-testid="playground-setup-tabs" class="min-w-0">
           <TabBar
             :tabs="tabs"
@@ -176,7 +173,7 @@ const resetSetup = () => {
         </div>
       </div>
 
-      <div class="flex-1 overflow-y-auto p-4">
+      <div class="flex-1 overflow-y-auto pt-4 xl:p-4">
         <div
           v-if="session.loadError"
           role="alert"
@@ -197,12 +194,12 @@ const resetSetup = () => {
           </div>
 
           <AddNewRulesInput
-            v-model="newScenario"
+            v-model="drafts.scenarios"
             :placeholder="
               t('CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.COMPOSER_PLACEHOLDER')
             "
             :label="t('CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST')"
-            @add="addTemporaryScenario"
+            @add="session.addTemporaryScenario"
           />
 
           <div
@@ -294,6 +291,7 @@ const resetSetup = () => {
                   variant="outline"
                   color="slate"
                   size="sm"
+                  class="!-outline-offset-1"
                   :disabled="!session.scenarioIsValid(scenario)"
                   :is-loading="scenario.isSaving"
                   @click="session.saveTemporaryScenario(scenario)"
@@ -312,17 +310,15 @@ const resetSetup = () => {
           <Accordion :title="savedScenarioTitle" class="bg-n-solid-1">
             <div
               v-if="session.savedScenarios.length"
-              class="max-h-72 divide-y divide-n-weak overflow-y-auto rounded-lg border border-n-weak bg-n-solid-1"
+              class="flex max-h-72 flex-col gap-0.5 overflow-y-auto rounded-lg border border-n-weak bg-n-solid-1 p-1"
             >
               <label
                 v-for="scenario in session.savedScenarios"
                 :key="scenario.id"
-                class="flex cursor-pointer items-start gap-3 p-3 transition-colors hover:bg-n-alpha-2"
+                class="flex cursor-pointer items-start gap-3 rounded-md p-2 transition-colors hover:bg-n-alpha-2"
               >
                 <Checkbox
-                  :model-value="
-                    session.includedScenarioIds.includes(scenario.id)
-                  "
+                  :model-value="includedScenarioIdSet.has(scenario.id)"
                   class="mt-0.5 shrink-0"
                   @update:model-value="session.toggleScenario(scenario.id)"
                 />
@@ -356,29 +352,28 @@ const resetSetup = () => {
         </section>
 
         <section
-          v-else-if="activeTab === 'guidelines'"
+          v-else-if="activeRuleTab"
+          :key="activeTab"
           class="flex flex-col gap-4"
         >
           <div class="min-w-0">
             <h4 class="text-sm font-medium">
-              {{ t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.CREATE_TITLE') }}
+              {{ t(activeRuleTab.createTitle) }}
             </h4>
             <p class="mt-1 text-xs leading-5 text-n-slate-11">
-              {{ t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.CREATE_HINT') }}
+              {{ t(activeRuleTab.createHint) }}
             </p>
           </div>
 
           <AddNewRulesInput
-            v-model="newGuideline"
-            :placeholder="
-              t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.COMPOSER_PLACEHOLDER')
-            "
+            v-model="drafts[activeTab]"
+            :placeholder="t(activeRuleTab.composerPlaceholder)"
             :label="t('CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST')"
-            @add="addTemporaryGuideline"
+            @add="addTemporaryRule"
           />
 
           <div
-            v-for="rule in session.temporaryGuidelines"
+            v-for="rule in temporaryRules"
             :key="rule.clientId"
             class="flex flex-col gap-3 rounded-xl border border-n-strong bg-n-solid-2 p-4"
           >
@@ -393,33 +388,33 @@ const resetSetup = () => {
                 variant="ghost"
                 color="ruby"
                 size="xs"
-                :aria-label="t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.REMOVE')"
-                @click="session.removeTemporaryRule('guideline', rule.clientId)"
+                :aria-label="t(activeRuleTab.remove)"
+                @click="
+                  session.removeTemporaryRule(activeRuleTab.type, rule.clientId)
+                "
               />
             </div>
             <Input
               v-model="rule.content"
-              :label="t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.PLACEHOLDER')"
-              :placeholder="
-                t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.PLACEHOLDER')
-              "
+              :label="t(activeRuleTab.fieldLabel)"
+              :placeholder="t(activeRuleTab.fieldLabel)"
             />
             <div
               class="flex flex-wrap items-center justify-between gap-3 border-t border-n-weak pt-3"
             >
               <Button
                 v-if="session.isAdmin"
-                :label="
-                  t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.ADD_PERMANENTLY')
-                "
+                :label="t(activeRuleTab.addPermanently)"
                 variant="outline"
                 color="slate"
                 size="sm"
+                class="!-outline-offset-1"
                 :disabled="
-                  !rule.content.trim() || session.isRuleTypeSaving('guideline')
+                  !rule.content.trim() ||
+                  session.isRuleTypeSaving(activeRuleTab.type)
                 "
                 :is-loading="rule.isSaving"
-                @click="session.saveTemporaryRule('guideline', rule)"
+                @click="session.saveTemporaryRule(activeRuleTab.type, rule)"
               />
               <span v-else />
               <label
@@ -431,15 +426,15 @@ const resetSetup = () => {
             </div>
           </div>
 
-          <Accordion :title="savedGuidelineTitle" class="bg-n-solid-1">
+          <Accordion :title="savedRuleTitle" class="bg-n-solid-1">
             <div
-              v-if="session.savedGuidelines.length"
-              class="max-h-72 divide-y divide-n-weak overflow-y-auto rounded-lg border border-n-weak bg-n-solid-1"
+              v-if="savedRules.length"
+              class="flex max-h-72 flex-col gap-0.5 overflow-y-auto rounded-lg border border-n-weak bg-n-solid-1 p-1"
             >
               <label
-                v-for="rule in session.savedGuidelines"
+                v-for="rule in savedRules"
                 :key="rule.key"
-                class="flex cursor-pointer items-start gap-3 p-3 transition-colors hover:bg-n-alpha-2"
+                class="flex cursor-pointer items-start gap-3 rounded-md p-2 transition-colors hover:bg-n-alpha-2"
               >
                 <Checkbox
                   :model-value="rule.included"
@@ -453,110 +448,7 @@ const resetSetup = () => {
               v-else
               class="rounded-lg border border-dashed border-n-weak p-3 text-center text-xs text-n-slate-11"
             >
-              {{ t('CAPTAIN.PLAYGROUND.SETUP.GUIDELINES.EMPTY') }}
-            </p>
-          </Accordion>
-        </section>
-
-        <section
-          v-else-if="activeTab === 'guardrails'"
-          class="flex flex-col gap-4"
-        >
-          <div class="min-w-0">
-            <h4 class="text-sm font-medium">
-              {{ t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.CREATE_TITLE') }}
-            </h4>
-            <p class="mt-1 text-xs leading-5 text-n-slate-11">
-              {{ t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.CREATE_HINT') }}
-            </p>
-          </div>
-
-          <AddNewRulesInput
-            v-model="newGuardrail"
-            :placeholder="
-              t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.COMPOSER_PLACEHOLDER')
-            "
-            :label="t('CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST')"
-            @add="addTemporaryGuardrail"
-          />
-
-          <div
-            v-for="rule in session.temporaryGuardrails"
-            :key="rule.clientId"
-            class="flex flex-col gap-3 rounded-xl border border-n-strong bg-n-solid-2 p-4"
-          >
-            <div class="flex items-center justify-between gap-3">
-              <Label
-                :label="t('CAPTAIN.PLAYGROUND.SETUP.SESSION_ONLY')"
-                compact
-                color="amber"
-              />
-              <Button
-                icon="i-lucide-trash-2"
-                variant="ghost"
-                color="ruby"
-                size="xs"
-                :aria-label="t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.REMOVE')"
-                @click="session.removeTemporaryRule('guardrail', rule.clientId)"
-              />
-            </div>
-            <Input
-              v-model="rule.content"
-              :label="t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.PLACEHOLDER')"
-              :placeholder="
-                t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.PLACEHOLDER')
-              "
-            />
-            <div
-              class="flex flex-wrap items-center justify-between gap-3 border-t border-n-weak pt-3"
-            >
-              <Button
-                v-if="session.isAdmin"
-                :label="
-                  t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.ADD_PERMANENTLY')
-                "
-                variant="outline"
-                color="slate"
-                size="sm"
-                :disabled="
-                  !rule.content.trim() || session.isRuleTypeSaving('guardrail')
-                "
-                :is-loading="rule.isSaving"
-                @click="session.saveTemporaryRule('guardrail', rule)"
-              />
-              <span v-else />
-              <label
-                class="flex cursor-pointer items-center gap-2 text-xs font-medium text-n-slate-12"
-              >
-                {{ t('CAPTAIN.PLAYGROUND.SETUP.INCLUDE_IN_TEST') }}
-                <Checkbox v-model="rule.included" />
-              </label>
-            </div>
-          </div>
-
-          <Accordion :title="savedGuardrailTitle" class="bg-n-solid-1">
-            <div
-              v-if="session.savedGuardrails.length"
-              class="max-h-72 divide-y divide-n-weak overflow-y-auto rounded-lg border border-n-weak bg-n-solid-1"
-            >
-              <label
-                v-for="rule in session.savedGuardrails"
-                :key="rule.key"
-                class="flex cursor-pointer items-start gap-3 p-3 transition-colors hover:bg-n-alpha-2"
-              >
-                <Checkbox
-                  :model-value="rule.included"
-                  class="mt-0.5 shrink-0"
-                  @update:model-value="toggleRule(rule)"
-                />
-                <span class="text-sm leading-5">{{ rule.content }}</span>
-              </label>
-            </div>
-            <p
-              v-else
-              class="rounded-lg border border-dashed border-n-weak p-3 text-center text-xs text-n-slate-11"
-            >
-              {{ t('CAPTAIN.PLAYGROUND.SETUP.GUARDRAILS.EMPTY') }}
+              {{ t(activeRuleTab.empty) }}
             </p>
           </Accordion>
         </section>
@@ -621,7 +513,7 @@ const resetSetup = () => {
 
             <AddNewRulesInput
               v-if="!isKnowledgeEditorVisible"
-              v-model="newKnowledge"
+              v-model="drafts.knowledge"
               :placeholder="
                 t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.COMPOSER_PLACEHOLDER')
               "
@@ -651,6 +543,7 @@ const resetSetup = () => {
                     t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.ADD_PERMANENTLY')
                   "
                   variant="outline"
+                  class="!-outline-offset-1"
                   color="slate"
                   size="sm"
                   :disabled="
@@ -674,19 +567,6 @@ const resetSetup = () => {
           </div>
         </section>
       </div>
-
-      <div class="border-t border-n-weak bg-n-solid-2 p-4">
-        <Button
-          :label="t('CAPTAIN.PLAYGROUND.SETUP.RESET')"
-          icon="i-lucide-refresh-cw"
-          variant="ghost"
-          color="slate"
-          size="sm"
-          :disabled="session.isInitializing"
-          :is-loading="session.isInitializing"
-          @click="resetSetup"
-        />
-      </div>
     </template>
-  </aside>
+  </section>
 </template>
