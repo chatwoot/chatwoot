@@ -42,11 +42,11 @@ RSpec.describe Attachment do
     end
 
     it 'falls back to the external url when no file is attached' do
-      attachment = message.attachments.new(account_id: message.account_id, file_type: :image,
-                                            external_url: 'https://lookaside.fbsbx.com/example.jpeg')
+      url = 'https://lookaside.fbsbx.com/example.jpeg'
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image, external_url: url)
 
-      expect(attachment.link_url).to eq('https://lookaside.fbsbx.com/example.jpeg')
-      expect(attachment.link_title).to eq('https://lookaside.fbsbx.com/example.jpeg')
+      expect(attachment.link_url).to eq(url)
+      expect(attachment.link_title).to eq(url)
     end
   end
 

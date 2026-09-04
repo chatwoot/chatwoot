@@ -274,6 +274,24 @@ describe Integrations::Slack::SendOnSlackService do
         builder.perform
       end
 
+      it 'posts a link to the source file when a failed-download share attachment has no text' do
+        message.update!(content: nil)
+        message.attachments.new(account_id: message.account_id, file_type: :share, external_url: 'https://lookaside.fbsbx.com/share.jpeg')
+
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: hook.reference_id,
+          text: 'Attachment (could not be uploaded): https://lookaside.fbsbx.com/share.jpeg',
+          username: "#{message.sender.name} (Contact)",
+          thread_ts: conversation.identifier,
+          icon_url: anything,
+          unfurl_links: true
+        ).and_return(slack_message)
+
+        message.save!
+
+        builder.perform
+      end
+
       it 'will not call file_upload if attachment does not have a file (e.g facebook - fallback type)' do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
