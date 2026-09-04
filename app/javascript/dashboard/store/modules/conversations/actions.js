@@ -535,8 +535,12 @@ const actions = {
   },
 
   updateChatListFilters({ commit }, data) {
-    conversationListRequestId += 1;
     commit(types.UPDATE_CHAT_LIST_FILTERS, data);
+  },
+
+  invalidateConversationListRequests({ commit }) {
+    conversationListRequestId += 1;
+    commit(types.CLEAR_LIST_LOADING_STATUS);
   },
 
   assignPriority: async ({ dispatch }, { conversationId, priority }) => {
