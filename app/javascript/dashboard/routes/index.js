@@ -42,6 +42,10 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     isActive;
 
   if (to.name === 'no_accounts' || !to.name) {
+    const { redirect_url: redirectUrl } = to.query || {};
+    if (redirectUrl) {
+      return next(frontendURL(`accounts/${routeAccountId}/${redirectUrl}`));
+    }
     const target = needsOnboarding
       ? onboardingPath(userAccount?.onboarding_step)
       : 'dashboard';

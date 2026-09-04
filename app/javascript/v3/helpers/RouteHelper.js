@@ -29,7 +29,11 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
   // Redirect to dashboard if a cookie is present, the cookie
   // cleanup and token validation happens in the application pack.
   if (hasAuthCookie()) {
-    replaceRouteWithReload(DEFAULT_REDIRECT_URL);
+    const { redirect_url: redirectUrl } = to.query || {};
+    const redirectTarget = redirectUrl
+      ? `${DEFAULT_REDIRECT_URL}?redirect_url=${encodeURIComponent(redirectUrl)}`
+      : DEFAULT_REDIRECT_URL;
+    replaceRouteWithReload(redirectTarget);
     return;
   }
 
