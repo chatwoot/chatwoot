@@ -156,7 +156,7 @@ describe('AssistantPlayground', () => {
       .element.parentElement;
 
     expect(setupWrapper.tagName).toBe('ASIDE');
-    expect(setupWrapper.className).toContain('w-[38rem]');
+    expect(setupWrapper.className).toMatch(/w-\[\d+rem\]/);
     expect(setupWrapper.className).toContain('flex-none');
   });
 

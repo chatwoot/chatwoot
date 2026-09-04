@@ -19,7 +19,7 @@ const runSummary = computed(() =>
 </script>
 
 <template>
-  <details class="mt-3 border-t border-n-iris-6 pt-2 text-xs text-n-slate-11">
+  <details class="mt-3 border-t border-n-iris-5 pt-2 text-xs text-n-slate-11">
     <summary class="cursor-pointer font-medium text-n-slate-12">
       {{ runSummary }}
     </summary>

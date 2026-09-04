@@ -273,7 +273,7 @@ const handleEnterKey = event => {
         :session="session"
         class="min-h-0 flex-1"
       />
-      <div class="border-t border-n-weak bg-n-solid-2 p-4">
+      <div class="border-t border-n-weak bg-n-solid-1 p-4">
         <NextButton
           ghost
           sm
