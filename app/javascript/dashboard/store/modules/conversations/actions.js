@@ -38,7 +38,10 @@ const actions = {
   getConversation: async ({ commit, dispatch }, conversationId) => {
     try {
       const response = await ConversationApi.show(conversationId);
-      commit(types.UPDATE_CONVERSATION, response.data);
+      // API refreshes can run in the background after reconnecting. Use the
+      // list merge to preserve local message state without moving the agent's
+      // scroll position or marking messages as read.
+      commit(types.SET_ALL_CONVERSATION, [response.data]);
       commit(`contacts/${types.SET_CONTACT_ITEM}`, response.data.meta.sender);
       dispatch('conversationLabels/setConversationLabel', {
         id: response.data.id,

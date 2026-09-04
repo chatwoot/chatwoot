@@ -298,7 +298,7 @@ describe('#mutations', () => {
       expect(state.allConversations).toEqual(data);
     });
 
-    it('set all conversation in reconnect if selected chat id and conversation id is the same', () => {
+    it('updates the selected conversation on reconnect without emitting a scroll event', () => {
       const state = {
         allConversations: [{ id: 1, status: 'open' }],
         selectedChatId: 1,
@@ -306,6 +306,7 @@ describe('#mutations', () => {
       const data = [{ id: 1, name: 'test', status: 'resolved' }];
       mutations[types.SET_ALL_CONVERSATION](state, data);
       expect(state.allConversations).toEqual(data);
+      expect(emitter.emit).not.toHaveBeenCalled();
     });
 
     it('set all conversation in reconnect if selected chat id and conversation id is the same then do not update messages, attachments, dataFetched, allMessagesLoaded', () => {
