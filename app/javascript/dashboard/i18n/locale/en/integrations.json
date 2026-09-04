@@ -1171,9 +1171,55 @@
         }
       },
       "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "SOURCE": {
+        "UPLOAD": "Uploaded toolset"
+      },
+      "TOOLSET": {
+        "TOOL_COUNT": "{n} tool | {n} tools",
+        "SOURCE_DETAILS": "{source} · v{version}"
+      },
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
+        "DOWNLOAD_TOOL": "Download YAML",
         "DELETE_TOOL": "Delete tool"
+      },
+      "IMPORT": {
+        "BUTTON": "Import toolset",
+        "TITLE": "Import toolset",
+        "DESCRIPTION": "Import a Captain toolset from GitHub or upload a YAML file, then provide the configuration it requires.",
+        "GITHUB_LABEL": "GitHub URL",
+        "GITHUB_PLACEHOLDER": "https://github.com/owner/repository/tree/main/shopify",
+        "GITHUB_HINT": "Enter a repository, tool folder, or direct toolset.yml URL from GitHub.",
+        "LOAD_GITHUB": "Load from GitHub",
+        "REPOSITORY_TOOLS_LABEL": "Choose a toolset",
+        "TOOL_COUNT_LABEL": "tools",
+        "REQUIRES": "Requires:",
+        "STEPS": {
+          "SOURCE": "Choose a GitHub repository or upload a Captain toolset file.",
+          "TOOLSET": "Choose the toolset you want to install from this repository.",
+          "CONFIGURATION": "Review the tools and provide the information required to install them."
+        },
+        "BACK": "Back",
+        "OR_UPLOAD": "or upload a file",
+        "FILE_LABEL": "Toolset file",
+        "FILE_HINT": "Choose a .yml or .yaml file up to 256 KB.",
+        "PREVIEWING": "Checking toolset…",
+        "TOOLS_LABEL": "Tools to import",
+        "CONFIRM": "Import tools",
+        "SUCCESS_MESSAGE": "Imported {count} tool successfully | Imported {count} tools successfully",
+        "ERROR_MESSAGE": "Could not import this toolset"
+      },
+      "INSTALL": {
+        "TITLE": "Install toolset",
+        "SELECT_TITLE": "Choose a Captain assistant",
+        "SELECT_DESCRIPTION": "Select the assistant whose Tools page you want to install this toolset from.",
+        "PLACEHOLDER": "Select an assistant",
+        "CONTINUE": "Continue to install",
+        "NO_ASSISTANTS": "Create a Captain assistant before installing this toolset.",
+        "CREATE_ASSISTANT": "Create an assistant"
+      },
+      "EXPORT": {
+        "ERROR_MESSAGE": "Could not download this tool"
       },
       "STATUS": {
         "ENABLED": "Enabled",

@@ -24,6 +24,7 @@ import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
 import FaqSuggestionsIndex from './responses/FaqSuggestions.vue';
 import CustomToolsIndex from './tools/Index.vue';
+import ToolsetInstall from './tools/Install.vue';
 
 const meta = {
   permissions: ['administrator', 'agent'],
@@ -49,6 +50,12 @@ const metaV2 = {
 };
 
 const assistantRoutes = [
+  {
+    path: frontendURL('accounts/:accountId/captain/toolsets/install'),
+    component: ToolsetInstall,
+    name: 'captain_toolset_install',
+    meta: metaCustomTools,
+  },
   {
     path: frontendURL('accounts/:accountId/captain/:assistantId/overview'),
     component: AssistantOverviewIndex,

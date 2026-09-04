@@ -13,6 +13,7 @@
 #  request_template  :text
 #  response_template :text
 #  slug              :string           not null
+#  source_metadata   :jsonb
 #  title             :string           not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -26,7 +27,7 @@
 class Captain::CustomTool < ApplicationRecord
   class LimitExceededError < StandardError; end
 
-  MAX_PER_ACCOUNT = 15
+  MAX_PER_ACCOUNT = 100
 
   include Concerns::Toolable
   include Concerns::SafeEndpointValidatable
@@ -39,6 +40,7 @@ class Captain::CustomTool < ApplicationRecord
   # verbatim as the tool name in LLM requests, so it must fit within this limit.
   MAX_SLUG_LENGTH = 64
   COLLISION_SUFFIX_LENGTH = 7 # "_" + 6 random alphanumeric chars
+  TOOLSET_VERSION_PATTERN = '^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$'.freeze
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
@@ -52,6 +54,40 @@ class Captain::CustomTool < ApplicationRecord
       'required': %w[name type description],
       'additionalProperties': false
     }
+  }.to_json.freeze
+  SOURCE_METADATA_VALIDATION = {
+    'oneOf': [
+      { 'type': 'null' },
+      {
+        'type': 'object',
+        'properties': {
+          'type': { 'const': 'upload' },
+          'installation_id': { 'type': 'string', 'format': 'uuid' },
+          'filename': { 'type': 'string', 'minLength': 1 },
+          'toolset_name': { 'type': 'string', 'minLength': 1 },
+          'toolset_version': { 'type': 'string', 'pattern': TOOLSET_VERSION_PATTERN },
+          'manifest_digest': { 'type': 'string', 'pattern': '^sha256:[0-9a-f]{64}$' }
+        },
+        'required': %w[type installation_id filename toolset_name toolset_version manifest_digest],
+        'additionalProperties': false
+      },
+      {
+        'type': 'object',
+        'properties': {
+          'type': { 'const': 'github' },
+          'installation_id': { 'type': 'string', 'format': 'uuid' },
+          'repository': { 'type': 'string', 'pattern': '^[\\w.-]+/[\\w.-]+$' },
+          'path': { 'type': 'string', 'minLength': 1 },
+          'ref': { 'type': 'string', 'minLength': 1 },
+          'revision': { 'type': 'string', 'pattern': '^[0-9a-f]{40}$' },
+          'toolset_name': { 'type': 'string', 'minLength': 1 },
+          'toolset_version': { 'type': 'string', 'pattern': TOOLSET_VERSION_PATTERN },
+          'manifest_digest': { 'type': 'string', 'pattern': '^sha256:[0-9a-f]{64}$' }
+        },
+        'required': %w[type installation_id repository path ref revision toolset_name toolset_version manifest_digest],
+        'additionalProperties': false
+      }
+    ]
   }.to_json.freeze
 
   belongs_to :account
@@ -68,6 +104,9 @@ class Captain::CustomTool < ApplicationRecord
   validates_with JsonSchemaValidator,
                  schema: PARAM_SCHEMA_VALIDATION,
                  attribute_resolver: ->(record) { record.param_schema }
+  validates_with JsonSchemaValidator,
+                 schema: SOURCE_METADATA_VALIDATION,
+                 attribute_resolver: ->(record) { record.source_metadata }
 
   scope :enabled, -> { where(enabled: true) }
 

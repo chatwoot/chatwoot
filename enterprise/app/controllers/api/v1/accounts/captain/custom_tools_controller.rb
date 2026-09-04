@@ -1,7 +1,7 @@
 class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::BaseController
   before_action :ensure_custom_tools_enabled
   before_action -> { check_authorization(Captain::CustomTool) }
-  before_action :set_custom_tool, only: [:show, :update, :destroy]
+  before_action :set_custom_tool, only: [:show, :update, :destroy, :export]
 
   def index
     @custom_tools = account_custom_tools
@@ -30,6 +30,14 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
     render json: { status: 200, body: body.to_s.truncate(500) }
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_content
+  end
+
+  def export
+    send_data(
+      Captain::ToolsetService.export(@custom_tool),
+      filename: "#{@custom_tool.slug}.yml",
+      type: 'application/yaml'
+    )
   end
 
   private

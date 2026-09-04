@@ -37,6 +37,30 @@ class CaptainCustomTools extends ApiClient {
       custom_tool: data,
     });
   }
+
+  previewImport({ file, source }, { signal } = {}) {
+    const formData = new FormData();
+    if (file) formData.append('file', file);
+    if (source) formData.append('source', source);
+    return axios.post(`${this.url}/preview_import`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      signal,
+    });
+  }
+
+  importToolset({ file, source }, configuration) {
+    const formData = new FormData();
+    if (file) formData.append('file', file);
+    if (source) formData.append('source', source);
+    formData.append('configuration', JSON.stringify(configuration));
+    return axios.post(`${this.url}/import`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  }
+
+  exportToolset(id) {
+    return axios.get(`${this.url}/${id}/export`, { responseType: 'blob' });
+  }
 }
 
 export default new CaptainCustomTools();

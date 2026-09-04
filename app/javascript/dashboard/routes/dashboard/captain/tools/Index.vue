@@ -1,25 +1,37 @@
 <script setup>
-import { computed, onMounted, ref, nextTick } from 'vue';
+import { computed, onMounted, ref, nextTick, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { usePolicy } from 'dashboard/composables/usePolicy';
+import CustomToolsAPI from 'dashboard/api/captain/customTools';
+import { downloadFile } from 'dashboard/helper/downloadHelper';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import CustomToolsPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/CustomToolsPageEmptyState.vue';
 import CreateCustomToolDialog from 'dashboard/components-next/captain/pageComponents/customTool/CreateCustomToolDialog.vue';
 import CustomToolCard from 'dashboard/components-next/captain/pageComponents/customTool/CustomToolCard.vue';
+import ToolsetCard from 'dashboard/components-next/captain/pageComponents/customTool/ToolsetCard.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
+import ImportToolsetDialog from 'dashboard/components-next/captain/pageComponents/customTool/ImportToolsetDialog.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import Policy from 'dashboard/components/policy.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 const store = useStore();
+const route = useRoute();
+const router = useRouter();
 const { t } = useI18n();
 const { isFeatureFlagEnabled, shouldShowPaywall } = usePolicy();
 
 const SOFT_LIMIT = 10;
 const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
+const showPaywall = computed(() =>
+  shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
+);
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
 const customTools = useMapGetter('captainCustomTools/getRecords');
@@ -30,14 +42,44 @@ const showSoftLimitWarning = computed(
   () => !isV2.value && customToolsMeta.value.totalCount > SOFT_LIMIT
 );
 
+const toolEntries = computed(() => {
+  const entries = [];
+  const toolsets = new Map();
+
+  customTools.value.forEach(tool => {
+    const installationKey =
+      tool.source_metadata?.installation_id ||
+      tool.source_metadata?.manifest_digest;
+    if (!installationKey) {
+      entries.push({ type: 'tool', key: `tool-${tool.id}`, tool });
+      return;
+    }
+
+    if (!toolsets.has(installationKey)) {
+      const entry = {
+        type: 'toolset',
+        key: `toolset-${installationKey}`,
+        tools: [],
+      };
+      toolsets.set(installationKey, entry);
+      entries.push(entry);
+    }
+    toolsets.get(installationKey).tools.push(tool);
+  });
+
+  return entries;
+});
+
 const createDialogRef = ref(null);
 const deleteDialogRef = ref(null);
+const importDialogRef = ref(null);
 const disableDialogRef = ref(null);
 const selectedTool = ref(null);
 const dialogType = ref('');
 const pendingToggleIds = ref(new Set());
 const pendingDisable = ref(null);
 const isDisableSaving = ref(false);
+const hasRequestedTools = ref(false);
 
 const disableConfirmationTitle = computed(() =>
   t('CAPTAIN.CUSTOM_TOOLS.DISABLE_CONFIRMATION.TITLE', {
@@ -67,6 +109,7 @@ const setTogglePending = (id, isPending) => {
 };
 
 const fetchCustomTools = (page = 1) => {
+  hasRequestedTools.value = true;
   store.dispatch('captainCustomTools/get', { page });
 };
 
@@ -89,10 +132,24 @@ const handleDelete = tool => {
   nextTick(() => deleteDialogRef.value.dialogRef.open());
 };
 
+const handleDownload = async tool => {
+  try {
+    const { data } = await CustomToolsAPI.exportToolset(tool.id);
+    downloadFile(`${tool.slug}.yml`, data, 'application/yaml');
+  } catch {
+    useAlert(t('CAPTAIN.CUSTOM_TOOLS.EXPORT.ERROR_MESSAGE'));
+  }
+};
+
+const openImportDialog = source =>
+  importDialogRef.value.open(typeof source === 'string' ? source : '');
+
 const handleAction = ({ action, id }) => {
   const tool = customTools.value.find(item => item.id === id);
   if (action === 'edit') {
     handleEdit(tool);
+  } else if (action === 'download') {
+    handleDownload(tool);
   } else if (action === 'delete') {
     handleDelete(tool);
   }
@@ -177,9 +234,23 @@ const onDeleteSuccess = () => {
   }
 };
 
-onMounted(() => {
-  if (!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)) {
-    fetchCustomTools();
+watch(
+  showPaywall,
+  isPaywallVisible => {
+    if (!isPaywallVisible && !hasRequestedTools.value) {
+      fetchCustomTools();
+    }
+  },
+  { immediate: true }
+);
+
+onMounted(async () => {
+  if (route.query.source) {
+    await nextTick();
+    openImportDialog(route.query.source);
+    const query = { ...route.query };
+    delete query.source;
+    router.replace({ query });
   }
 });
 </script>
@@ -199,6 +270,21 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="openCreateDialog"
   >
+    <template #headerActions>
+      <Policy
+        v-if="!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)"
+        :permissions="['administrator']"
+      >
+        <Button
+          variant="faded"
+          color="slate"
+          size="sm"
+          icon="i-lucide-upload"
+          :label="$t('CAPTAIN.CUSTOM_TOOLS.IMPORT.BUTTON')"
+          @click="openImportDialog"
+        />
+      </Policy>
+    </template>
     <template #paywall>
       <CaptainPaywall feature-prefix="CAPTAIN.CUSTOM_TOOLS" />
     </template>
@@ -216,23 +302,29 @@ onMounted(() => {
           <span class="i-lucide-triangle-alert size-4 shrink-0" />
           {{ $t('CAPTAIN.CUSTOM_TOOLS.SOFT_LIMIT_WARNING') }}
         </div>
-        <CustomToolCard
-          v-for="tool in customTools"
-          :id="tool.id"
-          :key="tool.id"
-          :title="tool.title"
-          :description="tool.description"
-          :endpoint-url="tool.endpoint_url"
-          :http-method="tool.http_method"
-          :auth-type="tool.auth_type"
-          :param-schema="tool.param_schema"
-          :enabled="tool.enabled"
-          :is-updating="pendingToggleIds.has(tool.id)"
-          :created-at="tool.created_at"
-          :updated-at="tool.updated_at"
-          @action="handleAction"
-          @toggle="toggleCustomTool"
-        />
+        <template v-for="entry in toolEntries" :key="entry.key">
+          <ToolsetCard
+            v-if="entry.type === 'toolset'"
+            :tools="entry.tools"
+            :pending-toggle-ids="pendingToggleIds"
+            @action="handleAction"
+            @toggle="toggleCustomTool"
+          />
+          <CustomToolCard
+            v-else
+            :id="entry.tool.id"
+            :title="entry.tool.title"
+            :description="entry.tool.description"
+            :auth-type="entry.tool.auth_type"
+            :enabled="entry.tool.enabled"
+            :is-updating="pendingToggleIds.has(entry.tool.id)"
+            :created-at="entry.tool.created_at"
+            :updated-at="entry.tool.updated_at"
+            :source-metadata="entry.tool.source_metadata"
+            @action="handleAction"
+            @toggle="toggleCustomTool"
+          />
+        </template>
       </div>
     </template>
   </PageLayout>
@@ -253,6 +345,7 @@ onMounted(() => {
     translation-key="CUSTOM_TOOLS"
     @delete-success="onDeleteSuccess"
   />
+  <ImportToolsetDialog ref="importDialogRef" @imported="fetchCustomTools()" />
 
   <Dialog
     ref="disableDialogRef"
