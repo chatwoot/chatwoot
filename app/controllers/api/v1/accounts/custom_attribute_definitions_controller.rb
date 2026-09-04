@@ -1,5 +1,5 @@
 class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Accounts::BaseController
-  before_action :fetch_custom_attributes_definitions, except: [:create]
+  before_action :fetch_custom_attributes_definitions, except: [:create, :reorder]
   before_action :fetch_custom_attribute_definition, only: [:show, :update, :destroy]
   before_action :check_authorization
   DEFAULT_ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
@@ -23,10 +23,17 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
     head :no_content
   end
 
+  def reorder
+    CustomAttributeDefinition.update_positions(account: Current.account, positions_hash: params[:positions_hash])
+    head :ok
+  end
+
   private
 
   def fetch_custom_attributes_definitions
-    @custom_attribute_definitions = Current.account.custom_attribute_definitions.with_attribute_model(permitted_params[:attribute_model])
+    @custom_attribute_definitions = Current.account.custom_attribute_definitions
+                                           .with_attribute_model(permitted_params[:attribute_model])
+                                           .order(:position)
   end
 
   def fetch_custom_attribute_definition

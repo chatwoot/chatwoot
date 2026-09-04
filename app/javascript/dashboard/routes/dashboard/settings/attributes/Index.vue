@@ -1,8 +1,9 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useAlert } from 'dashboard/composables';
 import { picoSearch } from '@chatwoot/pico-search';
+import Draggable from 'vuedraggable';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AddAttribute from './AddAttribute.vue';
 import EditAttribute from './EditAttribute.vue';
@@ -158,6 +159,37 @@ const filteredAttributes = computed(() => {
     'attribute_description',
   ]);
 });
+
+const localAttributes = ref(filteredAttributes.value);
+
+const dragEnabled = computed(
+  () =>
+    !searchQuery.value.trim() &&
+    localAttributes.value.length > 1 &&
+    !uiFlags.value.isReordering
+);
+
+const onDragEnd = () => {
+  const sortedPositions = localAttributes.value
+    .map((attribute, index) => attribute.position || index + 1)
+    .sort((a, b) => a - b);
+
+  const positionsHash = localAttributes.value.reduce(
+    (obj, attribute, index) => {
+      obj[attribute.id] = sortedPositions[index];
+      return obj;
+    },
+    {}
+  );
+
+  store.dispatch('attributes/reorder', positionsHash).catch(() => {
+    useAlert(t('ATTRIBUTES_MGMT.REORDER.API.ERROR_MESSAGE'));
+  });
+};
+
+watch(filteredAttributes, newAttributes => {
+  localAttributes.value = newAttributes;
+});
 </script>
 
 <template>
@@ -203,19 +235,26 @@ const filteredAttributes = computed(() => {
         >
           {{ $t('ATTRIBUTES_MGMT.NO_RESULTS') }}
         </span>
-        <div
+        <Draggable
           v-else-if="filteredAttributes.length"
+          v-model="localAttributes"
+          :disabled="!dragEnabled"
+          item-key="id"
+          handle=".drag-handle"
+          tag="div"
           class="flex flex-col divide-y divide-n-weak border-t border-n-weak"
+          @end="onDragEnd"
         >
-          <AttributeListItem
-            v-for="attribute in filteredAttributes"
-            :key="attribute.id"
-            :attribute="attribute"
-            :badges="attribute.badges"
-            @edit="handleEditAttribute"
-            @delete="handleDeleteAttribute"
-          />
-        </div>
+          <template #item="{ element: attribute }">
+            <AttributeListItem
+              :attribute="attribute"
+              :badges="attribute.badges"
+              :draggable="dragEnabled"
+              @edit="handleEditAttribute"
+              @delete="handleDeleteAttribute"
+            />
+          </template>
+        </Draggable>
         <p
           v-else
           class="flex-1 py-20 text-n-slate-12 flex items-center justify-center text-base"

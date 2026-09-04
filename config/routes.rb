@@ -287,7 +287,9 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
+          resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy] do
+            post :reorder, on: :collection
+          end
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resource :branded_email_layout, only: [:show, :update]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
