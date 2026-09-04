@@ -54,8 +54,11 @@ const getTodayConfig = (time, utcOffset, workingHours) => {
 };
 
 /**
- * Check if current time is within working range, handling midnight crossing
+ * Check if current time is within working range, handling midnight crossing.
  * @private
+ * The closing minute is inclusive, matching `WorkingHour#open_at?` on the server:
+ * hours are configured with minute precision, so a day closing at 11:59 PM stays
+ * open until midnight.
  * @param {number} currentMinutes
  * @param {number} openMinutes
  * @param {number} closeMinutes
@@ -65,8 +68,8 @@ const isTimeWithinRange = (currentMinutes, openMinutes, closeMinutes) => {
   const crossesMidnight = closeMinutes <= openMinutes;
 
   return crossesMidnight
-    ? currentMinutes >= openMinutes || currentMinutes < closeMinutes
-    : currentMinutes >= openMinutes && currentMinutes < closeMinutes;
+    ? currentMinutes >= openMinutes || currentMinutes <= closeMinutes
+    : currentMinutes >= openMinutes && currentMinutes <= closeMinutes;
 };
 
 /**
