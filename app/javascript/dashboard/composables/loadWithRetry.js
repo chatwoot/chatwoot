@@ -1,8 +1,9 @@
 import { ref } from 'vue';
 
 export const useLoadWithRetry = (config = {}) => {
-  const maxRetry = config.max_retry || 3;
-  const backoff = config.backoff || 1000;
+  const maxRetry = (config.max_retry ?? config.maxRetry) || 3;
+  const backoff = (config.backoff ?? config.backOff) || 1000;
+  const mediaType = (config.mediaType ?? config.media_type) || 'image';
 
   const isLoaded = ref(false);
   const hasError = ref(false);
@@ -10,19 +11,25 @@ export const useLoadWithRetry = (config = {}) => {
   const loadWithRetry = async url => {
     const attemptLoad = () => {
       return new Promise((resolve, reject) => {
-        const img = new Image();
-
-        img.onload = () => {
+        const onSuccess = () => {
           isLoaded.value = true;
           hasError.value = false;
           resolve();
         };
 
-        img.onerror = () => {
-          reject(new Error('Failed to load image'));
-        };
-
-        img.src = url;
+        let element;
+        if (mediaType === 'audio') {
+          element = new Audio();
+          element.preload = 'metadata';
+          element.onloadedmetadata = onSuccess;
+        } else {
+          element = new Image();
+          element.onload = onSuccess;
+        }
+        element.onerror = () => reject(new Error('Failed to load resource'));
+        const cacheBustedUrl = new URL(url);
+        cacheBustedUrl.searchParams.set('t', Date.now());
+        element.src = cacheBustedUrl.toString();
       });
     };
 
