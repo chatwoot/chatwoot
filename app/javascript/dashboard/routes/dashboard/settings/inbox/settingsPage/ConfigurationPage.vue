@@ -66,6 +66,9 @@ export default {
     isForwardingEnabled() {
       return !!this.inbox.forwarding_enabled;
     },
+    isForwardingEmailInbox() {
+      return this.isForwardingEnabled && !this.inbox.imap_enabled;
+    },
   },
   watch: {
     inbox() {
@@ -355,7 +358,7 @@ export default {
     </SettingsFieldSection>
   </div>
   <div v-else-if="isAnEmailChannel">
-    <div>
+    <div v-if="isForwardingEmailInbox" class="flex flex-col gap-4">
       <SettingsFieldSection
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
         :help-text="
@@ -378,8 +381,14 @@ export default {
         </div>
       </SettingsFieldSection>
     </div>
-    <ImapSettings :inbox="inbox" />
-    <SmtpSettings v-if="inbox.imap_enabled" :inbox="inbox" />
+    <ImapSettings v-if="!isForwardingEmailInbox" :inbox="inbox" />
+    <SmtpSettings
+      v-if="isForwardingEmailInbox || inbox.imap_enabled"
+      :inbox="inbox"
+      :class="{
+        'border-t border-n-weak pt-4 mt-2': isForwardingEmailInbox,
+      }"
+    />
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
     <div v-if="inbox.provider_config">

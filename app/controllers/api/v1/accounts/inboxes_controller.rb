@@ -6,6 +6,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   before_action :check_authorization, except: [:show]
 
   include Api::V1::Accounts::Concerns::WhatsappHealthManagement
+  include Api::V1::Accounts::Concerns::EmailChannelCreation
 
   def index
     @inboxes = policy_scope(Current.account.inboxes)
@@ -30,18 +31,17 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def create
+    validate_new_email_channel
+    return if performed?
+
     ActiveRecord::Base.transaction do
       channel = create_channel
       @inbox = Current.account.inboxes.build(
-        {
-          name: inbox_name(channel),
-          channel: channel
-        }.merge(
-          permitted_params.except(:channel)
-        )
+        { name: inbox_name(channel), channel: channel }.merge(permitted_params.except(:channel, :imap_fetch_interval))
       )
       @inbox.save!
     end
+    enqueue_initial_imap_fetch
   end
 
   def update
@@ -204,7 +204,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def permitted_params(channel_attributes = [])
     # We will remove this line after fixing https://linear.app/chatwoot/issue/CW-1567/null-value-passed-as-null-string-to-backend
     params.each { |k, v| params[k] = params[k] == 'null' ? nil : v }
-    params.permit(*inbox_attributes, channel: [:type, *channel_attributes])
+    params.permit(:imap_fetch_interval, *inbox_attributes, channel: [:type, *channel_attributes])
   end
 
   def channel_type_from_params
