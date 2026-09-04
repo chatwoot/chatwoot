@@ -56,15 +56,18 @@ export default {
     showContactPanel() {
       return this.isContactPanelOpen && this.currentChat.id;
     },
+    currentConversationKey() {
+      return `${this.currentChat.inbox_id}:${this.currentChat.id}`;
+    },
   },
   watch: {
-    'currentChat.inbox_id': {
+    currentConversationKey: {
       immediate: true,
-      handler(inboxId) {
-        if (inboxId) {
+      handler() {
+        if (this.currentChat.inbox_id && this.currentChat.id) {
           this.$store.dispatch('inboxAssignableAgents/fetch', {
-            inboxIds: [inboxId],
-            includeAgentBots: true,
+            inboxIds: [this.currentChat.inbox_id],
+            includeAIAssignees: true,
           });
         }
       },

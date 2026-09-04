@@ -58,8 +58,8 @@ const showMetaSection = computed(() => {
   );
 });
 
-const isAgentBotAssignee = computed(
-  () => props.chat?.meta?.assignee_type === 'AgentBot'
+const isAIAssignee = computed(() =>
+  ['AgentBot', 'Captain::Assistant'].includes(props.chat?.meta?.assignee_type)
 );
 
 const hasSlaPolicyId = computed(
@@ -167,9 +167,7 @@ watch(
             class="text-n-slate-11 text-xs font-medium leading-3 py-0.5 px-0 inline-flex items-center gap-px truncate"
           >
             <Icon
-              :icon="
-                isAgentBotAssignee ? 'i-lucide-bot' : 'i-lucide-user-round'
-              "
+              :icon="isAIAssignee ? 'i-lucide-bot' : 'i-lucide-user-round'"
               class="size-3 text-n-slate-11 flex-shrink-0"
             />
             <span class="truncate">{{ assignee.name }}</span>
