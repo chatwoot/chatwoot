@@ -131,7 +131,7 @@ RSpec.describe Llm::SpeechToTextService, type: :service do
     end
 
     context 'when account has an account-level OpenAI integration hook (BYOK)' do
-      let!(:hook) { create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'account-own-key' }) }
+      let!(:_hook) { create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'account-own-key' }) }
 
       it 'initializes client with account hook API key' do
         expect(OpenAI::Client).to receive(:new).with(
