@@ -54,6 +54,10 @@ class Rack::Attack
     req.path == '/health'
   end
 
+  Rack::Attack.safelist('prometheus metrics') do |req|
+    req.path == '/metrics'
+  end
+
   ### Throttle Spammy Clients ###
 
   # If any single client IP is making tons of requests, then they're
