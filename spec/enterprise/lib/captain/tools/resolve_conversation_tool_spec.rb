@@ -77,4 +77,14 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
       expect(Conversations::ActivityMessageJob).not_to have_been_enqueued
     end
   end
+
+  describe 'when a playground call cannot resolve a conversation' do
+    let(:tool_context) { Struct.new(:state).new({ source: 'playground' }) }
+
+    it 'marks the result as an error for run details' do
+      result = tool.perform(tool_context, reason: 'Possible spam')
+
+      expect(result).to eq('ERROR: Conversation not found')
+    end
+  end
 end

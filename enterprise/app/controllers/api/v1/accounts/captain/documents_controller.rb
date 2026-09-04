@@ -32,7 +32,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   end
 
   def sync
-    return render_could_not_create_error(I18n.t('captain.documents.sync_not_supported_for_pdf')) unless @document.syncable?
+    return render_could_not_create_error(I18n.t('captain.documents.sync_not_supported_for_file')) unless @document.syncable?
     return render_could_not_create_error(I18n.t('captain.documents.sync_only_available_documents')) unless @document.available?
 
     @document.update!(
@@ -57,7 +57,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   private
 
   def set_documents
-    @documents = Current.account.captain_documents.with_attached_pdf_file.includes(:assistant)
+    @documents = Current.account.captain_documents.with_attached_pdf_file.with_attached_markdown_file.includes(:assistant)
   end
 
   def filtered_documents
@@ -157,6 +157,6 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   end
 
   def document_params
-    params.require(:document).permit(:name, :external_link, :assistant_id, :pdf_file)
+    params.require(:document).permit(:name, :external_link, :assistant_id, :pdf_file, :markdown_content)
   end
 end

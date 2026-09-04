@@ -20,7 +20,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         'response_parts' => [{ 'text' => 'Test response', 'citation_indexes' => [] }],
         'reasoning' => 'Test reasoning'
       },
-      context: nil
+      context: nil,
+      error: nil
     )
   end
 
@@ -80,6 +81,23 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
   end
 
   describe '#build_and_wire_agents' do
+    it 'builds the graph from the selected runtime scenarios' do
+      runtime_configuration = instance_double(
+        Captain::Playground::Configuration,
+        scenarios: [scenario],
+        agent_name_for: 'scenario_runtime_agent'
+      )
+      service = described_class.new(assistant: assistant, runtime_configuration: runtime_configuration)
+
+      expect(assistant).to receive(:agent).with(runtime_configuration: runtime_configuration).and_return(mock_agent)
+      expect(scenario).to receive(:agent).with(
+        runtime_configuration: runtime_configuration,
+        runtime_agent_name: 'scenario_runtime_agent'
+      ).and_return(mock_scenario_agent)
+
+      expect(service.send(:build_and_wire_agents)).to eq([mock_agent, mock_scenario_agent])
+    end
+
     it 'keeps only reply-safe tools and excludes scenarios in reply suggestion mode' do
       faq_tool = Captain::Tools::FaqLookupTool.new(assistant)
       handoff_tool = Captain::Tools::HandoffTool.new(assistant)
@@ -263,6 +281,28 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(service.last_run_result).to eq(mock_result)
     end
 
+    context 'when the runner returns an error result' do
+      let(:error) { StandardError.new('Agent run failed') }
+      let(:mock_result) { instance_double(Agents::RunResult, output: nil, context: nil, error: error) }
+
+      before do
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(
+          instance_double(ChatwootExceptionTracker, capture_exception: true)
+        )
+      end
+
+      it 'returns an error response instead of formatting an empty output' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(result).to include(
+          'response' => 'conversation_handoff',
+          'error' => true,
+          'error_reason' => 'standard_error'
+        )
+        expect(result['reasoning']).to eq('Error occurred: Agent run failed')
+      end
+    end
+
     context 'when handoff tool was called during agent execution' do
       let(:runner_context) { { captain_v2_handoff_tool_called: true } }
       let(:mock_result) do
@@ -272,7 +312,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
             'response_parts' => [{ 'text' => 'Let me connect you', 'citation_indexes' => [] }],
             'reasoning' => 'A human is needed'
           },
-          context: runner_context
+          context: runner_context,
+          error: nil
         )
       end
 
@@ -305,7 +346,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     context 'when agent result is a string' do
-      let(:mock_result) { instance_double(Agents::RunResult, output: 'Simple string response', context: nil) }
+      let(:mock_result) { instance_double(Agents::RunResult, output: 'Simple string response', context: nil, error: nil) }
 
       it 'formats string response correctly' do
         result = service.generate_response(message_history: message_history)
@@ -334,7 +375,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
             ],
             'reasoning' => 'Test reasoning'
           },
-          context: nil
+          context: nil,
+          error: nil
         )
       end
 
@@ -359,7 +401,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
             'response_parts' => [{ 'text' => 'FAQ-backed response', 'citation_indexes' => [1] }],
             'reasoning' => 'Test reasoning'
           },
-          context: nil
+          context: nil,
+          error: nil
         )
       end
 

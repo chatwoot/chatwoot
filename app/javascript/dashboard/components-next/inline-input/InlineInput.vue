@@ -38,6 +38,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  maxLength: {
+    type: Number,
+    default: null,
+  },
 });
 
 const emit = defineEmits([
@@ -110,6 +114,7 @@ defineExpose({
       v-model="modelValue"
       :type="type"
       :placeholder="placeholder"
+      :maxlength="maxLength"
       :disabled="disabled"
       :readonly="readonly"
       :class="customInputClass"

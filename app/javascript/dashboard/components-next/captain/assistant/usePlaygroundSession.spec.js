@@ -1,0 +1,426 @@
+import { effectScope, ref } from 'vue';
+import { usePlaygroundSession } from './usePlaygroundSession';
+
+const mocks = vi.hoisted(() => ({
+  dispatch: vi.fn(),
+  getFaqStats: vi.fn(),
+  useAlert: vi.fn(),
+}));
+
+vi.mock('vue-i18n', () => ({
+  useI18n: () => ({ t: key => key }),
+}));
+
+vi.mock('dashboard/composables', () => ({ useAlert: mocks.useAlert }));
+vi.mock('dashboard/composables/store', () => ({
+  useStore: () => ({ dispatch: mocks.dispatch }),
+}));
+vi.mock('dashboard/composables/useAdmin', () => ({
+  useAdmin: () => ({ isAdmin: ref(true) }),
+}));
+vi.mock('dashboard/api/captain/assistant', () => ({
+  default: { getFaqStats: mocks.getFaqStats },
+}));
+const assistant = {
+  id: 7,
+  response_guidelines: ['Be concise'],
+  guardrails: ['Do not expose secrets'],
+};
+
+const scenarios = [
+  { id: 1, title: 'Enabled', description: 'Enabled', enabled: true },
+  { id: 2, title: 'Disabled', description: 'Disabled', enabled: false },
+];
+
+const deferred = () => {
+  let resolve;
+  let reject;
+  const promise = new Promise((resolvePromise, rejectPromise) => {
+    resolve = resolvePromise;
+    reject = rejectPromise;
+  });
+  return { promise, resolve, reject };
+};
+
+const createSession = (assistantId = ref(7)) => {
+  const scope = effectScope();
+  const session = scope.run(() =>
+    usePlaygroundSession({
+      assistantId,
+    })
+  );
+  return { assistantId, scope, session };
+};
+
+describe('usePlaygroundSession', () => {
+  beforeEach(() => {
+    mocks.getFaqStats.mockResolvedValue({
+      data: { documents: 12, approved: 72, faqs: 48 },
+    });
+    mocks.dispatch.mockImplementation((action, payload) => {
+      if (action === 'captainAssistants/show')
+        return Promise.resolve(assistant);
+      if (action === 'captainScenarios/get') {
+        expect(payload).toEqual({ assistantId: 7 });
+        return Promise.resolve(scenarios);
+      }
+      return Promise.resolve();
+    });
+  });
+
+  it('starts context-free with enabled scenarios and all saved rules included', async () => {
+    const { scope, session } = createSession();
+    await session.initialize();
+
+    expect(session.includedScenarioIds.value).toEqual([1]);
+    expect(mocks.dispatch).toHaveBeenCalledWith('captainTools/getTools');
+    expect(session.playgroundConfig.value).toMatchObject({
+      scenario_ids: [1],
+      temporary_scenarios: [],
+      response_guidelines: ['Be concise'],
+      guardrails: ['Do not expose secrets'],
+      knowledge_text: '',
+    });
+    expect(session.playgroundConfig.value).not.toHaveProperty('context');
+    expect(session.knowledgeStats.value).toEqual({ documents: 12, faqs: 48 });
+    scope.stop();
+  });
+
+  it('excludes temporary knowledge when its test checkbox is cleared', async () => {
+    const { scope, session } = createSession();
+    await session.initialize();
+    session.setKnowledgeText('Temporary reference text');
+
+    expect(session.playgroundConfig.value.knowledge_text).toBe(
+      'Temporary reference text'
+    );
+
+    session.isKnowledgeIncluded.value = false;
+
+    expect(session.playgroundConfig.value.knowledge_text).toBe('');
+    expect(session.configurationSummary().hasKnowledge).toBe(false);
+    scope.stop();
+  });
+
+  it('saves temporary knowledge as a Markdown document', async () => {
+    mocks.dispatch.mockImplementation((action, payload) => {
+      if (action === 'captainAssistants/show')
+        return Promise.resolve(assistant);
+      if (action === 'captainScenarios/get') return Promise.resolve(scenarios);
+      if (action === 'captainDocuments/create') {
+        expect(payload).toEqual({
+          document: {
+            assistant_id: 7,
+            name: expect.stringMatching(/^playground-knowledge-.*\.md$/),
+            markdown_content: '# Refund policy',
+          },
+        });
+        return Promise.resolve({ id: 13 });
+      }
+      return Promise.resolve();
+    });
+    const { scope, session } = createSession();
+    await session.initialize();
+    session.setKnowledgeText('# Refund policy');
+
+    await session.saveKnowledgeAsDocument();
+
+    expect(session.knowledgeStats.value.documents).toBe(13);
+    expect(session.knowledgeText.value).toBe('# Refund policy');
+    expect(mocks.useAlert).toHaveBeenCalledWith(
+      'CAPTAIN.PLAYGROUND.SETUP.SAVE_KNOWLEDGE_SUCCESS'
+    );
+    scope.stop();
+  });
+
+  it('allows disabled and temporary scenarios to be included without persistence', async () => {
+    const { scope, session } = createSession();
+    await session.initialize();
+    session.toggleScenario(2);
+    session.addTemporaryScenario('Refund request');
+    Object.assign(session.temporaryScenarios.value[0], {
+      description: 'Handle refunds',
+      instruction: 'Follow the refund policy',
+    });
+
+    expect(session.playgroundConfig.value.scenario_ids).toEqual([1, 2]);
+    expect(session.playgroundConfig.value.temporary_scenarios).toEqual([
+      expect.objectContaining({
+        title: 'Refund request',
+        description: 'Handle refunds',
+        instruction: 'Follow the refund policy',
+      }),
+    ]);
+    expect(mocks.dispatch).not.toHaveBeenCalledWith(
+      'captainScenarios/update',
+      expect.anything()
+    );
+    scope.stop();
+  });
+
+  it('saves one temporary scenario as enabled and keeps it included', async () => {
+    const savedScenario = {
+      id: 3,
+      title: 'Refund request',
+      description: 'Handle refunds',
+      instruction: 'Follow policy',
+      enabled: true,
+    };
+    const loadedScenarios = [...scenarios];
+    mocks.dispatch.mockImplementation((action, payload) => {
+      if (action === 'captainAssistants/show')
+        return Promise.resolve(assistant);
+      if (action === 'captainScenarios/get')
+        return Promise.resolve(loadedScenarios);
+      if (action === 'captainScenarios/create') {
+        expect(payload).toMatchObject({ assistantId: 7, enabled: true });
+        loadedScenarios.push(savedScenario);
+        return Promise.resolve(savedScenario);
+      }
+      return Promise.resolve();
+    });
+    const { scope, session } = createSession();
+    await session.initialize();
+    session.addTemporaryScenario(savedScenario.title);
+    const temporary = session.temporaryScenarios.value[0];
+    Object.assign(temporary, {
+      description: savedScenario.description,
+      instruction: savedScenario.instruction,
+    });
+
+    await session.saveTemporaryScenario(temporary);
+
+    expect(session.temporaryScenarios.value).toHaveLength(0);
+    expect(
+      session.savedScenarios.value.filter(scenario => scenario.id === 3)
+    ).toHaveLength(1);
+    expect(session.includedScenarioIds.value.filter(id => id === 3)).toEqual([
+      3,
+    ]);
+    expect(session.playgroundConfig.value.scenario_ids).toEqual([3, 1]);
+    scope.stop();
+  });
+
+  it('adds only temporary scenarios that have a title', () => {
+    const { scope, session } = createSession();
+
+    session.addTemporaryScenario('   ');
+    session.addTemporaryScenario('  Refund request  ');
+
+    expect(session.temporaryScenarios.value).toEqual([
+      expect.objectContaining({
+        title: 'Refund request',
+        included: true,
+      }),
+    ]);
+    scope.stop();
+  });
+
+  it('adds only temporary rules that contain content', () => {
+    const { scope, session } = createSession();
+
+    session.addTemporaryRule('guideline', '   ');
+    session.addTemporaryRule('guideline', '  Keep replies concise  ');
+
+    expect(session.temporaryGuidelines.value).toEqual([
+      expect.objectContaining({
+        content: 'Keep replies concise',
+        included: true,
+      }),
+    ]);
+    scope.stop();
+  });
+
+  it('normalizes saved rules before counting, sending, and saving them', async () => {
+    const latestAssistant = {
+      ...assistant,
+      response_guidelines: [' Be concise ', 'Already saved', 'Already saved '],
+    };
+    mocks.dispatch.mockImplementation((action, payload) => {
+      if (action === 'captainAssistants/show')
+        return Promise.resolve(latestAssistant);
+      if (action === 'captainScenarios/get') return Promise.resolve(scenarios);
+      if (action === 'captainAssistants/update') {
+        expect(payload).toEqual({
+          id: 7,
+          assistant: {
+            response_guidelines: [
+              'Be concise',
+              'Already saved',
+              'Use short paragraphs',
+            ],
+          },
+        });
+        return Promise.resolve();
+      }
+      return Promise.resolve();
+    });
+    const { scope, session } = createSession();
+    await session.initialize();
+    session.addTemporaryRule('guideline', 'Use short paragraphs');
+
+    await session.saveTemporaryRule(
+      'guideline',
+      session.temporaryGuidelines.value[0]
+    );
+
+    session.addTemporaryRule('guideline', ' Already saved ');
+    await session.saveTemporaryRule(
+      'guideline',
+      session.temporaryGuidelines.value[0]
+    );
+
+    expect(
+      mocks.dispatch.mock.calls.filter(
+        ([action]) => action === 'captainAssistants/update'
+      )
+    ).toHaveLength(1);
+    expect(session.playgroundConfig.value.response_guidelines).toEqual([
+      'Be concise',
+      'Already saved',
+    ]);
+    expect(session.configurationSummary().guidelineCount).toBe(2);
+    scope.stop();
+  });
+
+  it('serializes saves for rules of the same type', async () => {
+    const latestAssistantRequest = deferred();
+    mocks.dispatch.mockImplementation(action => {
+      if (action === 'captainAssistants/show')
+        return latestAssistantRequest.promise;
+      if (action === 'captainAssistants/update') return Promise.resolve();
+      return Promise.resolve();
+    });
+    const { scope, session } = createSession();
+    session.addTemporaryRule('guideline', 'First guideline');
+    session.addTemporaryRule('guideline', 'Second guideline');
+    const [firstRule, secondRule] = session.temporaryGuidelines.value;
+
+    const firstSave = session.saveTemporaryRule('guideline', firstRule);
+    const secondSave = session.saveTemporaryRule('guideline', secondRule);
+
+    expect(session.isRuleTypeSaving('guideline')).toBe(true);
+    expect(
+      mocks.dispatch.mock.calls.filter(
+        ([action]) => action === 'captainAssistants/show'
+      )
+    ).toHaveLength(1);
+
+    latestAssistantRequest.resolve(assistant);
+    await Promise.all([firstSave, secondSave]);
+
+    expect(session.isRuleTypeSaving('guideline')).toBe(false);
+    expect(session.temporaryGuidelines.value).toContain(secondRule);
+    scope.stop();
+  });
+
+  it('resets temporary state and restores the latest saved defaults', async () => {
+    const { scope, session } = createSession();
+    await session.initialize();
+    session.toggleScenario(2);
+    session.addTemporaryRule('guardrail', 'Temporary');
+    session.knowledgeText.value = 'Temporary knowledge';
+
+    await session.reset();
+
+    expect(session.includedScenarioIds.value).toEqual([1]);
+    expect(session.temporaryGuardrails.value).toEqual([]);
+    expect(session.knowledgeText.value).toBe('');
+    expect(session.isKnowledgeIncluded.value).toBe(true);
+    scope.stop();
+  });
+
+  it('ignores an older initialization that finishes after assistants change', async () => {
+    const oldAssistantRequest = deferred();
+    const oldScenariosRequest = deferred();
+    const nextAssistant = {
+      id: 8,
+      response_guidelines: ['Next guideline'],
+      guardrails: ['Next guardrail'],
+    };
+    const nextScenarios = [
+      { id: 8, title: 'Next scenario', description: 'Next', enabled: true },
+    ];
+    mocks.dispatch.mockImplementation((action, payload) => {
+      if (action === 'captainAssistants/show') {
+        return payload === 7
+          ? oldAssistantRequest.promise
+          : Promise.resolve(nextAssistant);
+      }
+      if (action === 'captainScenarios/get') {
+        return payload.assistantId === 7
+          ? oldScenariosRequest.promise
+          : Promise.resolve(nextScenarios);
+      }
+      return Promise.resolve();
+    });
+    const assistantId = ref(7);
+    const { scope, session } = createSession(assistantId);
+
+    const oldInitialization = session.initialize();
+    assistantId.value = 8;
+    await session.reset();
+    oldAssistantRequest.resolve(assistant);
+    oldScenariosRequest.resolve(scenarios);
+    await oldInitialization;
+
+    expect(session.savedScenarios.value).toEqual(nextScenarios);
+    expect(session.savedGuidelines.value.map(rule => rule.content)).toEqual([
+      'Next guideline',
+    ]);
+    expect(session.isInitializing.value).toBe(false);
+    scope.stop();
+  });
+
+  it('keeps an in-flight rule save scoped to the assistant it started on', async () => {
+    const latestAssistantRequest = deferred();
+    mocks.dispatch.mockImplementation(action => {
+      if (action === 'captainAssistants/show')
+        return latestAssistantRequest.promise;
+      if (action === 'captainAssistants/update') return Promise.resolve();
+      return Promise.resolve();
+    });
+    const assistantId = ref(7);
+    const { scope, session } = createSession(assistantId);
+    session.addTemporaryRule('guideline', 'Save this rule');
+    const temporaryRule = session.temporaryGuidelines.value[0];
+
+    const saveRequest = session.saveTemporaryRule('guideline', temporaryRule);
+    expect(session.isRuleTypeSaving('guideline')).toBe(true);
+    assistantId.value = 8;
+    expect(session.isRuleTypeSaving('guideline')).toBe(false);
+    latestAssistantRequest.resolve(assistant);
+    await saveRequest;
+
+    expect(mocks.dispatch).toHaveBeenCalledWith('captainAssistants/update', {
+      id: 7,
+      assistant: {
+        response_guidelines: ['Be concise', 'Save this rule'],
+      },
+    });
+    expect(session.temporaryGuidelines.value).toContain(temporaryRule);
+    scope.stop();
+  });
+
+  it('keeps an in-flight knowledge save from blocking another assistant', async () => {
+    const documentRequest = deferred();
+    mocks.dispatch.mockImplementation(action => {
+      if (action === 'captainDocuments/create') return documentRequest.promise;
+      return Promise.resolve();
+    });
+    const assistantId = ref(7);
+    const { scope, session } = createSession(assistantId);
+    session.setKnowledgeText('Save this knowledge');
+
+    const saveRequest = session.saveKnowledgeAsDocument();
+    expect(session.isSavingKnowledge.value).toBe(true);
+
+    assistantId.value = 8;
+    expect(session.isSavingKnowledge.value).toBe(false);
+    documentRequest.resolve({ id: 13 });
+    await saveRequest;
+
+    expect(session.isSavingKnowledge.value).toBe(false);
+    scope.stop();
+  });
+});
