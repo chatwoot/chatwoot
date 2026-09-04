@@ -110,5 +110,18 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
         expect(service.perform).to eq({ error: 'Audio too large for transcription' })
       end
     end
+
+    context 'when account has an account-level OpenAI integration hook (BYOK)' do
+      before do
+        create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'account-own-key' })
+        allow(account).to receive(:usage_limits).and_return(captain: { responses: { current_available: 0 } })
+        allow(service).to receive(:transcribe_audio).and_return('BYOK transcription')
+      end
+
+      it 'allows transcription even when captain response limit is 0' do
+        result = service.perform
+        expect(result).to eq({ success: true, transcriptions: 'BYOK transcription' })
+      end
+    end
   end
 end
