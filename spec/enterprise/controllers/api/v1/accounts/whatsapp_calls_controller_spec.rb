@@ -38,6 +38,17 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       get "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}"
       expect(response).to have_http_status(:unauthorized)
     end
+
+    # acceptIncomingCall falls back to this payload when the ring broadcast raced the agent's click,
+    # so it must report the decision taken when the call started, not the inbox's current flag.
+    it 'reports the recording decision taken when the call started' do
+      call # created while the inbox still had recording on
+      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
+
+      get "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}", headers: agent.create_new_auth_token
+
+      expect(response.parsed_body['recording_enabled']).to be true
+    end
   end
 
   describe 'POST /api/v1/accounts/:account_id/whatsapp_calls/:id/accept' do
@@ -251,6 +262,19 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
            headers: agent.create_new_auth_token
 
       expect(response.parsed_body['status']).to eq('already_uploaded')
+    end
+
+    # The browser gate ships in JS, so a stale tab could still post audio for a call that decided not to record.
+    it 'refuses to store audio for a call created with recording off' do
+      call.update!(recording_enabled: false)
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/upload_recording",
+             params: { recording: fixture_file_upload(Rails.root.join('spec/assets/sample.mp3'), 'audio/mpeg') },
+             headers: agent.create_new_auth_token
+      end.not_to(change { call.message.attachments.count })
+
+      expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 end
