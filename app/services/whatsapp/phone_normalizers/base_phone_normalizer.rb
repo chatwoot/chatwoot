@@ -11,6 +11,13 @@ class Whatsapp::PhoneNormalizers::BasePhoneNormalizer
     raise NotImplementedError, 'Subclasses must implement #normalize'
   end
 
+  # Formats an existing contact_inbox may already be stored under, most canonical first so a
+  # sender keeps the thread they already have. Same safety bar as #contact_candidates, and
+  # stricter in consequence: a wrong match here answers as another subscriber's conversation.
+  def variants(waid)
+    [normalize(waid)]
+  end
+
   # Contact matching needs stronger safety than source-id lookup because two
   # valid phone numbers can share digits across country-specific formats.
   def contact_candidates(waid)

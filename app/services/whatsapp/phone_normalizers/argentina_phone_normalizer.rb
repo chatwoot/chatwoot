@@ -10,6 +10,10 @@ class Whatsapp::PhoneNormalizers::ArgentinaPhoneNormalizer < Whatsapp::PhoneNorm
     waid.sub(/^549/, '54')
   end
 
+  # Deliberately no #variants override: 549 and 54 are not two spellings of one subscriber the
+  # way Brazil's ninth digit is. Dropping the 9 yields a valid landline in the same area code, so
+  # offering it as an alternate can answer as a different customer's conversation.
+
   private
 
   def country_code_pattern

@@ -19,12 +19,10 @@ class Whatsapp::PhoneNumberNormalizationService
     normalizer = find_normalizer_for_country(clean_number)
     return raw_number unless normalizer
 
-    # Normalize the clean number
-    normalized_clean_number = normalizer.normalize(clean_number)
-
-    # Format for provider and check for existing contact
-    provider_format = format_for_provider(normalized_clean_number, provider)
-    existing_contact_inbox = find_existing_contact_inbox(provider_format)
+    # The contact may already be stored under any of the country's equivalent formats
+    existing_contact_inbox = normalizer.variants(clean_number).lazy
+                                       .filter_map { |number| find_existing_contact_inbox(format_for_provider(number, provider)) }
+                                       .first
 
     existing_contact_inbox&.source_id || raw_number
   end
