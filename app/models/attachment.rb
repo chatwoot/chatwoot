@@ -58,6 +58,15 @@ class Attachment < ApplicationRecord
     file.attached? ? url_for(file) : ''
   end
 
+  # Falls back to the source CDN link when the blob failed to download and was never attached.
+  def link_url
+    file.attached? ? file_url : external_url
+  end
+
+  def link_title
+    file.attached? ? file.filename.to_s : external_url
+  end
+
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
   def download_url
     ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?

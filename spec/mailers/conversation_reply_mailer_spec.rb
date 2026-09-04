@@ -79,6 +79,13 @@ RSpec.describe ConversationReplyMailer do
         expect(cc_mail.cc.first).to eq(cc_message.content_attributes[:cc_emails])
         expect(cc_mail.bcc.first).to eq(cc_message.content_attributes[:bcc_emails])
       end
+
+      it 'links to the external url instead of raising when an attachment has no blob' do
+        message.attachments.create!(account: account, file_type: :image, external_url: 'https://lookaside.fbsbx.com/example.jpeg')
+
+        expect { mail }.not_to raise_error
+        expect(mail.body.decoded).to include('https://lookaside.fbsbx.com/example.jpeg')
+      end
     end
 
     context 'without assignee' do
@@ -890,6 +897,14 @@ RSpec.describe ConversationReplyMailer do
 
         expect(transcript.decoded).to include('Transcript Brand')
         expect(transcript.decoded).to include(message.content)
+      end
+
+      it 'links to the external url instead of raising when a transcript attachment has no blob' do
+        message.attachments.create!(account: new_account, file_type: :image, external_url: 'https://lookaside.fbsbx.com/example.jpeg')
+
+        transcript = nil
+        expect { transcript = described_class.conversation_transcript(conversation, 'customer@example.com').deliver_now }.not_to raise_error
+        expect(transcript.decoded).to include('https://lookaside.fbsbx.com/example.jpeg')
       end
     end
   end

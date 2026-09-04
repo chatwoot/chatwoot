@@ -63,12 +63,21 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def message_text
     content = message.processed_message_content || message.content
+    text = content.present? ? content.gsub(MENTION_REGEX, '\1') : content
 
-    if content.present?
-      content.gsub(MENTION_REGEX, '\1')
-    else
-      content
+    [text, unattached_attachment_note].select(&:present?).join("\n")
+  end
+
+  # build_files_array skips attachments whose blob failed to download, so without this
+  # note an attachment-only message (no text) ends up with blank message_content and is
+  # never posted to Slack at all - the customer's message becomes invisible there.
+  def unattached_attachment_note
+    unattached = message.attachments.select do |attachment|
+      attachment.with_attached_file? && !attachment.file.attached? && attachment.external_url.present?
     end
+    return if unattached.blank?
+
+    unattached.map { |attachment| "Attachment (could not be uploaded): #{attachment.external_url}" }.join("\n")
   end
 
   def formatted_inbox_name
