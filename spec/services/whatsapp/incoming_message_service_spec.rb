@@ -24,16 +24,14 @@ describe Whatsapp::IncomingMessageService do
       }.with_indifferent_access
     end
 
-    # The parent-first ordering is Cloud-only, so this needs its own channel: the shared
-    # `whatsapp_channel` above is a default/360Dialog one, where the phone still leads.
+    # Phone-first ordering is Cloud-only when Meta still includes the phone. The shared
+    # `whatsapp_channel` above is a default/360Dialog one, where the phone has always led.
     context 'when a Cloud payload carries the parent identifier' do
       let!(:cloud_channel) do
         create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
       end
 
-      # Meta sends the parent identifier alone in some payloads. Leading with it keeps the mixed
-      # event and the parent-only follow-up on one ContactInbox, so the thread is not split.
-      it 'reuses the conversation when a parent-only payload follows one carrying both identifiers' do
+      it 'uses the parent identifier only when the phone is absent' do
         mixed = {
           'contacts' => [{ 'profile' => { 'name' => 'Muhsin' }, 'wa_id' => '919745786257',
                            'user_id' => 'IN.2081978709342942', 'parent_user_id' => 'IN.ENT.9081726354' }],
@@ -48,12 +46,16 @@ describe Whatsapp::IncomingMessageService do
         }.with_indifferent_access
 
         described_class.new(inbox: cloud_channel.inbox, params: mixed).perform
-        expect { described_class.new(inbox: cloud_channel.inbox, params: parent_only).perform }
-          .not_to(change { cloud_channel.inbox.conversations.count })
+        phone_conversation = cloud_channel.inbox.conversations.last
 
-        conversation = cloud_channel.inbox.conversations.last
-        expect(conversation.contact_inbox.source_id).to eq('IN.ENT.9081726354')
-        expect(conversation.messages.pluck(:content)).to include('first', 'second')
+        expect { described_class.new(inbox: cloud_channel.inbox, params: parent_only).perform }
+          .to change { cloud_channel.inbox.conversations.count }.by(1)
+
+        parent_conversation = cloud_channel.inbox.conversations.last
+        expect(phone_conversation.contact_inbox.source_id).to eq('919745786257')
+        expect(phone_conversation.messages.pluck(:content)).to contain_exactly('first')
+        expect(parent_conversation.contact_inbox.source_id).to eq('IN.ENT.9081726354')
+        expect(parent_conversation.messages.pluck(:content)).to contain_exactly('second')
       end
     end
 

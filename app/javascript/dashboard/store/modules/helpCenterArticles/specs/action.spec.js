@@ -327,13 +327,23 @@ describe('#actions', () => {
     it('should upload the file and return the fileUrl', async () => {
       const mockFile = new Blob(['test'], { type: 'image/png' });
       mockFile.name = 'test.png';
+      const onProgress = () => {};
+      const signal = new AbortController().signal;
 
       const mockFileUrl = 'https://test.com/test.png';
       uploadFile.mockResolvedValueOnce({ fileUrl: mockFileUrl });
 
-      const result = await actions.attachImage({}, { file: mockFile });
+      const result = await actions.attachImage(
+        {},
+        { file: mockFile, onProgress, signal }
+      );
 
-      expect(uploadFile).toHaveBeenCalledWith(mockFile);
+      expect(uploadFile).toHaveBeenCalledWith(
+        mockFile,
+        undefined,
+        onProgress,
+        signal
+      );
       expect(result).toBe(mockFileUrl);
     });
 
@@ -353,14 +363,22 @@ describe('#actions', () => {
   describe('uploadExternalImage', () => {
     it('should upload the image from external URL and return the fileUrl', async () => {
       const mockUrl = 'https://example.com/image.jpg';
+      const signal = new AbortController().signal;
       const mockFileUrl = 'https://uploaded.example.com/image.jpg';
       uploadExternalImage.mockResolvedValueOnce({ fileUrl: mockFileUrl });
 
       // When
-      const result = await actions.uploadExternalImage({}, { url: mockUrl });
+      const result = await actions.uploadExternalImage(
+        {},
+        { url: mockUrl, signal }
+      );
 
       // Then
-      expect(uploadExternalImage).toHaveBeenCalledWith(mockUrl);
+      expect(uploadExternalImage).toHaveBeenCalledWith(
+        mockUrl,
+        undefined,
+        signal
+      );
       expect(result).toBe(mockFileUrl);
     });
 
