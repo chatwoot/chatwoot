@@ -208,8 +208,22 @@ export const actions = {
     }
   },
 
-  resolveConversation: async () => {
-    await toggleStatus();
+  resolveConversation: async ({ commit, dispatch }) => {
+    try {
+      await toggleStatus();
+      commit('clearConversations');
+      dispatch(
+        'conversationAttributes/clearConversationAttributes',
+        {},
+        { root: true }
+      );
+      dispatch('campaign/resetCampaign', {}, { root: true });
+
+      const { IFrameHelper } = await import('widget/helpers/utils');
+      IFrameHelper.sendMessage({ event: 'resetSession' });
+    } catch (error) {
+      // Ignore error
+    }
   },
 
   setCustomAttributes: async (
