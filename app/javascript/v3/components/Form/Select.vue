@@ -61,7 +61,7 @@ export default {
   >
     <select
       :id="id"
-      :selected="modelValue"
+      :value="modelValue"
       :name="name"
       :class="{
         'text-n-slate-9': !modelValue,
@@ -71,7 +71,7 @@ export default {
       class="block w-full px-3 py-2 pr-6 mb-0 border-0 shadow-sm appearance-none rounded-xl select-caret leading-6"
       @input="onInput"
     >
-      <option value="" disabled selected class="hidden">
+      <option value="" disabled class="hidden">
         {{ placeholder }}
       </option>
       <slot>
