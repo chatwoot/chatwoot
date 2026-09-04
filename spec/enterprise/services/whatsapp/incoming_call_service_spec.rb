@@ -72,6 +72,20 @@ describe Whatsapp::IncomingCallService do
         hash_including(event: 'voice_call.incoming')
       )
     end
+
+    # The agent's browser is what records a WhatsApp call, so the ring payload has to carry the decision.
+    it 'tells the ringing agent not to record when the call was created with recording off' do
+      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
+      allow(ActionCable.server).to receive(:broadcast)
+
+      params = call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' })
+      described_class.new(inbox: inbox, params: params).perform
+
+      expect(ActionCable.server).to have_received(:broadcast).with(
+        agent.pubsub_token,
+        hash_including(data: hash_including(recording_enabled: false))
+      )
+    end
   end
 
   describe 'inbound connect from a username (BSUID) caller' do
@@ -149,6 +163,23 @@ describe Whatsapp::IncomingCallService do
         .to change(Call, :count).by(1).and not_change(ContactInbox, :count)
 
       expect(Call.last.conversation.contact_inbox).to eq(existing)
+    end
+
+    it 'reuses a normalized phone contact when no ContactInbox exists yet' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account, phone_number: '+5541988887777')
+
+      params = {
+        calls: [{ id: provider_call_id, from: '554188887777', event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: '554188887777' }]
+      }
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(Contact, :count)
+
+      expect(Call.last.contact).to eq(contact)
+      expect(Call.last.conversation.contact_inbox).to have_attributes(contact: contact, source_id: '554188887777')
     end
 
     it 'reuses the BSUID-keyed ContactInbox messaging created for a username-only caller' do

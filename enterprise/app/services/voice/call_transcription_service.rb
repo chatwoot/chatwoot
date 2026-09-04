@@ -11,6 +11,7 @@ class Voice::CallTranscriptionService
 
   def transcribe
     return unless call.recording.attached?
+    return unless call.inbox.channel.transcription_enabled?
     return unless Llm::SpeechToTextService.available_for?(call.account)
     return if Llm::SpeechToTextService.too_large?(recording_blob)
 
