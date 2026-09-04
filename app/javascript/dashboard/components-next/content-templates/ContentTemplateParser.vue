@@ -115,7 +115,7 @@ const sendMessage = () => {
   v$.value.$touch();
   if (v$.value.$invalid || isFormInvalid.value) return;
 
-  const { friendly_name, language } = props.template;
+  const { friendly_name, language, content_sid } = props.template;
 
   // For media templates, reduce the media URL to a filename before sending.
   const processedParameters = applyTwilioMediaFilename(
@@ -127,6 +127,7 @@ const sendMessage = () => {
     message: renderedTemplate.value,
     templateParams: {
       name: friendly_name,
+      content_sid,
       language,
       processed_params: processedParameters,
     },
