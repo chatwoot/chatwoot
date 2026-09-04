@@ -331,4 +331,33 @@ RSpec.describe Attachment do
       expect(attachment.errors[:file]).to include('size is too big')
     end
   end
+
+  describe 'content type validation' do
+    let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :file) }
+
+    before do
+      allow(attachment).to receive(:should_validate_file?).and_return(true)
+    end
+
+    it 'rejects an unsupported content type by default' do
+      allow(GlobalConfig).to receive(:get).with('ENABLE_FILE_TYPE_VALIDATION').and_return('ENABLE_FILE_TYPE_VALIDATION' => true)
+
+      attachment.send(:validate_file_content_type, 'application/x-msdownload')
+      expect(attachment.errors[:file]).to include('type not supported')
+    end
+
+    it 'allows any content type when validation is disabled' do
+      allow(GlobalConfig).to receive(:get).with('ENABLE_FILE_TYPE_VALIDATION').and_return('ENABLE_FILE_TYPE_VALIDATION' => false)
+
+      attachment.send(:validate_file_content_type, 'application/x-msdownload')
+      expect(attachment.errors[:file]).not_to include('type not supported')
+    end
+
+    it 'allows media files by prefix' do
+      allow(GlobalConfig).to receive(:get).with('ENABLE_FILE_TYPE_VALIDATION').and_return('ENABLE_FILE_TYPE_VALIDATION' => true)
+
+      attachment.send(:validate_file_content_type, 'image/png')
+      expect(attachment.errors[:file]).not_to include('type not supported')
+    end
+  end
 end
