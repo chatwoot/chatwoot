@@ -251,6 +251,21 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'push_event_data for audio attachments' do
+    let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :audio) }
+
+    before do
+      attachment.file.attach(io: StringIO.new('fake audio'), filename: 'voice.ogg', content_type: 'audio/ogg')
+      attachment.save!
+    end
+
+    it 'honours resolve_model_to_route when the proxy route is configured' do
+      allow(ActiveStorage).to receive(:resolve_model_to_route).and_return(:rails_storage_proxy)
+
+      expect(attachment.push_event_data[:data_url]).to include('/rails/active_storage/blobs/proxy/')
+    end
+  end
+
   describe 'push_event_data for embed attachments' do
     it 'returns external url as data_url' do
       attachment = message.attachments.create!(account_id: message.account_id, file_type: :embed, external_url: 'https://example.com/embed')
