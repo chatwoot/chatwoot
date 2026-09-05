@@ -30,6 +30,10 @@ export default {
       type: String,
       default: '',
     },
+    allowUpdate: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup() {
     const { formatMessage } = useMessageFormatter();
@@ -42,6 +46,8 @@ export default {
       selectedRating: null,
       isUpdating: false,
       feedback: '',
+      likeIcon: '👍',
+      dislikeIcon: '👎',
     };
   },
   computed: {
@@ -54,14 +60,15 @@ export default {
         ?.feedback_message;
     },
     isButtonDisabled() {
-      if (!(this.selectedRating && this.feedback)) return true;
-      if (this.isUpdating) return true;
-      return false;
+      return !this.selectedRating;
     },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
     },
     title() {
+      if (this.isLikeDislikeType) {
+        return this.message || this.$t('CSAT.TITLE');
+      }
       return this.isRatingSubmitted
         ? this.$t('CSAT.SUBMITTED_TITLE')
         : this.message || this.$t('CSAT.TITLE');
@@ -74,6 +81,33 @@ export default {
     },
     isStarType() {
       return this.displayType === CSAT_DISPLAY_TYPES.STAR;
+    },
+    isLikeDislikeType() {
+      return this.displayType === CSAT_DISPLAY_TYPES.LIKE_DISLIKE;
+    },
+    goodRatingValue() {
+      return 5;
+    },
+    badRatingValue() {
+      return 1;
+    },
+    shouldShowFeedbackInput() {
+      if (this.isLikeDislikeType) {
+        return !!this.selectedRating;
+      }
+      return !this.isFeedbackSubmitted;
+    },
+    feedbackPlaceholder() {
+      if (
+        this.isLikeDislikeType &&
+        this.selectedRating === this.badRatingValue
+      ) {
+        return this.$t('CSAT.DISLIKE_PLACEHOLDER');
+      }
+      return this.$t('CSAT.PLACEHOLDER');
+    },
+    shouldShowChangeHint() {
+      return this.allowUpdate && this.isLikeDislikeType;
     },
   },
 
@@ -92,8 +126,8 @@ export default {
       const isLocked = this.isFeedbackSubmitted || this.isUpdating;
       return [
         { selected: rating.value === this.selectedRating },
-        { disabled: isLocked },
-        { hover: isLocked },
+        { disabled: this.isRatingSubmitted && !this.isLikeDislikeType },
+        { hover: this.isRatingSubmitted },
         'emoji-button',
       ];
     },
@@ -116,7 +150,6 @@ export default {
         this.isUpdating = false;
       }
     },
-
     selectRating(rating) {
       if (this.isFeedbackSubmitted || this.isUpdating) return;
       this.selectedRating = rating.value;
@@ -125,6 +158,17 @@ export default {
     selectStarRating(value) {
       if (this.isFeedbackSubmitted || this.isUpdating) return;
       this.selectedRating = value;
+      this.onSubmit();
+    },
+    selectLikeDislike(value) {
+      const isChangingFromBadToGood =
+        this.selectedRating === this.badRatingValue &&
+        value === this.goodRatingValue;
+
+      this.selectedRating = value;
+      if (isChangingFromBadToGood) {
+        this.feedback = '';
+      }
       this.onSubmit();
     },
   },
@@ -136,10 +180,15 @@ export default {
     class="customer-satisfaction w-full bg-n-background dark:bg-n-solid-3 shadow-[0_0.25rem_6px_rgba(50,50,93,0.08),0_1px_3px_rgba(0,0,0,0.05)] ltr:rounded-bl-[0.25rem] rtl:rounded-br-[0.25rem] rounded-lg inline-block leading-[1.5] mt-1 border-t-2 border-t-n-brand border-solid"
     :style="{ borderColor: widgetColor }"
   >
-    <h6
-      v-dompurify-html="formattedTitle"
-      class="text-n-slate-12 text-sm font-medium pt-5 px-2.5 text-center prose prose-bubble"
-    />
+    <h6 class="text-n-slate-12 text-sm font-medium pt-5 px-2.5 text-center">
+      {{ title }}
+    </h6>
+    <p
+      v-if="shouldShowChangeHint"
+      class="text-n-slate-11 text-xs px-4 pt-1 text-center"
+    >
+      {{ $t('CSAT.CHANGE_RATING_HINT') }}
+    </p>
     <div v-if="isEmojiType" class="ratings flex justify-around py-5 px-4">
       <button
         v-for="rating in ratings"
@@ -156,19 +205,38 @@ export default {
       :is-disabled="isFeedbackSubmitted || isUpdating"
       @select-rating="selectStarRating"
     />
+    <div
+      v-else-if="isLikeDislikeType"
+      class="ratings flex justify-center gap-6 py-5 px-4"
+    >
+      <button
+        class="emoji-button"
+        :class="{ selected: selectedRating === goodRatingValue }"
+        @click="selectLikeDislike(goodRatingValue)"
+      >
+        {{ likeIcon }}
+      </button>
+      <button
+        class="emoji-button"
+        :class="{ selected: selectedRating === badRatingValue }"
+        @click="selectLikeDislike(badRatingValue)"
+      >
+        {{ dislikeIcon }}
+      </button>
+    </div>
     <form
-      v-if="!isFeedbackSubmitted"
+      v-if="shouldShowFeedbackInput"
       class="feedback-form flex"
       @submit.prevent="onSubmit()"
     >
       <input
         v-model="feedback"
-        :placeholder="$t('CSAT.PLACEHOLDER')"
+        :placeholder="feedbackPlaceholder"
         @keydown.enter="onSubmit"
       />
       <button
         class="button small"
-        :disabled="isButtonDisabled"
+        :disabled="isButtonDisabled || isUpdating"
         :style="{
           background: widgetColor,
           borderColor: widgetColor,

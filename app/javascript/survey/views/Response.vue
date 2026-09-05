@@ -38,6 +38,8 @@ export default {
       inboxName: '',
       displayType: CSAT_DISPLAY_TYPES.EMOJI,
       messageContent: '',
+      likeIcon: '👍',
+      dislikeIcon: '👎',
     };
   },
   computed: {
@@ -54,9 +56,7 @@ export default {
       );
     },
     isButtonDisabled() {
-      if (!this.selectedRating) return true;
-      if (this.isUpdating) return true;
-      return false;
+      return !this.selectedRating;
     },
     isEmojiType() {
       return this.displayType === CSAT_DISPLAY_TYPES.EMOJI;
@@ -64,10 +64,22 @@ export default {
     isStarType() {
       return this.displayType === CSAT_DISPLAY_TYPES.STAR;
     },
+    isLikeDislikeType() {
+      return this.displayType === CSAT_DISPLAY_TYPES.LIKE_DISLIKE;
+    },
+    goodRatingValue() {
+      return 5;
+    },
+    badRatingValue() {
+      return 1;
+    },
     shouldShowBanner() {
       return this.isRatingSubmitted || this.errorMessage;
     },
     enableFeedbackForm() {
+      if (this.isLikeDislikeType) {
+        return !!this.selectedRating;
+      }
       return !this.isFeedbackSubmitted && this.isRatingSubmitted;
     },
     shouldShowErrorMessage() {
@@ -82,6 +94,12 @@ export default {
       }
       return this.$t('SURVEY.RATING.SUCCESS_MESSAGE');
     },
+    shouldHideRatingInput() {
+      return this.isRatingSubmitted && !this.isLikeDislikeType;
+    },
+    feedbackPlaceholder() {
+      return this.$t('SURVEY.FEEDBACK.PLACEHOLDER');
+    },
     formattedMessageContent() {
       return this.formatMessage(this.messageContent, false);
     },
@@ -93,11 +111,15 @@ export default {
     selectRating(rating) {
       if (this.isFeedbackSubmitted || this.isUpdating) return;
       this.selectedRating = rating;
+      this.feedbackMessage = '';
       this.updateSurveyDetails();
     },
     sendFeedback(message) {
       this.feedbackMessage = message;
       this.updateSurveyDetails({ markFeedbackSubmitted: true });
+    },
+    updateFeedbackMessage(message) {
+      this.feedbackMessage = message;
     },
     async getSurveyDetails() {
       this.isLoading = true;
@@ -187,30 +209,55 @@ export default {
           :message="message"
         />
         <label
-          v-if="!isRatingSubmitted"
+          v-if="!shouldHideRatingInput"
           class="mb-4 text-base font-medium text-n-slate-11"
         >
           {{ $t('SURVEY.RATING.LABEL') }}
         </label>
         <Rating
-          v-if="isEmojiType"
+          v-if="isEmojiType && !shouldHideRatingInput"
           :selected-rating="selectedRating"
           :is-disabled="isFeedbackSubmitted || isUpdating"
           @select-rating="selectRating"
         />
         <StarRating
-          v-if="isStarType"
+          v-if="isStarType && !shouldHideRatingInput"
           :selected-rating="selectedRating"
           :is-disabled="isFeedbackSubmitted || isUpdating"
           class="[&>button>span]:text-4xl !justify-start !px-0"
           @select-rating="selectRating"
         />
+        <div
+          v-if="isLikeDislikeType"
+          class="flex items-center gap-6 text-4xl mb-6"
+        >
+          <button
+            class="grayscale opacity-60 transition-all hover:grayscale-0 hover:opacity-100"
+            :class="{
+              '!grayscale-0 !opacity-100': selectedRating === goodRatingValue,
+            }"
+            @click="selectRating(goodRatingValue)"
+          >
+            {{ likeIcon }}
+          </button>
+          <button
+            class="grayscale opacity-60 transition-all hover:grayscale-0 hover:opacity-100"
+            :class="{
+              '!grayscale-0 !opacity-100': selectedRating === badRatingValue,
+            }"
+            @click="selectRating(badRatingValue)"
+          >
+            {{ dislikeIcon }}
+          </button>
+        </div>
         <Feedback
           v-if="enableFeedbackForm"
+          :key="`feedback-${selectedRating}`"
           :is-updating="isUpdating"
-          :is-button-disabled="isButtonDisabled"
-          :selected-rating="selectedRating"
+          :initial-feedback="feedbackMessage"
+          :placeholder="feedbackPlaceholder"
           @send-feedback="sendFeedback"
+          @update-feedback="updateFeedbackMessage"
         />
       </div>
       <div class="mb-3">

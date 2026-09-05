@@ -48,6 +48,10 @@ const state = reactive({
   csatSurveyEnabled: false,
   displayType: 'emoji',
   message: '',
+  messageEnabled: true,
+  csatOnResolveEnabled: true,
+  likeDislikeHintMessage: '',
+  likeDislikeHintEnabled: true,
   templateButtonText: 'Please rate us',
   surveyRuleOperator: 'contains',
   templateLanguage: 'en',
@@ -152,6 +156,10 @@ const initializeState = () => {
   const {
     display_type: displayType = CSAT_DISPLAY_TYPES.EMOJI,
     message = '',
+    message_enabled: messageEnabled = true,
+    csat_on_resolve_enabled: csatOnResolveEnabled = true,
+    like_dislike_hint_message: likeDislikeHintMessage = '',
+    like_dislike_hint_enabled: likeDislikeHintEnabled = true,
     button_text: buttonText = 'Please rate us',
     language = 'en',
     survey_rules: surveyRules = {},
@@ -159,6 +167,10 @@ const initializeState = () => {
 
   state.displayType = displayType;
   state.message = message;
+  state.messageEnabled = messageEnabled;
+  state.csatOnResolveEnabled = csatOnResolveEnabled;
+  state.likeDislikeHintMessage = likeDislikeHintMessage;
+  state.likeDislikeHintEnabled = likeDislikeHintEnabled;
   state.templateButtonText = buttonText;
   state.templateLanguage = language;
   state.surveyRuleOperator = surveyRules.operator || 'contains';
@@ -426,6 +438,10 @@ const performSave = async () => {
     const csatConfig = {
       display_type: state.displayType,
       message: state.message,
+      message_enabled: state.messageEnabled,
+      csat_on_resolve_enabled: state.csatOnResolveEnabled,
+      like_dislike_hint_message: state.likeDislikeHintMessage,
+      like_dislike_hint_enabled: state.likeDislikeHintEnabled,
       button_text: state.templateButtonText,
       language: state.templateLanguage,
       survey_rules: {
@@ -519,11 +535,197 @@ const handleConfirmTemplateUpdate = async () => {
             />
           </WithLabel>
 
-          <template v-if="isAnyWhatsAppChannel">
-            <div
-              class="flex flex-col gap-4 justify-between w-full lg:flex-row lg:gap-6"
+          <!-- Like/dislike hint toggle + message — only for non-WhatsApp, only when like_dislike selected -->
+          <template
+            v-if="!isAnyWhatsAppChannel && state.displayType === 'like_dislike'"
+          >
+            <SettingsToggleSection
+              v-model="state.likeDislikeHintEnabled"
+              :header="$t('INBOX_MGMT.CSAT.LIKE_DISLIKE_HINT.TOGGLE_LABEL')"
+              :description="
+                $t('INBOX_MGMT.CSAT.LIKE_DISLIKE_HINT.TOGGLE_DESCRIPTION')
+              "
             >
-              <div class="flex flex-col gap-3 basis-3/5">
+              <template v-if="state.likeDislikeHintEnabled" #editor>
+                <Input
+                  v-model="state.likeDislikeHintMessage"
+                  :placeholder="
+                    $t('INBOX_MGMT.CSAT.LIKE_DISLIKE_HINT.PLACEHOLDER')
+                  "
+                  class="w-full"
+                />
+              </template>
+            </SettingsToggleSection>
+          </template>
+
+          <!-- Message enabled toggle -->
+          <SettingsToggleSection
+            v-model="state.csatOnResolveEnabled"
+            :header="$t('INBOX_MGMT.CSAT.CSAT_ON_RESOLVE.TOGGLE_LABEL')"
+            :description="
+              $t('INBOX_MGMT.CSAT.CSAT_ON_RESOLVE.TOGGLE_DESCRIPTION')
+            "
+          />
+          <SettingsToggleSection
+            v-model="state.messageEnabled"
+            :header="$t('INBOX_MGMT.CSAT.MESSAGE.TOGGLE_LABEL')"
+            :description="$t('INBOX_MGMT.CSAT.MESSAGE.TOGGLE_DESCRIPTION')"
+          >
+            <template v-if="state.messageEnabled" #editor>
+              <template v-if="isAnyWhatsAppChannel">
+                <div
+                  class="flex flex-col gap-4 justify-between w-full lg:flex-row lg:gap-6"
+                >
+                  <div class="flex flex-col gap-3 basis-3/5">
+                    <WithLabel
+                      :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
+                      name="message"
+                    >
+                      <Editor
+                        v-model="state.message"
+                        :placeholder="$t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER')"
+                        :max-length="200"
+                        channel-type="Context::Plain"
+                        class="w-full"
+                      />
+                    </WithLabel>
+                    <div v-if="showUtilityAnalyzer" class="flex flex-col gap-2">
+                      <NextButton
+                        sm
+                        slate
+                        :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.ACTION')"
+                        :is-loading="utilityAnalysisLoading"
+                        :disabled="!state.message?.trim()"
+                        @click="analyzeTemplateUtility"
+                      />
+                      <p class="text-xs text-n-slate-11">
+                        {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.HELPER_NOTE') }}
+                      </p>
+                    </div>
+
+                    <div
+                      v-if="utilityAnalysisResult"
+                      class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 outline-n-weak bg-n-alpha-1"
+                    >
+                      <div class="flex gap-2 items-center">
+                        <span class="text-sm font-medium text-n-slate-12">
+                          {{
+                            $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.RESULT_LABEL')
+                          }}
+                        </span>
+                        <span
+                          class="px-2 py-0.5 text-xs font-medium rounded-full"
+                          :class="
+                            getUtilityClassificationClass(
+                              utilityAnalysisResult.classification
+                            )
+                          "
+                        >
+                          {{
+                            getUtilityClassificationLabel(
+                              utilityAnalysisResult.classification
+                            )
+                          }}
+                        </span>
+                      </div>
+                      <p class="text-xs text-n-slate-11">
+                        {{
+                          $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.GUIDANCE_NOTE')
+                        }}
+                      </p>
+                      <div
+                        v-if="
+                          utilityAnalysisResult.optimized_message &&
+                          utilityAnalysisResult.classification !==
+                            'LIKELY_UTILITY'
+                        "
+                        class="flex flex-col gap-2"
+                      >
+                        <p class="text-xs font-medium text-n-slate-12">
+                          {{
+                            $t(
+                              'INBOX_MGMT.CSAT.UTILITY_ANALYZER.SUGGESTION_LABEL'
+                            )
+                          }}
+                        </p>
+                        <p class="text-sm text-n-slate-12">
+                          {{ utilityAnalysisResult.optimized_message }}
+                        </p>
+                        <NextButton
+                          sm
+                          faded
+                          slate
+                          :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.APPLY')"
+                          @click="applyUtilitySuggestion"
+                        />
+                      </div>
+                    </div>
+                    <Input
+                      v-model="state.templateButtonText"
+                      :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')"
+                      :placeholder="
+                        $t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')
+                      "
+                      class="w-full"
+                    />
+
+                    <WithLabel
+                      :label="$t('INBOX_MGMT.CSAT.LANGUAGE.LABEL')"
+                      name="language"
+                    >
+                      <ComboBox
+                        v-model="state.templateLanguage"
+                        :options="languageOptions"
+                        :placeholder="
+                          $t('INBOX_MGMT.CSAT.LANGUAGE.PLACEHOLDER')
+                        "
+                      />
+                    </WithLabel>
+
+                    <div
+                      v-if="shouldShowTemplateStatus"
+                      class="flex gap-2 items-center mt-4"
+                    >
+                      <Icon
+                        :icon="templateApprovalStatus.icon"
+                        :class="templateApprovalStatus.color"
+                        class="size-4"
+                      />
+                      <span
+                        :class="templateApprovalStatus.color"
+                        class="text-sm font-medium"
+                      >
+                        {{ templateApprovalStatus.text }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="flex flex-col flex-shrink-0 justify-start items-center p-6 mt-1 rounded-xl basis-2/5 bg-n-slate-2 outline outline-1 outline-n-weak"
+                  >
+                    <p
+                      class="inline-flex items-center text-sm font-medium text-n-slate-11"
+                    >
+                      {{ $t('INBOX_MGMT.CSAT.MESSAGE_PREVIEW.LABEL') }}
+                      <Icon
+                        v-tooltip.top-end="
+                          $t('INBOX_MGMT.CSAT.MESSAGE_PREVIEW.TOOLTIP')
+                        "
+                        icon="i-lucide-info"
+                        class="flex-shrink-0 mx-1 size-4"
+                      />
+                    </p>
+                    <CSATTemplate
+                      :message="messagePreviewData"
+                      :button-text="state.templateButtonText"
+                      class="pt-12"
+                    />
+                  </div>
+                </div>
+              </template>
+
+              <!-- Non-WhatsApp channels layout -->
+              <template v-else>
                 <WithLabel
                   :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
                   name="message"
@@ -532,148 +734,12 @@ const handleConfirmTemplateUpdate = async () => {
                     v-model="state.message"
                     :placeholder="$t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER')"
                     :max-length="200"
-                    channel-type="Context::Plain"
                     class="w-full"
                   />
                 </WithLabel>
-                <div v-if="showUtilityAnalyzer" class="flex flex-col gap-2">
-                  <NextButton
-                    sm
-                    slate
-                    :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.ACTION')"
-                    :is-loading="utilityAnalysisLoading"
-                    :disabled="!state.message?.trim()"
-                    @click="analyzeTemplateUtility"
-                  />
-                  <p class="text-xs text-n-slate-11">
-                    {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.HELPER_NOTE') }}
-                  </p>
-                </div>
-
-                <div
-                  v-if="utilityAnalysisResult"
-                  class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 outline-n-weak bg-n-alpha-1"
-                >
-                  <div class="flex gap-2 items-center">
-                    <span class="text-sm font-medium text-n-slate-12">
-                      {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.RESULT_LABEL') }}
-                    </span>
-                    <span
-                      class="px-2 py-0.5 text-xs font-medium rounded-full"
-                      :class="
-                        getUtilityClassificationClass(
-                          utilityAnalysisResult.classification
-                        )
-                      "
-                    >
-                      {{
-                        getUtilityClassificationLabel(
-                          utilityAnalysisResult.classification
-                        )
-                      }}
-                    </span>
-                  </div>
-                  <p class="text-xs text-n-slate-11">
-                    {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.GUIDANCE_NOTE') }}
-                  </p>
-                  <div
-                    v-if="
-                      utilityAnalysisResult.optimized_message &&
-                      utilityAnalysisResult.classification !== 'LIKELY_UTILITY'
-                    "
-                    class="flex flex-col gap-2"
-                  >
-                    <p class="text-xs font-medium text-n-slate-12">
-                      {{
-                        $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.SUGGESTION_LABEL')
-                      }}
-                    </p>
-                    <p class="text-sm text-n-slate-12">
-                      {{ utilityAnalysisResult.optimized_message }}
-                    </p>
-                    <NextButton
-                      sm
-                      faded
-                      slate
-                      :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.APPLY')"
-                      @click="applyUtilitySuggestion"
-                    />
-                  </div>
-                </div>
-                <Input
-                  v-model="state.templateButtonText"
-                  :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')"
-                  :placeholder="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')"
-                  class="w-full"
-                />
-
-                <WithLabel
-                  :label="$t('INBOX_MGMT.CSAT.LANGUAGE.LABEL')"
-                  name="language"
-                >
-                  <ComboBox
-                    v-model="state.templateLanguage"
-                    :options="languageOptions"
-                    :placeholder="$t('INBOX_MGMT.CSAT.LANGUAGE.PLACEHOLDER')"
-                  />
-                </WithLabel>
-
-                <div
-                  v-if="shouldShowTemplateStatus"
-                  class="flex gap-2 items-center mt-4"
-                >
-                  <Icon
-                    :icon="templateApprovalStatus.icon"
-                    :class="templateApprovalStatus.color"
-                    class="size-4"
-                  />
-                  <span
-                    :class="templateApprovalStatus.color"
-                    class="text-sm font-medium"
-                  >
-                    {{ templateApprovalStatus.text }}
-                  </span>
-                </div>
-              </div>
-
-              <div
-                class="flex flex-col flex-shrink-0 justify-start items-center p-6 mt-1 rounded-xl basis-2/5 bg-n-slate-2 outline outline-1 outline-n-weak"
-              >
-                <p
-                  class="inline-flex items-center text-sm font-medium text-n-slate-11"
-                >
-                  {{ $t('INBOX_MGMT.CSAT.MESSAGE_PREVIEW.LABEL') }}
-                  <Icon
-                    v-tooltip.top-end="
-                      $t('INBOX_MGMT.CSAT.MESSAGE_PREVIEW.TOOLTIP')
-                    "
-                    icon="i-lucide-info"
-                    class="flex-shrink-0 mx-1 size-4"
-                  />
-                </p>
-                <CSATTemplate
-                  :message="messagePreviewData"
-                  :button-text="state.templateButtonText"
-                  class="pt-12"
-                />
-              </div>
-            </div>
-          </template>
-
-          <!-- Non-WhatsApp channels layout -->
-          <template v-else>
-            <WithLabel
-              :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
-              name="message"
-            >
-              <Editor
-                v-model="state.message"
-                :placeholder="$t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER')"
-                :max-length="200"
-                class="w-full"
-              />
-            </WithLabel>
-          </template>
+              </template>
+            </template>
+          </SettingsToggleSection>
 
           <WithLabel
             :label="$t('INBOX_MGMT.CSAT.SURVEY_RULE.LABEL')"

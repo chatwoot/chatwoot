@@ -8,6 +8,7 @@ import {
   toggleStatus,
   setCustomAttributes,
   deleteCustomAttribute,
+  requestCSATAPI,
 } from 'widget/api/conversation';
 
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
@@ -234,6 +235,14 @@ export const actions = {
     }
     try {
       await deleteCustomAttribute(customAttribute);
+    } catch (error) {
+      // IgnoreError
+    }
+  },
+
+  requestCSAT: async () => {
+    try {
+      await requestCSATAPI();
     } catch (error) {
       // IgnoreError
     }

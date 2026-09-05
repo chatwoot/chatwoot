@@ -8,6 +8,7 @@
     "FEEDBACK": {
       "LABEL": "Do you have any thoughts you'd like to share?",
       "PLACEHOLDER": "Your feedback (optional)",
+      "DISLIKE_PLACEHOLDER": "Tell us what went wrong",
       "BUTTON_TEXT": "Submit feedback"
     },
     "API": {

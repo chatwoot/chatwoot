@@ -1,5 +1,5 @@
 class MessageTemplates::Template::CsatSurvey
-  pattr_initialize [:conversation!]
+  pattr_initialize [:conversation!, :existing_response]
 
   def perform
     ActiveRecord::Base.transaction do
@@ -12,7 +12,7 @@ class MessageTemplates::Template::CsatSurvey
   delegate :contact, :account, :inbox, to: :conversation
 
   def message_content
-    return I18n.t('conversations.templates.csat_input_message_body') if csat_config.blank? || csat_config['message'].blank?
+    return ' ' if csat_config.blank? || csat_config['message'].blank? || csat_config['message_enabled'] == false
 
     csat_config['message']
   end
@@ -33,8 +33,19 @@ class MessageTemplates::Template::CsatSurvey
   end
 
   def content_attributes
-    {
+    attributes = {
       display_type: csat_config['display_type'] || 'emoji'
     }
+    return attributes if existing_response.blank?
+
+    attributes.merge(
+      allow_update: true,
+      submitted_values: {
+        csat_survey_response: {
+          rating: existing_response.rating,
+          feedback_message: existing_response.feedback_message
+        }
+      }
+    )
   end
 end

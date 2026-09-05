@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -8,6 +8,7 @@ import InboxName from '../InboxName.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import CardPriorityIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPriorityIcon.vue';
+import CardRatingIcon from 'dashboard/components-next/Conversation/ConversationCard/CardRatingIcon.vue';
 import UnreadBadge from 'dashboard/components-next/Conversation/ConversationCard/UnreadBadge.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import VoiceCallStatus from './VoiceCallStatus.vue';
@@ -24,6 +25,7 @@ const props = defineProps({
   showInboxName: { type: Boolean, default: false },
   hideThumbnail: { type: Boolean, default: false },
   compact: { type: Boolean, default: false },
+  isOpenFilter: { type: Boolean, default: true },
 });
 
 const emit = defineEmits([
@@ -31,6 +33,7 @@ const emit = defineEmits([
   'contextmenu',
   'selectConversation',
   'deSelectConversation',
+  'hideConversation',
 ]);
 
 const hovered = ref(false);
@@ -38,6 +41,12 @@ const hovered = ref(false);
 const unreadCount = computed(() => props.chat.unread_count);
 const hasUnread = computed(() => unreadCount.value > 0);
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
+
+const isResolved = computed(() => props.chat.status === 'resolved');
+
+const isResolvedInOpenList = computed(
+  () => props.isOpenFilter && isResolved.value
+);
 
 const voiceCallData = computed(() => {
   const last = lastMessageInChat.value;
@@ -71,11 +80,14 @@ const showLabelsSection = computed(() => {
 });
 
 const messagePreviewClass = computed(() => {
-  return [
-    hasUnread.value ? 'font-medium text-n-slate-12' : 'text-n-slate-11',
-    !props.compact && hasUnread.value ? 'ltr:pr-4 rtl:pl-4' : '',
-    props.compact && hasUnread.value ? 'ltr:pr-6 rtl:pl-6' : '',
-  ];
+  return [hasUnread.value ? 'font-medium text-n-slate-12' : 'text-n-slate-11'];
+});
+
+const messageRowClass = computed(() => {
+  if (hasUnread.value) {
+    return props.compact ? 'ltr:pr-6 rtl:pl-6' : 'ltr:pr-4 rtl:pl-4';
+  }
+  return '';
 });
 
 const onThumbnailHover = () => {
@@ -92,6 +104,11 @@ const onSelectConversation = checked => {
   } else {
     emit('deSelectConversation', props.chat.id, props.inbox.id);
   }
+};
+
+const onHideConversation = event => {
+  event.stopPropagation();
+  emit('hideConversation', props.chat.id);
 };
 
 const selectedModel = computed({
@@ -116,6 +133,7 @@ watch(
       'selected bg-n-slate-2 !border-n-surface-1': selected,
       'px-0': compact,
       'px-3': !compact,
+      'opacity-75': isResolvedInOpenList,
     }"
     @click="$emit('click', $event)"
     @contextmenu="$emit('contextmenu', $event)"
@@ -136,7 +154,7 @@ watch(
       >
         <template #overlay="{ size }">
           <label
-            v-if="hovered || selected"
+            v-if="(hovered || selected) && !isResolvedInOpenList"
             class="flex items-center justify-center rounded-full cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px]"
             :style="{ width: `${size}px`, height: `${size}px` }"
             @click.stop
@@ -185,6 +203,12 @@ watch(
         :class="hasUnread ? 'font-semibold' : 'font-medium'"
       >
         {{ currentContact.name }}
+        <span
+          v-if="isResolvedInOpenList"
+          class="ml-1.5 text-[10px] font-medium normal-case text-n-slate-9 bg-n-slate-2 border border-n-slate-4 rounded px-1.5 py-px align-middle"
+        >
+          {{ $t('CHAT_LIST.CLOSED_LABEL') }}
+        </span>
       </h4>
       <VoiceCallStatus
         v-if="voiceCallData.status"
@@ -193,13 +217,19 @@ watch(
         :direction="voiceCallData.direction"
         :message-preview-class="messagePreviewClass"
       />
-      <MessagePreview
+      <div
         v-else-if="lastMessageInChat"
         key="message-preview"
-        :message="lastMessageInChat"
-        class="my-0 mx-2 leading-6 h-6 flex-1 min-w-0 text-sm"
-        :class="messagePreviewClass"
-      />
+        class="flex items-center gap-1 my-0 mx-2 h-6 min-w-0"
+        :class="messageRowClass"
+      >
+        <MessagePreview
+          :message="lastMessageInChat"
+          class="leading-6 flex-1 min-w-0 text-sm truncate"
+          :class="messagePreviewClass"
+        />
+        <CardRatingIcon :csat-response="chat.csat_response" show-label />
+      </div>
       <p
         v-else
         key="no-messages"
@@ -216,18 +246,25 @@ watch(
         </span>
       </p>
       <div
-        class="absolute flex flex-col ltr:right-3 rtl:left-3"
+        class="absolute flex flex-col items-end ltr:right-3 rtl:left-3"
         :class="showMetaSection ? 'top-8' : 'top-4'"
       >
-        <span class="ml-auto font-normal leading-4 text-xxs">
-          <TimeAgo
-            :last-activity-timestamp="chat.timestamp"
-            :created-at-timestamp="chat.created_at"
-            :conversation-id="chat.id"
-          />
-        </span>
+        <TimeAgo
+          :last-activity-timestamp="chat.last_non_activity_message?.created_at"
+          :created-at-timestamp="chat.created_at"
+          :conversation-id="chat.id"
+        />
+        <button
+          v-if="isResolvedInOpenList"
+          class="mt-1 flex items-center justify-center w-6 h-6 rounded-full bg-red-600 hover:bg-red-700 text-white text-xs transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+          :title="$t('CHAT_LIST.HIDE_CHAT')"
+          :aria-label="$t('CHAT_LIST.HIDE_CHAT')"
+          @click.stop="onHideConversation"
+        >
+          {{ $t('CHAT_LIST.DISMISS_ICON') }}
+        </button>
         <UnreadBadge
-          v-if="hasUnread"
+          v-else-if="hasUnread"
           :count="unreadCount"
           class="ltr:ml-auto rtl:mr-auto mt-1"
         />

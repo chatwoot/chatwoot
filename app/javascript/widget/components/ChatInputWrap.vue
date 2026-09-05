@@ -5,6 +5,7 @@ import { mapGetters } from 'vuex';
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import { useAttachments } from '../composables/useAttachments';
+import { useCsatRequest } from '../composables/useCsatRequest';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
@@ -30,6 +31,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    onRequestCsat: {
+      type: Function,
+      default: () => {},
+    },
   },
   setup() {
     const {
@@ -37,10 +42,12 @@ export default {
       shouldShowEmojiPicker,
       hasEmojiPickerEnabled,
     } = useAttachments();
+    const { canRequestCsat } = useCsatRequest();
     return {
       canHandleAttachments,
       shouldShowEmojiPicker,
       hasEmojiPickerEnabled,
+      canRequestCsat,
     };
   },
   data() {
@@ -160,6 +167,15 @@ export default {
         class="text-n-slate-12"
         :on-attach="onSendAttachment"
       />
+      <button
+        v-if="showAttachment && canRequestCsat"
+        class="flex items-center justify-center shrink-0 min-h-8 min-w-8 rounded-md text-n-slate-11 hover:text-n-slate-12 hover:bg-n-slate-2 dark:hover:bg-n-solid-3 transition-colors"
+        :aria-label="$t('CSAT.RATE_CHAT_BUTTON')"
+        :title="$t('CSAT.RATE_CHAT_BUTTON')"
+        @click="onRequestCsat"
+      >
+        <FluentIcon icon="thumb-up" icon-lib="lucide" class="text-n-slate-12" />
+      </button>
       <button
         v-if="shouldShowEmojiPicker && hasEmojiPickerEnabled"
         class="flex items-center justify-center min-h-8 min-w-8"

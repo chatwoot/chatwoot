@@ -1,14 +1,28 @@
 class CsatSurveyResponsePolicy < ApplicationPolicy
   def index?
-    @account_user.administrator?
+    report_access?
   end
 
   def metrics?
-    @account_user.administrator?
+    report_access?
   end
 
   def download?
-    @account_user.administrator?
+    return false if restricted_agent?
+
+    report_access?
+  end
+
+  private
+
+  def report_access?
+    return true if @account_user.administrator?
+
+    @account_user.agent? && @account_user.custom_role_id.blank?
+  end
+
+  def restricted_agent?
+    @account_user.agent? && @account_user.custom_role_id.blank?
   end
 end
 
