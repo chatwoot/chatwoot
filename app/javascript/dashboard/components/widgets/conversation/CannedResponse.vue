@@ -41,6 +41,7 @@ const { getPlainText, formatMessage, highlightContent } = useMessageFormatter();
 
 const cannedResponses = useMapGetter('getCannedResponses');
 const uiFlags = useMapGetter('getUIFlags');
+const currentChat = useMapGetter('getSelectedChat');
 // The trigger can already be followed by text, from a draft or a caret moved back onto it
 const searchQuery = ref(props.searchKey);
 
@@ -107,7 +108,11 @@ const items = computed(() =>
 
 const onSelect = item => emit('replace', item.content);
 
-onMounted(() => store.dispatch('getCannedResponse'));
+onMounted(() =>
+  store.dispatch('getCannedResponse', {
+    inboxId: currentChat.value?.inbox_id,
+  })
+);
 </script>
 
 <template>

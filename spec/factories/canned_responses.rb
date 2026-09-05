@@ -2,8 +2,17 @@
 
 FactoryBot.define do
   factory :canned_response do
-    content { 'Content' }
-    sequence(:short_code) { |n| "CODE#{n}" }
     account
+    sequence(:short_code) { |n| "short_code_#{n}" }
+    content { 'This is a canned response' }
+    visibility { :public_response }
+
+    trait :private do
+      visibility { :private_response }
+    end
+
+    trait :with_creator do
+      created_by { association :user }
+    end
   end
 end
