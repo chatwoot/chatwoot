@@ -164,6 +164,11 @@
         "TYPE_TITLE": "Тип уведомления",
         "EMAIL": "Email",
         "PUSH": "Push-уведомления",
+        "DISPLAY_DURATION": "Время отображения уведомления",
+        "DISPLAY_DURATION_NOTE": "Время в секундах, в течение которого уведомление будет отображаться в панели управления",
+        "DISPLAY_DURATION_UNIT": "с",
+        "DEFAULT_TITLE": "Новое уведомление",
+        "DEFAULT_SENDER": "Контакт",
         "TYPES": {
           "CONVERSATION_CREATED": "Новый диалог создан",
           "CONVERSATION_ASSIGNED": "Вам назначен диалог",
@@ -217,6 +222,14 @@
         "SET_AVAILABILITY_SUCCESS": "Доступность успешно установлена",
         "SET_AVAILABILITY_ERROR": "Не удалось установить доступность, попробуйте снова",
         "IMPERSONATING_ERROR": "Невозможно изменить доступность выдавая себя за пользователя"
+      },
+      "INBOX":{
+        "LABEL": "Инбоксы",
+        "PLACEHOLDER": "Выберите инбоксы"
+      },
+      "TEAM":{
+        "LABEL": "Команды",
+        "PLACEHOLDER": "Выберите команды"
       },
       "EMAIL": {
         "LABEL": "Ваш адрес электронной почты",
@@ -337,6 +350,7 @@
     "CAPTAIN_SETTINGS": "Настройки",
     "HOME": "Главная",
     "AGENTS": "Операторы",
+    "AGENT_ACTIVITY": "Активность операторов",
     "AGENT_BOTS": "Боты",
     "AUDIT_LOGS": "Журнал аудита",
     "INBOXES": "Источники",
@@ -375,6 +389,7 @@
     "REPORTS_LABEL": "Категории",
     "REPORTS_INBOX": "Электронная почта",
     "REPORTS_TEAM": "Команда",
+    "REPORTS_AGENT_OVERVIEW": "Обзор операторов",
     "AGENT_ASSIGNMENT": "Назначение агента",
     "SET_AVAILABILITY_TITLE": "Установить себя",
     "SET_YOUR_AVAILABILITY": "Настройте ваши рабочие часы",
@@ -382,6 +397,8 @@
     "CUSTOM_ROLES": "Пользовательские роли",
     "BETA": "Бета",
     "REPORTS_OVERVIEW": "Обзор",
+    "REPORTS_ALL_METRICS": "Все метрики",
+    "REPORTS_QUEUED_CUSTOMERS": "Статистика очереди",
     "REAUTHORIZE": "Срок действия вашего источника истек, пожалуйста, переподключите\n чтобы снова получать и отправлять сообщения",
     "HELP_CENTER": {
       "TITLE": "Центр поддержки",

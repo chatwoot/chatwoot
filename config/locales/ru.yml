@@ -33,6 +33,10 @@ ru:
     login_saml_user: Эта учетная запись использует SAML аутентификацию. Пожалуйста, войдите через SAML провайдера вашей организации.
     saml_not_available: SAML аутентификация не доступна в этой установке.
     inbox_deletetion_response: Ваш запрос на удаление входящих сообщений будет обработан через некоторое время.
+  queue:
+    notifications:
+      queue_message: 'Все операторы сейчас заняты. Мы подключим вас к свободному оператору, как только он освободится.'
+      assigned_message: 'Оператор подключился к диалогу.'
   data_imports:
     intercom:
       activities:
@@ -108,6 +112,7 @@ ru:
         success: Мы сообщим вам, как только файл для экспорта контактов будет готов к просмотру.
       email:
         invalid: Неверный email
+        already_exists_in_inbox: 'Контакт с таким Email уже существует в инбоксе'
       phone_number:
         invalid: должен иметь формат e164
     companies:
@@ -206,6 +211,38 @@ ru:
   reports:
     period: Отчётный период с %{since} по %{until}
     utc_warning: Отчёт создан в часовом поясе UTC
+    agent_activity_csv:
+      agent_name: Имя оператора
+      email: Email
+      total_active_hours: Всего активных часов
+      online_hours: Онлайн (часы)
+      busy_hours: Занят (часы)
+      offline_hours: Оффлайн (часы)
+      current_status: Текущий статус
+    conversation_details_csv:
+      conversation_id: 'ID чата'
+      created_at: 'Дата и время начала'
+      inbox_name: 'Источник'
+      team_name: 'Группа'
+      contact_email: 'Почта клиента'
+      agent_nick: 'Ник оператора %{index}'
+      duration: 'Длительность диалога'
+      chat_resolution: 'Общее время до решения'
+      first_response_time: 'Время первого ответа'
+      avg_response_time: 'Среднее время ответа'
+      csat_score: 'Оценка чата (CSAT)'
+      csat_feedback: 'Комментарий к оценке'
+      queue_entered_at: 'Чат попал в очередь'
+      queue_accepted_at: 'Чат принят оператором'
+      queue_left_at: 'Чат покинул очередь без ответа'
+      queue_exit_reason: 'Причина выхода из очереди'
+      label: 'Категория %{index}'
+      contact_name: 'Имя клиента'
+      chat_custom: 'Кастом инфо о чате: %{attr}'
+      contact_custom: 'Кастом инфо о контакте: %{attr}'
+      contact_additional: 'Дополнительная инфо: %{attr}'
+      agent_chat_duration: 'Общее время длительности чата агентов'
+      agent_chat_duration_individual: 'Длительность диалога оператора %{index}'
     agent_csv:
       agent_name: Имя оператора
       conversations_count: Назначенные диалоги
@@ -213,12 +250,15 @@ ru:
       avg_resolution_time: Среднее время завершения
       resolution_count: Количество завершенных
       avg_customer_waiting_time: Среднее время ожидания клиента
+      agent_chat_duration: Среднее время длительности чатов
+      csat_score: Оценка CSAT
     inbox_csv:
       inbox_name: Имя источника
       inbox_type: Тип входящего сообщения
       conversations_count: Количество диалогов
       avg_first_response_time: Среднее время первого ответа
       avg_resolution_time: Среднее время завершения
+      csat_score: Оценка CSAT
     label_csv:
       label_title: Метка
       conversations_count: Количество диалогов
@@ -226,6 +266,39 @@ ru:
       avg_resolution_time: Среднее время завершения
       avg_reply_time: Среднее время ответа
       resolution_count: Количество завершенных
+      csat_score: Оценка CSAT
+    overview:
+      open_conversations: Открытые диалоги
+      agent_status: Статус агентов
+      conversation_traffic: Трафик диалогов
+      resolutions: Резолюции
+      by_agents: Диалоги по агентам
+      by_teams: Диалоги по командам
+    overview_csv:
+      period: Период отчёта
+      open: Открытые
+      unattended: Без ответа
+      unassigned: Не назначены
+      pending: В ожидании
+      resolved: Решенных
+      status: Статус
+      count: Количество
+      data: Дата
+      no_data: Нет данных
+      hour: Час
+      agent: Агент
+      team: Команда
+      resolutions_count: Количество резолюций
+      avg_resolution_time: Среднее время резолюции
+    metrics:
+      resolutions_count: Количество резолюций
+      avg_resolution_time: Среднее время резолюции
+    bot_csv:
+      bot_name: Бот
+      conversations_count: Количество диалогов
+      avg_first_response_time: Среднее время первого ответа
+      avg_reply_time: Среднее время ожидания клиента
+      avg_resolution_time: Среднее время завершения
     team_csv:
       team_name: Название команды
       conversations_count: Количество бесед
@@ -233,6 +306,7 @@ ru:
       avg_resolution_time: Среднее время завершения
       resolution_count: Количество завершенных
       avg_customer_waiting_time: Среднее время ожидания клиента
+      csat_score: Оценка CSAT
     conversation_csv:
       conversations_count: Диалоги
       incoming_messages_count: Входящие сообщения
@@ -243,6 +317,14 @@ ru:
       avg_customer_waiting_time: Среднее время ожидания клиента
     conversation_traffic_csv:
       timezone: Часовой пояс
+    conversation_csv:
+      conversations_count: Количество чатов
+      incoming_messages_count: Сообщений получено
+      outgoing_messages_count: Сообщений отправлено
+      avg_first_response_time: Среднее время ответа
+      avg_resolution_time: Среднее время решения
+      resolution_count: Количество решенных
+      avg_customer_waiting_time: Среднее время ожидания клиента
     sla_csv:
       conversation_id: ID диалога
       sla_policy_breached: Политика SLA
@@ -262,6 +344,7 @@ ru:
         agent_name: Имя оператора
         rating: Оценка
         feedback: Комментарий к отзыву
+        chat_created_at: Дата создания чата
         recorded_at: Дата записи
         review_notes: Просмотреть заметки
   notifications:
@@ -276,6 +359,7 @@ ru:
     attachment: 'Вложение'
     no_content: 'Нет содержимого'
   conversations:
+    closed_message: 'Диалог завершён. Для нового обращения начните новый чат.'
     captain:
       handoff: 'Передача другому агенту для дальнейшей помощи.'
     messages:
@@ -310,6 +394,8 @@ ru:
         open: '%{user_name} открыл заново диалог'
         pending: 'Разговор был помечен как ожидающий %{user_name}'
         snoozed: 'Разговор был помечен как отложенный %{user_name}'
+        queued: 'Разговор был переведен в очередь'
+        proxied: 'Разговор был помечен как проксированный'
         auto_resolved_days: 'Разговор был помечен системой решённым из-за неактивности в течение %{count} дней'
         auto_resolved_hours: 'Диалог был решен системой из-за %{count} часов бездействия'
         auto_resolved_minutes: 'Диалог был решён системой из-за %{count} минут бездействия'
@@ -343,7 +429,7 @@ ru:
         not_sent_due_to_messaging_window: 'Опрос CSAT не отправлен из-за ограничений исходящих сообщений'
       auto_resolve:
         not_sent_due_to_messaging_window: 'Сообщение автозавершения не отправлено из-за ограничений исходящих сообщений'
-      muted: '%{user_name} заглушил(а) этот разговор'
+      muted: '%{user_name} заглушил(а) этот разговор до %{blocked_until}'
       unmuted: '%{user_name} включил(а) уведомления для разговора'
       auto_resolution_message: 'Разговор закрывается, поскольку он был неактивен в течение длительного времени. Пожалуйста, начните новый разговор, если потребуется дополнительная помощь.'
     templates:
@@ -351,6 +437,7 @@ ru:
       ways_to_reach_you_message_body: 'Оставьте ваш email для связи'
       email_input_box_message_body: 'Получать уведомления по email'
       csat_input_message_body: 'Пожалуйста, оцените разговор'
+      csat_like_dislike_hint: 'Вы можете оценить этот разговор в любое время. Нажмите кнопку "Оценить разговор" рядом с иконкой вложения.'
     reply:
       email:
         header:
@@ -383,7 +470,7 @@ ru:
     slack:
       name: 'Slack'
       short_description: 'Получать уведомления и отвечать на разговоры прямо в Slack.'
-      description: "Интегрируйте Chatwoot с Slack для синхронизации команды. Эта интеграция позволяет получать уведомления о новых разговорах и отвечать на них непосредственно в интерфейсе Slack."
+      description: 'Интегрируйте Chatwoot с Slack для синхронизации команды. Эта интеграция позволяет получать уведомления о новых разговорах и отвечать на них непосредственно в интерфейсе Slack.'
     webhooks:
       name: 'Webhooks'
       description: 'События Webhook предоставляют обновления об активности в вашем аккаунте Chatwoot в режиме реального времени. Вы можете подписаться на ваши предпочтительные события, и Chatwoot будет отправлять вам HTTP-ответы с обновлениями.'
@@ -394,7 +481,7 @@ ru:
     google_translate:
       name: 'Google Перевод'
       short_description: 'Автоматически переводить сообщения клиентов для агентов.'
-      description: "Интегрируйте Google Translate, чтобы помочь агентам легко переводить сообщения клиентов. Эта интеграция автоматически определяет язык и преобразует его в язык, предпочтительный для агента или администратора."
+      description: 'Интегрируйте Google Translate, чтобы помочь агентам легко переводить сообщения клиентов. Эта интеграция автоматически определяет язык и преобразует его в язык, предпочтительный для агента или администратора.'
     openai:
       name: 'OpenAI'
       short_description: 'Предложение ответов, краткое изложение и повышение эффективности сообщений с помощью ИИ.'
