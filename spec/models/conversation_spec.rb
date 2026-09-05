@@ -1309,8 +1309,8 @@ RSpec.describe Conversation do
     end
 
     it 'never returns open conversations' do
+      expect(account.conversations.resolvable_pending(1)).to contain_exactly(stale_pending, recent_pending)
       expect(account.conversations.resolvable_pending(1)).not_to include(stale_open)
-      expect(account.conversations.resolvable_pending(1)).not_to include(recent_pending)
     end
   end
 end
