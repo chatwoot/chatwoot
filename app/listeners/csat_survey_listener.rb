@@ -3,6 +3,7 @@ class CsatSurveyListener < BaseListener
     conversation = extract_conversation_and_account(event)[0]
 
     return unless conversation.resolved?
+    return if csat_on_resolve_disabled?(conversation)
 
     CsatSurveyService.new(conversation: conversation).perform
   end
@@ -12,5 +13,11 @@ class CsatSurveyListener < BaseListener
     return unless message.input_csat?
 
     CsatSurveys::ResponseBuilder.new(message: message).perform
+  end
+
+  private
+
+  def csat_on_resolve_disabled?(conversation)
+    conversation.inbox.csat_config&.fetch('csat_on_resolve_enabled', true) == false
   end
 end

@@ -7,6 +7,7 @@
     I18n.t('reports.csat.headers.contact_email_address'),
     I18n.t('reports.csat.headers.contact_phone_number'),
     I18n.t('reports.csat.headers.link_to_the_conversation'),
+    I18n.t('reports.csat.headers.chat_created_at'),
     I18n.t('reports.csat.headers.recorded_at')
   ]
   headers << I18n.t('reports.csat.headers.review_notes') if ChatwootApp.enterprise?
@@ -19,12 +20,13 @@
 <%
   row = [
     assigned_agent ? "#{assigned_agent.name} (#{assigned_agent.email})" : nil,
-    csat_response.rating,
+    csat_response.report_rating,
     csat_response.feedback_message.presence,
     contact&.name.presence,
     contact&.email.presence,
     contact&.phone_number.presence,
     conversation ? app_account_conversation_url(account_id: Current.account.id, id: conversation.display_id) : nil,
+    conversation&.created_at,
     csat_response.created_at
   ]
   row << csat_response.csat_review_notes if ChatwootApp.enterprise?

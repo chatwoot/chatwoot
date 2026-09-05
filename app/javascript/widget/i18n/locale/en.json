@@ -114,7 +114,10 @@
   "CSAT": {
     "TITLE": "Rate your conversation",
     "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "PLACEHOLDER": "Tell us more...",
+    "DISLIKE_PLACEHOLDER": "Tell us what went wrong",
+    "CHANGE_RATING_HINT": "You can change your rating.",
+    "RATE_CHAT_BUTTON": "Rate chat"
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Request a conversation transcript",

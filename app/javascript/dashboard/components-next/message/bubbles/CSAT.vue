@@ -25,6 +25,10 @@ const isStarRating = computed(() => {
   return displayType.value === CSAT_DISPLAY_TYPES.STAR;
 });
 
+const isLikeDislikeRating = computed(() => {
+  return displayType.value === CSAT_DISPLAY_TYPES.LIKE_DISLIKE;
+});
+
 const rating = computed(() => {
   if (isRatingSubmitted.value) {
     return CSAT_RATINGS.find(
@@ -49,7 +53,13 @@ const starRatingValue = computed(() => {
         {{ t('CONVERSATION.RATING_TITLE') }}
       </dt>
       <dd v-if="!isStarRating">
-        {{ t(rating.translationKey) }}
+        {{
+          isLikeDislikeRating
+            ? response.rating === 5
+              ? 'good'
+              : 'bad'
+            : t(rating.translationKey)
+        }}
       </dd>
       <dd v-else class="flex mt-1">
         <span v-for="n in 5" :key="n" class="text-2xl mr-1">

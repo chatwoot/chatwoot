@@ -2,6 +2,7 @@
 import { CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
 import CSATEmojiInput from './CSATEmojiInput.vue';
 import CSATStarInput from './CSATStarInput.vue';
+import CSATLikeDislikeInput from './CSATLikeDislikeInput.vue';
 
 const props = defineProps({
   selectedType: {
@@ -20,6 +21,10 @@ const emit = defineEmits(['update']);
     />
     <CSATStarInput
       :selected="props.selectedType === CSAT_DISPLAY_TYPES.STAR"
+      @update="emit('update', $event)"
+    />
+    <CSATLikeDislikeInput
+      :selected="props.selectedType === CSAT_DISPLAY_TYPES.LIKE_DISLIKE"
       @update="emit('update', $event)"
     />
   </div>
