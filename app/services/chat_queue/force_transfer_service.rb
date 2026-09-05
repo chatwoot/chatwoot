@@ -44,6 +44,7 @@ class ChatQueue::ForceTransferService
     least_loaded.min_by { |h| h[:last_assigned_at] || Time.zone.at(0) }[:agent]
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity -- online + access + limit filter
   def fetch_available_agents
     online_users = OnlineStatusTracker.get_available_users(conversation.account.id) || {}
     online_agent_ids = online_users
@@ -59,6 +60,7 @@ class ChatQueue::ForceTransferService
 
     allowed_agents.reject { |agent| agent.id == conversation.assignee_id }
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def agent_has_access?(agent)
     inbox_ids = InboxMember.where(user_id: agent.id).pluck(:inbox_id)

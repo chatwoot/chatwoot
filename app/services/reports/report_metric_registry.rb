@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ModuleLength -- cat-fork: two extra metrics push the registry over the limit
 module Reports::ReportMetricRegistry
   # Describes one public report metric.
   # name: API-facing metric name requested by reports.
@@ -132,3 +133,4 @@ module Reports::ReportMetricRegistry
     SUMMARY_METRIC_NAMES.map { |metric_name| METRICS.fetch(metric_name) }
   end
 end
+# rubocop:enable Metrics/ModuleLength

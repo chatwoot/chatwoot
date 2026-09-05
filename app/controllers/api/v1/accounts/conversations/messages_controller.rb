@@ -64,8 +64,10 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   private
 
   def check_not_proxied
+    return unless @conversation.proxied?
+
     render json: { error: 'Cannot send messages to a proxied conversation' },
-           status: :unprocessable_entity if @conversation.proxied?
+           status: :unprocessable_entity
   end
 
   def message

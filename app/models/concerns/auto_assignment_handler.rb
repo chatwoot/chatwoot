@@ -22,6 +22,7 @@ module AutoAssignmentHandler
     AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: legacy_allowed_agent_ids).assign_under_lock
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity -- queue vs. V1/V2 assignment branches
   def run_auto_assignment
     return if skip_due_to_queue_status_change?
 
@@ -49,6 +50,7 @@ module AutoAssignmentHandler
       AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: legacy_allowed_agent_ids).perform
     end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   def skip_due_to_queue_status_change?
     saved_change_to_status? && status == 'open' && status_before_last_save == 'queued'

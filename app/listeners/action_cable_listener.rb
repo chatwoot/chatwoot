@@ -189,7 +189,7 @@ class ActionCableListener < BaseListener
     user = event.data[:user]
     account = Account.find_by(id: event.data[:account_id])
     return if user.blank? || account.blank?
-  
+
     broadcast(account, [user.pubsub_token], AGENT_UPDATED, { id: user.id })
   end
 

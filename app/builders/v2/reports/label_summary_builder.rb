@@ -18,7 +18,7 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
   def exclude_proxy_chats?
     false
   end
-  
+
   def collect_metrics
     {
       conversation_counts: fetch_conversation_counts,

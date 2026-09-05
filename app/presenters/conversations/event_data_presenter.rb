@@ -17,9 +17,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       first_reply_created_at: first_reply_created_at,
       priority: priority,
       waiting_since: waiting_since.to_i,
-      resolved_by_contact: resolved_by_contact,
-      csat_response: push_csat_response,
-      **push_timestamps
+      **push_fork_fields
     }
   end
 
@@ -49,6 +47,11 @@ class Conversations::EventDataPresenter < SimpleDelegator
       team: team&.push_event_data,
       hmac_verified: contact_inbox&.hmac_verified
     }
+  end
+
+  # cat-fork additions kept together so upstream's push_data stays diff-friendly
+  def push_fork_fields
+    { resolved_by_contact: resolved_by_contact, csat_response: push_csat_response, **push_timestamps }
   end
 
   def push_csat_response

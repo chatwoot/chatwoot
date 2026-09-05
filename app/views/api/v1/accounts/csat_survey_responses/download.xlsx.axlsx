@@ -13,7 +13,7 @@ wb.add_worksheet(name: 'CSAT Report') do |sheet|
     I18n.t('reports.csat.headers.contact_email_address'),
     I18n.t('reports.csat.headers.contact_phone_number'),
     I18n.t('reports.csat.headers.link_to_the_conversation'),
-      I18n.t('reports.csat.headers.chat_created_at'),
+    I18n.t('reports.csat.headers.chat_created_at'),
     I18n.t('reports.csat.headers.recorded_at')
   ]
   headers << I18n.t('reports.csat.headers.review_notes') if ChatwootApp.enterprise?

@@ -69,25 +69,28 @@ class Widget::ConversationProxyService
     end
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity -- follows proxied links until a live conversation
   def linked_conversation
     linked_id = @widget_conversation.additional_attributes&.dig('linked_conversation_id')
     return if linked_id.blank?
-  
+
     visited = Set.new([@widget_conversation.id])
     current = Conversation.find_by(id: linked_id)
-  
+
     while current.present? && current.proxied?
       return nil if visited.include?(current.id)
+
       visited << current.id
-  
+
       next_id = current.additional_attributes&.dig('linked_conversation_id')
       break if next_id.blank?
-  
+
       current = Conversation.find_by(id: next_id)
     end
-  
+
     return nil if current.blank? || current.resolved?
-  
+
     current
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end

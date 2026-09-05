@@ -18,6 +18,7 @@ class V2::Reports::BotSummaryReportBuilder < V2::Reports::BaseSummaryBuilder
     load_reporting_events_data
   end
 
+  # rubocop:disable Metrics/AbcSize -- inbox->bot mapping
   def fetch_conversations_count
     inbox_ids = AgentBotInbox
                 .where(account_id: account.id, status: :active)
@@ -42,6 +43,7 @@ class V2::Reports::BotSummaryReportBuilder < V2::Reports::BaseSummaryBuilder
              result[bot_id] += count
            end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def fetch_bot_handoffs_count
     account.reporting_events

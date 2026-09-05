@@ -7,6 +7,7 @@ module ProxyConversationHandler
 
   private
 
+  # rubocop:disable Metrics/CyclomaticComplexity -- guard chain
   def close_linked_conversation_if_resolved
     return unless saved_change_to_status?
     return unless resolved?
@@ -22,4 +23,5 @@ module ProxyConversationHandler
   rescue StandardError => e
     Rails.logger.error("ProxyConversationHandler: failed to close linked conversation #{linked_id}: #{e.message}")
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 end

@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ModuleLength -- cat-fork: proxy-chat controller mixin, kept in one file on purpose
 module Api::V1::Accounts::ConversationsControllerProxy
   def change_inbox
     widget_conversation = find_and_authorize_conversation
@@ -56,25 +57,25 @@ module Api::V1::Accounts::ConversationsControllerProxy
 
   def link_conversations(widget_conversation, operator_conversation)
     tg_conversation = find_telegram_conversation_for(widget_conversation.contact)
-  
+
     root_widget = find_root_widget(widget_conversation)
-  
+
     widget_attrs = merged_attributes(root_widget, operator_conversation.id)
     widget_attrs['source_telegram_conversation_id'] = tg_conversation.id if tg_conversation
-  
+
     root_widget.update!(additional_attributes: widget_attrs)
-    
-    if root_widget.id != widget_conversation.id
-      widget_conversation.update!(
-        additional_attributes: merged_attributes(widget_conversation, operator_conversation.id)
-      )
-    end
+
+    return unless root_widget.id != widget_conversation.id
+
+    widget_conversation.update!(
+      additional_attributes: merged_attributes(widget_conversation, operator_conversation.id)
+    )
   end
-  
+
   def find_root_widget(conversation)
     widget_id = conversation.additional_attributes&.dig('source_widget_id')
     return conversation if widget_id.blank?
-  
+
     Conversation.find_by(id: widget_id) || conversation
   end
 
@@ -92,6 +93,7 @@ module Api::V1::Accounts::ConversationsControllerProxy
     (conversation.additional_attributes || {}).merge('linked_conversation_id' => linked_id)
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/BlockLength -- sequential mirror of a message thread incl. attachments
   def copy_message_history(source_conversation, target_conversation)
     Thread.current[:copying_message_history] = true
 
@@ -141,6 +143,7 @@ module Api::V1::Accounts::ConversationsControllerProxy
   ensure
     Thread.current[:copying_message_history] = nil
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/BlockLength
 
   def build_response(inbox, _operator_conversation)
     {
@@ -151,28 +154,27 @@ module Api::V1::Accounts::ConversationsControllerProxy
   end
 
   def find_or_create_contact_inbox(contact, inbox)
-    existing = ContactInbox.find_by(contact: contact, inbox: inbox)
-    return existing if existing
-
-    begin
-      ci = ContactInboxBuilder.new(contact: contact, inbox: inbox, source_id: SecureRandom.uuid).perform
-      return ci if ci
-    rescue StandardError => e
-      Rails.logger.warn("ContactInboxBuilder failed (#{e.message}), falling back")
-    end
-
-    existing = ContactInbox.find_by(contact: contact, inbox: inbox)
-    return existing if existing
-
-    ci = ContactInbox.new(
-      contact: contact,
-      inbox: inbox,
-      source_id: SecureRandom.uuid
-    )
-    ci.save!(validate: false)
-    ci
+    ContactInbox.find_by(contact: contact, inbox: inbox) ||
+      build_contact_inbox(contact, inbox) ||
+      ContactInbox.find_by(contact: contact, inbox: inbox) ||
+      force_create_contact_inbox(contact, inbox)
   rescue StandardError => e
     Rails.logger.error("find_or_create_contact_inbox: completely failed: #{e.message}")
     ContactInbox.find_by(contact: contact, inbox: inbox)
   end
+
+  def build_contact_inbox(contact, inbox)
+    ContactInboxBuilder.new(contact: contact, inbox: inbox, source_id: SecureRandom.uuid).perform
+  rescue StandardError => e
+    Rails.logger.warn("ContactInboxBuilder failed (#{e.message}), falling back")
+    nil
+  end
+
+  # last resort: the builder refused (e.g. per-inbox email uniqueness); link the contact anyway
+  def force_create_contact_inbox(contact, inbox)
+    ci = ContactInbox.new(contact: contact, inbox: inbox, source_id: SecureRandom.uuid)
+    ci.save!(validate: false)
+    ci
+  end
 end
+# rubocop:enable Metrics/ModuleLength

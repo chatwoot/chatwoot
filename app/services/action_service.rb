@@ -110,7 +110,7 @@ class ActionService
   rescue ArgumentError, TypeError
     nil
   end
-  
+
   def last_responding_agent_id
     @conversation.messages.outgoing.where(sender_type: 'User', private: false).last&.sender_id
   end

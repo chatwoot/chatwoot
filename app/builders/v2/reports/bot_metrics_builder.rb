@@ -63,12 +63,6 @@ class V2::Reports::BotMetricsBuilder
            .count
   end
 
-  def bot_handoffs_count
-    account.reporting_events.joins(:conversation).select(:conversation_id)
-           .where(account_id: account.id, name: :conversation_bot_handoff, created_at: range)
-           .distinct.count
-  end
-
   def bot_handoff_conversation_ids_subquery
     account.reporting_events
            .where(name: :conversation_bot_handoff, created_at: range)

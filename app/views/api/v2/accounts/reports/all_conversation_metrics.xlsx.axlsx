@@ -55,11 +55,7 @@ xlsx_package.workbook.add_worksheet(name: t('reports.period', since: '', until: 
   sheet.add_row headers
 
   @report_data.each do |row|
-    agents_and_durations = []
-    max_agents.times do |i|
-      agents_and_durations << row[:agents]&.[](i)
-      agents_and_durations << tf(row[:agent_chat_durations]&.[](i))
-    end
+    agents_and_durations = max_agents.times.flat_map { |i| [row[:agents]&.[](i), tf(row[:agent_chat_durations]&.[](i))] }
 
     sheet.add_row [
       row[:conversation_id],
