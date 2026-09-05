@@ -10,6 +10,7 @@ import {
 } from 'dashboard/helper/automationHelper';
 import {
   MESSAGE_CONDITION_VALUES,
+  MUTE_DURATION_VALUES,
   PRIORITY_CONDITION_VALUES,
 } from 'dashboard/constants/automation';
 
@@ -65,6 +66,13 @@ export default function useAutomationValues() {
     MESSAGE_CONDITION_VALUES.map(item => ({
       id: item.id,
       name: t(`AUTOMATION.MESSAGE_TYPES.${item.i18nKey}`),
+    }))
+  );
+
+  const muteDurationOptions = computed(() =>
+    MUTE_DURATION_VALUES.map(item => ({
+      id: item.id,
+      name: t(`AUTOMATION.MUTE_DURATIONS.${item.i18nKey}`),
     }))
   );
 
@@ -138,6 +146,7 @@ export default function useAutomationValues() {
       type,
       addNoneToListFn: addNoneToList,
       priorityOptions: priorityOptions.value,
+      muteDurationOptions: muteDurationOptions.value,
     });
   };
 
@@ -147,6 +156,7 @@ export default function useAutomationValues() {
     statusFilterOptions,
     priorityOptions,
     messageTypeOptions,
+    muteDurationOptions,
     getConditionDropdownValues,
     getActionDropdownValues,
     agents,

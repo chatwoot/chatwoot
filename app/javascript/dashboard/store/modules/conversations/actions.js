@@ -459,9 +459,15 @@ const actions = {
     commit(types.SET_ACTIVE_INBOX, inboxId);
   },
 
-  muteConversation: async ({ commit }, conversationId) => {
+  // Accepts a plain conversation id (permanent block) or
+  // `{ conversationId, blockedUntil }` for a temporary block.
+  muteConversation: async ({ commit }, payload) => {
+    const { conversationId, blockedUntil = null } =
+      typeof payload === 'object' && payload !== null
+        ? payload
+        : { conversationId: payload };
     try {
-      await ConversationApi.mute(conversationId);
+      await ConversationApi.mute(conversationId, blockedUntil);
       commit(types.MUTE_CONVERSATION);
     } catch (error) {
       //

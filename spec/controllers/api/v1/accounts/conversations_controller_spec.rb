@@ -1158,6 +1158,41 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.resolved?).to be(true)
         expect(conversation.reload.muted?).to be(true)
       end
+
+      it 'mutes conversation for a preset duration' do
+        freeze_time do
+          post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/mute",
+               params: { blocked_until: '8_hours' },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(conversation.reload.muted?).to be(true)
+          expect(conversation.contact.blocked_until).to eq(8.hours.from_now)
+        end
+      end
+
+      it 'mutes conversation until a given time' do
+        blocked_until = 3.days.from_now.change(usec: 0)
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/mute",
+             params: { blocked_until: blocked_until.iso8601 },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.contact.blocked_until).to eq(blocked_until)
+      end
+
+      it 'mutes conversation permanently when the time is in the past or invalid' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/mute",
+             params: { blocked_until: 'not-a-time' },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.muted?).to be(true)
+        expect(conversation.contact.blocked_until).to be_nil
+      end
     end
   end
 

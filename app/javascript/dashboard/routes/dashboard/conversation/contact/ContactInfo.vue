@@ -7,6 +7,7 @@ import {
 } from 'shared/helpers/CustomErrors';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { format } from 'date-fns';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SocialIcons from './SocialIcons.vue';
@@ -66,6 +67,18 @@ export default {
     },
     additionalAttributes() {
       return this.contact.additional_attributes || {};
+    },
+    blockedLabel() {
+      if (!this.contact.blocked) return '';
+      if (!this.contact.blocked_until) {
+        return this.$t('CONTACT_PANEL.BLOCKED_PERMANENTLY');
+      }
+      return this.$t('CONTACT_PANEL.BLOCKED_UNTIL', {
+        date: format(
+          new Date(this.contact.blocked_until),
+          'MMM d, yyyy h:mm a'
+        ),
+      });
     },
     location() {
       const {
@@ -262,6 +275,13 @@ export default {
         <p v-if="additionalAttributes.description" class="break-words mb-0.5">
           {{ additionalAttributes.description }}
         </p>
+        <span
+          v-if="blockedLabel"
+          class="inline-flex items-center gap-1 text-xs text-n-ruby-11"
+        >
+          <span class="i-lucide-ban" />
+          {{ blockedLabel }}
+        </span>
         <div class="flex flex-col items-start w-full gap-2">
           <ContactInfoRow
             :href="contact.email ? `mailto:${contact.email}` : ''"
