@@ -135,6 +135,7 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :sync_templates, to: :provider_service
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
+  delegate :send_typing_indicator, to: :provider_service
 
   def setup_webhooks(is_coexistence: nil)
     perform_webhook_setup(is_coexistence: is_coexistence)
