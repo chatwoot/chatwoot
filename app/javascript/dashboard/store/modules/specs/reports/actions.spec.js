@@ -8,9 +8,11 @@ import { flushPromises } from '@vue/test-utils';
 global.open = vi.fn();
 global.axios = axios;
 global.URL.createObjectURL = vi.fn();
+global.URL.revokeObjectURL = vi.fn();
 
 vi.mock('axios');
 vi.spyOn(DownloadHelper, 'downloadCsvFile');
+vi.spyOn(DownloadHelper, 'downloadFile');
 
 describe('#actions', () => {
   beforeEach(() => {
@@ -127,13 +129,15 @@ describe('#actions', () => {
         from: 1630504922510,
         to: 1630504922510,
         fileName: 'agent-report-01-09-2021.csv',
+        format: 'csv',
       };
       actions.downloadAgentReports(1, param);
       await flushPromises();
 
-      expect(DownloadHelper.downloadCsvFile).toBeCalledWith(
+      expect(DownloadHelper.downloadFile).toBeCalledWith(
         param.fileName,
-        data
+        data,
+        'csv'
       );
     });
   });
@@ -148,13 +152,15 @@ describe('#actions', () => {
         to: 1632853800,
         type: 'label',
         fileName: 'label-report-01-09-2021.csv',
+        format: 'csv',
       };
       actions.downloadLabelReports(1, param);
       await flushPromises();
 
-      expect(DownloadHelper.downloadCsvFile).toBeCalledWith(
+      expect(DownloadHelper.downloadFile).toBeCalledWith(
         param.fileName,
-        data
+        data,
+        'csv'
       );
     });
   });
@@ -170,13 +176,15 @@ describe('#actions', () => {
         from: 1631039400,
         to: 1635013800,
         fileName: 'inbox-report-24-10-2021.csv',
+        format: 'csv',
       };
       actions.downloadInboxReports(1, param);
       await flushPromises();
 
-      expect(DownloadHelper.downloadCsvFile).toBeCalledWith(
+      expect(DownloadHelper.downloadFile).toBeCalledWith(
         param.fileName,
-        data
+        data,
+        'csv'
       );
     });
   });
@@ -190,14 +198,16 @@ describe('#actions', () => {
       const param = {
         from: 1631039400,
         to: 1635013800,
-        fileName: 'inbox-report-24-10-2021.csv',
+        fileName: 'team-report-24-10-2021.csv',
+        format: 'csv',
       };
-      actions.downloadInboxReports(1, param);
+      actions.downloadTeamReports(1, param);
       await flushPromises();
 
-      expect(DownloadHelper.downloadCsvFile).toBeCalledWith(
+      expect(DownloadHelper.downloadFile).toBeCalledWith(
         param.fileName,
-        data
+        data,
+        'csv'
       );
     });
   });
@@ -211,13 +221,15 @@ describe('#actions', () => {
         from: 1631039400,
         to: 1635013800,
         fileName: 'conversations-summary-report-24-10-2021.csv',
+        format: 'csv',
       };
       actions.downloadConversationsSummaryReports(1, param);
       await flushPromises();
 
-      expect(DownloadHelper.downloadCsvFile).toBeCalledWith(
+      expect(DownloadHelper.downloadFile).toBeCalledWith(
         param.fileName,
-        data
+        data,
+        'csv'
       );
     });
   });

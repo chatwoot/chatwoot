@@ -1,0 +1,26 @@
+<%= CSVSafe.generate_line [
+  I18n.t('reports.period', since: @since, until: @until)
+] %>
+
+<% headers = [
+    I18n.t('reports.agent_activity_csv.agent_name'),
+    I18n.t('reports.agent_activity_csv.email'),
+    I18n.t('reports.agent_activity_csv.total_active_hours'),
+    I18n.t('reports.agent_activity_csv.online_hours'),
+    I18n.t('reports.agent_activity_csv.busy_hours'),
+    I18n.t('reports.agent_activity_csv.offline_hours'),
+    I18n.t('reports.agent_activity_csv.current_status')
+  ]
+%>
+<%= CSVSafe.generate_line headers -%>
+<% @agents.each do |agent| %>
+<%= CSVSafe.generate_line [
+  agent[:name],
+  agent[:email],
+  (agent[:total_duration] / 3600.0).round(2),
+  (agent[:online_duration] / 3600.0).round(2),
+  (agent[:busy_duration] / 3600.0).round(2),
+  (agent[:offline_duration] / 3600.0).round(2),
+  agent[:current_status]
+] -%>
+<% end %>

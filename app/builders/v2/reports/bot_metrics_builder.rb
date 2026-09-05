@@ -12,30 +12,55 @@ class V2::Reports::BotMetricsBuilder
       conversation_count: bot_conversations.count,
       message_count: bot_messages.count,
       resolution_rate: bot_resolution_rate.to_i,
-      handoff_rate: bot_handoff_rate.to_i
+      handoff_rate: bot_handoff_rate.to_i,
+      avg_resolution_time: avg_resolution_time.to_i
     }
   end
 
   private
 
-  def bot_activated_inbox_ids
-    @bot_activated_inbox_ids ||= account.inboxes.filter(&:active_bot?).map(&:id)
+  def selected_inbox_ids
+    @selected_inbox_ids ||= params[:inbox_ids]&.reject(&:blank?)
+  end
+
+  def bot_inbox_ids
+    @bot_inbox_ids ||= begin
+      ids = AgentBotInbox
+            .where(account_id: account.id, status: :active)
+            .pluck(:inbox_id)
+      selected_inbox_ids.present? ? ids & selected_inbox_ids.map(&:to_i) : ids
+    end
   end
 
   def bot_conversations
-    @bot_conversations ||= account.conversations.where(inbox_id: bot_activated_inbox_ids).where(created_at: range)
+    @bot_conversations ||= account.conversations
+                                  .where(created_at: range)
+                                  .where(inbox_id: bot_inbox_ids)
   end
 
   def bot_messages
-    @bot_messages ||= account.messages.outgoing.where(conversation_id: bot_conversations.ids).where(created_at: range)
+    @bot_messages ||= account.messages
+                             .outgoing
+                             .where(conversation_id: bot_conversations.ids)
+                             .where(created_at: range)
   end
 
   def bot_resolutions_count
-    # Exclude conversations that also had a handoff in the same range — handoff wins
-    account.reporting_events.joins(:conversation).select(:conversation_id)
+    account.reporting_events
            .where(account_id: account.id, name: :conversation_bot_resolved, created_at: range)
-           .where.not(conversation_id: bot_handoff_conversation_ids_subquery)
-           .distinct.count
+           .filter_by_inbox_id(selected_inbox_ids)
+           .select(:conversation_id)
+           .distinct
+           .count
+  end
+
+  def bot_handoffs_count
+    account.reporting_events
+           .where(account_id: account.id, name: :conversation_bot_handoff, created_at: range)
+           .filter_by_inbox_id(selected_inbox_ids)
+           .select(:conversation_id)
+           .distinct
+           .count
   end
 
   def bot_handoffs_count
@@ -55,6 +80,18 @@ class V2::Reports::BotMetricsBuilder
     return 0 if bot_conversations.count.zero?
 
     bot_resolutions_count.to_f / bot_conversations.count * 100
+  end
+
+  def avg_resolution_time
+    account.reporting_events
+           .where(account_id: account.id, name: 'conversation_bot_resolved', created_at: range)
+           .where.not(agent_bot_id: nil)
+           .filter_by_inbox_id(selected_inbox_ids)
+           .average(average_value_key)
+  end
+
+  def average_value_key
+    ActiveModel::Type::Boolean.new.cast(params[:business_hours]) ? :value_in_business_hours : :value
   end
 
   def bot_handoff_rate

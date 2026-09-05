@@ -340,6 +340,17 @@ const newReportRoutes = () => [
     activeOn: ['agent_reports_show'],
   },
   {
+    name: 'Reports Agent Activity',
+    label: t('SIDEBAR.AGENT_ACTIVITY'),
+    to: accountScopedRoute('agent_activity'),
+  },
+  {
+    name: 'Reports Agent Overview',
+    label: t('SIDEBAR.REPORTS_AGENT_OVERVIEW'),
+    to: accountScopedRoute('agent_reports_show_empty'),
+    activeOn: ['agent_reports_show', 'agent_reports_show_empty'],
+  },
+  {
     name: 'Reports Label',
     label: t('SIDEBAR.REPORTS_LABEL'),
     to: accountScopedRoute('label_reports_index'),
@@ -683,6 +694,11 @@ const menuItems = computed(() => {
       icon: 'i-lucide-chart-spline',
       children: [
         {
+          name: 'Reports All Metrics',
+          label: t('SIDEBAR.REPORTS_ALL_METRICS'),
+          to: accountScopedRoute('all_conversation_metrics_reports'),
+        },
+        {
           name: 'Report Overview',
           label: t('SIDEBAR.REPORTS_OVERVIEW'),
           to: accountScopedRoute('account_overview_reports'),
@@ -707,6 +723,11 @@ const menuItems = computed(() => {
           name: 'Reports Bot',
           label: t('SIDEBAR.REPORTS_BOT'),
           to: accountScopedRoute('bot_reports'),
+        },
+        {
+          name: 'Reports Queued Customers',
+          label: t('SIDEBAR.REPORTS_QUEUED_CUSTOMERS'),
+          to: accountScopedRoute('queued_customers_reports'),
         },
       ],
     },

@@ -3,6 +3,7 @@ import { createStore } from 'vuex';
 import accounts from './modules/accounts';
 import agentBots from './modules/agentBots';
 import agentCapacityPolicies from './modules/agentCapacityPolicies';
+import agentActivity from './modules/agentActivity';
 import agents from './modules/agents';
 import assignmentPolicies from './modules/assignmentPolicies';
 import articles from './modules/helpCenterArticles';
@@ -62,6 +63,7 @@ import copilotMessages from './captain/copilotMessages';
 import captainScenarios from './captain/scenarios';
 import captainTools from './captain/tools';
 import captainCustomTools from './captain/customTools';
+import priorityGroups from './modules/priorityGroups';
 
 const plugins = [];
 
@@ -70,6 +72,7 @@ export default createStore({
     accounts,
     agentBots,
     agentCapacityPolicies,
+    agentActivity,
     agents,
     assignmentPolicies,
     articles,
@@ -108,6 +111,7 @@ export default createStore({
     macros,
     notifications,
     portals,
+    priorityGroups,
     reports,
     sla,
     slaReports,

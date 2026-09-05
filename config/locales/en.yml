@@ -46,6 +46,10 @@ en:
     login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+  queue:
+    notifications:
+      queue_message: 'All agents are currently busy. We will connect you to a free agent as soon as one is available.'
+      assigned_message: 'An agent has joined the conversation.'
 
   data_imports:
     intercom:
@@ -126,6 +130,7 @@ en:
         success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Invalid email
+        already_exists_in_inbox: 'Contact with this email already exists in this inbox'
       phone_number:
         invalid: should be in e164 format
     companies:
@@ -225,6 +230,38 @@ en:
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
+    agent_activity_csv:
+      agent_name: Agent name
+      email: Email
+      total_active_hours: Total active hours
+      online_hours: Online hours
+      busy_hours: Busy hours
+      offline_hours: Offline hours
+      current_status: Current status
+    conversation_details_csv:
+      conversation_id: 'conversation ID'
+      created_at: 'Start date'
+      inbox_name: 'Inbox'
+      team_name: 'Team'
+      contact_email: 'Contact email'
+      agent_nick: 'Operator name %{index}'
+      duration: 'Duration'
+      chat_resolution: 'Chat Resolution'
+      first_response_time: 'First Response Time'
+      avg_response_time: 'AVG Response Time'
+      csat_score: 'Conv Score (CSAT)'
+      csat_feedback: 'Feedback'
+      queue_entered_at: 'Queue entered at'
+      queue_accepted_at: 'Queue accepted at'
+      queue_left_at: 'Queue left at'
+      queue_exit_reason: 'Queue exit reason'
+      label: 'Category %{index}'
+      contact_name: 'Contact name'
+      chat_custom: 'Chat custom: %{attr}'
+      contact_custom: 'Contact custom: %{attr}'
+      contact_additional: 'Contact additional: %{attr}'
+      agent_chat_duration: 'Agent chat duration'
+      agent_chat_duration_individual: 'Agent chat duration %{index}'
     agent_csv:
       agent_name: Agent name
       conversations_count: Assigned conversations
@@ -232,12 +269,21 @@ en:
       avg_resolution_time: Avg resolution time
       resolution_count: Resolution Count
       avg_customer_waiting_time: Avg customer waiting time
+      agent_chat_duration: Avg chat duration
+      csat_score: CSAT Score
+    bot_csv:
+      bot_name: Bot
+      conversations_count: Conversation Count
+      avg_first_response_time: Avg first response time
+      avg_reply_time: Avg reply time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Inbox name
       inbox_type: Inbox type
       conversations_count: No. of conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      csat_score: CSAT Score
     label_csv:
       label_title: Label
       conversations_count: No. of conversations
@@ -245,6 +291,32 @@ en:
       avg_resolution_time: Avg resolution time
       avg_reply_time: Avg reply time
       resolution_count: Resolution Count
+      csat_score: CSAT Score
+    overview:
+      open_conversations: Open conversations
+      agent_status: Agent Status
+      resolutions: Resolutions
+      by_agents: Conversations by agents
+      by_teams: Conversations by teams
+    overview_csv:
+      period: Report Period
+      open: Open
+      unattended: Unnatended
+      unassigned: Unassigned
+      pending: Pending
+      resolved: Resolved
+      status: Status
+      count: Count
+      data: Data
+      no_data: No Data
+      hour: Hour
+      agent: Agent
+      team: Team
+      resolutions_count: Resolution Count
+      avg_resolution_time: AVG Resolution Time Count
+    metrics:
+      resolutions_count: Resolution Count
+      avg_resolution_time: AVG Resolution Time Count
     team_csv:
       team_name: Team name
       conversations_count: Conversations count
@@ -252,6 +324,7 @@ en:
       avg_resolution_time: Avg resolution time
       resolution_count: Resolution Count
       avg_customer_waiting_time: Avg customer waiting time
+      csat_score: CSAT Score
     conversation_csv:
       conversations_count: Conversations
       incoming_messages_count: Messages received
@@ -281,6 +354,7 @@ en:
         agent_name: Agent Name
         rating: Rating
         feedback: Feedback Comment
+        chat_created_at: Chat created date
         recorded_at: Recorded date
         review_notes: Review Notes
   notifications:
@@ -329,6 +403,8 @@ en:
         open: 'Conversation was reopened by %{user_name}'
         pending: 'Conversation was marked as pending by %{user_name}'
         snoozed: 'Conversation was snoozed by %{user_name}'
+        queued: 'Conversation was marked as queued'
+        proxied: 'Conversation was marked as proxied'
         auto_resolved_days: 'Conversation was marked resolved by system due to %{count} days of inactivity'
         auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
         auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
@@ -360,9 +436,10 @@ en:
         permission_granted: '%{contact_name} accepted the call permission request.'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+        rated: 'Chat rated %{rating}'
       auto_resolve:
         not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
-      muted: '%{user_name} has muted the conversation'
+      muted: '%{user_name} has muted the conversation for %{blocked_until}'
       unmuted: '%{user_name} has unmuted the conversation'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
@@ -370,6 +447,7 @@ en:
       ways_to_reach_you_message_body: 'Give the team a way to reach you.'
       email_input_box_message_body: 'Get notified by email'
       csat_input_message_body: 'Please rate the conversation'
+      csat_like_dislike_hint: 'You can rate this chat at any time. Click the "Rate chat" button near the attachment icon.'
     reply:
       email:
         header:

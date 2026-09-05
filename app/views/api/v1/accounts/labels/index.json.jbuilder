@@ -5,5 +5,6 @@ json.payload do
     json.description label.description
     json.color label.color
     json.show_on_sidebar label.show_on_sidebar
+    json.pinned_by_current_user current_user.label_pinned?(label.id)
   end
 end

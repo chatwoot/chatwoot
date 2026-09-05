@@ -9,7 +9,8 @@ class Api::V2::Accounts::LiveReportsController < Api::V1::Accounts::BaseControll
       open: @conversations.open.count,
       unattended: @conversations.open.unattended.count,
       unassigned: @conversations.open.unassigned.count,
-      pending: @conversations.pending.count
+      pending: @conversations.pending.count,
+      resolved: @conversations.resolved.count
     }
   end
 
@@ -34,7 +35,7 @@ class Api::V2::Accounts::LiveReportsController < Api::V1::Accounts::BaseControll
   private
 
   def check_authorization
-    authorize :report, :view?
+    authorize({ action: action_name, type: params[:type] }, :view?, policy_class: ReportPolicy)
   end
 
   def set_group_scope
@@ -46,19 +47,57 @@ class Api::V2::Accounts::LiveReportsController < Api::V1::Accounts::BaseControll
     @group_scope = permitted_params[:group_by]
   end
 
-  def team
-    return unless permitted_params[:team_id]
+  def team_ids
+    return [] if permitted_params[:team_ids].blank?
 
-    @team ||= Current.account.teams.find(permitted_params[:team_id])
+    permitted_params[:team_ids].reject(&:blank?)
+  end
+
+  def user_ids
+    return [] if permitted_params[:user_ids].blank?
+
+    permitted_params[:user_ids].reject(&:blank?)
+  end
+
+  def inbox_ids
+    return [] if permitted_params[:inbox_ids].blank?
+
+    permitted_params[:inbox_ids].reject(&:blank?)
   end
 
   def load_conversations
-    scope = Current.account.conversations
-    scope = scope.where(team_id: team.id) if team.present?
-    @conversations = scope
+    scope = Current.account.conversations.where(proxied_at: nil)
+    scope = apply_team_filter(scope)
+    scope = apply_user_filter(scope)
+    scope = apply_inbox_filter(scope)
+    @conversations = apply_date_filter(scope)
+  end
+
+  def apply_team_filter(scope)
+    team_ids.present? ? scope.where(team_id: team_ids) : scope
+  end
+
+  def apply_user_filter(scope)
+    user_ids.present? ? scope.where(assignee_id: user_ids) : scope
+  end
+
+  def apply_inbox_filter(scope)
+    inbox_ids.present? ? scope.where(inbox_id: inbox_ids) : scope
+  end
+
+  def apply_date_filter(scope)
+    return scope unless date_range_present?
+
+    since = Time.zone.at(permitted_params[:since].to_i)
+    until_time = Time.zone.at(permitted_params[:until].to_i)
+    scope.where(created_at: since..until_time)
+  end
+
+  def date_range_present?
+    permitted_params[:since].present? && permitted_params[:until].present?
   end
 
   def permitted_params
-    params.permit(:team_id, :group_by)
+    params.permit(:team_id, :group_by, :since, :until, team_ids: [], user_ids: [], inbox_ids: [])
   end
 end

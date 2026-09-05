@@ -6,6 +6,8 @@
     "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "DOWNLOAD_AS_XLSX": "Download as XLSX",
+    "DOWNLOAD_AS_CSV": "Download as CSV",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
@@ -33,6 +35,16 @@
         "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
+      "RESOLUTION_TIME_WITHOUT_BOT": {
+        "NAME":"Resolution Time (Without Bot)",
+        "TOOLTIP_TEXT":"Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "AGENT_CHAT_DURATION": {
+        "NAME": "Chat Duration",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Chat Duration is {metricValue} (based on {conversationCount} conversations)"
+      },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
         "DESC": "( Total )"
@@ -54,6 +66,7 @@
       }
     },
     "DATE_RANGE_OPTIONS": {
+      "TODAY": "Today",
       "LAST_7_DAYS": "Last 7 days",
       "LAST_14_DAYS": "Last 14 days",
       "LAST_30_DAYS": "Last 30 days",
@@ -71,11 +84,18 @@
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "DURATION_FILTER_LABEL": "Duration",
     "GROUPING_OPTIONS": {
+      "HOUR": "Hour",
       "DAY": "Day",
       "WEEK": "Week",
       "MONTH": "Month",
       "YEAR": "Year"
     },
+    "GROUP_BY_HOUR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Hour"
+      }
+    ],
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -148,6 +168,31 @@
       "RESULTS": "Showing {start} to {end} of {total} results",
       "PER_PAGE_TEMPLATE": "{size} / page"
     }
+  },
+  "AGENT_ACTIVITY_REPORTS": {
+    "HEADER": "Agent Activity",
+    "DESCRIPTION": "Tracking agent activity by time",
+    "TIMEZONE_DESCRIPTION": "All reports are displayed in your local time.",
+    "OFFLINE": "Offline",
+    "HIDE_INACTIVE": "Hide inactive",
+    "DOWNLOAD": "Download agent activity reports",
+    "BUSY": "Busy",
+    "ONLINE": "Online",
+    "DATE_RANGE": "{start} — {end}",
+    "PREVIOUS": "←",
+    "NEXT": "→",
+    "STATUS_WITH_DURATION": "{status}: {duration}",
+    "FILTERS": {
+      "TIME_RANGE_SEPARATOR": "—",
+      "TIME_ZONE_UTC": "UTC"
+    }
+  },
+  "ALL_METRICS_REPORTS": {
+    "HEADER": "All chats metrics",
+    "DESCRIPTION": "Easily track agent performance with key metrics.",
+    "DOWNLOAD": "Download All Chat Reports",
+    "SEND_TO_EMAIL": "Send to Email",
+    "EMAIL_HINT": "Leave empty to send to your account email"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -463,7 +508,8 @@
         "RATINGS": "Search ratings"
       },
       "AGENTS": {
-        "LABEL": "Agent"
+        "LABEL": "Agent",
+        "PLACEHOLDER": "Select agent"
       },
       "INBOXES": {
         "LABEL": "Inbox"
@@ -481,6 +527,7 @@
         "AGENT_NAME": "Agent",
         "RATING": "Rating",
         "FEEDBACK_TEXT": "Feedback comment",
+        "CHAT_CREATED_AT": "Chat created date",
         "CONVERSATION": "Conversation",
         "CUSTOMER": "Customer",
         "RESPONSE": "Response",
@@ -526,7 +573,19 @@
   },
   "BOT_REPORTS": {
     "HEADER": "Bot Reports",
+    "DOWNLOAD": "Download Bot Reports",
+    "TABLE": {
+      "CONVERSATIONS": "Conversations",
+      "BOT_NAME": "Bot",
+      "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+      "AVG_REPLY_TIME": "Avg. Reply Time",
+      "AVG_RESOLUTION_TIME": "Avg. Resolution Time"
+    },
     "METRIC": {
+      "AVG_RESOLUTION_TIME": {
+        "LABEL": "Avg Resolution Time",
+        "TOOLTIP": "Average total time from conversation start to resolution"
+      },
       "TOTAL_CONVERSATIONS": {
         "LABEL": "No. of Conversations",
         "TOOLTIP": "Total number of conversations handled by the bot"
@@ -548,6 +607,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Overview",
     "LIVE": "Live",
+    "DOWNLOAD": "Download Overview Reports",
     "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
@@ -555,7 +615,8 @@
       "OPEN": "Open",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "Unassigned",
-      "PENDING": "Pending"
+      "PENDING": "Pending",
+      "RESOLVED": "Resolved"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
@@ -599,6 +660,18 @@
       "ONLINE": "Online",
       "BUSY": "Busy",
       "OFFLINE": "Offline"
+    }
+  },
+  "QUEUED_CUSTOMERS_REPORTS": {
+    "HEADER": "Queued customers",
+    "DESCRIPTION": "Track queue load, conversion and waiting time trends.",
+    "HEATMAP_TITLE": "Queue heatmap",
+    "CARDS": {
+      "QUEUED_CUSTOMERS": "Queued customers",
+      "ENTERED_CHAT": "Entered the chat",
+      "LEFT_QUEUE": "Left the queue",
+      "TIME_TO_ENTER_CHAT": "Time to enter the chat",
+      "TIME_TO_LEAVE_QUEUE": "Time to leave the queue"
     }
   },
   "DAYS_OF_WEEK": {
@@ -669,6 +742,8 @@
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
     "RESOLUTION_COUNT": "Resolution Count",
-    "CONVERSATIONS": "No. of conversations"
+    "CONVERSATIONS": "No. of conversations",
+    "AGENT_CHAT_DURATION": "Avg chat duration",
+    "CSAT_SATISFACTION_SCORE": "Satisfaction score"
   }
 }

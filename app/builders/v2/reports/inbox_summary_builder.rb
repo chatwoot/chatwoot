@@ -9,12 +9,85 @@ class V2::Reports::InboxSummaryBuilder < V2::Reports::BaseSummaryBuilder
   private
 
   attr_reader :conversations_count, :resolved_count,
-              :avg_resolution_time, :avg_first_response_time, :avg_reply_time
+              :avg_resolution_time, :avg_first_response_time, :avg_reply_time, :csat_satisfaction_score
+
+  def fetch_conversations_count
+    filtered_conversations.group(:inbox_id).count
+  end
+
+  def load_reporting_events_data
+    results = filtered_reporting_events
+              .select(*inbox_reporting_events_select_fields)
+              .group('reporting_events.inbox_id')
+              .index_by(&:inbox_id)
+
+    @resolved_count = results.transform_values(&:resolved_count)
+    @avg_resolution_time = results.transform_values(&:avg_resolution_time)
+    @avg_first_response_time = results.transform_values(&:avg_first_response_time)
+    @avg_reply_time = results.transform_values(&:avg_reply_time)
+  end
+
+  def inbox_reporting_events_select_fields
+    [
+      'reporting_events.inbox_id as inbox_id',
+      "COUNT(DISTINCT CASE WHEN reporting_events.name = 'conversation_resolved' THEN reporting_events.conversation_id END) as resolved_count",
+      inbox_avg_resolution_time_sql,
+      inbox_avg_first_response_time_sql,
+      inbox_avg_reply_time_sql
+    ]
+  end
+
+  def inbox_avg_resolution_time_sql
+    "AVG(CASE WHEN reporting_events.name = 'conversation_resolved' " \
+      "THEN reporting_events.#{average_value_key} END) as avg_resolution_time"
+  end
+
+  def inbox_avg_first_response_time_sql
+    "AVG(CASE WHEN reporting_events.name = 'first_response' " \
+      "THEN reporting_events.#{average_value_key} END) as avg_first_response_time"
+  end
+
+  def inbox_avg_reply_time_sql
+    "AVG(CASE WHEN reporting_events.name = 'reply_time' " \
+      "THEN reporting_events.#{average_value_key} END) as avg_reply_time"
+  end
 
   def prepare_report
-    account.inboxes.map do |inbox|
+    scope = filter_inbox_scope
+
+    scope.map do |inbox|
       build_inbox_stats(inbox)
     end
+  end
+
+  def filter_inbox_scope
+    scope = account.inboxes
+
+    if params[:inbox_ids].present? && params[:inbox_ids].reject(&:blank?).any?
+      scope.where(id: params[:inbox_ids].reject(&:blank?))
+    elsif cross_filters?(:inbox_ids)
+      apply_cross_filter_scope(scope)
+    else
+      scope
+    end
+  end
+
+  def apply_cross_filter_scope(scope)
+    all_inbox_ids = collect_all_inbox_ids
+    return [] if all_inbox_ids.empty?
+
+    scope.where(id: all_inbox_ids)
+  end
+
+  def collect_all_inbox_ids
+    [
+      conversations_count.keys,
+      resolved_count.keys,
+      avg_resolution_time.keys,
+      avg_first_response_time.keys,
+      avg_reply_time.keys,
+      csat_satisfaction_score.keys
+    ].flatten.compact.uniq
   end
 
   def build_inbox_stats(inbox)
@@ -24,8 +97,57 @@ class V2::Reports::InboxSummaryBuilder < V2::Reports::BaseSummaryBuilder
       resolved_conversations_count: resolved_count[inbox.id] || 0,
       avg_resolution_time: avg_resolution_time[inbox.id],
       avg_first_response_time: avg_first_response_time[inbox.id],
-      avg_reply_time: avg_reply_time[inbox.id]
+      avg_reply_time: avg_reply_time[inbox.id],
+      csat_satisfaction_score: csat_satisfaction_score[inbox.id] || 0
     }
+  end
+
+  def apply_csat_filters(scope)
+    scope = scope.joins(:conversation)
+    scope = apply_csat_inbox_filter(scope)
+    scope = apply_csat_user_filter(scope)
+    scope = apply_csat_team_filter(scope)
+    apply_csat_label_filter(scope)
+  end
+
+  def apply_csat_inbox_filter(scope)
+    return scope if params[:inbox_ids].blank?
+
+    scope.where(conversations: { inbox_id: params[:inbox_ids].reject(&:blank?) })
+  end
+
+  def apply_csat_user_filter(scope)
+    return scope if params[:user_ids].blank?
+
+    scope.where(conversations: { assignee_id: params[:user_ids].reject(&:blank?) })
+  end
+
+  def apply_csat_team_filter(scope)
+    return scope if params[:team_ids].blank?
+
+    scope.where(conversations: { team_id: params[:team_ids].reject(&:blank?) })
+  end
+
+  def apply_csat_label_filter(scope)
+    return scope if params[:label_ids].blank?
+
+    tag_ids = ReportingEvent.tag_ids_for_labels(params[:label_ids].reject(&:blank?), account.id)
+    return scope if tag_ids.empty?
+
+    scope.joins(conversation_labels_join_clause).where(taggings: { tag_id: tag_ids })
+  end
+
+  def conversation_labels_join_clause
+    <<~SQL.squish
+      INNER JOIN taggings
+        ON taggings.taggable_id = conversations.id
+        AND taggings.taggable_type = 'Conversation'
+        AND taggings.context = 'labels'
+    SQL
+  end
+
+  def csat_group_by_key
+    'conversations.inbox_id'
   end
 
   def group_by_key

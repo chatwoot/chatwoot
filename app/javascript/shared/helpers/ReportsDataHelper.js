@@ -1,10 +1,4 @@
-import {
-  fromUnixTime,
-  startOfDay,
-  endOfDay,
-  getUnixTime,
-  subDays,
-} from 'date-fns';
+import { startOfDay, endOfDay, getUnixTime, subDays } from 'date-fns';
 
 /**
  * Returns a key-value pair of timestamp and value for heatmap data
@@ -87,20 +81,26 @@ export const reconcileHeatmapData = (data, dataFromStore) => {
 };
 
 /**
- * Groups heatmap data by day
+ * Groups heatmap data by day (UTC)
  *
  * @param {Array} heatmapData - An array of objects containing timestamp, value and other properties
  * @returns {Map} - A Map object with dates as keys and corresponding data objects as values
  */
 export const groupHeatmapByDay = heatmapData => {
   return heatmapData.reduce((acc, data) => {
-    const date = fromUnixTime(data.timestamp);
-    const mapKey = startOfDay(date).toISOString();
+    const date = new Date(data.timestamp * 1000);
+
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const mapKey = `${year}-${month}-${day}T00:00:00.000Z`;
+
     const dataToAppend = {
       ...data,
-      date: fromUnixTime(data.timestamp),
-      hour: date.getHours(),
+      date: date,
+      hour: date.getUTCHours(),
     };
+
     if (!acc.has(mapKey)) {
       acc.set(mapKey, []);
     }
