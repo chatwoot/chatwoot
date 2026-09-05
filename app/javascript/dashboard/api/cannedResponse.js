@@ -1,3 +1,4 @@
+/* global axios */
 import CacheEnabledApiClient from './CacheEnabledApiClient';
 
 class CannedResponse extends CacheEnabledApiClient {
@@ -19,6 +20,20 @@ class CannedResponse extends CacheEnabledApiClient {
   // eslint-disable-next-line class-methods-use-this
   marshallData(dataToParse) {
     return { data: dataToParse };
+  }
+
+  get(options = {}) {
+    if (options === true || options === false) {
+      return super.get(options);
+    }
+
+    const { searchKey, all = false, inboxId = null } = options;
+    const params = new URLSearchParams();
+    if (searchKey) params.append('search', searchKey);
+    if (all) params.append('all', true);
+    if (inboxId) params.append('inbox_id', inboxId);
+    const query = params.toString();
+    return axios.get(query ? `${this.url}?${query}` : this.url);
   }
 }
 
