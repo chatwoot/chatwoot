@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
   before_action :ensure_api_inbox, only: :update
+  before_action :check_not_proxied, only: [:create]
 
   def index
     @messages = message_finder.perform
@@ -9,6 +10,12 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     user = Current.user || @resource
     mb = Messages::MessageBuilder.new(user, @conversation, params)
     @message = mb.perform
+
+    if @message.nil?
+      render json: {
+        error: 'Agent bots can only send messages to pending conversations'
+      }, status: :forbidden and return
+    end
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
@@ -55,6 +62,11 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   private
+
+  def check_not_proxied
+    render json: { error: 'Cannot send messages to a proxied conversation' },
+           status: :unprocessable_entity if @conversation.proxied?
+  end
 
   def message
     @message ||= @conversation.messages.find(permitted_params[:id])

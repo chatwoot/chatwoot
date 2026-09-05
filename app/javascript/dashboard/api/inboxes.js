@@ -11,6 +11,10 @@ class Inboxes extends CacheEnabledApiClient {
     return 'inbox';
   }
 
+  getAll() {
+    return axios.get(`${this.url}/index_all`);
+  }
+
   getCampaigns(inboxId) {
     return axios.get(`${this.url}/${inboxId}/campaigns`);
   }
