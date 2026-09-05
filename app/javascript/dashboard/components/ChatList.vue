@@ -962,6 +962,7 @@ watch(chatLists, () => {
       :conversation-type="conversationType"
       :show-assignee="showAssigneeInConversationCard"
       :is-on-expanded-layout="isOnExpandedLayout"
+      :active-status="activeStatus"
       @load-more="loadMoreConversations"
     />
     <Dialog

@@ -1,5 +1,7 @@
 {
   "CHAT_LIST": {
+    "CLOSED_LABEL": "закрыт",
+    "HIDE_CHAT": "Скрыть чат",
     "LOADING": "Загружаем диалоги",
     "LOAD_MORE_CONVERSATIONS": "Загрузить больше диалогов",
     "EOF": "Все диалоги загружены 🎉",
@@ -29,6 +31,12 @@
       },
       "pending": {
         "TEXT": "В ожидании"
+      },
+      "queued": {
+        "TEXT": "В очереди"
+      },
+      "proxied": {
+        "TEXT": "Проксирован"
       },
       "snoozed": {
         "TEXT": "Отложено"

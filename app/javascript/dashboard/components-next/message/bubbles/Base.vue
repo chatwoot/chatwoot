@@ -93,10 +93,7 @@ const scrollToMessage = () => {
 };
 
 const shouldShowMeta = computed(
-  () =>
-    !props.hideMeta &&
-    !shouldGroupWithNext.value &&
-    variant.value !== MESSAGE_VARIANTS.ACTIVITY
+  () => !props.hideMeta && variant.value !== MESSAGE_VARIANTS.ACTIVITY
 );
 
 const replyToPreview = computed(() => {

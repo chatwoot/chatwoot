@@ -1,14 +1,53 @@
 import { CONVERSATION_PRIORITY_ORDER } from 'shared/constants/messages';
 
-export const findPendingMessageIndex = (chat, message) => {
-  const { echo_id: tempMessageId } = message;
-  return chat.messages.findIndex(
-    m => m.id === message.id || m.id === tempMessageId
-  );
+/**
+ * Appends a message to a chat's message list, keeping the list ordered by
+ * `created_at`. Messages are usually delivered in order, but a message can
+ * arrive late (e.g. a backlogged websocket broadcast for a note written by
+ * another agent while the conversation was assigned to them) after messages
+ * created after it were already appended (e.g. the current agent's own
+ * optimistically-added message). Sorting on insert avoids showing messages
+ * out of chronological order until the page is reloaded.
+ */
+export const pushMessageInOrder = (chat, message) => {
+  chat.messages.push(message);
+  chat.messages.sort((a, b) => a.created_at - b.created_at);
 };
 
-export const filterByStatus = (chatStatus, filterStatus) =>
-  filterStatus === 'all' ? true : chatStatus === filterStatus;
+/**
+ * Resolves where an incoming message belongs in a chat's message list.
+ *
+ * A pending (optimistically added) message and its "real" counterpart can
+ * briefly coexist: the real message may arrive over websocket before the
+ * pending send request resolves, leaving a stale pending entry (matched by
+ * `echo_id`) alongside it. Returning both indices lets the caller update the
+ * correct entry and drop the stale one instead of ending up with duplicates.
+ *
+ * @returns {{ index: number, staleIndex: number }} `index` is where the
+ * message should be written (-1 if it should be appended). `staleIndex` is
+ * a leftover pending entry to remove, if any (-1 if none).
+ */
+export const findPendingMessageIndex = (chat, message) => {
+  const { echo_id: tempMessageId } = message;
+  const realIndex = chat.messages.findIndex(m => m.id === message.id);
+  const pendingIndex =
+    tempMessageId != null
+      ? chat.messages.findIndex(m => m.id === tempMessageId)
+      : -1;
+
+  if (realIndex !== -1) {
+    const staleIndex = pendingIndex !== realIndex ? pendingIndex : -1;
+    return { index: realIndex, staleIndex };
+  }
+  return { index: pendingIndex, staleIndex: -1 };
+};
+
+export const filterByStatus = (chatStatus, filterStatus) => {
+  if (filterStatus === 'all') return true;
+  if (filterStatus === 'open')
+    return chatStatus === 'open' || chatStatus === 'resolved';
+  return chatStatus === filterStatus;
+};
 
 export const filterByInbox = (shouldFilter, inboxId, chatInboxId) => {
   const isOnInbox = Number(inboxId) === chatInboxId;
@@ -77,12 +116,15 @@ export const applyRoleFilter = (
   permissions,
   currentUserId
 ) => {
-  // the role === "agent" check is typically not correct on it's own
-  // the backend handles this by checking the custom_role_id at the user model
-  // here however, the `getUserRole` returns "custom_role" if the id is present,
-  // so we can check the role === "agent" directly
-  if (['administrator', 'agent'].includes(role)) {
+  if (role === 'administrator') {
     return true;
+  }
+
+  if (role === 'agent') {
+    const conversationAssignee = conversation.meta?.assignee;
+    const isUnassigned = !conversationAssignee;
+    const isAssignedToUser = conversationAssignee?.id === currentUserId;
+    return isUnassigned || isAssignedToUser;
   }
 
   // Check for full conversation management permission

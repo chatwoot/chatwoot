@@ -18,12 +18,14 @@ import ContactNotes from './contact/ContactNotes.vue';
 import ConversationInfo from './ConversationInfo.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import SharedFiles from './SharedFiles.vue';
+import QueueAction from './QueueAction.vue';
 import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
 import ShopifyOrdersList from 'dashboard/components/widgets/conversation/ShopifyOrdersList.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 const props = defineProps({
   conversationId: {
@@ -43,6 +45,17 @@ const {
   toggleSidebarUIState,
 } = useUISettings();
 
+const { isAdmin } = useAdmin();
+const currentUser = useMapGetter('getCurrentUser');
+const { currentAccount, isCloudFeatureEnabled } = useAccount();
+
+const isSuperAdmin = computed(() => currentUser.value?.type === 'SuperAdmin');
+const canManageQueue = computed(
+  () =>
+    (isAdmin.value || isSuperAdmin.value) &&
+    Boolean(currentAccount.value?.queue_enabled)
+);
+
 const dragging = ref(false);
 const conversationSidebarItems = ref([]);
 
@@ -54,8 +67,6 @@ const shopifyIntegration = useFunctionGetter(
 const isShopifyFeatureEnabled = computed(
   () => shopifyIntegration.value.enabled
 );
-
-const { isCloudFeatureEnabled } = useAccount();
 
 const isLinearFeatureEnabled = computed(() =>
   isCloudFeatureEnabled(FEATURE_FLAGS.LINEAR)
@@ -165,6 +176,20 @@ onMounted(() => {
                 :conversation-id="conversationId"
                 :inbox-id="inboxId"
               />
+            </AccordionItem>
+          </div>
+          <div
+            v-else-if="element.name === 'queue_actions' && canManageQueue"
+            class="conversation--actions"
+          >
+            <AccordionItem
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.QUEUE_ACTIONS')"
+              :is-open="isContactSidebarItemOpen('is_queue_actions_open')"
+              @toggle="
+                value => toggleSidebarUIState('is_queue_actions_open', value)
+              "
+            >
+              <QueueAction :conversation-id="conversationId" />
             </AccordionItem>
           </div>
           <div

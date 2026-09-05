@@ -10,6 +10,7 @@ import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { useAllInboxes } from 'dashboard/composables/useAllInboxes';
 
 export default {
   components: {
@@ -26,8 +27,13 @@ export default {
   },
   setup() {
     const { agentsList } = useAgentsList(true, { includeAgentBots: true });
+    const { allInboxes, fetchAllInboxes } = useAllInboxes();
+
+    fetchAllInboxes();
+
     return {
       agentsList,
+      allInboxes,
     };
   },
   data() {
@@ -123,6 +129,42 @@ export default {
           });
       },
     },
+    assignedInbox: {
+      get() {
+        return this.allInboxes.find(i => i.id === this.currentChat.inbox_id);
+      },
+      set(inbox) {
+        const conversationId = this.currentChat.id;
+        const inboxId = inbox ? inbox.id : null;
+
+        this.$store
+          .dispatch('changeInbox', { conversationId, inboxId })
+          .then(() => {
+            return this.$store.dispatch('getConversation', conversationId);
+          })
+          .then(() => {
+            const conversation = this.$store.getters.getAllConversations.find(
+              c => c.id === conversationId
+            );
+            if (!conversation) return null;
+
+            delete conversation.dataFetched;
+            return this.$store.dispatch('setActiveChat', {
+              data: conversation,
+            });
+          })
+          .then(() => {
+            useAlert(`Источник изменён на ${inbox.name}`);
+          });
+      },
+    },
+
+    inboxesList() {
+      return this.allInboxes.map(inbox => ({
+        id: inbox.id,
+        name: inbox.name,
+      }));
+    },
     assignedPriority: {
       get() {
         const selectedOption = this.priorityOptions.find(
@@ -211,6 +253,13 @@ export default {
         this.assignedTeam = null;
       } else {
         this.assignedTeam = selectedItemTeam;
+      }
+    },
+    onClickAssignInbox(selectedInbox) {
+      if (this.assignedInbox && this.assignedInbox.id === selectedInbox.id) {
+        this.assignedInbox = null;
+      } else {
+        this.assignedInbox = selectedInbox;
       }
     },
 
@@ -303,5 +352,25 @@ export default {
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
     />
     <ConversationLabels :conversation-id="conversationId" />
+  </div>
+
+  <div class="multiselect-wrap--small">
+    <ContactDetailsItem
+      compact
+      :title="$t('CONVERSATION_SIDEBAR.ASSIGNED_INBOX_LABEL')"
+    />
+    <MultiselectDropdown
+      :options="inboxesList"
+      :selected-item="assignedInbox"
+      :multiselector-title="$t('CONVERSATION_SIDEBAR.ASSIGNED_INBOX_TITLE')"
+      :multiselector-placeholder="
+        $t('CONVERSATION_SIDEBAR.ASSIGNED_INBOX_PLACEHOLDER')
+      "
+      :no-search-result="$t('CONVERSATION_SIDEBAR.ASSIGNED_INBOX_NO_RESULTS')"
+      :input-placeholder="
+        $t('CONVERSATION_SIDEBAR.ASSIGNED_INBOX_INPUT_PLACEHOLDER')
+      "
+      @select="onClickAssignInbox"
+    />
   </div>
 </template>

@@ -1,5 +1,8 @@
 {
   "CHAT_LIST": {
+    "CLOSED_LABEL": "Resolved",
+    "HIDE_CHAT": "Hide Chat",
+    "DISMISS_ICON": "×",
     "LOADING": "Fetching conversations",
     "LOAD_MORE_CONVERSATIONS": "Load more conversations",
     "EOF": "All conversations loaded 🎉",
@@ -29,6 +32,12 @@
       },
       "pending": {
         "TEXT": "Pending"
+      },
+      "queued": {
+        "TEXT": "Queued"
+      },
+      "proxied": {
+        "TEXT": "Proxied"
       },
       "snoozed": {
         "TEXT": "Snoozed"

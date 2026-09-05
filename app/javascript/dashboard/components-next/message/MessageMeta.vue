@@ -36,7 +36,7 @@ const {
 } = useMessageContext();
 
 const readableTime = computed(() =>
-  messageTimestamp(createdAt.value, 'LLL d, h:mm a')
+  messageTimestamp(createdAt.value, 'LLL d, h:mm:ss a')
 );
 
 const exactTime = computed(() => exactTimestamp(createdAt.value));
