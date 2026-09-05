@@ -77,6 +77,11 @@ properties:
       - string
       - 'null'
     description: Welcome tagline to be displayed on the widget
+  widget_title:
+    type:
+      - string
+      - 'null'
+    description: Title displayed on the widget header. Falls back to the inbox name when empty
   greeting_enabled:
     type: boolean
     description: The flag which shows whether greeting is enabled

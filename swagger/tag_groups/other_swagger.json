@@ -1236,6 +1236,13 @@
             ],
             "description": "Welcome tagline to be displayed on the widget"
           },
+          "widget_title": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Title displayed on the widget header. Falls back to the inbox name when empty"
+          },
           "greeting_enabled": {
             "type": "boolean",
             "description": "The flag which shows whether greeting is enabled"
@@ -3674,6 +3681,11 @@
             "description": "Welcome tagline to be displayed on the widget",
             "example": "We are here to help you"
           },
+          "widget_title": {
+            "type": "string",
+            "description": "Title displayed on the widget header. Falls back to the inbox name when empty",
+            "example": "Support Chat"
+          },
           "widget_color": {
             "type": "string",
             "description": "A Hex-color string used to customize the widget",
@@ -4118,6 +4130,11 @@
             "type": "string",
             "description": "Welcome tagline to be displayed on the widget",
             "example": "We are here to help you"
+          },
+          "widget_title": {
+            "type": "string",
+            "description": "Title displayed on the widget header. Falls back to the inbox name when empty",
+            "example": "Support Chat"
           },
           "widget_color": {
             "type": "string",
