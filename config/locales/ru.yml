@@ -213,7 +213,7 @@ ru:
     utc_warning: Отчёт создан в часовом поясе UTC
     agent_activity_csv:
       agent_name: Имя оператора
-      email: Email
+      email: Эл. почта
       total_active_hours: Всего активных часов
       online_hours: Онлайн (часы)
       busy_hours: Занят (часы)
@@ -427,6 +427,10 @@ ru:
         permission_granted: '%{contact_name} принял запрос на разрешение звонка.'
       csat:
         not_sent_due_to_messaging_window: 'Опрос CSAT не отправлен из-за ограничений исходящих сообщений'
+        rated: 'Оценка диалога: %{rating}'
+        ratings:
+          good: хорошо
+          bad: плохо
       auto_resolve:
         not_sent_due_to_messaging_window: 'Сообщение автозавершения не отправлено из-за ограничений исходящих сообщений'
       muted: '%{user_name} заглушил(а) этот разговор до %{blocked_until}'

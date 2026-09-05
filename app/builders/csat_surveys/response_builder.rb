@@ -35,7 +35,8 @@ class CsatSurveys::ResponseBuilder
   def create_like_dislike_activity_message(conversation, rating)
     return unless message.content_attributes&.dig('display_type') == 'like_dislike'
 
-    content = I18n.t('conversations.activity.csat.rated', rating: rating.to_i == 5 ? 'good' : 'bad')
+    rating_label = I18n.t("conversations.activity.csat.ratings.#{rating.to_i == 5 ? 'good' : 'bad'}")
+    content = I18n.t('conversations.activity.csat.rated', rating: rating_label)
     activity_message_params = {
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
