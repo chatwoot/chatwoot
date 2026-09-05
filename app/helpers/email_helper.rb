@@ -17,6 +17,16 @@ module EmailHelper
     end
   end
 
+  def process_email_string(email_string)
+    return [] if email_string.blank?
+    return email_string if email_string.is_a?(Array)
+
+    email_string.to_s.split(/[,;\n\r]+/).flat_map do |token|
+      token.strip.scan(/[^<>\s]+@[^<>\s]+|[^<]+<[^>]+>/).presence || token.strip
+    end.map(&:strip).reject(&:blank?).uniq
+  end
+
+
   # ref: https://www.rfc-editor.org/rfc/rfc5233.html
   # This is not a  mandatory requirement for email addresses, but it is a common practice.
   # john+test@xyc.com is the same as john@xyc.com

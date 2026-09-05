@@ -1,6 +1,7 @@
 class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAccountsController
   include Sift
   include DateRangeHelper
+  include CsvExportConcern
 
   RESULTS_PER_PAGE = 25
 
@@ -24,9 +25,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
 
   def download
     @missed_applied_slas = missed_applied_slas
-    response.headers['Content-Type'] = 'text/csv'
-    response.headers['Content-Disposition'] = 'attachment; filename=breached_conversation.csv'
-    render layout: false, formats: [:csv]
+    render_csv_with_bom('breached_conversation', 'enterprise/api/v1/accounts/applied_slas/download', formats: [:csv])
   end
 
   private

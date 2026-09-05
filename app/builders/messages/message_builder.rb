@@ -99,13 +99,8 @@ class Messages::MessageBuilder
     @message.content_attributes[:email] = email_attributes
   end
 
-  def process_email_string(email_string)
-    return [] if email_string.blank?
-
-    email_string.gsub(/\s+/, '').split(',')
-  end
-
   def message_type
+
     if @conversation.inbox.channel_type != 'Channel::Api' && @message_type == 'incoming'
       raise StandardError, 'Incoming messages are only allowed in Api inboxes'
     end
