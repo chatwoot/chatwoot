@@ -212,6 +212,7 @@ describe Line::SendOnLineService do
         described_class.new(message: message).perform
       end
     end
+
     context 'when the message carries a LINE Flex container' do
       let(:bubble) do
         {
@@ -250,18 +251,18 @@ describe Line::SendOnLineService do
 
       it 'truncates altText to the 400 characters LINE allows' do
         flex_message.update!(content: 'a' * 500)
-        expect(line_client).to receive(:push_message) do |_to, payload|
-          expect(payload[:altText].length).to eq(400)
-        end
+        sent = nil
+        allow(line_client).to receive(:push_message) { |_to, payload| sent = payload and nil }
         described_class.new(message: flex_message).perform
+        expect(sent[:altText].length).to eq(400)
       end
 
       it 'never sends a blank altText' do
         flex_message.update!(content: '')
-        expect(line_client).to receive(:push_message) do |_to, payload|
-          expect(payload[:altText]).to be_present
-        end
+        sent = nil
+        allow(line_client).to receive(:push_message) { |_to, payload| sent = payload and nil }
         described_class.new(message: flex_message).perform
+        expect(sent[:altText]).to be_present
       end
 
       it 'accepts a carousel as well as a bubble' do
@@ -305,6 +306,5 @@ describe Line::SendOnLineService do
         described_class.new(message: message).perform
       end
     end
-
   end
 end
