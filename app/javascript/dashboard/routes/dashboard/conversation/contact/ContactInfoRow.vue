@@ -139,8 +139,7 @@ export default {
       />
     </a>
 
-    <!-- Read mode without link -->
-    <div v-else class="flex items-center gap-2 text-n-slate-11">
+    <div v-else class="flex items-center gap-2" :class="$attrs.class">
       <EmojiOrIcon
         :icon="icon"
         :emoji="emoji"

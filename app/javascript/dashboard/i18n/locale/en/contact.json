@@ -1,5 +1,7 @@
 {
   "CONTACT_PANEL": {
+    "BLOCKED_UNTIL": "Blocked for",
+    "BLOCKED_PERMANENTLY": "Blocked Forever",
     "NOT_AVAILABLE": "Not Available",
     "EMAIL_ADDRESS": "Email Address",
     "PHONE_NUMBER": "Phone number",
@@ -21,11 +23,32 @@
     "CALL": "Call",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "BAN_DURATION_MODAL": {
+      "TITLE": "Mute contact",
+      "DESCRIPTION": "Select the muting period. After the expiration date, the contact is automatically unmuted.",
+      "PRESETS": {
+        "1_HOUR": "1 hour",
+        "8_HOURS": "8 hours",
+        "1_DAY": "1 day",
+        "7_DAYS": "7 days",
+        "CUSTOM": "Select a date…",
+        "FOREVER": "Permanently"
+      },
+      "CUSTOM_DATE_LABEL": "Date",
+      "CUSTOM_TIME_LABEL": "Time",
+      "CANCEL": "Cancel",
+      "CONFIRM": "Mute"
+    },
     "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
     "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
+    },
+    "AUTHORIZATION": {
+      "LABEL": "Is Authorized",
+      "AUTHORIZED": "Authorized",
+      "NOT_AUTHORIZED": "Not Authorized"
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
@@ -34,7 +57,9 @@
     "LABELS": {
       "CONTACT": {
         "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "ERROR": "Couldn't update labels",
+        "PIN": "Pin",
+        "UNPIN": "Unpin"
       },
       "CONVERSATION": {
         "TITLE": "Conversation Labels",

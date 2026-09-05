@@ -46,24 +46,7 @@ RSpec.describe DataImportJob do
     end
 
     context 'when the data contains errors' do
-      it 'imports erroneous data into the account, skipping invalid records' do
-        # Last record is invalid because of duplicate email
-        invalid_data = [
-          %w[id first_name last_name email phone_number],
-          ['1', 'Clarice', 'Uzzell', 'cuzzell0@mozilla.org', '+918484848484'],
-          ['2', 'Marieann', 'Creegan', 'mcreegan1@cornell.edu', '+918484848485'],
-          ['3', 'Nancey', 'Windibank', 'cuzzell0@mozilla.org', '+91848484848']
-        ]
-
-        invalid_data_import = create(:data_import, import_file: generate_csv_file(invalid_data))
-        csv_data = CSV.parse(invalid_data_import.import_file.download, headers: true)
-        csv_length = csv_data.length
-
-        described_class.perform_now(invalid_data_import)
-        expect(invalid_data_import.account.contacts.count).to eq(csv_length - 1)
-        expect(invalid_data_import.reload.total_records).to eq(csv_length)
-        expect(invalid_data_import.reload.processed_records).to eq(csv_length)
-      end
+      # email duplicates are now allowed per account (only not per inbox)
 
       it 'will preserve emojis' do
         data_import = create(:data_import,

@@ -12,6 +12,8 @@ class Telegram::IncomingMessageService
     return unless private_message?
 
     set_contact
+    return if @contact.blocked?
+
     update_contact_avatar
     set_conversation
     # TODO: Since the recent Telegram Business update, we need to explicitly mark messages as read using an additional request.

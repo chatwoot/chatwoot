@@ -6,8 +6,10 @@ class ActionService
     @account = @conversation.account
   end
 
-  def mute_conversation(_params)
-    @conversation.mute!
+  def mute_conversation(params)
+    raw = Array(params).first.to_s
+    banned_until = raw == 'permanent' ? nil : resolve_ban_duration(raw)
+    @conversation.mute!(banned_until: banned_until)
   end
 
   def snooze_conversation(_params)
@@ -97,6 +99,18 @@ class ActionService
 
   private
 
+  def resolve_ban_duration(raw)
+    return nil if raw.blank?
+
+    if ConversationMuteHelpers::BAN_DURATIONS.key?(raw)
+      Time.current + ConversationMuteHelpers::BAN_DURATIONS[raw]
+    else
+      Time.zone.parse(raw)
+    end
+  rescue ArgumentError, TypeError
+    nil
+  end
+  
   def last_responding_agent_id
     @conversation.messages.outgoing.where(sender_type: 'User', private: false).last&.sender_id
   end

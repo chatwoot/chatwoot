@@ -41,7 +41,8 @@ RSpec.describe ContactInbox do
     context 'when source_id' do
       it 'allows source_id longer than 255 characters for channels without format restrictions' do
         long_source_id = 'a' * 300
-        email_inbox = create(:inbox, channel: create(:channel_email))
+        email_channel = create(:channel_email)
+        email_inbox = create(:inbox, channel: email_channel)
         contact = create(:contact, account: email_inbox.account)
         contact_inbox = build(:contact_inbox, contact: contact, inbox: email_inbox, source_id: long_source_id)
 

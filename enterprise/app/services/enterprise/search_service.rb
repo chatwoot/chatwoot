@@ -1,4 +1,29 @@
 module Enterprise::SearchService
+  def filter_contacts
+    return Contact.none.page(params[:page]).per(15) unless contact_search_allowed?
+
+    super
+  end
+
+  def apply_contact_access_scope(contacts_query)
+    return contacts_query unless inbox_scoped_contacts?
+
+    contacts_query.joins(:contact_inboxes).where(contact_inboxes: { inbox_id: accessable_inbox_ids }).distinct
+  end
+
+  def inbox_scoped_contacts?
+    return false if account_user&.administrator?
+    return false if account_user&.custom_role_permission?('contact_manage')
+
+    account_user&.custom_role_permission?('contact_inbox_manage')
+  end
+
+  def contact_search_allowed?
+    return true if account_user&.administrator? || account_user&.custom_role.blank?
+
+    account_user.custom_role_permission?('contact_manage', 'contact_inbox_manage')
+  end
+
   def advanced_search
     where_conditions = build_where_conditions
     apply_filters(where_conditions)
