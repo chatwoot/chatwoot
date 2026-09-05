@@ -99,17 +99,8 @@ class Messages::MessageBuilder
     @message.content_attributes[:email] = email_attributes
   end
 
-  def process_email_string(email_string)
-    return [] if email_string.blank?
-    return email_string if email_string.is_a?(Array)
-
-    # Handles commas, semicolons, and spaces as separators while preserving display names like 'Name <email@example.com>'
-    email_string.to_s.split(/[,;\n\r]+/).flat_map do |token|
-      token.strip.scan(/[^<>\s]+@[^<>\s]+|[^<]+<[^>]+>/).presence || token.strip
-    end.map(&:strip).reject(&:blank?).uniq
-  end
-
   def message_type
+
     if @conversation.inbox.channel_type != 'Channel::Api' && @message_type == 'incoming'
       raise StandardError, 'Incoming messages are only allowed in Api inboxes'
     end
