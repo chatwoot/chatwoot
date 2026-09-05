@@ -141,9 +141,9 @@ RSpec.describe Contact do
     end
 
     it 'exposes blocked_until in the push event data' do
-      blocked_until = 1.day.from_now
+      blocked_until = 1.day.from_now.change(usec: 0)
       contact.update!(blocked: true, blocked_until: blocked_until)
-      expect(contact.push_event_data[:blocked_until]).to eq(blocked_until)
+      expect(contact.reload.push_event_data[:blocked_until]).to eq(blocked_until)
     end
   end
 
