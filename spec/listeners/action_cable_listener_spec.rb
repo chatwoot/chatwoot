@@ -225,6 +225,37 @@ describe ActionCableListener do
     end
   end
 
+  describe '#assignee_changed' do
+    let(:event_name) { :'assignee.changed' }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent) }
+
+    it 'sends the event to inbox members and admins' do
+      expect(conversation.inbox.reload.inbox_members.count).to eq(1)
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token),
+        'assignee.changed',
+        conversation.push_event_data.merge(account_id: account.id)
+      )
+      listener.assignee_changed(event)
+    end
+
+    context 'when the assignee is not a member of the inbox' do
+      let(:other_agent) { create(:user, account: account, role: :agent) }
+
+      before { conversation.update!(assignee: other_agent) }
+
+      it 'also sends the event to the assignee' do
+        expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+          a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token, other_agent.pubsub_token),
+          'assignee.changed',
+          conversation.push_event_data.merge(account_id: account.id)
+        )
+        listener.assignee_changed(event)
+      end
+    end
+  end
+
   describe '#conversation_updated' do
     let(:event_name) { :'conversation.updated' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, is_private: false) }
