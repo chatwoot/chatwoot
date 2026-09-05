@@ -101,8 +101,12 @@ class Messages::MessageBuilder
 
   def process_email_string(email_string)
     return [] if email_string.blank?
+    return email_string if email_string.is_a?(Array)
 
-    email_string.gsub(/\s+/, '').split(',')
+    # Handles commas, semicolons, and spaces as separators while preserving display names like 'Name <email@example.com>'
+    email_string.to_s.split(/[,;\n\r]+/).flat_map do |token|
+      token.strip.scan(/[^<>\s]+@[^<>\s]+|[^<]+<[^>]+>/).presence || token.strip
+    end.map(&:strip).reject(&:blank?).uniq
   end
 
   def message_type

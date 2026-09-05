@@ -421,5 +421,16 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
         expect(agent_entry['outgoing_messages_count']).to eq(3)
       end
     end
+
+    context 'when requesting CSV format' do
+      it 'prepends UTF-8 BOM in CSV report downloads' do
+        get "/api/v2/accounts/#{account.id}/reports/agents",
+            params: { since: 1.day.ago.to_i, until: Time.current.to_i },
+            headers: admin.create_new_auth_token, as: :csv
+
+        expect(response).to have_http_status(:success)
+        expect(response.body.bytes.take(3)).to eq([0xEF, 0xBB, 0xBF])
+      end
+    end
   end
 end
