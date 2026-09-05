@@ -2,6 +2,7 @@ json.id resource.id
 json.avatar_url resource.try(:avatar_url)
 json.channel_id resource.channel_id
 json.name resource.name
+json.public_name resource.public_name
 json.channel_type resource.channel_type
 json.greeting_enabled resource.greeting_enabled
 json.greeting_message resource.greeting_message
@@ -19,6 +20,7 @@ json.allow_messages_after_resolved resource.allow_messages_after_resolved
 json.lock_to_single_conversation resource.lock_to_single_conversation
 json.sender_name_type resource.sender_name_type
 json.business_name resource.business_name
+json.priority_group_id resource.priority_group_id
 
 if resource.portal.present?
   json.help_center do

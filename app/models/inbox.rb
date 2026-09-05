@@ -19,6 +19,7 @@
 #  lock_to_single_conversation   :boolean          default(FALSE), not null
 #  name                          :string           not null
 #  out_of_office_message         :string
+#  public_name                   :string
 #  sender_name_type              :integer          default("friendly"), not null
 #  timezone                      :string           default("UTC")
 #  working_hours_enabled         :boolean          default(FALSE)
@@ -27,16 +28,19 @@
 #  account_id                    :integer          not null
 #  channel_id                    :integer          not null
 #  portal_id                     :bigint
+#  priority_group_id             :bigint
 #
 # Indexes
 #
 #  index_inboxes_on_account_id                   (account_id)
 #  index_inboxes_on_channel_id_and_channel_type  (channel_id,channel_type)
 #  index_inboxes_on_portal_id                    (portal_id)
+#  index_inboxes_on_priority_group_id            (priority_group_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (portal_id => portals.id)
+#  fk_rails_...  (priority_group_id => priority_groups.id)
 #
 
 class Inbox < ApplicationRecord
@@ -54,10 +58,12 @@ class Inbox < ApplicationRecord
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
   validates :out_of_office_message, length: { maximum: Limits::OUT_OF_OFFICE_MESSAGE_MAX_LENGTH }
   validates :greeting_message, length: { maximum: Limits::GREETING_MESSAGE_MAX_LENGTH }
+  validates :public_name, length: { maximum: 255 }, allow_blank: true
   validate :ensure_valid_max_assignment_limit
 
   belongs_to :account
   belongs_to :portal, optional: true
+  belongs_to :priority_group, optional: true
 
   belongs_to :channel, polymorphic: true, dependent: :destroy
 
@@ -69,6 +75,7 @@ class Inbox < ApplicationRecord
   has_many :members, through: :inbox_members, source: :user
   has_many :conversations, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async
+  has_many :conversation_queues, dependent: :destroy
   has_many :email_templates, dependent: :destroy_async
 
   has_one :inbox_assignment_policy, dependent: :destroy
@@ -207,6 +214,10 @@ class Inbox < ApplicationRecord
     account.feature_enabled?('assignment_v2')
   end
 
+  def display_name
+    public_name.presence || name
+  end
+  
   # Callers (Reauthorizable) only invoke this on a real transition, so the previous
   # value is always the inverse of the new boolean value.
   def dispatch_reauthorization_event(reauthorization_required)

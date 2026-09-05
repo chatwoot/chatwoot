@@ -9,40 +9,57 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
 
   def create
     authorize @inbox, :create?
+    added_ids = agents_to_be_added_ids
     ActiveRecord::Base.transaction do
-      @inbox.add_members(agents_to_be_added_ids)
+      @inbox.add_members(added_ids)
     end
     fetch_updated_agents
+    broadcast_agents_updated(added_ids)
   end
 
   def update
     authorize @inbox, :update?
-    update_agents_list
+    added_ids = agents_to_be_added_ids
+    removed_ids = agents_to_be_removed_ids
+    update_agents_list(added_ids, removed_ids)
     fetch_updated_agents
+    broadcast_agents_updated(added_ids + removed_ids)
   end
 
   def destroy
     authorize @inbox, :destroy?
+    user_ids = params[:user_ids]
     ActiveRecord::Base.transaction do
-      @inbox.remove_members(params[:user_ids])
+      @inbox.remove_members(user_ids)
     end
+    broadcast_agents_updated(user_ids)
     head :ok
   end
 
   private
 
+  def broadcast_agents_updated(user_ids)
+    return if user_ids.blank?
+
+    users = Current.account.users.where(id: user_ids)
+    users.each do |user|
+      Rails.configuration.dispatcher.dispatch(
+        Events::Types::AGENT_UPDATED,
+        Time.zone.now,
+        user: user,
+        account_id: Current.account.id
+      )
+    end
+  end
+
   def fetch_updated_agents
     @agents = Current.account.users.where(id: @inbox.members.select(:user_id))
   end
 
-  def update_agents_list
-    # get all the user_ids which the inbox currently has as members.
-    # get the list of  user_ids from params
-    # the missing ones are the agents which are to be deleted from the inbox
-    # the new ones are the agents which are to be added to the inbox
+  def update_agents_list(added_ids, removed_ids)
     ActiveRecord::Base.transaction do
-      @inbox.add_members(agents_to_be_added_ids)
-      @inbox.remove_members(agents_to_be_removed_ids)
+      @inbox.add_members(added_ids)
+      @inbox.remove_members(removed_ids)
     end
   end
 

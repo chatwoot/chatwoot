@@ -10,6 +10,10 @@
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
+    "PRIORITY_GROUPS": {
+      "LABEL": "Priority groups",
+      "SELECT_PLACEHOLDER": "Select a group"
+    },
     "LIST": {
       "404": "There are no inboxes attached to this account."
     },
@@ -32,6 +36,10 @@
       }
     },
     "ADD": {
+      "PUBLIC_NAME": {
+        "LABEL": "Public name (shown to customers)",
+        "PLACEHOLDER": "Enter public name or leave blank to use internal name"
+      },
       "CHANNEL_NAME": {
         "LABEL": "Inbox Name",
         "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
@@ -1242,12 +1250,24 @@
     "CSAT": {
       "TITLE": "Enable CSAT",
       "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "LIKE_DISLIKE_HINT": {
+        "LABEL": "Like/dislike hint message",
+        "PLACEHOLDER": "This message will be shown to the user to notify them that they can rate the conversation at any time",
+        "TOGGLE_LABEL": "Enable like/dislike hint message",
+        "TOGGLE_DESCRIPTION": "This message will be shown to the user to notify them that they can rate the conversation at any time"
+      },
       "DISPLAY_TYPE": {
         "LABEL": "Display type"
       },
+      "CSAT_ON_RESOLVE": {
+        "TOGGLE_LABEL": "Send CSAT on resolve",
+        "TOGGLE_DESCRIPTION": "Automatically send a CSAT survey when a conversation is resolved"
+      },
       "MESSAGE": {
         "LABEL": "Message",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
+        "PLACEHOLDER": "Please enter a message to show users with the form",
+        "TOGGLE_LABEL": "Custom message'",
+        "TOGGLE_DESCRIPTION": "Send a custom message along with the CSAT survey"
       },
       "BUTTON_TEXT": {
         "LABEL": "Button text",

@@ -93,6 +93,14 @@ export const actions = {
       throw new Error(error);
     }
   },
+  getTeams: async (_, agentId) => {
+    const response = await AgentAPI.getTeams(agentId);
+    return response.data.teams;
+  },
+  getInboxes: async (_, agentId) => {
+    const response = await AgentAPI.getInboxes(agentId);
+    return response.data.inboxes;
+  },
 };
 
 export const mutations = {
