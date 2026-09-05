@@ -296,6 +296,28 @@ RSpec.describe Account do
       end
     end
 
+    context 'when auto_resolve_pending_after' do
+      it 'validates minimum value' do
+        account.settings = { auto_resolve_pending_after: 4 }
+        expect(account).to be_invalid
+        expect(account.errors.messages).to eq({ auto_resolve_pending_after: ['must be greater than or equal to 10'] })
+      end
+
+      it 'validates maximum value' do
+        account.settings = { auto_resolve_pending_after: 1_439_857 }
+        expect(account).to be_invalid
+        expect(account.errors.messages).to eq({ auto_resolve_pending_after: ['must be less than or equal to 1439856'] })
+      end
+
+      it 'allows valid and null values' do
+        account.settings = { auto_resolve_pending_after: 15 }
+        expect(account).to be_valid
+
+        account.settings = { auto_resolve_pending_after: nil }
+        expect(account).to be_valid
+      end
+    end
+
     context 'when auto_resolve_message' do
       it 'allows string values' do
         account.settings = { auto_resolve_message: 'This conversation has been resolved automatically.' }

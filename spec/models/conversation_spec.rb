@@ -1293,4 +1293,24 @@ RSpec.describe Conversation do
       expect(conversation.reload.status_changed_at).to be_within(1.second).of(original)
     end
   end
+
+  describe '.resolvable_pending' do
+    let(:account) { create(:account) }
+    let!(:stale_pending) { create(:conversation, account: account, status: :pending, last_activity_at: 3.days.ago) }
+    let!(:recent_pending) { create(:conversation, account: account, status: :pending, last_activity_at: 1.hour.ago) }
+    let!(:stale_open) { create(:conversation, account: account, status: :open, last_activity_at: 3.days.ago) }
+
+    it 'returns pending conversations inactive for longer than the given minutes' do
+      expect(account.conversations.resolvable_pending(60 * 24)).to contain_exactly(stale_pending)
+    end
+
+    it 'returns nothing when the duration is not set' do
+      expect(account.conversations.resolvable_pending(nil)).to be_empty
+    end
+
+    it 'never returns open conversations' do
+      expect(account.conversations.resolvable_pending(1)).not_to include(stale_open)
+      expect(account.conversations.resolvable_pending(1)).not_to include(recent_pending)
+    end
+  end
 end
