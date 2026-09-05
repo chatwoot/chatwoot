@@ -106,18 +106,20 @@ module ActivityMessageHandler
     params
   end
 
-  def create_muted_message
-    create_mute_change_activity('muted')
+  def create_muted_message(blocked_until: nil)
+    return create_mute_change_activity('muted') if blocked_until.blank?
+
+    create_mute_change_activity('muted_until', blocked_until: I18n.l(blocked_until.utc, format: :long))
   end
 
   def create_unmuted_message
     create_mute_change_activity('unmuted')
   end
 
-  def create_mute_change_activity(change_type)
+  def create_mute_change_activity(change_type, **)
     return unless Current.user
 
-    content = I18n.t("conversations.activity.#{change_type}", user_name: Current.user.name)
+    content = I18n.t("conversations.activity.#{change_type}", user_name: Current.user.name, **)
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 end

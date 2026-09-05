@@ -82,6 +82,17 @@ describe('#actions', () => {
       await actions.muteConversation({ commit }, 1);
       expect(commit.mock.calls).toEqual([[types.MUTE_CONVERSATION]]);
     });
+    it('passes the block duration to the API', async () => {
+      axios.post.mockResolvedValue(null);
+      await actions.muteConversation(
+        { commit },
+        { conversationId: 1, blockedUntil: '1_day' }
+      );
+      expect(axios.post).toHaveBeenCalledWith('/api/v1/conversations/1/mute', {
+        blocked_until: '1_day',
+      });
+      expect(commit.mock.calls).toEqual([[types.MUTE_CONVERSATION]]);
+    });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
       await actions.getConversation({ commit });

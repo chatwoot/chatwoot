@@ -208,6 +208,13 @@
       "INCOMING": "Incoming Message",
       "OUTGOING": "Outgoing Message"
     },
+    "MUTE_DURATIONS": {
+      "PERMANENT": "Permanently",
+      "ONE_HOUR": "1 hour",
+      "EIGHT_HOURS": "8 hours",
+      "ONE_DAY": "1 day",
+      "SEVEN_DAYS": "7 days"
+    },
     "PRIORITY_TYPES": {
       "NONE": "None",
       "LOW": "Low",

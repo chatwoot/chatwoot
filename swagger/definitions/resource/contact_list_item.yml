@@ -41,6 +41,12 @@ properties:
   blocked:
     type: boolean
     description: Whether the contact is blocked
+  blocked_until:
+    type:
+      - string
+      - 'null'
+    format: date-time
+    description: When a temporary block expires. Null for a permanent block or an unblocked contact
   identifier:
     type:
       - string

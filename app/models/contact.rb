@@ -7,6 +7,7 @@
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
 #  blocked               :boolean          default(FALSE), not null
+#  blocked_until         :datetime
 #  contact_type          :integer          default("visitor")
 #  country_code          :string           default("")
 #  custom_attributes     :jsonb
@@ -43,6 +44,7 @@
 
 class Contact < ApplicationRecord
   include Avatarable
+  include ContactBlockable
   include AvailabilityStatusable
   include Labelable
   include LlmFormattable
@@ -158,6 +160,7 @@ class Contact < ApplicationRecord
       phone_number: phone_number,
       thumbnail: avatar_url,
       blocked: blocked,
+      blocked_until: blocked_until,
       type: 'contact'
     }
     data[:company_id] = company_id if account.feature_enabled?('companies')
@@ -176,7 +179,8 @@ class Contact < ApplicationRecord
       name: name,
       phone_number: phone_number,
       thumbnail: avatar_url,
-      blocked: blocked
+      blocked: blocked,
+      blocked_until: blocked_until
     }
   end
 

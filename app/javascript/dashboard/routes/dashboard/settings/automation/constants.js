@@ -753,7 +753,7 @@ export const AUTOMATION_ACTION_TYPES = [
   {
     key: 'mute_conversation',
     label: 'MUTE_CONVERSATION',
-    inputType: null,
+    inputType: 'search_select',
   },
   {
     key: 'snooze_conversation',

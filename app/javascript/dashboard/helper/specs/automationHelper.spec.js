@@ -145,6 +145,17 @@ describe('getActionOptions', () => {
     ).toEqual(expectedOptions);
   });
 
+  it('returns the mute duration options for mute_conversation', () => {
+    const muteDurationOptions = [{ id: '1_hour', name: '1 hour' }];
+
+    expect(
+      helpers.getActionOptions({
+        type: 'mute_conversation',
+        muteDurationOptions,
+      })
+    ).toEqual(muteDurationOptions);
+  });
+
   it('does not add None option when addNoneToListFn is not provided', () => {
     const agents = [
       { id: 1, name: 'Agent 1' },
