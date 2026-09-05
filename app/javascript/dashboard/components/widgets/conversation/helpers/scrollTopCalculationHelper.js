@@ -1,5 +1,16 @@
+// `scrollHeight` does not include margins, but the space a message takes in
+// the list does (`mb-2` on `.message-bubble-container`), so they have to be
+// added back or the computed offset drifts by the margin per message.
+const getVerticalMargin = element => {
+  const view = element.ownerDocument?.defaultView;
+  if (!view?.getComputedStyle) return 0;
+
+  const { marginTop, marginBottom } = view.getComputedStyle(element);
+  return (parseFloat(marginTop) || 0) + (parseFloat(marginBottom) || 0);
+};
+
 const totalMessageHeight = (total, element) => {
-  return total + element.scrollHeight;
+  return total + element.scrollHeight + getVerticalMargin(element);
 };
 
 export const calculateScrollTop = (

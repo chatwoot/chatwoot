@@ -87,4 +87,17 @@ describe('#calculateScrollTop', () => {
     }
     expect(calculateScrollTop(1000, 300, relevantMessages)).toEqual(550);
   });
+
+  it('includes the vertical margins of the messages', () => {
+    const relevantMessages = [1, 2, 3].map(() => {
+      const element = document.createElement('div');
+      element.style.marginBottom = '8px';
+      Object.defineProperty(element, 'scrollHeight', { value: 100 });
+      document.body.appendChild(element);
+      return element;
+    });
+
+    // 1000 - 3 * (100 + 8) - 300 / 2
+    expect(calculateScrollTop(1000, 300, relevantMessages)).toEqual(526);
+  });
 });
