@@ -25,7 +25,7 @@
       "PLACEHOLDER": "Введите любой текст для поиска сообщений",
       "NO_MATCHING_RESULTS": "Результаты не найдены."
     },
-    "FORCE_TRANSFER":{
+    "FORCE_TRANSFER": {
       "ERROR": "Ошибка перевода чата",
       "SUCCESS": "Чат был успешно переведен",
       "ACTION": "Перевод чата"
@@ -440,7 +440,24 @@
       "MACROS": "Макросс",
       "LINEAR_ISSUES": "Связанные проблемы",
       "SHOPIFY_ORDERS": "Shopify Orders",
-      "SHARED_FILES": "Вложения"
+      "SHARED_FILES": "Вложения",
+      "QUEUE_ACTIONS": "Очередь"
+    },
+    "QUEUE_ACTIONS": {
+      "STATUS_LABEL": "Статус в очереди",
+      "STATUS": {
+        "WAITING": "Ожидает",
+        "ASSIGNED": "Назначен",
+        "LEFT": "Покинул очередь",
+        "NONE": "Не в очереди"
+      },
+      "LOADING": "…",
+      "POSITION": "Позиция",
+      "LEAVE": "Убрать из очереди",
+      "LEAVE_SUCCESS": "Диалог убран из очереди",
+      "LEAVE_ERROR": "Не удалось убрать диалог из очереди",
+      "LOAD_ERROR": "Не удалось загрузить статус очереди",
+      "EMPTY": "Диалог не находится в очереди"
     },
     "SHARED_FILES": {
       "EMPTY": "Нет вложений",

@@ -40,7 +40,7 @@
         "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
       },
       "RESOLUTION_TIME_WITHOUT_BOT": {
-        "NAME":"Время Завершения (Без Бота)",
+        "NAME": "Время Завершения (Без Бота)",
         "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
       },
       "RESOLUTION_COUNT": {
@@ -504,7 +504,8 @@
         "RATINGS": "Search ratings"
       },
       "AGENTS": {
-        "LABEL": "Оператор"
+        "LABEL": "Оператор",
+        "PLACEHOLDER": "Выберите оператора"
       },
       "INBOXES": {
         "LABEL": "Электронная почта"
