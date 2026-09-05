@@ -119,6 +119,26 @@ describe('AudioNotificationStore', () => {
     });
   });
 
+  describe('isCurrentConversation', () => {
+    it('should return true when the conversation is the selected chat', () => {
+      store.getters.getSelectedChat = { id: 1 };
+
+      expect(audioNotificationStore.isCurrentConversation(1)).toBe(true);
+    });
+
+    it('should return false when the conversation is not the selected chat', () => {
+      store.getters.getSelectedChat = { id: 2 };
+
+      expect(audioNotificationStore.isCurrentConversation(1)).toBe(false);
+    });
+
+    it('should return false when no chat is selected', () => {
+      store.getters.getSelectedChat = null;
+
+      expect(audioNotificationStore.isCurrentConversation(1)).toBe(false);
+    });
+  });
+
   describe('isMessageFromCurrentConversation', () => {
     it('should return true when message is from selected chat', () => {
       store.getters.getSelectedChat = { id: 6179 };
