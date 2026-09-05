@@ -100,6 +100,7 @@ class User < ApplicationRecord
   has_many :inboxes, through: :inbox_members, source: :inbox
   has_many :messages, as: :sender, dependent: :nullify
   has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', source: :inviter, dependent: :nullify
+  has_many :created_canned_responses, class_name: 'CannedResponse', foreign_key: 'created_by_id', dependent: :nullify, inverse_of: :created_by
 
   has_many :user_sessions, dependent: :destroy
   has_many :custom_filters, dependent: :destroy_async
@@ -112,6 +113,9 @@ class User < ApplicationRecord
   has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
   has_many :articles, foreign_key: 'author_id', dependent: :nullify, inverse_of: :author
+  has_many :user_pinned_labels, dependent: :destroy_async
+  has_many :pinned_labels, through: :user_pinned_labels, source: :label
+
   # rubocop:disable Rails/HasManyOrHasOneDependent
   # we are handling this in `remove_macros` callback
   has_many :macros, foreign_key: 'created_by_id', inverse_of: :created_by
@@ -195,6 +199,20 @@ class User < ApplicationRecord
     Chatwoot.mfa_enabled?
   end
 
+  def pin_label(label)
+    user_pinned_labels.find_or_create_by(label: label) do |upl|
+      upl.position = user_pinned_labels.maximum(:position).to_i + 1
+    end
+  end
+
+  def unpin_label(label)
+    user_pinned_labels.find_by(label: label)&.destroy
+  end
+
+  def label_pinned?(label_id)
+    user_pinned_labels.exists?(label_id: label_id)
+  end
+  
   # Workaround for Devise 4.9.x race condition vulnerability (GHSA-57hq-95w6-v4fc).
   #
   # The Confirmable module's reconfirmable flow has a race condition where concurrent
