@@ -20,6 +20,26 @@ namespace :chatwoot do
       show_current_variant
     end
 
+    desc 'Set enterprise plan, enable custom roles, and skip Hub/reconcile enforcement (development only)'
+    task setup_enterprise_sandbox: :environment do
+      return unless Rails.env.development?
+
+      configure_enterprise_variant
+      clear_cache
+      show_current_variant
+      puts '✅ Enterprise sandbox ready (reconcile + Hub plan sync disabled in development).'
+    end
+
+    desc 'Set community plan (like prod) and enable custom roles on all accounts (development only)'
+    task setup_community_custom_roles_sandbox: :environment do
+      return unless Rails.env.development?
+
+      configure_community_custom_roles_variant
+      clear_cache
+      show_current_variant
+      puts '✅ Community sandbox with custom roles ready.'
+    end
+
     private
 
     def show_current_variant
@@ -98,11 +118,24 @@ namespace :chatwoot do
     def configure_community_variant
       update_installation_config('DEPLOYMENT_ENV', 'self-hosted')
       update_installation_config('INSTALLATION_PRICING_PLAN', 'community')
+      enable_custom_roles_on_all_accounts if Rails.env.development?
+    end
+
+    def configure_community_custom_roles_variant
+      configure_community_variant
     end
 
     def configure_enterprise_variant
       update_installation_config('DEPLOYMENT_ENV', 'self-hosted')
       update_installation_config('INSTALLATION_PRICING_PLAN', 'enterprise')
+      enable_custom_roles_on_all_accounts if Rails.env.development?
+    end
+
+    def enable_custom_roles_on_all_accounts
+      Account.find_each do |account|
+        account.enable_features!('custom_roles')
+        puts "   🔓 Enabled custom_roles on account ##{account.id} (#{account.name})"
+      end
     end
 
     def configure_cloud_variant

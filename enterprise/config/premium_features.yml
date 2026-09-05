@@ -2,7 +2,6 @@
 - disable_branding
 - audit_logs
 - sla
-- custom_roles
 - captain_integration
 - captain_integration_v2
 - captain_document_auto_sync

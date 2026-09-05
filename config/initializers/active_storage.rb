@@ -1,3 +1,4 @@
+Rails.application.config.active_storage.service_urls_expire_in = 1.year
 # Allow audio attachments (call recordings, voice notes) to serve inline so the
 # in-app <audio> player can stream them. Without this, ActiveStorage's blob model
 # forces Content-Disposition: attachment for any MIME outside the default allowlist
