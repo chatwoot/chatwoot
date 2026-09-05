@@ -98,9 +98,9 @@
         "UPDATE_BUTTON": "Save Changes"
       },
       "QUEUE_MESSAGE": {
-          "LABEL": "Custom queue message",
-          "HELP": "Message sent to the customer if conversation is in queue",
-          "PLACEHOLDER": "All agents are currently busy. We will connect you to a free agent as soon as one is available."
+        "LABEL": "Custom queue message",
+        "HELP": "Message sent to the customer if conversation is in queue",
+        "PLACEHOLDER": "All agents are currently busy. We will connect you to a free agent as soon as one is available."
       },
       "NAME": {
         "LABEL": "Account name",
@@ -150,20 +150,6 @@
         },
         "UPDATE_BUTTON": "Update",
         "MESSAGE_LABEL": "Custom resolution message",
-        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
-      },
-      "AUTO_RESOLVE_PENDING_DURATION": {
-        "LABEL": "Inactivity duration for pending resolution",
-        "HELP": "Duration after a conversation should auto resolve if there is no activity",
-        "PLACEHOLDER": "30",
-        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
-        "API": {
-          "SUCCESS": "Auto resolve settings updated successfully",
-          "ERROR": "Failed to update auto resolve settings"
-        },
-        "UPDATE_BUTTON": "Update",
-        "MESSAGE_LABEL": "Custom pending resolution message",
         "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
         "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
