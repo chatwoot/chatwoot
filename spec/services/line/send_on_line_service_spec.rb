@@ -212,5 +212,99 @@ describe Line::SendOnLineService do
         described_class.new(message: message).perform
       end
     end
+
+    context 'when the message carries a LINE Flex container' do
+      let(:bubble) do
+        {
+          'type' => 'bubble',
+          'hero' => { 'type' => 'image', 'url' => 'https://example.com/hero.jpg' },
+          'footer' => {
+            'type' => 'box', 'layout' => 'vertical',
+            'contents' => [
+              { 'type' => 'button', 'style' => 'primary',
+                'action' => { 'type' => 'uri', 'label' => 'Open', 'uri' => 'https://example.com/form' } }
+            ]
+          }
+        }
+      end
+      let(:flex_message) do
+        create(:message, message_type: :outgoing, content: 'Report a problem',
+                         content_attributes: { 'line_flex' => bubble },
+                         conversation: create(:conversation, inbox: line_channel.inbox))
+      end
+
+      before { allow(line_client).to receive(:push_message) }
+
+      it 'sends it through untouched' do
+        expect(line_client).to receive(:push_message).with(
+          anything, hash_including(type: 'flex', contents: bubble)
+        )
+        described_class.new(message: flex_message).perform
+      end
+
+      it 'uses the message content as altText' do
+        expect(line_client).to receive(:push_message).with(
+          anything, hash_including(altText: 'Report a problem')
+        )
+        described_class.new(message: flex_message).perform
+      end
+
+      it 'truncates altText to the 400 characters LINE allows' do
+        flex_message.update!(content: 'a' * 500)
+        sent = nil
+        allow(line_client).to receive(:push_message) { |_to, payload| sent = payload and nil }
+        described_class.new(message: flex_message).perform
+        expect(sent[:altText].length).to eq(400)
+      end
+
+      it 'never sends a blank altText' do
+        flex_message.update!(content: '')
+        sent = nil
+        allow(line_client).to receive(:push_message) { |_to, payload| sent = payload and nil }
+        described_class.new(message: flex_message).perform
+        expect(sent[:altText]).to be_present
+      end
+
+      it 'accepts a carousel as well as a bubble' do
+        flex_message.update!(content_attributes: { 'line_flex' => { 'type' => 'carousel', 'contents' => [bubble] } })
+        expect(line_client).to receive(:push_message).with(
+          anything, hash_including(type: 'flex')
+        )
+        described_class.new(message: flex_message).perform
+      end
+    end
+
+    context 'when line_flex is present but not a usable container' do
+      before { allow(line_client).to receive(:push_message) }
+
+      # Falling back keeps a malformed attribute from turning every reply into a
+      # LINE 400. The text the agent wrote still reaches the customer.
+      it 'falls back to text when the type is not bubble or carousel' do
+        bad = create(:message, message_type: :outgoing, content: 'plain text',
+                               content_attributes: { 'line_flex' => { 'type' => 'box' } },
+                               conversation: create(:conversation, inbox: line_channel.inbox))
+        expect(line_client).to receive(:push_message).with(anything, hash_including(type: 'text'))
+        described_class.new(message: bad).perform
+      end
+
+      it 'falls back to text when it is not a hash' do
+        bad = create(:message, message_type: :outgoing, content: 'plain text',
+                               content_attributes: { 'line_flex' => 'bubble' },
+                               conversation: create(:conversation, inbox: line_channel.inbox))
+        expect(line_client).to receive(:push_message).with(anything, hash_including(type: 'text'))
+        described_class.new(message: bad).perform
+      end
+    end
+
+    context 'when no Flex container is supplied' do
+      before { allow(line_client).to receive(:push_message) }
+
+      # Guards the existing behaviour: every message that worked before must
+      # still take the same path.
+      it 'still sends a plain text message' do
+        expect(line_client).to receive(:push_message).with(anything, hash_including(type: 'text'))
+        described_class.new(message: message).perform
+      end
+    end
   end
 end
