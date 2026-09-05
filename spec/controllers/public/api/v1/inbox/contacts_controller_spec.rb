@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Public Inbox Contacts API', type: :request do
   let!(:api_channel) { create(:channel_api) }
-  let!(:contact) { create(:contact) }
+  let!(:contact) { create(:contact, account: api_channel.account, identifier: 'victim-identifier') }
   let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: api_channel.inbox) }
 
   describe 'POST /public/api/v1/inboxes/{identifier}/contact' do
@@ -35,6 +35,26 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       expect(data.keys).to include('email', 'id', 'name', 'phone_number', 'pubsub_token', 'source_id')
       expect(data['source_id']).to eq contact_inbox.source_id
       expect(data['pubsub_token']).to eq contact_inbox.pubsub_token
+    end
+
+    it 'marks the contact inbox verified when the identifier hash matches the selected contact' do
+      identifier_hash = OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, contact.identifier)
+
+      get "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}",
+          params: { identifier: contact.identifier, identifier_hash: identifier_hash }
+
+      expect(response).to have_http_status(:success)
+      expect(contact_inbox.reload.hmac_verified).to be(true)
+    end
+
+    it 'does not verify a contact inbox with a hash for a different identifier' do
+      attacker_hash = OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, 'attacker-identifier')
+
+      get "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}",
+          params: { identifier: 'attacker-identifier', identifier_hash: attacker_hash }
+
+      expect(response).to have_http_status(:internal_server_error)
+      expect(contact_inbox.reload.hmac_verified).to be(false)
     end
   end
 
