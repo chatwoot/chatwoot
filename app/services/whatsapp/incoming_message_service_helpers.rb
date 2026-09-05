@@ -4,12 +4,48 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def conversation_params
-    {
+    params = {
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       contact_id: @contact.id,
       contact_inbox_id: @contact_inbox.id
     }
+    
+    ad_source_metadata = extract_ad_source_metadata
+    params[:additional_attributes] = ad_source_metadata if ad_source_metadata.present?
+    
+    params
+  end
+
+  def extract_ad_source_metadata
+    message = @processed_params[:messages]&.first
+    return {} if message.blank?
+
+    metadata = {}
+
+    # Extract referral data from WhatsApp ads
+    # https://developers.facebook.com/docs/whatsapp/business-management-api/guides/set-up-ads
+    if message[:referral].present?
+      referral = message[:referral]
+      metadata[:ad_source] = 'whatsapp_ad'
+      metadata[:ad_source_id] = referral[:source_id] if referral[:source_id].present?
+      metadata[:ad_source_type] = referral[:source_type] if referral[:source_type].present?
+      metadata[:ad_source_url] = referral[:source_url] if referral[:source_url].present?
+      metadata[:ad_headline] = referral[:headline] if referral[:headline].present?
+      metadata[:ad_body] = referral[:body] if referral[:body].present?
+      metadata[:ad_media_type] = referral[:media_type] if referral[:media_type].present?
+      metadata[:ad_media_url] = referral[:media_url] if referral[:media_url].present?
+      metadata[:ad_ctwa_clid] = referral[:ctwa_clid] if referral[:ctwa_clid].present?
+    end
+
+    # Extract context data which may include ad-related information
+    if message[:context].present?
+      context = message[:context]
+      metadata[:referral_from] = context[:from] if context[:from].present?
+      metadata[:referred_product_id] = context[:referred_product]&.[](:product_retailer_id) if context[:referred_product].present?
+    end
+
+    metadata.compact
   end
 
   def processed_params
