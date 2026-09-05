@@ -7,6 +7,7 @@ import { useAlert } from 'dashboard/composables';
 import SectionLayout from './SectionLayout.vue';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import Editor from 'next/Editor/Editor.vue';
+import TextArea from 'next/textarea/TextArea.vue';
 import Switch from 'next/switch/Switch.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import DurationInput from 'next/input/DurationInput.vue';

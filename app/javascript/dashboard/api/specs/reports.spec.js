@@ -93,7 +93,7 @@ describe('#Reports API', () => {
         );
       });
     });
-  
+
     it('#getDrilldown', () => {
       reportsAPI.getDrilldown({
         metric: 'incoming_messages_count',
