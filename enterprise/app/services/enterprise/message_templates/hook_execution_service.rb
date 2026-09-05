@@ -15,12 +15,6 @@ module Enterprise::MessageTemplates::HookExecutionService
     Captain::Conversation::ResponseSchedulerService.new(message: message).perform
   end
 
-  def should_send_greeting?
-    return false if captain_handling_conversation?
-
-    super
-  end
-
   def should_send_out_of_office_message?
     return false if captain_handling_conversation?
 

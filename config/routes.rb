@@ -60,6 +60,10 @@ Rails.application.routes.draw do
           end
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection
+            member do
+              get :inboxes
+              get :teams
+            end
           end
           namespace :captain do
             resource :preferences, only: [:show, :update]
@@ -176,6 +180,8 @@ Rails.application.routes.draw do
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
+              post :force_transfer, to: 'force_transfers#create'
+              resource :queue, only: [:show, :destroy], controller: 'queues'
             end
             member do
               post :mute
@@ -191,6 +197,7 @@ Rails.application.routes.draw do
               get :attachments
               get :inbox_assistant
               get :reporting_events if ChatwootApp.enterprise?
+              patch :change_inbox
             end
           end
 
@@ -291,6 +298,7 @@ Rails.application.routes.draw do
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resource :branded_email_layout, only: [:show, :update]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
+            get :index_all, on: :collection
             get :assignable_agents, on: :member
             get :campaigns, on: :member
             get :agent_bot, on: :member
@@ -323,7 +331,9 @@ Rails.application.routes.draw do
               patch :update
             end
           end
-          resources :labels, only: [:index, :show, :create, :update, :destroy]
+          resources :labels, only: [:index, :show, :create, :update, :destroy] do
+            resource :pin, only: [:create, :destroy], controller: 'pinned_labels'
+          end
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do
@@ -431,6 +441,8 @@ Rails.application.routes.draw do
               end
             end
           end
+          resources :working_hours, only: [:update]
+          resources :priority_groups, only: [:index]
           resources :portals do
             member do
               patch :archive
@@ -502,6 +514,7 @@ Rails.application.routes.draw do
             post :update_last_seen
             post :toggle_typing
             post :transcript
+            post :request_csat
             get  :toggle_status
           end
         end
@@ -528,17 +541,20 @@ Rails.application.routes.draw do
         scope module: :accounts do
           resources :summary_reports, only: [] do
             collection do
+              get :agent_activity
               get :agent
               get :team
               get :inbox
               get :label
               get :channel
+              get :bot
             end
           end
           resources :reports, only: [:index] do
             collection do
               get :summary
               get :bot_summary
+              get :agent_activity
               get :agents
               get :inboxes
               get :labels
@@ -548,6 +564,10 @@ Rails.application.routes.draw do
               get :conversation_traffic
               get :drilldown
               get :bot_metrics
+              get :queued_customers
+              get :overview_summary
+              get :bot_summary_download
+              get :all_conversation_metrics_download
               get :inbox_label_matrix
               get :first_response_time_distribution
               get :outgoing_messages_count
@@ -752,7 +772,7 @@ Rails.application.routes.draw do
       end
 
       # resources that doesn't appear in primary navigation in super admin
-      resources :account_users, only: [:new, :create, :show, :destroy]
+      resources :account_users, only: [:new, :create, :show, :destroy, :update]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'

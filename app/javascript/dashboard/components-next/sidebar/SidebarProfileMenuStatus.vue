@@ -12,15 +12,12 @@ import {
   DropdownSection,
   DropdownItem,
 } from 'next/dropdown-menu/base';
-import Icon from 'next/icon/Icon.vue';
 import Button from 'next/button/Button.vue';
-import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 
 const { t } = useI18n();
 const store = useStore();
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
 const currentAccountId = useMapGetter('getCurrentAccountId');
-const currentUserAutoOffline = useMapGetter('getCurrentUserAutoOffline');
 
 const { isImpersonating } = useImpersonation();
 
@@ -47,16 +44,6 @@ const availabilityStatuses = computed(() => {
 
 const activeStatus = computed(() => {
   return availabilityStatuses.value.find(status => status.active);
-});
-
-const autoOfflineToggle = computed({
-  get: () => currentUserAutoOffline.value,
-  set: autoOffline => {
-    store.dispatch('updateAutoOffline', {
-      accountId: currentAccountId.value,
-      autoOffline,
-    });
-  },
 });
 
 function changeAvailabilityStatus(availability) {
@@ -113,17 +100,6 @@ function changeAvailabilityStatus(availability) {
             />
           </DropdownBody>
         </DropdownContainer>
-      </DropdownItem>
-      <DropdownItem>
-        <div class="flex-grow min-w-0">
-          {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
-          <Icon
-            v-tooltip.top="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_SHORT')"
-            icon="i-lucide-info"
-            class="inline-block align-middle ms-1 size-4 text-n-slate-10"
-          />
-        </div>
-        <ToggleSwitch v-model="autoOfflineToggle" />
       </DropdownItem>
     </div>
   </DropdownSection>

@@ -55,7 +55,9 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def update
-    @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email))
+    @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email, :queue_enabled, :queue_message,
+                                                    :active_chat_limit_enabled, :active_chat_limit_value))
+    @account.queue_enabled = params[:queue_enabled] if params.key?(:queue_enabled)
     @account.custom_attributes.merge!(custom_attributes_params)
     @account.settings.merge!(settings_params)
     @account.custom_attributes['onboarding_step'] = 'invite_team' if @account.custom_attributes['onboarding_step'] == 'account_update'
@@ -108,7 +110,8 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :user_full_name)
+    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :user_full_name,
+                  :queue_enabled, :queue_message, :active_chat_limit_enabled, :active_chat_limit_value)
   end
 
   def custom_attributes_params
@@ -120,7 +123,10 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def permitted_settings_attributes
-    [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label]
+    [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label,
+    :queue_enabled, :auto_resolve_message_agent, :auto_resolve_message_client, :auto_resolve_split_reasons,
+    :auto_resolve_pending_after, :auto_resolve_pending_message, :busy_to_offline_timeout, :agent_history_days,
+    conversation_required_attributes: []]
   end
 
   def check_signup_enabled

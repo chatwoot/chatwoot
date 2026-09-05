@@ -33,7 +33,8 @@ class MessageTemplates::HookExecutionService
   end
 
   def first_message_from_contact?
-    conversation.messages.outgoing.count.zero? && conversation.messages.template.count.zero?
+    conversation.messages.outgoing.count.zero? &&
+      conversation.messages.template.where(content: inbox.greeting_message).count.zero?
   end
 
   def should_send_greeting?

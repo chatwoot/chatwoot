@@ -14,6 +14,9 @@
 #  identifier             :string
 #  last_activity_at       :datetime         not null
 #  priority               :integer
+#  proxied_at             :datetime
+#  resolved_at            :datetime
+#  resolved_by_contact    :boolean          default(FALSE)
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
 #  status_changed_at      :datetime
@@ -47,6 +50,8 @@
 #  index_conversations_on_identifier_and_account_id   (identifier,account_id)
 #  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_priority                    (priority)
+#  index_conversations_on_proxied_at                  (proxied_at)
+#  index_conversations_on_resolved_at                 (resolved_at)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_status_and_priority         (status,priority)
 #  index_conversations_on_team_id                     (team_id)
@@ -64,6 +69,7 @@ class Conversation < ApplicationRecord
   include SortHandler
   include PushDataHelper
   include ConversationMuteHelpers
+  include ProxyConversationHandler
 
   CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS = %w[conversation_language].freeze
   FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS = %w[browser_language conversation_language mail_subject referer].freeze
@@ -83,7 +89,7 @@ class Conversation < ApplicationRecord
   validates :uuid, uniqueness: true
   validate :validate_referer_url
 
-  enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
+  enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3, queued: 4, proxied: 5 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
 
   scope :unassigned, -> { where(assignee_id: nil, assignee_agent_bot_id: nil) }
@@ -93,6 +99,13 @@ class Conversation < ApplicationRecord
     order(unread_messages_count_arel.desc).sort_on_last_activity_at('desc')
   }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
+  scope :proxied, -> { where(status: :proxied) }
+  scope :non_proxied, -> { where(proxied_at: nil) }
+  scope :resolvable_proxied, lambda { |auto_resolve_after|
+    return none if auto_resolve_after.to_i.zero?
+
+    proxied.where('last_activity_at < ?', Time.now.utc - auto_resolve_after.minutes)
+  }
   scope :resolvable_not_waiting, lambda { |auto_resolve_after|
     return none if auto_resolve_after.to_i.zero?
 
@@ -103,7 +116,11 @@ class Conversation < ApplicationRecord
 
     open.where('last_activity_at < ?', Time.now.utc - auto_resolve_after.minutes)
   }
+  scope :resolvable_pending, lambda { |auto_resolve_pending_after|
+    return none if auto_resolve_pending_after.to_i.zero?
 
+    pending.where('last_activity_at < ?', Time.now.utc - auto_resolve_pending_after.minutes)
+  }
   scope :last_user_message_at, lambda {
     joins(
       "INNER JOIN (#{last_messaged_conversations.to_sql}) AS grouped_conversations
@@ -111,6 +128,25 @@ class Conversation < ApplicationRecord
     ).sort_on_last_user_message_at
   }
 
+  scope :filter_by_label_ids, lambda { |label_ids, account_id|
+    return all if label_ids.blank?
+
+    label_ids = label_ids.reject(&:blank?)
+    return all if label_ids.empty?
+
+    tag_ids = ReportingEvent.tag_ids_for_labels(label_ids, account_id)
+    return none if tag_ids.empty?
+
+    joins(:taggings)
+      .where(
+        taggings: {
+          taggable_type: 'Conversation',
+          context: 'labels',
+          tag_id: tag_ids
+        }
+      )
+      .distinct
+  }
   belongs_to :account
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations
@@ -128,6 +164,8 @@ class Conversation < ApplicationRecord
   has_many :messages, dependent: :destroy_async, autosave: true
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :conversation_participants, dependent: :destroy_async
+
+  has_one :conversation_queue, dependent: :destroy
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :attachments, through: :messages
   has_many :reporting_events, dependent: :destroy_async
@@ -137,8 +175,16 @@ class Conversation < ApplicationRecord
   before_save :set_status_changed_at
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
+  before_update :close_previous_agent_on_reassign
+  before_update :close_agents_on_resolve
+  before_update :set_proxied_at
+  after_update :leave_queue_if_assignee_present
 
+  after_update :remove_from_queue_if_status_changed
+  after_update :create_participant_for_new_agent
+  after_update_commit :cascade_close_proxy_chain, if: :saved_change_to_status?
   after_update_commit :execute_after_update_commit_callbacks
+  after_update_commit :process_queue_on_assignment_change
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
   before_destroy :set_unread_count_deletion_data
@@ -189,6 +235,10 @@ class Conversation < ApplicationRecord
 
   def dispatch_bot_handoff_event
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
+
+    return unless account.queue_enabled? && assignee.nil?
+
+    ChatQueue::QueueService.new(account: account).add_to_queue(self)
   end
 
   def unread_messages
@@ -205,6 +255,12 @@ class Conversation < ApplicationRecord
 
   def cached_label_list_array
     (cached_label_list || '').split(',').map(&:strip)
+  end
+
+  def csat_response_status
+    return nil unless csat_survey_response
+
+    csat_survey_response.csat_status
   end
 
   def notifiable_assignee_change?
@@ -263,7 +319,81 @@ class Conversation < ApplicationRecord
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end
 
+  def track_agent_chat_duration(participant)
+    return if participant.created_at.nil? || participant.left_at.nil?
+
+    duration = participant.left_at - participant.created_at
+    return if duration <= 0
+
+    reporting_events.create!(
+      account_id: account_id,
+      user_id: participant.user_id,
+      name: :agent_chat_duration,
+      value: duration.to_i
+    )
+  end
+
+  def operator_replied_after?(operator_id:, from_time:, to_time:)
+    messages.where(sender_type: 'User', sender_id: operator_id, message_type: :outgoing)
+            .exists?(['created_at > ? AND created_at < ?', from_time, to_time])
+  end
+
   private
+
+  def leave_queue_if_assignee_present
+    return unless account.queue_enabled?
+    return unless saved_change_to_assignee_id?
+    return if assignee_id.blank?
+  
+    ChatQueue::QueueService.new(account: account).remove_from_queue(self, reason: :other)
+  end
+
+  def set_proxied_at
+    self.proxied_at = Time.current if will_save_change_to_status? && status == 'proxied'
+  end
+
+  def close_previous_agent_on_reassign
+    return unless will_save_change_to_assignee_id?
+
+    prev_id, new_id = assignee_id_change
+    return if prev_id.nil? || prev_id == new_id
+
+    participant = ConversationParticipant
+                  .find_by(conversation_id: id, user_id: prev_id, left_at: nil)
+
+    return unless participant
+
+    participant.update!(left_at: Time.current)
+    track_agent_chat_duration(participant)
+  end
+
+  def create_participant_for_new_agent
+    return unless saved_change_to_assignee_id?
+    return if assignee_id.nil?
+
+    participant = ConversationParticipant.find_or_initialize_by(conversation_id: id, user_id: assignee_id)
+
+    now = Time.current
+
+    if participant.persisted?
+      participant.update!(left_at: nil, created_at: now)
+    else
+      participant.created_at = now
+      participant.save!
+    end
+  end
+
+  def close_agents_on_resolve
+    return unless will_save_change_to_status?
+    return unless status == 'resolved'
+
+    ConversationParticipant
+      .where(conversation_id: id, left_at: nil)
+      .find_each do |participant|
+        participant.update!(left_at: Time.current)
+        track_agent_chat_duration(participant)
+      end
+  end
 
   def execute_after_update_commit_callbacks
     handle_resolved_status_change
@@ -273,14 +403,27 @@ class Conversation < ApplicationRecord
     notify_conversation_updation
   end
 
+  def process_queue_on_assignment_change
+    return unless account.queue_enabled?
+    return unless saved_change_to_assignee_id? || saved_change_to_status?
+
+    open! if saved_change_to_assignee_id? && assignee_id.present? && queued?
+    Queue::ProcessQueueJob.perform_later(account.id, inbox_id) if should_process_queue?
+  end
+
+  def should_process_queue?
+    resolved? || assignee_id.blank? || saved_change_to_assignee_id?
+  end
+
   def handle_resolved_status_change
     # When conversation is resolved, clear waiting_since using update_column to avoid callbacks
     return unless saved_change_to_status? && status == 'resolved'
 
     # rubocop:disable Rails/SkipsModelValidations
+    update_column(:resolved_at, Time.current)
     update_column(:waiting_since, nil)
     # rubocop:enable Rails/SkipsModelValidations
-  end
+end
 
   def ensure_snooze_until_reset
     self.snoozed_until = nil unless snoozed?
@@ -342,7 +485,7 @@ class Conversation < ApplicationRecord
 
   def list_of_keys
     %w[team_id assignee_id assignee_agent_bot_id ai_assignee_type status snoozed_until custom_attributes label_list waiting_since
-       first_reply_created_at priority]
+       first_reply_created_at priority resolved_by_contact]
   end
 
   def allowed_keys?
@@ -419,10 +562,33 @@ class Conversation < ApplicationRecord
     create_label_removed(user_name, previous_labels - current_labels)
   end
 
+  def cascade_close_proxy_chain
+    return unless resolved?
+    Widget::ConversationCloseProxyService.new(self).call
+  end
+
   def validate_referer_url
     return unless additional_attributes['referer']
 
     self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
+  end
+
+  def remove_from_queue_if_status_changed
+    return unless saved_change_to_status?
+    return unless account.queue_enabled?
+
+    old_status, new_status = saved_change_to_status
+
+    reason = if new_status == 'resolved'
+               :resolved
+             elsif old_status == 'queued' && new_status != 'queued'
+               :other
+             else
+               return
+             end
+
+    ChatQueue::QueueService.new(account: account)
+                           .remove_from_queue(self, reason: reason)
   end
 
   # creating db triggers
