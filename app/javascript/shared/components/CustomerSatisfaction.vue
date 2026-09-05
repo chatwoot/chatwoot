@@ -123,7 +123,6 @@ export default {
 
   methods: {
     buttonClass(rating) {
-      const isLocked = this.isFeedbackSubmitted || this.isUpdating;
       return [
         { selected: rating.value === this.selectedRating },
         { disabled: this.isRatingSubmitted && !this.isLikeDislikeType },

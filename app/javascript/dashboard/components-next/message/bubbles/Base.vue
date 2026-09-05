@@ -16,15 +16,8 @@ const props = defineProps({
   hideMeta: { type: Boolean, default: false },
 });
 
-const {
-  variant,
-  orientation,
-  inReplyTo,
-  shouldGroupWithNext,
-  id,
-  sender,
-  senderType,
-} = useMessageContext();
+const { variant, orientation, inReplyTo, id, sender, senderType } =
+  useMessageContext();
 const { t } = useI18n();
 
 const isCaptainMessage = computed(
