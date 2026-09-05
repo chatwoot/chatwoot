@@ -102,6 +102,9 @@ export default {
     isOpen() {
       return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
     },
+    isProxyChat() {
+      return this.currentChat?.status === 'proxied';
+    },
     shouldShowLabelSuggestions() {
       return (
         this.isOpen &&
@@ -261,13 +264,26 @@ export default {
 
   watch: {
     currentChat(newChat, oldChat) {
-      if (newChat.id === oldChat.id) {
+      if (oldChat?.id && newChat.id === oldChat.id) {
         return;
       }
+      this.hasUserScrolled = false;
       this.fetchAllAttachmentsFromCurrentChat();
       this.fetchSuggestions();
       this.messageSentSinceOpened = false;
       this.resetReplyEditorHeight();
+    },
+    'currentChat.messages.length'(newLength, oldLength) {
+      if (!this.currentChat?.id || newLength === oldLength) {
+        return;
+      }
+
+      const { messageId } = this.$route.query;
+      if (messageId || this.hasUserScrolled) {
+        return;
+      }
+
+      this.$nextTick(() => this.scrollToBottom());
     },
   },
 
@@ -364,36 +380,41 @@ export default {
     },
     scrollToBottom() {
       this.isProgrammaticScroll = true;
-      let relevantMessages = [];
-
-      // label suggestions are not part of the messages list
-      // so we need to handle them separately
-      let labelSuggestions =
-        this.conversationPanel.querySelector('.label-suggestion');
-
-      // if there are unread messages, scroll to the first unread message
-      if (this.unreadMessageCount > 0) {
-        // capturing only the unread messages
-        relevantMessages =
-          this.conversationPanel.querySelectorAll('.message--unread');
-      } else if (labelSuggestions) {
-        // when scrolling to the bottom, the label suggestions is below the last message
-        // so we scroll there if there are no unread messages
-        // Unread messages always take the highest priority
-        relevantMessages = [labelSuggestions];
-      } else {
-        // if there are no unread messages or label suggestion, scroll to the last message
-        // capturing last message from the messages list
-        relevantMessages = Array.from(
-          this.conversationPanel.querySelectorAll('.message--read')
-        ).slice(-1);
+      const { conversationPanel } = this;
+      if (!conversationPanel) {
+        return;
       }
 
-      this.conversationPanel.scrollTop = calculateScrollTop(
-        this.conversationPanel.scrollHeight,
-        this.$el.scrollHeight,
-        relevantMessages
+      let relevantMessages = [];
+      const labelSuggestions =
+        conversationPanel.querySelector('.label-suggestion');
+      const messageElements = conversationPanel.querySelectorAll(
+        '.message-bubble-container'
       );
+
+      if (this.unreadMessageCount > 0 && this.unReadMessages[0]?.id) {
+        const unreadElement = document.getElementById(
+          `message${this.unReadMessages[0].id}`
+        );
+        if (unreadElement) {
+          relevantMessages = [unreadElement];
+        }
+      } else if (labelSuggestions) {
+        relevantMessages = [labelSuggestions];
+      } else if (messageElements.length) {
+        relevantMessages = [messageElements[messageElements.length - 1]];
+      }
+
+      if (relevantMessages.length) {
+        conversationPanel.scrollTop = calculateScrollTop(
+          conversationPanel.scrollHeight,
+          this.$el.scrollHeight,
+          relevantMessages
+        );
+        return;
+      }
+
+      conversationPanel.scrollTop = conversationPanel.scrollHeight;
     },
     setScrollParams() {
       this.heightBeforeLoad = this.conversationPanel.scrollHeight;
@@ -549,6 +570,7 @@ export default {
         </div>
       </div>
       <ResizableEditorWrapper
+        v-if="!isProxyChat"
         ref="resizableEditorWrapperRef"
         :container-height="Math.max(0, containerHeight - topBannerHeight)"
       >

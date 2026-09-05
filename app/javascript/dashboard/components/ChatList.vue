@@ -965,6 +965,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       :conversation-type="conversationType"
       :show-assignee="showAssigneeInConversationCard"
       :is-on-expanded-layout="isOnExpandedLayout"
+      :active-status="activeStatus"
       @load-more="loadMoreConversations"
     />
     <Dialog

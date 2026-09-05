@@ -11,6 +11,8 @@ import { useConversationRequiredAttributes } from 'dashboard/composables/useConv
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import wootConstants from 'dashboard/constants/globals';
+import ConversationApi from 'dashboard/api/conversations';
+
 import {
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
@@ -47,6 +49,9 @@ const isResolved = computed(
 const isSnoozed = computed(
   () => currentChat.value.status === wootConstants.STATUS_TYPE.SNOOZED
 );
+const isQueued = computed(
+  () => currentChat.value.status === wootConstants.STATUS_TYPE.QUEUED
+);
 
 const showAdditionalActions = computed(
   () => !isPending.value && !isSnoozed.value
@@ -55,6 +60,22 @@ const showAdditionalActions = computed(
 const showOpenButton = computed(() => {
   return isPending.value || isSnoozed.value;
 });
+
+const forceTransfer = async () => {
+  closeDropdown();
+  isLoading.value = true;
+
+  try {
+    await ConversationApi.forceTransfer(currentChat.value.id);
+    useAlert(t('CONVERSATION.FORCE_TRANSFER.SUCCESS'));
+
+    store.dispatch('fetchConversation', currentChat.value.id);
+  } catch (error) {
+    useAlert(t('CONVERSATION.FORCE_TRANSFER.ERROR'));
+  } finally {
+    isLoading.value = false;
+  }
+};
 
 const getConversationParams = () => {
   const allConversations = document.querySelectorAll(
@@ -176,53 +197,95 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 </script>
 
 <template>
-  <div class="flex relative justify-end items-center resolve-actions">
-    <ButtonGroup
-      class="flex-shrink-0 rounded-lg shadow outline-1 outline"
-      :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
-    >
+  <div class="relative flex items-center justify-end resolve-actions">
+    <template v-if="isQueued">
       <Button
-        v-if="isOpen"
-        :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
+        :label="t('CONVERSATION.FORCE_TRANSFER.ACTION')"
         size="sm"
         color="slate"
         no-animation
-        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
+        class="mr-2"
         :is-loading="isLoading"
-        @click="onCmdResolveConversation"
+        @click="forceTransfer"
       />
       <Button
-        v-else-if="isResolved"
-        :label="t('CONVERSATION.HEADER.REOPEN_ACTION')"
-        size="sm"
-        color="slate"
-        no-animation
-        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
-        :is-loading="isLoading"
-        @click="onCmdOpenConversation"
-      />
-      <Button
-        v-else-if="showOpenButton"
         :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
         size="sm"
         color="slate"
         no-animation
+        class="mr-2"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       />
       <Button
-        v-if="showAdditionalActions"
-        ref="arrowDownButtonRef"
-        icon="i-lucide-chevron-down"
-        :disabled="isLoading"
+        :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
         size="sm"
-        no-animation
-        class="ltr:rounded-l-none rtl:rounded-r-none !outline-0"
         color="slate"
-        trailing-icon
-        @click="openDropdown"
+        no-animation
+        class="!outline-0"
+        :is-loading="isLoading"
+        @click="onCmdResolveConversation"
       />
-    </ButtonGroup>
+    </template>
+
+    <template v-else>
+      <ButtonGroup
+        class="rounded-lg shadow outline-1 outline flex-shrink-0"
+        :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
+      >
+        <Button
+          :label="t('CONVERSATION.FORCE_TRANSFER.ACTION')"
+          size="sm"
+          color="slate"
+          no-animation
+          class="mr-2"
+          :is-loading="isLoading"
+          @click="forceTransfer"
+        />
+        <Button
+          v-if="isOpen"
+          :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
+          size="sm"
+          color="slate"
+          no-animation
+          class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
+          :is-loading="isLoading"
+          @click="onCmdResolveConversation"
+        />
+        <Button
+          v-else-if="isResolved"
+          :label="t('CONVERSATION.HEADER.REOPEN_ACTION')"
+          size="sm"
+          color="slate"
+          no-animation
+          class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
+          :is-loading="isLoading"
+          @click="onCmdOpenConversation"
+        />
+        <Button
+          v-else-if="showOpenButton"
+          :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
+          size="sm"
+          color="slate"
+          no-animation
+          :is-loading="isLoading"
+          @click="onCmdOpenConversation"
+        />
+        <Button
+          v-if="showAdditionalActions"
+          ref="arrowDownButtonRef"
+          icon="i-lucide-chevron-down"
+          :disabled="isLoading"
+          size="sm"
+          no-animation
+          class="ltr:rounded-l-none rtl:rounded-r-none !outline-0"
+          color="slate"
+          trailing-icon
+          @click="openDropdown"
+        />
+      </ButtonGroup>
+    </template>
+
     <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"

@@ -103,7 +103,20 @@ const shouldGroupWithNext = (index, searchList) => {
   if (index === searchList.length - 1) return false;
 
   const current = searchList[index];
-  const next = searchList[index + 1];
+
+  if (current.messageType === MESSAGE_TYPES.ACTIVITY) return false;
+
+  let nextIndex = index + 1;
+  while (
+    nextIndex < searchList.length &&
+    searchList[nextIndex].messageType === MESSAGE_TYPES.ACTIVITY
+  ) {
+    nextIndex += 1;
+  }
+
+  if (nextIndex >= searchList.length) return false;
+
+  const next = searchList[nextIndex];
 
   if (next.status === 'failed') return false;
 
@@ -122,7 +135,6 @@ const shouldGroupWithNext = (index, searchList) => {
 
   if (currentMessageType !== nextMessageType) return false;
 
-  // Check if messages are in the same minute by rounding down to nearest minute
   return Math.floor(next.createdAt / 60) === Math.floor(current.createdAt / 60);
 };
 

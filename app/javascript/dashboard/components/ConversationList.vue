@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, provide } from 'vue';
+import { ref, computed, watch, provide } from 'vue';
 import { Virtualizer } from 'virtua/vue';
 import { useBreakpoints } from '@vueuse/core';
 import { useChatListKeyboardEvents } from 'dashboard/composables/chatlist/useChatListKeyboardEvents';
@@ -19,6 +19,7 @@ const props = defineProps({
   conversationType: { type: String, default: '' },
   showAssignee: { type: Boolean, default: false },
   isOnExpandedLayout: { type: Boolean, default: false },
+  activeStatus: { type: String, default: 'open' },
 });
 
 const emit = defineEmits(['loadMore']);
@@ -26,6 +27,10 @@ const emit = defineEmits(['loadMore']);
 const conversationListRef = ref(null);
 const virtualListRef = ref(null);
 const isContextMenuOpen = ref(false);
+
+let initialResolvedIds = null;
+
+const dismissedIds = ref(new Set());
 
 provide('contextMenuElementTarget', virtualListRef);
 
@@ -43,6 +48,40 @@ const intersectionObserverOptions = computed(() => ({
   root: conversationListRef.value,
   rootMargin: '100px 0px 100px 0px',
 }));
+
+const isOpenFilter = computed(() => props.activeStatus === 'open');
+
+watch(
+  () => props.conversationList,
+  list => {
+    if (initialResolvedIds !== null || list.length === 0) return;
+    initialResolvedIds = new Set(
+      list.filter(c => c.status === 'resolved').map(c => c.id)
+    );
+  },
+  { immediate: true }
+);
+
+const visibleConversations = computed(() => {
+  if (!isOpenFilter.value) return props.conversationList;
+
+  const filtered = props.conversationList.filter(c => {
+    if (c.status === 'resolved') {
+      return c.resolved_by_contact === true && !dismissedIds.value.has(c.id);
+    }
+    return true;
+  });
+
+  return filtered.sort((a, b) => {
+    const aResolved = a.status === 'resolved' ? 1 : 0;
+    const bResolved = b.status === 'resolved' ? 1 : 0;
+    return aResolved - bResolved;
+  });
+});
+
+const onHideConversation = id => {
+  dismissedIds.value = new Set([...dismissedIds.value, id]);
+};
 
 const onContextMenuToggle = state => {
   isContextMenuOpen.value = state;
@@ -66,18 +105,27 @@ defineExpose({ conversationListRef });
     <Virtualizer
       ref="virtualListRef"
       v-slot="{ item }"
-      :data="conversationList"
+      :data="visibleConversations"
       class="[&>div:has(+_div_.active)>*]:!border-n-surface-1 [&>div:has(+_div_.selected)>*]:!border-n-surface-1"
     >
-      <ConversationItem
-        :source="item"
-        :label="label"
-        :team-id="teamId"
-        :folders-id="foldersId"
-        :conversation-type="conversationType"
-        :show-assignee="showAssignee"
-        :show-expanded="showExpandedCards"
-      />
+      <div
+        :class="{
+          'resolved-in-open bg-n-slate-3 dark:bg-n-slate-3':
+            item.status === 'resolved' && isOpenFilter,
+        }"
+      >
+        <ConversationItem
+          :source="item"
+          :label="label"
+          :team-id="teamId"
+          :folders-id="foldersId"
+          :conversation-type="conversationType"
+          :show-assignee="showAssignee"
+          :show-expanded="showExpandedCards"
+          :is-open-filter="isOpenFilter"
+          @hide-conversation="onHideConversation"
+        />
+      </div>
     </Virtualizer>
     <div v-if="isLoading" class="flex justify-center my-4">
       <Spinner class="text-n-brand" />
@@ -92,3 +140,13 @@ defineExpose({ conversationListRef });
     />
   </div>
 </template>
+
+<style scoped>
+.resolved-in-open :deep(*) {
+  color: #343434;
+}
+
+.dark .resolved-in-open :deep(*) {
+  color: #e9e9e9;
+}
+</style>

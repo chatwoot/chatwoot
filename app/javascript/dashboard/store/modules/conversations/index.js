@@ -1,7 +1,7 @@
 import types from '../../mutation-types';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
-import { findPendingMessageIndex } from './helpers';
+import { findPendingMessageIndex, pushMessageInOrder } from './helpers';
 import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
@@ -208,7 +208,7 @@ export const mutations = {
     });
   },
 
-  [types.ADD_MESSAGE]({ allConversations, selectedChatId }, message) {
+  [types.ADD_MESSAGE]({ allConversations }, message) {
     const { conversation_id: conversationId } = message;
     const [chat] = getSelectedChatConversation({
       allConversations,
@@ -216,16 +216,27 @@ export const mutations = {
     });
     if (!chat) return;
 
-    const pendingMessageIndex = findPendingMessageIndex(chat, message);
-    if (pendingMessageIndex !== -1) {
-      chat.messages[pendingMessageIndex] = message;
+    const { index, staleIndex } = findPendingMessageIndex(chat, message);
+    if (index !== -1) {
+      chat.messages[index] = message;
+      if (staleIndex !== -1) {
+        chat.messages.splice(staleIndex, 1);
+      }
     } else {
-      chat.messages.push(message);
-      chat.timestamp = message.created_at;
-      const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
-      chat.unread_count = unreadCount;
-      if (selectedChatId === conversationId) {
-        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+      pushMessageInOrder(chat, message);
+
+      const isAgentOrContact =
+        message.message_type === 0 ||
+        message.message_type === 1 ||
+        message.message_type === 'incoming' ||
+        message.message_type === 'outgoing';
+
+      if (!message.private) {
+        chat.timestamp = message.created_at;
+      }
+
+      if (isAgentOrContact && !message.private) {
+        chat.last_non_activity_message = message;
       }
     }
   },

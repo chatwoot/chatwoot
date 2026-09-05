@@ -14,6 +14,28 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationID}/labels`, { labels });
   }
 
+  changeInbox(conversationID, inboxID) {
+    return axios.patch(`${this.url}/${conversationID}/change_inbox`, {
+      inbox_id: inboxID,
+    });
+  }
+
+  forceTransfer(conversationId) {
+    return axios.post(`${this.url}/${conversationId}/force_transfer`);
+  }
+
+  getQueue(conversationId) {
+    return axios.get(`${this.url}/${conversationId}/queue`);
+  }
+
+  leaveQueue(conversationId) {
+    return axios.delete(`${this.url}/${conversationId}/queue`);
+  }
+
+  hideConversation(conversationId) {
+    return axios.post(`${this.url}/${conversationId}/mark_resolved_dismissed`);
+  }
+
   getUnreadCounts() {
     return axios.get(`${this.url}/unread_counts`);
   }

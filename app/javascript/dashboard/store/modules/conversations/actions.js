@@ -18,6 +18,7 @@ import {
   handleVoiceCallUpdated,
   syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
+import ConversationsAPI from 'dashboard/api/conversations';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
@@ -133,13 +134,14 @@ const actions = {
     { conversationId }
   ) => {
     const { allConversations, syncConversationsMessages } = state;
-    const lastMessageId = syncConversationsMessages[conversationId];
     const selectedChat = allConversations.find(
       conversation => conversation.id === conversationId
     );
     if (!selectedChat) return;
     try {
       const { messages } = selectedChat;
+      const lastMessageId =
+        syncConversationsMessages[conversationId] ?? messages.last()?.id;
       // Fetch all the messages after the last message id
       const {
         data: { meta, payload },
@@ -192,6 +194,36 @@ const actions = {
     });
   },
 
+  reloadConversationMessages: async (
+    { commit, dispatch, state },
+    { conversationId, seedMessages }
+  ) => {
+    const chat = state.allConversations.find(c => c.id === conversationId);
+    if (!chat) return;
+
+    let seed = [];
+    if (seedMessages?.length > 0) {
+      seed = seedMessages;
+    } else if (chat.messages?.length) {
+      seed = [chat.messages[chat.messages.length - 1]];
+    }
+    if (!seed[0]?.id) return;
+
+    chat.messages = seed;
+    delete chat.dataFetched;
+    chat.allMessagesLoaded = false;
+
+    try {
+      await dispatch('fetchPreviousMessages', {
+        conversationId,
+        before: seed[0].id,
+      });
+      commit(types.SET_CHAT_DATA_FETCHED, conversationId);
+    } catch (error) {
+      // Ignore error
+    }
+  },
+
   async setActiveChat({ commit, dispatch }, { data, after }) {
     commit(types.SET_CURRENT_CHAT_WINDOW, data);
     commit(types.CLEAR_ALL_MESSAGES_LOADED, data.id);
@@ -206,6 +238,8 @@ const actions = {
       } catch (error) {
         // Ignore error
       }
+    } else {
+      await dispatch('reloadConversationMessages', { conversationId: data.id });
     }
   },
 
@@ -459,9 +493,12 @@ const actions = {
     commit(types.SET_ACTIVE_INBOX, inboxId);
   },
 
-  muteConversation: async ({ commit }, conversationId) => {
+  muteConversation: async (
+    { commit },
+    { conversationId, bannedUntil = null }
+  ) => {
     try {
-      await ConversationApi.mute(conversationId);
+      await ConversationApi.mute(conversationId, bannedUntil);
       commit(types.MUTE_CONVERSATION);
     } catch (error) {
       //
@@ -546,6 +583,24 @@ const actions = {
       commit(types.SET_INBOX_CAPTAIN_ASSISTANT, response.data);
     } catch (error) {
       // Handle error
+    }
+  },
+  changeInbox: async ({ commit }, { conversationId, inboxId }) => {
+    try {
+      const response = await ConversationsAPI.changeInbox(
+        conversationId,
+        inboxId
+      );
+
+      commit(types.UPDATE_CONVERSATION, {
+        id: conversationId,
+        inbox_id: inboxId,
+      });
+
+      return response;
+    } catch (error) {
+      Sentry.captureException(error);
+      throw error;
     }
   },
 
