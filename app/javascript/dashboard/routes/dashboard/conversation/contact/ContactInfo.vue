@@ -1,4 +1,5 @@
 <script>
+import { computed } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import {
@@ -6,7 +7,12 @@ import {
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
-import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useMapGetter } from 'dashboard/composables/store';
+import { CONTACT_ACCESS_PERMISSIONS } from 'dashboard/constants/permissions.js';
+import {
+  getUserPermissions,
+  hasPermissions,
+} from 'dashboard/helper/permissionsHelper';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SocialIcons from './SocialIcons.vue';
@@ -43,9 +49,52 @@ export default {
   },
   emits: ['panelClose'],
   setup() {
-    const { isAdmin } = useAdmin();
+    const currentUser = useMapGetter('getCurrentUser');
+    const currentAccountId = useMapGetter('getCurrentAccountId');
+
+    const canViewContactProfile = computed(() => {
+      const permissions = getUserPermissions(
+        currentUser.value,
+        currentAccountId.value
+      );
+
+      return hasPermissions(
+        ['administrator', ...CONTACT_ACCESS_PERMISSIONS],
+        permissions
+      );
+    });
+
+    const currentPermissions = computed(() =>
+      getUserPermissions(currentUser.value, currentAccountId.value)
+    );
+
+    const canEditContact = computed(() => {
+      if (
+        hasPermissions(
+          ['administrator', 'contact_manage', 'contact_edit'],
+          currentPermissions.value
+        )
+      ) {
+        return true;
+      }
+
+      return (
+        hasPermissions(['agent'], currentPermissions.value) &&
+        !hasPermissions(['custom_role'], currentPermissions.value)
+      );
+    });
+
+    const canDeleteContact = computed(() =>
+      hasPermissions(
+        ['administrator', 'contact_delete'],
+        currentPermissions.value
+      )
+    );
+
     return {
-      isAdmin,
+      canViewContactProfile,
+      canEditContact,
+      canDeleteContact,
       exactTimestamp: useExactTimestamp(),
     };
   },
@@ -106,6 +155,34 @@ export default {
     },
     formattedWhatsappUsername() {
       return this.whatsappUsername ? `@${this.whatsappUsername}` : '';
+    },
+    conversation() {
+      return this.$store.getters.getSelectedChat;
+    },
+    isAuthorized() {
+      return Boolean(this.conversation?.meta?.hmac_verified);
+    },
+    authorizationStatus() {
+      return this.isAuthorized
+        ? this.$t('CONTACT_PANEL.AUTHORIZATION.AUTHORIZED')
+        : this.$t('CONTACT_PANEL.AUTHORIZATION.NOT_AUTHORIZED');
+    },
+    blockedUntilText() {
+      if (!this.contact.blocked_until) {
+        return this.$t('CONTACT_PANEL.BLOCKED_PERMANENTLY');
+      }
+      const date = new Date(this.contact.blocked_until).toLocaleString([], {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      return `${this.$t('CONTACT_PANEL.BLOCKED_UNTIL')} ${date}`;
+    },
+    // Delete Modal
+    confirmDeleteMessage() {
+      return ` ${this.contact.name}?`;
     },
   },
   watch: {
@@ -217,13 +294,17 @@ export default {
             />
             <h3
               v-else
-              class="flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12 cursor-pointer hover:text-n-slate-12/80"
-              :title="$t('CONTACT_PANEL.CLICK_TO_EDIT')"
-              @click="startEditingName"
+              class="flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12"
+              :class="{
+                'cursor-pointer hover:text-n-slate-12/80': canEditContact,
+              }"
+              :title="canEditContact ? $t('CONTACT_PANEL.CLICK_TO_EDIT') : ''"
+              @click="canEditContact && startEditingName()"
             >
               {{ contact.name }}
             </h3>
             <NextButton
+              v-if="canEditContact"
               ghost
               xs
               slate
@@ -249,6 +330,7 @@ export default {
               class="i-lucide-info text-sm text-n-slate-10"
             />
             <a
+              v-if="canViewContactProfile"
               :href="contactProfileLink"
               target="_blank"
               rel="noopener nofollow noreferrer"
@@ -270,7 +352,7 @@ export default {
             emoji="✉️"
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
             show-copy
-            editable
+            :editable="canEditContact"
             @update="value => onFieldUpdate('email', value)"
           />
           <ContactInfoRow
@@ -280,7 +362,7 @@ export default {
             emoji="📞"
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
             show-copy
-            editable
+            :editable="canEditContact"
             @update="value => onFieldUpdate('phone_number', value)"
           />
           <ContactInfoRow
@@ -303,7 +385,7 @@ export default {
             icon="building-bank"
             emoji="🏢"
             :title="$t('CONTACT_PANEL.COMPANY')"
-            editable
+            :editable="canEditContact"
             @update="
               value =>
                 updateContactField({
@@ -320,6 +402,22 @@ export default {
             icon="map"
             emoji="🌍"
             :title="$t('CONTACT_PANEL.LOCATION')"
+          />
+          <ContactInfoRow
+            :key="`auth-${contact.id}`"
+            :value="authorizationStatus"
+            icon="lock-closed"
+            emoji="🔓"
+            :title="$t('CONTACT_PANEL.AUTHORIZATION.LABEL')"
+            :class="isAuthorized ? 'text-green-500' : 'text-red-500'"
+          />
+          <ContactInfoRow
+            v-if="contact.blocked"
+            :value="blockedUntilText"
+            icon="dismiss-circle"
+            emoji="🚫"
+            :title="$t('CONTACT_PANEL.BLOCKED_UNTIL')"
+            class="text-red-500"
           />
           <SocialIcons :social-profiles="socialProfiles" />
         </div>
@@ -347,6 +445,7 @@ export default {
           :tooltip-label="$t('CONTACT_PANEL.CALL')"
         />
         <NextButton
+          v-if="canEditContact"
           v-tooltip.top-end="$t('EDIT_CONTACT.BUTTON_LABEL')"
           icon="i-ph-pencil-simple"
           slate
@@ -367,7 +466,7 @@ export default {
           </template>
         </ContactMergeModal>
         <ContactDeleteModal
-          v-if="isAdmin"
+          v-if="canDeleteContact"
           :contact="contact"
           @deleted="$emit('panelClose')"
         >

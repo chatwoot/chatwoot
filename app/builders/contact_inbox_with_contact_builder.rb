@@ -65,12 +65,18 @@ class ContactInboxWithContactBuilder
   end
 
   def find_contact
-    contact = find_contact_by_identifier(contact_attributes[:identifier])
-    contact ||= find_contact_by_email(contact_attributes[:email])
-    contact ||= find_contact_by_phone_numbers
-    contact ||= find_contact_by_instagram_source_id(source_id) if instagram_channel?
+    # cat-fork: an explicit identifier is authoritative; never fall through to
+    # email/phone matching for identified contacts (cwt-9)
+    return find_contact_by_identifier(contact_attributes[:identifier]) if contact_attributes[:identifier].present?
 
+    contact = find_contact_by_email(contact_attributes[:email])
+    contact ||= find_contact_by_phone_numbers
+    contact ||= find_contact_by_instagram_source_id_if_needed
     contact
+  end
+
+  def find_contact_by_instagram_source_id_if_needed
+    find_contact_by_instagram_source_id(source_id) if instagram_channel?
   end
 
   def instagram_channel?
@@ -104,14 +110,15 @@ class ContactInboxWithContactBuilder
   def find_contact_by_email(email)
     return if email.blank?
 
-    account.contacts.from_email(email)
+    account.contacts.in_inbox(inbox.id).from_email(email)
   end
 
   def find_contact_by_phone_numbers
     phone_numbers = [contact_attributes[:phone_number], *Array(contact_attributes[:phone_number_candidates])].compact_blank.uniq
 
     phone_numbers.each do |phone_number|
-      contact = account.contacts.find_by(phone_number: phone_number)
+      # cat-fork: email/phone uniqueness is per inbox, not per account (cwt-9)
+      contact = account.contacts.in_inbox(inbox.id).find_by(phone_number: phone_number)
       return contact if contact
     end
 

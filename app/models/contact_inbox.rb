@@ -23,10 +23,12 @@
 class ContactInbox < ApplicationRecord
   include Pubsubable
   include RegexHelper
+  include EmailUniquePerInbox
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
   validates :source_id, presence: true
   validate :valid_source_id_format?
+  validate :email_unique_per_inbox
 
   belongs_to :contact
   belongs_to :inbox
@@ -56,6 +58,18 @@ class ContactInbox < ApplicationRecord
   end
 
   private
+
+  def email_unique_per_inbox
+    return if contact&.email.blank?
+
+    if email_conflict_in_inbox?(
+      email: contact.email,
+      inbox_id: inbox_id,
+      except_contact_id: contact.id
+    )
+      errors.add(:base, I18n.t('errors.contacts.email.already_exists_in_inbox'))
+    end
+  end
 
   def validate_twilio_source_id
     # https://www.twilio.com/docs/glossary/what-e164#regex-matching-for-e164
