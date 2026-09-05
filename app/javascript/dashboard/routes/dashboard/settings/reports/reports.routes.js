@@ -4,6 +4,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import ReportsWrapper from './components/ReportsWrapper.vue';
 import Index from './Index.vue';
 
+import AgentActivityIndex from './AgentActivityIndex.vue';
 import AgentReportsIndex from './AgentReportsIndex.vue';
 import InboxReportsIndex from './InboxReportsIndex.vue';
 import TeamReportsIndex from './TeamReportsIndex.vue';
@@ -14,6 +15,7 @@ import InboxReportsShow from './InboxReportsShow.vue';
 import TeamReportsShow from './TeamReportsShow.vue';
 import LabelReportsShow from './LabelReportsShow.vue';
 
+import AllMetricsReports from './AllMetricsReports.vue';
 import AgentReports from './AgentReports.vue';
 import InboxReports from './InboxReports.vue';
 import LabelReports from './LabelReports.vue';
@@ -23,87 +25,111 @@ import CsatResponses from './CsatResponses.vue';
 import BotReports from './BotReports.vue';
 import LiveReports from './LiveReports.vue';
 import SLAReports from './SLAReports.vue';
+import QueuedCustomersReports from './QueuedCustomersReports.vue';
 
-const meta = {
+const reportMeta = (...pagePermissions) => ({
   featureFlag: FEATURE_FLAGS.REPORTS,
-  permissions: ['administrator', 'report_manage'],
-};
+  permissions: ['administrator', 'report_manage', ...pagePermissions],
+});
+
+const agentReportMeta = (...pagePermissions) => ({
+  featureFlag: FEATURE_FLAGS.REPORTS,
+  permissions: ['administrator', 'agent', 'report_manage', ...pagePermissions],
+});
 
 const oldReportRoutes = [
   {
+    path: 'all-metrics',
+    name: 'all_conversation_metrics_reports',
+    meta: reportMeta('report_conversation'),
+    component: AllMetricsReports,
+  },
+  {
     path: 'agent',
     name: 'agent_reports',
-    meta,
+    meta: reportMeta('report_agent'),
     component: AgentReports,
   },
   {
     path: 'inboxes',
     name: 'inbox_reports',
-    meta,
+    meta: reportMeta('report_inbox'),
     component: InboxReports,
   },
   {
     path: 'label',
     name: 'label_reports',
-    meta,
+    meta: reportMeta('report_label'),
     component: LabelReports,
   },
   {
     path: 'teams',
     name: 'team_reports',
-    meta,
+    meta: reportMeta('report_team'),
     component: TeamReports,
   },
 ];
 
 const revisedReportRoutes = [
   {
+    path: 'agent_activity',
+    name: 'agent_activity',
+    meta: agentReportMeta('report_agent_activity'),
+    component: AgentActivityIndex,
+  },
+  {
     path: 'agents_overview',
     name: 'agent_reports_index',
-    meta,
+    meta: agentReportMeta('report_agent'),
     component: AgentReportsIndex,
+  },
+  {
+    path: 'agents',
+    name: 'agent_reports_show_empty',
+    meta: agentReportMeta('report_agent'),
+    component: AgentReportsShow,
   },
   {
     path: 'agents/:id',
     name: 'agent_reports_show',
-    meta,
+    meta: agentReportMeta('report_agent'),
     component: AgentReportsShow,
   },
 
   {
     path: 'inboxes_overview',
     name: 'inbox_reports_index',
-    meta,
+    meta: reportMeta('report_inbox'),
     component: InboxReportsIndex,
   },
   {
     path: 'inboxes/:id',
     name: 'inbox_reports_show',
-    meta,
+    meta: reportMeta('report_inbox'),
     component: InboxReportsShow,
   },
   {
     path: 'teams_overview',
     name: 'team_reports_index',
-    meta,
+    meta: reportMeta('report_team'),
     component: TeamReportsIndex,
   },
   {
     path: 'teams/:id',
     name: 'team_reports_show',
-    meta,
+    meta: reportMeta('report_team'),
     component: TeamReportsShow,
   },
   {
     path: 'labels_overview',
     name: 'label_reports_index',
-    meta,
+    meta: agentReportMeta('report_label'),
     component: LabelReportsIndex,
   },
   {
     path: 'labels/:id',
     name: 'label_reports_show',
-    meta,
+    meta: agentReportMeta('report_label'),
     component: LabelReportsShow,
   },
 ];
@@ -123,13 +149,13 @@ export default {
         {
           path: 'overview',
           name: 'account_overview_reports',
-          meta,
+          meta: agentReportMeta('report_overview'),
           component: LiveReports,
         },
         {
           path: 'conversation',
           name: 'conversation_reports',
-          meta,
+          meta: reportMeta('report_conversation'),
           component: Index,
         },
         ...oldReportRoutes,
@@ -137,20 +163,26 @@ export default {
         {
           path: 'sla',
           name: 'sla_reports',
-          meta,
+          meta: reportMeta('report_sla'),
           component: SLAReports,
         },
         {
           path: 'csat',
           name: 'csat_reports',
-          meta,
+          meta: agentReportMeta('report_csat'),
           component: CsatResponses,
         },
         {
           path: 'bot',
           name: 'bot_reports',
-          meta,
+          meta: reportMeta('report_bot'),
           component: BotReports,
+        },
+        {
+          path: 'queued_customers',
+          name: 'queued_customers_reports',
+          meta: reportMeta('report_queued_customers'),
+          component: QueuedCustomersReports,
         },
       ],
     },

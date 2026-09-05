@@ -11,8 +11,7 @@ class V2::ReportBuilder
     @account = account
     @params = params
 
-    timezone_offset = (params[:timezone_offset] || 0).to_f
-    @timezone = ActiveSupport::TimeZone[timezone_offset]&.name
+    @timezone = 'UTC'
   end
 
   def timeseries
@@ -24,7 +23,7 @@ class V2::ReportBuilder
 
   # For backward compatible with old report
   def build
-    if %w[avg_first_response_time avg_resolution_time reply_time].include?(params[:metric])
+    if %w[avg_first_response_time avg_resolution_time reply_time agent_chat_duration].include?(params[:metric])
       timeseries.each_with_object([]) do |p, arr|
         arr << { value: p[1], timestamp: p[0].in_time_zone(@timezone).to_i, count: @grouped_values.count[p[0]] }
       end
@@ -42,6 +41,7 @@ class V2::ReportBuilder
       outgoing_messages_count: outgoing_messages.count,
       avg_first_response_time: avg_first_response_time_summary,
       avg_resolution_time: avg_resolution_time_summary,
+      agent_chat_duration: agent_chat_duration_summary,
       resolutions_count: resolutions.count,
       reply_time: reply_time_summary
     }
@@ -51,7 +51,8 @@ class V2::ReportBuilder
     {
       conversations_count: conversations.count,
       avg_first_response_time: avg_first_response_time_summary,
-      avg_resolution_time: avg_resolution_time_summary
+      avg_resolution_time: avg_resolution_time_summary,
+      agent_chat_duration: agent_chat_duration_summary
     }
   end
 
@@ -79,6 +80,7 @@ class V2::ReportBuilder
        avg_first_response_time
        avg_resolution_time reply_time
        resolutions_count
+       agent_chat_duration
        bot_resolutions_count
        bot_handoffs_count
        reply_time].include?(params[:metric])
@@ -135,5 +137,25 @@ class V2::ReportBuilder
     metric[:unassigned] = @open_conversations.unassigned.count if params[:type].equal?(:account)
     metric[:pending] = @open_conversations.pending.count if params[:type].equal?(:account)
     metric
+  end
+
+  def bot_resolutions_base_scope
+    account.reporting_events
+           .where(name: 'conversation_bot_resolved', created_at: range)
+           .filter_by_inbox_id(params[:inbox_ids]&.reject(&:blank?))
+  end
+
+  def bot_handoffs_base_scope
+    account.reporting_events
+           .where(name: 'conversation_bot_handoff', created_at: range)
+           .filter_by_inbox_id(params[:inbox_ids]&.reject(&:blank?))
+  end
+
+  def bot_resolutions_count
+    get_grouped_values(bot_resolutions_base_scope).count
+  end
+
+  def bot_handoffs_count
+    get_grouped_values(bot_handoffs_base_scope).count
   end
 end

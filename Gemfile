@@ -52,6 +52,8 @@ gem 'net-smtp',  '~> 0.3.4'
 # Prevent CSV injection
 gem 'csv-safe'
 
+gem 'caxlsx'
+gem 'caxlsx_rails'
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
 gem 'azure-blob', require: false

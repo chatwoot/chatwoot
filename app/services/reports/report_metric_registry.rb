@@ -82,6 +82,20 @@ module Reports::ReportMetricRegistry
       raw_event_name: :conversation_bot_resolved, rollup_metric: :bot_resolutions_count,
       raw_count_strategy: :exclude_bot_handoffs
     ),
+    avg_resolution_time_without_bot: Metric.new(
+      name: :avg_resolution_time_without_bot,
+      aggregate: :average,
+      raw_event_name: :conversation_resolved,
+      rollup_metric: :resolution_time_without_bot,
+      summary_key: :avg_resolution_time_without_bot
+    ),
+    agent_chat_duration: Metric.new(
+      name: :agent_chat_duration,
+      aggregate: :average,
+      raw_event_name: :agent_chat_duration,
+      rollup_metric: :agent_chat_duration,
+      summary_key: :agent_chat_duration
+    ),
     bot_handoffs_count: Metric.new(
       name: :bot_handoffs_count,
       aggregate: :count,

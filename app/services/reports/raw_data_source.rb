@@ -18,6 +18,10 @@ class Reports::RawDataSource < Reports::DataSource
 
   private
 
+  def account_scope?
+    dimension_type == 'account'
+  end
+
   def count_timeseries
     grouped_count.map do |event_date, event_count|
       { value: event_count, timestamp: event_date.in_time_zone(timezone).to_i }
@@ -60,33 +64,59 @@ class Reports::RawDataSource < Reports::DataSource
   end
 
   def average_scope
-    scope.reporting_events.where(name: raw_event_name, created_at: range, account_id: account.id)
+    base = scope.reporting_events
+                .where(name: raw_event_name, created_at: range, account_id: account.id)
+                .joins(:conversation)
+                .where(conversations: { proxied_at: nil })
+    base = base.where(conversations: { inbox_id: inbox_ids }) if account_scope? && inbox_ids.present?
+    base = base.where(user_id: user_ids) if account_scope? && user_ids.present?
+    base
   end
 
   def count_scope
     case metric.to_s
     when 'conversations_count'
-      scope.conversations.where(account_id: account.id, created_at: range)
+      base = scope.conversations.where(account_id: account.id, created_at: range).where(proxied_at: nil)
+      base = base.where(inbox_id: inbox_ids) if account_scope? && inbox_ids.present?
+      base = base.where(assignee_id: user_ids) if account_scope? && user_ids.present?
+      base
     when 'incoming_messages_count'
-      scope.messages.where(account_id: account.id, created_at: range).incoming.unscope(:order)
+      base = scope.messages
+                  .where(account_id: account.id, created_at: range)
+                  .incoming
+                  .unscope(:order)
+                  .joins(:conversation)
+                  .where(conversations: { proxied_at: nil })
+      base = base.where(inbox_id: inbox_ids) if account_scope? && inbox_ids.present?
+      base = base.where(conversations: { assignee_id: user_ids }) if account_scope? && user_ids.present?
+      base
     when 'outgoing_messages_count'
-      scope.messages.where(account_id: account.id, created_at: range).outgoing.unscope(:order)
+      base = scope.messages
+                  .where(account_id: account.id, created_at: range)
+                  .outgoing
+                  .unscope(:order)
+                  .joins(:conversation)
+                  .where(conversations: { proxied_at: nil })
+      base = base.where(inbox_id: inbox_ids) if account_scope? && inbox_ids.present?
+      base = base.where(conversations: { assignee_id: user_ids }) if account_scope? && user_ids.present?
+      base
     else
       reporting_event_count_scope
     end
   end
 
   def reporting_event_count_scope
-    events = scope.reporting_events.where(
-      name: raw_event_name,
-      account_id: account.id,
-      created_at: range
-    )
+    events = scope.reporting_events
+                  .where(name: raw_event_name, account_id: account.id, created_at: range)
+                  .joins(:conversation)
+                  .where(conversations: { proxied_at: nil })
+    events = events.where(conversations: { inbox_id: inbox_ids }) if account_scope? && inbox_ids.present?
+    events = events.where(conversations: { assignee_id: user_ids }) if account_scope? && user_ids.present?
 
     return events.where.not(conversation_id: bot_handoff_conversation_ids_subquery) if raw_count_strategy == :exclude_bot_handoffs
     return events unless raw_count_strategy == :distinct_conversation
 
-    events.joins(:conversation).select(:conversation_id).distinct
+    events.select(:conversation_id).distinct
   end
 
   def bot_handoff_conversation_ids_subquery
@@ -98,15 +128,18 @@ class Reports::RawDataSource < Reports::DataSource
   end
 
   def summary_scope
-    scope = account.reporting_events.where(created_at: range)
-    return scope.joins(:conversation) if dimension_type == 'team'
+    base_scope = account.reporting_events
+                        .where(created_at: range)
+                        .joins(:conversation)
+                        .where(conversations: { proxied_at: nil })
+    return base_scope.references(:conversation) if dimension_type == 'team'
 
-    scope
+    base_scope
   end
 
   def summary_conversation_counts
     account.conversations
-           .where(created_at: range)
+           .where(created_at: range, proxied_at: nil)
            .group(summary_conversation_group_by_key)
            .count
   end

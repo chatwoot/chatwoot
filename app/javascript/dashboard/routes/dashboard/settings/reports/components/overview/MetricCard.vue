@@ -14,14 +14,19 @@ defineProps({
     type: String,
     default: '',
   },
+  useGridLayout: {
+    type: Boolean,
+    default: true,
+  },
 });
 </script>
 
 <template>
   <div
-    class="flex flex-col m-0.5 px-6 py-5 rounded-xl flex-grow text-n-slate-12 shadow outline-1 outline outline-n-container bg-n-solid-2 min-h-[10rem]"
+    class="flex flex-col h-full m-0.5 px-6 py-5 rounded-xl flex-grow text-n-slate-12 shadow outline-1 outline outline-n-container bg-n-solid-2 min-h-[10rem]"
   >
     <div
+      v-if="useGridLayout"
       class="card-header grid w-full mb-6 grid-cols-[repeat(auto-fit,minmax(max-content,50%))] gap-y-2"
     >
       <slot name="header">
@@ -45,6 +50,32 @@ defineProps({
         </div>
       </slot>
     </div>
+
+    <div v-else class="card-header w-full mb-6">
+      <div class="flex items-center justify-between mb-2">
+        <slot name="header">
+          <div class="flex items-center gap-2 flex-row">
+            <h5 class="mb-0 text-n-slate-12 font-medium text-lg">
+              {{ header }}
+            </h5>
+            <span
+              class="flex flex-row items-center py-0.5 px-2 rounded bg-n-teal-3 text-xs"
+            >
+              <span
+                class="bg-n-teal-9 h-1 w-1 rounded-full mr-1 rtl:mr-0 rtl:ml-0"
+              />
+              <span class="text-xs text-n-teal-11">
+                {{ $t('OVERVIEW_REPORTS.LIVE') }}
+              </span>
+            </span>
+          </div>
+        </slot>
+      </div>
+      <div v-if="$slots.control" class="w-full">
+        <slot name="control" />
+      </div>
+    </div>
+
     <div
       v-if="!isLoading"
       class="card-body max-w-full w-full ml-auto mr-auto justify-between flex"

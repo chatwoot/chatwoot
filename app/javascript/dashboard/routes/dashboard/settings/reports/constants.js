@@ -1,11 +1,19 @@
+import { formatTime } from '@chatwoot/utils';
+
 export const GROUP_BY_FILTER = {
   1: { id: 1, period: 'day' },
   2: { id: 2, period: 'week' },
   3: { id: 3, period: 'month' },
   4: { id: 4, period: 'year' },
+  5: { id: 5, period: 'hour' },
 };
 
 export const GROUP_BY_OPTIONS = {
+  HOUR: {
+    id: 'HOUR',
+    period: 'hour',
+    translationKey: 'REPORT.GROUPING_OPTIONS.HOUR',
+  },
   DAY: {
     id: 'DAY',
     period: 'day',
@@ -29,6 +37,12 @@ export const GROUP_BY_OPTIONS = {
 };
 
 export const DATE_RANGE_OPTIONS = {
+  TODAY: {
+    id: 'TODAY',
+    translationKey: 'REPORT.DATE_RANGE_OPTIONS.TODAY',
+    offset: 0,
+    groupByOptions: [GROUP_BY_OPTIONS.HOUR, GROUP_BY_OPTIONS.DAY],
+  },
   LAST_7_DAYS: {
     id: 'LAST_7_DAYS',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS',
@@ -68,12 +82,83 @@ export const DATE_RANGE_OPTIONS = {
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.CUSTOM_DATE_RANGE',
     offset: null,
     groupByOptions: [
+      GROUP_BY_OPTIONS.HOUR,
       GROUP_BY_OPTIONS.DAY,
       GROUP_BY_OPTIONS.WEEK,
       GROUP_BY_OPTIONS.MONTH,
       GROUP_BY_OPTIONS.YEAR,
     ],
   },
+};
+
+export const CHART_FONT_FAMILY =
+  'Inter,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+
+export const DEFAULT_LINE_CHART = {
+  type: 'line',
+  fill: false,
+  borderColor: '#779BBB',
+  pointBackgroundColor: '#779BBB',
+};
+
+export const DEFAULT_BAR_CHART = {
+  type: 'bar',
+  backgroundColor: 'rgb(31, 147, 255)',
+};
+
+const createChartConfig = yAxisTickCallback => ({
+  datasets: [DEFAULT_BAR_CHART],
+  scales: {
+    x: {
+      ticks: {
+        fontFamily: CHART_FONT_FAMILY,
+      },
+      grid: {
+        drawOnChartArea: false,
+      },
+    },
+    y: {
+      type: 'linear',
+      position: 'left',
+      ticks: {
+        fontFamily: CHART_FONT_FAMILY,
+        beginAtZero: true,
+        stepSize: 1,
+        callback: yAxisTickCallback,
+      },
+      grid: {
+        drawOnChartArea: false,
+      },
+    },
+  },
+});
+
+export const DEFAULT_CHART = createChartConfig((value, index, ticks) => {
+  if (!index || index === ticks.length - 1) {
+    return value;
+  }
+  return '';
+});
+
+export const TIME_CHART_CONFIG = createChartConfig((value, index, values) => {
+  if (!index || index === values.length - 1) {
+    return formatTime(value);
+  }
+  return '';
+});
+
+export const METRIC_CHART = {
+  conversations_count: DEFAULT_CHART,
+  incoming_messages_count: DEFAULT_CHART,
+  outgoing_messages_count: DEFAULT_CHART,
+  avg_first_response_time: TIME_CHART_CONFIG,
+  reply_time: TIME_CHART_CONFIG,
+  avg_resolution_time: TIME_CHART_CONFIG,
+  avg_resolution_time_without_bot: TIME_CHART_CONFIG,
+  resolutions_count: DEFAULT_CHART,
+  bot_resolutions_count: DEFAULT_CHART,
+  bot_handoffs_count: DEFAULT_CHART,
+  agent_chat_duration: TIME_CHART_CONFIG,
 };
 
 export const OVERVIEW_METRICS = {

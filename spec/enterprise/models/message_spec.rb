@@ -1,7 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Message do
-  let!(:conversation) { create(:conversation) }
+  let!(:account) { create(:account) }
+  let!(:inbox) { create(:inbox, account: account) }
+  let!(:user) { create(:user, account: account) }
+  let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
+
+  before do
+    create(:inbox_member, user: user, inbox: inbox)
+    create(:conversation_participant,  conversation: conversation,  user: user,  created_at: conversation.created_at)
+  end
 
   it 'updates first reply if the message is human and even if there are messages from captain' do
     captain_assistant = create(:captain_assistant, account: conversation.account)
@@ -18,7 +26,7 @@ RSpec.describe Message do
     expect(conversation.first_reply_created_at).to be_nil
     expect(conversation.waiting_since).to be_nil
 
-    create(:message, message_type: :outgoing, conversation: conversation)
+    create(:message,  message_type: :outgoing,  conversation: conversation,  sender: user, sender_type: 'User')
 
     expect(conversation.first_reply_created_at).not_to be_nil
     expect(conversation.waiting_since).to be_nil
