@@ -1,0 +1,196 @@
+<% scope = 'super_admin.mobile_diagnostics' %>
+<% content_for(:title) do %><%= t("#{scope}.title") %><% end %>
+
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title" id="page-title"><%= t("#{scope}.title") %></h1>
+</header>
+
+<section class="main-content__body">
+  <p class="text-sm text-slate-600 mb-6"><%= t("#{scope}.description") %></p>
+
+  <div class="mb-8">
+    <%= form_with url: super_admin_mobile_diagnostics_path, method: :get, local: true, class: 'flex gap-2 items-center' do |f| %>
+      <%= f.text_field :user_query,
+                       value: @query,
+                       placeholder: t("#{scope}.search.placeholder"),
+                       class: 'border border-slate-100 p-1.5 rounded-md w-80' %>
+      <%= f.submit t("#{scope}.search.submit"), class: 'border border-slate-200 bg-slate-50 px-3 py-1.5 rounded-md cursor-pointer' %>
+    <% end %>
+    <% if @query.present? && @user.nil? %>
+      <p class="text-sm text-red-600 mt-2"><%= t("#{scope}.search.not_found", query: @query) %></p>
+    <% end %>
+  </div>
+
+  <% if @user %>
+    <div class="mb-6 border border-slate-100 rounded-md p-4 bg-slate-25">
+      <p class="text-sm">
+        <strong><%= @user.name %></strong>
+        &middot; <%= @user.email %>
+        &middot; <%= t("#{scope}.user.id", id: @user.id) %>
+      </p>
+      <% if @user.accounts.any? %>
+        <p class="text-xs text-slate-500 mt-1">
+          <%= t("#{scope}.user.accounts") %>
+          <% @user.accounts.each_with_index do |account, index| %>
+            <%= ', ' if index.positive? %>
+            <%= account.name %> (<%= t("#{scope}.user.id", id: account.id) %>)
+          <% end %>
+        </p>
+      <% end %>
+      <p class="text-xs mt-2">
+        <%= link_to t("#{scope}.user.details_link"), super_admin_user_path(@user), class: 'text-woot-500' %>
+      </p>
+    </div>
+
+    <div class="mb-8">
+      <h2 class="text-base font-semibold mb-2"><%= t("#{scope}.sessions.heading", count: @mobile_sessions.count) %></h2>
+
+      <% if @mobile_sessions.empty? %>
+        <p class="text-sm text-slate-600">
+          <%= t("#{scope}.sessions.empty") %>
+          <% if @web_session_count.positive? %>
+            <%= t("#{scope}.sessions.web_sessions", count: @web_session_count) %>
+          <% end %>
+        </p>
+      <% else %>
+        <table class="w-full text-sm border border-slate-100 rounded-md">
+          <thead class="text-left text-xs text-slate-500 bg-slate-25">
+            <tr>
+              <% %w[app_version platform os_version device first_seen last_active].each do |column| %>
+                <th class="px-3 py-2 first:!pl-4 last:!pr-4"><%= t("#{scope}.sessions.columns.#{column}") %></th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @mobile_sessions.each do |session| %>
+              <tr class="border-t border-slate-100 align-middle">
+                <td class="px-3 py-2 first:!pl-4 last:!pr-4 font-mono text-xs">
+                  <% if session.browser_version.present? %>
+                    <%= session.browser_version %>
+                  <% else %>
+                    <span class="text-n-amber-11"><%= t("#{scope}.sessions.legacy_build") %></span>
+                  <% end %>
+                </td>
+                <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= session.device_name.presence || '—' %></td>
+                <td class="px-3 py-2 first:!pl-4 last:!pr-4 font-mono text-xs"><%= session.platform_version.presence || '—' %></td>
+                <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= session.platform_name.presence || '—' %></td>
+                <td class="px-3 py-2 first:!pl-4 last:!pr-4 whitespace-nowrap text-xs text-slate-500">
+                  <%= session.created_at.strftime('%Y-%m-%d') %>
+                </td>
+                <td class="px-3 py-2 first:!pl-4 last:!pr-4 whitespace-nowrap text-xs">
+                  <% if session.last_activity_at %>
+                    <%= session.last_activity_at.strftime('%Y-%m-%d %H:%M') %>
+                    <span class="text-slate-400">(<%= time_ago_in_words(session.last_activity_at) %> ago)</span>
+                  <% else %>
+                    <span class="text-slate-400">—</span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <p class="text-xs text-slate-400 mt-2"><%= t("#{scope}.sessions.legacy_note") %></p>
+      <% end %>
+    </div>
+
+    <div class="mb-8">
+      <h2 class="text-base font-semibold mb-2"><%= t("#{scope}.devices.heading", count: @device_subscriptions.count) %></h2>
+      <% if @device_subscriptions.empty? %>
+        <p class="text-sm text-slate-600"><%= t("#{scope}.devices.empty") %></p>
+      <% else %>
+        <table class="w-full text-sm border border-slate-100 rounded-md">
+          <thead class="text-left text-xs text-slate-500 bg-slate-25">
+            <tr>
+              <% %w[id device_id details registered last_updated].each do |column| %>
+                <th class="px-3 py-2 first:!pl-4 last:!pr-4"><%= t("#{scope}.devices.columns.#{column}") %></th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @device_subscriptions.each do |sub| %>
+              <% raw_attrs = (sub.subscription_attributes || {}).stringify_keys %>
+              <% attrs = device_details(sub) %>
+              <tr class="border-t border-slate-100 align-top">
+                <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= sub.id %></td>
+                <td class="px-3 py-2 first:!pl-4 last:!pr-4 font-mono text-xs">
+                  <% if raw_attrs['device_id'].present? %>
+                    &hellip;<%= raw_attrs['device_id'].to_s.last(6) %>
+                  <% else %>
+                    <span class="text-slate-400">—</span>
+                  <% end %>
+                </td>
+                <td class="px-3 py-2 first:!pl-4 last:!pr-4 text-xs">
+                  <% if attrs.present? %>
+                    <% attrs.each do |key, value| %>
+                      <div><span class="text-slate-500"><%= key %>:</span> <span class="font-mono"><%= value.to_s.truncate(40) %></span></div>
+                    <% end %>
+                  <% else %>
+                    <span class="text-slate-400">—</span>
+                  <% end %>
+                </td>
+                <td class="px-3 py-2 first:!pl-4 last:!pr-4 whitespace-nowrap text-xs"><%= sub.created_at.strftime('%Y-%m-%d %H:%M') %></td>
+                <td class="px-3 py-2 first:!pl-4 last:!pr-4 whitespace-nowrap text-xs"><%= sub.updated_at.strftime('%Y-%m-%d %H:%M') %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <p class="text-xs text-slate-400 mt-2"><%= t("#{scope}.devices.build_number_note") %></p>
+      <% end %>
+    </div>
+
+    <div class="mb-8">
+      <h2 class="text-base font-semibold mb-2"><%= t("#{scope}.push_settings.heading") %></h2>
+      <p class="text-xs text-slate-500 mb-3"><%= t("#{scope}.push_settings.description") %></p>
+
+      <% if @notification_settings.empty? %>
+        <p class="text-sm text-slate-600"><%= t("#{scope}.push_settings.empty") %></p>
+      <% else %>
+        <table class="w-full text-sm border border-slate-100 rounded-md">
+          <thead class="text-left text-xs text-slate-500 bg-slate-25">
+            <tr>
+              <th class="px-3 py-2 first:!pl-4 last:!pr-4"><%= t("#{scope}.push_settings.notification_type") %></th>
+              <% @notification_settings.each do |setting| %>
+                <th class="px-3 py-2 first:!pl-4 last:!pr-4">
+                  <div><%= setting.account&.name || t("#{scope}.push_settings.unnamed_account", id: setting.account_id) %></div>
+                  <div class="text-slate-400 font-normal"><%= t("#{scope}.user.id", id: setting.account_id) %></div>
+                </th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @push_types.each do |type| %>
+              <tr class="border-t border-slate-100">
+                <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= push_type_label(type) %></td>
+                <% @notification_settings.each do |setting| %>
+                  <td class="px-3 py-2 first:!pl-4 last:!pr-4">
+                    <% case push_state(setting, type) %>
+                    <% when :unavailable %>
+                      <span class="text-slate-300" title="<%= t("#{scope}.push_settings.sla_unavailable") %>">—</span>
+                    <% when :on %>
+                      <input type="checkbox" class="pointer-events-none" checked tabindex="-1" aria-disabled="true">
+                    <% else %>
+                      <input type="checkbox" class="pointer-events-none" tabindex="-1" aria-disabled="true">
+                    <% end %>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <% if @accounts_without_push.any? %>
+          <% names = @accounts_without_push.map { |setting| setting.account&.name || t("#{scope}.push_settings.unnamed_account", id: setting.account_id) }.join(', ') %>
+          <p class="text-xs text-n-amber-11 mt-2">
+            <%= t("#{scope}.push_settings.none_enabled", count: @accounts_without_push.size, names: names) %>
+          </p>
+        <% end %>
+      <% end %>
+
+      <p class="text-xs mt-3">
+        <%= link_to t("#{scope}.push_settings.diagnostics_link"),
+                    super_admin_push_diagnostics_path(user_query: @user.id),
+                    class: 'text-woot-500' %>
+      </p>
+    </div>
+  <% end %>
+</section>
