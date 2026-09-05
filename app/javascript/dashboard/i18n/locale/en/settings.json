@@ -164,6 +164,11 @@
         "TYPE_TITLE": "Notification type",
         "EMAIL": "Email",
         "PUSH": "Push notification",
+        "DISPLAY_DURATION": "Notification display duration",
+        "DISPLAY_DURATION_NOTE": "Time in seconds that the notification will be displayed in the dashboard",
+        "DISPLAY_DURATION_UNIT": "s",
+        "DEFAULT_TITLE": "New notification",
+        "DEFAULT_SENDER": "Contact",
         "TYPES": {
           "CONVERSATION_CREATED": "A new conversation is created",
           "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
@@ -217,6 +222,14 @@
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
         "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+      },
+      "INBOX":{
+        "LABEL": "Inboxes",
+        "PLACEHOLDER": "Choose inboxes"
+      },
+      "TEAM":{
+        "LABEL": "Teams",
+        "PLACEHOLDER": "Choose teams"
       },
       "EMAIL": {
         "LABEL": "Your email address",
@@ -337,6 +350,7 @@
     "CAPTAIN_SETTINGS": "Settings",
     "HOME": "Home",
     "AGENTS": "Agents",
+    "AGENT_ACTIVITY": "Agent Activity",
     "AGENT_BOTS": "Bots",
     "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Inboxes",
@@ -375,6 +389,7 @@
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Team",
+    "REPORTS_AGENT_OVERVIEW": "Agents Overview",
     "AGENT_ASSIGNMENT": "Agent Assignment",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "SET_YOUR_AVAILABILITY": "Set your availability",
@@ -382,6 +397,8 @@
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_ALL_METRICS": "All metrics",
+    "REPORTS_QUEUED_CUSTOMERS": "Queued customers",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
@@ -648,6 +665,17 @@
     "DESCRIPTION": "Manage your account security settings.",
     "LINK_TEXT": "Learn more about SAML SSO",
     "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "AGENT_HISTORY": {
+      "TITLE": "Agent conversation history limit",
+      "DESCRIPTION": "Restrict operators to their assigned conversations and limit how far back they can view resolved conversations.",
+      "LABEL": "History limit for operators (days)",
+      "HELP": "Operators can always see open conversations assigned to them and unassigned queue items. Set to 0 to disable the history limit. Default is 30 days.",
+      "PLACEHOLDER": "30",
+      "UPDATE_BUTTON": "Update history limit",
+      "SUCCESS": "Agent history limit updated successfully",
+      "ERROR": "Failed to update agent history limit",
+      "VALIDATION_ERROR": "Enter a number between 0 and 365"
+    },
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",

@@ -2,13 +2,14 @@
 #
 # Table name: notification_settings
 #
-#  id          :bigint           not null, primary key
-#  email_flags :integer          default(0), not null
-#  push_flags  :integer          default(0), not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  account_id  :integer
-#  user_id     :integer
+#  id                            :bigint           not null, primary key
+#  email_flags                   :integer          default(0), not null
+#  notification_display_duration :integer          default(6)
+#  push_flags                    :integer          default(0), not null
+#  created_at                    :datetime         not null
+#  updated_at                    :datetime         not null
+#  account_id                    :integer
+#  user_id                       :integer
 #
 # Indexes
 #
@@ -32,4 +33,7 @@ class NotificationSetting < ApplicationRecord
 
   has_flags EMAIL_NOTIFICATION_FLAGS.merge(column: 'email_flags').merge(DEFAULT_QUERY_SETTING)
   has_flags PUSH_NOTIFICATION_FLAGS.merge(column: 'push_flags').merge(DEFAULT_QUERY_SETTING)
+
+  validates :notification_display_duration, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 60 },
+                                            allow_nil: true
 end

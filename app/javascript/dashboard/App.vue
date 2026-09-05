@@ -15,6 +15,7 @@ import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useFontSize } from 'dashboard/composables/useFontSize';
+import InAppNotificationToast from 'dashboard/components/InAppNotificationToast.vue';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -33,6 +34,7 @@ export default {
     PaymentPendingBanner,
     WootSnackbarBox,
     PendingEmailVerificationBanner,
+    InAppNotificationToast,
     LowBackupCodesBanner,
   },
   setup() {
@@ -153,6 +155,7 @@ export default {
       </transition>
     </router-view>
     <WootSnackbarBox />
+    <InAppNotificationToast />
     <NetworkNotification />
   </div>
   <LoadingState v-else />

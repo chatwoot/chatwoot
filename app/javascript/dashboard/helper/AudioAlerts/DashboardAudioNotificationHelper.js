@@ -66,6 +66,23 @@ export class DashboardAudioNotificationHelper {
     }
   };
 
+  onAssigneeChanged = conversation => {
+    if (!this.currentUser) return;
+
+    const assignee = conversation?.meta?.assignee;
+    if (!assignee || assignee.id !== this.currentUser.id) return;
+
+    if (
+      this.notificationConfig.playAlertOnlyWhenHidden &&
+      WindowVisibilityHelper.isWindowVisible()
+    )
+      return;
+
+    this.playAudioAlert();
+    showBadgeOnFavicon();
+    this.playAudioEvery30Seconds();
+  };
+
   set = ({
     currentUser,
     alwaysPlayAudioAlert,
