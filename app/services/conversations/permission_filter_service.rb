@@ -11,7 +11,7 @@ class Conversations::PermissionFilterService
   def perform
     return conversations if user_role == 'administrator'
 
-    accessible_conversations
+    Conversations::AgentAccessService.apply_scope(accessible_conversations, user, account)
   end
 
   private

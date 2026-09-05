@@ -15,6 +15,10 @@ class InboxPolicy < ApplicationPolicy
     end
   end
 
+  def index_all?
+    true
+  end
+
   def index?
     true
   end

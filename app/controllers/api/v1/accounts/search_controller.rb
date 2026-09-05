@@ -8,6 +8,8 @@ class Api::V1::Accounts::SearchController < Api::V1::Accounts::BaseController
   end
 
   def contacts
+    raise Pundit::NotAuthorizedError if restricted_agent?
+
     @result = search('Contact')
   end
 
@@ -20,6 +22,11 @@ class Api::V1::Accounts::SearchController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def restricted_agent?
+    account_user = Current.account.account_users.find_by(user: Current.user)
+    Conversations::AgentAccessService.restricted_agent?(account_user)
+  end
 
   def search(search_type)
     SearchService.new(

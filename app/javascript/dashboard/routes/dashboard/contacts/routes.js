@@ -2,10 +2,11 @@ import { frontendURL } from '../../../helper/URLHelper';
 import ContactsIndex from './pages/ContactsIndex.vue';
 import ContactManageView from './pages/ContactManageView.vue';
 import { FEATURE_FLAGS } from '../../../featureFlags';
+import { CONTACT_ACCESS_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
 const commonMeta = {
   featureFlag: FEATURE_FLAGS.CRM,
-  permissions: ['administrator', 'agent', 'contact_manage'],
+  permissions: ['administrator', ...CONTACT_ACCESS_PERMISSIONS],
 };
 
 export const routes = [

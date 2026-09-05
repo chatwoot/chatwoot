@@ -2,21 +2,25 @@
 #
 # Table name: accounts
 #
-#  id                    :integer          not null, primary key
-#  auto_resolve_duration :integer
-#  custom_attributes     :jsonb
-#  domain                :string(100)
-#  feature_flags         :bigint           default(0), not null
-#  feature_flags_ext_1   :bigint           default(0), not null
-#  internal_attributes   :jsonb            not null
-#  limits                :jsonb
-#  locale                :integer          default("en")
-#  name                  :string           not null
-#  settings              :jsonb
-#  status                :integer          default("active")
-#  support_email         :string(100)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  id                        :integer          not null, primary key
+#  active_chat_limit_enabled :boolean          default(FALSE), not null
+#  active_chat_limit_value   :integer          default(7)
+#  auto_resolve_duration     :integer
+#  custom_attributes         :jsonb
+#  domain                    :string(100)
+#  feature_flags             :bigint           default(0), not null
+#  feature_flags_ext_1       :bigint           default(0), not null
+#  internal_attributes       :jsonb            not null
+#  limits                    :jsonb
+#  locale                    :integer          default("en")
+#  name                      :string           not null
+#  queue_enabled             :boolean          default(FALSE), not null
+#  queue_message             :text
+#  settings                  :jsonb
+#  status                    :integer          default("active")
+#  support_email             :string(100)
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
 #
 # Indexes
 #
@@ -33,6 +37,55 @@ class Account < ApplicationRecord
   include AccountEmailRateLimitable
   include AccountSettingsSchema
 
+  SETTINGS_PARAMS_SCHEMA = {
+    'type': 'object',
+    'properties':
+      {
+        'auto_resolve_after': { 'type': %w[integer null], 'minimum': 10, 'maximum': 1_439_856 },
+        'auto_resolve_message': { 'type': %w[string null] },
+        'auto_resolve_ignore_waiting': { 'type': %w[boolean null] },
+        'auto_resolve_pending_after': { 'type': %w[integer null], 'minimum': 10, 'maximum': 1_439_856 },
+        'auto_resolve_pending_message': { 'type': %w[string null] },
+        'audio_transcriptions': { 'type': %w[boolean null] },
+        'auto_resolve_label': { 'type': %w[string null] },
+        'busy_to_offline_timeout': { 'type': %w[integer null], 'minimum': 1 },
+        'agent_history_days': { 'type': %w[integer null], 'minimum': 0, 'maximum': 365 },
+        'conversation_required_attributes': {
+          'type': %w[array null],
+          'items': { 'type': 'string' }
+        },
+        'captain_models': {
+          'type': %w[object null],
+          'properties': {
+            'editor': { 'type': %w[string null] },
+            'assistant': { 'type': %w[string null] },
+            'copilot': { 'type': %w[string null] },
+            'label_suggestion': { 'type': %w[string null] },
+            'audio_transcription': { 'type': %w[string null] },
+            'help_center_search': { 'type': %w[string null] }
+          },
+          'additionalProperties': false
+        },
+        'captain_features': {
+          'type': %w[object null],
+          'properties': {
+            'editor': { 'type': %w[boolean null] },
+            'assistant': { 'type': %w[boolean null] },
+            'copilot': { 'type': %w[boolean null] },
+            'label_suggestion': { 'type': %w[boolean null] },
+            'audio_transcription': { 'type': %w[boolean null] },
+            'help_center_search': { 'type': %w[boolean null] }
+          },
+          'additionalProperties': false
+        },
+        'auto_resolve_message_agent': { 'type': %w[string null] },
+        'auto_resolve_message_client': { 'type': %w[string null] },
+        'auto_resolve_split_reasons': { 'type': %w[boolean null] }
+      },
+    'required': [],
+    'additionalProperties': true
+  }.to_json.freeze
+
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator,
     check_for_column: false
@@ -42,6 +95,7 @@ class Account < ApplicationRecord
   attr_accessor :suspension_category, :suspension_reason
 
   validates :name, presence: true
+  validates :active_chat_limit_value, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
   # `domain` is the inbound email domain used to construct reply addresses
   # (see `inbound_email_domain`). Do not repurpose it for a website or any
   # non-mail-related domain.
@@ -52,10 +106,16 @@ class Account < ApplicationRecord
   validate :validate_reporting_timezone
   validate :validate_support_email_format, if: :will_save_change_to_support_email?
 
-  store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
+  after_commit :process_queue_when_limit_changed, if: :active_chat_limit_settings_changed?
+
+  store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting,
+                 :auto_resolve_message_agent, :auto_resolve_message_client, :auto_resolve_split_reasons,
+                 :auto_resolve_pending_after, :auto_resolve_pending_message
 
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label
   store_accessor :settings, :captain_models, :captain_features
+  store_accessor :settings, :busy_to_offline_timeout
+  store_accessor :settings, :agent_history_days
   store_accessor :settings, :reporting_timezone
   store_accessor :settings, :keep_pending_on_bot_failure
   store_accessor :settings, :captain_auto_resolve_mode, :captain_false_promise_harness_enabled
@@ -75,6 +135,8 @@ class Account < ApplicationRecord
   has_many :categories, dependent: :destroy_async, class_name: '::Category'
   has_many :contacts, dependent: :destroy_async
   has_many :conversations, dependent: :destroy_async
+  has_many :conversation_queues, dependent: :destroy_async
+  has_many :queue_statistics, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
   has_many :custom_attribute_definitions, dependent: :destroy_async
   has_many :custom_filters, dependent: :destroy_async
@@ -104,6 +166,7 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy_async
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
   has_many :working_hours, dependent: :destroy_async
+  has_many :priority_groups, dependent: :destroy
 
   has_one_attached :contacts_export
 
@@ -111,6 +174,7 @@ class Account < ApplicationRecord
   enum :status, { active: 0, suspended: 1 }
 
   scope :with_auto_resolve, -> { where("(settings ->> 'auto_resolve_after')::int IS NOT NULL") }
+  scope :with_auto_resolve_pending, -> { where("(settings ->> 'auto_resolve_pending_after')::int IS NOT NULL") }
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
@@ -173,6 +237,26 @@ class Account < ApplicationRecord
     # we need to extract the language code from the locale
     account_locale = locale&.split('_')&.first
     ISO_639.find(account_locale)&.english_name&.downcase || 'english'
+  end
+
+  def active_chat_limit_enabled?
+    active_chat_limit_enabled
+  end
+
+  def active_chat_limit
+    active_chat_limit_value
+  end
+
+  def active_chat_limit_settings_changed?
+    saved_change_to_active_chat_limit_enabled? || saved_change_to_active_chat_limit_value?
+  end
+
+  def process_queue_when_limit_changed
+    return unless queue_enabled?
+
+    inboxes.pluck(:id).each do |inbox_id|
+      Queue::ProcessQueueJob.perform_later(id, inbox_id)
+    end
   end
 
   def onboarding_step

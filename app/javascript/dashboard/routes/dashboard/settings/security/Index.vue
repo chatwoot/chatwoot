@@ -4,6 +4,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import SamlSettings from './components/SamlSettings.vue';
 import SamlPaywall from './components/SamlPaywall.vue';
+import AgentHistorySettings from './components/AgentHistorySettings.vue';
 
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
@@ -41,9 +42,10 @@ const showPaywall = computed(() => shouldShowPaywall('saml'));
       />
     </template>
     <template #body>
+      <AgentHistorySettings />
       <SamlPaywall v-if="showPaywall" />
       <SamlSettings v-else-if="shouldShowSaml" />
-      <div v-else class="mt-6 text-sm text-slate-600">
+      <div v-else-if="!showPaywall" class="mt-6 text-sm text-slate-600">
         {{ $t('SECURITY_SETTINGS.SAML_DISABLED_MESSAGE') }}
       </div>
     </template>

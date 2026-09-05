@@ -20,8 +20,12 @@
 # - 'conversation_manage': Can manage all conversations.
 # - 'conversation_unassigned_manage': Can manage unassigned conversations and assign to self.
 # - 'conversation_participating_manage': Can manage conversations they are participating in (assigned to or a participant).
-# - 'contact_manage': Can manage contacts.
-# - 'report_manage': Can manage reports.
+# - 'contact_manage': Can access all contacts in the account.
+# - 'contact_inbox_manage': Can access contacts from assigned inboxes only.
+# - 'contact_edit': Can edit contacts.
+# - 'contact_delete': Can delete contacts.
+# - 'report_manage': Can access all reports.
+# - 'report_*': Can access a specific reports page.
 # - 'knowledge_base_manage': Can manage knowledge base portals.
 
 class CustomRole < ApplicationRecord
@@ -37,7 +41,21 @@ class CustomRole < ApplicationRecord
     conversation_unassigned_manage
     conversation_participating_manage
     contact_manage
+    contact_inbox_manage
+    contact_edit
+    contact_delete
     report_manage
+    report_overview
+    report_conversation
+    report_agent
+    report_agent_activity
+    report_inbox
+    report_team
+    report_label
+    report_csat
+    report_sla
+    report_bot
+    report_queued_customers
     knowledge_base_manage
   ].freeze
 
