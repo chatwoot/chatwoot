@@ -1,5 +1,7 @@
 {
   "CONTACT_PANEL": {
+    "BLOCKED_UNTIL": "Заблокирован до",
+    "BLOCKED_PERMANENTLY": "Заблокирован навсегда",
     "NOT_AVAILABLE": "Недоступен",
     "EMAIL_ADDRESS": "Email",
     "PHONE_NUMBER": "Номер телефона",
@@ -18,6 +20,22 @@
     "CREATED_AT_LABEL": "Создан",
     "NEW_MESSAGE": "Новое сообщение",
     "CALL": "Вызов",
+    "BAN_DURATION_MODAL": {
+      "TITLE": "Заблокировать контакт",
+      "DESCRIPTION": "Выберите срок блокировки. После истечения срока контакт автоматически разблокируется.",
+      "PRESETS": {
+        "1_HOUR": "1 час",
+        "8_HOURS": "8 часов",
+        "1_DAY": "1 день",
+        "7_DAYS": "7 дней",
+        "CUSTOM": "Свой срок…",
+        "FOREVER": "Навсегда"
+      },
+      "CUSTOM_DATE_LABEL": "Дата",
+      "CUSTOM_TIME_LABEL": "Время",
+      "CANCEL": "Отмена",
+      "CONFIRM": "Заблокировать"
+    },
     "CALL_INITIATED": "Вызов контакта…",
     "CALL_FAILED": "Не удалось начать вызов. Повторите попытку.",
     "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
@@ -26,6 +44,11 @@
     "VOICE_INBOX_PICKER": {
       "TITLE": "Выберите голосовую почту"
     },
+    "AUTHORIZATION": {
+      "LABEL": "Авторизация",
+      "AUTHORIZED": "Авторизован",
+      "NOT_AUTHORIZED": "Не авторизован"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Нет предыдущих диалогов, связанных с этим контактом.",
       "TITLE": "Предыдущие диалоги"
@@ -33,7 +56,9 @@
     "LABELS": {
       "CONTACT": {
         "TITLE": "Ярлыки контактов",
-        "ERROR": "Не удалось обновить ярлыки"
+        "ERROR": "Не удалось обновить ярлыки",
+        "PIN": "Закрепить",
+        "UNPIN": "Открепить"
       },
       "CONVERSATION": {
         "TITLE": "Категории Диалога",
