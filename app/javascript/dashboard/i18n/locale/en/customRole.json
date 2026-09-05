@@ -36,8 +36,22 @@
       "CONVERSATION_MANAGE": "Manage all conversations",
       "CONVERSATION_UNASSIGNED_MANAGE": "Manage unassigned conversations and those assigned to them",
       "CONVERSATION_PARTICIPATING_MANAGE": "Manage participating conversations and those assigned to them",
-      "CONTACT_MANAGE": "Manage contacts",
-      "REPORT_MANAGE": "Manage reports",
+      "CONTACT_MANAGE": "All contacts in the account",
+      "CONTACT_INBOX_MANAGE": "Contacts from assigned inboxes only",
+      "CONTACT_EDIT": "Edit contacts",
+      "CONTACT_DELETE": "Delete contacts",
+      "REPORT_MANAGE": "All report pages",
+      "REPORT_OVERVIEW": "Overview",
+      "REPORT_CONVERSATION": "Conversations",
+      "REPORT_AGENT": "Agents",
+      "REPORT_AGENT_ACTIVITY": "Agent activity",
+      "REPORT_INBOX": "Inboxes",
+      "REPORT_TEAM": "Teams",
+      "REPORT_LABEL": "Labels",
+      "REPORT_CSAT": "CSAT",
+      "REPORT_SLA": "SLA",
+      "REPORT_BOT": "Bots",
+      "REPORT_QUEUED_CUSTOMERS": "Queued customers",
       "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base"
     },
     "FORM": {
@@ -53,9 +67,29 @@
       },
       "PERMISSIONS": {
         "LABEL": "Permissions",
+        "DESC": "Choose what this role can access. Report pages and contact scope can be granted independently.",
         "ERROR": "Permissions are required."
       },
+      "GROUPS": {
+        "CONVERSATIONS": "Conversations",
+        "CONTACTS": "Contacts",
+        "REPORTS": "Reports",
+        "KNOWLEDGE_BASE": "Knowledge base"
+      },
+      "CONTACTS": {
+        "SCOPE_HINT": "Chatwoot does not have projects. Assigned inboxes are the closest equivalent of own-project access.",
+        "NO_ACCESS": "No contact access",
+        "NO_ACCESS_HELP": "The Contacts section stays hidden, same as a regular operator.",
+        "SCOPE_HELP": {
+          "CONTACT_INBOX_MANAGE": "The agent only sees contacts that belong to inboxes they are a member of.",
+          "CONTACT_MANAGE": "The agent sees every contact in the account, like an administrator."
+        }
+      },
+      "REPORTS": {
+        "HINT": "Select individual report pages, or grant all pages. This matches how operators currently see only some reports."
+      },
       "CANCEL_BUTTON_TEXT": "Cancel",
+      "BACK_BUTTON_TEXT": "Back to custom roles",
       "API": {
         "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
       }
@@ -74,7 +108,8 @@
       "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
       "SUBMIT": "Update",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role updated successfully."
+        "SUCCESS_MESSAGE": "Custom role updated successfully.",
+        "NOT_FOUND": "Custom role not found."
       }
     },
     "DELETE": {

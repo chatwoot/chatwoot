@@ -18,4 +18,12 @@ class UserPolicy < ApplicationPolicy
   def bulk_create?
     @account_user.administrator?
   end
+
+  def inboxes?
+    @account_user.administrator?
+  end
+
+  def teams?
+    @account_user.administrator?
+  end
 end

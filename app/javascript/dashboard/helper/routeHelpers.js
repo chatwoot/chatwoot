@@ -7,8 +7,9 @@ import {
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,
-  CONTACT_PERMISSIONS,
+  CONTACT_ACCESS_PERMISSIONS,
   REPORTS_PERMISSIONS,
+  REPORT_PAGE_PERMISSIONS,
   PORTAL_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
 
@@ -25,8 +26,11 @@ export const defaultRedirectPage = (to, permissions) => {
       permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
       path: 'dashboard',
     },
-    { permissions: [CONTACT_PERMISSIONS], path: 'contacts' },
-    { permissions: [REPORTS_PERMISSIONS], path: 'reports/overview' },
+    { permissions: CONTACT_ACCESS_PERMISSIONS, path: 'contacts' },
+    {
+      permissions: [REPORTS_PERMISSIONS, ...REPORT_PAGE_PERMISSIONS],
+      path: 'reports/overview',
+    },
     { permissions: [PORTAL_PERMISSIONS], path: 'portals' },
   ];
 

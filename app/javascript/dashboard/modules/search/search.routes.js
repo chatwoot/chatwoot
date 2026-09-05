@@ -2,7 +2,7 @@ import { frontendURL } from '../../helper/URLHelper';
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,
-  CONTACT_PERMISSIONS,
+  CONTACT_ACCESS_PERMISSIONS,
   PORTAL_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
 
@@ -16,7 +16,7 @@ export const routes = [
       permissions: [
         ...ROLES,
         ...CONVERSATION_PERMISSIONS,
-        CONTACT_PERMISSIONS,
+        ...CONTACT_ACCESS_PERMISSIONS,
         PORTAL_PERMISSIONS,
       ],
     },

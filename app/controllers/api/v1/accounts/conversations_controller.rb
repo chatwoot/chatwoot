@@ -52,15 +52,13 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     result = ::Conversations::FilterService.new(params.permit!, current_user, current_account).perform
     @conversations = result[:conversations]
     @conversations_count = result[:count]
-  rescue CustomExceptions::CustomFilter::InvalidAttribute,
-         CustomExceptions::CustomFilter::InvalidOperator,
-         CustomExceptions::CustomFilter::InvalidQueryOperator,
-         CustomExceptions::CustomFilter::InvalidValue => e
+  rescue CustomExceptions::CustomFilter::InvalidAttribute, CustomExceptions::CustomFilter::InvalidOperator,
+         CustomExceptions::CustomFilter::InvalidQueryOperator, CustomExceptions::CustomFilter::InvalidValue => e
     render_could_not_create_error(e.message)
   end
 
   def mute
-    @conversation.mute!
+    @conversation.mute!(banned_until: parse_banned_until_param, timezone: params[:timezone])
     head :ok
   end
 
@@ -90,6 +88,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       @status = @conversation.toggle_status
     end
     handle_human_open if @conversation.open? && Current.user.is_a?(User)
+  end
+
+  def pending_to_open_by_bot?
+    Current.user.is_a?(AgentBot) && @conversation.status == 'pending' && params[:status] == 'open'
   end
 
   def bot_handoff?
@@ -136,7 +138,29 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     head :ok
   end
 
+  def change_inbox
+    conversation = Current.account.conversations.find_by!(display_id: params[:id])
+    authorize conversation, :update?
+
+    result = Conversations::ChangeInbox.call(conversation: conversation, inbox_id: params[:inbox_id])
+
+    render json: { success: true,  inbox_id: result.inbox.id,  website_token: result.inbox.channel.website_token }
+  end
+
   private
+
+  def parse_banned_until_param
+    raw = params[:banned_until]
+    return nil if raw.blank?
+
+    if ConversationMuteHelpers::BAN_DURATIONS.key?(raw.to_s)
+      Time.current + ConversationMuteHelpers::BAN_DURATIONS[raw.to_s]
+    else
+      Time.zone.parse(raw.to_s)
+    end
+  rescue ArgumentError, TypeError
+    nil
+  end
 
   def permitted_update_params
     # TODO: Move the other conversation attributes to this method and remove specific endpoints for each attribute
@@ -217,12 +241,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def build_contact_inbox
     return if @inbox.blank? || @contact.blank?
 
-    ContactInboxBuilder.new(
-      contact: @contact,
-      inbox: @inbox,
-      source_id: params[:source_id],
-      hmac_verified: hmac_verified?
-    ).perform
+    ContactInboxBuilder.new(contact: @contact,  inbox: @inbox, source_id: params[:source_id],  hmac_verified: hmac_verified?).perform
   end
 
   def conversation_finder

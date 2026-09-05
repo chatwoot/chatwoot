@@ -10,7 +10,7 @@ import { generateURLParams, parseURLParams } from '../helpers/searchHelper';
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,
-  CONTACT_PERMISSIONS,
+  CONTACT_ACCESS_PERMISSIONS,
   PORTAL_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
 import { usePolicy } from 'dashboard/composables/usePolicy';
@@ -93,7 +93,7 @@ const { shouldShow, isFeatureFlagEnabled } = usePolicy();
 const TABS_CONFIG = {
   all: {
     permissions: [
-      CONTACT_PERMISSIONS,
+      ...CONTACT_ACCESS_PERMISSIONS,
       ...ROLES,
       ...CONVERSATION_PERMISSIONS,
       PORTAL_PERMISSIONS,
@@ -101,7 +101,7 @@ const TABS_CONFIG = {
     count: () => null, // No count for all tab
   },
   contacts: {
-    permissions: [...ROLES, CONTACT_PERMISSIONS],
+    permissions: ['administrator', ...CONTACT_ACCESS_PERMISSIONS],
     count: () => mappedContacts.value.length,
   },
   conversations: {
@@ -145,7 +145,7 @@ const tabs = computed(() => {
 const totalSearchResultsCount = computed(() => {
   const permissionCounts = [
     {
-      permissions: [...ROLES, CONTACT_PERMISSIONS],
+      permissions: ['administrator', ...CONTACT_ACCESS_PERMISSIONS],
       count: () => contacts.value.length,
     },
     {
@@ -407,7 +407,7 @@ onUnmounted(() => {
         <div class="w-full max-w-5xl mx-auto px-4 pb-6">
           <div v-if="showResultsSection">
             <Policy
-              :permissions="[...ROLES, CONTACT_PERMISSIONS]"
+              :permissions="['administrator', ...CONTACT_ACCESS_PERMISSIONS]"
               class="flex flex-col justify-center"
             >
               <SearchResultContactsList

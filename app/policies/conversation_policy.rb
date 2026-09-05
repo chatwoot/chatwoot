@@ -8,7 +8,14 @@ class ConversationPolicy < ApplicationPolicy
   end
 
   def show?
-    administrator? || agent_bot? || agent_can_view_conversation?
+    return true if administrator? || agent_bot?
+    return false unless agent_can_view_conversation?
+
+    agent_access_allowed?
+  end
+
+  def update?
+    show?
   end
 
   private
@@ -41,6 +48,12 @@ class ConversationPolicy < ApplicationPolicy
 
   def participant?
     record.conversation_participants.exists?(user_id: user.id)
+  end
+
+  def agent_access_allowed?
+    return true unless Conversations::AgentAccessService.restricted_agent?(account_user)
+
+    Conversations::AgentAccessService.new(conversation: record, user: user, account: account, account_user: account_user).allowed?
   end
 end
 

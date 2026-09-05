@@ -50,6 +50,13 @@ export const getters = {
   },
   isFeatureEnabledonAccount: $state => (id, featureName) => {
     const { features = {} } = findRecordById($state, id);
+    if (
+      featureName === 'custom_roles' &&
+      window.chatwootConfig?.isEnterprise === 'true'
+    ) {
+      return true;
+    }
+
     return features[featureName] || false;
   },
 };
