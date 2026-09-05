@@ -4,6 +4,7 @@ json.website_channel_config do
   json.auth_token @token
   json.avatar_url @web_widget.inbox.avatar_url
   json.csat_survey_enabled @web_widget.inbox.csat_survey_enabled
+  json.csat_display_type @web_widget.inbox.csat_config&.dig('display_type') || 'emoji'
   json.disable_branding @web_widget.inbox.account.feature_enabled?('disable_branding')
   json.enabled_features @web_widget.selected_feature_flags
   json.enabled_languages available_locales_with_name
@@ -15,7 +16,7 @@ json.website_channel_config do
   json.reply_time @web_widget.reply_time
   json.timezone @web_widget.inbox.timezone
   json.utc_off_set ActiveSupport::TimeZone[@web_widget.inbox.timezone].now.formatted_offset
-  json.website_name @web_widget.inbox.name
+  json.website_name @web_widget.inbox.display_name
   json.website_token @web_widget.website_token
   json.welcome_tagline @web_widget.welcome_tagline
   json.welcome_title @web_widget.welcome_title
