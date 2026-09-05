@@ -938,7 +938,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.string "ai_assignee_type"
     t.datetime "status_changed_at"
     t.datetime "resolved_at"
-    t.boolean "resolved_by_contact", default: false
+    t.boolean "resolved_by_contact", default: false, null: false
     t.datetime "proxied_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"

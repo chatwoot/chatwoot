@@ -12,9 +12,7 @@ class Api::V1::Accounts::Conversations::QueuesController < Api::V1::Accounts::Co
     entry = ChatQueue::QueueService.new(account: Current.account)
                                    .remove_from_queue(@conversation, reason: :resolved)
 
-    if entry.blank?
-      return render json: { error: 'No waiting queue entry found' }, status: :unprocessable_entity
-    end
+    return render json: { error: 'No waiting queue entry found' }, status: :unprocessable_entity if entry.blank?
 
     open_conversation_if_queued!
     Queue::ProcessQueueJob.perform_later(Current.account.id, @conversation.inbox_id)

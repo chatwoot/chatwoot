@@ -73,6 +73,7 @@ class Reports::RawDataSource < Reports::DataSource
     base
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity -- per-metric scopes with proxy/inbox/agent filters
   def count_scope
     case metric.to_s
     when 'conversations_count'
@@ -104,19 +105,29 @@ class Reports::RawDataSource < Reports::DataSource
       reporting_event_count_scope
     end
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
 
   def reporting_event_count_scope
-    events = scope.reporting_events
-                  .where(name: raw_event_name, account_id: account.id, created_at: range)
-                  .joins(:conversation)
-                  .where(conversations: { proxied_at: nil })
-    events = events.where(conversations: { inbox_id: inbox_ids }) if account_scope? && inbox_ids.present?
-    events = events.where(conversations: { assignee_id: user_ids }) if account_scope? && user_ids.present?
+    events = apply_conversation_filters(
+      scope.reporting_events
+           .where(name: raw_event_name, account_id: account.id, created_at: range)
+           .joins(:conversation)
+           .where(conversations: { proxied_at: nil })
+    )
 
     return events.where.not(conversation_id: bot_handoff_conversation_ids_subquery) if raw_count_strategy == :exclude_bot_handoffs
     return events unless raw_count_strategy == :distinct_conversation
 
     events.select(:conversation_id).distinct
+  end
+
+  # inbox / agent filters only apply to account-wide reports (the dimension scopes already narrow the set)
+  def apply_conversation_filters(relation)
+    return relation unless account_scope?
+
+    relation = relation.where(conversations: { inbox_id: inbox_ids }) if inbox_ids.present?
+    relation = relation.where(conversations: { assignee_id: user_ids }) if user_ids.present?
+    relation
   end
 
   def bot_handoff_conversation_ids_subquery

@@ -36,6 +36,7 @@ module TelegramContactMerge
     ids
   end
 
+  # rubocop:disable Metrics/AbcSize -- multi-column email lookup
   def find_target_contact(account, inbox_ids)
     user_email = @contact.custom_attributes&.dig('user_email').to_s.downcase.strip.presence
     priv_email = @contact.custom_attributes&.dig('_email').to_s.downcase.strip.presence
@@ -47,7 +48,7 @@ module TelegramContactMerge
            .joins(:contact_inboxes)
            .where(contact_inboxes: { inbox_id: inbox_ids })
            .where.not(id: @contact.id)
-           .where(<<~SQL, user_email: user_email, priv_email: priv_email, email: email)
+           .where(<<~SQL.squish, user_email: user_email, priv_email: priv_email, email: email)
              (:user_email IS NOT NULL AND LOWER(custom_attributes->>'user_email') = :user_email)
              OR (:user_email IS NOT NULL AND LOWER(contacts.email) = :user_email)
              OR (:priv_email IS NOT NULL AND LOWER(custom_attributes->>'_email') = :priv_email)
@@ -58,6 +59,7 @@ module TelegramContactMerge
              Rails.logger.info t ? "[TG MERGE] Found target #{t.id}" : '[TG MERGE] No target found'
            end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def merge_contacts(base_contact, mergee_contact)
     Rails.logger.info "[TG MERGE] Merging #{mergee_contact.id} -> #{base_contact.id}"

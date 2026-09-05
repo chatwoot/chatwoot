@@ -7,6 +7,7 @@ module MessageTelegramProxy
 
   private
 
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity -- mirrors a Telegram message incl. attachments
   def mirror_incoming_telegram_to_linked
     return unless incoming?
     return if source_id&.start_with?('mirror_')
@@ -55,4 +56,5 @@ module MessageTelegramProxy
   rescue StandardError => e
     Rails.logger.error("[TelegramProxy] mirror_incoming_telegram_to_linked failed: #{e.class} - #{e.message}")
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
 end

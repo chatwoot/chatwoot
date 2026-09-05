@@ -60,9 +60,7 @@ class V2::Reports::BaseSummaryBuilder
     # CategorySummaryBuilder overrides exclude_proxy_chats? to return false.
     @reporting_events ||= begin
       scope = account.reporting_events.where(created_at: range)
-      return scope unless exclude_proxy_chats?
-
-      scope.joins(:conversation).where(conversations: { proxied_at: nil })
+      exclude_proxy_chats? ? scope.joins(:conversation).where(conversations: { proxied_at: nil }) : scope
     end
   end
 

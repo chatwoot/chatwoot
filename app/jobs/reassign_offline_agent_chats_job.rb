@@ -57,6 +57,7 @@ class ReassignOfflineAgentChatsJob < ApplicationJob
     )
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity -- queue vs. auto-assignment fallback with error handling
   def reassign_conversation(conversation)
     allowed = online_agents_for(conversation)
     return unassign(conversation, 'No online agents') if allowed.empty?
@@ -81,6 +82,7 @@ class ReassignOfflineAgentChatsJob < ApplicationJob
     enqueue_for_reassignment(conversation) if conversation.account.queue_enabled?
     unassign(conversation, 'Error')
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   def reassign_via_auto_assignment(conversation, allowed)
     AutoAssignment::AgentAssignmentService.new(

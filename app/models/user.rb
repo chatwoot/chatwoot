@@ -212,7 +212,7 @@ class User < ApplicationRecord
   def label_pinned?(label_id)
     user_pinned_labels.exists?(label_id: label_id)
   end
-  
+
   # Workaround for Devise 4.9.x race condition vulnerability (GHSA-57hq-95w6-v4fc).
   #
   # The Confirmable module's reconfirmable flow has a race condition where concurrent

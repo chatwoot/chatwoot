@@ -19,6 +19,17 @@ Metrics/ClassLength:
     - 'app/models/message.rb'
     - 'app/models/conversation.rb'
     - 'config/initializers/rack_attack.rb'
+    # cat-fork: upstream classes that sit just under the limit and gained a few lines from fork features
+    - 'app/builders/messages/message_builder.rb'
+    - 'app/builders/v2/reports/base_summary_builder.rb'
+    - 'app/controllers/api/v1/accounts/conversations_controller.rb'
+    - 'app/controllers/api/v1/accounts/inboxes_controller.rb'
+    - 'app/controllers/api/v2/accounts/reports_controller.rb'
+    - 'app/finders/conversation_finder.rb'
+    - 'app/listeners/action_cable_listener.rb'
+    - 'app/models/contact.rb'
+    - 'app/models/inbox.rb'
+    - 'app/services/search_service.rb'
 
 Metrics/MethodLength:
   Max: 19

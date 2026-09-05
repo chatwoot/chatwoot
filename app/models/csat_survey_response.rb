@@ -41,7 +41,7 @@ class CsatSurveyResponse < ApplicationRecord
   validates :conversation_id, presence: true
 
   scope :filter_by_created_at, ->(range) { where(created_at: range) if range.present? }
-  scope :filter_by_conversation_created_at, ->(range) {
+  scope :filter_by_conversation_created_at, lambda { |range|
     joins(:conversation).where(conversations: { created_at: range }) if range.present?
   }
   scope :filter_by_assigned_agent_id, ->(user_ids) { where(assigned_agent_id: user_ids) if user_ids.present? }

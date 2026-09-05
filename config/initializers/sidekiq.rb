@@ -19,8 +19,8 @@ end
 Sidekiq.configure_server do |config|
   config.redis = Redis::Config.app
 
-  config.capsule("queue_processing") do |cap|
-    cap.concurrency = ENV.fetch("SIDEKIQ_QP_CONCURRENCY", 2).to_i
+  config.capsule('queue_processing') do |cap|
+    cap.concurrency = ENV.fetch('SIDEKIQ_QP_CONCURRENCY', 2).to_i
     cap.queues = %w[queue_processing]
   end
 

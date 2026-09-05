@@ -35,10 +35,10 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
 
       it 'filters csat responses based on a date range' do
         csat_10_days_ago = create(:csat_survey_response, account: account, created_at: 1.day.ago)
-        csat_10_days_ago.conversation.update_column(:created_at, 10.days.ago)
+        csat_10_days_ago.conversation.update!(created_at: 10.days.ago)
 
         csat_3_days_ago = create(:csat_survey_response, account: account, created_at: 10.days.ago)
-        csat_3_days_ago.conversation.update_column(:created_at, 3.days.ago)
+        csat_3_days_ago.conversation.update!(created_at: 3.days.ago)
 
         get "/api/v1/accounts/#{account.id}/csat_survey_responses",
             params: { since: 5.days.ago.to_time.to_i.to_s, until: Time.zone.today.to_time.to_i.to_s },
@@ -56,13 +56,13 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
         csat2_assigned_agent = create(:user, account: account, role: :agent)
 
         csat1_response = create(:csat_survey_response, account: account, created_at: 1.day.ago, assigned_agent: csat1_assigned_agent)
-        csat1_response.conversation.update_column(:created_at, 10.days.ago)
+        csat1_response.conversation.update!(created_at: 10.days.ago)
 
         csat2_response = create(:csat_survey_response, account: account, created_at: 10.days.ago, assigned_agent: csat2_assigned_agent)
-        csat2_response.conversation.update_column(:created_at, 3.days.ago)
+        csat2_response.conversation.update!(created_at: 3.days.ago)
 
         csat3_response = create(:csat_survey_response, account: account, created_at: 1.day.ago)
-        csat3_response.conversation.update_column(:created_at, 5.days.ago)
+        csat3_response.conversation.update!(created_at: 5.days.ago)
 
         get "/api/v1/accounts/#{account.id}/csat_survey_responses",
             params: { since: 11.days.ago.to_time.to_i.to_s, until: Time.zone.today.to_time.to_i.to_s,
@@ -123,10 +123,10 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
         CsatSurveyResponse.destroy_all
 
         csat_in_range = create(:csat_survey_response, account: account, created_at: 10.days.ago)
-        csat_in_range.conversation.update_column(:created_at, 3.days.ago)
+        csat_in_range.conversation.update!(created_at: 3.days.ago)
 
         csat_out_of_range = create(:csat_survey_response, account: account, created_at: 1.day.ago)
-        csat_out_of_range.conversation.update_column(:created_at, 10.days.ago)
+        csat_out_of_range.conversation.update!(created_at: 10.days.ago)
 
         get "/api/v1/accounts/#{account.id}/csat_survey_responses/metrics",
             params: { since: 5.days.ago.to_time.to_i.to_s, until: Time.zone.today.to_time.to_i.to_s },
@@ -145,13 +145,13 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
         csat2_assigned_agent = create(:user, account: account, role: :agent)
 
         csat1_response = create(:csat_survey_response, account: account, created_at: 1.day.ago, assigned_agent: csat1_assigned_agent)
-        csat1_response.conversation.update_column(:created_at, 10.days.ago)
+        csat1_response.conversation.update!(created_at: 10.days.ago)
 
         csat2_response = create(:csat_survey_response, account: account, created_at: 10.days.ago, assigned_agent: csat2_assigned_agent)
-        csat2_response.conversation.update_column(:created_at, 3.days.ago)
+        csat2_response.conversation.update!(created_at: 3.days.ago)
 
         csat3_response = create(:csat_survey_response, account: account, created_at: 1.day.ago)
-        csat3_response.conversation.update_column(:created_at, 5.days.ago)
+        csat3_response.conversation.update!(created_at: 5.days.ago)
 
         get "/api/v1/accounts/#{account.id}/csat_survey_responses/metrics",
             params: { since: 11.days.ago.to_time.to_i.to_s, until: Time.zone.today.to_time.to_i.to_s,
@@ -189,8 +189,8 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
 
       it 'returns summary' do
         chat_created_at = 2.days.ago.change(usec: 0)
-        csat_survey_response.update_column(:created_at, 10.days.ago.change(usec: 0))
-        csat_survey_response.conversation.update_column(:created_at, chat_created_at)
+        csat_survey_response.update!(created_at: 10.days.ago.change(usec: 0))
+        csat_survey_response.conversation.update!(created_at: chat_created_at)
 
         get "/api/v1/accounts/#{account.id}/csat_survey_responses/download",
             params: params,

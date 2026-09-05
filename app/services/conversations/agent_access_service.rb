@@ -21,8 +21,6 @@ class Conversations::AgentAccessService
     assignment_allowed? && history_allowed?
   end
 
-  private
-
   def self.find_account_user(user, account)
     AccountUser.find_by(account_id: account.id, user_id: user.id)
   end
@@ -49,6 +47,10 @@ class Conversations::AgentAccessService
 
     value.to_i
   end
+
+  private_class_method :find_account_user, :apply_assignment_scope, :apply_history_limit, :history_days
+
+  private
 
   def account_user
     @account_user ||= self.class.find_account_user(user, account)

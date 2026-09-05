@@ -55,6 +55,7 @@ class ConversationQueue < ApplicationRecord
     (end_time - queued_at).to_i
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity -- status-to-reason mapping
   def exit_reason
     return 'accepted' if assigned?
     return 'customer_resolved' if left? && conversation&.resolved?
@@ -63,6 +64,7 @@ class ConversationQueue < ApplicationRecord
 
     'waiting'
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   private
 

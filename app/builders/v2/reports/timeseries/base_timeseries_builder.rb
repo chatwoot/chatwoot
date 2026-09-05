@@ -33,7 +33,7 @@ class V2::Reports::Timeseries::BaseTimeseriesBuilder
       timezone_offset: params[:timezone_offset],
       business_hours: params[:business_hours],
       inbox_ids: params[:inbox_ids],
-      user_ids: params[:user_ids] 
+      user_ids: params[:user_ids]
     )
   end
 
@@ -87,7 +87,7 @@ class V2::Reports::Timeseries::BaseTimeseriesBuilder
 
     relation.joins(:conversation).where(conversations: { assignee_id: params[:user_ids] })
   end
-  
+
   def dimension_type
     (params[:type].presence || 'account').to_s
   end

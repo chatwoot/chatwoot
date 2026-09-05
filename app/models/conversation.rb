@@ -16,7 +16,7 @@
 #  priority               :integer
 #  proxied_at             :datetime
 #  resolved_at            :datetime
-#  resolved_by_contact    :boolean          default(FALSE)
+#  resolved_by_contact    :boolean          default(FALSE), not null
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
 #  status_changed_at      :datetime
@@ -344,7 +344,7 @@ class Conversation < ApplicationRecord
     return unless account.queue_enabled?
     return unless saved_change_to_assignee_id?
     return if assignee_id.blank?
-  
+
     ChatQueue::QueueService.new(account: account).remove_from_queue(self, reason: :other)
   end
 
@@ -407,8 +407,12 @@ class Conversation < ApplicationRecord
     return unless account.queue_enabled?
     return unless saved_change_to_assignee_id? || saved_change_to_status?
 
-    open! if saved_change_to_assignee_id? && assignee_id.present? && queued?
+    open! if newly_assigned_from_queue?
     Queue::ProcessQueueJob.perform_later(account.id, inbox_id) if should_process_queue?
+  end
+
+  def newly_assigned_from_queue?
+    saved_change_to_assignee_id? && assignee_id.present? && queued?
   end
 
   def should_process_queue?
@@ -423,7 +427,7 @@ class Conversation < ApplicationRecord
     update_column(:resolved_at, Time.current)
     update_column(:waiting_since, nil)
     # rubocop:enable Rails/SkipsModelValidations
-end
+  end
 
   def ensure_snooze_until_reset
     self.snoozed_until = nil unless snoozed?
@@ -564,6 +568,7 @@ end
 
   def cascade_close_proxy_chain
     return unless resolved?
+
     Widget::ConversationCloseProxyService.new(self).call
   end
 

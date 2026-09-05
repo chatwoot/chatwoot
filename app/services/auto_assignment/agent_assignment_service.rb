@@ -4,6 +4,7 @@ class AutoAssignment::AgentAssignmentService
   # examples: Agents with assignment capacity, Agents who are members of a team etc
   pattr_initialize [:conversation!, :allowed_agent_ids!]
 
+  # rubocop:disable Metrics/AbcSize -- least-busy selection with debug logging
   def find_assignee
     ids = allowed_online_agent_ids
     Rails.logger.debug { "AutoAssignment [conv=#{conversation.id}] online+allowed ids: #{ids}" }
@@ -31,6 +32,7 @@ class AutoAssignment::AgentAssignmentService
 
     User.find_by(id: selected_id)
   end
+  # rubocop:enable Metrics/AbcSize
 
   # Locks the row to serialize with concurrent assignment writers, then sets the assignee
   # on the in-memory conversation without saving. Called from the conversation's own
