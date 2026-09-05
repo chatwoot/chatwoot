@@ -3,13 +3,13 @@
     "HEADER": "收件箱",
     "DESCRIPTION": "频道是客户选择与您互动的方式。收件箱则是您用来管理特定频道互动的地方，它可以整合来自不同来源的通信，比如电子邮件、即时聊天和社交媒体等。",
     "LEARN_MORE": "了解更多关于收件箱的信息",
-    "COUNT": "{n} inbox | {n} inboxes",
-    "SEARCH_PLACEHOLDER": "Search inboxes...",
-    "NO_RESULTS": "No inboxes found matching your search",
+    "COUNT": "{n} 个收件箱",
+    "SEARCH_PLACEHOLDER": "搜索收件箱...",
+    "NO_RESULTS": "未找到符合搜索条件的收件箱",
     "RECONNECTION_REQUIRED": "您的收件箱已断开连接。在您重新授权之前，您不会收到新消息。",
     "CLICK_TO_RECONNECT": "点击此处重新连接。",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
-    "COMPLETE_REGISTRATION": "Complete Registration",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "您的 WhatsApp Business 注册尚未完成。重新连接前，请在 Meta Business Manager 中检查显示名称状态。",
+    "COMPLETE_REGISTRATION": "完成注册",
     "LIST": {
       "404": "此账户没有收件箱。"
     },
@@ -61,19 +61,20 @@
         "ERROR_AUTH": "连接到 Instagram 时出错，请重试",
         "NEW_INBOX_SUGGESTION": "这个 Instagram 账户先前已连接到一个不同的收件箱，现在已经迁移到这里。 所有新消息都将出现在这里。旧收件箱将无法再发送或接收此账户的消息。",
         "DUPLICATE_INBOX_BANNER": "此 Instagram 账户已迁移到新的 Instagram 通道收件箱。您将无法从此收件箱发送/接收 Instagram 消息。",
-        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
-        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
-        "STATUS_LINK": "View status updates"
+        "RESTRICTED_WARNING": "由于 Meta 端的 API 问题（并非 Chatwoot 的问题），Instagram 收件箱创建暂时不可用。我们正在与 Meta 密切合作，尽快解决此问题。",
+        "SETTINGS_RESTRICTED_WARNING": "由于 Meta 端的 API 问题（并非 Chatwoot 的问题），Instagram 消息功能目前受到影响。部分消息或操作可能会延迟或不可用。我们正在与 Meta 密切合作，尽快解决此问题。",
+        "STATUS_LINK": "查看状态更新"
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again",
-        "NORTH_AMERICA_WARNING": "TikTok connections for North American accounts are temporarily unavailable while we wait for an update from the TikTok team."
+        "CONTINUE_WITH_TIKTOK": "使用 TikTok 继续",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "连接您的 TikTok 账户",
+        "HELP": "要将 TikTok 账户添加为频道，您需要点击「使用 TikTok 继续」进行身份验证",
+        "ERROR_MESSAGE": "连接 TikTok 时出错，请重试",
+        "ERROR_AUTH": "连接 TikTok 时出错，请重试",
+        "NORTH_AMERICA_WARNING": "TikTok 北美账户的连接功能暂时不可用，我们正在等待 TikTok 团队的更新。"
       },
       "TWITTER": {
+        "SIGN_IN": "使用 Twitter 登录",
         "HELP": "若要将您的Twitter个人资料添加为频道，您需要通过点击“使用Twitter登录”来验证您的Twitter个人资料。 ",
         "ERROR_MESSAGE": "连接 Twitter 时出现错误，请重试",
         "TWEETS": {
@@ -93,12 +94,12 @@
           "ERROR": "请输入一个有效的 URL"
         },
         "CHANNEL_WEBHOOK_SECRET": {
-          "LABEL": "Webhook Secret",
-          "COPY": "Copy secret to clipboard",
-          "COPY_SUCCESS": "Secret copied to clipboard",
-          "TOGGLE": "Toggle secret visibility",
-          "RESET_SUCCESS": "Webhook secret regenerated successfully",
-          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+          "LABEL": "Webhook 密钥",
+          "COPY": "复制密钥到剪贴板",
+          "COPY_SUCCESS": "密钥已复制到剪贴板",
+          "TOGGLE": "切换密钥可见性",
+          "RESET_SUCCESS": "Webhook 密钥已成功重新生成",
+          "RESET_ERROR": "无法重新生成 Webhook 密钥，请重试"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "网站域名",
@@ -258,8 +259,8 @@
         },
         "SELECT_PROVIDER": {
           "TITLE": "选择您的 API 提供商",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials.",
-          "RESTRICTION_DESCRIPTION": "Choose your WhatsApp provider. You can connect WhatsApp Cloud manually using your Cloud API credentials, or connect through Twilio using your account credentials."
+          "DESCRIPTION": "选择您的 WhatsApp 提供商。您可以直接通过 Meta 连接（无需设置），或使用账户凭据通过 Twilio 连接。",
+          "RESTRICTION_DESCRIPTION": "选择您的 WhatsApp 提供商。您可以使用 Cloud API 凭据手动连接 WhatsApp Cloud，或使用账户凭据通过 Twilio 连接。"
         },
         "INBOX_NAME": {
           "LABEL": "收件箱名称",
@@ -300,42 +301,44 @@
         },
         "SUBMIT_BUTTON": "创建WhatsApp频道",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick setup with Meta",
-          "DESC": "Use Quick setup with Meta to connect a new number or an existing number from the WhatsApp Business app. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "TITLE": "使用 Meta 快速设置",
+          "DESC": "使用 Meta 快速设置连接新号码或 WhatsApp Business 应用中的现有号码。您将被重定向到 Meta，以登录 WhatsApp Business 账户。拥有管理员权限可使设置过程更加顺畅。",
           "BENEFITS": {
-            "TITLE": "Benefits of Embedded Signup:",
-            "EASY_SETUP": "No manual configuration required",
-            "SECURE_AUTH": "Secure OAuth based authentication",
-            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+            "TITLE": "嵌入式注册的优势：",
+            "EASY_SETUP": "无需手动配置",
+            "SECURE_AUTH": "基于 OAuth 的安全身份验证",
+            "AUTO_CONFIG": "自动 Webhook 和电话号码配置"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about quick setup, pricing, and limitations, visit {link}.",
-            "LINK_TEXT": "this link"
+            "TEXT": "如需了解有关快速设置、定价和限制的更多信息，请访问{link}。",
+            "LINK_TEXT": "此链接"
           },
-          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
-          "AUTH_PROCESSING": "Authenticating with Meta",
-          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
-          "PROCESSING": "Setting up your WhatsApp Business Account",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
+          "SUBMIT_BUTTON": "连接 WhatsApp Business",
+          "AUTH_PROCESSING": "正在通过 Meta 进行身份验证",
+          "WAITING_FOR_BUSINESS_INFO": "请在 Meta 窗口中完成业务设置...",
+          "PROCESSING": "正在设置您的 WhatsApp Business 账户",
+          "ENABLING_CALLING": "正在为您的号码启用 WhatsApp 通话…",
           "LOADING_SDK": "加载 Facebook SDK...",
           "CANCELLED": "WhatsApp 注册已取消",
-          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "SUCCESS_TITLE": "WhatsApp Business 账户已连接！",
           "WAITING_FOR_AUTH": "正在等待认证...",
-          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "INVALID_BUSINESS_DATA": "从 Facebook 收到的业务数据无效，请重试。",
           "SIGNUP_ERROR": "注册时发生错误",
-          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
-          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
+          "AUTH_NOT_COMPLETED": "身份验证未完成，请重新开始流程。",
+          "APP_ID_REQUIRED": "必须配置 WhatsApp App ID",
+          "CONFIGURATION_ID_REQUIRED": "必须配置 WhatsApp Configuration ID",
+          "SUCCESS_FALLBACK": "WhatsApp Business 账户已成功配置",
+          "MANUAL_FALLBACK": "如果您的号码已连接到 WhatsApp Business Platform（API），或者您是接入自有号码的技术提供商，请使用{link}",
           "MANUAL_LINK_TEXT": "手动设置流程",
           "ACCESS_REQUEST": {
-            "TITLE": "Quick setup with Meta",
-            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
-            "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
-            "BUTTON": "Request access"
+            "TITLE": "使用 Meta 快速设置",
+            "DESCRIPTION": "无需手动配置即可连接新号码或 WhatsApp Business 应用中的现有号码。如需申请此选项，请告诉我们的团队您的业务内容、WhatsApp 使用方式以及需要访问权限的 Chatwoot 账户。",
+            "FOOTNOTE": "我们将审核您的申请，并告知是否可以启用此选项。您也可以继续使用下方的手动设置。",
+            "BUTTON": "申请访问权限"
           },
-          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
-          "STATUS_LINK": "View status updates",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "RESTRICTED_WARNING": "由于 Meta 端的 API 问题（并非 Chatwoot 的问题），WhatsApp 嵌入式注册暂时不可用。符合条件的 Cloud API 号码仍可使用手动设置。我们正在与 Meta 密切合作，尽快解决此问题。",
+          "STATUS_LINK": "查看状态更新",
+          "CALLING_ENABLE_FAILED": "您的 WhatsApp 收件箱已就绪，但无法启用语音通话：此号码尚未加入 WhatsApp Business Calling API。请联系 Meta 或您的 WhatsApp Business Solution Provider 完成接入，然后在收件箱的“通话”设置中启用通话。"
         },
         "API": {
           "ERROR_MESSAGE": "我们无法保存 WhatsApp 通道",
@@ -345,22 +348,22 @@
       },
       "VOICE": {
         "TITLE": "语音频道",
-        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "DESC": "集成 Twilio 语音并开始通过电话支持您的客户。",
         "PHONE_NUMBER": {
           "LABEL": "电话号码",
-          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
-          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+          "PLACEHOLDER": "输入您的电话号码（例如 +1234567890）",
+          "ERROR": "请提供 E.164 格式的有效电话号码（例如 +1234567890）"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
             "LABEL": "账户 SID",
-            "PLACEHOLDER": "Enter your Twilio Account SID",
-            "REQUIRED": "Account SID is required"
+            "PLACEHOLDER": "输入您的 Twilio Account SID",
+            "REQUIRED": "Account SID 是必填项"
           },
           "AUTH_TOKEN": {
             "LABEL": "身份验证令牌",
-            "PLACEHOLDER": "Enter your Twilio Auth Token",
-            "REQUIRED": "Auth Token is required"
+            "PLACEHOLDER": "输入您的 Twilio Auth Token",
+            "REQUIRED": "Auth Token 是必填项"
           },
           "API_KEY_SID": {
             "LABEL": "API 密钥 SID",
@@ -369,15 +372,15 @@
           },
           "API_KEY_SECRET": {
             "LABEL": "API 密钥密码",
-            "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "API Key Secret is required"
+            "PLACEHOLDER": "输入您的 Twilio API Key Secret",
+            "REQUIRED": "API Key Secret 是必填项"
           }
         },
         "CONFIGURATION": {
-          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
-          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
-          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
-          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+          "TWILIO_VOICE_URL_TITLE": "Twilio 语音 URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "将此 URL 配置为 Twilio 电话号码和 TwiML 应用的语音 URL。",
+          "TWILIO_STATUS_URL_TITLE": "Twilio 状态回调 URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "将此 URL 配置为 Twilio 电话号码的状态回调 URL。"
         },
         "SUBMIT_BUTTON": "创建语音频道",
         "API": {
@@ -411,19 +414,19 @@
           "ERROR": "此字段是必填项"
         },
         "EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "电子邮件",
           "SUBTITLE": "提供您的客户发送支持请求的电子邮件地址",
-          "PLACEHOLDER": "Email"
+          "PLACEHOLDER": "电子邮件"
         },
         "SUBMIT_BUTTON": "创建电子邮件频道",
         "API": {
           "ERROR_MESSAGE": "我们无法保存电子邮件频道"
         },
         "FINISH_MESSAGE": "开始将您的电子邮件转发到以下电子邮件地址。",
-        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
-        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
+        "FINISH_MESSAGE_NO_FORWARDING": "您的邮件收件箱已成功创建！您需要配置 SMTP 和 IMAP 凭据以发送和接收邮件。没有这些设置，邮件将无法处理。",
+        "FORWARDING_ADDRESS_LABEL": "将邮件转发到此地址：",
         "CONFIGURE_SMTP_IMAP_LINK": "点击这里",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "CONFIGURE_SMTP_IMAP_TEXT": "以配置 IMAP 和 SMTP 设置"
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE频道",
@@ -486,8 +489,8 @@
             "DESCRIPTION": "在 WhatsApp 上回应您的客户"
           },
           "WHATSAPP_CALL": {
-            "TITLE": "WhatsApp Call",
-            "DESCRIPTION": "Take voice calls on your WhatsApp number"
+            "TITLE": "WhatsApp 通话",
+            "DESCRIPTION": "在您的 WhatsApp 号码上接听语音通话"
           },
           "EMAIL": {
             "TITLE": "Email",
@@ -515,7 +518,7 @@
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "连接您的 TikTok 账户"
           },
           "VOICE": {
             "TITLE": "语音",
@@ -542,7 +545,7 @@
         "DESCRIPTION": "从下面的列表中选择一个电子邮件提供商。如果您的电子邮件提供商不在列表中，您可以选择其他提供商选项并提供 IMAP 和 SMTP 凭据。"
       },
       "MICROSOFT": {
-        "TITLE": "Microsoft Email",
+        "TITLE": "Microsoft 邮件",
         "DESCRIPTION": "点击“使用Microsoft登录”按钮以开始。您将被重定向到电子邮件登录页面。一旦您接受了请求的权限，您将被重定向回收件箱创建步骤。",
         "EMAIL_PLACEHOLDER": "输入电子邮件地址",
         "SIGN_IN": "使用Microsoft登录",
@@ -624,10 +627,10 @@
         "DISABLED": "已禁用"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Reopen same conversation",
-        "DISABLED": "Create new conversations",
-        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
-        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
+        "ENABLED": "重新打开同一对话",
+        "DISABLED": "创建新对话",
+        "ENABLED_DESCRIPTION": "当联系人再次发送消息时，将重新打开之前的对话。",
+        "DISABLED_DESCRIPTION": "每次前一个对话解决后都会创建新对话。"
       },
       "ENABLE_HMAC": {
         "LABEL": "启用"
@@ -659,181 +662,181 @@
       "BUSINESS_HOURS": "工作时间",
       "WIDGET_BUILDER": "小部件生成器",
       "BOT_CONFIGURATION": "机器人配置",
-      "ACCOUNT_HEALTH": "Account Health",
+      "ACCOUNT_HEALTH": "账户健康",
       "CSAT": "客户满意度",
       "VOICE": "语音",
-      "CALLS": "Calls"
+      "CALLS": "通话"
     },
     "VOICE_CONFIGURATION": {
       "ENABLE_VOICE": {
-        "LABEL": "Enable Voice Calling",
-        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+        "LABEL": "启用语音通话",
+        "DESCRIPTION": "在此收件箱上启用语音通话。客服将能够拨打和接听电话。"
       },
       "CREDENTIALS": {
-        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+        "DESCRIPTION": "语音通话需要 Twilio API 密钥凭据，用于为客服语音连接生成令牌。"
       },
       "INBOUND": {
-        "LABEL": "Allow incoming calls",
-        "DESCRIPTION": "Let customers call this number. When turned off, incoming calls are declined automatically — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
+        "LABEL": "允许来电",
+        "DESCRIPTION": "允许客户拨打此号码。关闭后，来电将被自动拒绝，客服不会收到通知，也不会创建对话；客服仍可拨打外呼电话。"
       }
     },
     "WHATSAPP_CALLING": {
       "ENABLE": {
-        "LABEL": "Enable WhatsApp Calling",
-        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+        "LABEL": "启用 WhatsApp 通话",
+        "DESCRIPTION": "允许客服在此收件箱上接听和拨打 WhatsApp Cloud 通话。客户可以直接从 WhatsApp 拨打此商业号码。"
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "无法为此号码启用语音通话：该号码尚未加入 WhatsApp Business Calling API。请联系 Meta 或您的 WhatsApp Business Solution Provider 完成接入，然后重试。",
       "PHONE_NUMBER": {
-        "LABEL": "Business phone number",
-        "HELP_TEXT": "WhatsApp number that customers will call."
+        "LABEL": "商业电话号码",
+        "HELP_TEXT": "客户将拨打的 WhatsApp 号码。"
       },
       "HOW_IT_WORKS": {
-        "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "LABEL": "工作原理",
+        "DESCRIPTION": "通话通过客服浏览器与 Meta 之间的点对点连接进行，无需额外凭据。请确保客服浏览器已授予本站麦克风权限。"
       },
       "PERMISSION_REQUEST_BODY": {
-        "LABEL": "Call permission request message",
-        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
-        "PLACEHOLDER": "We would like to call you regarding your conversation."
+        "LABEL": "通话权限请求消息",
+        "HELP_TEXT": "当联系人尚未同意接听通话时显示。留空则使用默认消息。",
+        "PLACEHOLDER": "我们希望就您的对话联系您。"
       }
     },
-    "CHANNEL_PREFERENCES": "Channel Preferences",
-    "WIDGET_FEATURES": "Widget features",
+    "CHANNEL_PREFERENCES": "频道偏好设置",
+    "WIDGET_FEATURES": "小组件功能",
     "ACCOUNT_HEALTH": {
-      "TITLE": "Manage your WhatsApp account",
-      "DESCRIPTION": "Review your WhatsApp phone number health, messaging capacity, and linked Meta business details.",
-      "GO_TO_SETTINGS": "Go to Meta Business Manager",
-      "NO_DATA": "Health data is not available",
+      "TITLE": "管理您的 WhatsApp 账户",
+      "DESCRIPTION": "查看您的 WhatsApp 电话号码健康状态、消息容量和关联的 Meta 业务详情。",
+      "GO_TO_SETTINGS": "前往 Meta 商业管理器",
+      "NO_DATA": "健康数据不可用",
       "ERRORS": {
         "AUTHORIZATION": {
-          "EMBEDDED_TITLE": "WhatsApp connection needs to be refreshed",
-          "EMBEDDED_DESCRIPTION": "Meta could not validate the connection for this inbox. Go to Configuration to reconfigure it using Embedded Signup.",
-          "MANUAL_TITLE": "WhatsApp access token needs attention",
-          "MANUAL_DESCRIPTION": "Meta could not validate the access token for this inbox. Go to Configuration to verify or replace it."
+          "EMBEDDED_TITLE": "需要刷新 WhatsApp 连接",
+          "EMBEDDED_DESCRIPTION": "Meta 无法验证此收件箱的连接。请前往“配置”，使用嵌入式注册重新配置。",
+          "MANUAL_TITLE": "WhatsApp 访问令牌需要处理",
+          "MANUAL_DESCRIPTION": "Meta 无法验证此收件箱的访问令牌。请前往“配置”验证或替换令牌。"
         },
-        "GENERIC_TITLE": "WhatsApp health data is unavailable",
-        "GENERIC_DESCRIPTION": "Meta could not return the current health details. Review the error below and try again later.",
-        "GO_TO_CONFIGURATION": "Go to Configuration"
+        "GENERIC_TITLE": "WhatsApp 健康数据不可用",
+        "GENERIC_DESCRIPTION": "Meta 无法返回当前健康状态详情。请查看下方错误并稍后重试。",
+        "GO_TO_CONFIGURATION": "前往配置"
       },
       "SECTIONS": {
         "PHONE_NUMBER": "电话号码",
-        "HEALTH_AND_CAPACITY": "Health and capacity",
-        "BUSINESS_ACCOUNT": "Business account"
+        "HEALTH_AND_CAPACITY": "健康状态和容量",
+        "BUSINESS_ACCOUNT": "商业账户"
       },
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
-          "LABEL": "Display phone number",
-          "TOOLTIP": "Phone number displayed to customers"
+          "LABEL": "显示电话号码",
+          "TOOLTIP": "向客户显示的电话号码"
         },
         "VERIFIED_NAME": {
-          "LABEL": "WhatsApp display name",
-          "TOOLTIP": "Display name associated with this phone number on WhatsApp"
+          "LABEL": "WhatsApp 显示名称",
+          "TOOLTIP": "此电话号码在 WhatsApp 上关联的显示名称"
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "电话号码标识",
-          "TOOLTIP": "Meta identifier for this WhatsApp phone number"
+          "TOOLTIP": "此 WhatsApp 电话号码的 Meta 标识"
         },
         "COEXISTENCE": {
-          "LABEL": "Coexistence",
-          "TOOLTIP": "This number is connected to both the WhatsApp Business app and Cloud API"
+          "LABEL": "共存模式",
+          "TOOLTIP": "此号码同时连接到 WhatsApp Business 应用和 Cloud API"
         },
         "DISPLAY_NAME_STATUS": {
-          "LABEL": "Display name status",
-          "TOOLTIP": "Review status of the WhatsApp display name"
+          "LABEL": "显示名称状态",
+          "TOOLTIP": "WhatsApp 显示名称的审核状态"
         },
         "LAST_ONBOARDED_TIME": {
-          "LABEL": "Last onboarded",
-          "TOOLTIP": "Most recent time Meta onboarded this phone number"
+          "LABEL": "最近接入时间",
+          "TOOLTIP": "Meta 最近一次接入此电话号码的时间"
         },
         "PHONE_NUMBER_STATUS": {
-          "LABEL": "Phone number status",
-          "TOOLTIP": "Current connection status of this phone number on WhatsApp"
+          "LABEL": "电话号码状态",
+          "TOOLTIP": "此电话号码当前在 WhatsApp 上的连接状态"
         },
         "QUALITY_RATING": {
-          "LABEL": "Quality rating",
-          "TOOLTIP": "Quality rating Meta assigns to this phone number based on recent messaging signals"
+          "LABEL": "质量评级",
+          "TOOLTIP": "Meta 根据近期消息信号为此电话号码评定的质量等级"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Messaging limit tier",
-          "TOOLTIP": "Number of customers this phone number can initiate conversations with in 24 hours"
+          "LABEL": "消息限制等级",
+          "TOOLTIP": "此电话号码在 24 小时内可主动发起对话的客户数量"
         },
         "ACCOUNT_MODE": {
-          "LABEL": "Account mode",
-          "TOOLTIP": "Current operating mode of this WhatsApp phone number"
+          "LABEL": "账户模式",
+          "TOOLTIP": "此 WhatsApp 电话号码当前的运行模式"
         },
         "CODE_VERIFICATION_STATUS": {
-          "LABEL": "Code verification",
-          "TOOLTIP": "Verification-code status reported by Meta for this phone number"
+          "LABEL": "验证码状态",
+          "TOOLTIP": "Meta 报告的此电话号码验证码状态"
         },
         "THROUGHPUT_LEVEL": {
-          "LABEL": "Throughput",
-          "TOOLTIP": "Message throughput level assigned to this phone number"
+          "LABEL": "吞吐量",
+          "TOOLTIP": "分配给此电话号码的消息吞吐量等级"
         },
         "BUSINESS_ACCOUNT_NAME": {
-          "LABEL": "WhatsApp Business Account name",
-          "TOOLTIP": "Name of the WhatsApp Business Account linked to this phone number"
+          "LABEL": "WhatsApp Business 账户名称",
+          "TOOLTIP": "与此电话号码关联的 WhatsApp Business 账户名称"
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "WhatsApp Business Account ID",
-          "TOOLTIP": "Meta identifier for the linked WhatsApp Business Account"
+          "LABEL": "WhatsApp Business 账户 ID",
+          "TOOLTIP": "关联 WhatsApp Business 账户的 Meta 标识"
         },
         "BUSINESS_PORTFOLIO_NAME": {
-          "LABEL": "Business portfolio name",
-          "TOOLTIP": "Name of the Meta business portfolio that owns the WhatsApp Business Account"
+          "LABEL": "业务资产组合名称",
+          "TOOLTIP": "拥有此 WhatsApp Business 账户的 Meta 业务资产组合名称"
         },
         "BUSINESS_PORTFOLIO_ID": {
-          "LABEL": "Business portfolio ID",
-          "TOOLTIP": "Meta identifier for the business portfolio that owns the WhatsApp Business Account"
+          "LABEL": "业务资产组合 ID",
+          "TOOLTIP": "拥有此 WhatsApp Business 账户的业务资产组合 Meta 标识"
         }
       },
       "VALUES": {
         "NOT_AVAILABLE": "暂无",
         "TIERS": {
-          "TIER_250": "250 customers per 24h",
-          "TIER_1000": "1K customers per 24h",
-          "TIER_1K": "1K customers per 24h",
-          "TIER_2K": "2K customers per 24h",
-          "TIER_10K": "10K customers per 24h",
-          "TIER_100K": "100K customers per 24h",
-          "TIER_UNLIMITED": "Unlimited customers per 24h",
-          "UNKNOWN": "Rating not available"
+          "TIER_250": "每 24 小时 250 个客户",
+          "TIER_1000": "每 24 小时 1K 个客户",
+          "TIER_1K": "每 24 小时 1K 个客户",
+          "TIER_2K": "每 24 小时 2K 个客户",
+          "TIER_10K": "每 24 小时 10K 个客户",
+          "TIER_100K": "每 24 小时 100K 个客户",
+          "TIER_UNLIMITED": "每 24 小时无限制客户",
+          "UNKNOWN": "评级不可用"
         },
         "STATUSES": {
           "APPROVED": "已批准",
-          "CONNECTED": "Connected",
+          "CONNECTED": "已连接",
           "VERIFIED": "已认证",
           "STANDARD": "标准",
-          "ACTIVE": "状态",
-          "EXPIRED": "Expired",
-          "FLAGGED": "Flagged",
-          "RESTRICTED": "Restricted",
-          "BANNED": "Banned",
-          "DISCONNECTED": "Disconnected",
+          "ACTIVE": "有效",
+          "EXPIRED": "已过期",
+          "FLAGGED": "已标记",
+          "RESTRICTED": "受限",
+          "BANNED": "已封禁",
+          "DISCONNECTED": "已断开",
           "UNKNOWN": "暂无",
-          "PENDING_REVIEW": "Pending Review",
-          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
-          "REJECTED": "Rejected",
-          "DECLINED": "Declined",
-          "NON_EXISTS": "Non exists"
+          "PENDING_REVIEW": "待审核",
+          "AVAILABLE_WITHOUT_REVIEW": "无需审核即可使用",
+          "REJECTED": "已拒绝",
+          "DECLINED": "已拒绝",
+          "NON_EXISTS": "不存在"
         },
         "MODES": {
-          "SANDBOX": "Sandbox",
+          "SANDBOX": "沙盒",
           "LIVE": "实时"
         }
       },
       "WEBHOOK": {
-        "TITLE": "Webhook Configuration",
-        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
-        "ACTION_REQUIRED": "Webhook not configured",
-        "REGISTER_BUTTON": "Register Webhook",
-        "REGISTER_SUCCESS": "Webhook registered successfully",
-        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
-        "CONFIGURED_SUCCESS": "Webhook configured successfully",
-        "URL_MISMATCH": "Webhook URL mismatch",
-        "CONFIGURED_URL": "Configured URL",
-        "EXPECTED_URL": "Expected URL",
-        "COPY_URL": "Copy webhook URL",
-        "COPY_SUCCESS": "Webhook URL copied to clipboard"
+        "TITLE": "Webhook 配置",
+        "DESCRIPTION": "您的 WhatsApp Business 账户需要 Webhook URL 才能接收客户消息",
+        "ACTION_REQUIRED": "Webhook 未配置",
+        "REGISTER_BUTTON": "注册 Webhook",
+        "REGISTER_SUCCESS": "Webhook 注册成功",
+        "REGISTER_ERROR": "Webhook 注册失败，请重试。",
+        "CONFIGURED_SUCCESS": "Webhook 配置成功",
+        "URL_MISMATCH": "Webhook URL 不匹配",
+        "CONFIGURED_URL": "已配置的 URL",
+        "EXPECTED_URL": "预期 URL",
+        "COPY_URL": "复制 Webhook URL",
+        "COPY_SUCCESS": "Webhook URL 已复制到剪贴板"
       }
     },
     "SETTINGS": "设置",
@@ -848,21 +851,21 @@
       "MESSENGER_HEADING": "Messenger 脚本",
       "MESSENGER_SUB_HEAD": "将此按钮放置在窗体标签中",
       "ALLOWED_DOMAINS": {
-        "TITLE": "Allowed Domains",
-        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "TITLE": "允许的域名",
+        "DESCRIPTION": "限制哪些网站可以嵌入您的聊天小组件。出于安全考虑，只添加您拥有并信任的域名。添加一个或多个以逗号分隔的域名。留空则允许所有域名（不推荐在生产环境使用）。",
         "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "ALLOW_MOBILE_WEBVIEW": {
-        "LABEL": "Enable widget in mobile apps",
-        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+        "LABEL": "在移动应用中启用小组件",
+        "SUBTITLE": "如果您在 iOS 或 Android 应用中嵌入小组件，请勾选此项。移动应用不发送域名信息，除非启用此选项，否则会被域名限制阻止。"
       },
       "IDENTITY_VALIDATION": {
-        "TITLE": "Identity Validation",
-        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "TITLE": "身份验证",
+        "DESCRIPTION": "通过生成安全令牌验证用户真实性，防止未授权用户在聊天中冒充他人。",
         "SECRET_KEY": "密钥",
-        "VIEW_DOCS": "View documentation",
-        "REQUIRE_LABEL": "Require identity validation for all conversations",
-        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
+        "VIEW_DOCS": "查看文档",
+        "REQUIRE_LABEL": "要求所有对话进行身份验证",
+        "REQUIRE_DESCRIPTION": "启用后，用户必须提供有效的身份令牌才能开始对话。没有有效令牌的请求将被拒绝。"
       },
       "INBOX_AGENTS": "客服代理们",
       "INBOX_AGENTS_SUB_TEXT": "添加或删除此收件箱中的客服",
@@ -876,9 +879,9 @@
       "SENDER_NAME_SECTION_TEXT": "启用/禁用在电子邮件中显示代理名称，如果禁用，将显示业务名称",
       "ENABLE_CONTINUITY_VIA_EMAIL": "通过电子邮件启用对话连续性",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "如果有联系人的电子邮件地址，对话将会继续在电子邮件中进行。",
-      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "此功能在付费计划中可用，请升级以启用通过邮件的对话连续性。",
+      "LOCK_TO_SINGLE_CONVERSATION": "对话路由",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "为现有联系人配置对话创建",
       "INBOX_UPDATE_TITLE": "收件箱设置",
       "INBOX_UPDATE_SUB_TEXT": "更新收件箱设置",
       "AUTO_ASSIGNMENT_SUB_TEXT": "启用或禁用添加到此收件箱的代理人自动分配新的会话。",
@@ -891,7 +894,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "使用此处显示的`inbox_identifier`令牌来验证您的API客户端。",
       "FORWARD_EMAIL_TITLE": "转发到电子邮件",
       "FORWARD_EMAIL_SUB_TEXT": "开始将您的电子邮件转发到以下电子邮件地址。",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "此安装中邮件转发到收件箱功能当前已禁用。要使用此功能，管理员需要启用它，请联系管理员。",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "允许在对话解决后发送消息",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "允许最终用户在对话解决后发送消息。",
       "WHATSAPP_SECTION_SUBHEADER": "此API密钥用于与WhatsApp API集成。",
@@ -914,99 +917,99 @@
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "此收件箱已通过嵌入注册的 WhatsApp 连接。",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "您可以重新配置此收件箱来更新您的 WhatsApp Business 设置。",
       "WHATSAPP_RECONFIGURE_BUTTON": "重新配置",
-      "WHATSAPP_MANUAL_TRANSFER_TITLE": "Switch to Manual Setup",
-      "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "This inbox was connected through WhatsApp embedded signup, which is no longer supported. Enter the WhatsApp Cloud API credentials from your own Meta app to switch this inbox to a manual setup. Configure the webhook in your Meta app using the verification token above before switching.",
-      "WHATSAPP_MANUAL_TRANSFER_PHONE_NUMBER_ID_LABEL": "Phone Number ID",
+      "WHATSAPP_MANUAL_TRANSFER_TITLE": "切换到手动设置",
+      "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "此收件箱通过现已不再支持的 WhatsApp 嵌入式注册连接。请输入您自己的 Meta 应用中的 WhatsApp Cloud API 凭据，将此收件箱切换为手动设置。切换前，请使用上方的验证令牌在 Meta 应用中配置 Webhook。",
+      "WHATSAPP_MANUAL_TRANSFER_PHONE_NUMBER_ID_LABEL": "电话号码 ID",
       "WHATSAPP_MANUAL_TRANSFER_BUSINESS_ACCOUNT_ID_LABEL": "企业账户ID",
       "WHATSAPP_MANUAL_TRANSFER_API_KEY_LABEL": "API 密钥",
-      "WHATSAPP_MANUAL_TRANSFER_API_KEY_PLACEHOLDER": "Enter a permanent access token from your Meta app",
-      "WHATSAPP_MANUAL_TRANSFER_BUTTON": "Switch to Manual Setup",
-      "WHATSAPP_MANUAL_TRANSFER_SUCCESS": "Inbox switched to manual setup successfully.",
-      "WHATSAPP_MANUAL_TRANSFER_ERROR": "Could not switch to manual setup. Please verify the credentials and try again.",
+      "WHATSAPP_MANUAL_TRANSFER_API_KEY_PLACEHOLDER": "输入您 Meta 应用中的永久访问令牌",
+      "WHATSAPP_MANUAL_TRANSFER_BUTTON": "切换到手动设置",
+      "WHATSAPP_MANUAL_TRANSFER_SUCCESS": "收件箱已成功切换到手动设置。",
+      "WHATSAPP_MANUAL_TRANSFER_ERROR": "无法切换到手动设置，请验证凭据后重试。",
       "WHATSAPP_CONNECT_TITLE": "连接到 WhatsApp Business",
-      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
-      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_SUBHEADER": "升级到 WhatsApp 嵌入式注册以便于管理。",
+      "WHATSAPP_CONNECT_DESCRIPTION": "将此收件箱连接到 WhatsApp Business 以获得增强功能和更便捷的管理。",
       "WHATSAPP_CONNECT_BUTTON": "连接",
-      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
-      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
-      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
-      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_CONNECT_SUCCESS": "已成功连接到 WhatsApp Business！",
+      "WHATSAPP_CONNECT_ERROR": "连接 WhatsApp Business 失败，请重试。",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "已成功重新配置 WhatsApp Business！",
+      "WHATSAPP_RECONFIGURE_ERROR": "重新配置 WhatsApp Business 失败，请重试。",
       "WHATSAPP_APP_ID_MISSING": "WhatsApp ID未配置。请联系您的管理员。",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
-      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp 配置 ID 未配置，请联系您的管理员。",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp 登录已取消，请重试。",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook 验证令牌",
       "WHATSAPP_WEBHOOK_SUBHEADER": "此令牌用于验证webhook端点的真实性。",
-      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "同步模板",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "从 WhatsApp 手动同步消息模板以更新您的可用模板。",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "同步模板",
-      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "模板同步已成功启动，更新可能需要几分钟。",
       "WHATSAPP_MANUAL_MIGRATION": {
         "BANNER": {
-          "TITLE": "Manual setup recommended",
-          "DESCRIPTION": "This inbox connects through the shared Meta app used for embedded signup, which recent Meta restrictions have affected. To avoid similar issues in the future, we recommend reconnecting it with your own Meta app.",
-          "START": "Start manual migration",
-          "GUIDE": "View guide"
+          "TITLE": "建议改用手动设置",
+          "DESCRIPTION": "此收件箱通过嵌入式注册所用的共享 Meta 应用连接，而该应用受到 Meta 近期限制的影响。为避免今后出现类似问题，建议使用您自己的 Meta 应用重新连接。",
+          "START": "开始手动迁移",
+          "GUIDE": "查看指南"
         },
         "DIALOG": {
-          "EYEBROW": "WhatsApp manual migration",
-          "TITLE": "Reconnect WhatsApp inbox",
+          "EYEBROW": "WhatsApp 手动迁移",
+          "TITLE": "重新连接 WhatsApp 收件箱",
           "CLOSE": "关闭",
-          "ACTION_REQUIRED_TITLE": "Reconnect with your own Meta app",
-          "ACTION_REQUIRED_DESCRIPTION": "Inboxes connected through your own Meta app are not affected by restrictions on the shared embedded signup app. This guided flow updates the WhatsApp API connection without creating a new inbox.",
-          "GUIDE_LINK": "Open the manual setup guide",
-          "PRESERVED_TITLE": "Preserved",
-          "PRESERVED_DESCRIPTION": "Conversations, contacts, collaborators, routing, business hours, and inbox settings.",
-          "UPDATED_TITLE": "Updated",
-          "UPDATED_DESCRIPTION": "WABA ID, phone number ID, access token, and webhook configuration.",
+          "ACTION_REQUIRED_TITLE": "使用您自己的 Meta 应用重新连接",
+          "ACTION_REQUIRED_DESCRIPTION": "通过您自己的 Meta 应用连接的收件箱不受共享嵌入式注册应用限制的影响。此向导会更新 WhatsApp API 连接，无需创建新收件箱。",
+          "GUIDE_LINK": "打开手动设置指南",
+          "PRESERVED_TITLE": "保留内容",
+          "PRESERVED_DESCRIPTION": "对话、联系人、协作者、路由、营业时间和收件箱设置。",
+          "UPDATED_TITLE": "更新内容",
+          "UPDATED_DESCRIPTION": "WABA ID、电话号码 ID、访问令牌和 Webhook 配置。",
           "WABA_ID": "WABA ID",
-          "WABA_PLACEHOLDER": "Enter WABA ID",
-          "WABA_HELP": "The WhatsApp Business Account that owns this phone number.",
-          "PHONE_NUMBER_ID": "Phone Number ID",
-          "PHONE_NUMBER_PLACEHOLDER": "Enter Phone Number ID",
-          "PHONE_NUMBER_HELP": "Meta's unique ID for the WhatsApp number connected to this inbox.",
-          "DISPLAY_PHONE_NUMBER": "Display phone number",
-          "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Enter display phone number",
-          "DISPLAY_PHONE_NUMBER_HELP": "The customer-facing WhatsApp number. This cannot be changed during migration.",
-          "ACCESS_TOKEN": "Permanent access token or system user token",
-          "ACCESS_TOKEN_PLACEHOLDER": "Paste access token",
-          "TOKEN_HELP_PREFIX": "The token must include",
-          "TOKEN_HELP_MIDDLE": "添加",
-          "TOKEN_HELP_SUFFIX": "for template sync and template management.",
-          "MESSAGING_PERMISSION": "whatsapp_business_messaging.",
+          "WABA_PLACEHOLDER": "输入 WABA ID",
+          "WABA_HELP": "拥有此电话号码的 WhatsApp Business 账户。",
+          "PHONE_NUMBER_ID": "电话号码 ID",
+          "PHONE_NUMBER_PLACEHOLDER": "输入电话号码 ID",
+          "PHONE_NUMBER_HELP": "Meta 为连接到此收件箱的 WhatsApp 号码分配的唯一 ID。",
+          "DISPLAY_PHONE_NUMBER": "显示电话号码",
+          "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "输入显示电话号码",
+          "DISPLAY_PHONE_NUMBER_HELP": "向客户显示的 WhatsApp 号码，迁移期间无法更改。",
+          "ACCESS_TOKEN": "永久访问令牌或系统用户令牌",
+          "ACCESS_TOKEN_PLACEHOLDER": "粘贴访问令牌",
+          "TOKEN_HELP_PREFIX": "令牌必须包含",
+          "TOKEN_HELP_MIDDLE": "和",
+          "TOKEN_HELP_SUFFIX": "权限，以便同步和管理模板。",
+          "MESSAGING_PERMISSION": "whatsapp_business_messaging",
           "MANAGEMENT_PERMISSION": "whatsapp_business_management",
-          "REVIEW_TITLE": "Review before reconnecting",
+          "REVIEW_TITLE": "重新连接前请确认",
           "INBOX": "收件箱",
           "PHONE_NUMBER": "电话号码",
-          "NOT_ENTERED": "Not entered",
-          "VERIFY_NOTICE": "Chatwoot will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
+          "NOT_ENTERED": "未填写",
+          "VERIFY_NOTICE": "Chatwoot 会先通过 Meta 验证这些凭据，再应用任何更改。若验证失败，当前配置将保持不变。",
           "BACK": "后退",
           "CANCEL": "取消",
-          "CONTINUE": "Continue",
-          "REVIEW_MIGRATION": "Review migration",
-          "RECONNECT": "Reconnect WhatsApp inbox"
+          "CONTINUE": "继续",
+          "REVIEW_MIGRATION": "检查迁移信息",
+          "RECONNECT": "重新连接 WhatsApp 收件箱"
         },
         "STEPS": {
           "BEFORE_YOU_START": {
-            "TITLE": "Before you start",
-            "DESCRIPTION": "This reconnects the WhatsApp API details for this inbox. Conversations, collaborators, routing, business hours, CSAT, and bot settings will be preserved."
+            "TITLE": "开始之前",
+            "DESCRIPTION": "此操作会重新连接该收件箱的 WhatsApp API 信息。对话、协作者、路由、营业时间、客户满意度和机器人设置都会保留。"
           },
           "BUSINESS_DETAILS": {
-            "TITLE": "Business details",
-            "DESCRIPTION": "Enter the WhatsApp assets from the customer Meta Business account."
+            "TITLE": "企业信息",
+            "DESCRIPTION": "输入客户 Meta Business 账户中的 WhatsApp 资产信息。"
           },
           "ACCESS_TOKEN": {
-            "TITLE": "Access token",
-            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions."
+            "TITLE": "访问令牌",
+            "DESCRIPTION": "粘贴具有 WhatsApp 权限的永久访问令牌或系统用户令牌。"
           },
           "REVIEW_MIGRATION": {
-            "TITLE": "Review migration",
-            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
+            "TITLE": "检查迁移信息",
+            "DESCRIPTION": "重新连接此收件箱前，请确认连接信息。Chatwoot 会先通过 Meta 验证令牌、WABA 和电话号码，再应用更改。"
           }
         }
       },
       "WHATSAPP_CALLING_ENABLED": {
-        "LABEL": "Enable voice calling",
-        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+        "LABEL": "启用语音通话",
+        "DESCRIPTION": "允许客服在此收件箱上发起和接收 WhatsApp 语音通话。仅在 Meta 授予通话权限的嵌入式注册 WhatsApp Cloud 频道上可用。"
       },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "更新预聊天表单设置"
     },
@@ -1025,50 +1028,50 @@
     },
     "ASSIGNMENT": {
       "TITLE": "对话分配",
-      "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
-      "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
-      "DEFAULT_RULES_TITLE": "Default assignment rules",
-      "DEFAULT_RULES_DESCRIPTION": "Using the default assignment behavior for all conversations",
-      "DEFAULT_RULE_1": "Earliest created conversations first",
-      "DEFAULT_RULE_2": "Round robin distribution",
-      "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
-      "USING_POLICY": "Using custom assignment policy for this inbox",
-      "CUSTOMIZE_POLICY": "Customize with assignment policy",
-      "DELETE_POLICY": "Delete policy",
-      "POLICY_LABEL": "Assignment policy",
-      "ASSIGNMENT_ORDER_LABEL": "Assignment Order",
-      "ASSIGNMENT_METHOD_LABEL": "Assignment Method",
+      "DESCRIPTION": "根据分配策略自动将来话对话分配给可用客服",
+      "ENABLE_AUTO_ASSIGNMENT": "启用自动对话分配",
+      "DEFAULT_RULES_TITLE": "默认分配规则",
+      "DEFAULT_RULES_DESCRIPTION": "对所有对话使用默认分配行为",
+      "DEFAULT_RULE_1": "最早创建的对话优先",
+      "DEFAULT_RULE_2": "轮询分配",
+      "CUSTOMIZE_WITH_POLICY": "使用分配策略自定义",
+      "USING_POLICY": "此收件箱正在使用自定义分配策略",
+      "CUSTOMIZE_POLICY": "使用分配策略自定义",
+      "DELETE_POLICY": "删除策略",
+      "POLICY_LABEL": "分配策略",
+      "ASSIGNMENT_ORDER_LABEL": "分配顺序",
+      "ASSIGNMENT_METHOD_LABEL": "分配方式",
       "POLICY_STATUS": {
         "ACTIVE": "状态",
-        "INACTIVE": "Inactive"
+        "INACTIVE": "未激活"
       },
       "PRIORITY": {
-        "EARLIEST_CREATED": "Earliest created",
-        "LONGEST_WAITING": "Longest waiting"
+        "EARLIEST_CREATED": "最早创建",
+        "LONGEST_WAITING": "等待最久"
       },
       "METHOD": {
-        "ROUND_ROBIN": "Round robin",
-        "BALANCED": "Balanced assignment"
+        "ROUND_ROBIN": "轮询",
+        "BALANCED": "均衡分配"
       },
-      "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
-      "UPGRADE_TO_BUSINESS": "Upgrade to Business",
-      "DEFAULT_POLICY_LINKED": "Default policy linked",
-      "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
-      "LINK_EXISTING_POLICY": "Link existing policy",
-      "CREATE_NEW_POLICY": "Create new policy",
-      "NO_POLICIES": "No assignment policies found",
-      "VIEW_ALL_POLICIES": "View all policies",
-      "CURRENT_BEHAVIOR": "Currently using default assignment behavior:",
-      "LINK_SUCCESS": "Assignment policy linked successfully",
-      "LINK_ERROR": "Failed to link assignment policy"
+      "UPGRADE_PROMPT": "自定义分配策略在商务计划中可用",
+      "UPGRADE_TO_BUSINESS": "升级到商务版",
+      "DEFAULT_POLICY_LINKED": "默认策略已关联",
+      "DEFAULT_POLICY_DESCRIPTION": "关联自定义分配策略以自定义此收件箱中对话的分配方式。",
+      "LINK_EXISTING_POLICY": "关联现有策略",
+      "CREATE_NEW_POLICY": "创建新策略",
+      "NO_POLICIES": "未找到分配策略",
+      "VIEW_ALL_POLICIES": "查看所有策略",
+      "CURRENT_BEHAVIOR": "当前使用默认分配行为：",
+      "LINK_SUCCESS": "分配策略关联成功",
+      "LINK_ERROR": "关联分配策略失败"
     },
     "ASSIGNMENT_POLICY": {
-      "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
-      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
+      "DELETE_CONFIRM_TITLE": "删除分配策略？",
+      "DELETE_CONFIRM_MESSAGE": "您确定要从此收件箱移除此分配策略吗？收件箱将恢复为默认分配规则。",
       "CANCEL": "取消",
       "CONFIRM_DELETE": "删除",
-      "DELETE_SUCCESS": "Assignment policy removed successfully",
-      "DELETE_ERROR": "Failed to remove assignment policy"
+      "DELETE_SUCCESS": "分配策略已成功移除",
+      "DELETE_ERROR": "移除分配策略失败"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "重新授权",
@@ -1113,46 +1116,46 @@
         "PLACEHOLDER": "请输入一条消息以将此表格显示给用户"
       },
       "BUTTON_TEXT": {
-        "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "LABEL": "按钮文本",
+        "PLACEHOLDER": "请为我们评分"
       },
       "LANGUAGE": {
         "LABEL": "语言",
-        "PLACEHOLDER": "Select template language"
+        "PLACEHOLDER": "选择模板语言"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
-        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+        "LABEL": "消息预览",
+        "TOOLTIP": "在 WhatsApp 平台上渲染时可能略有不同。"
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
-        "REJECTED": "Meta rejected the template",
-        "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "APPROVED": "已获 WhatsApp 批准",
+        "PENDING": "等待 WhatsApp 审批",
+        "REJECTED": "Meta 拒绝了此模板",
+        "DEFAULT": "需要 WhatsApp 审批",
+        "NOT_FOUND": "该模板在 Meta 平台上不存在。"
       },
       "TEMPLATE_CREATION": {
-        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
-        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+        "SUCCESS_MESSAGE": "WhatsApp 模板已成功创建并提交审批",
+        "ERROR_MESSAGE": "创建 WhatsApp 模板失败"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
-        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
+        "TITLE": "编辑调查详情",
+        "DESCRIPTION": "我们将删除之前的模板并创建新模板，重新提交 WhatsApp 审批",
+        "CONFIRM": "创建新模板",
         "CANCEL": "返回"
       },
       "UTILITY_ANALYZER": {
-        "ACTION": "Check utility fit",
-        "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
-        "RESULT_LABEL": "Meta category prediction",
-        "GUIDANCE_NOTE": "This is a guidance check, not a guarantee of Meta approval.",
-        "SUGGESTION_LABEL": "Suggested utility-safe rewrite",
-        "APPLY": "Use this rewrite",
-        "ERROR_MESSAGE": "Couldn't analyze the message. Please try again.",
+        "ACTION": "检查实用性适合度",
+        "HELPER_NOTE": "在提交前检查此消息以提高实用性适合度。系统会创建一个带有报告按钮的专用 CSAT 模板并作为实用类提交；Meta 可能仍会根据内容将其重新分类为营销类。",
+        "RESULT_LABEL": "Meta 类别预测",
+        "GUIDANCE_NOTE": "这是一个指导性检查，并非 Meta 审批的保证。",
+        "SUGGESTION_LABEL": "建议的实用性安全改写",
+        "APPLY": "使用此改写",
+        "ERROR_MESSAGE": "无法分析消息，请重试。",
         "CLASSIFICATION": {
-          "LIKELY_UTILITY": "Likely Utility",
-          "LIKELY_MARKETING": "Likely Marketing",
-          "UNCLEAR": "Needs clarification"
+          "LIKELY_UTILITY": "可能是实用类",
+          "LIKELY_MARKETING": "可能是营销类",
+          "UNCLEAR": "需要澄清"
         }
       },
       "SURVEY_RULE": {
@@ -1166,7 +1169,7 @@
         "SELECT_PLACEHOLDER": "选择标签"
       },
       "NOTE": "注：每次对话只发送一次 CSAT 问卷",
-      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "注意：保存时，系统会在 WhatsApp 中创建专用 CSAT 模板（用于在报告中捕获评分和反馈），并作为实用类提交审批。Meta 可能仍会根据内容将其分类为营销类。审批后，根据调查规则，每次对话只发送一次调查。",
       "API": {
         "SUCCESS_MESSAGE": "CSAT 设置更新成功",
         "ERROR_MESSAGE": "我们无法更新 CSAT 设置。请稍后再试。"
@@ -1182,13 +1185,30 @@
       "UNAVAILABLE_MESSAGE_LABEL": "对访客的不可用消息",
       "TOGGLE_HELP": "启用业务可用性将在实时聊天小部件上显示可用时间，即使所有代理都离线。在可用时间之外，访客将收到一条消息和预聊天表单的警告。",
       "DAY": {
-        "DAY": "日",
-        "AVAILABILITY": "有效的",
-        "HOURS": "小时",
-        "ENABLE": "为此天启用可用性",
+        "DAY": "星期",
+        "AVAILABILITY": "可用状态",
+        "HOURS": "时段",
+        "ENABLE": "启用当天的工作时间",
         "UNAVAILABLE": "不可用",
         "VALIDATION_ERROR": "起始时间应在结束时间之前。",
-        "CHOOSE": "选择"
+        "CHOOSE": "选择",
+        "NAMES": {
+          "SUNDAY": "周日",
+          "MONDAY": "周一",
+          "TUESDAY": "周二",
+          "WEDNESDAY": "周三",
+          "THURSDAY": "周四",
+          "FRIDAY": "周五",
+          "SATURDAY": "周六"
+        }
+      },
+      "PERIOD": {
+        "AM": "上午",
+        "PM": "下午"
+      },
+      "DURATION": {
+        "HOURS": "{count} 小时",
+        "MINUTES": "{count} 分钟"
       },
       "ALL_DAY": "全天"
     },
@@ -1294,12 +1314,12 @@
           "IN_A_DAY": "通常在一天之内回复您"
         },
         "WIDGET_COLOR_LABEL": "窗口小部件颜色",
-        "WIDGET_BUBBLE": "Bubble",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE": "聊天气泡",
+        "WIDGET_BUBBLE_POSITION_LABEL": "位置：",
         "WIDGET_BUBBLE_TYPE_LABEL": "类型:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "联系我们",
-          "LABEL": "Launcher Title",
+          "LABEL": "启动器标题",
           "PLACE_HOLDER": "联系我们"
         },
         "UPDATE": {
@@ -1324,7 +1344,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "默认",
-        "CHAT": "Chat mode"
+        "CHAT": "聊天模式"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "通常在几分钟内回复您",

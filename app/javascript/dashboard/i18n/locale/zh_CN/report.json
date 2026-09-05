@@ -3,7 +3,7 @@
     "HEADER": "会话",
     "LOADING_CHART": "正在载入图表数据...",
     "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
-    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
+    "DOWNLOAD_CONVERSATION_REPORTS": "下载对话报表",
     "DATA_FETCHING_FAILED": "数据获取失败，请稍后再试。",
     "SUMMARY_FETCHING_FAILED": "摘要获取失败，请稍后再试。",
     "METRICS": {
@@ -53,8 +53,8 @@
       "LAST_7_DAYS": "最近7天",
       "LAST_14_DAYS": "最近14天",
       "LAST_30_DAYS": "最近30天",
-      "THIS_MONTH": "This month",
-      "LAST_MONTH": "Last month",
+      "THIS_MONTH": "本月",
+      "LAST_MONTH": "上个月",
       "LAST_3_MONTHS": "最近3个月",
       "LAST_6_MONTHS": "最近6个月",
       "LAST_YEAR": "最近一年",
@@ -122,32 +122,32 @@
       "EMPTY_LIST": "没有检索到相关信息"
     },
     "DRILLDOWN": {
-      "TITLE": "{metric} details",
-      "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations",
-      "RESULT_COUNT_MESSAGE": "{count} message | {count} messages",
-      "EMPTY": "No records found for this bar.",
-      "ERROR": "Could not load records. Please try again.",
-      "ADMIN_ONLY": "Only administrators can drill down into report records.",
+      "TITLE": "{metric} 详情",
+      "RESULT_COUNT_CONVERSATION": "{count} 个对话 | {count} 个对话",
+      "RESULT_COUNT_MESSAGE": "{count} 条消息 | {count} 条消息",
+      "EMPTY": "未找到此数据项的记录。",
+      "ERROR": "无法加载记录，请重试。",
+      "ADMIN_ONLY": "只有管理员可以查看报表记录详情。",
       "LOAD_MORE": "加载更多",
-      "PREVIOUS_BUCKET": "Previous bar",
-      "NEXT_BUCKET": "Next bar",
-      "UNKNOWN_CONTACT": "Unknown contact",
-      "UNKNOWN_INBOX": "Unknown inbox",
+      "PREVIOUS_BUCKET": "上一个数据项",
+      "NEXT_BUCKET": "下一个数据项",
+      "UNKNOWN_CONTACT": "未知联系人",
+      "UNKNOWN_INBOX": "未知收件箱",
       "UNASSIGNED_AGENT": "未分配",
-      "NO_MESSAGE_CONTENT": "No message content",
-      "MESSAGE_CREATED_AT": "Message created at {time}",
-      "EVENT_OCCURRED_AT": "Event occurred at {time}",
-      "INCOMING_MESSAGE": "Incoming message",
-      "OUTGOING_MESSAGE": "Outgoing message"
+      "NO_MESSAGE_CONTENT": "无消息内容",
+      "MESSAGE_CREATED_AT": "消息创建于 {time}",
+      "EVENT_OCCURRED_AT": "事件发生于 {time}",
+      "INCOMING_MESSAGE": "收到的消息",
+      "OUTGOING_MESSAGE": "发出的消息"
     },
     "PAGINATION": {
       "RESULTS": "显示 {start} 到 {end} 条，共 {total} 条结果",
-      "PER_PAGE_TEMPLATE": "{size} / page"
+      "PER_PAGE_TEMPLATE": "每页 {size} 条"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "客服概览",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
+    "DESCRIPTION": "轻松追踪客服绩效，包括对话数、响应时间、解决时间和已解决案例等关键指标。点击客服名称了解更多详情。",
     "LOADING_CHART": "正在载入图表数据...",
     "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
     "DOWNLOAD_AGENT_REPORTS": "下载客服报表",
@@ -220,7 +220,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "标签概览",
-    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "DESCRIPTION": "追踪标签绩效，包括对话数、响应时间、解决时间和已解决案例等关键指标。点击标签名称查看详细洞察。",
     "LOADING_CHART": "正在载入图表数据...",
     "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
     "DOWNLOAD_LABEL_REPORTS": "下载标签报表",
@@ -298,11 +298,11 @@
     "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
     "DOWNLOAD_INBOX_REPORTS": "下载收件箱报表",
     "FILTER_DROPDOWN_LABEL": "选择收件箱",
-    "ALL_INBOXES": "All Inboxes",
-    "SEARCH_INBOX": "Search Inbox",
+    "ALL_INBOXES": "所有收件箱",
+    "SEARCH_INBOX": "搜索收件箱",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
-        "INBOXES": "Search inboxes"
+        "INBOXES": "搜索收件箱"
       }
     },
     "METRICS": {
@@ -368,7 +368,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "团队概览",
-    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "快速了解团队绩效快照，包括对话数、响应时间、解决时间和已解决案例等核心指标。点击团队名称查看更多详情。",
     "LOADING_CHART": "正在载入图表数据...",
     "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
     "DOWNLOAD_TEAM_REPORTS": "下载团队报表",
@@ -444,8 +444,8 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "CSAT 报告",
-    "NO_RECORDS": "No responses yet",
-    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
+    "NO_RECORDS": "暂无回复",
+    "NO_RECORDS_DESCRIPTION": "当客户开始提供反馈后，CSAT 调查回复将显示在此处。",
     "DOWNLOAD": "下载 CSAT 报告",
     "DOWNLOAD_FAILED": "下载 CSAT 报告失败",
     "FILTERS": {
@@ -454,9 +454,9 @@
       "NO_FILTER": "没有可用的过滤器",
       "INPUT_PLACEHOLDER": {
         "AGENTS": "搜索客服代表",
-        "INBOXES": "Search inboxes",
+        "INBOXES": "搜索收件箱",
         "TEAMS": "查找团队",
-        "RATINGS": "Search ratings"
+        "RATINGS": "搜索评分"
       },
       "AGENTS": {
         "LABEL": "客服"
@@ -478,14 +478,14 @@
         "RATING": "评分",
         "FEEDBACK_TEXT": "反馈评论",
         "CONVERSATION": "会话",
-        "CUSTOMER": "Customer",
+        "CUSTOMER": "客户",
         "RESPONSE": "回复",
-        "HANDLED_BY": "Handled by"
+        "HANDLED_BY": "处理人"
       },
-      "UNKNOWN_CUSTOMER": "Unknown customer"
+      "UNKNOWN_CUSTOMER": "未知客户"
     },
-    "NO_AGENT": "No assigned agent",
-    "NO_FEEDBACK": "No feedback provided",
+    "NO_AGENT": "无分配客服",
+    "NO_FEEDBACK": "无反馈",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "总回复数",
@@ -499,22 +499,22 @@
         "LABEL": "回复率",
         "TOOLTIP": "总回复数 / 发送的 CSAT 调查消息总数 * 100"
       },
-      "RATING_DISTRIBUTION": "Rating distribution"
+      "RATING_DISTRIBUTION": "评分分布"
     },
     "REVIEW_NOTES": {
-      "TITLE": "Review notes",
-      "PLACEHOLDER": "Add review notes about this rating...",
+      "TITLE": "审阅备注",
+      "PLACEHOLDER": "添加关于此评分的审阅备注...",
       "SAVE": "保存",
       "CANCEL": "取消",
       "SAVING": "保存中...",
-      "SAVED": "Notes saved successfully",
-      "SAVE_ERROR": "Failed to save notes",
-      "UPDATED_BY": "Updated by {name} {time}",
-      "UPDATED_BY_LABEL": "Updated by",
+      "SAVED": "备注保存成功",
+      "SAVE_ERROR": "备注保存失败",
+      "UPDATED_BY": "由 {name} 于 {time} 更新",
+      "UPDATED_BY_LABEL": "更新者",
       "PAYWALL": {
-        "TITLE": "Upgrade to add review notes",
-        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
-        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "TITLE": "升级以添加审阅备注",
+        "AVAILABLE_ON": "审阅备注功能仅在商务版和企业版计划中可用。",
+        "UPGRADE_PROMPT": "通过审阅备注为每条 CSAT 回复添加内部上下文。记录真实情况，更快发现规律，从反馈中做出更好的决策。",
         "UPGRADE_NOW": "立即升级",
         "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
       }
@@ -560,7 +560,7 @@
       "DOWNLOAD_REPORT": "下载报告"
     },
     "RESOLUTION_HEATMAP": {
-      "HEADER": "Resolutions",
+      "HEADER": "已解决",
       "NO_CONVERSATIONS": "没有会话",
       "CONVERSATION": "{count} 个会话",
       "CONVERSATIONS": "{count} 个会话",

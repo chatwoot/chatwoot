@@ -69,7 +69,7 @@
         "IMAGE_UPLOAD_ERROR": "无法上传图片！请再试一次",
         "IMAGE_UPLOAD_SUCCESS": "图片添加成功。请点击保存签名。",
         "IMAGE_UPLOAD_SIZE_ERROR": "图片大小应该小于{size}MB",
-        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
+        "INLINE_IMAGE_WARNING": "粘贴的内联图片已被删除。请使用图片上传按钮将图片添加到您的签名。"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "消息签名",
@@ -83,8 +83,8 @@
       },
       "SECURITY_SECTION": {
         "TITLE": "安全",
-        "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "NOTE": "管理您账户的额外安全功能。",
+        "MFA_BUTTON": "管理两步验证"
       },
       "SESSIONS_SECTION": {
         "TITLE": "Active Sessions",
@@ -100,7 +100,7 @@
       "ACCESS_TOKEN": {
         "TITLE": "访问令牌",
         "NOTE": "如果您正在构建基于 API 的集成，这个令牌可以被使用",
-        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
+        "PAID_PLAN_NOTE": "付费方案支持 API 访问令牌。",
         "COPY": "复制",
         "RESET": "重置",
         "CONFIRM_RESET": "您确定吗？",
@@ -247,7 +247,7 @@
     "CONTACT_SUPPORT": "联系支持",
     "SELECTOR_SUBTITLE": "从以下列表中选择一个账户",
     "PROFILE_SETTINGS": "个人资料设置",
-    "YEAR_IN_REVIEW": "Year in Review",
+    "YEAR_IN_REVIEW": "年度回顾",
     "KEYBOARD_SHORTCUTS": "键盘快捷键",
     "APPEARANCE": "更改外观",
     "SUPER_ADMIN_CONSOLE": "超级管理员控制台",
@@ -268,9 +268,9 @@
       "MANAGE_BILLING": "Manage billing"
     },
     "NO_ACCOUNTS": {
-      "TITLE": "No account found",
-      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
-      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "TITLE": "未找到账户",
+      "MESSAGE_CLOUD": "您目前不属于任何账户。如果您认为这是错误，请联系我们的支持团队。",
+      "MESSAGE_SELF_HOSTED": "您目前不属于任何账户，请联系您的管理员。",
       "LOGOUT": "注销"
     }
   },
@@ -323,7 +323,7 @@
     "CONTACTS": "联系人",
     "ACTIVE": "状态",
     "COMPANIES": "公司",
-    "ALL_COMPANIES": "All Companies",
+    "ALL_COMPANIES": "所有公司",
     "CAPTAIN": "Captain",
     "CALLS": "Calls",
     "CAPTAIN_ASSISTANTS": "助手",
@@ -331,7 +331,7 @@
     "CAPTAIN_DOCUMENTS": "文档",
     "CAPTAIN_RESPONSES": "常见问题",
     "CAPTAIN_TOOLS": "工具",
-    "CAPTAIN_SCENARIOS": "Scenarios",
+    "CAPTAIN_SCENARIOS": "场景",
     "CAPTAIN_PLAYGROUND": "试验场",
     "CAPTAIN_INBOXES": "收件箱",
     "CAPTAIN_SETTINGS": "设置",
@@ -344,7 +344,7 @@
     "NOTIFICATIONS": "消息通知",
     "CANNED_RESPONSES": "预设回复",
     "INTEGRATIONS": "集成方式",
-    "DATA": "Data",
+    "DATA": "数据",
     "PROFILE_SETTINGS": "个人资料设置",
     "ACCOUNT_SETTINGS": "账户设置",
     "APPLICATIONS": "应用程序",
@@ -375,7 +375,7 @@
     "REPORTS_LABEL": "标签",
     "REPORTS_INBOX": "收件箱",
     "REPORTS_TEAM": "团队",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
+    "AGENT_ASSIGNMENT": "客服分配",
     "SET_AVAILABILITY_TITLE": "将自己设置为",
     "SET_YOUR_AVAILABILITY": "设置您的可用性",
     "SLA": "SLA",
@@ -414,16 +414,16 @@
     "DOCS": "阅读文档",
     "SECURITY": "安全",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+    "CONVERSATION_WORKFLOW": "对话工作流"
   },
   "DATA_IMPORTS": {
-    "HEADER": "Data",
-    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
-    "LOADING": "Fetching imports",
-    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "HEADER": "数据",
+    "DESCRIPTION": "将其他客服支持工具中的现有联系人和历史对话导入此账户。每次导入都会在后台运行，您可以在导入期间继续工作、跟踪进度，并查看过程中被跳过的内容。",
+    "LOADING": "正在获取导入任务",
+    "DEFAULT_IMPORT_NAME": "Intercom 导入",
     "DEFAULT_IMPORT_NAMES": {
-      "INTERCOM": "Intercom import",
-      "FRESHDESK": "Freshdesk import"
+      "INTERCOM": "Intercom 导入",
+      "FRESHDESK": "Freshdesk 导入"
     },
     "TABS": {
       "IMPORT": "导入",
@@ -435,146 +435,146 @@
       "MESSAGES": "消息"
     },
     "DRAWER": {
-      "TITLE": "New import",
-      "SOURCE": "Source",
-      "NAME": "Import name",
-      "NAME_PLACEHOLDER": "July support migration",
-      "ACCESS_KEY": "Intercom access key",
-      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
-      "INTERCOM_ACCESS_KEY": "Intercom access key",
-      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
-      "FRESHDESK_API_KEY": "Freshdesk API key",
-      "FRESHDESK_API_KEY_PLACEHOLDER": "Paste your Freshdesk API key",
-      "FRESHDESK_DOMAIN": "Freshdesk domain",
+      "TITLE": "新建导入",
+      "SOURCE": "来源",
+      "NAME": "导入名称",
+      "NAME_PLACEHOLDER": "7 月 Intercom 迁移",
+      "ACCESS_KEY": "Intercom 访问密钥",
+      "ACCESS_KEY_PLACEHOLDER": "粘贴您的 Intercom 访问密钥",
+      "INTERCOM_ACCESS_KEY": "Intercom 访问密钥",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "粘贴您的 Intercom 访问密钥",
+      "FRESHDESK_API_KEY": "Freshdesk API 密钥",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "粘贴您的 Freshdesk API 密钥",
+      "FRESHDESK_DOMAIN": "Freshdesk 域名",
       "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
-      "DATA_TYPES": "Data to import",
-      "VALIDATING": "Validating access key...",
-      "VALID_KEY": "Access key validated.",
-      "INVALID_KEY": "Could not validate this access key.",
-      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "DATA_TYPES": "要导入的数据",
+      "VALIDATING": "正在验证访问密钥...",
+      "VALID_KEY": "访问密钥验证成功。",
+      "INVALID_KEY": "无法验证此访问密钥。",
+      "ACTIVE_IMPORT": "请等待当前导入完成后再开始新的导入。",
       "CANCEL": "取消",
       "IMPORT": "导入"
     },
     "EXPORT": {
-      "TITLE": "Exports are on the way",
-      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
-      "COMING_SOON": "Coming soon"
+      "TITLE": "导出功能即将推出",
+      "DESCRIPTION": "将此账户中的联系人和对话导出。此功能即将推出。",
+      "COMING_SOON": "即将推出"
     },
     "TABLE": {
-      "TITLE": "Recent imports",
-      "EMPTY": "No imports yet",
-      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "TITLE": "最近的导入",
+      "EMPTY": "暂无导入任务",
+      "EMPTY_DESCRIPTION": "开始导入，将现有客户历史记录迁移到此账户。",
       "NEW_IMPORT": "导入",
-      "COUNT": "{count} imports",
-      "UNNAMED": "Untitled import",
-      "IMPORTED_COUNT": "{count} imported",
-      "VIEW": "View import",
-      "NAME": "姓名：",
+      "COUNT": "{count} 个导入任务",
+      "UNNAMED": "未命名的导入",
+      "IMPORTED_COUNT": "已导入 {count} 条",
+      "VIEW": "查看导入",
+      "NAME": "名称",
       "TYPE": "类型",
       "STATUS": "状态",
-      "IMPORTED": "Imported",
+      "IMPORTED": "已导入",
       "CREATED": "创建时间",
       "RETRY": "重试",
-      "ABANDON": "Abandon"
+      "ABANDON": "终止"
     },
     "DETAIL": {
-      "BACK": "Back to imports",
-      "ERRORS": "Errors",
-      "SKIP_LOGS": "Skip logs",
-      "SOURCE": "Source",
-      "IMPORT_TYPES": "Import types",
+      "BACK": "返回导入列表",
+      "ERRORS": "错误",
+      "SKIP_LOGS": "跳过记录",
+      "SOURCE": "来源",
+      "IMPORT_TYPES": "导入类型",
       "CREATED": "创建时间",
       "DURATION": "持续时间",
-      "INITIATED_BY": "Started by",
-      "PROGRESS": "Import progress",
-      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
-      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
-      "PROGRESS_OF_TOTAL": "of {total} imported",
-      "PROGRESS_IMPORTED": "imported",
-      "LAST_UPDATED_TOOLTIP": "Last updated {time}",
-      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
-      "DOWNLOAD_SKIP_LOGS": "Download CSV",
-      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "INITIATED_BY": "发起人",
+      "PROGRESS": "导入进度",
+      "PROGRESS_WITH_TOTAL": "已导入 {imported}/{total}",
+      "PROGRESS_WITHOUT_TOTAL": "已导入 {imported}",
+      "PROGRESS_OF_TOTAL": "共 {total} 条",
+      "PROGRESS_IMPORTED": "已导入",
+      "LAST_UPDATED_TOOLTIP": "最后更新于 {time}",
+      "NO_SKIP_LOGS": "没有跳过或失败的记录。",
+      "DOWNLOAD_SKIP_LOGS": "下载 CSV",
+      "DOWNLOAD_ERROR_LOGS": "下载 CSV",
       "ALL_SKIP_LOGS": "所有的",
-      "KIND": "Kind",
-      "NO_ERRORS": "No errors recorded.",
-      "ERROR_CODE": "Code",
-      "SOURCE_OBJECT": "Source object",
+      "KIND": "类型",
+      "NO_ERRORS": "没有错误记录。",
+      "ERROR_CODE": "代码",
+      "SOURCE_OBJECT": "来源对象",
       "MESSAGE": "消息"
     },
     "MONITOR": {
-      "LIVE": "Live updates every {seconds}s",
-      "LAST_UPDATED": "Last updated {time}",
+      "LIVE": "每 {seconds} 秒实时更新",
+      "LAST_UPDATED": "最后更新于 {time}",
       "REFRESH": "刷新",
-      "REFRESHING": "Refreshing",
+      "REFRESHING": "正在刷新",
       "STAGES": {
-        "unknown": "Waiting for update",
-        "queued": "Queued",
-        "contacts": "Importing contacts",
-        "conversations": "Importing conversations",
-        "finalizing": "Finalizing import",
+        "unknown": "等待更新",
+        "queued": "已排队",
+        "contacts": "正在导入联系人",
+        "conversations": "正在导入对话",
+        "finalizing": "正在完成导入",
         "completed": "已完成",
-        "completed_with_errors": "Completed with errors",
+        "completed_with_errors": "已完成，但存在错误",
         "failed": "失败",
-        "abandoned": "Abandoned"
+        "abandoned": "已终止"
       }
     },
     "ALERTS": {
-      "IMPORT_STARTED": "Import has started.",
-      "IMPORT_RETRIED": "Import has been queued to resume.",
-      "IMPORT_RETRY_FAILED": "Could not retry the import.",
-      "IMPORT_ABANDONED": "Import has been abandoned.",
-      "IMPORT_FAILED": "Could not start the import."
+      "IMPORT_STARTED": "导入已开始。",
+      "IMPORT_RETRIED": "导入已加入恢复队列。",
+      "IMPORT_RETRY_FAILED": "无法重试导入。",
+      "IMPORT_ABANDONED": "导入已终止。",
+      "IMPORT_FAILED": "无法开始导入。"
     }
   },
   "CAPTAIN_SETTINGS": {
-    "TITLE": "Captain Settings",
-    "DESCRIPTION": "Configure your AI models and features for Captain. Captain follows a credit based billing, you will be charged credits for every action Captain takes based on the model selected.",
-    "LOADING": "Loading Captain configuration...",
-    "LINK_TEXT": "Learn more about Captain Credits",
-    "NOT_ENABLED": "Captain is not enabled for your account. Please upgrade your plan to access Captain features.",
+    "TITLE": "Captain 设置",
+    "DESCRIPTION": "配置 Captain 的 AI 模型和功能。Captain 采用积分计费，每次 Captain 执行操作都会根据所选模型扣除积分。",
+    "LOADING": "正在加载 Captain 配置...",
+    "LINK_TEXT": "了解更多关于 Captain 积分的信息",
+    "NOT_ENABLED": "您的账户未启用 Captain。请升级计划以访问 Captain 功能。",
     "MODEL_CONFIG": {
-      "TITLE": "Model Configuration",
-      "DESCRIPTION": "Select AI models for different features.",
-      "SELECT_MODEL": "Select model",
-      "CREDITS_PER_MESSAGE": "{credits} credit/message",
-      "COMING_SOON": "Coming soon",
+      "TITLE": "模型配置",
+      "DESCRIPTION": "为不同功能选择 AI 模型。",
+      "SELECT_MODEL": "选择模型",
+      "CREDITS_PER_MESSAGE": "每条消息 {credits} 积分",
+      "COMING_SOON": "即将推出",
       "EDITOR": {
-        "TITLE": "Editor Features",
-        "DESCRIPTION": "Powers smart compose, grammar corrections, tone adjustments, and content enhancement in your message editor."
+        "TITLE": "编辑器功能",
+        "DESCRIPTION": "为消息编辑器提供智能撰写、语法纠错、语气调整和内容增强功能。"
       },
       "ASSISTANT": {
         "TITLE": "助手",
-        "DESCRIPTION": "Handles automated responses, conversation summaries, and intelligent reply suggestions for customer interactions."
+        "DESCRIPTION": "处理自动回复、对话摘要和智能回复建议，用于客户交互。"
       },
       "COPILOT": {
-        "TITLE": "Co-pilot",
-        "DESCRIPTION": "Provides real-time contextual suggestions, knowledge base recommendations, and proactive insights during conversations."
+        "TITLE": "副驾驶",
+        "DESCRIPTION": "在对话中提供实时上下文建议、知识库推荐和主动洞察。"
       }
     },
     "FEATURES": {
       "TITLE": "特性",
-      "DESCRIPTION": "Enable or disable AI-powered features.",
+      "DESCRIPTION": "启用或禁用 AI 驱动的功能。",
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Audio Transcription",
-        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts.",
-        "MODEL_TITLE": "Audio Transcription Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
+        "TITLE": "语音转录",
+        "DESCRIPTION": "自动将语音消息和通话录音转换为可搜索的文本记录。",
+        "MODEL_TITLE": "语音转录模型",
+        "MODEL_DESCRIPTION": "选择用于将语音消息转换为文本记录的 AI 模型"
       },
       "HELP_CENTER_SEARCH": {
-        "TITLE": "Help Center Search Indexing",
-        "DESCRIPTION": "Use AI for context aware search inside your help center articles."
+        "TITLE": "帮助中心搜索索引",
+        "DESCRIPTION": "使用 AI 在帮助中心文章中进行上下文感知搜索。"
       },
       "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
+        "TITLE": "标签建议",
+        "DESCRIPTION": "根据内容分析和上下文自动为对话建议相关标签。",
+        "MODEL_TITLE": "标签建议模型",
+        "MODEL_DESCRIPTION": "选择用于分析对话并建议适当标签的 AI 模型"
       }
     },
     "API": {
-      "SUCCESS": "Captain settings updated successfully.",
-      "ERROR": "Failed to update Captain settings. Please try again."
+      "SUCCESS": "Captain 设置更新成功。",
+      "ERROR": "更新 Captain 设置失败，请重试。"
     }
   },
   "BILLING_SETTINGS": {
@@ -585,16 +585,16 @@
       "PLAN_NOTE": "您当前订阅的是 **{plan}** 计划，拥有 **{quantity}** 个许可证",
       "SEAT_COUNT": "座位数",
       "RENEWS_ON": "续订于",
-      "CURRENCY": "Currency"
+      "CURRENCY": "货币"
     },
     "CURRENCY": {
       "SELECT": {
-        "TITLE": "Choose your billing currency",
-        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+        "TITLE": "选择计费货币",
+        "DESCRIPTION": "选择您希望用于计费的货币。订阅创建后将无法更改。"
       },
       "OPTIONS": {
-        "USD": "US Dollar (USD)",
-        "BRL": "Brazilian Real (BRL)"
+        "USD": "美元 (USD)",
+        "BRL": "巴西雷亚尔 (BRL)"
       }
     },
     "VIEW_PRICING": "查看价格",
@@ -620,26 +620,26 @@
     "NO_BILLING_USER": "您的计费账户正在配置中。请刷新页面并重试。",
     "TOPUP": {
       "BUY_CREDITS": "购买更多积分",
-      "MODAL_TITLE": "Buy AI Credits",
-      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
-      "CREDITS": "CREDITS",
-      "ONE_TIME": "one-time",
-      "POPULAR": "Most Popular",
-      "NOTE_TITLE": "Note:",
-      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "MODAL_TITLE": "购买 AI 积分",
+      "MODAL_DESCRIPTION": "为 Captain AI 购买额外积分。",
+      "CREDITS": "积分",
+      "ONE_TIME": "一次性",
+      "POPULAR": "最受欢迎",
+      "NOTE_TITLE": "注意：",
+      "NOTE_DESCRIPTION": "积分立即添加，6 个月后过期。使用积分需要有效订阅。购买的积分在每月计划积分用完后才会消耗。",
       "CANCEL": "取消",
-      "PURCHASE": "Purchase Credits",
-      "LOADING": "Loading options...",
-      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE": "购买积分",
+      "LOADING": "正在加载选项...",
+      "FETCH_ERROR": "加载积分选项失败，请重试。",
       "RETRY": "重试",
-      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
-      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "PURCHASE_ERROR": "处理购买失败，请重试。",
+      "PURCHASE_SUCCESS": "已成功为您的账户添加 {credits} 积分",
       "CONFIRM": {
-        "TITLE": "Confirm Purchase",
-        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
-        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "TITLE": "确认购买",
+        "DESCRIPTION": "您即将以 {amount} 购买 {credits} 积分。",
+        "INSTANT_DEDUCTION_NOTE": "确认后将立即向您保存的卡扣款。",
         "GO_BACK": "返回",
-        "CONFIRM_PURCHASE": "Confirm Purchase"
+        "CONFIRM_PURCHASE": "确认购买"
       }
     }
   },
@@ -647,106 +647,106 @@
     "TITLE": "安全",
     "DESCRIPTION": "管理您的账户安全设置。",
     "LINK_TEXT": "了解更多关于 SAML SSO 的信息",
-    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "SAML_DISABLED_MESSAGE": "SAML SSO 当前已禁用，请联系管理员启用此功能。",
     "SAML": {
-      "TITLE": "SAML SSO",
-      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "TITLE": "SAML 单点登录",
+      "NOTE": "为您的账户配置 SAML 单点登录。用户将通过您的身份提供商进行身份验证，而非使用邮箱/密码。",
       "ACS_URL": {
         "LABEL": "ACS URL",
-        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+        "TOOLTIP": "断言消费者服务 URL - 在您的 IdP 中将此 URL 配置为 SAML 响应的目标地址"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
-        "HELP": "The URL where SAML authentication requests will be sent",
+        "HELP": "发送 SAML 身份验证请求的 URL",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "Signing certificate in PEM format",
-        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "LABEL": "PEM 格式的签名证书",
+        "HELP": "来自身份提供商的公钥证书，用于验证 SAML 响应",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
-        "LABEL": "Fingerprint",
-        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+        "LABEL": "指纹",
+        "TOOLTIP": "证书的 SHA-1 指纹 - 用于在 IdP 配置中验证证书"
       },
       "COPY_SUCCESS": "已复制到剪贴板",
       "SP_ENTITY_ID": {
-        "LABEL": "SP Entity ID",
-        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
-        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+        "LABEL": "SP 实体 ID",
+        "HELP": "此应用程序作为服务提供商的唯一标识符（自动生成）。",
+        "TOOLTIP": "Chatwoot 作为服务提供商的唯一标识符 - 在 IdP 设置中配置此项"
       },
       "IDP_ENTITY_ID": {
-        "LABEL": "Identity Provider Entity ID",
-        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "LABEL": "身份提供商实体 ID",
+        "HELP": "您的身份提供商的唯一标识符（通常在 IdP 配置中找到）",
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
       "UPDATE_BUTTON": "更新 SAML 设置",
       "API": {
-        "SUCCESS": "SAML settings updated successfully",
-        "ERROR": "Failed to update SAML settings",
-        "ERROR_LOADING": "Failed to load SAML settings",
-        "DISABLED": "SAML settings disabled successfully"
+        "SUCCESS": "SAML 设置更新成功",
+        "ERROR": "更新 SAML 设置失败",
+        "ERROR_LOADING": "加载 SAML 设置失败",
+        "DISABLED": "SAML 设置已成功禁用"
       },
       "VALIDATION": {
-        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
-        "SSO_URL_ERROR": "Please enter a valid SSO URL",
-        "CERTIFICATE_ERROR": "Certificate is required",
-        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+        "REQUIRED_FIELDS": "SSO URL、身份提供商实体 ID 和证书为必填项",
+        "SSO_URL_ERROR": "请输入有效的 SSO URL",
+        "CERTIFICATE_ERROR": "证书是必填项",
+        "IDP_ENTITY_ID_ERROR": "身份提供商实体 ID 是必填项"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
+        "AVAILABLE_ON": "SAML SSO 功能仅在企业版计划中可用。",
+        "UPGRADE_PROMPT": "升级到企业版计划以访问 SAML 单点登录和其他高级安全功能。",
         "ASK_ADMIN": "请联系您的管理员进行升级。"
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to enable SAML SSO",
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
+        "TITLE": "升级以启用 SAML SSO",
+        "AVAILABLE_ON": "SAML SSO 功能仅在企业版计划中可用。",
+        "UPGRADE_PROMPT": "升级您的计划以获取 SAML 单点登录和其他高级功能。",
         "UPGRADE_NOW": "立即升级",
         "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
       },
       "ATTRIBUTE_MAPPING": {
-        "TITLE": "SAML Attribute Setup",
-        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+        "TITLE": "SAML 属性设置",
+        "DESCRIPTION": "以下属性映射必须在您的身份提供商中配置"
       },
       "INFO_SECTION": {
-        "TITLE": "Service Provider Information",
-        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+        "TITLE": "服务提供商信息",
+        "TOOLTIP": "复制这些值并在您的身份提供商中进行配置以建立 SAML 连接"
       }
     }
   },
   "CONVERSATION_WORKFLOW": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Conversation Workflows",
-        "DESCRIPTION": "Configure rules and required fields for conversation resolution."
+        "TITLE": "对话工作流",
+        "DESCRIPTION": "配置对话解决的规则和必填字段。"
       }
     },
     "REQUIRED_ATTRIBUTES": {
-      "TITLE": "Attributes required on resolution",
-      "DESCRIPTION": "When resolving a conversation, agents will be prompted to fill these attributes if they haven't yet.",
-      "NO_ATTRIBUTES": "No attributes added yet",
+      "TITLE": "解决时必填的属性",
+      "DESCRIPTION": "解决对话时，如果客服尚未填写这些属性，将提示其填写。",
+      "NO_ATTRIBUTES": "尚未添加属性",
       "ADD": {
-        "TITLE": "Add Attributes",
+        "TITLE": "添加属性",
         "SEARCH_PLACEHOLDER": "搜索属性"
       },
       "SAVE": {
-        "SUCCESS": "Required attributes updated",
-        "ERROR": "Could not update required attributes, please try again"
+        "SUCCESS": "必填属性已更新",
+        "ERROR": "无法更新必填属性，请重试"
       },
       "MODAL": {
         "TITLE": "解决会话",
-        "DESCRIPTION": "Please fill in the following custom attributes before resolving this conversation",
+        "DESCRIPTION": "请在解决此对话前填写以下自定义属性",
         "ACTIONS": {
           "RESOLVE": "解决会话",
           "CANCEL": "取消"
         },
         "PLACEHOLDERS": {
-          "TEXT": "Write a note...",
-          "NUMBER": "Enter a number",
-          "LINK": "Add a link",
-          "DATE": "Pick a date",
-          "LIST": "Select an option"
+          "TEXT": "写下备注...",
+          "NUMBER": "输入数字",
+          "LINK": "添加链接",
+          "DATE": "选择日期",
+          "LIST": "选择选项"
         },
         "CHECKBOX": {
           "YES": "是",
@@ -754,15 +754,15 @@
         }
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to use required attributes",
-        "AVAILABLE_ON": "The required conversation attributes feature is available on the Business and Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to prompt agents to fill required attributes before conversation resolution.",
+        "TITLE": "升级以使用必填属性",
+        "AVAILABLE_ON": "必填对话属性功能在商务版和企业版计划中可用。",
+        "UPGRADE_PROMPT": "升级您的计划，以便在对话解决前提示客服填写必填属性。",
         "UPGRADE_NOW": "立即升级",
         "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The required conversation attributes feature is available on the paid plans.",
-        "UPGRADE_PROMPT": "Upgrade to a paid plan to enforce required attributes before conversation resolution.",
+        "AVAILABLE_ON": "必填对话属性功能在付费计划中可用。",
+        "UPGRADE_PROMPT": "升级到付费计划以在对话解决前强制要求填写必填属性。",
         "ASK_ADMIN": "请联系您的管理员进行升级。"
       }
     }
@@ -807,12 +807,12 @@
   "ASSIGNMENT_POLICY": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Agent assignment",
-        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+        "TITLE": "客服分配",
+        "DESCRIPTION": "定义策略以根据收件箱和客服的需求有效管理工作量和路由对话。"
       },
       "ASSIGNMENT_POLICY": {
-        "TITLE": "Assignment policy",
-        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "TITLE": "分配策略",
+        "DESCRIPTION": "管理收件箱中对话的分配方式。",
         "FEATURES": [
           "Assign by conversations evenly or by available capacity",
           "Add fair distribution rules to avoid overloading any agent",
@@ -820,8 +820,8 @@
         ]
       },
       "AGENT_CAPACITY_POLICY": {
-        "TITLE": "Agent capacity policy",
-        "DESCRIPTION": "Manage workload for agents.",
+        "TITLE": "客服容量策略",
+        "DESCRIPTION": "管理客服的工作量。",
         "FEATURES": [
           "Define maximum conversations per inbox",
           "Create exceptions based on labels and time",
@@ -832,66 +832,66 @@
     "AGENT_ASSIGNMENT_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Assignment policy",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "分配策略",
+          "CREATE_POLICY": "新策略"
         },
         "CARD": {
-          "ORDER": "Order",
+          "ORDER": "排序",
           "PRIORITY": "优先级",
           "ACTIVE": "状态",
-          "INACTIVE": "Inactive",
-          "POPOVER": "Added inboxes",
+          "INACTIVE": "未激活",
+          "POPOVER": "已添加收件箱",
           "EDIT": "编辑"
         },
-        "NO_RECORDS_FOUND": "No assignment policies found"
+        "NO_RECORDS_FOUND": "未找到分配策略"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create assignment policy"
+          "TITLE": "创建分配策略"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "创建策略",
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy created successfully",
-          "ERROR_MESSAGE": "Failed to create assignment policy",
-          "INBOX_LINKED": "Inbox has been linked to the policy"
+          "SUCCESS_MESSAGE": "分配策略创建成功",
+          "ERROR_MESSAGE": "创建分配策略失败",
+          "INBOX_LINKED": "收件箱已关联到策略"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit assignment policy"
+          "TITLE": "编辑分配策略"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "更新策略",
         "CONFIRM_ADD_INBOX_DIALOG": {
-          "TITLE": "Add inbox",
-          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "TITLE": "添加收件箱",
+          "DESCRIPTION": "{inboxName} 收件箱已关联到另一个策略。您确定要将其关联到此策略吗？它将从另一个策略中解除关联。",
+          "CONFIRM_BUTTON_LABEL": "继续",
           "CANCEL_BUTTON_LABEL": "取消"
         },
         "INBOX_LINK_PROMPT": {
-          "TITLE": "Link inbox to policy",
-          "DESCRIPTION": "Would you like to link this inbox to the assignment policy?",
-          "LINK_BUTTON": "Link inbox",
-          "CANCEL_BUTTON": "Skip"
+          "TITLE": "将收件箱关联到策略",
+          "DESCRIPTION": "您想将此收件箱关联到分配策略吗？",
+          "LINK_BUTTON": "关联收件箱",
+          "CANCEL_BUTTON": "跳过"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update assignment policy"
+          "SUCCESS_MESSAGE": "分配策略更新成功",
+          "ERROR_MESSAGE": "更新分配策略失败"
         },
         "INBOX_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "收件箱已成功添加到策略",
+            "ERROR_MESSAGE": "将收件箱添加到策略失败"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+            "SUCCESS_MESSAGE": "收件箱已成功从策略中移除",
+            "ERROR_MESSAGE": "从策略中移除收件箱失败"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "策略名称：",
+          "PLACEHOLDER": "输入策略名称"
         },
         "DESCRIPTION": {
           "LABEL": "描述:",
@@ -900,183 +900,183 @@
         "STATUS": {
           "LABEL": "状态:",
           "PLACEHOLDER": "选择状态",
-          "ACTIVE": "Policy is active",
-          "INACTIVE": "Policy is inactive"
+          "ACTIVE": "策略已激活",
+          "INACTIVE": "策略未激活"
         },
         "ASSIGNMENT_ORDER": {
-          "LABEL": "Assignment order",
+          "LABEL": "分配顺序",
           "ROUND_ROBIN": {
-            "LABEL": "Round robin",
-            "DESCRIPTION": "Assign conversations evenly among agents."
+            "LABEL": "轮询",
+            "DESCRIPTION": "在客服之间均匀分配对话。"
           },
           "BALANCED": {
-            "LABEL": "Balanced",
-            "DESCRIPTION": "Assign conversations based on available capacity.",
-            "PREMIUM_MESSAGE": "Upgrade to access balanced assignment and agent capacity management.",
-            "PREMIUM_BADGE": "Premium"
+            "LABEL": "均衡",
+            "DESCRIPTION": "根据可用容量分配对话。",
+            "PREMIUM_MESSAGE": "升级以访问均衡分配和客服容量管理。",
+            "PREMIUM_BADGE": "高级版"
           }
         },
         "ASSIGNMENT_PRIORITY": {
-          "LABEL": "Assignment priority",
+          "LABEL": "分配优先级",
           "EARLIEST_CREATED": {
-            "LABEL": "Earliest created",
-            "DESCRIPTION": "The conversation that was created first gets assigned first."
+            "LABEL": "最早创建",
+            "DESCRIPTION": "最先创建的对话最先分配。"
           },
           "LONGEST_WAITING": {
-            "LABEL": "Longest waiting",
-            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+            "LABEL": "等待最久",
+            "DESCRIPTION": "等待时间最长的对话最先分配。"
           }
         },
         "FAIR_DISTRIBUTION": {
-          "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
-          "INPUT_MAX": "Assign max",
-          "DURATION": "Conversations per agent in every"
+          "LABEL": "公平分配策略",
+          "DESCRIPTION": "设置在时间窗口内每个客服可分配的最大对话数，以避免任何一个客服超负荷。此必填字段默认为每小时 100 个对话。",
+          "INPUT_MAX": "最大分配数",
+          "DURATION": "每位客服在每"
         },
         "EXCLUDE_OLDER_THAN": {
-          "LABEL": "Skip stale conversations",
-          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
+          "LABEL": "跳过过期对话",
+          "DESCRIPTION": "跳过超过此时长仍未分配的对话。默认为 7 天；清空可禁用。"
         },
         "INBOXES": {
-          "LABEL": "Added inboxes",
-          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "已添加收件箱",
+          "DESCRIPTION": "添加此策略适用的收件箱。",
+          "ADD_BUTTON": "添加收件箱",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "SEARCH_PLACEHOLDER": "搜索并选择要添加的收件箱",
             "ADD_BUTTON": "添加"
           },
-          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "EMPTY_STATE": "此策略尚未添加收件箱，请添加收件箱以开始",
           "API": {
-            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "收件箱已成功添加到策略",
+            "ERROR_MESSAGE": "将收件箱添加到策略失败"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete assignment policy"
+        "SUCCESS_MESSAGE": "分配策略删除成功",
+        "ERROR_MESSAGE": "删除分配策略失败"
       }
     },
     "AGENT_CAPACITY_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Agent capacity",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "客服容量",
+          "CREATE_POLICY": "新策略"
         },
         "CARD": {
-          "POPOVER": "Added agents",
+          "POPOVER": "已添加客服",
           "EDIT": "编辑"
         },
-        "NO_RECORDS_FOUND": "No agent capacity policies found"
+        "NO_RECORDS_FOUND": "未找到客服容量策略"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create agent capacity policy"
+          "TITLE": "创建客服容量策略"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "创建策略",
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
-          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+          "SUCCESS_MESSAGE": "客服容量策略创建成功",
+          "ERROR_MESSAGE": "创建客服容量策略失败"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit agent capacity policy"
+          "TITLE": "编辑客服容量策略"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "更新策略",
         "CONFIRM_ADD_AGENT_DIALOG": {
-          "TITLE": "Add agent",
-          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "TITLE": "添加客服",
+          "DESCRIPTION": "{agentName} 已关联到另一个策略。您确定要将其关联到此策略吗？它将从另一个策略中解除关联。",
+          "CONFIRM_BUTTON_LABEL": "继续",
           "CANCEL_BUTTON_LABEL": "取消"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+          "SUCCESS_MESSAGE": "客服容量策略更新成功",
+          "ERROR_MESSAGE": "更新客服容量策略失败"
         },
         "AGENT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Agent added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "客服已成功添加到策略",
+            "ERROR_MESSAGE": "将客服添加到策略失败"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove agent from policy"
+            "SUCCESS_MESSAGE": "客服已成功从策略中移除",
+            "ERROR_MESSAGE": "从策略中移除客服失败"
           }
         },
         "INBOX_LIMIT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox limit added successfully",
-            "ERROR_MESSAGE": "Failed to add inbox limit"
+            "SUCCESS_MESSAGE": "收件箱限制添加成功",
+            "ERROR_MESSAGE": "添加收件箱限制失败"
           },
           "UPDATE": {
-            "SUCCESS_MESSAGE": "Inbox limit updated successfully",
-            "ERROR_MESSAGE": "Failed to update inbox limit"
+            "SUCCESS_MESSAGE": "收件箱限制更新成功",
+            "ERROR_MESSAGE": "更新收件箱限制失败"
           },
           "DELETE": {
-            "SUCCESS_MESSAGE": "Inbox limit deleted successfully",
-            "ERROR_MESSAGE": "Failed to delete inbox limit"
+            "SUCCESS_MESSAGE": "收件箱限制删除成功",
+            "ERROR_MESSAGE": "删除收件箱限制失败"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "策略名称：",
+          "PLACEHOLDER": "输入策略名称"
         },
         "DESCRIPTION": {
           "LABEL": "描述:",
           "PLACEHOLDER": "输入描述"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "收件箱容量限制",
+          "ADD_BUTTON": "添加收件箱",
           "FIELD": {
-            "SELECT_INBOX": "Select inbox",
-            "MAX_CONVERSATIONS": "Max conversations",
-            "SET_LIMIT": "Set limit"
+            "SELECT_INBOX": "选择收件箱",
+            "MAX_CONVERSATIONS": "最大对话数",
+            "SET_LIMIT": "设置限制"
           },
           "EMPTY_STATE": "没有设置收件箱限制"
         },
         "EXCLUSION_RULES": {
-          "LABEL": "Exclusion rules",
-          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "LABEL": "排除规则",
+          "DESCRIPTION": "满足以下条件的对话不计入客服容量",
           "TAGS": {
-            "LABEL": "Exclude conversations tagged with specific labels",
+            "LABEL": "排除带有特定标签的对话",
             "ADD_TAG": "添加标签",
             "DROPDOWN": {
-              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+              "SEARCH_PLACEHOLDER": "搜索并选择要添加的标签"
             },
-            "EMPTY_STATE": "No tags added to this policy."
+            "EMPTY_STATE": "此策略尚未添加标签。"
           },
           "DURATION": {
-            "LABEL": "Exclude conversations older than a specified duration",
-            "PLACEHOLDER": "Set time"
+            "LABEL": "排除超过指定时长的对话",
+            "PLACEHOLDER": "设置时间"
           }
         },
         "USERS": {
-          "LABEL": "Assigned agents",
-          "DESCRIPTION": "Add agents for which this policy will be applicable.",
-          "ADD_BUTTON": "Add agent",
+          "LABEL": "已分配客服",
+          "DESCRIPTION": "添加此策略适用的客服。",
+          "ADD_BUTTON": "添加客服",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "SEARCH_PLACEHOLDER": "搜索并选择要添加的客服",
             "ADD_BUTTON": "添加"
           },
-          "EMPTY_STATE": "No agents added",
+          "EMPTY_STATE": "尚未添加客服",
           "API": {
-            "SUCCESS_MESSAGE": "Agent successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "客服已成功添加到策略",
+            "ERROR_MESSAGE": "将客服添加到策略失败"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+        "SUCCESS_MESSAGE": "客服容量策略删除成功",
+        "ERROR_MESSAGE": "删除客服容量策略失败"
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "TITLE": "删除策略",
+      "DESCRIPTION": "您确定要删除此策略吗？此操作不可撤销。",
       "CONFIRM_BUTTON_LABEL": "删除",
       "CANCEL_BUTTON_LABEL": "取消"
     }

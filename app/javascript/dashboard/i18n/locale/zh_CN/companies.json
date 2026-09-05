@@ -4,7 +4,7 @@
     "SORT_BY": {
       "LABEL": "排序方式",
       "OPTIONS": {
-        "NAME": "姓名：",
+        "NAME": "公司名称",
         "DOMAIN": "域名",
         "CREATED_AT": "创建于",
         "LAST_ACTIVITY_AT": "上次操作",
@@ -12,7 +12,7 @@
       }
     },
     "ORDER": {
-      "LABEL": "Order",
+      "LABEL": "排序",
       "OPTIONS": {
         "ASCENDING": "升序",
         "DESCENDING": "降序"
@@ -23,27 +23,27 @@
     "UNNAMED": "未命名的公司",
     "CONTACTS_COUNT": "{n} 个联系人 | {n} 个联系人",
     "ACTIONS": {
-      "CREATE": "Add company"
+      "CREATE": "添加公司"
     },
     "SELECTOR": {
       "PLACEHOLDER": "Select company",
       "CREATE_OPTION": "Add \"{name}\""
     },
     "CREATE": {
-      "TITLE": "Add company details",
+      "TITLE": "添加公司详情",
       "ACTIONS": {
-        "SAVE": "Add company"
+        "SAVE": "添加公司"
       },
       "MESSAGES": {
-        "SUCCESS": "Company created.",
-        "ERROR": "Could not create the company."
+        "SUCCESS": "公司已创建。",
+        "ERROR": "无法创建公司。"
       }
     },
     "DETAIL": {
-      "LOADING": "Loading company details...",
+      "LOADING": "正在加载公司详情...",
       "EMPTY_STATE": {
-        "TITLE": "Company not found",
-        "SUBTITLE": "This company may have been removed or is no longer available in this account."
+        "TITLE": "未找到公司",
+        "SUBTITLE": "该公司可能已被删除或在此账户中不再可用。"
       },
       "SIDEBAR": {
         "TABS": {
@@ -54,90 +54,90 @@
         }
       },
       "HISTORY": {
-        "EMPTY": "No conversations found for this company's contacts yet."
+        "EMPTY": "暂未找到该公司联系人的对话。"
       },
       "NOTES": {
-        "EMPTY": "No notes found for this company's contacts yet."
+        "EMPTY": "暂未找到该公司联系人的备注。"
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "搜索属性...",
-        "EMPTY_STATE": "There are no company custom attributes configured yet.",
-        "NO_ATTRIBUTES": "No matching attributes found.",
-        "UNUSED_ATTRIBUTES": "{count} unused attribute | {count} unused attributes",
+        "EMPTY_STATE": "暂无配置的公司自定义属性。",
+        "NO_ATTRIBUTES": "未找到匹配的属性。",
+        "UNUSED_ATTRIBUTES": "{count} 个未使用的属性",
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company attribute updated.",
-          "UPDATE_ERROR": "Could not update company attribute.",
-          "DELETE_SUCCESS": "Company attribute removed.",
-          "DELETE_ERROR": "Could not remove company attribute."
+          "UPDATE_SUCCESS": "公司属性已更新。",
+          "UPDATE_ERROR": "无法更新公司属性。",
+          "DELETE_SUCCESS": "公司属性已删除。",
+          "DELETE_ERROR": "无法删除公司属性。"
         }
       },
       "CONTACTS": {
         "LOADING": "正在加载联系人列表...",
-        "EMPTY": "No contacts are linked to this company yet.",
-        "UNNAMED_CONTACT": "Unnamed contact",
+        "EMPTY": "暂无与此公司关联的联系人。",
+        "UNNAMED_CONTACT": "未命名联系人",
         "ACTIONS": {
           "ADD": "添加联系人",
-          "REMOVE": "Remove contact"
+          "REMOVE": "移除联系人"
         },
         "DIALOGS": {
           "ADD": {
-            "DESCRIPTION": "Search for an existing contact and link it to this company.",
+            "DESCRIPTION": "搜索现有联系人并将其关联到此公司。",
             "SEARCH_PLACEHOLDER": "搜索联系人...",
-            "INITIAL": "Start typing to search contacts.",
+            "INITIAL": "开始输入以搜索联系人。",
             "EMPTY": "未找到联系人.",
-            "CONFIRM_TITLE": "Link contact",
-            "CONFIRM_DESCRIPTION": "Confirm the company and contact before linking them.",
+            "CONFIRM_TITLE": "关联联系人",
+            "CONFIRM_DESCRIPTION": "关联前请确认公司和联系人信息。",
             "COMPANY_LABEL": "公司",
             "CONTACT_LABEL": "联系人",
-            "CURRENT_COMPANY": "Currently linked to {companyName}",
-            "ADD": "Link contact",
+            "CURRENT_COMPANY": "当前已关联到 {companyName}",
+            "ADD": "关联联系人",
             "CANCEL": "取消"
           }
         },
         "MESSAGES": {
-          "ADD_SUCCESS": "Contact linked to company.",
-          "ADD_ERROR": "Could not link contact to company.",
-          "REASSIGN_SUCCESS": "Contact reassigned to company.",
-          "REASSIGN_ERROR": "Could not reassign contact to company.",
-          "REMOVE_SUCCESS": "Contact removed from company.",
-          "REMOVE_ERROR": "Could not remove contact from company."
+          "ADD_SUCCESS": "联系人已关联到公司。",
+          "ADD_ERROR": "无法将联系人关联到公司。",
+          "REASSIGN_SUCCESS": "联系人已重新分配到公司。",
+          "REASSIGN_ERROR": "无法将联系人重新分配到公司。",
+          "REMOVE_SUCCESS": "联系人已从公司移除。",
+          "REMOVE_ERROR": "无法从公司移除联系人。"
         }
       },
       "AVATAR": {
-        "UPDATING": "Updating company avatar...",
-        "UPLOAD_SUCCESS": "Company avatar updated.",
-        "UPLOAD_ERROR": "Could not update the company avatar.",
-        "DELETE_SUCCESS": "Company avatar removed.",
-        "DELETE_ERROR": "Could not remove the company avatar."
+        "UPDATING": "正在更新公司头像...",
+        "UPLOAD_SUCCESS": "公司头像已更新。",
+        "UPLOAD_ERROR": "无法更新公司头像。",
+        "DELETE_SUCCESS": "公司头像已删除。",
+        "DELETE_ERROR": "无法删除公司头像。"
       },
       "PROFILE": {
-        "TITLE": "Edit company details",
+        "TITLE": "编辑公司详情",
         "CREATED_AT": "创建于 {date}",
         "LAST_ACTIVE": "上次活动于 {date}",
-        "DESCRIPTION_PLACEHOLDER": "Add a short description for this company",
+        "DESCRIPTION_PLACEHOLDER": "为该公司添加简短描述",
         "ACTIONS": {
-          "SAVE": "Update company"
+          "SAVE": "更新公司"
         },
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company updated.",
-          "UPDATE_ERROR": "Could not update the company."
+          "UPDATE_SUCCESS": "公司已更新。",
+          "UPDATE_ERROR": "无法更新公司。"
         },
         "FIELDS": {
-          "NAME": "姓名：",
+          "NAME": "公司名称",
           "DOMAIN": "域名"
         }
       },
       "DELETE": {
-        "SECTION_TITLE": "Danger zone",
-        "SECTION_DESCRIPTION": "Delete this company and unlink its contacts. The contacts will remain in the account.",
-        "BUTTON": "Delete company",
-        "TITLE": "Delete company?",
-        "DESCRIPTION": "This will remove the company and unlink all associated contacts. Contacts themselves will be preserved.",
-        "DESCRIPTION_WITH_NAME": "This will remove {companyName} and unlink all associated contacts. Contacts themselves will be preserved.",
-        "CONFIRM": "Delete company",
+        "SECTION_TITLE": "危险区域",
+        "SECTION_DESCRIPTION": "删除此公司并解除其联系人的关联，联系人将保留在账户中。",
+        "BUTTON": "删除公司",
+        "TITLE": "删除公司？",
+        "DESCRIPTION": "这将删除该公司并解除所有关联联系人的链接，联系人本身将被保留。",
+        "DESCRIPTION_WITH_NAME": "这将删除 {companyName} 并解除所有关联联系人的链接，联系人本身将被保留。",
+        "CONFIRM": "删除公司",
         "MESSAGES": {
-          "SUCCESS": "Company deleted.",
-          "ERROR": "Could not delete the company."
+          "SUCCESS": "公司已删除。",
+          "ERROR": "无法删除公司。"
         }
       }
     },

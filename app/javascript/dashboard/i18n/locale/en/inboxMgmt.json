@@ -74,6 +74,7 @@
         "NORTH_AMERICA_WARNING": "TikTok connections for North American accounts are temporarily unavailable while we wait for an update from the TikTok team."
       },
       "TWITTER": {
+        "SIGN_IN": "Sign in with Twitter",
         "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
         "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
         "TWEETS": {
@@ -421,6 +422,8 @@
           "UNSUPPORTED_COMPLETION": "The Meta setup finished without a WhatsApp phone number that can be connected. Please run the setup again and add a phone number.",
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "APP_ID_REQUIRED": "WhatsApp App ID is required",
+          "CONFIGURATION_ID_REQUIRED": "WhatsApp Configuration ID is required",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
           "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow",
@@ -1325,7 +1328,24 @@
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "Unavailable",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "CHOOSE": "Choose",
+        "NAMES": {
+          "SUNDAY": "Sunday",
+          "MONDAY": "Monday",
+          "TUESDAY": "Tuesday",
+          "WEDNESDAY": "Wednesday",
+          "THURSDAY": "Thursday",
+          "FRIDAY": "Friday",
+          "SATURDAY": "Saturday"
+        }
+      },
+      "PERIOD": {
+        "AM": "AM",
+        "PM": "PM"
+      },
+      "DURATION": {
+        "HOURS": "{count}h",
+        "MINUTES": "{count}m"
       },
       "ALL_DAY": "All-Day"
     },

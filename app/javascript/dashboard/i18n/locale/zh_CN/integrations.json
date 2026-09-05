@@ -3,25 +3,25 @@
     "SHOPIFY": {
       "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "删除 Shopify 集成",
+        "MESSAGE": "您确定要删除 Shopify 集成吗？"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "连接 Shopify 商店",
+        "LABEL": "商店网址",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "HELP": "输入您的 Shopify 商店的 myshopify.com 网址",
         "CANCEL": "取消",
-        "SUBMIT": "Connect Store"
+        "SUBMIT": "连接商店"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "连接 Shopify 时出错，请重试。如问题持续，请联系支持。"
     },
     "HEADER": "集成设置",
     "DESCRIPTION": "Chatwoot 集成了多种工具和服务，以提高团队效率。浏览以下列表以配置您喜欢的应用程序。",
     "LEARN_MORE": "了解更多关于集成的信息",
     "LOADING": "正在获取集成",
-    "SEARCH_PLACEHOLDER": "Search integrations...",
-    "NO_RESULTS": "No integrations found matching your search",
+    "SEARCH_PLACEHOLDER": "搜索集成...",
+    "NO_RESULTS": "未找到符合搜索条件的集成",
     "CAPTAIN": {
       "DISABLED": "您的账户未启用 Captain。",
       "CLICK_HERE_TO_CONFIGURE": "点击此处配置",
@@ -32,23 +32,23 @@
       "SUBSCRIBED_EVENTS": "订阅事件",
       "LEARN_MORE": "了解更多关于 Webhooks 的信息",
       "PAYWALL": {
-        "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
-        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "TITLE": "付费方案支持 Webhook",
+        "AVAILABLE_ON": "使用 Webhook 接收 Chatwoot 账户中的实时事件。",
+        "UPGRADE_PROMPT": "升级到 Startups、Business 或 Enterprise 方案以使用 Webhook。",
         "UPGRADE_NOW": "立即升级",
-        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+        "CANCEL_ANYTIME": "您可以随时更改或取消方案。"
       },
       "SECRET": {
-        "LABEL": "Secret",
-        "COPY": "Copy secret to clipboard",
-        "COPY_SUCCESS": "Secret copied to clipboard",
-        "TOGGLE": "Toggle secret visibility",
-        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
-        "DONE": "Done"
+        "LABEL": "密钥",
+        "COPY": "复制密钥到剪贴板",
+        "COPY_SUCCESS": "密钥已复制到剪贴板",
+        "TOGGLE": "切换密钥可见性",
+        "CREATED_DESC": "Webhook 已创建。请使用下方密钥验证 Webhook 签名并立即复制；之后也可以在 Webhook 编辑表单中找到它。",
+        "DONE": "完成"
       },
-      "COUNT": "{n} webhook | {n} webhooks",
-      "SEARCH_PLACEHOLDER": "Search webhooks...",
-      "NO_RESULTS": "No webhooks found matching your search",
+      "COUNT": "{n} 个 Webhook",
+      "SEARCH_PLACEHOLDER": "搜索 Webhook...",
+      "NO_RESULTS": "未找到符合搜索条件的 Webhook",
       "FORM": {
         "CANCEL": "取消",
         "DESC": "Webhook 事件为您提供了有关 Chatwoot 账户中发生的事情的实时信息。请输入一个有效的 URL 来配置回调。",
@@ -65,12 +65,12 @@
             "CONTACT_UPDATED": "联系人已更新",
             "CONVERSATION_TYPING_ON": "对话输入开启",
             "CONVERSATION_TYPING_OFF": "对话输入关闭",
-            "INBOX_UPDATED": "Inbox updated"
+            "INBOX_UPDATED": "收件箱已更新"
           }
         },
         "NAME": {
-          "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "LABEL": "Webhook 名称",
+          "PLACEHOLDER": "输入 Webhook 名称"
         },
         "END_POINT": {
           "LABEL": "Webhook 网址",
@@ -169,28 +169,28 @@
         "MAKE_FRIENDLY": "将消息语气改为友好",
         "MAKE_FORMAL": "使用正式语气",
         "SIMPLIFY": "简化",
-        "CONFIDENT": "Use confident tone",
-        "PROFESSIONAL": "Use professional tone",
-        "CASUAL": "Use casual tone",
-        "STRAIGHTFORWARD": "Use straightforward tone"
+        "CONFIDENT": "使用自信语气",
+        "PROFESSIONAL": "使用专业语气",
+        "CASUAL": "使用随意语气",
+        "STRAIGHTFORWARD": "使用直接语气"
       },
       "REPLY_OPTIONS": {
-        "IMPROVE_REPLY": "Improve reply",
-        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "IMPROVE_REPLY": "改善回复",
+        "IMPROVE_REPLY_SELECTION": "改善所选内容",
         "CHANGE_TONE": {
-          "TITLE": "Change tone",
+          "TITLE": "更改语气",
           "OPTIONS": {
             "PROFESSIONAL": "专业",
-            "CASUAL": "Casual",
-            "STRAIGHTFORWARD": "Straightforward",
-            "CONFIDENT": "Confident",
+            "CASUAL": "随意",
+            "STRAIGHTFORWARD": "直接",
+            "CONFIDENT": "自信",
             "FRIENDLY": "友好"
           }
         },
-        "GRAMMAR": "Fix grammar & spelling",
-        "SUGGESTION": "Suggest a reply",
-        "SUMMARIZE": "Summarize the conversation",
-        "ASK_COPILOT": "Ask Copilot"
+        "GRAMMAR": "修正语法和拼写",
+        "SUGGESTION": "建议回复",
+        "SUMMARIZE": "总结对话",
+        "ASK_COPILOT": "询问 Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "草稿内容",
@@ -246,14 +246,14 @@
       "SIDEBAR_TXT": "<p><b>仪表板应用</b></p><p>仪表板应用允许组织将应用程序嵌入 Chatwoot 仪表板中，以便为客服人员提供上下文信息。此功能允许您独立创建应用程序并将其嵌入仪表板中，以提供用户信息、他们的订单或以前的付款历史记录。</p><p>当您使用 Chatwoot 仪表板嵌入应用程序时，您的应用程序将作为窗口事件获取对话和联系人的上下文信息。在您的页面上实现消息事件的监听器以接收上下文信息。</p><p>要添加新的仪表板应用，请点击“添加新的仪表板应用”按钮。</p>",
       "DESCRIPTION": "仪表板应用允许组织将应用程序嵌入仪表板中，以便为客服人员提供上下文信息。此功能允许您独立创建应用程序并将其嵌入仪表板中，以提供用户信息、他们的订单或以前的付款历史记录。",
       "LEARN_MORE": "了解更多关于仪表板应用的信息",
-      "COUNT": "{n} dashboard app | {n} dashboard apps",
-      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
-      "NO_RESULTS": "No dashboard apps found matching your search",
+      "COUNT": "{n} 个仪表板应用",
+      "SEARCH_PLACEHOLDER": "搜索仪表板应用...",
+      "NO_RESULTS": "未找到符合搜索条件的仪表板应用",
       "LIST": {
         "404": "此账户尚未配置任何仪表板应用",
         "LOADING": "正在获取仪表板应用...",
         "TABLE_HEADER": {
-          "NAME": "姓名",
+          "NAME": "名称",
           "ENDPOINT": "端点",
           "ACTIONS": "操作"
         },
@@ -261,7 +261,7 @@
         "DELETE_TOOLTIP": "删除应用"
       },
       "FORM": {
-        "TITLE_LABEL": "姓名",
+        "TITLE_LABEL": "应用名称",
         "TITLE_PLACEHOLDER": "输入您的仪表板应用的名称",
         "TITLE_ERROR": "仪表板应用的名称是必需的",
         "URL_LABEL": "端点",
@@ -372,7 +372,7 @@
         "SUCCESS": "问题取消链接成功",
         "ERROR": "取消链接问题时出错，请重试"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "未找到关联的问题",
       "DELETE": {
         "TITLE": "您确定要删除该集成吗？",
         "MESSAGE": "您确定要删除该集成吗？",
@@ -382,15 +382,15 @@
       "CTA": {
         "TITLE": "连接到 Linear",
         "AGENT_DESCRIPTION": "Linear 工作区未集成。请通知您的管理员连接一个工作区来使用这个集成。",
-        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
+        "DESCRIPTION": "Linear 工作区未连接。请点击下方按钮连接您的工作区以使用此集成。",
         "BUTTON_TEXT": "链接 Linear 工作空间"
       }
     },
     "NOTION": {
       "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
+        "TITLE": "您确定要删除 Notion 集成吗？",
+        "MESSAGE": "删除此集成将移除对 Notion 工作区的访问权限并停止所有相关功能。",
         "CONFIRM": "是的，删除",
         "CANCEL": "取消"
       }
@@ -402,75 +402,75 @@
     "OVERVIEW": {
       "HEADER": "概览",
       "WELCOME": {
-        "LABEL": "Captain summary",
-        "LOADING": "Generating summary…"
+        "LABEL": "Captain 摘要",
+        "LOADING": "正在生成摘要…"
       },
       "INBOX_BANNER": {
-        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
-        "ACTION": "Connect inbox",
+        "TEXT": "此助手尚未连接任何收件箱，因此不会回复对话。",
+        "ACTION": "连接收件箱",
         "DISMISS": "取消"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
-        "ACTION": "Review suggestions",
+        "TEXT": "有 {count} 个常见问题建议待审核，当前知识覆盖率为 {coverage}%。批准这些建议，让助手能够自行解决更多问题。",
+        "ACTION": "审核建议",
         "DISMISS": "取消"
       },
       "RANGES": {
-        "LAST_DAYS": "Last {count} days",
-        "THIS_MONTH": "This month",
-        "LAST_MONTH": "Last month"
+        "LAST_DAYS": "最近 {count} 天",
+        "THIS_MONTH": "本月",
+        "LAST_MONTH": "上月"
       },
       "METRICS": {
         "HANDLED": {
-          "LABEL": "Conversations handled",
-          "HINT": "Distinct conversations this assistant replied in."
+          "LABEL": "已处理对话",
+          "HINT": "此助手回复过的不同对话数。"
         },
         "AUTO_RESOLUTION": {
-          "LABEL": "Auto-resolution rate",
-          "HINT": "Share of handled conversations closed without a human reply."
+          "LABEL": "自动解决率",
+          "HINT": "已处理对话中无需人工回复即关闭的比例。"
         },
         "HANDOFF": {
-          "LABEL": "Handoff rate",
-          "HINT": "Share of handled conversations escalated to a human agent."
+          "LABEL": "转人工率",
+          "HINT": "已处理对话中转交人工客服的比例。"
         },
         "HOURS_SAVED": {
-          "LABEL": "Time saved",
-          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+          "LABEL": "节省时间",
+          "HINT": "估算方式：Captain 回复数乘以每次人工回复约 2 分钟。此数据仅供趋势参考，并非实际工时。"
         },
         "REOPEN": {
-          "LABEL": "Reopen rate",
-          "HINT": "Auto-resolved conversations that were reopened afterwards."
+          "LABEL": "重新打开率",
+          "HINT": "自动解决后又被重新打开的对话比例。"
         },
         "DEPTH": {
-          "LABEL": "Messages / conversation",
-          "HINT": "Average replies the assistant sends per conversation."
+          "LABEL": "每个对话的回复数",
+          "HINT": "助手在每个对话中发送的平均回复数。"
         }
       },
       "DRILLDOWN": {
-        "EMPTY": "No records found for this metric.",
-        "ERROR": "Could not load records. Please try again.",
+        "EMPTY": "未找到此指标的记录。",
+        "ERROR": "无法加载记录，请重试。",
         "LOAD_MORE": "加载更多",
-        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+        "RESULT_COUNT_CONVERSATION": "{count} 个对话 | {count} 个对话"
       },
       "KNOWLEDGE": {
-        "TITLE": "Knowledge coverage",
-        "COVERAGE": "{pct}% approved",
-        "APPROVED": "Approved FAQs",
-        "SUGGESTIONS": "FAQ suggestions",
+        "TITLE": "知识覆盖率",
+        "COVERAGE": "已批准 {pct}%",
+        "APPROVED": "已批准的常见问题",
+        "SUGGESTIONS": "常见问题建议",
         "DOCUMENTS": "文档"
       },
       "LINKS": {
         "DOCS": {
-          "TITLE": "Captain docs",
-          "DESCRIPTION": "Guides and how-tos for Captain"
+          "TITLE": "Captain 文档",
+          "DESCRIPTION": "Captain 使用指南与操作说明"
         },
         "PLAYGROUND": {
           "TITLE": "试验场",
-          "DESCRIPTION": "Test this assistant's replies"
+          "DESCRIPTION": "测试此助手的回复"
         },
         "BILLING": {
           "TITLE": "计费",
-          "DESCRIPTION": "Manage credits and plan"
+          "DESCRIPTION": "管理积分和方案"
         }
       }
     },
@@ -572,7 +572,7 @@
           "TOOLS": "工具 "
         },
         "NAME": {
-          "LABEL": "姓名：",
+          "LABEL": "助手名称",
           "PLACEHOLDER": "输入助手名称",
           "ERROR": "名称是必需的"
         },
@@ -606,8 +606,8 @@
           "TITLE": "特性",
           "ALLOW_CONVERSATION_FAQS": "从已解决的对话中生成常见问题",
           "ALLOW_MEMORIES": "从客户互动中捕获关键细节作为记忆",
-          "ALLOW_CITATIONS": "Include source citations in responses",
-          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+          "ALLOW_CITATIONS": "在回复中包含来源引用",
+          "ALLOW_CONTACT_ATTRIBUTES": "允许访问联系人信息"
         }
       },
       "EDIT": {
@@ -620,23 +620,23 @@
         "HEADER": "设置",
         "BASIC_SETTINGS": {
           "TITLE": "基本设置",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "DESCRIPTION": "自定义助手结束对话或转接给人工时说的内容。"
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "系统设置",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "DESCRIPTION": "自定义助手结束对话或转接给人工时说的内容。"
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "有趣的功能",
+          "DESCRIPTION": "进一步控制助手的行为，通过“查询护栏 → 场景 → 输出”的流程直观配置助手。",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "护栏",
+              "DESCRIPTION": "限定助手可回答的问题类型，避免回答超出范围或偏离主题的问题。"
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "回复指南",
+              "DESCRIPTION": "定义助手回复的语气和结构，例如清晰友好、简短直接或详细正式。"
             }
           }
         },
@@ -660,129 +660,129 @@
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "护栏",
+        "DESCRIPTION": "限定助手可回答的问题类型，避免回答超出范围或偏离主题的问题。",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECTED": "已选择 {count} 项",
           "SELECT_ALL": "全选 ({count})",
           "UNSELECT_ALL": "取消全选({count})",
           "BULK_DELETE_BUTTON": "删除"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
+            "TITLE": "示例护栏",
             "ADD": "添加全部",
-            "ADD_SINGLE": "Add this",
+            "ADD_SINGLE": "添加此项",
             "SAVE": "添加并保存 (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "PLACEHOLDER": "输入另一条护栏..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
+            "TITLE": "添加护栏",
             "CREATE": "创建",
             "CANCEL": "取消",
-            "PLACEHOLDER": "Type in another guardrail...",
+            "PLACEHOLDER": "输入另一条护栏...",
             "TEST_ALL": "测试全部"
           }
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "搜索……"
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "EMPTY_MESSAGE": "未找到护栏。请创建或添加示例以开始。",
+        "SEARCH_EMPTY_MESSAGE": "此搜索未找到护栏。",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "护栏添加成功",
+            "ERROR": "添加护栏时出错，请重试。"
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "护栏更新成功",
+            "ERROR": "更新护栏时出错，请重试。"
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "护栏删除成功",
+            "ERROR": "删除护栏时出错，请重试。"
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "TITLE": "回复指南",
+        "DESCRIPTION": "定义助手回复的语气和结构，例如清晰友好、简短直接或详细正式。",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECTED": "已选择 {count} 项",
           "SELECT_ALL": "全选 ({count})",
           "UNSELECT_ALL": "取消全选({count})",
           "BULK_DELETE_BUTTON": "删除"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
+            "TITLE": "示例回复指南",
             "ADD": "添加全部",
-            "ADD_SINGLE": "Add this",
+            "ADD_SINGLE": "添加此项",
             "SAVE": "添加并保存 (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "PLACEHOLDER": "输入另一条回复指南..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
+            "TITLE": "添加回复指南",
             "CREATE": "创建",
             "CANCEL": "取消",
-            "PLACEHOLDER": "Type in another response guideline...",
+            "PLACEHOLDER": "输入另一条回复指南...",
             "TEST_ALL": "测试全部"
           }
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "搜索……"
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "EMPTY_MESSAGE": "未找到回复指南。请创建或添加示例以开始。",
+        "SEARCH_EMPTY_MESSAGE": "此搜索未找到回复指南。",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "回复指南添加成功",
+            "ERROR": "添加回复指南时出错，请重试。"
           },
           "UPDATE": {
-            "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "SUCCESS": "回复指南更新成功",
+            "ERROR": "更新回复指南时出错，请重试。"
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "回复指南删除成功",
+            "ERROR": "删除回复指南时出错，请重试。"
           }
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "TITLE": "场景",
+        "DESCRIPTION": "为助手提供场景上下文，例如用户遇到困难时如何处理，或收到退款请求时如何回应。",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECTED": "已选择 {count} 项",
           "SELECT_ALL": "全选 ({count})",
           "UNSELECT_ALL": "取消全选({count})",
           "BULK_DELETE_BUTTON": "删除"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
+            "TITLE": "示例场景",
             "ADD": "添加全部",
-            "ADD_SINGLE": "Add this",
-            "TOOLS_USED": "Tools used :"
+            "ADD_SINGLE": "添加此项",
+            "TOOLS_USED": "使用的工具："
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "添加场景",
+            "TITLE": "创建场景",
             "FORM": {
               "TITLE": {
                 "LABEL": "标题",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "PLACEHOLDER": "输入场景名称",
+                "ERROR": "场景名称是必填项"
               },
               "DESCRIPTION": {
                 "LABEL": "描述信息",
-                "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "PLACEHOLDER": "描述此场景的使用方式和场合",
+                "ERROR": "场景描述是必填项"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
-                "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "LABEL": "处理方式",
+                "PLACEHOLDER": "描述此场景的处理方式和场合",
+                "ERROR": "场景内容是必填项"
               },
               "CREATE": "创建",
               "CANCEL": "取消"
@@ -791,25 +791,25 @@
         },
         "UPDATE": {
           "CANCEL": "取消",
-          "UPDATE": "Update changes"
+          "UPDATE": "更新更改"
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "搜索……"
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "EMPTY_MESSAGE": "未找到场景。请创建或添加示例以开始。",
+        "SEARCH_EMPTY_MESSAGE": "此搜索未找到场景。",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
-            "ERROR": "There was an error adding scenarios, please try again."
+            "SUCCESS": "场景添加成功",
+            "ERROR": "添加场景时出错，请重试。"
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
-            "ERROR": "There was an error updating scenarios, please try again."
+            "SUCCESS": "场景更新成功",
+            "ERROR": "更新场景时出错，请重试。"
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
-            "ERROR": "There was an error deleting scenarios, please try again."
+            "SUCCESS": "场景删除成功",
+            "ERROR": "删除场景时出错，请重试。"
           }
         }
       }
@@ -817,87 +817,87 @@
     "DOCUMENTS": {
       "HEADER": "文档",
       "ADD_NEW": "创建新文档",
-      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
+      "FAQ_COUNT": "{n} 个常见问题 | {n} 个常见问题",
       "SELECTED": "{count} 已选择",
       "SELECT_ALL": "全选 ({count})",
       "UNSELECT_ALL": "取消全选({count})",
       "BULK_DELETE_BUTTON": "删除",
       "BULK_SYNC_BUTTON": "刷新",
       "BULK_DELETE": {
-        "TITLE": "Delete documents?",
-        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "TITLE": "删除文档？",
+        "DESCRIPTION": "您确定要删除所选文档吗？此操作不可撤销。",
         "CONFIRM": "是，全部删除",
-        "SUCCESS_MESSAGE": "Documents deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+        "SUCCESS_MESSAGE": "文档删除成功",
+        "ERROR_MESSAGE": "删除文档时出错，请重试。"
       },
       "BULK_SYNC": {
-        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
-        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
-        "ZERO_MESSAGE": "No documents marked for refresh.",
-        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+        "SUCCESS_MESSAGE_ONE": "已为 1 个文档排队刷新",
+        "SUCCESS_MESSAGE": "已为 {count} 个文档排队刷新",
+        "ZERO_MESSAGE": "没有文档被标记为需要刷新。",
+        "ERROR_MESSAGE": "排队刷新时出错，请重试。"
       },
       "SYNC": {
-        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
-        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+        "QUEUED_MESSAGE": "刷新已排队，我们将尽快更新文档。",
+        "ERROR_MESSAGE": "无法排队刷新，请重试。"
       },
       "FILTERS": {
         "SOURCE": {
-          "ALL": "All sources",
-          "WEB": "Web pages",
-          "PDF": "PDFs"
+          "ALL": "所有来源",
+          "WEB": "网页",
+          "PDF": "PDF"
         },
         "STATUS": {
-          "ANY": "Any status",
-          "UPDATED": "Updated",
-          "NEEDS_UPDATE": "Needs update",
-          "UPDATING": "Updating",
+          "ANY": "任意状态",
+          "UPDATED": "已更新",
+          "NEEDS_UPDATE": "需要更新",
+          "UPDATING": "更新中",
           "FAILED": "失败"
         },
         "SORT": {
-          "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created"
+          "RECENTLY_UPDATED": "最近更新",
+          "RECENTLY_CREATED": "最近创建"
         },
         "SEARCH_PLACEHOLDER": "搜索……"
       },
       "SYNC_STATUS": {
-        "SYNCED": "last updated {time}",
+        "SYNCED": "最后更新于 {time}",
         "SYNCING": "更新中……",
-        "STALE_SYNC": "update stalled",
-        "FAILED": "Failed to sync",
-        "NEVER_SYNCED": "not updated yet"
+        "STALE_SYNC": "更新停滞",
+        "FAILED": "同步失败",
+        "NEVER_SYNCED": "尚未更新"
       },
       "SYNC_ERRORS": {
         "NOT_FOUND": "页面不存在",
-        "ACCESS_DENIED": "Access denied",
-        "TIMEOUT": "Page took too long to respond",
-        "CONTENT_EMPTY": "Page returned empty content",
-        "FETCH_FAILED": "Could not fetch page",
-        "SYNC_ERROR": "Unexpected error",
-        "DEFAULT": "Sync error"
+        "ACCESS_DENIED": "访问被拒绝",
+        "TIMEOUT": "页面响应超时",
+        "CONTENT_EMPTY": "页面返回空内容",
+        "FETCH_FAILED": "无法获取页面",
+        "SYNC_ERROR": "意外错误",
+        "DEFAULT": "同步错误"
       },
       "RELATED_RESPONSES": {
         "TITLE": "相关常见问题",
-        "EMPTY": "No FAQs have been generated from this document yet."
+        "EMPTY": "尚未从此文档生成常见问题。"
       },
       "DETAILS": {
-        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
-        "SOURCE": "Source",
-        "GENERATED_FAQS": "Generated FAQs",
-        "LAST_UPDATED": "Last updated",
+        "DESCRIPTION": "查看抓取的内容以及从此来源生成的常见问题。",
+        "SOURCE": "来源",
+        "GENERATED_FAQS": "生成的常见问题",
+        "LAST_UPDATED": "最后更新",
         "NOT_AVAILABLE": "暂无",
-        "CONTENT_TAB": "Crawled content",
-        "PDF_TAB": "PDF details",
-        "CONTENT_TITLE": "Crawled content",
-        "PDF_TITLE": "PDF file",
-        "PDF_DESCRIPTION": "Review the original PDF source.",
-        "CHARACTER_COUNT": "{count} characters extracted",
+        "CONTENT_TAB": "抓取内容",
+        "PDF_TAB": "PDF 详情",
+        "CONTENT_TITLE": "抓取内容",
+        "PDF_TITLE": "PDF 文件",
+        "PDF_DESCRIPTION": "查看原始 PDF 文件。",
+        "CHARACTER_COUNT": "已提取 {count} 个字符",
         "COPY_CONTENT": "复制",
-        "COPY_SUCCESS": "Crawled content copied to clipboard",
-        "COPY_ERROR": "Could not copy crawled content",
-        "VIEW_RAW": "View raw",
-        "VIEW_PREVIEW": "View preview",
-        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
-        "EMPTY_CONTENT": "No crawled content is available for this document yet."
+        "COPY_SUCCESS": "抓取内容已复制到剪贴板",
+        "COPY_ERROR": "无法复制抓取内容",
+        "VIEW_RAW": "查看原始内容",
+        "VIEW_PREVIEW": "查看预览",
+        "UNREADABLE_CONTENT": "无法从此文档中提取可读内容，您可以查看原始提取内容。",
+        "EMPTY_CONTENT": "此文档目前没有可用的抓取内容。"
       },
       "FORM_DESCRIPTION": "输入文档的 URL 以将其添加为知识源，并选择要关联的助手。",
       "CREATE": {
@@ -907,7 +907,7 @@
       },
       "FORM": {
         "TYPE": {
-          "LABEL": "Document Type",
+          "LABEL": "文档类型",
           "URL": "网址",
           "PDF": "PDF 文件"
         },
@@ -938,15 +938,15 @@
       },
       "OPTIONS": {
         "VIEW_DETAILS": "查看详细信息",
-        "SYNC_NOW": "Refresh now",
-        "RETRY_SYNC": "Retry refresh",
+        "SYNC_NOW": "立即刷新",
+        "RETRY_SYNC": "重试刷新",
         "DELETE_DOCUMENT": "删除文档"
       },
       "EMPTY_STATE": {
         "TITLE": "没有可用的文档",
         "SUBTITLE": "文档用于为您的助手生成常见问题。您可以导入文档以为您的助手提供上下文。",
-        "FILTERED_TITLE": "No matching documents",
-        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
+        "FILTERED_TITLE": "无匹配文档",
+        "FILTERED_SUBTITLE": "请尝试更改来源、状态或搜索词。",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain 文档",
           "NOTE": "在 Captain 中的文档作为助理的知识资源。通过连接您的帮助中心或指南，Captain 可以分析内容并为客户询问提供准确的回答。"
@@ -955,130 +955,130 @@
     },
     "CUSTOM_TOOLS": {
       "HEADER": "工具",
-      "ADD_NEW": "Create a new tool",
-      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
+      "ADD_NEW": "创建新工具",
+      "SOFT_LIMIT_WARNING": "超过 10 个工具可能降低助手选择正确工具的可靠性，建议删除未使用的工具以获得更好的效果。",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "暂无自定义工具",
+        "SUBTITLE": "创建自定义工具以将助手连接到外部 API 和服务，使其能够代表您获取数据并执行操作。",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "自定义工具",
+          "NOTE": "自定义工具允许助手与外部 API 和服务交互。创建工具来获取数据、执行操作或与现有系统集成以增强助手的能力。"
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "配置自定义工具以连接外部 API",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "编辑工具",
+        "DELETE_TOOL": "删除工具"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "创建自定义工具",
+        "SUCCESS_MESSAGE": "自定义工具创建成功",
+        "ERROR_MESSAGE": "创建自定义工具失败"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "编辑自定义工具",
+        "SUCCESS_MESSAGE": "自定义工具更新成功",
+        "ERROR_MESSAGE": "更新自定义工具失败"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
+        "TITLE": "删除自定义工具",
+        "DESCRIPTION": "您确定要删除此自定义工具吗？此操作不可撤销。",
         "CONFIRM": "是的，删除",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "SUCCESS_MESSAGE": "自定义工具删除成功",
+        "ERROR_MESSAGE": "删除自定义工具失败"
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to use tools with Captain",
-        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "TITLE": "升级以使用 Captain 工具",
+        "AVAILABLE_ON": "Captain 工具仅在商务版和企业版计划中可用，请升级到商务计划以使用此功能。",
         "UPGRADE_PROMPT": "",
         "UPGRADE_NOW": "查看计费",
         "CANCEL_ANYTIME": ""
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
-        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "AVAILABLE_ON": "Captain 工具仅在付费计划中可用。",
+        "UPGRADE_PROMPT": "请升级到付费计划以使用此功能。",
         "ASK_ADMIN": "请联系您的管理员进行升级。"
       },
       "TEST": {
-        "BUTTON": "Test connection",
-        "SUCCESS": "Endpoint returned HTTP {status}",
-        "ERROR": "Connection failed",
-        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+        "BUTTON": "测试连接",
+        "SUCCESS": "端点返回 HTTP {status}",
+        "ERROR": "连接失败",
+        "DISABLED_HINT": "测试功能仅适用于没有模板或请求体的端点。"
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
-          "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required",
-          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
+          "LABEL": "工具名称",
+          "PLACEHOLDER": "订单查询",
+          "ERROR": "工具名称是必填项",
+          "MAX_LENGTH_ERROR": "工具名称不能超过 {max} 个字符"
         },
         "DESCRIPTION": {
           "LABEL": "描述信息",
-          "PLACEHOLDER": "Looks up order details by order ID"
+          "PLACEHOLDER": "按订单 ID 查询订单详情"
         },
         "HTTP_METHOD": {
-          "LABEL": "Method"
+          "LABEL": "方法"
         },
         "ENDPOINT_URL": {
-          "LABEL": "Endpoint URL",
+          "LABEL": "端点网址",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
-          "ERROR": "Valid URL is required"
+          "ERROR": "需要有效的 URL"
         },
         "AUTH_TYPE": {
-          "LABEL": "Authentication Type"
+          "LABEL": "认证类型"
         },
         "AUTH_TYPES": {
           "NONE": "啥都没有",
           "BEARER": "Bearer Token",
-          "BASIC": "Basic Auth",
+          "BASIC": "基本认证",
           "API_KEY": "API 密钥"
         },
         "AUTH_CONFIG": {
           "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
-          "USERNAME": "Username",
-          "USERNAME_PLACEHOLDER": "Enter username",
+          "BEARER_TOKEN_PLACEHOLDER": "输入您的 Bearer Token",
+          "USERNAME": "用户名",
+          "USERNAME_PLACEHOLDER": "输入用户名",
           "PASSWORD": "密码",
-          "PASSWORD_PLACEHOLDER": "Enter password",
-          "API_KEY": "Header Name",
+          "PASSWORD_PLACEHOLDER": "输入密码",
+          "API_KEY": "请求头名称",
           "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "Header Value",
-          "API_VALUE_PLACEHOLDER": "Enter API key value"
+          "API_VALUE": "请求头值",
+          "API_VALUE_PLACEHOLDER": "输入 API 密钥值"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "参数",
+          "HELP_TEXT": "定义将从用户查询中提取的参数"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "添加参数",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "参数名称（例如：order_id）"
         },
         "PARAM_TYPE": {
           "PLACEHOLDER": "类型"
         },
         "PARAM_TYPES": {
-          "STRING": "String",
+          "STRING": "字符串",
           "NUMBER": "号码",
-          "BOOLEAN": "Boolean",
-          "ARRAY": "Array",
-          "OBJECT": "Object"
+          "BOOLEAN": "布尔值",
+          "ARRAY": "数组",
+          "OBJECT": "对象"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "参数描述"
         },
         "PARAM_REQUIRED": {
           "LABEL": "必填项"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Request Body Template (Optional)",
+          "LABEL": "请求体模板（可选）",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
-          "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
+          "LABEL": "响应模板（可选）",
+          "PLACEHOLDER": "订单 {'{{'} order_id {'}}'} 状态：{'{{'} status {'}}'}"
         },
         "ERRORS": {
-          "PARAM_NAME_REQUIRED": "Parameter name is required"
+          "PARAM_NAME_REQUIRED": "参数名称是必填项"
         }
       }
     },
@@ -1111,8 +1111,8 @@
         "ERROR_MESSAGE": "删除常见问题时出错，请重试"
       },
       "SUGGESTIONS_BANNER": {
-        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
-        "ACTION": "Review suggestions"
+        "TITLE": "Captain 已将客户反复提出的问题整理为常见问题建议。",
+        "ACTION": "审核建议"
       },
       "FORM_DESCRIPTION": "将问题及其对应的答案添加到知识库，并选择应关联的助手。",
       "CREATE": {
@@ -1146,7 +1146,7 @@
       "EMPTY_STATE": {
         "TITLE": "未找到常见问题",
         "SUBTITLE": "常见问题帮助您的助手为客户提供快速准确的答案。它们可以从您的内容自动生成，也可以手动添加。",
-        "CLEAR_SEARCH": "Clear active filters",
+        "CLEAR_SEARCH": "清除活跃筛选器",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain 常见问题",
           "NOTE": "Captain FAQs 检测常见的客户问题——无论是知识库中缺失的问题还是经常被问到的问题——并生成相关的常见问题以改善支持。您可以查看每个建议，并决定是否批准或拒绝它。"

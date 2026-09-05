@@ -79,10 +79,10 @@
         "TEXT": "等待响应：最短在前"
       },
       "priority_desc_created_at_asc": {
-        "TEXT": "Priority: Highest first, Created: Oldest first"
+        "TEXT": "优先级：最高在前，创建时间：最早在前"
       },
       "unread": {
-        "TEXT": "Unread Count: Highest first"
+        "TEXT": "未读数：从高到低"
       }
     },
     "ATTACHMENTS": {
