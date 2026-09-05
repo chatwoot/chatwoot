@@ -58,6 +58,9 @@ gem 'azure-blob', require: false
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 
+##-- for actionmailer --##
+gem 'aws-actionmailer-ses', '~> 1'
+
 ##-- for actionmailbox --##
 gem 'aws-actionmailbox-ses', '~> 0'
 
