@@ -18,6 +18,8 @@ export const CONVERSATION_STATUS = {
   RESOLVED: 'resolved',
   PENDING: 'pending',
   SNOOZED: 'snoozed',
+  QUEUED: 'queued',
+  PROXIED: 'proxied',
 };
 
 export const CONVERSATION_PRIORITY = {
@@ -89,6 +91,7 @@ export const CSAT_RATINGS = [
 export const CSAT_DISPLAY_TYPES = {
   EMOJI: 'emoji',
   STAR: 'star',
+  LIKE_DISLIKE: 'like_dislike',
 };
 
 export const AUDIO_FORMATS = {

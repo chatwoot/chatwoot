@@ -23,13 +23,13 @@ module Enterprise::Inbox
   end
 
   def get_agent_ids_over_assignment_limit(limit)
-    conversations
-      .open
-      .where(account_id: account_id)
-      .select(:assignee_id)
-      .group(:assignee_id)
-      .having("count(*) >= #{limit.to_i}")
-      .filter_map(&:assignee_id)
+    account.conversations
+           .open
+           .where(assignee_id: members.ids)
+           .select(:assignee_id)
+           .group(:assignee_id)
+           .having('count(*) >= ?', limit.to_i)
+           .filter_map(&:assignee_id)
   end
 
   def ensure_valid_max_assignment_limit

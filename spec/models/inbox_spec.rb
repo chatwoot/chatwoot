@@ -15,6 +15,8 @@ RSpec.describe Inbox do
 
     it { is_expected.to belong_to(:channel) }
 
+    it { is_expected.to belong_to(:priority_group).optional }
+
     it { is_expected.to have_many(:contact_inboxes).dependent(:destroy_async) }
 
     it { is_expected.to have_many(:contacts).through(:contact_inboxes) }
