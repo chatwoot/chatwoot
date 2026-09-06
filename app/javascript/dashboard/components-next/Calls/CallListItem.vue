@@ -2,10 +2,8 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import {
-  exactTimestamp,
-  relativeDayTimestamp,
-} from 'shared/helpers/timeHelper';
+import { relativeDayTimestamp } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { getInboxVoiceIcon } from 'dashboard/helper/inbox';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -23,6 +21,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 const route = useRoute();
