@@ -465,6 +465,126 @@ describe('#actions', () => {
     });
   });
 
+  describe('conversation list request cancellation', () => {
+    // Requests stay pending until settled by hand, and reject the way axios
+    // does once their signal fires.
+    const pending = [];
+    beforeEach(() => {
+      pending.length = 0;
+      const abortable = (...args) => {
+        const { signal } = args[args.length - 1];
+        return new Promise((resolve, reject) => {
+          signal.addEventListener('abort', () => {
+            const error = new Error('canceled');
+            error.name = 'CanceledError';
+            reject(error);
+          });
+          pending.push(resolve);
+        });
+      };
+      axios.get.mockImplementation(abortable);
+      axios.post.mockImplementation(abortable);
+    });
+
+    const laterPage = {
+      ...dataReceived,
+      payload: [{ ...dataReceived.payload[0], id: 11 }],
+    };
+    const fetchList = page =>
+      actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: { assigneeType: 'me', page } },
+      });
+    const setAllCalls = () =>
+      commit.mock.calls.filter(call => call[0] === 'SET_ALL_CONVERSATION');
+
+    it('drops a superseded response instead of merging it into the new list', async () => {
+      const superseded = fetchList(1);
+      const latest = fetchList(1);
+
+      await superseded;
+      pending[1]({ data: { data: laterPage } });
+      await latest;
+
+      expect(setAllCalls()).toEqual([
+        ['SET_ALL_CONVERSATION', laterPage.payload],
+      ]);
+    });
+
+    it('cancels an in-flight paginated load when the list is replaced', async () => {
+      // A late page 2 would otherwise merge the previous filter's rows and
+      // push the shared page counter past the replacement's own second page.
+      const paginated = fetchList(2);
+      const replacement = fetchList(1);
+
+      await paginated;
+      pending[1]({ data: { data: laterPage } });
+      await replacement;
+
+      expect(
+        dispatch.mock.calls.filter(
+          call => call[0] === 'conversationPage/setCurrentPage'
+        )
+      ).toEqual([
+        [
+          'conversationPage/setCurrentPage',
+          { filter: 'me', page: 1 },
+          { root: true },
+        ],
+      ]);
+    });
+
+    it('keeps a reconnect refresh from cancelling the load in progress', async () => {
+      // A reconnect refresh carries updatedWithin and only adds to the list, so
+      // cancelling the first page would leave that list empty and end-reached.
+      const fullLoad = fetchList(1);
+      const reconnectRefresh = actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: {
+          conversationFilters: {
+            assigneeType: 'me',
+            page: null,
+            updatedWithin: 115,
+          },
+        },
+      });
+
+      pending[1]({ data: { data: laterPage } });
+      pending[0]({ data: { data: dataReceived } });
+      await Promise.all([fullLoad, reconnectRefresh]);
+
+      // Both land: neither request displaced the other.
+      expect(setAllCalls()).toEqual([
+        ['SET_ALL_CONVERSATION', laterPage.payload],
+        ['SET_ALL_CONVERSATION', dataReceived.payload],
+      ]);
+    });
+
+    it('does not clear loading or rethrow when a filtered fetch is superseded', async () => {
+      const superseded = actions.fetchFilteredConversations(
+        { commit, dispatch },
+        { ...dataToSend, page: 1 }
+      );
+      const latest = actions.fetchFilteredConversations(
+        { commit, dispatch },
+        { ...dataToSend, page: 1 }
+      );
+
+      // A rethrow would raise CHAT_LIST.FETCH_ERROR for a replaced list.
+      await expect(superseded).resolves.toBeUndefined();
+      pending[1]({ data: dataReceived });
+      await latest;
+
+      expect(
+        commit.mock.calls.filter(
+          call => call[0] === 'CLEAR_LIST_LOADING_STATUS'
+        )
+      ).toEqual([['CLEAR_LIST_LOADING_STATUS']]);
+    });
+  });
+
   describe('#setConversationFilter', () => {
     it('commits the correct mutation and sets filter state', () => {
       const filters = [
