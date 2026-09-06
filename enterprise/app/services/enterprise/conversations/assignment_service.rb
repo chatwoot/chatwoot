@@ -2,8 +2,7 @@ module Enterprise::Conversations::AssignmentService
   def perform
     return super unless assignee_type.to_s == 'Captain::Assistant'
 
-    assistant = captain_assistant
-    assign_ai_assignee(assistant)
+    assign_ai_assignee(captain_assistant)
   end
 
   private
