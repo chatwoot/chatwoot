@@ -100,7 +100,6 @@ class Messages::MessageBuilder
   end
 
   def message_type
-
     if @conversation.inbox.channel_type != 'Channel::Api' && @message_type == 'incoming'
       raise StandardError, 'Incoming messages are only allowed in Api inboxes'
     end

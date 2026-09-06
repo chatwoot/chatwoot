@@ -26,7 +26,6 @@ module EmailHelper
     end.map(&:strip).reject(&:blank?).uniq
   end
 
-
   # ref: https://www.rfc-editor.org/rfc/rfc5233.html
   # This is not a  mandatory requirement for email addresses, but it is a common practice.
   # john+test@xyc.com is the same as john@xyc.com
