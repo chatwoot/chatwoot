@@ -51,6 +51,18 @@ RSpec.describe 'Captain assistant conversation assignment API', type: :request d
     expect(conversation.reload.ai_assignee).to be_nil
   end
 
+  it 'opens the conversation when Captain assistant ownership is cleared without a replacement' do
+    conversation.update!(ai_assignee: assistant, status: :pending)
+
+    post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+         params: { assignee_id: nil },
+         headers: agent.create_new_auth_token,
+         as: :json
+
+    expect(response).to have_http_status(:success)
+    expect(conversation.reload).to have_attributes(ai_assignee: nil, assignee: nil, status: 'open')
+  end
+
   it 'clears Captain assistant ownership when a human takes over' do
     conversation.update!(ai_assignee: assistant, status: :pending)
 

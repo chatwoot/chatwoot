@@ -56,12 +56,9 @@ export default {
     showContactPanel() {
       return this.isContactPanelOpen && this.currentChat.id;
     },
-    currentConversationKey() {
-      return `${this.currentChat.inbox_id}:${this.currentChat.id}`;
-    },
   },
   watch: {
-    currentConversationKey: {
+    'currentChat.inbox_id': {
       immediate: true,
       handler() {
         if (this.currentChat.inbox_id && this.currentChat.id) {
