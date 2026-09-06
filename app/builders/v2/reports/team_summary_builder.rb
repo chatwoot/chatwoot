@@ -17,6 +17,7 @@ class V2::Reports::TeamSummaryBuilder < V2::Reports::BaseSummaryBuilder
 
   def reporting_events
     @reporting_events ||= account.reporting_events.where(created_at: range).joins(:conversation)
+                                 .distinct_resolutions(user_ids: params[:user_ids]&.reject(&:blank?))
   end
 
   def load_reporting_events_data

@@ -5,7 +5,8 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
     super()
     @account = account
     @params = params
-    @timezone = 'UTC'
+    timezone_offset = (params[:timezone_offset] || 0).to_f
+    @timezone = ActiveSupport::TimeZone[timezone_offset]&.name
   end
 
   def build
@@ -109,6 +110,7 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
             .joins(conversation: { taggings: :tag })
             .where(name: event_name, conversations: base_conversation_filters, taggings: { taggable_type: 'Conversation', context: 'labels' })
     scope = apply_reporting_event_filters(scope)
+    scope = scope.distinct_resolutions(user_ids: params[:user_ids]&.reject(&:blank?))
     scope = scope.filter_by_label_ids(params[:label_ids], account.id) if params[:label_ids].present?
     scope
   end

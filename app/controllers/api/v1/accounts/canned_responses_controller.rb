@@ -23,8 +23,7 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
   end
 
   def update
-    @canned_response.update!(canned_response_base_params)
-    @canned_response.canned_response_scopes.destroy_all
+    @canned_response.assign_attributes(canned_response_base_params)
 
     if @canned_response.private_response? && no_scopes_provided?
       render json: { error: 'Private canned response must be assigned to a user, team, or inbox' },
@@ -32,7 +31,11 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
       return
     end
 
-    build_scopes(@canned_response)
+    ActiveRecord::Base.transaction do
+      @canned_response.save!
+      @canned_response.canned_response_scopes.destroy_all
+      build_scopes(@canned_response)
+    end
     render json: @canned_response.as_json(include: :canned_response_scopes)
   end
 

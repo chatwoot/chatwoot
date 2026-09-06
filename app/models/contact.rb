@@ -49,6 +49,8 @@ class Contact < ApplicationRecord
   include Labelable
   include LlmFormattable
   include EmailUniquePerInbox
+  include ContactBlockable
+  include Contact::Events
 
   validates :account_id, presence: true
   validates :email, allow_blank: true,
@@ -241,20 +243,6 @@ class Contact < ApplicationRecord
 
   def sync_contact_attributes
     ::Contacts::SyncAttributes.new(self).perform
-  end
-
-  def dispatch_create_event
-    Rails.configuration.dispatcher.dispatch(CONTACT_CREATED, Time.zone.now, contact: self)
-  end
-
-  def dispatch_update_event
-    Rails.configuration.dispatcher.dispatch(CONTACT_UPDATED, Time.zone.now, contact: self, changed_attributes: previous_changes)
-  end
-
-  def dispatch_destroy_event
-    # Pass serialized data instead of ActiveRecord object to avoid DeserializationError
-    # when the async EventDispatcherJob runs after the contact has been deleted
-    Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact_data: push_event_data.merge(account_id: account_id))
   end
 end
 Contact.include_mod_with('Concerns::Contact')

@@ -34,19 +34,25 @@ module ReportHelper::ResponseTimeMetrics
   end
 
   def avg_resolution_time
-    grouped_reporting_events = get_grouped_values(scope.reporting_events.where(name: 'conversation_resolved', account_id: account.id))
+    grouped_reporting_events = get_grouped_values(resolution_events)
     return grouped_reporting_events.average(:value_in_business_hours) if params[:business_hours]
 
     grouped_reporting_events.average(:value)
   end
 
   def avg_resolution_time_summary
-    reporting_events = scope.reporting_events.where(name: 'conversation_resolved', account_id: account.id, created_at: range)
+    reporting_events = resolution_events.where(created_at: range)
     avg_rt = params[:business_hours] ? reporting_events.average(:value_in_business_hours) : reporting_events.average(:value)
 
     return 0 if avg_rt.blank?
 
     avg_rt
+  end
+
+  # one row per participating agent is stored; agent reports keep them all, the rest count each resolution once
+  def resolution_events
+    events = scope.reporting_events.where(name: 'conversation_resolved', account_id: account.id)
+    params[:type].to_s == 'agent' ? events : events.distinct_resolutions
   end
 
   def agent_chat_duration

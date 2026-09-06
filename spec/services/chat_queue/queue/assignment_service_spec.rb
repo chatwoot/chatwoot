@@ -237,6 +237,19 @@ RSpec.describe ChatQueue::Queue::AssignmentService do
       end
     end
 
+    context 'when the agent has no active chats yet' do
+      before { allow(limits_service).to receive(:limit_for).with(agent.id).and_return(1) }
+
+      it 'serialises the limit check on the agent account membership row' do
+        allow(AccountUser).to receive(:lock).and_call_original
+
+        service.assign!
+
+        expect(AccountUser).to have_received(:lock)
+        expect(conversation.reload.assignee).to eq(agent)
+      end
+    end
+
     context 'when multiple assignments attempt simultaneously' do
       let(:agent2) { create(:user, account: account) }
       let(:service2) { described_class.new(account: account, entry: entry, agent: agent2) }

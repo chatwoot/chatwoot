@@ -58,7 +58,7 @@ class V2::Reports::Timeseries::BaseTimeseriesBuilder
   end
 
   def timezone
-    'UTC'
+    @timezone ||= timezone_name_from_offset(params[:timezone_offset])
   end
 
   private

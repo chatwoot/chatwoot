@@ -52,7 +52,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def teams
-    render json: { teams: @agent.teams }
+    render json: { teams: @agent.teams.where(account_id: Current.account.id) }
   end
 
   private
@@ -64,15 +64,17 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     )
   end
 
+  # Memberships are scoped to the current account: ids that belong to other accounts are
+  # ignored and the agent's memberships in other accounts are left untouched.
   def update_teams
-    ids = agent_params[:team_ids].map(&:to_i)
-    @agent.team_members.where.not(team_id: ids).destroy_all
+    ids = Current.account.teams.where(id: agent_params[:team_ids]).ids
+    @agent.team_members.where(team_id: Current.account.teams.select(:id)).where.not(team_id: ids).destroy_all
     ids.each { |team_id| @agent.team_members.find_or_create_by(team_id: team_id) }
   end
 
   def update_inboxes
-    ids = agent_params[:inbox_ids].map(&:to_i)
-    @agent.inbox_members.where.not(inbox_id: ids).destroy_all
+    ids = Current.account.inboxes.where(id: agent_params[:inbox_ids]).ids
+    @agent.inbox_members.where(inbox_id: Current.account.inboxes.select(:id)).where.not(inbox_id: ids).destroy_all
     ids.each { |inbox_id| @agent.inbox_members.find_or_create_by(inbox_id: inbox_id) }
   end
 

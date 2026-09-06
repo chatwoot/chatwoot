@@ -30,6 +30,7 @@ module ReportHelper::ConversationMetrics
   end
 
   def resolutions
-    scope.reporting_events.where(account_id: account.id, name: :conversation_resolved, created_at: range)
+    events = scope.reporting_events.where(account_id: account.id, name: :conversation_resolved, created_at: range)
+    params[:type].to_s == 'agent' ? events : events.distinct_resolutions
   end
 end

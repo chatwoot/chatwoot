@@ -38,26 +38,19 @@ class CannedResponse < ApplicationRecord
     order(Arel.sql(order_clause) => :desc)
   }
 
+  # A private response is visible when one of its scopes lists the user, one of the user's
+  # teams, or a matching inbox: the inbox given as `inbox_id` (composer context), otherwise
+  # any inbox the user is a member of.
   scope :accessible_to, lambda { |user, inbox_id: nil|
-    private_accessible_ids = where(visibility: :private_response)
-                             .joins(:canned_response_scopes)
-                             .where(
-                               'canned_response_scopes.user_ids @> ARRAY[:user_id]::integer[]',
-                               user_id: user.id
-                             )
-                             .then do |scope|
-                               if inbox_id.present?
-                                 scope.where(
-                                   "canned_response_scopes.inbox_ids = '{}' OR " \
-                                   'canned_response_scopes.inbox_ids @> ARRAY[:inbox_id]::integer[]',
-                                   inbox_id: inbox_id
-                                 )
-                               else
-                                 scope
-                               end
-                             end
-                             .distinct.pluck(:id)
+    team_ids = user.team_members.pluck(:team_id)
+    inbox_ids = inbox_id.present? ? [inbox_id.to_i] : user.inbox_members.pluck(:inbox_id)
 
-    where(visibility: :public_response).or(where(id: private_accessible_ids))
+    matching_scopes = CannedResponseScope.where(
+      'user_ids @> ARRAY[:user_id]::integer[] OR team_ids && ARRAY[:team_ids]::integer[] OR inbox_ids && ARRAY[:inbox_ids]::integer[]',
+      user_id: user.id, team_ids: team_ids.presence || [0], inbox_ids: inbox_ids.presence || [0]
+    )
+
+    where(visibility: :public_response)
+      .or(where(visibility: :private_response, id: matching_scopes.select(:canned_response_id)))
   }
 end

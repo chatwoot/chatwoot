@@ -80,6 +80,7 @@ class V2::Reports::DrilldownBuilder
                   .where(account_id: account.id, name: raw_event_name, created_at: bucket_range)
                   .includes(:user, :inbox, conversation: [:assignee, :contact, :inbox])
                   .order(created_at: :desc)
+    events = events.distinct_resolutions unless dimension_type == 'agent'
 
     if raw_count_strategy == :exclude_bot_handoffs
       events = events.where.not(conversation_id: bot_handoff_conversation_ids_subquery)

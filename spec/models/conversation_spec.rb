@@ -680,6 +680,15 @@ RSpec.describe Conversation do
       expect(muted?).to be(false)
     end
 
+    context 'when the temporary block has expired' do
+      before { conversation.contact.update!(blocked: true, blocked_until: 1.hour.ago) }
+
+      it 'returns false and lifts the block' do
+        expect(muted?).to be(false)
+        expect(conversation.contact.reload.blocked).to be(false)
+      end
+    end
+
     context 'when contact is missing' do
       before do
         conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations

@@ -60,8 +60,16 @@ class V2::Reports::BaseSummaryBuilder
     # CategorySummaryBuilder overrides exclude_proxy_chats? to return false.
     @reporting_events ||= begin
       scope = account.reporting_events.where(created_at: range)
-      exclude_proxy_chats? ? scope.joins(:conversation).where(conversations: { proxied_at: nil }) : scope
+      scope = scope.joins(:conversation).where(conversations: { proxied_at: nil }) if exclude_proxy_chats?
+      scope = scope.distinct_resolutions(user_ids: params[:user_ids]&.reject(&:blank?)) if distinct_resolutions?
+      scope
     end
+  end
+
+  # Resolution events exist once per participating agent; aggregates that are not grouped by
+  # agent must count each resolution once. AgentSummaryBuilder keeps every row.
+  def distinct_resolutions?
+    true
   end
 
   def filtered_reporting_events

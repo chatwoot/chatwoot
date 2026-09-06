@@ -21,6 +21,10 @@ class V2::Reports::AgentSummaryBuilder < V2::Reports::BaseSummaryBuilder
     filtered_conversations.group('assignee_id').count
   end
 
+  def distinct_resolutions?
+    false
+  end
+
   def fetch_agent_chat_duration
     scope = account.reporting_events.where(name: :agent_chat_duration, created_at: range)
     scope = apply_filters(scope)

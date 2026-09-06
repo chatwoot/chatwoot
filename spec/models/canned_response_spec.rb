@@ -83,6 +83,26 @@ RSpec.describe CannedResponse, type: :model do
         expect(account.canned_responses.accessible_to(user)).to include(owned)
       end
 
+      it 'includes private response scoped only to the user team' do
+        create(:team_member, team: team, user: user)
+        create(:canned_response_scope, canned_response: private_response, team_ids: [team.id])
+        expect(described_class.accessible_to(user)).to include(private_response)
+      end
+
+      it 'includes private response scoped only to an inbox the user belongs to' do
+        create(:inbox_member, inbox: inbox, user: user)
+        create(:canned_response_scope, canned_response: private_response, inbox_ids: [inbox.id])
+        expect(described_class.accessible_to(user)).to include(private_response)
+        expect(described_class.accessible_to(user, inbox_id: inbox.id)).to include(private_response)
+      end
+
+      it 'excludes private response scoped to another inbox when composing in a given inbox' do
+        other_inbox = create(:inbox, account: account)
+        create(:inbox_member, inbox: inbox, user: user)
+        create(:canned_response_scope, canned_response: private_response, inbox_ids: [inbox.id])
+        expect(described_class.accessible_to(user, inbox_id: other_inbox.id)).not_to include(private_response)
+      end
+
       it 'does not duplicate results' do
         create(:canned_response_scope, canned_response: private_response, user_ids: [user.id])
         results = described_class.accessible_to(user)

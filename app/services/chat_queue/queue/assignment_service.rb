@@ -79,13 +79,14 @@ class ChatQueue::Queue::AssignmentService
 
     return true if limit.nil?
 
-    active_chats = Conversation
-                   .where(account_id: account.id, assignee_id: agent.id, status: :open)
-                   .lock('FOR UPDATE')
-                   .pluck(:id)
+    # Locking the agent's open conversations does not serialise concurrent assignments while
+    # the agent has none (no rows, no lock), so lock the agent's account membership row instead.
+    AccountUser.lock.find_by(account_id: account.id, user_id: agent.id)
 
-    available = active_chats.size < limit
-    Rails.logger.info("[QUEUE][limit_check][agent=#{agent.id}] active=#{active_chats.size}, available=#{available}")
+    active_chats = Conversation.where(account_id: account.id, assignee_id: agent.id, status: :open).count
+
+    available = active_chats < limit
+    Rails.logger.info("[QUEUE][limit_check][agent=#{agent.id}] active=#{active_chats}, available=#{available}")
 
     available
   end

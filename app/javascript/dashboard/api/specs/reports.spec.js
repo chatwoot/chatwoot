@@ -1,7 +1,7 @@
 import reportsAPI from '../reports';
 import ApiClient from '../ApiClient';
 
-const timezoneOffset = () => -new Date().getTimezoneOffset() / 60;
+const timezoneOffset = () => 0;
 
 describe('#Reports API', () => {
   it('creates correct instance', () => {
@@ -151,13 +151,7 @@ describe('#Reports API', () => {
       });
     });
 
-    it('#getAgentReports', () => {
-      reportsAPI.getAgentReports({
-        from: 1621103400,
-        to: 1621621800,
-        businessHours: true,
-      });
-
+    describe('#getAgentReports with xlsx format', () => {
       it('calls API with xlsx format', () => {
         reportsAPI.getAgentReports({
           from: 1621103400,

@@ -115,6 +115,32 @@ RSpec.describe Contact do
     end
   end
 
+  describe '#blocked?' do
+    let(:contact) { create(:contact) }
+
+    it 'returns false when the contact is not blocked' do
+      expect(contact.blocked?).to be(false)
+    end
+
+    it 'returns true for a permanent block' do
+      contact.update!(blocked: true)
+      expect(contact.blocked?).to be(true)
+    end
+
+    it 'returns true while a temporary block is active' do
+      contact.update!(blocked: true, blocked_until: 1.hour.from_now)
+      expect(contact.blocked?).to be(true)
+    end
+
+    it 'lifts an expired temporary block' do
+      contact.update!(blocked: true, blocked_until: 1.hour.ago)
+
+      expect(contact.blocked?).to be(false)
+      expect(contact.reload.blocked).to be(false)
+      expect(contact.blocked_until).to be_nil
+    end
+  end
+
   describe '.resolved_contacts' do
     let(:account) { create(:account) }
 

@@ -14,6 +14,26 @@ RSpec.describe V2::Reports::TeamSummaryBuilder do
   let(:builder) { described_class.new(account: account, params: params) }
 
   describe '#build' do
+    context 'when a resolution is attributed to several participants' do
+      let(:business_hours) { false }
+
+      before do
+        conversation = create(:conversation, account: account, team: team1, created_at: Time.current)
+        resolved_at = Time.current
+        2.times do
+          create(:reporting_event, account: account, conversation: conversation, name: 'conversation_resolved',
+                                   value: 50, value_in_business_hours: 40, event_end_time: resolved_at, created_at: Time.current)
+        end
+      end
+
+      it 'counts the conversation once' do
+        team_report = builder.build.find { |row| row[:id] == team1.id }
+
+        expect(team_report[:resolved_conversations_count]).to eq(1)
+        expect(team_report[:avg_resolution_time]).to eq(50.0)
+      end
+    end
+
     context 'when there is team data' do
       before do
         c1 = create(:conversation, account: account, team: team1, created_at: Time.current)

@@ -70,7 +70,7 @@ class Reports::RawDataSource < Reports::DataSource
                 .where(conversations: { proxied_at: nil })
     base = base.where(conversations: { inbox_id: inbox_ids }) if account_scope? && inbox_ids.present?
     base = base.where(user_id: user_ids) if account_scope? && user_ids.present?
-    base
+    distinct_resolutions(base, user_ids: account_scope? ? user_ids : nil)
   end
 
   # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity -- per-metric scopes with proxy/inbox/agent filters
@@ -108,12 +108,12 @@ class Reports::RawDataSource < Reports::DataSource
   # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
 
   def reporting_event_count_scope
-    events = apply_conversation_filters(
-      scope.reporting_events
-           .where(name: raw_event_name, account_id: account.id, created_at: range)
-           .joins(:conversation)
-           .where(conversations: { proxied_at: nil })
-    )
+    events = distinct_resolutions(apply_conversation_filters(
+                                    scope.reporting_events
+                                         .where(name: raw_event_name, account_id: account.id, created_at: range)
+                                         .joins(:conversation)
+                                         .where(conversations: { proxied_at: nil })
+                                  ))
 
     return events.where.not(conversation_id: bot_handoff_conversation_ids_subquery) if raw_count_strategy == :exclude_bot_handoffs
     return events unless raw_count_strategy == :distinct_conversation
@@ -139,10 +139,8 @@ class Reports::RawDataSource < Reports::DataSource
   end
 
   def summary_scope
-    base_scope = account.reporting_events
-                        .where(created_at: range)
-                        .joins(:conversation)
-                        .where(conversations: { proxied_at: nil })
+    events = account.reporting_events.where(created_at: range).joins(:conversation).where(conversations: { proxied_at: nil })
+    base_scope = distinct_resolutions(events)
     return base_scope.references(:conversation) if dimension_type == 'team'
 
     base_scope

@@ -35,7 +35,7 @@ class Conversations::AgentAccessService
 
     cutoff = days.days.ago
     conversations.where(
-      'conversations.status != :resolved OR conversations.created_at >= :cutoff',
+      'conversations.status != :resolved OR COALESCE(conversations.resolved_at, conversations.created_at) >= :cutoff',
       resolved: Conversation.statuses[:resolved],
       cutoff: cutoff
     )
@@ -66,6 +66,6 @@ class Conversations::AgentAccessService
     days = self.class.history_days(account)
     return true if days.zero?
 
-    conversation.created_at >= days.days.ago
+    (conversation.resolved_at || conversation.created_at) >= days.days.ago
   end
 end

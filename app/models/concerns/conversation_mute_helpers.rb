@@ -24,15 +24,10 @@ module ConversationMuteHelpers
     create_unmuted_message
   end
 
+  # Expiry of a timed block lives in Contact#blocked? (ContactBlockable), so callers that
+  # check the contact directly (channel services, notifications, CSAT) get the same answer.
   def muted?
-    return false unless contact&.blocked?
-
-    if contact.blocked_until.present? && contact.blocked_until < Time.current
-      unmute!
-      return false
-    end
-
-    true
+    contact&.blocked? || false
   end
 
   private

@@ -1,7 +1,9 @@
 /* global axios */
 import ApiClient from './ApiClient';
 
-const getTimeOffset = () => -new Date().getTimezoneOffset() / 60;
+// The reports UI works in UTC: ranges are built with Date.UTC and bucket timestamps
+// are rendered with the UTC getters, so the API is asked for UTC buckets as well.
+const getTimeOffset = () => 0;
 
 class ReportsAPI extends ApiClient {
   constructor() {

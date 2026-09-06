@@ -2,7 +2,7 @@ class Api::V1::Accounts::Conversations::ForceTransfersController < Api::V1::Acco
   before_action :set_conversation
 
   def create
-    authorize @conversation.inbox, :show?
+    authorize @conversation, :update?
 
     result = ChatQueue::ForceTransferService.new(
       conversation: @conversation,

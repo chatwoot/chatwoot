@@ -60,6 +60,27 @@ class ReportingEvent < ApplicationRecord
   scope :filter_by_name, lambda { |name|
     where(name: name) if name.present?
   }
+
+  RESOLUTION_EVENT_NAMES = %w[conversation_resolved resolution_time_without_bot].freeze
+
+  # Resolution events are stored once per participating agent so that agent reports credit
+  # everyone who worked on the conversation. Every other aggregate must see each resolution
+  # (conversation + resolution time) once, so keep the first row of each group. When the
+  # caller filters rows by agent, the group is restricted to those agents' rows.
+  scope :distinct_resolutions, lambda { |user_ids: nil|
+    agent_filter = user_ids.present? ? sanitize_sql_array(['AND earlier.user_id IN (?)', user_ids.map(&:to_i)]) : ''
+
+    where(<<~SQL.squish, names: RESOLUTION_EVENT_NAMES)
+      reporting_events.name NOT IN (:names) OR NOT EXISTS (
+        SELECT 1 FROM reporting_events earlier
+        WHERE earlier.conversation_id = reporting_events.conversation_id
+          AND earlier.name = reporting_events.name
+          AND earlier.event_end_time = reporting_events.event_end_time
+          AND earlier.id < reporting_events.id
+          #{agent_filter}
+      )
+    SQL
+  }
   scope :filter_by_label_ids, lambda { |label_ids, account_id|
     return all if label_ids.blank?
 

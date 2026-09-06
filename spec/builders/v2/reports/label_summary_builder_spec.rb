@@ -31,9 +31,9 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
       expect(builder.params).to eq(params)
     end
 
-    it 'keeps UTC timezone regardless of timezone_offset' do
+    it 'sets timezone from timezone_offset' do
       builder_with_offset = described_class.new(account: account, params: { timezone_offset: -8 })
-      expect(builder_with_offset.instance_variable_get(:@timezone)).to eq('UTC')
+      expect(builder_with_offset.instance_variable_get(:@timezone)).to eq('Pacific Time (US & Canada)')
     end
 
     it 'defaults timezone when timezone_offset is not provided' do

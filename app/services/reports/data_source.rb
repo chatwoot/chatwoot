@@ -57,10 +57,17 @@ class Reports::DataSource
   end
 
   def timezone
-    'UTC'
+    @timezone ||= timezone_name_from_offset(timezone_offset)
   end
 
   def use_business_hours?
     ActiveModel::Type::Boolean.new.cast(business_hours)
+  end
+
+  # Resolution events exist once per participating agent; only the agent dimension keeps every row.
+  def distinct_resolutions(relation, user_ids: nil)
+    return relation if dimension_type == 'agent'
+
+    relation.distinct_resolutions(user_ids: user_ids)
   end
 end

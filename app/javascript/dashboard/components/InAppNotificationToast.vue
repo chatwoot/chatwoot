@@ -12,8 +12,6 @@ const router = useRouter();
 const store = useStore();
 
 const notifications = ref([]);
-const isDark = ref(document.documentElement.classList.contains('dark'));
-let themeObserver = null;
 
 const displayDuration = computed(
   () =>
@@ -94,73 +92,29 @@ const openConversation = notif => {
 
 onMounted(() => {
   emitter.on(BUS_EVENTS.NEW_NOTIFICATION, handleNewNotification);
-  themeObserver = new MutationObserver(() => {
-    isDark.value = document.documentElement.classList.contains('dark');
-  });
-  themeObserver.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['class'],
-  });
 });
 
 onUnmounted(() => {
   emitter.off(BUS_EVENTS.NEW_NOTIFICATION, handleNewNotification);
-  themeObserver?.disconnect();
 });
 </script>
 
 <template>
-  <teleport to="body">
-    <div class="cw-notification-stack" :class="{ dark: isDark }">
-      <transition-group name="cw-notif" tag="div">
-        <NotificationCard
-          v-for="notif in notifications"
-          :key="notif.id"
-          :notif="notif"
-          :display-duration="displayDuration"
-          @close="removeNotification"
-          @open="openConversation"
-        />
-      </transition-group>
-    </div>
-  </teleport>
+  <Teleport to="body">
+    <TransitionGroup
+      tag="div"
+      class="fixed bottom-6 ltr:right-6 rtl:left-6 z-[9999] flex flex-col gap-2.5 pointer-events-none"
+      enter-active-class="animate-toast-in"
+      leave-active-class="animate-toast-out"
+    >
+      <NotificationCard
+        v-for="notif in notifications"
+        :key="notif.id"
+        :notif="notif"
+        :display-duration="displayDuration"
+        @close="removeNotification"
+        @open="openConversation"
+      />
+    </TransitionGroup>
+  </Teleport>
 </template>
-
-<style scoped>
-.cw-notification-stack {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 99999;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  pointer-events: none;
-}
-.cw-notif-enter-active {
-  animation: cw-slide-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.cw-notif-leave-active {
-  animation: cw-slide-out 0.25s ease-in forwards;
-}
-@keyframes cw-slide-in {
-  from {
-    opacity: 0;
-    transform: translateX(110%) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-}
-@keyframes cw-slide-out {
-  from {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(110%) scale(0.95);
-  }
-}
-</style>

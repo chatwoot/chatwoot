@@ -23,7 +23,9 @@ module Contact::Events
   end
 
   def dispatch_destroy_event
-    Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
+    # Pass serialized data instead of the record: the async EventDispatcherJob may run after the
+    # contact row is gone and would otherwise fail with a DeserializationError.
+    Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact_data: push_event_data.merge(account_id: account_id))
   end
 
   def ip_lookup
