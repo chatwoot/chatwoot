@@ -1,7 +1,9 @@
 <script setup>
-import { ref, computed, watch, onBeforeUnmount } from 'vue';
+import { ref, computed, watch, onBeforeUnmount, useTemplateRef } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
+import { onBeforeRouteLeave } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
@@ -54,6 +56,15 @@ const localTitle = ref(effectiveTitle());
 const localContent = ref(effectiveContent());
 
 const diffPanelRef = ref(null);
+const editorRef = useTemplateRef('editorRef');
+
+const hasPendingUploads = () => !!editorRef.value?.hasPendingUploads();
+
+onBeforeRouteLeave(() => {
+  if (!hasPendingUploads()) return true;
+  useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
+  return false;
+});
 
 // Autosave 500ms after the last edit. It sends both title and content so an
 // edit to one never drops a recent edit to the other. `stop` cancels a queued
@@ -72,11 +83,19 @@ const {
   { immediate: false }
 );
 
+// Definitive reseeds bump the id so the editor reloads instead of guessing echoes.
+const editorResets = ref(0);
+
 const syncLocalState = () => {
   cancelSave();
   localTitle.value = effectiveTitle();
   localContent.value = effectiveContent();
+  editorResets.value += 1;
 };
+
+const editorSessionId = computed(
+  () => `${props.article?.id || 'new'}-${editorResets.value}`
+);
 
 // Reseed on article switch or once a draft is published/discarded; close the
 // diff panel in the latter case since there's nothing left to compare.
@@ -91,6 +110,20 @@ watch(
 const scheduleSave = () => {
   if (isNewArticle.value) return;
   debouncedSave();
+};
+
+// A create blocked by uploads re-runs on the next content change once they
+// settle — upload completion and card removal both land here as doc changes.
+const pendingCreate = ref(false);
+
+const retryPendingCreate = () => {
+  if (!pendingCreate.value || hasPendingUploads()) return;
+  pendingCreate.value = false;
+  if (!localTitle.value.trim()) return;
+  emit('createArticle', {
+    title: localTitle.value,
+    content: localContent.value,
+  });
 };
 
 // Flush a queued save on unmount so leaving the editor doesn't drop the last edit.
@@ -115,6 +148,7 @@ const articleContent = computed({
   get: () => localContent.value,
   set: content => {
     localContent.value = content;
+    retryPendingCreate();
     scheduleSave();
   },
 });
@@ -138,9 +172,14 @@ const previewArticle = () => {
 const handleCreateArticle = event => {
   if (!isNewArticle.value) return;
   const title = event?.target?.value || '';
-  if (title.trim()) {
-    emit('createArticle', { title, content: localContent.value });
+  if (!title.trim()) return;
+  // Creating navigates to the edit route, which would unmount mid-upload.
+  if (hasPendingUploads()) {
+    pendingCreate.value = true;
+    useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
+    return;
   }
+  emit('createArticle', { title, content: localContent.value });
 };
 </script>
 
@@ -154,6 +193,7 @@ const handleCreateArticle = event => {
         :article-id="article.id"
         :pending-changes="hasPendingChanges"
         :is-saving="isSaving"
+        :has-pending-uploads="hasPendingUploads"
         @go-back="onClickGoBack"
         @preview-article="previewArticle"
         @show-diff="diffPanelRef?.open()"
@@ -180,7 +220,9 @@ const handleCreateArticle = event => {
         />
       </div>
       <FullEditor
+        ref="editorRef"
         v-model="articleContent"
+        :editor-id="editorSessionId"
         class="py-0 pb-10 pl-4 rtl:pr-4 rtl:pl-0 h-fit"
         :placeholder="
           t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.EDITOR_PLACEHOLDER')

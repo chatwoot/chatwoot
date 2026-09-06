@@ -418,6 +418,7 @@
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
           "WAITING_FOR_AUTH": "Waiting for authentication...",
           "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "UNSUPPORTED_COMPLETION": "The Meta setup finished without a WhatsApp phone number that can be connected. Please run the setup again and add a phone number.",
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
@@ -611,7 +612,8 @@
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "Connect your TikTok account",
+            "ACCESS_REQUEST_DESCRIPTION": "Contact our support team to request TikTok access"
           },
           "VOICE": {
             "TITLE": "Voice",
@@ -772,6 +774,14 @@
       "INBOUND": {
         "LABEL": "Allow incoming calls",
         "DESCRIPTION": "Let customers call this number. When turned off, incoming calls are declined automatically — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
+      },
+      "RECORDING": {
+        "LABEL": "Record calls",
+        "DESCRIPTION": "Record calls and attach the recording to the conversation. Turn this off where recording calls isn't permitted."
+      },
+      "TRANSCRIPTION": {
+        "LABEL": "Transcribe recordings",
+        "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
       }
     },
     "WHATSAPP_CALLING": {

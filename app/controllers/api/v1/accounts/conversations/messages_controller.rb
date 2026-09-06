@@ -94,3 +94,5 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     render json: { error: 'Message status update is only allowed for API inboxes' }, status: :forbidden unless @conversation.inbox.api?
   end
 end
+
+Api::V1::Accounts::Conversations::MessagesController.prepend_mod_with('Api::V1::Accounts::Conversations::MessagesController')

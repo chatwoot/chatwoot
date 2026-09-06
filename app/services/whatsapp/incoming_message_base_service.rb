@@ -5,20 +5,21 @@ class Whatsapp::IncomingMessageBaseService
   include ::Whatsapp::IncomingMessageServiceHelpers
   include ::Whatsapp::IncomingMessageIdentifierHelper
 
-  pattr_initialize [:inbox!, :params!, :outgoing_echo]
+  pattr_initialize [:inbox!, :params!, :outgoing_echo, { locked_sender_id: nil }]
 
   def perform
     processed_params
 
-    if processed_params.try(:[], :statuses).present?
-      process_statuses
-    elsif messages_data.present?
-      process_messages
-    end
+    return process_statuses if processed_params.try(:[], :statuses).present?
+
+    process_identity_change_messages
+    return process_messages if messages_data.present?
   end
 
   # Returns messages array for both regular messages and echo events
   def messages_data
+    return @messages_data if defined?(@messages_data)
+
     @processed_params&.dig(:messages) || @processed_params&.dig(:message_echoes)
   end
 
@@ -226,19 +227,20 @@ class Whatsapp::IncomingMessageBaseService
     return if profile_name.blank?
     return if @contact.name == profile_name
 
-    # Only update if current name exactly matches the phone number or formatted phone number
+    # Only update if current name exactly matches a phone number candidate
     return unless contact_name_matches_phone_number?
 
     @contact.update!(name: profile_name)
   end
 
   def contact_name_matches_phone_number?
-    message_phone_number = whatsapp_phone_number(messages_data.first[:from])
-    return false if message_phone_number.blank?
+    return false if (message_phone_number = whatsapp_phone_number(messages_data.first[:from])).blank?
 
-    phone_number = "+#{message_phone_number}"
-    formatted_phone_number = TelephoneNumber.parse(phone_number).international_number
-    @contact.name == phone_number || @contact.name == formatted_phone_number
+    phone_number_candidates(message_phone_number).any? do |number|
+      phone_number = "+#{number}"
+      formatted_phone_number = TelephoneNumber.parse(phone_number).international_number
+      @contact.name == phone_number || @contact.name == formatted_phone_number
+    end
   end
 end
 

@@ -136,8 +136,8 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
 
-  def setup_webhooks
-    perform_webhook_setup
+  def setup_webhooks(is_coexistence: nil)
+    perform_webhook_setup(is_coexistence: is_coexistence)
   rescue StandardError => e
     Rails.logger.error "[WHATSAPP] Webhook setup failed: #{e.message}"
     prompt_reauthorization!
@@ -163,12 +163,12 @@ class Channel::Whatsapp < ApplicationRecord
     Rails.logger.info("[WHATSAPP_EMBEDDED_TO_MANUAL] success account_id=#{account_id} channel_id=#{id}")
   end
 
-  def perform_webhook_setup
-    webhook_setup_service.perform
+  def perform_webhook_setup(is_coexistence: nil)
+    webhook_setup_service(is_coexistence: is_coexistence).perform
   end
 
-  def webhook_setup_service
-    Whatsapp::WebhookSetupService.new(self, provider_config['business_account_id'], provider_config['api_key'])
+  def webhook_setup_service(is_coexistence: nil)
+    Whatsapp::WebhookSetupService.new(self, provider_config['business_account_id'], provider_config['api_key'], is_coexistence: is_coexistence)
   end
 
   def teardown_webhooks
