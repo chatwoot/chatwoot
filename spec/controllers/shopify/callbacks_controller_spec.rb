@@ -3,8 +3,9 @@ require 'rails_helper'
 RSpec.describe Shopify::CallbacksController, type: :request do
   let(:account) { create(:account) }
   let(:code) { SecureRandom.hex(10) }
-  let(:state) { SecureRandom.hex(10) }
+  let(:state) { 'header.payload.signature' }
   let(:shop) { 'my-store.myshopify.com' }
+  let(:host) { 'YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvbXktc3RvcmU=' }
   let(:client_secret) { 'test_secret_key_1234567890' }
   let(:frontend_url) { 'http://www.example.com' }
   let(:shopify_redirect_uri) { "#{frontend_url}/app/accounts/#{account.id}/settings/integrations/shopify" }
@@ -20,8 +21,12 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
   # Helper to compute HMAC for test requests (matches Shopify's algorithm)
   def compute_hmac(params, secret)
-    query_string = params.except(:hmac).sort.map { |k, v| "#{k}=#{v}" }.join('&')
+    query_string = URI.encode_www_form(params.except(:hmac).sort)
     OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('SHA256'), secret, query_string)
+  end
+
+  def generated_state
+    'b' * 32
   end
 
   describe 'GET /shopify/callback' do
@@ -65,7 +70,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       end
 
       it 'creates a new integration hook' do
-        params = { code: code, state: state, shop: shop }
+        params = { code: code, host: host, state: state, shop: shop }
         params[:hmac] = compute_hmac(params, client_secret)
 
         expect do
@@ -126,8 +131,11 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       end
     end
 
-    context 'when state parameter is invalid' do
+    context 'when Shopify initiates the installation' do
+      let(:state) { SecureRandom.hex(16) }
+
       before do
+        @generated_state = 'b' * 32
         # rubocop:disable RSpec/AnyInstance, RSpec/DescribedClass
         # Explicit class name and any_instance required for parallel CI stability
         allow_any_instance_of(Shopify::CallbacksController).to receive(:verify_shopify_token).and_return(nil)
@@ -136,15 +144,61 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         # rubocop:enable RSpec/AnyInstance, RSpec/DescribedClass
         allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
         allow(auth_code_strategy).to receive(:get_token).and_return(token_response)
+        Redis::SecureStorage.set("shopify_oauth_state:#{state}", { shop: shop }, 10.minutes)
       end
 
-      it 'handles as Shopify-initiated install and redirects to login with pending install token' do
-        params = { code: code, state: state, shop: shop }
+      after { Redis::SecureStorage.delete("shopify_oauth_state:#{state}") }
+
+      it 'exchanges the code and redirects to login with a pending install token' do
+        params = { code: code, host: host, state: state, shop: shop }
         params[:hmac] = compute_hmac(params, client_secret)
 
         get shopify_callback_path, params: params
         expect(response).to redirect_to(%r{#{Regexp.escape(frontend_url)}/app/login\?redirect_url=})
         expect(CGI.unescape(response.location)).to include('shopify_pending_install=')
+      end
+
+      it 'rejects a callback whose OAuth state is not stored' do
+        Redis::SecureStorage.delete("shopify_oauth_state:#{state}")
+        params = { code: code, host: host, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
+
+        expect(response).to redirect_to("#{frontend_url}?error=true")
+        expect(auth_code_strategy).not_to have_received(:get_token)
+      end
+    end
+
+    context 'when Shopify opens the app URL before authorization' do
+      let(:authorization_url) { "https://#{shop}/admin/oauth/authorize?client_id=test" }
+
+      before do
+        # rubocop:disable RSpec/AnyInstance, RSpec/DescribedClass
+        allow_any_instance_of(Shopify::CallbacksController).to receive(:verify_shopify_token).and_return(nil)
+        allow_any_instance_of(Shopify::CallbacksController).to receive(:oauth_client).and_return(oauth_client)
+        allow_any_instance_of(Shopify::CallbacksController).to receive(:client_secret).and_return(client_secret)
+        # rubocop:enable RSpec/AnyInstance, RSpec/DescribedClass
+        allow(SecureRandom).to receive(:hex).with(16).and_return(generated_state)
+        allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
+        allow(auth_code_strategy).to receive(:authorize_url).and_return(authorization_url)
+      end
+
+      after { Redis::SecureStorage.delete("shopify_oauth_state:#{generated_state}") }
+
+      it 'starts OAuth with a stored nonce instead of exchanging a missing code' do
+        params = { host: host, shop: shop, timestamp: Time.current.to_i.to_s }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
+
+        expect(response).to redirect_to(authorization_url)
+        expect(auth_code_strategy).to have_received(:authorize_url).with(
+          redirect_uri: "#{frontend_url}/shopify/callback",
+          scope: Shopify::IntegrationHelper::REQUIRED_SCOPES.join(','),
+          state: generated_state
+        )
+        expect(JSON.parse(Redis::SecureStorage.get("shopify_oauth_state:#{generated_state}"))).to eq('shop' => shop)
       end
     end
   end

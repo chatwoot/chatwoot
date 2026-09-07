@@ -10,6 +10,7 @@ import SessionStorage from 'shared/helpers/sessionStorage';
 import { useBranding } from 'shared/composables/useBranding';
 import AnalyticsHelper from 'dashboard/helper/AnalyticsHelper';
 import { SESSION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { getLoginRedirectURL, getSignupRoute } from 'v3/helpers/AuthHelper';
 
 // components
 import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
@@ -107,6 +108,9 @@ export default {
     },
     showSamlLogin() {
       return this.allowedLoginMethods.includes('saml');
+    },
+    signupRoute() {
+      return getSignupRoute(this.redirectUrl);
     },
   },
   created() {
@@ -231,10 +235,15 @@ export default {
 
       this.submitLogin();
     },
-    handleMfaVerified() {
+    handleMfaVerified(responseData) {
       // MFA verification successful, continue with login
       this.handleImpersonation();
-      window.location = '/app';
+      window.location = getLoginRedirectURL({
+        ssoAccountId: this.ssoAccountId,
+        ssoConversationId: this.ssoConversationId,
+        redirectUrl: this.redirectUrl,
+        user: responseData?.data,
+      });
     },
     handleMfaCancel() {
       // User cancelled MFA, reset state
@@ -251,6 +260,7 @@ export default {
         sso_auth_token: this.ssoAuthToken,
         ssoAccountId: this.ssoAccountId,
         ssoConversationId: this.ssoConversationId,
+        redirectUrl: this.redirectUrl,
         ...extraParams,
       };
 
@@ -312,7 +322,7 @@ export default {
       </h2>
       <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
         {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="lowercase text-link text-n-brand">
+        <router-link :to="signupRoute" class="lowercase text-link text-n-brand">
           {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
@@ -348,7 +358,10 @@ export default {
     >
       <div v-if="!email">
         <div class="flex flex-col gap-4">
-          <GoogleOAuthButton v-if="showGoogleOAuth" />
+          <GoogleOAuthButton
+            v-if="showGoogleOAuth"
+            :redirect-url="redirectUrl"
+          />
           <div v-if="showSamlLogin" class="text-center">
             <router-link
               to="/app/login/sso"

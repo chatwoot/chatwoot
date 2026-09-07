@@ -6,6 +6,33 @@ export const hasAuthCookie = () => {
   return !!Cookies.get('cw_d_session_info');
 };
 
+const SHOPIFY_INSTALL_REDIRECT_PATTERN =
+  /^settings\/integrations\/shopify\?shopify_pending_install=([0-9a-f]{32})$/;
+
+export const isShopifyInstallRedirect = redirectUrl =>
+  SHOPIFY_INSTALL_REDIRECT_PATTERN.test(redirectUrl || '');
+
+export const getSignupRoute = redirectUrl => {
+  const match = (redirectUrl || '').match(SHOPIFY_INSTALL_REDIRECT_PATTERN);
+  const signupRoute = { name: 'auth_signup' };
+
+  return match
+    ? { ...signupRoute, query: { shopify_pending_install: match[1] } }
+    : signupRoute;
+};
+
+const getShopifyInstallAccount = ({ accounts, accountId }) => {
+  const canManageShopify = account =>
+    account.role === 'administrator' && account.status === 'active';
+  const currentAccount = accounts.find(
+    account => account.id === Number(accountId)
+  );
+
+  return canManageShopify(currentAccount || {})
+    ? currentAccount
+    : accounts.find(canManageShopify);
+};
+
 const getSSOAccountPath = ({ ssoAccountId, user }) => {
   const { accounts = [], account_id = null } = user || {};
   const ssoAccount = accounts.find(
@@ -45,9 +72,12 @@ export const getLoginRedirectURL = ({
 }) => {
   if (redirectUrl) {
     const { accounts = [], account_id = null } = user || {};
-    const accountId = account_id || accounts[0]?.id;
-    if (accountId) {
-      return frontendURL(`accounts/${accountId}/${redirectUrl}`);
+    const targetAccount = isShopifyInstallRedirect(redirectUrl)
+      ? getShopifyInstallAccount({ accounts, accountId: account_id })
+      : accounts.find(account => account.id === Number(account_id)) ||
+        accounts[0];
+    if (targetAccount) {
+      return frontendURL(`accounts/${targetAccount.id}/${redirectUrl}`);
     }
   }
   const accountPath = getSSOAccountPath({ ssoAccountId, user });

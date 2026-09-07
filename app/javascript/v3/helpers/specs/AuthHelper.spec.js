@@ -1,4 +1,8 @@
-import { getLoginRedirectURL, getCredentialsFromEmail } from '../AuthHelper';
+import {
+  getLoginRedirectURL,
+  getCredentialsFromEmail,
+  getSignupRoute,
+} from '../AuthHelper';
 
 describe('#URL Helpers', () => {
   describe('getLoginRedirectURL', () => {
@@ -38,6 +42,52 @@ describe('#URL Helpers', () => {
         })
       ).toBe('/app/accounts/7501/dashboard');
       expect(getLoginRedirectURL('7500', null)).toBe('/app/');
+    });
+
+    it('selects an active administrator for a pending Shopify install', () => {
+      const token = 'a'.repeat(32);
+      expect(
+        getLoginRedirectURL({
+          redirectUrl: `settings/integrations/shopify?shopify_pending_install=${token}`,
+          user: {
+            account_id: 1,
+            accounts: [
+              { id: 1, role: 'agent', status: 'active' },
+              { id: 2, role: 'administrator', status: 'active' },
+            ],
+          },
+        })
+      ).toBe(
+        `/app/accounts/2/settings/integrations/shopify?shopify_pending_install=${token}`
+      );
+    });
+
+    it('falls back to the dashboard when no account can manage the install', () => {
+      const token = 'a'.repeat(32);
+      expect(
+        getLoginRedirectURL({
+          redirectUrl: `settings/integrations/shopify?shopify_pending_install=${token}`,
+          user: {
+            account_id: 1,
+            accounts: [{ id: 1, role: 'agent', status: 'active' }],
+          },
+        })
+      ).toBe('/app/accounts/1/dashboard');
+    });
+  });
+
+  describe('getSignupRoute', () => {
+    it('preserves a pending Shopify install token through signup', () => {
+      const token = 'a'.repeat(32);
+
+      expect(
+        getSignupRoute(
+          `settings/integrations/shopify?shopify_pending_install=${token}`
+        )
+      ).toEqual({
+        name: 'auth_signup',
+        query: { shopify_pending_install: token },
+      });
     });
   });
 

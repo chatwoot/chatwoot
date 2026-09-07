@@ -2,19 +2,33 @@
 
 class AccountBuilder
   include CustomExceptions::Account
-  pattr_initialize [:account_name, :email!, :confirmed, :user, :user_full_name, :user_password, :super_admin, :locale]
+  pattr_initialize [
+    :account_name,
+    :email!,
+    :confirmed,
+    :user,
+    :user_full_name,
+    :user_password,
+    :super_admin,
+    :locale,
+    :shopify_pending_install_token
+  ]
 
   def perform
     if @user.nil?
       validate_email
       validate_user
     end
+    claim_shopify_installation
     ActiveRecord::Base.transaction do
       @account = create_account
       @user = create_and_link_user
+      bind_shopify_installation
     end
+    finalize_shopify_installation
     [@user, @account]
   rescue StandardError => e
+    @pending_installation&.release!(unbind: true)
     Rails.logger.debug e.inspect
     raise e
   end
@@ -50,6 +64,32 @@ class AccountBuilder
       custom_attributes: { 'onboarding_step' => 'account_details' }
     )
     Current.account = @account
+  end
+
+  def claim_shopify_installation
+    return if @shopify_pending_install_token.blank?
+
+    @pending_installation = Shopify::PendingInstallation.claim(token: @shopify_pending_install_token)
+  end
+
+  def bind_shopify_installation
+    return unless @pending_installation
+
+    @pending_installation.bind_to_account!(@account.id)
+    data = @pending_installation.data
+    @account.hooks.create!(
+      app_id: 'shopify',
+      access_token: data['access_token'],
+      status: 'enabled',
+      reference_id: data['shop'],
+      settings: { scope: data['scope'] }
+    )
+  end
+
+  def finalize_shopify_installation
+    @pending_installation&.consume!
+  rescue Shopify::PendingInstallation::Error => e
+    ChatwootExceptionTracker.new(e, account: @account).capture_exception
   end
 
   def create_and_link_user

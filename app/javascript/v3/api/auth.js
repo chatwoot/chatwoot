@@ -63,13 +63,17 @@ export const login = async ({
 export const register = async creds => {
   try {
     const { fullName, accountName } = getCredentialsFromEmail(creds.email);
-    const response = await wootAPI.post('api/v1/accounts.json', {
+    const payload = {
       account_name: accountName,
       user_full_name: fullName,
       email: creds.email,
       password: creds.password,
       h_captcha_client_response: creds.hCaptchaClientResponse,
-    });
+    };
+    if (creds.shopifyPendingInstallToken) {
+      payload.shopify_pending_install_token = creds.shopifyPendingInstallToken;
+    }
+    const response = await wootAPI.post('api/v1/accounts.json', payload);
     return response.data;
   } catch (error) {
     throwErrorMessage(error);

@@ -58,5 +58,40 @@ RSpec.describe AccountBuilder do
         expect(account.custom_attributes['onboarding_step']).to eq('account_details')
       end
     end
+
+    context 'with a pending Shopify installation' do
+      let(:token) do
+        Shopify::PendingInstallation.create(
+          access_token: 'shopify-token',
+          shop: 'signup-store.myshopify.com',
+          scope: 'read_customers,read_orders'
+        )
+      end
+      let(:account_builder) do
+        described_class.new(
+          account_name: account_name,
+          email: email,
+          user_full_name: user_full_name,
+          user_password: user_password,
+          confirmed: true,
+          shopify_pending_install_token: token
+        )
+      end
+
+      after do
+        Redis::Alfred.delete("shopify_pending_install:#{token}")
+        Redis::Alfred.delete("shopify_pending_install_claim:#{token}")
+      end
+
+      it 'binds the store to the new account before consuming the token' do
+        _user, account = account_builder.perform
+
+        expect(account.hooks.find_by!(app_id: 'shopify')).to have_attributes(
+          reference_id: 'signup-store.myshopify.com',
+          access_token: 'shopify-token'
+        )
+        expect(Redis::SecureStorage.get("shopify_pending_install:#{token}")).to be_nil
+      end
+    end
   end
 end

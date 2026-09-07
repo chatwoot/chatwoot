@@ -9,10 +9,10 @@ import {
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
+import { useBranding } from 'shared/composables/useBranding';
 import Integration from './Integration.vue';
 import shopifyAPI from 'dashboard/api/integrations/shopify';
 
-import Button from 'dashboard/components-next/button/Button.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 
@@ -29,6 +29,7 @@ const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
+const { replaceInstallationName } = useBranding();
 const integration = useFunctionGetter('integrations/getIntegration', 'shopify');
 const uiFlags = useMapGetter('integrations/getUIFlags');
 
@@ -36,7 +37,7 @@ const integrationAction = computed(() => {
   if (integration.value.enabled) {
     return 'disconnect';
   }
-  return 'connect';
+  return integration.value.action;
 });
 
 const hook = computed(() => {
@@ -49,9 +50,11 @@ const storeDomain = computed(() => hook.value.reference_id || '');
 
 const formattedHelpText = computed(() => {
   return formatMessage(
-    t('INTEGRATION_SETTINGS.SHOPIFY.HELP_TEXT.BODY', {
-      storeDomain: storeDomain.value,
-    }),
+    replaceInstallationName(
+      t('INTEGRATION_SETTINGS.SHOPIFY.HELP_TEXT.BODY', {
+        storeDomain: storeDomain.value,
+      })
+    ),
     false
   );
 });
@@ -106,15 +109,7 @@ onMounted(() => {
             title: t('INTEGRATION_SETTINGS.SHOPIFY.DELETE.TITLE'),
             message: t('INTEGRATION_SETTINGS.SHOPIFY.DELETE.MESSAGE'),
           }"
-        >
-          <template #action>
-            <Button
-              teal
-              :label="t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT')"
-              @click="openStoreUrlDialog"
-            />
-          </template>
-        </Integration>
+        />
 
         <div
           v-if="integration.enabled"

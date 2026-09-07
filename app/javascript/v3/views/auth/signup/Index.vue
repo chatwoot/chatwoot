@@ -6,6 +6,13 @@ import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import signupBg from 'assets/images/auth/signup-bg.jpg';
 
+defineProps({
+  shopifyPendingInstall: {
+    type: String,
+    default: '',
+  },
+});
+
 const store = useStore();
 
 const isLoading = ref(false);
@@ -67,7 +74,7 @@ const resizeContainers = () => {
               </router-link>
             </p>
           </div>
-          <SignupForm />
+          <SignupForm :shopify-pending-install="shopifyPendingInstall" />
         </div>
       </div>
       <Testimonials

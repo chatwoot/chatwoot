@@ -4,6 +4,8 @@ class Shopify::CallbacksController < ApplicationController
   def show
     if chatwoot_initiated?
       handle_chatwoot_initiated_flow
+    elsif params[:code].blank?
+      handle_shopify_initiated_without_code
     else
       handle_shopify_initiated_flow
     end
@@ -14,41 +16,69 @@ class Shopify::CallbacksController < ApplicationController
 
   private
 
-  def chatwoot_initiated?
-    verify_shopify_token(params[:state]).present?
-  end
+  def chatwoot_initiated? = verified_account_id.present?
 
   def handle_chatwoot_initiated_flow
-    @account_id = verify_shopify_token(params[:state])
+    @account_id = verified_account_id
     raise StandardError, 'Invalid state parameter' if account.blank?
     raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
 
-    @response = oauth_client.auth_code.get_token(params[:code], redirect_uri: redirect_callback_uri)
+    exchange_access_token
     create_hook
     redirect_to shopify_integration_url
   end
 
   def handle_shopify_initiated_flow
-    raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
-    raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
+    prepare_shopify_initiated_flow
+    verify_shopify_oauth_state!
 
     # Security: HMAC validation ensures params (including shop) haven't been tampered with.
     # Additionally, the OAuth code is cryptographically bound to the shop that issued it.
     # Shopify will reject any attempt to exchange a code at a different shop's endpoint.
-    @response = oauth_client.auth_code.get_token(params[:code], redirect_uri: redirect_callback_uri)
+    exchange_access_token
 
-    token_key = SecureRandom.hex(16)
-    pending_data = {
+    token_key = Shopify::PendingInstallation.create(
       access_token: parsed_body['access_token'],
       shop: params[:shop],
-      scope: parsed_body['scope'],
-      claimed: false
-    }
-
-    Redis::SecureStorage.set("shopify_pending_install:#{token_key}", pending_data, 10.minutes)
+      scope: parsed_body['scope']
+    )
 
     redirect_url = "settings/integrations/shopify?shopify_pending_install=#{CGI.escape(token_key)}"
     redirect_to "#{frontend_url}/app/login?redirect_url=#{CGI.escape(redirect_url)}", allow_other_host: true
+  end
+
+  def handle_shopify_initiated_without_code
+    prepare_shopify_initiated_flow
+    state = SecureRandom.hex(16)
+    Redis::SecureStorage.set(oauth_state_key(state), { shop: params[:shop] }, 10.minutes)
+
+    authorization_url = oauth_client.auth_code.authorize_url(
+      redirect_uri: redirect_callback_uri,
+      scope: REQUIRED_SCOPES.join(','),
+      state: state
+    )
+    redirect_to authorization_url, allow_other_host: true
+  end
+
+  def prepare_shopify_initiated_flow
+    raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
+    raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
+  end
+
+  def verify_shopify_oauth_state!
+    state = params[:state].to_s
+    raise StandardError, 'Invalid state parameter' unless state.match?(/\A[0-9a-f]{32}\z/)
+
+    stored_state = JSON.parse(Redis::SecureStorage.get(oauth_state_key(state)).to_s)
+    raise StandardError, 'Invalid state parameter' unless stored_state['shop'] == params[:shop]
+
+    Redis::SecureStorage.delete(oauth_state_key(state))
+  rescue JSON::ParserError
+    raise StandardError, 'Invalid state parameter'
+  end
+
+  def exchange_access_token
+    @response = oauth_client.auth_code.get_token(params[:code], redirect_uri: redirect_callback_uri)
   end
 
   def create_hook
@@ -88,6 +118,12 @@ class Shopify::CallbacksController < ApplicationController
     @account ||= Account.find(@account_id)
   end
 
+  def verified_account_id
+    return unless params[:state].to_s.count('.') == 2
+
+    @verified_account_id ||= verify_shopify_token(params[:state])
+  end
+
   def redirect_callback_uri
     "#{frontend_url}/shopify/callback"
   end
@@ -112,6 +148,10 @@ class Shopify::CallbacksController < ApplicationController
     ENV.fetch('FRONTEND_URL', '')
   end
 
+  def oauth_state_key(state)
+    "shopify_oauth_state:#{state}"
+  end
+
   def valid_shop_domain?
     return false if params[:shop].blank?
 
@@ -120,15 +160,13 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def valid_hmac?
-    return false if params[:hmac].blank?
+    hmac = params[:hmac].to_s
+    return false unless hmac.match?(/\A[0-9a-f]{64}\z/)
 
     # Shopify HMAC validation
     # Reference: https://shopify.dev/docs/apps/build/authentication-authorization/get-access-tokens
-    hmac = params[:hmac]
-
-    # Build query string from params, excluding hmac and Rails-added params
-    query_params = params.except(:hmac, :controller, :action).to_unsafe_h
-    query_string = query_params.sort.map { |k, v| "#{k}=#{v}" }.join('&')
+    query_params = request.query_parameters.except('hmac')
+    query_string = URI.encode_www_form(query_params.sort)
 
     # Compute HMAC-SHA256
     computed_hmac = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('SHA256'), client_secret, query_string)
