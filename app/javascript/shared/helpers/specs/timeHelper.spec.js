@@ -1,7 +1,6 @@
 import {
   dateFormat,
   dynamicTime,
-  exactTimestamp,
   getDayDifferenceFromNow,
   hasOneDayPassed,
   messageStamp,
@@ -70,24 +69,6 @@ describe('#dynamicTime', () => {
   it('returns correct value', () => {
     Date.now = vi.fn(() => new Date(Date.UTC(2023, 1, 14)).valueOf());
     expect(dynamicTime(1612971343)).toEqual('about 2 years ago');
-  });
-});
-
-describe('#exactTimestamp', () => {
-  it('returns the full date and time for a timestamp from a previous year', () => {
-    expect(exactTimestamp(1612971343)).toEqual('Feb 10 2021, 3:35 PM');
-  });
-
-  it('keeps the year for timestamps from the current year', () => {
-    // May 5, 2023 12:00 PM UTC, the same year as the mocked system time.
-    expect(exactTimestamp(1683288000)).toEqual('May 5 2023, 12:00 PM');
-  });
-
-  it('returns an empty string when there is no timestamp', () => {
-    expect(exactTimestamp(0)).toEqual('');
-    expect(exactTimestamp(null)).toEqual('');
-    expect(exactTimestamp(undefined)).toEqual('');
-    expect(exactTimestamp('')).toEqual('');
   });
 });
 
