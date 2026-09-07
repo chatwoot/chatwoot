@@ -1,6 +1,7 @@
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useWhatsappEmbeddedSignup } from 'dashboard/composables/useWhatsappEmbeddedSignup';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import googleClient from 'dashboard/api/channel/googleClient';
@@ -22,11 +23,17 @@ const OAUTH_CLIENTS = {
 export function useChannelConnect() {
   const { t } = useI18n();
   const store = useStore();
+  const { isMetaInboxCreationDisabled } = useAccount();
   const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
 
   const connectViaOAuth = async provider => {
     const client = OAUTH_CLIENTS[provider];
     if (!client) return;
+
+    if (provider === 'instagram' && isMetaInboxCreationDisabled.value) {
+      useAlert(t('ONBOARDING_INBOX_SETUP.META_RESTRICTION.MESSAGE'));
+      return;
+    }
 
     try {
       const {
@@ -43,6 +50,11 @@ export function useChannelConnect() {
   // inbox, and surface the result inline — then refetch so the connected state
   // reflects the freshly created inbox (and renders its real channel icon).
   const connectWhatsapp = async () => {
+    if (isMetaInboxCreationDisabled.value) {
+      useAlert(t('ONBOARDING_INBOX_SETUP.META_RESTRICTION.MESSAGE'));
+      return;
+    }
+
     let credentials;
     try {
       credentials = await runEmbeddedSignup();

@@ -7,6 +7,7 @@
       "404": "Bu grupta aktif görüşme yok."
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "Konuşmalar",
     "MENTION_HEADING": "Bahsedilmeler",
     "UNATTENDED_HEADING": "İlgilenilmemiş",

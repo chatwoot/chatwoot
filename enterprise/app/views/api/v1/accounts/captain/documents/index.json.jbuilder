@@ -1,6 +1,7 @@
 json.payload do
   json.array! @documents do |document|
     json.partial! 'api/v1/models/captain/document', formats: [:json], resource: document
+    json.used_in_conversations_count @document_usage_counts.fetch(document.id, 0) if @document_usage_counts
   end
 end
 

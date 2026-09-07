@@ -411,8 +411,8 @@
         "DISMISS": "Descartar"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "Las Preguntas Frecuentes {count} están pendientes de revisión, manteniendo la cobertura en {coverage}%. Aprovéchalas para que tu asistente pueda resolver más por sí solo.",
-        "ACTION": "Revisar FAQs",
+        "TEXT": "Hay {count} sugerencias de FAQ listas para revisar, lo que mantiene la cobertura en el {coverage} %. Apruébalas para que tu asistente pueda resolver más consultas por sí solo.",
+        "ACTION": "Revisar sugerencias",
         "DISMISS": "Descartar"
       },
       "RANGES": {
@@ -447,17 +447,16 @@
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "Detalles de cierre",
         "EMPTY": "No se encontraron registros para esta métrica.",
         "ERROR": "No se pudo cargar los registros. Por favor, inténtelo de nuevo.",
         "LOAD_MORE": "Cargar más",
-        "RESULT_COUNT_CONVERSATION": "Conversación {count} | Conversaciones {count}"
+        "RESULT_COUNT_CONVERSATION": "{count} conversación | {count} conversaciones"
       },
       "KNOWLEDGE": {
         "TITLE": "Cobertura del conocimiento",
         "COVERAGE": "{pct}% aprobado",
         "APPROVED": "FAQs Aprobadas",
-        "PENDING": "Pending FAQs",
+        "SUGGESTIONS": "Sugerencias de FAQ",
         "DOCUMENTS": "Documents"
       },
       "LINKS": {
@@ -852,7 +851,7 @@
           "UPDATED": "Actualizado",
           "NEEDS_UPDATE": "Necesita actualización",
           "UPDATING": "Actualizando",
-          "FAILED": "Failed"
+          "FAILED": "Error"
         },
         "SORT": {
           "RECENTLY_UPDATED": "Actualizado recientemente",
@@ -1085,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "Preguntas frecuentes",
-      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
@@ -1094,12 +1092,10 @@
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
       "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
-      "BULK_DELETE_BUTTON": "Eliminar",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+      "ERRORS": {
+        "LOAD": "Se produjo un error al cargar las FAQ. Inténtalo de nuevo."
       },
+      "BULK_DELETE_BUTTON": "Eliminar",
       "BULK_DELETE": {
         "TITLE": "Delete FAQs?",
         "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
@@ -1114,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
-      "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "Todos"
-      },
-      "STATUS": {
-        "TITLE": "Estado",
-        "PENDING": "Pendientes",
-        "APPROVED": "Approved",
-        "ALL": "Todos"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain agrupó las preguntas recurrentes de los clientes en sugerencias de FAQ.",
+        "ACTION": "Revisar sugerencias"
       },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
@@ -1160,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs Found",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "Sugerencias de FAQ",
+      "SEARCH_PLACEHOLDER": "Buscar sugerencias...",
+      "QUEUE_COUNT": "{count} sugerencia por revisar | {count} sugerencias por revisar",
+      "QUEUE_HINT": "Ordenadas según la demanda de los clientes",
+      "SOURCE_COUNT": "{count} conversación | {count} conversaciones",
+      "REVIEW": "Revisar fuentes",
+      "APPROVE": "Aprobar",
+      "APPROVE_FAQ": "Aprobar FAQ",
+      "DISMISS": "Descartar",
+      "SAVE": "Guardar cambios",
+      "DETAILS": {
+        "TITLE": "Revisar sugerencia de FAQ",
+        "DESCRIPTION": "Captain agrupó {count} conversación en esta sugerencia. Revisa las pruebas y perfecciona la FAQ antes de aprobarla. | Captain agrupó {count} conversaciones en esta sugerencia. Revisa las pruebas y perfecciona la FAQ antes de aprobarla.",
+        "SOURCES": "Conversaciones de origen",
+        "SOURCE_PROGRESS": "{visible} de {total}",
+        "NO_SOURCES": "No se encontraron conversaciones de origen accesibles.",
+        "RETRY": "Reintentar"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "La cola de revisión está vacía",
+        "SUBTITLE": "Las nuevas sugerencias de FAQ aparecerán aquí cuando estén listas para revisar.",
+        "CLEAR_SEARCH": "Borrar búsqueda"
+      },
+      "SUCCESS": {
+        "APPROVED": "La FAQ se aprobó y se añadió al conocimiento de Captain.",
+        "DISMISSED": "Sugerencia descartada.",
+        "SAVED": "Sugerencia actualizada."
+      },
+      "ERRORS": {
+        "LOAD": "Se produjo un error al cargar las sugerencias de FAQ. Inténtalo de nuevo.",
+        "LOAD_DETAILS": "Se produjo un error al cargar las conversaciones de origen.",
+        "APPROVE": "Se produjo un error al aprobar la FAQ. Inténtalo de nuevo.",
+        "DISMISS": "Se produjo un error al descartar la sugerencia. Inténtalo de nuevo.",
+        "SAVE": "Se produjo un error al guardar la sugerencia. Inténtalo de nuevo."
       }
     },
     "INBOXES": {

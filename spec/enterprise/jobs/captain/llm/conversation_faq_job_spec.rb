@@ -50,7 +50,9 @@ RSpec.describe Captain::Llm::ConversationFaqJob, type: :job do
 
         expect do
           described_class.new.perform(conversation, assistant)
-        end.to raise_error(MutexApplicationJob::LockAcquisitionError)
+        end.to(raise_error do |error|
+          expect(error.class.name).to eq('MutexApplicationJob::LockAcquisitionError')
+        end)
       end
     end
   end

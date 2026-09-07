@@ -5,12 +5,13 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   before_action :ensure_sdp_offer, only: :initiate
   before_action :ensure_contact_phone, only: :initiate
   before_action :ensure_recording_present, only: :upload_recording
+  before_action :ensure_recording_enabled, only: :upload_recording
   before_action :ensure_call_message, only: :upload_recording
 
   rescue_from Voice::CallErrors::NotRinging,
-              Voice::CallErrors::AlreadyAccepted,
               Voice::CallErrors::CallFailed,
               with: :render_call_error
+  rescue_from Voice::CallErrors::AlreadyAccepted, with: :render_call_already_accepted
   rescue_from Voice::CallErrors::CallAlreadyEnded, with: :render_call_ended
   rescue_from Voice::CallErrors::NoCallPermission, with: :render_permission_request
 
@@ -114,6 +115,14 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     render_could_not_create_error(I18n.t('errors.whatsapp.calls.no_recording'))
   end
 
+  # The browser gates on this too, but that gate ships in JS: a tab loaded before the setting
+  # changed still has the old bundle, so storage is refused here as well.
+  def ensure_recording_enabled
+    return if @call.recording_enabled?
+
+    render_could_not_create_error(I18n.t('errors.whatsapp.calls.recording_disabled'))
+  end
+
   def ensure_call_message
     return if @call.message.present?
 
@@ -130,7 +139,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   def create_outbound_call
     # A reused thread unassigned at click time is claimed for the caller (wins over auto-assignment); a
     # fresh thread (@conversation nil until the dial succeeds) is created already assigned to the caller.
-    claim_for_caller = @conversation.present? && @conversation.assignee_id.nil?
+    claim_for_caller = @conversation.present? && @conversation.assigned_entity.nil?
 
     result = provider_service.initiate_call(@contact.phone_number.delete('+'), params[:sdp_offer])
     provider_call_id = result.dig('calls', 0, 'id') || result['call_id']
@@ -176,5 +185,12 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   # 409 (not 422) so the FE can tell "already ended" from a generic failure and dismiss the ringing UI.
   def render_call_ended
     render json: { error: I18n.t('errors.whatsapp.calls.already_ended') }, status: :conflict
+  end
+
+  # 409 (not 422) so a losing tab in an accept race dismisses its own ringing UI via the
+  # same path as render_call_ended, instead of waiting on the winner's broadcast — which
+  # this tab's own optimistic local state can cause it to mistake for its own accept.
+  def render_call_already_accepted
+    render json: { error: I18n.t('errors.whatsapp.calls.already_accepted') }, status: :conflict
   end
 end

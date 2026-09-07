@@ -170,8 +170,10 @@ export const actions = {
       const response = await InboxesAPI.get(true);
       commit(types.default.SET_INBOXES_UI_FLAG, { isFetching: false });
       commit(types.default.SET_INBOXES, response.data.payload);
+      return true;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isFetching: false });
+      return false;
     }
   },
   createChannel: async ({ commit }, params) => {
@@ -224,7 +226,7 @@ export const actions = {
       return response.data;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
-      throw new Error(error);
+      throw error;
     }
   },
   createWhatsAppEmbeddedSignup: async ({ commit }, params) => {

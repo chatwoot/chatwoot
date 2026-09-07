@@ -17,6 +17,6 @@ const readableTime = computed(() =>
     class="px-3 py-1 !rounded-xl flex min-w-0 items-center gap-2"
     data-bubble-name="activity"
   >
-    <span v-dompurify-html="content" :title="content" />
+    <span :title="content">{{ content }}</span>
   </BaseBubble>
 </template>

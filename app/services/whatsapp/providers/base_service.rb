@@ -118,3 +118,5 @@ class Whatsapp::Providers::BaseService
     create_payload('list', message.outgoing_content, JSON.generate(json_hash))
   end
 end
+
+Whatsapp::Providers::BaseService.prepend_mod_with('Whatsapp::Providers::BaseService')

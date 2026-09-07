@@ -2,7 +2,6 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useWhatsappEmbeddedSignup } from 'dashboard/composables/useWhatsappEmbeddedSignup';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import whatsappChannel from 'dashboard/api/channel/whatsappChannel';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
@@ -15,6 +14,7 @@ import { required } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
+import WhatsappBusinessManagementToken from './WhatsappBusinessManagementToken.vue';
 
 export default {
   components: {
@@ -25,6 +25,7 @@ export default {
     SmtpSettings,
     NextButton,
     TextArea,
+    WhatsappBusinessManagementToken,
   },
   mixins: [inboxMixin],
   props: {
@@ -54,23 +55,13 @@ export default {
   },
   computed: {
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
     }),
     isEmbeddedSignupWhatsApp() {
       return this.inbox.provider_config?.source === 'embedded_signup';
     },
     showWhatsAppReconfigure() {
-      return (
-        this.isEmbeddedSignupWhatsApp &&
-        this.isFeatureEnabledonAccount(
-          this.accountId,
-          this.isOnChatwootCloud
-            ? FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_FLOW
-            : FEATURE_FLAGS.WHATSAPP_RECONFIGURE
-        )
-      );
+      return this.isEmbeddedSignupWhatsApp;
     },
     isForwardingEnabled() {
       return !!this.inbox.forwarding_enabled;
@@ -469,6 +460,14 @@ export default {
           </div>
         </SettingsFieldSection>
       </template>
+      <WhatsappBusinessManagementToken
+        v-if="
+          isOnChatwootCloud &&
+          inbox.provider === 'whatsapp_cloud' &&
+          isEmbeddedSignupWhatsApp
+        "
+        :inbox="inbox"
+      />
       <SettingsFieldSection
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
         :help-text="

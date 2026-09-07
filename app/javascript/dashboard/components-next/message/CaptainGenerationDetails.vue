@@ -37,6 +37,11 @@ const isLoading = computed(
 );
 
 const citations = computed(() => session.value?.citations || []);
+const usedFaqs = computed(() => session.value?.usedFaqs || []);
+const knowledgeSources = computed(() => [
+  ...citations.value.map(source => ({ ...source, type: 'document' })),
+  ...usedFaqs.value.map(source => ({ ...source, type: 'faq' })),
+]);
 
 const scenarioTitles = computed(() =>
   (session.value?.scenarios || []).reduce((map, scenario) => {
@@ -289,7 +294,7 @@ const onPopoverHide = () => {
                 </div>
               </div>
             </div>
-            <div v-if="citations.length" class="flex flex-col gap-2">
+            <div v-if="knowledgeSources.length" class="flex flex-col gap-2">
               <div class="flex items-baseline gap-1.5">
                 <span class="text-xs font-medium text-n-slate-11">
                   {{ t('CONVERSATION.CAPTAIN_GENERATION.SOURCES') }}
@@ -298,15 +303,15 @@ const onPopoverHide = () => {
                   {{
                     t(
                       'CONVERSATION.CAPTAIN_GENERATION.SOURCES_SUMMARY',
-                      citations.length
+                      knowledgeSources.length
                     )
                   }}
                 </span>
               </div>
               <ul class="flex flex-col gap-1 m-0 list-disc ps-4">
                 <li
-                  v-for="citation in citations"
-                  :key="citation.id"
+                  v-for="citation in knowledgeSources"
+                  :key="`${citation.type}-${citation.id}`"
                   class="text-xs text-n-slate-12"
                 >
                   <a

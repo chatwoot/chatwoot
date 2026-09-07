@@ -4,6 +4,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :fetch_article, except: [:index, :create, :reorder]
   before_action :set_current_page, only: [:index]
   before_action :validate_author, only: [:create]
+  before_action :discard_invalid_author, only: [:update]
 
   def index
     @portal_articles = @portal.articles
@@ -67,9 +68,23 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   def validate_author
     author_id = params.dig(:article, :author_id)
     return if author_id.blank?
-    return if author_id.to_s.match?(/\A\d+\z/) && Current.account.users.exists?(id: author_id.to_i)
+    return if author_belongs_to_account?(author_id)
 
     render json: { error: 'Invalid author ID' }, status: :unprocessable_entity
+  end
+
+  def discard_invalid_author
+    submitted_article_params = params[:article]
+    return unless submitted_article_params&.key?(:author_id)
+
+    author_id = submitted_article_params[:author_id]
+    return if author_belongs_to_account?(author_id)
+
+    submitted_article_params.delete(:author_id)
+  end
+
+  def author_belongs_to_account?(author_id)
+    author_id.to_s.match?(/\A\d+\z/) && Current.account.users.exists?(id: author_id.to_i)
   end
 
   def portal

@@ -128,6 +128,7 @@ export function usePolicy() {
 
   return {
     checkPermissions,
+    checkInstallationType,
     shouldShowPaywall,
     isFeatureFlagEnabled,
     shouldShow,

@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Ejecutar",
       "PREVIEW": "Previsualizar macro",
-      "EXECUTED_SUCCESSFULLY": "Macro ejecutado correctamente"
+      "EXECUTED_SUCCESSFULLY": "Macro ejecutado correctamente",
+      "EXECUTED_WITHOUT_RESOLVING": "La macro se ejecutó. La conversación no se resolvió porque faltan atributos obligatorios."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Clave de atributo es requerida",

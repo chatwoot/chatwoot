@@ -264,7 +264,8 @@
     "EMAIL_VERIFICATION_SENT": "ایمیل تایید ارسال شد. لطفا ایمیل خود را بررسی کنید.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "حساب‌کاربری معلق شده است",
-      "MESSAGE": "حساب‌کاربری شما به حالت تعلیق درآمده. لطفا برای اطلاعات بیشتر با تیم پشتیبانی تماس بگیرید."
+      "MESSAGE": "حساب‌کاربری شما به حالت تعلیق درآمده. لطفا برای اطلاعات بیشتر با تیم پشتیبانی تماس بگیرید.",
+      "MANAGE_BILLING": "Manage billing"
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",
@@ -324,6 +325,7 @@
     "COMPANIES": "شرکت ها",
     "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "Captain",
+    "CALLS": "Calls",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_OVERVIEW": "بررسی اجمالی",
     "CAPTAIN_DOCUMENTS": "Documents",
@@ -338,6 +340,7 @@
     "AGENT_BOTS": "ربات‌ها",
     "AUDIT_LOGS": "بررسی لاگ هاگزارش های حسابرسی",
     "INBOXES": "صندوق‌های ورودی",
+    "WHATSAPP_TEMPLATES": "Templates",
     "NOTIFICATIONS": "اعلان ها",
     "CANNED_RESPONSES": "پاسخ‌های آماده",
     "INTEGRATIONS": "برنامه‌های تلفیق شده",
@@ -418,6 +421,10 @@
     "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
     "LOADING": "Fetching imports",
     "DEFAULT_IMPORT_NAME": "Intercom import",
+    "DEFAULT_IMPORT_NAMES": {
+      "INTERCOM": "Intercom import",
+      "FRESHDESK": "Freshdesk import"
+    },
     "TABS": {
       "IMPORT": "تزریق کردن",
       "EXPORT": "خروجی گرفتن"
@@ -431,9 +438,15 @@
       "TITLE": "New import",
       "SOURCE": "Source",
       "NAME": "Import name",
-      "NAME_PLACEHOLDER": "July Intercom migration",
+      "NAME_PLACEHOLDER": "July support migration",
       "ACCESS_KEY": "Intercom access key",
       "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "INTERCOM_ACCESS_KEY": "Intercom access key",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "FRESHDESK_API_KEY": "Freshdesk API key",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "Paste your Freshdesk API key",
+      "FRESHDESK_DOMAIN": "Freshdesk domain",
+      "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
       "DATA_TYPES": "Data to import",
       "VALIDATING": "Validating access key...",
       "VALID_KEY": "Access key validated.",
@@ -461,6 +474,7 @@
       "STATUS": "وضعیت",
       "IMPORTED": "Imported",
       "CREATED": "ایجاد شده",
+      "RETRY": "Retry",
       "ABANDON": "Abandon"
     },
     "DETAIL": {
@@ -506,9 +520,11 @@
       }
     },
     "ALERTS": {
-      "IMPORT_STARTED": "Intercom import has started.",
-      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
-      "IMPORT_FAILED": "Could not start the Intercom import."
+      "IMPORT_STARTED": "Import has started.",
+      "IMPORT_RETRIED": "Import has been queued to resume.",
+      "IMPORT_RETRY_FAILED": "Could not retry the import.",
+      "IMPORT_ABANDONED": "Import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the import."
     }
   },
   "CAPTAIN_SETTINGS": {
