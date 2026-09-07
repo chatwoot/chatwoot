@@ -80,15 +80,16 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
   def build_scopes(canned_response)
     return unless canned_response.private_response?
 
-    user_ids  = current_user.administrator? ? Array(params[:user_ids]).map(&:to_i) : [current_user.id]
-    team_ids  = current_user.administrator? ? Array(params[:team_ids]).map(&:to_i) : []
-    inbox_ids = Array(params[:inbox_ids]).map(&:to_i)
-
     canned_response.canned_response_scopes.create!(
-      user_ids: user_ids,
-      team_ids: team_ids,
-      inbox_ids: inbox_ids
+      user_ids: current_user.administrator? ? account_ids_for(Current.account.users, params[:user_ids]) : [current_user.id],
+      team_ids: current_user.administrator? ? account_ids_for(Current.account.teams, params[:team_ids]) : [],
+      inbox_ids: account_ids_for(Current.account.inboxes, params[:inbox_ids])
     )
+  end
+
+  # ids from other accounts are dropped: a membership elsewhere must not grant access here
+  def account_ids_for(scope, ids)
+    scope.where(id: Array(ids)).ids
   end
 
   def no_scopes_provided?

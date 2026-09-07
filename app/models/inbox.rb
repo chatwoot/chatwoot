@@ -60,6 +60,7 @@ class Inbox < ApplicationRecord
   validates :greeting_message, length: { maximum: Limits::GREETING_MESSAGE_MAX_LENGTH }
   validates :public_name, length: { maximum: 255 }, allow_blank: true
   validate :ensure_valid_max_assignment_limit
+  validate :priority_group_belongs_to_account
 
   belongs_to :account
   belongs_to :portal, optional: true
@@ -228,6 +229,12 @@ class Inbox < ApplicationRecord
   end
 
   private
+
+  def priority_group_belongs_to_account
+    return if priority_group.blank? || priority_group.account_id == account_id
+
+    errors.add(:priority_group, 'must belong to the same account')
+  end
 
   def default_name_for_blank_name
     email? ? display_name_from_email : ''

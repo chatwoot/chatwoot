@@ -85,6 +85,20 @@ RSpec.describe 'Canned Responses API', type: :request do
         expect(account.canned_responses.count).to eq(2)
       end
 
+      it 'drops scope ids that belong to another account' do
+        admin = create(:user, account: account, role: :administrator)
+        team = create(:team, account: account)
+        foreign_team = create(:team, account: create(:account))
+
+        post "/api/v1/accounts/#{account.id}/canned_responses",
+             params: { short_code: 'scoped', content: 'content', visibility: 'private_response', team_ids: [team.id, foreign_team.id] },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(CannedResponseScope.last.team_ids).to eq([team.id])
+      end
+
       it 'rejects a duplicate public short code instead of overwriting the existing response' do
         existing = account.canned_responses.first
 

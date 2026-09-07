@@ -368,7 +368,8 @@ class Conversation < ApplicationRecord
   end
 
   def create_participant_for_new_agent
-    return unless saved_change_to_assignee_id? || reopened_with_assignee?
+    return reactivate_assignee_participant if reopened_with_assignee?
+    return unless saved_change_to_assignee_id?
     return if assignee_id.nil?
 
     participant = ConversationParticipant.find_or_initialize_by(conversation_id: id, user_id: assignee_id)
@@ -384,9 +385,14 @@ class Conversation < ApplicationRecord
   end
 
   # resolved → open with the same assignee: close_agents_on_resolve closed their participant,
-  # so a new stint has to start for reply-time and chat-duration reporting.
+  # so the stint is reopened (created_at is kept: the customer message that reopened the
+  # conversation precedes the status change and still counts for reply time).
   def reopened_with_assignee?
     saved_change_to_status? && open? && status_before_last_save == 'resolved' && assignee_id.present?
+  end
+
+  def reactivate_assignee_participant
+    ConversationParticipant.where(conversation_id: id, user_id: assignee_id).where.not(left_at: nil).update_all(left_at: nil) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def close_agents_on_resolve

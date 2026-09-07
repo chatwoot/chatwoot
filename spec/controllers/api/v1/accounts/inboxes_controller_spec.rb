@@ -556,6 +556,17 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
+      it 'rejects a priority group from another account' do
+        foreign_group = create(:priority_group, account: create(:account))
+
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: valid_params.merge(priority_group_id: foreign_group.id),
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
       it 'creates a webwidget inbox when administrator' do
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,

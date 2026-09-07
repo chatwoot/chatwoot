@@ -1176,6 +1176,16 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.resolved?).to be(true)
         expect(conversation.reload.muted?).to be(true)
       end
+
+      it 'rejects an unparseable banned_until instead of blocking permanently' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/mute",
+             params: { banned_until: '1_hoour' },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(conversation.reload.contact.blocked?).to be(false)
+      end
     end
   end
 

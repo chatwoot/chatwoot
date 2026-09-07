@@ -103,10 +103,10 @@ class AutoAssignment::AgentAssignmentService
     @allowed_online_agent_ids ||= (online_ids & allowed_ids)
   end
 
+  # Same capacity definition as the queue / availability paths: only open conversations count.
   def active_chat_counts_for(agent_ids)
     Conversation
-      .where(assignee_id: agent_ids, account_id: conversation.account_id)
-      .where.not(status: :resolved)
+      .where(assignee_id: agent_ids, account_id: conversation.account_id, status: :open)
       .group(:assignee_id)
       .count
       .tap do |hash|
@@ -129,7 +129,7 @@ class AutoAssignment::AgentAssignmentService
 
   def last_closed_chat_times_for(agent_ids)
     Conversation
-      .where(assignee_id: agent_ids, status: :resolved)
+      .where(assignee_id: agent_ids, account_id: conversation.account_id, status: :resolved)
       .select('assignee_id, MAX(updated_at) AS last_closed_at')
       .group(:assignee_id)
       .pluck(:assignee_id, Arel.sql('MAX(updated_at)'))

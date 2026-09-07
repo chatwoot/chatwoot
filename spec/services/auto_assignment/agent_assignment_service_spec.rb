@@ -73,6 +73,38 @@ RSpec.describe AutoAssignment::AgentAssignmentService do
       expect(assignee).to be_nil
     end
 
+    it 'does not count pending or snoozed conversations toward the limit' do
+      account_user = AccountUser.find_by(user: inbox_members[3].user, account: account)
+      account_user.update!(active_chat_limit_enabled: true, active_chat_limit: 1)
+      create(:conversation, inbox: inbox, assignee: inbox_members[3].user, account: account, status: :pending)
+      create(:conversation, inbox: inbox, assignee: inbox_members[4].user, account: account, status: :open)
+
+      assignee = described_class.new(
+        conversation: conversation,
+        allowed_agent_ids: inbox_members.map(&:user_id).map(&:to_s)
+      ).find_assignee
+
+      expect(assignee).to eq(inbox_members[3].user)
+    end
+
+    it 'ignores resolved conversations from other accounts when breaking ties' do
+      other_account = create(:account)
+      other_inbox = create(:inbox, account: other_account)
+      create(:account_user, account: other_account, user: inbox_members[3].user)
+      create(:inbox_member, inbox: other_inbox, user: inbox_members[3].user)
+      # agent 3 closed a chat elsewhere just now; agent 4 closed one here earlier → agent 3 is least recently assigned here
+      create(:conversation, inbox: other_inbox, assignee: inbox_members[3].user, account: other_account, status: :resolved)
+      create(:conversation, inbox: inbox, assignee: inbox_members[4].user, account: account, status: :resolved)
+        .update_column(:updated_at, 1.hour.ago) # rubocop:disable Rails/SkipsModelValidations
+
+      assignee = described_class.new(
+        conversation: conversation,
+        allowed_agent_ids: inbox_members.map(&:user_id).map(&:to_s)
+      ).find_assignee
+
+      expect(assignee).to eq(inbox_members[3].user)
+    end
+
     it 'does not select agents who reached their limit' do
       account_user = AccountUser.find_by(user: inbox_members[3].user, account: account)
       account_user.update!(active_chat_limit_enabled: true, active_chat_limit: 1)

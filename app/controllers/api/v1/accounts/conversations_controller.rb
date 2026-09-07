@@ -58,7 +58,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def mute
-    @conversation.mute!(banned_until: parse_banned_until_param, timezone: params[:timezone])
+    banned_until = parse_banned_until_param
+    return render json: { error: 'banned_until is not a valid duration or timestamp' }, status: :unprocessable_entity if banned_until == :invalid
+
+    @conversation.mute!(banned_until: banned_until, timezone: params[:timezone])
     head :ok
   end
 
@@ -149,17 +152,15 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   private
 
+  # nil → permanent block; a preset key or a parseable timestamp → timed block; anything else is rejected
   def parse_banned_until_param
     raw = params[:banned_until]
     return nil if raw.blank?
+    return Time.current + ConversationMuteHelpers::BAN_DURATIONS[raw.to_s] if ConversationMuteHelpers::BAN_DURATIONS.key?(raw.to_s)
 
-    if ConversationMuteHelpers::BAN_DURATIONS.key?(raw.to_s)
-      Time.current + ConversationMuteHelpers::BAN_DURATIONS[raw.to_s]
-    else
-      Time.zone.parse(raw.to_s)
-    end
+    Time.zone.parse(raw.to_s) || :invalid
   rescue ArgumentError, TypeError
-    nil
+    :invalid
   end
 
   def permitted_update_params
