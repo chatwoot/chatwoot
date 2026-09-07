@@ -25,6 +25,7 @@ import ResponsesIndex from './responses/Index.vue';
 import FaqSuggestionsIndex from './responses/FaqSuggestions.vue';
 import CustomToolsIndex from './tools/Index.vue';
 import ToolsetInstall from './tools/Install.vue';
+import ToolsetExplore from './tools/Explore.vue';
 
 const meta = {
   permissions: ['administrator', 'agent'],
@@ -78,6 +79,12 @@ const assistantRoutes = [
     path: frontendURL('accounts/:accountId/captain/:assistantId/tools'),
     component: CustomToolsIndex,
     name: 'captain_tools_index',
+    meta: metaCustomTools,
+  },
+  {
+    path: frontendURL('accounts/:accountId/captain/:assistantId/tools/explore'),
+    component: ToolsetExplore,
+    name: 'captain_tools_explore',
     meta: metaCustomTools,
   },
   {

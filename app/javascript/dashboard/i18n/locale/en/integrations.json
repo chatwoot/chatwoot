@@ -1161,8 +1161,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "CATALOG": {
-        "INSTALLED": "Installed",
-        "EXPLORE": "Explore",
+        "EXPLORE": "Explore tools",
         "BROWSE": "Browse tools",
         "SEARCH": "Search tools",
         "LOADING": "Loading toolsets…",

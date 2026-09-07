@@ -49,19 +49,21 @@ onMounted(loadCatalog);
 
 <template>
   <div class="flex flex-col gap-4">
-    <div class="relative w-full max-w-xs">
-      <Input
-        v-model="search"
-        type="search"
-        :placeholder="t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SEARCH')"
-        :aria-label="t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SEARCH')"
-        custom-input-class="ps-9"
-      />
-      <span
-        class="absolute start-3 top-1/2 -translate-y-1/2 size-4 i-lucide-search text-n-slate-10 pointer-events-none"
-        aria-hidden="true"
-      />
-    </div>
+    <Input
+      v-model="search"
+      type="search"
+      :placeholder="t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SEARCH')"
+      :aria-label="t('CAPTAIN.CUSTOM_TOOLS.CATALOG.SEARCH')"
+      custom-input-class="ltr:!pl-9 rtl:!pr-9"
+      class="w-full max-w-xs"
+    >
+      <template #prefix>
+        <span
+          class="absolute size-4 -translate-y-1/2 i-lucide-search text-n-slate-10 top-1/2 ltr:left-3 rtl:right-3"
+          aria-hidden="true"
+        />
+      </template>
+    </Input>
     <div v-if="isPending" class="flex justify-center py-10" role="status">
       <Spinner />
       <span class="sr-only">{{
