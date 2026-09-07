@@ -58,6 +58,10 @@ RSpec.describe Messages::WebhookContentNormalizer do
       expect(described_class.normalize("```\n\\--\n```")).to eq("```\n\\--\n```")
     end
 
+    it 'keeps a fenced escaped delimiter even when it follows a code line ending in a backslash' do
+      expect(described_class.normalize("```text\ncontinued \\\n\\--\n```")).to eq("```text\ncontinued \n\\--\n```")
+    end
+
     it 'keeps an escaped delimiter that does not follow the editor hard-break glue' do
       expect(described_class.normalize("hey\n\n\\--")).to eq("hey\n\n\\--")
     end
