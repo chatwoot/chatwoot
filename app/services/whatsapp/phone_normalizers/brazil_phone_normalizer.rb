@@ -21,20 +21,18 @@ class Whatsapp::PhoneNormalizers::BrazilPhoneNormalizer < Whatsapp::PhoneNormali
     "55#{ddd}9#{number}"
   end
 
-  def contact_candidates(waid)
-    [waid, normalize(waid)].uniq
-  end
-
   def variants(waid)
     normalized = normalize(waid)
     [normalized, legacy_mobile_form(normalized)].compact.uniq
   end
 
+  def contact_candidates(waid)
+    [waid, *variants(waid)].uniq
+  end
+
   private
 
-  # Mirror of #normalize: a canonical mobile maps back to its pre-2012 eight-digit form only when
-  # what remains is itself a legacy mobile range. Stripping the 9 off any other canonical mobile
-  # would yield a landline that belongs to a different subscriber.
+  # Mirror of #normalize: strip the 9 only when what remains is itself a legacy mobile range, never a landline.
   def legacy_mobile_form(waid)
     return unless handles_country?(waid)
 

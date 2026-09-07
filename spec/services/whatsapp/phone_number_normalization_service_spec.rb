@@ -5,6 +5,17 @@ describe Whatsapp::PhoneNumberNormalizationService do
   let(:whatsapp_inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
   let(:twilio_inbox) { create(:channel_twilio_sms, account: account, medium: :whatsapp).inbox }
 
+  def cloud_params(from)
+    {
+      phone_number: whatsapp_inbox.channel.phone_number,
+      object: 'whatsapp_business_account',
+      entry: [{ changes: [{ value: {
+        contacts: [{ profile: { name: 'Ana' }, wa_id: from }],
+        messages: [{ from: from, id: "wamid.#{from}", timestamp: '1664799904', type: 'text', text: { body: 'hi' } }]
+      } }] }]
+    }.with_indifferent_access
+  end
+
   describe '#normalize_and_find_contact_by_provider' do
     context 'when the country has no normalizer' do
       it 'returns the incoming number untouched' do
@@ -61,12 +72,14 @@ describe Whatsapp::PhoneNumberNormalizationService do
         expect(described_class.new(whatsapp_inbox).normalize_and_find_contact_by_provider('5491112345678', :cloud)).to eq('541112345678')
       end
 
-      # 549 and 54 are different subscribers, not two spellings of one: the no-9 form is a valid
-      # landline in the same area code, so it must never be offered as an alternate.
-      it 'does not route a mobile sender into a landline contact inbox' do
+      it 'finds a contact stored with the 9 when the number arrives without it' do
         create(:contact_inbox, inbox: whatsapp_inbox, source_id: '5491112345678')
 
-        expect(described_class.new(whatsapp_inbox).normalize_and_find_contact_by_provider('541112345678', :cloud)).to eq('541112345678')
+        expect(described_class.new(whatsapp_inbox).normalize_and_find_contact_by_provider('541112345678', :cloud)).to eq('5491112345678')
+      end
+
+      it 'leaves a partial Argentina number alone' do
+        expect(described_class.new(whatsapp_inbox).normalize_and_find_contact_by_provider('549', :cloud)).to eq('549')
       end
     end
 
@@ -81,6 +94,16 @@ describe Whatsapp::PhoneNumberNormalizationService do
         create(:contact_inbox, inbox: whatsapp_inbox, source_id: '5215512345678')
 
         expect(described_class.new(whatsapp_inbox).normalize_and_find_contact_by_provider('525512345678', :cloud)).to eq('5215512345678')
+      end
+    end
+
+    context 'when an existing contact carries the alternate phone format' do
+      it 'reuses that contact instead of creating a duplicate' do
+        existing = create(:contact, account: account, phone_number: '+554188887777')
+
+        Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: whatsapp_inbox, params: cloud_params('5541988887777')).perform
+
+        expect(whatsapp_inbox.contact_inboxes.sole.contact_id).to eq(existing.id)
       end
     end
 

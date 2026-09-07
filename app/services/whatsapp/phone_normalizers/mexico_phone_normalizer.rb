@@ -16,14 +16,16 @@ class Whatsapp::PhoneNormalizers::MexicoPhoneNormalizer < Whatsapp::PhoneNormali
     waid.sub(/^521/, '52')
   end
 
-  # Safe in both directions, unlike Brazil and Argentina: the mobile "1" is a WhatsApp artifact
-  # rather than part of the national number, so both forms carry the identical ten-digit
-  # subscriber and there is no other number to collide with.
+  # Safe both ways: the mobile "1" is a WhatsApp artifact, so both forms carry the same ten-digit subscriber.
   def variants(waid)
     normalized = normalize(waid)
     return [normalized] unless normalized.length == NATIONAL_NUMBER_LENGTH
 
     [normalized, normalized.sub(/^52/, '521')]
+  end
+
+  def contact_candidates(waid)
+    [waid, *variants(waid)].uniq
   end
 
   private
