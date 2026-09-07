@@ -60,6 +60,13 @@ RSpec.describe AccountBuilder do
     end
 
     context 'with a pending Shopify installation' do
+      let(:encryption_env) do
+        {
+          'ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY' => 'primary-key',
+          'ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY' => 'deterministic-key',
+          'ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT' => 'key-derivation-salt'
+        }
+      end
       let(:token) do
         Shopify::PendingInstallation.create(
           access_token: 'shopify-token',
@@ -76,6 +83,10 @@ RSpec.describe AccountBuilder do
           confirmed: true,
           shopify_pending_install_token: token
         )
+      end
+
+      around do |example|
+        with_modified_env(encryption_env) { example.run }
       end
 
       after do
