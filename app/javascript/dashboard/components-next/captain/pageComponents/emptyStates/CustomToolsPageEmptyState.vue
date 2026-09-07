@@ -4,7 +4,7 @@ import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
 import FeatureSpotlight from 'dashboard/components-next/feature-spotlight/FeatureSpotlight.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['click', 'browse']);
 const { isOnChatwootCloud } = useAccount();
 
 const onClick = () => {
@@ -31,6 +31,13 @@ const onClick = () => {
       <div class="min-h-[600px]" />
     </template>
     <template #actions>
+      <Button
+        :label="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.BROWSE')"
+        icon="i-lucide-compass"
+        variant="faded"
+        color="slate"
+        @click="emit('browse')"
+      />
       <Button
         :label="$t('CAPTAIN.CUSTOM_TOOLS.ADD_NEW')"
         icon="i-lucide-plus"

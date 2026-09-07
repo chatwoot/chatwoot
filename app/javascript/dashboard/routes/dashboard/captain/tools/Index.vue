@@ -20,6 +20,8 @@ import ImportToolsetDialog from 'dashboard/components-next/captain/pageComponent
 import Button from 'dashboard/components-next/button/Button.vue';
 import Policy from 'dashboard/components/policy.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
+import ToolsetCatalog from 'dashboard/components-next/captain/pageComponents/customTool/ToolsetCatalog.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -28,6 +30,16 @@ const { t } = useI18n();
 const { isFeatureFlagEnabled, shouldShowPaywall } = usePolicy();
 
 const SOFT_LIMIT = 10;
+const TOOL_TABS = { INSTALLED: 0, EXPLORE: 1 };
+const activeTab = ref(TOOL_TABS.INSTALLED);
+const isExploring = computed(() => activeTab.value === TOOL_TABS.EXPLORE);
+const tabs = computed(() => [
+  {
+    key: TOOL_TABS.INSTALLED,
+    label: t('CAPTAIN.CUSTOM_TOOLS.CATALOG.INSTALLED'),
+  },
+  { key: TOOL_TABS.EXPLORE, label: t('CAPTAIN.CUSTOM_TOOLS.CATALOG.EXPLORE') },
+]);
 const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
 const showPaywall = computed(() =>
   shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
@@ -114,6 +126,11 @@ const fetchCustomTools = (page = 1) => {
 };
 
 const onPageChange = page => fetchCustomTools(page);
+
+const onImported = () => {
+  activeTab.value = TOOL_TABS.INSTALLED;
+  fetchCustomTools();
+};
 
 const openCreateDialog = () => {
   dialogType.value = 'create';
@@ -258,21 +275,23 @@ onMounted(async () => {
 <template>
   <PageLayout
     :header-title="$t('CAPTAIN.CUSTOM_TOOLS.HEADER')"
-    :button-label="$t('CAPTAIN.CUSTOM_TOOLS.ADD_NEW')"
+    :button-label="isExploring ? '' : $t('CAPTAIN.CUSTOM_TOOLS.ADD_NEW')"
     :button-policy="['administrator']"
     :feature-flag="FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS"
     :total-count="customToolsMeta.totalCount"
     :current-page="customToolsMeta.page"
-    :show-pagination-footer="!isFetching && !!customTools.length"
-    :is-fetching="isFetching"
-    :is-empty="!customTools.length"
+    :show-pagination-footer="
+      !isExploring && !isFetching && !!customTools.length
+    "
+    :is-fetching="!isExploring && isFetching"
+    :is-empty="!isExploring && !customTools.length"
     :show-know-more="false"
     @update:current-page="onPageChange"
     @click="openCreateDialog"
   >
     <template #headerActions>
       <Policy
-        v-if="!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)"
+        v-if="!isExploring && !showPaywall"
         :permissions="['administrator']"
       >
         <Button
@@ -285,16 +304,29 @@ onMounted(async () => {
         />
       </Policy>
     </template>
+    <template #subHeader>
+      <TabBar
+        v-if="!showPaywall"
+        :tabs="tabs"
+        :initial-active-tab="activeTab"
+        class="mb-4"
+        @tab-changed="activeTab = $event.key"
+      />
+    </template>
     <template #paywall>
       <CaptainPaywall feature-prefix="CAPTAIN.CUSTOM_TOOLS" />
     </template>
 
     <template #emptyState>
-      <CustomToolsPageEmptyState @click="openCreateDialog" />
+      <CustomToolsPageEmptyState
+        @click="openCreateDialog"
+        @browse="activeTab = TOOL_TABS.EXPLORE"
+      />
     </template>
 
     <template #body>
-      <div class="flex flex-col gap-4">
+      <ToolsetCatalog v-if="isExploring" @install="openImportDialog" />
+      <div v-else class="flex flex-col gap-4">
         <div
           v-if="showSoftLimitWarning"
           class="flex items-center gap-2 px-4 py-3 text-sm rounded-lg bg-n-amber-2 text-n-amber-11"
@@ -345,7 +377,7 @@ onMounted(async () => {
     translation-key="CUSTOM_TOOLS"
     @delete-success="onDeleteSuccess"
   />
-  <ImportToolsetDialog ref="importDialogRef" @imported="fetchCustomTools()" />
+  <ImportToolsetDialog ref="importDialogRef" @imported="onImported" />
 
   <Dialog
     ref="disableDialogRef"

@@ -1160,6 +1160,23 @@
     },
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
+      "CATALOG": {
+        "INSTALLED": "Installed",
+        "EXPLORE": "Explore",
+        "BROWSE": "Browse tools",
+        "SEARCH": "Search tools",
+        "LOADING": "Loading toolsets…",
+        "ERROR": "Unable to load the tools catalog. Please try again.",
+        "DETAIL_ERROR": "Unable to load this toolset. Please try again.",
+        "RETRY": "Try again",
+        "EMPTY": "No toolsets are available yet.",
+        "NO_RESULTS": "No toolsets match your search.",
+        "PUBLISHER": "Published by {name}",
+        "VERSION": "Version {version}",
+        "VIEW_DETAILS": "View full details",
+        "REQUIRED_CONFIGURATION": "Required configuration",
+        "INSTALL": "Install toolset"
+      },
       "ADD_NEW": "Create a new tool",
       "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
