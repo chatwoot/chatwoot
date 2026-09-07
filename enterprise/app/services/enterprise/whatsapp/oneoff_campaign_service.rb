@@ -10,11 +10,12 @@ module Enterprise::Whatsapp::OneoffCampaignService
 
   def process_recipient(recipient)
     contact = recipient.contact
-    Rails.logger.info "Processing contact: #{contact.name} (#{contact.phone_number})"
+    address = campaign_address(contact)
+    Rails.logger.info "Processing contact: #{contact.name} (#{address})"
 
-    if contact.phone_number.blank?
-      Rails.logger.info "Skipping contact #{contact.name} - no phone number"
-      recipient.mark_skipped!('Phone number is missing')
+    if address.blank?
+      Rails.logger.info "Skipping contact #{contact.name} - no phone number or business scoped user id"
+      recipient.mark_skipped!('Phone number and business scoped user id are missing')
       return
     end
 
@@ -25,18 +26,15 @@ module Enterprise::Whatsapp::OneoffCampaignService
     end
 
     processed_template_params = process_liquid_template_params(contact)
-    if processed_template_params.nil?
-      recipient.mark_skipped!('Template parameters could not be resolved')
-      return
-    end
+    return recipient.mark_skipped!('Template parameters could not be resolved') if processed_template_params.nil?
 
     recipient.update!(message_content: rendered_message_content(contact))
 
-    send_whatsapp_template_message(recipient: recipient, to: contact.phone_number, template_params: processed_template_params)
+    send_whatsapp_template_message(recipient: recipient, to: address, template_params: processed_template_params)
   end
 
   def create_recipients(audience_labels)
-    contacts = campaign.account.contacts.tagged_with(audience_labels, any: true)
+    contacts = audience_contacts(audience_labels)
     Rails.logger.info "Processing #{contacts.count} contacts for campaign #{campaign.id}"
 
     contacts.find_each.map do |contact|
