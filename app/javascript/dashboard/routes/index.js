@@ -68,14 +68,14 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
         return next(frontendURL(`accounts/${routeAccountId}/${redirectUrl}`));
       }
 
-      const redirectAccount = getShopifyInstallAccount({
+      const installAccount = getShopifyInstallAccount({
         accounts,
         accountId: routeAccountId,
       });
 
-      if (redirectAccount) {
+      if (installAccount) {
         return next(
-          frontendURL(`accounts/${redirectAccount.id}/${redirectUrl}`)
+          frontendURL(`accounts/${installAccount.id}/${redirectUrl}`)
         );
       }
     }
