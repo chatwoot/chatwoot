@@ -72,6 +72,21 @@ describe Whatsapp::SendOnWhatsappService do
         expect(message.reload.source_id).to eq('123456789')
       end
 
+      it 'fails a free-form message without contacting the provider when outside the 24 hour limit' do
+        create(:message, message_type: :incoming, content: 'test', created_at: 25.hours.ago,
+                         conversation: conversation, account: conversation.account)
+        message = create(:message, message_type: :outgoing, content: 'test',
+                                   conversation: conversation, account: conversation.account)
+
+        expect(Whatsapp::TemplateProcessorService).not_to receive(:new)
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to eq(I18n.t('errors.whatsapp.message_outside_messaging_window'))
+        expect(a_request(:post, 'https://waba.360dialog.io/v1/messages')).not_to have_been_made
+      end
+
       it 'marks message as failed when template name is blank' do
         processor = instance_double(Whatsapp::TemplateProcessorService)
         allow(Whatsapp::TemplateProcessorService).to receive(:new).and_return(processor)
@@ -378,6 +393,45 @@ describe Whatsapp::SendOnWhatsappService do
               type: 'template'
             }.to_json
           ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+      end
+    end
+
+    context 'when a merged contact owns multiple Meta Cloud identities' do
+      let!(:whatsapp_channel) do
+        create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+      end
+      let(:account) { whatsapp_channel.inbox.account }
+      let!(:contact_a) { create(:contact, account: account, name: 'Customer A') }
+      let!(:contact_b) { create(:contact, account: account, name: 'Customer B') }
+      let!(:contact_inbox_a) do
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact_a, source_id: 'AE.QACUSTOMERA')
+      end
+      let!(:contact_inbox_b) do
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact_b, source_id: 'AE.QACUSTOMERB')
+      end
+      let!(:conversation_a) do
+        create(:conversation, account: account, inbox: whatsapp_channel.inbox, contact: contact_a, contact_inbox: contact_inbox_a)
+      end
+      let!(:conversation_b) do
+        create(:conversation, account: account, inbox: whatsapp_channel.inbox, contact: contact_b, contact_inbox: contact_inbox_b)
+      end
+
+      it 'sends each reply to the source id of its exact conversation contact inbox' do
+        ContactMergeAction.new(account: account, base_contact: contact_a, mergee_contact: contact_b).perform
+        conversation_a.reload
+        conversation_b.reload
+        create(:message, account: account, conversation: conversation_a, message_type: :incoming, content: 'incoming A')
+        create(:message, account: account, conversation: conversation_b, message_type: :incoming, content: 'incoming B')
+        message_a = create(:message, account: account, conversation: conversation_a, message_type: :outgoing, content: 'reply A')
+        message_b = create(:message, account: account, conversation: conversation_b, message_type: :outgoing, content: 'reply B')
+        channel_a = message_a.conversation.inbox.channel
+        channel_b = message_b.conversation.inbox.channel
+
+        expect(channel_a).to receive(:send_message).with('AE.QACUSTOMERA', message_a).and_return('provider-id-a')
+        expect(channel_b).to receive(:send_message).with('AE.QACUSTOMERB', message_b).and_return('provider-id-b')
+
+        described_class.new(message: message_a).perform
+        described_class.new(message: message_b).perform
       end
     end
   end

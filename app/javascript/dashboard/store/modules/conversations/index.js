@@ -112,7 +112,9 @@ export const mutations = {
     const chat = getConversationById(_state)(conversationId);
     if (chat) {
       chat.meta.assignee = assignee;
-      chat.meta.assignee_type = assigneeType;
+      const inferredAssigneeType = assignee ? 'User' : null;
+      chat.meta.assignee_type =
+        assigneeType === undefined ? inferredAssigneeType : assigneeType;
     }
   },
 

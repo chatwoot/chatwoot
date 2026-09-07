@@ -60,6 +60,7 @@ ko:
   errors:
     account:
       not_authorized: You are not authorized to access this account
+      email_limit_exceeded: The daily email limit for this account has been reached
       reporting_timezone:
         invalid: is not a valid timezone
       support_email:
@@ -138,12 +139,14 @@ ko:
       invalid_token_permissions: '액세스 토큰에 WhatsApp에 필요한 권한이 없습니다.'
       phone_info_fetch_failed: '전화번호 정보를 가져오지 못했습니다. 다시 시도하십시오.'
       phone_number_already_exists: '이 전화번호(%{phone_number})에 대한 채널이 이미 존재합니다. 오류가 계속되면 지원팀에 문의하십시오'
+      message_outside_messaging_window: 'Message not sent because the WhatsApp 24-hour customer service window is closed and no template parameters were provided. Send an approved template message instead.'
       reauthorization:
         generic: 'WhatsApp 재인증에 실패했습니다. 다시 시도하십시오.'
         not_supported: '이 유형의 WhatsApp 채널은 재인증을 지원하지 않습니다.'
       calls:
         not_enabled: 'Calling is not enabled for this inbox'
         already_ended: 'This call has already ended'
+        already_accepted: 'Call already accepted by another agent'
         no_recording: 'No recording file provided'
         no_message: 'Call has no associated message'
         sdp_offer_required: 'sdp_offer is required'
@@ -284,6 +287,7 @@ ko:
       whatsapp:
         list_button_label: '항목 선택'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        flow_response: 'Submitted a flow response'
         unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
@@ -571,6 +575,8 @@ ko:
   agent_capacity_policy:
     inbox_already_assigned: '받은 메시지함이 이미 이 정책에 배정되어 있습니다'
   portals:
+    analytics:
+      invalid_configuration: 'Invalid analytics configuration'
     articles:
       captain_not_available: 'Translation requires Captain to be enabled for this account'
       locale_not_available: 'Locale not available in this portal'
@@ -586,6 +592,21 @@ ko:
     ssl_status:
       custom_domain_not_configured: '사용자 정의 도메인이 구성되지 않았습니다'
   super_admin:
+    account_suspension:
+      categories:
+        spam: 'Spam'
+        non_payment: 'Non-payment'
+        other: 'Other'
+      form:
+        category: 'Suspension category'
+        category_prompt: 'Select a category'
+        reason: 'Suspension reason'
+        reason_hint: 'Enter a reason of up to 256 characters.'
+      history:
+        suspended_at: 'Suspended at'
+        category: '카테고리'
+        reason: 'Reason'
+        empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:
         helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
@@ -604,6 +625,7 @@ ko:
         label_suggestion: 'Label suggestion'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
+        conversation_faq_matching: 'Conversation FAQ matching'
         help_center_article_generation: 'Help center article generation'
         onboarding_content_generation: 'Onboarding content generation'
         help_center_query_translation: 'Help center query translation'

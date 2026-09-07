@@ -24,6 +24,41 @@ describe Whatsapp::IncomingMessageService do
       }.with_indifferent_access
     end
 
+    # Phone-first ordering is Cloud-only when Meta still includes the phone. The shared
+    # `whatsapp_channel` above is a default/360Dialog one, where the phone has always led.
+    context 'when a Cloud payload carries the parent identifier' do
+      let!(:cloud_channel) do
+        create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+      end
+
+      it 'uses the parent identifier only when the phone is absent' do
+        mixed = {
+          'contacts' => [{ 'profile' => { 'name' => 'Muhsin' }, 'wa_id' => '919745786257',
+                           'user_id' => 'IN.2081978709342942', 'parent_user_id' => 'IN.ENT.9081726354' }],
+          'messages' => [{ 'from' => '919745786257', 'from_user_id' => 'IN.2081978709342942',
+                           'from_parent_user_id' => 'IN.ENT.9081726354', 'id' => 'wamid.mixed-first',
+                           'text' => { 'body' => 'first' }, 'timestamp' => '1778579582', 'type' => 'text' }]
+        }.with_indifferent_access
+        parent_only = {
+          'contacts' => [{ 'parent_user_id' => 'IN.ENT.9081726354' }],
+          'messages' => [{ 'from_parent_user_id' => 'IN.ENT.9081726354', 'id' => 'wamid.parent-only-second',
+                           'text' => { 'body' => 'second' }, 'timestamp' => '1778579600', 'type' => 'text' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: cloud_channel.inbox, params: mixed).perform
+        phone_conversation = cloud_channel.inbox.conversations.last
+
+        expect { described_class.new(inbox: cloud_channel.inbox, params: parent_only).perform }
+          .to change { cloud_channel.inbox.conversations.count }.by(1)
+
+        parent_conversation = cloud_channel.inbox.conversations.last
+        expect(phone_conversation.contact_inbox.source_id).to eq('919745786257')
+        expect(phone_conversation.messages.pluck(:content)).to contain_exactly('first')
+        expect(parent_conversation.contact_inbox.source_id).to eq('IN.ENT.9081726354')
+        expect(parent_conversation.messages.pluck(:content)).to contain_exactly('second')
+      end
+    end
+
     context 'when valid text message params' do
       it 'creates appropriate conversations, message and contacts' do
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
@@ -34,8 +69,8 @@ describe Whatsapp::IncomingMessageService do
 
       it 'appends to last conversation when if conversation already exists' do
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
-        2.times.each { create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox) }
-        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        2.times.each { create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact) }
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact)
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         # no new conversation should be created
         expect(whatsapp_channel.inbox.conversations.count).to eq(3)
@@ -46,7 +81,7 @@ describe Whatsapp::IncomingMessageService do
       it 'reopen last conversation if last conversation is resolved and lock to single conversation is enabled' do
         whatsapp_channel.inbox.update(lock_to_single_conversation: true)
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
-        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact)
         last_conversation.update(status: 'resolved')
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         # no new conversation should be created
@@ -59,7 +94,7 @@ describe Whatsapp::IncomingMessageService do
       it 'creates a new conversation if last conversation is resolved and lock to single conversation is disabled' do
         whatsapp_channel.inbox.update(lock_to_single_conversation: false)
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
-        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact)
         last_conversation.update(status: 'resolved')
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         # new conversation should be created
@@ -70,7 +105,7 @@ describe Whatsapp::IncomingMessageService do
       it 'will not create a new conversation if last conversation is not resolved and lock to single conversation is disabled' do
         whatsapp_channel.inbox.update(lock_to_single_conversation: false)
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
-        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact)
         last_conversation.update(status: Conversation.statuses.except('resolved').keys.sample)
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         # new conversation should be created
@@ -150,6 +185,10 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.contact_inboxes.count).to eq(2)
         expect(whatsapp_channel.inbox.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'bsuid only')
         expect(bsuid_contact_inbox.contact).to eq(contact_inbox.contact)
+        expect(whatsapp_channel.inbox.conversations.first.contact_inbox).to eq(contact_inbox)
+        # this provider cannot address an identifier, so the BSUID-only follow-up has to land on the
+        # phone backed thread rather than opening one nobody could reply through
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
       end
 
       it 'backfills contact phone number when a phone arrives after BSUID-only creation' do
@@ -238,7 +277,7 @@ describe Whatsapp::IncomingMessageService do
       end
 
       before do
-        create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact)
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
       end
 
@@ -292,6 +331,46 @@ describe Whatsapp::IncomingMessageService do
         message = Message.find_by!(source_id: from)
         expect(message.status).to eq('sent')
         expect { described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform }.not_to raise_error
+      end
+
+      context 'when webhooks arrive out of order' do
+        it 'does not regress status from delivered to sent' do
+          message = Message.find_by!(source_id: from)
+          message.update!(status: 'delivered')
+
+          status_params = {
+            'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'sent' }]
+          }.with_indifferent_access
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+          expect(message.reload.status).to eq('delivered')
+        end
+
+        it 'does not regress status from read to delivered' do
+          message = Message.find_by!(source_id: from)
+          message.update!(status: 'read')
+
+          status_params = {
+            'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'delivered' }]
+          }.with_indifferent_access
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+          expect(message.reload.status).to eq('read')
+        end
+
+        it 'still allows transition to failed from any status' do
+          message = Message.find_by!(source_id: from)
+          message.update!(status: 'delivered')
+
+          status_params = {
+            'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'failed',
+                             'errors' => [{ 'code': 131_047, 'title': 'Message failed to send' }] }]
+          }.with_indifferent_access
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+          expect(message.reload.status).to eq('failed')
+          expect(message.external_error).to eq('131047: Message failed to send')
+        end
       end
     end
 
@@ -453,7 +532,7 @@ describe Whatsapp::IncomingMessageService do
 
       it 'appends to existing contact if contact inbox exists' do
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: wa_id)
-        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact)
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         # no new conversation should be created
         expect(whatsapp_channel.inbox.conversations.count).to eq(1)
@@ -468,7 +547,7 @@ describe Whatsapp::IncomingMessageService do
       context 'when a contact inbox exists in the old format without 9 included' do
         it 'appends to existing contact' do
           contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: wa_id)
-          last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+          last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact)
           described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
           # no new conversation should be created
           expect(whatsapp_channel.inbox.conversations.count).to eq(1)
@@ -480,7 +559,7 @@ describe Whatsapp::IncomingMessageService do
       context 'when a contact inbox exists in the new format with 9 included' do
         it 'appends to existing contact' do
           contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '5541988887777')
-          last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+          last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact)
           described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
           # no new conversation should be created
           expect(whatsapp_channel.inbox.conversations.count).to eq(1)
@@ -515,7 +594,7 @@ describe Whatsapp::IncomingMessageService do
         # Normalized format removes the 9 after country code
         normalized_wa_id = '541123456789'
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: normalized_wa_id)
-        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact)
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         # no new conversation should be created
         expect(whatsapp_channel.inbox.conversations.count).to eq(1)
@@ -532,7 +611,7 @@ describe Whatsapp::IncomingMessageService do
       context 'when a contact inbox exists with the same format' do
         it 'appends to existing contact' do
           contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: wa_id)
-          last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+          last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact)
           described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
           # no new conversation should be created
           expect(whatsapp_channel.inbox.conversations.count).to eq(1)

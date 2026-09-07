@@ -7,6 +7,7 @@
       "404": "Δεν υπάρχουν ενεργές συζητήσεις σε αυτήν την ομάδα."
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "Συζητήσεις",
     "MENTION_HEADING": "Αναφορές",
     "UNATTENDED_HEADING": "Χωρίς Παρακολούθηση",

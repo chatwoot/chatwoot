@@ -29,6 +29,13 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
       )
     end
 
+    it 'emits a captain resolution event with the tool source' do
+      expect(Captain::ConversationEvents).to receive(:resolved)
+        .with(conversation: conversation, assistant: assistant, source: 'tool', at: kind_of(Time))
+
+      tool.perform(tool_context, reason: 'Possible spam')
+    end
+
     it 'creates a conversation_resolved reporting event' do
       create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
 
@@ -40,30 +47,25 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
     end
   end
 
-  describe 'when auto-resolve is disabled for the account' do
-    before { account.update!(captain_auto_resolve_mode: 'disabled') }
+  describe 'when auto-resolve is disabled for the assistant' do
+    before { assistant.update!(auto_resolve_mode: 'disabled') }
 
     it 'does not resolve and returns a disabled message' do
       result = tool.perform(tool_context, reason: 'Possible spam')
 
-      expect(result).to eq('Auto-resolve is disabled for this account')
-      expect(conversation.reload).not_to be_resolved
-    end
-  end
-
-  describe 'when auto-resolve is disabled via legacy settings key' do
-    before { account.update!(settings: account.settings.merge('captain_disable_auto_resolve' => true)) }
-
-    it 'does not resolve and returns a disabled message' do
-      result = tool.perform(tool_context, reason: 'Possible spam')
-
-      expect(result).to eq('Auto-resolve is disabled for this account')
+      expect(result).to eq('Auto-resolve is disabled for this assistant')
       expect(conversation.reload).not_to be_resolved
     end
   end
 
   describe 'resolving an already resolved conversation' do
     let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :resolved) }
+
+    it 'does not emit a captain resolution event' do
+      expect(Captain::ConversationEvents).not_to receive(:resolved)
+
+      tool.perform(tool_context, reason: 'Possible spam')
+    end
 
     it 'does not re-resolve and returns an already resolved message' do
       queue_adapter = ActiveJob::Base.queue_adapter

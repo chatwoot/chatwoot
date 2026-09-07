@@ -12,6 +12,7 @@ RSpec.describe InstagramConcern do
   before do
     allow(GlobalConfigService).to receive(:load).with('INSTAGRAM_APP_ID', nil).and_return(client_id)
     allow(GlobalConfigService).to receive(:load).with('INSTAGRAM_APP_SECRET', nil).and_return(client_secret)
+    allow(GlobalConfigService).to receive(:load).with('INSTAGRAM_API_VERSION', 'v22.0').and_return('v22.0')
     allow(Rails.logger).to receive(:error)
   end
 
@@ -23,7 +24,7 @@ RSpec.describe InstagramConcern do
       expect(client.id).to eq(client_id)
       expect(client.secret).to eq(client_secret)
       expect(client.site).to eq('https://api.instagram.com')
-      expect(client.options[:authorize_url]).to eq('https://api.instagram.com/oauth/authorize')
+      expect(client.options[:authorize_url]).to eq('https://www.instagram.com/oauth/authorize')
       expect(client.options[:token_url]).to eq('https://api.instagram.com/oauth/access_token')
       expect(client.options[:auth_scheme]).to eq(:request_body)
       expect(client.options[:token_method]).to eq(:post)

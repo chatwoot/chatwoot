@@ -28,6 +28,43 @@
           "PLACEHOLDER": "Por favor, selecione um",
           "ERROR": "O campo evento é obrigatório"
         },
+        "RUN_TYPE": {
+          "LABEL": "Quando esta regra deve ser executada?",
+          "OPTIONS": {
+            "INSTANT": {
+              "LABEL": "Executar imediatamente",
+              "DESCRIPTION": "É executada no momento em que um evento ocorre, desde que as condições sejam atendidas."
+            },
+            "WAIT": {
+              "LABEL": "Executar após um período de espera",
+              "DESCRIPTION": "Aguarda o tempo definido e executa a regra apenas se as condições continuarem as mesmas. Caso algo mude durante esse período, a regra será ignorada."
+            }
+          }
+        },
+        "WAIT": {
+          "LABEL": "Condição de espera",
+          "WHEN_LABEL": "Quando",
+          "STATUS_LABEL": "O status é",
+          "FOR_LABEL": "Aguardar por",
+          "INBOX_LABEL": "Caixa de Entrada",
+          "ERROR": "O período de espera deve ser entre 10 minutos e 30 dias",
+          "OPTIONS": {
+            "CONVERSATION_STATUS": "A conversa permanece em um status",
+            "CUSTOMER_UNRESPONSIVE": "O cliente não respondeu",
+            "AGENT_UNRESPONSIVE": "Nenhum atendente respondeu"
+          },
+          "DURATION": {
+            "MINUTES": "{count} minuto | {count} minutos",
+            "HOURS": "{count} hora | {count} horas",
+            "DAYS": "{count} dia | {count} dias"
+          },
+          "EXPLANATION": {
+            "CONVERSATION_STATUS": "A contagem começa quando a conversa entra nesse status. Se ela ainda estiver nele após {duration}, as ações abaixo serão executadas. Se o status mudar antes disso, nada acontecerá.",
+            "CUSTOMER_UNRESPONSIVE": "A contagem começa quando um atendente responde. Se o cliente não responder em até {duration}, as ações abaixo serão executadas. Se ele responder antes, nada acontecerá, e a próxima resposta do atendente iniciará a contagem novamente.",
+            "AGENT_UNRESPONSIVE": "A contagem começa quando um cliente envia uma mensagem. Se nenhum atendente responder em até {duration}, as ações abaixo serão executadas. Se alguém responder antes disso, nada acontecerá."
+          },
+          "FOOTNOTE": "Apenas novas atividades iniciam uma contagem. Conversas que já estiverem nesse estado só serão consideradas na próxima vez que houver alguma atividade nelas."
+        },
         "CONDITIONS": {
           "LABEL": "Condições"
         },
@@ -49,7 +86,14 @@
         "CREATED_ON": "Criado em",
         "ACTIONS": "Ações"
       },
-      "404": "Nenhuma regra de automação encontrada"
+      "404": "Nenhuma regra de automação encontrada",
+      "404_DELAYED": "Ainda não há regras executadas após um período de espera",
+      "TABS": {
+        "INSTANT": "Executadas imediatamente",
+        "DELAYED": "Executadas após um período de espera"
+      },
+      "DELAY_BADGE": "Executadas após {delay}",
+      "DELAY_DISABLED_BANNER": "A execução com atraso está desativada para esta conta, portanto as regras abaixo que executam após um período de espera estão pausadas até que ela seja ativada novamente."
     },
     "DELETE": {
       "TITLE": "Excluir regra de automação",

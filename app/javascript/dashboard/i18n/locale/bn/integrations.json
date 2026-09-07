@@ -411,8 +411,8 @@
         "DISMISS": "Dismiss"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
-        "ACTION": "Review FAQs",
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
         "DISMISS": "Dismiss"
       },
       "RANGES": {
@@ -447,7 +447,6 @@
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "Close details",
         "EMPTY": "No records found for this metric.",
         "ERROR": "Could not load records. Please try again.",
         "LOAD_MORE": "Load more",
@@ -457,7 +456,7 @@
         "TITLE": "Knowledge coverage",
         "COVERAGE": "{pct}% approved",
         "APPROVED": "Approved FAQs",
-        "PENDING": "বিচারাধীন FAQ",
+        "SUGGESTIONS": "FAQ suggestions",
         "DOCUMENTS": "নথিপত্র"
       },
       "LINKS": {
@@ -1085,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "FAQ",
-      "PENDING_FAQS": "বিচারাধীন FAQ",
       "ADD_NEW": "নতুন FAQ তৈরি করুন",
       "DOCUMENTABLE": {
         "CONVERSATION": "কথোপকথন #{id}"
@@ -1094,12 +1092,10 @@
       "SELECT_ALL": "সব নির্বাচন করুন ({count})",
       "UNSELECT_ALL": "সব নির্বাচন বাতিল করুন ({count})",
       "SEARCH_PLACEHOLDER": "FAQ অনুসন্ধান করুন...",
-      "BULK_APPROVE_BUTTON": "অনুমোদন করুন",
-      "BULK_DELETE_BUTTON": "মুছে ফেলুন",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQ সফলভাবে অনুমোদিত হয়েছে।",
-        "ERROR_MESSAGE": "FAQ অনুমোদন করতে গিয়ে একটি ত্রুটি ঘটেছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "মুছে ফেলুন",
       "BULK_DELETE": {
         "TITLE": "FAQ মুছে ফেলবেন?",
         "DESCRIPTION": "আপনি কি নিশ্চিত যে নির্বাচিত FAQ গুলো মুছে ফেলতে চান? এই ক্রিয়াটি পূর্বাবস্থায় ফেরানো যাবে না।",
@@ -1114,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ সফলভাবে মুছে ফেলা হয়েছে",
         "ERROR_MESSAGE": "FAQ মুছে ফেলতে একটি ত্রুটি হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
-      "FILTER": {
-        "ASSISTANT": "সহকারী: {selected}",
-        "STATUS": "অবস্থা: {selected}",
-        "ALL_ASSISTANTS": "সব"
-      },
-      "STATUS": {
-        "TITLE": "অবস্থা",
-        "PENDING": "অপেক্ষমাণ",
-        "APPROVED": "অনুমোদিত",
-        "ALL": "সব"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain কিছু FAQ খুঁজে পেয়েছে যা আপনার গ্রাহকরা খুঁজছিলেন।.",
-        "ACTION": "পর্যালোচনার জন্য এখানে ক্লিক করুন"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "একটি প্রশ্ন এবং তার সংশ্লিষ্ট উত্তর জ্ঞানভাণ্ডারে যোগ করুন এবং যে সহকারীটির সাথে এটি যুক্ত হবে তা নির্বাচন করুন।",
       "CREATE": {
@@ -1160,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "কোনো FAQ পাওয়া যায়নি।",
-        "NO_PENDING_TITLE": "আর কোনো বিচারাধীন FAQ নেই পর্যালোচনার জন্য",
         "SUBTITLE": "FAQ গুলো আপনার সহকারীকে গ্রাহকদের প্রশ্নের দ্রুত এবং সঠিক উত্তর দিতে সাহায্য করে। এগুলো স্বয়ংক্রিয়ভাবে আপনার বিষয়বস্তু থেকে তৈরি হতে পারে অথবা ম্যানুয়ালি যোগ করা যেতে পারে।",
         "CLEAR_SEARCH": "সক্রিয় ফিল্টারসমূহ মুছুন",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "ক্যাপ্টেন FAQ",
           "NOTE": "ক্যাপ্টেন FAQ সাধারণ গ্রাহক প্রশ্ন সনাক্ত করে—আপনার জ্ঞানভাণ্ডারে অনুপস্থিত বা প্রায়ই জিজ্ঞাসিত—এবং প্রাসঙ্গিক FAQ তৈরি করে সহায়তা উন্নত করার জন্য। আপনি প্রতিটি প্রস্তাব পর্যালোচনা করে অনুমোদন বা প্রত্যাখ্যান করতে পারেন।"
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "অনুমোদন করুন",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "পরিবর্তন সংরক্ষণ করুন",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

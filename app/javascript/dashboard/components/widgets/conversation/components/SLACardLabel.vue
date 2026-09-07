@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { evaluateSLAStatus } from 'dashboard/helper/slaHelper';
+import { useSlaStatus } from 'dashboard/composables/useSlaStatus';
 import SLAPopoverCard from './SLAPopoverCard.vue';
 
 const props = defineProps({
@@ -19,20 +19,17 @@ const props = defineProps({
   },
 });
 
-const REFRESH_INTERVAL = 60000;
 const { t } = useI18n();
 
-const timer = ref(null);
-const slaStatus = ref({
-  threshold: null,
-  isSlaMissed: false,
-  type: null,
-  icon: null,
+const chat = computed(() => props.chat);
+const appliedSLA = computed(() => chat.value?.applied_sla);
+const slaEvents = computed(() => chat.value?.sla_events);
+const { slaStatus } = useSlaStatus({
+  appliedSla: appliedSLA,
+  chat,
+  slaEvents,
 });
-
-const appliedSLA = computed(() => props.chat?.applied_sla);
-const slaEvents = computed(() => props.chat?.sla_events);
-const hasSlaThreshold = computed(() => slaStatus.value?.threshold);
+const hasSlaThreshold = computed(() => slaStatus.value?.type);
 const isSlaMissed = computed(() => slaStatus.value?.isSlaMissed);
 const slaTextStyles = computed(() =>
   isSlaMissed.value ? 'text-n-ruby-11' : 'text-n-amber-11'
@@ -40,12 +37,24 @@ const slaTextStyles = computed(() =>
 
 const slaStatusText = computed(() => {
   const upperCaseType = slaStatus.value?.type?.toUpperCase(); // FRT, NRT, or RT
-  const statusKey = isSlaMissed.value ? 'MISSED' : 'DUE';
+  const status = isSlaMissed.value
+    ? t('CONVERSATION.HEADER.SLA_STATUS.MISSED')
+    : t('CONVERSATION.HEADER.SLA_STATUS.DUE');
 
-  return t(`CONVERSATION.HEADER.SLA_STATUS.${upperCaseType}`, {
-    status: t(`CONVERSATION.HEADER.SLA_STATUS.${statusKey}`),
-  });
+  return {
+    FRT: t('CONVERSATION.HEADER.SLA_STATUS.FRT', { status }),
+    NRT: t('CONVERSATION.HEADER.SLA_STATUS.NRT', { status }),
+    RT: t('CONVERSATION.HEADER.SLA_STATUS.RT', { status }),
+  }[upperCaseType];
 });
+const showFullStatusText = computed(
+  () => props.showExtendedInfo && props.parentWidth > 650
+);
+const slaValueText = computed(
+  () =>
+    slaStatus.value?.threshold ||
+    (showFullStatusText.value ? '' : slaStatusText.value)
+);
 
 const showSlaPopoverCard = computed(
   () => props.showExtendedInfo && slaEvents.value?.length > 0
@@ -57,43 +66,8 @@ const groupClass = computed(() => {
     : 'rounded h-5  border border-n-strong';
 });
 
-const updateSlaStatus = () => {
-  slaStatus.value = evaluateSLAStatus({
-    appliedSla: appliedSLA.value,
-    chat: props.chat,
-    slaEvents: slaEvents.value || [],
-  });
-};
-
-const createTimer = () => {
-  timer.value = setTimeout(() => {
-    updateSlaStatus();
-    createTimer();
-  }, REFRESH_INTERVAL);
-};
-
-watch(
-  () => props.chat,
-  () => {
-    updateSlaStatus();
-  }
-);
-
 const slaPopoverClass = computed(() => {
-  return props.showExtendedInfo
-    ? 'ltr:pr-1.5 rtl:pl-1.5 ltr:border-r rtl:border-l border-n-strong'
-    : '';
-});
-
-onMounted(() => {
-  updateSlaStatus();
-  createTimer();
-});
-
-onUnmounted(() => {
-  if (timer.value) {
-    clearTimeout(timer.value);
-  }
+  return props.showExtendedInfo ? 'pe-1.5 border-e border-n-strong' : '';
 });
 </script>
 
@@ -118,7 +92,7 @@ onUnmounted(() => {
           :class="slaTextStyles"
         />
         <span
-          v-if="showExtendedInfo && parentWidth > 650"
+          v-if="showFullStatusText"
           class="text-xs font-medium"
           :class="slaTextStyles"
         >
@@ -126,10 +100,11 @@ onUnmounted(() => {
         </span>
       </div>
       <span
+        v-if="slaValueText"
         class="text-xs font-medium"
-        :class="[slaTextStyles, showExtendedInfo && 'ltr:pl-1.5 rtl:pr-1.5']"
+        :class="[slaTextStyles, showExtendedInfo && 'ps-1.5']"
       >
-        {{ slaStatus.threshold }}
+        {{ slaValueText }}
       </span>
     </div>
     <SLAPopoverCard

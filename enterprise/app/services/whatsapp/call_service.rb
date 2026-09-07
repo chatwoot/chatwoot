@@ -69,7 +69,7 @@ class Whatsapp::CallService
   def claim_conversation_and_set_call_status
     conversation = call.conversation
     attrs = { additional_attributes: (conversation.additional_attributes || {}).merge('call_status' => call.display_status) }
-    attrs[:assignee] = agent if conversation.assignee_id.blank?
+    attrs[:assignee] = agent if conversation.assigned_entity.nil?
     conversation.update!(attrs)
   end
 

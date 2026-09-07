@@ -50,7 +50,7 @@
       }
     },
     "VIEW": {
-      "TOOLTIP": "View macro"
+      "TOOLTIP": "Makro anzeigen"
     },
     "EDIT": {
       "TOOLTIP": "Makro bearbeiten",
@@ -70,8 +70,8 @@
         "GLOBAL": {
           "LABEL": "Öffentlich",
           "DESCRIPTION": "Dieses Makro ist öffentlich für alle Agenten in diesem Konto verfügbar.",
-          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
-          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
+          "CREATE_DISABLED_DESCRIPTION": "Nur Administratoren können öffentliche Makros erstellen.",
+          "EDIT_DISABLED_DESCRIPTION": "Nur Administratoren können öffentliche Makros bearbeiten."
         },
         "PERSONAL": {
           "LABEL": "Privat",
@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Ausführen",
       "PREVIEW": "Makrovorschau",
-      "EXECUTED_SUCCESSFULLY": "Makro erfolgreich ausgeführt"
+      "EXECUTED_SUCCESSFULLY": "Makro erfolgreich ausgeführt",
+      "EXECUTED_WITHOUT_RESOLVING": "Makro ausgeführt. Die Unterhaltung wurde nicht gelöst, da erforderliche Attribute fehlen."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Attribut-Schlüssel ist erforderlich",

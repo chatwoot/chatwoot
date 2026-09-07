@@ -4,7 +4,6 @@ import { differenceInSeconds } from 'date-fns';
 import {
   isAConversationRoute,
   isAInboxViewRoute,
-  isNotificationRoute,
 } from 'dashboard/helper/routeHelpers';
 import ReconnectService from 'dashboard/helper/ReconnectService';
 
@@ -23,7 +22,6 @@ vi.mock('date-fns', () => ({
 vi.mock('dashboard/helper/routeHelpers', () => ({
   isAConversationRoute: vi.fn(),
   isAInboxViewRoute: vi.fn(),
-  isNotificationRoute: vi.fn(),
 }));
 
 const storeMock = {
@@ -292,13 +290,6 @@ describe('ReconnectService', () => {
 
     it('should fetch notifications if current route is an inbox view route', async () => {
       isAInboxViewRoute.mockReturnValue(true);
-      const spy = vi.spyOn(reconnectService, 'fetchNotificationsOnReconnect');
-      await reconnectService.handleRouteSpecificFetch();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should fetch notifications if current route is a notification route', async () => {
-      isNotificationRoute.mockReturnValue(true);
       const spy = vi.spyOn(reconnectService, 'fetchNotificationsOnReconnect');
       await reconnectService.handleRouteSpecificFetch();
       expect(spy).toHaveBeenCalled();

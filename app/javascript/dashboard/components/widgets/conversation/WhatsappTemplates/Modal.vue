@@ -15,6 +15,10 @@ export default {
       type: Number,
       default: undefined,
     },
+    sendRenderedContent: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['onSend', 'cancel', 'update:show'],
   data() {
@@ -71,6 +75,7 @@ export default {
       <WhatsAppTemplateReply
         v-else
         :template="selectedWaTemplate"
+        :send-rendered-content="sendRenderedContent"
         @reset-template="onResetTemplate"
         @send-message="onSendMessage"
       />

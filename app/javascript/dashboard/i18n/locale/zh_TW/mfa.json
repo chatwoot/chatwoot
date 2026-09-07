@@ -49,6 +49,11 @@
       "DISABLE_MFA_DESC": "移除帳號的雙重驗證",
       "DISABLE_BUTTON": "停用雙重驗證"
     },
+    "LOW_BACKUP_CODES": {
+      "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
+      "NONE_LEFT": "You have no backup codes remaining. Generate new codes now to avoid getting locked out if you lose access to your authenticator.",
+      "ACTION": "Generate codes"
+    },
     "DISABLE": {
       "TITLE": "停用雙重驗證",
       "DESCRIPTION": "您需要輸入密碼和驗證碼才能停用雙重驗證。",

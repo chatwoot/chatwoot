@@ -4,7 +4,6 @@ import { differenceInSeconds } from 'date-fns';
 import {
   isAConversationRoute,
   isAInboxViewRoute,
-  isNotificationRoute,
 } from 'dashboard/helper/routeHelpers';
 
 const MAX_DISCONNECT_SECONDS = 10800;
@@ -63,10 +62,14 @@ class ReconnectService {
   };
 
   fetchFilteredOrSavedConversations = async queryData => {
-    await this.store.dispatch('fetchFilteredConversations', {
-      queryData,
-      page: 1,
-    });
+    try {
+      await this.store.dispatch('fetchFilteredConversations', {
+        queryData,
+        page: 1,
+      });
+    } catch (error) {
+      // Ignore error, reconnect flow should continue
+    }
   };
 
   fetchConversationsOnReconnect = async () => {
@@ -118,8 +121,6 @@ class ReconnectService {
       await this.fetchNotificationsOnReconnect(
         this.store.getters['notifications/getNotificationFilters']
       );
-    } else if (isNotificationRoute(currentRoute)) {
-      await this.fetchNotificationsOnReconnect();
     }
   };
 

@@ -22,7 +22,7 @@ end
 
 json.views article.views
 
-if article.author.present?
+if article.author&.current_account_user
   json.author do
     json.partial! 'api/v1/models/agent', formats: [:json], resource: article.author
   end
