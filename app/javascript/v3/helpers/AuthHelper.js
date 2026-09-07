@@ -21,7 +21,7 @@ export const getSignupRoute = redirectUrl => {
     : signupRoute;
 };
 
-const getShopifyInstallAccount = ({ accounts, accountId }) => {
+export const getShopifyInstallAccount = ({ accounts, accountId }) => {
   const canManageShopify = account =>
     account.role === 'administrator' && account.status === 'active';
   const currentAccount = accounts.find(

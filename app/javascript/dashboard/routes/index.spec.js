@@ -104,5 +104,42 @@ describe('#validateAuthenticateRoutePermission', () => {
         expect(next).toHaveBeenCalledWith();
       });
     });
+
+    describe('when continuing a Shopify install from an existing session', () => {
+      const pendingInstallRedirect =
+        'settings/integrations/shopify?shopify_pending_install=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+
+      it('redirects to an active administrator account', async () => {
+        store.getters.getCurrentUser = {
+          account_id: 1,
+          id: 1,
+          accounts: [
+            { id: 1, role: 'agent', status: 'active' },
+            { id: 2, role: 'administrator', status: 'active' },
+          ],
+        };
+        const to = {
+          query: { redirect_url: pendingInstallRedirect },
+          params: {},
+        };
+
+        await validateAuthenticateRoutePermission(to, next);
+
+        expect(next).toHaveBeenCalledWith(
+          `/app/accounts/2/${pendingInstallRedirect}`
+        );
+      });
+
+      it('drops the install redirect when no account can manage Shopify', async () => {
+        const to = {
+          query: { redirect_url: pendingInstallRedirect },
+          params: {},
+        };
+
+        await validateAuthenticateRoutePermission(to, next);
+
+        expect(next).toHaveBeenCalledWith('/app/accounts/1/dashboard');
+      });
+    });
   });
 });

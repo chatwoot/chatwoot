@@ -5,6 +5,10 @@ import dashboard from './dashboard/dashboard.routes';
 import store from 'dashboard/store';
 import { validateLoggedInRoutes } from '../helper/routeHelpers';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
+import {
+  getShopifyInstallAccount,
+  isShopifyInstallRedirect,
+} from 'v3/helpers/AuthHelper';
 import AnalyticsHelper from '../helper/AnalyticsHelper';
 
 const ONBOARDING_STEPS = ['account_details', 'enrichment', 'inbox_setup'];
@@ -44,7 +48,20 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   if (to.name === 'no_accounts' || !to.name) {
     const { redirect_url: redirectUrl } = to.query || {};
     if (redirectUrl) {
-      return next(frontendURL(`accounts/${routeAccountId}/${redirectUrl}`));
+      if (!isShopifyInstallRedirect(redirectUrl)) {
+        return next(frontendURL(`accounts/${routeAccountId}/${redirectUrl}`));
+      }
+
+      const redirectAccount = getShopifyInstallAccount({
+        accounts,
+        accountId: routeAccountId,
+      });
+
+      if (redirectAccount) {
+        return next(
+          frontendURL(`accounts/${redirectAccount.id}/${redirectUrl}`)
+        );
+      }
     }
     const target = needsOnboarding
       ? onboardingPath(userAccount?.onboarding_step)
