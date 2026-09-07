@@ -709,7 +709,12 @@
         "RULES": "{count} rules",
         "KNOWLEDGE_ATTACHED": "Temporary knowledge was attached to this run.",
         "NO_EVENTS": "No tool calls or scenario handoffs were recorded.",
-        "HANDOFF": "{from} → {to}"
+        "HANDOFF": "{from} → {to}",
+        "STATUS": {
+          "RUNNING": "Running",
+          "COMPLETED": "Completed",
+          "FAILED": "Failed"
+        }
       }
     },
     "PAYWALL": {

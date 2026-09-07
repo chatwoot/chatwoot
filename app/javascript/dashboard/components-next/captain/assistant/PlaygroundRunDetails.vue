@@ -11,6 +11,19 @@ const { t } = useI18n();
 const formattedArguments = argumentsValue =>
   JSON.stringify(argumentsValue || {}, null, 2);
 
+const toolStatusLabel = status => {
+  switch (status) {
+    case 'running':
+      return t('CAPTAIN.PLAYGROUND.RUN_DETAILS.STATUS.RUNNING');
+    case 'completed':
+      return t('CAPTAIN.PLAYGROUND.RUN_DETAILS.STATUS.COMPLETED');
+    case 'failed':
+      return t('CAPTAIN.PLAYGROUND.RUN_DETAILS.STATUS.FAILED');
+    default:
+      return status;
+  }
+};
+
 const runSummary = computed(() =>
   t('CAPTAIN.PLAYGROUND.RUN_DETAILS.SUMMARY', {
     duration: props.runDetails.duration_ms,
@@ -66,13 +79,12 @@ const runSummary = computed(() =>
           <template v-if="event.type === 'tool'">
             <div class="flex items-center justify-between gap-2">
               <span class="font-medium text-n-slate-12">{{ event.name }}</span>
-              <span>{{ event.status }}</span>
+              <span>{{ toolStatusLabel(event.status) }}</span>
             </div>
             <pre
               dir="ltr"
               class="mt-2 whitespace-pre-wrap break-all text-start font-mono"
-              >{{ formattedArguments(event.arguments) }}</pre
-            >
+            ><span>{{ formattedArguments(event.arguments) }}</span></pre>
             <p v-if="event.result_preview" class="mt-2 break-words">
               {{ event.result_preview }}
             </p>

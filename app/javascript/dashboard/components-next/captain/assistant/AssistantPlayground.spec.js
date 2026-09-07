@@ -233,17 +233,39 @@ describe('AssistantPlayground', () => {
     ).toBe(keyBefore + 1);
   });
 
-  it('discards an in-flight response after the conversation is cleared', async () => {
-    const playgroundRequest = deferred();
-    mocks.playground.mockReturnValue(playgroundRequest.promise);
-    const wrapper = mountPlayground();
-    await wrapper.get('input').setValue('Hello');
-    await wrapper.get('input').trigger('keydown', { key: 'Enter' });
+  it.each([
+    ['conversation is cleared', 'i-lucide-rotate-ccw'],
+    ['test setup is reset', 'i-lucide-refresh-cw'],
+  ])(
+    'keeps new requests locked while discarding an in-flight response after the %s',
+    async (_action, icon) => {
+      const playgroundRequest = deferred();
+      mocks.playground.mockReturnValue(playgroundRequest.promise);
+      const wrapper = mountPlayground();
+      await wrapper.get('input').setValue('Hello');
+      await wrapper.get('input').trigger('keydown', { key: 'Enter' });
 
-    await wrapper.get('[data-icon="i-lucide-rotate-ccw"]').trigger('click');
-    playgroundRequest.resolve({ data: { response: 'Stale response' } });
-    await flushPromises();
+      await wrapper.get(`[data-icon="${icon}"]`).trigger('click');
+      await wrapper.get('input').setValue('Try again');
+      await wrapper.get('input').trigger('keydown', { key: 'Enter' });
 
-    expect(wrapper.getComponent(MessageListStub).props('messages')).toEqual([]);
-  });
+      expect(mocks.playground).toHaveBeenCalledOnce();
+      expect(
+        wrapper.get('[data-icon="i-lucide-send"]').attributes()
+      ).toHaveProperty('disabled');
+
+      playgroundRequest.resolve({ data: { response: 'Stale response' } });
+      await flushPromises();
+
+      expect(wrapper.getComponent(MessageListStub).props('messages')).toEqual(
+        []
+      );
+      expect(
+        wrapper.get('[data-icon="i-lucide-send"]').attributes()
+      ).not.toHaveProperty('disabled');
+
+      await wrapper.get('input').trigger('keydown', { key: 'Enter' });
+      expect(mocks.playground).toHaveBeenCalledTimes(2);
+    }
+  );
 });

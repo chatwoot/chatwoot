@@ -40,6 +40,7 @@ const session = reactive(
 const isSendDisabled = computed(
   () =>
     !newMessage.value.trim() ||
+    isLoading.value ||
     (isV2.value && (session.isInitializing || Boolean(session.loadError)))
 );
 
@@ -73,7 +74,6 @@ const resetConversation = () => {
   conversationVersion += 1;
   messages.value = [];
   newMessage.value = '';
-  isLoading.value = false;
 };
 
 const resetTestSetup = async () => {
@@ -170,7 +170,7 @@ const sendMessage = async () => {
         t('CAPTAIN.PLAYGROUND.RESPONSE_ERROR')
     );
   } finally {
-    if (requestVersion === conversationVersion) isLoading.value = false;
+    isLoading.value = false;
   }
 };
 
