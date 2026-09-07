@@ -99,6 +99,7 @@ RSpec.describe 'Accounts API', type: :request do
         allow(Shopify::PendingInstallation).to receive(:claim)
           .with(token: pending_install_token)
           .and_return(pending_installation)
+        allow(pending_installation).to receive(:bind_to_account!)
         allow(pending_installation).to receive(:consume!)
         allow(pending_installation).to receive(:release!)
       end

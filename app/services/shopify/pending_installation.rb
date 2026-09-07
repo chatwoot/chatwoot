@@ -24,7 +24,7 @@ class Shopify::PendingInstallation
     token
   end
 
-  def self.claim(token:)
+  def self.claim(token:, account_id: nil)
     raise InvalidToken, 'Invalid or expired install token' unless token.is_a?(String) && token.match?(TOKEN_FORMAT)
 
     claim_token = SecureRandom.uuid
@@ -32,7 +32,7 @@ class Shopify::PendingInstallation
     claimed = ::Redis::Alfred.set(claim_key, claim_token, nx: true, ex: CLAIM_TTL.to_i)
     raise AlreadyClaimed, 'Install token is already being used' unless claimed
 
-    new(token: token, claim_key: claim_key, claim_token: claim_token)
+    new(token: token, claim_key: claim_key, claim_token: claim_token, account_id: account_id)
   rescue StandardError
     ::Redis::Alfred.delete_if_equals(claim_key, claim_token) if claim_key && claim_token
     raise
@@ -44,11 +44,16 @@ class Shopify::PendingInstallation
     Redis::SecureStorage.get(payload_key(token)).present?
   end
 
-  def initialize(token:, claim_key:, claim_token:)
+  def initialize(token:, claim_key:, claim_token:, account_id:)
     @token = token
     @claim_key = claim_key
     @claim_token = claim_token
     @data = load_data
+    if account_id
+      bind_to_account!(account_id)
+    elsif data['account_id'].present?
+      raise InvalidToken, 'Install token is already bound to an account'
+    end
   end
 
   def consume!
@@ -59,7 +64,7 @@ class Shopify::PendingInstallation
         next unless connection.get(@claim_key) == @claim_token
 
         consumed = connection.multi do |transaction|
-          transaction.del(format(PAYLOAD_KEY, token: @token))
+          transaction.del(payload_key)
           transaction.del(@claim_key)
         end.present?
       end
@@ -76,7 +81,18 @@ class Shopify::PendingInstallation
     raise CommitOutcomeUnknown, 'Install token consumption outcome is unknown', cause: e
   end
 
-  def release!
+  def bind_to_account!(account_id)
+    bound_account_id = data['account_id']
+    raise InvalidToken, 'Install token cannot be used by this account' if bound_account_id.present? && bound_account_id != account_id
+    return if bound_account_id == account_id
+
+    persist_data(data.merge('account_id' => account_id))
+    @data['account_id'] = account_id
+    @bound_by_claim = true
+  end
+
+  def release!(unbind: false)
+    unbind_from_account! if unbind && @bound_by_claim
     ::Redis::Alfred.delete_if_equals(@claim_key, @claim_token)
   end
 
@@ -94,9 +110,22 @@ class Shopify::PendingInstallation
 
   private
 
+  def persist_data(updated_data)
+    ttl = ::Redis::Alfred.ttl(payload_key)
+    raise InvalidToken, 'Invalid or expired install token' unless ttl.positive?
+
+    Redis::SecureStorage.set(payload_key, updated_data, ttl)
+  end
+
+  def unbind_from_account!
+    persist_data(data.except('account_id'))
+  rescue InvalidToken
+    nil
+  end
+
   def consume_state
     payload, claim = ::Redis::Alfred.with do |connection|
-      connection.mget(format(PAYLOAD_KEY, token: @token), @claim_key)
+      connection.mget(payload_key, @claim_key)
     end
     return :consumed if payload.nil? && claim.nil?
     return :not_consumed if payload.present?
@@ -107,7 +136,7 @@ class Shopify::PendingInstallation
   end
 
   def load_data
-    json_data = Redis::SecureStorage.get(format(PAYLOAD_KEY, token: @token))
+    json_data = Redis::SecureStorage.get(payload_key)
     raise InvalidToken, 'Invalid or expired install token' if json_data.blank?
 
     data = JSON.parse(json_data)
@@ -122,5 +151,9 @@ class Shopify::PendingInstallation
     data
   rescue JSON::ParserError, TypeError
     raise InvalidToken, 'Invalid or expired install token'
+  end
+
+  def payload_key
+    format(PAYLOAD_KEY, token: @token)
   end
 end

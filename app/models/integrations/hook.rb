@@ -18,7 +18,7 @@ class Integrations::Hook < ApplicationRecord
   include Reauthorizable
 
   attr_readonly :app_id, :account_id, :inbox_id, :hook_type
-  before_validation :ensure_hook_type
+  before_validation :ensure_hook_type, on: :create
   before_validation :normalize_shopify_reference_id, if: :shopify?
   after_create :trigger_setup_if_crm
 
@@ -105,7 +105,9 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def ensure_hook_type
-    self.hook_type = app.params[:hook_type] if app.present?
+    return if app.blank?
+
+    self.hook_type = app.params[:hook_type]
   end
 
   def normalize_shopify_reference_id

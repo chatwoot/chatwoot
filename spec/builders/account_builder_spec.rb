@@ -97,11 +97,12 @@ RSpec.describe AccountBuilder do
         allow(Shopify::PendingInstallation).to receive(:claim)
           .with(token: pending_install_token)
           .and_return(pending_installation)
+        allow(pending_installation).to receive(:bind_to_account!)
         allow(pending_installation).to receive(:consume!)
         allow(pending_installation).to receive(:release!)
       end
 
-      it 'creates the account, administrator, billing identity, feature flag, and Shopify hook atomically' do
+      it 'creates the account, administrator, billing identity, feature flag, and Shopify hook atomically', :aggregate_failures do
         user, account = shopify_account_builder.perform
 
         expect(user.accounts).to contain_exactly(account)
@@ -122,6 +123,7 @@ RSpec.describe AccountBuilder do
           )
         )
         expect(pending_installation).to have_received(:consume!)
+        expect(pending_installation).to have_received(:bind_to_account!).with(account.id)
         expect(pending_installation).not_to have_received(:release!)
       end
 

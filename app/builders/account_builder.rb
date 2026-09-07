@@ -35,7 +35,7 @@ class AccountBuilder
   rescue StandardError => e
     return recover_committed_shopify_signup(e) if committed_shopify_signup?
 
-    @pending_installation&.release!
+    @pending_installation&.release!(unbind: true)
     raise
   end
 
@@ -105,6 +105,7 @@ class AccountBuilder
     return unless @pending_installation
     raise Shopify::PendingInstallation::FeatureDisabled, 'Shopify signup is unavailable' unless Shopify::FeatureGate.globally_enabled?
 
+    @pending_installation.bind_to_account!(@account.id)
     @account.enable_features(Shopify::FeatureGate::ACCOUNT_FEATURE)
     @account.save!
     create_shopify_hook

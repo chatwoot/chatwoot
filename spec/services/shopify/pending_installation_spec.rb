@@ -77,6 +77,27 @@ RSpec.describe Shopify::PendingInstallation do
     retried_installation&.release!
   end
 
+  it 'prevents a token bound by a failed attempt from moving to another account' do
+    pending_installation = described_class.claim(token: token, account_id: 1)
+    pending_installation.release!
+
+    expect do
+      described_class.claim(token: token, account_id: 2)
+    end.to raise_error(described_class::InvalidToken, 'Install token cannot be used by this account')
+  end
+
+  it 'removes a new-account binding when signup fails' do
+    pending_installation = described_class.claim(token: token)
+    pending_installation.bind_to_account!(1)
+    pending_installation.release!(unbind: true)
+
+    retried_installation = described_class.claim(token: token)
+
+    expect(retried_installation.data['account_id']).to be_nil
+  ensure
+    retried_installation&.release!
+  end
+
   it 'prevents replay after the claim is consumed' do
     pending_installation = described_class.claim(token: token)
     pending_installation.consume!
