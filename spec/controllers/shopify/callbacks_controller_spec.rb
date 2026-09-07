@@ -39,6 +39,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     end
 
     before do
+      allow(Redis::SecureStorage).to receive(:ensure_encryption_configured!)
       stub_const('ENV', ENV.to_hash.merge('FRONTEND_URL' => frontend_url))
       account.enable_features('shopify_integration')
       allow(GlobalConfigService).to receive(:load)

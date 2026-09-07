@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Shopify::PendingInstallation do
+  let(:account_id) { 123 }
+  let(:encryption_env) do
+    {
+      'ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY' => 'primary-key',
+      'ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY' => 'deterministic-key',
+      'ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT' => 'key-derivation-salt'
+    }
+  end
   let(:token) do
     described_class.create(
       access_token: 'shopify-token',
@@ -10,6 +18,10 @@ RSpec.describe Shopify::PendingInstallation do
   end
   let(:payload_key) { "shopify_pending_install:#{token}" }
   let(:claim_key) { "shopify_pending_install_claim:#{token}" }
+
+  around do |example|
+    with_modified_env(encryption_env) { example.run }
+  end
 
   after do
     Redis::Alfred.delete(payload_key)

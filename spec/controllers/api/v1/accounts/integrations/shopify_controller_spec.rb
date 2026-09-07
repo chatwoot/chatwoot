@@ -16,6 +16,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
   let(:contact) { create(:contact, account: account, email: 'test@example.com', phone_number: '+1234567890') }
 
   before do
+    allow(Redis::SecureStorage).to receive(:ensure_encryption_configured!)
     account.enable_features!('shopify_integration')
     allow(GlobalConfigService).to receive(:load)
       .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
@@ -155,7 +156,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
     end
   end
 
-  describe 'POST /api/v1/accounts/:account_id/integrations/shopify/complete_install' do
+  context 'when completing a pending installation' do
     let(:admin) { create(:user, account: account, role: :administrator) }
     let(:pending_install_token) { SecureRandom.hex(16) }
     let(:pending_installation) do
