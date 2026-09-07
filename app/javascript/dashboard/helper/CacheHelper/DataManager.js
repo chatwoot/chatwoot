@@ -1,5 +1,5 @@
 import { openDB } from 'idb';
-import { DATA_VERSION } from './version';
+import { DATA_VERSION, INBOX_CACHE_INVALIDATION_VERSION } from './version';
 
 export class DataManager {
   constructor(accountId) {
@@ -12,7 +12,15 @@ export class DataManager {
     if (this.db) return this.db;
     const dbName = `cw-store-${this.accountId}`;
     this.db = await openDB(`cw-store-${this.accountId}`, DATA_VERSION, {
-      upgrade(db) {
+      upgrade(db, oldVersion, _newVersion, transaction) {
+        const shouldInvalidateInboxCache =
+          oldVersion > 0 && oldVersion < INBOX_CACHE_INVALIDATION_VERSION;
+
+        if (shouldInvalidateInboxCache) {
+          transaction.objectStore('inbox').clear();
+          transaction.objectStore('cache-keys').delete('inbox');
+        }
+
         // Existing databases already carry the stores added in earlier versions,
         // and createObjectStore throws on a name that is already taken.
         const createStore = (name, options) => {

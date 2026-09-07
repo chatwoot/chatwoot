@@ -52,7 +52,7 @@ describe Whatsapp::CallService do
 
     it 'keeps the AgentBot owner when accepting the call' do
       agent_bot = create(:agent_bot, account: account)
-      conversation.update!(assignee_agent_bot: agent_bot)
+      conversation.update!(ai_assignee: agent_bot)
 
       described_class.new(call: call, agent: agent, sdp_answer: sdp_answer).accept
 

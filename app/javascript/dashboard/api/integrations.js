@@ -11,9 +11,10 @@ class IntegrationsAPI extends ApiClient {
     return axios.post(`${this.baseUrl()}/integrations/slack`, { code });
   }
 
-  updateSlack({ referenceId }) {
+  updateSlack({ referenceId, messageMode }) {
     return axios.patch(`${this.baseUrl()}/integrations/slack`, {
       reference_id: referenceId,
+      message_mode: messageMode,
     });
   }
 

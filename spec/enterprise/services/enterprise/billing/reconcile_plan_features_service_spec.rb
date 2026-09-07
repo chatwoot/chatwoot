@@ -49,5 +49,16 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         expect(account.reload).to be_feature_enabled('api_and_webhooks')
       end
     end
+
+    context 'with whatsapp_embedded_signup_inbox_creation feature' do
+      it 'keeps the feature enabled on the default plan when manually managed' do
+        account.update!(custom_attributes: { 'plan_name' => 'Hacker', 'subscription_status' => 'active' })
+        Internal::Accounts::InternalAttributesService.new(account).manually_managed_features = ['whatsapp_embedded_signup_inbox_creation']
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('whatsapp_embedded_signup_inbox_creation')
+      end
+    end
   end
 end

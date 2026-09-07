@@ -2,7 +2,6 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useWhatsappEmbeddedSignup } from 'dashboard/composables/useWhatsappEmbeddedSignup';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import whatsappChannel from 'dashboard/api/channel/whatsappChannel';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
@@ -56,23 +55,13 @@ export default {
   },
   computed: {
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
     }),
     isEmbeddedSignupWhatsApp() {
       return this.inbox.provider_config?.source === 'embedded_signup';
     },
     showWhatsAppReconfigure() {
-      return (
-        this.isEmbeddedSignupWhatsApp &&
-        this.isFeatureEnabledonAccount(
-          this.accountId,
-          this.isOnChatwootCloud
-            ? FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_FLOW
-            : FEATURE_FLAGS.WHATSAPP_RECONFIGURE
-        )
-      );
+      return this.isEmbeddedSignupWhatsApp;
     },
     isForwardingEnabled() {
       return !!this.inbox.forwarding_enabled;
