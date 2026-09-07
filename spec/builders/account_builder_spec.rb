@@ -60,18 +60,15 @@ RSpec.describe AccountBuilder do
     end
 
     context 'with a pending Shopify installation' do
-      let(:encryption_env) do
-        {
-          'ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY' => 'primary-key',
-          'ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY' => 'deterministic-key',
-          'ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT' => 'key-derivation-salt'
-        }
-      end
-      let(:token) do
-        Shopify::PendingInstallation.create(
-          access_token: 'shopify-token',
-          shop: 'signup-store.myshopify.com',
-          scope: 'read_customers,read_orders'
+      let(:token) { SecureRandom.hex(16) }
+      let(:pending_installation) do
+        instance_double(
+          Shopify::PendingInstallation,
+          data: {
+            'access_token' => 'shopify-token',
+            'shop' => 'signup-store.myshopify.com',
+            'scope' => 'read_customers,read_orders'
+          }
         )
       end
       let(:account_builder) do
@@ -85,13 +82,11 @@ RSpec.describe AccountBuilder do
         )
       end
 
-      around do |example|
-        with_modified_env(encryption_env) { example.run }
-      end
-
-      after do
-        Redis::Alfred.delete("shopify_pending_install:#{token}")
-        Redis::Alfred.delete("shopify_pending_install_claim:#{token}")
+      before do
+        allow(Shopify::PendingInstallation).to receive(:claim).with(token: token).and_return(pending_installation)
+        allow(pending_installation).to receive(:bind_to_account!)
+        allow(pending_installation).to receive(:consume!)
+        allow(pending_installation).to receive(:release!)
       end
 
       it 'binds the store to the new account before consuming the token' do
@@ -101,7 +96,8 @@ RSpec.describe AccountBuilder do
           reference_id: 'signup-store.myshopify.com',
           access_token: 'shopify-token'
         )
-        expect(Redis::SecureStorage.get("shopify_pending_install:#{token}")).to be_nil
+        expect(pending_installation).to have_received(:bind_to_account!).with(account.id)
+        expect(pending_installation).to have_received(:consume!)
       end
     end
   end
