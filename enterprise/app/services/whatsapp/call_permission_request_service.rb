@@ -71,19 +71,21 @@ class Whatsapp::CallPermissionRequestService
   end
 
   def permission_request_attrs
-    permission_requests[recipient_key] || legacy_permission_request_attrs
+    permission_requests.fetch(recipient_key, {})
   end
 
   def permission_requests
-    (conversation.additional_attributes || {}).fetch(REQUESTS_KEY, {})
-  end
+    attrs = conversation.additional_attributes || {}
+    requests = attrs.fetch(REQUESTS_KEY, {})
+    return requests if requests.present?
 
-  # Older versions stored one pending request directly on the conversation.
-  # Preserve that throttle after deploy until the old window naturally expires.
-  def legacy_permission_request_attrs
-    return {} if permission_requests.present?
+    # Legacy requests always targeted the contact phone. Preserve their throttle and
+    # reply WAMID under that identity before another recipient replaces the top-level fields.
+    legacy_request = attrs.slice(REQUESTED_AT_KEY, MESSAGE_ID_KEY).compact
+    phone_recipient = conversation.contact.phone_number&.delete('+')
+    return requests if legacy_request.blank? || phone_recipient.blank?
 
-    (conversation.additional_attributes || {}).slice(REQUESTED_AT_KEY, MESSAGE_ID_KEY).compact
+    { phone_recipient => legacy_request }
   end
 
   def recipient_key

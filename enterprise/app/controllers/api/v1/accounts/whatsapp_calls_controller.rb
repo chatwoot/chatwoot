@@ -13,7 +13,6 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
               with: :render_call_error
   rescue_from Voice::CallErrors::AlreadyAccepted, with: :render_call_already_accepted
   rescue_from Voice::CallErrors::CallAlreadyEnded, with: :render_call_ended
-  rescue_from Voice::CallErrors::NoCallPermission, with: :render_permission_request
 
   def show; end
 
@@ -43,6 +42,8 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
       @message = Voice::CallMessageBuilder.new(@call).perform!
       @call.update!(message_id: @message.id)
     end
+  rescue Voice::CallErrors::NoCallPermission
+    render_permission_request
   end
 
   private
