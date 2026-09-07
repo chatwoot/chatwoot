@@ -7,10 +7,12 @@ class SocialChannels::ProviderNameBackfillService
   RETRYABLE_HTTP_STATUSES = [429, 500, 502, 503, 504].freeze
 
   def initialize(**options)
-    @account_id = options[:account_id].presence&.to_i
-    @provider_names = options[:provider].present? ? [options[:provider].to_sym] : PROVIDERS.keys
-    @limit = options[:limit].presence&.to_i
-    @delay_seconds = options.fetch(:delay_seconds, 1).to_f
+    @account_id = parse_integer_option(options[:account_id], 'ACCOUNT_ID', minimum: 1)
+    @provider_name = options[:provider].presence&.to_sym
+    @provider_names = @provider_name ? [@provider_name] : PROVIDERS.keys
+    @limit = parse_integer_option(options[:limit], 'LIMIT', minimum: 1)
+    @after_id = parse_integer_option(options[:after_id], 'AFTER_ID', minimum: 0)
+    @delay_seconds = parse_delay_seconds(options.fetch(:delay_seconds, 1))
     @dry_run = options.fetch(:dry_run, true)
     @output = options.fetch(:output, $stdout)
     @sleeper = options.fetch(:sleeper, Kernel.method(:sleep))
@@ -22,6 +24,7 @@ class SocialChannels::ProviderNameBackfillService
     enumerators = @provider_names.index_with { |provider_name| eligible_scope(provider_name).find_each }
     summary = @provider_names.index_with { empty_summary }
     process_enumerators(enumerators, summary)
+    populate_remaining_counts(summary)
 
     print_summary(summary)
     summary
@@ -53,8 +56,12 @@ class SocialChannels::ProviderNameBackfillService
 
   def process_candidate(provider_name, channel, provider_summary)
     provider_summary[:eligible] += 1
-    process_channel(provider_name, channel, provider_summary) unless @dry_run
-    print_dry_run(provider_name, channel) if @dry_run
+    if @dry_run
+      print_dry_run(provider_name, channel)
+    else
+      provider_summary[:last_attempted_id] = channel.id
+      process_channel(provider_name, channel, provider_summary)
+    end
   end
 
   def limit_reached?(processed)
@@ -64,16 +71,25 @@ class SocialChannels::ProviderNameBackfillService
   def validate_options!
     unknown_providers = @provider_names - PROVIDERS.keys
     raise ArgumentError, "Unknown provider: #{unknown_providers.join(', ')}" if unknown_providers.any?
-    raise ArgumentError, 'LIMIT must be greater than zero' if @limit && @limit <= 0
-    raise ArgumentError, 'DELAY_SECONDS cannot be negative' if @delay_seconds.negative?
+    raise ArgumentError, 'PROVIDER is required when LIMIT is set' if @limit && @provider_name.nil?
+    raise ArgumentError, 'PROVIDER is required when AFTER_ID is set' if @after_id && @provider_name.nil?
   end
 
   def eligible_scope(provider_name)
-    scope = PROVIDERS.fetch(provider_name)
-                     .joins(:account, :inbox)
-                     .merge(Account.active)
-                     .where(provider_name: [nil, ''])
+    scope = base_eligible_scope(provider_name)
+    scope = scope.where(PROVIDERS.fetch(provider_name).arel_table[:id].gt(@after_id)) if @after_id
+    scope
+  end
+
+  def base_eligible_scope(provider_name)
+    scope = PROVIDERS.fetch(provider_name).joins(:account, :inbox).merge(Account.active).where(provider_name: [nil, ''])
     @account_id ? scope.where(account_id: @account_id) : scope
+  end
+
+  def populate_remaining_counts(summary)
+    @provider_names.each do |provider_name|
+      summary[provider_name][:remaining] = base_eligible_scope(provider_name).count
+    end
   end
 
   def next_channel(enumerators, provider_name)
@@ -158,6 +174,28 @@ class SocialChannels::ProviderNameBackfillService
   end
 
   def empty_summary
-    { eligible: 0, attempted: 0, updated: 0, skipped: 0, failed: 0 }
+    { eligible: 0, attempted: 0, updated: 0, skipped: 0, failed: 0, remaining: 0, last_attempted_id: nil }
+  end
+
+  def parse_integer_option(value, name, minimum:)
+    return if value.blank?
+
+    parsed_value = value.is_a?(String) ? Integer(value, 10) : value
+    raise ArgumentError unless parsed_value.is_a?(Integer)
+    return parsed_value if parsed_value >= minimum
+
+    raise ArgumentError
+  rescue ArgumentError, TypeError
+    qualifier = minimum.zero? ? 'a non-negative integer' : 'a positive integer'
+    raise ArgumentError, "#{name} must be #{qualifier}"
+  end
+
+  def parse_delay_seconds(value)
+    parsed_value = Float(value)
+    return parsed_value if parsed_value.finite? && parsed_value >= 0
+
+    raise ArgumentError
+  rescue ArgumentError, TypeError
+    raise ArgumentError, 'DELAY_SECONDS must be a finite non-negative number'
   end
 end

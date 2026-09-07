@@ -18,14 +18,52 @@ RSpec.describe SocialChannels::ProviderNameBackfillService do
     stub_request(:post, %r{graph\.instagram\.com/.+/subscribed_apps}).to_return(status: 200)
   end
 
-  it 'rotates across providers while applying a global limit' do
+  it 'rotates across providers instead of exhausting one provider first' do
     instagram_channels = create_list(:channel_instagram, 2, account: account)
     tiktok_channel = create(:channel_tiktok, account: account)
 
-    described_class.new(limit: 2, delay_seconds: 0, dry_run: false, output: output, sleeper: sleeper).perform
+    described_class.new(delay_seconds: 0, dry_run: false, output: output, sleeper: sleeper).perform
 
-    expect(instagram_channels.count { |channel| channel.reload.provider_name == 'acme_support' }).to eq(1)
+    updated_provider_order = output.string.scan(/\[updated\] provider=(\w+)/).flatten
+    expect(updated_provider_order).to eq(%w[instagram tiktok instagram])
+    expect(instagram_channels).to all(satisfy { |channel| channel.reload.provider_name == 'acme_support' })
     expect(tiktok_channel.reload.provider_name).to eq('acme_tiktok')
+  end
+
+  it 'resumes a provider-scoped limited run after permanently failed rows' do
+    channels = create_list(:channel_tiktok, 3, account: account)
+    allow(tiktok_client).to receive(:business_account_details).and_raise('permanent provider failure')
+
+    first_summary = described_class.new(
+      provider: 'tiktok', limit: 2, delay_seconds: 0, dry_run: false, output: output, sleeper: sleeper
+    ).perform
+
+    allow(tiktok_client).to receive(:business_account_details).and_return(username: 'acme_tiktok')
+    second_summary = described_class.new(
+      provider: 'tiktok', limit: 2, after_id: first_summary[:tiktok][:last_attempted_id],
+      delay_seconds: 0, dry_run: false, output: output, sleeper: sleeper
+    ).perform
+
+    expect(first_summary[:tiktok]).to include(attempted: 2, failed: 2, remaining: 3, last_attempted_id: channels.second.id)
+    expect(second_summary[:tiktok]).to include(attempted: 1, updated: 1, remaining: 2, last_attempted_id: channels.third.id)
+    expect(channels.map { |channel| channel.reload.provider_name }).to eq([nil, nil, 'acme_tiktok'])
+  end
+
+  it 'rejects limited or cursor runs without a provider' do
+    expect { described_class.new(limit: 10) }.to raise_error(ArgumentError, 'PROVIDER is required when LIMIT is set')
+    expect { described_class.new(after_id: 10) }.to raise_error(ArgumentError, 'PROVIDER is required when AFTER_ID is set')
+  end
+
+  it 'rejects malformed numeric controls instead of silently coercing them', :aggregate_failures do
+    expect { described_class.new(delay_seconds: 'oops') }
+      .to raise_error(ArgumentError, 'DELAY_SECONDS must be a finite non-negative number')
+    expect { described_class.new(delay_seconds: Float::INFINITY) }
+      .to raise_error(ArgumentError, 'DELAY_SECONDS must be a finite non-negative number')
+    expect { described_class.new(account_id: 'oops') }.to raise_error(ArgumentError, 'ACCOUNT_ID must be a positive integer')
+    expect { described_class.new(provider: 'tiktok', limit: '1.5') }.to raise_error(ArgumentError, 'LIMIT must be a positive integer')
+    expect { described_class.new(provider: 'tiktok', limit: 1.5) }.to raise_error(ArgumentError, 'LIMIT must be a positive integer')
+    expect { described_class.new(provider: 'tiktok', after_id: -1) }
+      .to raise_error(ArgumentError, 'AFTER_ID must be a non-negative integer')
   end
 
   it 'only processes blank provider names on active accounts with an inbox' do
