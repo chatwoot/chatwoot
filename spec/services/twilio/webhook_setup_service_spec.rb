@@ -23,9 +23,28 @@ describe Twilio::WebhookSetupService do
       end
 
       it 'updates the messaging service' do
-        described_class.new(inbox: channel_twilio_sms.inbox).perform
+        described_class.new(channel: channel_twilio_sms).perform
 
         expect(services).to have_received(:update)
+      end
+    end
+
+    context 'with api key credentials' do
+      let(:channel_twilio_sms) { create(:channel_twilio_sms, api_key_sid: 'SK123') }
+
+      let(:messaging) { instance_double(Twilio::REST::Messaging) }
+      let(:services) { instance_double(Twilio::REST::Messaging::V1::ServiceContext) }
+
+      before do
+        allow(twilio_client).to receive(:messaging).and_return(messaging)
+        allow(messaging).to receive(:services).and_return(services)
+        allow(services).to receive(:update)
+      end
+
+      it 'authenticates with the api key tuple' do
+        described_class.new(channel: channel_twilio_sms).perform
+
+        expect(Twilio::REST::Client).to have_received(:new).with('SK123', channel_twilio_sms.auth_token, channel_twilio_sms.account_sid)
       end
     end
 
@@ -44,7 +63,7 @@ describe Twilio::WebhookSetupService do
         allow(twilio_client).to receive(:incoming_phone_numbers).and_return(phone_double)
         allow(phone_double).to receive(:list).and_return([])
 
-        described_class.new(inbox: channel_twilio_sms.inbox).perform
+        described_class.new(channel: channel_twilio_sms).perform
 
         expect(phone_double).not_to have_received(:update)
       end
@@ -53,7 +72,7 @@ describe Twilio::WebhookSetupService do
         allow(twilio_client).to receive(:incoming_phone_numbers).and_return(phone_double)
         allow(phone_double).to receive(:list).and_return([phone_record_double])
 
-        described_class.new(inbox: channel_twilio_sms.inbox).perform
+        described_class.new(channel: channel_twilio_sms).perform
 
         expect(phone_double).to have_received(:update).with(
           sms_method: 'POST',
