@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { createStore } from 'vuex';
+import { mutations } from '../../conversations';
+import conversationMetadata from '../../conversationMetadata';
 import actions, {
   hasMessageFailedWithExternalError,
 } from '../../conversations/actions';
@@ -56,6 +59,109 @@ describe('#hasMessageFailedWithExternalError', () => {
 });
 
 describe('#actions', () => {
+  describe('conversation history loading', () => {
+    let store;
+    let conversationA;
+    let conversationB;
+
+    beforeEach(() => {
+      conversationA = { id: 42, messages: [{ id: 100 }] };
+      conversationB = { id: 43, messages: [{ id: 200 }] };
+      store = createStore({
+        state: {
+          allConversations: [conversationA, conversationB],
+          selectedChatId: null,
+        },
+        actions,
+        mutations,
+        modules: {
+          conversationMetadata: {
+            ...conversationMetadata,
+            state: { records: {} },
+          },
+        },
+      });
+    });
+
+    it('shares pending history when switching A to B to A and keeps responses in their own conversations', async () => {
+      let resolveA;
+      let resolveB;
+      axios.get
+        .mockImplementationOnce(
+          () =>
+            new Promise(resolve => {
+              resolveA = resolve;
+            })
+        )
+        .mockImplementationOnce(
+          () =>
+            new Promise(resolve => {
+              resolveB = resolve;
+            })
+        );
+
+      const firstA = store.dispatch('setActiveChat', { data: conversationA });
+      const firstB = store.dispatch('setActiveChat', { data: conversationB });
+      const secondA = store.dispatch('setActiveChat', { data: conversationA });
+
+      expect(axios.get).toHaveBeenCalledTimes(2);
+      expect(conversationA.dataFetched).toBeUndefined();
+
+      resolveB({ data: { meta: {}, payload: [{ id: 199 }] } });
+      await firstB;
+      expect(store.state.selectedChatId).toBe(42);
+      expect(conversationA.messages).toEqual([{ id: 100 }]);
+      expect(conversationB.messages).toEqual([{ id: 199 }, { id: 200 }]);
+
+      resolveA({ data: { meta: {}, payload: [{ id: 99 }] } });
+      await Promise.all([firstA, secondA]);
+      expect(conversationA.messages).toEqual([{ id: 99 }, { id: 100 }]);
+      expect(conversationA.dataFetched).toBe(true);
+      expect(conversationB.dataFetched).toBe(true);
+    });
+
+    it('leaves failed history unfetched and retries when the conversation is reopened', async () => {
+      axios.get.mockRejectedValueOnce(new Error('Network error'));
+
+      await store.dispatch('setActiveChat', { data: conversationA });
+
+      expect(conversationA.dataFetched).toBeUndefined();
+      expect(conversationA.messages).toEqual([{ id: 100 }]);
+      expect(conversationA.allMessagesLoaded).toBe(false);
+
+      axios.get.mockResolvedValueOnce({
+        data: { meta: {}, payload: [{ id: 99 }] },
+      });
+      await store.dispatch('setActiveChat', { data: conversationA });
+
+      expect(axios.get).toHaveBeenCalledTimes(2);
+      expect(conversationA.messages).toEqual([{ id: 99 }, { id: 100 }]);
+      expect(conversationA.dataFetched).toBe(true);
+    });
+
+    it.each(['before', 'after'])(
+      'loads distinct %s cursors independently and allows a completed request again',
+      async cursor => {
+        let resolveHistory;
+        const response = new Promise(resolve => {
+          resolveHistory = resolve;
+        });
+        axios.get.mockReturnValue(response);
+        const firstParams = { conversationId: 42, [cursor]: 90 };
+        const secondParams = { conversationId: 42, [cursor]: 80 };
+
+        const first = store.dispatch('fetchPreviousMessages', firstParams);
+        const second = store.dispatch('fetchPreviousMessages', secondParams);
+        expect(axios.get).toHaveBeenCalledTimes(2);
+
+        resolveHistory({ data: { meta: {}, payload: [] } });
+        await Promise.all([first, second]);
+        await store.dispatch('fetchPreviousMessages', firstParams);
+        expect(axios.get).toHaveBeenCalledTimes(3);
+      }
+    );
+  });
+
   describe('#getConversation', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({
