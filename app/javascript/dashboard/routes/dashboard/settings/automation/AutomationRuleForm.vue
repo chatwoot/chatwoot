@@ -1,13 +1,5 @@
 <script setup>
-import {
-  ref,
-  computed,
-  h,
-  shallowRef,
-  toRaw,
-  useTemplateRef,
-  watch,
-} from 'vue';
+import { ref, computed, h, shallowRef, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useOperators } from 'dashboard/components-next/filter/operators';
@@ -131,12 +123,14 @@ const inboxOptions = computed(
   () => props.getConditionDropdownValues('inbox_id') || []
 );
 
+const cloneConditions = conditions => JSON.parse(JSON.stringify(conditions));
+
 const captureTriggerDraft = () => {
   if (!automation.value) return null;
 
   return {
     eventName: automation.value.event_name,
-    conditions: structuredClone(toRaw(automation.value.conditions)),
+    conditions: cloneConditions(automation.value.conditions),
   };
 };
 
@@ -144,7 +138,7 @@ const restoreTriggerDraft = draft => {
   if (!automation.value || !draft) return;
 
   automation.value.event_name = draft.eventName;
-  automation.value.conditions = structuredClone(draft.conditions);
+  automation.value.conditions = cloneConditions(draft.conditions);
 };
 
 // Show the wait in the largest whole unit (240 min → 4 hours). The delay is passed in by open()
@@ -161,9 +155,10 @@ const syncDelayState = executionDelay => {
   delayMinutes.value = minutes;
   waitSectionKey.value += 1;
 
-  const triggerDraft = captureTriggerDraft();
-  instantTriggerDraft.value = executionDelay ? null : triggerDraft;
-  waitTriggerDraft.value = executionDelay ? triggerDraft : null;
+  // Drafts are captured when the run type actually changes, so they start empty: seeding them
+  // here would read `automation` before its model prop settles and keep the previous rule.
+  instantTriggerDraft.value = null;
+  waitTriggerDraft.value = null;
 };
 
 watch(
