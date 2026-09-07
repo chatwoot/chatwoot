@@ -29,7 +29,9 @@ class Shopify::SubscriptionFetcher
 
   def ensure_eligible!
     raise NotEligible, 'Shopify subscription lookup is disabled' unless Shopify::FeatureGate.enabled?(account: account)
-    return if account.billing_provider == 'shopify' && account.signup_source == 'shopify'
+
+    billing_identity = account.internal_attributes.stringify_keys
+    return if billing_identity['billing_provider'] == 'shopify' && billing_identity['signup_source'] == 'shopify'
 
     raise NotEligible, 'Account is not billed through Shopify'
   end

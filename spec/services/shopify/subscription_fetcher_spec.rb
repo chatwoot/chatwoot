@@ -109,7 +109,7 @@ RSpec.describe Shopify::SubscriptionFetcher do
   end
 
   it 'does not call Shopify for a Stripe-billed account' do
-    allow(account).to receive(:billing_provider).and_return('stripe')
+    account.internal_attributes = account.internal_attributes.merge('billing_provider' => 'stripe')
 
     expect do
       described_class.new(account: account).perform
