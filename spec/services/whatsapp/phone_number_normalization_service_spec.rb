@@ -72,10 +72,10 @@ describe Whatsapp::PhoneNumberNormalizationService do
         expect(described_class.new(whatsapp_inbox).normalize_and_find_contact_by_provider('5491112345678', :cloud)).to eq('541112345678')
       end
 
-      it 'finds a contact stored with the 9 when the number arrives without it' do
+      it 'does not route a mobile sender into a landline contact inbox' do
         create(:contact_inbox, inbox: whatsapp_inbox, source_id: '5491112345678')
 
-        expect(described_class.new(whatsapp_inbox).normalize_and_find_contact_by_provider('541112345678', :cloud)).to eq('5491112345678')
+        expect(described_class.new(whatsapp_inbox).normalize_and_find_contact_by_provider('541112345678', :cloud)).to eq('541112345678')
       end
 
       it 'leaves a partial Argentina number alone' do
