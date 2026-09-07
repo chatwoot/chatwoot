@@ -136,6 +136,12 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
 
+  def send_contact_info_request(identifier, message)
+    raise NotImplementedError, 'Contact information requests require a WhatsApp Cloud provider' unless provider == 'whatsapp_cloud'
+
+    Whatsapp::Providers::WhatsappCloudContactInfoRequestService.perform(self, identifier, message)
+  end
+
   def setup_webhooks(is_coexistence: nil)
     perform_webhook_setup(is_coexistence: is_coexistence)
   rescue StandardError => e

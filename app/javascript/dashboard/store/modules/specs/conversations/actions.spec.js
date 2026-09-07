@@ -290,6 +290,68 @@ describe('#actions', () => {
     });
   });
 
+  describe('#updateMessage', () => {
+    it('refreshes loaded conversations sharing the same contact inbox source after terminal contact info updates', () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn();
+      const message = {
+        id: 1,
+        conversation_id: 10,
+        status: 'sent',
+        content_attributes: {
+          whatsapp_contact_info: {
+            type: 'request',
+            state: 'identity_conflict',
+          },
+        },
+        conversation: {
+          contact_inbox: { source_id: 'IN.2081978709342942' },
+        },
+      };
+      const state = {
+        allConversations: [
+          { id: 10, messages: [message] },
+          {
+            id: 20,
+            messages: [
+              {
+                conversation: {
+                  contact_inbox: { source_id: 'IN.2081978709342942' },
+                },
+              },
+            ],
+          },
+          {
+            id: 30,
+            messages: [
+              {
+                conversation: {
+                  contact_inbox: { source_id: 'IN.3109889333218546' },
+                },
+              },
+            ],
+          },
+        ],
+      };
+
+      actions.updateMessage(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          rootGetters: {},
+          state,
+        },
+        message
+      );
+
+      expect(localCommit.mock.calls).toEqual([[types.ADD_MESSAGE, message]]);
+      expect(localDispatch.mock.calls).toEqual([
+        ['getConversation', 10],
+        ['getConversation', 20],
+      ]);
+    });
+  });
+
   describe('#markMessagesRead', () => {
     beforeEach(() => {
       vi.useFakeTimers();
