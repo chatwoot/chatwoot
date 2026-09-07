@@ -210,6 +210,17 @@
   description: 'The FireCrawl API key for the Captain AI service'
   locked: false
   type: secret
+- name: WEB_CRAWLING_PROVIDER
+  display_title: 'Web Crawling Provider'
+  description: 'Provider used for web crawling. Automatic preserves the existing Firecrawl-when-configured behavior.'
+  value: 'auto'
+  locked: false
+  type: select
+  options:
+    auto: 'Automatic'
+    native: 'Native'
+    firecrawl: 'Firecrawl'
+    context_dev: 'Context.dev'
 - name: CAPTAIN_CLOUD_PLAN_LIMITS
   display_title: 'Captain Cloud Plan Limits'
   description: 'The limits for the Captain AI service for different plans'
@@ -238,7 +249,7 @@
 # ------- Context.dev Config ------- #
 - name: CONTEXT_DEV_API_KEY
   display_title: 'Context.dev API Key'
-  description: 'API key for Context.dev branding service used during account onboarding'
+  description: 'API key for Context.dev branding and web crawling services'
   type: secret
 # ------- End of Context.dev Config ------- #
 

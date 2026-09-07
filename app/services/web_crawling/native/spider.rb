@@ -1,0 +1,102 @@
+class WebCrawling::Native::Spider < WebCrawling::BaseSpider
+  attr_reader :external_link, :status_code
+
+  def initialize(external_link = nil)
+    super()
+    @external_link = external_link
+    load_page if external_link
+  end
+
+  def discover(url:, limit:, query: nil)
+    links = self.class.new(url).page_links
+    terms = query.to_s.downcase.split.reject { |term| term.length < 3 }
+    links = links.select { |link| terms.any? { |term| link.downcase.include?(term) } } if terms.any?
+
+    links.first(limit).map { |page_url| WebCrawling::Types::DiscoveredPage.new(url: page_url) }
+  end
+
+  def scrape(url:)
+    page = self.class.new(url)
+
+    WebCrawling::Types::Page.new(
+      url: url,
+      title: page.page_title,
+      markdown: page.body_markdown,
+      status_code: page.status_code
+    )
+  end
+
+  def success?
+    status_code.to_i.between?(200, 299)
+  end
+
+  def page_links
+    sitemap? ? extract_links_from_sitemap : extract_links_from_html
+  end
+
+  def page_title
+    @parser.title
+  end
+
+  def body_markdown
+    @parser.body_markdown
+  end
+
+  def meta_description
+    meta_desc = @doc.at_css('meta[name="description"]')
+    return nil unless meta_desc && meta_desc['content']
+
+    meta_desc['content'].strip
+  end
+
+  def favicon_url
+    favicon_link = @doc.at_css('link[rel*="icon"]')
+    return nil unless favicon_link && favicon_link['href']
+
+    resolve_url(favicon_link['href'])
+  end
+
+  private
+
+  def load_page
+    @parser = WebCrawling::Native::HtmlPageParser.new(fetch_body)
+    @doc = @parser.doc
+  end
+
+  def fetch_body
+    body = ''
+    SafeFetch.fetch(external_link, validate_content_type: false) do |result|
+      body = result.tempfile.read
+    end
+    @status_code = 200
+    body
+  rescue SafeFetch::HttpError => e
+    @status_code = e.message.to_i
+    ''
+  rescue SafeFetch::Error
+    @status_code = nil
+    ''
+  end
+
+  def sitemap?
+    external_link.end_with?('.xml')
+  end
+
+  def extract_links_from_sitemap
+    @doc.xpath('//loc').to_set(&:text)
+  end
+
+  def extract_links_from_html
+    @doc.xpath('//a/@href').to_set do |link|
+      URI.join(external_link, link.value).to_s
+    end
+  end
+
+  def resolve_url(url)
+    return url if url.start_with?('http')
+
+    URI.join(external_link, url).to_s
+  rescue StandardError
+    url
+  end
+end
