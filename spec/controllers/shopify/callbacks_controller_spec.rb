@@ -221,6 +221,8 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     end
 
     context 'when a Shopify-billed account is reinstalled' do
+      let(:state) { SecureRandom.hex(16) }
+
       let(:shopify_account) do
         create(
           :account,
@@ -250,7 +252,10 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         end
         allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
         allow(auth_code_strategy).to receive(:get_token).and_return(token_response)
+        Redis::SecureStorage.set("shopify_oauth_state:#{state}", { shop: shop }, 10.minutes)
       end
+
+      after { Redis::SecureStorage.delete("shopify_oauth_state:#{state}") }
 
       it 'reactivates a retained hook and redirects to billing' do
         previous_installation_id = SecureRandom.uuid
@@ -440,6 +445,8 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     end
 
     context 'when cleanup completes during the OAuth exchange' do
+      let(:state) { SecureRandom.hex(16) }
+
       before do
         allow(described_class).to receive(:new).and_wrap_original do |original, *args|
           controller = original.call(*args)
@@ -449,7 +456,10 @@ RSpec.describe Shopify::CallbacksController, type: :request do
           controller
         end
         allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
+        Redis::SecureStorage.set("shopify_oauth_state:#{state}", { shop: shop }, 10.minutes)
       end
+
+      after { Redis::SecureStorage.delete("shopify_oauth_state:#{state}") }
 
       it 'does not restore the hook from the older callback' do
         hook = create(:integrations_hook, :shopify, account: account, reference_id: shop)

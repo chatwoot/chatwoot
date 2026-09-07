@@ -1,4 +1,4 @@
-class Shopify::CallbacksController < ApplicationController
+class Shopify::CallbacksController < ApplicationController # rubocop:disable Metrics/ClassLength
   include Shopify::IntegrationHelper
 
   def show
@@ -34,6 +34,7 @@ class Shopify::CallbacksController < ApplicationController
   def handle_shopify_initiated_flow
     prepare_shopify_initiated_flow
     verify_shopify_oauth_state!
+    load_existing_shopify_account
 
     # Security: HMAC validation ensures params (including shop) haven't been tampered with.
     # Additionally, the OAuth code is cryptographically bound to the shop that issued it.
@@ -56,6 +57,7 @@ class Shopify::CallbacksController < ApplicationController
 
   def handle_shopify_initiated_without_code
     prepare_shopify_initiated_flow
+    load_existing_shopify_account
     hook = @account&.hooks&.find_by(app_id: 'shopify')
     return redirect_to existing_account_redirect_url if hook&.enabled? && hook.access_token.present?
 
@@ -74,8 +76,6 @@ class Shopify::CallbacksController < ApplicationController
     ensure_shopify_enabled!
     raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
     raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
-
-    load_existing_shopify_account
   end
 
   def verify_shopify_oauth_state!
@@ -249,4 +249,4 @@ class Shopify::CallbacksController < ApplicationController
 
     ActiveSupport::SecurityUtils.secure_compare(computed_hmac, hmac)
   end
-end
+end # rubocop:enable Metrics/ClassLength
