@@ -114,7 +114,7 @@ RSpec.describe 'Accounts API', type: :request do
         account = Account.order(:id).last
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['email']).to eq(email)
-        expect(account).to have_attributes(billing_provider: 'shopify', signup_source: 'shopify')
+        expect(account.internal_attributes).to include('billing_provider' => 'shopify', 'signup_source' => 'shopify')
         expect(account).to be_feature_enabled('shopify_integration')
         expect(account.hooks.find_by!(app_id: 'shopify').reference_id).to eq('my-store.myshopify.com')
         expect(pending_installation).to have_received(:consume!)
@@ -126,7 +126,10 @@ RSpec.describe 'Accounts API', type: :request do
         end
 
         expect(response).to have_http_status(:success)
-        expect(Account.order(:id).last).to have_attributes(billing_provider: 'shopify', signup_source: 'shopify')
+        expect(Account.order(:id).last.internal_attributes).to include(
+          'billing_provider' => 'shopify',
+          'signup_source' => 'shopify'
+        )
       end
 
       it 'does not bypass disabled account signup for an invalid pending token' do

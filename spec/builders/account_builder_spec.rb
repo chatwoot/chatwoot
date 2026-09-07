@@ -106,9 +106,9 @@ RSpec.describe AccountBuilder do
         user, account = shopify_account_builder.perform
 
         expect(user.accounts).to contain_exactly(account)
-        expect(account).to have_attributes(
-          billing_provider: 'shopify',
-          signup_source: 'shopify'
+        expect(account.internal_attributes).to include(
+          'billing_provider' => 'shopify',
+          'signup_source' => 'shopify'
         )
         expect(account.custom_attributes['subscription_status']).to eq('pending')
         expect(account).to be_feature_enabled('shopify_integration')
