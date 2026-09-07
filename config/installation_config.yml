@@ -182,6 +182,11 @@
 # End of Microsoft Email Channel Config
 
 # MARK: Captain Config
+- name: CAPTAIN_TOOLS_CATALOG_URL
+  display_title: 'Tools catalog URL'
+  description: 'Base URL of the Captain tools catalog. Must serve /toolsets.json with CORS enabled for browser access.'
+  value: 'https://tools.chatwoot.com'
+  locked: false
 - name: ENABLE_CAPTAIN_CONVERSATION_ASSIGNMENT
   display_title: 'Enable Captain Conversation Assignment'
   description: 'Enable assigning conversations to Captain assistants.'
