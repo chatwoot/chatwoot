@@ -77,6 +77,16 @@ RSpec.describe 'Webhooks::WhatsappController', type: :request do
         expect(Webhooks::WhatsappEventsJob).not_to have_received(:perform_later)
       end
 
+      it 'rejects tracking-only payloads for inactive numbers' do
+        allow(GlobalConfig).to receive(:get_value).with('INACTIVE_WHATSAPP_NUMBERS').and_return('+1234567890')
+
+        post_whatsapp_webhook('/webhooks/whatsapp/+1234567890', body)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Inactive WhatsApp number')
+        expect(Webhooks::WhatsappEventsJob).not_to have_received(:perform_later)
+      end
+
       it 'rejects unsigned tracking-only payloads' do
         post_unsigned_whatsapp_webhook('/webhooks/whatsapp/123221321', body)
 

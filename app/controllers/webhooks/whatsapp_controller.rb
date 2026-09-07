@@ -4,13 +4,13 @@ class Webhooks::WhatsappController < ActionController::API
   before_action :verify_meta_signature!, only: :process_payload
 
   def process_payload
-    return head :ok if tracking_events_only?
-
     if inactive_whatsapp_number?
       Rails.logger.warn("Rejected webhook for inactive WhatsApp number: #{params[:phone_number]}")
       render json: { error: 'Inactive WhatsApp number' }, status: :unprocessable_entity
       return
     end
+
+    return head :ok if tracking_events_only?
 
     Webhooks::WhatsappEventsJob.perform_later(params.to_unsafe_hash)
     head :ok
