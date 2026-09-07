@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -23,6 +24,7 @@ const props = defineProps({
 const emit = defineEmits(['close']);
 const { t } = useI18n();
 const store = useStore();
+const route = useRoute();
 
 const dialogRef = ref(null);
 
@@ -30,6 +32,7 @@ const updateTool = toolDetails =>
   store.dispatch('captainCustomTools/update', {
     id: props.selectedTool.id,
     ...toolDetails,
+    assistantId: route.params.assistantId,
   });
 
 const i18nKey = computed(
@@ -37,7 +40,10 @@ const i18nKey = computed(
 );
 
 const createTool = toolDetails =>
-  store.dispatch('captainCustomTools/create', toolDetails);
+  store.dispatch('captainCustomTools/create', {
+    ...toolDetails,
+    assistantId: route.params.assistantId,
+  });
 
 const handleSubmit = async updatedTool => {
   try {

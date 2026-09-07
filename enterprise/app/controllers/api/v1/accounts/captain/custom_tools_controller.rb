@@ -4,13 +4,13 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   before_action :set_custom_tool, only: [:show, :update, :destroy]
 
   def index
-    @custom_tools = account_custom_tools
+    @custom_tools = assistant_custom_tools
   end
 
   def show; end
 
   def create
-    @custom_tool = account_custom_tools.create!(custom_tool_params)
+    @custom_tool = assistant_custom_tools.create!(custom_tool_params.merge(account: Current.account))
   rescue Captain::CustomTool::LimitExceededError => e
     render_could_not_create_error(e.message)
   end
@@ -25,7 +25,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   end
 
   def test
-    tool = account_custom_tools.new(custom_tool_params)
+    tool = assistant_custom_tools.new(custom_tool_params.merge(account: Current.account))
     body = execute_test_request(tool)
     render json: { status: 200, body: body.to_s.truncate(500) }
   rescue StandardError => e
@@ -41,11 +41,11 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   end
 
   def set_custom_tool
-    @custom_tool = account_custom_tools.find(params[:id])
+    @custom_tool = assistant_custom_tools.find(params[:id])
   end
 
-  def account_custom_tools
-    @account_custom_tools ||= Current.account.captain_custom_tools
+  def assistant_custom_tools
+    @assistant_custom_tools ||= Current.account.captain_assistants.find(params[:assistant_id]).custom_tools
   end
 
   def execute_test_request(tool)

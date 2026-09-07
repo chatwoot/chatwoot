@@ -1161,6 +1161,10 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "ASSISTANT_TOOLS_BANNER": {
+        "MESSAGE": "Custom tools now belong to individual assistants, with up to 50 tools per assistant. Your existing tools have been copied to each assistant. Changes to a tool only affect the assistant it belongs to.",
+        "DISMISS": "Dismiss announcement"
+      },
       "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
