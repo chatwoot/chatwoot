@@ -17,6 +17,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
     let(:call_sid) { 'CA_test_call_sid_123' }
     let(:from_number) { '+15550003333' }
     let(:to_number) { channel.phone_number }
+    let(:inbound_call_params) { { 'CallSid' => call_sid, 'From' => from_number, 'To' => to_number, 'Direction' => 'inbound' } }
 
     it 'invokes Voice::InboundCallBuilder for inbound calls and renders conference TwiML' do
       conversation = create(:conversation, account: account, inbox: inbox)
@@ -48,6 +49,28 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(response.body).to include('<Response>')
       expect(response.body).to include('<Dial>')
       expect(response.body).to include(call.conference_sid)
+    end
+
+    # An inbox that predates the setting carries no key in provider_config and must keep recording.
+    it 'records the conference from the start when the call was created with recording on' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact, provider_call_id: call_sid)
+      allow(Voice::InboundCallBuilder).to receive(:perform!).and_return(call)
+
+      post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+      expect(response.body).to include('record="record-from-start"')
+    end
+
+    it 'does not record the conference when the call was created with recording off' do
+      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact, provider_call_id: call_sid)
+      allow(Voice::InboundCallBuilder).to receive(:perform!).and_return(call)
+
+      post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+      expect(response.body).to include('record="do-not-record"')
     end
 
     it 'looks up the Call when Twilio sends the outbound-api PSTN leg' do
