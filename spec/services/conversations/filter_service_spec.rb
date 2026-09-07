@@ -359,7 +359,7 @@ describe Conversations::FilterService do
       it 'treats AgentBot-owned conversations as having an assignee' do
         account.conversations.destroy_all
         agent_bot = create(:agent_bot, account: account)
-        bot_owned_conversation = create(:conversation, account: account, inbox: inbox, assignee_agent_bot: agent_bot)
+        bot_owned_conversation = create(:conversation, account: account, inbox: inbox, ai_assignee: agent_bot)
         human_owned_conversation = create(:conversation, account: account, inbox: inbox, assignee: user_1)
         create(:conversation, account: account, inbox: inbox)
 
@@ -380,7 +380,7 @@ describe Conversations::FilterService do
       it 'excludes AgentBot-owned conversations from assignee is not present' do
         account.conversations.destroy_all
         agent_bot = create(:agent_bot, account: account)
-        create(:conversation, account: account, inbox: inbox, assignee_agent_bot: agent_bot)
+        create(:conversation, account: account, inbox: inbox, ai_assignee: agent_bot)
         unassigned_conversation = create(:conversation, account: account, inbox: inbox)
 
         params[:payload] = [{
@@ -829,7 +829,7 @@ describe Conversations::FilterService do
     end
 
     it 'counts conversations owned by an agent bot as assigned' do
-      create(:conversation, account: account, inbox: inbox, assignee_agent_bot: create(:agent_bot, account: account))
+      create(:conversation, account: account, inbox: inbox, ai_assignee: create(:agent_bot, account: account))
       params[:payload] = payload
 
       result = filter_service.new(params, user_1, account).perform

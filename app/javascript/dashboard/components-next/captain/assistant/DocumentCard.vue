@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import {
   isSafeHttpLink,
@@ -89,6 +90,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['action', 'select', 'hover']);
+
+const exactTimestamp = useExactTimestamp();
+
 const { checkPermissions } = usePolicy();
 
 const { t } = useI18n();
@@ -247,7 +251,14 @@ const handleRetry = () => {
         :show-retry="canSync && isRetryableSync"
         @retry="handleRetry"
       />
-      <div v-else class="text-sm shrink-0 text-n-slate-11 line-clamp-1">
+      <div
+        v-else
+        v-tooltip.top="{
+          content: exactTimestamp(createdAt),
+          delay: { show: 500, hide: 0 },
+        }"
+        class="text-sm shrink-0 text-n-slate-11 line-clamp-1"
+      >
         {{ createdAtLabel }}
       </div>
     </div>

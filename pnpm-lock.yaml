@@ -28,8 +28,8 @@ importers:
         specifier: 0.6.2
         version: 0.6.2
       '@chatwoot/prosemirror-schema':
-        specifier: 1.4.1
-        version: 1.4.1
+        specifier: 1.4.4
+        version: 1.4.4
       '@chatwoot/utils':
         specifier: ^0.0.57
         version: 0.0.57
@@ -452,8 +452,8 @@ packages:
   '@chatwoot/pico-search@0.6.2':
     resolution: {integrity: sha512-uZnt/c06sN3epXv42uzweoqKLCY94s+h9vpbw/1SYCPTww4kCo18vUUD3QZ7tPPSBQB130Fjc79tLQMSWoGt4w==}
 
-  '@chatwoot/prosemirror-schema@1.4.1':
-    resolution: {integrity: sha512-skBLslveAW4yYQP0RkJFOJ9lXZbPWE95pLHA+AolsPKw/a1iS/g0SMXHx2gbyHoacrVX6v44+PHMKQYP6L3u0Q==}
+  '@chatwoot/prosemirror-schema@1.4.4':
+    resolution: {integrity: sha512-HwOEtzcOcX8mLgOeHMngNLLmVQFWJODbJw6yl7VArg1gsZv2gAsjbtqdyGNt0DTwleJsOwBZdNMNrSaAU8V7+A==}
 
   '@chatwoot/utils@0.0.57':
     resolution: {integrity: sha512-L4QrCmimkULY9ZQk0MJRLfwry3Pqq2e7psETqoZGYopMZ+8DSWe4t6cModSjTCBnDjqgp/gTl0oorntCYrDE8w==}
@@ -1886,9 +1886,6 @@ packages:
   change-case@4.1.2:
     resolution: {integrity: sha512-bSxY2ws9OtviILG1EiY5K7NNxkqg/JnRnFxLtKQ96JaviiIxi7djMrSd0ECT9AC+lttClmYwKw53BWpOMblo7A==}
 
-  chart.js@4.4.4:
-    resolution: {integrity: sha512-emICKGBABnxhMjUjlYRR12PmOXhJ2eJjEHL2/dZlWjxRAZT1D8xplLFq5M0tMQK8ja+wBS/tuVEJB5C6r7VxJA==}
-    engines: {pnpm: '>=8'}
   check-error@2.1.1:
     resolution: {integrity: sha512-OAlb+T7V4Op9OwdkjmguYRqncdlx5JiofwOAUkmTF+jNdHwzTaTs4sRAGpzLF3oOz5xAyDGrPgeIDFQmDOTiJw==}
     engines: {node: '>= 16'}
@@ -5192,7 +5189,7 @@ snapshots:
 
   '@chatwoot/pico-search@0.6.2': {}
 
-  '@chatwoot/prosemirror-schema@1.4.1':
+  '@chatwoot/prosemirror-schema@1.4.4':
     dependencies:
       linkify-it: 5.0.2
       markdown-it: 14.3.0
@@ -6759,9 +6756,6 @@ snapshots:
       snake-case: 3.0.4
       tslib: 2.7.0
 
-  chart.js@4.4.4:
-    dependencies:
-      '@kurkle/color': 0.3.2
   check-error@2.1.1: {}
 
   chokidar@3.5.3:

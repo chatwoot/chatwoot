@@ -546,6 +546,60 @@ describe Twilio::IncomingMessageService do
           expect(phone_contact_inbox.contact).to eq(bsuid_contact_inbox.contact)
           expect(bsuid_contact_inbox.contact.reload.phone_number).to eq('+919745786257')
         end
+
+        it 'routes merged-contact messages through each exact provider-shaped source' do
+          contact_a = create(:contact, account: account, name: 'Customer A')
+          contact_b = create(:contact, account: account, name: 'Customer B')
+          contact_inbox_a = create(:contact_inbox, inbox: whatsapp_twilio_channel.inbox, contact: contact_a,
+                                                   source_id: 'whatsapp:IN.2081978709342942')
+          contact_inbox_b = create(:contact_inbox, inbox: whatsapp_twilio_channel.inbox, contact: contact_b,
+                                                   source_id: 'whatsapp:IN.3081978709342942')
+          conversation_a = create(:conversation, account: account, inbox: whatsapp_twilio_channel.inbox, contact: contact_a,
+                                                 contact_inbox: contact_inbox_a)
+          conversation_b = create(:conversation, account: account, inbox: whatsapp_twilio_channel.inbox, contact: contact_b,
+                                                 contact_inbox: contact_inbox_b)
+          ContactMergeAction.new(account: account, base_contact: contact_a, mergee_contact: contact_b).perform
+          params_a = {
+            SmsSid: 'SMcustomerA', From: contact_inbox_a.source_id, AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid, Body: 'message from customer A',
+            ExternalUserId: contact_inbox_a.source_id.delete_prefix('whatsapp:')
+          }
+          params_b = {
+            SmsSid: 'SMcustomerB', From: contact_inbox_b.source_id, AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid, Body: 'message from customer B',
+            ExternalUserId: contact_inbox_b.source_id.delete_prefix('whatsapp:')
+          }
+
+          described_class.new(params: params_b).perform
+          described_class.new(params: params_a).perform
+
+          expect(conversation_a.reload.messages.pluck(:content)).to contain_exactly('message from customer A')
+          expect(conversation_b.reload.messages.pluck(:content)).to contain_exactly('message from customer B')
+        end
+
+        it 'keeps provider-shaped From active when merged-contact identifier fields disagree' do
+          contact_a = create(:contact, account: account, name: 'Customer A')
+          contact_b = create(:contact, account: account, name: 'Customer B')
+          contact_inbox_a = create(:contact_inbox, inbox: whatsapp_twilio_channel.inbox, contact: contact_a,
+                                                   source_id: 'whatsapp:IN.2081978709342942')
+          contact_inbox_b = create(:contact_inbox, inbox: whatsapp_twilio_channel.inbox, contact: contact_b,
+                                                   source_id: 'whatsapp:IN.3081978709342942')
+          conversation_a = create(:conversation, account: account, inbox: whatsapp_twilio_channel.inbox, contact: contact_a,
+                                                 contact_inbox: contact_inbox_a)
+          conversation_b = create(:conversation, account: account, inbox: whatsapp_twilio_channel.inbox, contact: contact_b,
+                                                 contact_inbox: contact_inbox_b)
+          ContactMergeAction.new(account: account, base_contact: contact_a, mergee_contact: contact_b).perform
+          params = {
+            SmsSid: 'SMconflictingIdentifiers', From: contact_inbox_a.source_id, AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid, Body: 'route by provider-shaped From',
+            ExternalUserId: contact_inbox_b.source_id.delete_prefix('whatsapp:')
+          }
+
+          described_class.new(params: params).perform
+
+          expect(conversation_a.reload.messages.pluck(:content)).to contain_exactly('route by provider-shaped From')
+          expect(conversation_b.reload.messages).to be_empty
+        end
       end
 
       describe 'When the incoming WhatsApp message has CTWA referral parameters' do
@@ -705,6 +759,41 @@ describe Twilio::IncomingMessageService do
           expect(last_conversation.messages.last.content).to eq('Test message from Brazil')
           # Should use the existing contact's source_id (normalized format)
           expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+5541988887777')
+        end
+
+        it 'reuses an existing contact in new format when the inbox has no contact inbox' do
+          existing_contact = create(:contact, account: account, phone_number: '+5541988887777')
+
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+554188887777',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Brazil',
+            ProfileName: 'João Silva'
+          }
+
+          expect { described_class.new(params: params).perform }.not_to change(account.contacts, :count)
+
+          contact_inbox = whatsapp_twilio_channel.inbox.contact_inboxes.find_by!(source_id: 'whatsapp:+554188887777')
+          expect(contact_inbox.contact).to eq(existing_contact)
+        end
+
+        it 'updates a normalized phone placeholder with the profile name' do
+          existing_contact = create(:contact, account: account, name: '+5541988887777', phone_number: '+5541988887777')
+
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+554188887777',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Brazil',
+            ProfileName: 'João Silva'
+          }
+
+          expect { described_class.new(params: params).perform }.not_to change(account.contacts, :count)
+
+          expect(existing_contact.reload.name).to eq('João Silva')
         end
 
         it 'creates contact inbox with incoming number when no existing contact' do
