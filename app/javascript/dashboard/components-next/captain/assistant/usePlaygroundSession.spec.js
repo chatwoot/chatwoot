@@ -127,9 +127,20 @@ describe('usePlaygroundSession', () => {
 
     expect(session.knowledgeStats.value.documents).toBe(13);
     expect(session.knowledgeText.value).toBe('# Refund policy');
+    expect(session.isKnowledgeAlreadySaved.value).toBe(true);
     expect(mocks.useAlert).toHaveBeenCalledWith(
       'CAPTAIN.PLAYGROUND.SETUP.SAVE_KNOWLEDGE_SUCCESS'
     );
+
+    await session.saveKnowledgeAsDocument();
+    expect(
+      mocks.dispatch.mock.calls.filter(
+        ([action]) => action === 'captainDocuments/create'
+      )
+    ).toHaveLength(1);
+
+    session.setKnowledgeText('# Updated refund policy');
+    expect(session.isKnowledgeAlreadySaved.value).toBe(false);
     scope.stop();
   });
 
