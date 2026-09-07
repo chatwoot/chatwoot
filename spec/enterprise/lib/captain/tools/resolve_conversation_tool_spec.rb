@@ -40,6 +40,19 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
       expect(resolution_message).to have_attributes(content: 'Thanks for contacting us.', sender: assistant)
     end
 
+    it 'rolls back the resolution message when resolving fails' do
+      assistant.update!(config: assistant.config.merge('resolution_message' => 'Thanks for contacting us.'))
+      allow(tool).to receive(:find_conversation).and_return(conversation)
+      allow(conversation).to receive(:resolved!).and_raise(ActiveRecord::RecordInvalid.new(conversation))
+
+      expect do
+        tool.perform(tool_context, reason: 'Issue resolved')
+      end.to raise_error(ActiveRecord::RecordInvalid)
+        .and(not_change { conversation.messages.outgoing.where(private: false).count })
+
+      expect(conversation.reload).to be_open
+    end
+
     it 'resolves without a message when resolution messages are disabled' do
       assistant.update!(send_inactivity_resolution_message: false)
 
