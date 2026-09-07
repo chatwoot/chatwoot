@@ -1162,7 +1162,7 @@
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
       "ASSISTANT_TOOLS_BANNER": {
-        "MESSAGE": "Custom tools now belong to individual assistants. Your existing tools have been copied to each assistant. Changes to a tool only affect the assistant it belongs to.",
+        "MESSAGE": "Custom tools are now specific to each assistant. Existing tools were copied to all assistants.",
         "DISMISS": "Dismiss announcement"
       },
       "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
