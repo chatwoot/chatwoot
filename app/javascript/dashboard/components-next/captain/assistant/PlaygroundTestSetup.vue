@@ -547,7 +547,9 @@ const selectTab = tab => {
                   color="slate"
                   size="sm"
                   :disabled="
-                    !session.knowledgeText.trim() || session.isSavingKnowledge
+                    !session.knowledgeText.trim() ||
+                    session.isSavingKnowledge ||
+                    session.isKnowledgeAlreadySaved
                   "
                   :is-loading="session.isSavingKnowledge"
                   @click="session.saveKnowledgeAsDocument"

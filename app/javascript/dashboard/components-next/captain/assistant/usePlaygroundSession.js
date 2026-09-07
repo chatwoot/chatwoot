@@ -40,6 +40,7 @@ export function usePlaygroundSession({ assistantId }) {
   const knowledgeText = ref('');
   const isKnowledgeIncluded = ref(true);
   const savingKnowledgeAssistantIds = ref(new Set());
+  const savedKnowledgeContentByAssistantId = ref(new Map());
   const savingRuleTypes = ref(new Set());
   const knowledgeStats = ref({ documents: 0, faqs: 0 });
   let initializationSequence = 0;
@@ -319,6 +320,14 @@ export function usePlaygroundSession({ assistantId }) {
   const isSavingKnowledge = computed(() =>
     savingKnowledgeAssistantIds.value.has(assistantId.value)
   );
+  const isKnowledgeAlreadySaved = computed(() => {
+    const content = knowledgeText.value.trim();
+    return (
+      Boolean(content) &&
+      savedKnowledgeContentByAssistantId.value.get(assistantId.value) ===
+        content
+    );
+  });
 
   const setKnowledgeSaving = (targetAssistantId, isSaving) => {
     const nextSavingAssistantIds = new Set(savingKnowledgeAssistantIds.value);
@@ -332,7 +341,8 @@ export function usePlaygroundSession({ assistantId }) {
 
   const saveKnowledgeAsDocument = async () => {
     const content = knowledgeText.value.trim();
-    if (!content || isSavingKnowledge.value) return;
+    if (!content || isSavingKnowledge.value || isKnowledgeAlreadySaved.value)
+      return;
 
     const targetAssistantId = assistantId.value;
     const filename = createMarkdownFilename();
@@ -346,6 +356,9 @@ export function usePlaygroundSession({ assistantId }) {
           markdown_content: content,
         },
       });
+      const savedKnowledge = new Map(savedKnowledgeContentByAssistantId.value);
+      savedKnowledge.set(targetAssistantId, content);
+      savedKnowledgeContentByAssistantId.value = savedKnowledge;
       if (assistantId.value !== targetAssistantId) return;
 
       knowledgeStats.value = {
@@ -378,6 +391,7 @@ export function usePlaygroundSession({ assistantId }) {
     knowledgeText,
     isKnowledgeIncluded,
     isSavingKnowledge,
+    isKnowledgeAlreadySaved,
     isRuleTypeSaving,
     knowledgeStats,
     playgroundConfig,

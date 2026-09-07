@@ -41,6 +41,7 @@ const buildSession = overrides => ({
   knowledgeText: '',
   isKnowledgeIncluded: true,
   isSavingKnowledge: false,
+  isKnowledgeAlreadySaved: false,
   isRuleTypeSaving: vi.fn(() => false),
   knowledgeStats: { documents: 12, faqs: 48 },
   toggleScenario: vi.fn(),
@@ -384,6 +385,23 @@ describe('PlaygroundTestSetup', () => {
     await nextTick();
 
     expect(saveKnowledgeAsDocument).toHaveBeenCalledOnce();
+  });
+
+  it('disables saving unchanged knowledge that was already added as a document', () => {
+    const wrapper = mountSetup({
+      isAdmin: true,
+      knowledgeText: '# Refund policy',
+      isKnowledgeAlreadySaved: true,
+    });
+    const saveButton = wrapper
+      .findAllComponents(Button)
+      .find(
+        button =>
+          button.props('label') ===
+          'CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.ADD_PERMANENTLY'
+      );
+
+    expect(saveButton.attributes()).toHaveProperty('disabled');
   });
 
   it('keeps a separate quick-entry draft per tab', async () => {
