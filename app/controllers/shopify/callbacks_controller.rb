@@ -164,7 +164,8 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
   end
 
   def existing_account_redirect_url
-    return shopify_billing_url if account.billing_provider == 'shopify' && account.signup_source == 'shopify'
+    billing_identity = account.internal_attributes.stringify_keys
+    return shopify_billing_url if billing_identity['billing_provider'] == 'shopify' && billing_identity['signup_source'] == 'shopify'
 
     shopify_integration_url
   end
