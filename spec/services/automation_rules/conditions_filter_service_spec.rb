@@ -38,6 +38,30 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       end
     end
 
+    context 'when conditions are based on priority' do
+      it 'matches a conversation with no priority' do
+        rule.update!(conditions: [{ 'values': ['nil'], 'attribute_key': 'priority',
+                                    'query_operator': nil, 'filter_operator': 'equal_to' }])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+
+      it 'does not match a conversation with no priority for not_equal_to' do
+        rule.update!(conditions: [{ 'values': ['nil'], 'attribute_key': 'priority',
+                                    'query_operator': nil, 'filter_operator': 'not_equal_to' }])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+      end
+
+      it 'matches a named priority' do
+        conversation.update!(priority: :medium)
+        rule.update!(conditions: [{ 'values': ['medium'], 'attribute_key': 'priority',
+                                    'query_operator': nil, 'filter_operator': 'equal_to' }])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+    end
+
     context 'when conditions based on filter_operator start_with' do
       before do
         contact = conversation.contact
