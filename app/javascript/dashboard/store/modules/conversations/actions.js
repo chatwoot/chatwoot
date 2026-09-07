@@ -13,6 +13,7 @@ import {
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import * as Sentry from '@sentry/vue';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import {
   handleVoiceCallCreated,
   handleVoiceCallUpdated,
@@ -31,7 +32,7 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
   return status === MESSAGE_STATUS.FAILED && externalError !== '';
 };
 
-let conversationListRequestId = 0;
+const conversationListRequest = useAbortableRequest();
 
 // actions
 const actions = {
@@ -56,54 +57,56 @@ const actions = {
     { commit, state, dispatch },
     { replaceExisting = false } = {}
   ) => {
-    conversationListRequestId += 1;
-    const requestId = conversationListRequestId;
-    commit(types.SET_LIST_LOADING_STATUS);
-    try {
-      const params = state.conversationFilters;
-      const {
-        data: { data },
-      } = await ConversationApi.get(params);
+    return conversationListRequest.run(async signal => {
+      commit(types.SET_LIST_LOADING_STATUS);
+      try {
+        const params = state.conversationFilters;
+        const {
+          data: { data },
+        } = await ConversationApi.get(params, { signal });
 
-      if (requestId !== conversationListRequestId) return;
+        if (signal.aborted) return;
 
-      buildConversationList(
-        { commit, dispatch },
-        params,
-        data,
-        params.assigneeType,
-        { replaceExisting }
-      );
-    } catch (error) {
-      if (requestId === conversationListRequestId) {
-        commit(types.CLEAR_LIST_LOADING_STATUS);
+        buildConversationList(
+          { commit, dispatch },
+          params,
+          data,
+          params.assigneeType,
+          { replaceExisting }
+        );
+      } catch (error) {
+        if (!signal.aborted) {
+          commit(types.CLEAR_LIST_LOADING_STATUS);
+        }
       }
-    }
+    });
   },
 
   fetchFilteredConversations: async ({ commit, dispatch }, params) => {
-    conversationListRequestId += 1;
-    const requestId = conversationListRequestId;
-    const { replaceExisting = false, ...requestParams } = params;
-    commit(types.SET_LIST_LOADING_STATUS);
-    try {
-      const { data } = await ConversationApi.filter(requestParams);
+    return conversationListRequest.run(async signal => {
+      const { replaceExisting = false, ...requestParams } = params;
+      commit(types.SET_LIST_LOADING_STATUS);
+      try {
+        const { data } = await ConversationApi.filter(requestParams, {
+          signal,
+        });
 
-      if (requestId !== conversationListRequestId) return;
+        if (signal.aborted) return;
 
-      buildConversationList(
-        { commit, dispatch },
-        requestParams,
-        data,
-        'appliedFilters',
-        { replaceExisting }
-      );
-    } catch (error) {
-      if (requestId !== conversationListRequestId) return;
+        buildConversationList(
+          { commit, dispatch },
+          requestParams,
+          data,
+          'appliedFilters',
+          { replaceExisting }
+        );
+      } catch (error) {
+        if (signal.aborted) return;
 
-      commit(types.CLEAR_LIST_LOADING_STATUS);
-      throw error;
-    }
+        commit(types.CLEAR_LIST_LOADING_STATUS);
+        throw error;
+      }
+    });
   },
 
   emptyAllConversations({ commit }) {
@@ -546,7 +549,7 @@ const actions = {
   },
 
   invalidateConversationListRequests({ commit }) {
-    conversationListRequestId += 1;
+    conversationListRequest.abort();
     commit(types.CLEAR_LIST_LOADING_STATUS);
   },
 
