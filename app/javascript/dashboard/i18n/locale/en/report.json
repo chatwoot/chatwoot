@@ -672,7 +672,15 @@
       "LEFT_QUEUE": "Left the queue",
       "TIME_TO_ENTER_CHAT": "Time to enter the chat",
       "TIME_TO_LEAVE_QUEUE": "Time to leave the queue"
-    }
+    },
+    "CHARTS": {
+      "QUEUED": "Queued",
+      "ENTERED_CHAT": "Entered the chat",
+      "LEFT_QUEUE": "Left the queue",
+      "TIME_TO_ENTER_CHAT": "Time to enter the chat",
+      "TIME_TO_LEAVE_QUEUE": "Time to leave the queue"
+    },
+    "FETCH_ERROR": "Could not load the queued customers report"
   },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Sunday",

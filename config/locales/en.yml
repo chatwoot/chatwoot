@@ -427,6 +427,8 @@ en:
         self_assigned: '%{user_name} self-assigned this conversation'
         assigned: 'Assigned to %{assignee_name} by %{user_name}'
         removed: 'Conversation unassigned by %{user_name}'
+        unassigned_offline: '%{agent_name} went offline, the conversation was unassigned'
+        unknown_agent: an unknown agent
       team:
         assigned: 'Assigned to %{team_name} by %{user_name}'
         assigned_with_assignee: 'Assigned to %{assignee_name} via %{team_name} by %{user_name}'

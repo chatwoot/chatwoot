@@ -48,8 +48,6 @@ class Conversations::AgentAccessService
     value.to_i
   end
 
-  private_class_method :find_account_user, :apply_assignment_scope, :apply_history_limit, :history_days
-
   private
 
   def account_user

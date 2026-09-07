@@ -67,8 +67,10 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
     @canned_response.destroy! if @canned_response.reload.canned_response_scopes.empty?
   end
 
+  # Agents can only touch responses they can see (public, own, or shared with them); private
+  # responses of other users are not accessible even though their ids are enumerable.
   def fetch_canned_response
-    @canned_response = Current.account.canned_responses.find(params[:id])
+    @canned_response = all_responses_scope.find(params[:id])
   end
 
   def canned_response_base_params

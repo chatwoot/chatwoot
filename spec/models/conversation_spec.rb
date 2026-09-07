@@ -1394,6 +1394,25 @@ RSpec.describe Conversation do
     end
   end
 
+  describe 'participant lifecycle on reopen' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: agent, status: :open) }
+
+    before { create(:inbox_member, inbox: inbox, user: agent) }
+
+    it 'starts a new stint for the assignee when a resolved conversation is reopened' do
+      participant = create(:conversation_participant, conversation: conversation, user: agent, account: account)
+      conversation.update!(status: :resolved)
+      expect(participant.reload.left_at).not_to be_nil
+
+      conversation.update!(status: :open)
+
+      expect(participant.reload.left_at).to be_nil
+    end
+  end
+
   describe '#status_changed_at' do
     let(:conversation) { create(:conversation) }
 

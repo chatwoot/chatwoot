@@ -667,7 +667,15 @@
       "LEFT_QUEUE": "Не дождались ответа",
       "TIME_TO_ENTER_CHAT": "Среднее время до принятия",
       "TIME_TO_LEAVE_QUEUE": "Среднее время до ухода"
-    }
+    },
+    "CHARTS": {
+      "QUEUED": "В очереди",
+      "ENTERED_CHAT": "Приняты оператором",
+      "LEFT_QUEUE": "Не дождались ответа",
+      "TIME_TO_ENTER_CHAT": "Время до принятия",
+      "TIME_TO_LEAVE_QUEUE": "Время до ухода"
+    },
+    "FETCH_ERROR": "Не удалось загрузить отчёт по очередям"
   },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Воскресенье",

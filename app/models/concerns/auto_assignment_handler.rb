@@ -132,13 +132,22 @@ module AutoAssignmentHandler
     fetcher.queue_size(inbox_id).zero?
   end
 
+  # Capacity is re-checked under the agent's AccountUser lock (same as Queue::AssignmentService)
+  # so two conversations opening at once cannot both take the agent's last slot.
   def handle_direct_or_queued_assignment(queue_service)
     assignee = find_available_agent_for(self)
 
-    if assignee && assignee_id.nil?
-      update!(assignee: assignee, status: :open)
-    else
-      queue_service.add_to_queue(self)
+    assigned = assignee && assignee_id.nil? && assign_directly_under_lock(assignee)
+    queue_service.add_to_queue(self) unless assigned
+  end
+
+  def assign_directly_under_lock(agent)
+    ActiveRecord::Base.transaction do
+      AccountUser.lock.find_by(account_id: account_id, user_id: agent.id)
+      next false unless ChatQueue::Agents::AvailabilityService.new(account: account).available?(agent)
+
+      update!(assignee: agent, status: :open)
+      true
     end
   end
 end

@@ -368,7 +368,7 @@ class Conversation < ApplicationRecord
   end
 
   def create_participant_for_new_agent
-    return unless saved_change_to_assignee_id?
+    return unless saved_change_to_assignee_id? || reopened_with_assignee?
     return if assignee_id.nil?
 
     participant = ConversationParticipant.find_or_initialize_by(conversation_id: id, user_id: assignee_id)
@@ -381,6 +381,12 @@ class Conversation < ApplicationRecord
       participant.created_at = now
       participant.save!
     end
+  end
+
+  # resolved → open with the same assignee: close_agents_on_resolve closed their participant,
+  # so a new stint has to start for reply-time and chat-duration reporting.
+  def reopened_with_assignee?
+    saved_change_to_status? && open? && status_before_last_save == 'resolved' && assignee_id.present?
   end
 
   def close_agents_on_resolve

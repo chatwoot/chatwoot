@@ -126,6 +126,20 @@ RSpec.describe 'Canned Responses API', type: :request do
         expect(canned_response.reload.short_code).to eq('B')
       end
 
+      it 'does not let an agent update a private response that is not shared with them' do
+        other_agent = create(:user, account: account, role: :agent)
+        private_response = create(:canned_response, account: account, visibility: :private_response, created_by: other_agent, content: 'secret')
+        create(:canned_response_scope, canned_response: private_response, user_ids: [other_agent.id])
+
+        put "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
+            params: { content: 'taken over' },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(private_response.reload.content).to eq('secret')
+      end
+
       it 'leaves a private response untouched when no scope is given' do
         admin = create(:user, account: account, role: :administrator)
         private_response = create(:canned_response, account: account, visibility: :private_response, content: 'before')

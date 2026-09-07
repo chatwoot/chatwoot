@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { formatTime } from '@chatwoot/utils';
 import { emitter } from 'shared/helpers/mitt';
 
@@ -11,6 +12,8 @@ import ReportHeader from './components/ReportHeader.vue';
 import ReportFilterSelector from './components/FilterSelector.vue';
 
 const POLL_INTERVAL = 30_000;
+
+const { t } = useI18n();
 
 const filters = ref({
   from: 0,
@@ -78,17 +81,17 @@ const queueFlowCollection = computed(() => {
     labels,
     datasets: [
       {
-        label: 'Queued',
+        label: t('QUEUED_CUSTOMERS_REPORTS.CHARTS.QUEUED'),
         data: queuedReport.value.daily.map(item => item.queued_customers),
         backgroundColor: '#3B82F6',
       },
       {
-        label: 'Entered chat',
+        label: t('QUEUED_CUSTOMERS_REPORTS.CHARTS.ENTERED_CHAT'),
         data: queuedReport.value.daily.map(item => item.entered_chat),
         backgroundColor: '#10B981',
       },
       {
-        label: 'Left queue',
+        label: t('QUEUED_CUSTOMERS_REPORTS.CHARTS.LEFT_QUEUE'),
         data: queuedReport.value.daily.map(item => item.left_queue),
         backgroundColor: '#F97316',
       },
@@ -102,12 +105,12 @@ const waitingTimeCollection = computed(() => {
     labels,
     datasets: [
       {
-        label: 'Time to enter chat',
+        label: t('QUEUED_CUSTOMERS_REPORTS.CHARTS.TIME_TO_ENTER_CHAT'),
         data: queuedReport.value.daily.map(item => item.time_to_enter_chat),
         backgroundColor: '#6366F1',
       },
       {
-        label: 'Time to leave queue',
+        label: t('QUEUED_CUSTOMERS_REPORTS.CHARTS.TIME_TO_LEAVE_QUEUE'),
         data: queuedReport.value.daily.map(item => item.time_to_leave_queue),
         backgroundColor: '#EC4899',
       },
@@ -127,7 +130,7 @@ const fetchQueuedCustomers = async ({ showLoader = false } = {}) => {
     });
     queuedReport.value = response.data;
   } catch (error) {
-    useAlert('Failed to fetch queued customers report');
+    useAlert(t('QUEUED_CUSTOMERS_REPORTS.FETCH_ERROR'));
   } finally {
     if (showLoader) loading.value = false;
   }
@@ -158,15 +161,15 @@ const onFilterChange = payload => {
   startPolling();
 };
 
+const onConversationStats = () => fetchQueuedCustomers({ showLoader: false });
+
 onMounted(() => {
-  emitter.on('fetch_conversation_stats', () =>
-    fetchQueuedCustomers({ showLoader: false })
-  );
+  emitter.on('fetch_conversation_stats', onConversationStats);
   startPolling();
 });
 
 onUnmounted(() => {
-  emitter.off('fetch_conversation_stats', fetchQueuedCustomers);
+  emitter.off('fetch_conversation_stats', onConversationStats);
   stopPolling();
 });
 </script>

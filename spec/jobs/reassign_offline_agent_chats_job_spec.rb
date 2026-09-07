@@ -5,7 +5,6 @@ RSpec.describe ReassignOfflineAgentChatsJob do
   let(:inbox) { create(:inbox, account: account) }
   let(:offline_agent) { create(:user, account: account, role: :agent) }
   let(:online_agent) { create(:user, account: account, role: :agent) }
-  let(:system_user) { create(:account_user, account: account, role: :system) }
 
   let(:conversation1) do
     create(:conversation,
@@ -192,6 +191,14 @@ RSpec.describe ReassignOfflineAgentChatsJob do
 
           expect(conversation1.reload.updated_at).to be > original_time
         end
+
+        it 'closes the offline agent participant so chat duration stops accruing' do
+          participant = create(:conversation_participant, conversation: conversation1, user: offline_agent, account: account)
+
+          described_class.new.perform(offline_agent.id, account.id)
+
+          expect(participant.reload.left_at).not_to be_nil
+        end
       end
 
       context 'when no online agents are available and the account uses the chat queue' do
@@ -202,7 +209,6 @@ RSpec.describe ReassignOfflineAgentChatsJob do
 
         it 'queues the conversations instead of leaving them stranded' do
           conversation1
-          system_user
 
           described_class.new.perform(offline_agent.id, account.id)
 
@@ -363,7 +369,7 @@ RSpec.describe ReassignOfflineAgentChatsJob do
 
         message = conv.messages.activity.last
         expect(message).not_to be_nil
-        expect(message.content).to include('неизвестного оператора')
+        expect(message.content).to include(I18n.t('conversations.activity.assignee.unknown_agent'))
       end
     end
 

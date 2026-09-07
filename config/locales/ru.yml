@@ -408,6 +408,8 @@ ru:
         self_assigned: '%{user_name} назначил(а) разговор себе'
         assigned: '%{user_name} назначил %{assignee_name} ответственным'
         removed: 'Ответственный снят %{user_name}'
+        unassigned_offline: 'Чат был снят с оператора %{agent_name}, так как он перешёл в офлайн'
+        unknown_agent: неизвестного оператора
       team:
         assigned: '%{user_name} назначил %{team_name} ответственным'
         assigned_with_assignee: '%{user_name} назначил %{assignee_name} в %{team_name}'

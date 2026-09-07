@@ -18,6 +18,7 @@ class ContactInboxWithContactBuilder
     return @contact_inbox if @contact_inbox
 
     ActiveRecord::Base.transaction(requires_new: true) do
+      lock_inbox_email
       build_contact_with_contact_inbox
     end
     update_contact_avatar(@contact) unless @contact.avatar.attached?
@@ -29,6 +30,18 @@ class ContactInboxWithContactBuilder
   def build_contact_with_contact_inbox
     @contact = find_contact || create_contact
     @contact_inbox = create_contact_inbox
+  end
+
+  # Email uniqueness per inbox is a validation across contacts and contact_inboxes, not a DB
+  # constraint; a transaction-scoped advisory lock on (inbox, email) keeps two concurrent
+  # identifications with the same email from both passing it and creating two contacts.
+  def lock_inbox_email
+    email = contact_attributes[:email].to_s.downcase.strip
+    return if email.blank?
+
+    ActiveRecord::Base.connection.execute(
+      ActiveRecord::Base.sanitize_sql_array(['SELECT pg_advisory_xact_lock(hashtext(?))', "contact_email:#{inbox.id}:#{email}"])
+    )
   end
 
   def account

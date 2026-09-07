@@ -49,24 +49,22 @@ class ReassignOfflineAgentChatsJob < ApplicationJob
     end
   end
 
-  # rubocop:disable Rails/SkipsModelValidations
+  # Goes through the model so close_previous_agent_on_reassign closes the agent's participant
+  # (chat-duration reporting) instead of a callback-less update_all.
   def unassign_all(conversations, account)
     Rails.logger.warn("All agents offline in account #{account.id} — unassigning #{conversations.size} conversations")
-    conversations.update_all(assignee_id: nil, updated_at: Time.current)
+    conversations.find_each { |conversation| conversation.update!(assignee_id: nil) }
   end
-  # rubocop:enable Rails/SkipsModelValidations
 
   def create_system_message(conversation)
-    system_user = AccountUser.where(account_id: conversation.account_id, role: :system).first
     agent = User.find_by(id: conversation.assignee_id)
-    name = agent&.name || 'неизвестного оператора'
+    name = agent&.name || I18n.t('conversations.activity.assignee.unknown_agent')
 
     conversation.messages.create!(
       message_type: :activity,
-      content: "Чат был снят с оператора #{name}, так как он перешёл в офлайн",
+      content: I18n.t('conversations.activity.assignee.unassigned_offline', agent_name: name),
       account: conversation.account,
-      inbox: conversation.inbox,
-      sender: system_user
+      inbox: conversation.inbox
     )
   end
 
