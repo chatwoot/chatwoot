@@ -629,7 +629,8 @@
       "CONTACT_SELECTOR": {
         "LABEL": "To:",
         "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
-        "CONTACT_CREATING": "Creating contact..."
+        "CONTACT_CREATING": "Creating contact...",
+        "ADDITIONAL_RECIPIENTS_PLACEHOLDER": "Add another recipient"
       },
       "INBOX_SELECTOR": {
         "LABEL": "Via:",

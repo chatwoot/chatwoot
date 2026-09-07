@@ -126,6 +126,7 @@ export const prepareNewMessagePayload = ({
   selectedContact,
   message,
   subject,
+  toEmails,
   ccEmails,
   bccEmails,
   currentUser,
@@ -149,6 +150,15 @@ export const prepareNewMessagePayload = ({
 
   if (subject) {
     payload.mailSubject = subject;
+  }
+
+  // to_emails replaces the contact address on the outgoing mail, so the primary
+  // contact has to be part of the list whenever extra recipients are added.
+  if (toEmails) {
+    const recipients = [selectedContact.email, ...toEmails.split(',')]
+      .map(email => email?.trim())
+      .filter(Boolean);
+    payload.message.to_emails = [...new Set(recipients)].join(',');
   }
 
   if (ccEmails) {
