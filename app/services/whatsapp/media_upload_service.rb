@@ -1,78 +1,78 @@
-# frozen_string_literal: true
+require 'faraday/multipart'
 
-# Uploads a file attachment directly to the WhatsApp Cloud API media endpoint
-# and returns the resulting media_id.
-#
-# Using media_id instead of a link URL completely bypasses Meta's fwdproxy
-# download path, which is rate-limited per destination ASN. This prevents
-# intermittent 131053 errors for self-hosted instances sharing a hosting
-# provider with other Chatwoot/Evolution API deployments.
-#
-# See: https://developers.facebook.com/docs/whatsapp/cloud-api/reference/media#upload-media
+# Uploads an attachment to the WhatsApp Cloud media endpoint and returns its media_id.
+# Sending media by id keeps Meta from fetching the file from us over fwdproxy, which rate limits per
+# destination ASN and returns intermittent 131053 errors when instances share a hosting provider.
+# ref: https://developers.facebook.com/docs/whatsapp/cloud-api/reference/media#upload-media
 class Whatsapp::MediaUploadService
-  WHATSAPP_SUPPORTED_TYPES = %w[
-    audio/aac audio/mp4 audio/mpeg audio/amr audio/ogg audio/opus
-    application/pdf
-    image/jpeg image/png image/webp
-    video/mp4 video/3gpp
-    application/vnd.ms-powerpoint application/msword
-    application/vnd.openxmlformats-officedocument.presentationml.presentation
-    application/vnd.openxmlformats-officedocument.wordprocessingml.document
-    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-    application/vnd.ms-excel text/plain
-  ].freeze
+  WHATSAPP_API_VERSION_FALLBACK = 'v22.0'.freeze
+  OPEN_TIMEOUT = 60
+  TIMEOUT = 300
 
-  def initialize(channel:, attachment:)
-    @channel = channel
+  def initialize(whatsapp_channel, attachment)
+    @whatsapp_channel = whatsapp_channel
     @attachment = attachment
   end
 
-  # Returns the media_id string on success, raises on failure.
-  def upload
-    file_content = @attachment.file.download
-    mime_type = @attachment.file.content_type.presence || 'application/octet-stream'
-    filename = @attachment.file.filename.to_s
+  # Returns the media object to send ({ 'id' => media_id }), or nil when the upload is disabled or fails.
+  def perform
+    return unless direct_upload_enabled? && @attachment.file.attached?
 
-    response = HTTParty.post(
-      upload_url,
-      headers: auth_header,
-      body: build_multipart_body(file_content, mime_type, filename),
-      multipart: true
-    )
+    response = upload
+    media_id = response.body['id'] if response.body.is_a?(Hash)
+    return { 'id' => media_id } if response.success? && media_id.present?
 
-    raise upload_error(response) unless response.success?
-
-    media_id = response.parsed_response['id']
-    raise '[WhatsApp Media Upload] API returned success but no media_id in response' if media_id.blank?
-
-    media_id
-  rescue StandardError => e
-    Rails.logger.error("[WhatsApp Media Upload] Failed for attachment #{@attachment.id}: #{e.message}")
-    raise
+    log_failure("HTTP #{response.status} #{error_message(response)}")
+  rescue Faraday::Error => e
+    log_failure(e.message)
   end
 
   private
 
+  # Escape hatch for operators: WHATSAPP_MEDIA_UPLOAD_STRATEGY=link restores link based sending.
+  def direct_upload_enabled?
+    ENV.fetch('WHATSAPP_MEDIA_UPLOAD_STRATEGY', 'direct') == 'direct'
+  end
+
+  def upload
+    blob = @attachment.file.blob
+
+    blob.open do |file|
+      connection.post(upload_url) do |request|
+        request.headers['Authorization'] = "Bearer #{@whatsapp_channel.provider_config['api_key']}"
+        request.body = {
+          messaging_product: 'whatsapp',
+          type: blob.content_type,
+          file: Faraday::Multipart::FilePart.new(file, blob.content_type, blob.filename.to_s)
+        }
+      end
+    end
+  end
+
+  def connection
+    @connection ||= Faraday.new do |f|
+      f.request :multipart
+      f.response :json
+      f.options.timeout = TIMEOUT
+      f.options.open_timeout = OPEN_TIMEOUT
+    end
+  end
+
   def upload_url
-    base = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
-    phone_number_id = @channel.provider_config['phone_number_id']
-    "#{base}/v18.0/#{phone_number_id}/media"
+    base_path = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
+    version = GlobalConfigService.load('WHATSAPP_API_VERSION', WHATSAPP_API_VERSION_FALLBACK)
+    "#{base_path}/#{version}/#{@whatsapp_channel.provider_config['phone_number_id']}/media"
   end
 
-  def auth_header
-    { 'Authorization' => "Bearer #{@channel.provider_config['api_key']}" }
+  def error_message(response)
+    return response.body.dig('error', 'message') if response.body.is_a?(Hash)
+
+    response.body.to_s.truncate(200)
   end
 
-  def build_multipart_body(file_content, mime_type, filename)
-    {
-      messaging_product: 'whatsapp',
-      type: mime_type,
-      file: UploadIO.new(StringIO.new(file_content), mime_type, filename)
-    }
-  end
-
-  def upload_error(response)
-    error_msg = response.parsed_response.is_a?(Hash) ? response.parsed_response.dig('error', 'message') : response.body
-    "[WhatsApp Media Upload] HTTP #{response.code}: #{error_msg}"
+  def log_failure(reason)
+    Rails.logger.warn("[WHATSAPP] Media upload failed, falling back to link for account #{@whatsapp_channel.account_id} " \
+                      "inbox #{@whatsapp_channel.inbox&.id} attachment #{@attachment.id}: #{reason}")
+    nil
   end
 end

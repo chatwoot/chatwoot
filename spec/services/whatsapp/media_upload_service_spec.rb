@@ -1,106 +1,65 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 
-RSpec.describe Whatsapp::MediaUploadService do
-  let(:channel) do
-    instance_double(
-      'Channel::Whatsapp',
-      provider_config: {
-        'api_key' => 'test_api_key',
-        'phone_number_id' => '123456789'
-      }
-    )
-  end
+describe Whatsapp::MediaUploadService do
+  subject(:service) { described_class.new(whatsapp_channel, attachment) }
 
-  let(:blob) do
-    instance_double(
-      ActiveStorage::Blob,
-      content_type: 'image/jpeg',
-      filename: ActiveStorage::Filename.new('photo.jpg')
-    )
+  let(:whatsapp_channel) do
+    create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
   end
-
-  let(:file_double) do
-    instance_double(
-      ActiveStorage::Attached::One,
-      download: 'fake_binary_content',
-      content_type: 'image/jpeg',
-      filename: ActiveStorage::Filename.new('photo.jpg'),
-      blob: blob
-    )
+  let(:conversation) { create(:conversation, inbox: whatsapp_channel.inbox) }
+  let(:message) do
+    create(:message, conversation: conversation, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox)
   end
-
+  let(:file_path) { Rails.root.join('spec/assets/avatar.png') }
   let(:attachment) do
-    instance_double('Attachment', id: 42, file: file_double)
+    attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+    attachment.file.attach(io: file_path.open, filename: 'avatar.png', content_type: 'image/png')
+    attachment.save!
+    attachment
   end
+  let(:upload_url) { 'https://graph.facebook.com/v22.0/123456789/media' }
 
-  subject(:service) { described_class.new(channel: channel, attachment: attachment) }
+  describe '#perform' do
+    it 'uploads the file as multipart form data and returns the media object' do
+      stub_request(:post, upload_url)
+        .to_return(status: 200, body: { id: 'media_abc123' }.to_json, headers: { 'Content-Type' => 'application/json' })
 
-  describe '#upload' do
-    context 'when the upload succeeds' do
-      before do
-        stub_request(:post, 'https://graph.facebook.com/v18.0/123456789/media')
-          .to_return(
-            status: 200,
-            body: { id: 'media_abc123' }.to_json,
-            headers: { 'Content-Type' => 'application/json' }
-          )
-      end
-
-      it 'returns the media_id' do
-        expect(service.upload).to eq('media_abc123')
-      end
-
-      it 'sends Authorization header' do
-        service.upload
-        expect(WebMock).to have_requested(:post, 'https://graph.facebook.com/v18.0/123456789/media')
-          .with(headers: { 'Authorization' => 'Bearer test_api_key' })
-      end
+      expect(service.perform).to eq({ 'id' => 'media_abc123' })
+      expect(WebMock).to(have_requested(:post, upload_url).with do |request|
+        request.headers['Authorization'] == 'Bearer test_key' &&
+          request.body.b.include?('name="file"; filename="avatar.png"'.b) &&
+          request.body.b.include?('Content-Type: image/png'.b) &&
+          request.body.b.include?(file_path.binread) &&
+          request.body.b.include?("name=\"messaging_product\"\r\n\r\nwhatsapp".b)
+      end)
     end
 
-    context 'when the API returns an error' do
-      before do
-        stub_request(:post, 'https://graph.facebook.com/v18.0/123456789/media')
-          .to_return(
-            status: 400,
-            body: { error: { message: 'Invalid media type' } }.to_json,
-            headers: { 'Content-Type' => 'application/json' }
-          )
-      end
+    it 'returns nil when Meta rejects the upload' do
+      stub_request(:post, upload_url)
+        .to_return(status: 429, body: { error: { message: 'rate limited' } }.to_json,
+                   headers: { 'Content-Type' => 'application/json' })
 
-      it 'raises an error' do
-        expect { service.upload }.to raise_error(RuntimeError, /Invalid media type/)
-      end
+      expect(service.perform).to be_nil
     end
 
-    context 'when the API returns 429 rate limited' do
-      before do
-        stub_request(:post, 'https://graph.facebook.com/v18.0/123456789/media')
-          .to_return(
-            status: 429,
-            body: { error: { message: 'Too Many Requests' } }.to_json,
-            headers: { 'Content-Type' => 'application/json' }
-          )
-      end
+    it 'returns nil when the upload request fails' do
+      stub_request(:post, upload_url).to_timeout
 
-      it 'raises and logs an error' do
-        expect(Rails.logger).to receive(:error).with(/Failed for attachment 42/)
-        expect { service.upload }.to raise_error(RuntimeError)
-      end
+      expect(service.perform).to be_nil
     end
 
-    context 'when WHATSAPP_CLOUD_BASE_URL is customised' do
-      before do
-        stub_const('ENV', ENV.to_h.merge('WHATSAPP_CLOUD_BASE_URL' => 'https://custom.meta.local'))
-        stub_request(:post, 'https://custom.meta.local/v18.0/123456789/media')
-          .to_return(status: 200, body: { id: 'media_custom' }.to_json,
-                     headers: { 'Content-Type' => 'application/json' })
+    it 'returns nil when the attachment has no file' do
+      attachment = message.attachments.create!(account_id: message.account_id, file_type: :location)
+
+      expect(described_class.new(whatsapp_channel, attachment).perform).to be_nil
+    end
+
+    it 'returns nil without uploading when WHATSAPP_MEDIA_UPLOAD_STRATEGY is link' do
+      with_modified_env WHATSAPP_MEDIA_UPLOAD_STRATEGY: 'link' do
+        expect(service.perform).to be_nil
       end
 
-      it 'uses the custom base URL' do
-        expect(service.upload).to eq('media_custom')
-      end
+      expect(WebMock).not_to have_requested(:post, upload_url)
     end
   end
 end
