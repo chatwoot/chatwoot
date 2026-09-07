@@ -8,6 +8,8 @@
 # Also strips trailing newlines introduced by TipTap/ProseMirror trailing paragraphs.
 class Messages::WebhookContentNormalizer
   DELIMITER_ESCAPE = /(\\\r?\n)\\(?=(?:-+|=+)[ \t]*\r?$)/
+  ESCAPED_DELIMITER_LINE = /\A\\(?:-+|=+)[ \t]*\r?\n?\z/
+  HARD_BREAK_ENDING = /\\\r?\n\z/
 
   def self.normalize(text)
     return text if text.blank?
@@ -21,10 +23,15 @@ class Messages::WebhookContentNormalizer
     return text unless text.match?(DELIMITER_ESCAPE)
 
     code_lines = code_block_lines(text)
-    text.gsub(DELIMITER_ESCAPE) do
-      match = Regexp.last_match
-      code_lines.include?(match.pre_match.count("\n") + 2) ? match[0] : match[1]
+    lines = text.lines
+    lines.each_with_index do |line, index|
+      next unless index.positive? && line.match?(ESCAPED_DELIMITER_LINE)
+      next unless lines[index - 1].match?(HARD_BREAK_ENDING)
+      next if code_lines.include?(index + 1)
+
+      lines[index] = line.delete_prefix('\\')
     end
+    lines.join
   end
 
   def self.code_block_lines(text)
