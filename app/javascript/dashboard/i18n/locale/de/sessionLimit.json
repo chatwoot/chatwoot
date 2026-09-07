@@ -1,0 +1,12 @@
+{
+  "SESSION_LIMIT": {
+    "TITLE": "Limit für aktive Sitzungen erreicht",
+    "DESCRIPTION": "Du hast das Limit für aktive Sitzungen erreicht. Beende eine Sitzung, bevor du dich anmeldest.",
+    "END": "Beenden",
+    "END_ALL": "Alle Sitzungen beenden",
+    "LOG_IN": "Anmelden",
+    "CANCEL": "Zurück zur Anmeldung",
+    "UNKNOWN_DEVICE": "Unbekanntes Gerät",
+    "STARTED": "Begonnen"
+  }
+}

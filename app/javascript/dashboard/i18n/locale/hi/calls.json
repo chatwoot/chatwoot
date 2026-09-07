@@ -1,0 +1,45 @@
+{
+  "CALLS_PAGE": {
+    "HEADER": "Calls",
+    "ALL_CALLS": "All Calls",
+    "ALL_CALLS_COUNT": "All Calls ({count})",
+    "EMPTY_STATE": "No calls found",
+    "SETUP": {
+      "TITLE": "Make and receive calls in one place",
+      "SUBTITLE": "Set up a voice channel to start handling calls with your team. Every call, along with its recording, will appear here.",
+      "ACTION": "Set up voice channel"
+    },
+    "FILTERS": {
+      "MISSED": "Missed",
+      "NO_REPLY": "No reply",
+      "OTHER_ACTIVITY": "Other activity",
+      "INCOMING": "Incoming",
+      "OUTGOING": "Outgoing",
+      "IN_PROGRESS": "In progress",
+      "ASSIGNEE": "Assignee",
+      "ALL_ASSIGNEES": "All assignees",
+      "MORE_FILTERS": "More filters",
+      "INBOX": "Inbox",
+      "ALL_INBOXES": "All inboxes"
+    },
+    "STATUS": {
+      "ONGOING": "Ongoing",
+      "INCOMING": "Incoming",
+      "OUTGOING": "Outgoing",
+      "MISSED": "Missed",
+      "NO_REPLY": "No reply",
+      "FAILED": "Failed"
+    },
+    "ROW": {
+      "PICKED_BY": "Picked by",
+      "DIALED_BY": "Dialed by",
+      "ANSWERED": "Answered",
+      "RINGING": "Ringing",
+      "IN_PROGRESS": "In progress",
+      "NO_AGENT": "No agent answered this call",
+      "NO_CONTACT_ANSWER": "Contact did not answer",
+      "FAILED": "This call could not be connected",
+      "YESTERDAY": "Yesterday"
+    }
+  }
+}

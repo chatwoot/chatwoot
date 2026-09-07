@@ -1903,6 +1903,62 @@
             "type": "string",
             "description": "Website URL"
           },
+          "page_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Facebook Page ID associated with the inbox"
+          },
+          "instagram_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Instagram account ID associated with the inbox"
+          },
+          "business_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "TikTok business ID associated with the inbox"
+          },
+          "profile_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "X profile ID associated with the inbox"
+          },
+          "line_channel_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "LINE channel ID associated with the inbox"
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Email address associated with the inbox"
+          },
+          "bot_name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Telegram bot name associated with the inbox"
+          },
+          "inbox_identifier": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Public identifier associated with an API inbox"
+          },
           "channel_type": {
             "type": "string",
             "description": "The type of the inbox"
@@ -2058,6 +2114,13 @@
             ],
             "description": "Business name associated with the inbox"
           },
+          "branded_email_layout": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Liquid HTML layout for branded email replies. Available to administrators for Email inbox show/update responses."
+          },
           "hmac_mandatory": {
             "type": "boolean",
             "description": "Whether HMAC verification is mandatory"
@@ -2100,6 +2163,19 @@
               "null"
             ],
             "description": "Provider of the channel"
+          }
+        }
+      },
+      "branded_email_layout": {
+        "type": "object",
+        "properties": {
+          "branded_email_layout": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Account-scoped Liquid HTML layout for branded email replies.",
+            "example": "<html><body>{{ content_for_layout }}</body></html>"
           }
         }
       },
@@ -3903,6 +3979,15 @@
                 "description": "Language code of the template (BCP 47 format)",
                 "example": "en_US"
               },
+              "content_mode": {
+                "type": "string",
+                "enum": [
+                  "raw_template",
+                  "rendered"
+                ],
+                "default": "rendered",
+                "description": "Format of the top-level `content` field. Existing clients may send rendered\ncontent or omit this field. Set this to `raw_template` only when `content`\ncontains the original template body placeholders.\n"
+              },
               "processed_params": {
                 "type": "object",
                 "description": "Processed template parameters organized by component type",
@@ -4270,6 +4355,15 @@
             "description": "Business name for outbound email replies.\n\nAvailable for: `Website` `Email`\n",
             "example": "My Business"
           },
+          "branded_email_layout": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 262144,
+            "description": "Liquid HTML layout for outbound email replies. Must include `{{ content_for_layout }}` and be 262,144 characters or shorter.\n\nAvailable for: `Email`\n",
+            "example": "<html><body>{{ content_for_layout }}</body></html>"
+          },
           "channel": {
             "anyOf": [
               {
@@ -4294,6 +4388,20 @@
                 "$ref": "#/components/schemas/inbox_update_sms_channel_payload"
               }
             ]
+          }
+        }
+      },
+      "account_branded_email_layout_payload": {
+        "type": "object",
+        "properties": {
+          "branded_email_layout": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 262144,
+            "description": "Account-scoped Liquid HTML layout for branded email replies. Maximum length is 262,144 characters. Blank or null removes the account override.",
+            "example": "<html><body>{{ content_for_layout }}</body></html>"
           }
         }
       },

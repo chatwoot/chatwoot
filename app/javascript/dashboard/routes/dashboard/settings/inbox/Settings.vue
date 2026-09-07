@@ -29,6 +29,7 @@ import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vu
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
+import TwilioHealth from './components/TwilioHealth.vue';
 import WhatsappManualMigrationDialog from './components/WhatsappManualMigrationDialog.vue';
 import WhatsappManualMigrationBanner from './components/WhatsappManualMigrationBanner.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
@@ -36,8 +37,11 @@ import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue'
 import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SpinnerLoader from 'dashboard/components-next/spinner/Spinner.vue';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
-import { getInboxIconByType } from 'dashboard/helper/inbox';
+import {
+  getInboxIconByType,
+  getInboxIdentifier,
+  INBOX_TYPES,
+} from 'dashboard/helper/inbox';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
@@ -80,6 +84,7 @@ export default {
     ColorPicker,
     SelectInput,
     AccountHealth,
+    TwilioHealth,
     WhatsappManualMigrationDialog,
     WhatsappManualMigrationBanner,
     Widget,
@@ -127,6 +132,7 @@ export default {
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
+      isMetaMessageSendingDisabled: 'globalConfig/isMetaMessageSendingDisabled',
       uiFlags: 'inboxes/getUIFlags',
       portals: 'portals/allPortals',
     }),
@@ -156,8 +162,15 @@ export default {
     selectedTabKey() {
       return this.tabs[this.selectedTabIndex]?.key;
     },
+    // AccountHealth renders the structured provider error; TwilioHealth only needs the message.
+    healthErrorMessage() {
+      return this.healthError?.message || '';
+    },
     shouldShowWhatsAppConfiguration() {
       return this.isAWhatsAppCloudChannel;
+    },
+    shouldShowTwilioHealth() {
+      return this.isATwilioChannel && this.inbox.medium === 'sms';
     },
     whatsAppAPIProviderName() {
       if (this.isAWhatsAppCloudChannel) {
@@ -243,6 +256,16 @@ export default {
         ];
       }
 
+      if (this.shouldShowTwilioHealth) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'twilio-health',
+            name: this.$t('INBOX_MGMT.TABS.ACCOUNT_HEALTH'),
+          },
+        ];
+      }
+
       if (
         this.isATwilioChannel &&
         this.inbox.phone_number &&
@@ -286,8 +309,12 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
     inboxIcon() {
-      const { medium, channel_type: type } = this.inbox;
-      return getInboxIconByType(type, medium, 'line');
+      const {
+        medium,
+        channel_type: type,
+        voice_enabled: voiceEnabled,
+      } = this.inbox;
+      return getInboxIconByType(type, medium, 'line', voiceEnabled);
     },
     bannerMaxWidth() {
       const narrowTabs = ['collaborators', 'bot-configuration'];
@@ -299,18 +326,10 @@ export default {
       return 'max-w-7xl';
     },
     inboxName() {
-      if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
-        return `${this.inbox.name} (${
-          this.inbox.messaging_service_sid || this.inbox.phone_number
-        })`;
-      }
-      if (this.isAWhatsAppChannel) {
-        return `${this.inbox.name} (${this.inbox.phone_number})`;
-      }
-      if (this.isAnEmailChannel) {
-        return `${this.inbox.name} (${this.inbox.email})`;
-      }
       return this.inbox.name;
+    },
+    inboxIdentifier() {
+      return getInboxIdentifier(this.inbox);
     },
     canLocktoSingleConversation() {
       return (
@@ -349,7 +368,7 @@ export default {
       return this.isAnInstagramChannel && this.inbox.reauthorization_required;
     },
     showInstagramRestrictionSettingsBanner() {
-      return this.isOnChatwootCloud && this.isAnInstagramChannel;
+      return this.isMetaMessageSendingDisabled && this.isAnInstagramChannel;
     },
     metaRestrictionStatusUrl() {
       return META_RESTRICTION_STATUS_URL;
@@ -387,12 +406,10 @@ export default {
       return this.inbox.provider_config?.source === 'embedded_signup';
     },
     whatsappUnauthorized() {
-      // The manual migration banner supersedes the embedded-signup reauthorize flow when the feature is enabled.
       return (
         this.isAWhatsAppCloudChannel &&
         this.isEmbeddedSignupWhatsApp &&
-        this.inbox.reauthorization_required &&
-        !this.showWhatsAppManualMigration
+        this.inbox.reauthorization_required
       );
     },
     whatsappRegistrationIncomplete() {
@@ -413,6 +430,8 @@ export default {
       return (
         this.isAWhatsAppCloudChannel &&
         this.isEmbeddedSignupWhatsApp &&
+        this.healthData?.is_on_biz_app === false &&
+        this.healthError?.type !== 'authorization' &&
         this.isFeatureEnabledonAccount(
           this.accountId,
           FEATURE_FLAGS.WHATSAPP_MANUAL_TRANSFER
@@ -572,7 +591,7 @@ export default {
     async fetchHealthData() {
       if (!this.inbox) return;
 
-      if (!this.isAWhatsAppCloudChannel) {
+      if (!this.isAWhatsAppCloudChannel && !this.shouldShowTwilioHealth) {
         return;
       }
 
@@ -582,9 +601,24 @@ export default {
         const response = await InboxHealthAPI.getHealthStatus(this.inbox.id);
         this.healthData = response.data;
       } catch (error) {
-        this.healthError = error.message || 'Failed to fetch health data';
+        const apiError = error.response?.data?.error;
+        this.healthError =
+          typeof apiError === 'object'
+            ? apiError
+            : {
+                type: 'generic',
+                message: apiError || error.message,
+              };
       } finally {
         this.isLoadingHealth = false;
+      }
+    },
+    goToWhatsAppConfiguration() {
+      const configurationTabIndex = this.tabs.findIndex(
+        tab => tab.key === 'configuration'
+      );
+      if (configurationTabIndex !== -1) {
+        this.onTabChange(configurationTabIndex);
       }
     },
     async registerWebhook() {
@@ -596,8 +630,10 @@ export default {
         useAlert(this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_SUCCESS'));
         await this.fetchHealthData();
       } catch (error) {
+        // Same as the health fetch: the provider's own message is the actionable part.
         useAlert(
-          error.message ||
+          error.response?.data?.error ||
+            error.message ||
             this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_ERROR')
         );
       } finally {
@@ -749,6 +785,7 @@ export default {
     <SettingIntroBanner
       :header-image="inbox.avatarUrl"
       :header-title="inboxName"
+      :header-identifier="inboxIdentifier"
     >
       <woot-tabs
         class="[&_ul]:p-0 top-px relative"
@@ -811,12 +848,6 @@ export default {
           class="mx-6 mb-4"
           :class="bannerMaxWidth"
         />
-        <WhatsappManualMigrationBanner
-          v-if="showWhatsAppManualMigration"
-          class="mx-6 mb-6"
-          :class="bannerMaxWidth"
-          @start="openWhatsAppManualMigrationDialog"
-        />
         <Banner
           v-if="showInstagramRestrictionSettingsBanner"
           color="amber"
@@ -840,6 +871,12 @@ export default {
             </span>
           </div>
         </Banner>
+        <WhatsappManualMigrationBanner
+          v-if="showWhatsAppManualMigration"
+          class="mx-6 mb-6"
+          :class="bannerMaxWidth"
+          @start="openWhatsAppManualMigrationDialog"
+        />
 
         <div
           v-if="selectedTabKey === 'inbox-settings'"
@@ -1404,6 +1441,18 @@ export default {
         <div v-if="selectedTabKey === 'whatsapp-health'">
           <AccountHealth
             :health-data="healthData"
+            :health-error="healthError"
+            :is-embedded-signup="isEmbeddedSignupWhatsApp"
+            :is-registering-webhook="isRegisteringWebhook"
+            @register-webhook="registerWebhook"
+            @go-to-configuration="goToWhatsAppConfiguration"
+          />
+        </div>
+        <div v-if="selectedTabKey === 'twilio-health'">
+          <TwilioHealth
+            :health-data="healthData"
+            :is-loading="isLoadingHealth"
+            :error="healthErrorMessage"
             :is-registering-webhook="isRegisteringWebhook"
             @register-webhook="registerWebhook"
           />

@@ -51,7 +51,10 @@ const hasResults = computed(() => filteredLocales.value?.length > 0);
 </script>
 
 <template>
-  <HelpCenterLayout :show-pagination-footer="false">
+  <HelpCenterLayout
+    :show-pagination-footer="false"
+    :breadcrumb-label="$t('HELP_CENTER.BREADCRUMB.LOCALES')"
+  >
     <template #header-actions>
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">

@@ -194,4 +194,8 @@ export const MOCK_FEATURE_FLAGS = {
   LABELS: 'labels',
   CANNED_RESPONSES: 'canned_responses',
   INTEGRATIONS: 'integrations',
+  HELP_CENTER: 'help_center',
+  AUTOMATIONS: 'automations',
+  AUDIT_LOGS: 'audit_logs',
+  MACROS: 'macros',
 };

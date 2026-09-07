@@ -32,6 +32,28 @@ RSpec.describe Account, type: :model do
     end
   end
 
+  describe '#api_and_webhooks_enabled?' do
+    let(:account) { create(:account) }
+
+    it 'is always enabled for self-hosted enterprise accounts' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+      account.disable_features!('api_and_webhooks')
+
+      expect(account.api_and_webhooks_enabled?).to be true
+    end
+
+    it 'uses the account feature flag on Chatwoot Cloud' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      account.disable_features!('api_and_webhooks')
+
+      expect(account.api_and_webhooks_enabled?).to be false
+
+      account.enable_features!('api_and_webhooks')
+
+      expect(account.api_and_webhooks_enabled?).to be true
+    end
+  end
+
   describe 'sla_policies' do
     let!(:account) { create(:account) }
     let!(:sla_policy) { create(:sla_policy, account: account) }
@@ -60,6 +82,7 @@ RSpec.describe Account, type: :model do
     let(:assistant) { create(:captain_assistant, account: account) }
 
     before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
       create(:installation_config, name: 'ACCOUNT_AGENTS_LIMIT', value: 20)
     end
 
@@ -260,17 +283,6 @@ RSpec.describe Account, type: :model do
       expect(account).to be_feature_enabled('captain_integration_v2')
       expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
       expect(account.captain_models).to be_nil
-    end
-
-    it 'marks new cloud accounts as eligible for the Captain V2 paid-plan default' do
-      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(false)
-      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-
-      account = create(:account)
-
-      expect(account.internal_attributes[Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE]).to be true
-      expect(account).not_to be_feature_enabled('captain_integration')
-      expect(account).not_to be_feature_enabled('captain_integration_v2')
     end
   end
 

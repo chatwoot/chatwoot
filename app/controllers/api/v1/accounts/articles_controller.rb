@@ -3,6 +3,8 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :check_authorization
   before_action :fetch_article, except: [:index, :create, :reorder]
   before_action :set_current_page, only: [:index]
+  before_action :validate_author, only: [:create]
+  before_action :discard_invalid_author, only: [:update]
 
   def index
     @portal_articles = @portal.articles
@@ -30,8 +32,8 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   end
 
   def update
-    @article.update!(article_params) if params[:article].present?
-    render json: { error: @article.errors.messages }, status: :unprocessable_entity and return unless @article.valid?
+    persist_article_changes if params[:article].present?
+    render json: { message: @article.errors.full_messages.to_sentence }, status: :unprocessable_entity and return unless @article.valid?
   end
 
   def destroy
@@ -63,16 +65,52 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
     @article = @portal.articles.find(params[:id])
   end
 
+  def validate_author
+    author_id = params.dig(:article, :author_id)
+    return if author_id.blank?
+    return if author_belongs_to_account?(author_id)
+
+    render json: { error: 'Invalid author ID' }, status: :unprocessable_entity
+  end
+
+  def discard_invalid_author
+    submitted_article_params = params[:article]
+    return unless submitted_article_params&.key?(:author_id)
+
+    author_id = submitted_article_params[:author_id]
+    return if author_belongs_to_account?(author_id)
+
+    submitted_article_params.delete(:author_id)
+  end
+
+  def author_belongs_to_account?(author_id)
+    author_id.to_s.match?(/\A\d+\z/) && Current.account.users.exists?(id: author_id.to_i)
+  end
+
   def portal
     @portal ||= Current.account.portals.find_by!(slug: params[:portal_id])
+  end
+
+  # Draft-only autosaves must not bump the public-facing updated_at, so write
+  # them with update_columns (which skips the timestamp). update_columns also
+  # skips validations, so assign and validate first to avoid persisting content
+  # that exceeds the column length limit.
+  def persist_article_changes
+    keys = article_params.to_h.keys
+    if keys.any? && (keys - %w[draft_title draft_content]).empty?
+      @article.assign_attributes(article_params)
+      @article.update_columns(article_params.to_h) if @article.valid? # rubocop:disable Rails/SkipsModelValidations
+    else
+      @article.update!(article_params)
+    end
   end
 
   def article_params
     params.require(:article).permit(
       :title, :slug, :position, :content, :description, :category_id, :author_id, :associated_article_id, :status,
-      :locale, meta: [:title,
-                      :description,
-                      { tags: [] }]
+      :locale, :draft_title, :draft_content, meta: [:title,
+                                                    :description,
+                                                    { tags: [] }]
     )
   end
 

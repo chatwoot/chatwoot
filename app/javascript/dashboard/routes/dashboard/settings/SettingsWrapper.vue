@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 defineProps({
@@ -9,6 +10,12 @@ defineProps({
 });
 
 const route = useRoute();
+
+// Routes that manage filters/pagination via query params opt out of
+// query-keyed remounts, else every filter change rebuilds the page.
+const routeKey = computed(() =>
+  route.meta.reuseOnQueryChange ? route.path : route.fullPath
+);
 </script>
 
 <template>
@@ -18,9 +25,9 @@ const route = useRoute();
     <div class="flex items-start w-full max-w-5xl mx-auto">
       <router-view v-slot="{ Component }">
         <keep-alive v-if="keepAlive">
-          <component :is="Component" :key="route.fullPath" />
+          <component :is="Component" :key="routeKey" />
         </keep-alive>
-        <component :is="Component" v-else :key="route.fullPath" />
+        <component :is="Component" v-else :key="routeKey" />
       </router-view>
     </div>
   </div>

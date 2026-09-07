@@ -100,6 +100,7 @@
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "This token can be used if you are building an API based integration",
+        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
         "COPY": "Copy",
         "RESET": "Reset",
         "CONFIRM_RESET": "Are you sure?",
@@ -263,7 +264,8 @@
     "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
-      "MESSAGE": "Your account has been suspended due to activity that may violate our policies. If you believe this is a mistake, please contact our support team."
+      "MESSAGE": "Your account has been suspended due to activity that may violate our policies. If you believe this is a mistake, please contact our support team.",
+      "MANAGE_BILLING": "Manage billing"
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",
@@ -323,6 +325,7 @@
     "COMPANIES": "Companies",
     "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "Captain",
+    "CALLS": "Calls",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_OVERVIEW": "Overview",
     "CAPTAIN_DOCUMENTS": "Documents",
@@ -337,6 +340,7 @@
     "AGENT_BOTS": "Bots",
     "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Inboxes",
+    "WHATSAPP_TEMPLATES": "Templates",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrations",
@@ -417,6 +421,10 @@
     "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
     "LOADING": "Fetching imports",
     "DEFAULT_IMPORT_NAME": "Intercom import",
+    "DEFAULT_IMPORT_NAMES": {
+      "INTERCOM": "Intercom import",
+      "FRESHDESK": "Freshdesk import"
+    },
     "TABS": {
       "IMPORT": "Import",
       "EXPORT": "Export"
@@ -430,9 +438,15 @@
       "TITLE": "New import",
       "SOURCE": "Source",
       "NAME": "Import name",
-      "NAME_PLACEHOLDER": "July Intercom migration",
+      "NAME_PLACEHOLDER": "July support migration",
       "ACCESS_KEY": "Intercom access key",
       "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "INTERCOM_ACCESS_KEY": "Intercom access key",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "FRESHDESK_API_KEY": "Freshdesk API key",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "Paste your Freshdesk API key",
+      "FRESHDESK_DOMAIN": "Freshdesk domain",
+      "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
       "DATA_TYPES": "Data to import",
       "VALIDATING": "Validating access key...",
       "VALID_KEY": "Access key validated.",
@@ -460,6 +474,7 @@
       "STATUS": "Status",
       "IMPORTED": "Imported",
       "CREATED": "Created",
+      "RETRY": "Retry",
       "ABANDON": "Abandon"
     },
     "DETAIL": {
@@ -505,9 +520,11 @@
       }
     },
     "ALERTS": {
-      "IMPORT_STARTED": "Intercom import has started.",
-      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
-      "IMPORT_FAILED": "Could not start the Intercom import."
+      "IMPORT_STARTED": "Import has started.",
+      "IMPORT_RETRIED": "Import has been queued to resume.",
+      "IMPORT_RETRY_FAILED": "Could not retry the import.",
+      "IMPORT_ABANDONED": "Import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the import."
     }
   },
   "CAPTAIN_SETTINGS": {

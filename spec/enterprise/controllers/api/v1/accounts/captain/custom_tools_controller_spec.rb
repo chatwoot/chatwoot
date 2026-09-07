@@ -85,6 +85,21 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(response).to have_http_status(:not_found)
       end
     end
+
+    it 'returns the number of enabled scenarios referencing the tool' do
+      custom_tool.update!(slug: 'custom_fetch-order')
+      assistant = create(:captain_assistant, account: account)
+      instruction = 'Use [@Fetch Order](tool://custom_fetch-order) to get order details'
+      create(:captain_scenario, assistant: assistant, account: account, instruction: instruction, enabled: true)
+      create(:captain_scenario, assistant: assistant, account: account, instruction: instruction, enabled: false)
+
+      get "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(json_response[:enabled_scenarios_count]).to eq(1)
+    end
   end
 
   describe 'POST /api/v1/accounts/{account.id}/captain/custom_tools' do
@@ -218,6 +233,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(response).to have_http_status(:success)
         expect(json_response[:title]).to eq('Updated Tool Title')
         expect(json_response[:enabled]).to be(false)
+        expect(custom_tool.reload.enabled).to be(false)
       end
 
       context 'with invalid parameters' do

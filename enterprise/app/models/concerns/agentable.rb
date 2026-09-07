@@ -14,7 +14,7 @@ module Concerns::Agentable
     )
   end
 
-  def agent_instructions(context = nil)
+  def agent_instructions(context = nil, prompt_template: template_name)
     enhanced_context = prompt_context
 
     if context
@@ -24,11 +24,19 @@ module Concerns::Agentable
         current_time: format_current_time(state[:timezone]),
         conversation: state[:conversation] || {},
         contact: config['feature_contact_attributes'].present? ? state[:contact] : nil,
-        campaign: state[:campaign] || {}
+        campaign: state[:campaign] || {},
+        message_length_limit: state[:message_length_limit]
       )
     end
 
-    Captain::PromptRenderer.render(template_name, enhanced_context.with_indifferent_access)
+    Captain::PromptRenderer.render(prompt_template, enhanced_context.with_indifferent_access)
+  end
+
+  def agent_model
+    route = Llm::FeatureRouter.resolve(feature: 'assistant', account: account)
+    return route[:model] if route[:source] == :account_override || account&.feature_enabled?('captain_integration_v2')
+
+    installation_model.presence || route[:model]
   end
 
   private
@@ -43,13 +51,6 @@ module Concerns::Agentable
 
   def agent_tools
     []  # Default implementation, override if needed
-  end
-
-  def agent_model
-    route = Llm::FeatureRouter.resolve(feature: 'assistant', account: account)
-    return route[:model] if route[:source] == :account_override || account&.feature_enabled?('captain_integration_v2')
-
-    installation_model.presence || route[:model]
   end
 
   def installation_model

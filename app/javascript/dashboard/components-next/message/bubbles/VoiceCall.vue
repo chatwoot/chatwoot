@@ -263,9 +263,9 @@ const handleCallBack = async () => {
   if (!canCallBack.value || isInitiatingCall.value) return;
   try {
     if (isWhatsapp.value) {
-      const response = await whatsappCallSession.initiateOutboundCall(
-        conversationId.value
-      );
+      const response = await whatsappCallSession.initiateOutboundCall({
+        conversationId: conversationId.value,
+      });
       if (response?.status === VOICE_CALL_OUTBOUND_INIT_STATUS.LOCKED) return;
       // Permission template path returns no call id — show banner, no widget yet.
       if (!response?.id) {

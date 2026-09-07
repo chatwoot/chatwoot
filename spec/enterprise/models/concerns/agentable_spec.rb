@@ -147,6 +147,15 @@ RSpec.describe Concerns::Agentable do
 
       dummy_instance.agent_instructions(context_double)
     end
+
+    it 'can render a caller-specific prompt without changing the default prompt' do
+      expect(Captain::PromptRenderer).to receive(:render).with(
+        'copilot_reply_suggestion',
+        hash_including(base_key: 'base_value')
+      )
+
+      dummy_instance.agent_instructions(nil, prompt_template: 'copilot_reply_suggestion')
+    end
   end
 
   describe '#template_name' do
@@ -197,6 +206,20 @@ RSpec.describe Concerns::Agentable do
   describe '#agent_response_schema' do
     it 'returns Captain::ResponseSchema' do
       expect(dummy_instance.send(:agent_response_schema)).to eq(Captain::ResponseSchema)
+    end
+
+    it 'defines complete structured response parts with nested citation indexes' do
+      schema = Captain::ResponseSchema.new.to_json_schema[:schema]
+      response_parts = schema.dig(:properties, :response_parts)
+      response_part = response_parts.dig(:items, :properties)
+
+      expect(schema[:required]).to contain_exactly(:response_parts, :reasoning)
+      expect(schema[:properties].keys).to eq(%i[reasoning response_parts])
+      expect(response_parts).to include(type: 'array', minItems: 1)
+      expect(response_part.dig(:text, :type)).to eq('string')
+      expect(response_part.dig(:citation_indexes, :items, :type)).to eq('integer')
+      expect(response_part.dig(:citation_indexes, :items, :minimum)).to eq(1)
+      expect(schema[:properties]).not_to have_key(:response)
     end
   end
 

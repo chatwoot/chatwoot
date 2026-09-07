@@ -186,6 +186,21 @@ export const ARTICLE_EDITOR_MENU_OPTIONS = [
   'imageUpload',
   'code',
   'insertTable',
+  'video',
+  'horizontalRule',
+];
+
+// A markdown table cell holds inline content only; anything else is lost on save.
+export const MENU_OPTIONS_UNAVAILABLE_IN_TABLE = [
+  'h1',
+  'h2',
+  'h3',
+  'bulletList',
+  'orderedList',
+  'imageUpload',
+  'insertTable',
+  'horizontalRule',
+  'video',
 ];
 
 // [text](url) -> "text: url" (drop label if it equals the URL). Keep serializer
@@ -222,7 +237,7 @@ export const MARKDOWN_PATTERNS = [
   },
   {
     type: 'orderedList', // PM: ordered_list, eg: 1. item
-    patterns: [{ pattern: /^[\t ]*\d+\.\s+/gm, replacement: '' }],
+    patterns: [{ pattern: /^[\t ]*\d+[.)]\s+/gm, replacement: '' }],
   },
   {
     type: 'heading', // PM: heading, eg: ## Heading
