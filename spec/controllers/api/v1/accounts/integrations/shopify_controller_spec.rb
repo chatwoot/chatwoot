@@ -172,69 +172,68 @@ RSpec.describe 'Shopify Integration API', type: :request do
 
       expect(response).to have_http_status(:not_found)
     end
-  end
 
-  describe 'POST /api/v1/accounts/:account_id/integrations/shopify/complete_install' do
-    let(:admin) { create(:user, account: account, role: :administrator) }
-    let(:token) do
-      Shopify::PendingInstallation.create(
-        access_token: 'shopify-token',
-        shop: 'pending-store.myshopify.com',
-        scope: 'read_customers,read_orders'
-      )
-    end
+    context 'when Shopify is enabled' do
+      let(:token) do
+        Shopify::PendingInstallation.create(
+          access_token: 'shopify-token',
+          shop: 'pending-store.myshopify.com',
+          scope: 'read_customers,read_orders'
+        )
+      end
 
-    after do
-      Redis::Alfred.delete("shopify_pending_install:#{token}")
-      Redis::Alfred.delete("shopify_pending_install_claim:#{token}")
-    end
+      after do
+        Redis::Alfred.delete("shopify_pending_install:#{token}")
+        Redis::Alfred.delete("shopify_pending_install_claim:#{token}")
+      end
 
-    it 'allows an administrator to create the hook and consumes the token' do
-      post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
-           params: { pending_install_token: token },
-           headers: admin.create_new_auth_token,
-           as: :json
+      it 'allows an administrator to create the hook and consumes the token' do
+        post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
+             params: { pending_install_token: token },
+             headers: admin.create_new_auth_token,
+             as: :json
 
-      expect(response).to have_http_status(:ok)
-      expect(account.hooks.find_by!(app_id: 'shopify')).to have_attributes(
-        reference_id: 'pending-store.myshopify.com',
-        access_token: 'shopify-token'
-      )
-      expect(Redis::SecureStorage.get("shopify_pending_install:#{token}")).to be_nil
-    end
+        expect(response).to have_http_status(:ok)
+        expect(account.hooks.find_by!(app_id: 'shopify')).to have_attributes(
+          reference_id: 'pending-store.myshopify.com',
+          access_token: 'shopify-token'
+        )
+        expect(Redis::SecureStorage.get("shopify_pending_install:#{token}")).to be_nil
+      end
 
-    it 'rejects an agent without claiming the token' do
-      post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
-           params: { pending_install_token: token },
-           headers: agent.create_new_auth_token,
-           as: :json
+      it 'rejects an agent without claiming the token' do
+        post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
+             params: { pending_install_token: token },
+             headers: agent.create_new_auth_token,
+             as: :json
 
-      expect(response).to have_http_status(:unauthorized)
-      expect(account.hooks.where(app_id: 'shopify')).to be_empty
+        expect(response).to have_http_status(:unauthorized)
+        expect(account.hooks.where(app_id: 'shopify')).to be_empty
 
-      pending_installation = Shopify::PendingInstallation.claim(token: token, account_id: account.id)
-      expect(pending_installation.data['shop']).to eq('pending-store.myshopify.com')
-      pending_installation.release!
-    end
+        pending_installation = Shopify::PendingInstallation.claim(token: token, account_id: account.id)
+        expect(pending_installation.data['shop']).to eq('pending-store.myshopify.com')
+        pending_installation.release!
+      end
 
-    it 'keeps a failed installation retryable by the same account' do
-      create(:integrations_hook, :shopify, account: account)
+      it 'keeps a failed installation retryable by the same account' do
+        create(:integrations_hook, :shopify, account: account)
 
-      post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
-           params: { pending_install_token: token },
-           headers: admin.create_new_auth_token,
-           as: :json
+        post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
+             params: { pending_install_token: token },
+             headers: admin.create_new_auth_token,
+             as: :json
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      account.hooks.destroy_all
+        expect(response).to have_http_status(:unprocessable_entity)
+        account.hooks.destroy_all
 
-      post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
-           params: { pending_install_token: token },
-           headers: admin.create_new_auth_token,
-           as: :json
+        post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
+             params: { pending_install_token: token },
+             headers: admin.create_new_auth_token,
+             as: :json
 
-      expect(response).to have_http_status(:ok)
-      expect(account.hooks.find_by(app_id: 'shopify')).to be_present
+        expect(response).to have_http_status(:ok)
+        expect(account.hooks.find_by(app_id: 'shopify')).to be_present
+      end
     end
   end
 
