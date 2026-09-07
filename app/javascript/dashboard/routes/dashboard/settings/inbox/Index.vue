@@ -2,7 +2,6 @@
 import { computed, onActivated, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import { picoSearch } from '@chatwoot/pico-search';
 import Avatar from 'next/avatar/Avatar.vue';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -15,6 +14,9 @@ import {
 import ChannelName from './components/ChannelName.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { getInboxIdentifier, searchInboxes } from 'dashboard/helper/inbox';
+
+const IDENTIFIER_SEPARATOR = '·';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -32,13 +34,18 @@ onActivated(() => {
 });
 
 const inboxesList = computed(() => {
-  return inboxes.value?.slice().sort((a, b) => a.name.localeCompare(b.name));
+  return inboxes.value
+    ?.map(inbox => ({
+      ...inbox,
+      channel_identifier: getInboxIdentifier(inbox),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 });
 
 const filteredInboxesList = computed(() => {
   const query = searchQuery.value.trim();
   if (!query) return inboxesList.value;
-  return picoSearch(inboxesList.value, query, ['name', 'channel_type']);
+  return searchInboxes(inboxesList.value, query);
 });
 
 const uiFlags = computed(() => getters['inboxes/getUIFlags'].value);
@@ -124,7 +131,7 @@ const openDelete = inbox => {
           :key="inbox.id"
           class="flex justify-between flex-row items-start gap-4 py-4"
         >
-          <div class="flex items-center gap-4">
+          <div class="flex items-center gap-4 min-w-0 flex-1">
             <div
               v-if="inbox.avatar_url"
               class="bg-n-alpha-3 rounded-xl size-10 ring ring-n-solid-1 border border-n-strong shadow-sm grid place-items-center"
@@ -142,19 +149,37 @@ const openDelete = inbox => {
             >
               <ChannelIcon class="size-6 text-n-slate-10" :inbox="inbox" />
             </div>
-            <div class="flex flex-col items-start gap-1">
-              <span class="block text-heading-3 text-n-slate-12 capitalize">
+            <div class="flex flex-col items-start gap-1 min-w-0">
+              <span
+                :title="inbox.name"
+                class="block text-heading-3 text-n-slate-12 capitalize truncate max-w-full"
+              >
                 {{ inbox.name }}
               </span>
-              <ChannelName
-                :channel-type="inbox.channel_type"
-                :medium="inbox.medium"
-                :voice-enabled="inbox.voice_enabled"
-                class="text-body-main text-n-slate-11"
-              />
+              <div
+                class="flex items-center gap-1 min-w-0 max-w-full text-body-main text-n-slate-11"
+              >
+                <ChannelName
+                  :channel-type="inbox.channel_type"
+                  :medium="inbox.medium"
+                  :voice-enabled="inbox.voice_enabled"
+                  class="shrink-0"
+                />
+                <template v-if="inbox.channel_identifier">
+                  <span aria-hidden="true">{{ IDENTIFIER_SEPARATOR }}</span>
+                  <bdi
+                    dir="auto"
+                    :title="inbox.channel_identifier"
+                    class="truncate"
+                    data-test-id="channel-identifier"
+                  >
+                    {{ inbox.channel_identifier }}
+                  </bdi>
+                </template>
+              </div>
             </div>
           </div>
-          <div class="flex gap-3 justify-end">
+          <div class="flex gap-3 justify-end shrink-0">
             <router-link
               :to="{
                 name: 'settings_inbox_show',

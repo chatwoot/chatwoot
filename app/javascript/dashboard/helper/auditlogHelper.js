@@ -37,6 +37,7 @@ const translationKeys = {
   'teammember:destroy': `AUDIT_LOGS.TEAM_MEMBER.REMOVE`,
   'account:update': `AUDIT_LOGS.ACCOUNT.EDIT`,
   'conversation:destroy': `AUDIT_LOGS.CONVERSATION.DELETE`,
+  'message:destroy': `AUDIT_LOGS.MESSAGE.DELETE`,
 };
 
 function extractAttrChange(attrChange) {
@@ -174,6 +175,11 @@ export function generateTranslationPayload(auditLogItem, agentList) {
       auditLogItem.audited_changes?.display_id || auditLogItem.auditable_id;
   }
 
+  if (auditableType === 'message' && action === 'destroy') {
+    translationPayload.conversationId =
+      auditLogItem.audited_changes?.display_id;
+  }
+
   if (auditableType === 'accountuser') {
     translationPayload = handleAccountUser(
       auditLogItem,
@@ -241,7 +247,10 @@ export const EVENT_TYPE_GROUPS = [
   },
   {
     key: 'CONVERSATIONS',
-    types: [{ value: 'Conversation', key: 'CONVERSATION_DELETIONS' }],
+    types: [
+      { value: 'Conversation', key: 'CONVERSATION_DELETIONS' },
+      { value: 'Message', key: 'MESSAGE_DELETIONS' },
+    ],
   },
 ];
 

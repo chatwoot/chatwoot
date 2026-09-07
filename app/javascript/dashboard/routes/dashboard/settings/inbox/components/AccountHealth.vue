@@ -5,6 +5,7 @@ import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { useLocale } from 'shared/composables/useLocale';
 
 import ButtonV4 from 'next/button/Button.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { useAlert } from 'dashboard/composables';
 
@@ -46,7 +47,7 @@ const STATUS_COLORS = {
   STANDARD: 'text-n-teal-11',
   ACTIVE: 'text-n-teal-11',
   PENDING_REVIEW: 'text-n-amber-11',
-  AVAILABLE_WITHOUT_REVIEW: 'text-n-teal-11',
+  AVAILABLE_WITHOUT_REVIEW: 'text-n-slate-11',
   EXPIRED: 'text-n-amber-11',
   FLAGGED: 'text-n-amber-11',
   RESTRICTED: 'text-n-ruby-9',
@@ -75,6 +76,22 @@ const formatStatusDisplay = status => {
     .join(' ');
 };
 
+const STATUSES = [
+  'APPROVED',
+  'AVAILABLE_WITHOUT_REVIEW',
+  'PENDING_REVIEW',
+  'REJECTED',
+  'DECLINED',
+  'EXPIRED',
+];
+
+const getDisplayNameStatusDescription = status =>
+  t(
+    `INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.${
+      STATUSES.includes(status) ? status : 'UNKNOWN'
+    }`
+  );
+
 const formatDateTime = value => {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
@@ -84,6 +101,55 @@ const formatDateTime = value => {
     timeStyle: 'short',
   }).format(date);
 };
+
+const businessProfile = computed(
+  () => props.healthData?.business_profile || null
+);
+
+const businessProfileName = computed(
+  () =>
+    props.healthData?.verified_name ||
+    props.healthData?.display_phone_number ||
+    t('INBOX_MGMT.ACCOUNT_HEALTH.VALUES.NOT_AVAILABLE')
+);
+
+const businessProfileDetails = computed(() => {
+  if (!businessProfile.value) return [];
+
+  const notAvailable = t('INBOX_MGMT.ACCOUNT_HEALTH.VALUES.NOT_AVAILABLE');
+  const websites = businessProfile.value.websites?.filter(Boolean) || [];
+
+  return [
+    {
+      key: 'description',
+      label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.PROFILE_DESCRIPTION.LABEL'),
+      value: businessProfile.value.description || notAvailable,
+      tooltip: t(
+        'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.PROFILE_DESCRIPTION.TOOLTIP'
+      ),
+      wide: true,
+    },
+    {
+      key: 'address',
+      label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.PROFILE_ADDRESS.LABEL'),
+      value: businessProfile.value.address || notAvailable,
+      tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.PROFILE_ADDRESS.TOOLTIP'),
+    },
+    {
+      key: 'email',
+      label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.PROFILE_EMAIL.LABEL'),
+      value: businessProfile.value.email || notAvailable,
+      tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.PROFILE_EMAIL.TOOLTIP'),
+    },
+    {
+      key: 'websites',
+      label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.PROFILE_WEBSITES.LABEL'),
+      value: websites.length ? websites.join('\n') : notAvailable,
+      tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.PROFILE_WEBSITES.TOOLTIP'),
+      wide: true,
+    },
+  ];
+});
 
 const healthSections = computed(() => {
   if (!props.healthData) {
@@ -134,6 +200,19 @@ const healthSections = computed(() => {
           tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.VERIFIED_NAME.TOOLTIP'),
         },
         {
+          key: 'displayNameStatus',
+          label: t(
+            'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.LABEL'
+          ),
+          value: nameStatus || 'UNKNOWN',
+          tooltip: t(
+            'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.TOOLTIP'
+          ),
+          description: getDisplayNameStatusDescription(nameStatus || 'UNKNOWN'),
+          type: 'status',
+          wide: true,
+        },
+        {
           key: 'phoneNumberId',
           label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.PHONE_NUMBER_ID.LABEL'),
           value: phoneNumberId || notAvailable,
@@ -148,17 +227,6 @@ const healthSections = computed(() => {
           tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.COEXISTENCE.TOOLTIP'),
           type: 'status',
           show: isOnBizApp === true && platformType === 'CLOUD_API',
-        },
-        {
-          key: 'displayNameStatus',
-          label: t(
-            'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.LABEL'
-          ),
-          value: nameStatus || 'UNKNOWN',
-          tooltip: t(
-            'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.TOOLTIP'
-          ),
-          type: 'status',
         },
         {
           key: 'lastOnboardedTime',
@@ -205,6 +273,9 @@ const healthSections = computed(() => {
           value: messagingLimitTier || 'UNKNOWN',
           tooltip: t(
             'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.MESSAGING_LIMIT_TIER.TOOLTIP'
+          ),
+          description: t(
+            'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.MESSAGING_LIMIT_TIER.DESCRIPTION'
           ),
           type: 'tier',
         },
@@ -415,6 +486,86 @@ const handleCopyWebhookUrl = async url => {
       </div>
 
       <div v-if="healthData && !errorState" class="space-y-6">
+        <section v-if="businessProfile">
+          <h3 class="mb-3 text-heading-4 text-n-slate-12">
+            {{ t('INBOX_MGMT.ACCOUNT_HEALTH.SECTIONS.BUSINESS_PROFILE') }}
+          </h3>
+          <div class="space-y-4">
+            <div
+              class="flex items-center gap-4 p-4 rounded-lg border border-n-weak bg-n-solid-1"
+            >
+              <Avatar
+                :src="businessProfile.profile_picture_url"
+                :name="businessProfileName"
+                :size="64"
+                rounded-full
+              />
+              <div class="min-w-0">
+                <span
+                  class="text-label-small font-medium uppercase tracking-wide text-n-teal-11"
+                >
+                  {{
+                    t(
+                      'INBOX_MGMT.ACCOUNT_HEALTH.BUSINESS_PROFILE.PREVIEW_LABEL'
+                    )
+                  }}
+                </span>
+                <p class="mt-1 text-heading-4 text-n-slate-12 break-words">
+                  {{ businessProfileName }}
+                </p>
+                <p
+                  v-if="healthData.display_phone_number"
+                  class="text-body-main text-n-slate-10"
+                >
+                  {{ healthData.display_phone_number }}
+                </p>
+                <div class="flex flex-wrap gap-2 items-center mt-2">
+                  <span
+                    v-if="
+                      businessProfile.vertical &&
+                      businessProfile.vertical !== 'OTHER'
+                    "
+                    class="inline-flex items-center px-2 py-0.5 min-h-6 text-label-small rounded-md bg-n-alpha-2 text-n-slate-11"
+                  >
+                    {{ formatStatusDisplay(businessProfile.vertical) }}
+                  </span>
+                  <span
+                    v-if="businessProfile.about"
+                    class="text-label text-n-slate-11 break-words"
+                  >
+                    {{ businessProfile.about }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 xs:grid-cols-2">
+              <div
+                v-for="item in businessProfileDetails"
+                :key="item.key"
+                class="flex flex-col gap-2 p-4 rounded-lg border border-n-weak bg-n-solid-1"
+                :class="{ 'xs:col-span-2': item.wide }"
+              >
+                <div class="flex gap-2 items-center">
+                  <span class="text-body-main font-medium text-n-slate-11">
+                    {{ item.label }}
+                  </span>
+                  <Icon
+                    v-tooltip.top="item.tooltip"
+                    icon="i-lucide-info"
+                    class="flex-shrink-0 w-4 h-4 cursor-help text-n-slate-9"
+                  />
+                </div>
+                <span
+                  class="text-label whitespace-pre-line break-words text-n-slate-12"
+                >
+                  {{ item.value }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section v-for="section in healthSections" :key="section.key">
           <h3 class="mb-3 text-heading-4 text-n-slate-12">
             {{ section.title }}
@@ -424,6 +575,7 @@ const handleCopyWebhookUrl = async url => {
               v-for="item in section.items"
               :key="item.key"
               class="flex flex-col gap-2 p-4 rounded-lg border border-n-weak bg-n-solid-1"
+              :class="{ 'xs:col-span-2': item.wide }"
             >
               <div class="flex gap-2 items-center">
                 <span class="text-body-main font-medium text-n-slate-11">
@@ -467,6 +619,12 @@ const handleCopyWebhookUrl = async url => {
                   {{ item.value }}
                 </span>
               </div>
+              <p
+                v-if="item.description"
+                class="max-w-3xl text-label-small text-n-slate-10"
+              >
+                {{ item.description }}
+              </p>
             </div>
           </div>
         </section>

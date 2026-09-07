@@ -297,11 +297,11 @@ const matchesConversationCondition = (conversation, filter) => {
   const isHumanAssigneeFilter =
     filter.attribute_key === 'assignee_id' &&
     ['equal_to', 'not_equal_to'].includes(filter.filter_operator);
+  const isAiAssignee =
+    conversation.meta?.assignee_type &&
+    conversation.meta.assignee_type !== 'User';
 
-  if (
-    isHumanAssigneeFilter &&
-    conversation.meta?.assignee_type === 'AgentBot'
-  ) {
+  if (isHumanAssigneeFilter && isAiAssignee) {
     return false;
   }
 

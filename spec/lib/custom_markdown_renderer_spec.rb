@@ -92,6 +92,31 @@ describe CustomMarkdownRenderer do
         expect(output).to include('<video width="640" height="360" controls')
         expect(output).to include('<source src="https://example.com/video.mp4" type="video/mp4">')
       end
+
+      it 'sizes the video from a cw_video_width param without leaking it into the source' do
+        output = render_markdown_link("#{mp4_url}?cw_video_width=480px")
+        expect(output).to include('<div style="width: 480px; max-width: 100%;">')
+        expect(output).to match(/<video[^>]+style="width: 100%; height: auto;"/)
+        expect(output).to include('<source src="https://example.com/video.mp4" type="video/mp4">')
+      end
+
+      it 'keeps percentage padding relative to the saved width' do
+        output = render_markdown_link('https://www.youtube.com/watch?v=VIDEO_ID&cw_video_width=480px')
+        expect(output).to include('<div style="width: 480px; max-width: 100%;">')
+        # The aspect box keeps its template padding and fills the wrapper.
+        expect(output).to include('style="position: relative; padding-bottom: 62.5%; height: 0; width: 100%; height: auto;"')
+      end
+
+      it 'lets the saved width cap a full-width template' do
+        output = render_markdown_link('https://app.arcade.software/share/ARCADE_ID?cw_video_width=480px')
+        expect(output).to include('<div style="width: 480px; max-width: 100%;">')
+        expect(output).to include('src="https://app.arcade.software/embed/ARCADE_ID"')
+      end
+
+      it 'keeps the sizing param out of captured embed ids' do
+        output = render_markdown_link('https://youtu.be/VIDEO_ID?cw_video_width=480px')
+        expect(output).to include('src="https://www.youtube-nocookie.com/embed/VIDEO_ID"')
+      end
     end
 
     context 'when link is a normal URL' do

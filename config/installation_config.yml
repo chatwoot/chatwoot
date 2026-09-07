@@ -182,6 +182,12 @@
 # End of Microsoft Email Channel Config
 
 # MARK: Captain Config
+- name: ENABLE_CAPTAIN_CONVERSATION_ASSIGNMENT
+  display_title: 'Enable Captain Conversation Assignment'
+  description: 'Enable assigning conversations to Captain assistants.'
+  value: false
+  locked: true
+  type: boolean
 - name: CAPTAIN_OPEN_AI_API_KEY
   display_title: 'OpenAI API Key'
   description: 'The API key used to authenticate requests to OpenAI services for Captain AI.'
@@ -427,6 +433,12 @@
   value:
   locked: false
   description: 'Slack client secret'
+  type: secret
+- name: SLACK_SIGNING_SECRET
+  display_title: 'Slack Signing Secret'
+  value:
+  locked: false
+  description: 'Slack signing secret used to verify inbound webhook signatures'
   type: secret
 ## ------ End of Configs added for Slack ------ ##
 

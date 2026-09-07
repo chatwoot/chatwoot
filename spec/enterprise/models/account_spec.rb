@@ -284,17 +284,6 @@ RSpec.describe Account, type: :model do
       expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
       expect(account.captain_models).to be_nil
     end
-
-    it 'marks new cloud accounts as eligible for the Captain V2 paid-plan default' do
-      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(false)
-      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-
-      account = create(:account)
-
-      expect(account.internal_attributes[Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE]).to be true
-      expect(account).not_to be_feature_enabled('captain_integration')
-      expect(account).not_to be_feature_enabled('captain_integration_v2')
-    end
   end
 
   describe 'captain document sync cadence' do

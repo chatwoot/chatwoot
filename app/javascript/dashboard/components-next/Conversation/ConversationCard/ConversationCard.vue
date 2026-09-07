@@ -4,6 +4,7 @@ import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { useRouter, useRoute } from 'vue-router';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper.js';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -29,6 +30,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const exactTimestamp = useExactTimestamp();
 
 const router = useRouter();
 const route = useRoute();
@@ -118,7 +121,13 @@ const onCardClick = e => {
               class="flex-shrink-0 text-n-slate-11 size-3"
             />
           </div>
-          <span class="text-sm text-n-slate-10">
+          <span
+            v-tooltip.top="{
+              content: exactTimestamp(conversation?.timestamp),
+              delay: { show: 500, hide: 0 },
+            }"
+            class="text-sm text-n-slate-10"
+          >
             {{ lastActivityAt }}
           </span>
         </div>
