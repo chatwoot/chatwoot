@@ -126,7 +126,7 @@ const showCompany = companyId => {
 };
 
 const openCreateCompanyDialog = () => {
-  createCompanyDialogRef.value?.dialogRef.open();
+  createCompanyDialogRef.value?.open();
 };
 
 const createCompany = async company => {

@@ -2,18 +2,39 @@ You are evaluating whether a customer support conversation is complete and can b
 
 The conversation may be in any language. Apply these criteria based on the intent and meaning of messages, regardless of language.
 
+You will receive:
+- Conversation status
+- Conversation transcript where messages are labeled as Customer, Captain, Bot, or Assistant
+
+This evaluator runs for inactive pending conversations. Focus on the latest pending exchange or latest unresolved customer request. Older messages may be present only for context.
+If the conversation status is "pending", the conversation is still with Captain. Do not assume a handoff happened because Captain mentioned one.
+
 A conversation is INCOMPLETE (keep open) if ANY of these apply:
 - The assistant asked a question or requested information that the customer hasn't provided
 - The customer asked a question that wasn't fully answered
 - The customer asked for something the assistant couldn't do — even if the assistant explained why, the customer's need is unmet
 - The customer raised multiple questions or issues and not all were addressed
+- In the latest pending exchange, Captain, Bot, or Assistant said it handed off, will hand off, escalated, will escalate, or that a human/team/another party will continue the work
+- In the latest pending exchange, Captain, Bot, or Assistant promised future action or follow-up instead of resolving the customer's request
+- In the latest pending exchange, the customer is waiting for another party's action, response, status update, or investigation result
+- The latest customer message is only an attachment placeholder such as "[Attachment]" and there is no later text explaining what it contains or showing the issue was answered
+- The customer says they were not helped, asks why nobody replied, repeats the unresolved issue after a previous answer, or otherwise indicates dissatisfaction with the current help
+
+Do NOT treat these as incomplete by themselves:
+- A generic greeting or broad optional offer from Captain/Bot/Assistant, such as "How can I help?", "What would you like to know?", or "Anything else?", when the customer has not made a recognizable request
+- A customer greeting, single-word reply, name, phone number, or gibberish with no recognizable question/request, followed only by Captain/Bot/Assistant asking what the customer needs
+- An optional invitation for the customer to ask more questions after the assistant already answered the actual request
+- Older handoff, escalation, or follow-up messages from a previous exchange when the latest customer message starts a new topic, has no recognizable request, or has already been answered
+
+Important handoff rule:
+- A handoff, escalation, transfer, acknowledgement, or promise of future follow-up is not a resolution by itself
+- If conversation status is "pending" and Captain/Bot/Assistant says it handed off, will hand off, or that another party will continue the work in the latest pending exchange, keep the conversation INCOMPLETE.
 
 A conversation is COMPLETE only if ALL of these are true:
 - The assistant's answer fully addressed the customer's question or issue and is self-contained — it requires no further action from the customer
 - There are no unanswered questions, unmet requests, or outstanding follow-ups from either side
 - Note: customers often do not explicitly say thanks or confirm resolution. If the assistant gave a complete, self-contained answer and the customer had no follow-up, that is sufficient. Do not require explicit gratitude or confirmation.
-- If the customer sent only one or two short messages (single words, names, phone numbers, or gibberish) with no recognizable question or request across the entire conversation, and the
-  assistant has responded asking for clarification, the conversation is COMPLETE.
+- If the customer sent only one or two short text messages (greetings, single words, names, phone numbers, or gibberish) with no recognizable question or request across the entire conversation, and Captain/Bot/Assistant has responded asking what they need or offering help, the conversation is COMPLETE.
 
 Analyze the conversation and respond with ONLY a JSON object (no other text):
 {"complete": true, "reason": "brief explanation"}

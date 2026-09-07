@@ -62,6 +62,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     result = described_class.new(account: account, user: agent).perform
 
     expect(result).to eq(
+      all_count: 1,
       inboxes: { visible_inbox.id.to_s => 1 },
       labels: { label.id.to_s => 1 },
       teams: { visible_team.id.to_s => 1 }
@@ -75,6 +76,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     result = described_class.new(account: account, user: admin).perform
 
     expect(result).to eq(
+      all_count: 2,
       inboxes: { visible_inbox.id.to_s => 1, hidden_inbox.id.to_s => 1 },
       labels: { label.id.to_s => 2 },
       teams: { visible_team.id.to_s => 2 }
@@ -87,9 +89,28 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     result = described_class.new(account: account, user: agent).perform
 
     expect(result).to eq(
+      all_count: 1,
       inboxes: { visible_inbox.id.to_s => 1 },
       labels: {},
       teams: { visible_team.id.to_s => 1 }
+    )
+  end
+
+  it 'merges filtered counts when the filtered count feature is enabled' do
+    account.enable_features!(:unread_count_for_filters)
+    filtered_counter = instance_double(
+      Conversations::UnreadCounts::FilteredCounter,
+      perform: { mentions_count: 1, participating_count: 2, unattended_count: 3, folders: { '4' => 5 } }
+    )
+    allow(Conversations::UnreadCounts::FilteredCounter).to receive(:new).and_return(filtered_counter)
+
+    result = described_class.new(account: account, user: agent).perform
+
+    expect(result).to include(
+      mentions_count: 1,
+      participating_count: 2,
+      unattended_count: 3,
+      folders: { '4' => 5 }
     )
   end
 end

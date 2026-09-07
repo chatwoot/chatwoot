@@ -8,6 +8,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import ArticleEditorProperties from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditorProperties.vue';
 
 const props = defineProps({
@@ -107,10 +108,11 @@ const selectedCategory = computed(() => {
 const categoryList = computed(() => {
   return (
     categories.value
-      .map(({ name, id, icon }) => ({
+      .map(({ name, id, icon, icon_color: iconColor }) => ({
         label: name,
         value: id,
         emoji: icon,
+        iconColor,
         isSelected: isNewArticle.value
           ? id === (selectedCategoryId.value || selectedCategory.value?.id)
           : id === props.article?.category?.id,
@@ -202,10 +204,6 @@ onMounted(() => {
     <div class="relative">
       <OnClickOutside @trigger="openCategoryList = false">
         <Button
-          :label="
-            selectedCategory?.name ||
-            t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.UNCATEGORIZED')
-          "
           :icon="!selectedCategory?.icon ? 'i-lucide-shapes' : ''"
           variant="ghost"
           color="slate"
@@ -213,12 +211,20 @@ onMounted(() => {
           @click="openCategoryList = !openCategoryList"
         >
           <span
-            v-if="selectedCategory"
-            class="text-sm text-n-slate-12 hover:text-n-slate-11"
+            class="flex items-center gap-1.5 min-w-0 text-sm text-n-slate-12 hover:text-n-slate-11"
           >
-            {{
-              `${selectedCategory.icon || ''} ${selectedCategory.name || t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.UNCATEGORIZED')}`
-            }}
+            <EmojiIcon
+              v-if="selectedCategory?.icon"
+              :value="selectedCategory.icon"
+              :color="selectedCategory.icon_color"
+              class="flex-shrink-0 size-4"
+            />
+            <span class="truncate">
+              {{
+                selectedCategory?.name ||
+                t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.UNCATEGORIZED')
+              }}
+            </span>
           </span>
         </Button>
         <DropdownMenu

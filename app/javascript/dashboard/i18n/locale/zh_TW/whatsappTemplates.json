@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "變數",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "語言",
       "CATEGORY": "類別",
       "VARIABLE_PLACEHOLDER": "輸入 {variable} 的值",

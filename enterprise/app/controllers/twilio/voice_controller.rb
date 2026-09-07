@@ -24,6 +24,8 @@ class Twilio::VoiceController < ApplicationController
       "TWILIO_VOICE_TWIML account=#{current_account.id} call_sid=#{twilio_call_sid} from=#{twilio_from} direction=#{twilio_direction}"
     )
 
+    return render xml: reject_twiml if reject_inbound?
+
     call = resolve_call
     render xml: conference_twiml(call)
   end
@@ -88,6 +90,16 @@ class Twilio::VoiceController < ApplicationController
     from_number.start_with?('client:')
   end
 
+  # A fresh contact-initiated leg on an inbox with inbound calls turned off.
+  # Reject it so no conference, conversation, or Call row is created.
+  def reject_inbound?
+    twilio_direction == 'inbound' && !agent_leg?(twilio_from) && !inbox.channel.inbound_calls_enabled?
+  end
+
+  def reject_twiml
+    Twilio::TwiML::VoiceResponse.new(&:reject).to_s
+  end
+
   def resolve_call
     return find_call_for_agent if agent_leg?(twilio_from)
 
@@ -95,8 +107,8 @@ class Twilio::VoiceController < ApplicationController
     when 'inbound'
       Voice::InboundCallBuilder.perform!(
         inbox: inbox,
-        from_number: twilio_from,
-        call_sid: twilio_call_sid
+        call_sid: twilio_call_sid,
+        caller: { source_ids: [twilio_from], contact_attributes: { name: twilio_from, phone_number: twilio_from } }
       )
     when 'outbound-api', 'outbound-dial'
       sync_outbound_leg(call_sid: twilio_call_sid, direction: twilio_direction)
@@ -134,7 +146,7 @@ class Twilio::VoiceController < ApplicationController
           conference_sid,
           start_conference_on_enter: agent_leg?(twilio_from),
           end_conference_on_exit: false,
-          record: 'record-from-start',
+          record: call.recording_enabled? ? 'record-from-start' : 'do-not-record',
           recording_status_callback: recording_status_callback_url,
           recording_status_callback_event: 'completed',
           recording_status_callback_method: 'POST',

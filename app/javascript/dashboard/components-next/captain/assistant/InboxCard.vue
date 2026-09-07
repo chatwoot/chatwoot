@@ -58,8 +58,12 @@ const menuItems = computed(() => [
 ]);
 
 const icon = computed(() => {
-  const { medium, channel_type: type } = props.inbox;
-  return getInboxIconByType(type, medium, 'outline');
+  const {
+    medium,
+    channel_type: type,
+    voice_enabled: voiceEnabled,
+  } = props.inbox;
+  return getInboxIconByType(type, medium, 'outline', voiceEnabled);
 });
 
 const handleAction = ({ action, value }) => {

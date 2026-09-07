@@ -6,7 +6,8 @@
     "LIST": {
       "404": "Il n'y a aucune conversation active dans ce groupe."
     },
-    "FAILED_TO_SEND": "Failed to send",
+    "FAILED_TO_SEND": "Échec de l'envoi",
+    "FETCH_ERROR": "Impossible de charger les conversations. Veuillez réessayer.",
     "TAB_HEADING": "Conversations",
     "MENTION_HEADING": "Mentions",
     "UNATTENDED_HEADING": "Sans suivi",
@@ -78,7 +79,10 @@
         "TEXT": "Réponse en attente : La plus courte en premier"
       },
       "priority_desc_created_at_asc": {
-        "TEXT": "Priority: Highest first, Created: Oldest first"
+        "TEXT": "Priorité : Le plus élevé en premier, créé : le plus ancien en premier"
+      },
+      "unread": {
+        "TEXT": "Nombre de non-lus : du plus élevé au plus faible"
       }
     },
     "ATTACHMENTS": {
@@ -104,10 +108,10 @@
         "CONTENT": "a partagé une URL"
       },
       "contact": {
-        "CONTENT": "Shared contact"
+        "CONTENT": "Contact partagé"
       },
       "embed": {
-        "CONTENT": "Embedded content"
+        "CONTENT": "Contenu intégré"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -140,7 +144,7 @@
     "HIDE_QUOTED_TEXT": "Masquer le texte cité",
     "SHOW_QUOTED_TEXT": "Afficher le texte cité",
     "MESSAGE_READ": "Lu",
-    "SENDING": "Sending",
+    "SENDING": "Envoi en cours",
     "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

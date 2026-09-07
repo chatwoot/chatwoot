@@ -34,6 +34,25 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
       expect(inbox.channel.imap_address).to eq 'outlook.office365.com'
     end
 
+    it 'sets imap_login from preferred_username when the id_token carries a UPN that differs from email' do
+      upn = 'testaccount@primary-domain.example'
+      mailbox = 'TestAccount@mailbox-domain.example'
+      response_body = {
+        id_token: JWT.encode({ email: mailbox, preferred_username: upn, name: 'test' }, nil, 'none'),
+        access_token: SecureRandom.hex(10), token_type: 'Bearer', refresh_token: SecureRandom.hex(10)
+      }
+      stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
+        .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
+                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback" })
+        .to_return(status: 200, body: response_body.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      get microsoft_callback_url, params: { code: code, state: state }
+
+      channel = account.inboxes.last.channel
+      expect(channel.imap_login).to eq upn
+      expect(channel.email).to eq mailbox
+    end
+
     it 'creates updates inbox channel config if inbox exists and authentication is successful' do
       inbox = create(:channel_email, account: account, email: email)&.inbox
       expect(inbox.channel.provider_config).to eq({})

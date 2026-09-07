@@ -1,0 +1,15 @@
+type: object
+title: SMS channel settings
+properties:
+  phone_number:
+    type: string
+    description: SMS phone number
+    example: '+15551234567'
+  provider_config:
+    type: object
+    description: Provider-specific SMS configuration
+    example:
+      api_key: your-api-key
+      api_secret: your-api-secret
+      application_id: your-application-id
+      account_id: your-account-id

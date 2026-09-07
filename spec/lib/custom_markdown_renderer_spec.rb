@@ -92,6 +92,31 @@ describe CustomMarkdownRenderer do
         expect(output).to include('<video width="640" height="360" controls')
         expect(output).to include('<source src="https://example.com/video.mp4" type="video/mp4">')
       end
+
+      it 'sizes the video from a cw_video_width param without leaking it into the source' do
+        output = render_markdown_link("#{mp4_url}?cw_video_width=480px")
+        expect(output).to include('<div style="width: 480px; max-width: 100%;">')
+        expect(output).to match(/<video[^>]+style="width: 100%; height: auto;"/)
+        expect(output).to include('<source src="https://example.com/video.mp4" type="video/mp4">')
+      end
+
+      it 'keeps percentage padding relative to the saved width' do
+        output = render_markdown_link('https://www.youtube.com/watch?v=VIDEO_ID&cw_video_width=480px')
+        expect(output).to include('<div style="width: 480px; max-width: 100%;">')
+        # The aspect box keeps its template padding and fills the wrapper.
+        expect(output).to include('style="position: relative; padding-bottom: 62.5%; height: 0; width: 100%; height: auto;"')
+      end
+
+      it 'lets the saved width cap a full-width template' do
+        output = render_markdown_link('https://app.arcade.software/share/ARCADE_ID?cw_video_width=480px')
+        expect(output).to include('<div style="width: 480px; max-width: 100%;">')
+        expect(output).to include('src="https://app.arcade.software/embed/ARCADE_ID"')
+      end
+
+      it 'keeps the sizing param out of captured embed ids' do
+        output = render_markdown_link('https://youtu.be/VIDEO_ID?cw_video_width=480px')
+        expect(output).to include('src="https://www.youtube-nocookie.com/embed/VIDEO_ID"')
+      end
     end
 
     context 'when link is a normal URL' do
@@ -255,6 +280,59 @@ describe CustomMarkdownRenderer do
         output = render_markdown_link('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
         expect(output).to include('src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"')
       end
+    end
+  end
+
+  describe '#table' do
+    def render_table(markdown)
+      doc = CommonMarker.render_doc(markdown, :DEFAULT, [:table])
+      described_class.new.render(doc)
+    end
+
+    let(:plain_table) { "| A | B |\n| --- | --- |\n| 1 | 2 |\n" }
+
+    it 'renders a table without column widths when no marker is present' do
+      output = render_table(plain_table)
+      expect(output).to include('<div class="tableWrapper"><table>')
+      expect(output).not_to include('colgroup')
+      expect(output).not_to include('cw-colwidths')
+    end
+
+    context 'when every column has a saved width' do
+      it 'lays the table out at the total width with a sized colgroup' do
+        output = render_table("<!--cw-colwidths:120,200-->\n#{plain_table}")
+        # Wrapper hugs the table; min-width is set alongside width so a narrow saved width beats min-w-full.
+        expect(output).to include('<div class="tableWrapper" style="width: 320px; max-width: 100%;">')
+        expect(output).to include('<table style="table-layout: fixed; width: 320px !important; min-width: 320px !important;">')
+        expect(output).to include('<colgroup><col style="width: 120px;"><col style="width: 200px;"></colgroup>')
+      end
+    end
+
+    context 'when only some columns have a saved width' do
+      it 'fills the container so unsized columns stay flexible, floored at the sized total' do
+        output = render_table("<!--cw-colwidths:150,0-->\n#{plain_table}")
+        # max(100%, 200px): fills the container (flexible) but scrolls if the sized columns exceed it.
+        expect(output).to include('table-layout: fixed; min-width: max(100%, 200px) !important;')
+        expect(output).to include('<colgroup><col style="width: 150px;"><col></colgroup>')
+        # No exact-width lock on the wrapper or table — the table must be free to expand.
+        expect(output).to include('<div class="tableWrapper"><table')
+        expect(output).not_to include('width: 200px !important')
+      end
+    end
+
+    it 'associates each marker with the table that follows it' do
+      markdown = "#{plain_table}\n<!--cw-colwidths:150,250-->\n| P | Q |\n| --- | --- |\n| a | b |\n"
+      output = render_table(markdown)
+
+      # First table has no marker and stays unsized; the marker applies to the second table.
+      expect(output).to include('<div class="tableWrapper"><table>')
+      expect(output).to include('width: 400px !important;')
+      expect(output).to include('<col style="width: 250px;">')
+      expect(output.scan('colgroup').length).to eq(2)
+    end
+
+    it 'does not emit the marker comment into the rendered html' do
+      expect(render_table("<!--cw-colwidths:120,200-->\n#{plain_table}")).not_to include('cw-colwidths')
     end
   end
 

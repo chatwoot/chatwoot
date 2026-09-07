@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { ATTACHMENT_TYPES } from 'dashboard/components-next/message/constants.js';
@@ -43,6 +44,8 @@ const props = defineProps({
   },
 });
 
+const exactTimestamp = useExactTimestamp();
+
 const { inbox } = useInbox(props.inboxId);
 
 const navigateTo = computed(() => {
@@ -65,8 +68,8 @@ const inboxName = computed(() => inbox.value?.name);
 
 const inboxIcon = computed(() => {
   if (!inbox.value) return null;
-  const { channelType, medium } = inbox.value;
-  return getInboxIconByType(channelType, medium);
+  const { channelType, medium, voiceEnabled } = inbox.value;
+  return getInboxIconByType(channelType, medium, 'fill', voiceEnabled);
 });
 
 const fileAttachments = computed(() => {
@@ -129,6 +132,10 @@ const audioAttachments = computed(() => {
         </div>
         <span
           v-if="createdAtTime"
+          v-tooltip.top="{
+            content: exactTimestamp(createdAt),
+            delay: { show: 500, hide: 0 },
+          }"
           class="text-sm font-normal min-w-0 truncate text-n-slate-11"
         >
           {{ createdAtTime }}

@@ -3,8 +3,10 @@ RSpec.describe Sla::TriggerSlasForAccountsJob do
   context 'when perform is called' do
     let(:account_with_sla) { create(:account) }
     let(:account_without_sla) { create(:account) }
+    let(:downgraded_account) { create(:account) }
 
     before do
+      account_with_sla.enable_features!('sla')
       create(:sla_policy, account: account_with_sla)
     end
 
@@ -20,6 +22,14 @@ RSpec.describe Sla::TriggerSlasForAccountsJob do
 
     it 'does not call the ProcessAccountAppliedSlasJob for accounts without SLA' do
       expect(Sla::ProcessAccountAppliedSlasJob).not_to receive(:perform_later).with(account_without_sla)
+      described_class.perform_now
+    end
+
+    it 'does not call the ProcessAccountAppliedSlasJob for accounts with the sla feature disabled' do
+      create(:sla_policy, account: downgraded_account)
+      downgraded_account.disable_features!('sla')
+
+      expect(Sla::ProcessAccountAppliedSlasJob).not_to receive(:perform_later).with(downgraded_account)
       described_class.perform_now
     end
   end

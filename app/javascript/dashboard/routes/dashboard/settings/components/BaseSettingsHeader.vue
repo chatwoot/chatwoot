@@ -52,12 +52,16 @@ const helpURL = getHelpUrlForFeature(props.featureName);
       v-if="title"
       class="flex items-center justify-between w-full gap-4 min-h-8 mb-2"
     >
-      <h1 class="text-heading-1 text-n-slate-12">
-        {{ title }}
-      </h1>
+      <slot name="title">
+        <h1 class="text-heading-1 text-n-slate-12">
+          {{ title }}
+        </h1>
+      </slot>
     </div>
     <div
-      v-if="description || $slots.description || linkText || helpURL"
+      v-if="
+        description || $slots.description || linkText || helpURL || $slots.meta
+      "
       class="flex flex-col w-full gap-1.5 text-n-slate-11"
     >
       <p
@@ -81,15 +85,16 @@ const helpURL = getHelpUrlForFeature(props.featureName);
           />
         </a>
       </CustomBrandPolicyWrapper>
+      <slot name="meta" />
     </div>
   </div>
   <div
     v-if="searchPlaceholder || slots.actions || slots.tabs"
-    class="gap-3 flex justify-between sm:mt-4 min-w-0"
+    class="gap-3 flex flex-wrap sm:flex-nowrap justify-between sm:mt-4 min-w-0"
   >
     <div
       v-if="slots.tabs || searchPlaceholder"
-      class="flex items-center gap-3"
+      class="flex items-center gap-3 min-w-0"
       :class="{
         'hidden sm:flex': !slots.tabs,
       }"
@@ -112,12 +117,12 @@ const helpURL = getHelpUrlForFeature(props.featureName);
       </Input>
     </div>
     <div
-      class="flex items-center gap-3 min-w-0"
+      class="flex items-center gap-3 shrink-0"
       :class="{ 'flex-row-reverse sm:flex-row': !slots.tabs }"
     >
       <slot name="count" />
       <div
-        v-if="slots.count"
+        v-if="slots.count && slots.actions"
         class="w-px h-3 rounded-lg bg-n-weak ltr:ml-1 ltr:mr-2 rtl:ml-2 rtl:mr-1 flex-shrink-0"
       />
       <slot name="actions" />

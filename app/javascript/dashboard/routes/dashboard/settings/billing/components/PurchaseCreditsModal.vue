@@ -4,19 +4,17 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CreditPackageCard from './CreditPackageCard.vue';
 import EnterpriseAccountAPI from 'dashboard/api/enterprise/account';
+import {
+  formatCurrencyAmount,
+  DEFAULT_BILLING_CURRENCY,
+} from 'dashboard/constants/billing';
 
-const emit = defineEmits(['close', 'success']);
+const emit = defineEmits(['success']);
 
 const { t } = useI18n();
-
-const TOPUP_OPTIONS = [
-  { credits: 1000, amount: 20.0, currency: 'usd' },
-  { credits: 2500, amount: 50.0, currency: 'usd' },
-  { credits: 6000, amount: 100.0, currency: 'usd' },
-  { credits: 12000, amount: 200.0, currency: 'usd' },
-];
 
 const POPULAR_CREDITS_AMOUNT = 6000;
 const STEP_SELECT = 'select';
@@ -27,16 +25,20 @@ const selectedCredits = ref(null);
 const isLoading = ref(false);
 const currentStep = ref(STEP_SELECT);
 
+// Topup packages come from the backend for the account's billing currency.
+const topupOptions = ref([]);
+const optionsCurrency = ref(DEFAULT_BILLING_CURRENCY);
+const isFetchingOptions = ref(false);
+const fetchError = ref(false);
+
 const selectedOption = computed(() => {
-  return TOPUP_OPTIONS.find(o => o.credits === selectedCredits.value);
+  return topupOptions.value.find(o => o.credits === selectedCredits.value);
 });
 
 const formattedAmount = computed(() => {
   if (!selectedOption.value) return '';
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: selectedOption.value.currency.toUpperCase(),
-  }).format(selectedOption.value.amount);
+  const { amount, currency } = selectedOption.value;
+  return formatCurrencyAmount(amount, currency || optionsCurrency.value);
 });
 
 const formattedCredits = computed(() => {
@@ -64,22 +66,42 @@ const handlePackageSelect = credits => {
   selectedCredits.value = credits;
 };
 
-const open = () => {
-  const popularOption = TOPUP_OPTIONS.find(
+const selectDefaultOption = () => {
+  const popularOption = topupOptions.value.find(
     o => o.credits === POPULAR_CREDITS_AMOUNT
   );
-  selectedCredits.value = popularOption?.credits || TOPUP_OPTIONS[0]?.credits;
+  selectedCredits.value =
+    popularOption?.credits || topupOptions.value[0]?.credits || null;
+};
+
+const fetchOptions = async () => {
+  isFetchingOptions.value = true;
+  fetchError.value = false;
+  try {
+    const { data } = await EnterpriseAccountAPI.getTopupOptions();
+    topupOptions.value = data.options ?? [];
+    optionsCurrency.value = (
+      data.currency || DEFAULT_BILLING_CURRENCY
+    ).toLowerCase();
+    selectDefaultOption();
+  } catch {
+    fetchError.value = true;
+    topupOptions.value = [];
+  } finally {
+    isFetchingOptions.value = false;
+  }
+};
+
+const open = () => {
   currentStep.value = STEP_SELECT;
   isLoading.value = false;
+  selectedCredits.value = null;
   dialogRef.value?.open();
+  fetchOptions();
 };
 
 const close = () => {
   dialogRef.value?.close();
-};
-
-const handleClose = () => {
-  emit('close');
 };
 
 const goToConfirmStep = () => {
@@ -127,32 +149,58 @@ defineExpose({ open, close });
     :width="dialogWidth"
     :show-confirm-button="false"
     :show-cancel-button="false"
-    @close="handleClose"
   >
     <!-- Step 1: Select Credits Package -->
-    <template v-if="currentStep === 'select'">
-      <div class="grid grid-cols-2 gap-4">
-        <CreditPackageCard
-          v-for="option in TOPUP_OPTIONS"
-          :key="option.credits"
-          name="credit-package"
-          :credits="option.credits"
-          :amount="option.amount"
-          :currency="option.currency"
-          :is-popular="option.credits === POPULAR_CREDITS_AMOUNT"
-          :is-selected="selectedCredits === option.credits"
-          @select="handlePackageSelect(option.credits)"
+    <template v-if="currentStep === STEP_SELECT">
+      <div
+        v-if="isFetchingOptions"
+        class="flex items-center justify-center gap-2 py-10"
+      >
+        <Spinner />
+        <span class="text-sm text-n-slate-11">{{
+          $t('BILLING_SETTINGS.TOPUP.LOADING')
+        }}</span>
+      </div>
+
+      <div
+        v-else-if="fetchError"
+        class="flex flex-col items-center justify-center gap-3 py-10"
+      >
+        <p class="text-sm text-n-slate-11">
+          {{ $t('BILLING_SETTINGS.TOPUP.FETCH_ERROR') }}
+        </p>
+        <Button
+          variant="faded"
+          color="slate"
+          :label="$t('BILLING_SETTINGS.TOPUP.RETRY')"
+          @click="fetchOptions"
         />
       </div>
 
-      <div class="p-4 mt-6 rounded-lg bg-n-solid-2 border border-n-weak">
-        <p class="text-sm text-n-slate-11">
-          <span class="font-semibold text-n-slate-12">{{
-            $t('BILLING_SETTINGS.TOPUP.NOTE_TITLE')
-          }}</span>
-          {{ $t('BILLING_SETTINGS.TOPUP.NOTE_DESCRIPTION') }}
-        </p>
-      </div>
+      <template v-else>
+        <div class="grid grid-cols-2 gap-4">
+          <CreditPackageCard
+            v-for="option in topupOptions"
+            :key="option.credits"
+            name="credit-package"
+            :credits="option.credits"
+            :amount="option.amount"
+            :currency="option.currency"
+            :is-popular="option.credits === POPULAR_CREDITS_AMOUNT"
+            :is-selected="selectedCredits === option.credits"
+            @select="handlePackageSelect(option.credits)"
+          />
+        </div>
+
+        <div class="p-4 mt-6 rounded-lg bg-n-solid-2 border border-n-weak">
+          <p class="text-sm text-n-slate-11">
+            <span class="font-semibold text-n-slate-12">{{
+              $t('BILLING_SETTINGS.TOPUP.NOTE_TITLE')
+            }}</span>
+            {{ $t('BILLING_SETTINGS.TOPUP.NOTE_DESCRIPTION') }}
+          </p>
+        </div>
+      </template>
     </template>
 
     <!-- Step 2: Confirm Purchase -->
@@ -178,7 +226,7 @@ defineExpose({ open, close });
     <template #footer>
       <!-- Step 1 Footer -->
       <div
-        v-if="currentStep === 'select'"
+        v-if="currentStep === STEP_SELECT"
         class="flex items-center justify-between w-full gap-3"
       >
         <Button
@@ -192,7 +240,7 @@ defineExpose({ open, close });
           color="blue"
           :label="$t('BILLING_SETTINGS.TOPUP.PURCHASE')"
           class="w-full"
-          :disabled="!selectedCredits"
+          :disabled="!selectedCredits || isFetchingOptions || fetchError"
           @click="goToConfirmStep"
         />
       </div>

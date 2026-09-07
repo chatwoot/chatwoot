@@ -6,6 +6,7 @@ import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsTo
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import CallRecordingSettings from './CallRecordingSettings.vue';
 
 export default {
   components: {
@@ -14,6 +15,7 @@ export default {
     NextButton,
     TextArea,
     Spinner,
+    CallRecordingSettings,
   },
   props: {
     inbox: {
@@ -24,10 +26,13 @@ export default {
   data() {
     return {
       callingEnabled: this.inbox.provider_config?.calling_enabled || false,
+      inboundCallsEnabled:
+        this.inbox.provider_config?.inbound_calls_enabled !== false,
       permissionRequestBody:
         this.inbox.provider_config?.call_permission_request_body || '',
       isUpdating: false,
       isTogglingCalling: false,
+      isTogglingInbound: false,
     };
   },
   computed: {
@@ -44,8 +49,27 @@ export default {
     'inbox.provider_config.call_permission_request_body'(val) {
       this.permissionRequestBody = val || '';
     },
+    'inbox.provider_config.inbound_calls_enabled'(val) {
+      this.inboundCallsEnabled = val !== false;
+    },
   },
   methods: {
+    async handleInboundToggle(newValue) {
+      if (this.isTogglingInbound) return;
+      const previousValue = this.inboundCallsEnabled;
+      this.inboundCallsEnabled = newValue;
+      this.isTogglingInbound = true;
+      try {
+        await InboxesAPI.setInboundCalls(this.inbox.id, newValue);
+        await this.$store.dispatch('inboxes/get', this.inbox.id);
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (_) {
+        this.inboundCallsEnabled = previousValue;
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      } finally {
+        this.isTogglingInbound = false;
+      }
+    },
     async handleCallingToggle(newValue) {
       if (this.isTogglingCalling) return;
       const previousValue = this.callingEnabled;
@@ -117,6 +141,27 @@ export default {
     </div>
 
     <template v-if="callingEnabled">
+      <div
+        class="relative"
+        :class="{ 'pointer-events-none opacity-60': isTogglingInbound }"
+      >
+        <SettingsToggleSection
+          :model-value="inboundCallsEnabled"
+          :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.INBOUND.LABEL')"
+          :description="
+            $t('INBOX_MGMT.VOICE_CONFIGURATION.INBOUND.DESCRIPTION')
+          "
+          :hide-toggle="isTogglingInbound"
+          @update:model-value="handleInboundToggle"
+        >
+          <template v-if="isTogglingInbound" #hiddenToggle>
+            <Spinner class="size-4 text-n-slate-11" />
+          </template>
+        </SettingsToggleSection>
+      </div>
+
+      <CallRecordingSettings :inbox="inbox" />
+
       <SettingsFieldSection
         v-if="phoneNumber"
         :label="$t('INBOX_MGMT.WHATSAPP_CALLING.PHONE_NUMBER.LABEL')"

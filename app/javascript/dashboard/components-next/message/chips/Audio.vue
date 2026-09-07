@@ -31,6 +31,17 @@ const timeStampURL = computed(() => {
   return timeStampAppendedURL(attachment.dataUrl);
 });
 
+const TRANSCRIPT_PREVIEW_LENGTH = 200;
+const isTranscriptExpanded = ref(false);
+const isTranscriptLong = computed(
+  () => (attachment.transcribedText?.length || 0) > TRANSCRIPT_PREVIEW_LENGTH
+);
+const displayedTranscript = computed(() => {
+  const text = attachment.transcribedText || '';
+  if (!isTranscriptLong.value || isTranscriptExpanded.value) return text;
+  return `${text.slice(0, TRANSCRIPT_PREVIEW_LENGTH).trimEnd()}…`;
+});
+
 const audioPlayer = useTemplateRef('audioPlayer');
 
 const isPlaying = ref(false);
@@ -215,7 +226,18 @@ const downloadAudio = async () => {
       v-if="attachment.transcribedText && showTranscribedText"
       class="text-n-slate-12 p-3 text-sm bg-n-alpha-1 rounded-lg w-full break-words"
     >
-      {{ attachment.transcribedText }}
+      {{ displayedTranscript }}
+      <button
+        v-if="isTranscriptLong"
+        class="block mt-1 p-0 border-0 bg-transparent text-n-slate-11 hover:text-n-slate-12 font-medium"
+        @click="isTranscriptExpanded = !isTranscriptExpanded"
+      >
+        {{
+          isTranscriptExpanded
+            ? $t('CONVERSATION.VOICE_CALL.TRANSCRIPT_SHOW_LESS')
+            : $t('CONVERSATION.VOICE_CALL.TRANSCRIPT_SHOW_MORE')
+        }}
+      </button>
     </div>
   </div>
 </template>

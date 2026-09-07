@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -17,6 +18,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['showCompany']);
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 
@@ -46,9 +49,8 @@ const formattedLastActivityAt = computed(() => {
         :src="avatarSource"
         class="shrink-0"
         :name="name"
-        :size="48"
+        :size="42"
         hide-offline-status
-        rounded-full
       />
       <div class="flex flex-col gap-0.5 flex-1 min-w-0">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1 min-w-0">
@@ -76,6 +78,10 @@ const formattedLastActivityAt = computed(() => {
           </div>
           <span
             v-if="lastActivityAt"
+            v-tooltip.top="{
+              content: exactTimestamp(lastActivityAt),
+              delay: { show: 500, hide: 0 },
+            }"
             class="inline-flex items-center gap-1.5 text-sm text-n-slate-11 flex-shrink-0"
           >
             {{ formattedLastActivityAt }}
