@@ -78,6 +78,7 @@ const MessageControl = Symbol('MessageControl');
  * @property {string} [referral.videoUrl] - Video URL of a Cloud API referral
  * @property {string} [referral.mediaUrl] - Media URL of a Twilio referral
  * @property {string} [referral.mediaContentType] - Media content type of a Twilio referral
+ * @property {{type: 'request', state: 'pending'|'shared'|'identity_conflict'}} [whatsappContactInfo] - WhatsApp contact information request state
  */
 
 /**
