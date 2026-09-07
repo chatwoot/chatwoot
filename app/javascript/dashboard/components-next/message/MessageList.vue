@@ -44,7 +44,10 @@ const emit = defineEmits(['retry']);
 const allMessages = computed(() => {
   return useCamelCase(props.messages, {
     deep: true,
-    stopPaths: ['content_attributes.translations'],
+    stopPaths: [
+      'content_attributes.translations',
+      'content_attributes.whatsapp_flow_response.response_json',
+    ],
   });
 });
 

@@ -47,5 +47,17 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       data = response.parsed_body
       expect(data['name']).to eq 'John Smith'
     end
+
+    it 'does not expose internal contact columns' do
+      contact.update!(identifier: 'contact-identifier', custom_attributes: { tier: 'vip' }, additional_attributes: { company_name: 'Acme' })
+
+      patch "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}",
+            params: { name: 'John Smith' }
+
+      expect(response).to have_http_status(:success)
+      data = response.parsed_body
+      expect(data.keys).to include('email', 'id', 'name', 'phone_number', 'pubsub_token', 'source_id')
+      expect(data.keys).not_to include('account_id', 'identifier', 'custom_attributes', 'additional_attributes', 'company_id')
+    end
   end
 end

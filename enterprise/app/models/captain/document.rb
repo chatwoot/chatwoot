@@ -103,6 +103,21 @@ class Captain::Document < ApplicationRecord
     end
   end
 
+  def customer_visible_source_url
+    return unless customer_visible_source?
+
+    url = external_link.presence
+    return unless url
+
+    uri = URI.parse(url)
+    return unless customer_visible_uri?(uri)
+    return if File.extname(uri.path).casecmp('.pdf').zero?
+
+    uri.to_s
+  rescue URI::InvalidURIError
+    nil
+  end
+
   def to_llm_metadata
     { document_id: id, assistant_id: assistant_id, external_link: external_link }
   end
@@ -120,6 +135,26 @@ class Captain::Document < ApplicationRecord
   end
 
   private
+
+  def customer_visible_source?
+    !pdf_document? && !pdf_file.attached?
+  end
+
+  def customer_visible_uri?(uri)
+    return false unless uri.is_a?(URI::HTTP) && uri.host.present? && uri.userinfo.blank?
+
+    addresses = SsrfFilter::DEFAULT_RESOLVER.call(uri.host)
+    addresses.present? && addresses.all? { |ip| publicly_routable_address?(ip) }
+  rescue Resolv::ResolvError, Resolv::ResolvTimeout, IPAddr::InvalidAddressError
+    false
+  end
+
+  def publicly_routable_address?(ip)
+    return false if ip.ipv6? && SsrfFilter::NAT64_LOCAL_PREFIX.dup.include?(ip)
+
+    blocked_ranges = ip.ipv4? ? SsrfFilter::IPV4_BLACKLIST : SsrfFilter::IPV6_BLACKLIST
+    blocked_ranges.none? { |range| range.include?(ip) }
+  end
 
   def enqueue_crawl_job
     return if status != 'in_progress'

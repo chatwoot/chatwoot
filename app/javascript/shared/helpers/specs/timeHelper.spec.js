@@ -1,11 +1,12 @@
 import {
-  messageStamp,
-  messageTimestamp,
-  dynamicTime,
   dateFormat,
-  shortTimestamp,
+  dynamicTime,
   getDayDifferenceFromNow,
   hasOneDayPassed,
+  messageStamp,
+  messageTimestamp,
+  relativeDayTimestamp,
+  shortTimestamp,
 } from 'shared/helpers/timeHelper';
 
 beforeEach(() => {
@@ -34,6 +35,33 @@ describe('#messageTimestamp', () => {
   });
   it('should return the message date and time in a different format if the message was sent in a different year', () => {
     expect(messageTimestamp(1612971343)).toEqual('Feb 10 2021, 3:35 PM');
+  });
+});
+
+describe('#relativeDayTimestamp', () => {
+  // System time is mocked to May 5, 2023 00:00 UTC.
+  const toUnix = date => Math.floor(date / 1000);
+
+  it('returns the time for timestamps from today', () => {
+    const today = toUnix(Date.UTC(2023, 4, 5, 15, 35, 0));
+    expect(relativeDayTimestamp(today, 'Yesterday')).toEqual('3:35 PM');
+  });
+
+  it('returns the supplied label for timestamps from yesterday', () => {
+    const yesterday = toUnix(Date.UTC(2023, 4, 4, 9, 0, 0));
+    expect(relativeDayTimestamp(yesterday, 'Yesterday')).toEqual('Yesterday');
+  });
+
+  it('returns a day and month for older timestamps in the current year', () => {
+    const earlierThisYear = toUnix(Date.UTC(2023, 1, 10, 12, 0, 0));
+    expect(relativeDayTimestamp(earlierThisYear, 'Yesterday')).toEqual(
+      'Feb 10'
+    );
+  });
+
+  it('returns a full date for timestamps from a previous year', () => {
+    const lastYear = toUnix(Date.UTC(2021, 1, 10, 12, 0, 0));
+    expect(relativeDayTimestamp(lastYear, 'Yesterday')).toEqual('Feb 10, 2021');
   });
 });
 

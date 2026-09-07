@@ -41,7 +41,7 @@ class Whatsapp::TemplateProcessorService
     processed_params ||= template_params['processed_params']
     components = []
 
-    components.concat(process_header_components(processed_params))
+    components.concat(process_header_components(processed_params, template))
     components.concat(process_body_components(processed_params, template))
     components.concat(process_footer_components(processed_params))
     components.concat(process_button_components(processed_params))
@@ -49,48 +49,52 @@ class Whatsapp::TemplateProcessorService
     @template_params = components
   end
 
-  def process_header_components(processed_params)
+  def process_header_components(processed_params, template)
     return [] if processed_params['header'].blank?
 
-    header_params = build_header_params(processed_params['header'])
+    header_params = build_header_params(processed_params['header'], template)
     header_params.present? ? [{ type: 'header', parameters: header_params }] : []
   end
 
-  def build_header_params(header_data)
-    header_params = []
-    header_data.each do |key, value|
-      next if value.blank?
+  def build_header_params(header_data, template)
+    header_component = template['components']&.find { |component| component['type'] == 'HEADER' }
+    return build_text_header_params(header_data, template) if header_component&.dig('format') == 'TEXT'
 
-      if media_url_with_type?(key, header_data)
-        media_name = header_data['media_name']
-        media_param = parameter_builder.build_media_parameter(value, header_data['media_type'], media_name)
-        header_params << media_param if media_param
-      elsif key != 'media_type' && key != 'media_name'
-        header_params << parameter_builder.build_parameter(value)
-      end
-    end
-    header_params
+    build_media_header_params(header_data)
   end
 
-  def media_url_with_type?(key, header_data)
-    key == 'media_url' && header_data['media_type'].present?
+  def build_text_header_params(header_data, template)
+    header_data.filter_map do |key, value|
+      build_text_parameter(key, value, template) if value.present?
+    end
+  end
+
+  def build_media_header_params(header_data)
+    return [] if header_data['media_url'].blank? || header_data['media_type'].blank?
+
+    media_param = parameter_builder.build_media_parameter(header_data['media_url'], header_data['media_type'], header_data['media_name'])
+    media_param ? [media_param] : []
   end
 
   def process_body_components(processed_params, template)
     return [] if processed_params['body'].blank?
 
-    body_params = processed_params['body'].filter_map do |key, value|
+    body_parameters = processed_params['body']
+    body_parameters = body_parameters.sort_by { |key, _value| key.to_i } unless template['parameter_format'] == 'NAMED'
+
+    body_params = body_parameters.filter_map do |key, value|
       next if value.blank?
 
-      parameter_format = template['parameter_format']
-      if parameter_format == 'NAMED'
-        parameter_builder.build_named_parameter(key, value)
-      else
-        parameter_builder.build_parameter(value)
-      end
+      build_text_parameter(key, value, template)
     end
 
     body_params.present? ? [{ type: 'body', parameters: body_params }] : []
+  end
+
+  def build_text_parameter(key, value, template)
+    return parameter_builder.build_named_parameter(key, value) if template['parameter_format'] == 'NAMED'
+
+    parameter_builder.build_parameter(value)
   end
 
   def process_footer_components(processed_params)

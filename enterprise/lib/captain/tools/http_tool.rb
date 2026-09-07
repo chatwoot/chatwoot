@@ -1,10 +1,9 @@
 require 'agents'
 
-class Captain::Tools::HttpTool < Agents::Tool
+class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   def initialize(assistant, custom_tool)
-    @assistant = assistant
     @custom_tool = custom_tool
-    super()
+    super(assistant)
   end
 
   def active?
@@ -22,7 +21,15 @@ class Captain::Tools::HttpTool < Agents::Tool
     'An error occurred while executing the request'
   end
 
+  def available_in_reply_suggestion?
+    @custom_tool.http_method == 'GET'
+  end
+
   private
+
+  def safe_to_run_after_new_customer_message?
+    @custom_tool.http_method == 'GET'
+  end
 
   # Limit response size to prevent memory exhaustion and match LLM token limits
   # 1MB of text ≈ 250K tokens, which exceeds most LLM context windows
@@ -32,13 +39,15 @@ class Captain::Tools::HttpTool < Agents::Tool
   # fetching (resolution, timeouts, response size limits, and redirect handling).
   def execute_http_request(url, body, tool_context)
     json_body = body if @custom_tool.http_method == 'POST'
+    auth_headers = @custom_tool.build_auth_headers
 
     response_body = +''
     SafeFetch.fetch(
       url,
       method: @custom_tool.http_method == 'POST' ? :post : :get,
       body: json_body,
-      headers: request_headers(tool_context, json_body),
+      headers: request_headers(tool_context, json_body, auth_headers),
+      sensitive_headers: auth_headers.keys,
       http_basic_authentication: @custom_tool.build_basic_auth_credentials,
       max_bytes: MAX_RESPONSE_SIZE,
       validate_content_type: false
@@ -46,8 +55,8 @@ class Captain::Tools::HttpTool < Agents::Tool
     response_body
   end
 
-  def request_headers(tool_context, json_body)
-    headers = @custom_tool.build_auth_headers
+  def request_headers(tool_context, json_body, auth_headers)
+    headers = auth_headers.dup
     headers.merge!(@custom_tool.build_metadata_headers(tool_context&.state || {}))
     headers['Content-Type'] = 'application/json' if json_body.present?
     headers

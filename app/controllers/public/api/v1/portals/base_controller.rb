@@ -24,7 +24,11 @@ class Public::Api::V1::Portals::BaseController < PublicController
   end
 
   def set_view_variant
-    request.variant = :documentation if @portal_layout == 'documentation' && !@is_plain_layout_enabled
+    request.variant = if @is_plain_layout_enabled
+                        :plain
+                      elsif @portal_layout == 'documentation'
+                        :documentation
+                      end
   end
 
   def portal
@@ -65,6 +69,8 @@ class Public::Api::V1::Portals::BaseController < PublicController
 
   def render_404
     portal
+    # set_locale can render_404 before the child's set_view_variant runs; set it here so plain 404s stay chrome-less
+    set_view_variant
     render 'public/api/v1/portals/error/404', status: :not_found
   end
 

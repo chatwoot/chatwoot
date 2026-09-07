@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted, nextTick } from 'vue';
+import { computed, ref, onMounted, nextTick, isVNode } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import { useRouter } from 'vue-router';
 import { useSidebarContext } from './provider';
@@ -53,6 +53,10 @@ const renderIcon = icon => ({
   component: typeof icon === 'object' ? icon : Icon,
   props: typeof icon === 'string' ? { icon } : null,
 });
+
+const shouldRenderComponent = child => {
+  return typeof child.component === 'function' || isVNode(child.component);
+};
 
 const transition = computed(() =>
   skipTransition.value
@@ -191,13 +195,27 @@ onMounted(async () => {
                       @click="navigateAndClose(subChild.to)"
                     >
                       <component
-                        :is="renderIcon(subChild.icon).component"
-                        v-if="subChild.icon"
-                        v-bind="renderIcon(subChild.icon).props"
-                        class="size-4 flex-shrink-0"
+                        :is="subChild.component"
+                        v-if="shouldRenderComponent(subChild)"
+                        v-bind="{
+                          label: subChild.label,
+                          icon: subChild.icon,
+                          active: isActive(subChild),
+                          badgeCount: subChild.badgeCount,
+                        }"
                       />
-                      <span class="flex-1 truncate">{{ subChild.label }}</span>
-                      <SidebarUnreadBadge :count="subChild.badgeCount" />
+                      <template v-else>
+                        <component
+                          :is="renderIcon(subChild.icon).component"
+                          v-if="subChild.icon"
+                          v-bind="renderIcon(subChild.icon).props"
+                          class="size-4 flex-shrink-0"
+                        />
+                        <span class="flex-1 truncate">
+                          {{ subChild.label }}
+                        </span>
+                        <SidebarUnreadBadge :count="subChild.badgeCount" />
+                      </template>
                     </button>
                   </li>
                 </ul>
@@ -214,13 +232,25 @@ onMounted(async () => {
                 @click="navigateAndClose(child.to)"
               >
                 <component
-                  :is="renderIcon(child.icon).component"
-                  v-if="child.icon"
-                  v-bind="renderIcon(child.icon).props"
-                  class="size-4 flex-shrink-0"
+                  :is="child.component"
+                  v-if="shouldRenderComponent(child)"
+                  v-bind="{
+                    label: child.label,
+                    icon: child.icon,
+                    active: isActive(child),
+                    badgeCount: child.badgeCount,
+                  }"
                 />
-                <span class="flex-1 truncate">{{ child.label }}</span>
-                <SidebarUnreadBadge :count="child.badgeCount" />
+                <template v-else>
+                  <component
+                    :is="renderIcon(child.icon).component"
+                    v-if="child.icon"
+                    v-bind="renderIcon(child.icon).props"
+                    class="size-4 flex-shrink-0"
+                  />
+                  <span class="flex-1 truncate">{{ child.label }}</span>
+                  <SidebarUnreadBadge :count="child.badgeCount" />
+                </template>
               </button>
             </li>
           </template>

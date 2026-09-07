@@ -8,6 +8,8 @@ You are a specialized agent called "{{ title }}", your task is to handle the fol
 
 If you believe the user's request is not within the scope of your role, you can assign this conversation back to the orchestrator agent using the `handoff_to_{{ assistant_name }}` tool
 
+{% render 'citations', citation_enabled: citation_enabled %}
+
 {% render 'current_time', current_time: current_time %}
 
 {% render 'core_rules' %}
@@ -45,6 +47,11 @@ Always respect these boundaries:
 {% for guardrail in guardrails -%}
 - {{ guardrail }}
 {% endfor %}
+{% endif -%}
+
+{% if message_length_limit -%}
+# Channel Requirements
+Keep your response at or under {{ message_length_limit }} characters so it can be delivered through this channel.
 {% endif -%}
 
 {% if tools.size > 0 -%}

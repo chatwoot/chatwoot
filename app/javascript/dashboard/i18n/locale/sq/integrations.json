@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Ngjarjet e abonuar",
       "LEARN_MORE": "Mëso më shumë rreth webhook-eve",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Sekret",
         "COPY": "Kopjo sekretin në kujtesën e përkohshme",
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "Kapiten",
     "HEADER_KNOW_MORE": "Mëso më shumë",
+    "OVERVIEW": {
+      "HEADER": "Përmbledhje",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "Dokumentet"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Fushë loje",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "Faturimi",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Asistentë",
       "SWITCH_ASSISTANT": "Ndrysho midis asistentëve",
@@ -493,10 +575,6 @@
           "LABEL": "Emri",
           "PLACEHOLDER": "Shkruani emrin e asistentit",
           "ERROR": "Emri është i nevojshëm"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Temperatura e përgjigjes",
-          "DESCRIPTION": "Rregullo sa krijuese ose kufizuese duhet të jenë përgjigjet e asistentit. Vlerat më të ulëta prodhojnë përgjigje më të përqendruara dhe deterministe, ndërsa vlerat më të larta lejojnë rezultate më krijuese dhe të ndryshme."
         },
         "DESCRIPTION": {
           "LABEL": "Përshkrimi",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "Dokumentet",
       "ADD_NEW": "Krijo një dokument të ri",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} i/e zgjedhur",
       "SELECT_ALL": "Zgjidh të gjitha ({count})",
       "UNSELECT_ALL": "Hiq zgjedhjen nga të gjitha ({count})",
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "Pyetje të Shpeshta të lidhura",
-        "DESCRIPTION": "Këto Pyetje të Shpeshta janë gjeneruar direkt nga dokumenti."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Nuk është i disponueshëm",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "Kopjo",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "Futni URL-në e dokumentit për ta shtuar si burim njohurish dhe zgjidhni asistentin me të cilin do të lidhet.",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "Ndodhi një gabim gjatë fshirjes së dokumentit, ju lutemi provoni përsëri."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Shiko Përgjigjet e Lidhura",
+        "VIEW_DETAILS": "Shiko detajet",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Fshi Dokumentin"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "Pyetjet e Bëra Më Shpesh",
-      "PENDING_FAQS": "Pyetjet e shpeshta në pritje",
       "ADD_NEW": "Krijo FAQ të re",
       "DOCUMENTABLE": {
         "CONVERSATION": "Biseda #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "Zgjidh të gjitha ({count})",
       "UNSELECT_ALL": "Hiq zgjedhjen nga të gjitha ({count})",
       "SEARCH_PLACEHOLDER": "Kërko në Pyetjet e Shpeshta...",
-      "BULK_APPROVE_BUTTON": "Miratoj",
-      "BULK_DELETE_BUTTON": "Fshij",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "Pyetjet e shpeshta u miratuan me sukses",
-        "ERROR_MESSAGE": "Ndodhi një gabim gjatë miratimit të FAQ-ve, ju lutemi provoni përsëri."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "Fshij",
       "BULK_DELETE": {
         "TITLE": "Fshini FAQ-të?",
         "DESCRIPTION": "Jeni i sigurt që dëshironi të fshini FAQ-të e përzgjedhura? Kjo veprim nuk mund të zhbëhet.",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ u fshi me sukses",
         "ERROR_MESSAGE": "Ndodhi një gabim gjatë fshirjes së FAQ-së, ju lutemi provoni përsëri."
       },
-      "FILTER": {
-        "ASSISTANT": "Asistenti: {selected}",
-        "STATUS": "Statusi: {selected}",
-        "ALL_ASSISTANTS": "Të gjitha"
-      },
-      "STATUS": {
-        "TITLE": "Statusi",
-        "PENDING": "Në pritje",
-        "APPROVED": "Miratuar",
-        "ALL": "Të gjitha"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain ka gjetur disa pyetje të shpeshta që klientët tuaj po kërkonin.",
-        "ACTION": "Klikoni këtu për të rishikuar"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "Shtoni një pyetje dhe përgjigjen përkatëse në bazën e njohurive dhe zgjidhni asistentin me të cilin duhet të lidhet.",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Nuk u gjetën FAQ",
-        "NO_PENDING_TITLE": "Nuk ka më Pyetje të Shpeshta në pritje për rishikim",
         "SUBTITLE": "Pyetjet e Shpeshta ndihmojnë asistentin tuaj të japë përgjigje të shpejta dhe të sakta për pyetjet e klientëve tuaj. Ato mund të gjenerohen automatikisht nga përmbajtja juaj ose të shtohen manualisht.",
         "CLEAR_SEARCH": "Pastro filtrat aktivë",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Pyetjet e Shpeshta Captain",
           "NOTE": "Pyetjet e Shpeshta Captain zbulojnë pyetjet e zakonshme të klientëve—qoftë ato që mungojnë në bazën tuaj të njohurive ose që kërkohen shpesh—dhe gjenerojnë Pyetje të Shpeshta relevante për të përmirësuar mbështetjen. Ju mund të rishikoni çdo sugjerim dhe të vendosni nëse do ta miratoni apo refuzoni."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "Mirato",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "Ruaj ndryshimet",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

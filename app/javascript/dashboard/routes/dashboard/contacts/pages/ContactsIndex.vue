@@ -262,7 +262,7 @@ const searchContacts = debounce(
     updatePageParam(page, value);
     await store.dispatch('contacts/search', {
       ...getCommonFetchParams(page),
-      search: encodeURIComponent(value),
+      search: value,
       append,
     });
     searchPageNumber.value = page;
@@ -278,7 +278,7 @@ const loadMoreSearchResults = async () => {
 
   await store.dispatch('contacts/search', {
     ...getCommonFetchParams(nextPage),
-    search: encodeURIComponent(searchValue.value),
+    search: searchValue.value,
     append: true,
   });
 

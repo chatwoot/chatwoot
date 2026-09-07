@@ -97,7 +97,7 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
       Guidelines:
       - business_name: Extract the actual company/brand name from the content
       - suggested_assistant_name: Create a friendly, professional name that customers would want to interact with
-      - description: Provide context about the business and what the assistant can help with. Keep it general and adaptable rather than overly specific. For example: "You specialize in helping customers with their orders and product questions" or "You assist customers with their account needs and general inquiries"
+      - description: Provide context about the business and what the assistant can help with in no more than 500 characters. Keep it general and adaptable rather than overly specific. For example: "You specialize in helping customers with their orders and product questions" or "You assist customers with their account needs and general inquiries"
 
       Website content:
       #{@website_content}

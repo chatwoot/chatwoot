@@ -15,6 +15,38 @@ RSpec.describe Captain::Document, type: :model do
     end
   end
 
+  describe '#customer_visible_source_url' do
+    let(:document) do
+      build(:captain_document, assistant: assistant, account: account, external_link: 'https://example.com/runbooks')
+    end
+
+    it 'returns URLs that resolve only to public addresses' do
+      allow(Resolv).to receive(:getaddresses).with('example.com').and_return(['93.184.216.34'])
+
+      expect(document.customer_visible_source_url).to eq('https://example.com/runbooks')
+    end
+
+    it 'rejects URLs that resolve to private, loopback, or link-local addresses' do
+      ['10.0.0.5', '127.0.0.1', '169.254.1.1', 'fc00::1', 'fe80::1'].each do |address|
+        allow(Resolv).to receive(:getaddresses).with('example.com').and_return([address])
+
+        expect(document.customer_visible_source_url).to be_nil
+      end
+    end
+
+    it 'rejects URLs with mixed public and private addresses' do
+      allow(Resolv).to receive(:getaddresses).with('example.com').and_return(['93.184.216.34', '10.0.0.5'])
+
+      expect(document.customer_visible_source_url).to be_nil
+    end
+
+    it 'rejects URLs with unresolved hosts' do
+      allow(Resolv).to receive(:getaddresses).with('example.com').and_return([])
+
+      expect(document.customer_visible_source_url).to be_nil
+    end
+  end
+
   describe 'PDF support' do
     let(:pdf_document) do
       doc = build(:captain_document, assistant: assistant, account: account)

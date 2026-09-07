@@ -68,6 +68,25 @@ describe('#MessageFormatter', () => {
     });
   });
 
+  describe('#disableImageRendering', () => {
+    it('omits nested and reference images with relative URLs', () => {
+      const message = `Before ![nested [alt]](/relative.png)
+
+![reference][logo]
+
+[logo]: /logo.png
+
+After`;
+      const formatter = new MessageFormatter(message);
+
+      formatter.disableImageRendering();
+
+      expect(formatter.formattedMessage).not.toContain('<img');
+      expect(formatter.formattedMessage).toContain('Before');
+      expect(formatter.formattedMessage).toContain('After');
+    });
+  });
+
   describe('tweets', () => {
     it('should return the same string if not tags or @mentions', () => {
       const message = 'Chatwoot is an opensource tool';
@@ -133,6 +152,15 @@ describe('#MessageFormatter', () => {
       const formatter = new MessageFormatter(message);
       expect(formatter.formattedMessage).not.toContain('cw-colwidths');
       expect(formatter.plainText).not.toContain('cw-colwidths');
+    });
+
+    it('strips a blockquote-prefixed marker so the quoted table still renders', () => {
+      const message =
+        '> <!--cw-colwidths:120,200-->\n> | A | B |\n> | --- | --- |\n> | 1 | 2 |';
+      const { formattedMessage } = new MessageFormatter(message);
+      expect(formattedMessage).not.toContain('cw-colwidths');
+      expect(formattedMessage).toContain('<blockquote>');
+      expect(formattedMessage).toContain('<table>');
     });
   });
 

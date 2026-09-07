@@ -2,9 +2,9 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "{conversationCount} conversations sélectionnées",
     "NONE": "Aucun",
-    "CLEAR_SELECTION": "Clear",
-    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
-    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
+    "CLEAR_SELECTION": "Annuler la sélection",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir assigner {n} conversation à {agentName}? | Êtes-vous sûr de vouloir assigner {n} conversations à {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir retirer l'affectation de {n} conversation ? | Êtes-vous sûr de vouloir retirer l'affectation de {n} conversations ?",
     "YES": "Oui",
     "CANCEL": "Annuler",
     "SEARCH_INPUT_PLACEHOLDER": "Rechercher",
@@ -22,24 +22,24 @@
       "UPDATE_FAILED": "Impossible de mettre à jour les conversations, veuillez réessayer."
     },
     "RESOLVE": {
-      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
-      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+      "ALL_MISSING_ATTRIBUTES": "Impossible de résoudre les conversations en raison des attributs requis manquants",
+      "PARTIAL_SUCCESS": "Certaines conversations nécessitent des attributs requis avant de résoudre et ont été ignorées"
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assigner une étiquette",
-      "REMOVE_LABELS": "Remove labels",
+      "REMOVE_LABELS": "Supprimer les étiquettes",
       "ASSIGN_SELECTED_LABELS": "Assigner les étiquettes sélectionnées",
-      "REMOVE_SELECTED_LABELS": "Remove selected labels",
+      "REMOVE_SELECTED_LABELS": "Supprimer les étiquettes sélectionnées",
       "ASSIGN_SUCCESFUL": "Étiquettes attribuées avec succès.",
       "ASSIGN_FAILED": "Impossible d'attribuer les étiquettes, veuillez réessayer.",
-      "REMOVE_SUCCESFUL": "Labels removed successfully.",
-      "REMOVE_FAILED": "Failed to remove labels. Please try again."
+      "REMOVE_SUCCESFUL": "Étiquettes retirées avec succès.",
+      "REMOVE_FAILED": "Impossible de supprimer les étiquettes. Veuillez réessayer."
     },
     "TEAMS": {
       "NONE": "Aucun",
-      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
-      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
-      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir assigner {n} conversation à {teamName}? | Êtes-vous sûr de vouloir assigner {n} conversations à {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir retirer l'affectation de {n} conversation ? | Êtes-vous sûr de vouloir retirer l'affectation de {n} conversations ?",
+      "ASSIGN_SUCCESFUL": "Équipes assignées avec succès.",
       "ASSIGN_FAILED": "Impossible d'assigner l'équipe, veuillez réessayer."
     }
   }

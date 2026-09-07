@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
@@ -10,6 +10,7 @@ import { useWindowSize } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import wootConstants from 'dashboard/constants/globals';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 
 const store = useStore();
 const { uiSettings, updateUISettings } = useUISettings();
@@ -21,6 +22,11 @@ const assistants = useMapGetter('captainAssistants/getRecords');
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const inboxAssistant = useMapGetter('getCopilotAssistant');
 const currentChat = useMapGetter('getSelectedChat');
+const lastPublicMessage = useMapGetter('getLastEmailInSelectedChat');
+
+const canSuggestReply = computed(
+  () => lastPublicMessage.value?.message_type === MESSAGE_TYPE.INCOMING
+);
 
 const isSmallScreen = computed(
   () => windowWidth.value < wootConstants.SMALL_SCREEN_BREAKPOINT
@@ -93,7 +99,13 @@ const handleReset = () => {
   selectedCopilotThreadId.value = null;
 };
 
-const sendMessage = async message => {
+watch(() => currentChat.value?.id, handleReset);
+
+const sendMessage = async payload => {
+  const message = typeof payload === 'string' ? payload : payload.message;
+  const requestType =
+    typeof payload === 'string' ? undefined : payload.requestType;
+
   try {
     if (selectedCopilotThreadId.value) {
       await store.dispatch('copilotMessages/create', {
@@ -103,15 +115,21 @@ const sendMessage = async message => {
         message,
       });
     } else {
+      const conversationId = currentChat.value?.id;
       const response = await store.dispatch('copilotThreads/create', {
         assistant_id: activeAssistant.value.id,
-        conversation_id: currentChat.value?.id,
+        conversation_id: conversationId,
         message,
+        ...(requestType && { request_type: requestType }),
       });
-      selectedCopilotThreadId.value = response.id;
+      if (currentChat.value?.id === conversationId) {
+        selectedCopilotThreadId.value = response.id;
+      }
     }
+    return true;
   } catch (error) {
     useAlert(error.message);
+    return false;
   }
 };
 
@@ -139,8 +157,9 @@ onMounted(() => {
       :support-agent="currentUser"
       :assistants="assistants"
       :active-assistant="activeAssistant"
+      :can-suggest-reply="canSuggestReply"
+      :on-send-message="sendMessage"
       @set-assistant="setAssistant"
-      @send-message="sendMessage"
       @reset="handleReset"
     />
   </div>

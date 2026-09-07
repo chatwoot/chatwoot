@@ -29,4 +29,30 @@ RSpec.describe ConversationParticipant do
       expect(participant.errors.messages[:user]).to eq(['must have inbox access'])
     end
   end
+
+  describe 'filtered unread count invalidation' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account) }
+    let(:user) { create(:user, account: account) }
+    let(:store) { Conversations::UnreadCounts::FilteredCountStore }
+
+    before do
+      account.enable_features!(:unread_count_for_filters)
+      create(:inbox_member, inbox: conversation.inbox, user: user)
+    end
+
+    it 'invalidates the participant built-in filter version when a participant is added' do
+      expect do
+        create(:conversation_participant, account: account, conversation: conversation, user: user)
+      end.to change { store.built_in_filter_version(account_id: account.id, user_id: user.id) }.by(1)
+    end
+
+    it 'invalidates the participant built-in filter version when a participant is removed' do
+      participant = create(:conversation_participant, account: account, conversation: conversation, user: user)
+
+      expect do
+        participant.destroy!
+      end.to change { store.built_in_filter_version(account_id: account.id, user_id: user.id) }.by(1)
+    end
+  end
 end

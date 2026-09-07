@@ -3,9 +3,46 @@
 require 'rails_helper'
 
 RSpec.describe Campaign do
+  let(:store) { Conversations::UnreadCounts::FilteredCountStore }
+
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:inbox) }
+  end
+
+  describe '#destroy' do
+    let(:account) { create(:account) }
+    let(:campaign) { create(:campaign, account: account) }
+
+    before do
+      campaign
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
+
+    after do
+      Redis::Alfred.delete(store.conversation_version_key(account.id))
+    end
+
+    it 'invalidates and refreshes filtered counts when conversations are detached from a deleted campaign' do
+      account.enable_features!(:unread_count_for_filters)
+
+      expect do
+        campaign.destroy!
+      end.to change { store.conversation_version(account.id) }.by(1)
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'account.cache_invalidated',
+        kind_of(Time),
+        account: account,
+        cache_keys: account.cache_keys
+      )
+    end
+
+    it 'does not notify filtered count refreshes when the feature is disabled' do
+      campaign.destroy!
+
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+    end
   end
 
   describe '.before_create' do

@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Değişkenler",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Dil",
       "CATEGORY": "Kategori",
       "VARIABLE_PLACEHOLDER": "{variable} değerini girin",

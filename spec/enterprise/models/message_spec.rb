@@ -33,10 +33,12 @@ RSpec.describe Message do
       create(:captain_inbox, inbox: conversation.inbox, captain_assistant: captain_assistant)
     end
 
-    it 'marks the conversation open when a human sends a public outgoing message' do
+    it 'opens the conversation and clears Captain ownership when a human sends a public outgoing message' do
+      conversation.update!(ai_assignee: captain_assistant)
+
       create(:message, message_type: :outgoing, conversation: conversation)
 
-      expect(conversation.reload.open?).to be true
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil, ai_assignee_type: nil)
     end
 
     it 'creates an activity message when a human sends a public outgoing message' do
