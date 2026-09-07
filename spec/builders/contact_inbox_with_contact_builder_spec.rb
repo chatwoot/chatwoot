@@ -97,6 +97,19 @@ describe ContactInboxWithContactBuilder do
       expect(contact_inbox.contact.id).to be(contact.id)
     end
 
+    it 'reuses the contact with the same phone number from another inbox' do
+      other_inbox = create(:inbox, account: account)
+      create(:contact_inbox, contact: contact, inbox: other_inbox)
+
+      contact_inbox = described_class.new(
+        source_id: '123456',
+        inbox: inbox,
+        contact_attributes: { name: 'Contact', phone_number: contact.phone_number }
+      ).perform
+
+      expect(contact_inbox.contact.id).to be(contact.id)
+    end
+
     it 'doesnot create contact if it already exist with phone number' do
       contact_inbox = described_class.new(
         source_id: '123456',

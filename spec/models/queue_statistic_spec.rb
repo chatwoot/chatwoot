@@ -29,15 +29,27 @@ RSpec.describe QueueStatistic do
     let(:account) { create(:account) }
 
     context 'when stats record does not exist' do
-      it 'creates a new stat with queued count incremented' do
+      it 'creates the daily row without counting an exit as an entry' do
         expect do
           described_class.update_statistics_for(account.id, wait_time_seconds: 0)
         end.to change(described_class, :count).by(1)
 
         stat = described_class.last
-        expect(stat.total_queued).to eq(1)
+        expect(stat.total_queued).to eq(0)
         expect(stat.total_assigned).to eq(0)
         expect(stat.total_left).to eq(0)
+      end
+    end
+
+    context 'when entries are queued' do
+      it 'counts each queued entry once' do
+        described_class.increment_queued(account.id)
+        described_class.increment_queued(account.id)
+        described_class.update_statistics_for(account.id, wait_time_seconds: 30, assigned: true)
+
+        stat = described_class.find_by(account_id: account.id, date: Date.current)
+        expect(stat.total_queued).to eq(2)
+        expect(stat.total_assigned).to eq(1)
       end
     end
 
@@ -46,7 +58,7 @@ RSpec.describe QueueStatistic do
         described_class.update_statistics_for(account.id, wait_time_seconds: 100, assigned: true)
         stat = described_class.last
 
-        expect(stat.total_queued).to eq(1)
+        expect(stat.total_queued).to eq(0)
         expect(stat.total_assigned).to eq(1)
         expect(stat.average_wait_time_seconds).to eq(100)
         expect(stat.max_wait_time_seconds).to eq(100)
@@ -69,7 +81,7 @@ RSpec.describe QueueStatistic do
         described_class.update_statistics_for(account.id, wait_time_seconds: 0, left: true)
         stat = described_class.last
 
-        expect(stat.total_queued).to eq(1)
+        expect(stat.total_queued).to eq(0)
         expect(stat.total_left).to eq(1)
         expect(stat.total_assigned).to eq(0)
       end
@@ -77,8 +89,8 @@ RSpec.describe QueueStatistic do
 
     context 'when called repeatedly on same day' do
       it 'does not create duplicate records for same account/date' do
-        described_class.update_statistics_for(account.id, wait_time_seconds: 0)
-        described_class.update_statistics_for(account.id, wait_time_seconds: 0)
+        described_class.increment_queued(account.id)
+        described_class.increment_queued(account.id)
 
         stats = described_class.where(account_id: account.id, date: Date.current)
         expect(stats.count).to eq(1)

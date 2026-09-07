@@ -29,6 +29,9 @@ class CannedResponse < ApplicationRecord
   validates :content, presence: true
   validates :short_code, presence: true
   validates :account, presence: true
+  # public short codes are unique per account (as upstream); private ones are unique per creator
+  validates :short_code, uniqueness: { scope: :account_id, conditions: -> { public_response } }, if: :public_response?
+  validates :short_code, uniqueness: { scope: [:account_id, :created_by_id], conditions: -> { private_response } }, if: :private_response?
 
   scope :order_by_search, lambda { |search|
     short_code_starts_with = sanitize_sql_array(['WHEN short_code ILIKE ? THEN 1', "#{search}%"])

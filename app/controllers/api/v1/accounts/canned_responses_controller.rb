@@ -6,8 +6,7 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
   end
 
   def create
-    @canned_response = find_or_init_canned_response
-    @canned_response.assign_attributes(canned_response_base_params.merge(created_by_id: current_user.id))
+    @canned_response = Current.account.canned_responses.new(canned_response_base_params.merge(created_by_id: current_user.id))
 
     if @canned_response.private_response? && no_scopes_provided?
       render json: { error: 'Private canned response must be assigned to a user, team, or inbox' },
@@ -15,10 +14,10 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
       return
     end
 
-    is_new = @canned_response.new_record?
-    @canned_response.save!
-    @canned_response.canned_response_scopes.destroy_all unless is_new
-    build_scopes(@canned_response)
+    ActiveRecord::Base.transaction do
+      @canned_response.save!
+      build_scopes(@canned_response)
+    end
     render json: @canned_response.as_json(include: :canned_response_scopes)
   end
 
@@ -66,24 +65,6 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
     end
 
     @canned_response.destroy! if @canned_response.reload.canned_response_scopes.empty?
-  end
-
-  def find_or_init_canned_response
-    visibility = canned_response_base_params[:visibility]
-    short_code = canned_response_base_params[:short_code]
-
-    if visibility == 'private_response'
-      Current.account.canned_responses.find_or_initialize_by(
-        short_code: short_code,
-        visibility: :private_response,
-        created_by_id: current_user.id
-      )
-    else
-      Current.account.canned_responses.find_or_initialize_by(
-        short_code: short_code,
-        visibility: :public_response
-      )
-    end
   end
 
   def fetch_canned_response

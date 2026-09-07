@@ -1,5 +1,6 @@
 module Contact::Events
   extend ActiveSupport::Concern
+  include ::Events::Types
 
   included do
     after_create_commit :dispatch_create_event, :ip_lookup

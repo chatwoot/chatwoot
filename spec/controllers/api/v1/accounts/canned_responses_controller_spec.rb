@@ -84,6 +84,19 @@ RSpec.describe 'Canned Responses API', type: :request do
         expect(response).to have_http_status(:success)
         expect(account.canned_responses.count).to eq(2)
       end
+
+      it 'rejects a duplicate public short code instead of overwriting the existing response' do
+        existing = account.canned_responses.first
+
+        post "/api/v1/accounts/#{account.id}/canned_responses",
+             params: { short_code: existing.short_code, content: 'overwritten' },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(existing.reload.content).not_to eq('overwritten')
+        expect(account.canned_responses.count).to eq(1)
+      end
     end
   end
 

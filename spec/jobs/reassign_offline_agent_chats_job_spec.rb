@@ -194,6 +194,25 @@ RSpec.describe ReassignOfflineAgentChatsJob do
         end
       end
 
+      context 'when no online agents are available and the account uses the chat queue' do
+        before do
+          allow(OnlineStatusTracker).to receive(:get_status).and_return('offline')
+          account.update!(queue_enabled: true)
+        end
+
+        it 'queues the conversations instead of leaving them stranded' do
+          conversation1
+          system_user
+
+          described_class.new.perform(offline_agent.id, account.id)
+
+          conversation1.reload
+          expect(conversation1.assignee_id).to be_nil
+          expect(conversation1.status).to eq('queued')
+          expect(ConversationQueue.find_by(conversation_id: conversation1.id)).to be_waiting
+        end
+      end
+
       context 'when reassignment fails' do
         it 'unassigns conversation on error' do
           conversation1

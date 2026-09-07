@@ -12,7 +12,27 @@ RSpec.describe CannedResponse, type: :model do
 
     it { is_expected.to validate_presence_of(:content) }
     it { is_expected.to validate_presence_of(:short_code) }
-    it { is_expected.to validate_uniqueness_of(:short_code).scoped_to(:account_id) }
+
+    it 'rejects a duplicate public short code within the account' do
+      account = create(:account)
+      create(:canned_response, account: account, short_code: 'hello')
+
+      expect(build(:canned_response, account: account, short_code: 'hello')).not_to be_valid
+    end
+
+    it 'lets a private response reuse a public short code' do
+      account = create(:account)
+      create(:canned_response, account: account, short_code: 'hello')
+
+      expect(build(:canned_response, :private, :with_creator, account: account, short_code: 'hello')).to be_valid
+    end
+
+    it 'allows different creators to reuse a private short code' do
+      account = create(:account)
+      create(:canned_response, :private, :with_creator, account: account, short_code: 'mine')
+
+      expect(build(:canned_response, :private, :with_creator, account: account, short_code: 'mine')).to be_valid
+    end
   end
 
   describe 'enums' do

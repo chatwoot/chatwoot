@@ -36,7 +36,8 @@ class V2::Reports::AllConversationMetricsBuilder
 
   def conversations_scope
     @conversations_scope ||= begin
-      scope = account.conversations.where(proxied_at: nil)
+      # contact_id is nil while a deleted contact's conversations await cleanup (see ResolutionJob)
+      scope = account.conversations.where(proxied_at: nil).where.not(contact_id: nil)
                      .select(:id, :display_id, :created_at, :inbox_id, :team_id,
                              :contact_id, :custom_attributes, :cached_label_list)
       scope = apply_basic_filters(scope)

@@ -28,11 +28,24 @@ class ReassignOfflineAgentChatsJob < ApplicationJob
 
   def reassign_or_unassign(conversations, account)
     if online_agent_ids_for(account.id).empty?
-      unassign_all(conversations, account)
+      account.queue_enabled? ? queue_all(conversations, account) : unassign_all(conversations, account)
     else
       conversations.find_each do |conversation|
         reassign_conversation(conversation)
       end
+    end
+  end
+
+  # With queueing on, park the chats in the queue so they are picked up by the AccountUser
+  # callback as soon as an agent comes back online.
+  def queue_all(conversations, account)
+    Rails.logger.warn("All agents offline in account #{account.id} — queueing #{conversations.size} conversations")
+    conversations.find_each do |conversation|
+      create_system_message(conversation)
+      enqueue_for_reassignment(conversation) || unassign(conversation, 'No online agents')
+    rescue StandardError => e
+      Rails.logger.error("Failed to queue conversation #{conversation.id}: #{e.message}")
+      unassign(conversation, 'Error')
     end
   end
 
@@ -110,8 +123,7 @@ class ReassignOfflineAgentChatsJob < ApplicationJob
   end
 
   def enqueue_for_reassignment(conversation)
-    return if conversation.queued?
-    return if conversation.assignee_id.present?
+    return true if conversation.queued?
 
     ChatQueue::QueueService.new(account: conversation.account).add_to_queue(conversation)
   end

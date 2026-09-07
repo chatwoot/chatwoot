@@ -1,8 +1,18 @@
 # rubocop:disable Metrics/ModuleLength -- cat-fork: proxy-chat controller mixin, kept in one file on purpose
 module Api::V1::Accounts::ConversationsControllerProxy
+  # Inbound messages are mirrored from the source to the proxied conversation only for these
+  # channels (widget messages controller and the Telegram message hook); transfers from any
+  # other channel would strand the customer's replies on the locked source conversation.
+  PROXY_SOURCE_CHANNELS = %w[Channel::WebWidget Channel::Telegram].freeze
+
   def change_inbox
     widget_conversation = find_and_authorize_conversation
     target_inbox = find_and_authorize_inbox
+
+    unless PROXY_SOURCE_CHANNELS.include?(widget_conversation.inbox.channel_type)
+      render json: { error: 'Conversations from this channel cannot be moved to another inbox' }, status: :unprocessable_entity
+      return
+    end
 
     operator_conversation = transfer_conversation(widget_conversation, target_inbox)
 

@@ -3,6 +3,24 @@ require 'rails_helper'
 RSpec.describe 'Conversations API', type: :request do
   let(:account) { create(:account) }
 
+  describe 'PATCH /api/v1/accounts/{account.id}/conversations/:id/change_inbox' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+    let(:target_inbox) { create(:inbox, account: account) }
+
+    it 'rejects sources whose inbound messages are not mirrored' do
+      email_inbox = create(:inbox, :with_email, account: account)
+      conversation = create(:conversation, account: account, inbox: email_inbox)
+
+      patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/change_inbox",
+            params: { inbox_id: target_inbox.id },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(conversation.reload.status).not_to eq('proxied')
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/conversations' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

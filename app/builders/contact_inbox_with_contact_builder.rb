@@ -117,8 +117,9 @@ class ContactInboxWithContactBuilder
     phone_numbers = [contact_attributes[:phone_number], *Array(contact_attributes[:phone_number_candidates])].compact_blank.uniq
 
     phone_numbers.each do |phone_number|
-      # cat-fork: email/phone uniqueness is per inbox, not per account (cwt-9)
-      contact = account.contacts.in_inbox(inbox.id).find_by(phone_number: phone_number)
+      # phone numbers stay unique per account (Contact validation), so the lookup must be
+      # account-wide; only email is scoped to the inbox (cwt-9)
+      contact = account.contacts.find_by(phone_number: phone_number)
       return contact if contact
     end
 
