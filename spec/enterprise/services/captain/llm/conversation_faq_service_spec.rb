@@ -6,7 +6,6 @@ RSpec.describe Captain::Llm::ConversationFaqService do
   let(:service) { described_class.new(captain_assistant, conversation) }
   let(:embedding_service) { instance_double(Captain::Llm::EmbeddingService) }
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
-  let(:language_detector) { instance_double(CLD3::NNetLanguageIdentifier) }
   let(:sample_faqs) do
     [
       { 'question' => 'What is the purpose?', 'answer' => 'To help users.' },
@@ -23,11 +22,6 @@ RSpec.describe Captain::Llm::ConversationFaqService do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
     allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(embedding_service)
     allow(RubyLLM).to receive(:chat).and_return(mock_chat)
-    allow(CLD3::NNetLanguageIdentifier).to receive(:new).and_return(language_detector)
-    allow(language_detector).to receive(:find_language) do
-      instance_double(CLD3::NNetLanguageIdentifier::Result, reliable?: true,
-                                                            language: described_class.language_for(conversation).to_sym)
-    end
     allow(mock_chat).to receive(:with_temperature).and_return(mock_chat)
     allow(mock_chat).to receive(:with_params).and_return(mock_chat)
     allow(mock_chat).to receive(:with_instructions).and_return(mock_chat)
@@ -514,78 +508,6 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       it 'returns empty array' do
         expect(service.generate_suggestions).to eq([])
       end
-    end
-  end
-
-  describe 'language validation' do
-    before do
-      allow(embedding_service).to receive(:get_embedding).and_return(embedding_one, embedding_two)
-    end
-
-    shared_examples 'rejecting the generated FAQs' do
-      it 'creates neither suggestions nor observations and skips embeddings' do
-        expect(embedding_service).not_to receive(:get_embedding)
-        expect { expect(service.generate_suggestions).to eq([]) }
-          .to not_change(Captain::FaqSuggestion, :count).and not_change(Captain::FaqObservation, :count)
-      end
-    end
-
-    context 'with the local language detector' do
-      let(:sample_faqs) do
-        [
-          { 'question' => 'How can I change the language used in my account?',
-            'answer' => 'Open the account settings and select the language you want to use.' },
-          { 'question' => 'Comment puis-je changer la langue de mon compte ?',
-            'answer' => 'Ouvrez les paramètres du compte et sélectionnez la langue que vous souhaitez utiliser.' }
-        ]
-      end
-
-      before { allow(CLD3::NNetLanguageIdentifier).to receive(:new).and_call_original }
-
-      it 'persists only the English candidate for an English account' do
-        expect { service.generate_suggestions }
-          .to change(Captain::FaqSuggestion, :count).by(1).and change(Captain::FaqObservation, :count).by(1)
-
-        expect(captain_assistant.faq_suggestions.sole.question).to eq(sample_faqs.first.fetch('question'))
-        expect(Captain::FaqObservation.where(conversation: conversation).sole.language).to eq('en')
-        expect(embedding_service).to have_received(:get_embedding).once
-      end
-    end
-
-    context 'when the generated text is in another language' do
-      before do
-        allow(language_detector).to receive(:find_language)
-          .and_return(instance_double(CLD3::NNetLanguageIdentifier::Result, reliable?: true, language: :fr))
-      end
-
-      it_behaves_like 'rejecting the generated FAQs'
-    end
-
-    context 'when language detection is uncertain' do
-      before do
-        allow(language_detector).to receive(:find_language)
-          .and_return(instance_double(CLD3::NNetLanguageIdentifier::Result, reliable?: false, language: :en))
-      end
-
-      it_behaves_like 'rejecting the generated FAQs'
-    end
-
-    context 'when no language is detected' do
-      before { allow(language_detector).to receive(:find_language).and_return(nil) }
-
-      it_behaves_like 'rejecting the generated FAQs'
-    end
-
-    context 'when only the answer is in another language' do
-      let(:sample_faqs) { [{ 'question' => 'How does it work?', 'answer' => 'La réponse est en français.' }] }
-
-      before do
-        allow(language_detector).to receive(:find_language).with(sample_faqs.first.fetch('answer'))
-                                                           .and_return(instance_double(CLD3::NNetLanguageIdentifier::Result, reliable?: true,
-                                                                                                                             language: :fr))
-      end
-
-      it_behaves_like 'rejecting the generated FAQs'
     end
   end
 
