@@ -21,6 +21,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     channel_voice
     whatsapp_embedded_signup_inbox_creation
     api_and_webhooks
+    data_import
   ].freeze
 
   BUSINESS_PLAN_FEATURES = %w[
