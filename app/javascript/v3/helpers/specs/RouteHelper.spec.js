@@ -83,6 +83,26 @@ describe('#validateRouteAccess', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
+  it('preserves a Shopify pricing return for an authenticated user', () => {
+    vi.spyOn(Cookies, 'get').mockReturnValueOnce(true);
+
+    validateRouteAccess(
+      {
+        name: 'login',
+        query: {
+          plan_handle: 'growth',
+          shop: 'store.myshopify.com',
+        },
+      },
+      next
+    );
+
+    expect(replaceRouteWithReload).toHaveBeenCalledWith(
+      '/app/?redirect_url=settings%2Fbilling%3Fplan_handle%3Dgrowth%26shop%3Dstore.myshopify.com'
+    );
+    expect(next).not.toHaveBeenCalled();
+  });
+
   it('redirects to login if route is empty', () => {
     validateRouteAccess({}, next);
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
