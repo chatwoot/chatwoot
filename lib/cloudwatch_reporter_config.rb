@@ -33,9 +33,13 @@ class CloudwatchReporterConfig
     access_key_id = prefixed_env('AWS_ACCESS_KEY_ID')
     return Aws::InstanceProfileCredentials.new if access_key_id.blank?
 
-    # Fetched rather than read through prefixed_env: half a credential pair builds a client that
-    # fails on every flush instead of at boot, so the metric would go missing silently.
-    Aws::Credentials.new(access_key_id, ENV.fetch("#{@env_prefix}AWS_SECRET_ACCESS_KEY"))
+    secret_access_key = prefixed_env('AWS_SECRET_ACCESS_KEY')
+    # Half a credential pair builds a client that fails on every flush rather than at boot, so
+    # the metric would go missing with nothing pointing at the cause. Blank counts as missing,
+    # since .env files carry empty assignments.
+    raise ArgumentError, "#{@env_prefix}AWS_SECRET_ACCESS_KEY must be set alongside the access key id" if secret_access_key.blank?
+
+    Aws::Credentials.new(access_key_id, secret_access_key)
   end
 
   # Dedicated override, else the shared storage region, else a default. Uses presence so a
