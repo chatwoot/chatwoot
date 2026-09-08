@@ -22,18 +22,37 @@ const { isCloudFeatureEnabled } = useAccount();
 const id = ref(null);
 const fingerprint = ref('');
 const spEntityId = ref('');
+const spSlsUrl = ref('');
+const spCertificate = ref('');
 const isEnabled = ref(false);
 const isSubmitting = ref(false);
 const isLoading = ref(true);
 
 const formState = reactive({
   ssoUrl: '',
+  slsUrl: '',
   certificate: '',
   idpEntityId: '',
 });
 
+const httpUrl = value => {
+  if (!value) return true;
+
+  try {
+    const parsedUrl = new URL(value);
+    return (
+      ['http:', 'https:'].includes(parsedUrl.protocol) &&
+      Boolean(parsedUrl.hostname) &&
+      !/\s/.test(value)
+    );
+  } catch {
+    return false;
+  }
+};
+
 const validations = {
   ssoUrl: { required },
+  slsUrl: { httpUrl },
   certificate: { required },
   idpEntityId: { required },
 };
@@ -45,6 +64,12 @@ const hasFeature = computed(() => isCloudFeatureEnabled('saml'));
 const ssoUrlError = computed(() =>
   v$.value.ssoUrl.$error
     ? t('SECURITY_SETTINGS.SAML.VALIDATION.SSO_URL_ERROR')
+    : ''
+);
+
+const slsUrlError = computed(() =>
+  v$.value.slsUrl.$error
+    ? t('SECURITY_SETTINGS.SAML.VALIDATION.SLS_URL_ERROR')
     : ''
 );
 
@@ -71,8 +96,11 @@ const loadSamlSettings = async () => {
     if (settings.sso_url) {
       id.value = settings.id;
       formState.ssoUrl = settings.sso_url;
+      formState.slsUrl = settings.sls_url || '';
       formState.certificate = settings.certificate || '';
       spEntityId.value = settings.sp_entity_id || '';
+      spSlsUrl.value = settings.sp_sls_url || '';
+      spCertificate.value = settings.sp_certificate || '';
       formState.idpEntityId = settings.idp_entity_id || '';
       fingerprint.value = settings.fingerprint || '';
       isEnabled.value = formState.ssoUrl !== '';
@@ -105,6 +133,8 @@ const saveSamlSettings = async settings => {
         id.value = response.data.id;
         fingerprint.value = response.data.fingerprint || '';
         spEntityId.value = response.data.sp_entity_id || '';
+        spSlsUrl.value = response.data.sp_sls_url || '';
+        spCertificate.value = response.data.sp_certificate || '';
       }
 
       useAlert(t('SECURITY_SETTINGS.SAML.API.SUCCESS'));
@@ -136,6 +166,7 @@ const handleSubmit = async () => {
 
   const settings = {
     sso_url: formState.ssoUrl,
+    sls_url: formState.slsUrl,
     certificate: formState.certificate,
     idp_entity_id: formState.idpEntityId,
     role_mappings: {},
@@ -147,8 +178,11 @@ const handleSubmit = async () => {
 const handleDisable = async () => {
   id.value = null;
   formState.ssoUrl = '';
+  formState.slsUrl = '';
   formState.certificate = '';
   spEntityId.value = '';
+  spSlsUrl.value = '';
+  spCertificate.value = '';
   formState.idpEntityId = '';
   fingerprint.value = '';
 
@@ -189,6 +223,8 @@ onMounted(() => {
       class="mb-5"
       :fingerprint="fingerprint"
       :sp-entity-id="spEntityId"
+      :sp-sls-url="spSlsUrl"
+      :sp-certificate="spCertificate"
     />
     <SamlAttributeMap class="mb-5" />
 
@@ -206,6 +242,21 @@ onMounted(() => {
           class="w-full"
           type="url"
           :placeholder="t('SECURITY_SETTINGS.SAML.SSO_URL.PLACEHOLDER')"
+        />
+      </WithLabel>
+
+      <WithLabel
+        name="slsUrl"
+        :label="t('SECURITY_SETTINGS.SAML.SLS_URL.LABEL')"
+        :help-message="t('SECURITY_SETTINGS.SAML.SLS_URL.HELP')"
+        :has-error="v$.slsUrl.$error"
+        :error-message="slsUrlError"
+      >
+        <TextInput
+          v-model="formState.slsUrl"
+          class="w-full"
+          type="url"
+          :placeholder="t('SECURITY_SETTINGS.SAML.SLS_URL.PLACEHOLDER')"
         />
       </WithLabel>
 
