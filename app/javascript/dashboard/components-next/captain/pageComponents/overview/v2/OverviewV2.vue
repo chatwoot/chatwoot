@@ -44,6 +44,7 @@ const TREND_DIRECTIONS = {
   DOWN: 'down',
   NEUTRAL: 'neutral',
 };
+const WEEK_RANGE = '7';
 const HOURS_PER_DAY = 24;
 const SECONDS_PER_MINUTE = 60;
 const SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
@@ -228,18 +229,21 @@ const handledCount = computed(
   () => overview.value?.conversations_handled?.current || 0
 );
 
-const featuredMetrics = computed(() => [
-  metricFor({
-    key: 'hours_saved',
-    label: t('CAPTAIN.OVERVIEW.V2.METRICS.TIME_SAVED.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.HINT'),
-    hintNote: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.NOTE'),
-    formatValue: formatDuration,
-    formatTrend: formatDurationTrend,
-    direction: TREND_DIRECTIONS.UP,
-    valueClass: 'text-n-iris-11',
-  }),
-  metricFor({
+const featuredMetrics = computed(() => {
+  const items = [
+    metricFor({
+      key: 'hours_saved',
+      label: t('CAPTAIN.OVERVIEW.V2.METRICS.TIME_SAVED.LABEL'),
+      hint: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.HINT'),
+      hintNote: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.NOTE'),
+      formatValue: formatDuration,
+      formatTrend: formatDurationTrend,
+      direction: TREND_DIRECTIONS.UP,
+      valueClass: 'text-n-iris-11',
+    }),
+  ];
+
+  const durableMetric = metricFor({
     key: 'durable_resolution_rate',
     label: t('CAPTAIN.OVERVIEW.V2.METRICS.DURABLE.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.V2.METRICS.DURABLE.HINT'),
@@ -248,8 +252,23 @@ const featuredMetrics = computed(() => [
     direction: TREND_DIRECTIONS.UP,
     trendSuffix: '%',
     valueClass: 'text-n-iris-11',
-  }),
-]);
+  });
+
+  if (selectedRange.value === WEEK_RANGE) {
+    durableMetric.value = '—';
+    durableMetric.valueClass = 'text-n-slate-11';
+    durableMetric.trend = '';
+    durableMetric.description = t(
+      'CAPTAIN.OVERVIEW.V2.METRICS.DURABLE.NOT_APPLICABLE'
+    );
+    durableMetric.hint = t(
+      'CAPTAIN.OVERVIEW.V2.METRICS.DURABLE.NOT_APPLICABLE_HINT'
+    );
+    durableMetric.hintNote = '';
+  }
+
+  return [...items, durableMetric];
+});
 
 const metrics = computed(() => [
   metricFor({

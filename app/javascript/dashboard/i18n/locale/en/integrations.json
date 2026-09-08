@@ -512,6 +512,8 @@
           },
           "DURABLE": {
             "LABEL": "Captain resolutions remained closed",
+            "NOT_APPLICABLE": "Not applicable",
+            "NOT_APPLICABLE_HINT": "Select a longer date range. Resolutions need seven days of follow-up to assess whether they remained closed.",
             "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
             "NOTE": "Only resolutions old enough to observe for seven days are included."
           },
