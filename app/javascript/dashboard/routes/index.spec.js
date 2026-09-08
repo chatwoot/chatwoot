@@ -77,6 +77,23 @@ describe('#validateAuthenticateRoutePermission', () => {
         '/app/login?sso_account_id=42&redirect_url=settings%2Fbilling%3Fshop%3Dstore.myshopify.com'
       );
     });
+
+    it('preserves the Shopify integration destination through login', () => {
+      const to = {
+        name: 'settings_integrations_shopify',
+        params: { accountId: 42 },
+      };
+      store.getters.isLoggedIn = false;
+      const mockAssign = vi.fn();
+      delete window.location;
+      window.location = { assign: mockAssign };
+
+      validateAuthenticateRoutePermission(to, next);
+
+      expect(mockAssign).toHaveBeenCalledWith(
+        '/app/login?sso_account_id=42&redirect_url=settings%2Fintegrations%2Fshopify'
+      );
+    });
   });
 
   describe('when user is logged in', () => {

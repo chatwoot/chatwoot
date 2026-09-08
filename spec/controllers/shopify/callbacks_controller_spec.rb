@@ -197,7 +197,11 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         # rubocop:enable RSpec/AnyInstance, RSpec/DescribedClass
         allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
         allow(auth_code_strategy).to receive(:get_token).and_return(token_response)
-        Redis::SecureStorage.set("shopify_oauth_state:#{state}", { shop: shop }, 10.minutes)
+        Redis::SecureStorage.set(
+          "shopify_oauth_state:#{state}",
+          { shop: shop, pending_installation_generation: 0 },
+          10.minutes
+        )
       end
 
       after { Redis::SecureStorage.delete("shopify_oauth_state:#{state}") }
@@ -210,7 +214,8 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         expect(Shopify::PendingInstallation).to receive(:create).with(
           access_token: access_token,
           shop: shop,
-          scope: 'read_products,write_products'
+          scope: 'read_products,write_products',
+          shop_generation: 0
         ).and_return(pending_install_token)
 
         get shopify_callback_path, params: params
@@ -440,7 +445,46 @@ RSpec.describe Shopify::CallbacksController, type: :request do
           scope: Shopify::IntegrationHelper::REQUIRED_SCOPES.join(','),
           state: generated_state
         )
-        expect(JSON.parse(Redis::SecureStorage.get("shopify_oauth_state:#{generated_state}"))).to eq('shop' => shop)
+        expect(JSON.parse(Redis::SecureStorage.get("shopify_oauth_state:#{generated_state}"))).to eq(
+          'shop' => shop,
+          'pending_installation_generation' => 0
+        )
+      end
+
+      it 'reauthorizes an enabled hook when required scopes are missing' do
+        create(
+          :integrations_hook,
+          :shopify,
+          account: account,
+          reference_id: shop,
+          access_token: 'existing-token',
+          settings: { 'scope' => 'read_customers,read_orders' }
+        )
+        params = { host: host, shop: shop, timestamp: Time.current.to_i.to_s }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
+
+        expect(response).to redirect_to(authorization_url)
+        expect(auth_code_strategy).to have_received(:authorize_url)
+      end
+
+      it 'reuses an enabled hook whose granted scopes cover every requirement' do
+        create(
+          :integrations_hook,
+          :shopify,
+          account: account,
+          reference_id: shop,
+          access_token: 'existing-token',
+          settings: { 'scope' => Shopify::IntegrationHelper::REQUIRED_SCOPES.join(',') }
+        )
+        params = { host: host, shop: shop, timestamp: Time.current.to_i.to_s }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
+
+        expect(response).to redirect_to(shopify_redirect_uri)
+        expect(auth_code_strategy).not_to have_received(:authorize_url)
       end
     end
 

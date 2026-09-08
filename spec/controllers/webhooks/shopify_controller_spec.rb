@@ -52,6 +52,14 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
     expect(response).to have_http_status(:ok)
   end
 
+  it 'invalidates pending installations during shop redaction even when no hook exists' do
+    expect(Shopify::PendingInstallation).to receive(:invalidate_shop!).with(shop: shop_domain)
+
+    post '/webhooks/shopify', params: body, headers: headers
+
+    expect(response).to have_http_status(:ok)
+  end
+
   it 'authenticates and acknowledges every compliance topic when the installation switch is disabled' do
     allow(GlobalConfigService).to receive(:load)
       .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
@@ -170,6 +178,14 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
       post '/webhooks/shopify', params: body, headers: headers
 
       expect(uninstallation_service).to have_received(:perform)
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'invalidates pending installations even when no hook exists' do
+      expect(Shopify::PendingInstallation).to receive(:invalidate_shop!).with(shop: shop_domain.upcase)
+
+      post '/webhooks/shopify', params: body, headers: headers
+
       expect(response).to have_http_status(:ok)
     end
 

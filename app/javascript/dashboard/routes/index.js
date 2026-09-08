@@ -38,12 +38,17 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
 
   if (!isLoggedIn) {
     const billingRedirect = shopifyBillingRedirect(to.query);
+    const integrationRedirect =
+      to.name === 'settings_integrations_shopify'
+        ? 'settings/integrations/shopify'
+        : '';
+    const redirectUrl = billingRedirect || integrationRedirect;
     const loginParams = new URLSearchParams();
-    if (billingRedirect) {
+    if (redirectUrl) {
       if (to.params?.accountId) {
         loginParams.set('sso_account_id', to.params.accountId);
       }
-      loginParams.set('redirect_url', billingRedirect);
+      loginParams.set('redirect_url', redirectUrl);
     }
     const loginUrl = loginParams.size
       ? `/app/login?${loginParams.toString()}`

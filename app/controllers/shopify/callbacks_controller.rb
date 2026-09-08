@@ -49,7 +49,8 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     token_key = Shopify::PendingInstallation.create(
       access_token: parsed_body['access_token'],
       shop: params[:shop],
-      scope: parsed_body['scope']
+      scope: parsed_body['scope'],
+      shop_generation: @pending_installation_generation
     )
 
     redirect_to "#{frontend_url}/app/auth/signup?shopify_pending_install=#{CGI.escape(token_key)}", allow_other_host: true
@@ -59,10 +60,17 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     prepare_shopify_initiated_flow
     load_existing_shopify_account
     hook = @account&.hooks&.find_by(app_id: 'shopify')
-    return redirect_to existing_account_redirect_url if hook&.enabled? && hook.access_token.present?
+    return redirect_to existing_account_redirect_url if reusable_hook?(hook)
 
     state = SecureRandom.hex(16)
-    Redis::SecureStorage.set(oauth_state_key(state), { shop: params[:shop] }, 10.minutes)
+    Redis::SecureStorage.set(
+      oauth_state_key(state),
+      {
+        shop: params[:shop],
+        pending_installation_generation: Shopify::PendingInstallation.generation(shop: params[:shop])
+      },
+      10.minutes
+    )
 
     authorization_url = oauth_client.auth_code.authorize_url(
       redirect_uri: redirect_callback_uri,
@@ -85,6 +93,7 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     stored_state = JSON.parse(Redis::SecureStorage.get(oauth_state_key(state)).to_s)
     raise StandardError, 'Invalid state parameter' unless stored_state['shop'] == params[:shop]
 
+    @pending_installation_generation = stored_state['pending_installation_generation']
     Redis::SecureStorage.delete(oauth_state_key(state))
   rescue JSON::ParserError
     raise StandardError, 'Invalid state parameter'
@@ -168,6 +177,13 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     return shopify_billing_url if billing_identity['billing_provider'] == 'shopify' && billing_identity['signup_source'] == 'shopify'
 
     shopify_integration_url
+  end
+
+  def reusable_hook?(hook)
+    return false unless hook&.enabled? && hook.access_token.present?
+
+    granted_scopes = hook.settings['scope'].to_s.split(',').map(&:strip)
+    (REQUIRED_SCOPES - granted_scopes).empty?
   end
 
   def parsed_body

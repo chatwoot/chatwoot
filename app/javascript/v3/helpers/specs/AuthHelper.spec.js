@@ -293,6 +293,22 @@ describe('#URL Helpers', () => {
         })
       ).toBe(shopifyAccount);
     });
+
+    it('prioritizes an explicitly preserved account over Shopify shop matching', () => {
+      const preservedAccount = { id: 7500 };
+      const shopifyAccount = {
+        id: 7501,
+        shopify_shop_domain: 'store.myshopify.com',
+      };
+
+      expect(
+        getTargetAccount({
+          ssoAccountId: preservedAccount.id,
+          redirectUrl: 'settings/billing?shop=store.myshopify.com',
+          user: { accounts: [preservedAccount, shopifyAccount] },
+        })
+      ).toBe(preservedAccount);
+    });
   });
 
   describe('isShopifyBillingAccount', () => {
