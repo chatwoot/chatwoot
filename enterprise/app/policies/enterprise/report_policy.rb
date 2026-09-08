@@ -34,7 +34,11 @@ module Enterprise::ReportPolicy
   }.freeze
 
   def view?
-    @account_user.custom_role_permission?('report_manage') || report_page_permitted? || super
+    return true if @account_user.administrator?
+    return true if @account_user.custom_role_permission?('report_manage') || report_page_permitted?
+    return false if @account_user.custom_role.present?
+
+    super
   end
 
   private

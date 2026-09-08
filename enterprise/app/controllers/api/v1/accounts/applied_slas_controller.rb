@@ -5,9 +5,9 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
   RESULTS_PER_PAGE = 25
 
   before_action :ensure_sla_feature_enabled
+  before_action :check_sla_report_authorization?
   before_action :set_applied_slas, only: [:index, :metrics, :download]
   before_action :set_current_page, only: [:index]
-  before_action :check_admin_authorization?
 
   sort_on :created_at, type: :datetime
 
@@ -36,6 +36,13 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
 
   def ensure_sla_feature_enabled
     raise Pundit::NotAuthorizedError unless Current.account.feature_enabled?('sla')
+  end
+
+  def check_sla_report_authorization?
+    return if Current.account_user.administrator?
+    return if Current.account_user.custom_role_permission?('report_manage', 'report_sla')
+
+    raise Pundit::NotAuthorizedError
   end
 
   def render_csv
