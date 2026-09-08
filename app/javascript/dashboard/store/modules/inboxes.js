@@ -342,6 +342,16 @@ export const actions = {
       return null;
     }
   },
+  rotateHmacToken: async ({ commit }, inboxId) => {
+    try {
+      const response = await InboxesAPI.rotateHmacToken(inboxId);
+      commit(types.default.EDIT_INBOXES, response.data);
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      return null;
+    }
+  },
 };
 
 export const mutations = {

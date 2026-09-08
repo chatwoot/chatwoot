@@ -15,6 +15,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
 import WhatsappBusinessManagementToken from './WhatsappBusinessManagementToken.vue';
+import HmacSecretKey from './components/HmacSecretKey.vue';
 
 export default {
   components: {
@@ -26,6 +27,7 @@ export default {
     NextButton,
     TextArea,
     WhatsappBusinessManagementToken,
+    HmacSecretKey,
   },
   mixins: [inboxMixin],
   props: {
@@ -293,7 +295,7 @@ export default {
           <p class="mb-1 text-sm font-medium text-n-slate-12">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.IDENTITY_VALIDATION.SECRET_KEY') }}
           </p>
-          <woot-code :script="inbox.hmac_token" />
+          <HmacSecretKey :inbox="inbox" />
           <p class="mt-1.5 text-label-small text-n-slate-11">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION') }}
             <a
@@ -335,7 +337,7 @@ export default {
       :label="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
       :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION')"
     >
-      <woot-code :script="inbox.hmac_token" />
+      <HmacSecretKey :inbox="inbox" />
     </SettingsFieldSection>
     <SettingsFieldSection
       :label="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
