@@ -22,8 +22,12 @@ const dialogRef = ref(null);
 const isRotating = ref(false);
 
 const copyKey = async () => {
-  await copyTextToClipboard(props.inbox.hmac_token);
-  useAlert(t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+  try {
+    await copyTextToClipboard(props.inbox.hmac_token);
+    useAlert(t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+  } catch (error) {
+    useAlert(t('COMPONENTS.CODE.COPY_ERROR'));
+  }
 };
 
 const rotate = async () => {
