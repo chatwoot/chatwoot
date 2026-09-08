@@ -357,6 +357,22 @@ describe('removeSignature', () => {
       'hey\n\n'
     );
   });
+  it('strips the hard-break marker with the escape when Shift+Enter precedes the delimiter', () => {
+    expect(removeSignature('hey\\\n\\--\n\nHello there', 'Hello there')).toBe(
+      'hey'
+    );
+  });
+  it('keeps an authored trailing backslash when an empty line precedes the delimiter', () => {
+    expect(removeSignature('C:\\\n\n\\\n\\--\n\nBest', 'Best')).toBe('C:\\');
+  });
+  it('strips only the hard-break marker when the content line ends with a backslash', () => {
+    expect(removeSignature('C:\\\\\n\\--\n\nBest', 'Best')).toBe('C:\\');
+  });
+  it('keeps an authored trailing backslash through a Shift+Enter and empty line combo', () => {
+    expect(removeSignature('C:\\\n\n\\\n\\\n\\--\n\nBest', 'Best')).toBe(
+      'C:\\'
+    );
+  });
   it('preserves trailing backslash in user text when appending', () => {
     expect(appendSignature('The path is C:\\', 'Best\nAgent')).toContain(
       'C:\\'
