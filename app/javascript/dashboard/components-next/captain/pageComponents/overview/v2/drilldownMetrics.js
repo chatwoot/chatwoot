@@ -1,0 +1,7 @@
+export const DRILLDOWN_METRICS = {
+  conversations_handled: 'CAPTAIN.OVERVIEW.V2.DRILLDOWN.HANDLED',
+  auto_resolution_rate: 'CAPTAIN.OVERVIEW.V2.DRILLDOWN.RESOLVED',
+  handoff_rate: 'CAPTAIN.OVERVIEW.V2.DRILLDOWN.HANDED_OFF',
+  reopen_rate: 'CAPTAIN.OVERVIEW.V2.DRILLDOWN.REOPENED',
+  durable_resolution_rate: 'CAPTAIN.OVERVIEW.V2.DRILLDOWN.DURABLE',
+};
