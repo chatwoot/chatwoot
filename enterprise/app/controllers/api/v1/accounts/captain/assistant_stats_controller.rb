@@ -9,9 +9,12 @@ class Api::V1::Accounts::Captain::AssistantStatsController < Api::V1::Accounts::
 
   def drilldown
     return head :unprocessable_entity unless Captain::AssistantOverviewDrilldownBuilder.supported_metric?(params[:metric])
+    if params[:metric] == 'handoff_reason' && Captain::AssistantOverviewDrilldownBuilder::HANDOFF_REASONS.exclude?(params[:reason])
+      return head :unprocessable_entity
+    end
 
     render json: Captain::AssistantOverviewDrilldownBuilder.new(
-      @assistant, params.permit(:metric, :range, :timezone_offset, :page, :per_page)
+      @assistant, params.permit(:metric, :reason, :range, :timezone_offset, :page, :per_page)
     ).build
   end
 

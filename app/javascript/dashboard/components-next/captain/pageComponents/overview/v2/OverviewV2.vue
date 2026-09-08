@@ -398,6 +398,8 @@ const reviewFaqs = () =>
         <ResolutionFlowCard
           :flow="resolutionFlow"
           :loading="isFetchingReport"
+          :can-drilldown="canDrilldown"
+          @drilldown="selectedDrilldown = $event"
         />
 
         <div class="grid gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(18rem,1fr)]">
