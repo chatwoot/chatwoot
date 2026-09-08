@@ -45,6 +45,7 @@ const TREND_DIRECTIONS = {
   NEUTRAL: 'neutral',
 };
 const DURABILITY_UNAVAILABLE_RANGES = ['7', 'this_week'];
+const STATS_START_DATE = new Date(2026, 7, 11);
 const HOURS_PER_DAY = 24;
 const SECONDS_PER_MINUTE = 60;
 const SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
@@ -357,7 +358,10 @@ const reviewFaqs = () =>
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
   >
     <template #headerActions>
-      <RangeSelector v-model="selectedRange" />
+      <RangeSelector
+        v-model="selectedRange"
+        :stats-start-date="STATS_START_DATE"
+      />
     </template>
     <template #paywall>
       <CaptainPaywall />

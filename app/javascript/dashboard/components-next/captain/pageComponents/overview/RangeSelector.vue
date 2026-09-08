@@ -6,6 +6,10 @@ import { vOnClickOutside } from '@vueuse/components';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
+const props = defineProps({
+  statsStartDate: { type: Date, default: null },
+});
+
 const modelValue = defineModel({ type: String, default: '7' });
 
 const { t } = useI18n();
@@ -13,7 +17,6 @@ const [showDropdown, toggleDropdown] = useToggle();
 
 const DAY_RANGES = ['7', '30', '90'];
 const DAYS_PER_WEEK = 7;
-const STATS_START_DATE = new Date(2026, 7, 11);
 const RANGE_REFRESH_INTERVAL = 60_000;
 const now = useNow({ interval: RANGE_REFRESH_INTERVAL });
 
@@ -27,7 +30,7 @@ const menuSections = computed(() => {
   const dayItems = DAY_RANGES.filter(value => {
     const start = new Date(now.value);
     start.setDate(start.getDate() - Number(value));
-    return start >= STATS_START_DATE;
+    return !props.statsStartDate || start >= props.statsStartDate;
   }).map(value =>
     decorate({
       value,
@@ -65,7 +68,9 @@ const menuSections = computed(() => {
   ];
   const calendarSections = [weekItems, monthItems].map(items => ({
     items: items
-      .filter(({ start }) => start >= STATS_START_DATE)
+      .filter(
+        ({ start }) => !props.statsStartDate || start >= props.statsStartDate
+      )
       .map(({ value, label }) => decorate({ value, label })),
   }));
   return [{ items: dayItems }, ...calendarSections].filter(
