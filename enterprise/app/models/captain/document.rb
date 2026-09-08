@@ -37,7 +37,7 @@ class Captain::Document < ApplicationRecord
   has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy, as: :documentable
   belongs_to :account
   has_one_attached :pdf_file
-  store_accessor :metadata, :content_fingerprint, :last_sync_error_code, :sync_step, :openai_file_id
+  store_accessor :metadata, :content_fingerprint, :last_sync_error_code, :sync_step, :openai_file_id, :help_center_article_id
 
   validates :external_link, presence: true, unless: -> { pdf_file.attached? }
   validates :external_link, uniqueness: { scope: :assistant_id }, allow_blank: true
@@ -48,6 +48,7 @@ class Captain::Document < ApplicationRecord
   before_validation :ensure_account_id
   before_validation :set_external_link_for_pdf
   before_validation :normalize_external_link
+  before_validation :set_help_center_article_id, if: :will_save_change_to_external_link?
 
   enum status: {
     in_progress: 0,
@@ -119,14 +120,6 @@ class Captain::Document < ApplicationRecord
     nil
   end
 
-  def available_for_retrieval?
-    help_center_source = local_help_center_source
-    return true unless help_center_source
-
-    portal, article_slug = help_center_source
-    portal.present? && !portal.archived? && portal.articles.published.exists?(slug: article_slug)
-  end
-
   def to_llm_metadata
     { document_id: id, assistant_id: assistant_id, external_link: external_link }
   end
@@ -169,8 +162,7 @@ class Captain::Document < ApplicationRecord
     return if external_link.blank?
 
     uri = URI.parse(external_link)
-    path_match = uri.path&.match(HELP_CENTER_ARTICLE_PATH)
-    return unless path_match
+    return unless (path_match = uri.path&.match(HELP_CENTER_ARTICLE_PATH))
 
     portal = account.portals.find_by(slug: path_match[1])
     return unless local_help_center_host?(uri.host, portal)
@@ -178,6 +170,14 @@ class Captain::Document < ApplicationRecord
     [portal, path_match[2]]
   rescue URI::InvalidURIError
     nil
+  end
+
+  def set_help_center_article_id
+    help_center_source = local_help_center_source
+    return self.metadata = metadata.except('help_center_article_id') unless help_center_source
+
+    portal, article_slug = help_center_source
+    self.help_center_article_id = portal&.articles&.find_by(slug: article_slug)&.id
   end
 
   def local_help_center_host?(host, portal)
@@ -192,8 +192,7 @@ class Captain::Document < ApplicationRecord
   def host_from(url)
     return if url.blank?
 
-    normalized_url = url.include?('://') ? url : "https://#{url}"
-    URI.parse(normalized_url).host&.downcase
+    URI.parse(url.include?('://') ? url : "https://#{url}").host&.downcase
   rescue URI::InvalidURIError
     nil
   end

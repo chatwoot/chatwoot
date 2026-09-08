@@ -7,6 +7,12 @@ RSpec.describe Captain::AssistantResponse, type: :model do
     let(:portal) { create(:portal, account: account, slug: 'customer-help') }
     let(:article) { create(:article, account: account, portal: portal, status: :archived) }
 
+    around do |example|
+      with_modified_env HELPCENTER_URL: 'https://help.chatwoot.test' do
+        example.run
+      end
+    end
+
     it 'excludes unavailable Help Center sources without widening the original result set' do
       archived_document = create(
         :captain_document,
@@ -29,9 +35,7 @@ RSpec.describe Captain::AssistantResponse, type: :model do
       allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(embedding_service)
       allow(described_class).to receive(:nearest_neighbors).and_return(candidates)
 
-      with_modified_env HELPCENTER_URL: 'https://help.chatwoot.test' do
-        expect(described_class.search('shipping')).to eq(available_responses)
-      end
+      expect(described_class.search('shipping')).to eq(available_responses)
     end
   end
 
