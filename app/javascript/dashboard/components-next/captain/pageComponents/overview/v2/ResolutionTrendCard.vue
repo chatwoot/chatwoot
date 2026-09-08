@@ -6,6 +6,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import { BarChart, LineChart } from '@chatwoot/viz';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import MetricHint from 'dashboard/components-next/captain/pageComponents/overview/MetricHint.vue';
 import OverviewPanel from './OverviewPanel.vue';
 
 const props = defineProps({
@@ -28,6 +29,17 @@ const formatDay = value =>
   new Intl.DateTimeFormat(locale.value, {
     day: '2-digit',
   }).format(new Date(`${value}T00:00:00`));
+
+const comparisonDateLabel = (start, end) => {
+  const formatter = new Intl.DateTimeFormat(locale.value, {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+  });
+  const startsOn = formatter.format(new Date(`${start}T00:00:00`));
+  const endsOn = formatter.format(new Date(`${end}T00:00:00`));
+  return start === end ? startsOn : `${startsOn} - ${endsOn}`;
+};
 
 const bucketLabel = bucket => {
   const start = formatDate(bucket.starts_on);
@@ -76,18 +88,23 @@ const rateChartData = computed(() => ({
       label: t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.CURRENT_PERIOD'),
       color: 'rgb(var(--teal-9))',
       valueColor: 'rgb(var(--teal-11))',
-      data: (props.trend?.buckets || []).map(
-        bucket => bucket.current_resolution_rate ?? undefined
-      ),
+      data: (props.trend?.buckets || []).map(bucket => ({
+        value: bucket.current_resolution_rate ?? undefined,
+        description: comparisonDateLabel(bucket.starts_on, bucket.ends_on),
+      })),
     },
     {
       id: 'previous_resolution_rate',
       label: t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.PREVIOUS_PERIOD'),
       color: 'rgb(var(--slate-7))',
       valueColor: 'rgb(var(--slate-10))',
-      data: (props.trend?.buckets || []).map(
-        bucket => bucket.previous_resolution_rate ?? undefined
-      ),
+      data: (props.trend?.buckets || []).map(bucket => ({
+        value: bucket.previous_resolution_rate ?? undefined,
+        description: comparisonDateLabel(
+          bucket.previous_starts_on,
+          bucket.previous_ends_on
+        ),
+      })),
     },
   ],
 }));
@@ -116,7 +133,7 @@ const selectedMeasureLabel = computed(
 const hasCountData = computed(() => countChartData.value.categories.length > 0);
 const hasRateData = computed(() =>
   rateChartData.value.series.some(series =>
-    series.data.some(value => Number.isFinite(value))
+    series.data.some(point => Number.isFinite(point.value))
   )
 );
 const formatCount = value => Number(value).toLocaleString();
@@ -131,24 +148,33 @@ const selectMeasure = ({ value }) => {
 <template>
   <OverviewPanel :title="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.TITLE')">
     <template #actions>
-      <div
-        v-on-click-outside="() => toggleDropdown(false)"
-        class="relative flex items-center"
-      >
-        <Button
-          sm
-          slate
-          trailing-icon
-          icon="i-lucide-chevron-down"
-          :label="selectedMeasureLabel"
-          @click="toggleDropdown()"
+      <div class="flex items-center gap-2">
+        <MetricHint
+          v-if="selectedMeasure === 'resolution_rate'"
+          :label="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.COMPARISON_LABEL')"
+          :description="
+            $t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.COMPARISON_HINT')
+          "
         />
-        <DropdownMenu
-          v-if="showDropdown"
-          :menu-items="measureOptions"
-          class="mt-1 min-w-48 end-0 top-full"
-          @action="selectMeasure($event)"
-        />
+        <div
+          v-on-click-outside="() => toggleDropdown(false)"
+          class="relative flex items-center"
+        >
+          <Button
+            sm
+            slate
+            trailing-icon
+            icon="i-lucide-chevron-down"
+            :label="selectedMeasureLabel"
+            @click="toggleDropdown()"
+          />
+          <DropdownMenu
+            v-if="showDropdown"
+            :menu-items="measureOptions"
+            class="mt-1 min-w-48 end-0 top-full"
+            @action="selectMeasure($event)"
+          />
+        </div>
       </div>
     </template>
     <div class="min-w-0 px-5 pb-5 pt-8">

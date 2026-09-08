@@ -432,6 +432,8 @@
         "DISMISS": "Dismiss"
       },
       "RANGES": {
+        "THIS_WEEK": "This week",
+        "LAST_WEEK": "Last week",
         "LAST_DAYS": "Last {count} days",
         "THIS_MONTH": "This month",
         "LAST_MONTH": "Last month"
@@ -553,6 +555,8 @@
         },
         "RESOLUTION_TREND": {
           "TITLE": "Resolution trend",
+          "COMPARISON_LABEL": "Weekday-aligned comparison",
+          "COMPARISON_HINT": "Resolution rates are compared with an earlier period shifted by the nearest whole number of weeks, with a minimum of one week. This matches weekdays and times of day, including today's partial day. Periods may overlap. Comparisons before August 11, 2026 are unavailable.",
           "CONVERSATION_COUNT": "Conversation count",
           "RESOLUTION_RATE": "Resolution rate",
           "CURRENT_PERIOD": "Current period",

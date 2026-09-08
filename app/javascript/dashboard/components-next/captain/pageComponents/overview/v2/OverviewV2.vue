@@ -44,7 +44,7 @@ const TREND_DIRECTIONS = {
   DOWN: 'down',
   NEUTRAL: 'neutral',
 };
-const WEEK_RANGE = '7';
+const DURABILITY_UNAVAILABLE_RANGES = ['7', 'this_week'];
 const HOURS_PER_DAY = 24;
 const SECONDS_PER_MINUTE = 60;
 const SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
@@ -254,7 +254,7 @@ const featuredMetrics = computed(() => {
     valueClass: 'text-n-iris-11',
   });
 
-  if (selectedRange.value === WEEK_RANGE) {
+  if (DURABILITY_UNAVAILABLE_RANGES.includes(selectedRange.value)) {
     durableMetric.value = '—';
     durableMetric.valueClass = 'text-n-slate-11';
     durableMetric.trend = '';

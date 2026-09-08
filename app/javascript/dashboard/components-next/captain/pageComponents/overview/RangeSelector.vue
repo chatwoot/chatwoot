@@ -12,6 +12,7 @@ const { t } = useI18n();
 const [showDropdown, toggleDropdown] = useToggle();
 
 const DAY_RANGES = ['7', '30', '90'];
+const DAYS_PER_WEEK = 7;
 const STATS_START_DATE = new Date(2026, 7, 11);
 const RANGE_REFRESH_INTERVAL = 60_000;
 const now = useNow({ interval: RANGE_REFRESH_INTERVAL });
@@ -33,7 +34,22 @@ const menuSections = computed(() => {
       label: t('CAPTAIN.OVERVIEW.RANGES.LAST_DAYS', { count: value }),
     })
   );
-  const monthItems = [
+  const thisWeekStart = new Date(now.value);
+  thisWeekStart.setHours(0, 0, 0, 0);
+  thisWeekStart.setDate(thisWeekStart.getDate() - thisWeekStart.getDay());
+  const lastWeekStart = new Date(thisWeekStart);
+  lastWeekStart.setDate(lastWeekStart.getDate() - DAYS_PER_WEEK);
+  const calendarItems = [
+    {
+      value: 'this_week',
+      label: t('CAPTAIN.OVERVIEW.RANGES.THIS_WEEK'),
+      start: thisWeekStart,
+    },
+    {
+      value: 'last_week',
+      label: t('CAPTAIN.OVERVIEW.RANGES.LAST_WEEK'),
+      start: lastWeekStart,
+    },
     {
       value: 'this_month',
       label: t('CAPTAIN.OVERVIEW.RANGES.THIS_MONTH'),
@@ -47,7 +63,7 @@ const menuSections = computed(() => {
   ]
     .filter(({ start }) => start >= STATS_START_DATE)
     .map(({ value, label }) => decorate({ value, label }));
-  return [{ items: dayItems }, { items: monthItems }].filter(
+  return [{ items: dayItems }, { items: calendarItems }].filter(
     section => section.items.length
   );
 });
