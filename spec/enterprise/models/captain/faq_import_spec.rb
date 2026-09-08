@@ -36,6 +36,22 @@ RSpec.describe Captain::FaqImport do
     expect(faq_import.errors[:user]).to include("can't be blank")
   end
 
+  describe '#fail!' do
+    it 'schedules cleanup 24 hours after failure even if the preview cleanup has already run' do
+      freeze_time do
+        faq_import = create(:captain_faq_import, status: :preparing, created_at: 25.hours.ago)
+        Captain::FaqImports::CleanupJob.perform_now(faq_import)
+
+        expect { faq_import.fail!('Import failed') }
+          .to have_enqueued_job(Captain::FaqImports::CleanupJob).with(faq_import).at(24.hours.from_now)
+        expect(faq_import.reload).to have_attributes(status: 'failed', error_message: 'Import failed', completed_at: Time.current)
+
+        expect { faq_import.fail!('Repeated failure') }.not_to have_enqueued_job(Captain::FaqImports::CleanupJob)
+        expect(faq_import.reload.error_message).to eq('Import failed')
+      end
+    end
+  end
+
   describe '#claim_stalled_recovery!' do
     it 'allows one recovery claim during the stalled interval' do
       faq_import = create(

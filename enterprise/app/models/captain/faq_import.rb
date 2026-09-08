@@ -81,8 +81,12 @@ class Captain::FaqImport < ApplicationRecord
 
   def fail!(message)
     with_lock do
-      update!(status: :failed, error_message: message.to_s.truncate(1000), completed_at: Time.current) if preparing?
+      return unless preparing?
+
+      update!(status: :failed, error_message: message.to_s.truncate(1000), completed_at: Time.current)
     end
+
+    Captain::FaqImports::CleanupJob.set(wait: 24.hours).perform_later(self)
   end
 
   def rows_processed?
