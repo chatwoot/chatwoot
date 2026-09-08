@@ -155,6 +155,7 @@ const selectMeasure = ({ value }) => {
           :description="
             $t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.COMPARISON_HINT')
           "
+          :note="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.COMPARISON_NOTE')"
         />
         <div
           v-on-click-outside="() => toggleDropdown(false)"

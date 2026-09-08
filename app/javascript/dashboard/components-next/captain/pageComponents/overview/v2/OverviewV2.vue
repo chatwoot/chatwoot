@@ -258,9 +258,6 @@ const featuredMetrics = computed(() => {
     durableMetric.value = '—';
     durableMetric.valueClass = 'text-n-slate-11';
     durableMetric.trend = '';
-    durableMetric.description = t(
-      'CAPTAIN.OVERVIEW.V2.METRICS.DURABLE.NOT_APPLICABLE'
-    );
     durableMetric.hint = t(
       'CAPTAIN.OVERVIEW.V2.METRICS.DURABLE.NOT_APPLICABLE_HINT'
     );
