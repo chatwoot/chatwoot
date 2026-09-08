@@ -72,7 +72,8 @@ class Captain::AssistantResolutionTrendStatsBuilder
   def comparison_shift
     @comparison_shift ||= begin
       days = (window.current.last.to_date - window.current.first.to_date).to_i
-      weeks = [(days.to_f / DAYS_PER_WEEK).round, 1].max
+      weeks = [days / DAYS_PER_WEEK, 1].max
+      weeks += 1 if window.current.last - weeks.weeks > window.current.first
       weeks.weeks
     end
   end

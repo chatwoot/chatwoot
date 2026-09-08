@@ -30,7 +30,7 @@ RSpec.describe Captain::AssistantResolutionTrendStatsBuilder do
           { starts_on: Date.new(2025, 6, 29), ends_on: Date.new(2025, 6, 30), conversations_handled: 0, resolved_by_captain: 0,
             current_resolution_rate: nil, previous_resolution_rate: nil }
         ].map do |bucket|
-          bucket.merge(previous_starts_on: bucket[:starts_on] - 4.weeks, previous_ends_on: bucket[:ends_on] - 4.weeks)
+          bucket.merge(previous_starts_on: bucket[:starts_on] - 5.weeks, previous_ends_on: bucket[:ends_on] - 5.weeks)
         end
       )
     end
