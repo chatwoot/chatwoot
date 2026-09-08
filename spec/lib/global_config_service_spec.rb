@@ -69,6 +69,19 @@ describe GlobalConfigService do
         end
       end
 
+      it 'does not persist a matching environment value on every read' do
+        config = InstallationConfig.find_or_initialize_by(name: 'ENABLE_ACCOUNT_SIGNUP')
+        config.update!(value: 'true', locked: false)
+
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          expect(GlobalConfig).not_to receive(:clear_cache)
+
+          2.times do
+            expect(described_class.load('ENABLE_ACCOUNT_SIGNUP', 'false')).to eq('true')
+          end
+        end
+      end
+
       # it 'get value from DB if found' do
       #   # Set a value in db first and make sure this value
       #   # is not respected even when load() method is called with

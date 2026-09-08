@@ -6,11 +6,16 @@ class GlobalConfigService
     installation_config = InstallationConfig.find_by(name: config_key)
     return installation_config.value if database_value_authoritative?(installation_config, config_key)
 
+    load_environment_value(config_key, default_value, installation_config)
+  end
+
+  def self.load_environment_value(config_key, default_value, installation_config)
     # To support migrating existing instance relying on env variables
     # TODO: deprecate this later down the line
     config_value = ENV.fetch(config_key) { default_value }
 
     return if config_value.blank?
+    return config_value if installation_config&.value.to_s == config_value.to_s
 
     installation_config ||= InstallationConfig.new(name: config_key)
     installation_config.value = config_value
@@ -20,6 +25,7 @@ class GlobalConfigService
     GlobalConfig.clear_cache
     installation_config.value
   end
+  private_class_method :load_environment_value
 
   def self.configured_value?(config, config_key)
     !ENV.key?(config_key) && !config.nil?
