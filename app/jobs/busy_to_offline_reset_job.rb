@@ -7,7 +7,7 @@ class BusyToOfflineResetJob < ApplicationJob
   queue_as :scheduled_jobs
 
   # rubocop:disable Metrics/CyclomaticComplexity -- guard chain
-  def perform(account_id, user_id, busy_since)
+  def perform(account_id, user_id, _busy_since)
     account = Account.find_by(id: account_id)
     return unless account
 
@@ -16,14 +16,16 @@ class BusyToOfflineResetJob < ApplicationJob
 
     account_user = account.account_users.find_by(user_id: user_id)
     return unless account_user
-    return unless account_user.busy?
 
-    return if account_user.updated_at.to_i > busy_since
+    account_user.with_lock do
+      return unless account_user.busy?
 
-    account_user.update!(availability: :offline)
-    OnlineStatusTracker.set_status(account_id, user_id, 'offline')
+      busy_period = AgentActivityLog.where(account_id: account_id, user_id: user_id, status: 'busy', ended_at: nil).order(:started_at).last!
+      return if busy_period.started_at > timeout_minutes.minutes.ago
 
-    Rails.logger.info("[BusyToOfflineResetJob] Reset user #{user_id} to offline in account #{account_id}")
+      account_user.update!(availability: :offline)
+      Rails.logger.info("[BusyToOfflineResetJob] Reset user #{user_id} to offline in account #{account_id}")
+    end
   end
   # rubocop:enable Metrics/CyclomaticComplexity
 end

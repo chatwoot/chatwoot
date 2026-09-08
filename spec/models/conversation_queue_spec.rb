@@ -55,7 +55,7 @@ RSpec.describe ConversationQueue do
       end
 
       it 'returns empty when group does not match' do
-        other_group = create(:priority_group)
+        other_group = create(:priority_group, account: account)
         expect(described_class.for_priority_group(other_group)).to be_empty
       end
     end
@@ -96,7 +96,7 @@ RSpec.describe ConversationQueue do
 
   describe '#next_position' do
     let(:account) { create(:account) }
-    let(:group) { create(:priority_group) }
+    let(:group) { create(:priority_group, account: account) }
     let(:inbox) { create(:inbox, account: account, priority_group: group) }
     let(:conversation) { create(:conversation, inbox: inbox, account: account) }
 

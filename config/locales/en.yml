@@ -453,6 +453,8 @@ en:
           good: good
           bad: bad
       auto_resolve:
+        agent_inactive: 'The agent is not responding'
+        client_inactive: 'The customer is not responding'
         not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
       muted: '%{user_name} has muted the conversation for %{blocked_until}'
       unmuted: '%{user_name} has unmuted the conversation'

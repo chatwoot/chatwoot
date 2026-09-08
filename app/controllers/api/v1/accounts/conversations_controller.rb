@@ -158,7 +158,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     return nil if raw.blank?
     return Time.current + ConversationMuteHelpers::BAN_DURATIONS[raw.to_s] if ConversationMuteHelpers::BAN_DURATIONS.key?(raw.to_s)
 
-    Time.zone.parse(raw.to_s) || :invalid
+    Time.zone.iso8601(raw.to_s)
   rescue ArgumentError, TypeError
     :invalid
   end

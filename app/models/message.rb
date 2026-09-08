@@ -229,6 +229,7 @@ class Message < ApplicationRecord
 
   def valid_first_reply?
     return false unless human_response? && !private?
+    return conversation.first_reply_created_at.blank? if senderless_external_echo?
 
     participant = assigned_participant
     return false unless participant
@@ -313,13 +314,26 @@ class Message < ApplicationRecord
   end
 
   def handle_first_reply_events
+    Conversation.transaction do
+      conversation.first_reply_created_at = Conversation.where(id: conversation_id).lock.pick(:first_reply_created_at)
+      senderless_external_echo? && conversation.first_reply_created_at.present? ? update_waiting_since : record_first_reply
+    end
+  end
+
+  def record_first_reply
     Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
 
-    if conversation.waiting_since.present? && !private && human_response? && conversation.first_reply_created_at.present?
-      Rails.configuration.dispatcher.dispatch(REPLY_CREATED, Time.zone.now, waiting_since: conversation.waiting_since, message: self)
-    end
+    dispatch_reply_created if conversation.waiting_since.present? && conversation.first_reply_created_at.present?
 
-    conversation.update(first_reply_created_at: created_at, waiting_since: nil)
+    conversation.update(first_reply_created_at: conversation.first_reply_created_at || created_at, waiting_since: nil)
+  end
+
+  def senderless_external_echo?
+    content_attributes['external_echo'].present? && sender_id.nil?
+  end
+
+  def dispatch_reply_created
+    Rails.configuration.dispatcher.dispatch(REPLY_CREATED, Time.zone.now, waiting_since: conversation.waiting_since, message: self)
   end
 
   def assigned_participant
@@ -399,9 +413,7 @@ class Message < ApplicationRecord
   end
 
   def clear_waiting_since
-    if human_response?
-      Rails.configuration.dispatcher.dispatch(REPLY_CREATED,  Time.zone.now,  waiting_since: conversation.waiting_since,  message: self)
-    end
+    dispatch_reply_created if human_response?
     conversation.update(waiting_since: nil)
   end
 

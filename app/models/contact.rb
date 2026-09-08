@@ -234,8 +234,12 @@ class Contact < ApplicationRecord
   def email_unique_per_inbox
     return if email.blank?
 
-    conflict = contact_inboxes.any? do |contact_inbox|
-      email_conflict_in_inbox?(email: email, inbox_id: contact_inbox.inbox_id, except_contact_id: id)
+    Contact.where(id: id).lock.pick(:id) if persisted?
+    inbox_ids = ContactInbox.where(contact_id: id).pluck(:inbox_id)
+    lock_inbox_emails(email: email, inbox_ids: inbox_ids)
+
+    conflict = inbox_ids.any? do |inbox_id|
+      email_conflict_in_inbox?(email: email, inbox_id: inbox_id, except_contact_id: id)
     end
 
     errors.add(:email, I18n.t('errors.contacts.email.already_exists_in_inbox')) if conflict

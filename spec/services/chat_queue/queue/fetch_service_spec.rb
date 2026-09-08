@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ChatQueue::Queue::FetchService do
   let(:account) { create(:account) }
-  let(:priority_group) { create(:priority_group, name: 'high') }
+  let(:priority_group) { create(:priority_group, account: account, name: 'high') }
   let(:inbox) { create(:inbox, account: account, priority_group: priority_group) }
   let(:service) { described_class.new(account: account) }
 
@@ -48,7 +48,7 @@ RSpec.describe ChatQueue::Queue::FetchService do
       end
 
       it 'only returns entries for the specified priority group' do
-        other_group = create(:priority_group, name: 'low')
+        other_group = create(:priority_group, account: account, name: 'low')
         other_inbox = create(:inbox, account: account, priority_group: other_group)
         other_conversation = create(:conversation, account: account, inbox: other_inbox)
 
@@ -91,7 +91,8 @@ RSpec.describe ChatQueue::Queue::FetchService do
 
       it 'only returns entries for the current account' do
         other_account = create(:account)
-        other_inbox = create(:inbox, account: other_account, priority_group: priority_group)
+        other_group = create(:priority_group, account: other_account)
+        other_inbox = create(:inbox, account: other_account, priority_group: other_group)
         other_conversation = create(:conversation, account: other_account, inbox: other_inbox)
 
         create(:conversation_queue, :waiting,
@@ -130,8 +131,8 @@ RSpec.describe ChatQueue::Queue::FetchService do
     end
 
     context 'with multiple priority groups' do
-      let(:high_group) { create(:priority_group, name: 'high') }
-      let(:low_group) { create(:priority_group, name: 'low') }
+      let(:high_group) { create(:priority_group, account: account, name: 'high') }
+      let(:low_group) { create(:priority_group, account: account, name: 'low') }
       let(:high_inbox) { create(:inbox, account: account, priority_group: high_group) }
       let(:low_inbox) { create(:inbox, account: account, priority_group: low_group) }
 
@@ -310,7 +311,7 @@ RSpec.describe ChatQueue::Queue::FetchService do
       end
 
       it 'only returns conversation from specified priority group' do
-        other_group = create(:priority_group, name: 'low')
+        other_group = create(:priority_group, account: account, name: 'low')
         other_inbox = create(:inbox, account: account, priority_group: other_group)
         other_conversation = create(:conversation, account: account, inbox: other_inbox)
 
@@ -332,7 +333,8 @@ RSpec.describe ChatQueue::Queue::FetchService do
 
       it 'only returns conversation from current account' do
         other_account = create(:account)
-        other_inbox = create(:inbox, account: other_account, priority_group: priority_group)
+        other_group = create(:priority_group, account: other_account)
+        other_inbox = create(:inbox, account: other_account, priority_group: other_group)
         other_conversation = create(:conversation, account: other_account, inbox: other_inbox)
 
         create(:conversation_queue, :waiting,
@@ -404,7 +406,7 @@ RSpec.describe ChatQueue::Queue::FetchService do
       end
 
       it 'only counts entries for specified priority group' do
-        other_group = create(:priority_group, name: 'low')
+        other_group = create(:priority_group, account: account, name: 'low')
         other_inbox = create(:inbox, account: account, priority_group: other_group)
         other_conversation = create(:conversation, account: account, inbox: other_inbox)
 
@@ -422,7 +424,8 @@ RSpec.describe ChatQueue::Queue::FetchService do
 
       it 'only counts entries for current account' do
         other_account = create(:account)
-        other_inbox = create(:inbox, account: other_account, priority_group: priority_group)
+        other_group = create(:priority_group, account: other_account)
+        other_inbox = create(:inbox, account: other_account, priority_group: other_group)
         other_conversation = create(:conversation, account: other_account, inbox: other_inbox)
 
         create(:conversation_queue, :waiting,
@@ -485,7 +488,7 @@ RSpec.describe ChatQueue::Queue::FetchService do
     end
 
     it 'caches results per inbox_id' do
-      other_group = create(:priority_group, name: 'low')
+      other_group = create(:priority_group, account: account, name: 'low')
       other_inbox = create(:inbox, account: account, priority_group: other_group)
 
       result1 = service.priority_group_for_inbox(inbox.id)
@@ -518,8 +521,8 @@ RSpec.describe ChatQueue::Queue::FetchService do
 
   describe 'integration scenarios' do
     context 'with complex queue state' do
-      let(:high_group) { create(:priority_group, name: 'high') }
-      let(:low_group) { create(:priority_group, name: 'low') }
+      let(:high_group) { create(:priority_group, account: account, name: 'high') }
+      let(:low_group) { create(:priority_group, account: account, name: 'low') }
       let(:high_inbox) { create(:inbox, account: account, priority_group: high_group) }
       let(:low_inbox) { create(:inbox, account: account, priority_group: low_group) }
 
@@ -554,7 +557,8 @@ RSpec.describe ChatQueue::Queue::FetchService do
     context 'with multiple accounts' do
       it 'isolates data between accounts' do
         account2 = create(:account)
-        inbox2 = create(:inbox, account: account2, priority_group: priority_group)
+        priority_group2 = create(:priority_group, account: account2)
+        inbox2 = create(:inbox, account: account2, priority_group: priority_group2)
         service2 = described_class.new(account: account2)
 
         conv1 = create(:conversation, account: account, inbox: inbox)

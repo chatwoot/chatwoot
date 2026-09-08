@@ -29,20 +29,16 @@ class Conversations::ResolutionJob < ApplicationJob
   def send_split_reason_message(conversation, account)
     message_text = determine_message_text(conversation, account)
 
-    conversation.messages.create!(
-      message_type: :outgoing,
-      content: message_text,
-      private: false,
-      account_id: account.id,
-      inbox_id: conversation.inbox_id
-    )
+    ::MessageTemplates::Template::AutoResolve.new(
+      conversation: conversation, message_text: message_text, message_type: :outgoing
+    ).perform
   end
 
   def determine_message_text(conversation, account)
     if conversation.waiting_since.present?
-      account.auto_resolve_message_agent.presence || 'Оператор не выходит на связь'
+      account.auto_resolve_message_agent.presence || I18n.t('conversations.activity.auto_resolve.agent_inactive', locale: account.locale)
     else
-      account.auto_resolve_message_client.presence || 'Клиент не выходит на связь'
+      account.auto_resolve_message_client.presence || I18n.t('conversations.activity.auto_resolve.client_inactive', locale: account.locale)
     end
   end
 

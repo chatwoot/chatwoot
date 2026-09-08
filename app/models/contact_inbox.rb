@@ -60,12 +60,15 @@ class ContactInbox < ApplicationRecord
   private
 
   def email_unique_per_inbox
-    return if contact&.email.blank?
+    email = Contact.where(id: contact_id).lock.pick(:email)
+    return if email.blank?
+
+    lock_inbox_emails(email: email, inbox_ids: [inbox_id])
 
     if email_conflict_in_inbox?(
-      email: contact.email,
+      email: email,
       inbox_id: inbox_id,
-      except_contact_id: contact.id
+      except_contact_id: contact_id
     )
       errors.add(:base, I18n.t('errors.contacts.email.already_exists_in_inbox'))
     end

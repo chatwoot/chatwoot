@@ -32,15 +32,14 @@ class ContactInboxWithContactBuilder
     @contact_inbox = create_contact_inbox
   end
 
-  # Email uniqueness per inbox is a validation across contacts and contact_inboxes, not a DB
-  # constraint; a transaction-scoped advisory lock on (inbox, email) keeps two concurrent
-  # identifications with the same email from both passing it and creating two contacts.
+  # Serialize identical identifications before lookup. This key must differ from the
+  # validation lock, which models acquire only after locking the contact row.
   def lock_inbox_email
     email = contact_attributes[:email].to_s.downcase.strip
     return if email.blank?
 
     ActiveRecord::Base.connection.execute(
-      ActiveRecord::Base.sanitize_sql_array(['SELECT pg_advisory_xact_lock(hashtext(?))', "contact_email:#{inbox.id}:#{email}"])
+      ActiveRecord::Base.sanitize_sql_array(['SELECT pg_advisory_xact_lock(hashtext(?))', "contact_identification:#{inbox.id}:#{email}"])
     )
   end
 

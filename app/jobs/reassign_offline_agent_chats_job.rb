@@ -96,27 +96,30 @@ class ReassignOfflineAgentChatsJob < ApplicationJob
   # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   def reassign_via_auto_assignment(conversation, allowed)
-    AutoAssignment::AgentAssignmentService.new(
-      conversation: conversation,
-      allowed_agent_ids: allowed
-    ).perform
+    offline_assignee_id = conversation.assignee_id
 
-    conversation.reload.assignee_id.present? && allowed.include?(conversation.assignee_id)
+    ActiveRecord::Base.transaction do
+      AccountUser.where(account_id: conversation.account_id, user_id: allowed).order(:id).lock.load
+      conversation.lock!
+      next true unless conversation.assignee_id == offline_assignee_id
+
+      eligible = allowed & conversation.inbox.member_ids_with_assignment_capacity
+      agent = AutoAssignment::AgentAssignmentService.new(
+        conversation: conversation,
+        allowed_agent_ids: eligible
+      ).find_assignee
+      next false unless agent
+
+      conversation.update!(assignee: agent)
+      true
+    end
   end
 
   def reassign_via_queue(conversation)
-    conversation.update!(assignee_id: nil)
-    conversation.reload
-
+    queue_service = ChatQueue::QueueService.new(account: conversation.account)
+    queue_service.add_to_queue(conversation)
     agent = ChatQueue::Agents::SelectorService.new(account: conversation.account).pick_best_agent_for(conversation)
-    if agent
-      conversation.update!(assignee: agent, status: :open)
-      Rails.logger.info("Conversation #{conversation.id} reassigned via queue to agent #{agent.id}")
-      return true
-    end
-
-    ChatQueue::QueueService.new(account: conversation.account).add_to_queue(conversation)
-    Rails.logger.info("Conversation #{conversation.id} added to queue after offline unassign")
+    queue_service.assign_specific_from_queue!(agent, conversation.id) if agent
     true
   end
 

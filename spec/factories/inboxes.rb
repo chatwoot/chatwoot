@@ -18,7 +18,7 @@ FactoryBot.define do
     end
 
     trait :with_priority_group do
-      association :priority_group, factory: :priority_group
+      priority_group { association :priority_group, account: account }
     end
   end
 end
