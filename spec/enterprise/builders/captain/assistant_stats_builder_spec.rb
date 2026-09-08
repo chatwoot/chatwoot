@@ -242,7 +242,21 @@ RSpec.describe Captain::AssistantStatsBuilder do
     it 'returns approved FAQ, open suggestion, document counts and coverage' do
       stats = described_class.new(assistant).faq_stats
 
-      expect(stats).to eq(approved: 3, suggestions: 1, documents: 2, coverage: 75)
+      expect(stats).to eq(approved: 3, faqs: 3, suggestions: 1, documents: 2, coverage: 75)
+    end
+
+    it 'does not count document-generated responses as FAQs' do
+      create(
+        :captain_assistant_response,
+        assistant: assistant,
+        account: account,
+        documentable: assistant.documents.first,
+        status: :approved
+      )
+
+      stats = described_class.new(assistant).faq_stats
+
+      expect(stats).to eq(approved: 4, faqs: 3, suggestions: 1, documents: 2, coverage: 80)
     end
 
     it 'reports zero coverage when there are no FAQs or suggestions' do
@@ -251,7 +265,7 @@ RSpec.describe Captain::AssistantStatsBuilder do
 
       stats = described_class.new(assistant).faq_stats
 
-      expect(stats).to eq(approved: 0, suggestions: 0, documents: 2, coverage: 0)
+      expect(stats).to eq(approved: 0, faqs: 0, suggestions: 0, documents: 2, coverage: 0)
     end
   end
 
