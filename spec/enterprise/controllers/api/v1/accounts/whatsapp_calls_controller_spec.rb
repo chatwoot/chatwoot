@@ -38,6 +38,17 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       get "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}"
       expect(response).to have_http_status(:unauthorized)
     end
+
+    # acceptIncomingCall falls back to this payload when the ring broadcast raced the agent's click,
+    # so it must report the decision taken when the call started, not the inbox's current flag.
+    it 'reports the recording decision taken when the call started' do
+      call # created while the inbox still had recording on
+      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
+
+      get "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}", headers: agent.create_new_auth_token
+
+      expect(response.parsed_body['recording_enabled']).to be true
+    end
   end
 
   describe 'POST /api/v1/accounts/:account_id/whatsapp_calls/:id/accept' do
@@ -58,6 +69,15 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
 
       expect(response).to have_http_status(:unprocessable_entity)
     end
+
+    it 'returns 409 when the call has already ended (caller hung up mid-ring)' do
+      call.update!(status: 'no_answer')
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/accept",
+           params: { sdp_answer: 'sdp_answer' }, headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:conflict)
+    end
   end
 
   describe 'POST /api/v1/accounts/:account_id/whatsapp_calls/:id/reject' do
@@ -68,7 +88,7 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
            headers: agent.create_new_auth_token
 
       expect(response).to have_http_status(:ok)
-      expect(call.reload.status).to eq('failed')
+      expect(call.reload.status).to eq('rejected')
     end
   end
 
@@ -102,6 +122,44 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body).to include('status' => 'calling', 'call_id' => 'wacid_outbound')
       expect(Call.find_by(provider_call_id: 'wacid_outbound')).to have_attributes(direction: 'outgoing', status: 'ringing')
+    end
+
+    it 'assigns the conversation to the agent placing the call when it is unassigned' do
+      allow(provider_service).to receive(:initiate_call).and_return({ 'calls' => [{ 'id' => 'wacid_outbound' }] })
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+           headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      expect(initiate_conversation.reload.assignee_id).to eq(agent.id)
+    end
+
+    it 'keeps the existing assignee when the conversation is already assigned' do
+      other_agent = create(:user, account: account, role: :agent)
+      create(:inbox_member, user: other_agent, inbox: inbox)
+      initiate_conversation.update!(assignee: other_agent)
+      allow(provider_service).to receive(:initiate_call).and_return({ 'calls' => [{ 'id' => 'wacid_outbound' }] })
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+           headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      expect(initiate_conversation.reload.assignee_id).to eq(other_agent.id)
+    end
+
+    it 'keeps the AgentBot owner when the conversation is already assigned' do
+      agent_bot = create(:agent_bot, account: account)
+      initiate_conversation.update!(ai_assignee: agent_bot)
+      allow(provider_service).to receive(:initiate_call).and_return({ 'calls' => [{ 'id' => 'wacid_outbound' }] })
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+           headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      expect(initiate_conversation.reload.assigned_entity).to eq(agent_bot)
     end
 
     it 'sends a permission request and records the wamid when Meta returns NoCallPermission' do
@@ -204,6 +262,19 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
            headers: agent.create_new_auth_token
 
       expect(response.parsed_body['status']).to eq('already_uploaded')
+    end
+
+    # The browser gate ships in JS, so a stale tab could still post audio for a call that decided not to record.
+    it 'refuses to store audio for a call created with recording off' do
+      call.update!(recording_enabled: false)
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/upload_recording",
+             params: { recording: fixture_file_upload(Rails.root.join('spec/assets/sample.mp3'), 'audio/mpeg') },
+             headers: agent.create_new_auth_token
+      end.not_to(change { call.message.attachments.count })
+
+      expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 end

@@ -164,15 +164,14 @@ RSpec.describe Captain::Scenario, type: :model do
         expect(scenario.errors[:instruction]).to include('contains invalid tools: custom_fetch-order')
       end
 
-      it 'is invalid with disabled custom tool' do
+      it 'is valid with disabled custom tool' do
         create(:captain_custom_tool, account: account, slug: 'custom_fetch-order', enabled: false)
         scenario = build(:captain_scenario,
                          assistant: assistant,
                          account: account,
                          instruction: 'Use [@Fetch Order](tool://custom_fetch-order) to get order details')
 
-        expect(scenario).not_to be_valid
-        expect(scenario.errors[:instruction]).to include('contains invalid tools: custom_fetch-order')
+        expect(scenario).to be_valid
       end
 
       it 'is valid with mixed static and custom tool references' do

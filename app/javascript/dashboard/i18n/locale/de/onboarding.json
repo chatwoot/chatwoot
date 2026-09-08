@@ -1,34 +1,92 @@
 {
   "ONBOARDING_NEXT": {
-    "GREETING": "Hello {name}!",
-    "SUBTITLE": "Please review the following details",
-    "YOUR_DETAILS": "Your details",
-    "COMPANY_DETAILS": "Company details",
+    "GREETING": "Hallo {name}!",
+    "SUBTITLE": "Bitte überprüfe die folgenden Angaben",
+    "YOUR_DETAILS": "Deine Angaben",
+    "COMPANY_DETAILS": "Unternehmensangaben",
     "FIELDS": {
       "EMAIL": "E-Mail",
-      "YOUR_ROLE": "Your Role",
+      "YOUR_ROLE": "Deine Rolle",
       "WEBSITE": "Webseite",
       "LANGUAGE": "Sprache",
       "TIMEZONE": "Zeitzone",
-      "COMPANY_SIZE": "Company Size",
-      "INDUSTRY": "Industry",
-      "REFERRAL_SOURCE": "Where did you find us?"
+      "COMPANY_SIZE": "Unternehmensgröße",
+      "INDUSTRY": "Branche",
+      "REFERRAL_SOURCE": "Wie bist du auf uns aufmerksam geworden?"
     },
     "PLACEHOLDERS": {
-      "SELECT_ROLE": "Select your role",
+      "SELECT_ROLE": "Wähle deine Rolle aus",
       "ENTER_WEBSITE": "www.example.com",
-      "SELECT_LANGUAGE": "Select language",
+      "SELECT_LANGUAGE": "Sprache auswählen",
       "SELECT_TIMEZONE": "Zeitzone auswählen",
-      "SELECT_COMPANY_SIZE": "Select company size",
-      "SELECT_INDUSTRY": "Select industry",
-      "SELECT_REFERRAL_SOURCE": "Select source"
+      "SELECT_COMPANY_SIZE": "Unternehmensgröße auswählen",
+      "SELECT_INDUSTRY": "Branche auswählen",
+      "SELECT_REFERRAL_SOURCE": "Quelle auswählen"
     },
-    "EMAIL_VERIFIED": "Email verified",
-    "SETTING_UP": "Setting up your account...",
-    "CONTINUE": "Continue",
+    "EMAIL_VERIFIED": "E-Mail-Adresse bestätigt",
+    "SETTING_UP": "Dein Konto wird eingerichtet...",
+    "CONTINUE": "Weiter",
     "SAVING": "Speichern...",
-    "VALIDATION_ERROR": "Please fill in all required fields",
-    "SUCCESS": "Details saved successfully",
-    "ERROR": "Could not save details. Please try again."
+    "VALIDATION_ERROR": "Bitte fülle alle Pflichtfelder aus",
+    "SUCCESS": "Angaben erfolgreich gespeichert",
+    "ERROR": "Die Angaben konnten nicht gespeichert werden. Bitte versuche es erneut."
+  },
+  "ONBOARDING_INBOX_SETUP": {
+    "GREETING": "Lass uns noch ein paar Dinge einrichten",
+    "SUBTITLE": "So kannst du in deinem Arbeitsbereich direkt loslegen",
+    "CONTINUE": "Weiter",
+    "SKIP": "Überspringen",
+    "ERROR": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+    "WHATSAPP_CONNECTED": "WhatsApp erfolgreich verbunden",
+    "FACEBOOK_CONNECTED": "Facebook erfolgreich verbunden",
+    "META_RESTRICTION": {
+      "MESSAGE": "Die Einrichtung von Postfächern für Facebook, Instagram und WhatsApp ist aufgrund eines Problems auf API-Ebene bei Meta vorübergehend nicht verfügbar. Es liegt kein Problem mit Chatwoot vor. Wir arbeiten eng mit Meta zusammen, um das Problem so schnell wie möglich zu beheben.",
+      "STATUS_LINK": "Status-Updates ansehen"
+    },
+    "CREATED_FOR_YOU": {
+      "TITLE": "Wir haben Folgendes für dich erstellt",
+      "LIVE_CHAT": "Live-Chat-Widget",
+      "LIVE_CHAT_DESCRIPTION": "Sofortnachrichten für deine Website",
+      "LIVE_CHAT_STATUS": "Fast geschafft…",
+      "LIVE_CHAT_READY": "Ready",
+      "HELP_CENTER": "Hilfezentrum",
+      "HELP_CENTER_DESCRIPTION": "Dein digitales Nachschlagewerk",
+      "HELP_CENTER_GENERATING": "Dein Help Center wird erstellt…",
+      "HELP_CENTER_ANALYZING_WEBSITE": "Deine Website wird analysiert…",
+      "HELP_CENTER_SETTING_UP_CATEGORIES": "Kategorien werden eingerichtet…",
+      "HELP_CENTER_CURATING_ARTICLES": "Artikel werden zusammengestellt…",
+      "HELP_CENTER_ARTICLES": "{count} Artikel erstellt | {count} Artikel erstellt",
+      "HELP_CENTER_CATEGORIES": "{count} category | {count} categories",
+      "HELP_CENTER_SUMMARY": "{count} Artikel in {categories} erstellt | {count} Artikel in {categories} erstellt"
+    },
+    "CHANNELS": {
+      "TITLE": "Verbinde all deine Kommunikationskanäle",
+      "HEADER": "Wir haben einige Kanäle gefunden, die du verbinden kannst",
+      "CONNECT": "Verbinden",
+      "CONNECTED": "Verbunden",
+      "MORE_CHANNELS_NOTE": "{email}- und {voice}-Kanäle kannst du später in der App einrichten",
+      "MORE_CHANNELS_EMAIL": "E-Mail",
+      "MORE_CHANNELS_VOICE": "Voice",
+      "VIEW_ALL": "Alle anzeigen",
+      "GMAIL": "Gmail",
+      "OUTLOOK": "Outlook",
+      "OTHER_EMAIL": "Andere E-Mail-Anbieter"
+    },
+    "CHANNELS_DIALOG": {
+      "TITLE": "Verbinde all deine Kanäle im Handumdrehen",
+      "SUBTITLE": "Verwalte alle Kanäle über ein einziges Dashboard. Du kannst Postfächer später auch in der App einrichten und bearbeiten.",
+      "NOTE": "SMS, API, Voice und andere E-Mail-Anbieter kannst du später über dein Dashboard einrichten.",
+      "CONNECT_TITLE": "Verbinde dein {name}-Konto",
+      "CONNECT_SUBTITLE": "Trage kurz die folgenden Angaben ein",
+      "CONNECT": "Verbinden",
+      "BACK": "Zurück",
+      "SETUP_LATER": "Später in der App einrichten",
+      "FACEBOOK_SUBTITLE": "Autorisiere den Zugriff und wähle eine Seite aus, die du verbinden möchtest.",
+      "FACEBOOK_LAUNCH": "Weiter mit Facebook",
+      "FACEBOOK_SELECT_PAGE": "Wähle eine Seite zum Verbinden aus",
+      "FACEBOOK_LOADING": "Deine Facebook-Seiten werden geladen…",
+      "FACEBOOK_NO_PAGES": "Keine Seiten zum Verbinden gefunden. Alle deine Seiten sind bereits verbunden.",
+      "FACEBOOK_ERROR": "Die Verbindung zu Facebook konnte nicht hergestellt werden. Bitte versuche es erneut."
+    }
   }
 }

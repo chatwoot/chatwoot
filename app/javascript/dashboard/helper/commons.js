@@ -46,11 +46,11 @@ export const getTypingUsersText = (users = []) => {
 export const createPendingMessage = data => {
   const timestamp = Math.floor(new Date().getTime() / 1000);
   const tempMessageId = getUuid();
-  const { message, file } = data;
+  const { message, pendingMessageContent, file } = data;
   const tempAttachments = [{ id: tempMessageId }];
   const pendingMessage = {
     ...data,
-    content: message || null,
+    content: pendingMessageContent || message || null,
     id: tempMessageId,
     echo_id: tempMessageId,
     status: MESSAGE_STATUS.PROGRESS,

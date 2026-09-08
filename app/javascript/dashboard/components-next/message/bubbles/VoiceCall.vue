@@ -34,6 +34,7 @@ const ICON_MAP = {
   [VOICE_CALL_STATUS.COMPLETED]: 'i-ph-phone-bold',
   [VOICE_CALL_STATUS.NO_ANSWER]: 'i-ph-phone-x-bold',
   [VOICE_CALL_STATUS.FAILED]: 'i-ph-phone-x-bold',
+  [VOICE_CALL_STATUS.REJECTED]: 'i-ph-phone-x-bold',
 };
 
 const { t } = useI18n();
@@ -81,7 +82,11 @@ const isWhatsapp = computed(
   () => call.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
 );
 const isFailed = computed(() =>
-  [VOICE_CALL_STATUS.NO_ANSWER, VOICE_CALL_STATUS.FAILED].includes(status.value)
+  [
+    VOICE_CALL_STATUS.NO_ANSWER,
+    VOICE_CALL_STATUS.FAILED,
+    VOICE_CALL_STATUS.REJECTED,
+  ].includes(status.value)
 );
 const isMissedInbound = computed(() => isFailed.value && !isOutbound.value);
 const endReason = computed(() => call.value?.endReason);
@@ -258,9 +263,9 @@ const handleCallBack = async () => {
   if (!canCallBack.value || isInitiatingCall.value) return;
   try {
     if (isWhatsapp.value) {
-      const response = await whatsappCallSession.initiateOutboundCall(
-        conversationId.value
-      );
+      const response = await whatsappCallSession.initiateOutboundCall({
+        conversationId: conversationId.value,
+      });
       if (response?.status === VOICE_CALL_OUTBOUND_INIT_STATUS.LOCKED) return;
       // Permission template path returns no call id — show banner, no widget yet.
       if (!response?.id) {

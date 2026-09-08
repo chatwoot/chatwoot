@@ -6,6 +6,7 @@ describe Labels::DestroyService do
   let(:label) { create(:label, account: account) }
   let(:contact) { conversation.contact }
   let(:label_deleted_at) { Time.zone.parse('2026-05-07 10:00:00 UTC') }
+  let(:store) { Conversations::UnreadCounts::FilteredCountStore }
 
   before do
     conversation.label_list.add(label.title)
@@ -72,6 +73,18 @@ describe Labels::DestroyService do
         account_id: account.id,
         label_deleted_at: label_deleted_at
       ).perform
+    end
+
+    it 'invalidates filtered counts when conversation label associations are removed' do
+      account.enable_features!(:unread_count_for_filters)
+
+      expect do
+        described_class.new(
+          label_title: label.title,
+          account_id: account.id,
+          label_deleted_at: label_deleted_at
+        ).perform
+      end.to change { store.conversation_version(account.id) }.by(1)
     end
 
     it 'does not remove label associations created after the label was deleted' do

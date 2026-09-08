@@ -3,11 +3,11 @@
     "HEADER": "Attributs personnalisés",
     "HEADER_BTN_TXT": "Ajouter un attribut personnalisé",
     "LOADING": "Récupération des attributs personnalisés",
-    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
-    "LEARN_MORE": "Learn more about custom attributes",
-    "COUNT": "{n} attribute | {n} attributes",
+    "DESCRIPTION": "Un attribut personnalisé permet de suivre des informations supplémentaires sur vos contacts, entreprises ou conversations, comme leur formule d’abonnement ou la date de leur premier achat. Vous pouvez ajouter différents types d’attributs personnalisés, tels que du texte, des listes ou des nombres, afin de recueillir les informations dont vous avez besoin.",
+    "LEARN_MORE": "En savoir plus sur les attributs personnalisés",
+    "COUNT": "{n} attribut | {n} attributs",
     "SEARCH_PLACEHOLDER": "Rechercher des attributs...",
-    "NO_RESULTS": "No attributes found matching your search",
+    "NO_RESULTS": "Aucun attribut correspondant à votre recherche",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Conversation",
       "CONTACT": "Contact",
@@ -62,15 +62,15 @@
           "PLACEHOLDER": "Veuillez indiquer un attribut personnalisé pour le schéma Regex (facultatif)."
         },
         "REGEX_CUE": {
-          "LABEL": "Regex Cue",
+          "LABEL": "Indice d’expression régulière",
           "PLACEHOLDER": "Veuillez entrer l'indice du schéma Regex (facultatif)"
         },
         "ENABLE_REGEX": {
           "LABEL": "Activer la validation Regex"
         },
         "BADGES": {
-          "PRE_CHAT": "Pre-chat",
-          "RESOLUTION": "Resolution"
+          "PRE_CHAT": "Pré-chat",
+          "RESOLUTION": "Résolution"
         }
       },
       "API": {
@@ -132,7 +132,7 @@
         "PLACEHOLDER": "Veuillez indiquer un attribut personnalisé pour le schéma Regex (facultatif)."
       },
       "REGEX_CUE": {
-        "LABEL": "Regex Cue",
+        "LABEL": "Indice d’expression régulière",
         "PLACEHOLDER": "Veuillez entrer l'indice du schéma Regex (facultatif)"
       },
       "ENABLE_REGEX": {
@@ -140,8 +140,8 @@
       }
     },
     "BADGES": {
-      "PRE_CHAT": "Pre-chat",
-      "RESOLUTION": "Resolution"
+      "PRE_CHAT": "Pré-chat",
+      "RESOLUTION": "Résolution"
     }
   }
 }

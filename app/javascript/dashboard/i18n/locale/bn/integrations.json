@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "সাবস্ক্রাইব করা ইভেন্ট",
       "LEARN_MORE": "ওয়েবহুক সম্পর্কে আরও জানুন",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "গোপন কোড",
         "COPY": "গোপন কোড ক্লিপবোর্ডে কপি করুন",
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "ক্যাপ্টেন",
     "HEADER_KNOW_MORE": "আরও জানুন",
+    "OVERVIEW": {
+      "HEADER": "সারাংশ",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "এই মাস",
+        "LAST_MONTH": "গত মাস"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "নথিপত্র"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "প্লেগ্রাউন্ড",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "বিলিং",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "সহকারীসমূহ",
       "SWITCH_ASSISTANT": "সহকারী পরিবর্তন করুন",
@@ -493,10 +575,6 @@
           "LABEL": "নাম",
           "PLACEHOLDER": "সহকারীর নাম লিখুন",
           "ERROR": "নাম আবশ্যক"
-        },
-        "TEMPERATURE": {
-          "LABEL": "প্রতিক্রিয়ার তাপমাত্রা",
-          "DESCRIPTION": "সহকারীর প্রতিক্রিয়া কতটা সৃজনশীল বা সীমাবদ্ধ হবে তা সামঞ্জস্য করুন। কম মান আরও কেন্দ্রীভূত এবং নির্ধারিত প্রতিক্রিয়া তৈরি করে, যখন উচ্চ মান আরও সৃজনশীল এবং বৈচিত্র্যময় আউটপুটের অনুমতি দেয়।"
         },
         "DESCRIPTION": {
           "LABEL": "বর্ণনা",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "নথিপত্র",
       "ADD_NEW": "নতুন নথি তৈরি করুন",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} নির্বাচিত",
       "SELECT_ALL": "সব নির্বাচন করুন ({count})",
       "UNSELECT_ALL": "সব নির্বাচন বাতিল করুন ({count})",
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "সম্পর্কিত FAQ",
-        "DESCRIPTION": "এই FAQ গুলো সরাসরি ডকুমেন্ট থেকে তৈরি হয়েছে।"
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "কপি করুন",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "নথির URL প্রবেশ করান যাতে এটি একটি জ্ঞান উৎস হিসেবে যোগ করা যায় এবং এটি কোন সহকারীর সাথে যুক্ত হবে তা নির্বাচন করুন।",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "নথি মুছে ফেলতে একটি ত্রুটি হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "সম্পর্কিত উত্তরসমূহ দেখুন",
+        "VIEW_DETAILS": "বিস্তারিত দেখুন",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "নথি মুছে ফেলুন"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "FAQ",
-      "PENDING_FAQS": "বিচারাধীন FAQ",
       "ADD_NEW": "নতুন FAQ তৈরি করুন",
       "DOCUMENTABLE": {
         "CONVERSATION": "কথোপকথন #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "সব নির্বাচন করুন ({count})",
       "UNSELECT_ALL": "সব নির্বাচন বাতিল করুন ({count})",
       "SEARCH_PLACEHOLDER": "FAQ অনুসন্ধান করুন...",
-      "BULK_APPROVE_BUTTON": "অনুমোদন করুন",
-      "BULK_DELETE_BUTTON": "মুছে ফেলুন",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQ সফলভাবে অনুমোদিত হয়েছে।",
-        "ERROR_MESSAGE": "FAQ অনুমোদন করতে গিয়ে একটি ত্রুটি ঘটেছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "মুছে ফেলুন",
       "BULK_DELETE": {
         "TITLE": "FAQ মুছে ফেলবেন?",
         "DESCRIPTION": "আপনি কি নিশ্চিত যে নির্বাচিত FAQ গুলো মুছে ফেলতে চান? এই ক্রিয়াটি পূর্বাবস্থায় ফেরানো যাবে না।",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ সফলভাবে মুছে ফেলা হয়েছে",
         "ERROR_MESSAGE": "FAQ মুছে ফেলতে একটি ত্রুটি হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
-      "FILTER": {
-        "ASSISTANT": "সহকারী: {selected}",
-        "STATUS": "অবস্থা: {selected}",
-        "ALL_ASSISTANTS": "সব"
-      },
-      "STATUS": {
-        "TITLE": "অবস্থা",
-        "PENDING": "অপেক্ষমাণ",
-        "APPROVED": "অনুমোদিত",
-        "ALL": "সব"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain কিছু FAQ খুঁজে পেয়েছে যা আপনার গ্রাহকরা খুঁজছিলেন।.",
-        "ACTION": "পর্যালোচনার জন্য এখানে ক্লিক করুন"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "একটি প্রশ্ন এবং তার সংশ্লিষ্ট উত্তর জ্ঞানভাণ্ডারে যোগ করুন এবং যে সহকারীটির সাথে এটি যুক্ত হবে তা নির্বাচন করুন।",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "কোনো FAQ পাওয়া যায়নি।",
-        "NO_PENDING_TITLE": "আর কোনো বিচারাধীন FAQ নেই পর্যালোচনার জন্য",
         "SUBTITLE": "FAQ গুলো আপনার সহকারীকে গ্রাহকদের প্রশ্নের দ্রুত এবং সঠিক উত্তর দিতে সাহায্য করে। এগুলো স্বয়ংক্রিয়ভাবে আপনার বিষয়বস্তু থেকে তৈরি হতে পারে অথবা ম্যানুয়ালি যোগ করা যেতে পারে।",
         "CLEAR_SEARCH": "সক্রিয় ফিল্টারসমূহ মুছুন",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "ক্যাপ্টেন FAQ",
           "NOTE": "ক্যাপ্টেন FAQ সাধারণ গ্রাহক প্রশ্ন সনাক্ত করে—আপনার জ্ঞানভাণ্ডারে অনুপস্থিত বা প্রায়ই জিজ্ঞাসিত—এবং প্রাসঙ্গিক FAQ তৈরি করে সহায়তা উন্নত করার জন্য। আপনি প্রতিটি প্রস্তাব পর্যালোচনা করে অনুমোদন বা প্রত্যাখ্যান করতে পারেন।"
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "অনুমোদন করুন",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "পরিবর্তন সংরক্ষণ করুন",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

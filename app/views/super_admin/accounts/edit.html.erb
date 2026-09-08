@@ -1,0 +1,19 @@
+<% content_for(:title) { t("administrate.actions.edit_resource", name: page.page_title) } %>
+
+<header class="main-content__header">
+  <h1 class="main-content__page-title">
+    <%= content_for(:title) %>
+  </h1>
+
+  <div>
+    <%= link_to(
+          t("administrate.actions.show_resource", name: page.page_title),
+          [namespace, page.resource],
+          class: "button"
+        ) if accessible_action?(page.resource, :show) %>
+  </div>
+</header>
+
+<section class="main-content__body [&_.field-unit]:border-b [&_.field-unit]:border-n-weak [&_.field-unit]:pb-6">
+  <%= render "form", page: page %>
+</section>

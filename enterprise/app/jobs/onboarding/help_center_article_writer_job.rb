@@ -1,6 +1,21 @@
 class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
   queue_as :low
 
+  # Catch-all so no exception type can wedge the generation in "generating".
+  # Declared FIRST because ActiveJob searches rescue handlers bottom-to-top:
+  # this puts StandardError at the bottom of the search order, so the specific
+  # retry_on/discard_on handlers declared below match first for their types.
+  #
+  # Without this, any error that isn't FirecrawlError or ArticleBuildFailed
+  # (e.g. ActiveRecord::RecordInvalid, SSL errors) falls through to ActiveJob's
+  # default retries, exhausts them, and lands in the dead set without ever
+  # calling finalize -> state stays "generating" at total - 1 until the 7-day
+  # Redis TTL expires. on_writer_failure logs the error, so code bugs are still
+  # visible; it just also progresses the state.
+  discard_on StandardError do |job, error|
+    job.send(:on_writer_failure, error)
+  end
+
   retry_on Firecrawl::FirecrawlError, wait: :polynomially_longer, attempts: 3 do |job, error|
     job.send(:on_writer_failure, error)
   end
@@ -9,43 +24,27 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
     job.send(:on_writer_failure, error)
   end
 
-  def perform(account_id, portal_id, user_id, generation_id, article_payload)
-    user = User.find(user_id)
-    payload = article_payload.with_indifferent_access
-    article = Onboarding::HelpCenterArticleBuilder.new(
+  def perform(account_id, portal_id, user_id, generation_id, article)
+    Onboarding::HelpCenterArticleBuilder.new(
       account: Account.find(account_id),
       portal: Portal.find(portal_id),
-      user: user,
-      article: payload[:article]
+      user: User.find(user_id),
+      article: article
     ).perform
 
-    finalize(user: user, generation_id: generation_id, article: article)
+    finalize(generation_id: generation_id)
   end
 
   private
 
   def on_writer_failure(error)
-    user, generation_id = failure_context
+    generation_id = arguments[3]
     Rails.logger.warn "[HelpCenterWriterJob] gen=#{generation_id} failed: #{error.class} #{error.message}"
-    finalize(user: user, generation_id: generation_id, article: nil)
+    finalize(generation_id: generation_id)
   end
 
-  def failure_context
-    _account_id, _portal_id, user_id, generation_id = arguments
-    [User.find_by(id: user_id), generation_id]
-  end
-
-  def finalize(user:, generation_id:, article:)
-    result = Onboarding::HelpCenterGenerationState.record_article_finished(generation_id)
-
-    if article
-      Onboarding::HelpCenterBroadcaster.article_generated(
-        user: user, generation_id: generation_id, article: article, articles_finished: result[:finished]
-      )
-    end
-    return unless result[:completed]
-
-    Onboarding::HelpCenterBroadcaster.completed(user: user, generation_id: generation_id, status: 'completed')
+  def finalize(generation_id:)
+    Onboarding::HelpCenterGenerationState.record_article_finished(generation_id)
   rescue Onboarding::HelpCenterGenerationState::Missing => e
     Rails.logger.warn "[HelpCenterWriterJob] gen=#{generation_id} #{e.message}"
   end

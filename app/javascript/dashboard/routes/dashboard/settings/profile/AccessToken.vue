@@ -6,6 +6,7 @@ import ConfirmButton from 'dashboard/components-next/button/ConfirmButton.vue';
 const props = defineProps({
   value: { type: String, default: '' },
   showResetButton: { type: Boolean, default: true },
+  disabled: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['onCopy', 'onReset']);
@@ -41,12 +42,14 @@ const onReset = () => {
       }"
       :type="inputType"
       :model-value="value"
+      :disabled="disabled"
       readonly
     >
       <template #masked>
         <button
           class="absolute top-0 bottom-0 ltr:right-0.5 rtl:left-0.5"
           type="button"
+          :disabled="disabled"
           @click="toggleMasked"
         >
           <fluent-icon :icon="maskIcon" :size="16" />
@@ -61,6 +64,7 @@ const onReset = () => {
         type="button"
         icon="i-lucide-copy"
         class="rounded-xl"
+        :disabled="disabled"
         @click="onClick"
       />
       <ConfirmButton
@@ -73,6 +77,7 @@ const onReset = () => {
         variant="outline"
         icon="i-lucide-key-round"
         class="rounded-xl"
+        :disabled="disabled"
         @click="onReset"
       />
     </div>

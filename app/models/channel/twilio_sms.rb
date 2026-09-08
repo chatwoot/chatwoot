@@ -12,6 +12,7 @@
 #  medium                         :integer          default("sms")
 #  messaging_service_sid          :string
 #  phone_number                   :string
+#  provider_config                :jsonb
 #  twiml_app_sid                  :string
 #  voice_enabled                  :boolean          default(FALSE), not null
 #  created_at                     :datetime         not null
@@ -52,6 +53,11 @@ class Channel::TwilioSms < ApplicationRecord
 
   def name
     medium == 'sms' ? 'Twilio SMS' : 'Whatsapp'
+  end
+
+  # Mutes only the incoming side of calling; default on, so only an explicit false disables inbound.
+  def inbound_calls_enabled?
+    provider_config['inbound_calls_enabled'] != false
   end
 
   def send_message(to:, body:, media_url: nil)

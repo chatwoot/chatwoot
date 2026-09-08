@@ -43,6 +43,15 @@ export const login = async ({
         mfaToken: error.response.data.mfa_token,
       };
     }
+    if (
+      error.response?.status === 409 &&
+      error.response?.data?.sessions_limit_reached
+    ) {
+      return {
+        sessionsLimitReached: true,
+        sessions: error.response.data.sessions,
+      };
+    }
     const loginError = new Error(parseAPIErrorResponse(error));
     loginError.errorCode = error.response?.data?.error_code;
     throw loginError;

@@ -37,6 +37,10 @@ class SafeFetch::Fetcher
       validate_content_type!(res['content-type'])
       bytes_written = write_response_body(res, tempfile, bytes_written)
     end
+  rescue Net::OpenTimeout, Net::ReadTimeout, SocketError, OpenSSL::SSL::SSLError,
+         IOError, Errno::ECONNABORTED, Errno::ECONNREFUSED, Errno::ECONNRESET,
+         Errno::EHOSTUNREACH, Errno::ENETUNREACH, Errno::EPIPE, Errno::ETIMEDOUT => e
+    raise SafeFetch::FetchError, e.message
   end
 
   def perform_request(&)

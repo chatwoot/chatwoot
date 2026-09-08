@@ -46,6 +46,10 @@ RSpec.describe Conversations::EventDataPresenter do
   end
 
   describe '#webhook_data' do
+    it 'includes account details for webhook consumers' do
+      expect(presenter.webhook_data[:account]).to eq(conversation.account.webhook_data)
+    end
+
     it 'normalizes hard-break backslashes in message content' do
       message = create(:message, conversation: conversation, account: conversation.account,
                                  message_type: :outgoing, content: "Hello\\\nWorld")

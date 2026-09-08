@@ -71,6 +71,28 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
       expect(assistant.documents.last.external_link.length).to be > 255
     end
 
+    it 'uses sourceURL when Firecrawl payload does not include url metadata' do
+      payload[:metadata].delete('url')
+      payload[:metadata]['sourceURL'] = 'https://www.firecrawl.dev/docs/'
+
+      described_class.perform_now(assistant_id: assistant.id, payload: payload)
+
+      expect(assistant.documents.last).to have_attributes(
+        external_link: 'https://www.firecrawl.dev/docs',
+        status: 'available',
+        sync_status: 'synced'
+      )
+    end
+
+    it 'prefers sourceURL when Firecrawl payload includes both URL metadata fields' do
+      payload[:metadata]['url'] = 'https://www.firecrawl.dev/canonical'
+      payload[:metadata]['sourceURL'] = 'https://www.firecrawl.dev/source/'
+
+      described_class.perform_now(assistant_id: assistant.id, payload: payload)
+
+      expect(assistant.documents.last.external_link).to eq('https://www.firecrawl.dev/source')
+    end
+
     context 'when an error occurs' do
       it 'raises an error with a descriptive message' do
         allow(Captain::Assistant).to receive(:find).and_raise(ActiveRecord::RecordNotFound)

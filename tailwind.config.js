@@ -23,6 +23,7 @@ const tailwindConfig = {
   darkMode: 'class',
   content: [
     './enterprise/app/views/**/*.erb',
+    './app/javascript/superadmin_pages/**/*.vue',
     './app/javascript/widget/**/*.vue',
     './app/javascript/v3/**/*.vue',
     './app/javascript/dashboard/**/*.vue',
@@ -204,6 +205,7 @@ const tailwindConfig = {
     },
     fontSize: {
       ...defaultTheme.fontSize,
+      xxxs: '0.5rem',
       xxs: '0.625rem',
     },
     colors: {
