@@ -410,8 +410,8 @@ Rails.application.routes.draw do
             end
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
-                get :orders
                 post :complete_install
+                get :orders
               end
             end
             resource :linear, controller: 'linear', only: [] do
@@ -572,6 +572,7 @@ Rails.application.routes.draw do
         namespace :v1 do
           resources :accounts do
             member do
+              get :billing_summary
               post :checkout
               post :subscription
               post :select_billing_currency
