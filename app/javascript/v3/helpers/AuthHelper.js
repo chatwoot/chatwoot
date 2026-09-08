@@ -35,9 +35,12 @@ export const getShopifyInstallAccount = ({ accounts, accountId }) => {
 
 const SHOPIFY_ENTITLED_STATES = ['active', 'trialing', 'cancelled'];
 
-export const requiresShopifyBilling = account =>
+export const isShopifyBillingAccount = account =>
   account?.billing_provider === 'shopify' &&
-  account.shopify_integration === true &&
+  account.shopify_integration === true;
+
+export const requiresShopifyBilling = account =>
+  isShopifyBillingAccount(account) &&
   !SHOPIFY_ENTITLED_STATES.includes(account.subscription_status);
 
 export const getShopifyBillingRedirect = query => {
@@ -57,6 +60,11 @@ export const getShopifyShopFromRedirect = redirectUrl => {
 
 export const getTargetAccount = ({ ssoAccountId, redirectUrl, user }) => {
   const { accounts = [], account_id: accountId = null } = user || {};
+  const ssoAccount = accounts.find(
+    account => account.id === Number(ssoAccountId)
+  );
+  if (ssoAccount) return ssoAccount;
+
   const shop = getShopifyShopFromRedirect(redirectUrl);
   if (shop) {
     return accounts.find(
@@ -64,13 +72,8 @@ export const getTargetAccount = ({ ssoAccountId, redirectUrl, user }) => {
     );
   }
 
-  const ssoAccount = accounts.find(
-    account => account.id === Number(ssoAccountId)
-  );
   return (
-    ssoAccount ||
-    accounts.find(account => account.id === Number(accountId)) ||
-    accounts[0]
+    accounts.find(account => account.id === Number(accountId)) || accounts[0]
   );
 };
 
