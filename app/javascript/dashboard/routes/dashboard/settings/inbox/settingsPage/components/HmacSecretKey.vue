@@ -45,7 +45,9 @@ const rotate = async () => {
 </script>
 
 <template>
+  <!-- Remount when the key changes so a rotated secret starts masked even if the previous key was revealed. -->
   <AccessToken
+    :key="inbox.hmac_token"
     :value="inbox.hmac_token"
     :show-reset-button="false"
     @on-copy="copyKey"
