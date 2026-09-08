@@ -257,10 +257,30 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         end
         allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
         allow(auth_code_strategy).to receive(:get_token).and_return(token_response)
-        Redis::SecureStorage.set("shopify_oauth_state:#{state}", { shop: shop }, 10.minutes)
+        Redis::SecureStorage.set(
+          "shopify_oauth_state:#{state}",
+          { shop: shop, pending_installation_generation: 0 },
+          10.minutes
+        )
       end
 
-      after { Redis::SecureStorage.delete("shopify_oauth_state:#{state}") }
+      after do
+        Redis::SecureStorage.delete("shopify_oauth_state:#{state}")
+        Redis::Alfred.delete("shopify_pending_install_generation:#{shop}")
+      end
+
+      it 'rejects an OAuth state invalidated before reconnecting the account' do
+        Shopify::PendingInstallation.invalidate_shop!(shop: shop)
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        expect do
+          get shopify_callback_path, params: params
+        end.not_to change(Integrations::Hook, :count)
+
+        expect(auth_code_strategy).not_to have_received(:get_token)
+        expect(response).to redirect_to("#{frontend_url}?error=true")
+      end
 
       it 'reactivates a retained hook and redirects to billing' do
         previous_installation_id = SecureRandom.uuid

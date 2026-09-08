@@ -95,6 +95,9 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
 
     @pending_installation_generation = stored_state['pending_installation_generation']
     Redis::SecureStorage.delete(oauth_state_key(state))
+    return if @pending_installation_generation.to_i == Shopify::PendingInstallation.generation(shop: params[:shop])
+
+    raise StandardError, 'Shopify installation changed during authorization'
   rescue JSON::ParserError
     raise StandardError, 'Invalid state parameter'
   end
