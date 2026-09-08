@@ -126,7 +126,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def event_name(messaging)
-    @event_name ||= SUPPORTED_EVENTS.find { |key| messaging.key?(key) }
+    SUPPORTED_EVENTS.find { |key| messaging.key?(key) }
   end
 
   def message(messaging, channel)
@@ -143,11 +143,11 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def postback(messaging, channel)
-    if channel.is_a?(Channel::Instagram)
-      ::Instagram::PostbackService.new(messaging, channel).perform
-    else
-      ::Instagram::Messenger::PostbackService.new(messaging, channel).perform
-    end
+    postback_message = {
+      mid: messaging[:postback][:mid],
+      text: messaging[:postback][:title]
+    }
+    message(messaging.merge(message: postback_message), channel)
   end
 
   def messages(entry)

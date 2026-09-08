@@ -538,6 +538,7 @@ FactoryBot.define do
               },
               'timestamp': '2021-09-08T06:34:04+0000',
               'postback': {
+                'mid': "postback-#{SecureRandom.uuid}",
                 'title': 'Buy Now',
                 'payload': 'BUY_ITEM_123'
               }
