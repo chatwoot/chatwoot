@@ -28,7 +28,7 @@
 #
 class Enterprise::AuditLog < Audited::Audit
   after_save :log_additional_information
-  after_create_commit :enqueue_ip_lookup, if: -> { remote_address.present? }
+  after_create_commit :enqueue_ip_lookup, if: -> { remote_address.present? && ip_lookup_enabled? }
 
   def location
     [city, country].compact_blank.join(', ').presence
@@ -48,7 +48,7 @@ class Enterprise::AuditLog < Audited::Audit
   end
 
   def resolve_ip_location!
-    return if remote_address.blank?
+    return if remote_address.blank? || !ip_lookup_enabled?
 
     result = IpLookupService.new.perform(remote_address)
     return unless result
@@ -66,6 +66,10 @@ class Enterprise::AuditLog < Audited::Audit
   }
 
   private
+
+  def ip_lookup_enabled?
+    associated_type == 'Account' && associated&.feature_enabled?('ip_lookup')
+  end
 
   def enqueue_ip_lookup
     Enterprise::AuditLogIpLookupJob.perform_later(self)

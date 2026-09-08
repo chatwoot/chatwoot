@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Enterprise::AuditLog do
-  let(:account) { create(:account) }
+  let(:account) { create(:account).tap { |record| record.enable_features!(:ip_lookup) } }
   let(:inbox) { create(:inbox, account: account) }
 
   describe 'ip lookup enqueue' do
@@ -14,6 +14,15 @@ RSpec.describe Enterprise::AuditLog do
     it 'does not enqueue the lookup job when remote_address is blank' do
       expect do
         described_class.create!(auditable: inbox, action: 'update', associated: account)
+      end.not_to have_enqueued_job(Enterprise::AuditLogIpLookupJob)
+    end
+
+    it 'does not enqueue the lookup job when the account has not enabled ip_lookup' do
+      opted_out = create(:account)
+
+      expect do
+        described_class.create!(auditable: create(:inbox, account: opted_out), action: 'update',
+                                associated: opted_out, remote_address: '8.8.8.8')
       end.not_to have_enqueued_job(Enterprise::AuditLogIpLookupJob)
     end
   end

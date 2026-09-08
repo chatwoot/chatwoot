@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Enterprise::AuditLogIpLookupJob do
-  let(:account) { create(:account) }
+  let(:account) { create(:account).tap { |record| record.enable_features!(:ip_lookup) } }
   let(:inbox) { create(:inbox, account: account) }
   let(:audit) do
     Enterprise::AuditLog.create!(auditable: inbox, action: 'update', associated: account, remote_address: '8.8.8.8')
