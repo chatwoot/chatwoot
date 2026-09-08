@@ -82,6 +82,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @inbox.channel.reset_secret!
   end
 
+  def rotate_hmac_token
+    return head :not_found unless @inbox.web_widget? || @inbox.api?
+
+    @inbox.channel.regenerate_hmac_token
+  end
+
   def destroy
     ::DeleteObjectJob.perform_later(@inbox, Current.user, request.ip) if @inbox.present?
     render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }
