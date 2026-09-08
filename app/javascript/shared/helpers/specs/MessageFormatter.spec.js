@@ -39,6 +39,12 @@ describe('#MessageFormatter', () => {
         'https://example.com/trip/\\\nnext'
       );
     });
+    it('leaves multi-line inline code spans untouched', () => {
+      const message = 'run `curl https://example.com/api/\\\n --data x` now';
+      expect(new MessageFormatter(message).formattedMessage).toContain(
+        'https://example.com/api/\\'
+      );
+    });
   });
 
   describe('parses heading to strong', () => {

@@ -45,15 +45,44 @@ const imgResizeManager = md => {
 // %5C and 404s. Strip that backslash from inline text before inline parsing
 // runs linkify; fenced/indented code blocks are separate tokens and are left
 // untouched.
+// markdown-it linkifies bare URLs in the inline phase, before the newline
+// rule converts a trailing backslash + newline into a hard break. The
+// backslash ends up inside the link text and its href (rendered as %5C).
+// After inline parsing, when a link's text ends with a backslash and is
+// immediately followed by a soft/hard break, drop that backslash from both
+// the text and the href. Code spans and fenced blocks are not linkified, so
+// they are untouched.
 const stripHardBreakAfterBareUrl = md => {
-  md.core.ruler.before('inline', 'strip-hard-break-after-bare-url', state => {
+  md.core.ruler.after('inline', 'strip-hard-break-after-bare-url', state => {
     state.tokens.forEach(blockToken => {
-      if (blockToken.type === 'inline') {
-        blockToken.content = blockToken.content.replace(
-          /(https?:\/\/\S*?)\\(?=\r?\n)/g,
-          '$1'
-        );
+      if (blockToken.type !== 'inline' || !blockToken.children) {
+        return;
       }
+      blockToken.children.forEach((child, index) => {
+        if (child.type !== 'text' || !child.content.endsWith('\\')) {
+          return;
+        }
+        const openToken = blockToken.children[index - 1];
+        const closeToken = blockToken.children[index + 1];
+        const breakToken = blockToken.children[index + 2];
+        if (
+          !openToken ||
+          openToken.type !== 'link_open' ||
+          !closeToken ||
+          closeToken.type !== 'link_close' ||
+          !breakToken ||
+          (breakToken.type !== 'softbreak' && breakToken.type !== 'hardbreak')
+        ) {
+          return;
+        }
+        const href = openToken.attrGet('href') || '';
+        child.content = child.content.slice(0, -1);
+        if (href.endsWith('%5C')) {
+          openToken.attrSet('href', href.slice(0, -3));
+        } else if (href.endsWith('\\')) {
+          openToken.attrSet('href', href.slice(0, -1));
+        }
+      });
     });
   });
 };
