@@ -44,7 +44,6 @@ const TREND_DIRECTIONS = {
   DOWN: 'down',
   NEUTRAL: 'neutral',
 };
-const DURABILITY_UNAVAILABLE_RANGES = ['7', 'this_week'];
 const STATS_START_DATE = new Date(2026, 7, 11);
 const HOURS_PER_DAY = 24;
 const SECONDS_PER_MINUTE = 60;
@@ -193,7 +192,7 @@ const metricFor = ({
   valueClass = 'text-n-slate-12',
 }) => {
   const data = overview.value?.[key];
-  if (!data) {
+  if (!data || data.current === null) {
     return {
       key,
       label,
@@ -209,17 +208,20 @@ const metricFor = ({
     };
   }
 
+  const trend =
+    data.trend === null
+      ? ''
+      : formatTrend?.(data.trend) || `${signed(data.trend)}${trendSuffix}`;
+
   return {
     key,
     label,
     hint,
     hintNote,
     value: formatValue(data.current),
-    trend: formatTrend
-      ? formatTrend(data.trend)
-      : `${signed(data.trend)}${trendSuffix}`,
+    trend,
     trendGood: trendGood(data.trend, direction),
-    trendUp: data.trend === 0 ? null : data.trend > 0,
+    trendUp: data.trend === null || data.trend === 0 ? null : data.trend > 0,
     supportingValue,
     supportingText,
     valueClass,
@@ -255,10 +257,8 @@ const featuredMetrics = computed(() => {
     valueClass: 'text-n-iris-11',
   });
 
-  if (DURABILITY_UNAVAILABLE_RANGES.includes(selectedRange.value)) {
-    durableMetric.value = '—';
+  if (overview.value?.durable_resolution_rate?.current === null) {
     durableMetric.valueClass = 'text-n-slate-11';
-    durableMetric.trend = '';
     durableMetric.hint = t(
       'CAPTAIN.OVERVIEW.V2.METRICS.DURABLE.NOT_APPLICABLE_HINT'
     );
