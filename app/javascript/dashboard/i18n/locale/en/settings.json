@@ -309,6 +309,8 @@
     }
   },
   "SIDEBAR": {
+    "PIN_OPEN": "Pin sidebar open",
+    "COLLAPSE": "Collapse sidebar",
     "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
