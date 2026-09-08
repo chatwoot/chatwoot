@@ -13,10 +13,8 @@ class Captain::Llm::UpdateEmbeddingJob < ApplicationJob
 
     account_id = record.account_id
     embedding = Captain::Llm::EmbeddingService.new(account_id: account_id).get_embedding(content)
-    return record.update!(embedding: embedding) if faq_import.blank?
-
-    success = save_import_embedding(record, content, embedding)
-    faq_import.mark_embedding!(record.id, success: success)
+    success = save_embedding(record, content, embedding)
+    faq_import&.mark_embedding!(record.id, success: success)
   rescue Captain::Llm::EmbeddingService::EmbeddingsError => e
     raise if faq_import.blank?
 
@@ -25,9 +23,10 @@ class Captain::Llm::UpdateEmbeddingJob < ApplicationJob
 
   private
 
-  def save_import_embedding(record, content, embedding)
+  def save_embedding(record, content, embedding)
     record.with_lock do
-      return false unless "#{record.question}: #{record.answer}" == content
+      current_content = record.is_a?(ArticleEmbedding) ? record.term : "#{record.question}: #{record.answer}"
+      return false unless current_content == content
 
       record.update!(embedding: embedding)
     end
