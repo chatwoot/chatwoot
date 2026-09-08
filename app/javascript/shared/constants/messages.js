@@ -34,6 +34,9 @@ export const CONVERSATION_PRIORITY_ORDER = {
   low: 1,
 };
 
+// Keep in sync with Message::NUMBER_OF_PERMITTED_ATTACHMENTS on the backend.
+export const MAXIMUM_ATTACHMENTS = 15;
+
 export const ALLOWED_FILE_TYPES =
   'image/*,' +
   'audio/*,' +
