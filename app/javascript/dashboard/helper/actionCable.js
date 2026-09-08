@@ -120,6 +120,15 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onConversationUnread = data => {
+    const isLoaded = this.app.$store.getters.getAllConversations.some(
+      chat => chat.id === data.id
+    );
+
+    if (!isLoaded) {
+      this.app.$store.commit('UPDATE_CONVERSATION', data);
+      return;
+    }
+
     this.app.$store.commit('UPDATE_MESSAGE_UNREAD_COUNT', {
       id: data.id,
       lastSeen: data.agent_last_seen_at,
