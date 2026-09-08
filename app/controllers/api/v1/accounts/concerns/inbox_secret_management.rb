@@ -11,5 +11,6 @@ module Api::V1::Accounts::Concerns::InboxSecretManagement
     return head :not_found unless @inbox.web_widget? || @inbox.api?
 
     @inbox.channel.regenerate_hmac_token
+    render :show
   end
 end
