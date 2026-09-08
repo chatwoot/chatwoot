@@ -3,7 +3,9 @@ class Captain::AssistantOverviewDrilldownBuilder
 
   SUPPORTED_METRICS = %w[
     conversations_handled auto_resolution_rate handoff_rate reopen_rate durable_resolution_rate
+    closed_with_team reopened_within_7_days stayed_closed handoff_reason
   ].freeze
+  HANDOFF_REASONS = (ConversationOutcome::HANDOFF_REASON_CATEGORIES + ['unclassified']).freeze
   DEFAULT_PAGE = 1
   DEFAULT_PER_PAGE = 25
   MAX_PER_PAGE = 100
@@ -40,7 +42,8 @@ class Captain::AssistantOverviewDrilldownBuilder
 
   def metric_predicate
     table = ConversationOutcome.arel_table
-    case params[:metric].to_s
+    metric = params[:metric].to_s
+    case metric
     when 'conversations_handled' then involved(table)
     when 'auto_resolution_rate' then autonomous(table)
     when 'handoff_rate' then handoff(table)
@@ -48,7 +51,20 @@ class Captain::AssistantOverviewDrilldownBuilder
     when 'durable_resolution_rate'
       autonomous(table).and(table[:resolved_at].lteq(Time.current - DURABLE_RESOLUTION_WINDOW)).and(durable(table))
     else
-      raise ArgumentError, "Unsupported overview drilldown metric: #{params[:metric]}"
+      flow_metric_predicate(table, metric)
+    end
+  end
+
+  def flow_metric_predicate(table, metric)
+    case metric
+    when 'closed_with_team' then involved(table).and(autonomous(table).not).and(handoff(table).not)
+    when 'reopened_within_7_days' then reopened_within_7_days(table)
+    when 'stayed_closed' then autonomous(table).and(reopened_within_7_days(table).not)
+    when 'handoff_reason'
+      reason = params[:reason] == 'unclassified' ? nil : params[:reason]
+      handoff(table).and(table[:handoff_reason_category].eq(reason))
+    else
+      raise ArgumentError, "Unsupported overview drilldown metric: #{metric}"
     end
   end
 

@@ -35,6 +35,7 @@ const fetchRecords = () =>
   open({
     assistantId: props.assistantId,
     metric: props.metric.key,
+    reason: props.metric.reason,
     range: props.range,
   });
 
@@ -65,7 +66,9 @@ onBeforeUnmount(close);
           <h3 class="text-heading-2 text-n-slate-12">{{ metric.label }}</h3>
           <MetricHint
             :label="metric.label"
-            :description="t(DRILLDOWN_METRICS[metric.key])"
+            :description="
+              t(DRILLDOWN_METRICS[metric.key], { reason: metric.label })
+            "
             :note="t('CAPTAIN.OVERVIEW.V2.DRILLDOWN.EPISODES_HINT')"
           />
         </div>
