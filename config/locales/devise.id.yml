@@ -57,5 +57,4 @@ id:
       not_found: "tidak ditemukan"
       not_locked: "tidak terkunci"
       not_saved:
-        one: "%{count} kesalahan mengakibatkan %{resource} ini tidak dapat disimpan:"
         other: "%{count} kesalahan mengakibatkan %{resource} ini tidak dapat disimpan:"

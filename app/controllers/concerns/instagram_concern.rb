@@ -7,7 +7,7 @@ module InstagramConcern
       client_secret,
       {
         site: 'https://api.instagram.com',
-        authorize_url: 'https://api.instagram.com/oauth/authorize',
+        authorize_url: 'https://www.instagram.com/oauth/authorize',
         token_url: 'https://api.instagram.com/oauth/access_token',
         auth_scheme: :request_body,
         token_method: :post
@@ -38,7 +38,7 @@ module InstagramConcern
   end
 
   def fetch_instagram_user_details(access_token)
-    endpoint = 'https://graph.instagram.com/v22.0/me'
+    endpoint = "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}/me"
     params = {
       fields: 'id,username,user_id,name,profile_picture_url,account_type',
       access_token: access_token

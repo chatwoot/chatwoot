@@ -38,8 +38,8 @@ const { t } = useI18n();
 const route = useRoute();
 
 const handleCategory = async formData => {
-  const { id, name, slug, icon, description, locale } = formData;
-  const categoryData = { name, icon, slug, description };
+  const { id, name, slug, icon, iconColor, description, locale } = formData;
+  const categoryData = { name, icon, icon_color: iconColor, slug, description };
 
   if (props.mode === 'create') {
     categoryData.locale = locale;

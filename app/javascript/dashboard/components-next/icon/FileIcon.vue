@@ -18,6 +18,7 @@ const fileTypeIcon = computed(() => {
     json: 'i-woot-file-txt',
     odt: 'i-woot-file-doc',
     pdf: 'i-woot-file-pdf',
+    pfx: 'i-woot-file-pfx',
     ppt: 'i-woot-file-ppt',
     pptx: 'i-woot-file-ppt',
     rar: 'i-woot-file-zip',
@@ -26,6 +27,7 @@ const fileTypeIcon = computed(() => {
     txt: 'i-woot-file-txt',
     xls: 'i-woot-file-xls',
     xlsx: 'i-woot-file-xls',
+    xml: 'i-woot-file-txt',
     zip: 'i-woot-file-zip',
   };
 

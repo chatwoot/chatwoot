@@ -5,30 +5,58 @@ RSpec.describe 'Conversations API', type: :request do
   let(:administrator) { create(:user, account: account, role: :administrator) }
 
   describe 'GET /api/v1/accounts/{account.id}/conversations/:id' do
+    it 'omits a missing Captain assistant owner' do
+      conversation = create(:conversation, account: account)
+      conversation.update!(ai_assignee_type: 'Captain::Assistant', assignee_agent_bot_id: -1)
+
+      get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}", headers: administrator.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['meta'].keys).not_to include('assignee', 'assignee_type')
+    end
+
     it 'returns SLA data for the conversation if the feature is enabled' do
       account.enable_features!('sla')
       conversation = create(:conversation, account: account)
-      applied_sla = create(:applied_sla, conversation: conversation)
+      applied_sla = create(:applied_sla, conversation: conversation, completed_at: 1.hour.ago)
       sla_event = create(:sla_event, conversation: conversation, applied_sla: applied_sla)
 
       get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}", headers: administrator.create_new_auth_token
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body['applied_sla']['id']).to eq(applied_sla.id)
+      expect(response.parsed_body['applied_sla']['sla_completed_at']).to eq(applied_sla.completed_at.to_i)
       expect(response.parsed_body['sla_events'].first['id']).to eq(sla_event.id)
     end
 
-    it 'does not return SLA data for the conversation if the feature is disabled' do
-      account.disable_features!('sla')
+    it 'returns cleared SLA data when the contact is blocked' do
+      account.enable_features!('sla')
       conversation = create(:conversation, account: account)
-      create(:applied_sla, conversation: conversation)
-      create(:sla_event, conversation: conversation)
+      applied_sla = create(:applied_sla, conversation: conversation)
+      create(:sla_event, conversation: conversation, applied_sla: applied_sla)
+      conversation.contact.update!(blocked: true)
+
+      get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}", headers: administrator.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['sla_policy_id']).to be_nil
+      expect(response.parsed_body['applied_sla']).to be_nil
+      expect(response.parsed_body['sla_events']).to eq([])
+    end
+
+    it 'does not return SLA data for the conversation if the feature is disabled' do
+      account.enable_features!('sla')
+      sla_policy = create(:sla_policy, account: account)
+      conversation = create(:conversation, account: account, sla_policy: sla_policy)
+      create(:sla_event, conversation: conversation, applied_sla: conversation.applied_sla)
+      account.disable_features!('sla')
 
       get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}", headers: administrator.create_new_auth_token
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body.keys).not_to include('applied_sla')
       expect(response.parsed_body.keys).not_to include('sla_events')
+      expect(response.parsed_body['sla_policy_id']).to be_nil
     end
 
     context 'when agent has team access' do

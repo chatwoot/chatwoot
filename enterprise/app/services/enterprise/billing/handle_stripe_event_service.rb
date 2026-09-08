@@ -1,4 +1,6 @@
 class Enterprise::Billing::HandleStripeEventService
+  include BillingHelper
+
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
   CAPTAIN_CLOUD_PLAN_LIMITS = 'CAPTAIN_CLOUD_PLAN_LIMITS'.freeze
 
@@ -30,7 +32,11 @@ class Enterprise::Billing::HandleStripeEventService
     previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+    sync_subscription_credits(plan, previous_usage)
+    track_marketing_plan_activation(previous_plan_name, plan['name']) if plan_changed?
+  end
 
+  def sync_subscription_credits(plan, previous_usage)
     if billing_period_renewed?
       ActiveRecord::Base.transaction do
         handle_subscription_credits(plan, previous_usage)
@@ -47,9 +53,8 @@ class Enterprise::Billing::HandleStripeEventService
 
   def current_plan_credits
     plan_name = account.custom_attributes['plan_name']
-    return { responses: 0, documents: 0 } if plan_name.blank?
-
-    get_plan_credits(plan_name)
+    plan_credits = get_plan_credits(plan_name) if plan_name.present?
+    plan_credits || { responses: 0, documents: 0 }
   end
 
   def update_account_attributes(subscription, plan)
@@ -62,28 +67,62 @@ class Enterprise::Billing::HandleStripeEventService
         'plan_name' => plan['name'],
         'subscribed_quantity' => subscription['quantity'],
         'subscription_status' => subscription['status'],
-        'subscription_ends_on' => Time.zone.at(subscription['current_period_end'])
+        'subscription_ends_on' => subscription_ends_on(subscription),
+        'billing_currency' => billing_currency_for(subscription, plan)
       )
     )
+  end
+
+  # Paid subscriptions define the currency; the free/default plan keeps the stored preference.
+  def billing_currency_for(subscription, plan)
+    return account.billing_currency if plan['name'] == Enterprise::Billing::PlanConfiguration.default_plan&.dig('name')
+
+    Enterprise::Billing::Currencies.to_supported(subscription['plan']['currency'])
+  end
+
+  def track_marketing_plan_activation(previous_plan_name, current_plan_name)
+    subscription_plan = subscription['plan']
+
+    Internal::Accounts::CloudPlanActivationConversionService.new(
+      account: account,
+      previous_plan_name: previous_plan_name,
+      current_plan_name: current_plan_name,
+      activated_at: Time.zone.at(@event.created),
+      conversion_value: subscription_conversion_value(subscription_plan),
+      currency_code: subscription_plan['currency'].upcase
+    ).perform
+  end
+
+  def subscription_conversion_value(subscription_plan)
+    ((subscription_plan['amount'] || subscription_plan['amount_decimal']).to_d * subscription['quantity'].to_i / 100).to_f
   end
 
   def process_subscription_deleted
     # skipping self hosted plan events
     return if account.blank?
 
-    Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
+    previous_monthly_credits = current_plan_credits[:responses]
+    return unless Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
+
+    account.with_lock do
+      previous_usage = { responses: account.custom_attributes['captain_responses_usage'].to_i, monthly: previous_monthly_credits }
+      adjust_captain_credits(previous_usage, new_plan_credits: 0)
+      account.reset_response_usage
+    end
   end
 
   def handle_subscription_credits(plan, previous_usage)
-    current_limits = account.limits || {}
+    adjust_captain_credits(previous_usage, new_plan_credits: get_plan_credits(plan['name'])[:responses])
+  end
 
+  def adjust_captain_credits(previous_usage, new_plan_credits:)
+    current_limits = account.limits || {}
     current_credits = current_limits['captain_responses'].to_i
-    new_plan_credits = get_plan_credits(plan['name'])[:responses]
 
     consumed_topup_credits = [previous_usage[:responses] - previous_usage[:monthly], 0].max
-    updated_credits = current_credits - consumed_topup_credits - previous_usage[:monthly] + new_plan_credits
+    updated_credits = [current_credits - consumed_topup_credits - previous_usage[:monthly] + new_plan_credits, 0].max
 
-    Rails.logger.info("Updating subscription credits for account #{account.id}: #{current_credits} -> #{updated_credits}")
+    Rails.logger.info("Updating captain credits for account #{account.id}: #{current_credits} -> #{updated_credits}")
     account.update!(limits: current_limits.merge('captain_responses' => updated_credits))
   end
 
@@ -132,8 +171,14 @@ class Enterprise::Billing::HandleStripeEventService
     @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", subscription.customer).first
   end
 
-  def find_plan(plan_id)
-    cloud_plans = InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
-    cloud_plans.find { |config| config['product_id'].include?(plan_id) }
+  def find_plan(product_id)
+    Enterprise::Billing::PlanConfiguration.find_plan_by_product_id(product_id)
+  end
+
+  def previous_plan_name
+    stripe_plan = previous_attributes['plan']
+    return if stripe_plan.blank?
+
+    find_plan(stripe_plan['product'])&.dig('name')
   end
 end

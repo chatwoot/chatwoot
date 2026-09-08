@@ -19,6 +19,8 @@
       "OR": "或"
     },
     "INPUT_PLACEHOLDER": "填写内容",
+    "CONTACT_SEARCH_PLACEHOLDER": "搜索联系人",
+    "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "等于",
       "not_equal_to": "不等于",
@@ -49,6 +51,7 @@
       "ASSIGNEE_NAME": "受理人姓名",
       "INBOX_NAME": "收件箱名称",
       "TEAM_NAME": "团队名称",
+      "CONTACT": "联系人",
       "CONVERSATION_IDENTIFIER": "对话标识",
       "CAMPAIGN_NAME": "活动名称",
       "LABELS": "标签",

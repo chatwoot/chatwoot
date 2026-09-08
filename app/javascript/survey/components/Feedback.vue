@@ -15,6 +15,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    isButtonDisabled: {
+      type: Boolean,
+      default: false,
+    },
+    selectedRating: {
+      type: Number,
+      default: null,
+    },
   },
   emits: ['sendFeedback'],
   data() {
@@ -22,8 +30,16 @@ export default {
       feedback: '',
     };
   },
+  computed: {
+    isSubmitDisabled() {
+      return (
+        this.isButtonDisabled || !this.selectedRating || !this.feedback.trim()
+      );
+    },
+  },
   methods: {
     onClick() {
+      if (this.isSubmitDisabled) return;
       this.$emit('sendFeedback', this.feedback);
     },
   },
@@ -41,7 +57,7 @@ export default {
       :placeholder="$t('SURVEY.FEEDBACK.PLACEHOLDER')"
     />
     <div class="flex items-center float-right font-medium">
-      <CustomButton @click="onClick">
+      <CustomButton :disabled="isSubmitDisabled" @click="onClick">
         <Spinner v-if="isUpdating" class="p-0" />
         {{ $t('SURVEY.FEEDBACK.BUTTON_TEXT') }}
       </CustomButton>

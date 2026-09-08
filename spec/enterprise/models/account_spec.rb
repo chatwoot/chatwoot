@@ -11,6 +11,49 @@ RSpec.describe Account, type: :model do
     it { is_expected.to have_many(:custom_roles).dependent(:destroy_async) }
   end
 
+  describe '#selected_feature_flags=' do
+    it 'keeps advanced assignment enabled when assignment v2 is selected for a business account' do
+      account = build(:account, custom_attributes: { 'plan_name' => 'Business' })
+
+      account.selected_feature_flags = [:feature_assignment_v2]
+
+      expect(account).to be_feature_assignment_v2
+      expect(account).to be_feature_advanced_assignment
+    end
+
+    it 'disables advanced assignment when assignment v2 is not selected' do
+      account = build(:account, custom_attributes: { 'plan_name' => 'Business' })
+      account.enable_features(:assignment_v2, :advanced_assignment)
+
+      account.selected_feature_flags = []
+
+      expect(account).not_to be_feature_assignment_v2
+      expect(account).not_to be_feature_advanced_assignment
+    end
+  end
+
+  describe '#api_and_webhooks_enabled?' do
+    let(:account) { create(:account) }
+
+    it 'is always enabled for self-hosted enterprise accounts' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+      account.disable_features!('api_and_webhooks')
+
+      expect(account.api_and_webhooks_enabled?).to be true
+    end
+
+    it 'uses the account feature flag on Chatwoot Cloud' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      account.disable_features!('api_and_webhooks')
+
+      expect(account.api_and_webhooks_enabled?).to be false
+
+      account.enable_features!('api_and_webhooks')
+
+      expect(account.api_and_webhooks_enabled?).to be true
+    end
+  end
+
   describe 'sla_policies' do
     let!(:account) { create(:account) }
     let!(:sla_policy) { create(:sla_policy, account: account) }
@@ -39,6 +82,7 @@ RSpec.describe Account, type: :model do
     let(:assistant) { create(:captain_assistant, account: account) }
 
     before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
       create(:installation_config, name: 'ACCOUNT_AGENTS_LIMIT', value: 20)
     end
 
@@ -219,6 +263,93 @@ RSpec.describe Account, type: :model do
 
         expect(account.subscribed_features).to be_nil
       end
+    end
+  end
+
+  describe 'default features' do
+    before do
+      InstallationConfig.find_or_initialize_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').update!(
+        value: Featurable::FEATURE_LIST,
+        locked: true
+      )
+    end
+
+    it 'enables Captain V2 for new self-hosted enterprise accounts' do
+      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+
+      account = create(:account)
+
+      expect(account).to be_feature_enabled('captain_integration')
+      expect(account).to be_feature_enabled('captain_integration_v2')
+      expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
+      expect(account.captain_models).to be_nil
+    end
+  end
+
+  describe 'captain document sync cadence' do
+    let(:account) { create(:account) }
+
+    it 'has no cadence when installation config is missing' do
+      account.update!(custom_attributes: { plan_name: 'business' })
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'uses configured plan intervals from installation config' do
+      intervals = {
+        business: 48,
+        enterprise: 24
+      }
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: intervals.to_json)
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to eq(2.days)
+    end
+
+    it 'normalizes configured plan name casing' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { business: 24 }.to_json)
+      account.update!(custom_attributes: { plan_name: 'Business' })
+
+      expect(account.captain_document_sync_interval).to eq(1.day)
+    end
+
+    it 'uses the enterprise cadence for self-hosted enterprise installs without a plan_name' do
+      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { enterprise: 6 }.to_json)
+      account.update!(custom_attributes: {})
+
+      expect(account.captain_document_sync_interval).to eq(6.hours)
+    end
+
+    it 'allows installation config to disable a plan cadence' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { business: nil }.to_json)
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'has no cadence when installation config is invalid' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: 'invalid-json')
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'treats invalid plan interval values as disabled' do
+      intervals = {
+        business: false,
+        enterprise: { hours: 6 },
+        startups: '168'
+      }
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: intervals.to_json)
+
+      account.update!(custom_attributes: { plan_name: 'business' })
+      expect(account.captain_document_sync_interval).to be_nil
+
+      account.update!(custom_attributes: { plan_name: 'enterprise' })
+      expect(account.captain_document_sync_interval).to be_nil
+
+      account.update!(custom_attributes: { plan_name: 'startups' })
+      expect(account.captain_document_sync_interval).to be_nil
     end
   end
 

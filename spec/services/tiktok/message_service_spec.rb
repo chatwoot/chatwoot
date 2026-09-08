@@ -6,10 +6,11 @@ RSpec.describe Tiktok::MessageService do
   let(:inbox) { channel.inbox }
   let(:contact) { create(:contact, account: account) }
   let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'tt-conv-1') }
+  let(:tiktok_client) { instance_double(Tiktok::Client, image_send_capable?: true) }
   let(:text_content) do
     {
       type: 'text',
-      message_id: 'tt-msg-lock',
+      message_id: 'tt-msg-1',
       timestamp: 1_700_000_000_000,
       conversation_id: 'tt-conv-1',
       text: { body: 'Hello from TikTok' },
@@ -18,6 +19,10 @@ RSpec.describe Tiktok::MessageService do
       to: 'Biz',
       to_user: { id: 'biz-123' }
     }.deep_symbolize_keys
+  end
+
+  before do
+    allow(Tiktok::Client).to receive(:new).and_return(tiktok_client)
   end
 
   describe '#perform' do
@@ -30,20 +35,8 @@ RSpec.describe Tiktok::MessageService do
     let(:current_content) { text_content }
 
     it 'creates an incoming text message' do
-      content = {
-        type: 'text',
-        message_id: 'tt-msg-1',
-        timestamp: 1_700_000_000_000,
-        conversation_id: 'tt-conv-1',
-        text: { body: 'Hello from TikTok' },
-        from: 'Alice',
-        from_user: { id: 'user-1' },
-        to: 'Biz',
-        to_user: { id: 'biz-123' }
-      }.deep_symbolize_keys
-
       expect do
-        service = described_class.new(channel: channel, content: content)
+        service = described_class.new(channel: channel, content: text_content)
         allow(service).to receive(:create_contact_inbox).and_return(contact_inbox)
         service.perform
       end.to change(Message, :count).by(1)
@@ -55,6 +48,18 @@ RSpec.describe Tiktok::MessageService do
       expect(message.source_id).to eq('tt-msg-1')
       expect(message.sender).to eq(contact)
       expect(message.content_attributes['is_unsupported']).to be_nil
+    end
+
+    it 'stores TikTok conversation capabilities when creating a new conversation' do
+      service = described_class.new(channel: channel, content: text_content)
+      allow(service).to receive(:create_contact_inbox).and_return(contact_inbox)
+
+      service.perform
+
+      message = Message.last
+      expect(message.conversation.additional_attributes.dig('tiktok_capabilities', 'image_send')).to be(true)
+      expect(message.conversation.additional_attributes.dig('tiktok_capabilities', 'updated_at')).to be_present
+      expect(tiktok_client).to have_received(:image_send_capable?).with('tt-conv-1')
     end
 
     it 'creates an incoming unsupported message for non-supported types' do
@@ -133,6 +138,30 @@ RSpec.describe Tiktok::MessageService do
       expect(message.attachments.last.file).to be_attached
     ensure
       tempfile.close!
+    end
+
+    it 'creates a conversation even when capability lookup fails' do
+      allow(tiktok_client).to receive(:image_send_capable?).and_raise('TikTok capability API error')
+
+      content = {
+        type: 'text',
+        message_id: 'tt-msg-5',
+        timestamp: 1_700_000_000_000,
+        conversation_id: 'tt-conv-1',
+        text: { body: 'Hello with capability failure' },
+        from: 'Alice',
+        from_user: { id: 'user-1' },
+        to: 'Biz',
+        to_user: { id: 'biz-123' }
+      }.deep_symbolize_keys
+
+      service = described_class.new(channel: channel, content: content)
+      allow(service).to receive(:create_contact_inbox).and_return(contact_inbox)
+
+      expect { service.perform }.to change(Message, :count).by(1)
+
+      message = Message.last
+      expect(message.conversation.additional_attributes['tiktok_capabilities']).to be_nil
     end
 
     context 'when lock_to_single_conversation is enabled' do

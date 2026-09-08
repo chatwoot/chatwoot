@@ -16,6 +16,12 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
   end
 
   describe '#generate' do
+    it 'uses the PDF FAQ generation feature model' do
+      document.account.update!(captain_models: { 'pdf_faq_generation' => 'gpt-5.2' })
+
+      expect(service.model).to eq('gpt-5.2')
+    end
+
     context 'when document lacks OpenAI file ID' do
       before do
         allow(document).to receive(:openai_file_id).and_return(nil)

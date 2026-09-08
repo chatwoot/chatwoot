@@ -99,6 +99,33 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when a new email contains null bytes' do
+      let(:inbound_mail) do
+        Mail.new.tap do |mail|
+          mail.from = 'email@gmail.com'
+          mail.to = 'imap@gmail.com'
+          mail.subject = "Hello\u0000"
+          mail.message_id = "message\u0000@example.com"
+          mail['In-Reply-To'] = "source\u0000@example.com"
+          mail.references = ["reference\u0000@example.com"]
+          mail.content_type = 'text/plain'
+          mail.body = "Body\u0000 text"
+        end
+      end
+
+      it 'creates sanitized conversation and message records' do
+        expect { class_instance.process(inbound_mail, channel) }.to change(Conversation, :count).by(1)
+
+        message = conversation.messages.last
+
+        expect(conversation.additional_attributes['in_reply_to']).to eq('source@example.com')
+        expect(conversation.additional_attributes['mail_subject']).to eq('Hello')
+        expect(message.source_id).to eq('message@example.com')
+        expect(message.content).to eq('Body text')
+        expect(message.content_attributes.to_json).not_to include('\u0000')
+      end
+    end
+
     context 'when a new email with invalid from' do
       let(:inbound_mail) { create_inbound_email_from_mail(from: 'invalidemail', to: 'imap@gmail.com', subject: 'Hello!') }
 

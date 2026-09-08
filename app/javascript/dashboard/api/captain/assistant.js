@@ -1,6 +1,10 @@
 /* global axios */
 import ApiClient from '../ApiClient';
 
+// Viewer's UTC offset in hours, matching the reports API convention so the
+// backend can anchor calendar ranges to the viewer's day.
+const getTimezoneOffset = () => -new Date().getTimezoneOffset() / 60;
+
 class CaptainAssistant extends ApiClient {
   constructor() {
     super('captain/assistants', { accountScoped: true });
@@ -20,6 +24,42 @@ class CaptainAssistant extends ApiClient {
       message_content: messageContent,
       message_history: messageHistory,
     });
+  }
+
+  getMetrics({ assistantId, range, signal }) {
+    const requestConfig = {
+      params: { range, timezone_offset: getTimezoneOffset() },
+    };
+    if (signal) requestConfig.signal = signal;
+
+    return axios.get(`${this.url}/${assistantId}/metrics`, requestConfig);
+  }
+
+  getFaqStats({ assistantId, signal }) {
+    const requestConfig = {};
+    if (signal) requestConfig.signal = signal;
+
+    return axios.get(`${this.url}/${assistantId}/faq_stats`, requestConfig);
+  }
+
+  getSummary({ assistantId, range, stats }) {
+    return axios.get(`${this.url}/${assistantId}/summary`, {
+      params: { range, timezone_offset: getTimezoneOffset(), stats },
+    });
+  }
+
+  getDrilldown({ assistantId, metric, range, page, signal }) {
+    const requestConfig = {
+      params: {
+        metric,
+        range,
+        timezone_offset: getTimezoneOffset(),
+        page,
+      },
+    };
+    if (signal) requestConfig.signal = signal;
+
+    return axios.get(`${this.url}/${assistantId}/drilldown`, requestConfig);
   }
 }
 

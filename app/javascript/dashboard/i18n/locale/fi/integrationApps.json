@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Select Inbox"
         },
         "SUBMIT": "Luo",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Peruuta"
       },
       "API": {

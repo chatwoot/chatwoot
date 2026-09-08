@@ -42,5 +42,27 @@ describe ConfigLoader do
         expect(InstallationConfig.find_by(name: 'WHO').value).to eq('covid 19')
       end
     end
+
+    it 'preserves feature flag column metadata in account level defaults' do
+      Dir.mktmpdir do |config_path|
+        File.write("#{config_path}/installation_config.yml", <<~YAML)
+          - name: TEST_CONFIG
+            value: test
+            locked: true
+        YAML
+        File.write("#{config_path}/features.yml", <<~YAML)
+          - name: extension_feature
+            display_name: Extension Feature
+            enabled: false
+            column: feature_flags_ext_1
+        YAML
+
+        described_class.new.process(config_path: config_path)
+
+        expect(InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').value).to include(
+          a_hash_including('name' => 'extension_feature', 'column' => 'feature_flags_ext_1')
+        )
+      end
+    end
   end
 end

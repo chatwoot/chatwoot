@@ -7,6 +7,7 @@ import { isSameHost } from '@chatwoot/utils';
 import slugifyWithCounter from '@sindresorhus/slugify';
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
+import SidebarThemeToggle from './components/SidebarThemeToggle.vue';
 import { initializeTheme } from './portalThemeHelper.js';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 
@@ -23,10 +24,9 @@ export const getHeadingsfromTheArticle = () => {
     permalink.className = 'permalink text-slate-600 ml-3';
     permalink.href = `#${slug}`;
     permalink.title = headingText;
-    permalink.dataset.turbolinks = 'false';
+    permalink.dataset.turbo = 'false';
     permalink.textContent = '#';
     element.appendChild(permalink);
-
     rows.push({
       slug,
       title: headingText,
@@ -78,18 +78,23 @@ export const InitializationHelpers = {
   },
 
   initializeSearch: () => {
-    const isSearchContainerAvailable = document.querySelector('#search-wrap');
-    if (isSearchContainerAvailable) {
+    ['#search-wrap', '#search-wrap-hero'].forEach(selector => {
+      const mountPoint = document.querySelector(selector);
+      if (!mountPoint) return;
+      const size = mountPoint.dataset.size || 'default';
+      const showKbd = !!mountPoint.dataset.kbd;
       // eslint-disable-next-line vue/one-component-per-file
       const app = createApp({
         components: { PublicArticleSearch },
-        template: '<PublicArticleSearch />',
+        data() {
+          return { size, showKbd };
+        },
+        template: '<PublicArticleSearch :size="size" :show-kbd="showKbd" />',
       });
-
       app.use(VueDOMPurifyHTML, domPurifyConfig);
       app.directive('on-clickaway', onClickaway);
-      app.mount('#search-wrap');
-    }
+      app.mount(selector);
+    });
   },
 
   initializeTableOfContents: () => {
@@ -107,6 +112,31 @@ export const InitializationHelpers = {
       app.use(VueDOMPurifyHTML, domPurifyConfig);
       app.mount('#cw-hc-toc');
     }
+  },
+
+  initializeSidebarThemeToggle: () => {
+    const mountPoint = document.querySelector('#sidebar-theme-toggle');
+    if (mountPoint) {
+      // eslint-disable-next-line vue/one-component-per-file
+      const app = createApp({
+        components: { SidebarThemeToggle },
+        template: '<sidebar-theme-toggle />',
+      });
+      app.directive('on-clickaway', onClickaway);
+      app.mount('#sidebar-theme-toggle');
+    }
+  },
+
+  initializeDetailsClickAway: () => {
+    document.addEventListener('click', event => {
+      document
+        .querySelectorAll('details[data-close-on-clickaway][open]')
+        .forEach(details => {
+          if (!details.contains(event.target)) {
+            details.removeAttribute('open');
+          }
+        });
+    });
   },
 
   appendPlainParamToURLs: () => {
@@ -143,6 +173,8 @@ export const InitializationHelpers = {
       InitializationHelpers.navigateToLocalePage();
       InitializationHelpers.initializeSearch();
       InitializationHelpers.initializeTableOfContents();
+      InitializationHelpers.initializeSidebarThemeToggle();
+      InitializationHelpers.initializeDetailsClickAway();
     }
   },
 
@@ -155,7 +187,7 @@ export const InitializationHelpers = {
 
       const a = document.createElement('a');
       a.href = window.location.hash;
-      a['data-turbolinks'] = false;
+      a['data-turbo'] = false;
       a.click();
     }
   },

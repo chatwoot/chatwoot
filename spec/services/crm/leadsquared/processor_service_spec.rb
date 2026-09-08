@@ -82,6 +82,36 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
         end
       end
 
+      context 'when the existing lead no longer exists' do
+        let(:error_response) do
+          instance_double(HTTParty::Response, blank?: false, parsed_response: { 'ExceptionType' => 'MXInvalidEntityReferenceException' })
+        end
+        let(:lead_not_found_error) do
+          Crm::Leadsquared::Api::BaseClient::ApiError.new('Lead not found', 500, error_response)
+        end
+
+        before do
+          contact.update!(additional_attributes: { 'external' => { 'leadsquared_id' => 'stale_lead_id' } })
+
+          allow(lead_client).to receive(:update_lead)
+            .with(any_args, 'stale_lead_id')
+            .and_raise(lead_not_found_error)
+          allow(lead_client).to receive(:update_lead)
+            .with(any_args, 'fresh_lead_id')
+            .and_return(nil)
+          allow(lead_finder).to receive(:find_or_create)
+            .with(contact)
+            .and_return('fresh_lead_id')
+        end
+
+        it 'clears the stale id and re-resolves the lead' do
+          service.handle_contact(contact)
+
+          expect(lead_finder).to have_received(:find_or_create).with(contact)
+          expect(contact.reload.additional_attributes['external']['leadsquared_id']).to eq('fresh_lead_id')
+        end
+      end
+
       context 'when API call raises an error' do
         before do
           allow(lead_client).to receive(:create_or_update_lead)
@@ -157,7 +187,64 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
 
         it 'logs the error' do
           service.handle_conversation_created(conversation)
-          expect(Rails.logger).to have_received(:error).with(/Error creating conversation activity/)
+          expect(Rails.logger).to have_received(:error).with(/LeadSquared conversation activity failed/)
+        end
+      end
+
+      context 'when post_activity fails because the lead no longer exists' do
+        let(:error_response) do
+          instance_double(HTTParty::Response, blank?: false, parsed_response: { 'ExceptionType' => 'MXInvalidEntityReferenceException' })
+        end
+        let(:lead_not_found_error) do
+          Crm::Leadsquared::Api::BaseClient::ApiError.new('Lead not found', 500, error_response)
+        end
+
+        before do
+          contact.update!(additional_attributes: { 'external' => { 'leadsquared_id' => 'stale_lead_id' } })
+
+          allow(lead_finder).to receive(:find_or_create)
+            .with(contact)
+            .and_return('stale_lead_id', 'fresh_lead_id')
+
+          allow(activity_client).to receive(:post_activity)
+            .with('stale_lead_id', 1001, activity_note)
+            .and_raise(lead_not_found_error)
+          allow(activity_client).to receive(:post_activity)
+            .with('fresh_lead_id', 1001, activity_note)
+            .and_return('healed_activity_id')
+        end
+
+        it 'clears the stale id, re-resolves the lead, and retries the activity once' do
+          service.handle_conversation_created(conversation)
+
+          expect(activity_client).to have_received(:post_activity).with('fresh_lead_id', 1001, activity_note)
+          expect(contact.reload.additional_attributes['external']['leadsquared_id']).to eq('fresh_lead_id')
+          expect(conversation.reload.additional_attributes['leadsquared']['created_activity_id']).to eq('healed_activity_id')
+        end
+      end
+
+      context 'when post_activity fails with a non-recoverable error' do
+        let(:error_response) do
+          instance_double(HTTParty::Response, blank?: false, parsed_response: { 'ExceptionType' => 'MXSomeOtherException' })
+        end
+        let(:other_error) do
+          Crm::Leadsquared::Api::BaseClient::ApiError.new('boom', 500, error_response)
+        end
+
+        before do
+          allow(lead_finder).to receive(:find_or_create)
+            .with(contact)
+            .and_return('test_lead_id')
+
+          allow(activity_client).to receive(:post_activity).and_raise(other_error)
+          allow(Rails.logger).to receive(:error)
+        end
+
+        it 'logs once and does not retry' do
+          service.handle_conversation_created(conversation)
+
+          expect(activity_client).to have_received(:post_activity).once
+          expect(Rails.logger).to have_received(:error).with(/LeadSquared conversation activity failed/)
         end
       end
     end

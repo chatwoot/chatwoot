@@ -25,6 +25,7 @@ RSpec.describe Contacts::CompanyAssociationService, type: :service do
         expect(contact.company).to be_present
         expect(contact.company.domain).to eq('acme.com')
         expect(contact.company.name).to eq('Acme')
+        expect(contact.additional_attributes['company_name']).to eq('Acme')
       end
 
       it 'reuses existing company with same domain' do
