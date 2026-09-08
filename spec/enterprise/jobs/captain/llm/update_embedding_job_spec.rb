@@ -33,6 +33,54 @@ RSpec.describe Captain::Llm::UpdateEmbeddingJob, type: :job do
     clear_performed_jobs
   end
 
+  context 'when imported FAQ content changes' do
+    let(:old_embedding) { [1.0] + Array.new(1535, 0.0) }
+    let(:new_embedding) { old_embedding.reverse }
+    let(:embedding_service) { instance_double(Captain::Llm::EmbeddingService) }
+
+    before do
+      allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(embedding_service)
+    end
+
+    it 'discards content queued before an edit' do
+      content = "#{response.question}: #{response.answer}"
+      response.update!(answer: 'Edited after import', embedding: new_embedding)
+      allow(embedding_service).to receive(:get_embedding).with(content).and_return(old_embedding)
+
+      described_class.perform_now(response.id, content, faq_import)
+
+      expect(response.reload.embedding).to eq(new_embedding)
+      expect(faq_import.reload).to have_attributes(status: 'completed_with_errors', embedding_ready_count: 0, embedding_failed_count: 1)
+    end
+
+    %i[question answer].each do |attribute|
+      it "discards the result when the #{attribute} changes during generation" do
+        content = "#{response.question}: #{response.answer}"
+        allow(embedding_service).to receive(:get_embedding).with(content) do
+          response.update!(attribute => 'Edited during generation', :embedding => new_embedding)
+          old_embedding
+        end
+
+        described_class.perform_now(response.id, content, faq_import)
+
+        expect(response.reload.embedding).to eq(new_embedding)
+        expect(faq_import.reload).to have_attributes(status: 'completed_with_errors', embedding_ready_count: 0, embedding_failed_count: 1)
+      end
+    end
+
+    it 'finishes with an error if the FAQ is deleted during generation' do
+      content = "#{response.question}: #{response.answer}"
+      allow(embedding_service).to receive(:get_embedding).with(content) do
+        response.destroy!
+        old_embedding
+      end
+
+      described_class.perform_now(response.id, content, faq_import)
+
+      expect(faq_import.reload).to have_attributes(status: 'completed_with_errors', embedding_ready_count: 0, embedding_failed_count: 1)
+    end
+  end
+
   it 'finishes an import when its FAQ is deleted before embedding starts' do
     response_id = response.id
     response.destroy!
