@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import { useToggle } from '@vueuse/core';
+import { useNow, useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -12,6 +12,9 @@ const { t } = useI18n();
 const [showDropdown, toggleDropdown] = useToggle();
 
 const DAY_RANGES = ['7', '30', '90'];
+const STATS_START_DATE = new Date(2026, 7, 11);
+const RANGE_REFRESH_INTERVAL = 60_000;
+const now = useNow({ interval: RANGE_REFRESH_INTERVAL });
 
 const decorate = item => ({
   ...item,
@@ -20,23 +23,33 @@ const decorate = item => ({
 });
 
 const menuSections = computed(() => {
-  const dayItems = DAY_RANGES.map(value =>
+  const dayItems = DAY_RANGES.filter(value => {
+    const start = new Date(now.value);
+    start.setDate(start.getDate() - Number(value));
+    return start >= STATS_START_DATE;
+  }).map(value =>
     decorate({
       value,
       label: t('CAPTAIN.OVERVIEW.RANGES.LAST_DAYS', { count: value }),
     })
   );
   const monthItems = [
-    decorate({
+    {
       value: 'this_month',
       label: t('CAPTAIN.OVERVIEW.RANGES.THIS_MONTH'),
-    }),
-    decorate({
+      start: new Date(now.value.getFullYear(), now.value.getMonth(), 1),
+    },
+    {
       value: 'last_month',
       label: t('CAPTAIN.OVERVIEW.RANGES.LAST_MONTH'),
-    }),
-  ];
-  return [{ items: dayItems }, { items: monthItems }];
+      start: new Date(now.value.getFullYear(), now.value.getMonth() - 1, 1),
+    },
+  ]
+    .filter(({ start }) => start >= STATS_START_DATE)
+    .map(({ value, label }) => decorate({ value, label }));
+  return [{ items: dayItems }, { items: monthItems }].filter(
+    section => section.items.length
+  );
 });
 
 const menuItems = computed(() =>
