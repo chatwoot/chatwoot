@@ -182,10 +182,7 @@ export default {
         const message = formValues.message || '';
         if (this.initialMessage === message) return;
 
-        this.$store.dispatch('conversation/setInitialMessage', message);
-        if (!message || message !== this.initialMessage) {
-          this.hasInitialMessageDraft = false;
-        }
+        this.$store.dispatch('conversation/updateInitialMessage', message);
       },
     },
   },

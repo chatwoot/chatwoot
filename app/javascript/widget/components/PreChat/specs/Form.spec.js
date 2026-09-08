@@ -115,7 +115,7 @@ describe('PreChat Form initial message draft', () => {
     expect(context.hasInitialMessageDraft).toBe(false);
   });
 
-  it('marks edited initial message drafts as user-owned after syncing them', () => {
+  it('syncs visitor edits while continuing to track the initial message draft', () => {
     const context = {
       activeCampaign: {},
       hasActiveCampaign: false,
@@ -127,10 +127,10 @@ describe('PreChat Form initial message draft', () => {
     formValuesHandler.call(context, { message: 'Edited pre-chat draft' });
 
     expect(context.$store.dispatch).toHaveBeenCalledWith(
-      'conversation/setInitialMessage',
+      'conversation/updateInitialMessage',
       'Edited pre-chat draft'
     );
-    expect(context.hasInitialMessageDraft).toBe(false);
+    expect(context.hasInitialMessageDraft).toBe(true);
   });
 
   it('does not overwrite user-owned input with later initial message updates', () => {

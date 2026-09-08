@@ -17,6 +17,7 @@ const state = {
   pendingCustomAttributes: {},
   pendingLabels: [],
   initialMessage: '',
+  isInitialMessageEdited: false,
 };
 
 export default {

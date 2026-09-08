@@ -128,6 +128,7 @@ export default {
     ...mapActions('conversation', [
       'fetchOldConversations',
       'setInitialMessage',
+      'clearInitialMessage',
     ]),
     ...mapActions('campaign', [
       'initCampaigns',
@@ -296,9 +297,7 @@ export default {
         this.preChatFormEnabled && !this.conversationSize
           ? 'prechat-form'
           : 'messages';
-      if (routeName === 'messages') {
-        this.unsetUnreadView();
-      }
+      this.unsetUnreadView();
       if (this.$route.name !== routeName) {
         await this.router.replace({ name: routeName });
       }
@@ -306,9 +305,7 @@ export default {
 
       this.setInitialMessage(initialMessage);
       this.pendingInitialMessage = '';
-      if (routeName === 'messages') {
-        this.unsetUnreadView();
-      }
+      this.unsetUnreadView();
     },
     setConversationHistoryFetchPromise(fetchPromise) {
       this.initialConversationFetchPromise = fetchPromise;
@@ -335,7 +332,7 @@ export default {
         String(currentIdentifier) !== String(message.identifier);
       if (isChangingIdentifiedVisitor) {
         this.pendingInitialMessage = '';
-        this.setInitialMessage('');
+        this.clearInitialMessage();
       }
       this.latestUserIdentifier = message.identifier;
       const pendingInitialMessage =

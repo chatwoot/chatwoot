@@ -15,7 +15,10 @@ describe('#actions', () => {
 
   describe('#setInitialMessage', () => {
     it('commits the initial message', () => {
-      actions.setInitialMessage({ commit }, 'I need help with invoice 42');
+      actions.setInitialMessage(
+        { commit, state: { isInitialMessageEdited: false } },
+        'I need help with invoice 42'
+      );
 
       expect(commit).toBeCalledWith(
         'setInitialMessage',

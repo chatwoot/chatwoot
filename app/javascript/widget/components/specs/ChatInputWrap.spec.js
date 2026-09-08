@@ -60,7 +60,7 @@ describe('ChatInputWrap initial message draft', () => {
     expect(context.focusInput).not.toHaveBeenCalled();
   });
 
-  it('marks edited initial message drafts as user-owned after syncing them', () => {
+  it('syncs visitor edits while continuing to track the initial message draft', () => {
     const context = {
       hasInitialMessageDraft: true,
       initialMessage: 'Need help with this item',
@@ -70,10 +70,10 @@ describe('ChatInputWrap initial message draft', () => {
     userInputHandler.call(context, 'Edited draft');
 
     expect(context.$store.dispatch).toHaveBeenCalledWith(
-      'conversation/setInitialMessage',
+      'conversation/updateInitialMessage',
       'Edited draft'
     );
-    expect(context.hasInitialMessageDraft).toBe(false);
+    expect(context.hasInitialMessageDraft).toBe(true);
   });
 
   it('does not overwrite user-owned input with later initial message updates', () => {

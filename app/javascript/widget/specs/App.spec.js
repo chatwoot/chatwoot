@@ -29,6 +29,7 @@ const buildContext = ({
   shouldShowPreChatForm,
   handleInitialMessage: vi.fn(),
   setInitialMessage: vi.fn(),
+  clearInitialMessage: vi.fn(),
   unsetUnreadView: vi.fn(),
   setConversationHistoryFetchPromise: vi.fn(),
   $store: { dispatch: vi.fn() },
@@ -308,7 +309,7 @@ describe('App handleSetUser', () => {
     handleSetUser.call(context, { identifier: 'visitor-2' });
 
     expect(context.handleInitialMessage).not.toHaveBeenCalled();
-    expect(context.setInitialMessage).toHaveBeenCalledWith('');
+    expect(context.clearInitialMessage).toHaveBeenCalled();
   });
 
   it('replays a published initial message when refreshing the same identified visitor', () => {
@@ -333,7 +334,7 @@ describe('App handleSetUser', () => {
     handleSetUser.call(context, { identifier: 'visitor-2' });
 
     expect(context.pendingInitialMessage).toBe('');
-    expect(context.setInitialMessage).toHaveBeenCalledWith('');
+    expect(context.clearInitialMessage).toHaveBeenCalled();
     expect(context.handleInitialMessage).not.toHaveBeenCalled();
   });
 
@@ -348,7 +349,7 @@ describe('App handleSetUser', () => {
     handleSetUser.call(context, { identifier: 'visitor-2' });
 
     expect(context.pendingInitialMessage).toBe('');
-    expect(context.setInitialMessage).toHaveBeenCalledWith('');
+    expect(context.clearInitialMessage).toHaveBeenCalled();
     expect(context.handleInitialMessage).not.toHaveBeenCalled();
     expect(context.latestUserIdentifier).toBe('visitor-2');
   });
@@ -364,7 +365,7 @@ describe('App handleSetUser', () => {
     handleSetUser.call(context, { identifier: 'visitor-2' });
 
     expect(context.pendingInitialMessage).toBe('');
-    expect(context.setInitialMessage).toHaveBeenCalledWith('');
+    expect(context.clearInitialMessage).toHaveBeenCalled();
     expect(context.handleInitialMessage).not.toHaveBeenCalled();
     expect(context.latestUserIdentifier).toBe('visitor-2');
   });

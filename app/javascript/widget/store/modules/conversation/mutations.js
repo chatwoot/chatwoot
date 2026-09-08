@@ -149,5 +149,11 @@ export const mutations = {
 
   clearInitialMessage($state) {
     $state.initialMessage = '';
+    $state.isInitialMessageEdited = false;
+  },
+
+  updateInitialMessage($state, initialMessage) {
+    $state.initialMessage = initialMessage;
+    $state.isInitialMessageEdited = !!initialMessage;
   },
 };

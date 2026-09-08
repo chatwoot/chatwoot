@@ -93,11 +93,9 @@ export default {
     },
     userInput(userInput) {
       if (!this.hasInitialMessageDraft) return;
+      if (userInput === this.initialMessage) return;
 
-      this.$store.dispatch('conversation/setInitialMessage', userInput);
-      if (!userInput || userInput !== this.initialMessage) {
-        this.hasInitialMessageDraft = false;
-      }
+      this.$store.dispatch('conversation/updateInitialMessage', userInput);
     },
   },
   unmounted() {

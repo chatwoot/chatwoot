@@ -30,8 +30,13 @@ export const actions = {
       commit('setConversationUIFlag', { isCreating: false });
     }
   },
-  setInitialMessage: ({ commit }, initialMessage = '') => {
+  setInitialMessage: ({ commit, state }, initialMessage = '') => {
+    if (state.isInitialMessageEdited) return;
+
     commit('setInitialMessage', initialMessage);
+  },
+  updateInitialMessage: ({ commit }, initialMessage) => {
+    commit('updateInitialMessage', initialMessage);
   },
   clearInitialMessage: ({ commit }) => {
     commit('clearInitialMessage');
