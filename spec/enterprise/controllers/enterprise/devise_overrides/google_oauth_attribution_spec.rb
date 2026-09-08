@@ -47,6 +47,32 @@ RSpec.describe 'Enterprise Google OAuth attribution', type: :request do
     expect(attribution['last_touch']).to include('source' => 'github', 'source_type' => 'referral')
   end
 
+  it 'returns an existing user to Shopify billing after Google OAuth' do
+    create(:user, email: email)
+    redirect_url = 'settings/billing?plan_handle=growth&shop=store.myshopify.com'
+
+    with_modified_env FRONTEND_URL: 'http://www.example.com' do
+      get '/omniauth/google_oauth2/callback', params: { state: redirect_url }
+      follow_redirect!
+    end
+
+    query = URI.decode_www_form(URI.parse(response.location).query).to_h
+    expect(query['redirect_url']).to eq(redirect_url)
+    expect(query).to include('email', 'sso_auth_token')
+  end
+
+  it 'does not preserve an external URL from Google OAuth state' do
+    create(:user, email: email)
+
+    with_modified_env FRONTEND_URL: 'http://www.example.com' do
+      get '/omniauth/google_oauth2/callback', params: { state: 'https://example.com/redirect' }
+      follow_redirect!
+    end
+
+    query = URI.decode_www_form(URI.parse(response.location).query).to_h
+    expect(query).not_to have_key('redirect_url')
+  end
+
   def encoded_cookie(payload)
     Base64.urlsafe_encode64(payload.to_json, padding: false)
   end

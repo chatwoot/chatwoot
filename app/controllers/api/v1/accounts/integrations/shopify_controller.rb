@@ -91,7 +91,9 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   end
 
   def fetch_hook
-    @hook = Integrations::Hook.find_by!(account: Current.account, app_id: 'shopify')
+    hooks = Integrations::Hook.where(account: Current.account, app_id: 'shopify')
+    hooks = hooks.enabled if action_name == 'orders'
+    @hook = hooks.first!
   end
 
   def fetch_customers

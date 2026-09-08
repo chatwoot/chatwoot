@@ -107,6 +107,8 @@ class Integrations::Hook < ApplicationRecord
   private
 
   def ensure_feature_enabled
+    return if shopify? && disabled?
+
     errors.add(:feature_flag, 'Feature not enabled') unless feature_allowed?
   end
 
