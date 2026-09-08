@@ -348,8 +348,7 @@ export const actions = {
       commit(types.default.EDIT_INBOXES, response.data);
       return response.data;
     } catch (error) {
-      throwErrorMessage(error);
-      return null;
+      return throwErrorMessage(error);
     }
   },
 };
