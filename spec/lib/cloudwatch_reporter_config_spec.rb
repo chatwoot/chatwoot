@@ -56,6 +56,12 @@ describe CloudwatchReporterConfig do
       end
     end
 
+    it 'raises when a dedicated key is set without its secret' do
+      with_modified_env WEB_CLOUDWATCH_AWS_ACCESS_KEY_ID: 'dedicated-key', WEB_CLOUDWATCH_AWS_SECRET_ACCESS_KEY: nil do
+        expect { config.client }.to raise_error(KeyError)
+      end
+    end
+
     # The shared AWS_ACCESS_KEY_ID is scoped to storage and cannot publish metrics, so an
     # unconfigured reporter must reach for the instance role rather than the default chain.
     it 'uses the instance role when no dedicated credentials are set' do
