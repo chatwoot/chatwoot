@@ -407,7 +407,7 @@ class Message < ApplicationRecord
   end
 
   def update_waiting_since
-    return clear_waiting_since if conversation.waiting_since.present? && !private && (human_response? || bot_response?)
+    return clear_waiting_since_on_outgoing_response if conversation.waiting_since.present? && !private && (human_response? || bot_response?)
 
     return handle_incoming_waiting_since if incoming? && !private
   end
@@ -418,13 +418,7 @@ class Message < ApplicationRecord
   end
 
   def clear_waiting_since_on_outgoing_response
-    if human_response?
-      Rails.configuration.dispatcher.dispatch(
-        REPLY_CREATED, Time.zone.now, waiting_since: conversation.waiting_since, message: self
-      )
-      conversation.update(waiting_since: nil)
-      return
-    end
+    return clear_waiting_since if human_response?
 
     # Bot responses also clear waiting_since (simpler than checking on next customer message)
     conversation.update(waiting_since: nil) if bot_response? && !preserve_waiting_since

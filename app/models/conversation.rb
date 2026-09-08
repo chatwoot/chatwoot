@@ -320,9 +320,10 @@ class Conversation < ApplicationRecord
   end
 
   def track_agent_chat_duration(participant)
-    return if participant.created_at.nil? || participant.left_at.nil?
+    assignment_time = participant.assigned_at || participant.created_at
+    return if assignment_time.nil? || participant.left_at.nil?
 
-    duration = participant.left_at - participant.created_at
+    duration = participant.left_at - assignment_time
     return if duration <= 0
 
     reporting_events.create!(
@@ -377,22 +378,21 @@ class Conversation < ApplicationRecord
     now = Time.current
 
     if participant.persisted?
-      participant.update!(left_at: nil, created_at: now)
+      participant.update!(left_at: nil, created_at: now, assigned_at: now)
     else
       participant.created_at = now
       participant.save!
     end
   end
 
-  # resolved → open with the same assignee: close_agents_on_resolve closed their participant,
-  # so the stint is reopened (created_at is kept: the customer message that reopened the
-  # conversation precedes the status change and still counts for reply time).
+  # Keep created_at for reply attribution; assigned_at starts a new handling interval.
   def reopened_with_assignee?
     saved_change_to_status? && open? && status_before_last_save == 'resolved' && assignee_id.present?
   end
 
   def reactivate_assignee_participant
-    ConversationParticipant.where(conversation_id: id, user_id: assignee_id).where.not(left_at: nil).update_all(left_at: nil) # rubocop:disable Rails/SkipsModelValidations
+    ConversationParticipant.where(conversation_id: id, user_id: assignee_id).where.not(left_at: nil)
+                           .update_all(left_at: nil, assigned_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def close_agents_on_resolve

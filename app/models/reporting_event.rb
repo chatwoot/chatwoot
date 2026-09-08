@@ -116,15 +116,8 @@ class ReportingEvent < ApplicationRecord
   end
 
   def self.with_conversation_labels(tag_ids)
-    joins(<<~SQL.squish)
-      INNER JOIN conversations#{' '}
-        ON conversations.id = reporting_events.conversation_id
-      INNER JOIN taggings#{' '}
-        ON taggings.taggable_id = conversations.id#{' '}
-        AND taggings.taggable_type = 'Conversation'#{' '}
-        AND taggings.context = 'labels'
-        AND taggings.tag_id IN (#{sanitize_sql(tag_ids.join(','))})
-    SQL
+    joins(conversation: :taggings)
+      .where(taggings: { taggable_type: 'Conversation', context: 'labels', tag_id: tag_ids })
       .distinct
   end
 end

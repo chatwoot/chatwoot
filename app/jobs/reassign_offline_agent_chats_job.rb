@@ -129,12 +129,10 @@ class ReassignOfflineAgentChatsJob < ApplicationJob
     ChatQueue::QueueService.new(account: conversation.account).add_to_queue(conversation)
   end
 
-  # rubocop:disable Rails/SkipsModelValidations
   def unassign(conversation, reason)
     Rails.logger.warn("#{reason} for conversation #{conversation.id} — unassigning")
-    conversation.update_columns(assignee_id: nil, updated_at: Time.current)
+    conversation.update!(assignee_id: nil)
   end
-  # rubocop:enable Rails/SkipsModelValidations
 
   def online_agents_for(conversation)
     inbox = conversation.inbox

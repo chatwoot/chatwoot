@@ -3,6 +3,7 @@
 # Table name: conversation_participants
 #
 #  id              :bigint           not null, primary key
+#  assigned_at     :datetime
 #  left_at         :datetime
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

@@ -108,11 +108,12 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
   def base_events_scope(event_name)
     scope = ReportingEvent
             .joins(conversation: { taggings: :tag })
-            .where(name: event_name, conversations: base_conversation_filters, taggings: { taggable_type: 'Conversation', context: 'labels' })
+            .where(name: event_name, created_at: range, conversations: base_conversation_filters.except(:created_at),
+                   taggings: { taggable_type: 'Conversation', context: 'labels' })
     scope = apply_reporting_event_filters(scope)
     scope = scope.distinct_resolutions(user_ids: params[:user_ids]&.reject(&:blank?))
     scope = scope.distinct_first_responses(user_ids: params[:user_ids]&.reject(&:blank?))
-    scope = scope.filter_by_label_ids(params[:label_ids], account.id) if params[:label_ids].present?
+    scope = apply_label_filter_to_taggings(scope) if params[:label_ids].present?
     scope
   end
 
