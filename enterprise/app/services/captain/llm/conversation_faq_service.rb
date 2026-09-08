@@ -9,14 +9,8 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
 
   def self.language_for(conversation)
     language = conversation.account.locale.presence || I18n.default_locale.to_s
-    normalize_language(language)
-  end
-
-  def self.normalize_language(language)
     language.to_s.tr('-', '_').split('_').first.downcase
   end
-
-  private_class_method :normalize_language
 
   def initialize(assistant, conversation)
     super(feature: LLM_FEATURE, account: conversation.account, fallback_model: Llm::Models.default_model_for(LLM_FEATURE))
@@ -29,7 +23,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   def generate_suggestions
     return [] if no_human_interaction?
 
-    generate.map { |faq| route_candidate(faq) }
+    generate.select { |faq| in_account_language?(faq) }.map { |faq| route_candidate(faq) }
   end
 
   private
@@ -38,6 +32,14 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
 
   def no_human_interaction?
     conversation.first_reply_created_at.nil?
+  end
+
+  def in_account_language?(faq)
+    @language_detector ||= CLD3::NNetLanguageIdentifier.new(0, 1000)
+    %w[question answer].all? do |field|
+      result = @language_detector.find_language(faq.fetch(field))
+      result&.reliable? && result.language.to_s == faq_language
+    end
   end
 
   def route_candidate(faq)
