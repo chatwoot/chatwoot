@@ -59,16 +59,30 @@ describe('#actions', () => {
   describe('#getConversation', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({
-        data: { id: 1, meta: { sender: { id: 1, name: 'Contact 1' } } },
+        data: {
+          id: 1,
+          labels: ['support'],
+          meta: { sender: { id: 1, name: 'Contact 1' } },
+        },
       });
-      await actions.getConversation({ commit }, 1);
+      await actions.getConversation({ commit, dispatch }, 1);
       expect(commit.mock.calls).toEqual([
         [
-          types.UPDATE_CONVERSATION,
-          { id: 1, meta: { sender: { id: 1, name: 'Contact 1' } } },
+          types.SET_ALL_CONVERSATION,
+          [
+            {
+              id: 1,
+              labels: ['support'],
+              meta: { sender: { id: 1, name: 'Contact 1' } },
+            },
+          ],
         ],
         ['contacts/SET_CONTACT_ITEM', { id: 1, name: 'Contact 1' }],
       ]);
+      expect(dispatch).toHaveBeenCalledWith(
+        'conversationLabels/setConversationLabel',
+        { id: 1, data: ['support'] }
+      );
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
