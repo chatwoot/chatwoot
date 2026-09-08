@@ -13,7 +13,16 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
   let(:mock_runner) { instance_double(Agents::AgentRunner) }
   let(:mock_agent) { instance_double(Agents::Agent) }
   let(:mock_scenario_agent) { instance_double(Agents::Agent) }
-  let(:mock_result) { instance_double(Agents::RunResult, output: { 'response' => 'Test response' }, context: nil) }
+  let(:mock_result) do
+    instance_double(
+      Agents::RunResult,
+      output: {
+        'response_parts' => [{ 'text' => 'Test response', 'citation_indexes' => [] }],
+        'reasoning' => 'Test reasoning'
+      },
+      context: nil
+    )
+  end
 
   let(:message_history) do
     [
@@ -57,6 +66,60 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: 123)
 
       expect(service.instance_variable_get(:@responding_to_message_id)).to eq(123)
+    end
+
+    it 'accepts reply suggestion mode' do
+      service = described_class.new(assistant: assistant, source: described_class::REPLY_SUGGESTION_SOURCE)
+
+      expect(service.instance_variable_get(:@source)).to eq('copilot_reply_suggestion')
+      expect(service.send(:trace_config)).to include(
+        name: 'llm.captain.copilot.agent',
+        tags: ['copilot']
+      )
+    end
+  end
+
+  describe '#build_and_wire_agents' do
+    it 'keeps only reply-safe tools and excludes scenarios in reply suggestion mode' do
+      faq_tool = Captain::Tools::FaqLookupTool.new(assistant)
+      handoff_tool = Captain::Tools::HandoffTool.new(assistant)
+      get_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'GET'))
+      post_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'POST'))
+      private_note_tool = Captain::Tools::AddPrivateNoteTool.new(assistant)
+      assistant_agent = Agents::Agent.new(name: 'assistant', tools: [faq_tool, handoff_tool, get_tool, post_tool, private_note_tool])
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        source: described_class::REPLY_SUGGESTION_SOURCE
+      )
+
+      allow(assistant).to receive(:agent).and_return(assistant_agent)
+      expect(assistant).not_to receive(:scenarios)
+
+      configured_assistant = service.send(:build_and_wire_agents).sole
+
+      expect(configured_assistant.tools).to contain_exactly(faq_tool, get_tool)
+      expect(configured_assistant.handoff_agents).to be_empty
+    end
+
+    it 'uses the Copilot prompt without changing the Assistant prompt path' do
+      assistant_agent = Agents::Agent.new(name: 'assistant')
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        source: described_class::REPLY_SUGGESTION_SOURCE
+      )
+      context = instance_double(Agents::RunContext)
+
+      allow(assistant).to receive(:agent).and_return(assistant_agent)
+      expect(assistant).not_to receive(:scenarios)
+      expect(assistant).to receive(:agent_instructions)
+        .with(context, prompt_template: 'copilot_reply_suggestion')
+        .and_return('Copilot instructions')
+
+      configured_assistant = service.send(:build_and_wire_agents).first
+
+      expect(configured_assistant.instructions.call(context)).to eq('Copilot instructions')
     end
   end
 
@@ -185,7 +248,13 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     it 'processes and formats agent result' do
       result = service.generate_response(message_history: message_history)
 
-      expect(result).to eq({ 'response' => 'Test response', 'agent_name' => nil, 'handoff_tool_called' => false })
+      expect(result).to eq({
+                             'response_parts' => [{ 'text' => 'Test response', 'citation_indexes' => [] }],
+                             'response' => 'Test response',
+                             'reasoning' => 'Test reasoning',
+                             'agent_name' => nil,
+                             'handoff_tool_called' => false
+                           })
     end
 
     it 'exposes the raw run result via last_run_result' do
@@ -197,7 +266,14 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     context 'when handoff tool was called during agent execution' do
       let(:runner_context) { { captain_v2_handoff_tool_called: true } }
       let(:mock_result) do
-        instance_double(Agents::RunResult, output: { 'response' => 'Let me connect you' }, context: runner_context)
+        instance_double(
+          Agents::RunResult,
+          output: {
+            'response_parts' => [{ 'text' => 'Let me connect you', 'citation_indexes' => [] }],
+            'reasoning' => 'A human is needed'
+          },
+          context: runner_context
+        )
       end
 
       it 'includes handoff_tool_called flag in response' do
@@ -205,6 +281,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
         expect(result).to eq({
                                'response' => 'Let me connect you',
+                               'response_parts' => [{ 'text' => 'Let me connect you', 'citation_indexes' => [] }],
+                               'reasoning' => 'A human is needed',
                                'agent_name' => nil,
                                'handoff_tool_called' => true
                              })
@@ -234,10 +312,154 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
         expect(result).to eq({
                                'response' => 'Simple string response',
+                               'response_parts' => [{ 'text' => 'Simple string response', 'citation_indexes' => [] }],
                                'reasoning' => 'Processed by agent',
                                'agent_name' => nil,
                                'handoff_tool_called' => false
                              })
+      end
+    end
+
+    context 'when structured response parts contain invalid values' do
+      let(:assistant) { create(:captain_assistant, account: account, config: { 'feature_citation' => true }) }
+      let(:mock_result) do
+        instance_double(
+          Agents::RunResult,
+          output: {
+            'response_parts' => [
+              { 'text' => '  First part  ', 'citation_indexes' => [2, 2, 0, '1', 'https://model.example/source'] },
+              { 'text' => '   ', 'citation_indexes' => [1] },
+              'invalid',
+              { 'text' => 'Second part', 'citation_indexes' => [1] }
+            ],
+            'reasoning' => 'Test reasoning'
+          },
+          context: nil
+        )
+      end
+
+      it 'keeps valid ordered parts and derives the compatibility response string' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response_parts']).to eq(
+          [
+            { 'text' => 'First part', 'citation_indexes' => [2] },
+            { 'text' => 'Second part', 'citation_indexes' => [1] }
+          ]
+        )
+        expect(result['response']).to eq("First part\n\nSecond part")
+      end
+    end
+
+    context 'when citations are disabled' do
+      let(:mock_result) do
+        instance_double(
+          Agents::RunResult,
+          output: {
+            'response_parts' => [{ 'text' => 'FAQ-backed response', 'citation_indexes' => [1] }],
+            'reasoning' => 'Test reasoning'
+          },
+          context: nil
+        )
+      end
+
+      it 'discards model-provided citation indexes' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response_parts']).to eq(
+          [{ 'text' => 'FAQ-backed response', 'citation_indexes' => [] }]
+        )
+      end
+    end
+
+    context 'when a structured response exceeds the channel limit' do
+      let(:channel_limit_rewrite) do
+        original_model_output = {
+          'response_parts' => [
+            { 'text' => 'The first answer has more detail than this channel can accept.', 'citation_indexes' => [2] },
+            { 'text' => 'The second answer also has more detail than this channel can accept.', 'citation_indexes' => [1] }
+          ],
+          'reasoning' => 'Used two FAQ results'
+        }
+        rewritten_model_output = {
+          'response_parts' => [
+            { 'text' => 'Short first answer.', 'citation_indexes' => [2] },
+            { 'text' => 'Short second answer.', 'citation_indexes' => [1] }
+          ],
+          'reasoning' => 'Shortened both parts'
+        }
+        runner_context = {
+          session_id: "#{account.id}_#{conversation.display_id}",
+          state: { Captain::Assistant::CITATION_SOURCES_STATE_KEY => { 1 => 101, 2 => 202 } },
+          conversation_history: [{ role: :assistant, content: original_model_output }]
+        }
+        runner_messages = [{ role: :assistant, content: original_model_output }]
+
+        {
+          original_run_result: Agents::RunResult.new(output: original_model_output, messages: runner_messages, context: runner_context),
+          rewrite_run_result: Agents::RunResult.new(output: rewritten_model_output, messages: [], context: {}),
+          citation_urls: {
+            1 => 'https://help.example.com/first',
+            2 => 'https://help.example.com/second'
+          },
+          runner_context: runner_context
+        }
+      end
+      let(:mock_result) { channel_limit_rewrite[:original_run_result] }
+
+      before do
+        allow(assistant).to receive(:config).and_return('feature_citation' => true)
+        allow(assistant).to receive(:customer_visible_citation_urls).and_return(channel_limit_rewrite[:citation_urls])
+        allow(Captain::MessageLengthLimit).to receive(:for).with(conversation).and_return(140)
+        allow(mock_runner).to receive(:run).and_return(mock_result, channel_limit_rewrite[:rewrite_run_result])
+      end
+
+      it 'reserves space for rendered citations and restores their original indexes' do
+        original_response_parts = Captain::Assistant::ResponseParts.from_response(mock_result.output)
+        original_customer_message = original_response_parts.customer_message_content(citation_urls: channel_limit_rewrite[:citation_urls])
+        citation_markup_length = original_customer_message.length - original_response_parts.plain_text.length
+        response_text_limit = 140 - citation_markup_length
+
+        expect(original_response_parts.plain_text.length).to be < 140
+        expect(original_customer_message.length).to be > 140
+
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response_parts']).to eq(
+          [
+            { 'text' => 'Short first answer.', 'citation_indexes' => [2] },
+            { 'text' => 'Short second answer.', 'citation_indexes' => [1] }
+          ]
+        )
+        expect(channel_limit_rewrite[:runner_context][:conversation_history].last[:content]['response_parts']).to eq(result['response_parts'])
+        expect(
+          Captain::Assistant::ResponseParts.from_response(result).customer_message_content(
+            citation_urls: channel_limit_rewrite[:citation_urls]
+          ).length
+        ).to be <= 140
+        expect(mock_runner).to have_received(:run).with(
+          include(
+            "must be at most #{response_text_limit} characters",
+            'Keep the same number and order of response parts',
+            '"citation_indexes":[2]',
+            '"citation_indexes":[1]'
+          ),
+          context: hash_including(state: channel_limit_rewrite[:runner_context][:state]),
+          max_turns: 1
+        )
+        expect(mock_runner).not_to have_received(:run).with(include('help.example.com'), any_args)
+      end
+
+      it 'rejects a rewrite that changes the response part citation order' do
+        channel_limit_rewrite[:rewrite_run_result].output['response_parts'].reverse!
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(
+          instance_double(ChatwootExceptionTracker, capture_exception: true)
+        )
+
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response']).to eq('conversation_handoff')
+        expect(result['reasoning']).to eq('Error occurred: Captain response rewrite changed the response part citation order')
       end
     end
 
@@ -258,6 +480,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
         expect(result).to eq({
                                'response' => 'conversation_handoff',
+                               'response_parts' => [{ 'text' => 'conversation_handoff', 'citation_indexes' => [] }],
                                'reasoning' => 'Error occurred: Test error',
                                'error' => true,
                                'error_reason' => 'standard_error',
@@ -288,6 +511,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
           expect(result).to eq({
                                  'response' => 'conversation_handoff',
+                                 'response_parts' => [{ 'text' => 'conversation_handoff', 'citation_indexes' => [] }],
                                  'reasoning' => 'Error occurred: Test error',
                                  'error' => true,
                                  'error_reason' => 'standard_error',
@@ -314,6 +538,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
           expect(result).to eq({
                                  'response' => 'conversation_handoff',
+                                 'response_parts' => [{ 'text' => 'conversation_handoff', 'citation_indexes' => [] }],
                                  'reasoning' => 'Error occurred: Test error',
                                  'error' => true,
                                  'error_reason' => 'standard_error',
@@ -404,6 +629,18 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       result = service.send(:extract_text_from_content, content)
 
       expect(result).to eq('Hash response')
+    end
+
+    it 'joins structured response parts from hash content' do
+      content = {
+        'response_parts' => [
+          { 'text' => 'First response part', 'citation_indexes' => [1] },
+          { 'text' => 'Second response part', 'citation_indexes' => [] }
+        ]
+      }
+      result = service.send(:extract_text_from_content, content)
+
+      expect(result).to eq("First response part\n\nSecond response part")
     end
 
     it 'extracts text from multimodal array content' do
@@ -531,6 +768,16 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         status: conversation.status
       )
       expect(state[:channel_type]).to eq(inbox.channel_type)
+    end
+
+    it 'includes labels from a persisted conversation' do
+      conversation.label_list.add('lang_en')
+      conversation.save!
+      conversation.reload
+
+      state = service.send(:build_state)
+
+      expect(state.dig(:conversation, :label_list)).to contain_exactly('lang_en')
     end
 
     it 'includes contact inbox attributes when conversation is present' do
@@ -676,6 +923,21 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       runner = instance_double(Agents::AgentRunner)
 
       allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      expect(runner).not_to receive(:on_run_complete)
+
+      service.send(:add_usage_metadata_callback, runner)
+    end
+
+    it 'leaves final credit and discard metadata to the reply suggestion service' do
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        source: described_class::REPLY_SUGGESTION_SOURCE
+      )
+      runner = instance_double(Agents::AgentRunner)
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
       allow(runner).to receive(:on_tool_complete).and_return(runner)
       expect(runner).not_to receive(:on_run_complete)
 

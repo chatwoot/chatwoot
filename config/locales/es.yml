@@ -60,6 +60,7 @@ es:
   errors:
     account:
       not_authorized: No está autorizado a acceder a esta cuenta
+      email_limit_exceeded: Se ha alcanzado el límite diario de correos electrónicos de esta cuenta
       reporting_timezone:
         invalid: is not a valid timezone
       support_email:
@@ -138,12 +139,14 @@ es:
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
       phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      message_outside_messaging_window: 'El mensaje no se envió porque la ventana de atención al cliente de WhatsApp de 24 horas está cerrada y no se proporcionaron parámetros de plantilla. Envía en su lugar un mensaje de plantilla aprobado.'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
       calls:
         not_enabled: 'Llamada no está habilitada para esta bandeja de entrada'
         already_ended: 'Esta llamada ya ha finalizado'
+        already_accepted: 'Otro agente ya aceptó la llamada'
         no_recording: 'Ningún archivo de grabación proporcionado'
         no_message: 'La llamada no tiene ningún mensaje asociado'
         sdp_offer_required: 'sdp_offer es requerido'
@@ -284,6 +287,7 @@ es:
       whatsapp:
         list_button_label: 'Choose an item'
         call_permission_request_body: 'Nos gustaría llamarte en relación con tu conversación.'
+        flow_response: 'Envió una respuesta de flujo'
         unsupported_message: 'Este mensaje no está disponible.'
       voice_call:
         twilio: 'Llamada de voz'
@@ -576,6 +580,8 @@ es:
   agent_capacity_policy:
     inbox_already_assigned: 'Inbox has already been assigned to this policy'
   portals:
+    analytics:
+      invalid_configuration: 'Configuración de analítica no válida'
     articles:
       captain_not_available: 'La traducción requiere que el Capitán esté habilitado para esta cuenta'
       locale_not_available: 'Locale no disponible en este portal'
@@ -591,6 +597,21 @@ es:
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
   super_admin:
+    account_suspension:
+      categories:
+        spam: 'Spam'
+        non_payment: 'Falta de pago'
+        other: 'Otro'
+      form:
+        category: 'Categoría de suspensión'
+        category_prompt: 'Seleccione una categoría'
+        reason: 'Motivo de la suspensión'
+        reason_hint: 'Introduce un motivo de hasta 256 caracteres.'
+      history:
+        suspended_at: 'Suspendida el'
+        category: 'Categoría'
+        reason: 'Motivo'
+        empty: 'No hay historial de suspensiones registrado.'
     captain_model_overrides:
       form:
         helper_text: 'Deje un modelo en blanco para usar el valor por defecto de YAML para esa función de IA.'
@@ -609,6 +630,7 @@ es:
         label_suggestion: 'Sugerencia de etiqueta'
         document_faq_generation: 'Generación de FAQ de documentos'
         conversation_faq_generation: 'Generación de FAQ de conversación'
+        conversation_faq_matching: 'Coincidencia de preguntas frecuentes con conversaciones'
         help_center_article_generation: 'Centro de ayuda para la generación de artículos'
         onboarding_content_generation: 'Generación de contenidos integrados'
         help_center_query_translation: 'Traducción de consultas al centro de ayuda'

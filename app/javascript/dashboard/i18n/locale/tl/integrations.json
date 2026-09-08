@@ -411,8 +411,8 @@
         "DISMISS": "Dismiss"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
-        "ACTION": "Review FAQs",
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
         "DISMISS": "Dismiss"
       },
       "RANGES": {
@@ -447,7 +447,6 @@
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "Close details",
         "EMPTY": "No records found for this metric.",
         "ERROR": "Could not load records. Please try again.",
         "LOAD_MORE": "Load more",
@@ -457,7 +456,7 @@
         "TITLE": "Knowledge coverage",
         "COVERAGE": "{pct}% approved",
         "APPROVED": "Approved FAQs",
-        "PENDING": "Mga nakabinbing karaniwang tanong",
+        "SUGGESTIONS": "FAQ suggestions",
         "DOCUMENTS": "Mga Dokumento"
       },
       "LINKS": {
@@ -1085,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "Mga FAQ",
-      "PENDING_FAQS": "Mga nakabinbing karaniwang tanong",
       "ADD_NEW": "Gumawa ng bagong FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Usapan #{id}"
@@ -1094,12 +1092,10 @@
       "SELECT_ALL": "Piliin lahat ({count})",
       "UNSELECT_ALL": "Alisin ang pagpili sa lahat ({count})",
       "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Aprubahan",
-      "BULK_DELETE_BUTTON": "Tanggalin",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "Matagumpay na naaprubahan ang mga FAQ",
-        "ERROR_MESSAGE": "Nagkaroon ng error sa pag-apruba ng mga FAQ, pakisubukang muli."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "Tanggalin",
       "BULK_DELETE": {
         "TITLE": "Tanggalin ang mga FAQ?",
         "DESCRIPTION": "Sigurado ka bang gusto mong tanggalin ang mga napiling FAQ? Hindi na ito maaaring bawiin.",
@@ -1114,20 +1110,9 @@
         "SUCCESS_MESSAGE": "Matagumpay na natanggal ang FAQ",
         "ERROR_MESSAGE": "Nagkaroon ng error sa pagtanggal ng FAQ, pakisubukang muli."
       },
-      "FILTER": {
-        "ASSISTANT": "Katulong: {selected}",
-        "STATUS": "Katayuan: {selected}",
-        "ALL_ASSISTANTS": "Lahat"
-      },
-      "STATUS": {
-        "TITLE": "Katayuan",
-        "PENDING": "Nakahanda",
-        "APPROVED": "Inaprubahan",
-        "ALL": "Lahat"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Nakakita ang Captain ng ilang FAQ na hinahanap ng iyong mga customer.",
-        "ACTION": "Pindutin dito upang suriin"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "Magdagdag ng tanong at ang kaukulang sagot sa knowledge base at piliin ang assistant na iuugnay dito.",
       "CREATE": {
@@ -1160,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Walang Natagpuang FAQ",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "Tinutulungan ng FAQs ang iyong assistant na magbigay ng mabilis at tumpak na sagot sa mga tanong mula sa iyong mga customer. Maaari itong malikha nang awtomatiko mula sa iyong nilalaman o maidagdag nang manu-mano.",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Natutukoy ng Captain FAQs ang mga karaniwang tanong ng customer—kung wala man sa iyong knowledge base o madalas itanong—at lumilikha ng mga kaugnay na FAQs upang mapabuti ang suporta. Maaari mong suriin ang bawat mungkahi at magpasya kung aaprubahan o tatanggihan ito."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "Aprubahan",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "I-save ang mga pagbabago",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

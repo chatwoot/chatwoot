@@ -411,8 +411,8 @@
         "DISMISS": "Отклонить"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
-        "ACTION": "Review FAQs",
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
         "DISMISS": "Отклонить"
       },
       "RANGES": {
@@ -447,7 +447,6 @@
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "Close details",
         "EMPTY": "No records found for this metric.",
         "ERROR": "Could not load records. Please try again.",
         "LOAD_MORE": "Загрузить ещё",
@@ -457,7 +456,7 @@
         "TITLE": "Knowledge coverage",
         "COVERAGE": "{pct}% approved",
         "APPROVED": "Approved FAQs",
-        "PENDING": "Pending FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
         "DOCUMENTS": "Документы"
       },
       "LINKS": {
@@ -1085,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "FAQ",
-      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Создать новый FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Диалог #{id}"
@@ -1094,12 +1092,10 @@
       "SELECT_ALL": "Выбрать все ({count})",
       "UNSELECT_ALL": "Сбросить все ({count})",
       "SEARCH_PLACEHOLDER": "Поиск по FAQ...",
-      "BULK_APPROVE_BUTTON": "Одобрить",
-      "BULK_DELETE_BUTTON": "Удалить",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQ успешно одобрены",
-        "ERROR_MESSAGE": "Произошла ошибка при одобрении FAQ, пожалуйста, попробуйте ещё раз."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "Удалить",
       "BULK_DELETE": {
         "TITLE": "Удалить FAQ?",
         "DESCRIPTION": "Вы уверены, что хотите удалить выбранные FAQ? Это действие невозможно отменить.",
@@ -1114,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ успешно удален",
         "ERROR_MESSAGE": "Произошла ошибка при удалении FAQ, попробуйте еще раз."
       },
-      "FILTER": {
-        "ASSISTANT": "Ассистент: {selected}",
-        "STATUS": "Статус: {selected}",
-        "ALL_ASSISTANTS": "Все"
-      },
-      "STATUS": {
-        "TITLE": "Статус",
-        "PENDING": "В ожидании",
-        "APPROVED": "Одобрено",
-        "ALL": "Все"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "Добавьте вопрос и соответствующий ему ответ в базу знаний и выберите ассистента, с которым он должен связаться.",
       "CREATE": {
@@ -1160,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "FAQ не найдены",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQ помогают вашему ассистенту быстро и точно отвечать на вопросы клиентов. Их можно генерировать автоматически из вашего контента или добавлять вручную.",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "Одобрить",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Отклонить",
+      "SAVE": "Сохранить изменения",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Повторить"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

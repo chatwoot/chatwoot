@@ -12,6 +12,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
   let(:sla_policy2) { create(:sla_policy, account: account) }
 
   before do
+    account.enable_features!('sla')
     AppliedSla.destroy_all
   end
 
@@ -115,6 +116,18 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(body).to include('total_applied_slas' => 2)
         expect(body).to include('number_of_sla_misses' => 1)
         expect(body).to include('hit_rate' => '50.0%')
+      end
+    end
+
+    context 'when the sla feature is disabled' do
+      it 'returns unauthorized' do
+        account.disable_features!('sla')
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, sla_status: 'missed')
+
+        get "/api/v1/accounts/#{account.id}/applied_slas/metrics",
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end

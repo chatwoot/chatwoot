@@ -129,7 +129,6 @@
       "ERROR": "Could not load records. Please try again.",
       "ADMIN_ONLY": "Only administrators can drill down into report records.",
       "LOAD_MORE": "さらに読み込む",
-      "CLOSE": "Close details",
       "PREVIOUS_BUCKET": "Previous bar",
       "NEXT_BUCKET": "Next bar",
       "UNKNOWN_CONTACT": "Unknown contact",

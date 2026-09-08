@@ -612,6 +612,9 @@
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "Nuk mundëm të përfundojmë kërkimin. Ju lutemi provoni përsëri."
     },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
+    },
     "FORM": {
       "GO_TO_CONVERSATION": "Shiko",
       "SUCCESS_MESSAGE": "Mesazhi u dërgua me sukses!",

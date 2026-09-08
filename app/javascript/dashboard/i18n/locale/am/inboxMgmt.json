@@ -49,7 +49,9 @@
         "ADD_NAME": "ለኢንቦክስዎ ስም ያክሉ",
         "PICK_NAME": "ለInboxዎ ስም ይምረጡ",
         "PICK_A_VALUE": "እሴት ይምረጡ",
-        "CREATE_INBOX": "Inbox ፍጠር"
+        "CREATE_INBOX": "Inbox ፍጠር",
+        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "STATUS_LINK": "View status updates"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "ከInstagram ጋር ቀጥሉ",
@@ -59,8 +61,9 @@
         "ERROR_AUTH": "Instagram ጋር ለመገናኘት ስህተት አጋጥሟል፣ እባክዎ እንደገና ይሞክሩ",
         "NEW_INBOX_SUGGESTION": "ይህ የInstagram መለያ ቀድሞ ወደ ሌላ ኢንቦክስ ተገናኝቷል እና አሁን ወደዚህ ተለዋዋጭ ሆኗል። አዲስ መልእክቶች ሁሉ እዚህ ይታያሉ። አሮጌው ኢንቦክስ ለዚህ መለያ መልእክት ማስተላለፍ እና መቀበል አይችልም።.",
         "DUPLICATE_INBOX_BANNER": "ይህ የInstagram መለያ ወደ አዲሱ የInstagram ቻናል ኢንቦክስ ተለዋዋጭ ሆኗል። ከዚህ ኢንቦክስ የInstagram መልእክቶችን መላክ/መቀበል አትችሉም።.",
-        "SETTINGS_RESTRICTED_WARNING": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
-        "STATUS_LINK": "View status update"
+        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
+        "STATUS_LINK": "View status updates"
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "ከTikTok ጋር ቀጥሉ",
@@ -249,12 +252,14 @@
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp ክላውድ",
           "WHATSAPP_CLOUD_DESC": "በMeta በፍጥነት ማቀናበር",
+          "WHATSAPP_CLOUD_MANUAL_SETUP_DESC": "Manual setup with Cloud API credentials",
           "TWILIO_DESC": "በTwilio መለያ ይገናኙ",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
           "TITLE": "የAPI አቅራቢዎን ይምረጡ",
-          "DESCRIPTION": "የWhatsApp አቅራቢዎን ይምረጡ። በMeta ቀጥታ ማገናኘት ይችላሉ ይህም ምንም ቅንብር አያስፈልግም፣ ወይም በTwilio በመለያዎ መረጃ ማገናኘት ይችላሉ።."
+          "DESCRIPTION": "የWhatsApp አቅራቢዎን ይምረጡ። በMeta ቀጥታ ማገናኘት ይችላሉ ይህም ምንም ቅንብር አያስፈልግም፣ ወይም በTwilio በመለያዎ መረጃ ማገናኘት ይችላሉ።.",
+          "RESTRICTION_DESCRIPTION": "Choose your WhatsApp provider. You can connect WhatsApp Cloud manually using your Cloud API credentials, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "የጣቢያ ስም",
@@ -296,7 +301,7 @@
         "SUBMIT_BUTTON": "WhatsApp ቻናል ፍጠር",
         "EMBEDDED_SIGNUP": {
           "TITLE": "ከMeta ጋር ፈጣን ቅንብር",
-          "DESC": "ለፈጣን አዲስ ቁጥሮች ለመገናኘት WhatsApp ተዋሰነ መመዝገቢያ ሂደት ይጠቀሙ። ወደ Meta ይመለሳሉ እና ወደ WhatsApp ንግድ መለያዎ ይግቡ። የአስተዳደር መብት ከሚኖርዎት ሂደቱ ቀላል እና ቀላል ይሆናል።.",
+          "DESC": "Use Quick setup with Meta to connect a new number or an existing number from the WhatsApp Business app. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
           "BENEFITS": {
             "TITLE": "የተዋሰነ መመዝገቢያ ጥቅሞች፡:",
             "EASY_SETUP": "ምንም እጅግ ቅንብር አያስፈልግም",
@@ -304,7 +309,7 @@
             "AUTO_CONFIG": "ራስሰር የwebhook እና የስልክ ቁጥር ቅንብር"
           },
           "LEARN_MORE": {
-            "TEXT": "ለተዋሰነ መመዝገቢያ፣ ዋጋ እና ገደቦች ተጨማሪ ለማወቅ {link} ይጎብኙ።.",
+            "TEXT": "To learn more about quick setup, pricing, and limitations, visit {link}.",
             "LINK_TEXT": "ይህ አገናኝ"
           },
           "SUBMIT_BUTTON": "ከWhatsApp Business ጋር ይገናኙ",
@@ -322,10 +327,20 @@
           "SUCCESS_FALLBACK": "የWhatsApp የንግድ መለያ በተሳካ ሁኔታ ተቋቋመ",
           "MANUAL_FALLBACK": "ቁጥርዎ ከWhatsApp Business Platform (API) ጋር ከተገናኘ እና ወይም እርስዎ የቴክኖሎጂ አቅራቢ ከሆኑ እና የእርስዎን ቁጥር በራስዎ ሲያስገቡ፣ እባክዎ የ{link} ሂደትን ይጠቀሙ",
           "MANUAL_LINK_TEXT": "የእጅ ማቀናበሪያ ሂደት",
+          "ACCESS_REQUEST": {
+            "TITLE": "ከMeta ጋር ፈጣን ቅንብር",
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
+            "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
+            "BUTTON": "Request access"
+          },
+          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
+          "STATUS_LINK": "View status updates",
           "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
-          "ERROR_MESSAGE": "WhatsApp ቻናሉን ማስቀመጥ አልተቻለም"
+          "ERROR_MESSAGE": "WhatsApp ቻናሉን ማስቀመጥ አልተቻለም",
+          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
+          "STATUS_LINK": "View status updates"
         }
       },
       "VOICE": {
@@ -686,40 +701,98 @@
     "WIDGET_FEATURES": "የዊጅት ባህሪያት",
     "ACCOUNT_HEALTH": {
       "TITLE": "የ WhatsApp መለያዎን ያስተዳድሩ",
-      "DESCRIPTION": "የ WhatsApp መለያዎን ሁኔታ፣ የመልእክት ገደቦችን እና ጥራት ይገምግሙ። ቅንብሮችን ያዘምኑ ወይም ችግሮችን ካሉ ያስተካክሉ።",
+      "DESCRIPTION": "Review your WhatsApp phone number health, messaging capacity, and linked Meta business details.",
       "GO_TO_SETTINGS": "ወደ Meta Business Manager ይሂዱ",
       "NO_DATA": "የጤና ውሂብ አይገኝም",
+      "ERRORS": {
+        "AUTHORIZATION": {
+          "EMBEDDED_TITLE": "WhatsApp connection needs to be refreshed",
+          "EMBEDDED_DESCRIPTION": "Meta could not validate the connection for this inbox. Go to Configuration to reconfigure it using Embedded Signup.",
+          "MANUAL_TITLE": "WhatsApp access token needs attention",
+          "MANUAL_DESCRIPTION": "Meta could not validate the access token for this inbox. Go to Configuration to verify or replace it."
+        },
+        "GENERIC_TITLE": "WhatsApp health data is unavailable",
+        "GENERIC_DESCRIPTION": "Meta could not return the current health details. Review the error below and try again later.",
+        "GO_TO_CONFIGURATION": "Go to Configuration"
+      },
+      "SECTIONS": {
+        "PHONE_NUMBER": "ስልክ ቁጥር",
+        "HEALTH_AND_CAPACITY": "Health and capacity",
+        "BUSINESS_ACCOUNT": "Business account"
+      },
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
           "LABEL": "የስልክ ቁጥር አሳይ",
           "TOOLTIP": "ለደንበኞች የታየ የስልክ ቁጥር"
         },
         "VERIFIED_NAME": {
-          "LABEL": "የንግድ ስም",
-          "TOOLTIP": "የንግድ ስም በWhatsApp ተረጋግጧል"
+          "LABEL": "WhatsApp display name",
+          "TOOLTIP": "Display name associated with this phone number on WhatsApp"
+        },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "የስልክ ቁጥር መለያ",
+          "TOOLTIP": "Meta identifier for this WhatsApp phone number"
+        },
+        "COEXISTENCE": {
+          "LABEL": "Coexistence",
+          "TOOLTIP": "This number is connected to both the WhatsApp Business app and Cloud API"
         },
         "DISPLAY_NAME_STATUS": {
           "LABEL": "የማሳያ ስም ሁኔታ",
-          "TOOLTIP": "የንግድ ስምዎ ማረጋገጫ ሁኔታ"
+          "TOOLTIP": "Review status of the WhatsApp display name"
+        },
+        "LAST_ONBOARDED_TIME": {
+          "LABEL": "Last onboarded",
+          "TOOLTIP": "Most recent time Meta onboarded this phone number"
+        },
+        "PHONE_NUMBER_STATUS": {
+          "LABEL": "Phone number status",
+          "TOOLTIP": "Current connection status of this phone number on WhatsApp"
         },
         "QUALITY_RATING": {
           "LABEL": "የጥራት እሴት",
-          "TOOLTIP": "ለመለያዎ የWhatsApp የጥራት እሴት"
+          "TOOLTIP": "Quality rating Meta assigns to this phone number based on recent messaging signals"
         },
         "MESSAGING_LIMIT_TIER": {
           "LABEL": "የመልእክት ገደብ ደረጃ",
-          "TOOLTIP": "ለአካውንትዎ የዕለት መልእክት ገደብ"
+          "TOOLTIP": "Number of customers this phone number can initiate conversations with in 24 hours"
         },
         "ACCOUNT_MODE": {
           "LABEL": "የአካውንት ሁኔታ",
-          "TOOLTIP": "የWhatsApp አካውንትዎ የአሁኑ እንቅስቃሴ ሁኔታ"
+          "TOOLTIP": "Current operating mode of this WhatsApp phone number"
+        },
+        "CODE_VERIFICATION_STATUS": {
+          "LABEL": "Code verification",
+          "TOOLTIP": "Verification-code status reported by Meta for this phone number"
+        },
+        "THROUGHPUT_LEVEL": {
+          "LABEL": "Throughput",
+          "TOOLTIP": "Message throughput level assigned to this phone number"
+        },
+        "BUSINESS_ACCOUNT_NAME": {
+          "LABEL": "WhatsApp Business Account name",
+          "TOOLTIP": "Name of the WhatsApp Business Account linked to this phone number"
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "WhatsApp Business Account ID",
+          "TOOLTIP": "Meta identifier for the linked WhatsApp Business Account"
+        },
+        "BUSINESS_PORTFOLIO_NAME": {
+          "LABEL": "Business portfolio name",
+          "TOOLTIP": "Name of the Meta business portfolio that owns the WhatsApp Business Account"
+        },
+        "BUSINESS_PORTFOLIO_ID": {
+          "LABEL": "Business portfolio ID",
+          "TOOLTIP": "Meta identifier for the business portfolio that owns the WhatsApp Business Account"
         }
       },
       "VALUES": {
+        "NOT_AVAILABLE": "Not available",
         "TIERS": {
           "TIER_250": "በ24 ሰዓት ውስጥ 250 ደንበኞች",
           "TIER_1000": "በ24 ሰዓታት ውስጥ 1K ደንበኞች",
           "TIER_1K": "በ24 ሰዓታት ውስጥ 1K ደንበኞች",
+          "TIER_2K": "2K customers per 24h",
           "TIER_10K": "በ24 ሰዓታት ውስጥ 10K ደንበኞች",
           "TIER_100K": "በ24 ሰዓታት ውስጥ 100K ደንበኞች",
           "TIER_UNLIMITED": "በ24 ሰዓታት ውስጥ ያልተገደበ ደንበኞች",
@@ -727,6 +800,16 @@
         },
         "STATUSES": {
           "APPROVED": "ተፈቅዷል",
+          "CONNECTED": "Connected",
+          "VERIFIED": "Verified",
+          "STANDARD": "መደበኛ",
+          "ACTIVE": "Active",
+          "EXPIRED": "Expired",
+          "FLAGGED": "Flagged",
+          "RESTRICTED": "Restricted",
+          "BANNED": "Banned",
+          "DISCONNECTED": "Disconnected",
+          "UNKNOWN": "Not available",
           "PENDING_REVIEW": "በጥናት ላይ ነው",
           "AVAILABLE_WITHOUT_REVIEW": "እንደ ጥናት አልተደረገም ነጻ ነው",
           "REJECTED": "ተቀባይነት አልተሰጠም",
@@ -746,7 +829,11 @@
         "REGISTER_SUCCESS": "Webhook በተሳካ ሁኔታ ተመዝግቧል",
         "REGISTER_ERROR": "የwebhook ምዝገባ አልተሳካም። እባክዎ ደግመው ይሞክሩ።.",
         "CONFIGURED_SUCCESS": "Webhook በተሳካ ሁኔታ ተቀይሯል",
-        "URL_MISMATCH": "Webhook URL አልተስማማም"
+        "URL_MISMATCH": "Webhook URL አልተስማማም",
+        "CONFIGURED_URL": "Configured URL",
+        "EXPECTED_URL": "Expected URL",
+        "COPY_URL": "Copy webhook URL",
+        "COPY_SUCCESS": "Webhook URL copied to clipboard"
       }
     },
     "SETTINGS": "ቅንብሮች",
@@ -813,6 +900,16 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "API ቁልፍ አዘምን",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "አዲሱን API ቁልፍ እዚህ ያስገቡ",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "አዘምን",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when Chatwoot cannot retrieve its message templates. Chatwoot uses this token only for template synchronization.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Enter the business management token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "Add",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Replace",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS": "WhatsApp business management token updated successfully.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR": "Could not update the business management token. Verify its WhatsApp Business Management permission and account access, then try again.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK": "Learn how to generate a WhatsApp Business Management token",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "የWhatsApp ውስጥ ያለ ምዝገባ",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "ይህ ኢንቦክስ በWhatsApp ተዋሰነ መመዝገቢያ ተገናኝቷል።.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "ይህን ኢንቦክስ ለWhatsApp ንግድ ቅንብሮች ለማዘመን መቀየር ይችላሉ።.",

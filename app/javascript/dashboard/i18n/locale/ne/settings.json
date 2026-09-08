@@ -264,7 +264,8 @@
     "EMAIL_VERIFICATION_SENT": "प्रमाणिकरण इमेल पठाइएको छ। कृपया आफ्नो इनबक्स जाँच गर्नुहोस्।",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "खाता निलम्बित",
-      "MESSAGE": "तपाईंको खाता निलम्बित गरिएको छ। थप जानकारीका लागि कृपया समर्थन टोलीलाई सम्पर्क गर्नुहोस्।"
+      "MESSAGE": "तपाईंको खाता निलम्बित गरिएको छ। थप जानकारीका लागि कृपया समर्थन टोलीलाई सम्पर्क गर्नुहोस्।",
+      "MANAGE_BILLING": "Manage billing"
     },
     "NO_ACCOUNTS": {
       "TITLE": "खाता फेला परेन",
@@ -324,6 +325,7 @@
     "COMPANIES": "कम्पनीहरू",
     "ALL_COMPANIES": "सबै कम्पनीहरू",
     "CAPTAIN": "क्याप्टेन",
+    "CALLS": "Calls",
     "CAPTAIN_ASSISTANTS": "सहायकहरू",
     "CAPTAIN_OVERVIEW": "सारांश",
     "CAPTAIN_DOCUMENTS": "कागजातहरू",
@@ -338,6 +340,7 @@
     "AGENT_BOTS": "बोटहरू",
     "AUDIT_LOGS": "अडिट लग",
     "INBOXES": "इनबक्सहरू",
+    "WHATSAPP_TEMPLATES": "Templates",
     "NOTIFICATIONS": "सूचनाहरू",
     "CANNED_RESPONSES": "तयार जवाफहरू",
     "INTEGRATIONS": "एकीकरणहरू",
@@ -418,6 +421,10 @@
     "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
     "LOADING": "Fetching imports",
     "DEFAULT_IMPORT_NAME": "Intercom import",
+    "DEFAULT_IMPORT_NAMES": {
+      "INTERCOM": "Intercom import",
+      "FRESHDESK": "Freshdesk import"
+    },
     "TABS": {
       "IMPORT": "आयात गर्नुहोस्",
       "EXPORT": "निर्यात गर्नुहोस्"
@@ -431,9 +438,15 @@
       "TITLE": "New import",
       "SOURCE": "Source",
       "NAME": "Import name",
-      "NAME_PLACEHOLDER": "July Intercom migration",
+      "NAME_PLACEHOLDER": "July support migration",
       "ACCESS_KEY": "Intercom access key",
       "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "INTERCOM_ACCESS_KEY": "Intercom access key",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "FRESHDESK_API_KEY": "Freshdesk API key",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "Paste your Freshdesk API key",
+      "FRESHDESK_DOMAIN": "Freshdesk domain",
+      "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
       "DATA_TYPES": "Data to import",
       "VALIDATING": "Validating access key...",
       "VALID_KEY": "Access key validated.",
@@ -461,6 +474,7 @@
       "STATUS": "Status",
       "IMPORTED": "Imported",
       "CREATED": "सिर्जना गरिएको",
+      "RETRY": "Retry",
       "ABANDON": "Abandon"
     },
     "DETAIL": {
@@ -506,9 +520,11 @@
       }
     },
     "ALERTS": {
-      "IMPORT_STARTED": "Intercom import has started.",
-      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
-      "IMPORT_FAILED": "Could not start the Intercom import."
+      "IMPORT_STARTED": "Import has started.",
+      "IMPORT_RETRIED": "Import has been queued to resume.",
+      "IMPORT_RETRY_FAILED": "Could not retry the import.",
+      "IMPORT_ABANDONED": "Import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the import."
     }
   },
   "CAPTAIN_SETTINGS": {

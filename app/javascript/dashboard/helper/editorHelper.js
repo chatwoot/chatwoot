@@ -6,7 +6,6 @@ import {
   messageSchema,
   Selection,
 } from '@chatwoot/prosemirror-schema';
-import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
 import camelcaseKeys from 'camelcase-keys';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
@@ -327,9 +326,19 @@ export function insertAtCursor(editorView, node, from, to) {
     node = node.firstChild.content;
   }
 
+  // The cursor sits in an empty paragraph when the editor is empty, and also
+  // when the editor keeps an empty first line above a signature. Inserting
+  // block content there splits that paragraph and strands a blank line, so
+  // replace the paragraph instead.
+  const $from = editorView.state.doc.resolve(from);
+  const isInEmptyParagraph =
+    $from.parent.type.name === 'paragraph' && $from.parent.content.size === 0;
+
   let tr;
   if (to) {
     tr = editorView.state.tr.replaceWith(from, to, node).insertText(` `);
+  } else if (isInEmptyParagraph && !isWrappedInParagraph) {
+    tr = editorView.state.tr.replaceWith($from.before(), $from.after(), node);
   } else {
     tr = editorView.state.tr.insert(from, node);
   }
@@ -433,11 +442,18 @@ export function stripUnsupportedFormatting(content, schema) {
 // Liquid delimiters ({{ }} / {% %}) the backend evaluates on send.
 const LIQUID_SYNTAX = /\{\{|\{%/;
 
+const VARIABLE_PLACEHOLDER = /{{(.*?)}}/g;
+
 // Value when set (and not itself Liquid), else the {{placeholder}} for the backend.
 export const resolveVariableText = (key, variables) => {
   const value = String(variables?.[key] ?? '');
   return value && !LIQUID_SYNTAX.test(value) ? value : `{{${key}}}`;
 };
+
+export const resolveVariablesInMessage = (message, variables) =>
+  message?.replace(VARIABLE_PLACEHOLDER, (_, key) =>
+    resolveVariableText(key.trim(), variables)
+  );
 
 // Name variables normalized like the backend drops (UserDrop/ContactDrop):
 // name split on whitespace, each word Ruby-capitalized (rest downcased).
@@ -537,10 +553,7 @@ const nodeCreators = {
     to,
   }),
   cannedResponse: (editorView, content, from, to, variables) => {
-    const updatedMessage = replaceVariablesInMessage({
-      message: content,
-      variables,
-    });
+    const updatedMessage = resolveVariablesInMessage(content, variables);
     const node = createNode(editorView, 'cannedResponse', updatedMessage);
     return {
       node,

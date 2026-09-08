@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "변수",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "언어",
       "CATEGORY": "카테고리",
       "VARIABLE_PLACEHOLDER": "{variable} 값을 입력하십시오",

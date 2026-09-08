@@ -34,6 +34,10 @@ class InboxPolicy < ApplicationPolicy
     true
   end
 
+  def message_templates?
+    true
+  end
+
   def campaigns?
     @account_user.administrator?
   end
@@ -83,6 +87,10 @@ class InboxPolicy < ApplicationPolicy
   end
 
   def set_inbound_calls?
+    @account_user.administrator?
+  end
+
+  def set_call_recording?
     @account_user.administrator?
   end
 end
