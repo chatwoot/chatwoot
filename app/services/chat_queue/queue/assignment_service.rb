@@ -36,8 +36,8 @@ class ChatQueue::Queue::AssignmentService
   end
 
   def already_assigned?(locked_entry, conversation, cid)
-    if locked_entry.status == 'assigned'
-      Rails.logger.info("[QUEUE][assign_entry][conv=#{cid}] Skip: already assigned")
+    unless locked_entry.waiting?
+      Rails.logger.info("[QUEUE][assign_entry][conv=#{cid}] Skip: entry is #{locked_entry.status}")
       return true
     end
 

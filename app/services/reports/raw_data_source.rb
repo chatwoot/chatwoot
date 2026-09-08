@@ -70,7 +70,8 @@ class Reports::RawDataSource < Reports::DataSource
                 .where(conversations: { proxied_at: nil })
     base = base.where(conversations: { inbox_id: inbox_ids }) if account_scope? && inbox_ids.present?
     base = base.where(user_id: user_ids) if account_scope? && user_ids.present?
-    distinct_resolutions(base, user_ids: account_scope? ? user_ids : nil)
+    distinct_first_responses(distinct_resolutions(base, user_ids: account_scope? ? user_ids : nil),
+                             user_ids: account_scope? ? user_ids : nil)
   end
 
   # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity -- per-metric scopes with proxy/inbox/agent filters
@@ -140,7 +141,7 @@ class Reports::RawDataSource < Reports::DataSource
 
   def summary_scope
     events = account.reporting_events.where(created_at: range).joins(:conversation).where(conversations: { proxied_at: nil })
-    base_scope = distinct_resolutions(events)
+    base_scope = distinct_first_responses(distinct_resolutions(events))
     return base_scope.references(:conversation) if dimension_type == 'team'
 
     base_scope

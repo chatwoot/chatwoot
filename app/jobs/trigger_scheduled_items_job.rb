@@ -22,6 +22,9 @@ class TriggerScheduledItemsJob < ApplicationJob
 
     # Job to trigger pending executions
     AutomationRules::TriggerPendingExecutionsJob.perform_later
+
+    # Job to close expired agent presence intervals
+    AgentActivity::CloseExpiredPresenceJob.perform_later
   end
 end
 

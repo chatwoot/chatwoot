@@ -5,23 +5,13 @@ class ChatQueue::Queue::RemovalService
     cid = conversation.id
     Rails.logger.info("[QUEUE][remove][conv=#{cid}] Removing from queue, reason: #{reason}")
 
-    entry = ConversationQueue.find_by(conversation_id: cid, status: :waiting)
+    entry = ConversationQueue.find_by(conversation_id: cid)
+    return nil unless entry
 
-    unless entry
-      Rails.logger.info("[QUEUE][remove][conv=#{cid}] Skip: no waiting entry")
-      return nil
-    end
+    entry = remove_waiting_entry(entry, cid)
+    return nil unless entry
 
-    left_queue = reason == :resolved
-
-    entry.update!(
-      status: left_queue ? :left : :assigned,
-      left_at: left_queue ? Time.current : nil,
-      assigned_at: left_queue ? nil : Time.current
-    )
-
-    update_statistics(entry, left: left_queue)
-
+    update_statistics(entry, left: reason == :resolved)
     entry
   rescue StandardError => e
     Rails.logger.error("[QUEUE][remove][conv=#{cid}] Exception: #{e.class} #{e.message}")
@@ -29,6 +19,20 @@ class ChatQueue::Queue::RemovalService
   end
 
   private
+
+  def remove_waiting_entry(entry, cid)
+    entry.with_lock do
+      unless entry.waiting?
+        Rails.logger.info("[QUEUE][remove][conv=#{cid}] Skip: no waiting entry")
+        next nil
+      end
+
+      left_queue = reason == :resolved
+      entry.update!(status: left_queue ? :left : :assigned, left_at: left_queue ? Time.current : nil,
+                    assigned_at: left_queue ? nil : Time.current)
+      entry
+    end
+  end
 
   def update_statistics(entry, left: false)
     cid = entry.conversation_id

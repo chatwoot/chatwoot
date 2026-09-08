@@ -21,7 +21,7 @@ class ChatQueue::ForceTransferService
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: :activity,
-      content: 'Нет доступных операторов для перевода'
+      content: I18n.t('conversations.activity.force_transfer.no_agents_available', locale: conversation.account.locale)
     )
   end
 
@@ -69,19 +69,10 @@ class ChatQueue::ForceTransferService
   end
 
   def agent_over_limit?(agent)
-    account_user = account_user_for(agent)
-    return false unless account_user&.active_chat_limit_enabled?
-    return false if account_user.active_chat_limit.nil?
+    limit = ChatQueue::Agents::LimitsService.new(account: conversation.account).limit_for(agent.id)
+    return false if limit.nil?
 
-    active_conversations_count(agent.id) >= account_user.active_chat_limit
-  end
-
-  def account_user_for(agent)
-    @account_users ||= {}
-    @account_users[agent.id] ||= AccountUser.find_by(
-      account_id: conversation.account_id,
-      user_id: agent.id
-    )
+    active_conversations_count(agent.id) >= limit
   end
 
   def active_conversations_count(agent_id)
@@ -92,26 +83,33 @@ class ChatQueue::ForceTransferService
 
   def transfer_to_agent(target_agent)
     previous_assignee = conversation.assignee
-
-    ActiveRecord::Base.transaction do
-      Current.executed_by = current_user
-
-      remove_from_queue_if_needed
-
-      conversation.update!(
-        assignee: target_agent,
-        status: :open,
-        last_activity_at: Time.current
-      )
-
-      log_transfer(previous_assignee, target_agent)
-      send_transfer_notification(target_agent)
-    end
+    transferred = perform_transfer(target_agent, previous_assignee)
+    return error_result('No available agents for transfer') unless transferred
 
     success_result(target_agent)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
     error_result("Transfer failed: #{e.message}")
+  end
+
+  def perform_transfer(target_agent, previous_assignee)
+    ActiveRecord::Base.transaction do
+      Current.executed_by = current_user
+      lock_transfer_records(target_agent)
+      raise ActiveRecord::Rollback if agent_over_limit?(target_agent)
+
+      remove_from_queue_if_needed
+      conversation.update!(assignee: target_agent, status: :open, last_activity_at: Time.current)
+      log_transfer(previous_assignee, target_agent)
+      send_transfer_notification(target_agent)
+      true
+    end
+  end
+
+  def lock_transfer_records(target_agent)
+    ConversationQueue.lock.find_by(conversation_id: conversation.id)
+    AccountUser.lock.find_by!(account_id: conversation.account_id, user_id: target_agent.id)
+    conversation.lock!
   end
 
   def remove_from_queue_if_needed
@@ -145,7 +143,11 @@ class ChatQueue::ForceTransferService
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: :activity,
-      content: "Чат переведен на оператора #{target_agent.name}"
+      content: I18n.t(
+        'conversations.activity.force_transfer.transferred',
+        agent_name: target_agent.name,
+        locale: conversation.account.locale
+      )
     )
   end
 

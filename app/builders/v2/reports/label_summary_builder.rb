@@ -111,6 +111,7 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
             .where(name: event_name, conversations: base_conversation_filters, taggings: { taggable_type: 'Conversation', context: 'labels' })
     scope = apply_reporting_event_filters(scope)
     scope = scope.distinct_resolutions(user_ids: params[:user_ids]&.reject(&:blank?))
+    scope = scope.distinct_first_responses(user_ids: params[:user_ids]&.reject(&:blank?))
     scope = scope.filter_by_label_ids(params[:label_ids], account.id) if params[:label_ids].present?
     scope
   end

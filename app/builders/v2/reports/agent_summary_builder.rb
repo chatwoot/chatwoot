@@ -25,6 +25,10 @@ class V2::Reports::AgentSummaryBuilder < V2::Reports::BaseSummaryBuilder
     false
   end
 
+  def distinct_first_responses?
+    false
+  end
+
   def fetch_agent_chat_duration
     scope = account.reporting_events.where(name: :agent_chat_duration, created_at: range)
     scope = apply_filters(scope)

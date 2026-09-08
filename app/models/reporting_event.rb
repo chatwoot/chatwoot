@@ -81,6 +81,21 @@ class ReportingEvent < ApplicationRecord
       )
     SQL
   }
+
+  scope :distinct_first_responses, lambda { |user_ids: nil|
+    agent_filter = user_ids.present? ? sanitize_sql_array(['AND earlier.user_id IN (?)', user_ids.map(&:to_i)]) : ''
+
+    where(<<~SQL.squish, name: 'first_response')
+      reporting_events.name != :name OR NOT EXISTS (
+        SELECT 1 FROM reporting_events earlier
+        WHERE earlier.conversation_id = reporting_events.conversation_id
+          AND earlier.name = :name
+          AND (COALESCE(earlier.event_end_time, earlier.created_at), earlier.id) <
+              (COALESCE(reporting_events.event_end_time, reporting_events.created_at), reporting_events.id)
+          #{agent_filter}
+      )
+    SQL
+  }
   scope :filter_by_label_ids, lambda { |label_ids, account_id|
     return all if label_ids.blank?
 

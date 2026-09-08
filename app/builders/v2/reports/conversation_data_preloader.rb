@@ -25,6 +25,7 @@ class V2::Reports::ConversationDataPreloader
     events = account.reporting_events
                     .where(conversation_id: conversation_ids)
                     .where(name: %w[conversation_resolved first_response reply_time])
+                    .distinct_first_responses
                     .select(:conversation_id, :name, average_value_key)
                     .group_by { |e| [e.conversation_id, e.name] }
 

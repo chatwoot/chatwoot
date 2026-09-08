@@ -80,10 +80,7 @@ class V2::Reports::AgentActivityBuilder
            .in_period(period_start, period_end)
            .order(:started_at)
 
-    logs.map do |log|
-      log.ended_at = [Time.zone.now, period_end].min if log.ended_at.nil?
-      log
-    end
+    logs.to_a
   end
 
   def build_timeline(logs)
@@ -132,12 +129,7 @@ class V2::Reports::AgentActivityBuilder
   end
 
   def current_status(user_id)
-    redis_status = OnlineStatusTracker.get_status(account.id, user_id)
-    is_present = OnlineStatusTracker.get_presence(account.id, 'User', user_id)
-
-    return 'offline' unless is_present
-
-    redis_status || 'online'
+    account.account_users.find_by!(user_id: user_id).availability_status
   end
 
   def period_start

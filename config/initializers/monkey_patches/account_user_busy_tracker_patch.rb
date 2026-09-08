@@ -15,7 +15,7 @@ module AccountUserBusyTrackerPatch
     Rails.logger.info("[BusyTracker] scheduling BusyToOfflineResetJob in #{timeout_minutes}m for user=#{user_id} account=#{account_id}")
     BusyToOfflineResetJob
       .set(wait: timeout_minutes.minutes)
-      .perform_later(account_id, user_id, updated_at.to_i)
+      .perform_later(account_id, user_id, updated_at.to_f)
   end
 end
 

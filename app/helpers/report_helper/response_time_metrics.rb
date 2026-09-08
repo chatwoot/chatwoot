@@ -2,7 +2,9 @@ module ReportHelper::ResponseTimeMetrics
   private
 
   def avg_first_response_time
-    grouped_reporting_events = get_grouped_values(scope.reporting_events.where(name: 'first_response', account_id: account.id))
+    events = scope.reporting_events.where(name: 'first_response', account_id: account.id)
+    events = events.distinct_first_responses unless params[:type].to_s == 'agent'
+    grouped_reporting_events = get_grouped_values(events)
     return grouped_reporting_events.average(:value_in_business_hours) if params[:business_hours]
 
     grouped_reporting_events.average(:value)
@@ -10,6 +12,7 @@ module ReportHelper::ResponseTimeMetrics
 
   def avg_first_response_time_summary
     reporting_events = scope.reporting_events.where(name: 'first_response', account_id: account.id, created_at: range)
+    reporting_events = reporting_events.distinct_first_responses unless params[:type].to_s == 'agent'
     avg_frt = params[:business_hours] ? reporting_events.average(:value_in_business_hours) : reporting_events.average(:value)
 
     return 0 if avg_frt.blank?

@@ -8,13 +8,29 @@ class OnlineStatusTracker
 
   # obj_type: Contact | User
   def self.update_presence(account_id, obj_type, obj_id)
-    ::Redis::Alfred.zadd(presence_key(account_id, obj_type), Time.now.to_i, obj_id)
+    now = Time.zone.now
+
+    if obj_type == 'User'
+      expiry = get_presence_expiry(account_id, obj_type, obj_id)
+      return if expiry && expiry <= now && ::AgentActivity::ActivityTracker.track_presence_reconnect(account_id, obj_id, expiry, now) do
+        ::Redis::Alfred.zadd(presence_key(account_id, obj_type), now.to_i, obj_id)
+      end
+    end
+
+    ::Redis::Alfred.zadd(presence_key(account_id, obj_type), now.to_i, obj_id)
   end
 
   def self.get_presence(account_id, obj_type, obj_id)
+    expiry = get_presence_expiry(account_id, obj_type, obj_id)
+    expiry && expiry > Time.zone.now
+  end
+
+  def self.get_presence_expiry(account_id, obj_type, obj_id)
     connected_time = ::Redis::Alfred.zscore(presence_key(account_id, obj_type), obj_id)
+    return unless connected_time
+
     duration = obj_type == 'Contact' ? CONTACT_PRESENCE_DURATION : PRESENCE_DURATION
-    connected_time && connected_time > (Time.zone.now - duration).to_i
+    Time.zone.at(connected_time.to_i) + duration
   end
 
   def self.presence_key(account_id, type)

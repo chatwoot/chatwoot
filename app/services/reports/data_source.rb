@@ -70,4 +70,10 @@ class Reports::DataSource
 
     relation.distinct_resolutions(user_ids: user_ids)
   end
+
+  def distinct_first_responses(relation, user_ids: nil)
+    return relation if dimension_type == 'agent'
+
+    relation.distinct_first_responses(user_ids: user_ids)
+  end
 end

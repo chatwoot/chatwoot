@@ -61,7 +61,7 @@ class V2::Reports::BaseSummaryBuilder
     @reporting_events ||= begin
       scope = account.reporting_events.where(created_at: range)
       scope = scope.joins(:conversation).where(conversations: { proxied_at: nil }) if exclude_proxy_chats?
-      scope = scope.distinct_resolutions(user_ids: params[:user_ids]&.reject(&:blank?)) if distinct_resolutions?
+      scope = apply_distinct_event_scopes(scope)
       scope
     end
   end
@@ -70,6 +70,17 @@ class V2::Reports::BaseSummaryBuilder
   # agent must count each resolution once. AgentSummaryBuilder keeps every row.
   def distinct_resolutions?
     true
+  end
+
+  def distinct_first_responses?
+    true
+  end
+
+  def apply_distinct_event_scopes(scope)
+    user_ids = params[:user_ids]&.reject(&:blank?)
+    scope = scope.distinct_resolutions(user_ids: user_ids) if distinct_resolutions?
+    scope = scope.distinct_first_responses(user_ids: user_ids) if distinct_first_responses?
+    scope
   end
 
   def filtered_reporting_events
