@@ -39,7 +39,7 @@ const menuSections = computed(() => {
   thisWeekStart.setDate(thisWeekStart.getDate() - thisWeekStart.getDay());
   const lastWeekStart = new Date(thisWeekStart);
   lastWeekStart.setDate(lastWeekStart.getDate() - DAYS_PER_WEEK);
-  const calendarItems = [
+  const weekItems = [
     {
       value: 'this_week',
       label: t('CAPTAIN.OVERVIEW.RANGES.THIS_WEEK'),
@@ -50,6 +50,8 @@ const menuSections = computed(() => {
       label: t('CAPTAIN.OVERVIEW.RANGES.LAST_WEEK'),
       start: lastWeekStart,
     },
+  ];
+  const monthItems = [
     {
       value: 'this_month',
       label: t('CAPTAIN.OVERVIEW.RANGES.THIS_MONTH'),
@@ -60,10 +62,13 @@ const menuSections = computed(() => {
       label: t('CAPTAIN.OVERVIEW.RANGES.LAST_MONTH'),
       start: new Date(now.value.getFullYear(), now.value.getMonth() - 1, 1),
     },
-  ]
-    .filter(({ start }) => start >= STATS_START_DATE)
-    .map(({ value, label }) => decorate({ value, label }));
-  return [{ items: dayItems }, { items: calendarItems }].filter(
+  ];
+  const calendarSections = [weekItems, monthItems].map(items => ({
+    items: items
+      .filter(({ start }) => start >= STATS_START_DATE)
+      .map(({ value, label }) => decorate({ value, label })),
+  }));
+  return [{ items: dayItems }, ...calendarSections].filter(
     section => section.items.length
   );
 });
