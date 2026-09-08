@@ -100,7 +100,6 @@ export function useAutomation(startValue = null) {
 
   /**
    * Resets a filter in the automation.value.
-   * @param {Object} automationTypes - The automation types object.
    * @param {number} index - The index of the filter to reset.
    * @param {Object} currentCondition - The current condition object.
    */
