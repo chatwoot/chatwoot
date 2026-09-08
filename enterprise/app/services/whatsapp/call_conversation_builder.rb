@@ -27,8 +27,11 @@ class Whatsapp::CallConversationBuilder
   def perform!
     contact_inbox = ContactInboxBuilder.new(contact: contact, inbox: inbox).perform
 
-    contact_inbox.with_lock do
-      existing_conversation || new_conversation.tap { |conversation| conversation.update!(contact_inbox: contact_inbox) }.reload
+    conversation = contact_inbox.with_lock do
+      existing_conversation || new_conversation.tap { |record| record.update!(contact_inbox: contact_inbox) }
     end
+
+    # Preserve assignment changes through commit callbacks before clearing trigger-populated attributes.
+    conversation.tap { |record| record.reload if record.changed? }
   end
 end
