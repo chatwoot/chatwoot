@@ -109,7 +109,7 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
       original_filename: faq_import.original_filename,
       status: faq_import.status,
       row_count: faq_import.row_count,
-      invalid_row_count: faq_import.invalid_rows.count,
+      invalid_row_count: faq_import.invalid_row_count,
       created_count: faq_import.created_count,
       overwritten_count: faq_import.overwritten_count,
       skipped_count: faq_import.skipped_count,

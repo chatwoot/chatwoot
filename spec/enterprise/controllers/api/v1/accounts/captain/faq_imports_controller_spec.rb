@@ -25,6 +25,72 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqImports', type: :request do
     expect(json_response[:rows].first).to include(state: 'existing', existing_answer: 'Existing answer', resolution: 'skip')
   end
 
+  context 'when reporting an import after its rows are cleared' do
+    let(:csv_headers) { %w[question answer] }
+    let(:embedding_service) { instance_double(Captain::Llm::EmbeddingService, get_embedding: Array.new(1536, 0.1)) }
+
+    before do
+      allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(embedding_service)
+    end
+
+    [
+      { name: 'mixed valid, invalid and duplicate rows', rows: [%w[Question Answer], ['', 'Missing question'], %w[Question Answer]],
+        invalid: 1, created: 1, skipped: 2, status: 'completed_with_errors' },
+      { name: 'only invalid rows', rows: [['', 'Missing question'], ['Missing answer', '']],
+        invalid: 2, created: 0, skipped: 2, status: 'completed_with_errors' },
+      { name: 'only valid rows', rows: [%w[Question Answer]], invalid: 0, created: 1, skipped: 0, status: 'completed' }
+    ].each do |scenario|
+      it "keeps the invalid-row count for #{scenario[:name]}" do
+        post base_path, params: { file: generate_csv_file([csv_headers] + scenario[:rows]) }, headers: admin.create_new_auth_token
+        expect(response).to have_http_status(:created)
+        expect(json_response[:invalid_row_count]).to eq(scenario[:invalid])
+        import_id = json_response[:id]
+
+        post "#{base_path}/#{import_id}/confirm", headers: admin.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:accepted)
+        expect(json_response[:invalid_row_count]).to eq(scenario[:invalid])
+        perform_enqueued_jobs(only: Captain::FaqImports::ProcessJob)
+        perform_enqueued_jobs(only: Captain::Llm::UpdateEmbeddingJob)
+        expect(Captain::FaqImport.find(import_id).rows).to eq([])
+
+        get "#{base_path}/latest", headers: admin.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:ok)
+        expect(json_response).to include(status: scenario[:status], invalid_row_count: scenario[:invalid],
+                                         created_count: scenario[:created], skipped_count: scenario[:skipped], rows: nil)
+      end
+    end
+
+    it 'preserves the invalid-row count after failed-import cleanup' do
+      post base_path, params: { file: generate_csv_file([%w[question answer], %w[Question Answer], ['', 'Missing question']]) },
+                      headers: admin.create_new_auth_token
+      import = Captain::FaqImport.find(json_response[:id])
+      import.confirm!([])
+      import.fail!('Import failed')
+
+      travel 25.hours do
+        Captain::FaqImports::CleanupJob.perform_now(import)
+        expect(import.reload.rows).to eq([])
+
+        get "#{base_path}/latest", headers: admin.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:ok)
+        expect(json_response).to include(status: 'failed', invalid_row_count: 1, error_message: 'Import failed')
+      end
+    end
+
+    it 'does not count an embedding failure as an invalid CSV row' do
+      post base_path, params: { file: generate_csv_file([%w[question answer], %w[Question Answer]]) }, headers: admin.create_new_auth_token
+      import = Captain::FaqImport.find(json_response[:id])
+      import.confirm!([])
+      Captain::FaqImports::ProcessJob.perform_now(import)
+      import.reload.mark_embedding!(import.rows.first['response_id'], success: false)
+      expect(import.reload.rows).to eq([])
+
+      get "#{base_path}/latest", headers: admin.create_new_auth_token, as: :json
+      expect(response).to have_http_status(:ok)
+      expect(json_response).to include(status: 'completed_with_errors', invalid_row_count: 0, embedding_failed_count: 1)
+    end
+  end
+
   it 'uploads UTF-8 CSV content received as binary' do
     file = Tempfile.new(['faqs', '.csv'])
     file.binmode

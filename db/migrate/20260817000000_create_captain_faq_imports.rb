@@ -31,6 +31,7 @@ class CreateCaptainFaqImports < ActiveRecord::Migration[7.1]
 
   def add_counter_columns(table)
     table.integer :row_count, null: false, default: 0
+    table.integer :invalid_row_count, null: false, default: 0
     table.integer :created_count, null: false, default: 0
     table.integer :overwritten_count, null: false, default: 0
     table.integer :skipped_count, null: false, default: 0

@@ -483,6 +483,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_17_000000) do
     t.integer "status", default: 0, null: false
     t.jsonb "rows", default: [], null: false
     t.integer "row_count", default: 0, null: false
+    t.integer "invalid_row_count", default: 0, null: false
     t.integer "created_count", default: 0, null: false
     t.integer "overwritten_count", default: 0, null: false
     t.integer "skipped_count", default: 0, null: false

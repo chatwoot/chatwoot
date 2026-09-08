@@ -35,6 +35,8 @@ class Captain::FaqImport < ApplicationRecord
   validates :user, presence: true, on: :create
   validate :assistant_belongs_to_account
 
+  before_create { self.invalid_row_count = invalid_rows.size }
+
   def confirm!(overwrite_row_numbers)
     selected_rows = Array(overwrite_row_numbers).to_set(&:to_i)
 
@@ -135,7 +137,7 @@ class Captain::FaqImport < ApplicationRecord
   end
 
   def import_has_errors?
-    embedding_failed_count.positive? || invalid_rows.any?
+    embedding_failed_count.positive? || invalid_row_count.positive?
   end
 
   def assistant_belongs_to_account
