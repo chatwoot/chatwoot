@@ -695,7 +695,6 @@
           "TEMPORARY_TITLE": "Temporary knowledge",
           "ADD_PERMANENTLY": "Add document permanently",
           "LABEL": "Reference text",
-          "COMPOSER_PLACEHOLDER": "Type or paste temporary knowledge...",
           "PLACEHOLDER": "Paste or write new knowledge for this test",
           "HINT": "This text is attached only to playground requests unless you add it as a document."
         },

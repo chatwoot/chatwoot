@@ -196,7 +196,7 @@ describe('PlaygroundTestSetup', () => {
     ).toBe(true);
   });
 
-  it('uses quick entry for knowledge, scenarios, and rules', async () => {
+  it('preserves multiline knowledge and uses quick entry for scenarios and rules', async () => {
     const addTemporaryScenario = vi.fn();
     const addTemporaryRule = vi.fn();
     const setKnowledgeText = vi.fn();
@@ -206,19 +206,21 @@ describe('PlaygroundTestSetup', () => {
       setKnowledgeText,
     });
 
-    let rulesInput = wrapper.findComponent(AddNewRulesInput);
-    expect(rulesInput.props()).toMatchObject({
-      placeholder: 'CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.COMPOSER_PLACEHOLDER',
-      label: 'CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST',
+    const knowledgeField = wrapper.findComponent(TextArea);
+    expect(knowledgeField.props()).toMatchObject({
+      placeholder: 'CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.PLACEHOLDER',
       maxLength: 10000,
     });
-    rulesInput.vm.$emit('add', 'Refunds take five days');
-    await nextTick();
-    expect(setKnowledgeText).toHaveBeenCalledWith('Refunds take five days');
-    expect(wrapper.findComponent(TextArea).exists()).toBe(true);
+    knowledgeField.vm.$emit(
+      'update:modelValue',
+      '# Refunds\n\n- Refunds take five days\n- Keep the receipt'
+    );
+    expect(setKnowledgeText).toHaveBeenCalledWith(
+      '# Refunds\n\n- Refunds take five days\n- Keep the receipt'
+    );
 
     await selectTab(wrapper, 'scenarios');
-    rulesInput = wrapper.findComponent(AddNewRulesInput);
+    let rulesInput = wrapper.findComponent(AddNewRulesInput);
     expect(rulesInput.props()).toMatchObject({
       placeholder: 'CAPTAIN.PLAYGROUND.SETUP.SCENARIOS.COMPOSER_PLACEHOLDER',
       label: 'CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST',
@@ -356,8 +358,8 @@ describe('PlaygroundTestSetup', () => {
 
     expect(wrapper.text()).toContain('12');
     expect(wrapper.text()).toContain('48');
-    expect(wrapper.findComponent(TextArea).exists()).toBe(false);
-    expect(wrapper.findComponent(AddNewRulesInput).exists()).toBe(true);
+    expect(wrapper.findComponent(TextArea).exists()).toBe(true);
+    expect(wrapper.findComponent(AddNewRulesInput).exists()).toBe(false);
     expect(wrapper.findAllComponents(Accordion)).toHaveLength(0);
     expect(wrapper.text()).not.toContain('Enabled scenario');
   });
@@ -407,9 +409,6 @@ describe('PlaygroundTestSetup', () => {
   it('keeps a separate quick-entry draft per tab', async () => {
     const wrapper = mountSetup();
 
-    wrapper
-      .findComponent(AddNewRulesInput)
-      .vm.$emit('update:modelValue', 'Temporary knowledge draft');
     await selectTab(wrapper, 'guidelines');
     wrapper
       .findComponent(AddNewRulesInput)
@@ -425,9 +424,7 @@ describe('PlaygroundTestSetup', () => {
       'Temporary guideline draft'
     );
     await selectTab(wrapper, 'knowledge');
-    expect(wrapper.findComponent(AddNewRulesInput).props('modelValue')).toBe(
-      'Temporary knowledge draft'
-    );
+    expect(wrapper.findComponent(TextArea).exists()).toBe(true);
   });
 
   it('does not reintroduce customer or conversation filters', () => {

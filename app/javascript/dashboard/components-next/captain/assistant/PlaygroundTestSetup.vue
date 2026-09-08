@@ -50,9 +50,7 @@ const RULE_TABS = {
 
 const activeTab = ref('knowledge');
 const collapsedScenarioIds = ref(new Set());
-const isKnowledgeEditorVisible = ref(Boolean(props.session.knowledgeText));
 const drafts = reactive({
-  knowledge: '',
   scenarios: '',
   guidelines: '',
   guardrails: '',
@@ -138,14 +136,6 @@ const toggleTemporaryScenario = scenario => {
     nextCollapsedScenarioIds.add(scenario.clientId);
   }
   collapsedScenarioIds.value = nextCollapsedScenarioIds;
-};
-
-const addTemporaryKnowledge = content => {
-  const normalizedContent = content?.trim();
-  if (!normalizedContent) return;
-
-  props.session.setKnowledgeText(normalizedContent);
-  isKnowledgeEditorVisible.value = true;
 };
 
 const selectTab = tab => {
@@ -511,18 +501,7 @@ const selectTab = tab => {
               />
             </div>
 
-            <AddNewRulesInput
-              v-if="!isKnowledgeEditorVisible"
-              v-model="drafts.knowledge"
-              :placeholder="
-                t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.COMPOSER_PLACEHOLDER')
-              "
-              :label="t('CAPTAIN.PLAYGROUND.SETUP.ADD_TO_TEST')"
-              :max-length="KNOWLEDGE_MAX_LENGTH"
-              @add="addTemporaryKnowledge"
-            />
-
-            <div v-else class="flex flex-col gap-3">
+            <div class="flex flex-col gap-3">
               <TextArea
                 :model-value="session.knowledgeText"
                 :label="t('CAPTAIN.PLAYGROUND.SETUP.KNOWLEDGE.LABEL')"
