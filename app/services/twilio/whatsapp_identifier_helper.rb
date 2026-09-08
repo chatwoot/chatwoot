@@ -41,6 +41,13 @@ module Twilio::WhatsappIdentifierHelper
     Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider("whatsapp:#{phone_number}", :twilio)
   end
 
+  def twilio_whatsapp_phone_number_candidates
+    return unless twilio_channel.whatsapp? && phone_number.present?
+
+    candidates = Whatsapp::PhoneNumberNormalizationService.new(inbox).phone_number_candidates(phone_number.delete_prefix('+')).drop(1)
+    candidates.map { |candidate| "+#{candidate}" }.presence
+  end
+
   def twilio_whatsapp_source_id(identifier)
     identifier = identifier.to_s
     return if identifier.blank?
