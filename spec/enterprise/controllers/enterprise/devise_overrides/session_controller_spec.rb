@@ -93,6 +93,12 @@ RSpec.describe 'Enterprise Audit API', type: :request do
       ensure
         ActiveSupport::Notifications.unsubscribe(subscriber)
       end
+
+      it 'enqueues one ip lookup for the whole batch' do
+        expect do
+          post new_user_session_url, params: { email: user.email, password: 'Password1!' }, as: :json
+        end.to have_enqueued_job(Enterprise::AuditLogSessionIpLookupJob).exactly(:once)
+      end
     end
 
     context 'with blank email' do

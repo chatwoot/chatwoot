@@ -30,7 +30,15 @@ module Enterprise::DeviseOverrides::SessionsController
     account_ids = @resource.accounts.ids
     return if account_ids.empty?
 
-    Enterprise::AuditLog.insert_all!(audit_event_rows(action, account_ids)) # rubocop:disable Rails/SkipsModelValidations
+    rows = audit_event_rows(action, account_ids)
+    Enterprise::AuditLog.insert_all!(rows) # rubocop:disable Rails/SkipsModelValidations
+    enqueue_session_ip_lookup(rows.first)
+  end
+
+  def enqueue_session_ip_lookup(row)
+    return if row[:remote_address].blank?
+
+    Enterprise::AuditLogSessionIpLookupJob.perform_later(row[:request_uuid], row[:remote_address])
   end
 
   def audit_event_rows(action, account_ids)
