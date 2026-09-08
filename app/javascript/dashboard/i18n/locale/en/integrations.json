@@ -584,6 +584,7 @@
           "BUY_MORE": "Buy more credits"
         },
         "KNOWLEDGE": {
+          "SUGGESTED": "Suggested FAQs",
           "REVIEW": "Review FAQs"
         }
       }

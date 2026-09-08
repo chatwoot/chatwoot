@@ -4,6 +4,7 @@ import { PercentageChart } from '@chatwoot/viz';
 
 const props = defineProps({
   label: { type: String, required: true },
+  showLabel: { type: Boolean, default: true },
   used: { type: Number, default: 0 },
   total: { type: Number, default: 0 },
   usageLabel: { type: String, default: '' },
@@ -27,10 +28,10 @@ const chartData = computed(() => ({
 
 <template>
   <div class="flex flex-col gap-2">
-    <div class="flex items-center justify-between gap-3 text-xs">
+    <div class="flex items-center justify-between gap-3 text-body-main">
       <span class="text-n-slate-11">
-        {{ label }}
-        <span v-if="usageLabel" class="text-n-iris-11">
+        <span v-if="showLabel">{{ label }} </span>
+        <span v-if="usageLabel" :class="{ 'text-n-iris-11': showLabel }">
           {{ usageLabel }}
         </span>
       </span>
@@ -45,7 +46,7 @@ const chartData = computed(() => ({
       :data="chartData"
       :aria-label="label"
       :bar-height="9"
-      :bar-gap="1"
+      :bar-gap="0"
       :bar-radius="999"
       :show-legend="false"
       :show-tooltip="false"
