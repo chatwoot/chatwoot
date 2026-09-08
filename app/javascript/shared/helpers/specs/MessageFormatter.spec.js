@@ -25,6 +25,22 @@ describe('#MessageFormatter', () => {
     });
   });
 
+  describe('content with a bare URL before a hard break', () => {
+    it('linkifies the URL without the hard-break backslash', () => {
+      const message = 'https://example.com/trip/\\\nNext line';
+      const formatted = new MessageFormatter(message).formattedMessage;
+      expect(formatted).toMatch('href="https://example.com/trip/"');
+      expect(formatted).not.toMatch('%5C');
+      expect(formatted).toMatch('<br');
+    });
+    it('leaves fenced code blocks untouched', () => {
+      const message = '```\nhttps://example.com/trip/\\\nnext\n```';
+      expect(new MessageFormatter(message).formattedMessage).toContain(
+        'https://example.com/trip/\\\nnext'
+      );
+    });
+  });
+
   describe('parses heading to strong', () => {
     it('should format correctly', () => {
       const message = '### opensource \n ## tool';

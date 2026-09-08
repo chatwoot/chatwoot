@@ -40,6 +40,24 @@ const imgResizeManager = md => {
   });
 };
 
+// A bare URL immediately followed by a CommonMark hard break (`\` + newline)
+// linkifies with the backslash inside the URL, so the rendered href ends in
+// %5C and 404s. Strip that backslash from inline text before inline parsing
+// runs linkify; fenced/indented code blocks are separate tokens and are left
+// untouched.
+const stripHardBreakAfterBareUrl = md => {
+  md.core.ruler.before('inline', 'strip-hard-break-after-bare-url', state => {
+    state.tokens.forEach(blockToken => {
+      if (blockToken.type === 'inline') {
+        blockToken.content = blockToken.content.replace(
+          /(https?:\/\/\S*?)\\(?=\r?\n)/g,
+          '$1'
+        );
+      }
+    });
+  });
+};
+
 const createMarkdownInstance = (linkify = true) => {
   return MarkdownIt({
     html: false,
@@ -52,6 +70,7 @@ const createMarkdownInstance = (linkify = true) => {
     maxNesting: 20,
   })
     .disable(['lheading'])
+    .use(stripHardBreakAfterBareUrl)
     .use(mentionPlugin)
     .use(imgResizeManager)
     .use(mila, {
