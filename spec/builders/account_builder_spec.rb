@@ -100,7 +100,6 @@ RSpec.describe AccountBuilder do
         allow(pending_installation).to receive(:bind_to_account!)
         allow(pending_installation).to receive(:consume!)
         allow(pending_installation).to receive(:release!)
-        allow(pending_installation).to receive(:with_valid_generation!).and_yield
       end
 
       it 'creates the account, administrator, billing identity, feature flag, and Shopify hook atomically', :aggregate_failures do
@@ -125,7 +124,6 @@ RSpec.describe AccountBuilder do
         )
         expect(pending_installation).to have_received(:consume!)
         expect(pending_installation).to have_received(:bind_to_account!).with(account.id)
-        expect(pending_installation).to have_received(:with_valid_generation!)
         expect(pending_installation).not_to have_received(:release!)
       end
 

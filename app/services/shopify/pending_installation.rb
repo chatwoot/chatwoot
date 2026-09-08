@@ -11,6 +11,7 @@ class Shopify::PendingInstallation
   TOKEN_FORMAT = /\A[0-9a-f]{32}\z/
   PAYLOAD_KEY = 'shopify_pending_install:%<token>s'.freeze
   CLAIM_KEY = 'shopify_pending_install_claim:%<token>s'.freeze
+  GENERATION_KEY = 'shopify_pending_install_generation:%<shop>s'.freeze
 
   attr_reader :data
 
@@ -19,14 +20,35 @@ class Shopify::PendingInstallation
     normalized_shop = Shopify::ShopDomain.normalize(shop)
     raise InvalidToken, 'Invalid shop domain' unless Shopify::ShopDomain.valid?(normalized_shop)
 
-    Shopify::PendingInstallationLifecycle.with_lock!(shop: normalized_shop) do
-      current_generation = Shopify::PendingInstallationLifecycle.generation(shop: normalized_shop)
-      raise InvalidToken, 'Shopify installation is no longer active' if shop_generation.present? && shop_generation.to_i != current_generation
+    current_generation = generation(shop: normalized_shop)
+    raise InvalidToken, 'Shopify installation is no longer active' if shop_generation.present? && shop_generation.to_i != current_generation
 
-      payload = { access_token: access_token, shop: normalized_shop, scope: scope, generation: current_generation }
-      Redis::SecureStorage.set(payload_key(token), payload, PAYLOAD_TTL)
-    end
+    payload = { access_token: access_token, shop: normalized_shop, scope: scope, generation: current_generation }
+    Redis::SecureStorage.set(payload_key(token), payload, PAYLOAD_TTL)
     token
+  end
+
+  def self.generation(shop:)
+    normalized_shop = Shopify::ShopDomain.normalize(shop)
+    return 0 unless Shopify::ShopDomain.valid?(normalized_shop)
+
+    key = generation_key(normalized_shop)
+    value = ::Redis::Alfred.get(key)
+    ::Redis::Alfred.expire(key, PAYLOAD_TTL.to_i) if value.present?
+    value.to_i
+  end
+
+  def self.invalidate_shop!(shop:)
+    normalized_shop = Shopify::ShopDomain.normalize(shop)
+    return unless Shopify::ShopDomain.valid?(normalized_shop)
+
+    key = generation_key(normalized_shop)
+    ::Redis::Alfred.with do |connection|
+      connection.multi do |transaction|
+        transaction.incr(key)
+        transaction.expire(key, PAYLOAD_TTL.to_i)
+      end
+    end
   end
 
   def self.claim(token:, account_id: nil)
@@ -48,7 +70,7 @@ class Shopify::PendingInstallation
 
     data = JSON.parse(Redis::SecureStorage.get(payload_key(token)).to_s)
     shop = Shopify::ShopDomain.normalize(data['shop'])
-    Shopify::ShopDomain.valid?(shop) && data['generation'].to_i == Shopify::PendingInstallationLifecycle.generation(shop: shop)
+    Shopify::ShopDomain.valid?(shop) && data['generation'].to_i == generation(shop: shop)
   rescue JSON::ParserError, TypeError
     false
   end
@@ -90,13 +112,6 @@ class Shopify::PendingInstallation
     raise CommitOutcomeUnknown, 'Install token consumption outcome is unknown', cause: e
   end
 
-  def with_valid_generation!
-    Shopify::PendingInstallationLifecycle.with_lock!(shop: data['shop']) do
-      verify_shop_generation!(data)
-      yield
-    end
-  end
-
   def bind_to_account!(account_id)
     bound_account_id = data['account_id']
     raise InvalidToken, 'Install token cannot be used by this account' if bound_account_id.present? && bound_account_id != account_id
@@ -121,6 +136,10 @@ class Shopify::PendingInstallation
 
     def claim_key(token)
       format(CLAIM_KEY, token: token)
+    end
+
+    def generation_key(shop)
+      format(GENERATION_KEY, shop: shop)
     end
   end
 
@@ -172,7 +191,7 @@ class Shopify::PendingInstallation
   end
 
   def verify_shop_generation!(data)
-    return if data['generation'].to_i == Shopify::PendingInstallationLifecycle.generation(shop: data['shop'])
+    return if data['generation'].to_i == self.class.generation(shop: data['shop'])
 
     raise InvalidToken, 'Invalid or expired install token'
   end

@@ -42,7 +42,7 @@ class Webhooks::ShopifyController < ActionController::API
   end
 
   def handle_shop_redact
-    Shopify::PendingInstallationLifecycle.invalidate!(shop: params[:shop_domain], occurred_at: webhook_triggered_at)
+    Shopify::PendingInstallation.invalidate_shop!(shop: params[:shop_domain])
     hooks = shopify_hooks(params[:shop_domain])
     hooks.find_each do |hook|
       Shopify::UninstallationService.new(hook: hook, occurred_at: webhook_triggered_at, delete_hook: true).perform
@@ -51,7 +51,7 @@ class Webhooks::ShopifyController < ActionController::API
   end
 
   def handle_app_uninstalled
-    Shopify::PendingInstallationLifecycle.invalidate!(shop: params[:myshopify_domain], occurred_at: webhook_triggered_at)
+    Shopify::PendingInstallation.invalidate_shop!(shop: params[:myshopify_domain])
     shopify_hooks(params[:myshopify_domain]).find_each do |hook|
       Shopify::UninstallationService.new(hook: hook, occurred_at: webhook_triggered_at).perform
     end

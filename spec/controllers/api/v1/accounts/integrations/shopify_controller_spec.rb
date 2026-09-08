@@ -185,7 +185,6 @@ RSpec.describe 'Shopify Integration API', type: :request do
         .with(token: pending_install_token)
         .and_return(pending_installation)
       allow(pending_installation).to receive(:consume!)
-      allow(pending_installation).to receive(:with_valid_generation!).and_yield
 
       expect do
         post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
@@ -206,7 +205,6 @@ RSpec.describe 'Shopify Integration API', type: :request do
         'installation_id' => be_present
       )
       expect(pending_installation).to have_received(:consume!)
-      expect(pending_installation).to have_received(:with_valid_generation!)
       expect(response).to have_http_status(:ok)
     end
 
@@ -228,7 +226,6 @@ RSpec.describe 'Shopify Integration API', type: :request do
       allow(pending_installation).to receive(:consume!)
         .and_raise(Shopify::PendingInstallation::AlreadyClaimed, 'Install token claim has expired')
       allow(pending_installation).to receive(:release!)
-      allow(pending_installation).to receive(:with_valid_generation!).and_yield
 
       expect do
         post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
@@ -249,7 +246,6 @@ RSpec.describe 'Shopify Integration API', type: :request do
         .with(token: pending_install_token)
         .and_return(pending_installation)
       allow(pending_installation).to receive(:release!)
-      allow(pending_installation).to receive(:with_valid_generation!).and_yield
 
       expect do
         post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",

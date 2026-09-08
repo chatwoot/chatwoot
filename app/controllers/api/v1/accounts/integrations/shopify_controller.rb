@@ -42,14 +42,11 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   private
 
   def install_pending_shopify_hook(pending_installation)
-    hook = nil
-    pending_installation.with_valid_generation! do
-      data = pending_installation.data
-      raise_duplicate_shop! if shopify_shop_exists?(data['shop'])
+    data = pending_installation.data
+    raise_duplicate_shop! if shopify_shop_exists?(data['shop'])
 
-      hook = create_shopify_hook(data)
-      pending_installation.consume!
-    end
+    hook = create_shopify_hook(data)
+    pending_installation.consume!
   rescue Shopify::PendingInstallation::CommitOutcomeUnknown
     raise
   rescue ActiveRecord::RecordNotUnique
