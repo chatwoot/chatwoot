@@ -55,6 +55,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'notification.deleted': this.onNotificationDeleted,
       'notification.updated': this.onNotificationUpdated,
       'conversation.read': this.onConversationRead,
+      'conversation.unread': this.onConversationUnread,
       'conversation.updated': this.onConversationUpdated,
       'conversation.unread_count_changed':
         this.onConversationUnreadCountChanged,
@@ -116,6 +117,14 @@ class ActionCableConnector extends BaseActionCableConnector {
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
     this.fetchConversationStats();
+  };
+
+  onConversationUnread = data => {
+    this.app.$store.commit('UPDATE_MESSAGE_UNREAD_COUNT', {
+      id: data.id,
+      lastSeen: data.agent_last_seen_at,
+      unreadCount: data.unread_count,
+    });
   };
 
   onConversationRead = data => {
