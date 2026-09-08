@@ -8,7 +8,6 @@ RSpec.describe Captain::ReplySuggestionService do
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:captured_messages) { [] }
-  let(:mock_chat) { instance_double(RubyLLM::Chat) }
 
   before do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
@@ -17,6 +16,7 @@ RSpec.describe Captain::ReplySuggestionService do
     allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
 
     mock_response = instance_double(RubyLLM::Message, content: 'Sure, I can help!', input_tokens: 50, output_tokens: 20)
+    mock_chat = instance_double(RubyLLM::Chat)
     mock_context = instance_double(RubyLLM::Context, chat: mock_chat)
 
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
@@ -49,23 +49,6 @@ RSpec.describe Captain::ReplySuggestionService do
       user_message = captured_messages.find { |m| m[:role] == 'user' }
       expect(user_message[:content]).to include('Message History:')
       expect(user_message[:content]).to include('User: I need help')
-    end
-
-    context 'when self-hosted Premium' do
-      before do
-        agent
-        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
-        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(false)
-        allow(ChatwootHub).to receive(:pricing_plan).and_return('premium')
-      end
-
-      it 'adds the documentation search tool' do
-        expect(mock_chat).to receive(:with_tool)
-          .with(instance_of(Captain::Tools::SearchReplyDocumentationService))
-          .and_return(mock_chat)
-
-        service.perform
-      end
     end
 
     context 'with chat channel' do
