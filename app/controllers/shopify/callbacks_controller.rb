@@ -1,4 +1,4 @@
-class Shopify::CallbacksController < ApplicationController
+class Shopify::CallbacksController < ApplicationController # rubocop:disable Metrics/ClassLength
   include Shopify::IntegrationHelper
 
   def show
@@ -21,8 +21,11 @@ class Shopify::CallbacksController < ApplicationController
   def handle_chatwoot_initiated_flow
     @account_id = verified_account_id
     raise StandardError, 'Invalid state parameter' if account.blank?
+
+    ensure_shopify_enabled!(account: account)
     raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
 
+    @shopify_installation_generation = Shopify::InstallationGeneration.current(account)
     exchange_access_token
     create_hook
     redirect_to shopify_integration_url
@@ -31,26 +34,43 @@ class Shopify::CallbacksController < ApplicationController
   def handle_shopify_initiated_flow
     prepare_shopify_initiated_flow
     verify_shopify_oauth_state!
+    load_existing_shopify_account
 
     # Security: HMAC validation ensures params (including shop) haven't been tampered with.
     # Additionally, the OAuth code is cryptographically bound to the shop that issued it.
     # Shopify will reject any attempt to exchange a code at a different shop's endpoint.
     exchange_access_token
 
+    if @account
+      reconnect_existing_shopify_account
+      return redirect_to existing_account_redirect_url
+    end
+
     token_key = Shopify::PendingInstallation.create(
       access_token: parsed_body['access_token'],
       shop: params[:shop],
-      scope: parsed_body['scope']
+      scope: parsed_body['scope'],
+      shop_generation: @pending_installation_generation
     )
 
-    redirect_url = "settings/integrations/shopify?shopify_pending_install=#{CGI.escape(token_key)}"
-    redirect_to "#{frontend_url}/app/login?redirect_url=#{CGI.escape(redirect_url)}", allow_other_host: true
+    redirect_to "#{frontend_url}/app/auth/signup?shopify_pending_install=#{CGI.escape(token_key)}", allow_other_host: true
   end
 
   def handle_shopify_initiated_without_code
     prepare_shopify_initiated_flow
+    load_existing_shopify_account
+    hook = @account&.hooks&.find_by(app_id: 'shopify')
+    return redirect_to existing_account_redirect_url if reusable_hook?(hook)
+
     state = SecureRandom.hex(16)
-    Redis::SecureStorage.set(oauth_state_key(state), { shop: params[:shop] }, 10.minutes)
+    Redis::SecureStorage.set(
+      oauth_state_key(state),
+      {
+        shop: params[:shop],
+        pending_installation_generation: Shopify::PendingInstallation.generation(shop: params[:shop])
+      },
+      10.minutes
+    )
 
     authorization_url = oauth_client.auth_code.authorize_url(
       redirect_uri: redirect_callback_uri,
@@ -61,6 +81,7 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def prepare_shopify_initiated_flow
+    ensure_shopify_enabled!
     raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
     raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
   end
@@ -72,7 +93,11 @@ class Shopify::CallbacksController < ApplicationController
     stored_state = JSON.parse(Redis::SecureStorage.get(oauth_state_key(state)).to_s)
     raise StandardError, 'Invalid state parameter' unless stored_state['shop'] == params[:shop]
 
+    @pending_installation_generation = stored_state['pending_installation_generation']
     Redis::SecureStorage.delete(oauth_state_key(state))
+    return if @pending_installation_generation.to_i == Shopify::PendingInstallation.generation(shop: params[:shop])
+
+    raise StandardError, 'Shopify installation changed during authorization'
   rescue JSON::ParserError
     raise StandardError, 'Invalid state parameter'
   end
@@ -81,14 +106,87 @@ class Shopify::CallbacksController < ApplicationController
     @response = oauth_client.auth_code.get_token(params[:code], redirect_uri: redirect_callback_uri)
   end
 
+  def load_existing_shopify_account
+    @account = existing_shopify_account
+    return unless @account
+
+    @account_id = account.id
+    ensure_shopify_enabled!(account: account)
+    @shopify_installation_generation = Shopify::InstallationGeneration.current(account)
+  end
+
   def create_hook
-    account.hooks.create!(
+    Shopify::InstallationGeneration.with_current!(account, @shopify_installation_generation) do
+      account.hooks.create!(shopify_hook_attributes)
+    end
+  end
+
+  def reconnect_existing_shopify_account
+    Shopify::InstallationGeneration.with_current!(account, @shopify_installation_generation) do
+      loop do
+        hook = account.hooks.find_by(app_id: 'shopify')
+        unless hook
+          account.hooks.create!(shopify_hook_attributes)
+          break
+        end
+
+        begin
+          hook.with_lock { hook.update!(shopify_hook_attributes) }
+          break
+        rescue ActiveRecord::RecordNotFound
+          next
+        end
+      end
+    end
+  end
+
+  def shopify_hook_attributes
+    {
       app_id: 'shopify',
       access_token: parsed_body['access_token'],
       status: 'enabled',
       reference_id: params[:shop],
-      settings: { scope: parsed_body['scope'] }
-    )
+      settings: shopify_hook_settings
+    }
+  end
+
+  def shopify_hook_settings
+    {
+      scope: parsed_body['scope'],
+      connected_at: Time.current.utc.iso8601(6),
+      installation_id: SecureRandom.uuid
+    }
+  end
+
+  def existing_shopify_account
+    existing_shopify_hook&.account || shopify_billed_account_by_snapshot
+  end
+
+  def existing_shopify_hook
+    @existing_shopify_hook ||=
+      Integrations::Hook.where(app_id: 'shopify').find_by('LOWER(reference_id) = ?', Shopify::ShopDomain.normalize(params[:shop]))
+  end
+
+  def shopify_billed_account_by_snapshot
+    Account
+      .where("internal_attributes ->> 'billing_provider' = ?", 'shopify')
+      .where("internal_attributes ->> 'signup_source' = ?", 'shopify')
+      .find_by("custom_attributes #>> '{shopify_subscription_snapshot,shop_domain}' = ?",
+               Shopify::ShopDomain.normalize(params[:shop]))
+  end
+
+  def existing_account_redirect_url
+    billing_identity = account.internal_attributes.stringify_keys
+    return shopify_billing_url if billing_identity['billing_provider'] == 'shopify' && billing_identity['signup_source'] == 'shopify'
+
+    shopify_integration_url
+  end
+
+  def reusable_hook?(hook)
+    return false unless hook&.enabled? && hook.access_token.present?
+
+    granted_scopes = hook.settings['scope'].to_s.split(',').map(&:strip)
+    (REQUIRED_SCOPES - granted_scopes).empty?
   end
 
   def parsed_body
@@ -114,9 +212,7 @@ class Shopify::CallbacksController < ApplicationController
     )
   end
 
-  def account
-    @account ||= Account.find(@account_id)
-  end
+  def account = (@account ||= Account.find(@account_id))
 
   def verified_account_id
     return unless params[:state].to_s.count('.') == 2
@@ -124,13 +220,15 @@ class Shopify::CallbacksController < ApplicationController
     @verified_account_id ||= verify_shopify_token(params[:state])
   end
 
-  def redirect_callback_uri
-    "#{frontend_url}/shopify/callback"
+  def ensure_shopify_enabled!(account: nil)
+    raise StandardError, 'Shopify integration is disabled' unless Shopify::FeatureGate.enabled?(account: account)
   end
 
-  def shopify_integration_url
-    "#{frontend_url}/app/accounts/#{account.id}/settings/integrations/shopify"
-  end
+  def redirect_callback_uri = "#{frontend_url}/shopify/callback"
+
+  def shopify_integration_url = "#{frontend_url}/app/accounts/#{account.id}/settings/integrations/shopify"
+
+  def shopify_billing_url = "#{frontend_url}/app/accounts/#{account.id}/settings/billing?shop=#{CGI.escape(params[:shop])}"
 
   def error_redirect_url
     if @account_id
@@ -144,9 +242,7 @@ class Shopify::CallbacksController < ApplicationController
     end
   end
 
-  def frontend_url
-    ENV.fetch('FRONTEND_URL', '')
-  end
+  def frontend_url = ENV.fetch('FRONTEND_URL', '')
 
   def oauth_state_key(state)
     "shopify_oauth_state:#{state}"
@@ -173,4 +269,4 @@ class Shopify::CallbacksController < ApplicationController
 
     ActiveSupport::SecurityUtils.secure_compare(computed_hmac, hmac)
   end
-end
+end # rubocop:enable Metrics/ClassLength

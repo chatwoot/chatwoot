@@ -15,6 +15,21 @@ RSpec.describe AccountUser do
       expect(account_user.user.notification_settings.first.email_conversation_creation?).to be(false)
       expect(account_user.user.notification_settings.first.email_conversation_assignment?).to be(true)
     end
+
+    it 'reuses notification settings when a user is re-added to the account' do
+      account = account_user.account
+      user = account_user.user
+      setting = user.notification_settings.find_by!(account: account)
+      setting.update!(selected_email_flags: [:email_conversation_creation])
+      account_user.destroy!
+
+      expect do
+        create(:account_user, account: account, user: user)
+      end.not_to change(NotificationSetting, :count)
+
+      expect(setting.reload.email_conversation_creation?).to be(true)
+      expect(setting.email_conversation_assignment?).to be(false)
+    end
   end
 
   describe 'permissions' do
@@ -40,6 +55,15 @@ RSpec.describe AccountUser do
       end
 
       expect(user.assigned_conversations.count).to eq(0)
+    end
+
+    it 'does not enqueue account cleanup when the removal is rolled back' do
+      expect do
+        described_class.transaction do
+          account_user.destroy!
+          raise ActiveRecord::Rollback
+        end
+      end.not_to have_enqueued_job(Agents::DestroyJob)
     end
   end
 

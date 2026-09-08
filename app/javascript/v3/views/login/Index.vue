@@ -104,13 +104,28 @@ export default {
       );
     },
     showSignupLink() {
-      return window.chatwootConfig.signupEnabled === 'true';
+      return (
+        window.chatwootConfig.signupEnabled === 'true' ||
+        Boolean(this.signupRoute.query?.shopify_pending_install)
+      );
+    },
+    signupRoute() {
+      return getSignupRoute(this.redirectUrl);
+    },
+    resetPasswordRoute() {
+      const route = { name: 'auth_reset_password' };
+      return this.redirectUrl
+        ? { ...route, query: { redirect_url: this.redirectUrl } }
+        : route;
     },
     showSamlLogin() {
       return this.allowedLoginMethods.includes('saml');
     },
-    signupRoute() {
-      return getSignupRoute(this.redirectUrl);
+    samlLoginRoute() {
+      const route = { name: 'sso_login' };
+      return this.redirectUrl
+        ? { ...route, query: { redirect_url: this.redirectUrl } }
+        : route;
     },
   },
   created() {
@@ -240,14 +255,14 @@ export default {
 
       this.submitLogin();
     },
-    handleMfaVerified(responseData) {
+    handleMfaVerified(user) {
       // MFA verification successful, continue with login
       this.handleImpersonation();
       window.location = getLoginRedirectURL({
         ssoAccountId: this.ssoAccountId,
         ssoConversationId: this.ssoConversationId,
         redirectUrl: this.redirectUrl,
-        user: responseData?.data,
+        user,
       });
     },
     handleMfaCancel() {
@@ -369,7 +384,7 @@ export default {
           />
           <div v-if="showSamlLogin" class="text-center">
             <router-link
-              to="/app/login/sso"
+              :to="samlLoginRoute"
               class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
             >
               <Icon
@@ -414,7 +429,7 @@ export default {
           >
             <p v-if="!globalConfig.disableUserProfileUpdate">
               <router-link
-                to="auth/reset/password"
+                :to="resetPasswordRoute"
                 class="text-sm text-link"
                 tabindex="4"
               >

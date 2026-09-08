@@ -1176,6 +1176,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "settings", default: {}
+    t.index "lower((reference_id)::text)", name: "index_shopify_hooks_on_lower_reference_id", unique: true, where: "((app_id)::text = 'shopify'::text)"
+    t.index ["account_id"], name: "index_shopify_hooks_on_account_id", unique: true, where: "((app_id)::text = 'shopify'::text)"
   end
 
   create_table "labels", force: :cascade do |t|
