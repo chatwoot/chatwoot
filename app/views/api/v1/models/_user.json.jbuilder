@@ -25,10 +25,12 @@ json.uid resource.uid
 json.type resource.type
 json.accounts do
   json.array! account_users do |account_user|
+    account = account_user.account
     json.id account_user.account_id
-    json.name account_user.account.name
-    json.status account_user.account.status
-    json.onboarding_step account_user.account.onboarding_step
+    json.name account.name
+    json.status account.status
+    json.onboarding_step account.onboarding_step
+    json.partial! 'enterprise/api/v1/models/account_billing', account: account if ChatwootApp.enterprise?
     json.active_at account_user.active_at
     json.role account_user.role
     json.permissions account_user.permissions

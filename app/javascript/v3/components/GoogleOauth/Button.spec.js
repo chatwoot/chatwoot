@@ -32,6 +32,16 @@ describe('GoogleOAuthButton.vue', () => {
     );
     expect(params.get('response_type')).toBe('code');
     expect(params.get('scope')).toBe('email profile');
+    expect(params.has('state')).toBe(false);
+  });
+
+  it('carries the billing redirect through Google OAuth state', () => {
+    const redirectUrl =
+      'settings/billing?plan_handle=growth&shop=store.myshopify.com';
+    const wrapper = getWrapper({ redirectUrl });
+    const googleAuthUrl = new URL(wrapper.vm.getGoogleAuthUrl());
+
+    expect(googleAuthUrl.searchParams.get('state')).toBe(redirectUrl);
   });
 
   it('preserves the login redirect in OAuth state', () => {
