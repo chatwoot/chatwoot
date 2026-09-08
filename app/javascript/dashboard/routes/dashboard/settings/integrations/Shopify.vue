@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import {
   useFunctionGetter,
   useMapGetter,
@@ -7,8 +8,10 @@ import {
 } from 'dashboard/composables/store';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import { useBranding } from 'shared/composables/useBranding';
 import { isShopifyBillingAccount } from 'v3/helpers/AuthHelper';
+import shopifyAPI from 'dashboard/api/integrations/shopify';
 import Integration from './Integration.vue';
 
 import SettingsLayout from '../SettingsLayout.vue';
@@ -23,6 +26,8 @@ defineProps({
 
 const store = useStore();
 const integrationLoaded = ref(false);
+const route = useRoute();
+const router = useRouter();
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
 const { replaceInstallationName } = useBranding();
@@ -59,9 +64,34 @@ const formattedHelpText = computed(() => {
   );
 });
 
+const clearPendingInstallToken = async () => {
+  const query = { ...route.query };
+  delete query.shopify_pending_install;
+  await router.replace({ query });
+};
+
+const completePendingInstall = async token => {
+  try {
+    await shopifyAPI.completeInstall(token);
+    await store.dispatch('integrations/get', 'shopify');
+    useAlert(t('INTEGRATION_SETTINGS.SHOPIFY.PENDING_INSTALL.SUCCESS'));
+    await clearPendingInstallToken();
+  } catch (error) {
+    useAlert(t('INTEGRATION_SETTINGS.SHOPIFY.PENDING_INSTALL.ERROR'));
+    if (error.response?.status === 422) {
+      await clearPendingInstallToken();
+    }
+  }
+};
+
 const initializeShopifyIntegration = async () => {
   await store.dispatch('integrations/get', 'shopify');
   integrationLoaded.value = true;
+
+  const pendingInstallToken = route.query.shopify_pending_install;
+  if (pendingInstallToken) {
+    await completePendingInstall(pendingInstallToken);
+  }
 };
 
 onMounted(() => {

@@ -11,6 +11,10 @@ export default {
       type: String,
       default: '',
     },
+    redirectUrl: {
+      type: String,
+      default: '',
+    },
   },
   mounted() {
     this.confirmToken();
@@ -21,7 +25,10 @@ export default {
         const user = await verifyPasswordToken({
           confirmationToken: this.confirmationToken,
         });
-        window.location = getLoginRedirectURL({ user });
+        window.location = getLoginRedirectURL({
+          user,
+          redirectUrl: this.redirectUrl,
+        });
       } catch (error) {
         window.location = DEFAULT_REDIRECT_URL;
       }

@@ -77,6 +77,8 @@ class AccountBuilder
     }
     attributes[:internal_attributes] = shopify_billing_identity if shopify_signup?
 
+    # billing_provider and signup_source are fixed classification labels, not sensitive values.
+    # codeql[rb/clear-text-storage-sensitive-data]
     @account = Account.create!(attributes)
     Current.account = @account
   end

@@ -1,6 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe Devise::Mailer do
+  it 'carries the pending Shopify install redirect in the confirmation link' do
+    user = create(:user, skip_confirmation: false)
+    redirect_url = "settings/integrations/shopify?shopify_pending_install=#{'a' * 32}"
+    mail = described_class
+           .with(redirect_url: redirect_url)
+           .confirmation_instructions(user, 'confirmation-token')
+
+    expect(CGI.unescapeHTML(mail.body.to_s)).to include(
+      "route_url=settings%2Fintegrations%2Fshopify%3Fshopify_pending_install%3D#{'a' * 32}"
+    )
+  end
+
   it 'carries the requested redirect in the password edit link' do
     user = create(:user)
     redirect_url = 'settings/billing?plan_handle=growth&shop=store.myshopify.com'

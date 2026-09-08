@@ -51,11 +51,11 @@ RSpec.describe 'Enterprise SAML OmniAuth Callbacks', type: :request do
       end
     end
 
-    it 'returns a Shopify pricing redirect to the login flow' do
+    it 'returns a pending Shopify install redirect to the login flow' do
       with_modified_env FRONTEND_URL: 'http://www.example.com' do
         create(:user, email: 'billing@example.com', account: account)
         set_saml_config('billing@example.com')
-        redirect_url = 'settings/billing?plan_handle=growth&shop=store.myshopify.com'
+        redirect_url = "settings/integrations/shopify?shopify_pending_install=#{'a' * 32}"
 
         get '/omniauth/saml/callback', params: { account_id: account.id, RelayState: redirect_url }
 

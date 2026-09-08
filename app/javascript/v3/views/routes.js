@@ -63,6 +63,7 @@ export default [
     meta: { ignoreSession: true },
     props: () => ({
       email: window.history.state?.email || '',
+      redirectUrl: window.history.state?.redirectUrl || '',
     }),
   },
   {

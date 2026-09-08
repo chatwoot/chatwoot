@@ -232,7 +232,10 @@ export default {
             this.loginApi.showLoading = false;
             this.$router.push({
               name: 'auth_verify_email',
-              state: { email: credentials.email },
+              state: {
+                email: credentials.email,
+                redirectUrl: this.redirectUrl,
+              },
             });
             return;
           }

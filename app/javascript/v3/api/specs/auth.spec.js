@@ -1,5 +1,5 @@
 import wootAPI from '../apiClient';
-import { register, verifyPasswordToken } from '../auth';
+import { register, resendConfirmation, verifyPasswordToken } from '../auth';
 import { setAuthCredentials } from 'dashboard/store/utils/api';
 
 vi.mock('../apiClient', () => ({
@@ -64,5 +64,21 @@ describe('auth API', () => {
       verifyPasswordToken({ confirmationToken: 'confirmation-token' })
     ).resolves.toEqual(user);
     expect(setAuthCredentials).toHaveBeenCalledWith(response);
+  });
+
+  it('includes the pending install redirect when resending confirmation', async () => {
+    const redirectUrl = `settings/integrations/shopify?shopify_pending_install=${'a'.repeat(32)}`;
+
+    await resendConfirmation({
+      email: 'john@acme.com',
+      hCaptchaClientResponse: 'captcha-token',
+      redirectUrl,
+    });
+
+    expect(wootAPI.post).toHaveBeenCalledWith('resend_confirmation', {
+      email: 'john@acme.com',
+      h_captcha_client_response: 'captcha-token',
+      redirect_url: redirectUrl,
+    });
   });
 });

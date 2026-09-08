@@ -44,17 +44,24 @@ const mountComponent = props =>
 
 describe('Shopify signup', () => {
   it('passes the pending install token to the signup form', () => {
+    const pendingInstallToken = 'a'.repeat(32);
     const wrapper = mountComponent({
-      shopifyPendingInstall: 'pending-install-token',
+      shopifyPendingInstall: pendingInstallToken,
     });
 
     expect(
       wrapper.findComponent(SignupForm).props('shopifyPendingInstall')
-    ).toBe('pending-install-token');
+    ).toBe(pendingInstallToken);
     expect(wrapper.text()).toContain('Set up Acme for your Shopify store');
     expect(wrapper.text()).toContain('Create your Acme account to continue.');
     expect(wrapper.text()).not.toContain('Chatwoot');
-    expect(wrapper.find('a').exists()).toBe(false);
+    expect(wrapper.vm.loginRoute).toEqual({
+      name: 'login',
+      query: {
+        redirect_url: `settings/integrations/shopify?shopify_pending_install=${pendingInstallToken}`,
+      },
+    });
+    expect(wrapper.find('a').exists()).toBe(true);
   });
 
   it('preserves the regular signup experience without a token', () => {

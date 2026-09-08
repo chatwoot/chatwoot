@@ -128,7 +128,16 @@ class User < ApplicationRecord
   end
 
   def send_devise_notification(notification, *)
-    devise_mailer.with(account: Current.account).send(notification, self, *).deliver_later
+    mailer_params = { account: Current.account }
+    mailer_params[:redirect_url] = @confirmation_redirect_url if notification == :confirmation_instructions && @confirmation_redirect_url.present?
+    devise_mailer.with(mailer_params).send(notification, self, *).deliver_later
+  end
+
+  def send_confirmation_instructions_with_redirect(redirect_url:)
+    @confirmation_redirect_url = redirect_url
+    send_confirmation_instructions
+  ensure
+    @confirmation_redirect_url = nil
   end
 
   def send_reset_password_instructions(redirect_url: nil)

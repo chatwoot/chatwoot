@@ -23,6 +23,13 @@ const isAChatwootInstance = computed(
   () => globalConfig.value.installationName === 'Chatwoot'
 );
 const isShopifySignup = computed(() => Boolean(props.shopifyPendingInstall));
+const loginRoute = computed(() => {
+  const route = { name: 'login' };
+  if (!isShopifySignup.value) return route;
+
+  const redirectUrl = `settings/integrations/shopify?shopify_pending_install=${props.shopifyPendingInstall}`;
+  return { ...route, query: { redirect_url: redirectUrl } };
+});
 
 onBeforeMount(() => {
   isLoading.value = isAChatwootInstance.value;
@@ -72,11 +79,11 @@ const resizeContainers = () => {
             <p v-if="isShopifySignup" class="mt-2 text-sm text-n-slate-11">
               {{ replaceInstallationName($t('REGISTER.SHOPIFY.DESCRIPTION')) }}
             </p>
-            <p v-else class="mt-2 text-sm text-n-slate-11">
+            <p class="mt-2 text-sm text-n-slate-11">
               {{ $t('REGISTER.HAVE_AN_ACCOUNT') }}{{ ' '
               }}<router-link
                 class="text-n-blue-10 font-medium hover:text-n-blue-11"
-                to="/app/login"
+                :to="loginRoute"
               >
                 {{ $t('LOGIN.SUBMIT') }}
               </router-link>

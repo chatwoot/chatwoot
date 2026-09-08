@@ -81,10 +81,15 @@ export const register = async creds => {
   return null;
 };
 
-export const resendConfirmation = async ({ email, hCaptchaClientResponse }) => {
+export const resendConfirmation = async ({
+  email,
+  hCaptchaClientResponse,
+  redirectUrl,
+}) => {
   return wootAPI.post('resend_confirmation', {
     email,
     h_captcha_client_response: hCaptchaClientResponse,
+    redirect_url: redirectUrl,
   });
 };
 

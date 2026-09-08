@@ -47,9 +47,8 @@ describe('login retries', () => {
 });
 
 describe('SAML login', () => {
-  it('carries the Shopify pricing redirect to the SSO route', () => {
-    const redirectUrl =
-      'settings/billing?plan_handle=growth&shop=store.myshopify.com';
+  it('carries the pending Shopify install redirect to the SSO route', () => {
+    const redirectUrl = `settings/integrations/shopify?shopify_pending_install=${'a'.repeat(32)}`;
 
     expect(Login.computed.samlLoginRoute.call({ redirectUrl })).toEqual({
       name: 'sso_login',
@@ -79,6 +78,40 @@ describe('Shopify signup and password recovery', () => {
     expect(Login.computed.resetPasswordRoute.call({ redirectUrl })).toEqual({
       name: 'auth_reset_password',
       query: { redirect_url: redirectUrl },
+    });
+  });
+
+  it('carries a pending install redirect to email verification', async () => {
+    const pendingInstallRedirect = `settings/integrations/shopify?shopify_pending_install=${'a'.repeat(32)}`;
+    const router = { push: vi.fn() };
+    const context = {
+      email: '',
+      credentials: {
+        email: 'john@example.com',
+        password: 'Password1!',
+      },
+      ssoAuthToken: '',
+      ssoAccountId: '',
+      ssoConversationId: '',
+      redirectUrl: pendingInstallRedirect,
+      loginApi: { showLoading: false, hasErrored: false },
+      $router: router,
+      handleImpersonation: vi.fn(),
+      showAlertMessage: vi.fn(),
+      $t: key => key,
+    };
+    login.mockRejectedValueOnce({ errorCode: 'user_not_confirmed' });
+
+    Login.methods.submitLogin.call(context);
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(router.push).toHaveBeenCalledWith({
+      name: 'auth_verify_email',
+      state: {
+        email: 'john@example.com',
+        redirectUrl: pendingInstallRedirect,
+      },
     });
   });
 });
