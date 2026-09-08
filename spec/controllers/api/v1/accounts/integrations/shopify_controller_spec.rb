@@ -20,6 +20,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
     allow(GlobalConfigService).to receive(:load)
       .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
       .and_return(true)
+    allow(Shopify::ApiContext).to receive(:setup!)
   end
 
   describe 'GET /api/v1/accounts/:account_id/integrations/shopify/orders' do
@@ -58,9 +59,6 @@ RSpec.describe 'Shopify Integration API', type: :request do
       before do
         allow_any_instance_of(Api::V1::Accounts::Integrations::ShopifyController).to receive(:shopify_client).and_return(shopify_client)
 
-        allow_any_instance_of(Api::V1::Accounts::Integrations::ShopifyController).to receive(:client_id).and_return('test_client_id')
-        allow_any_instance_of(Api::V1::Accounts::Integrations::ShopifyController).to receive(:client_secret).and_return('test_client_secret')
-
         allow(shopify_client).to receive(:get).with(
           path: 'customers/search.json',
           query: { query: "email:#{contact.email} OR phone:#{contact.phone_number}", fields: 'id,email,phone' }
@@ -82,6 +80,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
         expect(response.parsed_body).to have_key('orders')
         expect(response.parsed_body['orders'].length).to eq(1)
         expect(response.parsed_body['orders'][0]['id']).to eq('456')
+        expect(Shopify::ApiContext).to have_received(:setup!)
       end
 
       it 'returns error when contact has no email or phone' do
@@ -114,6 +113,18 @@ RSpec.describe 'Shopify Integration API', type: :request do
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['orders']).to eq([])
+      end
+
+      it 'rejects a disabled retained hook before calling Shopify' do
+        account.hooks.find_by!(app_id: 'shopify').update!(status: :disabled, access_token: nil)
+
+        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
+            params: { contact_id: contact.id },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(shopify_client).not_to have_received(:get)
       end
       # rubocop:enable RSpec/AnyInstance
     end

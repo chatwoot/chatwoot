@@ -33,6 +33,50 @@ export const getShopifyInstallAccount = ({ accounts, accountId }) => {
     : accounts.find(canManageShopify);
 };
 
+const SHOPIFY_ENTITLED_STATES = ['active', 'trialing', 'cancelled'];
+
+export const isShopifyBillingAccount = account =>
+  account?.billing_provider === 'shopify' &&
+  account.shopify_integration === true;
+
+export const requiresShopifyBilling = account =>
+  isShopifyBillingAccount(account) &&
+  !SHOPIFY_ENTITLED_STATES.includes(account.subscription_status);
+
+export const getShopifyBillingRedirect = query => {
+  const { plan_handle: planHandle, shop } = query || {};
+  if (!planHandle && !shop) return '';
+
+  const params = new URLSearchParams();
+  if (planHandle) params.set('plan_handle', planHandle);
+  if (shop) params.set('shop', shop);
+  return `settings/billing?${params.toString()}`;
+};
+
+export const getShopifyShopFromRedirect = redirectUrl => {
+  const query = redirectUrl?.split('?')[1];
+  return new URLSearchParams(query).get('shop')?.trim().toLowerCase() || '';
+};
+
+export const getTargetAccount = ({ ssoAccountId, redirectUrl, user }) => {
+  const { accounts = [], account_id: accountId = null } = user || {};
+  const ssoAccount = accounts.find(
+    account => account.id === Number(ssoAccountId)
+  );
+  if (ssoAccount) return ssoAccount;
+
+  const shop = getShopifyShopFromRedirect(redirectUrl);
+  if (shop) {
+    return accounts.find(
+      account => account.shopify_shop_domain?.toLowerCase() === shop
+    );
+  }
+
+  return (
+    accounts.find(account => account.id === Number(accountId)) || accounts[0]
+  );
+};
+
 const getSSOAccountPath = ({ ssoAccountId, user }) => {
   const { accounts = [], account_id = null } = user || {};
   const ssoAccount = accounts.find(
@@ -70,15 +114,21 @@ export const getLoginRedirectURL = ({
   redirectUrl,
   user,
 }) => {
+  const targetAccount = getTargetAccount({ ssoAccountId, redirectUrl, user });
+  if (getShopifyShopFromRedirect(redirectUrl) && !targetAccount) {
+    return DEFAULT_REDIRECT_URL;
+  }
   if (redirectUrl) {
     const { accounts = [], account_id = null } = user || {};
-    const targetAccount = isShopifyInstallRedirect(redirectUrl)
+    const redirectAccount = isShopifyInstallRedirect(redirectUrl)
       ? getShopifyInstallAccount({ accounts, accountId: account_id })
-      : accounts.find(account => account.id === Number(account_id)) ||
-        accounts[0];
-    if (targetAccount) {
-      return frontendURL(`accounts/${targetAccount.id}/${redirectUrl}`);
+      : targetAccount;
+    if (redirectAccount) {
+      return frontendURL(`accounts/${redirectAccount.id}/${redirectUrl}`);
     }
+  }
+  if (requiresShopifyBilling(targetAccount)) {
+    return frontendURL(`accounts/${targetAccount.id}/settings/billing`);
   }
   const accountPath = getSSOAccountPath({ ssoAccountId, user });
   if (accountPath) {

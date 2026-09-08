@@ -14,6 +14,7 @@ RSpec.describe Shopify::PendingInstallation do
   let(:token) { SecureRandom.hex(16) }
   let(:payload_key) { "shopify_pending_install:#{token}" }
   let(:claim_key) { "shopify_pending_install_claim:#{token}" }
+  let(:generation_key) { "shopify_pending_install_generation:#{shop}" }
 
   around do |example|
     with_modified_env(encryption_env) { example.run }
@@ -30,6 +31,7 @@ RSpec.describe Shopify::PendingInstallation do
   after do
     Redis::Alfred.delete(payload_key)
     Redis::Alfred.delete(claim_key)
+    Redis::Alfred.delete(generation_key)
   end
 
   it 'creates an encrypted pending installation' do
@@ -55,6 +57,45 @@ RSpec.describe Shopify::PendingInstallation do
   it 'identifies an available pending installation token' do
     expect(described_class.pending?(token: token)).to be(true)
     expect(described_class.pending?(token: 'invalid-token')).to be(false)
+  end
+
+  it 'invalidates tokens created before Shopify lifecycle cleanup' do
+    created_token = described_class.create(access_token: access_token, shop: shop, scope: scope)
+
+    described_class.invalidate_shop!(shop: shop)
+
+    expect(described_class.pending?(token: created_token)).to be(false)
+    expect do
+      described_class.claim(token: created_token)
+    end.to raise_error(described_class::InvalidToken, 'Invalid or expired install token')
+  ensure
+    Redis::Alfred.delete("shopify_pending_install:#{created_token}") if created_token
+    Redis::Alfred.delete("shopify_pending_install_claim:#{created_token}") if created_token
+  end
+
+  it 'rejects token creation from an OAuth flow that predates cleanup' do
+    shop_generation = described_class.generation(shop: shop)
+    described_class.invalidate_shop!(shop: shop)
+
+    expect do
+      described_class.create(
+        access_token: access_token,
+        shop: shop,
+        scope: scope,
+        shop_generation: shop_generation
+      )
+    end.to raise_error(described_class::InvalidToken, 'Shopify installation is no longer active')
+  end
+
+  it 'allows a fresh installation after lifecycle cleanup' do
+    described_class.invalidate_shop!(shop: shop)
+    created_token = described_class.create(access_token: access_token, shop: shop, scope: scope)
+    pending_installation = described_class.claim(token: created_token)
+
+    expect(pending_installation.data['generation']).to eq(1)
+  ensure
+    pending_installation&.consume!
+    Redis::Alfred.delete("shopify_pending_install:#{created_token}") if created_token
   end
 
   it 'allows only one active claim' do

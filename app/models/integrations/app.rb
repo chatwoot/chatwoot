@@ -92,6 +92,8 @@ class Integrations::App
       account.webhooks.exists?
     when 'dashboard_apps'
       account.dashboard_apps.exists?
+    when 'shopify'
+      account.hooks.exists?(app_id: id, status: :enabled)
     else
       account.hooks.exists?(app_id: id)
     end
