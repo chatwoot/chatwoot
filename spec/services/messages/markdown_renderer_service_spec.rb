@@ -536,47 +536,71 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
       end
     end
 
-    context 'when content contains HTML tags on their own lines (HTML block nodes)' do
+    context 'when content contains raw HTML' do
+      let(:html_block) { "<a>\n<b></b></a>asdf" }
+
       %w[
         Channel::Whatsapp
-        Channel::Telegram
         Channel::Instagram
         Channel::FacebookPage
         Channel::Line
         Channel::Sms
         Channel::TwitterProfile
+        Channel::TwilioSms
       ].each do |channel_type|
-        context "when channel is #{channel_type}" do
-          it 'does not return an empty string' do
-            content = "<a>\n<b></b></a>asdf"
-            result = described_class.new(content, channel_type).render
-            expect(result).not_to be_empty
-          end
+        it "preserves HTML block content for #{channel_type}" do
+          result = described_class.new(html_block, channel_type).render
 
-          it 'strips HTML block tags and preserves surrounding text' do
-            content = "<a>\n<b></b></a>asdf"
-            result = described_class.new(content, channel_type).render
-            expect(result).to include('asdf')
-          end
-
-          it 'strips inline HTML tags within paragraph text' do
-            content = 'hello <strong>world</strong>'
-            result = described_class.new(content, channel_type).render
-            expect(result).to include('hello')
-            expect(result).to include('world')
-            expect(result).not_to include('<strong>')
-          end
+          expect(result).to eq(html_block)
         end
       end
 
-      context 'when channel is Channel::TwilioSms with WhatsApp' do
-        it 'does not return an empty string and preserves surrounding text' do
-          content = "<a>\n<b></b></a>asdf"
-          channel = instance_double(Channel::TwilioSms, whatsapp?: true)
-          result = described_class.new(content, 'Channel::TwilioSms', channel).render
-          expect(result).not_to be_empty
-          expect(result).to include('asdf')
-        end
+      it 'preserves an HTML block containing only tags' do
+        content = "<a>\n<b></b></a>"
+        result = described_class.new(content, 'Channel::Whatsapp').render
+
+        expect(result).to eq(content)
+      end
+
+      it 'preserves content following an HTML block' do
+        content = "#{html_block}\n\nfollowing"
+        result = described_class.new(content, 'Channel::Whatsapp').render
+
+        expect(result).to eq(content)
+      end
+
+      it 'preserves inline HTML' do
+        content = 'hello <strong>world</strong>'
+        result = described_class.new(content, 'Channel::Whatsapp').render
+
+        expect(result).to eq(content)
+      end
+
+      it 'escapes raw HTML for Telegram HTML parse mode' do
+        result = described_class.new(html_block, 'Channel::Telegram').render
+
+        expect(result).to eq("&lt;a&gt;\n&lt;b&gt;&lt;/b&gt;&lt;/a&gt;asdf")
+      end
+
+      it 'escapes inline HTML for Telegram HTML parse mode' do
+        content = 'hello <strong>world</strong>'
+        result = described_class.new(content, 'Channel::Telegram').render
+
+        expect(result).to eq('hello &lt;strong&gt;world&lt;/strong&gt;')
+      end
+
+      it 'escapes HTML attributes for Telegram HTML parse mode' do
+        content = '<a title="1 > 0">text</a>'
+        result = described_class.new(content, 'Channel::Telegram').render
+
+        expect(result).to eq('&lt;a title=&quot;1 &gt; 0&quot;&gt;text&lt;/a&gt;')
+      end
+
+      it 'preserves HTML block content for Twilio WhatsApp channels' do
+        channel = instance_double(Channel::TwilioSms, whatsapp?: true)
+        result = described_class.new(html_block, 'Channel::TwilioSms', channel).render
+
+        expect(result).to eq(html_block)
       end
     end
 
