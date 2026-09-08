@@ -64,6 +64,10 @@ class Api::V1::AccountsController < Api::BaseController
 
   private
 
+  def latest_chatwoot_version
+    Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION)
+  end
+
   def account_builder_params
     attributes = {
       account_name: account_params[:account_name],
@@ -76,10 +80,6 @@ class Api::V1::AccountsController < Api::BaseController
     pending_install_token = account_params[:shopify_pending_install_token]
     attributes[:shopify_pending_install_token] = pending_install_token if pending_install_token.present?
     attributes
-  end
-
-  def latest_chatwoot_version
-    Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION)
   end
 
   def enqueue_branding_enrichment
@@ -130,6 +130,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def render_shopify_signup_error(exception)
+    log_handled_error(exception)
     render json: { message: exception.message }, status: :unprocessable_entity
   end
 
@@ -146,7 +147,14 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def check_signup_enabled
-    raise ActionController::RoutingError, 'Not Found' unless GlobalConfigService.account_signup_enabled?
+    return if GlobalConfigService.account_signup_enabled? || pending_shopify_signup?
+
+    raise ActionController::RoutingError, 'Not Found'
+  end
+
+  def pending_shopify_signup?
+    token = account_params[:shopify_pending_install_token]
+    Shopify::FeatureGate.enabled? && Shopify::PendingInstallation.pending?(token: token)
   end
 
   def api_only_signup?

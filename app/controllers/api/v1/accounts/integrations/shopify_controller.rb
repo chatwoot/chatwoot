@@ -1,10 +1,9 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Integrations::BaseController
   include Shopify::IntegrationHelper
   before_action :ensure_shopify_enabled
-  before_action :setup_shopify_context, only: [:orders]
+  before_action -> { Shopify::ApiContext.setup! }, only: [:orders]
   before_action :fetch_hook, except: [:complete_install]
-  before_action :authorize_hook_creation, only: [:complete_install]
-  before_action :check_authorization, only: [:destroy]
+  before_action :check_authorization, only: [:complete_install, :destroy]
   before_action :validate_contact, only: [:orders]
 
   def orders
@@ -19,8 +18,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
 
   def complete_install
     pending_installation = Shopify::PendingInstallation.claim(
-      token: params[:pending_install_token],
-      account_id: Current.account.id
+      token: params[:pending_install_token]
     )
     install_pending_shopify_hook(pending_installation)
     head :ok
@@ -43,25 +41,45 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
 
   private
 
-  def authorize_hook_creation
-    authorize(:hook, :create?)
-  end
-
   def install_pending_shopify_hook(pending_installation)
     data = pending_installation.data
-    hook = Current.account.hooks.create!(
+    raise_duplicate_shop! if shopify_shop_exists?(data['shop'])
+
+    hook = create_shopify_hook(data)
+    pending_installation.consume!
+  rescue Shopify::PendingInstallation::CommitOutcomeUnknown
+    raise
+  rescue ActiveRecord::RecordNotUnique
+    raise_duplicate_shop!
+  rescue ActiveRecord::RecordInvalid => e
+    raise unless e.record.is_a?(Integrations::Hook) && e.record.errors.added?(:reference_id, :taken)
+
+    raise_duplicate_shop!
+  rescue StandardError
+    hook&.destroy!
+    raise
+  end
+
+  def create_shopify_hook(data)
+    Current.account.hooks.create!(
       app_id: 'shopify',
       access_token: data['access_token'],
       status: 'enabled',
       reference_id: data['shop'],
-      settings: { scope: data['scope'] }
+      settings: {
+        scope: data['scope'],
+        connected_at: Time.current.utc.iso8601(6),
+        installation_id: SecureRandom.uuid
+      }
     )
-    pending_installation.consume!
-  rescue Shopify::PendingInstallation::CommitOutcomeUnknown
-    raise
-  rescue StandardError
-    hook&.destroy!
-    raise
+  end
+
+  def shopify_shop_exists?(shop)
+    Integrations::Hook.where(app_id: 'shopify').exists?(['LOWER(reference_id) = ?', shop.downcase])
+  end
+
+  def raise_duplicate_shop!
+    raise Shopify::PendingInstallation::DuplicateShop, 'This Shopify store is already connected'
   end
 
   def ensure_shopify_enabled
@@ -73,7 +91,9 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   end
 
   def fetch_hook
-    @hook = Integrations::Hook.find_by!(account: Current.account, app_id: 'shopify')
+    hooks = Integrations::Hook.where(account: Current.account, app_id: 'shopify')
+    hooks = hooks.enabled if action_name == 'orders'
+    @hook = hooks.first!
   end
 
   def fetch_customers
@@ -105,25 +125,15 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
     end
   end
 
-  def setup_shopify_context
-    return if client_id.blank? || client_secret.blank?
-
-    ShopifyAPI::Context.setup(
-      api_key: client_id,
-      api_secret_key: client_secret,
-      api_version: '2025-01'.freeze,
-      scope: REQUIRED_SCOPES.join(','),
-      is_embedded: true,
-      is_private: false
-    )
-  end
-
   def shopify_session
     ShopifyAPI::Auth::Session.new(shop: @hook.reference_id, access_token: @hook.access_token)
   end
 
   def shopify_client
-    @shopify_client ||= ShopifyAPI::Clients::Rest::Admin.new(session: shopify_session)
+    @shopify_client ||= ShopifyAPI::Clients::Rest::Admin.new(
+      session: shopify_session,
+      api_version: Shopify::ApiContext::API_VERSION
+    )
   end
 
   def validate_contact

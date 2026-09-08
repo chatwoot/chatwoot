@@ -27,7 +27,7 @@ class Enterprise::Billing::HandleStripeEventService
     plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
 
     # skipping self hosted plan events
-    return if plan.blank? || account.blank?
+    return if plan.blank? || !stripe_billed_account?
 
     previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
@@ -99,7 +99,7 @@ class Enterprise::Billing::HandleStripeEventService
 
   def process_subscription_deleted
     # skipping self hosted plan events
-    return if account.blank?
+    return unless stripe_billed_account?
 
     previous_monthly_credits = current_plan_credits[:responses]
     return unless Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
@@ -169,6 +169,10 @@ class Enterprise::Billing::HandleStripeEventService
 
   def account
     @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", subscription.customer).first
+  end
+
+  def stripe_billed_account?
+    account&.billing_provider == Account::DEFAULT_BILLING_PROVIDER
   end
 
   def find_plan(product_id)
