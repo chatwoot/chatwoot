@@ -24,8 +24,20 @@ RSpec.describe Enterprise::AuditLogSessionIpLookupJob do
     expect(ip_lookup).to have_received(:perform).once
     audits.each do |audit|
       expect(audit.reload.city).to eq('Mountain View')
+      expect(audit.country).to eq('United States')
       expect(audit.country_code).to eq('US')
     end
+  end
+
+  it 'updates only the eligible accounts when a batch spans both' do
+    eligible = create_session_audit(associated: account)
+    ineligible = create_session_audit(associated: create(:account))
+    allow(ip_lookup).to receive(:perform).and_return(geo_result)
+
+    described_class.perform_now(request_uuid, '8.8.8.8')
+
+    expect(eligible.reload.city).to eq('Mountain View')
+    expect(ineligible.reload.city).to be_nil
   end
 
   it 'leaves rows belonging to another request alone' do
@@ -39,13 +51,10 @@ RSpec.describe Enterprise::AuditLogSessionIpLookupJob do
   end
 
   it 'skips accounts that have not enabled ip_lookup' do
-    opted_out = create(:account)
-    audit = create_session_audit(associated: opted_out)
-    allow(ip_lookup).to receive(:perform).and_return(geo_result)
+    create_session_audit(associated: create(:account))
 
     described_class.perform_now(request_uuid, '8.8.8.8')
 
-    expect(audit.reload.city).to be_nil
     expect(IpLookupService).not_to have_received(:new)
   end
 

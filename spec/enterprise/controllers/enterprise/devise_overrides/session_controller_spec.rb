@@ -99,6 +99,15 @@ RSpec.describe 'Enterprise Audit API', type: :request do
           post new_user_session_url, params: { email: user.email, password: 'Password1!' }, as: :json
         end.to have_enqueued_job(Enterprise::AuditLogSessionIpLookupJob).exactly(:once)
       end
+
+      it 'still shares a request uuid when the request id sanitizes to blank' do
+        post new_user_session_url, params: { email: user.email, password: 'Password1!' },
+                                   headers: { 'X-Request-Id' => '!!!' }, as: :json
+
+        uuids = user.reload.audits.where(action: 'sign_in').pluck(:request_uuid).uniq
+        expect(uuids.length).to eq(1)
+        expect(uuids.first).to be_present
+      end
     end
 
     context 'with blank email' do

@@ -43,7 +43,7 @@ module Enterprise::DeviseOverrides::SessionsController
 
   def audit_event_rows(action, account_ids)
     base_version = Enterprise::AuditLog.unscoped.auditable_finder(@resource.id, 'User').maximum(:version) || 0
-    request_uuid = ::Audited.store[:current_request_uuid] || SecureRandom.uuid
+    request_uuid = ::Audited.store[:current_request_uuid].presence || SecureRandom.uuid
     created_at = Time.zone.now
 
     account_ids.each_with_index.map do |account_id, index|
