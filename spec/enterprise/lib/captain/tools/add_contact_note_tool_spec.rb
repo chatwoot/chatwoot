@@ -106,6 +106,16 @@ RSpec.describe Captain::Tools::AddContactNoteTool, type: :model do
         expect(result).to eq('Contact not found')
       end
     end
+
+    context 'when a playground call cannot add the note' do
+      let(:tool_context) { Struct.new(:state).new({ source: 'playground' }) }
+
+      it 'marks the result as an error for run details' do
+        result = tool.perform(tool_context, note: 'Some note')
+
+        expect(result).to eq('ERROR: Contact not found')
+      end
+    end
   end
 
   describe '#active?' do
