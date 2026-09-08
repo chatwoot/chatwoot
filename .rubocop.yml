@@ -16,7 +16,6 @@ Layout/LineLength:
 Metrics/ClassLength:
   Max: 175
   Exclude:
-    - 'app/controllers/api/v1/accounts/inboxes_controller.rb'
     - 'app/models/message.rb'
     - 'app/models/conversation.rb'
     - 'config/initializers/rack_attack.rb'
