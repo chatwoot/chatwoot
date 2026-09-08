@@ -15,6 +15,8 @@ RSpec.describe Shopify::PendingInstallation do
   let(:payload_key) { "shopify_pending_install:#{token}" }
   let(:claim_key) { "shopify_pending_install_claim:#{token}" }
   let(:generation_key) { "shopify_pending_install_generation:#{shop}" }
+  let(:authorization_key) { "shopify_pending_install_authorization:#{shop}" }
+  let(:lock_key) { "shopify_pending_install_lock:#{shop}" }
 
   around do |example|
     with_modified_env(encryption_env) { example.run }
@@ -32,6 +34,8 @@ RSpec.describe Shopify::PendingInstallation do
     Redis::Alfred.delete(payload_key)
     Redis::Alfred.delete(claim_key)
     Redis::Alfred.delete(generation_key)
+    Redis::Alfred.delete(authorization_key)
+    Redis::Alfred.delete(lock_key)
   end
 
   it 'creates an encrypted pending installation' do
@@ -62,7 +66,7 @@ RSpec.describe Shopify::PendingInstallation do
   it 'invalidates tokens created before Shopify lifecycle cleanup' do
     created_token = described_class.create(access_token: access_token, shop: shop, scope: scope)
 
-    described_class.invalidate_shop!(shop: shop)
+    Shopify::PendingInstallationLifecycle.invalidate!(shop: shop)
 
     expect(described_class.pending?(token: created_token)).to be(false)
     expect do
@@ -74,8 +78,8 @@ RSpec.describe Shopify::PendingInstallation do
   end
 
   it 'rejects token creation from an OAuth flow that predates cleanup' do
-    shop_generation = described_class.generation(shop: shop)
-    described_class.invalidate_shop!(shop: shop)
+    shop_generation = Shopify::PendingInstallationLifecycle.generation(shop: shop)
+    Shopify::PendingInstallationLifecycle.invalidate!(shop: shop)
 
     expect do
       described_class.create(
@@ -88,13 +92,64 @@ RSpec.describe Shopify::PendingInstallation do
   end
 
   it 'allows a fresh installation after lifecycle cleanup' do
-    described_class.invalidate_shop!(shop: shop)
+    Shopify::PendingInstallationLifecycle.invalidate!(shop: shop)
     created_token = described_class.create(access_token: access_token, shop: shop, scope: scope)
     pending_installation = described_class.claim(token: created_token)
 
     expect(pending_installation.data['generation']).to eq(1)
   ensure
     pending_installation&.consume!
+    Redis::Alfred.delete("shopify_pending_install:#{created_token}") if created_token
+  end
+
+  it 'does not let a stale lifecycle event invalidate a newer authorization' do
+    authorization_started_at = Time.iso8601('2026-09-08T10:00:00Z')
+    authorization = Shopify::PendingInstallationLifecycle.start_authorization!(shop: shop, started_at: authorization_started_at)
+
+    invalidated = Shopify::PendingInstallationLifecycle.invalidate!(shop: shop, occurred_at: authorization_started_at - 1.minute)
+
+    expect(invalidated).to be(false)
+    expect(authorization[:generation]).to eq(0)
+    expect(Shopify::PendingInstallationLifecycle.generation(shop: shop)).to eq(0)
+  end
+
+  it 'invalidates authorization when the lifecycle event is newer' do
+    authorization_started_at = Time.iso8601('2026-09-08T10:00:00Z')
+    Shopify::PendingInstallationLifecycle.start_authorization!(shop: shop, started_at: authorization_started_at)
+
+    invalidated = Shopify::PendingInstallationLifecycle.invalidate!(shop: shop, occurred_at: authorization_started_at + 1.minute)
+
+    expect(invalidated).to be(true)
+    expect(Shopify::PendingInstallationLifecycle.generation(shop: shop)).to eq(1)
+  end
+
+  it 'serializes generation validation with lifecycle invalidation' do
+    created_token = described_class.create(access_token: access_token, shop: shop, scope: scope)
+    pending_installation = described_class.claim(token: created_token)
+    inside_installation = Queue.new
+    finish_installation = Queue.new
+
+    installation_thread = Thread.new do
+      pending_installation.with_valid_generation! do
+        inside_installation << true
+        finish_installation.pop
+      end
+    end
+    inside_installation.pop
+
+    invalidation_thread = Thread.new { Shopify::PendingInstallationLifecycle.invalidate!(shop: shop) }
+    expect(invalidation_thread.join(0.05)).to be_nil
+
+    finish_installation << true
+    installation_thread.join
+    invalidation_thread.join
+
+    expect(Shopify::PendingInstallationLifecycle.generation(shop: shop)).to eq(1)
+  ensure
+    finish_installation << true if finish_installation && finish_installation.empty?
+    installation_thread&.join
+    invalidation_thread&.join
+    pending_installation&.release!
     Redis::Alfred.delete("shopify_pending_install:#{created_token}") if created_token
   end
 

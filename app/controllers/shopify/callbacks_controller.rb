@@ -63,14 +63,7 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     return redirect_to existing_account_redirect_url if reusable_hook?(hook)
 
     state = SecureRandom.hex(16)
-    Redis::SecureStorage.set(
-      oauth_state_key(state),
-      {
-        shop: params[:shop],
-        pending_installation_generation: Shopify::PendingInstallation.generation(shop: params[:shop])
-      },
-      10.minutes
-    )
+    store_oauth_state(state)
 
     authorization_url = oauth_client.auth_code.authorize_url(
       redirect_uri: redirect_callback_uri,
@@ -78,6 +71,19 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
       state: state
     )
     redirect_to authorization_url, allow_other_host: true
+  end
+
+  def store_oauth_state(state)
+    authorization = Shopify::PendingInstallationLifecycle.start_authorization!(shop: params[:shop])
+    Redis::SecureStorage.set(
+      oauth_state_key(state),
+      {
+        shop: params[:shop],
+        pending_installation_generation: authorization[:generation],
+        authorization_started_at: authorization[:started_at]
+      },
+      10.minutes
+    )
   end
 
   def prepare_shopify_initiated_flow

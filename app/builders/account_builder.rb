@@ -22,12 +22,7 @@ class AccountBuilder
     end
     claim_shopify_installation
 
-    transaction_succeeded = ActiveRecord::Base.transaction do
-      @account = create_account
-      bind_shopify_installation
-      @user = create_and_link_user
-      true
-    end
+    transaction_succeeded = @pending_installation ? @pending_installation.with_valid_generation! { persist_account } : persist_account
     raise ActiveRecord::Rollback unless transaction_succeeded
 
     finalize_shopify_signup
@@ -40,6 +35,15 @@ class AccountBuilder
   end
 
   private
+
+  def persist_account
+    ActiveRecord::Base.transaction do
+      @account = create_account
+      bind_shopify_installation
+      @user = create_and_link_user
+      true
+    end
+  end
 
   def user_full_name
     # the empty string ensures that not-null constraint is not violated

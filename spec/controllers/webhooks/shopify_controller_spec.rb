@@ -53,7 +53,8 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
   end
 
   it 'invalidates pending installations during shop redaction even when no hook exists' do
-    expect(Shopify::PendingInstallation).to receive(:invalidate_shop!).with(shop: shop_domain)
+    expect(Shopify::PendingInstallationLifecycle).to receive(:invalidate!)
+      .with(shop: shop_domain, occurred_at: Time.iso8601(triggered_at))
 
     post '/webhooks/shopify', params: body, headers: headers
 
@@ -182,7 +183,8 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
     end
 
     it 'invalidates pending installations even when no hook exists' do
-      expect(Shopify::PendingInstallation).to receive(:invalidate_shop!).with(shop: shop_domain.upcase)
+      expect(Shopify::PendingInstallationLifecycle).to receive(:invalidate!)
+        .with(shop: shop_domain.upcase, occurred_at: Time.iso8601(triggered_at))
 
       post '/webhooks/shopify', params: body, headers: headers
 

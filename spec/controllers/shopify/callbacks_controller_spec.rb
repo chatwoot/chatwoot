@@ -429,6 +429,9 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         allow(SecureRandom).to receive(:hex).with(16).and_return(generated_state)
         allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
         allow(auth_code_strategy).to receive(:authorize_url).and_return(authorization_url)
+        allow(Shopify::PendingInstallationLifecycle).to receive(:start_authorization!)
+          .with(shop: shop)
+          .and_return(generation: 0, started_at: '2026-09-08T10:00:00.000000Z')
       end
 
       after { Redis::SecureStorage.delete("shopify_oauth_state:#{generated_state}") }
@@ -447,7 +450,8 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         )
         expect(JSON.parse(Redis::SecureStorage.get("shopify_oauth_state:#{generated_state}"))).to eq(
           'shop' => shop,
-          'pending_installation_generation' => 0
+          'pending_installation_generation' => 0,
+          'authorization_started_at' => '2026-09-08T10:00:00.000000Z'
         )
       end
 
