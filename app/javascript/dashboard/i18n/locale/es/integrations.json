@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos suscritos",
       "LEARN_MORE": "Aprenda más sobre webhooks",
+      "PAYWALL": {
+        "TITLE": "Los webhooks están disponibles en planes de pago",
+        "AVAILABLE_ON": "Usa webhooks para recibir eventos en tiempo real de tu cuenta de Chatwoot.",
+        "UPGRADE_PROMPT": "Actualice a Startups, Business, o Enterprise planea usar webhooks.",
+        "UPGRADE_NOW": "Actualizar ahora",
+        "CANCEL_ANYTIME": "Cambie o cancele su plan en cualquier momento."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "Copy secret to clipboard",
@@ -58,7 +65,7 @@
             "CONTACT_UPDATED": "Contacto actualizado",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off",
-            "INBOX_UPDATED": "Inbox updated"
+            "INBOX_UPDATED": "Bandeja de entrada actualizada"
           }
         },
         "NAME": {
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "Capitán",
     "HEADER_KNOW_MORE": "Más información",
+    "OVERVIEW": {
+      "HEADER": "Resumen",
+      "WELCOME": {
+        "LABEL": "Resumen del capitán",
+        "LOADING": "Generando resumen…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "Este asistente aún no está conectado a ninguna bandeja de entrada, por lo que no responderá a las conversaciones.",
+        "ACTION": "Conectar bandeja de entrada",
+        "DISMISS": "Descartar"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "Hay {count} sugerencias de FAQ listas para revisar, lo que mantiene la cobertura en el {coverage} %. Apruébalas para que tu asistente pueda resolver más consultas por sí solo.",
+        "ACTION": "Revisar sugerencias",
+        "DISMISS": "Descartar"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Últimos {count} días",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversaciones manejadas",
+          "HINT": "Distintas conversaciones en las que respondió este asistente."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Tasa de resolución automática",
+          "HINT": "Compartido de conversaciones manejadas cerradas sin una respuesta humana."
+        },
+        "HANDOFF": {
+          "LABEL": "Tasa de desconexión",
+          "HINT": "Comparte las conversaciones manipuladas escaladas a un agente humano."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Tiempo ahorrado",
+          "HINT": "Estimado: El Capitán responde veces ~2 minutos de esfuerzo de agente asumido por respuesta. Trabajo direccional, no medido."
+        },
+        "REOPEN": {
+          "LABEL": "Reabrir tasa",
+          "HINT": "Conversaciones resueltas automáticamente que se reabrieron después."
+        },
+        "DEPTH": {
+          "LABEL": "Mensajes / conversación",
+          "HINT": "Promedio de respuestas que el asistente envía por conversación."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No se encontraron registros para esta métrica.",
+        "ERROR": "No se pudo cargar los registros. Por favor, inténtelo de nuevo.",
+        "LOAD_MORE": "Cargar más",
+        "RESULT_COUNT_CONVERSATION": "{count} conversación | {count} conversaciones"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Cobertura del conocimiento",
+        "COVERAGE": "{pct}% aprobado",
+        "APPROVED": "FAQs Aprobadas",
+        "SUGGESTIONS": "Sugerencias de FAQ",
+        "DOCUMENTS": "Documents"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Capitán documentos",
+          "DESCRIPTION": "Guías y cómo para el Capitán"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Zona de pruebas",
+          "DESCRIPTION": "Probar las respuestas de este asistente"
+        },
+        "BILLING": {
+          "TITLE": "Facturación",
+          "DESCRIPTION": "Gestionar créditos y plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Asistentes",
       "SWITCH_ASSISTANT": "Cambiar entre asistentes",
@@ -493,10 +575,6 @@
           "LABEL": "Nombre",
           "PLACEHOLDER": "Enter assistant name",
           "ERROR": "The name is required"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
         },
         "DESCRIPTION": {
           "LABEL": "Descripción",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "FAQ_COUNT": "Preguntas frecuentes {n} | Preguntas frecuentes {n}",
       "SELECTED": "{count} selected",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
@@ -752,53 +831,73 @@
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
       "BULK_SYNC": {
-        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
-        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
-        "ZERO_MESSAGE": "No documents marked for refresh.",
-        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+        "SUCCESS_MESSAGE_ONE": "Actualizar en cola para 1 documento",
+        "SUCCESS_MESSAGE": "Actualizar en cola para {count} documentos",
+        "ZERO_MESSAGE": "No hay documentos marcados para refrescar.",
+        "ERROR_MESSAGE": "Hubo un error al poner en cola la actualización, por favor inténtalo de nuevo."
       },
       "SYNC": {
-        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
-        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+        "QUEUED_MESSAGE": "Actualización en cola. Actualizaremos el documento en breve.",
+        "ERROR_MESSAGE": "No se pudo actualizar la cola, por favor inténtalo de nuevo."
       },
       "FILTERS": {
         "SOURCE": {
-          "ALL": "All sources",
-          "WEB": "Web pages",
+          "ALL": "Todas las fuentes",
+          "WEB": "Páginas web",
           "PDF": "PDFs"
         },
         "STATUS": {
-          "ANY": "Any status",
-          "UPDATED": "Updated",
-          "NEEDS_UPDATE": "Needs update",
-          "UPDATING": "Updating",
-          "FAILED": "Failed"
+          "ANY": "Cualquier estado",
+          "UPDATED": "Actualizado",
+          "NEEDS_UPDATE": "Necesita actualización",
+          "UPDATING": "Actualizando",
+          "FAILED": "Error"
         },
         "SORT": {
-          "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created"
+          "RECENTLY_UPDATED": "Actualizado recientemente",
+          "RECENTLY_CREATED": "Creado recientemente"
         },
         "SEARCH_PLACEHOLDER": "Buscar..."
       },
       "SYNC_STATUS": {
-        "SYNCED": "last updated {time}",
+        "SYNCED": "última actualización {time}",
         "SYNCING": "actualizando...",
-        "STALE_SYNC": "update stalled",
-        "FAILED": "Failed to sync",
-        "NEVER_SYNCED": "not updated yet"
+        "STALE_SYNC": "actualización bloqueada",
+        "FAILED": "Fallo al sincronizar",
+        "NEVER_SYNCED": "no actualizado aún"
       },
       "SYNC_ERRORS": {
         "NOT_FOUND": "Página no encontrada",
-        "ACCESS_DENIED": "Access denied",
-        "TIMEOUT": "Page took too long to respond",
-        "CONTENT_EMPTY": "Page returned empty content",
-        "FETCH_FAILED": "Could not fetch page",
-        "SYNC_ERROR": "Unexpected error",
-        "DEFAULT": "Sync error"
+        "ACCESS_DENIED": "Acceso denegado",
+        "TIMEOUT": "La página tardó demasiado en responder",
+        "CONTENT_EMPTY": "La página devolvió contenido vacío",
+        "FETCH_FAILED": "No se pudo obtener la página",
+        "SYNC_ERROR": "Error inesperado",
+        "DEFAULT": "Error de sincronización"
       },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+        "EMPTY": "Aún no se han generado FAQs de este documento."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Revise el contenido acumulado y las preguntas frecuentes generadas a partir de esta fuente.",
+        "SOURCE": "Fuente",
+        "GENERATED_FAQS": "FAQs generadas",
+        "LAST_UPDATED": "Última actualización",
+        "NOT_AVAILABLE": "No disponible",
+        "CONTENT_TAB": "Contenido arrastrado",
+        "PDF_TAB": "Detalles PDF",
+        "CONTENT_TITLE": "Contenido arrastrado",
+        "PDF_TITLE": "Archivo PDF",
+        "PDF_DESCRIPTION": "Revise la fuente PDF original.",
+        "CHARACTER_COUNT": "{count} caracteres extraídos",
+        "COPY_CONTENT": "Copiar",
+        "COPY_SUCCESS": "Contenido arrastrado copiado al portapapeles",
+        "COPY_ERROR": "No se pudo copiar el contenido",
+        "VIEW_RAW": "Ver crudo",
+        "VIEW_PREVIEW": "Ver vista previa",
+        "UNREADABLE_CONTENT": "El contenido legible no se pudo extraer de este documento. Puede ver el contenido extraído en bruto.",
+        "EMPTY_CONTENT": "Aún no hay contenido grabado disponible para este documento."
       },
       "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
       "CREATE": {
@@ -838,16 +937,16 @@
         "ERROR_MESSAGE": "There was an error deleting the document, please try again."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "SYNC_NOW": "Refresh now",
-        "RETRY_SYNC": "Retry refresh",
+        "VIEW_DETAILS": "Ver detalles",
+        "SYNC_NOW": "Refrescar ahora",
+        "RETRY_SYNC": "Reintentar refresco",
         "DELETE_DOCUMENT": "Delete Document"
       },
       "EMPTY_STATE": {
         "TITLE": "No documents available",
         "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
-        "FILTERED_TITLE": "No matching documents",
-        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
+        "FILTERED_TITLE": "No hay documentos coincidentes",
+        "FILTERED_SUBTITLE": "Intenta cambiar la fuente, el estado o el término de búsqueda.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
           "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "Preguntas frecuentes",
-      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
       "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
-      "BULK_DELETE_BUTTON": "Eliminar",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+      "ERRORS": {
+        "LOAD": "Se produjo un error al cargar las FAQ. Inténtalo de nuevo."
       },
+      "BULK_DELETE_BUTTON": "Eliminar",
       "BULK_DELETE": {
         "TITLE": "Delete FAQs?",
         "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
-      "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "Todos"
-      },
-      "STATUS": {
-        "TITLE": "Estado",
-        "PENDING": "Pendientes",
-        "APPROVED": "Approved",
-        "ALL": "Todos"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain agrupó las preguntas recurrentes de los clientes en sugerencias de FAQ.",
+        "ACTION": "Revisar sugerencias"
       },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs Found",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "Sugerencias de FAQ",
+      "SEARCH_PLACEHOLDER": "Buscar sugerencias...",
+      "QUEUE_COUNT": "{count} sugerencia por revisar | {count} sugerencias por revisar",
+      "QUEUE_HINT": "Ordenadas según la demanda de los clientes",
+      "SOURCE_COUNT": "{count} conversación | {count} conversaciones",
+      "REVIEW": "Revisar fuentes",
+      "APPROVE": "Aprobar",
+      "APPROVE_FAQ": "Aprobar FAQ",
+      "DISMISS": "Descartar",
+      "SAVE": "Guardar cambios",
+      "DETAILS": {
+        "TITLE": "Revisar sugerencia de FAQ",
+        "DESCRIPTION": "Captain agrupó {count} conversación en esta sugerencia. Revisa las pruebas y perfecciona la FAQ antes de aprobarla. | Captain agrupó {count} conversaciones en esta sugerencia. Revisa las pruebas y perfecciona la FAQ antes de aprobarla.",
+        "SOURCES": "Conversaciones de origen",
+        "SOURCE_PROGRESS": "{visible} de {total}",
+        "NO_SOURCES": "No se encontraron conversaciones de origen accesibles.",
+        "RETRY": "Reintentar"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "La cola de revisión está vacía",
+        "SUBTITLE": "Las nuevas sugerencias de FAQ aparecerán aquí cuando estén listas para revisar.",
+        "CLEAR_SEARCH": "Borrar búsqueda"
+      },
+      "SUCCESS": {
+        "APPROVED": "La FAQ se aprobó y se añadió al conocimiento de Captain.",
+        "DISMISSED": "Sugerencia descartada.",
+        "SAVED": "Sugerencia actualizada."
+      },
+      "ERRORS": {
+        "LOAD": "Se produjo un error al cargar las sugerencias de FAQ. Inténtalo de nuevo.",
+        "LOAD_DETAILS": "Se produjo un error al cargar las conversaciones de origen.",
+        "APPROVE": "Se produjo un error al aprobar la FAQ. Inténtalo de nuevo.",
+        "DISMISS": "Se produjo un error al descartar la sugerencia. Inténtalo de nuevo.",
+        "SAVE": "Se produjo un error al guardar la sugerencia. Inténtalo de nuevo."
       }
     },
     "INBOXES": {

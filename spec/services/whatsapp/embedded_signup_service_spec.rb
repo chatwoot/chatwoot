@@ -33,7 +33,7 @@ describe Whatsapp::EmbeddedSignupService do
 
       phone_service = instance_double(Whatsapp::PhoneInfoService)
       allow(Whatsapp::PhoneInfoService).to receive(:new)
-        .with(params[:waba_id], params[:phone_number_id], access_token).and_return(phone_service)
+        .with(params[:waba_id], params[:phone_number_id], access_token, expected_phone_number: anything).and_return(phone_service)
       allow(phone_service).to receive(:perform).and_return(phone_info)
 
       channel_creation = instance_double(Whatsapp::ChannelCreationService)
@@ -106,8 +106,13 @@ describe Whatsapp::EmbeddedSignupService do
 
     context 'when parameters are invalid' do
       it 'raises ArgumentError for missing parameters' do
-        invalid_service = described_class.new(account: account, params: { code: '', business_id: '', waba_id: '' })
-        expect { invalid_service.perform }.to raise_error(ArgumentError, /Required parameters are missing/)
+        invalid_service = described_class.new(account: account, params: { code: '', waba_id: '' })
+        expect { invalid_service.perform }.to raise_error(ArgumentError, 'Required parameters are missing: code, waba_id')
+      end
+
+      it 'does not require business_id' do
+        coexistence_service = described_class.new(account: account, params: params.except(:business_id))
+        expect { coexistence_service.perform }.not_to raise_error
       end
     end
 
@@ -158,7 +163,7 @@ describe Whatsapp::EmbeddedSignupService do
           account: account,
           inbox_id: inbox_id,
           phone_number_id: params[:phone_number_id],
-          business_id: params[:business_id]
+          waba_id: params[:waba_id]
         ).and_return(reauth_service)
         allow(reauth_service).to receive(:perform).with(access_token, phone_info).and_return(channel)
 
@@ -212,7 +217,7 @@ describe Whatsapp::EmbeddedSignupService do
             account: account,
             inbox_id: inbox.id,
             phone_number_id: params[:phone_number_id],
-            business_id: params[:business_id]
+            waba_id: params[:waba_id]
           ).and_return(reauth_service)
 
           allow(reauth_service).to receive(:perform) do

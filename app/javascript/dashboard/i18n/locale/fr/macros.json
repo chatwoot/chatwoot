@@ -1,14 +1,14 @@
 {
   "MACROS": {
     "HEADER": "Macros",
-    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
-    "LEARN_MORE": "Learn more about macros",
+    "DESCRIPTION": "Une macro est un ensemble d'actions enregistrées qui aident les agents du service client à compléter facilement les tâches. Les agents peuvent définir un ensemble d'actions comme le marquage d'une conversation avec une étiquette, l'envoi d'une transcription d'e-mail, la mise à jour d'un attribut personnalisé, etc. et ils peuvent exécuter ces actions en un seul clic.",
+    "LEARN_MORE": "En savoir plus sur les macros",
     "COUNT": "{n} macro | {n} macros",
     "HEADER_BTN_TXT": "Ajouter une macro",
     "HEADER_BTN_TXT_SAVE": "Enregistrer une macro",
     "LOADING": "Récupération des macros",
-    "SEARCH_PLACEHOLDER": "Search macros...",
-    "NO_RESULTS": "No macros found matching your search",
+    "SEARCH_PLACEHOLDER": "Rechercher des macros...",
+    "NO_RESULTS": "Aucune macro ne correspond à votre recherche",
     "ERROR": "Une erreur s'est produite. Veuillez réessayer",
     "ORDER_INFO": "Les macros s'exécuteront dans l'ordre où vous ajoutez vos actions. Vous pouvez les réorganiser en les glissant par la poignée à côté de chaque nœud.",
     "ADD": {
@@ -50,7 +50,7 @@
       }
     },
     "VIEW": {
-      "TOOLTIP": "View macro"
+      "TOOLTIP": "Voir la macro"
     },
     "EDIT": {
       "TOOLTIP": "Modifier la macro",
@@ -70,8 +70,8 @@
         "GLOBAL": {
           "LABEL": "Publique",
           "DESCRIPTION": "Cette macro est visible pour tous les agents de ce compte.",
-          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
-          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
+          "CREATE_DISABLED_DESCRIPTION": "Seuls les administrateurs peuvent créer des macros publiques.",
+          "EDIT_DISABLED_DESCRIPTION": "Seuls les administrateurs peuvent éditer des macros publiques."
         },
         "PERSONAL": {
           "LABEL": "Privé",
@@ -82,23 +82,24 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Exécuter",
       "PREVIEW": "Aperçu de la macro",
-      "EXECUTED_SUCCESSFULLY": "Macro exécutée"
+      "EXECUTED_SUCCESSFULLY": "Macro exécutée",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro exécutée. La conversation n'a pas été résolue car les attributs requis sont manquants."
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "ATTRIBUTE_KEY_REQUIRED": "La clé d'attribut est requise",
+      "FILTER_OPERATOR_REQUIRED": "L'opérateur de filtre est requis",
       "VALUE_REQUIRED": "La valeur est requise",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "La valeur doit être comprise entre 1 et 998",
+      "ACTION_PARAMETERS_REQUIRED": "Les paramètres d'action sont requis",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Au moins une condition est requise",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Au moins une action est requise"
     },
     "ACTIONS": {
       "ASSIGN_TEAM": "Attribuer une équipe",
       "ASSIGN_AGENT": "Attribuer un agent",
       "ADD_LABEL": "Ajouter une étiquette",
       "REMOVE_LABEL": "Supprimer une étiquette",
-      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_AGENT": "Supprimer l'agent assigné",
       "REMOVE_ASSIGNED_TEAM": "Supprimer l’équipe assignée",
       "SEND_EMAIL_TRANSCRIPT": "Envoyer une transcription par e-mail",
       "MUTE_CONVERSATION": "Mettre la conversation en sourdine",
@@ -115,7 +116,7 @@
       "LOW": "Faible",
       "MEDIUM": "Moyenne",
       "HIGH": "Élevé",
-      "URGENT": "Urgent"
+      "URGENT": "Urgente"
     }
   }
 }

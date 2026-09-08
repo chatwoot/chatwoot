@@ -1,9 +1,9 @@
 module Enterprise::Webhooks::WhatsappEventsJob
-  def handle_message_events(channel, params)
+  def handle_message_events(channel, params, locked_sender_id = nil)
     return handle_call_events(channel, params) if call_event?(params)
     return handle_call_permission_reply(channel, params) if call_permission_reply?(params)
 
-    super
+    super(channel, params, locked_sender_id)
   end
 
   private

@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Tellitud sündmused",
       "LEARN_MORE": "Lisateave veebikonksude kohta",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "Copy secret to clipboard",
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "Kapten",
     "HEADER_KNOW_MORE": "Lisateave",
+    "OVERVIEW": {
+      "HEADER": "Ülevaade",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "Käesolev kuu",
+        "LAST_MONTH": "Eelmine kuu"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "Dokumendid"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Mänguväljak",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "Arveldamine",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Abilised",
       "SWITCH_ASSISTANT": "Vaheta assistentide vahel",
@@ -493,10 +575,6 @@
           "LABEL": "Nimi",
           "PLACEHOLDER": "Sisesta assistendi nimi",
           "ERROR": "Nimi on kohustuslik"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Vastuse loovus",
-          "DESCRIPTION": "Reguleeri, kui loomingulised või piiratud peaksid assistendi vastused olema. Madalam väärtus annab täpsemaid ja ennustatavamaid vastuseid, kõrgem väärtus võimaldab loomingulisemaid ja mitmekesisemaid tulemusi."
         },
         "DESCRIPTION": {
           "LABEL": "Kirjeldus",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "Dokumendid",
       "ADD_NEW": "Loo uus dokument",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} valitud",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "Seotud KKK-d",
-        "DESCRIPTION": "Need KKK-d on loodud otse dokumendist."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Pole saadaval",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "Kopeeri",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "Sisesta dokumendi URL, et lisada see teadmiste allikana ja vali abiline, kellega see seostada.",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "Dokumendi kustutamisel tekkis viga, palun proovi uuesti."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Vaata seotud vastuseid",
+        "VIEW_DETAILS": "Vaata üksikasju",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Kustuta dokument"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "KKK-d",
-      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Loo uus KKK",
       "DOCUMENTABLE": {
         "CONVERSATION": "Vestlus #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
       "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Kinnita",
-      "BULK_DELETE_BUTTON": "Kustuta",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "KKK-d kinnitati edukalt",
-        "ERROR_MESSAGE": "KKK-de kinnitamisel tekkis viga, palun proovige uuesti."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "Kustuta",
       "BULK_DELETE": {
         "TITLE": "Kustutada KKK-d?",
         "DESCRIPTION": "Kas olete kindel, et soovite valitud KKK-d kustutada? Seda toimingut ei saa tagasi võtta.",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "KKK kustutati edukalt",
         "ERROR_MESSAGE": "KKK kustutamisel tekkis viga, palun proovige uuesti."
       },
-      "FILTER": {
-        "ASSISTANT": "Assistent: {selected}",
-        "STATUS": "Staatus: {selected}",
-        "ALL_ASSISTANTS": "Kõik"
-      },
-      "STATUS": {
-        "TITLE": "Staatus",
-        "PENDING": "Ootel",
-        "APPROVED": "Kinnitatud",
-        "ALL": "Kõik"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "Lisage küsimus ja sellele vastav vastus teadmistebaasi ning valige assistent, kellega see peaks olema seotud.",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "KKK-sid ei leitud",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "KKK-d aitavad teie assistendil pakkuda klientide küsimustele kiireid ja täpseid vastuseid. Neid saab automaatselt teie sisu põhjal genereerida või käsitsi lisada.",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain KKK",
           "NOTE": "Captain KKK tuvastab levinud kliendiküsimused—nii need, mis puuduvad teadmistebaasist kui ka korduma kippuvad—ja loob asjakohased KKK-d toe parandamiseks. Saad iga ettepaneku üle vaadata ja otsustada, kas see kinnitada või tagasi lükata."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "Kinnita",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "Salvesta muudatused",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

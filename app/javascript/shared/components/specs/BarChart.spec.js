@@ -1,52 +1,51 @@
 import { shallowMount } from '@vue/test-utils';
 import BarChart from '../charts/BarChart.vue';
 
-vi.mock('vue-chartjs', () => ({
-  Bar: {
-    name: 'Bar',
-    props: ['data', 'options'],
-    template: '<canvas />',
+vi.mock('@chatwoot/viz', () => ({
+  BarChart: {
+    name: 'VizBarChart',
+    props: ['data', 'ariaLabel', 'pointDescription', 'onItemClick'],
+    template: '<button @click="onItemClick?.({ pointIndex: 0 })" />',
   },
 }));
 
 describe('BarChart.vue', () => {
-  it('emits the clicked chart element when clickable', () => {
+  const data = {
+    categories: ['20-May'],
+    series: [{ id: 'conversations', data: [3] }],
+  };
+
+  it('emits the clicked chart item when clickable', () => {
+    const pointDescription = point => point.description;
     const wrapper = shallowMount(BarChart, {
       props: {
         clickable: true,
-        collection: {
-          labels: ['20-May'],
-          datasets: [{ type: 'bar', data: [3] }],
-        },
+        data,
+        ariaLabel: 'Conversations by day',
+        pointDescription,
       },
     });
 
-    const options = wrapper.findComponent({ name: 'Bar' }).props('options');
-    options.onClick({}, [{ datasetIndex: 0, index: 0 }], {});
+    const chart = wrapper.findComponent({ name: 'VizBarChart' });
+    chart.props('onItemClick')({ pointIndex: 0 });
 
-    expect(wrapper.emitted('elementClick')[0][0]).toEqual({
-      datasetIndex: 0,
-      dataIndex: 0,
-      dataset: { type: 'bar', data: [3] },
-      label: '20-May',
-      value: 3,
-    });
+    expect(chart.props('data')).toEqual(data);
+    expect(chart.props('ariaLabel')).toBe('Conversations by day');
+    expect(chart.props('pointDescription')).toBe(pointDescription);
+    expect(wrapper.emitted('itemClick')[0][0]).toEqual({ pointIndex: 0 });
   });
 
-  it('does not emit when chart is not clickable', () => {
+  it('does not attach an item handler when chart is not clickable', () => {
     const wrapper = shallowMount(BarChart, {
       props: {
         clickable: false,
-        collection: {
-          labels: ['20-May'],
-          datasets: [{ type: 'bar', data: [3] }],
-        },
+        data,
+        ariaLabel: 'Conversations by day',
       },
     });
 
-    const options = wrapper.findComponent({ name: 'Bar' }).props('options');
-    options.onClick({}, [{ datasetIndex: 0, index: 0 }], {});
-
-    expect(wrapper.emitted('elementClick')).toBeUndefined();
+    expect(
+      wrapper.findComponent({ name: 'VizBarChart' }).props('onItemClick')
+    ).toBeUndefined();
   });
 });

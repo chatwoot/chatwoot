@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "구독된 이벤트",
       "LEARN_MORE": "webhook에 대해 자세히 알아보기",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "지금 업그레이드",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "시크릿을 클립보드에 복사",
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "자세히 알아보기",
+    "OVERVIEW": {
+      "HEADER": "개요",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "닫기"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "닫기"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "이번 달",
+        "LAST_MONTH": "지난 달"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "더 불러오기",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "문서"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "플레이그라운드",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "청구",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "어시스턴트",
       "SWITCH_ASSISTANT": "어시스턴트 간 전환",
@@ -493,10 +575,6 @@
           "LABEL": "이름",
           "PLACEHOLDER": "어시스턴트 이름을 입력하십시오",
           "ERROR": "이름은 필수입니다"
-        },
-        "TEMPERATURE": {
-          "LABEL": "응답 온도",
-          "DESCRIPTION": "어시스턴트의 응답이 얼마나 창의적이거나 제한적이어야 하는지 조정합니다. 낮은 값은 더 집중적이고 결정론적인 응답을 생성하고, 높은 값은 더 창의적이고 다양한 출력을 허용합니다."
         },
         "DESCRIPTION": {
           "LABEL": "설명",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "문서",
       "ADD_NEW": "새 문서 만들기",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count}개 선택됨",
       "SELECT_ALL": "전체 선택 ({count})",
       "UNSELECT_ALL": "전체 선택 해제 ({count})",
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "관련 FAQ",
-        "DESCRIPTION": "이 FAQ는 문서에서 직접 생성되었습니다."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "사용 불가",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "복사",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "문서의 URL을 입력하여 지식 소스로 추가하고 연결할 어시스턴트를 선택하십시오.",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "문서를 삭제하는 중 오류가 발생했습니다. 다시 시도하십시오."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "관련 응답 보기",
+        "VIEW_DETAILS": "상세보기",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "문서 삭제"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "FAQ",
-      "PENDING_FAQS": "대기 중인 FAQ",
       "ADD_NEW": "새 FAQ 만들기",
       "DOCUMENTABLE": {
         "CONVERSATION": "대화 #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "전체 선택 ({count})",
       "UNSELECT_ALL": "전체 선택 해제 ({count})",
       "SEARCH_PLACEHOLDER": "FAQ 검색...",
-      "BULK_APPROVE_BUTTON": "승인",
-      "BULK_DELETE_BUTTON": "삭제",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQ가 성공적으로 승인되었습니다",
-        "ERROR_MESSAGE": "FAQ를 승인하는 중 오류가 발생했습니다. 다시 시도하십시오."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "삭제",
       "BULK_DELETE": {
         "TITLE": "FAQ를 삭제하시겠습니까?",
         "DESCRIPTION": "선택한 FAQ를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ가 성공적으로 삭제되었습니다",
         "ERROR_MESSAGE": "FAQ를 삭제하는 중 오류가 발생했습니다. 다시 시도하십시오."
       },
-      "FILTER": {
-        "ASSISTANT": "어시스턴트: {selected}",
-        "STATUS": "상태: {selected}",
-        "ALL_ASSISTANTS": "전체"
-      },
-      "STATUS": {
-        "TITLE": "상태",
-        "PENDING": "대기 중",
-        "APPROVED": "승인됨",
-        "ALL": "전체"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain이 고객이 찾고 있던 FAQ를 발견했습니다.",
-        "ACTION": "여기를 클릭하여 검토하십시오"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "지식 베이스에 질문과 해당 답변을 추가하고 연결할 어시스턴트를 선택하십시오.",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "FAQ를 찾을 수 없습니다",
-        "NO_PENDING_TITLE": "검토할 대기 중인 FAQ가 더 이상 없습니다",
         "SUBTITLE": "FAQ는 어시스턴트가 고객의 질문에 빠르고 정확한 답변을 제공하는 데 도움이 됩니다. 콘텐츠에서 자동으로 생성되거나 수동으로 추가할 수 있습니다.",
         "CLEAR_SEARCH": "활성 필터 지우기",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQ는 지식 베이스에서 누락되었거나 자주 질문되는 일반적인 고객 질문을 감지하고 관련 FAQ를 생성하여 지원을 개선합니다. 각 제안을 검토하고 승인 또는 거부를 결정할 수 있습니다."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "승인",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "닫기",
+      "SAVE": "변경사항 저장",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "재시도"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

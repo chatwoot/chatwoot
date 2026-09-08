@@ -3,7 +3,10 @@ import axios from 'axios';
 import { ref, computed, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { handleOtpPaste } from 'shared/helpers/clipboard';
-import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
+import {
+  parseAPIErrorResponse,
+  setAuthCredentials,
+} from 'dashboard/store/utils/api';
 import { useAccount } from 'dashboard/composables/useAccount';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -68,26 +71,8 @@ const handleVerification = async () => {
     }
 
     const response = await axios.post('/auth/sign_in', payload);
-
-    // Set auth credentials and redirect
-    if (response.data && response.headers) {
-      // Store auth credentials in cookies
-      const authData = {
-        'access-token': response.headers['access-token'],
-        'token-type': response.headers['token-type'],
-        client: response.headers.client,
-        expiry: response.headers.expiry,
-        uid: response.headers.uid,
-      };
-
-      // Store in cookies for auth
-      document.cookie = `cw_d_session_info=${encodeURIComponent(JSON.stringify(authData))}; path=/; SameSite=Lax`;
-
-      // Redirect to dashboard
-      window.location.href = '/app/';
-    } else {
-      emit('verified', response.data);
-    }
+    setAuthCredentials(response);
+    emit('verified', response.data);
   } catch (error) {
     errorMessage.value =
       parseAPIErrorResponse(error) || t('MFA_VERIFICATION.VERIFICATION_FAILED');

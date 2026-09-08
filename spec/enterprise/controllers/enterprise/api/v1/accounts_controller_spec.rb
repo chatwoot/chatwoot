@@ -5,6 +5,30 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
   let!(:admin) { create(:user, account: account, role: :administrator) }
   let!(:agent) { create(:user, account: account, role: :agent) }
 
+  describe 'API token access' do
+    before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      account.disable_features!('api_and_webhooks')
+    end
+
+    it 'returns forbidden when API and webhook access is disabled for the account' do
+      get "/enterprise/api/v1/accounts/#{account.id}/limits",
+          headers: { api_access_token: admin.access_token.token },
+          as: :json
+
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body['error']).to eq('API access is not enabled for this account')
+    end
+
+    it 'allows session-authenticated requests' do
+      get "/enterprise/api/v1/accounts/#{account.id}/limits",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   describe 'POST /enterprise/api/v1/accounts/{account.id}/subscription' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

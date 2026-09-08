@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventi Sottoscritti",
       "LEARN_MORE": "Scopri di più sui webhooks",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Aggiorna ora",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "Copia secret negli appunti",
@@ -58,7 +65,7 @@
             "CONTACT_UPDATED": "Contatto aggiornato",
             "CONVERSATION_TYPING_ON": "Digitazione conversazione attiva",
             "CONVERSATION_TYPING_OFF": "Digitazione conversazione disattiva",
-            "INBOX_UPDATED": "Inbox updated"
+            "INBOX_UPDATED": "Inbox aggiornata"
           }
         },
         "NAME": {
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Scopri di più",
+    "OVERVIEW": {
+      "HEADER": "Panoramica",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Ignora"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "Ignora"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "Questo mese",
+        "LAST_MONTH": "Il mese scorso"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Carica altro",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "Documenti"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Area di prova",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "Fatturazione",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Assistenti",
       "SWITCH_ASSISTANT": "Cambia assistenti",
@@ -493,10 +575,6 @@
           "LABEL": "Nome",
           "PLACEHOLDER": "Inserisci il nome dell'assistente",
           "ERROR": "Il nome è richiesto"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Temperatura della Risposta",
-          "DESCRIPTION": "Regola quanto dovrebbero essere creative o restrittive le risposte dell'assistente. I valori più bassi producono risposte più mirate e deterministiche, mentre i valori più elevati consentono di ottenere risultati più creativi e variegati."
         },
         "DESCRIPTION": {
           "LABEL": "Descrizione",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "Documenti",
       "ADD_NEW": "Crea un nuovo documento",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} selezionate",
       "SELECT_ALL": "Seleziona tutto ({count})",
       "UNSELECT_ALL": "Deseleziona tutto ({count})",
@@ -783,7 +862,7 @@
       "SYNC_STATUS": {
         "SYNCED": "ultimo aggiornamento {time}",
         "SYNCING": "aggiornamento...",
-        "STALE_SYNC": "update stalled",
+        "STALE_SYNC": "aggiornamento in stallo",
         "FAILED": "Sincronizzazione fallita",
         "NEVER_SYNCED": "non ancora aggiornato"
       },
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "FAQ Correlate",
-        "DESCRIPTION": "Queste FAQ vengono generate direttamente dai Documenti."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Non disponibile",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "Copia",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "Inserisci l'URL del documento per aggiungerlo come fonte e scegli l'assistente con cui associarlo.",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "Si è verificato un errore durante l'eliminazione del documento, riprova."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Visualizza FAQ Correlate",
+        "VIEW_DETAILS": "Visualizza dettagli",
         "SYNC_NOW": "Aggiorna ora",
         "RETRY_SYNC": "Riprova ad aggiornare",
         "DELETE_DOCUMENT": "Elimina Documento"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "FAQ",
-      "PENDING_FAQS": "FAQ In Attesa",
       "ADD_NEW": "Crea nuova FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversazione #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "Seleziona tutto ({count})",
       "UNSELECT_ALL": "Deseleziona tutto ({count})",
       "SEARCH_PLACEHOLDER": "Cerca FAQ...",
-      "BULK_APPROVE_BUTTON": "Approva",
-      "BULK_DELETE_BUTTON": "Elimina",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQ approvate con successo",
-        "ERROR_MESSAGE": "Si è verificato un errore nell'approvazione delle FAQ, riprova."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "Elimina",
       "BULK_DELETE": {
         "TITLE": "Eliminare FAQ?",
         "DESCRIPTION": "Sei sicuro di voler eliminare le FAQ selezionate? Questa azione non può essere annullata.",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ eliminata con successo",
         "ERROR_MESSAGE": "Si è verificato un errore durante l'eliminazione della FAQ, riprova."
       },
-      "FILTER": {
-        "ASSISTANT": "Assistente: {selected}",
-        "STATUS": "Stato: {selected}",
-        "ALL_ASSISTANTS": "Tutti"
-      },
-      "STATUS": {
-        "TITLE": "Stato",
-        "PENDING": "In Sospeso",
-        "APPROVED": "Approvate",
-        "ALL": "Tutte"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain ha trovato delle FAQ tra le domande dei tuoi clienti.",
-        "ACTION": "Clicca qui per rivedere"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "Aggiungi una domanda e la sua risposta corrispondente alla knowledge base e seleziona l'assistente con cui dovrebbe essere associata.",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Nessuna FAQ Trovata",
-        "NO_PENDING_TITLE": "Non ci sono più FAQ in attesa da rivedere",
         "SUBTITLE": "Le FAQ aiutano il tuo assistente a fornire risposte rapide e accurate alle domande dei tuoi clienti. Possono essere generate automaticamente dai tuoi contenuti o possono essere aggiunte manualmente.",
         "CLEAR_SEARCH": "Rimuovi filtri attivi",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQ rileva le domande più frequenti dei clienti, anche se mancano dalla tua knowledge base, e suggerisce delle FAQ per migliorare il supporto. È possibile rivedere ogni suggerimento e decidere se approvarlo o rifiutarlo."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "Approva",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Ignora",
+      "SAVE": "Salva modifiche",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Riprova"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

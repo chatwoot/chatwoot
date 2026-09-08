@@ -70,8 +70,8 @@ RSpec.describe 'DashboardAppsController', type: :request do
       end
     end
 
-    context 'when it is an authenticated user' do
-      let(:user) { create(:user, account: account) }
+    context 'when it is an authenticated administrator' do
+      let(:user) { create(:user, account: account, role: :administrator) }
 
       it 'creates the dashboard app' do
         expect do
@@ -130,11 +130,26 @@ RSpec.describe 'DashboardAppsController', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
+
+    context 'when it is an authenticated agent' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'does not create account-wide dashboard apps' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/dashboard_apps",
+               headers: agent.create_new_auth_token,
+               params: payload,
+               as: :json
+        end.not_to change(DashboardApp, :count)
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/dashboard_apps/:id' do
     let(:payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'https://link.com' }] } } }
-    let(:user) { create(:user, account: account) }
+    let(:user) { create(:user, account: account, role: :administrator) }
     let!(:dashboard_app) { create(:dashboard_app, user: user, account: account) }
 
     context 'when it is an unauthenticated user' do
@@ -160,10 +175,24 @@ RSpec.describe 'DashboardAppsController', type: :request do
         expect(json_response['content'][0]['type']).to eq payload[:dashboard_app][:content][0][:type]
       end
     end
+
+    context 'when it is an authenticated agent' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'does not update account-wide dashboard apps' do
+        patch "/api/v1/accounts/#{account.id}/dashboard_apps/#{dashboard_app.id}",
+              headers: agent.create_new_auth_token,
+              params: payload,
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(dashboard_app.reload.title).not_to eq('CRM Dashboard')
+      end
+    end
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/dashboard_apps/:id' do
-    let(:user) { create(:user, account: account) }
+    let(:user) { create(:user, account: account, role: :administrator) }
     let!(:dashboard_app) { create(:dashboard_app, user: user, account: account) }
 
     context 'when it is an unauthenticated user' do
@@ -180,6 +209,19 @@ RSpec.describe 'DashboardAppsController', type: :request do
                as: :json
         expect(response).to have_http_status(:no_content)
         expect(user.dashboard_apps.count).to be 0
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'does not delete account-wide dashboard apps' do
+        delete "/api/v1/accounts/#{account.id}/dashboard_apps/#{dashboard_app.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(DashboardApp.exists?(dashboard_app.id)).to be(true)
       end
     end
   end

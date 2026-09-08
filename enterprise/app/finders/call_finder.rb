@@ -62,7 +62,7 @@ class CallFinder
   end
 
   def paginated_calls
-    @calls.includes(:contact, :inbox, :conversation, :accepted_by_agent)
+    @calls.includes(:contact, :conversation, :accepted_by_agent, inbox: :channel)
           .order(created_at: :desc)
           .page(@params[:page] || 1)
           .per(RESULTS_PER_PAGE)
