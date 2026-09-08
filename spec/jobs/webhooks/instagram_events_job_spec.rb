@@ -218,6 +218,23 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_messenger_inbox.messages.count).to be 1
         expect(instagram_messenger_inbox.messages.last.content_attributes['is_unsupported']).to be true
       end
+
+      it 'handles instagram postback event and creates a message with the postback title' do
+        postback_event = build(:instagram_postback_event).with_indifferent_access
+        sender_id = postback_event[:entry][0][:messaging][0][:sender][:id]
+
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return(
+          return_object_for(sender_id).with_indifferent_access
+        )
+
+        instagram_webhook.perform_now(postback_event[:entry])
+
+        expect(instagram_messenger_inbox.contacts.count).to be 1
+        expect(instagram_messenger_inbox.conversations.count).to be 1
+        expect(instagram_messenger_inbox.messages.count).to be 1
+        expect(instagram_messenger_inbox.messages.last.content).to eq 'Buy Now'
+      end
     end
 
     context 'when handling messaging events for Instagram via Instagram login' do
@@ -381,6 +398,17 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_inbox.conversations.count).to eq 1
         expect(instagram_inbox.messages.count).to eq 1
         expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
+      end
+
+      it 'handles instagram postback event and creates a message with the postback title' do
+        postback_event = build(:instagram_postback_event).with_indifferent_access
+
+        instagram_webhook.perform_now(postback_event[:entry])
+
+        expect(instagram_inbox.contacts.count).to be 1
+        expect(instagram_inbox.conversations.count).to be 1
+        expect(instagram_inbox.messages.count).to be 1
+        expect(instagram_inbox.messages.last.content).to eq 'Buy Now'
       end
     end
   end
