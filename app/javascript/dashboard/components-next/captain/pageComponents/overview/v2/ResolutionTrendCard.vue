@@ -96,7 +96,7 @@ const rateChartData = computed(() => ({
     {
       id: 'previous_resolution_rate',
       label: t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.PREVIOUS_PERIOD'),
-      color: 'rgb(var(--slate-7))',
+      color: 'rgb(var(--iris-4))',
       valueColor: 'rgb(var(--slate-10))',
       data: (props.trend?.buckets || []).map(bucket => ({
         value: bucket.previous_resolution_rate ?? undefined,
