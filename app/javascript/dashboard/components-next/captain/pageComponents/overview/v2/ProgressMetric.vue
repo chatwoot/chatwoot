@@ -8,7 +8,7 @@ const props = defineProps({
   total: { type: Number, default: 0 },
   usageLabel: { type: String, default: '' },
   valueLabel: { type: String, default: '' },
-  color: { type: String, default: 'rgb(var(--blue-9))' },
+  color: { type: String, default: 'rgb(var(--iris-9))' },
   loading: { type: Boolean, default: false },
 });
 
@@ -30,7 +30,7 @@ const chartData = computed(() => ({
     <div class="flex items-center justify-between gap-3 text-xs">
       <span class="text-n-slate-11">
         {{ label }}
-        <span v-if="usageLabel" class="text-n-teal-11">
+        <span v-if="usageLabel" class="text-n-iris-11">
           {{ usageLabel }}
         </span>
       </span>

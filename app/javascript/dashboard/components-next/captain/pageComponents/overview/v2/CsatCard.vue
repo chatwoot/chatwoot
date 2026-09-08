@@ -40,7 +40,7 @@ const metricFor = (key, label, hint, score) => ({
   trendGood: Number(score?.trend || 0) === 0 ? null : score.trend > 0,
   trendUp: Number(score?.trend || 0) === 0 ? null : score.trend > 0,
   description: comparison(score),
-  valueClass: 'text-n-blue-11',
+  valueClass: 'text-n-iris-11',
 });
 
 const metrics = computed(() => [
