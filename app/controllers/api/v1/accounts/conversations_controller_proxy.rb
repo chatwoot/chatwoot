@@ -17,6 +17,8 @@ module Api::V1::Accounts::ConversationsControllerProxy
     operator_conversation = transfer_conversation(widget_conversation, target_inbox)
 
     render json: build_response(target_inbox, operator_conversation)
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { error: e.record.errors.full_messages.join(', ') }, status: :unprocessable_entity
   rescue StandardError => e
     Rails.logger.error("ConversationsControllerProxy#change_inbox failed: #{e.class} - #{e.message}\n#{e.backtrace.first(5).join("\n")}")
     render json: { error: 'Could not change inbox' }, status: :unprocessable_entity
@@ -165,26 +167,7 @@ module Api::V1::Accounts::ConversationsControllerProxy
 
   def find_or_create_contact_inbox(contact, inbox)
     ContactInbox.find_by(contact: contact, inbox: inbox) ||
-      build_contact_inbox(contact, inbox) ||
-      ContactInbox.find_by(contact: contact, inbox: inbox) ||
-      force_create_contact_inbox(contact, inbox)
-  rescue StandardError => e
-    Rails.logger.error("find_or_create_contact_inbox: completely failed: #{e.message}")
-    ContactInbox.find_by(contact: contact, inbox: inbox)
-  end
-
-  def build_contact_inbox(contact, inbox)
-    ContactInboxBuilder.new(contact: contact, inbox: inbox, source_id: SecureRandom.uuid).perform
-  rescue StandardError => e
-    Rails.logger.warn("ContactInboxBuilder failed (#{e.message}), falling back")
-    nil
-  end
-
-  # last resort: the builder refused (e.g. per-inbox email uniqueness); link the contact anyway
-  def force_create_contact_inbox(contact, inbox)
-    ci = ContactInbox.new(contact: contact, inbox: inbox, source_id: SecureRandom.uuid)
-    ci.save!(validate: false)
-    ci
+      ContactInboxBuilder.new(contact: contact, inbox: inbox, source_id: SecureRandom.uuid).perform
   end
 end
 # rubocop:enable Metrics/ModuleLength
