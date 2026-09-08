@@ -326,9 +326,19 @@ export function insertAtCursor(editorView, node, from, to) {
     node = node.firstChild.content;
   }
 
+  // The cursor sits in an empty paragraph when the editor is empty, and also
+  // when the editor keeps an empty first line above a signature. Inserting
+  // block content there splits that paragraph and strands a blank line, so
+  // replace the paragraph instead.
+  const $from = editorView.state.doc.resolve(from);
+  const isInEmptyParagraph =
+    $from.parent.type.name === 'paragraph' && $from.parent.content.size === 0;
+
   let tr;
   if (to) {
     tr = editorView.state.tr.replaceWith(from, to, node).insertText(` `);
+  } else if (isInEmptyParagraph && !isWrappedInParagraph) {
+    tr = editorView.state.tr.replaceWith($from.before(), $from.after(), node);
   } else {
     tr = editorView.state.tr.insert(from, node);
   }
