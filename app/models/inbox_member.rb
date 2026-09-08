@@ -25,8 +25,13 @@ class InboxMember < ApplicationRecord
   after_create :add_agent_to_round_robin
   after_destroy :remove_agent_from_round_robin
   after_commit :invalidate_filtered_unread_count_visibility, on: [:create, :destroy]
+  after_create_commit :process_queue_for_new_member
 
   private
+
+  def process_queue_for_new_member
+    inbox.account.enqueue_queue_processing([inbox_id])
+  end
 
   def add_agent_to_round_robin
     ::AutoAssignment::InboxRoundRobinService.new(inbox: inbox).add_agent_to_queue(user_id)

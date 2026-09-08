@@ -12,7 +12,7 @@ class OnlineStatusTracker
 
     if obj_type == 'User'
       expiry = get_presence_expiry(account_id, obj_type, obj_id)
-      return if expiry && expiry <= now && ::AgentActivity::ActivityTracker.track_presence_reconnect(account_id, obj_id, expiry, now) do
+      return if (expiry.nil? || expiry <= now) && ::AgentActivity::ActivityTracker.track_presence_reconnect(account_id, obj_id, expiry, now) do
         ::Redis::Alfred.zadd(presence_key(account_id, obj_type), now.to_i, obj_id)
       end
     end

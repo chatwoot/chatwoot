@@ -14,6 +14,7 @@ module AccountChatQueue
     validates :active_chat_limit_value, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
 
     after_commit :process_queue_when_limit_changed, if: :active_chat_limit_settings_changed?
+    after_update_commit :enqueue_queue_processing, if: :saved_change_to_queue_enabled?
   end
 
   def active_chat_limit_enabled?
@@ -26,6 +27,16 @@ module AccountChatQueue
 
   def active_chat_limit_settings_changed?
     saved_change_to_active_chat_limit_enabled? || saved_change_to_active_chat_limit_value?
+  end
+
+  def enqueue_queue_processing(inbox_ids = nil)
+    return unless queue_enabled?
+
+    inbox_ids ||= inboxes.pluck(:id)
+    waiting_inbox_ids = conversation_queues.waiting.where(inbox_id: inbox_ids).reorder(nil).distinct.pluck(:inbox_id)
+    waiting_inbox_ids.each do |inbox_id|
+      Queue::ProcessQueueJob.perform_later(id, inbox_id)
+    end
   end
 
   def process_queue_when_limit_changed

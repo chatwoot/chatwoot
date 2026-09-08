@@ -1,7 +1,7 @@
 class Queue::ProcessQueueJob < ApplicationJob
   queue_as :queue_processing
 
-  def perform(account_id, inbox_id)
+  def perform(account_id, inbox_id, retry_count = 0)
     log_start(account_id)
 
     account = fetch_account_or_stop(account_id)
@@ -23,9 +23,8 @@ class Queue::ProcessQueueJob < ApplicationJob
     agents = load_agents(agent_ids_sorted)
     log_loaded_agents(agent_ids_sorted, agents)
 
-    try_assign(queue_service, conv, agent_ids_sorted, agents)
-
-    schedule_or_stop(queue_service, inbox_id, account_id)
+    assigned = try_assign(queue_service, conv, agent_ids_sorted, agents)
+    schedule_retry(account_id, inbox_id, retry_count) unless assigned
   end
 
   private
@@ -107,13 +106,11 @@ class Queue::ProcessQueueJob < ApplicationJob
     false
   end
 
-  def schedule_or_stop(queue_service, inbox_id, account_id)
-    if queue_service.queue_size(inbox_id).positive?
-      Rails.logger.info '[QUEUE][JOB] Queue still has items, scheduling next run'
-      Queue::ProcessQueueJob.set(wait: 5.seconds).perform_later(account_id, inbox_id)
-    else
-      Rails.logger.info '[QUEUE][JOB] Queue empty after assign, stopping'
-    end
+  def schedule_retry(account_id, inbox_id, retry_count)
+    return if retry_count.positive?
+
+    Rails.logger.info '[QUEUE][JOB] Assignment failed, scheduling one retry'
+    self.class.set(wait: 5.seconds).perform_later(account_id, inbox_id, retry_count + 1)
   end
 
   def find_active_account(account_id)

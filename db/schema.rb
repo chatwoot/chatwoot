@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_08_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_08_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -435,6 +435,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_08_000000) do
     t.datetime "updated_at", precision: nil, null: false
     t.integer "visibility", default: 0, null: false
     t.integer "created_by_id"
+    t.index ["account_id", "created_by_id", "short_code"], name: "index_canned_responses_on_account_creator_code_private", unique: true, where: "((visibility = 1) AND (created_by_id IS NOT NULL))"
+    t.index ["account_id", "short_code"], name: "index_canned_responses_on_account_and_short_code_public", unique: true, where: "(visibility = 0)"
     t.index ["created_by_id"], name: "index_canned_responses_on_created_by_id"
     t.index ["visibility"], name: "index_canned_responses_on_visibility"
   end

@@ -7,8 +7,9 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
 
   def create
     @canned_response = Current.account.canned_responses.new(canned_response_base_params.merge(created_by_id: current_user.id))
+    scope_ids = resolved_scope_ids if @canned_response.private_response?
 
-    if @canned_response.private_response? && no_scopes_provided?
+    if @canned_response.private_response? && no_scopes_provided?(scope_ids)
       render json: { error: 'Private canned response must be assigned to a user, team, or inbox' },
              status: :unprocessable_entity
       return
@@ -16,15 +17,16 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
 
     ActiveRecord::Base.transaction do
       @canned_response.save!
-      build_scopes(@canned_response)
+      build_scopes(@canned_response, scope_ids)
     end
     render json: @canned_response.as_json(include: :canned_response_scopes)
   end
 
   def update
     @canned_response.assign_attributes(canned_response_base_params)
+    scope_ids = resolved_scope_ids if @canned_response.private_response?
 
-    if @canned_response.private_response? && no_scopes_provided?
+    if @canned_response.private_response? && no_scopes_provided?(scope_ids)
       render json: { error: 'Private canned response must be assigned to a user, team, or inbox' },
              status: :unprocessable_entity
       return
@@ -33,7 +35,7 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
     ActiveRecord::Base.transaction do
       @canned_response.save!
       @canned_response.canned_response_scopes.destroy_all
-      build_scopes(@canned_response)
+      build_scopes(@canned_response, scope_ids)
     end
     render json: @canned_response.as_json(include: :canned_response_scopes)
   end
@@ -77,14 +79,10 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
     params.require(:canned_response).permit(:short_code, :content, :visibility)
   end
 
-  def build_scopes(canned_response)
+  def build_scopes(canned_response, scope_ids)
     return unless canned_response.private_response?
 
-    canned_response.canned_response_scopes.create!(
-      user_ids: current_user.administrator? ? account_ids_for(Current.account.users, params[:user_ids]) : [current_user.id],
-      team_ids: current_user.administrator? ? account_ids_for(Current.account.teams, params[:team_ids]) : [],
-      inbox_ids: account_ids_for(Current.account.inboxes, params[:inbox_ids])
-    )
+    canned_response.canned_response_scopes.create!(scope_ids)
   end
 
   # ids from other accounts are dropped: a membership elsewhere must not grant access here
@@ -92,12 +90,18 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
     scope.where(id: Array(ids)).ids
   end
 
-  def no_scopes_provided?
+  def resolved_scope_ids
+    {
+      user_ids: current_user.administrator? ? account_ids_for(Current.account.users, params[:user_ids]) : [current_user.id],
+      team_ids: current_user.administrator? ? account_ids_for(Current.account.teams, params[:team_ids]) : [],
+      inbox_ids: account_ids_for(Current.account.inboxes, params[:inbox_ids])
+    }
+  end
+
+  def no_scopes_provided?(scope_ids)
     return false unless current_user.administrator?
 
-    Array(params[:user_ids]).empty? &&
-      Array(params[:team_ids]).empty? &&
-      Array(params[:inbox_ids]).empty?
+    scope_ids.values.all?(&:empty?)
   end
 
   def canned_responses

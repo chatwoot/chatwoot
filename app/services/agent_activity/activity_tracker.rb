@@ -29,7 +29,6 @@ class AgentActivity::ActivityTracker
     AgentActivityLog.close_open_logs(account_id, user_id, Time.zone.now)
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity -- reconnect guards and Redis race check
   def self.track_presence_reconnect(account_id, user_id, expired_at, reconnected_at)
     account_user = AccountUser.find_by(account_id: account_id, user_id: user_id)
     return false unless account_user&.auto_offline?
@@ -38,21 +37,25 @@ class AgentActivity::ActivityTracker
       current_expiry = OnlineStatusTracker.get_presence_expiry(account_id, 'User', user_id)
       return false unless current_expiry == expired_at
 
-      open_log = AgentActivityLog.where(account_id: account_id, user_id: user_id, ended_at: nil).order(:started_at).last
-      if open_log&.started_at&.after?(expired_at)
-        yield
-        return true
-      end
-
-      open_log&.update!(ended_at: expired_at)
-      status = account_user.availability
-      AgentActivityLog.create!(account_id: account_id, user_id: user_id, status: status, started_at: reconnected_at,
-                               ended_at: (status == 'offline' ? reconnected_at : nil))
+      restart_presence_interval(account_user, expired_at, reconnected_at) if expired_at
       yield
+      account_user.account.enqueue_queue_processing if account_user.online?
       true
     end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
+
+  def self.restart_presence_interval(account_user, expired_at, reconnected_at)
+    account_id = account_user.account_id
+    user_id = account_user.user_id
+    open_log = AgentActivityLog.where(account_id: account_id, user_id: user_id, ended_at: nil).order(:started_at).last
+    return if open_log&.started_at&.after?(expired_at)
+
+    open_log&.update!(ended_at: expired_at)
+    status = account_user.availability
+    AgentActivityLog.create!(account_id: account_id, user_id: user_id, status: status, started_at: reconnected_at,
+                             ended_at: (status == 'offline' ? reconnected_at : nil))
+  end
+  private_class_method :restart_presence_interval
 
   def self.close_expired_presence(account_id, user_id, expired_at)
     account_user = AccountUser.find_by(account_id: account_id, user_id: user_id)

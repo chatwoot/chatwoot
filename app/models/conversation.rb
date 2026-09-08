@@ -421,6 +421,11 @@ class Conversation < ApplicationRecord
 
     open! if newly_assigned_from_queue?
     Queue::ProcessQueueJob.perform_later(account.id, inbox_id) if should_process_queue?
+    account.enqueue_queue_processing(account.inboxes.where.not(id: inbox_id).ids) if queue_capacity_released?
+  end
+
+  def queue_capacity_released?
+    status_before_last_save == 'open' && assignee_id_before_last_save.present? && (!open? || saved_change_to_assignee_id?)
   end
 
   def newly_assigned_from_queue?
@@ -428,7 +433,7 @@ class Conversation < ApplicationRecord
   end
 
   def should_process_queue?
-    resolved? || assignee_id.blank? || saved_change_to_assignee_id?
+    resolved? || assignee_id.blank? || saved_change_to_assignee_id? || queue_capacity_released?
   end
 
   def handle_resolved_status_change

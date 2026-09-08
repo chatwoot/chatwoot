@@ -11,6 +11,7 @@ import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { useAllInboxes } from 'dashboard/composables/useAllInboxes';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 export default {
   components: {
@@ -85,6 +86,11 @@ export default {
       }
       return this.teams;
     },
+    showInboxAssignment() {
+      return [INBOX_TYPES.WEB, INBOX_TYPES.TELEGRAM].includes(
+        this.currentChat?.meta?.channel
+      );
+    },
     assignedAgent: {
       get() {
         const assignee = this.currentChat.meta.assignee;
@@ -154,7 +160,11 @@ export default {
             });
           })
           .then(() => {
-            useAlert(`Источник изменён на ${inbox.name}`);
+            useAlert(
+              this.$t('CONVERSATION_SIDEBAR.INBOX_CHANGED', {
+                inbox: inbox.name,
+              })
+            );
           });
       },
     },
@@ -354,7 +364,7 @@ export default {
     <ConversationLabels :conversation-id="conversationId" />
   </div>
 
-  <div class="multiselect-wrap--small">
+  <div v-if="showInboxAssignment" class="multiselect-wrap--small">
     <ContactDetailsItem
       compact
       :title="$t('CONVERSATION_SIDEBAR.ASSIGNED_INBOX_LABEL')"

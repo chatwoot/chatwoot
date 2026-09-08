@@ -105,10 +105,8 @@ class ActionService
     if ConversationMuteHelpers::BAN_DURATIONS.key?(raw)
       Time.current + ConversationMuteHelpers::BAN_DURATIONS[raw]
     else
-      Time.zone.parse(raw)
+      Time.zone.iso8601(raw)
     end
-  rescue ArgumentError, TypeError
-    nil
   end
 
   def last_responding_agent_id
