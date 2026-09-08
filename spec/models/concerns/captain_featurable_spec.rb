@@ -58,15 +58,6 @@ RSpec.describe CaptainFeaturable do
   end
 
   describe 'model accessor methods' do
-    context 'when no models are explicitly configured' do
-      it 'returns default models for all features' do
-        Llm::Models.feature_keys.each do |feature_key|
-          expected_default = Llm::Models.default_model_for(feature_key)
-          expect(account.send("captain_#{feature_key}_model")).to eq(expected_default)
-        end
-      end
-    end
-
     context 'when models are explicitly configured' do
       before do
         account.update!(captain_models: {

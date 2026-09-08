@@ -29,6 +29,15 @@
 class Enterprise::AuditLog < Audited::Audit
   after_save :log_additional_information
 
+  scope :with_auditable_types, ->(types) { where(auditable_type: types) }
+  scope :created_after, ->(time) { where(created_at: time..) }
+  scope :created_before, ->(time) { where(created_at: ..time) }
+  scope :search_by_user, lambda { |query|
+    term = "%#{ActiveRecord::Base.sanitize_sql_like(query)}%"
+    joins("LEFT JOIN users ON users.id = audits.user_id AND audits.user_type = 'User'")
+      .where('audits.username ILIKE :term OR users.name ILIKE :term OR users.email ILIKE :term', term: term)
+  }
+
   private
 
   def log_additional_information

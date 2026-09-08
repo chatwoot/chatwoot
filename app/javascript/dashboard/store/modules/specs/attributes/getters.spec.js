@@ -35,6 +35,36 @@ describe('#getters', () => {
     ]);
   });
 
+  it('getCompanyAttributes', () => {
+    const state = {
+      records: [
+        {
+          attribute_display_name: 'Industry',
+          attribute_display_type: 0,
+          attribute_description: 'Company industry',
+          attribute_key: 'industry',
+          attribute_model: 'company_attribute',
+        },
+        {
+          attribute_display_name: 'Language',
+          attribute_display_type: 1,
+          attribute_description: 'Conversation language',
+          attribute_key: 'language',
+          attribute_model: 'conversation_attribute',
+        },
+      ],
+    };
+    expect(getters.getCompanyAttributes(state)).toEqual([
+      {
+        attributeDisplayName: 'Industry',
+        attributeDisplayType: 0,
+        attributeDescription: 'Company industry',
+        attributeKey: 'industry',
+        attributeModel: 'company_attribute',
+      },
+    ]);
+  });
+
   it('getUIFlags', () => {
     const state = {
       uiFlags: {

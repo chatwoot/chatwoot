@@ -3,6 +3,10 @@ name: Publish Codespace Base Image
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   publish-code-space-image:
     runs-on: ubuntu-latest

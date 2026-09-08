@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref } from 'vue';
 import { Chrome } from '@lk77/vue3-color';
 import { OnClickOutside } from '@vueuse/components';
 

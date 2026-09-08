@@ -1,0 +1,72 @@
+<%# locals: (portal:, locale:, article: nil, category: nil) %>
+<% home_url = public_portal_locale_path(portal.slug, locale) %>
+<% current = article ? :article : (category ? :category : :home) %>
+<header class="sticky top-0 z-40 w-full bg-white dark:bg-n-slate-1 border-b border-solid border-n-weak font-inter tracking-normal [font-optical-sizing:auto]">
+  <div class="max-w-screen-2xl w-full mx-auto flex items-center h-16 px-4 md:px-6 gap-4">
+    <label for="sidebar-drawer-checkbox" class="md:hidden -ms-1 p-2 rounded-lg text-n-slate-11 hover:bg-n-alpha-2 cursor-pointer" aria-label="<%= I18n.t('public_portal.sidebar.open_sidebar') %>">
+      <span class="i-lucide-panel-left-open size-5 block" aria-hidden="true"></span>
+    </label>
+
+    <a href="<%= home_url %>" class="flex items-center min-w-0 gap-2.5">
+      <% if portal.logo.present? %>
+        <img src="<%= url_for(portal.logo) %>" class="w-8 h-8 rounded-full" draggable="false" />
+      <% end %>
+      <span class="text-base font-semibold tracking-tight text-n-slate-12 truncate"><%= portal.localized_value('name', locale) %></span>
+      <span class="hidden sm:inline-block w-px h-5 bg-n-weak mx-1"></span>
+      <span class="hidden sm:inline-block text-sm font-medium text-n-slate-11 truncate"><%= I18n.t('public_portal.sidebar.help_center') %></span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-1 ms-4" aria-label="<%= I18n.t('public_portal.sidebar.primary_nav') %>">
+      <a href="<%= home_url %>"
+         class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition <%= current == :home ? 'text-n-portal' : 'text-n-slate-11 hover:text-n-slate-12' %>">
+        <%= I18n.t('public_portal.common.home') %>
+      </a>
+      <% if portal.homepage_link.present? %>
+        <a href="<%= portal.homepage_link %>" target="_blank" rel="noopener noreferrer nofollow"
+           class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-n-slate-11 hover:text-n-slate-12 rounded-md transition">
+          <%= I18n.t('public_portal.header.go_to_homepage') %>
+          <span class="i-lucide-arrow-up-right size-3.5" aria-hidden="true"></span>
+        </a>
+      <% end %>
+    </nav>
+
+    <div class="hidden md:block flex-1 max-w-md mx-auto relative z-30">
+      <div id="search-wrap" class="block w-full" data-size="small" data-kbd="true"></div>
+    </div>
+
+    <div class="ms-auto flex items-center gap-1.5">
+      <div id="sidebar-theme-toggle"
+           data-label-trigger="<%= I18n.t('public_portal.header.appearance.title', default: 'Appearance') %>"
+           data-label-system="<%= I18n.t('public_portal.header.appearance.system') %>"
+           data-label-light="<%= I18n.t('public_portal.header.appearance.light') %>"
+           data-label-dark="<%= I18n.t('public_portal.header.appearance.dark') %>"></div>
+
+      <% if portal.public_locale_codes.length > 1 %>
+        <details class="relative group" data-close-on-clickaway>
+          <summary class="list-none flex items-center gap-2 px-2.5 py-1.5 rounded-lg cursor-pointer text-n-slate-11 hover:text-n-slate-12 hover:bg-n-alpha-2 transition group-open:bg-n-alpha-2 group-open:text-n-slate-12 [&::-webkit-details-marker]:hidden">
+            <span class="i-lucide-languages size-4" aria-hidden="true"></span>
+            <span class="hidden lg:inline text-sm font-medium"><%= language_name(locale) %></span>
+            <span class="lg:hidden text-xs font-semibold uppercase"><%= locale %></span>
+            <span class="i-lucide-chevron-down size-3 opacity-60 transition-transform group-open:rotate-180" aria-hidden="true"></span>
+          </summary>
+
+          <div class="absolute end-0 top-full mt-2 bg-n-slate-1 border border-solid border-n-weak rounded-lg shadow-lg p-1 min-w-60 max-h-96 overflow-y-auto z-50 flex flex-col gap-0.5">
+            <div class="px-2.5 pt-2 pb-1.5 text-xs font-semibold text-n-slate-10 uppercase tracking-wider"><%= I18n.t('public_portal.sidebar.language') %></div>
+            <% portal.public_locale_codes.each do |code| %>
+              <% is_current = code == locale %>
+              <a href="/hc/<%= portal.slug %>/<%= code %>/"
+                 data-turbo="false"
+                 class="flex items-center gap-2.5 px-2.5 py-2 text-sm rounded-md transition <%= is_current ? 'bg-n-portal-soft text-n-portal' : 'text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12' %>">
+                <span class="text-xs font-semibold uppercase min-w-9 text-center text-n-slate-11 bg-n-slate-2 border border-solid border-n-weak rounded px-1.5 py-0.5 flex-shrink-0"><%= code %></span>
+                <span class="flex-1 truncate <%= is_current ? 'font-medium' : '' %>"><%= language_name(code) %></span>
+                <% if is_current %>
+                  <span class="i-lucide-check size-3.5 text-n-portal flex-shrink-0" aria-hidden="true"></span>
+                <% end %>
+              </a>
+            <% end %>
+          </div>
+        </details>
+      <% end %>
+    </div>
+  </div>
+</header>

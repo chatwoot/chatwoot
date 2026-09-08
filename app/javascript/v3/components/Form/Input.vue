@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineModel, computed } from 'vue';
+import { computed } from 'vue';
 import { useToggle } from '@vueuse/core';
 
 import Button from 'dashboard/components-next/button/Button.vue';

@@ -1,0 +1,18 @@
+<%
+  size = local_assigns[:size] || :sm
+  border = local_assigns[:border] || 'ring-2 ring-solid ring-white dark:ring-n-slate-2'
+  extra = local_assigns[:extra_class] || ''
+  size_map = {
+    xs: { box: 'w-4 h-4', text: 'text-xs', rounded: 'rounded' },
+    sm: { box: 'w-6 h-6', text: 'text-xs', rounded: 'rounded-md' },
+    md: { box: 'w-7 h-7', text: 'text-xs', rounded: 'rounded-md' },
+    lg: { box: 'w-10 h-10', text: 'text-sm', rounded: 'rounded-xl' }
+  }
+  s = size_map.fetch(size, size_map[:sm])
+  name = user.available_name
+%>
+<% if user.avatar_url.present? %>
+  <img src="<%= user.avatar_url %>" alt="<%= name %>" title="<%= name %>" class="block <%= s[:box] %> <%= s[:rounded] %> object-cover <%= border %> <%= extra %>" />
+<% else %>
+  <span title="<%= name %>" style="background: <%= thumbnail_bg_color(name) %>;" class="<%= s[:box] %> <%= s[:rounded] %> flex items-center justify-center <%= s[:text] %> font-semibold text-white <%= border %> <%= extra %>"><%= name.first&.upcase %></span>
+<% end %>

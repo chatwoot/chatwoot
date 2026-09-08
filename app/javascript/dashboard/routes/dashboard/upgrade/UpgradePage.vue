@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, defineExpose, defineProps } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useRouter } from 'vue-router';
@@ -83,12 +83,16 @@ const isLimitExceeded = computed(() => {
   );
 });
 
-const shouldShowUpgradePage = computed(() => {
-  // Skip upgrade page in Billing, Inbox, and Agent pages
-  if (props.bypassUpgradePage) return false;
+const isAccountPaywalled = computed(() => {
   if (!isOnChatwootCloud.value) return false;
   if (isTrialAccount.value) return false;
   return isLimitExceeded.value;
+});
+
+const shouldShowUpgradePage = computed(() => {
+  // Skip upgrade page in Billing, Inbox, and Agent pages
+  if (props.bypassUpgradePage) return false;
+  return isAccountPaywalled.value;
 });
 
 const fetchLimits = () => {
@@ -108,7 +112,7 @@ onMounted(() => {
   }
 });
 
-defineExpose({ shouldShowUpgradePage });
+defineExpose({ shouldShowUpgradePage, isAccountPaywalled });
 </script>
 
 <template>

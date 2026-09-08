@@ -8,6 +8,7 @@ class BulkActionsJob < ApplicationJob
 
   def perform(account:, params:, user:)
     @account = account
+    @user = user
     Current.user = user
     @params = params
     @records = records_to_updated(params[:ids])
@@ -61,6 +62,7 @@ class BulkActionsJob < ApplicationJob
     current_model = @params[:type].camelcase
     return unless MODEL_TYPE.include?(current_model)
 
-    current_model.constantize&.where(account_id: @account.id, display_id: ids)
+    scope = current_model.constantize.where(account_id: @account.id, display_id: ids)
+    Conversations::PermissionFilterService.new(scope, @user, @account).perform
   end
 end

@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "変数",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "言語",
       "CATEGORY": "カテゴリ",
       "VARIABLE_PLACEHOLDER": "{variable} の値を入力",

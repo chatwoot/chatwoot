@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Select Inbox"
         },
         "SUBMIT": "Opprett",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Avbryt"
       },
       "API": {

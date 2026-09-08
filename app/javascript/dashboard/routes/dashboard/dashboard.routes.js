@@ -1,9 +1,9 @@
 import settings from './settings/settings.routes';
 import conversation from './conversation/conversation.routes';
 import { routes as searchRoutes } from '../../modules/search/search.routes';
+import { routes as callRoutes } from './calls/routes';
 import { routes as contactRoutes } from './contacts/routes';
 import { routes as companyRoutes } from './companies/routes';
-import { routes as notificationRoutes } from './notifications/routes';
 import { routes as inboxRoutes } from './inbox/routes';
 import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
@@ -12,6 +12,8 @@ import { routes as captainRoutes } from './captain/captain.routes';
 import AppContainer from './Dashboard.vue';
 import Suspended from './suspended/Index.vue';
 import NoAccounts from './noAccounts/Index.vue';
+import OnboardingAccountDetails from './onboarding/Index.vue';
+import OnboardingInboxSetup from './onboarding/InboxSetup.vue';
 
 export default {
   routes: [
@@ -23,13 +25,29 @@ export default {
         ...inboxRoutes,
         ...conversation.routes,
         ...settings.routes,
+        ...callRoutes,
         ...contactRoutes,
         ...companyRoutes,
         ...searchRoutes,
-        ...notificationRoutes,
         ...helpcenterRoutes.routes,
         ...campaignsRoutes.routes,
       ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/onboarding'),
+      name: 'onboarding_account_details',
+      meta: {
+        permissions: ['administrator', 'agent', 'custom_role'],
+      },
+      component: OnboardingAccountDetails,
+    },
+    {
+      path: frontendURL('accounts/:accountId/onboarding/inbox-setup'),
+      name: 'onboarding_inbox_setup',
+      meta: {
+        permissions: ['administrator', 'agent', 'custom_role'],
+      },
+      component: OnboardingInboxSetup,
     },
     {
       path: frontendURL('accounts/:accountId/suspended'),

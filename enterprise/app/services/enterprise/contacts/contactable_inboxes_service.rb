@@ -1,9 +1,9 @@
 module Enterprise::Contacts::ContactableInboxesService
   private
 
-  # Extend base selection to include Voice inboxes
+  # Extend base selection to include voice-enabled TwilioSms inboxes
   def get_contactable_inbox(inbox)
-    return voice_contactable_inbox(inbox) if inbox.channel_type == 'Channel::Voice'
+    return voice_contactable_inbox(inbox) if inbox.channel_type == 'Channel::TwilioSms' && inbox.channel.voice_enabled?
 
     super
   end

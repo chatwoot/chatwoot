@@ -38,6 +38,24 @@ RSpec.describe ApplicationRecord do
                   attribute: :access_token,
                   value: 'ig-secret'
 
+  it 'encrypts WhatsApp business_management_token at rest' do
+    skip('encryption keys missing; see run_mfa_spec workflow') unless Chatwoot.encryption_configured?
+
+    channel = create(
+      :channel_whatsapp,
+      provider: 'whatsapp_cloud',
+      business_management_token: 'whatsapp-business-management-secret',
+      validate_provider_config: false,
+      sync_templates: false
+    )
+
+    raw_stored_value = channel.reload.read_attribute_before_type_cast(:business_management_token).to_s
+    expect(raw_stored_value).to be_present
+    expect(raw_stored_value).not_to include('whatsapp-business-management-secret')
+    expect(channel.business_management_token).to eq('whatsapp-business-management-secret')
+    expect(channel.encrypted_attribute?(:business_management_token)).to be(true)
+  end
+
   it_behaves_like 'encrypted external credential',
                   factory: :channel_line,
                   attribute: :line_channel_secret,

@@ -17,6 +17,7 @@ module FileTypeHelper
   def image_file?(content_type)
     [
       'image/jpeg',
+      'image/jpg',
       'image/png',
       'image/gif',
       'image/bmp',

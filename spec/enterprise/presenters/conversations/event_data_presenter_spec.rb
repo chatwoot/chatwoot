@@ -20,6 +20,19 @@ RSpec.describe Conversations::EventDataPresenter do
       )
     end
 
+    it 'returns push event payload without active sla data when contact is blocked' do
+      conversation.account.enable_features!('sla')
+      conversation.contact.update!(blocked: true)
+
+      expect(presenter.push_data).to include(
+        {
+          applied_sla: nil,
+          sla_events: [],
+          sla_policy_id: nil
+        }
+      )
+    end
+
     it 'returns push event payload without applied sla & sla events if the feature is disabled' do
       conversation.account.disable_features!('sla')
 

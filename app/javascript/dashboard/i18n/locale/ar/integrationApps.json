@@ -46,6 +46,7 @@
           "PLACEHOLDER": "اختر صندوق الوارد"
         },
         "SUBMIT": "إنشاء",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "إلغاء"
       },
       "API": {

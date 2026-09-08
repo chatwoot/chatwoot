@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Izaberi prijemno sanduče"
         },
         "SUBMIT": "Napravi",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Otkaži"
       },
       "API": {

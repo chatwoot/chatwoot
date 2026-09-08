@@ -1,5 +1,6 @@
 import {
   isPdfDocument,
+  isSafeHttpLink,
   formatDocumentLink,
 } from 'shared/helpers/documentHelper';
 
@@ -28,6 +29,35 @@ describe('documentHelper', () => {
     it('returns false for strings that contain PDF but do not start with PDF:', () => {
       expect(isPdfDocument('document PDF:file.pdf')).toBe(false);
       expect(isPdfDocument('My PDF:file.pdf')).toBe(false);
+    });
+  });
+
+  describe('#isSafeHttpLink', () => {
+    it('returns true for http and https URLs', () => {
+      expect(isSafeHttpLink('http://example.com')).toBe(true);
+      expect(isSafeHttpLink('https://example.com/path?q=1#x')).toBe(true);
+      expect(isSafeHttpLink('HTTPS://EXAMPLE.COM')).toBe(true);
+    });
+
+    /* eslint-disable no-script-url */
+    it('returns false for javascript: and other dangerous schemes', () => {
+      expect(isSafeHttpLink('javascript:alert(1)')).toBe(false);
+      expect(isSafeHttpLink('JavaScript:alert(1)')).toBe(false);
+      expect(isSafeHttpLink('data:text/html,<script>alert(1)</script>')).toBe(
+        false
+      );
+      expect(isSafeHttpLink('vbscript:msgbox(1)')).toBe(false);
+      expect(isSafeHttpLink('file:///etc/passwd')).toBe(false);
+      expect(isSafeHttpLink('ftp://files.example.com/doc.pdf')).toBe(false);
+    });
+    /* eslint-enable no-script-url */
+
+    it('returns false for invalid or empty values', () => {
+      expect(isSafeHttpLink('')).toBe(false);
+      expect(isSafeHttpLink(null)).toBe(false);
+      expect(isSafeHttpLink(undefined)).toBe(false);
+      expect(isSafeHttpLink('not a url')).toBe(false);
+      expect(isSafeHttpLink('//example.com')).toBe(false);
     });
   });
 
@@ -78,32 +108,30 @@ describe('documentHelper', () => {
     });
 
     describe('Regular URLs', () => {
-      it('returns regular URLs unchanged', () => {
-        expect(formatDocumentLink('https://example.com')).toBe(
-          'https://example.com'
-        );
+      it('removes http(s) and www prefixes for compact display', () => {
+        expect(formatDocumentLink('https://example.com')).toBe('example.com');
         expect(formatDocumentLink('http://docs.example.com/api')).toBe(
-          'http://docs.example.com/api'
+          'docs.example.com/api'
         );
-        expect(formatDocumentLink('https://github.com/user/repo')).toBe(
-          'https://github.com/user/repo'
+        expect(formatDocumentLink('https://www.github.com/user/repo')).toBe(
+          'github.com/user/repo'
         );
       });
 
       it('handles URLs with query parameters', () => {
         expect(formatDocumentLink('https://example.com?param=value')).toBe(
-          'https://example.com?param=value'
+          'example.com?param=value'
         );
         expect(
           formatDocumentLink(
             'https://api.example.com/docs?version=v1&format=json'
           )
-        ).toBe('https://api.example.com/docs?version=v1&format=json');
+        ).toBe('api.example.com/docs?version=v1&format=json');
       });
 
       it('handles URLs with fragments', () => {
         expect(formatDocumentLink('https://example.com/docs#section1')).toBe(
-          'https://example.com/docs#section1'
+          'example.com/docs#section1'
         );
       });
     });

@@ -1,6 +1,6 @@
 module Enterprise::Captain::BaseTaskService
   def perform
-    return { error: I18n.t('captain.copilot_limit'), error_code: 429 } unless responses_available?
+    return { error: I18n.t('captain.copilot_limit'), error_code: 429 } if counts_toward_usage? && !responses_available?
 
     unless captain_tasks_enabled?
       return { error: I18n.t('captain.upgrade') } if ChatwootApp.chatwoot_cloud?
@@ -9,7 +9,7 @@ module Enterprise::Captain::BaseTaskService
     end
 
     result = super
-    increment_usage if successful_result?(result)
+    increment_usage if counts_toward_usage? && successful_result?(result)
     result
   end
 
