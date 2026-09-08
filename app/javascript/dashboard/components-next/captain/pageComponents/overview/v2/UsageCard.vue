@@ -44,7 +44,7 @@ const meters = computed(() => [
       percentage: formatPercentage(percentage(props.responseLimits)),
     }),
     valueLabel: valueLabel(props.responseLimits),
-    color: 'rgb(var(--iris-9))',
+    color: 'rgb(var(--blue-9))',
   },
   {
     key: 'documents',
@@ -55,7 +55,7 @@ const meters = computed(() => [
       percentage: formatPercentage(percentage(props.documentLimits)),
     }),
     valueLabel: valueLabel(props.documentLimits),
-    color: 'rgb(var(--iris-9))',
+    color: 'rgb(var(--blue-9))',
   },
 ]);
 </script>

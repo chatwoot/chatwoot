@@ -58,7 +58,7 @@ const stats = computed(() => [
             total: total.toLocaleString(),
           })
         "
-        color="rgb(var(--iris-9))"
+        color="rgb(var(--blue-9))"
         :loading="loading"
       />
       <div class="grid grid-cols-2 gap-4">

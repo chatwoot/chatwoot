@@ -34,12 +34,12 @@ const REASON_LABELS = {
 
 const FLOW_NODE_COLORS = {
   conversations_handled: 'rgb(var(--iris-9))',
-  resolved_by_captain: 'rgb(var(--iris-9))',
-  stayed_closed: 'rgb(var(--iris-9))',
-  reopened_within_7_days: 'rgb(var(--iris-7))',
-  closed_with_team: 'rgb(var(--iris-8))',
+  resolved_by_captain: 'rgb(var(--teal-9))',
+  stayed_closed: 'rgb(var(--teal-9))',
+  reopened_within_7_days: 'rgb(var(--ruby-9))',
+  closed_with_team: 'rgb(var(--slate-8))',
 };
-const DEFAULT_FLOW_NODE_COLOR = 'rgb(var(--iris-6))';
+const DEFAULT_FLOW_NODE_COLOR = 'rgb(var(--amber-9))';
 
 const reasonLabel = category =>
   t(

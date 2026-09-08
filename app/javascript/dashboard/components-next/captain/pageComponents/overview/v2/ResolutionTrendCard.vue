@@ -63,9 +63,9 @@ const countChartData = computed(() => {
       {
         id: 'handled',
         label: t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.HANDLED'),
-        color: 'rgb(var(--iris-6))',
+        color: 'rgb(var(--slate-7))',
         pointBorderColor: 'rgb(var(--card-color))',
-        valueColor: 'rgb(var(--iris-11))',
+        valueColor: 'rgb(var(--slate-10))',
         data: buckets.map(bucket => bucket.conversations_handled),
       },
       {
@@ -96,8 +96,8 @@ const rateChartData = computed(() => ({
     {
       id: 'previous_resolution_rate',
       label: t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.PREVIOUS_PERIOD'),
-      color: 'rgb(var(--iris-6))',
-      valueColor: 'rgb(var(--iris-11))',
+      color: 'rgb(var(--slate-7))',
+      valueColor: 'rgb(var(--slate-10))',
       data: (props.trend?.buckets || []).map(bucket => ({
         value: bucket.previous_resolution_rate ?? undefined,
         description: comparisonDateLabel(
