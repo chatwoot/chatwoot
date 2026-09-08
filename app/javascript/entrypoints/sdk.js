@@ -82,7 +82,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     enableEndConversation: chatwootSettings.enableEndConversation ?? true,
 
     toggle(state, initialMessage) {
-      if (initialMessage !== undefined) {
+      if (typeof initialMessage === 'string') {
         window.$chatwoot.setInitialMessage(initialMessage);
       }
       IFrameHelper.events.toggleBubble(state);
