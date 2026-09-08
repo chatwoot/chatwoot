@@ -75,6 +75,10 @@ export const useInbox = (inboxId = null) => {
     return channelType.value === INBOX_TYPES.LINE;
   });
 
+  const isAZaloOaChannel = computed(() => {
+    return channelType.value === INBOX_TYPES.ZALO_OA;
+  });
+
   const isAnEmailChannel = computed(() => {
     return channelType.value === INBOX_TYPES.EMAIL;
   });
@@ -146,6 +150,7 @@ export const useInbox = (inboxId = null) => {
     inbox,
     isAFacebookInbox,
     isALineChannel,
+    isAZaloOaChannel,
     isAPIInbox,
     isASmsInbox,
     isATelegramChannel,

@@ -66,6 +66,7 @@ const isActive = computed(() => {
     'sms',
     'telegram',
     'line',
+    'zalo_oa',
     'instagram',
     'tiktok',
     'voice',

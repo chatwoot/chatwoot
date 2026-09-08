@@ -564,6 +564,31 @@
           "ERROR_MESSAGE": "We were not able to save the telegram channel"
         }
       },
+      "ZALO_OA_CHANNEL": {
+        "TITLE": "Zalo OA Channel",
+        "DESC": "Connect your Zalo Official Account and start supporting your customers on Zalo.",
+        "APP_ID": {
+          "LABEL": "App ID",
+          "PLACEHOLDER": "App ID"
+        },
+        "APP_SECRET": {
+          "LABEL": "App Secret Key",
+          "PLACEHOLDER": "App Secret Key"
+        },
+        "OA_SECRET_KEY": {
+          "LABEL": "OA Secret Key",
+          "SUBTITLE": "Used to verify webhook events. Find it in the Zalo Official Account settings, separate from the App Secret Key.",
+          "PLACEHOLDER": "OA Secret Key"
+        },
+        "SUBMIT_BUTTON": "Connect Zalo OA",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to connect the Zalo Official Account"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in Zalo Official Account settings with the URL mentioned here."
+        }
+      },
       "AUTH": {
         "TITLE": "Choose a channel",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
@@ -605,6 +630,10 @@
           "LINE": {
             "TITLE": "Line",
             "DESCRIPTION": "Integrate your Line channel"
+          },
+          "ZALO_OA": {
+            "TITLE": "Zalo OA",
+            "DESCRIPTION": "Connect your Zalo Official Account"
           },
           "INSTAGRAM": {
             "TITLE": "Instagram",

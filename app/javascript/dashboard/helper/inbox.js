@@ -13,6 +13,7 @@ export const INBOX_TYPES = {
   SMS: 'Channel::Sms',
   INSTAGRAM: 'Channel::Instagram',
   TIKTOK: 'Channel::Tiktok',
+  ZALO_OA: 'Channel::ZaloOa',
 };
 
 // Short channel-type slugs used to identify a channel without leaning on its
@@ -31,6 +32,7 @@ export const CHANNEL_TYPES = {
   API: 'api',
   VOICE: 'voice',
   EMAIL: 'email',
+  ZALO_OA: 'zalo_oa',
 };
 
 // Add providers here as they gain voice capability (e.g., WhatsApp Cloud, Twilio WhatsApp)
@@ -107,6 +109,7 @@ const INBOX_ICON_MAP_LINE = {
   [INBOX_TYPES.LINE]: 'i-woot-line',
   [INBOX_TYPES.INSTAGRAM]: 'i-woot-instagram',
   [INBOX_TYPES.TIKTOK]: 'i-woot-tiktok',
+  [INBOX_TYPES.ZALO_OA]: 'i-woot-zalo',
 };
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
