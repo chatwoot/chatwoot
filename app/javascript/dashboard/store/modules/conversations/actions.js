@@ -13,11 +13,14 @@ import {
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import * as Sentry from '@sentry/vue';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import {
   handleVoiceCallCreated,
   handleVoiceCallUpdated,
   syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
+
+const pendingHistoryRequests = new Map();
 
 const TERMINAL_CONTACT_INFO_REQUEST_STATES = ['shared', 'identity_conflict'];
 
@@ -56,50 +59,81 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
   return status === MESSAGE_STATUS.FAILED && externalError !== '';
 };
 
+const conversationListRequest = useAbortableRequest();
+
 // actions
 const actions = {
-  getConversation: async ({ commit }, conversationId) => {
+  getConversation: async ({ commit, dispatch }, conversationId) => {
     try {
       const response = await ConversationApi.show(conversationId);
-      commit(types.UPDATE_CONVERSATION, response.data);
+      // API refreshes can run in the background after reconnecting. Use the
+      // list merge to preserve local message state without moving the agent's
+      // scroll position or marking messages as read.
+      commit(types.SET_ALL_CONVERSATION, [response.data]);
       commit(`contacts/${types.SET_CONTACT_ITEM}`, response.data.meta.sender);
+      dispatch('conversationLabels/setConversationLabel', {
+        id: response.data.id,
+        data: response.data.labels,
+      });
     } catch (error) {
       // Ignore error
     }
   },
 
-  fetchAllConversations: async ({ commit, state, dispatch }) => {
-    commit(types.SET_LIST_LOADING_STATUS);
-    try {
-      const params = state.conversationFilters;
-      const {
-        data: { data },
-      } = await ConversationApi.get(params);
-      buildConversationList(
-        { commit, dispatch },
-        params,
-        data,
-        params.assigneeType
-      );
-    } catch (error) {
-      // Handle error
-    }
+  fetchAllConversations: async (
+    { commit, state, dispatch },
+    { replaceExisting = false } = {}
+  ) => {
+    return conversationListRequest.run(async signal => {
+      commit(types.SET_LIST_LOADING_STATUS);
+      try {
+        const params = state.conversationFilters;
+        const {
+          data: { data },
+        } = await ConversationApi.get(params, { signal });
+
+        if (signal.aborted) return;
+
+        buildConversationList(
+          { commit, dispatch },
+          params,
+          data,
+          params.assigneeType,
+          { replaceExisting }
+        );
+      } catch (error) {
+        if (!signal.aborted) {
+          commit(types.CLEAR_LIST_LOADING_STATUS);
+        }
+      }
+    });
   },
 
   fetchFilteredConversations: async ({ commit, dispatch }, params) => {
-    commit(types.SET_LIST_LOADING_STATUS);
-    try {
-      const { data } = await ConversationApi.filter(params);
-      buildConversationList(
-        { commit, dispatch },
-        params,
-        data,
-        'appliedFilters'
-      );
-    } catch (error) {
-      commit(types.CLEAR_LIST_LOADING_STATUS);
-      throw error;
-    }
+    return conversationListRequest.run(async signal => {
+      const { replaceExisting = false, ...requestParams } = params;
+      commit(types.SET_LIST_LOADING_STATUS);
+      try {
+        const { data } = await ConversationApi.filter(requestParams, {
+          signal,
+        });
+
+        if (signal.aborted) return;
+
+        buildConversationList(
+          { commit, dispatch },
+          requestParams,
+          data,
+          'appliedFilters',
+          { replaceExisting }
+        );
+      } catch (error) {
+        if (signal.aborted) return;
+
+        commit(types.CLEAR_LIST_LOADING_STATUS);
+        throw error;
+      }
+    });
   },
 
   emptyAllConversations({ commit }) {
@@ -110,25 +144,35 @@ const actions = {
     commit(types.CLEAR_CURRENT_CHAT_WINDOW);
   },
 
-  fetchPreviousMessages: async ({ commit }, data) => {
-    try {
-      const {
-        data: { meta, payload },
-      } = await MessageApi.getPreviousMessages(data);
-      commit(`conversationMetadata/${types.SET_CONVERSATION_METADATA}`, {
-        id: data.conversationId,
-        data: meta,
-      });
-      commit(types.SET_PREVIOUS_CONVERSATIONS, {
-        id: data.conversationId,
-        data: payload,
-      });
-      if (!payload.length) {
-        commit(types.SET_ALL_MESSAGES_LOADED, data.conversationId);
-      }
-    } catch (error) {
-      // Handle error
+  fetchPreviousMessages: ({ commit }, data) => {
+    const requestKey = JSON.stringify([
+      MessageApi.url,
+      data.conversationId,
+      data.before,
+      data.after,
+    ]);
+    if (pendingHistoryRequests.has(requestKey)) {
+      return pendingHistoryRequests.get(requestKey);
     }
+
+    const request = MessageApi.getPreviousMessages(data)
+      .then(({ data: { meta, payload } }) => {
+        commit(`conversationMetadata/${types.SET_CONVERSATION_METADATA}`, {
+          id: data.conversationId,
+          data: meta,
+        });
+        commit(types.SET_PREVIOUS_CONVERSATIONS, {
+          id: data.conversationId,
+          data: payload,
+        });
+        if (!payload.length) {
+          commit(types.SET_ALL_MESSAGES_LOADED, data.conversationId);
+        }
+      })
+      .finally(() => pendingHistoryRequests.delete(requestKey));
+
+    pendingHistoryRequests.set(requestKey, request);
+    return request;
   },
 
   fetchAllAttachments: async ({ commit }, conversationId) => {
@@ -562,6 +606,11 @@ const actions = {
 
   updateChatListFilters({ commit }, data) {
     commit(types.UPDATE_CHAT_LIST_FILTERS, data);
+  },
+
+  invalidateConversationListRequests({ commit }) {
+    conversationListRequest.abort();
+    commit(types.CLEAR_LIST_LOADING_STATUS);
   },
 
   assignPriority: async ({ dispatch }, { conversationId, priority }) => {
