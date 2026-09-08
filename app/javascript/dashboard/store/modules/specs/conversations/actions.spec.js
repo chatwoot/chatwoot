@@ -59,16 +59,30 @@ describe('#actions', () => {
   describe('#getConversation', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({
-        data: { id: 1, meta: { sender: { id: 1, name: 'Contact 1' } } },
+        data: {
+          id: 1,
+          labels: ['support'],
+          meta: { sender: { id: 1, name: 'Contact 1' } },
+        },
       });
-      await actions.getConversation({ commit }, 1);
+      await actions.getConversation({ commit, dispatch }, 1);
       expect(commit.mock.calls).toEqual([
         [
-          types.UPDATE_CONVERSATION,
-          { id: 1, meta: { sender: { id: 1, name: 'Contact 1' } } },
+          types.SET_ALL_CONVERSATION,
+          [
+            {
+              id: 1,
+              labels: ['support'],
+              meta: { sender: { id: 1, name: 'Contact 1' } },
+            },
+          ],
         ],
         ['contacts/SET_CONTACT_ITEM', { id: 1, name: 'Contact 1' }],
       ]);
+      expect(dispatch).toHaveBeenCalledWith(
+        'conversationLabels/setConversationLabel',
+        { id: 1, data: ['support'] }
+      );
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
@@ -287,6 +301,68 @@ describe('#actions', () => {
       };
       actions.addMessage({ commit }, message);
       expect(commit.mock.calls).toEqual([[types.ADD_MESSAGE, message]]);
+    });
+  });
+
+  describe('#updateMessage', () => {
+    it('refreshes loaded conversations sharing the same contact inbox source after terminal contact info updates', () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn();
+      const message = {
+        id: 1,
+        conversation_id: 10,
+        status: 'sent',
+        content_attributes: {
+          whatsapp_contact_info: {
+            type: 'request',
+            state: 'identity_conflict',
+          },
+        },
+        conversation: {
+          contact_inbox: { source_id: 'IN.2081978709342942' },
+        },
+      };
+      const state = {
+        allConversations: [
+          { id: 10, messages: [message] },
+          {
+            id: 20,
+            messages: [
+              {
+                conversation: {
+                  contact_inbox: { source_id: 'IN.2081978709342942' },
+                },
+              },
+            ],
+          },
+          {
+            id: 30,
+            messages: [
+              {
+                conversation: {
+                  contact_inbox: { source_id: 'IN.3109889333218546' },
+                },
+              },
+            ],
+          },
+        ],
+      };
+
+      actions.updateMessage(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          rootGetters: {},
+          state,
+        },
+        message
+      );
+
+      expect(localCommit.mock.calls).toEqual([[types.ADD_MESSAGE, message]]);
+      expect(localDispatch.mock.calls).toEqual([
+        ['getConversation', 10],
+        ['getConversation', 20],
+      ]);
     });
   });
 
