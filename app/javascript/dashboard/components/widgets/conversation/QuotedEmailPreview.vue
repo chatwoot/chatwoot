@@ -9,6 +9,8 @@ import {
 } from 'vue';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useI18n } from 'vue-i18n';
+import { useEmitter } from 'dashboard/composables/emitter';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -64,6 +66,11 @@ const toggleExpand = async () => {
   requestEditorHeight(bodyHeight + quoteHeight);
 };
 
+// The resizable wrapper resets its height on the same event.
+useEmitter(BUS_EVENTS.MESSAGE_SENT, () => {
+  isExpanded.value = false;
+});
+
 onBeforeUnmount(() => requestEditorHeight(0));
 </script>
 
@@ -92,16 +99,25 @@ onBeforeUnmount(() => requestEditorHeight(0));
         @click="emit('remove')"
       />
     </div>
-    <div
-      v-if="isExpanded"
-      ref="contentRef"
-      class="mt-2 overflow-y-auto text-sm max-h-60 min-h-0 text-n-slate-11"
+    <Transition
+      enter-active-class="transition-opacity duration-200 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition-opacity duration-200 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
     >
-      <p v-if="header" class="mb-1">{{ header }}</p>
       <div
-        v-dompurify-html="formattedQuotedEmailText"
-        class="w-full max-w-none break-words border-s-2 border-n-slate-6 ps-3 prose prose-sm dark:prose-invert"
-      />
-    </div>
+        v-if="isExpanded"
+        ref="contentRef"
+        class="mt-2 overflow-y-auto text-sm max-h-60 min-h-0 text-n-slate-11"
+      >
+        <p v-if="header" class="mb-1">{{ header }}</p>
+        <div
+          v-dompurify-html="formattedQuotedEmailText"
+          class="w-full max-w-none break-words border-s-2 border-n-slate-6 ps-3 prose prose-sm dark:prose-invert"
+        />
+      </div>
+    </Transition>
   </div>
 </template>
