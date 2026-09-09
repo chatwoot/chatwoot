@@ -367,11 +367,11 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
 
       before do
-        conversation.update!(additional_attributes: { conversation_language: 'pt-BR' })
+        conversation.account.update!(locale: 'pt_BR')
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
       end
 
-      it 'creates a separate suggestion in the conversation language' do
+      it 'creates a separate suggestion in the account language' do
         expect do
           service.generate_suggestions
         end.to change(captain_assistant.faq_suggestions, :count).by(1)
@@ -424,7 +424,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         create(:captain_assistant_response, assistant: captain_assistant, account: captain_assistant.account,
                                             question: 'How do I enable the feature?', answer: 'Turn it on in settings.',
                                             embedding: embedding_one)
-        conversation.update!(additional_attributes: { conversation_language: 'pt-BR' })
+        conversation.account.update!(locale: 'pt_BR')
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
         allow(mock_chat).to receive(:ask) do |input|
           input.start_with?('{') ? match_response : mock_response
@@ -512,7 +512,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
   end
 
   describe 'language handling' do
-    context 'when conversation has different language' do
+    context 'when conversation has no detected language' do
       let(:account) { create(:account, locale: 'fr') }
       let(:captain_assistant) { create(:captain_assistant, account: account) }
       let(:conversation) do
@@ -545,13 +545,16 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one, embedding_two)
       end
 
-      it 'uses the conversation language for the system prompt' do
+      it 'uses account language for the prompt and stored suggestions and observations' do
         expect(Captain::Llm::ConversationFaqPromptsService).to receive(:generator)
-          .with('portuguese')
+          .with('english')
           .at_least(:once)
           .and_call_original
 
         service.generate_suggestions
+
+        expect(captain_assistant.faq_suggestions.pluck(:language)).to eq(%w[en en])
+        expect(Captain::FaqObservation.where(conversation: conversation).pluck(:language)).to eq(%w[en en])
       end
     end
   end
