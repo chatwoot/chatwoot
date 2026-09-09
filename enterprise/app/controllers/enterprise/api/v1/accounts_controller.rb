@@ -3,7 +3,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   before_action :fetch_account
   before_action :validate_token_api_access, if: :authenticate_by_access_token?
   before_action :check_authorization
-  before_action :check_suspended_billing_access, only: [:subscription, :select_billing_currency, :checkout]
+  before_action :check_suspended_billing_access, only: [:subscription, :select_billing_currency, :checkout, :topup_checkout]
   before_action :check_cloud_env, only: [:limits, :toggle_deletion, :topup_options]
 
   def subscription

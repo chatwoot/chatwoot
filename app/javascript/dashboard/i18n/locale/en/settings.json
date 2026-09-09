@@ -264,6 +264,7 @@
     "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
+      "MESSAGE": "Your account has been suspended. Please contact our support team for assistance.",
       "MESSAGES": {
         "SPAM": "Your account has been suspended because activity associated with it was identified as spam. If you believe this is a mistake, please contact our support team.",
         "NON_PAYMENT": "Your account has been suspended because of an outstanding payment. Manage your billing to settle the payment.",

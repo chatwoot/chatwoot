@@ -399,6 +399,43 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
         allow(Stripe::Billing::CreditGrant).to receive(:create)
       end
 
+      %w[spam other].each do |category|
+        it "blocks topups for a suspended #{category} account without charging" do
+          account.update!(
+            status: :suspended,
+            internal_attributes: { 'suspensions' => [{ 'category' => category }] }
+          )
+          expect(Stripe::Invoice).not_to receive(:create)
+          expect(Stripe::Invoice).not_to receive(:pay)
+          expect(Stripe::Billing::CreditGrant).not_to receive(:create)
+
+          post "/enterprise/api/v1/accounts/#{account.id}/topup_checkout",
+               headers: admin.create_new_auth_token,
+               params: { credits: 1000 },
+               as: :json
+
+          expect(response).to have_http_status(:forbidden)
+          expect(account.reload.limits['captain_responses']).to eq(1000)
+        end
+      end
+
+      [nil, 'non_payment'].each do |category|
+        it "allows topups for a suspended account with category #{category.inspect}" do
+          account.update!(
+            status: :suspended,
+            internal_attributes: { 'suspensions' => [{ 'category' => category }] }
+          )
+
+          post "/enterprise/api/v1/accounts/#{account.id}/topup_checkout",
+               headers: admin.create_new_auth_token,
+               params: { credits: 1000 },
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(account.reload.limits['captain_responses']).to eq(2000)
+        end
+      end
+
       it 'successfully processes topup and returns correct response' do
         post "/enterprise/api/v1/accounts/#{account.id}/topup_checkout",
              headers: admin.create_new_auth_token,
