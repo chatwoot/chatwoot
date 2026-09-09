@@ -9,9 +9,9 @@ describe('#getters', () => {
   it('returns the groups of the account they were fetched for', () => {
     const state = { records: groups, accountId: 1 };
 
-    expect(getters.getGroups(state, {}, {}, { getCurrentAccountId: 1 })).toEqual(
-      groups
-    );
+    expect(
+      getters.getGroups(state, {}, {}, { getCurrentAccountId: 1 })
+    ).toEqual(groups);
   });
 
   it('returns nothing after switching to another account', () => {

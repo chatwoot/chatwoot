@@ -189,6 +189,7 @@ onMounted(async () => {
                       v-if="subChild.children"
                       v-bind="subChild"
                       :active-child="activeChild"
+                      @navigate="emit('close')"
                     />
                     <li v-else class="py-0.5">
                       <button

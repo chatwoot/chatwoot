@@ -355,46 +355,71 @@ const buildChannelItem = inbox => ({
     }),
 });
 
-// Grouped channels appear under their group, ungrouped channels stay on their
-// own, and both are sorted together by the section's sort option.
-const channelItems = computed(() => {
+const buildChannelGroupItem = ({ group, memberInboxes }) => ({
+  name: `channel-group-${group.id}`,
+  label: group.name,
+  icon: 'i-lucide-folder',
+  to: accountScopedRoute('channel_group_conversations', {
+    channelGroupId: group.id,
+  }),
+  activeOn: ['conversations_through_channel_group'],
+  children: memberInboxes.map(buildChannelItem),
+  badgeCount: memberInboxes.reduce(
+    (count, inbox) => count + getInboxUnreadCount.value(inbox.id),
+    0
+  ),
+});
+
+// Groups and ungrouped channels share the Channels section, so they are sorted
+// together on the channel the sort options already know about: a group takes the
+// place of its oldest channel and carries the unread count of all of them.
+const sortedChannelEntities = computed(() => {
   const groupedInboxIds = new Set(
     channelGroups.value.flatMap(group => group.inbox_ids)
   );
 
   const groups = channelGroups.value
-    .map(group => {
-      const children = sortedInboxes.value
-        .filter(inbox => group.inbox_ids.includes(inbox.id))
-        .map(buildChannelItem);
-
-      return {
-        name: `channel-group-${group.id}`,
-        label: group.name,
-        icon: 'i-lucide-folder',
-        to: accountScopedRoute('channel_group_conversations', {
-          channelGroupId: group.id,
-        }),
-        activeOn: ['conversations_through_channel_group'],
-        children,
-        badgeCount: children.reduce(
-          (count, child) => count + child.badgeCount,
-          0
-        ),
-      };
-    })
-    .filter(group => group.children.length);
+    .map(group => ({
+      group,
+      memberInboxes: sortedInboxes.value.filter(inbox =>
+        group.inbox_ids.includes(inbox.id)
+      ),
+    }))
+    .filter(({ memberInboxes }) => memberInboxes.length)
+    .map(entity => ({
+      ...entity,
+      id: Math.min(...entity.memberInboxes.map(inbox => inbox.id)),
+      label: entity.group.name,
+      unreadCount: entity.memberInboxes.reduce(
+        (count, inbox) => count + getInboxUnreadCount.value(inbox.id),
+        0
+      ),
+    }));
 
   const ungrouped = sortedInboxes.value
     .filter(inbox => !groupedInboxIds.has(inbox.id))
-    .map(buildChannelItem);
+    .map(inbox => ({
+      inbox,
+      id: inbox.id,
+      created_at: inbox.created_at,
+      label: inbox.name,
+      unreadCount: getInboxUnreadCount.value(inbox.id),
+    }));
 
   return sortSidebarItems([...groups, ...ungrouped], {
     sortBy: getSortForSection(SIDEBAR_SORT_SECTIONS.CHANNELS),
-    labelKey: item => item.label,
-    unreadCountKey: item => item.badgeCount,
+    labelKey: entity => entity.label,
+    unreadCountKey: entity => entity.unreadCount,
   });
 });
+
+const channelItems = computed(() =>
+  sortedChannelEntities.value.map(entity =>
+    entity.group
+      ? buildChannelGroupItem(entity)
+      : buildChannelItem(entity.inbox)
+  )
+);
 
 const sortedLabels = computed(() =>
   sortSidebarItems(labels.value, {

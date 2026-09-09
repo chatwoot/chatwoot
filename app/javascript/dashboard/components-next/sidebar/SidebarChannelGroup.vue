@@ -14,6 +14,10 @@ const props = defineProps({
   activeChild: { type: Object, default: undefined },
 });
 
+// The collapsed sidebar renders this inside a popover that has to close once the
+// agent navigates; the expanded sidebar simply ignores the event.
+const emit = defineEmits(['navigate']);
+
 const { t } = useI18n();
 const { expandedChannelGroups, toggleChannelGroup, isAllowed } =
   useSidebarContext();
@@ -43,6 +47,7 @@ const isActive = computed(
         :to="to"
         :title="label"
         class="flex min-w-0 flex-1 items-center gap-2 px-2 py-1.5"
+        @click="emit('navigate')"
       >
         <span class="i-lucide-folder size-4 flex-shrink-0" />
         <span class="truncate flex-1 text-sm">{{ label }}</span>
@@ -76,6 +81,7 @@ const isActive = computed(
         v-bind="child"
         :active="activeChild?.name === child.name"
         thin-tree-line
+        @click="emit('navigate')"
       />
     </ul>
   </li>

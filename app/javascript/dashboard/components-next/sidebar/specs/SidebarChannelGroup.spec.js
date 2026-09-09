@@ -96,6 +96,19 @@ describe('SidebarChannelGroup', () => {
     expect(toggleChannelGroup).toHaveBeenCalledWith('channel-group-1');
   });
 
+  it('reports navigation so a collapsed sidebar popover can close', async () => {
+    const { wrapper } = mountChannelGroup({
+      expandedChannelGroups: ['channel-group-1'],
+    });
+
+    await wrapper.get('a').trigger('click');
+    await wrapper.get('.sidebar-leaf').trigger('click');
+
+    expect(
+      wrapper.findComponent({ name: 'SidebarChannelGroup' }).emitted('navigate')
+    ).toHaveLength(2);
+  });
+
   it('shows the unread count of the group', () => {
     const { wrapper } = mountChannelGroup();
 
