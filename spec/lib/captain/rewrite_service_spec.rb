@@ -140,6 +140,34 @@ RSpec.describe Captain::RewriteService do
 
       expect(result[:message]).to eq('Rewritten text')
     end
+
+    context 'when the model changes a URL' do
+      let(:content) do
+        'Read <https://chatwoot.com/articles/purchasing-a-paid-self_hosted-license-a-step_by_step-guide>'
+      end
+      let(:mock_response) do
+        instance_double(
+          RubyLLM::Message,
+          content: 'Please read <https://chatwoot.com/articles/purchasing-a-paid-self_hosted-license-a-step_by-step-guide>',
+          input_tokens: 10,
+          output_tokens: 5
+        )
+      end
+
+      it 'restores the original URL' do
+        expect(service.perform[:message]).to eq(
+          'Please read <https://chatwoot.com/articles/purchasing-a-paid-self_hosted-license-a-step_by_step-guide>'
+        )
+      end
+    end
+
+    context 'when the model removes a URL' do
+      let(:content) { 'Read https://chatwoot.com/guide for help' }
+
+      it 'returns the original content' do
+        expect(service.perform[:message]).to eq(content)
+      end
+    end
   end
 
   describe '#perform with invalid operation' do

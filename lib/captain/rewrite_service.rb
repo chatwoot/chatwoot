@@ -1,6 +1,7 @@
 class Captain::RewriteService < Captain::BaseTaskService
   pattr_initialize [:account!, :content!, :operation!, { conversation_display_id: nil }]
 
+  URL_PATTERN = %r{https?://[^\s<>\])]+}
   TONE_OPERATIONS = %i[casual professional friendly confident straightforward].freeze
   ALLOWED_OPERATIONS = (%i[fix_spelling_grammar improve] + TONE_OPERATIONS).freeze
 
@@ -35,13 +36,26 @@ class Captain::RewriteService < Captain::BaseTaskService
   end
 
   def call_llm_with_prompt(system_content, user_content = content)
-    make_api_call(
+    response = make_api_call(
       feature: 'editor',
       messages: [
         { role: 'system', content: system_content },
         { role: 'user', content: user_content }
       ]
     )
+
+    preserve_urls(response)
+  end
+
+  def preserve_urls(response)
+    original_urls = content.scan(URL_PATTERN)
+    return response if response[:error] || original_urls.empty?
+
+    rewritten_urls = response[:message].to_s.scan(URL_PATTERN)
+    return response.merge(message: content) unless rewritten_urls.size == original_urls.size
+
+    index = -1
+    response.merge(message: response[:message].gsub(URL_PATTERN) { original_urls[index += 1] })
   end
 
   def render_liquid_template(template_content, variables = {})
