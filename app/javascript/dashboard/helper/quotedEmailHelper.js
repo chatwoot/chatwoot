@@ -250,7 +250,9 @@ export const formatQuotedTextAsBlockquote = (text, header = '') => {
 };
 
 /**
- * Extracts quoted email text from last email message
+ * Extracts quoted email text from last email message.
+ * Prefers the full content over the trimmed reply so the quoted thread
+ * carries the entire history, matching regular email client behavior.
  * @param {Object} lastEmail - Last email message object
  * @returns {string} Quoted email text
  */
@@ -264,43 +266,25 @@ export const extractQuotedEmailText = lastEmail => {
   const emailContent = contentAttributes.email || {};
   const textContent = emailContent.textContent || emailContent.text_content;
 
-  if (textContent?.reply) {
-    return textContent.reply;
-  }
   if (textContent?.full) {
     return textContent.full;
   }
+  if (textContent?.reply) {
+    return textContent.reply;
+  }
 
   const htmlContent = emailContent.htmlContent || emailContent.html_content;
-  if (htmlContent?.reply) {
-    return extractPlainTextFromHtml(htmlContent.reply);
-  }
   if (htmlContent?.full) {
     return extractPlainTextFromHtml(htmlContent.full);
+  }
+  if (htmlContent?.reply) {
+    return extractPlainTextFromHtml(htmlContent.reply);
   }
 
   const fallbackContent =
     lastEmail.content || lastEmail.processed_message_content || '';
 
   return fallbackContent;
-};
-
-/**
- * Truncates text for preview display
- * @param {string} text - Text to truncate
- * @param {number} maxLength - Maximum length (default: 80)
- * @returns {string} Truncated text
- */
-export const truncatePreviewText = (text, maxLength = 80) => {
-  const preview = text.trim().replace(/\s+/g, ' ');
-  if (!preview) {
-    return '';
-  }
-
-  if (preview.length <= maxLength) {
-    return preview;
-  }
-  return `${preview.slice(0, maxLength - 3)}...`;
 };
 
 /**

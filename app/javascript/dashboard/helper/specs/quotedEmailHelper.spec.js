@@ -10,7 +10,6 @@ import {
   buildQuotedEmailHeaderFromInbox,
   formatQuotedTextAsBlockquote,
   extractQuotedEmailText,
-  truncatePreviewText,
   appendQuotedTextToMessage,
 } from '../quotedEmailHelper';
 
@@ -335,7 +334,22 @@ describe('quotedEmailHelper', () => {
   });
 
   describe('extractQuotedEmailText', () => {
-    it('extracts text from textContent.reply', () => {
+    it('prefers textContent.full over reply to preserve the thread history', () => {
+      const lastEmail = {
+        contentAttributes: {
+          email: {
+            textContent: {
+              full: 'Full text with history',
+              reply: 'Reply text',
+            },
+          },
+        },
+      };
+      const result = extractQuotedEmailText(lastEmail);
+      expect(result).toBe('Full text with history');
+    });
+
+    it('falls back to textContent.reply', () => {
       const lastEmail = {
         contentAttributes: {
           email: { textContent: { reply: 'Reply text' } },
@@ -345,24 +359,19 @@ describe('quotedEmailHelper', () => {
       expect(result).toBe('Reply text');
     });
 
-    it('falls back to textContent.full', () => {
-      const lastEmail = {
-        contentAttributes: {
-          email: { textContent: { full: 'Full text' } },
-        },
-      };
-      const result = extractQuotedEmailText(lastEmail);
-      expect(result).toBe('Full text');
-    });
-
     it('extracts from htmlContent and converts to plain text', () => {
       const lastEmail = {
         contentAttributes: {
-          email: { htmlContent: { reply: '<p>HTML reply</p>' } },
+          email: {
+            htmlContent: {
+              full: '<p>HTML full with history</p>',
+              reply: '<p>HTML reply</p>',
+            },
+          },
         },
       };
       const result = extractQuotedEmailText(lastEmail);
-      expect(result).toBe('HTML reply');
+      expect(result).toBe('HTML full with history');
     });
 
     it('uses fallback content if structured content not available', () => {
@@ -374,44 +383,6 @@ describe('quotedEmailHelper', () => {
     it('returns empty string for null or missing email', () => {
       expect(extractQuotedEmailText(null)).toBe('');
       expect(extractQuotedEmailText({})).toBe('');
-    });
-  });
-
-  describe('truncatePreviewText', () => {
-    it('returns full text if under max length', () => {
-      const text = 'Short text';
-      const result = truncatePreviewText(text, 80);
-      expect(result).toBe('Short text');
-    });
-
-    it('truncates text exceeding max length', () => {
-      const text = 'A'.repeat(100);
-      const result = truncatePreviewText(text, 80);
-      expect(result).toHaveLength(80);
-      expect(result).toContain('...');
-    });
-
-    it('collapses multiple spaces', () => {
-      const text = 'Text   with    spaces';
-      const result = truncatePreviewText(text);
-      expect(result).toBe('Text with spaces');
-    });
-
-    it('trims whitespace', () => {
-      const text = '  Text with spaces  ';
-      const result = truncatePreviewText(text);
-      expect(result).toBe('Text with spaces');
-    });
-
-    it('returns empty string for empty input', () => {
-      expect(truncatePreviewText('')).toBe('');
-      expect(truncatePreviewText('   ')).toBe('');
-    });
-
-    it('uses default max length of 80', () => {
-      const text = 'A'.repeat(100);
-      const result = truncatePreviewText(text);
-      expect(result).toHaveLength(80);
     });
   });
 
