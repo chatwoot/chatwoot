@@ -27,7 +27,7 @@ describe Whatsapp::PhoneInfoService do
 
     context 'when all parameters are valid' do
       before do
-        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
       end
 
       it 'returns formatted phone info' do
@@ -57,7 +57,7 @@ describe Whatsapp::PhoneInfoService do
       end
 
       before do
-        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
       end
 
       it 'uses the first available phone number' do
@@ -82,13 +82,58 @@ describe Whatsapp::PhoneInfoService do
       end
 
       before do
-        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
       end
 
-      it 'uses the first available phone number as fallback' do
+      it 'raises instead of falling back to a different number' do
+        expect { service.perform }.to raise_error(/No matching phone number found for WABA/)
+      end
+    end
+
+    context 'when no identifier is given and the WABA has multiple numbers' do
+      let(:phone_number_id) { nil }
+      let(:phone_response) do
+        {
+          'data' => [
+            { 'id' => 'first_phone_id', 'display_phone_number' => '1234567890', 'verified_name' => 'First Business',
+              'code_verification_status' => 'VERIFIED' },
+            { 'id' => 'second_phone_id', 'display_phone_number' => '9876543210', 'verified_name' => 'Second Business',
+              'code_verification_status' => 'VERIFIED' }
+          ]
+        }
+      end
+
+      before do
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
+      end
+
+      it 'raises instead of arbitrarily selecting the first number' do
+        expect { service.perform }.to raise_error(/Multiple phone numbers found for WABA/)
+      end
+    end
+
+    context 'when phone_number_id is omitted but expected_phone_number matches a later WABA number' do
+      let(:phone_number_id) { nil }
+      let(:service) { described_class.new(waba_id, phone_number_id, access_token, expected_phone_number: '+1112223333') }
+      let(:phone_response) do
+        {
+          'data' => [
+            { 'id' => 'other_phone_id', 'display_phone_number' => '9876543210', 'verified_name' => 'Other Business',
+              'code_verification_status' => 'VERIFIED' },
+            { 'id' => 'target_phone_id', 'display_phone_number' => '1112223333', 'verified_name' => 'Target Business',
+              'code_verification_status' => 'VERIFIED' }
+          ]
+        }
+      end
+
+      before do
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
+      end
+
+      it 'resolves the reauthorized phone number instead of taking the first' do
         result = service.perform
-        expect(result[:phone_number_id]).to eq('available_phone_id')
-        expect(result[:phone_number]).to eq('+9876543210')
+        expect(result[:phone_number_id]).to eq('target_phone_id')
+        expect(result[:phone_number]).to eq('+1112223333')
       end
     end
 
@@ -96,7 +141,7 @@ describe Whatsapp::PhoneInfoService do
       let(:phone_response) { { 'data' => [] } }
 
       before do
-        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
       end
 
       it 'raises an error' do
@@ -135,7 +180,7 @@ describe Whatsapp::PhoneInfoService do
       end
 
       before do
-        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+        allow(api_client).to receive(:fetch_all_phone_numbers).with(waba_id).and_return(phone_response['data'])
       end
 
       it 'sanitizes the phone number' do

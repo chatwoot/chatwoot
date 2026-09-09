@@ -411,8 +411,8 @@
         "DISMISS": "關閉"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
-        "ACTION": "Review FAQs",
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
         "DISMISS": "關閉"
       },
       "RANGES": {
@@ -447,7 +447,6 @@
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "Close details",
         "EMPTY": "No records found for this metric.",
         "ERROR": "Could not load records. Please try again.",
         "LOAD_MORE": "載入更多",
@@ -457,7 +456,7 @@
         "TITLE": "Knowledge coverage",
         "COVERAGE": "{pct}% approved",
         "APPROVED": "Approved FAQs",
-        "PENDING": "待審核的常見問答",
+        "SUGGESTIONS": "FAQ suggestions",
         "DOCUMENTS": "文件"
       },
       "LINKS": {
@@ -1085,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "常見問答",
-      "PENDING_FAQS": "待審核的常見問答",
       "ADD_NEW": "建立新的常見問答",
       "DOCUMENTABLE": {
         "CONVERSATION": "對話 #{id}"
@@ -1094,12 +1092,10 @@
       "SELECT_ALL": "全選（{count}）",
       "UNSELECT_ALL": "取消全選（{count}）",
       "SEARCH_PLACEHOLDER": "搜尋常見問答...",
-      "BULK_APPROVE_BUTTON": "核准",
-      "BULK_DELETE_BUTTON": "刪除",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "常見問答已成功核准",
-        "ERROR_MESSAGE": "核准常見問答時發生錯誤，請重試。"
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "刪除",
       "BULK_DELETE": {
         "TITLE": "刪除常見問答？",
         "DESCRIPTION": "您確定要刪除所選的常見問答嗎？此操作無法復原。",
@@ -1114,20 +1110,9 @@
         "SUCCESS_MESSAGE": "常見問答已成功刪除",
         "ERROR_MESSAGE": "刪除常見問答時發生錯誤，請重試。"
       },
-      "FILTER": {
-        "ASSISTANT": "助理：{selected}",
-        "STATUS": "狀態：{selected}",
-        "ALL_ASSISTANTS": "全部"
-      },
-      "STATUS": {
-        "TITLE": "狀態",
-        "PENDING": "待審核",
-        "APPROVED": "已核准",
-        "ALL": "全部"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain 發現了一些客戶正在尋找的常見問答。",
-        "ACTION": "點此檢視"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "新增問題及其對應的答案至知識庫，並選擇要關聯的助理。",
       "CREATE": {
@@ -1160,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "找不到常見問答",
-        "NO_PENDING_TITLE": "沒有更多待審核的常見問答",
         "SUBTITLE": "常見問答可幫助助理為客戶的問題提供快速且準確的回答。它們可以從您的內容自動生成，也可以手動新增。",
         "CLEAR_SEARCH": "清除篩選條件",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain 常見問答",
           "NOTE": "Captain 常見問答會偵測常見的客戶問題——無論是知識庫中缺少的還是經常被問到的——並生成相關的常見問答以改善支援服務。您可以檢視每個建議並決定是否核准或拒絕。"
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "核准",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "關閉",
+      "SAVE": "儲存變更",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

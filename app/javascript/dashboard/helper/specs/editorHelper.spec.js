@@ -357,6 +357,22 @@ describe('removeSignature', () => {
       'hey\n\n'
     );
   });
+  it('strips the hard-break marker with the escape when Shift+Enter precedes the delimiter', () => {
+    expect(removeSignature('hey\\\n\\--\n\nHello there', 'Hello there')).toBe(
+      'hey'
+    );
+  });
+  it('keeps an authored trailing backslash when an empty line precedes the delimiter', () => {
+    expect(removeSignature('C:\\\n\n\\\n\\--\n\nBest', 'Best')).toBe('C:\\');
+  });
+  it('strips only the hard-break marker when the content line ends with a backslash', () => {
+    expect(removeSignature('C:\\\\\n\\--\n\nBest', 'Best')).toBe('C:\\');
+  });
+  it('keeps an authored trailing backslash through a Shift+Enter and empty line combo', () => {
+    expect(removeSignature('C:\\\n\n\\\n\\\n\\--\n\nBest', 'Best')).toBe(
+      'C:\\'
+    );
+  });
   it('preserves trailing backslash in user text when appending', () => {
     expect(appendSignature('The path is C:\\', 'Best\nAgent')).toContain(
       'C:\\'
@@ -558,6 +574,68 @@ describe('insertAtCursor', () => {
 
     // Check if content was replaced correctly
     expect(editorView.state.doc.firstChild.firstChild.text).toBe('Hello Me');
+  });
+
+  it('should not strand empty paragraphs when inserting multi-block content into an empty editor', () => {
+    const editorState = createEditorState();
+    const editorView = new EditorView(document.body, { state: editorState });
+
+    const multiParagraph = schema.node('doc', null, [
+      schema.node('paragraph', null, [schema.text('line one')]),
+      schema.node('paragraph', null, [schema.text('line two')]),
+    ]);
+
+    // Cursor sits inside the empty starter paragraph (pos 1).
+    insertAtCursor(editorView, multiParagraph, 1);
+
+    const { doc } = editorView.state;
+    expect(doc.childCount).toBe(2);
+    expect(doc.firstChild.textContent).toBe('line one');
+    expect(doc.lastChild.textContent).toBe('line two');
+  });
+
+  it('should not strand a blank line when inserting multi-block content above a signature', () => {
+    const editorState = EditorState.create({
+      schema,
+      doc: schema.node('doc', null, [
+        // The editor keeps an empty first paragraph above the signature.
+        schema.node('paragraph'),
+        schema.node('paragraph', null, [schema.text('--')]),
+        schema.node('paragraph', null, [schema.text('My signature')]),
+      ]),
+    });
+    const editorView = new EditorView(document.body, { state: editorState });
+
+    const multiParagraph = schema.node('doc', null, [
+      schema.node('paragraph', null, [schema.text('line one')]),
+      schema.node('paragraph', null, [schema.text('line two')]),
+    ]);
+
+    // Cursor sits inside the empty paragraph above the signature (pos 1).
+    insertAtCursor(editorView, multiParagraph, 1);
+
+    const { doc } = editorView.state;
+    expect(doc.childCount).toBe(4);
+    expect(doc.child(0).textContent).toBe('line one');
+    expect(doc.child(1).textContent).toBe('line two');
+    expect(doc.child(2).textContent).toBe('--');
+    expect(doc.child(3).textContent).toBe('My signature');
+  });
+
+  it('should keep existing content when inserting multi-block content into a non-empty editor', () => {
+    const editorState = createEditorState('Existing');
+    const editorView = new EditorView(document.body, { state: editorState });
+
+    const multiParagraph = schema.node('doc', null, [
+      schema.node('paragraph', null, [schema.text('line one')]),
+      schema.node('paragraph', null, [schema.text('line two')]),
+    ]);
+
+    insertAtCursor(editorView, multiParagraph, 0);
+
+    expect(editorView.state.doc.textContent).toContain('Existing');
+    expect(editorView.state.doc.textContent).toContain('line one');
+    expect(editorView.state.doc.textContent).toContain('line two');
   });
 });
 
@@ -1103,6 +1181,9 @@ describe('stripUnsupportedFormatting', () => {
     it('strips ordered list markers', () => {
       expect(
         stripUnsupportedFormatting('1. first\n2. second', emptySchema)
+      ).toBe('first\nsecond');
+      expect(
+        stripUnsupportedFormatting('1) first\n2) second', emptySchema)
       ).toBe('first\nsecond');
     });
 

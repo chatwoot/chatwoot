@@ -14,19 +14,32 @@ class Conversations::AssignmentService
   attr_reader :conversation, :assignee_id, :assignee_type
 
   def assign_agent
-    conversation.assignee = assignee
-    conversation.assignee_agent_bot = nil
-    conversation.save!
+    conversation.with_lock do
+      if assignee.present? && conversation.ai_assignee_type.present? && conversation.pending?
+        conversation.status = :open
+        conversation.waiting_since = Time.current if conversation.waiting_since.blank?
+      end
+      conversation.assignee = assignee
+      conversation.ai_assignee = nil
+      conversation.save!
+    end
     assignee
   end
 
   def assign_agent_bot
-    return unless agent_bot
+    assign_ai_assignee(agent_bot)
+  end
 
-    conversation.assignee = nil
-    conversation.assignee_agent_bot = agent_bot
-    conversation.save!
-    agent_bot
+  def assign_ai_assignee(ai_assignee)
+    return unless ai_assignee
+
+    conversation.with_lock do
+      conversation.assignee = nil
+      conversation.ai_assignee = ai_assignee
+      conversation.status = :pending
+      conversation.save!
+    end
+    ai_assignee
   end
 
   def assignee
@@ -41,3 +54,5 @@ class Conversations::AssignmentService
     assignee_type.to_s == 'AgentBot'
   end
 end
+
+Conversations::AssignmentService.prepend_mod_with('Conversations::AssignmentService')

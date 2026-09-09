@@ -30,17 +30,43 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
           expect(response.parsed_body['error']).to include('code')
         end
 
-        it 'returns unprocessable entity when business_id is missing' do
+        it 'blocks channel creation on Chatwoot Cloud when embedded signup is disabled for the account' do
+          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+          account.disable_features!('whatsapp_embedded_signup_inbox_creation')
+
+          expect(Whatsapp::EmbeddedSignupService).not_to receive(:new)
+
           post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
                params: {
                  code: 'test_code',
+                 business_id: 'test_business_id',
                  waba_id: 'test_waba_id'
                },
                headers: agent.create_new_auth_token,
                as: :json
 
-          expect(response).to have_http_status(:unprocessable_entity)
-          expect(response.parsed_body['error']).to include('business_id')
+          expect(response).to have_http_status(:unauthorized)
+        end
+
+        it 'does not require business_id (coexistence completions omit it)' do
+          whatsapp_channel = create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false)
+          inbox = create(:inbox, account: account, channel: whatsapp_channel)
+          embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
+
+          allow(Whatsapp::EmbeddedSignupService).to receive(:new).and_return(embedded_signup_service)
+          allow(embedded_signup_service).to receive(:perform).and_return(whatsapp_channel)
+          allow(whatsapp_channel).to receive(:inbox).and_return(inbox)
+
+          post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+               params: {
+                 code: 'test_code',
+                 waba_id: 'test_waba_id',
+                 is_coexistence: true
+               },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
         end
 
         it 'returns unprocessable entity when waba_id is missing' do
@@ -327,6 +353,34 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
           expect(json_response['id']).to eq(whatsapp_inbox.id)
         end
 
+        it 'reauthorizes on Chatwoot Cloud without requiring the embedded signup account feature' do
+          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+          account.disable_features!('whatsapp_embedded_signup_inbox_creation')
+          allow(whatsapp_channel).to receive(:reauthorization_required?).and_return(true)
+
+          embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
+          allow(Whatsapp::EmbeddedSignupService).to receive(:new).with(
+            account: account,
+            params: {
+              code: 'auth_code_123',
+              business_id: 'business_123',
+              waba_id: 'waba_123',
+              phone_number_id: 'phone_123'
+            },
+            inbox_id: whatsapp_inbox.id
+          ).and_return(embedded_signup_service)
+          allow(embedded_signup_service).to receive(:perform).and_return(whatsapp_channel)
+          allow(whatsapp_channel).to receive(:inbox).and_return(whatsapp_inbox)
+
+          post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+               params: valid_params.merge(inbox_id: whatsapp_inbox.id),
+               headers: administrator.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['success']).to be true
+        end
+
         it 'handles reauthorization failure' do
           embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
           allow(Whatsapp::EmbeddedSignupService).to receive(:new).with(
@@ -411,7 +465,34 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
         end
         let(:fresh_inbox) { create(:inbox, channel: fresh_channel, account: account) }
 
-        it 'returns unprocessable entity error' do
+        it 'allows self-hosted reconfigure without a reconfigure feature gate' do
+          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+          reconfigure_params = {
+            code: 'auth_code_123',
+            business_id: 'business_123',
+            waba_id: 'waba_123',
+            phone_number_id: 'phone_123'
+          }
+
+          embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
+          allow(Whatsapp::EmbeddedSignupService).to receive(:new).with(
+            account: account,
+            params: reconfigure_params,
+            inbox_id: fresh_inbox.id
+          ).and_return(embedded_signup_service)
+          allow(embedded_signup_service).to receive(:perform).and_return(fresh_channel)
+          allow(fresh_channel).to receive(:inbox).and_return(fresh_inbox)
+
+          post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+               params: reconfigure_params.merge(inbox_id: fresh_inbox.id),
+               headers: administrator.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['success']).to be true
+        end
+
+        it 'validates embedded signup parameters before reconfiguring the channel' do
           post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
                params: { inbox_id: fresh_inbox.id },
                headers: administrator.create_new_auth_token,
@@ -420,6 +501,7 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
           expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
           expect(json_response['success']).to be false
+          expect(json_response['error']).to include('code')
         end
       end
 

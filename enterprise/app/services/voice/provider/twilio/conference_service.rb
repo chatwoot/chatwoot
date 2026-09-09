@@ -44,7 +44,7 @@ class Voice::Provider::Twilio::ConferenceService
   # (e.g., lock_to_single_conversation) shouldn't be stomped on pickup.
   def assign_conversation!(user)
     conversation = call.conversation
-    return if conversation.assignee_id.present?
+    return if conversation.assigned_entity.present?
 
     Conversations::AssignmentService.new(conversation: conversation, assignee_id: user.id).perform
   end

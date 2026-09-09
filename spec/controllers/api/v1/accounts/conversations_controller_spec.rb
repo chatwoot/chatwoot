@@ -343,6 +343,22 @@ RSpec.describe 'Conversations API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
       end
     end
+
+    context 'when it is an authenticated bot' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+      let(:team) { create(:team, account: account) }
+
+      it 'shows a team-assigned conversation' do
+        conversation.update!(team: team)
+
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+            headers: { api_access_token: agent_bot.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body.dig('meta', 'team', 'is_member')).to be(false)
+      end
+    end
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/conversations/:id' do
@@ -506,6 +522,40 @@ RSpec.describe 'Conversations API', type: :request do
         end
       end
     end
+
+    context 'when it is an authenticated bot' do
+      let(:bot) { create(:agent_bot, account: account) }
+      let(:other_account) { create(:account) }
+      let(:other_inbox) { create(:inbox, account: other_account) }
+      let(:other_contact) { create(:contact, account: other_account) }
+      let!(:other_contact_inbox) do
+        create(:contact_inbox, contact: other_contact, inbox: other_inbox)
+      end
+
+      before { allow(Rails.configuration.dispatcher).to receive(:dispatch) }
+
+      it 'does not create a conversation in another account from its source_id' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: { api_access_token: bot.access_token.token },
+               params: { source_id: other_contact_inbox.source_id, message: { content: 'hi' } },
+               as: :json
+        end.not_to change(other_account.conversations, :count)
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'creates a conversation for a source_id in its own account' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: { api_access_token: bot.access_token.token },
+               params: { source_id: contact_inbox.source_id },
+               as: :json
+        end.to change(account.conversations, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+      end
+    end
   end
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/:id/toggle_status' do
@@ -566,7 +616,7 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       it 'does not self assign and clears the agent bot owner if admin changes the conversation status to open' do
-        conversation.update!(status: 'pending', assignee: nil, assignee_agent_bot: agent_bot)
+        conversation.update!(status: 'pending', assignee: nil, ai_assignee: agent_bot)
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: administrator.create_new_auth_token,
@@ -575,7 +625,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.status).to eq('open')
         expect(conversation.reload.assignee_id).not_to eq(administrator.id)
-        expect(conversation.reload.assignee_agent_bot).to be_nil
+        expect(conversation.reload.ai_assignee).to be_nil
       end
 
       it 'toggles the conversation status to specific status when parameter is passed' do

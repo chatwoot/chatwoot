@@ -21,9 +21,14 @@ const { t } = useI18n();
 const getFilteredWhatsAppTemplates = useMapGetter(
   'inboxes/getFilteredWhatsAppTemplates'
 );
+const inboxesUiFlags = useMapGetter('inboxes/getUIFlags');
 
 const searchQuery = ref('');
 const selectedTemplate = ref(null);
+
+// Gates the trigger while ComposeConversation's on-open refetch is in flight,
+// so an agent can't open the picker before a stale template list is refreshed.
+const isRefreshingTemplates = computed(() => inboxesUiFlags.value.isFetching);
 
 const whatsAppTemplateMessages = computed(() => {
   return getFilteredWhatsAppTemplates.value(props.inboxId);
@@ -74,7 +79,7 @@ const handleSendMessage = (template, hide) => {
       :label="t('COMPOSE_NEW_CONVERSATION.FORM.WHATSAPP_OPTIONS.LABEL')"
       color="slate"
       size="sm"
-      :disabled="selectedTemplate"
+      :disabled="selectedTemplate || isRefreshingTemplates"
       class="!text-xs font-medium"
     />
     <template #content="{ hide }">

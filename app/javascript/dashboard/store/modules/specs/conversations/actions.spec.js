@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { createStore } from 'vuex';
+import { mutations } from '../../conversations';
+import conversationMetadata from '../../conversationMetadata';
 import actions, {
   hasMessageFailedWithExternalError,
 } from '../../conversations/actions';
@@ -56,19 +59,136 @@ describe('#hasMessageFailedWithExternalError', () => {
 });
 
 describe('#actions', () => {
+  describe('conversation history loading', () => {
+    let store;
+    let conversationA;
+    let conversationB;
+
+    beforeEach(() => {
+      conversationA = { id: 42, messages: [{ id: 100 }] };
+      conversationB = { id: 43, messages: [{ id: 200 }] };
+      store = createStore({
+        state: {
+          allConversations: [conversationA, conversationB],
+          selectedChatId: null,
+        },
+        actions,
+        mutations,
+        modules: {
+          conversationMetadata: {
+            ...conversationMetadata,
+            state: { records: {} },
+          },
+        },
+      });
+    });
+
+    it('shares pending history when switching A to B to A and keeps responses in their own conversations', async () => {
+      let resolveA;
+      let resolveB;
+      axios.get
+        .mockImplementationOnce(
+          () =>
+            new Promise(resolve => {
+              resolveA = resolve;
+            })
+        )
+        .mockImplementationOnce(
+          () =>
+            new Promise(resolve => {
+              resolveB = resolve;
+            })
+        );
+
+      const firstA = store.dispatch('setActiveChat', { data: conversationA });
+      const firstB = store.dispatch('setActiveChat', { data: conversationB });
+      const secondA = store.dispatch('setActiveChat', { data: conversationA });
+
+      expect(axios.get).toHaveBeenCalledTimes(2);
+      expect(conversationA.dataFetched).toBeUndefined();
+
+      resolveB({ data: { meta: {}, payload: [{ id: 199 }] } });
+      await firstB;
+      expect(store.state.selectedChatId).toBe(42);
+      expect(conversationA.messages).toEqual([{ id: 100 }]);
+      expect(conversationB.messages).toEqual([{ id: 199 }, { id: 200 }]);
+
+      resolveA({ data: { meta: {}, payload: [{ id: 99 }] } });
+      await Promise.all([firstA, secondA]);
+      expect(conversationA.messages).toEqual([{ id: 99 }, { id: 100 }]);
+      expect(conversationA.dataFetched).toBe(true);
+      expect(conversationB.dataFetched).toBe(true);
+    });
+
+    it('leaves failed history unfetched and retries when the conversation is reopened', async () => {
+      axios.get.mockRejectedValueOnce(new Error('Network error'));
+
+      await store.dispatch('setActiveChat', { data: conversationA });
+
+      expect(conversationA.dataFetched).toBeUndefined();
+      expect(conversationA.messages).toEqual([{ id: 100 }]);
+      expect(conversationA.allMessagesLoaded).toBe(false);
+
+      axios.get.mockResolvedValueOnce({
+        data: { meta: {}, payload: [{ id: 99 }] },
+      });
+      await store.dispatch('setActiveChat', { data: conversationA });
+
+      expect(axios.get).toHaveBeenCalledTimes(2);
+      expect(conversationA.messages).toEqual([{ id: 99 }, { id: 100 }]);
+      expect(conversationA.dataFetched).toBe(true);
+    });
+
+    it.each(['before', 'after'])(
+      'loads distinct %s cursors independently and allows a completed request again',
+      async cursor => {
+        let resolveHistory;
+        const response = new Promise(resolve => {
+          resolveHistory = resolve;
+        });
+        axios.get.mockReturnValue(response);
+        const firstParams = { conversationId: 42, [cursor]: 90 };
+        const secondParams = { conversationId: 42, [cursor]: 80 };
+
+        const first = store.dispatch('fetchPreviousMessages', firstParams);
+        const second = store.dispatch('fetchPreviousMessages', secondParams);
+        expect(axios.get).toHaveBeenCalledTimes(2);
+
+        resolveHistory({ data: { meta: {}, payload: [] } });
+        await Promise.all([first, second]);
+        await store.dispatch('fetchPreviousMessages', firstParams);
+        expect(axios.get).toHaveBeenCalledTimes(3);
+      }
+    );
+  });
+
   describe('#getConversation', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({
-        data: { id: 1, meta: { sender: { id: 1, name: 'Contact 1' } } },
+        data: {
+          id: 1,
+          labels: ['support'],
+          meta: { sender: { id: 1, name: 'Contact 1' } },
+        },
       });
-      await actions.getConversation({ commit }, 1);
+      await actions.getConversation({ commit, dispatch }, 1);
       expect(commit.mock.calls).toEqual([
         [
-          types.UPDATE_CONVERSATION,
-          { id: 1, meta: { sender: { id: 1, name: 'Contact 1' } } },
+          types.SET_ALL_CONVERSATION,
+          [
+            {
+              id: 1,
+              labels: ['support'],
+              meta: { sender: { id: 1, name: 'Contact 1' } },
+            },
+          ],
         ],
         ['contacts/SET_CONTACT_ITEM', { id: 1, name: 'Contact 1' }],
       ]);
+      expect(dispatch).toHaveBeenCalledWith(
+        'conversationLabels/setConversationLabel',
+        { id: 1, data: ['support'] }
+      );
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
@@ -290,6 +410,68 @@ describe('#actions', () => {
     });
   });
 
+  describe('#updateMessage', () => {
+    it('refreshes loaded conversations sharing the same contact inbox source after terminal contact info updates', () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn();
+      const message = {
+        id: 1,
+        conversation_id: 10,
+        status: 'sent',
+        content_attributes: {
+          whatsapp_contact_info: {
+            type: 'request',
+            state: 'identity_conflict',
+          },
+        },
+        conversation: {
+          contact_inbox: { source_id: 'IN.2081978709342942' },
+        },
+      };
+      const state = {
+        allConversations: [
+          { id: 10, messages: [message] },
+          {
+            id: 20,
+            messages: [
+              {
+                conversation: {
+                  contact_inbox: { source_id: 'IN.2081978709342942' },
+                },
+              },
+            ],
+          },
+          {
+            id: 30,
+            messages: [
+              {
+                conversation: {
+                  contact_inbox: { source_id: 'IN.3109889333218546' },
+                },
+              },
+            ],
+          },
+        ],
+      };
+
+      actions.updateMessage(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          rootGetters: {},
+          state,
+        },
+        message
+      );
+
+      expect(localCommit.mock.calls).toEqual([[types.ADD_MESSAGE, message]]);
+      expect(localDispatch.mock.calls).toEqual([
+        ['getConversation', 10],
+        ['getConversation', 20],
+      ]);
+    });
+  });
+
   describe('#markMessagesRead', () => {
     beforeEach(() => {
       vi.useFakeTimers();
@@ -437,11 +619,30 @@ describe('#actions', () => {
       axios.post.mockResolvedValue({
         data: dataReceived,
       });
-      await actions.fetchFilteredConversations({ commit }, dataToSend);
-      expect(commit).toHaveBeenCalledTimes(2);
+      await actions.fetchFilteredConversations(
+        { commit, dispatch },
+        dataToSend
+      );
+      expect(commit).toHaveBeenCalledTimes(4);
       expect(commit.mock.calls).toEqual([
         ['SET_LIST_LOADING_STATUS'],
         ['SET_ALL_CONVERSATION', dataReceived.payload],
+        ['CLEAR_LIST_LOADING_STATUS'],
+        [
+          `contacts/${types.SET_CONTACTS}`,
+          dataReceived.payload.map(chat => chat.meta.sender),
+        ],
+      ]);
+    });
+
+    it('clears the loading state and rethrows if the request fails', async () => {
+      axios.post.mockRejectedValue(new Error('Request failed'));
+      await expect(
+        actions.fetchFilteredConversations({ commit }, dataToSend)
+      ).rejects.toThrow('Request failed');
+      expect(commit.mock.calls).toEqual([
+        ['SET_LIST_LOADING_STATUS'],
+        ['CLEAR_LIST_LOADING_STATUS'],
       ]);
     });
   });

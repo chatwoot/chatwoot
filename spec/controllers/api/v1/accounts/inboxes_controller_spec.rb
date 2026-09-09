@@ -7,6 +7,70 @@ RSpec.describe 'Inboxes API', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:admin) { create(:user, account: account, role: :administrator) }
 
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/{inbox.id}/rotate_hmac_token' do
+    let(:channel) { create(:channel_widget, account: account) }
+    let(:inbox) { channel.inbox }
+    let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/rotate_hmac_token" }
+
+    [:channel_widget, :channel_api].each do |channel_factory|
+      context "with #{channel_factory}" do
+        let(:channel) { create(channel_factory, account: account) }
+
+        it 'rotates the persisted token and returns the updated inbox for an administrator' do
+          old_token = channel.hmac_token
+
+          post url, headers: admin.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(channel.reload.hmac_token).to be_present
+          expect(channel.hmac_token).not_to eq(old_token)
+          expect(response.parsed_body).to include('id' => inbox.id, 'hmac_token' => channel.hmac_token)
+        end
+
+        it 'rejects an assigned agent without changing the token' do
+          create(:inbox_member, user: agent, inbox: inbox)
+
+          expect do
+            post url, headers: agent.create_new_auth_token, as: :json
+          end.not_to(change { channel.reload.hmac_token })
+
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+    end
+
+    it 'rejects unauthenticated requests without changing the token' do
+      expect do
+        post url, as: :json
+      end.not_to(change { channel.reload.hmac_token })
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'does not rotate an inbox belonging to another account' do
+      other_inbox = create(:inbox)
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{other_inbox.id}/rotate_hmac_token",
+             headers: admin.create_new_auth_token, as: :json
+      end.not_to(change { other_inbox.channel.reload.hmac_token })
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    context 'with an unsupported channel' do
+      let(:inbox) { create(:inbox, :with_email, account: account) }
+
+      it 'returns not found without updating the channel' do
+        expect do
+          post url, headers: admin.create_new_auth_token, as: :json
+        end.not_to(change { inbox.channel.reload.attributes })
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/inboxes' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -55,6 +119,35 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(1)
+      end
+
+      it 'returns safe channel identifiers for assigned inboxes' do
+        allow(Facebook::Messenger::Subscriptions).to receive(:subscribe).and_return(true)
+        instagram_channel = create(:channel_instagram, account: account, instagram_id: 'instagram-id', provider_name: 'acme_support')
+        tiktok_channel = create(:channel_tiktok, account: account, business_id: 'tiktok-business-id', provider_name: 'acme_tiktok')
+        facebook_inbox = create(
+          :inbox,
+          account: account,
+          channel: build(:channel_facebook_page, account: account, inbox: nil, provider_name: 'Acme Facebook')
+        )
+        twitter_inbox = create(:inbox, account: account, channel: create(:channel_twitter_profile, account: account, profile_id: 'x-profile-id'))
+        line_inbox = create(:inbox, account: account,
+                                    channel: build(:channel_line, account: account, inbox: nil, line_channel_id: 'line-channel-id'))
+        [instagram_channel.inbox, tiktok_channel.inbox, facebook_inbox, twitter_inbox, line_inbox].each do |channel_inbox|
+          create(:inbox_member, user: agent, inbox: channel_inbox)
+        end
+
+        get "/api/v1/accounts/#{account.id}/inboxes",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        inboxes_by_id = response.parsed_body['payload'].index_by { |item| item['id'] }
+        expect(inboxes_by_id[instagram_channel.inbox.id]['provider_name']).to eq('acme_support')
+        expect(inboxes_by_id[tiktok_channel.inbox.id]['business_id']).to eq('tiktok-business-id')
+        expect(inboxes_by_id[tiktok_channel.inbox.id]['provider_name']).to eq('acme_tiktok')
+        expect(inboxes_by_id[facebook_inbox.id]['provider_name']).to eq('Acme Facebook')
+        expect(inboxes_by_id[twitter_inbox.id]['profile_id']).to eq('x-profile-id')
+        expect(inboxes_by_id[line_inbox.id]['line_channel_id']).to eq('line-channel-id')
       end
 
       context 'when provider_config' do
@@ -1274,6 +1367,91 @@ RSpec.describe 'Inboxes API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/:id/message_templates' do
+    let(:last_sync_attempt_at) { 1.hour.ago.change(usec: 0) }
+    let(:message_templates) do
+      [
+        { 'name' => 'shipping_update', 'language' => 'en_US' },
+        { 'name' => 'shipping_update', 'language' => 'es' },
+        { 'name' => 'account_update', 'language' => 'en_US' }
+      ]
+    end
+    let(:whatsapp_channel) do
+      create(
+        :channel_whatsapp,
+        account: account,
+        message_templates: message_templates,
+        message_templates_last_updated: last_sync_attempt_at,
+        sync_templates: false,
+        validate_provider_config: false
+      )
+    end
+    let(:whatsapp_inbox) { whatsapp_channel.inbox }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      it 'returns unauthorized when the agent is not assigned to the inbox' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns the templates when the agent is assigned to the inbox' do
+        create(:inbox_member, user: agent, inbox: whatsapp_inbox)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq(message_templates)
+        expect(Time.zone.parse(response.parsed_body.dig('meta', 'last_sync_attempt_at'))).to eq(last_sync_attempt_at)
+      end
+    end
+
+    context 'when it is an authenticated administrator' do
+      it 'filters templates by exact name' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: admin.create_new_auth_token,
+            params: { name: 'shipping_update' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq(message_templates.first(2))
+      end
+
+      it 'returns an empty payload when the template name does not match' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: admin.create_new_auth_token,
+            params: { name: 'missing_template' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq([])
+      end
+
+      it 'returns unprocessable entity for a non-WhatsApp inbox' do
+        inbox = create(:inbox, account: account)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/message_templates",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Message templates are only available for WhatsApp channels')
+      end
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/sync_templates' do
     let(:whatsapp_channel) do
       create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
@@ -1434,7 +1612,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
         it 'calls the health service with correct channel' do
           expect(Whatsapp::HealthService).to receive(:new).with(whatsapp_channel).and_return(health_service)
-          expect(health_service).to receive(:sync_health_status!)
+          expect(health_service).to receive(:sync_health_status!).with(include_business_profile: true)
 
           get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
               headers: admin.create_new_auth_token,
@@ -1487,7 +1665,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
           expect(response).to have_http_status(:bad_request)
           json_response = response.parsed_body
-          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API channels')
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API and Twilio SMS channels')
         end
 
         it 'returns bad request error for agent' do
@@ -1499,7 +1677,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
           expect(response).to have_http_status(:bad_request)
           json_response = response.parsed_body
-          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API channels')
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API and Twilio SMS channels')
         end
       end
 
@@ -1516,7 +1694,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
           expect(response).to have_http_status(:bad_request)
           json_response = response.parsed_body
-          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API channels')
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API and Twilio SMS channels')
         end
       end
 
@@ -1529,6 +1707,84 @@ RSpec.describe 'Inboxes API', type: :request do
           expect(response).to have_http_status(:not_found)
         end
       end
+    end
+  end
+
+  describe 'Twilio inbox health' do
+    let(:twilio_channel) { create(:channel_twilio_sms, :with_phone_number, account: account) }
+    let(:twilio_inbox) { create(:inbox, account: account, channel: twilio_channel) }
+    let(:health_service) { instance_double(Twilio::HealthService) }
+    let(:health_data) do
+      { status: 'misconfigured', webhooks: [{ name: 'messaging', configured: false }] }
+    end
+
+    let(:webhook_service) { instance_double(Twilio::WebhookSetupService, perform: true) }
+
+    before do
+      allow(Twilio::HealthService).to receive(:new).with(channel: twilio_channel).and_return(health_service)
+      allow(health_service).to receive(:perform).and_return(health_data)
+      allow(Twilio::WebhookSetupService).to receive(:new).with(channel: twilio_channel).and_return(webhook_service)
+    end
+
+    it 'returns the twilio webhook health' do
+      get "/api/v1/accounts/#{account.id}/inboxes/#{twilio_inbox.id}/health",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['status']).to eq('misconfigured')
+    end
+
+    it 'serializes the full health payload over http' do
+      allow(Twilio::HealthService).to receive(:new).with(channel: twilio_channel).and_call_original
+      twilio_client = instance_double(Twilio::REST::Client)
+      number = instance_double(Twilio::REST::Api::V2010::AccountContext::IncomingPhoneNumberInstance,
+                               sid: 'PN123', phone_number: twilio_channel.phone_number, friendly_name: 'Support line',
+                               capabilities: { 'voice' => false, 'sms' => true, 'mms' => true },
+                               sms_url: 'https://elsewhere.example.com/hook', sms_method: 'POST', sms_application_sid: nil)
+      allow(Twilio::REST::Client).to receive(:new).and_return(twilio_client)
+      allow(twilio_client).to receive(:incoming_phone_numbers).and_return(
+        instance_double(Twilio::REST::Api::V2010::AccountContext::IncomingPhoneNumberList, list: [number])
+      )
+      allow(twilio_client).to receive(:api).and_return(
+        instance_double(Twilio::REST::Api,
+                        accounts: instance_double(Twilio::REST::Api::V2010::AccountContext,
+                                                  fetch: instance_double(Twilio::REST::Api::V2010::AccountInstance,
+                                                                         sid: 'AC123', friendly_name: 'Acme Support',
+                                                                         status: 'active', type: 'Trial')))
+      )
+
+      get "/api/v1/accounts/#{account.id}/inboxes/#{twilio_inbox.id}/health",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body).to include(
+        'status' => 'misconfigured',
+        'voice_enabled' => false,
+        'account' => { 'sid' => 'AC123', 'friendly_name' => 'Acme Support', 'status' => 'active', 'type' => 'Trial' }
+      )
+      expect(response.parsed_body['sender']).to include('type' => 'phone_number', 'label' => twilio_channel.phone_number)
+      expect(response.parsed_body['webhooks'].first).to include('name' => 'messaging', 'configured' => false, 'reason' => 'url_mismatch')
+    end
+
+    it 'returns bad request for a twilio whatsapp inbox' do
+      whatsapp_medium_inbox = create(:inbox, account: account, channel: create(:channel_twilio_sms, :whatsapp, account: account))
+
+      get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_medium_inbox.id}/health",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it 'registers the messaging webhook' do
+      post "/api/v1/accounts/#{account.id}/inboxes/#{twilio_inbox.id}/register_webhook",
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(webhook_service).to have_received(:perform)
     end
   end
 end

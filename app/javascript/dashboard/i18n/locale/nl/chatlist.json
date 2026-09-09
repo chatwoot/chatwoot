@@ -7,6 +7,7 @@
       "404": "Er zijn geen actieve gesprekken in deze groep."
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "Gesprekken",
     "MENTION_HEADING": "Vermeldingen",
     "UNATTENDED_HEADING": "Onbeheer",

@@ -31,6 +31,7 @@ end
 ## TODO : Clean up and move the attributes into channel sub section
 
 json.tweets_enabled resource.channel.try(:tweets_enabled) if resource.twitter?
+json.provider_name resource.channel.try(:provider_name) if resource.facebook? || resource.instagram? || resource.tiktok?
 
 ## WebWidget Attributes
 json.allowed_domains resource.channel.try(:allowed_domains)
@@ -61,7 +62,16 @@ json.reauthorization_required resource.channel.try(:reauthorization_required?) i
 json.instagram_id resource.channel.try(:instagram_id) if resource.instagram?
 
 ## Tiktok Attributes
-json.reauthorization_required resource.channel.try(:reauthorization_required?) if resource.tiktok?
+if resource.tiktok?
+  json.business_id resource.channel.try(:business_id)
+  json.reauthorization_required resource.channel.try(:reauthorization_required?)
+end
+
+## Twitter Attributes
+json.profile_id resource.channel.try(:profile_id) if resource.twitter?
+
+## LINE Attributes
+json.line_channel_id resource.channel.try(:line_channel_id) if resource.channel_type == 'Channel::Line'
 
 ## Twilio Attributes
 json.messaging_service_sid resource.channel.try(:messaging_service_sid)
@@ -132,7 +142,8 @@ json.bot_name resource.channel.try(:bot_name) if resource.telegram?
 
 ### WhatsApp Channel
 if resource.whatsapp?
-  json.message_templates resource.channel.try(:message_templates)
+  message_templates = resource.channel.try(:message_templates)
+  json.message_templates message_templates.is_a?(Array) ? message_templates : []
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
   if Current.account_user&.administrator? &&
      ChatwootApp.chatwoot_cloud? &&
@@ -150,6 +161,8 @@ end
 if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
   json.voice_enabled resource.channel.voice_enabled?
   json.inbound_calls_enabled resource.channel.inbound_calls_enabled?
+  json.recording_enabled resource.channel.try(:recording_enabled?)
+  json.transcription_enabled resource.channel.try(:transcription_enabled?)
   json.voice_configured resource.channel.try(:twiml_app_sid).present?
   json.has_api_key_secret resource.channel.try(:api_key_secret).present?
   if resource.channel.try(:twiml_app_sid).present?
@@ -162,4 +175,6 @@ end
 if resource.channel_type == 'Channel::Whatsapp' && resource.channel.respond_to?(:voice_enabled?)
   json.voice_enabled resource.channel.voice_enabled?
   json.inbound_calls_enabled resource.channel.inbound_calls_enabled?
+  json.recording_enabled resource.channel.try(:recording_enabled?)
+  json.transcription_enabled resource.channel.try(:transcription_enabled?)
 end

@@ -13,6 +13,45 @@ parameters:
     schema:
       type: integer
       default: 1
+  - name: q
+    in: query
+    description: Filter entries by the name or email of the user who performed the action
+    required: false
+    schema:
+      type: string
+  - name: types
+    in: query
+    description: Filter entries by the type of the audited record
+    required: false
+    schema:
+      type: array
+      items:
+        type: string
+        example: Inbox
+  - name: since
+    in: query
+    description: Only return entries created at or after this unix timestamp
+    required: false
+    schema:
+      type: integer
+      example: 1755388800
+  - name: until
+    in: query
+    description: Only return entries created at or before this unix timestamp
+    required: false
+    schema:
+      type: integer
+      example: 1755993599
+  - name: sort
+    in: query
+    description: Order of the entries by creation time
+    required: false
+    schema:
+      type: string
+      enum:
+        - desc
+        - asc
+      default: desc
 responses:
   200:
     description: Success

@@ -31,6 +31,7 @@ module Captain::Assistant::RunnerStateHelper
 
   def build_conversation_state(state)
     state[:conversation] = slice_attrs(@conversation, CONVERSATION_STATE_ATTRIBUTES)
+    state[:conversation][:label_list] = @conversation.label_list.to_a
     state[:channel_type] = @conversation.inbox&.channel_type
     state[:message_length_limit] = Captain::MessageLengthLimit.for(@conversation)
     state[:contact] = slice_attrs(@conversation.contact, CONTACT_STATE_ATTRIBUTES) if @conversation.contact

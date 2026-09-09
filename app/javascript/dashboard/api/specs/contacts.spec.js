@@ -33,9 +33,14 @@ describe('#ContactsAPI', () => {
 
     it('#get', () => {
       contactAPI.get(1, 'name', 'customer-support');
-      expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/contacts?include_contact_inboxes=false&page=1&sort=name&labels[]=customer-support'
-      );
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/contacts', {
+        params: {
+          include_contact_inboxes: false,
+          page: 1,
+          sort: 'name',
+          labels: ['customer-support'],
+        },
+      });
     });
 
     it('#getConversations', () => {
@@ -68,10 +73,16 @@ describe('#ContactsAPI', () => {
 
     it('#search', () => {
       contactAPI.search('leads', 1, 'date', 'customer-support');
-      expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/contacts/search?include_contact_inboxes=false&page=1&sort=date&q=leads&labels[]=customer-support',
-        { signal: undefined }
-      );
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/contacts/search', {
+        params: {
+          include_contact_inboxes: false,
+          page: 1,
+          sort: 'date',
+          q: 'leads',
+          labels: ['customer-support'],
+        },
+        signal: undefined,
+      });
     });
 
     it('#search with signal', () => {
@@ -79,10 +90,29 @@ describe('#ContactsAPI', () => {
       contactAPI.search('leads', 1, 'date', 'customer-support', {
         signal: controller.signal,
       });
-      expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/contacts/search?include_contact_inboxes=false&page=1&sort=date&q=leads&labels[]=customer-support',
-        { signal: controller.signal }
-      );
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/contacts/search', {
+        params: {
+          include_contact_inboxes: false,
+          page: 1,
+          sort: 'date',
+          q: 'leads',
+          labels: ['customer-support'],
+        },
+        signal: controller.signal,
+      });
+    });
+
+    it('#search passes the term as a param so it is encoded', () => {
+      contactAPI.search('jane+shop@gmail.com');
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/contacts/search', {
+        params: {
+          include_contact_inboxes: false,
+          page: 1,
+          sort: 'name',
+          q: 'jane+shop@gmail.com',
+        },
+        signal: undefined,
+      });
     });
 
     it('#destroyCustomAttributes', () => {
@@ -120,8 +150,11 @@ describe('#ContactsAPI', () => {
       };
       contactAPI.filter(1, 'name', queryPayload);
       expect(axiosMock.post).toHaveBeenCalledWith(
-        '/api/v1/contacts/filter?include_contact_inboxes=false&page=1&sort=name',
-        queryPayload
+        '/api/v1/contacts/filter',
+        queryPayload,
+        {
+          params: { include_contact_inboxes: false, page: 1, sort: 'name' },
+        }
       );
     });
 
@@ -135,17 +168,26 @@ describe('#ContactsAPI', () => {
 });
 
 describe('#buildContactParams', () => {
-  it('returns correct string', () => {
-    expect(buildContactParams(1, 'name', '', '')).toBe(
-      'include_contact_inboxes=false&page=1&sort=name'
-    );
-    expect(buildContactParams(1, 'name', 'customer-support', '')).toBe(
-      'include_contact_inboxes=false&page=1&sort=name&labels[]=customer-support'
-    );
+  it('returns correct params', () => {
+    expect(buildContactParams(1, 'name', '', '')).toEqual({
+      include_contact_inboxes: false,
+      page: 1,
+      sort: 'name',
+    });
+    expect(buildContactParams(1, 'name', 'customer-support', '')).toEqual({
+      include_contact_inboxes: false,
+      page: 1,
+      sort: 'name',
+      labels: ['customer-support'],
+    });
     expect(
       buildContactParams(1, 'name', 'customer-support', 'message-content')
-    ).toBe(
-      'include_contact_inboxes=false&page=1&sort=name&q=message-content&labels[]=customer-support'
-    );
+    ).toEqual({
+      include_contact_inboxes: false,
+      page: 1,
+      sort: 'name',
+      q: 'message-content',
+      labels: ['customer-support'],
+    });
   });
 });

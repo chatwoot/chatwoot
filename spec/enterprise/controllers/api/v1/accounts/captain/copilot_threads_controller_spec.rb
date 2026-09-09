@@ -4,7 +4,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  let(:conversation) { create(:conversation, account: account) }
+  let(:inbox) { create(:inbox, account: account) }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox) }
 
   def json_response
     JSON.parse(response.body, symbolize_names: true)
@@ -133,6 +134,64 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
             copilot_thread_id: thread.id,
             message: valid_params[:message]
           )
+        end
+
+        it 'truncates the thread title but stores the full message when the message exceeds 255 characters' do
+          account.limits = { captain_responses: 2 }
+          account.custom_attributes = { captain_responses_usage: 0 }
+          account.save!
+
+          long_message = 'a' * 300
+
+          post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+               params: { message: long_message, assistant_id: assistant.id, conversation_id: conversation.display_id },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+
+          thread = CopilotThread.last
+          expect(thread.title).to eq(long_message.truncate(255, omission: ''))
+
+          message = thread.copilot_messages.last
+          expect(message.message).to eq({ 'content' => long_message })
+        end
+
+        it 'enqueues the dedicated reply suggestion job' do
+          account.limits = { captain_responses: 2 }
+          account.custom_attributes = { captain_responses_usage: 0 }
+          account.save!
+          create(:inbox_member, user: agent, inbox: inbox)
+
+          post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+               params: valid_params.merge(request_type: 'reply_suggestion'),
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          thread = CopilotThread.last
+          expect(Captain::Copilot::ReplySuggestionJob).to have_been_enqueued.with(
+            assistant: assistant,
+            conversation_id: valid_params[:conversation_id],
+            user_id: agent.id,
+            copilot_thread_id: thread.id
+          )
+        end
+
+        it 'rejects an inaccessible reply suggestion before creating its thread' do
+          account.limits = { captain_responses: 2 }
+          account.custom_attributes = { captain_responses_usage: 0 }
+          account.save!
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+                 params: valid_params.merge(request_type: 'reply_suggestion'),
+                 headers: agent.create_new_auth_token,
+                 as: :json
+          end.not_to change(CopilotThread, :count)
+
+          expect(response).to have_http_status(:not_found)
+          expect(CopilotMessage.count).to be_zero
+          expect(Captain::Copilot::ReplySuggestionJob).not_to have_been_enqueued
         end
       end
     end
