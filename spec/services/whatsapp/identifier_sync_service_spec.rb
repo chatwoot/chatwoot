@@ -51,6 +51,16 @@ RSpec.describe Whatsapp::IdentifierSyncService do
       )
     end
 
+    it 'does not mirror an identifier that another contact already owns' do
+      other = create(:contact, account: whatsapp_channel.inbox.account)
+      create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: other, source_id: 'IN.2081978709342942')
+
+      service.perform(source_ids: ['2423423243', 'IN.2081978709342942', 'IN.ENT.9081726354'])
+
+      expect(contact.reload.additional_attributes).not_to include('whatsapp_bsuid' => 'IN.2081978709342942')
+      expect(whatsapp_channel.inbox.contact_inboxes.find_by(source_id: 'IN.2081978709342942').contact).to eq(other)
+    end
+
     it 'keeps the identifier reachable through the webhook payload' do
       service.perform(source_ids: ['2423423243', 'IN.2081978709342942'])
       contact.reload

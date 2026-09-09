@@ -53,13 +53,23 @@ class Whatsapp::IdentifierSyncService
   # to, usually the phone one. Mirror it as well so integrations can resolve the contact
   # without a follow-up request.
   def update_contact_bsuid(source_ids)
-    bsuids = source_ids.filter_map { |source_id| whatsapp_bsuid(source_id) }
+    bsuids = owned_bsuids(source_ids)
     return if bsuids.blank?
 
     attributes = synced_contact.additional_attributes.deep_dup.merge(bsuid_attributes(bsuids))
     return if attributes == synced_contact.additional_attributes
 
     synced_contact.update!(additional_attributes: attributes)
+  end
+
+  # `create_contact_inboxes` leaves an alias alone when another contact already owns it, and a
+  # lifecycle rotation records only the aliases that did not collide. Mirroring a raw payload value
+  # would advertise an identifier that routing still resolves to that other contact, so only the
+  # aliases this contact actually owns are reported. Input order is preserved, since the caller
+  # relies on it to pick the regular identifier over the parent one.
+  def owned_bsuids(source_ids)
+    owned = inbox.contact_inboxes.where(contact_id: synced_contact.id, source_id: source_ids).pluck(:source_id).to_set
+    source_ids.filter_map { |source_id| whatsapp_bsuid(source_id) if owned.include?(source_id) }
   end
 
   # Twilio prefixes its source ids with the channel name, so the identifier is matched and
