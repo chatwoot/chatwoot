@@ -16,7 +16,12 @@ RSpec.describe 'Enterprise Super Admin Application Config API', type: :request d
     expect(response.body).to include('The app handle used in Shopify Admin App Pricing URLs')
   end
 
-  it 'saves the Enterprise-owned Shopify app handle configuration' do
+  it 'saves Shopify configuration with an unset or valid app handle' do
+    post '/super_admin/app_config?config=shopify',
+         params: { app_config: { ENABLE_SHOPIFY_INTEGRATION: 'false', SHOPIFY_APP_HANDLE: '' } }
+
+    expect(response).to redirect_to(super_admin_settings_path)
+
     post '/super_admin/app_config?config=shopify',
          params: { app_config: { SHOPIFY_APP_HANDLE: 'chatwoot' } }
 
