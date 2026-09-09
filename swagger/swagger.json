@@ -9703,7 +9703,7 @@
             "userApiKey": []
           }
         ],
-        "description": "Create a campaign. For a supported messaging inbox, provide scheduled_at to schedule a one-off campaign; omitting it makes the campaign eligible for the next scheduler run. Website campaigns use trigger_rules instead. Channel-specific campaign availability and requirements still apply. Requires an account administrator and API access enabled for the account.",
+        "description": "Create a campaign. For a supported messaging inbox, provide scheduled_at to schedule a one-off campaign; omitting it makes the campaign eligible for the next scheduler run. Website campaigns use trigger_rules instead. Channel-specific campaign availability and requirements still apply. One-off campaigns require at least one audience label for delivery. WhatsApp campaigns also require template_params with the selected template name, language, and any variable values. A successful creation response does not confirm delivery. Requires an account administrator and API access enabled for the account.",
         "requestBody": {
           "required": true,
           "content": {
@@ -9711,18 +9711,64 @@
               "schema": {
                 "$ref": "#/components/schemas/campaign_create_payload"
               },
-              "example": {
-                "campaign": {
-                  "title": "January announcement",
-                  "inbox_id": 12,
-                  "message": "Our January offers are here!",
-                  "scheduled_at": "2027-01-15T10:00:00Z",
-                  "audience": [
-                    {
-                      "type": "Label",
-                      "id": 5
+              "examples": {
+                "sms": {
+                  "summary": "Schedule an SMS campaign",
+                  "value": {
+                    "campaign": {
+                      "title": "January announcement",
+                      "inbox_id": 12,
+                      "message": "Our January offers are here!",
+                      "scheduled_at": "2027-01-15T10:00:00Z",
+                      "audience": [
+                        {
+                          "type": "Label",
+                          "id": 5
+                        }
+                      ]
                     }
-                  ]
+                  }
+                },
+                "whatsapp": {
+                  "summary": "Schedule a WhatsApp campaign using a template with one body variable",
+                  "value": {
+                    "campaign": {
+                      "title": "Order update",
+                      "inbox_id": 15,
+                      "message": "Hello {{ contact.name }}, your order has shipped.",
+                      "scheduled_at": "2027-01-15T10:00:00Z",
+                      "audience": [
+                        {
+                          "type": "Label",
+                          "id": 5
+                        }
+                      ],
+                      "template_params": {
+                        "name": "order_shipped",
+                        "language": "en",
+                        "processed_params": {
+                          "body": {
+                            "1": "{{ contact.name }}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "website": {
+                  "summary": "Create an ongoing website campaign",
+                  "value": {
+                    "campaign": {
+                      "title": "Pricing help",
+                      "inbox_id": 8,
+                      "sender_id": 3,
+                      "message": "Can we help you choose a plan?",
+                      "trigger_rules": {
+                        "url": "https://example.com/pricing",
+                        "time_on_page": 10
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -16670,9 +16716,14 @@
           },
           "audience": {
             "type": "array",
-            "description": "Audience labels for a one-off campaign. Contacts matching any selected label are included.",
+            "minItems": 1,
+            "description": "Required when creating a one-off SMS or WhatsApp campaign. Provide at least one label from this account. Contacts matching any selected label are included. When updating, omit this field to retain the existing audience.",
             "items": {
               "type": "object",
+              "required": [
+                "type",
+                "id"
+              ],
               "properties": {
                 "type": {
                   "type": "string",
@@ -16701,12 +16752,7 @@
             "description": "Restrict an ongoing website campaign to inbox business hours."
           },
           "template_params": {
-            "type": [
-              "object",
-              "null"
-            ],
-            "additionalProperties": true,
-            "description": "Channel-specific template parameters, when applicable."
+            "$ref": "#/components/schemas/campaign_whatsapp_template_params"
           }
         }
       },
@@ -16717,6 +16763,7 @@
         ],
         "properties": {
           "campaign": {
+            "description": "Choose the variant matching the inbox referenced by inbox_id. The channel type is stored on the inbox and cannot be inferred from this request by a schema validator. These variants describe the inputs needed for delivery; creation can accept incomplete inputs without guaranteeing that the campaign will send.",
             "allOf": [
               {
                 "$ref": "#/components/schemas/campaign_fields"
@@ -16727,6 +16774,49 @@
                   "title",
                   "inbox_id",
                   "message"
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "title": "Website campaign",
+                    "description": "For a Website inbox, supply URL trigger rules. An audience is not required.",
+                    "type": "object",
+                    "required": [
+                      "trigger_rules"
+                    ],
+                    "properties": {
+                      "trigger_rules": {
+                        "type": "object",
+                        "required": [
+                          "url"
+                        ],
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "format": "uri"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "title": "SMS campaign",
+                    "description": "For an SMS or Twilio SMS inbox, supply at least one audience label.",
+                    "type": "object",
+                    "required": [
+                      "audience"
+                    ]
+                  },
+                  {
+                    "title": "WhatsApp campaign",
+                    "description": "For a WhatsApp Cloud inbox with campaigns enabled, supply audience labels and template parameters.",
+                    "type": "object",
+                    "required": [
+                      "audience",
+                      "template_params"
+                    ]
+                  }
                 ]
               }
             ]
@@ -16745,6 +16835,69 @@
                 "$ref": "#/components/schemas/campaign_fields"
               }
             ]
+          }
+        }
+      },
+      "campaign_whatsapp_template_params": {
+        "type": "object",
+        "required": [
+          "name",
+          "language"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Name of the approved template in the selected inbox's message_templates."
+          },
+          "language": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Language code matching that template in the selected inbox.",
+            "example": "en"
+          },
+          "namespace": {
+            "type": "string",
+            "description": "Template namespace, when present in the selected template."
+          },
+          "category": {
+            "type": "string",
+            "description": "Category of the selected template."
+          },
+          "processed_params": {
+            "type": "object",
+            "description": "Values for the selected template's variables, grouped by component. Supply all parameters needed by that template. May be omitted for a template without variables. Body keys use positional numbers or the template's named parameters. Liquid expressions such as {{ contact.name }} are rendered separately for each recipient.",
+            "properties": {
+              "body": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "header": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "Text parameter values or media_url, media_type, and optional media_name for a media header."
+              },
+              "footer": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "buttons": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            },
+            "example": {
+              "body": {
+                "1": "{{ contact.name }}"
+              }
+            }
           }
         }
       }

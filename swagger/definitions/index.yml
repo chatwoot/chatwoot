@@ -321,3 +321,6 @@ campaign_create_payload:
   $ref: ./request/campaign/create.yml
 campaign_update_payload:
   $ref: ./request/campaign/update.yml
+
+campaign_whatsapp_template_params:
+  $ref: ./request/campaign/whatsapp_template_params.yml

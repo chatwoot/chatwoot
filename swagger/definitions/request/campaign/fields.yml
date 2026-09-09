@@ -25,9 +25,11 @@ properties:
     example: '2027-01-15T10:00:00Z'
   audience:
     type: array
-    description: Audience labels for a one-off campaign. Contacts matching any selected label are included.
+    minItems: 1
+    description: Required when creating a one-off SMS or WhatsApp campaign. Provide at least one label from this account. Contacts matching any selected label are included. When updating, omit this field to retain the existing audience.
     items:
       type: object
+      required: [type, id]
       properties:
         type:
           type: string
@@ -46,6 +48,5 @@ properties:
     type: boolean
     description: Restrict an ongoing website campaign to inbox business hours.
   template_params:
-    type: [object, 'null']
-    additionalProperties: true
-    description: Channel-specific template parameters, when applicable.
+    $ref: '#/components/schemas/campaign_whatsapp_template_params'
+    description: Required when creating a WhatsApp campaign. Use a template available in the selected inbox. When updating, omit this field to retain the existing template parameters.
