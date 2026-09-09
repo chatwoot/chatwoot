@@ -11,6 +11,7 @@ RSpec.describe Voice::OutboundCallBuilder do
   let(:call_sid) { 'CA1234567890abcdef' }
 
   before do
+    inbox.inbox_members.find_or_create_by!(user_id: user.id)
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
     allow(inbox).to receive(:channel).and_return(channel)
@@ -58,7 +59,7 @@ RSpec.describe Voice::OutboundCallBuilder do
     it 'keeps the calling agent assigned even when auto-assignment would pick an online agent' do
       other_agent = create(:user, account: account)
       create(:inbox_member, inbox: inbox, user: other_agent)
-      create(:inbox_member, inbox: inbox, user: user)
+      create(:inbox_member, inbox: inbox, user: user) unless inbox.inbox_members.exists?(user_id: user.id)
       inbox.update!(enable_auto_assignment: true)
       # Only other_agent is online, so round-robin would claim the conversation unless the caller wins at creation.
       OnlineStatusTracker.update_presence(account.id, 'User', other_agent.id)

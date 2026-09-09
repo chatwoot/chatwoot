@@ -241,6 +241,16 @@ RSpec.describe ReassignOfflineAgentChatsJob do
 
           expect(conversation1.reload.assignee_id).to be_nil
         end
+
+        it 'queues conversation when the account has queue enabled' do
+          account.update!(queue_enabled: true)
+          conversation1
+
+          described_class.new.perform(offline_agent.id, account.id)
+
+          expect(conversation1.reload).to be_queued
+          expect(ConversationQueue.find_by(conversation_id: conversation1.id)).to be_waiting
+        end
       end
 
       context 'with account_id parameter' do

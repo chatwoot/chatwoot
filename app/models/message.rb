@@ -339,7 +339,7 @@ class Message < ApplicationRecord
 
   def assigned_participant
     participant = conversation.conversation_participants.find_by(user_id: sender_id)
-    if participant.blank? && conversation.assignee_id == sender_id
+    if participant.blank? && conversation.assignee_id == sender_id && conversation.inbox.assignable_agents.include?(sender)
       participant = conversation.conversation_participants.find_or_create_by!(user_id: sender_id) do |new_participant|
         new_participant.created_at = conversation.created_at
       end

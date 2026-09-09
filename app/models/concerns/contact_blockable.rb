@@ -10,8 +10,11 @@ module ContactBlockable
   def blocked?
     return false unless super
     return true if blocked_until.blank? || blocked_until.future?
+    return false unless persisted?
 
-    update_columns(blocked: false, blocked_until: nil) if persisted? # rubocop:disable Rails/SkipsModelValidations
-    false
+    # A stale expiry check must not clear a renewed timed or permanent block.
+    self.class.where(id: id, blocked: true, blocked_until: blocked_until)
+        .update_all(blocked: false, blocked_until: nil) # rubocop:disable Rails/SkipsModelValidations
+    reload.blocked?
   end
 end

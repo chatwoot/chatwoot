@@ -139,6 +139,15 @@ RSpec.describe Contact do
       expect(contact.reload.blocked).to be(false)
       expect(contact.blocked_until).to be_nil
     end
+
+    it 'does not clear a renewed block from a stale contact instance' do
+      contact.update!(blocked: true, blocked_until: 1.hour.ago)
+      stale_contact = described_class.find(contact.id)
+      contact.update!(blocked: true, blocked_until: 1.hour.from_now)
+
+      expect(stale_contact.blocked?).to be(true)
+      expect(contact.reload.blocked_until).to be_within(1.second).of(1.hour.from_now)
+    end
   end
 
   describe '.resolved_contacts' do

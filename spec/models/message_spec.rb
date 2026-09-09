@@ -197,6 +197,14 @@ RSpec.describe Message do
       expect(participant.reload.left_at).to eq(left_at)
     end
 
+    it 'does not create an invalid participant for an assignee without inbox access' do
+      conversation.update_columns(assignee_id: agent.id) # rubocop:disable Rails/SkipsModelValidations
+
+      expect do
+        create(:message, message_type: :outgoing, conversation: conversation, sender: agent)
+      end.not_to change(ConversationParticipant, :count)
+    end
+
     it 'does not update the conversation first reply created at if the message is incoming' do
       expect(conversation.first_reply_created_at).to be_nil
       expect(conversation.waiting_since).to eq conversation.created_at

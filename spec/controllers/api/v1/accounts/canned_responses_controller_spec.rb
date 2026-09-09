@@ -245,6 +245,33 @@ RSpec.describe 'Canned Responses API', type: :request do
         expect(response).to have_http_status(:success)
         expect(account.canned_responses.count).to eq(0)
       end
+
+      it 'allows an administrator to destroy a private response without an administrator scope' do
+        admin = create(:user, account: account, role: :administrator)
+        owner = create(:user, account: account, role: :agent)
+        private_response = create(:canned_response, account: account, visibility: :private_response, created_by: owner)
+        create(:canned_response_scope, canned_response: private_response, user_ids: [owner.id])
+
+        delete "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(CannedResponse.exists?(private_response.id)).to be(false)
+      end
+
+      it 'removes only the agent from a shared private response' do
+        other_agent = create(:user, account: account, role: :agent)
+        private_response = create(:canned_response, account: account, visibility: :private_response, created_by: other_agent)
+        scope = create(:canned_response_scope, canned_response: private_response, user_ids: [agent.id, other_agent.id])
+
+        delete "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(scope.reload.user_ids).to eq([other_agent.id])
+      end
     end
   end
 end

@@ -40,7 +40,7 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
   end
 
   def destroy
-    if @canned_response.private_response?
+    if @canned_response.private_response? && !current_user.administrator?
       remove_user_from_scopes_or_destroy
     else
       @canned_response.destroy!
