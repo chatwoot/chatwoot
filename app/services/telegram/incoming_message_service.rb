@@ -13,26 +13,28 @@ class Telegram::IncomingMessageService
 
     set_contact
     update_contact_avatar
-    set_conversation
-    # TODO: Since the recent Telegram Business update, we need to explicitly mark messages as read using an additional request.
-    # Otherwise, the client will see their messages as unread.
-    # Chatwoot defines a 'read' status in its enum but does not currently update this status for Telegram conversations.
-    # We have two options:
-    # 1. Send the read request to Telegram here, immediately when the message is created.
-    # 2. Properly update the read status in the Chatwoot UI and trigger the Telegram request when the agent actually reads the message.
-    # See: https://core.telegram.org/bots/api#readbusinessmessage
-    @message = @conversation.messages.build(
-      content: telegram_params_message_content,
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
-      message_type: message_type,
-      sender: message_sender,
-      content_attributes: telegram_params_content_attributes,
-      source_id: telegram_params_message_id.to_s
-    )
+    ActiveRecord::Base.transaction do
+      set_conversation
+      # TODO: Since the recent Telegram Business update, we need to explicitly mark messages as read using an additional request.
+      # Otherwise, the client will see their messages as unread.
+      # Chatwoot defines a 'read' status in its enum but does not currently update this status for Telegram conversations.
+      # We have two options:
+      # 1. Send the read request to Telegram here, immediately when the message is created.
+      # 2. Properly update the read status in the Chatwoot UI and trigger the Telegram request when the agent actually reads the message.
+      # See: https://core.telegram.org/bots/api#readbusinessmessage
+      @message = @conversation.messages.build(
+        content: telegram_params_message_content,
+        account_id: @inbox.account_id,
+        inbox_id: @inbox.id,
+        message_type: message_type,
+        sender: message_sender,
+        content_attributes: telegram_params_content_attributes,
+        source_id: telegram_params_message_id.to_s
+      )
 
-    process_message_attachments if message_params?
-    @message.save!
+      process_message_attachments if message_params?
+      @message.save!
+    end
   end
 
   private
