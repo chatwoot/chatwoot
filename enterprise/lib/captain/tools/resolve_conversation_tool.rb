@@ -10,7 +10,12 @@ class Captain::Tools::ResolveConversationTool < Captain::Tools::BasePublicTool
 
     log_tool_usage('resolve_conversation', { conversation_id: conversation.id, reason: reason })
 
-    conversation.with_captain_activity_context(reason: reason, reason_type: :tool) { conversation.resolved! }
+    conversation.with_captain_activity_context(reason: reason, reason_type: :tool) do
+      Conversation.transaction do
+        Captain::Conversation::ResolutionMessageService.new(conversation: conversation, assistant: @assistant).perform
+        conversation.resolved!
+      end
+    end
     Captain::ConversationEvents.resolved(conversation: conversation, assistant: @assistant,
                                          source: Captain::ConversationEvents::Sources::TOOL, at: Time.current)
 
