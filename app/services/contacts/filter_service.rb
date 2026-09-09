@@ -48,3 +48,5 @@ class Contacts::FilterService < FilterService
     "!= :value_#{current_index}"
   end
 end
+
+Contacts::FilterService.prepend_mod_with('Contacts::FilterService')

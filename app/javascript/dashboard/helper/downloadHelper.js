@@ -10,13 +10,38 @@ export const downloadCsvFile = (fileName, content) => {
   link.setAttribute('download', fileName);
   link.setAttribute('href', url);
   link.click();
+  URL.revokeObjectURL(url);
   return link;
 };
 
-export const generateFileName = ({ type, to, businessHours = false }) => {
+export const downloadFile = (fileName, content, fileFormat = 'csv') => {
+  const mimeTypes = {
+    csv: 'text/csv;charset=utf-8;',
+    xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  };
+
+  const blob = new Blob([content], {
+    type: mimeTypes[fileFormat] || mimeTypes.csv,
+  });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.setAttribute('download', fileName);
+  link.setAttribute('href', url);
+  link.click();
+  URL.revokeObjectURL(url);
+  return link;
+};
+
+export const generateFileName = ({
+  type,
+  to,
+  businessHours = false,
+  format: fileFormat = 'csv',
+}) => {
   let name = `${type}-report-${format(fromUnixTime(to), 'dd-MM-yyyy')}`;
   if (businessHours) {
     name = `${name}-business-hours`;
   }
-  return `${name}.csv`;
+  return `${name}.${fileFormat}`;
 };

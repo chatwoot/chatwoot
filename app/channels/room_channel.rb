@@ -26,7 +26,16 @@ class RoomChannel < ApplicationCable::Channel
 
   def ensure_stream
     stream_from pubsub_token
+    return if restricted_agent?
+
     stream_from "account_#{@current_account.id}" if @current_account.present? && @current_user.is_a?(User)
+  end
+
+  def restricted_agent?
+    return false if @current_account.blank? || !@current_user.is_a?(User)
+
+    account_user = AccountUser.find_by(account_id: @current_account.id, user_id: @current_user.id)
+    Conversations::AgentAccessService.restricted_agent?(account_user)
   end
 
   def update_subscription

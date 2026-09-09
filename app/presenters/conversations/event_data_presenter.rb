@@ -17,7 +17,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       first_reply_created_at: first_reply_created_at,
       priority: priority,
       waiting_since: waiting_since.to_i,
-      **push_timestamps
+      **push_fork_fields
     }
   end
 
@@ -32,7 +32,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
   private
 
   def push_messages
-    [messages.where(account_id: account_id).chat.last&.push_event_data].compact
+    [messages.where(account_id: account_id).last&.push_event_data].compact
   end
 
   def webhook_push_messages
@@ -46,6 +46,20 @@ class Conversations::EventDataPresenter < SimpleDelegator
       assignee_type: assignee_type,
       team: team&.push_event_data,
       hmac_verified: contact_inbox&.hmac_verified
+    }
+  end
+
+  # cat-fork additions kept together so upstream's push_data stays diff-friendly
+  def push_fork_fields
+    { resolved_by_contact: resolved_by_contact, csat_response: push_csat_response, **push_timestamps }
+  end
+
+  def push_csat_response
+    return {} unless csat_survey_response
+
+    {
+      rating: csat_survey_response.rating,
+      status: csat_response_status
     }
   end
 

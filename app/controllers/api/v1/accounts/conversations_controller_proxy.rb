@@ -1,0 +1,173 @@
+# rubocop:disable Metrics/ModuleLength -- cat-fork: proxy-chat controller mixin, kept in one file on purpose
+module Api::V1::Accounts::ConversationsControllerProxy
+  # Inbound messages are mirrored from the source to the proxied conversation only for these
+  # channels (widget messages controller and the Telegram message hook); transfers from any
+  # other channel would strand the customer's replies on the locked source conversation.
+  PROXY_SOURCE_CHANNELS = %w[Channel::WebWidget Channel::Telegram].freeze
+
+  def change_inbox
+    widget_conversation = find_and_authorize_conversation
+    target_inbox = find_and_authorize_inbox
+
+    unless PROXY_SOURCE_CHANNELS.include?(widget_conversation.inbox.channel_type)
+      render json: { error: 'Conversations from this channel cannot be moved to another inbox' }, status: :unprocessable_entity
+      return
+    end
+
+    operator_conversation = transfer_conversation(widget_conversation, target_inbox)
+
+    render json: build_response(target_inbox, operator_conversation)
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { error: e.record.errors.full_messages.join(', ') }, status: :unprocessable_entity
+  rescue StandardError => e
+    Rails.logger.error("ConversationsControllerProxy#change_inbox failed: #{e.class} - #{e.message}\n#{e.backtrace.first(5).join("\n")}")
+    render json: { error: 'Could not change inbox' }, status: :unprocessable_entity
+  end
+
+  private
+
+  def find_and_authorize_conversation
+    conversation = Current.account.conversations.find_by!(display_id: params[:id])
+    authorize conversation, :update?
+    conversation
+  end
+
+  def find_and_authorize_inbox
+    inbox = Current.account.inboxes.find(params[:inbox_id])
+    authorize inbox, :index_all?
+    inbox
+  end
+
+  def transfer_conversation(widget_conversation, target_inbox)
+    operator_conversation = nil
+
+    ActiveRecord::Base.transaction do
+      contact_inbox = find_or_create_contact_inbox(widget_conversation.contact, target_inbox)
+      operator_conversation = create_operator_conversation(widget_conversation, target_inbox, contact_inbox)
+      link_conversations(widget_conversation, operator_conversation)
+      widget_conversation.update!(status: :proxied)
+    end
+
+    copy_message_history(widget_conversation, operator_conversation)
+
+    operator_conversation
+  end
+
+  def create_operator_conversation(widget_conversation, target_inbox, contact_inbox)
+    Conversation.create!(
+      account: widget_conversation.account,
+      inbox: target_inbox,
+      contact: widget_conversation.contact,
+      contact_inbox: contact_inbox,
+      additional_attributes: merged_attributes(widget_conversation, widget_conversation.id).merge(
+        'is_proxy_operator_conversation' => true,
+        'source_widget_id' => find_root_widget(widget_conversation).id
+      ),
+      custom_attributes: widget_conversation.custom_attributes
+    )
+  end
+
+  def link_conversations(widget_conversation, operator_conversation)
+    tg_conversation = find_telegram_conversation_for(widget_conversation.contact)
+
+    root_widget = find_root_widget(widget_conversation)
+
+    widget_attrs = merged_attributes(root_widget, operator_conversation.id)
+    widget_attrs['source_telegram_conversation_id'] = tg_conversation.id if tg_conversation
+
+    root_widget.update!(additional_attributes: widget_attrs)
+
+    return unless root_widget.id != widget_conversation.id
+
+    widget_conversation.update!(
+      additional_attributes: merged_attributes(widget_conversation, operator_conversation.id)
+    )
+  end
+
+  def find_root_widget(conversation)
+    widget_id = conversation.additional_attributes&.dig('source_widget_id')
+    return conversation if widget_id.blank?
+
+    Conversation.find_by(id: widget_id) || conversation
+  end
+
+  def find_telegram_conversation_for(contact)
+    contact.conversations
+           .joins(inbox: :channel_telegram)
+           .where(status: [:open, :pending])
+           .order(created_at: :desc)
+           .first
+  rescue StandardError
+    nil
+  end
+
+  def merged_attributes(conversation, linked_id)
+    (conversation.additional_attributes || {}).merge('linked_conversation_id' => linked_id)
+  end
+
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/BlockLength -- sequential mirror of a message thread incl. attachments
+  def copy_message_history(source_conversation, target_conversation)
+    Thread.current[:copying_message_history] = true
+
+    source_conversation.messages.chat.order(:created_at).each do |message|
+      next if message.content.blank? && message.attachments.empty?
+      next if target_conversation.messages.exists?(source_id: "history_#{message.id}")
+
+      is_private = message.outgoing?
+
+      mirrored = target_conversation.messages.new(
+        account_id: target_conversation.account_id,
+        inbox_id: target_conversation.inbox_id,
+        message_type: is_private ? :activity : message.message_type,
+        content: message.content,
+        sender: message.sender,
+        private: is_private,
+        source_id: "history_#{message.id}",
+        created_at: message.created_at,
+        updated_at: message.updated_at
+      )
+      mirrored.save!(validate: false)
+
+      message.attachments.each do |attachment|
+        next unless attachment.file.attached?
+
+        new_att = mirrored.attachments.create!(
+          account_id: mirrored.account_id,
+          file_type: attachment.file_type
+        )
+        new_att.file.attach(attachment.file.blob)
+        new_att.save!
+      rescue StandardError => e
+        Rails.logger.error("copy_message_history: failed to mirror attachment #{attachment.id}: #{e.message}")
+      end
+
+      mirrored.reload
+
+      Rails.configuration.dispatcher.dispatch(
+        Events::Types::MESSAGE_CREATED,
+        Time.zone.now,
+        message: mirrored,
+        performed_by: nil
+      )
+    rescue StandardError => e
+      Rails.logger.error("copy_message_history: failed to mirror message #{message.id}: #{e.message}")
+    end
+  ensure
+    Thread.current[:copying_message_history] = nil
+  end
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/BlockLength
+
+  def build_response(inbox, _operator_conversation)
+    {
+      success: true,
+      inbox_id: inbox.id,
+      website_token: inbox.channel.respond_to?(:website_token) ? inbox.channel.website_token : nil
+    }
+  end
+
+  def find_or_create_contact_inbox(contact, inbox)
+    ContactInbox.find_by(contact: contact, inbox: inbox) ||
+      ContactInboxBuilder.new(contact: contact, inbox: inbox, source_id: SecureRandom.uuid).perform
+  end
+end
+# rubocop:enable Metrics/ModuleLength

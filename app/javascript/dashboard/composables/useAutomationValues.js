@@ -33,32 +33,30 @@ export default function useAutomationValues() {
     { id: false, name: t('FILTER.ATTRIBUTE_LABELS.FALSE') },
   ]);
 
-  const statusFilterItems = computed(() => {
-    return {
-      open: {
-        TEXT: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.open.TEXT'),
-      },
-      resolved: {
-        TEXT: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT'),
-      },
-      pending: {
-        TEXT: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.pending.TEXT'),
-      },
-      snoozed: {
-        TEXT: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT'),
-      },
-      all: {
-        TEXT: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.all.TEXT'),
-      },
-    };
-  });
-
   const statusFilterOptions = computed(() => {
-    const statusFilters = statusFilterItems.value;
-    return Object.keys(statusFilters).map(status => ({
-      id: status,
-      name: statusFilters[status].TEXT,
-    }));
+    return [
+      { id: 'open', name: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.open.TEXT') },
+      {
+        id: 'resolved',
+        name: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT'),
+      },
+      {
+        id: 'pending',
+        name: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.pending.TEXT'),
+      },
+      {
+        id: 'queued',
+        name: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.queued.TEXT'),
+      },
+      {
+        id: 'proxied',
+        name: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.proxied.TEXT'),
+      },
+      {
+        id: 'snoozed',
+        name: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT'),
+      },
+    ];
   });
 
   const messageTypeOptions = computed(() =>
@@ -143,7 +141,6 @@ export default function useAutomationValues() {
 
   return {
     booleanFilterOptions,
-    statusFilterItems,
     statusFilterOptions,
     priorityOptions,
     messageTypeOptions,

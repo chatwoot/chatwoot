@@ -38,8 +38,9 @@ class SLAReportsAPI extends ApiClient {
     team_id,
     sla_policy_id,
     label_list,
+    format = 'csv',
   } = {}) {
-    return axios.get(`${this.url}/download`, {
+    return axios.get(`${this.url}/download.${format}`, {
       params: {
         since: from,
         until: to,
@@ -49,6 +50,7 @@ class SLAReportsAPI extends ApiClient {
         label_list,
         sla_policy_id,
       },
+      responseType: format === 'xlsx' ? 'blob' : undefined,
     });
   }
 

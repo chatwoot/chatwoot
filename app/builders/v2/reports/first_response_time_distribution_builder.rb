@@ -22,6 +22,7 @@ class V2::Reports::FirstResponseTimeDistributionBuilder
   def fetch_aggregated_counts
     ReportingEvent
       .where(account_id: account.id, name: 'first_response')
+      .distinct_first_responses
       .where(range_condition)
       .group(:inbox_id)
       .select(

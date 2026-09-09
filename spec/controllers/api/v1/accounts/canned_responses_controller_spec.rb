@@ -25,7 +25,9 @@ RSpec.describe 'Canned Responses API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(response.parsed_body).to eq(account.canned_responses.as_json)
+        expect(response.parsed_body).to eq(
+          account.canned_responses.accessible_to(agent).includes(:canned_response_scopes).as_json(include: :canned_response_scopes)
+        )
       end
 
       it 'returns all the canned responses the user searched for' do
@@ -34,16 +36,14 @@ RSpec.describe 'Canned Responses API', type: :request do
         cr2 = create(:canned_response, account: account, content: 'Thanks for reaching out', short_code: 'content-with-thanks')
         cr3 = create(:canned_response, account: account, content: 'Thanks for reaching out', short_code: 'Thanks')
 
-        params = { search: 'thanks' }
-
         get "/api/v1/accounts/#{account.id}/canned_responses",
-            params: params,
+            params: { search: 'thanks' },
             headers: agent.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
         expect(response.parsed_body).to eq(
-          [cr3, cr2, cr1].as_json
+          [cr3, cr2, cr1].as_json(include: :canned_response_scopes)
         )
       end
 
@@ -56,7 +56,7 @@ RSpec.describe 'Canned Responses API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(response.parsed_body).to eq([matching_response].as_json)
+        expect(response.parsed_body).to eq([matching_response].as_json(include: :canned_response_scopes))
       end
     end
   end
@@ -83,6 +83,33 @@ RSpec.describe 'Canned Responses API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(account.canned_responses.count).to eq(2)
+      end
+
+      it 'drops scope ids that belong to another account' do
+        admin = create(:user, account: account, role: :administrator)
+        team = create(:team, account: account)
+        foreign_team = create(:team, account: create(:account))
+
+        post "/api/v1/accounts/#{account.id}/canned_responses",
+             params: { short_code: 'scoped', content: 'content', visibility: 'private_response', team_ids: [team.id, foreign_team.id] },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(CannedResponseScope.last.team_ids).to eq([team.id])
+      end
+
+      it 'rejects a duplicate public short code instead of overwriting the existing response' do
+        existing = account.canned_responses.first
+
+        post "/api/v1/accounts/#{account.id}/canned_responses",
+             params: { short_code: existing.short_code, content: 'overwritten' },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(existing.reload.content).not_to eq('overwritten')
+        expect(account.canned_responses.count).to eq(1)
       end
     end
   end
@@ -112,6 +139,87 @@ RSpec.describe 'Canned Responses API', type: :request do
         expect(response).to have_http_status(:success)
         expect(canned_response.reload.short_code).to eq('B')
       end
+
+      it 'does not let an agent update a private response that is not shared with them' do
+        other_agent = create(:user, account: account, role: :agent)
+        private_response = create(:canned_response, account: account, visibility: :private_response, created_by: other_agent, content: 'secret')
+        create(:canned_response_scope, canned_response: private_response, user_ids: [other_agent.id])
+
+        put "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
+            params: { content: 'taken over' },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(private_response.reload.content).to eq('secret')
+      end
+
+      it 'preserves a private response scope when an agent omits scope params' do
+        private_response = create(:canned_response, account: account, visibility: :private_response, content: 'before')
+        scope = create(:canned_response_scope, canned_response: private_response, user_ids: [agent.id])
+
+        put "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
+            params: { content: 'after' },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(private_response.reload.content).to eq('after')
+        expect(private_response.canned_response_scopes).to contain_exactly(scope)
+      end
+
+      it 'assigns an own scope when an agent changes a public response to private' do
+        put "/api/v1/accounts/#{account.id}/canned_responses/#{canned_response.id}",
+            params: { visibility: 'private_response' },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(canned_response.reload).to be_private_response
+        expect(canned_response.canned_response_scopes.sole.user_ids).to eq([agent.id])
+      end
+
+      it 'rejects a public-to-private change without scopes from an admin' do
+        admin = create(:user, account: account, role: :administrator)
+
+        put "/api/v1/accounts/#{account.id}/canned_responses/#{canned_response.id}",
+            params: { visibility: 'private_response' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(canned_response.reload).to be_public_response
+      end
+
+      it 'preserves a private response scope when an admin omits scope params' do
+        admin = create(:user, account: account, role: :administrator)
+        private_response = create(:canned_response, account: account, visibility: :private_response, content: 'before')
+        scope = create(:canned_response_scope, canned_response: private_response, user_ids: [agent.id])
+
+        put "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
+            params: { content: 'after' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(private_response.reload.content).to eq('after')
+        expect(private_response.canned_response_scopes).to contain_exactly(scope)
+      end
+
+      it 'rejects an admin private response update with explicitly empty resolved scopes' do
+        admin = create(:user, account: account, role: :administrator)
+        private_response = create(:canned_response, account: account, visibility: :private_response, content: 'before')
+        scope = create(:canned_response_scope, canned_response: private_response, user_ids: [agent.id])
+
+        put "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
+            params: { content: 'after', user_ids: [], team_ids: [], inbox_ids: [] },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(private_response.reload.content).to eq('before')
+        expect(private_response.canned_response_scopes).to contain_exactly(scope)
+      end
     end
   end
 
@@ -135,7 +243,34 @@ RSpec.describe 'Canned Responses API', type: :request do
                as: :json
 
         expect(response).to have_http_status(:success)
-        expect(CannedResponse.count).to eq(0)
+        expect(account.canned_responses.count).to eq(0)
+      end
+
+      it 'allows an administrator to destroy a private response without an administrator scope' do
+        admin = create(:user, account: account, role: :administrator)
+        owner = create(:user, account: account, role: :agent)
+        private_response = create(:canned_response, account: account, visibility: :private_response, created_by: owner)
+        create(:canned_response_scope, canned_response: private_response, user_ids: [owner.id])
+
+        delete "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(CannedResponse.exists?(private_response.id)).to be(false)
+      end
+
+      it 'removes only the agent from a shared private response' do
+        other_agent = create(:user, account: account, role: :agent)
+        private_response = create(:canned_response, account: account, visibility: :private_response, created_by: other_agent)
+        scope = create(:canned_response_scope, canned_response: private_response, user_ids: [agent.id, other_agent.id])
+
+        delete "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(scope.reload.user_ids).to eq([other_agent.id])
       end
     end
   end

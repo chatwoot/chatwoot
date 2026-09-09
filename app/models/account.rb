@@ -2,21 +2,25 @@
 #
 # Table name: accounts
 #
-#  id                    :integer          not null, primary key
-#  auto_resolve_duration :integer
-#  custom_attributes     :jsonb
-#  domain                :string(100)
-#  feature_flags         :bigint           default(0), not null
-#  feature_flags_ext_1   :bigint           default(0), not null
-#  internal_attributes   :jsonb            not null
-#  limits                :jsonb
-#  locale                :integer          default("en")
-#  name                  :string           not null
-#  settings              :jsonb
-#  status                :integer          default("active")
-#  support_email         :string(100)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  id                        :integer          not null, primary key
+#  active_chat_limit_enabled :boolean          default(FALSE), not null
+#  active_chat_limit_value   :integer          default(7)
+#  auto_resolve_duration     :integer
+#  custom_attributes         :jsonb
+#  domain                    :string(100)
+#  feature_flags             :bigint           default(0), not null
+#  feature_flags_ext_1       :bigint           default(0), not null
+#  internal_attributes       :jsonb            not null
+#  limits                    :jsonb
+#  locale                    :integer          default("en")
+#  name                      :string           not null
+#  queue_enabled             :boolean          default(FALSE), not null
+#  queue_message             :text
+#  settings                  :jsonb
+#  status                    :integer          default("active")
+#  support_email             :string(100)
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
 #
 # Indexes
 #
@@ -32,6 +36,7 @@ class Account < ApplicationRecord
   include CaptainFeaturable
   include AccountEmailRateLimitable
   include AccountSettingsSchema
+  include AccountChatQueue
 
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator,
@@ -52,7 +57,13 @@ class Account < ApplicationRecord
   validate :validate_reporting_timezone
   validate :validate_support_email_format, if: :will_save_change_to_support_email?
 
-  store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
+  before_validation :validate_limit_keys
+  after_update :resume_delayed_automations, if: -> { saved_change_to_feature_delayed_automations? && feature_delayed_automations? }
+  after_destroy :remove_account_sequences
+
+  store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting,
+                 :auto_resolve_message_agent, :auto_resolve_message_client, :auto_resolve_split_reasons,
+                 :auto_resolve_pending_after, :auto_resolve_pending_message
 
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label
   store_accessor :settings, :captain_models, :captain_features
@@ -111,12 +122,10 @@ class Account < ApplicationRecord
   enum :status, { active: 0, suspended: 1 }
 
   scope :with_auto_resolve, -> { where("(settings ->> 'auto_resolve_after')::int IS NOT NULL") }
+  scope :with_auto_resolve_pending, -> { where("(settings ->> 'auto_resolve_pending_after')::int IS NOT NULL") }
 
-  before_validation :validate_limit_keys
   after_create_commit :notify_creation
   after_update_commit :clear_unread_conversation_counts_cache, if: :saved_change_to_feature_conversation_unread_counts?
-  after_update :resume_delayed_automations, if: -> { saved_change_to_feature_delayed_automations? && feature_delayed_automations? }
-  after_destroy :remove_account_sequences
 
   def agents
     users.where(account_users: { role: :agent })

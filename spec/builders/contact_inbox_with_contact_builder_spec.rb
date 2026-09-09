@@ -97,6 +97,31 @@ describe ContactInboxWithContactBuilder do
       expect(contact_inbox.contact.id).to be(contact.id)
     end
 
+    it 'serialises concurrent identifications on the inbox email' do
+      allow(ActiveRecord::Base.connection).to receive(:execute).and_call_original
+
+      described_class.new(
+        source_id: '123456',
+        inbox: inbox,
+        contact_attributes: { name: 'Contact', email: 'Locked@Example.com' }
+      ).perform
+
+      expect(ActiveRecord::Base.connection).to have_received(:execute).with(a_string_including('pg_advisory_xact_lock')).at_least(:once)
+    end
+
+    it 'reuses the contact with the same phone number from another inbox' do
+      other_inbox = create(:inbox, account: account)
+      create(:contact_inbox, contact: contact, inbox: other_inbox)
+
+      contact_inbox = described_class.new(
+        source_id: '123456',
+        inbox: inbox,
+        contact_attributes: { name: 'Contact', phone_number: contact.phone_number }
+      ).perform
+
+      expect(contact_inbox.contact.id).to be(contact.id)
+    end
+
     it 'doesnot create contact if it already exist with phone number' do
       contact_inbox = described_class.new(
         source_id: '123456',

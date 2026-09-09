@@ -33,7 +33,6 @@ class Conversations::FilterService < FilterService
       inbox: :channel,
       ai_assignee: { avatar_attachment: [:blob] }
     )
-
     Conversations::PermissionFilterService.new(
       conversations,
       @user,

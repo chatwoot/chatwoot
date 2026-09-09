@@ -542,7 +542,8 @@ RSpec.describe 'Inboxes API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let(:valid_params) { { name: 'test', channel: { type: 'web_widget', website_url: 'test.com' } } }
+      let(:priority_group) { create(:priority_group, account: account) }
+      let(:valid_params) { { name: 'test', channel: { type: 'web_widget', website_url: 'test.com', priority_group_id: priority_group.id } } }
 
       it 'will not create inbox for agent' do
         agent = create(:user, account: account, role: :agent)
@@ -553,6 +554,17 @@ RSpec.describe 'Inboxes API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'rejects a priority group from another account' do
+        foreign_group = create(:priority_group, account: create(:account))
+
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: valid_params.merge(priority_group_id: foreign_group.id),
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'creates a webwidget inbox when administrator' do

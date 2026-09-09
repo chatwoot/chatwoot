@@ -18,6 +18,7 @@ class ContactInboxWithContactBuilder
     return @contact_inbox if @contact_inbox
 
     ActiveRecord::Base.transaction(requires_new: true) do
+      lock_inbox_email
       build_contact_with_contact_inbox
     end
     update_contact_avatar(@contact) unless @contact.avatar.attached?
@@ -29,6 +30,17 @@ class ContactInboxWithContactBuilder
   def build_contact_with_contact_inbox
     @contact = find_contact || create_contact
     @contact_inbox = create_contact_inbox
+  end
+
+  # Serialize identical identifications before lookup. This key must differ from the
+  # validation lock, which models acquire only after locking the contact row.
+  def lock_inbox_email
+    email = contact_attributes[:email].to_s.downcase.strip
+    return if email.blank?
+
+    ActiveRecord::Base.connection.execute(
+      ActiveRecord::Base.sanitize_sql_array(['SELECT pg_advisory_xact_lock(hashtext(?))', "contact_identification:#{inbox.id}:#{email}"])
+    )
   end
 
   def account
@@ -65,12 +77,18 @@ class ContactInboxWithContactBuilder
   end
 
   def find_contact
-    contact = find_contact_by_identifier(contact_attributes[:identifier])
-    contact ||= find_contact_by_email(contact_attributes[:email])
-    contact ||= find_contact_by_phone_numbers
-    contact ||= find_contact_by_instagram_source_id(source_id) if instagram_channel?
+    # cat-fork: an explicit identifier is authoritative; never fall through to
+    # email/phone matching for identified contacts (cwt-9)
+    return find_contact_by_identifier(contact_attributes[:identifier]) if contact_attributes[:identifier].present?
 
+    contact = find_contact_by_email(contact_attributes[:email])
+    contact ||= find_contact_by_phone_numbers
+    contact ||= find_contact_by_instagram_source_id_if_needed
     contact
+  end
+
+  def find_contact_by_instagram_source_id_if_needed
+    find_contact_by_instagram_source_id(source_id) if instagram_channel?
   end
 
   def instagram_channel?
@@ -104,13 +122,15 @@ class ContactInboxWithContactBuilder
   def find_contact_by_email(email)
     return if email.blank?
 
-    account.contacts.from_email(email)
+    account.contacts.in_inbox(inbox.id).from_email(email)
   end
 
   def find_contact_by_phone_numbers
     phone_numbers = [contact_attributes[:phone_number], *Array(contact_attributes[:phone_number_candidates])].compact_blank.uniq
 
     phone_numbers.each do |phone_number|
+      # phone numbers stay unique per account (Contact validation), so the lookup must be
+      # account-wide; only email is scoped to the inbox (cwt-9)
       contact = account.contacts.find_by(phone_number: phone_number)
       return contact if contact
     end

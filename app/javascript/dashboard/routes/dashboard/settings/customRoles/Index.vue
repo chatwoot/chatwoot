@@ -2,26 +2,23 @@
 import { useAlert } from 'dashboard/composables';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
-import CustomRoleModal from './component/CustomRoleModal.vue';
 import CustomRoleTableBody from './component/CustomRoleTableBody.vue';
-import CustomRolePaywall from './component/CustomRolePaywall.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { computed, onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { picoSearch } from '@chatwoot/pico-search';
 import { BaseTable } from 'dashboard/components-next/table';
 
 const store = useStore();
+const router = useRouter();
 const { t } = useI18n();
 
-const showCustomRoleModal = ref(false);
-const customRoleModalMode = ref('add');
-const selectedRole = ref(null);
-const loading = ref({});
 const showDeleteConfirmationPopup = ref(false);
 const activeResponse = ref({});
 const searchQuery = ref('');
+const loading = ref({});
 
 const records = useMapGetter('customRole/getCustomRoles');
 
@@ -42,19 +39,6 @@ const deleteRejectText = computed(
 
 const deleteMessage = computed(() => {
   return ` ${activeResponse.value.name} ? `;
-});
-
-const isFeatureEnabledOnAccount = useMapGetter(
-  'accounts/isFeatureEnabledonAccount'
-);
-
-const currentAccountId = useMapGetter('getCurrentAccountId');
-
-const isBehindAPaywall = computed(() => {
-  return !isFeatureEnabledOnAccount.value(
-    currentAccountId.value,
-    'custom_roles'
-  );
 });
 
 const fetchCustomRoles = async () => {
@@ -84,22 +68,15 @@ const showAlertMessage = message => {
   useAlert(message);
 };
 
-const openAddModal = () => {
-  if (isBehindAPaywall.value) return;
-  customRoleModalMode.value = 'add';
-  selectedRole.value = null;
-  showCustomRoleModal.value = true;
+const openAddPage = () => {
+  router.push({ name: 'custom_roles_new' });
 };
 
-const openEditModal = role => {
-  customRoleModalMode.value = 'edit';
-  selectedRole.value = role;
-  showCustomRoleModal.value = true;
-};
-
-const hideCustomRoleModal = () => {
-  selectedRole.value = null;
-  showCustomRoleModal.value = false;
+const openEditPage = role => {
+  router.push({
+    name: 'custom_roles_edit',
+    params: { roleId: role.id },
+  });
 };
 
 const openDeletePopup = response => {
@@ -123,7 +100,7 @@ const deleteCustomRole = async id => {
 };
 
 const confirmDeletion = () => {
-  loading[activeResponse.value.id] = true;
+  loading.value[activeResponse.value.id] = true;
   closeDeletePopup();
   deleteCustomRole(activeResponse.value.id);
 };
@@ -133,7 +110,7 @@ const confirmDeletion = () => {
   <SettingsLayout
     :is-loading="uiFlags.fetchingList"
     :loading-message="$t('CUSTOM_ROLE.LOADING')"
-    :no-records-found="!records.length && !isBehindAPaywall"
+    :no-records-found="!records.length"
     :no-records-message="$t('CUSTOM_ROLE.LIST.404')"
   >
     <template #header>
@@ -143,7 +120,7 @@ const confirmDeletion = () => {
         :description="$t('CUSTOM_ROLE.DESCRIPTION')"
         :link-text="$t('CUSTOM_ROLE.LEARN_MORE')"
         :search-placeholder="$t('CUSTOM_ROLE.SEARCH_PLACEHOLDER')"
-        feature-name="canned_responses"
+        feature-name="custom_roles"
       >
         <template v-if="records?.length" #count>
           <span class="text-body-main text-n-slate-11">
@@ -154,17 +131,14 @@ const confirmDeletion = () => {
           <Button
             :label="$t('CUSTOM_ROLE.HEADER_BTN_TXT')"
             size="sm"
-            :disabled="isBehindAPaywall"
-            @click="openAddModal"
+            @click="openAddPage"
           />
         </template>
       </BaseSettingsHeader>
     </template>
 
     <template #body>
-      <CustomRolePaywall v-if="isBehindAPaywall" />
       <BaseTable
-        v-else
         :headers="tableHeaders"
         :items="filteredRecords"
         :no-data-message="
@@ -177,23 +151,12 @@ const confirmDeletion = () => {
           <CustomRoleTableBody
             :roles="items"
             :loading="loading"
-            @edit="openEditModal"
+            @edit="openEditPage"
             @delete="openDeletePopup"
           />
         </template>
       </BaseTable>
     </template>
-
-    <woot-modal
-      v-model:show="showCustomRoleModal"
-      :on-close="hideCustomRoleModal"
-    >
-      <CustomRoleModal
-        :mode="customRoleModalMode"
-        :selected-role="selectedRole"
-        @close="hideCustomRoleModal"
-      />
-    </woot-modal>
 
     <woot-delete-modal
       v-model:show="showDeleteConfirmationPopup"

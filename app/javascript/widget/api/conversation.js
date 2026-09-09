@@ -80,6 +80,12 @@ const deleteCustomAttribute = async customAttribute => {
   );
 };
 
+const requestCSATAPI = async () => {
+  return API.post(
+    `/api/v1/widget/conversations/request_csat${window.location.search}`
+  );
+};
+
 export {
   createConversationAPI,
   sendMessageAPI,
@@ -92,4 +98,5 @@ export {
   toggleStatus,
   setCustomAttributes,
   deleteCustomAttribute,
+  requestCSATAPI,
 };

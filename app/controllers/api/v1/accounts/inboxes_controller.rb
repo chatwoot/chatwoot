@@ -1,6 +1,6 @@
 class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   include Api::V1::InboxesHelper
-  before_action :fetch_inbox, except: [:index, :create]
+  before_action :fetch_inbox, except: [:index, :create, :index_all]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
   # we are already handling the authorization in fetch inbox
   before_action :check_authorization, except: [:show]
@@ -12,6 +12,10 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @inboxes = policy_scope(Current.account.inboxes)
                .includes(:channel, :portal, :working_hours, { avatar_attachment: :blob })
                .order_by_name
+  end
+
+  def index_all
+    @inboxes = Current.account.inboxes.order_by_name.includes(:channel, { avatar_attachment: [:blob] })
   end
 
   def show; end
@@ -53,7 +57,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       raise ActiveRecord::Rollback unless continue_update
 
       inbox_params = permitted_params.except(:channel, :csat_config)
-      inbox_params[:csat_config] = format_csat_config(permitted_params[:csat_config]) if permitted_params[:csat_config].present?
+      inbox_params[:csat_config] = format_csat_config(permitted_params[:csat_config].to_unsafe_h) if permitted_params[:csat_config].present?
       @inbox.update!(inbox_params)
       update_inbox_working_hours
       update_channel if channel_update_required?
@@ -144,6 +148,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     formatted = {
       'display_type' => config['display_type'] || 'emoji',
       'message' => config['message'] || '',
+      **format_csat_toggles(config),
       :survey_rules => {
         'operator' => config.dig('survey_rules', 'operator') || 'contains',
         'values' => config.dig('survey_rules', 'values') || []
@@ -153,6 +158,16 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     }
     format_template_config(config, formatted)
     formatted
+  end
+
+  # cat-fork: like/dislike survey mode and the optional "rate us" toggles (default on)
+  def format_csat_toggles(config)
+    {
+      'message_enabled' => config.fetch('message_enabled', true),
+      'csat_on_resolve_enabled' => config.fetch('csat_on_resolve_enabled', true),
+      'like_dislike_hint_message' => config['like_dislike_hint_message'] || '',
+      'like_dislike_hint_enabled' => config.fetch('like_dislike_hint_enabled', true)
+    }
   end
 
   def format_template_config(config, formatted)
@@ -188,10 +203,11 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def normalized_branded_email_layout = params[:branded_email_layout] == 'null' ? nil : params[:branded_email_layout]
 
   def inbox_attributes
-    [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
+    [:name, :public_name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
-     :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name,
-     { csat_config: [:display_type, :message, :button_text, :language,
+     :lock_to_single_conversation, :portal_id, :sender_name_type, :priority_group_id, :business_name,
+     { csat_config: [:display_type, :message, :message_enabled, :csat_on_resolve_enabled, :button_text, :language,
+                     :like_dislike_hint_message, :like_dislike_hint_enabled,
                      { survey_rules: [:operator, { values: [] }],
                        template: [:name, :template_id, :friendly_name, :content_sid, :approval_sid, :created_at, :language, :status] }] }]
   end

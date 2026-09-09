@@ -12,5 +12,7 @@ export const BUS_EVENTS = {
   SHOW_TOAST: 'newToastMessage',
   NEW_CONVERSATION_MODAL: 'newConversationModal',
   INSERT_INTO_RICH_EDITOR: 'insertIntoRichEditor',
+  INSERT_INTO_NORMAL_EDITOR: 'insertIntoNormalEditor',
+  NEW_NOTIFICATION: 'NEW_NOTIFICATION',
   MFA_STATE_CHANGED: 'MFA_STATE_CHANGED',
 };

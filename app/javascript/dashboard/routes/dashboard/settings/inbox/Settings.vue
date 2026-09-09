@@ -97,6 +97,7 @@ export default {
   },
   data() {
     return {
+      selectedPublicName: '',
       avatarFile: null,
       avatarUrl: '',
       greetingEnabled: true,
@@ -125,6 +126,7 @@ export default {
       widgetBubblePosition: 'right',
       widgetBubbleType: 'standard',
       widgetBubbleLauncherTitle: '',
+      selectedPriorityGroup: '',
     };
   },
   computed: {
@@ -135,6 +137,7 @@ export default {
       isMetaMessageSendingDisabled: 'globalConfig/isMetaMessageSendingDisabled',
       uiFlags: 'inboxes/getUIFlags',
       portals: 'portals/allPortals',
+      priorityGroups: 'priorityGroups/allPriorityGroups',
     }),
     isInboundEmailEnabled() {
       return this.isFeatureEnabledonAccount(
@@ -549,18 +552,21 @@ export default {
       this.$store.dispatch('teams/get');
       this.$store.dispatch('labels/get');
       this.$store.dispatch('portals/index');
+      this.$store.dispatch('priorityGroups/get');
     },
     syncInboxData() {
       if (!this.inbox || !this.inbox.id) return;
 
       this.avatarUrl = this.inbox.avatar_url;
       this.selectedInboxName = this.inbox.name;
+      this.selectedPublicName = this.inbox.public_name || '';
       this.webhookUrl = this.inbox.webhook_url;
       this.greetingEnabled = this.inbox.greeting_enabled || false;
       this.greetingMessage = this.inbox.greeting_message || '';
       this.emailCollectEnabled = this.inbox.enable_email_collect;
       this.senderNameType = this.inbox.sender_name_type;
       this.businessName = this.inbox.business_name;
+      this.selectedPriorityGroup = this.inbox.priority_group_id || '';
       this.allowMessagesAfterResolved =
         this.inbox.allow_messages_after_resolved;
       this.continuityViaEmail = this.inbox.continuity_via_email;
@@ -691,9 +697,11 @@ export default {
         const payload = {
           id: this.currentInboxId,
           name: this.selectedInboxName?.trim(),
+          public_name: this.selectedPublicName || null,
           enable_email_collect: this.emailCollectEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
+          priority_group_id: this.selectedPriorityGroup || null,
           greeting_message: this.greetingMessage || '',
           portal_id: this.selectedPortalSlug
             ? this.portals.find(
@@ -904,6 +912,7 @@ export default {
                 @delete="handleAvatarDelete"
               />
             </div>
+
             <SettingsFieldSection :label="inboxNameLabel">
               <woot-input
                 v-model="selectedInboxName"
@@ -918,6 +927,17 @@ export default {
                 @blur="v$.selectedInboxName.$touch"
               />
             </SettingsFieldSection>
+
+            <SettingsFieldSection
+              :label="$t('INBOX_MGMT.ADD.PUBLIC_NAME.LABEL')"
+            >
+              <woot-input
+                v-model="selectedPublicName"
+                class="[&>input]:!mb-0"
+                :placeholder="$t('INBOX_MGMT.ADD.PUBLIC_NAME.PLACEHOLDER')"
+              />
+            </SettingsFieldSection>
+
             <SettingsFieldSection
               v-if="isAPIInbox"
               :label="
@@ -983,6 +1003,24 @@ export default {
                 type="text"
                 disabled
                 class="!mb-0"
+              />
+            </SettingsFieldSection>
+
+            <SettingsFieldSection
+              :label="$t('INBOX_MGMT.PRIORITY_GROUPS.LABEL')"
+            >
+              <SelectInput
+                v-model="selectedPriorityGroup"
+                :placeholder="
+                  $t('INBOX_MGMT.PRIORITY_GROUPS.SELECT_PLACEHOLDER')
+                "
+                :options="[
+                  {
+                    value: '',
+                    label: $t('INBOX_MGMT.PRIORITY_GROUPS.SELECT_PLACEHOLDER'),
+                  },
+                  ...priorityGroups.map(g => ({ value: g.id, label: g.name })),
+                ]"
               />
             </SettingsFieldSection>
 
@@ -1120,6 +1158,7 @@ export default {
                   <ColorPicker v-model="inbox.widget_color" />
                 </div>
               </SettingsFieldSection>
+
               <SettingsFieldSection
                 :label="
                   $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE')
@@ -1201,6 +1240,7 @@ export default {
                   class="[&>input]:!mb-0"
                 />
               </SettingsFieldSection>
+
               <SettingsFieldSection
                 :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE')"
                 :help-text="

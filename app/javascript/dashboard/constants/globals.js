@@ -10,6 +10,8 @@ export default {
     RESOLVED: 'resolved',
     PENDING: 'pending',
     SNOOZED: 'snoozed',
+    QUEUED: 'queued',
+    PROXIED: 'proxied',
     ALL: 'all',
   },
   CONVERSATION_TYPE: {

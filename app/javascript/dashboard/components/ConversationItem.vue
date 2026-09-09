@@ -16,7 +16,10 @@ const props = defineProps({
   foldersId: { type: [String, Number], default: 0 },
   showAssignee: { type: Boolean, default: false },
   showExpanded: { type: Boolean, default: false },
+  isOpenFilter: { type: Boolean, default: true },
 });
+
+const emit = defineEmits(['hideConversation']);
 
 const router = useRouter();
 const store = useStore();
@@ -176,6 +179,10 @@ const onDeleteConversation = () => {
   deleteConversation(props.source.id);
   closeContextMenu();
 };
+
+const onHideConversation = id => {
+  emit('hideConversation', id);
+};
 </script>
 
 <template>
@@ -191,10 +198,12 @@ const onDeleteConversation = () => {
     :show-assignee="showAssigneeForExpandedCard"
     :show-inbox-name="showInboxName"
     :is-inbox-view="isInboxView"
+    :is-open-filter="isOpenFilter"
     @select-conversation="onExpandedSelect"
     @de-select-conversation="onExpandedSelect"
     @click="onCardClick"
     @contextmenu="openContextMenu"
+    @hide-conversation="onHideConversation"
   />
 
   <!-- Default (condensed) layout -->
@@ -208,13 +217,14 @@ const onDeleteConversation = () => {
     :is-active-chat="isActiveChat"
     :show-assignee="showAssignee"
     :show-inbox-name="showInboxName"
+    :is-open-filter="isOpenFilter"
     @click="onCardClick"
     @contextmenu="openContextMenu"
     @select-conversation="selectConversation"
     @de-select-conversation="deSelectConversation"
+    @hide-conversation="onHideConversation"
   />
 
-  <!-- Shared context menu for both layouts -->
   <ContextMenu
     v-if="showContextMenu"
     :x="contextMenu.x"
@@ -229,6 +239,7 @@ const onDeleteConversation = () => {
       :has-unread-messages="source.unread_count > 0"
       :conversation-labels="source.labels"
       :conversation-url="conversationPath"
+      :is-open-filter="isOpenFilter"
       @update-conversation="onUpdateConversation"
       @assign-agent="onAssignAgent"
       @assign-label="onAssignLabel"

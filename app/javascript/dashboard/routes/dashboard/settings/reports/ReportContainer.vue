@@ -70,6 +70,7 @@ export default {
         INCOMING_MESSAGES: 'incoming_messages_count',
         OUTGOING_MESSAGES: 'outgoing_messages_count',
         FIRST_RESPONSE_TIME: 'avg_first_response_time',
+        RESOLUTION_TIME_WITHOUT_BOT: 'avg_resolution_time_without_bot',
         RESOLUTION_TIME: 'avg_resolution_time',
         RESOLUTION_COUNT: 'resolutions_count',
         REPLY_TIME: 'reply_time',
@@ -121,30 +122,57 @@ export default {
     },
   },
   methods: {
+    formatUTC(timestamp, pattern) {
+      const date = fromUnixTime(timestamp);
+      const utcDate = new Date(
+        date.getUTCFullYear(),
+        date.getUTCMonth(),
+        date.getUTCDate(),
+        date.getUTCHours(),
+        date.getUTCMinutes(),
+        date.getUTCSeconds()
+      );
+      return format(utcDate, pattern);
+    },
     getChartData(metric) {
       if (!this.accountReport.data[metric.KEY]) {
         return { categories: [], series: [] };
       }
       const data = this.accountReport.data[metric.KEY];
       const categories = data.map(element => {
+        if (this.groupBy?.period === GROUP_BY_FILTER[5].period) {
+          const date = fromUnixTime(element.timestamp);
+          const hour = date.getUTCHours();
+          return `${String(hour).padStart(2, '0')}:00`;
+        }
         if (this.groupBy?.period === GROUP_BY_FILTER[2].period) {
-          let week_date = new Date(fromUnixTime(element.timestamp));
-          const first_day = week_date.getDate() - week_date.getDay();
-          const last_day = first_day + 6;
-          const week_first_date = new Date(week_date.setDate(first_day));
-          const week_last_date = new Date(week_date.setDate(last_day));
-          return `${format(week_first_date, 'dd-MMM')} - ${format(
-            week_last_date,
-            'dd-MMM'
-          )}`;
+          const date = fromUnixTime(element.timestamp);
+          const utcDay = date.getUTCDay();
+          const utcDate = date.getUTCDate();
+
+          const weekStart = new Date(
+            Date.UTC(
+              date.getUTCFullYear(),
+              date.getUTCMonth(),
+              utcDate - utcDay
+            )
+          );
+          const weekEnd = new Date(
+            Date.UTC(
+              date.getUTCFullYear(),
+              date.getUTCMonth(),
+              utcDate - utcDay + 6
+            )
+          );
+          return `${format(weekStart, 'dd-MMM')} - ${format(weekEnd, 'dd-MMM')}`;
         }
         if (this.groupBy?.period === GROUP_BY_FILTER[3].period) {
-          return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
+          return this.formatUTC(element.timestamp, 'MMM-yyyy');
         }
         if (this.groupBy?.period === GROUP_BY_FILTER[4].period) {
-          return format(fromUnixTime(element.timestamp), 'yyyy');
+          return this.formatUTC(element.timestamp, 'yyyy');
         }
-        return format(fromUnixTime(element.timestamp), 'dd-MMM');
+        return this.formatUTC(element.timestamp, 'dd-MMM');
       });
 
       return {
@@ -295,7 +323,7 @@ export default {
 
 <template>
   <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 px-6 py-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 mt-4"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 px-6 py-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >
     <div
       v-for="metric in metrics"

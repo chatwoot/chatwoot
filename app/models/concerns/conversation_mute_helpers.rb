@@ -1,22 +1,46 @@
 module ConversationMuteHelpers
   extend ActiveSupport::Concern
 
-  def mute!
+  BAN_DURATIONS = {
+    '1_hour' => 1.hour,
+    '8_hours' => 8.hours,
+    '1_day' => 1.day,
+    '7_days' => 7.days
+  }.freeze
+
+  def mute!(banned_until: nil, timezone: nil)
     return unless contact
 
     resolved!
-    contact.update(blocked: true)
-    create_muted_message
+    blocked_until = parse_banned_until(banned_until)
+    contact.update!(blocked: true, blocked_until: blocked_until)
+    create_muted_message(blocked_until: blocked_until, timezone: timezone)
   end
 
   def unmute!
     return unless contact
 
-    contact.update(blocked: false)
+    contact.update!(blocked: false, blocked_until: nil)
     create_unmuted_message
   end
 
+  # Expiry of a timed block lives in Contact#blocked? (ContactBlockable), so callers that
+  # check the contact directly (channel services, notifications, CSAT) get the same answer.
   def muted?
     contact&.blocked? || false
+  end
+
+  private
+
+  def parse_banned_until(raw)
+    return nil if raw.blank?
+
+    if BAN_DURATIONS.key?(raw.to_s)
+      Time.current + BAN_DURATIONS[raw.to_s]
+    else
+      Time.zone.parse(raw.to_s)
+    end
+  rescue ArgumentError, TypeError
+    nil
   end
 end

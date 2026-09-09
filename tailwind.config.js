@@ -252,6 +252,14 @@ const tailwindConfig = {
         '50%': { transform: 'translateX(-0.234375rem)' },
         '75%': { transform: 'translateX(0.234375rem)' },
       },
+      'toast-in': {
+        '0%': { opacity: 0, transform: 'translateX(110%) scale(0.95)' },
+        '100%': { opacity: 1, transform: 'translateX(0) scale(1)' },
+      },
+      'toast-out': {
+        '0%': { opacity: 1, transform: 'translateX(0) scale(1)' },
+        '100%': { opacity: 0, transform: 'translateX(110%) scale(0.95)' },
+      },
     },
     animation: {
       ...defaultTheme.animation,
@@ -260,6 +268,8 @@ const tailwindConfig = {
       'loader-pulse': 'loader-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       'card-select': 'card-select 0.25s ease-in-out',
       shake: 'shake 0.3s ease-in-out 0s 2',
+      'toast-in': 'toast-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
+      'toast-out': 'toast-out 0.25s ease-in forwards',
     },
   },
   plugins: [

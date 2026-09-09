@@ -1,5 +1,8 @@
 class Internal::ReconcilePlanConfigService
+  # cat-fork: premium config/features are pinned locally; never reconcile against the Hub plan.
   def perform
+    return if pinned_plan?
+
     remove_premium_config_reset_warning
     return if ChatwootHub.pricing_plan != 'community'
 
@@ -10,6 +13,10 @@ class Internal::ReconcilePlanConfigService
   end
 
   private
+
+  def pinned_plan?
+    true
+  end
 
   def config_path
     @config_path ||= Rails.root.join('enterprise/config')

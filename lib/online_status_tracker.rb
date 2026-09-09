@@ -8,13 +8,29 @@ class OnlineStatusTracker
 
   # obj_type: Contact | User
   def self.update_presence(account_id, obj_type, obj_id)
-    ::Redis::Alfred.zadd(presence_key(account_id, obj_type), Time.now.to_i, obj_id)
+    now = Time.zone.now
+
+    if obj_type == 'User'
+      expiry = get_presence_expiry(account_id, obj_type, obj_id)
+      return if (expiry.nil? || expiry <= now) && ::AgentActivity::ActivityTracker.track_presence_reconnect(account_id, obj_id, expiry, now) do
+        ::Redis::Alfred.zadd(presence_key(account_id, obj_type), now.to_i, obj_id)
+      end
+    end
+
+    ::Redis::Alfred.zadd(presence_key(account_id, obj_type), now.to_i, obj_id)
   end
 
   def self.get_presence(account_id, obj_type, obj_id)
+    expiry = get_presence_expiry(account_id, obj_type, obj_id)
+    expiry && expiry > Time.zone.now
+  end
+
+  def self.get_presence_expiry(account_id, obj_type, obj_id)
     connected_time = ::Redis::Alfred.zscore(presence_key(account_id, obj_type), obj_id)
+    return unless connected_time
+
     duration = obj_type == 'Contact' ? CONTACT_PRESENCE_DURATION : PRESENCE_DURATION
-    connected_time && connected_time > (Time.zone.now - duration).to_i
+    Time.zone.at(connected_time.to_i) + duration
   end
 
   def self.presence_key(account_id, type)
@@ -30,7 +46,16 @@ class OnlineStatusTracker
   # redis hash with obj_id key && status as value
 
   def self.set_status(account_id, user_id, status)
+    old_status = get_status(account_id, user_id)
+
     ::Redis::Alfred.hset(status_key(account_id), user_id, status)
+
+    ::AgentActivity::ActivityTracker.track_status_change(account_id, user_id, status) if old_status != status
+
+  rescue StandardError => e
+    Rails.logger.error(
+      "Failed to track agent activity: #{e.message}\n#{e.backtrace.join("\n")}"
+    )
   end
 
   def self.get_status(account_id, user_id)

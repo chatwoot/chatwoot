@@ -47,10 +47,7 @@ class ConversationApi extends ApiClient {
 
   search({ q }) {
     return axios.get(`${this.url}/search`, {
-      params: {
-        q,
-        page: 1,
-      },
+      params: { q, page: 1 },
     });
   }
 
@@ -75,8 +72,9 @@ class ConversationApi extends ApiClient {
   }
 
   assignTeam({ conversationId, teamId }) {
-    const params = { team_id: teamId };
-    return axios.post(`${this.url}/${conversationId}/assignments`, params);
+    return axios.post(`${this.url}/${conversationId}/assignments`, {
+      team_id: teamId,
+    });
   }
 
   markMessageRead({ id }) {
@@ -94,8 +92,11 @@ class ConversationApi extends ApiClient {
     });
   }
 
-  mute(conversationId) {
-    return axios.post(`${this.url}/${conversationId}/mute`);
+  mute(conversationId, bannedUntil = null) {
+    return axios.post(`${this.url}/${conversationId}/mute`, {
+      banned_until: bannedUntil,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    });
   }
 
   unmute(conversationId) {

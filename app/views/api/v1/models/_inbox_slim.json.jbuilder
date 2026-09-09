@@ -2,5 +2,7 @@ json.id resource.id
 json.avatar_url resource.try(:avatar_url)
 json.channel_id resource.channel_id
 json.name resource.name
+json.public_name resource.public_name
 json.channel_type resource.channel_type
 json.provider resource.channel.try(:provider)
+json.priority_group_id resource.priority_group_id

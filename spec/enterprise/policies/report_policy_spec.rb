@@ -22,5 +22,11 @@ RSpec.describe 'Enterprise::ReportPolicy', type: :policy do
     context 'when agent with report_manage permission' do
       it { expect(report_policy).to permit(agent_with_role_context, report) }
     end
+
+    context 'when viewing the bot report' do
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['report_bot']) }
+
+      it { expect(report_policy).to permit(agent_with_role_context, { action: :bot }) }
+    end
   end
 end

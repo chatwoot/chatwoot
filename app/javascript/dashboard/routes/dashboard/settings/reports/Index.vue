@@ -1,7 +1,8 @@
 <script>
-import V4Button from 'dashboard/components-next/button/Button.vue';
+import DownloadDropdown from 'dashboard/components/DownloadDropdown.vue';
+import { useReportDownloadOptions } from 'dashboard/composables/useReportDownloadOptions';
 import { useAlert, useTrack } from 'dashboard/composables';
-import ReportFilters from './components/ReportFilters.vue';
+import ReportFilterSelector from './components/FilterSelector.vue';
 import { GROUP_BY_FILTER } from './constants';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { generateFileName } from 'dashboard/helper/downloadHelper';
@@ -13,6 +14,7 @@ const REPORTS_KEYS = {
   INCOMING_MESSAGES: 'incoming_messages_count',
   OUTGOING_MESSAGES: 'outgoing_messages_count',
   FIRST_RESPONSE_TIME: 'avg_first_response_time',
+  RESOLUTION_TIME_WITHOUT_BOT: 'avg_resolution_time_without_bot',
   RESOLUTION_TIME: 'avg_resolution_time',
   RESOLUTION_COUNT: 'resolutions_count',
   REPLY_TIME: 'reply_time',
@@ -22,9 +24,13 @@ export default {
   name: 'ConversationReports',
   components: {
     ReportHeader,
-    ReportFilters,
+    ReportFilterSelector,
     ReportContainer,
-    V4Button,
+    DownloadDropdown,
+  },
+  setup() {
+    const { downloadOptions } = useReportDownloadOptions();
+    return { downloadOptions };
   },
   data() {
     return {
@@ -32,6 +38,12 @@ export default {
       to: 0,
       groupBy: GROUP_BY_FILTER[1],
       businessHours: false,
+      selectedAgents: [],
+      selectedInboxes: [],
+      timeRange: {
+        since: '00:00',
+        until: '23:59',
+      },
     };
   },
   methods: {
@@ -53,6 +65,7 @@ export default {
         'OUTGOING_MESSAGES',
         'FIRST_RESPONSE_TIME',
         'RESOLUTION_TIME',
+        'RESOLUTION_TIME_WITHOUT_BOT',
         'RESOLUTION_COUNT',
         'REPLY_TIME',
       ].forEach(async key => {
@@ -67,38 +80,66 @@ export default {
       });
     },
     getRequestPayload() {
-      const { from, to, groupBy, businessHours } = this;
+      const {
+        from,
+        to,
+        groupBy,
+        businessHours,
+        timeRange,
+        selectedAgents,
+        selectedInboxes,
+      } = this;
 
       return {
         from,
         to,
         groupBy: groupBy?.period,
         businessHours,
+        timeRange,
+        userIds: selectedAgents.map(agent => agent.id),
+        inboxIds: selectedInboxes.map(inbox => inbox.id),
       };
     },
-    downloadConversationReports() {
-      const { from, to } = this;
+    downloadConversationReports(option) {
+      const { from, to, timeRange, selectedAgents, selectedInboxes } = this;
+      const format = option?.value || option || 'csv';
       const fileName = generateFileName({
         type: 'conversation',
         to,
         businessHours: this.businessHours,
+        format,
       });
       this.$store.dispatch('downloadConversationsSummaryReports', {
         from,
         to,
+        format,
         fileName,
         businessHours: this.businessHours,
+        timeRange,
+        userIds: selectedAgents.map(agent => agent.id),
+        inboxIds: selectedInboxes.map(inbox => inbox.id),
       });
     },
-    onFilterChange({ from, to, groupBy, businessHours }) {
+    onFilterChange({
+      from,
+      to,
+      groupBy,
+      businessHours,
+      timeRange,
+      selectedAgents,
+      selectedInbox,
+    }) {
       this.from = from;
       this.to = to;
       this.groupBy = groupBy;
       this.businessHours = businessHours;
+      this.timeRange = timeRange;
+      this.selectedAgents = selectedAgents || [];
+      this.selectedInboxes = selectedInbox || [];
       this.fetchAllData();
 
       useTrack(REPORTS_EVENTS.FILTER_REPORT, {
-        filterValue: { from, to, groupBy, businessHours },
+        filterValue: { from, to, groupBy, businessHours, timeRange },
         reportType: 'conversations',
       });
     },
@@ -108,17 +149,18 @@ export default {
 
 <template>
   <ReportHeader :header-title="$t('REPORT.HEADER')">
-    <V4Button
+    <DownloadDropdown
       :label="$t('REPORT.DOWNLOAD_CONVERSATION_REPORTS')"
-      icon="i-ph-download-simple"
-      size="sm"
-      @click="downloadConversationReports"
+      :options="downloadOptions"
+      @select="downloadConversationReports"
     />
   </ReportHeader>
-  <div class="flex flex-col">
-    <ReportFilters
-      :show-entity-filter="false"
-      show-group-by
+  <div class="flex flex-col gap-3">
+    <ReportFilterSelector
+      show-agents-filter
+      show-inbox-filter
+      show-group-by-filter
+      show-time-range-filter
       @filter-change="onFilterChange"
     />
     <ReportContainer
