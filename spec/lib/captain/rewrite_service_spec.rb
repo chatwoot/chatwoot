@@ -148,15 +148,39 @@ RSpec.describe Captain::RewriteService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: 'Please read <https://chatwoot.com/articles/purchasing-a-paid-self_hosted-license-a-step_by-step-guide>',
+          content: 'Please read <__CHATWOOT_URL_0__>',
           input_tokens: 10,
           output_tokens: 5
         )
       end
 
       it 'restores the original URL' do
-        expect(service.perform[:message]).to eq(
+        expect(mock_chat).to receive(:ask).with('Read <__CHATWOOT_URL_0__>').and_return(mock_response)
+
+        result = service.perform
+
+        expect(result[:message]).to eq(
           'Please read <https://chatwoot.com/articles/purchasing-a-paid-self_hosted-license-a-step_by_step-guide>'
+        )
+        expect(result[:follow_up_context][:original_context]).to eq(content)
+        expect(result[:follow_up_context][:last_response]).to eq(result[:message])
+      end
+    end
+
+    context 'when the model reorders URLs' do
+      let(:content) { 'Read [billing](https://chatwoot.com/billing) then [support](https://chatwoot.com/support)' }
+      let(:mock_response) do
+        instance_double(
+          RubyLLM::Message,
+          content: 'Read [support](__CHATWOOT_URL_1__) then [billing](__CHATWOOT_URL_0__)',
+          input_tokens: 10,
+          output_tokens: 5
+        )
+      end
+
+      it 'keeps each link with its label' do
+        expect(service.perform[:message]).to eq(
+          'Read [support](https://chatwoot.com/support) then [billing](https://chatwoot.com/billing)'
         )
       end
     end
@@ -165,7 +189,11 @@ RSpec.describe Captain::RewriteService do
       let(:content) { 'Read https://chatwoot.com/guide for help' }
 
       it 'returns the original content' do
-        expect(service.perform[:message]).to eq(content)
+        result = service.perform
+
+        expect(result[:message]).to eq(content)
+        expect(result[:follow_up_context][:original_context]).to eq(content)
+        expect(result[:follow_up_context][:last_response]).to eq(content)
       end
     end
   end
