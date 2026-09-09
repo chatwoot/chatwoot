@@ -155,8 +155,8 @@ const toggleConversationLayout = () => {
         />
       </div>
       <ConversationBasicFilter
-        v-if="!hasAppliedFiltersOrActiveFolders"
         :is-on-expanded-layout="isOnExpandedLayout"
+        :show-status-filter="!hasAppliedFiltersOrActiveFolders"
         @change-filter="onBasicFilterChange"
       />
       <SwitchLayout

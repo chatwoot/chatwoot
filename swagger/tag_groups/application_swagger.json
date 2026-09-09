@@ -3127,6 +3127,27 @@
             "schema": {
               "type": "number"
             }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Sort filtered conversations using the same options as the conversation list.",
+            "schema": {
+              "type": "string",
+              "default": "last_activity_at_desc",
+              "enum": [
+                "last_activity_at_asc",
+                "last_activity_at_desc",
+                "created_at_asc",
+                "created_at_desc",
+                "priority_asc",
+                "priority_desc",
+                "waiting_since_asc",
+                "waiting_since_desc",
+                "priority_desc_created_at_asc",
+                "unread"
+              ]
+            }
           }
         ],
         "requestBody": {
