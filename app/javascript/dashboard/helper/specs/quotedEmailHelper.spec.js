@@ -475,5 +475,17 @@ describe('quotedEmailHelper', () => {
       expect(result).toContain('> Line 0:');
       expect(result).not.toContain('> Line 1999:');
     });
+
+    it('cuts a single over-limit line instead of dropping the quoted body', () => {
+      const result = appendQuotedTextToMessage(
+        'My reply',
+        'a'.repeat(200000),
+        'Header'
+      );
+
+      expect(result.length).toBeLessThanOrEqual(150000);
+      expect(result).toContain('> Header');
+      expect(result).toContain('> aaaa');
+    });
   });
 });

@@ -133,6 +133,16 @@ export default {
         },
         allowOnFocusedInput: true,
       },
+      '$mod+KeyZ': {
+        action: e => {
+          // The editor prevents default only when its own history undid a
+          // step; inputs keep their native undo. Shift means redo.
+          if (e.defaultPrevented || e.shiftKey) return;
+          if (['INPUT', 'TEXTAREA'].includes(e.target?.tagName)) return;
+          if (proxy.restoreQuotedEmail()) e.preventDefault();
+        },
+        allowOnFocusedInput: true,
+      },
     });
 
     return {
@@ -670,6 +680,13 @@ export default {
     },
     removeQuotedEmail() {
       this.isQuoteRemoved = true;
+    },
+    restoreQuotedEmail() {
+      if (!this.isQuoteRemoved) {
+        return false;
+      }
+      this.isQuoteRemoved = false;
+      return true;
     },
     getMessageWithQuotedEmailText(message) {
       if (!this.shouldIncludeQuotedEmail) {

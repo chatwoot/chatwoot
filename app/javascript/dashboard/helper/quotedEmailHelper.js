@@ -1,4 +1,4 @@
-import { format, parseISO, isValid as isValidDate } from 'date-fns';
+import { format, isValid as isValidDate, parseISO } from 'date-fns';
 import DOMPurify from 'dompurify';
 
 const NON_CONTENT_TAGS = new Set(['STYLE', 'SCRIPT', 'HEAD', 'TITLE']);
@@ -363,11 +363,18 @@ const fitQuotedBlockWithinLimit = (quotedBlock, available) => {
   }
 
   // Keep whole lines from the top — the oldest history sits at the bottom.
+  // The boundary line is cut to the remaining space so a single long line
+  // can't drop the entire quoted body.
   const kept = [];
   let length = 0;
   quotedBlock.split('\n').every(line => {
-    const nextLength = length + line.length + (kept.length ? 1 : 0);
+    const joiner = kept.length ? 1 : 0;
+    const nextLength = length + line.length + joiner;
     if (nextLength > available) {
+      const remaining = available - length - joiner;
+      if (remaining > 0) {
+        kept.push(line.slice(0, remaining));
+      }
       return false;
     }
     kept.push(line);
