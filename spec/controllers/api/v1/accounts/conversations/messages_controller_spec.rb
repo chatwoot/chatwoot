@@ -149,7 +149,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
       it 'creates a new outgoing input select message' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
-        select_item1 = build(:bot_message_select)
+        select_item1 = build(:bot_message_select).merge(description: 'First option description')
         select_item2 = build(:bot_message_select)
         params = { content_type: 'input_select', content_attributes: { items: [select_item1, select_item2] } }
 
@@ -162,6 +162,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.first.content_type).to eq(params[:content_type])
         expect(conversation.messages.first.content).to be_nil
+        expect(conversation.messages.first.content_attributes['items'].first['description']).to eq('First option description')
       end
 
       it 'creates a new outgoing cards message' do
