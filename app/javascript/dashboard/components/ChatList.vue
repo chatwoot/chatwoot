@@ -610,6 +610,9 @@ function updateAssigneeTab(selectedTab) {
     activeAssigneeTab.value = selectedTab;
     if (!currentPage.value) {
       fetchConversations();
+    } else {
+      store.dispatch('invalidateConversationListRequests');
+      store.dispatch('updateChatListFilters', conversationFilters.value);
     }
   }
 }
@@ -851,12 +854,6 @@ watch(activeFolder, (newVal, oldVal) => {
 
 watch(chatLists, () => {
   chatsOnView.value = conversationList.value;
-});
-
-watch(conversationFilters, (newVal, oldVal) => {
-  if (newVal !== oldVal) {
-    store.dispatch('updateChatListFilters', newVal);
-  }
 });
 
 // Filters can be applied from outside the list, so clear the selection here.

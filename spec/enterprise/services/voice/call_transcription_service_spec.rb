@@ -30,6 +30,16 @@ RSpec.describe Voice::CallTranscriptionService, type: :service do
       expect(call.reload.transcript).to eq('Hello, how can I help?')
     end
 
+    it 'skips calls whose inbox has transcription turned off' do
+      channel.update!(provider_config: channel.provider_config.merge('transcription_enabled' => false))
+
+      expect(Llm::SpeechToTextService).not_to receive(:new)
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.transcript).to be_nil
+    end
+
     it 'skips calls that are already transcribed' do
       call.update!(transcript: 'Existing transcript')
 
