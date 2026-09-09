@@ -56,7 +56,7 @@ RSpec.describe 'Canned Responses API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(response.parsed_body).to eq([matching_response].as_json)
+        expect(response.parsed_body).to eq([matching_response].as_json(include: :canned_response_scopes))
       end
     end
   end
@@ -154,19 +154,71 @@ RSpec.describe 'Canned Responses API', type: :request do
         expect(private_response.reload.content).to eq('secret')
       end
 
-      it 'leaves a private response untouched when no scope is given' do
+      it 'preserves a private response scope when an agent omits scope params' do
+        private_response = create(:canned_response, account: account, visibility: :private_response, content: 'before')
+        scope = create(:canned_response_scope, canned_response: private_response, user_ids: [agent.id])
+
+        put "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
+            params: { content: 'after' },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(private_response.reload.content).to eq('after')
+        expect(private_response.canned_response_scopes).to contain_exactly(scope)
+      end
+
+      it 'assigns an own scope when an agent changes a public response to private' do
+        put "/api/v1/accounts/#{account.id}/canned_responses/#{canned_response.id}",
+            params: { visibility: 'private_response' },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(canned_response.reload).to be_private_response
+        expect(canned_response.canned_response_scopes.sole.user_ids).to eq([agent.id])
+      end
+
+      it 'rejects a public-to-private change without scopes from an admin' do
+        admin = create(:user, account: account, role: :administrator)
+
+        put "/api/v1/accounts/#{account.id}/canned_responses/#{canned_response.id}",
+            params: { visibility: 'private_response' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(canned_response.reload).to be_public_response
+      end
+
+      it 'preserves a private response scope when an admin omits scope params' do
         admin = create(:user, account: account, role: :administrator)
         private_response = create(:canned_response, account: account, visibility: :private_response, content: 'before')
-        create(:canned_response_scope, canned_response: private_response, user_ids: [agent.id])
+        scope = create(:canned_response_scope, canned_response: private_response, user_ids: [agent.id])
 
         put "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
             params: { content: 'after' },
             headers: admin.create_new_auth_token,
             as: :json
 
+        expect(response).to have_http_status(:success)
+        expect(private_response.reload.content).to eq('after')
+        expect(private_response.canned_response_scopes).to contain_exactly(scope)
+      end
+
+      it 'rejects an admin private response update with explicitly empty resolved scopes' do
+        admin = create(:user, account: account, role: :administrator)
+        private_response = create(:canned_response, account: account, visibility: :private_response, content: 'before')
+        scope = create(:canned_response_scope, canned_response: private_response, user_ids: [agent.id])
+
+        put "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
+            params: { content: 'after', user_ids: [], team_ids: [], inbox_ids: [] },
+            headers: admin.create_new_auth_token,
+            as: :json
+
         expect(response).to have_http_status(:unprocessable_entity)
         expect(private_response.reload.content).to eq('before')
-        expect(private_response.canned_response_scopes.count).to eq(1)
+        expect(private_response.canned_response_scopes).to contain_exactly(scope)
       end
     end
   end

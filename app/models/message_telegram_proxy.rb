@@ -28,6 +28,7 @@ module MessageTelegramProxy
       sender: conversation.contact,
       source_id: "mirror_tg_#{id}"
     )
+    mirrored.defer_message_created_event = true
     mirrored.save!(validate: false)
 
     attachments.each do |original_attachment|

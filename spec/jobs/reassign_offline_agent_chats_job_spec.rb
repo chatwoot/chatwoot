@@ -67,6 +67,7 @@ RSpec.describe ReassignOfflineAgentChatsJob do
         allow(OnlineStatusTracker).to receive(:get_status) do |_acc_id, user_id|
           user_id == online_agent.id ? 'online' : 'offline'
         end
+        allow(OnlineStatusTracker).to receive(:get_available_users).and_return({})
       end
 
       context 'when agent has no active conversations' do
@@ -94,16 +95,12 @@ RSpec.describe ReassignOfflineAgentChatsJob do
       end
 
       context 'when there are online agents available' do
+        before do
+          allow(OnlineStatusTracker).to receive(:get_available_users).with(account.id).and_return(online_agent.id.to_s => 'online')
+        end
+
         it 'reassigns conversations to online agents' do
           conversation1
-
-          allow(AutoAssignment::AgentAssignmentService).to receive(:new) do |args|
-            service = instance_double(AutoAssignment::AgentAssignmentService)
-            allow(service).to receive(:perform) do
-              args[:conversation].update!(assignee: online_agent)
-            end
-            service
-          end
 
           described_class.new.perform(offline_agent.id, account.id)
 
@@ -113,34 +110,18 @@ RSpec.describe ReassignOfflineAgentChatsJob do
         it 'creates system message about reassignment' do
           conversation1
 
-          allow(AutoAssignment::AgentAssignmentService).to receive(:new) do |args|
-            service = instance_double(AutoAssignment::AgentAssignmentService)
-            allow(service).to receive(:perform) do
-              args[:conversation].update!(assignee: online_agent)
-            end
-            service
-          end
-
           expect do
             described_class.new.perform(offline_agent.id, account.id)
           end.to change { conversation1.messages.where(message_type: :activity).count }.by(1)
 
           activity_message = conversation1.messages.activity.last
           expect(activity_message.content).to include(offline_agent.name)
-          expect(activity_message.content).to include('перешёл в офлайн')
+          expect(activity_message.content).to eq(I18n.t('conversations.activity.assignee.unassigned_offline', agent_name: offline_agent.name))
         end
 
         it 'processes multiple conversations' do
           conversation1
           conversation2
-
-          allow(AutoAssignment::AgentAssignmentService).to receive(:new) do |args|
-            service = instance_double(AutoAssignment::AgentAssignmentService)
-            allow(service).to receive(:perform) do
-              args[:conversation].update!(assignee: online_agent)
-            end
-            service
-          end
 
           described_class.new.perform(offline_agent.id, account.id)
 
@@ -154,13 +135,7 @@ RSpec.describe ReassignOfflineAgentChatsJob do
           expect(AutoAssignment::AgentAssignmentService).to receive(:new).with(
             conversation: conversation1,
             allowed_agent_ids: [online_agent.id]
-          ) do
-            service = instance_double(AutoAssignment::AgentAssignmentService)
-            allow(service).to receive(:perform) do
-              conversation1.update!(assignee: online_agent)
-            end
-            service
-          end
+          ).and_call_original
 
           described_class.new.perform(offline_agent.id, account.id)
         end
@@ -222,10 +197,11 @@ RSpec.describe ReassignOfflineAgentChatsJob do
       context 'when reassignment fails' do
         it 'unassigns conversation on error' do
           conversation1
+          allow(OnlineStatusTracker).to receive(:get_available_users).with(account.id).and_return(online_agent.id.to_s => 'online')
 
           allow(AutoAssignment::AgentAssignmentService).to receive(:new) do
             service = instance_double(AutoAssignment::AgentAssignmentService)
-            allow(service).to receive(:perform).and_raise(StandardError, 'Test error')
+            expect(service).to receive(:find_assignee).and_raise(StandardError, 'Test error')
             service
           end
 
@@ -238,10 +214,11 @@ RSpec.describe ReassignOfflineAgentChatsJob do
       context 'when all agents reached their limit' do
         it 'unassigns conversation if assignee did not change' do
           conversation1
+          allow(OnlineStatusTracker).to receive(:get_available_users).with(account.id).and_return(online_agent.id.to_s => 'online')
 
           allow(AutoAssignment::AgentAssignmentService).to receive(:new) do
             service = instance_double(AutoAssignment::AgentAssignmentService)
-            allow(service).to receive(:perform) # doesn't change assignee
+            expect(service).to receive(:find_assignee).and_return(nil)
             service
           end
 
@@ -254,6 +231,7 @@ RSpec.describe ReassignOfflineAgentChatsJob do
       context 'when conversation inbox has no online members' do
         before do
           inbox.inbox_members.where(user: online_agent).destroy_all
+          allow(OnlineStatusTracker).to receive(:get_available_users).with(account.id).and_return(online_agent.id.to_s => 'online')
         end
 
         it 'unassigns conversation' do
@@ -336,18 +314,11 @@ RSpec.describe ReassignOfflineAgentChatsJob do
         allow(OnlineStatusTracker).to receive(:get_status) do |_acc_id, user_id|
           user_id == online_agent.id ? 'online' : 'offline'
         end
+        allow(OnlineStatusTracker).to receive(:get_available_users).with(account.id).and_return(online_agent.id.to_s => 'online')
       end
 
       it 'includes agent name in message' do
         conversation1
-
-        allow(AutoAssignment::AgentAssignmentService).to receive(:new) do |args|
-          service = instance_double(AutoAssignment::AgentAssignmentService)
-          allow(service).to receive(:perform) do
-            args[:conversation].update!(assignee: online_agent)
-          end
-          service
-        end
 
         described_class.new.perform(offline_agent.id, account.id)
 

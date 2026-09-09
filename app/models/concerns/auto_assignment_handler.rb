@@ -143,6 +143,9 @@ module AutoAssignmentHandler
 
   def assign_directly_under_lock(agent)
     ActiveRecord::Base.transaction do
+      lock!
+      next false if assignee_id.present? || queued?
+
       AccountUser.lock.find_by(account_id: account_id, user_id: agent.id)
       next false unless ChatQueue::Agents::AvailabilityService.new(account: account).available?(agent)
 

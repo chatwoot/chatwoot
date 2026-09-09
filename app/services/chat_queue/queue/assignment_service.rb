@@ -6,8 +6,8 @@ class ChatQueue::Queue::AssignmentService
     Rails.logger.info("[QUEUE][assign_entry][conv=#{cid}] Start assign to agent #{agent.id}")
 
     ConversationQueue.transaction do
+      conversation = Conversation.lock.find(entry.conversation_id)
       locked_entry = ConversationQueue.lock.find(entry.id)
-      conversation = locked_entry.conversation
 
       next conversation if skip_due_to_already_assigned?(locked_entry, conversation, cid)
       next conversation unless validate_agent_limit!(agent, cid)

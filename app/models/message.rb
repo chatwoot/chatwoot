@@ -87,6 +87,7 @@ class Message < ApplicationRecord
   attr_accessor :echo_id
   # Transient flag used to skip waiting_since clearing for specific bot/system messages.
   attr_accessor :preserve_waiting_since
+  attr_accessor :defer_message_created_event, :defer_send_reply_job
 
   enum message_type: { incoming: 0, outgoing: 1, activity: 2, template: 3 }
   enum content_type: {
@@ -337,8 +338,14 @@ class Message < ApplicationRecord
   end
 
   def assigned_participant
-    participant = conversation.conversation_participants.find_by(user_id: sender_id, left_at: nil)
-    return if participant&.created_at.blank?
+    participant = conversation.conversation_participants.find_by(user_id: sender_id)
+    if participant.blank? && conversation.assignee_id == sender_id
+      participant = conversation.conversation_participants.find_or_create_by!(user_id: sender_id) do |new_participant|
+        new_participant.created_at = conversation.created_at
+      end
+    end
+
+    return if participant&.created_at.blank? || participant.left_at.present?
 
     participant
   end
@@ -446,7 +453,7 @@ class Message < ApplicationRecord
   end
 
   def dispatch_create_events
-    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
+    dispatch_message_created_event unless defer_message_created_event
 
     return update_waiting_since unless valid_first_reply?
 
@@ -462,9 +469,15 @@ class Message < ApplicationRecord
   end
 
   def send_reply
+    return if defer_send_reply_job
+
     # FIXME: Giving it few seconds for the attachment to be uploaded to the service
     # active storage attaches the file only after commit
     attachments.blank? ? ::SendReplyJob.perform_later(id) : ::SendReplyJob.set(wait: 2.seconds).perform_later(id)
+  end
+
+  def dispatch_message_created_event(performed_by: Current.executed_by)
+    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: performed_by)
   end
 
   def reopen_conversation

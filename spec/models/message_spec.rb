@@ -182,6 +182,21 @@ RSpec.describe Message do
       expect(conversation.waiting_since).to be_nil
     end
 
+    it 'preserves the closed participant when the assignee replies to a resolved conversation' do
+      create(:inbox_member, inbox: conversation.inbox, user: agent)
+      conversation.update!(assignee: agent)
+      conversation.resolved!
+      participant = conversation.conversation_participants.find_by!(user: agent)
+      left_at = participant.left_at
+
+      expect do
+        create(:message, message_type: :outgoing, conversation: conversation, sender: agent)
+      end.not_to change(ConversationParticipant, :count)
+
+      expect(conversation.reload.first_reply_created_at).to be_nil
+      expect(participant.reload.left_at).to eq(left_at)
+    end
+
     it 'does not update the conversation first reply created at if the message is incoming' do
       expect(conversation.first_reply_created_at).to be_nil
       expect(conversation.waiting_since).to eq conversation.created_at

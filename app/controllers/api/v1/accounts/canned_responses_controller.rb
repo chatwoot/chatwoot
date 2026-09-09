@@ -24,9 +24,9 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
 
   def update
     @canned_response.assign_attributes(canned_response_base_params)
-    scope_ids = resolved_scope_ids if @canned_response.private_response?
+    scope_ids = scope_ids_for_update
 
-    if @canned_response.private_response? && no_scopes_provided?(scope_ids)
+    if @canned_response.private_response? && scope_ids && no_scopes_provided?(scope_ids)
       render json: { error: 'Private canned response must be assigned to a user, team, or inbox' },
              status: :unprocessable_entity
       return
@@ -34,8 +34,7 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
 
     ActiveRecord::Base.transaction do
       @canned_response.save!
-      @canned_response.canned_response_scopes.destroy_all
-      build_scopes(@canned_response, scope_ids)
+      replace_scopes(scope_ids)
     end
     render json: @canned_response.as_json(include: :canned_response_scopes)
   end
@@ -85,6 +84,20 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
     canned_response.canned_response_scopes.create!(scope_ids)
   end
 
+  def replace_scopes(scope_ids)
+    return if @canned_response.private_response? && scope_ids.nil?
+
+    @canned_response.canned_response_scopes.destroy_all
+    build_scopes(@canned_response, scope_ids)
+  end
+
+  def scope_ids_for_update
+    return unless @canned_response.private_response?
+    return unless @canned_response.will_save_change_to_visibility? || (current_user.administrator? && scope_params_provided?)
+
+    resolved_scope_ids
+  end
+
   # ids from other accounts are dropped: a membership elsewhere must not grant access here
   def account_ids_for(scope, ids)
     scope.where(id: Array(ids)).ids
@@ -96,6 +109,10 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
       team_ids: current_user.administrator? ? account_ids_for(Current.account.teams, params[:team_ids]) : [],
       inbox_ids: account_ids_for(Current.account.inboxes, params[:inbox_ids])
     }
+  end
+
+  def scope_params_provided?
+    %i[user_ids team_ids inbox_ids].any? { |key| params.key?(key) }
   end
 
   def no_scopes_provided?(scope_ids)

@@ -271,5 +271,23 @@ RSpec.describe ChatQueue::Queue::AssignmentService do
         expect(conversation.reload.assignee).to eq(agent)
       end
     end
+
+    it 'locks the conversation before the queue entry' do
+      allow(limits_service).to receive(:limit_for).with(agent.id).and_return(nil)
+      lock_order = []
+
+      allow(Conversation).to receive(:lock).and_wrap_original do |method, *args|
+        lock_order << :conversation
+        method.call(*args)
+      end
+      allow(ConversationQueue).to receive(:lock).and_wrap_original do |method, *args|
+        lock_order << :queue_entry
+        method.call(*args)
+      end
+
+      service.assign!
+
+      expect(lock_order).to eq(%i[conversation queue_entry])
+    end
   end
 end

@@ -99,9 +99,11 @@ class ReassignOfflineAgentChatsJob < ApplicationJob
     offline_assignee_id = conversation.assignee_id
 
     ActiveRecord::Base.transaction do
-      AccountUser.where(account_id: conversation.account_id, user_id: allowed).order(:id).lock.load
       conversation.lock!
       next true unless conversation.assignee_id == offline_assignee_id
+
+      ConversationQueue.lock.find_by(conversation_id: conversation.id)
+      AccountUser.where(account_id: conversation.account_id, user_id: allowed).order(:id).lock.load
 
       eligible = allowed & conversation.inbox.member_ids_with_assignment_capacity
       agent = AutoAssignment::AgentAssignmentService.new(

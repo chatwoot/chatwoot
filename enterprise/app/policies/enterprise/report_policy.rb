@@ -15,6 +15,7 @@ module Enterprise::ReportPolicy
     'bot_summary' => 'report_bot',
     'bot_summary_download' => 'report_bot',
     'bot_metrics' => 'report_bot',
+    'bot' => 'report_bot',
     'queued_customers' => 'report_queued_customers',
     'conversations_summary' => 'report_conversation',
     'conversation_traffic' => 'report_conversation',

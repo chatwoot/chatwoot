@@ -20,12 +20,7 @@ class Widget::ConversationProxyService
 
     mirrored.reload
 
-    Rails.configuration.dispatcher.dispatch(
-      MESSAGE_CREATED,
-      Time.zone.now,
-      message: mirrored,
-      performed_by: nil
-    )
+    mirrored.send(:dispatch_message_created_event, performed_by: nil)
 
     Rails.logger.info('[ProxyService] CREATED mirrored incoming message')
   rescue StandardError => e
@@ -41,7 +36,7 @@ class Widget::ConversationProxyService
   end
 
   def create_mirrored_message(target_conversation)
-    target_conversation.messages.create!(
+    mirrored = target_conversation.messages.new(
       account_id: target_conversation.account_id,
       inbox_id: target_conversation.inbox_id,
       message_type: :incoming,
@@ -49,6 +44,9 @@ class Widget::ConversationProxyService
       sender: @widget_conversation.contact,
       source_id: @message_params[:echo_id]
     )
+    mirrored.defer_message_created_event = true
+    mirrored.save!
+    mirrored
   end
 
   def mirror_attachments(mirrored_message)

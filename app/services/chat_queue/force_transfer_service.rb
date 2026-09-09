@@ -107,9 +107,9 @@ class ChatQueue::ForceTransferService
   end
 
   def lock_transfer_records(target_agent)
+    conversation.lock!
     ConversationQueue.lock.find_by(conversation_id: conversation.id)
     AccountUser.lock.find_by!(account_id: conversation.account_id, user_id: target_agent.id)
-    conversation.lock!
   end
 
   def remove_from_queue_if_needed

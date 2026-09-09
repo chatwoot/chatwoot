@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/ModuleLength -- cat-fork: message mirroring for proxy chats
 module MessageWidgetProxy
   extend ActiveSupport::Concern
 
@@ -37,7 +36,7 @@ module MessageWidgetProxy
   end
   # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength -- builds the mirrored message with attachments
+  # rubocop:disable Metrics/MethodLength -- builds the mirrored message with attachments
   def mirror_message_to_conversation(target_conversation, additional_attributes:, skip_if_already_mirrored: false)
     return if target_conversation.blank?
     return if content.blank? && attachments.empty?
@@ -52,6 +51,8 @@ module MessageWidgetProxy
       additional_attributes: additional_attributes,
       source_id: "pending_mirror_#{id}"
     )
+    mirrored.defer_message_created_event = true
+    mirrored.defer_send_reply_job = true
     mirrored.save!(validate: false)
 
     mirror_attachments_to_message(mirrored)
@@ -60,22 +61,13 @@ module MessageWidgetProxy
     mirrored.update_column(:source_id, nil) # rubocop:disable Rails/SkipsModelValidations
     mirrored.reload
 
-    if mirrored.attachments.present?
-      ::SendReplyJob.set(wait: 2.seconds).perform_later(mirrored.id)
-    else
-      ::SendReplyJob.perform_later(mirrored.id)
-    end
-
-    Rails.configuration.dispatcher.dispatch(
-      Events::Types::MESSAGE_CREATED,
-      Time.zone.now,
-      message: mirrored,
-      performed_by: nil
-    )
+    mirrored.defer_send_reply_job = false
+    mirrored.send(:dispatch_message_created_event, performed_by: nil)
+    mirrored.send(:send_reply)
 
     mirrored
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:enable Metrics/MethodLength
 
   def mirror_attachments_to_message(target_message)
     attachments.each do |original_attachment|
@@ -142,4 +134,3 @@ module MessageWidgetProxy
     nil
   end
 end
-# rubocop:enable Metrics/ModuleLength

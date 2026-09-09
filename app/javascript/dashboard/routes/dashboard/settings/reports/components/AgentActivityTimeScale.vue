@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import { useLocale } from 'shared/composables/useLocale';
 
 const props = defineProps({
   start: {
@@ -14,6 +15,7 @@ const props = defineProps({
 
 const containerRef = ref(null);
 const width = ref(0);
+const { resolvedLocale } = useLocale();
 
 const updateWidth = () => {
   if (containerRef.value) {
@@ -88,21 +90,21 @@ const formatTick = ts => {
   const d = new Date(ts);
 
   if (step.value <= MS.minute) {
-    return d.toLocaleTimeString('ru', {
+    return d.toLocaleTimeString(resolvedLocale.value, {
       hour: '2-digit',
       minute: '2-digit',
       timeZone: 'UTC',
     });
   }
   if (step.value <= MS.hour) {
-    return d.toLocaleTimeString('ru', {
+    return d.toLocaleTimeString(resolvedLocale.value, {
       hour: '2-digit',
       minute: '2-digit',
       timeZone: 'UTC',
     });
   }
   if (step.value <= MS.day) {
-    return d.toLocaleString('ru', {
+    return d.toLocaleString(resolvedLocale.value, {
       day: '2-digit',
       month: 'short',
       hour: '2-digit',
@@ -110,20 +112,20 @@ const formatTick = ts => {
     });
   }
   if (step.value <= MS.month) {
-    return d.toLocaleDateString('ru', {
+    return d.toLocaleDateString(resolvedLocale.value, {
       day: '2-digit',
       month: 'short',
       timeZone: 'UTC',
     });
   }
   if (step.value <= MS.year) {
-    return d.toLocaleDateString('ru', {
+    return d.toLocaleDateString(resolvedLocale.value, {
       month: 'short',
       year: 'numeric',
       timeZone: 'UTC',
     });
   }
-  return d.toLocaleDateString('ru', {
+  return d.toLocaleDateString(resolvedLocale.value, {
     year: 'numeric',
     timeZone: 'UTC',
   });
