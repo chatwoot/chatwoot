@@ -14,6 +14,8 @@ class Whatsapp::PopulateTemplateParametersService
     return { type: 'text', text: '' } if button.blank?
 
     case button['type']
+    when 'order_details'
+      { type: 'action', action: { order_details: button['parameter'] } }
     when 'copy_code'
       coupon_code = button['parameter'].to_s.strip
       raise ArgumentError, 'Coupon code cannot be empty' if coupon_code.blank?
