@@ -40,6 +40,17 @@ RSpec.describe Whatsapp::IdentifierSyncService do
       )
     end
 
+    it 'replaces a mirrored parent identifier when the parent rotates' do
+      service.perform(source_ids: ['2423423243', 'IN.ENT.9081726354'])
+
+      service.perform(source_ids: ['2423423243', 'IN.ENT.7263540192'])
+
+      expect(contact.reload.additional_attributes).to include(
+        'whatsapp_bsuid' => 'IN.ENT.7263540192',
+        'whatsapp_bsuid_parent' => 'IN.ENT.7263540192'
+      )
+    end
+
     it 'keeps the identifier reachable through the webhook payload' do
       service.perform(source_ids: ['2423423243', 'IN.2081978709342942'])
       contact.reload

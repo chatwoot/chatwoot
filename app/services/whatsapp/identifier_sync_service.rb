@@ -74,7 +74,7 @@ class Whatsapp::IdentifierSyncService
   # stands in for the regular key while nothing is mirrored there yet: a payload that carries
   # the parent alone, such as a status update, must not downgrade an identifier already known.
   def bsuid_attributes(bsuids)
-    parent, regular = bsuids.partition { |bsuid| bsuid.to_s.include?('.ENT.') }
+    parent, regular = bsuids.partition { |bsuid| parent_bsuid?(bsuid) }
     identifier = regular.first || mirrored_bsuid || parent.first
     attributes = {}
     attributes['whatsapp_bsuid'] = identifier if identifier.present?
@@ -82,8 +82,17 @@ class Whatsapp::IdentifierSyncService
     attributes
   end
 
+  # Only a regular identifier is worth preserving. A parent one lands here when it was the only
+  # thing a first payload carried, and `Whatsapp::UserIdRotationService` supports rotating it, so
+  # holding on to it would keep a stale value under `whatsapp_bsuid` while `whatsapp_bsuid_parent`
+  # moved on.
   def mirrored_bsuid
-    synced_contact.additional_attributes['whatsapp_bsuid'].presence
+    mirrored = synced_contact.additional_attributes['whatsapp_bsuid'].presence
+    mirrored unless parent_bsuid?(mirrored)
+  end
+
+  def parent_bsuid?(bsuid)
+    bsuid.to_s.include?('.ENT.')
   end
 
   # Promotes a visitor to a lead once a business scoped user id shows up, which is the
