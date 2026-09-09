@@ -75,3 +75,13 @@ export const PRIORITY_CONDITION_VALUES = [
     i18nKey: 'URGENT',
   },
 ];
+
+// Presets accepted by the `mute_conversation` action; must match
+// ConversationMuteDurations::PRESETS on the backend.
+export const MUTE_DURATION_VALUES = [
+  { id: 'permanent', i18nKey: 'PERMANENT' },
+  { id: '1_hour', i18nKey: 'ONE_HOUR' },
+  { id: '8_hours', i18nKey: 'EIGHT_HOURS' },
+  { id: '1_day', i18nKey: 'ONE_DAY' },
+  { id: '7_days', i18nKey: 'SEVEN_DAYS' },
+];

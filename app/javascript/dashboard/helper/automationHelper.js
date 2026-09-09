@@ -152,6 +152,7 @@ export const getActionOptions = ({
   type,
   addNoneToListFn,
   priorityOptions,
+  muteDurationOptions,
 }) => {
   const actionsMap = {
     assign_agent: addNoneToListFn ? addNoneToListFn(agents) : agents,
@@ -163,6 +164,7 @@ export const getActionOptions = ({
     remove_label: generateLabelOptions(labels),
     change_priority: priorityOptions,
     add_sla: slaPolicies,
+    mute_conversation: muteDurationOptions,
   };
   return actionsMap[type];
 };

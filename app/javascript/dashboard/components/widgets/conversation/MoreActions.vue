@@ -1,11 +1,12 @@
 <script setup>
-import { computed, onUnmounted } from 'vue';
+import { computed, onUnmounted, ref } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { emitter } from 'shared/helpers/mitt';
 import EmailTranscriptModal from './EmailTranscriptModal.vue';
+import MuteDurationDialog from './MuteDurationDialog.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
 import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -24,6 +25,7 @@ const [showEmailActionsModal, toggleEmailModal] = useToggle(false);
 const [showActionsDropdown, toggleDropdown] = useToggle(false);
 
 const currentChat = computed(() => store.getters.getSelectedChat);
+const muteDialogRef = ref(null);
 
 const actionMenuItems = computed(() => {
   const items = [];
@@ -54,23 +56,16 @@ const actionMenuItems = computed(() => {
   return items;
 });
 
-const handleActionClick = ({ action }) => {
-  toggleDropdown(false);
-
-  if (action === 'mute') {
-    store.dispatch('muteConversation', currentChat.value.id);
-    useAlert(t('CONTACT_PANEL.MUTED_SUCCESS'));
-  } else if (action === 'unmute') {
-    store.dispatch('unmuteConversation', currentChat.value.id);
-    useAlert(t('CONTACT_PANEL.UNMUTED_SUCCESS'));
-  } else if (action === 'send_transcript') {
-    toggleEmailModal();
-  }
+// Opens the dialog that lets the agent pick how long the contact stays blocked
+const openMuteDialog = () => {
+  muteDialogRef.value?.open();
 };
 
-// These functions are needed for the event listeners
-const mute = () => {
-  store.dispatch('muteConversation', currentChat.value.id);
+const mute = blockedUntil => {
+  store.dispatch('muteConversation', {
+    conversationId: currentChat.value.id,
+    blockedUntil,
+  });
   useAlert(t('CONTACT_PANEL.MUTED_SUCCESS'));
 };
 
@@ -79,12 +74,24 @@ const unmute = () => {
   useAlert(t('CONTACT_PANEL.UNMUTED_SUCCESS'));
 };
 
-emitter.on(CMD_MUTE_CONVERSATION, mute);
+const handleActionClick = ({ action }) => {
+  toggleDropdown(false);
+
+  if (action === 'mute') {
+    openMuteDialog();
+  } else if (action === 'unmute') {
+    unmute();
+  } else if (action === 'send_transcript') {
+    toggleEmailModal();
+  }
+};
+
+emitter.on(CMD_MUTE_CONVERSATION, openMuteDialog);
 emitter.on(CMD_UNMUTE_CONVERSATION, unmute);
 emitter.on(CMD_SEND_TRANSCRIPT, toggleEmailModal);
 
 onUnmounted(() => {
-  emitter.off(CMD_MUTE_CONVERSATION, mute);
+  emitter.off(CMD_MUTE_CONVERSATION, openMuteDialog);
   emitter.off(CMD_UNMUTE_CONVERSATION, unmute);
   emitter.off(CMD_SEND_TRANSCRIPT, toggleEmailModal);
 });
@@ -122,5 +129,6 @@ onUnmounted(() => {
       :current-chat="currentChat"
       @cancel="toggleEmailModal"
     />
+    <MuteDurationDialog ref="muteDialogRef" @confirm="mute" />
   </div>
 </template>

@@ -137,7 +137,16 @@ describe('#ConversationAPI', () => {
     it('#mute', () => {
       conversationAPI.mute(45);
       expect(axiosMock.post).toHaveBeenCalledWith(
-        '/api/v1/conversations/45/mute'
+        '/api/v1/conversations/45/mute',
+        {}
+      );
+    });
+
+    it('#mute with a duration', () => {
+      conversationAPI.mute(45, '8_hours');
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/45/mute',
+        { blocked_until: '8_hours' }
       );
     });
 

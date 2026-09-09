@@ -10200,6 +10200,14 @@
                   "type": "boolean",
                   "description": "Whether the contact is blocked"
                 },
+                "blocked_until": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "date-time",
+                  "description": "When a temporary block expires. Null for a permanent block or an unblocked contact"
+                },
                 "identifier": {
                   "type": "string",
                   "description": "The identifier of the contact"
@@ -11699,6 +11707,14 @@
           "blocked": {
             "type": "boolean",
             "description": "Whether the contact is blocked"
+          },
+          "blocked_until": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "When a temporary block expires. Null for a permanent block or an unblocked contact"
           },
           "additional_attributes": {
             "type": [
@@ -15468,6 +15484,14 @@
             "type": "boolean",
             "description": "Whether the contact is blocked"
           },
+          "blocked_until": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "When a temporary block expires. Null for a permanent block or an unblocked contact"
+          },
           "type": {
             "type": "string",
             "description": "The type of entity",
@@ -15847,6 +15871,14 @@
           "blocked": {
             "type": "boolean",
             "description": "Whether the contact is blocked"
+          },
+          "blocked_until": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "When a temporary block expires. Null for a permanent block or an unblocked contact"
           },
           "identifier": {
             "type": [

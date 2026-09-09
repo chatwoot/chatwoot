@@ -6,8 +6,9 @@ class ActionService
     @account = @conversation.account
   end
 
-  def mute_conversation(_params)
-    @conversation.mute!
+  # params: [] or ['permanent'] for the previous behaviour, or [<preset>] for a temporary block
+  def mute_conversation(params)
+    @conversation.mute!(blocked_until: ConversationMuteDurations.resolve(Array(params).first))
   end
 
   def snooze_conversation(_params)

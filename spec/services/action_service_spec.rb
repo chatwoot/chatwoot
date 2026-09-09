@@ -177,4 +177,29 @@ describe ActionService do
       expect(conversation.reload.assignee).to be_nil
     end
   end
+
+  describe '#mute_conversation' do
+    let(:conversation) { create(:conversation) }
+    let(:action_service) { described_class.new(conversation) }
+
+    it 'mutes the conversation permanently by default' do
+      action_service.mute_conversation([])
+      expect(conversation.reload.muted?).to be(true)
+      expect(conversation.contact.blocked_until).to be_nil
+    end
+
+    it 'mutes the conversation for a preset duration' do
+      freeze_time do
+        action_service.mute_conversation(['1_day'])
+        expect(conversation.reload.muted?).to be(true)
+        expect(conversation.contact.blocked_until).to eq(1.day.from_now)
+      end
+    end
+
+    it 'falls back to a permanent block for unknown durations' do
+      action_service.mute_conversation(['permanent'])
+      expect(conversation.reload.muted?).to be(true)
+      expect(conversation.contact.blocked_until).to be_nil
+    end
+  end
 end

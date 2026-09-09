@@ -60,7 +60,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def mute
-    @conversation.mute!
+    @conversation.mute!(blocked_until: ConversationMuteDurations.parse(params[:blocked_until]))
     head :ok
   end
 

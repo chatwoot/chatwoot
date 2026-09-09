@@ -94,8 +94,9 @@ class ConversationApi extends ApiClient {
     });
   }
 
-  mute(conversationId) {
-    return axios.post(`${this.url}/${conversationId}/mute`);
+  mute(conversationId, blockedUntil = null) {
+    const params = blockedUntil ? { blocked_until: blockedUntil } : {};
+    return axios.post(`${this.url}/${conversationId}/mute`, params);
   }
 
   unmute(conversationId) {

@@ -513,6 +513,25 @@ RSpec.describe Conversation do
                                                                     message_type: :activity, content: "#{user.name} has muted the conversation" }))
     end
 
+    context 'with a temporary block' do
+      let(:blocked_until) { 2.hours.from_now.change(usec: 0) }
+
+      it 'stores the expiry on the contact' do
+        conversation.mute!(blocked_until: blocked_until)
+        expect(conversation.reload.contact.blocked?).to be(true)
+        expect(conversation.contact.blocked_until).to eq(blocked_until)
+      end
+
+      it 'creates a mute message mentioning the expiry' do
+        conversation.mute!(blocked_until: blocked_until)
+        expect(Conversations::ActivityMessageJob)
+          .to(have_been_enqueued.at_least(:once).with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
+                                                                      message_type: :activity,
+                                                                      content: "#{user.name} has muted the conversation until " \
+                                                                               "#{I18n.l(blocked_until.utc, format: :long)} UTC" }))
+      end
+    end
+
     context 'when contact is missing' do
       before do
         conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
@@ -546,6 +565,12 @@ RSpec.describe Conversation do
     it 'unblocks the contact' do
       unmute!
       expect(conversation.reload.contact.blocked?).to be(false)
+    end
+
+    it 'clears a temporary block expiry' do
+      conversation.contact.update!(blocked: true, blocked_until: 1.day.from_now)
+      unmute!
+      expect(conversation.reload.contact.blocked_until).to be_nil
     end
 
     it 'creates unmute message' do
@@ -584,6 +609,21 @@ RSpec.describe Conversation do
 
     it 'returns false if conversation is not muted' do
       expect(muted?).to be(false)
+    end
+
+    it 'returns true while a temporary block is active' do
+      conversation.mute!(blocked_until: 1.hour.from_now)
+      expect(muted?).to be(true)
+    end
+
+    it 'returns false once a temporary block has expired' do
+      conversation.mute!(blocked_until: 1.hour.from_now)
+
+      travel_to(2.hours.from_now) do
+        expect(muted?).to be(false)
+        expect(conversation.contact.reload.blocked).to be(false)
+        expect(conversation.contact.blocked_until).to be_nil
+      end
     end
 
     context 'when contact is missing' do
