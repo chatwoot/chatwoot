@@ -51,7 +51,7 @@ const contextMenu = ref({ x: null, y: null });
 
 const buildConversationUrl = conversationId => {
   const {
-    params: { accountId, inbox_id: inboxId, label, teamId },
+    params: { accountId, inbox_id: inboxId, label, teamId, channelGroupId },
     name,
   } = route;
 
@@ -69,6 +69,7 @@ const buildConversationUrl = conversationId => {
       id: conversationId,
       label,
       teamId,
+      channelGroupId,
       foldersId: isOnFoldersView({ route: { name } }) ? route.params.id : 0,
       conversationType,
     })

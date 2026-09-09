@@ -340,6 +340,8 @@ Rails.application.routes.draw do
           end
           resource :notification_settings, only: [:show, :update]
 
+          resources :channel_groups, only: [:index, :create, :update, :destroy]
+
           resources :teams do
             resources :team_members, only: [:index, :create] do
               collection do

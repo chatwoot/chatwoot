@@ -36,7 +36,14 @@ export const filterByUnattended = (
 };
 
 export const applyPageFilters = (conversation, filters) => {
-  const { inboxId, status, labels = [], teamId, conversationType } = filters;
+  const {
+    inboxId,
+    status,
+    labels = [],
+    teamId,
+    channelGroupInboxIds,
+    conversationType,
+  } = filters;
   const {
     status: chatStatus,
     inbox_id: chatInboxId,
@@ -51,6 +58,9 @@ export const applyPageFilters = (conversation, filters) => {
   let shouldFilter = filterByStatus(chatStatus, status);
   shouldFilter = filterByInbox(shouldFilter, inboxId, chatInboxId);
   shouldFilter = filterByTeam(shouldFilter, teamId, chatTeamId);
+  if (channelGroupInboxIds) {
+    shouldFilter = shouldFilter && channelGroupInboxIds.includes(chatInboxId);
+  }
   shouldFilter = filterByLabel(shouldFilter, labels, chatLabels);
   shouldFilter = filterByUnattended(
     shouldFilter,

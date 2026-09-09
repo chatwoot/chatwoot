@@ -1,0 +1,12 @@
+type: object
+properties:
+  name:
+    type: string
+    description: The name of the channel group, unique within the account
+    example: Northstar
+  inbox_ids:
+    type: array
+    description: The IDs of the inboxes in the group. An inbox belongs to one group, so listing it here moves it out of the group it was in. Omit the attribute to keep the current members.
+    items:
+      type: number
+    example: [1, 2]

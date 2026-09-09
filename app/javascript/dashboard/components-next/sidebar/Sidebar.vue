@@ -133,6 +133,24 @@ const setExpandedItem = name => {
   expandedItem.value = expandedItem.value === name ? null : name;
 };
 
+// Channel groups start collapsed, and expanding one only reveals its channels:
+// the conversation view stays on whatever the agent opened.
+const expandedChannelGroups = ref([]);
+const toggleChannelGroup = name => {
+  expandedChannelGroups.value = expandedChannelGroups.value.includes(name)
+    ? expandedChannelGroups.value.filter(item => item !== name)
+    : [...expandedChannelGroups.value, name];
+};
+
+watch(
+  accountId,
+  () => {
+    expandedChannelGroups.value = [];
+    store.dispatch('channelGroups/get');
+  },
+  { immediate: true }
+);
+
 const {
   sidebarWidth,
   isCollapsed,
@@ -156,6 +174,8 @@ const startWidth = ref(0);
 provideSidebarContext({
   expandedItem,
   setExpandedItem,
+  expandedChannelGroups,
+  toggleChannelGroup,
   isCollapsed: isEffectivelyCollapsed,
   sidebarWidth,
   isResizing,
@@ -212,6 +232,7 @@ useEventListener(document, 'touchmove', onResizeMove, { passive: false });
 useEventListener(document, 'touchend', onResizeEnd);
 
 const inboxes = useMapGetter('inboxes/getInboxes');
+const channelGroups = useMapGetter('channelGroups/getGroups');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
 const allUnreadCount = useMapGetter(
   'conversationUnreadCounts/getAllUnreadCount'
@@ -318,6 +339,62 @@ const sortedInboxes = computed(() =>
     unreadCountKey: inbox => getInboxUnreadCount.value(inbox.id),
   })
 );
+
+const buildChannelItem = inbox => ({
+  name: `${inbox.name}-${inbox.id}`,
+  label: inbox.name,
+  badgeCount: getInboxUnreadCount.value(inbox.id),
+  icon: h(ChannelIcon, { inbox, class: 'size-[16px]' }),
+  to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
+  component: leafProps =>
+    h(ChannelLeaf, {
+      label: leafProps.label,
+      active: leafProps.active,
+      inbox,
+      badgeCount: leafProps.badgeCount,
+    }),
+});
+
+// Grouped channels appear under their group, ungrouped channels stay on their
+// own, and both are sorted together by the section's sort option.
+const channelItems = computed(() => {
+  const groupedInboxIds = new Set(
+    channelGroups.value.flatMap(group => group.inbox_ids)
+  );
+
+  const groups = channelGroups.value
+    .map(group => {
+      const children = sortedInboxes.value
+        .filter(inbox => group.inbox_ids.includes(inbox.id))
+        .map(buildChannelItem);
+
+      return {
+        name: `channel-group-${group.id}`,
+        label: group.name,
+        icon: 'i-lucide-folder',
+        to: accountScopedRoute('channel_group_conversations', {
+          channelGroupId: group.id,
+        }),
+        activeOn: ['conversations_through_channel_group'],
+        children,
+        badgeCount: children.reduce(
+          (count, child) => count + child.badgeCount,
+          0
+        ),
+      };
+    })
+    .filter(group => group.children.length);
+
+  const ungrouped = sortedInboxes.value
+    .filter(inbox => !groupedInboxIds.has(inbox.id))
+    .map(buildChannelItem);
+
+  return sortSidebarItems([...groups, ...ungrouped], {
+    sortBy: getSortForSection(SIDEBAR_SORT_SECTIONS.CHANNELS),
+    labelKey: item => item.label,
+    unreadCountKey: item => item.badgeCount,
+  });
+});
 
 const sortedLabels = computed(() =>
   sortSidebarItems(labels.value, {
@@ -462,20 +539,7 @@ const menuItems = computed(() => {
           ...buildSortConfig(SIDEBAR_SORT_SECTIONS.CHANNELS),
           collapsible: true,
           showTreeLine: true,
-          children: sortedInboxes.value.map(inbox => ({
-            name: `${inbox.name}-${inbox.id}`,
-            label: inbox.name,
-            badgeCount: getInboxUnreadCount.value(inbox.id),
-            icon: h(ChannelIcon, { inbox, class: 'size-[16px]' }),
-            to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
-            component: leafProps =>
-              h(ChannelLeaf, {
-                label: leafProps.label,
-                active: leafProps.active,
-                inbox,
-                badgeCount: leafProps.badgeCount,
-              }),
-          })),
+          children: channelItems.value,
         },
         {
           name: 'Labels',
@@ -843,6 +907,7 @@ const menuItems = computed(() => {
           icon: 'i-lucide-inbox',
           activeOn: [
             'settings_inbox_list',
+            'settings_channel_groups',
             'settings_inbox_show',
             'settings_inbox_new',
             'settings_inbox_finish',
