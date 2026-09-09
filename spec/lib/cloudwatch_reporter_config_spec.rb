@@ -56,10 +56,16 @@ describe CloudwatchReporterConfig do
       end
     end
 
-    [nil, ''].each do |secret|
-      it "raises when a dedicated key is set and its secret is #{secret.inspect}" do
-        with_modified_env WEB_CLOUDWATCH_AWS_ACCESS_KEY_ID: 'dedicated-key', WEB_CLOUDWATCH_AWS_SECRET_ACCESS_KEY: secret do
-          expect { config.client }.to raise_error(ArgumentError, /WEB_CLOUDWATCH_AWS_SECRET_ACCESS_KEY/)
+    [nil, ''].each do |missing|
+      it "raises when only the access key is set and the secret is #{missing.inspect}" do
+        with_modified_env WEB_CLOUDWATCH_AWS_ACCESS_KEY_ID: 'dedicated-key', WEB_CLOUDWATCH_AWS_SECRET_ACCESS_KEY: missing do
+          expect { config.client }.to raise_error(ArgumentError, /must be set together/)
+        end
+      end
+
+      it "raises when only the secret is set and the access key is #{missing.inspect}" do
+        with_modified_env WEB_CLOUDWATCH_AWS_ACCESS_KEY_ID: missing, WEB_CLOUDWATCH_AWS_SECRET_ACCESS_KEY: 'dedicated-secret' do
+          expect { config.client }.to raise_error(ArgumentError, /must be set together/)
         end
       end
     end
