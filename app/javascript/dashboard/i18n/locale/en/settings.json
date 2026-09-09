@@ -278,7 +278,8 @@
     "CODE": {
       "BUTTON_TEXT": "Copy",
       "CODEPEN": "Open in CodePen",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "COPY_SUCCESSFUL": "Copied to clipboard",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
@@ -585,6 +586,7 @@
       "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
       "SEAT_COUNT": "Number of seats",
       "RENEWS_ON": "Renews on",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {

@@ -68,6 +68,7 @@ class Enterprise::Billing::HandleStripeEventService
         'subscribed_quantity' => subscription['quantity'],
         'subscription_status' => subscription['status'],
         'subscription_ends_on' => subscription_ends_on(subscription),
+        'subscription_cancels_on' => subscription_cancels_on(subscription),
         'billing_currency' => billing_currency_for(subscription, plan)
       )
     )

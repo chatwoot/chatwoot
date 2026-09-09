@@ -303,6 +303,7 @@ Rails.application.routes.draw do
             get :health, on: :member
             post :register_webhook, on: :member
             post :reset_secret, on: :member
+            post :rotate_hmac_token, on: :member
             if ChatwootApp.enterprise?
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member
@@ -383,6 +384,7 @@ Rails.application.routes.draw do
 
           namespace :whatsapp do
             resource :authorization, only: [:create]
+            resource :access_request, only: [:create] if ChatwootApp.enterprise?
             post 'manual/preview', to: 'manual_setup#preview'
             post 'manual/connect', to: 'manual_setup#connect'
             get 'manual/:inbox_id/webhook_status', to: 'manual_setup#webhook_status'
