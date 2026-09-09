@@ -1,0 +1,8 @@
+type: object
+required: [campaign]
+properties:
+  campaign:
+    allOf:
+      - $ref: '#/components/schemas/campaign_fields'
+      - type: object
+        required: [title, inbox_id, message, trigger_rules]

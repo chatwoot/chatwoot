@@ -1,0 +1,38 @@
+tags:
+  - Campaigns
+operationId: create-campaign
+summary: Create a campaign
+security:
+  - userApiKey: []
+description: >-
+  Create a campaign. For a supported messaging inbox, provide scheduled_at to schedule a one-off campaign; omitting it makes the campaign eligible for the next scheduler run. Website campaigns use trigger_rules instead. Channel-specific campaign availability and requirements still apply.
+  Requires an account administrator and API access enabled for the account.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/campaign_create_payload'
+      example:
+        campaign:
+          title: January announcement
+          inbox_id: 12
+          message: Our January offers are here!
+          scheduled_at: '2027-01-15T10:00:00Z'
+          audience:
+            - type: Label
+              id: 5
+          trigger_rules: {}
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/campaign'
+  '401':
+    description: Unauthorized
+  '403':
+    description: Administrator permissions are required, or API access is disabled for the account
+  '422':
+    description: Campaign validation failed
