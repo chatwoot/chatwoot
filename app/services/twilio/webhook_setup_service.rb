@@ -1,7 +1,7 @@
 class Twilio::WebhookSetupService
   include Rails.application.routes.url_helpers
 
-  pattr_initialize [:inbox!]
+  pattr_initialize [:channel!]
 
   def perform
     if channel.messaging_service_sid?
@@ -56,10 +56,7 @@ class Twilio::WebhookSetupService
     )
   end
 
-  def channel
-    @channel ||= inbox.channel
-  end
-
+  # The channel knows which credential pair to use (account token vs API key), so never rebuild it here.
   def twilio_client
     @twilio_client ||= channel.client
   end

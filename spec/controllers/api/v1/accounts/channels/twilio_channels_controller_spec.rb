@@ -50,7 +50,7 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
 
           expect(json_response['name']).to eq('SMS Channel')
           expect(json_response['messaging_service_sid']).to eq('MGec8130512b5dd462cfe03095ec1342ed')
-          expect(Twilio::WebhookSetupService).to have_received(:new).with(inbox: an_instance_of(Inbox))
+          expect(Twilio::WebhookSetupService).to have_received(:new).with(channel: an_instance_of(Channel::TwilioSms))
           expect(twilio_webhook_setup_service).to have_received(:perform)
         end
 
@@ -76,7 +76,7 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
           json_response = response.parsed_body
 
           expect(json_response['messaging_service_sid']).to eq('MGec8130512b5dd462cfe03095ec1111ed')
-          expect(Twilio::WebhookSetupService).to have_received(:new).with(inbox: an_instance_of(Inbox))
+          expect(Twilio::WebhookSetupService).to have_received(:new).with(channel: an_instance_of(Channel::TwilioSms))
           expect(twilio_webhook_setup_service).to have_received(:perform)
         end
 

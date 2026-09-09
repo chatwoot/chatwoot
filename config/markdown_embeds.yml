@@ -11,7 +11,7 @@
 # 3. Create an HTML template using %{name} placeholders matching the capture groups
 
 youtube:
-  regex: 'https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)(?<video_id>[^&/]+)'
+  regex: 'https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)(?<video_id>[^&/?]+)'
   template: |
     <div style="position: relative; padding-bottom: 62.5%; height: 0;">
      <iframe
@@ -23,7 +23,7 @@ youtube:
     </div>
 
 loom:
-  regex: 'https?://(?:www\.)?loom\.com/share/(?<video_id>[^&/]+)'
+  regex: 'https?://(?:www\.)?loom\.com/share/(?<video_id>[^&/?]+)'
   template: |
     <div style="position: relative; padding-bottom: 62.5%; height: 0;">
       <iframe
@@ -46,8 +46,10 @@ vimeo:
 
 mp4:
   regex: '(?<link_url>https?://(?:www\.)?.+\.mp4)'
+  # Editor-only: the preview replaces the raw link line; ignored by this renderer.
+  hide_source: true
   template: |
-    <video width="640" height="360" controls>
+    <video width="640" height="360" controls preload="metadata">
       <source src="%{link_url}" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -68,7 +70,7 @@ arcade_tab:
     </div>
 
 arcade:
-  regex: 'https?://(?:www\.)?app\.arcade\.software/share/(?<video_id>[^&/]+)'
+  regex: 'https?://(?:www\.)?app\.arcade\.software/share/(?<video_id>[^&/?]+)'
   template: |
     <div style="position: relative; padding-bottom: calc(62.793% + 41px); height: 0px; width: 100%;">
       <iframe
@@ -83,7 +85,7 @@ arcade:
     </div>
 
 wistia:
-  regex: 'https?://(?:www\.)?[^/]+\.wistia\.com/medias/(?<video_id>[^&/]+)'
+  regex: 'https?://(?:www\.)?[^/]+\.wistia\.com/medias/(?<video_id>[^&/?]+)'
   template: |
     <div style="position: relative; padding-bottom: 56.25%; height: 0;">
       <script src="https://fast.wistia.com/player.js" async></script>
