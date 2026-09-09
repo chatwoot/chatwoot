@@ -74,7 +74,7 @@ defineExpose({ open });
       :max-length="MAX_USE_CASE_LENGTH"
       :disabled="isSubmitting"
       :message="errorMessage"
-      message-type="error"
+      :message-type="errorMessage ? 'error' : 'info'"
       show-character-count
       autofocus
     />
