@@ -740,48 +740,57 @@ RSpec.describe ConversationReplyMailer do
   end
 
   describe 'conversation_transcript' do
-    # Regression test for https://github.com/chatwoot/chatwoot/issues/14845
-    # The Send Transcript email did not set a Reply-To header, so visitors
-    # who replied to the transcript via email lost their reply. The
-    # reply_with_summary / email_reply mailers all set reply_to to the
-    # conversation's reply+<uuid>@<domain> address; conversation_transcript
-    # must do the same.
-
-    let(:account) { create(:account) }
+    let(:account) { create(:account, domain: 'example.com', support_email: 'support@example.com') }
     let!(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let(:class_instance) { described_class.new }
-    let(:email_channel) { create(:channel_email, account: account) }
-    let(:inbox) { create(:inbox, channel: email_channel, account: account) }
-    let(:conversation) do
-      create(:conversation, account: account, inbox: inbox, assignee: agent).reload
-    end
+    let(:channel) { create(:channel_widget, account: account, continuity_via_email: true) }
+    let(:inbox) { create(:inbox, channel: channel, account: account) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: agent) }
 
     before do
       allow(described_class).to receive(:new).and_return(class_instance)
       allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(true)
       conversation.contact.update!(email: 'visitor@example.com')
-      account.update!(domain: 'example.com', support_email: 'support@example.com')
-      account.enable_features('inbound_emails')
+      account.enable_features('inbound_emails', 'reply_mailer_migration')
     end
 
-    context 'when the custom domain emails are enabled' do
-      let(:mail) { described_class.conversation_transcript(conversation, 'visitor@example.com').deliver_now }
+    it 'makes a contact transcript replyable without requiring an outgoing message' do
+      mail = described_class.conversation_transcript(conversation, conversation.contact.email).deliver_now
 
-      it 'sets reply-to to the conversation reply+<uuid>@<domain> address' do
-        reply_to_email = "reply+#{conversation.uuid}@#{account.domain}"
-        expect(mail.reply_to).to eq([reply_to_email])
+      expect(mail.reply_to).to eq(["reply+#{conversation.uuid}@#{account.domain}"])
+    end
+
+    it 'does not make a transcript sent to another recipient replyable' do
+      mail = described_class.conversation_transcript(conversation, agent.email).deliver_now
+
+      expect(mail.reply_to).to be_nil
+    end
+
+    it 'does not make a transcript replyable when conversation continuity is disabled' do
+      channel.update!(continuity_via_email: false)
+      mail = described_class.conversation_transcript(conversation, conversation.contact.email).deliver_now
+
+      expect(mail.reply_to).to be_nil
+    end
+
+    context 'with an API inbox' do
+      let(:channel) { create(:channel_api, account: account) }
+
+      it 'makes a contact transcript replyable when API conversation continuity is enabled' do
+        account.enable_features('email_continuity_on_api_channel')
+        mail = described_class.conversation_transcript(conversation, conversation.contact.email).deliver_now
+
+        expect(mail.reply_to).to eq(["reply+#{conversation.uuid}@#{account.domain}"])
       end
     end
 
-    context 'when the transcript is sent at all' do
-      let(:mail) { described_class.conversation_transcript(conversation, 'visitor@example.com').deliver_now }
+    context 'with an email inbox' do
+      let(:channel) { create(:channel_email, account: account) }
 
-      it 'sets a reply-to header (not nil/empty) on the transcript email' do
-        # Before the fix, mail.reply_to was nil because the mail() call omitted it.
-        # The exact value of email_reply_to depends on IMAP/Mailer-Migration
-        # feature flags and GlobalConfig that are not relevant to this bug —
-        # we only assert that the header is populated, not what it points to.
-        expect(mail.reply_to).to be_present
+      it 'does not change email inbox transcript threading' do
+        mail = described_class.conversation_transcript(conversation, conversation.contact.email).deliver_now
+
+        expect(mail.reply_to).to be_nil
       end
     end
   end
