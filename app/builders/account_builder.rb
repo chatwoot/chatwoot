@@ -14,6 +14,9 @@ class AccountBuilder
       @user = create_and_link_user
     end
     [@user, @account]
+  rescue StandardError => e
+    Rails.logger.debug e.inspect
+    raise e
   end
 
   private
