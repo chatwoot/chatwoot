@@ -24,6 +24,7 @@ export const FEATURE_FLAGS = {
   TEAM_MANAGEMENT: 'team_management',
   VOICE_RECORDER: 'voice_recorder',
   AUDIT_LOGS: 'audit_logs',
+  AUDIT_LOG_IP_ADDRESS: 'audit_log_ip_address',
   INBOX_VIEW: 'inbox_view',
   SLA: 'sla',
   CHANNEL_EMAIL: 'channel_email',
