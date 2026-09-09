@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, onBeforeUnmount, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useLocale } from 'shared/composables/useLocale';
 import CaptainAssistantStats from 'dashboard/api/captain/assistantStats';
 import { useReportDrilldown } from 'dashboard/routes/dashboard/settings/reports/composables/useReportDrilldown';
 import ReportDrilldownCard from 'dashboard/routes/dashboard/settings/reports/components/ReportDrilldownCard.vue';
@@ -16,7 +17,8 @@ const props = defineProps({
   range: { type: String, required: true },
 });
 const emit = defineEmits(['close']);
-const { t, locale } = useI18n();
+const { t } = useI18n();
+const { resolvedLocale } = useLocale();
 const panel = ref(null);
 const {
   records,
@@ -40,7 +42,7 @@ const fetchRecords = () =>
   });
 
 const formatStartedAt = timestamp =>
-  new Intl.DateTimeFormat(locale.value, {
+  new Intl.DateTimeFormat(resolvedLocale.value, {
     dateStyle: 'medium',
     timeStyle: 'short',
   }).format(new Date(timestamp * 1000));
