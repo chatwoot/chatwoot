@@ -31,14 +31,18 @@ module Enterprise::DeviseOverrides::SessionsController
     return if account_ids.empty?
 
     rows = audit_event_rows(action, account_ids)
-    Enterprise::AuditLog.insert_all!(rows) # rubocop:disable Rails/SkipsModelValidations
-    enqueue_session_ip_lookup(rows.first)
+    inserted = Enterprise::AuditLog.insert_all!(rows, returning: %w[id]) # rubocop:disable Rails/SkipsModelValidations
+    enqueue_session_ip_lookup(rows.first[:remote_address], account_ids, inserted.rows.flatten)
   end
 
-  def enqueue_session_ip_lookup(row)
-    return if row[:remote_address].blank?
+  # Geolocation is optional, so nothing here may interrupt authentication.
+  def enqueue_session_ip_lookup(remote_address, account_ids, audit_ids)
+    return if remote_address.blank?
+    return unless Account.feature_ip_lookup.exists?(id: account_ids)
 
-    Enterprise::AuditLogSessionIpLookupJob.perform_later(row[:request_uuid], row[:remote_address])
+    Enterprise::AuditLogSessionIpLookupJob.perform_later(audit_ids, remote_address)
+  rescue StandardError => e
+    Rails.logger.warn "Enterprise::AuditLogSessionIpLookupJob could not be enqueued: #{e.message}"
   end
 
   def audit_event_rows(action, account_ids)
