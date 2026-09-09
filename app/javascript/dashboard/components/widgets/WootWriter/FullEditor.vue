@@ -34,7 +34,6 @@ import { collapseSelection } from 'dashboard/helper/editorHelper';
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import SlashCommandMenu from './SlashCommandMenu.vue';
 import VideoEmbedInput from './VideoEmbedInput.vue';
 
@@ -78,12 +77,12 @@ let state;
 
 export default {
   components: { SlashCommandMenu, VideoEmbedInput },
-  mixins: [keyboardEventListenerMixins],
   props: {
     modelValue: { type: String, default: '' },
     editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     enabledMenuOptions: { type: Array, default: () => [] },
+    uploadsBlockedMessage: { type: String, default: '' },
     autofocus: {
       type: Boolean,
       default: true,
@@ -398,6 +397,10 @@ export default {
     },
     handleFiles(files) {
       if (!editorView || !files.length) return;
+      if (this.uploadsBlockedMessage) {
+        useAlert(this.uploadsBlockedMessage);
+        return;
+      }
       const buckets = { images: [], videos: [] };
       files.forEach(file => {
         const bucket = this.bucketFor(file);
@@ -491,7 +494,6 @@ export default {
         },
       });
     },
-    handleKeyEvents() {},
     focusEditorInputField() {
       const { tr } = editorView.state;
       const selection = Selection.atEnd(tr.doc);

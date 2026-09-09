@@ -83,6 +83,7 @@ describe Enterprise::Billing::CreateStripeCustomerService do
           plan_name: 'A Plan Name',
           subscription_status: 'active',
           subscription_ends_on: subscription_ends_on,
+          subscription_cancels_on: nil,
           billing_currency: 'usd'
         }.with_indifferent_access
       )
@@ -112,6 +113,7 @@ describe Enterprise::Billing::CreateStripeCustomerService do
           plan_name: 'A Plan Name',
           subscription_status: 'active',
           subscription_ends_on: subscription_ends_on,
+          subscription_cancels_on: nil,
           billing_currency: 'usd'
         }.with_indifferent_access
       )
