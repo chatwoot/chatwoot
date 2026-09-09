@@ -432,6 +432,7 @@
         "DISMISS": "Dismiss"
       },
       "RANGES": {
+        "INSUFFICIENT_HISTORY": "Not enough reporting history yet",
         "THIS_WEEK": "This week",
         "LAST_WEEK": "Last week",
         "LAST_DAYS": "Last {count} days",

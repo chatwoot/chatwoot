@@ -212,7 +212,8 @@ class Captain::AssistantOverviewStatsBuilder
   end
 
   def pack(current, previous, mode)
-    previous = nil if window.previous.first.to_date < STATS_START_DATE
+    current = nil unless tracked_period?(window.current.first)
+    previous = nil unless tracked_period?(window.previous.first)
 
     { current: current, previous: previous, trend: trend(current, previous, mode) }
   end

@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useNow, useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
@@ -83,7 +83,23 @@ const menuItems = computed(() =>
 );
 
 const selectedLabel = computed(
-  () => menuItems.value.find(item => item.isSelected)?.label || ''
+  () =>
+    menuItems.value.find(item => item.isSelected)?.label ||
+    t('CAPTAIN.OVERVIEW.RANGES.INSUFFICIENT_HISTORY')
+);
+
+watch(
+  menuItems,
+  items => {
+    if (
+      props.statsStartDate &&
+      items.length &&
+      !items.some(item => item.isSelected)
+    ) {
+      modelValue.value = items[0].value;
+    }
+  },
+  { immediate: true }
 );
 
 const handleAction = ({ value }) => {
@@ -104,6 +120,7 @@ const handleAction = ({ value }) => {
       trailing-icon
       icon="i-lucide-chevron-down"
       :label="selectedLabel"
+      :disabled="!menuItems.length"
       class="rounded-md group-hover:bg-n-alpha-2"
       @click="toggleDropdown()"
     />

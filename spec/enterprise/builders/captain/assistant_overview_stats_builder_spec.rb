@@ -7,7 +7,10 @@ RSpec.describe Captain::AssistantOverviewStatsBuilder do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
 
-  before { travel_to(Time.zone.parse('2026-10-15 12:00:00')) }
+  before do
+    travel_to(Time.zone.parse('2026-10-15 12:00:00'))
+    allow(Captain::OutcomeTrackingHistory).to receive(:started_at).and_return(Time.zone.parse('2026-08-01 12:00:00'))
+  end
 
   context 'with no outcomes' do
     it 'returns only the overview metrics' do

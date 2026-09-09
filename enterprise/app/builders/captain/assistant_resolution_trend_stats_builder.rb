@@ -17,6 +17,8 @@ class Captain::AssistantResolutionTrendStatsBuilder
   end
 
   def metrics
+    return { granularity: granularity, buckets: [] } unless tracked_period?(window.current.first)
+
     buckets = time_buckets
     comparison_buckets = previous_period_buckets(buckets)
     counts = bucket_counts(buckets + comparison_buckets)
@@ -100,7 +102,7 @@ class Captain::AssistantResolutionTrendStatsBuilder
   end
 
   def serialize_bucket(bucket, comparison_bucket, current_counts, previous_counts)
-    comparison_available = (window.current.first - comparison_shift).to_date >= STATS_START_DATE
+    comparison_available = tracked_period?(window.current.first - comparison_shift)
 
     {
       starts_on: bucket[:starts_at].to_date,

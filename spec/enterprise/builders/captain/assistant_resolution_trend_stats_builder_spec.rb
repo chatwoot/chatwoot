@@ -10,6 +10,10 @@ RSpec.describe Captain::AssistantResolutionTrendStatsBuilder do
   let(:timezone_offset) { 0 }
   let(:now) { Time.zone.parse('2025-06-30 12:00:00') }
 
+  before do
+    allow(Captain::OutcomeTrackingHistory).to receive(:started_at).and_return(Time.zone.parse('2025-04-01 12:00:00'))
+  end
+
   around do |example|
     travel_to(now) { example.run }
   end

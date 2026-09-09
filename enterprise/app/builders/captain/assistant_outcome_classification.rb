@@ -1,10 +1,19 @@
 # Shared query-time classifications for Captain conversation outcome reporting.
 module Captain::AssistantOutcomeClassification
-  STATS_START_DATE = Date.new(2026, 8, 11)
   DURABLE_RESOLUTION_WINDOW = 7.days
   USAGE_LIMIT_REASON = 'usage_limit'.freeze
 
   private
+
+  def tracking_started_at
+    return @tracking_started_at if defined?(@tracking_started_at)
+
+    @tracking_started_at = Captain::OutcomeTrackingHistory.started_at
+  end
+
+  def tracked_period?(starts_at)
+    tracking_started_at.present? && starts_at >= tracking_started_at
+  end
 
   # A usage-limit handoff is blocked demand only when Captain never replied, so
   # it does not make the episode involved. If Captain replied before the quota

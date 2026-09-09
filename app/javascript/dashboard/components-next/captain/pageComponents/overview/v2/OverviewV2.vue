@@ -44,13 +44,17 @@ const TREND_DIRECTIONS = {
   DOWN: 'down',
   NEUTRAL: 'neutral',
 };
-const STATS_START_DATE = new Date(2026, 7, 11);
 const HOURS_PER_DAY = 24;
 const SECONDS_PER_MINUTE = 60;
 const SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
 const DURATION_DAY_THRESHOLD_HOURS = 100;
 
 const assistantId = computed(() => route.params.assistantId);
+const statsStartDate = computed(() =>
+  overview.value?.tracking_started_at
+    ? new Date(overview.value.tracking_started_at)
+    : null
+);
 const userName = computed(
   () =>
     currentUser.value?.name?.split(' ')[0] ||
@@ -359,8 +363,9 @@ const reviewFaqs = () =>
   >
     <template #headerActions>
       <RangeSelector
+        v-if="statsStartDate"
         v-model="selectedRange"
-        :stats-start-date="STATS_START_DATE"
+        :stats-start-date="statsStartDate"
       />
     </template>
     <template #paywall>
