@@ -122,7 +122,7 @@ RSpec.describe InstagramConcern do
       it 'raises an error' do
         expect do
           dummy_instance.send(:fetch_instagram_user_details, access_token)
-        end.to raise_error(RuntimeError, 'Failed to fetch Instagram user details: Error')
+        end.to raise_error(Instagram::UserDetailsService::Error, 'Failed to fetch Instagram user details: Error')
       end
     end
 
