@@ -1,0 +1,52 @@
+type: object
+properties:
+  title:
+    type: string
+    description: Campaign title.
+  description:
+    type: [string, 'null']
+    description: Internal description of the campaign.
+  inbox_id:
+    type: integer
+    description: ID of an inbox in this account. Supported inbox types are Website, Twilio SMS, SMS, and WhatsApp.
+  sender_id:
+    type: [integer, 'null']
+    description: ID of a user in this account to use as the campaign sender.
+  message:
+    type: string
+    description: Campaign message content.
+  enabled:
+    type: boolean
+    description: Whether an ongoing website campaign is enabled. This does not cancel a scheduled one-off campaign.
+  scheduled_at:
+    type: string
+    format: date-time
+    description: Scheduled time for a one-off campaign, as an ISO 8601 timestamp with timezone. Defaults to the current time when omitted; website campaigns ignore this field. Responses return Unix seconds instead.
+    example: '2027-01-15T10:00:00Z'
+  audience:
+    type: array
+    minItems: 1
+    description: Required when creating a one-off SMS or WhatsApp campaign. Provide at least one label from this account. Contacts matching any selected label are included. When updating, omit this field to retain the existing audience.
+    items:
+      type: object
+      required: [type, id]
+      properties:
+        type:
+          type: string
+          enum: [Label]
+        id:
+          type: integer
+          description: ID of a label in this account.
+  trigger_rules:
+    type: object
+    additionalProperties: true
+    description: Website campaign trigger rules. Defaults to an empty object and can be omitted for a one-off campaign.
+    example:
+      url: https://example.com/pricing
+      time_on_page: 10
+  trigger_only_during_business_hours:
+    type: boolean
+    description: Restrict an ongoing website campaign to inbox business hours.
+  template_params:
+    $ref: '#/components/schemas/campaign_whatsapp_template_params'
+    description: Required when creating a WhatsApp campaign. Use a template available in the selected inbox. When updating, omit this field to retain the existing template parameters.
