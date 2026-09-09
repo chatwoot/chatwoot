@@ -134,5 +134,19 @@ describe HookListener do
         listener.contact_updated(contact_event)
       end
     end
+
+    context 'with notion hook' do
+      let(:hook) { create(:integrations_hook, :notion, account: account) }
+
+      it 'enqueues the job for conversation.resolved' do
+        conversation.update(status: 'resolved')
+        resolved_event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: conversation)
+        expect(HookJob)
+          .to receive(:perform_later)
+          .with(hook, 'conversation.resolved', { conversation: conversation })
+
+        listener.conversation_resolved(resolved_event)
+      end
+    end
   end
 end

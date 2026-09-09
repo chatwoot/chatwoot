@@ -63,7 +63,9 @@ class HookListener < BaseListener
       'dialogflow' => ['message.created', 'message.updated'],
       'google_translate' => ['message.created'],
       'leadsquared' => ['contact.updated', 'conversation.created', 'conversation.resolved'],
-      'linear' => ['message.created']
+      'linear' => ['message.created'],
+      'notion' => ['conversation.resolved'],
+      'todoist' => ['conversation.resolved']
     }
 
     return false unless supported_events_map.key?(hook.app_id)

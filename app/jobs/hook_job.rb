@@ -8,7 +8,9 @@ class HookJob < MutexApplicationJob
     'dialogflow' => :process_dialogflow_integration,
     'google_translate' => :google_translate_integration,
     'leadsquared' => :process_leadsquared_integration_with_lock,
-    'linear' => :process_linear_integration
+    'linear' => :process_linear_integration,
+    'notion' => :process_notion_integration,
+    'todoist' => :process_todoist_integration
   }.freeze
 
   def perform(hook, event_name, event_data = {})
@@ -87,7 +89,7 @@ class HookJob < MutexApplicationJob
 
   def process_leadsquared_integration(hook, event_name, event_data)
     # Process the event with the processor service
-    processor = Crm::Leadsquared::ProcessorService.new(hook)
+    processor = Crm::Leadsquared::ProcessorService.new(hook
 
     case event_name
     when 'contact.updated'
@@ -97,5 +99,23 @@ class HookJob < MutexApplicationJob
     when 'conversation.resolved'
       processor.handle_conversation_resolved(event_data[:conversation])
     end
+  end
+
+  def process_notion_integration(hook, event_name, event_data)
+    return unless event_name == 'conversation.resolved'
+
+    conversation = event_data[:conversation]
+    return if conversation.blank?
+
+    Integrations::Notion::CreatePageService.new(hook: hook, conversation: conversation).perform
+  end
+
+  def process_todoist_integration(hook, event_name, event_data)
+    return unless event_name == 'conversation.resolved'
+
+    conversation = event_data[:conversation]
+    return if conversation.blank?
+
+    Integrations::Todoist::CreateTaskService.new(hook: hook, conversation: conversation].perform
   end
 end

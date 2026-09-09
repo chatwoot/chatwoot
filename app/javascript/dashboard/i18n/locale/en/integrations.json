@@ -409,7 +409,10 @@
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
         "CONFIRM": "Yes, delete",
         "CANCEL": "Cancel"
-      }
+      },
+      "PARENT_TARGET_LABEL": "Save resolved conversations as pages under a page or database",
+      "PARENT_TARGET_PLACEHOLDER": "Paste a Notion page or database URL (or 32-char id)",
+      "SAVE_BUTTON": "Save"
     }
   },
   "CAPTAIN": {

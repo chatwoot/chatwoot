@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import {
   useFunctionGetter,
   useMapGetter,
@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n';
 
 import ButtonNext from 'next/button/Button.vue';
 import notionClient from 'dashboard/api/notion_auth.js';
+import IntegrationsAPI from 'dashboard/api/integrations.js';
 
 import Integration from './Integration.vue';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -17,6 +18,8 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 const { t } = useI18n();
 const store = useStore();
 const integrationLoaded = ref(false);
+const parentTargetInput = ref('');
+const isSavingParentTarget = ref(false);
 
 const integration = useFunctionGetter('integrations/getIntegration', 'notion');
 
@@ -29,6 +32,49 @@ const integrationAction = computed(() => {
 
   return '';
 });
+
+const notionHook = computed(() => integration.value.hooks?.[0] || null);
+
+const parentTarget = computed(() => {
+  if (!notionHook.value) {
+    return '';
+  }
+
+  return (
+    notionHook.value.settings?.parent_page_id ||
+    notionHook.value.settings?.parent_database_id ||
+    ''
+  );
+});
+
+const parseParentTarget = value => {
+  const raw = value.trim();
+  if (!raw) {
+    return null;
+  }
+  // Accept a Notion URL or a raw page/database id.
+ The id is the last 32-char segment of the URL.
+ const match = raw.match(/([a-f0-9]{32})$/i) || raw.match(/^([a-f0-9]{32})$/i);
+  return match ? { id: match[1], url: raw } : null;
+};
+
+const saveParentTarget = async () => {
+  const parsed = parseParentTarget(parentTargetInput.value);
+  if (!parsed) {
+    return;
+  }
+  isSavingParentTarget.value = true;
+  const settings = {
+    ...notionHook.value.settings,
+    parent_page_id: parsed.id,
+  };
+  try {
+    await IntegrationsAPI.updateHook(notionHook.value.id, { settings });
+    await store.dispatch('integrations/get', 'notion');
+  } finally {
+    isSavingParentTarget.value = false;
+  }
+};
 
 const authorize = async () => {
   const response = await notionClient.generateAuthorization();
@@ -46,6 +92,12 @@ const initializeNotionIntegration = async () => {
 
 onMounted(() => {
   initializeNotionIntegration();
+});
+
+watch(parentTarget, value => {
+  if (value && !parentTargetInput.value) {
+    parentTargetInput.value = value;
+  }
 });
 </script>
 
@@ -79,6 +131,28 @@ onMounted(() => {
             :label="t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT')"
             @click="authorize"
           />
+        </template>
+        <template v-if="integration.enabled" #default>
+          <div class="mt-4 rounded-md bg-slate-50 p-4">
+            <p class="mb-2 text-sm text-slate-700">
+              {{ $t('INTEGRATION_SETTINGS.NOTION.PARENT_TARGET_LABEL') }}
+            </p>
+            <div class="flex gap-2">
+              <input
+                v-model="parentTargetInput"
+                type="text"
+                class="input"
+                :placeholder="$t('INTEGRATION_SETTINGS.NOTION.PARENT_TARGET_PLACEHOLDER')"
+              />
+              <ButtonNext
+                faded
+                green
+                :label="$t('INTEGRATION_SETTINGS.NOTION.SAVE_BUTTON')"
+                :is-loading="isSavingParentTarget"
+                @click="saveParentTarget"
+              />
+            </div>
+          </div>
         </template>
       </Integration>
     </template>
