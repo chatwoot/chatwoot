@@ -145,12 +145,95 @@ RSpec.describe Message do
         },
         sentiment: {},
         sender: message.sender.push_event_data,
+        client_message_id: message.client_message_id,
         echo_id: 'random-echo_id'
       }
     end
 
     it 'returns push event payload' do
       expect(push_event_data).to eq(expected_data)
+    end
+  end
+
+  describe 'client_message_id' do
+    let(:conversation) { create(:conversation) }
+    let(:other_conversation) { create(:conversation, account: conversation.account, inbox: conversation.inbox) }
+
+    it 'rejects a key outside the accepted bounds' do
+      message = build(:message, conversation: conversation, message_type: 'outgoing', client_message_id: 'a' * 65)
+
+      expect(message).not_to be_valid
+      expect(message.errors[:client_message_id]).to include('must be 1 to 64 characters of A-Z, a-z, 0-9, and . : - _')
+    end
+
+    it 'rejects a key on a payload the stored fingerprint does not describe' do
+      message = build(:message, :with_attachment, conversation: conversation, message_type: 'outgoing',
+                                                  client_message_id: '01JD8Z9Q6F7')
+
+      expect(message).not_to be_valid
+      expect(message.errors[:client_message_id])
+        .to include('is not supported alongside attachments, templates, campaigns, email fields or an external source id')
+    end
+
+    it 'rejects a key on an incoming message' do
+      message = build(:message, conversation: conversation, message_type: 'incoming', client_message_id: '01JD8Z9Q6F7')
+
+      expect(message).not_to be_valid
+      expect(message.errors[:client_message_id]).to include('is only supported for outgoing text messages')
+    end
+
+    it 'refuses a second message reusing the key in the same conversation' do
+      create(:message, conversation: conversation, message_type: 'outgoing', content: 'hello', client_message_id: '01JD8Z9Q6F7')
+
+      expect do
+        create(:message, conversation: conversation, message_type: 'outgoing', content: 'hello', client_message_id: '01JD8Z9Q6F7')
+      end.to raise_error(ActiveRecord::RecordNotUnique)
+    end
+
+    it 'scopes the key to a single conversation' do
+      create(:message, conversation: conversation, message_type: 'outgoing', content: 'hello', client_message_id: '01JD8Z9Q6F7')
+
+      expect do
+        create(:message, conversation: other_conversation, message_type: 'outgoing', content: 'hello', client_message_id: '01JD8Z9Q6F7')
+      end.to change(described_class, :count).by(1)
+    end
+
+    it 'keeps the fingerprint recorded at creation after the message content changes' do
+      message = create(:message, conversation: conversation, message_type: 'outgoing', content: 'hello', client_message_id: '01JD8Z9Q6F7')
+      original_digest = message.client_message_digest
+
+      message.update!(content: 'edited afterwards')
+
+      expect(original_digest).to be_present
+      expect(message.reload.client_message_digest).to eq(original_digest)
+    end
+
+    it 'fingerprints the note flag so a reply cannot replay a note' do
+      sender = create(:user, account: conversation.account)
+      reply = create(:message, conversation: conversation, message_type: 'outgoing', content: 'hello', sender: sender,
+                               client_message_id: '01JD8Z9Q6F7')
+      note = create(:message, conversation: other_conversation, message_type: 'outgoing', content: 'hello', private: true, sender: sender,
+                              client_message_id: '01JD8Z9Q6F7')
+
+      expect(note.client_message_digest).not_to eq(reply.client_message_digest)
+    end
+
+    it 'accepts the delivery status and error enrichment that follows an accepted send' do
+      message = create(:message, conversation: conversation, message_type: 'outgoing', content: 'hello', client_message_id: '01JD8Z9Q6F7')
+
+      expect do
+        message.update!(status: :failed, content_attributes: message.content_attributes.merge(external_error: 'channel rejected it'))
+      end.not_to raise_error
+    end
+
+    it 'does not let a later write rewrite the key or its fingerprint' do
+      message = create(:message, conversation: conversation, message_type: 'outgoing', content: 'hello', client_message_id: '01JD8Z9Q6F7')
+      original_digest = message.client_message_digest
+
+      message.update!(client_message_id: 'ZZZZZZZZZZZ', client_message_digest: 'f' * 64, content: 'edited')
+
+      expect(message.reload.client_message_id).to eq('01JD8Z9Q6F7')
+      expect(message.client_message_digest).to eq(original_digest)
     end
   end
 

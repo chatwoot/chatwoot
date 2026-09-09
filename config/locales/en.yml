@@ -116,6 +116,8 @@ en:
       resolved: Conversation is resolved and does not accept new messages
       unread_counts:
         feature_not_enabled: Conversation unread counts feature not enabled for this account
+    message:
+      client_message_id_conflict: The client_message_id %{client_message_id} was already used for a different message in this conversation
     data_import:
       data_type:
         invalid: Invalid data type

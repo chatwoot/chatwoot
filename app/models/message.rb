@@ -17,6 +17,8 @@
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #  account_id                :integer          not null
+#  client_message_digest     :string(64)
+#  client_message_id         :string(64)
 #  conversation_id           :integer          not null
 #  inbox_id                  :integer          not null
 #  sender_id                 :bigint
@@ -31,6 +33,7 @@
 #  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin
 #  index_messages_on_content                            (content) USING gin
 #  index_messages_on_conversation_account_type_created  (conversation_id,account_id,message_type,created_at)
+#  index_messages_on_conversation_id_and_client_message_id  (conversation_id,client_message_id) UNIQUE WHERE (client_message_id IS NOT NULL)
 #  index_messages_on_conversation_id                    (conversation_id)
 #  index_messages_on_created_at                         (created_at)
 #  index_messages_on_inbox_id                           (inbox_id)
@@ -44,6 +47,14 @@ class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
+
+  CLIENT_MESSAGE_ID_FORMAT = /\A[A-Za-z0-9_.:-]{1,64}\z/
+  # A client_message_id makes a repeated send resolve to the original message, so the
+  # fingerprint has to cover everything that decides what gets delivered. This first
+  # rollout therefore accepts keys only for plain text replies and private notes, whose
+  # request is fully described by CLIENT_MESSAGE_FINGERPRINT_ATTRIBUTES.
+  CLIENT_MESSAGE_ID_CONTENT_ATTRIBUTE_KEYS = %w[in_reply_to].freeze
+  CLIENT_MESSAGE_FINGERPRINT_ATTRIBUTES = %i[content private message_type content_type in_reply_to sender_type sender_id].freeze
 
   TEMPLATE_PARAMS_SCHEMA = {
     'type': 'object',
@@ -65,6 +76,7 @@ class Message < ApplicationRecord
 
   before_validation :ensure_content_type
   before_validation :prevent_message_flooding
+  before_validation :ensure_client_message_digest, on: :create
   before_save :ensure_processed_message_content
   before_save :ensure_in_reply_to
 
@@ -78,7 +90,12 @@ class Message < ApplicationRecord
 
   validates :content_type, presence: true
   validates :content, length: { maximum: 150_000 }
+  validate :client_message_id_bounded, :client_message_id_payload_supported, on: :create, unless: -> { client_message_id.nil? }
   validates :processed_message_content, length: { maximum: 150_000 }
+
+  # The durable identity a client sends to make a repeated send idempotent, and the
+  # fingerprint of the request it was accepted for. Neither is rewritten afterwards.
+  attr_readonly :client_message_id, :client_message_digest
 
   # when you have a temperory id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
@@ -145,7 +162,7 @@ class Message < ApplicationRecord
   end
 
   def push_event_data
-    data = attributes.symbolize_keys.merge(
+    data = attributes.symbolize_keys.except(:client_message_digest).merge(
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
       conversation_id: conversation&.display_id,
@@ -154,6 +171,27 @@ class Message < ApplicationRecord
     data[:echo_id] = echo_id if echo_id.present?
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     merge_sender_attributes(data)
+  end
+
+  # Persists the message, or answers with the message that already holds this
+  # conversation-scoped client_message_id, because the client retried a send whose response
+  # was lost or raced itself. A retry is answered even when the same send would now be
+  # refused, since the conversation may have hit the flood limit or lost the quoted message
+  # in the meantime, but never when the key or the payload itself is unacceptable.
+  def save_or_replay!
+    # requires_new keeps a duplicate key rollback inside a savepoint, so a caller that
+    # opened its own transaction is not left holding an aborted one.
+    self.class.transaction(requires_new: true) { save! }
+    self
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+    raise if client_message_id.blank? || errors[:client_message_id].any?
+
+    # Postgres held a duplicate INSERT until the transaction that created the winning row
+    # committed, so by the time it failed that row is visible.
+    original = conversation.messages.find_by(client_message_id: client_message_id)
+    raise if original.nil?
+
+    replay_of(original)
   end
 
   def conversation_push_event_data
@@ -285,6 +323,45 @@ class Message < ApplicationRecord
   end
 
   private
+
+  def replay_of(original)
+    if original.client_message_digest != client_message_digest
+      raise CustomExceptions::ClientMessageIdConflict.new(client_message_id: client_message_id)
+    end
+
+    # Echo back the correlation id of the attempt being answered rather than the original
+    # one, so the retrying client can still resolve its in-flight optimistic message.
+    original.echo_id = echo_id
+    original
+  end
+
+  def client_message_id_bounded
+    return if CLIENT_MESSAGE_ID_FORMAT.match?(client_message_id)
+
+    errors.add(:client_message_id, 'must be 1 to 64 characters of A-Z, a-z, 0-9, and . : - _')
+  end
+
+  def client_message_id_payload_supported
+    errors.add(:client_message_id, 'is only supported for outgoing text messages') unless outgoing? && text? && content.present?
+    return unless unfingerprinted_payload?
+
+    errors.add(:client_message_id, 'is not supported alongside attachments, templates, campaigns, email fields or an external source id')
+  end
+
+  def unfingerprinted_payload?
+    attachments.any? || source_id.present? || additional_attributes.present? ||
+      content_attributes.any? { |key, value| value.present? && CLIENT_MESSAGE_ID_CONTENT_ATTRIBUTE_KEYS.exclude?(key.to_s) }
+  end
+
+  # Fingerprints the request as the client sent it. Server side enrichment such as quoted
+  # message resolution, delivery status or email rendering happens afterwards and must not
+  # change what a retry of the same send fingerprints to.
+  def ensure_client_message_digest
+    return if client_message_id.blank?
+
+    request = CLIENT_MESSAGE_FINGERPRINT_ATTRIBUTES.map { |attribute| public_send(attribute) }
+    self.client_message_digest = Digest::SHA256.hexdigest(request.to_json)
+  end
 
   def prevent_message_flooding
     # Added this to cover the validation specs in messages
