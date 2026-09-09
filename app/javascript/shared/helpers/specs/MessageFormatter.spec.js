@@ -174,4 +174,49 @@ After`;
       );
     });
   });
+
+  // Byte-exact editor serializer output for Enter / Shift+Enter combinations.
+  // An empty line is stored as a `\` hard-break chain and an underline below
+  // it is escaped (`\--`, `\-`, `\==`); the bubble must render no backslash
+  // and keep every composed line.
+  describe('editor break and empty-line encoding', () => {
+    const signatureTail =
+      '\n\nThanks \\\nSivin | Chatwoot\n\n![](https://example.com/logo.png)';
+    const cases = [
+      ['enter above signature', `hey\n\n\\\n\\--${signatureTail}`, 2],
+      ['shift+enter then -- on the same line', 'hey\\\n\\--', 1],
+      ['two breaks above signature', `hey\n\n\\\n\\\n\\--${signatureTail}`, 3],
+      [
+        'three enters and four breaks above signature',
+        `sd\n\n\\\n\\\n\\\n\\\n\\\n\\\n\\--${signatureTail}`,
+        7,
+      ],
+      ['equals underline below an empty line', 'a\n\n\\\n\\==', 1],
+      ['lone dash after a break', 'a\\\n\\-', 1],
+      ['lone dash below an empty line', 'x\n\n\\\n\\-', 1],
+      ['bold dashes after a break', 'a\\\n**--**', 1],
+      ['dashes led by a bold space below an empty line', 'a\n\n\n --', 0],
+      ['dashes trailed by a bold space', 'a\n\n\\\n\\-- ', 1],
+      ['empty line between paragraphs', 'a\n\n\\\nb', 1],
+      ['double break inside a paragraph', 'a\\\n\\\nb', 2],
+      ['plain hard break', 'line one\\\nline two', 1],
+    ];
+
+    it.each(cases)(
+      'renders %s without backslash artifacts and keeps every line',
+      (_name, message, breakCount) => {
+        const { formattedMessage } = new MessageFormatter(message);
+        expect(formattedMessage).not.toContain('\\');
+        expect(formattedMessage).not.toMatch(/<h[12]/);
+        expect(formattedMessage.match(/<br/g) || []).toHaveLength(breakCount);
+      }
+    );
+
+    it('keeps the signature delimiter as literal text below the empty line', () => {
+      const { formattedMessage } = new MessageFormatter(
+        `hey\n\n\\\n\\--${signatureTail}`
+      );
+      expect(formattedMessage).toContain('--</p>');
+    });
+  });
 });

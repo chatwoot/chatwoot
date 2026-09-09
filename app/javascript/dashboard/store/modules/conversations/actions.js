@@ -20,6 +20,8 @@ import {
   syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
 
+const pendingHistoryRequests = new Map();
+
 const TERMINAL_CONTACT_INFO_REQUEST_STATES = ['shared', 'identity_conflict'];
 
 const contactInfoSourceId = message =>
@@ -142,25 +144,35 @@ const actions = {
     commit(types.CLEAR_CURRENT_CHAT_WINDOW);
   },
 
-  fetchPreviousMessages: async ({ commit }, data) => {
-    try {
-      const {
-        data: { meta, payload },
-      } = await MessageApi.getPreviousMessages(data);
-      commit(`conversationMetadata/${types.SET_CONVERSATION_METADATA}`, {
-        id: data.conversationId,
-        data: meta,
-      });
-      commit(types.SET_PREVIOUS_CONVERSATIONS, {
-        id: data.conversationId,
-        data: payload,
-      });
-      if (!payload.length) {
-        commit(types.SET_ALL_MESSAGES_LOADED, data.conversationId);
-      }
-    } catch (error) {
-      // Handle error
+  fetchPreviousMessages: ({ commit }, data) => {
+    const requestKey = JSON.stringify([
+      MessageApi.url,
+      data.conversationId,
+      data.before,
+      data.after,
+    ]);
+    if (pendingHistoryRequests.has(requestKey)) {
+      return pendingHistoryRequests.get(requestKey);
     }
+
+    const request = MessageApi.getPreviousMessages(data)
+      .then(({ data: { meta, payload } }) => {
+        commit(`conversationMetadata/${types.SET_CONVERSATION_METADATA}`, {
+          id: data.conversationId,
+          data: meta,
+        });
+        commit(types.SET_PREVIOUS_CONVERSATIONS, {
+          id: data.conversationId,
+          data: payload,
+        });
+        if (!payload.length) {
+          commit(types.SET_ALL_MESSAGES_LOADED, data.conversationId);
+        }
+      })
+      .finally(() => pendingHistoryRequests.delete(requestKey));
+
+    pendingHistoryRequests.set(requestKey, request);
+    return request;
   },
 
   fetchAllAttachments: async ({ commit }, conversationId) => {

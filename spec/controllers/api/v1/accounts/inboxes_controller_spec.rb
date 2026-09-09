@@ -7,6 +7,70 @@ RSpec.describe 'Inboxes API', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:admin) { create(:user, account: account, role: :administrator) }
 
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/{inbox.id}/rotate_hmac_token' do
+    let(:channel) { create(:channel_widget, account: account) }
+    let(:inbox) { channel.inbox }
+    let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/rotate_hmac_token" }
+
+    [:channel_widget, :channel_api].each do |channel_factory|
+      context "with #{channel_factory}" do
+        let(:channel) { create(channel_factory, account: account) }
+
+        it 'rotates the persisted token and returns the updated inbox for an administrator' do
+          old_token = channel.hmac_token
+
+          post url, headers: admin.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(channel.reload.hmac_token).to be_present
+          expect(channel.hmac_token).not_to eq(old_token)
+          expect(response.parsed_body).to include('id' => inbox.id, 'hmac_token' => channel.hmac_token)
+        end
+
+        it 'rejects an assigned agent without changing the token' do
+          create(:inbox_member, user: agent, inbox: inbox)
+
+          expect do
+            post url, headers: agent.create_new_auth_token, as: :json
+          end.not_to(change { channel.reload.hmac_token })
+
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+    end
+
+    it 'rejects unauthenticated requests without changing the token' do
+      expect do
+        post url, as: :json
+      end.not_to(change { channel.reload.hmac_token })
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'does not rotate an inbox belonging to another account' do
+      other_inbox = create(:inbox)
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{other_inbox.id}/rotate_hmac_token",
+             headers: admin.create_new_auth_token, as: :json
+      end.not_to(change { other_inbox.channel.reload.hmac_token })
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    context 'with an unsupported channel' do
+      let(:inbox) { create(:inbox, :with_email, account: account) }
+
+      it 'returns not found without updating the channel' do
+        expect do
+          post url, headers: admin.create_new_auth_token, as: :json
+        end.not_to(change { inbox.channel.reload.attributes })
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/inboxes' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
