@@ -99,15 +99,26 @@ const shouldShowMeta = computed(
     variant.value !== MESSAGE_VARIANTS.ACTIVITY
 );
 
-const replyToPreview = computed(() => {
-  if (!inReplyTo) return '';
+// The picture itself says which message is being answered far better than the word "Image", and
+// a caption used to hide the attachment entirely because the text branch came first.
+// `thumb_url` is an empty string rather than null when the file cannot be represented, so `||`
+// is what falls through to no preview. Only the thumbnail: `data_url` is the full-size original.
+const replyToThumbnail = computed(() => {
+  const attachment = inReplyTo.value?.attachments?.[0];
+  if (!attachment) return '';
 
-  const { content, attachments } = inReplyTo.value;
+  const fileType = attachment.fileType ?? attachment.file_type;
+  if (fileType !== 'image') return '';
+
+  return attachment.thumb_url || '';
+});
+
+const replyToPreview = computed(() => {
+  const { content, attachments } = inReplyTo.value ?? {};
 
   if (content) return new MessageFormatter(content).formattedMessage;
   if (attachments?.length) {
-    const firstAttachment = attachments[0];
-    const fileType = firstAttachment.fileType ?? firstAttachment.file_type;
+    const fileType = attachments[0].fileType ?? attachments[0].file_type;
 
     return t(`CHAT_LIST.ATTACHMENTS.${fileType}.CONTENT`);
   }
@@ -131,10 +142,18 @@ const replyToPreview = computed(() => {
       class="p-2 -mx-1 mb-2 rounded-lg cursor-pointer bg-n-alpha-black1"
       @click="scrollToMessage"
     >
-      <div
-        v-dompurify-html="replyToPreview"
-        class="prose prose-bubble line-clamp-2"
-      />
+      <div class="flex items-start gap-2">
+        <img
+          v-if="replyToThumbnail"
+          :src="replyToThumbnail"
+          :alt="t('CHAT_LIST.ATTACHMENTS.image.CONTENT')"
+          class="object-cover rounded size-10 shrink-0"
+        />
+        <div
+          v-dompurify-html="replyToPreview"
+          class="min-w-0 prose prose-bubble line-clamp-2"
+        />
+      </div>
     </div>
     <slot />
     <template v-if="shouldShowMeta">

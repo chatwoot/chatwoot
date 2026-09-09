@@ -340,18 +340,41 @@ export default {
       emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     },
     onScrollToMessage({ messageId = '' } = {}) {
-      this.$nextTick(() => {
-        const messageElement = document.getElementById('message' + messageId);
-        if (messageElement) {
-          this.isProgrammaticScroll = true;
-          messageElement.scrollIntoView({ behavior: 'smooth' });
-          this.fetchPreviousMessages();
-        } else {
-          this.scrollToBottom();
-        }
-      });
+      this.$nextTick(() => this.jumpToMessage(messageId));
       this.makeMessagesRead();
     },
+
+    async jumpToMessage(messageId) {
+      // SCROLL_TO_MESSAGE doubles as the "go to the bottom" signal and is emitted without a
+      // payload on every message sent or received. An empty id must short-circuit here, or the
+      // not-found path below fetches a page of history on the busiest path in the view.
+      if (!messageId) {
+        this.scrollToBottom();
+        return;
+      }
+
+      let messageElement = document.getElementById('message' + messageId);
+      if (!messageElement) {
+        await this.fetchPreviousMessages();
+        messageElement = await new Promise(resolve => {
+          this.$nextTick(() =>
+            resolve(document.getElementById('message' + messageId))
+          );
+        });
+      }
+
+      // Still further back than the page just loaded. Leaving the agent where they are beats
+      // yanking them to the newest message, which is the opposite of what they asked for.
+      if (!messageElement) return;
+
+      this.isProgrammaticScroll = true;
+      // Invariant: fetchPreviousMessages must not run while a jump is in flight — its height
+      // compensation is captured before the scroll and then assigns scrollTop. A smooth scroll
+      // spreads over many frames and every frame's event reaches handleScroll, which does
+      // exactly that; an instant scroll leaves no window for it.
+      messageElement.scrollIntoView({ block: 'center' });
+    },
+
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
       this.setScrollParams();

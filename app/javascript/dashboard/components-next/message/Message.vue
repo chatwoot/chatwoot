@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, ref, toRefs } from 'vue';
+import { onMounted, onUnmounted, computed, ref, toRefs } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
@@ -520,19 +520,35 @@ const avatarTooltip = computed(() => {
   return `${t('CONVERSATION.SENT_BY')} ${avatarInfo.value.name}`;
 });
 
-const setupHighlightTimer = () => {
-  if (Number(route.query.messageId) !== Number(props.id)) {
-    return;
-  }
+const HIGHLIGHT_TIMER = 1000;
 
+const highlight = () => {
   showBackgroundHighlight.value = true;
-  const HIGHLIGHT_TIMER = 1000;
   useTimeoutFn(() => {
     showBackgroundHighlight.value = false;
   }, HIGHLIGHT_TIMER);
 };
 
-onMounted(setupHighlightTimer);
+const setupHighlightTimer = () => {
+  if (Number(route.query.messageId) !== Number(props.id)) {
+    return;
+  }
+
+  highlight();
+};
+
+// Jumping from a reply quote lands close to the message but not exactly on it, so the same
+// highlight the deep link uses says which one was meant.
+const highlightOnJump = ({ messageId } = {}) => {
+  if (Number(messageId) === Number(props.id)) highlight();
+};
+
+onMounted(() => {
+  setupHighlightTimer();
+  emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, highlightOnJump);
+});
+
+onUnmounted(() => emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, highlightOnJump));
 
 provideMessageContext({
   ...toRefs(props),
@@ -549,7 +565,7 @@ provideMessageContext({
   <div
     v-if="shouldRenderMessage"
     :id="`message${props.id}`"
-    class="flex w-full mb-2 message-bubble-container"
+    class="flex w-full mb-2 transition-colors duration-500 message-bubble-container"
     :data-message-id="props.id"
     :class="[
       flexOrientationClass,
