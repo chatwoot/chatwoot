@@ -17,13 +17,13 @@ class CaptainFaqImports extends ApiClient {
     return axios.post(this.getUrl(assistantId), formData);
   }
 
-  confirm({ assistantId, importId, overwriteRowNumbers = [] }) {
+  confirm({ assistantId, importId, overwriteRowNumbers }) {
     return axios.post(`${this.getUrl(assistantId)}/${importId}/confirm`, {
       overwrite_row_numbers: overwriteRowNumbers,
     });
   }
 
-  latest({ assistantId, signal } = {}) {
+  latest({ assistantId, signal }) {
     return axios.get(`${this.getUrl(assistantId)}/latest`, { signal });
   }
 

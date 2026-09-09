@@ -1,12 +1,19 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, shallowRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
+import { downloadCsvFile } from 'dashboard/helper/downloadHelper';
 import CaptainFaqImportsAPI from 'dashboard/api/captain/faqImports';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import {
+  BaseTable,
+  BaseTableRow,
+  BaseTableCell,
+} from 'dashboard/components-next/table';
 
 const props = defineProps({
   assistantId: {
@@ -16,13 +23,26 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close', 'confirmed']);
-const EXISTING_ROW_ACTIONS = ['skip', 'overwrite'];
+
+const ROW_STATE_STYLES = {
+  invalid: {
+    icon: 'i-lucide-circle-alert',
+    iconClass: 'text-n-ruby-10',
+    textClass: 'text-n-ruby-11',
+  },
+  duplicate: {
+    icon: 'i-lucide-circle-minus',
+    iconClass: 'text-n-slate-10',
+    textClass: 'text-n-slate-11',
+  },
+};
+
 const { t } = useI18n();
 
 const dialogRef = ref(null);
 const fileInput = ref(null);
 const selectedFile = ref(null);
-const preview = ref(null);
+const preview = shallowRef(null);
 const overwriteRowNumbers = ref(new Set());
 const isUploading = ref(false);
 const isConfirming = ref(false);
@@ -36,11 +56,25 @@ const invalidCount = computed(() => preview.value?.invalid_row_count || 0);
 const existingCount = computed(
   () => rows.value.filter(row => row.state === 'existing').length
 );
-const readyCount = computed(
-  () =>
-    rows.value.filter(row => row.state === 'valid').length +
-    overwriteRowNumbers.value.size
+const validCount = computed(
+  () => rows.value.filter(row => row.state === 'valid').length
 );
+const readyCount = computed(
+  () => validCount.value + overwriteRowNumbers.value.size
+);
+const existingRowActions = computed(() => [
+  { value: 'skip', label: t('CAPTAIN.RESPONSES.IMPORT.ACTIONS.SKIP') },
+  {
+    value: 'overwrite',
+    label: t('CAPTAIN.RESPONSES.IMPORT.ACTIONS.OVERWRITE'),
+  },
+]);
+const tableHeaders = computed(() => [
+  t('CAPTAIN.RESPONSES.IMPORT.TABLE.ROW'),
+  t('CAPTAIN.RESPONSES.IMPORT.TABLE.QUESTION'),
+  t('CAPTAIN.RESPONSES.IMPORT.TABLE.ANSWER'),
+  t('CAPTAIN.RESPONSES.IMPORT.TABLE.STATUS'),
+]);
 const sampleRows = computed(() => [
   {
     question: t('CAPTAIN.RESPONSES.IMPORT.SAMPLE.QUESTION_1'),
@@ -59,12 +93,8 @@ const sampleRows = computed(() => [
 const close = () => dialogRef.value?.close();
 
 const reset = () => {
-  if (isPreviewActionPending.value) return;
-
   preview.value = null;
   selectedFile.value = null;
-  overwriteRowNumbers.value = new Set();
-  if (fileInput.value) fileInput.value.value = '';
 };
 
 const openFilePicker = () => fileInput.value?.click();
@@ -74,8 +104,6 @@ const handleFileChange = event => {
 };
 
 const uploadForPreview = async () => {
-  if (!selectedFile.value) return;
-
   isUploading.value = true;
   try {
     const { data } = await CaptainFaqImportsAPI.create({
@@ -86,9 +114,7 @@ const uploadForPreview = async () => {
     overwriteRowNumbers.value = new Set();
   } catch (error) {
     useAlert(
-      error?.response?.data?.error ||
-        error?.response?.data?.message ||
-        error?.message ||
+      parseAPIErrorResponse(error) ||
         t('CAPTAIN.RESPONSES.IMPORT.ERRORS.PREVIEW')
     );
   } finally {
@@ -102,56 +128,52 @@ const setExistingRowAction = (rowNumber, action) => {
   overwriteRowNumbers.value = selectedRows;
 };
 
-const existingRowActionLabel = action =>
-  action === 'overwrite'
-    ? t('CAPTAIN.RESPONSES.IMPORT.ACTIONS.OVERWRITE')
-    : t('CAPTAIN.RESPONSES.IMPORT.ACTIONS.SKIP');
+// Dismissing the dialog mid-confirm must not unmount the component, or the
+// page would never receive `confirmed` and miss the import status.
+const handleClose = () => {
+  if (isConfirming.value) return;
+  emit('close');
+};
 
 const confirmImport = async () => {
-  if (!readyCount.value || isPreviewActionPending.value) return;
-
   isConfirming.value = true;
+  let response;
   try {
-    const { data } = await CaptainFaqImportsAPI.confirm({
+    response = await CaptainFaqImportsAPI.confirm({
       assistantId: props.assistantId,
       importId: preview.value.id,
       overwriteRowNumbers: [...overwriteRowNumbers.value],
     });
-    useAlert(t('CAPTAIN.RESPONSES.IMPORT.SUCCESS'));
-    emit('confirmed', data);
-    close();
   } catch (error) {
     useAlert(
-      error?.response?.data?.error ||
-        error?.response?.data?.message ||
-        error?.message ||
+      parseAPIErrorResponse(error) ||
         t('CAPTAIN.RESPONSES.IMPORT.ERRORS.CONFIRM')
     );
+    return;
   } finally {
     isConfirming.value = false;
   }
+
+  useAlert(t('CAPTAIN.RESPONSES.IMPORT.SUCCESS'));
+  emit('confirmed', response.data);
+  close();
 };
 
 const downloadInvalidRows = async () => {
-  if (!preview.value || isPreviewActionPending.value) return;
-
   isDownloading.value = true;
-  let url;
   try {
     const { data } = await CaptainFaqImportsAPI.downloadInvalidRows({
       assistantId: props.assistantId,
       importId: preview.value.id,
     });
-    url = URL.createObjectURL(data);
-    const link = document.createElement('a');
     const originalName = preview.value.original_filename.replace(/\.csv$/i, '');
-    link.href = url;
-    link.download = `${originalName}-invalid-rows.csv`;
-    link.click();
+    downloadCsvFile(`${originalName}-invalid-rows.csv`, data);
   } catch (error) {
-    useAlert(error?.message || t('CAPTAIN.RESPONSES.IMPORT.ERRORS.DOWNLOAD'));
+    useAlert(
+      parseAPIErrorResponse(error) ||
+        t('CAPTAIN.RESPONSES.IMPORT.ERRORS.DOWNLOAD')
+    );
   } finally {
-    if (url) URL.revokeObjectURL(url);
     isDownloading.value = false;
   }
 };
@@ -169,13 +191,12 @@ defineExpose({ dialogRef });
     :description="$t('CAPTAIN.RESPONSES.IMPORT.DESCRIPTION')"
     :show-cancel-button="false"
     :show-confirm-button="false"
-    :disable-dismissal="isConfirming"
-    @close="emit('close')"
+    @close="handleClose"
   >
     <div v-if="!preview" class="flex flex-col gap-4">
       <button
         type="button"
-        class="flex min-h-32 w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-n-strong bg-n-alpha-2 px-6 py-5 text-center transition-colors hover:border-n-brand hover:bg-n-blue-2"
+        class="flex min-h-32 w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-n-strong bg-n-background px-6 py-5 text-center transition-colors hover:bg-n-background/50"
         @click="openFilePicker"
       >
         <Icon icon="i-lucide-file-up" class="size-6 text-n-slate-10" />
@@ -190,10 +211,10 @@ defineExpose({ dialogRef });
           v-if="!selectedFile"
           data-testid="csv-format-sample"
           aria-hidden="true"
-          class="mt-3 w-full max-w-lg overflow-hidden rounded-lg border border-n-weak bg-n-solid-1 text-start shadow-sm"
+          class="mt-3 w-full max-w-lg overflow-hidden rounded-lg border border-n-strong bg-n-solid-1 text-start shadow-sm"
         >
           <div
-            class="grid grid-cols-2 divide-x divide-n-weak border-b border-n-weak bg-n-solid-2 text-xs font-medium text-n-slate-12"
+            class="grid grid-cols-2 divide-x divide-n-weak border-b border-n-strong bg-n-solid-2 text-xs font-medium text-n-slate-12"
           >
             <span class="px-3 py-2">
               {{ $t('CAPTAIN.RESPONSES.IMPORT.SAMPLE.QUESTION_HEADER') }}
@@ -283,43 +304,34 @@ defineExpose({ dialogRef });
         {{ $t('CAPTAIN.RESPONSES.IMPORT.PREVIEW_HELP') }}
       </p>
 
-      <div class="max-h-[28rem] overflow-auto rounded-xl border border-n-weak">
-        <table class="w-full table-fixed border-collapse text-start text-sm">
-          <thead class="sticky top-0 z-10 bg-n-solid-2 text-xs text-n-slate-10">
-            <tr>
-              <th class="w-14 px-3 py-2.5 text-start font-medium">
-                {{ $t('CAPTAIN.RESPONSES.IMPORT.TABLE.ROW') }}
-              </th>
-              <th class="w-[28%] px-3 py-2.5 text-start font-medium">
-                {{ $t('CAPTAIN.RESPONSES.IMPORT.TABLE.QUESTION') }}
-              </th>
-              <th class="px-3 py-2.5 text-start font-medium">
-                {{ $t('CAPTAIN.RESPONSES.IMPORT.TABLE.ANSWER') }}
-              </th>
-              <th class="w-44 px-3 py-2.5 text-start font-medium">
-                {{ $t('CAPTAIN.RESPONSES.IMPORT.TABLE.STATUS') }}
-              </th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-n-weak">
-            <tr
-              v-for="row in rows"
+      <div
+        class="max-h-[28rem] overflow-auto rounded-xl border border-n-strong"
+      >
+        <BaseTable
+          class="[&_table]:table-fixed [&_table]:divide-n-strong [&_tbody]:divide-n-strong [&_thead]:sticky [&_thead]:top-0 [&_thead]:z-10 [&_thead]:bg-n-solid-2 [&_thead]:border-t-0 [&_th:first-child]:ps-4 [&_td:first-child]:ps-4 [&_th:first-child]:w-14 [&_th:nth-child(2)]:w-[28%] [&_th:last-child]:w-44"
+          :headers="tableHeaders"
+          :items="rows"
+        >
+          <template #row="{ items }">
+            <BaseTableRow
+              v-for="row in items"
               :key="row.row_number"
-              class="align-top text-n-slate-11"
+              :item="row"
+              class="align-top"
             >
-              <td
+              <BaseTableCell
                 :id="`faq-import-row-${row.row_number}`"
-                class="px-3 py-3 tabular-nums text-n-slate-10"
+                class="tabular-nums text-n-slate-10"
               >
                 {{ row.row_number }}
-              </td>
-              <td
+              </BaseTableCell>
+              <BaseTableCell
                 :id="`faq-import-question-${row.row_number}`"
-                class="whitespace-pre-wrap break-words px-3 py-3 font-medium text-n-slate-12"
+                class="whitespace-pre-wrap break-words font-medium text-n-slate-12"
               >
                 {{ row.question }}
-              </td>
-              <td class="whitespace-pre-wrap break-words px-3 py-3">
+              </BaseTableCell>
+              <BaseTableCell class="whitespace-pre-wrap break-words">
                 <div
                   v-if="row.state === 'existing'"
                   class="flex flex-col gap-2"
@@ -338,8 +350,8 @@ defineExpose({ dialogRef });
                   </div>
                 </div>
                 <template v-else>{{ row.answer }}</template>
-              </td>
-              <td class="px-3 py-3">
+              </BaseTableCell>
+              <BaseTableCell>
                 <div
                   v-if="row.state === 'existing'"
                   class="flex flex-col gap-2"
@@ -353,8 +365,8 @@ defineExpose({ dialogRef });
                     :aria-labelledby="`faq-import-row-${row.row_number} faq-import-question-${row.row_number}`"
                   >
                     <label
-                      v-for="action in EXISTING_ROW_ACTIONS"
-                      :key="action"
+                      v-for="action in existingRowActions"
+                      :key="action.value"
                       class="inline-flex items-center gap-2"
                       :class="
                         isConfirming
@@ -365,46 +377,35 @@ defineExpose({ dialogRef });
                       <input
                         type="radio"
                         :name="`faq-import-row-${row.row_number}`"
-                        :value="action"
+                        :value="action.value"
                         :checked="
-                          action === 'overwrite'
-                            ? overwriteRowNumbers.has(row.row_number)
-                            : !overwriteRowNumbers.has(row.row_number)
+                          overwriteRowNumbers.has(row.row_number) ===
+                          (action.value === 'overwrite')
                         "
                         :disabled="isConfirming"
-                        class="size-4 accent-n-blue-9"
-                        @change="setExistingRowAction(row.row_number, action)"
+                        class="grid size-5 shrink-0 cursor-pointer appearance-none place-items-center rounded-full border-2 border-n-strong shadow before:rounded-full before:border-4 before:border-n-strong before:bg-n-brand before:content-[''] checked:border checked:border-n-brand checked:bg-n-brand checked:before:h-[18px] checked:before:w-[18px] disabled:cursor-not-allowed"
+                        @change="
+                          setExistingRowAction(row.row_number, action.value)
+                        "
                       />
                       <span class="text-xs text-n-slate-12">
-                        {{ existingRowActionLabel(action) }}
+                        {{ action.label }}
                       </span>
                     </label>
                   </div>
                 </div>
                 <div
-                  v-else-if="['invalid', 'duplicate'].includes(row.state)"
+                  v-else-if="ROW_STATE_STYLES[row.state]"
                   class="flex gap-1.5"
                 >
                   <Icon
-                    :icon="
-                      row.state === 'invalid'
-                        ? 'i-lucide-circle-alert'
-                        : 'i-lucide-circle-minus'
-                    "
+                    :icon="ROW_STATE_STYLES[row.state].icon"
                     class="mt-0.5 size-3.5 shrink-0"
-                    :class="
-                      row.state === 'invalid'
-                        ? 'text-n-ruby-10'
-                        : 'text-n-slate-10'
-                    "
+                    :class="ROW_STATE_STYLES[row.state].iconClass"
                   />
                   <span
                     class="text-xs"
-                    :class="
-                      row.state === 'invalid'
-                        ? 'text-n-ruby-11'
-                        : 'text-n-slate-11'
-                    "
+                    :class="ROW_STATE_STYLES[row.state].textClass"
                   >
                     {{
                       row.state === 'duplicate'
@@ -416,10 +417,10 @@ defineExpose({ dialogRef });
                 <span v-else class="text-xs font-medium text-n-teal-11">
                   {{ $t('CAPTAIN.RESPONSES.IMPORT.STATES.READY') }}
                 </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </BaseTableCell>
+            </BaseTableRow>
+          </template>
+        </BaseTable>
       </div>
     </div>
 

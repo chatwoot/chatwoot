@@ -14,7 +14,6 @@ import CaptainResponseAPI from 'dashboard/api/captain/response';
 import CaptainFaqImportsAPI from 'dashboard/api/captain/faqImports';
 
 import Banner from 'dashboard/components-next/banner/Banner.vue';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
@@ -29,6 +28,7 @@ import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
 import ConversationUsageDrawer from 'dashboard/components-next/captain/pageComponents/ConversationUsageDrawer.vue';
 import FaqImportDialog from 'dashboard/components-next/captain/pageComponents/response/FaqImportDialog.vue';
+import FaqImportStatusBanner from 'dashboard/components-next/captain/pageComponents/response/FaqImportStatusBanner.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -55,46 +55,12 @@ const faqImportDialog = ref(null);
 const showFaqActions = ref(false);
 const showFaqImportDialog = ref(false);
 const latestFaqImport = ref(null);
-let faqImportStatusTimer = null;
 
 const { run: runFaqImportRequest, abort: abortFaqImportRequest } =
   useAbortableRequest();
 
 const FAQ_IMPORT_POLL_INTERVAL = 5000;
 const FAQ_IMPORT_STATUS_VISIBLE_FOR = 15000;
-const FAQ_IMPORT_STATUS_CONFIG = {
-  preparing: {
-    icon: 'i-lucide-file-up',
-    className: 'text-n-blue-11',
-    title: () => t('CAPTAIN.RESPONSES.IMPORT.STATUS.PREPARING.TITLE'),
-    description: counts =>
-      t('CAPTAIN.RESPONSES.IMPORT.STATUS.PREPARING.DESCRIPTION', counts),
-  },
-  completed: {
-    icon: 'i-lucide-circle-check',
-    className: 'text-n-teal-11',
-    title: () => t('CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED.TITLE'),
-    description: counts =>
-      t('CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED.DESCRIPTION', counts),
-  },
-  completed_with_errors: {
-    icon: 'i-lucide-triangle-alert',
-    className: 'text-n-amber-11',
-    title: () =>
-      t('CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED_WITH_ERRORS.TITLE'),
-    description: counts =>
-      t(
-        'CAPTAIN.RESPONSES.IMPORT.STATUS.COMPLETED_WITH_ERRORS.DESCRIPTION',
-        counts
-      ),
-  },
-  failed: {
-    icon: 'i-lucide-circle-alert',
-    className: 'text-n-ruby-11',
-    title: () => t('CAPTAIN.RESPONSES.IMPORT.STATUS.FAILED.TITLE'),
-    description: () => t('CAPTAIN.RESPONSES.IMPORT.STATUS.FAILED.DESCRIPTION'),
-  },
-};
 
 const selectedAssistantId = computed(() => Number(route.params.assistantId));
 const canManageFaqs = computed(() => checkPermissions(['administrator']));
@@ -115,51 +81,35 @@ const faqActionItems = computed(() => [
 
 const suggestionCount = useMapGetter('captainFaqSuggestions/getOpenCount');
 
-const faqImportStatus = computed(() => {
-  const config = FAQ_IMPORT_STATUS_CONFIG[latestFaqImport.value?.status];
-  const counts = {
-    created: latestFaqImport.value?.created_count || 0,
-    overwritten: latestFaqImport.value?.overwritten_count || 0,
-    skipped: latestFaqImport.value?.skipped_count || 0,
-  };
-
-  return {
-    icon: config?.icon,
-    className: config?.className || 'text-n-slate-11',
-    title: config?.title() || '',
-    description: config?.description(counts) || '',
-  };
-});
-
-const stopFaqImportStatusTimer = () => {
-  if (faqImportStatusTimer) clearTimeout(faqImportStatusTimer);
-  faqImportStatusTimer = null;
-};
+const faqImportStatusHideDelay = ref(FAQ_IMPORT_STATUS_VISIBLE_FOR);
+const { start: startFaqImportStatusHide, stop: stopFaqImportStatusHide } =
+  useTimeoutFn(
+    () => {
+      latestFaqImport.value = null;
+    },
+    faqImportStatusHideDelay,
+    { immediate: false }
+  );
 
 const displayFaqImportStatus = faqImport => {
-  stopFaqImportStatusTimer();
+  stopFaqImportStatusHide();
 
   if (!faqImport || faqImport.status === 'preparing') {
     latestFaqImport.value = faqImport;
     return;
   }
 
-  const completedAt = Date.parse(faqImport.completed_at);
-  const remainingTime = Math.min(
-    FAQ_IMPORT_STATUS_VISIBLE_FOR,
-    FAQ_IMPORT_STATUS_VISIBLE_FOR - (Date.now() - completedAt)
-  );
+  const elapsed = Date.now() - Date.parse(faqImport.completed_at);
+  const remainingTime = FAQ_IMPORT_STATUS_VISIBLE_FOR - Math.max(elapsed, 0);
 
-  if (!Number.isFinite(completedAt) || remainingTime <= 0) {
+  if (!(remainingTime > 0)) {
     latestFaqImport.value = null;
     return;
   }
 
   latestFaqImport.value = faqImport;
-  faqImportStatusTimer = setTimeout(() => {
-    latestFaqImport.value = null;
-    faqImportStatusTimer = null;
-  }, remainingTime);
+  faqImportStatusHideDelay.value = remainingTime;
+  startFaqImportStatusHide();
 };
 
 const handleFaqImportOpen = () => {
@@ -170,10 +120,6 @@ const handleFaqImportOpen = () => {
 const toggleFaqActions = () => {
   if (!canManageFaqs.value) return;
   showFaqActions.value = !showFaqActions.value;
-};
-
-const handleFaqImportClose = () => {
-  showFaqImportDialog.value = false;
 };
 
 const handleDelete = () => {
@@ -300,19 +246,14 @@ const fetchLatestFaqImport = async () => {
 
     const previousStatus = latestFaqImport.value?.status;
     displayFaqImportStatus(data);
-    const isRecentTerminalImport = Boolean(
-      data &&
-        data.status !== 'preparing' &&
-        latestFaqImport.value?.id === data.id
-    );
 
     if (data?.status === 'preparing') {
       faqImportPollingControls.start();
-    } else {
-      faqImportPollingControls.stop();
-      if (previousStatus === 'preparing' || isRecentTerminalImport) {
-        fetchResponses(responseMeta.value?.page || 1);
-      }
+      return;
+    }
+
+    if (previousStatus === 'preparing' || latestFaqImport.value) {
+      fetchResponses(responseMeta.value?.page || 1);
     }
   } catch {
     if (latestFaqImport.value?.status === 'preparing') {
@@ -436,8 +377,7 @@ watch(
   selectedAssistantId,
   () => {
     faqImportPollingControls.stop();
-    stopFaqImportStatusTimer();
-    abortFaqImportRequest();
+    stopFaqImportStatusHide();
     latestFaqImport.value = null;
     showFaqActions.value = false;
     showFaqImportDialog.value = false;
@@ -460,9 +400,6 @@ watch(
 );
 
 onUnmounted(() => {
-  faqImportPollingControls.stop();
-  stopFaqImportStatusTimer();
-  abortFaqImportRequest();
   store.dispatch('captainResponses/setFetchingList', false);
 });
 </script>
@@ -484,7 +421,7 @@ onUnmounted(() => {
   >
     <template #action>
       <DropdownMenu
-        v-if="canManageFaqs && showFaqActions"
+        v-if="showFaqActions"
         :menu-items="faqActionItems"
         class="mt-1 min-w-48 ltr:right-0 rtl:left-0 top-full"
         @action="handleFaqAction"
@@ -492,40 +429,11 @@ onUnmounted(() => {
     </template>
 
     <template #controls>
-      <section
+      <FaqImportStatusBanner
         v-if="latestFaqImport"
-        data-testid="faq-import-status"
-        :data-status="latestFaqImport.status"
-        role="status"
-        aria-live="polite"
+        :faq-import="latestFaqImport"
         class="mb-4"
-      >
-        <h3 class="mb-2 text-sm font-medium text-n-slate-12">
-          {{ $t('CAPTAIN.RESPONSES.IMPORT.SECTION_TITLE') }}
-        </h3>
-        <div
-          class="flex items-start gap-3 rounded-xl border border-n-weak bg-n-solid-1 px-4 py-3"
-        >
-          <Icon
-            :icon="faqImportStatus.icon"
-            class="mt-0.5 size-4 shrink-0"
-            :class="faqImportStatus.className"
-          />
-          <div class="min-w-0 flex-1">
-            <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-              <span class="text-sm font-medium text-n-slate-12">
-                {{ faqImportStatus.title }}
-              </span>
-              <span class="truncate text-xs text-n-slate-10">
-                {{ latestFaqImport.original_filename }}
-              </span>
-            </div>
-            <p class="mb-0 mt-1 text-xs text-n-slate-11">
-              {{ faqImportStatus.description }}
-            </p>
-          </div>
-        </div>
-      </section>
+      />
     </template>
 
     <template #knowMore>
@@ -656,7 +564,7 @@ onUnmounted(() => {
       v-if="showFaqImportDialog"
       ref="faqImportDialog"
       :assistant-id="selectedAssistantId"
-      @close="handleFaqImportClose"
+      @close="showFaqImportDialog = false"
       @confirmed="handleFaqImportConfirmed"
     />
   </PageLayout>

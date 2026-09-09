@@ -139,6 +139,7 @@ const mountPage = () =>
         DropdownMenu: false,
         CreateResponseDialog: false,
         FaqImportDialog: false,
+        FaqImportStatusBanner: false,
       },
     },
   });
@@ -182,9 +183,6 @@ describe('Captain FAQ imports on the responses page', () => {
     });
     expect(wrapper.get('[data-testid="faq-import-status"]').text()).toContain(
       `CAPTAIN.RESPONSES.IMPORT.STATUS.${copyKey}.TITLE`
-    );
-    expect(wrapper.get('[data-testid="faq-import-status"]').text()).toContain(
-      'CAPTAIN.RESPONSES.IMPORT.SECTION_TITLE'
     );
     expect(
       wrapper.get('[data-testid="faq-import-status"]').attributes('data-status')

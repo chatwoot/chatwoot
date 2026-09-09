@@ -20,12 +20,6 @@ vi.mock('vue-i18n', () => ({
 }));
 
 const DialogStub = {
-  props: {
-    disableDismissal: {
-      type: Boolean,
-      default: false,
-    },
-  },
   methods: { close: vi.fn() },
   template: '<div><slot /><slot name="footer" /></div>',
 };
@@ -213,14 +207,9 @@ describe('FaqImportDialog', () => {
   it('downloads invalid rows from the preview', async () => {
     const invalidRows = new Blob(['question,answer,error']);
     const createObjectURL = vi.fn(() => 'blob:invalid-rows');
-    const revokeObjectURL = vi.fn();
     Object.defineProperty(URL, 'createObjectURL', {
       configurable: true,
       value: createObjectURL,
-    });
-    Object.defineProperty(URL, 'revokeObjectURL', {
-      configurable: true,
-      value: revokeObjectURL,
     });
     const click = vi
       .spyOn(HTMLAnchorElement.prototype, 'click')
@@ -239,9 +228,8 @@ describe('FaqImportDialog', () => {
       assistantId: 42,
       importId: 9,
     });
-    expect(createObjectURL).toHaveBeenCalledWith(invalidRows);
+    expect(createObjectURL).toHaveBeenCalledWith(expect.any(Blob));
     expect(click).toHaveBeenCalledOnce();
-    expect(revokeObjectURL).toHaveBeenCalledWith('blob:invalid-rows');
     click.mockRestore();
   });
 
@@ -250,10 +238,6 @@ describe('FaqImportDialog', () => {
     Object.defineProperty(URL, 'createObjectURL', {
       configurable: true,
       value: vi.fn(() => 'blob:invalid-rows'),
-    });
-    Object.defineProperty(URL, 'revokeObjectURL', {
-      configurable: true,
-      value: vi.fn(),
     });
     const click = vi
       .spyOn(HTMLAnchorElement.prototype, 'click')
@@ -296,18 +280,15 @@ describe('FaqImportDialog', () => {
     );
 
     expect(uploadAnotherButton.attributes('disabled')).toBeDefined();
-    expect(wrapper.getComponent(DialogStub).props('disableDismissal')).toBe(
-      true
-    );
+    wrapper.getComponent(DialogStub).vm.$emit('close');
+    expect(wrapper.emitted('close')).toBeUndefined();
     await uploadAnotherButton.trigger('click');
     expect(wrapper.text()).toContain('Existing question');
 
     pendingConfirmation.resolve({ data: { id: 9, status: 'preparing' } });
     await flushPromises();
 
-    expect(wrapper.getComponent(DialogStub).props('disableDismissal')).toBe(
-      false
-    );
+    expect(wrapper.emitted('confirmed')).toHaveLength(1);
   });
 
   it('shows the validation error returned by the server', async () => {

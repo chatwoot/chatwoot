@@ -1309,7 +1309,6 @@
       "CREATE_MANUALLY": "Create manually",
       "IMPORT": {
         "ACTION": "Import from CSV",
-        "SECTION_TITLE": "Import",
         "TITLE": "Import FAQs from CSV",
         "DESCRIPTION": "Upload a CSV to review its FAQs before importing them.",
         "CHOOSE_FILE": "Choose a CSV file",

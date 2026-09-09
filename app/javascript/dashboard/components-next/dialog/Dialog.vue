@@ -36,10 +36,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  disableDismissal: {
-    type: Boolean,
-    default: false,
-  },
   showCancelButton: {
     type: Boolean,
     default: true,
@@ -100,15 +96,6 @@ const close = () => {
   isOpen.value = false;
 };
 
-const dismiss = () => {
-  if (props.disableDismissal) return;
-  close();
-};
-
-const handleDialogCancel = event => {
-  if (props.disableDismissal) event.preventDefault();
-};
-
 // Only close if the close event originated from this dialog,
 // not from a child dialog (e.g. ProseMirror prompt) bubbling up.
 const handleDialogClose = e => e.target === dialogRef.value && close();
@@ -116,8 +103,6 @@ const handleDialogClose = e => e.target === dialogRef.value && close();
 // Only close on click-outside if this dialog is the topmost one.
 // If another dialog (e.g. ProseMirror prompt) is open on top, ignore.
 const handleClickOutside = () => {
-  if (props.disableDismissal) return;
-
   const dialogs = document.querySelectorAll('dialog[open]');
   if (dialogs[dialogs.length - 1] === dialogRef.value) close();
 };
@@ -139,7 +124,6 @@ defineExpose({ open, close });
         positionClass,
         overflowYAuto ? 'overflow-y-auto' : 'overflow-visible',
       ]"
-      @cancel="handleDialogCancel"
       @close.prevent="handleDialogClose"
     >
       <OnClickOutside @trigger="handleClickOutside">
@@ -173,8 +157,7 @@ defineExpose({ open, close });
                 :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
                 class="w-full"
                 type="button"
-                :disabled="disableDismissal"
-                @click="dismiss"
+                @click="close"
               />
               <Button
                 v-if="showConfirmButton"
