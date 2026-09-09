@@ -23,6 +23,12 @@ describe('#MessageFormatter', () => {
         '<p>Hey {{customer.name}}, check https://chatwoot.com</p>'
       );
     });
+    it('should format bare URL followed by hard break correctly without adding backslash to URL (#15731)', () => {
+      const message = 'https://example.com/trip/\\\nNext line';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p><a href="https://example.com/trip/" class="link" rel="noreferrer noopener nofollow" target="_blank">https://example.com/trip/</a> <br />\nNext line</p>'
+      );
+    });
   });
 
   describe('parses heading to strong', () => {

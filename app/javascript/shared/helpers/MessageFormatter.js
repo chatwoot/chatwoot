@@ -73,6 +73,8 @@ const createMarkdownInstance = (linkify = true) => {
 const COLWIDTHS_MARKER_REGEX =
   /^[ \t>]*<!--cw-colwidths:[\d,]+-->[ \t]*\r?\n?/gm;
 
+const BARE_URL_HARD_BREAK_REGEX = /(https?:\/\/[^\s\\]+)\\\r?(\n|$)/g;
+
 const TWITTER_USERNAME_REGEX = /(^|[^@\w])@(\w{1,15})\b/g;
 const TWITTER_USERNAME_REPLACEMENT = '$1[@$2](http://twitter.com/$2)';
 const TWITTER_HASH_REGEX = /(^|\s)#(\w+)/g;
@@ -85,7 +87,9 @@ class MessageFormatter {
     isAPrivateNote = false,
     linkify = true
   ) {
-    this.message = (message || '').replace(COLWIDTHS_MARKER_REGEX, '');
+    this.message = (message || '')
+      .replace(COLWIDTHS_MARKER_REGEX, '')
+      .replace(BARE_URL_HARD_BREAK_REGEX, '$1 \\$2');
     this.isAPrivateNote = isAPrivateNote;
     this.isATweet = isATweet;
     this.linkify = linkify;
