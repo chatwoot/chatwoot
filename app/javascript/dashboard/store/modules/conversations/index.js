@@ -161,9 +161,16 @@ export const mutations = {
     { lastActivityAt, conversationId }
   ) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
-    if (chat) {
-      chat.last_activity_at = lastActivityAt;
-    }
+    if (!chat || !Number.isFinite(lastActivityAt)) return;
+
+    // The list sorts on last_activity_at while the cards label themselves with
+    // timestamp, which the API sends as the same value. Move them together, and
+    // never backwards, so a card's label always matches its place in the list.
+    chat.last_activity_at = Math.max(
+      chat.last_activity_at ?? 0,
+      lastActivityAt
+    );
+    chat.timestamp = chat.last_activity_at;
   },
   [types.ASSIGN_PRIORITY](_state, { priority, conversationId }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
@@ -254,7 +261,6 @@ export const mutations = {
       chat.messages[pendingMessageIndex] = message;
     } else {
       chat.messages.push(message);
-      chat.timestamp = message.created_at;
       const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
       chat.unread_count = unreadCount;
       if (selectedChatId === conversationId) {
