@@ -1,5 +1,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
+import format from 'date-fns/format';
+import parseISO from 'date-fns/parseISO';
 import BarChart from 'shared/components/charts/BarChart.vue';
 
 const stats = ref(null);
@@ -26,29 +28,21 @@ const metrics = computed(() => [
   { label: 'Conversations', value: stats.value?.conversationsCount },
 ]);
 
-const prepareData = sourceData => {
-  var labels = [];
-  var data = [];
-  sourceData.forEach(item => {
-    labels.push(item[0]);
-    data.push(item[1]);
-  });
+const chartAriaLabel = 'Conversations created by day';
+
+const chartData = computed(() => {
+  const sourceData = stats.value?.chartData || [];
   return {
-    labels,
-    datasets: [
+    categories: sourceData.map(([label]) => format(parseISO(label), 'dd-MMM')),
+    series: [
       {
-        type: 'bar',
-        backgroundColor: 'rgb(31, 147, 255)',
-        yAxisID: 'y',
+        id: 'conversations',
         label: 'Conversations',
-        data: data,
+        color: '#1f93ff',
+        data: sourceData.map(([, value]) => value),
       },
     ],
   };
-};
-
-const chartData = computed(() => {
-  return prepareData(stats.value?.chartData || []);
 });
 </script>
 
@@ -74,16 +68,17 @@ const chartData = computed(() => {
         </div>
       </div>
     </section>
-    <!-- eslint-disable vue/no-static-inline-styles -->
     <div
       v-if="loading"
       class="p-8 mx-8 h-64 rounded bg-woot-100 animate-pulse"
     />
-    <BarChart
-      v-else-if="!failed"
-      class="p-8 w-full"
-      :collection="chartData"
-      style="max-height: 500px"
-    />
+    <div v-else-if="!failed" class="p-8 w-full min-w-0">
+      <BarChart
+        :data="chartData"
+        :height="500"
+        timeseries
+        :aria-label="chartAriaLabel"
+      />
+    </div>
   </div>
 </template>

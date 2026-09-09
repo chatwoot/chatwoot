@@ -1,10 +1,26 @@
 class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
-  description 'Hand off the conversation to a human agent when unable to assist further'
-  param :reason, type: 'string', desc: 'The reason why handoff is needed (optional)', required: false
+  # LLM-selectable reasons are a subset of the outcome enum. System lifecycle
+  # paths emit the remaining categories, such as usage limits and pending clarification.
+  REASON_CATEGORIES = %w[customer_request missing_knowledge unsupported_request policy_restriction tool_failure].freeze
 
-  def perform(tool_context, reason: nil)
+  description 'Hand off the conversation to a human agent when unable to assist further'
+  params do
+    string :reason, description: 'The reason why handoff is needed (optional)', required: false
+    string :reason_category, enum: REASON_CATEGORIES, description: 'Reporting category for why the handoff is needed'
+  end
+
+  # Agents::ToolWrapper reads `tool.class.params`, while ruby_llm treats a
+  # no-argument call as a schema reset. Keep the compatibility fix local to the
+  # only tool that uses ruby_llm's block schema DSL.
+  def self.params(schema = nil, &)
+    return params_schema_definition if schema.nil? && !block_given?
+
+    super
+  end
+
+  def perform(tool_context, reason: nil, reason_category: nil)
     conversation = find_conversation(tool_context.state)
-    return 'Conversation not found' unless conversation
+    return failure_result('Conversation not found', tool_context.state) unless conversation
 
     # Log the handoff with reason
     log_tool_usage('tool_handoff', {
@@ -13,20 +29,20 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
                    })
 
     # Use existing handoff mechanism from ResponseBuilderJob
-    handoff_result = trigger_handoff(tool_context, conversation, reason)
-    return 'Handoff skipped because a newer customer message arrived' if handoff_result == :stale
-    return 'Handoff skipped because the conversation changed' unless handoff_result == :completed
+    handoff_result = trigger_handoff(tool_context, conversation, reason, reason_category)
+    return failure_result('Handoff skipped because a newer customer message arrived', tool_context.state) if handoff_result == :stale
+    return failure_result('Handoff skipped because the conversation changed', tool_context.state) unless handoff_result == :completed
 
     "Conversation handed off to human support team#{" (Reason: #{reason})" if reason}"
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
-    'Failed to handoff conversation'
+    failure_result('Failed to handoff conversation', tool_context.state)
   end
 
   private
 
-  def trigger_handoff(tool_context, conversation, reason)
-    return trigger_legacy_handoff(tool_context, conversation, reason) unless captain_v2_enabled?
+  def trigger_handoff(tool_context, conversation, reason, reason_category)
+    return trigger_legacy_handoff(tool_context, conversation, reason, reason_category) unless captain_v2_enabled?
 
     note = nil
     handoff_result = conversation.with_lock do
@@ -54,28 +70,38 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
     tool_context.state[:captain_v2_handoff_tool_completed] = true
     # Queue the event after the state change commits so notification jobs always see the open conversation.
     conversation.dispatch_bot_handoff_event
-    emit_tool_handoff_event(conversation)
+    emit_tool_handoff_event(conversation, reason_category)
 
     # Send out of office message if applicable (since template messages were suppressed while Captain was handling)
     send_out_of_office_message_if_applicable(conversation)
     :completed
   end
 
-  def trigger_legacy_handoff(tool_context, conversation, reason)
+  def trigger_legacy_handoff(tool_context, conversation, reason, reason_category)
     note = conversation.messages.create!(
       message_type: :outgoing, private: true, sender: @assistant,
       account: conversation.account, inbox: conversation.inbox, content: reason
     )
     record_handoff_note(tool_context, note) if reason.present?
     conversation.bot_handoff!
-    emit_tool_handoff_event(conversation)
+    emit_tool_handoff_event(conversation, reason_category)
     send_out_of_office_message_if_applicable(conversation)
     :completed
   end
 
-  def emit_tool_handoff_event(conversation)
+  def emit_tool_handoff_event(conversation, reason_category)
     Captain::ConversationEvents.handed_off(conversation: conversation, assistant: @assistant,
-                                           source: Captain::ConversationEvents::Sources::TOOL, at: Time.current)
+                                           source: Captain::ConversationEvents::Sources::TOOL,
+                                           reason_category: normalize_reason_category(reason_category),
+                                           at: Time.current)
+  end
+
+  # Tool execution does not enforce the schema enum, and an unknown category
+  # would fail the outcome's validated enum after the handoff already happened.
+  # Record those handoffs as unclassified instead.
+  def normalize_reason_category(reason_category)
+    category = reason_category.to_s
+    category if REASON_CATEGORIES.include?(category)
   end
 
   def record_handoff_note(tool_context, note)

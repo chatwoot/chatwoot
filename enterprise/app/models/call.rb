@@ -32,7 +32,8 @@ class Call < ApplicationRecord
   STATUSES = %w[ringing in_progress completed no_answer failed rejected].freeze
   TERMINAL_STATUSES = %w[completed no_answer failed rejected].freeze
 
-  store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at
+  store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at,
+                 :accepted_broadcast_at, :recording_enabled
 
   # Frontend voice bubbles/stores expect inbound/outbound string values
   DISPLAY_DIRECTION = { 'incoming' => 'inbound', 'outgoing' => 'outbound' }.freeze
@@ -45,11 +46,14 @@ class Call < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :conversation
-  belongs_to :contact
+  belongs_to :contact, optional: true
   belongs_to :message, optional: true, inverse_of: :call
   belongs_to :accepted_by_agent, class_name: 'User', optional: true
 
   has_one_attached :recording
+
+  # Snapshot the inbox's "Record calls" setting so every leg of a call agrees and a mid-call toggle can't change it.
+  before_create { self.recording_enabled = inbox.channel.try(:recording_enabled?) }
 
   validates :provider_call_id, presence: true
   validates :provider, presence: true
@@ -62,6 +66,11 @@ class Call < ApplicationRecord
 
   def self.find_by_provider_call_id(provider, sid)
     find_by(provider: provider, provider_call_id: sid)
+  end
+
+  # nil = a channel with no call settings, or a call that predates them: record.
+  def recording_enabled?
+    recording_enabled != false
   end
 
   def default_conference_sid
@@ -105,12 +114,23 @@ class Call < ApplicationRecord
     status.to_s.tr('_', '-')
   end
 
+  # Payload shape matches Whatsapp::CallService#broadcast so the frontend's
+  # onVoiceCallAccepted/onVoiceCallEnded handlers can treat both providers uniformly.
+  def broadcast_voice_call_event(event, **extra)
+    payload = {
+      event: "voice_call.#{event}",
+      data: { id: id, call_id: provider_call_id, provider: provider,
+              conversation_id: conversation_id, account_id: account_id }.merge(extra)
+    }
+    ActionCable.server.broadcast("account_#{account_id}", payload)
+  end
+
   def from_number
-    incoming? ? contact.phone_number : inbox.channel&.phone_number
+    incoming? ? contact&.phone_number : inbox.channel&.phone_number
   end
 
   def to_number
-    incoming? ? inbox.channel&.phone_number : contact.phone_number
+    incoming? ? inbox.channel&.phone_number : contact&.phone_number
   end
 
   def recording_url

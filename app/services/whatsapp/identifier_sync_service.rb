@@ -27,6 +27,7 @@ class Whatsapp::IdentifierSyncService
     update_contact_phone_number(phone_number)
     update_contact_username(username)
     update_contact_bsuid(source_ids)
+    update_contact_type_for_bsuid_identity(source_ids)
   end
 
   def update_contact_phone_number(phone_number)
@@ -83,6 +84,20 @@ class Whatsapp::IdentifierSyncService
 
   def mirrored_bsuid
     synced_contact.additional_attributes['whatsapp_bsuid'].presence
+  end
+
+  # Promotes a visitor to a lead once a business scoped user id shows up, which is the
+  # visibility fix that landed on develop. Reuses `whatsapp_bsuid` above instead of repeating
+  # the prefix strip and the regex match.
+  def update_contact_type_for_bsuid_identity(source_ids)
+    return unless synced_contact.visitor?
+    return unless source_ids.any? { |source_id| whatsapp_bsuid_source_id?(source_id) }
+
+    synced_contact.update!(contact_type: :lead)
+  end
+
+  def whatsapp_bsuid_source_id?(source_id)
+    whatsapp_bsuid(source_id).present?
   end
 
   def synced_contact

@@ -10,7 +10,6 @@ import {
 } from 'dashboard/components-next/template-preview';
 import { PLATFORMS } from 'dashboard/services/TemplateConstants';
 import {
-  formatTemplateDate,
   formatTemplateLabel,
   formatTemplateLanguage,
   templateStatusClasses,
@@ -55,6 +54,11 @@ const managementLabel = computed(() =>
     ? t('WHATSAPP_TEMPLATE_MGMT.MANAGE_IN_TWILIO')
     : t('WHATSAPP_TEMPLATE_MGMT.MANAGE_IN_META')
 );
+const statusLabel = computed(() =>
+  props.template?.status?.toLowerCase() === 'unsubmitted'
+    ? t('WHATSAPP_TEMPLATE_MGMT.STATUSES.UNSUBMITTED')
+    : formatTemplateLabel(props.template?.status)
+);
 const open = () => panelRef.value?.open();
 const close = () => panelRef.value?.close();
 
@@ -92,7 +96,7 @@ defineExpose({ open, close });
               class="inline-flex px-2 py-0.5 text-xs font-medium rounded-md"
               :class="templateStatusClasses(template.status)"
             >
-              {{ formatTemplateLabel(template.status) }}
+              {{ statusLabel }}
             </span>
           </dd>
           <dt class="text-n-slate-10">
@@ -119,12 +123,6 @@ defineExpose({ open, close });
             {{ $t('WHATSAPP_TEMPLATE_MGMT.PREVIEW.INBOXES') }}
           </dt>
           <dd class="text-n-slate-12">{{ template.inboxNames }}</dd>
-          <dt class="text-n-slate-10">
-            {{ $t('WHATSAPP_TEMPLATE_MGMT.PREVIEW.LAST_SYNC_ATTEMPT') }}
-          </dt>
-          <dd class="text-n-slate-12">
-            {{ formatTemplateDate(template.lastUpdatedAt) }}
-          </dd>
         </dl>
       </div>
     </div>

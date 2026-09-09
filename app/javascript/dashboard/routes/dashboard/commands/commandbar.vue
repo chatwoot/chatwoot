@@ -1,6 +1,6 @@
 <script setup>
 import '@chatwoot/ninja-keys';
-import { ref, toRef, computed, watchEffect, onMounted } from 'vue';
+import { ref, toRef, computed, watch, watchEffect, onMounted } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import { useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -10,6 +10,8 @@ import { useInboxHotKeys } from 'dashboard/composables/commands/useInboxHotKeys'
 import { useGoToCommandHotKeys } from 'dashboard/composables/commands/useGoToCommandHotKeys';
 import { useBulkActionsHotKeys } from 'dashboard/composables/commands/useBulkActionsHotKeys';
 import { useConversationHotKeys } from 'dashboard/composables/commands/useConversationHotKeys';
+import { useMacroHotKeys } from 'dashboard/composables/commands/useMacroHotKeys';
+import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 import wootConstants from 'dashboard/constants/globals';
 import {
   GENERAL_EVENTS,
@@ -36,6 +38,7 @@ const { t, tm } = useI18n();
 const { resolvedLocale } = useLocale();
 
 const ninjakeys = ref(null);
+const resolveAttributesModalRef = ref(null);
 
 // Added selectedSnoozeType to track the selected snooze type
 // So if the selected snooze type is "custom snooze" then we set selectedSnoozeType with the CMD action id
@@ -49,6 +52,21 @@ const { goToCommandHotKeys } = useGoToCommandHotKeys(
 );
 const { bulkActionsHotKeys } = useBulkActionsHotKeys();
 const { conversationHotKeys } = useConversationHotKeys();
+const {
+  macroHotKeys,
+  pendingAttributes,
+  submitPendingAttributes,
+  dismissPendingAttributes,
+} = useMacroHotKeys();
+
+watch(pendingAttributes, pending => {
+  if (pending) {
+    resolveAttributesModalRef.value?.open(
+      pending.missing,
+      pending.customAttributes
+    );
+  }
+});
 
 const SNOOZE_PARENT_IDS = [
   'snooze_conversation',
@@ -82,6 +100,7 @@ const hotKeys = computed(() => {
     ...goToAppearanceHotKeys.value,
     ...bulkActionsHotKeys.value,
     ...conversationHotKeys.value,
+    ...macroHotKeys.value,
   ];
   // When dynamic NLP snooze suggestions exist, hide all preset snooze actions to avoid duplication
   if (!dynamicSnoozeActions.value.length) return allActions;
@@ -240,6 +259,11 @@ onMounted(() => {
     @change="onCommandBarChange"
     @selected="onSelected"
     @closed="onClosed"
+  />
+  <ConversationResolveAttributesModal
+    ref="resolveAttributesModalRef"
+    @submit="submitPendingAttributes"
+    @close="dismissPendingAttributes"
   />
 </template>
 

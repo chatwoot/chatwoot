@@ -54,6 +54,7 @@ const closeMacroPreview = () => {
         faded
         xs
         :is-loading="isExecuting"
+        :disabled="isExecuting"
         @click="$emit('execute')"
       />
     </div>

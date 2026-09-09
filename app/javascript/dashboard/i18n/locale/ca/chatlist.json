@@ -7,6 +7,7 @@
       "404": "No hi ha converses actives en aquest grup."
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "Converses",
     "MENTION_HEADING": "Mencions",
     "UNATTENDED_HEADING": "Sense assistència",

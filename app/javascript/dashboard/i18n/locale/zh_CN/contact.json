@@ -612,6 +612,9 @@
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "我们无法完成搜索。请稍后再试。"
     },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
+    },
     "FORM": {
       "GO_TO_CONVERSATION": "查看",
       "SUCCESS_MESSAGE": "消息发送成功！",

@@ -20,6 +20,10 @@ class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
   CITATION_SOURCES_STATE_KEY = :captain_v2_citation_sources
   AUTO_RESOLVE_MODES = %w[disabled legacy evaluated].freeze
+  DEFAULT_INACTIVITY_THRESHOLD_MINUTES = 60
+  MINIMUM_INACTIVITY_THRESHOLD_MINUTES = 5
+  MAXIMUM_INACTIVITY_THRESHOLD_MINUTES = 1.day.in_minutes.to_i
+  INACTIVITY_THRESHOLD_STEP_MINUTES = 5
   RESPONSE_WINDOWS = %w[always business_hours outside_business_hours].freeze
 
   include Avatarable
@@ -43,11 +47,14 @@ class Captain::Assistant < ApplicationRecord
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
   has_many :agent_sessions, class_name: 'Captain::AgentSession', dependent: :destroy_async
   has_many :conversation_outcomes, dependent: :destroy_async
+  has_many :assigned_conversations, as: :ai_assignee, class_name: '::Conversation', foreign_key: :assignee_agent_bot_id,
+                                    dependent: :nullify, inverse_of: :ai_assignee
 
   store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
-                 :auto_resolve_mode, :response_window
+                 :auto_resolve_mode, :auto_resolve_after, :send_inactivity_resolution_message, :response_window
 
   before_validation :set_default_auto_resolve_mode, on: :create
+  before_validation :normalize_auto_resolve_after
 
   validates :name, presence: true
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
@@ -55,6 +62,14 @@ class Captain::Assistant < ApplicationRecord
   validates_with Captain::AudienceValidator
   validate :validate_response_window
   validates :auto_resolve_mode, inclusion: { in: AUTO_RESOLVE_MODES }
+  validates :send_inactivity_resolution_message, inclusion: { in: [true, false] }
+  validates :auto_resolve_after,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: MINIMUM_INACTIVITY_THRESHOLD_MINUTES,
+              less_than_or_equal_to: MAXIMUM_INACTIVITY_THRESHOLD_MINUTES
+            },
+            allow_nil: true
 
   scope :ordered, -> { order(created_at: :desc) }
 
@@ -96,6 +111,22 @@ class Captain::Assistant < ApplicationRecord
     auto_resolve_mode == 'evaluated'
   end
 
+  def inactivity_threshold_minutes
+    return DEFAULT_INACTIVITY_THRESHOLD_MINUTES unless account.feature_enabled?('captain_integration_v2')
+
+    (config['auto_resolve_after'] || DEFAULT_INACTIVITY_THRESHOLD_MINUTES).to_i
+  end
+
+  def send_inactivity_resolution_message
+    return true unless account.feature_enabled?('captain_integration_v2')
+
+    config.fetch('send_inactivity_resolution_message', true)
+  end
+
+  def send_inactivity_resolution_message?
+    send_inactivity_resolution_message
+  end
+
   def available_agent_tools
     tools = self.class.built_in_agent_tools.dup
 
@@ -105,30 +136,18 @@ class Captain::Assistant < ApplicationRecord
     tools
   end
 
-  def available_tool_ids
-    available_agent_tools.pluck(:id)
+  def available_tool_ids = available_agent_tools.pluck(:id)
+
+  def known_tool_ids
+    self.class.built_in_tool_ids + account.captain_custom_tools.pluck(:slug)
   end
 
   def push_event_data
-    {
-      id: id,
-      name: name,
-      avatar_url: avatar_url.presence || default_avatar_url,
-      description: description,
-      created_at: created_at,
-      type: 'captain_assistant'
-    }
+    assistant_event_data
   end
 
   def webhook_data
-    {
-      id: id,
-      name: name,
-      avatar_url: avatar_url.presence || default_avatar_url,
-      description: description,
-      created_at: created_at,
-      type: 'captain_assistant'
-    }
+    assistant_event_data
   end
 
   def customer_visible_citation_urls(citation_document_ids)
@@ -151,6 +170,25 @@ class Captain::Assistant < ApplicationRecord
   end
 
   private
+
+  def assistant_event_data
+    {
+      id: id,
+      name: name,
+      avatar_url: avatar_url.presence || default_avatar_url,
+      description: description,
+      created_at: created_at,
+      type: 'captain_assistant'
+    }
+  end
+
+  def normalize_auto_resolve_after
+    threshold = Integer(auto_resolve_after.to_s, exception: false)
+    return unless threshold&.between?(MINIMUM_INACTIVITY_THRESHOLD_MINUTES, MAXIMUM_INACTIVITY_THRESHOLD_MINUTES)
+
+    # Keep API values aligned with the five minute options available in the settings UI.
+    self.auto_resolve_after = (threshold.fdiv(INACTIVITY_THRESHOLD_STEP_MINUTES).round * INACTIVITY_THRESHOLD_STEP_MINUTES)
+  end
 
   def validate_response_window
     response_window = config['response_window']

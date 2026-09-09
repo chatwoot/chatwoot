@@ -20,7 +20,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         'response_parts' => [{ 'text' => 'Test response', 'citation_indexes' => [] }],
         'reasoning' => 'Test reasoning'
       },
-      context: nil
+      context: nil,
+      error: nil
     )
   end
 
@@ -66,6 +67,77 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: 123)
 
       expect(service.instance_variable_get(:@responding_to_message_id)).to eq(123)
+    end
+
+    it 'accepts reply suggestion mode' do
+      service = described_class.new(assistant: assistant, source: described_class::REPLY_SUGGESTION_SOURCE)
+
+      expect(service.instance_variable_get(:@source)).to eq('copilot_reply_suggestion')
+      expect(service.send(:trace_config)).to include(
+        name: 'llm.captain.copilot.agent',
+        tags: ['copilot']
+      )
+    end
+  end
+
+  describe '#build_and_wire_agents' do
+    it 'builds the graph from the selected runtime scenarios' do
+      runtime_configuration = instance_double(
+        Captain::Playground::Configuration,
+        scenarios: [scenario],
+        agent_name_for: 'scenario_runtime_agent'
+      )
+      service = described_class.new(assistant: assistant, runtime_configuration: runtime_configuration)
+
+      expect(assistant).to receive(:agent).with(runtime_configuration: runtime_configuration).and_return(mock_agent)
+      expect(scenario).to receive(:agent).with(
+        runtime_configuration: runtime_configuration,
+        runtime_agent_name: 'scenario_runtime_agent'
+      ).and_return(mock_scenario_agent)
+
+      expect(service.send(:build_and_wire_agents)).to eq([mock_agent, mock_scenario_agent])
+    end
+
+    it 'keeps only reply-safe tools and excludes scenarios in reply suggestion mode' do
+      faq_tool = Captain::Tools::FaqLookupTool.new(assistant)
+      handoff_tool = Captain::Tools::HandoffTool.new(assistant)
+      get_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'GET'))
+      post_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'POST'))
+      private_note_tool = Captain::Tools::AddPrivateNoteTool.new(assistant)
+      assistant_agent = Agents::Agent.new(name: 'assistant', tools: [faq_tool, handoff_tool, get_tool, post_tool, private_note_tool])
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        source: described_class::REPLY_SUGGESTION_SOURCE
+      )
+
+      allow(assistant).to receive(:agent).and_return(assistant_agent)
+      expect(assistant).not_to receive(:scenarios)
+
+      configured_assistant = service.send(:build_and_wire_agents).sole
+
+      expect(configured_assistant.tools).to contain_exactly(faq_tool, get_tool)
+      expect(configured_assistant.handoff_agents).to be_empty
+    end
+
+    it 'uses the Copilot prompt without changing the Assistant prompt path' do
+      assistant_agent = Agents::Agent.new(name: 'assistant')
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        source: described_class::REPLY_SUGGESTION_SOURCE
+      )
+      context = instance_double(Agents::RunContext)
+
+      allow(assistant).to receive(:agent).and_return(assistant_agent)
+      expect(assistant).not_to receive(:scenarios)
+      expect(assistant).to receive(:agent_instructions)
+        .with(context, prompt_template: 'copilot_reply_suggestion')
+        .and_return('Copilot instructions')
+
+      configured_assistant = service.send(:build_and_wire_agents).first
+
+      expect(configured_assistant.instructions.call(context)).to eq('Copilot instructions')
     end
   end
 
@@ -209,6 +281,28 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(service.last_run_result).to eq(mock_result)
     end
 
+    context 'when the runner returns an error result' do
+      let(:error) { StandardError.new('Agent run failed') }
+      let(:mock_result) { instance_double(Agents::RunResult, output: nil, context: nil, error: error) }
+
+      before do
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(
+          instance_double(ChatwootExceptionTracker, capture_exception: true)
+        )
+      end
+
+      it 'returns an error response instead of formatting an empty output' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(result).to include(
+          'response' => 'conversation_handoff',
+          'error' => true,
+          'error_reason' => 'standard_error'
+        )
+        expect(result['reasoning']).to eq('Error occurred: Agent run failed')
+      end
+    end
+
     context 'when handoff tool was called during agent execution' do
       let(:runner_context) { { captain_v2_handoff_tool_called: true } }
       let(:mock_result) do
@@ -218,7 +312,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
             'response_parts' => [{ 'text' => 'Let me connect you', 'citation_indexes' => [] }],
             'reasoning' => 'A human is needed'
           },
-          context: runner_context
+          context: runner_context,
+          error: nil
         )
       end
 
@@ -251,7 +346,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     context 'when agent result is a string' do
-      let(:mock_result) { instance_double(Agents::RunResult, output: 'Simple string response', context: nil) }
+      let(:mock_result) { instance_double(Agents::RunResult, output: 'Simple string response', context: nil, error: nil) }
 
       it 'formats string response correctly' do
         result = service.generate_response(message_history: message_history)
@@ -280,7 +375,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
             ],
             'reasoning' => 'Test reasoning'
           },
-          context: nil
+          context: nil,
+          error: nil
         )
       end
 
@@ -305,7 +401,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
             'response_parts' => [{ 'text' => 'FAQ-backed response', 'citation_indexes' => [1] }],
             'reasoning' => 'Test reasoning'
           },
-          context: nil
+          context: nil,
+          error: nil
         )
       end
 
@@ -716,6 +813,16 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(state[:channel_type]).to eq(inbox.channel_type)
     end
 
+    it 'includes labels from a persisted conversation' do
+      conversation.label_list.add('lang_en')
+      conversation.save!
+      conversation.reload
+
+      state = service.send(:build_state)
+
+      expect(state.dig(:conversation, :label_list)).to contain_exactly('lang_en')
+    end
+
     it 'includes contact inbox attributes when conversation is present' do
       state = service.send(:build_state)
 
@@ -859,6 +966,21 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       runner = instance_double(Agents::AgentRunner)
 
       allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      expect(runner).not_to receive(:on_run_complete)
+
+      service.send(:add_usage_metadata_callback, runner)
+    end
+
+    it 'leaves final credit and discard metadata to the reply suggestion service' do
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        source: described_class::REPLY_SUGGESTION_SOURCE
+      )
+      runner = instance_double(Agents::AgentRunner)
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
       allow(runner).to receive(:on_tool_complete).and_return(runner)
       expect(runner).not_to receive(:on_run_complete)
 

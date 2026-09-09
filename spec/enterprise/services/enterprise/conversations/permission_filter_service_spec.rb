@@ -146,7 +146,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         assigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: test_agent)
         unassigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: nil)
         agent_bot_conversation = create(:conversation, account: test_account, inbox: test_inbox,
-                                                       assignee_agent_bot: create(:agent_bot, account: test_account))
+                                                       ai_assignee: create(:agent_bot, account: test_account))
         other_assigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: create(:user, account: test_account))
         other_inbox_conversation = create(:conversation, account: test_account, inbox: test_inbox2, assignee: nil)
 

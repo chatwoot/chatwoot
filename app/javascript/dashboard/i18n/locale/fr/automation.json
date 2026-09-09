@@ -1,13 +1,13 @@
 {
   "AUTOMATION": {
     "HEADER": "Automatisations",
-    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
-    "LEARN_MORE": "Learn more about automation",
-    "COUNT": "{n} automation | {n} automations",
-    "HEADER_BTN_TXT": "Create Automation",
+    "DESCRIPTION": "L'automatisation peut remplacer et rationaliser les processus existants qui nécessitent des efforts manuels, comme l'ajout d'étiquettes et l'attribution de conversations à l'agent le plus approprié. Cela permet à l'équipe de se concentrer sur ses forces tout en réduisant le temps passé à des tâches de routine.",
+    "LEARN_MORE": "En savoir plus sur l'automatisation",
+    "COUNT": "{n} automatisation | {n} automatisations",
+    "HEADER_BTN_TXT": "Créer une automatisation",
     "LOADING": "Récupération des règles d'automatisation",
-    "SEARCH_PLACEHOLDER": "Search automation rules...",
-    "NO_RESULTS": "No automation rules found matching your search",
+    "SEARCH_PLACEHOLDER": "Rechercher des règles d'automatisation...",
+    "NO_RESULTS": "Aucune règle d'automatisation trouvée correspondant à votre recherche",
     "ADD": {
       "TITLE": "Ajouter une règle d'automatisation",
       "SUBMIT": "Créer",
@@ -27,6 +27,43 @@
           "LABEL": "Événement",
           "PLACEHOLDER": "Veuillez en sélectionner un",
           "ERROR": "L'événement est requis"
+        },
+        "RUN_TYPE": {
+          "LABEL": "Quand cette règle doit-elle être exécutée ?",
+          "OPTIONS": {
+            "INSTANT": {
+              "LABEL": "Exécuter instantanément",
+              "DESCRIPTION": "Exécute le moment où un événement se produit, à condition que les conditions correspondent."
+            },
+            "WAIT": {
+              "LABEL": "Exécuter après une attente",
+              "DESCRIPTION": "Attends un temps fixe et ne fonctionne que si les choses sont toujours les mêmes. Si elles changent, la règle est ignorée."
+            }
+          }
+        },
+        "WAIT": {
+          "LABEL": "Condition d'attente",
+          "WHEN_LABEL": "Quand",
+          "STATUS_LABEL": "Le statut est",
+          "FOR_LABEL": "Pour",
+          "INBOX_LABEL": "Boîte de réception",
+          "ERROR": "L'attente doit être comprise entre 10 minutes et 30 jours",
+          "OPTIONS": {
+            "CONVERSATION_STATUS": "La conversation reste dans un état",
+            "CUSTOMER_UNRESPONSIVE": "Le client n'a pas répondu",
+            "AGENT_UNRESPONSIVE": "Aucun coéquipier n'a répondu"
+          },
+          "DURATION": {
+            "MINUTES": "{count} minute | {count} minutes",
+            "HOURS": "{count} heure | {count} heures",
+            "DAYS": "{count} jour | {count} jours"
+          },
+          "EXPLANATION": {
+            "CONVERSATION_STATUS": "L'horloge commence lorsqu'une conversation se déplace dans ce statut. Si elle est toujours là {duration} plus tard, les actions ci-dessous s'exécutent. Si le statut change avant, rien ne se passe.",
+            "CUSTOMER_UNRESPONSIVE": "L'horloge commence quand un coéquipier répond. Si le client n'a pas réécrit {duration} plus tard, les actions ci-dessous sont exécutées. S'il répond, rien ne se passe, et la prochaine réponse d'un coéquipier relance l'horloge.",
+            "AGENT_UNRESPONSIVE": "L'horloge démarre lorsqu'un client envoie un message. Si aucun coéquipier n'a répondu à {duration} plus tard, les actions ci-dessous sont exécutées. Si quelqu'un répond avant cela, rien ne se passe."
+          },
+          "FOOTNOTE": "Seule une nouvelle activité déclenche le minuteur. Les conversations déjà dans cet état seront prises en compte lors de leur prochaine activité."
         },
         "CONDITIONS": {
           "LABEL": "Condition"
@@ -49,7 +86,14 @@
         "CREATED_ON": "Créé le",
         "ACTIONS": "Actions"
       },
-      "404": "Aucune règle d'automatisation trouvée"
+      "404": "Aucune règle d'automatisation trouvée",
+      "404_DELAYED": "Aucune règle ne s'exécute après une attente",
+      "TABS": {
+        "INSTANT": "Exécute instantanément",
+        "DELAYED": "Exécute après une attente"
+      },
+      "DELAY_BADGE": "Exécuter après {delay}",
+      "DELAY_DISABLED_BANNER": "L'exécution retardée est désactivée pour ce compte, donc les règles ci-dessous qui s'exécutent après une attente sont suspendues jusqu'à ce qu'elle soit réactivée."
     },
     "DELETE": {
       "TITLE": "Supprimer la règle d'automatisation",
@@ -98,8 +142,8 @@
       "DELETE_MESSAGE": "Vous devez avoir au moins une action pour enregistrer",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Saisissez votre message ici",
       "TEAM_DROPDOWN_PLACEHOLDER": "Sélectionner une équipe",
-      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "EMAIL_INPUT_PLACEHOLDER": "Entrez votre adresse e-mail",
+      "URL_INPUT_PLACEHOLDER": "Entrez l'URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activer la règle d'automatisation",
@@ -121,16 +165,16 @@
       "LABEL_UPLOAD_FAILED": "Échec de l'envoi"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "ATTRIBUTE_KEY_REQUIRED": "La clé d'attribut est requise",
+      "FILTER_OPERATOR_REQUIRED": "L'opérateur de filtre est requis",
       "VALUE_REQUIRED": "La valeur est requise",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "La valeur doit être comprise entre 1 et 998",
+      "ACTION_PARAMETERS_REQUIRED": "Les paramètres d'action sont requis",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Au moins une condition est requise",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Au moins une action est requise"
     },
     "NONE_OPTION": "Aucun",
-    "LAST_RESPONDING_AGENT": "Last Responding Agent",
+    "LAST_RESPONDING_AGENT": "Dernier agent de réponse",
     "EVENTS": {
       "CONVERSATION_CREATED": "Conversation créée",
       "CONVERSATION_UPDATED": "Conversation mise à jour",
@@ -141,7 +185,7 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Assigner à un agent",
       "ASSIGN_TEAM": "Assigner une équipe",
-      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_AGENT": "Supprimer l'agent assigné",
       "REMOVE_ASSIGNED_TEAM": "Supprimer l’équipe assignée",
       "ADD_LABEL": "Ajouter une étiquette",
       "REMOVE_LABEL": "Supprimer une étiquette",
@@ -155,9 +199,9 @@
       "SEND_MESSAGE": "Envoyer un message",
       "ADD_PRIVATE_NOTE": "Ajouter une note privée",
       "CHANGE_PRIORITY": "Modifier la priorité",
-      "ADD_SLA": "Add SLA",
+      "ADD_SLA": "Ajouter SLA",
       "OPEN_CONVERSATION": "Ouvrir la conversation",
-      "PENDING_CONVERSATION": "Mark conversation as pending"
+      "PENDING_CONVERSATION": "Marquer la conversation comme en attente"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Boite de réception",
@@ -168,7 +212,7 @@
       "LOW": "Faible",
       "MEDIUM": "Moyenne",
       "HIGH": "Élevé",
-      "URGENT": "Urgent"
+      "URGENT": "Urgente"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Type de message",
@@ -184,7 +228,7 @@
       "COUNTRY_NAME": "Pays",
       "COMPANY_NAME": "Société",
       "REFERER_LINK": "Lien de référence",
-      "ASSIGNEE_NAME": "Assignee",
+      "ASSIGNEE_NAME": "Assigné à",
       "TEAM_NAME": "Équipes",
       "PRIORITY": "Priorité",
       "LABELS": "Étiquettes"

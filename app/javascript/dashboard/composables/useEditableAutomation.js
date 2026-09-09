@@ -48,8 +48,8 @@ export function useEditableAutomation() {
       if (inputType === 'plain_text' || inputType === 'date') {
         return { ...base, values: condition.values[0] };
       }
-      if (inputType === 'comma_separated_plain_text') {
-        return { ...base, values: condition.values.join(',') };
+      if (inputType === 'multi_text') {
+        return { ...base, values: [...condition.values] };
       }
       const dropdownValues = getConditionDropdownValues(
         condition.attribute_key
