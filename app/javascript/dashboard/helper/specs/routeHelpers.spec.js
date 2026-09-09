@@ -148,6 +148,9 @@ describe('isAConversationRoute', () => {
     expect(isAConversationRoute('conversation_through_inbox')).toBe(true);
     expect(isAConversationRoute('conversations_through_label')).toBe(true);
     expect(isAConversationRoute('conversations_through_team')).toBe(true);
+    expect(isAConversationRoute('conversations_through_channel_group')).toBe(
+      true
+    );
     expect(isAConversationRoute('dashboard')).toBe(false);
   });
 
@@ -158,6 +161,9 @@ describe('isAConversationRoute', () => {
     expect(isAConversationRoute('inbox_dashboard', true)).toBe(true);
     expect(isAConversationRoute('label_conversations', true)).toBe(true);
     expect(isAConversationRoute('team_conversations', true)).toBe(true);
+    expect(isAConversationRoute('channel_group_conversations', true)).toBe(
+      true
+    );
     expect(isAConversationRoute('folder_conversations', true)).toBe(true);
     expect(isAConversationRoute('conversation_participating', true)).toBe(true);
   });
@@ -212,6 +218,9 @@ describe('getConversationDashboardRoute', () => {
     expect(getConversationDashboardRoute('conversations_through_team')).toEqual(
       'team_conversations'
     );
+    expect(
+      getConversationDashboardRoute('conversations_through_channel_group')
+    ).toEqual('channel_group_conversations');
     expect(
       getConversationDashboardRoute('conversations_through_folders')
     ).toEqual('folder_conversations');

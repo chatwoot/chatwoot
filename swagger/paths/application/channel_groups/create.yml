@@ -1,0 +1,28 @@
+tags:
+  - Channel Groups
+operationId: create-a-channel-group
+summary: Create a channel group
+security:
+  - userApiKey: []
+description: Create a channel group in the account. Administrator access is required.
+parameters:
+  - $ref: '#/components/parameters/account_id'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/channel_group_create_update_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/channel_group'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

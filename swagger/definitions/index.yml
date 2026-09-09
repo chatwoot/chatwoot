@@ -12,6 +12,8 @@ generic_id:
   $ref: ./resource/extension/generic.yml
 canned_response:
   $ref: ./resource/canned_response.yml
+channel_group:
+  $ref: ./resource/channel_group.yml
 custom_attribute:
   $ref: ./resource/custom_attribute.yml
 automation_rule:
@@ -181,6 +183,10 @@ inbox_update_sms_channel_payload:
 # Team
 team_create_update_payload:
   $ref: ./request/team/create_update_payload.yml
+
+# Channel Group
+channel_group_create_update_payload:
+  $ref: ./request/channel_group/create_update_payload.yml
 
 # Label
 label_create_update_payload:

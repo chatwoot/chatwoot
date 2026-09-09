@@ -6,6 +6,7 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import Icon from 'next/icon/Icon.vue';
 import SidebarGroupLeaf from './SidebarGroupLeaf.vue';
+import SidebarChannelGroup from './SidebarChannelGroup.vue';
 import SidebarGroupSeparator from './SidebarGroupSeparator.vue';
 
 import { useSidebarContext } from './provider';
@@ -48,9 +49,11 @@ const storageKey = computed(() =>
 const isSubGroupExpanded = computed(
   () => !props.collapsible || !minimizedSections.value[storageKey.value]
 );
-const hasActiveChild = computed(() =>
-  props.children.some(child => child.name === props.activeChild?.name)
-);
+const isActiveItem = child =>
+  child.name === props.activeChild?.name ||
+  child.children?.some(item => item.name === props.activeChild?.name);
+
+const hasActiveChild = computed(() => props.children.some(isActiveItem));
 
 const accessibleItems = computed(() =>
   props.children.filter(child => {
@@ -101,10 +104,7 @@ const expandSubGroupOnActiveChild = () => {
 };
 
 const shouldShowItem = child => {
-  return (
-    isSubGroupExpanded.value &&
-    (props.isExpanded || props.activeChild?.name === child.name)
-  );
+  return isSubGroupExpanded.value && (props.isExpanded || isActiveItem(child));
 };
 
 // set scrollEnd to true when the scroll reaches the end
@@ -156,15 +156,22 @@ watch([hasActiveChild, storageKey], expandSubGroupOnActiveChild, {
             'max-h-60 overflow-y-scroll no-scrollbar': isScrollable,
           }"
         >
-          <SidebarGroupLeaf
-            v-for="child in children"
-            v-show="shouldShowItem(child)"
-            v-bind="child"
-            :key="child.name"
-            :active="activeChild?.name === child.name"
-            :hide-tree-line="hideLeafTreeLine"
-            thin-tree-line
-          />
+          <template v-for="child in accessibleItems" :key="child.name">
+            <SidebarChannelGroup
+              v-if="child.children"
+              v-show="shouldShowItem(child)"
+              v-bind="child"
+              :active-child="activeChild"
+            />
+            <SidebarGroupLeaf
+              v-else
+              v-show="shouldShowItem(child)"
+              v-bind="child"
+              :active="activeChild?.name === child.name"
+              :hide-tree-line="hideLeafTreeLine"
+              thin-tree-line
+            />
+          </template>
         </div>
         <div
           v-if="isScrollable && isExpanded"

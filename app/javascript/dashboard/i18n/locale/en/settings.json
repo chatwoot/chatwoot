@@ -1,4 +1,29 @@
 {
+  "CHANNEL_GROUPS": {
+    "TITLE": "Channel groups",
+    "DESCRIPTION": "Organize related channels into shared groups. Open a group to see its conversations, or expand it in the sidebar to browse individual channels.",
+    "CREATE": "Create group",
+    "EDIT": "Edit group",
+    "BACK": "Back to inboxes",
+    "NAME": "Group name",
+    "NAME_HINT": "Up to {count} characters.",
+    "NAME_PLACEHOLDER": "e.g. Northstar",
+    "SAVE": "Save group",
+    "DELETE": "Delete group",
+    "DELETE_NAMED": "Delete {name}",
+    "DELETE_DESCRIPTION": "The channels and their conversations are kept. The channels will appear individually in the sidebar.",
+    "CHANNEL_COUNT": "{count} channels",
+    "MEMBERS_HINT": "Select the channels for this group. A channel belongs to one group, so selecting a channel moves it out of the group it is in.",
+    "SEARCH": "Search channels",
+    "EMPTY": "Create a group to organize related channels in the sidebar.",
+    "NO_CHANNELS": "No channels found.",
+    "SAVED": "Channel group saved.",
+    "DELETED": "Channel group deleted.",
+    "LOAD_ERROR": "Could not load channel groups.",
+    "RETRY": "Retry",
+    "SAVE_ERROR": "Could not save the group. Use a unique name of up to 100 characters.",
+    "DELETE_ERROR": "Could not delete the group."
+  },
   "PROFILE_SETTINGS": {
     "LINK": "Profile Settings",
     "TITLE": "Profile Settings",
@@ -309,6 +334,10 @@
     }
   },
   "SIDEBAR": {
+    "CHANNEL_GROUP": {
+      "EXPAND": "Show channels in {name}",
+      "COLLAPSE": "Hide channels in {name}"
+    },
     "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",

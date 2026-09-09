@@ -7744,6 +7744,195 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/channel_groups": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Channel Groups"
+        ],
+        "operationId": "list-all-channel-groups",
+        "summary": "List all channel groups",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "List the channel groups of the account, with the group members the current user can access",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "Array of channel groups",
+                  "items": {
+                    "$ref": "#/components/schemas/channel_group"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Channel Groups"
+        ],
+        "operationId": "create-a-channel-group",
+        "summary": "Create a channel group",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Create a channel group in the account. Administrator access is required.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/account_id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/channel_group_create_update_payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/channel_group"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/channel_groups/{channel_group_id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "$ref": "#/components/parameters/channel_group_id"
+        }
+      ],
+      "patch": {
+        "tags": [
+          "Channel Groups"
+        ],
+        "operationId": "update-a-channel-group",
+        "summary": "Update a channel group",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Rename a channel group or replace its members. Administrator access is required.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/channel_group_create_update_payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/channel_group"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Channel Groups"
+        ],
+        "operationId": "delete-a-channel-group",
+        "summary": "Delete a channel group",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Delete a channel group. Its inboxes and their conversations are kept. Administrator access is required.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The channel group does not exist in the account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/teams": {
       "parameters": [
         {
@@ -9718,6 +9907,30 @@
           "updated_at": {
             "type": "string",
             "description": "The date and time when the canned response was updated"
+          }
+        }
+      },
+      "channel_group": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "The ID of the channel group"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the channel group"
+          },
+          "account_id": {
+            "type": "number",
+            "description": "The ID of the account the channel group belongs to"
+          },
+          "inbox_ids": {
+            "type": "array",
+            "description": "The IDs of the inboxes in the group that the current user can access",
+            "items": {
+              "type": "number"
+            }
           }
         }
       },
@@ -14052,6 +14265,27 @@
           }
         }
       },
+      "channel_group_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the channel group, unique within the account",
+            "example": "Northstar"
+          },
+          "inbox_ids": {
+            "type": "array",
+            "description": "The IDs of the inboxes in the group. An inbox belongs to one group, so listing it here moves it out of the group it was in. Omit the attribute to keep the current members.",
+            "items": {
+              "type": "number"
+            },
+            "example": [
+              1,
+              2
+            ]
+          }
+        }
+      },
       "label_create_update_payload": {
         "type": "object",
         "properties": {
@@ -16307,6 +16541,15 @@
         "required": true,
         "description": "The ID of the team to be updated"
       },
+      "channel_group_id": {
+        "in": "path",
+        "name": "channel_group_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The ID of the channel group"
+      },
       "inbox_id": {
         "in": "path",
         "name": "inbox_id",
@@ -16529,6 +16772,10 @@
       "description": "Pre-defined responses for common queries"
     },
     {
+      "name": "Channel Groups",
+      "description": "Group related inboxes for navigation and filtering"
+    },
+    {
       "name": "Contacts",
       "description": "Contact management APIs"
     },
@@ -16631,6 +16878,7 @@
         "Agents",
         "Audit Logs",
         "Canned Responses",
+        "Channel Groups",
         "Contacts",
         "Contact Labels",
         "Conversation Assignments",

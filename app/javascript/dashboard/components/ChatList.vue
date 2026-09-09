@@ -56,6 +56,7 @@ import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.j
 const props = defineProps({
   conversationInbox: { type: [String, Number], default: 0 },
   teamId: { type: [String, Number], default: 0 },
+  channelGroupId: { type: [String, Number], default: 0 },
   label: { type: String, default: '' },
   conversationType: { type: String, default: '' },
   foldersId: { type: [String, Number], default: 0 },
@@ -246,6 +247,16 @@ const conversationListPagination = computed(() => {
   return currentPage.value + 1;
 });
 
+const channelGroups = useMapGetter('channelGroups/getGroups');
+const activeChannelGroup = computed(() =>
+  channelGroups.value.find(group => group.id === Number(props.channelGroupId))
+);
+// Live updates arrive per conversation, so the list needs the member inboxes to
+// decide whether an incoming conversation belongs to the open group.
+const channelGroupInboxIds = computed(() =>
+  props.channelGroupId ? activeChannelGroup.value?.inbox_ids || [] : undefined
+);
+
 const conversationFilters = computed(() => {
   return {
     inboxId: props.conversationInbox ? props.conversationInbox : undefined,
@@ -255,6 +266,8 @@ const conversationFilters = computed(() => {
     page: conversationListPagination.value,
     labels: props.label ? [props.label] : undefined,
     teamId: props.teamId || undefined,
+    channelGroupId: props.channelGroupId || undefined,
+    channelGroupInboxIds: channelGroupInboxIds.value,
     conversationType: props.conversationType || undefined,
   };
 });
@@ -275,6 +288,9 @@ const pageTitle = computed(() => {
   }
   if (activeTeam.value.name) {
     return activeTeam.value.name;
+  }
+  if (props.channelGroupId) {
+    return activeChannelGroup.value?.name || t('CHANNEL_GROUPS.TITLE');
   }
   if (props.label) {
     return `#${props.label}`;
@@ -513,6 +529,20 @@ function initializeExistingFilterToModal() {
     props.label
   ).map(useCamelCase);
 
+  if (channelGroupInboxIds.value) {
+    otherFilters.push({
+      attributeKey: 'inbox_id',
+      attributeModel: 'standard',
+      customAttributeType: '',
+      filterOperator: 'equal_to',
+      queryOperator: 'and',
+      values: channelGroupInboxIds.value.map(id => ({
+        id,
+        name: store.getters['inboxes/getInbox'](id)?.name,
+      })),
+    });
+  }
+
   appliedFilter.value = [...appliedFilter.value, ...otherFilters];
 }
 
@@ -650,7 +680,7 @@ function openLastItemAfterDeleteInFolder() {
 
 function redirectToConversationList() {
   const {
-    params: { accountId, inbox_id: inboxId, label, teamId },
+    params: { accountId, inbox_id: inboxId, label, teamId, channelGroupId },
     name,
   } = route;
 
@@ -670,6 +700,7 @@ function redirectToConversationList() {
       inboxId,
       label,
       teamId,
+      channelGroupId,
     })
   );
 }
@@ -857,6 +888,7 @@ provide('isConversationSelected', isConversationSelected);
 provide('deleteConversation', handleDelete);
 
 watch(activeTeam, () => resetAndFetchData());
+watch(channelGroupInboxIds, () => resetAndFetchData());
 
 watch(
   computed(() => props.conversationInbox),
@@ -958,6 +990,7 @@ watch(chatLists, () => {
       :show-end-of-list-message="showEndOfListMessage"
       :label="label"
       :team-id="teamId"
+      :channel-group-id="channelGroupId"
       :folders-id="foldersId"
       :conversation-type="conversationType"
       :show-assignee="showAssigneeInConversationCard"

@@ -511,6 +511,23 @@
 /api/v1/profile:
   $ref: ./profile/index.yml
 
+# Channel Groups
+/api/v1/accounts/{account_id}/channel_groups:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/channel_groups/index.yml
+  post:
+    $ref: ./application/channel_groups/create.yml
+/api/v1/accounts/{account_id}/channel_groups/{channel_group_id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/channel_group_id'
+  patch:
+    $ref: ./application/channel_groups/update.yml
+  delete:
+    $ref: ./application/channel_groups/delete.yml
+
 # Teams
 /api/v1/accounts/{account_id}/teams:
   parameters:

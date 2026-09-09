@@ -112,6 +112,9 @@ const openDelete = inbox => {
           </span>
         </template>
         <template #actions>
+          <router-link v-if="isAdmin" :to="{ name: 'settings_channel_groups' }">
+            <Button slate :label="$t('CHANNEL_GROUPS.TITLE')" size="sm" />
+          </router-link>
           <router-link v-if="isAdmin" :to="{ name: 'settings_inbox_new' }">
             <Button :label="$t('SETTINGS.INBOXES.NEW_INBOX')" size="sm" />
           </router-link>

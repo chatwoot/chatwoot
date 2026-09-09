@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_08_120000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -626,6 +626,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
   end
 
+  create_table "channel_groups", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", limit: 100, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "account_id, lower((name)::text)", name: "index_channel_groups_on_account_id_and_name", unique: true
+    t.index ["account_id"], name: "index_channel_groups_on_account_id"
+  end
+
   create_table "channel_instagram", force: :cascade do |t|
     t.string "access_token", null: false
     t.datetime "expires_at", null: false
@@ -1150,7 +1159,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.integer "sender_name_type", default: 0, null: false
     t.string "business_name"
     t.jsonb "csat_config", default: {}, null: false
+    t.bigint "channel_group_id"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
+    t.index ["channel_group_id"], name: "index_inboxes_on_channel_group_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
   end
@@ -1596,6 +1607,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
   add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
+  add_foreign_key "channel_groups", "accounts", on_delete: :cascade
+  add_foreign_key "inboxes", "channel_groups", on_delete: :nullify
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).

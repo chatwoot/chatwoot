@@ -694,6 +694,30 @@
           }
         }
       },
+      "channel_group": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "The ID of the channel group"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the channel group"
+          },
+          "account_id": {
+            "type": "number",
+            "description": "The ID of the account the channel group belongs to"
+          },
+          "inbox_ids": {
+            "type": "array",
+            "description": "The IDs of the inboxes in the group that the current user can access",
+            "items": {
+              "type": "number"
+            }
+          }
+        }
+      },
       "custom_attribute": {
         "type": "object",
         "properties": {
@@ -5025,6 +5049,27 @@
           }
         }
       },
+      "channel_group_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the channel group, unique within the account",
+            "example": "Northstar"
+          },
+          "inbox_ids": {
+            "type": "array",
+            "description": "The IDs of the inboxes in the group. An inbox belongs to one group, so listing it here moves it out of the group it was in. Omit the attribute to keep the current members.",
+            "items": {
+              "type": "number"
+            },
+            "example": [
+              1,
+              2
+            ]
+          }
+        }
+      },
       "label_create_update_payload": {
         "type": "object",
         "properties": {
@@ -7280,6 +7325,15 @@
         "required": true,
         "description": "The ID of the team to be updated"
       },
+      "channel_group_id": {
+        "in": "path",
+        "name": "channel_group_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The ID of the channel group"
+      },
       "inbox_id": {
         "in": "path",
         "name": "inbox_id",
@@ -7504,6 +7558,7 @@
         "Agents",
         "Audit Logs",
         "Canned Responses",
+        "Channel Groups",
         "Contacts",
         "Contact Labels",
         "Conversation Assignments",
