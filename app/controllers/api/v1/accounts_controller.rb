@@ -23,7 +23,8 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def create
-    @user, @account = AccountBuilder.new(**account_builder_params).perform
+    builder_class = account_params[:shopify_pending_install_token].present? ? Shopify::SignupService : AccountBuilder
+    @user, @account = builder_class.new(**account_builder_params).perform
     enqueue_branding_enrichment
     if @user
       # Authenticated users (dashboard "add account") and api_only signups
