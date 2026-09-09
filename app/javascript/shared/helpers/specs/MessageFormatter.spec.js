@@ -241,6 +241,15 @@ After`;
       );
     });
 
+    it('keeps the hard-break marker out of a link written without a scheme', () => {
+      const { formattedMessage } = new MessageFormatter(
+        'www.example.com/trip/\\\nNext line'
+      );
+
+      expect(formattedMessage).toContain('href="http://www.example.com/trip/"');
+      expect(formattedMessage).not.toContain('%5C');
+    });
+
     it('keeps a trailing backslash that is not a hard break', () => {
       const { formattedMessage } = new MessageFormatter(
         'https://example.com/trip\\ next'
