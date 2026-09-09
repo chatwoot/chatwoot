@@ -48,6 +48,24 @@ describe Whatsapp::Providers::WhatsappCloudService do
         expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
 
+      it 'preserves HTML-like content in normal message requests' do
+        message.update!(content: "<a>\n<b></b></a>asdf")
+
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: {
+              messaging_product: 'whatsapp',
+              context: nil,
+              to: '+123456789',
+              text: { body: message.content },
+              type: 'text'
+            }.to_json
+          )
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+
       it 'calls message endpoints for a reply to messages' do
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
