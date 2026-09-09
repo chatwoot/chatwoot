@@ -24,6 +24,11 @@ properties:
       - string
       - 'null'
     description: TikTok business ID associated with the inbox
+  provider_name:
+    type:
+      - string
+      - 'null'
+    description: Provider username or page name associated with the social inbox
   profile_id:
     type:
       - string
