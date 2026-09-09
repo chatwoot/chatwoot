@@ -18,6 +18,11 @@ class Contacts::FilterService < FilterService
     }
   end
 
+  def filter_operation(query_hash, current_index)
+    coerce_text_attribute_values(query_hash) if @custom_attribute_type.present? && @attribute_data_type == 'text'
+    super
+  end
+
   def filter_values(query_hash)
     current_val = query_hash['values'][0]
     if query_hash['attribute_key'] == 'phone_number'
