@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
   before_action :ensure_api_inbox, only: :update
+  before_action :ensure_client_message_id_is_a_key, only: :create
 
   def index
     @messages = message_finder.perform
@@ -9,6 +10,8 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     user = Current.user || @resource
     mb = Messages::MessageBuilder.new(user, @conversation, params)
     @message = mb.perform
+  rescue CustomExceptions::ClientMessageIdConflict => e
+    render json: { error: e.message }, status: e.http_status
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
@@ -92,6 +95,17 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def already_translated_content_available?
     message.translations.present? && message.translations[permitted_params[:target_language]].present?
+  end
+
+  # Omitting client_message_id keeps the non-idempotent behaviour, but sending one means
+  # asking for idempotency. A blank or non-string value cannot key anything, and JSON
+  # numbers or booleans would be cast into a key that only looks deliberate, so both are
+  # refused here rather than at the model, which never sees the value the client sent.
+  def ensure_client_message_id_is_a_key
+    return unless params.key?(:client_message_id)
+    return if params[:client_message_id].is_a?(String) && params[:client_message_id].present?
+
+    render_could_not_create_error('client_message_id must be a non-empty string')
   end
 
   # API inbox check

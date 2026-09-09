@@ -98,6 +98,102 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.last.attachments.first.file_type).to eq('image')
       end
 
+      context 'when the request carries a client_message_id' do
+        let(:client_message_id) { '01JD8Z9Q6FYX8N3W2ABCDEF' }
+
+        it 'returns the durable identity on the created message' do
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'test-message', client_message_id: client_message_id },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response).to conform_schema(200)
+          expect(response.parsed_body['client_message_id']).to eq(client_message_id)
+        end
+
+        it 'answers a retry after a lost response with the original message and delivers once' do
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'test-message', client_message_id: client_message_id, echo_id: 'attempt-1' },
+               headers: agent.create_new_auth_token,
+               as: :json
+          original = response.parsed_body
+
+          expect do
+            post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+                 params: { content: 'test-message', client_message_id: client_message_id, echo_id: 'attempt-2' },
+                 headers: agent.create_new_auth_token,
+                 as: :json
+          end.not_to have_enqueued_job(SendReplyJob)
+
+          expect(response).to have_http_status(:success)
+          expect(response).to conform_schema(200)
+          expect(response.parsed_body['id']).to eq(original['id'])
+          expect(response.parsed_body['created_at']).to eq(original['created_at'])
+          expect(response.parsed_body['echo_id']).to eq('attempt-2')
+          expect(conversation.messages.count).to eq(1)
+        end
+
+        it 'rejects a key reused for a different message' do
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'test-message', client_message_id: client_message_id },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'a different message', client_message_id: client_message_id },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:conflict)
+          expect(response.parsed_body['error']).to include(client_message_id)
+          expect(conversation.messages.count).to eq(1)
+        end
+
+        it 'rejects a key sent as an empty string rather than treating it as omitted' do
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'test-message', client_message_id: '' },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('client_message_id must be a non-empty string')
+          expect(conversation.messages.count).to eq(0)
+        end
+
+        it 'rejects a key sent as a JSON number rather than casting it to a string' do
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'test-message', client_message_id: 1234 },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('client_message_id must be a non-empty string')
+          expect(conversation.messages.count).to eq(0)
+        end
+
+        it 'rejects a key outside the accepted bounds' do
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'test-message', client_message_id: "spaces are not allowed #{client_message_id}" },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(conversation.messages.count).to eq(0)
+        end
+
+        it 'rejects a key on a payload the capability does not cover' do
+          file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'test-message', client_message_id: client_message_id, attachments: [file] },
+               headers: agent.create_new_auth_token
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(conversation.messages.count).to eq(0)
+        end
+      end
+
       context 'when api inbox' do
         let(:api_channel) { create(:channel_api, account: account) }
         let(:api_inbox) { create(:inbox, channel: api_channel, account: account) }

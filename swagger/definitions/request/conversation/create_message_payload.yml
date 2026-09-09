@@ -24,6 +24,19 @@ properties:
     type: object
     description: Attributes based on the content type
     example: {}
+  client_message_id:
+    type: string
+    maxLength: 64
+    pattern: '^[A-Za-z0-9_.:-]{1,64}$'
+    description: |
+      Optional durable identity for this send, unique within the conversation. Repeating a
+      create with the same value returns the message the first accepted request created, in
+      its current stored state, instead of sending another one, so a client can safely retry
+      a send whose response was lost. Reusing the value for a different payload is rejected
+      with 409. Supported for attachment-free text replies and private notes only; advertised
+      as `message_client_message_id_text` by `GET /api`. Send it as a JSON string; an empty or
+      non-string value is rejected with 422 rather than treated as absent.
+    example: '01JD8Z9Q6FYX8N3W2ABCDEF'
   campaign_id:
     type: integer
     description: The campaign id to which the message belongs

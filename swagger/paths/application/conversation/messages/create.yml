@@ -145,6 +145,12 @@ responses:
           allOf:
             - $ref: '#/components/schemas/generic_id'
             - $ref: '#/components/schemas/message'
+  '409':
+    description: The client_message_id was already used for a different message in this conversation
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
   '404':
     description: Conversation not found
     content:

@@ -840,6 +840,13 @@
             ],
             "description": "The source ID of the message"
           },
+          "client_message_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The durable identity supplied by the client on creation. Present only when the\nclient sent one. Unique within the conversation.\n"
+          },
           "content_type": {
             "type": [
               "string",
@@ -3180,6 +3187,13 @@
             "type": "object",
             "description": "Attributes based on the content type",
             "example": {}
+          },
+          "client_message_id": {
+            "type": "string",
+            "maxLength": 64,
+            "pattern": "^[A-Za-z0-9_.:-]{1,64}$",
+            "description": "Optional durable identity for this send, unique within the conversation. Repeating a\ncreate with the same value returns the message the first accepted request created, in\nits current stored state, instead of sending another one, so a client can safely retry\na send whose response was lost. Reusing the value for a different payload is rejected\nwith 409. Supported for attachment-free text replies and private notes only; advertised\nas `message_client_message_id_text` by `GET /api`. Send it as a JSON string; an empty or\nnon-string value is rejected with 422 rather than treated as absent.\n",
+            "example": "01JD8Z9Q6FYX8N3W2ABCDEF"
           },
           "campaign_id": {
             "type": "integer",
@@ -5942,6 +5956,13 @@
               "null"
             ],
             "description": "The echo ID of the message, used for deduplication"
+          },
+          "client_message_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The durable identity supplied by the client on creation, unique within the\nconversation. Unlike `echo_id` it is persisted, and a repeated create with the same\nvalue returns this message in its current stored state instead of sending another one.\n"
           },
           "created_at": {
             "type": "integer",

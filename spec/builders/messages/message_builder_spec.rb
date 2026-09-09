@@ -22,6 +22,137 @@ describe Messages::MessageBuilder do
     end
   end
 
+  describe 'client_message_id' do
+    let(:first_attempt) do
+      ActionController::Parameters.new({ content: 'test', client_message_id: '01JD8Z9Q6F7', echo_id: 'attempt-1' })
+    end
+    let(:retried_attempt) do
+      ActionController::Parameters.new({ content: 'test', client_message_id: '01JD8Z9Q6F7', echo_id: 'attempt-2' })
+    end
+
+    it 'stores the key and its payload fingerprint on the created message' do
+      message = described_class.new(user, conversation, first_attempt).perform
+
+      expect(message.client_message_id).to eq('01JD8Z9Q6F7')
+      expect(message.client_message_digest).to be_present
+    end
+
+    it 'returns the original message when the client retries a send whose response was lost' do
+      original = described_class.new(user, conversation, first_attempt).perform
+
+      replayed = described_class.new(user, conversation, retried_attempt).perform
+
+      expect(replayed.id).to eq(original.id)
+      expect(replayed.created_at).to eq(original.reload.created_at)
+      expect(conversation.messages.count).to eq(1)
+    end
+
+    it 'echoes the correlation id of the retry rather than the original attempt' do
+      described_class.new(user, conversation, first_attempt).perform
+
+      replayed = described_class.new(user, conversation, retried_attempt).perform
+
+      expect(replayed.echo_id).to eq('attempt-2')
+    end
+
+    it 'does not queue delivery again for a replayed send' do
+      described_class.new(user, conversation, first_attempt).perform
+
+      expect { described_class.new(user, conversation, retried_attempt).perform }.not_to have_enqueued_job(SendReplyJob)
+    end
+
+    it 'rejects the key when it is reused for different content' do
+      described_class.new(user, conversation, first_attempt).perform
+      conflicting = ActionController::Parameters.new({ content: 'a different message', client_message_id: '01JD8Z9Q6F7' })
+
+      expect { described_class.new(user, conversation, conflicting).perform }
+        .to raise_error(CustomExceptions::ClientMessageIdConflict)
+    end
+
+    it 'rejects the key when it is reused to turn a reply into a private note' do
+      described_class.new(user, conversation, first_attempt).perform
+      conflicting = ActionController::Parameters.new({ content: 'test', private: true, client_message_id: '01JD8Z9Q6F7' })
+
+      expect { described_class.new(user, conversation, conflicting).perform }
+        .to raise_error(CustomExceptions::ClientMessageIdConflict)
+    end
+
+    it 'replays a retry that a fresh send would now be refused' do
+      original = described_class.new(user, conversation, first_attempt).perform
+
+      replayed = with_modified_env CONVERSATION_MESSAGE_PER_MINUTE_LIMIT: '1' do
+        described_class.new(user, conversation, retried_attempt).perform
+      end
+
+      expect(replayed.id).to eq(original.id)
+      expect(conversation.messages.count).to eq(1)
+    end
+
+    it 'replays a retry sent after the original message was deleted' do
+      original = described_class.new(user, conversation, first_attempt).perform
+      original.update!(content: 'This message was deleted', content_type: :text, content_attributes: { deleted: true })
+
+      replayed = described_class.new(user, conversation, retried_attempt).perform
+
+      expect(replayed.id).to eq(original.id)
+      expect(conversation.messages.count).to eq(1)
+    end
+
+    it 'leaves a transaction the caller opened usable' do
+      original = described_class.new(user, conversation, first_attempt).perform
+
+      replayed = nil
+      ActiveRecord::Base.transaction do
+        replayed = described_class.new(user, conversation, retried_attempt).perform
+        conversation.messages.count
+      end
+
+      expect(replayed.id).to eq(original.id)
+    end
+
+    it 'leaves clients that send no key on the existing behaviour' do
+      keyless = ActionController::Parameters.new({ content: 'test' })
+
+      described_class.new(user, conversation, keyless).perform
+      described_class.new(user, conversation, keyless).perform
+
+      expect(conversation.messages.count).to eq(2)
+    end
+  end
+
+  describe 'concurrent sends reusing a client_message_id' do
+    # Two callers have to race on separate database connections, which the transaction
+    # the rest of the suite shares between the example and the connection cannot provide.
+    self.use_transactional_tests = false
+
+    let(:params) { ActionController::Parameters.new({ content: 'test', client_message_id: '01JD8Z9Q6F7' }) }
+
+    # Rows created here are committed, so they have to be removed again. Installation config
+    # is seeded once per database and the rest of the suite reads it.
+    after do
+      tables = ActiveRecord::Base.connection.tables - %w[schema_migrations ar_internal_metadata installation_configs]
+      ActiveRecord::Base.connection.execute("TRUNCATE #{tables.join(', ')} CASCADE")
+    end
+
+    it 'creates one message and answers both callers with it' do
+      conversation
+      user
+      barrier = Concurrent::CyclicBarrier.new(2)
+
+      messages = Array.new(2) do
+        Thread.new do
+          ActiveRecord::Base.connection_pool.with_connection do
+            barrier.wait
+            described_class.new(user, conversation, params.deep_dup).perform
+          end
+        end
+      end.map(&:value)
+
+      expect(conversation.messages.count).to eq(1)
+      expect(messages.map(&:id).uniq).to eq([conversation.messages.first.id])
+    end
+  end
+
   describe '#content_attributes' do
     context 'when content_attributes is a JSON string' do
       let(:params) do
