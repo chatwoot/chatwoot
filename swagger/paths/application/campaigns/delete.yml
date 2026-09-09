@@ -11,6 +11,6 @@ responses:
   '200':
     description: Success
   '401':
-    description: Unauthorized
+    description: Authentication failed or the user is not an account administrator
   '403':
-    description: Administrator permissions are required, or API access is disabled for the account
+    description: API access is disabled for the account

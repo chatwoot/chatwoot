@@ -38,7 +38,7 @@ properties:
   trigger_rules:
     type: object
     additionalProperties: true
-    description: Website campaign trigger rules. Use an empty object for a one-off campaign.
+    description: Website campaign trigger rules. Defaults to an empty object and can be omitted for a one-off campaign.
     example:
       url: https://example.com/pricing
       time_on_page: 10

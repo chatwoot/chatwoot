@@ -8192,10 +8192,10 @@
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Authentication failed or the user is not an account administrator"
           },
           "403": {
-            "description": "Administrator permissions are required, or API access is disabled for the account"
+            "description": "API access is disabled for the account"
           }
         }
       },
@@ -8229,8 +8229,7 @@
                       "type": "Label",
                       "id": 5
                     }
-                  ],
-                  "trigger_rules": {}
+                  ]
                 }
               }
             }
@@ -8248,10 +8247,10 @@
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Authentication failed or the user is not an account administrator"
           },
           "403": {
-            "description": "Administrator permissions are required, or API access is disabled for the account"
+            "description": "API access is disabled for the account"
           },
           "422": {
             "description": "Campaign validation failed"
@@ -8298,10 +8297,10 @@
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Authentication failed or the user is not an account administrator"
           },
           "403": {
-            "description": "Administrator permissions are required, or API access is disabled for the account"
+            "description": "API access is disabled for the account"
           }
         }
       },
@@ -8339,10 +8338,10 @@
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Authentication failed or the user is not an account administrator"
           },
           "403": {
-            "description": "Administrator permissions are required, or API access is disabled for the account"
+            "description": "API access is disabled for the account"
           },
           "422": {
             "description": "Campaign validation failed"
@@ -8366,10 +8365,10 @@
             "description": "Success"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Authentication failed or the user is not an account administrator"
           },
           "403": {
-            "description": "Administrator permissions are required, or API access is disabled for the account"
+            "description": "API access is disabled for the account"
           }
         }
       }
@@ -15170,7 +15169,7 @@
           "trigger_rules": {
             "type": "object",
             "additionalProperties": true,
-            "description": "Website campaign trigger rules. Use an empty object for a one-off campaign.",
+            "description": "Website campaign trigger rules. Defaults to an empty object and can be omitted for a one-off campaign.",
             "example": {
               "url": "https://example.com/pricing",
               "time_on_page": 10
@@ -15206,8 +15205,7 @@
                 "required": [
                   "title",
                   "inbox_id",
-                  "message",
-                  "trigger_rules"
+                  "message"
                 ]
               }
             ]
