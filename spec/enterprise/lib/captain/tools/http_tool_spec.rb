@@ -204,6 +204,16 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
         expect(result).to eq('An error occurred while executing the request')
       end
 
+      it 'marks playground failures for run details without changing production output' do
+        custom_tool.update!(endpoint_url: 'https://example.com/data')
+        stub_request(:get, 'https://example.com/data').to_raise(SocketError.new('Failed to connect'))
+        tool_context.state[:source] = 'playground'
+
+        result = tool.perform(tool_context)
+
+        expect(result).to eq('ERROR: An error occurred while executing the request')
+      end
+
       it 'returns generic error message on timeout' do
         custom_tool.update!(endpoint_url: 'https://example.com/data')
         stub_request(:get, 'https://example.com/data').to_timeout
