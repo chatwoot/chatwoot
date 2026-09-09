@@ -1,0 +1,16 @@
+tags:
+  - Campaigns
+operationId: delete-campaign
+summary: Delete a campaign
+security:
+  - userApiKey: []
+description: >-
+  Delete a campaign from the account.
+  Requires an account administrator and API access enabled for the account.
+responses:
+  '200':
+    description: Success
+  '401':
+    description: Authentication failed or the user is not an account administrator
+  '403':
+    description: API access is disabled for the account

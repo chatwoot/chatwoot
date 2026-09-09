@@ -92,7 +92,11 @@ export default {
       },
     },
     actionTypesAsOptions() {
-      return this.actionTypes.map(a => ({ id: a.key, name: a.label }));
+      return this.actionTypes.map(a => ({
+        id: a.key,
+        name: a.label,
+        icon: a.icon,
+      }));
     },
     isVerticalLayout() {
       return ['team_message', 'textarea', 'email'].includes(this.inputType);

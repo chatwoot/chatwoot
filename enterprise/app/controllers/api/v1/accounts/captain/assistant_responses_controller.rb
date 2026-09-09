@@ -4,7 +4,7 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
   before_action :set_current_page, only: [:index]
   before_action :set_assistant, only: [:create, :update]
   before_action :set_responses, except: [:create]
-  before_action :set_response, only: [:show, :update, :destroy]
+  before_action :set_response, only: [:show, :update, :destroy, :drilldown]
 
   RESULTS_PER_PAGE = 25
 
@@ -12,9 +12,16 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
     filtered_query = apply_filters(@responses)
     @responses_count = filtered_query.count
     @responses = filtered_query.page(@current_page).per(RESULTS_PER_PAGE)
+    set_response_usage_counts if can_view_drilldown?
   end
 
   def show; end
+
+  def drilldown
+    return head :not_found unless @response.documentable_type == 'User'
+
+    render json: Captain::ConversationUsageBuilder.new(@response, drilldown_params, usage_column: :used_faq_ids).build
+  end
 
   def create
     @response = Current.account.captain_assistant_responses.new(response_params.except(:assistant_id))
@@ -34,6 +41,22 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
   end
 
   private
+
+  def set_response_usage_counts
+    user_created_responses = @responses.select { |response| response.documentable_type == 'User' }
+    @response_usage_counts = Captain::ConversationUsageBuilder.conversation_counts(
+      user_created_responses,
+      usage_column: :used_faq_ids
+    )
+  end
+
+  def can_view_drilldown?
+    policy(Captain::Assistant).drilldown?
+  end
+
+  def drilldown_params
+    params.permit(:page, :per_page)
+  end
 
   def apply_filters(base_query)
     base_query = base_query.where(assistant_id: permitted_params[:assistant_id]) if permitted_params[:assistant_id].present?

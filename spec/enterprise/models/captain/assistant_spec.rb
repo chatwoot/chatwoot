@@ -6,6 +6,18 @@ RSpec.describe Captain::Assistant, type: :model do
   let(:contact) { create(:contact, account: account, additional_attributes: { 'country_code' => 'US' }) }
   let(:conversation) { create(:conversation, account: account, contact: contact) }
 
+  describe 'associations' do
+    it 'keeps Captain and AgentBot conversations separate when their ids match' do
+      assistant = create(:captain_assistant, id: 999_999, account: account)
+      agent_bot = create(:agent_bot, id: assistant.id, account: account)
+      captain_conversation = create(:conversation, account: account, ai_assignee: assistant)
+      agent_bot_conversation = create(:conversation, account: account, ai_assignee: agent_bot)
+
+      expect(assistant.assigned_conversations).to contain_exactly(captain_conversation)
+      expect(agent_bot.assigned_conversations).to contain_exactly(agent_bot_conversation)
+    end
+  end
+
   describe 'inactive conversation settings' do
     it 'uses safe defaults when settings are unavailable' do
       assistant.account.enable_features('captain_integration_v2')
@@ -299,6 +311,50 @@ RSpec.describe Captain::Assistant, type: :model do
         an_instance_of(Captain::Tools::FaqLookupTool),
         an_instance_of(Captain::Tools::HandoffTool)
       )
+    end
+  end
+
+  describe '#available_tool_ids' do
+    it 'excludes disabled custom tools' do
+      enabled_tool = create(:captain_custom_tool, account: account)
+      disabled_tool = create(:captain_custom_tool, :disabled, account: account)
+
+      expect(assistant.available_tool_ids).to include(enabled_tool.slug)
+      expect(assistant.available_tool_ids).not_to include(disabled_tool.slug)
+    end
+  end
+
+  describe '#known_tool_ids' do
+    it 'includes disabled custom tools as valid references' do
+      disabled_tool = create(:captain_custom_tool, :disabled, account: account)
+
+      expect(assistant.known_tool_ids).to include(disabled_tool.slug)
+    end
+  end
+
+  describe '#agent_instructions' do
+    it 'keeps the Assistant human handoff prompt unchanged' do
+      instructions = assistant.agent_instructions
+
+      expect(instructions).to include('# Human Handoff Protocol', 'captain--tools--handoff')
+      expect(instructions).not_to include('You are drafting a reply for a support agent to review.')
+    end
+
+    it 'renders the separate Copilot reply suggestion prompt when requested' do
+      assistant.update!(
+        response_guidelines: ['Include the raw guide URL https://yc.ms/eglb1H.'],
+        guardrails: ['Never add citation numbers or footnotes.']
+      )
+      scenario = create(:captain_scenario, assistant: assistant, account: account, title: 'Refund workflow')
+
+      instructions = assistant.agent_instructions(nil, prompt_template: 'copilot_reply_suggestion')
+
+      expect(instructions).to include(
+        'You are drafting a reply for a support agent to review.',
+        'Include the raw guide URL https://yc.ms/eglb1H.',
+        'Never add citation numbers or footnotes.'
+      )
+      expect(instructions).not_to include('# Human Handoff Protocol', scenario.title, "handoff_to_#{scenario.handoff_key}")
     end
   end
 end

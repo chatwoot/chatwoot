@@ -60,6 +60,10 @@ module Whatsapp::IncomingMessageServiceHelpers
     Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(waid, :cloud)
   end
 
+  def phone_number_candidates(phone_number)
+    Whatsapp::PhoneNumberNormalizationService.new(inbox).phone_number_candidates(phone_number)
+  end
+
   def whatsapp_phone_number(identifier)
     identifier = identifier.to_s
     return if identifier.blank?

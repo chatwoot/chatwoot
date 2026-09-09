@@ -32,7 +32,10 @@ const hotKeySources = {
     { id: 'until_tomorrow', parent: 'snooze_notification' },
     { id: 'until_tomorrow', parent: 'other_menu' },
   ],
+  macroHotKeys: [{ id: 'execute_a_macro' }],
 };
+
+const pendingAttributes = ref(null);
 
 vi.mock('dashboard/composables/commands/useAppearanceHotKeys', () => ({
   useAppearanceHotKeys: () => ({
@@ -63,6 +66,15 @@ vi.mock('dashboard/composables/commands/useBulkActionsHotKeys', () => ({
 vi.mock('dashboard/composables/commands/useConversationHotKeys', () => ({
   useConversationHotKeys: () => ({
     conversationHotKeys: ref(hotKeySources.conversationHotKeys),
+  }),
+}));
+
+vi.mock('dashboard/composables/commands/useMacroHotKeys', () => ({
+  useMacroHotKeys: () => ({
+    macroHotKeys: ref(hotKeySources.macroHotKeys),
+    pendingAttributes,
+    submitPendingAttributes: vi.fn(),
+    dismissPendingAttributes: vi.fn(),
   }),
 }));
 
@@ -100,7 +112,10 @@ describe('commandbar', () => {
   let element;
 
   const mountCommandBar = async (props = {}) => {
-    wrapper = mount(CommandBar, { props });
+    wrapper = mount(CommandBar, {
+      props,
+      global: { stubs: { ConversationResolveAttributesModal: true } },
+    });
     await flushPromises();
     element = wrapper.find('ninja-keys').element;
     return wrapper;
@@ -151,6 +166,7 @@ describe('commandbar', () => {
           'goto',
           'bulk',
           'conversation',
+          'execute_a_macro',
         ])
       );
     });

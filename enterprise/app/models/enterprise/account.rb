@@ -1,9 +1,4 @@
 module Enterprise::Account
-  # Transitional marker for the Captain V1 to V2 rollout. Set this to false only
-  # for accounts that must remain on V1 during paid plan reconciliation.
-  # Remove once every account is migrated to V2.
-  CAPTAIN_V2_DEFAULT_ELIGIBLE = 'captain_v2_default_eligible'.freeze
-
   class << self
     def captain_document_sync_intervals
       parse_captain_document_sync_intervals(InstallationConfig.find_by(name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS')&.value)
@@ -107,11 +102,7 @@ module Enterprise::Account
 
   def enable_default_features
     super
-    if ChatwootApp.self_hosted_enterprise?
-      enable_features('captain_integration', 'captain_integration_v2')
-    elsif ChatwootApp.chatwoot_cloud?
-      internal_attributes[CAPTAIN_V2_DEFAULT_ELIGIBLE] = true
-    end
+    enable_features('captain_integration', 'captain_integration_v2') if ChatwootApp.self_hosted_enterprise?
   end
 
   def sync_assignment_features
