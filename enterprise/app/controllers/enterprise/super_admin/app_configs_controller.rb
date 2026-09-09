@@ -34,7 +34,7 @@ module Enterprise::SuperAdmin::AppConfigsController
   def shopify_partner_config_errors
     errors = super
     app_handle = params.dig('app_config', 'SHOPIFY_APP_HANDLE')
-    return errors if @config != 'shopify' || app_handle.nil?
+    return errors if @config != 'shopify' || app_handle.blank?
     return errors if app_handle.match?(Enterprise::Billing::ShopifyAppPricingUrl::APP_HANDLE_FORMAT)
 
     errors + ['SHOPIFY_APP_HANDLE must contain only lowercase letters, numbers, and hyphens']
