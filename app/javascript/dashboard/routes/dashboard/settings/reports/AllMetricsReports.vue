@@ -31,6 +31,7 @@ const handleEmailDelivery = async format => {
   const params = {
     from: currentFilters.value.since,
     to: currentFilters.value.until,
+    businessHours: currentFilters.value.businessHours,
     format,
     sendEmail: true,
     email: customEmail.value.trim() || undefined,
@@ -69,6 +70,7 @@ const handleDirectDownload = async format => {
   const params = {
     from: currentFilters.value.since,
     to: currentFilters.value.until,
+    businessHours: currentFilters.value.businessHours,
     format,
     sendEmail: false,
   };

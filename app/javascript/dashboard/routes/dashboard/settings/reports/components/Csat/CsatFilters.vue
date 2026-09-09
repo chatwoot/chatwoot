@@ -38,7 +38,6 @@ const isRestrictedAgent = computed(() => {
 const showDropdownMenu = ref(false);
 const from = ref(0);
 const to = ref(0);
-const businessHours = ref(false);
 const timeRange = ref({
   since: '00:00',
   until: '23:59',
@@ -193,7 +192,6 @@ const emitChange = () => {
   emit('filterChange', {
     from: from.value,
     to: to.value,
-    businessHours: businessHours.value,
     timeRange: timeRange.value,
     selectedAgents: appliedFilters.value.user_ids.map(id => ({ id })),
     selectedInboxes: appliedFilters.value.inbox_id.map(id => ({ id })),
@@ -259,7 +257,6 @@ const showDropdown = () => {
 const onDateFilterChange = updatedFilter => {
   from.value = updatedFilter.from;
   to.value = updatedFilter.to;
-  businessHours.value = updatedFilter.businessHours;
   timeRange.value = updatedFilter.timeRange;
   emitChange();
 };
@@ -273,6 +270,7 @@ onMounted(() => {
   <div class="flex flex-col w-full gap-3">
     <ReportFilterSelector
       show-time-range-filter
+      :show-business-hours-switch="false"
       @filter-change="onDateFilterChange"
     />
 

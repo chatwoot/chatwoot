@@ -68,7 +68,8 @@ class Api::V2::Accounts::ReportGenerationService
       team_ids: params[:team_ids],
       label_ids: params[:label_ids],
       time_since: params[:time_since],
-      time_until: params[:time_until]
+      time_until: params[:time_until],
+      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
     }.compact
   end
 

@@ -12,9 +12,10 @@ class MessageTemplates::Template::CsatSurvey
   delegate :contact, :account, :inbox, to: :conversation
 
   def message_content
-    return ' ' if csat_config.blank? || csat_config['message'].blank? || csat_config['message_enabled'] == false
+    return ' ' if csat_config['message_enabled'] == false
+    return csat_config['message'] if csat_config['message'].present?
 
-    csat_config['message']
+    I18n.t('conversations.templates.csat_input_message_body')
   end
 
   def csat_survey_message_params

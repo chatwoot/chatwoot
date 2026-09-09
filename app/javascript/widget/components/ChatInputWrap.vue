@@ -168,7 +168,7 @@ export default {
         :on-attach="onSendAttachment"
       />
       <button
-        v-if="showAttachment && canRequestCsat"
+        v-if="canRequestCsat"
         class="flex items-center justify-center shrink-0 min-h-8 min-w-8 rounded-md text-n-slate-11 hover:text-n-slate-12 hover:bg-n-slate-2 dark:hover:bg-n-solid-3 transition-colors"
         :aria-label="$t('CSAT.RATE_CHAT_BUTTON')"
         :title="$t('CSAT.RATE_CHAT_BUTTON')"
