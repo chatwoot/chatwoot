@@ -65,9 +65,9 @@ class Telegram::BusinessConnectionService
       next false unless applicable_update?(config, connection['id'], update_id, expected_bot_token, expected_update_id)
       next if stale_connection_update?(config, connection['id'], update_id)
 
+      record_update(config, update_id)
       apply_update_ordering(connection, update_id, expected_update_id)
       config['connections'][connection['id']] = connection
-      record_update(config, update_id)
 
       persist_config(config)
     end
@@ -109,6 +109,10 @@ class Telegram::BusinessConnectionService
   def record_update(config, update_id)
     return false if update_id.blank? || stale_observed_update?(config, update_id)
 
+    if update_ids_expired?(config) && config['last_update_id'].present? && update_id < config['last_update_id']
+      config.fetch('connections', {}).each_value { |connection| connection.delete('update_id') }
+    end
+
     config['last_update_id'] = update_id
     config['last_update_id_received_at'] = Time.current.to_i
     true
@@ -140,6 +144,7 @@ class Telegram::BusinessConnectionService
       next false unless channel.bot_token == expected_bot_token
       next false if connection_id.present? && connection_update_id(channel.business_config, connection_id) != expected_update_id
 
+      error = Channel::Telegram::MULTIPLE_ACTIVE_CONNECTIONS_ERROR if active_connection_count(channel.business_config) > 1
       update_channel(
         business_config_checked_at: Time.current,
         business_config_error: error.to_s.truncate(500)

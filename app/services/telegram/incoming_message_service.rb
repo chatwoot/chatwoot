@@ -14,8 +14,8 @@ class Telegram::IncomingMessageService
     set_contact
     return if update_already_processed?
 
-    set_conversation
     update_contact_avatar
+    set_conversation
     # TODO: Since the recent Telegram Business update, we need to explicitly mark messages as read using an additional request.
     # Otherwise, the client will see their messages as unread.
     # Chatwoot defines a 'read' status in its enum but does not currently update this status for Telegram conversations.
@@ -41,7 +41,7 @@ class Telegram::IncomingMessageService
   private
 
   def set_contact
-    contact_inbox = ::ContactInboxWithContactBuilder.new(
+    @contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: telegram_params_from_id,
       inbox: inbox,
       contact_attributes: contact_attributes
@@ -52,8 +52,7 @@ class Telegram::IncomingMessageService
     # the message does not include a language code.
     # This is critical for AI assistants and translation plugins.
 
-    @contact_inbox = contact_inbox
-    @contact = contact_inbox.contact
+    @contact = @contact_inbox.contact
   end
 
   def process_message_attachments
@@ -83,10 +82,9 @@ class Telegram::IncomingMessageService
     @contact_inbox.with_lock do
       # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
       @conversation = if @inbox.lock_to_single_conversation
-                        @contact_inbox.conversations.last
+                        context_conversations.last
                       else
-                        @contact_inbox.conversations
-                                      .where.not(status: :resolved).last
+                        context_conversations.where.not(status: :resolved).last
                       end
       next if @conversation
 
@@ -94,17 +92,20 @@ class Telegram::IncomingMessageService
     end
   end
 
+  def context_conversations
+    connection_id = telegram_params_business_connection_id.presence
+    @contact_inbox.conversations
+                  .where("conversations.additional_attributes ->> 'business_connection_id' IS NOT DISTINCT FROM ?", connection_id)
+  end
+
   def update_already_processed?
     return false if params[:update_id].blank?
 
-    @contact_inbox.conversations.joins(:messages).exists?(messages: { source_id: telegram_params_message_id.to_s })
+    context_conversations.joins(:messages).exists?(messages: { source_id: telegram_params_message_id.to_s })
   end
 
   def contact_attributes
-    {
-      name: "#{telegram_params_first_name} #{telegram_params_last_name}",
-      additional_attributes: additional_attributes
-    }
+    { name: "#{telegram_params_first_name} #{telegram_params_last_name}", additional_attributes: additional_attributes }
   end
 
   def additional_attributes

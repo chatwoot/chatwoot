@@ -6,7 +6,7 @@ class Webhooks::TelegramEventsJob < ApplicationJob
 
     channel = Channel::Telegram.find_by(bot_token: params[:bot_token])
 
-    if channel_is_inactive?(channel)
+    if channel.blank?
       log_inactive_channel(channel, params)
       return
     end
@@ -15,13 +15,6 @@ class Webhooks::TelegramEventsJob < ApplicationJob
   end
 
   private
-
-  def channel_is_inactive?(channel)
-    return true if channel.blank?
-    return true unless channel.account.active?
-
-    false
-  end
 
   def log_inactive_channel(channel, params)
     message = if channel&.id
@@ -43,14 +36,22 @@ class Webhooks::TelegramEventsJob < ApplicationJob
         business_connection_service.process(
           telegram_params[:business_connection], update_id: telegram_params[:update_id]
         )
-      elsif telegram_params[:edited_message].present? || telegram_params[:edited_business_message].present?
-        Telegram::UpdateMessageService.new(inbox: channel.inbox, params: telegram_params).perform
+      elsif !channel.account.active?
+        log_inactive_channel(channel, params)
       else
         sync_business_connection(business_connection_service, telegram_params)
-        Telegram::IncomingMessageService.new(inbox: channel.inbox, params: telegram_params).perform
+        process_message_event(channel, telegram_params)
       end
     ensure
       observe_update(business_connection_service, telegram_params[:update_id], channel.id)
+    end
+  end
+
+  def process_message_event(channel, telegram_params)
+    if telegram_params[:edited_message].present? || telegram_params[:edited_business_message].present?
+      Telegram::UpdateMessageService.new(inbox: channel.inbox, params: telegram_params).perform
+    elsif telegram_params[:deleted_business_messages].blank?
+      Telegram::IncomingMessageService.new(inbox: channel.inbox, params: telegram_params).perform
     end
   end
 
@@ -61,7 +62,8 @@ class Webhooks::TelegramEventsJob < ApplicationJob
   end
 
   def sync_business_connection(business_connection_service, telegram_params)
-    connection_id = telegram_params.dig(:business_message, :business_connection_id)
+    business_params = telegram_params[:business_message] || telegram_params[:edited_business_message] || telegram_params[:deleted_business_messages]
+    connection_id = business_params&.dig(:business_connection_id)
     business_connection_service.sync(connection_id, update_id: telegram_params[:update_id]) if connection_id.present?
   end
 end
