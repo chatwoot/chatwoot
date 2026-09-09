@@ -155,6 +155,25 @@ describe Messages::Instagram::MessageBuilder do
       expect(message.attachments.count).to eq(0)
     end
 
+    it 'creates the message when the attachment download fails' do
+      messaging = dm_params[:entry][0]['messaging'][0]
+      messaging['message']['attachments'] = [{ 'type' => 'image', 'payload' => { 'url' => 'https://www.example.com/test.jpeg' } }]
+      create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
+
+      stub_request(:get, 'https://www.example.com/test.jpeg').to_return(status: 404, body: '', headers: {})
+
+      described_class.new(messaging, instagram_inbox).perform
+
+      instagram_inbox.reload
+
+      expect(instagram_inbox.conversations.count).to be 1
+      expect(instagram_inbox.messages.count).to be 1
+
+      message = instagram_inbox.messages.first
+      expect(message.content).to eq('This is the first message from the customer')
+      expect(message.attachments.first.external_url).to eq('https://www.example.com/test.jpeg')
+    end
+
     it 'does not create message for unsupported file type' do
       messaging = story_mention_params[:entry][0][:messaging][0]
       contact = create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)

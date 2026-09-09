@@ -63,12 +63,27 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def message_text
     content = message.processed_message_content || message.content
+    text = content.present? ? content.gsub(MENTION_REGEX, '\1') : content
 
-    if content.present?
-      content.gsub(MENTION_REGEX, '\1')
-    else
-      content
+    [text, unattached_attachment_note].select(&:present?).join("\n")
+  end
+
+  # file_type values that never carry a downloaded file by design - their data lives entirely
+  # in external_url/meta, so an attachment of one of these types is not a failed download.
+  NEVER_DOWNLOADED_FILE_TYPES = %w[location fallback contact embed].freeze
+
+  # build_files_array skips attachments whose blob failed to download, so without this
+  # note an attachment-only message (no text) ends up with blank message_content and is
+  # never posted to Slack at all - the customer's message becomes invisible there.
+  # Deliberately broader than with_attached_file?: a share/story_mention/ig_* attachment can
+  # also fail its download and end up unattached, and still needs this fallback.
+  def unattached_attachment_note
+    unattached = message.attachments.reject do |attachment|
+      attachment.file.attached? || attachment.external_url.blank? || NEVER_DOWNLOADED_FILE_TYPES.include?(attachment.file_type)
     end
+    return if unattached.blank?
+
+    unattached.map { |attachment| "Attachment (could not be uploaded): #{attachment.external_url}" }.join("\n")
   end
 
   def formatted_inbox_name
@@ -143,6 +158,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def build_files_array
     message.attachments.filter_map do |attachment|
       next unless attachment.with_attached_file?
+      next unless attachment.file.attached?
 
       build_file_payload(attachment)
     end

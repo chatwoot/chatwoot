@@ -342,6 +342,10 @@ const componentToRender = computed(() => {
     const fileType = props.attachments[0].fileType;
 
     if (fileType === ATTACHMENT_TYPES.FALLBACK) return FallbackBubble;
+    // `share` attachments have no dedicated chip (see AttachmentChips.vue) or bubble, so a
+    // failed-download share - kept as a message with only `external_url` - would otherwise
+    // render as a fully blank bubble. Fall back to the generic link card for it.
+    if (fileType === ATTACHMENT_TYPES.SHARE) return FallbackBubble;
 
     if (!props.content) {
       if (fileType === ATTACHMENT_TYPES.IMAGE) return ImageBubble;
