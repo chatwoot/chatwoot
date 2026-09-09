@@ -15,6 +15,8 @@ const { t } = useI18n();
 
 const formatScore = value => Number(value || 0).toFixed(1);
 const formatTrend = value => {
+  if (value === null) return '';
+
   const numericValue = Number(value || 0);
   if (numericValue === 0) return '0';
   const sign = numericValue > 0 ? '+' : '';

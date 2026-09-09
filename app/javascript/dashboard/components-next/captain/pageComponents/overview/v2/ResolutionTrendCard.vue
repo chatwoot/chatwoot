@@ -80,34 +80,45 @@ const countChartData = computed(() => {
   };
 });
 
-const rateChartData = computed(() => ({
-  categories: (props.trend?.buckets || []).map(bucketLabel),
-  series: [
+const hasComparison = computed(() =>
+  (props.trend?.buckets || []).some(bucket =>
+    Number.isFinite(bucket.previous_resolution_rate)
+  )
+);
+
+const rateChartData = computed(() => {
+  const buckets = props.trend?.buckets || [];
+  const series = [
     {
       id: 'current_resolution_rate',
       label: t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.CURRENT_PERIOD'),
       color: 'rgb(var(--iris-9))',
       valueColor: 'rgb(var(--iris-11))',
-      data: (props.trend?.buckets || []).map(bucket => ({
+      data: buckets.map(bucket => ({
         value: bucket.current_resolution_rate ?? undefined,
         description: comparisonDateLabel(bucket.starts_on, bucket.ends_on),
       })),
     },
-    {
+  ];
+
+  if (hasComparison.value) {
+    series.push({
       id: 'previous_resolution_rate',
       label: t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.PREVIOUS_PERIOD'),
       color: 'rgb(var(--iris-4))',
       valueColor: 'rgb(var(--slate-10))',
-      data: (props.trend?.buckets || []).map(bucket => ({
+      data: buckets.map(bucket => ({
         value: bucket.previous_resolution_rate ?? undefined,
         description: comparisonDateLabel(
           bucket.previous_starts_on,
           bucket.previous_ends_on
         ),
       })),
-    },
-  ],
-}));
+    });
+  }
+
+  return { categories: buckets.map(bucketLabel), series };
+});
 
 const measureOptions = computed(() =>
   [
@@ -150,7 +161,7 @@ const selectMeasure = ({ value }) => {
     <template #actions>
       <div class="flex items-center gap-2">
         <MetricHint
-          v-if="selectedMeasure === 'resolution_rate'"
+          v-if="selectedMeasure === 'resolution_rate' && hasComparison"
           :label="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.COMPARISON_LABEL')"
           :description="
             $t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.COMPARISON_HINT')

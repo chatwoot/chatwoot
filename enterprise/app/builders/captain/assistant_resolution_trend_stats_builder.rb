@@ -5,7 +5,6 @@ class Captain::AssistantResolutionTrendStatsBuilder
   include Captain::AssistantOutcomeClassification
 
   DAILY_GRANULARITY_THRESHOLD = 15.days
-  STATS_START_DATE = Date.new(2026, 8, 11)
   DAYS_PER_WEEK = 7
   WEEK_START = Captain::AssistantStatsWindow::WEEK_START
 
@@ -101,6 +100,8 @@ class Captain::AssistantResolutionTrendStatsBuilder
   end
 
   def serialize_bucket(bucket, comparison_bucket, current_counts, previous_counts)
+    comparison_available = (window.current.first - comparison_shift).to_date >= STATS_START_DATE
+
     {
       starts_on: bucket[:starts_at].to_date,
       ends_on: bucket[:ends_on],
@@ -109,7 +110,7 @@ class Captain::AssistantResolutionTrendStatsBuilder
       conversations_handled: current_counts[0],
       resolved_by_captain: current_counts[1],
       current_resolution_rate: resolution_rate(current_counts),
-      previous_resolution_rate: comparison_bucket[:starts_at].to_date >= STATS_START_DATE ? resolution_rate(previous_counts) : nil
+      previous_resolution_rate: comparison_available ? resolution_rate(previous_counts) : nil
     }
   end
 

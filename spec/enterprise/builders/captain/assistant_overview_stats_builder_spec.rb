@@ -7,6 +7,8 @@ RSpec.describe Captain::AssistantOverviewStatsBuilder do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
 
+  before { travel_to(Time.zone.parse('2026-10-15 12:00:00')) }
+
   context 'with no outcomes' do
     it 'returns only the overview metrics' do
       expect(metrics.keys).to contain_exactly(
@@ -193,7 +195,7 @@ RSpec.describe Captain::AssistantOverviewStatsBuilder do
   end
 
   it 'does not count an episode in both adjacent day windows' do
-    travel_to Time.zone.parse('2026-08-12 12:00:00') do
+    travel_to Time.zone.parse('2026-09-12 12:00:00') do
       create(
         :conversation_outcome,
         account: account,

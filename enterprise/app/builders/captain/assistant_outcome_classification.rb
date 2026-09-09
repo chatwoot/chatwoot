@@ -1,5 +1,6 @@
 # Shared query-time classifications for Captain conversation outcome reporting.
 module Captain::AssistantOutcomeClassification
+  STATS_START_DATE = Date.new(2026, 8, 11)
   DURABLE_RESOLUTION_WINDOW = 7.days
   USAGE_LIMIT_REASON = 'usage_limit'.freeze
 
