@@ -1,4 +1,6 @@
 import MessagesView from '../MessagesView.vue';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 // The jump is plain DOM work on the component instance, so the methods are exercised directly
 // rather than mounting MessagesView, which pulls in the whole conversation store.
@@ -51,6 +53,37 @@ describe('jumpToMessage', () => {
     expect(vm.fetchPreviousMessages).toHaveBeenCalled();
     expect(target.scrollIntoView).toHaveBeenCalled();
     expect(vm.scrollToBottom).not.toHaveBeenCalled();
+  });
+
+  // The target pulled in by the history load mounts during the nextTick, after the click's own
+  // event has come and gone, so the highlight has to be announced once it is on screen.
+  it('announces the highlight only once the target exists', async () => {
+    const highlighted = [];
+    const listener = payload => highlighted.push(payload);
+    emitter.on(BUS_EVENTS.HIGHLIGHT_MESSAGE, listener);
+
+    target.id = 'message-other';
+    vm.fetchPreviousMessages = vi.fn().mockImplementation(async () => {
+      expect(highlighted).toHaveLength(0);
+      target.id = 'message42';
+    });
+
+    await jumpToMessage.call(vm, 42);
+    emitter.off(BUS_EVENTS.HIGHLIGHT_MESSAGE, listener);
+
+    expect(highlighted).toEqual([{ messageId: 42 }]);
+  });
+
+  it('announces no highlight when the message was never found', async () => {
+    const highlighted = [];
+    const listener = payload => highlighted.push(payload);
+    emitter.on(BUS_EVENTS.HIGHLIGHT_MESSAGE, listener);
+
+    target.id = 'message-other';
+    await jumpToMessage.call(vm, 42);
+    emitter.off(BUS_EVENTS.HIGHLIGHT_MESSAGE, listener);
+
+    expect(highlighted).toHaveLength(0);
   });
 
   // Jumping to the newest message is the opposite of what was asked for; staying put is honest.

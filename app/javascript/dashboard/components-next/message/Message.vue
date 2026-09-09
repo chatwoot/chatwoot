@@ -538,17 +538,19 @@ const setupHighlightTimer = () => {
 };
 
 // Jumping from a reply quote lands close to the message but not exactly on it, so the same
-// highlight the deep link uses says which one was meant.
+// highlight the deep link uses says which one was meant. This has its own event rather than
+// riding SCROLL_TO_MESSAGE: a target pulled in by the history load mounts after that one has
+// already fired, and would centre on screen with no highlight at all.
 const highlightOnJump = ({ messageId } = {}) => {
   if (Number(messageId) === Number(props.id)) highlight();
 };
 
 onMounted(() => {
   setupHighlightTimer();
-  emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, highlightOnJump);
+  emitter.on(BUS_EVENTS.HIGHLIGHT_MESSAGE, highlightOnJump);
 });
 
-onUnmounted(() => emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, highlightOnJump));
+onUnmounted(() => emitter.off(BUS_EVENTS.HIGHLIGHT_MESSAGE, highlightOnJump));
 
 provideMessageContext({
   ...toRefs(props),

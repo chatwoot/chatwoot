@@ -367,6 +367,9 @@ export default {
       // yanking them to the newest message, which is the opposite of what they asked for.
       if (!messageElement) return;
 
+      // Emitted here, not by the quote itself: a target loaded by the fetch above only mounts
+      // and subscribes during the nextTick, so an earlier signal would never reach it.
+      emitter.emit(BUS_EVENTS.HIGHLIGHT_MESSAGE, { messageId });
       this.isProgrammaticScroll = true;
       // Invariant: fetchPreviousMessages must not run while a jump is in flight — its height
       // compensation is captured before the scroll and then assigns scrollTop. A smooth scroll
