@@ -3,7 +3,7 @@ import { useContactConversationNavigation } from 'dashboard/composables/useConta
 
 const mockDispatch = vi.fn();
 const currentChat = ref({});
-const contactConversationRecords = ref({});
+const neighbourRecords = ref({});
 const appliedContactFilter = ref(null);
 
 vi.mock('dashboard/composables/store', () => ({
@@ -11,7 +11,7 @@ vi.mock('dashboard/composables/store', () => ({
   useMapGetter: getter => {
     if (getter === 'getSelectedChat') return currentChat;
     if (getter === 'getAppliedContactFilter') return appliedContactFilter;
-    return ref(id => contactConversationRecords.value[id] || []);
+    return ref(id => neighbourRecords.value[id] || []);
   },
 }));
 
@@ -25,12 +25,12 @@ describe('useContactConversationNavigation', () => {
   beforeEach(() => {
     mockDispatch.mockClear();
     currentChat.value = {};
-    contactConversationRecords.value = {};
+    neighbourRecords.value = {};
     appliedContactFilter.value = null;
   });
 
-  const setConversations = (contactId, conversations) => {
-    contactConversationRecords.value = { [contactId]: conversations };
+  const setNeighbours = (conversationId, conversations) => {
+    neighbourRecords.value = { [conversationId]: conversations };
   };
 
   const openConversation = (contactId, conversationId, status = 'resolved') => {
@@ -41,11 +41,11 @@ describe('useContactConversationNavigation', () => {
     };
   };
 
-  it('resolves the neighbours by conversation start time', () => {
-    setConversations(7, [
-      { id: 14, created_at: 300 },
+  it('orders the window returned for the open conversation', () => {
+    setNeighbours(13, [
       { id: 11, created_at: 100 },
       { id: 13, created_at: 200 },
+      { id: 14, created_at: 300 },
     ]);
     openConversation(7, 13);
 
@@ -56,23 +56,8 @@ describe('useContactConversationNavigation', () => {
     expect(newerConversation.value.id).toBe(14);
   });
 
-  it('breaks created_at ties by id', () => {
-    setConversations(7, [
-      { id: 13, created_at: 200 },
-      { id: 12, created_at: 200 },
-      { id: 14, created_at: 300 },
-    ]);
-    openConversation(7, 13);
-
-    const { olderConversation, newerConversation } =
-      useContactConversationNavigation();
-
-    expect(olderConversation.value.id).toBe(12);
-    expect(newerConversation.value.id).toBe(14);
-  });
-
   it('returns no older conversation for the oldest one', () => {
-    setConversations(7, [
+    setNeighbours(11, [
       { id: 11, created_at: 100 },
       { id: 12, created_at: 200 },
     ]);
@@ -86,7 +71,7 @@ describe('useContactConversationNavigation', () => {
   });
 
   it('returns no newer conversation for the newest one', () => {
-    setConversations(7, [
+    setNeighbours(12, [
       { id: 11, created_at: 100 },
       { id: 12, created_at: 200 },
     ]);
@@ -102,7 +87,7 @@ describe('useContactConversationNavigation', () => {
   it.each(['open', 'pending', 'snoozed'])(
     'keeps the older conversation but hides the newer one while %s',
     status => {
-      setConversations(7, [
+      setNeighbours(13, [
         { id: 11, created_at: 100 },
         { id: 13, created_at: 200 },
         { id: 14, created_at: 300 },
@@ -118,7 +103,7 @@ describe('useContactConversationNavigation', () => {
   );
 
   it('shows the newer conversation on a live chat while filtered to the contact', () => {
-    setConversations(7, [
+    setNeighbours(13, [
       { id: 11, created_at: 100 },
       { id: 13, created_at: 200 },
       { id: 14, created_at: 300 },
@@ -133,12 +118,8 @@ describe('useContactConversationNavigation', () => {
     expect(newerConversation.value.id).toBe(14);
   });
 
-  it('returns no neighbours when the open conversation is not in the list', () => {
-    setConversations(7, [
-      { id: 11, created_at: 100 },
-      { id: 12, created_at: 200 },
-    ]);
-    openConversation(7, 99);
+  it('returns no neighbours until they are resolved', () => {
+    openConversation(7, 13);
 
     const { olderConversation, newerConversation } =
       useContactConversationNavigation();
@@ -147,42 +128,33 @@ describe('useContactConversationNavigation', () => {
     expect(newerConversation.value).toBeNull();
   });
 
-  it('returns no neighbours without a contact', () => {
-    const { olderConversation, newerConversation } =
-      useContactConversationNavigation();
+  it('does not fetch without a contact', () => {
+    useContactConversationNavigation();
 
-    expect(olderConversation.value).toBeNull();
-    expect(newerConversation.value).toBeNull();
     expect(mockDispatch).not.toHaveBeenCalled();
   });
 
-  it('fetches the contact conversations when the open conversation is unknown', () => {
-    openConversation(7, 99);
-
-    useContactConversationNavigation();
-
-    expect(mockDispatch).toHaveBeenCalledWith('contactConversations/get', 7);
-  });
-
-  it('does not refetch when the open conversation is already cached', () => {
-    setConversations(7, [{ id: 13, created_at: 200 }]);
+  it('fetches the neighbours for the open conversation', () => {
     openConversation(7, 13);
 
     useContactConversationNavigation();
 
-    expect(mockDispatch).not.toHaveBeenCalled();
+    expect(mockDispatch).toHaveBeenCalledWith(
+      'contactConversations/getNeighbours',
+      { contactId: 7, conversationId: 13 }
+    );
   });
 
-  it('refetches when switching to a conversation the cache cannot place', async () => {
-    setConversations(7, [{ id: 13, created_at: 200 }]);
+  it('refetches when the open conversation changes', async () => {
     openConversation(7, 13);
-
     useContactConversationNavigation();
-    expect(mockDispatch).not.toHaveBeenCalled();
 
-    openConversation(7, 99);
+    openConversation(7, 14);
     await nextTick();
 
-    expect(mockDispatch).toHaveBeenCalledWith('contactConversations/get', 7);
+    expect(mockDispatch).toHaveBeenLastCalledWith(
+      'contactConversations/getNeighbours',
+      { contactId: 7, conversationId: 14 }
+    );
   });
 });

@@ -9,19 +9,19 @@ export function useContactConversationNavigation() {
   const { buildConversationPath } = useConversationRoutePath();
 
   const currentChat = useMapGetter('getSelectedChat');
-  const contactConversations = useMapGetter(
-    'contactConversations/getContactConversation'
+  const neighbours = useMapGetter(
+    'contactConversations/getConversationNeighbours'
   );
   const appliedContactFilter = useMapGetter('getAppliedContactFilter');
 
   const contactId = computed(() => currentChat.value?.meta?.sender?.id);
 
-  const orderedConversations = computed(() => {
-    if (!contactId.value) return [];
-    return [...contactConversations.value(contactId.value)].sort(
+  // The server returns the open conversation between its neighbours.
+  const orderedConversations = computed(() =>
+    [...neighbours.value(currentChat.value?.id)].sort(
       (a, b) => a.created_at - b.created_at || a.id - b.id
-    );
-  });
+    )
+  );
 
   const currentIndex = computed(() =>
     orderedConversations.value.findIndex(
@@ -48,18 +48,15 @@ export function useContactConversationNavigation() {
       : null
   );
 
-  // Refetch when the cached list cannot place the open conversation.
   watch(
     [contactId, () => currentChat.value?.id],
     ([id, conversationId]) => {
       if (!id || !conversationId) return;
 
-      const isConversationKnown = contactConversations
-        .value(id)
-        .some(conversation => conversation.id === conversationId);
-      if (!isConversationKnown) {
-        store.dispatch('contactConversations/get', id);
-      }
+      store.dispatch('contactConversations/getNeighbours', {
+        contactId: id,
+        conversationId,
+      });
     },
     { immediate: true }
   );

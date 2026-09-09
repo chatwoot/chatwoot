@@ -1,3 +1,4 @@
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import {
   frontendURL,
@@ -16,7 +17,10 @@ import wootConstants from 'dashboard/constants/globals';
 export function useConversationRoutePath() {
   const route = useRoute();
 
-  const buildConversationPath = conversationId => {
+  const buildConversationPath = (
+    conversationId,
+    { keepFolderScope = true } = {}
+  ) => {
     const {
       params: { accountId, inbox_id: inboxId, label, teamId },
       name,
@@ -31,6 +35,8 @@ export function useConversationRoutePath() {
       conversationType = 'unattended';
     }
 
+    const isOnFolder = isOnFoldersView({ route: { name } });
+
     return frontendURL(
       conversationUrl({
         accountId,
@@ -38,13 +44,13 @@ export function useConversationRoutePath() {
         id: conversationId,
         label,
         teamId,
-        foldersId: isOnFoldersView({ route: { name } }) ? route.params.id : 0,
+        foldersId: keepFolderScope && isOnFolder ? route.params.id : 0,
         conversationType,
       })
     );
   };
 
-  const buildConversationListPath = () => {
+  const buildConversationListPath = ({ keepFolderScope = true } = {}) => {
     const {
       params: { accountId, inbox_id: inboxId, label, teamId },
       name,
@@ -60,15 +66,21 @@ export function useConversationRoutePath() {
       conversationType = CONVERSATION_TYPE.UNATTENDED;
     }
 
+    const isOnFolder = isOnFoldersView({ route: { name } });
+
     return conversationListPageURL({
       accountId,
       conversationType,
-      customViewId: isOnFoldersView({ route: { name } }) ? route.params.id : 0,
+      customViewId: keepFolderScope && isOnFolder ? route.params.id : 0,
       inboxId,
       label,
       teamId,
     });
   };
 
-  return { buildConversationPath, buildConversationListPath };
+  const isOnFolderView = computed(() =>
+    isOnFoldersView({ route: { name: route.name } })
+  );
+
+  return { buildConversationPath, buildConversationListPath, isOnFolderView };
 }

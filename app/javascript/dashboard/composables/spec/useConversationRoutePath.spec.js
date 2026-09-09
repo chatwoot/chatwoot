@@ -51,6 +51,15 @@ describe('useConversationRoutePath', () => {
       );
     });
 
+    it('drops the custom view context when the folder scope is not kept', () => {
+      mockRoute.name = 'folder_conversations';
+      mockRoute.params = { accountId: '1', id: '7' };
+      const { buildConversationPath } = useConversationRoutePath();
+      expect(buildConversationPath(5, { keepFolderScope: false })).toBe(
+        '/app/accounts/1/conversations/5'
+      );
+    });
+
     it('keeps the mentions context', () => {
       mockRoute.name = 'conversation_through_mentions';
       const { buildConversationPath } = useConversationRoutePath();
@@ -107,6 +116,15 @@ describe('useConversationRoutePath', () => {
       expect(buildConversationListPath()).toBe('/app/accounts/1/custom_view/7');
     });
 
+    it('drops the custom view context when the folder scope is not kept', () => {
+      mockRoute.name = 'folder_conversations';
+      mockRoute.params = { accountId: '1', id: '7' };
+      const { buildConversationListPath } = useConversationRoutePath();
+      expect(buildConversationListPath({ keepFolderScope: false })).toBe(
+        '/app/accounts/1/dashboard'
+      );
+    });
+
     it('keeps the mentions context', () => {
       mockRoute.name = 'conversation_mentions';
       const { buildConversationListPath } = useConversationRoutePath();
@@ -129,6 +147,22 @@ describe('useConversationRoutePath', () => {
       expect(buildConversationListPath()).toBe(
         '/app/accounts/1/unattended/conversations'
       );
+    });
+  });
+
+  describe('isOnFolderView', () => {
+    it.each(['folder_conversations', 'conversations_through_folders'])(
+      'is true on %s',
+      routeName => {
+        mockRoute.name = routeName;
+        const { isOnFolderView } = useConversationRoutePath();
+        expect(isOnFolderView.value).toBe(true);
+      }
+    );
+
+    it('is false outside folder routes', () => {
+      const { isOnFolderView } = useConversationRoutePath();
+      expect(isOnFolderView.value).toBe(false);
     });
   });
 });

@@ -43,6 +43,29 @@ describe('#actions', () => {
     });
   });
 
+  describe('#getNeighbours', () => {
+    it('stores the neighbours if API is success', async () => {
+      const payload = [{ id: 11 }, { id: 13 }];
+      axios.get.mockResolvedValue({ data: { payload } });
+      await actions.getNeighbours(
+        { commit },
+        { contactId: 4, conversationId: 13 }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CONVERSATION_NEIGHBOURS, { id: 13, data: payload }],
+      ]);
+    });
+
+    it('commits nothing if API is error', async () => {
+      axios.get.mockRejectedValue({ message: 'Incorrect header' });
+      await actions.getNeighbours(
+        { commit },
+        { contactId: 4, conversationId: 13 }
+      );
+      expect(commit.mock.calls).toEqual([]);
+    });
+  });
+
   describe('#create', () => {
     it('sends correct actions if API is success', async () => {
       axios.post.mockResolvedValue({ data: conversationList[0] });

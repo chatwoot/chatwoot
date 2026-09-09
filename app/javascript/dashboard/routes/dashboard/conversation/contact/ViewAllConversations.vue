@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
@@ -20,11 +20,12 @@ const store = useStore();
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const { buildConversationListPath } = useConversationRoutePath();
+const { buildConversationPath, buildConversationListPath, isOnFolderView } =
+  useConversationRoutePath();
 const { isOnExpandedLayout } = useUISettings();
 
-const contactConversations = useMapGetter(
-  'contactConversations/getContactConversation'
+const neighbours = useMapGetter(
+  'contactConversations/getConversationNeighbours'
 );
 const selectedChat = useMapGetter('getSelectedChat');
 const conversationById = useMapGetter('getConversationById');
@@ -32,7 +33,7 @@ const conversationById = useMapGetter('getConversationById');
 // Needs more than the open conversation, and a list to scope — the inbox view has none.
 const isVisible = computed(() => {
   if (String(route.name || '').startsWith('inbox_view')) return false;
-  return contactConversations.value(props.contact.id).length > 1;
+  return neighbours.value(selectedChat.value?.id).length > 1;
 });
 
 // Applying a filter empties the store; refetch the open conversation if it was dropped.
@@ -43,11 +44,22 @@ const restoreOpenConversation = conversationId => {
   }
 };
 
-// On the expanded layout, move to the list first; the path keeps the current scope.
+// A folder narrows the list to its own query, so the history has to leave that scope.
 const viewAllConversations = async () => {
-  const openConversationId = selectedChat.value?.id;
+  // The expanded layout moves to the list, so there is no open thread left to keep.
+  const openConversationId = isOnExpandedLayout.value
+    ? null
+    : selectedChat.value?.id;
+
   if (isOnExpandedLayout.value) {
-    await router.push(buildConversationListPath());
+    await router.push(buildConversationListPath({ keepFolderScope: false }));
+    // Leaving a folder resets the list, which would drop a filter applied before it.
+    await nextTick();
+  } else if (isOnFolderView.value) {
+    await router.push(
+      buildConversationPath(openConversationId, { keepFolderScope: false })
+    );
+    await nextTick();
   }
 
   store

@@ -65,6 +65,7 @@ const setNewConversationPayload = ({
 
 const state = {
   records: {},
+  neighbours: {},
   uiFlags: {
     isFetching: false,
   },
@@ -84,6 +85,8 @@ export const getters = {
     const records = $state.records[Number(id)] || [];
     return camelcaseKeys(records, { deep: true });
   },
+  getConversationNeighbours: $state => conversationId =>
+    $state.neighbours[Number(conversationId)] || [],
 };
 
 export const actions = {
@@ -137,6 +140,19 @@ export const actions = {
       });
     }
   },
+  getNeighbours: async ({ commit }, { contactId, conversationId }) => {
+    try {
+      const { data } = await ContactAPI.getConversations(contactId, {
+        conversationId,
+      });
+      commit(types.default.SET_CONVERSATION_NEIGHBOURS, {
+        id: conversationId,
+        data: data.payload,
+      });
+    } catch (error) {
+      // The links stay hidden when the neighbours cannot be resolved.
+    }
+  },
 };
 
 export const mutations = {
@@ -174,6 +190,12 @@ export const mutations = {
   [types.default.DELETE_CONTACT_CONVERSATION]: ($state, id) => {
     const { [id]: deletedRecord, ...remainingRecords } = $state.records;
     $state.records = remainingRecords;
+  },
+  [types.default.SET_CONVERSATION_NEIGHBOURS]: ($state, { id, data }) => {
+    $state.neighbours = {
+      ...$state.neighbours,
+      [id]: data,
+    };
   },
 };
 
