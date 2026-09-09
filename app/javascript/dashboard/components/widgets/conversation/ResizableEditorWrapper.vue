@@ -193,5 +193,33 @@ defineExpose({ toggleEditorExpand, resetEditorHeight });
       height var(--editor-height-transition),
       opacity var(--editor-height-transition);
   }
+
+  // Shares the resizable height between the editor and its footer-slot
+  // content (e.g. the quoted email preview); the 3rem floor keeps the
+  // editor usable at the minimum allowed height.
+  .resizable-editor-split {
+    @apply flex min-h-0 flex-col;
+
+    height: clamp(
+      var(--editor-min-allowed, 5rem),
+      var(--editor-height, 5rem),
+      var(--editor-max-allowed, 7.5rem)
+    );
+    transition: height var(--editor-height-transition);
+
+    .editor-mount {
+      @apply flex min-h-[3rem] flex-1 flex-col;
+    }
+
+    .ProseMirror-menubar-wrapper {
+      @apply flex min-h-0 flex-1 flex-col;
+    }
+
+    .resizable-editor-body {
+      @apply min-h-0 flex-1;
+
+      height: auto;
+    }
+  }
 }
 </style>

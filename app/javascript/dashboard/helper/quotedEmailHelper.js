@@ -1,8 +1,68 @@
 import { format, parseISO, isValid as isValidDate } from 'date-fns';
 import DOMPurify from 'dompurify';
 
+const NON_CONTENT_TAGS = new Set(['STYLE', 'SCRIPT', 'HEAD', 'TITLE']);
+const BLOCK_TAGS = new Set([
+  'ADDRESS',
+  'ARTICLE',
+  'ASIDE',
+  'BLOCKQUOTE',
+  'DD',
+  'DIV',
+  'DL',
+  'DT',
+  'FIELDSET',
+  'FIGCAPTION',
+  'FIGURE',
+  'FOOTER',
+  'H1',
+  'H2',
+  'H3',
+  'H4',
+  'H5',
+  'H6',
+  'HEADER',
+  'HR',
+  'LI',
+  'MAIN',
+  'NAV',
+  'OL',
+  'P',
+  'PRE',
+  'SECTION',
+  'TABLE',
+  'TR',
+  'UL',
+]);
+const TABLE_CELL_TAGS = new Set(['TD', 'TH']);
+
+const textFromNode = node => {
+  if (node.nodeType === Node.TEXT_NODE) {
+    return node.textContent;
+  }
+  if (
+    node.nodeType !== Node.ELEMENT_NODE ||
+    NON_CONTENT_TAGS.has(node.nodeName)
+  ) {
+    return '';
+  }
+  if (node.nodeName === 'BR') {
+    return '\n';
+  }
+
+  const childText = [...node.childNodes].map(textFromNode).join('');
+  if (BLOCK_TAGS.has(node.nodeName)) {
+    return `${childText}\n`;
+  }
+  if (TABLE_CELL_TAGS.has(node.nodeName)) {
+    return `${childText} `;
+  }
+  return childText;
+};
+
 /**
- * Extracts plain text from HTML content
+ * Extracts plain text from HTML content, keeping line breaks at block
+ * boundaries so adjacent blocks don't run together in the quoted text.
  * @param {string} html - HTML content to convert
  * @returns {string} Plain text content
  */
@@ -15,7 +75,9 @@ export const extractPlainTextFromHtml = html => {
   }
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = DOMPurify.sanitize(html);
-  return tempDiv.textContent || tempDiv.innerText || '';
+  return textFromNode(tempDiv)
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
 };
 
 /**
@@ -287,8 +349,37 @@ export const extractQuotedEmailText = lastEmail => {
   return fallbackContent;
 };
 
+// Keep in sync with the content length validation on Message (app/models/message.rb).
+const MAX_MESSAGE_CONTENT_LENGTH = 150000;
+
+// Outgoing content is rendered through Liquid on the server
+// (app/models/concerns/liquidable.rb); emit quoted {{ and {% tokens as
+// literals so customer-supplied expressions are never evaluated.
+const escapeLiquidTokens = text => text.replace(/\{[{%]/g, "{{ '$&' }}");
+
+const fitQuotedBlockWithinLimit = (quotedBlock, available) => {
+  if (quotedBlock.length <= available) {
+    return quotedBlock;
+  }
+
+  // Keep whole lines from the top — the oldest history sits at the bottom.
+  const kept = [];
+  let length = 0;
+  quotedBlock.split('\n').every(line => {
+    const nextLength = length + line.length + (kept.length ? 1 : 0);
+    if (nextLength > available) {
+      return false;
+    }
+    kept.push(line);
+    length = nextLength;
+    return true;
+  });
+  return kept.join('\n');
+};
+
 /**
- * Appends quoted text to message
+ * Appends quoted text to message, truncating the quote so the combined
+ * content stays within the server-side message length limit.
  * @param {string} message - Original message
  * @param {string} quotedText - Text to quote
  * @param {string} header - Quote header
@@ -296,21 +387,26 @@ export const extractQuotedEmailText = lastEmail => {
  */
 export const appendQuotedTextToMessage = (message, quotedText, header) => {
   const baseMessage = message ? String(message) : '';
-  const quotedBlock = formatQuotedTextAsBlockquote(quotedText, header);
+  let quotedBlock = formatQuotedTextAsBlockquote(quotedText, header);
 
   if (!quotedBlock) {
     return baseMessage;
   }
-
-  if (!baseMessage) {
-    return quotedBlock;
-  }
+  quotedBlock = escapeLiquidTokens(quotedBlock);
 
   let separator = '\n\n';
-  if (baseMessage.endsWith('\n\n')) {
+  if (!baseMessage || baseMessage.endsWith('\n\n')) {
     separator = '';
   } else if (baseMessage.endsWith('\n')) {
     separator = '\n';
+  }
+
+  quotedBlock = fitQuotedBlockWithinLimit(
+    quotedBlock,
+    MAX_MESSAGE_CONTENT_LENGTH - baseMessage.length - separator.length
+  );
+  if (!quotedBlock) {
+    return baseMessage;
   }
 
   return `${baseMessage}${separator}${quotedBlock}`;

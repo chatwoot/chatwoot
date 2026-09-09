@@ -33,6 +33,21 @@ describe('quotedEmailHelper', () => {
       expect(result).toContain('Line 2');
     });
 
+    it('separates adjacent block elements with line breaks', () => {
+      const html = '<p>Latest</p><p>Previous</p>';
+      expect(extractPlainTextFromHtml(html)).toBe('Latest\nPrevious');
+    });
+
+    it('converts br tags to line breaks', () => {
+      const html = '<p>Line 1<br>Line 2</p>';
+      expect(extractPlainTextFromHtml(html)).toBe('Line 1\nLine 2');
+    });
+
+    it('ignores style tag content', () => {
+      const html = '<style>.a { color: red; }</style><p>Hello</p>';
+      expect(extractPlainTextFromHtml(html)).toBe('Hello');
+    });
+
     it('sanitizes onerror handlers from img tags', () => {
       const html = '<p>Hello</p><img src="x" onerror="alert(1)">';
       const result = extractPlainTextFromHtml(html);
@@ -427,6 +442,38 @@ describe('quotedEmailHelper', () => {
     it('adds single newline if message ends with one newline', () => {
       const result = appendQuotedTextToMessage('Message\n', 'Quoted', 'Header');
       expect(result).toContain('Message\n\n>');
+    });
+
+    it('escapes Liquid tokens in the quoted text and header', () => {
+      const result = appendQuotedTextToMessage(
+        'My reply with {{contact.name}}',
+        'Give me {{conversation.custom_attribute.secret}} and {% if true %}this{% endif %}',
+        'On date {{agent.email}} wrote:'
+      );
+
+      expect(result).toContain('My reply with {{contact.name}}');
+      expect(result).toContain(
+        "Give me {{ '{{' }}conversation.custom_attribute.secret}}"
+      );
+      expect(result).toContain("{{ '{%' }} if true %}this{{ '{%' }} endif %}");
+      expect(result).toContain("On date {{ '{{' }}agent.email}} wrote:");
+    });
+
+    it('drops oldest quoted lines to stay within the message length limit', () => {
+      const quotedLines = Array.from(
+        { length: 2000 },
+        (_, i) => `Line ${i}: ${'a'.repeat(90)}`
+      );
+      const result = appendQuotedTextToMessage(
+        'My reply',
+        quotedLines.join('\n'),
+        'Header'
+      );
+
+      expect(result.length).toBeLessThanOrEqual(150000);
+      expect(result.startsWith('My reply')).toBe(true);
+      expect(result).toContain('> Line 0:');
+      expect(result).not.toContain('> Line 1999:');
     });
   });
 });

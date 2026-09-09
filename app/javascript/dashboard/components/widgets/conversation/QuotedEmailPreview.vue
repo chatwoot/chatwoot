@@ -1,5 +1,12 @@
 <script setup>
-import { computed, ref } from 'vue';
+import {
+  computed,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  ref,
+  useTemplateRef,
+} from 'vue';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useI18n } from 'vue-i18n';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -20,6 +27,13 @@ const emit = defineEmits(['remove']);
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
 
+// Matches max-h-60 on the expanded content below
+const MAX_EXPANDED_CONTENT_HEIGHT = 240;
+
+const rootRef = useTemplateRef('rootRef');
+const contentRef = useTemplateRef('contentRef');
+const requestEditorHeight = inject('requestEditorHeight', () => {});
+
 const isExpanded = ref(false);
 
 const formattedQuotedEmailText = computed(() =>
@@ -32,24 +46,42 @@ const toggleTooltip = computed(() =>
     : t('CONVERSATION.REPLYBOX.QUOTED_REPLY.SHOW_TOOLTIP')
 );
 
-const toggleExpand = () => {
+const toggleExpand = async () => {
   isExpanded.value = !isExpanded.value;
+  if (!isExpanded.value) {
+    requestEditorHeight(0);
+    return;
+  }
+
+  // Measure after nextTick — v-dompurify-html fills the pane a tick later.
+  await nextTick();
+  if (!rootRef.value || !contentRef.value) return;
+  const bodyHeight = rootRef.value.parentElement.offsetHeight;
+  const quoteHeight = Math.min(
+    contentRef.value.scrollHeight,
+    MAX_EXPANDED_CONTENT_HEIGHT
+  );
+  requestEditorHeight(bodyHeight + quoteHeight);
 };
+
+onBeforeUnmount(() => requestEditorHeight(0));
 </script>
 
 <template>
-  <div class="mt-1">
-    <div class="flex items-center gap-1">
-      <button
+  <div ref="rootRef" class="flex flex-col mt-1 min-h-0">
+    <div class="flex items-center gap-1 shrink-0">
+      <NextButton
         v-tooltip="toggleTooltip"
         type="button"
-        class="inline-flex items-center justify-center h-4 rounded-md w-7 bg-n-alpha-2 text-n-slate-11 hover:bg-n-alpha-3 hover:text-n-slate-12"
+        class="!h-4 !w-7"
+        slate
+        faded
+        xs
+        icon="i-lucide-ellipsis"
         :aria-label="toggleTooltip"
         :aria-expanded="isExpanded"
         @click="toggleExpand"
-      >
-        <span class="i-lucide-ellipsis size-3.5" />
-      </button>
+      />
       <NextButton
         v-if="isExpanded"
         v-tooltip="t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE')"
@@ -62,7 +94,8 @@ const toggleExpand = () => {
     </div>
     <div
       v-if="isExpanded"
-      class="mt-2 overflow-y-auto text-sm max-h-60 text-n-slate-11"
+      ref="contentRef"
+      class="mt-2 overflow-y-auto text-sm max-h-60 min-h-0 text-n-slate-11"
     >
       <p v-if="header" class="mb-1">{{ header }}</p>
       <div

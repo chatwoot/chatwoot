@@ -1398,7 +1398,7 @@ export default {
           v-model="message"
           :conversation-id="conversationId"
           :editor-id="editorStateId"
-          class="input popover-prosemirror-menu"
+          class="input popover-prosemirror-menu resizable-editor-split"
           :is-private="isOnPrivateNote"
           :placeholder="messagePlaceHolder"
           :update-selection-with="updateEditorSelectionWith"
@@ -1423,15 +1423,17 @@ export default {
           @execute-macro="onExecuteMacro"
           @clear-selection="clearEditorSelection"
           @execute-copilot-action="executeCopilotAction"
-        />
-
-        <QuotedEmailPreview
-          v-if="shouldIncludeQuotedEmail && isDefaultEditorMode"
-          :quoted-email-text="quotedEmailText"
-          :header="quotedEmailHeader"
-          class="mb-2"
-          @remove="removeQuotedEmail"
-        />
+        >
+          <template #footer>
+            <QuotedEmailPreview
+              v-if="shouldIncludeQuotedEmail"
+              :key="conversationId"
+              :quoted-email-text="quotedEmailText"
+              :header="quotedEmailHeader"
+              @remove="removeQuotedEmail"
+            />
+          </template>
+        </WootMessageEditor>
 
         <div
           v-if="hasAttachments && isDefaultEditorMode"
