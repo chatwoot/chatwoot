@@ -75,7 +75,13 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def account_signup_allowed?
-    GlobalConfigService.account_signup_enabled?
+    return true if GlobalConfigService.account_signup_enabled?
+
+    Shopify::FeatureGate.enabled? && Shopify::PendingInstallation.pending?(token: shopify_pending_install_token)
+  end
+
+  def shopify_pending_install_token
+    @shopify_pending_install_token ||= oauth_redirect_url&.match(SHOPIFY_INSTALL_REDIRECT_PATTERN)&.captures&.first
   end
 
   def resource_class(_mapping = nil)
@@ -102,12 +108,11 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
       locale: I18n.locale,
       confirmed: auth_hash['info']['email_verified']
     }
-    pending_install_token = oauth_redirect_url&.match(SHOPIFY_INSTALL_REDIRECT_PATTERN)&.captures&.first
+    pending_install_token = shopify_pending_install_token
     attributes[:shopify_pending_install_token] = pending_install_token if pending_install_token
 
-    @resource, @account = AccountBuilder.new(
-      **attributes
-    ).perform
+    builder_class = pending_install_token.present? ? Shopify::SignupService : AccountBuilder
+    @resource, @account = builder_class.new(**attributes).perform
     Avatar::AvatarFromUrlJob.perform_later(@resource, auth_hash['info']['image'])
   end
 

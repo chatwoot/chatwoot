@@ -40,7 +40,8 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
   def preserve_google_oauth_redirect
     session.delete(GOOGLE_OAUTH_REDIRECT_SESSION_KEY)
     redirect_url = params[:state].to_s
-    return unless redirect_url.match?(SHOPIFY_BILLING_REDIRECT_PATTERN)
+    return unless redirect_url.match?(SHOPIFY_BILLING_REDIRECT_PATTERN) ||
+                  redirect_url.match?(::DeviseOverrides::OmniauthCallbacksController::SHOPIFY_INSTALL_REDIRECT_PATTERN)
 
     session[GOOGLE_OAUTH_REDIRECT_SESSION_KEY] = redirect_url
   end
