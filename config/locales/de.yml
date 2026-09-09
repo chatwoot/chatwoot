@@ -33,8 +33,34 @@ de:
     login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Die Löschanfrage Ihres Posteingangs wird in Kürze bearbeitet.
+  data_imports:
+    intercom:
+      activities:
+        assignment: '%{actor} hat die Unterhaltung zugewiesen'
+        assignment_with_target: '%{actor} hat die Unterhaltung %{target} zugewiesen'
+        assign_and_reopen: '%{actor} hat die Unterhaltung zugewiesen und erneut geöffnet'
+        assign_and_reopen_with_target: '%{actor} hat die Unterhaltung %{target} zugewiesen und erneut geöffnet'
+        open: '%{actor} hat die Unterhaltung geöffnet'
+        close: '%{actor} hat die Unterhaltung geschlossen'
+        snoozed: '%{actor} hat die Unterhaltung zurückgestellt'
+        participant_added: '%{actor} hat einen Teilnehmer hinzugefügt'
+        participant_added_with_target: '%{actor} hat %{target} als Teilnehmer hinzugefügt'
+        participant_removed: '%{actor} hat einen Teilnehmer entfernt'
+        participant_removed_with_target: '%{actor} hat %{target} als Teilnehmer entfernt'
+        conversation_attribute_updated: '%{actor} hat Unterhaltungsattribute aktualisiert'
+        ticket_attribute_updated: '%{actor} hat Ticketattribute aktualisiert'
+        ticket_state_updated: '%{actor} hat den Ticketstatus aktualisiert'
+        custom_action_started: '%{actor} hat eine benutzerdefinierte Aktion gestartet'
+        custom_action_finished: '%{actor} hat eine benutzerdefinierte Aktion abgeschlossen'
+        quick_reply: '%{actor} hat eine Schnellantwort verwendet'
+        generic: '%{actor} hat %{event} protokolliert'
+  profile_settings:
+    sessions:
+      cannot_revoke_current: Du kannst die aktuelle Sitzung nicht widerrufen.
   errors:
     account:
+      not_authorized: Du bist nicht berechtigt, auf dieses Konto zuzugreifen
+      email_limit_exceeded: Das tägliche E-Mail-Limit für dieses Konto wurde erreicht
       reporting_timezone:
         invalid: is not a valid timezone
       support_email:
@@ -51,7 +77,7 @@ de:
       invalid_params: 'Ungültig, bitte überprüfen Sie die Anmeldeparameter und versuchen Sie es erneut'
       failed: Anmeldung gescheitert
     voice:
-      call_already_accepted: '%{agent_name} is already handling the call.'
+      call_already_accepted: 'Dieser Anruf wird bereits von %{agent_name} betreut.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
@@ -64,9 +90,14 @@ de:
       file_too_large: 'File exceeds the maximum allowed size'
       unsupported_content_type: 'File type not supported (only images and videos are allowed)'
       unexpected: 'An unexpected error occurred'
+    database:
+      query_canceled: 'Die Verarbeitung der Anfrage hat zu lange gedauert. Versuche es erneut.'
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
+    conversations:
+      unread_counts:
+        feature_not_enabled: Die Funktion für die Anzahl ungelesener Unterhaltungen ist für dieses Konto nicht aktiviert
     data_import:
       data_type:
         invalid: Ungültiger Datentyp
@@ -92,6 +123,15 @@ de:
         unique: sollte in der Kategorie und im Portal eindeutig sein
     dyte:
       invalid_message_type: 'Ungültiger Nachrichtentyp. Aktion nicht erlaubt'
+      realtimekit_credentials_required: 'Cloudflare RealtimeKit-Anmeldedaten sind erforderlich. Lösche die vorhandene Dyte-Integration und erstelle sie mit Cloudflare RealtimeKit-Anmeldedaten erneut.'
+    cloudflare:
+      realtimekit:
+        invalid_credentials: 'Die Cloudflare RealtimeKit-Anmeldedaten sind ungültig. Überprüfe die Account ID, RealtimeKit App ID und die Berechtigungen des API-Tokens.'
+        missing_credentials: 'Cloudflare Account ID, RealtimeKit App ID und API-Token sind erforderlich.'
+        invalid_api_token: 'Das Cloudflare API-Token ist ungültig oder inaktiv. Erstelle ein neues Token mit Realtime Admin-Berechtigungen.'
+        invalid_account_or_permissions: 'Die Cloudflare Account ID ist ungültig oder das API-Token hat für dieses Konto keinen Realtime Admin-Zugriff.'
+        app_not_found: 'Die RealtimeKit App ID wurde in diesem Cloudflare-Konto nicht gefunden. Überprüfe die ausgewählte App.'
+        verification_failed: 'Die Cloudflare RealtimeKit-Anmeldedaten konnten gerade nicht überprüft werden. Versuche es erneut.'
     slack:
       invalid_channel_id: 'Ungültiger Slack Channel. Bitte erneut versuchen'
     whatsapp:
@@ -99,18 +139,21 @@ de:
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
       phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      message_outside_messaging_window: 'Die Nachricht wurde nicht gesendet, da das 24-Stunden-Kundenservicefenster von WhatsApp geschlossen ist und keine Vorlagenparameter angegeben wurden. Sende stattdessen eine genehmigte Vorlagennachricht.'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
       calls:
-        not_enabled: 'Calling is not enabled for this inbox'
-        no_recording: 'No recording file provided'
-        no_message: 'Call has no associated message'
-        sdp_offer_required: 'sdp_offer is required'
-        contact_phone_required: 'Contact phone number is required'
-        permission_request_failed: 'Failed to send call permission request'
+        not_enabled: 'Anrufe sind für diesen Posteingang nicht aktiviert'
+        already_ended: 'Dieser Anruf wurde bereits beendet'
+        already_accepted: 'Der Anruf wurde bereits von einem anderen Agenten angenommen'
+        no_recording: 'Keine Aufnahmedatei angegeben'
+        no_message: 'Dem Anruf ist keine Nachricht zugeordnet'
+        sdp_offer_required: 'sdp_offer ist erforderlich'
+        contact_phone_required: 'Die Telefonnummer des Kontakts ist erforderlich'
+        permission_request_failed: 'Die Anfrage zur Anrufberechtigung konnte nicht gesendet werden'
     openai:
-      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
+      invalid_api_key: 'Der OpenAI API-Schlüssel ist ungültig oder wurde widerrufen. Überprüfe deinen Schlüssel in deinem OpenAI-Dashboard.'
     inboxes:
       imap:
         socket_error: Bitte überprüfen Sie die Netzwerkverbindung, die IMAP-Adresse und versuchen Sie es erneut.
@@ -142,6 +185,9 @@ de:
       invalid_token: Invalid or expired MFA token
       invalid_credentials: Invalid credentials or verification code
       feature_unavailable: MFA feature is not available. Please configure encryption keys.
+    billing:
+      invalid_currency: Ungültige Abrechnungswährung
+      currency_locked: Die Abrechnungswährung kann nach der Einrichtung der Abrechnung nicht mehr geändert werden
     topup:
       credits_required: Credits amount is required
       invalid_credits: Invalid credits amount
@@ -240,11 +286,12 @@ de:
       deleted: Diese Nachricht wurde gelöscht
       whatsapp:
         list_button_label: 'Choose an item'
-        call_permission_request_body: 'We would like to call you regarding your conversation.'
-        unsupported_message: 'This message is unavailable.'
+        call_permission_request_body: 'Wir würden dich gerne zu deiner Unterhaltung anrufen.'
+        flow_response: 'Flow-Antwort übermittelt'
+        unsupported_message: 'Diese Nachricht ist nicht verfügbar.'
       voice_call:
-        twilio: 'Voice Call'
-        whatsapp: 'WhatsApp Call'
+        twilio: 'Sprachanruf'
+        whatsapp: 'WhatsApp-Anruf'
       delivery_status:
         error_code: 'Fehlercode: %{error_code}'
     activity:
@@ -290,8 +337,8 @@ de:
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       whatsapp_call:
-        permission_requested: 'Sent a call permission request to %{contact_name}.'
-        permission_granted: '%{contact_name} accepted the call permission request.'
+        permission_requested: 'Eine Anfrage zur Anrufberechtigung wurde an %{contact_name} gesendet.'
+        permission_granted: '%{contact_name} hat die Anfrage zur Anrufberechtigung angenommen.'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       auto_resolve:
@@ -329,9 +376,9 @@ de:
       name: 'Dashboard-Apps'
       description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
-      name: 'Dyte'
+      name: 'Cloudflare RealtimeKit'
       short_description: 'Start video/voice calls with customers directly from Chatwoot.'
-      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      description: 'Mit Cloudflare RealtimeKit können deine Agenten direkt aus Chatwoot heraus Video- und Sprachanrufe mit Kunden starten.'
       meeting_name: '%{agent_name} hat ein Meeting begonnen'
     slack:
       name: 'Slack'
@@ -385,9 +432,9 @@ de:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
       pdf_size_error: 'must be less than 10MB'
-      sync_not_supported_for_pdf: 'Sync is not supported for PDF documents'
-      sync_only_available_documents: 'Sync is only available for processed documents'
-      sync_already_in_progress: 'Document sync is already in progress'
+      sync_not_supported_for_pdf: 'Die Synchronisierung wird für PDF-Dokumente nicht unterstützt'
+      sync_only_available_documents: 'Die Synchronisierung ist nur für verarbeitete Dokumente verfügbar'
+      sync_already_in_progress: 'Die Dokumentsynchronisierung läuft bereits'
       pdf_upload_failed: 'Failed to upload PDF to OpenAI'
       pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
       pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
@@ -414,29 +461,32 @@ de:
       loading_placeholder: Suchen...
       results_title: Suchergebnisse
       results: Suchergebnisse
-      results_for: "Search Results for '%{query}'"
-      no_results: "No results found for '%{query}'"
+      results_for: "Suchergebnisse für '%{query}'"
+      no_results: "Keine Ergebnisse für '%{query}' gefunden"
       found_results:
-        one: Found 1 result
-        other: 'Found %{count} results'
+        one: 1 Ergebnis gefunden
+        other: '%{count} Ergebnisse gefunden'
       submit: Suchen
     toc_header: 'Auf dieser Seite'
     sidebar:
       help_center: Hilfezentrum
       categories: Kategorien
       language: Sprache
-      theme: Theme
+      theme: Design
       open_sidebar: Seitenleiste öffnen
       close_sidebar: Seitenleiste schließen
-      browse: Browse
-      back_to_category: Back to %{name}
-      browse_by_topic: Browse by topic
-      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
-      popular_articles: Popular articles
-      popular_articles_subtitle: What other people are reading right now.
-      popular_label: 'Popular topics:'
-      authors_others: "%{names} and %{count} others"
-      primary_nav: Primary
+      browse: Durchsuchen
+      back_to_category: Zurück zu %{name}
+      browse_by_topic: Nach Thema durchsuchen
+      browse_by_topic_subtitle: Finde Anleitungen, Tutorials und Antworten, geordnet nach Kategorie.
+      popular_articles: Beliebte Artikel
+      popular_articles_subtitle: Was andere gerade lesen.
+      recommended: Empfohlene Artikel
+      recommended_subtitle: Handverlesene Artikel für den Einstieg.
+      popular_label: 'Beliebte Themen:'
+      recommended_label: 'Empfohlene Themen:'
+      authors_others: "%{names} und %{count} weitere"
+      primary_nav: Hauptnavigation
     hero:
       sub_title: Suchen Sie hier nach den Artikeln oder stöbern Sie in den unten stehenden Kategorien.
     common:
@@ -454,11 +504,11 @@ de:
       previous: Previous
       next: Next
     article_actions:
-      label: Open in
-      view_markdown: View as Markdown
-      open_in_chatgpt: Open in ChatGPT
-      open_in_claude: Open in Claude
-      llm_prompt: "Read the following article and help me understand it: %{url}"
+      label: Öffnen in
+      view_markdown: Als Markdown anzeigen
+      open_in_chatgpt: In ChatGPT öffnen
+      open_in_claude: In Claude öffnen
+      llm_prompt: "Lies den folgenden Artikel und hilf mir, ihn zu verstehen: %{url}"
     footer:
       made_with: Erstellt mit
     header:
@@ -470,6 +520,7 @@ de:
         light: Hell
         dark: Dunkel
       featured_articles: Empfohlene Artikel
+      recommended: Empfohlene Artikel
       uncategorized: Unkategorisiert
     404:
       title: Seite nicht gefunden
@@ -529,12 +580,14 @@ de:
   agent_capacity_policy:
     inbox_already_assigned: 'Inbox has already been assigned to this policy'
   portals:
+    analytics:
+      invalid_configuration: 'Ungültige Analytics-Konfiguration'
     articles:
-      captain_not_available: 'Translation requires Captain to be enabled for this account'
-      locale_not_available: 'Locale not available in this portal'
-      category_not_found: 'Category not found in this portal'
-      no_articles_found: 'No articles found to process'
-      invalid_status: 'Invalid status value'
+      captain_not_available: 'Für die Übersetzung muss Captain für dieses Konto aktiviert sein'
+      locale_not_available: 'Diese Sprache ist in diesem Portal nicht verfügbar'
+      category_not_found: 'Kategorie in diesem Portal nicht gefunden'
+      no_articles_found: 'Keine Artikel zur Verarbeitung gefunden'
+      invalid_status: 'Ungültiger Statuswert'
     send_instructions:
       email_required: 'E-Mail ist erforderlich'
       invalid_email_format: 'Invalid email format'
@@ -544,8 +597,47 @@ de:
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
   super_admin:
+    account_suspension:
+      categories:
+        spam: 'Spam'
+        non_payment: 'Nichtzahlung'
+        other: 'Sonstiges'
+      form:
+        category: 'Sperrkategorie'
+        category_prompt: 'Kategorie auswählen'
+        reason: 'Sperrgrund'
+        reason_hint: 'Gib einen Grund mit bis zu 256 Zeichen ein.'
+      history:
+        suspended_at: 'Gesperrt am'
+        category: 'Kategorie'
+        reason: 'Grund'
+        empty: 'Kein Sperrverlauf vorhanden.'
+    captain_model_overrides:
+      form:
+        helper_text: 'Lasse ein Modellfeld leer, um für diese KI-Funktion den YAML-Standardwert zu verwenden.'
+        use_default: 'Standard verwenden: %{model} (%{model_id})'
+      show:
+        summary: 'Modell-Routing anzeigen'
+        provider: 'Anbieter'
+        model: 'Modell'
+      sources:
+        account_override: 'Kontospezifische Überschreibung'
+        default: 'Standard'
+      features:
+        editor: 'Editor'
+        assistant: 'Assistent'
+        copilot: 'Copilot'
+        label_suggestion: 'Label-Vorschlag'
+        document_faq_generation: 'FAQ-Erstellung aus Dokumenten'
+        conversation_faq_generation: 'FAQ-Erstellung aus Unterhaltungen'
+        conversation_faq_matching: 'FAQ-Abgleich für Unterhaltungen'
+        help_center_article_generation: 'Erstellung von Help-Center-Artikeln'
+        onboarding_content_generation: 'Erstellung von Onboarding-Inhalten'
+        help_center_query_translation: 'Übersetzung von Help-Center-Suchanfragen'
+        audio_transcription: 'Audiotranskription'
+        help_center_search: 'Help-Center-Suche'
     push_diagnostics:
-      user_not_found: 'User not found.'
-      no_subscriptions_to_test: 'Select at least one subscription to test.'
-      no_subscriptions_to_delete: 'Select at least one subscription to delete.'
-      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
+      user_not_found: 'Benutzer nicht gefunden.'
+      no_subscriptions_to_test: 'Wähle mindestens ein Abonnement zum Testen aus.'
+      no_subscriptions_to_delete: 'Wähle mindestens ein Abonnement zum Löschen aus.'
+      subscriptions_deleted: "%{count} Abonnement(s) gelöscht. Die Geräte des Benutzers werden beim nächsten Start der App erneut registriert."

@@ -68,5 +68,51 @@ RSpec.describe CustomAttributeDefinition do
         expect(cad.attribute_display_name).to eq('Order Date')
       end
     end
+
+    describe 'filtered unread count invalidation' do
+      let(:invalidator) { instance_double(Conversations::UnreadCounts::FilteredCountInvalidator, custom_attribute_definition_changed!: true) }
+
+      before do
+        allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+      end
+
+      it 'invalidates conversation filters when a conversation custom attribute definition changes' do
+        cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+        cad.update!(attribute_display_name: 'Updated Order Date')
+
+        expect(invalidator).to have_received(:custom_attribute_definition_changed!).with(cad)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+          'account.cache_invalidated',
+          kind_of(Time),
+          account: account,
+          cache_keys: account.cache_keys
+        )
+      end
+
+      it 'invalidates conversation filters when a conversation custom attribute definition is deleted' do
+        cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+        cad.destroy!
+
+        expect(invalidator).to have_received(:custom_attribute_definition_changed!).with(cad)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+          'account.cache_invalidated',
+          kind_of(Time),
+          account: account,
+          cache_keys: account.cache_keys
+        )
+      end
+
+      it 'ignores contact custom attribute definition changes' do
+        cad = create(:custom_attribute_definition, account: account, attribute_model: 'contact_attribute')
+
+        cad.update!(attribute_display_name: 'Updated Contact Field')
+
+        expect(invalidator).not_to have_received(:custom_attribute_definition_changed!)
+        expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+      end
+    end
   end
 end

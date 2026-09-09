@@ -6,6 +6,10 @@ export const state = {
   inboxes: {},
   labels: {},
   teams: {},
+  mentionsCount: 0,
+  participatingCount: 0,
+  unattendedCount: 0,
+  folders: {},
 };
 
 const normalizeCount = count => {
@@ -37,6 +41,18 @@ export const getters = {
   getTeamUnreadCount: $state => teamId => {
     return $state.teams[String(teamId)] || 0;
   },
+  getMentionsUnreadCount($state) {
+    return $state.mentionsCount;
+  },
+  getParticipatingUnreadCount($state) {
+    return $state.participatingCount;
+  },
+  getUnattendedUnreadCount($state) {
+    return $state.unattendedCount;
+  },
+  getFolderUnreadCount: $state => folderId => {
+    return $state.folders[String(folderId)] || 0;
+  },
   getInboxUnreadCounts($state) {
     return $state.inboxes;
   },
@@ -45,6 +61,9 @@ export const getters = {
   },
   getTeamUnreadCounts($state) {
     return $state.teams;
+  },
+  getFolderUnreadCounts($state) {
+    return $state.folders;
   },
 };
 
@@ -68,6 +87,10 @@ export const mutations = {
     $state.inboxes = normalizeCounts(payload.inboxes);
     $state.labels = normalizeCounts(payload.labels);
     $state.teams = normalizeCounts(payload.teams);
+    $state.mentionsCount = normalizeCount(payload.mentions_count);
+    $state.participatingCount = normalizeCount(payload.participating_count);
+    $state.unattendedCount = normalizeCount(payload.unattended_count);
+    $state.folders = normalizeCounts(payload.folders);
   },
 };
 

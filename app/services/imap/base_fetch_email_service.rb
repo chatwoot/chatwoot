@@ -38,7 +38,8 @@ class Imap::BaseFetchEmailService
   end
 
   def email_already_present?(channel, message_id)
-    channel.inbox.messages.find_by(source_id: message_id).present? || deleted_message_tracker.deleted?(message_id)
+    # exists? avoids Message's default_scope ORDER BY, which full-scans large inboxes
+    channel.inbox.messages.exists?(source_id: message_id) || deleted_message_tracker.deleted?(message_id)
   end
 
   def deleted_message_tracker
@@ -97,6 +98,7 @@ class Imap::BaseFetchEmailService
 
   def append_message_ids_for_batch(batch, message_ids_with_seq)
     # Fetch only message-id only without mail body or contents.
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Starting header batch of #{batch.length} for #{channel.email}"
     batch_message_ids = imap_client.fetch(batch, 'BODY.PEEK[HEADER]')
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetching the batch for #{channel.email}. Found #{batch_message_ids&.length} messages."
 
@@ -139,6 +141,7 @@ class Imap::BaseFetchEmailService
     Imap::Authentication.authenticate!(imap, authentication_type, channel.imap_login, imap_password)
 
     imap.select('INBOX')
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] IMAP connection established for #{channel.email}"
     imap
   end
 

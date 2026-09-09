@@ -1,4 +1,7 @@
-import { CONTENT_TYPES } from 'dashboard/components-next/message/constants';
+import {
+  CONTENT_TYPES,
+  VOICE_CALL_STATUS,
+} from 'dashboard/components-next/message/constants';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { useCallsStore } from 'dashboard/stores/calls';
 import types from 'dashboard/store/mutation-types';
@@ -13,6 +16,31 @@ export const TERMINAL_STATUSES = [
   'missed',
   'ended',
 ];
+
+// A message.created for a ringing call is queued through ActionCableBroadcastJob and can
+// be delivered after the call has already been accepted/ended via a synchronous broadcast.
+// Track dismissed call sids at module scope so that late, stale "ringing" snapshot doesn't
+// resurrect a card every caller of handleVoiceCallCreated (hydration and real-time alike)
+// has already cleared.
+const dismissedCallSids = new Set();
+export const markCallDismissed = callSid => {
+  if (callSid) dismissedCallSids.add(callSid);
+};
+
+// Which Twilio call (if any) this tab is actively joining/owns. Must be set
+// synchronously BEFORE the join API call — mirrors useWhatsappCallSession's
+// activeCallId — so the account-wide voice_call.accepted broadcast (which can
+// arrive before the join promise resolves) doesn't mistake this tab's own
+// call for a sibling tab's and tear it down mid-join.
+let localCallSid = null;
+export const markLocalCall = callSid => {
+  localCallSid = callSid || null;
+};
+export const isLocalCall = callSid =>
+  !!callSid && localCallSid != null && callSid === localCallSid;
+export const clearLocalCall = callSid => {
+  if (localCallSid === callSid) localCallSid = null;
+};
 
 export const isInbound = direction => direction === 'inbound';
 
@@ -101,12 +129,20 @@ export function handleVoiceCallCreated(
     callSid,
     callId,
     provider,
+    status,
     callDirection,
     conversationId,
     inboxId,
     assigneeId,
     senderId,
   } = extractCallData(message);
+
+  if (callSid && dismissedCallSids.has(callSid)) return;
+
+  // A voice_call message can be created already terminal when the caller hangs
+  // up before connect. Only ring while the call is actually ringing; mirrors the
+  // guard in seedCallsFromHydratedMessages.
+  if (status !== VOICE_CALL_STATUS.RINGING) return;
 
   if (
     !shouldShowCall({
@@ -155,6 +191,10 @@ export function handleVoiceCallUpdated(
   } = extractCallData(message);
 
   const callsStore = useCallsStore();
+
+  // Guard against a still-queued ringing message.created arriving after this
+  // terminal update, same as the accepted/ended broadcast handlers.
+  if (TERMINAL_STATUSES.includes(status)) markCallDismissed(callSid);
 
   callsStore.handleCallStatusChanged({ callSid, status, conversationId });
 

@@ -1,10 +1,31 @@
 import axios from 'axios';
 import { actions } from '../../conversationWatchers';
 import types from '../../../mutation-types';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 
 const commit = vi.fn();
 global.axios = axios;
 vi.mock('axios');
+
+const mockRetryJitter = value =>
+  vi.spyOn(Math, 'random').mockReturnValue(value);
+
+afterEach(() => {
+  vi.restoreAllMocks();
+  vi.clearAllTimers();
+  vi.useRealTimers();
+});
+
+const conversationUnreadCountsEnabledRootGetters = {
+  getCurrentAccountId: 1,
+  getCurrentUserID: 1,
+  'accounts/isFeatureEnabledonAccount': vi.fn((_, featureFlag) =>
+    [
+      FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS,
+      FEATURE_FLAGS.UNREAD_COUNT_FOR_FILTERS,
+    ].includes(featureFlag)
+  ),
+};
 
 describe('#actions', () => {
   describe('#get', () => {
@@ -47,6 +68,56 @@ describe('#actions', () => {
         ],
         [types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG, { isUpdating: false }],
       ]);
+    });
+    it('refetches unread counts when the current user starts watching', async () => {
+      vi.useFakeTimers();
+      mockRetryJitter(0.5);
+      const dispatch = vi.fn();
+      const moduleState = { records: { 2: [] } };
+      const mutatingCommit = vi.fn((mutation, payload) => {
+        if (mutation === types.SET_CONVERSATION_PARTICIPANTS) {
+          moduleState.records[payload.conversationId] = payload.data;
+        }
+      });
+      axios.patch.mockResolvedValue({ data: [{ id: 1 }] });
+
+      await actions.update(
+        {
+          commit: mutatingCommit,
+          dispatch,
+          rootGetters: conversationUnreadCountsEnabledRootGetters,
+          state: moduleState,
+        },
+        { conversationId: 2, userIds: [1] }
+      );
+
+      expect(dispatch).toHaveBeenCalledWith(
+        'conversationUnreadCounts/get',
+        {},
+        { root: true }
+      );
+
+      vi.advanceTimersByTime(37499);
+      expect(dispatch).toHaveBeenCalledTimes(1);
+
+      vi.advanceTimersByTime(1);
+      expect(dispatch).toHaveBeenCalledTimes(2);
+    });
+    it('does not refetch unread counts when another watcher changes', async () => {
+      const dispatch = vi.fn();
+      axios.patch.mockResolvedValue({ data: [{ id: 1 }, { id: 2 }] });
+
+      await actions.update(
+        {
+          commit,
+          dispatch,
+          rootGetters: conversationUnreadCountsEnabledRootGetters,
+          state: { records: { 2: [{ id: 1 }] } },
+        },
+        { conversationId: 2, userIds: [1, 2] }
+      );
+
+      expect(dispatch).not.toHaveBeenCalled();
     });
     it('sends correct actions if API is error', async () => {
       axios.patch.mockRejectedValue({ message: 'Incorrect header' });

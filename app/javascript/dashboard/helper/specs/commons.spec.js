@@ -62,6 +62,18 @@ describe('#createPendingMessage', () => {
     });
   });
 
+  it('uses the display content without changing the message sent to the API', () => {
+    const pending = createPendingMessage({
+      message: 'Hello {{1}}',
+      pendingMessageContent: 'Hello Ahmad',
+    });
+
+    expect(pending).toMatchObject({
+      message: 'Hello {{1}}',
+      content: 'Hello Ahmad',
+    });
+  });
+
   it('returns the pending message with attachment key if file is passed', () => {
     const messageWithFile = {
       message: 'hi',

@@ -1,4 +1,9 @@
-import { EditorState, EditorView } from '@chatwoot/prosemirror-schema';
+import {
+  EditorState,
+  EditorView,
+  buildMessageSchema,
+  MessageMarkdownTransformer,
+} from '@chatwoot/prosemirror-schema';
 import { FORMATTING } from 'dashboard/constants/editor';
 import { Schema } from 'prosemirror-model';
 import {
@@ -6,9 +11,12 @@ import {
   calculateMenuPosition,
   cleanSignature,
   collapseSelection,
+  createVariableInputRule,
   extractTextFromMarkdown,
   findNodeToInsertImage,
   findSignatureInBody,
+  getAgentVariables,
+  getContactVariables,
   getContentNode,
   getFormattingForEditor,
   getMenuAnchor,
@@ -349,6 +357,22 @@ describe('removeSignature', () => {
       'hey\n\n'
     );
   });
+  it('strips the hard-break marker with the escape when Shift+Enter precedes the delimiter', () => {
+    expect(removeSignature('hey\\\n\\--\n\nHello there', 'Hello there')).toBe(
+      'hey'
+    );
+  });
+  it('keeps an authored trailing backslash when an empty line precedes the delimiter', () => {
+    expect(removeSignature('C:\\\n\n\\\n\\--\n\nBest', 'Best')).toBe('C:\\');
+  });
+  it('strips only the hard-break marker when the content line ends with a backslash', () => {
+    expect(removeSignature('C:\\\\\n\\--\n\nBest', 'Best')).toBe('C:\\');
+  });
+  it('keeps an authored trailing backslash through a Shift+Enter and empty line combo', () => {
+    expect(removeSignature('C:\\\n\n\\\n\\\n\\--\n\nBest', 'Best')).toBe(
+      'C:\\'
+    );
+  });
   it('preserves trailing backslash in user text when appending', () => {
     expect(appendSignature('The path is C:\\', 'Best\nAgent')).toContain(
       'C:\\'
@@ -550,6 +574,68 @@ describe('insertAtCursor', () => {
 
     // Check if content was replaced correctly
     expect(editorView.state.doc.firstChild.firstChild.text).toBe('Hello Me');
+  });
+
+  it('should not strand empty paragraphs when inserting multi-block content into an empty editor', () => {
+    const editorState = createEditorState();
+    const editorView = new EditorView(document.body, { state: editorState });
+
+    const multiParagraph = schema.node('doc', null, [
+      schema.node('paragraph', null, [schema.text('line one')]),
+      schema.node('paragraph', null, [schema.text('line two')]),
+    ]);
+
+    // Cursor sits inside the empty starter paragraph (pos 1).
+    insertAtCursor(editorView, multiParagraph, 1);
+
+    const { doc } = editorView.state;
+    expect(doc.childCount).toBe(2);
+    expect(doc.firstChild.textContent).toBe('line one');
+    expect(doc.lastChild.textContent).toBe('line two');
+  });
+
+  it('should not strand a blank line when inserting multi-block content above a signature', () => {
+    const editorState = EditorState.create({
+      schema,
+      doc: schema.node('doc', null, [
+        // The editor keeps an empty first paragraph above the signature.
+        schema.node('paragraph'),
+        schema.node('paragraph', null, [schema.text('--')]),
+        schema.node('paragraph', null, [schema.text('My signature')]),
+      ]),
+    });
+    const editorView = new EditorView(document.body, { state: editorState });
+
+    const multiParagraph = schema.node('doc', null, [
+      schema.node('paragraph', null, [schema.text('line one')]),
+      schema.node('paragraph', null, [schema.text('line two')]),
+    ]);
+
+    // Cursor sits inside the empty paragraph above the signature (pos 1).
+    insertAtCursor(editorView, multiParagraph, 1);
+
+    const { doc } = editorView.state;
+    expect(doc.childCount).toBe(4);
+    expect(doc.child(0).textContent).toBe('line one');
+    expect(doc.child(1).textContent).toBe('line two');
+    expect(doc.child(2).textContent).toBe('--');
+    expect(doc.child(3).textContent).toBe('My signature');
+  });
+
+  it('should keep existing content when inserting multi-block content into a non-empty editor', () => {
+    const editorState = createEditorState('Existing');
+    const editorView = new EditorView(document.body, { state: editorState });
+
+    const multiParagraph = schema.node('doc', null, [
+      schema.node('paragraph', null, [schema.text('line one')]),
+      schema.node('paragraph', null, [schema.text('line two')]),
+    ]);
+
+    insertAtCursor(editorView, multiParagraph, 0);
+
+    expect(editorView.state.doc.textContent).toContain('Existing');
+    expect(editorView.state.doc.textContent).toContain('line one');
+    expect(editorView.state.doc.textContent).toContain('line two');
   });
 });
 
@@ -978,13 +1064,77 @@ describe('stripUnsupportedFormatting', () => {
       );
     });
 
-    it('strips links but keeps text', () => {
+    it('keeps link text and URL when schema does not support links', () => {
       expect(
         stripUnsupportedFormatting(
           'Check [this link](https://example.com)',
           emptySchema
         )
-      ).toBe('Check this link');
+      ).toBe('Check this link: https://example.com');
+    });
+
+    it('drops the hidden link title when preserving the URL', () => {
+      expect(
+        stripUnsupportedFormatting(
+          'Check [docs](https://example.com "Docs")',
+          emptySchema
+        )
+      ).toBe('Check docs: https://example.com');
+
+      expect(
+        stripUnsupportedFormatting(
+          'Check [docs](<https://example.com> "Docs")',
+          emptySchema
+        )
+      ).toBe('Check docs: https://example.com');
+    });
+
+    // Output is re-parsed before sending, so assert the final text
+    // (strip + re-parse); the re-parse turns serializer escapes into literals.
+    describe('links round-trip through re-parse without crashing', () => {
+      const smsSchema = buildMessageSchema([], []); // no marks, no nodes
+      const sendAs = md =>
+        new MessageMarkdownTransformer(smsSchema).parse(
+          stripUnsupportedFormatting(md, smsSchema)
+        ).textContent;
+
+      it('keeps escaped parens/underscores anywhere in the URL', () => {
+        expect(
+          sendAs('See [wiki](https://en.wikipedia.org/wiki/Foo\\_\\(bar\\))')
+        ).toBe('See wiki: https://en.wikipedia.org/wiki/Foo_(bar)');
+        expect(sendAs('See [wiki](https://host/a\\_\\(b\\)c)')).toBe(
+          'See wiki: https://host/a_(b)c'
+        );
+      });
+
+      it('drops the label when it equals the URL even when escaped', () => {
+        expect(
+          sendAs(
+            '[www.example.com/Foo\\_\\(bar\\)](www.example.com/Foo\\_\\(bar\\))'
+          )
+        ).toBe('www.example.com/Foo_(bar)');
+      });
+
+      it('does not reintroduce emphasis from an escaped label', () => {
+        expect(sendAs('[Use \\_id\\_](https://example.com)')).toBe(
+          'Use _id_: https://example.com'
+        );
+      });
+
+      it('flattens a label containing an escaped closing bracket', () => {
+        expect(sendAs('[FAQ \\[v2\\]](https://example.com)')).toBe(
+          'FAQ [v2]: https://example.com'
+        );
+      });
+    });
+
+    it('leaves bare URLs untouched so channels can auto-link them', () => {
+      expect(
+        stripUnsupportedFormatting('Visit www.example.com now', emptySchema)
+      ).toBe('Visit www.example.com now');
+      expect(
+        stripUnsupportedFormatting('Visit <https://example.com>', emptySchema)
+      ).toBe('Visit https://example.com');
     });
 
     it('converts autolinks to plain URLs when schema does not support links', () => {
@@ -1032,6 +1182,9 @@ describe('stripUnsupportedFormatting', () => {
       expect(
         stripUnsupportedFormatting('1. first\n2. second', emptySchema)
       ).toBe('first\nsecond');
+      expect(
+        stripUnsupportedFormatting('1) first\n2) second', emptySchema)
+      ).toBe('first\nsecond');
     });
 
     it('strips code block markers', () => {
@@ -1049,7 +1202,7 @@ describe('stripUnsupportedFormatting', () => {
     it('handles complex content with multiple formatting types', () => {
       const content =
         '**Bold** and *italic* with `code` and [link](url)\n- list item';
-      const expected = 'Bold and italic with code and link\nlist item';
+      const expected = 'Bold and italic with code and link: url\nlist item';
       expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
     });
   });
@@ -1157,5 +1310,151 @@ describe('Menu positioning helpers', () => {
       expect(result).toHaveProperty('width', 300);
       expect(result.left).toBeGreaterThanOrEqual(0);
     });
+  });
+});
+
+describe('getAgentVariables', () => {
+  it('builds agent variables from the user', () => {
+    expect(
+      getAgentVariables({ name: 'John Doe', email: 'john@example.com' })
+    ).toEqual({
+      'agent.name': 'John Doe',
+      'agent.first_name': 'John',
+      'agent.last_name': 'Doe',
+      'agent.email': 'john@example.com',
+    });
+  });
+
+  it('normalizes casing like the backend UserDrop (Ruby capitalize)', () => {
+    const variables = getAgentVariables({ name: 'JANE doE' });
+
+    expect(variables['agent.name']).toBe('Jane Doe');
+    expect(variables['agent.first_name']).toBe('Jane');
+    expect(variables['agent.last_name']).toBe('Doe');
+  });
+
+  it('ignores extra whitespace between words', () => {
+    expect(getAgentVariables({ name: '  john   doe ' })['agent.name']).toBe(
+      'John Doe'
+    );
+  });
+
+  it('leaves last_name empty for single-word names', () => {
+    const variables = getAgentVariables({ name: 'john' });
+
+    expect(variables['agent.first_name']).toBe('John');
+    expect(variables['agent.last_name']).toBe('');
+  });
+
+  it('handles a missing name', () => {
+    const variables = getAgentVariables({ email: 'john@example.com' });
+
+    expect(variables['agent.name']).toBe('');
+    expect(variables['agent.first_name']).toBe('');
+    expect(variables['agent.last_name']).toBe('');
+  });
+});
+
+describe('getContactVariables', () => {
+  it('normalizes casing like the backend ContactDrop (Ruby capitalize)', () => {
+    expect(getContactVariables({ name: 'JANE doE' })).toEqual({
+      'contact.name': 'Jane Doe',
+      'contact.first_name': 'Jane',
+      'contact.last_name': 'Doe',
+    });
+  });
+
+  it('leaves last_name empty for single-word names', () => {
+    const variables = getContactVariables({ name: 'john' });
+
+    expect(variables['contact.first_name']).toBe('John');
+    expect(variables['contact.last_name']).toBe('');
+  });
+
+  it('handles a missing contact', () => {
+    expect(getContactVariables(undefined)['contact.name']).toBe('');
+  });
+});
+
+describe('createVariableInputRule', () => {
+  // Editor holding `{{key}` so we can simulate typing the final `}`.
+  const buildView = (typed, { isPrivate = false, variables = {} } = {}) => {
+    const plugin = createVariableInputRule({
+      isPrivate: () => isPrivate,
+      getVariables: () => variables,
+    });
+    const state = EditorState.create({
+      schema,
+      doc: schema.node('doc', null, [
+        schema.node('paragraph', null, [schema.text(typed)]),
+      ]),
+      plugins: [plugin],
+    });
+    return new EditorView(document.body, { state });
+  };
+
+  // Types the closing `}`; when the rule declines, insert it like the browser would.
+  const typeClosingBrace = view => {
+    const end = view.state.doc.content.size - 1;
+    const handled = view.someProp('handleTextInput', fn =>
+      fn(view, end, end, '}')
+    );
+    if (!handled) {
+      view.dispatch(view.state.tr.insertText('}', end, end));
+    }
+  };
+
+  it('resolves a manually typed {{variable}} to its value on the closing brace', () => {
+    const view = buildView('{{contact.name}', {
+      variables: { 'contact.name': 'John' },
+    });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('John');
+    view.destroy();
+  });
+
+  it('resolves boolean/non-string values', () => {
+    const view = buildView('{{contact.custom_attribute.cloudCustomer}', {
+      variables: { 'contact.custom_attribute.cloudCustomer': true },
+    });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('true');
+    view.destroy();
+  });
+
+  it('keeps the placeholder when the variable has no value', () => {
+    const view = buildView('{{contact.email}', { variables: {} });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('{{contact.email}}');
+    view.destroy();
+  });
+
+  it('keeps the placeholder when the value itself contains Liquid syntax', () => {
+    const view = buildView('{{contact.name}', {
+      variables: { 'contact.name': '{{agent.email}}' },
+    });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('{{contact.name}}');
+    view.destroy();
+  });
+
+  it('does not resolve inside a private note', () => {
+    const view = buildView('{{contact.name}', {
+      isPrivate: true,
+      variables: { 'contact.name': 'John' },
+    });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('{{contact.name}}');
+    view.destroy();
   });
 });

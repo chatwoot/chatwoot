@@ -28,6 +28,43 @@
           "PLACEHOLDER": "Bitte auswählen",
           "ERROR": "Ereignis ist erforderlich"
         },
+        "RUN_TYPE": {
+          "LABEL": "Wann soll diese Regel ausgeführt werden?",
+          "OPTIONS": {
+            "INSTANT": {
+              "LABEL": "Sofort ausführen",
+              "DESCRIPTION": "Wird ausgeführt, sobald ein Ereignis eintritt und die Bedingungen erfüllt sind."
+            },
+            "WAIT": {
+              "LABEL": "Nach einer Wartezeit ausführen",
+              "DESCRIPTION": "Wartet eine festgelegte Zeit und wird nur ausgeführt, wenn alles noch unverändert ist. Bei Änderungen wird die Regel übersprungen."
+            }
+          }
+        },
+        "WAIT": {
+          "LABEL": "Wartebedingung",
+          "WHEN_LABEL": "Wenn",
+          "STATUS_LABEL": "Status ist",
+          "FOR_LABEL": "Für",
+          "INBOX_LABEL": "Posteingang",
+          "ERROR": "Die Wartezeit muss zwischen 10 Minuten und 30 Tagen liegen",
+          "OPTIONS": {
+            "CONVERSATION_STATUS": "Unterhaltung behält einen Status bei",
+            "CUSTOMER_UNRESPONSIVE": "Kunde hat nicht geantwortet",
+            "AGENT_UNRESPONSIVE": "Kein Teammitglied hat geantwortet"
+          },
+          "DURATION": {
+            "MINUTES": "{count} Minute | {count} Minuten",
+            "HOURS": "{count} Stunde | {count} Stunden",
+            "DAYS": "{count} Tag | {count} Tage"
+          },
+          "EXPLANATION": {
+            "CONVERSATION_STATUS": "Die Zeitmessung beginnt, wenn eine Unterhaltung in diesen Status wechselt. Befindet sie sich {duration} später noch darin, werden die unten stehenden Aktionen ausgeführt. Ändert sich der Status vorher, passiert nichts.",
+            "CUSTOMER_UNRESPONSIVE": "Die Zeitmessung beginnt, wenn ein Teammitglied antwortet. Hat der Kunde {duration} später noch nicht geantwortet, werden die unten stehenden Aktionen ausgeführt. Antwortet der Kunde, passiert nichts und die nächste Antwort eines Teammitglieds startet die Zeitmessung erneut.",
+            "AGENT_UNRESPONSIVE": "Die Zeitmessung beginnt, wenn ein Kunde eine Nachricht sendet. Hat {duration} später noch kein Teammitglied geantwortet, werden die unten stehenden Aktionen ausgeführt. Antwortet vorher jemand, passiert nichts."
+          },
+          "FOOTNOTE": "Nur neue Aktivitäten starten die Zeitmessung. Unterhaltungen, die sich bereits in diesem Zustand befinden, werden bei der nächsten Aktivität berücksichtigt."
+        },
         "CONDITIONS": {
           "LABEL": "Bedingungen"
         },
@@ -49,7 +86,14 @@
         "CREATED_ON": "Erstellt am",
         "ACTIONS": "Aktionen"
       },
-      "404": "Keine Automatisierungsregeln gefunden"
+      "404": "Keine Automatisierungsregeln gefunden",
+      "404_DELAYED": "Noch keine Regeln zur Ausführung nach einer Wartezeit",
+      "TABS": {
+        "INSTANT": "Sofortige Ausführung",
+        "DELAYED": "Ausführung nach Wartezeit"
+      },
+      "DELAY_BADGE": "Wird nach {delay} ausgeführt",
+      "DELAY_DISABLED_BANNER": "Die verzögerte Ausführung ist für dieses Konto deaktiviert. Daher sind die unten stehenden Regeln mit Wartezeit pausiert, bis sie wieder aktiviert wird."
     },
     "DELETE": {
       "TITLE": "Automatisierungsregel löschen",
@@ -130,7 +174,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "Mindestens eine Aktion ist erforderlich"
     },
     "NONE_OPTION": "Keine",
-    "LAST_RESPONDING_AGENT": "Last Responding Agent",
+    "LAST_RESPONDING_AGENT": "Zuletzt antwortender Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Konversation erstellt",
       "CONVERSATION_UPDATED": "Konversation aktualisiert",

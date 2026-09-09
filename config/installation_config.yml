@@ -182,6 +182,12 @@
 # End of Microsoft Email Channel Config
 
 # MARK: Captain Config
+- name: ENABLE_CAPTAIN_CONVERSATION_ASSIGNMENT
+  display_title: 'Enable Captain Conversation Assignment'
+  description: 'Enable assigning conversations to Captain assistants.'
+  value: false
+  locked: true
+  type: boolean
 - name: CAPTAIN_OPEN_AI_API_KEY
   display_title: 'OpenAI API Key'
   description: 'The API key used to authenticate requests to OpenAI services for Captain AI.'
@@ -237,6 +243,18 @@
 # ------- End of Context.dev Config ------- #
 
 # ------- Chatwoot Internal Config for Cloud ----#
+- name: DISABLE_META_INBOX_CREATION
+  value: true
+  display_title: 'Disable Meta Inbox Creation'
+  description: 'Disable Facebook, Instagram, and WhatsApp Embedded Signup inbox creation on Chatwoot Cloud during Meta incidents'
+  locked: false
+  type: boolean
+- name: DISABLE_META_MESSAGE_SENDING
+  value: true
+  display_title: 'Disable Meta Message Sending'
+  description: 'Disable Instagram message sending on Chatwoot Cloud during Meta incidents'
+  locked: false
+  type: boolean
 - name: CHATWOOT_INBOX_TOKEN
   value:
   display_title: 'Inbox Token'
@@ -253,6 +271,17 @@
   display_title: 'Cloud Plans'
   value:
   description: 'Config to store stripe plans for cloud'
+- name: CAPTAIN_TOPUP_OPTIONS
+  display_title: 'Captain Topup Options'
+  value: {}
+  description: 'Currency-keyed AI credit top-up packages, e.g. {"usd":[{"credits":1000,"amount":20.0}],"brl":[{"credits":1000,"amount":100.0}]}'
+  type: code
+- name: ENABLE_MULTI_CURRENCY_BILLING
+  display_title: 'Enable Multi-currency Billing'
+  value: false
+  locked: false
+  description: 'Bill new accounts in their local currency (e.g. BRL) and show currency-aware credit top-ups; when off, everyone is billed in USD'
+  type: boolean
 - name: MARKETING_CONVERSION_TRACKING_CONFIG
   value:
   display_title: 'Marketing Conversion Tracking Config'
@@ -404,6 +433,12 @@
   value:
   locked: false
   description: 'Slack client secret'
+  type: secret
+- name: SLACK_SIGNING_SECRET
+  display_title: 'Slack Signing Secret'
+  value:
+  locked: false
+  description: 'Slack signing secret used to verify inbound webhook signatures'
   type: secret
 ## ------ End of Configs added for Slack ------ ##
 

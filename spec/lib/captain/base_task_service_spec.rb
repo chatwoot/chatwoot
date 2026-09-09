@@ -385,7 +385,10 @@ RSpec.describe Captain::BaseTaskService do
 
   describe '#prompt_from_file' do
     it 'reads prompt from file' do
-      allow(Rails.root).to receive(:join).and_return(instance_double(Pathname, read: 'Test prompt content'))
+      service
+      prompt_path = instance_double(Pathname, read: 'Test prompt content')
+      allow(Rails.root).to receive(:join).with('lib/integrations/openai/openai_prompts', 'test.liquid').and_return(prompt_path)
+
       expect(service.send(:prompt_from_file, 'test')).to eq('Test prompt content')
     end
   end

@@ -19,6 +19,8 @@
       "OR": "ILI"
     },
     "INPUT_PLACEHOLDER": "Unesite vrijednost",
+    "CONTACT_SEARCH_PLACEHOLDER": "Search contacts",
+    "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "Jednako",
       "not_equal_to": "Nije jednako",
@@ -49,6 +51,7 @@
       "ASSIGNEE_NAME": "Ime dodijeljenog",
       "INBOX_NAME": "Naziv sandučića",
       "TEAM_NAME": "Naziv tima",
+      "CONTACT": "Contact",
       "CONVERSATION_IDENTIFIER": "Identifikator razgovora",
       "CAMPAIGN_NAME": "Naziv kampanje",
       "LABELS": "Oznake",

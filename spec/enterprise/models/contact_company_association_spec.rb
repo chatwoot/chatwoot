@@ -4,6 +4,26 @@ RSpec.describe Contact, type: :model do
   describe 'company auto-association' do
     let(:account) { create(:account) }
 
+    before { account.enable_features!(:companies) }
+
+    context 'when the companies feature is disabled' do
+      before { account.disable_features!(:companies) }
+
+      it 'does not create or associate a company' do
+        expect do
+          create(:contact, email: 'john@acme.com', account: account)
+        end.not_to change(Company, :count)
+        expect(described_class.last.company).to be_nil
+      end
+
+      it 'preserves a contact-supplied company_name' do
+        contact = create(:contact, email: 'john@acme.com', account: account,
+                                   additional_attributes: { 'company_name' => 'John Personal Co' })
+
+        expect(contact.reload.additional_attributes['company_name']).to eq('John Personal Co')
+      end
+    end
+
     context 'when creating a new contact with business email' do
       it 'automatically creates and associates a company' do
         expect do

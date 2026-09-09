@@ -47,10 +47,13 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
                assistant: assistant,
                question: 'How to change email?',
                answer: 'Go to settings and update email',
+               documentable: document,
                status: 'approved')
       end
 
       before do
+        allow(Resolv).to receive(:getaddresses).and_return(['93.184.216.34'])
+
         # Mock nearest_neighbors to return our test responses
         allow(Captain::AssistantResponse).to receive(:nearest_neighbors).and_return(
           Captain::AssistantResponse.where(id: [response1.id, response2.id])
@@ -64,14 +67,61 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         expect(result).to include('Answer: Click on forgot password link')
         expect(result).to include('Question: How to change email?')
         expect(result).to include('Answer: Go to settings and update email')
+        expect(result).not_to include('Citation index:')
       end
 
-      it 'includes source link when document has external_link' do
+      it 'does not assign indexes to attachments or storage links' do
+        assistant.update!(config: assistant.config.merge('feature_citation' => true))
+        document.pdf_file.attach(
+          io: StringIO.new('PDF content'),
+          filename: 'private-file.pdf',
+          content_type: 'application/pdf'
+        )
+
+        pdf_result = tool.perform(tool_context, query: 'private document')
+
+        expect(pdf_result).not_to include('Citation index:')
+        expect(tool_context.state[Captain::Assistant::CITATION_SOURCES_STATE_KEY]).to be_nil
+
+        document.pdf_file.detach
+        document.update!(external_link: 's3://private-bucket/password')
+
+        storage_result = tool.perform(tool_context, query: 'private storage document')
+
+        expect(storage_result).not_to include('Citation index:')
+        expect(tool_context.state[Captain::Assistant::CITATION_SOURCES_STATE_KEY]).to be_nil
+
+        document.update!(external_link: 'https://storage.example.com/private-file.pdf?token=secret')
+
+        pdf_url_result = tool.perform(tool_context, query: 'private PDF URL')
+
+        expect(pdf_url_result).not_to include('Citation index:')
+        expect(tool_context.state[Captain::Assistant::CITATION_SOURCES_STATE_KEY]).to be_nil
+      end
+
+      it 'assigns stable numeric indexes to customer-visible document links' do
+        assistant.update!(config: assistant.config.merge('feature_citation' => true))
         document.update!(external_link: 'https://help.example.com/password')
 
         result = tool.perform(tool_context, query: 'password')
+        repeated_result = tool.perform(tool_context, query: 'password again')
 
-        expect(result).to include('Source: https://help.example.com/password')
+        expect(result).to include('Citation index: 1')
+        expect(repeated_result).to include('Citation index: 1')
+        expect(result).not_to include('https://help.example.com/password')
+        expect(result.scan('Citation index: 1').size).to eq(2)
+        expect(result).not_to include('Citation index: 2')
+        expect(tool_context.state[Captain::Assistant::CITATION_SOURCES_STATE_KEY]).to eq(1 => document.id)
+      end
+
+      it 'does not cite document URLs containing credentials' do
+        assistant.update!(config: assistant.config.merge('feature_citation' => true))
+        document.update!(external_link: 'https://user:pass@help.example.com/password')
+
+        result = tool.perform(tool_context, query: 'password')
+
+        expect(result).not_to include('Citation index:')
+        expect(tool_context.state[Captain::Assistant::CITATION_SOURCES_STATE_KEY]).to be_nil
       end
 
       it 'logs tool usage for search' do
@@ -79,6 +129,29 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         expect(tool).to receive(:log_tool_usage).with('found_results', { query: 'password reset', count: 2 })
 
         tool.perform(tool_context, query: 'password reset')
+      end
+
+      it 'records retrieved faq ids and document ids into Chatwoot metadata' do
+        tool.perform(tool_context, query: 'password reset')
+
+        user = create(:user, account: account)
+        user_faq = create(:captain_assistant_response, assistant: assistant, documentable: user, status: :approved)
+        allow(Captain::AssistantResponse).to receive(:nearest_neighbors).and_return(
+          Captain::AssistantResponse.where(id: user_faq.id)
+        )
+        tool.perform(tool_context, query: 'user faq')
+
+        expect(tool_context.state.dig(:cw_metadata, :faq_ids)).to contain_exactly(response1.id, response2.id, user_faq.id)
+        expect(tool_context.state.dig(:cw_metadata, :used_faq_ids)).to contain_exactly(user_faq.id)
+        expect(tool_context.state.dig(:cw_metadata, :document_ids)).to contain_exactly(document.id)
+      end
+
+      it 'accumulates unique ids across multiple calls' do
+        tool.perform(tool_context, query: 'password reset')
+        tool.perform(tool_context, query: 'password reset again')
+
+        expect(tool_context.state.dig(:cw_metadata, :faq_ids)).to contain_exactly(response1.id, response2.id)
+        expect(tool_context.state.dig(:cw_metadata, :document_ids)).to contain_exactly(document.id)
       end
     end
 
@@ -98,6 +171,12 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         expect(tool).to receive(:log_tool_usage).with('no_results', { query: 'nonexistent topic' })
 
         tool.perform(tool_context, query: 'nonexistent topic')
+      end
+
+      it 'leaves shared state untouched' do
+        tool.perform(tool_context, query: 'nonexistent topic')
+
+        expect(tool_context.state).to eq({})
       end
     end
 

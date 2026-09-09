@@ -102,6 +102,47 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
     end
   end
 
+  describe 'catch-all failure handling' do
+    # Any exception the job does not specifically handle (e.g.
+    # ActiveRecord::RecordInvalid from articles.create!, SSL errors, OOM)
+    # must still finalize the generation so state cannot wedge in
+    # "generating" at total - 1 until the Redis TTL expires.
+
+    it 'increments the counter on an unhandled StandardError without re-raising' do
+      allow(Onboarding::HelpCenterArticleBuilder).to receive(:new).and_raise(
+        StandardError, 'unexpected boom'
+      )
+
+      expect { described_class.perform_now(*job_args) }.not_to raise_error
+
+      expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include('finished' => '1')
+    end
+
+    it 'marks generation completed when the final writer fails with an unhandled error' do
+      allow(Onboarding::HelpCenterArticleBuilder).to receive(:new).and_raise(
+        StandardError, 'unexpected boom'
+      )
+      Onboarding::HelpCenterGenerationState.record_article_finished(generation_id)
+
+      described_class.perform_now(*job_args)
+
+      expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include(
+        'status' => 'completed', 'finished' => '2'
+      )
+    end
+
+    it 'logs the failure so the error is not silent' do
+      allow(Onboarding::HelpCenterArticleBuilder).to receive(:new).and_raise(
+        StandardError, 'unexpected boom'
+      )
+      allow(Rails.logger).to receive(:warn)
+
+      described_class.perform_now(*job_args)
+
+      expect(Rails.logger).to have_received(:warn).with(/gen=#{generation_id} failed: StandardError unexpected boom/)
+    end
+  end
+
   describe 'missing state' do
     let(:built_article) { instance_double(Article, id: 9876) }
 

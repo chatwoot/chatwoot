@@ -49,7 +49,9 @@
         "ADD_NAME": "Ավելացրեք անուն ձեր զամբյուղին",
         "PICK_NAME": "Ընտրեք անուն ձեր մուտքի համար",
         "PICK_A_VALUE": "Ընտրեք արժեք",
-        "CREATE_INBOX": "Ստեղծել Նամակների Պատուհան"
+        "CREATE_INBOX": "Ստեղծել Նամակների Պատուհան",
+        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "STATUS_LINK": "View status updates"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Շարունակել Instagram-ով",
@@ -58,14 +60,18 @@
         "ERROR_MESSAGE": "Instagram-ին միանալու ընթացքում սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին",
         "ERROR_AUTH": "Instagram-ին միանալու ընթացքում սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին",
         "NEW_INBOX_SUGGESTION": "Այս Instagram հաշիվը նախկինում կապված էր այլ մուտքի արկղի հետ և այժմ տեղափոխվել է այստեղ։ Բոլոր նոր հաղորդագրությունները կցուցադրվեն այստեղ։ Հին մուտքի արկղը այլևս չի կարողանա ուղարկել կամ ստանալ հաղորդագրություններ այս հաշվի համար։",
-        "DUPLICATE_INBOX_BANNER": "Այս Instagram հաշիվը տեղափոխվել է նոր Instagram ալիքի մուտքի արկղ։ Դուք այլևս չեք կարողանա ուղարկել կամ ստանալ Instagram հաղորդագրություններ այս մուտքի արկղից։"
+        "DUPLICATE_INBOX_BANNER": "Այս Instagram հաշիվը տեղափոխվել է նոր Instagram ալիքի մուտքի արկղ։ Դուք այլևս չեք կարողանա ուղարկել կամ ստանալ Instagram հաղորդագրություններ այս մուտքի արկղից։",
+        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
+        "STATUS_LINK": "View status updates"
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Շարունակել TikTok-ով",
         "CONNECT_YOUR_TIKTOK_PROFILE": "Կապեք ձեր TikTok պրոֆիլը",
         "HELP": "Ձեր TikTok պրոֆիլը որպես ալիք ավելացնելու համար անհրաժեշտ է հաստատել ձեր TikTok պրոֆիլը՝ սեղմելով «Շարունակել TikTok-ով» կոճակը։ ",
         "ERROR_MESSAGE": "TikTok-ին միանալու ընթացքում սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին",
-        "ERROR_AUTH": "TikTok-ին միանալու ընթացքում սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին"
+        "ERROR_AUTH": "TikTok-ին միանալու ընթացքում սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին",
+        "NORTH_AMERICA_WARNING": "TikTok connections for North American accounts are temporarily unavailable while we wait for an update from the TikTok team."
       },
       "TWITTER": {
         "HELP": "Ձեր Twitter պրոֆիլը որպես ալիք ավելացնելու համար անհրաժեշտ է հաստատել ձեր Twitter պրոֆիլը՝ սեղմելով «Մուտք Twitter-ով» կոճակը։ ",
@@ -246,12 +252,14 @@
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp ամպ",
           "WHATSAPP_CLOUD_DESC": "Արագ կարգավորում Meta-ի միջոցով",
+          "WHATSAPP_CLOUD_MANUAL_SETUP_DESC": "Manual setup with Cloud API credentials",
           "TWILIO_DESC": "Կապ հաստատեք Twilio հավատարմագրերով",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
           "TITLE": "Ընտրեք ձեր API մատակարարին",
-          "DESCRIPTION": "Ընտրեք ձեր WhatsApp մատակարարին։ Կարող եք անմիջապես կապ հաստատել Meta-ի միջոցով, որը չի պահանջում կարգավորում, կամ կապ հաստատել Twilio-ի միջոցով՝ օգտագործելով ձեր հաշվի հավատարմագրերը։"
+          "DESCRIPTION": "Ընտրեք ձեր WhatsApp մատակարարին։ Կարող եք անմիջապես կապ հաստատել Meta-ի միջոցով, որը չի պահանջում կարգավորում, կամ կապ հաստատել Twilio-ի միջոցով՝ օգտագործելով ձեր հաշվի հավատարմագրերը։",
+          "RESTRICTION_DESCRIPTION": "Choose your WhatsApp provider. You can connect WhatsApp Cloud manually using your Cloud API credentials, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "Նամակների արկղի անուն",
@@ -293,7 +301,7 @@
         "SUBMIT_BUTTON": "Ստեղծել WhatsApp ալիք",
         "EMBEDDED_SIGNUP": {
           "TITLE": "Արագ կարգավորում Meta-ով",
-          "DESC": "Օգտագործեք WhatsApp Embedded Signup հոսքը նոր համարները արագ կապելու համար։ Դուք կուղղորդվեք Meta՝ ձեր WhatsApp Business հաշիվ մուտք գործելու համար։ Վարչական մուտքի առկայությունը կօգնի կարգավորումը դարձնել հարթ և հեշտ։",
+          "DESC": "Use Quick setup with Meta to connect a new number or an existing number from the WhatsApp Business app. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
           "BENEFITS": {
             "TITLE": "Էմբեդացված գրանցման առավելությունները:",
             "EASY_SETUP": "Չի պահանջվում ձեռքով կարգավորում",
@@ -301,7 +309,7 @@
             "AUTO_CONFIG": "Ավտոմատ webhook-ի և հեռախոսահամարի կարգավորում"
           },
           "LEARN_MORE": {
-            "TEXT": "Ներկայացված գրանցման, գների և սահմանափակումների մասին ավելին իմանալու համար այցելեք {link}։",
+            "TEXT": "To learn more about quick setup, pricing, and limitations, visit {link}.",
             "LINK_TEXT": "այս հղումը"
           },
           "SUBMIT_BUTTON": "Կապ հաստատել WhatsApp Business-ի հետ",
@@ -319,10 +327,20 @@
           "SUCCESS_FALLBACK": "WhatsApp Business հաշիվը հաջողությամբ կարգավորվել է",
           "MANUAL_FALLBACK": "Եթե ձեր համարը արդեն միացված է WhatsApp Business Platform (API)-ին, կամ եթե դուք տեխնոլոգիական մատակարար եք, որը միացնում է իր սեփական համարը, խնդրում ենք օգտագործել {link} ընթացքը",
           "MANUAL_LINK_TEXT": "ձեռնարկային կարգավորման ընթացք",
+          "ACCESS_REQUEST": {
+            "TITLE": "Արագ կարգավորում Meta-ով",
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
+            "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
+            "BUTTON": "Request access"
+          },
+          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
+          "STATUS_LINK": "View status updates",
           "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
-          "ERROR_MESSAGE": "Չհաջողվեց պահպանել WhatsApp ալիքը"
+          "ERROR_MESSAGE": "Չհաջողվեց պահպանել WhatsApp ալիքը",
+          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
+          "STATUS_LINK": "View status updates"
         }
       },
       "VOICE": {
@@ -653,6 +671,10 @@
       },
       "CREDENTIALS": {
         "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      },
+      "INBOUND": {
+        "LABEL": "Allow incoming calls",
+        "DESCRIPTION": "Let customers call this number. When turned off, incoming calls are declined automatically — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
       }
     },
     "WHATSAPP_CALLING": {
@@ -679,40 +701,98 @@
     "WIDGET_FEATURES": "Վիջեթի հնարավորություններ",
     "ACCOUNT_HEALTH": {
       "TITLE": "Կառավարեք ձեր WhatsApp հաշիվը",
-      "DESCRIPTION": "Դիտարկեք ձեր WhatsApp հաշվի կարգավիճակը, հաղորդագրությունների սահմանները և որակը։ Թարմացրեք կարգավորումները կամ լուծեք խնդիրները, եթե անհրաժեշտ է",
+      "DESCRIPTION": "Review your WhatsApp phone number health, messaging capacity, and linked Meta business details.",
       "GO_TO_SETTINGS": "Գնալ Meta Business Manager",
       "NO_DATA": "Առողջության տվյալները հասանելի չեն",
+      "ERRORS": {
+        "AUTHORIZATION": {
+          "EMBEDDED_TITLE": "WhatsApp connection needs to be refreshed",
+          "EMBEDDED_DESCRIPTION": "Meta could not validate the connection for this inbox. Go to Configuration to reconfigure it using Embedded Signup.",
+          "MANUAL_TITLE": "WhatsApp access token needs attention",
+          "MANUAL_DESCRIPTION": "Meta could not validate the access token for this inbox. Go to Configuration to verify or replace it."
+        },
+        "GENERIC_TITLE": "WhatsApp health data is unavailable",
+        "GENERIC_DESCRIPTION": "Meta could not return the current health details. Review the error below and try again later.",
+        "GO_TO_CONFIGURATION": "Go to Configuration"
+      },
+      "SECTIONS": {
+        "PHONE_NUMBER": "Հեռախոսահամար",
+        "HEALTH_AND_CAPACITY": "Health and capacity",
+        "BUSINESS_ACCOUNT": "Business account"
+      },
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
           "LABEL": "Ցուցադրել հեռախոսահամարը",
           "TOOLTIP": "Հեռախոսահամարը, որը ցուցադրվում է հաճախորդներին"
         },
         "VERIFIED_NAME": {
-          "LABEL": "Բիզնեսի անուն",
-          "TOOLTIP": "Բիզնեսի անունը հաստատված է WhatsApp-ով"
+          "LABEL": "WhatsApp display name",
+          "TOOLTIP": "Display name associated with this phone number on WhatsApp"
+        },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "Հեռախոսահամարի ID",
+          "TOOLTIP": "Meta identifier for this WhatsApp phone number"
+        },
+        "COEXISTENCE": {
+          "LABEL": "Coexistence",
+          "TOOLTIP": "This number is connected to both the WhatsApp Business app and Cloud API"
         },
         "DISPLAY_NAME_STATUS": {
           "LABEL": "Ցուցադրման անվան կարգավիճակ",
-          "TOOLTIP": "Ձեր բիզնեսի անվան հաստատման կարգավիճակը"
+          "TOOLTIP": "Review status of the WhatsApp display name"
+        },
+        "LAST_ONBOARDED_TIME": {
+          "LABEL": "Last onboarded",
+          "TOOLTIP": "Most recent time Meta onboarded this phone number"
+        },
+        "PHONE_NUMBER_STATUS": {
+          "LABEL": "Phone number status",
+          "TOOLTIP": "Current connection status of this phone number on WhatsApp"
         },
         "QUALITY_RATING": {
           "LABEL": "Որակի գնահատական",
-          "TOOLTIP": "Ձեր հաշվի WhatsApp որակի գնահատականը"
+          "TOOLTIP": "Quality rating Meta assigns to this phone number based on recent messaging signals"
         },
         "MESSAGING_LIMIT_TIER": {
           "LABEL": "Հաղորդագրությունների սահմանաչափի մակարդակ",
-          "TOOLTIP": "Ձեր հաշվի օրական հաղորդագրությունների սահմանաչափ"
+          "TOOLTIP": "Number of customers this phone number can initiate conversations with in 24 hours"
         },
         "ACCOUNT_MODE": {
           "LABEL": "Հաշվի ռեժիմ",
-          "TOOLTIP": "Ձեր WhatsApp հաշվի ընթացիկ գործառնական ռեժիմը"
+          "TOOLTIP": "Current operating mode of this WhatsApp phone number"
+        },
+        "CODE_VERIFICATION_STATUS": {
+          "LABEL": "Code verification",
+          "TOOLTIP": "Verification-code status reported by Meta for this phone number"
+        },
+        "THROUGHPUT_LEVEL": {
+          "LABEL": "Throughput",
+          "TOOLTIP": "Message throughput level assigned to this phone number"
+        },
+        "BUSINESS_ACCOUNT_NAME": {
+          "LABEL": "WhatsApp Business Account name",
+          "TOOLTIP": "Name of the WhatsApp Business Account linked to this phone number"
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "WhatsApp Business Account ID",
+          "TOOLTIP": "Meta identifier for the linked WhatsApp Business Account"
+        },
+        "BUSINESS_PORTFOLIO_NAME": {
+          "LABEL": "Business portfolio name",
+          "TOOLTIP": "Name of the Meta business portfolio that owns the WhatsApp Business Account"
+        },
+        "BUSINESS_PORTFOLIO_ID": {
+          "LABEL": "Business portfolio ID",
+          "TOOLTIP": "Meta identifier for the business portfolio that owns the WhatsApp Business Account"
         }
       },
       "VALUES": {
+        "NOT_AVAILABLE": "Not available",
         "TIERS": {
           "TIER_250": "250 հաճախորդ 24h-ում",
           "TIER_1000": "1K հաճախորդ 24h-ում",
           "TIER_1K": "1K հաճախորդ 24h-ում",
+          "TIER_2K": "2K customers per 24h",
           "TIER_10K": "10K հաճախորդ 24h-ում",
           "TIER_100K": "100K հաճախորդ 24h-ում",
           "TIER_UNLIMITED": "Անսահմանափակ հաճախորդ 24h-ում",
@@ -720,6 +800,16 @@
         },
         "STATUSES": {
           "APPROVED": "Հաստատված",
+          "CONNECTED": "Connected",
+          "VERIFIED": "Verified",
+          "STANDARD": "Ստանդարտ",
+          "ACTIVE": "Active",
+          "EXPIRED": "Expired",
+          "FLAGGED": "Flagged",
+          "RESTRICTED": "Restricted",
+          "BANNED": "Banned",
+          "DISCONNECTED": "Disconnected",
+          "UNKNOWN": "Not available",
           "PENDING_REVIEW": "Սպասում է վերանայմանը",
           "AVAILABLE_WITHOUT_REVIEW": "Հասանելի առանց վերանայման",
           "REJECTED": "Մերժված",
@@ -739,7 +829,11 @@
         "REGISTER_SUCCESS": "Webhook-ը հաջողությամբ գրանցվեց",
         "REGISTER_ERROR": "Webhook-ի գրանցումը ձախողվեց։ Խնդրում ենք փորձել կրկին։",
         "CONFIGURED_SUCCESS": "Webhook-ը հաջողությամբ կարգավորվեց",
-        "URL_MISMATCH": "Webhook URL-ի անհամապատասխանություն"
+        "URL_MISMATCH": "Webhook URL-ի անհամապատասխանություն",
+        "CONFIGURED_URL": "Configured URL",
+        "EXPECTED_URL": "Expected URL",
+        "COPY_URL": "Copy webhook URL",
+        "COPY_SUCCESS": "Webhook URL copied to clipboard"
       }
     },
     "SETTINGS": "Կարգավորումներ",
@@ -806,10 +900,29 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Թարմացնել API բանալին",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Մուտքագրեք նոր API բանալին այստեղ",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Թարմացնել",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when Chatwoot cannot retrieve its message templates. Chatwoot uses this token only for template synchronization.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Enter the business management token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "Add",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Replace",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS": "WhatsApp business management token updated successfully.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR": "Could not update the business management token. Verify its WhatsApp Business Management permission and account access, then try again.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK": "Learn how to generate a WhatsApp Business Management token",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp-ի ներառված գրանցում",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Այս մուտքի արկղը միացված է WhatsApp-ի ներառված գրանցման միջոցով։",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "Դուք կարող եք վերակազմակերպել այս մուտքի արկղը՝ թարմացնելու ձեր WhatsApp Business կարգավորումները։",
       "WHATSAPP_RECONFIGURE_BUTTON": "Վերակազմակերպել",
+      "WHATSAPP_MANUAL_TRANSFER_TITLE": "Switch to Manual Setup",
+      "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "This inbox was connected through WhatsApp embedded signup, which is no longer supported. Enter the WhatsApp Cloud API credentials from your own Meta app to switch this inbox to a manual setup. Configure the webhook in your Meta app using the verification token above before switching.",
+      "WHATSAPP_MANUAL_TRANSFER_PHONE_NUMBER_ID_LABEL": "Phone Number ID",
+      "WHATSAPP_MANUAL_TRANSFER_BUSINESS_ACCOUNT_ID_LABEL": "Բիզնես հաշվի ID",
+      "WHATSAPP_MANUAL_TRANSFER_API_KEY_LABEL": "API բանալին",
+      "WHATSAPP_MANUAL_TRANSFER_API_KEY_PLACEHOLDER": "Enter a permanent access token from your Meta app",
+      "WHATSAPP_MANUAL_TRANSFER_BUTTON": "Switch to Manual Setup",
+      "WHATSAPP_MANUAL_TRANSFER_SUCCESS": "Inbox switched to manual setup successfully.",
+      "WHATSAPP_MANUAL_TRANSFER_ERROR": "Could not switch to manual setup. Please verify the credentials and try again.",
       "WHATSAPP_CONNECT_TITLE": "Կապվել WhatsApp Business-ի հետ",
       "WHATSAPP_CONNECT_SUBHEADER": "Թարմացեք WhatsApp-ի ներկառուցված գրանցմանը՝ ավելի հեշտ կառավարման համար։",
       "WHATSAPP_CONNECT_DESCRIPTION": "Կապեք այս մուտքի արկղը WhatsApp Business-ի հետ՝ բարելավված հնարավորություններով և ավելի հեշտ կառավարման համար։",
@@ -827,6 +940,70 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Ձեռնարկաբար համաժամեցրեք հաղորդագրությունների տիպերը WhatsApp-ից՝ ձեր հասանելի տիպերը թարմացնելու համար։",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Համաժամեցնել տիպերը",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Տիպերի համաժամացումը հաջողությամբ սկսվեց։ Թարմացումը կարող է տևել մի քանի րոպե։",
+      "WHATSAPP_MANUAL_MIGRATION": {
+        "BANNER": {
+          "TITLE": "Manual setup recommended",
+          "DESCRIPTION": "This inbox connects through the shared Meta app used for embedded signup, which recent Meta restrictions have affected. To avoid similar issues in the future, we recommend reconnecting it with your own Meta app.",
+          "START": "Start manual migration",
+          "GUIDE": "View guide"
+        },
+        "DIALOG": {
+          "EYEBROW": "WhatsApp manual migration",
+          "TITLE": "Reconnect WhatsApp inbox",
+          "CLOSE": "Փակել",
+          "ACTION_REQUIRED_TITLE": "Reconnect with your own Meta app",
+          "ACTION_REQUIRED_DESCRIPTION": "Inboxes connected through your own Meta app are not affected by restrictions on the shared embedded signup app. This guided flow updates the WhatsApp API connection without creating a new inbox.",
+          "GUIDE_LINK": "Open the manual setup guide",
+          "PRESERVED_TITLE": "Preserved",
+          "PRESERVED_DESCRIPTION": "Conversations, contacts, collaborators, routing, business hours, and inbox settings.",
+          "UPDATED_TITLE": "Updated",
+          "UPDATED_DESCRIPTION": "WABA ID, phone number ID, access token, and webhook configuration.",
+          "WABA_ID": "WABA ID",
+          "WABA_PLACEHOLDER": "Enter WABA ID",
+          "WABA_HELP": "The WhatsApp Business Account that owns this phone number.",
+          "PHONE_NUMBER_ID": "Phone Number ID",
+          "PHONE_NUMBER_PLACEHOLDER": "Enter Phone Number ID",
+          "PHONE_NUMBER_HELP": "Meta's unique ID for the WhatsApp number connected to this inbox.",
+          "DISPLAY_PHONE_NUMBER": "Ցուցադրել հեռախոսահամարը",
+          "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Enter display phone number",
+          "DISPLAY_PHONE_NUMBER_HELP": "The customer-facing WhatsApp number. This cannot be changed during migration.",
+          "ACCESS_TOKEN": "Permanent access token or system user token",
+          "ACCESS_TOKEN_PLACEHOLDER": "Paste access token",
+          "TOKEN_HELP_PREFIX": "The token must include",
+          "TOKEN_HELP_MIDDLE": "Add",
+          "TOKEN_HELP_SUFFIX": "for template sync and template management.",
+          "MESSAGING_PERMISSION": "whatsapp_business_messaging.",
+          "MANAGEMENT_PERMISSION": "whatsapp_business_management",
+          "REVIEW_TITLE": "Review before reconnecting",
+          "INBOX": "Inbox",
+          "PHONE_NUMBER": "Հեռախոսահամար",
+          "NOT_ENTERED": "Not entered",
+          "VERIFY_NOTICE": "Chatwoot will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
+          "BACK": "Back",
+          "CANCEL": "Cancel",
+          "CONTINUE": "Շարունակել",
+          "REVIEW_MIGRATION": "Review migration",
+          "RECONNECT": "Reconnect WhatsApp inbox"
+        },
+        "STEPS": {
+          "BEFORE_YOU_START": {
+            "TITLE": "Before you start",
+            "DESCRIPTION": "This reconnects the WhatsApp API details for this inbox. Conversations, collaborators, routing, business hours, CSAT, and bot settings will be preserved."
+          },
+          "BUSINESS_DETAILS": {
+            "TITLE": "Business details",
+            "DESCRIPTION": "Enter the WhatsApp assets from the customer Meta Business account."
+          },
+          "ACCESS_TOKEN": {
+            "TITLE": "Access token",
+            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions."
+          },
+          "REVIEW_MIGRATION": {
+            "TITLE": "Review migration",
+            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
+          }
+        }
+      },
       "WHATSAPP_CALLING_ENABLED": {
         "LABEL": "Enable voice calling",
         "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."

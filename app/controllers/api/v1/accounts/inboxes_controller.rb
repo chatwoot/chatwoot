@@ -2,11 +2,11 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   include Api::V1::InboxesHelper
   before_action :fetch_inbox, except: [:index, :create]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
-  before_action :validate_limit, only: [:create]
   # we are already handling the authorization in fetch inbox
   before_action :check_authorization, except: [:show]
 
-  include Api::V1::Accounts::Concerns::WhatsappHealthManagement
+  include Api::V1::Accounts::Concerns::InboxHealthManagement
+  include Api::V1::Accounts::Concerns::InboxSecretManagement
 
   def index
     @inboxes = policy_scope(Current.account.inboxes)
@@ -46,11 +46,20 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def update
-    inbox_params = permitted_params.except(:channel, :csat_config)
-    inbox_params[:csat_config] = format_csat_config(permitted_params[:csat_config]) if permitted_params[:csat_config].present?
-    @inbox.update!(inbox_params)
-    update_inbox_working_hours
-    update_channel if channel_update_required?
+    continue_update = false
+
+    ActiveRecord::Base.transaction do
+      continue_update = update_branded_email_layout
+      raise ActiveRecord::Rollback unless continue_update
+
+      inbox_params = permitted_params.except(:channel, :csat_config)
+      inbox_params[:csat_config] = format_csat_config(permitted_params[:csat_config]) if permitted_params[:csat_config].present?
+      @inbox.update!(inbox_params)
+      update_inbox_working_hours
+      update_channel if channel_update_required?
+    end
+
+    return unless continue_update
   end
 
   def agent_bot
@@ -66,12 +75,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       @inbox.agent_bot_inbox.destroy!
     end
     head :ok
-  end
-
-  def reset_secret
-    return head :not_found unless @inbox.api?
-
-    @inbox.channel.reset_secret!
   end
 
   def destroy
@@ -125,8 +128,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def reauthorize_and_update_channel(channel_attributes)
-    @inbox.channel.reauthorized! if @inbox.channel.respond_to?(:reauthorized!)
     @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
+    @inbox.channel.reauthorized! if @inbox.channel.respond_to?(:reauthorized!)
   end
 
   def update_channel_feature_flags
@@ -155,6 +158,34 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def format_template_config(config, formatted)
     formatted['template'] = config['template'] if config['template'].present?
   end
+
+  def update_branded_email_layout
+    return true unless params.key?(:branded_email_layout)
+
+    branded_email_layout = normalized_branded_email_layout
+
+    unless Current.account.feature_enabled?(:branded_email_templates)
+      return true if branded_email_layout.blank?
+
+      render_could_not_create_error('Branded email templates feature is not enabled')
+      return false
+    end
+
+    unless @inbox.email?
+      return true if branded_email_layout.blank?
+
+      render_could_not_create_error('Branded email layout is only supported for email inboxes')
+      return false
+    end
+
+    @inbox.update_branded_email_layout!(branded_email_layout)
+    true
+  rescue ActiveRecord::RecordInvalid => e
+    render_could_not_create_error(e.record.errors.full_messages.join(', '))
+    false
+  end
+
+  def normalized_branded_email_layout = params[:branded_email_layout] == 'null' ? nil : params[:branded_email_layout]
 
   def inbox_attributes
     [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
