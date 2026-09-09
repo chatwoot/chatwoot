@@ -35,8 +35,8 @@ RSpec.describe Captain::AssistantOverviewStatsBuilder do
       expect(metrics[:conversations_handled]).to eq(current: 0, previous: 0, trend: 0)
       expect(metrics[:handoff_count][:current]).to eq(0)
       expect(metrics[:durable_resolution_rate]).to eq(current: nil, previous: nil, trend: nil)
-      expect(metrics[:autonomous_csat_score][:current]).to eq(0)
-      expect(metrics[:assisted_csat_score][:current]).to eq(0)
+      expect(metrics[:autonomous_csat_score]).to eq(current: nil, previous: nil, trend: nil)
+      expect(metrics[:assisted_csat_score]).to eq(current: nil, previous: nil, trend: nil)
       expect(metrics[:human_only_csat_score]).to eq(current: nil, previous: nil, trend: nil)
     end
   end
