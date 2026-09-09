@@ -47,6 +47,8 @@ tags:
     description: Account-specific Agent Bots
   - name: Agents
     description: Agent management APIs
+  - name: Campaigns
+    description: Create, schedule, and manage campaigns. Requires an account administrator and API access enabled for the account.
   - name: Canned Responses
     description: Pre-defined responses for common queries
   - name: Contacts
@@ -104,6 +106,7 @@ x-tagGroups:
       - Account
       - Agents
       - Audit Logs
+      - Campaigns
       - Canned Responses
       - Contacts
       - Contact Labels

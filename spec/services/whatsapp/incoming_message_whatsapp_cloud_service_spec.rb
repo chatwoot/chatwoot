@@ -746,6 +746,135 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    context 'when an echo (coexistence) message arrives for a Brazil number missing the 9th digit' do
+      let(:echo_phone_number) { '554188887777' }
+      let(:echo_params) do
+        {
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              field: 'smb_message_echoes',
+              value: {
+                message_echoes: [{
+                  from: whatsapp_channel.phone_number.delete('+'),
+                  to: echo_phone_number,
+                  id: 'wamid.ECHO_MESSAGE_ID',
+                  timestamp: '1664799904',
+                  text: { body: 'Reply from the WhatsApp app' },
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'reuses the existing contact stored with the normalized phone number instead of duplicating it' do
+        existing_contact = create(:contact, phone_number: '+5541988887777', account: whatsapp_channel.account)
+
+        expect do
+          described_class.new(inbox: whatsapp_channel.inbox, params: echo_params, outgoing_echo: true).perform
+        end.not_to change(Contact, :count)
+
+        conversation = whatsapp_channel.inbox.conversations.last
+        expect(conversation.contact).to eq(existing_contact)
+        expect(conversation.messages.last.content).to eq('Reply from the WhatsApp app')
+      end
+
+      it 'prefers an existing contact stored with the raw phone number' do
+        existing_contact = create(:contact, phone_number: '+554188887777', account: whatsapp_channel.account)
+
+        expect do
+          described_class.new(inbox: whatsapp_channel.inbox, params: echo_params, outgoing_echo: true).perform
+        end.not_to change(Contact, :count)
+
+        expect(whatsapp_channel.inbox.conversations.last.contact).to eq(existing_contact)
+      end
+
+      context 'when the number is a valid landline' do
+        let(:echo_phone_number) { '554132345678' }
+
+        it 'does not match a mobile contact created by adding a ninth digit' do
+          mobile_contact = create(:contact, phone_number: '+5541932345678', account: whatsapp_channel.account)
+
+          expect do
+            described_class.new(inbox: whatsapp_channel.inbox, params: echo_params, outgoing_echo: true).perform
+          end.to change(Contact, :count).by(1)
+
+          contact = whatsapp_channel.inbox.conversations.last.contact
+          expect(contact).not_to eq(mobile_contact)
+          expect(contact.phone_number).to eq('+554132345678')
+        end
+      end
+    end
+
+    context 'when an incoming Brazil message supplies a profile name after normalized contact matching' do
+      let(:incoming_params) do
+        {
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Maria Silva' }, wa_id: '554188887777' }],
+                messages: [{
+                  from: '554188887777',
+                  id: 'wamid.BRAZIL_PROFILE_NAME',
+                  timestamp: '1664799904',
+                  text: { body: 'Hello' },
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'replaces a normalized phone-number placeholder with the profile name' do
+        existing_contact = create(:contact, name: '+5541988887777', phone_number: '+5541988887777', account: whatsapp_channel.account)
+
+        expect do
+          described_class.new(inbox: whatsapp_channel.inbox, params: incoming_params).perform
+        end.not_to change(Contact, :count)
+
+        expect(existing_contact.reload.name).to eq('Maria Silva')
+        expect(whatsapp_channel.inbox.conversations.last.contact).to eq(existing_contact)
+      end
+    end
+
+    context 'when an incoming Argentina number is already in the canonical form' do
+      let(:argentina_params) do
+        {
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Buenos Aires Office' }, wa_id: '541123456789' }],
+                messages: [{
+                  from: '541123456789',
+                  id: 'wamid.ARGENTINA_LANDLINE',
+                  timestamp: '1664799904',
+                  text: { body: 'Hello' },
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'does not infer a mobile 9 candidate for a valid landline' do
+        mobile_contact = create(:contact, phone_number: '+5491123456789', account: whatsapp_channel.account)
+
+        expect do
+          described_class.new(inbox: whatsapp_channel.inbox, params: argentina_params).perform
+        end.to change(Contact, :count).by(1)
+
+        contact = whatsapp_channel.inbox.conversations.last.contact
+        expect(contact).not_to eq(mobile_contact)
+        expect(contact.phone_number).to eq('+541123456789')
+      end
+    end
+
     context 'when an identity-change system message is received' do
       let(:contact) { create(:contact, account: whatsapp_channel.inbox.account) }
       let(:system) do

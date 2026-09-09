@@ -146,7 +146,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     reason = 'manual_deletion'
 
     if @account.mark_for_deletion(reason)
-      cancel_cloud_subscriptions_for_deletion
+      Enterprise::CancelCloudSubscriptionsJob.perform_later(@account)
 
       render json: { message: 'Account marked for deletion' }, status: :ok
     else
@@ -169,12 +169,6 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   def create_stripe_billing_session(customer_id)
     session = Enterprise::Billing::CreateSessionService.new.create_session(customer_id)
     render_redirect_url(session.url)
-  end
-
-  def cancel_cloud_subscriptions_for_deletion
-    Enterprise::Billing::CancelCloudSubscriptionsService.new(account: @account).perform
-  rescue Stripe::StripeError => e
-    Rails.logger.warn("Failed to cancel cloud subscriptions for account #{@account.id}: #{e.class} - #{e.message}")
   end
 
   def render_redirect_url(redirect_url)
