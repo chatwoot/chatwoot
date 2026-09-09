@@ -17,6 +17,10 @@ const { attachment } = defineProps({
     type: Object,
     required: true,
   },
+  hasError: {
+    type: Boolean,
+    default: false,
+  },
   showTranscribedText: {
     type: Boolean,
     default: true,
@@ -171,13 +175,19 @@ const downloadAudio = async () => {
     @timeupdate="onTimeUpdate"
     @ended="onEnd"
   >
-    <source :src="timeStampURL" />
+    <source v-if="!hasError" :src="timeStampURL" />
   </audio>
   <div
     v-bind="$attrs"
     class="rounded-xl w-full gap-2 p-1.5 bg-n-alpha-white flex flex-col items-center border border-n-container shadow-[0px_2px_8px_0px_rgba(94,94,94,0.06)]"
   >
-    <div class="flex gap-1 w-full flex-1 items-center justify-start">
+    <div v-if="hasError" class="flex items-center gap-1 text-center rounded-lg">
+      <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
+      <p class="mb-0 text-n-slate-11">
+        {{ $t('COMPONENTS.MEDIA.AUDIO_UNAVAILABLE') }}
+      </p>
+    </div>
+    <div v-else class="flex gap-1 w-full flex-1 items-center justify-start">
       <button class="p-0 border-0 size-8" @click="playOrPause">
         <Icon
           v-if="isPlaying"

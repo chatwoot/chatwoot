@@ -27,7 +27,7 @@ export const useLoadWithRetry = (config = {}) => {
           element.onload = onSuccess;
         }
         element.onerror = () => reject(new Error('Failed to load resource'));
-        const cacheBustedUrl = new URL(url);
+        const cacheBustedUrl = new URL(url, window.location.origin);
         cacheBustedUrl.searchParams.set('t', Date.now());
         element.src = cacheBustedUrl.toString();
       });
