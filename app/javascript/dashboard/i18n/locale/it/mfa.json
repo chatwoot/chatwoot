@@ -49,12 +49,21 @@
       "DISABLE_MFA_DESC": "Rimuovi l'autenticazione a due fattori dal tuo account",
       "DISABLE_BUTTON": "Disattiva Autenticazione A Due Fattori"
     },
+    "LOW_BACKUP_CODES": {
+      "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
+      "NONE_LEFT": "You have no backup codes remaining. Generate new codes now to avoid getting locked out if you lose access to your authenticator.",
+      "ACTION": "Generate codes"
+    },
     "DISABLE": {
       "TITLE": "Disattiva Autenticazione A Due Fattori",
       "DESCRIPTION": "Dovrai inserire la tua password e un codice di verifica per disabilitare l'autenticazione a due fattori.",
       "PASSWORD": "Password",
       "OTP_CODE": "Codice Di Verifica",
       "OTP_CODE_PLACEHOLDER": "000000",
+      "BACKUP_CODE": "Codice di Backup",
+      "BACKUP_CODE_PLACEHOLDER": "Inserisci uno dei tuoi codici di backup",
+      "USE_BACKUP_CODE": "Hai perso l'accesso al tuo sistema di autenticazione? Usa un codice di backup",
+      "USE_OTP_CODE": "Usa un codice di verifica dalla tua app di autenticazione",
       "CONFIRM": "Disattiva 2FA",
       "CANCEL": "Annulla",
       "SUCCESS": "L'autenticazione a due fattori è stata disattivata",

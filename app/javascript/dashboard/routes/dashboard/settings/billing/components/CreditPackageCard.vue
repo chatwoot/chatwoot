@@ -1,4 +1,6 @@
 <script setup>
+import { formatCurrencyAmount } from 'dashboard/constants/billing';
+
 defineProps({
   credits: {
     type: Number,
@@ -33,11 +35,7 @@ const formatCredits = credits => {
 };
 
 const formatAmount = (amount, currency) => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency.toUpperCase(),
-    minimumFractionDigits: 0,
-  }).format(amount);
+  return formatCurrencyAmount(amount, currency, { minimumFractionDigits: 0 });
 };
 </script>
 

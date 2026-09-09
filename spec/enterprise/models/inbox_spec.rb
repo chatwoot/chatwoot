@@ -134,6 +134,29 @@ RSpec.describe Inbox do
     end
   end
 
+  describe 'validations' do
+    describe 'account inbox limit' do
+      let(:account) { create(:account, limits: { inboxes: 1 }) }
+
+      before do
+        create(:inbox, account: account)
+      end
+
+      it 'prevents saving inboxes beyond the account limit' do
+        new_inbox = build(:inbox, account: account)
+
+        expect { new_inbox.save! }.to raise_error(CustomExceptions::Inbox::LimitExceeded, 'Account limit exceeded. Upgrade to a higher plan')
+      end
+
+      it 'does not block updates to existing inboxes when the account is at the limit' do
+        inbox = account.inboxes.first
+        inbox.name = 'Updated Inbox'
+
+        expect(inbox).to be_valid
+      end
+    end
+  end
+
   describe 'audit log' do
     context 'when inbox is created' do
       it 'has associated audit log created' do

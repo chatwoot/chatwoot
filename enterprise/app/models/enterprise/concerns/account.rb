@@ -11,12 +11,15 @@ module Enterprise::Concerns::Account
 
     has_many :captain_assistants, dependent: :destroy_async, class_name: 'Captain::Assistant'
     has_many :captain_assistant_responses, dependent: :destroy_async, class_name: 'Captain::AssistantResponse'
+    has_many :captain_faq_observations, dependent: :destroy_async, class_name: 'Captain::FaqObservation'
+    has_many :captain_faq_suggestions, dependent: :destroy_async, class_name: 'Captain::FaqSuggestion'
     has_many :captain_documents, dependent: :destroy_async, class_name: 'Captain::Document'
     has_many :captain_custom_tools, dependent: :destroy_async, class_name: 'Captain::CustomTool'
+    has_many :captain_agent_sessions, dependent: :destroy_async, class_name: 'Captain::AgentSession'
+    has_many :conversation_outcomes, dependent: :destroy_async
 
     has_many :copilot_threads, dependent: :destroy_async
     has_many :companies, dependent: :destroy_async
-    has_many :voice_channels, dependent: :destroy_async, class_name: '::Channel::Voice'
     has_many :calls, dependent: :destroy_async
 
     has_one :saml_settings, dependent: :destroy_async, class_name: 'AccountSamlSettings'

@@ -39,4 +39,34 @@ RSpec.describe 'Super Admin Installation Config API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /super_admin/installation_configs/:id' do
+    context 'when it is an authenticated super admin' do
+      it 'shows a regular success notice for config that does not require restart' do
+        sign_in(super_admin, scope: :super_admin)
+        config = create(:installation_config, name: 'TESTCONFIG', value: 'TESTVALUE', locked: false)
+
+        patch "/super_admin/installation_configs/#{config.id}", params: {
+          installation_config: { name: config.name, value: 'UPDATEDVALUE' }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(flash[:notice]).to be_present
+        expect(flash[:success]).to be_blank
+      end
+
+      it 'shows a restart success notice for runtime config changes' do
+        sign_in(super_admin, scope: :super_admin)
+        config = create(:installation_config, name: 'OTEL_PROVIDER', value: 'langfuse', locked: false)
+
+        patch "/super_admin/installation_configs/#{config.id}", params: {
+          installation_config: { name: config.name, value: 'langfuse' }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(flash[:success]).to be_present
+        expect(flash[:notice]).to be_blank
+      end
+    end
+  end
 end

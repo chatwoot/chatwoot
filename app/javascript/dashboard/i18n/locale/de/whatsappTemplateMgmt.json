@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATE_MGMT": {
+    "TITLE": "Vorlagen",
+    "DESCRIPTION": "Sieh dir die Nachrichtenvorlagen an, die aus deinen WhatsApp-Postfächern synchronisiert wurden. Erstelle oder bearbeite Vorlagen bei deinem Anbieter.",
+    "COUNT": "{n} Vorlage | {n} Vorlagen",
+    "KNOW_MORE": "Mehr erfahren",
+    "NEW_TEMPLATE": "Neue Vorlage",
+    "SEARCH_PLACEHOLDER": "Nach Inhalt oder Name suchen ...",
+    "MANAGE_IN_META": "In Meta verwalten",
+    "MANAGE_IN_TWILIO": "In Twilio verwalten",
+    "LOADING": "WhatsApp-Vorlagen werden geladen ...",
+    "EMPTY": "Keine WhatsApp-Vorlagen gefunden.",
+    "NO_RESULTS": "Keine Vorlagen entsprechen deinen Filtern.",
+    "FETCH_ERROR": "WhatsApp-Vorlagen konnten nicht geladen werden. Bitte versuche es erneut.",
+    "PARTIAL_FETCH_ERROR": "Einige WhatsApp-Vorlagen konnten nicht geladen werden. Bitte versuche es erneut.",
+    "LAST_SYNC_ATTEMPT": "Letzter Synchronisierungsversuch am {date}",
+    "MORE_INBOXES": "+{n}",
+    "FILTERS": {
+      "ALL_INBOXES": "Alle Posteingänge",
+      "ALL_LANGUAGES": "Alle Sprachen"
+    },
+    "TYPES": {
+      "TEXT": "Text",
+      "IMAGE": "Bild",
+      "VIDEO": "Video",
+      "DOCUMENT": "Dokument",
+      "MEDIA": "Medien",
+      "QUICK_REPLY": "Schnellantwort",
+      "CALL_TO_ACTION": "Handlungsaufforderung",
+      "CATALOG": "Katalog",
+      "COPY_CODE": "Code kopieren"
+    },
+    "PREVIEW": {
+      "TITLE": "Vorlagenvorschau",
+      "DESCRIPTION": "Sieh dir an, wie diese Vorlage in WhatsApp dargestellt wird.",
+      "OPEN": "Vorschau für {name}",
+      "CLOSE": "Vorschau schließen",
+      "DETAILS": "Vorlagendetails",
+      "STATUS": "Status",
+      "TYPE": "Inhaltstyp",
+      "CATEGORY": "Kategorie",
+      "LANGUAGE": "Sprache",
+      "INBOXES": "Posteingänge",
+      "LAST_SYNC_ATTEMPT": "Letzter Synchronisierungsversuch"
+    }
+  }
+}

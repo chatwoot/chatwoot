@@ -1,0 +1,64 @@
+<% content_for :head do %>
+  <title><%= I18n.t('public_portal.search.results_for', query: @query) %> | <%= @portal.localized_value('name', @locale) %></title>
+<% end %>
+
+<div class="px-6 md:px-10 py-8 md:py-10">
+  <% pagination_params = params.permit(:query, :locale, :theme, :show_plain_layout) %>
+
+  <nav class="flex items-center gap-2 text-sm text-n-slate-11 mb-8 flex-wrap">
+    <a
+      href="<%= public_portal_locale_path(@portal.slug, @locale) %>"
+      class="inline-flex items-center gap-1.5 hover:text-n-slate-12 transition"
+    >
+      <span class="i-lucide-house size-3.5" aria-hidden="true"></span>
+      <%= I18n.t('public_portal.common.home') %>
+    </a>
+    <span class="i-lucide-chevron-right size-3 text-n-slate-9" aria-hidden="true"></span>
+    <span class="text-n-slate-12 font-medium truncate"><%= I18n.t('public_portal.search.results') %></span>
+  </nav>
+
+  <div class="mb-8">
+    <h1 class="text-3xl md:text-4xl leading-snug font-620 tracking-tight text-n-slate-12 text-balance">
+      <%= I18n.t('public_portal.search.results_for', query: @query) %>
+    </h1>
+    <%= render 'public/api/v1/portals/search/form',
+               input_class: 'w-full px-4 py-3 border border-n-weak rounded-lg bg-n-alpha-1 text-n-slate-12 placeholder-n-slate-10 focus:outline-none focus:ring-2 focus:ring-n-portal focus:border-transparent' %>
+  </div>
+
+  <%= render 'public/api/v1/portals/search/search_handler' %>
+
+  <% if @articles.empty? %>
+    <%= render 'public/api/v1/portals/documentation_layout/empty_state',
+               message: I18n.t('public_portal.search.no_results', query: @query) %>
+  <% else %>
+    <p class="mb-6 text-sm text-n-slate-11">
+      <%= I18n.t('public_portal.search.found_results', count: @articles.total_count) %>
+    </p>
+
+    <div class="grid grid-cols-1 gap-4">
+      <% @articles.each do |article| %>
+        <%= render 'public/api/v1/portals/documentation_layout/article_card',
+                   portal: @portal,
+                   article: article %>
+      <% end %>
+    </div>
+
+    <% if @articles.respond_to?(:total_pages) && @articles.total_pages > 1 %>
+      <div class="flex justify-center mt-6">
+        <nav class="inline-flex">
+          <% if @articles.prev_page %>
+            <a href="<%= url_for(pagination_params.merge(page: @articles.prev_page)) %>" class="px-3 py-2 border border-n-weak rounded-l-md text-sm font-medium text-n-slate-11 hover:bg-n-alpha-2">
+              <%= I18n.t('public_portal.common.previous') %>
+            </a>
+          <% end %>
+
+          <% if @articles.next_page %>
+            <a href="<%= url_for(pagination_params.merge(page: @articles.next_page)) %>" class="px-3 py-2 border border-n-weak rounded-r-md text-sm font-medium text-n-slate-11 hover:bg-n-alpha-2">
+              <%= I18n.t('public_portal.common.next') %>
+            </a>
+          <% end %>
+        </nav>
+      </div>
+    <% end %>
+  <% end %>
+</div>

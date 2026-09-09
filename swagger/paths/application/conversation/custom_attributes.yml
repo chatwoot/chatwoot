@@ -20,6 +20,13 @@ requestBody:
             example:
               order_id: '12345'
               previous_conversation: '67890'
+          merge:
+            type: boolean
+            default: false
+            description: >-
+              When true, only the keys sent in `custom_attributes` are updated and the remaining
+              keys are kept intact. When false (default), the whole custom attributes hash is
+              replaced. Use the destroy_custom_attributes endpoint to remove keys.
 responses:
   '200':
     description: Success

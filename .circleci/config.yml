@@ -77,7 +77,8 @@ jobs:
 
       - node/install:
           node-version: '24.13'
-      - node/install-pnpm
+      - node/install-pnpm:
+          version: '10.2.0'
       - node/install-packages:
           pkg-manager: pnpm
           override-ci-command: pnpm i
@@ -118,7 +119,8 @@ jobs:
       - checkout
       - node/install:
           node-version: '24.13'
-      - node/install-pnpm
+      - node/install-pnpm:
+          version: '10.2.0'
       - node/install-packages:
           pkg-manager: pnpm
           override-ci-command: pnpm i
@@ -149,7 +151,8 @@ jobs:
       - checkout
       - node/install:
           node-version: '24.13'
-      - node/install-pnpm
+      - node/install-pnpm:
+          version: '10.2.0'
       - node/install-packages:
           pkg-manager: pnpm
           override-ci-command: pnpm i

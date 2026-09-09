@@ -4,6 +4,7 @@ import { required, minLength } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { convertToAttributeSlug } from 'dashboard/helper/commons.js';
+import { normalizeRegexPattern } from 'shared/helpers/Validators';
 import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -99,19 +100,10 @@ export default {
   },
 
   validations: {
-    displayName: {
-      required,
-      minLength: minLength(1),
-    },
-    description: {
-      required,
-    },
-    attributeModel: {
-      required,
-    },
-    attributeType: {
-      required,
-    },
+    displayName: { required, minLength: minLength(1) },
+    description: { required },
+    attributeModel: { required },
+    attributeType: { required },
     attributeKey: {
       required,
       isKey(value) {
@@ -151,9 +143,7 @@ export default {
           attribute_display_type: this.attributeType,
           attribute_key: this.attributeKey,
           attribute_values: this.attributeListValues,
-          regex_pattern: this.regexPattern
-            ? new RegExp(this.regexPattern).toString()
-            : null,
+          regex_pattern: normalizeRegexPattern(this.regexPattern),
           regex_cue: this.regexCue,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE');

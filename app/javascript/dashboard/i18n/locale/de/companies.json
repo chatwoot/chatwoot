@@ -7,6 +7,7 @@
         "NAME": "Name",
         "DOMAIN": "Domain",
         "CREATED_AT": "Erstellt am",
+        "LAST_ACTIVITY_AT": "Letzte Aktivität",
         "CONTACTS_COUNT": "Anzahl Kontakte"
       }
     },
@@ -21,6 +22,125 @@
     "LOADING": "Unternehmen werden geladen...",
     "UNNAMED": "Unbenanntes Unternehmen",
     "CONTACTS_COUNT": "{n} Kontakt | {n} Kontakte",
+    "ACTIONS": {
+      "CREATE": "Unternehmen hinzufügen"
+    },
+    "SELECTOR": {
+      "PLACEHOLDER": "Unternehmen auswählen",
+      "CREATE_OPTION": "\"{name}\" hinzufügen"
+    },
+    "CREATE": {
+      "TITLE": "Unternehmensdetails hinzufügen",
+      "ACTIONS": {
+        "SAVE": "Unternehmen hinzufügen"
+      },
+      "MESSAGES": {
+        "SUCCESS": "Unternehmen erstellt.",
+        "ERROR": "Unternehmen konnte nicht erstellt werden."
+      }
+    },
+    "DETAIL": {
+      "LOADING": "Unternehmensdetails werden geladen ...",
+      "EMPTY_STATE": {
+        "TITLE": "Unternehmen nicht gefunden",
+        "SUBTITLE": "Dieses Unternehmen wurde möglicherweise entfernt oder ist in diesem Konto nicht mehr verfügbar."
+      },
+      "SIDEBAR": {
+        "TABS": {
+          "ATTRIBUTES": "Attribute",
+          "CONTACTS": "Kontakte",
+          "HISTORY": "Verlauf",
+          "NOTES": "Notizen"
+        }
+      },
+      "HISTORY": {
+        "EMPTY": "Für die Kontakte dieses Unternehmens wurden noch keine Unterhaltungen gefunden."
+      },
+      "NOTES": {
+        "EMPTY": "Für die Kontakte dieses Unternehmens wurden noch keine Notizen gefunden."
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Attribut suchen...",
+        "EMPTY_STATE": "Es sind noch keine benutzerdefinierten Unternehmensattribute konfiguriert.",
+        "NO_ATTRIBUTES": "Keine passenden Attribute gefunden.",
+        "UNUSED_ATTRIBUTES": "{count} ungenutztes Attribut | {count} ungenutzte Attribute",
+        "MESSAGES": {
+          "UPDATE_SUCCESS": "Unternehmensattribut aktualisiert.",
+          "UPDATE_ERROR": "Unternehmensattribut konnte nicht aktualisiert werden.",
+          "DELETE_SUCCESS": "Unternehmensattribut entfernt.",
+          "DELETE_ERROR": "Unternehmensattribut konnte nicht entfernt werden."
+        }
+      },
+      "CONTACTS": {
+        "LOADING": "Kontakte werden geladen...",
+        "EMPTY": "Mit diesem Unternehmen sind noch keine Kontakte verknüpft.",
+        "UNNAMED_CONTACT": "Unbenannter Kontakt",
+        "ACTIONS": {
+          "ADD": "Kontakt hinzufügen",
+          "REMOVE": "Kontakt entfernen"
+        },
+        "DIALOGS": {
+          "ADD": {
+            "DESCRIPTION": "Suche nach einem vorhandenen Kontakt und verknüpfe ihn mit diesem Unternehmen.",
+            "SEARCH_PLACEHOLDER": "Kontakte suchen...",
+            "INITIAL": "Beginne mit der Eingabe, um Kontakte zu suchen.",
+            "EMPTY": "Keine Kontakte gefunden.",
+            "CONFIRM_TITLE": "Kontakt verknüpfen",
+            "CONFIRM_DESCRIPTION": "Prüfe das Unternehmen und den Kontakt, bevor du sie verknüpfst.",
+            "COMPANY_LABEL": "Firma",
+            "CONTACT_LABEL": "Kontakt",
+            "CURRENT_COMPANY": "Derzeit mit {companyName} verknüpft",
+            "ADD": "Kontakt verknüpfen",
+            "CANCEL": "Stornieren"
+          }
+        },
+        "MESSAGES": {
+          "ADD_SUCCESS": "Kontakt mit Unternehmen verknüpft.",
+          "ADD_ERROR": "Kontakt konnte nicht mit dem Unternehmen verknüpft werden.",
+          "REASSIGN_SUCCESS": "Kontakt einem anderen Unternehmen zugewiesen.",
+          "REASSIGN_ERROR": "Kontakt konnte keinem anderen Unternehmen zugewiesen werden.",
+          "REMOVE_SUCCESS": "Kontakt aus dem Unternehmen entfernt.",
+          "REMOVE_ERROR": "Kontakt konnte nicht aus dem Unternehmen entfernt werden."
+        }
+      },
+      "AVATAR": {
+        "UPDATING": "Unternehmensavatar wird aktualisiert ...",
+        "UPLOAD_SUCCESS": "Unternehmensavatar aktualisiert.",
+        "UPLOAD_ERROR": "Unternehmensavatar konnte nicht aktualisiert werden.",
+        "DELETE_SUCCESS": "Unternehmensavatar entfernt.",
+        "DELETE_ERROR": "Unternehmensavatar konnte nicht entfernt werden."
+      },
+      "PROFILE": {
+        "TITLE": "Unternehmensdetails bearbeiten",
+        "CREATED_AT": "Erstellt am {date}",
+        "LAST_ACTIVE": "Zuletzt aktiv {date}",
+        "DESCRIPTION_PLACEHOLDER": "Füge eine kurze Beschreibung dieses Unternehmens hinzu",
+        "ACTIONS": {
+          "SAVE": "Unternehmen aktualisieren"
+        },
+        "MESSAGES": {
+          "UPDATE_SUCCESS": "Unternehmen aktualisiert.",
+          "UPDATE_ERROR": "Unternehmen konnte nicht aktualisiert werden."
+        },
+        "FIELDS": {
+          "NAME": "Name",
+          "DOMAIN": "Domain"
+        }
+      },
+      "DELETE": {
+        "SECTION_TITLE": "Gefahrenbereich",
+        "SECTION_DESCRIPTION": "Lösche dieses Unternehmen und hebe die Verknüpfung seiner Kontakte auf. Die Kontakte bleiben im Konto erhalten.",
+        "BUTTON": "Unternehmen löschen",
+        "TITLE": "Unternehmen löschen?",
+        "DESCRIPTION": "Dadurch wird das Unternehmen entfernt und die Verknüpfung aller zugehörigen Kontakte aufgehoben. Die Kontakte selbst bleiben erhalten.",
+        "DESCRIPTION_WITH_NAME": "Dadurch wird {companyName} entfernt und die Verknüpfung aller zugehörigen Kontakte aufgehoben. Die Kontakte selbst bleiben erhalten.",
+        "CONFIRM": "Unternehmen löschen",
+        "MESSAGES": {
+          "SUCCESS": "Unternehmen gelöscht.",
+          "ERROR": "Unternehmen konnte nicht gelöscht werden."
+        }
+      }
+    },
     "EMPTY_STATE": {
       "TITLE": "Keine Unternehmen gefunden"
     }

@@ -8,12 +8,12 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
 
   describe 'GET /microsoft/callback' do
     let(:response_body_success) do
-      { id_token: JWT.encode({ email: email, name: 'test' }, false), access_token: SecureRandom.hex(10), token_type: 'Bearer',
+      { id_token: JWT.encode({ email: email, name: 'test' }, nil, 'none'), access_token: SecureRandom.hex(10), token_type: 'Bearer',
         refresh_token: SecureRandom.hex(10) }
     end
 
     let(:response_body_success_without_name) do
-      { id_token: JWT.encode({ email: email }, false), access_token: SecureRandom.hex(10), token_type: 'Bearer',
+      { id_token: JWT.encode({ email: email }, nil, 'none'), access_token: SecureRandom.hex(10), token_type: 'Bearer',
         refresh_token: SecureRandom.hex(10) }
     end
 
@@ -32,6 +32,25 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
       expect(inbox.channel.reload.provider_config.keys).to include('access_token', 'refresh_token', 'expires_on')
       expect(inbox.channel.reload.provider_config['access_token']).to eq response_body_success[:access_token]
       expect(inbox.channel.imap_address).to eq 'outlook.office365.com'
+    end
+
+    it 'sets imap_login from preferred_username when the id_token carries a UPN that differs from email' do
+      upn = 'testaccount@primary-domain.example'
+      mailbox = 'TestAccount@mailbox-domain.example'
+      response_body = {
+        id_token: JWT.encode({ email: mailbox, preferred_username: upn, name: 'test' }, nil, 'none'),
+        access_token: SecureRandom.hex(10), token_type: 'Bearer', refresh_token: SecureRandom.hex(10)
+      }
+      stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
+        .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
+                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback" })
+        .to_return(status: 200, body: response_body.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      get microsoft_callback_url, params: { code: code, state: state }
+
+      channel = account.inboxes.last.channel
+      expect(channel.imap_login).to eq upn
+      expect(channel.email).to eq mailbox
     end
 
     it 'creates updates inbox channel config if inbox exists and authentication is successful' do

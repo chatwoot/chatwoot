@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Select Inbox"
         },
         "SUBMIT": "Skapa",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Avbryt"
       },
       "API": {

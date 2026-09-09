@@ -17,6 +17,8 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
   end
 
   describe 'resolving a conversation' do
+    before { account.enable_features('captain_integration_v2') }
+
     it 'marks resolved and enqueues an activity message with the reason' do
       tool.perform(tool_context, reason: 'Possible spam')
 
@@ -27,6 +29,45 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
           content: I18n.t('conversations.activity.captain.resolved_by_tool', user_name: assistant.name, reason: 'Possible spam')
         )
       )
+    end
+
+    it 'creates the configured resolution message' do
+      assistant.update!(config: assistant.config.merge('resolution_message' => 'Thanks for contacting us.'))
+
+      tool.perform(tool_context, reason: 'Issue resolved')
+
+      resolution_message = conversation.messages.outgoing.where(private: false).last
+      expect(resolution_message).to have_attributes(content: 'Thanks for contacting us.', sender: assistant)
+    end
+
+    it 'rolls back the resolution message when resolving fails' do
+      assistant.update!(config: assistant.config.merge('resolution_message' => 'Thanks for contacting us.'))
+      allow(tool).to receive(:find_conversation).and_return(conversation)
+      allow(conversation).to receive(:resolved!).and_raise(ActiveRecord::RecordInvalid.new(conversation))
+
+      expect do
+        tool.perform(tool_context, reason: 'Issue resolved')
+      end.to raise_error(ActiveRecord::RecordInvalid)
+        .and(not_change { conversation.messages.outgoing.where(private: false).count })
+
+      expect(conversation.reload).to be_open
+    end
+
+    it 'resolves without a message when resolution messages are disabled' do
+      assistant.update!(send_inactivity_resolution_message: false)
+
+      expect do
+        tool.perform(tool_context, reason: 'Issue resolved')
+      end.not_to(change { conversation.messages.outgoing.where(private: false).count })
+
+      expect(conversation.reload).to be_resolved
+    end
+
+    it 'emits a captain resolution event with the tool source' do
+      expect(Captain::ConversationEvents).to receive(:resolved)
+        .with(conversation: conversation, assistant: assistant, source: 'tool', at: kind_of(Time))
+
+      tool.perform(tool_context, reason: 'Possible spam')
     end
 
     it 'creates a conversation_resolved reporting event' do
@@ -40,30 +81,25 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
     end
   end
 
-  describe 'when auto-resolve is disabled for the account' do
-    before { account.update!(captain_auto_resolve_mode: 'disabled') }
+  describe 'when auto-resolve is disabled for the assistant' do
+    before { assistant.update!(auto_resolve_mode: 'disabled') }
 
     it 'does not resolve and returns a disabled message' do
       result = tool.perform(tool_context, reason: 'Possible spam')
 
-      expect(result).to eq('Auto-resolve is disabled for this account')
-      expect(conversation.reload).not_to be_resolved
-    end
-  end
-
-  describe 'when auto-resolve is disabled via legacy settings key' do
-    before { account.update!(settings: account.settings.merge('captain_disable_auto_resolve' => true)) }
-
-    it 'does not resolve and returns a disabled message' do
-      result = tool.perform(tool_context, reason: 'Possible spam')
-
-      expect(result).to eq('Auto-resolve is disabled for this account')
+      expect(result).to eq('Auto-resolve is disabled for this assistant')
       expect(conversation.reload).not_to be_resolved
     end
   end
 
   describe 'resolving an already resolved conversation' do
     let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :resolved) }
+
+    it 'does not emit a captain resolution event' do
+      expect(Captain::ConversationEvents).not_to receive(:resolved)
+
+      tool.perform(tool_context, reason: 'Possible spam')
+    end
 
     it 'does not re-resolve and returns an already resolved message' do
       queue_adapter = ActiveJob::Base.queue_adapter
@@ -73,6 +109,16 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
 
       expect(result).to include('already resolved')
       expect(Conversations::ActivityMessageJob).not_to have_been_enqueued
+    end
+  end
+
+  describe 'when a playground call cannot resolve a conversation' do
+    let(:tool_context) { Struct.new(:state).new({ source: 'playground' }) }
+
+    it 'marks the result as an error for run details' do
+      result = tool.perform(tool_context, reason: 'Possible spam')
+
+      expect(result).to eq('ERROR: Conversation not found')
     end
   end
 end

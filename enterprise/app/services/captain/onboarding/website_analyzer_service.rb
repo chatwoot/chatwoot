@@ -1,9 +1,10 @@
 class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
   include Integrations::LlmInstrumentation
+
   MAX_CONTENT_LENGTH = 8000
 
   def initialize(website_url)
-    super()
+    super(feature: 'onboarding_content_generation')
     @website_url = normalize_url(website_url)
     @website_content = nil
     @favicon_url = nil
@@ -30,7 +31,7 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
   def fetch_website_content
     crawler = Captain::Tools::SimplePageCrawlService.new(@website_url)
 
-    text_content = crawler.body_text_content
+    text_content = crawler.body_markdown
     page_title = crawler.page_title
     meta_description = crawler.meta_description
 
@@ -96,7 +97,7 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
       Guidelines:
       - business_name: Extract the actual company/brand name from the content
       - suggested_assistant_name: Create a friendly, professional name that customers would want to interact with
-      - description: Provide context about the business and what the assistant can help with. Keep it general and adaptable rather than overly specific. For example: "You specialize in helping customers with their orders and product questions" or "You assist customers with their account needs and general inquiries"
+      - description: Provide context about the business and what the assistant can help with in no more than 500 characters. Keep it general and adaptable rather than overly specific. For example: "You specialize in helping customers with their orders and product questions" or "You assist customers with their account needs and general inquiries"
 
       Website content:
       #{@website_content}

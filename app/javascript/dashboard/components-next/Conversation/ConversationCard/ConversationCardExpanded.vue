@@ -35,17 +35,25 @@ const emit = defineEmits([
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 const showLabelsSection = computed(() => props.chat.labels?.length > 0);
 
-const voiceCallData = computed(() => ({
-  status: props.chat.additional_attributes?.call_status,
-  direction: props.chat.additional_attributes?.call_direction,
-}));
+const voiceCallData = computed(() => {
+  const last = lastMessageInChat.value;
+  if (last?.content_type !== 'voice_call' || !last.call) {
+    return { status: null, direction: null };
+  }
+  return {
+    status: last.call.status,
+    direction: last.call.direction === 'outgoing' ? 'outbound' : 'inbound',
+  };
+});
 
 const unreadCount = computed(() => props.chat.unread_count);
 
 const slaCardLabel = useTemplateRef('slaCardLabel');
 
 const hasSlaPolicyId = computed(
-  () => props.chat?.sla_policy_id || slaCardLabel.value?.hasSlaThreshold
+  () =>
+    !props.currentContact?.blocked &&
+    (props.chat?.applied_sla?.id || slaCardLabel.value?.hasSlaThreshold)
 );
 
 const selectedModel = computed({

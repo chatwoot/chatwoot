@@ -1,5 +1,7 @@
 import { useEditableAutomation } from '../useEditableAutomation';
 import useAutomationValues from '../useAutomationValues';
+import { generateAutomationPayload } from 'dashboard/helper/automationHelper';
+import { AUTOMATIONS } from 'dashboard/routes/dashboard/settings/automation/constants';
 
 vi.mock('../useAutomationValues');
 
@@ -94,5 +96,42 @@ describe('useEditableAutomation', () => {
         ],
       },
     ]);
+  });
+
+  it.each([
+    {
+      description: 'multiple independent content values',
+      values: ['hello', 'refund'],
+    },
+    {
+      description: 'a single content value containing a comma',
+      values: ['hello, world'],
+    },
+  ])('round trips $description without changing its values', ({ values }) => {
+    const automation = {
+      name: 'Content automation',
+      description: 'Matches message content',
+      event_name: 'message_created',
+      conditions: [
+        {
+          attribute_key: 'content',
+          filter_operator: 'contains',
+          values,
+          query_operator: null,
+        },
+      ],
+      actions: [],
+    };
+
+    const { formatAutomation } = useEditableAutomation();
+    const editableAutomation = formatAutomation(
+      automation,
+      [],
+      AUTOMATIONS,
+      []
+    );
+    const payload = generateAutomationPayload(editableAutomation);
+
+    expect(payload.conditions[0].values).toEqual(values);
   });
 });

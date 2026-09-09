@@ -1,0 +1,16 @@
+type: object
+title: API channel settings
+properties:
+  webhook_url:
+    type: string
+    description: Webhook URL for API channel inbox callbacks
+    example: 'https://example.com/webhook'
+  hmac_mandatory:
+    type: boolean
+    description: Require HMAC verification for incoming API channel messages
+    example: false
+  additional_attributes:
+    type: object
+    description: Additional attributes stored on contacts created through the API channel
+    example:
+      source: mobile_app

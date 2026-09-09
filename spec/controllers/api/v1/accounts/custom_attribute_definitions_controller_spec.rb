@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Custom Attribute Definitions API', type: :request do
   let(:account) { create(:account) }
-  let(:user) { create(:user, account: account) }
+  let(:agent) { create(:user, account: account, role: :agent) }
+  let(:admin) { create(:user, account: account, role: :administrator) }
 
   describe 'GET /api/v1/accounts/{account.id}/custom_attribute_definitions' do
     context 'when it is an unauthenticated user' do
@@ -19,7 +20,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
         create(:custom_attribute_definition, attribute_model: 'contact_attribute', account: account)
 
         get "/api/v1/accounts/#{account.id}/custom_attribute_definitions",
-            headers: user.create_new_auth_token,
+            headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
@@ -45,7 +46,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
     context 'when it is an authenticated user' do
       it 'shows the custom attribute definition' do
         get "/api/v1/accounts/#{account.id}/custom_attribute_definitions/#{custom_attribute_definition.id}",
-            headers: user.create_new_auth_token,
+            headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
@@ -81,13 +82,25 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
     context 'when it is an authenticated user' do
       it 'creates the filter' do
         expect do
-          post "/api/v1/accounts/#{account.id}/custom_attribute_definitions", headers: user.create_new_auth_token,
+          post "/api/v1/accounts/#{account.id}/custom_attribute_definitions", headers: admin.create_new_auth_token,
                                                                               params: payload
         end.to change(CustomAttributeDefinition, :count).by(1)
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['attribute_key']).to eq 'developer_id'
+      end
+
+      context 'when it is an agent' do
+        it 'returns forbidden and does not create the custom attribute' do
+          expect do
+            post "/api/v1/accounts/#{account.id}/custom_attribute_definitions",
+                 headers: agent.create_new_auth_token,
+                 params: payload
+          end.not_to change(CustomAttributeDefinition, :count)
+
+          expect(response).to have_http_status(:unauthorized)
+        end
       end
 
       context 'when creating with a conflicting attribute_key' do
@@ -105,7 +118,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
 
         it 'returns error for conflicting key' do
           post "/api/v1/accounts/#{account.id}/custom_attribute_definitions",
-               headers: user.create_new_auth_token,
+               headers: admin.create_new_auth_token,
                params: conflicting_payload
 
           expect(response).to have_http_status(:unprocessable_entity)
@@ -132,13 +145,26 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
     context 'when it is an authenticated user' do
       it 'updates the custom attribute definition' do
         patch "/api/v1/accounts/#{account.id}/custom_attribute_definitions/#{custom_attribute_definition.id}",
-              headers: user.create_new_auth_token,
+              headers: admin.create_new_auth_token,
               params: payload,
               as: :json
         expect(response).to have_http_status(:success)
         expect(custom_attribute_definition.reload.attribute_display_name).to eq('Developer ID')
         expect(custom_attribute_definition.reload.attribute_key).to eq('developer_id')
         expect(custom_attribute_definition.reload.attribute_model).to eq('conversation_attribute')
+      end
+    end
+
+    context 'when it is an agent' do
+      it 'returns forbidden and does not update the custom attribute' do
+        original_name = custom_attribute_definition.attribute_display_name
+        patch "/api/v1/accounts/#{account.id}/custom_attribute_definitions/#{custom_attribute_definition.id}",
+              headers: agent.create_new_auth_token,
+              params: payload,
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(custom_attribute_definition.reload.attribute_display_name).to eq(original_name)
       end
     end
   end
@@ -156,10 +182,21 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
     context 'when it is an authenticated admin user' do
       it 'deletes custom attribute' do
         delete "/api/v1/accounts/#{account.id}/custom_attribute_definitions/#{custom_attribute_definition.id}",
-               headers: user.create_new_auth_token,
+               headers: admin.create_new_auth_token,
                as: :json
         expect(response).to have_http_status(:no_content)
         expect(account.custom_attribute_definitions.count).to be 0
+      end
+    end
+
+    context 'when it is an agent' do
+      it 'returns forbidden and does not delete the custom attribute' do
+        delete "/api/v1/accounts/#{account.id}/custom_attribute_definitions/#{custom_attribute_definition.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(account.custom_attribute_definitions.count).to be 1
       end
     end
   end

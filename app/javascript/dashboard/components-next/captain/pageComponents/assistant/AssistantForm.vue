@@ -122,6 +122,7 @@ watch(
 
     <Editor
       v-model="state.description"
+      :max-length="500"
       :label="t('CAPTAIN.ASSISTANTS.FORM.DESCRIPTION.LABEL')"
       :placeholder="t('CAPTAIN.ASSISTANTS.FORM.DESCRIPTION.PLACEHOLDER')"
       :message="formErrors.description"

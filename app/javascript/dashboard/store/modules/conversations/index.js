@@ -29,6 +29,16 @@ const getConversationById = _state => conversationId => {
   return _state.allConversations.find(c => c.id === conversationId);
 };
 
+const preserveConversationMessageState = (
+  conversation,
+  existingConversation
+) => ({
+  ...conversation,
+  allMessagesLoaded: existingConversation.allMessagesLoaded,
+  messages: existingConversation.messages,
+  dataFetched: existingConversation.dataFetched,
+});
+
 // mutations
 export const mutations = {
   [types.SET_ALL_CONVERSATION](_state, conversationList) {
@@ -49,15 +59,32 @@ export const mutations = {
         // If the conversation is already in the list and selectedChatId is the same,
         // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
         const existingConversation = newAllConversations[indexInCurrentList];
-        newAllConversations[indexInCurrentList] = {
-          ...conversation,
-          allMessagesLoaded: existingConversation.allMessagesLoaded,
-          messages: existingConversation.messages,
-          dataFetched: existingConversation.dataFetched,
-        };
+        newAllConversations[indexInCurrentList] =
+          preserveConversationMessageState(conversation, existingConversation);
       }
     });
     _state.allConversations = newAllConversations;
+  },
+  [types.REPLACE_CONVERSATION_LIST](_state, conversationList) {
+    const selectedConversation = getConversationById(_state)(
+      _state.selectedChatId
+    );
+    const replacementList = [...conversationList];
+    if (selectedConversation) {
+      const selectedConversationIndex = replacementList.findIndex(
+        conversation => conversation.id === selectedConversation.id
+      );
+      if (selectedConversationIndex === -1) {
+        replacementList.push(selectedConversation);
+      } else {
+        replacementList[selectedConversationIndex] =
+          preserveConversationMessageState(
+            replacementList[selectedConversationIndex],
+            selectedConversation
+          );
+      }
+    }
+    _state.allConversations = replacementList;
   },
   [types.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
@@ -83,7 +110,13 @@ export const mutations = {
   [types.SET_PREVIOUS_CONVERSATIONS](_state, { id, data }) {
     if (data.length) {
       const [chat] = _state.allConversations.filter(c => c.id === id);
-      chat.messages.unshift(...data);
+      const messageIds = new Set(chat.messages.map(message => message.id));
+      const newMessages = data.filter(message => {
+        if (messageIds.has(message.id)) return false;
+        messageIds.add(message.id);
+        return true;
+      });
+      chat.messages.unshift(...newMessages);
     }
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
@@ -108,10 +141,13 @@ export const mutations = {
     }
   },
 
-  [types.ASSIGN_AGENT](_state, { conversationId, assignee }) {
+  [types.ASSIGN_AGENT](_state, { conversationId, assignee, assigneeType }) {
     const chat = getConversationById(_state)(conversationId);
     if (chat) {
       chat.meta.assignee = assignee;
+      const inferredAssigneeType = assignee ? 'User' : null;
+      chat.meta.assignee_type =
+        assigneeType === undefined ? inferredAssigneeType : assigneeType;
     }
   },
 
@@ -307,34 +343,21 @@ export const mutations = {
     }
   },
 
-  [types.UPDATE_CONVERSATION_CALL_STATUS](
+  [types.UPDATE_MESSAGE_CALL_STATUS](
     _state,
-    { conversationId, callStatus }
+    { conversationId, callStatus, callSid }
   ) {
     const chat = getConversationById(_state)(conversationId);
     if (!chat) return;
 
-    chat.additional_attributes = {
-      ...chat.additional_attributes,
-      call_status: callStatus,
-    };
-  },
-
-  [types.UPDATE_MESSAGE_CALL_STATUS](_state, { conversationId, callStatus }) {
-    const chat = getConversationById(_state)(conversationId);
-    if (!chat) return;
-
-    const lastCall = (chat.messages || []).findLast(
-      m => m.content_type === CONTENT_TYPES.VOICE_CALL
+    const message = (chat.messages || []).find(
+      m =>
+        m.content_type === CONTENT_TYPES.VOICE_CALL &&
+        m.call?.provider_call_id === callSid
     );
+    if (!message?.call) return;
 
-    if (!lastCall) return;
-
-    lastCall.content_attributes ??= {};
-    lastCall.content_attributes.data = {
-      ...lastCall.content_attributes.data,
-      status: callStatus,
-    };
+    message.call = { ...message.call, status: callStatus };
   },
 
   [types.SET_ACTIVE_INBOX](_state, inboxId) {

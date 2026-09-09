@@ -1,0 +1,24 @@
+<% if field.events.present? %>
+  <div class="w-full overflow-x-auto">
+    <table class="min-w-full divide-y divide-n-weak text-left text-sm">
+      <thead>
+        <tr class="text-n-slate-11">
+          <th class="px-3 py-2 font-medium"><%= t('super_admin.account_suspension.history.suspended_at') %></th>
+          <th class="px-3 py-2 font-medium"><%= t('super_admin.account_suspension.history.category') %></th>
+          <th class="px-3 py-2 font-medium"><%= t('super_admin.account_suspension.history.reason') %></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-n-weak">
+        <% field.events.each do |event| %>
+          <tr class="align-top text-n-slate-12">
+            <td class="whitespace-nowrap px-3 py-3"><%= field.suspended_at(event) %></td>
+            <td class="whitespace-nowrap px-3 py-3"><%= field.category_label(event) %></td>
+            <td class="whitespace-pre-wrap break-words px-3 py-3"><%= event.fetch('reason') %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="text-sm text-n-slate-11"><%= t('super_admin.account_suspension.history.empty') %></p>
+<% end %>

@@ -58,6 +58,7 @@ RSpec.describe Captain::LabelSuggestionService do
 
       it 'builds labels_with_messages format correctly' do
         expect(service).to receive(:make_api_call) do |args|
+          expect(args[:feature]).to eq('label_suggestion')
           user_message = args[:messages].find { |m| m[:role] == 'user' }[:content]
 
           expect(user_message).to include('Messages:')

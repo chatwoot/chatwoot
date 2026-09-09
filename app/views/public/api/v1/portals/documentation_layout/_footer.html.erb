@@ -1,0 +1,53 @@
+<%# locals: (portal:, global_config:) %>
+<%
+  socials = portal.social_profiles
+  social_definitions = [
+    { key: 'facebook',  icon: 'i-ri-facebook-circle-fill', label: 'Facebook',  base_url: 'https://facebook.com/' },
+    { key: 'x',         icon: 'i-ri-twitter-x-fill',       label: 'X',         base_url: 'https://x.com/' },
+    { key: 'instagram', icon: 'i-ri-instagram-fill',       label: 'Instagram', base_url: 'https://instagram.com/' },
+    { key: 'linkedin',  icon: 'i-ri-linkedin-box-fill',    label: 'LinkedIn',  base_url: 'https://linkedin.com/' },
+    { key: 'youtube',   icon: 'i-ri-youtube-fill',         label: 'YouTube',   base_url: 'https://youtube.com/' },
+    { key: 'tiktok',    icon: 'i-ri-tiktok-fill',          label: 'TikTok',    base_url: 'https://tiktok.com/' },
+    { key: 'github',    icon: 'i-ri-github-fill',          label: 'GitHub',    base_url: 'https://github.com/' },
+    { key: 'whatsapp',  icon: 'i-ri-whatsapp-fill',        label: 'WhatsApp',  base_url: 'https://wa.me/' }
+  ]
+  active_socials = social_definitions.filter_map do |social|
+    handle = socials[social[:key]].to_s.strip
+    social.merge(url: "#{social[:base_url]}#{handle}") if handle.present?
+  end
+  show_branding = !portal.account.feature_enabled?('disable_branding')
+%>
+
+<% if show_branding || active_socials.any? %>
+  <footer class="mt-auto px-6 md:px-10 py-6 border-t border-solid border-n-weak flex items-center gap-4 flex-wrap <%= show_branding ? 'justify-between' : 'justify-end' %>">
+    <% if show_branding %>
+      <a href="<%= generate_portal_brand_url(global_config['BRAND_URL'], request.referer) %>"
+         target="_blank"
+         rel="noopener noreferrer nofollow"
+         class="inline-flex items-center gap-2 text-xs text-n-slate-10 hover:text-n-slate-12 transition">
+        <%= I18n.t('public_portal.footer.made_with') %>
+        <span class="inline-flex items-center gap-1.5 font-medium text-n-slate-11">
+          <% if global_config['LOGO_THUMBNAIL'].present? %>
+            <img class="w-3.5 h-3.5 rounded-sm" alt="<%= global_config['BRAND_NAME'] %>" src="<%= global_config['LOGO_THUMBNAIL'] %>">
+          <% end %>
+          <%= global_config['INSTALLATION_NAME'] %>
+        </span>
+      </a>
+    <% end %>
+
+    <% if active_socials.any? %>
+      <div class="flex items-center gap-0.5">
+        <% active_socials.each do |social| %>
+          <a href="<%= social[:url] %>"
+             target="_blank"
+             rel="noopener noreferrer nofollow"
+             class="p-2 rounded-md text-n-slate-10 hover:text-n-slate-12 hover:bg-n-alpha-2 transition"
+             aria-label="<%= social[:label] %>"
+             title="<%= social[:label] %>">
+            <span class="<%= social[:icon] %> size-4 block" aria-hidden="true"></span>
+          </a>
+        <% end %>
+      </div>
+    <% end %>
+  </footer>
+<% end %>

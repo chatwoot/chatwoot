@@ -1,0 +1,32 @@
+<%# locals: (portal:, article:) %>
+<% last_updated_on = article.updated_at.strftime("%b %-d, %Y") %>
+<header class="mb-12 border-b border-n-weak">
+  <div class="flex items-start justify-between gap-4">
+    <h1 class="text-3xl md:text-4xl leading-snug font-620 tracking-tight text-n-slate-12 min-w-0">
+      <%= article.title %>
+    </h1>
+    <div class="shrink-0 mt-1">
+      <%= render 'public/api/v1/portals/documentation_layout/articles/actions',
+                 portal: portal, article: article %>
+    </div>
+  </div>
+  <% if article.author.present? %>
+    <div class="mt-6 flex items-center gap-3">
+      <%= render 'public/api/v1/portals/documentation_layout/user_avatar',
+                 user: article.author,
+                 size: :lg,
+                 border: 'border border-solid border-n-weak' %>
+      <div>
+        <p class="text-sm font-medium text-n-slate-12"><%= article.author.available_name %></p>
+        <p class="mt-0.5 text-xs text-n-slate-11">
+          <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: last_updated_on) %>
+        </p>
+      </div>
+    </div>
+  <% else %>
+    <p class="mt-6 inline-flex items-center gap-1.5 text-sm text-n-slate-11">
+      <span class="i-lucide-clock-3 size-3.5" aria-hidden="true"></span>
+      <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: last_updated_on) %>
+    </p>
+  <% end %>
+</header>
