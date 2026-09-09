@@ -105,7 +105,7 @@ module Api::V1::Accounts::ConversationsControllerProxy
     (conversation.additional_attributes || {}).merge('linked_conversation_id' => linked_id)
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/BlockLength -- sequential mirror of a message thread incl. attachments
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity -- sequential mirror of a message thread incl. attachments
   def copy_message_history(source_conversation, target_conversation)
     Thread.current[:copying_message_history] = true
 
@@ -126,6 +126,7 @@ module Api::V1::Accounts::ConversationsControllerProxy
         created_at: message.created_at,
         updated_at: message.updated_at
       )
+      mirrored.defer_message_created_event = true
       mirrored.save!(validate: false)
 
       message.attachments.each do |attachment|
@@ -142,20 +143,13 @@ module Api::V1::Accounts::ConversationsControllerProxy
       end
 
       mirrored.reload
-
-      Rails.configuration.dispatcher.dispatch(
-        Events::Types::MESSAGE_CREATED,
-        Time.zone.now,
-        message: mirrored,
-        performed_by: nil
-      )
     rescue StandardError => e
       Rails.logger.error("copy_message_history: failed to mirror message #{message.id}: #{e.message}")
     end
   ensure
     Thread.current[:copying_message_history] = nil
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/BlockLength
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
 
   def build_response(inbox, _operator_conversation)
     {

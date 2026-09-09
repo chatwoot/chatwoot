@@ -19,6 +19,27 @@ RSpec.describe 'Conversations API', type: :request do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(conversation.reload.status).not_to eq('proxied')
     end
+
+    it 'does not dispatch message-created events while copying history' do
+      widget_inbox = create(:inbox, account: account, channel: create(:channel_widget, account: account))
+      conversation = create(:conversation, account: account, inbox: widget_inbox)
+      create(:message, account: account, conversation: conversation, inbox: widget_inbox, message_type: :incoming, content: 'history')
+      dispatcher = Rails.configuration.dispatcher
+      allow(dispatcher).to receive(:dispatch).and_call_original
+      allow(dispatcher).to receive(:dispatch).with(
+        Events::Types::MESSAGE_CREATED, kind_of(Time), hash_including(message: satisfy { |value| value.source_id&.start_with?('history_') })
+      ).and_return(nil)
+
+      patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/change_inbox",
+            params: { inbox_id: target_inbox.id },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(dispatcher).not_to have_received(:dispatch).with(
+        Events::Types::MESSAGE_CREATED, kind_of(Time), hash_including(message: satisfy { |value| value.source_id&.start_with?('history_') })
+      )
+    end
   end
 
   describe 'GET /api/v1/accounts/{account.id}/conversations' do

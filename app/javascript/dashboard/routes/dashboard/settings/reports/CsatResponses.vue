@@ -38,6 +38,7 @@ export default {
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
+      currentUser: 'getCurrentUser',
       isFeatureEnabledOnAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     requestPayload() {
@@ -55,6 +56,13 @@ export default {
         this.accountId,
         FEATURE_FLAGS.TEAM_MANAGEMENT
       );
+    },
+    isRestrictedAgent() {
+      const account = this.currentUser?.accounts?.find(
+        item => Number(item.id) === Number(this.accountId)
+      );
+
+      return account?.role === 'agent' && !account?.custom_role_id;
     },
   },
   methods: {
@@ -132,6 +140,7 @@ export default {
 <template>
   <ReportHeader :header-title="$t('CSAT_REPORTS.HEADER')">
     <DownloadDropdown
+      v-if="!isRestrictedAgent"
       :label="$t('CSAT_REPORTS.DOWNLOAD')"
       :options="downloadOptions"
       @select="downloadReports"

@@ -148,11 +148,9 @@ export default {
       const month = date.getMonth();
       const day = date.getDate();
 
-      const utcDate = new Date(
-        Date.UTC(year, month, day, hours, minutes, 0, 0)
-      );
+      const localDate = new Date(year, month, day, hours, minutes, 0, 0);
 
-      return Math.floor(utcDate.getTime() / 1000);
+      return Math.floor(localDate.getTime() / 1000);
     },
 
     emitChange() {

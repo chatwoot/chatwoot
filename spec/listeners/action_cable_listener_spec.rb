@@ -78,6 +78,30 @@ describe ActionCableListener do
     end
   end
 
+  describe '#assignee_changed' do
+    let(:event) do
+      Events::Base.new(
+        :'assignee.changed',
+        Time.zone.now,
+        conversation: conversation,
+        changed_attributes: { 'assignee_id' => [nil, agent.id] }
+      )
+    end
+
+    it 'notifies agents who could see an unassigned conversation before assignment' do
+      another_agent = create(:user, account: account, role: :agent)
+      create(:inbox_member, inbox: inbox, user: another_agent)
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(agent.pubsub_token, another_agent.pubsub_token, admin.pubsub_token),
+        'assignee.changed',
+        anything
+      )
+
+      listener.assignee_changed(event)
+    end
+  end
+
   describe '#typing_on' do
     let(:event_name) { :'conversation.typing_on' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, is_private: false) }

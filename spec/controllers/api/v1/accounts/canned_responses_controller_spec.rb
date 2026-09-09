@@ -272,6 +272,34 @@ RSpec.describe 'Canned Responses API', type: :request do
         expect(response).to have_http_status(:success)
         expect(scope.reload.user_ids).to eq([other_agent.id])
       end
+
+      it 'rejects deleting a private response shared through a team' do
+        team = create(:team, account: account)
+        create(:team_member, team: team, user: agent)
+        private_response = create(:canned_response, account: account, visibility: :private_response)
+        create(:canned_response_scope, canned_response: private_response, team_ids: [team.id])
+
+        delete "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(CannedResponse.exists?(private_response.id)).to be(true)
+      end
+
+      it 'rejects deleting a private response shared through an inbox' do
+        shared_inbox = create(:inbox, account: account)
+        create(:inbox_member, inbox: shared_inbox, user: agent)
+        private_response = create(:canned_response, account: account, visibility: :private_response)
+        create(:canned_response_scope, canned_response: private_response, inbox_ids: [shared_inbox.id])
+
+        delete "/api/v1/accounts/#{account.id}/canned_responses/#{private_response.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(CannedResponse.exists?(private_response.id)).to be(true)
+      end
     end
   end
 end

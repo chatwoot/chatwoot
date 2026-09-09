@@ -135,6 +135,7 @@ class ActionCableListener < BaseListener
     conversation, account = extract_conversation_and_account(event)
     tokens = conversation_listener_tokens(account, conversation)
 
+    tokens += previous_unassigned_conversation_tokens(account, conversation, event)
     tokens << conversation.assignee.pubsub_token if conversation.assignee&.pubsub_token
     tokens += previous_assignee_tokens(event)
 
@@ -230,6 +231,14 @@ class ActionCableListener < BaseListener
     return [] if previous_assignee_id.blank?
 
     User.where(id: previous_assignee_id).pluck(:pubsub_token)
+  end
+
+  def previous_unassigned_conversation_tokens(account, conversation, event)
+    previous_assignee_id = event.data.dig(:changed_attributes, 'assignee_id')&.first
+    return [] if previous_assignee_id.present?
+
+    member_ids = conversation.inbox.inbox_members.pluck(:user_id)
+    user_tokens(account, account.users.where(id: member_ids))
   end
 
   def user_tokens(account, agents)
