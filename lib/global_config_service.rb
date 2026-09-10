@@ -1,7 +1,7 @@
 class GlobalConfigService
   def self.load(config_key, default_value)
     config = GlobalConfig.get(config_key)[config_key]
-    return config if configured_value?(config, config_key)
+    return config if configured_value?(config, config_key, default_value)
 
     installation_config = InstallationConfig.find_by(name: config_key)
     return installation_config.value if database_value_authoritative?(installation_config, config_key)
@@ -27,8 +27,8 @@ class GlobalConfigService
   end
   private_class_method :load_environment_value
 
-  def self.configured_value?(config, config_key)
-    !ENV.key?(config_key) && !config.nil?
+  def self.configured_value?(config, config_key, default_value)
+    !ENV.key?(config_key) && (!config.nil? || default_value.blank?)
   end
   private_class_method :configured_value?
 
