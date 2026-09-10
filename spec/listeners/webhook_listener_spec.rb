@@ -198,7 +198,7 @@ describe WebhookListener do
 
     context 'when webhook is configured' do
       it 'triggers webhook with the viewing agent' do
-        webhook = create(:webhook, inbox: inbox, account: account)
+        webhook = create(:webhook, inbox: inbox, account: account, subscriptions: %w[conversation_viewed])
         expect(WebhookJob).to receive(:perform_later).with(
           webhook.url,
           conversation.webhook_data.merge(event: 'conversation_viewed', viewed_by_agent: user.webhook_data),

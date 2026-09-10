@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Conversations::ViewedService do
-  let(:account) { create(:account) }
-  let(:inbox) { create(:inbox, account: account) }
-  let(:conversation) { create(:conversation, account: account, inbox: inbox) }
-  let(:user) { create(:user, account: account) }
+  let!(:account) { create(:account) }
+  let!(:inbox) { create(:inbox, account: account) }
+  let!(:conversation) { create(:conversation, account: account, inbox: inbox) }
+  let!(:user) { create(:user, account: account) }
 
   describe '#perform' do
     context 'when the conversation was not viewed within the throttle window' do
