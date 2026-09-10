@@ -30,7 +30,7 @@ RSpec.describe Captain::ConversationCompletionService do
       end
 
       it 'uses the internal GPT-4.1 route on Chatwoot Cloud' do
-        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(false)
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(false)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         account.enable_features!('captain_integration_v2')
         allow(mock_context).to receive(:chat).with(model: 'gpt-4.1').and_return(mock_chat)
@@ -39,7 +39,7 @@ RSpec.describe Captain::ConversationCompletionService do
       end
 
       it 'uses the installation model on self-hosted Enterprise' do
-        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         allow(mock_context).to receive(:chat).with(model: 'gpt-5.1').and_return(mock_chat)
 
@@ -47,7 +47,7 @@ RSpec.describe Captain::ConversationCompletionService do
       end
 
       it 'uses the account override ahead of the installation model on self-hosted Enterprise' do
-        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         account.update!(captain_models: { 'conversation_completion' => 'gpt-5.2' })
         allow(mock_context).to receive(:chat).with(model: 'gpt-5.2').and_return(mock_chat)
@@ -56,7 +56,7 @@ RSpec.describe Captain::ConversationCompletionService do
       end
 
       it 'falls back to the internal GPT-4.1 route when the self-hosted installation model is blank' do
-        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: '')
         allow(mock_context).to receive(:chat).with(model: 'gpt-4.1').and_return(mock_chat)
 
