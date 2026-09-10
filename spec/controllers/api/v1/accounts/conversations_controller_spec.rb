@@ -1057,6 +1057,41 @@ RSpec.describe 'Conversations API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/viewed' do
+    let(:conversation) { create(:conversation, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/viewed"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'dispatches the conversation.viewed event' do
+        expect(Rails.configuration.dispatcher).to receive(:dispatch).with(
+          Events::Types::CONVERSATION_VIEWED,
+          instance_of(ActiveSupport::TimeWithZone),
+          conversation: conversation,
+          viewed_by: agent
+        )
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/viewed",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/conversations/:id/unread' do
     let(:conversation) { create(:conversation, account: account) }
 

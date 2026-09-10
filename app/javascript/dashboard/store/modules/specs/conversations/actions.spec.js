@@ -520,6 +520,21 @@ describe('#actions', () => {
     });
   });
 
+  describe('#conversationViewed', () => {
+    it('marks the conversation as viewed', async () => {
+      axios.post.mockResolvedValue({});
+      await actions.conversationViewed({ commit }, { id: 1 });
+      expect(axios.post).toHaveBeenCalledWith('/api/v1/conversations/1/viewed');
+    });
+
+    it('does not throw when the API call fails', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.conversationViewed({ commit }, { id: 1 })
+      ).resolves.toBeUndefined();
+    });
+  });
+
   describe('#sendEmailTranscript', () => {
     it('sends correct mutations if api is successful', async () => {
       axios.post.mockResolvedValue({});
@@ -960,7 +975,13 @@ describe('#addMentions', () => {
         [types.SET_CURRENT_CHAT_WINDOW, data],
         [types.CLEAR_ALL_MESSAGES_LOADED, 42],
       ]);
-      expect(localDispatch).not.toHaveBeenCalled();
+      expect(localDispatch).toHaveBeenCalledWith('conversationViewed', {
+        id: 42,
+      });
+      expect(localDispatch).not.toHaveBeenCalledWith(
+        'fetchPreviousMessages',
+        expect.anything()
+      );
     });
 
     it('should commit SET_CHAT_DATA_FETCHED by ID, not mutate the data object directly (race condition fix)', async () => {
