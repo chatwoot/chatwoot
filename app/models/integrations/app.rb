@@ -58,6 +58,8 @@ class Integrations::App
 
   def active?(account)
     case params[:id]
+    when 'stripe'
+      Integrations::Stripe::Oauth.configured?
     when 'slack'
       GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?
     when 'linear'
@@ -92,7 +94,7 @@ class Integrations::App
       account.webhooks.exists?
     when 'dashboard_apps'
       account.dashboard_apps.exists?
-    when 'shopify'
+    when 'shopify', 'stripe'
       account.hooks.exists?(app_id: id, status: :enabled)
     else
       account.hooks.exists?(app_id: id)

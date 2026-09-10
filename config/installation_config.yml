@@ -389,6 +389,19 @@
   description: 'Contents on your firebase credentials json file'
 ## ------ End of Configs added for FCM v1 notifications ------ ##
 
+## Stripe customer integration (separate from Chatwoot subscription billing)
+- name: STRIPE_APP_AUTHORIZE_URL
+  display_title: 'Stripe App Authorization URL'
+  value:
+  locked: false
+  description: 'Use the Stripe App OAuth link for this installation: Live mode for production or Sandbox for testing. The link and secret key must use the same environment.'
+- name: STRIPE_APP_SECRET_KEY
+  display_title: 'Stripe App Secret Key'
+  value:
+  locked: false
+  type: secret
+  description: 'Use the app developer live secret key for Live mode, or the app managed sandbox secret key for Sandbox. Active Record encryption is required. Changing environments requires reconnecting existing accounts.'
+
 ## ------ Configs added for Linear ------ ##
 - name: LINEAR_CLIENT_ID
   display_title: 'Linear Client ID'

@@ -7,6 +7,7 @@ import Webhook from './Webhooks/Index.vue';
 import DashboardApps from './DashboardApps/Index.vue';
 import Slack from './Slack.vue';
 import Linear from './Linear.vue';
+import Stripe from './Stripe.vue';
 import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
 
@@ -68,6 +69,12 @@ export default {
             permissions: ['administrator'],
           },
           props: route => ({ code: route.query.code }),
+        },
+        {
+          path: 'stripe',
+          name: 'settings_integrations_stripe',
+          component: Stripe,
+          meta: { permissions: ['administrator'] },
         },
         {
           path: 'notion',
