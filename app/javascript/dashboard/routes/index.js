@@ -7,6 +7,7 @@ import { validateLoggedInRoutes } from '../helper/routeHelpers';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import {
   getShopifyInstallAccount,
+  getShopifyInstallPath,
   getShopifyShopFromRedirect,
   getTargetAccount,
   isShopifyInstallRedirect,
@@ -116,7 +117,9 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
 
       if (installAccount) {
         return next(
-          frontendURL(`accounts/${installAccount.id}/${requestedRedirectUrl}`)
+          frontendURL(
+            `accounts/${installAccount.id}/${getShopifyInstallPath(installAccount, requestedRedirectUrl)}`
+          )
         );
       }
     }
@@ -130,7 +133,12 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   }
 
   if (needsShopifyBilling && to.name !== 'billing_settings_index') {
-    return next(frontendURL(`accounts/${routeAccountId}/settings/billing`));
+    return next({
+      path: frontendURL(`accounts/${routeAccountId}/settings/billing`),
+      query: to.query.shopify_pending_install
+        ? { shopify_pending_install: to.query.shopify_pending_install }
+        : {},
+    });
   }
 
   if (needsOnboarding && !isOnOnboardingView(to)) {

@@ -23,7 +23,8 @@ RSpec.describe Shopify::SignupService do
           data: {
             'access_token' => 'shopify-access-token',
             'shop' => 'my-store.myshopify.com',
-            'scope' => 'read_customers,read_orders'
+            'scope' => 'read_customers,read_orders',
+            'connected_at' => Time.current.utc.iso8601(6)
           }
         )
       end
@@ -53,6 +54,7 @@ RSpec.describe Shopify::SignupService do
         allow(Shopify::PendingInstallation).to receive(:claim)
           .with(token: pending_install_token)
           .and_return(pending_installation)
+        allow(pending_installation).to receive(:with_current_installation).and_yield
         allow(pending_installation).to receive(:bind_to_account!)
         allow(pending_installation).to receive(:consume!)
         allow(pending_installation).to receive(:release!)

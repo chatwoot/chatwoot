@@ -21,9 +21,14 @@ export const getSignupRoute = redirectUrl => {
     : signupRoute;
 };
 
+export const isShopifyBillingAccount = account =>
+  account?.billing_provider === 'shopify' &&
+  account.shopify_integration === true;
+
 export const getShopifyInstallAccount = ({ accounts, accountId }) => {
   const canManageShopify = account =>
-    account.role === 'administrator' && account.status === 'active';
+    account.role === 'administrator' &&
+    (account.status === 'active' || isShopifyBillingAccount(account));
   const currentAccount = accounts.find(
     account => account.id === Number(accountId)
   );
@@ -35,9 +40,10 @@ export const getShopifyInstallAccount = ({ accounts, accountId }) => {
 
 const SHOPIFY_ENTITLED_STATES = ['active', 'trialing', 'cancelled'];
 
-export const isShopifyBillingAccount = account =>
-  account?.billing_provider === 'shopify' &&
-  account.shopify_integration === true;
+export const getShopifyInstallPath = (account, redirectUrl) =>
+  isShopifyBillingAccount(account)
+    ? redirectUrl.replace('settings/integrations/shopify', 'settings/billing')
+    : redirectUrl;
 
 export const requiresShopifyBilling = account =>
   isShopifyBillingAccount(account) &&
@@ -124,7 +130,10 @@ export const getLoginRedirectURL = ({
       ? getShopifyInstallAccount({ accounts, accountId: account_id })
       : targetAccount;
     if (redirectAccount) {
-      return frontendURL(`accounts/${redirectAccount.id}/${redirectUrl}`);
+      const targetPath = isShopifyInstallRedirect(redirectUrl)
+        ? getShopifyInstallPath(redirectAccount, redirectUrl)
+        : redirectUrl;
+      return frontendURL(`accounts/${redirectAccount.id}/${targetPath}`);
     }
   }
   if (requiresShopifyBilling(targetAccount)) {

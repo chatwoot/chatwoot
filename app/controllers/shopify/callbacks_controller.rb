@@ -2,6 +2,8 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
   include Shopify::IntegrationHelper
 
   def show
+    raise StandardError, 'Shopify authorization was denied' if params[:error].present?
+
     if chatwoot_initiated?
       handle_chatwoot_initiated_flow
     elsif params[:code].blank?
@@ -11,7 +13,7 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     end
   rescue StandardError => e
     Rails.logger.error("Shopify callback error: #{e.message}")
-    redirect_to error_redirect_url
+    redirect_to error_redirect_url, allow_other_host: true
   end
 
   private

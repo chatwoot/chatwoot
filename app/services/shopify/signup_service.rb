@@ -14,6 +14,17 @@ class Shopify::SignupService < AccountBuilder
     end
     claim_shopify_installation
 
+    @pending_installation.with_current_installation { create_shopify_signup }
+  rescue StandardError => e
+    return recover_committed_shopify_signup(e) if committed_shopify_signup?
+
+    @pending_installation&.release!(unbind: true)
+    raise
+  end
+
+  private
+
+  def create_shopify_signup
     transaction_succeeded = ActiveRecord::Base.transaction do
       @account = create_account
       bind_shopify_installation
@@ -24,14 +35,7 @@ class Shopify::SignupService < AccountBuilder
 
     finalize_shopify_signup
     [@user, @account]
-  rescue StandardError => e
-    return recover_committed_shopify_signup(e) if committed_shopify_signup?
-
-    @pending_installation&.release!(unbind: true)
-    raise
   end
-
-  private
 
   def reject_existing_user_for_shopify_signup
     return if @user.blank?
@@ -93,7 +97,7 @@ class Shopify::SignupService < AccountBuilder
       reference_id: data['shop'],
       settings: {
         scope: data['scope'],
-        connected_at: Time.current.utc.iso8601(6),
+        connected_at: data.fetch('connected_at'),
         installation_id: SecureRandom.uuid
       }
     )

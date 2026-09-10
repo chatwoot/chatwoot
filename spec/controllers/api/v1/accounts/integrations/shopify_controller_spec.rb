@@ -175,7 +175,8 @@ RSpec.describe 'Shopify Integration API', type: :request do
         data: {
           'access_token' => 'shopify-access-token',
           'shop' => 'my-store.myshopify.com',
-          'scope' => 'read_customers,read_orders'
+          'scope' => 'read_customers,read_orders',
+          'connected_at' => Time.current.utc.iso8601(6)
         }
       )
     end
@@ -184,6 +185,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
       allow(Shopify::PendingInstallation).to receive(:claim)
         .with(token: pending_install_token)
         .and_return(pending_installation)
+      allow(pending_installation).to receive(:with_current_installation).and_yield
       allow(pending_installation).to receive(:consume!)
 
       expect do
@@ -223,6 +225,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
       allow(Shopify::PendingInstallation).to receive(:claim)
         .with(token: pending_install_token)
         .and_return(pending_installation)
+      allow(pending_installation).to receive(:with_current_installation).and_yield
       allow(pending_installation).to receive(:consume!)
         .and_raise(Shopify::PendingInstallation::AlreadyClaimed, 'Install token claim has expired')
       allow(pending_installation).to receive(:release!)
@@ -235,10 +238,11 @@ RSpec.describe 'Shopify Integration API', type: :request do
       end.not_to change(Integrations::Hook, :count)
 
       expect(pending_installation).to have_received(:release!)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:conflict)
     end
 
     it 'returns a duplicate-store error and releases the retained claim' do
+      allow(pending_installation).to receive(:with_current_installation).and_yield
       other_account = create(:account)
       other_account.enable_features!('shopify_integration')
       create(:integrations_hook, :shopify, account: other_account, reference_id: 'my-store.myshopify.com')

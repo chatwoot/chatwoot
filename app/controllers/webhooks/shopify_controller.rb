@@ -5,6 +5,7 @@ class Webhooks::ShopifyController < ActionController::API
 
   before_action :ensure_shopify_enabled, unless: :mandatory_cleanup_event?
   before_action :verify_hmac!
+  around_action :lock_shop_installation, only: :events
 
   def events
     case request.headers['X-Shopify-Topic']
@@ -18,6 +19,10 @@ class Webhooks::ShopifyController < ActionController::API
   end
 
   private
+
+  def lock_shop_installation(&)
+    Shopify::InstallationGeneration.with_shop_lock(params[:shop_domain] || params[:myshopify_domain], &)
+  end
 
   def ensure_shopify_enabled
     head :not_found unless Shopify::FeatureGate.enabled?
