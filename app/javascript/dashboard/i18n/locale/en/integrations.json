@@ -1252,7 +1252,12 @@
       "ADD_NEW": "Create a new tool",
       "ASSISTANT_TOOLS_BANNER": {
         "MESSAGE": "Custom tools are now managed per assistant. Switch assistants to customize their tools.",
-        "DISMISS": "Dismiss announcement"
+        "LEARN_MORE": "Learn more",
+        "DISMISS": "Dismiss announcement",
+        "MODAL_TITLE": "Your assistants now have their own tools",
+        "MODAL_DESCRIPTION": "Each assistant now has a separate list of custom tools. We copied your existing tools to every assistant, so nothing is missing.",
+        "MODAL_INSTRUCTIONS": "When you add, edit, turn off, or delete a tool, the change applies only to the assistant you're currently viewing. Switch assistants at the top of the page to review or customize their tools.",
+        "ACKNOWLEDGE": "Got it"
       },
       "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
