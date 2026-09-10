@@ -21,7 +21,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'created']);
 const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
@@ -51,6 +51,7 @@ const handleSubmit = async updatedTool => {
       await updateTool(updatedTool);
     } else {
       await createTool(updatedTool);
+      emit('created');
     }
     useAlert(t(`${i18nKey.value}.SUCCESS_MESSAGE`));
     dialogRef.value.close();

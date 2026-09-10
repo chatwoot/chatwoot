@@ -8,7 +8,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
 
   def index
     @custom_tools_count = assistant_custom_tools.count
-    @custom_tools = assistant_custom_tools.page(@current_page).per(RESULTS_PER_PAGE)
+    @custom_tools = assistant_custom_tools.order(id: :desc).page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def show; end

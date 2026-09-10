@@ -188,6 +188,8 @@ const handleDialogClose = () => {
   selectedTool.value = null;
 };
 
+const handleToolCreated = () => fetchCustomTools();
+
 const onDeleteSuccess = () => {
   selectedTool.value = null;
   // Check if page will be empty after deletion
@@ -274,6 +276,7 @@ watch(
     :type="dialogType"
     :selected-tool="selectedTool"
     @close="handleDialogClose"
+    @created="handleToolCreated"
   />
 
   <DeleteDialog
