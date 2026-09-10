@@ -780,13 +780,13 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(twitter_channel.reload.tweets_enabled).to be(false)
       end
 
-      it 'updates email inbox when administrator' do
+      it 'updates email inbox without persisting the creation-only import window' do
         email_channel = create(:channel_email, account: account)
         email_inbox = create(:inbox, channel: email_channel, account: account)
 
         patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
               headers: admin.create_new_auth_token,
-              params: { enable_auto_assignment: false, channel: { email: 'emailtest@email.test' } },
+              params: { enable_auto_assignment: false, imap_fetch_interval: 30, channel: { email: 'emailtest@email.test' } },
               as: :json
 
         expect(response).to have_http_status(:success)

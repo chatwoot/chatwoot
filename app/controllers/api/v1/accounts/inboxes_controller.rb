@@ -38,7 +38,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     ActiveRecord::Base.transaction do
       channel = create_channel
       @inbox = Current.account.inboxes.build(
-        { name: inbox_name(channel), channel: channel }.merge(permitted_params.except(:channel, :imap_fetch_interval))
+        { name: inbox_name(channel), channel: channel }.merge(permitted_params.except(:channel))
       )
       @inbox.save!
     end
@@ -199,7 +199,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def permitted_params(channel_attributes = [])
     # We will remove this line after fixing https://linear.app/chatwoot/issue/CW-1567/null-value-passed-as-null-string-to-backend
     params.each { |k, v| params[k] = params[k] == 'null' ? nil : v }
-    params.permit(:imap_fetch_interval, *inbox_attributes, channel: [:type, *channel_attributes])
+    params.permit(*inbox_attributes, channel: [:type, *channel_attributes])
   end
 
   def channel_type_from_params
