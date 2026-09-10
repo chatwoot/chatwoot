@@ -33,9 +33,7 @@ export const getShopifyInstallAccount = ({ accounts, accountId }) => {
     account => account.id === Number(accountId)
   );
 
-  return canManageShopify(currentAccount || {})
-    ? currentAccount
-    : accounts.find(canManageShopify);
+  return canManageShopify(currentAccount || {}) ? currentAccount : undefined;
 };
 
 const SHOPIFY_ENTITLED_STATES = ['active', 'trialing', 'cancelled'];
@@ -125,10 +123,13 @@ export const getLoginRedirectURL = ({
     return DEFAULT_REDIRECT_URL;
   }
   if (redirectUrl) {
-    const { accounts = [], account_id = null } = user || {};
+    const { accounts = [] } = user || {};
     const redirectAccount = isShopifyInstallRedirect(redirectUrl)
-      ? getShopifyInstallAccount({ accounts, accountId: account_id })
+      ? getShopifyInstallAccount({ accounts, accountId: ssoAccountId })
       : targetAccount;
+    if (isShopifyInstallRedirect(redirectUrl) && !redirectAccount) {
+      return frontendURL(`shopify/select-account?${redirectUrl.split('?')[1]}`);
+    }
     if (redirectAccount) {
       const targetPath = isShopifyInstallRedirect(redirectUrl)
         ? getShopifyInstallPath(redirectAccount, redirectUrl)

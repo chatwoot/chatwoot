@@ -6,8 +6,6 @@ import store from 'dashboard/store';
 import { validateLoggedInRoutes } from '../helper/routeHelpers';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import {
-  getShopifyInstallAccount,
-  getShopifyInstallPath,
   getShopifyShopFromRedirect,
   getTargetAccount,
   isShopifyInstallRedirect,
@@ -45,9 +43,11 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
         : '';
     const pendingToken = to.query.shopify_pending_install;
     const hasPendingInstall =
-      ['settings_integrations_shopify', 'billing_settings_index'].includes(
-        to.name
-      ) &&
+      [
+        'settings_integrations_shopify',
+        'billing_settings_index',
+        'shopify_select_account',
+      ].includes(to.name) &&
       typeof pendingToken === 'string' &&
       /^[0-9a-f]{32}$/.test(pendingToken);
     const pendingRedirect = hasPendingInstall
@@ -77,6 +77,8 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     }
     return next(frontendURL('no-accounts'));
   }
+
+  if (to.name === 'shopify_select_account') return next();
 
   const requestedRedirectUrl = to.query?.redirect_url;
   const pricingRedirectUrl = shopifyBillingRedirect(to.query);
@@ -121,18 +123,11 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
         );
       }
 
-      const installAccount = getShopifyInstallAccount({
-        accounts,
-        accountId: routeAccountId,
-      });
-
-      if (installAccount) {
-        return next(
-          frontendURL(
-            `accounts/${installAccount.id}/${getShopifyInstallPath(installAccount, requestedRedirectUrl)}`
-          )
-        );
-      }
+      return next(
+        frontendURL(
+          `shopify/select-account?${requestedRedirectUrl.split('?')[1]}`
+        )
+      );
     }
     if (needsShopifyBilling) {
       return next(frontendURL(`accounts/${routeAccountId}/settings/billing`));

@@ -219,7 +219,7 @@ describe('#URL Helpers', () => {
       );
     });
 
-    it('selects an active administrator for a pending Shopify install', () => {
+    it('requires workspace selection for a pending Shopify install', () => {
       const token = 'a'.repeat(32);
       expect(
         getLoginRedirectURL({
@@ -232,12 +232,10 @@ describe('#URL Helpers', () => {
             ],
           },
         })
-      ).toBe(
-        `/app/accounts/2/settings/integrations/shopify?shopify_pending_install=${token}`
-      );
+      ).toBe(`/app/shopify/select-account?shopify_pending_install=${token}`);
     });
 
-    it('falls back to the dashboard when no account can manage the install', () => {
+    it('retains the token when no account can manage the install', () => {
       const token = 'a'.repeat(32);
       expect(
         getLoginRedirectURL({
@@ -247,7 +245,7 @@ describe('#URL Helpers', () => {
             accounts: [{ id: 1, role: 'agent', status: 'active' }],
           },
         })
-      ).toBe('/app/accounts/1/dashboard');
+      ).toBe(`/app/shopify/select-account?shopify_pending_install=${token}`);
     });
   });
 
