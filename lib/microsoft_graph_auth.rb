@@ -5,6 +5,7 @@
 # Refer: https://github.com/microsoftgraph/msgraph-sample-rubyrailsapp
 
 require 'omniauth-oauth2'
+require './lib/global_config_service'
 
 # Implements an OmniAuth strategy to get a Microsoft Graph
 # compatible token from Azure AD
@@ -14,10 +15,25 @@ class MicrosoftGraphAuth < OmniAuth::Strategies::OAuth2
   DEFAULT_SCOPE = 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send'
 
   # Configure the Microsoft identity platform endpoints
-  option :client_options,
-         site: 'https://login.microsoftonline.com',
-         authorize_url: '/common/oauth2/v2.0/authorize',
-         token_url: '/common/oauth2/v2.0/token'
+  # Initialize with appropriate endpoints based on tenant configuration
+  def initialize(app, *args, &)
+    super
+    tenant_id = GlobalConfigService.load('AZURE_TENANT_ID', nil)
+
+    options.client_options = if tenant_id.present?
+                               {
+                                 site: 'https://login.microsoftonline.com',
+                                 authorize_url: "/#{tenant_id}/oauth2/v2.0/authorize",
+                                 token_url: "/#{tenant_id}/oauth2/v2.0/token"
+                               }
+                             else
+                               {
+                                 site: 'https://login.microsoftonline.com',
+                                 authorize_url: '/common/oauth2/v2.0/authorize',
+                                 token_url: '/common/oauth2/v2.0/token'
+                               }
+                             end
+  end
 
   option :pcke, true
   # Send the scope parameter during authorize
