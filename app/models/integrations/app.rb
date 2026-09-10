@@ -63,7 +63,7 @@ class Integrations::App
     when 'slack'
       GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?
     when 'linear'
-      account.feature_enabled?('linear_integration') && GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
+      linear_enabled?(account)
     when 'shopify'
       shopify_enabled?(account)
     when 'leadsquared'
@@ -130,6 +130,10 @@ class Integrations::App
   end
 
   private
+
+  def linear_enabled?(account)
+    account.feature_enabled?('linear_integration') && GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
+  end
 
   def shopify_enabled?(account)
     Shopify::FeatureGate.enabled?(account: account) &&
