@@ -26,7 +26,7 @@ module ChatwootApp
   end
 
   def self.self_hosted_paid?
-    enterprise? && !chatwoot_cloud? && ChatwootHub.pricing_plan != 'community'
+    enterprise? && !chatwoot_cloud? && %w[premium enterprise].include?(ChatwootHub.pricing_plan)
   end
 
   def self.custom?

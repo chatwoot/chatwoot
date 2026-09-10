@@ -86,7 +86,7 @@ const isFeatureAccessible = feature => {
     return (
       isEnterprise &&
       !isOnChatwootCloud.value &&
-      enterprisePlanName !== 'community'
+      ['premium', 'enterprise'].includes(enterprisePlanName)
     );
   }
 
