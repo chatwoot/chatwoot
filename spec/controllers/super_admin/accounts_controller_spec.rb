@@ -47,7 +47,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
       end
 
       it 'shows the installation model for internal routing on self-hosted Enterprise', if: ChatwootApp.enterprise? do
-        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         sign_in(super_admin, scope: :super_admin)
 
@@ -69,7 +69,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
   describe 'GET /super_admin/accounts/{account_id}/edit' do
     context 'when it is an authenticated user' do
       it 'renders separate Captain model selectors for customer and internal AI features', if: ChatwootApp.enterprise? do
-        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         account.update!(captain_models: { 'editor' => 'gpt-4.1' })
         sign_in(super_admin, scope: :super_admin)
