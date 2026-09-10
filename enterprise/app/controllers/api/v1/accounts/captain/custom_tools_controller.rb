@@ -1,10 +1,14 @@
 class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::BaseController
+  RESULTS_PER_PAGE = 25
+
   before_action :ensure_custom_tools_enabled
   before_action -> { check_authorization(Captain::CustomTool) }
+  before_action :set_current_page, only: [:index]
   before_action :set_custom_tool, only: [:show, :update, :destroy]
 
   def index
-    @custom_tools = assistant_custom_tools
+    @custom_tools_count = assistant_custom_tools.count
+    @custom_tools = assistant_custom_tools.page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def show; end
@@ -33,6 +37,10 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   end
 
   private
+
+  def set_current_page
+    @current_page = params[:page] || 1
+  end
 
   def ensure_custom_tools_enabled
     return if Current.account.feature_enabled?('custom_tools') || Current.account.feature_enabled?('captain_integration_v2')
