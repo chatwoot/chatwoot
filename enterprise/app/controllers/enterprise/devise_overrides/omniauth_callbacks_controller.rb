@@ -1,11 +1,9 @@
 module Enterprise::DeviseOverrides::OmniauthCallbacksController
-  GOOGLE_OAUTH_REDIRECT_SESSION_KEY = 'google_oauth_redirect_url'.freeze
   SHOPIFY_BILLING_REDIRECT_PATTERN = %r{\Asettings/billing(?:\?[^#]*)?\z}
 
   def redirect_callbacks
     return omniauth_success if params[:provider] == 'saml'
 
-    preserve_google_oauth_redirect if params[:provider] == 'google_oauth2'
     super
   end
 
@@ -33,17 +31,8 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
 
   private
 
-  def oauth_redirect_url
-    session.delete(GOOGLE_OAUTH_REDIRECT_SESSION_KEY) || super
-  end
-
-  def preserve_google_oauth_redirect
-    session.delete(GOOGLE_OAUTH_REDIRECT_SESSION_KEY)
-    redirect_url = params[:state].to_s
-    return unless redirect_url.match?(SHOPIFY_BILLING_REDIRECT_PATTERN) ||
-                  redirect_url.match?(::DeviseOverrides::OmniauthCallbacksController::SHOPIFY_INSTALL_REDIRECT_PATTERN)
-
-    session[GOOGLE_OAUTH_REDIRECT_SESSION_KEY] = redirect_url
+  def allowed_google_oauth_redirect?(redirect_url)
+    super || redirect_url.match?(SHOPIFY_BILLING_REDIRECT_PATTERN)
   end
 
   def create_account_for_user

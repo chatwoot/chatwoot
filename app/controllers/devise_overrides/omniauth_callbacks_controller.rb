@@ -2,6 +2,12 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   include EmailHelper
 
   SHOPIFY_INSTALL_REDIRECT_PATTERN = %r{\Asettings/integrations/shopify\?shopify_pending_install=([0-9a-f]{32})\z}
+  GOOGLE_OAUTH_REDIRECT_SESSION_KEY = 'google_oauth_redirect_url'.freeze
+
+  def redirect_callbacks
+    preserve_google_oauth_redirect if params[:provider] == 'google_oauth2'
+    super
+  end
 
   def omniauth_success
     get_resource_from_auth_hash
@@ -70,8 +76,18 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def oauth_redirect_url
+    redirect_url = session.delete(GOOGLE_OAUTH_REDIRECT_SESSION_KEY) || params[:state].to_s
+    redirect_url if allowed_google_oauth_redirect?(redirect_url)
+  end
+
+  def preserve_google_oauth_redirect
+    session.delete(GOOGLE_OAUTH_REDIRECT_SESSION_KEY)
     redirect_url = params[:state].to_s
-    redirect_url if redirect_url.match?(SHOPIFY_INSTALL_REDIRECT_PATTERN)
+    session[GOOGLE_OAUTH_REDIRECT_SESSION_KEY] = redirect_url if allowed_google_oauth_redirect?(redirect_url)
+  end
+
+  def allowed_google_oauth_redirect?(redirect_url)
+    redirect_url.match?(SHOPIFY_INSTALL_REDIRECT_PATTERN)
   end
 
   def account_signup_allowed?
