@@ -1,5 +1,6 @@
 import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
 import ActionCableConnector from '../actionCable';
+import DashboardAudioNotificationHelper from '../AudioAlerts/DashboardAudioNotificationHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 vi.mock('shared/helpers/mitt', () => ({
@@ -47,6 +48,27 @@ describe('ActionCableConnector - Copilot Tests', () => {
     vi.clearAllTimers();
     vi.useRealTimers();
   });
+  describe('bot handoff alerts', () => {
+    it.each([
+      ['human takeover', { type: 'user' }, false],
+      ['bot handoff', { type: 'agent_bot' }, true],
+      ['Captain background handoff', undefined, true],
+    ])('%s', (_, performer, shouldAlert) => {
+      const alert = vi
+        .spyOn(DashboardAudioNotificationHelper, 'onConversationBotHandoff')
+        .mockImplementation(() => {});
+      const data = { id: 12, account_id: 1, performer };
+
+      actionCable.onReceived({ event: 'conversation.bot_handoff', data });
+
+      if (shouldAlert) {
+        expect(alert).toHaveBeenCalledWith(data);
+      } else {
+        expect(alert).not.toHaveBeenCalled();
+      }
+    });
+  });
+
   describe('copilot event handlers', () => {
     it('should register the copilot.message.created event handler', () => {
       expect(Object.keys(actionCable.events)).toContain(
