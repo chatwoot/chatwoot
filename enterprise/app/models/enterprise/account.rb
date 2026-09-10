@@ -116,6 +116,10 @@ module Enterprise::Account
   end
 
   def business_or_enterprise_plan?
+    if billing_provider == 'shopify'
+      return Enterprise::Billing::PlanConfiguration.current_plan(self)&.fetch('features', [])&.include?('advanced_assignment')
+    end
+
     plan_name = custom_attributes['plan_name']
     %w[Business Enterprise].include?(plan_name)
   end
