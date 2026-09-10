@@ -70,7 +70,7 @@ class Article < ApplicationRecord
   before_create :add_position_to_article
   after_save :category_id_changed_action, if: :saved_change_to_category_id?
 
-  enum status: { draft: 0, published: 1, archived: 2 }
+  enum :status, { draft: 0, published: 1, archived: 2 }
 
   scope :search_by_category_slug, ->(category_slug) { where(categories: { slug: category_slug }) if category_slug.present? }
   scope :search_by_category_locale, ->(locale) { where(categories: { locale: locale }) if locale.present? }

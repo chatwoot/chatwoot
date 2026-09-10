@@ -39,7 +39,7 @@ class AutomationRulePendingExecution < ApplicationRecord
   # `processing` is claimed but not yet acting, so it is safe to reclaim and retry. `executing`
   # means the actions are running: a row that dies there is never replayed, because the actions
   # are customer-facing (messages, emails, webhooks) and repeating them is worse than dropping them.
-  enum status: { pending: 0, processing: 1, executed: 2, skipped: 3, executing: 4 }
+  enum :status, { pending: 0, processing: 1, executed: 2, skipped: 3, executing: 4 }
 
   # Processing rows whose worker died: the claim renews updated_at, so a lock past the timeout is abandoned.
   scope :stale_processing, -> { processing.where(updated_at: ...STALE_PROCESSING_TIMEOUT.ago) }

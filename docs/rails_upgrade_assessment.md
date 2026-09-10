@@ -57,6 +57,25 @@ Two defaults-sensitive surfaces are particularly important:
 
 The assessment used isolated copies of this exact revision, changed only dependency constraints and the minimum code necessary to boot, and did not modify the application worktree.
 
+### Implemented checkpoint results
+
+The implementation work converted the estimates into these exact checkpoint diffs:
+
+| Checkpoint | Stack base | Files changed | Validation result |
+| --- | --- | ---: | --- |
+| Rails 7.2.3.1 | Current `develop` | 22 | 7,940 Ruby examples and 3,787 frontend tests passed; Vite/Sprockets builds, production preflight, Sidekiq Cron, Disk/Azurite storage, and five Playwright product tests passed. |
+| Rails 8.0.5 | Rails 7.2.3.1 checkpoint | 52 | 7,940 Ruby examples and 3,787 frontend tests passed; focused Administrate/reporting regressions, Vite/Sprockets builds, production preflight, Sidekiq Cron, Disk/Azurite storage, five Playwright product tests, and the Super Admin remote-search browser flow passed. |
+
+The Rails 8.0 implementation found several interfaces that a boot-only experiment could not prove:
+
+- There were 38 keyword-form enum declarations remaining after the Rails 7.2 checkpoint, across 30 model files.
+- Groupdate 6.2 booted but failed or silently returned zero through Rails 8 calculation paths. Groupdate 6.8.0 is required.
+- Administrate's built-in `BelongsTo` field would render every account/user in the Account User form. Removing the incompatible search gem therefore required a small local remote-search field and JSON endpoint, not a direct field rename.
+- Rails 8.0, not only Rails 8.1, rejects `index` on a singular resource. The replacement named scope preserves the exact route helper, path, verb, and controller.
+- The existing PostgreSQL schema-dumper extension continued to dump the Rails 8.0 schema correctly and did not require an application change.
+- Rails 8 changes the human-readable `ActionController::ParameterMissing` message to include “or invalid”; the exception class and parameter contract are unchanged.
+- Rack 3.2's `:unprocessable_entity` deprecation appears in the suite but is not a Rails 8.0/8.1 removal. Its 112-file mechanical cleanup is intentionally separated from the framework checkpoint.
+
 ### Rails 7.2.3.1
 
 - Bundler resolved Rails 7.2.3.1.
@@ -119,6 +138,7 @@ These estimates are for tracked files in the Chatwoot repository. Any remaining 
 | --- | ---: | ---: | --- |
 | Rails 7.2.3.1, version compatibility only | 3 | 3–5 | `Gemfile`, `Gemfile.lock`, and the `User` association alias. |
 | Refreshed existing Rails 7.2 PR | 22 | 22 | Also carries Rails-7.2 boundary fixes, Azure adapter replacement, Sidekiq scheduler and profiler compatibility, test stabilization, a production preflight, and the migration guide. |
+| Stacked Rails 8.0.5 checkpoint | 52 | 52 | Includes 30 enum files, supported dependencies, route/time/test configuration, Groupdate, Administrate 1 assets and remote search replacement, the explicit deferral of strong-parameter `expect` semantics, preflight extensions, and the production guide. |
 | Rails 7.2.3.1 plus staged 7.1/7.2 defaults | 3 | 8–15 | Adds explicit defaults, encryption/serialization guards, and focused regression specs. |
 | Rails 8.1.3, minimum boot floor from 7.1 | 36 | At least 36 | 31 enum files, two dependency files, `User`, routes, and schema dumper. |
 | Rails 8.1.3, production-ready | 36 | 50–70 | Adds Azure strategy, Super Admin asset fixes, defaults, job/auth/storage/request specs, schema validation, and rollout configuration. |

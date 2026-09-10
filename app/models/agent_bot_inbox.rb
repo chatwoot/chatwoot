@@ -19,7 +19,7 @@ class AgentBotInbox < ApplicationRecord
   belongs_to :inbox
   belongs_to :agent_bot
   belongs_to :account
-  enum status: { active: 0, inactive: 1 }
+  enum :status, { active: 0, inactive: 1 }
 
   private
 

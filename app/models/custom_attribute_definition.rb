@@ -42,8 +42,8 @@ class CustomAttributeDefinition < ApplicationRecord
   validates :attribute_model, presence: true
   validate :attribute_must_not_conflict, on: :create
 
-  enum attribute_model: { conversation_attribute: 0, contact_attribute: 1, company_attribute: 2 }
-  enum attribute_display_type: { text: 0, number: 1, currency: 2, percent: 3, link: 4, date: 5, list: 6, checkbox: 7 }
+  enum :attribute_model, { conversation_attribute: 0, contact_attribute: 1, company_attribute: 2 }
+  enum :attribute_display_type, { text: 0, number: 1, currency: 2, percent: 3, link: 4, date: 5, list: 6, checkbox: 7 }
 
   belongs_to :account
   after_update :update_widget_pre_chat_custom_fields, unless: :company_attribute?
