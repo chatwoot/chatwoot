@@ -121,6 +121,9 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   // eslint-disable-next-line class-methods-use-this
   onConversationBotHandoff = data => {
+    // A human taking over is already handling the conversation, so other agents don't need an alert.
+    if (data.performer?.type === 'user') return;
+
     // Conversation state is updated by the separate status change event.
     DashboardAudioNotificationHelper.onConversationBotHandoff(data);
   };
