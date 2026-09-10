@@ -6,6 +6,7 @@ module Api::V1::Accounts::Concerns::EmailChannelCreation
   def validate_new_email_channel
     return unless params.dig(:channel, :type) == 'email'
 
+    initial_imap_fetch_interval if params.key?(:imap_fetch_interval)
     validate_email_channel(Channel::Email::EDITABLE_ATTRS)
   rescue StandardError => e
     render json: { message: e }, status: :unprocessable_entity
@@ -19,7 +20,11 @@ module Api::V1::Accounts::Concerns::EmailChannelCreation
   end
 
   def initial_imap_fetch_interval
-    interval = params[:imap_fetch_interval].to_i
-    [1, 7, 30].include?(interval) ? interval : 1
+    return 1 unless params.key?(:imap_fetch_interval)
+
+    interval = params[:imap_fetch_interval]
+    raise ActionController::ParameterMissing, :imap_fetch_interval unless interval.is_a?(Integer) && [1, 7, 30].include?(interval)
+
+    interval
   end
 end

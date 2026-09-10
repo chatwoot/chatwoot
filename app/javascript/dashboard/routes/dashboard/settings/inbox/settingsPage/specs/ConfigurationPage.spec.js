@@ -54,19 +54,24 @@ describe('ConfigurationPage', () => {
     expect(wrapper.findComponent({ name: 'ImapSettings' }).exists()).toBe(true);
   });
 
-  it('hides IMAP settings for a forwarding-only inbox', () => {
-    const wrapper = mountComponent({
-      channel_type: 'Channel::Email',
-      forwarding_enabled: true,
-      imap_enabled: false,
-      imap_address: '',
-    });
+  it.each([true, false])(
+    'keeps forwarding-only controls when forwarding availability is %s',
+    forwardingEnabled => {
+      const wrapper = mountComponent({
+        channel_type: 'Channel::Email',
+        forwarding_enabled: forwardingEnabled,
+        imap_enabled: false,
+        imap_address: '',
+      });
 
-    expect(wrapper.findComponent({ name: 'ImapSettings' }).exists()).toBe(
-      false
-    );
-    expect(wrapper.findComponent({ name: 'SmtpSettings' }).exists()).toBe(true);
-  });
+      expect(wrapper.findComponent({ name: 'ImapSettings' }).exists()).toBe(
+        false
+      );
+      expect(wrapper.findComponent({ name: 'SmtpSettings' }).exists()).toBe(
+        true
+      );
+    }
+  );
 
   it('shows the WhatsApp reconfigure option for embedded signup inboxes without checking account feature flags', () => {
     const wrapper = mountComponent({

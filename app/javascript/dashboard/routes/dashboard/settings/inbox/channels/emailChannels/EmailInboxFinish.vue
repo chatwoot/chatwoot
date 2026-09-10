@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useBranding } from 'shared/composables/useBranding';
 
 const props = defineProps({
   inbox: {
@@ -14,15 +15,18 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+const { replaceInstallationName } = useBranding();
 
 const isImapSmtpInbox = computed(() => {
   return props.inbox.imap_enabled;
 });
 
 const message = computed(() => {
-  return isImapSmtpInbox.value
-    ? t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE_IMAP_SMTP')
-    : t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE_FORWARDING');
+  return replaceInstallationName(
+    isImapSmtpInbox.value
+      ? t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE_IMAP_SMTP')
+      : t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE_FORWARDING')
+  );
 });
 
 const showForwardingAddress = computed(() => {

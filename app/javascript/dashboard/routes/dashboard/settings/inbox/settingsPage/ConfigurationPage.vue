@@ -69,11 +69,7 @@ export default {
       return !!this.inbox.forwarding_enabled;
     },
     isForwardingEmailInbox() {
-      return (
-        this.isForwardingEnabled &&
-        !this.inbox.imap_enabled &&
-        !this.inbox.imap_address
-      );
+      return !this.inbox.imap_enabled && !this.inbox.imap_address;
     },
   },
   watch: {

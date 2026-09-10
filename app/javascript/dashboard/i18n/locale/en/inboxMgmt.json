@@ -1617,7 +1617,7 @@
       },
       "OTHER_PROVIDERS": {
         "TITLE": "Other Providers",
-        "DESCRIPTION": "Use IMAP/SMTP"
+        "DESCRIPTION": "Connect via IMAP/SMTP"
       }
     },
     "CHANNELS": {

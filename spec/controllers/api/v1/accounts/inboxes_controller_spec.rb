@@ -586,7 +586,7 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('test@test.com')
       end
 
-      [[1, 1], [7, 7], [30, 30], [nil, 1], [90, 1]].each do |import_window, expected_window|
+      [1, 7, 30].each do |import_window|
         it "creates an IMAP inbox with import window #{import_window.inspect}" do
           imap_connection = instance_double(Net::IMAP, disconnected?: false)
 
@@ -613,12 +613,26 @@ RSpec.describe 'Inboxes API', type: :request do
                    }
                  },
                  as: :json
-          end.to have_enqueued_job(Inboxes::FetchImapEmailsJob).with(a_kind_of(Channel::Email), expected_window)
+          end.to have_enqueued_job(Inboxes::FetchImapEmailsJob).with(a_kind_of(Channel::Email), import_window)
 
           expect(response).to have_http_status(:success)
           channel = Channel::Email.find_by!(email: 'support@example.com')
           expect(channel.imap_enabled).to be true
           expect(channel.smtp_enabled).to be false
+        end
+      end
+
+      [nil, 90, '7days', '7', 30.5, [], {}].each do |import_window|
+        it "rejects invalid import window #{import_window.inspect} before creating the inbox" do
+          expect do
+            post "/api/v1/accounts/#{account.id}/inboxes",
+                 headers: admin.create_new_auth_token,
+                 params: { name: 'Support', imap_fetch_interval: import_window,
+                           channel: { type: 'email', email: 'support@example.com' } }, as: :json
+          end.not_to change(Inbox, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(Inboxes::FetchImapEmailsJob).not_to have_been_enqueued
         end
       end
 
