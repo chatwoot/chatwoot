@@ -43,7 +43,18 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
       to.name === 'settings_integrations_shopify'
         ? 'settings/integrations/shopify'
         : '';
-    const redirectUrl = billingRedirect || integrationRedirect;
+    const pendingToken = to.query.shopify_pending_install;
+    const hasPendingInstall =
+      ['settings_integrations_shopify', 'billing_settings_index'].includes(
+        to.name
+      ) &&
+      typeof pendingToken === 'string' &&
+      /^[0-9a-f]{32}$/.test(pendingToken);
+    const pendingRedirect = hasPendingInstall
+      ? `settings/integrations/shopify?shopify_pending_install=${pendingToken}`
+      : '';
+    const redirectUrl =
+      pendingRedirect || billingRedirect || integrationRedirect;
     const loginParams = new URLSearchParams();
     if (redirectUrl) {
       if (to.params?.accountId) {
