@@ -207,20 +207,6 @@ class ConversationReplyMailer < ApplicationMailer
                                                                                       .present? && @account.support_email.present?
   end
 
-  def transcript_reply_to(to_email)
-    return unless @contact&.email&.casecmp?(to_email) && inbound_email_enabled?
-    return unless conversation_continuity_enabled?
-
-    reply_email
-  end
-
-  def conversation_continuity_enabled?
-    return @channel.continuity_via_email if @inbox.web_widget?
-    return @account.feature_enabled?('email_continuity_on_api_channel') if @inbox.api?
-
-    false
-  end
-
   def choose_layout
     return 'mailer/base' if branded_email_layout_action?
     return false if action_name == 'reply_without_summary' || action_name == 'email_reply'
