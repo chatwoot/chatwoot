@@ -136,8 +136,6 @@ const instructionError = computed(() =>
 
 const LINK_INSTRUCTION_CLASS =
   '[&_a[href^="tool://"]]:text-n-iris-11 [&_a:not([href^="tool://"])]:text-n-slate-12 [&_a]:pointer-events-none [&_a]:cursor-default';
-
-
 </script>
 
 <template>
@@ -210,10 +208,10 @@ const LINK_INSTRUCTION_CLASS =
       >
         <div ref="instructionContentRef">
           <p
-            class="text-sm text-n-slate-12 py-4 prose prose-sm min-w-0 break-words max-w-none"
+            v-dompurify-html:toolLinks="formatMessage(instruction, false)"
+            class="text-sm text-n-slate-12 py-4 mb-0 prose prose-sm min-w-0 break-words max-w-none"
             :class="LINK_INSTRUCTION_CLASS"
-            v-dompurify-html="formatMessage(instruction, false)"
-          ></p>
+          />
         </div>
 
         <div

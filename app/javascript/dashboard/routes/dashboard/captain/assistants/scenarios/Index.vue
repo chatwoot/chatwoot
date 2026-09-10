@@ -254,11 +254,13 @@ onMounted(() => {
               <span class="text-sm text-n-slate-11 mt-2">
                 {{ item.description }}
               </span>
-              <div
+              <span
+                v-dompurify-html:toolLinks="
+                  formatMessage(item.instruction, false)
+                "
                 class="text-sm text-n-slate-12 py-4 prose prose-sm min-w-0 break-words"
                 :class="LINK_INSTRUCTION_CLASS"
-                v-dompurify-html="formatMessage(item.instruction, false)"
-              ></div>
+              />
               <span class="text-sm text-n-slate-11 font-medium mb-1">
                 {{ t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.SUGGESTED.TOOLS_USED') }}
                 {{ item.tools?.map(tool => `@${tool}`).join(', ') }}
