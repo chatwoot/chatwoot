@@ -1,9 +1,20 @@
 class Enterprise::Api::V1::AccountsController < Api::BaseController
   include BillingHelper
+  SHOPIFY_BILLING_ACTIONS = %i[billing_summary checkout subscription select_billing_currency topup_checkout topup_options].freeze
+  STRIPE_ONLY_BILLING_ACTIONS = %i[subscription select_billing_currency topup_checkout topup_options].freeze
+
   before_action :fetch_account
   before_action :validate_token_api_access, if: :authenticate_by_access_token?
   before_action :check_authorization
   before_action :check_cloud_env, only: [:limits, :toggle_deletion, :topup_options]
+  before_action :ensure_shopify_billing_available, only: SHOPIFY_BILLING_ACTIONS
+  before_action :ensure_stripe_billing_action, only: STRIPE_ONLY_BILLING_ACTIONS
+
+  def billing_summary
+    render json: Enterprise::Billing::SummaryService.new(account: @account).perform(refresh: ActiveModel::Type::Boolean.new.cast(params[:refresh]))
+  rescue Enterprise::Billing::SummaryService::RefreshError
+    render json: { error: I18n.t('errors.billing.shopify_verification_failed') }, status: :service_unavailable
+  end
 
   def subscription
     return render json: currency_selection_payload if @account.billing_currency_selection_required?
@@ -25,7 +36,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def limits
-    limits = if default_plan?(@account)
+    limits = if @account.billing_provider == Account::DEFAULT_BILLING_PROVIDER && default_plan?(@account)
                {
                  'conversation' => {
                    'allowed' => 500,
@@ -49,6 +60,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def checkout
+    return create_shopify_billing_session if shopify_billing?
     return create_stripe_billing_session(stripe_customer_id) if stripe_customer_id.present?
 
     render_invalid_billing_details
@@ -90,6 +102,12 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
 
   private
 
+  def ensure_stripe_billing_action
+    return if @account.billing_provider == Account::DEFAULT_BILLING_PROVIDER
+
+    render_could_not_create_error(I18n.t('errors.billing.provider_action_unavailable'))
+  end
+
   def validate_token_api_access
     return if @account.api_and_webhooks_enabled?
 
@@ -105,6 +123,12 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
 
     @account.update!(custom_attributes: @account.custom_attributes.merge('is_creating_customer' => true))
     Enterprise::CreateStripeCustomerJob.perform_later(@account)
+  end
+
+  def ensure_shopify_billing_available
+    return unless shopify_billing?
+
+    render_not_found_error('Not found') unless @account.signup_source == 'shopify' && Shopify::FeatureGate.enabled?(account: @account)
   end
 
   def currency_selection_payload
@@ -146,7 +170,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     reason = 'manual_deletion'
 
     if @account.mark_for_deletion(reason)
-      cancel_cloud_subscriptions_for_deletion
+      Enterprise::CancelCloudSubscriptionsJob.perform_later(@account)
 
       render json: { message: 'Account marked for deletion' }, status: :ok
     else
@@ -171,11 +195,13 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     render_redirect_url(session.url)
   end
 
-  def cancel_cloud_subscriptions_for_deletion
-    Enterprise::Billing::CancelCloudSubscriptionsService.new(account: @account).perform
-  rescue Stripe::StripeError => e
-    Rails.logger.warn("Failed to cancel cloud subscriptions for account #{@account.id}: #{e.class} - #{e.message}")
+  def create_shopify_billing_session
+    render_redirect_url(Enterprise::Billing::ShopifyAppPricingUrl.new(account: @account).perform)
+  rescue Enterprise::Billing::ShopifyAppPricingUrl::Error, ActiveRecord::RecordNotFound
+    render_could_not_create_error(I18n.t('errors.billing.shopify_pricing_unavailable'))
   end
+
+  def shopify_billing? = @account.billing_provider == 'shopify'
 
   def render_redirect_url(redirect_url)
     render json: { redirect_url: redirect_url }

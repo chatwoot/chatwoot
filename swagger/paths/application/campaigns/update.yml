@@ -1,0 +1,28 @@
+tags:
+  - Campaigns
+operationId: update-campaign
+summary: Update a campaign
+security:
+  - userApiKey: []
+description: >-
+  Update campaign fields, including scheduled_at to reschedule an active one-off campaign. Completed campaigns cannot be updated.
+  Requires an account administrator and API access enabled for the account.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/campaign_update_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/campaign'
+  '401':
+    description: Authentication failed or the user is not an account administrator
+  '403':
+    description: API access is disabled for the account
+  '422':
+    description: Campaign validation failed
