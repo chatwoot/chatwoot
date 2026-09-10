@@ -274,8 +274,8 @@ RSpec.describe Account, type: :model do
       )
     end
 
-    it 'enables Captain V2 for new self-hosted enterprise accounts' do
-      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+    it 'enables Captain V2 for new paid self-hosted accounts' do
+      allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
 
       account = create(:account)
 
@@ -312,8 +312,8 @@ RSpec.describe Account, type: :model do
       expect(account.captain_document_sync_interval).to eq(1.day)
     end
 
-    it 'uses the enterprise cadence for self-hosted enterprise installs without a plan_name' do
-      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+    it 'uses the enterprise cadence for paid self-hosted installs without a plan_name' do
+      allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
       create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { enterprise: 6 }.to_json)
       account.update!(custom_attributes: {})
 
