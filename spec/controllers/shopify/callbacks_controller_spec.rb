@@ -66,10 +66,24 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         expect(hook.app_id).to eq('shopify')
         expect(hook.status).to eq('enabled')
         expect(hook.reference_id).to eq(shop)
-        expect(hook.settings).to eq(
-          'scope' => 'read_products,write_products'
+        expect(hook.settings).to include(
+          'scope' => 'read_products,write_products',
+          'connected_at' => be_present,
+          'installation_id' => be_present
         )
         expect(response).to redirect_to(shopify_redirect_uri)
+      end
+
+      it 'reconnects a retained hook and ignores an older uninstall' do
+        hook = create(:integrations_hook, app_id: 'shopify', account: account, reference_id: shop)
+        hook.update!(status: :disabled, access_token: nil, settings: {})
+        expect do
+          get shopify_callback_path, params: { code: code, state: state, shop: shop }
+        end.not_to change(Integrations::Hook, :count)
+        expect(hook.reload).to be_enabled
+        expect(hook.access_token).to eq(access_token)
+        expect(Shopify::UninstallationService.new(hook: hook, occurred_at: 2.days.ago).perform).to eq(:stale)
+        expect(hook.reload).to be_enabled
       end
     end
 
