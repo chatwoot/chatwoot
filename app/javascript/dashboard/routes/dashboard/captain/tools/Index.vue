@@ -192,9 +192,7 @@ const handleToolCreated = () => fetchCustomTools();
 
 const onDeleteSuccess = () => {
   selectedTool.value = null;
-  // Check if page will be empty after deletion
-  if (customTools.value.length === 1 && customToolsMeta.value.page > 1) {
-    // Go to previous page if current page will be empty
+  if (customTools.value.length === 0 && customToolsMeta.value.page > 1) {
     onPageChange(customToolsMeta.value.page - 1);
   } else {
     // Refresh current page
