@@ -15,7 +15,7 @@ class GlobalConfigService
     config_value = ENV.fetch(config_key) { default_value }
 
     return if config_value.blank?
-    return config_value if installation_config&.value.to_s == config_value.to_s
+    return installation_config.value if installation_config && installation_config.value.to_s == config_value.to_s
 
     installation_config ||= InstallationConfig.new(name: config_key)
     installation_config.value = config_value
