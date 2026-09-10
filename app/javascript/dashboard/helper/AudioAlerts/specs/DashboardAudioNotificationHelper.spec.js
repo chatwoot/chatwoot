@@ -68,6 +68,52 @@ describe('dashboard bot handoff alerts', () => {
     }
   );
 
+  it.each(['note first', 'handoff first'])('alerts once with %s', order => {
+    vi.spyOn(helper.store, 'isMessageFromPendingConversation').mockReturnValue(
+      false
+    );
+    const note = {
+      conversation_id: conversation.id,
+      message_type: 1,
+      private: true,
+      sender: { id: 99 },
+      content_attributes: { captain_handoff: true },
+    };
+
+    if (order === 'note first') {
+      helper.onNewMessage(note);
+      helper.onConversationBotHandoff(conversation);
+    } else {
+      helper.onConversationBotHandoff(conversation);
+      helper.onNewMessage(note);
+    }
+
+    expect(helper.playAudioAlert).toHaveBeenCalledOnce();
+    expect(showBadgeOnFavicon).toHaveBeenCalledOnce();
+    expect(vi.getTimerCount()).toBe(1);
+  });
+
+  it.each([
+    ['human note', 1, true, 'user'],
+    ['other Captain note', 1, true, 'captain'],
+    ['customer message', 0, false, 'contact'],
+  ])('preserves alerts for %s', (_, messageType, isPrivate, senderType) => {
+    vi.spyOn(helper.store, 'isMessageFromPendingConversation').mockReturnValue(
+      false
+    );
+
+    helper.onNewMessage({
+      conversation_id: conversation.id,
+      message_type: messageType,
+      private: isPrivate,
+      sender: { id: 99, type: senderType },
+      content_attributes: {},
+    });
+
+    expect(helper.playAudioAlert).toHaveBeenCalledOnce();
+    expect(showBadgeOnFavicon).toHaveBeenCalledOnce();
+  });
+
   it('suppresses alerts without conversation permissions', () => {
     helper.store.hasConversationPermission.mockReturnValue(false);
     helper.onConversationBotHandoff(conversation);

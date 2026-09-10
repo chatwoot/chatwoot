@@ -187,6 +187,9 @@ export class DashboardAudioNotificationHelper {
   };
 
   onNewMessage = message => {
+    // The handoff event owns this alert, regardless of whether its explanatory note arrives first or last.
+    if (message.private && message.content_attributes?.captain_handoff) return;
+
     // If the conversation status is pending, then dismiss the alert
     // This case is common for all audio event types
     if (this.store.isMessageFromPendingConversation(message)) {
