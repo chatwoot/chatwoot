@@ -526,13 +526,6 @@
             "DESCRIPTION": "Use a forwarding address"
           }
         },
-        "FETCH_EMAILS_FROM": "Fetch emails from",
-        "IMPORT_OPTIONS": {
-          "TITLE": "Initial import",
-          "ONE_DAY": "Last 1 day",
-          "SEVEN_DAYS": "Last 7 days",
-          "THIRTY_DAYS": "Last 30 days"
-        },
         "FINISH_MESSAGE_FORWARDING": "Your email inbox is ready. Set up a forwarding rule in your email provider to start receiving conversations in Chatwoot.",
         "FINISH_MESSAGE_IMAP_SMTP": "Your email inbox is connected. Chatwoot will fetch new emails from your mailbox and use the SMTP settings for replies.",
         "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
