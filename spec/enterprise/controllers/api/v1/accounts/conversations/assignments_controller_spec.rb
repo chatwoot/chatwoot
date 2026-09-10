@@ -8,6 +8,7 @@ RSpec.describe 'Captain assistant conversation assignment API', type: :request d
   let(:assistant) { create(:captain_assistant, account: account) }
 
   before do
+    account.enable_features!('captain_integration')
     create(:inbox_member, inbox: inbox, user: agent)
     conversation
     create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
@@ -49,6 +50,20 @@ RSpec.describe 'Captain assistant conversation assignment API', type: :request d
     expect(response).to have_http_status(:success)
     expect(response.parsed_body).to be_nil
     expect(conversation.reload.ai_assignee).to be_nil
+  end
+
+  it 'preserves the human assignment when the account entitlement is disabled' do
+    conversation.update!(assignee: agent, status: :open)
+    account.disable_features!('captain_integration')
+
+    post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+         params: { assignee_id: assistant.id, assignee_type: 'Captain::Assistant' },
+         headers: agent.create_new_auth_token,
+         as: :json
+
+    expect(response).to have_http_status(:success)
+    expect(response.parsed_body).to be_nil
+    expect(conversation.reload).to have_attributes(ai_assignee: nil, assignee: agent, status: 'open')
   end
 
   it 'opens the conversation when Captain assistant ownership is cleared without a replacement' do

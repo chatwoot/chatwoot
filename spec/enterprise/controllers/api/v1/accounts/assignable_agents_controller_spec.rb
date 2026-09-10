@@ -7,6 +7,7 @@ RSpec.describe 'Assignable Captain API', type: :request do
   let(:assistant) { create(:captain_assistant, account: account) }
 
   before do
+    account.enable_features!('captain_integration')
     create(:inbox_member, user: agent, inbox: inbox)
     create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
   end
@@ -28,6 +29,19 @@ RSpec.describe 'Assignable Captain API', type: :request do
         headers: agent.create_new_auth_token,
         as: :json
 
+    expect(response.parsed_body['payload'].pluck('assignee_type')).not_to include('Captain::Assistant')
+  end
+
+  it 'does not return Captain when the account entitlement is disabled' do
+    account.disable_features!('captain_integration')
+
+    get "/api/v1/accounts/#{account.id}/assignable_agents",
+        params: { inbox_ids: [inbox.id], include_ai_assignees: true },
+        headers: agent.create_new_auth_token,
+        as: :json
+
+    expect(response).to have_http_status(:success)
+    expect(response.parsed_body['payload'].pluck('id')).to include(agent.id)
     expect(response.parsed_body['payload'].pluck('assignee_type')).not_to include('Captain::Assistant')
   end
 

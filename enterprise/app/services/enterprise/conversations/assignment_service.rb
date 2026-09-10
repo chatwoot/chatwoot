@@ -1,6 +1,7 @@
 module Enterprise::Conversations::AssignmentService
   def perform
     return super unless assignee_type.to_s == 'Captain::Assistant'
+    return unless conversation.account.feature_enabled?('captain_integration')
 
     assign_ai_assignee(captain_assistant)
   end
