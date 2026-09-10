@@ -9,6 +9,10 @@ class AttributeAPI extends ApiClient {
   getAttributesByModel() {
     return axios.get(this.url);
   }
+
+  reorder(positionsHash) {
+    return axios.post(`${this.url}/reorder`, { positions_hash: positionsHash });
+  }
 }
 
 export default new AttributeAPI();

@@ -10,6 +10,7 @@
 #  attribute_model        :integer          default("conversation_attribute")
 #  attribute_values       :jsonb
 #  default_value          :integer
+#  position               :integer
 #  regex_cue              :string
 #  regex_pattern          :string
 #  created_at             :datetime         not null
@@ -46,12 +47,37 @@ class CustomAttributeDefinition < ApplicationRecord
   enum attribute_display_type: { text: 0, number: 1, currency: 2, percent: 3, link: 4, date: 5, list: 6, checkbox: 7 }
 
   belongs_to :account
+  before_create :set_position
+  before_update :set_position, if: :attribute_model_changed?
   after_update :update_widget_pre_chat_custom_fields, unless: :company_attribute?
+  before_destroy :lock_account
   after_destroy :sync_widget_pre_chat_custom_fields, unless: :company_attribute?
   after_update_commit :invalidate_filtered_unread_count_filters_update, if: :conversation_attribute_before_or_after?
   after_destroy_commit :invalidate_filtered_unread_count_filters_destroy, if: :conversation_attribute?
 
+  def self.update_positions(account:, positions_hash:)
+    return if positions_hash.blank?
+
+    transaction do
+      account.lock!
+      positions_hash.each do |id, new_position|
+        # rubocop:disable Rails/SkipsModelValidations
+        account.custom_attribute_definitions.find(id).update_columns(position: new_position, updated_at: Time.current)
+        # rubocop:enable Rails/SkipsModelValidations
+      end
+    end
+  end
+
   private
+
+  def lock_account
+    account&.lock!
+  end
+
+  def set_position
+    lock_account
+    self.position = self.class.where(account_id: account_id, attribute_model: attribute_model).maximum(:position).to_i + 10
+  end
 
   def normalize_attribute_fields
     self.attribute_key = attribute_key.strip if attribute_key.present?

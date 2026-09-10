@@ -8,7 +8,7 @@ module Enterprise::Concerns::CustomAttributeDefinition
   private
 
   def cleanup_conversation_required_attributes
-    return unless conversation_attribute? && account.conversation_required_attributes&.include?(attribute_key)
+    return unless account && conversation_attribute? && account.conversation_required_attributes&.include?(attribute_key)
 
     account.conversation_required_attributes = account.conversation_required_attributes - [attribute_key]
     account.save!
