@@ -140,12 +140,26 @@ const equalTo = (filterValue, conversationValue) => {
     if (Array.isArray(conversationValue)) {
       // For array values like labels, match if any filter value is present.
       // Mirrors the backend SQL `tag_id IN (...)` (OR semantics).
-      return filterValue.some(val => conversationValue.includes(val));
+      return filterValue.some(val =>
+        conversationValue.some(cVal => String(cVal) === String(val))
+      );
     }
 
     if (!Array.isArray(conversationValue)) {
-      return filterValue.includes(conversationValue);
+      if (conversationValue === null || conversationValue === undefined) {
+        return false;
+      }
+      return filterValue.some(val => String(val) === String(conversationValue));
     }
+  }
+
+  if (
+    conversationValue !== null &&
+    conversationValue !== undefined &&
+    filterValue !== null &&
+    filterValue !== undefined
+  ) {
+    return String(conversationValue) === String(filterValue);
   }
 
   return conversationValue === filterValue;
