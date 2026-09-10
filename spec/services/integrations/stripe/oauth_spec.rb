@@ -5,6 +5,12 @@ RSpec.describe Integrations::Stripe::Oauth do
   let(:user) { create(:user, account: account, role: :administrator) }
   let(:authorize_url) { 'https://marketplace.stripe.com/oauth/v2/test/authorize?client_id=ca_test' }
 
+  around do |example|
+    with_modified_env FRONTEND_URL: 'https://local.example.com' do
+      example.run
+    end
+  end
+
   before do
     allow(GlobalConfig).to receive(:get_value).and_call_original
     allow(GlobalConfig).to receive(:get_value).with('STRIPE_APP_AUTHORIZE_URL').and_return(authorize_url)
