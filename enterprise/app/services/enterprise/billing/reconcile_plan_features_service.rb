@@ -12,7 +12,6 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     channel_facebook
     channel_email
     channel_instagram
-    channel_tiktok
     captain_integration
     captain_document_auto_sync
     advanced_search_indexing
@@ -35,7 +34,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   ].freeze
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
   PREMIUM_PLAN_FEATURES = (STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES + ENTERPRISE_PLAN_FEATURES).freeze
-  SHOPIFY_BASE_MANAGED_FEATURES = (PREMIUM_PLAN_FEATURES + %w[captain_integration_v2]).freeze
+  SHOPIFY_BASE_MANAGED_FEATURES = (PREMIUM_PLAN_FEATURES + %w[channel_tiktok captain_integration_v2]).freeze
 
   pattr_initialize [:account!, { shopify_lifecycle_cleanup: false }]
 

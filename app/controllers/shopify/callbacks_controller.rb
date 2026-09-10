@@ -117,7 +117,8 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
 
   def create_hook
     Shopify::InstallationGeneration.with_current!(account, @shopify_installation_generation) do
-      account.hooks.create!(shopify_hook_attributes)
+      hook = account.hooks.find_or_initialize_by(app_id: 'shopify', reference_id: Shopify::ShopDomain.normalize(params[:shop]))
+      hook.update!(shopify_hook_attributes)
     end
   end
 
