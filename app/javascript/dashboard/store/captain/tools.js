@@ -6,10 +6,12 @@ const toolsStore = createStore({
   name: 'Tools',
   API: CaptainToolsAPI,
   actions: mutations => ({
-    getTools: async ({ commit }) => {
+    getTools: async ({ commit }, { assistantId }) => {
       commit(mutations.SET_UI_FLAG, { fetchingList: true });
       try {
-        const response = await CaptainToolsAPI.get();
+        const response = await CaptainToolsAPI.get({
+          assistant_id: assistantId,
+        });
         commit(mutations.SET, response.data);
         commit(mutations.SET_UI_FLAG, { fetchingList: false });
         return response.data;
