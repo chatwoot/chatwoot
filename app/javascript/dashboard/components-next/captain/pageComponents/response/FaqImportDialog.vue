@@ -101,6 +101,7 @@ const openFilePicker = () => fileInput.value?.click();
 
 const handleFileChange = event => {
   selectedFile.value = event.target.files?.[0] || null;
+  event.target.value = '';
 };
 
 const uploadForPreview = async () => {
