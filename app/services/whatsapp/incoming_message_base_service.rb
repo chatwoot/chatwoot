@@ -30,6 +30,7 @@ class Whatsapp::IncomingMessageBaseService
     # We don't support reactions & ephemeral message now, we need to skip processing the message
     # if the webhook event is a reaction or an ephermal message or an unsupported message.
     return if unprocessable_message_type?(message_type)
+    return process_message_edit if message_type == 'edit'
 
     # Multiple webhook events can be received for the same message due to
     # misconfigurations in the Meta business manager account.
@@ -46,6 +47,29 @@ class Whatsapp::IncomingMessageBaseService
       set_conversation
       create_messages
     end
+  end
+
+  # Meta delivers message edits (currently a coexistence feature) as a webhook message
+  # with type: edit - the original wamid is under edit.original_message_id and the
+  # updated payload under edit.message. The create pipeline below can't handle that
+  # shape: the dedupe lookup runs against the edit event's own fresh id, and content
+  # is read from the top level, so edits were silently dropped. Mirror
+  # Telegram::UpdateMessageService instead: find the original message and update
+  # its content (text body or media caption).
+  def process_message_edit
+    edit = messages_data.first[:edit]
+    return if edit.blank?
+
+    original_message = inbox.messages.find_by(source_id: edit[:original_message_id])
+    return if original_message.blank?
+
+    edited_message = edit[:message] || {}
+    new_content = message_content(edited_message)
+    edited_type = edited_message[:type]
+    new_content ||= edited_message[edited_type.to_sym].try(:[], :caption) if edited_type.present?
+    return if new_content.blank?
+
+    original_message.update!(content: new_content)
   end
 
   def process_statuses
