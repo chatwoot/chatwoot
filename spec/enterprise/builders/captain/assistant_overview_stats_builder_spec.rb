@@ -32,6 +32,7 @@ RSpec.describe Captain::AssistantOverviewStatsBuilder do
       expect(metrics[:durable_resolution_rate][:current]).to eq(0)
       expect(metrics[:autonomous_csat_score][:current]).to eq(0)
       expect(metrics[:assisted_csat_score][:current]).to eq(0)
+      expect(metrics[:human_only_csat_score]).to eq(current: nil, previous: nil, trend: nil)
     end
   end
 

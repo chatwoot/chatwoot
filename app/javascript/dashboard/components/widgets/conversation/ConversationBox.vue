@@ -60,12 +60,11 @@ export default {
   watch: {
     'currentChat.inbox_id': {
       immediate: true,
-      handler(inboxId) {
-        if (inboxId) {
+      handler() {
+        if (this.currentChat.inbox_id && this.currentChat.id) {
           this.$store.dispatch('inboxAssignableAgents/fetch', {
-            inboxIds: [inboxId],
-            includeAgentBots: true,
-            includeCaptain: true,
+            inboxIds: [this.currentChat.inbox_id],
+            includeAIAssignees: true,
           });
         }
       },

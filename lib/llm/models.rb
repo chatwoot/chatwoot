@@ -6,6 +6,8 @@ module Llm::Models
     def models = CONFIG.fetch('models')
     def features = CONFIG.fetch('features')
     def feature_keys = features.reject { |_key, config| config['internal'] }.keys
+    def internal_feature_keys = features.select { |_key, config| config['internal'] }.keys
+    def model_feature_keys = features.keys
 
     def internal_feature?(feature)
       features.dig(feature.to_s, 'internal') == true

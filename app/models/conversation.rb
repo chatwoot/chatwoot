@@ -4,6 +4,7 @@
 #
 #  id                     :integer          not null, primary key
 #  additional_attributes  :jsonb
+#  ai_assignee_type       :string
 #  agent_last_seen_at     :datetime
 #  assignee_last_seen_at  :datetime
 #  cached_label_list      :text
@@ -113,7 +114,6 @@ class Conversation < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations
-  belongs_to :assignee_agent_bot, class_name: 'AgentBot', optional: true
   belongs_to :ai_assignee,
              polymorphic: true,
              foreign_key: :assignee_agent_bot_id,
@@ -217,14 +217,14 @@ class Conversation < ApplicationRecord
 
   # Virtual attribute till we switch completely to polymorphic assignee
   def assignee_type
-    return ai_assignee_type.presence || 'AgentBot' if assignee_agent_bot_id.present?
+    return ai_assignee_type if ai_assignee_type.present?
     return 'User' if assignee_id.present?
 
     nil
   end
 
   def assigned_entity
-    ai_assignee || assignee_agent_bot || assignee
+    ai_assignee || assignee
   end
 
   def tweet?

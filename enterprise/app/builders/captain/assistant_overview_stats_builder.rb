@@ -149,7 +149,7 @@ class Captain::AssistantOverviewStatsBuilder
                    .where.not(conversation_id: involved_conversations)
                    .average(:rating)
 
-    score&.to_f&.round(2) || 0
+    score&.to_f&.round(2)
   end
 
   def outcomes_scope(range)
@@ -219,6 +219,8 @@ class Captain::AssistantOverviewStatsBuilder
   end
 
   def trend(current, previous, mode)
+    return if current.nil? || previous.nil?
+
     case mode
     when :percent
       previous.zero? ? 0 : ((current - previous).to_f / previous * 100).round(1)

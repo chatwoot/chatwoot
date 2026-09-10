@@ -16,6 +16,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     let(:v2_response_parts) { [{ 'text' => 'Hey, welcome to Captain V2', 'citation_indexes' => [] }] }
 
     before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
       allow(inbox).to receive(:captain_active?).and_return(true)
       allow(Captain::Llm::AssistantChatService).to receive(:new).and_return(mock_llm_chat_service)
       allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain Specs' })

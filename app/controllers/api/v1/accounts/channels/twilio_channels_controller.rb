@@ -22,7 +22,7 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
     ActiveRecord::Base.transaction do
       authenticate_twilio
       build_inbox
-      setup_webhooks if @twilio_channel.sms?
+      setup_webhooks
     end
   end
 
@@ -36,7 +36,7 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
   end
 
   def setup_webhooks
-    ::Twilio::WebhookSetupService.new(inbox: @inbox).perform
+    ::Twilio::WebhookSetupService.new(channel: @twilio_channel).perform
   end
 
   def phone_number

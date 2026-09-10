@@ -136,30 +136,18 @@ class Captain::Assistant < ApplicationRecord
     tools
   end
 
-  def available_tool_ids
-    available_agent_tools.pluck(:id)
+  def available_tool_ids = available_agent_tools.pluck(:id)
+
+  def known_tool_ids
+    self.class.built_in_tool_ids + account.captain_custom_tools.pluck(:slug)
   end
 
   def push_event_data
-    {
-      id: id,
-      name: name,
-      avatar_url: avatar_url.presence || default_avatar_url,
-      description: description,
-      created_at: created_at,
-      type: 'captain_assistant'
-    }
+    assistant_event_data
   end
 
   def webhook_data
-    {
-      id: id,
-      name: name,
-      avatar_url: avatar_url.presence || default_avatar_url,
-      description: description,
-      created_at: created_at,
-      type: 'captain_assistant'
-    }
+    assistant_event_data
   end
 
   def customer_visible_citation_urls(citation_document_ids)
@@ -182,6 +170,17 @@ class Captain::Assistant < ApplicationRecord
   end
 
   private
+
+  def assistant_event_data
+    {
+      id: id,
+      name: name,
+      avatar_url: avatar_url.presence || default_avatar_url,
+      description: description,
+      created_at: created_at,
+      type: 'captain_assistant'
+    }
+  end
 
   def normalize_auto_resolve_after
     threshold = Integer(auto_resolve_after.to_s, exception: false)

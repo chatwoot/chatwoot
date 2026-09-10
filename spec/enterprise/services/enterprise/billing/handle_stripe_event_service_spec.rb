@@ -9,6 +9,7 @@ describe Enterprise::Billing::HandleStripeEventService do
   let!(:account) { create(:account, custom_attributes: { stripe_customer_id: 'cus_123' }) }
 
   before do
+    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
     # Create cloud plans configuration
     create(:installation_config, {
              name: 'CHATWOOT_CLOUD_PLANS',
@@ -36,6 +37,8 @@ describe Enterprise::Billing::HandleStripeEventService do
     allow(subscription).to receive(:[]).with('quantity').and_return('10')
     allow(subscription).to receive(:[]).with('status').and_return('active')
     allow(subscription).to receive(:[]).with('current_period_end').and_return(1_686_567_520)
+    allow(subscription).to receive(:[]).with('cancel_at').and_return(nil)
+    allow(subscription).to receive(:[]).with('cancel_at_period_end').and_return(false)
     allow(subscription).to receive(:customer).and_return('cus_123')
     allow(event).to receive(:created).and_return(account.created_at.to_i + 1.day.to_i)
     allow(event).to receive(:type).and_return('customer.subscription.updated')
@@ -230,33 +233,15 @@ describe Enterprise::Billing::HandleStripeEventService do
         expect(account.reload).to be_feature_enabled('captain_integration_v2')
       end
 
-      it 'enables Captain V2 for new cloud accounts marked as default eligible' do
-        account.update!(
-          internal_attributes: account.internal_attributes.merge(
-            Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE => true
-          )
-        )
+      it 'enables Captain V2 for new paid cloud accounts during reconciliation' do
+        new_account = create(:account, custom_attributes: { stripe_customer_id: 'cus_new' })
+        allow(subscription).to receive(:customer).and_return('cus_new')
         allow(subscription).to receive(:[]).with('plan')
                                            .and_return({ 'id' => 'test', 'product' => 'plan_id_startups', 'name' => 'Startups' })
 
         stripe_event_service.new.perform(event: event)
 
-        expect(account.reload).to be_feature_enabled('captain_integration_v2')
-      end
-
-      it 'disables Captain V2 for accounts explicitly held on V1' do
-        account.enable_features!('captain_integration_v2')
-        account.update!(
-          internal_attributes: account.internal_attributes.merge(
-            Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE => false
-          )
-        )
-        allow(subscription).to receive(:[]).with('plan')
-                                           .and_return({ 'id' => 'test', 'product' => 'plan_id_startups', 'name' => 'Startups' })
-
-        stripe_event_service.new.perform(event: event)
-
-        expect(account.reload).not_to be_feature_enabled('captain_integration_v2')
+        expect(new_account.reload).to be_feature_enabled('captain_integration_v2')
       end
     end
 

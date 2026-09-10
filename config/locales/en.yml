@@ -113,6 +113,7 @@ en:
       sso_not_enabled: SAML SSO is not enabled for this installation
       multi_account_invitation_not_allowed: Users associated with another account cannot be added while SAML is enabled
     conversations:
+      resolved: Conversation is resolved and does not accept new messages
       unread_counts:
         feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
@@ -157,6 +158,15 @@ en:
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
       phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
       message_outside_messaging_window: 'Message not sent because the WhatsApp 24-hour customer service window is closed and no template parameters were provided. Send an approved template message instead.'
+      authentication_template_requires_phone: 'Authentication templates require a WhatsApp phone number and cannot be sent to a BSUID-only contact.'
+      template_category_required_for_bsuid: 'Template category could not be verified for this BSUID-only contact.'
+      contact_info_request:
+        unsupported_provider: 'Contact information requests are currently available only for WhatsApp Cloud inboxes.'
+        phone_already_available: 'This contact already has a phone number.'
+        invalid_identifier: 'Contact information can only be requested from a business-scoped WhatsApp user.'
+        outside_messaging_window: 'Contact information can only be requested within the WhatsApp 24-hour customer service window.'
+        template_not_configured: 'An approved WhatsApp template with a Request contact info button is required outside the 24-hour customer service window.'
+        pending_request: 'A contact information request is already pending.'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
@@ -165,6 +175,7 @@ en:
         already_ended: 'This call has already ended'
         already_accepted: 'Call already accepted by another agent'
         no_recording: 'No recording file provided'
+        recording_disabled: 'Call recording is disabled for this inbox'
         no_message: 'Call has no associated message'
         sdp_offer_required: 'sdp_offer is required'
         contact_phone_required: 'Contact phone number is required'
@@ -305,6 +316,7 @@ en:
         list_button_label: 'Choose an item'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
         flow_response: 'Submitted a flow response'
+        request_contact_info: 'Would you like to share your phone number with us?'
         unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
@@ -445,11 +457,17 @@ en:
       completed_tool_call: 'Completed %{function_name} tool call'
       invalid_tool_call: 'Invalid tool call'
       tool_not_available: 'Tool not available'
+      reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
+      reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
       pdf_size_error: 'must be less than 10MB'
+      markdown_format_error: 'must be a Markdown file'
+      markdown_size_error: 'must contain 10,000 characters or fewer'
+      multiple_files_error: 'A document can contain only one uploaded file'
       sync_not_supported_for_pdf: 'Sync is not supported for PDF documents'
+      sync_not_supported_for_file: 'Sync is not supported for uploaded documents'
       sync_only_available_documents: 'Sync is only available for processed documents'
       sync_already_in_progress: 'Document sync is already in progress'
       pdf_upload_failed: 'Failed to upload PDF to OpenAI'
@@ -631,16 +649,21 @@ en:
         empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:
-        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        helper_text: 'Leave a model blank to use the default routing for that AI feature.'
+        customer_features: 'Customer features'
+        internal_features: 'Internal features'
         use_default: 'Use default: %{model} (%{model_id})'
+        use_installation_model: 'Use installation model: %{model} (%{model_id})'
       show:
         summary: 'View model routing'
         provider: 'Provider'
         model: 'Model'
       sources:
         account_override: 'Account override'
+        installation_override: 'Installation setting'
         default: 'Default'
       features:
+        conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: 'Assistant'
         copilot: 'Copilot'
@@ -660,3 +683,8 @@ en:
       subscriptions_deleted:
         one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
         other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+    users:
+      resend_confirmation:
+        button: 'Resend confirmation email'
+        sent: 'Confirmation email sent.'
+        already_confirmed: 'User is already confirmed.'

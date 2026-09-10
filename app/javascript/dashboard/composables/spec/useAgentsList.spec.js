@@ -29,7 +29,7 @@ const mockUseMapGetter = (overrides = {}) => {
   const getAssignableAgents = vi.fn(() => allAgentsData);
   const defaultGetters = {
     getCurrentUser: ref(allAgentsData[0]),
-    getSelectedChat: ref({ inbox_id: 1, meta: { assignee: true } }),
+    getSelectedChat: ref({ id: 42, inbox_id: 1, meta: { assignee: true } }),
     getCurrentAccountId: ref(1),
     'inboxAssignableAgents/getAssignableAgents': ref(getAssignableAgents),
   };
@@ -57,8 +57,7 @@ describe('useAgentsList', () => {
     expect(
       useMapGetter('inboxAssignableAgents/getAssignableAgents').value
     ).toHaveBeenCalledWith(1, {
-      includeAgentBots: false,
-      includeCaptain: false,
+      includeAIAssignees: false,
     });
     expect(agentsList.value[0]).toEqual(mockNoneAgent);
     expect(agentsList.value.length).toBe(
@@ -66,36 +65,16 @@ describe('useAgentsList', () => {
     );
   });
 
-  it('requests agent bots when explicitly included', () => {
-    const { agentsList, assignableAgents } = useAgentsList(true, {
-      includeAgentBots: true,
-    });
-
-    expect(assignableAgents.value).toEqual(allAgentsData);
-    expect(
-      useMapGetter('inboxAssignableAgents/getAssignableAgents').value
-    ).toHaveBeenCalledWith(1, {
-      includeAgentBots: true,
-      includeCaptain: false,
-    });
-    expect(agentsList.value[0]).toEqual(mockNoneAgent);
-    expect(agentsList.value.length).toBe(
-      formattedAgentsData.slice(1).length + 1
-    );
-  });
-
-  it('requests Captain when explicitly included', () => {
+  it('requests AI assignees when explicitly included', () => {
     const { assignableAgents } = useAgentsList(true, {
-      includeAgentBots: true,
-      includeCaptain: true,
+      includeAIAssignees: true,
     });
     expect(assignableAgents.value).toEqual(allAgentsData);
 
     expect(
       useMapGetter('inboxAssignableAgents/getAssignableAgents').value
     ).toHaveBeenCalledWith(1, {
-      includeAgentBots: true,
-      includeCaptain: true,
+      includeAIAssignees: true,
     });
   });
 

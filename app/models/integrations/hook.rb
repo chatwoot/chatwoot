@@ -54,6 +54,12 @@ class Integrations::Hook < ApplicationRecord
     app_id == 'slack'
   end
 
+  # Alert mode makes the Slack integration one way. Conversations are pushed to Slack,
+  # but replies posted in the Slack thread are never synced back to the customer.
+  def slack_alert_mode?
+    slack? && settings['message_mode'] == 'alert'
+  end
+
   def dialogflow?
     app_id == 'dialogflow'
   end

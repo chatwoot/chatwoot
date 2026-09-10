@@ -449,8 +449,8 @@
           "Conversations API"
         ],
         "operationId": "update-last-seen",
-        "summary": "Update last seen",
-        "description": "Updates the last seen time of the contact in a conversation",
+        "summary": "Update last seen and mark messages read",
+        "description": "Updates the contact's last seen time for the conversation and marks agent messages\nsent before that time as read. Use this to send read receipts from a custom client\nbuilt on the API channel, so agents can see when the contact has read their messages.\n",
         "security": [],
         "responses": {
           "200": {
@@ -1724,8 +1724,74 @@
             "description": "The name of the inbox"
           },
           "website_url": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Website URL"
+          },
+          "page_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Facebook Page ID associated with the inbox"
+          },
+          "instagram_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Instagram account ID associated with the inbox"
+          },
+          "business_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "TikTok business ID associated with the inbox"
+          },
+          "provider_name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Provider username or page name associated with the social inbox"
+          },
+          "profile_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "X profile ID associated with the inbox"
+          },
+          "line_channel_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "LINE channel ID associated with the inbox"
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Email address associated with the inbox"
+          },
+          "bot_name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Telegram bot name associated with the inbox"
+          },
+          "inbox_identifier": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Public identifier associated with an API inbox"
           },
           "channel_type": {
             "type": "string",
@@ -1736,11 +1802,17 @@
             "description": "The avatar image of the inbox"
           },
           "widget_color": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Widget Color used for customization of the widget"
           },
           "website_token": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Website Token"
           },
           "enable_auto_assignment": {
@@ -1748,7 +1820,10 @@
             "description": "The flag which shows whether Auto Assignment is enabled or not"
           },
           "web_widget_script": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Script used to load the website widget"
           },
           "welcome_title": {
@@ -1890,7 +1965,10 @@
             "description": "Liquid HTML layout for branded email replies. Available to administrators for Email inbox show/update responses."
           },
           "hmac_mandatory": {
-            "type": "boolean",
+            "type": [
+              "boolean",
+              "null"
+            ],
             "description": "Whether HMAC verification is mandatory"
           },
           "selected_feature_flags": {
@@ -1904,7 +1982,10 @@
             }
           },
           "reply_time": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Expected reply time"
           },
           "messaging_service_sid": {
@@ -3707,8 +3788,16 @@
           },
           "content_attributes": {
             "type": "object",
-            "description": "Attributes based on the content type",
-            "example": {}
+            "description": "Attributes based on the content type. For `input_select`, provide an `items` array with\n`title`, `value`, and optional `description`. WhatsApp list messages use `description`\nas the row subtitle when present.\n",
+            "example": {
+              "items": [
+                {
+                  "title": "Option 1",
+                  "value": "option_1",
+                  "description": "Optional WhatsApp list row subtitle"
+                }
+              ]
+            }
           },
           "campaign_id": {
             "type": "integer",
@@ -7194,6 +7283,341 @@
             "description": "List of reporting events"
           }
         }
+      },
+      "campaign": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Account-scoped campaign ID. Use this value in campaign API paths."
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "account_id": {
+            "type": "integer"
+          },
+          "inbox": {
+            "$ref": "#/components/schemas/inbox"
+          },
+          "sender": {
+            "type": "object",
+            "description": "Sender details, or an empty object when no sender is assigned.",
+            "additionalProperties": true
+          },
+          "message": {
+            "type": "string"
+          },
+          "template_params": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": true
+          },
+          "campaign_status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "processing",
+              "completed"
+            ]
+          },
+          "campaign_type": {
+            "type": "string",
+            "enum": [
+              "ongoing",
+              "one_off"
+            ],
+            "description": "Derived from the inbox type; website campaigns are ongoing and supported messaging campaigns are one-off."
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "scheduled_at": {
+            "type": "integer",
+            "description": "Scheduled time in Unix seconds. Only present for one-off campaigns."
+          },
+          "started_at": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Start time in Unix seconds. Only present for one-off campaigns."
+          },
+          "completed_at": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Completion time in Unix seconds. Only present for one-off campaigns."
+          },
+          "audience": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Audience for a one-off campaign. Only present for one-off campaigns.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "trigger_rules": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "trigger_only_during_business_hours": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "campaign_fields": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Campaign title."
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Internal description of the campaign."
+          },
+          "inbox_id": {
+            "type": "integer",
+            "description": "ID of an inbox in this account. Supported inbox types are Website, Twilio SMS, SMS, and WhatsApp."
+          },
+          "sender_id": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "ID of a user in this account to use as the campaign sender."
+          },
+          "message": {
+            "type": "string",
+            "description": "Campaign message content."
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether an ongoing website campaign is enabled. This does not cancel a scheduled one-off campaign."
+          },
+          "scheduled_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Scheduled time for a one-off campaign, as an ISO 8601 timestamp with timezone. Defaults to the current time when omitted; website campaigns ignore this field. Responses return Unix seconds instead.",
+            "example": "2027-01-15T10:00:00Z"
+          },
+          "audience": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Required when creating a one-off SMS or WhatsApp campaign. Provide at least one label from this account. Contacts matching any selected label are included. When updating, omit this field to retain the existing audience.",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "id"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "Label"
+                  ]
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "ID of a label in this account."
+                }
+              }
+            }
+          },
+          "trigger_rules": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Website campaign trigger rules. Defaults to an empty object and can be omitted for a one-off campaign.",
+            "example": {
+              "url": "https://example.com/pricing",
+              "time_on_page": 10
+            }
+          },
+          "trigger_only_during_business_hours": {
+            "type": "boolean",
+            "description": "Restrict an ongoing website campaign to inbox business hours."
+          },
+          "template_params": {
+            "$ref": "#/components/schemas/campaign_whatsapp_template_params"
+          }
+        }
+      },
+      "campaign_create_payload": {
+        "type": "object",
+        "required": [
+          "campaign"
+        ],
+        "properties": {
+          "campaign": {
+            "description": "Choose the variant matching the inbox referenced by inbox_id. The channel type is stored on the inbox and cannot be inferred from this request by a schema validator. These variants describe the inputs needed for delivery; creation can accept incomplete inputs without guaranteeing that the campaign will send.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/campaign_fields"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "title",
+                  "inbox_id",
+                  "message"
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "title": "Website campaign",
+                    "description": "For a Website inbox, supply URL trigger rules. An audience is not required.",
+                    "type": "object",
+                    "required": [
+                      "trigger_rules"
+                    ],
+                    "properties": {
+                      "trigger_rules": {
+                        "type": "object",
+                        "required": [
+                          "url"
+                        ],
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "format": "uri"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "title": "SMS campaign",
+                    "description": "For an SMS or Twilio SMS inbox, supply at least one audience label.",
+                    "type": "object",
+                    "required": [
+                      "audience"
+                    ]
+                  },
+                  {
+                    "title": "WhatsApp campaign",
+                    "description": "For a WhatsApp Cloud inbox with campaigns enabled, supply audience labels and template parameters.",
+                    "type": "object",
+                    "required": [
+                      "audience",
+                      "template_params"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "campaign_update_payload": {
+        "type": "object",
+        "required": [
+          "campaign"
+        ],
+        "properties": {
+          "campaign": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/campaign_fields"
+              }
+            ]
+          }
+        }
+      },
+      "campaign_whatsapp_template_params": {
+        "type": "object",
+        "required": [
+          "name",
+          "language"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Name of the approved template in the selected inbox's message_templates."
+          },
+          "language": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Language code matching that template in the selected inbox.",
+            "example": "en"
+          },
+          "namespace": {
+            "type": "string",
+            "description": "Template namespace, when present in the selected template."
+          },
+          "category": {
+            "type": "string",
+            "description": "Category of the selected template."
+          },
+          "processed_params": {
+            "type": "object",
+            "description": "Values for the selected template's variables, grouped by component. Supply all parameters needed by that template. May be omitted for a template without variables. Body keys use positional numbers or the template's named parameters. Liquid expressions such as {{ contact.name }} are rendered separately for each recipient.",
+            "properties": {
+              "body": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "header": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "Text parameter values or media_url, media_type, and optional media_name for a media header."
+              },
+              "footer": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "buttons": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            },
+            "example": {
+              "body": {
+                "1": "{{ contact.name }}"
+              }
+            }
+          }
+        }
       }
     },
     "parameters": {
@@ -7447,6 +7871,7 @@
         "Account",
         "Agents",
         "Audit Logs",
+        "Campaigns",
         "Canned Responses",
         "Contacts",
         "Contact Labels",

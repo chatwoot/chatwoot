@@ -487,6 +487,8 @@
     - $ref: '#/components/parameters/account_id'
     - $ref: '#/components/parameters/conversation_id'
     - $ref: '#/components/parameters/message_id'
+  patch:
+    $ref: ./application/conversation/messages/update.yml
   delete:
     $ref: ./application/conversation/messages/delete.yml
 
@@ -847,3 +849,27 @@
           application/json:
             schema:
               $ref: '#/components/schemas/conversation_messages'
+
+# Campaigns
+/api/v1/accounts/{account_id}/campaigns:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/campaigns/index.yml
+  post:
+    $ref: ./application/campaigns/create.yml
+/api/v1/accounts/{account_id}/campaigns/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: Account-scoped campaign ID returned by the campaign API.
+  get:
+    $ref: ./application/campaigns/show.yml
+  patch:
+    $ref: ./application/campaigns/update.yml
+  delete:
+    $ref: ./application/campaigns/delete.yml

@@ -1,0 +1,22 @@
+tags:
+  - Campaigns
+operationId: list-campaigns
+summary: List campaigns
+security:
+  - userApiKey: []
+description: >-
+  List all campaigns in the account. The response is an unpaginated array.
+  Requires an account administrator and API access enabled for the account.
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/campaign'
+  '401':
+    description: Authentication failed or the user is not an account administrator
+  '403':
+    description: API access is disabled for the account
