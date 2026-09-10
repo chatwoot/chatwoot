@@ -13,7 +13,7 @@ module Api::V1::Accounts::Concerns::EmailChannelCreation
 
   def enqueue_initial_imap_fetch
     return unless @inbox.channel.is_a?(Channel::Email)
-    return unless @inbox.channel.imap_enabled?
+    return unless @inbox.channel.imap_fetchable?
 
     ::Inboxes::FetchImapEmailsJob.perform_later(@inbox.channel, initial_imap_fetch_interval)
   end

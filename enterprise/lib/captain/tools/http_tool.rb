@@ -18,7 +18,7 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
     @custom_tool.format_response(response_body)
   rescue StandardError => e
     Rails.logger.error("HttpTool execution error for #{@custom_tool.slug}: #{e.class} - #{e.message}")
-    'An error occurred while executing the request'
+    failure_result('An error occurred while executing the request', tool_context.state)
   end
 
   def available_in_reply_suggestion?

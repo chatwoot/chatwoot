@@ -3,11 +3,8 @@ import { computed, ref } from 'vue';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { useRouter, useRoute } from 'vue-router';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper.js';
-import {
-  dynamicTime,
-  exactTimestamp,
-  shortTimestamp,
-} from 'shared/helpers/timeHelper';
+import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -33,6 +30,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const exactTimestamp = useExactTimestamp();
 
 const router = useRouter();
 const route = useRoute();

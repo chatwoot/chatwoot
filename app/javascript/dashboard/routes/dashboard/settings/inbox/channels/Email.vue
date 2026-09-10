@@ -27,7 +27,9 @@ const isInboundEmailEnabled = computed(
 
 const isForwardingEnabled = computed(
   () =>
-    isInboundEmailEnabled.value && globalConfig.value.inboundEmailDomainPresent
+    isInboundEmailEnabled.value &&
+    (currentAccount.value?.domain ||
+      globalConfig.value.inboundEmailDomainPresent)
 );
 
 const emailProviderList = computed(() => {

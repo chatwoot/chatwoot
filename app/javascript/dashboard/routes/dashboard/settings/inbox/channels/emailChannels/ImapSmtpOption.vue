@@ -106,8 +106,10 @@ const fieldState = field => (v$.value[field]?.$error ? 'error' : 'info');
 
 watch(
   () => state.email,
-  value => {
-    state.imapLogin = state.imapLogin || value;
+  (value, previousEmail) => {
+    if (!state.imapLogin || state.imapLogin === previousEmail) {
+      state.imapLogin = value;
+    }
   }
 );
 

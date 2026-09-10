@@ -10,8 +10,12 @@ properties:
     type: string
     description: The type of the audited object (e.g., Conversation, Contact, User)
   auditable:
-    type: object
-    description: The audited object data
+    type:
+      - object
+      - 'null'
+    description: >-
+      The audited object data. Null for message deletion entries, which are
+      served without the message payload.
   associated_id:
     type: integer
     description: The ID of the associated object (typically the account ID)
@@ -52,4 +56,16 @@ properties:
     type:
       - string
       - 'null'
-    description: IP address from which the action was performed
+    description: >-
+      IP address from which the action was performed. Masked to the network
+      portion (for example 203.0.113.x) unless the account has the
+      audit_log_ip_address feature enabled, in which case the full address is
+      returned.
+  location:
+    type:
+      - string
+      - 'null'
+    description: >-
+      City and country resolved from remote_address, present only when the
+      account has the ip_lookup feature enabled and the address has been
+      resolved. Omitted when the account returns full IP addresses.
