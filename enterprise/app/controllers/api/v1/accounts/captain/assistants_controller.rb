@@ -181,7 +181,8 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def default_v2_playground_response
-    Captain::Assistant::AgentRunnerService.new(assistant: @assistant, source: 'playground').generate_response(
+    run_options = Captain::Assistant::AgentRunnerService::RunOptions.new(source: 'playground')
+    Captain::Assistant::AgentRunnerService.new(assistant: @assistant, run_options: run_options).generate_response(
       message_history: playground_message_history
     )
   end
