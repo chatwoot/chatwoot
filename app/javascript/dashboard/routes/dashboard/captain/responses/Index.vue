@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onUnmounted, ref, nextTick, watch } from 'vue';
+import { useTimeoutFn } from '@vueuse/core';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
@@ -8,10 +9,13 @@ import { useRouter, useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { debounce } from '@chatwoot/utils';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import CaptainResponseAPI from 'dashboard/api/captain/response';
+import CaptainFaqImportsAPI from 'dashboard/api/captain/faqImports';
 
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
@@ -23,11 +27,14 @@ import ResponsePageEmptyState from 'dashboard/components-next/captain/pageCompon
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
 import ConversationUsageDrawer from 'dashboard/components-next/captain/pageComponents/ConversationUsageDrawer.vue';
+import FaqImportDialog from 'dashboard/components-next/captain/pageComponents/response/FaqImportDialog.vue';
+import FaqImportStatusBanner from 'dashboard/components-next/captain/pageComponents/response/FaqImportStatusBanner.vue';
 
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
 const { isOnChatwootCloud } = useAccount();
+const { checkPermissions } = usePolicy();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
 const responseMeta = useMapGetter('captainResponses/getMeta');
 const responses = useMapGetter('captainResponses/getRecords');
@@ -44,10 +51,76 @@ const searchQuery = ref('');
 const { t } = useI18n();
 
 const createDialog = ref(null);
+const faqImportDialog = ref(null);
+const showFaqActions = ref(false);
+const showFaqImportDialog = ref(false);
+const latestFaqImport = ref(null);
+
+const { run: runFaqImportRequest, abort: abortFaqImportRequest } =
+  useAbortableRequest();
+
+const FAQ_IMPORT_POLL_INTERVAL = 5000;
+const FAQ_IMPORT_STATUS_VISIBLE_FOR = 15000;
 
 const selectedAssistantId = computed(() => Number(route.params.assistantId));
+const canManageFaqs = computed(() => checkPermissions(['administrator']));
+
+const faqActionItems = computed(() => [
+  {
+    label: t('CAPTAIN.RESPONSES.CREATE_MANUALLY'),
+    action: 'create',
+    icon: 'i-lucide-square-pen',
+  },
+  {
+    label: t('CAPTAIN.RESPONSES.IMPORT.ACTION'),
+    action: 'import',
+    icon: 'i-lucide-file-up',
+    disabled: latestFaqImport.value?.status === 'preparing',
+  },
+]);
 
 const suggestionCount = useMapGetter('captainFaqSuggestions/getOpenCount');
+
+const faqImportStatusHideDelay = ref(FAQ_IMPORT_STATUS_VISIBLE_FOR);
+const { start: startFaqImportStatusHide, stop: stopFaqImportStatusHide } =
+  useTimeoutFn(
+    () => {
+      latestFaqImport.value = null;
+    },
+    faqImportStatusHideDelay,
+    { immediate: false }
+  );
+
+const displayFaqImportStatus = faqImport => {
+  stopFaqImportStatusHide();
+
+  if (!faqImport || faqImport.status === 'preparing') {
+    latestFaqImport.value = faqImport;
+    return;
+  }
+
+  const elapsed = Date.now() - Date.parse(faqImport.completed_at);
+  const remainingTime = FAQ_IMPORT_STATUS_VISIBLE_FOR - Math.max(elapsed, 0);
+
+  if (!(remainingTime > 0)) {
+    latestFaqImport.value = null;
+    return;
+  }
+
+  latestFaqImport.value = faqImport;
+  faqImportStatusHideDelay.value = remainingTime;
+  startFaqImportStatusHide();
+};
+
+const handleFaqImportOpen = () => {
+  showFaqImportDialog.value = true;
+  nextTick(() => faqImportDialog.value.dialogRef.open());
+};
+
+const toggleFaqActions = () => {
+  if (!canManageFaqs.value) return;
+  showFaqActions.value = !showFaqActions.value;
+};
 
 const handleDelete = () => {
   deleteDialog.value.dialogRef.open();
@@ -56,6 +129,15 @@ const handleDelete = () => {
 const handleCreate = () => {
   dialogType.value = 'create';
   nextTick(() => createDialog.value.dialogRef.open());
+};
+
+const handleFaqAction = ({ action }) => {
+  showFaqActions.value = false;
+  if (action === 'import') {
+    handleFaqImportOpen();
+  } else {
+    handleCreate();
+  }
 };
 
 const handleEdit = () => {
@@ -146,6 +228,54 @@ const fetchResponses = async (page = 1) => {
   } catch (error) {
     useAlert(error?.message || t('CAPTAIN.RESPONSES.ERRORS.LOAD'));
     store.dispatch('captainResponses/setFetchingList', false);
+  }
+};
+
+let faqImportPollingControls;
+
+const fetchLatestFaqImport = async () => {
+  const assistantId = selectedAssistantId.value;
+
+  try {
+    const response = await runFaqImportRequest(signal =>
+      CaptainFaqImportsAPI.latest({ assistantId, signal })
+    );
+    if (!response || assistantId !== selectedAssistantId.value) return;
+
+    const { data } = response;
+
+    const previousStatus = latestFaqImport.value?.status;
+    displayFaqImportStatus(data);
+
+    if (data?.status === 'preparing') {
+      faqImportPollingControls.start();
+      return;
+    }
+
+    if (previousStatus === 'preparing' || latestFaqImport.value) {
+      fetchResponses(responseMeta.value?.page || 1);
+    }
+  } catch {
+    if (latestFaqImport.value?.status === 'preparing') {
+      faqImportPollingControls.start();
+    }
+  }
+};
+
+faqImportPollingControls = useTimeoutFn(
+  fetchLatestFaqImport,
+  FAQ_IMPORT_POLL_INTERVAL,
+  { immediate: false }
+);
+
+const handleFaqImportConfirmed = faqImport => {
+  abortFaqImportRequest();
+  displayFaqImportStatus(faqImport);
+  faqImportPollingControls.stop();
+  if (faqImport?.status === 'preparing') {
+    faqImportPollingControls.start();
+  } else if (faqImport) {
+    fetchResponses(responseMeta.value?.page || 1);
   }
 };
 
@@ -246,6 +376,11 @@ const navigateToFaqSuggestions = () => {
 watch(
   selectedAssistantId,
   () => {
+    faqImportPollingControls.stop();
+    stopFaqImportStatusHide();
+    latestFaqImport.value = null;
+    showFaqActions.value = false;
+    showFaqImportDialog.value = false;
     selectedResponse.value = null;
     usageResponse.value = null;
     showResponseUsage.value = false;
@@ -259,6 +394,7 @@ watch(
       'captainFaqSuggestions/fetchOpenCount',
       selectedAssistantId.value
     );
+    if (canManageFaqs.value) fetchLatestFaqImport();
   },
   { immediate: true }
 );
@@ -280,8 +416,26 @@ onUnmounted(() => {
     :show-pagination-footer="!isFetching && !!responses.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @update:current-page="onPageChange"
-    @click="handleCreate"
+    @click="toggleFaqActions"
+    @close="showFaqActions = false"
   >
+    <template #action>
+      <DropdownMenu
+        v-if="showFaqActions"
+        :menu-items="faqActionItems"
+        class="mt-1 min-w-48 ltr:right-0 rtl:left-0 top-full"
+        @action="handleFaqAction"
+      />
+    </template>
+
+    <template #controls>
+      <FaqImportStatusBanner
+        v-if="latestFaqImport"
+        :faq-import="latestFaqImport"
+        class="mb-4"
+      />
+    </template>
+
     <template #knowMore>
       <FeatureSpotlightPopover
         :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
@@ -404,6 +558,14 @@ onUnmounted(() => {
       :type="dialogType"
       :selected-response="selectedResponse"
       @close="handleCreateClose"
+    />
+
+    <FaqImportDialog
+      v-if="showFaqImportDialog"
+      ref="faqImportDialog"
+      :assistant-id="selectedAssistantId"
+      @close="showFaqImportDialog = false"
+      @confirmed="handleFaqImportConfirmed"
     />
   </PageLayout>
 </template>
