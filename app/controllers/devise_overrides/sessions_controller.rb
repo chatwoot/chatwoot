@@ -1,4 +1,6 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
+  include ClearSiteData
+
   MAX_SESSIONS = ENV.fetch('MAX_USER_SESSIONS', 25).to_i
 
   # Prevent session parameter from being passed
@@ -25,6 +27,11 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   def render_create_success
     track_user_session unless @impersonation
     render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
+  end
+
+  def destroy
+    clear_site_data
+    super
   end
 
   private

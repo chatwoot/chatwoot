@@ -1,4 +1,6 @@
 class Api::V1::ProfilesController < Api::BaseController
+  include ClearSiteData
+
   before_action :set_user
 
   def show; end
@@ -13,6 +15,7 @@ class Api::V1::ProfilesController < Api::BaseController
     @user.assign_attributes(profile_params)
     @user.custom_attributes.merge!(custom_attributes_params)
     @user.save!
+    clear_site_data if @user.saved_change_to_email? || @user.saved_change_to_unconfirmed_email?
   end
 
   def avatar

@@ -213,6 +213,7 @@ RSpec.describe 'Profile API', type: :request do
         agent.reload
 
         expect(agent.unconfirmed_email).to eq(new_email)
+        expect(response.headers['Clear-Site-Data']).to eq('"storage"')
       end
     end
   end

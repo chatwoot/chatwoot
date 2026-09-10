@@ -16,6 +16,7 @@ import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useFontSize } from 'dashboard/composables/useFontSize';
 import {
+  hasPushPermissions,
   registerSubscription,
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
@@ -123,9 +124,8 @@ export default {
 
       verifyServiceWorkerExistence(registration =>
         registration.pushManager.getSubscription().then(subscription => {
-          if (subscription) {
-            registerSubscription();
-          }
+          // Clear-Site-Data removes the subscription but preserves permission.
+          if (subscription || hasPushPermissions()) registerSubscription();
         })
       );
     },
