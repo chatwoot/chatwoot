@@ -20,7 +20,7 @@ class Stripe::CallbacksController < ApplicationController
       hook = @account.hooks.find_or_initialize_by(app_id: 'stripe')
       hook.reference_id = token.params.fetch('stripe_user_id')
       hook.status = :enabled
-      hook.settings = hook.settings.merge('livemode' => @livemode)
+      hook.settings = hook.settings.merge('livemode' => @livemode, 'connected_at' => Time.current.iso8601)
       Integrations::Stripe::Connection.new(hook).store_token!(token)
     end
   end

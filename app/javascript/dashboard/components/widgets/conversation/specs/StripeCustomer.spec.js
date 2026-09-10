@@ -100,6 +100,35 @@ describe('StripeCustomer', () => {
     expect(wrapper.text()).not.toContain('private provider error');
   });
 
+  it('reloads and clears the selected customer after the contact email changes', async () => {
+    StripeAPI.customer.mockResolvedValueOnce({
+      data: { customers: [customer, { ...customer, id: 'cus_second' }] },
+    });
+    wrapper = mount(StripeCustomer, {
+      props: { conversationId: 1, contactEmail: customer.email },
+    });
+    await flushPromises();
+    StripeAPI.customer.mockResolvedValueOnce({ data });
+    await wrapper.get('select').setValue('cus_alfred');
+    await flushPromises();
+    StripeAPI.customer.mockResolvedValueOnce({
+      data: { customers: [], missing_email: true },
+    });
+    await wrapper.setProps({ contactEmail: '' });
+    await flushPromises();
+    expect(StripeAPI.customer).toHaveBeenLastCalledWith(
+      1,
+      undefined,
+      expect.any(AbortSignal)
+    );
+    expect(wrapper.text()).not.toContain('Alfred');
+    expect(wrapper.text()).toContain('STRIPE_INTEGRATION.NO_EMAIL');
+    StripeAPI.customer.mockResolvedValueOnce({ data });
+    await wrapper.setProps({ contactEmail: customer.email });
+    await flushPromises();
+    expect(wrapper.text()).toContain('INV-001');
+  });
+
   it.each([
     ['jpy', 1000, '1,000'],
     ['isk', 1000, '10'],

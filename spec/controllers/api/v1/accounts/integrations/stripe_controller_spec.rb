@@ -25,6 +25,13 @@ RSpec.describe 'Stripe Integration API', type: :request do
     expect(response).to have_http_status(:unauthorized)
   end
 
+  it 'returns the authorization date rather than hook creation or token update dates' do
+    connected_at = 2.days.ago.iso8601
+    hook.update!(settings: { 'connected_at' => connected_at })
+    get path, headers: admin.create_new_auth_token
+    expect(response.parsed_body['connected_at']).to eq(connected_at)
+  end
+
   it 'reports the stored live environment without exposing credentials' do
     hook.update!(settings: { 'livemode' => true })
     get path, headers: admin.create_new_auth_token

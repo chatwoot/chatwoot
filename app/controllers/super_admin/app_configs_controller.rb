@@ -29,7 +29,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   end
 
   def create
-    errors = shopify_partner_config_errors
+    errors = shopify_partner_config_errors + stripe_config_errors
     params['app_config'].each do |key, value|
       break if errors.any?
       next unless @allowed_configs.include?(key)
@@ -47,6 +47,14 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   end
 
   private
+
+  def stripe_config_errors
+    return [] unless @config == 'stripe'
+
+    values = InstallationConfig.where(name: @allowed_configs).to_h { |config| [config.name, config.value] }
+    values.merge!(params.fetch('app_config', {}).permit(*@allowed_configs).to_h)
+    Integrations::Stripe::Oauth.configuration_errors(url: values['STRIPE_APP_AUTHORIZE_URL'], key: values['STRIPE_APP_SECRET_KEY'])
+  end
 
   def set_config
     @config = params[:config] || 'general'

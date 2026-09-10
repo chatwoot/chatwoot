@@ -69,11 +69,13 @@ const actionURL = computed(() =>
         <img
           v-if="id !== 'stripe'"
           :src="`/dashboard/images/integrations/${id}.png`"
+          :alt="name"
           class="max-w-full rounded-md border border-n-weak shadow-sm block dark:hidden bg-n-alpha-3 dark:bg-n-alpha-2"
         />
         <img
           v-if="id !== 'stripe'"
           :src="`/dashboard/images/integrations/${id}-dark.png`"
+          :alt="name"
           class="max-w-full rounded-md border border-n-weak shadow-sm hidden dark:block bg-n-alpha-3 dark:bg-n-alpha-2"
         />
       </div>

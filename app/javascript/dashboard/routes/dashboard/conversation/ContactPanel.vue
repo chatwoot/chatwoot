@@ -131,9 +131,7 @@ onMounted(() => {
   conversationSidebarItems.value = conversationSidebarItemsOrder.value;
   getContactDetails();
   store.dispatch('attributes/get', 0);
-  // Load integrations to ensure linear integration state is available
-  store.dispatch('integrations/get', 'linear');
-  store.dispatch('integrations/get', 'stripe');
+  store.dispatch('integrations/get');
 });
 </script>
 
@@ -308,6 +306,7 @@ onMounted(() => {
               <StripeCustomer
                 v-if="isContactSidebarItemOpen('is_stripe_customer_open')"
                 :conversation-id="conversationId"
+                :contact-email="contact.email"
               />
             </AccordionItem>
           </div>

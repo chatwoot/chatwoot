@@ -5,7 +5,7 @@ class Api::V1::Accounts::Integrations::StripeController < Api::V1::Accounts::Int
   def show
     hook = Current.account.hooks.find_by!(app_id: 'stripe', status: :enabled)
     mode = Integrations::Stripe::Connection.new(hook).livemode? ? 'live' : 'sandbox'
-    render json: { account_id: hook.reference_id, connected_at: hook.created_at, mode: mode }
+    render json: { account_id: hook.reference_id, connected_at: hook.settings.fetch('connected_at', hook.created_at), mode: mode }
   end
 
   def auth

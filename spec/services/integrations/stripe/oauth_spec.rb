@@ -23,6 +23,19 @@ RSpec.describe Integrations::Stripe::Oauth do
     expect(described_class.configured?).to be false
   end
 
+  it 'does not advertise malformed settings as configured' do
+    allow(Chatwoot).to receive(:encryption_configured?).and_return(true)
+    allow(GlobalConfig).to receive(:get_value).with('STRIPE_APP_AUTHORIZE_URL').and_return('not a URL')
+    expect(described_class.configured?).to be false
+  end
+
+  it 'allows clearing configuration but rejects incomplete and malformed values' do
+    expect(described_class.configuration_errors(url: '', key: '')).to be_empty
+    expect(described_class.configuration_errors(url: authorize_url, key: '')).not_to be_empty
+    expect(described_class.configuration_errors(url: authorize_url, key: 'sk_live_example')).to be_empty
+    expect(described_class.configuration_errors(url: 'https://user@marketplace.stripe.com/authorize', key: 'sk_test_example')).not_to be_empty
+  end
+
   it 'uses the Stripe Apps token endpoint with test and live keys' do
     expect(described_class.client.token_url).to eq('https://api.stripe.com/v1/oauth/token')
     expect(described_class.livemode?).to be false

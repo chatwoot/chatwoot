@@ -26,4 +26,13 @@ RSpec.describe SuperAdmin::AppConfigsController, type: :request do
     expect(GlobalConfig.get_value('STRIPE_APP_AUTHORIZE_URL')).to eq('https://marketplace.stripe.com/oauth/test')
     expect(InstallationConfig.exists?(name: 'UNRELATED_SETTING')).to be false
   end
+
+  it 'rejects malformed settings without persisting either value' do
+    sign_in(super_admin, scope: :super_admin)
+    post path, params: { app_config: { STRIPE_APP_AUTHORIZE_URL: 'https://example.com/authorize', STRIPE_APP_SECRET_KEY: 'pk_live_example' } }
+    expect(response).to redirect_to(super_admin_app_config_path(config: 'stripe'))
+    expect(flash[:alert]).to include('HTTPS Stripe Marketplace URL', 'sk_test_ or sk_live_')
+    expect(InstallationConfig.find_by(name: 'STRIPE_APP_SECRET_KEY')&.value).to be_blank
+    expect(InstallationConfig.find_by(name: 'STRIPE_APP_AUTHORIZE_URL')&.value).to be_blank
+  end
 end

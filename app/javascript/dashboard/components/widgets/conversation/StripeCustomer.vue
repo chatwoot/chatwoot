@@ -7,6 +7,7 @@ import Label from 'dashboard/components-next/label/Label.vue';
 
 const props = defineProps({
   conversationId: { type: [Number, String], required: true },
+  contactEmail: { type: String, default: '' },
 });
 const summary = ref(null);
 const customerId = ref('');
@@ -61,7 +62,7 @@ const formatAmount = invoice => {
 };
 
 watch(
-  () => props.conversationId,
+  [() => props.conversationId, () => props.contactEmail],
   () => {
     customerId.value = '';
     load();

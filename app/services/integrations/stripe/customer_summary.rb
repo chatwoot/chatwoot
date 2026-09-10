@@ -10,8 +10,9 @@ class Integrations::Stripe::CustomerSummary
     return { customers: [], missing_email: true } if @contact.email.blank?
 
     @options = { api_key: @connection.api_token }
-    customers = ::Stripe::Customer.list({ email: @contact.email, limit: 100 }, @options)
-    matches = customers.data.map { |customer| customer.to_hash.slice(:id, :name, :email, :phone) }
+    customers = ::Stripe::Customer.search({ query: "email:#{@contact.email.to_json}", limit: 100 }, @options)
+    matches = customers.data.select { |customer| customer.email&.casecmp?(@contact.email) }
+                       .map { |customer| customer.to_hash.slice(:id, :name, :email, :phone) }
     selected = select_customer(matches, customer_id)
     result = { customers: matches, has_more_customers: customers.has_more }
     selected ? result.merge(customer: selected, **billing_details(selected[:id])) : result

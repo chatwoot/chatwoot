@@ -33,10 +33,14 @@ RSpec.describe 'Stripe OAuth callback', type: :request do
   end
 
   it 'updates an existing hook instead of creating a duplicate' do
-    hook = create(:integrations_hook, app_id: 'stripe', account: account, status: :disabled)
+    hook = create(:integrations_hook, app_id: 'stripe', account: account, status: :disabled,
+                                      settings: { 'connected_at' => 1.month.ago.iso8601 })
+    previous_connection = hook.settings['connected_at']
     expect { get '/stripe/callback', params: { state: state, code: 'authorization-code' } }.not_to change(Integrations::Hook, :count)
     expect(hook.reload).to be_enabled
     expect(hook.reference_id).to eq('acct_test')
+    expect(hook.settings['connected_at']).not_to eq(previous_connection)
+    expect(Time.iso8601(hook.settings['connected_at'])).to be_within(2.seconds).of(Time.current)
   end
 
   it 'rejects invalid or already consumed state' do
