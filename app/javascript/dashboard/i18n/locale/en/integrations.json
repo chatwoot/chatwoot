@@ -1,5 +1,17 @@
 {
   "INTEGRATION_SETTINGS": {
+    "CPFCNPJ": {
+      "HEADER": "CPF.CNPJ",
+      "DESCRIPTION": "Enrich Brazilian contacts with official CPF/CNPJ registry data from CPF.CNPJ.",
+      "LEARN_MORE": "Learn more",
+      "HELP_TEXT": "Paste the API token from your CPF.CNPJ account. Package and token details are available at https://www.cpfcnpj.com.br/dev/.",
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the CPF.CNPJ integration?",
+        "MESSAGE": "Deleting this integration will stop enriching contacts with CPF/CNPJ registry data.",
+        "CONFIRM": "Yes, delete",
+        "CANCEL": "Cancel"
+      }
+    },
     "SHOPIFY": {
       "HEADER": "Shopify",
       "DELETE": {

@@ -337,3 +337,88 @@ leadsquared:
       'conversation_activity_score',
       'transcript_activity_score',
     ]
+
+cpfcnpj:
+  id: cpfcnpj
+  feature_flag: cpfcnpj_integration
+  logo: cpfcnpj.png
+  i18n_key: cpfcnpj
+  action: /cpfcnpj
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'token': { 'type': 'string', 'minLength': 32, 'maxLength': 32 },
+          'document_attribute_key': { 'type': 'string' },
+          'cnpj_package': { 'type': 'integer', 'enum': [4, 5, 6] },
+          'cpf_package': { 'type': 'integer', 'enum': [1, 26] },
+          'enrich_cpf': { 'type': 'boolean' },
+          'write_custom_attributes': { 'type': 'boolean' },
+        },
+      'required': ['token'],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'API token',
+        'type': 'text',
+        'name': 'token',
+        'validation': 'required|length:32,32',
+        'validationName': 'Token',
+      },
+      {
+        'label': 'Contact attribute holding the CPF/CNPJ',
+        'type': 'text',
+        'name': 'document_attribute_key',
+        'help': 'Custom attribute key that stores the document. Falls back to the contact identifier when empty.',
+      },
+      {
+        'label': 'CNPJ package',
+        'type': 'select',
+        'name': 'cnpj_package',
+        'number': 'integer',
+        'default': 6,
+        'options':
+          [
+            { 'label': 'CNPJ D (full profile)', 'value': 6 },
+            { 'label': 'CNPJ B', 'value': 5 },
+            { 'label': 'CNPJ A', 'value': 4 },
+          ],
+      },
+      {
+        'label': 'CPF package',
+        'type': 'select',
+        'name': 'cpf_package',
+        'number': 'integer',
+        'default': 1,
+        'options':
+          [
+            { 'label': 'CPF A (name)', 'value': 1 },
+            { 'label': 'CPF D simplified (name and status)', 'value': 26 },
+          ],
+      },
+      {
+        'label': 'Enrich contacts with CPF',
+        'type': 'checkbox',
+        'name': 'enrich_cpf',
+        'help': 'When enabled, CPF documents are also looked up, not only CNPJ.',
+      },
+      {
+        'label': 'Write typed custom attributes',
+        'type': 'checkbox',
+        'name': 'write_custom_attributes',
+        'help': 'Store selected fields as typed custom attributes in addition to additional attributes.',
+      },
+    ]
+  visible_properties:
+    [
+      'document_attribute_key',
+      'cnpj_package',
+      'cpf_package',
+      'enrich_cpf',
+      'write_custom_attributes',
+    ]

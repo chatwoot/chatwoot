@@ -1,0 +1,8 @@
+{
+  "status": 0,
+  "cpf": "",
+  "nome": null,
+  "erro": "Informe um CPF com 11 digitos!",
+  "pacoteUsado": 1,
+  "erroCodigo": 101
+}

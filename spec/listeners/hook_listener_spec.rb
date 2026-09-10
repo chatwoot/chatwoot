@@ -134,5 +134,21 @@ describe HookListener do
         listener.contact_updated(contact_event)
       end
     end
+
+    context 'with cpfcnpj hook' do
+      let(:hook) { create(:integrations_hook, :cpfcnpj, account: account) }
+
+      before do
+        account.enable_features(:cpfcnpj_integration)
+      end
+
+      it 'enqueues the job for contact.updated' do
+        expect(HookJob)
+          .to receive(:perform_later)
+          .with(hook, 'contact.updated', { contact: conversation.contact })
+
+        listener.contact_updated(contact_event)
+      end
+    end
   end
 end

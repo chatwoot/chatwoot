@@ -1,0 +1,11 @@
+{
+  "status": 1,
+  "cpf": "111.444.777-35",
+  "nome": "Test Token",
+  "nascimento": "31/12/1900",
+  "situacao": "Regular",
+  "pacoteUsado": 26,
+  "saldo": 123,
+  "consultaID": "11bb22cc33dd44ee",
+  "delay": 0.3
+}

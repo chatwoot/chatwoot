@@ -3,11 +3,15 @@ class HookJob < MutexApplicationJob
 
   queue_as :medium
 
+  # Lock window for the CPF.CNPJ lookup: API timeout plus a margin for the contact save.
+  CPFCNPJ_LOCK_TIMEOUT = (Crm::Cpfcnpj::Api::BaseClient::TIMEOUT_SECONDS + 10).seconds
+
   INTEGRATION_PROCESSORS = {
     'slack' => :process_slack_integration,
     'dialogflow' => :process_dialogflow_integration,
     'google_translate' => :google_translate_integration,
     'leadsquared' => :process_leadsquared_integration_with_lock,
+    'cpfcnpj' => :process_cpfcnpj_integration,
     'linear' => :process_linear_integration
   }.freeze
 
@@ -96,6 +100,24 @@ class HookJob < MutexApplicationJob
       processor.handle_conversation_created(event_data[:conversation])
     when 'conversation.resolved'
       processor.handle_conversation_resolved(event_data[:conversation])
+    end
+  end
+
+  def process_cpfcnpj_integration(hook, event_name, event_data)
+    # Contact created and updated events arrive back to back for the same contact.
+    # The lock is per contact and outlives the API timeout, so a second job for the
+    # same contact is skipped instead of paying for a duplicate lookup. The holder
+    # reloads the contact before the lookup, so it always sees the latest document.
+    valid_event_names = ['contact.created', 'contact.updated']
+    return unless valid_event_names.include?(event_name)
+    return unless hook.feature_allowed?
+
+    contact = event_data[:contact]
+    return if contact.blank?
+
+    key = format(::Redis::Alfred::CRM_PROCESS_MUTEX, hook_id: hook.id)
+    with_lock("#{key}::#{contact.id}", CPFCNPJ_LOCK_TIMEOUT) do
+      Crm::Cpfcnpj::ProcessorService.new(hook).handle_contact(contact)
     end
   end
 end
