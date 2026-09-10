@@ -22,7 +22,7 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
     ActiveRecord::Base.transaction do
       authenticate_twilio
       build_inbox
-      setup_webhooks if @twilio_channel.sms?
+      setup_webhooks
     end
   end
 
