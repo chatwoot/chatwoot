@@ -233,6 +233,24 @@
   delete:
     $ref: ./application/canned_responses/delete.yml
 
+# Reusable Attachments
+/api/v1/accounts/{account_id}/reusable_attachments:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/reusable_attachments/index.yml
+  post:
+    $ref: ./application/reusable_attachments/create.yml
+/api/v1/accounts/{account_id}/reusable_attachments/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/reusable_attachments/show.yml
+  patch:
+    $ref: ./application/reusable_attachments/update.yml
+  delete:
+    $ref: ./application/reusable_attachments/delete.yml
+
 # Custom Attributes
 /api/v1/accounts/{account_id}/custom_attribute_definitions:
   parameters:

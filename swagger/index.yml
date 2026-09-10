@@ -51,6 +51,8 @@ tags:
     description: Create, schedule, and manage campaigns. Requires an account administrator and API access enabled for the account.
   - name: Canned Responses
     description: Pre-defined responses for common queries
+  - name: Reusable Attachments
+    description: Pre-uploaded files reusable across messages
   - name: Contacts
     description: Contact management APIs
   - name: Contact Labels
@@ -108,6 +110,7 @@ x-tagGroups:
       - Audit Logs
       - Campaigns
       - Canned Responses
+      - Reusable Attachments
       - Contacts
       - Contact Labels
       - Conversation Assignments

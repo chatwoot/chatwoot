@@ -1,0 +1,36 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: ID of the reusable attachment
+  name:
+    type: string
+    description: Name of the reusable attachment
+  file_type:
+    type: string
+    enum: ['image', 'audio', 'video', 'file']
+    description: Type of the attached file, detected from its content type
+  extension:
+    type: string
+    description: File extension of the attached file
+  description:
+    type: string
+    description: Description of the reusable attachment
+  file_url:
+    type: string
+    description: URL of the attached file
+  download_url:
+    type: string
+    description: Direct download URL of the attached file
+  thumb_url:
+    type: string
+    description: Thumbnail URL, available only for image attachments
+  file_size:
+    type: integer
+    description: Size of the attached file in bytes
+  created_at:
+    type: string
+    description: The date and time when the reusable attachment was created
+  updated_at:
+    type: string
+    description: The date and time when the reusable attachment was updated
