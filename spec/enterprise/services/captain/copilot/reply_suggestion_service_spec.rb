@@ -23,6 +23,11 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     )
   end
   let(:run_result) { instance_double(Agents::RunResult) }
+  let(:run_options) do
+    Captain::Assistant::AgentRunnerService::RunOptions.new(
+      source: Captain::Assistant::AgentRunnerService::REPLY_SUGGESTION_SOURCE
+    )
+  end
   let(:response) do
     {
       'response_parts' => [{ 'text' => "Chatwoot's mascot is Bob the Builder.", 'citation_indexes' => [1] }],
@@ -44,7 +49,7 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
       hash_including(
         assistant: assistant,
         conversation: conversation,
-        source: Captain::Assistant::AgentRunnerService::REPLY_SUGGESTION_SOURCE
+        run_options: run_options
       )
     ).and_return(runner)
     allow(runner).to receive(:generate_response).and_return(response)
@@ -57,7 +62,7 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     expect(Captain::Assistant::AgentRunnerService).to have_received(:new).with(
       assistant: assistant,
       conversation: conversation,
-      source: Captain::Assistant::AgentRunnerService::REPLY_SUGGESTION_SOURCE
+      run_options: run_options
     )
     expect(runner).to have_received(:generate_response).with(
       message_history: [{ role: 'user', content: 'Who is your mascot?' }]
