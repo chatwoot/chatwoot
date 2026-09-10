@@ -2,9 +2,27 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   include Shopify::IntegrationHelper
   before_action :ensure_shopify_enabled
   before_action -> { Shopify::ApiContext.setup! }, only: [:orders]
-  before_action :fetch_hook, except: [:complete_install]
-  before_action :check_authorization, only: [:complete_install, :destroy]
+  before_action :fetch_hook, except: [:auth, :complete_install]
+  before_action :check_authorization, only: [:auth, :complete_install, :destroy]
   before_action :validate_contact, only: [:orders]
+
+  def auth
+    shop_domain = params[:shop_domain]
+    unless shop_domain.is_a?(String) && Shopify::ShopDomain.valid?(shop_domain)
+      return render json: { error: 'Invalid Shopify shop domain' }, status: :unprocessable_entity
+    end
+
+    state = generate_shopify_token(Current.account.id)
+    raise 'Shopify OAuth is not configured' if client_id.blank? || state.blank?
+
+    oauth_client = OAuth2::Client.new(client_id, client_secret,
+                                      site: "https://#{Shopify::ShopDomain.normalize(shop_domain)}",
+                                      authorize_url: '/admin/oauth/authorize')
+    render json: { redirect_url: oauth_client.auth_code.authorize_url(
+      redirect_uri: "#{ENV.fetch('FRONTEND_URL', '')}/shopify/callback",
+      scope: REQUIRED_SCOPES.join(','), state: state
+    ) }
+  end
 
   def orders
     customers = fetch_customers

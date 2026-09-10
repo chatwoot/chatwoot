@@ -13,6 +13,9 @@ import { useBranding } from 'shared/composables/useBranding';
 import { isShopifyBillingAccount } from 'v3/helpers/AuthHelper';
 import shopifyAPI from 'dashboard/api/integrations/shopify';
 import Integration from './Integration.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -26,6 +29,10 @@ defineProps({
 
 const store = useStore();
 const integrationLoaded = ref(false);
+const dialogRef = ref(null);
+const storeUrl = ref('');
+const storeUrlError = ref('');
+const isSubmitting = ref(false);
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
@@ -63,6 +70,34 @@ const formattedHelpText = computed(() => {
     false
   );
 });
+
+const resetStoreUrlForm = () => {
+  storeUrl.value = '';
+  storeUrlError.value = '';
+};
+
+const connectStore = async () => {
+  const domain = storeUrl.value.trim().toLowerCase();
+  if (
+    !/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.myshopify\.(?:com|io)$/.test(domain)
+  ) {
+    storeUrlError.value = t(
+      'INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.INVALID_URL'
+    );
+    return;
+  }
+
+  storeUrlError.value = '';
+  isSubmitting.value = true;
+  try {
+    const { data } = await shopifyAPI.connect(domain);
+    window.location.assign(data.redirect_url);
+  } catch {
+    storeUrlError.value = t('INTEGRATION_SETTINGS.SHOPIFY.ERROR');
+  } finally {
+    isSubmitting.value = false;
+  }
+};
 
 const clearPendingInstallToken = async () => {
   const query = { ...route.query };
@@ -123,7 +158,36 @@ onMounted(() => {
             title: t('INTEGRATION_SETTINGS.SHOPIFY.DELETE.TITLE'),
             message: t('INTEGRATION_SETTINGS.SHOPIFY.DELETE.MESSAGE'),
           }"
-        />
+        >
+          <template v-if="!isShopifyBillingManaged" #action>
+            <Button
+              faded
+              blue
+              :label="t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT')"
+              @click="dialogRef.open()"
+            />
+          </template>
+        </Integration>
+
+        <Dialog
+          ref="dialogRef"
+          :title="t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.TITLE')"
+          :is-loading="isSubmitting"
+          @confirm="connectStore"
+          @close="resetStoreUrlForm"
+        >
+          <Input
+            v-model="storeUrl"
+            :label="t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.LABEL')"
+            :placeholder="
+              t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.PLACEHOLDER')
+            "
+            :message="
+              storeUrlError || t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.HELP')
+            "
+            :message-type="storeUrlError ? 'error' : 'info'"
+          />
+        </Dialog>
 
         <div
           v-if="integration.enabled"

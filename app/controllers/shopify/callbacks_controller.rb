@@ -26,11 +26,12 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
 
     ensure_shopify_enabled!(account: account)
     raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
+    raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
 
     @shopify_installation_generation = Shopify::InstallationGeneration.current(account)
     exchange_access_token
     create_hook
-    redirect_to shopify_integration_url
+    redirect_to shopify_integration_url, allow_other_host: true
   end
 
   def handle_shopify_initiated_flow
