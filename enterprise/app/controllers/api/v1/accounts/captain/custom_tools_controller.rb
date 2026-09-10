@@ -39,7 +39,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   private
 
   def set_current_page
-    @current_page = params[:page] || 1
+    @current_page = params.fetch(:page, 1).to_i
   end
 
   def ensure_custom_tools_enabled
