@@ -586,38 +586,58 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('test@test.com')
       end
 
-      it 'creates an email inbox with imap settings and queues the selected import window' do
-        imap_connection = instance_double(Net::IMAP, disconnected?: false)
+      [[1, 1], [7, 7], [30, 30], [nil, 1], [90, 1]].each do |import_window, expected_window|
+        it "creates an IMAP inbox with import window #{import_window.inspect}" do
+          imap_connection = instance_double(Net::IMAP, disconnected?: false)
 
-        allow(Net::IMAP).to receive(:new).and_return(imap_connection)
-        allow(imap_connection).to receive(:login)
-        allow(imap_connection).to receive(:disconnect)
+          allow(Net::IMAP).to receive(:new).and_return(imap_connection)
+          allow(imap_connection).to receive(:login)
+          allow(imap_connection).to receive(:disconnect)
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/inboxes",
+                 headers: admin.create_new_auth_token,
+                 params: {
+                   name: 'Support',
+                   imap_fetch_interval: import_window,
+                   channel: {
+                     type: 'email',
+                     email: 'support@example.com',
+                     imap_enabled: true,
+                     imap_address: 'imap.example.com',
+                     imap_port: 993,
+                     imap_login: 'support@example.com',
+                     imap_password: 'imap-password',
+                     imap_enable_ssl: true,
+                     imap_authentication: 'login'
+                   }
+                 },
+                 as: :json
+          end.to have_enqueued_job(Inboxes::FetchImapEmailsJob).with(a_kind_of(Channel::Email), expected_window)
+
+          expect(response).to have_http_status(:success)
+          channel = Channel::Email.find_by!(email: 'support@example.com')
+          expect(channel.imap_enabled).to be true
+          expect(channel.smtp_enabled).to be false
+        end
+      end
+
+      it 'does not create an inbox or enqueue an import when the IMAP connection fails' do
+        allow(Net::IMAP).to receive(:new).and_raise(Errno::ECONNREFUSED)
 
         expect do
           post "/api/v1/accounts/#{account.id}/inboxes",
                headers: admin.create_new_auth_token,
                params: {
                  name: 'Support',
-                 imap_fetch_interval: 7,
-                 channel: {
-                   type: 'email',
-                   email: 'support@example.com',
-                   imap_enabled: true,
-                   imap_address: 'imap.example.com',
-                   imap_port: 993,
-                   imap_login: 'support@example.com',
-                   imap_password: 'imap-password',
-                   imap_enable_ssl: true,
-                   imap_authentication: 'login'
-                 }
-               },
-               as: :json
-        end.to have_enqueued_job(Inboxes::FetchImapEmailsJob).with(a_kind_of(Channel::Email), 7)
+                 channel: { type: 'email', email: 'support@example.com', imap_enabled: true,
+                            imap_address: 'imap.example.com', imap_port: 993 }
+               }, as: :json
+        end.not_to change(Inbox, :count)
 
-        expect(response).to have_http_status(:success)
-        channel = Channel::Email.find_by!(email: 'support@example.com')
-        expect(channel.imap_enabled).to be true
-        expect(channel.smtp_enabled).to be false
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(Channel::Email.exists?(email: 'support@example.com')).to be false
+        expect(Inboxes::FetchImapEmailsJob).not_to have_been_enqueued
       end
 
       it 'does not queue an initial IMAP import for a Cloud default-plan account' do
