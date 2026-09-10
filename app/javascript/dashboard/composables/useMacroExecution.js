@@ -4,6 +4,7 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { isAIAssigneeType } from 'dashboard/helper/agentHelper';
 
 // change_status is not offered by the macro builder, but the API accepts it and
 // it resolves the conversation just like resolve_conversation does. Its param is
@@ -41,6 +42,22 @@ export function useMacroExecution() {
     { macro, conversationId },
     skippedResolve = false
   ) => {
+    const conversation = conversationById.value(conversationId);
+    if (
+      isAIAssigneeType(conversation?.meta?.assignee_type) &&
+      macro.actions.some(({ action_name: name }) =>
+        ['send_message', 'send_attachment'].includes(name)
+      )
+    ) {
+      useAlert(
+        t('CONVERSATION.BOT_HANDOFF_MESSAGE', {
+          assigneeName:
+            conversation.meta.assignee?.name ||
+            t('CONVERSATION.BOT_HANDOFF_FALLBACK_ASSIGNEE'),
+        })
+      );
+      return;
+    }
     try {
       executingMacroId.value = macro.id;
       await store.dispatch('macros/execute', {

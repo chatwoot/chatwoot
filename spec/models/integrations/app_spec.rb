@@ -59,6 +59,33 @@ RSpec.describe Integrations::App do
         )
       end
     end
+
+    context 'when the app is shopify' do
+      let(:app_name) { 'shopify' }
+
+      before do
+        account.enable_features('shopify_integration')
+        allow(GlobalConfigService).to receive(:load)
+          .with('SHOPIFY_APP_STORE_URL', nil)
+          .and_return('https://apps.shopify.com/chatwoot')
+      end
+
+      it 'returns the App Store URL when both feature gates are enabled' do
+        allow(GlobalConfigService).to receive(:load)
+          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+          .and_return(true)
+
+        expect(app.action).to eq('https://apps.shopify.com/chatwoot')
+      end
+
+      it 'does not return an action when the installation switch is disabled' do
+        allow(GlobalConfigService).to receive(:load)
+          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+          .and_return(false)
+
+        expect(app.action).to be_nil
+      end
+    end
   end
 
   describe '#active?' do
@@ -75,6 +102,12 @@ RSpec.describe Integrations::App do
     context 'when the app is shopify' do
       let(:app_name) { 'shopify' }
 
+      before do
+        allow(GlobalConfigService).to receive(:load)
+          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+          .and_return(true)
+      end
+
       it 'returns true if the shopify integration feature is enabled' do
         account.enable_features('shopify_integration')
         allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_ID', nil).and_return('client_id')
@@ -89,6 +122,16 @@ RSpec.describe Integrations::App do
       it 'returns false if SHOPIFY_CLIENT_ID is not present, even if feature is enabled' do
         account.enable_features('shopify_integration')
         allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_ID', nil).and_return(nil)
+        expect(app.active?(account)).to be false
+      end
+
+      it 'returns false if the installation switch is disabled' do
+        account.enable_features('shopify_integration')
+        allow(GlobalConfigService).to receive(:load)
+          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+          .and_return(false)
+        allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_ID', nil).and_return('client_id')
+
         expect(app.active?(account)).to be false
       end
     end
@@ -141,6 +184,24 @@ RSpec.describe Integrations::App do
       it 'returns true if the account has hooks for the app' do
         create(:integrations_hook, :openai, account: account)
         expect(app.enabled?(account)).to be true
+      end
+    end
+
+    context 'when the app is shopify' do
+      let(:app_name) { 'shopify' }
+
+      before { account.enable_features!('shopify_integration') }
+
+      it 'returns true when the Shopify hook is enabled' do
+        create(:integrations_hook, :shopify, account: account, status: :enabled)
+
+        expect(app.enabled?(account)).to be true
+      end
+
+      it 'returns false when the retained Shopify hook is disabled' do
+        create(:integrations_hook, :shopify, account: account, status: :disabled)
+
+        expect(app.enabled?(account)).to be false
       end
     end
   end

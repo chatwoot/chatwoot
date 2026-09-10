@@ -5,6 +5,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { isAIAssigneeType } from 'dashboard/helper/agentHelper';
+import ConversationApi from 'dashboard/api/inbox/conversation';
 
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -25,23 +26,7 @@ const { t } = useI18n();
 const currentChat = useMapGetter('getSelectedChat');
 const currentUser = useMapGetter('getCurrentUser');
 
-const assignedAgent = computed({
-  get() {
-    return currentChat.value?.meta?.assignee;
-  },
-  set(agent) {
-    const agentId = agent ? agent.id : null;
-    store.dispatch('setCurrentChatAssignee', {
-      conversationId: currentChat.value?.id,
-      assignee: agent,
-      assigneeType: agent ? 'User' : null,
-    });
-    store.dispatch('assignAgent', {
-      conversationId: currentChat.value?.id,
-      agentId,
-    });
-  },
-});
+const assignedAgent = computed(() => currentChat.value?.meta?.assignee);
 
 const hasMessage = computed(() => props.message !== '');
 const isUserTyping = computed(() => hasMessage.value && !props.isOnPrivateNote);
@@ -71,8 +56,17 @@ const botAssigneeName = computed(() => {
 });
 
 const selfAssignConversation = async () => {
-  const { avatar_url, ...rest } = currentUser.value || {};
-  assignedAgent.value = { ...rest, thumbnail: avatar_url };
+  const conversationId = currentChat.value.id;
+  const { data } = await ConversationApi.assignAgent({
+    conversationId,
+    agentId: currentUser.value.id,
+    assigneeType: 'User',
+  });
+  await store.dispatch('setCurrentChatAssignee', {
+    conversationId,
+    assignee: data,
+    assigneeType: 'User',
+  });
 };
 
 const needsAssignmentToCurrentUser = computed(() => {
@@ -100,11 +94,11 @@ const onClickBotHandoff = async () => {
     const shouldAssignToCurrentUser =
       isAIOwned.value || needsAssignmentToCurrentUser.value;
 
-    await reopenConversation();
-
     if (shouldAssignToCurrentUser) {
       await selfAssignConversation();
     }
+
+    await reopenConversation();
 
     useAlert(t('CONVERSATION.BOT_HANDOFF_SUCCESS'));
   } catch (error) {
