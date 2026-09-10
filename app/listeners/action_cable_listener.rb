@@ -69,11 +69,12 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
   end
 
-  def conversation_read(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
+  def conversation_bot_handoff(event)
+    broadcast_to_inbox_members(event, CONVERSATION_BOT_HANDOFF)
+  end
 
-    broadcast(account, tokens, CONVERSATION_READ, conversation.push_event_data)
+  def conversation_read(event)
+    broadcast_to_inbox_members(event, CONVERSATION_READ)
   end
 
   def conversation_status_changed(event)
@@ -132,24 +133,15 @@ class ActionCableListener < BaseListener
   end
 
   def assignee_changed(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
-
-    broadcast(account, tokens, ASSIGNEE_CHANGED, conversation.push_event_data)
+    broadcast_to_inbox_members(event, ASSIGNEE_CHANGED)
   end
 
   def team_changed(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
-
-    broadcast(account, tokens, TEAM_CHANGED, conversation.push_event_data)
+    broadcast_to_inbox_members(event, TEAM_CHANGED)
   end
 
   def conversation_contact_changed(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
-
-    broadcast(account, tokens, CONVERSATION_CONTACT_CHANGED, conversation.push_event_data)
+    broadcast_to_inbox_members(event, CONVERSATION_CONTACT_CHANGED)
   end
 
   def contact_created(event)
@@ -183,6 +175,13 @@ class ActionCableListener < BaseListener
   end
 
   private
+
+  def broadcast_to_inbox_members(event, event_name)
+    conversation, account = extract_conversation_and_account(event)
+    tokens = user_tokens(account, conversation.inbox.members)
+
+    broadcast(account, tokens, event_name, conversation.push_event_data)
+  end
 
   def account_token(account)
     "account_#{account.id}"
