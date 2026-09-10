@@ -37,7 +37,7 @@ describe('#validateAuthenticateRoutePermission', () => {
       delete window.location;
       window.location = { assign: mockAssign };
 
-      validateAuthenticateRoutePermission(to, next);
+      validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
       expect(mockAssign).toHaveBeenCalledWith('/app/login');
     });
@@ -54,7 +54,7 @@ describe('#validateAuthenticateRoutePermission', () => {
       delete window.location;
       window.location = { assign: mockAssign };
 
-      validateAuthenticateRoutePermission(to, next);
+      validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
       expect(mockAssign).toHaveBeenCalledWith(
         '/app/login?redirect_url=settings%2Fbilling%3Fplan_handle%3Dgrowth%26shop%3Dstore.myshopify.com'
@@ -71,7 +71,7 @@ describe('#validateAuthenticateRoutePermission', () => {
       delete window.location;
       window.location = { assign: mockAssign };
 
-      validateAuthenticateRoutePermission(to, next);
+      validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
       expect(mockAssign).toHaveBeenCalledWith(
         '/app/login?sso_account_id=42&redirect_url=settings%2Fbilling%3Fshop%3Dstore.myshopify.com'
@@ -88,7 +88,7 @@ describe('#validateAuthenticateRoutePermission', () => {
       delete window.location;
       window.location = { assign: mockAssign };
 
-      validateAuthenticateRoutePermission(to, next);
+      validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
       expect(mockAssign).toHaveBeenCalledWith(
         '/app/login?sso_account_id=42&redirect_url=settings%2Fintegrations%2Fshopify'
@@ -122,7 +122,7 @@ describe('#validateAuthenticateRoutePermission', () => {
           meta: { permissions: ['administrator'] },
         };
 
-        await validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
         expect(next).toHaveBeenCalledWith('/app/accounts/1/dashboard');
       });
@@ -152,7 +152,7 @@ describe('#validateAuthenticateRoutePermission', () => {
           meta: { permissions: ['administrator'] },
         };
 
-        await validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
         expect(next).toHaveBeenCalledWith();
       });
@@ -172,9 +172,12 @@ describe('#validateAuthenticateRoutePermission', () => {
           meta: { permissions: ['administrator'] },
         };
 
-        await validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
-        expect(next).toHaveBeenCalledWith('/app/accounts/1/settings/billing');
+        expect(next).toHaveBeenCalledWith({
+          path: '/app/accounts/1/settings/billing',
+          query: {},
+        });
       });
 
       it('preserves a Shopify pricing redirect for a pending account', async () => {
@@ -192,7 +195,7 @@ describe('#validateAuthenticateRoutePermission', () => {
           },
         };
 
-        await validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
         expect(next).toHaveBeenCalledWith(
           '/app/accounts/1/settings/billing?plan_handle=growth&shop=store.myshopify.com'
@@ -217,7 +220,7 @@ describe('#validateAuthenticateRoutePermission', () => {
           },
         };
 
-        await validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
         expect(next).toHaveBeenCalledWith(
           '/app/accounts/2/settings/billing?plan_handle=growth&shop=second-store.myshopify.com'
@@ -236,7 +239,7 @@ describe('#validateAuthenticateRoutePermission', () => {
           },
         };
 
-        await validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
         expect(next).toHaveBeenCalledWith('/app/accounts/1/dashboard');
       });
@@ -255,7 +258,7 @@ describe('#validateAuthenticateRoutePermission', () => {
           meta: { permissions: ['administrator'] },
         };
 
-        await validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
         expect(next).toHaveBeenCalledWith();
       });
@@ -276,7 +279,7 @@ describe('#validateAuthenticateRoutePermission', () => {
           },
         };
 
-        await validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
         expect(next).toHaveBeenCalledWith(
           '/app/accounts/1/settings/billing?plan_handle=growth&shop=store.myshopify.com'
@@ -302,7 +305,7 @@ describe('#validateAuthenticateRoutePermission', () => {
           },
         };
 
-        await validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
         expect(next).toHaveBeenCalledWith(
           '/app/accounts/2/settings/billing?plan_handle=growth&shop=second-store.myshopify.com'
@@ -324,7 +327,7 @@ describe('#validateAuthenticateRoutePermission', () => {
           },
         };
 
-        await validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
         expect(next).toHaveBeenCalledWith('/app/accounts/1/dashboard');
       });
@@ -334,7 +337,7 @@ describe('#validateAuthenticateRoutePermission', () => {
       const pendingInstallRedirect =
         'settings/integrations/shopify?shopify_pending_install=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 
-      it('redirects to an active administrator account', async () => {
+      it('requires an explicit workspace choice', async () => {
         store.getters.getCurrentUser = {
           account_id: 1,
           id: 1,
@@ -348,22 +351,24 @@ describe('#validateAuthenticateRoutePermission', () => {
           params: {},
         };
 
-        await validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
         expect(next).toHaveBeenCalledWith(
-          `/app/accounts/2/${pendingInstallRedirect}`
+          `/app/shopify/select-account?${pendingInstallRedirect.split('?')[1]}`
         );
       });
 
-      it('drops the install redirect when no account can manage Shopify', async () => {
+      it('retains the token when no account can manage Shopify', async () => {
         const to = {
           query: { redirect_url: pendingInstallRedirect },
           params: {},
         };
 
-        await validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
-        expect(next).toHaveBeenCalledWith('/app/accounts/1/dashboard');
+        expect(next).toHaveBeenCalledWith(
+          `/app/shopify/select-account?${pendingInstallRedirect.split('?')[1]}`
+        );
       });
     });
   });
