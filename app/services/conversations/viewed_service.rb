@@ -11,9 +11,8 @@ class Conversations::ViewedService
   end
 
   def perform
-    return if throttled?
+    return unless claim_throttle_key
 
-    Rails.cache.write(cache_key, true, expires_in: THROTTLE_WINDOW)
     dispatch_event
   end
 
@@ -28,11 +27,11 @@ class Conversations::ViewedService
     )
   end
 
-  def throttled?
-    Rails.cache.read(cache_key).present?
+  def claim_throttle_key
+    Redis::Alfred.set(throttle_key, true, nx: true, ex: THROTTLE_WINDOW.to_i)
   end
 
-  def cache_key
+  def throttle_key
     "conversation_viewed/#{@conversation.id}/#{@user&.id}"
   end
 end

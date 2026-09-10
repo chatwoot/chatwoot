@@ -7,10 +7,9 @@ RSpec.describe Conversations::ViewedService do
   let!(:user) { create(:user, account: account) }
 
   describe '#perform' do
-    context 'when the conversation was not viewed within the throttle window' do
+    context 'when the throttle key can be claimed' do
       before do
-        allow(Rails.cache).to receive(:read).and_return(nil)
-        allow(Rails.cache).to receive(:write)
+        allow(Redis::Alfred).to receive(:set).and_return('OK')
       end
 
       it 'dispatches the conversation.viewed event' do
@@ -24,20 +23,20 @@ RSpec.describe Conversations::ViewedService do
         described_class.new(conversation: conversation, user: user).perform
       end
 
-      it 'stores the throttle key' do
+      it 'claims the throttle key atomically' do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
 
-        expect(Rails.cache).to receive(:write).with(
-          "conversation_viewed/#{conversation.id}/#{user.id}", true, expires_in: 60.seconds
+        expect(Redis::Alfred).to receive(:set).with(
+          "conversation_viewed/#{conversation.id}/#{user.id}", true, nx: true, ex: 60
         )
 
         described_class.new(conversation: conversation, user: user).perform
       end
     end
 
-    context 'when the conversation was viewed within the throttle window' do
+    context 'when the throttle key is already claimed' do
       before do
-        allow(Rails.cache).to receive(:read).and_return(true)
+        allow(Redis::Alfred).to receive(:set).and_return(nil)
       end
 
       it 'does not dispatch the event' do

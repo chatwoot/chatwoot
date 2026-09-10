@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe ChatwootApp do
   describe '.self_hosted_paid?' do
     before do
+      # Force ChatwootHub to autoload before we stub enterprise?. Otherwise the
+      # autoload runs the enterprise extension injection while enterprise? is
+      # stubbed to true, which raises when the enterprise code is not present.
+      ChatwootHub.singleton_class
       allow(described_class).to receive(:enterprise?).and_return(true)
       allow(described_class).to receive(:chatwoot_cloud?).and_return(false)
     end
