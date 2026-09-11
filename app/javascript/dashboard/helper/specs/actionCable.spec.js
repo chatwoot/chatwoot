@@ -1,5 +1,6 @@
 import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
 import ActionCableConnector from '../actionCable';
+import DashboardAudioNotificationHelper from '../AudioAlerts/DashboardAudioNotificationHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 vi.mock('shared/helpers/mitt', () => ({
@@ -47,6 +48,153 @@ describe('ActionCableConnector - Copilot Tests', () => {
     vi.clearAllTimers();
     vi.useRealTimers();
   });
+  describe('bot handoff alerts', () => {
+    it.each([
+      ['human takeover', { type: 'user' }, false],
+      ['bot handoff', { type: 'agent_bot' }, true],
+      ['Captain background handoff', undefined, true],
+    ])('%s', (_, performer, shouldAlert) => {
+      const alert = vi
+        .spyOn(DashboardAudioNotificationHelper, 'onConversationBotHandoff')
+        .mockImplementation(() => {});
+      const data = {
+        id: 12,
+        account_id: 1,
+        performer,
+        status: 'open',
+        updated_at: 1,
+        meta: { assignee_type: 'User', assignee: { id: 7 } },
+      };
+      vi.spyOn(
+        DashboardAudioNotificationHelper,
+        'shouldNotifyOnConversation'
+      ).mockReturnValue(true);
+
+      actionCable.onReceived({ event: 'conversation.bot_handoff', data });
+
+      if (shouldAlert) {
+        expect(alert).toHaveBeenCalledWith(data);
+      } else {
+        expect(alert).not.toHaveBeenCalled();
+      }
+    });
+  });
+
+  describe('handoffs with asynchronous assignment', () => {
+    let alert;
+    let handoff;
+    let assignment;
+
+    beforeEach(() => {
+      alert = vi
+        .spyOn(DashboardAudioNotificationHelper, 'onConversationBotHandoff')
+        .mockImplementation(() => {});
+      vi.spyOn(
+        DashboardAudioNotificationHelper,
+        'shouldNotifyOnConversation'
+      ).mockImplementation(data => data.meta.assignee?.id === 7);
+      handoff = {
+        id: 12,
+        account_id: 1,
+        status: 'open',
+        updated_at: 1,
+        meta: { assignee_type: null, assignee: null },
+      };
+      assignment = {
+        ...handoff,
+        updated_at: 2,
+        meta: { assignee_type: 'User', assignee: { id: 7 } },
+      };
+    });
+
+    it('reconsiders an unassigned handoff when automatic assignment arrives', () => {
+      actionCable.onConversationBotHandoff(handoff);
+      alert.mockClear();
+      actionCable.onAssigneeChanged(assignment);
+      expect(alert).toHaveBeenCalledExactlyOnceWith(assignment);
+      actionCable.onAssigneeChanged(assignment);
+      expect(alert).toHaveBeenCalledTimes(1);
+    });
+
+    it('uses assignment even when it arrives before the handoff', () => {
+      actionCable.onAssigneeChanged(assignment);
+      actionCable.onConversationBotHandoff(handoff);
+      expect(alert).toHaveBeenCalledExactlyOnceWith(assignment);
+    });
+
+    it('does not alert twice for filters matching the unassigned handoff', () => {
+      DashboardAudioNotificationHelper.shouldNotifyOnConversation.mockReturnValue(
+        true
+      );
+      actionCable.onConversationBotHandoff(handoff);
+      actionCable.onAssigneeChanged(assignment);
+      expect(alert).toHaveBeenCalledExactlyOnceWith(handoff);
+    });
+
+    it('does not turn ordinary assignments into handoff alerts', () => {
+      actionCable.onAssigneeChanged(assignment);
+      expect(alert).not.toHaveBeenCalled();
+    });
+
+    it.each(['handoff first', 'assignment first'])(
+      'keeps human assignment silent with %s',
+      order => {
+        assignment.performer = { type: 'user' };
+        if (order === 'handoff first') {
+          actionCable.onConversationBotHandoff(handoff);
+          alert.mockClear();
+          actionCable.onAssigneeChanged(assignment);
+        } else {
+          actionCable.onAssigneeChanged(assignment);
+          actionCable.onConversationBotHandoff(handoff);
+        }
+        expect(alert).not.toHaveBeenCalled();
+      }
+    );
+
+    it('discards deferred handoffs when the conversation closes', () => {
+      actionCable.onConversationBotHandoff(handoff);
+      actionCable.onStatusChange({
+        ...handoff,
+        status: 'resolved',
+        updated_at: 2,
+      });
+      alert.mockClear();
+      actionCable.onAssigneeChanged({ ...assignment, updated_at: 3 });
+      expect(alert).not.toHaveBeenCalled();
+    });
+
+    it('does not match conversations with the same display ID in different accounts', () => {
+      actionCable.onConversationBotHandoff(handoff);
+      alert.mockClear();
+      actionCable.onAssigneeChanged({ ...assignment, account_id: 2 });
+      expect(alert).not.toHaveBeenCalled();
+      actionCable.onAssigneeChanged(assignment);
+      expect(alert).toHaveBeenCalledExactlyOnceWith(assignment);
+    });
+
+    it('keeps a newer handoff when an old pending-status event arrives late', () => {
+      actionCable.onConversationBotHandoff(handoff);
+      actionCable.onStatusChange({
+        ...handoff,
+        status: 'pending',
+        updated_at: 0,
+      });
+      alert.mockClear();
+      actionCable.onAssigneeChanged(assignment);
+      expect(alert).toHaveBeenCalledExactlyOnceWith(assignment);
+    });
+
+    it('ignores assignments from before the handoff', () => {
+      actionCable.onConversationBotHandoff(handoff);
+      alert.mockClear();
+      actionCable.onAssigneeChanged({ ...assignment, updated_at: 0 });
+      expect(alert).not.toHaveBeenCalled();
+      actionCable.onAssigneeChanged(assignment);
+      expect(alert).toHaveBeenCalledExactlyOnceWith(assignment);
+    });
+  });
+
   describe('copilot event handlers', () => {
     it('should register the copilot.message.created event handler', () => {
       expect(Object.keys(actionCable.events)).toContain(

@@ -1,6 +1,7 @@
 import AuthAPI from '../api/auth';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
+import { isConversationUnassigned } from './AudioAlerts/AudioMessageHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { useImpersonation } from 'dashboard/composables/useImpersonation';
@@ -31,6 +32,9 @@ class ActionCableConnector extends BaseActionCableConnector {
     const { websocketURL = '' } = window.chatwootConfig || {};
     super(app, pubsubToken, websocketURL);
     this.CancelTyping = [];
+    // Scope deferred alerts to this connection and account; display IDs can overlap between accounts.
+    this.pendingHandoffAlerts = new Map();
+    this.latestAssignments = new Map();
     this.lastUnreadCountsFetchAt = null;
     this.unreadCountsFetchTimer = null;
     this.mentionUnreadCountsFetchTimer = null;
@@ -40,6 +44,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
       'conversation.created': this.onConversationCreated,
+      'conversation.bot_handoff': this.onConversationBotHandoff,
       'conversation.status_changed': this.onStatusChange,
       'user:logout': this.onLogout,
       'page:reload': this.onReload,
@@ -111,11 +116,48 @@ class ActionCableConnector extends BaseActionCableConnector {
       this.app.$store.dispatch('updateConversation', payload);
     }
     this.fetchConversationStats();
+
+    const key = `${payload.account_id}:${payload.id}`;
+    // Preserve the latest assignment when broadcast jobs are delivered out of order.
+    const previousAssignment = this.latestAssignments.get(key);
+    if (previousAssignment?.updated_at > payload.updated_at) return;
+    this.latestAssignments.set(key, payload);
+
+    const handoff = this.pendingHandoffAlerts.get(key);
+    if (!handoff || payload.updated_at < handoff.updated_at) return;
+    if (isConversationUnassigned(payload)) return;
+
+    this.pendingHandoffAlerts.delete(key);
+    // Manual assignment means a human is handling the conversation already.
+    if (payload.performer?.type === 'user' || payload.status !== 'open') return;
+    DashboardAudioNotificationHelper.onConversationBotHandoff(payload);
   };
 
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
     this.fetchConversationStats();
+  };
+
+  onConversationBotHandoff = data => {
+    // A human taking over is already handling the conversation, so other agents don't need an alert.
+    if (data.performer?.type === 'user') return;
+
+    const key = `${data.account_id}:${data.id}`;
+    const assignment = this.latestAssignments.get(key);
+    // Assignment V2 runs asynchronously, and its broadcast can arrive before the handoff broadcast.
+    const conversation =
+      assignment?.updated_at >= data.updated_at ? assignment : data;
+    if (conversation.status !== 'open') return;
+    if (conversation.performer?.type === 'user') return;
+
+    // Keep unmatched unassigned handoffs until assignment, without delaying alerts for all/unassigned filters.
+    if (
+      isConversationUnassigned(conversation) &&
+      !DashboardAudioNotificationHelper.shouldNotifyOnConversation(conversation)
+    ) {
+      this.pendingHandoffAlerts.set(key, conversation);
+    }
+    DashboardAudioNotificationHelper.onConversationBotHandoff(conversation);
   };
 
   onConversationRead = data => {
@@ -142,6 +184,16 @@ class ActionCableConnector extends BaseActionCableConnector {
   onReload = () => window.location.reload();
 
   onStatusChange = data => {
+    const key = `${data.account_id}:${data.id}`;
+    // A resolved, snoozed, or bot-owned conversation no longer needs a deferred human handoff alert.
+    if (data.status !== 'open') {
+      if (!(this.pendingHandoffAlerts.get(key)?.updated_at > data.updated_at)) {
+        this.pendingHandoffAlerts.delete(key);
+      }
+      if (!(this.latestAssignments.get(key)?.updated_at > data.updated_at)) {
+        this.latestAssignments.delete(key);
+      }
+    }
     this.app.$store.dispatch('updateConversation', data);
     this.fetchConversationStats();
   };
