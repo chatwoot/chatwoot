@@ -6,6 +6,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   before_action :fetch_account
   before_action :validate_token_api_access, if: :authenticate_by_access_token?
   before_action :check_authorization
+  before_action :check_suspended_billing_access, only: [:subscription, :select_billing_currency, :checkout, :topup_checkout]
   before_action :check_cloud_env, only: [:limits, :toggle_deletion, :topup_options]
   before_action :ensure_shopify_billing_available, only: SHOPIFY_BILLING_ACTIONS
   before_action :ensure_stripe_billing_action, only: STRIPE_ONLY_BILLING_ACTIONS
@@ -112,6 +113,13 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     return if @account.api_and_webhooks_enabled?
 
     render json: { error: 'API access is not enabled for this account' }, status: :forbidden
+  end
+
+  def check_suspended_billing_access
+    return unless @account.suspended?
+    return if [nil, 'non_payment'].include?(@account.suspension_history.last&.dig('category'))
+
+    head :forbidden
   end
 
   def check_cloud_env

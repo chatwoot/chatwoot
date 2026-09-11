@@ -68,9 +68,14 @@ export const validateLoggedInRoutes = (to, user) => {
   }
 
   // If the current account is not active, only the suspended screen is
-  // reachable; administrators can also access billing to restore the account
+  // reachable; administrators can access billing for non-payment suspensions
   const userPermissions = getUserPermissions(user, to.params.accountId);
-  const accessibleRoutes = userPermissions.includes('administrator')
+  const canAccessBilling =
+    userPermissions.includes('administrator') &&
+    [null, undefined, 'non_payment'].includes(
+      currentAccount.suspension_category
+    );
+  const accessibleRoutes = canAccessBilling
     ? ['account_suspended', 'billing_settings_index']
     : ['account_suspended'];
 
