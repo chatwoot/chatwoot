@@ -5,6 +5,16 @@ module Captain::AssistantOutcomeClassification
 
   private
 
+  def tracking_started_at
+    return @tracking_started_at if defined?(@tracking_started_at)
+
+    @tracking_started_at = Captain::OutcomeTrackingHistory.started_at
+  end
+
+  def tracked_period?(starts_at)
+    tracking_started_at.present? && starts_at >= tracking_started_at
+  end
+
   # A usage-limit handoff is blocked demand only when Captain never replied, so
   # it does not make the episode involved. If Captain replied before the quota
   # ran out, the episode remains involved and the later transfer is a real
