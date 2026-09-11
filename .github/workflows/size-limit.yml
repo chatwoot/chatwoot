@@ -50,6 +50,8 @@ jobs:
         run: bundle exec rake assets:precompile
         env:
           RAILS_ENV: production
+          POSTGRES_USERNAME: precompile_placeholder
+          POSTGRES_PASSWORD: precompile_placeholder
 
       - name: Size Check
         run: pnpm run size
