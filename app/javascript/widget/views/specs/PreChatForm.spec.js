@@ -86,4 +86,82 @@ describe('PreChatForm view', () => {
     expect(createConversation).not.toHaveBeenCalled();
     expect(setCustomAttributes).not.toHaveBeenCalled();
   });
+
+  it('merges SDK-queued pending conversation attributes into the create request', async () => {
+    store = createStore({
+      modules: {
+        conversation: {
+          namespaced: true,
+          actions: { createConversation, clearConversations: vi.fn() },
+          getters: {
+            getPendingCustomAttributes: () => ({ referral_code: 'ABC123' }),
+          },
+        },
+        conversationAttributes: {
+          namespaced: true,
+          actions: { clearConversationAttributes: vi.fn() },
+        },
+        contacts: {
+          namespaced: true,
+          actions: { setCustomAttributes, update: updateContact },
+        },
+      },
+    });
+    const wrapper = mountView();
+    wrapper.vm.onSubmit({
+      fullName: 'John',
+      emailAddress: 'john@example.com',
+      message: 'hey',
+      contactCustomAttributes: {},
+      conversationCustomAttributes: { order_id: '12345' },
+    });
+    await flushPromises();
+
+    expect(createConversation).toHaveBeenCalledWith(expect.anything(), {
+      fullName: 'John',
+      emailAddress: 'john@example.com',
+      message: 'hey',
+      phoneNumber: undefined,
+      customAttributes: { referral_code: 'ABC123', order_id: '12345' },
+      contactCustomAttributes: {},
+    });
+  });
+
+  it('lets explicit pre-chat form fields override SDK-queued values on conflicts', async () => {
+    store = createStore({
+      modules: {
+        conversation: {
+          namespaced: true,
+          actions: { createConversation, clearConversations: vi.fn() },
+          getters: {
+            getPendingCustomAttributes: () => ({ referral_code: 'ABC123' }),
+          },
+        },
+        conversationAttributes: {
+          namespaced: true,
+          actions: { clearConversationAttributes: vi.fn() },
+        },
+        contacts: {
+          namespaced: true,
+          actions: { setCustomAttributes, update: updateContact },
+        },
+      },
+    });
+    const wrapper = mountView();
+    wrapper.vm.onSubmit({
+      fullName: 'John',
+      emailAddress: 'john@example.com',
+      message: 'hey',
+      contactCustomAttributes: {},
+      conversationCustomAttributes: { referral_code: 'FORM99' },
+    });
+    await flushPromises();
+
+    expect(createConversation).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        customAttributes: { referral_code: 'FORM99' },
+      })
+    );
+  });
 });
