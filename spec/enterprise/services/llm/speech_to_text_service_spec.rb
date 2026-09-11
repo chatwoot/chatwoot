@@ -54,6 +54,19 @@ RSpec.describe Llm::SpeechToTextService, type: :service do
 
       expect(described_class.available_for?(account)).to be(true)
     end
+
+    context 'when account has an account-level OpenAI integration hook (BYOK)' do
+      before do
+        create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'account-own-key' })
+      end
+
+      it 'is true even when captain responses are exhausted' do
+        account.enable_features!('captain_integration')
+        allow(account).to receive(:usage_limits).and_return(captain: { responses: { current_available: 0 } })
+
+        expect(described_class.available_for?(account)).to be(true)
+      end
+    end
   end
 
   describe '.too_large?' do
@@ -115,6 +128,26 @@ RSpec.describe Llm::SpeechToTextService, type: :service do
       service.perform
 
       expect(account).not_to have_received(:increment_response_usage)
+    end
+
+    context 'when account has an account-level OpenAI integration hook (BYOK)' do
+      let!(:_hook) { create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'account-own-key' }) }
+
+      it 'initializes client with account hook API key' do
+        expect(OpenAI::Client).to receive(:new).with(
+          hash_including(access_token: 'account-own-key')
+        ).and_call_original
+
+        described_class.new(blob: attachment.file.blob, account: account)
+      end
+
+      it 'does not consume a captain response credit on successful transcription' do
+        allow(audio_api).to receive(:transcribe).and_return({ 'text' => 'Audio transcript' })
+
+        service.perform
+
+        expect(account).not_to have_received(:increment_response_usage)
+      end
     end
   end
 end
