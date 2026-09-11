@@ -28,6 +28,9 @@ class BaseActionCableConnector {
         },
         received: this.onReceived,
         disconnected: () => {
+          if (this.shuttingDown) {
+            return;
+          }
           BaseActionCableConnector.isDisconnected = true;
           this.onDisconnected();
           this.initReconnectTimer();
@@ -37,13 +40,10 @@ class BaseActionCableConnector {
     this.app = app;
     this.events = {};
     this.reconnectTimer = null;
+    this.presenceTimer = null;
+    this.presenceInterval = presenceInterval;
+    this.shuttingDown = false;
     this.isAValidEvent = () => true;
-    this.triggerPresenceInterval = () => {
-      setTimeout(() => {
-        this.subscription.updatePresence();
-        this.triggerPresenceInterval();
-      }, presenceInterval);
-    };
     this.triggerPresenceInterval();
   }
 
@@ -80,7 +80,28 @@ class BaseActionCableConnector {
   // eslint-disable-next-line class-methods-use-this
   onDisconnected = () => {};
 
+  triggerPresenceInterval = () => {
+    this.clearPresenceTimer();
+    this.presenceTimer = setTimeout(() => {
+      if (this.shuttingDown) {
+        return;
+      }
+      this.subscription.updatePresence();
+      this.triggerPresenceInterval();
+    }, this.presenceInterval);
+  };
+
+  clearPresenceTimer = () => {
+    if (this.presenceTimer) {
+      clearTimeout(this.presenceTimer);
+      this.presenceTimer = null;
+    }
+  };
+
   disconnect() {
+    this.shuttingDown = true;
+    this.clearReconnectTimer();
+    this.clearPresenceTimer();
     this.consumer.disconnect();
   }
 

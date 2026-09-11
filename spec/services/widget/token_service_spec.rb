@@ -25,6 +25,17 @@ describe Widget::TokenService do
     end
   end
 
+  describe '.payload_for' do
+    it 'includes source_id, inbox_id, and the current token_version' do
+      contact_inbox = create(:contact_inbox)
+      payload = described_class.payload_for(contact_inbox)
+
+      expect(payload[:source_id]).to eq(contact_inbox.source_id)
+      expect(payload[:inbox_id]).to eq(contact_inbox.inbox_id)
+      expect(payload[:token_version]).to eq(0)
+    end
+  end
+
   describe '#decode_token' do
     let(:token) { token_service.generate_token }
     let(:decoder_service) { described_class.new(token: token) }

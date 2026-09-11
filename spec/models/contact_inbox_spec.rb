@@ -37,6 +37,45 @@ RSpec.describe ContactInbox do
     end
   end
 
+  describe 'widget token version' do
+    let(:contact_inbox) { create(:contact_inbox) }
+
+    it 'accepts legacy tokens that omit token_version while version is 0' do
+      decoded = { source_id: contact_inbox.source_id, inbox_id: contact_inbox.inbox_id }
+      expect(contact_inbox.valid_widget_token?(decoded)).to be(true)
+    end
+
+    it 'does not yield when the presented version was already consumed' do
+      decoded = { source_id: contact_inbox.source_id, inbox_id: contact_inbox.inbox_id, token_version: 0 }
+      contact_inbox.update!(widget_token_version: 1)
+      yielded = false
+
+      expect do
+        contact_inbox.with_current_widget_token(decoded) { yielded = true }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+      expect(yielded).to be(false)
+    end
+
+    it 'rejects a stale token after rotation' do
+      stale = { source_id: contact_inbox.source_id, inbox_id: contact_inbox.inbox_id, token_version: 0 }
+      new_token = contact_inbox.rotate_widget_token!
+
+      expect(contact_inbox.widget_token_version).to eq(1)
+      expect(contact_inbox.valid_widget_token?(stale)).to be(false)
+      expect(new_token).to be_present
+      decoded = Widget::TokenService.new(token: new_token).decode_token
+      expect(contact_inbox.valid_widget_token?(decoded)).to be(true)
+    end
+
+    it 'rotates the Action Cable pubsub token with the JWT' do
+      old_pubsub = contact_inbox.pubsub_token
+      contact_inbox.rotate_widget_token!
+
+      expect(contact_inbox.reload.pubsub_token).to be_present
+      expect(contact_inbox.pubsub_token).not_to eq(old_pubsub)
+    end
+  end
+
   describe 'validations' do
     context 'when source_id' do
       it 'allows source_id longer than 255 characters for channels without format restrictions' do

@@ -19,9 +19,7 @@ class Api::V1::Widget::ConfigsController < Api::V1::Widget::BaseController
   end
 
   def set_contact
-    @contact_inbox = @web_widget.inbox.contact_inboxes.find_by(
-      source_id: auth_token_params[:source_id]
-    )
+    @contact_inbox = find_widget_contact_inbox
     @contact = @contact_inbox&.contact
   end
 
@@ -33,8 +31,7 @@ class Api::V1::Widget::ConfigsController < Api::V1::Widget::BaseController
   end
 
   def set_token
-    payload = { source_id: @contact_inbox.source_id, inbox_id: @web_widget.inbox.id }
-    @token = ::Widget::TokenService.new(payload: payload).generate_token
+    @token = ::Widget::TokenService.new(payload: ::Widget::TokenService.payload_for(@contact_inbox)).generate_token
   end
 
   def additional_attributes

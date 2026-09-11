@@ -50,4 +50,23 @@ describe('Widget ActionCableConnector', () => {
       'conversationAttributes/getAttributes'
     );
   });
+
+  it('replaces the live connector when the pubsub token rotates', () => {
+    const disconnect = vi.fn();
+    window.actionCable = { disconnect };
+    window.WOOT_WIDGET = app;
+
+    ActionCableConnector.refreshConnector('rotated-pubsub');
+
+    expect(disconnect).toHaveBeenCalled();
+    expect(window.chatwootPubsubToken).toBe('rotated-pubsub');
+    expect(window.actionCable).toBeInstanceOf(ActionCableConnector);
+    expect(window.actionCable).not.toBe(connector);
+  });
+
+  it('clears presence timers when the connector is disposed', () => {
+    expect(vi.getTimerCount()).toBeGreaterThan(0);
+    connector.disconnect();
+    expect(vi.getTimerCount()).toBe(0);
+  });
 });
