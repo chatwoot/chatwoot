@@ -11,6 +11,7 @@ const parseErrorData = error =>
   error && error.response && error.response.data ? error.response.data : error;
 export const updateWidgetAuthToken = widgetAuthToken => {
   if (widgetAuthToken) {
+    window.authToken = widgetAuthToken;
     setHeader(widgetAuthToken);
     sendMessage({
       event: 'setAuthCookie',
@@ -36,7 +37,8 @@ export const actions = {
   },
   update: async ({ dispatch }, { user }) => {
     try {
-      await ContactsAPI.update(user);
+      const { data } = await ContactsAPI.update(user);
+      updateWidgetAuthToken(data.widget_auth_token);
       dispatch('get');
     } catch (error) {
       // Ignore error

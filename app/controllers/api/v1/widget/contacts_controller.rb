@@ -8,16 +8,19 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
 
   def update
     identify_contact(@contact)
+    rotate_widget_session_if_sensitive
   end
 
   def set_user
     contact = nil
 
     if a_different_contact?
+      @contact_inbox.invalidate_widget_token!
       @contact_inbox, @widget_auth_token = build_contact_inbox_with_token(@web_widget)
       contact = @contact_inbox.contact
     else
       contact = @contact
+      @widget_auth_token = @contact_inbox.rotate_widget_token!
     end
 
     @contact_inbox.update(hmac_verified: true) if should_verify_hmac?
@@ -45,6 +48,16 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
 
   def a_different_contact?
     @contact.identifier.present? && @contact.identifier != permitted_params[:identifier]
+  end
+
+  def rotate_widget_session_if_sensitive
+    return unless sensitive_contact_write?
+
+    @widget_auth_token = @contact_inbox.rotate_widget_token!
+  end
+
+  def sensitive_contact_write?
+    %i[email name phone_number identifier].any? { |key| permitted_params[key].present? }
   end
 
   # The plain update endpoint is also used for anonymous prechat updates

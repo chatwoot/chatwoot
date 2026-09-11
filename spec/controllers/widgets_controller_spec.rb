@@ -21,6 +21,13 @@ describe '/widget', type: :request do
       expect(response.body).to include(token)
     end
 
+    it 'does not restore the session when the token version is stale' do
+      contact_inbox.increment!(:widget_token_version)
+      get widget_url(website_token: web_widget.website_token, cw_conversation: token)
+      expect(response).to be_successful
+      expect(response.body).not_to include(token)
+    end
+
     it 'returns 404 when called with out website_token' do
       get widget_url
       expect(response).to have_http_status(:not_found)

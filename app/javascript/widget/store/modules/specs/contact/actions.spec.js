@@ -80,5 +80,20 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([]);
       expect(dispatch.mock.calls).toEqual([['get']]);
     });
+
+    it('stores a rotated widget auth token', async () => {
+      const user = {
+        email: 'thoma@sphadikam.com',
+        name: 'Adu Thoma',
+      };
+      API.patch.mockResolvedValue({
+        data: { id: 1, widget_auth_token: 'rotated-token' },
+      });
+      await actions.update({ commit, dispatch }, { user });
+      expect(sendMessage.mock.calls).toEqual([
+        [{ data: { widgetAuthToken: 'rotated-token' }, event: 'setAuthCookie' }],
+      ]);
+      expect(dispatch.mock.calls).toEqual([['get']]);
+    });
   });
 });

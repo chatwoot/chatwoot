@@ -37,6 +37,26 @@ RSpec.describe ContactInbox do
     end
   end
 
+  describe 'widget token version' do
+    let(:contact_inbox) { create(:contact_inbox) }
+
+    it 'accepts legacy tokens that omit token_version while version is 0' do
+      decoded = { source_id: contact_inbox.source_id, inbox_id: contact_inbox.inbox_id }
+      expect(contact_inbox.valid_widget_token?(decoded)).to be(true)
+    end
+
+    it 'rejects a stale token after rotation' do
+      stale = { source_id: contact_inbox.source_id, inbox_id: contact_inbox.inbox_id, token_version: 0 }
+      new_token = contact_inbox.rotate_widget_token!
+
+      expect(contact_inbox.widget_token_version).to eq(1)
+      expect(contact_inbox.valid_widget_token?(stale)).to be(false)
+      expect(new_token).to be_present
+      decoded = Widget::TokenService.new(token: new_token).decode_token
+      expect(contact_inbox.valid_widget_token?(decoded)).to be(true)
+    end
+  end
+
   describe 'validations' do
     context 'when source_id' do
       it 'allows source_id longer than 255 characters for channels without format restrictions' do
