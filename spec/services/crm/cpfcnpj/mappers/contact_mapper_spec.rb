@@ -52,13 +52,22 @@ RSpec.describe Crm::Cpfcnpj::Mappers::ContactMapper do
 
         expect(mapped['name']).to eq('TOKEN TEST LTDA')
         expect(mapped['state']).to be_nil
-        expect(mapped['simples_nacional']).to be(false)
+        expect(mapped['simples_nacional']).to be_nil
+        expect(mapped['mei']).to be_nil
       end
 
       it 'tolerates a scalar where the full profile has a hash' do
         payload = load_fixture('cnpj_package_6.json').merge('situacao' => 'ATIVA')
 
         expect { described_class.map('11222333000181', :cnpj, payload) }.not_to raise_error
+      end
+
+      it 'emits explicit booleans only when the provider answered' do
+        payload = load_fixture('cnpj_package_6.json').merge('simplesNacional' => { 'optante' => 'Não', 'mei' => 'Não' })
+        mapped = described_class.map('11222333000181', :cnpj, payload)
+
+        expect(mapped['simples_nacional']).to be(false)
+        expect(mapped['mei']).to be(false)
       end
     end
 
@@ -112,6 +121,37 @@ RSpec.describe Crm::Cpfcnpj::Mappers::ContactMapper do
 
       expect(contact.additional_attributes['company_name']).to eq('Edited by the agent')
       expect(contact.additional_attributes['city']).to eq('Edited city')
+    end
+
+    it 'clears company fields written by a previous enrichment when the new document is a cpf' do
+      described_class.apply(contact, mapped)
+      person = described_class.map('11144477735', :cpf, load_fixture('cpf_package_1.json'))
+
+      described_class.apply(contact, person)
+
+      expect(contact.additional_attributes).not_to have_key('company_name')
+      expect(contact.additional_attributes).not_to have_key('city')
+      expect(contact.name).to eq(person['name'])
+    end
+
+    it 'clears the city written by a previous enrichment when the new package omits it' do
+      described_class.apply(contact, mapped)
+      lighter = described_class.map('27272134000118', :cnpj, load_fixture('cnpj_package_4.json'))
+
+      described_class.apply(contact, lighter)
+
+      expect(contact.additional_attributes['company_name']).to eq('TOKEN TEST LTDA')
+      expect(contact.additional_attributes).not_to have_key('city')
+    end
+
+    it 'keeps agent edited company fields when the new document is a cpf' do
+      described_class.apply(contact, mapped)
+      contact.additional_attributes['company_name'] = 'Edited by the agent'
+      person = described_class.map('11144477735', :cpf, load_fixture('cpf_package_1.json'))
+
+      described_class.apply(contact, person)
+
+      expect(contact.additional_attributes['company_name']).to eq('Edited by the agent')
     end
   end
 end

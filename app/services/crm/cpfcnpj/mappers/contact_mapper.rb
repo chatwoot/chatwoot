@@ -4,30 +4,35 @@ class Crm::Cpfcnpj::Mappers::ContactMapper
   end
 
   # Writes the enrichment payload under additional_attributes['cpfcnpj'] and
-  # fills a few well known fields. A field is written when it is blank or when it
-  # still holds the value the previous enrichment wrote, so a document change
-  # refreshes it while anything typed by a person is kept. The caller is
-  # responsible for persisting the contact.
+  # maintains a few well known fields. A field is written, or cleared when the
+  # new result does not provide it, only while it is blank or still holds the
+  # value the previous enrichment wrote, so a document change refreshes it and
+  # anything typed by a person is kept. The caller persists the contact.
   def self.apply(contact, mapped)
     contact.additional_attributes ||= {}
     previous = contact.additional_attributes['cpfcnpj'].to_h
     contact.additional_attributes['cpfcnpj'] = mapped
     contact.name = mapped['name'] if mapped['name'].present? && replaceable?(contact.name, previous['name'])
-    apply_company_attributes(contact, mapped, previous) if mapped['type'] == 'cnpj'
+    apply_company_attributes(contact, mapped, previous)
     contact
   end
 
   def self.apply_company_attributes(contact, mapped, previous)
-    fill_additional_attribute(contact, 'company_name', mapped['name'], previous['name'])
-    fill_additional_attribute(contact, 'city', mapped['city'], previous['city'])
-    fill_additional_attribute(contact, 'country_code', 'BR', 'BR')
+    company = mapped['type'] == 'cnpj'
+    previous_company = previous['type'] == 'cnpj'
+    sync_additional_attribute(contact, 'company_name', company ? mapped['name'] : nil, previous_company ? previous['name'] : nil)
+    sync_additional_attribute(contact, 'city', company ? mapped['city'] : nil, previous_company ? previous['city'] : nil)
+    sync_additional_attribute(contact, 'country_code', 'BR', 'BR')
   end
 
-  def self.fill_additional_attribute(contact, key, value, previous_value)
-    return if value.blank?
+  def self.sync_additional_attribute(contact, key, value, previous_value)
     return unless replaceable?(contact.additional_attributes[key], previous_value)
 
-    contact.additional_attributes[key] = value
+    if value.present?
+      contact.additional_attributes[key] = value
+    else
+      contact.additional_attributes.delete(key)
+    end
   end
 
   def self.replaceable?(current, previous_value)
@@ -116,8 +121,13 @@ class Crm::Cpfcnpj::Mappers::ContactMapper
     qualification
   end
 
+  # Lighter packages omit the Simples Nacional section entirely; only an explicit
+  # answer from the provider becomes a boolean.
   def optante?(key)
-    nested('simplesNacional', key) == 'Sim'
+    value = nested('simplesNacional', key)
+    return nil if value.nil?
+
+    value == 'Sim'
   end
 
   # Lighter packages omit whole sections and some providers return a scalar

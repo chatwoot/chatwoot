@@ -189,6 +189,18 @@ RSpec.describe Crm::Cpfcnpj::ProcessorService do
         expect { service.handle_contact(contact) }.not_to raise_error
         expect(contact.reload.custom_attributes['cpfcnpj_name']).to eq('TOKEN TEST LTDA')
       end
+
+      it 'removes typed attributes that the new result does not provide' do
+        service.handle_contact(contact)
+        expect(contact.reload.custom_attributes['cpfcnpj_status']).to be_present
+
+        contact.update!(custom_attributes: contact.custom_attributes.merge('cpf_cnpj' => '11144477735'))
+        allow(client).to receive(:lookup).and_return(load_fixture('cpf_package_1.json'))
+        service.handle_contact(contact)
+
+        expect(contact.reload.custom_attributes['cpfcnpj_type']).to eq('cpf')
+        expect(contact.custom_attributes).not_to have_key('cpfcnpj_status')
+      end
     end
   end
 end

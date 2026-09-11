@@ -93,11 +93,14 @@ class Crm::Cpfcnpj::ProcessorService < Crm::BaseProcessorService
     contact.save!
   end
 
+  # Keys owned by the integration that the latest result does not provide are
+  # removed, so a contact that moves from a CNPJ to a CPF does not keep the old
+  # company status next to the new person data.
   def write_custom_attributes(contact, mapped)
     ensure_custom_attribute_definitions
     values = CUSTOM_ATTRIBUTE_DEFINITIONS.transform_values { |config| mapped[config[:source]] }.compact
     values['cpfcnpj_looked_up_at'] = Time.zone.parse(values['cpfcnpj_looked_up_at']).to_date.iso8601 if values['cpfcnpj_looked_up_at']
-    contact.custom_attributes = contact.custom_attributes.to_h.merge(values)
+    contact.custom_attributes = contact.custom_attributes.to_h.except(*CUSTOM_ATTRIBUTE_DEFINITIONS.keys).merge(values)
   end
 
   # Definitions are shared by every contact of the account, while HookJob locks
