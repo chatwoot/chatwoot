@@ -1,3 +1,4 @@
+Conversations::ListPreloader.new(@conversations).perform
 contact_info_requests = Whatsapp::ContactInfoRequestEligibilityService.availability_by_conversation(@conversations)
 
 json.meta do
