@@ -274,7 +274,12 @@ export default {
           return;
         }
         const message = IFrameHelper.getMessage(e);
-        if (message.event === 'config-set') {
+        if (message.event === 'set-conversation-token') {
+          if (message.token) {
+            window.authToken = message.token;
+            setHeader(message.token);
+          }
+        } else if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
           this.fetchOldConversations().then(() => this.setUnreadView());

@@ -1,6 +1,8 @@
 import { API } from 'widget/helpers/axios';
+import { stripConversationToken } from 'widget/helpers/urlParamsHelper';
 
-const buildUrl = endPoint => `/api/v1/${endPoint}${window.location.search}`;
+const buildUrl = endPoint =>
+  `/api/v1/${endPoint}${stripConversationToken(window.location.search)}`;
 
 export default {
   create(label) {

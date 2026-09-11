@@ -60,11 +60,10 @@ export const IFrameHelper = {
 
     loadCSS();
     const iframe = document.createElement('iframe');
-    const cwCookie = Cookies.get('cw_conversation');
-    let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });
-    if (cwCookie) {
-      widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
-    }
+    // Do not put the session JWT in the iframe URL (logs / Referer / history).
+    // Returning visitors send the parent cookie via postMessage; the Chatwoot
+    // host also dual-reads an HttpOnly cookie and X-Auth-Token.
+    const widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });
     iframe.src = widgetUrl;
     iframe.allow =
       'camera;microphone;fullscreen;display-capture;picture-in-picture;clipboard-write;';
@@ -153,7 +152,14 @@ export const IFrameHelper = {
 
   events: {
     loaded: message => {
-      updateAuthCookie(message.config.authToken, window.$chatwoot.baseDomain);
+      const existingCookie = Cookies.get('cw_conversation');
+      if (existingCookie) {
+        IFrameHelper.sendMessage('set-conversation-token', {
+          token: existingCookie,
+        });
+      } else if (message.config.authToken) {
+        updateAuthCookie(message.config.authToken, window.$chatwoot.baseDomain);
+      }
       window.$chatwoot.hasLoaded = true;
       const campaignsSnoozedTill = Cookies.get('cw_snooze_campaigns_till');
       IFrameHelper.sendMessage('config-set', {

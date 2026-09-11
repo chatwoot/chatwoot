@@ -2,6 +2,7 @@ import {
   buildSearchParamsWithLocale,
   getLocale,
   buildPopoutURL,
+  stripConversationToken,
 } from '../urlParamsHelper';
 
 describe('#buildSearchParamsWithLocale', () => {
@@ -20,6 +21,9 @@ describe('#buildSearchParamsWithLocale', () => {
       '?test=1234&locale=el'
     );
     expect(buildSearchParamsWithLocale('')).toEqual('?locale=el');
+    expect(
+      buildSearchParamsWithLocale('?website_token=abc&cw_conversation=jwt.token')
+    ).toEqual('?website_token=abc&locale=el');
     windowSpy.mockRestore();
   });
 });
@@ -35,8 +39,18 @@ describe('#getLocale', () => {
   });
 });
 
+describe('#stripConversationToken', () => {
+  it('removes cw_conversation from the query string', () => {
+    expect(
+      stripConversationToken('?website_token=abc&cw_conversation=jwt.token')
+    ).toEqual('?website_token=abc');
+    expect(stripConversationToken('?cw_conversation=jwt.token')).toEqual('');
+    expect(stripConversationToken('')).toEqual('');
+  });
+});
+
 describe('#buildPopoutURL', () => {
-  it('returns popout URL', () => {
+  it('returns popout URL without the session JWT', () => {
     expect(
       buildPopoutURL({
         origin: 'https://chatwoot.com',
@@ -45,7 +59,7 @@ describe('#buildPopoutURL', () => {
         locale: 'ar',
       })
     ).toEqual(
-      'https://chatwoot.com/widget?cw_conversation=random-jwt-token&website_token=random-website-token&locale=ar'
+      'https://chatwoot.com/widget?website_token=random-website-token&locale=ar'
     );
   });
 });

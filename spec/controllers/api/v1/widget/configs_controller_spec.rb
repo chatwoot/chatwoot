@@ -33,6 +33,37 @@ RSpec.describe '/api/v1/widget/config', type: :request do
       end
     end
 
+    context 'with correct website token and a valid cw_conversation cookie' do
+      it 'returns widget config along with the same contact' do
+        expect do
+          post '/api/v1/widget/config',
+               params: params,
+               headers: { 'Cookie' => "cw_conversation=#{token}" },
+               as: :json
+        end.not_to change(Contact, :count)
+
+        expect(response).to have_http_status(:success)
+        response_data = response.parsed_body
+        expect(response_data.keys).to include(*response_keys)
+        expect(response_data['contact']['pubsub_token']).to eq(contact_inbox.pubsub_token)
+      end
+    end
+
+    context 'with correct website token and a legacy cw_conversation query param' do
+      it 'returns widget config along with the same contact' do
+        expect do
+          post '/api/v1/widget/config',
+               params: params.merge(cw_conversation: token),
+               as: :json
+        end.not_to change(Contact, :count)
+
+        expect(response).to have_http_status(:success)
+        response_data = response.parsed_body
+        expect(response_data.keys).to include(*response_keys)
+        expect(response_data['contact']['pubsub_token']).to eq(contact_inbox.pubsub_token)
+      end
+    end
+
     context 'with correct website token and valid X-Auth-Token' do
       it 'returns widget config along with the same contact' do
         expect do

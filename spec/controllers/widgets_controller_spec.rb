@@ -21,6 +21,31 @@ describe '/widget', type: :request do
       expect(response.body).to include(token)
     end
 
+    it 'restores the session from the cw_conversation cookie' do
+      get widget_url(website_token: web_widget.website_token), headers: { 'Cookie' => "cw_conversation=#{token}" }
+      expect(response).to be_successful
+      expect(response.body).to include(token)
+    end
+
+    it 'restores the session from X-Auth-Token' do
+      get widget_url(website_token: web_widget.website_token), headers: { 'X-Auth-Token' => token }
+      expect(response).to be_successful
+      expect(response.body).to include(token)
+    end
+
+    it 'restores the session from an Authorization Bearer token' do
+      get widget_url(website_token: web_widget.website_token), headers: { 'Authorization' => "Bearer #{token}" }
+      expect(response).to be_successful
+      expect(response.body).to include(token)
+    end
+
+    it 'sets an HttpOnly cw_conversation cookie' do
+      get widget_url(website_token: web_widget.website_token)
+      expect(response).to be_successful
+      expect(response.cookies['cw_conversation']).to be_present
+      expect(response.headers['Set-Cookie']).to match(/cw_conversation=.+;.+HttpOnly/i)
+    end
+
     it 'returns 404 when called with out website_token' do
       get widget_url
       expect(response).to have_http_status(:not_found)
