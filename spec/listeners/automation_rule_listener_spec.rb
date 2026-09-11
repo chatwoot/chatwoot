@@ -58,6 +58,27 @@ describe AutomationRuleListener do
     end
   end
 
+  describe 'conversation_viewed' do
+    let!(:automation_rule) { create(:automation_rule, event_name: 'conversation_viewed', account: account) }
+    let(:event) do
+      Events::Base.new('conversation_viewed', Time.zone.now, { conversation: conversation })
+    end
+
+    context 'when matching rules are present' do
+      it 'calls AutomationRules::ActionService if conditions match' do
+        allow(condition_match).to receive(:present?).and_return(true)
+        listener.conversation_viewed(event)
+        expect(AutomationRules::ActionService).to have_received(:new).with(automation_rule, account, conversation)
+      end
+
+      it 'does not call AutomationRules::ActionService if conditions do not match' do
+        allow(condition_match).to receive(:present?).and_return(false)
+        listener.conversation_viewed(event)
+        expect(AutomationRules::ActionService).not_to have_received(:new).with(automation_rule, account, conversation)
+      end
+    end
+  end
+
   describe 'conversation_updated' do
     let!(:automation_rule) { create(:automation_rule, event_name: 'conversation_updated', account: account) }
     let(:event) do

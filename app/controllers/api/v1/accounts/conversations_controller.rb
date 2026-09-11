@@ -124,6 +124,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     update_last_seen_on_conversation(DateTime.now.utc, assignee?)
   end
 
+  def viewed
+    Conversations::ViewedService.new(conversation: @conversation, user: Current.user).perform
+    head :ok
+  end
+
   def unread
     last_incoming_message = @conversation.messages.incoming.last
     last_seen_at = last_incoming_message.created_at - 1.second if last_incoming_message.present?

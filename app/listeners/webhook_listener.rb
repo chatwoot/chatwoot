@@ -22,6 +22,14 @@ class WebhookListener < BaseListener
     deliver_webhook_payloads(payload, inbox)
   end
 
+  def conversation_viewed(event)
+    conversation = extract_conversation_and_account(event)[0]
+    inbox = conversation.inbox
+    viewed_by = event.data[:viewed_by]
+    payload = conversation.webhook_data.merge(event: __method__.to_s, viewed_by_agent: viewed_by&.webhook_data)
+    deliver_webhook_payloads(payload, inbox)
+  end
+
   def message_created(event)
     message = extract_message_and_account(event)[0]
     inbox = message.inbox

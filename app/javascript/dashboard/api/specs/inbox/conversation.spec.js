@@ -12,6 +12,7 @@ describe('#ConversationAPI', () => {
     expect(conversationAPI).toHaveProperty('toggleStatus');
     expect(conversationAPI).toHaveProperty('assignAgent');
     expect(conversationAPI).toHaveProperty('assignTeam');
+    expect(conversationAPI).toHaveProperty('markConversationViewed');
     expect(conversationAPI).toHaveProperty('markMessageRead');
     expect(conversationAPI).toHaveProperty('toggleTyping');
     expect(conversationAPI).toHaveProperty('mute');
@@ -118,6 +119,13 @@ describe('#ConversationAPI', () => {
       conversationAPI.markMessageRead({ id: 12 });
       expect(axiosMock.post).toHaveBeenCalledWith(
         `/api/v1/conversations/12/update_last_seen`
+      );
+    });
+
+    it('#markConversationViewed', () => {
+      conversationAPI.markConversationViewed({ id: 12 });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/12/viewed'
       );
     });
 
