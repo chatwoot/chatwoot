@@ -4,10 +4,26 @@
 # sanitizes it later in the browser (markdown-it html:false + DOMPurify).
 # Persist-time stripping is defense in depth so a future client sanitizer
 # bypass cannot become stored XSS in the agent dashboard.
+#
+# CommonMark autolinks (`<https://example.com>`, `<user@host>`) are valid
+# visitor text. The HTML5 sanitizer would treat those as empty tags, so
+# they are parked and restored around the strip.
 class Widget::IncomingContentSanitizer
+  AUTO_LINK_REGEX = %r{<(?:https?://[^<>\s]+|[^\s<>]+@[^\s<>]+)>}i
+
   def self.sanitize(content)
     return content if content.blank?
 
-    Rails::HTML5::FullSanitizer.new.sanitize(content.to_s)
+    token = SecureRandom.hex(8)
+    protected = []
+    marked = content.to_s.gsub(AUTO_LINK_REGEX) do |match|
+      protected << match
+      "[[CWAL:#{token}:#{protected.length - 1}]]"
+    end
+
+    stripped = Rails::HTML5::FullSanitizer.new.sanitize(marked)
+    stripped.gsub(/\[\[CWAL:#{Regexp.escape(token)}:(\d+)\]\]/) do
+      protected[Regexp.last_match(1).to_i] || ''
+    end
   end
 end

@@ -22,5 +22,15 @@ RSpec.describe Widget::IncomingContentSanitizer do
       raw = '<template><img src=x onerror=alert(1)></template>safe'
       expect(described_class.sanitize(raw)).to eq('safe')
     end
+
+    it 'keeps CommonMark URL and email autolinks' do
+      expect(described_class.sanitize('Visit <https://example.com> please')).to eq(
+        'Visit <https://example.com> please'
+      )
+      expect(described_class.sanitize('Write <support@example.com>')).to eq(
+        'Write <support@example.com>'
+      )
+    end
   end
 end
+
