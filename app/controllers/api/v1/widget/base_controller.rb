@@ -9,7 +9,7 @@ class Api::V1::Widget::BaseController < ApplicationController
   private
 
   def persist_widget_auth_cookie
-    set_widget_auth_cookie(@token.presence || widget_auth_token)
+    write_widget_auth_cookie(@token.presence || widget_auth_token)
   end
 
   def conversations

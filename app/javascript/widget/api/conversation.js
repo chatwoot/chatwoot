@@ -42,9 +42,12 @@ const getConversationAPI = async () => {
 };
 
 const toggleTyping = async ({ typingStatus }) => {
-  return API.post(`/api/v1/widget/conversations/toggle_typing${widgetQuery()}`, {
-    typing_status: typingStatus,
-  });
+  return API.post(
+    `/api/v1/widget/conversations/toggle_typing${widgetQuery()}`,
+    {
+      typing_status: typingStatus,
+    }
+  );
 };
 
 const setUserLastSeenAt = async ({ lastSeen }) => {

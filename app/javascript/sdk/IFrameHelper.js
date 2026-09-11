@@ -35,6 +35,7 @@ import {
 } from 'shared/helpers/AudioNotificationHelper';
 import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
+import { looksLikeJwt } from '../widget/helpers/urlParamsHelper';
 
 const updateAuthCookie = (cookieContent, baseDomain = '') =>
   setCookieWithDomain('cw_conversation', cookieContent, {
@@ -153,7 +154,7 @@ export const IFrameHelper = {
   events: {
     loaded: message => {
       const existingCookie = Cookies.get('cw_conversation');
-      if (existingCookie) {
+      if (looksLikeJwt(existingCookie)) {
         IFrameHelper.sendMessage('set-conversation-token', {
           token: existingCookie,
         });

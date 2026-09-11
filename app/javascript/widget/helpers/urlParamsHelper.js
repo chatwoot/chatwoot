@@ -1,3 +1,6 @@
+export const looksLikeJwt = value =>
+  typeof value === 'string' && value.split('.').length === 3;
+
 export const stripConversationToken = (search = '') => {
   const params = new URLSearchParams(search);
   params.delete('cw_conversation');

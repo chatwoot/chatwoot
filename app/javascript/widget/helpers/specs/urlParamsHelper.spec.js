@@ -2,6 +2,7 @@ import {
   buildSearchParamsWithLocale,
   getLocale,
   buildPopoutURL,
+  looksLikeJwt,
   stripConversationToken,
 } from '../urlParamsHelper';
 
@@ -22,7 +23,9 @@ describe('#buildSearchParamsWithLocale', () => {
     );
     expect(buildSearchParamsWithLocale('')).toEqual('?locale=el');
     expect(
-      buildSearchParamsWithLocale('?website_token=abc&cw_conversation=jwt.token')
+      buildSearchParamsWithLocale(
+        '?website_token=abc&cw_conversation=jwt.token'
+      )
     ).toEqual('?website_token=abc&locale=el');
     windowSpy.mockRestore();
   });
@@ -36,6 +39,14 @@ describe('#getLocale', () => {
       'fr'
     );
     expect(getLocale('')).toEqual(null);
+  });
+});
+
+describe('#looksLikeJwt', () => {
+  it('accepts a three-part token and rejects junk', () => {
+    expect(looksLikeJwt('aaa.bbb.ccc')).toEqual(true);
+    expect(looksLikeJwt('not-a-jwt')).toEqual(false);
+    expect(looksLikeJwt('')).toEqual(false);
   });
 });
 

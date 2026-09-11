@@ -43,7 +43,7 @@ class WidgetsController < ActionController::Base
   end
 
   def persist_widget_auth_cookie
-    set_widget_auth_cookie(@token)
+    write_widget_auth_cookie(@token)
   end
 
   def set_contact

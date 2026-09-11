@@ -1,13 +1,13 @@
 # Resolves the widget session JWT from header, cookie, or (legacy) query string.
 # New clients should not put cw_conversation in URLs (CWE-598).
 module WidgetAuthToken
-  COOKIE_NAME = 'cw_conversation'
+  COOKIE_NAME = 'cw_conversation'.freeze
 
   def widget_auth_token
     header_token.presence || cookie_token.presence || params[:cw_conversation].presence
   end
 
-  def set_widget_auth_cookie(token)
+  def write_widget_auth_cookie(token)
     return if token.blank?
 
     local = Rails.env.local?
