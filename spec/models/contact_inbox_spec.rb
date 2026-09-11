@@ -76,9 +76,11 @@ RSpec.describe ContactInbox do
         twilio_sms_inbox = create(:channel_twilio_sms).inbox
         contact = create(:contact)
         valid_source_id = build(:contact_inbox, contact: contact, inbox: twilio_sms_inbox, source_id: '+1234567890')
+        valid_short_code_source_id = build(:contact_inbox, contact: contact, inbox: twilio_sms_inbox, source_id: '12345')
         ci_character_in_source_id = build(:contact_inbox, contact: contact, inbox: twilio_sms_inbox, source_id: '+1234567890aaa')
         ci_without_plus_in_source_id = build(:contact_inbox, contact: contact, inbox: twilio_sms_inbox, source_id: '1234567890')
         expect(valid_source_id.valid?).to be(true)
+        expect(valid_short_code_source_id.valid?).to be(true)
         expect(ci_character_in_source_id.valid?).to be(false)
         expect(ci_character_in_source_id.errors.full_messages).to eq(
           ["Source invalid source id for twilio sms inbox. valid Regex #{RegexHelper::TWILIO_CHANNEL_SMS_REGEX}"]
