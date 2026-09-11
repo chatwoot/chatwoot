@@ -36,7 +36,6 @@ import wootConstants from 'dashboard/constants/globals';
 import {
   extractQuotedEmailText,
   buildQuotedEmailHeader,
-  truncatePreviewText,
   appendQuotedTextToMessage,
 } from 'dashboard/helper/quotedEmailHelper';
 import {
@@ -93,8 +92,6 @@ export default {
       uiSettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
-      setQuotedReplyFlagForInbox,
-      fetchQuotedReplyFlagFromUISettings,
     } = useUISettings();
 
     const messageEditor = useTemplateRef('messageEditor');
@@ -136,14 +133,22 @@ export default {
         },
         allowOnFocusedInput: true,
       },
+      '$mod+KeyZ': {
+        action: e => {
+          // The editor prevents default only when its own history undid a
+          // step; inputs keep their native undo. Shift means redo.
+          if (e.defaultPrevented || e.shiftKey) return;
+          if (['INPUT', 'TEXTAREA'].includes(e.target?.tagName)) return;
+          if (proxy.restoreQuotedEmail()) e.preventDefault();
+        },
+        allowOnFocusedInput: true,
+      },
     });
 
     return {
       uiSettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
-      setQuotedReplyFlagForInbox,
-      fetchQuotedReplyFlagFromUISettings,
       messageEditor,
       copilot,
       shortcutKey,
@@ -181,6 +186,7 @@ export default {
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
       copilotAcceptedMessages: {},
+      isQuoteRemoved: false,
     };
   },
   computed: {
@@ -484,13 +490,6 @@ export default {
       const { slug = '' } = portal;
       return slug;
     },
-    quotedReplyPreference() {
-      if (!this.isAnEmailChannel) {
-        return false;
-      }
-
-      return !!this.fetchQuotedReplyFlagFromUISettings(this.channelType);
-    },
     lastEmailWithQuotedContent() {
       if (!this.isAnEmailChannel) {
         return null;
@@ -506,16 +505,18 @@ export default {
     quotedEmailText() {
       return extractQuotedEmailText(this.lastEmailWithQuotedContent);
     },
-    quotedEmailPreviewText() {
-      return truncatePreviewText(this.quotedEmailText, 80);
+    quotedEmailHeader() {
+      return buildQuotedEmailHeader(
+        this.lastEmailWithQuotedContent,
+        this.currentContact,
+        this.inbox
+      );
     },
-    shouldShowQuotedReplyToggle() {
-      return this.isAnEmailChannel && !this.isOnPrivateNote;
-    },
-    shouldShowQuotedPreview() {
+    shouldIncludeQuotedEmail() {
       return (
-        this.shouldShowQuotedReplyToggle &&
-        this.quotedReplyPreference &&
+        this.isAnEmailChannel &&
+        !this.isOnPrivateNote &&
+        !this.isQuoteRemoved &&
         !!this.quotedEmailText
       );
     },
@@ -572,6 +573,7 @@ export default {
       if (conversationId !== oldConversationId) {
         this.switchDraftContext(conversationId, this.effectiveReplyMode);
         this.resetRecorderAndClearAttachments();
+        this.isQuoteRemoved = false;
       }
     },
     message() {
@@ -676,34 +678,26 @@ export default {
 
       useTrack(CONVERSATION_EVENTS.INSERT_ARTICLE_LINK);
     },
-    toggleQuotedReply() {
-      if (!this.isAnEmailChannel) {
-        return;
-      }
-
-      const nextValue = !this.quotedReplyPreference;
-      this.setQuotedReplyFlagForInbox(this.channelType, nextValue);
+    removeQuotedEmail() {
+      this.isQuoteRemoved = true;
     },
-    shouldIncludeQuotedEmail() {
-      return (
-        this.quotedReplyPreference &&
-        this.shouldShowQuotedReplyToggle &&
-        !!this.quotedEmailText
-      );
+    restoreQuotedEmail() {
+      if (!this.isQuoteRemoved) {
+        return false;
+      }
+      this.isQuoteRemoved = false;
+      return true;
     },
     getMessageWithQuotedEmailText(message) {
-      if (!this.shouldIncludeQuotedEmail()) {
+      if (!this.shouldIncludeQuotedEmail) {
         return message;
       }
 
-      const quotedText = this.quotedEmailText || '';
-      const header = buildQuotedEmailHeader(
-        this.lastEmailWithQuotedContent,
-        this.currentContact,
-        this.inbox
+      return appendQuotedTextToMessage(
+        message,
+        this.quotedEmailText,
+        this.quotedEmailHeader
       );
-
-      return appendQuotedTextToMessage(message, quotedText, header);
     },
     resetRecorderAndClearAttachments() {
       // Reset audio recorder UI state
@@ -891,6 +885,7 @@ export default {
 
         if (!this.isPrivate) {
           this.clearEmailField();
+          this.isQuoteRemoved = false;
         }
 
         this.clearMessage();
@@ -1420,7 +1415,7 @@ export default {
           v-model="message"
           :conversation-id="conversationId"
           :editor-id="editorStateId"
-          class="input popover-prosemirror-menu"
+          class="input popover-prosemirror-menu resizable-editor-split"
           :is-private="isOnPrivateNote"
           :placeholder="messagePlaceHolder"
           :update-selection-with="updateEditorSelectionWith"
@@ -1445,15 +1440,17 @@ export default {
           @execute-macro="onExecuteMacro"
           @clear-selection="clearEditorSelection"
           @execute-copilot-action="executeCopilotAction"
-        />
-
-        <QuotedEmailPreview
-          v-if="shouldShowQuotedPreview && isDefaultEditorMode"
-          :quoted-email-text="quotedEmailText"
-          :preview-text="quotedEmailPreviewText"
-          class="mb-2"
-          @toggle="toggleQuotedReply"
-        />
+        >
+          <template #footer>
+            <QuotedEmailPreview
+              v-if="shouldIncludeQuotedEmail"
+              :key="conversationId"
+              :quoted-email-text="quotedEmailText"
+              :header="quotedEmailHeader"
+              @remove="removeQuotedEmail"
+            />
+          </template>
+        </WootMessageEditor>
 
         <div
           v-if="hasAttachments && isDefaultEditorMode"
@@ -1515,8 +1512,6 @@ export default {
         :show-audio-recorder="showAudioRecorder"
         :show-emoji-picker="showEmojiPicker"
         :show-file-upload="showFileUpload"
-        :show-quoted-reply-toggle="shouldShowQuotedReplyToggle"
-        :quoted-reply-enabled="quotedReplyPreference"
         :toggle-audio-recorder-play-pause="toggleAudioRecorderPlayPause"
         :toggle-audio-recorder="toggleAudioRecorder"
         :toggle-emoji-picker="toggleEmojiPicker"
@@ -1526,7 +1521,6 @@ export default {
         @select-whatsapp-template="openWhatsappTemplateModal"
         @select-content-template="openContentTemplateModal"
         @toggle-insert-article="toggleInsertArticle"
-        @toggle-quoted-reply="toggleQuotedReply"
         @request-contact-info-template="openContactInfoTemplateModal"
       />
     </Transition>

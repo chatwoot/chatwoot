@@ -10,7 +10,6 @@ import {
   buildQuotedEmailHeaderFromInbox,
   formatQuotedTextAsBlockquote,
   extractQuotedEmailText,
-  truncatePreviewText,
   appendQuotedTextToMessage,
 } from '../quotedEmailHelper';
 
@@ -32,6 +31,21 @@ describe('quotedEmailHelper', () => {
       const result = extractPlainTextFromHtml(html);
       expect(result).toContain('Line 1');
       expect(result).toContain('Line 2');
+    });
+
+    it('separates adjacent block elements with line breaks', () => {
+      const html = '<p>Latest</p><p>Previous</p>';
+      expect(extractPlainTextFromHtml(html)).toBe('Latest\nPrevious');
+    });
+
+    it('converts br tags to line breaks', () => {
+      const html = '<p>Line 1<br>Line 2</p>';
+      expect(extractPlainTextFromHtml(html)).toBe('Line 1\nLine 2');
+    });
+
+    it('ignores style tag content', () => {
+      const html = '<style>.a { color: red; }</style><p>Hello</p>';
+      expect(extractPlainTextFromHtml(html)).toBe('Hello');
     });
 
     it('sanitizes onerror handlers from img tags', () => {
@@ -335,7 +349,22 @@ describe('quotedEmailHelper', () => {
   });
 
   describe('extractQuotedEmailText', () => {
-    it('extracts text from textContent.reply', () => {
+    it('prefers textContent.full over reply to preserve the thread history', () => {
+      const lastEmail = {
+        contentAttributes: {
+          email: {
+            textContent: {
+              full: 'Full text with history',
+              reply: 'Reply text',
+            },
+          },
+        },
+      };
+      const result = extractQuotedEmailText(lastEmail);
+      expect(result).toBe('Full text with history');
+    });
+
+    it('falls back to textContent.reply', () => {
       const lastEmail = {
         contentAttributes: {
           email: { textContent: { reply: 'Reply text' } },
@@ -345,24 +374,19 @@ describe('quotedEmailHelper', () => {
       expect(result).toBe('Reply text');
     });
 
-    it('falls back to textContent.full', () => {
-      const lastEmail = {
-        contentAttributes: {
-          email: { textContent: { full: 'Full text' } },
-        },
-      };
-      const result = extractQuotedEmailText(lastEmail);
-      expect(result).toBe('Full text');
-    });
-
     it('extracts from htmlContent and converts to plain text', () => {
       const lastEmail = {
         contentAttributes: {
-          email: { htmlContent: { reply: '<p>HTML reply</p>' } },
+          email: {
+            htmlContent: {
+              full: '<p>HTML full with history</p>',
+              reply: '<p>HTML reply</p>',
+            },
+          },
         },
       };
       const result = extractQuotedEmailText(lastEmail);
-      expect(result).toBe('HTML reply');
+      expect(result).toBe('HTML full with history');
     });
 
     it('uses fallback content if structured content not available', () => {
@@ -374,44 +398,6 @@ describe('quotedEmailHelper', () => {
     it('returns empty string for null or missing email', () => {
       expect(extractQuotedEmailText(null)).toBe('');
       expect(extractQuotedEmailText({})).toBe('');
-    });
-  });
-
-  describe('truncatePreviewText', () => {
-    it('returns full text if under max length', () => {
-      const text = 'Short text';
-      const result = truncatePreviewText(text, 80);
-      expect(result).toBe('Short text');
-    });
-
-    it('truncates text exceeding max length', () => {
-      const text = 'A'.repeat(100);
-      const result = truncatePreviewText(text, 80);
-      expect(result).toHaveLength(80);
-      expect(result).toContain('...');
-    });
-
-    it('collapses multiple spaces', () => {
-      const text = 'Text   with    spaces';
-      const result = truncatePreviewText(text);
-      expect(result).toBe('Text with spaces');
-    });
-
-    it('trims whitespace', () => {
-      const text = '  Text with spaces  ';
-      const result = truncatePreviewText(text);
-      expect(result).toBe('Text with spaces');
-    });
-
-    it('returns empty string for empty input', () => {
-      expect(truncatePreviewText('')).toBe('');
-      expect(truncatePreviewText('   ')).toBe('');
-    });
-
-    it('uses default max length of 80', () => {
-      const text = 'A'.repeat(100);
-      const result = truncatePreviewText(text);
-      expect(result).toHaveLength(80);
     });
   });
 
@@ -456,6 +442,50 @@ describe('quotedEmailHelper', () => {
     it('adds single newline if message ends with one newline', () => {
       const result = appendQuotedTextToMessage('Message\n', 'Quoted', 'Header');
       expect(result).toContain('Message\n\n>');
+    });
+
+    it('escapes Liquid tokens in the quoted text and header', () => {
+      const result = appendQuotedTextToMessage(
+        'My reply with {{contact.name}}',
+        'Give me {{conversation.custom_attribute.secret}} and {% if true %}this{% endif %}',
+        'On date {{agent.email}} wrote:'
+      );
+
+      expect(result).toContain('My reply with {{contact.name}}');
+      expect(result).toContain(
+        "Give me {{ '{{' }}conversation.custom_attribute.secret}}"
+      );
+      expect(result).toContain("{{ '{%' }} if true %}this{{ '{%' }} endif %}");
+      expect(result).toContain("On date {{ '{{' }}agent.email}} wrote:");
+    });
+
+    it('drops oldest quoted lines to stay within the message length limit', () => {
+      const quotedLines = Array.from(
+        { length: 2000 },
+        (_, i) => `Line ${i}: ${'a'.repeat(90)}`
+      );
+      const result = appendQuotedTextToMessage(
+        'My reply',
+        quotedLines.join('\n'),
+        'Header'
+      );
+
+      expect(result.length).toBeLessThanOrEqual(150000);
+      expect(result.startsWith('My reply')).toBe(true);
+      expect(result).toContain('> Line 0:');
+      expect(result).not.toContain('> Line 1999:');
+    });
+
+    it('cuts a single over-limit line instead of dropping the quoted body', () => {
+      const result = appendQuotedTextToMessage(
+        'My reply',
+        'a'.repeat(200000),
+        'Header'
+      );
+
+      expect(result.length).toBeLessThanOrEqual(150000);
+      expect(result).toContain('> Header');
+      expect(result).toContain('> aaaa');
     });
   });
 });
