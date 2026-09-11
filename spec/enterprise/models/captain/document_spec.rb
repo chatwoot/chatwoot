@@ -47,6 +47,78 @@ RSpec.describe Captain::Document, type: :model do
     end
   end
 
+  describe 'Help Center source tracking' do
+    let(:portal) { create(:portal, account: account, slug: 'customer-help') }
+    let(:article) { create(:article, account: account, portal: portal, status: :published) }
+    let(:help_center_url) { "https://help.chatwoot.test/hc/#{portal.slug}/articles/#{article.slug}" }
+    let(:document) do
+      create(:captain_document, assistant: assistant, account: account, external_link: help_center_url)
+    end
+
+    around do |example|
+      with_modified_env HELPCENTER_URL: 'https://help.chatwoot.test' do
+        example.run
+      end
+    end
+
+    it 'allows published articles from active portals' do
+      expect(document.help_center_article_id).to eq(article.id)
+    end
+
+    it 'uses the article slug from markdown URLs' do
+      document.update!(external_link: "#{help_center_url}.md")
+      expect(document.help_center_article_id).to eq(article.id)
+    end
+
+    it 'keeps the article identity when its status changes' do
+      article.update!(status: :draft)
+      expect(document.help_center_article_id).to eq(article.id)
+
+      article.update!(status: :archived)
+      expect(document.help_center_article_id).to eq(article.id)
+    end
+
+    it 'keeps the article identity when its portal is archived' do
+      portal.update!(archived: true)
+
+      expect(document.help_center_article_id).to eq(article.id)
+    end
+
+    it 'uses a matching portal custom domain' do
+      portal.update!(custom_domain: 'support.example.com')
+      document.update!(external_link: "https://support.example.com/hc/#{portal.slug}/articles/#{article.slug}")
+      expect(document.help_center_article_id).to eq(article.id)
+    end
+
+    it 'uses the frontend host when the Help Center host is different' do
+      with_modified_env FRONTEND_URL: 'https://app.chatwoot.test' do
+        document.update!(external_link: "https://app.chatwoot.test/hc/#{portal.slug}/articles/#{article.slug}")
+        expect(document.help_center_article_id).to eq(article.id)
+      end
+    end
+
+    it 'keeps the article identity after its portal is deleted' do
+      expect(document.help_center_article_id).to eq(article.id)
+
+      portal.destroy!
+
+      expect(document.reload.help_center_article_id).to eq(article.id)
+    end
+
+    it 'does not apply local article state to external sites' do
+      article.update!(status: :archived)
+      document.update!(external_link: "https://example.com/hc/#{portal.slug}/articles/#{article.slug}")
+
+      expect(document.metadata).not_to have_key('help_center_article_id')
+    end
+
+    it 'allows non-Help-Center documents' do
+      document.update!(external_link: 'https://example.com/docs/shipping')
+
+      expect(document.metadata).not_to have_key('help_center_article_id')
+    end
+  end
+
   describe 'PDF support' do
     let(:pdf_document) do
       doc = build(:captain_document, assistant: assistant, account: account)

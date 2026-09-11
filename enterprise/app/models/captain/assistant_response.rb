@@ -49,11 +49,23 @@ class Captain::AssistantResponse < ApplicationRecord
 
   def self.search(query, account_id: nil)
     embedding = Captain::Llm::EmbeddingService.new(account_id: account_id).get_embedding(query)
-    nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(5)
+    responses = nearest_neighbors(:embedding, embedding, distance: 'cosine').includes(:documentable).limit(5).to_a
+    article_ids = responses.filter_map do |response|
+      response.documentable.help_center_article_id if response.documentable.is_a?(Captain::Document)
+    end
+    available_article_ids = Article.published.joins(:portal).merge(Portal.active).where(id: article_ids).ids
+
+    responses.select { |response| response.available_for_retrieval?(available_article_ids) }
   end
 
   def customer_visible_source_url
     documentable.customer_visible_source_url if documentable.is_a?(Captain::Document)
+  end
+
+  def available_for_retrieval?(available_article_ids)
+    return true unless documentable.is_a?(Captain::Document) && documentable.metadata.key?('help_center_article_id')
+
+    documentable.help_center_article_id && available_article_ids.include?(documentable.help_center_article_id.to_i)
   end
 
   private
