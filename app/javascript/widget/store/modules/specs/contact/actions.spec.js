@@ -91,7 +91,12 @@ describe('#actions', () => {
       });
       await actions.update({ commit, dispatch }, { user });
       expect(sendMessage.mock.calls).toEqual([
-        [{ data: { widgetAuthToken: 'rotated-token' }, event: 'setAuthCookie' }],
+        [
+          {
+            data: { widgetAuthToken: 'rotated-token' },
+            event: 'setAuthCookie',
+          },
+        ],
       ]);
       expect(dispatch.mock.calls).toEqual([['get']]);
     });

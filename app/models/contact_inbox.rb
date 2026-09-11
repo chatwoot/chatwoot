@@ -66,12 +66,16 @@ class ContactInbox < ApplicationRecord
   end
 
   def rotate_widget_token!
-    increment!(:widget_token_version)
-    Widget::TokenService.new(payload: Widget::TokenService.payload_for(self)).generate_token
+    with_lock do
+      update!(widget_token_version: widget_token_version + 1)
+      Widget::TokenService.new(payload: Widget::TokenService.payload_for(self)).generate_token
+    end
   end
 
   def invalidate_widget_token!
-    increment!(:widget_token_version)
+    with_lock do
+      update!(widget_token_version: widget_token_version + 1)
+    end
   end
 
   private

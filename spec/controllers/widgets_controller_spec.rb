@@ -22,7 +22,7 @@ describe '/widget', type: :request do
     end
 
     it 'does not restore the session when the token version is stale' do
-      contact_inbox.increment!(:widget_token_version)
+      contact_inbox.update!(widget_token_version: 1)
       get widget_url(website_token: web_widget.website_token, cw_conversation: token)
       expect(response).to be_successful
       expect(response.body).not_to include(token)
