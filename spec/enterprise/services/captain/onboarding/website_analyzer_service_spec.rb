@@ -52,6 +52,14 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
         expect(mock_chat).to receive(:with_temperature).with(0.1).and_return(mock_chat)
         service.analyze
       end
+
+      it 'limits the response with the output token parameter current models accept' do
+        expect(mock_chat).to receive(:with_params).with(
+          response_format: { type: 'json_object' }, max_completion_tokens: 1000
+        ).and_return(mock_chat)
+
+        service.analyze
+      end
     end
 
     context 'when website content fetch raises an error' do
