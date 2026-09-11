@@ -29,6 +29,12 @@ describe('#MessageFormatter', () => {
         '<p><a href="https://example.com/trip/" class="link" rel="noreferrer noopener nofollow" target="_blank">https://example.com/trip/</a> <br />\nNext line</p>'
       );
     });
+    it('should not alter URL lines inside a fenced code block', () => {
+      const message = '```sh\nhttps://example.com/api\\\nnext\n```';
+      const result = new MessageFormatter(message).formattedMessage;
+      expect(result).not.toMatch('api \\');
+      expect(result).toContain('https://example.com/api\\');
+    });
   });
 
   describe('parses heading to strong', () => {
