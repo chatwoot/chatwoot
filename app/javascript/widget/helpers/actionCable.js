@@ -105,9 +105,6 @@ class ActionCableConnector extends BaseActionCableConnector {
     }
 
     if (window.actionCable) {
-      if (typeof window.actionCable.clearTimer === 'function') {
-        window.actionCable.clearTimer();
-      }
       window.actionCable.disconnect();
     }
     window.chatwootPubsubToken = pubsubToken;
