@@ -4,27 +4,34 @@ class Crm::Cpfcnpj::Mappers::ContactMapper
   end
 
   # Writes the enrichment payload under additional_attributes['cpfcnpj'] and
-  # fills a few well known fields without overwriting existing values. The
-  # caller is responsible for persisting the contact.
+  # fills a few well known fields. A field is written when it is blank or when it
+  # still holds the value the previous enrichment wrote, so a document change
+  # refreshes it while anything typed by a person is kept. The caller is
+  # responsible for persisting the contact.
   def self.apply(contact, mapped)
     contact.additional_attributes ||= {}
+    previous = contact.additional_attributes['cpfcnpj'].to_h
     contact.additional_attributes['cpfcnpj'] = mapped
-    contact.name = mapped['name'] if contact.name.blank? && mapped['name'].present?
-    apply_company_attributes(contact, mapped) if mapped['type'] == 'cnpj'
+    contact.name = mapped['name'] if mapped['name'].present? && replaceable?(contact.name, previous['name'])
+    apply_company_attributes(contact, mapped, previous) if mapped['type'] == 'cnpj'
     contact
   end
 
-  def self.apply_company_attributes(contact, mapped)
-    fill_additional_attribute(contact, 'company_name', mapped['name'])
-    fill_additional_attribute(contact, 'city', mapped['city'])
-    fill_additional_attribute(contact, 'country_code', 'BR')
+  def self.apply_company_attributes(contact, mapped, previous)
+    fill_additional_attribute(contact, 'company_name', mapped['name'], previous['name'])
+    fill_additional_attribute(contact, 'city', mapped['city'], previous['city'])
+    fill_additional_attribute(contact, 'country_code', 'BR', 'BR')
   end
 
-  def self.fill_additional_attribute(contact, key, value)
+  def self.fill_additional_attribute(contact, key, value, previous_value)
     return if value.blank?
-    return if contact.additional_attributes[key].present?
+    return unless replaceable?(contact.additional_attributes[key], previous_value)
 
     contact.additional_attributes[key] = value
+  end
+
+  def self.replaceable?(current, previous_value)
+    current.blank? || (previous_value.present? && current == previous_value)
   end
 
   def initialize(document, type, response)

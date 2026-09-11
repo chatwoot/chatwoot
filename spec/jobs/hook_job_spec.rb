@@ -335,4 +335,46 @@ RSpec.describe HookJob do
       expect(a_request(:get, "https://api.cpfcnpj.com.br/#{token}/6/#{document}")).to have_been_made.once
     end
   end
+
+  context 'when the cpfcnpj lock is busy' do
+    let(:token) { 'a' * 32 }
+    let(:cpfcnpj_hook) { create(:integrations_hook, :cpfcnpj, account: account) }
+    let(:contact) { create(:contact, account: account, custom_attributes: { 'cpf_cnpj' => '11222333000181' }) }
+    let(:lock_key) { "#{format(Redis::Alfred::CRM_PROCESS_MUTEX, hook_id: cpfcnpj_hook.id)}::#{contact.id}" }
+    let(:lock_manager) { Redis::LockManager.new }
+    let(:api_response) { File.read(Rails.root.join('spec/fixtures/cpfcnpj/cnpj_package_6.json')) }
+
+    before do
+      account.enable_features!('cpfcnpj_integration')
+      stub_request(:get, "https://api.cpfcnpj.com.br/#{token}/6/11222333000181")
+        .to_return(status: 200, body: api_response, headers: { 'Content-Type' => 'application/json' })
+      lock_manager.lock(lock_key, 60)
+    end
+
+    after { lock_manager.unlock(lock_key) }
+
+    it 'reschedules the event instead of dropping it' do
+      expect { described_class.perform_now(cpfcnpj_hook, 'contact.updated', { contact: contact }) }
+        .to have_enqueued_job(described_class)
+        .with(cpfcnpj_hook, 'contact.updated', { contact: contact })
+    end
+
+    it 'processes the document once the lock is released' do
+      described_class.perform_now(cpfcnpj_hook, 'contact.updated', { contact: contact })
+      lock_manager.unlock(lock_key)
+
+      perform_enqueued_jobs(only: described_class)
+
+      expect(contact.reload.additional_attributes.dig('cpfcnpj', 'document')).to eq('11222333000181')
+    end
+
+    it 'gives up after the retry limit' do
+      job = described_class.new(cpfcnpj_hook, 'contact.updated', { contact: contact })
+      job.executions = described_class::CPFCNPJ_LOCK_RETRY_LIMIT
+      allow(Rails.logger).to receive(:warn)
+
+      expect { job.perform_now }.not_to have_enqueued_job(described_class)
+      expect(Rails.logger).to have_received(:warn).with(a_string_including('giving up'))
+    end
+  end
 end

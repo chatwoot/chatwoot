@@ -5,6 +5,10 @@ class HookJob < MutexApplicationJob
 
   # Lock window for the CPF.CNPJ lookup: API timeout plus a margin for the contact save.
   CPFCNPJ_LOCK_TIMEOUT = (Crm::Cpfcnpj::Api::BaseClient::TIMEOUT_SECONDS + 10).seconds
+  # A job that finds the per contact lock busy is rescheduled instead of dropped:
+  # perform rescues every error, so retry_on never sees LockAcquisitionError.
+  CPFCNPJ_LOCK_RETRY_WAIT = 10.seconds
+  CPFCNPJ_LOCK_RETRY_LIMIT = 8
 
   INTEGRATION_PROCESSORS = {
     'slack' => :process_slack_integration,
@@ -106,8 +110,8 @@ class HookJob < MutexApplicationJob
   def process_cpfcnpj_integration(hook, event_name, event_data)
     # Contact created and updated events arrive back to back for the same contact.
     # The lock is per contact and outlives the API timeout, so a second job for the
-    # same contact is skipped instead of paying for a duplicate lookup. The holder
-    # reloads the contact before the lookup, so it always sees the latest document.
+    # same contact waits its turn instead of paying for a duplicate lookup, and the
+    # holder reloads the contact before the lookup to work with the latest document.
     valid_event_names = ['contact.created', 'contact.updated']
     return unless valid_event_names.include?(event_name)
     return unless hook.feature_allowed?
@@ -119,5 +123,16 @@ class HookJob < MutexApplicationJob
     with_lock("#{key}::#{contact.id}", CPFCNPJ_LOCK_TIMEOUT) do
       Crm::Cpfcnpj::ProcessorService.new(hook).handle_contact(contact)
     end
+  rescue LockAcquisitionError
+    reschedule_cpfcnpj_integration(event_name, contact)
+  end
+
+  def reschedule_cpfcnpj_integration(event_name, contact)
+    if executions >= CPFCNPJ_LOCK_RETRY_LIMIT
+      Rails.logger.warn("cpfcnpj: giving up on #{event_name} for contact ##{contact.id} after #{executions} busy locks")
+      return
+    end
+
+    retry_job(wait: CPFCNPJ_LOCK_RETRY_WAIT)
   end
 end

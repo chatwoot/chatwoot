@@ -90,5 +90,28 @@ RSpec.describe Crm::Cpfcnpj::Mappers::ContactMapper do
       described_class.apply(contact, mapped)
       expect(contact.name).to eq('Existing Name')
     end
+
+    it 'refreshes the fields written by a previous enrichment when the document changes' do
+      described_class.apply(contact, mapped)
+      other = mapped.merge('document' => '27272134000118', 'name' => 'OTHER COMPANY LTDA', 'city' => 'Belo Horizonte')
+
+      described_class.apply(contact, other)
+
+      expect(contact.additional_attributes['company_name']).to eq('OTHER COMPANY LTDA')
+      expect(contact.additional_attributes['city']).to eq('Belo Horizonte')
+      expect(contact.name).to eq('OTHER COMPANY LTDA')
+    end
+
+    it 'keeps values the agent edited after the previous enrichment' do
+      described_class.apply(contact, mapped)
+      contact.additional_attributes['company_name'] = 'Edited by the agent'
+      contact.additional_attributes['city'] = 'Edited city'
+      other = mapped.merge('document' => '27272134000118', 'name' => 'OTHER COMPANY LTDA', 'city' => 'Belo Horizonte')
+
+      described_class.apply(contact, other)
+
+      expect(contact.additional_attributes['company_name']).to eq('Edited by the agent')
+      expect(contact.additional_attributes['city']).to eq('Edited city')
+    end
   end
 end
