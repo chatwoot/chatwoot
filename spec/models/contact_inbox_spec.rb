@@ -45,6 +45,17 @@ RSpec.describe ContactInbox do
       expect(contact_inbox.valid_widget_token?(decoded)).to be(true)
     end
 
+    it 'does not yield when the presented version was already consumed' do
+      decoded = { source_id: contact_inbox.source_id, inbox_id: contact_inbox.inbox_id, token_version: 0 }
+      contact_inbox.update!(widget_token_version: 1)
+      yielded = false
+
+      expect do
+        contact_inbox.with_current_widget_token(decoded) { yielded = true }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+      expect(yielded).to be(false)
+    end
+
     it 'rejects a stale token after rotation' do
       stale = { source_id: contact_inbox.source_id, inbox_id: contact_inbox.inbox_id, token_version: 0 }
       new_token = contact_inbox.rotate_widget_token!

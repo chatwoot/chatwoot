@@ -65,6 +65,16 @@ class ContactInbox < ApplicationRecord
     claimed_version == widget_token_version.to_i
   end
 
+  # Re-checks the presented JWT under a row lock so a concurrent request that
+  # already rotated cannot write PII and receive a fresh token.
+  def with_current_widget_token(decoded)
+    with_lock do
+      raise ActiveRecord::RecordNotFound unless valid_widget_token?(decoded)
+
+      yield
+    end
+  end
+
   def rotate_widget_token!
     with_lock do
       update!(widget_token_version: widget_token_version + 1)

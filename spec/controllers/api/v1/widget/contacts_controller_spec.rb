@@ -139,6 +139,18 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
         expect(response).to have_http_status(:success)
       end
 
+      it 'does not change contact PII when the token version is already consumed' do
+        contact_inbox.update!(widget_token_version: 1)
+
+        patch '/api/v1/widget/contact',
+              params: params.merge({ email: 'stolen@test.com' }),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(contact.reload.email).to eq('test@test.com')
+      end
+
       it 'does not rotate the token for custom_attributes-only updates' do
         patch '/api/v1/widget/contact',
               params: params.merge({ custom_attributes: { plan: 'pro' } }),

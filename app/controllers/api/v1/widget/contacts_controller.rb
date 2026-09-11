@@ -7,25 +7,29 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   def show; end
 
   def update
-    identify_contact(@contact)
-    rotate_widget_session_if_sensitive
+    return identify_contact(@contact) unless sensitive_contact_write?
+
+    @contact_inbox.with_current_widget_token(auth_token_params) do
+      identify_contact(@contact)
+      @widget_auth_token = @contact_inbox.rotate_widget_token!
+    end
   end
 
   def set_user
-    contact = nil
+    @contact_inbox.with_current_widget_token(auth_token_params) do
+      if a_different_contact?
+        @contact_inbox.invalidate_widget_token!
+        @contact_inbox, @widget_auth_token = build_contact_inbox_with_token(@web_widget)
+        contact = @contact_inbox.contact
+      else
+        contact = @contact
+        @widget_auth_token = @contact_inbox.rotate_widget_token!
+      end
 
-    if a_different_contact?
-      @contact_inbox.invalidate_widget_token!
-      @contact_inbox, @widget_auth_token = build_contact_inbox_with_token(@web_widget)
-      contact = @contact_inbox.contact
-    else
-      contact = @contact
-      @widget_auth_token = @contact_inbox.rotate_widget_token!
+      @contact_inbox.update(hmac_verified: true) if should_verify_hmac?
+
+      identify_contact(contact)
     end
-
-    @contact_inbox.update(hmac_verified: true) if should_verify_hmac?
-
-    identify_contact(contact)
   end
 
   # TODO : clean up this with proper routes delete contacts/custom_attributes
@@ -48,12 +52,6 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
 
   def a_different_contact?
     @contact.identifier.present? && @contact.identifier != permitted_params[:identifier]
-  end
-
-  def rotate_widget_session_if_sensitive
-    return unless sensitive_contact_write?
-
-    @widget_auth_token = @contact_inbox.rotate_widget_token!
   end
 
   def sensitive_contact_write?
