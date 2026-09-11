@@ -26,6 +26,87 @@ RSpec.describe Category do
       category.update(locale: 'es')
       expect(category.errors.full_messages[0]).to eq("Locale es of category is not part of portal's [\"en\"].")
     end
+
+    it 'rejects duplicate locales in a translation family' do
+      portal.update!(config: { allowed_locales: %w[en es] })
+      root_category = create(:category, portal: portal, locale: 'en', slug: 'root-category')
+      create(:category, portal: portal, locale: 'es', slug: 'spanish-category', associated_category_id: root_category.id)
+
+      duplicate = build(:category, portal: portal, locale: 'es', slug: 'duplicate-spanish-category', associated_category_id: root_category.id)
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:locale]).to include('has already been taken')
+    end
+
+    it 'rejects a translation with the root category locale' do
+      root_category = create(:category, portal: portal, locale: 'en', slug: 'root-category')
+
+      duplicate = build(:category, portal: portal, locale: 'en', slug: 'translated-category', associated_category_id: root_category.id)
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:locale]).to include('has already been taken')
+    end
+
+    it 'rejects changing the root locale to a translation locale' do
+      portal.update!(config: { allowed_locales: %w[en es] })
+      root_category = create(:category, portal: portal, locale: 'en', slug: 'root-category')
+      create(:category, portal: portal, locale: 'es', slug: 'translated-category', associated_category_id: root_category.id)
+
+      root_category.locale = 'es'
+
+      expect(root_category).not_to be_valid
+      expect(root_category.errors[:locale]).to include('has already been taken')
+    end
+  end
+
+  describe 'translation associations' do
+    it 'associates nested translations with the root category' do
+      portal = create(:portal, config: { allowed_locales: %w[en es pt] })
+      root_category = create(:category, portal: portal, locale: 'en')
+      translation = create(:category, portal: portal, locale: 'es', associated_category_id: root_category.id)
+
+      nested_translation = create(:category, portal: portal, locale: 'pt', associated_category_id: translation.id)
+
+      expect(nested_translation.associated_category_id).to eq(root_category.id)
+    end
+
+    it 'rejects a locale used by a legacy nested translation' do
+      portal = create(:portal, config: { allowed_locales: %w[en es pt] })
+      root_category = create(:category, portal: portal, locale: 'en', slug: 'root-category')
+      parent_translation = create(:category, portal: portal, locale: 'es', slug: 'parent-translation', associated_category_id: root_category.id)
+      nested_translation = create(:category, portal: portal, locale: 'pt', slug: 'nested-translation')
+      nested_translation.update_column(:associated_category_id, parent_translation.id) # rubocop:disable Rails/SkipsModelValidations
+
+      duplicate = build(:category, portal: portal, locale: 'pt', slug: 'duplicate-pt', associated_category_id: parent_translation.id)
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:locale]).to include('has already been taken')
+    end
+
+    it 'rejects changing a legacy nested translation to the root locale' do
+      portal = create(:portal, config: { allowed_locales: %w[en es pt] })
+      root_category = create(:category, portal: portal, locale: 'en', slug: 'root-category')
+      parent_translation = create(:category, portal: portal, locale: 'es', slug: 'parent-translation', associated_category_id: root_category.id)
+      nested_translation = create(:category, portal: portal, locale: 'pt', slug: 'nested-translation')
+      nested_translation.update_column(:associated_category_id, parent_translation.id) # rubocop:disable Rails/SkipsModelValidations
+
+      nested_translation.locale = 'en'
+
+      expect(nested_translation).not_to be_valid
+      expect(nested_translation.errors[:locale]).to include('has already been taken')
+    end
+
+    it 'rejects moving a category with translations into another family' do
+      portal = create(:portal, config: { allowed_locales: %w[en es] })
+      root_category = create(:category, portal: portal, locale: 'en', slug: 'root-category')
+      create(:category, portal: portal, locale: 'es', slug: 'translation', associated_category_id: root_category.id)
+      destination_root = create(:category, portal: portal, locale: 'en', slug: 'destination-root')
+
+      root_category.associated_category_id = destination_root.id
+
+      expect(root_category).not_to be_valid
+      expect(root_category.errors[:associated_category_id]).to include('is invalid')
+    end
   end
 
   describe 'search' do

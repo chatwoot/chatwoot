@@ -4,7 +4,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:admin) { create(:user, account: account, role: :administrator) }
-  let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id, config: { allowed_locales: %w[en es] }) }
+  let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id, config: { allowed_locales: %w[en es fr] }) }
   let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, slug: 'category_slug', position: 1) }
   let!(:category_to_associate) do
     create(:category, name: 'associated category', portal: portal, account_id: account.id, slug: 'associated_category_slug', position: 2)
@@ -46,7 +46,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
             name: 'test_category_2',
             description: 'test_description_2',
             position: 6,
-            locale: 'es',
+            locale: 'fr',
             slug: 'test_category_2',
             parent_category_id: category.id,
             associated_category_id: category_to_associate.id,

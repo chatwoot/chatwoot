@@ -27,7 +27,6 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
     params_with_defaults = article_params
     params_with_defaults[:status] ||= :draft
     @article = @portal.articles.create!(params_with_defaults)
-    @article.associate_root_article(article_params[:associated_article_id])
     render json: { error: @article.errors.messages }, status: :unprocessable_entity and return unless @article.valid?
   end
 

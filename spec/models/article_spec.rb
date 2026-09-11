@@ -29,6 +29,92 @@ RSpec.describe Article do
         expect(article.errors[:slug]).to include('is reserved')
       end
     end
+
+    it 'rejects duplicate locales in a translation family' do
+      root_article = create(:article, portal: portal_1, author: user, locale: 'en')
+      create(:article, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+
+      duplicate = build(:article, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:locale]).to include('has already been taken')
+    end
+
+    it 'rejects a translation with the root article locale' do
+      root_article = create(:article, portal: portal_1, author: user, locale: 'en')
+
+      duplicate = build(:article, portal: portal_1, author: user, locale: 'en', associated_article_id: root_article.id)
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:locale]).to include('has already been taken')
+    end
+
+    it 'ignores draft articles when validating a published locale' do
+      root_article = create(:article, portal: portal_1, author: user, locale: 'en')
+      create(:article, :draft, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+
+      published_translation = build(:article, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+
+      expect(published_translation).to be_valid
+    end
+
+    it 'rejects changing the root locale to a translation locale' do
+      root_article = create(:article, portal: portal_1, author: user, locale: 'en')
+      create(:article, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+
+      root_article.locale = 'es'
+
+      expect(root_article).not_to be_valid
+      expect(root_article.errors[:locale]).to include('has already been taken')
+    end
+  end
+
+  describe 'translation associations' do
+    it 'associates nested translations with the root article' do
+      root_article = create(:article, portal: portal_1, author: user, locale: 'en')
+      translation = create(:article, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+
+      nested_translation = create(:article, portal: portal_1, author: user, locale: 'pt', associated_article_id: translation.id)
+
+      expect(nested_translation.associated_article_id).to eq(root_article.id)
+    end
+
+    it 'rejects a locale used by a legacy nested translation' do
+      portal_1.update!(config: { allowed_locales: %w[en es pt] })
+      root_article = create(:article, portal: portal_1, author: user, locale: 'en')
+      parent_translation = create(:article, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+      nested_translation = create(:article, portal: portal_1, author: user, locale: 'pt')
+      nested_translation.update_column(:associated_article_id, parent_translation.id) # rubocop:disable Rails/SkipsModelValidations
+
+      duplicate = build(:article, portal: portal_1, author: user, locale: 'pt', associated_article_id: parent_translation.id)
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:locale]).to include('has already been taken')
+    end
+
+    it 'rejects publishing a legacy nested translation with the root locale' do
+      portal_1.update!(config: { allowed_locales: %w[en es] })
+      root_article = create(:article, portal: portal_1, author: user, locale: 'en')
+      parent_translation = create(:article, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+      nested_translation = create(:article, :draft, portal: portal_1, author: user, locale: 'en')
+      nested_translation.update_column(:associated_article_id, parent_translation.id) # rubocop:disable Rails/SkipsModelValidations
+
+      nested_translation.status = :published
+
+      expect(nested_translation).not_to be_valid
+      expect(nested_translation.errors[:locale]).to include('has already been taken')
+    end
+
+    it 'rejects moving an article with translations into another family' do
+      root_article = create(:article, portal: portal_1, author: user, locale: 'en')
+      create(:article, portal: portal_1, author: user, locale: 'es', associated_article_id: root_article.id)
+      destination_root = create(:article, portal: portal_1, author: user, locale: 'en')
+
+      root_article.associated_article_id = destination_root.id
+
+      expect(root_article).not_to be_valid
+      expect(root_article.errors[:associated_article_id]).to include('is invalid')
+    end
   end
 
   describe 'associations' do

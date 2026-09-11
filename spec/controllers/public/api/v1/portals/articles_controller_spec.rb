@@ -14,7 +14,7 @@ RSpec.describe 'Public Articles API', type: :request do
   before do
     ENV['HELPCENTER_URL'] = ENV.fetch('FRONTEND_URL', nil)
     create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, views: 15)
-    create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id, views: 1)
+    create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, views: 1)
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id, views: 5)
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, views: 4)
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, status: :draft)
