@@ -44,7 +44,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def tools
-    assistant = Captain::Assistant.new(account: Current.account)
+    assistant = account_assistants.find(params[:assistant_id])
     @tools = assistant.available_agent_tools
   end
 

@@ -1,16 +1,20 @@
 class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::BaseController
+  RESULTS_PER_PAGE = 25
+
   before_action :ensure_custom_tools_enabled
   before_action -> { check_authorization(Captain::CustomTool) }
+  before_action :set_current_page, only: [:index]
   before_action :set_custom_tool, only: [:show, :update, :destroy]
 
   def index
-    @custom_tools = account_custom_tools
+    @custom_tools_count = assistant_custom_tools.count
+    @custom_tools = assistant_custom_tools.order(id: :desc).page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def show; end
 
   def create
-    @custom_tool = account_custom_tools.create!(custom_tool_params)
+    @custom_tool = assistant_custom_tools.create!(custom_tool_params.merge(account: Current.account))
   rescue Captain::CustomTool::LimitExceededError => e
     render_could_not_create_error(e.message)
   end
@@ -25,7 +29,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   end
 
   def test
-    tool = account_custom_tools.new(custom_tool_params)
+    tool = assistant_custom_tools.new(custom_tool_params.merge(account: Current.account))
     body = execute_test_request(tool)
     render json: { status: 200, body: body.to_s.truncate(500) }
   rescue StandardError => e
@@ -34,6 +38,10 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
 
   private
 
+  def set_current_page
+    @current_page = params.fetch(:page, 1).to_i
+  end
+
   def ensure_custom_tools_enabled
     return if Current.account.feature_enabled?('custom_tools') || Current.account.feature_enabled?('captain_integration_v2')
 
@@ -41,11 +49,11 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   end
 
   def set_custom_tool
-    @custom_tool = account_custom_tools.find(params[:id])
+    @custom_tool = assistant_custom_tools.find(params[:id])
   end
 
-  def account_custom_tools
-    @account_custom_tools ||= Current.account.captain_custom_tools
+  def assistant_custom_tools
+    @assistant_custom_tools ||= Current.account.captain_assistants.find(params[:assistant_id]).custom_tools
   end
 
   def execute_test_request(tool)

@@ -9,6 +9,7 @@ FactoryBot.define do
     param_schema { [] }
     enabled { true }
     association :account
+    assistant { association :captain_assistant, account: account }
 
     trait :with_post do
       http_method { 'POST' }
