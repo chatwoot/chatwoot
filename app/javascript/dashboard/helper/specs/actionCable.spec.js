@@ -25,15 +25,19 @@ describe('ActionCableConnector - Copilot Tests', () => {
   let store;
   let actionCable;
   let mockDispatch;
+  let mockCommit;
 
   beforeEach(() => {
     vi.clearAllMocks();
     mockDispatch = vi.fn();
+    mockCommit = vi.fn();
     store = {
       $store: {
         dispatch: mockDispatch,
+        commit: mockCommit,
         getters: {
           getCurrentAccountId: 1,
+          getAllConversations: [],
           'accounts/isFeatureEnabledonAccount': vi.fn(() => true),
         },
       },
@@ -73,6 +77,37 @@ describe('ActionCableConnector - Copilot Tests', () => {
         'copilotMessages/upsert',
         copilotData
       );
+    });
+  });
+
+  describe('conversation unread event handler', () => {
+    const payload = { account_id: 1, id: 7, agent_last_seen_at: 100, unread_count: 3 };
+
+    it('should register the conversation.unread event handler', () => {
+      expect(Object.keys(actionCable.events)).toContain('conversation.unread');
+      expect(actionCable.events['conversation.unread']).toBe(
+        actionCable.onConversationUnread
+      );
+    });
+
+    it('updates the unread count of a conversation already in the store', () => {
+      store.$store.getters.getAllConversations = [{ id: 7 }];
+
+      actionCable.onReceived({ event: 'conversation.unread', data: payload });
+
+      expect(mockCommit).toHaveBeenCalledWith('UPDATE_MESSAGE_UNREAD_COUNT', {
+        id: 7,
+        lastSeen: 100,
+        unreadCount: 3,
+      });
+    });
+
+    it('adds a conversation that is not loaded yet', () => {
+      store.$store.getters.getAllConversations = [{ id: 99 }];
+
+      actionCable.onReceived({ event: 'conversation.unread', data: payload });
+
+      expect(mockCommit).toHaveBeenCalledWith('UPDATE_CONVERSATION', payload);
     });
   });
 

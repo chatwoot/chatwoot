@@ -1087,6 +1087,18 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.assignee_last_seen_at).to eq(last_seen_at)
       end
 
+      it 'dispatches conversation.unread so other agents see the change in realtime' do
+        allow(Rails.configuration.dispatcher).to receive(:dispatch).and_call_original
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/unread",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with(Events::Types::CONVERSATION_UNREAD, anything, hash_including(conversation: conversation))
+        expect(response).to have_http_status(:success)
+      end
+
       it 'refreshes unread count cache when conversation is marked unread' do
         account.enable_features!(:conversation_unread_counts)
         conversation.update!(agent_last_seen_at: 1.minute.from_now, assignee_last_seen_at: 1.minute.from_now)
