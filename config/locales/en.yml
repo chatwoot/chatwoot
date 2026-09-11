@@ -403,6 +403,10 @@ en:
     online:
       delete: '%{contact_name} is Online, please try again later'
   integration_apps:
+    stripe:
+      name: 'Stripe'
+      short_description: 'View customer billing details in conversations.'
+      description: 'View customer details, subscriptions, and recent invoices from Stripe alongside your conversations.'
     # Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'Dashboard Apps'

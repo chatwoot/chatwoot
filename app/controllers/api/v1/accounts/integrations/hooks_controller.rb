@@ -2,6 +2,7 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Inte
   before_action :fetch_hook, except: [:create]
   before_action :check_authorization
   before_action :ensure_shopify_enabled, if: :shopify_hook?
+  before_action :ensure_stripe_enabled
 
   def create
     @hook = Current.account.hooks.create!(permitted_params)
@@ -31,6 +32,13 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Inte
   end
 
   private
+
+  def ensure_stripe_enabled
+    app_id = action_name == 'create' ? permitted_params[:app_id] : @hook.app_id
+    return unless app_id == 'stripe'
+
+    head :not_found unless Integrations::App.find(id: 'stripe').active?(Current.account)
+  end
 
   def fetch_hook
     @hook = Current.account.hooks.find(params[:id])

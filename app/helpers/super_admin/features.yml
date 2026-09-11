@@ -120,6 +120,12 @@ microsoft:
   config_key: 'microsoft'
 
 # ------- Third-party Integrations ------- #
+stripe:
+  name: 'Stripe'
+  description: 'Configure the Stripe customer billing integration'
+  enabled: true
+  icon: 'icon-settings-2-line'
+  config_key: 'stripe'
 linear:
   name: 'Linear'
   description: 'Configuration for setting up Linear Integration'

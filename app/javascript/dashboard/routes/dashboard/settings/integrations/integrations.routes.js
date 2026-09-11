@@ -1,4 +1,5 @@
 import { FEATURE_FLAGS } from '../../../../featureFlags';
+import store from 'dashboard/store';
 import { frontendURL } from '../../../../helper/URLHelper';
 import SettingsWrapper from '../SettingsWrapper.vue';
 import IntegrationHooks from './IntegrationHooks.vue';
@@ -7,6 +8,7 @@ import Webhook from './Webhooks/Index.vue';
 import DashboardApps from './DashboardApps/Index.vue';
 import Slack from './Slack.vue';
 import Linear from './Linear.vue';
+import Stripe from './Stripe.vue';
 import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
 
@@ -68,6 +70,24 @@ export default {
             permissions: ['administrator'],
           },
           props: route => ({ code: route.query.code }),
+        },
+        {
+          path: 'stripe',
+          name: 'settings_integrations_stripe',
+          component: Stripe,
+          beforeEnter: to => {
+            const enabled = store.getters['accounts/isFeatureEnabledonAccount'](
+              Number(to.params.accountId),
+              FEATURE_FLAGS.STRIPE
+            );
+            return (
+              enabled || { name: 'settings_applications', params: to.params }
+            );
+          },
+          meta: {
+            permissions: ['administrator'],
+            featureFlag: FEATURE_FLAGS.STRIPE,
+          },
         },
         {
           path: 'notion',
