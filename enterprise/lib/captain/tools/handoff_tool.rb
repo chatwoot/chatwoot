@@ -20,7 +20,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
   def perform(tool_context, reason: nil, reason_category: nil)
     conversation = find_conversation(tool_context.state)
-    return 'Conversation not found' unless conversation
+    return failure_result('Conversation not found', tool_context.state) unless conversation
 
     # Log the handoff with reason
     log_tool_usage('tool_handoff', {
@@ -30,13 +30,13 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
     # Use existing handoff mechanism from ResponseBuilderJob
     handoff_result = trigger_handoff(tool_context, conversation, reason, reason_category)
-    return 'Handoff skipped because a newer customer message arrived' if handoff_result == :stale
-    return 'Handoff skipped because the conversation changed' unless handoff_result == :completed
+    return failure_result('Handoff skipped because a newer customer message arrived', tool_context.state) if handoff_result == :stale
+    return failure_result('Handoff skipped because the conversation changed', tool_context.state) unless handoff_result == :completed
 
     "Conversation handed off to human support team#{" (Reason: #{reason})" if reason}"
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
-    'Failed to handoff conversation'
+    failure_result('Failed to handoff conversation', tool_context.state)
   end
 
   private

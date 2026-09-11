@@ -372,7 +372,9 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           expect(Captain::Assistant::AgentRunnerService).to receive(:new).with(
             assistant: assistant,
             conversation: conversation,
-            responding_to_message_id: responding_to_message.id
+            run_options: Captain::Assistant::AgentRunnerService::RunOptions.new(
+              responding_to_message_id: responding_to_message.id
+            )
           )
 
           described_class.perform_now(conversation, assistant, responding_to_message.id)
