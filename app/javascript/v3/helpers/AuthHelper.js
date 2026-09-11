@@ -28,6 +28,7 @@ export const isShopifyBillingAccount = account =>
 export const getShopifyInstallAccount = ({ accounts, accountId }) => {
   const canManageShopify = account =>
     account.role === 'administrator' &&
+    account.shopify_integration === true &&
     (account.status === 'active' || isShopifyBillingAccount(account));
   const currentAccount = accounts.find(
     account => account.id === Number(accountId)
