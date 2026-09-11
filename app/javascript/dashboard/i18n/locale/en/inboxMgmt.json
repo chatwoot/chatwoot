@@ -1160,6 +1160,45 @@
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
       "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_HISTORY_SYNC": {
+        "STATES": {
+          "requested": {
+            "TITLE": "Preparing chat history",
+            "DESCRIPTION": "WhatsApp accepted the request. The import will begin when Meta sends the shared history."
+          },
+          "receiving": {
+            "TITLE": "Receiving chat history",
+            "DESCRIPTION": "WhatsApp is sending previous one-to-one chats. You can continue using this inbox."
+          },
+          "processing": {
+            "TITLE": "Importing chat history",
+            "DESCRIPTION": "Chatwoot is adding previous chats without creating unread conversations or notifications."
+          },
+          "completed": {
+            "TITLE": "Chat history imported",
+            "DESCRIPTION": "{messages} messages from {conversations} conversations were imported."
+          },
+          "not_shared": {
+            "TITLE": "Chat history wasn’t shared",
+            "DESCRIPTION": "No previous chats were imported. Reconfiguring this inbox will not start another import."
+          },
+          "failed": {
+            "TITLE": "Chat history couldn’t be imported",
+            "DESCRIPTION": "The inbox is still connected. Contact support and share request ID {requestId}."
+          },
+          "no_data_received": {
+            "TITLE": "Waiting for chat history",
+            "DESCRIPTION": "The request was accepted, but WhatsApp has not sent any history yet."
+          },
+          "unknown": {
+            "TITLE": "Chat history status unavailable",
+            "DESCRIPTION": "Chatwoot could not determine the current history import status."
+          }
+        },
+        "PROGRESS_SUMMARY": "{messages} messages imported · {progress}% complete",
+        "COMPLETED_AT": "Completed {time}",
+        "LEARN_MORE": "Learn more"
+      },
       "WHATSAPP_MANUAL_TRANSFER_TITLE": "Switch to Manual Setup",
       "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "This inbox was connected through WhatsApp embedded signup, which is no longer supported. Enter the WhatsApp Cloud API credentials from your own Meta app to switch this inbox to a manual setup. Configure the webhook in your Meta app using the verification token above before switching.",
       "WHATSAPP_MANUAL_TRANSFER_PHONE_NUMBER_ID_LABEL": "Phone Number ID",
