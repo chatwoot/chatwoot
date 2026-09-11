@@ -1,63 +1,63 @@
 {
   "YEAR_IN_REVIEW": {
-    "TITLE": "Year in Review",
-    "LOADING": "Loading your year in review...",
-    "ERROR": "Failed to load year in review",
+    "TITLE": "年度回顾",
+    "LOADING": "正在加载您的年度回顾...",
+    "ERROR": "年度回顾加载失败",
     "CLOSE": "关闭",
     "CONVERSATIONS": {
-      "TITLE": "You have handled",
+      "TITLE": "您共处理了",
       "SUBTITLE": "会话",
-      "FALLBACK": "This year wasn't about the numbers. It was about showing up.",
+      "FALLBACK": "今年不只是数字的较量，而是您始终在场的坚守。",
       "COMPARISON": {
-        "0_50": "You showed up, and that's how every good inbox begins.",
-        "50_100": "You kept the replies flowing and the conversations alive.",
-        "100_500": "You handled serious volume and kept everything on track.",
-        "500_2000": "You kept things moving while the volume kept climbing.",
-        "2000_10000": "You ran high traffic through your inbox without breaking a sweat.",
-        "10000_PLUS": "That's a full city of customers knocking on your door. You made it look effortless."
+        "0_50": "您积极参与，每个优秀的对话历程都是从这里起步的。",
+        "50_100": "您保持了流畅的回复节奏，让对话持续活跃。",
+        "100_500": "您处理了大量对话，并将一切保持在正轨上。",
+        "500_2000": "即使流量不断攀升，您也保持了高效运转。",
+        "2000_10000": "您轻松应对了高流量的对话，游刃有余。",
+        "10000_PLUS": "那是整座城市的客户在叩门，您让一切看起来毫不费力。"
       }
     },
     "BUSIEST_DAY": {
-      "TITLE": "Your busiest day was",
-      "MESSAGE": "{count} conversations that day.",
+      "TITLE": "您最忙碌的一天是",
+      "MESSAGE": "那天共有 {count} 个对话。",
       "COMPARISON": {
-        "0_5": "A warm-up lap that barely woke the inbox.",
-        "5_10": "Enough action to justify a second cup of coffee.",
-        "10_25": "Things got busy and the inbox stayed on its toes.",
-        "25_50": "A proper rush that barely broke a sweat.",
-        "50_100": "Controlled chaos, handled like a normal Tuesday.",
-        "100_500": "Absolute dumpster fire, somehow still shipping replies.",
-        "500_PLUS": "The inbox lost all chill and never slowed down."
+        "0_5": "轻松的热身日，收件箱几乎还在沉睡。",
+        "5_10": "工作量刚好值得再来一杯咖啡。",
+        "10_25": "事情开始繁忙起来，收件箱保持着高度警觉。",
+        "25_50": "一场真正的高峰，但您几乎不费力气。",
+        "50_100": "有序的混乱，像平常的星期二一样从容处理。",
+        "100_500": "一片混战，但您依然持续地发送着回复。",
+        "500_PLUS": "收件箱完全失控，从未停歇过。"
       }
     },
     "PERSONALITY": {
-      "TITLE": "Your support personality is",
+      "TITLE": "您的支持风格是",
       "MESSAGES": {
-        "SWIFT_HELPER": "You replied in {time} on average. Faster than most notifications.",
-        "QUICK_RESPONDER": "You replied in {time} on average. The inbox barely waited.",
+        "SWIFT_HELPER": "您的平均回复时间为 {time}，比大多数通知还要快。",
+        "QUICK_RESPONDER": "您的平均回复时间为 {time}，收件箱几乎不需要等待。",
         "STEADY_SUPPORT": "平均回复时间为 {time}。节奏平稳，回复扎实。",
-        "THOUGHTFUL_ADVISOR": "You replied in {time} on average. Took the time to get it right."
+        "THOUGHTFUL_ADVISOR": "您的平均回复时间为 {time}，花时间把每件事做到位。"
       }
     },
     "THANK_YOU": {
-      "TITLE": "Congratulations on surviving the inbox of {year}.",
-      "MESSAGE": "Thank you for your incredible dedication to supporting customers throughout this year. Your hard work has made a real difference, and we're grateful to have you on this journey. Here's to making {nextYear} even better together!"
+      "TITLE": "恭喜您在 {year} 年度成功驾驭收件箱！",
+      "MESSAGE": "感谢您全年对客户支持的卓越投入。您的辛勤工作带来了真实的改变，我们很荣幸与您同行。愿 {nextYear} 年我们共同创造更多精彩！"
     },
     "SHARE_MODAL": {
-      "TITLE": "Share Your Year in Review",
-      "PREPARING": "Preparing your image...",
+      "TITLE": "分享您的年度回顾",
+      "PREPARING": "正在准备您的图片...",
       "DOWNLOAD": "下载",
-      "SHARE_TITLE": "My {year} Year in Review",
-      "SHARE_TEXT": "Check out my {year} Year in Review with Chatwoot!",
-      "BRANDING": "Made with Chatwoot"
+      "SHARE_TITLE": "我的 {year} 年度回顾",
+      "SHARE_TEXT": "快来看看我在 Chatwoot 上的 {year} 年度回顾！",
+      "BRANDING": "由 Chatwoot 生成"
     },
     "BANNER": {
-      "TITLE": "Your {year} Year in Review is here",
-      "BUTTON": "See your impact"
+      "TITLE": "您的 {year} 年度回顾来了",
+      "BUTTON": "查看您的成就"
     },
     "NAVIGATION": {
-      "PREVIOUS": "Previous",
-      "NEXT": "Next",
+      "PREVIOUS": "上一页",
+      "NEXT": "下一页",
       "SHARE": "分享会话"
     }
   }

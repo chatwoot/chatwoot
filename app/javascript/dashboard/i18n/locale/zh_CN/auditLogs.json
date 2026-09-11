@@ -12,8 +12,8 @@
       "TITLE": "管理审计日志",
       "DESC": "审计日志是 Chatwoot 系统中事件和操作的痕迹。",
       "TABLE_HEADER": {
-        "ACTIVITY": "User",
-        "TIME": "Action",
+        "ACTIVITY": "活动",
+        "TIME": "时间",
         "IP_ADDRESS": "IP 地址"
       }
     },

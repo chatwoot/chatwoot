@@ -221,18 +221,18 @@ zh:
     activity:
       captain:
         resolved: '对话被系统标记为已解决, 原因是 %{user_name} 不活跃'
-        resolved_with_reason: 'Conversation was marked resolved by %{user_name} (%{reason})'
-        resolved_by_tool: 'Conversation was marked resolved by %{user_name}: %{reason}'
+        resolved_with_reason: '对话已由 %{user_name} 标记为已解决（%{reason}）'
+        resolved_by_tool: '对话已由 %{user_name} 标记为已解决：%{reason}'
         open: '对话被 %{user_name} 打开'
-        open_with_reason: 'Conversation was marked open by %{user_name} (%{reason})'
-        auto_opened_after_agent_reply: 'Conversation was marked open automatically after an agent reply'
+        open_with_reason: '对话已由 %{user_name} 标记为打开（%{reason}）'
+        auto_opened_after_agent_reply: '客服回复后，系统自动将对话标记为打开'
       agent_bot:
-        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
+        error_moved_to_open: '由于客服机器人发生错误，系统已将对话标记为打开。'
       status:
-        resolved: '对话被标记由 %{user_name} 解决'
-        contact_resolved: '对话被 %{contact_name} 重新打开'
+        resolved: '对话已由 %{user_name} 标记为已解决'
+        contact_resolved: '对话已由 %{contact_name} 解决'
         open: '对话被 %{user_name} 重新打开'
-        pending: '对话被标记由 %{user_name} 待处理'
+        pending: '对话已由 %{user_name} 标记为待处理'
         snoozed: '对话被 %{user_name} 暂停'
         auto_resolved_days: '对话被系统标记为已解决, 原因是 %{count} 天不活跃'
         auto_resolved_hours: '对话被系统标记为已解决, 原因是 %{count} 小时不活跃'

@@ -127,9 +127,9 @@
           "PORTAL_CONFIG": {
             "TITLE": "门户配置",
             "ITEMS": {
-              "NAME": "姓名：",
+              "NAME": "门户名称",
               "DOMAIN": "自定义域名",
-              "SLUG": "Slug",
+              "SLUG": "路径标识（Slug）",
               "TITLE": "门户标题",
               "THEME": "主题颜色",
               "SUB_TEXT": "门户副文本"
@@ -160,8 +160,8 @@
         },
         "SEND_CNAME_INSTRUCTIONS": {
           "API": {
-            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
-            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+            "SUCCESS_MESSAGE": "CNAME 指引发送成功",
+            "ERROR_MESSAGE": "发送 CNAME 指引时出错"
           }
         }
       },
@@ -185,7 +185,7 @@
           "TITLE": "类别",
           "NEW_CATEGORY": "新建类别",
           "TABLE": {
-            "NAME": "姓名：",
+            "NAME": "类别名称",
             "DESCRIPTION": "描述信息",
             "LOCALE": "语言环境",
             "ARTICLE_COUNT": "文章数量",
@@ -234,23 +234,23 @@
           }
         },
         "LOGO": {
-          "LABEL": "Logo",
-          "UPLOAD_BUTTON": "上传Logo",
-          "HELP_TEXT": "此Logo将显示在门户标题中。",
-          "IMAGE_UPLOAD_SUCCESS": "Logo上传成功",
-          "IMAGE_UPLOAD_ERROR": "Logo删除成功",
-          "IMAGE_DELETE_ERROR": "删除Logo时出错"
+          "LABEL": "徽标",
+          "UPLOAD_BUTTON": "上传徽标",
+          "HELP_TEXT": "此徽标将显示在门户标题中。",
+          "IMAGE_UPLOAD_SUCCESS": "徽标上传成功",
+          "IMAGE_UPLOAD_ERROR": "徽标上传失败，请重试",
+          "IMAGE_DELETE_ERROR": "删除徽标时出错"
         },
         "NAME": {
-          "LABEL": "姓名：",
+          "LABEL": "门户名称",
           "PLACEHOLDER": "门户名称",
           "HELP_TEXT": "该名称将用于面向公众的门户内部。",
-          "ERROR": "名字必填"
+          "ERROR": "名称必填"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "门户的URL Slug",
-          "ERROR": "Slug是必填项"
+          "LABEL": "路径标识（Slug）",
+          "PLACEHOLDER": "门户的 URL 路径标识",
+          "ERROR": "路径标识为必填项"
         },
         "DOMAIN": {
           "LABEL": "自定义域名",
@@ -319,14 +319,14 @@
       },
       "DRAFT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
-          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+          "SUCCESS_MESSAGE": "语言环境已成功移至草稿",
+          "ERROR_MESSAGE": "无法将语言环境移至草稿，请重试。"
         }
       },
       "PUBLISH_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale published successfully",
-          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+          "SUCCESS_MESSAGE": "语言环境发布成功",
+          "ERROR_MESSAGE": "无法发布语言环境，请重试。"
         }
       }
     },
@@ -388,12 +388,12 @@
     },
     "REORDER_ARTICLE": {
       "API": {
-        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+        "ERROR_MESSAGE": "无法重新排序文章，请重试。"
       }
     },
     "REORDER_CATEGORY": {
       "API": {
-        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+        "ERROR_MESSAGE": "无法重新排序类别，请重试。"
       }
     },
     "CREATE_ARTICLE": {
@@ -417,16 +417,16 @@
         "PORTAL": "门户网站",
         "LOCALE": "语言环境",
         "NAME": {
-          "LABEL": "姓名：",
+          "LABEL": "类别名称",
           "PLACEHOLDER": "类别名称",
           "HELP_TEXT": "类别名称和图标将用于面向公众的门户以对文章进行分类。",
-          "ERROR": "名字必填"
+          "ERROR": "名称必填"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "类别的URL Slug",
+          "LABEL": "路径标识（Slug）",
+          "PLACEHOLDER": "类别的 URL 路径标识",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug是必填项"
+          "ERROR": "路径标识为必填项"
         },
         "DESCRIPTION": {
           "LABEL": "描述信息",
@@ -434,7 +434,7 @@
           "ERROR": "描述是必需的"
         },
         "BUTTONS": {
-          "CREATE": "类别的 URL Slug",
+          "CREATE": "创建类别",
           "CANCEL": "取消"
         },
         "API": {
@@ -448,16 +448,16 @@
         "PORTAL": "门户网站",
         "LOCALE": "语言环境",
         "NAME": {
-          "LABEL": "姓名：",
+          "LABEL": "类别名称",
           "PLACEHOLDER": "类别名称",
           "HELP_TEXT": "类别名称和图标将用于面向公众的门户以对文章进行分类。",
-          "ERROR": "名字必填"
+          "ERROR": "名称必填"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "类别的URL Slug",
+          "LABEL": "路径标识（Slug）",
+          "PLACEHOLDER": "类别的 URL 路径标识",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug是必填项"
+          "ERROR": "路径标识为必填项"
         },
         "DESCRIPTION": {
           "LABEL": "描述信息",
@@ -539,8 +539,8 @@
             "PUBLISHED": "已发布",
             "ARCHIVED": "已归档"
           },
-          "PENDING_EDITS": "Unpublished edits",
-          "PENDING_EDITS_TOOLTIP": "This published article has unpublished edits",
+          "PENDING_EDITS": "未发布的修改",
+          "PENDING_EDITS_TOOLTIP": "这篇已发布的文章包含未发布的修改",
           "CATEGORY": {
             "UNCATEGORISED": "未分类"
           }
@@ -590,29 +590,29 @@
           "SUBTITLE": "此类别中的文章将显示在此处"
         },
         "SEARCH": {
-          "TITLE": "No matching articles",
-          "SUBTITLE": "We couldn't find any articles matching your search. Try a different term."
+          "TITLE": "没有匹配的文章",
+          "SUBTITLE": "找不到与搜索内容匹配的文章，请尝试其他关键词。"
         }
       },
       "BULK_TRANSLATE": {
-        "TITLE": "Translate article | Translate {count} articles",
-        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
-        "LOCALE_LABEL": "Target language",
-        "LOCALE_PLACEHOLDER": "Select a language",
-        "CATEGORY_LABEL": "Target category",
-        "CATEGORY_PLACEHOLDER": "Select a category",
-        "OPTIONAL": "(optional)",
+        "TITLE": "翻译文章 | 翻译 {count} 篇文章",
+        "DESCRIPTION": "将所选文章翻译为另一种语言。",
+        "LOCALE_LABEL": "目标语言",
+        "LOCALE_PLACEHOLDER": "选择语言",
+        "CATEGORY_LABEL": "目标类别",
+        "CATEGORY_PLACEHOLDER": "选择类别",
+        "OPTIONAL": "（可选）",
         "CONFIRM": "翻译",
         "SELECT_ALL": "全选 ({count})",
         "SELECTED_COUNT": "{count} 已选择",
-        "CLEAR_SELECTION": "Clear selection",
+        "CLEAR_SELECTION": "清除选择",
         "TRANSLATE_BUTTON": "翻译",
-        "CONFIRM_OVERWRITE": "Overwrite and translate",
-        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
-        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "CONFIRM_OVERWRITE": "覆盖并翻译",
+        "DUPLICATE_WARNING": "所选语言中此文章已有翻译。| 所选语言中 {count} 篇文章已有翻译。",
+        "DUPLICATE_CONFIRM_HINT": "再次点击翻译以覆盖现有翻译。",
         "API": {
-          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
-          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+          "SUCCESS_MESSAGE": "翻译进行中，文章就绪后将以草稿形式显示。",
+          "ERROR_MESSAGE": "翻译启动失败，请重试。"
         }
       },
       "BULK_ACTIONS": {
@@ -622,24 +622,24 @@
         "TRANSLATE": "翻译",
         "MOVE_TO_CATEGORY": "类别",
         "DELETE": "删除",
-        "STATUS_SUCCESS": "Articles updated successfully",
-        "STATUS_ERROR": "Failed to update articles",
-        "STATUS_SKIPPED": "1 article with unpublished edits was skipped — open it to publish or discard. | {count} articles with unpublished edits were skipped — open them to publish or discard.",
-        "STATUS_SKIPPED_ALL": "These articles have unpublished edits — open each to publish or discard.",
-        "CATEGORY_SUCCESS": "Articles moved successfully",
-        "CATEGORY_ERROR": "Failed to move articles",
-        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
-        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "STATUS_SUCCESS": "文章更新成功",
+        "STATUS_ERROR": "文章更新失败",
+        "STATUS_SKIPPED": "已跳过 1 篇含未发布修改的文章，请打开该文章以发布或放弃修改。| 已跳过 {count} 篇含未发布修改的文章，请逐一打开以发布或放弃修改。",
+        "STATUS_SKIPPED_ALL": "这些文章包含未发布的修改，请逐一打开以发布或放弃修改。",
+        "CATEGORY_SUCCESS": "文章移动成功",
+        "CATEGORY_ERROR": "文章移动失败",
+        "DELETE_CONFIRM_TITLE": "删除文章 | 删除 {count} 篇文章",
+        "DELETE_CONFIRM_DESCRIPTION": "这将永久删除所选文章，此操作不可撤销。| 这将永久删除 {count} 篇所选文章，此操作不可撤销。",
         "DELETE_CONFIRM": "删除",
-        "DELETE_SUCCESS": "Articles deleted successfully",
-        "DELETE_ERROR": "Failed to delete articles"
+        "DELETE_SUCCESS": "文章删除成功",
+        "DELETE_ERROR": "文章删除失败"
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "新建类别",
         "EDIT_CATEGORY": "编辑类别",
-        "SEARCH_PLACEHOLDER": "Search categories...",
+        "SEARCH_PLACEHOLDER": "搜索类别...",
         "CATEGORIES_COUNT": "{n} 个类别 | {n} 个类别",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "类别 ({localeCode})",
@@ -651,8 +651,8 @@
         "SUBTITLE": "类别将显示在此处。您可以点击“新建类别”按钮添加类别。"
       },
       "SEARCH_EMPTY_STATE": {
-        "TITLE": "No matching categories",
-        "SUBTITLE": "We couldn't find any categories matching your search. Try a different term."
+        "TITLE": "没有匹配的类别",
+        "SUBTITLE": "找不到与搜索内容匹配的类别，请尝试其他关键词。"
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} 篇文章 | {count} 篇文章"
@@ -685,14 +685,14 @@
         },
         "FORM": {
           "NAME": {
-            "LABEL": "姓名",
+            "LABEL": "类别名称",
             "PLACEHOLDER": "类别名称",
-            "ERROR": "名字必填"
+            "ERROR": "名称必填"
           },
           "SLUG": {
-            "LABEL": "Slug",
-            "PLACEHOLDER": "类别的URL Slug",
-            "ERROR": "Slug 是必填项",
+            "LABEL": "路径标识（Slug）",
+            "PLACEHOLDER": "类别的 URL 路径标识",
+            "ERROR": "路径标识为必填项",
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
@@ -711,10 +711,10 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "没有可用的语言环境 | {n} 个语言环境 | {n} 个语言环境",
       "NEW_LOCALE_BUTTON_TEXT": "新建语言环境",
-      "SEARCH_PLACEHOLDER": "Search locales...",
+      "SEARCH_PLACEHOLDER": "搜索语言环境...",
       "SEARCH_EMPTY_STATE": {
-        "TITLE": "No matching locales",
-        "SUBTITLE": "We couldn't find any locales matching your search. Try a different term."
+        "TITLE": "没有匹配的语言环境",
+        "SUBTITLE": "找不到与搜索内容匹配的语言环境，请尝试其他关键词。"
       },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} 篇文章 | {count} 篇文章",
@@ -723,51 +723,51 @@
         "DRAFT": "草稿",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "设为默认",
-          "MOVE_TO_DRAFT": "Move to draft",
-          "PUBLISH_LOCALE": "Publish locale",
-          "CUSTOMIZE_CONTENT": "Localize content",
-          "SELECT_POPULAR_CONTENT": "Select recommended content",
+          "MOVE_TO_DRAFT": "移至草稿",
+          "PUBLISH_LOCALE": "发布语言环境",
+          "CUSTOMIZE_CONTENT": "本地化内容",
+          "SELECT_POPULAR_CONTENT": "选择推荐内容",
           "DELETE": "删除"
         }
       },
       "POPULAR_CONTENT_DIALOG": {
-        "TITLE": "Recommended content",
-        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on this locale's help center home page. Drag them into the order you want visitors to see.",
+        "TITLE": "推荐内容",
+        "DESCRIPTION": "最多选择 3 个类别和 6 篇文章，展示在此语言环境的帮助中心首页。拖动即可调整访客看到的顺序。",
         "SEARCH": "搜索……",
-        "EMPTY": "No matching results",
-        "ADD_ANOTHER": "Add another...",
-        "SLOTS_LEFT": "{count} slots left",
-        "OVERRIDING_DEFAULTS": "Overriding defaults for this locale",
-        "CONFIRM": "Save recommendations",
+        "EMPTY": "没有匹配结果",
+        "ADD_ANOTHER": "继续添加……",
+        "SLOTS_LEFT": "还可添加 {count} 项",
+        "OVERRIDING_DEFAULTS": "正在覆盖此语言环境的默认推荐内容",
+        "CONFIRM": "保存推荐内容",
         "CATEGORIES": {
-          "LABEL": "Recommended categories",
-          "ARTICLES_COUNT": "No articles | {count} article | {count} articles"
+          "LABEL": "推荐类别",
+          "ARTICLES_COUNT": "没有文章 | {count} 篇文章 | {count} 篇文章"
         },
         "ARTICLES": {
-          "LABEL": "Recommended articles",
-          "IN_CATEGORY": "in {category}",
+          "LABEL": "推荐文章",
+          "IN_CATEGORY": "位于 {category}",
           "UNCATEGORIZED": "未分类"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Recommended content updated successfully",
-          "ERROR_MESSAGE": "Unable to update recommended content. Try again."
+          "SUCCESS_MESSAGE": "推荐内容更新成功",
+          "ERROR_MESSAGE": "无法更新推荐内容，请重试。"
         }
       },
       "CONTENT_DIALOG": {
-        "TITLE": "Localize content",
-        "DESCRIPTION": "Set values specific to this locale. Anything left blank falls back to the default locale.",
+        "TITLE": "本地化内容",
+        "DESCRIPTION": "设置此语言环境专用的内容。留空的项目将回退到默认语言环境。",
         "NAME": {
-          "LABEL": "姓名："
+          "LABEL": "名称"
         },
         "PAGE_TITLE": {
           "LABEL": "页面标题"
         },
         "HEADER_TEXT": {
-          "LABEL": "标题文本"
+          "LABEL": "页眉文本"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale content updated successfully",
-          "ERROR_MESSAGE": "Unable to update locale content. Try again."
+          "SUCCESS_MESSAGE": "语言环境内容更新成功",
+          "ERROR_MESSAGE": "无法更新语言环境内容，请重试。"
         }
       },
       "ADD_LOCALE_DIALOG": {
@@ -797,28 +797,28 @@
         },
         "PREVIEW": "预览",
         "PUBLISH": "发布",
-        "PUBLISH_CHANGES": "Publish changes",
-        "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
-        "PUBLISH_CHANGES_ERROR": "Could not publish changes",
-        "SAVE_IN_PROGRESS": "Still saving your latest changes — please try again in a moment.",
-        "DISCARD_CHANGES": "Discard changes",
-        "DISCARD_CHANGES_SUCCESS": "Changes discarded",
-        "DISCARD_CHANGES_ERROR": "Could not discard changes",
-        "PENDING_CHANGES": "Pending changes",
-        "VIEW_CHANGES": "View unpublished changes",
+        "PUBLISH_CHANGES": "发布修改",
+        "PUBLISH_CHANGES_SUCCESS": "修改发布成功",
+        "PUBLISH_CHANGES_ERROR": "无法发布修改",
+        "SAVE_IN_PROGRESS": "最新修改仍在保存中，请稍后重试。",
+        "DISCARD_CHANGES": "放弃修改",
+        "DISCARD_CHANGES_SUCCESS": "修改已放弃",
+        "DISCARD_CHANGES_ERROR": "无法放弃修改",
+        "PENDING_CHANGES": "待发布修改",
+        "VIEW_CHANGES": "查看未发布的修改",
         "DRAFT": "草稿",
         "ARCHIVE": "归档",
         "BACK_TO_ARTICLES": "返回文章"
       },
       "PENDING_CHANGES_POPOVER": {
-        "TITLE": "Unpublished changes",
-        "DESCRIPTION": "This article has draft changes that aren't live yet. Apply them before changing the status, or discard them?",
-        "APPLY": "Apply changes",
-        "DISCARD": "Discard changes"
+        "TITLE": "未发布的修改",
+        "DESCRIPTION": "这篇文章包含尚未上线的草稿修改。更改状态前要应用这些修改，还是放弃修改？",
+        "APPLY": "应用修改",
+        "DISCARD": "放弃修改"
       },
       "DIFF_DIALOG": {
-        "TITLE": "Unpublished changes",
-        "DESCRIPTION": "Compare your draft against the version that's currently live.",
+        "TITLE": "未发布的修改",
+        "DESCRIPTION": "将草稿与当前已上线版本进行比较。",
         "TITLE_LABEL": "标题"
       },
       "EDIT_ARTICLE": {
@@ -852,32 +852,32 @@
       "DESCRIPTION": "为您的门户命名并创建一个用户友好的URL Slug。您稍后可以在设置中修改它们。",
       "CONFIRM_BUTTON_LABEL": "创建",
       "NAME": {
-        "LABEL": "姓名",
+        "LABEL": "门户名称",
         "PLACEHOLDER": "用户指南 | Chatwoot",
         "MESSAGE": "为您的门户选择一个名称。",
-        "ERROR": "名字必填"
+        "ERROR": "名称必填"
       },
       "SLUG": {
-        "LABEL": "Slug",
+        "LABEL": "路径标识（Slug）",
         "PLACEHOLDER": "用户指南",
-        "ERROR": "Slug是必填项",
-        "FORMAT_ERROR": "请输入有效的 Slug，例如：user-guide"
+        "ERROR": "路径标识为必填项",
+        "FORMAT_ERROR": "请输入有效的路径标识，例如：user-guide"
       }
     },
     "PORTAL_SETTINGS": {
       "FORM": {
         "AVATAR": {
-          "LABEL": "头像",
+          "LABEL": "徽标",
           "IMAGE_UPLOAD_ERROR": "无法上传图片！请再试一次",
-          "IMAGE_UPLOAD_SUCCESS": "图片上传成功，请点击保存更改以保存Logo",
-          "IMAGE_DELETE_SUCCESS": "Logo删除成功",
-          "IMAGE_DELETE_ERROR": "无法删除Logo",
+          "IMAGE_UPLOAD_SUCCESS": "图片上传成功，请点击“保存更改”以保存徽标",
+          "IMAGE_DELETE_SUCCESS": "徽标删除成功",
+          "IMAGE_DELETE_ERROR": "无法删除徽标",
           "IMAGE_UPLOAD_SIZE_ERROR": "图片大小应小于 {size}MB"
         },
         "NAME": {
-          "LABEL": "姓名",
+          "LABEL": "门户名称",
           "PLACEHOLDER": "门户名称",
-          "ERROR": "名字必填"
+          "ERROR": "名称必填"
         },
         "HEADER_TEXT": {
           "LABEL": "标题文本",
@@ -890,11 +890,11 @@
         "HOME_PAGE_LINK": {
           "LABEL": "主页链接",
           "PLACEHOLDER": "门户主页链接",
-          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+          "ERROR": "请输入有效的 URL，主页链接必须以 'http://' 或 'https://' 开头。"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "门户Slug"
+          "LABEL": "路径标识（Slug）",
+          "PLACEHOLDER": "门户路径标识"
         },
         "BRAND_COLOR": {
           "LABEL": "品牌颜色"
@@ -906,14 +906,14 @@
           "HEADER": "自定义域名",
           "LABEL": "自定义域名：",
           "DESCRIPTION": "您可以在自定义域名上托管您的门户。例如，如果您的网站是 yourdomain.com，并且您希望您的门户在 docs.yourdomain.com 上可用，只需在此字段中输入即可。",
-          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
+          "STATUS_DESCRIPTION": "您的自定义门户在验证后即可开始使用。",
           "PLACEHOLDER": "门户自定义域名",
           "EDIT_BUTTON": "编辑",
           "ADD_BUTTON": "添加自定义域名",
           "STATUS": {
             "LIVE": "实时",
-            "PENDING": "Awaiting verification",
-            "ERROR": "Verification failed"
+            "PENDING": "等待验证",
+            "ERROR": "验证失败"
           },
           "DIALOG": {
             "ADD_HEADER": "添加自定义域名",
@@ -923,17 +923,17 @@
             "LABEL": "自定义域名",
             "PLACEHOLDER": "门户自定义域名",
             "ERROR": "自定义域名是必填项",
-            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+            "FORMAT_ERROR": "请输入有效的域名 URL，例如 docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS配置",
             "DESCRIPTION": "登录您的 DNS 提供商账户，并添加一个指向 chatwoot.help 的子域名的 CNAME 记录",
-            "COPY": "Successfully copied CNAME",
+            "COPY": "CNAME 已成功复制",
             "SEND_INSTRUCTIONS": {
-              "HEADER": "Send instructions",
-              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
-              "PLACEHOLDER": "Enter their email",
-              "ERROR": "Enter a valid email address",
+              "HEADER": "发送指引",
+              "DESCRIPTION": "如果您希望由开发团队成员处理此步骤，可在下方输入其邮箱地址，我们将向其发送所需指引。",
+              "PLACEHOLDER": "输入对方邮箱",
+              "ERROR": "请输入有效的邮箱地址",
               "SEND_BUTTON": "发送"
             }
           }
@@ -952,22 +952,22 @@
       },
       "LAYOUT_CONTENT": {
         "HEADER": "外观",
-        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "DESCRIPTION": "选择适合访客阅读习惯的布局。",
         "LAYOUT": {
           "CLASSIC": {
-            "TITLE": "Classic",
-            "DESCRIPTION": "A welcoming home page with search and featured topics."
+            "TITLE": "经典",
+            "DESCRIPTION": "带搜索和精选主题的欢迎首页。"
           },
           "SIDEBAR": {
-            "TITLE": "Documentation",
-            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+            "TITLE": "文档",
+            "DESCRIPTION": "侧边导航让每篇指南触手可及。"
           }
         },
         "SOCIAL_LINKS": {
-          "HEADER": "Social links",
-          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
-          "PLACEHOLDER": "handle",
-          "ADD": "Add social link",
+          "HEADER": "社交链接",
+          "DESCRIPTION": "为每个社交平台输入用户名，帮助中心将自动生成完整链接，显示在文档布局页脚中。",
+          "PLACEHOLDER": "用户名",
+          "ADD": "添加社交链接",
           "REMOVE": "删除"
         },
         "SAVE": "保存更改"
@@ -1050,12 +1050,12 @@
       }
     },
     "PDF_UPLOAD": {
-      "TITLE": "Upload PDF Document",
-      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
-      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
+      "TITLE": "上传 PDF 文档",
+      "DESCRIPTION": "上传 PDF 文档，使用 AI 自动生成常见问题",
+      "DRAG_DROP_TEXT": "将 PDF 文件拖放到此处，或点击选择",
       "SELECT_FILE": "选择 PDF 文件",
-      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
-      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "ADDITIONAL_CONTEXT_LABEL": "附加上下文（可选）",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "为常见问题生成提供任何附加上下文或说明...",
       "UPLOADING": "上传中...",
       "UPLOAD": "上传和进度",
       "CANCEL": "取消",
@@ -1098,8 +1098,8 @@
       "PUBLISH_SELECTED": "发布所选内容",
       "PUBLISHING": "发布中...",
       "FROM_DOCUMENT": "来自文档",
-      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
-      "LOADING": "Loading generated content..."
+      "NO_CONTENT": "暂无生成内容。上传 PDF 文档即可开始。",
+      "LOADING": "正在加载生成的内容..."
     }
   }
 }

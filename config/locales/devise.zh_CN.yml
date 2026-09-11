@@ -43,8 +43,8 @@ zh_CN:
       updated: "您的密码已成功更改。"
     sessions:
       signed_in: "登录成功。"
-      signed_out: "登录成功。"
-      already_signed_out: "登录成功。"
+      signed_out: "退出成功。"
+      already_signed_out: "您已退出。"
     unlocks:
       send_instructions: "您将在几分钟内收到一封电子邮件，说明如何确认您的电子邮件地址。"
       send_paranoid_instructions: "如果您的帐户存在，您将收到一封电子邮件，说明如何在几分钟内解锁它。"
