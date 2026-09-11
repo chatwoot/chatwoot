@@ -1,19 +1,34 @@
 class Stripe::CallbacksController < ApplicationController
+  OAUTH_ERROR_CODES = %w[invalid_request invalid_client invalid_grant unauthorized_client unsupported_grant_type
+                         invalid_scope access_denied server_error temporarily_unavailable].freeze
+
   before_action :load_installation
 
   def show
-    return redirect_to "#{destination}?error=authorization_failed" if params[:error].present? || params[:code].blank?
+    return authorization_failed('provider_error') if params[:error].present?
+    return authorization_failed('missing_code') if params[:code].blank?
 
     token = Integrations::Stripe::Oauth.client.auth_code.get_token(params[:code], redirect_uri: Integrations::Stripe::Oauth.callback_url)
-    return redirect_to "#{destination}?error=authorization_failed" unless token.params.fetch('livemode') == @livemode
+    return authorization_failed('token_mode_mismatch') unless token.params.fetch('livemode') == @livemode
 
     save_connection(token)
     redirect_to destination
-  rescue OAuth2::Error
-    redirect_to "#{destination}?error=authorization_failed"
+  rescue OAuth2::Error => e
+    authorization_failed('token_exchange_failed', oauth_error: safe_oauth_error_code(e.code), http_status: e.response.status)
   end
 
   private
+
+  def safe_oauth_error_code(code)
+    # Provider messages and response bodies can contain credentials. Only log known error codes.
+    OAUTH_ERROR_CODES.include?(code) ? code : 'unknown'
+  end
+
+  def authorization_failed(reason, **details)
+    Rails.logger.warn({ event: 'stripe_oauth_authorization_failed', reason: reason, account_id: @account.id,
+                        request_id: request.request_id, expected_livemode: @livemode }.merge(details).to_json)
+    redirect_to "#{destination}?error=authorization_failed"
+  end
 
   def save_connection(token)
     @account.with_lock do
