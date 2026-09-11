@@ -76,11 +76,23 @@ class Api::V1::Widget::BaseController < ApplicationController
     { timestamp: permitted_params[:message][:timestamp] }
   end
 
+  def sanitized_incoming_content
+    @sanitized_incoming_content ||= Widget::IncomingContentSanitizer.sanitize(permitted_params.dig(:message, :content))
+  end
+
+  def reject_blank_incoming_content!
+    return if sanitized_incoming_content.present? || params.dig(:message, :attachments).present?
+
+    record = Message.new
+    record.errors.add(:content, :blank)
+    raise ActiveRecord::RecordInvalid, record
+  end
+
   def message_params
     {
       account_id: conversation.account_id,
       sender: @contact,
-      content: permitted_params[:message][:content],
+      content: sanitized_incoming_content,
       inbox_id: conversation.inbox_id,
       content_attributes: {
         in_reply_to: permitted_params[:message][:reply_to]
