@@ -10,6 +10,12 @@ class Llm::SpeechToTextService < Llm::LegacyBaseOpenAiService
   # skips transcription.
   BYTE_LIMIT = 25_000_000
 
+  # Extensions the transcription endpoint rejects, mapped to an accepted name for
+  # the same container. WhatsApp voice notes arrive as `.oga` and come back as
+  # "Unsupported file format oga" even though the bytes are valid Ogg/Opus audio;
+  # `.ogg` names the same data in a way the endpoint accepts.
+  EXTENSION_REMAP = { 'oga' => 'ogg' }.freeze
+
   attr_reader :blob, :account, :transcription_model
 
   # Transcription runs on Captain's OpenAI credentials and consumes its response credits.
@@ -62,12 +68,12 @@ class Llm::SpeechToTextService < Llm::LegacyBaseOpenAiService
   def fetch_audio_file
     temp_dir = Rails.root.join('tmp/uploads/audio-transcriptions')
     FileUtils.mkdir_p(temp_dir)
-    temp_file_name = "#{blob.key}-#{blob.filename}"
+    extension = blob.filename.extension_without_delimiter
+    extension = extension_from_content_type(blob.content_type) if extension.blank?
+    extension = EXTENSION_REMAP.fetch(extension.to_s.downcase, extension)
 
-    if blob.filename.extension_without_delimiter.blank?
-      extension = extension_from_content_type(blob.content_type)
-      temp_file_name = "#{temp_file_name}.#{extension}" if extension.present?
-    end
+    temp_file_name = "#{blob.key}-#{blob.filename.base}"
+    temp_file_name = "#{temp_file_name}.#{extension}" if extension.present?
 
     temp_file_path = File.join(temp_dir, temp_file_name)
 
