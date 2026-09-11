@@ -122,6 +122,8 @@ gem 'grpc'
 gem 'google-cloud-translate-v3', '>= 0.7.0'
 
 ##-- apm and error monitoring ---#
+# Prometheus text for GET /metrics (opt-in via ENABLE_PROMETHEUS)
+gem 'prometheus-client', '~> 4.2'
 # loaded only when environment variables are set.
 # ref application.rb
 gem 'datadog', '~> 2.0', require: false
