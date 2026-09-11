@@ -8,6 +8,25 @@ describe BaseMarkdownRenderer do
     renderer.render(doc)
   end
 
+  describe '#link' do
+    it 'blanks unsafe URLs' do
+      unsafe_urls = ['javascript:alert(1)', 'vbscript:alert(1)', 'file:///etc/passwd', 'data:text/html;base64,PHNjcmlwdD4=']
+
+      unsafe_urls.each do |url|
+        rendered = render_markdown("[link](#{url})")
+
+        expect(rendered).to include('<a href="">link</a>')
+        expect(rendered).not_to include(url)
+      end
+    end
+
+    it 'preserves custom application protocols' do
+      markdown = '[@agent](mention://user/1/Agent)'
+
+      expect(render_markdown(markdown)).to include('href="mention://user/1/Agent"')
+    end
+  end
+
   describe '#image' do
     context 'when image has a height' do
       it 'renders the img tag with the correct attributes' do
@@ -52,6 +71,21 @@ describe BaseMarkdownRenderer do
       it 'renders the img tag without crashing' do
         markdown = '![Sample Title](invalid_url)'
         expect { render_markdown(markdown) }.not_to raise_error
+      end
+    end
+
+    context 'when image uses an unsafe URL' do
+      it 'blanks the source' do
+        rendered = render_markdown('![Sample](data:image/svg+xml;base64,PHN2Zz4=)')
+
+        expect(rendered).to include('<img src=""')
+        expect(rendered).not_to include('data:image/svg+xml')
+      end
+
+      it 'preserves safe image data URLs' do
+        rendered = render_markdown('![Sample](data:image/png;base64,AAAA)')
+
+        expect(rendered).to include('src="data:image/png;base64,AAAA"')
       end
     end
   end
