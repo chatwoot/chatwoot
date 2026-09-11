@@ -1,0 +1,67 @@
+{
+  "status": 1,
+  "cnpj": "11.222.333/0001-81",
+  "tipo": "Matriz",
+  "razao": "TOKEN TEST LTDA",
+  "fantasia": "TOKEN TEST",
+  "capitalSocial": 95000,
+  "inicioAtividade": "31/12/1999",
+  "email": "contato@empresa.com",
+  "responsavel": "Joao Jose",
+  "responsavelCpf": "111.222.333-44",
+  "responsavelQualificacao": { "id": 49, "descricao": "Socio-Administrador" },
+  "simplesNacional": { "optante": "Nao", "mei": "Nao", "inicio": "17/01/2020", "fim": "01/01/2023" },
+  "simei": { "optante": "Nao" },
+  "matrizEndereco": {
+    "cep": "39400-000",
+    "tipo": "Rua",
+    "logradouro": "Rua A",
+    "numero": "1",
+    "complemento": "Sala 1",
+    "bairro": "Centro",
+    "cidade": "Montes Claros",
+    "uf": "MG"
+  },
+  "ibge": {
+    "pais": { "id": "1058", "iso2": "BR", "iso3": "BRA", "nome": "Brasil", "comex_id": "105" },
+    "estado": { "id": 11, "nome": "Minas Gerais", "sigla": "MG", "ibge_id": 31 },
+    "cidade": { "id": 2745, "nome": "Montes Claros", "ibge_id": 3143302, "siafi_id": "4865" }
+  },
+  "situacao": {
+    "id": 4,
+    "nome": "Inapta",
+    "data": "03/04/2020",
+    "motivo": { "id": 63, "descricao": "Omissao De Declaracoes" }
+  },
+  "naturezaJuridica": { "codigo": "2062", "descricao": "Sociedade Empresaria Limitada" },
+  "cnae": {
+    "fiscal": "6202300",
+    "secao": "J",
+    "divisao": "62",
+    "grupo": "62.0",
+    "classe": "62.02-3",
+    "subClasse": "6202-3/00",
+    "descricao": "Desenvolvimento e licenciamento de programas de computador customizaveis"
+  },
+  "porte": { "id": "03", "descricao": "Demais" },
+  "socios": [
+    {
+      "cpf_cnpj_socio": "111.222.333-44",
+      "nome": "Joao Jose",
+      "tipo": "Pessoa Fisica",
+      "data_entrada": "1999-12-31",
+      "qualificacao_socio": { "id": 49, "descricao": "Socio-Administrador" }
+    },
+    {
+      "cpf_cnpj_socio": "555.666.777-88",
+      "nome": "Maria Souza",
+      "tipo": "Pessoa Fisica",
+      "data_entrada": "2001-05-10",
+      "qualificacao_socio": "Socia"
+    }
+  ],
+  "pacoteUsado": 6,
+  "saldo": 123,
+  "consultaID": "11bb22cc33dd44ee",
+  "delay": 0.3
+}

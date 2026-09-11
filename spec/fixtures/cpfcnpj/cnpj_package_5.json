@@ -1,0 +1,26 @@
+{
+  "status": 1,
+  "cnpj": "11.222.333/0001-81",
+  "tipo": "Matriz",
+  "razao": "TOKEN TEST LTDA",
+  "fantasia": "TOKEN TEST",
+  "matrizEndereco": {
+    "cep": "0000-111",
+    "tipo": "Rua",
+    "logradouro": "Rua A",
+    "numero": "1",
+    "complemento": "Sala 1",
+    "bairro": "Centro",
+    "cidade": "Montes Claros",
+    "uf": "MG"
+  },
+  "ibge": {
+    "pais": { "id": "1058", "iso2": "BR", "iso3": "BRA", "nome": "Brasil", "comex_id": "105" },
+    "estado": { "id": 11, "nome": "Minas Gerais", "sigla": "MG", "ibge_id": 31 },
+    "cidade": { "id": 2745, "nome": "Montes Claros", "ibge_id": 3143302, "siafi_id": "4865" }
+  },
+  "pacoteUsado": 5,
+  "saldo": 123,
+  "consultaID": "11bb22cc33dd44ee",
+  "delay": 0.3
+}

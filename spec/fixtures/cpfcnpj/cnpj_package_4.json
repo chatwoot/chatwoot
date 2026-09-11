@@ -1,0 +1,10 @@
+{
+  "status": 1,
+  "cnpj": "11.222.333/0001-81",
+  "tipo": "Matriz",
+  "razao": "TOKEN TEST LTDA",
+  "pacoteUsado": 4,
+  "saldo": 123,
+  "consultaID": "11bb22cc33dd44ee",
+  "delay": 0.3
+}

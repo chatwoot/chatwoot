@@ -1,0 +1,9 @@
+{
+  "status": 1,
+  "cpf": "111.444.777-35",
+  "nome": "Test Token",
+  "pacoteUsado": 1,
+  "saldo": 123,
+  "consultaID": "11bb22cc33dd44ee",
+  "delay": 0.3
+}
