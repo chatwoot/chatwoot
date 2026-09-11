@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'chatwoot_hub'
 
 RSpec.describe ChatwootApp do
   describe '.self_hosted_paid?' do
