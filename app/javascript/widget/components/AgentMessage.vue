@@ -1,4 +1,5 @@
 <script>
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 import UserMessage from 'widget/components/UserMessage.vue';
 import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
 import MessageReplyButton from 'widget/components/MessageReplyButton.vue';
@@ -85,7 +86,7 @@ export default {
     avatarUrl() {
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
-        : '/assets/images/chatwoot_bot.png';
+        : useAssetUrl()('/assets/images/chatwoot_bot.png');
 
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
         return displayImage;
