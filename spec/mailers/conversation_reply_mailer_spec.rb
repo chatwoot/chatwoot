@@ -893,4 +893,60 @@ RSpec.describe ConversationReplyMailer do
       end
     end
   end
+
+  describe 'conversation_transcript' do
+    let(:account) { create(:account, domain: 'example.com', support_email: 'support@example.com') }
+    let!(:agent) { create(:user, email: 'agent1@example.com', account: account) }
+    let(:class_instance) { described_class.new }
+    let(:channel) { create(:channel_widget, account: account, continuity_via_email: true) }
+    let(:inbox) { create(:inbox, channel: channel, account: account) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: agent) }
+
+    before do
+      allow(described_class).to receive(:new).and_return(class_instance)
+      allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(true)
+      conversation.contact.update!(email: 'visitor@example.com')
+      account.enable_features('inbound_emails', 'reply_mailer_migration')
+    end
+
+    it 'makes a contact transcript replyable without requiring an outgoing message' do
+      mail = described_class.conversation_transcript(conversation, conversation.contact.email).deliver_now
+
+      expect(mail.reply_to).to eq(["reply+#{conversation.uuid}@#{account.domain}"])
+    end
+
+    it 'does not make a transcript sent to another recipient replyable' do
+      mail = described_class.conversation_transcript(conversation, agent.email).deliver_now
+
+      expect(mail.reply_to).to be_nil
+    end
+
+    it 'does not make a transcript replyable when conversation continuity is disabled' do
+      channel.update!(continuity_via_email: false)
+      mail = described_class.conversation_transcript(conversation, conversation.contact.email).deliver_now
+
+      expect(mail.reply_to).to be_nil
+    end
+
+    context 'with an API inbox' do
+      let(:channel) { create(:channel_api, account: account) }
+
+      it 'makes a contact transcript replyable when API conversation continuity is enabled' do
+        account.enable_features('email_continuity_on_api_channel')
+        mail = described_class.conversation_transcript(conversation, conversation.contact.email).deliver_now
+
+        expect(mail.reply_to).to eq(["reply+#{conversation.uuid}@#{account.domain}"])
+      end
+    end
+
+    context 'with an email inbox' do
+      let(:channel) { create(:channel_email, account: account) }
+
+      it 'does not change email inbox transcript threading' do
+        mail = described_class.conversation_transcript(conversation, conversation.contact.email).deliver_now
+
+        expect(mail.reply_to).to be_nil
+      end
+    end
+  end
 end
