@@ -207,6 +207,23 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(conversation.messages.last.attachments.first.file_type).to eq('image')
       end
 
+      it 'assigns the correct file_type for a direct-uploaded non-image attachment' do
+        blob = ActiveStorage::Blob.create_and_upload!(
+          io: StringIO.new('hello'),
+          filename: 'document.pdf',
+          content_type: 'application/pdf'
+        )
+        message_params = { content: 'hello world', timestamp: Time.current, attachments: [blob.signed_id] }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        attachment = conversation.messages.last.attachments.first
+        expect(attachment.file_type).to eq('file')
+      end
+
       it 'does not reopen conversation when conversation is muted' do
         conversation.mute!
 
