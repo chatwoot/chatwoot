@@ -103,6 +103,11 @@ class Conversation < ApplicationRecord
 
     open.where('last_activity_at < ?', Time.now.utc - auto_resolve_after.minutes)
   }
+  scope :resolvable_pending, lambda { |auto_resolve_pending_after|
+    return none if auto_resolve_pending_after.to_i.zero?
+
+    pending.where('last_activity_at < ?', Time.now.utc - auto_resolve_pending_after.minutes)
+  }
 
   scope :last_user_message_at, lambda {
     joins(

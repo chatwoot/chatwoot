@@ -7,6 +7,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ConversationRequiredAttributes from 'dashboard/components-next/ConversationWorkflow/ConversationRequiredAttributes.vue';
 import AutoResolve from 'dashboard/routes/dashboard/settings/account/components/AutoResolve.vue';
+import AutoResolvePending from 'dashboard/routes/dashboard/settings/account/components/AutoResolvePending.vue';
 
 const { accountId } = useAccount();
 const isFeatureEnabledonAccount = useMapGetter(
@@ -41,6 +42,7 @@ const showRequiredAttributes = computed(() => {
     <template #body>
       <div class="flex flex-col gap-6 mt-4">
         <AutoResolve v-if="showAutoResolutionConfig" />
+        <AutoResolvePending v-if="showAutoResolutionConfig" />
         <ConversationRequiredAttributes :is-enabled="showRequiredAttributes" />
       </div>
     </template>
