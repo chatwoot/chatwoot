@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { IFrameHelper } from '../sdk/IFrameHelper';
+import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 import './sdk';
 
 vi.mock('../sdk/IFrameHelper', () => ({
@@ -55,5 +56,46 @@ describe('$chatwoot.setUser', () => {
       identifier: 'second-user',
       user: secondUser,
     });
+  });
+});
+
+describe('$chatwoot.toggleBubbleVisibility', () => {
+  beforeEach(() => {
+    delete window.$chatwoot;
+    window.chatwootSettings = {};
+    document
+      .querySelectorAll('.woot--bubble-holder, .woot-widget-holder')
+      .forEach(element => element.remove());
+    IFrameHelper.sendMessage.mockClear();
+
+    window.chatwootSDK.run({
+      baseUrl: 'https://app.chatwoot.com',
+      websiteToken: 'website-token',
+    });
+  });
+
+  afterEach(() => {
+    delete window.$chatwoot;
+    delete window.chatwootSettings;
+    vi.clearAllMocks();
+  });
+
+  it('handles visibility changes before the widget DOM is mounted', () => {
+    expect(document.querySelector('.woot--bubble-holder')).toBeNull();
+    expect(document.querySelector('.woot-widget-holder')).toBeNull();
+
+    expect(() => window.$chatwoot.toggleBubbleVisibility('hide')).not.toThrow();
+    expect(window.$chatwoot.hideMessageBubble).toBe(true);
+    expect(IFrameHelper.sendMessage).toHaveBeenLastCalledWith(
+      SDK_SET_BUBBLE_VISIBILITY,
+      { hideMessageBubble: true }
+    );
+
+    expect(() => window.$chatwoot.toggleBubbleVisibility('show')).not.toThrow();
+    expect(window.$chatwoot.hideMessageBubble).toBe(false);
+    expect(IFrameHelper.sendMessage).toHaveBeenLastCalledWith(
+      SDK_SET_BUBBLE_VISIBILITY,
+      { hideMessageBubble: false }
+    );
   });
 });
