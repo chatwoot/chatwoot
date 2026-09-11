@@ -14,9 +14,10 @@ class ContactAPI extends ApiClient {
     super('contacts', { accountScoped: true });
   }
 
-  get(page, sortAttr = 'name', label = '') {
+  get(page, sortAttr = 'name', label = '', options = {}) {
     return axios.get(this.url, {
       params: buildContactParams(page, sortAttr, label, ''),
+      signal: options.signal,
     });
   }
 

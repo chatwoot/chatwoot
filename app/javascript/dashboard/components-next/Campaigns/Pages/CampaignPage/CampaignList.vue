@@ -12,6 +12,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  showEdit: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['edit', 'delete', 'analytics']);
@@ -36,6 +40,7 @@ const handleAnalytics = campaign => emit('analytics', campaign);
       :inbox="campaign.inbox"
       :scheduled-at="campaign.scheduled_at"
       :is-live-chat-type="isLiveChatType"
+      :show-edit="showEdit"
       :show-analytics="
         isEnterprise &&
         campaign.inbox?.channel_type === INBOX_TYPES.WHATSAPP &&
