@@ -10,6 +10,7 @@ RSpec.describe 'Stripe Integration API', type: :request do
   let(:summary) { instance_double(Integrations::Stripe::CustomerSummary, perform: { customers: [] }) }
 
   before do
+    account.enable_features!('stripe_integration')
     allow(Integrations::Stripe::Oauth).to receive(:configured?).and_return(true)
   end
 

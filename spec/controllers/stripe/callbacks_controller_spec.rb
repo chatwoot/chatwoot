@@ -18,6 +18,7 @@ RSpec.describe 'Stripe OAuth callback', type: :request do
   end
 
   before do
+    account.enable_features!('stripe_integration')
     allow(Integrations::Stripe::Oauth).to receive_messages(configured?: true, client: client, livemode?: false)
     allow(Integrations::Stripe::Oauth).to receive(:consume_state).with(state)
                                                                  .and_return('account_id' => account.id, 'user_id' => admin.id, 'livemode' => false)

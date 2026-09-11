@@ -18,7 +18,12 @@ class Api::V1::Accounts::Integrations::StripeController < Api::V1::Accounts::Int
   end
 
   def customer
-    conversation = Current.account.conversations.find_by!(display_id: params.require(:conversation_id))
+    conversation_id = params.require(:conversation_id)
+    unless conversation_id.is_a?(String) && conversation_id.match?(/\A[1-9]\d*\z/)
+      return render_could_not_create_error('conversation_id must be a positive integer')
+    end
+
+    conversation = Current.account.conversations.find_by!(display_id: conversation_id)
     authorize conversation, :show?
     hook = Current.account.hooks.find_by!(app_id: 'stripe', status: :enabled)
     connection = Integrations::Stripe::Connection.new(hook)
@@ -31,6 +36,6 @@ class Api::V1::Accounts::Integrations::StripeController < Api::V1::Accounts::Int
   private
 
   def ensure_configured
-    head :not_found unless Integrations::Stripe::Oauth.configured?
+    head :not_found unless Integrations::App.find(id: 'stripe').active?(Current.account)
   end
 end

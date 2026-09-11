@@ -38,6 +38,7 @@ export const FEATURE_FLAGS = {
   IP_LOOKUP: 'ip_lookup',
   LINEAR: 'linear_integration',
   SHOPIFY: 'shopify_integration',
+  STRIPE: 'stripe_integration',
   CAPTAIN: 'captain_integration',
   CUSTOM_ROLES: 'custom_roles',
   CHATWOOT_V4: 'chatwoot_v4',

@@ -59,7 +59,7 @@ class Integrations::App
   def active?(account)
     case params[:id]
     when 'stripe'
-      Integrations::Stripe::Oauth.configured?
+      stripe_enabled?(account)
     when 'slack'
       GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?
     when 'linear'
@@ -130,6 +130,10 @@ class Integrations::App
   end
 
   private
+
+  def stripe_enabled?(account)
+    account.feature_enabled?('stripe_integration') && Integrations::Stripe::Oauth.configured?
+  end
 
   def linear_enabled?(account)
     account.feature_enabled?('linear_integration') && GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?

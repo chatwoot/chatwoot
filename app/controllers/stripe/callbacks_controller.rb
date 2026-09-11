@@ -47,6 +47,8 @@ class Stripe::CallbacksController < ApplicationController
     return head :bad_request unless state
 
     @account = Account.find(state.fetch('account_id'))
+    return head :not_found unless @account.feature_enabled?('stripe_integration')
+
     @livemode = state.fetch('livemode')
     return head :bad_request unless @livemode == Integrations::Stripe::Oauth.livemode?
 
