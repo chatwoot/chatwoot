@@ -36,6 +36,7 @@ class AccountUser < ApplicationRecord
 
   accepts_nested_attributes_for :account
 
+  around_create :serialize_with_agent_cleanup
   after_create :create_notification_setting
   after_create_commit :notify_creation
   after_destroy :notify_deletion
@@ -73,6 +74,11 @@ class AccountUser < ApplicationRecord
   end
 
   private
+
+  # Membership creation and delayed cleanup must share the account row lock.
+  def serialize_with_agent_cleanup(&)
+    Account.find(account_id).with_lock(&)
+  end
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(AGENT_ADDED, Time.zone.now, account: account)
