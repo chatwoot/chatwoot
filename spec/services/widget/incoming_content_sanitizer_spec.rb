@@ -31,6 +31,11 @@ RSpec.describe Widget::IncomingContentSanitizer do
         'Write <support@example.com>'
       )
     end
+
+    it 'does not park HTML that merely contains an @' do
+      raw = '<svg/onload=alert(1)//@x>hello'
+      expect(described_class.sanitize(raw)).not_to include('onload')
+      expect(described_class.sanitize(raw)).not_to include('<svg')
+    end
   end
 end
-

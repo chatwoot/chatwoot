@@ -7,9 +7,13 @@
 #
 # CommonMark autolinks (`<https://example.com>`, `<user@host>`) are valid
 # visitor text. The HTML5 sanitizer would treat those as empty tags, so
-# they are parked and restored around the strip.
+# they are parked and restored around the strip. The email form is a
+# conservative address (local@domain.tld), not "anything with an @",
+# so markup such as `<svg/onload=...@x>` is not parked.
 class Widget::IncomingContentSanitizer
-  AUTO_LINK_REGEX = %r{<(?:https?://[^<>\s]+|[^\s<>]+@[^\s<>]+)>}i
+  URI_AUTOLINK_REGEX = %r{<https?://[^<>\s]+>}i
+  EMAIL_AUTOLINK_REGEX = /<[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}>/
+  AUTO_LINK_REGEX = Regexp.union(URI_AUTOLINK_REGEX, EMAIL_AUTOLINK_REGEX)
 
   def self.sanitize(content)
     return content if content.blank?
