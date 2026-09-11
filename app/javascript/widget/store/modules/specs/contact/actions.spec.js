@@ -1,5 +1,6 @@
 import { API } from 'widget/helpers/axios';
 import { sendMessage } from 'widget/helpers/utils';
+import ActionCableConnector from 'widget/helpers/actionCable';
 import { actions } from '../../contacts';
 
 const commit = vi.fn();
@@ -8,6 +9,9 @@ const dispatch = vi.fn();
 vi.mock('widget/helpers/axios');
 vi.mock('widget/helpers/utils', () => ({
   sendMessage: vi.fn(),
+}));
+vi.mock('widget/helpers/actionCable', () => ({
+  default: { refreshConnector: vi.fn() },
 }));
 
 describe('#actions', () => {
@@ -98,7 +102,26 @@ describe('#actions', () => {
           },
         ],
       ]);
+      expect(ActionCableConnector.refreshConnector).not.toHaveBeenCalled();
       expect(dispatch.mock.calls).toEqual([['get']]);
+    });
+
+    it('reconnects Action Cable when the pubsub token rotates', async () => {
+      const user = {
+        email: 'thoma@sphadikam.com',
+        name: 'Adu Thoma',
+      };
+      API.patch.mockResolvedValue({
+        data: {
+          id: 1,
+          widget_auth_token: 'rotated-token',
+          pubsub_token: 'new-pubsub',
+        },
+      });
+      await actions.update({ commit, dispatch }, { user });
+      expect(ActionCableConnector.refreshConnector).toHaveBeenCalledWith(
+        'new-pubsub'
+      );
     });
   });
 });

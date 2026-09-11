@@ -77,18 +77,25 @@ class ContactInbox < ApplicationRecord
 
   def rotate_widget_token!
     with_lock do
-      update!(widget_token_version: widget_token_version + 1)
+      rotate_widget_session_secrets!
       Widget::TokenService.new(payload: Widget::TokenService.payload_for(self)).generate_token
     end
   end
 
   def invalidate_widget_token!
     with_lock do
-      update!(widget_token_version: widget_token_version + 1)
+      rotate_widget_session_secrets!
     end
   end
 
   private
+
+  def rotate_widget_session_secrets!
+    update!(
+      widget_token_version: widget_token_version + 1,
+      pubsub_token: self.class.generate_unique_secure_token
+    )
+  end
 
   def validate_twilio_source_id
     # https://www.twilio.com/docs/glossary/what-e164#regex-matching-for-e164

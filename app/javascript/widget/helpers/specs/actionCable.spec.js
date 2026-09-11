@@ -50,4 +50,17 @@ describe('Widget ActionCableConnector', () => {
       'conversationAttributes/getAttributes'
     );
   });
+
+  it('replaces the live connector when the pubsub token rotates', () => {
+    const disconnect = vi.fn();
+    window.actionCable = { disconnect };
+    window.WOOT_WIDGET = app;
+
+    ActionCableConnector.refreshConnector('rotated-pubsub');
+
+    expect(disconnect).toHaveBeenCalled();
+    expect(window.chatwootPubsubToken).toBe('rotated-pubsub');
+    expect(window.actionCable).toBeInstanceOf(ActionCableConnector);
+    expect(window.actionCable).not.toBe(connector);
+  });
 });

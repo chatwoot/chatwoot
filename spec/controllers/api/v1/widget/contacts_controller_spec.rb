@@ -115,6 +115,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
       end
 
       it 'rotates the widget session token after a sensitive update' do
+        old_pubsub = contact_inbox.pubsub_token
         patch '/api/v1/widget/contact',
               params: params.merge({ email: 'rotated@test.com' }),
               headers: { 'X-Auth-Token' => token },
@@ -124,7 +125,9 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
         new_token = response.parsed_body['widget_auth_token']
         expect(new_token).to be_present
         expect(new_token).not_to eq(token)
-        expect(contact_inbox.reload.widget_token_version).to eq(1)
+        expect(response.parsed_body['pubsub_token']).to eq(contact_inbox.reload.pubsub_token)
+        expect(contact_inbox.pubsub_token).not_to eq(old_pubsub)
+        expect(contact_inbox.widget_token_version).to eq(1)
 
         get '/api/v1/widget/contact',
             params: { website_token: web_widget.website_token },
@@ -276,6 +279,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
       let(:web_widget) { create(:channel_widget, account: account) }
 
       it 'rotates the existing session token' do
+        old_pubsub = contact_inbox.pubsub_token
         patch '/api/v1/widget/contact/set_user',
               params: params,
               headers: { 'X-Auth-Token' => token },
@@ -285,6 +289,8 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
         new_token = response.parsed_body['widget_auth_token']
         expect(new_token).to be_present
         expect(new_token).not_to eq(token)
+        expect(response.parsed_body['pubsub_token']).to eq(contact_inbox.reload.pubsub_token)
+        expect(contact_inbox.pubsub_token).not_to eq(old_pubsub)
 
         get '/api/v1/widget/contact',
             params: { website_token: web_widget.website_token },

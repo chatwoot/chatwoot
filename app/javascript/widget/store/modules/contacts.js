@@ -1,4 +1,5 @@
 import { sendMessage } from 'widget/helpers/utils';
+import ActionCableConnector from 'widget/helpers/actionCable';
 import ContactsAPI from '../../api/contacts';
 import { SET_USER_ERROR } from '../../constants/errorTypes';
 import { setHeader } from '../../helpers/axios';
@@ -9,7 +10,7 @@ const state = {
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
 const parseErrorData = error =>
   error && error.response && error.response.data ? error.response.data : error;
-export const updateWidgetAuthToken = widgetAuthToken => {
+export const updateWidgetAuthToken = (widgetAuthToken, pubsubToken) => {
   if (widgetAuthToken) {
     window.authToken = widgetAuthToken;
     setHeader(widgetAuthToken);
@@ -17,6 +18,10 @@ export const updateWidgetAuthToken = widgetAuthToken => {
       event: 'setAuthCookie',
       data: { widgetAuthToken },
     });
+  }
+  if (pubsubToken) {
+    window.chatwootPubsubToken = pubsubToken;
+    ActionCableConnector.refreshConnector(pubsubToken);
   }
 };
 
@@ -38,7 +43,7 @@ export const actions = {
   update: async ({ dispatch }, { user }) => {
     try {
       const { data } = await ContactsAPI.update(user);
-      updateWidgetAuthToken(data.widget_auth_token);
+      updateWidgetAuthToken(data.widget_auth_token, data.pubsub_token);
       dispatch('get');
     } catch (error) {
       // Ignore error
@@ -75,9 +80,9 @@ export const actions = {
         custom_attributes,
       };
       const {
-        data: { widget_auth_token: widgetAuthToken },
+        data: { widget_auth_token: widgetAuthToken, pubsub_token: pubsubToken },
       } = await ContactsAPI.setUser(identifier, user);
-      updateWidgetAuthToken(widgetAuthToken);
+      updateWidgetAuthToken(widgetAuthToken, pubsubToken);
       dispatch('get');
       if (identifierHash || widgetAuthToken) {
         dispatch('conversation/clearConversations', {}, { root: true });

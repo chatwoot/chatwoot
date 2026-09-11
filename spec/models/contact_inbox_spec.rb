@@ -66,6 +66,14 @@ RSpec.describe ContactInbox do
       decoded = Widget::TokenService.new(token: new_token).decode_token
       expect(contact_inbox.valid_widget_token?(decoded)).to be(true)
     end
+
+    it 'rotates the Action Cable pubsub token with the JWT' do
+      old_pubsub = contact_inbox.pubsub_token
+      contact_inbox.rotate_widget_token!
+
+      expect(contact_inbox.reload.pubsub_token).to be_present
+      expect(contact_inbox.pubsub_token).not_to eq(old_pubsub)
+    end
   end
 
   describe 'validations' do
