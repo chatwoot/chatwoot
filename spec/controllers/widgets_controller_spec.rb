@@ -27,6 +27,22 @@ describe '/widget', type: :request do
       expect(response.body).to include(token)
     end
 
+    it 'prefers a legacy cw_conversation query token over a cookie from another inbox' do
+      other_contact = create(:contact, account: account)
+      other_inbox = create(:contact_inbox, contact: other_contact, inbox: web_widget.inbox)
+      other_token = Widget::TokenService.new(
+        payload: { source_id: other_inbox.source_id, inbox_id: web_widget.inbox.id }
+      ).generate_token
+
+      get widget_url(website_token: web_widget.website_token, cw_conversation: token),
+          headers: { 'Cookie' => "cw_conversation=#{other_token}" }
+
+      expect(response).to be_successful
+      expect(response.body).to include(token)
+      expect(response.body).not_to include(other_token)
+      expect(response.cookies['cw_conversation']).to eq(token)
+    end
+
     it 'restores the session from X-Auth-Token' do
       get widget_url(website_token: web_widget.website_token), headers: { 'X-Auth-Token' => token }
       expect(response).to be_successful
