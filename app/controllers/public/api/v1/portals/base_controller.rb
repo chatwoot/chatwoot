@@ -31,6 +31,18 @@ class Public::Api::V1::Portals::BaseController < PublicController
                       end
   end
 
+  def translation_family_ids(scope, root_id, association_key)
+    record_ids = [root_id]
+    parent_ids = [root_id]
+
+    while parent_ids.any?
+      parent_ids = scope.where(association_key => parent_ids).where.not(id: record_ids).pluck(:id)
+      record_ids.concat(parent_ids)
+    end
+
+    record_ids
+  end
+
   def portal
     @portal ||= Portal.find_by!(slug: params[:slug], archived: false)
   end
