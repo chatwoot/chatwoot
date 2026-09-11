@@ -445,6 +445,56 @@ RSpec.describe AutoAssignment::AssignmentService do
 
         expect(conversation_with_team.reload.assignee).to be_nil
       end
+
+      # Regression: an automation rule can set the team after perform_bulk_assignment took its
+      # snapshot, so filter_agents_by_team sees a blank team_id and round robin runs over the
+      # whole inbox. The team write is injected during agent selection — i.e. after the snapshot
+      # and before claim_and_assign — which is exactly the production ordering. update_all keeps
+      # callbacks out of it so ensure_assignee_is_from_team cannot mask the bug.
+      context 'when the team was set after the batch snapshot was taken' do
+        let(:outsider) { create(:user, account: account, role: :agent, availability: :online) }
+
+        def selector_that_sets_team(conversation, team, picked_agent)
+          selector = instance_double(AutoAssignment::RoundRobinSelector)
+          allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(selector)
+          allow(selector).to receive(:select_agent) do
+            Conversation.where(id: conversation.id).update_all(team_id: team.id) # rubocop:disable Rails/SkipsModelValidations
+            picked_agent
+          end
+          selector
+        end
+
+        it 'does not assign an agent who is not a member of the team' do
+          create(:inbox_member, inbox: inbox, user: outsider)
+          allow(OnlineStatusTracker).to receive(:get_available_users).and_return({ outsider.id.to_s => 'online' })
+          conversation_without_team = create(:conversation, inbox: inbox, team: nil, assignee: nil)
+          selector_that_sets_team(conversation_without_team, team, outsider)
+
+          service.perform_bulk_assignment(limit: 1)
+
+          expect(conversation_without_team.reload.assignee).to be_nil
+          expect(conversation_without_team.team_id).to eq(team.id)
+        end
+
+        it 'still assigns when the picked agent happens to be a team member' do
+          conversation_without_team = create(:conversation, inbox: inbox, team: nil, assignee: nil)
+          selector_that_sets_team(conversation_without_team, team, team_member)
+
+          service.perform_bulk_assignment(limit: 1)
+
+          expect(conversation_without_team.reload.assignee).to eq(team_member)
+        end
+
+        it 'does not assign when the team that landed disallows auto assignment' do
+          team.update!(allow_auto_assign: false)
+          conversation_without_team = create(:conversation, inbox: inbox, team: nil, assignee: nil)
+          selector_that_sets_team(conversation_without_team, team, team_member)
+
+          service.perform_bulk_assignment(limit: 1)
+
+          expect(conversation_without_team.reload.assignee).to be_nil
+        end
+      end
     end
   end
 end
