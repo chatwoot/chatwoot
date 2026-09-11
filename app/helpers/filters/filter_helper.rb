@@ -74,11 +74,6 @@ module Filters::FilterHelper
     end
   end
 
-  def date_filter(current_filter, query_hash, filter_operator_value)
-    "(#{filter_config[:table_name]}.#{query_hash[:attribute_key]})::#{current_filter['data_type']} " \
-      "#{filter_operator_value} #{query_hash[:query_operator]}"
-  end
-
   def text_case_insensitive_filter(query_hash, filter_operator_value)
     "LOWER(#{filter_config[:table_name]}.#{query_hash[:attribute_key]}) " \
       "#{filter_operator_value} #{query_hash[:query_operator]}"
@@ -110,6 +105,7 @@ module Filters::FilterHelper
   end
 
   def validate_single_condition(condition)
+    filter_timezone(condition) if condition.key?('timezone')
     values = Array.wrap(condition['values'])
     raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: condition['attribute_key']) if values.any? { |v| v.respond_to?(:to_h) }
 
