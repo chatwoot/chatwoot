@@ -4,8 +4,13 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   before_action :set_web_widget
   before_action :set_contact
+  after_action :persist_widget_auth_cookie
 
   private
+
+  def persist_widget_auth_cookie
+    write_widget_auth_cookie(@token.presence || widget_auth_token)
+  end
 
   def conversations
     if @contact_inbox.hmac_verified?

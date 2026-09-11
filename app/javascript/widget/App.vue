@@ -1,6 +1,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
+import ContactsAPI from 'widget/api/contacts';
 import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import configMixin from './mixins/configMixin';
@@ -40,6 +41,8 @@ export default {
     return {
       isMobile: false,
       campaignsSnoozedTill: undefined,
+      pendingConfigSet: null,
+      restoringParentToken: false,
     };
   },
   computed: {
@@ -274,14 +277,14 @@ export default {
           return;
         }
         const message = IFrameHelper.getMessage(e);
-        if (message.event === 'config-set') {
-          this.setLocale(message.locale);
-          this.setBubbleLabel();
-          this.fetchOldConversations().then(() => this.setUnreadView());
-          this.fetchAvailableAgents(websiteToken);
-          this.setAppConfig(message);
-          this.$store.dispatch('contacts/get');
-          this.setCampaignReadData(message.campaignsSnoozedTill);
+        if (message.event === 'set-conversation-token') {
+          this.restoreParentSessionToken(message.token);
+        } else if (message.event === 'config-set') {
+          if (this.restoringParentToken) {
+            this.pendingConfigSet = message;
+          } else {
+            this.applyConfigSet(message, websiteToken);
+          }
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
@@ -354,6 +357,39 @@ export default {
           this.setBubbleVisibility(message.hideMessageBubble);
         }
       });
+    },
+    applyConfigSet(message, websiteToken) {
+      this.setLocale(message.locale);
+      this.setBubbleLabel();
+      this.fetchOldConversations().then(() => this.setUnreadView());
+      this.fetchAvailableAgents(websiteToken);
+      this.setAppConfig(message);
+      this.$store.dispatch('contacts/get');
+      this.setCampaignReadData(message.campaignsSnoozedTill);
+    },
+    async restoreParentSessionToken(token) {
+      if (!token) {
+        return;
+      }
+      const bootstrapToken = window.authToken;
+      this.restoringParentToken = true;
+      window.authToken = token;
+      setHeader(token);
+      try {
+        await ContactsAPI.get();
+      } catch (error) {
+        const status = error && error.response && error.response.status;
+        if (status === 404 && bootstrapToken) {
+          window.authToken = bootstrapToken;
+          setHeader(bootstrapToken);
+        }
+      }
+      this.restoringParentToken = false;
+      if (this.pendingConfigSet) {
+        const queued = this.pendingConfigSet;
+        this.pendingConfigSet = null;
+        this.applyConfigSet(queued, window.chatwootWebChannel.websiteToken);
+      }
     },
     sendLoadedEvent() {
       IFrameHelper.sendMessage(loadedEventConfig());
