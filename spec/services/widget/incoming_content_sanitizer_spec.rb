@@ -48,5 +48,14 @@ RSpec.describe Widget::IncomingContentSanitizer do
       expect(described_class.sanitize(raw)).not_to include('onload')
       expect(described_class.sanitize(raw)).not_to include('<svg')
     end
+
+    it 'does not parse HTML when the original content exceeds the message limit' do
+      sanitizer = instance_double(Rails::HTML5::FullSanitizer)
+      allow(Rails::HTML5::FullSanitizer).to receive(:new).and_return(sanitizer)
+      expect(sanitizer).not_to receive(:sanitize)
+
+      raw = "<b>#{'h' * (described_class::MAX_CONTENT_LENGTH + 1)}</b>"
+      expect(described_class.sanitize(raw)).to eq(raw)
+    end
   end
 end

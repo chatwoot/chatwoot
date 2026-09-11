@@ -10,7 +10,13 @@
 # around the strip: http(s), ftp(s), mailto, and local@domain.tld.
 # Other schemes (javascript:, data:) and markup that merely contains @
 # are not parked.
+#
+# Oversized payloads skip the HTML5 parser so a 150k+ wrapper cannot
+# shrink under Message's content limit and cannot spend parser CPU first.
 class Widget::IncomingContentSanitizer
+  # Keep in lockstep with Message validations on :content.
+  MAX_CONTENT_LENGTH = 150_000
+
   URI_AUTOLINK_REGEX = %r{<(?:https?|ftps?)://[^<>\s]+>}i
   MAILTO_AUTOLINK_REGEX = /<mailto:[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}>/i
   EMAIL_AUTOLINK_REGEX = /<[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}>/
@@ -18,6 +24,7 @@ class Widget::IncomingContentSanitizer
 
   def self.sanitize(content)
     return content if content.blank?
+    return content if content.to_s.length > MAX_CONTENT_LENGTH
 
     token = SecureRandom.hex(8)
     protected = []

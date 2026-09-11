@@ -103,6 +103,35 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(conversation.reload.messages.incoming.last.content).to eq('hello **there**')
       end
 
+      it 'rejects HTML-only content that sanitizes to blank' do
+        expect do
+          post api_v1_widget_messages_url,
+               params: {
+                 website_token: web_widget.website_token,
+                 message: { content: '<img src=x onerror=alert(1)>' }
+               },
+               headers: { 'X-Auth-Token' => token },
+               as: :json
+        end.not_to change(conversation.messages, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq("Content can't be blank")
+      end
+
+      it 'keeps an attachment when the caption sanitizes to blank' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        post api_v1_widget_messages_url,
+             params: {
+               website_token: web_widget.website_token,
+               message: { content: '<img src=x onerror=alert(1)>', attachments: [file] }
+             },
+             headers: { 'X-Auth-Token' => token }
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['content']).to eq('')
+        expect(conversation.messages.last.attachments.first.file.present?).to be(true)
+      end
+
       it 'creates conversation with custom_attributes when first message is sent' do
         conversation.destroy!
         message_params = { content: 'hello world', timestamp: Time.current }
