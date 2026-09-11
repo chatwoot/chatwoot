@@ -7,9 +7,43 @@ import OverviewPanel from './OverviewPanel.vue';
 const props = defineProps({
   flow: { type: Object, default: null },
   loading: { type: Boolean, default: false },
+  canDrilldown: { type: Boolean, default: false },
 });
 
+const emit = defineEmits(['drilldown']);
 const { t } = useI18n();
+
+const REASON_NODE_PREFIX = 'handoff_reason_';
+const OTHER_REASONS_NODE = 'other_reasons';
+const FLOW_DRILLDOWN_METRICS = {
+  conversations_handled: 'conversations_handled',
+  resolved_by_captain: 'auto_resolution_rate',
+  handed_off: 'handoff_rate',
+  closed_with_team: 'closed_with_team',
+  reopened_within_7_days: 'reopened_within_7_days',
+  stayed_closed: 'stayed_closed',
+};
+
+// The chart enables all items when a click handler is provided. Keep its
+// aggregate "Other reasons" node and link out of keyboard navigation.
+const disableOtherReasons = element => {
+  element
+    .querySelectorAll(
+      `[data-node-id="${OTHER_REASONS_NODE}"], .cw-viz-sankey__link-group:has([data-target="${OTHER_REASONS_NODE}"])`
+    )
+    .forEach(item => {
+      item.removeAttribute('tabindex');
+      item.removeAttribute('role');
+      item.classList.remove(
+        'cw-viz-sankey__node-group--clickable',
+        'cw-viz-sankey__link-group--clickable'
+      );
+    });
+};
+const vDisableOtherReasons = {
+  mounted: disableOtherReasons,
+  updated: disableOtherReasons,
+};
 
 const FLOW_NODE_LABELS = {
   conversations_handled: 'HANDLED',
@@ -47,8 +81,8 @@ const reasonLabel = category =>
   );
 
 const nodeLabel = id => {
-  if (id.startsWith('handoff_reason_')) {
-    return reasonLabel(id.replace('handoff_reason_', ''));
+  if (id.startsWith(REASON_NODE_PREFIX)) {
+    return reasonLabel(id.slice(REASON_NODE_PREFIX.length));
   }
   return t(
     `CAPTAIN.OVERVIEW.V2.RESOLUTION_FLOW.NODES.${FLOW_NODE_LABELS[id] || 'OTHER_REASONS'}`
@@ -80,6 +114,36 @@ const chartData = computed(() => {
 const distribution = computed(() => props.flow?.handoff_distribution || []);
 const hasData = computed(() => chartData.value.links.length > 0);
 const formatCount = value => Number(value).toLocaleString();
+
+const openReason = reason => {
+  emit('drilldown', {
+    key: 'handoff_reason',
+    reason: reason.category,
+    label: reasonLabel(reason.category),
+    value: formatCount(reason.count),
+  });
+};
+
+const openFlowDrilldown = payload => {
+  const id = String(
+    payload.itemType === 'link' ? payload.targetId : payload.id
+  );
+  if (id === OTHER_REASONS_NODE) return;
+
+  if (id.startsWith(REASON_NODE_PREFIX)) {
+    openReason({
+      category: id.slice(REASON_NODE_PREFIX.length),
+      count: payload.value,
+    });
+    return;
+  }
+
+  emit('drilldown', {
+    key: FLOW_DRILLDOWN_METRICS[id],
+    label: nodeLabel(id),
+    value: formatCount(payload.value),
+  });
+};
 </script>
 
 <template>
@@ -94,7 +158,9 @@ const formatCount = value => Number(value).toLocaleString();
         />
         <SankeyChart
           v-else-if="hasData"
+          v-disable-other-reasons
           :data="chartData"
+          :on-item-click="canDrilldown ? openFlowDrilldown : undefined"
           :format-value="formatCount"
           :height="260"
           :node-padding="24"
@@ -122,11 +188,19 @@ const formatCount = value => Number(value).toLocaleString();
             class="h-[1.3125rem] rounded bg-n-slate-3 animate-pulse"
           />
         </div>
-        <ul v-else-if="distribution.length" class="flex flex-col gap-2.5">
-          <li
+        <div v-else-if="distribution.length" class="flex flex-col gap-2.5">
+          <component
+            :is="canDrilldown ? 'button' : 'div'"
             v-for="reason in distribution"
             :key="reason.category"
-            class="flex items-center w-full gap-4"
+            :type="canDrilldown ? 'button' : undefined"
+            class="flex items-center w-full gap-4 text-start rounded-md"
+            :class="
+              canDrilldown
+                ? 'cursor-pointer hover:bg-n-alpha-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand'
+                : ''
+            "
+            @click="canDrilldown && openReason(reason)"
           >
             <span
               class="flex-1 min-w-0 truncate text-body-main text-n-slate-11"
@@ -145,8 +219,8 @@ const formatCount = value => Number(value).toLocaleString();
                 }}
               </span>
             </span>
-          </li>
-        </ul>
+          </component>
+        </div>
         <p v-else class="text-body-main text-n-slate-11">
           {{ $t('CAPTAIN.OVERVIEW.V2.EMPTY') }}
         </p>

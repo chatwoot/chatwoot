@@ -61,8 +61,8 @@ class Captain::AssistantOverviewStatsBuilder
       reopen_rate: rate(reopened, autonomous),
       conversation_depth: reply_conversations.zero? ? 0 : (public_replies.to_f / reply_conversations).round(1),
       durable_rate: assessable.zero? ? nil : rate(durable, assessable),
-      autonomous_csat: autonomous_csat.to_f.round(2),
-      assisted_csat: assisted_csat.to_f.round(2),
+      autonomous_csat: autonomous_csat&.to_f&.round(2),
+      assisted_csat: assisted_csat&.to_f&.round(2),
       median_resolution: resolution.to_i
     }
   end
