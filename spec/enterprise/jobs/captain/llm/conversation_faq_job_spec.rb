@@ -10,6 +10,7 @@ RSpec.describe Captain::Llm::ConversationFaqJob, type: :job do
   let(:lock_key) { "CAPTAIN_CONVERSATION_FAQ_LOCK::#{assistant.id}::en" }
 
   before do
+    account.enable_features!('captain_integration')
     create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
     conversation.update!(status: :resolved)
     allow(Redis::LockManager).to receive(:new).and_return(lock_manager)

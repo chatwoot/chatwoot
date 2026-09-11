@@ -29,6 +29,7 @@ module Enterprise::Conversation
     super
     return unless pending?
     return if inbox.external_bot_active?
+    return unless account.feature_enabled?('captain_integration')
 
     assistant = inbox.captain_assistant
     return if assistant.blank?
