@@ -48,6 +48,16 @@ RSpec.describe LlmFormatter::ContactLlmFormatter do
       end
     end
 
+    context 'when contact has legacy country data' do
+      before do
+        contact.update!(additional_attributes: { country: 'United States' })
+      end
+
+      it 'uses the canonical country code' do
+        expect(formatter.format).to include('Country Code: US')
+      end
+    end
+
     context 'when contact has custom attributes' do
       let!(:custom_attribute) do
         create(:custom_attribute_definition, account: account, attribute_model: 'contact_attribute', attribute_display_name: 'Company')

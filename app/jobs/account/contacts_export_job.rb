@@ -32,6 +32,7 @@ class Account::ContactsExportJob < ApplicationJob
 
   def value_for_header(contact, header)
     return contact_labels_by_id.fetch(contact.id, []).join(LABELS_DELIMITER) if header == LABELS_COLUMN
+    return contact.canonical_country_code if header == 'country_code'
 
     contact.send(header)
   end

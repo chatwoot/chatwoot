@@ -44,6 +44,7 @@
 class Contact < ApplicationRecord
   include Avatarable
   include AvailabilityStatusable
+  include ContactCountryHelpers
   include Labelable
   include LlmFormattable
 
@@ -62,7 +63,7 @@ class Contact < ApplicationRecord
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
-  before_validation :prepare_contact_attributes
+  before_validation :prepare_email_attribute, :prepare_jsonb_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
@@ -213,11 +214,6 @@ class Contact < ApplicationRecord
     return if email.blank?
 
     self.email = email_was unless email.match(Devise.email_regexp)
-  end
-
-  def prepare_contact_attributes
-    prepare_email_attribute
-    prepare_jsonb_attributes
   end
 
   def prepare_email_attribute

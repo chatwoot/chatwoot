@@ -41,6 +41,7 @@ const accountId = useMapGetter('getCurrentAccountId');
           :name="contact.name"
           :email="contact.email"
           :phone="contact.phoneNumber"
+          :country-code="contact.countryCode"
           :additional-attributes="contact.additionalAttributes"
           :account-id="accountId"
           :thumbnail="contact.thumbnail"
