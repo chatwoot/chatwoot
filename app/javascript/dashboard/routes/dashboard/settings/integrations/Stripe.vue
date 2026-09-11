@@ -2,12 +2,14 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore, useFunctionGetter } from 'dashboard/composables/store';
+import { useBranding } from 'shared/composables/useBranding';
 import StripeAPI from 'dashboard/api/integrations/stripe';
 import Button from 'dashboard/components-next/button/Button.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 
 const store = useStore();
+const { replaceInstallationName } = useBranding();
 const route = useRoute();
 const integration = useFunctionGetter('integrations/getIntegration', 'stripe');
 const loading = ref(true);
@@ -140,10 +142,16 @@ onMounted(async () => {
             class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-xl border border-n-weak p-6"
           >
             <p class="m-0 text-sm text-n-slate-11 max-w-xl">
-              {{ $t('STRIPE_INTEGRATION.DISCONNECT_NOTE') }}
+              {{
+                replaceInstallationName(
+                  $t('STRIPE_INTEGRATION.DISCONNECT_NOTE')
+                )
+              }}
             </p>
             <Button
-              :label="$t('STRIPE_INTEGRATION.DISCONNECT')"
+              :label="
+                replaceInstallationName($t('STRIPE_INTEGRATION.DISCONNECT'))
+              "
               :disabled="busy"
               variant="outline"
               color="ruby"

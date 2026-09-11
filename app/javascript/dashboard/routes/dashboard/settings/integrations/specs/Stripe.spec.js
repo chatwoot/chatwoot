@@ -1,11 +1,13 @@
 import { mount, flushPromises } from '@vue/test-utils';
 import Stripe from '../Stripe.vue';
 import StripeAPI from 'dashboard/api/integrations/stripe';
+import messages from 'dashboard/i18n/locale/en/en.json';
 
 const mocks = vi.hoisted(() => ({
   dispatch: vi.fn(),
   enabled: true,
   query: {},
+  installationName: undefined,
 }));
 
 vi.mock('vue-router', () => ({ useRoute: () => ({ query: mocks.query }) }));
@@ -20,6 +22,8 @@ vi.mock('dashboard/composables/store', async () => {
   return {
     useStore: () => ({ dispatch: mocks.dispatch }),
     useFunctionGetter: () => computed(() => ({ enabled: mocks.enabled })),
+    useMapGetter: () =>
+      computed(() => ({ installationName: mocks.installationName })),
   };
 });
 vi.mock('dashboard/api/integrations/stripe', () => ({
@@ -40,6 +44,7 @@ describe('Stripe integration settings', () => {
   beforeEach(() => {
     mocks.enabled = true;
     mocks.query = {};
+    mocks.installationName = undefined;
     mocks.dispatch.mockResolvedValue();
     StripeAPI.get.mockResolvedValue({
       data: {
@@ -50,6 +55,28 @@ describe('Stripe integration settings', () => {
     });
   });
   afterEach(() => wrapper?.unmount());
+
+  it.each(['Acme Support', undefined])(
+    'uses installation branding in disconnect copy: %s',
+    async installationName => {
+      mocks.installationName = installationName;
+      wrapper = mount(Stripe, {
+        global: {
+          ...global,
+          mocks: {
+            $t: key => messages.STRIPE_INTEGRATION[key.split('.')[1]] || key,
+          },
+        },
+      });
+      await flushPromises();
+      const brand = installationName || 'Chatwoot';
+      expect(wrapper.get('button').text()).toBe(`Disconnect from ${brand}`);
+      expect(wrapper.text()).toContain(
+        `Disconnecting removes the saved credentials from ${brand}.`
+      );
+      if (installationName) expect(wrapper.text()).not.toContain('Chatwoot');
+    }
+  );
 
   it('shows connected account details and a sandbox dashboard link', async () => {
     wrapper = mount(Stripe, { global });
