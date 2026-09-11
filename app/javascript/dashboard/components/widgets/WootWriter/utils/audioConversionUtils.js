@@ -68,21 +68,33 @@ export const convertToWav = async audioBlob => {
 
 /**
  * Encodes audio samples to MP3 format.
- * @param {number} channels - Number of audio channels.
+ * @param {number} channels - 1 (mono) or 2 (stereo).
  * @param {number} sampleRate - Sample rate in Hz.
- * @param {Int16Array} samples - Audio samples to be encoded.
+ * @param {Int16Array[]} channelSamples - One Int16Array per channel.
  * @param {number} bitrate - MP3 bitrate (default: 128)
  * @returns {Blob} - The MP3 encoded audio as a Blob.
  */
-export const encodeToMP3 = (channels, sampleRate, samples, bitrate = 128) => {
+export const encodeToMP3 = (
+  channels,
+  sampleRate,
+  channelSamples,
+  bitrate = 128
+) => {
   const outputBuffer = [];
   const encoder = new lamejs.Mp3Encoder(channels, sampleRate, bitrate);
   const maxSamplesPerFrame = 1152;
+  const totalSamples = channelSamples[0].length;
 
-  for (let offset = 0; offset < samples.length; offset += maxSamplesPerFrame) {
-    const sliceEnd = Math.min(offset + maxSamplesPerFrame, samples.length);
-    const sampleSlice = samples.subarray(offset, sliceEnd);
-    const mp3Buffer = encoder.encodeBuffer(sampleSlice);
+  for (let offset = 0; offset < totalSamples; offset += maxSamplesPerFrame) {
+    const sliceEnd = Math.min(offset + maxSamplesPerFrame, totalSamples);
+    const left = channelSamples[0].subarray(offset, sliceEnd);
+    const mp3Buffer =
+      channels === 2
+        ? encoder.encodeBuffer(
+            left,
+            channelSamples[1].subarray(offset, sliceEnd)
+          )
+        : encoder.encodeBuffer(left);
 
     if (mp3Buffer.length > 0) {
       outputBuffer.push(new Int8Array(mp3Buffer));
@@ -99,6 +111,8 @@ export const encodeToMP3 = (channels, sampleRate, samples, bitrate = 128) => {
 
 /**
  * Converts an audio Blob to an MP3 format Blob.
+ * Audio is downmixed to mono before encoding to support stereo and
+ * multichannel microphones.
  * @param {Blob} audioBlob - The audio data as a Blob.
  * @param {number} bitrate - MP3 bitrate (default: 128)
  * @returns {Promise<Blob>} - A Blob containing the MP3 encoded audio.
@@ -106,32 +120,26 @@ export const encodeToMP3 = (channels, sampleRate, samples, bitrate = 128) => {
 export const convertToMp3 = async (audioBlob, bitrate = 128) => {
   try {
     const audioBuffer = await decodeAudioData(audioBlob);
-    const samples = new Int16Array(
-      audioBuffer.length * audioBuffer.numberOfChannels
-    );
-    let offset = 0;
-    for (let i = 0; i < audioBuffer.length; i += 1) {
-      for (
-        let channel = 0;
-        channel < audioBuffer.numberOfChannels;
-        channel += 1
-      ) {
-        const sample = Math.max(
-          -1,
-          Math.min(1, audioBuffer.getChannelData(channel)[i])
-        );
-        samples[offset] = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
-        offset += 1;
-      }
+    const { numberOfChannels, length, sampleRate } = audioBuffer;
+
+    const channelData = [];
+    for (let channel = 0; channel < numberOfChannels; channel += 1) {
+      channelData.push(audioBuffer.getChannelData(channel));
     }
-    return encodeToMP3(
-      audioBuffer.numberOfChannels,
-      audioBuffer.sampleRate,
-      samples,
-      bitrate
-    );
+
+    const mono = new Int16Array(length);
+    for (let i = 0; i < length; i += 1) {
+      let sum = 0;
+      for (let channel = 0; channel < numberOfChannels; channel += 1) {
+        sum += channelData[channel][i];
+      }
+      const sample = Math.max(-1, Math.min(1, sum / numberOfChannels));
+      mono[i] = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
+    }
+
+    return encodeToMP3(1, sampleRate, [mono], bitrate);
   } catch (error) {
-    throw new Error('Conversion to MP3 failed.');
+    throw new Error(`Conversion to MP3 failed: ${error.message}`);
   }
 };
 
