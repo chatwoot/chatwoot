@@ -64,7 +64,7 @@ module DownloadReportTasks
   end
 
   def self.save_csv(filename, headers, rows)
-    CSV.open(filename, 'w') do |csv|
+    CSVSafe.open(filename, 'w') do |csv|
       csv << headers
       rows.each { |row| csv << row }
     end
