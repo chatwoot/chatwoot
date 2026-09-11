@@ -96,6 +96,15 @@
     "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "VOICE_RECORDER": {
+    "START": "Record voice to text",
+    "STOP": "Stop and transcribe",
+    "CANCEL": "Cancel recording",
+    "RECORDING": "Recording…",
+    "TRANSCRIBING": "Transcribing…",
+    "PERMISSION_ERROR": "Could not access the microphone. Please check your browser permissions.",
+    "TRANSCRIPTION_ERROR": "Could not transcribe the audio, please try again."
+  },
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Invalid field"
