@@ -213,6 +213,26 @@ describe Conversations::FilterService do
         expect(result[:count][:all_count]).to eq conversations.count
       end
 
+      it 'sorts filtered conversations using the requested sort order' do
+        older_conversation = create(:conversation, account: account, inbox: inbox, last_activity_at: 2.days.ago)
+        newer_conversation = create(:conversation, account: account, inbox: inbox, last_activity_at: 1.day.ago)
+        params[:sort_by] = 'last_activity_at_asc'
+
+        conversation_ids = filter_service.new(params, user_1, account).perform[:conversations].pluck(:id)
+
+        expect(conversation_ids.index(older_conversation.id)).to be < conversation_ids.index(newer_conversation.id)
+      end
+
+      it 'defaults to newest activity first when the requested sort order is invalid' do
+        older_conversation = create(:conversation, account: account, inbox: inbox, last_activity_at: 2.days.ago)
+        newer_conversation = create(:conversation, account: account, inbox: inbox, last_activity_at: 1.day.ago)
+        params[:sort_by] = 'invalid_sort'
+
+        conversation_ids = filter_service.new(params, user_1, account).perform[:conversations].pluck(:id)
+
+        expect(conversation_ids.index(newer_conversation.id)).to be < conversation_ids.index(older_conversation.id)
+      end
+
       it 'filters items with contains filter_operator with values being an array' do
         params[:payload] = [{
           attribute_key: 'browser_language',
