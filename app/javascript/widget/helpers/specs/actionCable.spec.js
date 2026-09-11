@@ -63,4 +63,10 @@ describe('Widget ActionCableConnector', () => {
     expect(window.actionCable).toBeInstanceOf(ActionCableConnector);
     expect(window.actionCable).not.toBe(connector);
   });
+
+  it('clears presence timers when the connector is disposed', () => {
+    expect(vi.getTimerCount()).toBeGreaterThan(0);
+    connector.disconnect();
+    expect(vi.getTimerCount()).toBe(0);
+  });
 });
