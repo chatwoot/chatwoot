@@ -80,7 +80,7 @@ class Api::V1::Widget::BaseController < ApplicationController
     {
       account_id: conversation.account_id,
       sender: @contact,
-      content: permitted_params[:message][:content],
+      content: Widget::IncomingContentSanitizer.sanitize(permitted_params[:message][:content]),
       inbox_id: conversation.inbox_id,
       content_attributes: {
         in_reply_to: permitted_params[:message][:reply_to]

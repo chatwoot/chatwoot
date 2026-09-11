@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+# Widget visitors can POST arbitrary HTML. Chatwoot stores that string and
+# sanitizes it later in the browser (markdown-it html:false + DOMPurify).
+# Persist-time stripping is defense in depth so a future client sanitizer
+# bypass cannot become stored XSS in the agent dashboard.
+class Widget::IncomingContentSanitizer
+  def self.sanitize(content)
+    return content if content.blank?
+
+    Rails::HTML5::FullSanitizer.new.sanitize(content.to_s)
+  end
+end

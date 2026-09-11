@@ -89,6 +89,20 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(json_response['content']).to eq(message_params[:content])
       end
 
+      it 'strips HTML from incoming content before persist' do
+        post api_v1_widget_messages_url,
+             params: {
+               website_token: web_widget.website_token,
+               message: { content: '<img src=x onerror=alert(1)>hello **there**' }
+             },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['content']).to eq('hello **there**')
+        expect(conversation.reload.messages.incoming.last.content).to eq('hello **there**')
+      end
+
       it 'creates conversation with custom_attributes when first message is sent' do
         conversation.destroy!
         message_params = { content: 'hello world', timestamp: Time.current }
