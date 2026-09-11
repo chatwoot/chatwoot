@@ -2,6 +2,7 @@ require 'json'
 
 class FilterService
   include Filters::FilterHelper
+  include Filters::DateFilterHelper
   include Filters::CustomAttributeFilterHelper
   include CustomExceptions::CustomFilter
 
@@ -104,7 +105,7 @@ class FilterService
     # unintended cutoff (negative => future date matching everything)
     raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash['attribute_key']) unless days&.between?(1, 998)
 
-    date = Time.zone.today - days.days
+    date = filter_timezone(query_hash).today - days.days
     updated_query_hash = query_hash.to_h.with_indifferent_access.merge(
       values: [date.strftime],
       filter_operator: 'is_less_than'
