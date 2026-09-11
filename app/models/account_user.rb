@@ -36,8 +36,11 @@ class AccountUser < ApplicationRecord
 
   accepts_nested_attributes_for :account
 
-  after_create_commit :notify_creation, :create_notification_setting
-  after_destroy :notify_deletion, :remove_user_from_account
+  around_create :serialize_with_agent_cleanup
+  after_create :create_notification_setting
+  after_create_commit :notify_creation
+  after_destroy :notify_deletion
+  after_destroy_commit :remove_user_from_account
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
   after_commit :invalidate_filtered_unread_count_visibility, on: [:create, :destroy]
   after_update_commit :invalidate_filtered_unread_count_visibility_update, if: :filtered_unread_count_visibility_changed?
@@ -45,9 +48,11 @@ class AccountUser < ApplicationRecord
   validates :user_id, uniqueness: { scope: :account_id }
 
   def create_notification_setting
-    setting = user.notification_settings.new(account_id: account.id)
-    setting.selected_email_flags = [:email_conversation_assignment]
-    setting.selected_push_flags = [:push_conversation_assignment]
+    setting = user.notification_settings.find_or_initialize_by(account_id: account.id)
+    if setting.new_record?
+      setting.selected_email_flags = [:email_conversation_assignment]
+      setting.selected_push_flags = [:push_conversation_assignment]
+    end
     setting.save!
   end
 
@@ -69,6 +74,11 @@ class AccountUser < ApplicationRecord
   end
 
   private
+
+  # Membership creation and delayed cleanup must share the account row lock.
+  def serialize_with_agent_cleanup(&)
+    Account.find(account_id).with_lock(&)
+  end
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(AGENT_ADDED, Time.zone.now, account: account)

@@ -1,6 +1,6 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { clearBrowserSessionCookies } from 'dashboard/store/utils/api';
-import { hasAuthCookie } from './AuthHelper';
+import { getShopifyBillingRedirect, hasAuthCookie } from './AuthHelper';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { replaceRouteWithReload } from './CommonHelper';
 
@@ -29,14 +29,32 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
   // Redirect to dashboard if a cookie is present, the cookie
   // cleanup and token validation happens in the application pack.
   if (hasAuthCookie()) {
-    replaceRouteWithReload(DEFAULT_REDIRECT_URL);
+    const {
+      redirect_url: requestedRedirectUrl,
+      shopify_pending_install: pendingInstallToken,
+    } = to.query || {};
+    if (to.name === 'auth_signup' && pendingInstallToken) {
+      clearBrowserSessionCookies();
+      next();
+      return;
+    }
+
+    const redirectUrl =
+      requestedRedirectUrl || getShopifyBillingRedirect(to.query);
+    const redirectTarget = redirectUrl
+      ? `${DEFAULT_REDIRECT_URL}?redirect_url=${encodeURIComponent(redirectUrl)}`
+      : DEFAULT_REDIRECT_URL;
+    replaceRouteWithReload(redirectTarget);
     return;
   }
 
   // If the URL is an invalid path, redirect to login page
   // Disable navigation to signup page if signups are disabled
   // Signup route has an attribute (requireSignupEnabled) in it's definition
+  const isPendingShopifySignup =
+    to.name === 'auth_signup' && to.query?.shopify_pending_install;
   const isAnInalidSignupNavigation =
+    !isPendingShopifySignup &&
     chatwootConfig.signupEnabled !== 'true' &&
     to.meta &&
     to.meta.requireSignupEnabled;

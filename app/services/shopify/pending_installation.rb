@@ -23,7 +23,8 @@ class Shopify::PendingInstallation
     current_generation = generation(shop: normalized_shop)
     raise InvalidToken, 'Shopify installation is no longer active' if shop_generation.present? && shop_generation.to_i != current_generation
 
-    payload = { access_token: access_token, shop: normalized_shop, scope: scope, generation: current_generation }
+    payload = { access_token: access_token, shop: normalized_shop, scope: scope, generation: current_generation,
+                connected_at: Time.current.utc.iso8601(6) }
     Redis::SecureStorage.set(payload_key(token), payload, PAYLOAD_TTL)
     token
   end
@@ -87,22 +88,16 @@ class Shopify::PendingInstallation
     end
   end
 
-  def consume!
-    consumed = false
-
-    ::Redis::Alfred.with do |connection|
-      connection.watch(@claim_key) do
-        next unless connection.get(@claim_key) == @claim_token
-
-        consumed = connection.multi do |transaction|
-          transaction.del(payload_key)
-          transaction.del(@claim_key)
-        end.present?
-      end
+  def with_current_installation
+    Shopify::InstallationGeneration.with_shop_lock(data['shop']) do
+      verify_shop_generation!(data)
+      yield
     end
+  end
 
-    raise AlreadyClaimed, 'Install token claim has expired' unless consumed
-  rescue AlreadyClaimed
+  def consume!
+    raise AlreadyClaimed, 'Install token claim has expired' unless consume_claim
+  rescue AlreadyClaimed, InvalidToken
     raise
   rescue StandardError => e
     state = consume_state
@@ -145,6 +140,25 @@ class Shopify::PendingInstallation
 
   private
 
+  def consume_claim
+    consumed = false
+    generation_key = format(GENERATION_KEY, shop: data['shop'])
+
+    ::Redis::Alfred.with do |connection|
+      connection.watch(@claim_key, generation_key) do
+        raise InvalidToken, 'Invalid or expired install token' if connection.get(generation_key).to_i != data['generation'].to_i
+        next unless connection.get(@claim_key) == @claim_token
+
+        consumed = connection.multi do |transaction|
+          transaction.del(payload_key)
+          transaction.del(@claim_key)
+        end.present?
+      end
+    end
+
+    consumed
+  end
+
   def persist_data(updated_data)
     ttl = ::Redis::Alfred.ttl(payload_key)
     raise InvalidToken, 'Invalid or expired install token' unless ttl.positive?
@@ -184,8 +198,8 @@ class Shopify::PendingInstallation
     raise InvalidToken, 'Invalid or expired install token' unless Shopify::ShopDomain.valid?(data['shop'])
 
     verify_shop_generation!(data)
-
-    data
+    # Payloads issued before timestamps were added can live for at most PAYLOAD_TTL.
+    data.reverse_merge('connected_at' => (Time.current - PAYLOAD_TTL).utc.iso8601(6))
   rescue JSON::ParserError, TypeError
     raise InvalidToken, 'Invalid or expired install token'
   end

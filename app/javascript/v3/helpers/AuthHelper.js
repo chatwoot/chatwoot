@@ -6,6 +6,82 @@ export const hasAuthCookie = () => {
   return !!Cookies.get('cw_d_session_info');
 };
 
+const SHOPIFY_INSTALL_REDIRECT_PATTERN =
+  /^settings\/integrations\/shopify\?shopify_pending_install=([0-9a-f]{32})$/;
+
+export const isShopifyInstallRedirect = redirectUrl =>
+  SHOPIFY_INSTALL_REDIRECT_PATTERN.test(redirectUrl || '');
+
+export const getSignupRoute = redirectUrl => {
+  const match = (redirectUrl || '').match(SHOPIFY_INSTALL_REDIRECT_PATTERN);
+  const signupRoute = { name: 'auth_signup' };
+
+  return match
+    ? { ...signupRoute, query: { shopify_pending_install: match[1] } }
+    : signupRoute;
+};
+
+export const isShopifyBillingAccount = account =>
+  account?.billing_provider === 'shopify' &&
+  account.shopify_integration === true;
+
+export const getShopifyInstallAccount = ({ accounts, accountId }) => {
+  const canManageShopify = account =>
+    account.role === 'administrator' &&
+    account.shopify_integration === true &&
+    (account.status === 'active' || isShopifyBillingAccount(account));
+  const currentAccount = accounts.find(
+    account => account.id === Number(accountId)
+  );
+
+  return canManageShopify(currentAccount || {}) ? currentAccount : undefined;
+};
+
+const SHOPIFY_ENTITLED_STATES = ['active', 'trialing', 'cancelled'];
+
+export const getShopifyInstallPath = (account, redirectUrl) =>
+  isShopifyBillingAccount(account)
+    ? redirectUrl.replace('settings/integrations/shopify', 'settings/billing')
+    : redirectUrl;
+
+export const requiresShopifyBilling = account =>
+  isShopifyBillingAccount(account) &&
+  !SHOPIFY_ENTITLED_STATES.includes(account.subscription_status);
+
+export const getShopifyBillingRedirect = query => {
+  const { plan_handle: planHandle, shop } = query || {};
+  if (!planHandle && !shop) return '';
+
+  const params = new URLSearchParams();
+  if (planHandle) params.set('plan_handle', planHandle);
+  if (shop) params.set('shop', shop);
+  return `settings/billing?${params.toString()}`;
+};
+
+export const getShopifyShopFromRedirect = redirectUrl => {
+  const query = redirectUrl?.split('?')[1];
+  return new URLSearchParams(query).get('shop')?.trim().toLowerCase() || '';
+};
+
+export const getTargetAccount = ({ ssoAccountId, redirectUrl, user }) => {
+  const { accounts = [], account_id: accountId = null } = user || {};
+  const ssoAccount = accounts.find(
+    account => account.id === Number(ssoAccountId)
+  );
+  if (ssoAccount) return ssoAccount;
+
+  const shop = getShopifyShopFromRedirect(redirectUrl);
+  if (shop) {
+    return accounts.find(
+      account => account.shopify_shop_domain?.toLowerCase() === shop
+    );
+  }
+
+  return (
+    accounts.find(account => account.id === Number(accountId)) || accounts[0]
+  );
+};
+
 const getSSOAccountPath = ({ ssoAccountId, user }) => {
   const { accounts = [], account_id = null } = user || {};
   const ssoAccount = accounts.find(
@@ -40,8 +116,31 @@ export const getCredentialsFromEmail = email => {
 export const getLoginRedirectURL = ({
   ssoAccountId,
   ssoConversationId,
+  redirectUrl,
   user,
 }) => {
+  const targetAccount = getTargetAccount({ ssoAccountId, redirectUrl, user });
+  if (getShopifyShopFromRedirect(redirectUrl) && !targetAccount) {
+    return DEFAULT_REDIRECT_URL;
+  }
+  if (redirectUrl) {
+    const { accounts = [] } = user || {};
+    const redirectAccount = isShopifyInstallRedirect(redirectUrl)
+      ? getShopifyInstallAccount({ accounts, accountId: ssoAccountId })
+      : targetAccount;
+    if (isShopifyInstallRedirect(redirectUrl) && !redirectAccount) {
+      return frontendURL(`shopify/select-account?${redirectUrl.split('?')[1]}`);
+    }
+    if (redirectAccount) {
+      const targetPath = isShopifyInstallRedirect(redirectUrl)
+        ? getShopifyInstallPath(redirectAccount, redirectUrl)
+        : redirectUrl;
+      return frontendURL(`accounts/${redirectAccount.id}/${targetPath}`);
+    }
+  }
+  if (requiresShopifyBilling(targetAccount)) {
+    return frontendURL(`accounts/${targetAccount.id}/settings/billing`);
+  }
   const accountPath = getSSOAccountPath({ ssoAccountId, user });
   if (accountPath) {
     if (ssoConversationId) {

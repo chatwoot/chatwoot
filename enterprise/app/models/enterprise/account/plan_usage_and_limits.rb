@@ -2,6 +2,8 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   CAPTAIN_RESPONSES = 'captain_responses'.freeze
   CAPTAIN_DOCUMENTS = 'captain_documents'.freeze
   CAPTAIN_RESPONSES_USAGE = 'captain_responses_usage'.freeze
+  CAPTAIN_RESPONSE_RESERVATIONS = 'captain_response_reservations'.freeze
+  CAPTAIN_RESPONSE_RESERVATION_TTL = 1.hour
   CAPTAIN_DOCUMENTS_USAGE = 'captain_documents_usage'.freeze
 
   def usage_limits
@@ -21,6 +23,56 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     increment_custom_attribute(CAPTAIN_RESPONSES_USAGE)
   end
 
+  # rubocop:disable Rails/SkipsModelValidations
+  def reserve_response_usage
+    response_limit = captain_monthly_limit[:responses].to_i
+    return false unless response_limit.positive?
+
+    reservation_id = SecureRandom.uuid
+    with_lock do
+      reservations = active_response_reservations
+      next false if custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i + reservations.size >= response_limit
+
+      reservations[reservation_id] = CAPTAIN_RESPONSE_RESERVATION_TTL.from_now.to_i
+      update_custom_attribute(CAPTAIN_RESPONSE_RESERVATIONS, reservations)
+      reservation_id
+    end
+  end
+
+  def renew_response_usage(reservation_id)
+    with_lock do
+      reservations = response_reservations
+      next false unless reservations.key?(reservation_id)
+
+      reservations[reservation_id] = CAPTAIN_RESPONSE_RESERVATION_TTL.from_now.to_i
+      update_custom_attribute(CAPTAIN_RESPONSE_RESERVATIONS, reservations)
+      true
+    end
+  end
+
+  def release_response_usage(reservation_id)
+    with_lock do
+      reservations = response_reservations
+      released = reservations.delete(reservation_id).present?
+      reservations = active_response_reservations(reservations)
+      update_custom_attribute(CAPTAIN_RESPONSE_RESERVATIONS, reservations)
+      released
+    end
+  end
+
+  def commit_response_usage(reservation_id)
+    with_lock do
+      reservations = response_reservations
+      next false unless reservations.delete(reservation_id)
+
+      Account.where(id: id).update_all(response_reservation_commit(reservations))
+      custom_attributes[CAPTAIN_RESPONSE_RESERVATIONS] = reservations
+      custom_attributes[CAPTAIN_RESPONSES_USAGE] = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i + 1
+      clear_attribute_changes([:custom_attributes])
+      true
+    end
+  end
+
   def reset_response_usage
     update_custom_attribute(CAPTAIN_RESPONSES_USAGE, 0)
   end
@@ -32,7 +84,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   def email_transcript_enabled?
     return current_billing_plan.present? if shopify_billing?
 
-    default_plan = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')&.value&.first
+    default_plan = Enterprise::Billing::PlanConfiguration.default_plan
     return true if default_plan.blank?
 
     plan_name.present? && plan_name != default_plan['name']
@@ -72,10 +124,11 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
                end
 
     consumed = 0 if consumed.negative?
+    reserved = type == :responses ? active_response_reservations.size : 0
 
     {
       total_count: total_count,
-      current_available: (total_count - consumed).clamp(0, total_count),
+      current_available: (total_count - consumed - reserved).clamp(0, total_count),
       consumed: consumed
     }
   end
@@ -103,7 +156,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   def free_plan?
     return false if shopify_billing?
 
-    default_plan = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')&.value&.first
+    default_plan = Enterprise::Billing::PlanConfiguration.default_plan
     default_plan.present? && plan_name&.downcase == default_plan['name']&.downcase
   end
 
@@ -174,13 +227,13 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
 
   # Atomic jsonb_set to avoid clobbering concurrent writes to other custom_attributes keys.
   # Goes through Account relation (rather than raw connection) so shard routing is respected.
-  # rubocop:disable Rails/SkipsModelValidations
   def update_custom_attribute(key, value)
     Account.where(id: id).update_all([
                                        "custom_attributes = jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:key], :value::jsonb)",
                                        { key: key, value: value.to_json }
                                      ])
     custom_attributes[key] = value
+    clear_attribute_changes([:custom_attributes])
   end
 
   def increment_custom_attribute(key)
@@ -190,8 +243,32 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
                                        { key: key }
                                      ])
     custom_attributes[key] = custom_attributes[key].to_i + 1
+    clear_attribute_changes([:custom_attributes])
   end
 
+  def active_response_reservations(reservations = response_reservations)
+    reservations.select { |_reservation_id, expires_at| expires_at.to_i > Time.current.to_i }
+  end
+
+  def response_reservations
+    reservations = custom_attributes[CAPTAIN_RESPONSE_RESERVATIONS]
+    return {} unless reservations.is_a?(Hash)
+
+    reservations.dup
+  end
+
+  def response_reservation_commit(reservations)
+    [
+      "custom_attributes = jsonb_set(jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:usage_key], " \
+      '(COALESCE((custom_attributes ->> :usage_key)::int, 0) + 1)::text::jsonb), ARRAY[:reservations_key], ' \
+      ':reservations::jsonb)',
+      {
+        usage_key: CAPTAIN_RESPONSES_USAGE,
+        reservations_key: CAPTAIN_RESPONSE_RESERVATIONS,
+        reservations: reservations.to_json
+      }
+    ]
+  end
   # rubocop:enable Rails/SkipsModelValidations
 
   def validate_limit_keys

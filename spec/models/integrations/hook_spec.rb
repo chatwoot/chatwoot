@@ -69,6 +69,31 @@ RSpec.describe Integrations::Hook do
       expect(duplicate_hook).not_to be_valid
       expect(duplicate_hook.errors[:reference_id]).to include('has already been taken')
     end
+
+    it 'enforces shop uniqueness at the database layer' do
+      create(:integrations_hook, :shopify, account: account, reference_id: 'my-store.myshopify.com')
+      second_account = create(:account)
+      second_account.enable_features!('shopify_integration')
+      duplicate_hook = build(
+        :integrations_hook,
+        :shopify,
+        account: second_account,
+        reference_id: 'my-store.myshopify.com'
+      )
+
+      expect do
+        duplicate_hook.save!(validate: false)
+      end.to raise_error(ActiveRecord::RecordNotUnique)
+    end
+
+    it 'enforces one Shopify installation per account at the database layer' do
+      create(:integrations_hook, :shopify, account: account, reference_id: 'first-store.myshopify.com')
+      second_hook = build(:integrations_hook, :shopify, account: account, reference_id: 'second-store.myshopify.com')
+
+      expect do
+        second_hook.save!(validate: false)
+      end.to raise_error(ActiveRecord::RecordNotUnique)
+    end
   end
 
   describe 'scopes' do
