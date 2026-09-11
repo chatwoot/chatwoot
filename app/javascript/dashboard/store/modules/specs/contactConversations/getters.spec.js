@@ -10,6 +10,15 @@ describe('#getters', () => {
     ]);
   });
 
+  it('getConversationNeighbours', () => {
+    const state = { neighbours: { 13: [{ id: 11 }, { id: 13 }] } };
+    expect(getters.getConversationNeighbours(state)(13)).toEqual([
+      { id: 11 },
+      { id: 13 },
+    ]);
+    expect(getters.getConversationNeighbours(state)(99)).toEqual([]);
+  });
+
   it('getUIFlags', () => {
     const state = {
       uiFlags: {
