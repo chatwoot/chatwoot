@@ -109,6 +109,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     const { id } = payload;
     if (id) {
       this.app.$store.dispatch('updateConversation', payload);
+      DashboardAudioNotificationHelper.onConversationAssigned(payload);
     }
     this.fetchConversationStats();
   };

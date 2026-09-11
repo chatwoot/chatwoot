@@ -133,7 +133,8 @@ class ActionCableListener < BaseListener
 
   def assignee_changed(event)
     conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
+    # the assignee may not be an inbox member (assigned by an admin or an automation) but must be notified
+    tokens = (user_tokens(account, conversation.inbox.members) + [conversation.assignee&.pubsub_token]).compact.uniq
 
     broadcast(account, tokens, ASSIGNEE_CHANGED, conversation.push_event_data)
   end
