@@ -60,7 +60,7 @@ class Captain::AssistantOverviewStatsBuilder
       hours_saved: (public_replies * SECONDS_SAVED_PER_REPLY / 3600.0).round,
       reopen_rate: rate(reopened, autonomous),
       conversation_depth: reply_conversations.zero? ? 0 : (public_replies.to_f / reply_conversations).round(1),
-      durable_rate: rate(durable, assessable),
+      durable_rate: assessable.zero? ? nil : rate(durable, assessable),
       autonomous_csat: autonomous_csat.to_f.round(2),
       assisted_csat: assisted_csat.to_f.round(2),
       median_resolution: resolution.to_i
@@ -75,7 +75,8 @@ class Captain::AssistantOverviewStatsBuilder
     previous_aggregates = window_aggregates(
       window_predicate(window.previous, table: outcomes_table, column: :started_at, exclude_end: shared_boundary?)
     )
-    row = outcomes_scope(full_span).reorder(nil).pick(*(current_aggregates + previous_aggregates))
+    scope = account.conversation_outcomes.where(assistant_id: assistant.id, started_at: full_span)
+    row = scope.reorder(nil).pick(*(current_aggregates + previous_aggregates))
     aggregate_count = current_aggregates.length
 
     { current: row.first(aggregate_count), previous: row.last(aggregate_count) }
@@ -152,10 +153,6 @@ class Captain::AssistantOverviewStatsBuilder
     score&.to_f&.round(2)
   end
 
-  def outcomes_scope(range)
-    account.conversation_outcomes.where(assistant_id: assistant.id, started_at: range)
-  end
-
   def assistant_messages
     account.messages.where(sender_type: 'Captain::Assistant', sender_id: assistant.id, created_at: full_span)
   end
@@ -215,6 +212,9 @@ class Captain::AssistantOverviewStatsBuilder
   end
 
   def pack(current, previous, mode)
+    current = nil unless tracked_period?(window.current.first)
+    previous = nil unless tracked_period?(window.previous.first)
+
     { current: current, previous: previous, trend: trend(current, previous, mode) }
   end
 
