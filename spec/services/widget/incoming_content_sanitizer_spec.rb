@@ -30,6 +30,17 @@ RSpec.describe Widget::IncomingContentSanitizer do
       expect(described_class.sanitize('Write <support@example.com>')).to eq(
         'Write <support@example.com>'
       )
+      expect(described_class.sanitize('Get <ftp://files.example.com>')).to eq(
+        'Get <ftp://files.example.com>'
+      )
+      expect(described_class.sanitize('Mail <mailto:support@example.com>')).to eq(
+        'Mail <mailto:support@example.com>'
+      )
+    end
+
+    it 'does not park javascript or data URI autolinks' do
+      expect(described_class.sanitize('<javascript:alert(1)>')).not_to include('javascript:')
+      expect(described_class.sanitize('<data:text/html,alert(1)>')).not_to include('data:')
     end
 
     it 'does not park HTML that merely contains an @' do

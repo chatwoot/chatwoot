@@ -5,15 +5,16 @@
 # Persist-time stripping is defense in depth so a future client sanitizer
 # bypass cannot become stored XSS in the agent dashboard.
 #
-# CommonMark autolinks (`<https://example.com>`, `<user@host>`) are valid
-# visitor text. The HTML5 sanitizer would treat those as empty tags, so
-# they are parked and restored around the strip. The email form is a
-# conservative address (local@domain.tld), not "anything with an @",
-# so markup such as `<svg/onload=...@x>` is not parked.
+# CommonMark autolinks are valid visitor text. The HTML5 sanitizer would
+# treat those as empty tags, so a small allow-list is parked and restored
+# around the strip: http(s), ftp(s), mailto, and local@domain.tld.
+# Other schemes (javascript:, data:) and markup that merely contains @
+# are not parked.
 class Widget::IncomingContentSanitizer
-  URI_AUTOLINK_REGEX = %r{<https?://[^<>\s]+>}i
+  URI_AUTOLINK_REGEX = %r{<(?:https?|ftps?)://[^<>\s]+>}i
+  MAILTO_AUTOLINK_REGEX = /<mailto:[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}>/i
   EMAIL_AUTOLINK_REGEX = /<[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}>/
-  AUTO_LINK_REGEX = Regexp.union(URI_AUTOLINK_REGEX, EMAIL_AUTOLINK_REGEX)
+  AUTO_LINK_REGEX = Regexp.union(URI_AUTOLINK_REGEX, MAILTO_AUTOLINK_REGEX, EMAIL_AUTOLINK_REGEX)
 
   def self.sanitize(content)
     return content if content.blank?
