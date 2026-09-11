@@ -1,10 +1,13 @@
 # Resolves the widget session JWT from header, cookie, or (legacy) query string.
 # New clients should not put cw_conversation in URLs (CWE-598).
+# The HttpOnly cookie is only for document loads (GET /widget). Widget API
+# auth must not read it: SameSite=None plus skipped CSRF would otherwise make
+# the session ambient on cross-site requests.
 module WidgetAuthToken
   COOKIE_NAME = 'cw_conversation'.freeze
 
-  def widget_auth_token
-    header_token.presence || cookie_token.presence || params[:cw_conversation].presence
+  def widget_auth_token(allow_cookie: true)
+    header_token.presence || (allow_cookie && cookie_token.presence) || params[:cw_conversation].presence
   end
 
   def write_widget_auth_cookie(token)

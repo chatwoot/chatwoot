@@ -8,6 +8,26 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
   let(:token) { Widget::TokenService.new(payload: payload).generate_token }
 
+  describe 'GET /api/v1/widget/contact' do
+    it 'does not authorize from the session cookie alone' do
+      get '/api/v1/widget/contact',
+          params: { website_token: web_widget.website_token },
+          headers: { 'Cookie' => "cw_conversation=#{token}" },
+          as: :json
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'authorizes from X-Auth-Token' do
+      get '/api/v1/widget/contact',
+          params: { website_token: web_widget.website_token },
+          headers: { 'X-Auth-Token' => token },
+          as: :json
+
+      expect(response).to have_http_status(:success)
+    end
+  end
+
   describe 'PATCH /api/v1/widget/contact' do
     let(:params) { { website_token: web_widget.website_token, identifier: 'test' } }
 

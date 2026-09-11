@@ -2,7 +2,7 @@ module WebsiteTokenHelper
   include WidgetAuthToken
 
   def auth_token_params
-    @auth_token_params ||= ::Widget::TokenService.new(token: widget_auth_token).decode_token
+    @auth_token_params ||= ::Widget::TokenService.new(token: widget_auth_token(allow_cookie: false)).decode_token
   end
 
   def set_web_widget
