@@ -60,6 +60,48 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    context 'when a failed status arrives for a message that was never persisted' do
+      # This mirrors what WhatsApp Cloud API sends when it fails to download
+      # inbound media (e.g. error 131052 "Media download error") before the
+      # message could be created -- `find_message_by_source_id` never
+      # matches, so the event previously vanished with no trace anywhere.
+      let(:unmatched_failed_status_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                statuses: [{
+                  id: 'wamid.unmatched-media-download-failure',
+                  status: 'failed',
+                  timestamp: '1664799904',
+                  recipient_id: sender_number,
+                  errors: [{ code: 131_052, title: 'Media download error' }]
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'logs a warning with the source id and error details' do
+        expect(Rails.logger).to receive(:warn).with(
+          a_string_matching(/wamid\.unmatched-media-download-failure/).and(a_string_matching(/131052/))
+        )
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: unmatched_failed_status_params).perform
+      end
+
+      it 'does not create a conversation' do
+        allow(Rails.logger).to receive(:warn)
+
+        expect do
+          described_class.new(inbox: whatsapp_channel.inbox, params: unmatched_failed_status_params).perform
+        end.not_to change(Conversation, :count)
+      end
+    end
+
     context 'when document attachment includes an accented filename' do
       let(:document_params) do
         {
