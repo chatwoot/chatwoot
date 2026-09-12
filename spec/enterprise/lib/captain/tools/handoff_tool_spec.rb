@@ -293,6 +293,14 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           expect(result).to eq('Failed to handoff conversation')
         end
 
+        it 'marks playground failures for run details without changing production output' do
+          tool_context.state[:source] = 'playground'
+
+          result = tool.perform(tool_context, reason: 'Test')
+
+          expect(result).to eq('ERROR: Failed to handoff conversation')
+        end
+
         it 'captures exception' do
           exception_tracker = instance_double(ChatwootExceptionTracker)
           expect(ChatwootExceptionTracker).to receive(:new).with(instance_of(StandardError)).and_return(exception_tracker)
@@ -333,6 +341,16 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
       it 'returns error message' do
         result = tool.perform(tool_context, reason: 'Test')
         expect(result).to eq('Conversation not found')
+      end
+    end
+
+    context 'when a playground call cannot hand off' do
+      let(:tool_context) { Struct.new(:state).new({ source: 'playground' }) }
+
+      it 'marks the result as an error for run details' do
+        result = tool.perform(tool_context, reason: 'Test')
+
+        expect(result).to eq('ERROR: Conversation not found')
       end
     end
   end

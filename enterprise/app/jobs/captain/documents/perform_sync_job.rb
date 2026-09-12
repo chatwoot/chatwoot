@@ -45,7 +45,7 @@ class Captain::Documents::PerformSyncJob < MutexApplicationJob
 
   def perform(document)
     start_time = Time.current
-    return if document.pdf_document?
+    return unless document.syncable?
 
     with_lock(lock_key(document), LOCK_TIMEOUT) do
       perform_sync(document, start_time)

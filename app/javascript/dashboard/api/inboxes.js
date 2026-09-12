@@ -69,6 +69,10 @@ class Inboxes extends CacheEnabledApiClient {
     return axios.post(`${this.url}/${inboxId}/reset_secret`);
   }
 
+  rotateHmacToken(inboxId) {
+    return axios.post(`${this.url}/${inboxId}/rotate_hmac_token`);
+  }
+
   enableWhatsappCalling(inboxId) {
     return axios.post(`${this.url}/${inboxId}/enable_whatsapp_calling`);
   }
@@ -80,6 +84,13 @@ class Inboxes extends CacheEnabledApiClient {
   setInboundCalls(inboxId, enabled) {
     return axios.post(`${this.url}/${inboxId}/set_inbound_calls`, {
       inbound_calls_enabled: enabled,
+    });
+  }
+
+  setCallRecording(inboxId, { recordingEnabled, transcriptionEnabled }) {
+    return axios.post(`${this.url}/${inboxId}/set_call_recording`, {
+      recording_enabled: recordingEnabled,
+      transcription_enabled: transcriptionEnabled,
     });
   }
 }
