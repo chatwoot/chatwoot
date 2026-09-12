@@ -20,6 +20,7 @@ properties:
     type:
       - string
       - 'null'
+    description: Message signature for the user's active account membership.
   email:
     type: string
   hmac_identifier:
@@ -77,6 +78,10 @@ properties:
           type: string
         auto_offline:
           type: boolean
+        message_signature:
+          type:
+            - string
+            - 'null'
         custom_role_id:
           type:
             - number

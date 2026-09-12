@@ -76,7 +76,11 @@ RSpec.describe Captain::ReplySuggestionService do
       end
 
       context 'when agent has a signature' do
-        let(:agent) { create(:user, account: account, name: 'Jane Smith', message_signature: "Best,\nJane Smith") }
+        let(:agent) { create(:user, account: account, name: 'Jane Smith') }
+
+        before do
+          agent.account_users.find_by!(account: account).update!(message_signature: "Best,\nJane Smith")
+        end
 
         it 'includes the signature in the prompt' do
           service.perform

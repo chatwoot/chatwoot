@@ -47,6 +47,9 @@ put:
                   type: string
                 message_signature:
                   type: string
+                account_id:
+                  type: number
+                  description: Required when updating message_signature. Scopes the signature to this account membership.
                 phone_number:
                   type: string
                 current_password:
@@ -74,6 +77,9 @@ put:
                   type: string
                 message_signature:
                   type: string
+                account_id:
+                  type: number
+                  description: Required when updating message_signature. Scopes the signature to this account membership.
                 phone_number:
                   type: string
                 current_password:
