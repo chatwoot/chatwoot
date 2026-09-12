@@ -1,7 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
-import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { ARTICLE_STATUSES } from 'dashboard/helper/portalHelper';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
@@ -19,6 +20,8 @@ const props = defineProps({
   status: { type: String, default: '' },
   updatedAt: { type: Number, default: 0 },
 });
+
+const exactTimestamp = useExactTimestamp();
 
 const MAX_LENGTH = 300;
 

@@ -107,24 +107,26 @@ onUnmounted(stopAutoRotation);
             </button>
           </div>
         </div>
-        <div
-          v-if="summaryLoading"
-          class="flex flex-col gap-2"
-          :aria-label="$t('CAPTAIN.OVERVIEW.WELCOME.LOADING')"
-        >
-          <div class="w-full h-4 rounded bg-n-slate-3 animate-pulse" />
-          <div class="w-5/6 h-4 rounded bg-n-slate-3 animate-pulse" />
+        <div class="h-[3.9375rem] overflow-y-auto">
+          <div
+            v-if="summaryLoading"
+            class="flex flex-col gap-2"
+            :aria-label="$t('CAPTAIN.OVERVIEW.WELCOME.LOADING')"
+          >
+            <div class="w-full h-4 rounded bg-n-slate-3 animate-pulse" />
+            <div class="w-5/6 h-4 rounded bg-n-slate-3 animate-pulse" />
+          </div>
+          <p
+            v-else-if="points.length"
+            aria-live="polite"
+            class="m-0 text-body-para text-n-slate-12"
+          >
+            {{ activePoint }}
+          </p>
+          <p v-else class="m-0 text-body-para text-n-slate-11">
+            {{ $t('CAPTAIN.OVERVIEW.V2.SUMMARY.EMPTY') }}
+          </p>
         </div>
-        <p
-          v-else-if="points.length"
-          aria-live="polite"
-          class="text-body-para text-n-slate-12"
-        >
-          {{ activePoint }}
-        </p>
-        <p v-else class="text-body-para text-n-slate-11">
-          {{ $t('CAPTAIN.OVERVIEW.V2.SUMMARY.EMPTY') }}
-        </p>
       </div>
       <MetricCard
         v-for="metric in featuredMetrics"

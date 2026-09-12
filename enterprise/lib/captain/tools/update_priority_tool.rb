@@ -4,10 +4,12 @@ class Captain::Tools::UpdatePriorityTool < Captain::Tools::BasePublicTool
 
   def perform(tool_context, priority:)
     @conversation = find_conversation(tool_context.state)
-    return 'Conversation not found' unless @conversation
+    return failure_result('Conversation not found', tool_context.state) unless @conversation
 
     @normalized_priority = normalize_priority(priority)
-    return "Invalid priority. Valid options: #{valid_priority_options}" unless valid_priority?(@normalized_priority)
+    unless valid_priority?(@normalized_priority)
+      return failure_result("Invalid priority. Valid options: #{valid_priority_options}", tool_context.state)
+    end
 
     log_tool_usage('update_priority', { conversation_id: @conversation.id, priority: priority })
 
