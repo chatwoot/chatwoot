@@ -23,8 +23,8 @@ class Whatsapp::MediaUploadService
     return { 'id' => media_id } if response.success? && media_id.present?
 
     log_failure("HTTP #{response.status} #{error_message(response)}")
-  rescue Faraday::Error => e
-    log_failure(e.message)
+  rescue Faraday::Error, ActiveStorage::FileNotFoundError, ActiveStorage::IntegrityError => e
+    log_failure("#{e.class.name} #{e.message}")
   end
 
   private

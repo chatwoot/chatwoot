@@ -48,6 +48,13 @@ describe Whatsapp::MediaUploadService do
       expect(service.perform).to be_nil
     end
 
+    it 'returns nil when the stored file cannot be read' do
+      allow(attachment.file.blob).to receive(:open).and_raise(ActiveStorage::FileNotFoundError)
+
+      expect(service.perform).to be_nil
+      expect(WebMock).not_to have_requested(:post, upload_url)
+    end
+
     it 'returns nil when the attachment has no file' do
       attachment = message.attachments.create!(account_id: message.account_id, file_type: :location)
 
