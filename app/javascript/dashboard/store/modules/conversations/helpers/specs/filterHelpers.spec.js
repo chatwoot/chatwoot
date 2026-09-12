@@ -383,7 +383,6 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
-
     // Standard attribute tests - priority
     it('should match conversation with equal_to operator for priority', () => {
       const conversation = { priority: 'urgent' };
