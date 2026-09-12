@@ -133,7 +133,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       reason_category: :pending_clarification,
       at: Time.current
     )
-    send_out_of_office_message_if_applicable(conversation.reload)
+    send_handoff_follow_up_messages(conversation.reload)
   rescue ActiveRecord::RecordNotFound
     nil
   end
@@ -154,6 +154,11 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   def send_out_of_office_message_if_applicable(conversation)
     ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(conversation) if conversation.campaign.blank?
+  end
+
+  def send_handoff_follow_up_messages(conversation)
+    send_out_of_office_message_if_applicable(conversation)
+    ::MessageTemplates::Template::EmailCollect.perform_after_handoff_if_applicable(conversation)
   end
 
   def create_private_note(conversation, content)

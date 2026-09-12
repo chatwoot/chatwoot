@@ -65,6 +65,7 @@ module Enterprise::MessageTemplates::HookExecutionService
       at: Time.current
     )
     send_out_of_office_message_after_handoff
+    send_email_collect_message_after_handoff
   end
 
   def send_out_of_office_message_after_handoff
@@ -73,6 +74,10 @@ module Enterprise::MessageTemplates::HookExecutionService
     return if conversation.campaign.present?
 
     ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(conversation)
+  end
+
+  def send_email_collect_message_after_handoff
+    ::MessageTemplates::Template::EmailCollect.perform_after_handoff_if_applicable(conversation)
   end
 
   def captain_handling_conversation?
