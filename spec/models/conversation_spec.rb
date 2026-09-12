@@ -433,6 +433,55 @@ RSpec.describe Conversation do
         .with(described_class::CONVERSATION_BOT_HANDOFF, anything, hash_including(conversation: conversation))
       conversation.bot_handoff!
     end
+
+    context 'when Assignment V2 is enabled' do
+      let(:account) { create(:account) }
+      let(:inbox) { create(:inbox, account: account, enable_auto_assignment: true) }
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :pending, assignee: nil) }
+
+      before do
+        account.enable_features('assignment_v2')
+        create(:inbox_member, inbox: inbox, user: agent)
+        allow(OnlineStatusTracker).to receive(:get_available_users).and_return(agent.id.to_s => 'online')
+      end
+
+      it 'assigns the handed-off conversation before returning' do
+        older_conversation = create(:conversation, account: account, inbox: inbox, status: :open, assignee: nil, created_at: 1.hour.ago)
+
+        conversation.bot_handoff!
+
+        expect(conversation.reload).to have_attributes(status: 'open', assignee: agent)
+        expect(older_conversation.reload.assignee).to be_nil
+      end
+
+      it 'leaves the handed-off conversation unassigned when no agent is online' do
+        allow(OnlineStatusTracker).to receive(:get_available_users).and_return({})
+
+        conversation.bot_handoff!
+
+        expect(conversation.reload).to have_attributes(status: 'open', assignee: nil)
+      end
+
+      it 'leaves the handed-off conversation unassigned when auto assignment is disabled' do
+        inbox.update!(enable_auto_assignment: false)
+
+        conversation.bot_handoff!
+
+        expect(conversation.reload).to have_attributes(status: 'open', assignee: nil)
+      end
+
+      it 'completes the handoff when immediate assignment fails' do
+        tracker = instance_double(ChatwootExceptionTracker, capture_exception: nil)
+        allow(AutoAssignment::AssignmentService).to receive(:new).and_raise(StandardError, 'assignment failed')
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(tracker)
+
+        conversation.bot_handoff!
+
+        expect(conversation.reload).to have_attributes(status: 'open', assignee: nil)
+        expect(tracker).to have_received(:capture_exception)
+      end
+    end
   end
 
   describe '#toggle_priority' do
