@@ -143,17 +143,17 @@ class Twilio::VoiceController < ApplicationController
     Twilio::TwiML::VoiceResponse.new.tap do |response|
       response.dial do |dial|
         dial.conference(
-          conference_sid,
-          start_conference_on_enter: agent_leg?(twilio_from),
-          end_conference_on_exit: false,
-          record: call.recording_enabled? ? 'record-from-start' : 'do-not-record',
-          recording_status_callback: recording_status_callback_url,
-          recording_status_callback_event: 'completed',
-          recording_status_callback_method: 'POST',
-          status_callback: conference_status_callback_url,
-          status_callback_event: 'start end join leave',
-          status_callback_method: 'POST',
-          participant_label: participant_label_for(twilio_from)
+          region: @channel.voice_region.presence,
+            start_conference_on_enter: agent_leg?(twilio_from),
+            end_conference_on_exit: false,
+            record: call.recording_enabled? ? 'record-from-start' : 'do-not-record',
+            recording_status_callback: recording_status_callback_url,
+            recording_status_callback_event: 'completed',
+            recording_status_callback_method: 'POST',
+            status_callback: conference_status_callback_url,
+            status_callback_event: 'start end join leave',
+            status_callback_method: 'POST',
+            participant_label: participant_label_for(twilio_from)
         )
       end
     end.to_s
