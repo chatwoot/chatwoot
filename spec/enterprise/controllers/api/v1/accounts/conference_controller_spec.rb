@@ -54,6 +54,39 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(body['inbox_id']).to eq(voice_inbox.id)
       end
     end
+
+    context 'when the inbox is not a Twilio voice-enabled channel' do
+      let(:whatsapp_channel) do
+        create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false)
+      end
+      let(:whatsapp_inbox) { whatsapp_channel.inbox }
+
+      before { create(:inbox_member, inbox: whatsapp_inbox, user: agent) }
+
+      it 'returns a client error instead of raising' do
+        # Regression test for #14706: TokenService calls channel.account_sid, channel.api_key_sid,
+        # etc. unconditionally, which don't exist on a non-Twilio channel like Channel::Whatsapp.
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/conference/token",
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_content)
+        expect(response.parsed_body['error']).to be_present
+      end
+    end
+
+    context 'when the Twilio channel has voice disabled' do
+      let(:sms_only_channel) { create(:channel_twilio_sms, account: account) }
+      let(:sms_only_inbox) { sms_only_channel.inbox }
+
+      before { create(:inbox_member, inbox: sms_only_inbox, user: agent) }
+
+      it 'returns a client error instead of raising' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{sms_only_inbox.id}/conference/token",
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_content)
+      end
+    end
   end
 
   describe 'POST /conference' do
