@@ -100,10 +100,7 @@ class Messages::MessageBuilder
   end
 
   def process_email_string(email_string)
-    return [] if email_string.blank?
-    return email_string.map(&:to_s).map(&:strip).reject(&:blank?) if email_string.is_a?(Array)
-
-    email_string.to_s.split(/[,;\s]+/).map(&:strip).reject(&:blank?)
+    Array(email_string).flat_map { |value| value.to_s.split(/[,;\s]+/) }.map(&:strip).reject(&:blank?)
   end
 
   def message_type
