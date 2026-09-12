@@ -1,4 +1,4 @@
-﻿<%
+<%
   headers = [
     I18n.t('reports.csat.headers.agent_name'),
     I18n.t('reports.csat.headers.rating'),
@@ -11,7 +11,7 @@
   ]
   headers << I18n.t('reports.csat.headers.review_notes') if ChatwootApp.enterprise?
 -%>
-<%= CSVSafe.generate_line(headers) -%>
+<%= "\uFEFF#{CSVSafe.generate_line(headers)}" -%>
 <% @csat_survey_responses.each do |csat_response| %>
 <% assigned_agent = csat_response.assigned_agent %>
 <% contact = csat_response.contact %>
