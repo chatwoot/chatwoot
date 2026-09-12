@@ -44,27 +44,27 @@ class AddBsuidToResolvedContactsIndex < ActiveRecord::Migration[7.1]
   # A regular identifier is preferred over a parent one, the same order `bsuid_attributes` applies,
   # and only aliases the contact owns are read. Batched because the join is over every contact inbox.
   def backfill_mirrored_bsuid
-    loop do
-      updated = execute(<<~SQL.squish).cmd_tuples
-        UPDATE contacts
-        SET additional_attributes = COALESCE(contacts.additional_attributes, '{}'::jsonb)
-                                    || jsonb_build_object('whatsapp_bsuid', owned.source_id)
-        FROM (
-          SELECT DISTINCT ON (contact_inboxes.contact_id)
-                 contact_inboxes.contact_id, contact_inboxes.source_id
-          FROM contact_inboxes
-          JOIN contacts AS pending ON pending.id = contact_inboxes.contact_id
-          WHERE contact_inboxes.source_id ~ '^[A-Z]{2}\\.'
-            AND COALESCE(pending.additional_attributes->>'whatsapp_bsuid', '') = ''
-          ORDER BY contact_inboxes.contact_id,
-                   (contact_inboxes.source_id ~ '^[A-Z]{2}\\.ENT\\.'),
-                   contact_inboxes.id
-          LIMIT #{BATCH_SIZE}
-        ) AS owned
-        WHERE contacts.id = owned.contact_id
-      SQL
+    loop { break if execute(backfill_sql).cmd_tuples.zero? }
+  end
 
-      break if updated.zero?
-    end
+  def backfill_sql
+    <<~SQL.squish
+      UPDATE contacts
+      SET additional_attributes = COALESCE(contacts.additional_attributes, '{}'::jsonb)
+                                  || jsonb_build_object('whatsapp_bsuid', owned.source_id)
+      FROM (
+        SELECT DISTINCT ON (contact_inboxes.contact_id)
+               contact_inboxes.contact_id, contact_inboxes.source_id
+        FROM contact_inboxes
+        JOIN contacts AS pending ON pending.id = contact_inboxes.contact_id
+        WHERE contact_inboxes.source_id ~ '^[A-Z]{2}\\.'
+          AND COALESCE(pending.additional_attributes->>'whatsapp_bsuid', '') = ''
+        ORDER BY contact_inboxes.contact_id,
+                 (contact_inboxes.source_id ~ '^[A-Z]{2}\\.ENT\\.'),
+                 contact_inboxes.id
+        LIMIT #{BATCH_SIZE}
+      ) AS owned
+      WHERE contacts.id = owned.contact_id
+    SQL
   end
 end
