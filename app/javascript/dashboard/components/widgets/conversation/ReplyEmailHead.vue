@@ -1,179 +1,175 @@
-<script>
-import { validEmailsByComma } from './helpers/emailHeadHelper';
-import { useVuelidate } from '@vuelidate/core';
+<script setup>
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { debounce } from '@chatwoot/utils';
+import { createContactSearcher } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
+
+import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
 import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 
-export default {
-  components: {
-    ButtonV4,
+const { t } = useI18n();
+
+const toEmails = defineModel('toEmails', { type: String, default: '' });
+const ccEmails = defineModel('ccEmails', { type: String, default: '' });
+const bccEmails = defineModel('bccEmails', { type: String, default: '' });
+
+const MIN_SEARCH_LENGTH = 2;
+
+const searchContacts = createContactSearcher();
+
+const contacts = ref([]);
+const isSearching = ref(false);
+// Only one recipient field can own the suggestion dropdown at a time.
+const activeField = ref('');
+const isBccRequested = ref(false);
+
+const showBcc = computed(() => isBccRequested.value || !!bccEmails.value);
+
+const splitEmails = value =>
+  value
+    ? value
+        .split(',')
+        .map(email => email.trim())
+        .filter(Boolean)
+    : [];
+
+const toEmailsArray = computed(() => splitEmails(toEmails.value));
+const ccEmailsArray = computed(() => splitEmails(ccEmails.value));
+const bccEmailsArray = computed(() => splitEmails(bccEmails.value));
+
+const contactEmailsList = computed(() =>
+  contacts.value
+    .filter(({ email }) => email)
+    .map(({ name, id, email }) => ({
+      id,
+      label: email,
+      email,
+      thumbnail: { name, src: '' },
+      value: id,
+      action: 'email',
+    }))
+);
+
+const runSearch = debounce(
+  async query => {
+    isSearching.value = true;
+    try {
+      const results = await searchContacts(query);
+      // null means the request was aborted because a newer search started.
+      if (results === null) return;
+      contacts.value = results;
+    } catch (error) {
+      contacts.value = [];
+    }
+    isSearching.value = false;
   },
-  props: {
-    ccEmails: {
-      type: String,
-      default: '',
-    },
-    bccEmails: {
-      type: String,
-      default: '',
-    },
-    toEmails: {
-      type: String,
-      default: '',
-    },
-  },
-  emits: ['update:bccEmails', 'update:ccEmails', 'update:toEmails'],
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      showBcc: false,
-      ccEmailsVal: '',
-      bccEmailsVal: '',
-      toEmailsVal: '',
-    };
-  },
-  watch: {
-    bccEmails(newVal) {
-      if (newVal !== this.bccEmailsVal) {
-        this.bccEmailsVal = newVal;
-      }
-    },
-    ccEmails(newVal) {
-      if (newVal !== this.ccEmailsVal) {
-        this.ccEmailsVal = newVal;
-      }
-    },
-    toEmails(newVal) {
-      if (newVal !== this.toEmailsVal) {
-        this.toEmailsVal = newVal;
-      }
-    },
-  },
-  mounted() {
-    this.ccEmailsVal = this.ccEmails;
-    this.bccEmailsVal = this.bccEmails;
-    this.toEmailsVal = this.toEmails;
-  },
-  validations: {
-    ccEmailsVal: {
-      hasValidEmails(value) {
-        return validEmailsByComma(value);
-      },
-    },
-    bccEmailsVal: {
-      hasValidEmails(value) {
-        return validEmailsByComma(value);
-      },
-    },
-    toEmailsVal: {
-      hasValidEmails(value) {
-        return validEmailsByComma(value);
-      },
-    },
-  },
-  methods: {
-    handleAddBcc() {
-      this.showBcc = true;
-    },
-    onBlur() {
-      this.v$.$touch();
-      this.$emit('update:bccEmails', this.bccEmailsVal);
-      this.$emit('update:ccEmails', this.ccEmailsVal);
-      this.$emit('update:toEmails', this.toEmailsVal);
-    },
-  },
+  400,
+  false
+);
+
+const handleSearch = (field, value) => {
+  const query = value.trim();
+  contacts.value = [];
+  activeField.value = query.length >= MIN_SEARCH_LENGTH ? field : '';
+  runSearch(query);
+};
+
+const closeDropdown = field => {
+  if (activeField.value === field) activeField.value = '';
+};
+
+const updateToEmails = value => {
+  toEmails.value = value.join(',');
+};
+
+const updateCcEmails = value => {
+  ccEmails.value = value.join(',');
+};
+
+const updateBccEmails = value => {
+  bccEmails.value = value.join(',');
 };
 </script>
 
 <template>
-  <div>
-    <div v-if="toEmails">
-      <div class="input-group small" :class="{ error: v$.toEmailsVal.$error }">
-        <label class="input-group-label">
-          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.TO') }}
-        </label>
-        <div class="flex-1 min-w-0 m-0 rounded-none whitespace-nowrap">
-          <woot-input
-            v-model="v$.toEmailsVal.$model"
-            type="text"
-            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:!outline-none [&>input]:h-8 [&>input]:!text-sm [&>input]:!border-0 [&>input]:border-none [&>input]:!bg-transparent dark:[&>input]:!bg-transparent"
-            :class="{ error: v$.toEmailsVal.$error }"
-            :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
-            @blur="onBlur"
-          />
-        </div>
-      </div>
+  <div class="flex flex-col">
+    <div
+      class="flex items-center gap-2 my-1 border-b border-solid border-n-weak"
+    >
+      <label
+        class="pl-0 text-xs font-semibold bg-transparent border-transparent"
+      >
+        {{ t('CONVERSATION.REPLYBOX.EMAIL_HEAD.TO') }}
+      </label>
+      <TagInput
+        :model-value="toEmailsArray"
+        :placeholder="t('CONVERSATION.REPLYBOX.EMAIL_HEAD.SEARCH_PLACEHOLDER')"
+        :menu-items="contactEmailsList"
+        :show-dropdown="activeField === 'to'"
+        :is-loading="isSearching"
+        type="email"
+        allow-create
+        :auto-open-dropdown="false"
+        class="flex-1 min-h-7"
+        @input="handleSearch('to', $event)"
+        @on-click-outside="closeDropdown('to')"
+        @update:model-value="updateToEmails"
+      />
     </div>
-    <div class="input-group-wrap">
-      <div class="input-group small" :class="{ error: v$.ccEmailsVal.$error }">
-        <label class="input-group-label">
-          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.LABEL') }}
-        </label>
-        <div class="flex-1 min-w-0 m-0 rounded-none whitespace-nowrap">
-          <woot-input
-            v-model="v$.ccEmailsVal.$model"
-            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:!outline-none [&>input]:h-8 [&>input]:!text-sm [&>input]:!border-0 [&>input]:border-none [&>input]:!bg-transparent dark:[&>input]:!bg-transparent"
-            type="text"
-            :class="{ error: v$.ccEmailsVal.$error }"
-            :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
-            @blur="onBlur"
-          />
-        </div>
-        <ButtonV4
-          v-if="!showBcc"
-          :label="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.ADD_BCC')"
-          ghost
-          xs
-          primary
-          @click="handleAddBcc"
-        />
-      </div>
-      <span v-if="v$.ccEmailsVal.$error" class="message">
-        {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.ERROR') }}
-      </span>
+    <div
+      class="flex items-center gap-2 my-1 border-b border-solid border-n-weak"
+    >
+      <label
+        class="pl-0 text-xs font-semibold bg-transparent border-transparent"
+      >
+        {{ t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.LABEL') }}
+      </label>
+      <TagInput
+        :model-value="ccEmailsArray"
+        :placeholder="t('CONVERSATION.REPLYBOX.EMAIL_HEAD.SEARCH_PLACEHOLDER')"
+        :menu-items="contactEmailsList"
+        :show-dropdown="activeField === 'cc'"
+        :is-loading="isSearching"
+        type="email"
+        allow-create
+        :auto-open-dropdown="false"
+        class="flex-1 min-h-7"
+        @input="handleSearch('cc', $event)"
+        @on-click-outside="closeDropdown('cc')"
+        @update:model-value="updateCcEmails"
+      />
+      <ButtonV4
+        v-if="!showBcc"
+        :label="t('CONVERSATION.REPLYBOX.EMAIL_HEAD.ADD_BCC')"
+        ghost
+        xs
+        primary
+        @click="isBccRequested = true"
+      />
     </div>
-    <div v-if="showBcc" class="input-group-wrap">
-      <div class="input-group small" :class="{ error: v$.bccEmailsVal.$error }">
-        <label class="input-group-label">
-          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.LABEL') }}
-        </label>
-        <div class="flex-1 min-w-0 m-0 rounded-none whitespace-nowrap">
-          <woot-input
-            v-model="v$.bccEmailsVal.$model"
-            type="text"
-            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:!outline-none [&>input]:h-8 [&>input]:!text-sm [&>input]:!border-0 [&>input]:border-none [&>input]:!bg-transparent dark:[&>input]:!bg-transparent"
-            :class="{ error: v$.bccEmailsVal.$error }"
-            :placeholder="
-              $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.PLACEHOLDER')
-            "
-            @blur="onBlur"
-          />
-        </div>
-      </div>
-      <span v-if="v$.bccEmailsVal.$error" class="message">
-        {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.ERROR') }}
-      </span>
+    <div
+      v-if="showBcc"
+      class="flex items-center gap-2 my-1 border-b border-solid border-n-weak"
+    >
+      <label
+        class="pl-0 text-xs font-semibold bg-transparent border-transparent"
+      >
+        {{ t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.LABEL') }}
+      </label>
+      <TagInput
+        :model-value="bccEmailsArray"
+        :placeholder="t('CONVERSATION.REPLYBOX.EMAIL_HEAD.SEARCH_PLACEHOLDER')"
+        :menu-items="contactEmailsList"
+        :show-dropdown="activeField === 'bcc'"
+        :is-loading="isSearching"
+        type="email"
+        allow-create
+        :auto-open-dropdown="false"
+        class="flex-1 min-h-7"
+        @input="handleSearch('bcc', $event)"
+        @on-click-outside="closeDropdown('bcc')"
+        @update:model-value="updateBccEmails"
+      />
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.input-group-wrap .message {
-  @apply text-sm text-n-ruby-8;
-}
-.input-group {
-  @apply border-b border-solid border-n-weak my-1 flex items-center gap-2;
-
-  .input-group-label {
-    @apply border-transparent bg-transparent text-xs font-semibold pl-0;
-  }
-}
-
-.input-group.error {
-  @apply border-n-ruby-8;
-  .input-group-label {
-    @apply text-n-ruby-8;
-  }
-}
-</style>
