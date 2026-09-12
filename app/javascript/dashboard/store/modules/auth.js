@@ -53,8 +53,9 @@ export const getters = {
   },
 
   getCurrentAccountId(_, __, rootState) {
-    if (rootState.route.params && rootState.route.params.accountId) {
-      return Number(rootState.route.params.accountId);
+    const accountId = rootState.route?.params?.accountId;
+    if (accountId) {
+      return Number(accountId);
     }
     return null;
   },

@@ -183,9 +183,19 @@ export default {
       if (hasEmailChanged && success) clearCookiesOnLogout();
     },
     async updateSignature(signature) {
+      const accountId = Number(
+        this.currentAccountId || this.$route.params.accountId
+      );
+      if (!accountId) {
+        useAlert(
+          this.$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR')
+        );
+        return;
+      }
+
       const payload = {
         message_signature: signature,
-        account_id: this.currentAccountId,
+        account_id: accountId,
       };
       let successMessage = this.$t(
         'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'

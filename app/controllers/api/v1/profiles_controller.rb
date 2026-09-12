@@ -49,9 +49,17 @@ class Api::V1::ProfilesController < Api::BaseController
   def update_account_message_signature
     return unless params[:profile].key?(:message_signature)
 
-    @user.account_users.find_by!(account_id: profile_params[:account_id]).update!(
+    account_user_for_signature_update.update!(
       message_signature: profile_params[:message_signature]
     )
+  end
+
+  def account_user_for_signature_update
+    account_id = profile_params[:account_id]
+    return @user.account_users.find_by!(account_id: account_id) if account_id.present?
+
+    # Older clients may omit account_id; fall back to the most recently active membership.
+    @user.account_users.order(active_at: :desc).first!
   end
 
   def set_user
