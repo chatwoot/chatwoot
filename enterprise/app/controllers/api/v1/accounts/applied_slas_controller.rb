@@ -25,7 +25,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
 
   def download
     @missed_applied_slas = missed_applied_slas
-    render_csv_with_bom('breached_conversation', 'enterprise/api/v1/accounts/applied_slas/download', formats: [:csv])
+    render_csv_with_bom('breached_conversation', 'api/v1/accounts/applied_slas/download', formats: [:csv])
   end
 
   private
