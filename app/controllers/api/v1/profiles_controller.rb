@@ -10,7 +10,8 @@ class Api::V1::ProfilesController < Api::BaseController
       @user.update!(password_params.except(:current_password))
     end
 
-    @user.assign_attributes(profile_params)
+    update_account_message_signature
+    @user.assign_attributes(profile_params.except(:message_signature, :account_id))
     @user.custom_attributes.merge!(custom_attributes_params)
     @user.save!
   end
@@ -44,6 +45,14 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   private
+
+  def update_account_message_signature
+    return unless params[:profile].key?(:message_signature)
+
+    @user.account_users.find_by!(account_id: profile_params[:account_id]).update!(
+      message_signature: profile_params[:message_signature]
+    )
+  end
 
   def set_user
     @user = current_user

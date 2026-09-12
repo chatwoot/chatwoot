@@ -1,6 +1,9 @@
 ## github action to check deployment success
 ## curl the deployment url and check for 200 status
 ## deployment url will be of the form chatwoot-pr-<pr_number>.herokuapp.com
+##
+## Heroku review apps are only provisioned for upstream chatwoot/chatwoot.
+## On forks this check would poll a non-existent app for ~40 minutes and fail.
 name: Deploy Check
 
 on:
@@ -19,11 +22,18 @@ jobs:
     name: Check Deployment
     runs-on: ubuntu-latest
     steps:
+      - name: Skip on forks without Heroku review apps
+        if: github.repository != 'chatwoot/chatwoot'
+        run: |
+          echo "Skipping Heroku review-app deploy check for ${{ github.repository }} (only configured for chatwoot/chatwoot)."
       - name: Install jq
+        if: github.repository == 'chatwoot/chatwoot'
         run: sudo apt-get install -y jq
       - name: Print Deployment URL
+        if: github.repository == 'chatwoot/chatwoot'
         run: echo "https://chatwoot-pr-${{ github.event.pull_request.number }}.herokuapp.com"
       - name: Check Deployment Status
+        if: github.repository == 'chatwoot/chatwoot'
         run: |
           max_attempts=10
           attempt=1
@@ -50,4 +60,3 @@ jobs:
           done
           echo "Deployment failed after $max_attempts attempts"
           exit  1
-          fi

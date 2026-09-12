@@ -79,10 +79,13 @@ export const getters = {
     return $state.currentUser;
   },
 
-  getMessageSignature($state) {
-    const { message_signature: messageSignature } = $state.currentUser;
+  getMessageSignature($state, $getters) {
+    const { accounts = [] } = $state.currentUser;
+    const [currentAccount = {}] = accounts.filter(
+      account => account.id === $getters.getCurrentAccountId
+    );
 
-    return messageSignature || '';
+    return currentAccount.message_signature || '';
   },
 
   getCurrentAccount($state, $getters) {

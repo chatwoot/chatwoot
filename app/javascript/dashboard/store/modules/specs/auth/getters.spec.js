@@ -90,15 +90,32 @@ describe('#getters', () => {
   });
 
   describe('#getMessageSignature', () => {
-    it('Return signature when signature is present', () => {
+    it('Return signature for the current account when present', () => {
       expect(
-        getters.getMessageSignature({
-          currentUser: { message_signature: 'Thanks' },
-        })
-      ).toEqual('Thanks');
+        getters.getMessageSignature(
+          {
+            currentUser: {
+              accounts: [
+                { id: 1, message_signature: 'Thanks Account One' },
+                { id: 2, message_signature: 'Thanks Account Two' },
+              ],
+            },
+          },
+          { getCurrentAccountId: 2 }
+        )
+      ).toEqual('Thanks Account Two');
     });
     it('Return empty string when signature is not present', () => {
-      expect(getters.getMessageSignature({ currentUser: {} })).toEqual('');
+      expect(
+        getters.getMessageSignature(
+          {
+            currentUser: {
+              accounts: [{ id: 1 }],
+            },
+          },
+          { getCurrentAccountId: 1 }
+        )
+      ).toEqual('');
     });
   });
 

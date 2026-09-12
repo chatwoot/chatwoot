@@ -22,7 +22,7 @@ class Captain::ReplySuggestionService < Captain::BaseTaskService
     {
       'channel_type' => conversation.inbox.channel_type,
       'agent_name' => user.name,
-      'agent_signature' => user.message_signature.presence
+      'agent_signature' => user.account_users.find { |account_user| account_user.account_id == account.id }&.message_signature.presence
     }
   end
 

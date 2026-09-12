@@ -115,9 +115,15 @@ RSpec.describe 'Profile API', type: :request do
         expect(agent.custom_attributes['phone_number']).to eq('+123456789')
       end
 
-      it 'updates the message_signature' do
+      it 'updates the message_signature for the given account' do
         put '/api/v1/profile',
-            params: { profile: { name: 'test', message_signature: 'Thanks\nMy Signature' } },
+            params: {
+              profile: {
+                name: 'test',
+                account_id: account.id,
+                message_signature: 'Thanks\nMy Signature'
+              }
+            },
             headers: agent.create_new_auth_token,
             as: :json
 
@@ -127,7 +133,28 @@ RSpec.describe 'Profile API', type: :request do
         expect(json_response['id']).to eq(agent.id)
         expect(json_response['name']).to eq(agent.name)
         expect(agent.name).to eq('test')
+        expect(agent.account_users.find_by!(account: account).message_signature).to eq('Thanks\nMy Signature')
         expect(json_response['message_signature']).to eq('Thanks\nMy Signature')
+        expect(json_response['accounts'].find { |item| item['id'] == account.id }['message_signature']).to eq('Thanks\nMy Signature')
+      end
+
+      it 'does not leak message_signature across accounts' do
+        other_account = create(:account)
+        create(:account_user, account: other_account, user: agent)
+
+        put '/api/v1/profile',
+            params: {
+              profile: {
+                account_id: account.id,
+                message_signature: 'Account One Signature'
+              }
+            },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent.account_users.find_by!(account: account).message_signature).to eq('Account One Signature')
+        expect(agent.account_users.find_by!(account: other_account).message_signature).to be_nil
       end
 
       it 'updates the password when current password is provided' do
