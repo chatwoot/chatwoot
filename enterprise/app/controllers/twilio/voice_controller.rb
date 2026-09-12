@@ -137,7 +137,6 @@ class Twilio::VoiceController < ApplicationController
     Call.where(inbox_id: inbox.id, provider: :twilio)
   end
 
-
   def conference_twiml(call)
     conference_sid = ensure_conference_sid!(call)
 
@@ -161,7 +160,6 @@ class Twilio::VoiceController < ApplicationController
     end.to_s
   end
 
-  
   def ensure_conference_sid!(call)
     return call.conference_sid if call.conference_sid.present?
 

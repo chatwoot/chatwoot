@@ -60,12 +60,6 @@ class Channel::TwilioSms < ApplicationRecord
     provider_config['inbound_calls_enabled'] != false
   end
 
-
-  def voice_region
-      provider_config['voice_region']
-  end
-
-  
   def send_message(to:, body:, media_url: nil)
     params = send_message_from.merge(to: to, body: body)
     params[:media_url] = media_url if media_url.present?
