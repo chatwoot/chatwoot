@@ -43,6 +43,10 @@ class AddBsuidToResolvedContactsIndex < ActiveRecord::Migration[7.1]
   #
   # A regular identifier is preferred over a parent one, the same order `bsuid_attributes` applies,
   # and only aliases the contact owns are read. Batched because the join is over every contact inbox.
+  #
+  # Twilio stores the alias with a `whatsapp:` prefix while the mirror holds the bare identifier, so
+  # the match allows the prefix and the write strips it. Reading the raw column would both skip every
+  # Twilio contact and, where it did match, mirror a value in a shape nothing else writes.
   def backfill_mirrored_bsuid
     loop { break if execute(backfill_sql).cmd_tuples.zero? }
   end
@@ -51,16 +55,17 @@ class AddBsuidToResolvedContactsIndex < ActiveRecord::Migration[7.1]
     <<~SQL.squish
       UPDATE contacts
       SET additional_attributes = COALESCE(contacts.additional_attributes, '{}'::jsonb)
-                                  || jsonb_build_object('whatsapp_bsuid', owned.source_id)
+                                  || jsonb_build_object('whatsapp_bsuid', owned.identifier)
       FROM (
         SELECT DISTINCT ON (contact_inboxes.contact_id)
-               contact_inboxes.contact_id, contact_inboxes.source_id
+               contact_inboxes.contact_id,
+               regexp_replace(contact_inboxes.source_id, '^whatsapp:', '') AS identifier
         FROM contact_inboxes
         JOIN contacts AS pending ON pending.id = contact_inboxes.contact_id
-        WHERE contact_inboxes.source_id ~ '^[A-Z]{2}\\.'
+        WHERE contact_inboxes.source_id ~ '^(whatsapp:)?[A-Z]{2}\\.'
           AND COALESCE(pending.additional_attributes->>'whatsapp_bsuid', '') = ''
         ORDER BY contact_inboxes.contact_id,
-                 (contact_inboxes.source_id ~ '^[A-Z]{2}\\.ENT\\.'),
+                 (contact_inboxes.source_id ~ '^(whatsapp:)?[A-Z]{2}\\.ENT\\.'),
                  contact_inboxes.id
         LIMIT #{BATCH_SIZE}
       ) AS owned
