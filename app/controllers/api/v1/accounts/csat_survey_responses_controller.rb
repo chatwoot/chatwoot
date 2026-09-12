@@ -1,6 +1,7 @@
 class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::BaseController
   include Sift
   include DateRangeHelper
+  include CsvExportConcern
 
   RESULTS_PER_PAGE = 25
 
@@ -20,9 +21,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   end
 
   def download
-    response.headers['Content-Type'] = 'text/csv'
-    response.headers['Content-Disposition'] = 'attachment; filename=csat_report.csv'
-    render layout: false, template: 'api/v1/accounts/csat_survey_responses/download', formats: [:csv]
+    render_csv_with_bom('csat_report', 'api/v1/accounts/csat_survey_responses/download', formats: [:csv])
   end
 
   private

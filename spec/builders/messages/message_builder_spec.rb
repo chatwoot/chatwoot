@@ -313,4 +313,30 @@ describe Messages::MessageBuilder do
       end
     end
   end
+
+  describe '#process_email_string' do
+    let(:builder) { described_class.new(user, conversation, params) }
+
+    it 'handles comma separated emails' do
+      expect(builder.send(:process_email_string, 'a@example.com, b@example.com')).to eq(['a@example.com', 'b@example.com'])
+    end
+
+    it 'handles semicolon separated emails' do
+      expect(builder.send(:process_email_string, 'a@example.com;b@example.com')).to eq(['a@example.com', 'b@example.com'])
+    end
+
+    it 'handles space separated emails' do
+      expect(builder.send(:process_email_string, 'a@example.com b@example.com')).to eq(['a@example.com', 'b@example.com'])
+    end
+
+    it 'handles display names with angle brackets' do
+      result = builder.send(:process_email_string, 'Jane Doe <jane@example.com>; John <john@example.com>')
+      expect(result).to eq(['Jane Doe <jane@example.com>', 'John <john@example.com>'])
+    end
+
+    it 'returns empty array on blank input' do
+      expect(builder.send(:process_email_string, '')).to eq([])
+      expect(builder.send(:process_email_string, nil)).to eq([])
+    end
+  end
 end
