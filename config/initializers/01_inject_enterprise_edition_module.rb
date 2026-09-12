@@ -79,8 +79,11 @@ module InjectEnterpriseEditionModule
     end
   end
 
+  # `&.` only skips nil; when the parent namespace is missing this receives false.
   def const_get_maybe_false(mod, name)
-    mod&.const_defined?(name, false) && mod&.const_get(name, false)
+    return false unless mod
+
+    mod.const_defined?(name, false) && mod.const_get(name, false)
   end
 end
 
