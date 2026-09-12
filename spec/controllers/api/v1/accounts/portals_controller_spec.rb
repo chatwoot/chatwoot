@@ -68,6 +68,23 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(json_response['meta']['all_articles_count']).to eq 2
         expect(json_response['meta']['mine_articles_count']).to eq 1
       end
+
+      it 'returns not found for a slug that does not exist' do
+        get "/api/v1/accounts/#{account.id}/portals/nonexistent-slug",
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:not_found)
+        expect(response.parsed_body['error']).to eq 'Resource could not be found'
+      end
+
+      it 'returns not found for a slug that belongs to another account' do
+        other_portal = create(:portal)
+
+        get "/api/v1/accounts/#{account.id}/portals/#{other_portal.slug}",
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 
