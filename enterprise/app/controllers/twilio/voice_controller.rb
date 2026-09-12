@@ -144,6 +144,7 @@ class Twilio::VoiceController < ApplicationController
       response.dial do |dial|
         dial.conference(
           conference_sid,
+          region: inbox_channel.voice_region.presence,
           start_conference_on_enter: agent_leg?(twilio_from),
           end_conference_on_exit: false,
           record: call.recording_enabled? ? 'record-from-start' : 'do-not-record',
