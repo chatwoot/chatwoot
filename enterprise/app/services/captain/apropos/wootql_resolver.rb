@@ -180,7 +180,7 @@ class Captain::Apropos::WootqlResolver
   end
 
   def sort(items)
-    unique_names!(items.map { |item| item.fetch(:field) })
+    unique_names!(items.map { |item| item.fetch(:field) }, label: 'sort fields')
     items.each { |item| require_ordered!(field(item.fetch(:field))) }
     order = items.to_h { |item| [item.fetch(:field), item.fetch(:direction)] }
     append(:sort, {}, order: order.merge(@plan.order.except(*order.keys)))
@@ -205,8 +205,8 @@ class Captain::Apropos::WootqlResolver
     @now - seconds
   end
 
-  def unique_names!(names)
-    raise Captain::Apropos::Error, 'WootQL output names must be unique' unless names.uniq == names
+  def unique_names!(names, label: 'output names')
+    raise Captain::Apropos::Error, "WootQL #{label} must be unique" unless names.uniq == names
 
     names.each { |name| validate_name!(name) }
   end
