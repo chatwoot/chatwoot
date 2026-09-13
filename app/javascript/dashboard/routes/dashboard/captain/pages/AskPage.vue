@@ -131,7 +131,7 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-full min-h-0">
+  <div class="flex flex-col w-full max-w-full min-w-0 h-full min-h-0">
     <header
       class="flex items-center justify-between gap-4 p-6 border-b border-n-weak"
     >
@@ -150,7 +150,9 @@ watch(
         @click="newChat"
       />
     </header>
-    <div class="flex flex-col lg:flex-row flex-1 min-h-0">
+    <div
+      class="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_28rem] flex-1 min-w-0 min-h-0 overflow-hidden"
+    >
       <section class="flex flex-col flex-1 min-w-0 min-h-0">
         <div class="px-6 py-3">
           <label for="apropos-history" class="text-sm text-n-slate-11">

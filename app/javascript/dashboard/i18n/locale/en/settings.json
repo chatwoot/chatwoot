@@ -94,6 +94,7 @@
     },
     "ERROR": "Could not load or send this request. Please try again.",
     "KINDS": {
+      "table": "Display table",
       "reason": "Evaluate with LLM",
       "reason_result": "LLM findings",
       "discovery": "Discover capabilities",

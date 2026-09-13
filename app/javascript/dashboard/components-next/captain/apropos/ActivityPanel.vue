@@ -22,12 +22,14 @@ const GRAPH_KINDS = [
   'error',
   'reason',
   'reason_result',
+  'table',
 ];
 const { t } = useI18n();
 const activityEvents = computed(() =>
   props.events.filter(event => event.kind !== 'usage')
 );
 const kinds = computed(() => ({
+  table: { label: t('CAPTAIN_ASK.KINDS.table'), icon: 'i-lucide-table' },
   discovery: {
     label: t('CAPTAIN_ASK.KINDS.discovery'),
     icon: 'i-lucide-search',
@@ -54,6 +56,8 @@ const kinds = computed(() => ({
 const failed = event =>
   event.kind === 'error' || event.data.status === 'failed';
 const subtitle = event => {
+  if (event.kind === 'table')
+    return t('CAPTAIN_ASK.TRACE.ITEMS', { count: event.data.rows.length });
   if (event.kind === 'discovery')
     return event.data.query || t('CAPTAIN_ASK.TRACE.ALL_CAPABILITIES');
   if (event.kind === 'description') return event.data.name;
@@ -74,7 +78,7 @@ const graphNodes = computed(() =>
     if (!GRAPH_KINDS.includes(event.kind)) return [];
     let status = 'step';
     if (
-      ['result', 'reason_result'].includes(event.kind) ||
+      ['result', 'reason_result', 'table'].includes(event.kind) ||
       event.data.status === 'completed'
     ) {
       status = 'success';

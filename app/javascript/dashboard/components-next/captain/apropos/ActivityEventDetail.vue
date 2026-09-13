@@ -6,6 +6,7 @@ import SchemeCode from './SchemeCode.vue';
 import WootqlCode from './WootqlCode.vue';
 import ActivityValue from './ActivityValue.vue';
 import CapabilityDetail from './CapabilityDetail.vue';
+import ResponseTable from './ResponseTable.vue';
 
 const props = defineProps({ event: { type: Object, required: true } });
 const { t } = useI18n();
@@ -16,7 +17,12 @@ const failed = computed(
 
 <template>
   <div class="min-w-0 pt-1 pb-2 space-y-4">
-    <template v-if="event.kind === 'discovery'">
+    <ResponseTable
+      v-if="event.kind === 'table'"
+      :table="event.data"
+      class="!ms-0"
+    />
+    <template v-else-if="event.kind === 'discovery'">
       <p class="m-0 text-xs text-n-slate-10">
         {{
           t('CAPTAIN_ASK.TRACE.MATCHES', {

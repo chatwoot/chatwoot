@@ -2,7 +2,8 @@ class Captain::Apropos::Catalog
   ENTITIES = Captain::Apropos::ResourceCatalog::ENTITIES
 
   FUNCTIONS = {
-    'show-table' => ['(show-table rows (list "name" "conversation_count"))', 'Display rows as a table in your answer to the user.'],
+    'show-table' => ['(show-table rows (list "name" "conversation_count"))',
+                     'Display a table in your answer. Optional typed columns format dates, numbers, statuses, tags, and conversation/contact links.'],
     'faq-search' => ['(faq-search "How do refunds work?" 42)',
                      'Semantic search of approved Captain FAQs. Optional assistant ID; omit for this account. Inspect contract for costs and scope.'],
     'assignment-context' => ['(assignment-context (hash "type" "inboxes" "id" 10) 0)',

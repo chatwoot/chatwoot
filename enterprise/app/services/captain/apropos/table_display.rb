@@ -3,8 +3,14 @@ class Captain::Apropos::TableDisplay
   MAX_COLUMNS = 20
   MAX_BYTES = 100_000
   CONTRACT = {
-    arguments: 'rows: list of objects; columns: ordered list of unique, nonblank field-name strings. Every row must contain each selected field.',
-    cells: 'Selected values must be strings, finite numbers, booleans, or null. Other fields are ignored. Empty rows are allowed.',
+    arguments: 'rows: list of objects; columns: ordered list of field-name strings or {key, label?, type?, id_key?}. Keys must be unique.',
+    cells: 'Types: text (default, scalar), number (finite), datetime (ISO8601 with timezone), status (open/resolved/pending/snoozed), ' \
+           'tags (string list), conversation, contact. Null is allowed. Every row must contain each selected field. Empty rows are allowed.',
+    links: 'conversation/contact require id_key naming a row field containing a positive integer or null. ' \
+           'Use conversation display_id, NOT database id; contacts use database id. Null IDs render plain text. ' \
+           'ID fields are retained but not shown unless selected. Links stay in the current account; no arbitrary URLs or HTML.',
+    example: '(show-table rows (list (hash "key" "display_id" "label" "Conversation" "type" "conversation" "id_key" "display_id") ' \
+             '(hash "key" "labels" "type" "tags")))',
     limits: 'At most 1000 rows, 20 columns, and 100000 JSON bytes per table. Oversized input fails without displaying anything. Never truncates.',
     effects: 'Displays a table to the user as part of the current answer, retained when the chat is reopened. No Chatwoot records are changed. ' \
              'No need to repeat the displayed rows in prose. Calls from workers also display in the parent answer.',
@@ -17,7 +23,7 @@ class Captain::Apropos::TableDisplay
   end
 
   def call(rows, columns)
-    validate_columns!(columns)
+    columns = normalize_columns(columns)
     raise Captain::Apropos::Error, 'show-table rows must be a list of at most 1000 objects' unless rows.is_a?(Array) && rows.size <= MAX_ROWS
 
     projected = rows.map { |row| project_row(row, columns) }
@@ -32,22 +38,30 @@ class Captain::Apropos::TableDisplay
 
   private
 
-  def validate_columns!(columns)
-    unless columns.is_a?(Array) && columns.size.between?(1, MAX_COLUMNS) && columns.uniq == columns &&
-           columns.all? { |column| column.is_a?(String) && column.strip.present? }
-      raise Captain::Apropos::Error, 'show-table columns must contain 1 to 20 unique nonblank field-name strings'
-    end
+  def normalize_columns(columns)
+    raise Captain::Apropos::Error, 'show-table requires 1 to 20 columns' unless columns.is_a?(Array) && columns.size.between?(1, MAX_COLUMNS)
+
+    normalized = columns.map { |column| Captain::Apropos::TableColumn.normalize(column) }
+    keys = normalized.pluck('key')
+    raise Captain::Apropos::Error, 'show-table column keys must be unique' unless keys.uniq == keys
+
+    normalized
   end
 
   def project_row(row, columns)
-    unless row.is_a?(Hash) && columns.all? { |column| row.key?(column) && scalar?(row[column]) }
-      raise Captain::Apropos::Error, 'show-table every row must contain all selected columns with scalar or null values'
+    unless row.is_a?(Hash) && columns.all? { |column| valid_column?(row, column) }
+      raise Captain::Apropos::Error, 'show-table row is missing a field or has a value incompatible with its column type or link ID'
     end
 
-    row.slice(*columns)
+    row.slice(*columns.flat_map { |column| column.values_at('key', 'id_key').compact })
   end
 
-  def scalar?(value)
-    value.nil? || value.is_a?(String) || value.is_a?(Integer) || value == true || value == false || (value.is_a?(Float) && value.finite?)
+  def valid_column?(row, column)
+    key = column.fetch('key')
+    return false unless row.key?(key) && Captain::Apropos::TableColumn.valid_cell?(row[key], column.fetch('type'))
+    return true unless column.key?('id_key')
+
+    id_key = column.fetch('id_key')
+    row.key?(id_key) && (row[id_key].nil? || (row[id_key].is_a?(Integer) && row[id_key].positive?))
   end
 end

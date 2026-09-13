@@ -61,7 +61,7 @@ watch(() => props.messages.length, scrollToBottom);
 <template>
   <div
     ref="messageContainer"
-    class="flex-1 overflow-y-auto mb-4 px-6 space-y-6"
+    class="flex-1 min-w-0 max-w-full overflow-y-auto mb-4 px-6 space-y-6"
   >
     <template v-for="(message, index) in messages" :key="index">
       <div class="flex" :class="getMessageAlignment(message.sender)">

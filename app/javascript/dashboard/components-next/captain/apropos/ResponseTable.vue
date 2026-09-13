@@ -1,52 +1,52 @@
 <script setup>
+import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { getCoreRowModel, useVueTable } from '@tanstack/vue-table';
+import Table from 'dashboard/components/table/Table.vue';
+import ResponseTableCell from './ResponseTableCell.vue';
 
-defineProps({ table: { type: Object, required: true } });
+const props = defineProps({ table: { type: Object, required: true } });
 const { t } = useI18n();
-const label = key => key.replace(/[_-]/g, ' ');
-const cell = value => {
-  if (value === null) return t('CAPTAIN_ASK.TRACE.NOT_SET');
-  if (value === true) return t('CAPTAIN_ASK.TRACE.YES');
-  if (value === false) return t('CAPTAIN_ASK.TRACE.NO');
-  return value === '' ? t('CAPTAIN_ASK.TRACE.EMPTY') : String(value);
-};
+const columns = computed(() =>
+  props.table.columns.map(value => {
+    const column =
+      typeof value === 'string' ? { key: value, type: 'text' } : value;
+    return {
+      id: column.key,
+      accessorFn: row => row[column.key],
+      header: column.label || column.key.replace(/[_-]/g, ' '),
+      cell: context =>
+        h(ResponseTableCell, {
+          value: context.getValue(),
+          column,
+          row: context.row.original,
+        }),
+    };
+  })
+);
+const renderedTable = useVueTable({
+  get data() {
+    return props.table.rows;
+  },
+  get columns() {
+    return columns.value;
+  },
+  enableSorting: false,
+  getCoreRowModel: getCoreRowModel(),
+});
 </script>
 
 <template>
   <div
-    class="ms-8 max-h-[28rem] overflow-auto rounded-xl border border-n-weak bg-n-solid-1"
+    class="ms-8 min-w-0 max-w-full max-h-[28rem] overflow-auto [contain:inline-size] rounded-xl border border-n-weak bg-n-solid-1"
     tabindex="0"
     role="region"
     :aria-label="t('CAPTAIN_ASK.TRACE.OUTPUT')"
   >
-    <table class="w-full text-body-main text-start">
-      <thead class="sticky top-0 bg-n-solid-2">
-        <tr>
-          <th
-            v-for="column in table.columns"
-            :key="column"
-            scope="col"
-            class="px-4 py-3 text-start font-medium text-n-slate-11 capitalize whitespace-nowrap"
-          >
-            {{ label(column) }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(row, index) in table.rows"
-          :key="index"
-          class="border-t border-n-weak"
-        >
-          <td
-            v-for="column in table.columns"
-            :key="column"
-            class="px-4 py-3 text-n-slate-12 tabular-nums whitespace-nowrap"
-          >
-            {{ cell(row[column]) }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <Table
+      :table="renderedTable"
+      type="compact"
+      class="w-full text-body-main"
+    />
   </div>
 </template>
