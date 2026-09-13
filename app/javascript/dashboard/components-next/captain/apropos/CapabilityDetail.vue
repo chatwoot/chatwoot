@@ -89,6 +89,18 @@ const { t } = useI18n();
       v-if="'binding' in contract"
       :source="formatBinding(contract.binding)"
     />
+    <ActivityValue
+      v-if="contract.stored_value"
+      :value="contract.stored_value"
+    />
+    <div v-if="contract.connections?.length" class="space-y-1">
+      <p class="m-0 text-xs font-medium text-n-slate-10">
+        {{ t('CAPTAIN_ASK.TRACE.RELATIONSHIPS') }}
+      </p>
+      <p class="m-0 text-xs font-mono text-n-slate-11">
+        {{ contract.connections.join(', ') }}
+      </p>
+    </div>
     <div v-if="contract.members" class="space-y-4 border-s border-n-weak ps-3">
       <CapabilityDetail
         v-for="(member, key) in contract.members"
