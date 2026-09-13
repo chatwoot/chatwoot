@@ -5,6 +5,7 @@ import Accordion from 'dashboard/components-next/Accordion/Accordion.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ActivityEventDetail from './ActivityEventDetail.vue';
 import ExecutionGraph from './ExecutionGraph.vue';
+import TokenUsage from './TokenUsage.vue';
 
 const props = defineProps({
   events: { type: Array, default: () => [] },
@@ -21,6 +22,9 @@ const GRAPH_KINDS = [
   'reason_result',
 ];
 const { t } = useI18n();
+const activityEvents = computed(() =>
+  props.events.filter(event => event.kind !== 'usage')
+);
 const kinds = computed(() => ({
   discovery: {
     label: t('CAPTAIN_ASK.KINDS.discovery'),
@@ -64,7 +68,7 @@ const subtitle = event => {
   return t('CAPTAIN_ASK.TRACE.OUTPUT');
 };
 const graphNodes = computed(() =>
-  props.events.flatMap((event, index) => {
+  activityEvents.value.flatMap((event, index) => {
     if (!GRAPH_KINDS.includes(event.kind)) return [];
     let status = 'step';
     if (
@@ -104,11 +108,12 @@ const graphNodes = computed(() =>
         {{ t('CAPTAIN_ASK.ACTIVITY') }}
       </h2>
       <span class="text-xs tabular-nums text-n-slate-10">{{
-        t('CAPTAIN_ASK.TRACE.STEPS', { count: events.length })
+        t('CAPTAIN_ASK.TRACE.STEPS', { count: activityEvents.length })
       }}</span>
     </header>
+    <TokenUsage :events="events" />
     <div
-      v-if="!events.length"
+      v-if="!activityEvents.length"
       class="flex flex-col items-center gap-3 px-6 py-12 text-center text-n-slate-10"
     >
       <Icon icon="i-lucide-list-tree" class="size-6" />
@@ -125,7 +130,11 @@ const graphNodes = computed(() =>
       >
         <ExecutionGraph :nodes="graphNodes" />
       </Accordion>
-      <div v-for="(event, index) in events" :key="index" class="scroll-mt-20">
+      <div
+        v-for="(event, index) in activityEvents"
+        :key="index"
+        class="scroll-mt-20"
+      >
         <Accordion
           :title="kinds[event.kind].label"
           class="!border-0 !rounded-none"

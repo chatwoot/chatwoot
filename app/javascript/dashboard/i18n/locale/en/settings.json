@@ -42,6 +42,15 @@
     "WORKING": "Captain is working…",
     "ACCOUNT_SCOPE": "Working within your current account.",
     "ACTIVITY": "Stats for nerds",
+    "TOKENS": {
+      "TITLE": "Token usage",
+      "INPUT": "Input",
+      "OUTPUT": "Output",
+      "TOTAL": "Total",
+      "DESCRIPTION": "Reported usage across all model calls for this response, including workers.",
+      "PARTIAL": "Partial totals: some model calls did not report usage.",
+      "UNAVAILABLE": "No token usage recorded for this response."
+    },
     "NO_ACTIVITY": "Discoveries, programs, and action results will appear here.",
     "EVENT": "{number}. {kind}",
     "TRACE": {

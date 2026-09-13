@@ -20,7 +20,10 @@ class Captain::Apropos::QueryAgentService < Captain::BaseTaskService
       chat = context.chat(model: model).with_temperature(0).with_instructions(system_prompt).with_tool(tool, calls: :one)
       chat.singleton_class.prepend(Captain::Apropos::RequestBudget)
       chat.singleton_class.prepend(Captain::Apropos::QueryRequestBudget)
-      chat.after_message { |message| record_generation(chat, message, model) }
+      chat.after_message do |message|
+        Captain::Apropos::TokenUsage.record(runtime, message, source: 'query')
+        record_generation(chat, message, model)
+      end
       chat.ask(instruction)
     end
   end

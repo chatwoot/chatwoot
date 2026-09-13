@@ -22,7 +22,10 @@ class Captain::Apropos::AgentService < Captain::BaseTaskService
   def run_agent(agent)
     context = { apropos: runtime, conversation_history: runtime.model_history(history) }
     runner = Agents::Runner.with_agents(agent)
-    runner.on_chat_created { |chat, *_| chat.singleton_class.prepend(Captain::Apropos::RequestBudget) }
+    runner.on_chat_created do |chat, *_|
+      chat.singleton_class.prepend(Captain::Apropos::RequestBudget)
+      chat.after_message { |message| Captain::Apropos::TokenUsage.record(runtime, message, source: tools_enabled ? 'agent' : 'reason') }
+    end
     runner.run(
       JSON.generate({ task: instruction, input: runtime.model_input(input, tools: tools_enabled) }), context: context, max_turns: 20
     )
