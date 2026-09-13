@@ -19,6 +19,7 @@ export default {
       inboxName: '',
       channelWebsiteUrl: '',
       channelWidgetColor: '#009CE0',
+      channelWidgetTitle: '',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
       greetingEnabled: false,
@@ -52,6 +53,7 @@ export default {
               type: 'web_widget',
               website_url: this.channelWebsiteUrl,
               widget_color: this.channelWidgetColor,
+              widget_title: this.channelWidgetTitle,
               welcome_title: this.channelWelcomeTitle,
               welcome_tagline: this.channelWelcomeTagline,
             },
@@ -110,6 +112,22 @@ export default {
               $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
             "
           />
+        </label>
+      </div>
+
+      <div class="w-full">
+        <label>
+          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_TITLE.LABEL') }}
+          <input
+            v-model="channelWidgetTitle"
+            type="text"
+            :placeholder="
+              $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_TITLE.PLACEHOLDER')
+            "
+          />
+          <p class="help-text">
+            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_TITLE.HINT') }}
+          </p>
         </label>
       </div>
 

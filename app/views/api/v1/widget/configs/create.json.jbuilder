@@ -15,7 +15,7 @@ json.website_channel_config do
   json.reply_time @web_widget.reply_time
   json.timezone @web_widget.inbox.timezone
   json.utc_off_set ActiveSupport::TimeZone[@web_widget.inbox.timezone].now.formatted_offset
-  json.website_name @web_widget.inbox.name
+  json.website_name @web_widget.widget_title.presence || @web_widget.inbox.name
   json.website_token @web_widget.website_token
   json.welcome_tagline @web_widget.welcome_tagline
   json.welcome_title @web_widget.welcome_title
