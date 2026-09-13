@@ -9,6 +9,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import MessageList from 'dashboard/components-next/captain/assistant/MessageList.vue';
 import ActivityPanel from 'dashboard/components-next/captain/apropos/ActivityPanel.vue';
 import ResponseTable from 'dashboard/components-next/captain/apropos/ResponseTable.vue';
+import { presentationText } from 'dashboard/components-next/captain/apropos/presentationText';
 import { traceForMessage } from 'dashboard/components-next/captain/apropos/turnTrace';
 
 const POLL_INTERVAL = 1500;
@@ -24,17 +25,20 @@ const sending = ref(false);
 const selectedMessageIndex = ref(null);
 const busy = computed(() => BUSY_STATUSES.includes(session.value?.status));
 const messages = computed(() =>
-  (session.value?.messages || []).map(message => ({
-    sender: message.role,
-    content: message.content,
-    isError: message.error,
-    tables:
+  (session.value?.messages || []).map(message => {
+    const tables =
       message.role === 'assistant'
         ? traceForMessage(session.value, message)
             .filter(event => event.kind === 'table')
             .map(event => event.data)
-        : [],
-  }))
+        : [];
+    return {
+      sender: message.role,
+      content: presentationText(message.content, tables),
+      isError: message.error,
+      tables,
+    };
+  })
 );
 const activeMessageIndex = computed(
   () => selectedMessageIndex.value ?? (session.value?.messages.length || 0) - 1

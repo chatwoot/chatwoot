@@ -14,7 +14,8 @@ class Captain::Apropos::TableDisplay
     limits: 'At most 1000 rows, 20 columns, and 100000 JSON bytes per table. Oversized input fails without displaying anything. Never truncates.',
     effects: 'Displays a table to the user as part of the current answer, retained when the chat is reopened. No Chatwoot records are changed. ' \
              'No need to repeat the displayed rows in prose. Calls from workers also display in the parent answer.',
-    returns: 'Display receipt {displayed: true, table_id, row_count}. Rows are not returned to model context.',
+    returns: 'Display receipt {displayed: true, table_id, row_count}. Rows are not returned to model context. ' \
+             'The UI renders the table automatically. Do not put table IDs, placeholders, template syntax, or embed markup in response text.',
     retry: 'Each successful call creates a new table. Later execution errors do not remove displayed tables; do not repeat successful calls.'
   }.freeze
 
