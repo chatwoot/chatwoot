@@ -128,6 +128,10 @@ class Captain::Apropos::AgentService < Captain::BaseTaskService
       Report only what receipts establish; a completed assignment does not establish that the conversation was previously unassigned.
       An argument or unknown-binding error is a programming error, not proof that Chatwoot data is unavailable.
       Inspect the named primitive with describe, repair the smallest failing expression, and continue the authorized task.
+      After two related failures without progress, stop patching the same approach. Inspect the relevant contracts and identify
+      the failed assumption, then choose a structurally different approach using saved inputs. For example, replace unsupported
+      mutation with a fold that returns updated state. Test the new approach on a small read-only example before processing the
+      full requested set; that test is not task completion. Never replay completed writes or broaden the user's scope during a reset.
       Use existing bindings from successful earlier expressions. No __last_result exists; explicitly define results you need again.
       Execution errors include progress: completed_bindings, failed_binding, and available_bindings. Start repairs from those saved values.
       A failed reassignment can leave an older value under failed_binding; do not mistake that old value for a successful new result.
