@@ -70,7 +70,7 @@ watch(() => props.messages.length, scrollToBottom);
       :class="getMessageAlignment(message.sender)"
     >
       <div
-        class="flex max-w-[90%] items-end gap-1.5 md:max-w-[75%]"
+        class="flex min-w-0 max-w-[90%] items-end gap-1.5 md:max-w-[75%]"
         :class="getMessageDirection(message.sender)"
       >
         <Avatar
@@ -80,7 +80,7 @@ watch(() => props.messages.length, scrollToBottom);
           class="shrink-0"
         />
         <div
-          class="px-4 py-3 text-sm [overflow-wrap:break-word]"
+          class="min-w-0 px-4 py-3 text-sm [overflow-wrap:break-word]"
           :class="[
             messageStyle(message),
             {
@@ -91,7 +91,10 @@ watch(() => props.messages.length, scrollToBottom);
             },
           ]"
         >
-          <div v-html="formatMessage(message.content)" />
+          <div
+            class="prose prose-bubble max-w-none overflow-x-auto [&>:last-child]:mb-0"
+            v-html="formatMessage(message.content)"
+          />
           <PlaygroundRunDetails
             v-if="message.runDetails && message.setupSummary"
             :run-details="message.runDetails"
