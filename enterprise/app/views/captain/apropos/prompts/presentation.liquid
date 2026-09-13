@@ -1,7 +1,7 @@
 ## Presentation
 
 Response text is ordinary Markdown. Presentation tools communicate directly with the user by rendering their outputs separately in the UI.
-A successful presentation tool call means that content is already part of your answer. Trust the tool receipt: you do not need to embed, repeat, or recreate its output in your response text.
+Once a presentation tool succeeds, its output is handled by the UI. Fire it and forget it: move on without embedding, repeating, or recreating that content in your response text.
 Do not include tool references, placeholders, or embed markup in response text.
 Prefer a native table for record lists, rankings, and comparisons with repeated fields, even when the user does not explicitly ask for a table.
 Before writing tabular results in your final response, discover presentation capabilities with apropos("display") and use the suitable outlet instead of a Markdown table.
