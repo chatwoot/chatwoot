@@ -13,9 +13,9 @@ class AddUniqueIndexToContactsPhoneNumber < ActiveRecord::Migration[7.2]
 
   def down
     remove_index :contacts, name: NEW_INDEX_NAME, algorithm: :concurrently if index_name_exists?(:contacts, NEW_INDEX_NAME)
-    unless index_name_exists?(:contacts, OLD_INDEX_NAME)
-      add_index :contacts, [:phone_number, :account_id], name: OLD_INDEX_NAME, algorithm: :concurrently
-    end
+    return if index_name_exists?(:contacts, OLD_INDEX_NAME)
+
+    add_index :contacts, [:phone_number, :account_id], name: OLD_INDEX_NAME, algorithm: :concurrently
   end
 
   private
@@ -34,21 +34,24 @@ class AddUniqueIndexToContactsPhoneNumber < ActiveRecord::Migration[7.2]
   #
   # This is idempotent and safe to call multiple times (a row already deduped has
   # phone_number NULL and drops out of the WHERE clause).
+  #
+  # The duplicate check is a correlated EXISTS re-evaluated per candidate row instead
+  # of a fixed id list computed once up front. A fixed list (e.g. via a window
+  # function snapshot) can go stale: if a concurrent UPDATE changes the kept row's
+  # (or a duplicate's) phone_number between snapshot and write, this statement would
+  # still act on membership decided at snapshot time. Re-checking membership with
+  # EXISTS at write time means a row is only cleared if it is still an actual
+  # duplicate at the moment Postgres locks and updates it.
   def dedupe_phone_numbers!
     execute <<~SQL.squish
-      UPDATE contacts
+      UPDATE contacts c
       SET phone_number = NULL
-      WHERE id IN (
-        SELECT id FROM (
-          SELECT id,
-                 ROW_NUMBER() OVER (
-                   PARTITION BY account_id, phone_number
-                   ORDER BY id ASC
-                 ) AS row_number
-          FROM contacts
-          WHERE phone_number IS NOT NULL AND phone_number <> ''
-        ) duplicate_phone_numbers
-        WHERE row_number > 1
+      WHERE c.phone_number IS NOT NULL AND c.phone_number <> ''
+      AND EXISTS (
+        SELECT 1 FROM contacts older
+        WHERE older.account_id = c.account_id
+          AND older.phone_number = c.phone_number
+          AND older.id < c.id
       )
     SQL
   end
@@ -77,6 +80,8 @@ class AddUniqueIndexToContactsPhoneNumber < ActiveRecord::Migration[7.2]
     begin
       attempt += 1
       drop_stale_invalid_index!
+      return if valid_index_present?
+
       dedupe_phone_numbers!
 
       add_index :contacts, [:phone_number, :account_id],
@@ -85,19 +90,23 @@ class AddUniqueIndexToContactsPhoneNumber < ActiveRecord::Migration[7.2]
                 name: NEW_INDEX_NAME,
                 algorithm: :concurrently
     rescue ActiveRecord::RecordNotUnique => e
-      if attempt < MAX_ATTEMPTS
-        Rails.logger.warn(
-          "[#{self.class}] concurrent write raced the unique index build on contacts " \
-          "(attempt #{attempt}/#{MAX_ATTEMPTS}), retrying: #{e.message}"
-        )
-        retry
-      end
+      raise_retries_exhausted!(e) if attempt >= MAX_ATTEMPTS
 
-      drop_stale_invalid_index!
-      raise "Failed to build #{NEW_INDEX_NAME} after #{MAX_ATTEMPTS} attempts because of " \
-            "concurrent writes to contacts.phone_number racing the index build. Re-run this " \
-            "migration during a quieter write window. Original error: #{e.message}"
+      Rails.logger.warn(retry_warning(attempt, e))
+      retry
     end
+  end
+
+  def retry_warning(attempt, error)
+    "[#{self.class}] concurrent write raced the unique index build on contacts " \
+      "(attempt #{attempt}/#{MAX_ATTEMPTS}), retrying: #{error.message}"
+  end
+
+  def raise_retries_exhausted!(error)
+    drop_stale_invalid_index!
+    raise "Failed to build #{NEW_INDEX_NAME} after #{MAX_ATTEMPTS} attempts because of " \
+          "concurrent writes to contacts.phone_number racing the index build. Re-run this " \
+          "migration during a quieter write window. Original error: #{error.message}"
   end
 
   # A failed CREATE UNIQUE INDEX CONCURRENTLY does not roll back (DDL
@@ -117,5 +126,15 @@ class AddUniqueIndexToContactsPhoneNumber < ActiveRecord::Migration[7.2]
 
     Rails.logger.warn("[#{self.class}] dropping invalid leftover index #{NEW_INDEX_NAME} from a prior failed attempt")
     execute("DROP INDEX CONCURRENTLY IF EXISTS #{NEW_INDEX_NAME}")
+  end
+
+  # If a prior run built the index successfully but the migration process was
+  # interrupted before Rails recorded the schema_migrations row, index_name_exists?
+  # would already be true, so add_index would raise a duplicate-relation error that
+  # the RecordNotUnique rescue does not catch. Since drop_stale_invalid_index! has
+  # already removed any invalid leftover above, any remaining index by this name is
+  # by definition valid, so it's safe to treat it as a successfully completed build.
+  def valid_index_present?
+    index_name_exists?(:contacts, NEW_INDEX_NAME)
   end
 end
