@@ -12,6 +12,8 @@ const props = defineProps({
   emptyMessage: { type: String, default: '' },
 });
 const GRAPH_KINDS = [
+  'discovery',
+  'description',
   'program',
   'query_request',
   'query',
