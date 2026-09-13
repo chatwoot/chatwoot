@@ -15,6 +15,13 @@ class Captain::Apropos::DataAccess
     page(relation, type.to_s, cursor)
   end
 
+  def install(scheme)
+    scheme.register('search') { |type, filters = {}, cursor = 0| search(type, filters, cursor) }
+    scheme.register('fetch') { |ref| fetch(ref) }
+    scheme.register('related') { |ref, name, cursor = 0| related(ref, name, cursor) }
+    scheme.register('assignment-context') { |ref, cursor = 0| Captain::Apropos::AssignmentContext.new(data: self).call(ref, cursor) }
+  end
+
   def fetch(reference)
     type = reference.fetch('type')
     serialize(resolve(reference), type)
@@ -41,6 +48,7 @@ class Captain::Apropos::DataAccess
   def scope(type)
     Captain::Apropos::Access.check!(@account, @user)
     case type
+    when 'accounts' then Account.where(id: @account.id)
     when 'agents' then @account.users
     when 'faqs' then Captain::AssistantResponse.where(account_id: @account.id).approved
     when 'articles' then @account.articles.published

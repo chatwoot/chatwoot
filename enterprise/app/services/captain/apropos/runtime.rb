@@ -122,9 +122,7 @@ class Captain::Apropos::Runtime
   def install_functions
     scheme.register('apropos') { |query| catalog.apropos(query) }
     scheme.register('describe') { |name| catalog.describe(name) }
-    scheme.register('search') { |type, filters = {}, cursor = 0| @data.search(type, filters, cursor) }
-    scheme.register('fetch') { |ref| @data.fetch(ref) }
-    scheme.register('related') { |ref, name, cursor = 0| @data.related(ref, name, cursor) }
+    @data.install(scheme)
     scheme.register('act') { |name, ref, arguments| @actions.call(name, ref, arguments) }
     install_agent_functions
     install_workspace_functions

@@ -13,7 +13,11 @@ class Captain::Apropos::Actions
     validate_arguments!(definition, arguments)
 
     conversation = @data.resolve(reference)
-    result = perform(name.to_s, conversation, arguments)
+    result = if Captain::Apropos::ResourceActions::OPERATIONS.include?(name.to_s)
+               Captain::Apropos::ResourceActions.new(account: @account).perform(name.to_s, conversation, arguments)
+             else
+               perform(name.to_s, conversation, arguments)
+             end
     receipt = { 'operation' => name.to_s, 'target' => reference, 'status' => 'completed', 'result' => result,
                 'effect' => definition.fetch(:effect), 'at' => Time.current.iso8601 }
     @record.call('action', receipt)

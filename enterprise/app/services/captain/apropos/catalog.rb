@@ -1,9 +1,10 @@
 class Captain::Apropos::Catalog
   ENTITIES = {
+    'accounts' => { fields: %w[id name], query: %w[name], relations: {} },
     'contacts' => { fields: %w[id name email phone_number identifier custom_attributes additional_attributes created_at last_activity_at],
                     query: %w[name email phone_number], relations: { 'conversations' => ['conversations', 'contact_id', :many] } },
     'conversations' => { fields: %w[id display_id status priority contact_id inbox_id assignee_id team_id
-                                    custom_attributes created_at last_activity_at],
+                                    custom_attributes created_at last_activity_at snoozed_until],
                          query_fields: { 'labels' => :string_list },
                          query: [], relations: { 'messages' => ['messages', 'conversation_id', :many],
                                                  'contact' => ['contacts', 'contact_id', :one], 'inbox' => ['inboxes', 'inbox_id', :one],
@@ -14,7 +15,8 @@ class Captain::Apropos::Catalog
                    relations: { 'conversations' => ['conversations', 'inbox_id', :many],
                                 'assignable_agents' => ['agents', 'assignable_agents', :scoped] },
                    description: 'Use (related inbox-ref "assignable_agents") to read eligible agents before assignment. ' \
-                                'This scoped relationship uses the same eligibility rules as assign-agent and is not a WootQL join.' },
+                                'Use assignment-context for live capacity and assignment policy checks. ' \
+                                'The scoped relationship uses the same eligibility rules as assign-agent and is not a WootQL join.' },
     'teams' => { fields: %w[id name description], query: %w[name description],
                  relations: { 'conversations' => ['conversations', 'team_id', :many] } },
     'labels' => { fields: %w[id title description color show_on_sidebar created_at updated_at], query: %w[title description], relations: {} },
@@ -25,6 +27,8 @@ class Captain::Apropos::Catalog
   }.freeze
 
   FUNCTIONS = {
+    'assignment-context' => ['(assignment-context (hash "type" "inboxes" "id" 10) 0)',
+                             'Read assignment policies, availability, and inbox capacity. Inspect the full contract before assigning.'],
     'query-data' => ['(query-data "Get incoming customer messages for all open conversations")',
                      'Read-only query specialist. Returns source, result_ref, count, offset, next_cursor, query_exhausted, preview. 200 rows/page.'],
     'query-next' => ['(query-next "workspace-cursor-reference")',
@@ -129,15 +133,7 @@ class Captain::Apropos::Catalog
                   description: 'Strings, numbers, true/false, $parameters, now() minus ms/s/m/h/d/w. Parameters are data, never syntax.' }
   }.freeze
 
-  ACTIONS = {
-    'add-private-note' => { target: 'conversations', arguments: { content: 'string' }, effect: 'internal_write' },
-    'send-reply' => { target: 'conversations', arguments: { content: 'string' }, effect: 'external_write' },
-    'set-status' => { target: 'conversations', arguments: { status: 'open | resolved | pending' }, effect: 'internal_write' },
-    'set-priority' => { target: 'conversations', arguments: { priority: 'low | medium | high | urgent' }, effect: 'internal_write' },
-    'assign-team' => { target: 'conversations', arguments: { team_id: 'account team database ID' }, effect: 'internal_write' },
-    'assign-agent' => { target: 'conversations', arguments: { agent_id: 'account agent database ID' }, effect: 'internal_write' },
-    'add-label' => { target: 'conversations', arguments: { label: 'existing account label title' }, effect: 'internal_write' }
-  }.freeze
+  ACTIONS = Captain::Apropos::ActionContracts::DEFINITIONS
 
   def initialize(scheme, library: nil)
     @scheme = scheme
@@ -145,15 +141,11 @@ class Captain::Apropos::Catalog
   end
 
   def entries
-    functions = FUNCTIONS.transform_values { |signature, description| { signature: signature, description: description } }
-    CORE_GROUPS.each { |name, members| functions[name] = functions.fetch(name).merge(members: functions.slice(*members)) }
-    functions['wootql'] = functions.fetch('wootql').merge(members: WOOTQL)
-    functions['resources'] = functions.fetch('resources').merge(members: ENTITIES)
-    functions.merge(ENTITIES).merge(ACTIONS)
-             .merge(@library ? @library.entries : {})
-             .merge(@scheme.bindings.transform_keys(&:to_s).transform_values do |value|
-                      { stored_value: Captain::Apropos::ContextLimits.describe(value) }
-                    end)
+    function_entries.merge(ENTITIES).merge(ACTIONS)
+                    .merge(@library ? @library.entries : {})
+                    .merge(@scheme.bindings.transform_keys(&:to_s).transform_values do |value|
+                             { stored_value: Captain::Apropos::ContextLimits.describe(value) }
+                           end)
   end
 
   def apropos(query)
@@ -179,10 +171,19 @@ class Captain::Apropos::Catalog
 
   private
 
+  def function_entries
+    functions = FUNCTIONS.transform_values { |signature, description| { signature: signature, description: description } }
+    CORE_GROUPS.each { |name, members| functions[name] = functions.fetch(name).merge(members: functions.slice(*members)) }
+    functions['wootql'] = functions.fetch('wootql').merge(members: WOOTQL)
+    functions['resources'] = functions.fetch('resources').merge(members: ENTITIES)
+    functions['assignment-context'] = functions.fetch('assignment-context').merge(Captain::Apropos::AssignmentContext::CONTRACT)
+    functions
+  end
+
   def discovery_summary(details)
     return details.slice(:signature, :description) if details.key?(:signature)
     return { fields: details[:fields] + details.fetch(:query_fields, {}).keys, connections: details.fetch(:relations).keys } if details.key?(:fields)
 
-    details.slice(:target, :effect, :stored_value)
+    details.slice(:target, :effect, :description, :stored_value)
   end
 end
