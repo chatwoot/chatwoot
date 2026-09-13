@@ -8,6 +8,8 @@ class Captain::Apropos::Tools::Apropos < Agents::Tool
     runtime = context.context.fetch(:apropos)
     result = runtime.catalog.apropos(query)
     runtime.record('discovery', { 'query' => query, 'matches' => result })
-    result.to_json
+    runtime.reply(result)
+  rescue StandardError => e
+    runtime.reply(error: e.message)
   end
 end

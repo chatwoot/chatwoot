@@ -7,17 +7,18 @@ class Captain::Apropos::Tools::Execute < Agents::Tool
   def perform(context, source:)
     runtime = context.context.fetch(:apropos)
     result = runtime.execute(source)
-    { result: result }.to_json
+    runtime.reply(result: result)
   rescue StandardError => e
     failure = {
-      error: e.message, receipts: runtime.receipts,
+      error: e.message, receipts_ref: runtime.store(runtime.receipts), receipt_count: runtime.receipts.size,
       recovery: 'Inspect the failing contract with describe, repair the smallest failing expression, and continue within the original request. ' \
-                'Earlier bindings and writes may have succeeded. Inspect receipts before retrying any action; never blindly replay writes.'
+                'Earlier bindings and writes may have succeeded. Inspect receipts before retrying any action; never blindly replay writes. ' \
+                'Keep the original targets and eligibility conditions. An empty result is not permission to act on other records.'
     }
     if e.is_a?(Captain::Apropos::CallError)
       failure[:primitive] = e.primitive
       failure[:contract] = runtime.catalog.describe(e.primitive)
     end
-    failure.to_json
+    runtime.reply(failure)
   end
 end

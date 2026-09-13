@@ -8,8 +8,8 @@ class Captain::Apropos::Tools::Describe < Agents::Tool
     runtime = context.context.fetch(:apropos)
     result = runtime.catalog.describe(name)
     runtime.record('description', { 'name' => name, 'contract' => result })
-    result.to_json
+    runtime.reply(result)
   rescue KeyError, Captain::Apropos::Error => e
-    { error: e.message }.to_json
+    runtime.reply(error: e.message)
   end
 end

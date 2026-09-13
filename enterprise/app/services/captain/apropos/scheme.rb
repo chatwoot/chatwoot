@@ -130,10 +130,12 @@ class Captain::Apropos::Scheme
     register('list') { |*values| values }
     register('hash') { |*pairs| build_hash(*pairs) }
     register('get') { |value, key| value.fetch(key.to_s) }
+    register('keys', &:keys)
     register('car') { |values| values.fetch(0) }
     register('cdr') { |values| values.drop(1) }
     register('length', &:length)
     register('null?') { |value| value == [] }
+    register('nil?', &:nil?)
     register('not') { |value| value == false }
     register('equal?') { |a, b| a == b }
     install_collections

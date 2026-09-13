@@ -20,13 +20,19 @@ class Captain::Apropos::Catalog
   }.freeze
 
   FUNCTIONS = {
+    'recall' => ['(recall "workspace-reference")',
+                 'Read the complete stored value into Scheme, not directly into model context. References persist across turns.'],
+    'slice' => ['(slice items offset length)',
+                'Read a zero-based range from a list or string. Combine with recall to inspect or reason over bounded batches.'],
     'list' => ['(list value ...)', 'Build a list; (list) returns an empty list.'],
     'hash' => ['(hash "key" value ...)', 'Build a hash from alternating keys and values. Keys become strings.'],
     'get' => ['(get hash "key")', 'Read a required hash field. Missing keys are errors.'],
+    'keys' => ['(keys hash)', 'List hash keys. Combine with slice to explore large stored objects and discovery results.'],
     'car' => ['(car items)', 'Return the first list item. Empty lists are errors.'],
     'cdr' => ['(cdr items)', 'Return the list without its first item.'],
     'length' => ['(length items)', 'Return the size of a list, hash, or string.'],
     'null?' => ['(null? value)', 'True only for an empty list, not for #f.'],
+    'nil?' => ['(nil? value)', 'True only for database/JSON null. Test unassigned conversations with (nil? (get conversation "assignee_id")).'],
     'not' => ['(not value)', 'True only when value is #f.'],
     'equal?' => ['(equal? left right)', 'Compare values, including strings and lists, for equality.'],
     'append' => ['(append items ...)', 'Concatenate lists in argument order.'],
@@ -50,14 +56,15 @@ class Captain::Apropos::Catalog
     'fetch' => ['(fetch (hash "type" "contacts" "id" 42))', 'Read a record by reference; IDs are database IDs, not display IDs.'],
     'related' => ['(related ref "conversations" 0)', 'Follow a declared relationship. Always returns a page; use next_cursor for more.'],
     'act' => ['(act "add-private-note" ref (hash "content" "Hello"))',
-              'Execute an explicit operation. Returns a receipt; prior writes survive later errors.'],
+              'Returns {operation, target, status, result, effect, at}, with no id field. Prior writes survive later errors.'],
     'reason' => ['(reason data "question" (hash "category" (list "a" "b") "reason" "string"))',
                  'Read-only LLM reasoning. Schema fields: string, boolean, integer, string_list, or a list of enum strings.'],
     'delegate' => ['(delegate data "task" schema)',
-                   'Fresh agent context and Scheme bindings with the same account authority. Returns result and receipts.'],
+                   'Fresh worker returns status, compact result, input_ref, receipts_ref, receipt_count. Recall references in the parent.'],
     'map-agent' => ['(map-agent items "task" schema)',
-                    'Sequential independent workers. Each returns input, status, result, and receipts. Failed workers do not stop the collection.'],
-    'receipts' => ['(receipts)', 'Read action receipts captured during this turn, including delegated actions.'],
+                    'Sequential independent workers returning compact findings and workspace references. Failures do not stop the collection.'],
+    'receipts' => ['(receipts)',
+                   'Success: {operation, target, status, result, effect, at}. Failure: {operation, target, status, error}. No id field.'],
     'language' => ['define, lambda, if, begin, quote, let, let*, letrec, and, or, cond',
                    'Lexical local definitions, named let, and tail calls supported. Only #f is false. No set!, macros, eval, load, or Ruby access.'],
     'let' => ['(let ((x 1)) (+ x 2)) or (let loop ((n 3)) (if (= n 0) n (loop (- n 1))))',
@@ -73,7 +80,7 @@ class Captain::Apropos::Catalog
     ["(#{operator} left right)", 'Exactly two numeric arguments. Division follows Ruby numeric types; integer division truncates.']
   end).freeze
 
-  COLLECTIONS = %w[list hash get car cdr length null? append map filter fold count-by sort-by take].freeze
+  COLLECTIONS = %w[list hash get keys car cdr length null? nil? append map filter fold count-by sort-by take slice].freeze
 
   ACTIONS = {
     'add-private-note' => { target: 'conversations', arguments: { content: 'string' }, effect: 'internal_write' },
@@ -93,15 +100,36 @@ class Captain::Apropos::Catalog
     functions = FUNCTIONS.transform_values { |signature, description| { signature: signature, description: description } }
     functions['collections'] = functions.fetch('collections').merge(members: functions.slice(*COLLECTIONS))
     functions.merge(ENTITIES).merge(ACTIONS)
-             .merge(@scheme.bindings.transform_keys(&:to_s).transform_values { |value| { binding: Captain::Apropos::Codec.dump(value) } })
+                             .merge(@scheme.bindings.transform_keys(&:to_s).transform_values do |value|
+                                      { stored_value: Captain::Apropos::ContextLimits.describe(value) }
+                                    end)
   end
 
   def apropos(query)
     terms = query.downcase.split
     entries.select { |name, details| terms.empty? || terms.any? { |term| "#{name} #{details.to_json}".downcase.include?(term) } }
+           .transform_values { |details| discovery_summary(details) }
   end
 
   def describe(name)
+    if @scheme.bindings.key?(name.to_sym)
+      value = @scheme.bindings.fetch(name.to_sym)
+      details = { ref: name, stored_value: Captain::Apropos::ContextLimits.describe(value) }
+      if value.is_a?(Captain::Apropos::Scheme::Closure)
+        details[:binding] = { type: 'closure', parameters: Captain::Apropos::Codec.dump(value.parameters),
+                              body: Captain::Apropos::Codec.dump(value.body) }
+      end
+      return details
+    end
     entries.fetch(name.to_s) { raise Captain::Apropos::Error, "Unknown catalog entry: #{name}" }
+  end
+
+  private
+
+  def discovery_summary(details)
+    return details.slice(:signature, :description) if details.key?(:signature)
+    return { fields: details[:fields], connections: details.fetch(:relations).keys } if details.key?(:fields)
+
+    details.slice(:target, :effect, :stored_value)
   end
 end
