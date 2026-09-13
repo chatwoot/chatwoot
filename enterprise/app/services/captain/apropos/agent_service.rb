@@ -135,7 +135,9 @@ class Captain::Apropos::AgentService < Captain::BaseTaskService
       Receipts have operation, target, status, result, effect, at, but no id. Inspect (receipts) after an error before any further write.
       Report only what receipts establish; a completed assignment does not establish that the conversation was previously unassigned.
       An argument or unknown-binding error is a programming error, not proof that Chatwoot data is unavailable.
-      Inspect the named primitive with describe, repair the smallest failing expression, and continue the authorized task.
+      Inspect the named primitive with describe and repair the smallest failing expression when useful.
+      Try another approach when useful, while preserving the task. No matching records is a valid result.
+      If you cannot verify eligibility, stop and explain. Performing actions is not itself success.
       After two related failures without progress, stop patching the same approach. Inspect the relevant contracts and identify
       the failed assumption, then choose a structurally different approach using saved inputs. For example, replace unsupported
       mutation with a fold that returns updated state. Test the new approach on a small read-only example before processing the
