@@ -32,7 +32,9 @@ watch(
       :aria-controls="contentId"
       @click="toggleAccordion"
     >
-      <span class="text-sm font-medium text-n-slate-12">{{ title }}</span>
+      <slot name="title">
+        <span class="text-sm font-medium text-n-slate-12">{{ title }}</span>
+      </slot>
       <Icon
         icon="i-lucide-chevron-down"
         class="w-4 h-4 text-n-slate-11 transition-transform duration-200"

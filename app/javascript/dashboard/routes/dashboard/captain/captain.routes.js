@@ -24,6 +24,7 @@ import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
 import FaqSuggestionsIndex from './responses/FaqSuggestions.vue';
 import CustomToolsIndex from './tools/Index.vue';
+import AskPage from './pages/AskPage.vue';
 
 const meta = {
   permissions: ['administrator', 'agent'],
@@ -49,6 +50,12 @@ const metaV2 = {
 };
 
 const assistantRoutes = [
+  {
+    path: frontendURL('accounts/:accountId/captain/ask'),
+    component: AskPage,
+    name: 'captain_ask',
+    meta: { ...meta, permissions: ['administrator'] },
+  },
   {
     path: frontendURL('accounts/:accountId/captain/:assistantId/overview'),
     component: AssistantOverviewIndex,

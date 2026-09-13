@@ -507,6 +507,12 @@ const menuItems = computed(() => {
       activeOn: ['captain_assistants_create_index'],
       children: [
         {
+          name: 'Ask',
+          label: t('CAPTAIN_ASK.TITLE'),
+          activeOn: ['captain_ask'],
+          to: accountScopedRoute('captain_ask'),
+        },
+        {
           name: 'Overview',
           label: t('SIDEBAR.CAPTAIN_OVERVIEW'),
           activeOn: ['captain_assistants_overview_index'],
