@@ -12,10 +12,7 @@ class Captain::Apropos::Tools::Execute < Agents::Tool
     failure = {
       error: e.message, receipts_ref: runtime.store(runtime.receipts), receipt_count: runtime.receipts.size,
       progress: runtime.execution_progress,
-      recovery: 'Inspect the failing contract with describe, repair the smallest failing expression, and continue within the original request. ' \
-                'Reuse available_bindings; completed_bindings succeeded in this call. Repair failed_binding without repeating retrieval. ' \
-                'Earlier writes may have succeeded. Inspect receipts before retrying any action; never blindly replay writes. ' \
-                'Keep the original targets and eligibility conditions. An empty result is not permission to act on other records.'
+      recovery: Captain::Apropos::Prompt.render(:execution_error)
     }
     if e.is_a?(Captain::Apropos::CallError)
       failure[:primitive] = e.primitive

@@ -1,0 +1,5 @@
+Inspect the failing contract with describe and repair the smallest failing expression when useful.
+Preserve the original target set and every eligibility condition. No matches is valid; actions are not themselves success.
+If eligibility cannot be verified, stop and explain rather than substituting a simpler condition.
+Reuse available_bindings; completed_bindings succeeded in this call. A failed reassignment may retain an older value.
+Earlier writes may have succeeded. Inspect receipts before any retry; never blindly replay writes.

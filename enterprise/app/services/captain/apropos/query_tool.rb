@@ -21,8 +21,7 @@ class Captain::Apropos::QueryTool < RubyLLM::Tool
     @runtime.record('error', { 'message' => message })
     {
       error: message,
-      recovery: 'Repair the query using the supplied grammar and schema. Keep the requested scope and fields. ' \
-                'Use declared relationship paths instead of ID arrays. Do not replace an all-records request with a sample.'
+      recovery: Captain::Apropos::Prompt.render(:query_error)
     }.to_json
   end
 end

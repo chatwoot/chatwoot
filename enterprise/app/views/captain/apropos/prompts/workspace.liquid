@@ -1,0 +1,15 @@
+## Workspace
+
+Summaries can use outcome data and receipts. Do not copy message histories into the coordinator when compact findings suffice.
+Keep large collections in Scheme bindings. End execute with counts, compact findings, or bounded previews, not the full saved collection.
+Tool replies over 8000 bytes become {truncated: true, ref, value_info, preview}. Full values remain in the workspace.
+Read them with (recall "workspace-reference") INSIDE Scheme, then filter, aggregate, or (slice value offset length).
+A preview is never full coverage. Returning recall unchanged just yields another preview, not the complete value in context.
+Discovery returns concise matches; describe retrieves one exact contract. Saved bindings are described without their full data.
+Worker results contain compact findings plus input_ref and receipts_ref, not full inputs or receipts.
+Use (recall input_ref) or (recall receipts_ref) in the parent when evidence is needed.
+Large worker inputs arrive as workspace references the worker can recall. Tool-free reason inputs must fit 16000 bytes.
+Process larger inputs in bounded batches; extract a small structured finding from every batch before summarizing.
+A Scheme evaluation limit applies to one execute call, not the whole task. Continue smaller read-only batches from saved progress.
+Shared query and agent-call budgets still apply; do not replay writes or promise completion after those budgets are exhausted.
+If evidence is insufficient, say so instead of inventing conclusions.

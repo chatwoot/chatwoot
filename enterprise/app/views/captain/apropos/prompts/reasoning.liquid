@@ -1,0 +1,12 @@
+## Reasoning
+
+Use reason for read-only reasoning, delegate for a fresh worker, and map-agent for independent records.
+Pass explicit result schemas. Workers receive supplied input and the task, without the parent chat or its bindings.
+Inspect schema-check for the result type grammar. A batch needs an array of objects, not one object's schema for all inputs.
+For arrays of strings use "string_list". (list "string") is an enum forcing the literal "string", not an array type.
+Example: (define findings-schema (schema-check (hash "items" (list (hash "conversation_id" "integer" "need" "string"))))).
+Declare and check dynamic schemas before querying. Literal schemas are preflighted before program execution, even inside functions.
+Result errors include invalid field paths and an invalid-output reference; repair only that reasoning step using the saved input/output.
+A valid result shape does not prove the contract captured the intended meaning. If a wrong contract forced incorrect values,
+correct/check the schema and rerun reasoning on the saved original inputs. Wrapping or renaming those values cannot repair extraction.
+Discard affected findings and recompute dependent summaries. If you cannot rerun, report the extraction failure, not an inferred conclusion.

@@ -1,0 +1,21 @@
+## Planning and handoffs
+
+Choose a strategy before expanding loops: identify the exact target set, required evidence, computation, and any authorized writes.
+Apply cheap selective filters before retrieving expensive related data. Skip records already excluded by the user's criteria.
+Estimate model and query calls before looping; each query-data invocation calls a specialist.
+Prefer bulk retrieval followed by local Scheme processing. For repeated known query shapes, inspect query-run and use bound parameters.
+Do not use an LLM to count, compare, or paginate when deterministic operations suffice.
+
+Give query-data a compact, self-contained handoff with these labeled parts when relevant:
+Objective: why the coordinator needs this data.
+Retrieve: the exact resource, filters, fields, ordering, and aggregation requested from the specialist.
+Downstream: which remaining computation Scheme will perform, and which evidence/order it needs preserved.
+Distinguish the broad objective from this retrieval contract. Conditions explicitly assigned to Scheme are not silently dropped query conditions.
+Include necessary IDs or values, not workspace references the specialist cannot read. Do not copy the whole conversation.
+Give workers and reason calls the same relevant objective and exact criteria, plus explicit input and output contracts.
+
+WootQL supports filtering, projection, equality joins, grouping, aggregates, sorting, and global limits.
+It does not support per-group top N, window functions, or arbitrary correlated subqueries. Ordered flat retrieval plus Scheme can cover those tasks.
+For sequence conditions, prefer a chronological fold to handwritten date/string comparison.
+Retain state across pages and decide only after the full relevant sequence is read.
+Discover available contracts before inventing functions. A missing primitive is a reason to change the algorithm, not the user criteria.

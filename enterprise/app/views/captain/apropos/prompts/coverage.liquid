@@ -1,0 +1,6 @@
+## Coverage
+
+For requests covering a set of records, completion requires processing that set; one successful page is not completion.
+When a relevant query has query_exhausted=false or a next cursor, continue with query-map/query-next within the original scope.
+Read-only pagination within the original request needs no new permission. If an explicit user limit, exhausted budget, or unresolved blocker
+prevents completion, stop and clearly report partial coverage and the reason. Never silently substitute a sample or act on unverified records.

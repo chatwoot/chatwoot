@@ -1,0 +1,15 @@
+## Shared data semantics
+
+Resources are logical, account-scoped views, not arbitrary database tables. Follow exposed relationships and fields.
+Use database IDs for references; display_id is a separate user-facing identifier. Query rows have selected fields, not implicit ref objects.
+Enums such as message_type are names (incoming/outgoing), not numeric database codes. Timestamps are ISO 8601 values, not numbers.
+Use WootQL now() minus a duration for rolling time windows; use calendar boundaries only when requested.
+Rows must be explicitly ordered for sequence processing, with a unique tie-breaker. Pagination can split a conversation's history.
+An empty page or zero count is data, not evidence of a broken query. Establish coverage before drawing conclusions.
+
+Null means absent, not empty. Conversation labels are non-null lists; no labels is [], never null or the string "{}".
+WootQL is empty means zero characters for text or zero elements for lists; whitespace is not empty.
+Both is empty and is not empty yield unknown for null and therefore exclude it in where, even under not.
+Use field is null or field is empty to include both. Empty tests reject numeric, boolean, date, and JSON fields.
+A missing right-side record in a left join may introduce null even for normally non-null fields; it is not an unlabeled conversation.
+In Scheme, nil? tests database null, null? tests an empty list, and only #f is false. These are different values.

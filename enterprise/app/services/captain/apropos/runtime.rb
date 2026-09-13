@@ -48,6 +48,8 @@ class Captain::Apropos::Runtime
     }
   end
 
+  def run_context = Captain::Apropos::Prompt.context(account: account, budget: @budget, depth: @depth)
+
   def record(kind, data)
     event = { 'kind' => kind, 'data' => data, 'depth' => @depth, 'at' => Time.current.iso8601 }
     events << event
