@@ -6,7 +6,8 @@ class Captain::Apropos::WootqlSchema
       columns = fields(resource, data.scope(resource)).transform_values do |field|
         { type: field.type, values: field.enum_values&.keys }.compact
       end
-      [resource, { fields: columns, relations: definition.fetch(:relations) }]
+      relations = definition.fetch(:relations).reject { |_, (_, _, cardinality)| cardinality == :scoped }
+      [resource, { fields: columns, relations: relations }]
     end
   end
 

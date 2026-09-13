@@ -133,6 +133,21 @@ are introduced.
 
 ## Function library
 
+Before assigning conversations, traverse their inbox's eligible agent pool:
+
+```scheme
+(define inbox-page (related conversation-ref "inbox"))
+(define inbox-ref (get (car (get inbox-page "items")) "ref"))
+(define eligible-page (related inbox-ref "assignable_agents"))
+```
+
+Follow `next_cursor` until `#f`. `assignable_agents` calls the same inbox
+eligibility method used by `assign-agent`, including eligible administrators,
+and intersects its results with account-scoped agents. This is a scoped
+relationship available through `related`, not a WootQL join. Intersect the
+returned agent IDs with any user-selected pool before planning assignments.
+The write still rechecks eligibility because membership can change.
+
 ```scheme
 (save-function "top-contacts" "Contacts ranked by conversation count"
   '(lambda (n)

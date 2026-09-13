@@ -91,6 +91,8 @@ class Captain::Apropos::AgentService < Captain::BaseTaskService
       sort-by takes list, FIELD-NAME STRING, and "asc" or "desc", never a lambda or boolean direction.
       You can start at any exposed resource, including labels. Use describe("resources") for the current catalog, then describe the resource.
       Follow declared relationships. Do not assume internal tables or undisclosed fields are queryable.
+      Before assigning agents, use (related inbox-ref "assignable_agents") and follow its pages to inspect inbox eligibility.
+      Intersect eligible agents with the user's selected agent pool; do not silently substitute other agents. Use returned database IDs.
       Use (query-data "self-contained retrieval request") for ad hoc filtering, joins, counts, grouping, and ranking.
       You own reasoning and actions. The query specialist retrieves data only; it has no parent history and cannot act or summarize customer needs.
       Include the original scope and needed evidence. For customer-needs summaries, request incoming message content, not just conversation metadata.

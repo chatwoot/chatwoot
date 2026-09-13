@@ -25,7 +25,12 @@ class Captain::Apropos::DataAccess
     type, foreign_key, cardinality = Captain::Apropos::Catalog::ENTITIES.fetch(reference.fetch('type'))
                                                                         .fetch(:relations).fetch(relationship.to_s)
     relation = scope(type)
-    relation = cardinality == :many ? relation.where(foreign_key => record.id) : relation.where(id: record[foreign_key])
+    relation = case cardinality
+               when :many then relation.where(foreign_key => record.id)
+               when :one then relation.where(id: record[foreign_key])
+               when :scoped then relation.where(id: record.public_send(foreign_key).map(&:id))
+               else raise Captain::Apropos::Error, "Unsupported relationship cardinality: #{cardinality}"
+               end
     page(relation, type, cursor)
   end
 

@@ -11,7 +11,10 @@ class Captain::Apropos::Catalog
     'messages' => { fields: %w[id content message_type private conversation_id created_at], query: %w[content],
                     relations: { 'conversation' => ['conversations', 'conversation_id', :one] } },
     'inboxes' => { fields: %w[id name channel_type], query: %w[name],
-                   relations: { 'conversations' => ['conversations', 'inbox_id', :many] } },
+                   relations: { 'conversations' => ['conversations', 'inbox_id', :many],
+                                'assignable_agents' => ['agents', 'assignable_agents', :scoped] },
+                   description: 'Use (related inbox-ref "assignable_agents") to read eligible agents before assignment. ' \
+                                'This scoped relationship uses the same eligibility rules as assign-agent and is not a WootQL join.' },
     'teams' => { fields: %w[id name description], query: %w[name description],
                  relations: { 'conversations' => ['conversations', 'team_id', :many] } },
     'labels' => { fields: %w[id title description color show_on_sidebar created_at updated_at], query: %w[title description], relations: {} },
