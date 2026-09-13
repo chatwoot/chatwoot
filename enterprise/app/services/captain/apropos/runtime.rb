@@ -132,7 +132,7 @@ class Captain::Apropos::Runtime
     scheme.register('query-data') { |instruction| query_data(instruction) }
     scheme.register('query-next') { |reference| query_next(reference) }
     scheme.register('query-map') { |function, page| query_map(function, page) }
-    scheme.register('reason') { |data, task, schema| ask(task, input: data, schema: schema, tools: false) }
+    scheme.register('reason') { |data, task, schema| reason(data, task, schema) }
     scheme.register('delegate') { |data, task, schema| delegate(data, task, schema) }
     scheme.register('map-agent') { |items, task, schema| items.map { |item| delegate(item, task, schema) } }
   end
@@ -146,6 +146,18 @@ class Captain::Apropos::Runtime
     scheme.register('slice') { |value, offset, length| slice(value, offset, length) }
     scheme.register('receipts') { receipts }
     scheme.register('save-function') { |name, description, expression| @library.save(name, description, expression) }
+  end
+
+  def reason(input, task, schema)
+    reason_id = SecureRandom.uuid
+    record('reason', { 'reason_id' => reason_id, 'instruction' => task, 'schema' => schema,
+                       'input' => model_value(input) })
+    result = ask(task, input: input, schema: schema, tools: false)
+    record('reason_result', { 'reason_id' => reason_id, 'value' => model_value(result) })
+    result
+  rescue StandardError => e
+    record('error', { 'reason_id' => reason_id, 'message' => e.message })
+    raise
   end
 
   def delegate(input, task, schema)

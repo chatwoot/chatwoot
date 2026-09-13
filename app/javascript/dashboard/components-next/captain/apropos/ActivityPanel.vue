@@ -3,12 +3,23 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Accordion from 'dashboard/components-next/Accordion/Accordion.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import SchemeCode from './SchemeCode.vue';
-import WootqlCode from './WootqlCode.vue';
-import ActivityValue from './ActivityValue.vue';
-import CapabilityDetail from './CapabilityDetail.vue';
+import ActivityEventDetail from './ActivityEventDetail.vue';
+import ExecutionGraph from './ExecutionGraph.vue';
 
-defineProps({ events: { type: Array, default: () => [] } });
+const props = defineProps({
+  events: { type: Array, default: () => [] },
+  emptyMessage: { type: String, default: '' },
+});
+const GRAPH_KINDS = [
+  'program',
+  'query_request',
+  'query',
+  'result',
+  'action',
+  'error',
+  'reason',
+  'reason_result',
+];
 const { t } = useI18n();
 const kinds = computed(() => ({
   discovery: {
@@ -28,6 +39,11 @@ const kinds = computed(() => ({
   result: { label: t('CAPTAIN_ASK.KINDS.result'), icon: 'i-lucide-check' },
   action: { label: t('CAPTAIN_ASK.KINDS.action'), icon: 'i-lucide-zap' },
   error: { label: t('CAPTAIN_ASK.KINDS.error'), icon: 'i-lucide-circle-alert' },
+  reason: { label: t('CAPTAIN_ASK.KINDS.reason'), icon: 'i-lucide-brain' },
+  reason_result: {
+    label: t('CAPTAIN_ASK.KINDS.reason_result'),
+    icon: 'i-lucide-check',
+  },
 }));
 const failed = event =>
   event.kind === 'error' || event.data.status === 'failed';
@@ -35,7 +51,8 @@ const subtitle = event => {
   if (event.kind === 'discovery')
     return event.data.query || t('CAPTAIN_ASK.TRACE.ALL_CAPABILITIES');
   if (event.kind === 'description') return event.data.name;
-  if (event.kind === 'query_request') return event.data.instruction;
+  if (['query_request', 'reason'].includes(event.kind))
+    return event.data.instruction;
   if (event.kind === 'query')
     return t('CAPTAIN_ASK.TRACE.QUERY_OFFSET', { offset: event.data.offset });
   if (event.kind === 'program')
@@ -46,6 +63,34 @@ const subtitle = event => {
   if (event.kind === 'error') return event.data.message;
   return t('CAPTAIN_ASK.TRACE.OUTPUT');
 };
+const graphNodes = computed(() =>
+  props.events.flatMap((event, index) => {
+    if (!GRAPH_KINDS.includes(event.kind)) return [];
+    let status = 'step';
+    if (
+      ['result', 'reason_result'].includes(event.kind) ||
+      event.data.status === 'completed'
+    ) {
+      status = 'success';
+    }
+    if (failed(event)) status = 'error';
+    return [
+      {
+        ...kinds.value[event.kind],
+        index,
+        event,
+        kind: event.kind,
+        reasonId: event.data.reason_id,
+        isQueryResult:
+          event.kind === 'result' &&
+          Boolean(event.data.value?.result_ref && event.data.value?.source),
+        depth: event.depth,
+        detail: subtitle(event),
+        status,
+      },
+    ];
+  })
+);
 </script>
 
 <template>
@@ -67,127 +112,50 @@ const subtitle = event => {
       class="flex flex-col items-center gap-3 px-6 py-12 text-center text-n-slate-10"
     >
       <Icon icon="i-lucide-list-tree" class="size-6" />
-      <p class="m-0 text-sm">{{ t('CAPTAIN_ASK.NO_ACTIVITY') }}</p>
+      <p class="m-0 text-sm">
+        {{ emptyMessage || t('CAPTAIN_ASK.NO_ACTIVITY') }}
+      </p>
     </div>
     <div class="divide-y divide-n-weak">
       <Accordion
-        v-for="(event, index) in events"
-        :key="index"
-        :title="kinds[event.kind].label"
+        v-if="graphNodes.length"
+        :title="t('CAPTAIN_ASK.TRACE.GRAPH')"
+        is-open
         class="!border-0 !rounded-none"
       >
-        <template #title>
-          <span class="flex flex-1 items-center gap-3 min-w-0">
-            <Icon
-              :icon="kinds[event.kind].icon"
-              class="size-4 shrink-0"
-              :class="failed(event) ? 'text-n-ruby-11' : 'text-n-slate-10'"
-            />
-            <span class="flex-1 min-w-0 text-start">
-              <span
-                class="block text-sm font-medium"
-                :class="failed(event) ? 'text-n-ruby-11' : 'text-n-slate-12'"
-              >
-                {{ kinds[event.kind].label }}
+        <ExecutionGraph :nodes="graphNodes" />
+      </Accordion>
+      <div v-for="(event, index) in events" :key="index" class="scroll-mt-20">
+        <Accordion
+          :title="kinds[event.kind].label"
+          class="!border-0 !rounded-none"
+        >
+          <template #title>
+            <span class="flex flex-1 items-center gap-3 min-w-0">
+              <Icon
+                :icon="kinds[event.kind].icon"
+                class="size-4 shrink-0"
+                :class="failed(event) ? 'text-n-ruby-11' : 'text-n-slate-10'"
+              />
+              <span class="flex-1 min-w-0 text-start">
+                <span
+                  class="block text-sm font-medium"
+                  :class="failed(event) ? 'text-n-ruby-11' : 'text-n-slate-12'"
+                >
+                  {{ kinds[event.kind].label }}
+                </span>
+                <span class="block truncate text-xs text-n-slate-10 mt-0.5">{{
+                  subtitle(event)
+                }}</span>
               </span>
-              <span class="block truncate text-xs text-n-slate-10 mt-0.5">{{
-                subtitle(event)
+              <span class="text-xs tabular-nums text-n-slate-9">{{
+                index + 1
               }}</span>
             </span>
-            <span class="text-xs tabular-nums text-n-slate-9">{{
-              index + 1
-            }}</span>
-          </span>
-        </template>
-        <div class="min-w-0 pt-1 pb-2 space-y-4">
-          <template v-if="event.kind === 'discovery'">
-            <p class="m-0 text-xs text-n-slate-10">
-              {{
-                t('CAPTAIN_ASK.TRACE.MATCHES', {
-                  count: Object.keys(event.data.matches).length,
-                })
-              }}
-            </p>
-            <div class="divide-y divide-n-weak">
-              <Accordion
-                v-for="(contract, name) in event.data.matches"
-                :key="name"
-                :title="name"
-                class="!border-0 !rounded-none"
-              >
-                <CapabilityDetail :name="name" :contract="contract" />
-              </Accordion>
-            </div>
           </template>
-          <CapabilityDetail
-            v-else-if="event.kind === 'description'"
-            :name="event.data.name"
-            :contract="event.data.contract"
-          />
-          <SchemeCode
-            v-else-if="event.kind === 'program'"
-            :source="event.data.source"
-          />
-          <WootqlCode
-            v-else-if="event.kind === 'query'"
-            :source="event.data.source"
-          />
-          <p
-            v-else-if="event.kind === 'query_request'"
-            class="m-0 whitespace-pre-wrap break-words text-sm text-n-slate-12"
-          >
-            {{ event.data.instruction }}
-          </p>
-          <ActivityValue
-            v-else-if="event.kind === 'result'"
-            :value="event.data.value"
-          />
-          <div
-            v-else-if="event.kind === 'error'"
-            class="border-s-2 border-n-ruby-7 ps-3"
-          >
-            <p
-              class="m-0 text-sm text-n-ruby-11 whitespace-pre-wrap break-words"
-            >
-              {{ event.data.message }}
-            </p>
-          </div>
-          <template v-else-if="event.kind === 'action'">
-            <div class="flex items-center gap-2 text-sm">
-              <span
-                class="size-1.5 rounded-full"
-                :class="failed(event) ? 'bg-n-ruby-9' : 'bg-n-teal-9'"
-              />
-              <span class="text-n-slate-12">{{
-                failed(event)
-                  ? t('CAPTAIN_ASK.TRACE.FAILED')
-                  : t('CAPTAIN_ASK.TRACE.COMPLETED')
-              }}</span>
-              <span class="ms-auto font-mono text-xs text-n-slate-10">
-                {{
-                  t('CAPTAIN_ASK.TRACE.RECORD', {
-                    type: event.data.target?.type,
-                    id: event.data.target?.id,
-                  })
-                }}
-              </span>
-            </div>
-            <p
-              v-if="event.data.error"
-              class="m-0 text-sm text-n-ruby-11 break-words"
-            >
-              {{ event.data.error }}
-            </p>
-            <ActivityValue
-              v-if="event.data.result"
-              :value="event.data.result"
-            />
-          </template>
-          <p v-if="event.depth" class="m-0 text-xs text-n-slate-9">
-            {{ t('CAPTAIN_ASK.TRACE.WORKER_DEPTH', { depth: event.depth }) }}
-          </p>
-        </div>
-      </Accordion>
+          <ActivityEventDetail :event="event" />
+        </Accordion>
+      </div>
     </div>
   </aside>
 </template>

@@ -13,7 +13,7 @@ class Captain::AproposSession < ApplicationRecord
     with_lock do
       raise Captain::Apropos::Error, 'A turn is already in progress' if %w[queued running].include?(status)
 
-      update!(status: 'queued', messages: messages + [{ 'role' => 'user', 'content' => message.strip }])
+      update!(status: 'queued', messages: messages + [{ 'role' => 'user', 'content' => message.strip, 'turn_id' => SecureRandom.uuid }])
     end
     Captain::AproposTurnJob.perform_later(id)
   rescue ActiveJob::EnqueueError

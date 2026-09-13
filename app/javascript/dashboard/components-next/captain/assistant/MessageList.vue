@@ -6,6 +6,9 @@ import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import PlaygroundRunDetails from './PlaygroundRunDetails.vue';
 
 const props = defineProps({
+  selectable: { type: Boolean, default: false },
+  selectedMessageIndex: { type: Number, default: null },
+  selectionLabel: { type: String, default: '' },
   messages: {
     type: Array,
     required: true,
@@ -15,6 +18,7 @@ const props = defineProps({
     default: false,
   },
 });
+const emit = defineEmits(['select']);
 
 const messageContainer = ref(null);
 
@@ -77,7 +81,15 @@ watch(() => props.messages.length, scrollToBottom);
         />
         <div
           class="px-4 py-3 text-sm [overflow-wrap:break-word]"
-          :class="messageStyle(message)"
+          :class="[
+            messageStyle(message),
+            {
+              'ring-2 ring-n-brand':
+                selectable &&
+                !isUserMessage(message.sender) &&
+                selectedMessageIndex === index,
+            },
+          ]"
         >
           <div v-html="formatMessage(message.content)" />
           <PlaygroundRunDetails
@@ -85,6 +97,15 @@ watch(() => props.messages.length, scrollToBottom);
             :run-details="message.runDetails"
             :setup-summary="message.setupSummary"
           />
+          <button
+            v-if="selectable && !isUserMessage(message.sender)"
+            type="button"
+            class="mt-3 rounded text-xs text-n-slate-11 hover:text-n-slate-12 focus-visible:ring-2 focus-visible:ring-n-brand"
+            :aria-pressed="selectedMessageIndex === index"
+            @click.stop="emit('select', index)"
+          >
+            {{ selectionLabel }}
+          </button>
         </div>
       </div>
     </div>

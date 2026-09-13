@@ -9,7 +9,7 @@ class Captain::Apropos::TurnService
     @session.reload
     runtime = Captain::Apropos::Runtime.new(
       account: @session.account, user: @session.user, state: @session.state,
-      on_event: ->(event) { @session.update!(trace: @session.trace + [event]) }
+      on_event: ->(event) { @session.update!(trace: @session.trace + [event.merge('turn_id' => @turn_id)]) }
     )
     result = run_agent(runtime)
     finish('ready', result.is_a?(String) ? result : JSON.pretty_generate(result), runtime)
@@ -33,7 +33,9 @@ class Captain::Apropos::TurnService
     @session.with_lock do
       next false unless @session.status == 'queued'
 
-      @session.update!(status: 'running')
+      messages = @session.messages.deep_dup
+      @turn_id = messages.last['turn_id'] ||= SecureRandom.uuid
+      @session.update!(status: 'running', messages: messages)
       true
     end
   end
@@ -41,7 +43,7 @@ class Captain::Apropos::TurnService
   def finish(status, content, runtime)
     @session.update!(
       status: status, state: runtime ? runtime.state : @session.state,
-      messages: @session.messages + [{ 'role' => 'assistant', 'content' => content, 'error' => status == 'failed' }]
+      messages: @session.messages + [{ 'role' => 'assistant', 'content' => content, 'error' => status == 'failed', 'turn_id' => @turn_id }]
     )
   end
 end

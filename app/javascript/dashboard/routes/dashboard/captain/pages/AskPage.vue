@@ -8,6 +8,7 @@ import api from 'dashboard/api/captain/aproposSessions';
 import Button from 'dashboard/components-next/button/Button.vue';
 import MessageList from 'dashboard/components-next/captain/assistant/MessageList.vue';
 import ActivityPanel from 'dashboard/components-next/captain/apropos/ActivityPanel.vue';
+import { traceForMessage } from 'dashboard/components-next/captain/apropos/turnTrace';
 
 const POLL_INTERVAL = 1500;
 const BUSY_STATUSES = ['queued', 'running'];
@@ -19,6 +20,7 @@ const sessions = ref([]);
 const draft = ref('');
 const error = ref('');
 const sending = ref(false);
+const selectedMessageIndex = ref(null);
 const busy = computed(() => BUSY_STATUSES.includes(session.value?.status));
 const messages = computed(() =>
   (session.value?.messages || []).map(message => ({
@@ -27,7 +29,24 @@ const messages = computed(() =>
     isError: message.error,
   }))
 );
-const trace = computed(() => session.value?.trace || []);
+const activeMessageIndex = computed(
+  () => selectedMessageIndex.value ?? (session.value?.messages.length || 0) - 1
+);
+const activeMessage = computed(
+  () => session.value?.messages[activeMessageIndex.value]
+);
+const trace = computed(() =>
+  traceForMessage(session.value, activeMessage.value)
+);
+const legacyTraceUnavailable = computed(() =>
+  Boolean(
+    activeMessage.value &&
+      !activeMessage.value.turn_id &&
+      session.value.messages.filter(
+        message => message.role === 'user' && !message.turn_id
+      ).length > 1
+  )
+);
 
 function reportError(exception) {
   error.value = exception.response?.data?.error || t('CAPTAIN_ASK.ERROR');
@@ -46,6 +65,7 @@ async function loadSession(id) {
 function newChat() {
   abort();
   session.value = null;
+  selectedMessageIndex.value = null;
   draft.value = '';
   error.value = '';
 }
@@ -76,6 +96,7 @@ async function send() {
       : await api.create({ message });
     if (route.params.accountId !== accountId) return;
     session.value = response.data;
+    selectedMessageIndex.value = null;
     draft.value = '';
     sessions.value = [
       response.data,
@@ -94,6 +115,12 @@ useIntervalFn(async () => {
 }, POLL_INTERVAL);
 
 watch(() => route.params.accountId, loadSessions, { immediate: true });
+watch(
+  () => session.value?.id,
+  () => {
+    selectedMessageIndex.value = null;
+  }
+);
 </script>
 
 <template>
@@ -153,7 +180,14 @@ watch(() => route.params.accountId, loadSessions, { immediate: true });
             @click="draft = t('CAPTAIN_ASK.EXAMPLE')"
           />
         </div>
-        <MessageList :messages="messages" :is-loading="busy" />
+        <MessageList
+          :messages="messages"
+          :is-loading="busy"
+          selectable
+          :selected-message-index="activeMessageIndex"
+          :selection-label="t('CAPTAIN_ASK.TRACE.VIEW_EXECUTION')"
+          @select="selectedMessageIndex = $event"
+        />
         <form class="p-6 border-t border-n-weak" @submit.prevent="send">
           <p v-if="error" role="alert" class="text-sm text-n-ruby-11 mb-3">
             {{ error }}
@@ -186,7 +220,15 @@ watch(() => route.params.accountId, loadSessions, { immediate: true });
           </div>
         </form>
       </section>
-      <ActivityPanel :key="session?.id || 'new'" :events="trace" />
+      <ActivityPanel
+        :key="`${session?.id || 'new'}-${activeMessageIndex}`"
+        :events="trace"
+        :empty-message="
+          legacyTraceUnavailable
+            ? t('CAPTAIN_ASK.TRACE.LEGACY_UNAVAILABLE')
+            : ''
+        "
+      />
     </div>
   </div>
 </template>
