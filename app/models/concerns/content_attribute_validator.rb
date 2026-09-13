@@ -8,26 +8,44 @@ class ContentAttributeValidator < ActiveModel::Validator
   def validate(record)
     case record.content_type
     when 'input_select'
-      validate_items!(record)
-      validate_item_attributes!(record, ALLOWED_SELECT_ITEM_KEYS)
+      validate_dependent_items!(record, ALLOWED_SELECT_ITEM_KEYS)
     when 'cards'
-      validate_items!(record)
-      validate_item_attributes!(record, ALLOWED_CARD_ITEM_KEYS)
-      validate_item_actions!(record)
+      validate_dependent_items!(record, ALLOWED_CARD_ITEM_KEYS, validate_actions: true)
     when 'form'
-      validate_items!(record)
-      validate_item_attributes!(record, ALLOWED_FORM_ITEM_KEYS)
+      validate_dependent_items!(record, ALLOWED_FORM_ITEM_KEYS)
     when 'article'
-      validate_items!(record)
-      validate_item_attributes!(record, ALLOWED_ARTICLE_KEYS)
+      validate_dependent_items!(record, ALLOWED_ARTICLE_KEYS)
     end
   end
 
   private
 
+  # `validate_item_attributes!` / `validate_item_actions!` assume `record.items` is an enumerable of
+  # hashes and blow up with a NoMethodError on nil/malformed input instead of surfacing a normal
+  # validation error, so only run them once `validate_items!` has confirmed that's safe.
+  def validate_dependent_items!(record, valid_keys, validate_actions: false)
+    return unless validate_items!(record)
+
+    validate_item_attributes!(record, valid_keys)
+    validate_item_actions!(record) if validate_actions
+  end
+
+  # Returns true when `record.items` is a present, well-formed array of hashes and it's safe for
+  # the caller to run the per-item validations above.
   def validate_items!(record)
-    record.errors.add(:content_attributes, 'At least one item is required.') if record.items.blank?
-    record.errors.add(:content_attributes, 'Items should be a hash.') if record.items.reject { |item| item.is_a?(Hash) }.present?
+    if record.items.blank?
+      record.errors.add(:content_attributes, 'At least one item is required.')
+      return false
+    end
+
+    # `items` itself must be an Array before it's safe to call Array methods on it below -- a client
+    # can send any JSON value here (e.g. a String or a Hash), and only an Array responds to `reject`.
+    unless record.items.is_a?(Array) && record.items.reject { |item| item.is_a?(Hash) }.blank?
+      record.errors.add(:content_attributes, 'Items should be a hash.')
+      return false
+    end
+
+    true
   end
 
   def validate_item_attributes!(record, valid_keys)
