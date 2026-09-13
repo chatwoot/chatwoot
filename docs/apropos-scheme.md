@@ -61,9 +61,35 @@ It stops at 120,000 bytes with a resumable error; it does not automatically repl
 actions or retry. This is a conservative byte budget, not tokenizer-based
 accounting or a guarantee for models with smaller context windows.
 
-See [the top-contacts example](../script/apropos/top_contacts.scm) for pagination,
-counting, ranking, and fetching the five resulting contacts. It counts contacts
-with conversations and runs entirely deterministically, without per-record LLM calls.
+Use [WootQL](wootql.md) for structured filtering, joins, grouping, and ranking
+without loading every record into Scheme. See [the top-contacts example](../script/apropos/top_contacts.scm).
+`query-run` returns rows and a `next_offset`, distinct from `search`'s keyset cursor.
+
+## Function library
+
+```scheme
+(save-function "top-contacts" "Contacts ranked by conversation count"
+  '(lambda (n)
+     (query-run
+       "conversations | summarize count() by contact_id | sort count desc, contact_id asc | take $n"
+       (hash "n" n))))
+
+(top-contacts 5)
+```
+
+Save a **quoted lambda**, not a closure. Only code and its description persist,
+not the current workspace or captured lexical environment. Pass changing data
+as arguments; do not embed customer records, credentials, or task-specific IDs.
+Saving does not execute the function body. Functions may call one another and
+use the existing Scheme primitives, with the same execution and token budgets.
+
+The library is scoped to the current user and account, available in new chats
+and workers. `apropos` discovers descriptions and signatures; `describe` includes
+the body without captured data. Same-name saves replace the library version;
+already-running runtimes retain their loaded version until the next turn.
+Session bindings can shadow library names, so avoid reusing those names in
+`define`. Built-in catalog names cannot be overwritten by library saves.
+Each user/account can save 100 functions of at most 16 KB encoded code each.
 
 ## Saved sessions
 

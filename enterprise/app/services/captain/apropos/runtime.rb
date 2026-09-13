@@ -4,7 +4,7 @@ class Captain::Apropos::Runtime
 
   attr_reader :scheme, :catalog, :events, :account, :user
 
-  def initialize(account:, user:, state: {}, on_event: nil, execution: { budget: { calls: 0 }, depth: 0 })
+  def initialize(account:, user:, state: {}, on_event: nil, execution: { budget: { calls: 0, queries: 0 }, depth: 0 })
     Captain::Apropos::Access.check!(account, user)
     @account = account
     @user = user
@@ -13,10 +13,12 @@ class Captain::Apropos::Runtime
     @depth = execution.fetch(:depth)
     @events = []
     @scheme = Captain::Apropos::Scheme.new(bindings: state.empty? ? {} : Captain::Apropos::Codec.load(state))
-    @catalog = Captain::Apropos::Catalog.new(scheme)
+    @library = Captain::Apropos::Library.new(account: account, user: user, scheme: scheme)
+    @catalog = Captain::Apropos::Catalog.new(scheme, library: @library)
     @data = Captain::Apropos::DataAccess.new(account: account, user: user)
     @actions = Captain::Apropos::Actions.new(account: account, user: user, data: @data, record: method(:record))
     install_functions
+    Captain::Apropos::Query.new(data: @data, budget: @budget).install(scheme)
   end
 
   def execute(source)
@@ -107,16 +109,21 @@ class Captain::Apropos::Runtime
     scheme.register('fetch') { |ref| @data.fetch(ref) }
     scheme.register('related') { |ref, name, cursor = 0| @data.related(ref, name, cursor) }
     scheme.register('act') { |name, ref, arguments| @actions.call(name, ref, arguments) }
-    scheme.register('receipts') { receipts }
     install_agent_functions
+    install_workspace_functions
   end
 
   def install_agent_functions
-    scheme.register('recall') { |reference| scheme.bindings.fetch(reference.to_sym) }
-    scheme.register('slice') { |value, offset, length| slice(value, offset, length) }
     scheme.register('reason') { |data, task, schema| ask(task, input: data, schema: schema, tools: false) }
     scheme.register('delegate') { |data, task, schema| delegate(data, task, schema) }
     scheme.register('map-agent') { |items, task, schema| items.map { |item| delegate(item, task, schema) } }
+  end
+
+  def install_workspace_functions
+    scheme.register('recall') { |reference| scheme.bindings.fetch(reference.to_sym) }
+    scheme.register('slice') { |value, offset, length| slice(value, offset, length) }
+    scheme.register('receipts') { receipts }
+    scheme.register('save-function') { |name, description, expression| @library.save(name, description, expression) }
   end
 
   def delegate(input, task, schema)

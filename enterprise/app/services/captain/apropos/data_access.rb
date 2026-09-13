@@ -7,7 +7,6 @@ class Captain::Apropos::DataAccess
   end
 
   def search(type, filters = {}, cursor = 0)
-    Captain::Apropos::Access.check!(@account, @user)
     definition = Captain::Apropos::Catalog::ENTITIES.fetch(type.to_s)
     relation = scope(type.to_s)
     filters.each do |key, value|
@@ -31,21 +30,21 @@ class Captain::Apropos::DataAccess
   end
 
   def resolve(reference)
-    Captain::Apropos::Access.check!(@account, @user)
     scope(reference.fetch('type')).find(reference.fetch('id'))
   end
 
-  private
-
   def scope(type)
+    Captain::Apropos::Access.check!(@account, @user)
     case type
     when 'agents' then @account.users
     when 'faqs' then Captain::AssistantResponse.where(account_id: @account.id).approved
     when 'articles' then @account.articles.published
-    when 'contacts', 'conversations', 'messages', 'inboxes', 'teams' then @account.public_send(type)
+    when 'contacts', 'conversations', 'messages', 'inboxes', 'teams', 'labels' then @account.public_send(type)
     else raise Captain::Apropos::Error, "Unknown entity: #{type}"
     end
   end
+
+  private
 
   def apply_filter(relation, definition, key, value)
     return relation.tagged_with(Array(value)) if key == 'labels' && relation.klass == Conversation

@@ -10,12 +10,21 @@ class Captain::Apropos::Scheme
     let: :let_form, 'let*': :let_star, letrec: :let_recursive, and: :and_form, or: :or_form, cond: :cond_form
   }.freeze
 
-  attr_reader :bindings
+  attr_reader :bindings, :library
 
   def initialize(bindings: {})
     @bindings = bindings
+    @library = {}
     @functions = {}
     install_core
+  end
+
+  def library_function(expression)
+    unless expression.is_a?(Array) && expression.first == :lambda
+      raise Captain::Apropos::Error, 'Save a quoted lambda expression, not an evaluated closure or program'
+    end
+
+    closure(expression.drop(1), nil, 0, false)
   end
 
   def register(name)
@@ -75,6 +84,7 @@ class Captain::Apropos::Scheme
   def lookup(name, locals)
     return locals[name] if locals&.key?(name)
     return bindings[name] if bindings.key?(name)
+    return library[name] if library.key?(name)
     return @functions[name] if @functions.key?(name)
 
     raise Captain::Apropos::Error, "Unknown binding: #{name}. Use apropos or describe."

@@ -4,6 +4,7 @@ class Captain::Apropos::Catalog
                     query: %w[name email phone_number], relations: { 'conversations' => ['conversations', 'contact_id', :many] } },
     'conversations' => { fields: %w[id display_id status priority contact_id inbox_id assignee_id team_id
                                     custom_attributes created_at last_activity_at],
+                         query_fields: { 'labels' => :string_list },
                          query: [], relations: { 'messages' => ['messages', 'conversation_id', :many],
                                                  'contact' => ['contacts', 'contact_id', :one], 'inbox' => ['inboxes', 'inbox_id', :one],
                                                  'team' => ['teams', 'team_id', :one], 'assignee' => ['agents', 'assignee_id', :one] } },
@@ -13,6 +14,7 @@ class Captain::Apropos::Catalog
                    relations: { 'conversations' => ['conversations', 'inbox_id', :many] } },
     'teams' => { fields: %w[id name description], query: %w[name description],
                  relations: { 'conversations' => ['conversations', 'team_id', :many] } },
+    'labels' => { fields: %w[id title description color show_on_sidebar created_at updated_at], query: %w[title description], relations: {} },
     'agents' => { fields: %w[id name email], query: %w[name email],
                   relations: { 'conversations' => ['conversations', 'assignee_id', :many] } },
     'articles' => { fields: %w[id title content description status portal_id], query: %w[title content], relations: {} },
@@ -20,6 +22,13 @@ class Captain::Apropos::Catalog
   }.freeze
 
   FUNCTIONS = {
+    'query-run' => ['(query-run "conversations | summarize count() by contact_id | sort count desc | take $n" (hash "n" 5) 0)',
+                    'Execute WootQL, not SQL. Optional parameter hash and offset. Returns {items, next_offset}; 200 rows/page, #f at end.'],
+    'wootql' => ['resource | where | project | join | summarize | sort | take',
+                 'Read-only WootQL. Inspect member syntax. 32 stages/32 KB, 8 joins, 5s/query, 100 queries/turn including workers.'],
+    'resources' => [ENTITIES.keys.join(', '), 'Available query resources. Inspect members for fields and relationships, or describe one resource.'],
+    'save-function' => ['(save-function "name" "description" \'(lambda (argument) body))',
+                        'Save quoted code for this user/account across chats. Replaces the same name. No captured values; body is not run.'],
     'recall' => ['(recall "workspace-reference")',
                  'Read the complete stored value into Scheme, not directly into model context. References persist across turns.'],
     'slice' => ['(slice items offset length)',
@@ -82,6 +91,23 @@ class Captain::Apropos::Catalog
 
   COLLECTIONS = %w[list hash get keys car cdr length null? nil? append map filter fold count-by sort-by take slice].freeze
 
+  WOOTQL = {
+    'where' => { signature: 'where status = "open" and (priority = "urgent" or assignee_id is null)',
+                 description: 'Comparisons = != > >= < <=, and/or/not, is [not] null, in (value, ...), contains. Enum names are strings.' },
+    'labels' => { signature: 'conversations | where labels contains "refund"',
+                  description: 'Conversation labels are a string list. contains tests exact membership. Project labels to inspect them.' },
+    'project' => { signature: 'project id, status, inbox.name as inbox_name',
+                   description: 'Keep or rename fields. To-one dotted paths become scoped left joins. Retain IDs and ordering keys for pagination.' },
+    'join' => { signature: 'join contacts as contact on contact_id = contact.id',
+                description: 'Equality join with any exposed resource. Use join left for a left join. Right fields use the alias prefix.' },
+    'summarize' => { signature: 'summarize count() as total, count_distinct(contact_id) as customers by inbox_id',
+                     description: 'count, count_distinct, sum, avg, min, max. Only count() omits its field. Omit by to aggregate all rows.' },
+    'sort' => { signature: 'sort total desc, inbox_id asc', description: 'asc (default) or desc; nulls last. Include unique tie-breakers.' },
+    'take' => { signature: 'take 5', description: 'Limit this pipeline stage. take before where differs from where before take.' },
+    'values' => { signature: 'where created_at >= now() - 7d | where contact_id = $contact',
+                  description: 'Strings, numbers, true/false, $parameters, now() minus ms/s/m/h/d/w. Parameters are data, never syntax.' }
+  }.freeze
+
   ACTIONS = {
     'add-private-note' => { target: 'conversations', arguments: { content: 'string' }, effect: 'internal_write' },
     'send-reply' => { target: 'conversations', arguments: { content: 'string' }, effect: 'external_write' },
@@ -92,17 +118,21 @@ class Captain::Apropos::Catalog
     'add-label' => { target: 'conversations', arguments: { label: 'existing account label title' }, effect: 'internal_write' }
   }.freeze
 
-  def initialize(scheme)
+  def initialize(scheme, library: nil)
     @scheme = scheme
+    @library = library
   end
 
   def entries
     functions = FUNCTIONS.transform_values { |signature, description| { signature: signature, description: description } }
     functions['collections'] = functions.fetch('collections').merge(members: functions.slice(*COLLECTIONS))
+    functions['wootql'] = functions.fetch('wootql').merge(members: WOOTQL)
+    functions['resources'] = functions.fetch('resources').merge(members: ENTITIES)
     functions.merge(ENTITIES).merge(ACTIONS)
-                             .merge(@scheme.bindings.transform_keys(&:to_s).transform_values do |value|
-                                      { stored_value: Captain::Apropos::ContextLimits.describe(value) }
-                                    end)
+             .merge(@library ? @library.entries : {})
+             .merge(@scheme.bindings.transform_keys(&:to_s).transform_values do |value|
+                      { stored_value: Captain::Apropos::ContextLimits.describe(value) }
+                    end)
   end
 
   def apropos(query)
@@ -121,6 +151,8 @@ class Captain::Apropos::Catalog
       end
       return details
     end
+    return @library.describe(name) if @library&.entries&.key?(name)
+
     entries.fetch(name.to_s) { raise Captain::Apropos::Error, "Unknown catalog entry: #{name}" }
   end
 
@@ -128,7 +160,7 @@ class Captain::Apropos::Catalog
 
   def discovery_summary(details)
     return details.slice(:signature, :description) if details.key?(:signature)
-    return { fields: details[:fields], connections: details.fetch(:relations).keys } if details.key?(:fields)
+    return { fields: details[:fields] + details.fetch(:query_fields, {}).keys, connections: details.fetch(:relations).keys } if details.key?(:fields)
 
     details.slice(:target, :effect, :stored_value)
   end

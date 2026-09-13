@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_13_122701) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_13_135122) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -405,6 +405,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_13_122701) do
     t.text "content"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "captain_apropos_functions", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.string "description", null: false
+    t.jsonb "definition", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "user_id", "name"], name: "idx_on_account_id_user_id_name_d199cd70e7", unique: true
   end
 
   create_table "captain_apropos_sessions", force: :cascade do |t|
