@@ -362,6 +362,22 @@ const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
   return [
+    ...(import.meta.env.DEV
+      ? [
+          {
+            name: 'Developers',
+            label: t('SIDEBAR.DEVELOPERS'),
+            icon: 'i-lucide-code-xml',
+            children: [
+              {
+                name: 'WootQL',
+                label: t('WOOTQL.TITLE'),
+                to: accountScopedRoute('developers_wootql'),
+              },
+            ],
+          },
+        ]
+      : []),
     {
       name: 'Inbox',
       label: t('SIDEBAR.INBOX'),

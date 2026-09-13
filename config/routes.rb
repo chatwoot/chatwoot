@@ -62,6 +62,7 @@ Rails.application.routes.draw do
             post :bulk_create, on: :collection
           end
           namespace :captain do
+            resource :wootql, only: [:show, :create], controller: 'wootql' if Rails.env.development?
             resources :apropos_sessions, only: [:index, :create, :show, :update]
             resource :preferences, only: [:show, :update]
             resources :assistants do

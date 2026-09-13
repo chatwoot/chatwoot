@@ -1,4 +1,33 @@
 {
+  "WOOTQL": {
+    "TITLE": "WootQL",
+    "SUBTITLE": "Query your account, inspect the results, and see the generated SQL.",
+    "DEVELOPMENT_ONLY": "Development only",
+    "EDITOR": "Query",
+    "RUN": "Run query",
+    "HINT": "Read-only · 200 rows per page · 5 second timeout · Ctrl / ⌘ + Enter to run",
+    "SYNTAX": "resource | where | project | join | summarize | sort | take",
+    "RESOURCES": "Available resources and fields",
+    "RESOURCES_ERROR": "The resource catalog could not be loaded.",
+    "RELATIONSHIPS": "Relationships: {names}",
+    "RESULTS": "Results",
+    "RESULT_COUNT": "{count} rows · {duration} ms",
+    "EMPTY": "No matching rows.",
+    "NOT_RUN": "Run a query to explore its results.",
+    "SQL": "Generated SQL",
+    "PARAMETERS": "Bind parameters",
+    "COPY_SQL": "Copy SQL",
+    "COPIED": "Copied",
+    "NEXT": "Next page",
+    "PREVIOUS": "Previous page",
+    "PAGE": "Offset {offset}",
+    "ERROR": "The query could not be run.",
+    "EXAMPLES": "Examples",
+    "EXAMPLE_OPEN": "Open conversations",
+    "EXAMPLE_CONTACTS": "Contacts with most conversations",
+    "EXAMPLE_REFUND": "Conversations labeled refund",
+    "EXAMPLE_INBOXES": "Conversations by inbox"
+  },
   "CAPTAIN_ASK": {
     "TITLE": "Ask",
     "SUBTITLE": "Explore your account and get things done with Captain.",
@@ -360,6 +389,7 @@
     }
   },
   "SIDEBAR": {
+    "DEVELOPERS": "Developers",
     "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
