@@ -62,6 +62,7 @@ Rails.application.routes.draw do
             post :bulk_create, on: :collection
           end
           namespace :captain do
+            resources :apropos_sessions, only: [:index, :create, :show, :update]
             resource :preferences, only: [:show, :update]
             resources :assistants do
               member do
