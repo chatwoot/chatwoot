@@ -4,6 +4,11 @@ The runtime is a Scheme subset, with account-scoped Chatwoot primitives.
 It is not a complete R7RS implementation. Binding and branching semantics are
 based on [R7RS sections 4.2 and 5.3](https://standards.scheme.org/official/r7rs.pdf).
 
+Scheme is the execution backbone. The main agent discovers capabilities and
+writes programs through `execute`; data queries, reasoning workers, and actions
+are functions inside those programs. WootQL is the retrieval facility, not a
+second orchestrator. The existing interpreter and account boundaries remain.
+
 ## Language
 
 - Global and local `define`, including `(define (name args) body)`.
@@ -11,17 +16,25 @@ based on [R7RS sections 4.2 and 5.3](https://standards.scheme.org/official/r7rs.
 - `if`, short-circuit `and` / `or`, `begin`, `quote`, and basic `cond`.
 - Tail calls between Scheme functions do not grow the Ruby call stack.
 - Lists, hashes, `map`, `filter`, `fold`, and arithmetic.
+- `cons` (proper lists only), `reverse`, and `apply` with a final argument list.
+- `(group-by items key-function)` returns `{key, items}` groups in first-seen
+  order, preserving item order within each group.
 - `(count-by items key-function)` returns `{key, count}` rows in first-seen order.
 - `(sort-by items "field" "desc")` sorts by a field, preserving input order on ties.
   Direction defaults to `"asc"`; field values must be comparable.
 - `(take items n)` returns at most n items.
+- `(batches items n)` partitions in order, with at most n items and 16,000 JSON
+  bytes per batch. Nothing is dropped or truncated. A single item over the byte
+  limit raises; project smaller fields or delegate that item by reference.
 
 Only `#f` is false. An empty list, zero, and an empty string are truthy.
 Search and relationship pages end with `next_cursor = #f`, not zero or an empty list.
 
 Use `describe("collections")` to get all collection signatures, or describe an
 individual primitive. `map` and `filter` take the function first; `count-by`
-takes records first. `sort-by` accepts a field-name string, not a function.
+and `group-by` take records first. `fold` calls its callback with the accumulator
+first and item second. Existing signatures are unchanged so saved functions keep
+working. `sort-by` accepts a field-name string, not a function.
 Primitive failures return the failing name and its contract to the agent.
 Repair only the failing expression and inspect receipts before retrying writes.
 Keep the original target set and eligibility conditions when repairing a program.
@@ -69,6 +82,55 @@ read-only WootQL specialist. Recall its `result_ref` for full rows and call
 `(query-next next_cursor)` for remaining pages without another LLM call. The
 specialist has its own query-focused prompt, not the general Apropos prompt.
 
+## Page processing
+
+`query-map` runs a Scheme function for each nonempty page, following query cursors
+without further query-generation calls. It stores each successful page result
+and returns `result_refs`, `processed_rows`, `processed_pages`, `progress_ref`,
+`status`, and `query_exhausted`. The latter describes query coverage, not whether
+the function fulfilled the user's request.
+
+```scheme
+(define first-page
+  (query-data "Get all incoming non-private messages for open conversations, with id, conversation_id, content, ordered by id"))
+
+(define summarize-page
+  (lambda (rows)
+    (map
+      (lambda (batch)
+        (reason batch
+          "Extract compact customer needs with conversation IDs. Do not invent missing context."
+          (hash "findings" "string_list")))
+      (batches rows 50))))
+
+(define processed (query-map summarize-page first-page))
+(define page-findings (map recall (get processed "result_refs")))
+; Merge findings by conversation ID before counting customers or requests.
+; Use batches again if the findings exceed the reason-input limit.
+(get processed "processed_rows")
+```
+
+The agent can write and save a different processing function without changing
+the runtime. `query-map` does not choose an analysis or take actions on its own.
+Its callback uses the normal Scheme execution budget and shared tool budgets.
+Pages can split conversations, so page-local groups must not be treated as
+complete conversations. For global top N, combine ordered rows before grouping
+or explicitly carry group state across pages in a Scheme binding.
+
+On failure, the error includes a saved `progress_ref`. Recall it to inspect
+`result_refs`, `page`, and `page_processed`. If `page_processed` is true, that
+callback completed and the error occurred while fetching the next page. Continue
+from its `next_cursor`; do not replay the completed callback. If false, inspect
+receipts and existing bindings before retrying: the failing callback may have
+partially performed actions. No callback is automatically retried. Results of
+earlier batches within a failing callback require explicit Scheme bindings to
+survive; only fully completed page results are retained by `query-map` itself.
+
+Progress uses the existing session workspace and is saved when the turn finishes,
+including handled failures. This is not a crash-durable job queue or an exactly-once
+execution guarantee. No schedules, background continuations, or new permissions
+are introduced.
+
 ## Function library
 
 ```scheme
@@ -95,7 +157,61 @@ Session bindings can shadow library names, so avoid reusing those names in
 `define`. Built-in catalog names cannot be overwritten by library saves.
 Each user/account can save 100 functions of at most 16 KB encoded code each.
 
-## Saved sessions
+## Composable reasoning and recovery
+
+Core string, object, and predicate implementations share a registry with their
+discoverable contracts. Inspect `strings`, `objects`, or `predicates` with
+`describe`. Use `string-append`, `string-join`, and `number->string`; there is no
+generic `string` function. This remains a documented Scheme subset, not a full
+Scheme implementation.
+
+Declare result shapes before fetching data:
+
+```scheme
+(define findings-schema
+  (schema-check
+    (hash "items"
+      (list (hash "conversation_id" "integer"
+                  "need" "string"
+                  "category" (list "billing" "technical" "unclear"))))))
+; Fetch and save inputs in a separate execute call, then:
+(define findings (reason saved-input "Identify each customer's need" findings-schema))
+```
+
+The compact schema accepts primitive types (`string`, `boolean`, `integer`,
+`number`), primitive arrays (`string_list`, etc.), string enums, nested hashes,
+and one-element lists of hashes for arrays of objects. All fields are required;
+extra fields are rejected. Limits are 12 fields per object, 64 fields total,
+16 KB schema, 64 KB result, and 200 items per result array. Nesting depth is at
+most four edges from the root, counting object fields and array elements.
+
+`schema-check` validates without calling a model. Literal schemas in programs
+are checked before execution, including those inside function bodies and dead
+branches. Preflight skips quoted code and conservatively skips shadowed or
+dynamic expressions. It is not a type checker: explicitly check dynamic schemas
+before retrieval. The compiled JSON Schema passes through the existing SDK's
+`with_schema` integration and is validated locally with JSONSchemer.
+
+Tool-free `reason` receives a focused extraction/aggregation prompt, not the
+coordinator's orchestration prompt. Invalid results report field paths and save
+the rejected output in the workspace for inspection. Shape validation does not
+prove factual correctness or that every input record was covered.
+
+For string arrays use `"string_list"`, not `(list "string")`. The latter is a
+valid enum whose only allowed value is the literal `"string"`. If an incorrect
+contract forced meaningless findings, correct the schema and rerun reasoning
+on the saved original inputs, then recompute dependent summaries. Changing
+those findings from strings to lists does not repair their meaning.
+
+Execution errors report `completed_bindings`, `failed_binding`, and
+`available_bindings`, without dumping their data. Reuse saved inputs to repair
+the failed stage. A failed reassignment retains the old value, so do not treat
+that binding as a successful new result. Only completed global assignments are
+preserved, not unfinished local computations. No actions are automatically
+retried, and prior actions are not rolled back. Query, token, and evaluation
+budgets remain in force across repairs as applicable.
+
+## Session persistence
 
 Global bindings and reachable lexical environments persist across chat turns,
 including recursive closures. Locally defined names do not leak into globals.

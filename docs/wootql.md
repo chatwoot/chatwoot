@@ -71,7 +71,9 @@ paths before those stages, or explicitly join using retained IDs afterwards.
 
 ## Scheme and limits
 
-Captain Ask exposes a `query_data(request)` tool for English retrieval requests.
+Captain Ask calls `(query-data "request")` inside Scheme for English retrieval requests.
+The primary agent has discovery tools and `execute`, not a separate query tool;
+Scheme is the common execution path for queries, reasoning, and actions.
 It runs a fresh RubyLLM chat with the WootQL reference and current typed resource
 schema. Its only tool is `submit_query(source)`, which uses this same query engine.
 The specialist cannot access the parent chat, read workspace bindings, delegate,
@@ -97,6 +99,17 @@ Each page contains at most 200 rows. Call `query-next` only when its cursor is n
 `#f`; each returned page has a separate result reference. Cursors persist with the
 session and retain the query and offset. Pagination reads live data, not a snapshot.
 The caller must follow all pages before claiming account-wide coverage.
+Use `(query-map function first-page)` to process pages without writing pagination
+loops. It invokes the supplied Scheme function with each nonempty page's full
+rows. Page findings stay in the workspace as `result_refs`, with coverage counts
+and a `progress_ref`. Use `(batches rows 50)` inside the callback to split reasoning
+inputs by both row count and the 16 KB input limit. These helpers do not reset any
+Scheme, query, or model-call budgets.
+
+The specialist must report unsupported requirements, including latest N per group
+or nested related records, rather than executing a partial query. Scheme can
+request ordered flat rows and compose `group-by` with `take`. Group boundaries
+can cross pages, so grouping each page separately does not give global top N.
 The specialist submission tool uses literal values, which the compiler binds;
 direct `query-run` still supports scalar named parameters for reusable functions.
 
