@@ -18,6 +18,8 @@ returns the full contract. Actions continue to use the common receipt wrapper.
 | `unassign-agent` | Conversation ref | Clear human assignee, keeping team/bot fields |
 | `unassign-team` | Conversation ref | Clear team without explicitly clearing human assignee |
 | `snooze-conversation` | Conversation ref | Snooze until a future ISO 8601 timestamp with timezone |
+| `create-contact-note` | Contact ref | Create an internal profile note attributed to the acting user |
+| `update-contact-note` | Contact-note ref | Replace its content and update user attribution, matching the app |
 
 No label creation or deletion operation is added. All record references resolve
 within the current account. The `accounts` resource exposes only the current
@@ -56,3 +58,25 @@ enablement, and distribution order. No single flag promises automatic assignment
 The function neither reserves capacity nor chooses an agent. Values can change
 between reading and writing. `assign-agent` remains a manual assignment operation
 with its existing inbox eligibility check, not the automatic assignment engine.
+
+## Contact history and knowledge
+
+```scheme
+(related (hash "type" "contacts" "id" 42) "conversations" 0)
+(related (hash "type" "contacts" "id" 42) "notes" 0)
+(faq-search "How can a customer cancel their subscription?" 7)
+```
+
+Contact conversations already include every status. Contact notes are a separate
+`contact_notes` resource, not private conversation messages. Both relationships
+page by ascending database ID; follow `next_cursor`. Notes can also be fetched
+by ref or queried through WootQL. Creating notes is not idempotent; updates replace
+the full content and set the acting user as the last editor, like the app.
+
+`faq-search` uses Captain's approved-response vector search with at most five
+matches. The optional assistant database ID restricts the search; omit it for
+account-wide approved FAQs. The `assistants` resource supports discovering IDs.
+The lookup returns question, answer, assistant_id, FAQ ref, and a nullable
+customer-visible source URL. It is evidence retrieval, not answer generation.
+Each lookup sends query text to the configured embedding provider and consumes
+one shared agent-call allowance. It does not invoke a translation/chat model.

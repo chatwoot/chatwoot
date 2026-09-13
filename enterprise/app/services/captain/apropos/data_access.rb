@@ -48,6 +48,7 @@ class Captain::Apropos::DataAccess
   def scope(type)
     Captain::Apropos::Access.check!(@account, @user)
     case type
+    when 'contact_notes', 'assistants' then @account.public_send({ 'contact_notes' => :notes, 'assistants' => :captain_assistants }.fetch(type))
     when 'accounts' then Account.where(id: @account.id)
     when 'agents' then @account.users
     when 'faqs' then Captain::AssistantResponse.where(account_id: @account.id).approved

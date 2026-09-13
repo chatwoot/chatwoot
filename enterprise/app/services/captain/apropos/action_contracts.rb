@@ -1,6 +1,24 @@
 class Captain::Apropos::ActionContracts
   COMMON_EFFECTS = 'Uses normal model callbacks, events, and configured automation. Inspect receipts and current state before retrying.'.freeze
   DEFINITIONS = {
+    'create-contact-note' => {
+      target: 'contacts', arguments: { content: 'nonblank string: internal note text' }, effect: 'internal_write',
+      description: 'Create an internal note on a contact profile. Not a conversation private note or customer message.',
+      example: '(act "create-contact-note" (hash "type" "contacts" "id" 42) (hash "content" "Prefers email follow-ups."))',
+      returns: 'Receipt result: ref (contact_notes), contact_id, content, user_id. Use related contact-ref "notes" to read notes.',
+      requirements: 'Existing contact in this account and nonblank string content.',
+      side_effects: 'Creates a Note with the acting user as author; normal model callbacks apply. No customer message is sent.',
+      retry: 'Not idempotent: retrying creates another note. Inspect receipts before retrying.'
+    },
+    'update-contact-note' => {
+      target: 'contact_notes', arguments: { content: 'nonblank string: complete replacement text' }, effect: 'internal_write',
+      description: 'Replace an existing contact note, matching the app contact-note update behavior. Read the current note first.',
+      example: '(act "update-contact-note" (hash "type" "contact_notes" "id" 7) (hash "content" "Prefers phone follow-ups."))',
+      returns: 'Receipt result: ref, contact_id, content, user_id.',
+      requirements: 'Existing note in this account; cannot move the note to another contact.',
+      side_effects: 'Replaces content and sets user_id to the acting user, as the UI does. No customer message is sent.',
+      retry: 'Same content is repeatable, but may overwrite another user edit. Re-read current state before retrying.'
+    },
     'add-private-note' => { target: 'conversations', arguments: { content: 'string' }, effect: 'internal_write' },
     'send-reply' => { target: 'conversations', arguments: { content: 'string' }, effect: 'external_write' },
     'set-status' => { target: 'conversations', arguments: { status: 'open | resolved | pending' }, effect: 'internal_write' },

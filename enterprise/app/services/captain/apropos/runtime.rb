@@ -22,6 +22,7 @@ class Captain::Apropos::Runtime
     @actions = Captain::Apropos::Actions.new(account: account, user: user, data: @data, record: method(:record))
     install_functions
     @query.install(scheme)
+    Captain::Apropos::FaqSearch.new(data: @data, account: account, consume: method(:consume_agent_call!)).install(scheme)
   end
 
   def execute(source)

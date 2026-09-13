@@ -1,14 +1,15 @@
 class Captain::Apropos::ResourceActions
   OPERATIONS = %w[create-conversation create-contact update-contact update-label remove-label update-custom-attributes
-                  unassign-agent unassign-team snooze-conversation].freeze
+                  unassign-agent unassign-team snooze-conversation create-contact-note update-contact-note].freeze
   CONTACT_FIELDS = { 'name' => :string, 'email' => :nullable_string, 'phone_number' => :nullable_string,
                      'identifier' => :nullable_string, 'custom_attributes' => :object }.freeze
   LABEL_FIELDS = { 'title' => :string, 'description' => :nullable_string, 'color' => :string, 'show_on_sidebar' => :boolean }.freeze
   TYPES = { string: ->(v) { v.is_a?(String) }, nullable_string: ->(v) { v.nil? || v.is_a?(String) },
             boolean: ->(v) { v == true || v == false }, object: ->(v) { v.is_a?(Hash) && v.keys.all?(String) } }.freeze
 
-  def initialize(account:)
+  def initialize(account:, user:)
     @account = account
+    @user = user
   end
 
   def perform(name, record, arguments)
@@ -18,6 +19,24 @@ class Captain::Apropos::ResourceActions
   end
 
   private
+
+  def create_contact_note(contact, arguments)
+    content = note_content!(arguments)
+    note = contact.notes.create!(content: content, user: @user)
+    { 'ref' => { 'type' => 'contact_notes', 'id' => note.id }, 'contact_id' => contact.id, 'content' => note.content, 'user_id' => note.user_id }
+  end
+
+  def update_contact_note(note, arguments)
+    note.update!(content: note_content!(arguments), user: @user)
+    { 'ref' => { 'type' => 'contact_notes', 'id' => note.id }, 'contact_id' => note.contact_id, 'content' => note.content, 'user_id' => note.user_id }
+  end
+
+  def note_content!(arguments)
+    content = arguments.fetch('content')
+    raise Captain::Apropos::Error, 'content must be a nonblank string' unless content.is_a?(String) && content.strip.present?
+
+    content
+  end
 
   def update_label(record, arguments)
     record.update!(attributes!(arguments.fetch('attributes'), LABEL_FIELDS))
