@@ -64,6 +64,10 @@ accounting or a guarantee for models with smaller context windows.
 Use [WootQL](wootql.md) for structured filtering, joins, grouping, and ranking
 without loading every record into Scheme. See [the top-contacts example](../script/apropos/top_contacts.scm).
 `query-run` returns rows and a `next_offset`, distinct from `search`'s keyset cursor.
+For ad hoc English requests, `(query-data "retrieval request")` invokes the
+read-only WootQL specialist. Recall its `result_ref` for full rows and call
+`(query-next next_cursor)` for remaining pages without another LLM call. The
+specialist has its own query-focused prompt, not the general Apropos prompt.
 
 ## Function library
 

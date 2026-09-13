@@ -1,4 +1,6 @@
 class Captain::Apropos::Runtime
+  include Captain::Apropos::QueryFunctions
+
   MAX_AGENT_CALLS = 100
   MAX_DELEGATION_DEPTH = 2
 
@@ -16,9 +18,10 @@ class Captain::Apropos::Runtime
     @library = Captain::Apropos::Library.new(account: account, user: user, scheme: scheme)
     @catalog = Captain::Apropos::Catalog.new(scheme, library: @library)
     @data = Captain::Apropos::DataAccess.new(account: account, user: user)
+    @query = Captain::Apropos::Query.new(data: @data, budget: @budget)
     @actions = Captain::Apropos::Actions.new(account: account, user: user, data: @data, record: method(:record))
     install_functions
-    Captain::Apropos::Query.new(data: @data, budget: @budget).install(scheme)
+    @query.install(scheme)
   end
 
   def execute(source)
@@ -88,8 +91,7 @@ class Captain::Apropos::Runtime
   end
 
   def ask(instruction, input: nil, schema: nil, tools: true, history: [])
-    @budget[:calls] += 1
-    raise Captain::Apropos::Error, 'Agent call budget exhausted' if @budget[:calls] > MAX_AGENT_CALLS
+    consume_agent_call!
 
     response = Captain::Apropos::AgentService.new(
       account: account, runtime: self, instruction: instruction, input: input,
@@ -101,6 +103,11 @@ class Captain::Apropos::Runtime
   end
 
   private
+
+  def consume_agent_call!
+    @budget[:calls] += 1
+    raise Captain::Apropos::Error, 'Agent call budget exhausted' if @budget[:calls] > MAX_AGENT_CALLS
+  end
 
   def install_functions
     scheme.register('apropos') { |query| catalog.apropos(query) }
@@ -114,6 +121,8 @@ class Captain::Apropos::Runtime
   end
 
   def install_agent_functions
+    scheme.register('query-data') { |instruction| query_data(instruction) }
+    scheme.register('query-next') { |reference| query_next(reference) }
     scheme.register('reason') { |data, task, schema| ask(task, input: data, schema: schema, tools: false) }
     scheme.register('delegate') { |data, task, schema| delegate(data, task, schema) }
     scheme.register('map-agent') { |items, task, schema| items.map { |item| delegate(item, task, schema) } }

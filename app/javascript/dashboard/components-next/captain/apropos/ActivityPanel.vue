@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import Accordion from 'dashboard/components-next/Accordion/Accordion.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import SchemeCode from './SchemeCode.vue';
+import WootqlCode from './WootqlCode.vue';
 import ActivityValue from './ActivityValue.vue';
 import CapabilityDetail from './CapabilityDetail.vue';
 
@@ -19,6 +20,11 @@ const kinds = computed(() => ({
     icon: 'i-lucide-book-open',
   },
   program: { label: t('CAPTAIN_ASK.KINDS.program'), icon: 'i-lucide-code-xml' },
+  query_request: {
+    label: t('CAPTAIN_ASK.KINDS.query_request'),
+    icon: 'i-lucide-sparkles',
+  },
+  query: { label: t('CAPTAIN_ASK.KINDS.query'), icon: 'i-lucide-database' },
   result: { label: t('CAPTAIN_ASK.KINDS.result'), icon: 'i-lucide-check' },
   action: { label: t('CAPTAIN_ASK.KINDS.action'), icon: 'i-lucide-zap' },
   error: { label: t('CAPTAIN_ASK.KINDS.error'), icon: 'i-lucide-circle-alert' },
@@ -29,6 +35,9 @@ const subtitle = event => {
   if (event.kind === 'discovery')
     return event.data.query || t('CAPTAIN_ASK.TRACE.ALL_CAPABILITIES');
   if (event.kind === 'description') return event.data.name;
+  if (event.kind === 'query_request') return event.data.instruction;
+  if (event.kind === 'query')
+    return t('CAPTAIN_ASK.TRACE.QUERY_OFFSET', { offset: event.data.offset });
   if (event.kind === 'program')
     return t('CAPTAIN_ASK.TRACE.LINES', {
       count: event.data.source.split('\n').length,
@@ -119,6 +128,16 @@ const subtitle = event => {
             v-else-if="event.kind === 'program'"
             :source="event.data.source"
           />
+          <WootqlCode
+            v-else-if="event.kind === 'query'"
+            :source="event.data.source"
+          />
+          <p
+            v-else-if="event.kind === 'query_request'"
+            class="m-0 whitespace-pre-wrap break-words text-sm text-n-slate-12"
+          >
+            {{ event.data.instruction }}
+          </p>
           <ActivityValue
             v-else-if="event.kind === 'result'"
             :value="event.data.value"

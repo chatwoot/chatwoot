@@ -22,6 +22,10 @@ class Captain::Apropos::Catalog
   }.freeze
 
   FUNCTIONS = {
+    'query-data' => ['(query-data "Get incoming customer messages for all open conversations")',
+                     'Read-only query specialist. Returns source, result_ref, count, offset, next_cursor, query_exhausted, preview. 200 rows/page.'],
+    'query-next' => ['(query-next "workspace-cursor-reference")',
+                     'Fetch the next page without an LLM call. Same envelope as query-data; next_cursor is #f at end. Recall result_ref for rows.'],
     'query-run' => ['(query-run "conversations | summarize count() by contact_id | sort count desc | take $n" (hash "n" 5) 0)',
                     'Execute WootQL, not SQL. Optional parameter hash and offset. Returns {items, next_offset}; 200 rows/page, #f at end.'],
     'wootql' => ['resource | where | project | join | summarize | sort | take',

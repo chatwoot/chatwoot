@@ -1,6 +1,15 @@
 class Captain::Apropos::WootqlSchema
   Field = Struct.new(:type, :enum_values, :expression, keyword_init: true)
 
+  def self.describe(data)
+    Captain::Apropos::Catalog::ENTITIES.to_h do |resource, definition|
+      columns = fields(resource, data.scope(resource)).transform_values do |field|
+        { type: field.type, values: field.enum_values&.keys }.compact
+      end
+      [resource, { fields: columns, relations: definition.fetch(:relations) }]
+    end
+  end
+
   def self.fields(resource, relation)
     definition = Captain::Apropos::Catalog::ENTITIES.fetch(resource)
     fields = definition.fetch(:fields).index_with do |name|

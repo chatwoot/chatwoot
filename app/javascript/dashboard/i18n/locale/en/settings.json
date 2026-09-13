@@ -67,13 +67,16 @@
       "MATCHES": "{count} capabilities found",
       "FAILED": "Failed",
       "COMPLETED": "Completed",
-      "WORKER_DEPTH": "Worker level {depth}"
+      "WORKER_DEPTH": "Worker level {depth}",
+      "QUERY_OFFSET": "Rows starting at offset {offset}"
     },
     "ERROR": "Could not load or send this request. Please try again.",
     "KINDS": {
       "discovery": "Discover capabilities",
       "description": "Inspect capability",
       "program": "Run program",
+      "query_request": "Ask query specialist",
+      "query": "Run WootQL",
       "result": "Result",
       "action": "Action receipt",
       "error": "Execution error"

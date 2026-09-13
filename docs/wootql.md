@@ -71,6 +71,39 @@ paths before those stages, or explicitly join using retained IDs afterwards.
 
 ## Scheme and limits
 
+Captain Ask exposes a `query_data(request)` tool for English retrieval requests.
+It runs a fresh RubyLLM chat with the WootQL reference and current typed resource
+schema. Its only tool is `submit_query(source)`, which uses this same query engine.
+The specialist cannot access the parent chat, read workspace bindings, delegate,
+or perform actions. Validation errors allow repair, with at most four model
+requests under the existing context-byte cap. Each specialist call consumes the
+shared agent-call budget; every query attempt/page consumes the shared query budget.
+
+The first successful submission halts the specialist. Results come from the
+engine, not model-authored JSON. It returns `source`, `result_ref`, `count`,
+`offset`, `next_cursor`, `query_exhausted`, and a bounded `preview` to the primary.
+Full rows stay in the workspace. `count` is this page's row count, not a total.
+`query_exhausted` means this query has no further pages, not that the user's task
+has been completed. The primary still checks scope and interprets the evidence.
+
+```scheme
+(define page (query-data "Get incoming customer messages for all open conversations"))
+(define messages (recall (get page "result_ref")))
+; When next_cursor is not #f, fetch more without another model call:
+(define next-page (query-next (get page "next_cursor")))
+```
+
+Each page contains at most 200 rows. Call `query-next` only when its cursor is not
+`#f`; each returned page has a separate result reference. Cursors persist with the
+session and retain the query and offset. Pagination reads live data, not a snapshot.
+The caller must follow all pages before claiming account-wide coverage.
+The specialist submission tool uses literal values, which the compiler binds;
+direct `query-run` still supports scalar named parameters for reusable functions.
+
+The integration uses RubyLLM's [tools and halting](https://rubyllm.com/tools/#halting-execution),
+verified against the installed 1.15 API. No database rows are sent back through
+the specialist model after successful execution.
+
 ```scheme
 (query-run
   "conversations | where contact_id = $contact | project id, status"
