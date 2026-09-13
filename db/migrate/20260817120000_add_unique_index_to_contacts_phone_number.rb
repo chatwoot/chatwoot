@@ -6,9 +6,13 @@ class AddUniqueIndexToContactsPhoneNumber < ActiveRecord::Migration[7.2]
   MAX_ATTEMPTS = 5
 
   def up
-    remove_index :contacts, name: OLD_INDEX_NAME, algorithm: :concurrently if index_name_exists?(:contacts, OLD_INDEX_NAME)
-
     build_unique_index_with_retries!
+
+    # Only drop the old, non-unique index once the new unique one is confirmed built.
+    # If build_unique_index_with_retries! raises (e.g. retries exhausted for reasons
+    # other than a write race), contacts keeps its existing phone_number lookup index
+    # instead of being left without either index.
+    remove_index :contacts, name: OLD_INDEX_NAME, algorithm: :concurrently if index_name_exists?(:contacts, OLD_INDEX_NAME)
   end
 
   def down
@@ -46,7 +50,7 @@ class AddUniqueIndexToContactsPhoneNumber < ActiveRecord::Migration[7.2]
     execute <<~SQL.squish
       UPDATE contacts c
       SET phone_number = NULL
-      WHERE c.phone_number IS NOT NULL AND c.phone_number <> ''
+      WHERE c.phone_number IS NOT NULL AND btrim(c.phone_number) <> ''
       AND EXISTS (
         SELECT 1 FROM contacts older
         WHERE older.account_id = c.account_id
@@ -86,7 +90,7 @@ class AddUniqueIndexToContactsPhoneNumber < ActiveRecord::Migration[7.2]
 
       add_index :contacts, [:phone_number, :account_id],
                 unique: true,
-                where: "phone_number IS NOT NULL AND phone_number <> ''",
+                where: "phone_number IS NOT NULL AND btrim(phone_number) <> ''",
                 name: NEW_INDEX_NAME,
                 algorithm: :concurrently
     rescue ActiveRecord::RecordNotUnique => e
