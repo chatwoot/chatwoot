@@ -105,7 +105,7 @@ class AddUniqueIndexToContactsPhoneNumber < ActiveRecord::Migration[7.2]
   def raise_retries_exhausted!(error)
     drop_stale_invalid_index!
     raise "Failed to build #{NEW_INDEX_NAME} after #{MAX_ATTEMPTS} attempts because of " \
-          "concurrent writes to contacts.phone_number racing the index build. Re-run this " \
+          'concurrent writes to contacts.phone_number racing the index build. Re-run this ' \
           "migration during a quieter write window. Original error: #{error.message}"
   end
 
