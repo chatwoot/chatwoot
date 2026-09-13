@@ -10,7 +10,7 @@ class Captain::Apropos::Scheme
     let: :let_form, 'let*': :let_star, letrec: :let_recursive, and: :and_form, or: :or_form, cond: :cond_form
   }.freeze
 
-  attr_reader :bindings, :library
+  attr_reader :bindings, :library, :completed_bindings, :failed_binding
 
   def initialize(bindings: {})
     @bindings = bindings
@@ -38,7 +38,10 @@ class Captain::Apropos::Scheme
   end
 
   def execute(source)
+    @completed_bindings = []
+    @failed_binding = nil
     expressions = Captain::Apropos::Parser.new(source).parse
+    Captain::Apropos::ProgramPreflight.new(self).check(expressions)
     @steps = MAX_STEPS
     expressions.map { |expression| evaluate(expression, nil, 0) }.last
   rescue SystemStackError
@@ -131,31 +134,25 @@ class Captain::Apropos::Scheme
     raise Captain::Apropos::Error, 'define expects a symbol and value' unless args.size == 2 && args.first.is_a?(Symbol)
 
     value = evaluate(args.last, locals, depth + 1)
-    Captain::Apropos::Codec.dump(value) unless locals
-    (locals || bindings)[args.first] = value
+    store_binding(args.first, value, locals)
     args.first.to_s
+  rescue StandardError
+    @failed_binding ||= args.first.to_s unless locals
+    raise
+  end
+
+  def store_binding(name, value, locals)
+    return locals[name] = value if locals
+
+    Captain::Apropos::Codec.dump(value)
+    bindings[name] = value
+    @completed_bindings |= [name.to_s]
   end
 
   def install_core
-    register('list') { |*values| values }
-    register('hash') { |*pairs| build_hash(*pairs) }
-    register('get') { |value, key| value.fetch(key.to_s) }
-    register('keys', &:keys)
-    register('car') { |values| values.fetch(0) }
-    register('cdr') { |values| values.drop(1) }
-    register('length', &:length)
-    register('null?') { |value| value == [] }
-    register('nil?', &:nil?)
-    register('not') { |value| value == false }
-    register('equal?') { |a, b| a == b }
+    Captain::Apropos::CoreFunctions.install(self)
     install_collections
     install_arithmetic
-  end
-
-  def build_hash(*pairs)
-    raise Captain::Apropos::Error, 'hash expects key/value pairs' if pairs.size.odd?
-
-    pairs.each_slice(2).to_h.transform_keys(&:to_s)
   end
 
   def install_collections
@@ -172,6 +169,7 @@ class Captain::Apropos::Scheme
       validate_collection_call!(function, values)
       values.reduce(initial) { |memo, value| invoke(function, [memo, value]) }
     end
+    install_list_functions
     install_ranking
   end
 

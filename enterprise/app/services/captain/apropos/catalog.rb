@@ -26,6 +26,9 @@ class Captain::Apropos::Catalog
                      'Read-only query specialist. Returns source, result_ref, count, offset, next_cursor, query_exhausted, preview. 200 rows/page.'],
     'query-next' => ['(query-next "workspace-cursor-reference")',
                      'Fetch the next page without an LLM call. Same envelope as query-data; next_cursor is #f at end. Recall result_ref for rows.'],
+    'query-map' => ['(query-map function first-page)',
+                    'Calls function with each nonempty page; follows query-next. Returns result_refs, counts, progress_ref, query_exhausted. ' \
+                    'On error, inspect saved progress (page, page_processed, result_refs) and receipts; callbacks are never automatically retried.'],
     'query-run' => ['(query-run "conversations | summarize count() by contact_id | sort count desc | take $n" (hash "n" 5) 0)',
                     'Execute WootQL, not SQL. Optional parameter hash and offset. Returns {items, next_offset}; 200 rows/page, #f at end.'],
     'wootql' => ['resource | where | project | join | summarize | sort | take',
@@ -37,18 +40,11 @@ class Captain::Apropos::Catalog
                  'Read the complete stored value into Scheme, not directly into model context. References persist across turns.'],
     'slice' => ['(slice items offset length)',
                 'Read a zero-based range from a list or string. Combine with recall to inspect or reason over bounded batches.'],
-    'list' => ['(list value ...)', 'Build a list; (list) returns an empty list.'],
-    'hash' => ['(hash "key" value ...)', 'Build a hash from alternating keys and values. Keys become strings.'],
-    'get' => ['(get hash "key")', 'Read a required hash field. Missing keys are errors.'],
-    'keys' => ['(keys hash)', 'List hash keys. Combine with slice to explore large stored objects and discovery results.'],
-    'car' => ['(car items)', 'Return the first list item. Empty lists are errors.'],
-    'cdr' => ['(cdr items)', 'Return the list without its first item.'],
-    'length' => ['(length items)', 'Return the size of a list, hash, or string.'],
-    'null?' => ['(null? value)', 'True only for an empty list, not for #f.'],
-    'nil?' => ['(nil? value)', 'True only for database/JSON null. Test unassigned conversations with (nil? (get conversation "assignee_id")).'],
-    'not' => ['(not value)', 'True only when value is #f.'],
-    'equal?' => ['(equal? left right)', 'Compare values, including strings and lists, for equality.'],
     'append' => ['(append items ...)', 'Concatenate lists in argument order.'],
+    'apply' => ['(apply function argument ... items)', 'Call function with the supplied arguments followed by the elements of the final list.'],
+    'batches' => ['(batches items 50)',
+                  'Partition a list in order, with at most N items and 16000 JSON bytes per batch for reason. Never truncates or drops items. ' \
+                  'An oversized single item raises; project smaller fields or delegate it by reference.'],
     'map' => ['(map function items)', 'Function FIRST, list SECOND. Calls function with each item and returns the results.'],
     'filter' => ['(filter predicate items)', 'Predicate FIRST, list SECOND. Keep items whose predicate result is not #f.'],
     'fold' => ['(fold function initial items)', 'Calls function with accumulator then item, returning the final accumulator.'],
@@ -71,7 +67,9 @@ class Captain::Apropos::Catalog
     'act' => ['(act "add-private-note" ref (hash "content" "Hello"))',
               'Returns {operation, target, status, result, effect, at}, with no id field. Prior writes survive later errors.'],
     'reason' => ['(reason data "question" (hash "category" (list "a" "b") "reason" "string"))',
-                 'Read-only LLM reasoning. Schema fields: string, boolean, integer, string_list, or a list of enum strings.'],
+                 "Read-only reasoning, no orchestration prompt or tools. #{Captain::Apropos::ResultSchema::DESCRIPTION}"],
+    'schema-check' => ['(schema-check (hash "items" (list (hash "id" "integer" "need" "string"))))',
+                       "Validate and return a schema without an LLM call. #{Captain::Apropos::ResultSchema::DESCRIPTION}"],
     'delegate' => ['(delegate data "task" schema)',
                    'Fresh worker returns status, compact result, input_ref, receipts_ref, receipt_count. Recall references in the parent.'],
     'map-agent' => ['(map-agent items "task" schema)',
@@ -84,16 +82,28 @@ class Captain::Apropos::Catalog
               'Initial values use outer scope. Named let supports loops; let* binds sequentially; letrec supports mutual recursion.'],
     'count-by' => ['(count-by records (lambda (record) (get record "contact_id")))',
                    'Returns a list of {key, count} hashes in first-seen key order. Includes every supplied record.'],
+    'group-by' => ['(group-by records (lambda (record) (get record "conversation_id")))',
+                   'Returns {key, items} groups in first-seen order, preserving item order within groups. Includes every supplied record.'],
     'sort-by' => ['(sort-by records "count" "desc")',
                   'Sort hashes by a field, asc or desc (default asc). Ties preserve input order. Values must be comparable.'],
     'take' => ['(take records 5)', 'Return up to the first N items; N must be a nonnegative integer.'],
-    'collections' => ['list, hash, get, car, cdr, length, null?, append, map, filter, fold, count-by, sort-by, take',
-                      'Inspect the member contracts below for exact argument order. No implicit __last_result binding exists.']
-  }.merge(%w[+ - * / = < > <= >=].index_with do |operator|
+    'collections' => ['Lists, hashes, higher-order functions, grouping, ranking, and bounded batches',
+                      'Inspect the member contracts below for exact argument order. No implicit __last_result binding exists.'],
+    'strings' => ['String operations and conversions', 'Literal string operations. No string coercion function named string.'],
+    'predicates' => ['Type and value predicates', 'Inspect the actual available predicates; null? means empty list and nil? means database null.'],
+    'objects' => ['Hash construction, access, and immutable updates', 'Hash updates return new values without modifying their inputs.']
+  }.merge(Captain::Apropos::CoreFunctions.contracts).merge(%w[+ - * / = < > <= >=].index_with do |operator|
     ["(#{operator} left right)", 'Exactly two numeric arguments. Division follows Ruby numeric types; integer division truncates.']
   end).freeze
 
-  COLLECTIONS = %w[list hash get keys car cdr length null? nil? append map filter fold count-by sort-by take slice].freeze
+  COLLECTIONS = %w[list hash get keys values has-key? hash-set hash-merge car cdr cons reverse list-ref apply length null? nil? append map filter fold
+                   group-by count-by sort-by take slice batches].freeze
+  CORE_GROUPS = {
+    'collections' => COLLECTIONS,
+    'strings' => Captain::Apropos::CoreFunctions::DEFINITIONS.keys.grep(/\A(?:string|substring|number->)/),
+    'predicates' => Captain::Apropos::CoreFunctions::DEFINITIONS.keys.grep(/\?\z/),
+    'objects' => %w[hash get keys values has-key? hash-set hash-merge]
+  }.freeze
 
   WOOTQL = {
     'where' => { signature: 'where status = "open" and (priority = "urgent" or assignee_id is null)',
@@ -129,7 +139,7 @@ class Captain::Apropos::Catalog
 
   def entries
     functions = FUNCTIONS.transform_values { |signature, description| { signature: signature, description: description } }
-    functions['collections'] = functions.fetch('collections').merge(members: functions.slice(*COLLECTIONS))
+    CORE_GROUPS.each { |name, members| functions[name] = functions.fetch(name).merge(members: functions.slice(*members)) }
     functions['wootql'] = functions.fetch('wootql').merge(members: WOOTQL)
     functions['resources'] = functions.fetch('resources').merge(members: ENTITIES)
     functions.merge(ENTITIES).merge(ACTIONS)

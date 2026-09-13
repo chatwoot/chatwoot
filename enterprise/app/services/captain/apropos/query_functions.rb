@@ -48,4 +48,46 @@ module Captain::Apropos::QueryFunctions
   def query_schema
     Captain::Apropos::WootqlSchema.describe(@data)
   end
+
+  def query_map(function, page)
+    unless function.is_a?(Proc) || function.is_a?(Captain::Apropos::Scheme::Closure)
+      raise Captain::Apropos::Error, 'query-map expects a function and a page returned by query-data or query-next'
+    end
+
+    progress = { 'status' => 'running', 'page' => page, 'page_processed' => false,
+                 'processed_rows' => 0, 'processed_pages' => 0, 'result_refs' => [] }
+    reference = store(progress)
+    process_query_pages(function, progress)
+    progress['status'] = 'completed'
+    progress.except('page', 'page_processed').merge('progress_ref' => reference, 'query_exhausted' => true)
+  rescue StandardError => e
+    raise unless reference
+
+    progress['status'] = 'failed'
+    raise e.exception("#{e.message}. Query progress saved at #{reference}; inspect it and receipts before retrying callbacks.")
+  end
+
+  private
+
+  def process_query_pages(function, progress)
+    loop do
+      process_query_page(function, progress)
+      cursor = progress.fetch('page').fetch('next_cursor')
+      break if cursor == false
+
+      progress['page'] = query_next(cursor)
+      progress['page_processed'] = false
+    end
+  end
+
+  def process_query_page(function, progress)
+    rows = scheme.bindings.fetch(progress.fetch('page').fetch('result_ref').to_sym)
+    unless rows.empty?
+      result = scheme.invoke(function, [rows])
+      progress['result_refs'] << store(result)
+      progress['processed_rows'] += rows.size
+    end
+    progress['processed_pages'] += 1
+    progress['page_processed'] = true
+  end
 end

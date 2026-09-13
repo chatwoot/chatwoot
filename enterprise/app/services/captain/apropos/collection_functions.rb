@@ -1,7 +1,43 @@
 module Captain::Apropos::CollectionFunctions
   private
 
+  def install_list_functions
+    register('apply') do |function, *arguments|
+      items = arguments.pop
+      validate_collection_call!(function, items)
+      invoke(function, arguments + items)
+    end
+    register('batches') { |items, size| bounded_batches(items, size) }
+  end
+
+  def bounded_batches(items, size)
+    unless items.is_a?(Array) && size.is_a?(Integer) && size.positive?
+      raise Captain::Apropos::Error, 'batches expects a list and a positive integer batch size'
+    end
+
+    items.each_slice(size).flat_map { |slice| split_by_bytes(slice) }
+  end
+
+  def split_by_bytes(items)
+    limit = Captain::Apropos::ContextLimits::REASON_INPUT_BYTES
+    bytes = 1
+    items.slice_before do |item|
+      item_bytes = JSON.generate(item).bytesize + 1
+      if item_bytes + 1 > limit
+        raise Captain::Apropos::Error, "A batch item exceeds #{limit} bytes. Project smaller fields or delegate that item by reference."
+      end
+
+      new_batch = bytes + item_bytes > limit
+      bytes = new_batch ? 1 + item_bytes : bytes + item_bytes
+      new_batch
+    end.to_a
+  end
+
   def install_ranking
+    register('group-by') do |items, function|
+      validate_collection_call!(function, items)
+      items.group_by { |item| invoke(function, [item]) }.map { |key, group| { 'key' => key, 'items' => group } }
+    end
     register('count-by') do |items, function|
       validate_collection_call!(function, items)
       items.each_with_object(Hash.new(0)) { |item, counts| counts[invoke(function, [item])] += 1 }

@@ -40,6 +40,14 @@ class Captain::Apropos::Runtime
     Captain::Apropos::Codec.dump(scheme.bindings)
   end
 
+  def execution_progress
+    {
+      completed_bindings: scheme.completed_bindings,
+      failed_binding: scheme.failed_binding,
+      available_bindings: scheme.bindings.keys.reject { |name| name.to_s.start_with?('workspace-') }.map(&:to_s)
+    }
+  end
+
   def record(kind, data)
     event = { 'kind' => kind, 'data' => data, 'depth' => @depth, 'at' => Time.current.iso8601 }
     events << event
@@ -123,12 +131,17 @@ class Captain::Apropos::Runtime
   def install_agent_functions
     scheme.register('query-data') { |instruction| query_data(instruction) }
     scheme.register('query-next') { |reference| query_next(reference) }
+    scheme.register('query-map') { |function, page| query_map(function, page) }
     scheme.register('reason') { |data, task, schema| ask(task, input: data, schema: schema, tools: false) }
     scheme.register('delegate') { |data, task, schema| delegate(data, task, schema) }
     scheme.register('map-agent') { |items, task, schema| items.map { |item| delegate(item, task, schema) } }
   end
 
   def install_workspace_functions
+    scheme.register('schema-check') do |fields|
+      Captain::Apropos::ResultSchema.build(fields)
+      fields
+    end
     scheme.register('recall') { |reference| scheme.bindings.fetch(reference.to_sym) }
     scheme.register('slice') { |value, offset, length| slice(value, offset, length) }
     scheme.register('receipts') { receipts }
