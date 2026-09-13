@@ -50,6 +50,11 @@ class Captain::Apropos::QueryAgentService < Captain::BaseTaskService
       This submission tool accepts literal values, not $parameters. The SQL compiler binds literals safely.
       in (1, 2, 3) accepts scalar literals; in $ids and in ($ids) with an array are unsupported.
       Null comparisons use is null / is not null. Text contains is substring matching; labels contains is exact label membership.
+      is null means an absent value, never an empty string or list. is empty means zero characters for text or zero elements for lists.
+      is not empty means positive length; whitespace is not empty. Both empty tests exclude null (SQL unknown), even under not.
+      Empty tests reject numbers, booleans, dates, and JSON. Use is null or is empty explicitly if you want absent OR empty.
+      Conversation labels are non-null lists: [] means no labels. Use labels is empty, never labels is null or labels = "{}".
+      A missing right-side row in a left join can still yield null for its labels; this is not an unlabeled conversation.
       Prefer to-one relationship paths for filtering or projection, such as conversation.status or inbox.name.
       To-many paths require explicit joins. Each joined resource has its own trusted account scope.
       Every stage consumes the previous stage's output. project removes unselected fields; sort before project or retain sort keys.
@@ -68,6 +73,8 @@ class Captain::Apropos::QueryAgentService < Captain::BaseTaskService
       | join contacts as contact on contact_id = contact.id | project contact_id, contact.name as name, total
       Refund conversations:
       conversations | where labels contains "refund" | project id, display_id, status, labels | sort id asc
+      Unlabeled open conversations created in the last 15 days:
+      conversations | where status = "open" and created_at >= now() - 15d and labels is empty | project id, labels | sort id asc
 
       Language reference:
       #{JSON.generate(Captain::Apropos::Catalog::WOOTQL)}

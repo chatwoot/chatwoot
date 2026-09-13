@@ -113,8 +113,8 @@ class Captain::Apropos::WootqlParser
     name = field
     if keyword('is')
       negate = keyword('not')
-      expect_keyword('null')
-      return { operator: negate ? 'is_not_null' : 'is_null', field: name }
+      test = keyword('empty') ? 'empty' : expect_keyword('null').value
+      return { operator: "is_#{negate ? 'not_' : ''}#{test}", field: name }
     end
     if keyword('in')
       expect('(')

@@ -51,6 +51,12 @@ class Captain::Apropos::QueryCompiler
     operator = expression.fetch(:operator)
     return "#{column(expression.fetch(:field))} IS NULL" if operator == 'is_null'
     return "#{column(expression.fetch(:field))} IS NOT NULL" if operator == 'is_not_null'
+
+    if %w[is_empty is_not_empty].include?(operator)
+      function = expression.fetch(:type) == :string_list ? 'CARDINALITY' : 'CHAR_LENGTH'
+      comparison = operator == 'is_empty' ? '= 0' : '> 0'
+      return "#{function}(#{column(expression.fetch(:field))}) #{comparison}"
+    end
     return "#{bind(expression.fetch(:value))} = ANY(#{column(expression.fetch(:field))})" if operator == 'includes'
 
     logical_predicate(expression, operator)

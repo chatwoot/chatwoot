@@ -51,9 +51,40 @@ On text fields, `contains` remains a case-insensitive substring search.
 | Limit | `take 5` |
 
 Filters support `=`, `!=`, `>`, `>=`, `<`, `<=`, `contains`, `in (value, ...)`,
-`is null`, `is not null`, and `and`/`or`/`not` with parentheses. `not` binds more
+`is null`, `is not null`, `is empty`, `is not empty`, and `and`/`or`/`not` with parentheses. `not` binds more
 tightly than `and`, which binds more tightly than `or`. Null follows SQL's
 three-valued comparison semantics; use explicit null tests, not `= null`.
+
+### Null versus empty
+
+`is null` tests absence on any field type. `is empty` tests zero length on text
+or lists only. Numbers, booleans, dates, and JSON reject empty tests. Whitespace
+is not empty; neither are lists containing an empty string or null element.
+
+| Value | is null | is not null | is empty | is not empty |
+| --- | --- | --- | --- | --- |
+| null | true | false | unknown | unknown |
+| `[]` or `""` | false | true | true | false |
+| Nonempty list or text (including whitespace) | false | true | false | true |
+
+`where` retains only true. Negating unknown still yields unknown, so neither
+empty test includes null. Use `field is null or field is empty` to include both.
+List emptiness compiles to PostgreSQL `CARDINALITY(field) = 0`; text emptiness
+uses `CHAR_LENGTH(field) = 0`. Nonempty uses `> 0`, without null coercion.
+See [PostgreSQL array functions](https://www.postgresql.org/docs/current/functions-array.html).
+
+Conversation `labels` is a **non-null list**, decoded into a real array for
+Scheme and JSON. No labels is `[]`, never null or the string `"{}"`.
+`labels is null` therefore matches no base conversations; `labels is not null`
+matches all of them. A missing conversation on the right of a left join yields
+null for its fields, including labels; that does not represent an unlabeled conversation.
+
+```text
+conversations
+| where status = "open" and created_at >= now() - 15d
+| where labels is empty
+| project id, display_id, labels
+```
 
 Values are double-quoted strings, numbers, booleans, named `$parameters`,
 `now()`, or `now() - 7d` (units: ms, s, m, h, d, w). Relative durations are

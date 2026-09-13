@@ -110,9 +110,13 @@ class Captain::Apropos::Catalog
 
   WOOTQL = {
     'where' => { signature: 'where status = "open" and (priority = "urgent" or assignee_id is null)',
-                 description: 'Comparisons = != > >= < <=, and/or/not, is [not] null, in (value, ...), contains. Enum names are strings.' },
+                 description: 'Comparisons = != > >= < <=, and/or/not, is [not] null, is [not] empty, in (value, ...), contains. ' \
+                              'Null means absent. Empty means zero characters/elements for text/lists only; whitespace is not empty. ' \
+                              'Both empty tests yield unknown for null, excluded by where even under not. Enum names are strings.' },
     'labels' => { signature: 'conversations | where labels contains "refund"',
-                  description: 'Conversation labels are a string list. contains tests exact membership. Project labels to inspect them.' },
+                  description: 'Conversation labels are a non-null string list, returned as an array. contains tests exact membership. ' \
+                               'Use labels is empty for no labels ([]), is not empty for any labels. is null never matches base conversations. ' \
+                               'A missing conversation on the right of a left join yields null, not an empty list.' },
     'project' => { signature: 'project id, status, inbox.name as inbox_name',
                    description: 'Keep or rename fields. To-one dotted paths become scoped left joins. Retain IDs and ordering keys for pagination.' },
     'join' => { signature: 'join contacts as contact on contact_id = contact.id',

@@ -27,7 +27,7 @@ module Captain::Apropos::WootqlTypes
   def check_list_value!(value, operator)
     return if operator == 'contains' && value.is_a?(String)
 
-    raise Captain::Apropos::Error, 'List fields require contains with a string value'
+    raise Captain::Apropos::Error, 'List fields require contains with a string value, is [not] empty, or is [not] null'
   end
 
   def check_enum!(values, value)
@@ -54,6 +54,12 @@ module Captain::Apropos::WootqlTypes
     return if ORDERED_TYPES.include?(definition.type)
 
     raise Captain::Apropos::Error, "Cannot sort or aggregate a #{definition.type} field"
+  end
+
+  def resolve_emptiness(predicate, definition)
+    return predicate.merge(type: definition.type) if %i[string text string_list].include?(definition.type)
+
+    raise Captain::Apropos::Error, 'is empty / is not empty require a text or list field; use is null for absent values'
   end
 
   def compatible_types?(left, right)

@@ -46,7 +46,10 @@ class Captain::Apropos::Query
     result = nil
     connection.transaction(requires_new: true) do
       connection.execute("SET LOCAL statement_timeout = #{TIMEOUT_MS}")
-      result = connection.select_all(sql, 'Apropos query', binds).to_a
+      raw = connection.select_all(sql, 'Apropos query', binds)
+      # Use adapter types rather than exposing PostgreSQL array literals to Scheme.
+      # https://github.com/rails/rails/blob/v7.2.3.1/activerecord/lib/active_record/result.rb
+      result = raw.cast_values.map { |row| raw.columns.zip(raw.columns.one? ? [row] : row).to_h }
       raise ActiveRecord::Rollback
     end
     result

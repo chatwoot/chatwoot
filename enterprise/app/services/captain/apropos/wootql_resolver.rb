@@ -130,6 +130,8 @@ class Captain::Apropos::WootqlResolver
       column = field(predicate.fetch(:field))
       return predicate if %w[is_null is_not_null].include?(operator)
 
+      return resolve_emptiness(predicate, column) if %w[is_empty is_not_empty].include?(operator)
+
       resolve_comparison(predicate, column)
     end
   end
