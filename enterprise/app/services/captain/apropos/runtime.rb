@@ -139,6 +139,8 @@ class Captain::Apropos::Runtime
   end
 
   def install_workspace_functions
+    table_display = Captain::Apropos::TableDisplay.new(record: method(:record))
+    scheme.register('show-table') { |rows, columns| table_display.call(rows, columns) }
     scheme.register('schema-check') do |fields|
       Captain::Apropos::ResultSchema.build(fields)
       fields

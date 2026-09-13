@@ -1,7 +1,7 @@
 class Captain::Apropos::Prompt
   ROOT = Rails.root.join('enterprise/app/views/captain/apropos/prompts').freeze
   PARTS = {
-    coordinator: %w[foundation coordinator planning data_model language retrieval reasoning library actions recovery workspace coverage],
+    coordinator: %w[foundation coordinator planning data_model language retrieval reasoning library actions recovery workspace coverage presentation],
     query: %w[foundation data_model query_role],
     reason: %w[foundation reason_role],
     execution_error: %w[execution_error],

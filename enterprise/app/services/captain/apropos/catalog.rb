@@ -2,6 +2,7 @@ class Captain::Apropos::Catalog
   ENTITIES = Captain::Apropos::ResourceCatalog::ENTITIES
 
   FUNCTIONS = {
+    'show-table' => ['(show-table rows (list "name" "conversation_count"))', 'Display rows as a table in your answer to the user.'],
     'faq-search' => ['(faq-search "How do refunds work?" 42)',
                      'Semantic search of approved Captain FAQs. Optional assistant ID; omit for this account. Inspect contract for costs and scope.'],
     'assignment-context' => ['(assignment-context (hash "type" "inboxes" "id" 10) 0)',
@@ -155,6 +156,7 @@ class Captain::Apropos::Catalog
     functions['resources'] = functions.fetch('resources').merge(members: ENTITIES)
     functions['assignment-context'] = functions.fetch('assignment-context').merge(Captain::Apropos::AssignmentContext::CONTRACT)
     functions['faq-search'] = functions.fetch('faq-search').merge(Captain::Apropos::FaqSearch::CONTRACT)
+    functions['show-table'] = functions.fetch('show-table').merge(Captain::Apropos::TableDisplay::CONTRACT)
     functions
   end
 

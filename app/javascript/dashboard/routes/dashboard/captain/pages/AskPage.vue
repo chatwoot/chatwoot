@@ -8,6 +8,7 @@ import api from 'dashboard/api/captain/aproposSessions';
 import Button from 'dashboard/components-next/button/Button.vue';
 import MessageList from 'dashboard/components-next/captain/assistant/MessageList.vue';
 import ActivityPanel from 'dashboard/components-next/captain/apropos/ActivityPanel.vue';
+import ResponseTable from 'dashboard/components-next/captain/apropos/ResponseTable.vue';
 import { traceForMessage } from 'dashboard/components-next/captain/apropos/turnTrace';
 
 const POLL_INTERVAL = 1500;
@@ -27,6 +28,12 @@ const messages = computed(() =>
     sender: message.role,
     content: message.content,
     isError: message.error,
+    tables:
+      message.role === 'assistant'
+        ? traceForMessage(session.value, message)
+            .filter(event => event.kind === 'table')
+            .map(event => event.data)
+        : [],
   }))
 );
 const activeMessageIndex = computed(
@@ -187,7 +194,15 @@ watch(
           :selected-message-index="activeMessageIndex"
           :selection-label="t('CAPTAIN_ASK.TRACE.VIEW_EXECUTION')"
           @select="selectedMessageIndex = $event"
-        />
+        >
+          <template #message-output="{ message }">
+            <ResponseTable
+              v-for="table in message.tables"
+              :key="table.table_id"
+              :table="table"
+            />
+          </template>
+        </MessageList>
         <form class="p-6 border-t border-n-weak" @submit.prevent="send">
           <p v-if="error" role="alert" class="text-sm text-n-ruby-11 mb-3">
             {{ error }}

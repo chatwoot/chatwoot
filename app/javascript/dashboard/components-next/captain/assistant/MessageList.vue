@@ -63,55 +63,53 @@ watch(() => props.messages.length, scrollToBottom);
     ref="messageContainer"
     class="flex-1 overflow-y-auto mb-4 px-6 space-y-6"
   >
-    <div
-      v-for="(message, index) in messages"
-      :key="index"
-      class="flex"
-      :class="getMessageAlignment(message.sender)"
-    >
-      <div
-        class="flex min-w-0 max-w-[90%] items-end gap-1.5 md:max-w-[75%]"
-        :class="getMessageDirection(message.sender)"
-      >
-        <Avatar
-          :name="getAvatarName(message.sender)"
-          rounded-full
-          :size="24"
-          class="shrink-0"
-        />
+    <template v-for="(message, index) in messages" :key="index">
+      <div class="flex" :class="getMessageAlignment(message.sender)">
         <div
-          class="min-w-0 px-4 py-3 text-sm [overflow-wrap:break-word]"
-          :class="[
-            messageStyle(message),
-            {
-              'ring-2 ring-n-brand':
-                selectable &&
-                !isUserMessage(message.sender) &&
-                selectedMessageIndex === index,
-            },
-          ]"
+          class="flex min-w-0 max-w-[90%] items-end gap-1.5 md:max-w-[75%]"
+          :class="getMessageDirection(message.sender)"
         >
+          <Avatar
+            :name="getAvatarName(message.sender)"
+            rounded-full
+            :size="24"
+            class="shrink-0"
+          />
           <div
-            class="prose prose-bubble max-w-none overflow-x-auto [&>:last-child]:mb-0"
-            v-html="formatMessage(message.content)"
-          />
-          <PlaygroundRunDetails
-            v-if="message.runDetails && message.setupSummary"
-            :run-details="message.runDetails"
-            :setup-summary="message.setupSummary"
-          />
-          <button
-            v-if="selectable && !isUserMessage(message.sender)"
-            type="button"
-            class="mt-3 rounded text-xs text-n-slate-11 hover:text-n-slate-12 focus-visible:ring-2 focus-visible:ring-n-brand"
-            :aria-pressed="selectedMessageIndex === index"
-            @click.stop="emit('select', index)"
+            class="min-w-0 px-4 py-3 text-sm [overflow-wrap:break-word]"
+            :class="[
+              messageStyle(message),
+              {
+                'ring-2 ring-n-brand':
+                  selectable &&
+                  !isUserMessage(message.sender) &&
+                  selectedMessageIndex === index,
+              },
+            ]"
           >
-            {{ selectionLabel }}
-          </button>
+            <div
+              class="prose prose-bubble max-w-none overflow-x-auto [&>:last-child]:mb-0"
+              v-html="formatMessage(message.content)"
+            />
+            <PlaygroundRunDetails
+              v-if="message.runDetails && message.setupSummary"
+              :run-details="message.runDetails"
+              :setup-summary="message.setupSummary"
+            />
+            <button
+              v-if="selectable && !isUserMessage(message.sender)"
+              type="button"
+              class="mt-3 rounded text-xs text-n-slate-11 hover:text-n-slate-12 focus-visible:ring-2 focus-visible:ring-n-brand"
+              :aria-pressed="selectedMessageIndex === index"
+              @click.stop="emit('select', index)"
+            >
+              {{ selectionLabel }}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+      <slot name="message-output" :message="message" />
+    </template>
     <div v-if="isLoading" class="flex justify-start">
       <div class="flex items-start gap-1.5">
         <Avatar :name="getAvatarName('assistant')" rounded-full :size="24" />
