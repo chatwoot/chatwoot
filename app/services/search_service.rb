@@ -41,7 +41,8 @@ class SearchService
                                               'conversations.last_activity_at')
     end
 
-    @conversations = conversations_query.order('conversations.created_at DESC')
+    @conversations = conversations_query.includes(contact: { avatar_attachment: :blob })
+                                        .order('conversations.created_at DESC')
                                         .page(params[:page])
                                         .per(15)
   end
@@ -171,7 +172,7 @@ class SearchService
 
     @contacts = contacts_query.resolved_contacts(
       use_crm_v2: current_account.feature_enabled?('crm_v2')
-    ).order_on_last_activity_at('desc').page(params[:page]).per(15)
+    ).includes(avatar_attachment: :blob).order_on_last_activity_at('desc').page(params[:page]).per(15)
   end
 
   def filter_articles
