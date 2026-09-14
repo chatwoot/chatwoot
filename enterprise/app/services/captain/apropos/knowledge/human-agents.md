@@ -11,8 +11,7 @@ relations:
 
 # Human agents
 
-Human agents are users who handle conversations. Assignment records
-responsibility; message authorship records who actually replied.
-
-Eligibility for an inbox, online presence, and available capacity are
-separate. A handoff to humans does not establish that someone has responded.
+Human agents are users who handle conversations. They can belong to multiple
+accounts, inboxes, and teams, send replies and private notes, and receive
+conversation assignments. Availability and assignment policies govern how
+work is distributed.

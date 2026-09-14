@@ -14,8 +14,6 @@ relations:
 A conversation connects a contact to an [inbox](inboxes.md) and contains
 [messages](messages.md). A contact can have multiple conversations.
 
-Current status and assignment describe the present, not the full history.
-The current assignee need not have written earlier replies.
-
-[Captain participation](captain.md), a [handoff](handoffs.md), and a human
-reply can occur at different times within the same conversation.
+A conversation has a current status, priority, labels, and optional team and
+individual assignments. It can include customer messages, assistant and human
+replies, private notes, and system activity.

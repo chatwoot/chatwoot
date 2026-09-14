@@ -4,19 +4,18 @@ description: Authorship, direction, visibility, and conversation chronology
 keywords: [sender, human, captain, reply, private, note]
 relations:
   belongs_to: conversations
-  authored_by: [assistants, human-agents]
-  provides_context_for: handoffs
+  delivered_through: inboxes
+  authored_by: [contacts, assistants, human-agents]
 ---
 
 # Messages
 
-Messages belong to [conversations](conversations.md). Authorship, direction,
-and visibility are separate: both humans and [Captain](captain.md) send
-outgoing messages; private notes are not customer-facing replies.
+A message belongs to a conversation and inbox. It can contain text or
+structured content, such as an input form, and has a delivery status.
 
-Sender identity distinguishes contacts, human users, and assistants. An
-outgoing message alone does not prove a human replied. Automation and
-campaign messages also need to be distinguished from human activity.
+Authorship, message type, and visibility are separate properties. Authors
+include contacts, human users, assistants, and bots. Message types include
+incoming, outgoing, activity, and template. Private messages are internal notes.
 
-Read events in order when investigating a [handoff](handoffs.md).
-The first human reply in a conversation may precede Captain's involvement.
+The sender type and ID together identify the author; IDs are local to each
+sender type. System activity can have no sender.

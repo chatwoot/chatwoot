@@ -10,9 +10,6 @@ relations:
 
 # Assistants
 
-A [Captain](captain.md) assistant has its own name, instructions, and knowledge.
-Its name need not contain “Captain”.
-
-An assistant operates through configured [inboxes](inboxes.md).
-Configuration describes where it can operate; its [messages](messages.md)
-show where it actually replied.
+A Captain assistant has its own name, instructions, knowledge, response
+guidelines, and guardrails. Assistants belong to an account and are configured
+for inboxes. Their replies are messages within conversations.

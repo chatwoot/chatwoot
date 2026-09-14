@@ -1,6 +1,6 @@
 ---
 name: handoffs
-description: Explicit Captain transfers versus observed human takeovers
+description: Transfer of a conversation from Captain to human support
 keywords: [captain, escalation, transfer, human, takeover]
 relations:
   transfers_from: captain
@@ -11,11 +11,6 @@ relations:
 
 # Handoffs
 
-An explicit handoff records [Captain](captain.md) transferring responsibility.
-A human replying afterward is a separate event. Assignment alone proves neither.
-
-Recorded handoff times and reasons are stronger evidence than transfer wording
-in a [message](messages.md). Missing tracking is not proof no handoff happened.
-
-The surrounding [conversation](conversations.md) explains why. “Billing” is
-a topic; “needed a human to approve an adjustment” is a handoff reason.
+A handoff transfers a conversation from Captain to human support. Captain can
+record a reason and a handoff time. Assignment and subsequent human messages
+are separate events in the conversation's lifecycle.

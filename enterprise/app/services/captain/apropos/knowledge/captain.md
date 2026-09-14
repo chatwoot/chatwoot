@@ -1,6 +1,6 @@
 ---
 name: captain
-description: AI participation in conversations and transfers to humans
+description: Chatwoot's AI assistant system
 keywords: [ai, bot, assistant, handoff, escalation]
 relations:
   implemented_by: assistants
@@ -13,11 +13,8 @@ relations:
 
 # Captain
 
-Captain is the AI assistant system, not necessarily an assistant's name.
-An account can have multiple [assistants](assistants.md).
+Captain is Chatwoot's AI assistant system. An account can configure multiple
+assistants with their own names, instructions, and knowledge.
 
-[Message authorship](messages.md) establishes participation. Mentions of
-“Captain” or an assistant configured for an inbox do not.
-
-[Handoffs](handoffs.md) and human takeovers are distinct. To understand why
-either happened, read the surrounding [conversation](conversations.md).
+Assistants operate in inboxes, exchange messages within conversations, and
+can hand conversations over to human agents.
