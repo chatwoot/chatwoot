@@ -357,24 +357,18 @@ const MAX_MESSAGE_CONTENT_LENGTH = 150000;
 // literals so customer-supplied expressions are never evaluated.
 const escapeLiquidTokens = text => text.replace(/\{[{%]/g, "{{ '$&' }}");
 
+// Keep whole lines from the top — the oldest history sits at the bottom,
+// and escape tokens never span lines, so the cut can't split one.
 const fitQuotedBlockWithinLimit = (quotedBlock, available) => {
   if (quotedBlock.length <= available) {
     return quotedBlock;
   }
 
-  // Keep whole lines from the top — the oldest history sits at the bottom.
-  // The boundary line is cut to the remaining space so a single long line
-  // can't drop the entire quoted body.
   const kept = [];
   let length = 0;
   quotedBlock.split('\n').every(line => {
-    const joiner = kept.length ? 1 : 0;
-    const nextLength = length + line.length + joiner;
+    const nextLength = length + line.length + (kept.length ? 1 : 0);
     if (nextLength > available) {
-      const remaining = available - length - joiner;
-      if (remaining > 0) {
-        kept.push(line.slice(0, remaining));
-      }
       return false;
     }
     kept.push(line);
