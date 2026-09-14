@@ -65,6 +65,19 @@ RSpec.describe Integrations::Stripe::Oauth do
     end
   end
 
+  it 'rejects state consumed by another callback after reading the payload' do
+    query = URI.decode_www_form(URI(described_class.authorize_url(account: account, user: user)).query).to_h
+    state = query.fetch('state')
+    key = "stripe_app:oauth:#{state}"
+    allow(Redis::Alfred).to receive(:get).with(key).and_wrap_original do |original, *args|
+      payload = original.call(*args)
+      Redis::Alfred.delete(key)
+      payload
+    end
+
+    expect(described_class.consume_state(state)).to be_nil
+  end
+
   it 'binds live authorizations to live-mode state' do
     allow(GlobalConfig).to receive(:get_value).with('STRIPE_APP_SECRET_KEY').and_return('sk_live_app')
     query = URI.decode_www_form(URI(described_class.authorize_url(account: account, user: user)).query).to_h

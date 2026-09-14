@@ -38,7 +38,7 @@ module Redis::Alfred
 
           conn.multi { |transaction| transaction.del(key) }
         end
-      end
+      end == [1]
     end
 
     # increment a key by 1. throws error if key value is incompatible
