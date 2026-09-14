@@ -117,6 +117,9 @@ class ActionCableConnector extends BaseActionCableConnector {
     }
     this.fetchConversationStats();
 
+    // Refreshed assignments cannot use the original event's performer for alerts.
+    if (payload.assignment_changed_since_event) return;
+
     const key = `${payload.account_id}:${payload.id}`;
     // Preserve the latest assignment when broadcast jobs are delivered out of order.
     const previousAssignment = this.latestAssignments.get(key);
