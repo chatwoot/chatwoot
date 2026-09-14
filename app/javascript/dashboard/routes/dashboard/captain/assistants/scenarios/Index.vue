@@ -70,6 +70,17 @@ const closeSuggestedRules = () => {
 // Bulk selection & hover state
 const bulkSelectedIds = ref(new Set());
 const hoveredCard = ref(null);
+const pendingToggleIds = ref(new Set());
+
+const setTogglePending = (id, isPending) => {
+  const pendingIds = new Set(pendingToggleIds.value);
+  if (isPending) {
+    pendingIds.add(id);
+  } else {
+    pendingIds.delete(id);
+  }
+  pendingToggleIds.value = pendingIds;
+};
 
 const handleRuleSelect = id => {
   const selected = new Set(bulkSelectedIds.value);
@@ -115,6 +126,27 @@ const updateScenario = async scenario => {
       error?.response?.message ||
       t('CAPTAIN.ASSISTANTS.SCENARIOS.API.UPDATE.ERROR');
     useAlert(errorMessage);
+  }
+};
+
+const toggleScenario = async ({ id, enabled }) => {
+  if (pendingToggleIds.value.has(id)) return;
+
+  setTogglePending(id, true);
+  try {
+    await store.dispatch('captainScenarios/update', {
+      id,
+      assistantId: assistantId.value,
+      enabled,
+    });
+    const successMessage = enabled
+      ? t('CAPTAIN.ASSISTANTS.SCENARIOS.API.TOGGLE.ENABLED')
+      : t('CAPTAIN.ASSISTANTS.SCENARIOS.API.TOGGLE.DISABLED');
+    useAlert(successMessage);
+  } catch {
+    useAlert(t('CAPTAIN.ASSISTANTS.SCENARIOS.API.TOGGLE.ERROR'));
+  } finally {
+    setTogglePending(id, false);
   }
 };
 
@@ -286,6 +318,8 @@ onMounted(() => {
             :description="scenario.description"
             :instruction="scenario.instruction"
             :tools="scenario.tools"
+            :enabled="scenario.enabled"
+            :is-updating="pendingToggleIds.has(scenario.id)"
             :is-selected="bulkSelectedIds.has(scenario.id)"
             :selectable="
               hoveredCard === scenario.id || bulkSelectedIds.size > 0
@@ -293,6 +327,7 @@ onMounted(() => {
             @select="handleRuleSelect"
             @delete="deleteScenario(scenario.id)"
             @update="updateScenario"
+            @toggle="toggleScenario"
             @hover="isHovered => handleRuleHover(isHovered, scenario.id)"
           />
         </div>
