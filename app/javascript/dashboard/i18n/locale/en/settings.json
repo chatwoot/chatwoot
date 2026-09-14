@@ -56,6 +56,7 @@
     "TRACE": {
       "ERROR_EVIDENCE": "Evidence",
       "ERROR_CONTEXT": "Context",
+      "SEE_ALSO": "See also",
       "GRAPH": "Execution graph",
       "GRAPH_HELP": "Programs branch into queries, worker programs, results, and errors. Grouped by trace order and worker depth, not inferred Scheme branches. Scroll to explore; select a node for details.",
       "GRAPH_ROOT": "Execution",

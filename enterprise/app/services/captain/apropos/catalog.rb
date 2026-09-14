@@ -120,17 +120,17 @@ class Captain::Apropos::Catalog
   end
 
   def entries
-    function_entries.merge(ENTITIES).merge(ACTIONS)
-                    .merge(@library ? @library.entries : {})
-                    .merge(@scheme.bindings.transform_keys(&:to_s).transform_values do |value|
-                             { stored_value: Captain::Apropos::ContextLimits.describe(value) }
-                           end)
+    Captain::Apropos::SeeAlso.attach(function_entries.merge(ENTITIES).merge(ACTIONS))
+                             .merge(@library ? @library.entries : {})
+                             .merge(@scheme.bindings.transform_keys(&:to_s).transform_values do |value|
+                                      { stored_value: Captain::Apropos::ContextLimits.describe(value) }
+                                    end)
   end
 
   def apropos(query)
     terms = query.downcase.split
-    entries.select { |name, details| terms.empty? || terms.any? { |term| "#{name} #{details.to_json}".downcase.include?(term) } }
-           .transform_values { |details| discovery_summary(details) }
+    entries.select { |name, details| terms.empty? || terms.any? { |term| "#{name} #{details.except(:see_also).to_json}".downcase.include?(term) } }
+           .transform_values { |details| discovery_summary(details).merge(details.slice(:see_also)) }
   end
 
   def describe(name)

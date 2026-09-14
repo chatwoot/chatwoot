@@ -109,5 +109,16 @@ const { t } = useI18n();
         :contract="member"
       />
     </div>
+    <section v-if="contract.see_also" class="space-y-2">
+      <h4 class="m-0 text-xs font-medium text-n-slate-10">
+        {{ t('CAPTAIN_ASK.TRACE.SEE_ALSO') }}
+      </h4>
+      <dl class="m-0 space-y-2">
+        <div v-for="(reason, entry) in contract.see_also" :key="entry">
+          <dt class="font-mono text-xs text-n-slate-12">{{ entry }}</dt>
+          <dd class="m-0 mt-1 text-sm text-n-slate-11">{{ reason }}</dd>
+        </div>
+      </dl>
+    </section>
   </div>
 </template>
