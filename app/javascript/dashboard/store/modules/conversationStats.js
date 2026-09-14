@@ -12,18 +12,18 @@ export const getters = {
   getStats: $state => $state,
 };
 
-// List responses supersede metadata refreshes queued for the previous view.
-let listCountsVersion = 0;
+// Starting a list request supersedes metadata work queued before it.
+let listRequestVersion = 0;
 
 const fetchMetaData = async (commit, params, version) => {
-  if (version !== listCountsVersion) return;
+  if (version !== listRequestVersion) return;
 
   try {
     const response = await ConversationApi.meta(params);
     const {
       data: { meta },
     } = response;
-    if (version !== listCountsVersion) return;
+    if (version !== listRequestVersion) return;
 
     commit(types.SET_CONV_TAB_META, meta);
   } catch (error) {
@@ -59,11 +59,13 @@ export const actions = {
     metaDebouncers[getMetaDebounceKey($state.allCount)](
       commit,
       params,
-      listCountsVersion
+      listRequestVersion
     );
   },
+  onListRequestStarted() {
+    listRequestVersion += 1;
+  },
   set({ commit }, meta) {
-    listCountsVersion += 1;
     commit(types.SET_CONV_TAB_META, meta);
   },
 };

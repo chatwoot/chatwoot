@@ -85,6 +85,7 @@ const actions = {
     { replaceExisting = false } = {}
   ) => {
     return conversationListRequest.run(async signal => {
+      dispatch('conversationStats/onListRequestStarted');
       commit(types.SET_LIST_LOADING_STATUS);
       try {
         const params = state.conversationFilters;
@@ -111,6 +112,7 @@ const actions = {
 
   fetchFilteredConversations: async ({ commit, dispatch }, params) => {
     return conversationListRequest.run(async signal => {
+      dispatch('conversationStats/onListRequestStarted');
       const { replaceExisting = false, ...requestParams } = params;
       commit(types.SET_LIST_LOADING_STATUS);
       try {
