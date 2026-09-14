@@ -69,15 +69,21 @@ RSpec.describe 'Session', type: :request do
         expect(response.parsed_body['data']['accounts'].first['permissions']).to eq(['agent'])
       end
 
-      it 'omits Enterprise billing route state in Community Edition' do
-        allow(ChatwootApp).to receive(:enterprise?).and_return(false)
-        post new_user_session_url,
-             params: { email: user.email, password: 'Password1!' },
-             as: :json
+      [true, false].each do |shopify_enabled|
+        it "exposes Shopify eligibility #{shopify_enabled} without Enterprise billing state in Community Edition" do
+          allow(ChatwootApp).to receive(:enterprise?).and_return(false)
+          InstallationConfig.find_or_initialize_by(name: 'ENABLE_SHOPIFY_INTEGRATION').update!(value: shopify_enabled)
+          account.enable_features!('shopify_integration')
+          GlobalConfig.clear_cache
+          post new_user_session_url,
+               params: { email: user.email, password: 'Password1!' },
+               as: :json
 
-        account_payload = response.parsed_body['data']['accounts'].first
-        expect(response).to have_http_status(:success)
-        expect(account_payload).not_to include('billing_provider', 'subscription_status', 'shopify_integration', 'shopify_shop_domain')
+          account_payload = response.parsed_body['data']['accounts'].first
+          expect(response).to have_http_status(:success)
+          expect(account_payload).not_to include('billing_provider', 'subscription_status', 'shopify_shop_domain')
+          expect(account_payload['shopify_integration']).to be(shopify_enabled)
+        end
       end
     end
 

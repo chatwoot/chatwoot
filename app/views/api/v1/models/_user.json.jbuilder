@@ -30,6 +30,7 @@ json.accounts do
     json.name account.name
     json.status account.status
     json.onboarding_step account.onboarding_step
+    json.shopify_integration Shopify::FeatureGate.enabled?(account: account)
     json.partial! 'enterprise/api/v1/models/account_billing', account: account if ChatwootApp.enterprise?
     json.active_at account_user.active_at
     json.role account_user.role
