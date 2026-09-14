@@ -21,6 +21,45 @@ RSpec.describe Imap::FetchEmailService do
       allow(imap).to receive(:select).with('INBOX')
     end
 
+    context 'when IMAP authentication fails' do
+      let(:response) { Net::IMAP::TaggedResponse.new('A1', 'NO', Net::IMAP::ResponseText.new(nil, 'Invalid credentials (Failure)'), '') }
+      let(:error) { Net::IMAP::NoResponseError.new(response) }
+
+      it 'requires reauthorization after repeated authentication failures' do
+        allow(imap).to receive(:authenticate).and_raise(error)
+
+        10.times do
+          expect { described_class.new(channel: imap_email_channel).perform }.to raise_error do |raised|
+            expect(raised.class.name).to eq 'Net::IMAP::NoResponseError'
+          end
+        end
+
+        expect(imap_email_channel.authorization_error_count).to eq 10
+        expect(imap_email_channel.reauthorization_required?).to be true
+      end
+
+      it 'does not count mailbox selection failures as authorization errors' do
+        allow(imap).to receive(:select).and_raise(error)
+
+        expect { described_class.new(channel: imap_email_channel).perform }.to raise_error do |raised|
+          expect(raised.class.name).to eq 'Net::IMAP::NoResponseError'
+        end
+
+        expect(imap_email_channel.authorization_error_count).to eq 0
+        expect(imap_email_channel.reauthorization_required?).to be false
+      end
+
+      it 'does not count authentication timeouts as authorization errors' do
+        allow(imap).to receive(:authenticate).and_raise(Net::OpenTimeout)
+
+        expect { described_class.new(channel: imap_email_channel).perform }.to raise_error do |raised|
+          expect(raised.class.name).to eq 'Net::OpenTimeout'
+        end
+
+        expect(imap_email_channel.authorization_error_count).to eq 0
+      end
+    end
+
     context 'when using CRAM-MD5 authentication' do
       let(:cram_md5_channel) { create(:channel_email, :imap_email, account: account, imap_authentication: 'cram-md5') }
 
