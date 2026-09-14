@@ -51,37 +51,42 @@ describe('#validateRouteAccess', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
-  it('starts a new Shopify signup when a prior session cookie is present', () => {
+  it('preserves the session and opens the workspace picker for Shopify signup', () => {
     vi.spyOn(Cookies, 'get').mockReturnValueOnce(true);
 
     validateRouteAccess(
       {
         name: 'auth_signup',
-        query: { shopify_pending_install: 'pending-token' },
-      },
-      next
-    );
-
-    expect(clearBrowserSessionCookies).toHaveBeenCalledTimes(1);
-    expect(replaceRouteWithReload).not.toHaveBeenCalled();
-    expect(next).toHaveBeenCalledWith();
-  });
-
-  it('does not clear a session for Shopify tokens on other routes', () => {
-    vi.spyOn(Cookies, 'get').mockReturnValueOnce(true);
-
-    validateRouteAccess(
-      {
-        name: 'login',
-        query: { shopify_pending_install: 'untrusted-token' },
+        query: { shopify_pending_install: 'a'.repeat(32) },
       },
       next
     );
 
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
-    expect(replaceRouteWithReload).toHaveBeenCalledWith('/app/');
+    expect(replaceRouteWithReload).toHaveBeenCalledWith(
+      `/app/shopify/select-account?shopify_pending_install=${'a'.repeat(32)}`
+    );
     expect(next).not.toHaveBeenCalled();
   });
+
+  it.each(['login', 'auth_signup'])(
+    'does not clear a session for malformed Shopify tokens on %s',
+    name => {
+      vi.spyOn(Cookies, 'get').mockReturnValueOnce(true);
+
+      validateRouteAccess(
+        {
+          name,
+          query: { shopify_pending_install: 'untrusted-token' },
+        },
+        next
+      );
+
+      expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
+      expect(replaceRouteWithReload).toHaveBeenCalledWith('/app/');
+      expect(next).not.toHaveBeenCalled();
+    }
+  );
 
   it('preserves a Shopify pricing return for an authenticated user', () => {
     vi.spyOn(Cookies, 'get').mockReturnValueOnce(true);
@@ -121,7 +126,7 @@ describe('#validateRouteAccess', () => {
     validateRouteAccess(
       {
         name: 'auth_signup',
-        query: { shopify_pending_install: 'pending-token' },
+        query: { shopify_pending_install: 'a'.repeat(32) },
         meta: { requireSignupEnabled: true },
       },
       next,

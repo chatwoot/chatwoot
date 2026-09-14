@@ -26,16 +26,22 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
     return;
   }
 
+  const pendingInstallToken = to.query?.shopify_pending_install;
+  const isPendingShopifySignup =
+    to.name === 'auth_signup' &&
+    typeof pendingInstallToken === 'string' &&
+    /^[0-9a-f]{32}$/.test(pendingInstallToken);
+
   // Redirect to dashboard if a cookie is present, the cookie
   // cleanup and token validation happens in the application pack.
   if (hasAuthCookie()) {
-    const {
-      redirect_url: requestedRedirectUrl,
-      shopify_pending_install: pendingInstallToken,
-    } = to.query || {};
-    if (to.name === 'auth_signup' && pendingInstallToken) {
-      clearBrowserSessionCookies();
-      next();
+    const { redirect_url: requestedRedirectUrl } = to.query || {};
+    if (isPendingShopifySignup) {
+      replaceRouteWithReload(
+        frontendURL(
+          `shopify/select-account?shopify_pending_install=${pendingInstallToken}`
+        )
+      );
       return;
     }
 
@@ -51,8 +57,6 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
   // If the URL is an invalid path, redirect to login page
   // Disable navigation to signup page if signups are disabled
   // Signup route has an attribute (requireSignupEnabled) in it's definition
-  const isPendingShopifySignup =
-    to.name === 'auth_signup' && to.query?.shopify_pending_install;
   const isAnInalidSignupNavigation =
     !isPendingShopifySignup &&
     chatwootConfig.signupEnabled !== 'true' &&
