@@ -1,6 +1,9 @@
 module Enterprise::Message
   def self.prepended(base)
     base.class_eval do
+      # Remove previously indexed messages even if account indexing has since been disabled.
+      after_destroy_commit :remove_from_search, if: -> { ChatwootApp.advanced_search_allowed? }
+
       has_one :call, class_name: 'Call', foreign_key: :message_id, dependent: :nullify, inverse_of: :message
 
       scope :with_call, -> { includes(call: [:contact, { inbox: :channel }]) }
@@ -28,6 +31,10 @@ module Enterprise::Message
   end
 
   private
+
+  def remove_from_search
+    reindex_for_search
+  end
 
   def reopen_resolved_conversation
     assistant = conversation.inbox.captain_assistant
