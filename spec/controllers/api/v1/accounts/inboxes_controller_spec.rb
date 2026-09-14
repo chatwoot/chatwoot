@@ -7,6 +7,70 @@ RSpec.describe 'Inboxes API', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:admin) { create(:user, account: account, role: :administrator) }
 
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/{inbox.id}/rotate_hmac_token' do
+    let(:channel) { create(:channel_widget, account: account) }
+    let(:inbox) { channel.inbox }
+    let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/rotate_hmac_token" }
+
+    [:channel_widget, :channel_api].each do |channel_factory|
+      context "with #{channel_factory}" do
+        let(:channel) { create(channel_factory, account: account) }
+
+        it 'rotates the persisted token and returns the updated inbox for an administrator' do
+          old_token = channel.hmac_token
+
+          post url, headers: admin.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(channel.reload.hmac_token).to be_present
+          expect(channel.hmac_token).not_to eq(old_token)
+          expect(response.parsed_body).to include('id' => inbox.id, 'hmac_token' => channel.hmac_token)
+        end
+
+        it 'rejects an assigned agent without changing the token' do
+          create(:inbox_member, user: agent, inbox: inbox)
+
+          expect do
+            post url, headers: agent.create_new_auth_token, as: :json
+          end.not_to(change { channel.reload.hmac_token })
+
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+    end
+
+    it 'rejects unauthenticated requests without changing the token' do
+      expect do
+        post url, as: :json
+      end.not_to(change { channel.reload.hmac_token })
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'does not rotate an inbox belonging to another account' do
+      other_inbox = create(:inbox)
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{other_inbox.id}/rotate_hmac_token",
+             headers: admin.create_new_auth_token, as: :json
+      end.not_to(change { other_inbox.channel.reload.hmac_token })
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    context 'with an unsupported channel' do
+      let(:inbox) { create(:inbox, :with_email, account: account) }
+
+      it 'returns not found without updating the channel' do
+        expect do
+          post url, headers: admin.create_new_auth_token, as: :json
+        end.not_to(change { inbox.channel.reload.attributes })
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/inboxes' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -58,11 +122,18 @@ RSpec.describe 'Inboxes API', type: :request do
       end
 
       it 'returns safe channel identifiers for assigned inboxes' do
-        tiktok_channel = create(:channel_tiktok, account: account, business_id: 'tiktok-business-id')
+        allow(Facebook::Messenger::Subscriptions).to receive(:subscribe).and_return(true)
+        instagram_channel = create(:channel_instagram, account: account, instagram_id: 'instagram-id', provider_name: 'acme_support')
+        tiktok_channel = create(:channel_tiktok, account: account, business_id: 'tiktok-business-id', provider_name: 'acme_tiktok')
+        facebook_inbox = create(
+          :inbox,
+          account: account,
+          channel: build(:channel_facebook_page, account: account, inbox: nil, provider_name: 'Acme Facebook')
+        )
         twitter_inbox = create(:inbox, account: account, channel: create(:channel_twitter_profile, account: account, profile_id: 'x-profile-id'))
         line_inbox = create(:inbox, account: account,
                                     channel: build(:channel_line, account: account, inbox: nil, line_channel_id: 'line-channel-id'))
-        [tiktok_channel.inbox, twitter_inbox, line_inbox].each do |channel_inbox|
+        [instagram_channel.inbox, tiktok_channel.inbox, facebook_inbox, twitter_inbox, line_inbox].each do |channel_inbox|
           create(:inbox_member, user: agent, inbox: channel_inbox)
         end
 
@@ -71,7 +142,10 @@ RSpec.describe 'Inboxes API', type: :request do
             as: :json
 
         inboxes_by_id = response.parsed_body['payload'].index_by { |item| item['id'] }
+        expect(inboxes_by_id[instagram_channel.inbox.id]['provider_name']).to eq('acme_support')
         expect(inboxes_by_id[tiktok_channel.inbox.id]['business_id']).to eq('tiktok-business-id')
+        expect(inboxes_by_id[tiktok_channel.inbox.id]['provider_name']).to eq('acme_tiktok')
+        expect(inboxes_by_id[facebook_inbox.id]['provider_name']).to eq('Acme Facebook')
         expect(inboxes_by_id[twitter_inbox.id]['profile_id']).to eq('x-profile-id')
         expect(inboxes_by_id[line_inbox.id]['line_channel_id']).to eq('line-channel-id')
       end

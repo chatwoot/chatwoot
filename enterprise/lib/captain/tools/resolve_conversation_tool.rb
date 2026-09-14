@@ -4,9 +4,9 @@ class Captain::Tools::ResolveConversationTool < Captain::Tools::BasePublicTool
 
   def perform(tool_context, reason:)
     conversation = find_conversation(tool_context.state)
-    return 'Conversation not found' unless conversation
-    return "Conversation ##{conversation.display_id} is already resolved" if conversation.resolved?
-    return 'Auto-resolve is disabled for this assistant' if @assistant.inactive_conversation_resolution_disabled?
+    return failure_result('Conversation not found', tool_context.state) unless conversation
+    return failure_result("Conversation ##{conversation.display_id} is already resolved", tool_context.state) if conversation.resolved?
+    return failure_result('Auto-resolve is disabled for this assistant', tool_context.state) if @assistant.inactive_conversation_resolution_disabled?
 
     log_tool_usage('resolve_conversation', { conversation_id: conversation.id, reason: reason })
 

@@ -61,9 +61,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def v2_runner_service
-    runner_args = { assistant: @assistant, conversation: @conversation }
-    runner_args[:responding_to_message_id] = @responding_to_message_id if @responding_to_message_id.present?
-    Captain::Assistant::AgentRunnerService.new(**runner_args)
+    run_options = Captain::Assistant::AgentRunnerService::RunOptions.new(
+      responding_to_message_id: @responding_to_message_id
+    )
+    Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation, run_options: run_options)
   end
 
   def process_response

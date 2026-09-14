@@ -95,7 +95,9 @@ const getters = {
   },
   getAppliedConversationFiltersQuery: _state => {
     const hasAppliedFilters = _state.appliedFilters.length !== 0;
-    return hasAppliedFilters ? filterQueryGenerator(_state.appliedFilters) : [];
+    return hasAppliedFilters
+      ? filterQueryGenerator(_state.appliedFilters, { useLocalTimezone: false })
+      : [];
   },
   getUnAssignedChats: _state => activeFilters => {
     return _state.allConversations.filter(conversation => {

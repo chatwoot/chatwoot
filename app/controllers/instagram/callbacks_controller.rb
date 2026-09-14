@@ -126,11 +126,10 @@ class Instagram::CallbacksController < ApplicationController
 
     channel_instagram.update!(
       access_token: @long_lived_token_response['access_token'],
-      expires_at: expires_at
+      expires_at: expires_at,
+      provider_name: user_details['username']
     )
 
-    # Update inbox name if username changed
-    channel_instagram.inbox.update!(name: user_details['username'])
     channel_instagram
   end
 
@@ -142,7 +141,8 @@ class Instagram::CallbacksController < ApplicationController
         access_token: @long_lived_token_response['access_token'],
         instagram_id: user_details['user_id'].to_s,
         account: account,
-        expires_at: expires_at
+        expires_at: expires_at,
+        provider_name: user_details['username']
       )
 
       account.inboxes.create!(
