@@ -38,10 +38,6 @@ module Enterprise::Conversation
       return
     end
 
-    # Keep Captain ownership writes off until typed-assignee readers are deployed to every web and worker process.
-    # Remove this guard in the follow-up rollout after all legacy AgentBot readers have been drained.
-    return unless GlobalConfigService.load('ENABLE_CAPTAIN_CONVERSATION_ASSIGNMENT', false)
-
     self.ai_assignee = assistant if assignee_id.blank?
   end
 

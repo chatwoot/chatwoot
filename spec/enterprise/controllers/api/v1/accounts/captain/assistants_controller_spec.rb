@@ -576,6 +576,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
     end
 
     context 'when captain v2 is enabled' do
+      let(:run_options) { Captain::Assistant::AgentRunnerService::RunOptions.new(source: 'playground') }
+
       before do
         account.enable_features('captain_integration_v2')
       end
@@ -583,7 +585,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       it 'generates a response with the agent runner service' do
         allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
           assistant: assistant,
-          source: 'playground'
+          run_options: run_options
         ).and_return(agent_runner_service)
         allow(agent_runner_service).to receive(:generate_response).and_return(
           {
@@ -613,7 +615,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         }
         allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
           assistant: assistant,
-          source: 'playground'
+          run_options: run_options
         ).and_return(agent_runner_service)
         allow(agent_runner_service).to receive(:generate_response).and_return({ response: 'Assistant response' })
 
