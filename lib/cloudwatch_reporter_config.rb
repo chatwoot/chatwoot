@@ -9,10 +9,7 @@ class CloudwatchReporterConfig
     @env_prefix = env_prefix
   end
 
-  # Required here rather than at the top of the file: lib/ is eager loaded, and the AWS
-  # CloudWatch SDK should only be pulled in when a reporter is actually switched on.
   def client
-    require 'aws-sdk-cloudwatch'
     Aws::CloudWatch::Client.new(region: region, credentials: credentials)
   end
 

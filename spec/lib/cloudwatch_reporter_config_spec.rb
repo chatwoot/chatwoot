@@ -1,4 +1,6 @@
 require 'rails_helper'
+# Mirrors the initializers, which load the gem before reaching for this config.
+require 'speedshop/cloudwatch'
 require Rails.root.join('lib/cloudwatch_reporter_config')
 
 describe CloudwatchReporterConfig do
