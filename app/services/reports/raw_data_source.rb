@@ -163,3 +163,5 @@ class Reports::RawDataSource < Reports::DataSource
     use_business_hours? ? :value_in_business_hours : :value
   end
 end
+
+Reports::RawDataSource.prepend_mod_with('Reports::RawDataSource')
