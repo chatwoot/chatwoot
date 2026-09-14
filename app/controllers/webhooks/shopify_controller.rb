@@ -5,6 +5,7 @@ class Webhooks::ShopifyController < ActionController::API
 
   before_action :ensure_shopify_enabled, unless: :mandatory_cleanup_event?
   before_action :verify_hmac!
+  before_action :verify_custom_app_shop!
   around_action :lock_shop_installation, only: :events
 
   def events
@@ -33,7 +34,7 @@ class Webhooks::ShopifyController < ActionController::API
   end
 
   def verify_hmac!
-    secret = GlobalConfigService.load('SHOPIFY_CLIENT_SECRET', nil)
+    secret = custom_app ? custom_app.client_secret : GlobalConfigService.load('SHOPIFY_CLIENT_SECRET', nil)
     return head :unauthorized if secret.blank?
 
     data = request.body.read
@@ -46,8 +47,16 @@ class Webhooks::ShopifyController < ActionController::API
     return head :unauthorized unless ActiveSupport::SecurityUtils.secure_compare(computed, hmac_header)
   end
 
+  def verify_custom_app_shop!
+    return unless custom_app
+
+    shop = params[:shop_domain] || params[:myshopify_domain] || request.headers['X-Shopify-Shop-Domain']
+    head :unauthorized unless Shopify::ShopDomain.normalize(shop) == custom_app.shop_domain
+  end
+
   def handle_shop_redact
-    Shopify::PendingInstallation.invalidate_shop!(shop: params[:shop_domain])
+    custom_app&.invalidate_authorizations!
+    Shopify::PendingInstallation.invalidate_shop!(shop: params[:shop_domain]) unless custom_app
     hooks = shopify_hooks(params[:shop_domain])
     hooks.find_each do |hook|
       Shopify::UninstallationService.new(hook: hook, occurred_at: webhook_triggered_at, delete_hook: true).perform
@@ -56,7 +65,8 @@ class Webhooks::ShopifyController < ActionController::API
   end
 
   def handle_app_uninstalled
-    Shopify::PendingInstallation.invalidate_shop!(shop: params[:myshopify_domain])
+    custom_app&.invalidate_authorizations!
+    Shopify::PendingInstallation.invalidate_shop!(shop: params[:myshopify_domain]) unless custom_app
     shopify_hooks(params[:myshopify_domain]).find_each do |hook|
       Shopify::UninstallationService.new(hook: hook, occurred_at: webhook_triggered_at).perform
     end
@@ -71,10 +81,20 @@ class Webhooks::ShopifyController < ActionController::API
     connected_at.blank? || Time.iso8601(connected_at) <= webhook_triggered_at
   end
 
+  def custom_app
+    id = request.path_parameters[:custom_app_id]
+    return if id.blank?
+
+    @custom_app ||= Shopify::CustomApp.find(id)
+  end
+
   def shopify_hooks(shop_domain)
     normalized_domain = Shopify::ShopDomain.normalize(shop_domain)
     return Integrations::Hook.none unless Shopify::ShopDomain.valid?(normalized_domain)
 
-    Integrations::Hook.where(app_id: 'shopify').where('LOWER(reference_id) = ?', normalized_domain)
+    hooks = Integrations::Hook.where(app_id: 'shopify').where('LOWER(reference_id) = ?', normalized_domain)
+    return hooks.where(account_id: custom_app.account_id).where("settings ->> 'custom_app_id' = ?", custom_app.id.to_s) if custom_app
+
+    hooks.where("settings ->> 'custom_app_id' IS NULL")
   end
 end
