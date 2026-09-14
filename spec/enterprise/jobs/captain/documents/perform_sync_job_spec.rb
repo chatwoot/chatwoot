@@ -57,4 +57,17 @@ RSpec.describe Captain::Documents::PerformSyncJob, type: :job do
       )
     end
   end
+
+  it 'does not try to sync a Markdown upload' do
+    markdown_document = create(
+      :captain_document,
+      assistant: assistant,
+      account: account,
+      external_link: nil,
+      markdown_content: '# Refund policy'
+    )
+    expect(Captain::Documents::SinglePageFetcher).not_to receive(:new)
+
+    described_class.new.perform(markdown_document)
+  end
 end
