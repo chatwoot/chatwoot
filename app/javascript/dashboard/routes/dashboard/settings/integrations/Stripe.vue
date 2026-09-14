@@ -48,6 +48,12 @@ const disconnect = async () => {
   error.value = false;
   try {
     await StripeAPI.disconnect();
+    account.value = null;
+    store.commit('integrations/DELETE_INTEGRATION', {
+      id: 'stripe',
+      enabled: false,
+      hooks: [],
+    });
     await loadIntegration();
   } catch {
     error.value = true;

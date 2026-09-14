@@ -19,10 +19,18 @@ vi.mock(
   })
 );
 vi.mock('dashboard/composables/store', async () => {
-  const { computed } = await import('vue');
+  const { computed, reactive } = await import('vue');
   return {
     useStore: () => ({ commit: mocks.commit }),
-    useFunctionGetter: () => computed(() => ({ enabled: mocks.enabled })),
+    useFunctionGetter: () => {
+      const integration = reactive({ enabled: mocks.enabled });
+      mocks.commit.mockImplementation((type, data) => {
+        if (type === 'integrations/DELETE_INTEGRATION') {
+          Object.assign(integration, data);
+        }
+      });
+      return computed(() => integration);
+    },
     useMapGetter: () =>
       computed(() => ({ installationName: mocks.installationName })),
   };
@@ -155,6 +163,30 @@ describe('Stripe integration settings', () => {
     expect(StripeAPI.get).not.toHaveBeenCalled();
   });
 
+  it('stays disconnected when the refresh after deletion fails', async () => {
+    StripeAPI.disconnect.mockResolvedValue({});
+    wrapper = mount(Stripe, { global });
+    await flushPromises();
+    IntegrationsAPI.get.mockRejectedValue(new Error('request failed'));
+
+    await wrapper.get('button').trigger('click');
+    await flushPromises();
+
+    expect(mocks.commit).toHaveBeenCalledWith(
+      'integrations/DELETE_INTEGRATION',
+      {
+        id: 'stripe',
+        enabled: false,
+        hooks: [],
+      }
+    );
+    expect(wrapper.text()).not.toContain('acct_test');
+    expect(wrapper.text()).not.toContain('STRIPE_INTEGRATION.CONNECTED');
+    expect(wrapper.get('button').text()).toBe('STRIPE_INTEGRATION.CONNECT');
+    expect(wrapper.find('a').exists()).toBe(false);
+    expect(wrapper.get('[role="alert"]').exists()).toBe(true);
+  });
+
   it('keeps the connected account visible when disconnect fails', async () => {
     StripeAPI.disconnect.mockRejectedValue(new Error('request failed'));
     wrapper = mount(Stripe, { global });
@@ -162,6 +194,10 @@ describe('Stripe integration settings', () => {
     await wrapper.get('button').trigger('click');
     await flushPromises();
     expect(StripeAPI.disconnect).toHaveBeenCalledOnce();
+    expect(mocks.commit).not.toHaveBeenCalledWith(
+      'integrations/DELETE_INTEGRATION',
+      expect.anything()
+    );
     expect(wrapper.text()).toContain('acct_test');
     expect(wrapper.get('[role="alert"]').exists()).toBe(true);
   });
