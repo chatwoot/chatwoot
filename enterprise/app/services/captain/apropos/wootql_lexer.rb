@@ -29,8 +29,9 @@ class Captain::Apropos::WootqlLexer
       tokens << Token.new(kind, value, position)
     end
     tokens << Token.new(:end, nil, source.bytesize)
-  rescue JSON::ParserError => e
-    raise Captain::Apropos::Error, "Invalid WootQL string: #{e.message}"
+  rescue JSON::ParserError, Captain::Apropos::Error => e
+    error = e.is_a?(Captain::Apropos::Error) ? e : Captain::Apropos::Error.new('Invalid WootQL string literal')
+    raise error.with_feedback(Captain::Apropos::WootqlFeedback.location(source, position || scanner.pos))
   end
 
   def read_token(scanner)

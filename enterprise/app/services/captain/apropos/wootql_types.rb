@@ -12,6 +12,24 @@ module Captain::Apropos::WootqlTypes
 
   private
 
+  def resolve_comparison(predicate, column)
+    operator = predicate.fetch(:operator)
+    expressions = operator == 'in' ? predicate.fetch(:value) : [predicate.fetch(:value)]
+    values = expressions.map { |expression| comparison_value(predicate, column, expression, literal(expression)) }
+    operator = 'includes' if column.type == :string_list && operator == 'contains'
+    predicate.merge(operator: operator, value: operator == 'in' ? values : values.first)
+  end
+
+  def comparison_value(predicate, column, expression, value)
+    check_value!(column, value, predicate.fetch(:operator))
+    value
+  rescue Captain::Apropos::Error => e
+    origin = expression.key?(:parameter) ? "Parameter: $#{expression[:parameter]}." : 'Value supplied as a literal or time expression.'
+    raise e.with_feedback("Field: #{predicate[:field]}, type: #{column.type}, operator: #{predicate[:operator]}.", origin,
+                          "Received value type: #{value.class.name}.",
+                          context: ['Parameters are bound as individual values, not expanded into query syntax.'])
+  end
+
   def check_value!(definition, value, operator)
     return check_list_value!(value, operator) if definition.type == :string_list
 

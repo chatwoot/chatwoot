@@ -47,6 +47,10 @@ class Captain::Apropos::WootqlResolver
   def apply(stage)
     send(STAGES.fetch(stage.fetch(:operation)), stage.fetch(:arguments))
     raise Captain::Apropos::Error, 'WootQL exceeds 100 output fields; project fewer fields before joining' if @plan.fields.size > MAX_FIELDS
+  rescue Captain::Apropos::Error => e
+    raise e.with_feedback("Pipeline operation: #{stage.fetch(:operation)}.",
+                          Captain::Apropos::WootqlFeedback.fields(@plan.fields),
+                          context: Captain::Apropos::WootqlFeedback.stage_context(stage.fetch(:operation)))
   end
 
   def append(operation, options, fields: @plan.fields, order: @plan.order)
@@ -136,14 +140,6 @@ class Captain::Apropos::WootqlResolver
     end
   end
 
-  def resolve_comparison(predicate, column)
-    operator = predicate.fetch(:operator)
-    values = operator == 'in' ? predicate.fetch(:value).map { |item| literal(item) } : [literal(predicate.fetch(:value))]
-    values.each { |value| check_value!(column, value, operator) }
-    operator = 'includes' if column.type == :string_list && operator == 'contains'
-    predicate.merge(operator: operator, value: operator == 'in' ? values : values.first)
-  end
-
   def project(projections)
     unique_names!(projections.map { |item| item.fetch(:name) })
     fields = projections.to_h { |item| [item.fetch(:name), field(item.fetch(:field))] }
@@ -198,7 +194,12 @@ class Captain::Apropos::WootqlResolver
 
   def literal(expression)
     return expression.fetch(:literal) if expression.key?(:literal)
-    return @parameters.fetch(expression.fetch(:parameter)) if expression.key?(:parameter)
+
+    if expression.key?(:parameter)
+      return @parameters.fetch(expression.fetch(:parameter)) do
+        raise Captain::Apropos::Error, "Missing WootQL parameter: $#{expression[:parameter]}"
+      end
+    end
     return @now if expression.key?(:now)
 
     duration = expression.fetch(:ago).match(/\A(\d+)(ms|s|m|h|d|w)\z/)

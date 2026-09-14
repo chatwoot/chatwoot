@@ -19,6 +19,8 @@ class Captain::Apropos::ExecutionFeedback
     # copying customer data into its context. These observations never imply rollback.
     unless @message
       @message = error.message
+      @error_evidence = error.is_a?(Captain::Apropos::Error) ? error.evidence : []
+      @error_context = error.is_a?(Captain::Apropos::Error) ? error.context : []
       @expression = source(expression)
       if arguments
         @arguments = arguments.first(MAX_ITEMS).map { |value| shape(value) }
@@ -39,6 +41,7 @@ class Captain::Apropos::ExecutionFeedback
         ),
         receipts_ref: runtime.store(runtime.receipts), receipt_count: runtime.receipts.size,
         contracts: contracts(runtime.catalog),
+        query_context: @error_context || [],
         semantics: Captain::Apropos::Prompt.render(:execution_error)
       }
     }
@@ -51,7 +54,7 @@ class Captain::Apropos::ExecutionFeedback
     lines << "Evaluated arguments (#{@argument_count} total, bounded shapes): #{argument_shapes}" if @arguments
     lines << "Source location: #{JSON.generate(location)}" if location
     lines << 'No program expressions executed in this call.' if %w[parsing preflight].include?(stage)
-    lines
+    lines + (@error_evidence || [])
   end
 
   private

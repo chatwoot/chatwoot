@@ -18,10 +18,12 @@ class Captain::Apropos::QueryTool < RubyLLM::Tool
     halt('Query executed. The engine has stored the results for the primary agent.')
   rescue Captain::Apropos::Error, ActiveRecord::StatementInvalid => e
     message = e.message.truncate(1_000)
-    @runtime.record('error', { 'message' => message })
-    {
+    feedback = {
       error: message,
-      recovery: Captain::Apropos::Prompt.render(:query_error)
-    }.to_json
+      evidence: e.is_a?(Captain::Apropos::Error) ? e.evidence : [],
+      context: e.is_a?(Captain::Apropos::Error) ? e.context : []
+    }
+    @runtime.record('error', feedback.except(:error).merge(message: message).deep_stringify_keys)
+    feedback.to_json
   end
 end

@@ -7,6 +7,7 @@ class Captain::Apropos::WootqlParser
   LITERALS = { 'true' => true, 'false' => false, 'null' => nil }.freeze
 
   def initialize(source)
+    @source = source
     @tokens = Captain::Apropos::WootqlLexer.new(source).tokens
     @position = 0
     @conditions = 0
@@ -22,12 +23,17 @@ class Captain::Apropos::WootqlParser
     end
     expect(:end)
     Query.new(resource: resource, stages: stages)
+  rescue Captain::Apropos::Error => e
+    raise e.with_feedback(Captain::Apropos::WootqlFeedback.location(@source, peek.position),
+                          "Current pipeline operation: #{@operation || 'resource selection'}.",
+                          context: Captain::Apropos::WootqlFeedback.stage_context(@operation))
   end
 
   private
 
   def stage
     operation = identifier
+    @operation = operation
     arguments = case operation
                 when 'where' then expression(0)
                 when 'project' then separated { projection }
