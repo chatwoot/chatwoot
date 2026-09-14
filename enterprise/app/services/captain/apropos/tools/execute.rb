@@ -8,16 +8,7 @@ class Captain::Apropos::Tools::Execute < Agents::Tool
     runtime = context.context.fetch(:apropos)
     result = runtime.execute(source)
     runtime.reply(result: result)
-  rescue StandardError => e
-    failure = {
-      error: e.message, receipts_ref: runtime.store(runtime.receipts), receipt_count: runtime.receipts.size,
-      progress: runtime.execution_progress,
-      recovery: Captain::Apropos::Prompt.render(:execution_error)
-    }
-    if e.is_a?(Captain::Apropos::CallError)
-      failure[:primitive] = e.primitive
-      failure[:contract] = runtime.catalog.describe(e.primitive)
-    end
-    runtime.reply(failure)
+  rescue StandardError
+    runtime.reply(runtime.execution_failure)
   end
 end

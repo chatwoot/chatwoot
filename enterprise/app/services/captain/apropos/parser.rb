@@ -17,6 +17,12 @@ class Captain::Apropos::Parser
     expressions
   end
 
+  def location
+    preceding = @scanner.string.byteslice(0, @scanner.pos)
+    { line: preceding.count("\n") + 1, column: (preceding.split("\n", -1).last || '').length + 1,
+      byte_offset: @scanner.pos, following: @scanner.peek(80) }
+  end
+
   private
 
   def finished?

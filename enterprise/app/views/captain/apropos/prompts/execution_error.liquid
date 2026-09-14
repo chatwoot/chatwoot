@@ -1,5 +1,6 @@
-Inspect the failing contract with describe and repair the smallest failing expression when useful.
-Preserve the original target set and every eligibility condition. No matches is valid; actions are not themselves success.
-If eligibility cannot be verified, stop and explain rather than substituting a simpler condition.
-Reuse available_bindings; completed_bindings succeeded in this call. A failed reassignment may retain an older value.
-Earlier writes may have succeeded. Inspect receipts before any retry; never blindly replay writes.
+Evidence describes the observed failure, not a diagnosis of the whole task. Expressions and argument shapes are bounded excerpts.
+Call context runs from the inner expression outward; an error inside a callback does not establish that its enclosing primitive is broken.
+apropos searches capabilities and saved bindings; describe provides contracts. Core groups include objects, collections, strings, and predicates.
+completed_bindings succeeded in this call; available_bindings also include earlier work. A failed binding may still contain its previous value.
+Receipts cover actions recorded in this runtime, including earlier execute calls. An error does not roll back writes or establish that an unrecorded action had no effect.
+The original objective and eligibility conditions remain unchanged. No matches is valid evidence, not itself a failure.

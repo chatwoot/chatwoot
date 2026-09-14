@@ -10,7 +10,7 @@ class Captain::Apropos::Scheme
     let: :let_form, 'let*': :let_star, letrec: :let_recursive, and: :and_form, or: :or_form, cond: :cond_form
   }.freeze
 
-  attr_reader :bindings, :library, :completed_bindings, :failed_binding
+  attr_reader :bindings, :library, :completed_bindings, :failed_binding, :feedback
 
   def initialize(bindings: {})
     @bindings = bindings
@@ -38,12 +38,21 @@ class Captain::Apropos::Scheme
   end
 
   def execute(source)
+    @feedback = Captain::Apropos::ExecutionFeedback.new
     @completed_bindings = []
     @failed_binding = nil
-    expressions = Captain::Apropos::Parser.new(source).parse
+    parser = Captain::Apropos::Parser.new(source)
+    expressions = parser.parse
+    feedback.stage = 'preflight'
     Captain::Apropos::ProgramPreflight.new(self).check(expressions)
+    feedback.stage = 'execution'
     @steps = MAX_STEPS
-    expressions.map { |expression| evaluate(expression, nil, 0) }.last
+    result = expressions.map { |expression| evaluate(expression, nil, 0) }.last
+    feedback.stage = 'result serialization'
+    result
+  rescue StandardError
+    feedback.location = parser.location if parser && feedback.stage == 'parsing'
+    raise
   rescue SystemStackError
     raise Captain::Apropos::Error, 'Scheme call depth exceeded'
   end
@@ -58,6 +67,9 @@ class Captain::Apropos::Scheme
     return special[1] if special[0]
 
     apply_expression(expression, locals, depth, tail)
+  rescue StandardError => e
+    feedback.capture(e, expression) if expression.is_a?(Array)
+    raise
   end
 
   def invoke(function, arguments, depth = 0)
@@ -65,7 +77,9 @@ class Captain::Apropos::Scheme
     raise Captain::Apropos::Error, 'Value is not a procedure' unless function.is_a?(Closure)
 
     loop do
-      raise Captain::Apropos::Error, 'Wrong number of arguments' unless arguments.length == function.parameters.length
+      unless arguments.length == function.parameters.length
+        raise Captain::Apropos::Error, "Expected #{function.parameters.length} arguments, received #{arguments.length}"
+      end
 
       scope = Captain::Apropos::Scope.new(function.parameters.zip(arguments).to_h, function.locals)
       result = sequence(function.body, scope, depth, true)
@@ -82,6 +96,9 @@ class Captain::Apropos::Scheme
     function = evaluate(expression.first, locals, depth + 1)
     arguments = expression.drop(1).map { |argument| evaluate(argument, locals, depth + 1) }
     tail && function.is_a?(Closure) ? TailCall.new(function, arguments) : invoke(function, arguments, depth + 1)
+  rescue StandardError => e
+    feedback.capture(e, expression, arguments)
+    raise
   end
 
   def lookup(name, locals)

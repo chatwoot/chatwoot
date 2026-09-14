@@ -77,13 +77,32 @@ const failed = computed(
       v-else-if="['result', 'reason_result'].includes(event.kind)"
       :value="event.data.value"
     />
-    <div
-      v-else-if="event.kind === 'error'"
-      class="border-s-2 border-n-ruby-7 ps-3"
-    >
-      <p class="m-0 text-sm text-n-ruby-11 whitespace-pre-wrap break-words">
+    <div v-else-if="event.kind === 'error'" class="min-w-0 space-y-4">
+      <p
+        class="m-0 border-s-2 border-n-ruby-7 ps-3 text-sm text-n-ruby-11 whitespace-pre-wrap break-words"
+      >
         {{ event.data.message }}
       </p>
+      <section v-if="event.data.evidence?.length" class="min-w-0 space-y-2">
+        <h4 class="m-0 text-sm font-medium text-n-slate-11">
+          {{ t('CAPTAIN_ASK.TRACE.ERROR_EVIDENCE') }}
+        </h4>
+        <ul class="m-0 ps-4 space-y-2 list-disc marker:text-n-slate-9">
+          <li
+            v-for="(observation, index) in event.data.evidence"
+            :key="index"
+            class="text-sm text-n-slate-12 whitespace-pre-wrap break-words [overflow-wrap:anywhere]"
+          >
+            {{ observation }}
+          </li>
+        </ul>
+      </section>
+      <section v-if="event.data.context" class="min-w-0 space-y-2">
+        <h4 class="m-0 text-sm font-medium text-n-slate-11">
+          {{ t('CAPTAIN_ASK.TRACE.ERROR_CONTEXT') }}
+        </h4>
+        <ActivityValue :value="event.data.context" />
+      </section>
     </div>
     <template v-else-if="event.kind === 'action'">
       <div class="flex items-center gap-2 text-sm">

@@ -4,7 +4,7 @@ class Captain::Apropos::Runtime
   MAX_AGENT_CALLS = 100
   MAX_DELEGATION_DEPTH = 2
 
-  attr_reader :scheme, :catalog, :events, :account, :user
+  attr_reader :scheme, :catalog, :events, :account, :user, :execution_failure
 
   def initialize(account:, user:, state: {}, on_event: nil, execution: { budget: { calls: 0, queries: 0 }, depth: 0 })
     Captain::Apropos::Access.check!(account, user)
@@ -26,6 +26,7 @@ class Captain::Apropos::Runtime
   end
 
   def execute(source)
+    @execution_failure = nil
     record('program', { 'source' => source })
     value = scheme.execute(source)
     state # Check that new bindings can be persisted before reporting success.
@@ -33,7 +34,8 @@ class Captain::Apropos::Runtime
     record('result', { 'value' => output })
     output
   rescue StandardError => e
-    record('error', { 'message' => e.message })
+    @execution_failure = scheme.feedback.render(e, self)
+    record('error', @execution_failure.except(:error).merge(message: @execution_failure[:error]).deep_stringify_keys)
     raise
   end
 
