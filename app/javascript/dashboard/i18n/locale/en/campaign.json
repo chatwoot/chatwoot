@@ -336,7 +336,7 @@
       }
     },
     "HISTORY": {
-      "SENT_CAMPAIGN": "Campaign: {name}",
+      "LABEL": "Campaign",
       "LOAD_MORE": "Load earlier campaigns",
       "ERROR": "Campaign history could not be loaded.",
       "RETRY": "Try again"
