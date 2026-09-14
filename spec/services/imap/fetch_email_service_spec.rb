@@ -77,6 +77,33 @@ RSpec.describe Imap::FetchEmailService do
         end
       end
 
+      context 'when Microsoft returns a code-less authentication rejection' do
+        let(:imap_email_channel) { create(:channel_email, :microsoft_email, account: account) }
+
+        before do
+          response.data.text = 'AUTHENTICATE failed.'
+          allow(imap).to receive(:authenticate).and_raise(error)
+        end
+
+        it 'counts the rejection toward reauthorization' do
+          expect { described_class.new(channel: imap_email_channel).perform }.to raise_error do |raised|
+            expect(raised.class.name).to eq 'Net::IMAP::NoResponseError'
+          end
+
+          expect(imap_email_channel.authorization_error_count).to eq 1
+        end
+
+        it 'does not count an explicit temporary failure with the same message' do
+          response.data.code = Net::IMAP::ResponseCode.new('UNAVAILABLE', nil)
+
+          expect { described_class.new(channel: imap_email_channel).perform }.to raise_error do |raised|
+            expect(raised.class.name).to eq 'Net::IMAP::NoResponseError'
+          end
+
+          expect(imap_email_channel.authorization_error_count).to eq 0
+        end
+      end
+
       it 'requires reauthorization after repeated authentication failures' do
         allow(imap).to receive(:authenticate).and_raise(error)
 

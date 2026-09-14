@@ -4,6 +4,7 @@ class Imap::BaseFetchEmailService
   MAX_MESSAGES_PER_SYNC = 500
   AUTHENTICATION_FAILED_CODE = 'AUTHENTICATIONFAILED'.freeze
   GMAIL_INVALID_CREDENTIALS_MESSAGE = 'Invalid credentials (Failure)'.freeze
+  MICROSOFT_AUTHENTICATION_FAILED_MESSAGE = 'AUTHENTICATE failed.'.freeze
 
   pattr_initialize [:channel!, :interval]
 
@@ -161,7 +162,8 @@ class Imap::BaseFetchEmailService
     code = error.response.data.code&.name
     return code == AUTHENTICATION_FAILED_CODE if code.present?
 
-    gmail_channel && error.message == GMAIL_INVALID_CREDENTIALS_MESSAGE
+    expected_message = gmail_channel ? GMAIL_INVALID_CREDENTIALS_MESSAGE : MICROSOFT_AUTHENTICATION_FAILED_MESSAGE
+    error.message == expected_message
   end
 
   def terminate_imap_connection
