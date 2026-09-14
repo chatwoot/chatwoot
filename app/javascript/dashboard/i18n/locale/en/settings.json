@@ -102,6 +102,7 @@
       "reason_result": "LLM findings",
       "discovery": "Discover capabilities",
       "description": "Inspect capability",
+      "knowledge": "Read domain knowledge",
       "program": "Run program",
       "query_request": "Ask query specialist",
       "query": "Run WootQL",

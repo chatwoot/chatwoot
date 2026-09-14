@@ -55,6 +55,10 @@ const kinds = computed(() => ({
 }));
 const failed = event =>
   event.kind === 'error' || event.data.status === 'failed';
+const eventPresentation = event =>
+  event.kind === 'description' && event.data.contract?.kind === 'knowledge'
+    ? { label: t('CAPTAIN_ASK.KINDS.knowledge'), icon: 'i-lucide-library' }
+    : kinds.value[event.kind];
 const subtitle = event => {
   if (event.kind === 'table')
     return t('CAPTAIN_ASK.TRACE.ITEMS', { count: event.data.rows.length });
@@ -86,7 +90,7 @@ const graphNodes = computed(() =>
     if (failed(event)) status = 'error';
     return [
       {
-        ...kinds.value[event.kind],
+        ...eventPresentation(event),
         index,
         event,
         kind: event.kind,
@@ -142,13 +146,13 @@ const graphNodes = computed(() =>
         class="scroll-mt-20"
       >
         <Accordion
-          :title="kinds[event.kind].label"
+          :title="eventPresentation(event).label"
           class="!border-0 !rounded-none"
         >
           <template #title>
             <span class="flex flex-1 items-center gap-3 min-w-0">
               <Icon
-                :icon="kinds[event.kind].icon"
+                :icon="eventPresentation(event).icon"
                 class="size-4 shrink-0"
                 :class="failed(event) ? 'text-n-ruby-11' : 'text-n-slate-10'"
               />
@@ -157,7 +161,7 @@ const graphNodes = computed(() =>
                   class="block text-sm font-medium"
                   :class="failed(event) ? 'text-n-ruby-11' : 'text-n-slate-12'"
                 >
-                  {{ kinds[event.kind].label }}
+                  {{ eventPresentation(event).label }}
                 </span>
                 <span class="block truncate text-xs text-n-slate-10 mt-0.5">{{
                   subtitle(event)

@@ -1,14 +1,26 @@
 <script setup>
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import SchemeCode from './SchemeCode.vue';
 import ActivityValue from './ActivityValue.vue';
 import { formatBinding } from './formatBinding';
 
-defineProps({
+const props = defineProps({
   name: { type: String, required: true },
   contract: { type: Object, required: true },
 });
 const { t } = useI18n();
+const { formatMessage } = useMessageFormatter();
+const formattedKnowledge = computed(() => {
+  // Concept links refer to catalog documents, not browser routes. The named
+  // relationships below retain their catalog targets without broken navigation.
+  const markdown = (props.contract.markdown || '').replace(
+    /\[([^\]]+)\]\([\w-]+\.md\)/g,
+    '$1'
+  );
+  return formatMessage(markdown);
+});
 </script>
 
 <template>
@@ -24,6 +36,36 @@ const { t } = useI18n();
         {{ contract.description }}
       </p>
     </div>
+    <div
+      v-if="contract.markdown"
+      v-dompurify-html="formattedKnowledge"
+      class="prose prose-sm prose-slate dark:prose-invert max-w-none break-words text-n-slate-12"
+    />
+    <section v-if="contract.concept_relations" class="space-y-2">
+      <h4 class="m-0 text-xs font-medium text-n-slate-10">
+        {{ t('CAPTAIN_ASK.TRACE.RELATIONSHIPS') }}
+      </h4>
+      <dl class="m-0 space-y-2">
+        <div
+          v-for="(targets, relation) in contract.concept_relations"
+          :key="relation"
+          class="space-y-1"
+        >
+          <dt class="text-xs text-n-slate-10">
+            {{ relation.replaceAll('_', ' ') }}
+          </dt>
+          <dd class="m-0 flex flex-wrap gap-1">
+            <span
+              v-for="target in targets"
+              :key="target"
+              class="rounded bg-n-alpha-2 px-1.5 py-0.5 font-mono text-xs text-n-slate-12 break-all"
+            >
+              {{ target }}
+            </span>
+          </dd>
+        </div>
+      </dl>
+    </section>
     <SchemeCode
       v-if="contract.signature?.startsWith('(')"
       :source="contract.signature"
