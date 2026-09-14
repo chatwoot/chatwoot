@@ -12,13 +12,19 @@ export const getters = {
   getStats: $state => $state,
 };
 
-// Create a debounced version of the actual API call function
-const fetchMetaData = async (commit, params) => {
+// List responses supersede metadata refreshes queued for the previous view.
+let listCountsVersion = 0;
+
+const fetchMetaData = async (commit, params, version) => {
+  if (version !== listCountsVersion) return;
+
   try {
     const response = await ConversationApi.meta(params);
     const {
       data: { meta },
     } = response;
+    if (version !== listCountsVersion) return;
+
     commit(types.SET_CONV_TAB_META, meta);
   } catch (error) {
     // ignore
@@ -50,9 +56,14 @@ export const getMetaDebounceKey = allCount => {
 
 export const actions = {
   get: ({ commit, state: $state }, params) => {
-    metaDebouncers[getMetaDebounceKey($state.allCount)](commit, params);
+    metaDebouncers[getMetaDebounceKey($state.allCount)](
+      commit,
+      params,
+      listCountsVersion
+    );
   },
   set({ commit }, meta) {
+    listCountsVersion += 1;
     commit(types.SET_CONV_TAB_META, meta);
   },
 };

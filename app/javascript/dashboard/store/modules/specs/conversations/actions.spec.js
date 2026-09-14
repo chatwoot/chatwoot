@@ -615,6 +615,51 @@ describe('#actions', () => {
   });
 
   describe('#fetchFilteredConversations', () => {
+    it('ignores an older open-list response after applying an all-status filter', async () => {
+      let resolveOpenResponse;
+      axios.get.mockReturnValue(
+        new Promise(resolve => {
+          resolveOpenResponse = resolve;
+        })
+      );
+      const openRequest = actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: { status: 'open', assigneeType: 'all' } },
+      });
+      const filteredResponse = {
+        payload: [],
+        meta: { all_count: 10757 },
+      };
+      axios.post.mockResolvedValue({ data: filteredResponse });
+
+      await actions.fetchFilteredConversations(
+        { commit, dispatch },
+        {
+          queryData: {
+            payload: [
+              {
+                attribute_key: 'status',
+                filter_operator: 'equal_to',
+                values: ['all'],
+              },
+            ],
+          },
+          page: 1,
+        }
+      );
+      resolveOpenResponse({
+        data: { data: { payload: [], meta: { all_count: 30 } } },
+      });
+      await openRequest;
+
+      expect(
+        dispatch.mock.calls.filter(
+          ([action]) => action === 'conversationStats/set'
+        )
+      ).toEqual([['conversationStats/set', filteredResponse.meta]]);
+    });
+
     it('fetches filtered conversations with a mock commit', async () => {
       axios.post.mockResolvedValue({
         data: dataReceived,
