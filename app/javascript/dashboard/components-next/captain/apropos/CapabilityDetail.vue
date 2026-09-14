@@ -12,6 +12,13 @@ const props = defineProps({
 });
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
+const relationshipLabels = computed(() => ({
+  one: t('CAPTAIN_ASK.TRACE.ONE'),
+  many: t('CAPTAIN_ASK.TRACE.MANY'),
+  scoped: t('CAPTAIN_ASK.TRACE.SCOPED_RELATION'),
+  association: t('CAPTAIN_ASK.TRACE.SCOPED_RELATION'),
+  polymorphic: t('CAPTAIN_ASK.TRACE.POLYMORPHIC_RELATION'),
+}));
 const formattedKnowledge = computed(() => {
   // Concept links refer to catalog documents, not browser routes. The named
   // relationships below retain their catalog targets without broken navigation.
@@ -43,7 +50,7 @@ const formattedKnowledge = computed(() => {
     />
     <section v-if="contract.concept_relations" class="space-y-2">
       <h4 class="m-0 text-xs font-medium text-n-slate-10">
-        {{ t('CAPTAIN_ASK.TRACE.RELATIONSHIPS') }}
+        {{ t('CAPTAIN_ASK.TRACE.CONCEPT_RELATIONSHIPS') }}
       </h4>
       <dl class="m-0 space-y-2">
         <div
@@ -76,7 +83,39 @@ const formattedKnowledge = computed(() => {
     >
       {{ contract.signature }}
     </p>
-    <div v-if="contract.fields?.length" class="space-y-2">
+    <section v-if="contract.field_metadata" class="space-y-2">
+      <h4 class="m-0 text-xs font-medium text-n-slate-10">
+        {{ t('CAPTAIN_ASK.TRACE.FIELDS') }}
+      </h4>
+      <dl class="m-0 divide-y divide-n-weak">
+        <div
+          v-for="(field, key) in contract.field_metadata"
+          :key="key"
+          class="space-y-1 py-2"
+        >
+          <dt class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="font-mono text-n-slate-12 break-all">{{ key }}</span>
+            <span class="text-n-slate-10">{{ field.type }}</span>
+            <span v-if="field.nullable" class="text-n-slate-10">
+              {{ t('CAPTAIN_ASK.TRACE.NULLABLE') }}
+            </span>
+            <span v-if="field.computed" class="text-n-slate-10">
+              {{ t('CAPTAIN_ASK.TRACE.COMPUTED') }}
+            </span>
+          </dt>
+          <dd v-if="field.values" class="m-0 flex flex-wrap gap-1">
+            <span
+              v-for="value in field.values"
+              :key="value"
+              class="rounded bg-n-alpha-2 px-1.5 py-0.5 font-mono text-xs text-n-slate-11"
+            >
+              {{ value }}
+            </span>
+          </dd>
+        </div>
+      </dl>
+    </section>
+    <div v-else-if="contract.fields?.length" class="space-y-2">
       <p class="m-0 text-xs font-medium text-n-slate-10">
         {{ t('CAPTAIN_ASK.TRACE.FIELDS') }}
       </p>
@@ -108,16 +147,29 @@ const formattedKnowledge = computed(() => {
       <div
         v-for="(relation, key) in contract.relations"
         :key="key"
-        class="flex items-center gap-2 text-xs text-n-slate-11"
+        class="space-y-1 text-xs text-n-slate-11"
       >
-        <span class="font-mono">{{ key }}</span>
-        <span class="i-lucide-arrow-right size-3 shrink-0" aria-hidden="true" />
-        <span>{{ relation[0] }}</span>
-        <span class="ms-auto text-n-slate-9">{{
-          relation[2] === 'many'
-            ? t('CAPTAIN_ASK.TRACE.MANY')
-            : t('CAPTAIN_ASK.TRACE.ONE')
-        }}</span>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="font-mono break-all">{{ key }}</span>
+          <span class="ms-auto text-n-slate-9">{{
+            relationshipLabels[relation[2]]
+          }}</span>
+        </div>
+        <dl v-if="relation[2] === 'polymorphic'" class="m-0 space-y-1">
+          <div
+            v-for="(target, senderType) in relation[0]"
+            :key="senderType"
+            class="flex flex-wrap items-center gap-2"
+          >
+            <dt class="font-mono break-all">{{ senderType }}</dt>
+            <span
+              class="i-lucide-arrow-right size-3 shrink-0"
+              aria-hidden="true"
+            />
+            <dd class="m-0">{{ target }}</dd>
+          </div>
+        </dl>
+        <p v-else class="m-0 font-mono">{{ relation[0] }}</p>
       </div>
     </div>
     <ActivityValue v-if="contract.arguments" :value="contract.arguments" />
