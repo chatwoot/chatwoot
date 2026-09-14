@@ -1,10 +1,33 @@
 module Labelable::Persistence
-  # acts-as-taggable-on persists any loaded tag list, even when a save only changes
-  # unrelated fields. A conversation broadcast can load an empty list before an
-  # automation adds labels in another worker; saving first-reply fields on the stale
-  # instance then deletes those labels without a tracked label change or removal activity.
-  # Compare against a copy of the original list to protect both taggings and their cache
-  # while preserving in-place label_list.add/remove edits that bypass the setter.
+  # This concern overrides four acts-as-taggable-on methods through Labelable:
+  #
+  #   Conversation / Contact
+  #     -> Labelable
+  #       -> acts-as-taggable-on: reads and writes labels
+  #       -> Persistence: decides whether a loaded list should be written
+  #
+  # The gem writes a label list on save once it has been read, even if the worker
+  # only meant to update another field. Each worker has its own copy of the list:
+  #
+  #   Message worker                  Automation worker
+  #   Reads labels: []
+  #                                   Adds "runner" to the database
+  #   Saves first-reply time
+  #   Gem also writes its old []
+  #     -> "runner" disappears
+  #
+  # No label edit was tracked on the message worker's copy, so this deletion can
+  # happen without a removal activity. SLA and priority can remain unchanged.
+  #
+  # We remember the original list and compare it with the list being saved:
+  #
+  #   Original [] -> current []          -> skip label and cache writes
+  #   Original [] -> current ["runner"]  -> let the gem persist the change
+  #
+  # The gem still performs the database writes. This comparison also notices
+  # label_list.add/remove edits, which mutate the list without calling its setter.
+  # It prevents unrelated saves from overwriting labels; it does not coordinate
+  # two workers that both intentionally edit labels.
   def tag_list_cache_on(context)
     super.tap do |list|
       @original_tag_lists ||= {}
@@ -12,12 +35,12 @@ module Labelable::Persistence
     end
   end
 
-  # Both tagging and cache callbacks use this gate. Reading a list must not let an
-  # unrelated save overwrite another worker's labels, but in-place edits must persist.
+  # Both the tagging and cache callbacks ask this before writing.
   def tag_list_cache_set_on(context)
     super && tag_list_cache_on(context) != @original_tag_lists.fetch(context.to_s)
   end
 
+  # After a successful save, the saved list becomes the new comparison baseline.
   def save_tags
     super.tap do
       @original_tag_lists&.each_key do |context|
@@ -26,6 +49,7 @@ module Labelable::Persistence
     end
   end
 
+  # Reloading discards the old copy, so discard our remembered list too.
   def reload(*)
     @original_tag_lists = nil
     super
