@@ -107,6 +107,16 @@ RSpec.describe Captain::Tools::UpdatePriorityTool, type: :model do
         expect(result).to eq('Conversation not found')
       end
     end
+
+    context 'when a playground call cannot update priority' do
+      let(:tool_context) { Struct.new(:state).new({ source: 'playground' }) }
+
+      it 'marks the result as an error for run details' do
+        result = tool.perform(tool_context, priority: 'high')
+
+        expect(result).to eq('ERROR: Conversation not found')
+      end
+    end
   end
 
   describe '#active?' do

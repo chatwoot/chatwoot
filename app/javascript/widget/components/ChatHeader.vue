@@ -32,7 +32,11 @@ const onBackButtonClick = () => {
         class="px-2 ltr:-ml-3 rtl:-mr-3"
         @click="onBackButtonClick"
       >
-        <FluentIcon icon="chevron-left" size="24" class="text-n-slate-12" />
+        <FluentIcon
+          icon="chevron-left"
+          size="24"
+          class="text-n-slate-12 rtl:rotate-180"
+        />
       </button>
       <img
         v-if="avatarUrl"

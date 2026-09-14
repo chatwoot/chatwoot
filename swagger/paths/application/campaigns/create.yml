@@ -1,0 +1,69 @@
+tags:
+  - Campaigns
+operationId: create-campaign
+summary: Create a campaign
+security:
+  - userApiKey: []
+description: >-
+  Create a campaign. For a supported messaging inbox, provide scheduled_at to schedule a one-off campaign; omitting it makes the campaign eligible for the next scheduler run. Website campaigns use trigger_rules instead. Channel-specific campaign availability and requirements still apply.
+  One-off campaigns require at least one audience label for delivery. WhatsApp campaigns also require template_params with the selected template name, language, and any variable values. A successful creation response does not confirm delivery.
+  Requires an account administrator and API access enabled for the account.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/campaign_create_payload'
+      examples:
+        sms:
+          summary: Schedule an SMS campaign
+          value:
+            campaign:
+              title: January announcement
+              inbox_id: 12
+              message: Our January offers are here!
+              scheduled_at: '2027-01-15T10:00:00Z'
+              audience:
+                - type: Label
+                  id: 5
+        whatsapp:
+          summary: Schedule a WhatsApp campaign using a template with one body variable
+          value:
+            campaign:
+              title: Order update
+              inbox_id: 15
+              message: 'Hello {{ contact.name }}, your order has shipped.'
+              scheduled_at: '2027-01-15T10:00:00Z'
+              audience:
+                - type: Label
+                  id: 5
+              template_params:
+                name: order_shipped
+                language: en
+                processed_params:
+                  body:
+                    '1': '{{ contact.name }}'
+        website:
+          summary: Create an ongoing website campaign
+          value:
+            campaign:
+              title: Pricing help
+              inbox_id: 8
+              sender_id: 3
+              message: Can we help you choose a plan?
+              trigger_rules:
+                url: https://example.com/pricing
+                time_on_page: 10
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/campaign'
+  '401':
+    description: Authentication failed or the user is not an account administrator
+  '403':
+    description: API access is disabled for the account
+  '422':
+    description: Campaign validation failed
