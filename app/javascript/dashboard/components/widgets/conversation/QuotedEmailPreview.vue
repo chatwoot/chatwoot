@@ -78,7 +78,10 @@ onBeforeUnmount(() => requestEditorHeight(0));
   <div ref="rootRef" class="flex flex-col mt-1 min-h-0">
     <div class="flex items-center gap-1 shrink-0">
       <NextButton
-        v-tooltip="toggleTooltip"
+        v-tooltip.top="{
+          content: toggleTooltip,
+          delay: { show: 500, hide: 0 },
+        }"
         type="button"
         class="!h-4 !w-7"
         slate
@@ -91,7 +94,10 @@ onBeforeUnmount(() => requestEditorHeight(0));
       />
       <NextButton
         v-if="isExpanded"
-        v-tooltip="t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE')"
+        v-tooltip.top="{
+          content: t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE'),
+          delay: { show: 500, hide: 0 },
+        }"
         ghost
         slate
         xs
