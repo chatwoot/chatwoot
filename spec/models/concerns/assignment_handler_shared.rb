@@ -53,7 +53,7 @@ shared_examples_for 'assignment_handler' do
       it 'keeps AgentBot ownership when assigning an auto-assigning team' do
         team.update!(allow_auto_assign: true)
         agent_bot = create(:agent_bot, account: conversation.account)
-        conversation.update!(assignee: nil, assignee_agent_bot: agent_bot)
+        conversation.update!(assignee: nil, ai_assignee: agent_bot)
 
         conversation.update!(team: team)
 

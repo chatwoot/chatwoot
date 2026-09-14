@@ -4,7 +4,6 @@ import { emitter } from 'shared/helpers/mitt';
 import { useTrack } from 'dashboard/composables';
 
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 
@@ -17,10 +16,6 @@ const props = defineProps({
   },
   message: {
     type: Object,
-    required: true,
-  },
-  conversationInboxType: {
-    type: String,
     required: true,
   },
 });
@@ -39,18 +34,12 @@ const messageContent = computed(() => {
   return formatter.formattedMessage;
 });
 
-const insertIntoRichEditor = computed(() => {
-  return [INBOX_TYPES.WEB, INBOX_TYPES.EMAIL].includes(
-    props.conversationInboxType
-  );
-});
-
 const useCopilotResponse = () => {
-  if (insertIntoRichEditor.value) {
-    emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, props.message?.content);
-  } else {
-    emitter.emit(BUS_EVENTS.INSERT_INTO_NORMAL_EDITOR, props.message?.content);
-  }
+  // Always insert through the rich editor so the markdown is parsed into proper
+  // paragraph/hard_break nodes. The plain-text path inserts the reply as a single
+  // text node with raw newlines, which the editor collapses into one paragraph as
+  // soon as the agent edits the draft.
+  emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, props.message?.content);
   useTrack(COPILOT_EVENTS.USE_CAPTAIN_RESPONSE);
 };
 </script>

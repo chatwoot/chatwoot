@@ -126,7 +126,7 @@ export default {
           <div
             v-if="
               currentChat.meta.assignee &&
-              currentChat.meta.assignee_type !== 'AgentBot'
+              currentChat.meta.assignee_type === 'User'
             "
             class="flex items-center gap-2"
           >

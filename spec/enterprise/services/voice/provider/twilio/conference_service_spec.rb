@@ -47,7 +47,7 @@ describe Voice::Provider::Twilio::ConferenceService do
     it 'keeps an existing AgentBot conversation owner' do
       agent = create(:user, account: account)
       agent_bot = create(:agent_bot, account: account)
-      conversation.update!(assignee_agent_bot: agent_bot)
+      conversation.update!(ai_assignee: agent_bot)
 
       service.mark_agent_joined(user: agent)
 

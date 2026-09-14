@@ -12,13 +12,6 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import wootConstants from 'dashboard/constants/globals';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 
-defineProps({
-  conversationInboxType: {
-    type: String,
-    default: '',
-  },
-});
-
 const store = useStore();
 const { uiSettings, updateUISettings } = useUISettings();
 const { isEnterprise } = useConfig();
@@ -133,8 +126,10 @@ const sendMessage = async payload => {
         selectedCopilotThreadId.value = response.id;
       }
     }
+    return true;
   } catch (error) {
     useAlert(error.message);
+    return false;
   }
 };
 
@@ -160,12 +155,11 @@ onMounted(() => {
     <Copilot
       :messages="messages"
       :support-agent="currentUser"
-      :conversation-inbox-type="conversationInboxType"
       :assistants="assistants"
       :active-assistant="activeAssistant"
       :can-suggest-reply="canSuggestReply"
+      :on-send-message="sendMessage"
       @set-assistant="setAssistant"
-      @send-message="sendMessage"
       @reset="handleReset"
     />
   </div>
