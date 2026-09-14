@@ -72,8 +72,8 @@ class Captain::Apropos::WootqlResolver
     parent = parts[0...-1].join('.')
     origin(parent) unless parent.empty?
     resource = @origins.fetch(parent)
-    target, key, cardinality = Captain::Apropos::Catalog::ENTITIES.fetch(resource).fetch(:relations).fetch(parts.last)
-    raise Captain::Apropos::Error, 'Scoped relationships require Scheme related, not WootQL' if cardinality == :scoped
+    target, key, cardinality = Captain::Apropos::ResourceCatalog.fetch(resource).fetch(:relations).fetch(parts.last)
+    raise Captain::Apropos::Error, 'Use related for scoped or polymorphic paths' unless %i[one many].include?(cardinality)
     raise Captain::Apropos::Error, 'To-many paths require an explicit join before aggregation' unless cardinality == :one
 
     left = [parent.presence, key].compact.join('.')

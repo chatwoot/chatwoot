@@ -10,7 +10,7 @@ class Api::V1::Accounts::Captain::WootqlController < Api::V1::Accounts::BaseCont
   end
 
   def show
-    resources = Captain::Apropos::Catalog::ENTITIES.transform_values do |definition|
+    resources = Captain::Apropos::ResourceCatalog.entries.transform_values do |definition|
       { fields: definition.fetch(:fields) + definition.fetch(:query_fields, {}).keys, relations: definition.fetch(:relations) }
     end
     render json: { resources: resources }

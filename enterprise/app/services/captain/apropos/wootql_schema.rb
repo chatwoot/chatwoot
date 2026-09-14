@@ -2,17 +2,17 @@ class Captain::Apropos::WootqlSchema
   Field = Struct.new(:type, :enum_values, :expression, keyword_init: true)
 
   def self.describe(data)
-    Captain::Apropos::Catalog::ENTITIES.to_h do |resource, definition|
+    Captain::Apropos::ResourceCatalog.entries.to_h do |resource, definition|
       columns = fields(resource, data.scope(resource)).transform_values do |field|
         { type: field.type, values: field.enum_values&.keys }.compact
       end
-      relations = definition.fetch(:relations).reject { |_, (_, _, cardinality)| cardinality == :scoped }
-      [resource, { fields: columns, relations: relations }]
+      relations = definition.fetch(:relations).select { |_, (_, _, cardinality)| %i[one many].include?(cardinality) }
+      [resource, { fields: columns, relations: relations, description: definition[:description] }.compact]
     end
   end
 
   def self.fields(resource, relation)
-    definition = Captain::Apropos::Catalog::ENTITIES.fetch(resource)
+    definition = Captain::Apropos::ResourceCatalog.fetch(resource)
     fields = definition.fetch(:fields).index_with do |name|
       values = relation.klass.defined_enums[name]
       Field.new(type: values ? :string : relation.klass.type_for_attribute(name).type, enum_values: values)

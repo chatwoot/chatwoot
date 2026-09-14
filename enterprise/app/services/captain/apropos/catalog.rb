@@ -120,7 +120,7 @@ class Captain::Apropos::Catalog
   end
 
   def entries
-    Captain::Apropos::SeeAlso.attach(function_entries.merge(ENTITIES).merge(ACTIONS))
+    Captain::Apropos::SeeAlso.attach(function_entries.merge(resource_entries).merge(ACTIONS))
                              .merge(Captain::Apropos::Knowledge.entries)
                              .merge(@library ? @library.entries : {})
                              .merge(@scheme.bindings.transform_keys(&:to_s).transform_values do |value|
@@ -151,11 +151,21 @@ class Captain::Apropos::Catalog
 
   private
 
+  def resource_entries
+    knowledge = Captain::Apropos::Knowledge.entries
+    Captain::Apropos::ResourceCatalog.entries.to_h do |name, definition|
+      concept = knowledge["knowledge/#{name == 'agents' ? 'human-agents' : name}"]
+      metadata = Captain::Apropos::ResourceFields.metadata(name, definition.fetch(:fields))
+      definition.fetch(:query_fields, {}).each { |field, type| metadata[field] = { type: type, nullable: false, computed: true } }
+      [name, definition.merge(field_metadata: metadata).merge(concept ? concept.slice(:markdown, :concept_relations) : {})]
+    end
+  end
+
   def function_entries
     functions = FUNCTIONS.transform_values { |signature, description| { signature: signature, description: description } }
     CORE_GROUPS.each { |name, members| functions[name] = functions.fetch(name).merge(members: functions.slice(*members)) }
     functions['wootql'] = functions.fetch('wootql').merge(members: WOOTQL)
-    functions['resources'] = functions.fetch('resources').merge(members: ENTITIES)
+    functions['resources'] = functions.fetch('resources').merge(members: resource_entries)
     functions['assignment-context'] = functions.fetch('assignment-context').merge(Captain::Apropos::AssignmentContext::CONTRACT)
     functions['faq-search'] = functions.fetch('faq-search').merge(Captain::Apropos::FaqSearch::CONTRACT)
     functions['show-table'] = functions.fetch('show-table').merge(Captain::Apropos::TableDisplay::CONTRACT)

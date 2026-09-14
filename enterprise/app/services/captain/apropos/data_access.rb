@@ -7,7 +7,7 @@ class Captain::Apropos::DataAccess
   end
 
   def search(type, filters = {}, cursor = 0)
-    definition = Captain::Apropos::Catalog::ENTITIES.fetch(type.to_s)
+    definition = Captain::Apropos::ResourceCatalog.fetch(type.to_s)
     relation = scope(type.to_s)
     filters.each do |key, value|
       relation = apply_filter(relation, definition, key.to_s, value)
@@ -29,13 +29,15 @@ class Captain::Apropos::DataAccess
 
   def related(reference, relationship, cursor = 0)
     record = resolve(reference)
-    type, foreign_key, cardinality = Captain::Apropos::Catalog::ENTITIES.fetch(reference.fetch('type'))
-                                                                        .fetch(:relations).fetch(relationship.to_s)
+    type, foreign_key, cardinality = Captain::Apropos::ResourceCatalog.fetch(reference.fetch('type')).fetch(:relations).fetch(relationship.to_s)
+    return polymorphic_page(record, type, foreign_key, cursor) if cardinality == :polymorphic
+
     relation = scope(type)
     relation = case cardinality
                when :many then relation.where(foreign_key => record.id)
                when :one then relation.where(id: record[foreign_key])
                when :scoped then relation.where(id: record.public_send(foreign_key).map(&:id))
+               when :association then relation.where(id: associated_ids(record, foreign_key))
                else raise Captain::Apropos::Error, "Unsupported relationship cardinality: #{cardinality}"
                end
     page(relation, type, cursor)
@@ -59,6 +61,20 @@ class Captain::Apropos::DataAccess
   end
 
   private
+
+  def associated_ids(record, name)
+    association = record.association(name).scope
+    association.reselect(association.klass.arel_table[:id])
+  end
+
+  def polymorphic_page(record, targets, name, cursor)
+    association = record.class.reflect_on_association(name.to_sym)
+    sender_type = record[association.foreign_type]
+    return { 'items' => [], 'next_cursor' => false } if sender_type.nil?
+
+    type = targets.fetch(sender_type) { raise Captain::Apropos::Error, "Related #{name} type is not an exposed resource: #{sender_type}" }
+    page(scope(type).where(id: record[association.foreign_key]), type, cursor)
+  end
 
   def apply_filter(relation, definition, key, value)
     return relation.tagged_with(Array(value)) if key == 'labels' && relation.klass == Conversation
@@ -86,7 +102,7 @@ class Captain::Apropos::DataAccess
   end
 
   def serialize(record, type)
-    fields = Captain::Apropos::Catalog::ENTITIES.fetch(type).fetch(:fields)
+    fields = Captain::Apropos::ResourceFields.for(type)
     record.attributes.slice(*fields).as_json.merge('ref' => { 'type' => type, 'id' => record.id })
   end
 end
