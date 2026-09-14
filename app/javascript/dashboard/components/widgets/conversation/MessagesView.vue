@@ -3,6 +3,7 @@ import { ref, provide, useTemplateRef } from 'vue';
 import { useElementSize } from '@vueuse/core';
 // composable
 import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
+import { useCampaignHistory } from 'dashboard/composables/useCampaignHistory';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
 // components
@@ -11,6 +12,7 @@ import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
 import ReferralBubble from 'dashboard/components-next/Conversation/ReferralBubble.vue';
 
@@ -47,6 +49,7 @@ export default {
     Banner,
     ConversationLabelSuggestion,
     Spinner,
+    NextButton,
     ResizableEditorWrapper,
     ReferralBubble,
   },
@@ -68,6 +71,7 @@ export default {
     provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
+      ...useCampaignHistory(),
       captainTasksEnabled,
       getLabelSuggestions,
       isLabelSuggestionFeatureEnabled,
@@ -260,6 +264,19 @@ export default {
   },
 
   watch: {
+    visibleCampaignHistory() {
+      if (!this.conversationPanel) return;
+      const previousHeight = this.conversationPanel.scrollHeight;
+      const previousTop = this.conversationPanel.scrollTop;
+      this.$nextTick(() => {
+        if (!this.hasUserScrolled && !this.$route.query.messageId) {
+          this.scrollToBottom();
+        } else {
+          this.conversationPanel.scrollTop =
+            previousTop + this.conversationPanel.scrollHeight - previousHeight;
+        }
+      });
+    },
     currentChat(newChat, oldChat) {
       if (newChat.id === oldChat.id) {
         return;
@@ -498,6 +515,7 @@ export default {
       :is-an-email-channel="isAnEmailChannel"
       :inbox-supports-reply-to="inboxSupportsReplyTo"
       :messages="getMessages"
+      :campaign-history="visibleCampaignHistory"
       @retry="handleMessageRetry"
     >
       <template #beforeAll>
@@ -510,6 +528,30 @@ export default {
           </li>
         </transition>
         <ReferralBubble v-if="referralData" :referral="referralData" />
+        <li
+          v-if="
+            hasMoreCampaignHistory ||
+            campaignHistoryError ||
+            isCampaignHistoryLoading
+          "
+          class="flex flex-col items-center gap-2 py-3 text-sm text-n-slate-11"
+        >
+          <span v-if="campaignHistoryError">{{
+            $t('CAMPAIGN.HISTORY.ERROR')
+          }}</span>
+          <NextButton
+            :label="
+              campaignHistoryError
+                ? $t('CAMPAIGN.HISTORY.RETRY')
+                : $t('CAMPAIGN.HISTORY.LOAD_MORE')
+            "
+            :is-loading="isCampaignHistoryLoading"
+            :disabled="isCampaignHistoryLoading"
+            sm
+            ghost
+            @click="loadCampaignHistory"
+          />
+        </li>
       </template>
       <template #unreadBadge>
         <li
