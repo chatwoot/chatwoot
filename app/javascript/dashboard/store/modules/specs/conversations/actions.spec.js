@@ -775,18 +775,9 @@ describe('#deleteMessage', () => {
       axios.delete.mockResolvedValue({
         data: { id: 1 },
       });
-      const state = {
-        conversationFilters: {
-          status: 'open',
-          assigneeType: 'all',
-          inboxId: 1,
-        },
-      };
-      await actions.deleteConversation({ commit, dispatch, state }, 1);
+      await actions.deleteConversation({ commit, dispatch }, 1);
       expect(commit.mock.calls).toEqual([[types.DELETE_CONVERSATION, 1]]);
-      expect(dispatch.mock.calls).toEqual([
-        ['conversationStats/get', state.conversationFilters, { root: true }],
-      ]);
+      expect(dispatch.mock.calls).toEqual([['conversationStats/get']]);
     });
 
     it('send no actions if API is error', async () => {

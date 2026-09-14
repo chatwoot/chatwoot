@@ -32,7 +32,7 @@ const getViewKey = ({
     },
   ]);
 
-let activeView = { key: null, committedRequestId: 0 };
+let activeView = { key: null, params: {}, committedRequestId: 0 };
 let requestId = 0;
 
 const isCurrentRequest = request =>
@@ -49,7 +49,9 @@ const fetchMetaData = async (commit, params, request) => {
   if (!isCurrentRequest(request)) return;
 
   try {
-    const response = await ConversationApi.meta(params);
+    const response = params.queryData
+      ? await ConversationApi.filter({ queryData: params.queryData, page: 1 })
+      : await ConversationApi.meta(params);
     const {
       data: { meta },
     } = response;
@@ -83,7 +85,7 @@ export const getMetaDebounceKey = allCount => {
 };
 
 export const actions = {
-  get: ({ commit, state: $state }, params) => {
+  get: ({ commit, state: $state }, params = activeView.params) => {
     if (getViewKey(params) !== activeView.key) return;
 
     requestId += 1;
@@ -95,7 +97,7 @@ export const actions = {
   onListRequestStarted(_, params) {
     const key = getViewKey(params);
     if (key !== activeView.key) {
-      activeView = { key, committedRequestId: 0 };
+      activeView = { key, params, committedRequestId: 0 };
     }
     requestId += 1;
     return { view: activeView, id: requestId };

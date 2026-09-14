@@ -470,13 +470,11 @@ const actions = {
     }
   },
 
-  deleteConversation: async ({ commit, dispatch, state }, conversationId) => {
+  deleteConversation: async ({ commit, dispatch }, conversationId) => {
     try {
       await ConversationApi.delete(conversationId);
       commit(types.DELETE_CONVERSATION, conversationId);
-      dispatch('conversationStats/get', state.conversationFilters, {
-        root: true,
-      });
+      dispatch('conversationStats/get');
     } catch (error) {
       throw new Error(error);
     }

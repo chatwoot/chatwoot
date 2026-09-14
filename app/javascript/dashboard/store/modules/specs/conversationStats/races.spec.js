@@ -237,4 +237,79 @@ describe('conversation count refresh races', () => {
     expect(axios.get).toHaveBeenCalledOnce();
     expect(state.allCount).toBe(31);
   });
+
+  it.each([
+    [
+      'advanced filter',
+      {
+        payload: [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['all'],
+          },
+        ],
+      },
+    ],
+    [
+      'saved folder',
+      {
+        payload: [
+          {
+            attribute_key: 'labels',
+            filter_operator: 'equal_to',
+            values: ['support'],
+          },
+        ],
+      },
+    ],
+  ])(
+    'refreshes the %s total after deleting a conversation',
+    async (_, queryData) => {
+      axios.post.mockResolvedValueOnce({
+        data: { payload: [], meta: { all_count: 30 } },
+      });
+      await conversationActions.fetchFilteredConversations(listContext, {
+        queryData,
+        page: 2,
+      });
+      listContext.commit.mockClear();
+      axios.post.mockClear();
+
+      axios.delete.mockResolvedValue({});
+      axios.post.mockResolvedValueOnce({
+        data: { payload: [], meta: { all_count: 29 } },
+      });
+      await conversationActions.deleteConversation(listContext, 123);
+      await vi.runAllTimersAsync();
+
+      expect(axios.post).toHaveBeenCalledOnce();
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/conversations/filter'),
+        queryData,
+        expect.objectContaining({ params: { page: 1 } })
+      );
+      expect(axios.get).not.toHaveBeenCalled();
+      expect(state.allCount).toBe(29);
+      expect(listContext.commit.mock.calls).toEqual([
+        ['DELETE_CONVERSATION', 123],
+      ]);
+    }
+  );
+
+  it('continues using metadata to refresh a basic view after deletion', async () => {
+    axios.delete.mockResolvedValue({});
+    axios.get.mockResolvedValue({ data: { meta: { all_count: 29 } } });
+    await conversationActions.deleteConversation(listContext, 123);
+    await vi.runAllTimersAsync();
+
+    expect(axios.get).toHaveBeenCalledWith(
+      expect.stringContaining('/conversations/meta'),
+      expect.objectContaining({
+        params: expect.objectContaining({ status: 'open' }),
+      })
+    );
+    expect(axios.post).not.toHaveBeenCalled();
+    expect(state.allCount).toBe(29);
+  });
 });
