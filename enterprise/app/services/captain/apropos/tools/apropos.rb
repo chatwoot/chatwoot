@@ -1,5 +1,5 @@
 class Captain::Apropos::Tools::Apropos < Agents::Tool
-  description 'Search the live catalog of Chatwoot entities, relationships, Scheme functions, and operations'
+  description 'Search Chatwoot domain knowledge, entities, relationships, Scheme functions, and operations'
   param :query, type: 'string', desc: 'Words describing what you need; empty string lists the catalog'
 
   def name = 'apropos'

@@ -121,6 +121,7 @@ class Captain::Apropos::Catalog
 
   def entries
     Captain::Apropos::SeeAlso.attach(function_entries.merge(ENTITIES).merge(ACTIONS))
+                             .merge(Captain::Apropos::Knowledge.entries)
                              .merge(@library ? @library.entries : {})
                              .merge(@scheme.bindings.transform_keys(&:to_s).transform_values do |value|
                                       { stored_value: Captain::Apropos::ContextLimits.describe(value) }
@@ -162,6 +163,8 @@ class Captain::Apropos::Catalog
   end
 
   def discovery_summary(details)
+    return details.slice(:kind, :description, :concept_relations) if details[:kind] == 'knowledge'
+
     return details.slice(:signature, :description) if details.key?(:signature)
     return { fields: details[:fields] + details.fetch(:query_fields, {}).keys, connections: details.fetch(:relations).keys } if details.key?(:fields)
 

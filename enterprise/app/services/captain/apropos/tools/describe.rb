@@ -1,5 +1,5 @@
 class Captain::Apropos::Tools::Describe < Agents::Tool
-  description 'Inspect an entity, relationship catalog, function signature, operation, or saved binding'
+  description 'Read domain knowledge or inspect an entity, relationship catalog, function signature, operation, or saved binding'
   param :name, type: 'string', desc: 'Exact catalog entry name'
 
   def name = 'describe'
