@@ -7,6 +7,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   include Api::V1::Accounts::Concerns::InboxHealthManagement
   include Api::V1::Accounts::Concerns::InboxSecretManagement
+  include Api::V1::Accounts::Concerns::EmailChannelCreation
 
   def index
     @inboxes = policy_scope(Current.account.inboxes)
@@ -31,18 +32,17 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def create
+    validate_new_email_channel
+    return if performed?
+
     ActiveRecord::Base.transaction do
       channel = create_channel
       @inbox = Current.account.inboxes.build(
-        {
-          name: inbox_name(channel),
-          channel: channel
-        }.merge(
-          permitted_params.except(:channel)
-        )
+        { name: inbox_name(channel), channel: channel }.merge(permitted_params.except(:channel))
       )
       @inbox.save!
     end
+    enqueue_initial_imap_fetch
   end
 
   def update
