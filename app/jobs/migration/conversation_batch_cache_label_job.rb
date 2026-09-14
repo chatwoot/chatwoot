@@ -1,14 +1,14 @@
 class Migration::ConversationBatchCacheLabelJob < ApplicationJob
   queue_as :async_database_migration
 
-  # Reading labels no longer writes their cache on save. Rebuild it explicitly
-  # from the taggings, under a lock so a concurrent label edit cannot make it stale.
+  # To cache the label, we simply access it from the object and save it. Anytime the object is
+  # saved in the future, ActsAsTaggable will automatically recompute it. This process is done
+  # initially when the user has not performed any action.
+  # Reference: https://github.com/mbleigh/acts-as-taggable-on/wiki/Caching
   def perform(conversation_batch)
     conversation_batch.each do |conversation|
-      conversation.with_lock do
-        labels = conversation.labels.pluck(:name)
-        conversation.update!(cached_label_list: labels.join("#{ActsAsTaggableOn.delimiter} "))
-      end
+      conversation.label_list
+      conversation.save!
     end
   end
 end
