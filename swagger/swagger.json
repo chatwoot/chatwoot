@@ -3276,6 +3276,11 @@
                           },
                           "description": "array of the attribute values to filter"
                         },
+                        "timezone": {
+                          "type": "string",
+                          "description": "IANA timezone for created_at and last_activity_at date comparisons, including days_before. Omit to retain UTC behavior. Date-only custom attributes are not converted.",
+                          "example": "America/Sao_Paulo"
+                        },
                         "query_operator": {
                           "type": "string",
                           "description": "query operator name",
@@ -4619,6 +4624,11 @@
                           },
                           "description": "array of the attribute values to filter"
                         },
+                        "timezone": {
+                          "type": "string",
+                          "description": "IANA timezone for created_at and last_activity_at date comparisons, including days_before. Omit to retain UTC behavior. Date-only custom attributes are not converted.",
+                          "example": "America/Sao_Paulo"
+                        },
                         "query_operator": {
                           "type": "string",
                           "description": "query operator name",
@@ -4754,15 +4764,18 @@
                 "type": "object",
                 "properties": {
                   "priority": {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "enum": [
                       "urgent",
                       "high",
                       "medium",
                       "low",
-                      "none"
+                      null
                     ],
-                    "description": "The priority of the conversation",
+                    "description": "The priority of the conversation. Set to null to clear the priority.",
                     "example": "high"
                   },
                   "sla_policy_id": {
@@ -4802,6 +4815,24 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "error"
+                  ],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -4948,25 +4979,25 @@
           }
         ],
         "requestBody": {
-          "required": true,
+          "required": false,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "priority"
-                ],
                 "properties": {
                   "priority": {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "enum": [
                       "urgent",
                       "high",
                       "medium",
                       "low",
-                      "none"
+                      null
                     ],
-                    "description": "The priority of the conversation",
+                    "description": "The priority of the conversation. Omit or set to null to clear the priority.",
                     "example": "high"
                   }
                 }
@@ -4994,6 +5025,24 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "error"
+                  ],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
