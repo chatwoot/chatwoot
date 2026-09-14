@@ -255,7 +255,9 @@ export const getStandardAttributeInputType = (automationTypes, event, key) => {
 export const generateAutomationPayload = payload => {
   const automation = JSON.parse(JSON.stringify(payload));
   automation.conditions[automation.conditions.length - 1].query_operator = null;
-  automation.conditions = filterQueryGenerator(automation.conditions).payload;
+  automation.conditions = filterQueryGenerator(automation.conditions, {
+    useLocalTimezone: false,
+  }).payload;
   automation.actions = actionQueryGenerator(automation.actions);
   return automation;
 };
