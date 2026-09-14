@@ -657,7 +657,12 @@ describe('#actions', () => {
         dispatch.mock.calls.filter(
           ([action]) => action === 'conversationStats/set'
         )
-      ).toEqual([['conversationStats/set', filteredResponse.meta]]);
+      ).toEqual([
+        [
+          'conversationStats/set',
+          { meta: filteredResponse.meta, request: undefined },
+        ],
+      ]);
     });
 
     it('fetches filtered conversations with a mock commit', async () => {
@@ -770,10 +775,17 @@ describe('#deleteMessage', () => {
       axios.delete.mockResolvedValue({
         data: { id: 1 },
       });
-      await actions.deleteConversation({ commit, dispatch }, 1);
+      const state = {
+        conversationFilters: {
+          status: 'open',
+          assigneeType: 'all',
+          inboxId: 1,
+        },
+      };
+      await actions.deleteConversation({ commit, dispatch, state }, 1);
       expect(commit.mock.calls).toEqual([[types.DELETE_CONVERSATION, 1]]);
       expect(dispatch.mock.calls).toEqual([
-        ['conversationStats/get', {}, { root: true }],
+        ['conversationStats/get', state.conversationFilters, { root: true }],
       ]);
     });
 

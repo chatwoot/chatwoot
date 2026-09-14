@@ -12,20 +12,48 @@ export const getters = {
   getStats: $state => $state,
 };
 
-// Starting a list request supersedes metadata work queued before it.
-let listRequestVersion = 0;
+// Counts are shared across assignee tabs, pages, and sort orders.
+const getViewKey = ({
+  inboxId,
+  status,
+  labels,
+  teamId,
+  conversationType,
+  queryData,
+}) =>
+  JSON.stringify([
+    ConversationApi.url,
+    queryData || {
+      inboxId,
+      status,
+      labels,
+      teamId,
+      conversationType,
+    },
+  ]);
 
-const fetchMetaData = async (commit, params, version) => {
-  if (version !== listRequestVersion) return;
+let activeView = { key: null, committedRequestId: 0 };
+let requestId = 0;
+
+const isCurrentRequest = request =>
+  request.view === activeView && request.id >= activeView.committedRequestId;
+
+const commitCounts = (commit, meta, request) => {
+  if (!isCurrentRequest(request)) return;
+
+  activeView.committedRequestId = request.id;
+  commit(types.SET_CONV_TAB_META, meta);
+};
+
+const fetchMetaData = async (commit, params, request) => {
+  if (!isCurrentRequest(request)) return;
 
   try {
     const response = await ConversationApi.meta(params);
     const {
       data: { meta },
     } = response;
-    if (version !== listRequestVersion) return;
-
-    commit(types.SET_CONV_TAB_META, meta);
+    commitCounts(commit, meta, request);
   } catch (error) {
     // ignore
   }
@@ -56,17 +84,24 @@ export const getMetaDebounceKey = allCount => {
 
 export const actions = {
   get: ({ commit, state: $state }, params) => {
-    metaDebouncers[getMetaDebounceKey($state.allCount)](
-      commit,
-      params,
-      listRequestVersion
-    );
+    if (getViewKey(params) !== activeView.key) return;
+
+    requestId += 1;
+    metaDebouncers[getMetaDebounceKey($state.allCount)](commit, params, {
+      view: activeView,
+      id: requestId,
+    });
   },
-  onListRequestStarted() {
-    listRequestVersion += 1;
+  onListRequestStarted(_, params) {
+    const key = getViewKey(params);
+    if (key !== activeView.key) {
+      activeView = { key, committedRequestId: 0 };
+    }
+    requestId += 1;
+    return { view: activeView, id: requestId };
   },
-  set({ commit }, meta) {
-    commit(types.SET_CONV_TAB_META, meta);
+  set({ commit }, { meta, request }) {
+    commitCounts(commit, meta, request);
   },
 };
 

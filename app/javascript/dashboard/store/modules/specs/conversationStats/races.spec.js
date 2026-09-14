@@ -14,6 +14,7 @@ describe('conversation count refresh races', () => {
     vi.useFakeTimers();
     vi.setSystemTime(0);
     state = { allCount: 30 };
+    actions.onListRequestStarted({}, { status: 'open' });
     commit = (type, payload) => mutations[type](state, payload);
     listContext = {
       commit: vi.fn(),
@@ -91,7 +92,8 @@ describe('conversation count refresh races', () => {
   });
 
   it('continues refreshing counts after a list response', async () => {
-    actions.set({ commit }, { all_count: 30 });
+    const request = actions.onListRequestStarted({}, { status: 'open' });
+    actions.set({ commit }, { meta: { all_count: 30 }, request });
     axios.get.mockResolvedValue({ data: { meta: { all_count: 31 } } });
     actions.get({ commit, state }, { status: 'open' });
     await vi.runAllTimersAsync();
@@ -122,4 +124,117 @@ describe('conversation count refresh races', () => {
       expect(state.allCount).toBe(31);
     }
   );
+
+  it('keeps a newer event count when the older list response arrives last', async () => {
+    let resolveList;
+    axios.get.mockReturnValueOnce(
+      new Promise(resolve => {
+        resolveList = resolve;
+      })
+    );
+    const listRequest = conversationActions.fetchAllConversations(listContext);
+
+    axios.get.mockResolvedValue({ data: { meta: { all_count: 31 } } });
+    actions.get({ commit, state }, { status: 'open' });
+    await vi.runAllTimersAsync();
+    expect(state.allCount).toBe(31);
+
+    resolveList({ data: { data: { payload: [], meta: { all_count: 30 } } } });
+    await listRequest;
+
+    expect(state.allCount).toBe(31);
+  });
+
+  it('retains a queued event refresh when a same-view list request fails', async () => {
+    actions.get({ commit, state }, { status: 'open' });
+    axios.get.mockRejectedValueOnce(new Error('List failed'));
+    await conversationActions.fetchAllConversations(listContext);
+
+    axios.get.mockResolvedValue({ data: { meta: { all_count: 31 } } });
+    await vi.runAllTimersAsync();
+
+    expect(state.allCount).toBe(31);
+  });
+
+  it('retains an in-flight event refresh when a same-view list request fails', async () => {
+    let resolveMeta;
+    axios.get.mockReturnValueOnce(
+      new Promise(resolve => {
+        resolveMeta = resolve;
+      })
+    );
+    actions.get({ commit, state }, { status: 'open' });
+    await vi.runAllTimersAsync();
+
+    axios.get.mockRejectedValueOnce(new Error('List failed'));
+    await conversationActions.fetchAllConversations(listContext);
+    resolveMeta({ data: { meta: { all_count: 31 } } });
+    await vi.runAllTimersAsync();
+
+    expect(state.allCount).toBe(31);
+  });
+
+  it('discards old-view refreshes even when the new filter request fails', async () => {
+    actions.get({ commit, state }, { status: 'open' });
+    axios.post.mockRejectedValue(new Error('Filter failed'));
+    await expect(
+      conversationActions.fetchFilteredConversations(listContext, {
+        queryData: {
+          payload: [
+            {
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
+              values: ['all'],
+            },
+          ],
+        },
+        page: 1,
+      })
+    ).rejects.toThrow('Filter failed');
+    await vi.runAllTimersAsync();
+
+    expect(axios.get).not.toHaveBeenCalled();
+    expect(state.allCount).toBe(30);
+  });
+
+  it('discards older queued metadata after a successful same-view list refresh', async () => {
+    actions.get({ commit, state }, { status: 'open' });
+    axios.get.mockResolvedValueOnce({
+      data: { data: { payload: [], meta: { all_count: 31 } } },
+    });
+    await conversationActions.fetchAllConversations(listContext);
+    await vi.runAllTimersAsync();
+
+    expect(axios.get).toHaveBeenCalledOnce();
+    expect(state.allCount).toBe(31);
+  });
+
+  it('does not let a failed newer metadata request block a successful list response', async () => {
+    let resolveList;
+    axios.get.mockReturnValueOnce(
+      new Promise(resolve => {
+        resolveList = resolve;
+      })
+    );
+    const listRequest = conversationActions.fetchAllConversations(listContext);
+
+    axios.get.mockRejectedValue(new Error('Metadata failed'));
+    actions.get({ commit, state }, { status: 'open' });
+    await vi.runAllTimersAsync();
+    resolveList({ data: { data: { payload: [], meta: { all_count: 31 } } } });
+    await listRequest;
+
+    expect(axios.get).toHaveBeenCalledTimes(2);
+    expect(state.allCount).toBe(31);
+  });
+
+  it('continues updating shared counts after a cached assignee-tab switch', async () => {
+    actions.onListRequestStarted({}, { status: 'open', assigneeType: 'me' });
+    axios.get.mockResolvedValue({ data: { meta: { all_count: 31 } } });
+    actions.get({ commit, state }, { status: 'open', assigneeType: 'all' });
+    await vi.runAllTimersAsync();
+
+    expect(axios.get).toHaveBeenCalledOnce();
+    expect(state.allCount).toBe(31);
+  });
 });
