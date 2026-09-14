@@ -110,7 +110,13 @@ export const mutations = {
   [types.SET_PREVIOUS_CONVERSATIONS](_state, { id, data }) {
     if (data.length) {
       const [chat] = _state.allConversations.filter(c => c.id === id);
-      chat.messages.unshift(...data);
+      const messageIds = new Set(chat.messages.map(message => message.id));
+      const newMessages = data.filter(message => {
+        if (messageIds.has(message.id)) return false;
+        messageIds.add(message.id);
+        return true;
+      });
+      chat.messages.unshift(...newMessages);
     }
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {

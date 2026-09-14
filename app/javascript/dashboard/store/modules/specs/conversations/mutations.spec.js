@@ -653,6 +653,34 @@ describe('#mutations', () => {
   });
 
   describe('#SET_PREVIOUS_CONVERSATIONS', () => {
+    it('merges overlapping history once while preserving newer realtime message data', () => {
+      const realtimeMessage = {
+        id: 2,
+        content: 'Updated content',
+        status: 'read',
+      };
+      const state = {
+        allConversations: [{ id: 1, messages: [realtimeMessage, { id: 3 }] }],
+      };
+      const payload = {
+        id: 1,
+        data: [
+          { id: 1 },
+          { id: 1 },
+          { id: 2, content: 'Old content', status: 'sent' },
+        ],
+      };
+
+      mutations[types.SET_PREVIOUS_CONVERSATIONS](state, payload);
+      mutations[types.SET_PREVIOUS_CONVERSATIONS](state, payload);
+
+      expect(state.allConversations[0].messages).toEqual([
+        { id: 1 },
+        realtimeMessage,
+        { id: 3 },
+      ]);
+    });
+
     it('should prepend messages to conversation messages array', () => {
       const state = {
         allConversations: [{ id: 1, messages: [{ id: 'msg2' }] }],

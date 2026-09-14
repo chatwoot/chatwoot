@@ -31,6 +31,7 @@ end
 ## TODO : Clean up and move the attributes into channel sub section
 
 json.tweets_enabled resource.channel.try(:tweets_enabled) if resource.twitter?
+json.provider_name resource.channel.try(:provider_name) if resource.facebook? || resource.instagram? || resource.tiktok?
 
 ## WebWidget Attributes
 json.allowed_domains resource.channel.try(:allowed_domains)

@@ -6,6 +6,7 @@ import { useStore } from 'dashboard/composables/store';
 import { vOnClickOutside } from '@vueuse/components';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useConversationFilterContext } from './provider.js';
+import { withTimestampTimezone } from 'dashboard/helper/filterQueryGenerator';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
 import Button from 'next/button/Button.vue';
@@ -77,7 +78,9 @@ function validateAndSubmit() {
 
   store.dispatch(
     'setConversationFilters',
-    useSnakeCase(JSON.parse(JSON.stringify(filters.value)))
+    useSnakeCase(JSON.parse(JSON.stringify(filters.value))).map(
+      withTimestampTimezone
+    )
   );
   emit('applyFilter', filters.value);
   useTrack(CONVERSATION_EVENTS.APPLY_FILTER, {

@@ -182,21 +182,32 @@ const isDateOnly = value =>
   typeof value === 'string' && DATE_ONLY_PATTERN.test(value);
 
 /**
- * Reduces a value to the UTC calendar day it falls on
+ * Reduces a value to its calendar day in the filter timezone
  * @param {*} value - An epoch timestamp, an ISO string or a `YYYY-MM-DD` string
  * @returns {Number|null} - Milliseconds at UTC midnight, or null when unparseable
  *
  * `coerceToDate` reads a `YYYY-MM-DD` string as midnight in the browser
  * timezone, which lands on the previous day for browsers behind UTC.
  */
-const toUtcDay = value => {
+const toCalendarDay = (value, timezone = 'UTC') => {
   const date = isDateOnly(value)
     ? new Date(`${value}T00:00:00.000Z`)
     : coerceToDate(value);
 
   if (date === null) return null;
 
-  return Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+  if (isDateOnly(value)) return date.getTime();
+
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: timezone,
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  }).formatToParts(date);
+  const { year, month, day } = Object.fromEntries(
+    parts.map(part => [part.type, part.value])
+  );
+  return Date.UTC(Number(year), Number(month) - 1, Number(day));
 };
 
 /**
@@ -206,19 +217,18 @@ const toUtcDay = value => {
  * @param {Function} compareFn - The comparison function to apply
  * @returns {Boolean} - Returns true if the comparison succeeds, false otherwise
  */
-const compareDates = (conversationValue, filterValue, compareFn) => {
+const compareDates = (conversationValue, filterValue, compareFn, timezone) => {
   // In saved views, the filterValue might be returned as an Array
   // In conversation list, when filtering, the filterValue will be returned as a string
   const valueToCompare = Array.isArray(filterValue)
     ? filterValue[0]
     : filterValue;
 
-  // A date filter compares whole days. The backend casts both sides with
-  // `::date` (Filters::FilterHelper#date_filter), so the time of day never
-  // takes part and the day is the one in UTC.
+  // Match the backend's calendar-day comparison in the saved timezone.
+  // Date-only custom attributes keep their literal calendar date.
   if (isDateOnly(valueToCompare)) {
-    const conversationDay = toUtcDay(conversationValue);
-    const filterDay = toUtcDay(valueToCompare);
+    const conversationDay = toCalendarDay(conversationValue, timezone);
+    const filterDay = toCalendarDay(valueToCompare);
 
     if (conversationDay === null || filterDay === null) return false;
     return compareFn(conversationDay, filterDay);
@@ -272,14 +282,33 @@ const matchesCondition = (conversationValue, filter) => {
       return isAbsent;
 
     case 'is_greater_than':
-      return compareDates(conversationValue, filterValue, (a, b) => a > b);
+      return compareDates(
+        conversationValue,
+        filterValue,
+        (a, b) => a > b,
+        filter.timezone
+      );
 
     case 'is_less_than':
-      return compareDates(conversationValue, filterValue, (a, b) => a < b);
+      return compareDates(
+        conversationValue,
+        filterValue,
+        (a, b) => a < b,
+        filter.timezone
+      );
 
     case 'days_before': {
       if (isNullish) {
         return false;
+      }
+
+      if (filter.timezone) {
+        const targetDay = new Date(toCalendarDay(Date.now(), filter.timezone));
+        targetDay.setUTCDate(targetDay.getUTCDate() - Number(filterValue));
+        return (
+          toCalendarDay(conversationValue, filter.timezone) <
+          targetDay.getTime()
+        );
       }
 
       const today = new Date();
