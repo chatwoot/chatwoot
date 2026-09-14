@@ -25,6 +25,58 @@ RSpec.describe Imap::FetchEmailService do
       let(:response) { Net::IMAP::TaggedResponse.new('A1', 'NO', Net::IMAP::ResponseText.new(nil, 'Invalid credentials (Failure)'), '') }
       let(:error) { Net::IMAP::NoResponseError.new(response) }
 
+      it 'does not require reauthorization for other IMAP providers' do
+        imap_email_channel.update!(imap_address: 'imap.example.com')
+        allow(Net::IMAP).to receive(:new).and_return(imap)
+        allow(imap).to receive(:authenticate).and_raise(error)
+
+        expect { described_class.new(channel: imap_email_channel).perform }.to raise_error do |raised|
+          expect(raised.class.name).to eq 'Net::IMAP::NoResponseError'
+        end
+
+        expect(imap_email_channel.authorization_error_count).to eq 0
+      end
+
+      %w[UNAVAILABLE LIMIT].each do |code|
+        it "does not count #{code} responses as authorization errors" do
+          response.data.code = Net::IMAP::ResponseCode.new(code, nil)
+          allow(imap).to receive(:authenticate).and_raise(error)
+
+          expect { described_class.new(channel: imap_email_channel).perform }.to raise_error do |raised|
+            expect(raised.class.name).to eq 'Net::IMAP::NoResponseError'
+          end
+
+          expect(imap_email_channel.authorization_error_count).to eq 0
+        end
+      end
+
+      it 'does not count unrecognized authentication responses' do
+        response.data.text = 'Service temporarily unavailable'
+        allow(imap).to receive(:authenticate).and_raise(error)
+
+        expect { described_class.new(channel: imap_email_channel).perform }.to raise_error do |raised|
+          expect(raised.class.name).to eq 'Net::IMAP::NoResponseError'
+        end
+
+        expect(imap_email_channel.authorization_error_count).to eq 0
+      end
+
+      %w[google microsoft].each do |provider|
+        it "counts explicit authentication rejections for #{provider}" do
+          imap_email_channel.update!(provider: provider, imap_address: 'imap.example.com')
+          allow(Net::IMAP).to receive(:new).and_return(imap)
+          response.data.code = Net::IMAP::ResponseCode.new('AUTHENTICATIONFAILED', nil)
+          response.data.text = 'Authentication failed'
+          allow(imap).to receive(:authenticate).and_raise(error)
+
+          expect { described_class.new(channel: imap_email_channel).perform }.to raise_error do |raised|
+            expect(raised.class.name).to eq 'Net::IMAP::NoResponseError'
+          end
+
+          expect(imap_email_channel.authorization_error_count).to eq 1
+        end
+      end
+
       it 'requires reauthorization after repeated authentication failures' do
         allow(imap).to receive(:authenticate).and_raise(error)
 
