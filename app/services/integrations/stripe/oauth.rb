@@ -58,7 +58,7 @@ class Integrations::Stripe::Oauth
 
     key = "stripe_app:oauth:#{state}"
     payload = Redis::Alfred.get(key)
-    return unless payload && Redis::Alfred.delete_if_equals(key, payload)
+    return unless payload && Redis::Alfred.delete_if_equals(key, payload) == [1]
 
     JSON.parse(payload)
   end
