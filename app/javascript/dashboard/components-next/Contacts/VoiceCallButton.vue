@@ -50,8 +50,23 @@ const voiceInboxes = computed(() =>
   (inboxesList.value || []).filter(isVoiceCallEnabled)
 );
 const hasVoiceInboxes = computed(() => voiceInboxes.value.length > 0);
+const conversationVoiceInbox = computed(() => {
+  if (!props.conversationId) return null;
 
-const shouldRender = computed(() => hasVoiceInboxes.value && !!props.phone);
+  const conversation = store.getters.getConversationById(props.conversationId);
+  return voiceInboxes.value.find(inbox => inbox.id === conversation?.inbox_id);
+});
+const hasWhatsappConversationIdentity = computed(
+  () =>
+    getVoiceCallProvider(conversationVoiceInbox.value) ===
+    VOICE_CALL_PROVIDERS.WHATSAPP
+);
+
+const shouldRender = computed(
+  () =>
+    hasVoiceInboxes.value &&
+    (!!props.phone || hasWhatsappConversationIdentity.value)
+);
 
 const isInitiatingCall = computed(() => {
   return contactsUiFlags.value?.isInitiatingCall || false;
@@ -131,7 +146,11 @@ const startCall = async (inboxId, conversationIdHint = null) => {
     try {
       await startWhatsappCall(inboxId, conversationIdHint);
     } catch (error) {
-      useAlert(error?.message || t('CONTACT_PANEL.CALL_FAILED'));
+      useAlert(
+        error?.response?.data?.error ||
+          error?.message ||
+          t('CONTACT_PANEL.CALL_FAILED')
+      );
     }
     return;
   }
@@ -164,17 +183,9 @@ const onClick = async () => {
   // itself voice-capable (works the same for Twilio and WhatsApp). For
   // non-voice channels (email, web, …) fall back to the picker so the call
   // goes out via a voice inbox.
-  if (props.conversationId) {
-    const conversation = store.getters.getConversationById(
-      props.conversationId
-    );
-    const conversationInbox = (inboxesList.value || []).find(
-      i => i.id === conversation?.inbox_id
-    );
-    if (conversationInbox && isVoiceCallEnabled(conversationInbox)) {
-      await startCall(conversationInbox.id, props.conversationId);
-      return;
-    }
+  if (conversationVoiceInbox.value) {
+    await startCall(conversationVoiceInbox.value.id, props.conversationId);
+    return;
   }
   if (voiceInboxes.value.length > 1) {
     dialogRef.value?.open();

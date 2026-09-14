@@ -6,6 +6,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   before_action :check_authorization, except: [:show]
 
   include Api::V1::Accounts::Concerns::InboxHealthManagement
+  include Api::V1::Accounts::Concerns::InboxSecretManagement
 
   def index
     @inboxes = policy_scope(Current.account.inboxes)
@@ -74,12 +75,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       @inbox.agent_bot_inbox.destroy!
     end
     head :ok
-  end
-
-  def reset_secret
-    return head :not_found unless @inbox.api?
-
-    @inbox.channel.reset_secret!
   end
 
   def destroy

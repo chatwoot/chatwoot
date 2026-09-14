@@ -69,6 +69,10 @@ class Inboxes extends CacheEnabledApiClient {
     return axios.post(`${this.url}/${inboxId}/reset_secret`);
   }
 
+  rotateHmacToken(inboxId) {
+    return axios.post(`${this.url}/${inboxId}/rotate_hmac_token`);
+  }
+
   enableWhatsappCalling(inboxId) {
     return axios.post(`${this.url}/${inboxId}/enable_whatsapp_calling`);
   }

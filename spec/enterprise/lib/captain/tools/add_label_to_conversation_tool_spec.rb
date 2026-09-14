@@ -115,6 +115,18 @@ RSpec.describe Captain::Tools::AddLabelToConversationTool, type: :model do
         expect(result).to eq('Conversation not found')
       end
     end
+
+    context 'when a playground call cannot add a label' do
+      let(:tool_context) do
+        Struct.new(:state).new({ source: 'playground', conversation: { id: conversation.id } })
+      end
+
+      it 'marks the result as an error for run details' do
+        result = tool.perform(tool_context, label_name: 'missing')
+
+        expect(result).to eq('ERROR: Label not found')
+      end
+    end
   end
 
   describe '#active?' do

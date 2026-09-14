@@ -406,6 +406,35 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
     end
 
     context 'when it is an admin' do
+      context 'with Markdown content from the playground' do
+        it 'creates an available, non-syncable document' do
+          markdown_content = "# Refund policy\n\nRefunds are processed within five business days."
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/captain/documents",
+                 params: {
+                   document: {
+                     name: 'playground-knowledge.md',
+                     markdown_content: markdown_content,
+                     assistant_id: assistant.id
+                   }
+                 },
+                 headers: admin.create_new_auth_token
+          end.to change(Captain::Document, :count).by(1)
+
+          created_document = Captain::Document.order(:id).last
+          expect(response).to have_http_status(:success)
+          expect(created_document.content).to eq(markdown_content)
+          expect(created_document.markdown_file).to be_attached
+          expect(json_response).to include(
+            name: 'playground-knowledge.md',
+            status: 'available',
+            markdown_document: true,
+            syncable: false
+          )
+        end
+      end
+
       context 'with valid parameters' do
         it 'creates a new document' do
           expect do
