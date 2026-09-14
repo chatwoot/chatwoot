@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router';
 import { useStore, useFunctionGetter } from 'dashboard/composables/store';
 import { useBranding } from 'shared/composables/useBranding';
 import StripeAPI from 'dashboard/api/integrations/stripe';
+import IntegrationsAPI from 'dashboard/api/integrations';
 import Button from 'dashboard/components-next/button/Button.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -13,6 +14,7 @@ const { replaceInstallationName } = useBranding();
 const route = useRoute();
 const integration = useFunctionGetter('integrations/getIntegration', 'stripe');
 const loading = ref(true);
+const loaded = ref(false);
 const busy = ref(false);
 const error = ref(!!route.query.error);
 const account = ref(null);
@@ -20,10 +22,12 @@ const STRIPE_LOGO = '/dashboard/images/integrations/stripe.svg';
 const STRIPE_LOGO_DARK = '/dashboard/images/integrations/stripe-dark.svg';
 
 const loadIntegration = async () => {
-  await store.dispatch('integrations/get', 'stripe');
+  const { data } = await IntegrationsAPI.get();
+  store.commit('integrations/SET_INTEGRATIONS', data.payload);
   account.value = integration.value.enabled
     ? (await StripeAPI.get()).data
     : null;
+  loaded.value = true;
 };
 
 const connect = async () => {
@@ -77,7 +81,7 @@ onMounted(async () => {
         <p v-if="error" role="alert" class="text-n-ruby-11">
           {{ $t('STRIPE_INTEGRATION.ERROR') }}
         </p>
-        <template v-if="integration.enabled">
+        <template v-if="loaded && integration.enabled">
           <div class="rounded-xl border border-n-weak bg-n-solid-1">
             <div
               class="flex flex-wrap items-center justify-between gap-4 p-6 border-b border-n-weak"
@@ -160,7 +164,7 @@ onMounted(async () => {
           </div>
         </template>
         <Button
-          v-else
+          v-else-if="loaded"
           :label="$t('STRIPE_INTEGRATION.CONNECT')"
           :disabled="busy"
           class="self-start"

@@ -1,10 +1,11 @@
 import { mount, flushPromises } from '@vue/test-utils';
 import Stripe from '../Stripe.vue';
 import StripeAPI from 'dashboard/api/integrations/stripe';
+import IntegrationsAPI from 'dashboard/api/integrations';
 import messages from 'dashboard/i18n/locale/en/en.json';
 
 const mocks = vi.hoisted(() => ({
-  dispatch: vi.fn(),
+  commit: vi.fn(),
   enabled: true,
   query: {},
   installationName: undefined,
@@ -20,7 +21,7 @@ vi.mock(
 vi.mock('dashboard/composables/store', async () => {
   const { computed } = await import('vue');
   return {
-    useStore: () => ({ dispatch: mocks.dispatch }),
+    useStore: () => ({ commit: mocks.commit }),
     useFunctionGetter: () => computed(() => ({ enabled: mocks.enabled })),
     useMapGetter: () =>
       computed(() => ({ installationName: mocks.installationName })),
@@ -28,6 +29,9 @@ vi.mock('dashboard/composables/store', async () => {
 });
 vi.mock('dashboard/api/integrations/stripe', () => ({
   default: { get: vi.fn(), connect: vi.fn(), disconnect: vi.fn() },
+}));
+vi.mock('dashboard/api/integrations', () => ({
+  default: { get: vi.fn() },
 }));
 
 describe('Stripe integration settings', () => {
@@ -45,7 +49,9 @@ describe('Stripe integration settings', () => {
     mocks.enabled = true;
     mocks.query = {};
     mocks.installationName = undefined;
-    mocks.dispatch.mockResolvedValue();
+    IntegrationsAPI.get.mockResolvedValue({
+      data: { payload: [{ id: 'stripe', enabled: true }] },
+    });
     StripeAPI.get.mockResolvedValue({
       data: {
         account_id: 'acct_test',
@@ -81,7 +87,9 @@ describe('Stripe integration settings', () => {
   it('shows connected account details and a sandbox dashboard link', async () => {
     wrapper = mount(Stripe, { global });
     await flushPromises();
-    expect(mocks.dispatch).toHaveBeenCalledWith('integrations/get', 'stripe');
+    expect(mocks.commit).toHaveBeenCalledWith('integrations/SET_INTEGRATIONS', [
+      { id: 'stripe', enabled: true },
+    ]);
     expect(wrapper.text()).toContain('acct_test');
     expect(wrapper.text()).toContain('STRIPE_INTEGRATION.CONNECTED');
     expect(wrapper.get('a').attributes('href')).toBe(
@@ -133,6 +141,18 @@ describe('Stripe integration settings', () => {
     wrapper = mount(Stripe, { global });
     await flushPromises();
     expect(wrapper.get('[role="alert"]').exists()).toBe(true);
+  });
+
+  it('does not show Connect when the integrations request fails', async () => {
+    mocks.enabled = false;
+    IntegrationsAPI.get.mockRejectedValue(new Error('request failed'));
+    wrapper = mount(Stripe, { global });
+    await flushPromises();
+    expect(wrapper.get('[role="alert"]').text()).toContain(
+      'STRIPE_INTEGRATION.ERROR'
+    );
+    expect(wrapper.find('button').exists()).toBe(false);
+    expect(StripeAPI.get).not.toHaveBeenCalled();
   });
 
   it('keeps the connected account visible when disconnect fails', async () => {

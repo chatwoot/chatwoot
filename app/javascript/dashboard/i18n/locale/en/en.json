@@ -19,7 +19,7 @@
     "SELECT": "Select a matching customer",
     "CUSTOMER_OPTION": "{name} — {id}",
     "MORE": "Showing the first 100 matching customers. Refine the contact email if the customer is not listed.",
-    "SUBSCRIPTIONS": "Subscriptions",
+    "SUBSCRIPTIONS": "Latest five subscriptions",
     "SUBSCRIPTION": "Subscription",
     "INVOICES": "Recent invoices",
     "NO_SUBSCRIPTIONS": "No subscriptions found.",
