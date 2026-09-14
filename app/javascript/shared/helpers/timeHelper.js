@@ -58,7 +58,10 @@ const formatLocalizedDate = (date, dateFormat, localeCode) => {
   const options = getLocalizedDateOptions(dateFormat);
   if (!localeCode || !options) return format(date, dateFormat);
 
-  return new Intl.DateTimeFormat(localeCode, options).format(date);
+  return new Intl.DateTimeFormat(localeCode, {
+    calendar: 'gregory',
+    ...options,
+  }).format(date);
 };
 
 const getRelativeTimeParts = time => {
@@ -219,6 +222,24 @@ export const shortTimestamp = (time, withAgo = false, localeCode = null) => {
     .replace(' year ago', `y${suffix}`)
     .replace(' years ago', `y${suffix}`);
   return convertToShortTime;
+};
+
+/**
+ * Converts a relative time description into a localized duration without
+ * directional words, so it can be embedded in copy such as "Snoozed for".
+ * @param {string} time - Relative time description (e.g., 'in 2 hours').
+ * @param {string} localeCode - Locale code for duration formatting.
+ * @returns {string} Localized duration string.
+ */
+export const localizedDuration = (time, localeCode) => {
+  const relativeTime = getRelativeTimeParts(time);
+  if (!relativeTime || !localeCode) return time;
+
+  return new Intl.NumberFormat(localeCode, {
+    style: 'unit',
+    unit: relativeTime.unit,
+    unitDisplay: 'long',
+  }).format(Math.abs(relativeTime.value));
 };
 
 /**

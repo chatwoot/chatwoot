@@ -26,7 +26,7 @@ describe('InboxCard', () => {
     vi.useRealTimers();
   });
 
-  it('localizes the snoozed-until relative time before abbreviating it', () => {
+  it('localizes the snoozed-until duration without directional words', () => {
     const wrapper = shallowMount(InboxCard, {
       props: {
         inboxItem: {
@@ -51,7 +51,8 @@ describe('InboxCard', () => {
       },
     });
 
-    expect(wrapper.text()).toContain('2小时后');
+    expect(wrapper.text()).toContain('2小时');
+    expect(wrapper.text()).not.toContain('后');
   });
 
   it('keeps the compact snoozed-until time for English locales', () => {

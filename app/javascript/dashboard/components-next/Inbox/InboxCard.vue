@@ -2,7 +2,11 @@
 import { computed, ref, onBeforeMount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
-import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import {
+  dynamicTime,
+  localizedDuration,
+  shortTimestamp,
+} from 'shared/helpers/timeHelper';
 import { useLocale } from 'shared/composables/useLocale';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import {
@@ -125,7 +129,7 @@ const snoozedText = computed(() => {
 
   const formattedTime = resolvedLocale.value.toLowerCase().startsWith('en')
     ? shortenSnoozeTime(snoozedUntilTime.value)
-    : shortTimestamp(snoozedUntilTime.value, false, resolvedLocale.value);
+    : localizedDuration(snoozedUntilTime.value, resolvedLocale.value);
 
   return t('INBOX.TYPES_NEXT.SNOOZED_UNTIL', { time: formattedTime });
 });
