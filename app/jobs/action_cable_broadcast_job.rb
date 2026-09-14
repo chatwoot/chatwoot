@@ -7,6 +7,7 @@ class ActionCableBroadcastJob < ApplicationJob
     CONVERSATION_UPDATED,
     TEAM_CHANGED,
     ASSIGNEE_CHANGED,
+    CONVERSATION_BOT_HANDOFF,
     CONVERSATION_STATUS_CHANGED
   ].freeze
 
