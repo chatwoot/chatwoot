@@ -98,10 +98,12 @@ onBeforeUnmount(() => requestEditorHeight(0));
           content: t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE'),
           delay: { show: 500, hide: 0 },
         }"
+        type="button"
         ghost
         slate
         xs
         icon="i-lucide-x"
+        :aria-label="t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE')"
         @click="emit('remove')"
       />
     </div>
