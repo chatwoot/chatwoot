@@ -279,3 +279,7 @@
   enabled: false
   premium: true
   column: feature_flags_ext_1
+- name: cpfcnpj_integration
+  display_name: CPF.CNPJ Integration
+  enabled: false
+  column: feature_flags_ext_1

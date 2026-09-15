@@ -85,6 +85,10 @@ class Integrations::Hook < ApplicationRecord
     app_id == 'shopify'
   end
 
+  def cpfcnpj?
+    app_id == 'cpfcnpj'
+  end
+
   def disable
     update(status: 'disabled')
   end

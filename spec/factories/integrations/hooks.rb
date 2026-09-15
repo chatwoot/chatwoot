@@ -48,5 +48,10 @@ FactoryBot.define do
         }
       end
     end
+
+    trait :cpfcnpj do
+      app_id { 'cpfcnpj' }
+      settings { { 'token' => 'a' * 32, 'cnpj_package' => 6, 'cpf_package' => 1, 'enrich_cpf' => true } }
+    end
   end
 end
