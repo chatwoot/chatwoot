@@ -1,6 +1,7 @@
 import MarkdownIt from 'markdown-it';
 import mila from 'markdown-it-link-attributes';
 import mentionPlugin from './markdownIt/link';
+import linkifyHardbreaks from './markdownIt/linkifyHardbreaks';
 
 const setImageSizing = inlineToken => {
   const imgSrc = inlineToken.attrGet('src');
@@ -52,6 +53,7 @@ const createMarkdownInstance = (linkify = true) => {
     maxNesting: 20,
   })
     .disable(['lheading'])
+    .use(linkifyHardbreaks)
     .use(mentionPlugin)
     .use(imgResizeManager)
     .use(mila, {

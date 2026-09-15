@@ -219,4 +219,43 @@ After`;
       expect(formattedMessage).toContain('--</p>');
     });
   });
+
+  describe('bare links before a hard break', () => {
+    it('keeps the hard-break marker out of the link', () => {
+      const { formattedMessage } = new MessageFormatter(
+        'https://example.com/trip/\\\nNext line'
+      );
+
+      expect(formattedMessage).toContain('href="https://example.com/trip/"');
+      expect(formattedMessage).not.toContain('%5C');
+      expect(formattedMessage).toContain('<br />');
+    });
+
+    it('keeps an escaped backslash inside the link', () => {
+      const { formattedMessage } = new MessageFormatter(
+        'https://example.com/trip\\\\\nNext line'
+      );
+
+      expect(formattedMessage).toContain(
+        'href="https://example.com/trip%5C%5C"'
+      );
+    });
+
+    it('keeps the hard-break marker out of a link written without a scheme', () => {
+      const { formattedMessage } = new MessageFormatter(
+        'www.example.com/trip/\\\nNext line'
+      );
+
+      expect(formattedMessage).toContain('href="http://www.example.com/trip/"');
+      expect(formattedMessage).not.toContain('%5C');
+    });
+
+    it('keeps a trailing backslash that is not a hard break', () => {
+      const { formattedMessage } = new MessageFormatter(
+        'https://example.com/trip\\ next'
+      );
+
+      expect(formattedMessage).toContain('href="https://example.com/trip%5C"');
+    });
+  });
 });
