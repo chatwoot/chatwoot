@@ -1,0 +1,53 @@
+tags:
+  - Reusable Attachments
+operationId: update-reusable-attachment-in-account
+summary: Update a Reusable Attachment
+description: |
+  Update a Reusable Attachment in an Account. Only administrators and the user
+  who created the attachment can update it.
+security:
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    schema:
+      type: integer
+    required: true
+    description: The ID of the reusable attachment to be updated
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: Name of the reusable attachment
+          description:
+            type: string
+            description: Description of the reusable attachment
+          file:
+            type: string
+            format: binary
+            description: A new file to replace the current one
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          description: 'The updated reusable attachment'
+          $ref: '#/components/schemas/reusable_attachment'
+  '404':
+    description: Reusable attachment not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '401':
+    description: Unauthorized, only administrators and the creator can update it
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
