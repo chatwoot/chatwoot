@@ -50,32 +50,6 @@ export const clearSessionStorageOnLogout = () => {
   SessionStorage.remove(SESSION_STORAGE_KEYS.IMPERSONATION_USER);
 };
 
-export const deleteIndexedDBOnLogout = async () => {
-  let dbs = [];
-  try {
-    dbs = await window.indexedDB.databases();
-    dbs = dbs.map(db => db.name);
-  } catch (e) {
-    dbs = JSON.parse(localStorage.getItem('cw-idb-names') || '[]');
-  }
-
-  dbs.forEach(dbName => {
-    const deleteRequest = window.indexedDB.deleteDatabase(dbName);
-
-    deleteRequest.onerror = event => {
-      // eslint-disable-next-line no-console
-      console.error(`Error deleting database ${dbName}.`, event);
-    };
-
-    deleteRequest.onsuccess = () => {
-      // eslint-disable-next-line no-console
-      console.log(`Database ${dbName} deleted successfully.`);
-    };
-  });
-
-  localStorage.removeItem('cw-idb-names');
-};
-
 export const clearCookiesOnLogout = () => {
   emitter.emit(CHATWOOT_RESET);
   emitter.emit(ANALYTICS_RESET);

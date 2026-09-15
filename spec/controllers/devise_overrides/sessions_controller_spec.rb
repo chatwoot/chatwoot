@@ -164,6 +164,18 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
     end
   end
 
+  describe 'DELETE /auth/sign_out' do
+    let(:user) { create(:user) }
+
+    it 'asks the browser to clear origin storage' do
+      request.headers.merge!(user.create_new_auth_token)
+      delete :destroy
+
+      expect(response).to have_http_status(:success)
+      expect(response.headers['Clear-Site-Data']).to eq('"storage"')
+    end
+  end
+
   describe 'session limit enforcement' do
     let(:user) { create(:user, password: 'Test@123456') }
     let(:session_limit) { described_class::MAX_SESSIONS }

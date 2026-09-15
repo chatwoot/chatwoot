@@ -2,10 +2,7 @@
 
 import Cookies from 'js-cookie';
 import endPoints from './endPoints';
-import {
-  clearCookiesOnLogout,
-  deleteIndexedDBOnLogout,
-} from '../store/utils/api';
+import { clearCookiesOnLogout } from '../store/utils/api';
 
 export default {
   validityCheck() {
@@ -18,7 +15,6 @@ export default {
       axios
         .delete(urlData.url)
         .then(response => {
-          deleteIndexedDBOnLogout();
           clearCookiesOnLogout();
           resolve(response);
         })

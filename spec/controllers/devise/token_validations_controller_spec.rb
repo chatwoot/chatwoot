@@ -5,9 +5,22 @@ RSpec.describe 'Token Validation API', type: :request do
     let(:account) { create(:account) }
 
     context 'when it is an invalid token' do
-      it 'returns unauthorized' do
+      it 'does not clear storage for a request without session credentials' do
         get '/auth/validate_token'
+
         expect(response).to have_http_status(:unauthorized)
+        expect(response.headers['Clear-Site-Data']).to be_nil
+      end
+
+      it 'clears storage for a revoked dashboard session' do
+        agent = create(:user, account: account, role: :agent)
+        stale_headers = agent.create_new_auth_token
+        agent.update!(tokens: {})
+
+        get '/auth/validate_token', headers: stale_headers
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.headers['Clear-Site-Data']).to eq('"storage"')
       end
     end
 
@@ -20,6 +33,7 @@ RSpec.describe 'Token Validation API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include('payload')
+        expect(response.headers['Clear-Site-Data']).to be_nil
       end
     end
 
