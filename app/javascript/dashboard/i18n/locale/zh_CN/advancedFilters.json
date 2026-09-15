@@ -20,7 +20,7 @@
     },
     "INPUT_PLACEHOLDER": "填写内容",
     "CONTACT_SEARCH_PLACEHOLDER": "搜索联系人",
-    "CONTACT_FALLBACK": "Contact #{id}",
+    "CONTACT_FALLBACK": "联系人 #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "等于",
       "not_equal_to": "不等于",

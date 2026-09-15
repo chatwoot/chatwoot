@@ -3,8 +3,8 @@
     "CONVERSATIONS_SELECTED": "已选择 {conversationCount} 个对话",
     "NONE": "啥都没有",
     "CLEAR_SELECTION": "清除",
-    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
-    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "您确定要将 {n} 个对话分配给 {agentName} 吗？",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "您确定要取消 {n} 个对话的客服分配吗？",
     "YES": "是",
     "CANCEL": "取消",
     "SEARCH_INPUT_PLACEHOLDER": "搜索",
@@ -22,23 +22,23 @@
       "UPDATE_FAILED": "更新对话失败。请再试一次。"
     },
     "RESOLVE": {
-      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
-      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+      "ALL_MISSING_ATTRIBUTES": "由于缺少必填属性，无法解决对话",
+      "PARTIAL_SUCCESS": "部分对话因缺少必填属性而被跳过，未能解决"
     },
     "LABELS": {
       "ASSIGN_LABELS": "分配标签",
-      "REMOVE_LABELS": "删除标签",
+      "REMOVE_LABELS": "移除标签",
       "ASSIGN_SELECTED_LABELS": "分配指定的标签",
-      "REMOVE_SELECTED_LABELS": "删除选中标签",
+      "REMOVE_SELECTED_LABELS": "移除所选标签",
       "ASSIGN_SUCCESFUL": "已成功分配标签.",
       "ASSIGN_FAILED": "分配标签失败。请再试一次。",
-      "REMOVE_SUCCESFUL": "标签删除成功。",
-      "REMOVE_FAILED": "删除标签失败，请重试。"
+      "REMOVE_SUCCESFUL": "标签移除成功。",
+      "REMOVE_FAILED": "标签移除失败，请重试。"
     },
     "TEAMS": {
       "NONE": "啥都没有",
-      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
-      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "您确定要将 {n} 个对话分配给 {teamName} 吗？",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "您确定要取消 {n} 个对话的团队分配吗？",
       "ASSIGN_SUCCESFUL": "团队分配成功。",
       "ASSIGN_FAILED": "分配团队失败。请再试一次。"
     }

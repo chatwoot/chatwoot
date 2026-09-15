@@ -20,51 +20,51 @@ zh_CN:
   hello: '您好世界'
   inbox:
     reauthorization:
-      success: 'Channel reauthorized successfully'
-      not_required: 'Reauthorization is not required for this inbox'
-      invalid_channel: 'Invalid channel type for reauthorization'
+      success: '频道重新授权成功'
+      not_required: '此收件箱无需重新授权'
+      invalid_channel: '无法重新授权此类型的频道'
   auth:
     saml:
       invalid_email: '请输入一个有效的电子邮件'
-      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
+      authentication_failed: '身份验证失败，请检查您的凭据后重试。'
   messages:
-    reset_password: Request for password reset is successful. A email with instructions will be sent to your email if it exists.
-    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
-    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
-    saml_not_available: SAML authentication is not available in this installation.
+    reset_password: 密码重置请求已提交。如果该邮箱存在，您将收到一封包含操作说明的邮件。
+    reset_password_saml_user: 此账户使用 SAML 身份验证，无法重置密码。请联系您的管理员。
+    login_saml_user: 此账户使用 SAML 身份验证，请通过您组织的 SAML 身份提供商登录。
+    saml_not_available: 此安装环境不支持 SAML 身份验证。
     inbox_deletetion_response: 您的收件箱删除请求将在一段时间内处理。
   data_imports:
     intercom:
       activities:
-        assignment: '%{actor} assigned the conversation'
-        assignment_with_target: '%{actor} assigned the conversation to %{target}'
-        assign_and_reopen: '%{actor} assigned and reopened the conversation'
-        assign_and_reopen_with_target: '%{actor} assigned the conversation to %{target} and reopened it'
-        open: '%{actor} opened the conversation'
-        close: '%{actor} closed the conversation'
-        snoozed: '%{actor} snoozed the conversation'
-        participant_added: '%{actor} added a participant'
-        participant_added_with_target: '%{actor} added %{target} as a participant'
-        participant_removed: '%{actor} removed a participant'
-        participant_removed_with_target: '%{actor} removed %{target} as a participant'
-        conversation_attribute_updated: '%{actor} updated conversation attributes'
-        ticket_attribute_updated: '%{actor} updated ticket attributes'
-        ticket_state_updated: '%{actor} updated the ticket state'
-        custom_action_started: '%{actor} started a custom action'
-        custom_action_finished: '%{actor} finished a custom action'
-        quick_reply: '%{actor} used a quick reply'
-        generic: '%{actor} recorded %{event}'
+        assignment: '%{actor} 分配了该对话'
+        assignment_with_target: '%{actor} 将该对话分配给 %{target}'
+        assign_and_reopen: '%{actor} 分配并重新打开了该对话'
+        assign_and_reopen_with_target: '%{actor} 将该对话分配给 %{target} 并重新打开'
+        open: '%{actor} 打开了该对话'
+        close: '%{actor} 关闭了该对话'
+        snoozed: '%{actor} 暂停了该对话'
+        participant_added: '%{actor} 添加了一位参与者'
+        participant_added_with_target: '%{actor} 将 %{target} 添加为参与者'
+        participant_removed: '%{actor} 移除了一位参与者'
+        participant_removed_with_target: '%{actor} 移除了参与者 %{target}'
+        conversation_attribute_updated: '%{actor} 更新了对话属性'
+        ticket_attribute_updated: '%{actor} 更新了工单属性'
+        ticket_state_updated: '%{actor} 更新了工单状态'
+        custom_action_started: '%{actor} 启动了自定义操作'
+        custom_action_finished: '%{actor} 完成了自定义操作'
+        quick_reply: '%{actor} 使用了快捷回复'
+        generic: '%{actor} 记录了 %{event}'
   profile_settings:
     sessions:
       cannot_revoke_current: You cannot revoke the current session.
   errors:
     account:
-      not_authorized: You are not authorized to access this account
-      email_limit_exceeded: The daily email limit for this account has been reached
+      not_authorized: 您无权访问此账户
+      email_limit_exceeded: 此账户已达到每日电子邮件发送上限
       reporting_timezone:
-        invalid: is not a valid timezone
+        invalid: 不是有效的时区
       support_email:
-        invalid: is not a valid email address
+        invalid: 不是有效的电子邮件地址
     validations:
       presence: 不能为空
     webhook:
@@ -77,27 +77,27 @@ zh_CN:
       invalid_params: '无效，请检查注册参数并重试'
       failed: 注册失败
     voice:
-      call_already_accepted: '%{agent_name} is already handling the call.'
+      call_already_accepted: '%{agent_name} 已在处理此通话。'
     assignment_policy:
-      not_found: Assignment policy not found
+      not_found: 未找到分配策略
     attachments:
-      invalid: Invalid attachment
+      invalid: 无效的附件
     upload:
-      missing_input: 'No file or URL provided'
-      invalid_url: 'Invalid URL provided'
-      fetch_failed: 'Failed to fetch file from URL'
-      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
-      file_too_large: 'File exceeds the maximum allowed size'
-      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
-      unexpected: 'An unexpected error occurred'
+      missing_input: '未提供文件或 URL'
+      invalid_url: '提供的 URL 无效'
+      fetch_failed: '无法从 URL 获取文件'
+      fetch_failed_with_message: '无法从 URL 获取文件：%{message}'
+      file_too_large: '文件超过允许的最大大小'
+      unsupported_content_type: '不支持此文件类型（仅允许图片和视频）'
+      unexpected: '发生意外错误'
     database:
-      query_canceled: 'The request took too long to complete. Please try again.'
+      query_canceled: '请求处理时间过长，请重试。'
     saml:
-      feature_not_enabled: SAML feature not enabled for this account
-      sso_not_enabled: SAML SSO is not enabled for this installation
+      feature_not_enabled: 此账户未启用 SAML 功能
+      sso_not_enabled: 此安装环境未启用 SAML SSO
     conversations:
       unread_counts:
-        feature_not_enabled: Conversation unread counts feature not enabled for this account
+        feature_not_enabled: 此账户未启用对话未读计数功能
     data_import:
       data_type:
         invalid: 错误的数据类型
@@ -112,48 +112,48 @@ zh_CN:
         invalid: 应该是e164格式
     companies:
       domain:
-        invalid: must be a valid domain name
+        invalid: 必须是有效的域名
       search:
-        query_missing: Specify search string with parameter q
+        query_missing: 请使用参数 q 指定搜索内容
     messages:
       search:
-        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
+        time_range_limit_exceeded: '仅可搜索最近 %{days} 天的消息'
     categories:
       locale:
         unique: 在类别和门户中应该是唯一的
     dyte:
       invalid_message_type: '无效的消息类型。不允许操作'
-      realtimekit_credentials_required: 'Cloudflare RealtimeKit credentials are required. Delete the existing Dyte integration and create it again with Cloudflare RealtimeKit credentials.'
+      realtimekit_credentials_required: '需要 Cloudflare RealtimeKit 凭据。请删除现有的 Dyte 集成，并使用 Cloudflare RealtimeKit 凭据重新创建。'
     cloudflare:
       realtimekit:
-        invalid_credentials: 'Cloudflare RealtimeKit credentials are invalid. Please check the Account ID, RealtimeKit App ID, and API token permissions.'
-        missing_credentials: 'Cloudflare Account ID, RealtimeKit App ID, and API token are required.'
-        invalid_api_token: 'Cloudflare API token is invalid or inactive. Please create a new token with Realtime Admin permissions.'
-        invalid_account_or_permissions: 'Cloudflare Account ID is invalid, or the API token does not have Realtime Admin access to this account.'
-        app_not_found: 'RealtimeKit App ID was not found in this Cloudflare account. Please check the app you selected.'
-        verification_failed: 'Could not verify Cloudflare RealtimeKit credentials right now. Please try again.'
+        invalid_credentials: 'Cloudflare RealtimeKit 凭据无效。请检查账户 ID、RealtimeKit 应用 ID 和 API 令牌权限。'
+        missing_credentials: 'Cloudflare 账户 ID、RealtimeKit 应用 ID 和 API 令牌均为必填项。'
+        invalid_api_token: 'Cloudflare API 令牌无效或未激活。请创建具有 Realtime Admin 权限的新令牌。'
+        invalid_account_or_permissions: 'Cloudflare 账户 ID 无效，或 API 令牌没有此账户的 Realtime Admin 访问权限。'
+        app_not_found: '在此 Cloudflare 账户中找不到 RealtimeKit 应用 ID，请检查所选应用。'
+        verification_failed: '目前无法验证 Cloudflare RealtimeKit 凭据，请重试。'
     slack:
       invalid_channel_id: '无效的Slack频道。请重试'
     whatsapp:
-      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
-      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
-      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
-      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
-      message_outside_messaging_window: 'Message not sent because the WhatsApp 24-hour customer service window is closed and no template parameters were provided. Send an approved template message instead.'
+      token_exchange_failed: '无法使用授权码换取访问令牌，请重试。'
+      invalid_token_permissions: '访问令牌不具备 WhatsApp 所需的权限。'
+      phone_info_fetch_failed: '无法获取电话号码信息，请重试。'
+      phone_number_already_exists: '电话号码 %{phone_number} 已存在对应频道。如果问题仍然存在，请联系支持团队。'
+      message_outside_messaging_window: '由于 WhatsApp 的 24 小时客户服务窗口已关闭，且未提供模板参数，消息未发送。请改为发送已批准的模板消息。'
       reauthorization:
-        generic: 'Failed to reauthorize WhatsApp. Please try again.'
-        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+        generic: 'WhatsApp 重新授权失败，请重试。'
+        not_supported: '此类型的 WhatsApp 频道不支持重新授权。'
       calls:
-        not_enabled: 'Calling is not enabled for this inbox'
-        already_ended: 'This call has already ended'
-        already_accepted: 'Call already accepted by another agent'
-        no_recording: 'No recording file provided'
-        no_message: 'Call has no associated message'
-        sdp_offer_required: 'sdp_offer is required'
-        contact_phone_required: 'Contact phone number is required'
-        permission_request_failed: 'Failed to send call permission request'
+        not_enabled: '此收件箱未启用通话功能'
+        already_ended: '此通话已结束'
+        already_accepted: '此通话已被其他客服接听'
+        no_recording: '未提供录音文件'
+        no_message: '此通话没有关联消息'
+        sdp_offer_required: 'sdp_offer 为必填项'
+        contact_phone_required: '联系人电话号码为必填项'
+        permission_request_failed: '无法发送通话权限请求'
     openai:
-      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
+      invalid_api_key: 'OpenAI API 密钥无效或已被撤销，请在 OpenAI 控制台中检查您的密钥。'
     inboxes:
       imap:
         socket_error: 请检查网络连接，IMAP地址，然后再试一次。
@@ -162,10 +162,10 @@ zh_CN:
         connection_timed_out_error: 连接超时 %{address}:%{port}
         connection_closed_error: 连接已关闭。
       smtp:
-        authentication_error: SMTP authentication failed. Please verify your login credentials.
-        connection_error: Could not connect to SMTP server. Please check the server address and port.
-        ssl_error: SSL/TLS error. Please verify your encryption settings.
-        smtp_error: SMTP server error. Please check your configuration and try again.
+        authentication_error: SMTP 身份验证失败，请检查登录凭据。
+        connection_error: 无法连接 SMTP 服务器，请检查服务器地址和端口。
+        ssl_error: SSL/TLS 错误，请检查加密设置。
+        smtp_error: SMTP 服务器错误，请检查配置后重试。
       validations:
         name: 不应该以符号开头或结尾，它不应该有 < > / \ @ 字符。
     custom_filters:
@@ -175,34 +175,34 @@ zh_CN:
       invalid_query_operator: 查询操作符必须为 "AND" 或 "OR"。
       invalid_value: 无效的值。为 %{attribute_name} 提供的值无效
     custom_attribute_definition:
-      attribute_key_format: must only contain letters, numbers, underscores, hyphens, and dots
+      attribute_key_format: 只能包含字母、数字、下划线、连字符和点
       key_conflict: 提供的键不允许使用，因为它可能与默认属性冲突。
     mfa:
       already_enabled: MFA 已启用
-      not_enabled: MFA is not enabled
-      invalid_code: Invalid verification code
-      invalid_backup_code: Invalid backup code
-      invalid_token: Invalid or expired MFA token
-      invalid_credentials: Invalid credentials or verification code
-      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+      not_enabled: MFA 未启用
+      invalid_code: 验证码无效
+      invalid_backup_code: 备用验证码无效
+      invalid_token: MFA 令牌无效或已过期
+      invalid_credentials: 凭据或验证码无效
+      feature_unavailable: MFA 功能不可用，请配置加密密钥。
     billing:
-      invalid_currency: Invalid billing currency
-      currency_locked: Billing currency cannot be changed after billing has been set up
+      invalid_currency: 无效的计费货币
+      currency_locked: 计费设置完成后无法更改货币
     topup:
-      credits_required: Credits amount is required
-      invalid_credits: Invalid credits amount
-      invalid_option: Invalid topup option
-      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
-      stripe_customer_not_configured: Stripe customer not configured
-      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+      credits_required: 积分数量为必填项
+      invalid_credits: 积分数量无效
+      invalid_option: 充值选项无效
+      plan_not_eligible: 只有付费方案支持充值，请先升级您的方案。
+      stripe_customer_not_configured: 未配置 Stripe 客户
+      no_payment_method: 未找到付款方式，请先添加付款方式再进行购买。
     reports:
-      date_range_too_long: Date range cannot exceed 6 months
+      date_range_too_long: 日期范围不能超过 6 个月
   profile:
     mfa:
-      enabled: MFA enabled successfully
-      disabled: MFA disabled successfully
+      enabled: MFA 启用成功
+      disabled: MFA 禁用成功
     account_saml_settings:
-      invalid_certificate: must be a valid X.509 certificate in PEM format
+      invalid_certificate: 必须是有效的 PEM 格式 X.509 证书
   reports:
     period: 报告周期 %{since} 至 %{until}
     utc_warning: 生成的报表在 UTC 时区
@@ -224,7 +224,7 @@ zh_CN:
       conversations_count: 对话数量
       avg_first_response_time: 平均首次响应时间
       avg_resolution_time: 平均解决时间
-      avg_reply_time: Avg reply time
+      avg_reply_time: 平均回复时间
       resolution_count: 已解决的数量
     team_csv:
       team_name: 团队名称
@@ -239,7 +239,7 @@ zh_CN:
       outgoing_messages_count: 发送的消息
       avg_first_response_time: 平均首次响应时间
       avg_resolution_time: 平均解决时间
-      resolution_count: Resolution count
+      resolution_count: 已解决数量
       avg_customer_waiting_time: 平均客户等待时间
     conversation_traffic_csv:
       timezone: 时区
@@ -263,7 +263,7 @@ zh_CN:
         rating: 评分
         feedback: 意见反馈
         recorded_at: 录制日期
-        review_notes: Review Notes
+        review_notes: 审核备注
   notifications:
     notification_title:
       conversation_creation: '在 %{inbox_name} 中创建了一个对话 (#%{display_id})'
@@ -281,34 +281,34 @@ zh_CN:
     messages:
       instagram_story_content: '%{story_sender} 会话中提到了你: '
       instagram_deleted_story_content: 本信息不存在
-      instagram_shared_story_content: 'Shared story'
-      instagram_shared_post_content: 'Shared post'
+      instagram_shared_story_content: '分享了快拍'
+      instagram_shared_post_content: '分享了帖子'
       deleted: 此消息已被删除
       whatsapp:
-        list_button_label: 'Choose an item'
-        call_permission_request_body: 'We would like to call you regarding your conversation.'
-        flow_response: 'Submitted a flow response'
-        unsupported_message: 'This message is unavailable.'
+        list_button_label: '选择一项'
+        call_permission_request_body: '我们希望就您的对话致电给您。'
+        flow_response: '已提交流程回复'
+        unsupported_message: '此消息不可用。'
       voice_call:
-        twilio: 'Voice Call'
-        whatsapp: 'WhatsApp Call'
+        twilio: '语音通话'
+        whatsapp: 'WhatsApp 通话'
       delivery_status:
         error_code: '错误代码: %{error_code}'
     activity:
       captain:
         resolved: '对话被系统标记为已解决, 原因是 %{user_name} 不活跃'
-        resolved_with_reason: 'Conversation was marked resolved by %{user_name} (%{reason})'
-        resolved_by_tool: 'Conversation was marked resolved by %{user_name}: %{reason}'
+        resolved_with_reason: '对话由 %{user_name} 标记为已解决（%{reason}）'
+        resolved_by_tool: '对话由 %{user_name} 标记为已解决：%{reason}'
         open: '对话被 %{user_name} 打开'
-        open_with_reason: 'Conversation was marked open by %{user_name} (%{reason})'
-        auto_opened_after_agent_reply: 'Conversation was marked open automatically after an agent reply'
+        open_with_reason: '对话由 %{user_name} 标记为打开（%{reason}）'
+        auto_opened_after_agent_reply: '客服回复后，对话已自动标记为打开'
       agent_bot:
-        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
+        error_moved_to_open: '由于客服机器人发生错误，系统已将对话标记为打开。'
       status:
-        resolved: '对话被标记由 %{user_name} 解决'
-        contact_resolved: '对话被 %{contact_name} 重新打开'
+        resolved: '对话已由 %{user_name} 标记为已解决'
+        contact_resolved: '对话已由 %{contact_name} 解决'
         open: '对话被 %{user_name} 重新打开'
-        pending: '对话被标记由 %{user_name} 待处理'
+        pending: '对话已由 %{user_name} 标记为待处理'
         snoozed: '对话被 %{user_name} 暂停'
         auto_resolved_days: '对话被系统标记为已解决, 原因是 %{count} 天不活跃'
         auto_resolved_hours: '对话被系统标记为已解决, 原因是 %{count} 小时不活跃'
@@ -333,16 +333,16 @@ zh_CN:
         added: '%{user_name} 添加了 SLA 策略 %{sla_name}'
         removed: '%{user_name} 移除了 SLA 策略 %{sla_name}'
       linear:
-        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
-        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
-        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+        issue_created: '%{user_name} 创建了 Linear 问题 %{issue_id}'
+        issue_linked: '%{user_name} 关联了 Linear 问题 %{issue_id}'
+        issue_unlinked: '%{user_name} 取消关联 Linear 问题 %{issue_id}'
       whatsapp_call:
-        permission_requested: 'Sent a call permission request to %{contact_name}.'
-        permission_granted: '%{contact_name} accepted the call permission request.'
+        permission_requested: '已向 %{contact_name} 发送通话权限请求。'
+        permission_granted: '%{contact_name} 已接受通话权限请求。'
       csat:
-        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+        not_sent_due_to_messaging_window: '由于外发消息限制，未发送 CSAT 调查'
       auto_resolve:
-        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
+        not_sent_due_to_messaging_window: '由于外发消息限制，未发送自动解决消息'
       muted: '%{user_name} 已将会话静音'
       unmuted: '%{user_name} 已将会话取消静音'
       auto_resolution_message: '由于对话长时间未活跃，已将其标记为已解决。如果您需要进一步帮助，请开始新的对话。'
@@ -403,15 +403,15 @@ zh_CN:
       name: 'Linear'
       short_description: '直接在会话中创建并关联 Linear 问题。'
       description: '直接从对话窗口在 Linear 中创建问题。或者，链接现有的 Linear 问题以简化问题跟踪过程。'
-      attachment_link_title: 'Conversation (#%{conversation_id}) with %{name}'
+      attachment_link_title: '与 %{name} 的对话（#%{conversation_id}）'
     notion:
       name: 'Notion'
-      short_description: 'Integrate databases, documents and pages directly with Captain.'
-      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
+      short_description: '将数据库、文档和页面直接与 Captain 集成。'
+      description: '连接您的 Notion 工作区，让 Captain 能够访问数据库、文档和页面中的内容并生成智能回复，为客户提供更具上下文的支持。'
     shopify:
       name: 'Shopify'
       short_description: '从您的 Shopify 商店访问订单详情和客户数据。'
-      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+      description: '连接您的 Shopify 商店，以便直接在对话中访问订单详情、客户信息和商品数据，帮助支持团队更快速地为客户提供更具上下文的协助。'
     leadsquared:
       name: 'LeadSquared'
       short_description: '与 LeadSquared CRM 同步您的联系人和对话。'
@@ -429,31 +429,31 @@ zh_CN:
       invalid_tool_call: '无效的工具调用'
       tool_not_available: '工具不可用'
     documents:
-      limit_exceeded: 'Document limit exceeded'
-      pdf_format_error: 'must be a PDF file'
-      pdf_size_error: 'must be less than 10MB'
-      sync_not_supported_for_pdf: 'Sync is not supported for PDF documents'
-      sync_only_available_documents: 'Sync is only available for processed documents'
-      sync_already_in_progress: 'Document sync is already in progress'
-      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
-      pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
-      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
-      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
-      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
-      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
-      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
-      response_creation_error: 'Error in creating response document: %{error}'
-      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
-      openai_api_error: 'OpenAI API Error: %{error}'
-      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
-      stopping_faq_generation: 'Stopping processing. Reason: %{reason}'
-      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
-      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
-      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
-      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+      limit_exceeded: '已超过文档数量限制'
+      pdf_format_error: '必须是 PDF 文件'
+      pdf_size_error: '必须小于 10MB'
+      sync_not_supported_for_pdf: 'PDF 文档不支持同步'
+      sync_only_available_documents: '仅已处理的文档支持同步'
+      sync_already_in_progress: '文档同步正在进行中'
+      pdf_upload_failed: '无法将 PDF 上传到 OpenAI'
+      pdf_upload_success: 'PDF 上传成功，file_id：%{file_id}'
+      pdf_processing_failed: '无法处理 PDF 文档 %{document_id}：%{error}'
+      pdf_processing_success: 'PDF 文档 %{document_id} 处理成功'
+      faq_generation_complete: 'FAQ 生成完成，共创建 %{count} 个 FAQ'
+      using_paginated_faq: '正在对文档 %{document_id} 使用分页 FAQ 生成'
+      using_standard_faq: '正在对文档 %{document_id} 使用标准 FAQ 生成'
+      response_creation_error: '创建响应文档时出错：%{error}'
+      missing_openai_file_id: '文档必须包含 openai_file_id 才能进行分页处理'
+      openai_api_error: 'OpenAI API 错误：%{error}'
+      starting_paginated_faq: '正在启动分页 FAQ 生成（每批 %{pages_per_chunk} 页）'
+      stopping_faq_generation: '正在停止处理。原因：%{reason}'
+      paginated_faq_complete: '分页生成完成。FAQ 总数：%{total_faqs}，已处理页数：%{pages_processed}'
+      processing_pages: '正在处理第 %{start}-%{end} 页（第 %{iteration} 次迭代）'
+      chunk_generated: '本批生成了 %{chunk_faqs} 个 FAQ，目前共 %{total_faqs} 个'
+      page_processing_error: '处理第 %{start}-%{end} 页时出错：%{error}'
     custom_tool:
-      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
-      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
+      slug_generation_failed: '尝试 5 次后仍无法生成唯一标识'
+      limit_exceeded: '每个账户最多可以创建 %{limit} 个自定义工具'
   public_portal:
     search:
       search_placeholder: 搜索文章的标题或正文...
@@ -461,31 +461,32 @@ zh_CN:
       loading_placeholder: 搜索中...
       results_title: 搜索结果
       results: 搜索结果
-      results_for: "Search Results for '%{query}'"
-      no_results: "No results found for '%{query}'"
+      results_for: "“%{query}”的搜索结果"
+      no_results: "未找到与“%{query}”相关的结果"
       found_results:
-        other: 'Found %{count} results'
+        one: '找到 1 个结果'
+        other: '找到 %{count} 个结果'
       submit: 搜索
     toc_header: '在此页面'
     sidebar:
       help_center: 帮助中心
       categories: 类别
       language: 语言
-      theme: Theme
+      theme: 主题
       open_sidebar: 打开侧边栏
       close_sidebar: 关闭侧边栏
-      browse: Browse
-      back_to_category: Back to %{name}
-      browse_by_topic: Browse by topic
-      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
-      popular_articles: Popular articles
-      popular_articles_subtitle: What other people are reading right now.
-      recommended: Recommended articles
-      recommended_subtitle: Hand-picked articles to get you started.
-      popular_label: 'Popular topics:'
-      recommended_label: 'Recommended topics:'
-      authors_others: "%{names} and %{count} others"
-      primary_nav: Primary
+      browse: 浏览
+      back_to_category: 返回 %{name}
+      browse_by_topic: 按主题浏览
+      browse_by_topic_subtitle: 按类别查找指南、教程和答案。
+      popular_articles: 热门文章
+      popular_articles_subtitle: 看看其他人正在阅读什么。
+      recommended: 推荐文章
+      recommended_subtitle: 精选文章，帮助您快速开始。
+      popular_label: '热门主题：'
+      recommended_label: '推荐主题：'
+      authors_others: "%{names} 和其他 %{count} 位作者"
+      primary_nav: 主导航
     hero:
       sub_title: 在这里搜索文章或浏览下面的分类
     common:
@@ -500,35 +501,35 @@ zh_CN:
       others: 其他
       by: 作者：
       no_articles: 没有文章在这里
-      previous: Previous
-      next: Next
+      previous: 上一篇
+      next: 下一篇
     article_actions:
-      label: Open in
-      view_markdown: View as Markdown
-      open_in_chatgpt: Open in ChatGPT
-      open_in_claude: Open in Claude
-      llm_prompt: "Read the following article and help me understand it: %{url}"
+      label: 打开方式
+      view_markdown: 以 Markdown 查看
+      open_in_chatgpt: 在 ChatGPT 中打开
+      open_in_claude: 在 Claude 中打开
+      llm_prompt: "请阅读以下文章并帮助我理解其内容：%{url}"
     footer:
       made_with: 制作于
     header:
       go_to_homepage: 网站
-      visit_website: Visit website
+      visit_website: 访问网站
       appearance:
         title: 外观
         system: 系统
         light: 浅色
         dark: 暗色
       featured_articles: 精选文章
-      recommended: Recommended articles
+      recommended: 推荐文章
       uncategorized: 未分类
     404:
       title: 页面不存在
       description: 我们找不到您想要的页面。
       back_to_home: 前往主页
     not_active:
-      title: Help Center Unavailable
-      description: Please contact the site administrator for more information.
-      action: If you are the administrator, please upgrade your plan to restore access.
+      title: 帮助中心不可用
+      description: 请联系站点管理员了解更多信息。
+      action: 如果您是管理员，请升级方案以恢复访问。
   slack_unfurl:
     fields:
       name: 姓名：
@@ -540,16 +541,20 @@ zh_CN:
     button: 重新打开会话
   time_units:
     days:
+      one: '%{count} 天'
       other: '%{count} 天'
     hours:
+      one: '%{count} 小时'
       other: '%{count} 小时'
     minutes:
+      one: '%{count} 分钟'
       other: '%{count} 分钟'
     seconds:
+      one: '%{count} 秒'
       other: '%{count} 秒'
   auto_assignment:
-    default_policy_name: 'Default Policy'
-    policy_actor: 'Automation System via %{policy_name}'
+    default_policy_name: '默认策略'
+    policy_actor: '自动化系统（通过 %{policy_name}）'
   automation:
     system_name: '自动化系统'
   crm:
@@ -573,24 +578,24 @@ zh_CN:
       副本：
       %{format_messages}
   agent_capacity_policy:
-    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+    inbox_already_assigned: '此收件箱已分配给该策略'
   portals:
     analytics:
       invalid_configuration: 'Invalid analytics configuration'
     articles:
-      captain_not_available: 'Translation requires Captain to be enabled for this account'
-      locale_not_available: 'Locale not available in this portal'
-      category_not_found: 'Category not found in this portal'
-      no_articles_found: 'No articles found to process'
-      invalid_status: 'Invalid status value'
+      captain_not_available: '翻译功能要求此账户启用 Captain'
+      locale_not_available: '此门户不支持该语言环境'
+      category_not_found: '在此门户中未找到该类别'
+      no_articles_found: '未找到可处理的文章'
+      invalid_status: '状态值无效'
     send_instructions:
-      email_required: 'Email 是必填项'
-      invalid_email_format: 'Invalid email format'
-      custom_domain_not_configured: 'Custom domain is not configured'
-      instructions_sent_successfully: 'Instructions sent successfully'
-      subject: 'Finish setting up %{custom_domain}'
+      email_required: '电子邮件为必填项'
+      invalid_email_format: '电子邮件格式无效'
+      custom_domain_not_configured: '未配置自定义域名'
+      instructions_sent_successfully: '操作说明发送成功'
+      subject: '完成 %{custom_domain} 的设置'
     ssl_status:
-      custom_domain_not_configured: 'Custom domain is not configured'
+      custom_domain_not_configured: '未配置自定义域名'
   super_admin:
     account_suspension:
       categories:
@@ -632,7 +637,7 @@ zh_CN:
         audio_transcription: 'Audio transcription'
         help_center_search: 'Help center search'
     push_diagnostics:
-      user_not_found: 'User not found.'
-      no_subscriptions_to_test: 'Select at least one subscription to test.'
-      no_subscriptions_to_delete: 'Select at least one subscription to delete.'
-      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
+      user_not_found: '未找到用户。'
+      no_subscriptions_to_test: '请至少选择一个要测试的订阅。'
+      no_subscriptions_to_delete: '请至少选择一个要删除的订阅。'
+      subscriptions_deleted: "已删除 %{count} 个订阅。用户设备将在下次启动应用时重新注册。"

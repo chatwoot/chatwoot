@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { getTime } from 'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js';
+import { useLocale } from 'shared/composables/useLocale';
 import { findNextAvailableSlotDetails } from 'widget/helpers/availabilityHelpers';
 
 const props = defineProps({
@@ -40,6 +40,7 @@ const HOUR_THRESHOLD_FOR_EXACT_TIME = 3;
 const MINUTES_IN_HOUR = 60;
 
 const { t } = useI18n();
+const { resolvedLocale } = useLocale();
 
 const dayNames = computed(() => [
   t('DAY_NAMES.SUNDAY'),
@@ -102,10 +103,19 @@ const adjustedHoursUntilOpen = computed(() => {
 
 const formattedOpeningTime = computed(() => {
   if (!nextSlot.value) return '';
-  return getTime(
+
+  const openingTime = new Date();
+  openingTime.setHours(
     nextSlot.value.config.openHour || 0,
-    nextSlot.value.config.openMinutes || 0
+    nextSlot.value.config.openMinutes || 0,
+    0,
+    0
   );
+
+  return new Intl.DateTimeFormat(resolvedLocale.value, {
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(openingTime);
 });
 </script>
 

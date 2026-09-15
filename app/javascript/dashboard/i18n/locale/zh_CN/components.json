@@ -54,25 +54,25 @@
     "COMING_SOON": "即将到来！"
   },
   "SLASH_COMMANDS": {
-    "HEADING_1": "Heading 1",
-    "HEADING_2": "Heading 2",
-    "HEADING_3": "Heading 3",
-    "BOLD": "Bold",
-    "ITALIC": "Italic",
-    "STRIKETHROUGH": "Strikethrough",
-    "CODE": "Code",
-    "BULLET_LIST": "Bullet List",
-    "ORDERED_LIST": "Ordered List",
-    "TABLE": "Table",
-    "IMAGE": "Image",
-    "VIDEO": "Video",
-    "DIVIDER": "Divider"
+    "HEADING_1": "标题 1",
+    "HEADING_2": "标题 2",
+    "HEADING_3": "标题 3",
+    "BOLD": "粗体",
+    "ITALIC": "斜体",
+    "STRIKETHROUGH": "删除线",
+    "CODE": "代码",
+    "BULLET_LIST": "项目符号列表",
+    "ORDERED_LIST": "有序列表",
+    "TABLE": "表格",
+    "IMAGE": "图片",
+    "VIDEO": "视频",
+    "DIVIDER": "分割线"
   },
   "VIDEO_EMBED": {
-    "PLACEHOLDER": "Paste a video link",
-    "HINT": "Works with YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar and mp4 links",
-    "ERROR": "That doesn't look like a supported video link",
-    "ADD": "Embed",
+    "PLACEHOLDER": "粘贴视频链接",
+    "HINT": "支持 YouTube、Vimeo、Loom、Wistia、Arcade、Bunny、CodePen、GuideJar 和 mp4 链接",
+    "ERROR": "这似乎不是受支持的视频链接",
+    "ADD": "嵌入",
     "CANCEL": "取消"
   }
 }

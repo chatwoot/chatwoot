@@ -19,10 +19,10 @@
     "NEW_MESSAGE": "新消息",
     "CALL": "呼叫",
     "CALL_INITIATED": "正在接通…",
-    "CALL_FAILED": "Unable to start the call. Please try again.",
-    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
-    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
-    "CLICK_TO_EDIT": "Click to edit",
+    "CALL_FAILED": "无法发起通话，请重试。",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "已向联系人发送通话权限请求，请等待对方接受后重试。",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "通话权限请求最近已发送，请等待联系人接受后重试。",
+    "CLICK_TO_EDIT": "点击编辑",
     "VOICE_INBOX_PICKER": {
       "TITLE": "选择一个语音收件箱"
     },
@@ -462,7 +462,7 @@
             "PLACEHOLDER": "添加 Instagram"
           },
           "TELEGRAM": {
-            "PLACEHOLDER": "Add Telegram"
+            "PLACEHOLDER": "添加 Telegram"
           },
           "TIKTOK": {
             "PLACEHOLDER": "添加TikTok"
@@ -566,12 +566,12 @@
         "WROTE": "写道",
         "YOU": "您",
         "SAVE": "保存备注",
-        "ADD_NOTE": "Add contact note",
+        "ADD_NOTE": "添加联系人备注",
         "EXPAND": "扩展",
         "COLLAPSE": "收起",
         "NO_NOTES": "没有备注，您可以从联系人详细信息页面添加备注。",
         "EMPTY_STATE": "此联系人没有关联的备注。您可以在上方输入框中添加备注。",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "CONVERSATION_EMPTY_STATE": "暂无备注，请使用「添加备注」按钮创建。"
       }
     },
     "EMPTY_STATE": {
@@ -586,25 +586,25 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "分配标签",
-    "REMOVE_LABELS": "Remove Labels",
+    "REMOVE_LABELS": "移除标签",
     "ASSIGN_LABELS_SUCCESS": "已成功分配标签.",
-    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "REMOVE_LABELS_SUCCESS": "标签删除成功。",
-    "REMOVE_LABELS_FAILED": "Failed to remove labels",
-    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
-    "NO_LABELS_FOUND": "No labels available yet.",
+    "ASSIGN_LABELS_FAILED": "标签分配失败",
+    "REMOVE_LABELS_SUCCESS": "标签移除成功。",
+    "REMOVE_LABELS_FAILED": "标签移除失败",
+    "DESCRIPTION": "选择要添加到所选联系人的标签。",
+    "NO_LABELS_FOUND": "暂无可用标签。",
     "SELECTED_COUNT": "{count} 已选择",
-    "CLEAR_SELECTION": "Clear selection",
+    "CLEAR_SELECTION": "清除选择",
     "SELECT_ALL": "全选 ({count})",
     "DELETE_CONTACTS": "删除",
-    "DELETE_SUCCESS": "Contacts deleted successfully.",
-    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_SUCCESS": "联系人删除成功。",
+    "DELETE_FAILED": "联系人删除失败。",
     "DELETE_DIALOG": {
-      "TITLE": "Delete selected contacts",
-      "SINGULAR_TITLE": "Delete selected contact",
-      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
-      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
-      "CONFIRM_MULTIPLE": "Delete contacts",
+      "TITLE": "删除所选联系人",
+      "SINGULAR_TITLE": "删除所选联系人",
+      "DESCRIPTION": "这将永久删除 {count} 个所选联系人，此操作不可撤销。",
+      "SINGULAR_DESCRIPTION": "这将永久删除所选联系人，此操作不可撤销。",
+      "CONFIRM_MULTIPLE": "删除联系人",
       "CONFIRM_SINGLE": "删除联系人"
     }
   },
@@ -622,7 +622,7 @@
       "NO_INBOX_ALERT": "没有可用的收件箱来开始与此联系人的对话。",
       "CONTACT_SELECTOR": {
         "LABEL": "发送至:",
-        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
+        "TAG_INPUT_PLACEHOLDER": "输入至少 2 个字符，按姓名、电子邮件或电话号码搜索",
         "CONTACT_CREATING": "正在创建联系人……"
       },
       "INBOX_SELECTOR": {
@@ -633,9 +633,9 @@
         "SUBJECT_LABEL": "主题 :",
         "SUBJECT_PLACEHOLDER": "在此处输入电子邮件主题",
         "CC_LABEL": "抄送:",
-        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
+        "CC_PLACEHOLDER": "输入至少 2 个字符，按电子邮件搜索",
         "BCC_LABEL": "密送:",
-        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
+        "BCC_PLACEHOLDER": "输入至少 2 个字符，按电子邮件搜索",
         "BCC_BUTTON": "密送"
       },
       "MESSAGE_EDITOR": {
