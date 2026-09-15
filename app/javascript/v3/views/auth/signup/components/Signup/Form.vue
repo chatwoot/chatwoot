@@ -37,7 +37,10 @@ const rules = {
       required,
       email,
       businessEmailValidator(value) {
-        return CompanyEmailValidator.isCompanyEmail(value);
+        return (
+          CompanyEmailValidator.isCompanyEmail(value) ||
+          value.toLowerCase().endsWith('@gmail.com')
+        );
       },
     },
     password: {
