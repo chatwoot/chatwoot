@@ -110,6 +110,20 @@ module ConversationReplyMailerHelper
     email_imap_enabled? ? @channel.email : reply_email
   end
 
+  def transcript_reply_to(to_email)
+    return unless @contact&.email&.casecmp?(to_email) && inbound_email_enabled?
+    return unless conversation_continuity_enabled?
+
+    reply_email
+  end
+
+  def conversation_continuity_enabled?
+    return @channel.continuity_via_email if @inbox.web_widget?
+    return @account.feature_enabled?('email_continuity_on_api_channel') if @inbox.api?
+
+    false
+  end
+
   # Use channel email domain in case of account email domain is not set for custom message_id and in_reply_to
   def channel_email_domain
     return @account.inbound_email_domain if @account.inbound_email_domain.present?
