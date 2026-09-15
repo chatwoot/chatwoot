@@ -17,6 +17,8 @@ const props = defineProps({
   },
 });
 
+const CURRENT_PAGE_STALE_AFTER_MS = 5 * 60 * 1000;
+
 const referer = computed(() => props.conversationAttributes.referer);
 
 const exactTimestamp = useExactTimestamp({ showTimeZone: true });
@@ -56,8 +58,56 @@ const platformName = computed(() => {
 
 const createdAtIp = computed(() => props.contactAttributes.created_at_ip);
 
+const currentPage = computed(
+  () => props.conversationAttributes.current_page || {}
+);
+const currentPageUrl = computed(() => {
+  const value = currentPage.value.url;
+  if (!value) return '';
+
+  try {
+    const url = new URL(value);
+    if (!['http:', 'https:'].includes(url.protocol)) return '';
+    url.username = '';
+    url.password = '';
+    url.search = '';
+    url.hash = '';
+    return url.toString();
+  } catch {
+    return '';
+  }
+});
+const currentPageTitle = computed(() => {
+  if (!currentPageUrl.value) return '';
+  return currentPage.value.title || currentPageUrl.value;
+});
+const currentPageUpdatedAt = computed(() => {
+  if (!currentPage.value.updated_at) return '';
+
+  const updatedAt = new Date(currentPage.value.updated_at);
+  return Number.isNaN(updatedAt.getTime()) ? '' : updatedAt.toLocaleString();
+});
+const currentPageIsStale = computed(() => {
+  if (!currentPage.value.updated_at) return true;
+
+  const updatedAt = Date.parse(currentPage.value.updated_at);
+  return (
+    Number.isNaN(updatedAt) ||
+    Date.now() - updatedAt > CURRENT_PAGE_STALE_AFTER_MS
+  );
+});
+
 const staticElements = computed(() =>
   [
+    {
+      content: currentPageTitle,
+      href: currentPageUrl,
+      updatedAt: currentPageUpdatedAt,
+      isStale: currentPageIsStale,
+      title: 'CONTACT_PANEL.CURRENT_PAGE',
+      key: 'static-current-page',
+      type: 'static_attribute',
+    },
     {
       content: initiatedAt,
       title: 'CONTACT_PANEL.INITIATED_AT',
@@ -112,15 +162,43 @@ const staticElements = computed(() =>
           :title="$t(element.title)"
           :value="element.content.value"
         >
-          <a
-            v-if="element.key === 'static-referer'"
-            :href="element.content.value"
-            rel="noopener noreferrer nofollow"
-            target="_blank"
-            class="text-n-brand"
+          <template
+            v-if="
+              ['static-referer', 'static-current-page'].includes(element.key)
+            "
           >
-            {{ element.content.value }}
-          </a>
+            <a
+              v-if="element.key === 'static-referer' || element.href?.value"
+              :href="element.href?.value || element.content.value"
+              rel="noopener noreferrer nofollow"
+              target="_blank"
+              class="text-n-brand"
+            >
+              {{ element.content.value }}
+            </a>
+            <span v-else>{{ element.content.value }}</span>
+            <p
+              v-if="element.key === 'static-current-page' && element.href.value"
+              class="mt-1 break-all text-xs text-n-slate-11"
+            >
+              {{ element.href.value }}
+            </p>
+            <p
+              v-if="
+                element.key === 'static-current-page' && element.updatedAt.value
+              "
+              class="mt-1 text-xs text-n-slate-11"
+            >
+              {{
+                $t('CONTACT_PANEL.CURRENT_PAGE_LAST_UPDATED', {
+                  time: element.updatedAt.value,
+                })
+              }}
+              <span v-if="element.isStale.value">
+                {{ `· ${$t('CONTACT_PANEL.CURRENT_PAGE_STALE')}` }}
+              </span>
+            </p>
+          </template>
         </ContactDetailsItem>
       </template>
     </CustomAttributes>
