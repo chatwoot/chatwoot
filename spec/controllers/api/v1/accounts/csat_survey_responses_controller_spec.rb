@@ -184,6 +184,16 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
         expect(content.length).to eq 3
       end
 
+      it 'prepends a UTF-8 BOM so that spreadsheet applications detect the encoding' do
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses/download",
+            params: params,
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.headers['Content-Type']).to eq('text/csv')
+        expect(response.body.bytes[0..2]).to eq([0xEF, 0xBB, 0xBF])
+      end
+
       it 'neutralises formula-leading characters in the feedback column' do
         create(:csat_survey_response, account: account, feedback_message: '=1+1', created_at: 1.day.ago)
 
