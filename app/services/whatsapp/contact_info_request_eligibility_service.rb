@@ -18,7 +18,9 @@ class Whatsapp::ContactInfoRequestEligibilityService
     private
 
     def pending_request_contact_inbox_ids(conversations)
-      contact_inbox_ids = conversations.filter_map(&:contact_inbox_id).uniq
+      contact_inbox_ids = conversations.filter_map do |conversation|
+        conversation.contact_inbox_id if new(conversation: conversation).contact_ineligibility_reason.nil?
+      end.uniq
       return [] if contact_inbox_ids.empty?
 
       Message.outgoing.joins(:conversation)
@@ -55,13 +57,16 @@ class Whatsapp::ContactInfoRequestEligibilityService
     request_contact_info_template(params).present?
   end
 
-  private
-
-  def request_reason
+  def contact_ineligibility_reason
     return :unsupported_provider unless whatsapp_cloud_channel?
     return :phone_already_available if conversation.contact.phone_number.present?
     return :invalid_identifier unless bsuid_contact?
-    return :pending_request if pending_request?
+  end
+
+  private
+
+  def request_reason
+    contact_ineligibility_reason || (:pending_request if pending_request?)
   end
 
   def delivery_mode_reason
