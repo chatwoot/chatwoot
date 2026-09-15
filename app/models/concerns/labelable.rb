@@ -3,6 +3,7 @@ module Labelable
 
   included do
     acts_as_taggable_on :labels
+    include Labelable::Persistence
   end
 
   def update_labels(labels = nil)
