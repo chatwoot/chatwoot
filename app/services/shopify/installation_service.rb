@@ -11,6 +11,10 @@ class Shopify::InstallationService
   private
 
   def install_hook
+    if @account.hooks.exists?(app_id: 'shopify')
+      raise Shopify::PendingInstallation::AccountAlreadyConnected, 'This account already has a Shopify connection'
+    end
+
     data = @pending_installation.data
     raise_duplicate_shop! if shopify_shop_exists?(data['shop'])
 

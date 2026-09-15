@@ -23,6 +23,7 @@ json.role active_account_user&.role
 json.ui_settings resource.ui_settings
 json.uid resource.uid
 json.type resource.type
+shopify_account_ids = Integrations::Hook.where(app_id: 'shopify', account_id: account_users.map(&:account_id)).pluck(:account_id).to_set
 json.accounts do
   json.array! account_users do |account_user|
     account = account_user.account
@@ -31,6 +32,7 @@ json.accounts do
     json.status account.status
     json.onboarding_step account.onboarding_step
     json.shopify_integration Shopify::FeatureGate.enabled?(account: account)
+    json.shopify_connected shopify_account_ids.include?(account.id)
     json.partial! 'enterprise/api/v1/models/account_billing', account: account if ChatwootApp.enterprise?
     json.active_at account_user.active_at
     json.role account_user.role
