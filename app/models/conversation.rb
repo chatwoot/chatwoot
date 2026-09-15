@@ -168,6 +168,16 @@ class Conversation < ApplicationRecord
     messages.where(account_id: account_id)&.incoming&.last
   end
 
+  # The agent a CSAT response for this conversation should credit: the live
+  # assignee when there is one, otherwise the last human agent who replied to
+  # the contact. The fallback matters because CONVERSATION_RESOLVED is
+  # dispatched before CONVERSATION_STATUS_CHANGED and each listener runs in
+  # its own job, so an unassign-on-resolve automation has typically already
+  # cleared the assignee by the time the survey job builds the message (#14872).
+  def csat_survey_agent_id
+    assignee_id || messages.outgoing.where(sender_type: 'User', private: false).reorder(created_at: :desc).pick(:sender_id)
+  end
+
   def toggle_status
     # FIXME: implement state machine with aasm
     self.status = open? ? :resolved : :open
@@ -387,9 +397,18 @@ class Conversation < ApplicationRecord
   end
 
   def dispatcher_dispatch(event_name, changed_attributes = nil)
-    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?,
-                                                                       changed_attributes: changed_attributes,
-                                                                       performed_by: Current.executed_by)
+    payload = { conversation: self, notifiable_assignee_change: notifiable_assignee_change?,
+                changed_attributes: changed_attributes,
+                performed_by: Current.executed_by }
+    # Captured here, synchronously, because listeners run in their own jobs
+    # against a reloaded record: an automation triggered by an earlier event
+    # in this same batch (CONVERSATION_RESOLVED precedes
+    # CONVERSATION_STATUS_CHANGED) can unassign the conversation before the
+    # CSAT listener reads it, which is how survey responses lost their agent
+    # attribution (#14872).
+    payload[:assignee_id] = assignee_id if event_name == CONVERSATION_STATUS_CHANGED
+
+    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, **payload)
   end
 
   def set_unread_count_deletion_data

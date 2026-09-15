@@ -37,5 +37,32 @@ describe MessageTemplates::Template::CsatSurvey do
         expect(message.content_attributes['display_type']).to eq('star')
       end
     end
+
+    context 'when snapshotting the agent for response attribution' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:other_agent) { create(:user, account: account, role: :agent) }
+
+      it 'prefers the agent id handed in by the caller' do
+        # The caller captured it from the event payload - the conversation
+        # itself may already have been unassigned by an automation.
+        conversation.update!(assignee: other_agent)
+        inbox.update(csat_config: {})
+
+        described_class.new(conversation: conversation, assigned_agent_id: agent.id).perform
+
+        message = conversation.messages.template.last
+        expect(message.content_attributes['assigned_agent_id']).to eq(agent.id)
+      end
+
+      it 'snapshots the assignee when the caller has nothing better' do
+        conversation.update!(assignee: agent)
+        inbox.update(csat_config: {})
+
+        service.perform
+
+        message = conversation.messages.template.last
+        expect(message.content_attributes['assigned_agent_id']).to eq(agent.id)
+      end
+    end
   end
 end
