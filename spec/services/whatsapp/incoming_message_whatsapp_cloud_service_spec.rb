@@ -1049,4 +1049,77 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
   def contact_from_number
     Contact.find_by(phone_number: contact_phone_number)
   end
+  context 'when a message edit webhook arrives' do
+    let(:contact_inbox) { create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: sender_number) }
+    let(:conversation) { create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox) }
+    let!(:original_message) do
+      create(:message, conversation: conversation, source_id: 'wamid.ORIGINAL', content: 'before edit')
+    end
+    let(:edit_params) do
+      {
+        phone_number: whatsapp_channel.phone_number,
+        object: 'whatsapp_business_account',
+        entry: [{
+          changes: [{
+            value: {
+              contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: sender_number }],
+              messages: [{
+                id: 'wamid.EDIT_EVENT',
+                from: sender_number,
+                timestamp: '1664799905',
+                type: 'edit',
+                edit: edit_payload
+              }]
+            }
+          }]
+        }]
+      }.with_indifferent_access
+    end
+
+    context 'with a text edit' do
+      let(:edit_payload) do
+        {
+          original_message_id: 'wamid.ORIGINAL',
+          message: { type: 'text', text: { body: 'after edit' } }
+        }
+      end
+
+      it 'updates the original message content and creates no new message' do
+        expect do
+          described_class.new(inbox: whatsapp_channel.inbox, params: edit_params).perform
+        end.not_to change { whatsapp_channel.inbox.messages.count }
+        expect(original_message.reload.content).to eq('after edit')
+      end
+    end
+
+    context 'with a media caption edit' do
+      let(:edit_payload) do
+        {
+          original_message_id: 'wamid.ORIGINAL',
+          message: { type: 'image', image: { id: 'media-1', caption: 'updated caption' } }
+        }
+      end
+
+      it 'updates the original message content to the new caption without downloading media' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: edit_params).perform
+        expect(original_message.reload.content).to eq('updated caption')
+      end
+    end
+
+    context 'when the original message is unknown' do
+      let(:edit_payload) do
+        {
+          original_message_id: 'wamid.DOES_NOT_EXIST',
+          message: { type: 'text', text: { body: 'after edit' } }
+        }
+      end
+
+      it 'does not create a new message' do
+        expect do
+          described_class.new(inbox: whatsapp_channel.inbox, params: edit_params).perform
+        end.not_to change { whatsapp_channel.inbox.messages.count }
+      end
+    end
+  end
+
 end
