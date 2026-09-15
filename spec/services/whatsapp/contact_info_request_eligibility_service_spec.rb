@@ -19,7 +19,7 @@ RSpec.describe Whatsapp::ContactInfoRequestEligibilityService do
     create(:message, account: inbox.account, inbox: inbox, conversation: conversation, message_type: :incoming)
   end
 
-  it 'finds a pending request from another conversation on the same BSUID contact inbox' do
+  it 'checks historical pending requests when sending rather than displaying availability' do
     previous_conversation = create(
       :conversation, account: inbox.account, inbox: inbox, contact: contact, contact_inbox: contact_inbox, status: :resolved
     )
@@ -33,7 +33,14 @@ RSpec.describe Whatsapp::ContactInfoRequestEligibilityService do
       content_attributes: { whatsapp_contact_info: { type: 'request', state: 'pending' } }
     )
 
-    expect(availability).to include(available: false, reason: 'pending_request', delivery_mode: nil)
+    eligibility = described_class.new(conversation: conversation)
+    expect(eligibility).not_to receive(:pending_request?)
+    expect(eligibility.availability).to include(available: true, reason: nil, delivery_mode: 'interactive')
+
+    expect { described_class.new(conversation: conversation).ensure_available! }.to raise_error do |error|
+      expect(error.class.name).to eq('CustomExceptions::WhatsappContactInfoRequestError')
+      expect(error.message).to eq(I18n.t('errors.whatsapp.contact_info_request.pending_request'))
+    end
   end
 
   it 'ignores pending requests from another BSUID contact inbox on the merged contact' do
@@ -52,6 +59,7 @@ RSpec.describe Whatsapp::ContactInfoRequestEligibilityService do
     )
 
     expect(availability).to include(available: true, reason: nil, delivery_mode: 'interactive')
+    expect { described_class.new(conversation: conversation).ensure_available! }.not_to raise_error
   end
 
   it 'reuses a supplied reply-window result' do
