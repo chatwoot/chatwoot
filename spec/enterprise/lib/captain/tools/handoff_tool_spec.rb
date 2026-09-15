@@ -63,6 +63,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
             expect(result).to include('Conversation handed off')
           end.to change(Message, :count).by(1)
           expect(tool_context.state[:captain_v2_handoff_tool_completed]).to be true
+          expect(conversation.messages.where(private: true).last.content_attributes['captain_handoff']).to be true
         end
 
         it 'dispatches the handoff event after leaving the lock transaction' do
@@ -160,6 +161,12 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
             result = tool.perform(tool_context, reason: reason)
             expect(result).to eq("Conversation handed off to human support team (Reason: #{reason})")
           end.to change(Message, :count).by(1)
+        end
+
+        it 'marks the note so only the handoff event alerts the dashboard' do
+          tool.perform(tool_context, reason: 'Customer needs specialized support')
+
+          expect(conversation.messages.where(private: true).last.content_attributes['captain_handoff']).to be true
         end
 
         it 'creates message with correct attributes' do

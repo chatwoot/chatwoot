@@ -179,6 +179,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
 
       private_note = resolvable_pending_conversation.messages.where(private: true).last
       expect(private_note.content).to eq('Auto-resolved: Customer question was answered')
+      expect(private_note.content_attributes).not_to have_key('captain_handoff')
     end
 
     it 'creates resolution message with configured content' do
@@ -265,6 +266,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
 
       private_note = resolvable_pending_conversation.messages.where(private: true).last
       expect(private_note.content).to eq("Auto-handoff: #{handoff_reason}")
+      expect(private_note.content_attributes['captain_handoff']).to be true
     end
 
     it 'creates handoff message with configured content' do

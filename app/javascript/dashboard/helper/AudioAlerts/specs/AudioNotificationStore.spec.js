@@ -119,32 +119,23 @@ describe('AudioNotificationStore', () => {
     });
   });
 
-  describe('isMessageFromCurrentConversation', () => {
-    it('should return true when message is from selected chat', () => {
+  describe('isCurrentConversation', () => {
+    it('should return true when conversation is the selected chat', () => {
       store.getters.getSelectedChat = { id: 6179 };
-      const message = { conversation_id: 6179 };
 
-      expect(
-        audioNotificationStore.isMessageFromCurrentConversation(message)
-      ).toBe(true);
+      expect(audioNotificationStore.isCurrentConversation(6179)).toBe(true);
     });
 
-    it('should return false when message is from different chat', () => {
+    it('should return false when conversation is not the selected chat', () => {
       store.getters.getSelectedChat = { id: 6179 };
-      const message = { conversation_id: 1337 };
 
-      expect(
-        audioNotificationStore.isMessageFromCurrentConversation(message)
-      ).toBe(false);
+      expect(audioNotificationStore.isCurrentConversation(1337)).toBe(false);
     });
 
     it('should return false when no chat is selected', () => {
       store.getters.getSelectedChat = null;
-      const message = { conversation_id: 6179 };
 
-      expect(
-        audioNotificationStore.isMessageFromCurrentConversation(message)
-      ).toBe(false);
+      expect(audioNotificationStore.isCurrentConversation(6179)).toBe(false);
     });
   });
 

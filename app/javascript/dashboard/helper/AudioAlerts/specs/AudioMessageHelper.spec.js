@@ -16,6 +16,27 @@ describe('getAssignee', () => {
     expect(getAssignee(message)).toBeUndefined();
   });
 
+  it('reads the human assignee from a conversation event', () => {
+    expect(
+      getAssignee({ meta: { assignee_type: 'User', assignee: { id: 7 } } })
+    ).toBe(7);
+  });
+
+  it('does not treat a bot as a human assignee', () => {
+    expect(
+      getAssignee({ meta: { assignee_type: 'AgentBot', assignee: { id: 7 } } })
+    ).toBeUndefined();
+  });
+
+  it('keeps an explicitly unassigned message unassigned', () => {
+    expect(
+      getAssignee({
+        conversation: { assignee_id: null },
+        meta: { assignee_type: 'User', assignee: { id: 7 } },
+      })
+    ).toBeNull();
+  });
+
   it('should handle null message', () => {
     expect(getAssignee(null)).toBeUndefined();
   });

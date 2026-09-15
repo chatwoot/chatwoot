@@ -49,10 +49,10 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
       next :changed unless conversation.pending?
       next :stale if newer_customer_message_arrived?(tool_context.state)
 
-      # post the reason as a private note
+      # The handoff event owns the dashboard alert; this note must not produce a second alert.
       note = conversation.messages.create!(
         message_type: :outgoing, private: true, sender: @assistant,
-        account: conversation.account, inbox: conversation.inbox, content: reason
+        account: conversation.account, inbox: conversation.inbox, content: reason, content_attributes: { captain_handoff: true }
       )
 
       conversation.bot_handoff!(dispatch_event: false)
@@ -78,9 +78,10 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   end
 
   def trigger_legacy_handoff(tool_context, conversation, reason, reason_category)
+    # Keep legacy handoff notes silent too; the handoff event supplies the dashboard alert.
     note = conversation.messages.create!(
       message_type: :outgoing, private: true, sender: @assistant,
-      account: conversation.account, inbox: conversation.inbox, content: reason
+      account: conversation.account, inbox: conversation.inbox, content: reason, content_attributes: { captain_handoff: true }
     )
     record_handoff_note(tool_context, note) if reason.present?
     conversation.bot_handoff!

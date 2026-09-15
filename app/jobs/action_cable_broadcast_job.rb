@@ -7,6 +7,7 @@ class ActionCableBroadcastJob < ApplicationJob
     CONVERSATION_UPDATED,
     TEAM_CHANGED,
     ASSIGNEE_CHANGED,
+    CONVERSATION_BOT_HANDOFF,
     CONVERSATION_STATUS_CHANGED
   ].freeze
 
@@ -27,7 +28,14 @@ class ActionCableBroadcastJob < ApplicationJob
 
     account = Account.find(data[:account_id])
     conversation = account.conversations.find_by!(display_id: data[:id])
-    conversation.push_event_data.merge(account_id: data[:account_id])
+    broadcast_data = conversation.push_event_data.merge(data.slice(:account_id, :performer))
+    if event_name == ASSIGNEE_CHANGED
+      # The original performer only describes the assignment that queued this event.
+      broadcast_data[:assignment_changed_since_event] =
+        data.dig(:meta, :assignee_type) != broadcast_data.dig(:meta, :assignee_type) ||
+        data.dig(:meta, :assignee, :id) != broadcast_data.dig(:meta, :assignee, :id)
+    end
+    broadcast_data
   end
 
   def broadcast_to_members(members, event_name, broadcast_data)

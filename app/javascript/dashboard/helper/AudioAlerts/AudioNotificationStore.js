@@ -28,9 +28,8 @@ class AudioNotificationStore {
     return activeConversation?.status === wootConstants.STATUS_TYPE.PENDING;
   };
 
-  isMessageFromCurrentConversation = message => {
-    return this.store.getters.getSelectedChat?.id === message.conversation_id;
-  };
+  isCurrentConversation = conversationId =>
+    this.store.getters.getSelectedChat?.id === conversationId;
 
   hasConversationPermission = user => {
     const currentAccountId = this.store.getters.getCurrentAccountId;
