@@ -111,7 +111,7 @@ RSpec.describe Captain::AssistantStatsBuilder do
 
   describe 'range handling' do
     it 'accepts the allowed day and named ranges' do
-      %w[7 30 90 this_month last_month].each do |allowed|
+      %w[7 30 90 this_week last_week this_month last_month].each do |allowed|
         expect(described_class.new(assistant, allowed).range).to eq(allowed)
       end
     end
