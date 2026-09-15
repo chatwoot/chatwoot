@@ -1,5 +1,8 @@
 import endPoints from 'widget/api/endPoints';
 import { API } from 'widget/helpers/axios';
+import { stripConversationToken } from 'widget/helpers/urlParamsHelper';
+
+const widgetQuery = () => stripConversationToken(window.location.search);
 
 const createConversationAPI = async content => {
   const urlData = endPoints.createConversation(content);
@@ -35,36 +38,34 @@ const getMessagesAPI = async ({ before, after }) => {
 };
 
 const getConversationAPI = async () => {
-  return API.get(`/api/v1/widget/conversations${window.location.search}`);
+  return API.get(`/api/v1/widget/conversations${widgetQuery()}`);
 };
 
 const toggleTyping = async ({ typingStatus }) => {
   return API.post(
-    `/api/v1/widget/conversations/toggle_typing${window.location.search}`,
-    { typing_status: typingStatus }
+    `/api/v1/widget/conversations/toggle_typing${widgetQuery()}`,
+    {
+      typing_status: typingStatus,
+    }
   );
 };
 
 const setUserLastSeenAt = async ({ lastSeen }) => {
   return API.post(
-    `/api/v1/widget/conversations/update_last_seen${window.location.search}`,
+    `/api/v1/widget/conversations/update_last_seen${widgetQuery()}`,
     { contact_last_seen_at: lastSeen }
   );
 };
 const sendEmailTranscript = async () => {
-  return API.post(
-    `/api/v1/widget/conversations/transcript${window.location.search}`
-  );
+  return API.post(`/api/v1/widget/conversations/transcript${widgetQuery()}`);
 };
 const toggleStatus = async () => {
-  return API.get(
-    `/api/v1/widget/conversations/toggle_status${window.location.search}`
-  );
+  return API.get(`/api/v1/widget/conversations/toggle_status${widgetQuery()}`);
 };
 
 const setCustomAttributes = async customAttributes => {
   return API.post(
-    `/api/v1/widget/conversations/set_custom_attributes${window.location.search}`,
+    `/api/v1/widget/conversations/set_custom_attributes${widgetQuery()}`,
     {
       custom_attributes: customAttributes,
     }
@@ -73,7 +74,7 @@ const setCustomAttributes = async customAttributes => {
 
 const deleteCustomAttribute = async customAttribute => {
   return API.post(
-    `/api/v1/widget/conversations/destroy_custom_attributes${window.location.search}`,
+    `/api/v1/widget/conversations/destroy_custom_attributes${widgetQuery()}`,
     {
       custom_attribute: [customAttribute],
     }

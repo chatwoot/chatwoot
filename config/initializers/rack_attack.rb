@@ -214,7 +214,14 @@ class Rack::Attack
       throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}',
                limit: ENV.fetch('RATE_LIMIT_WIDGET_LOAD', '200').to_i,
                period: 1.hour) do |req|
-        req.ip if req.path_without_extensions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
+        next unless req.path_without_extensions == '/widget'
+
+        ad = ActionDispatch::Request.new(req.env)
+        token_present = ad.params['cw_conversation'].present? ||
+                        req.cookies['cw_conversation'].present? ||
+                        req.get_header('HTTP_X_AUTH_TOKEN').present? ||
+                        req.get_header('HTTP_AUTHORIZATION').to_s.start_with?('Bearer ')
+        req.ip unless token_present
       end
     end
 
