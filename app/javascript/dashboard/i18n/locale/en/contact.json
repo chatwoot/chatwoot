@@ -59,7 +59,10 @@
       "CONTACT_LABELS": "Contact Labels",
       "PREVIOUS_CONVERSATIONS": "Previous Conversations",
       "NO_RECORDS_FOUND": "No attributes found"
-    }
+    },
+    "CURRENT_PAGE": "Current page",
+    "CURRENT_PAGE_LAST_UPDATED": "Last updated {time}",
+    "CURRENT_PAGE_STALE": "May be out of date"
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edit Contact",
