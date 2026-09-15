@@ -1,4 +1,6 @@
 module Shopify::IntegrationHelper
+  include OauthStateTokenHelper
+
   REQUIRED_SCOPES = %w[read_customers read_orders read_fulfillments].freeze
 
   # Generates a signed JWT token for Shopify integration
@@ -8,10 +10,7 @@ module Shopify::IntegrationHelper
   def generate_shopify_token(account_id)
     return if client_secret.blank?
 
-    JWT.encode(token_payload(account_id), client_secret, 'HS256')
-  rescue StandardError => e
-    Rails.logger.error("Failed to generate Shopify token: #{e.message}")
-    nil
+    generate_oauth_state_token('Shopify', client_secret, token_payload(account_id))
   end
 
   def token_payload(account_id)
@@ -28,7 +27,7 @@ module Shopify::IntegrationHelper
   def verify_shopify_token(token)
     return if token.blank? || client_secret.blank?
 
-    decode_token(token, client_secret)
+    decode_oauth_state_token('Shopify', token, client_secret)&.dig('sub')
   end
 
   private
@@ -39,20 +38,5 @@ module Shopify::IntegrationHelper
 
   def client_secret
     @client_secret ||= GlobalConfigService.load('SHOPIFY_CLIENT_SECRET', nil)
-  end
-
-  def decode_token(token, secret)
-    JWT.decode(
-      token,
-      secret,
-      true,
-      {
-        algorithm: 'HS256',
-        verify_expiration: true
-      }
-    ).first['sub']
-  rescue StandardError => e
-    Rails.logger.error("Unexpected error verifying Shopify token: #{e.message}")
-    nil
   end
 end
