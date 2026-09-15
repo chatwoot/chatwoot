@@ -52,6 +52,7 @@ class Channel::WebWidget < ApplicationRecord
             3 => :end_conversation,
             4 => :use_inbox_avatar_for_bot,
             5 => :allow_mobile_webview,
+            6 => :voice_recorder,
             :column => 'feature_flags',
             :check_for_column => false
 
@@ -59,6 +60,10 @@ class Channel::WebWidget < ApplicationRecord
 
   def name
     'Website'
+  end
+
+  def audio_transcription_enabled?
+    voice_recorder? && account.feature_enabled?('voice_recorder') && Widget::AudioTranscriptionConfig.configured?
   end
 
   def web_widget_script
