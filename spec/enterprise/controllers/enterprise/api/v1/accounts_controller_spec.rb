@@ -5,6 +5,28 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
   let!(:admin) { create(:user, account: account, role: :administrator) }
   let!(:agent) { create(:user, account: account, role: :agent) }
 
+  describe 'GET /api/v1/accounts/{account.id}' do
+    it 'exposes Stripe as the default billing provider' do
+      get "/api/v1/accounts/#{account.id}",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response.parsed_body['billing_provider']).to eq('stripe')
+    end
+
+    it 'exposes the Shopify billing provider' do
+      shopify_account = create(:account, internal_attributes: { 'billing_provider' => 'shopify', 'signup_source' => 'shopify' })
+      shopify_admin = create(:user, account: shopify_account, role: :administrator)
+
+      get "/api/v1/accounts/#{shopify_account.id}",
+          headers: shopify_admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['billing_provider']).to eq('shopify')
+    end
+  end
+
   describe 'API token access' do
     before do
       allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
@@ -77,6 +99,57 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
                  headers: admin.create_new_auth_token,
                  as: :json
           end.not_to have_enqueued_job(Enterprise::CreateStripeCustomerJob).with(account)
+        end
+
+        it 'rejects Stripe setup for a Shopify account before creating customer state' do
+          shopify_account = create(
+            :account,
+            internal_attributes: {
+              'billing_provider' => 'shopify',
+              'signup_source' => 'shopify'
+            }
+          )
+          shopify_admin = create(:user, account: shopify_account, role: :administrator)
+          shopify_account.enable_features!('shopify_integration')
+          allow(GlobalConfigService).to receive(:load)
+            .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+            .and_return(true)
+
+          expect do
+            post "/enterprise/api/v1/accounts/#{shopify_account.id}/subscription",
+                 headers: shopify_admin.create_new_auth_token,
+                 as: :json
+          end.not_to have_enqueued_job(Enterprise::CreateStripeCustomerJob)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq(
+            'This billing action is not available for Shopify-billed accounts'
+          )
+          expect(shopify_account.reload.custom_attributes).not_to have_key('is_creating_customer')
+        end
+
+        it 'rejects Stripe checkout for a Shopify account with residual customer metadata' do
+          shopify_account = create(
+            :account,
+            internal_attributes: {
+              'billing_provider' => 'shopify',
+              'signup_source' => 'shopify'
+            },
+            custom_attributes: { 'stripe_customer_id' => 'cus_from_previous_billing' }
+          )
+          shopify_admin = create(:user, account: shopify_account, role: :administrator)
+          shopify_account.enable_features!('shopify_integration')
+          allow(GlobalConfigService).to receive(:load)
+            .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+            .and_return(true)
+
+          expect(Enterprise::Billing::CreateSessionService).not_to receive(:new)
+
+          post "/enterprise/api/v1/accounts/#{shopify_account.id}/checkout",
+               headers: shopify_admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
         end
       end
     end
@@ -264,6 +337,39 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           }
           expect(response).to have_http_status(:ok)
           expect(JSON.parse(response.body)).to eq(expected_response)
+        end
+      end
+
+      context 'when the account is billed through Shopify' do
+        let(:account) do
+          create(
+            :account,
+            internal_attributes: { 'billing_provider' => 'shopify' },
+            custom_attributes: { 'plan_name' => nil }
+          )
+        end
+
+        it 'uses the Shopify catalog when resolving the provider default plan' do
+          create(
+            :installation_config,
+            name: 'CHATWOOT_SHOPIFY_PLANS',
+            value: [
+              {
+                'name' => 'Shopify Basic',
+                'handle' => 'shopify-basic',
+                'features' => [],
+                'limits' => { 'agents' => 5, 'inboxes' => 10 }
+              }
+            ],
+            locked: true
+          )
+
+          get "/enterprise/api/v1/accounts/#{account.id}/limits",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(response.parsed_body.dig('limits', 'agents', 'allowed')).to eq(0)
         end
       end
     end

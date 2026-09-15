@@ -141,7 +141,8 @@ class CaptainChatSession
   end
 
   def generate_assistant_response
-    runner = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, callbacks: build_callbacks)
+    run_options = Captain::Assistant::AgentRunnerService::RunOptions.new(callbacks: build_callbacks)
+    runner = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, run_options: run_options)
     runner.generate_response(message_history: @message_history)
   end
 

@@ -68,6 +68,27 @@ describe Contacts::FilterService do
       cs_contact.update!(custom_attributes: { customer_type: 'platinum', signed_in_at: '2022-01-19', lifetime_value: '120.50' })
     end
 
+    it 'filters a checkbox custom attribute that shares a conversation attribute name' do
+      create(:custom_attribute_definition,
+             attribute_key: 'status',
+             account: account,
+             attribute_model: 'contact_attribute',
+             attribute_display_type: 'checkbox')
+      en_contact.update!(custom_attributes: en_contact.custom_attributes.merge('status' => true))
+      params[:payload] = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [true],
+          query_operator: nil
+        }.with_indifferent_access
+      ]
+
+      result = filter_service.new(account, first_user, params).perform
+
+      expect(result[:contacts]).to contain_exactly(en_contact)
+    end
+
     context 'with standard attributes - name' do
       it 'filter contacts by name' do
         params[:payload] = [
