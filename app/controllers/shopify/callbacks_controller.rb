@@ -46,7 +46,7 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
 
     if @account
       reconnect_existing_shopify_account
-      return redirect_to existing_account_redirect_url
+      return redirect_to existing_account_redirect_url, allow_other_host: true
     end
 
     token_key = Shopify::PendingInstallation.create(
@@ -63,7 +63,7 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     prepare_shopify_initiated_flow
     load_existing_shopify_account
     hook = @account&.hooks&.find_by(app_id: 'shopify')
-    return redirect_to existing_account_redirect_url if reusable_hook?(hook)
+    return redirect_to existing_account_redirect_url, allow_other_host: true if reusable_hook?(hook)
 
     state = SecureRandom.hex(16)
     Redis::SecureStorage.set(
