@@ -55,9 +55,12 @@ describe Telegram::IncomingMessageService do
           'message' => { 'text' => 'test' }.merge(message_params)
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        expect(telegram_channel.inbox.messages.first.external_source_ids['telegram_update_id']).to eq(params[:update_id].to_s)
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
         expect(contact_for.name).to eq('Sojan Jose')
         expect(telegram_channel.inbox.messages.first.content).to eq('test')
+        expect(telegram_channel.inbox.messages.count).to eq(1)
       end
     end
 
@@ -659,7 +662,7 @@ describe Telegram::IncomingMessageService do
         # Send a new message
         new_params = {
           'update_id' => 2_342_342_343_243,
-          'message' => { 'text' => 'second message' }.merge(message_params)
+          'message' => { 'text' => 'second message', 'message_id' => 2 }.merge(message_params.except('message_id'))
         }.with_indifferent_access
 
         described_class.new(inbox: telegram_channel.inbox, params: new_params).perform
@@ -681,7 +684,7 @@ describe Telegram::IncomingMessageService do
         # Send a new message
         new_params = {
           'update_id' => 2_342_342_343_243,
-          'message' => { 'text' => 'second message' }.merge(message_params)
+          'message' => { 'text' => 'second message', 'message_id' => 2 }.merge(message_params.except('message_id'))
         }.with_indifferent_access
 
         described_class.new(inbox: telegram_channel.inbox, params: new_params).perform
@@ -714,7 +717,7 @@ describe Telegram::IncomingMessageService do
         # Send a new message
         new_params = {
           'update_id' => 2_342_342_343_243,
-          'message' => { 'text' => 'second message' }.merge(message_params)
+          'message' => { 'text' => 'second message', 'message_id' => 2 }.merge(message_params.except('message_id'))
         }.with_indifferent_access
 
         described_class.new(inbox: telegram_channel.inbox, params: new_params).perform
