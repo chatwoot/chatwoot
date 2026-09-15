@@ -672,6 +672,8 @@ GEM
     prism (1.9.0)
     procore-sift (1.0.0)
       activerecord (>= 6.1)
+    prometheus-client (4.2.5)
+      base64
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -1144,6 +1146,7 @@ DEPENDENCIES
   pg_search
   pgvector
   procore-sift
+  prometheus-client (~> 4.2)
   pry-rails
   puma (~> 7.2, >= 7.2.1)
   pundit
