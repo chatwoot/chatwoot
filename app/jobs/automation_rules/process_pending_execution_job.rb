@@ -53,10 +53,12 @@ class AutomationRules::ProcessPendingExecutionJob < ApplicationJob
   # so a message/email/webhook is never sent twice. Everything up to this point is still retryable.
   def execute(pending_execution)
     pending_execution.update!(status: :executing)
+    message_kwargs = pending_execution.message ? { message: pending_execution.message } : {}
     AutomationRules::ActionService.new(
       pending_execution.automation_rule,
       pending_execution.account,
-      pending_execution.conversation
+      pending_execution.conversation,
+      **message_kwargs
     ).perform
     pending_execution.update!(status: :executed)
   end
