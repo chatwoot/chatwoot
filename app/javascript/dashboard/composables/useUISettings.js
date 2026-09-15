@@ -88,13 +88,6 @@ const setSignatureFlagForInbox = (channelType, value, updateUISettings) => {
   updateUISettings({ [`${slugifiedChannel}_signature_enabled`]: value });
 };
 
-const setQuotedReplyFlagForInbox = (channelType, value, updateUISettings) => {
-  if (!channelType) return;
-
-  const slugifiedChannel = slugifyChannel(channelType);
-  updateUISettings({ [`${slugifiedChannel}_quoted_reply_enabled`]: value });
-};
-
 /**
  * Fetches the signature flag for a specific channel type from UI settings.
  * @param {string} channelType - The type of the channel.
@@ -106,13 +99,6 @@ const fetchSignatureFlagFromUISettings = (channelType, uiSettings) => {
 
   const slugifiedChannel = slugifyChannel(channelType);
   return uiSettings.value[`${slugifiedChannel}_signature_enabled`];
-};
-
-const fetchQuotedReplyFlagFromUISettings = (channelType, uiSettings) => {
-  if (!channelType) return false;
-
-  const slugifiedChannel = slugifyChannel(channelType);
-  return uiSettings.value[`${slugifiedChannel}_quoted_reply_enabled`];
 };
 
 /**
@@ -162,10 +148,6 @@ export function useUISettings() {
       setSignatureFlagForInbox(channelType, value, updateUISettings),
     fetchSignatureFlagFromUISettings: channelType =>
       fetchSignatureFlagFromUISettings(channelType, uiSettings),
-    setQuotedReplyFlagForInbox: (channelType, value) =>
-      setQuotedReplyFlagForInbox(channelType, value, updateUISettings),
-    fetchQuotedReplyFlagFromUISettings: channelType =>
-      fetchQuotedReplyFlagFromUISettings(channelType, uiSettings),
     isEditorHotKeyEnabled: key => isEditorHotKeyEnabled(key, uiSettings),
   };
 }
