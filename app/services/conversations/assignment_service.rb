@@ -15,7 +15,7 @@ class Conversations::AssignmentService
 
   def assign_agent
     conversation.with_lock do
-      if assignee.present? && conversation.ai_assignee_type.present? && conversation.pending?
+      if open_on_assignment? && conversation.pending?
         conversation.status = :open
         conversation.waiting_since = Time.current if conversation.waiting_since.blank?
       end
@@ -28,6 +28,10 @@ class Conversations::AssignmentService
 
   def assign_agent_bot
     assign_ai_assignee(agent_bot)
+  end
+
+  def open_on_assignment?
+    assignee.present? && conversation.ai_assignee_type.present?
   end
 
   def assign_ai_assignee(ai_assignee)
