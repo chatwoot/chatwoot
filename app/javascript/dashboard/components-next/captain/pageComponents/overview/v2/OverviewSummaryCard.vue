@@ -60,9 +60,11 @@ onUnmounted(stopAutoRotation);
 
 <template>
   <section
-    class="overflow-hidden border rounded-2xl bg-n-weak border-n-container shadow-[0_0.0625rem_0.0625rem_rgba(27,28,29,0.04)]"
+    class="overflow-hidden border rounded-2xl bg-n-weak dark:bg-n-strong border-n-container dark:border-n-strong shadow-[0_0.0625rem_0.0625rem_rgba(27,28,29,0.04)]"
   >
-    <div class="grid gap-px border-b lg:grid-cols-6 border-n-weak">
+    <div
+      class="grid gap-px border-b lg:grid-cols-6 border-n-weak dark:border-n-strong"
+    >
       <div
         class="flex flex-col min-h-[8.6875rem] gap-3 p-5 bg-n-card lg:col-span-4"
       >
