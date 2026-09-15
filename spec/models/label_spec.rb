@@ -45,6 +45,24 @@ RSpec.describe Label do
       duplicate_label = FactoryBot.build(:label, title: label.title, account: account)
       expect(duplicate_label.valid?).to be false
     end
+
+    it 'allows a single-character title' do
+      # Regression test: the format validator required two +-quantified groups
+      # back to back, so it silently rejected single-character titles even though
+      # its own comment says "needs atleast one character".
+      label = FactoryBot.build(:label, title: 'a')
+      expect(label.valid?).to be true
+    end
+
+    it 'allows a single-digit title' do
+      label = FactoryBot.build(:label, title: '5')
+      expect(label.valid?).to be true
+    end
+
+    it 'still rejects a single underscore or hyphen' do
+      expect(FactoryBot.build(:label, title: '_').valid?).to be false
+      expect(FactoryBot.build(:label, title: '-').valid?).to be false
+    end
   end
 
   describe '.after_update_commit' do
