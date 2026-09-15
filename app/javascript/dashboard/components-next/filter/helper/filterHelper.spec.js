@@ -216,9 +216,13 @@ describe('useConversationFilterContext', () => {
     );
     const options = await contactFilter.searchOptions('jane');
 
-    expect(ContactAPI.search).toHaveBeenCalledWith('jane', 1, 'name', '', {
-      signal: expect.any(AbortSignal),
-    });
+    expect(ContactAPI.search).toHaveBeenCalledWith(
+      'jane',
+      1,
+      '-last_activity_at',
+      '',
+      { signal: expect.any(AbortSignal) }
+    );
     expect(options).toEqual([
       { id: 1, name: 'Jane Doe' },
       { id: 2, name: 'alex@example.com' },
