@@ -221,6 +221,13 @@ const flattenLink = (_match, text, url) => {
   return text === cleanUrl ? cleanUrl : `${text}: ${cleanUrl}`;
 };
 
+// | a  | b | -> a | b (cells keep their order; escaped pipes stay inside a cell)
+const flattenTableRow = (_match, cells) =>
+  cells
+    .split(/(?<!\\)\|/)
+    .map(cell => cell.trim())
+    .join(' | ');
+
 /**
  * Markdown formatting patterns for stripping unsupported formatting.
  *
@@ -238,6 +245,13 @@ export const MARKDOWN_PATTERNS = [
   {
     type: 'blockquote', // PM: blockquote, eg: > quote
     patterns: [{ pattern: /^> ?/gm, replacement: '' }],
+  },
+  {
+    type: 'table', // PM: table, eg: | a | b |\n| --- | --- |\n| 1 | 2 |
+    patterns: [
+      { pattern: /^\|(?:[ \t]*:?-+:?[ \t]*\|)+[ \t]*$\n?/gm, replacement: '' }, // separator row
+      { pattern: /^\|(.*)\|[ \t]*$/gm, replacement: flattenTableRow },
+    ],
   },
   {
     type: 'bulletList', // PM: bullet_list, eg: - item
