@@ -1,36 +1,5 @@
 class Whatsapp::ContactInfoRequestEligibilityService
-  pattr_initialize [:conversation!, :message, { delivery_mode: :any, template_params: nil, pending_request: nil, can_reply: nil }]
-
-  class << self
-    def availability_by_conversation(conversations)
-      conversations = conversations.to_a
-      pending_contact_inbox_ids = pending_request_contact_inbox_ids(conversations)
-
-      conversations.to_h do |conversation|
-        availability = new(
-          conversation: conversation,
-          pending_request: pending_contact_inbox_ids.include?(conversation.contact_inbox_id)
-        ).availability
-        [conversation.id, availability]
-      end
-    end
-
-    private
-
-    def pending_request_contact_inbox_ids(conversations)
-      contact_inbox_ids = conversations.filter_map(&:contact_inbox_id).uniq
-      return [] if contact_inbox_ids.empty?
-
-      Message.outgoing.joins(:conversation)
-             .where(conversations: { contact_inbox_id: contact_inbox_ids })
-             .where.not(status: :failed)
-             .where("(content_attributes #>> '{}')::jsonb -> 'whatsapp_contact_info' ->> 'type' = ?", 'request')
-             .where("(content_attributes #>> '{}')::jsonb -> 'whatsapp_contact_info' ->> 'state' = ?", 'pending')
-             .reorder(nil)
-             .distinct
-             .pluck('conversations.contact_inbox_id')
-    end
-  end
+  pattr_initialize [:conversation!, :message, { delivery_mode: :any, template_params: nil, can_reply: nil }]
 
   def ensure_available!
     return if reason.blank?
@@ -118,8 +87,6 @@ class Whatsapp::ContactInfoRequestEligibilityService
   end
 
   def pending_request?
-    return pending_request unless pending_request.nil?
-
     scope = Message.outgoing.where(conversation_id: conversation.contact_inbox.conversations.select(:id))
                    .where.not(status: :failed)
                    .where("(content_attributes #>> '{}')::jsonb -> 'whatsapp_contact_info' ->> 'type' = ?", 'request')
