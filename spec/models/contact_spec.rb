@@ -131,6 +131,17 @@ RSpec.describe Contact do
         expect(resolved).to include(contact_with_email, contact_with_phone, contact_with_identifier)
         expect(resolved).not_to include(contact_without_details)
       end
+
+      it 'returns a contact identified only by a business scoped user id' do
+        bsuid_only = create(:contact, account: account, name: 'BSUID customer', email: nil, phone_number: nil,
+                                      identifier: nil, additional_attributes: { 'whatsapp_bsuid' => 'IN.2081978709342942' })
+        no_identity = create(:contact, account: account, name: 'Nobody', email: nil, phone_number: nil, identifier: nil)
+
+        resolved = account.contacts.resolved_contacts(use_crm_v2: false)
+
+        expect(resolved).to include(bsuid_only)
+        expect(resolved).not_to include(no_identity)
+      end
     end
 
     context 'when crm_v2 feature flag is enabled' do
