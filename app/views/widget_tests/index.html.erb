@@ -42,6 +42,11 @@ window.chatwootSettings = {
 
 window.addEventListener('chatwoot:ready', function() {
   console.log('chatwoot:ready', window.$chatwoot);
+  const initialMessage = new URLSearchParams(window.location.search).get('initialMessage');
+  if (initialMessage) {
+    window.$chatwoot.toggle('open', initialMessage);
+  }
+
   if (window.location.search.includes('setUser')) {
     window.$chatwoot.setUser('<%= user_id %>', {
       identifier_hash: '<%= user_hash %>',
