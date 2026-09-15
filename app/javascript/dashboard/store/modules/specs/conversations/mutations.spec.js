@@ -57,11 +57,50 @@ describe('#mutations', () => {
       });
 
       expect(state.allConversations).toEqual([
-        { id: 1, meta: {}, last_activity_at: 1602256198 },
+        {
+          id: 1,
+          meta: {},
+          last_activity_at: 1602256198,
+          timestamp: 1602256198,
+        },
       ]);
     });
   });
   describe('#UPDATE_CONVERSATION_LAST_ACTIVITY', () => {
+    it('keeps the card label and the sort key on the same value', () => {
+      const state = {
+        allConversations: [
+          { id: 1, last_activity_at: 1602256100, timestamp: 1602256100 },
+        ],
+      };
+
+      mutations[types.UPDATE_CONVERSATION_LAST_ACTIVITY](state, {
+        lastActivityAt: 1602256198,
+        conversationId: 1,
+      });
+
+      expect(state.allConversations).toEqual([
+        { id: 1, last_activity_at: 1602256198, timestamp: 1602256198 },
+      ]);
+    });
+
+    it('ignores an older activity time', () => {
+      const state = {
+        allConversations: [
+          { id: 1, last_activity_at: 1602256198, timestamp: 1602256198 },
+        ],
+      };
+
+      mutations[types.UPDATE_CONVERSATION_LAST_ACTIVITY](state, {
+        lastActivityAt: 1602256100,
+        conversationId: 1,
+      });
+
+      expect(state.allConversations).toEqual([
+        { id: 1, last_activity_at: 1602256198, timestamp: 1602256198 },
+      ]);
+    });
+
     it('update conversation last activity', () => {
       const state = { allConversations: [{ id: 1, meta: {} }] };
       mutations[types.ASSIGN_TEAM](state, {
@@ -116,6 +155,29 @@ describe('#mutations', () => {
       expect(state.allConversations).toEqual([]);
     });
 
+    it('leaves the activity time to the conversation update', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            messages: [],
+            last_activity_at: 1602256100,
+            timestamp: 1602256100,
+          },
+        ],
+        selectedChatId: -1,
+      };
+
+      mutations[types.ADD_MESSAGE](state, {
+        conversation_id: 1,
+        content: 'Test message',
+        created_at: 1602256198,
+      });
+
+      expect(state.allConversations[0].timestamp).toEqual(1602256100);
+      expect(state.allConversations[0].last_activity_at).toEqual(1602256100);
+    });
+
     it('add message to the conversation if it does not exist in the store', () => {
       global.bus = { $emit: vi.fn() };
       const state = {
@@ -138,7 +200,6 @@ describe('#mutations', () => {
             },
           ],
           unread_count: 0,
-          timestamp: 1602256198,
         },
       ]);
       expect(emitter.emit).not.toHaveBeenCalled();
@@ -166,7 +227,6 @@ describe('#mutations', () => {
             },
           ],
           unread_count: 0,
-          timestamp: 1602256198,
         },
       ]);
       expect(emitter.emit).toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
