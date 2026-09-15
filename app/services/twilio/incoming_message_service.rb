@@ -9,19 +9,21 @@ class Twilio::IncomingMessageService
     return if twilio_channel.blank?
 
     set_contact
-    set_conversation
-    @message = @conversation.messages.build(
-      content: message_body,
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
-      message_type: :incoming,
-      sender: @contact,
-      source_id: params[:SmsSid],
-      content_attributes: message_content_attributes
-    )
-    attach_files
-    attach_location if location_message?
-    @message.save!
+    ActiveRecord::Base.transaction do
+      set_conversation
+      @message = @conversation.messages.build(
+        content: message_body,
+        account_id: @inbox.account_id,
+        inbox_id: @inbox.id,
+        message_type: :incoming,
+        sender: @contact,
+        source_id: params[:SmsSid],
+        content_attributes: message_content_attributes
+      )
+      attach_files
+      attach_location if location_message?
+      @message.save!
+    end
   end
 
   private
