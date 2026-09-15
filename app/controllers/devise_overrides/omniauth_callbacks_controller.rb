@@ -1,15 +1,23 @@
 class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
   include EmailHelper
 
+  SHOPIFY_INSTALL_REDIRECT_PATTERN = %r{\Asettings/integrations/shopify\?shopify_pending_install=([0-9a-f]{32})\z}
+  GOOGLE_OAUTH_REDIRECT_SESSION_KEY = 'google_oauth_redirect_url'.freeze
+
+  def redirect_callbacks
+    preserve_google_oauth_redirect if params[:provider] == 'google_oauth2'
+    super
+  end
+
   def omniauth_success
     get_resource_from_auth_hash
 
-    @resource.present? ? sign_in_user : sign_up_user
+    @resource.present? ? sign_in_user(redirect_url: oauth_redirect_url) : sign_up_user
   end
 
   private
 
-  def sign_in_user
+  def sign_in_user(redirect_url: nil)
     # Capture before skip_confirmation! sets confirmed_at, which would
     # make oauth_user_needs_password_reset? return false and skip the
     # password reset for persisted unconfirmed users.
@@ -21,7 +29,11 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     # we can just send them to the login page again with the SSO params
     # that will log them in
     encoded_email = ERB::Util.url_encode(@resource.email)
-    redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token)
+    redirect_to login_page_url(
+      email: encoded_email,
+      sso_auth_token: @resource.generate_sso_auth_token,
+      redirect_url: redirect_url
+    )
   end
 
   def sign_in_user_on_mobile
@@ -51,9 +63,9 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     redirect_to "#{frontend_url}/app/auth/password/edit?config=default&reset_password_token=#{token}"
   end
 
-  def login_page_url(error: nil, email: nil, sso_auth_token: nil)
+  def login_page_url(error: nil, email: nil, sso_auth_token: nil, redirect_url: nil)
     frontend_url = omniauth_frontend_url
-    params = { email: email, sso_auth_token: sso_auth_token }.compact
+    params = { email: email, sso_auth_token: sso_auth_token, redirect_url: redirect_url }.compact
     params[:error] = error if error.present?
 
     "#{frontend_url}/app/login?#{params.to_query}"
@@ -63,8 +75,29 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     ENV.fetch('FRONTEND_URL', nil)
   end
 
+  def oauth_redirect_url
+    redirect_url = session.delete(GOOGLE_OAUTH_REDIRECT_SESSION_KEY) || params[:state].to_s
+    redirect_url if allowed_google_oauth_redirect?(redirect_url)
+  end
+
+  def preserve_google_oauth_redirect
+    session.delete(GOOGLE_OAUTH_REDIRECT_SESSION_KEY)
+    redirect_url = params[:state].to_s
+    session[GOOGLE_OAUTH_REDIRECT_SESSION_KEY] = redirect_url if allowed_google_oauth_redirect?(redirect_url)
+  end
+
+  def allowed_google_oauth_redirect?(redirect_url)
+    redirect_url.match?(SHOPIFY_INSTALL_REDIRECT_PATTERN)
+  end
+
   def account_signup_allowed?
-    GlobalConfigService.account_signup_enabled?
+    return true if GlobalConfigService.account_signup_enabled?
+
+    Shopify::FeatureGate.enabled? && Shopify::PendingInstallation.pending?(token: shopify_pending_install_token)
+  end
+
+  def shopify_pending_install_token
+    @shopify_pending_install_token ||= oauth_redirect_url&.match(SHOPIFY_INSTALL_REDIRECT_PATTERN)&.captures&.first
   end
 
   def resource_class(_mapping = nil)
@@ -84,13 +117,18 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def create_account_for_user
-    @resource, @account = AccountBuilder.new(
+    attributes = {
       account_name: extract_domain_without_tld(auth_hash['info']['email']),
       user_full_name: auth_hash['info']['name'],
       email: auth_hash['info']['email'],
       locale: I18n.locale,
       confirmed: auth_hash['info']['email_verified']
-    ).perform
+    }
+    pending_install_token = shopify_pending_install_token
+    attributes[:shopify_pending_install_token] = pending_install_token if pending_install_token
+
+    builder_class = pending_install_token.present? ? Shopify::SignupService : AccountBuilder
+    @resource, @account = builder_class.new(**attributes).perform
     Avatar::AvatarFromUrlJob.perform_later(@resource, auth_hash['info']['image'])
   end
 
