@@ -84,7 +84,7 @@ class Webhooks::Trigger
   end
 
   def create_agent_bot_error_activity(conversation)
-    content = I18n.t('conversations.activity.agent_bot.error_moved_to_open')
+    content = I18n.t('conversations.activity.agent_bot.error_moved_to_open', locale: conversation.account.locale)
     Conversations::ActivityMessageJob.perform_later(conversation, activity_message_params(conversation, content))
   end
 

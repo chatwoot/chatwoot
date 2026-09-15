@@ -2,7 +2,12 @@
 import { computed, ref, onBeforeMount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
-import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import {
+  dynamicTime,
+  localizedDuration,
+  shortTimestamp,
+} from 'shared/helpers/timeHelper';
+import { useLocale } from 'shared/composables/useLocale';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import {
   snoozedReopenTimeToTimestamp,
@@ -33,6 +38,7 @@ const emit = defineEmits([
 const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
+const { resolvedLocale } = useLocale();
 
 const isContextMenuOpen = ref(false);
 const contextMenuPosition = ref({ x: null, y: null });
@@ -62,7 +68,9 @@ const hasSlaThreshold = computed(() => {
 
 const lastActivityAt = computed(() => {
   const timestamp = props.inboxItem?.lastActivityAt;
-  return timestamp ? shortTimestamp(dynamicTime(timestamp)) : '';
+  return timestamp
+    ? shortTimestamp(dynamicTime(timestamp), false, resolvedLocale.value)
+    : '';
 });
 
 const menuItems = computed(() => [
@@ -111,19 +119,19 @@ const notificationDetails = computed(() => {
 const snoozedUntilTime = computed(() => {
   const { snoozedUntil } = props.inboxItem;
   if (!snoozedUntil) return null;
-  return shortenSnoozeTime(
-    dynamicTime(snoozedReopenTimeToTimestamp(snoozedUntil))
-  );
+  return dynamicTime(snoozedReopenTimeToTimestamp(snoozedUntil));
 });
 
 const hasLastSnoozed = computed(() => props.inboxItem?.meta?.lastSnoozedAt);
 
 const snoozedText = computed(() => {
-  return !hasLastSnoozed.value
-    ? t('INBOX.TYPES_NEXT.SNOOZED_UNTIL', {
-        time: shortTimestamp(snoozedUntilTime.value),
-      })
-    : t('INBOX.TYPES_NEXT.SNOOZED_ENDS');
+  if (hasLastSnoozed.value) return t('INBOX.TYPES_NEXT.SNOOZED_ENDS');
+
+  const formattedTime = resolvedLocale.value.toLowerCase().startsWith('en')
+    ? shortenSnoozeTime(snoozedUntilTime.value)
+    : localizedDuration(snoozedUntilTime.value, resolvedLocale.value);
+
+  return t('INBOX.TYPES_NEXT.SNOOZED_UNTIL', { time: formattedTime });
 });
 
 const contextMenuActions = {
