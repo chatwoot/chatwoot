@@ -73,6 +73,9 @@ class Conversation < ApplicationRecord
   private_constant :CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS, :FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS,
                    :FILTERED_UNREAD_COUNT_UPDATE_KEYS
 
+  # Populated only for read-only list serialization.
+  attr_accessor :list_preload_data
+
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
@@ -164,8 +167,28 @@ class Conversation < ApplicationRecord
     self[:last_activity_at] || created_at
   end
 
+  def latest_message
+    return list_preload_data[:latest_message] if list_preload_data
+
+    messages.where(account_id: account_id).includes(attachments: { file_attachment: :blob }).reorder(created_at: :desc, id: :desc).first
+  end
+
+  def last_non_activity_message
+    return list_preload_data[:last_non_activity_message] if list_preload_data
+
+    messages.where(account_id: account_id).non_activity_messages.first
+  end
+
   def last_incoming_message
+    return list_preload_data[:last_incoming_message] if list_preload_data
+
     messages.where(account_id: account_id)&.incoming&.last
+  end
+
+  def unread_incoming_messages_count
+    return list_preload_data[:unread_count] if list_preload_data
+
+    unread_incoming_messages.count
   end
 
   def toggle_status
