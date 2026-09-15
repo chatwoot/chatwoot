@@ -11,16 +11,20 @@ class Captain::Assistant::AgentRunnerService
   attr_reader :last_run_result
 
   REPLY_SUGGESTION_SOURCE = 'copilot_reply_suggestion'.freeze
+  RunOptions = Data.define(:callbacks, :source, :responding_to_message_id, :runtime_configuration) do
+    def initialize(callbacks: {}, source: nil, responding_to_message_id: nil, runtime_configuration: nil)
+      super
+    end
+  end
 
-  # The runtime configuration is request-scoped and intentionally optional so production callers retain their current graph.
-  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil, # rubocop:disable Metrics/ParameterLists
-                 runtime_configuration: nil) # rubocop:enable Metrics/ParameterLists
+  # Keep request-scoped behavior in RunOptions so the runner's core dependencies stay stable.
+  def initialize(assistant:, conversation: nil, run_options: RunOptions.new)
     @assistant = assistant
     @conversation = conversation
-    @callbacks = callbacks
-    @source = source
-    @responding_to_message_id = responding_to_message_id
-    @runtime_configuration = runtime_configuration
+    @callbacks = run_options.callbacks
+    @source = run_options.source
+    @responding_to_message_id = run_options.responding_to_message_id
+    @runtime_configuration = run_options.runtime_configuration
 
     @handoff_tool_called = false
     @handoff_tool_completed = false
