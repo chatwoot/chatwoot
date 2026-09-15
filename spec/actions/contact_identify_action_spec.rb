@@ -107,6 +107,24 @@ describe ContactIdentifyAction do
       end
     end
 
+    context 'when a request without an identifier matches an already identified contact' do
+      it 'does not merge into the identified contact via a matching email' do
+        victim = create(:contact, account: account, identifier: 'victim_id', email: 'victim@test.com', name: 'Victim')
+        params = { email: 'victim@test.com', name: 'Attacker' }
+        result = described_class.new(contact: contact, params: params).perform
+        expect(result.id).not_to eq victim.id
+        expect(victim.reload.name).to eq 'Victim'
+      end
+
+      it 'does not merge into the identified contact via a matching phone_number' do
+        victim = create(:contact, account: account, identifier: 'victim_id', phone_number: '+919999888877', name: 'Victim')
+        params = { phone_number: '+919999888877', name: 'Attacker' }
+        result = described_class.new(contact: contact, params: params).perform
+        expect(result.id).not_to eq victim.id
+        expect(victim.reload.name).to eq 'Victim'
+      end
+    end
+
     context 'when contacts with blank identifiers exist and identify action is called with blank identifier' do
       it 'updates the attributes of contact passed in to identify action' do
         create(:contact, account: account, identifier: '')
