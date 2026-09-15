@@ -26,7 +26,6 @@ class SlackUploadsController < ApplicationController
   end
 
   def avatar_url
-    base_url = ENV.fetch('FRONTEND_URL', nil)
-    "#{base_url}/integrations/slack/#{params[:sender_type]}.png"
+    Cdn.asset_url_or_origin("/integrations/slack/#{params[:sender_type]}.png")
   end
 end
