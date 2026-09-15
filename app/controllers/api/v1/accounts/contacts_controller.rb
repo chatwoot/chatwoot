@@ -24,7 +24,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
-    @contacts = fetch_contacts_with_has_more(resolved_contacts.search_by_term(params[:q]))
+    @contacts = fetch_contacts_with_has_more(Current.account.contacts.search_by_term(params[:q]))
   end
 
   def import

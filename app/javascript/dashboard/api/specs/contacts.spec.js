@@ -108,7 +108,7 @@ describe('#ContactsAPI', () => {
         params: {
           include_contact_inboxes: false,
           page: 1,
-          sort: '-last_activity_at',
+          sort: 'name',
           q: 'jane+shop@gmail.com',
         },
         signal: undefined,

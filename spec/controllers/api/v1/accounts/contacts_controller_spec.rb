@@ -386,7 +386,7 @@ RSpec.describe 'Contacts API', type: :request do
 
       it 'returns has_more as true when there are more results' do
         # Create 16 contacts (more than RESULTS_PER_PAGE which is 15)
-        create_list(:contact, 16, :with_email, account: account, name: 'searchable_contact')
+        create_list(:contact, 16, account: account, name: 'searchable_contact')
 
         get "/api/v1/accounts/#{account.id}/contacts/search",
             params: { q: 'searchable_contact' },
@@ -402,7 +402,7 @@ RSpec.describe 'Contacts API', type: :request do
 
       it 'returns has_more as false on the last page' do
         # Create 16 contacts
-        create_list(:contact, 16, :with_email, account: account, name: 'searchable_contact')
+        create_list(:contact, 16, account: account, name: 'searchable_contact')
 
         get "/api/v1/accounts/#{account.id}/contacts/search",
             params: { q: 'searchable_contact', page: 2 },
