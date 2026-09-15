@@ -615,6 +615,56 @@ describe('#actions', () => {
   });
 
   describe('#fetchFilteredConversations', () => {
+    it('ignores an older open-list response after applying an all-status filter', async () => {
+      let resolveOpenResponse;
+      axios.get.mockReturnValue(
+        new Promise(resolve => {
+          resolveOpenResponse = resolve;
+        })
+      );
+      const openRequest = actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: { status: 'open', assigneeType: 'all' } },
+      });
+      const filteredResponse = {
+        payload: [],
+        meta: { all_count: 10757 },
+      };
+      axios.post.mockResolvedValue({ data: filteredResponse });
+
+      await actions.fetchFilteredConversations(
+        { commit, dispatch },
+        {
+          queryData: {
+            payload: [
+              {
+                attribute_key: 'status',
+                filter_operator: 'equal_to',
+                values: ['all'],
+              },
+            ],
+          },
+          page: 1,
+        }
+      );
+      resolveOpenResponse({
+        data: { data: { payload: [], meta: { all_count: 30 } } },
+      });
+      await openRequest;
+
+      expect(
+        dispatch.mock.calls.filter(
+          ([action]) => action === 'conversationStats/set'
+        )
+      ).toEqual([
+        [
+          'conversationStats/set',
+          { meta: filteredResponse.meta, request: undefined },
+        ],
+      ]);
+    });
+
     it('fetches filtered conversations with a mock commit', async () => {
       axios.post.mockResolvedValue({
         data: dataReceived,
@@ -638,7 +688,7 @@ describe('#actions', () => {
     it('clears the loading state and rethrows if the request fails', async () => {
       axios.post.mockRejectedValue(new Error('Request failed'));
       await expect(
-        actions.fetchFilteredConversations({ commit }, dataToSend)
+        actions.fetchFilteredConversations({ commit, dispatch }, dataToSend)
       ).rejects.toThrow('Request failed');
       expect(commit.mock.calls).toEqual([
         ['SET_LIST_LOADING_STATUS'],
@@ -727,9 +777,7 @@ describe('#deleteMessage', () => {
       });
       await actions.deleteConversation({ commit, dispatch }, 1);
       expect(commit.mock.calls).toEqual([[types.DELETE_CONVERSATION, 1]]);
-      expect(dispatch.mock.calls).toEqual([
-        ['conversationStats/get', {}, { root: true }],
-      ]);
+      expect(dispatch.mock.calls).toEqual([['conversationStats/get']]);
     });
 
     it('send no actions if API is error', async () => {
