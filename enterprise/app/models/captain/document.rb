@@ -36,7 +36,8 @@ class Captain::Document < ApplicationRecord
   has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy, as: :documentable
   belongs_to :account
   has_one_attached :pdf_file
-  store_accessor :metadata, :content_fingerprint, :last_sync_error_code, :sync_step, :openai_file_id
+  store_accessor :metadata, :content_fingerprint, :last_sync_error_code, :sync_step, :openai_file_id, :help_center_article_id
+  include Concerns::CaptainHelpCenterDocumentable
   include Concerns::CaptainMarkdownDocumentable
 
   validates :external_link, presence: true, unless: :file_attached?
@@ -49,6 +50,7 @@ class Captain::Document < ApplicationRecord
   before_validation :ensure_account_id
   before_validation :set_external_link_for_pdf
   before_validation :normalize_external_link
+  before_validation :set_help_center_article_id, if: :will_save_change_to_external_link?
 
   enum status: {
     in_progress: 0,
