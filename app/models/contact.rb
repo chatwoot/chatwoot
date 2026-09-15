@@ -71,20 +71,10 @@ class Contact < ApplicationRecord
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
   scope :order_on_last_activity_at, lambda { |direction|
-    order(
-      Arel::Nodes::SqlLiteral.new(
-        sanitize_sql_for_order("\"contacts\".\"last_activity_at\" #{direction}
-          NULLS LAST")
-      )
-    )
+    order(Arel::Nodes::SqlLiteral.new(sanitize_sql_for_order("\"contacts\".\"last_activity_at\" #{direction} NULLS LAST")))
   }
   scope :order_on_created_at, lambda { |direction|
-    order(
-      Arel::Nodes::SqlLiteral.new(
-        sanitize_sql_for_order("\"contacts\".\"created_at\" #{direction}
-          NULLS LAST")
-      )
-    )
+    order(Arel::Nodes::SqlLiteral.new(sanitize_sql_for_order("\"contacts\".\"created_at\" #{direction} NULLS LAST")))
   }
   scope :order_on_company_name, lambda { |direction|
     order(
