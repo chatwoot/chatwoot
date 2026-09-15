@@ -39,7 +39,11 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
         file: uploaded_attachment
       )
 
-      attachment.file_type = helpers.file_type(uploaded_attachment&.content_type) if uploaded_attachment.is_a?(ActionDispatch::Http::UploadedFile)
+      attachment.file_type = if uploaded_attachment.is_a?(String)
+                               helpers.file_type_by_signed_id(uploaded_attachment)
+                             else
+                               helpers.file_type(uploaded_attachment&.content_type)
+                             end
     end
   end
 
