@@ -1,6 +1,12 @@
 class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
   include EmailHelper
 
+  # The gem parks the auth hash in the cookie session for the 307 hop; Google's credentials overflow it.
+  def redirect_callbacks
+    super
+    session['dta.omniauth.auth'] = session['dta.omniauth.auth'].slice('provider', 'uid', 'info')
+  end
+
   def omniauth_success
     get_resource_from_auth_hash
 
