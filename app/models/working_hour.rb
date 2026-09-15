@@ -46,13 +46,18 @@ class WorkingHour < ApplicationRecord
     find_by(day_of_week: Time.zone.now.in_time_zone(inbox.timezone).to_date.wday)
   end
 
+  # Working hours are configured with minute precision, so the closing minute is
+  # inclusive: a day closing at 11:59 PM stays open until midnight, not until
+  # 11:59:00 PM. The window is [open_time, close_time + 1.minute).
   def open_at?(time)
     return false if closed_all_day?
+    return true if open_all_day?
 
-    open_time = Time.zone.now.in_time_zone(inbox.timezone).change({ hour: open_hour, min: open_minutes })
-    close_time = Time.zone.now.in_time_zone(inbox.timezone).change({ hour: close_hour, min: close_minutes })
+    local_time = time.in_time_zone(inbox.timezone)
+    open_time = local_time.change({ hour: open_hour, min: open_minutes })
+    close_time = local_time.change({ hour: close_hour, min: close_minutes }) + 1.minute
 
-    time.between?(open_time, close_time)
+    local_time >= open_time && local_time < close_time
   end
 
   def open_now?
@@ -76,6 +81,9 @@ class WorkingHour < ApplicationRecord
     errors.add(:close_hour, 'Closing time cannot be before opening time')
   end
 
+  # 24:00 is not representable with the hour/minute columns, so an all-day record is
+  # stored as 00:00-23:59. `open_at?` treats the closing minute as inclusive, which
+  # makes that range cover the full calendar day.
   def ensure_open_all_day_hours
     return unless open_all_day?
 
