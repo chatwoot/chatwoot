@@ -131,6 +131,14 @@ class Contact < ApplicationRecord
     )
   }
 
+  # Shared by contacts/search and the global search so both hit the same trigram-indexed shape
+  scope :search_by_term, lambda { |term|
+    where(
+      'contacts.name ILIKE :search OR contacts.email ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search',
+      search: "%#{term.to_s.strip}%"
+    )
+  }
+
   # Find contacts that:
   # 1. Have no identification (email, phone_number, and identifier are NULL or empty string)
   # 2. Have no conversations
