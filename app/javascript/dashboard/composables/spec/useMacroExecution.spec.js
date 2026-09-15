@@ -33,6 +33,22 @@ const mockConversation = (customAttributes = {}) => {
 };
 
 describe('useMacroExecution', () => {
+  it.each(['AgentBot', 'Captain::Assistant'])(
+    'blocks public-message macros for %s ownership',
+    async assigneeType => {
+      useMapGetter.mockReturnValue({
+        value: () => ({ meta: { assignee_type: assigneeType } }),
+      });
+      const { execute } = useMacroExecution();
+      execute(
+        macroWith([{ action_name: 'send_message', action_params: ['Hello'] }]),
+        CONVERSATION_ID
+      );
+      await flushPromises();
+      expect(dispatch).not.toHaveBeenCalled();
+      expect(useAlert).toHaveBeenCalled();
+    }
+  );
   beforeEach(() => {
     dispatch.mockReset().mockResolvedValue(undefined);
     checkMissingAttributes.mockReset().mockReturnValue({

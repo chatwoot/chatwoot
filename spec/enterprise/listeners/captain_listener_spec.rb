@@ -14,6 +14,7 @@ describe CaptainListener do
     let(:event) { Events::Base.new(event_name, Time.zone.now.change(usec: 0), conversation: conversation) }
 
     before do
+      account.enable_features!('captain_integration')
       create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
     end
 

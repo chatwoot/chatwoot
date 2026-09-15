@@ -56,6 +56,7 @@ import { useMacroExecution } from 'dashboard/composables/useMacroExecution';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { isFileTypeAllowedForChannel } from 'shared/helpers/FileHelper';
+import { isAIAssigneeType } from 'dashboard/helper/agentHelper';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -235,7 +236,7 @@ export default {
     canSendPublicReply() {
       return (
         this.isWithinMessagingWindow &&
-        !this.isBotOwnedPendingConversation &&
+        !this.isAIOwnedConversation &&
         !this.isInstagramReplyRestricted
       );
     },
@@ -252,7 +253,7 @@ export default {
         return true;
       }
 
-      return this.isBotOwnedPendingConversation
+      return this.isAIOwnedConversation
         ? this.isPrivate
         : this.replyType === REPLY_EDITOR_MODES.NOTE;
     },
@@ -276,11 +277,8 @@ export default {
       );
       return !!stripped.trim();
     },
-    isBotOwnedPendingConversation() {
-      return (
-        this.currentChat?.status === wootConstants.STATUS_TYPE.PENDING &&
-        this.currentChat?.meta?.assignee_type === 'AgentBot'
-      );
+    isAIOwnedConversation() {
+      return isAIAssigneeType(this.currentChat?.meta?.assignee_type);
     },
     inboxId() {
       return this.currentChat.inbox_id;
