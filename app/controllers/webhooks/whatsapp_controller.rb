@@ -1,6 +1,7 @@
 class Webhooks::WhatsappController < ActionController::API
   include MetaTokenVerifyConcern
 
+  before_action :verify_360dialog_cloud_webhook!, only: :process_payload
   before_action :verify_meta_signature!, only: :process_payload
 
   def process_payload
@@ -17,6 +18,15 @@ class Webhooks::WhatsappController < ActionController::API
   end
 
   private
+
+  def verify_360dialog_cloud_webhook!
+    return unless whatsapp_channel&.provider == '360dialog_cloud'
+    return head :unauthorized unless params[:phone_number] == whatsapp_channel.phone_number
+
+    expected_token = ENV.fetch('D360_WEBHOOK_SECRET')
+    received_token = request.headers[Whatsapp::Providers::Whatsapp360DialogCloudService::WEBHOOK_AUTH_HEADER]
+    head :unauthorized unless received_token.present? && ActiveSupport::SecurityUtils.secure_compare(expected_token, received_token)
+  end
 
   def tracking_events_only?
     return false unless params[:object] == 'whatsapp_business_account'
@@ -39,7 +49,10 @@ class Webhooks::WhatsappController < ActionController::API
   end
 
   def whatsapp_channel
-    @whatsapp_channel ||= whatsapp_business_payload_channel || Channel::Whatsapp.find_by(phone_number: params[:phone_number])
+    @whatsapp_channel ||= begin
+      url_channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
+      url_channel&.provider == '360dialog_cloud' ? url_channel : whatsapp_business_payload_channel || url_channel
+    end
   end
 
   def meta_signature_verification_required?

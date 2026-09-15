@@ -1,4 +1,6 @@
 class Whatsapp::Providers::Whatsapp360DialogCloudService < Whatsapp::Providers::Whatsapp360DialogService
+  WEBHOOK_AUTH_HEADER = 'X-Chatwoot-360dialog-Webhook-Token'.freeze
+
   def sync_templates
     whatsapp_channel.mark_message_templates_updated
     response = HTTParty.get("#{api_base_path}/v1/configs/templates", headers: api_headers)
@@ -12,10 +14,16 @@ class Whatsapp::Providers::Whatsapp360DialogCloudService < Whatsapp::Providers::
   end
 
   def validate_provider_config?
+    webhook_secret = ENV.fetch('D360_WEBHOOK_SECRET')
+    raise ArgumentError, 'D360_WEBHOOK_SECRET must be configured' if webhook_secret.blank?
+
     response = HTTParty.post(
       "#{api_base_path}/v1/configs/webhook",
       headers: api_headers,
-      body: { url: "#{webhook_url_prefix}/#{whatsapp_channel.phone_number}" }.to_json
+      body: {
+        url: "#{webhook_url_prefix}/#{whatsapp_channel.phone_number}",
+        headers: { WEBHOOK_AUTH_HEADER => webhook_secret }
+      }.to_json
     )
     response.success?
   end
