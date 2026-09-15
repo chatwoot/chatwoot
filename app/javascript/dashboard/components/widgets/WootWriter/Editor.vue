@@ -886,6 +886,10 @@ watch(
   }
 );
 
+watch(effectiveChannelType, () => {
+  reloadState(props.modelValue);
+});
+
 watch(
   computed(() => props.disabled),
   () => editorView?.setProps({})
@@ -1022,7 +1026,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, content => {
       hidden
       @change="onFileChange"
     />
-    <div ref="editor" />
+    <div ref="editor" class="editor-mount" />
     <slot name="footer" />
   </div>
 </template>
