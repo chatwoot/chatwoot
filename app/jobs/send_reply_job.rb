@@ -7,6 +7,7 @@ class SendReplyJob < ApplicationJob
     'Channel::Line' => ::Line::SendOnLineService,
     'Channel::Telegram' => ::Telegram::SendOnTelegramService,
     'Channel::Whatsapp' => ::Whatsapp::SendOnWhatsappService,
+    'Channel::WechatKf' => ::WechatKf::SendOnWechatKfService,
     'Channel::Sms' => ::Sms::SendOnSmsService,
     'Channel::Instagram' => ::Instagram::SendOnInstagramService,
     'Channel::Tiktok' => ::Tiktok::SendOnTiktokService,

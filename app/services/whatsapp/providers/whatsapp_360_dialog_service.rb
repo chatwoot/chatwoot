@@ -15,6 +15,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
       "#{api_base_path}/messages",
       headers: api_headers,
       body: {
+        **message_request_metadata,
         to: phone_number,
         template: template_body_parameters(template_info),
         type: 'template'
@@ -52,6 +53,10 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
 
   private
 
+  def message_request_metadata
+    {}
+  end
+
   def api_base_path
     # provide the environment variable when testing against sandbox : 'https://waba-sandbox.360dialog.io/v1'
     ENV.fetch('360DIALOG_BASE_URL', 'https://waba.360dialog.io/v1')
@@ -62,6 +67,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
       "#{api_base_path}/messages",
       headers: api_headers,
       body: {
+        **message_request_metadata,
         to: phone_number,
         text: { body: message.outgoing_content },
         type: 'text'
@@ -84,6 +90,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
       "#{api_base_path}/messages",
       headers: api_headers,
       body: {
+        **message_request_metadata,
         'to' => phone_number,
         'type' => type,
         type.to_s => type_content
@@ -117,6 +124,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
       "#{api_base_path}/messages",
       headers: api_headers,
       body: {
+        **message_request_metadata,
         to: phone_number,
         interactive: payload,
         type: 'interactive'

@@ -31,6 +31,7 @@ const i18nMap = {
   'Channel::Email': 'EMAIL',
   'Channel::Telegram': 'TELEGRAM',
   'Channel::Line': 'LINE',
+  'Channel::WechatKf': 'WECHAT_KF',
   'Channel::Api': 'API',
   'Channel::Instagram': 'INSTAGRAM',
   'Channel::Tiktok': 'TIKTOK',

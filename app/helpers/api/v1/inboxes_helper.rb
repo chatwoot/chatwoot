@@ -14,6 +14,11 @@ module Api::V1::InboxesHelper
 
   private
 
+  def create_wechat_kf_channel
+    attributes = permitted_params([:corp_id, :corp_secret, :callback_token, :encoding_aes_key, :open_kfid])[:channel]
+    WechatKf::ChannelCreationService.new(account: Current.account, attributes: attributes).perform
+  end
+
   def validate_imap(channel_data)
     return unless channel_data.key?('imap_enabled') && channel_data[:imap_enabled]
 
@@ -111,6 +116,7 @@ module Api::V1::InboxesHelper
       'line' => Current.account.line_channels,
       'telegram' => Current.account.telegram_channels,
       'whatsapp' => Current.account.whatsapp_channels,
+      'wechat_kf' => Current.account.wechat_kf_channels,
       'sms' => Current.account.sms_channels
     }[permitted_params[:channel][:type]]
   end

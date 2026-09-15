@@ -91,6 +91,11 @@ export const FORMATTING = {
     nodes: ['codeBlock'],
     menu: ['copilot', 'strong', 'em', 'code', 'strike', 'undo', 'redo'],
   },
+  'Channel::WechatKf': {
+    marks: [],
+    nodes: [],
+    menu: [],
+  },
   'Channel::Telegram': {
     marks: ['strong', 'em', 'link', 'code'],
     nodes: [],

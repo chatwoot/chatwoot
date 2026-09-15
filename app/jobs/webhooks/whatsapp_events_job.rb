@@ -87,7 +87,7 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
 
   def handle_message_events(channel, params, locked_sender_id = nil)
     case channel.provider
-    when 'whatsapp_cloud'
+    when 'whatsapp_cloud', '360dialog_cloud'
       service_params = { inbox: channel.inbox, params: params }
       service_params[:locked_sender_id] = locked_sender_id if locked_sender_id.present?
       Whatsapp::IncomingMessageWhatsappCloudService.new(**service_params).perform
@@ -165,6 +165,9 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   end
 
   def find_channel_from_whatsapp_business_payload(params)
+    channel = find_channel_by_url_param(params)
+    return channel if channel&.provider == '360dialog_cloud'
+
     # for the case where facebook cloud api support multiple numbers for a single app
     # https://github.com/chatwoot/chatwoot/issues/4712#issuecomment-1173838350
     # we will give priority to the phone_number in the payload

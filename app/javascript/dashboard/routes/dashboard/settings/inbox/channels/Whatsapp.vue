@@ -90,6 +90,12 @@ const availableProviders = computed(() => [
     description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO_DESC'),
     icon: 'i-woot-twilio',
   },
+  {
+    key: PROVIDER_TYPES.THREE_SIXTY_DIALOG,
+    title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.360_DIALOG'),
+    description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.360_DIALOG_DESC'),
+    icon: 'i-woot-whatsapp',
+  },
 ]);
 
 const providerSelectionDescription = computed(() =>

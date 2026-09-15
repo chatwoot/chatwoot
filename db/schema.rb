@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_31_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_15_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -734,6 +734,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_31_000000) do
     t.text "allowed_domains", default: ""
     t.index ["hmac_token"], name: "index_channel_web_widgets_on_hmac_token", unique: true
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
+  end
+
+  create_table "channel_wechat_kf", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.bigint "wechat_kf_integration_id", null: false
+    t.string "open_kfid", null: false
+    t.text "sync_cursor"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_channel_wechat_kf_on_account_id"
+    t.index ["open_kfid"], name: "index_channel_wechat_kf_on_open_kfid", unique: true
+    t.index ["wechat_kf_integration_id"], name: "index_channel_wechat_kf_on_wechat_kf_integration_id"
   end
 
   create_table "channel_whatsapp", force: :cascade do |t|
@@ -1580,6 +1592,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_31_000000) do
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 
+  create_table "wechat_kf_integrations", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "corp_id", null: false
+    t.text "corp_secret", null: false
+    t.text "callback_token", null: false
+    t.text "encoding_aes_key", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_wechat_kf_integrations_on_account_id"
+    t.index ["corp_id"], name: "index_wechat_kf_integrations_on_corp_id", unique: true
+  end
+
   create_table "working_hours", force: :cascade do |t|
     t.bigint "inbox_id"
     t.bigint "account_id"
@@ -1602,8 +1626,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_31_000000) do
   add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
+  add_foreign_key "channel_wechat_kf", "accounts"
+  add_foreign_key "channel_wechat_kf", "wechat_kf_integrations"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
+  add_foreign_key "wechat_kf_integrations", "accounts"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

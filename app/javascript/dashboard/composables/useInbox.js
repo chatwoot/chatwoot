@@ -119,7 +119,7 @@ export const useInbox = (inboxId = null) => {
   const is360DialogWhatsAppChannel = computed(() => {
     return (
       channelType.value === INBOX_TYPES.WHATSAPP &&
-      whatsAppAPIProvider.value === 'default'
+      ['default', '360dialog_cloud'].includes(whatsAppAPIProvider.value)
     );
   });
 

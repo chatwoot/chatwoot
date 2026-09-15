@@ -59,6 +59,9 @@ export default {
     isALineChannel() {
       return this.channelType === INBOX_TYPES.LINE;
     },
+    isAWechatKfChannel() {
+      return this.channelType === INBOX_TYPES.WECHAT_KF;
+    },
     voiceCallEnabled() {
       return isVoiceCallEnabled(this.inbox);
     },
@@ -88,7 +91,7 @@ export default {
     is360DialogWhatsAppChannel() {
       return (
         this.channelType === INBOX_TYPES.WHATSAPP &&
-        this.whatsAppAPIProvider === 'default'
+        ['default', '360dialog_cloud'].includes(this.whatsAppAPIProvider)
       );
     },
     chatAdditionalAttributes() {

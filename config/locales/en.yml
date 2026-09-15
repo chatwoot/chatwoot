@@ -74,6 +74,9 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    wechat_kf:
+      delivery_failed: 'WeChat Customer Service could not deliver this message (code %{code}).'
+      unsupported_reply: 'WeChat Customer Service accepts text replies up to 2048 bytes within 48 hours of the customer message.'
     account:
       not_authorized: You are not authorized to access this account
       email_limit_exceeded: The daily email limit for this account has been reached

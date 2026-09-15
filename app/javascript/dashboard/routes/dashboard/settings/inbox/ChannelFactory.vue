@@ -9,6 +9,7 @@ import Sms from './channels/Sms.vue';
 import Whatsapp from './channels/Whatsapp.vue';
 import WhatsappCall from './channels/WhatsappCall.vue';
 import Line from './channels/Line.vue';
+import WechatKf from './channels/WechatKf.vue';
 import Telegram from './channels/Telegram.vue';
 import Instagram from './channels/Instagram.vue';
 import Tiktok from './channels/Tiktok.vue';
@@ -24,6 +25,7 @@ const channelViewList = {
   whatsapp: Whatsapp,
   whatsapp_call: WhatsappCall,
   line: Line,
+  wechat_kf: WechatKf,
   telegram: Telegram,
   instagram: Instagram,
   tiktok: Tiktok,

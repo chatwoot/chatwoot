@@ -1,72 +1,52 @@
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { reactive } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
-import { useAlert } from 'dashboard/composables';
 import { required } from '@vuelidate/validators';
-import router from '../../../../index';
+import { useAlert } from 'dashboard/composables';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
-import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
+const { t } = useI18n();
+const router = useRouter();
+const store = useStore();
+const uiFlags = useMapGetter('inboxes/getUIFlags');
 
-export default {
-  components: {
-    NextButton,
-  },
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      inboxName: '',
-      phoneNumber: '',
-      apiKey: '',
-    };
-  },
-  computed: {
-    ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
-  },
-  validations: {
+const state = reactive({ inboxName: '', phoneNumber: '', apiKey: '' });
+const v$ = useVuelidate(
+  {
     inboxName: { required },
     phoneNumber: { required, isPhoneE164OrEmpty },
     apiKey: { required },
   },
-  methods: {
-    async createChannel() {
-      this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
-      }
+  state
+);
 
-      try {
-        const whatsappChannel = await this.$store.dispatch(
-          'inboxes/createChannel',
-          {
-            name: this.inboxName?.trim(),
-            channel: {
-              type: 'whatsapp',
-              phone_number: this.phoneNumber,
-              provider_config: {
-                api_key: this.apiKey,
-              },
-            },
-          }
-        );
+async function createChannel() {
+  const isFormValid = await v$.value.$validate();
+  if (!isFormValid) return;
 
-        router.replace({
-          name: 'settings_inboxes_add_agents',
-          params: {
-            page: 'new',
-            inbox_id: whatsappChannel.id,
-          },
-        });
-      } catch (error) {
-        useAlert(
-          error.message || this.$t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE')
-        );
-      }
-    },
-  },
-};
+  try {
+    const whatsappChannel = await store.dispatch('inboxes/createChannel', {
+      name: state.inboxName.trim(),
+      channel: {
+        type: 'whatsapp',
+        provider: '360dialog_cloud',
+        phone_number: state.phoneNumber,
+        provider_config: { api_key: state.apiKey },
+      },
+    });
+
+    router.replace({
+      name: 'settings_inboxes_add_agents',
+      params: { page: 'new', inbox_id: whatsappChannel.id },
+    });
+  } catch (error) {
+    useAlert(error.message || t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE'));
+  }
+}
 </script>
 
 <template>
@@ -75,7 +55,7 @@ export default {
       <label :class="{ error: v$.inboxName.$error }">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.INBOX_NAME.LABEL') }}
         <input
-          v-model="inboxName"
+          v-model="state.inboxName"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.INBOX_NAME.PLACEHOLDER')"
           @blur="v$.inboxName.$touch"
@@ -90,7 +70,7 @@ export default {
       <label :class="{ error: v$.phoneNumber.$error }">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER.LABEL') }}
         <input
-          v-model="phoneNumber"
+          v-model="state.phoneNumber"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER.PLACEHOLDER')"
           @blur="v$.phoneNumber.$touch"
@@ -107,8 +87,9 @@ export default {
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_KEY.LABEL') }}
         </span>
         <input
-          v-model="apiKey"
-          type="text"
+          v-model="state.apiKey"
+          type="password"
+          autocomplete="off"
           :placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.API_KEY.PLACEHOLDER')"
           @blur="v$.apiKey.$touch"
         />

@@ -72,6 +72,7 @@ json.profile_id resource.channel.try(:profile_id) if resource.twitter?
 
 ## LINE Attributes
 json.line_channel_id resource.channel.try(:line_channel_id) if resource.channel_type == 'Channel::Line'
+json.open_kfid resource.channel.open_kfid if resource.channel_type == 'Channel::WechatKf'
 
 ## Twilio Attributes
 json.messaging_service_sid resource.channel.try(:messaging_service_sid)

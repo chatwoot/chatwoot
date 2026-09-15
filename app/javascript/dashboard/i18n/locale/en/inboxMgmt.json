@@ -253,12 +253,13 @@
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
           "WHATSAPP_CLOUD_MANUAL_SETUP_DESC": "Manual setup with Cloud API credentials",
           "TWILIO_DESC": "Connect via Twilio credentials",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360dialog",
+          "360_DIALOG_DESC": "Connect using a 360dialog Cloud API key and public HTTPS webhook"
         },
         "SELECT_PROVIDER": {
           "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials.",
-          "RESTRICTION_DESCRIPTION": "Choose your WhatsApp provider. You can connect WhatsApp Cloud manually using your Cloud API credentials, or connect through Twilio using your account credentials."
+          "DESCRIPTION": "Choose your WhatsApp provider: Meta, Twilio, or 360dialog.",
+          "RESTRICTION_DESCRIPTION": "Connect WhatsApp Cloud manually, or use Twilio or 360dialog credentials."
         },
         "INBOX_NAME": {
           "LABEL": "Inbox Name",
@@ -554,6 +555,23 @@
           "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
+      "WECHAT_KF": {
+        "TITLE": "WeChat Customer Service",
+        "DESCRIPTION": "Connect an API-managed WeChat Customer Service account. Chatwoot will handle customer conversations and text replies.",
+        "NAME": "Inbox name",
+        "CORP_ID": "Enterprise WeChat CorpID",
+        "CORP_SECRET": "WeChat Customer Service Secret",
+        "OPEN_KFID": "Customer service account ID (open_kfid)",
+        "CALLBACK_TOKEN": "Callback Token",
+        "ENCODING_AES_KEY": "EncodingAESKey (43 characters)",
+        "CREDENTIALS_HELP": "Use the Token and EncodingAESKey you will configure in Enterprise WeChat. For another customer service account under this CorpID, enter the same credentials. Configure the callback URL shown in the inbox settings after creation.",
+        "SUBMIT": "Create WeChat Customer Service inbox",
+        "ERROR": "Could not create the WeChat Customer Service inbox.",
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "Set this URL, Token and EncodingAESKey in Enterprise WeChat's WeChat Customer Service callback settings. The account must be managed through the API."
+        }
+      },
       "TELEGRAM_CHANNEL": {
         "TITLE": "Telegram Channel",
         "DESC": "Integrate with Telegram channel and start supporting your customers.",
@@ -608,6 +626,10 @@
           "LINE": {
             "TITLE": "Line",
             "DESCRIPTION": "Integrate your Line channel"
+          },
+          "WECHAT_KF": {
+            "TITLE": "WeChat Customer Service",
+            "DESCRIPTION": "Support customers through WeChat Customer Service"
           },
           "INSTAGRAM": {
             "TITLE": "Instagram",
@@ -1616,6 +1638,7 @@
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
+      "WECHAT_KF": "WeChat Customer Service",
       "API": "API Channel",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
