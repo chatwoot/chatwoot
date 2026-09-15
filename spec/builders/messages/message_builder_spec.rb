@@ -209,6 +209,17 @@ describe Messages::MessageBuilder do
         expect(message.content_attributes[:bcc_emails]).to eq ['test1@test.com', 'test2@test.com', 'test3@test.com']
       end
 
+      it 'handles semicolon, whitespace separated, and array email lists' do
+        cc_emails = 'test1@test.com; test2@test.com test3@test.com'
+        bcc_emails = ['test4@test.com', ' test5@test.com ']
+        params = ActionController::Parameters.new({ cc_emails: cc_emails, bcc_emails: bcc_emails })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:cc_emails]).to eq ['test1@test.com', 'test2@test.com', 'test3@test.com']
+        expect(message.content_attributes[:bcc_emails]).to eq ['test4@test.com', 'test5@test.com']
+      end
+
       context 'when custom email content is provided' do
         it 'creates message with custom HTML email content' do
           params = ActionController::Parameters.new({
