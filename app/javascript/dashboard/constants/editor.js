@@ -5,7 +5,14 @@ export const FORMATTING = {
   // Channel formatting
   'Channel::Email': {
     marks: ['strong', 'em', 'code', 'link'],
-    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
+    nodes: [
+      'bulletList',
+      'orderedList',
+      'codeBlock',
+      'blockquote',
+      'image',
+      'table',
+    ],
     menu: [
       'copilot',
       'strong',
@@ -15,6 +22,7 @@ export const FORMATTING = {
       'bulletList',
       'orderedList',
       'imageUpload',
+      'insertTable',
       'undo',
       'redo',
     ],
