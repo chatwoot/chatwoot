@@ -430,6 +430,14 @@ function onApplyFilter(payload) {
   fetchFilteredConversations(payload);
 }
 
+function applyRouteFilters() {
+  const { filters, ...query } = route.query;
+  const parsedFilters = JSON.parse(filters);
+  router.replace({ query });
+  store.dispatch('setConversationFilters', parsedFilters);
+  onApplyFilter(parsedFilters);
+}
+
 function closeAdvanceFiltersModal() {
   showAdvancedFilters.value = false;
   appliedFilter.value = [];
@@ -817,7 +825,11 @@ onMounted(() => {
   setFiltersFromUISettings();
   store.dispatch('setChatStatusFilter', activeStatus.value);
   store.dispatch('setChatSortFilter', activeSortBy.value);
-  resetAndFetchData();
+  if (route.query.filters) {
+    applyRouteFilters();
+  } else {
+    resetAndFetchData();
+  }
   if (hasActiveFolders.value) {
     store.dispatch('campaigns/get');
   }

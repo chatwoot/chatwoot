@@ -10,6 +10,10 @@ vi.mock('dashboard/api/reports', () => ({
   },
 }));
 
+vi.mock('vue-router', () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}));
+
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({
     t: (key, params = {}) => {
