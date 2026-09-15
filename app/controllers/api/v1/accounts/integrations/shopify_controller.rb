@@ -12,6 +12,9 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
       return render json: { error: 'Invalid Shopify shop domain' }, status: :unprocessable_entity
     end
 
+    custom_app = Shopify::CustomApp.enabled.find_by(account: Current.account)
+    return authorize_custom_app(custom_app, shop_domain) if custom_app
+
     state = generate_shopify_token(Current.account.id)
     raise 'Shopify OAuth is not configured' if client_id.blank? || state.blank?
 
@@ -61,6 +64,17 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   end
 
   private
+
+  def authorize_custom_app(custom_app, shop_domain)
+    unless Shopify::ShopDomain.normalize(shop_domain) == custom_app.shop_domain
+      return render json: { error: 'This account is configured for a different Shopify store' }, status: :unprocessable_entity
+    end
+    if Current.account.internal_attributes['billing_provider'] == 'shopify'
+      return render json: { error: 'Shopify billing cannot use a custom app' }, status: :unprocessable_entity
+    end
+
+    render json: { redirect_url: custom_app.install_url }
+  end
 
   def ensure_shopify_enabled
     head :not_found unless Shopify::FeatureGate.enabled?(account: Current.account)
