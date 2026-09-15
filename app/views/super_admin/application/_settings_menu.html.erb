@@ -1,5 +1,5 @@
 <li class="px-4 mb-1">
-  <details class="group" <%= 'open' if open %>>
+  <details class="group" <% if open %>open<% end %>>
     <summary class="-ml-1 flex items-center px-2 py-1.5 cursor-pointer rounded-lg <%= open ? 'text-woot-500 bg-slate-25' : 'text-slate-800 hover:text-woot-500 hover:bg-slate-25' %> list-none">
       <%= link_to super_admin_settings_url, class: 'flex items-center flex-1' do %>
         <svg width="16" height="16"><use xlink:href="#icon-settings-2-line" /></svg>

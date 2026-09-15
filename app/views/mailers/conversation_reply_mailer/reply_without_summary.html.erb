@@ -1,5 +1,5 @@
 <% @messages.each do |message| %>
-  <p style="font-family: Roboto,"Helvetica Neue",Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
+  <p style="font-family: Roboto,'Helvetica Neue',Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
     <% if message.content %>
       <%= ChatwootMarkdownRenderer.new(message.content).render_message %>
     <% end %>
