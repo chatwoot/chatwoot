@@ -279,3 +279,10 @@
   enabled: false
   premium: true
   column: feature_flags_ext_1
+- name: elasticsearch_reports
+  display_name: Elasticsearch Message Reports
+  # Enable only after verifying complete historical message indexing for the account.
+  enabled: false
+  premium: true
+  chatwoot_internal: true
+  column: feature_flags_ext_1
