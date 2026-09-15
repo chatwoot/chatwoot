@@ -1,5 +1,6 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   before_action :prevent_reply_to_resolved_conversation, only: [:create]
+  before_action :reject_blank_incoming_content!, only: [:create]
   before_action :set_conversation, only: [:create]
   before_action :set_message, only: [:update]
 

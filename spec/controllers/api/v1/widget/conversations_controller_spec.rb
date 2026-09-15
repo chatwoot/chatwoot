@@ -89,6 +89,34 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(json_response['messages'][0]['message_type']).to eq 0
     end
 
+    it 'strips HTML from the first incoming message before persist' do
+      params = conversation_params
+      params[:message][:content] = '<img src=x onerror=alert(1)>This is a test message'
+
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: params,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['messages'][0]['content']).to eq('This is a test message')
+    end
+
+    it 'does not create a conversation when the first message sanitizes to blank' do
+      params = conversation_params
+      params[:message][:content] = '<img src=x onerror=alert(1)>'
+
+      expect do
+        post '/api/v1/widget/conversations',
+             headers: { 'X-Auth-Token' => token },
+             params: params,
+             as: :json
+      end.not_to change(Conversation, :count)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq("Content can't be blank")
+    end
+
     it 'create a conversation with a name and without an email' do
       post '/api/v1/widget/conversations',
            headers: { 'X-Auth-Token' => token },
