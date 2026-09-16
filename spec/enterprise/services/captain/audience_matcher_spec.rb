@@ -109,6 +109,13 @@ RSpec.describe Captain::AudienceMatcher do
         expect(matches?(leaf('created_at', 'days_before', '60'))).to be(false)
       end
 
+      it 'uses the saved timezone for timestamp calendar-day comparisons' do
+        contact.update!(created_at: Time.utc(2026, 9, 8, 0, 49))
+        condition = leaf('created_at', 'is_less_than', '2026-09-08').merge('timezone' => 'America/Sao_Paulo')
+
+        expect(matches?(condition)).to be(true)
+      end
+
       it 'compares date custom attributes stored as ISO strings' do
         contact.update!(custom_attributes: contact.custom_attributes.merge('signed_up_on' => '2024-01-15'))
         expect(matches?(leaf('signed_up_on', 'is_greater_than', '2024-01-01'))).to be(true)

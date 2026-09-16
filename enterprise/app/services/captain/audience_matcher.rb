@@ -49,7 +49,7 @@ class Captain::AudienceMatcher
     when 'is_not_present' then actual.blank?
     when 'equal_to'       then values.any? { |expected| value_equal?(key, actual, expected) }
     when 'not_equal_to'   then negative_equality_match?(key, actual, values)
-    else matches_text_or_range?(leaf[:filter_operator], actual, values.first)
+    else matches_text_or_range?(leaf, actual, values.first)
     end
   end
 
@@ -125,16 +125,24 @@ class Captain::AudienceMatcher
     value.is_a?(String) ? value.downcase : value
   end
 
-  def matches_text_or_range?(operator, actual, expected)
-    case operator
+  def matches_text_or_range?(leaf, actual, expected)
+    timezone = timestamp_timezone(leaf)
+
+    case leaf[:filter_operator]
     when 'contains'         then actual.to_s.downcase.include?(expected.to_s.downcase)
     when 'does_not_contain' then excludes_text?(actual, expected)
     when 'starts_with'      then actual.to_s.downcase.start_with?(expected.to_s.downcase)
-    when 'is_greater_than'  then compare(actual, expected) == 1
-    when 'is_less_than'     then compare(actual, expected) == -1
-    when 'days_before'      then older_than_days?(actual, expected)
+    when 'is_greater_than'  then compare(actual, expected, timezone) == 1
+    when 'is_less_than'     then compare(actual, expected, timezone) == -1
+    when 'days_before'      then older_than_days?(actual, expected, timezone)
     else false
     end
+  end
+
+  def timestamp_timezone(leaf)
+    return if leaf[:timezone].blank? || %w[created_at last_activity_at].exclude?(leaf[:attribute_key])
+
+    ActiveSupport::TimeZone[TZInfo::Timezone.get(leaf[:timezone])]
   end
 
   def excludes_text?(actual, expected)
@@ -142,19 +150,25 @@ class Captain::AudienceMatcher
   end
 
   # -1/0/1 like <=>, or nil when blank or unparseable (never matches).
-  def compare(actual, expected)
+  def compare(actual, expected, timezone = nil)
     return nil if actual.blank?
 
     actual = Time.zone.parse(actual) if iso_date_string?(actual)
 
     if actual.is_a?(Date) || actual.acts_like?(:time)
       expected_date = to_date(expected)
-      actual.to_date <=> expected_date if expected_date
+      date_in_timezone(actual, timezone) <=> expected_date if expected_date
     else
       BigDecimal(actual.to_s) <=> BigDecimal(expected.to_s)
     end
   rescue ArgumentError, TypeError
     nil
+  end
+
+  def date_in_timezone(value, timezone)
+    return value.in_time_zone(timezone).to_date if timezone && value.acts_like?(:time)
+
+    value.to_date
   end
 
   # Custom date attributes store ISO strings in jsonb; treat them as dates the way
@@ -165,9 +179,10 @@ class Captain::AudienceMatcher
     false
   end
 
-  def older_than_days?(actual, days)
-    date = to_date(actual)
-    date.present? && date < Time.zone.today - days.to_i.days
+  def older_than_days?(actual, days, timezone = nil)
+    date = timezone && actual.respond_to?(:in_time_zone) ? actual.in_time_zone(timezone).to_date : to_date(actual)
+    today = timezone ? timezone.today : Time.zone.today
+    date.present? && date < today - days.to_i.days
   end
 
   def to_date(value)
