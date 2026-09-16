@@ -170,6 +170,7 @@ const toggleConversationLayout = () => {
         />
       </div>
       <ConversationBasicFilter
+        v-if="!isContactScoped"
         :is-on-expanded-layout="isOnExpandedLayout"
         :show-status-filter="!hasAppliedFiltersOrActiveFolders"
         @change-filter="onBasicFilterChange"
