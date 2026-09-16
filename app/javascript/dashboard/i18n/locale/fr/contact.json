@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Non disponible",
     "EMAIL_ADDRESS": "Adresse de courriel",
     "PHONE_NUMBER": "Numéro de téléphone",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifiant",
     "COPY_SUCCESSFUL": "Copié dans le presse-papiers avec succès",
     "COMPANY": "Société",
@@ -461,6 +462,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Ajouter Instagram"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Ajouter Telegram"
           },
@@ -518,7 +522,7 @@
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Rechercher des attributs",
-        "UNUSED_ATTRIBUTES": "{count} attribut utilisé | {count} attributs inutilisés",
+        "UNUSED_ATTRIBUTES": "Attribut {count} utilisé | {count} Attributs inutilisés",
         "EMPTY_STATE": "Il n'y a pas d'attributs personnalisés de contact disponibles dans ce compte. Vous pouvez créer un attribut personnalisé dans les paramètres.",
         "YES": "Oui",
         "NO": "Non",
@@ -593,7 +597,7 @@
     "REMOVE_LABELS_FAILED": "Impossible de supprimer les étiquettes",
     "DESCRIPTION": "Sélectionnez les étiquettes que vous souhaitez ajouter aux contacts sélectionnés.",
     "NO_LABELS_FOUND": "Aucune étiquette disponible pour le moment.",
-    "SELECTED_COUNT": "{count} sélectionné | {count} sélectionnés",
+    "SELECTED_COUNT": "{count} sélectionné",
     "CLEAR_SELECTION": "Effacer la sélection",
     "SELECT_ALL": "Tout sélectionner ({count})",
     "DELETE_CONTACTS": "Supprimer",
