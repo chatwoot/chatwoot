@@ -2,7 +2,7 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "{conversationCount} conversations sélectionnées",
     "NONE": "Aucun",
-    "CLEAR_SELECTION": "Nettoyer",
+    "CLEAR_SELECTION": "Annuler la sélection",
     "ASSIGN_AGENT_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir assigner {n} conversation à {agentName}? | Êtes-vous sûr de vouloir assigner {n} conversations à {agentName}?",
     "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir retirer l'affectation de {n} conversation ? | Êtes-vous sûr de vouloir retirer l'affectation de {n} conversations ?",
     "YES": "Oui",

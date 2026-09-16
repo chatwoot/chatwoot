@@ -920,7 +920,7 @@
           "LABEL": "Priorité d’affectation",
           "EARLIEST_CREATED": {
             "LABEL": "Créé plus tôt",
-            "DESCRIPTION": "La conversation qui a été créée est d'abord assignée."
+            "DESCRIPTION": "La conversation créée le plus tôt est attribuée en premier."
           },
           "LONGEST_WAITING": {
             "LABEL": "Attente la plus longue",

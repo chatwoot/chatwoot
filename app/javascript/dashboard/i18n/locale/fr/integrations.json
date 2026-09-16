@@ -397,7 +397,7 @@
       },
       "CTA": {
         "TITLE": "Se connecter à Linear",
-        "AGENT_DESCRIPTION": "L'espace de travail linéaire n'est pas connecté. Demandez à votre administrateur de connecter un espace de travail pour utiliser cette intégration.",
+        "AGENT_DESCRIPTION": "L'espace de travail Linear n'est pas connecté. Demandez à votre administrateur de connecter un espace de travail pour utiliser cette intégration.",
         "DESCRIPTION": "L’espace de travail Linear n’est pas connecté. Cliquez ci-dessous pour le connecter et utiliser cette intégration.",
         "BUTTON_TEXT": "Connecter l’espace de travail Linear"
       }
@@ -1318,8 +1318,8 @@
       },
       "BULK_DELETE_BUTTON": "Supprimer",
       "BULK_DELETE": {
-        "TITLE": "Supprimer la FAQ ?",
-        "DESCRIPTION": "Êtes-vous sûr de vouloir supprimer la FAQ sélectionnée ? Cette action ne peut pas être annulée.",
+        "TITLE": "Supprimer les FAQ sélectionnées ?",
+        "DESCRIPTION": "Êtes-vous sûr de vouloir supprimer les FAQ sélectionnées ? Cette action ne peut pas être annulée.",
         "CONFIRM": "Oui, supprimer tout",
         "SUCCESS_MESSAGE": "FAQ supprimée avec succès",
         "ERROR_MESSAGE": "Une erreur s'est produite lors de la suppression de la FAQ, veuillez réessayer."

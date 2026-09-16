@@ -36,10 +36,10 @@ ru:
   data_imports:
     intercom:
       activities:
-        assignment: '%{actor} назначен на разговор'
-        assignment_with_target: '%{actor} назначен на разговор для %{target}'
-        assign_and_reopen: '%{actor} назначен и снова открыл разговор'
-        assign_and_reopen_with_target: '%{actor} назначен на разговор %{target} и открыл его заново'
+        assignment: '%{actor} назначил разговор'
+        assignment_with_target: '%{actor} назначил разговор участнику %{target}'
+        assign_and_reopen: '%{actor} назначил и снова открыл разговор'
+        assign_and_reopen_with_target: '%{actor} назначил разговор участнику %{target} и открыл его заново'
         open: '%{actor} начал разговор'
         close: '%{actor} завершил разговор'
         snoozed: '%{actor} отложил разговор'
@@ -91,7 +91,7 @@ ru:
       unsupported_content_type: 'File type not supported (only images and videos are allowed)'
       unexpected: 'An unexpected error occurred'
     database:
-      query_canceled: 'Запрос слишком длинный для завершения. Пожалуйста, попробуйте снова.'
+      query_canceled: 'Выполнение запроса заняло слишком много времени. Пожалуйста, попробуйте снова.'
     saml:
       feature_not_enabled: Функция SAML не включена для этой учетной записи
       sso_not_enabled: SSO SAML не включен для этой установки
@@ -639,7 +639,7 @@ ru:
         provider: 'Поставщик'
         model: 'Модель'
       sources:
-        account_override: 'Счет переопределен'
+        account_override: 'Переопределение учетной записи'
         installation_override: 'Installation setting'
         default: 'По умолчанию'
       features:

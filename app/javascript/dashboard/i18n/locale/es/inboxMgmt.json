@@ -1073,10 +1073,10 @@
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Token de verificación del Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Este token se utiliza para verificar la autenticidad del extremo del webhook.",
-      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
-      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sincronizar plantillas",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Sincroniza manualmente las plantillas de mensajes de WhatsApp para actualizar las disponibles.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sincronizar plantillas",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "La sincronización de plantillas se inició correctamente. La actualización puede tardar un par de minutos.",
       "WHATSAPP_MANUAL_MIGRATION": {
         "BANNER": {
           "TITLE": "Configuración manual recomendada",
