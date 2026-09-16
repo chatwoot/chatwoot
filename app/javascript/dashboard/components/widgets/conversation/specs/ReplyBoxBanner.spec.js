@@ -18,10 +18,10 @@ vi.mock('dashboard/composables', () => ({
 }));
 
 describe('ReplyBoxBanner', () => {
-  it.each([false, true])(
-    'only completes takeover after a successful assignment (failure: %s)',
+  it.each(['none', 'assignment', 'reopen'])(
+    'only reports success after assignment and reopen succeed (failure: %s)',
     async failure => {
-      const toggleStatus = vi.fn();
+      const toggleStatus = vi.fn().mockResolvedValue(failure !== 'reopen');
       const setCurrentChatAssignee = vi.fn();
       const assignAgent = vi.fn();
       const assistant = { id: 3, name: 'Captain' };
@@ -32,7 +32,7 @@ describe('ReplyBoxBanner', () => {
       };
       useAlert.mockClear();
       ConversationApi.assignAgent.mockReset();
-      if (failure) {
+      if (failure === 'assignment') {
         ConversationApi.assignAgent.mockRejectedValue(
           new Error('Assignment failed')
         );
@@ -82,7 +82,7 @@ describe('ReplyBoxBanner', () => {
         agentId: currentUser.id,
         assigneeType: 'User',
       });
-      if (failure) {
+      if (failure === 'assignment') {
         expect(setCurrentChatAssignee).not.toHaveBeenCalled();
         expect(toggleStatus).not.toHaveBeenCalled();
         expect(useAlert).toHaveBeenCalledWith('CONVERSATION.BOT_HANDOFF_ERROR');
@@ -97,6 +97,11 @@ describe('ReplyBoxBanner', () => {
         assignee: currentUser,
         assigneeType: 'User',
       });
+      expect(useAlert).toHaveBeenCalledExactlyOnceWith(
+        failure === 'reopen'
+          ? 'CONVERSATION.BOT_HANDOFF_ERROR'
+          : 'CONVERSATION.BOT_HANDOFF_SUCCESS'
+      );
     }
   );
 });

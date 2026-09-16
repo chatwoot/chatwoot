@@ -38,10 +38,7 @@ export function useMacroExecution() {
   const customAttributesFor = conversationId =>
     conversationById.value(conversationId)?.custom_attributes || {};
 
-  const runMacro = async (
-    { macro, conversationId },
-    skippedResolve = false
-  ) => {
+  const isBlockedByAIOwnership = ({ macro, conversationId }) => {
     const conversation = conversationById.value(conversationId);
     if (
       isAIAssigneeType(conversation?.meta?.assignee_type) &&
@@ -56,8 +53,14 @@ export function useMacroExecution() {
             t('CONVERSATION.BOT_HANDOFF_FALLBACK_ASSIGNEE'),
         })
       );
-      return;
+      return true;
     }
+    return false;
+  };
+
+  const runMacro = async (execution, skippedResolve = false) => {
+    if (isBlockedByAIOwnership(execution)) return;
+    const { macro, conversationId } = execution;
     try {
       executingMacroId.value = macro.id;
       await store.dispatch('macros/execute', {
@@ -79,6 +82,7 @@ export function useMacroExecution() {
 
   const execute = (macro, conversationId) => {
     const execution = { macro, conversationId };
+    if (isBlockedByAIOwnership(execution)) return null;
 
     if (!resolvesConversation(macro)) {
       runMacro(execution);
@@ -99,6 +103,7 @@ export function useMacroExecution() {
   const submitPendingAttributes = async ({ attributes }) => {
     const execution = pendingExecution.value;
     pendingExecution.value = null;
+    if (isBlockedByAIOwnership(execution)) return;
 
     try {
       await store.dispatch('updateCustomAttributes', {
