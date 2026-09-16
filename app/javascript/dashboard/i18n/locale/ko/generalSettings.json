@@ -139,37 +139,6 @@
       "SELECT": "선택"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "알림",
-    "MARK_ALL_DONE": "모두 완료 표시",
-    "DELETE_TITLE": "삭제됨",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "읽지 않은 알림",
-      "ALL_NOTIFICATIONS": "모든 알림 보기",
-      "LOADING_UNREAD_MESSAGE": "읽지 않은 알림을 불러오는 중...",
-      "EMPTY_MESSAGE": "읽지 않은 알림이 없습니다"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "알림을 불러오는 중...",
-      "404": "알림 없음",
-      "TABLE_HEADER": [
-        "이름",
-        "전화 번호",
-        "대화",
-        "마지막으로 연락한 사람"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "새 대화",
-      "conversation_assignment": "대화 할당됨",
-      "assigned_conversation_new_message": "새 메시지",
-      "participating_conversation_new_message": "새 메시지",
-      "conversation_mention": "멘션",
-      "sla_missed_first_response": "SLA 위반",
-      "sla_missed_next_response": "SLA 위반",
-      "sla_missed_resolution": "SLA 위반"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "오프라인",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "계정 설정으로 이동",
       "GO_TO_SETTINGS_PROFILE": "프로필 설정으로 이동",
-      "GO_TO_NOTIFICATIONS": "알림으로 이동",
       "ADD_LABELS_TO_CONVERSATION": "대화에 라벨 추가",
       "ASSIGN_AN_AGENT": "에이전트 배정",
       "AI_ASSIST": "AI 어시스트",

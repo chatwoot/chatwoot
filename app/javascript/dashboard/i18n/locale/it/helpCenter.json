@@ -45,8 +45,6 @@
         "TITLE": "Carica immagine",
         "UPLOADING": "Caricamento...",
         "SUCCESS": "Immagine caricata correttamente",
-        "ERROR": "Errore nel caricamento dell'immagine",
-        "UN_AUTHORIZED_ERROR": "Non sei autorizzato a caricare immagini",
         "ERROR_FILE_SIZE": "La dimensione dell'immagine deve essere inferiore a {size}MB",
         "ERROR_FILE_FORMAT": "Il formato immagine deve essere jpg, jpeg o png",
         "ERROR_FILE_DIMENSIONS": "Le dimensioni dell'immagine dovrebbero essere inferiori a 2000 x 2000"

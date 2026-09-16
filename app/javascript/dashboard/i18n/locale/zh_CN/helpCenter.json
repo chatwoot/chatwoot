@@ -45,8 +45,6 @@
         "TITLE": "上传头像",
         "UPLOADING": "上传中...",
         "SUCCESS": "图片上传成功",
-        "ERROR": "上传图片时出错",
-        "UN_AUTHORIZED_ERROR": "您无权上传图片",
         "ERROR_FILE_SIZE": "图片大小应小于 {size}MB",
         "ERROR_FILE_FORMAT": "图片格式应为 jpg、jpeg 或 png",
         "ERROR_FILE_DIMENSIONS": "图片尺寸应小于 2000 x 2000"

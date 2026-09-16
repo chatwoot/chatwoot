@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Oluşturuldu",
         "OLDEST": "Oluşturma zamanı:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Son etkinlik:",
-        "ACTIVE": "Son etkinlik"
+        "NOT_ACTIVE": "Son etkinlik:"
       }
     },
     "SORT_ORDER_ITEMS": {

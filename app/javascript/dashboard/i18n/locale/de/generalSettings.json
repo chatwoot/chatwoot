@@ -139,37 +139,6 @@
       "SELECT": "Auswählen"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Push-Benachrichtigungen",
-    "MARK_ALL_DONE": "Alle als Erledigt markieren",
-    "DELETE_TITLE": "Gelöscht",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Ungelesene Benachrichtigungen",
-      "ALL_NOTIFICATIONS": "Alle Benachrichtigungen anzeigen",
-      "LOADING_UNREAD_MESSAGE": "Ungelesene Benachrichtigungen werden geladen...",
-      "EMPTY_MESSAGE": "Sie haben keine ungelesenen Benachrichtigungen"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Benachrichtigungen werden geladen...",
-      "404": "Keine Benachrichtigungen",
-      "TABLE_HEADER": [
-        "Name",
-        "Telefonnummer",
-        "Konversationen",
-        "Zuletzt kontaktiert"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Neue Konversation",
-      "conversation_assignment": "Konversation zugewiesen",
-      "assigned_conversation_new_message": "Neue Nachricht",
-      "participating_conversation_new_message": "Neue Nachricht",
-      "conversation_mention": "Erwähnung",
-      "sla_missed_first_response": "SLA verpasst",
-      "sla_missed_next_response": "SLA verpasst",
-      "sla_missed_resolution": "SLA verpasst"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Zur Abrechnung",
       "GO_TO_SETTINGS_ACCOUNT": "Zu den Kontoeinstellungen",
       "GO_TO_SETTINGS_PROFILE": "Zu Profileinstellungen",
-      "GO_TO_NOTIFICATIONS": "Zu Benachrichtigungen",
       "ADD_LABELS_TO_CONVERSATION": "Label zur Konversation hinzufügen",
       "ASSIGN_AN_AGENT": "Einen Agent zuweisen",
       "AI_ASSIST": "AI-Assistent",

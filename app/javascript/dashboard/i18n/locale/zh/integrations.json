@@ -493,10 +493,6 @@
           "PLACEHOLDER": "输入助手名称",
           "ERROR": "名称是必需的"
         },
-        "TEMPERATURE": {
-          "LABEL": "响应温度",
-          "DESCRIPTION": "调整助手回复的创造性或限制程度。较低的数值会产生更专注和确定性的回复，而较高的数值则允许更有创意和多样化的输出。"
-        },
         "DESCRIPTION": {
           "LABEL": "描述信息",
           "PLACEHOLDER": "输入助手描述",
@@ -738,8 +734,7 @@
       "HEADER": "文档",
       "ADD_NEW": "创建新文档",
       "RELATED_RESPONSES": {
-        "TITLE": "相关常见问题",
-        "DESCRIPTION": "这些常见问题直接从文档生成。"
+        "TITLE": "相关常见问题"
       },
       "FORM_DESCRIPTION": "输入文档的 URL 以将其添加为知识源，并选择要关联的助手。",
       "CREATE": {
@@ -779,7 +774,6 @@
         "ERROR_MESSAGE": "删除文档时出错，请重试"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "查看相关常见问题",
         "DELETE_DOCUMENT": "删除文档"
       },
       "EMPTY_STATE": {
@@ -902,7 +896,6 @@
     },
     "RESPONSES": {
       "HEADER": "常见问题",
-      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "创建新常见问题",
       "DOCUMENTABLE": {
         "CONVERSATION": "对话 #{id}"
@@ -911,12 +904,7 @@
       "SELECT_ALL": "全选 ({count})",
       "UNSELECT_ALL": "取消全选({count})",
       "SEARCH_PLACEHOLDER": "搜索常见问题...",
-      "BULK_APPROVE_BUTTON": "批准",
       "BULK_DELETE_BUTTON": "删除",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "常见问题已成功批准",
-        "ERROR_MESSAGE": "批准常见问题时出错，请重试"
-      },
       "BULK_DELETE": {
         "TITLE": "删除常见问题？",
         "DESCRIPTION": "您确定要删除选中的常见问题吗？此操作无法撤销。",
@@ -930,21 +918,6 @@
         "CONFIRM": "是，删除",
         "SUCCESS_MESSAGE": "常见问题已成功删除",
         "ERROR_MESSAGE": "删除常见问题时出错，请重试"
-      },
-      "FILTER": {
-        "ASSISTANT": "助手：{selected}",
-        "STATUS": "状态：{selected}",
-        "ALL_ASSISTANTS": "所有"
-      },
-      "STATUS": {
-        "TITLE": "状态",
-        "PENDING": "待处理",
-        "APPROVED": "已批准",
-        "ALL": "所有"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
       },
       "FORM_DESCRIPTION": "将问题及其对应的答案添加到知识库，并选择应关联的助手。",
       "CREATE": {
@@ -977,7 +950,6 @@
       },
       "EMPTY_STATE": {
         "TITLE": "未找到常见问题",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "常见问题帮助您的助手为客户提供快速准确的答案。它们可以从您的内容自动生成，也可以手动添加。",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {

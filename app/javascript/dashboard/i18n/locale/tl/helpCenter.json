@@ -45,8 +45,6 @@
         "TITLE": "Mag-upload ng larawan",
         "UPLOADING": "Ina-upload...",
         "SUCCESS": "Matagumpay na na-upload ang larawan",
-        "ERROR": "Nagkaroon ng error habang nag-a-upload ng larawan",
-        "UN_AUTHORIZED_ERROR": "Wala kang pahintulot na mag-upload ng mga larawan",
         "ERROR_FILE_SIZE": "Ang laki ng larawan ay dapat mas mababa sa {size}MB",
         "ERROR_FILE_FORMAT": "Ang format ng larawan ay dapat jpg, jpeg, o png",
         "ERROR_FILE_DIMENSIONS": "Ang sukat ng larawan ay dapat mas mababa sa 2000 x 2000"

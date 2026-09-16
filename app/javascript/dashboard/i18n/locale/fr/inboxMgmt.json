@@ -140,7 +140,6 @@
       },
       "TWILIO": {
         "TITLE": "Chaîne Twilio SMS/WhatsApp",
-        "DESC": "Intégrez Twilio et commencez à soutenir vos clients par SMS ou WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID du compte",
           "PLACEHOLDER": "Veuillez entrer le SID de votre compte Twilio",
@@ -330,7 +329,6 @@
           "ACCESS_REQUEST": {
             "TITLE": "Configuration rapide avec Meta",
             "DESCRIPTION": "Connecte un nouveau numéro ou un numéro existant à partir de l'application WhatsApp Business sans configuration manuelle. Pour demander cette option, dites à notre équipe ce que fait votre entreprise, comment vous utiliserez WhatsApp, et quel compte Chatwoot a besoin d'accès.",
-            "FOOTNOTE": "Nous examinerons votre demande et vous informerons si cette option peut être activée. Vous pouvez également poursuivre la configuration manuelle ci-dessous.",
             "BUTTON": "Demander l'accès"
           },
           "RESTRICTED_WARNING": "WhatsApp Embedded Signup est temporairement indisponible en raison d’un problème lié à l’API chez Meta, et non à Chatwoot. Vous pouvez utiliser la configuration manuelle pour les numéros admissibles à l’API WhatsApp Cloud. Nous travaillons en étroite collaboration avec Meta pour résoudre ce problème au plus vite.",

@@ -45,8 +45,6 @@
         "TITLE": "上傳圖片",
         "UPLOADING": "上傳中...",
         "SUCCESS": "圖片上傳成功",
-        "ERROR": "上傳圖片時發生錯誤",
-        "UN_AUTHORIZED_ERROR": "您沒有上傳圖片的權限",
         "ERROR_FILE_SIZE": "圖片大小不能超過 {size}MB",
         "ERROR_FILE_FORMAT": "圖片格式須為 jpg、jpeg 或 png",
         "ERROR_FILE_DIMENSIONS": "圖片尺寸不能超過 2000 x 2000"

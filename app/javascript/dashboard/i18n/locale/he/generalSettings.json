@@ -139,37 +139,6 @@
       "SELECT": "בחר"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "התראות",
-    "MARK_ALL_DONE": "סמן הכל כבוצע",
-    "DELETE_TITLE": "נמחק",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "התראות שלא נקראו",
-      "ALL_NOTIFICATIONS": "הצג את כל ההתראות",
-      "LOADING_UNREAD_MESSAGE": "טוען התראות שלא נקראו...",
-      "EMPTY_MESSAGE": "אין לך התראות שלא נקראו"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "טוען הודעות...",
-      "404": "אין התראות",
-      "TABLE_HEADER": [
-        "שם",
-        "מספר טלפון",
-        "שיחות",
-        "פניה אחרונה"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "שיחה חדשה",
-      "conversation_assignment": "שיחה הוקצתה",
-      "assigned_conversation_new_message": "הודעה חדשה",
-      "participating_conversation_new_message": "הודעה חדשה",
-      "conversation_mention": "אִזְכּוּר",
-      "sla_missed_first_response": "החמצת SLA",
-      "sla_missed_next_response": "החמצת SLA",
-      "sla_missed_resolution": "הסכם רמת שירות פוספס"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "לא מחובר",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "עבור להגדרות חשבון",
       "GO_TO_SETTINGS_PROFILE": "עבור להגדרות פרופיל",
-      "GO_TO_NOTIFICATIONS": "עבור להודעות",
       "ADD_LABELS_TO_CONVERSATION": "הוסף תווית לשיחה",
       "ASSIGN_AN_AGENT": "הקצה סוכן",
       "AI_ASSIST": "סיוע AI",

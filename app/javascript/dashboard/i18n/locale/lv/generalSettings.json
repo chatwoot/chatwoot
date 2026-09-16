@@ -139,37 +139,6 @@
       "SELECT": "Izvēlieties"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Paziņojumi",
-    "MARK_ALL_DONE": "Atzīmēt visu kā pabeigtu",
-    "DELETE_TITLE": "dzēsts",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Nelasīti paziņojumi",
-      "ALL_NOTIFICATIONS": "Skatīt visus paziņojumus",
-      "LOADING_UNREAD_MESSAGE": "Notiek nelasītu paziņojumu ielāde...",
-      "EMPTY_MESSAGE": "Jums nav nelasītu paziņojumu"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Notiek paziņojumu ielāde...",
-      "404": "Nav paziņojumu",
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Telefona numurs",
-        "Sarunas",
-        "Pēdējā Sazināšanās"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Jauna saruna",
-      "conversation_assignment": "Saruna Piešķirta",
-      "assigned_conversation_new_message": "Jauns ziņojums",
-      "participating_conversation_new_message": "Jauns ziņojums",
-      "conversation_mention": "Pieminēt",
-      "sla_missed_first_response": "SLA Nokavēts",
-      "sla_missed_next_response": "SLA Nokavēts",
-      "sla_missed_resolution": "SLA Nokavēts"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Bezsaistē",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Doties uz Konta Iestatījumiem",
       "GO_TO_SETTINGS_PROFILE": "Doties uz Profila Iestatījumiem",
-      "GO_TO_NOTIFICATIONS": "Doties uz Paziņojumiem",
       "ADD_LABELS_TO_CONVERSATION": "Pievienot sarunai etiķeti",
       "ASSIGN_AN_AGENT": "Piešķirt aģentu",
       "AI_ASSIST": "AI Palīgs",
