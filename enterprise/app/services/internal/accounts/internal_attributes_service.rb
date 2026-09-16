@@ -20,13 +20,12 @@ class Internal::Accounts::InternalAttributesService
   def set(key, value)
     validate_key!(key)
 
-    # Create a new hash to avoid modifying the original
-    new_attrs = account.internal_attributes.dup || {}
-    new_attrs[key] = value
-
-    # Update the account
-    account.internal_attributes = new_attrs
-    account.save
+    # Reload under the shared account lock so delayed attribution updates do not
+    # overwrite billing cancellation history or other independently managed keys.
+    account.with_lock do
+      account.internal_attributes = account.internal_attributes.merge(key => value)
+      account.save
+    end
   end
 
   # Get manually managed features

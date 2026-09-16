@@ -11,6 +11,8 @@ describe Enterprise::Billing::CreateStripeCustomerService do
   let(:subscription_ends_on) { Time.zone.at(current_period_end).as_json }
   let(:created_subscription) do
     {
+      id: 'sub_default',
+      current_period_start: current_period_end - 30.days.to_i,
       plan: { id: 'price_random_number', product: 'prod_random_number' },
       quantity: 2,
       status: 'active',
@@ -62,7 +64,7 @@ describe Enterprise::Billing::CreateStripeCustomerService do
 
     it 'does not call stripe methods if customer id is present' do
       account.update!(custom_attributes: { stripe_customer_id: 'cus_random_number' })
-      allow(subscriptions_list).to receive(:data).and_return([])
+      allow(subscriptions_list).to receive(:auto_paging_each).and_return([])
       allow(Stripe::Customer).to receive(:create)
       allow(Stripe::Subscription).to receive(:list).and_return(subscriptions_list)
       allow(Stripe::Subscription).to receive(:create).and_return(created_subscription)
@@ -77,6 +79,8 @@ describe Enterprise::Billing::CreateStripeCustomerService do
       expect(account.reload.custom_attributes).to eq(
         {
           stripe_customer_id: 'cus_random_number',
+          stripe_subscription_id: 'sub_default',
+          subscription_period_start: current_period_end - 30.days.to_i,
           stripe_price_id: 'price_random_number',
           stripe_product_id: 'prod_random_number',
           subscribed_quantity: 2,
@@ -107,6 +111,8 @@ describe Enterprise::Billing::CreateStripeCustomerService do
       expect(account.reload.custom_attributes).to eq(
         {
           stripe_customer_id: customer.id,
+          stripe_subscription_id: 'sub_default',
+          subscription_period_start: current_period_end - 30.days.to_i,
           stripe_price_id: 'price_random_number',
           stripe_product_id: 'prod_random_number',
           subscribed_quantity: 2,
@@ -170,7 +176,7 @@ describe Enterprise::Billing::CreateStripeCustomerService do
       context 'when customer has an active non-default subscription' do
         before do
           allow(Stripe::Subscription).to receive(:list).and_return(subscriptions_list)
-          allow(subscriptions_list).to receive(:data).and_return([{ 'plan' => { 'id' => 'price_paid_plan' } }])
+          allow(subscriptions_list).to receive(:auto_paging_each).and_return([{ 'plan' => { 'id' => 'price_paid_plan' } }])
           allow(Stripe::Subscription).to receive(:create)
         end
 
@@ -181,8 +187,7 @@ describe Enterprise::Billing::CreateStripeCustomerService do
           expect(Stripe::Subscription).to have_received(:list).with(
             {
               customer: stripe_customer_id,
-              status: 'active',
-              limit: 1
+              limit: 100
             }
           )
         end

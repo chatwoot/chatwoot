@@ -6,7 +6,9 @@ describe Enterprise::Billing::HandleStripeEventService do
   # Shape Stripe sends for a portal cancellation: the schedule lands on cancel_at, cancel_at_period_end stays false.
   let(:cancelling_subscription) do
     {
+      id: 'sub_123',
       customer: 'cus_123',
+      current_period_start: period_end - 30.days.to_i,
       status: 'active',
       quantity: 4,
       current_period_end: period_end,
@@ -26,6 +28,7 @@ describe Enterprise::Billing::HandleStripeEventService do
       type: type,
       data: { object: cancelling_subscription.merge(overrides), previous_attributes: previous }
     )
+    allow(Stripe::Subscription).to receive(:retrieve).with('sub_123').and_return(event.data.object)
     described_class.new.perform(event: event)
     account.reload
   end
@@ -75,9 +78,11 @@ describe Enterprise::Billing::HandleStripeEventService do
 
   it 'clears the cancellation date when the subscription is finally deleted' do
     handle
-    free_plan = { plan: { id: 'price_hacker', product: 'prod_hacker' }, quantity: 2, status: 'active',
+    free_plan = { id: 'sub_free', plan: { id: 'price_hacker', product: 'prod_hacker' }, quantity: 2, status: 'active',
                   current_period_end: period_end }.with_indifferent_access
-    allow(Stripe::Subscription).to receive_messages(list: Struct.new(:data).new([]), create: free_plan)
+    allow(Stripe::Subscription).to receive_messages(list: Stripe::ListObject.construct_from(data: [], has_more: false), create: free_plan)
+
+    allow(Stripe::Invoice).to receive(:list).and_return(Stripe::ListObject.construct_from(data: [], has_more: false))
 
     handle({ status: 'canceled' }, type: 'customer.subscription.deleted')
 

@@ -6,11 +6,11 @@ class Enterprise::Billing::CreateStripeCustomerService
   DEFAULT_QUANTITY = 2
 
   def perform
-    active_sub = active_subscription
-    return false if active_sub && !default_plan_subscription?(active_sub)
+    existing_sub = existing_subscription
+    return false if existing_sub && !default_plan_subscription?(existing_sub)
 
     customer_id = prepare_customer_id
-    subscription = active_sub || Stripe::Subscription.create(customer: customer_id, items: [{ price: price_id, quantity: default_quantity }])
+    subscription = existing_sub || Stripe::Subscription.create(customer: customer_id, items: [{ price: price_id, quantity: default_quantity }])
     custom_attributes = build_custom_attributes(customer_id, subscription)
     custom_attributes.except!('is_creating_customer')
 
@@ -55,31 +55,35 @@ class Enterprise::Billing::CreateStripeCustomerService
     Enterprise::Billing::PlanConfiguration.price_id_for(default_plan, account.billing_currency)
   end
 
-  def active_subscription
+  def existing_subscription
     stripe_customer_id = account.custom_attributes['stripe_customer_id']
     return nil if stripe_customer_id.blank?
 
-    Stripe::Subscription.list(
+    # The default Stripe list excludes canceled subscriptions but retains those
+    # still recovering payment. Never replace a past_due paid plan with a free one.
+    subscriptions = Stripe::Subscription.list(
       {
         customer: stripe_customer_id,
-        status: 'active',
-        limit: 1
+        limit: 100
       }
-    ).data.first
+    ).auto_paging_each.reject { |subscription| subscription['status'] == 'incomplete_expired' }
+    subscriptions.find { |subscription| !default_plan_subscription?(subscription) } || subscriptions.first
   end
 
   def default_plan_subscription?(subscription)
-    Enterprise::Billing::PlanConfiguration.plan_contains_product_id?(default_plan, subscription['plan']['product'])
+    Enterprise::Billing::PlanConfiguration.plan_contains_product_id?(default_plan, subscription_plan(subscription)['product'])
   end
 
   def build_custom_attributes(customer_id, subscription)
     (account.custom_attributes || {}).merge(
       'stripe_customer_id' => customer_id,
-      'stripe_price_id' => subscription['plan']['id'],
-      'stripe_product_id' => subscription['plan']['product'],
+      'stripe_subscription_id' => subscription['id'],
+      'stripe_price_id' => subscription_plan(subscription)['id'],
+      'stripe_product_id' => subscription_plan(subscription)['product'],
       'plan_name' => default_plan['name'],
-      'subscribed_quantity' => subscription['quantity'],
+      'subscribed_quantity' => subscription_quantity(subscription),
       'subscription_status' => subscription['status'],
+      'subscription_period_start' => subscription_period_start(subscription),
       'subscription_ends_on' => subscription_ends_on(subscription),
       'subscription_cancels_on' => subscription_cancels_on(subscription),
       'billing_currency' => billing_currency_for(subscription)
@@ -89,6 +93,6 @@ class Enterprise::Billing::CreateStripeCustomerService
   # Persist the currency Stripe actually billed, read straight from the price; the
   # requested currency may lack a configured price and fall back to usd.
   def billing_currency_for(subscription)
-    Enterprise::Billing::Currencies.to_supported(subscription['plan']['currency'])
+    Enterprise::Billing::Currencies.to_supported(subscription_plan(subscription)['currency'])
   end
 end

@@ -10,25 +10,32 @@ class Enterprise::Billing::HandleStripeEventService
 
   def perform(event:)
     @event = event
+    @account = @subscription = @previous_attributes = nil
+    return unless %w[customer.subscription.updated customer.subscription.deleted].include?(event.type)
+    return unless stripe_billed_account?
 
-    case @event.type
-    when 'customer.subscription.updated'
-      process_subscription_updated
-    when 'customer.subscription.deleted'
-      process_subscription_deleted
-    else
-      Rails.logger.debug { "Unhandled event type: #{event.type}" }
-    end
+    account.with_lock { process_subscription_event }
+    ActionCableBroadcastJob.perform_later(["account_#{account.id}"], 'account.billing_updated', { account_id: account.id })
   end
 
   private
 
-  def process_subscription_updated
-    plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
+  def process_subscription_event
+    # Events can arrive out of order, including within the same second. Read
+    # Stripe under the lock so a delayed failure cannot undo payment recovery.
+    @subscription = Stripe::Subscription.retrieve(@event.data.object.id)
+    plan = find_plan(subscription_plan(subscription)['product']) if subscription_plan(subscription).present?
+    return if plan.blank?
 
-    # skipping self hosted plan events
-    return if plan.blank? || !stripe_billed_account?
+    @previous_attributes = persisted_previous_attributes
+    if @event.type == 'customer.subscription.deleted'
+      process_subscription_deleted
+    elsif subscription['status'] != 'canceled'
+      process_subscription_updated(plan)
+    end
+  end
 
+  def process_subscription_updated(plan)
     previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
@@ -59,14 +66,16 @@ class Enterprise::Billing::HandleStripeEventService
 
   def update_account_attributes(subscription, plan)
     # https://stripe.com/docs/api/subscriptions/object
-    account.update(
+    account.update!(
       custom_attributes: account.custom_attributes.merge(
         'stripe_customer_id' => subscription.customer,
-        'stripe_price_id' => subscription['plan']['id'],
-        'stripe_product_id' => subscription['plan']['product'],
+        'stripe_subscription_id' => subscription.id,
+        'stripe_price_id' => subscription_plan(subscription)['id'],
+        'stripe_product_id' => subscription_plan(subscription)['product'],
         'plan_name' => plan['name'],
-        'subscribed_quantity' => subscription['quantity'],
+        'subscribed_quantity' => subscription_quantity(subscription),
         'subscription_status' => subscription['status'],
+        'subscription_period_start' => subscription_period_start(subscription),
         'subscription_ends_on' => subscription_ends_on(subscription),
         'subscription_cancels_on' => subscription_cancels_on(subscription),
         'billing_currency' => billing_currency_for(subscription, plan)
@@ -78,11 +87,11 @@ class Enterprise::Billing::HandleStripeEventService
   def billing_currency_for(subscription, plan)
     return account.billing_currency if plan['name'] == Enterprise::Billing::PlanConfiguration.default_plan&.dig('name')
 
-    Enterprise::Billing::Currencies.to_supported(subscription['plan']['currency'])
+    Enterprise::Billing::Currencies.to_supported(subscription_plan(subscription)['currency'])
   end
 
   def track_marketing_plan_activation(previous_plan_name, current_plan_name)
-    subscription_plan = subscription['plan']
+    subscription_plan = subscription_plan(subscription)
 
     Internal::Accounts::CloudPlanActivationConversionService.new(
       account: account,
@@ -95,21 +104,22 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def subscription_conversion_value(subscription_plan)
-    ((subscription_plan['amount'] || subscription_plan['amount_decimal']).to_d * subscription['quantity'].to_i / 100).to_f
+    ((subscription_plan['amount'] || subscription_plan['amount_decimal']).to_d * subscription_quantity(subscription).to_i / 100).to_f
   end
 
   def process_subscription_deleted
-    # skipping self hosted plan events
-    return unless stripe_billed_account?
+    return unless subscription['status'] == 'canceled'
+
+    Enterprise::Billing::RecordSubscriptionCancellationService.new(account: account, subscription: subscription).perform
+    current_subscription_id = account.custom_attributes['stripe_subscription_id']
+    return if current_subscription_id.present? && current_subscription_id != subscription.id
 
     previous_monthly_credits = current_plan_credits[:responses]
     return unless Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
 
-    account.with_lock do
-      previous_usage = { responses: account.custom_attributes['captain_responses_usage'].to_i, monthly: previous_monthly_credits }
-      adjust_captain_credits(previous_usage, new_plan_credits: 0)
-      account.reset_response_usage
-    end
+    previous_usage = { responses: account.custom_attributes['captain_responses_usage'].to_i, monthly: previous_monthly_credits }
+    adjust_captain_credits(previous_usage, new_plan_credits: 0)
+    account.reset_response_usage
   end
 
   def handle_subscription_credits(plan, previous_usage)
@@ -145,19 +155,24 @@ class Enterprise::Billing::HandleStripeEventService
     config[plan_name.downcase]&.symbolize_keys
   end
 
-  def subscription
-    @subscription ||= @event.data.object
-  end
+  attr_reader :subscription, :previous_attributes
 
-  def previous_attributes
-    @previous_attributes ||= JSON.parse((@event.data.previous_attributes || {}).to_json)
+  def persisted_previous_attributes
+    attributes = account.custom_attributes
+    previous = JSON.parse((@event.data.previous_attributes || {}).to_json)
+    previous['current_period_start'] ||= subscription_period_start(previous)
+    if attributes['stripe_price_id'].present?
+      previous['plan'] = { 'id' => attributes['stripe_price_id'], 'product' => attributes['stripe_product_id'] }
+    end
+    previous['current_period_start'] = attributes['subscription_period_start'] if attributes['subscription_period_start'].present?
+    previous
   end
 
   def plan_changed?
     return false if previous_attributes['plan'].blank?
 
     previous_plan_id = previous_attributes.dig('plan', 'id')
-    current_plan_id = subscription['plan']['id']
+    current_plan_id = subscription_plan(subscription)['id']
 
     previous_plan_id != current_plan_id
   end
@@ -165,11 +180,11 @@ class Enterprise::Billing::HandleStripeEventService
   def billing_period_renewed?
     return false if previous_attributes['current_period_start'].blank?
 
-    previous_attributes['current_period_start'] != subscription['current_period_start']
+    previous_attributes['current_period_start'] != subscription_period_start(subscription)
   end
 
   def account
-    @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", subscription.customer).first
+    @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", @event.data.object.customer).first
   end
 
   def stripe_billed_account?
