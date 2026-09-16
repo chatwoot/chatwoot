@@ -20,16 +20,35 @@ class Captain::Apropos::AgentService < Captain::BaseTaskService
   private
 
   def run_agent(agent)
-    context = { apropos: runtime, conversation_history: runtime.model_history(history) }
+    role = runtime.agent_role(tools: tools_enabled)
+    runner = instrumented_runner(agent, role)
+    install_chat_callbacks(runner)
+    runner.run(agent_input, context: runner_context(role), max_turns: 20)
+  end
+
+  def instrumented_runner(agent, role)
     runner = Agents::Runner.with_agents(agent)
+    Captain::Apropos::Instrumentation.install_runner(runner, runtime: runtime, role: role)
+  end
+
+  def runner_context(role)
+    {
+      apropos: runtime,
+      apropos_trace_input: runtime.trace_input(instruction: instruction, input: input, role: role),
+      conversation_history: runtime.model_history(history),
+      session_id: runtime.langfuse_attributes['langfuse.session.id']
+    }
+  end
+
+  def install_chat_callbacks(runner)
     runner.on_chat_created do |chat, *_|
       chat.singleton_class.prepend(Captain::Apropos::RequestBudget)
       chat.after_message { |message| Captain::Apropos::TokenUsage.record(runtime, message, source: tools_enabled ? 'agent' : 'reason') }
     end
-    runner.run(
-      JSON.generate({ task: instruction, input: runtime.model_input(input, tools: tools_enabled), run_context: runtime.run_context }),
-      context: context, max_turns: 20
-    )
+  end
+
+  def agent_input
+    JSON.generate({ task: instruction, input: runtime.model_input(input, tools: tools_enabled), run_context: runtime.run_context })
   end
 
   def build_agent(schema)

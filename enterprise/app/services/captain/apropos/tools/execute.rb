@@ -6,7 +6,7 @@ class Captain::Apropos::Tools::Execute < Agents::Tool
 
   def perform(context, source:)
     runtime = context.context.fetch(:apropos)
-    result = runtime.execute(source)
+    result = runtime.with_agent_tool_context(context) { runtime.execute(source) }
     runtime.reply(result: result)
   rescue StandardError
     runtime.reply(runtime.execution_failure)

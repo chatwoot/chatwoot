@@ -9,6 +9,7 @@ class Captain::Apropos::TurnService
     @session.reload
     runtime = Captain::Apropos::Runtime.new(
       account: @session.account, user: @session.user, state: @session.state,
+      execution: { budget: { calls: 0, queries: 0 }, depth: 0, trace_context: { session_id: @session.id, turn_id: @turn_id } },
       on_event: ->(event) { @session.update!(trace: @session.trace + [event.merge('turn_id' => @turn_id)]) }
     )
     result = run_agent(runtime)

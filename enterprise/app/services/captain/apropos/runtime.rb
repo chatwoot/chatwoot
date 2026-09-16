@@ -1,42 +1,29 @@
 class Captain::Apropos::Runtime
   include Captain::Apropos::QueryFunctions
+  include Captain::Apropos::Instrumentation::RuntimeMethods
 
   MAX_AGENT_CALLS = 100
   MAX_DELEGATION_DEPTH = 2
 
   attr_reader :scheme, :catalog, :events, :account, :user, :execution_failure
 
-  def initialize(account:, user:, state: {}, on_event: nil, execution: { budget: { calls: 0, queries: 0 }, depth: 0 })
+  def initialize(account:, user:, state: {}, on_event: nil,
+                 execution: { budget: { calls: 0, queries: 0 }, depth: 0, trace_context: {} })
     Captain::Apropos::Access.check!(account, user)
     @account = account
     @user = user
     @on_event = on_event
-    @budget = execution.fetch(:budget)
-    @depth = execution.fetch(:depth)
+    setup_execution(execution)
     @events = []
     @scheme = Captain::Apropos::Scheme.new(bindings: state.empty? ? {} : Captain::Apropos::Codec.load(state))
     @library = Captain::Apropos::Library.new(account: account, user: user, scheme: scheme)
     @catalog = Captain::Apropos::Catalog.new(scheme, library: @library)
     @data = Captain::Apropos::DataAccess.new(account: account, user: user)
-    @query = Captain::Apropos::Query.new(data: @data, budget: @budget)
+    @query = Captain::Apropos::Query.new(data: @data, budget: @budget, instrument: method(:instrument_query_stage))
     @actions = Captain::Apropos::Actions.new(account: account, user: user, data: @data, record: method(:record))
     install_functions
     @query.install(scheme)
     Captain::Apropos::FaqSearch.new(data: @data, account: account, consume: method(:consume_agent_call!)).install(scheme)
-  end
-
-  def execute(source)
-    @execution_failure = nil
-    record('program', { 'source' => source })
-    value = scheme.execute(source)
-    state # Check that new bindings can be persisted before reporting success.
-    output = model_value(present(value))
-    record('result', { 'value' => output })
-    output
-  rescue StandardError => e
-    @execution_failure = scheme.feedback.render(e, self)
-    record('error', @execution_failure.except(:error).merge(message: @execution_failure[:error]).deep_stringify_keys)
-    raise
   end
 
   def state
@@ -126,7 +113,7 @@ class Captain::Apropos::Runtime
     scheme.register('apropos') { |query| catalog.apropos(query) }
     scheme.register('describe') { |name| catalog.describe(name) }
     @data.install(scheme)
-    scheme.register('act') { |name, ref, arguments| @actions.call(name, ref, arguments) }
+    scheme.register('act') { |name, ref, arguments| instrument_action(name, ref, arguments) }
     install_agent_functions
     install_workspace_functions
   end
@@ -169,7 +156,7 @@ class Captain::Apropos::Runtime
     input_ref = store(input)
     raise Captain::Apropos::Error, 'Delegation depth exceeded' if @depth >= MAX_DELEGATION_DEPTH
 
-    child = self.class.new(account: account, user: user, execution: { budget: @budget, depth: @depth + 1 },
+    child = self.class.new(account: account, user: user, execution: { budget: @budget, depth: @depth + 1, trace_context: @trace_context },
                            on_event: lambda { |event|
                              events << event
                              @on_event&.call(event)

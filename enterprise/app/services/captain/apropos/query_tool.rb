@@ -12,10 +12,13 @@ class Captain::Apropos::QueryTool < RubyLLM::Tool
   def name = 'submit_query'
 
   def execute(source:)
-    @result ||= @runtime.query_page(source)
-    # Return control without sending database rows through another model turn.
-    # https://rubyllm.com/tools/#halting-execution
-    halt('Query executed. The engine has stored the results for the primary agent.')
+    @runtime.instrument('llm.apropos.query.tool.submit_query', { 'wootql.source' => source }, observation_type: 'tool') do |span|
+      @result ||= @runtime.query_page(source)
+      Captain::Apropos::Instrumentation.set_attributes(span, 'query.result' => Captain::Apropos::Instrumentation.summary(@result))
+      # Return control without sending database rows through another model turn.
+      # https://rubyllm.com/tools/#halting-execution
+      halt('Query executed. The engine has stored the results for the primary agent.')
+    end
   rescue Captain::Apropos::Error, ActiveRecord::StatementInvalid => e
     message = e.message.truncate(1_000)
     feedback = {

@@ -4,9 +4,10 @@ class Captain::Apropos::Query
   MAX_OFFSET = 100_000
   TIMEOUT_MS = 5_000
 
-  def initialize(data:, budget:)
+  def initialize(data:, budget:, instrument: nil)
     @data = data
     @budget = budget
+    @instrument = instrument
   end
 
   def install(scheme)
@@ -14,27 +15,54 @@ class Captain::Apropos::Query
   end
 
   def run(source, parameters = {}, offset = 0, debug: false)
-    stage = 'request validation'
-    unless offset.is_a?(Integer) && offset.between?(0, MAX_OFFSET)
-      raise Captain::Apropos::Error, "Query offset must be an integer between 0 and #{MAX_OFFSET}"
-    end
-
+    validate_offset!(offset)
     @budget[:queries] += 1
-    raise Captain::Apropos::Error, 'Query call budget exhausted' if @budget[:queries] > MAX_CALLS
+    with_stage('request validation') { raise Captain::Apropos::Error, 'Query call budget exhausted' if @budget[:queries] > MAX_CALLS }
 
-    stage = 'parsing'
-    ast = Captain::Apropos::WootqlParser.new(source).parse
-    stage = 'resolution'
-    plan = Captain::Apropos::WootqlResolver.new(data: @data, parameters: parameters).resolve(ast)
-    stage = 'compilation and database execution'
-    page(plan, offset, debug)
+    attributes = { 'wootql.source' => source, 'wootql.offset' => offset, 'wootql.parameter_names' => parameters.keys.map(&:to_s).sort }
+    instrument('query', attributes) { |span| run_pipeline(source, parameters, offset, debug, span) }
+  end
+
+  private
+
+  def run_pipeline(source, parameters, offset, debug, query_span)
+    ast = with_stage('parsing') do
+      instrument('parse', { 'wootql.source_bytes' => source.to_s.bytesize }) { Captain::Apropos::WootqlParser.new(source).parse }
+    end
+    plan = with_stage('resolution') do
+      instrument('resolve', { 'wootql.resource' => ast.resource }) do
+        Captain::Apropos::WootqlResolver.new(data: @data, parameters: parameters).resolve(ast)
+      end
+    end
+    result = with_stage('compilation and database execution') do
+      instrument('execute', { 'wootql.offset' => offset, 'wootql.fields' => plan.fields.keys }) { page(plan, offset, debug) }
+    end
+    Captain::Apropos::Instrumentation.set_attributes(query_span, {
+                                                       'wootql.row_count' => result.fetch('items').size,
+                                                       'wootql.has_next_page' => (result.fetch('next_offset') != false)
+                                                     })
+    result
+  end
+
+  def validate_offset!(offset)
+    return if offset.is_a?(Integer) && offset.between?(0, MAX_OFFSET)
+
+    with_stage('request validation') { raise Captain::Apropos::Error, "Query offset must be an integer between 0 and #{MAX_OFFSET}" }
+  end
+
+  def with_stage(stage)
+    yield
   rescue Captain::Apropos::Error => e
     facts = ["Query stage: #{stage}."]
     facts << 'This query did not reach SQL execution.' unless stage == 'compilation and database execution'
     raise e.with_feedback(*facts)
   end
 
-  private
+  def instrument(stage, attributes, &)
+    return yield unless @instrument
+
+    @instrument.call(stage, attributes, &)
+  end
 
   def page(plan, offset, debug)
     ApplicationRecord.with_connection do |connection|
