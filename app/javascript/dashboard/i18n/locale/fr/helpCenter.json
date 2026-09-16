@@ -45,9 +45,14 @@
         "TITLE": "Téléverser une image",
         "UPLOADING": "Téléversement...",
         "SUCCESS": "Image téléchargée avec succès",
-        "ERROR": "Erreur lors du téléchargement de l'image",
-        "UN_AUTHORIZED_ERROR": "Vous n'êtes pas autorisé à télécharger des images",
+        "UPLOAD_FAILED": "Upload failed",
+        "RATE_LIMITED": "Upload limit reached. Try again in a few minutes.",
+        "RETRY": "Réessayer",
+        "REMOVE": "Supprimer",
+        "CANCEL": "Cancel upload",
         "ERROR_FILE_SIZE": "La taille de l'image doit être inférieure à {size}Mo",
+        "ERROR_ATTACHMENT_FILE_SIZE": "File size should be less than {size}MB",
+        "ERROR_UNSUPPORTED_TYPE": "This file type is not supported",
         "ERROR_FILE_FORMAT": "Le format d'image doit être jpg, jpeg ou png",
         "ERROR_FILE_DIMENSIONS": "Les dimensions de l'image doivent être inférieures à 2000 x 2000"
       }
@@ -526,7 +531,7 @@
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "{count} vue | {count} vues",
+          "VIEWS": "Vue {count} | {count} vues",
           "DROPDOWN_MENU": {
             "PUBLISH": "Publier",
             "DRAFT": "Brouillon",
@@ -595,7 +600,7 @@
         }
       },
       "BULK_TRANSLATE": {
-        "TITLE": "Traduire l'article | Traduire {count} articles",
+        "TITLE": "Traduire l'article | Traduire les articles {count}",
         "DESCRIPTION": "Traduire l'article sélectionné dans une autre langue. | Traduire les articles sélectionnés dans une autre langue.",
         "LOCALE_LABEL": "Langue cible",
         "LOCALE_PLACEHOLDER": "Sélectionnez une langue",
@@ -604,11 +609,11 @@
         "OPTIONAL": "(optionnel)",
         "CONFIRM": "Traduire",
         "SELECT_ALL": "Tout sélectionner ({count})",
-        "SELECTED_COUNT": "{count} sélectionné | {count} sélectionnés",
+        "SELECTED_COUNT": "{count} sélectionné",
         "CLEAR_SELECTION": "Effacer la sélection",
         "TRANSLATE_BUTTON": "Traduire",
         "CONFIRM_OVERWRITE": "Écraser et traduire",
-        "DUPLICATE_WARNING": "Une traduction existe déjà pour cet article dans la langue sélectionnée. | Des traductions existent déjà pour {count} articles dans la langue sélectionnée.",
+        "DUPLICATE_WARNING": "Une traduction existe déjà pour cet article dans la langue sélectionnée. | Des traductions existent déjà pour les articles {count} dans la langue sélectionnée.",
         "DUPLICATE_CONFIRM_HINT": "Cliquez à nouveau sur traduire pour écraser la traduction existante.",
         "API": {
           "SUCCESS_MESSAGE": "Traduction en cours. L'article apparaîtra comme un brouillon une fois prêt.",
@@ -624,11 +629,11 @@
         "DELETE": "Supprimer",
         "STATUS_SUCCESS": "Articles mis à jour avec succès",
         "STATUS_ERROR": "Impossible de mettre à jour les articles",
-        "STATUS_SKIPPED": "1 article avec des modifications non publiées a été ignoré — ouvrez-le pour publier ou jeter. | {count} articles avec des modifications non publiées ont été ignorés — ouvrez-les pour publier ou jeter.",
+        "STATUS_SKIPPED": "1 article avec des modifications non publiées a été ignoré — ouvrez-le pour publier ou jeter. | Les articles {count} avec des modifications non publiées ont été ignorés - ouvrez-les pour publier ou jeter.",
         "STATUS_SKIPPED_ALL": "Ces articles ont des modifications non publiées — ouvrez chacun pour publier ou jeter.",
         "CATEGORY_SUCCESS": "Articles déplacés avec succès",
         "CATEGORY_ERROR": "Impossible de déplacer les articles",
-        "DELETE_CONFIRM_TITLE": "Supprimer l'article | Supprimer {count} articles",
+        "DELETE_CONFIRM_TITLE": "Supprimer l'article | Supprimer les articles {count}",
         "DELETE_CONFIRM_DESCRIPTION": "Cette action supprimera définitivement l’article sélectionné et ne peut pas être annulée. | Cette action supprimera définitivement {count} articles sélectionnés et ne peut pas être annulée.",
         "DELETE_CONFIRM": "Supprimer",
         "DELETE_SUCCESS": "Articles supprimés avec succès",
@@ -640,7 +645,7 @@
         "NEW_CATEGORY": "Nouvelle catégorie",
         "EDIT_CATEGORY": "Modifier la catégorie",
         "SEARCH_PLACEHOLDER": "Rechercher dans les catégories...",
-        "CATEGORIES_COUNT": "{n} catégorie | {n} catégories",
+        "CATEGORIES_COUNT": "Catégorie {n} | Catégories {n}",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "Catégories ({localeCode})",
           "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
@@ -655,7 +660,7 @@
         "SUBTITLE": "Nous n'avons trouvé aucune catégorie correspondant à votre recherche. Essayez un autre terme."
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
+        "ARTICLES_COUNT": "Article {count} | articles {count}"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
@@ -717,8 +722,8 @@
         "SUBTITLE": "Nous n'avons trouvé aucune locale correspondant à votre recherche. Essayez un autre terme."
       },
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} catégorie | {count} catégories",
+        "ARTICLES_COUNT": "Article {count} | articles {count}",
+        "CATEGORIES_COUNT": "Catégorie {count} | Catégories {count}",
         "DEFAULT": "Par défaut",
         "DRAFT": "Brouillon",
         "DROPDOWN_MENU": {
@@ -741,7 +746,7 @@
         "CONFIRM": "Enregistrer les recommandations",
         "CATEGORIES": {
           "LABEL": "Catégories recommandées",
-          "ARTICLES_COUNT": "Aucun article | {count} article | {count} articles"
+          "ARTICLES_COUNT": "Aucun article | Article {count} | Articles {count}"
         },
         "ARTICLES": {
           "LABEL": "Articles recommandés",
@@ -800,7 +805,8 @@
         "PUBLISH_CHANGES": "Publier les modifications",
         "PUBLISH_CHANGES_SUCCESS": "Changements publiés avec succès",
         "PUBLISH_CHANGES_ERROR": "Impossible de publier les modifications",
-        "SAVE_IN_PROGRESS": "Enregistrement de vos dernières modifications en cours — veuillez réessayer dans un instant.",
+        "SAVE_IN_PROGRESS": "Still saving your latest changes. Please try again in a moment.",
+        "UPLOAD_IN_PROGRESS": "A file upload is unfinished. Wait for it to finish or remove it first.",
         "DISCARD_CHANGES": "Annuler les modifications",
         "DISCARD_CHANGES_SUCCESS": "Changements annulés",
         "DISCARD_CHANGES_ERROR": "Impossible d'annuler les modifications",
@@ -812,7 +818,7 @@
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Modifications non publiées",
-        "DESCRIPTION": "Cet article contient des modifications de brouillon qui ne sont pas encore publiées. Les appliquer avant de changer le statut, ou les annuler ?",
+        "DESCRIPTION": "Cet article a des ébauches de modifications qui ne sont pas encore en cours. Les appliquer avant de changer le statut, ou les supprimer ?",
         "APPLY": "Appliquer les modifications",
         "DISCARD": "Annuler les modifications"
       },
@@ -993,7 +999,7 @@
           "DESCRIPTION": "Mesurez le trafic et le comportement des visiteurs dans votre centre d'aide avec Google Analytics.",
           "PLACEHOLDER": "G-XXXXXXXXXX",
           "HELP": "Trouvez l'ID de mesure sous Admin → Flux de données dans Google Analytics. Laissez vide pour désactiver.",
-          "INVALID": "Entrez un ID de mesure valide, par exemple G-XXXXXXXXXX."
+          "INVALID": "Entrez un ID de mesure valide, par exemple G-XXXXXXXXXXXX."
         },
         "HOTJAR": {
           "TITLE": "Hotjar",
