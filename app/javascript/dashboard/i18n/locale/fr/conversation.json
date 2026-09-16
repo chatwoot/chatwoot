@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "Veuillez sélectionner une conversation à partir du panneau de gauche",
     "CSAT_REPLY_MESSAGE": "Veuillez évaluer la conversation",
     "404": "Désolé, nous ne pouvons pas trouver la conversation. Veuillez réessayer",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "Ce message n'est pas pris en charge. Vous pouvez voir ce message sur l'application TikTok.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "Ce type de message n’est pas pris en charge. Vous pouvez le consulter dans l’application WhatsApp.",
     "WHATSAPP_FLOW_RESPONSE": "A soumis une réponse de flux",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "Le message a bien été supprimé",
     "FAIL_DELETE_MESSSAGE": "Impossible de supprimer le message ! Veuillez réessayez",
     "NO_RESPONSE": "Pas de réponse",
@@ -84,14 +94,14 @@
       "STEP_HANDOFF": "Remise à {name}",
       "REASONING": "Raisonnement",
       "SOURCES": "Base de connaissances",
-      "SOURCES_SUMMARY": "{count} résultat | {count} résultats",
+      "SOURCES_SUMMARY": "Résultat {count} | Résultats {count}",
       "MODEL": "Généré avec {model}",
       "CREDITS": "Crédits : {credits}"
     },
     "CARD": {
       "SHOW_LABELS": "Afficher les étiquettes",
       "HIDE_LABELS": "Masquer les étiquettes",
-      "LABELS_COUNT": "{count} libellés"
+      "LABELS_COUNT": "Libellés {count}"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Appel entrant",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "Agents",
       "TEAMS": "Équipes"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Description",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Rechercher des émojis",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Rechercher des macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "Tous"
+        },
+        "AVAILABILITY": "Disponibilité",
+        "ROLE": "Rôle",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Reporter jusqu'à",
@@ -347,7 +385,7 @@
     },
     "SIDEBAR": {
       "CONTACT": "Contact",
-      "COPILOT": "Copilot"
+      "COPILOT": "Copilote"
     },
     "VOICE_WIDGET": {
       "INCOMING_CALL": "Appel entrant",
@@ -362,7 +400,7 @@
       "MUTE": "Désactiver le micro",
       "UNMUTE": "Réactiver le micro",
       "VIEW_CHAT_HISTORY": "Voir l'historique des conversations",
-      "GO_TO_CONVERSATION": "Aller au fil de la conversation"
+      "GO_TO_CONVERSATION": "Aller au sujet de la conversation"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -372,7 +410,7 @@
     "CANCEL": "Annuler",
     "SEND_EMAIL_SUCCESS": "La transcription du chat a été envoyée avec succès",
     "SEND_EMAIL_ERROR": "Une erreur est survenue, veuillez réessayer",
-    "SEND_EMAIL_PAYMENT_REQUIRED": "La transcription par e-mail n'est pas disponible sur votre forfait actuel. Veuillez passer à un forfait supérieur pour utiliser cette fonctionnalité.",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "La transcription par e-mail n'est pas disponible sur votre forfait actuel. Veuillez mettre à jour pour utiliser cette fonctionnalité.",
     "FORM": {
       "SEND_TO_CONTACT": "Envoyer la transcription au client",
       "SEND_TO_AGENT": "Envoyer la transcription à l'agent assigné",
@@ -457,9 +495,9 @@
         "VOIDED": "Annulé"
       },
       "FULFILLMENT_STATUS": {
-        "FULFILLED": "Traitée",
-        "PARTIALLY_FULFILLED": "Partiellement traitée",
-        "UNFULFILLED": "Non traitée"
+        "FULFILLED": "Accompli",
+        "PARTIALLY_FULFILLED": "Partiellement complété",
+        "UNFULFILLED": "Non rempli"
       }
     }
   },
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} autre",
     "TOTAL_PARTICIPANTS_TEXT": "{count} personnes participent.",
     "TOTAL_PARTICIPANT_TEXT": "{count} personne participe.",
-    "NO_PARTICIPANTS_TEXT": "Personne ne participe !.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!",
     "WATCH_CONVERSATION": "Rejoindre une conversation",
     "YOU_ARE_WATCHING": "Vous participez",
     "API": {
