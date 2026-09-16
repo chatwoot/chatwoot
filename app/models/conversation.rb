@@ -164,6 +164,13 @@ class Conversation < ApplicationRecord
     self[:last_activity_at] || created_at
   end
 
+  def record_last_message_at!(timestamp)
+    # Messages can arrive out of order, including historical imports and concurrent replies.
+    self.class.where(id: id).update_all(['last_message_at = GREATEST(last_message_at, ?)', timestamp]) # rubocop:disable Rails/SkipsModelValidations
+    self.last_message_at = self.class.where(id: id).pick(:last_message_at)
+    clear_attribute_change(:last_message_at)
+  end
+
   def last_incoming_message
     messages.where(account_id: account_id)&.incoming&.last
   end

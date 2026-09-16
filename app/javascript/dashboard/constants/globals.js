@@ -20,6 +20,8 @@ export default {
   SORT_BY_TYPE: {
     LAST_ACTIVITY_AT_ASC: 'last_activity_at_asc',
     LAST_ACTIVITY_AT_DESC: 'last_activity_at_desc',
+    LAST_MESSAGE_AT_ASC: 'last_message_at_asc',
+    LAST_MESSAGE_AT_DESC: 'last_message_at_desc',
     CREATED_AT_ASC: 'created_at_asc',
     CREATED_AT_DESC: 'created_at_desc',
     PRIORITY_ASC: 'priority_asc',

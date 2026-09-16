@@ -24,6 +24,7 @@ const props = defineProps({
   showInboxName: { type: Boolean, default: false },
   hideThumbnail: { type: Boolean, default: false },
   compact: { type: Boolean, default: false },
+  sortBy: { type: String, default: 'last_activity_at_desc' },
 });
 
 const emit = defineEmits([
@@ -221,6 +222,9 @@ watch(
           <TimeAgo
             :last-activity-timestamp="chat.timestamp"
             :created-at-timestamp="chat.created_at"
+            :last-message-timestamp="chat.last_message_at"
+            :waiting-since-timestamp="chat.waiting_since"
+            :sort-by="sortBy"
             :conversation-id="chat.id"
           />
         </span>

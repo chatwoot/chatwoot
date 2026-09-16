@@ -110,6 +110,8 @@ export const applyRoleFilter = (
 const SORT_OPTIONS = {
   last_activity_at_asc: ['sortOnLastActivityAt', 'asc'],
   last_activity_at_desc: ['sortOnLastActivityAt', 'desc'],
+  last_message_at_asc: ['sortOnLastMessageAt', 'asc'],
+  last_message_at_desc: ['sortOnLastMessageAt', 'desc'],
   created_at_asc: ['sortOnCreatedAt', 'asc'],
   created_at_desc: ['sortOnCreatedAt', 'desc'],
   priority_asc: ['sortOnPriority', 'asc'],
@@ -128,6 +130,19 @@ const getSortOrderFunction = sortOrder =>
 const sortConfig = {
   sortOnLastActivityAt: (a, b, sortDirection) =>
     getSortOrderFunction(sortDirection)(a.last_activity_at, b.last_activity_at),
+
+  sortOnLastMessageAt: (a, b, sortDirection) => {
+    if (!a.last_message_at || !b.last_message_at) {
+      if (!a.last_message_at && !b.last_message_at) return a.id - b.id;
+      return a.last_message_at ? -1 : 1;
+    }
+    return (
+      getSortOrderFunction(sortDirection)(
+        a.last_message_at,
+        b.last_message_at
+      ) || a.id - b.id
+    );
+  },
 
   sortOnCreatedAt: (a, b, sortDirection) =>
     getSortOrderFunction(sortDirection)(a.created_at, b.created_at) ||

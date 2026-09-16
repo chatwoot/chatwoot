@@ -161,6 +161,7 @@ class Message < ApplicationRecord
       assignee_id: conversation.assignee_id,
       unread_count: conversation.unread_incoming_messages.count,
       last_activity_at: conversation.last_activity_at.to_i,
+      last_message_at: conversation.last_message_at&.to_f,
       contact_inbox: { source_id: conversation.contact_inbox.source_id }
     }
   end
@@ -450,6 +451,7 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at, updated_at: Time.current)
     # rubocop:enable Rails/SkipsModelValidations
+    conversation.record_last_message_at!(created_at) unless activity? || private?
   end
 
   def reindex_for_search

@@ -23,6 +23,7 @@ const props = defineProps({
   showAssignee: { type: Boolean, default: false },
   showInboxName: { type: Boolean, default: false },
   isInboxView: { type: Boolean, default: false },
+  sortBy: { type: String, default: 'last_activity_at_desc' },
 });
 
 const emit = defineEmits([
@@ -181,11 +182,14 @@ const selectedModel = computed({
         <SLACardLabel ref="slaCardLabel" :chat="chat" />
       </div>
 
-      <div class="flex-shrink-0 w-[4.375rem] text-end">
+      <div class="flex-shrink-0 min-w-[4.375rem] text-end">
         <TimeAgo
           :conversation-id="chat.id"
           :last-activity-timestamp="chat.timestamp"
           :created-at-timestamp="chat.created_at"
+          :last-message-timestamp="chat.last_message_at"
+          :waiting-since-timestamp="chat.waiting_since"
+          :sort-by="sortBy"
           class="font-440 !text-xs text-n-slate-11"
         />
       </div>

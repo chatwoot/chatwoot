@@ -696,6 +696,7 @@ RSpec.describe Conversation do
         messages: [],
         labels: [],
         last_activity_at: conversation.last_activity_at.to_i,
+        last_message_at: conversation.last_message_at&.to_f,
         inbox_id: conversation.inbox_id,
         status: conversation.status,
         contact_inbox: conversation.contact_inbox,

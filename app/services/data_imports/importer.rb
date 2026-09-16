@@ -809,6 +809,8 @@ class DataImports::Importer
     return if latest_message.blank?
 
     conversation.update_columns(last_activity_at: latest_message.created_at, updated_at: Time.current)
+    last_message_at = conversation.messages.chat.maximum(:created_at)
+    conversation.record_last_message_at!(last_message_at) if last_message_at
   end
 
   def contact_inbox_for(contact, inbox)

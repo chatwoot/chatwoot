@@ -3,6 +3,8 @@ class Conversations::SortService
   SORT_OPTIONS = {
     'last_activity_at_asc' => %w[sort_on_last_activity_at asc],
     'last_activity_at_desc' => %w[sort_on_last_activity_at desc],
+    'last_message_at_asc' => %w[sort_on_last_message_at asc],
+    'last_message_at_desc' => %w[sort_on_last_message_at desc],
     'created_at_asc' => %w[sort_on_created_at asc],
     'created_at_desc' => %w[sort_on_created_at desc],
     'priority_asc' => %w[sort_on_priority asc],
