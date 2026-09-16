@@ -1,6 +1,4 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
-  MAX_SESSIONS = ENV.fetch('MAX_USER_SESSIONS', 25).to_i
-
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
   wrap_parameters format: []
@@ -136,7 +134,8 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def sessions_limit_reached?(user)
-    active_token_count(user) >= MAX_SESSIONS
+    limit = ENV.fetch('MAX_USER_SESSIONS', 25).to_i
+    active_token_count(user) >= limit
   end
 
   def active_token_count(user)
