@@ -2,6 +2,7 @@
 import { computed, onMounted, onUnmounted, watch, nextTick, ref } from 'vue';
 import { useSidebarContext, usePopoverState } from './provider';
 import { useRoute, useRouter } from 'vue-router';
+import { hasPressedMod } from 'shared/helpers/KeyboardHelpers';
 import Policy from 'dashboard/components/policy.vue';
 import Icon from 'next/icon/Icon.vue';
 import SidebarGroupHeader from './SidebarGroupHeader.vue';
@@ -197,15 +198,24 @@ const hasActiveChild = computed(() => {
   return activeChild.value !== undefined;
 });
 
-const handleCollapsedClick = () => {
+// Groups that only hold children link to their first accessible child
+const linkTo = computed(() => props.to ?? accessibleItems.value[0]?.to);
+
+const handleCollapsedClick = event => {
   if (hasChildren.value && hasAccessibleChildren.value) {
     const firstItem = accessibleItems.value[0];
+    if (hasPressedMod(event)) {
+      window.open(router.resolve(firstItem.to).href, '_blank');
+      return;
+    }
     router.push(firstItem.to);
   }
 };
 
 const toggleTrigger = () => {
-  if (
+  if (!hasChildren.value && props.to) {
+    router.push(props.to);
+  } else if (
     hasAccessibleChildren.value &&
     !isExpanded.value &&
     !hasActiveChild.value
@@ -269,7 +279,7 @@ watch(
             'text-n-slate-11 hover:bg-n-alpha-2': !isActive && !hasActiveChild,
           }"
           :title="label"
-          @click="hasChildren ? handleCollapsedClick() : undefined"
+          @click="hasChildren ? handleCollapsedClick($event) : undefined"
         >
           <Icon v-if="icon" :icon="icon" class="size-4" />
         </component>
@@ -292,7 +302,7 @@ watch(
         :icon
         :name
         :label
-        :to
+        :to="linkTo"
         :getter-keys="getterKeys"
         :is-active="isActive"
         :has-active-child="hasActiveChild"
