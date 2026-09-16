@@ -663,7 +663,7 @@ en:
         help_center_search: 'Help center search'
     user_diagnostics:
       title: 'User Diagnostics'
-      description: 'Look up a user to see the mobile builds they are running, the devices registered for push, and their per-account notification settings. Populated from the X-Chatwoot-* headers the app sends on every request, so it reflects what is installed on the device.'
+      description: 'Look up a user to see why their push notifications are not arriving, and which build of the mobile app they are running.'
       user_not_found: 'User not found.'
       tabs:
         label: 'Diagnostics sections'
@@ -679,6 +679,7 @@ en:
         details_link: 'User details →'
       sessions:
         heading: 'Mobile sessions (%{count})'
+        description: 'Populated from the X-Chatwoot-* headers the app sends on every request, so it reflects the build currently installed on the device.'
         empty: 'No mobile sessions recorded — this user has not signed in from the iOS or Android app.'
         web_sessions:
           one: 'They have %{count} active web session.'
@@ -695,7 +696,7 @@ en:
       devices:
         heading: 'Registered devices (%{count})'
         empty: 'No push-registered devices.'
-        build_number_note: 'buildNumber here is the native build number, not the app version shown above.'
+        build_number_note: 'buildNumber here is the native build number, not the app version listed on the Mobile app tab.'
         columns:
           id: 'ID'
           type: 'Type'

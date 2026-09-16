@@ -1,5 +1,6 @@
 <div class="mb-8">
   <h2 class="text-base font-semibold mb-2"><%= t("#{scope}.sessions.heading", count: @mobile_sessions.count) %></h2>
+  <p class="text-xs text-slate-500 mb-3"><%= t("#{scope}.sessions.description") %></p>
 
   <% if @mobile_sessions.empty? %>
     <p class="text-sm text-slate-600">
