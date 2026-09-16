@@ -107,9 +107,9 @@ const actions = {
           { replaceExisting, countRequest }
         );
       } catch (error) {
-        if (!signal.aborted) {
-          commit(types.CLEAR_LIST_LOADING_STATUS);
-        }
+        // Ignore error; the loading state is cleared in finally.
+      } finally {
+        commit(types.CLEAR_LIST_LOADING_STATUS);
       }
     });
   },
@@ -143,10 +143,9 @@ const actions = {
           { replaceExisting, countRequest }
         );
       } catch (error) {
-        if (signal.aborted) return;
-
+        if (!signal.aborted) throw error;
+      } finally {
         commit(types.CLEAR_LIST_LOADING_STATUS);
-        throw error;
       }
     });
   },

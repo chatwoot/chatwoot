@@ -688,11 +688,11 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         ['SET_LIST_LOADING_STATUS'],
         ['SET_ALL_CONVERSATION', dataReceived.payload],
-        ['CLEAR_LIST_LOADING_STATUS'],
         [
           `contacts/${types.SET_CONTACTS}`,
           dataReceived.payload.map(chat => chat.meta.sender),
         ],
+        ['CLEAR_LIST_LOADING_STATUS'],
       ]);
       expect(axios.post).toHaveBeenCalledWith(
         '/api/v1/conversations/filter',
