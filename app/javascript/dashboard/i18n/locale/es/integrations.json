@@ -530,7 +530,7 @@
           "NODES": {
             "HANDLED": "Manejado",
             "RESOLVED_BY_CAPTAIN": "Resuelto por Captain",
-            "HANDED_OFF": "Apagado",
+            "HANDED_OFF": "Transferidas",
             "CLOSED_WITH_TEAM": "Cerrado con equipo",
             "REOPENED": "Reabierto en 7d",
             "STAYED_CLOSED": "Permanecido cerrado",
@@ -538,7 +538,7 @@
           }
         },
         "HANDOFF_REASONS": {
-          "TITLE": "Razones de cierre",
+          "TITLE": "Motivos de transferencia",
           "CUSTOMER_REQUEST": "Cliente solicitado",
           "MISSING_KNOWLEDGE": "Faltan conocimientos",
           "UNSUPPORTED_REQUEST": "Solicitud no soportada",

@@ -1223,7 +1223,7 @@
         "BUTTON": "Tester la connexion",
         "SUCCESS": "Le point de terminaison a renvoyé le code HTTP {status}",
         "ERROR": "Échec de la connexion",
-        "DISABLED_HINT": "Le test n'est disponible que pour les terminaux sans gabarits ou corps de requête."
+        "DISABLED_HINT": "Le test n'est disponible que pour les points de terminaison sans gabarits ou corps de requête."
       },
       "FORM": {
         "TITLE": {
@@ -1249,13 +1249,13 @@
         },
         "AUTH_TYPES": {
           "NONE": "Aucun",
-          "BEARER": "Jeton de Porteur",
+          "BEARER": "Jeton Bearer",
           "BASIC": "Authentification basique",
           "API_KEY": "Clé de l'API"
         },
         "AUTH_CONFIG": {
-          "BEARER_TOKEN": "Jeton de Porteur",
-          "BEARER_TOKEN_PLACEHOLDER": "Entrez le jeton de votre porteur",
+          "BEARER_TOKEN": "Jeton Bearer",
+          "BEARER_TOKEN_PLACEHOLDER": "Entrez votre jeton Bearer",
           "USERNAME": "Nom d'utilisateur",
           "USERNAME_PLACEHOLDER": "Entrez le nom d'utilisateur",
           "PASSWORD": "Mot de passe",

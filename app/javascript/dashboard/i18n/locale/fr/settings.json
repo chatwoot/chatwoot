@@ -480,7 +480,7 @@
     "DETAIL": {
       "BACK": "Retour aux importations",
       "ERRORS": "Erreurs",
-      "SKIP_LOGS": "Ignorer les logs",
+      "SKIP_LOGS": "Journaux des enregistrements ignorés",
       "SOURCE": "Source",
       "IMPORT_TYPES": "Types d'importation",
       "CREATED": "Créé",
