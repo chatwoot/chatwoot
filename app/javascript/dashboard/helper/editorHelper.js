@@ -6,7 +6,6 @@ import {
   messageSchema,
   Selection,
 } from '@chatwoot/prosemirror-schema';
-import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
 import camelcaseKeys from 'camelcase-keys';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
@@ -129,8 +128,20 @@ export function cleanSignature(signature) {
 const stripDelimiterHardbreaks = body =>
   body.replace(/(--)\s*(?:\\\s*)+$/, '$1');
 
-// Strip standalone blank-paragraph markers (`\` on their own lines).
-const stripTrailingBlankLine = body => body.replace(/\n(?:\s*\\\n)+$/, '');
+// Strip standalone blank-paragraph markers (`\` on their own lines), plus
+// the bare `\` the serializer writes to escape the `--` delimiter into `\--`
+// (left behind once the delimiter itself is sliced off). Two shapes end in that
+// escape after the slice: `hey\` LF `\` (Shift+Enter, the trailing `\` on the
+// content line is a hard-break marker and goes too) and `C:\` LF LF `\` LF `\`
+// (a blank line separates content from the glue; the serializer emits authored
+// backslashes verbatim, so a `\` before a blank line is user content and must
+// stay). A marker's newline is never blank, so the marker alternative only
+// crosses single newlines ([^\S\n] excludes `\n`) while the plain alternative
+// starts at the newline and may cross blank lines.
+const stripTrailingBlankLine = body =>
+  body
+    .replace(/(?:\\\n(?:[^\S\n]*\\\n)*[^\S\n]*\\|\n(?:\s*\\\n)*\s*\\)$/, '')
+    .replace(/\n(?:\s*\\\n)+$/, '');
 
 /**
  * Adds the signature delimiter to the beginning of the signature.
@@ -327,9 +338,19 @@ export function insertAtCursor(editorView, node, from, to) {
     node = node.firstChild.content;
   }
 
+  // The cursor sits in an empty paragraph when the editor is empty, and also
+  // when the editor keeps an empty first line above a signature. Inserting
+  // block content there splits that paragraph and strands a blank line, so
+  // replace the paragraph instead.
+  const $from = editorView.state.doc.resolve(from);
+  const isInEmptyParagraph =
+    $from.parent.type.name === 'paragraph' && $from.parent.content.size === 0;
+
   let tr;
   if (to) {
     tr = editorView.state.tr.replaceWith(from, to, node).insertText(` `);
+  } else if (isInEmptyParagraph && !isWrappedInParagraph) {
+    tr = editorView.state.tr.replaceWith($from.before(), $from.after(), node);
   } else {
     tr = editorView.state.tr.insert(from, node);
   }
@@ -433,11 +454,18 @@ export function stripUnsupportedFormatting(content, schema) {
 // Liquid delimiters ({{ }} / {% %}) the backend evaluates on send.
 const LIQUID_SYNTAX = /\{\{|\{%/;
 
+const VARIABLE_PLACEHOLDER = /{{(.*?)}}/g;
+
 // Value when set (and not itself Liquid), else the {{placeholder}} for the backend.
 export const resolveVariableText = (key, variables) => {
   const value = String(variables?.[key] ?? '');
   return value && !LIQUID_SYNTAX.test(value) ? value : `{{${key}}}`;
 };
+
+export const resolveVariablesInMessage = (message, variables) =>
+  message?.replace(VARIABLE_PLACEHOLDER, (_, key) =>
+    resolveVariableText(key.trim(), variables)
+  );
 
 // Name variables normalized like the backend drops (UserDrop/ContactDrop):
 // name split on whitespace, each word Ruby-capitalized (rest downcased).
@@ -537,10 +565,7 @@ const nodeCreators = {
     to,
   }),
   cannedResponse: (editorView, content, from, to, variables) => {
-    const updatedMessage = replaceVariablesInMessage({
-      message: content,
-      variables,
-    });
+    const updatedMessage = resolveVariablesInMessage(content, variables);
     const node = createNode(editorView, 'cannedResponse', updatedMessage);
     return {
       node,

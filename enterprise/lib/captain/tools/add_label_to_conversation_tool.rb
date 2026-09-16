@@ -4,13 +4,13 @@ class Captain::Tools::AddLabelToConversationTool < Captain::Tools::BasePublicToo
 
   def perform(tool_context, label_name:)
     conversation = find_conversation(tool_context.state)
-    return 'Conversation not found' unless conversation
+    return failure_result('Conversation not found', tool_context.state) unless conversation
 
     label_name = label_name&.strip&.downcase
-    return 'Label name is required' if label_name.blank?
+    return failure_result('Label name is required', tool_context.state) if label_name.blank?
 
     label = find_label(label_name)
-    return 'Label not found' unless label
+    return failure_result('Label not found', tool_context.state) unless label
 
     add_label_to_conversation(conversation, label_name)
 

@@ -1,7 +1,9 @@
 <script setup>
-import { ref, computed, watch, onBeforeUnmount } from 'vue';
+import { ref, computed, watch, onBeforeUnmount, useTemplateRef } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
+import { onBeforeRouteLeave } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
@@ -53,7 +55,27 @@ const hasPendingChanges = computed(
 const localTitle = ref(effectiveTitle());
 const localContent = ref(effectiveContent());
 
-const isDiffPanelOpen = ref(false);
+const diffPanelRef = ref(null);
+const editorRef = useTemplateRef('editorRef');
+
+const hasPendingUploads = () => !!editorRef.value?.hasPendingUploads();
+
+// Files picked between the create dispatch and its redirect would die with
+// this editor instance; hold them off for that window.
+const uploadsBlockedMessage = computed(() =>
+  isNewArticle.value && props.isUpdating
+    ? t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.CREATE_IN_PROGRESS')
+    : ''
+);
+
+onBeforeRouteLeave(() => {
+  // Always let the post-create redirect through: blocking it strands a "new"
+  // page whose article already exists, and the next blur would duplicate it.
+  if (isNewArticle.value && props.isUpdating) return true;
+  if (!hasPendingUploads()) return true;
+  useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
+  return false;
+});
 
 // Autosave 500ms after the last edit. It sends both title and content so an
 // edit to one never drops a recent edit to the other. `stop` cancels a queued
@@ -72,11 +94,19 @@ const {
   { immediate: false }
 );
 
+// Definitive reseeds bump the id so the editor reloads instead of guessing echoes.
+const editorResets = ref(0);
+
 const syncLocalState = () => {
   cancelSave();
   localTitle.value = effectiveTitle();
   localContent.value = effectiveContent();
+  editorResets.value += 1;
 };
+
+const editorSessionId = computed(
+  () => `${props.article?.id || 'new'}-${editorResets.value}`
+);
 
 // Reseed on article switch or once a draft is published/discarded; close the
 // diff panel in the latter case since there's nothing left to compare.
@@ -84,13 +114,27 @@ watch(
   [() => props.article?.id, hasPendingChanges],
   ([id, pending], [prevId, prevPending]) => {
     if ((id && id !== prevId) || (prevPending && !pending)) syncLocalState();
-    if (prevPending && !pending) isDiffPanelOpen.value = false;
+    if (prevPending && !pending) diffPanelRef.value?.close();
   }
 );
 
 const scheduleSave = () => {
   if (isNewArticle.value) return;
   debouncedSave();
+};
+
+// A create blocked by uploads re-runs on the next content change once they
+// settle — upload completion and card removal both land here as doc changes.
+const pendingCreate = ref(false);
+
+const retryPendingCreate = () => {
+  if (!pendingCreate.value || hasPendingUploads()) return;
+  pendingCreate.value = false;
+  if (!localTitle.value.trim()) return;
+  emit('createArticle', {
+    title: localTitle.value,
+    content: localContent.value,
+  });
 };
 
 // Flush a queued save on unmount so leaving the editor doesn't drop the last edit.
@@ -115,6 +159,7 @@ const articleContent = computed({
   get: () => localContent.value,
   set: content => {
     localContent.value = content;
+    retryPendingCreate();
     scheduleSave();
   },
 });
@@ -138,9 +183,14 @@ const previewArticle = () => {
 const handleCreateArticle = event => {
   if (!isNewArticle.value) return;
   const title = event?.target?.value || '';
-  if (title.trim()) {
-    emit('createArticle', { title, content: localContent.value });
+  if (!title.trim()) return;
+  // Creating navigates to the edit route, which would unmount mid-upload.
+  if (hasPendingUploads()) {
+    pendingCreate.value = true;
+    useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
+    return;
   }
+  emit('createArticle', { title, content: localContent.value });
 };
 </script>
 
@@ -154,11 +204,12 @@ const handleCreateArticle = event => {
         :article-id="article.id"
         :pending-changes="hasPendingChanges"
         :is-saving="isSaving"
+        :has-pending-uploads="hasPendingUploads"
         @go-back="onClickGoBack"
         @preview-article="previewArticle"
-        @show-diff="isDiffPanelOpen = !isDiffPanelOpen"
+        @show-diff="diffPanelRef?.open()"
       />
-      <ArticleDiffPanel v-model="isDiffPanelOpen" :article="article" />
+      <ArticleDiffPanel ref="diffPanelRef" :article="article" />
     </template>
     <template #content>
       <div class="flex flex-col gap-3 pl-4 mb-3 rtl:pr-3 rtl:pl-0">
@@ -180,12 +231,15 @@ const handleCreateArticle = event => {
         />
       </div>
       <FullEditor
+        ref="editorRef"
         v-model="articleContent"
+        :editor-id="editorSessionId"
         class="py-0 pb-10 pl-4 rtl:pr-4 rtl:pl-0 h-fit"
         :placeholder="
           t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.EDITOR_PLACEHOLDER')
         "
         :enabled-menu-options="ARTICLE_EDITOR_MENU_OPTIONS"
+        :uploads-blocked-message="uploadsBlockedMessage"
         :autofocus="!isNewArticle"
       />
     </template>

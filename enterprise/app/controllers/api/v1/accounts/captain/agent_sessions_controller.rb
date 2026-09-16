@@ -6,9 +6,11 @@ class Api::V1::Accounts::Captain::AgentSessionsController < Api::V1::Accounts::B
     @agent_session = Current.account.captain_agent_sessions.find_by(result_type: 'Message', result_id: @message.id)
     return head :not_found if @agent_session.blank?
 
-    @citations = Current.account.captain_assistant_responses
-                        .where(id: @agent_session.faq_ids)
-                        .includes(:documentable)
+    @citations = Current.account.captain_documents.where(id: @agent_session.cited_document_ids)
+    @used_faqs = Current.account.captain_assistant_responses.approved.where(
+      id: @agent_session.used_faq_ids,
+      documentable_type: 'User'
+    )
     @scenario_titles = Captain::Scenario.where(account_id: Current.account.id, id: @agent_session.scenario_ids)
                                         .pluck(:id, :title).to_h
   end

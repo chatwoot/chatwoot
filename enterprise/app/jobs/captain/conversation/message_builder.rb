@@ -28,6 +28,16 @@ module Captain::Conversation::MessageBuilder
   end
 
   def create_messages
+    return create_v1_message unless captain_v2_enabled?
+
+    response_parts = Captain::Assistant::ResponseParts.from_response(@response)
+    citation_urls = @assistant.trusted_citation_urls(@run_result)
+    message_content = response_parts.customer_message_content(citation_urls: citation_urls)
+    validate_message_content!(message_content)
+    create_outgoing_message(message_content, agent_name: @response['agent_name'], response_parts: response_parts.to_a)
+  end
+
+  def create_v1_message
     validate_message_content!(@response['response'])
     create_outgoing_message(@response['response'], agent_name: @response['agent_name'])
   end
@@ -36,9 +46,10 @@ module Captain::Conversation::MessageBuilder
     raise ArgumentError, 'Message content cannot be blank' if content.blank?
   end
 
-  def create_outgoing_message(message_content, agent_name: nil, preserve_waiting_since: false)
+  def create_outgoing_message(message_content, agent_name: nil, response_parts: nil, preserve_waiting_since: false)
     additional_attrs = {}
     additional_attrs[:agent_name] = agent_name if agent_name.present?
+    additional_attrs[Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY] = response_parts unless response_parts.nil?
 
     @conversation.messages.create!(
       message_type: :outgoing,

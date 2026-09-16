@@ -12,9 +12,13 @@ class Captain::Assistant::InstrumentationAttributeProvider
   end
 
   def generation_attributes(_context_wrapper, _chat, message)
-    {
+    attributes = {
       format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'generation_stage') => generation_stage(message)
     }
+    if @service.send(:message_burst_protection_active?)
+      attributes[format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'discarded')] = @service.send(:newer_customer_message_arrived?).to_s
+    end
+    attributes
   end
 
   private

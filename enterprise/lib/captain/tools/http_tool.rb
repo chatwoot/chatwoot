@@ -1,10 +1,9 @@
 require 'agents'
 
-class Captain::Tools::HttpTool < Agents::Tool
+class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   def initialize(assistant, custom_tool)
-    @assistant = assistant
     @custom_tool = custom_tool
-    super()
+    super(assistant)
   end
 
   def active?
@@ -19,10 +18,18 @@ class Captain::Tools::HttpTool < Agents::Tool
     @custom_tool.format_response(response_body)
   rescue StandardError => e
     Rails.logger.error("HttpTool execution error for #{@custom_tool.slug}: #{e.class} - #{e.message}")
-    'An error occurred while executing the request'
+    failure_result('An error occurred while executing the request', tool_context.state)
+  end
+
+  def available_in_reply_suggestion?
+    @custom_tool.http_method == 'GET'
   end
 
   private
+
+  def safe_to_run_after_new_customer_message?
+    @custom_tool.http_method == 'GET'
+  end
 
   # Limit response size to prevent memory exhaustion and match LLM token limits
   # 1MB of text ≈ 250K tokens, which exceeds most LLM context windows

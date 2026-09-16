@@ -81,7 +81,8 @@ class Notification < ApplicationRecord
       notification_type: notification_type,
       primary_actor_id: primary_actor_id,
       primary_actor_type: primary_actor_type,
-      primary_actor: primary_actor.push_event_data.with_indifferent_access.slice('conversation_id', 'id')
+      primary_actor: primary_actor.push_event_data.with_indifferent_access.slice('conversation_id', 'id'),
+      account_id: account_id
     }
   end
 

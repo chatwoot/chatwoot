@@ -22,6 +22,7 @@
 class EmailTemplate < ApplicationRecord
   BRANDED_LAYOUT_NAME = 'base'.freeze
   DEFAULT_LOCALE = 'en'.freeze
+  MAX_BODY_LENGTH = 256.kilobytes
   CONTENT_FOR_LAYOUT_PATTERN = /\{\{\s*content_for_layout\s*\}\}/
 
   enum :locale, LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h, prefix: true
@@ -34,6 +35,7 @@ class EmailTemplate < ApplicationRecord
             if: :installation_scoped?
   validates :name, uniqueness: { scope: %i[account_id template_type locale], conditions: -> { where(inbox_id: nil) } }, if: :account_scoped?
   validates :name, uniqueness: { scope: %i[inbox_id template_type locale] }, if: :inbox_scoped?
+  validates :body, length: { maximum: MAX_BODY_LENGTH }
   validate :validate_inbox_account
   validate :validate_liquid_body
   validate :validate_layout_slot, if: :layout?

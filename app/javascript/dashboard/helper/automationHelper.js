@@ -1,16 +1,16 @@
 import {
+  DEFAULT_ACTIONS,
+  DEFAULT_CONVERSATION_CONDITION,
+  DEFAULT_MESSAGE_CREATED_CONDITION,
+  DEFAULT_OTHER_CONDITION,
+} from 'dashboard/constants/automation';
+import {
   OPERATOR_TYPES_1,
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_4,
 } from 'dashboard/routes/dashboard/settings/automation/operators';
-import {
-  DEFAULT_MESSAGE_CREATED_CONDITION,
-  DEFAULT_CONVERSATION_CONDITION,
-  DEFAULT_OTHER_CONDITION,
-  DEFAULT_ACTIONS,
-} from 'dashboard/constants/automation';
-import filterQueryGenerator from './filterQueryGenerator';
 import actionQueryGenerator from './actionQueryGenerator';
+import filterQueryGenerator from './filterQueryGenerator';
 
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
@@ -78,11 +78,44 @@ export const generateCustomAttributeTypes = (customAttributes, type) => {
       key: attr.attribute_key,
       name: attr.attribute_display_name,
       inputType: getCustomAttributeInputType(attr.attribute_display_type),
+      attributeDisplayType: attr.attribute_display_type,
       filterOperators: getOperatorTypes(attr.attribute_display_type),
       customAttributeType: type,
     };
   });
 };
+
+// Leading icon per action key, shared by the automation and macro action pickers.
+const ACTION_ICONS = {
+  assign_agent: 'i-lucide-user-round',
+  assign_team: 'i-lucide-users-round',
+  remove_assigned_agent: 'i-lucide-user-round-x',
+  remove_assigned_team: 'i-lucide-users',
+  add_label: 'i-lucide-tag',
+  remove_label: 'i-woot-tag-remove',
+  send_email_to_team: 'i-lucide-send',
+  send_email_transcript: 'i-lucide-mail',
+  send_message: 'i-lucide-message-square',
+  add_private_note: 'i-lucide-sticky-note',
+  send_attachment: 'i-lucide-paperclip',
+  send_webhook_event: 'i-lucide-webhook',
+  mute_conversation: 'i-lucide-bell-off',
+  snooze_conversation: 'i-lucide-clock',
+  open_conversation: 'i-lucide-circle-dot',
+  pending_conversation: 'i-lucide-circle-dashed',
+  resolve_conversation: 'i-lucide-circle-check',
+  change_priority: 'i-lucide-signal-high',
+  add_sla: 'i-lucide-gauge',
+};
+
+const DEFAULT_ACTION_ICON = 'i-lucide-zap';
+
+/**
+ * Resolve the leading icon for an automation or macro action.
+ * @param {string} key - The action key.
+ * @returns {string} Icon class.
+ */
+export const getActionIcon = key => ACTION_ICONS[key] || DEFAULT_ACTION_ICON;
 
 export const generateConditionOptions = (options, key = 'id') => {
   if (!options || !Array.isArray(options)) return [];
@@ -93,6 +126,23 @@ export const generateConditionOptions = (options, key = 'id') => {
     };
   });
 };
+
+// Teams carry an emoji icon picker value in `icon`, which is not a CSS class and
+// cannot be handed to the generic Icon component the dropdowns render.
+export const generateTeamOptions = teams =>
+  (teams || []).map(team => ({
+    id: team.id,
+    name: team.name,
+    emoji: team.icon,
+    iconColor: team.icon_color,
+  }));
+
+export const generateLabelOptions = labels =>
+  (labels || []).map(label => ({
+    id: label.title,
+    name: label.title,
+    color: label.color,
+  }));
 
 export const getActionOptions = ({
   agents,
@@ -105,10 +155,12 @@ export const getActionOptions = ({
 }) => {
   const actionsMap = {
     assign_agent: addNoneToListFn ? addNoneToListFn(agents) : agents,
-    assign_team: addNoneToListFn ? addNoneToListFn(teams) : teams,
-    send_email_to_team: teams,
-    add_label: generateConditionOptions(labels, 'title'),
-    remove_label: generateConditionOptions(labels, 'title'),
+    assign_team: addNoneToListFn
+      ? addNoneToListFn(generateTeamOptions(teams))
+      : generateTeamOptions(teams),
+    send_email_to_team: generateTeamOptions(teams),
+    add_label: generateLabelOptions(labels),
+    remove_label: generateLabelOptions(labels),
     change_priority: priorityOptions,
     add_sla: slaPolicies,
   };
@@ -144,7 +196,7 @@ export const getConditionOptions = ({
     assignee_id: agents,
     contact: contacts,
     inbox_id: inboxes,
-    team_id: teams,
+    team_id: generateTeamOptions(teams),
     campaigns: generateConditionOptions(campaigns),
     browser_language: languages,
     conversation_language: languages,
@@ -152,7 +204,7 @@ export const getConditionOptions = ({
     message_type: messageTypeOptions,
     private_note: booleanFilterOptions,
     priority: priorityOptions,
-    labels: generateConditionOptions(labels, 'title'),
+    labels: generateLabelOptions(labels),
   };
 
   return conditionFilterMaps[type];
@@ -206,6 +258,12 @@ export const generateAutomationPayload = payload => {
   automation.conditions = filterQueryGenerator(automation.conditions).payload;
   automation.actions = actionQueryGenerator(automation.actions);
   return automation;
+};
+
+export const formatDelay = minutes => {
+  if (minutes % 1440 === 0) return `${minutes / 1440}d`;
+  if (minutes % 60 === 0) return `${minutes / 60}h`;
+  return `${minutes}m`;
 };
 
 export const isCustomAttribute = (attrs, key) => {

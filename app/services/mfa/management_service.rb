@@ -78,6 +78,10 @@ class Mfa::ManagementService
     user.otp_backup_codes.present?
   end
 
+  def remaining_backup_codes_count
+    Array(user.otp_backup_codes).count { |code| code != 'XXXXXXXX' }
+  end
+
   def mfa_enabled?
     user.otp_required_for_login?
   end

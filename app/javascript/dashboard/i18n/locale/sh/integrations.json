@@ -411,8 +411,8 @@
         "DISMISS": "Dismiss"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
-        "ACTION": "Review FAQs",
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
         "DISMISS": "Dismiss"
       },
       "RANGES": {
@@ -447,7 +447,6 @@
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "Close details",
         "EMPTY": "No records found for this metric.",
         "ERROR": "Could not load records. Please try again.",
         "LOAD_MORE": "Load more",
@@ -457,7 +456,7 @@
         "TITLE": "Knowledge coverage",
         "COVERAGE": "{pct}% approved",
         "APPROVED": "Approved FAQs",
-        "PENDING": "Pending FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
         "DOCUMENTS": "Dokumenti"
       },
       "LINKS": {
@@ -1085,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "ČPP",
-      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Kreiraj novi FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Razgovor #{id}"
@@ -1094,12 +1092,10 @@
       "SELECT_ALL": "Odaberi sve ({count})",
       "UNSELECT_ALL": "Poništi odabir svih ({count})",
       "SEARCH_PLACEHOLDER": "Pretraži ČPP...",
-      "BULK_APPROVE_BUTTON": "Odobri",
-      "BULK_DELETE_BUTTON": "Izbriši",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "Česta pitanja su uspješno odobrena",
-        "ERROR_MESSAGE": "Došlo je do pogreške pri odobravanju čestih pitanja, molimo pokušajte ponovno."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "Izbriši",
       "BULK_DELETE": {
         "TITLE": "Izbrisati česta pitanja?",
         "DESCRIPTION": "Jeste li sigurni da želite izbrisati odabrana često postavljana pitanja? Ova radnja se ne može poništiti.",
@@ -1114,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ je uspješno izbrisan",
         "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
-      "FILTER": {
-        "ASSISTANT": "Asistent: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "Svi"
-      },
-      "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Na čekanju",
-        "APPROVED": "Odobreno",
-        "ALL": "Sve"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Kliknite ovdje za pregled"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "Dodajte pitanje i njegov odgovarajući odgovor u bazu znanja i odaberite asistenta s kojim bi trebao biti povezan.",
       "CREATE": {
@@ -1160,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Nema pronađenih ČPP",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
         "CLEAR_SEARCH": "Očisti aktivne filtre",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "Odobri",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "Save changes",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

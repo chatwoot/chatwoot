@@ -91,8 +91,13 @@ class ConversationReplyMailer < ApplicationMailer
 
   def sender_name(sender_email)
     if @inbox.friendly?
-      I18n.t('conversations.reply.email.header.friendly_name', sender_name: custom_sender_name, business_name: business_name,
-                                                               from_email: sender_email)
+      Email::SenderNameBuilder.new(
+        account: @account,
+        sender: current_message&.sender,
+        sender_email: sender_email,
+        sender_name: custom_sender_name,
+        business_name: business_name
+      ).build
     else
       I18n.t('conversations.reply.email.header.professional_name', business_name: business_name, from_email: sender_email)
     end
@@ -174,7 +179,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def cc_bcc_emails
-    content_attributes = @conversation.messages.outgoing.last&.content_attributes
+    content_attributes = current_message&.content_attributes
 
     return [] unless content_attributes
     return [] unless content_attributes[:cc_emails] || content_attributes[:bcc_emails]
@@ -183,7 +188,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def to_emails_from_content_attributes
-    content_attributes = @conversation.messages.outgoing.last&.content_attributes
+    content_attributes = current_message&.content_attributes
 
     return [] unless content_attributes
     return [] unless content_attributes[:to_emails]

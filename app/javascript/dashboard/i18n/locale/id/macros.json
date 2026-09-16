@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Jalankan",
       "PREVIEW": "Pratinjau Makro",
-      "EXECUTED_SUCCESSFULLY": "Makro berhasil dijalankan"
+      "EXECUTED_SUCCESSFULLY": "Makro berhasil dijalankan",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",

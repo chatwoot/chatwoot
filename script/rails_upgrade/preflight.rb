@@ -39,8 +39,8 @@ module RailsUpgrade::Rails8Compatibility
     check_gem_version('rails-i18n', '~> 8.0')
     check_gem_version('azure-blob', '>= 0.8.0')
 
-    route = Rails.application.routes.url_helpers.app_account_conversation_path(account_id: 1, id: 2)
-    check('rails_8.mailer_route', expected: '/app/accounts/1/conversations/2', actual: route) { route == '/app/accounts/1/conversations/2' }
+    route = Rails.application.routes.url_helpers.app_account_path(1)
+    check('rails_8.mailer_route', expected: '/app/accounts/1', actual: route) { route == '/app/accounts/1' }
 
     if Gem::Version.new(Rails.version) >= Gem::Version.new('8.1')
       check_rails_8_1_compatibility

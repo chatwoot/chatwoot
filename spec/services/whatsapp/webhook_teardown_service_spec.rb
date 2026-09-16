@@ -24,16 +24,29 @@ RSpec.describe Whatsapp::WebhookTeardownService do
         api_client = instance_double(Whatsapp::FacebookApiClient)
         allow(Whatsapp::FacebookApiClient).to receive(:new).with('test_api_key').and_return(api_client)
         allow(api_client).to receive(:clear_phone_number_callback_override).with('test_phone_id')
+        allow(api_client).to receive(:deregister_phone_number).with('test_phone_id')
 
         service.perform
 
         expect(api_client).to have_received(:clear_phone_number_callback_override).with('test_phone_id')
       end
 
+      it 'deregisters the phone number so it is freed from the app' do
+        api_client = instance_double(Whatsapp::FacebookApiClient)
+        allow(Whatsapp::FacebookApiClient).to receive(:new).with('test_api_key').and_return(api_client)
+        allow(api_client).to receive(:clear_phone_number_callback_override)
+        allow(api_client).to receive(:deregister_phone_number).with('test_phone_id')
+
+        service.perform
+
+        expect(api_client).to have_received(:deregister_phone_number).with('test_phone_id')
+      end
+
       it 'handles errors gracefully without raising' do
         api_client = instance_double(Whatsapp::FacebookApiClient)
         allow(Whatsapp::FacebookApiClient).to receive(:new).and_return(api_client)
         allow(api_client).to receive(:clear_phone_number_callback_override).and_raise(StandardError, 'API Error')
+        allow(api_client).to receive(:deregister_phone_number)
 
         expect { service.perform }.not_to raise_error
       end

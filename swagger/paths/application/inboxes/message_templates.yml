@@ -1,0 +1,63 @@
+get:
+  tags:
+    - Inboxes
+  operationId: listWhatsappMessageTemplates
+  summary: List WhatsApp message templates
+  security:
+    - userApiKey: []
+  description: List the cached message templates available for a native or Twilio WhatsApp inbox
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: number
+      description: ID of the native or Twilio WhatsApp inbox
+      required: true
+    - name: name
+      in: query
+      schema:
+        type: string
+      description: Exact template name to filter by
+      required: false
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              payload:
+                type: array
+                description: Native or Twilio WhatsApp message templates available for the inbox
+                items:
+                  type: object
+                  additionalProperties: true
+              meta:
+                type: object
+                properties:
+                  last_sync_attempt_at:
+                    type:
+                      - string
+                      - 'null'
+                    format: date-time
+                    description: Time when template synchronization was last attempted
+    '404':
+      description: Inbox not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '403':
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '422':
+      description: The inbox is not a WhatsApp inbox
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

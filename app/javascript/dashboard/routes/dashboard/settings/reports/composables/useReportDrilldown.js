@@ -80,7 +80,10 @@ export function useReportDrilldown(
 
   const open = async request => {
     const fingerprint = requestFingerprint(request);
-    if (activeRequestFingerprint === fingerprint) return;
+    if (activeRequestFingerprint === fingerprint) {
+      if (hasError.value) await fetchPage(1, requestToken);
+      return;
+    }
 
     abortActiveRequest();
     requestToken += 1;

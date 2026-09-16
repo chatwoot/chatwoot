@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "执行",
       "PREVIEW": "预览宏...",
-      "EXECUTED_SUCCESSFULLY": "宏成功执行"
+      "EXECUTED_SUCCESSFULLY": "宏成功执行",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "属性键是必需的",

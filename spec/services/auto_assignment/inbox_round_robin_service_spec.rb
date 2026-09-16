@@ -27,6 +27,15 @@ describe AutoAssignment::InboxRoundRobinService do
       expect(inbox_round_robin_service.send(:queue).map(&:to_i)).to match_array(inbox_members.map(&:user_id))
     end
 
+    it 'keeps the queue empty when the inbox has no members' do
+      empty_inbox = create(:inbox, account: account)
+      service = described_class.new(inbox: empty_inbox)
+      service.add_agent_to_queue(-1)
+
+      expect(service.available_agent).to be_nil
+      expect(service.send(:queue)).to be_empty
+    end
+
     it 'validates the queue and correct it before performing round robin' do
       # adding some invalid ids to queue
       inbox_round_robin_service.add_agent_to_queue([2, 3, 5, 9])
