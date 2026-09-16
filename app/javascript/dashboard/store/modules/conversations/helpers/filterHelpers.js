@@ -48,6 +48,10 @@
  */
 import { coerceToDate } from '@chatwoot/utils';
 import jsonLogic from 'json-logic-js';
+import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+
+const TIMESTAMP_ATTRIBUTES = ['created_at', 'last_activity_at'];
+const TIMESTAMP_BOUNDARY = 'timestampBoundary';
 
 /**
  * Gets a value from a conversation based on the attribute key
@@ -231,6 +235,60 @@ const compareDates = (conversationValue, filterValue, compareFn) => {
   return compareFn(conversationDate, filterDate);
 };
 
+const dateStringWithOffset = (dateString, days) => {
+  const date = new Date(`${dateString}T00:00:00.000Z`);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+};
+
+const currentDateInTimezone = timezone => {
+  const date = utcToZonedTime(Date.now(), timezone);
+  return [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+    .map(value => String(value).padStart(2, '0'))
+    .join('-');
+};
+
+const prepareTimestampFilter = filter => {
+  if (
+    !filter.timezone ||
+    !TIMESTAMP_ATTRIBUTES.includes(filter.attribute_key)
+  ) {
+    return filter;
+  }
+
+  const value = Array.isArray(filter.values) ? filter.values[0] : filter.values;
+  let boundaryDate;
+  let comparison;
+
+  if (filter.filter_operator === 'is_less_than' && isDateOnly(value)) {
+    boundaryDate = value;
+    comparison = (timestamp, boundary) => timestamp < boundary;
+  } else if (
+    filter.filter_operator === 'is_greater_than' &&
+    isDateOnly(value)
+  ) {
+    boundaryDate = dateStringWithOffset(value, 1);
+    comparison = (timestamp, boundary) => timestamp >= boundary;
+  } else if (filter.filter_operator === 'days_before') {
+    boundaryDate = dateStringWithOffset(
+      currentDateInTimezone(filter.timezone),
+      -Number(value)
+    );
+    comparison = (timestamp, boundary) => timestamp < boundary;
+  } else {
+    return filter;
+  }
+
+  return {
+    ...filter,
+    [TIMESTAMP_BOUNDARY]: zonedTimeToUtc(
+      `${boundaryDate}T00:00:00`,
+      filter.timezone
+    ).getTime(),
+    timestampComparison: comparison,
+  };
+};
+
 /**
  * Checks if a value matches a filter condition
  * @param {*} conversationValue - The value to check
@@ -247,6 +305,17 @@ const matchesCondition = (conversationValue, filter) => {
     Array.isArray(conversationValue) &&
     conversationValue.length === 0;
   const isAbsent = isNullish || isEmptyLabels;
+
+  if (filter[TIMESTAMP_BOUNDARY] !== undefined) {
+    const conversationDate = coerceToDate(conversationValue);
+    return (
+      conversationDate !== null &&
+      filter.timestampComparison(
+        conversationDate.getTime(),
+        filter[TIMESTAMP_BOUNDARY]
+      )
+    );
+  }
 
   const filterValue = Array.isArray(values)
     ? values.map(resolveValue)
@@ -447,4 +516,9 @@ export const matchesFilters = (conversation, filters) => {
   // Evaluate all conditions and prepare for jsonLogic
   const evaluatedFilters = evaluateFilters(conversation, filters);
   return jsonLogic.apply(buildJsonLogicRule(evaluatedFilters));
+};
+
+export const createFiltersMatcher = filters => {
+  const preparedFilters = filters?.map(prepareTimestampFilter);
+  return conversation => matchesFilters(conversation, preparedFilters);
 };

@@ -78,6 +78,43 @@ describe('#filterQueryGenerator', () => {
     expect(result.payload[0].values).toEqual(['hello, world']);
   });
 
+  it('adds the browser timezone to timestamp filters', () => {
+    const result = filterQueryGenerator([
+      {
+        attribute_key: 'created_at',
+        filter_operator: 'is_less_than',
+        values: '2026-09-08',
+        query_operator: null,
+      },
+    ]);
+
+    expect(result.payload[0].timezone).toBe(
+      Intl.DateTimeFormat().resolvedOptions().timeZone
+    );
+  });
+
+  it('preserves a saved timezone and removes it from non-timestamp filters', () => {
+    const result = filterQueryGenerator([
+      {
+        attribute_key: 'last_activity_at',
+        filter_operator: 'days_before',
+        values: 2,
+        timezone: 'America/Sao_Paulo',
+        query_operator: 'and',
+      },
+      {
+        attribute_key: 'status',
+        filter_operator: 'equal_to',
+        values: 'open',
+        timezone: 'America/Sao_Paulo',
+        query_operator: null,
+      },
+    ]);
+
+    expect(result.payload[0].timezone).toBe('America/Sao_Paulo');
+    expect(result.payload[1]).not.toHaveProperty('timezone');
+  });
+
   it('passes content values through unchanged when already an array', () => {
     const input = [
       {

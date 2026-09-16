@@ -49,7 +49,7 @@ import {
   getUserPermissions,
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
-import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
+import { createFiltersMatcher } from '../store/modules/conversations/helpers/filterHelpers';
 import { sortComparator } from '../store/modules/conversations/helpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
@@ -339,9 +339,9 @@ const conversationList = computed(() => {
 
   if (activeFolder.value) {
     const { payload } = activeFolder.value.query;
-    localConversationList = localConversationList.filter(conversation => {
-      return matchesFilters(conversation, payload);
-    });
+    localConversationList = localConversationList.filter(
+      createFiltersMatcher(payload)
+    );
   }
 
   if (
@@ -537,6 +537,7 @@ function initializeFolderToFilterModal(newActiveFolder) {
 
     return {
       attributeKey: transformed.attributeKey,
+      timezone: transformed.timezone,
       attributeModel: transformed.attributeModel,
       customAttributeType: transformed.customAttributeType,
       filterOperator: transformed.filterOperator,

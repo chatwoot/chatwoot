@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { matchesFilters } from '../filterHelpers';
+import { createFiltersMatcher, matchesFilters } from '../filterHelpers';
 
 // SAMPLE PAYLOAD
 //
@@ -1798,6 +1798,68 @@ describe('filterHelpers', () => {
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+  });
+
+  describe('date filters with a saved timezone', () => {
+    afterEach(() => {
+      vi.useRealTimers();
+      vi.restoreAllMocks();
+    });
+
+    it.each(['created_at', 'last_activity_at'])(
+      'compares %s against a precomputed UTC boundary',
+      attributeKey => {
+        const formatSpy = vi.spyOn(
+          Intl.DateTimeFormat.prototype,
+          'formatToParts'
+        );
+        const matches = createFiltersMatcher([
+          {
+            attribute_key: attributeKey,
+            filter_operator: 'is_less_than',
+            values: ['2026-09-08'],
+            timezone: 'America/Sao_Paulo',
+            query_operator: 'and',
+          },
+        ]);
+        formatSpy.mockClear();
+
+        expect(
+          matches({ [attributeKey]: Date.parse('2026-09-08T00:49:00Z') / 1000 })
+        ).toBe(true);
+        expect(
+          matches({ [attributeKey]: Date.parse('2026-09-08T03:00:00Z') / 1000 })
+        ).toBe(false);
+        expect(formatSpy).not.toHaveBeenCalled();
+      }
+    );
+
+    it('uses the local current date for days_before without per-row formatting', () => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date('2026-09-10T00:49:00Z'));
+      const formatSpy = vi.spyOn(
+        Intl.DateTimeFormat.prototype,
+        'formatToParts'
+      );
+      const matches = createFiltersMatcher([
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'days_before',
+          values: [1],
+          timezone: 'America/Sao_Paulo',
+          query_operator: 'and',
+        },
+      ]);
+      formatSpy.mockClear();
+
+      expect(
+        matches({ created_at: Date.parse('2026-09-08T00:49:00Z') / 1000 })
+      ).toBe(true);
+      expect(
+        matches({ created_at: Date.parse('2026-09-08T03:00:00Z') / 1000 })
+      ).toBe(false);
+      expect(formatSpy).not.toHaveBeenCalled();
     });
   });
 
