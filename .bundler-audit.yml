@@ -24,3 +24,6 @@ ignore:
   # No Rails 7.1 patch for this Active Storage advisory; mitigated locally.
   # Remove once on Rails 7.2.3.1+.
   - CVE-2026-66066
+  # The vulnerable code path is specific to Ruby 3.1.x. Chatwoot runs Ruby 3.4.4.
+  # Remove this after ai-agents supports the patched ruby_llm 2.x release.
+  - CVE-2026-67991
