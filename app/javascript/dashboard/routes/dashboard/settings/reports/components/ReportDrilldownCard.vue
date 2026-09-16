@@ -9,6 +9,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 const props = defineProps({
   record: {
@@ -19,6 +20,7 @@ const props = defineProps({
 
 const { t } = useI18n();
 const route = useRoute();
+const { getPlainText } = useMessageFormatter();
 
 const conversation = computed(() => props.record.conversation || {});
 const message = computed(() => props.record.message || {});
@@ -258,7 +260,7 @@ const openRecord = () => {
       v-if="showPreview"
       class="mt-2 line-clamp-1 text-sm leading-5 text-n-slate-12"
     >
-      {{ previewText }}
+      {{ getPlainText(previewText || '') }}
     </p>
 
     <div class="mt-2 grid grid-cols-3 gap-2">
