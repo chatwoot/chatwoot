@@ -36,6 +36,7 @@ import { emitter } from 'shared/helpers/mitt';
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterOptions from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
+import { parseRouteFilters } from 'dashboard/helper/validations';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
@@ -428,15 +429,6 @@ function onApplyFilter(payload) {
   store.dispatch('conversationPage/reset');
   store.dispatch('emptyAllConversations');
   fetchFilteredConversations(payload);
-}
-
-function parseRouteFilters(serializedFilters) {
-  try {
-    const filters = JSON.parse(serializedFilters);
-    return Array.isArray(filters) && filters.length ? filters : null;
-  } catch {
-    return null;
-  }
 }
 
 function applyRouteFilters() {
