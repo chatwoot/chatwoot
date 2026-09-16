@@ -1,5 +1,10 @@
 ## Reasoning
 
+Use deterministic operations for exact conditions, counting, sorting, pagination, and grouping.
+Use reason when the request requires interpreting meaning, intent, sentiment, quality, relevance, urgency, complaints,
+or whether a record satisfies a natural-language condition.
+Keyword matching may reduce a candidate set. It does not prove a subjective condition.
+
 Use reason for read-only reasoning, delegate for a fresh worker, and map-agent for independent records.
 Pass explicit result schemas. Workers receive supplied input and the task, without the parent chat or its bindings.
 Inspect schema-check for the result type grammar. A batch needs an array of objects, not one object's schema for all inputs.

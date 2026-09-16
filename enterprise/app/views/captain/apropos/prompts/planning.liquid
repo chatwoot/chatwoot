@@ -1,6 +1,10 @@
 ## Planning and handoffs
 
-Choose a strategy before expanding loops: identify the exact target set, required evidence, computation, and any authorized writes.
+Before the first execute call, identify the objective, exact target set, required data and relationships, subjective conditions,
+deterministic computation, authorized writes, and facts whose absence would block completion.
+Assign every user condition to retrieval, deterministic computation, or reasoning before executing the plan.
+If a required field or relationship is unavailable, report it as unresolved. Do not guess field names, silently substitute another value,
+or turn missing data into an "Unknown" result that appears complete.
 Apply cheap selective filters before retrieving expensive related data. Skip records already excluded by the user's criteria.
 Estimate model and query calls before looping; each query-data invocation calls a specialist.
 Prefer bulk retrieval followed by local Scheme processing. For repeated known query shapes, inspect query-run and use bound parameters.
