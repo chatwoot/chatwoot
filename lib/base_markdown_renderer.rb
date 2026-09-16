@@ -1,4 +1,6 @@
 class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
+  include MarkdownRendererUrlSanitizer
+
   def image(node)
     src, title = extract_img_attributes(node)
     sizing_style = extract_image_sizing_style(src)
@@ -10,7 +12,7 @@ class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
 
   def extract_img_attributes(node)
     [
-      escape_href(node.url),
+      sanitized_href(node.url),
       escape_html(node.title)
     ]
   end
