@@ -430,12 +430,26 @@ function onApplyFilter(payload) {
   fetchFilteredConversations(payload);
 }
 
+function parseRouteFilters(serializedFilters) {
+  try {
+    const filters = JSON.parse(serializedFilters);
+    return Array.isArray(filters) && filters.length ? filters : null;
+  } catch {
+    return null;
+  }
+}
+
 function applyRouteFilters() {
-  const { filters, ...query } = route.query;
-  const parsedFilters = JSON.parse(filters);
+  const { filters: serializedFilters, ...query } = route.query;
+  if (!serializedFilters) return false;
+
   router.replace({ query });
-  store.dispatch('setConversationFilters', parsedFilters);
-  onApplyFilter(parsedFilters);
+  const filters = parseRouteFilters(serializedFilters);
+  if (!filters) return false;
+
+  store.dispatch('setConversationFilters', filters);
+  onApplyFilter(filters);
+  return true;
 }
 
 function closeAdvanceFiltersModal() {
@@ -825,11 +839,7 @@ onMounted(() => {
   setFiltersFromUISettings();
   store.dispatch('setChatStatusFilter', activeStatus.value);
   store.dispatch('setChatSortFilter', activeSortBy.value);
-  if (route.query.filters) {
-    applyRouteFilters();
-  } else {
-    resetAndFetchData();
-  }
+  if (!applyRouteFilters()) resetAndFetchData();
   if (hasActiveFolders.value) {
     store.dispatch('campaigns/get');
   }
