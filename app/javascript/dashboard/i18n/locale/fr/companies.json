@@ -8,7 +8,7 @@
         "DOMAIN": "Domaine",
         "CREATED_AT": "Créé le",
         "LAST_ACTIVITY_AT": "Dernière activité",
-        "CONTACTS_COUNT": "{n} contact | {n} contacts"
+        "CONTACTS_COUNT": "Nombre de contacts"
       }
     },
     "ORDER": {

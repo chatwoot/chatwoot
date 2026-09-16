@@ -1498,7 +1498,7 @@
       }
     },
     "CHANNELS": {
-      "MESSENGER": "Messager",
+      "MESSENGER": "Messenger",
       "WEB_WIDGET": "Site internet",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",

@@ -301,7 +301,7 @@
         "MANUAL_SETUP": {
           "HEADER": {
             "TITLE": "Conectar WhatsApp manualmente",
-            "DESCRIPTION": "Siga estos pasos para preparar su cuenta Meta y conecte su número a Omnicanal."
+            "DESCRIPTION": "Siga estos pasos para preparar su cuenta Meta y conecte su número a Chatwoot."
           },
           "APP": {
             "TITLE": "Crear o seleccionar una aplicación Meta",
@@ -360,7 +360,7 @@
           },
           "VERIFY": {
             "TITLE": "Verifique su conexión",
-            "DESCRIPTION": "Omnicanal está comprobando el acceso a números y configurando su Meta webhook.",
+            "DESCRIPTION": "Chatwoot está comprobando el acceso a números y configurando su Meta webhook.",
             "NUMBER_ACCESS": "Número de acceso",
             "TEMPLATE_ACCESS": "Acceso a plantillas",
             "CALLBACK": "Llamada de Webhook",
@@ -781,7 +781,7 @@
       },
       "TRANSCRIPTION": {
         "LABEL": "Transcribir grabaciones",
-        "DESCRIPTION": "Convierte cada grabación en una transcripción de texto. Usa Capitán y requiere que la transcripción de audio esté habilitada para la cuenta."
+        "DESCRIPTION": "Convierte cada grabación en una transcripción de texto. Usa Captain y requiere que la transcripción de audio esté habilitada para la cuenta."
       }
     },
     "WHATSAPP_CALLING": {

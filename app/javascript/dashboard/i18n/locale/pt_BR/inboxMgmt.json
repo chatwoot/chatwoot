@@ -781,7 +781,7 @@
       },
       "TRANSCRIPTION": {
         "LABEL": "Transcrever gravações",
-        "DESCRIPTION": "Transforme cada gravação em uma transcrição de texto. Usa o Capitão e requer que a transcrição de áudio esteja habilitada para a conta."
+        "DESCRIPTION": "Transforme cada gravação em uma transcrição de texto. Usa o Captain e requer que a transcrição de áudio esteja habilitada para a conta."
       }
     },
     "WHATSAPP_CALLING": {

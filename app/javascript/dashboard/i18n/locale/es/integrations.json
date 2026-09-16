@@ -135,7 +135,7 @@
       "HELP_TEXT": {
         "TITLE": "¿Cómo utilizar la Integración Slack?",
         "BODY": "Con esta integración, todas tus conversaciones entrantes serán sincronizadas con el canal ***{selectedChannelName}*** en tu espacio de trabajo en Slack. Puedes administrar todas tus conversaciones con los clientes directamente en tu canal y nunca perder un mensaje.\n\nEstas son las principales características de la integración:\n\n**Responda a conversaciones desde Slack:** Para responder a una conversación en el canal Slack ***{selectedChannelName}***, simplemente escriba el mensaje y envíalo como un hilo. Esto creará una respuesta que se enviará al cliente mediante Chatwoot. ¡Es así de simple!\n\n**Crea notas privadas:** Si quieres crear una nota privada en lugar de una respuesta, comience su mensaje con ***`note:`***. Esto asegurará que tu mensaje se mantenga privado y no será visible al cliente.\n\n**Asociar un perfil de agente:** Si la persona que responde en Slack tiene un agente de perfil en Chatwoot bajo el mismo correo electrónico, las respuestas serán asociadas con ese perfil de agente automáticamente. Esto quiere decir que puedes fácilmente estar al tanto de quién dijo qué y cuándo. Por el otro lado, cuando la persona que responde no tiene un perfil de agente, las respuestas aparecerán desde el perfil de bot al cliente.",
-        "BODY_ALERT": "Con esta integración, todas tus conversaciones entrantes se sincronizarán con el canal ***{selectedChannelName}*** en tu espacio de trabajo de Slack, para que tu equipo pueda verlas en cuanto lleguen. Esta integración está configurada para **Solo alertas**, lo que significa que el hilo de Slack es un espacio seguro para la discusión interna. Todo lo que tu equipo publique allí permanece en Slack y nunca se envía al cliente. **Responder al cliente desde Omnicanal:** Abre la conversación desde el enlace compartido en el hilo y responde desde el panel de control de Omnicanal. Las respuestas y las notas privadas añadidas en Omnicanal siguen apareciendo en el hilo de Slack, para que todos estén al tanto.",
+        "BODY_ALERT": "Con esta integración, todas tus conversaciones entrantes se sincronizarán con el canal ***{selectedChannelName}*** en tu espacio de trabajo de Slack, para que tu equipo pueda verlas en cuanto lleguen. Esta integración está configurada para **Solo alertas**, lo que significa que el hilo de Slack es un espacio seguro para la discusión interna. Todo lo que tu equipo publique allí permanece en Slack y nunca se envía al cliente. **Responder al cliente desde Chatwoot:** Abre la conversación desde el enlace compartido en el hilo y responde desde el panel de control de Chatwoot. Las respuestas y las notas privadas añadidas en Chatwoot siguen apareciendo en el hilo de Slack, para que todos estén al tanto.",
         "SELECTED": "seleccionado"
       },
       "MESSAGE_MODE": {
@@ -439,29 +439,29 @@
       "METRICS": {
         "HANDLED": {
           "LABEL": "Conversaciones manejadas",
-          "HINT": "Conversaciones donde el Capitán respondió al cliente o entregó la conversación a su equipo."
+          "HINT": "Conversaciones donde el Captain respondió al cliente o entregó la conversación a su equipo."
         },
         "AUTO_RESOLUTION": {
           "LABEL": "Tasa de resolución automática",
-          "HINT": "La parte de conversaciones manejadas que el Capitán resolvió sin la ayuda de su equipo. Más alto significa Capitán resuelto más por sí mismo."
+          "HINT": "La parte de conversaciones manejadas que el Captain resolvió sin la ayuda de su equipo. Más alto significa Captain resuelto más por sí mismo."
         },
         "HANDOFF": {
           "LABEL": "Tasa de desconexión",
-          "HINT": "La proporción de conversaciones manejadas que el Capitán pasó a su equipo. Bajo significa menos conversaciones necesitan un agente."
+          "HINT": "La proporción de conversaciones manejadas que el Captain pasó a su equipo. Bajo significa menos conversaciones necesitan un agente."
         },
         "HOURS_SAVED": {
           "LABEL": "Tiempo ahorrado",
-          "HINT": "Una estimación de la cantidad de tiempo de respuesta de agente que el Capitán ahorró.",
-          "NOTE": "Basado en dos minutos guardados para cada respuesta pública del Capitán."
+          "HINT": "Una estimación de la cantidad de tiempo de respuesta de agente que el Captain ahorró.",
+          "NOTE": "Basado en dos minutos guardados para cada respuesta pública del Captain."
         },
         "REOPEN": {
           "LABEL": "Reabrir tasa",
-          "HINT": "La proporción de conversaciones resueltas por Capitán a las que los clientes regresaron después.",
+          "HINT": "La proporción de conversaciones resueltas por Captain a las que los clientes regresaron después.",
           "NOTE": "Más bajo significa que se han quedado resueltas más resoluciones."
         },
         "DEPTH": {
           "LABEL": "Mensajes / conversación",
-          "HINT": "El número promedio de respuestas que el Capitán envió en cada conversación que manejó.",
+          "HINT": "El número promedio de respuestas que el Captain envió en cada conversación que manejó.",
           "NOTE": "Un número menor puede significar respuestas más rápidas, pero las preguntas complejas pueden necesitar más respuestas."
         }
       },
@@ -497,7 +497,7 @@
         "SUMMARY": {
           "GREETING": "¡Hola {name}!",
           "DEFAULT_NAME": "allí",
-          "EMPTY": "El resumen de rendimiento del capitán aparecerá aquí cuando haya suficiente actividad disponible.",
+          "EMPTY": "El resumen de rendimiento del Captain aparecerá aquí cuando haya suficiente actividad disponible.",
           "PREVIOUS": "Punto de resumen anterior",
           "NEXT": "Siguiente punto de resumen"
         },
@@ -511,13 +511,13 @@
             "LABEL": "Ahorrado en esfuerzo y tiempo del agente"
           },
           "DURABLE": {
-            "LABEL": "Las resoluciones del capitán siguieron cerradas",
-            "HINT": "La parte de las conversaciones resueltas por el capitán que aún estuvieron cerradas siete días después.",
+            "LABEL": "Las resoluciones del Captain siguieron cerradas",
+            "HINT": "La parte de las conversaciones resueltas por el Captain que aún estuvieron cerradas siete días después.",
             "NOTE": "Solo se incluyen resoluciones lo suficientemente viejas como para observar durante siete días."
           },
           "MEDIAN_RESOLUTION": {
             "LABEL": "Tiempo medio de resolución",
-            "HINT": "El tiempo típico desde que una conversación llegó al Capitán hasta que se resolvió.",
+            "HINT": "El tiempo típico desde que una conversación llegó al Captain hasta que se resolvió.",
             "NOTE": "Menor significa que los clientes generalmente se resolvieron antes."
           },
           "DEPTH": {
@@ -526,10 +526,10 @@
           "OF_TOTAL": "de {total}"
         },
         "RESOLUTION_FLOW": {
-          "ARIA_LABEL": "Flujo de conversaciones manejadas a través del Capitán y los resultados del equipo",
+          "ARIA_LABEL": "Flujo de conversaciones manejadas a través del Captain y los resultados del equipo",
           "NODES": {
             "HANDLED": "Manejado",
-            "RESOLVED_BY_CAPTAIN": "Resuelto por Capitán",
+            "RESOLVED_BY_CAPTAIN": "Resuelto por Captain",
             "HANDED_OFF": "Apagado",
             "CLOSED_WITH_TEAM": "Cerrado con equipo",
             "REOPENED": "Reabierto en 7d",
@@ -556,16 +556,16 @@
           "CURRENT_PERIOD": "Período actual",
           "PREVIOUS_PERIOD": "Previous period",
           "HANDLED": "Manejado",
-          "RESOLVED": "Resuelto por Capitán",
-          "ARIA_LABEL": "Conversaciones Manejadas y resueltas por Capitán por período reportado",
-          "RATE_ARIA_LABEL": "Tasa de resolución actual y anterior del capitán"
+          "RESOLVED": "Resuelto por Captain",
+          "ARIA_LABEL": "Conversaciones Manejadas y resueltas por Captain por período reportado",
+          "RATE_ARIA_LABEL": "Tasa de resolución actual y anterior del Captain"
         },
         "CSAT": {
-          "TITLE": "Capitán CSAT",
-          "AUTONOMOUS": "Conversaciones resueltas por el capitán",
-          "AUTONOMOUS_HINT": "La calificación media del cliente para las conversaciones del Capitán se resolvió sin la ayuda de su equipo.",
-          "ASSISTED": "Conversaciones asistidas por el capitán",
-          "ASSISTED_HINT": "La calificación media del cliente cuando el Capitán ayudó antes de que su equipo resolviera la conversación.",
+          "TITLE": "Captain CSAT",
+          "AUTONOMOUS": "Conversaciones resueltas por el Captain",
+          "AUTONOMOUS_HINT": "La calificación media del cliente para las conversaciones del Captain se resolvió sin la ayuda de su equipo.",
+          "ASSISTED": "Conversaciones asistidas por el Captain",
+          "ASSISTED_HINT": "La calificación media del cliente cuando el Captain ayudó antes de que su equipo resolviera la conversación.",
           "VS_HUMANS": "{value} vs humanos"
         },
         "USAGE": {
@@ -708,28 +708,28 @@
         },
         "INACTIVITY_RESOLUTION": {
           "TITLE": "Cuando los clientes dejan de responder",
-          "DESCRIPTION": "Elige cómo maneja el Capitán la conversación.",
+          "DESCRIPTION": "Elige cómo maneja el Captain la conversación.",
           "MODE_LABEL": "Acción cuando el cliente deja de responder",
           "REVIEW_AFTER": "Revisar después",
           "RESOLVE_AFTER": "Resolver después",
-          "ALWAYS_WARNING": "El capitán resolverá cada conversación después del tiempo seleccionado sin revisarla. Algunas conversaciones que todavía necesitan ayuda podrían cerrarse.",
+          "ALWAYS_WARNING": "El Captain resolverá cada conversación después del tiempo seleccionado sin revisarla. Algunas conversaciones que todavía necesitan ayuda podrían cerrarse.",
           "PENDING_INFO": "La conversación permanece pendiente hasta que el cliente responda.",
           "RESOLUTION_MESSAGE": {
             "TITLE": "Enviar un mensaje al resolver",
-            "DESCRIPTION": "El capitán envía este mensaje de cierre antes de que resuelva la conversación."
+            "DESCRIPTION": "El Captain envía este mensaje de cierre antes de que resuelva la conversación."
           },
           "MODES": {
             "DISABLED": {
               "LABEL": "Esperar al cliente",
-              "DESCRIPTION": "El capitán no resuelve la conversación. El capitán todavía puede deshacerla si el cliente lo pide."
+              "DESCRIPTION": "El Captain no resuelve la conversación. El Captain todavía puede deshacerla si el cliente lo pide."
             },
             "LEGACY": {
               "LABEL": "Siempre resolver",
-              "DESCRIPTION": "El capitán resuelve cada conversación después del tiempo seleccionado."
+              "DESCRIPTION": "El Captain resuelve cada conversación después del tiempo seleccionado."
             },
             "EVALUATED": {
-              "LABEL": "Dejar que el Capitán lo revise (recomendado)",
-              "DESCRIPTION": "El capitán decide si resolver la conversación o si la entrega."
+              "LABEL": "Dejar que el Captain lo revise (recomendado)",
+              "DESCRIPTION": "El Captain decide si resolver la conversación o si la entrega."
             }
           },
           "DURATION_HOURS_ARIA_LABEL": "Horas antes de la acción",
@@ -751,11 +751,11 @@
         "AUDIENCE": {
           "EVERYONE": {
             "LABEL": "Todos",
-            "DESC": "El capitán responde a cada conversación en las bandejas de entrada conectadas."
+            "DESC": "El Captain responde a cada conversación en las bandejas de entrada conectadas."
           },
           "SPECIFIC": {
             "LABEL": "Audiencia específica",
-            "DESC": "El capitán responde sólo a los clientes que cumplen las condiciones a continuación."
+            "DESC": "El Captain responde sólo a los clientes que cumplen las condiciones a continuación."
           },
           "ADD_CONDITION": "Añadir condición",
           "ADD_GROUP": "Añadir grupo de condiciones",
@@ -778,15 +778,15 @@
         "SCHEDULE": {
           "ALWAYS": {
             "LABEL": "En cualquier momento",
-            "DESC": "El capitán responde a cada conversación, independientemente del tiempo."
+            "DESC": "El Captain responde a cada conversación, independientemente del tiempo."
           },
           "BUSINESS_HOURS": {
             "LABEL": "Durante las horas de trabajo",
-            "DESC": "El capitán responde sólo dentro del horario de cada bandeja de entrada."
+            "DESC": "El Captain responde sólo dentro del horario de cada bandeja de entrada."
           },
           "OUTSIDE_BUSINESS_HOURS": {
             "LABEL": "Fuera del horario comercial",
-            "DESC": "El capitán responde sólo cuando cada bandeja de entrada está cerrada."
+            "DESC": "El Captain responde sólo cuando cada bandeja de entrada está cerrada."
           },
           "HINT": "Los buzones sin horario de trabajo configurados siempre están cubiertos."
         }
@@ -806,7 +806,7 @@
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
           "DESCRIPTION": "Personaliza lo que dice el asistente al finalizar una conversación o al transferirla a una persona.",
-          "DESCRIPTION_V2": "Gestione lo que hace el Capitán cuando los clientes dejen de responder y defina el mensaje de derivación."
+          "DESCRIPTION_V2": "Gestione lo que hace el Captain cuando los clientes dejen de responder y defina el mensaje de derivación."
         },
         "AUDIENCE": {
           "TITLE": "Audiencia",
@@ -814,7 +814,7 @@
         },
         "SCHEDULE": {
           "TITLE": "Programación",
-          "DESCRIPTION": "Elige cuándo responde el Capitán. Fuera de esta ventana, las conversaciones se entregan a tu equipo."
+          "DESCRIPTION": "Elige cuándo responde el Captain. Fuera de esta ventana, las conversaciones se entregan a tu equipo."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",
@@ -1387,7 +1387,7 @@
       "SAVE": "Guardar cambios",
       "DETAILS": {
         "TITLE": "Revisar sugerencia de FAQ",
-        "DESCRIPTION": "El capitán agrupó la conversación {count} en esta sugerencia. Revisa la evidencia y refina las preguntas frecuentes antes de la aprobación. | El capitán agrupó conversaciones {count} en esta sugerencia. Revisa la evidencia y refina la FAQ antes de aprobarla.",
+        "DESCRIPTION": "El Captain agrupó la conversación {count} en esta sugerencia. Revisa la evidencia y refina las preguntas frecuentes antes de la aprobación. | El Captain agrupó conversaciones {count} en esta sugerencia. Revisa la evidencia y refina la FAQ antes de aprobarla.",
         "SOURCES": "Conversaciones de origen",
         "SOURCE_PROGRESS": "{visible} de {total}",
         "NO_SOURCES": "No se encontraron conversaciones de origen accesibles.",
