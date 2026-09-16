@@ -77,6 +77,21 @@ describe('ReplyBoxBanner', () => {
       banner.vm.$emit('primaryAction');
       await flushPromises();
 
+      expect(toggleStatus).toHaveBeenCalledWith(expect.anything(), {
+        conversationId: 1,
+        status: 'open',
+      });
+      if (failure === 'reopen') {
+        expect(ConversationApi.assignAgent).not.toHaveBeenCalled();
+        expect(setCurrentChatAssignee).not.toHaveBeenCalled();
+        expect(wrapper.findComponent(Banner).props('bannerMessage')).toContain(
+          assistant.name
+        );
+        expect(useAlert).toHaveBeenCalledExactlyOnceWith(
+          'CONVERSATION.BOT_HANDOFF_ERROR'
+        );
+        return;
+      }
       expect(ConversationApi.assignAgent).toHaveBeenCalledWith({
         conversationId: 1,
         agentId: currentUser.id,
@@ -84,23 +99,19 @@ describe('ReplyBoxBanner', () => {
       });
       if (failure === 'assignment') {
         expect(setCurrentChatAssignee).not.toHaveBeenCalled();
-        expect(toggleStatus).not.toHaveBeenCalled();
         expect(useAlert).toHaveBeenCalledWith('CONVERSATION.BOT_HANDOFF_ERROR');
         return;
       }
-      expect(toggleStatus).toHaveBeenCalledWith(expect.anything(), {
-        conversationId: 1,
-        status: 'open',
-      });
+      expect(toggleStatus.mock.invocationCallOrder[0]).toBeLessThan(
+        ConversationApi.assignAgent.mock.invocationCallOrder[0]
+      );
       expect(setCurrentChatAssignee).toHaveBeenCalledWith(expect.anything(), {
         conversationId: 1,
         assignee: currentUser,
         assigneeType: 'User',
       });
       expect(useAlert).toHaveBeenCalledExactlyOnceWith(
-        failure === 'reopen'
-          ? 'CONVERSATION.BOT_HANDOFF_ERROR'
-          : 'CONVERSATION.BOT_HANDOFF_SUCCESS'
+        'CONVERSATION.BOT_HANDOFF_SUCCESS'
       );
     }
   );

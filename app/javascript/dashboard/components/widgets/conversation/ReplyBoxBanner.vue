@@ -87,19 +87,19 @@ const onClickBotHandoff = async () => {
     const shouldAssignToCurrentUser =
       isAIOwned.value || needsAssignmentToCurrentUser.value;
 
-    if (shouldAssignToCurrentUser) {
-      await selfAssignConversation(conversationId);
-    }
-
     const reopened = await store.dispatch('toggleStatus', {
       conversationId,
       status: 'open',
     });
-    useAlert(
-      reopened
-        ? t('CONVERSATION.BOT_HANDOFF_SUCCESS')
-        : t('CONVERSATION.BOT_HANDOFF_ERROR')
-    );
+    if (!reopened) {
+      useAlert(t('CONVERSATION.BOT_HANDOFF_ERROR'));
+      return;
+    }
+
+    if (shouldAssignToCurrentUser) {
+      await selfAssignConversation(conversationId);
+    }
+    useAlert(t('CONVERSATION.BOT_HANDOFF_SUCCESS'));
   } catch (error) {
     useAlert(t('CONVERSATION.BOT_HANDOFF_ERROR'));
   }
