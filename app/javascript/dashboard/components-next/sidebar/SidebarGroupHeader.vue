@@ -2,7 +2,6 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store.js';
-import { hasPressedMod } from 'shared/helpers/KeyboardHelpers';
 import Icon from 'next/icon/Icon.vue';
 
 const props = defineProps({
@@ -30,7 +29,7 @@ const count = computed(() =>
 const href = computed(() => (props.to ? router.resolve(props.to).href : null));
 
 const onClick = event => {
-  if (hasPressedMod(event)) return;
+  if (event.metaKey || event.altKey || event.ctrlKey || event.shiftKey) return;
   event.preventDefault();
   emit('toggle');
 };
