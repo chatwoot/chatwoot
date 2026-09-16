@@ -1,6 +1,8 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
   before_action :ensure_api_inbox, only: :update
 
+  reads_from_replica :index, max_lag: 2.seconds
+
   def index
     @messages = message_finder.perform
   end

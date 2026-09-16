@@ -1,6 +1,8 @@
 class Api::V1::Widget::CampaignsController < Api::V1::Widget::BaseController
   skip_before_action :set_contact
 
+  reads_from_replica :index, max_lag: 10.seconds
+
   def index
     account = @web_widget.inbox.account
     @campaigns = if account.feature_enabled?('campaigns')

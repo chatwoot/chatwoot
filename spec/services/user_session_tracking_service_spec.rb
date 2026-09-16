@@ -221,6 +221,13 @@ RSpec.describe UserSessionTrackingService do
   end
 
   describe '#update_activity!' do
+    it 'runs session activity writes on the writer role' do
+      user.user_sessions.create!(client_id: client_id, last_activity_at: 10.minutes.ago)
+      expect(ApplicationRecord).to receive(:connected_to).with(role: :writing).and_call_original
+
+      service.update_activity!
+    end
+
     it 'does nothing when no session exists for the client_id' do
       expect { service.update_activity! }.not_to change(user.user_sessions, :count)
     end

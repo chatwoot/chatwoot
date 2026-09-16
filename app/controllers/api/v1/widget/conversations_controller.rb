@@ -2,6 +2,8 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
   before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
 
+  reads_from_replica :index, max_lag: 2.seconds
+
   def index
     @conversation = conversation
   end
