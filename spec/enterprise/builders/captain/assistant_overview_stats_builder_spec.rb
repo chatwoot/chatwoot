@@ -7,6 +7,11 @@ RSpec.describe Captain::AssistantOverviewStatsBuilder do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
 
+  before do
+    travel_to(Time.zone.parse('2026-10-15 12:00:00'))
+    allow(Captain::OutcomeTrackingHistory).to receive(:started_at).and_return(Time.zone.parse('2026-08-01 12:00:00'))
+  end
+
   context 'with no outcomes' do
     it 'returns only the overview metrics' do
       expect(metrics.keys).to contain_exactly(
@@ -29,7 +34,7 @@ RSpec.describe Captain::AssistantOverviewStatsBuilder do
     it 'returns zeroed metrics' do
       expect(metrics[:conversations_handled]).to eq(current: 0, previous: 0, trend: 0)
       expect(metrics[:handoff_count][:current]).to eq(0)
-      expect(metrics[:durable_resolution_rate][:current]).to eq(0)
+      expect(metrics[:durable_resolution_rate]).to eq(current: nil, previous: nil, trend: nil)
       expect(metrics[:autonomous_csat_score][:current]).to eq(0)
       expect(metrics[:assisted_csat_score][:current]).to eq(0)
       expect(metrics[:human_only_csat_score]).to eq(current: nil, previous: nil, trend: nil)
@@ -193,7 +198,7 @@ RSpec.describe Captain::AssistantOverviewStatsBuilder do
   end
 
   it 'does not count an episode in both adjacent day windows' do
-    travel_to Time.zone.parse('2026-08-12 12:00:00') do
+    travel_to Time.zone.parse('2026-09-12 12:00:00') do
       create(
         :conversation_outcome,
         account: account,

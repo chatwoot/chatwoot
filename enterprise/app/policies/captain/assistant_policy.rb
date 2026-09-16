@@ -24,7 +24,7 @@ class Captain::AssistantPolicy < ApplicationPolicy
   end
 
   def tools?
-    @account_user.administrator?
+    @account_user.administrator? || account.feature_enabled?('captain_integration_v2')
   end
 
   def create?

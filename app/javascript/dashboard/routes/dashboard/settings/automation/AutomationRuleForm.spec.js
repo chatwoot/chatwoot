@@ -1,4 +1,4 @@
-import { nextTick } from 'vue';
+import { nextTick, reactive } from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import AutomationRuleForm from './AutomationRuleForm.vue';
@@ -88,6 +88,8 @@ const buildAutomation = ({ delayed = false } = {}) => ({
   files: [],
 });
 
+const panelOpen = vi.fn();
+
 const mountComponent = ({ mode, automation }) =>
   shallowMount(AutomationRuleForm, {
     props: {
@@ -108,7 +110,7 @@ const mountComponent = ({ mode, automation }) =>
         SidePanel: {
           template: '<div><slot /><slot name="footer" /></div>',
           methods: {
-            open: vi.fn(),
+            open: panelOpen,
             close: vi.fn(),
           },
         },
@@ -129,6 +131,19 @@ const selectRunType = async (wrapper, isDelayed) => {
 describe('AutomationRuleForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it('opens a rule whose conditions hold reactive dropdown options', async () => {
+    const automation = buildAutomation();
+    // Conditions hydrated from store-backed dropdowns (inboxes, agents, contacts) hold
+    // reactive option objects rather than plain ones.
+    automation.conditions[0].values = [reactive({ id: 1, name: 'Sales' })];
+    const wrapper = mountComponent({ mode: 'edit', automation });
+
+    wrapper.vm.open();
+    await nextTick();
+
+    expect(panelOpen).toHaveBeenCalled();
   });
 
   it('restores unsaved wait conditions after switching a new rule to instant and back', async () => {

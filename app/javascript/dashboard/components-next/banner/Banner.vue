@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
   color: {
@@ -11,6 +12,10 @@ const props = defineProps({
   actionLabel: {
     type: String,
     default: null,
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -43,6 +48,7 @@ const buttonClass = computed(() => {
 });
 
 const triggerAction = () => {
+  if (props.isLoading) return;
   emit('action');
 };
 </script>
@@ -66,9 +72,11 @@ const triggerAction = () => {
         v-if="actionLabel"
         class="px-3 py-1 w-auto grid place-content-center rounded-lg whitespace-nowrap"
         :class="buttonClass"
+        :disabled="isLoading"
         @click="triggerAction"
       >
-        {{ actionLabel }}
+        <Spinner v-if="isLoading" :size="16" />
+        <span v-else>{{ actionLabel }}</span>
       </button>
     </div>
   </div>
