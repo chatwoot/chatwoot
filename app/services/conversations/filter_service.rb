@@ -54,8 +54,7 @@ class Conversations::FilterService < FilterService
   end
 
   def conversations
-    sort_by, sort_order = ConversationFinder::SORT_OPTIONS[@params[:sort_by]] || ConversationFinder::SORT_OPTIONS['last_activity_at_desc']
-    @conversations.send(sort_by, sort_order).page(current_page)
+    Conversations::SortService.apply(@conversations, @params[:sort_by]).page(current_page)
   end
 
   private

@@ -120,27 +120,32 @@ const actions = {
 
   fetchFilteredConversations: async ({ commit, dispatch, state }, params) => {
     return conversationListRequest.run(async signal => {
-      const { replaceExisting = false, ...requestParams } = params;
+      const {
+        replaceExisting = false,
+        sortBy = state.chatSortFilter,
+        ...requestParams
+      } = params;
+      // The contact scope pins its own order to match the in-thread navigation.
+      const filterRequestParams = {
+        ...requestParams,
+        sortBy: state.appliedFiltersSortBy || sortBy,
+      };
       const countRequest = await dispatch(
         'conversationStats/onListRequestStarted',
-        requestParams
+        filterRequestParams
       );
       if (signal.aborted) return;
       commit(types.SET_LIST_LOADING_STATUS);
       try {
-        const queryData = state.appliedFiltersSortBy
-          ? { ...requestParams.queryData, sort_by: state.appliedFiltersSortBy }
-          : requestParams.queryData;
-        const { data } = await ConversationApi.filter(
-          { ...requestParams, queryData },
-          { signal }
-        );
+        const { data } = await ConversationApi.filter(filterRequestParams, {
+          signal,
+        });
 
         if (signal.aborted) return;
 
         buildConversationList(
           { commit, dispatch },
-          requestParams,
+          filterRequestParams,
           data,
           'appliedFilters',
           { replaceExisting, countRequest }
