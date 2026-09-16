@@ -143,7 +143,7 @@ RSpec.describe Captain::Scenario, type: :model do
       end
 
       it 'is valid with custom tool references' do
-        create(:captain_custom_tool, account: account, slug: 'custom_fetch-order')
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order')
         scenario = build(:captain_scenario,
                          assistant: assistant,
                          account: account,
@@ -165,7 +165,7 @@ RSpec.describe Captain::Scenario, type: :model do
       end
 
       it 'is valid with disabled custom tool' do
-        create(:captain_custom_tool, account: account, slug: 'custom_fetch-order', enabled: false)
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order', enabled: false)
         scenario = build(:captain_scenario,
                          assistant: assistant,
                          account: account,
@@ -175,7 +175,7 @@ RSpec.describe Captain::Scenario, type: :model do
       end
 
       it 'is valid with mixed static and custom tool references' do
-        create(:captain_custom_tool, account: account, slug: 'custom_fetch-order')
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order')
         scenario = build(:captain_scenario,
                          assistant: assistant,
                          account: account,
@@ -241,7 +241,7 @@ RSpec.describe Captain::Scenario, type: :model do
 
     describe '#resolved_tools' do
       it 'includes custom tool metadata' do
-        create(:captain_custom_tool, account: account, slug: 'custom_fetch-order',
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order',
                                      title: 'Fetch Order', description: 'Gets order details')
         scenario = create(:captain_scenario,
                           assistant: assistant,
@@ -256,7 +256,7 @@ RSpec.describe Captain::Scenario, type: :model do
       end
 
       it 'includes both static and custom tools' do
-        create(:captain_custom_tool, account: account, slug: 'custom_fetch-order')
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order')
         scenario = create(:captain_scenario,
                           assistant: assistant,
                           account: account,
@@ -268,7 +268,7 @@ RSpec.describe Captain::Scenario, type: :model do
       end
 
       it 'excludes disabled custom tools' do
-        custom_tool = create(:captain_custom_tool, account: account, slug: 'custom_fetch-order', enabled: true)
+        custom_tool = create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order', enabled: true)
         scenario = create(:captain_scenario,
                           assistant: assistant,
                           account: account,
@@ -283,7 +283,7 @@ RSpec.describe Captain::Scenario, type: :model do
 
     describe '#resolve_tool_instance' do
       it 'returns HttpTool instance for custom tools' do
-        create(:captain_custom_tool, account: account, slug: 'custom_fetch-order')
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order')
         scenario = create(:captain_scenario, assistant: assistant, account: account)
 
         tool_metadata = { id: 'custom_fetch-order', custom: true }
@@ -292,7 +292,7 @@ RSpec.describe Captain::Scenario, type: :model do
       end
 
       it 'returns nil for disabled custom tools' do
-        create(:captain_custom_tool, account: account, slug: 'custom_fetch-order', enabled: false)
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order', enabled: false)
         scenario = create(:captain_scenario, assistant: assistant, account: account)
 
         tool_metadata = { id: 'custom_fetch-order', custom: true }
@@ -317,7 +317,7 @@ RSpec.describe Captain::Scenario, type: :model do
 
     describe '#agent_tools' do
       it 'returns array of tool instances including custom tools' do
-        create(:captain_custom_tool, account: account, slug: 'custom_fetch-order')
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order')
         scenario = create(:captain_scenario,
                           assistant: assistant,
                           account: account,
@@ -329,7 +329,7 @@ RSpec.describe Captain::Scenario, type: :model do
       end
 
       it 'excludes disabled custom tools from execution' do
-        custom_tool = create(:captain_custom_tool, account: account, slug: 'custom_fetch-order', enabled: true)
+        custom_tool = create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order', enabled: true)
         scenario = create(:captain_scenario,
                           assistant: assistant,
                           account: account,
@@ -342,7 +342,7 @@ RSpec.describe Captain::Scenario, type: :model do
       end
 
       it 'returns mixed static and custom tool instances' do
-        create(:captain_custom_tool, account: account, slug: 'custom_fetch-order')
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order')
         scenario = create(:captain_scenario,
                           assistant: assistant,
                           account: account,
