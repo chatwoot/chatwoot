@@ -85,9 +85,14 @@ const actions = {
     { replaceExisting = false } = {}
   ) => {
     return conversationListRequest.run(async signal => {
+      const params = state.conversationFilters;
+      const countRequest = await dispatch(
+        'conversationStats/onListRequestStarted',
+        params
+      );
+      if (signal.aborted) return;
       commit(types.SET_LIST_LOADING_STATUS);
       try {
-        const params = state.conversationFilters;
         const {
           data: { data },
         } = await ConversationApi.get(params, { signal });
@@ -99,7 +104,7 @@ const actions = {
           params,
           data,
           params.assigneeType,
-          { replaceExisting }
+          { replaceExisting, countRequest }
         );
       } catch (error) {
         if (!signal.aborted) {
@@ -109,12 +114,22 @@ const actions = {
     });
   },
 
-  fetchFilteredConversations: async ({ commit, dispatch }, params) => {
+  fetchFilteredConversations: async ({ commit, dispatch, state }, params) => {
     return conversationListRequest.run(async signal => {
-      const { replaceExisting = false, ...requestParams } = params;
+      const {
+        replaceExisting = false,
+        sortBy = state.chatSortFilter,
+        ...requestParams
+      } = params;
+      const filterRequestParams = { ...requestParams, sortBy };
+      const countRequest = await dispatch(
+        'conversationStats/onListRequestStarted',
+        filterRequestParams
+      );
+      if (signal.aborted) return;
       commit(types.SET_LIST_LOADING_STATUS);
       try {
-        const { data } = await ConversationApi.filter(requestParams, {
+        const { data } = await ConversationApi.filter(filterRequestParams, {
           signal,
         });
 
@@ -122,10 +137,10 @@ const actions = {
 
         buildConversationList(
           { commit, dispatch },
-          requestParams,
+          filterRequestParams,
           data,
           'appliedFilters',
-          { replaceExisting }
+          { replaceExisting, countRequest }
         );
       } catch (error) {
         if (signal.aborted) return;
@@ -464,7 +479,7 @@ const actions = {
     try {
       await ConversationApi.delete(conversationId);
       commit(types.DELETE_CONVERSATION, conversationId);
-      dispatch('conversationStats/get', {}, { root: true });
+      dispatch('conversationStats/get');
     } catch (error) {
       throw new Error(error);
     }
