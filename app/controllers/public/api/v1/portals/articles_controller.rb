@@ -8,6 +8,8 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   before_action :set_article, only: [:show, :show_markdown]
   layout 'portal'
 
+  reads_from_replica :index, max_lag: 10.seconds
+
   def index
     @search_query = list_params[:query]
     @articles = @portal.articles.published.includes(:category, :author)

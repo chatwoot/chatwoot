@@ -1,11 +1,12 @@
 class Conversations::PermissionFilterService
-  attr_reader :conversations, :user, :account
+  attr_reader :conversations, :user, :account, :access_context
 
-  def initialize(conversations, user, account, plan_hint_selective_filter: false)
+  def initialize(conversations, user, account, plan_hint_selective_filter: false, access_context: nil)
     @conversations = conversations
     @user = user
     @account = account
     @plan_hint_selective_filter = plan_hint_selective_filter
+    @access_context = access_context
   end
 
   def perform
@@ -18,6 +19,7 @@ class Conversations::PermissionFilterService
 
   def accessible_conversations
     return hinted_accessible_conversations if @plan_hint_selective_filter
+    return conversations.where(inbox_id: access_context.inbox_ids) if access_context
 
     conversations.where(inbox: user.inboxes.where(account_id: account.id))
   end
@@ -26,6 +28,9 @@ class Conversations::PermissionFilterService
   # driving the query through an inbox scan, which it grossly misestimates when a
   # highly selective filter (e.g. labels) is present on large accounts (CW-7787).
   def hinted_accessible_conversations
+    return Conversation.none if access_context&.inbox_ids == []
+    return conversations.where('(conversations.inbox_id + 0) IN (?)', access_context.inbox_ids) if access_context
+
     conversations.where(
       '(conversations.inbox_id + 0) IN (
         SELECT inbox_members.inbox_id FROM inbox_members
@@ -41,6 +46,8 @@ class Conversations::PermissionFilterService
   end
 
   def user_role
+    return access_context.role if access_context
+
     account_user&.role
   end
 end

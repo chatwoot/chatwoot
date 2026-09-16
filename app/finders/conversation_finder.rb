@@ -1,5 +1,5 @@
 class ConversationFinder
-  attr_reader :current_user, :current_account, :params
+  attr_reader :current_user, :current_account, :params, :access_context
 
   DEFAULT_STATUS = 'open'.freeze
   SORT_OPTIONS = {
@@ -31,11 +31,11 @@ class ConversationFinder
   # params
   # assignee_type, inbox_id, :status
 
-  def initialize(current_user, params)
+  def initialize(current_user, params, account: current_user.account, access_context: nil)
     @current_user = current_user
-    @current_account = current_user.account
-    @is_admin = current_account.account_users.find_by(user_id: current_user.id)&.administrator?
+    @current_account = account
     @params = params
+    @access_context = access_context
   end
 
   def perform
@@ -89,6 +89,8 @@ class ConversationFinder
   end
 
   def set_inboxes
+    return @inbox_ids = params[:inbox_id] ? access_context.inbox_ids & [params[:inbox_id].to_i] : access_context.inbox_ids if access_context
+
     @inbox_ids = if params[:inbox_id]
                    @current_user.assigned_inboxes.where(id: params[:inbox_id])
                  else
@@ -101,7 +103,7 @@ class ConversationFinder
   end
 
   def set_team
-    @team = current_account.teams.find(params[:team_id]) if params[:team_id]
+    @team_id = access_context&.team_id || current_account.teams.find(params[:team_id]).id if params[:team_id]
   end
 
   def find_conversation_by_inbox
@@ -115,11 +117,7 @@ class ConversationFinder
   def find_all_conversations
     find_conversation_by_inbox
     # Apply permission-based filtering
-    @conversations = Conversations::PermissionFilterService.new(
-      @conversations,
-      current_user,
-      current_account
-    ).perform
+    @conversations = Conversations::PermissionFilterService.new(@conversations, current_user, current_account, access_context: access_context).perform
     filter_by_conversation_type if params[:conversation_type]
     @conversations
   end
@@ -137,12 +135,15 @@ class ConversationFinder
   end
 
   def filter_by_conversation_type
+    contextual_ids = access_context&.conversation_ids_for(@params[:conversation_type])
+
     case @params[:conversation_type]
     when 'mention'
-      conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
+      conversation_ids = contextual_ids || current_account.mentions.where(user: current_user).pluck(:conversation_id)
       @conversations = @conversations.where(id: conversation_ids)
     when 'participating'
-      participant_conversation_ids = ConversationParticipant.where(account_id: current_account.id, user_id: current_user.id).select(:conversation_id)
+      participant_conversation_ids = contextual_ids ||
+                                     ConversationParticipant.where(account_id: current_account.id, user_id: current_user.id).select(:conversation_id)
       @conversations = @conversations.where(id: participant_conversation_ids)
     when 'unattended'
       @conversations = @conversations.unattended
@@ -167,9 +168,9 @@ class ConversationFinder
   end
 
   def filter_by_team
-    return unless @team
+    return unless @team_id
 
-    @conversations = @conversations.where(team: @team)
+    @conversations = @conversations.where(team_id: @team_id)
   end
 
   def filter_by_labels

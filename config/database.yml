@@ -13,19 +13,44 @@ default: &default
     statement_timeout: <%= ENV["POSTGRES_STATEMENT_TIMEOUT"] || "14s" %>
 
 development:
-  <<: *default
-  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_dev') %>"
-  username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
-  password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+  primary: &development_primary
+    <<: *default
+    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_dev') %>"
+    username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
+    password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+  primary_replica:
+    <<: *development_primary
+    replica: true
+    database_tasks: false
 
 test:
-  <<: *default
-  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_test') %>"
-  username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
-  password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+  primary: &test_primary
+    <<: *default
+    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_test') %>"
+    username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
+    password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+  primary_replica:
+    <<: *test_primary
+    replica: true
+    database_tasks: false
 
 production:
-  <<: *default
-  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_production') %>"
-  username: "<%= ENV.fetch('POSTGRES_USERNAME', 'chatwoot_prod') %>"
-  password: "<%= ENV.fetch('POSTGRES_PASSWORD', 'chatwoot_prod') %>"
+  primary: &production_primary
+    <<: *default
+    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_production') %>"
+    username: "<%= ENV.fetch('POSTGRES_USERNAME', 'chatwoot_prod') %>"
+    password: "<%= ENV.fetch('POSTGRES_PASSWORD', 'chatwoot_prod') %>"
+  primary_replica:
+    <<: *production_primary
+    host: <%= ENV.fetch('POSTGRES_REPLICA_HOST', ENV.fetch('POSTGRES_HOST', 'localhost')) %>
+    port: <%= ENV.fetch('POSTGRES_REPLICA_PORT', ENV.fetch('POSTGRES_PORT', '5432')) %>
+    database: "<%= ENV.fetch('POSTGRES_REPLICA_DATABASE', ENV.fetch('POSTGRES_DATABASE', 'chatwoot_production')) %>"
+    username: "<%= ENV.fetch('POSTGRES_REPLICA_USERNAME', ENV.fetch('POSTGRES_USERNAME', 'chatwoot_prod')) %>"
+    password: "<%= ENV.fetch('POSTGRES_REPLICA_PASSWORD', '') %>"
+    pool: <%= ENV.fetch('POSTGRES_REPLICA_POOL', ENV.fetch('RAILS_MAX_THREADS', 5)) %>
+    checkout_timeout: <%= ENV.fetch('POSTGRES_REPLICA_CHECKOUT_TIMEOUT', 5) %>
+    connect_timeout: <%= ENV.fetch('POSTGRES_REPLICA_CONNECT_TIMEOUT', 5) %>
+    variables:
+      statement_timeout: <%= ENV.fetch('POSTGRES_REPLICA_STATEMENT_TIMEOUT', '14s') %>
+    replica: true
+    database_tasks: false

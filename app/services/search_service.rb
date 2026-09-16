@@ -1,5 +1,5 @@
 class SearchService
-  pattr_initialize [:current_user!, :current_account!, :params!, :search_type!]
+  pattr_initialize [:current_user!, :current_account!, :params!, :search_type!, { access_context: nil }]
 
   def account_user
     @account_user ||= current_account.account_users.find_by(user: current_user)
@@ -23,7 +23,7 @@ class SearchService
   private
 
   def accessable_inbox_ids
-    @accessable_inbox_ids ||= @current_user.assigned_inboxes.pluck(:id)
+    @accessable_inbox_ids ||= access_context&.inbox_ids || @current_user.assigned_inboxes.pluck(:id)
   end
 
   def search_query
@@ -150,6 +150,8 @@ class SearchService
   end
 
   def should_skip_inbox_filtering?
+    return access_context.role == 'administrator' if access_context
+
     account_user.administrator? || user_has_access_to_all_inboxes?
   end
 

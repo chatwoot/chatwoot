@@ -16,6 +16,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
   before_action :set_include_contact_inboxes, only: [:index, :active, :search, :filter, :show, :update]
 
+  reads_from_replica :search, max_lag: 10.seconds
+  reads_from_replica :show, max_lag: 2.seconds
+
   def index
     @contacts = fetch_contacts(resolved_contacts)
     @contacts_count = @contacts.total_count

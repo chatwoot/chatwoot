@@ -49,7 +49,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def filter
-    result = ::Conversations::FilterService.new(params.permit!, current_user, current_account).perform
+    result = ::Conversations::FilterService.new(params.permit!, current_user, current_account, access_context: @read_replica_access_context).perform
     @conversations = result[:conversations]
     @conversations_count = result[:count]
   rescue CustomExceptions::CustomFilter::InvalidAttribute,
@@ -228,7 +228,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def conversation_finder
-    @conversation_finder ||= ConversationFinder.new(Current.user, params)
+    @conversation_finder ||= ConversationFinder.new(Current.user, params, account: Current.account,
+                                                                          access_context: @read_replica_access_context)
   end
 
   def assignee?
@@ -236,4 +237,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 end
 
+Api::V1::Accounts::ConversationsController.reads_from_replica :index, :meta, :filter, max_lag: 2.seconds, access_context: true
+Api::V1::Accounts::ConversationsController.reads_from_replica :search, max_lag: 10.seconds, access_context: true
+Api::V1::Accounts::ConversationsController.reads_from_replica :show, max_lag: 2.seconds
 Api::V1::Accounts::ConversationsController.prepend_mod_with('Api::V1::Accounts::ConversationsController')
