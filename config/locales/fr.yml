@@ -651,8 +651,8 @@ fr:
       no_subscriptions_to_test: 'Sélectionnez au moins un abonnement à tester.'
       no_subscriptions_to_delete: 'Sélectionnez au moins un abonnement à supprimer.'
       subscriptions_deleted:
-        one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
-        other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+        one: "%{count} abonnement supprimé. L'appareil de l'utilisateur se réinscrira lors du prochain lancement de l'application."
+        other: "%{count} abonnements supprimés. Les appareils de l'utilisateur se réinscriront lors du prochain lancement de l'application."
     users:
       resend_confirmation:
         button: 'Resend confirmation email'

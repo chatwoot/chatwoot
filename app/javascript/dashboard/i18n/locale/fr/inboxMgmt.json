@@ -846,7 +846,7 @@
           "TOOLTIP": "Website links shown in the WhatsApp business profile"
         },
         "DISPLAY_PHONE_NUMBER": {
-          "LABEL": "Afficher le numéro de téléphone",
+          "LABEL": "Numéro de téléphone affiché",
           "TOOLTIP": "Numéro de téléphone affiché aux clients"
         },
         "VERIFIED_NAME": {

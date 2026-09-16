@@ -90,7 +90,7 @@
       "LOADING": "Ayrıntılar yükleniyor…",
       "EMPTY": "Bu mesaj için oluşturma ayrıntısı bulunmuyor.",
       "TIMELINE": "Oluşturma adımları",
-      "STEP_TOOL": "{name} arandı",
+      "STEP_TOOL": "{name} çağrıldı",
       "STEP_HANDOFF": "{name} kişisine aktarıldı",
       "REASONING": "Gerekçe",
       "SOURCES": "Bilgi tabanı",

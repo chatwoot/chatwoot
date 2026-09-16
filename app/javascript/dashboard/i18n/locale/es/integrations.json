@@ -1387,7 +1387,7 @@
       "SAVE": "Guardar cambios",
       "DETAILS": {
         "TITLE": "Revisar sugerencia de FAQ",
-        "DESCRIPTION": "El Captain agrupó la conversación {count} en esta sugerencia. Revisa la evidencia y refina las preguntas frecuentes antes de la aprobación. | El Captain agrupó conversaciones {count} en esta sugerencia. Revisa la evidencia y refina la FAQ antes de aprobarla.",
+        "DESCRIPTION": "El Captain agrupó {count} conversación en esta sugerencia. Revisa la evidencia y refina las preguntas frecuentes antes de la aprobación. | El Captain agrupó {count} conversaciones en esta sugerencia. Revisa la evidencia y refina la FAQ antes de aprobarla.",
         "SOURCES": "Conversaciones de origen",
         "SOURCE_PROGRESS": "{visible} de {total}",
         "NO_SOURCES": "No se encontraron conversaciones de origen accesibles.",

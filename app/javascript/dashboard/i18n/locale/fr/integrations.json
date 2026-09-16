@@ -39,7 +39,7 @@
         "CANCEL_ANYTIME": "Changez ou annulez votre forfait à tout moment."
       },
       "SECRET": {
-        "LABEL": "Secrète",
+        "LABEL": "Secret",
         "COPY": "Copier le secret dans le presse-papiers",
         "COPY_SUCCESS": "Secret copié dans le presse-papiers",
         "TOGGLE": "Activer/désactiver la visibilité secrète",
@@ -1089,7 +1089,7 @@
         "USED_IN_CONVERSATIONS": "Used in conversations",
         "LAST_UPDATED": "Dernière mise à jour",
         "NOT_AVAILABLE": "Non disponible",
-        "CONTENT_TAB": "Contenu ramassé",
+        "CONTENT_TAB": "Contenu exploré",
         "PDF_TAB": "Détails du PDF",
         "CONTENT_TITLE": "Contenu exploré",
         "PDF_TITLE": "Fichier PDF",

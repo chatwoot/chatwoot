@@ -410,7 +410,7 @@
     "CANCEL": "Annuler",
     "SEND_EMAIL_SUCCESS": "La transcription du chat a été envoyée avec succès",
     "SEND_EMAIL_ERROR": "Une erreur est survenue, veuillez réessayer",
-    "SEND_EMAIL_PAYMENT_REQUIRED": "La transcription par e-mail n'est pas disponible sur votre forfait actuel. Veuillez mettre à jour pour utiliser cette fonctionnalité.",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "La transcription par e-mail n'est pas disponible sur votre forfait actuel. Veuillez passer à un forfait supérieur pour utiliser cette fonctionnalité.",
     "FORM": {
       "SEND_TO_CONTACT": "Envoyer la transcription au client",
       "SEND_TO_AGENT": "Envoyer la transcription à l'agent assigné",
@@ -540,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} autre",
     "TOTAL_PARTICIPANTS_TEXT": "{count} personnes participent.",
     "TOTAL_PARTICIPANT_TEXT": "{count} personne participe.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!",
+    "NO_PARTICIPANTS_TEXT": "Personne ne participe !",
     "WATCH_CONVERSATION": "Rejoindre une conversation",
     "YOU_ARE_WATCHING": "Vous participez",
     "API": {

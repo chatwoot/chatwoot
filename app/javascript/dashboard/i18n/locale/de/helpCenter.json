@@ -805,7 +805,7 @@
         "PUBLISH_CHANGES": "Änderungen veröffentlichen",
         "PUBLISH_CHANGES_SUCCESS": "Änderungen erfolgreich veröffentlicht",
         "PUBLISH_CHANGES_ERROR": "Änderungen konnten nicht veröffentlicht werden",
-        "SAVE_IN_PROGRESS": "Still saving your latest changes. Please try again in a moment.",
+        "SAVE_IN_PROGRESS": "Deine letzten Änderungen werden noch gespeichert. Bitte versuche es gleich noch einmal.",
         "UPLOAD_IN_PROGRESS": "A file upload is unfinished. Wait for it to finish or remove it first.",
         "DISCARD_CHANGES": "Änderungen verwerfen",
         "DISCARD_CHANGES_SUCCESS": "Änderungen verworfen",

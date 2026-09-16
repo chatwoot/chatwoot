@@ -3,7 +3,7 @@
     "FETCHING": "Récupération des intégrations",
     "NO_HOOK_CONFIGURED": "Aucune intégration {integrationId} n'est configurée dans ce compte.",
     "HEADER": "Applications",
-    "COUNT": "Intégration {n} | Intégration {n}",
+    "COUNT": "{n} intégration | {n} intégrations",
     "SEARCH_PLACEHOLDER": "Recherche...",
     "NO_RESULTS": "Aucun résultat correspondant à votre recherche",
     "STATUS": {

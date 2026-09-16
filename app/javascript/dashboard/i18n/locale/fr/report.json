@@ -303,7 +303,7 @@
     "DOWNLOAD_INBOX_REPORTS": "Télécharger les rapports de la boîte de réception",
     "FILTER_DROPDOWN_LABEL": "Sélectionner la boîte de réception",
     "ALL_INBOXES": "Toutes les boîtes de réception",
-    "SEARCH_INBOX": "Rechercher dans la boîte de réception",
+    "SEARCH_INBOX": "Rechercher une boîte de réception",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
         "INBOXES": "Rechercher dans les boîtes de réception"
@@ -540,7 +540,7 @@
         "TOOLTIP": "Nombre total de conversations résolues par le bot / nombre total de conversations gérées par le bot * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Taux de remise en main",
+        "LABEL": "Taux de transfert aux agents",
         "TOOLTIP": "Nombre total de conversations transmises aux agents / Nombre total de conversations gérées par le bot * 100"
       }
     }
