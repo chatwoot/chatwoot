@@ -29,9 +29,20 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
 
     @shopify_installation_generation = Shopify::InstallationGeneration.current(account)
-    exchange_access_token
-    create_hook
+    exchange_and_create_hook
     redirect_to shopify_integration_url, allow_other_host: true
+  end
+
+  def exchange_and_create_hook
+    shop_generation = Shopify::PendingInstallation.generation(shop: params[:shop])
+    exchange_access_token
+    Shopify::InstallationGeneration.with_shop_lock(params[:shop]) do
+      unless shop_generation == Shopify::PendingInstallation.generation(shop: params[:shop])
+        raise StandardError, 'Shopify installation changed during authorization'
+      end
+
+      create_hook
+    end
   end
 
   def handle_shopify_initiated_flow
