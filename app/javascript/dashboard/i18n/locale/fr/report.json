@@ -23,12 +23,14 @@
         "NAME": "Délai de première réponse",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Le temps de première réponse est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Le temps de résolution est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
@@ -45,7 +47,9 @@
       },
       "REPLY_TIME": {
         "NAME": "Temps d'attente du client",
-        "TOOLTIP_TEXT": "Le temps d'attente est {metricValue} (basé sur {conversationCount} réponses)",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
+        "TOOLTIP_TEXT": "L'heure d'attente est {metricValue} (basé sur les réponses {conversationCount})",
         "DESC": ""
       }
     },
@@ -299,7 +303,7 @@
     "DOWNLOAD_INBOX_REPORTS": "Télécharger les rapports de la boîte de réception",
     "FILTER_DROPDOWN_LABEL": "Sélectionner la boîte de réception",
     "ALL_INBOXES": "Toutes les boîtes de réception",
-    "SEARCH_INBOX": "Rechercher une boîte de réception",
+    "SEARCH_INBOX": "Rechercher dans la boîte de réception",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
         "INBOXES": "Rechercher dans les boîtes de réception"
@@ -514,7 +518,7 @@
       "PAYWALL": {
         "TITLE": "Mettre à niveau pour ajouter des notes de révision",
         "AVAILABLE_ON": "Les notes de révision ne sont disponibles que dans les plans Business et Enterprise.",
-        "UPGRADE_PROMPT": "Ajoutez un contexte interne à chaque réponse CSAT avec des notes de revue. Capturez ce qui s'est réellement passé, repérez les tendances plus rapidement et prenez de meilleures décisions à partir de vos commentaires.",
+        "UPGRADE_PROMPT": "Ajoutez un contexte interne à chaque réponse CSAT avec des notes de revue. Capturez ce qui s'est réellement passé, repérez les patrons plus rapidement et prenez de meilleures décisions à partir de vos commentaires.",
         "UPGRADE_NOW": "Mettre à niveau maintenant",
         "CANCEL_ANYTIME": "Vous pouvez modifier ou annuler votre forfait à tout moment"
       }
@@ -536,7 +540,7 @@
         "TOOLTIP": "Nombre total de conversations résolues par le bot / nombre total de conversations gérées par le bot * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Taux de transfert aux agents",
+        "LABEL": "Taux de remise en main",
         "TOOLTIP": "Nombre total de conversations transmises aux agents / Nombre total de conversations gérées par le bot * 100"
       }
     }
@@ -544,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Vue d'ensemble",
     "LIVE": "En direct",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Conversations ouvertes",
       "LOADING_MESSAGE": "Chargement des métriques de la conversation...",
@@ -555,15 +560,15 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Trafic des conversations",
       "NO_CONVERSATIONS": "Aucune conversation",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
+      "CONVERSATION": "Conversation {count}",
+      "CONVERSATIONS": "Conversations {count}",
       "DOWNLOAD_REPORT": "Télécharger le rapport"
     },
     "RESOLUTION_HEATMAP": {
       "HEADER": "Résolutions",
       "NO_CONVERSATIONS": "Aucune conversation",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
+      "CONVERSATION": "Conversation {count}",
+      "CONVERSATIONS": "Conversations {count}",
       "DOWNLOAD_REPORT": "Télécharger le rapport"
     },
     "AGENT_CONVERSATIONS": {
