@@ -8,6 +8,9 @@ module.exports = {
   },
   rules: {
     // Report locale catalogs also contain numeric option IDs.
-    '@intlify/vue-i18n/valid-message-syntax': ['error', { allowNotString: true }],
+    '@intlify/vue-i18n/valid-message-syntax': [
+      'error',
+      { allowNotString: true },
+    ],
   },
 };
