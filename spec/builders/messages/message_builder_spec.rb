@@ -220,6 +220,17 @@ describe Messages::MessageBuilder do
         expect(message.content_attributes[:bcc_emails]).to eq ['test4@test.com', 'test5@test.com']
       end
 
+      it 'normalizes incidental whitespace within individual email addresses' do
+        cc_emails = 'user1 @example.com, user2@ example.com'
+        bcc_emails = 'user3 @example.com'
+        params = ActionController::Parameters.new({ cc_emails: cc_emails, bcc_emails: bcc_emails })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:cc_emails]).to eq ['user1@example.com', 'user2@example.com']
+        expect(message.content_attributes[:bcc_emails]).to eq ['user3@example.com']
+      end
+
       context 'when custom email content is provided' do
         it 'creates message with custom HTML email content' do
           params = ActionController::Parameters.new({

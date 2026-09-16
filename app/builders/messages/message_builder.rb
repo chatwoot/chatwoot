@@ -100,7 +100,15 @@ class Messages::MessageBuilder
   end
 
   def process_email_string(email_string)
-    Array(email_string).flat_map { |value| value.to_s.split(/[,;\s]+/) }.map(&:strip).reject(&:blank?)
+    Array(email_string).flat_map do |value|
+      value.to_s.split(/[,;]+/).flat_map do |part|
+        if part.count('@') > 1
+          part.split(/(?<=\S)\s+(?=[^\s@]+@)/).map { |email| email.gsub(/\s+/, '') }
+        else
+          part.gsub(/\s+/, '')
+        end
+      end
+    end.map(&:strip).reject(&:blank?)
   end
 
   def message_type
