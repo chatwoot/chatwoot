@@ -1,6 +1,27 @@
 module Enterprise::Channelable
   extend ActiveSupport::Concern
 
+  AUDIT_EXCLUDED_ATTRIBUTES = %w[
+    updated_at
+    secret
+    provider_config
+    access_token
+    refresh_token
+    imap_password
+    smtp_password
+    line_channel_secret
+    line_channel_token
+    page_access_token
+    user_access_token
+    auth_token
+    api_key_sid
+    api_key_secret
+    bot_token
+    business_management_token
+    twitter_access_token
+    twitter_access_token_secret
+  ].freeze
+
   # Active support concern has `included` which changes the order of the method lookup chain
   # https://stackoverflow.com/q/40061982/3824876
   # manually prepend the instance methods to combat this
@@ -17,7 +38,7 @@ module Enterprise::Channelable
 
       auditable_id = inbox.id
       auditable_type = 'Inbox'
-      audited_changes = saved_changes.except('updated_at', 'secret')
+      audited_changes = saved_changes.except(*AUDIT_EXCLUDED_ATTRIBUTES, *self.class.encrypted_attributes.to_a.map(&:to_s))
 
       return if audited_changes.blank?
 

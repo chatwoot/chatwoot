@@ -269,4 +269,40 @@ RSpec.describe Inbox do
       end
     end
   end
+
+  describe 'audit log with email channel' do
+    let!(:channel) { create(:channel_email, :imap_email) }
+
+    context 'when channel provider config is updated' do
+      it 'does not include provider config in the audit log' do
+        channel.update(imap_address: 'imap.updated.com', provider_config: { access_token: 'super-secret-token' })
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes).to have_key('imap_address')
+        expect(audit.audited_changes).not_to have_key('provider_config')
+      end
+    end
+
+    context 'when channel passwords are updated' do
+      it 'does not include credential attributes in the audit log' do
+        channel.update(imap_login: 'updated@example.com', imap_password: 'new-imap-password', smtp_password: 'new-smtp-password')
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes).to have_key('imap_login')
+        expect(audit.audited_changes.keys).not_to include('imap_password', 'smtp_password')
+      end
+    end
+  end
+
+  describe 'audit log with telegram channel' do
+    let!(:channel) { create(:channel_telegram) }
+
+    context 'when channel bot token is updated' do
+      it 'does not include credential attributes in the audit log' do
+        channel.update(bot_token: 'updated-bot-token')
+
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
+      end
+    end
+  end
 end
