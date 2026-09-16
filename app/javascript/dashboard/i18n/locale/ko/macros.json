@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "실행",
       "PREVIEW": "매크로 미리보기",
-      "EXECUTED_SUCCESSFULLY": "매크로가 성공적으로 실행되었습니다"
+      "EXECUTED_SUCCESSFULLY": "매크로가 성공적으로 실행되었습니다",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "속성 키가 필요합니다",

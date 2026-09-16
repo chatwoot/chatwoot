@@ -1,23 +1,14 @@
 <script setup>
-import { computed } from 'vue';
-import { Bar } from 'vue-chartjs';
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-} from 'chart.js';
+import { BarChart as VizBarChart } from '@chatwoot/viz';
 
 const props = defineProps({
-  collection: {
+  data: {
     type: Object,
-    default: () => ({}),
+    required: true,
   },
-  chartOptions: {
-    type: Object,
-    default: () => ({}),
+  ariaLabel: {
+    type: String,
+    required: true,
   },
   clickable: {
     type: Boolean,
@@ -25,90 +16,19 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['elementClick']);
+const emit = defineEmits(['itemClick']);
 
-ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale);
+defineOptions({ inheritAttrs: false });
 
-const fontFamily =
-  'Inter,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-
-const defaultChartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  legend: {
-    display: false,
-    labels: {
-      fontFamily,
-    },
-  },
-  animation: {
-    duration: 0,
-  },
-  datasets: {
-    bar: {
-      barPercentage: 1.0,
-    },
-  },
-  scales: {
-    x: {
-      ticks: {
-        fontFamily: fontFamily,
-      },
-      grid: {
-        drawOnChartArea: false,
-      },
-    },
-    y: {
-      type: 'linear',
-      position: 'left',
-      ticks: {
-        fontFamily: fontFamily,
-        beginAtZero: true,
-        stepSize: 1,
-      },
-      grid: {
-        drawOnChartArea: false,
-      },
-    },
-  },
-};
-
-const handleClick = (event, elements, chart) => {
-  props.chartOptions.onClick?.(event, elements, chart);
-
-  if (!props.clickable || !elements.length) return;
-
-  const { datasetIndex, index } = elements[0];
-  const dataset = props.collection.datasets?.[datasetIndex] || {};
-
-  emit('elementClick', {
-    datasetIndex,
-    dataIndex: index,
-    dataset,
-    label: props.collection.labels?.[index],
-    value: dataset.data?.[index],
-  });
-};
-
-const handleHover = (event, elements, chart) => {
-  props.chartOptions.onHover?.(event, elements, chart);
-
-  if (!event?.native?.target) return;
-
-  event.native.target.style.cursor =
-    props.clickable && elements.length ? 'pointer' : 'default';
-};
-
-const options = computed(() => {
-  return {
-    ...defaultChartOptions,
-    ...props.chartOptions,
-    onClick: handleClick,
-    onHover: handleHover,
-  };
-});
+const handleItemClick = payload => emit('itemClick', payload);
 </script>
 
 <template>
-  <Bar :data="collection" :options="options" />
+  <VizBarChart
+    v-bind="$attrs"
+    :data="props.data"
+    :aria-label="props.ariaLabel"
+    :on-item-click="props.clickable ? handleItemClick : undefined"
+    class="[--cw-viz-bar-label-color:rgb(var(--slate-11))] [--cw-viz-bar-axis-color:rgb(var(--slate-6))] [--cw-viz-bar-zero-line-color:rgb(var(--slate-8))] [--cw-viz-bar-value-color:rgb(var(--slate-11))] [--cw-viz-bar-tooltip-border-color:rgb(var(--border-strong))] [--cw-viz-bar-tooltip-color:rgb(var(--slate-12))] [--cw-viz-bar-tooltip-background:rgb(var(--solid-2))] [--cw-viz-bar-tooltip-label-color:rgb(var(--slate-11))] [--cw-viz-bar-tooltip-active-color:rgb(var(--slate-12))]"
+  />
 </template>

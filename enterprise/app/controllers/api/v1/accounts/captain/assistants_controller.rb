@@ -29,10 +29,9 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
   def playground
     response = if captain_v2_enabled?
-                 Captain::Assistant::AgentRunnerService.new(assistant: @assistant, source: 'playground').generate_response(
-                   message_history: playground_message_history
-                 )
+                 generate_v2_playground_response
                else
+                 Captain::Playground::Configuration.reject_v1! if playground_configuration_supplied?
                  Captain::Llm::AssistantChatService.new(assistant: @assistant, source: 'playground').generate_response(
                    additional_message: playground_params[:message_content],
                    message_history: message_history
@@ -40,6 +39,8 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
                end
 
     render json: response
+  rescue Captain::Playground::Configuration::Invalid => e
+    render json: { error: e.message, errors: e.errors }, status: :unprocessable_entity
   end
 
   def tools
@@ -127,8 +128,12 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     assistant_config_attributes = [
       :product_name, :feature_faq, :feature_memory, :feature_citation,
       :feature_contact_attributes, :welcome_message, :handoff_message,
-      :resolution_message, :instructions, :temperature, :auto_resolve_mode
+      :resolution_message, :instructions, :temperature, :auto_resolve_mode,
+      :response_window
     ]
+    if Current.account.feature_enabled?('captain_integration_v2')
+      assistant_config_attributes += [:auto_resolve_after, :send_inactivity_resolution_message]
+    end
 
     permitted = params.require(:assistant).permit(:name, :description,
                                                   config: assistant_config_attributes)
@@ -138,15 +143,61 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
     permitted[:guardrails] = params[:assistant][:guardrails] if params[:assistant].key?(:guardrails)
 
+    permit_audience_config(permitted)
+
     permitted
   end
 
-  def playground_params
-    params.require(:assistant).permit(:message_content, message_history: [:role, :content, :agent_name])
+  # The audience is a recursive condition tree that strong params can't whitelist by shape;
+  # pass it through raw and let Captain::AudienceValidator enforce validity.
+  def permit_audience_config(permitted)
+    config = params[:assistant][:config]
+    return unless config.try(:key?, :audience)
+
+    audience = config[:audience]
+    permitted[:config][:audience] = audience.respond_to?(:permit!) ? audience.permit!.to_h : audience
   end
 
+  def playground_params
+    params.require(:assistant).permit(
+      :message_content,
+      message_history: [:role, :content, :agent_name],
+      playground_config: [
+        :knowledge_text,
+        { scenario_ids: [], response_guidelines: [], guardrails: [],
+          temporary_scenarios: [:client_id, :title, :description, :instruction] }
+      ]
+    )
+  end
+
+  def generate_v2_playground_response
+    return default_v2_playground_response unless playground_configuration_params
+
+    Captain::Playground::Runner.new(
+      assistant: @assistant,
+      configuration_params: playground_configuration_params,
+      message_history: playground_message_history
+    ).generate_response
+  end
+
+  def default_v2_playground_response
+    run_options = Captain::Assistant::AgentRunnerService::RunOptions.new(source: 'playground')
+    Captain::Assistant::AgentRunnerService.new(assistant: @assistant, run_options: run_options).generate_response(
+      message_history: playground_message_history
+    )
+  end
+
+  def playground_configuration_params
+    return unless playground_configuration_supplied?
+
+    params[:playground_config] || params[:assistant]&.[](:playground_config) ||
+      raise(Captain::Playground::Configuration::Invalid, { 'playground_config' => ['must be an object'] })
+  end
+
+  def playground_configuration_supplied? = params.key?(:playground_config) || params[:assistant]&.key?(:playground_config)
+
   def message_history
-    (playground_params[:message_history] || []).map do |message|
+    Array(playground_params[:message_history]).map do |message|
       {
         role: message[:role],
         content: message[:content],

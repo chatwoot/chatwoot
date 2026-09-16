@@ -152,6 +152,55 @@ RSpec.describe 'Super Admin Users API', type: :request do
     end
   end
 
+  describe 'POST /super_admin/users/:id/resend_confirmation' do
+    def mail_jobs
+      ActiveJob::Base.queue_adapter.enqueued_jobs.select do |job|
+        job[:job].to_s == 'ActionMailer::MailDeliveryJob'
+      end
+    end
+
+    context 'when it is an unauthenticated super admin' do
+      let!(:user) { create(:user, skip_confirmation: false) }
+
+      it 'returns unauthorized and does not enqueue a confirmation email' do
+        ActiveJob::Base.queue_adapter.enqueued_jobs.clear
+        post "/super_admin/users/#{user.id}/resend_confirmation"
+
+        expect(response).to have_http_status(:redirect)
+        expect(mail_jobs.count).to eq(0)
+      end
+    end
+
+    context 'when it is an authenticated super admin' do
+      before { sign_in(super_admin, scope: :super_admin) }
+
+      context 'when the user is not confirmed' do
+        let!(:user) { create(:user, skip_confirmation: false) }
+
+        it 'redirects and enqueues a confirmation email' do
+          ActiveJob::Base.queue_adapter.enqueued_jobs.clear
+          post "/super_admin/users/#{user.id}/resend_confirmation"
+
+          expect(response).to have_http_status(:redirect)
+          expect(mail_jobs.count).to be >= 1
+        end
+      end
+
+      context 'when the user is already confirmed' do
+        let!(:user) { create(:user) }
+
+        it 'redirects and does not enqueue a confirmation email' do
+          expect(user).to be_confirmed
+          ActiveJob::Base.queue_adapter.enqueued_jobs.clear
+          post "/super_admin/users/#{user.id}/resend_confirmation"
+
+          expect(response).to have_http_status(:redirect)
+          expect(mail_jobs.count).to eq(0)
+        end
+      end
+    end
+  end
+
   describe 'GET /super_admin/users/:id' do
     let!(:user) { create(:user, name: 'MFA Enabled User', otp_required_for_login: true) }
 

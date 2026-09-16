@@ -138,6 +138,24 @@ describe SearchService do
         end
       end
 
+      context 'when ordering results' do
+        # created_at alone is not unique, so without an id tiebreaker rows can
+        # swap positions between page fetches and duplicate across pages
+        it 'orders with id as tiebreaker in LIKE search' do
+          allow(account).to receive(:feature_enabled?).and_call_original
+          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
+          search = described_class.new(current_user: user, current_account: account, params: { q: 'phoenix' }, search_type: 'Message')
+          expect(search.perform[:messages].to_sql).to include('ORDER BY messages.created_at DESC, messages.id DESC')
+        end
+
+        it 'orders with id as tiebreaker in GIN search' do
+          allow(account).to receive(:feature_enabled?).and_call_original
+          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(true)
+          search = described_class.new(current_user: user, current_account: account, params: { q: 'phoenix' }, search_type: 'Message')
+          expect(search.perform[:messages].to_sql).to include('ORDER BY messages.created_at DESC, messages.id DESC')
+        end
+      end
+
       # rubocop:disable RSpec/MultipleMemoizedHelpers
       context 'when filtering messages with time, sender, and inbox', :opensearch do
         let!(:agent) { create(:user, account: account) }
@@ -473,6 +491,21 @@ describe SearchService do
         search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
 
         expect(search_service).not_to receive(:advanced_search)
+        search_service.perform
+      end
+    end
+
+    context 'when ordering results' do
+      it 'orders by created_at desc with id as tiebreaker' do
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            order: { created_at: :desc, id: { order: :desc, unmapped_type: 'long' } }
+          )
+        ).and_return([])
+
         search_service.perform
       end
     end

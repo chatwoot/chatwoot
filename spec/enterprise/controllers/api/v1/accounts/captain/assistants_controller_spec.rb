@@ -254,6 +254,104 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(response).to have_http_status(:success)
         expect(assistant.reload.config).to include('product_name' => 'Chatwoot', 'auto_resolve_mode' => 'disabled')
       end
+
+      it 'keeps inactivity timer settings behind Captain V2' do
+        account.disable_features!('captain_integration_v2')
+        assistant.update!(
+          config: {
+            'auto_resolve_mode' => 'evaluated',
+            'auto_resolve_after' => 60,
+            'send_inactivity_resolution_message' => true
+          }
+        )
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: {
+                assistant: {
+                  config: {
+                    auto_resolve_mode: 'disabled',
+                    auto_resolve_after: 90,
+                    send_inactivity_resolution_message: false
+                  }
+                }
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(assistant.reload.config).to include(
+          'auto_resolve_mode' => 'disabled',
+          'auto_resolve_after' => 60,
+          'send_inactivity_resolution_message' => true
+        )
+      end
+
+      it 'updates inactive conversation settings for Captain v2' do
+        account.enable_features!('captain_integration_v2')
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: {
+                assistant: {
+                  config: {
+                    auto_resolve_mode: 'evaluated',
+                    auto_resolve_after: 61,
+                    send_inactivity_resolution_message: false,
+                    resolution_message: 'Saved closing message'
+                  }
+                }
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:config]).to include(
+          auto_resolve_mode: 'evaluated',
+          auto_resolve_after: 60,
+          send_inactivity_resolution_message: false,
+          resolution_message: 'Saved closing message'
+        )
+      end
+
+      it 'persists the nested audience condition tree' do
+        create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute,
+                                             attribute_display_type: :text, attribute_key: 'plan_tier')
+        audience = {
+          operator: 'and',
+          conditions: [
+            { attribute_key: 'country_code', filter_operator: 'equal_to', values: ['US'] },
+            { operator: 'or', conditions: [
+              { attribute_key: 'plan_tier', filter_operator: 'equal_to', values: ['paid'] }
+            ] }
+          ]
+        }
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: { assistant: { config: { audience: audience } } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        stored = assistant.reload.config['audience']
+        expect(stored['operator']).to eq('and')
+        expect(stored['conditions'].first['attribute_key']).to eq('country_code')
+        expect(stored['conditions'].last['conditions'].first['values']).to eq(['paid'])
+      end
+
+      it 'rejects invalid audience attributes and operators' do
+        invalid_audiences = [
+          { attribute_key: 'missing_attribute', filter_operator: 'not_equal_to', values: ['known'] },
+          { attribute_key: 'blocked', filter_operator: 'is_not_present', values: [] }
+        ]
+
+        invalid_audiences.each do |audience|
+          patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+                params: { assistant: { config: { audience: audience } } },
+                headers: admin.create_new_auth_token,
+                as: :json
+
+          expect(response).to have_http_status(:unprocessable_content)
+        end
+      end
     end
   end
 
@@ -303,7 +401,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           as: :json
 
       expect(response).to have_http_status(:success)
-      expect(json_response).to eq(approved: 3, suggestions: 1, documents: 2, coverage: 75)
+      expect(json_response).to eq(approved: 3, faqs: 3, suggestions: 1, documents: 2, coverage: 75)
     end
 
     it 'returns zero coverage when there are no FAQs or suggestions' do
@@ -312,7 +410,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           as: :json
 
       expect(response).to have_http_status(:success)
-      expect(json_response).to include(approved: 0, suggestions: 0, coverage: 0)
+      expect(json_response).to include(approved: 0, faqs: 0, suggestions: 0, coverage: 0)
     end
 
     it 'counts only suggestions backed by conversations the agent can access' do
@@ -465,9 +563,21 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           message_history: []
         )
       end
+
+      it 'rejects enhanced playground configuration' do
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+             params: valid_params.merge(playground_config: { scenario_ids: [] }),
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:errors]).to eq(playground_config: ['is only available with Captain V2'])
+      end
     end
 
     context 'when captain v2 is enabled' do
+      let(:run_options) { Captain::Assistant::AgentRunnerService::RunOptions.new(source: 'playground') }
+
       before do
         account.enable_features('captain_integration_v2')
       end
@@ -475,7 +585,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       it 'generates a response with the agent runner service' do
         allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
           assistant: assistant,
-          source: 'playground'
+          run_options: run_options
         ).and_return(agent_runner_service)
         allow(agent_runner_service).to receive(:generate_response).and_return(
           {
@@ -505,7 +615,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         }
         allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
           assistant: assistant,
-          source: 'playground'
+          run_options: run_options
         ).and_return(agent_runner_service)
         allow(agent_runner_service).to receive(:generate_response).and_return({ response: 'Assistant response' })
 
@@ -518,6 +628,70 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(agent_runner_service).to have_received(:generate_response).with(
           message_history: params_with_latest_message[:message_history]
         )
+      end
+
+      it 'runs enhanced requests through the session-only playground runner' do
+        playground_runner = instance_double(Captain::Playground::Runner)
+        enhanced_params = valid_params.merge(
+          playground_config: {
+            scenario_ids: [],
+            temporary_scenarios: [],
+            response_guidelines: ['Be concise'],
+            guardrails: [],
+            knowledge_text: 'Refunds take five days.'
+          }
+        )
+        allow(Captain::Playground::Runner).to receive(:new).with(
+          assistant: assistant,
+          configuration_params: kind_of(ActionController::Parameters),
+          message_history: valid_params[:message_history] + [{ role: 'user', content: valid_params[:message_content] }]
+        ).and_return(playground_runner)
+        allow(playground_runner).to receive(:generate_response).and_return(
+          response: 'Assistant response',
+          run_details: { duration_ms: 12, events: [] }
+        )
+
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+             params: enhanced_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:run_details]).to eq(duration_ms: 12, events: [])
+      end
+
+      it 'returns structured validation errors without modifying Captain configuration' do
+        assistant
+        original_counts = [Captain::Assistant.count, Captain::Scenario.count]
+
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+             params: valid_params.merge(playground_config: { knowledge_text: 'a' * 10_001 }),
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:errors][:knowledge_text]).to eq(['is limited to 10000 characters'])
+        expect([Captain::Assistant.count, Captain::Scenario.count]).to eq(original_counts)
+      end
+
+      it 'returns a structured error for a malformed playground configuration' do
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+             params: valid_params.merge(playground_config: 'invalid'),
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:errors]).to eq(playground_config: ['must be an object'])
+      end
+
+      it 'returns a structured error for malformed playground configuration fields' do
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+             params: valid_params.merge(playground_config: { scenario_ids: 1 }),
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:errors]).to eq(scenario_ids: ['must be an array'])
       end
     end
   end

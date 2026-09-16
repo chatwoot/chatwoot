@@ -35,9 +35,12 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def sync_templates
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
-    templates = fetch_whatsapp_templates
+    return if (templates = fetch_whatsapp_templates).blank?
+
+    # update_columns skips touch, so bump the cache key ourselves; only if templates changed
+    whatsapp_channel.account.update_cache_key('inbox') if templates != whatsapp_channel.message_templates
     # rubocop:disable Rails/SkipsModelValidations
-    whatsapp_channel.update_columns(message_templates: templates, message_templates_last_updated: Time.current) if templates.present?
+    whatsapp_channel.update_columns(message_templates: templates, message_templates_last_updated: Time.current)
     # rubocop:enable Rails/SkipsModelValidations
   end
 
@@ -183,7 +186,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def build_attachment_content(type, attachment, message)
-    type_content = { 'link' => attachment.download_url }
+    # Referencing uploaded media by id avoids Meta's fwdproxy download, which is rate limited per ASN (error 131053).
+    type_content = Whatsapp::MediaUploadService.new(whatsapp_channel, attachment).perform || { 'link' => attachment.download_url }
     type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
     type_content['voice'] = true if voice_message?(type, attachment)

@@ -67,9 +67,7 @@ const groupClass = computed(() => {
 });
 
 const slaPopoverClass = computed(() => {
-  return props.showExtendedInfo
-    ? 'ltr:pr-1.5 rtl:pl-1.5 ltr:border-r rtl:border-l border-n-strong'
-    : '';
+  return props.showExtendedInfo ? 'pe-1.5 border-e border-n-strong' : '';
 });
 </script>
 
@@ -104,7 +102,7 @@ const slaPopoverClass = computed(() => {
       <span
         v-if="slaValueText"
         class="text-xs font-medium"
-        :class="[slaTextStyles, showExtendedInfo && 'ltr:pl-1.5 rtl:pr-1.5']"
+        :class="[slaTextStyles, showExtendedInfo && 'ps-1.5']"
       >
         {{ slaValueText }}
       </span>

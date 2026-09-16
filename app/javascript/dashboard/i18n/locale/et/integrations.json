@@ -411,8 +411,8 @@
         "DISMISS": "Dismiss"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
-        "ACTION": "Review FAQs",
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
         "DISMISS": "Dismiss"
       },
       "RANGES": {
@@ -447,7 +447,6 @@
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "Close details",
         "EMPTY": "No records found for this metric.",
         "ERROR": "Could not load records. Please try again.",
         "LOAD_MORE": "Load more",
@@ -457,7 +456,7 @@
         "TITLE": "Knowledge coverage",
         "COVERAGE": "{pct}% approved",
         "APPROVED": "Approved FAQs",
-        "PENDING": "Pending FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
         "DOCUMENTS": "Dokumendid"
       },
       "LINKS": {
@@ -1085,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "KKK-d",
-      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Loo uus KKK",
       "DOCUMENTABLE": {
         "CONVERSATION": "Vestlus #{id}"
@@ -1094,12 +1092,10 @@
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
       "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Kinnita",
-      "BULK_DELETE_BUTTON": "Kustuta",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "KKK-d kinnitati edukalt",
-        "ERROR_MESSAGE": "KKK-de kinnitamisel tekkis viga, palun proovige uuesti."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "Kustuta",
       "BULK_DELETE": {
         "TITLE": "Kustutada KKK-d?",
         "DESCRIPTION": "Kas olete kindel, et soovite valitud KKK-d kustutada? Seda toimingut ei saa tagasi võtta.",
@@ -1114,20 +1110,9 @@
         "SUCCESS_MESSAGE": "KKK kustutati edukalt",
         "ERROR_MESSAGE": "KKK kustutamisel tekkis viga, palun proovige uuesti."
       },
-      "FILTER": {
-        "ASSISTANT": "Assistent: {selected}",
-        "STATUS": "Staatus: {selected}",
-        "ALL_ASSISTANTS": "Kõik"
-      },
-      "STATUS": {
-        "TITLE": "Staatus",
-        "PENDING": "Ootel",
-        "APPROVED": "Kinnitatud",
-        "ALL": "Kõik"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "Lisage küsimus ja sellele vastav vastus teadmistebaasi ning valige assistent, kellega see peaks olema seotud.",
       "CREATE": {
@@ -1160,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "KKK-sid ei leitud",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "KKK-d aitavad teie assistendil pakkuda klientide küsimustele kiireid ja täpseid vastuseid. Neid saab automaatselt teie sisu põhjal genereerida või käsitsi lisada.",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain KKK",
           "NOTE": "Captain KKK tuvastab levinud kliendiküsimused—nii need, mis puuduvad teadmistebaasist kui ka korduma kippuvad—ja loob asjakohased KKK-d toe parandamiseks. Saad iga ettepaneku üle vaadata ja otsustada, kas see kinnitada või tagasi lükata."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "Kinnita",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "Salvesta muudatused",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

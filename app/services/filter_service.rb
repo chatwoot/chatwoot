@@ -9,6 +9,7 @@ class FilterService
   ATTRIBUTE_TYPES = {
     date: 'date', text: 'text', number: 'numeric', link: 'text', list: 'text', checkbox: 'boolean'
   }.with_indifferent_access
+  STRING_VALUE_ATTRIBUTES = %w[status priority].freeze
 
   def initialize(params, user)
     @params = params
@@ -117,7 +118,7 @@ class FilterService
   def set_count_for_all_conversations
     counts = @conversations.except(:includes, :order).pick(
       Arel.sql(ActiveRecord::Base.sanitize_sql_array(['COUNT(*) FILTER (WHERE assignee_id = ?)', @user.id])),
-      Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NULL)'),
+      Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NULL AND assignee_agent_bot_id IS NULL)'),
       Arel.sql('COUNT(*)')
     )
     # pick short-circuits to nil on a none relation (e.g. permission scope with no access)
@@ -161,7 +162,10 @@ class FilterService
     when 'date'
       Date.iso8601(raw_value.to_s)
     when 'numeric'
-      BigDecimal(raw_value.to_s)
+      decimal = BigDecimal(raw_value.to_s)
+      raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key) unless decimal.finite?
+
+      decimal
     else
       raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key)
     end
@@ -195,8 +199,20 @@ class FilterService
   end
 
   def validate_query_operator
-    @params[:payload].each do |query_hash|
+    @params[:payload].each_with_index do |query_hash, index|
       validate_single_condition(query_hash)
+      validate_string_values(query_hash)
+      next unless index == @params[:payload].length - 1
+
+      raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) if query_hash['query_operator'].present?
     end
+  end
+
+  def validate_string_values(query_hash)
+    return unless STRING_VALUE_ATTRIBUTES.include?(query_hash['attribute_key'])
+    return unless @filters[filter_config[:entity].downcase.pluralize].key?(query_hash['attribute_key'])
+    return if query_hash['values'].is_a?(Array) && query_hash['values'].all?(String)
+
+    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash['attribute_key'])
   end
 end

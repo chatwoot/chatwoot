@@ -7,6 +7,7 @@
       "404": "هیچ گفتگوی فعالی در این گروه نیست."
     },
     "FAILED_TO_SEND": "ارسال با خطا مواجه شد",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "گفتگوها",
     "MENTION_HEADING": "اشاره",
     "UNATTENDED_HEADING": "بی سرپرست",

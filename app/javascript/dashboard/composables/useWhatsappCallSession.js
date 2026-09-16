@@ -1,6 +1,7 @@
 import { readonly, ref } from 'vue';
 import Cookies from 'js-cookie';
 import WhatsappCallsAPI from 'dashboard/api/channel/whatsapp/whatsappCallsAPI';
+import { remuxWebmToOgg } from 'dashboard/components/widgets/WootWriter/utils/webmOpusToOgg';
 import { VOICE_CALL_OUTBOUND_INIT_STATUS } from 'dashboard/components-next/message/constants';
 
 // Module-level state lets the cable handlers and unload listeners reach the
@@ -33,6 +34,9 @@ const isInitiatingOutboundReadonly = readonly(isInitiatingOutbound);
 // answers, and we don't want pre-pickup audio in the recording. This flag is
 // flipped to true by armOutboundRecorder() when the ACCEPTED status arrives.
 let recorderArmed = false;
+// This call's recording decision, snapshotted server-side at call creation and
+// carried on every payload that can start a call in this tab.
+let callRecordingEnabled = true;
 
 const ensureRemoteAudioElement = () => {
   if (remoteAudioEl) return remoteAudioEl;
@@ -58,6 +62,10 @@ const playRemoteStream = stream => {
 // that races cleanup still has data to upload.
 const RECORDING_TIMESLICE_MS = 1000;
 const ICE_GATHER_TIMEOUT_MS = 10000;
+// The OGG remux is a whole-file in-memory pass on the main thread (~4x the
+// blob size transient); past this cap (~3 h at the 48 kbps recording bitrate)
+// skip it and upload the raw WebM instead.
+const MAX_REMUX_BYTES = 64 * 1024 * 1024;
 
 const RECORDER_MIME_CANDIDATES = [
   'audio/webm;codecs=opus',
@@ -86,6 +94,7 @@ const waitForIceGatheringComplete = peer =>
   });
 
 const setupRecorder = () => {
+  if (!callRecordingEnabled) return;
   if (!localStream || !remoteStream || mediaRecorder) return;
   // createMediaStreamSource on a stream with no audio tracks wires up to
   // nothing — the recorded mix would be silence. Wait until ontrack fires.
@@ -106,7 +115,11 @@ const setupRecorder = () => {
   if (!mimeType) return;
 
   recorderChunks = [];
-  mediaRecorder = new MediaRecorder(destination.stream, { mimeType });
+  // 48 kbps Opus is transparent for speech vs Chrome's ~128 kbps default.
+  mediaRecorder = new MediaRecorder(destination.stream, {
+    mimeType,
+    audioBitsPerSecond: 48000,
+  });
   mediaRecorder.ondataavailable = event => {
     if (event.data && event.data.size > 0) recorderChunks.push(event.data);
   };
@@ -133,6 +146,7 @@ const cleanup = () => {
   localStream = null;
   remoteStream = null;
   mediaRecorder = null;
+  callRecordingEnabled = true;
   recorderChunks = [];
   audioContext = null;
   activeCallId = null;
@@ -177,10 +191,22 @@ const stopRecorderAndUpload = async callId => {
   }
   if (!recorderChunks.length || !callId) return;
 
-  const blob = new Blob(recorderChunks, { type: recorderChunks[0].type });
+  let blob = new Blob(recorderChunks, { type: recorderChunks[0].type });
+  const isWebm = blob.type.startsWith('audio/webm');
+  let filename = isWebm ? 'call-recording.webm' : 'call-recording.ogg';
+  // Remux to OGG so the file carries a real duration (MediaRecorder never
+  // backfills the WebM duration header, which breaks mobile players).
+  if (isWebm && blob.size <= MAX_REMUX_BYTES) {
+    try {
+      blob = await remuxWebmToOgg(blob);
+      filename = 'call-recording.ogg';
+    } catch (_) {
+      /* noop — fall back to uploading the raw WebM */
+    }
+  }
   // Best-effort — the controller's idempotency guard handles a retry.
   try {
-    await WhatsappCallsAPI.uploadRecording(callId, blob);
+    await WhatsappCallsAPI.uploadRecording(callId, blob, filename);
   } catch (_) {
     /* noop */
   }
@@ -259,16 +285,23 @@ export function useWhatsappCallSession() {
     return pc.localDescription.sdp;
   };
 
-  const acceptIncomingCall = async ({ callId, sdpOffer, iceServers }) => {
+  const acceptIncomingCall = async ({
+    callId,
+    sdpOffer,
+    iceServers,
+    recordingEnabled,
+  }) => {
     // The store may not have sdpOffer yet (the cable broadcast can race the
     // click). Fall back to GET /whatsapp_calls/:id which exposes it.
     let offer = sdpOffer;
     let ice = iceServers;
+    let recording = recordingEnabled;
     if (!offer && callId) {
       try {
         const fresh = await WhatsappCallsAPI.show(callId);
         offer = fresh?.sdp_offer || fresh?.sdpOffer;
         ice = ice || fresh?.ice_servers || fresh?.iceServers;
+        recording = recording ?? fresh?.recording_enabled;
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error(
@@ -291,6 +324,7 @@ export function useWhatsappCallSession() {
       // Inbound: agent's click is the pickup. Arm the recorder before the API
       // round-trip so when ontrack fires (triggered by setRemoteDescription
       // back in prepareInboundAnswer) the recorder is already authorized.
+      callRecordingEnabled = recording !== false;
       recorderArmed = true;
       setupRecorder();
       await WhatsappCallsAPI.accept(callId, sdpAnswer);
@@ -324,6 +358,7 @@ export function useWhatsappCallSession() {
       const response = await WhatsappCallsAPI.initiate(target, sdpOffer);
       if (response?.id) {
         activeCallId = response.id;
+        callRecordingEnabled = response.recording_enabled !== false;
         // A connect webhook that raced ahead of this response was buffered;
         // apply our own by id now that we know it, then drop every buffered
         // answer (concurrent agents' calls aren't ours to apply).

@@ -666,6 +666,31 @@ RSpec.describe ConversationReplyMailer do
           mail = described_class.email_reply(message)
           expect(mail['from'].value).to eq "#{agent_2.available_name} from #{conversation.inbox.business_name} <#{smtp_channel.email}>"
         end
+
+        it 'uses the sender locale for the friendly name' do
+          message.sender.update!(ui_settings: { 'locale' => 'de' })
+
+          mail = described_class.email_reply(message)
+
+          expect(mail['from'].value).to eq "#{message.sender.available_name} von #{conversation.inbox.business_name} <#{smtp_channel.email}>"
+        end
+
+        it 'falls back to the account locale when the sender locale is not set' do
+          account.update!(locale: :de)
+
+          mail = described_class.email_reply(message)
+
+          expect(mail['from'].value).to eq "#{message.sender.available_name} von #{conversation.inbox.business_name} <#{smtp_channel.email}>"
+        end
+
+        it 'uses the account locale when the sender is not a user' do
+          account.update!(locale: :de)
+          message.update!(sender_id: nil)
+
+          mail = described_class.email_reply(message)
+
+          expect(mail['from'].value).to eq "#{conversation.assignee.available_name} von #{conversation.inbox.business_name} <#{smtp_channel.email}>"
+        end
       end
 
       context 'when friendly name disabled' do

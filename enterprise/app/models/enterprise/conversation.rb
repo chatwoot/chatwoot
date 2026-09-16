@@ -25,6 +25,22 @@ module Enterprise::Conversation
 
   private
 
+  def determine_conversation_status
+    super
+    return unless pending?
+    return if inbox.external_bot_active?
+
+    assistant = inbox.captain_assistant
+    return if assistant.blank?
+
+    unless assistant.engages?(contact, self)
+      self.status = :open
+      return
+    end
+
+    self.ai_assignee = assistant if assignee_id.blank?
+  end
+
   def handle_resolved_status_change
     super
     update_applied_sla_completion

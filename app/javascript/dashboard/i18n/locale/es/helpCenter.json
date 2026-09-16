@@ -404,6 +404,12 @@
         "PLACEHOLDER": "Buscar artículos"
       }
     },
+    "BREADCRUMB": {
+      "ARTICLES": "Artículos",
+      "CATEGORIES": "Categorías",
+      "LOCALES": "Idiomas",
+      "SETTINGS": "Ajustes"
+    },
     "CATEGORY": {
       "ADD": {
         "TITLE": "Crear una categoría",
@@ -890,16 +896,10 @@
           "LABEL": "Slug",
           "PLACEHOLDER": "Portal slug"
         },
-        "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center",
-          "NONE_OPTION": "No widget"
-        },
         "BRAND_COLOR": {
           "LABEL": "Brand color"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "Guardar cambios"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
@@ -972,6 +972,72 @@
         },
         "SAVE": "Guardar cambios"
       },
+      "INTEGRATIONS": {
+        "HEADER": "Integraciones",
+        "DESCRIPTION": "Conecta herramientas que amplían las funciones de tu centro de ayuda.",
+        "LIVE_CHAT": {
+          "TITLE": "Chat en directo con Chatwoot",
+          "DESCRIPTION": "Muestra un widget de chat en directo en tu centro de ayuda para que los visitantes puedan contactarte mientras leen.",
+          "PLACEHOLDER": "Seleccionar widget de chat en directo",
+          "NONE_OPTION": "Sin widget"
+        },
+        "GTM": {
+          "TITLE": "Google Tag Manager",
+          "DESCRIPTION": "Añade etiquetas de analítica y marketing conectando tu contenedor de Tag Manager.",
+          "PLACEHOLDER": "GTM-XXXXXXX",
+          "HELP": "Encuéntralo en tu espacio de trabajo de Google Tag Manager. Déjalo vacío para desactivarlo.",
+          "INVALID": "Introduce un ID de contenedor válido, por ejemplo, GTM-XXXXXXX."
+        },
+        "GA4": {
+          "TITLE": "Google Analytics 4",
+          "DESCRIPTION": "Mide el tráfico y el comportamiento de los visitantes de tu centro de ayuda con Google Analytics.",
+          "PLACEHOLDER": "G-XXXXXXXXXX",
+          "HELP": "Encuentra el ID de medición en Administrar → Flujos de datos de Google Analytics. Déjalo vacío para desactivarlo.",
+          "INVALID": "Introduce un ID de medición válido, por ejemplo, G-XXXXXXXXXX."
+        },
+        "HOTJAR": {
+          "TITLE": "Hotjar",
+          "DESCRIPTION": "Descubre cómo usan los visitantes tu centro de ayuda mediante mapas de calor y grabaciones de sesiones.",
+          "PLACEHOLDER": "1234567",
+          "HELP": "Encuentra el ID de tu sitio en Sitios y organizaciones de Hotjar. Déjalo vacío para desactivarlo.",
+          "INVALID": "Introduce un ID numérico de sitio de Hotjar."
+        },
+        "PLAUSIBLE": {
+          "TITLE": "Plausible",
+          "DESCRIPTION": "Mide el tráfico del centro de ayuda con Plausible Analytics, que respeta la privacidad.",
+          "PLACEHOLDER": "example.com",
+          "HELP": "Introduce el dominio configurado en los ajustes de tu sitio de Plausible. Déjalo vacío para desactivarlo.",
+          "INVALID": "Introduce un dominio válido, por ejemplo, example.com."
+        },
+        "AMPLITUDE": {
+          "TITLE": "Amplitude",
+          "DESCRIPTION": "Analiza el comportamiento de los visitantes de tu centro de ayuda con Amplitude.",
+          "PLACEHOLDER": "0123456789abcdef0123456789abcdef",
+          "HELP": "Busca la clave de API en la configuración de tu proyecto de Amplitude. Déjala vacía para desactivarlo.",
+          "INVALID": "Introduce una clave de API de Amplitude válida."
+        },
+        "CLARITY": {
+          "TITLE": "Microsoft Clarity",
+          "DESCRIPTION": "Captura mapas de calor y grabaciones de sesiones con Microsoft Clarity.",
+          "PLACEHOLDER": "abcd1234ef",
+          "HELP": "Encuentra el ID del proyecto en los ajustes de tu proyecto de Clarity. Déjalo vacío para desactivarlo.",
+          "INVALID": "Introduce un ID de proyecto de Clarity válido."
+        },
+        "META_PIXEL": {
+          "TITLE": "Píxel de Meta",
+          "DESCRIPTION": "Mide las conversiones de anuncios y crea audiencias a partir de las visitas al centro de ayuda con el píxel de Meta.",
+          "PLACEHOLDER": "123456789012345",
+          "HELP": "Encuentra el ID del píxel en el administrador de eventos de Meta. Déjalo vacío para desactivarlo.",
+          "INVALID": "Introduce un ID numérico de píxel."
+        },
+        "SAVE": "Guardar cambios"
+      },
+      "NAV": {
+        "GENERAL": "General",
+        "DOMAIN": "Dominio",
+        "APPEARANCE": "Apariencia",
+        "INTEGRATIONS": "Integraciones"
+      },
       "API": {
         "CREATE_PORTAL": {
           "SUCCESS_MESSAGE": "Portal creado correctamente",
@@ -1007,14 +1073,14 @@
       "GENERATING": "Generando...",
       "CONFIRM_DELETE": "¿Está seguro que desea borrar {filename}?",
       "EMPTY_STATE": {
-        "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "TITLE": "Aún no hay documentos PDF",
+        "DESCRIPTION": "Sube documentos PDF para generar preguntas frecuentes automáticamente con IA"
       },
       "STATUS": {
-        "UPLOADED": "Ready",
-        "PROCESSING": "Processing",
+        "UPLOADED": "Listo",
+        "PROCESSING": "Procesando",
         "PROCESSED": "Completado",
-        "FAILED": "Failed"
+        "FAILED": "Fallido"
       }
     },
     "CONTENT_GENERATION": {

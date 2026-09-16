@@ -1,0 +1,45 @@
+{
+  "CALLS_PAGE": {
+    "HEADER": "Chamadas",
+    "ALL_CALLS": "Todas as chamadas",
+    "ALL_CALLS_COUNT": "Todas as chamadas ({count})",
+    "EMPTY_STATE": "Nenhuma chamada encontrada",
+    "SETUP": {
+      "TITLE": "Faça e receba chamadas em um só lugar",
+      "SUBTITLE": "Configure um canal de voz para começar a atender chamadas com sua equipe. Todas as chamadas, juntamente com suas gravações, aparecerão aqui.",
+      "ACTION": "Configurar canal de voz"
+    },
+    "FILTERS": {
+      "MISSED": "Perdidas",
+      "NO_REPLY": "Sem resposta",
+      "OTHER_ACTIVITY": "Outra atividade",
+      "INCOMING": "Recebidas",
+      "OUTGOING": "Efetuadas",
+      "IN_PROGRESS": "Em andamento",
+      "ASSIGNEE": "Agente atribuído",
+      "ALL_ASSIGNEES": "Todos os atribuídos",
+      "MORE_FILTERS": "Mais filtros",
+      "INBOX": "Caixa de Entrada",
+      "ALL_INBOXES": "Todas as caixas de entrada"
+    },
+    "STATUS": {
+      "ONGOING": "Em andamento",
+      "INCOMING": "Recebidas",
+      "OUTGOING": "Efetuadas",
+      "MISSED": "Perdidas",
+      "NO_REPLY": "Sem resposta",
+      "FAILED": "Falha"
+    },
+    "ROW": {
+      "PICKED_BY": "Atendida por",
+      "DIALED_BY": "Iniciada por",
+      "ANSWERED": "Atendida",
+      "RINGING": "Chamando",
+      "IN_PROGRESS": "Em andamento",
+      "NO_AGENT": "Nenhum atendente atendeu esta chamada",
+      "NO_CONTACT_ANSWER": "O contato não atendeu",
+      "FAILED": "Não foi possível conectar esta chamada",
+      "YESTERDAY": "Ontem"
+    }
+  }
+}

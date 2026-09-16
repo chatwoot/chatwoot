@@ -404,6 +404,12 @@
         "PLACEHOLDER": "게시물 검색"
       }
     },
+    "BREADCRUMB": {
+      "ARTICLES": "게시물",
+      "CATEGORIES": "카테고리",
+      "LOCALES": "로케일",
+      "SETTINGS": "설정"
+    },
     "CATEGORY": {
       "ADD": {
         "TITLE": "카테고리 만들기",
@@ -890,12 +896,6 @@
           "LABEL": "슬러그",
           "PLACEHOLDER": "포털 슬러그"
         },
-        "LIVE_CHAT_WIDGET": {
-          "LABEL": "실시간 채팅 위젯",
-          "PLACEHOLDER": "실시간 채팅 위젯 선택",
-          "HELP_TEXT": "도움말 센터에 표시될 실시간 채팅 위젯을 선택하십시오",
-          "NONE_OPTION": "위젯 없음"
-        },
         "BRAND_COLOR": {
           "LABEL": "브랜드 색상"
         },
@@ -971,6 +971,72 @@
           "REMOVE": "제거"
         },
         "SAVE": "변경사항 저장"
+      },
+      "INTEGRATIONS": {
+        "HEADER": "통합",
+        "DESCRIPTION": "Connect tools that extend what your help center can do.",
+        "LIVE_CHAT": {
+          "TITLE": "Live chat with Chatwoot",
+          "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
+          "PLACEHOLDER": "실시간 채팅 위젯 선택",
+          "NONE_OPTION": "위젯 없음"
+        },
+        "GTM": {
+          "TITLE": "Google Tag Manager",
+          "DESCRIPTION": "Add analytics and marketing tags by connecting your Tag Manager container.",
+          "PLACEHOLDER": "GTM-XXXXXXX",
+          "HELP": "Find this in your Google Tag Manager workspace. Leave empty to disable.",
+          "INVALID": "Enter a valid container ID, for example GTM-XXXXXXX."
+        },
+        "GA4": {
+          "TITLE": "Google Analytics 4",
+          "DESCRIPTION": "Measure traffic and visitor behavior on your help center with Google Analytics.",
+          "PLACEHOLDER": "G-XXXXXXXXXX",
+          "HELP": "Find the measurement ID under Admin → Data streams in Google Analytics. Leave empty to disable.",
+          "INVALID": "Enter a valid measurement ID, for example G-XXXXXXXXXX."
+        },
+        "HOTJAR": {
+          "TITLE": "Hotjar",
+          "DESCRIPTION": "Understand how visitors use your help center with heatmaps and session recordings.",
+          "PLACEHOLDER": "1234567",
+          "HELP": "Find your site ID under Sites & organizations in Hotjar. Leave empty to disable.",
+          "INVALID": "Enter a numeric Hotjar site ID."
+        },
+        "PLAUSIBLE": {
+          "TITLE": "Plausible",
+          "DESCRIPTION": "Track help center traffic with privacy-friendly Plausible Analytics.",
+          "PLACEHOLDER": "example.com",
+          "HELP": "Enter the domain configured in your Plausible site settings. Leave empty to disable.",
+          "INVALID": "Enter a valid domain, for example example.com."
+        },
+        "AMPLITUDE": {
+          "TITLE": "Amplitude",
+          "DESCRIPTION": "Analyze visitor behavior on your help center with Amplitude.",
+          "PLACEHOLDER": "0123456789abcdef0123456789abcdef",
+          "HELP": "Find the API key in your Amplitude project settings. Leave empty to disable.",
+          "INVALID": "Enter a valid Amplitude API key."
+        },
+        "CLARITY": {
+          "TITLE": "Microsoft Clarity",
+          "DESCRIPTION": "Capture heatmaps and session recordings with Microsoft Clarity.",
+          "PLACEHOLDER": "abcd1234ef",
+          "HELP": "Find the project ID in your Clarity project settings. Leave empty to disable.",
+          "INVALID": "Enter a valid Clarity project ID."
+        },
+        "META_PIXEL": {
+          "TITLE": "Meta Pixel",
+          "DESCRIPTION": "Measure ad conversions and build audiences from help center visits with Meta Pixel.",
+          "PLACEHOLDER": "123456789012345",
+          "HELP": "Find the pixel ID in Meta Events Manager. Leave empty to disable.",
+          "INVALID": "Enter a numeric pixel ID."
+        },
+        "SAVE": "변경사항 저장"
+      },
+      "NAV": {
+        "GENERAL": "일반",
+        "DOMAIN": "도메인",
+        "APPEARANCE": "외관",
+        "INTEGRATIONS": "통합"
       },
       "API": {
         "CREATE_PORTAL": {

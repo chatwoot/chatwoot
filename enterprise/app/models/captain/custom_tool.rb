@@ -80,6 +80,10 @@ class Captain::CustomTool < ApplicationRecord
     }
   end
 
+  def enabled_scenarios_count
+    Captain::Scenario.enabled.where(account_id: account_id).where('tools @> ?', [slug].to_json).count
+  end
+
   private
 
   def ensure_within_limit

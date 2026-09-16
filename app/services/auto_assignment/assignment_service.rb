@@ -111,7 +111,7 @@ class AutoAssignment::AssignmentService
 
     Conversation.transaction do
       locked = inbox.conversations
-                    .where(id: conversation.id, assignee_id: nil)
+                    .where(id: conversation.id).unassigned
                     .lock('FOR UPDATE SKIP LOCKED')
                     .first
       next false unless locked

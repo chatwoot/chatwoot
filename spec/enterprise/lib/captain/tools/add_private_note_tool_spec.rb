@@ -114,6 +114,18 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
         expect(result).to eq('Conversation not found')
       end
     end
+
+    context 'when a playground call cannot add a note' do
+      let(:tool_context) do
+        Struct.new(:state).new({ source: 'playground', conversation: { id: conversation.id } })
+      end
+
+      it 'marks the result as an error for run details' do
+        result = tool.perform(tool_context, note: '')
+
+        expect(result).to eq('ERROR: Note content is required')
+      end
+    end
   end
 
   describe '#execute' do
@@ -143,6 +155,15 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
         result = tool.execute(tool_context, note: 'Do not create this note')
         expect(result).to eq('Tool skipped because a newer customer message arrived')
       end.not_to change(Message, :count)
+    end
+
+    it 'marks a stale playground tool call as an error for run details' do
+      account.enable_features!(:captain_integration_v2)
+      tool_context.state[:source] = 'playground'
+
+      result = tool.execute(tool_context, note: 'Do not create this note')
+
+      expect(result).to eq('ERROR: Tool skipped because a newer customer message arrived')
     end
   end
 
