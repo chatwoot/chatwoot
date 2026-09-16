@@ -17,37 +17,49 @@ properties:
     description: The ID of the conversation
   message_type:
     type: integer
-    enum: [0, 1, 2]
+    enum: [0, 1, 2, 3]
     description: The type of the message
   created_at:
     type: integer
     description: The time at which message was created
   updated_at:
-    type: integer
+    type:
+      - integer
+      - string
     description: The time at which message was updated
   private:
     type: boolean
     description: The flags which shows whether the message is private or not
   status:
-    type: string
-    enum: ["sent", "delivered", "read", "failed"]
+    type:
+      - string
+      - 'null'
+    enum: ["sent", "delivered", "read", "failed", null]
     description: The status of the message
   source_id:
-    type: string
+    type:
+      - string
+      - 'null'
     description: The source ID of the message
   content_type:
-    type: string
-    enum: ["text", "input_select", "cards", "form"]
+    type:
+      - string
+      - 'null'
+    enum: ["text", "input_text", "input_textarea", "input_email", "input_select", "cards", "form", "article", "incoming_email", "input_csat", "integrations", "sticker", "voice_call", null]
     description: The type of the template message
   content_attributes:
     type: object
     description: The content attributes for each content_type
   sender_type:
-    type: string
-    enum: ["contact", "agent", "agent_bot"]
+    type:
+      - string
+      - 'null'
+    enum: ["Contact", "User", "AgentBot", "Captain::Assistant", null]
     description: The type of the sender
   sender_id:
-    type: number
+    type:
+      - number
+      - 'null'
     description: The ID of the sender
   external_source_ids:
     type: object
@@ -56,16 +68,24 @@ properties:
     type: object
     description: The additional attributes of the message
   processed_message_content:
-    type: string
+    type:
+      - string
+      - 'null'
     description: The processed message content
   sentiment:
-    type: object
+    type:
+      - object
+      - 'null'
     description: The sentiment of the message
   conversation:
-    type: object
+    type:
+      - object
+      - 'null'
     description: The conversation object
   attachment:
-    type: object
+    type:
+      - object
+      - 'null'
     description: The file object attached to the image
   sender:
     type: object

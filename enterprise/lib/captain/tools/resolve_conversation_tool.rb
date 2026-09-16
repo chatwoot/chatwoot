@@ -1,0 +1,30 @@
+class Captain::Tools::ResolveConversationTool < Captain::Tools::BasePublicTool
+  description 'Resolve a conversation when the issue has been addressed or the conversation should be closed'
+  param :reason, type: 'string', desc: 'Brief reason for resolving the conversation', required: true
+
+  def perform(tool_context, reason:)
+    conversation = find_conversation(tool_context.state)
+    return failure_result('Conversation not found', tool_context.state) unless conversation
+    return failure_result("Conversation ##{conversation.display_id} is already resolved", tool_context.state) if conversation.resolved?
+    return failure_result('Auto-resolve is disabled for this assistant', tool_context.state) if @assistant.inactive_conversation_resolution_disabled?
+
+    log_tool_usage('resolve_conversation', { conversation_id: conversation.id, reason: reason })
+
+    conversation.with_captain_activity_context(reason: reason, reason_type: :tool) do
+      Conversation.transaction do
+        Captain::Conversation::ResolutionMessageService.new(conversation: conversation, assistant: @assistant).perform
+        conversation.resolved!
+      end
+    end
+    Captain::ConversationEvents.resolved(conversation: conversation, assistant: @assistant,
+                                         source: Captain::ConversationEvents::Sources::TOOL, at: Time.current)
+
+    "Conversation ##{conversation.display_id} resolved#{" (Reason: #{reason})" if reason}"
+  end
+
+  private
+
+  def permissions
+    %w[conversation_manage conversation_unassigned_manage conversation_participating_manage]
+  end
+end

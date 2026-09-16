@@ -11,7 +11,7 @@
 # 3. Create an HTML template using %{name} placeholders matching the capture groups
 
 youtube:
-  regex: 'https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)(?<video_id>[^&/]+)'
+  regex: 'https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)(?<video_id>[^&/?]+)'
   template: |
     <div style="position: relative; padding-bottom: 62.5%; height: 0;">
      <iframe
@@ -23,7 +23,7 @@ youtube:
     </div>
 
 loom:
-  regex: 'https?://(?:www\.)?loom\.com/share/(?<video_id>[^&/]+)'
+  regex: 'https?://(?:www\.)?loom\.com/share/(?<video_id>[^&/?]+)'
   template: |
     <div style="position: relative; padding-bottom: 62.5%; height: 0;">
       <iframe
@@ -46,8 +46,10 @@ vimeo:
 
 mp4:
   regex: '(?<link_url>https?://(?:www\.)?.+\.mp4)'
+  # Editor-only: the preview replaces the raw link line; ignored by this renderer.
+  hide_source: true
   template: |
-    <video width="640" height="360" controls>
+    <video width="640" height="360" controls preload="metadata">
       <source src="%{link_url}" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -68,7 +70,7 @@ arcade_tab:
     </div>
 
 arcade:
-  regex: 'https?://(?:www\.)?app\.arcade\.software/share/(?<video_id>[^&/]+)'
+  regex: 'https?://(?:www\.)?app\.arcade\.software/share/(?<video_id>[^&/?]+)'
   template: |
     <div style="position: relative; padding-bottom: calc(62.793% + 41px); height: 0px; width: 100%;">
       <iframe
@@ -83,7 +85,7 @@ arcade:
     </div>
 
 wistia:
-  regex: 'https?://(?:www\.)?[^/]+\.wistia\.com/medias/(?<video_id>[^&/]+)'
+  regex: 'https?://(?:www\.)?[^/]+\.wistia\.com/medias/(?<video_id>[^&/?]+)'
   template: |
     <div style="position: relative; padding-bottom: 56.25%; height: 0;">
       <script src="https://fast.wistia.com/player.js" async></script>
@@ -104,11 +106,11 @@ wistia:
     </div>
 
 bunny:
-  regex: 'https?://iframe\.mediadelivery\.net/play/(?<library_id>\d+)/(?<video_id>[^&/?]+)'
+  regex: 'https?://(?:iframe|player)\.mediadelivery\.net/(?:play|embed)/(?<library_id>\d+)/(?<video_id>[^&/?]+)'
   template: |
     <div style="position: relative; padding-top: 56.25%;">
       <iframe
-        src="https://iframe.mediadelivery.net/embed/%{library_id}/%{video_id}?autoplay=false&loop=false&muted=false&preload=true&responsive=true"
+        src="https://player.mediadelivery.net/embed/%{library_id}/%{video_id}?autoplay=false&loop=false&muted=false&preload=true&responsive=true"
         title="Bunny video player"
         loading="lazy"
         style="border: 0; position: absolute; top: 0; height: 100%; width: 100%;"
@@ -132,6 +134,18 @@ codepen:
         allowtransparency="true"
         allowfullscreen="true">
       </iframe>
+    </div>
+
+guidejar:
+  regex: 'https?://(?:www\.)?guidejar\.com/(?:embed|guides)/(?<guide_id>[^&/?]+)'
+  template: |
+    <div style="position: relative; padding-bottom: 62.5%; height: 0;">
+      <iframe
+        src="https://www.guidejar.com/embed/%{guide_id}?type=1&controls=on"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
     </div>
 
 github_gist:

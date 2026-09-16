@@ -96,7 +96,7 @@ onMounted(() => {
     "
   >
     <template #header>
-      <div class="flex items-center gap-2 w-full justify-between">
+      <div class="flex items-center gap-2 w-full justify-between min-h-10">
         <Breadcrumb :items="breadcrumbItems" @click="handleBreadcrumbClick" />
         <Button icon="i-lucide-plus" md @click="onClickCreatePolicy">
           {{
@@ -108,7 +108,7 @@ onMounted(() => {
       </div>
     </template>
     <template #body>
-      <div class="flex flex-col gap-4 pt-8">
+      <div class="flex flex-col gap-4 pt-4">
         <AssignmentPolicyCard
           v-for="policy in agentAssignmentsPolicies"
           :key="policy.id"

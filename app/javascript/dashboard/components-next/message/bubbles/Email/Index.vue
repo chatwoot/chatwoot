@@ -226,4 +226,10 @@ const handleSeeOriginal = () => {
     }
   }
 }
+
+// Email clients (Gmail, Outlook) hardcode dir="ltr" on wrapper elements.
+// In RTL apps this forces email content LTR regardless of actual text.
+[dir='rtl'] .letter-render [dir='ltr'] {
+  direction: inherit;
+}
 </style>

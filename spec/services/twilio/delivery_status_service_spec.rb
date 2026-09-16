@@ -109,5 +109,58 @@ describe Twilio::DeliveryStatusService do
         expect(conversation.reload.messages.last.external_error).to eq('Error code: 30008')
       end
     end
+
+    context 'when webhooks arrive out of order' do
+      before do
+        create(:message, account: account, inbox: twilio_channel.inbox, conversation: conversation, status: :delivered,
+                         source_id: 'SMd560ac79e4a4d36b3ce59f1f50471986')
+      end
+
+      it 'does not regress status from delivered to sent' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          MessageSid: conversation.messages.last.source_id,
+          MessageStatus: 'sent'
+        }
+
+        described_class.new(params: params).perform
+        expect(conversation.reload.messages.last.status).to eq('delivered')
+      end
+
+      it 'does not regress status from read to delivered' do
+        conversation.messages.last.update!(status: :read)
+        params = {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          MessageSid: conversation.messages.last.source_id,
+          MessageStatus: 'delivered'
+        }
+
+        described_class.new(params: params).perform
+        expect(conversation.reload.messages.last.status).to eq('read')
+      end
+
+      it 'still allows transition to failed from any status' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          MessageSid: conversation.messages.last.source_id,
+          MessageStatus: 'failed',
+          ErrorCode: '30008',
+          ErrorMessage: 'Late failure'
+        }
+
+        described_class.new(params: params).perform
+        expect(conversation.reload.messages.last.status).to eq('failed')
+        expect(conversation.reload.messages.last.external_error).to eq('30008 - Late failure')
+      end
+    end
   end
 end

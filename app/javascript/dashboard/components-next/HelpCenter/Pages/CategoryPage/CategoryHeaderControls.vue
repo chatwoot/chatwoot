@@ -6,6 +6,7 @@ import { OnClickOutside } from '@vueuse/components';
 import { useStoreGetters } from 'dashboard/composables/store.js';
 
 import Button from 'dashboard/components-next/button/Button.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import CategoryDialog from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryDialog.vue';
@@ -25,7 +26,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['localeChange']);
+const emit = defineEmits(['localeChange', 'newArticle']);
+
+const searchQuery = defineModel('searchQuery', {
+  type: String,
+  default: '',
+});
 
 const route = useRoute();
 const router = useRouter();
@@ -106,6 +112,7 @@ const breadcrumbItems = computed(() => {
         }
       ),
       emoji: selectedCategoryEmoji.value,
+      iconColor: selectedCategory.value?.icon_color,
     });
   }
   return items;
@@ -142,7 +149,7 @@ const handleBreadcrumbClick = () => {
             v-if="isLocaleMenuOpen"
             :menu-items="localeMenuItems"
             show-search
-            class="left-0 w-40 mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
+            class="left-0 w-40 mt-2 xl:right-0 top-full max-h-60"
             @action="handleLocaleAction"
           />
         </OnClickOutside>
@@ -161,25 +168,36 @@ const handleBreadcrumbClick = () => {
       :items="breadcrumbItems"
       @click="handleBreadcrumbClick"
     />
-    <div v-if="!hasSelectedCategory" class="relative">
-      <OnClickOutside @trigger="isCreateCategoryDialogOpen = false">
-        <Button
-          :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.NEW_CATEGORY')"
-          icon="i-lucide-plus"
-          size="sm"
-          @click="isCreateCategoryDialogOpen = !isCreateCategoryDialogOpen"
-        />
-        <CategoryDialog
-          v-if="isCreateCategoryDialogOpen"
-          mode="create"
-          :portal-name="currentPortalName"
-          :active-locale-name="activeLocaleName"
-          :active-locale-code="activeLocaleCode"
-          @close="isCreateCategoryDialogOpen = false"
-        />
-      </OnClickOutside>
+    <div v-if="!hasSelectedCategory" class="flex items-center gap-2">
+      <Input
+        v-model="searchQuery"
+        :placeholder="
+          t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.SEARCH_PLACEHOLDER')
+        "
+        type="search"
+        size="sm"
+        class="w-48"
+      />
+      <div class="relative">
+        <OnClickOutside @trigger="isCreateCategoryDialogOpen = false">
+          <Button
+            :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.NEW_CATEGORY')"
+            icon="i-lucide-plus"
+            size="sm"
+            @click="isCreateCategoryDialogOpen = !isCreateCategoryDialogOpen"
+          />
+          <CategoryDialog
+            v-if="isCreateCategoryDialogOpen"
+            mode="create"
+            :portal-name="currentPortalName"
+            :active-locale-name="activeLocaleName"
+            :active-locale-code="activeLocaleCode"
+            @close="isCreateCategoryDialogOpen = false"
+          />
+        </OnClickOutside>
+      </div>
     </div>
-    <div v-else class="relative">
+    <div v-else class="relative flex items-center gap-2">
       <OnClickOutside @trigger="isEditCategoryDialogOpen = false">
         <Button
           :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.EDIT_CATEGORY')"
@@ -196,6 +214,12 @@ const handleBreadcrumbClick = () => {
           @close="isEditCategoryDialogOpen = false"
         />
       </OnClickOutside>
+      <Button
+        :label="t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.NEW_ARTICLE')"
+        icon="i-lucide-plus"
+        size="sm"
+        @click="emit('newArticle')"
+      />
     </div>
   </div>
 </template>

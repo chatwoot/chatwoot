@@ -1,7 +1,6 @@
 type: object
 required:
   - source_id
-  - inbox_id
 properties:
   source_id:
     type: string

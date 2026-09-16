@@ -6,14 +6,6 @@ class V2::Reports::TeamSummaryBuilder < V2::Reports::BaseSummaryBuilder
   attr_reader :conversations_count, :resolved_count,
               :avg_resolution_time, :avg_first_response_time, :avg_reply_time
 
-  def fetch_conversations_count
-    account.conversations.where(created_at: range).group(:team_id).count
-  end
-
-  def reporting_events
-    @reporting_events ||= account.reporting_events.where(created_at: range).joins(:conversation)
-  end
-
   def prepare_report
     account.teams.map do |team|
       build_team_stats(team)

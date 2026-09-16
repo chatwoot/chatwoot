@@ -29,6 +29,16 @@ const getConversationById = _state => conversationId => {
   return _state.allConversations.find(c => c.id === conversationId);
 };
 
+const preserveConversationMessageState = (
+  conversation,
+  existingConversation
+) => ({
+  ...conversation,
+  allMessagesLoaded: existingConversation.allMessagesLoaded,
+  messages: existingConversation.messages,
+  dataFetched: existingConversation.dataFetched,
+});
+
 // mutations
 export const mutations = {
   [types.SET_ALL_CONVERSATION](_state, conversationList) {
@@ -49,28 +59,49 @@ export const mutations = {
         // If the conversation is already in the list and selectedChatId is the same,
         // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
         const existingConversation = newAllConversations[indexInCurrentList];
-        newAllConversations[indexInCurrentList] = {
-          ...conversation,
-          allMessagesLoaded: existingConversation.allMessagesLoaded,
-          messages: existingConversation.messages,
-          dataFetched: existingConversation.dataFetched,
-        };
+        newAllConversations[indexInCurrentList] =
+          preserveConversationMessageState(conversation, existingConversation);
       }
     });
     _state.allConversations = newAllConversations;
+  },
+  [types.REPLACE_CONVERSATION_LIST](_state, conversationList) {
+    const selectedConversation = getConversationById(_state)(
+      _state.selectedChatId
+    );
+    const replacementList = [...conversationList];
+    if (selectedConversation) {
+      const selectedConversationIndex = replacementList.findIndex(
+        conversation => conversation.id === selectedConversation.id
+      );
+      if (selectedConversationIndex === -1) {
+        replacementList.push(selectedConversation);
+      } else {
+        replacementList[selectedConversationIndex] =
+          preserveConversationMessageState(
+            replacementList[selectedConversationIndex],
+            selectedConversation
+          );
+      }
+    }
+    _state.allConversations = replacementList;
   },
   [types.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
     _state.selectedChatId = null;
   },
-  [types.SET_ALL_MESSAGES_LOADED](_state) {
-    const [chat] = getSelectedChatConversation(_state);
-    chat.allMessagesLoaded = true;
+  [types.SET_ALL_MESSAGES_LOADED](_state, conversationId) {
+    const chat = getConversationById(_state)(conversationId);
+    if (chat) {
+      chat.allMessagesLoaded = true;
+    }
   },
 
-  [types.CLEAR_ALL_MESSAGES_LOADED](_state) {
-    const [chat] = getSelectedChatConversation(_state);
-    chat.allMessagesLoaded = false;
+  [types.CLEAR_ALL_MESSAGES_LOADED](_state, conversationId) {
+    const chat = getConversationById(_state)(conversationId);
+    if (chat) {
+      chat.allMessagesLoaded = false;
+    }
   },
   [types.CLEAR_CURRENT_CHAT_WINDOW](_state) {
     _state.selectedChatId = null;
@@ -79,7 +110,13 @@ export const mutations = {
   [types.SET_PREVIOUS_CONVERSATIONS](_state, { id, data }) {
     if (data.length) {
       const [chat] = _state.allConversations.filter(c => c.id === id);
-      chat.messages.unshift(...data);
+      const messageIds = new Set(chat.messages.map(message => message.id));
+      const newMessages = data.filter(message => {
+        if (messageIds.has(message.id)) return false;
+        messageIds.add(message.id);
+        return true;
+      });
+      chat.messages.unshift(...newMessages);
     }
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
@@ -91,15 +128,27 @@ export const mutations = {
     chat.messages = data;
   },
 
+  [types.SET_CHAT_DATA_FETCHED](_state, conversationId) {
+    const chat = getConversationById(_state)(conversationId);
+    if (chat) {
+      chat.dataFetched = true;
+    }
+  },
+
   [types.SET_CURRENT_CHAT_WINDOW](_state, activeChat) {
     if (activeChat) {
       _state.selectedChatId = activeChat.id;
     }
   },
 
-  [types.ASSIGN_AGENT](_state, assignee) {
-    const [chat] = getSelectedChatConversation(_state);
-    chat.meta.assignee = assignee;
+  [types.ASSIGN_AGENT](_state, { conversationId, assignee, assigneeType }) {
+    const chat = getConversationById(_state)(conversationId);
+    if (chat) {
+      chat.meta.assignee = assignee;
+      const inferredAssigneeType = assignee ? 'User' : null;
+      chat.meta.assignee_type =
+        assigneeType === undefined ? inferredAssigneeType : assigneeType;
+    }
   },
 
   [types.ASSIGN_TEAM](_state, { team, conversationId }) {
@@ -215,7 +264,10 @@ export const mutations = {
   },
 
   [types.ADD_CONVERSATION](_state, conversation) {
-    _state.allConversations.push(conversation);
+    const exists = _state.allConversations.some(c => c.id === conversation.id);
+    if (!exists) {
+      _state.allConversations.push(conversation);
+    }
   },
 
   [types.DELETE_CONVERSATION](_state, conversationId) {
@@ -242,7 +294,11 @@ export const mutations = {
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     } else {
-      _state.allConversations.push(conversation);
+      const { conversationType } = _state.conversationFilters || {};
+      const { MENTION, PARTICIPATING } = wootConstants.CONVERSATION_TYPE;
+      if (![MENTION, PARTICIPATING].includes(conversationType)) {
+        _state.allConversations.push(conversation);
+      }
     }
   },
 
@@ -274,8 +330,10 @@ export const mutations = {
 
   // Update assignee on action cable message
   [types.UPDATE_ASSIGNEE](_state, payload) {
-    const [chat] = _state.allConversations.filter(c => c.id === payload.id);
-    chat.meta.assignee = payload.assignee;
+    const chat = getConversationById(_state)(payload.id);
+    if (chat) {
+      chat.meta.assignee = payload.assignee;
+    }
   },
 
   [types.UPDATE_CONVERSATION_CONTACT](_state, { conversationId, ...payload }) {
@@ -285,34 +343,21 @@ export const mutations = {
     }
   },
 
-  [types.UPDATE_CONVERSATION_CALL_STATUS](
+  [types.UPDATE_MESSAGE_CALL_STATUS](
     _state,
-    { conversationId, callStatus }
+    { conversationId, callStatus, callSid }
   ) {
     const chat = getConversationById(_state)(conversationId);
     if (!chat) return;
 
-    chat.additional_attributes = {
-      ...chat.additional_attributes,
-      call_status: callStatus,
-    };
-  },
-
-  [types.UPDATE_MESSAGE_CALL_STATUS](_state, { conversationId, callStatus }) {
-    const chat = getConversationById(_state)(conversationId);
-    if (!chat) return;
-
-    const lastCall = (chat.messages || []).findLast(
-      m => m.content_type === CONTENT_TYPES.VOICE_CALL
+    const message = (chat.messages || []).find(
+      m =>
+        m.content_type === CONTENT_TYPES.VOICE_CALL &&
+        m.call?.provider_call_id === callSid
     );
+    if (!message?.call) return;
 
-    if (!lastCall) return;
-
-    lastCall.content_attributes ??= {};
-    lastCall.content_attributes.data = {
-      ...lastCall.content_attributes.data,
-      status: callStatus,
-    };
+    message.call = { ...message.call, status: callStatus };
   },
 
   [types.SET_ACTIVE_INBOX](_state, inboxId) {

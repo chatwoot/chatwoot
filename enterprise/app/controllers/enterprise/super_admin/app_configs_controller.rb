@@ -1,4 +1,15 @@
 module Enterprise::SuperAdmin::AppConfigsController
+  SHOPIFY_APP_HANDLE_CONFIG = {
+    'display_title' => 'Shopify App Handle',
+    'description' => 'The app handle used in Shopify Admin App Pricing URLs',
+    'locked' => false
+  }.freeze
+
+  def show
+    super
+    @installation_configs['SHOPIFY_APP_HANDLE'] = SHOPIFY_APP_HANDLE_CONFIG
+  end
+
   private
 
   def allowed_configs
@@ -13,9 +24,20 @@ module Enterprise::SuperAdmin::AppConfigsController
       @allowed_configs = captain_config_options
     when 'saml'
       @allowed_configs = saml_config_options
+    when 'shopify'
+      @allowed_configs = super + %w[SHOPIFY_APP_HANDLE]
     else
       super
     end
+  end
+
+  def shopify_partner_config_errors
+    errors = super
+    app_handle = params.dig('app_config', 'SHOPIFY_APP_HANDLE')
+    return errors if @config != 'shopify' || app_handle.blank?
+    return errors if app_handle.match?(Enterprise::Billing::ShopifyAppPricingUrl::APP_HANDLE_FORMAT)
+
+    errors + ['SHOPIFY_APP_HANDLE must contain only lowercase letters, numbers, and hyphens']
   end
 
   def custom_branding_options
@@ -34,10 +56,10 @@ module Enterprise::SuperAdmin::AppConfigsController
   end
 
   def internal_config_options
-    %w[CHATWOOT_INBOX_TOKEN CHATWOOT_INBOX_HMAC_KEY CLOUD_ANALYTICS_TOKEN CLEARBIT_API_KEY DASHBOARD_SCRIPTS INACTIVE_WHATSAPP_NUMBERS
-       SKIP_INCOMING_BCC_PROCESSING CAPTAIN_CLOUD_PLAN_LIMITS ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL CHATWOOT_INSTANCE_ADMIN_EMAIL
-       OG_IMAGE_CDN_URL OG_IMAGE_CLIENT_REF CLOUDFLARE_API_KEY CLOUDFLARE_ZONE_ID BLOCKED_EMAIL_DOMAINS
-       OTEL_PROVIDER LANGFUSE_PUBLIC_KEY LANGFUSE_SECRET_KEY LANGFUSE_BASE_URL]
+    %w[CHATWOOT_INBOX_TOKEN CHATWOOT_INBOX_HMAC_KEY CLOUD_ANALYTICS_TOKEN CLEARBIT_API_KEY CONTEXT_DEV_API_KEY DASHBOARD_SCRIPTS
+       INACTIVE_WHATSAPP_NUMBERS SKIP_INCOMING_BCC_PROCESSING CAPTAIN_CLOUD_PLAN_LIMITS MARKETING_CONVERSION_TRACKING_CONFIG
+       ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL CHATWOOT_INSTANCE_ADMIN_EMAIL OG_IMAGE_CDN_URL OG_IMAGE_CLIENT_REF CLOUDFLARE_API_KEY
+       CLOUDFLARE_ZONE_ID BLOCKED_EMAIL_DOMAINS OTEL_PROVIDER LANGFUSE_PUBLIC_KEY LANGFUSE_SECRET_KEY LANGFUSE_BASE_URL]
   end
 
   def captain_config_options

@@ -1,4 +1,6 @@
 class SamlUserBuilder
+  class AuthenticationFailed < StandardError; end
+
   def initialize(auth_hash, account_id)
     @auth_hash = auth_hash
     @account_id = account_id
@@ -16,13 +18,24 @@ class SamlUserBuilder
   def find_or_create_user
     user = User.from_email(auth_attribute('email'))
 
-    if user
-      confirm_user_if_required(user)
-      convert_existing_user_to_saml(user)
-      return user
-    end
+    return create_user unless user
+    return existing_user_for_account(user) if user_belongs_to_account?(user) && !user_has_additional_accounts?(user)
 
-    create_user
+    raise AuthenticationFailed, I18n.t('auth.saml.authentication_failed')
+  end
+
+  def existing_user_for_account(user)
+    confirm_user_if_required(user)
+    convert_existing_user_to_saml(user)
+    user
+  end
+
+  def user_belongs_to_account?(user)
+    user.account_users.exists?(account_id: @account_id)
+  end
+
+  def user_has_additional_accounts?(user)
+    user.account_users.where.not(account_id: @account_id).exists?
   end
 
   def confirm_user_if_required(user)
@@ -76,7 +89,7 @@ class SamlUserBuilder
 
     if matching_mapping['role']
       account_user.update(role: matching_mapping['role'])
-    elsif matching_mapping['custom_role_id']
+    elsif matching_mapping['custom_role_id'] && account.feature_enabled?('custom_roles')
       account_user.update(custom_role_id: matching_mapping['custom_role_id'])
     end
   end

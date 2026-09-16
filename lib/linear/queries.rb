@@ -48,12 +48,13 @@ module Linear::Queries
   def self.search_issue(term)
     <<~GRAPHQL
       query {
-        searchIssues(term: "#{term}") {
+        searchIssues(term: #{Linear::Mutations.graphql_value(term)}) {
           nodes {
             id
             title
             description
             identifier
+            url
             state {
               name
               color

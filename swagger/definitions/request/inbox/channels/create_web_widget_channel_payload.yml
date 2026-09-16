@@ -1,0 +1,66 @@
+type: object
+title: Website channel
+required:
+  - type
+  - website_url
+properties:
+  type:
+    type: string
+    enum: ['web_widget']
+    example: web_widget
+  website_url:
+    type: string
+    description: URL at which the widget will be loaded
+    example: 'https://example.com'
+  welcome_title:
+    type: string
+    description: Welcome title to be displayed on the widget
+    example: 'Welcome to our support'
+  welcome_tagline:
+    type: string
+    description: Welcome tagline to be displayed on the widget
+    example: 'We are here to help you'
+  widget_color:
+    type: string
+    description: A Hex-color string used to customize the widget
+    example: '#FF5733'
+  reply_time:
+    type: string
+    description: Expected reply time shown on the widget
+    enum: ['in_a_few_minutes', 'in_a_few_hours', 'in_a_day']
+    example: in_a_few_minutes
+  pre_chat_form_enabled:
+    type: boolean
+    description: Enable the pre-chat form before starting a conversation
+    example: false
+  pre_chat_form_options:
+    type: object
+    description: Pre-chat form configuration
+    example:
+      pre_chat_message: Share your queries or comments here.
+      pre_chat_fields:
+        - field_type: standard
+          label: Email Id
+          name: emailAddress
+          type: email
+          required: true
+          enabled: true
+  continuity_via_email:
+    type: boolean
+    description: Continue conversations over email when the contact leaves the website
+    example: true
+  hmac_mandatory:
+    type: boolean
+    description: Require HMAC verification for contacts using the widget
+    example: false
+  allowed_domains:
+    type: string
+    description: Comma-separated list of domains where the widget is allowed to load
+    example: example.com
+  selected_feature_flags:
+    type: array
+    description: Enabled widget feature flags
+    items:
+      type: string
+      enum: ['attachments', 'emoji_picker', 'end_conversation', 'use_inbox_avatar_for_bot', 'allow_mobile_webview']
+    example: ['attachments', 'emoji_picker', 'end_conversation']

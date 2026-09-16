@@ -1,52 +1,52 @@
 {
   "CONTENT_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Twilio Templates",
-      "SUBTITLE": "Select the Twilio template you want to send",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TITLE": "Twilio 範本",
+      "SUBTITLE": "選擇您想要傳送的 Twilio 範本",
+      "TEMPLATE_SELECTED_SUBTITLE": "設定範本：{templateName}"
     },
     "PICKER": {
-      "SEARCH_PLACEHOLDER": "Search Templates",
-      "NO_TEMPLATES_FOUND": "No templates found for",
-      "NO_CONTENT": "No content",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
-      "CATEGORY": "Category",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "SEARCH_PLACEHOLDER": "搜尋範本",
+      "NO_TEMPLATES_FOUND": "找不到對應的範本",
+      "NO_CONTENT": "無內容",
+      "HEADER": "標頭",
+      "BODY": "內文",
+      "FOOTER": "頁尾",
+      "BUTTONS": "按鈕",
+      "CATEGORY": "類別",
+      "MEDIA_CONTENT": "媒體內容",
+      "MEDIA_CONTENT_FALLBACK": "媒體內容",
+      "NO_TEMPLATES_AVAILABLE": "沒有可用的 Twilio 範本。點擊重新整理以從 Twilio 同步範本。",
+      "REFRESH_BUTTON": "重新整理範本",
+      "REFRESH_SUCCESS": "範本重新整理已啟動，可能需要幾分鐘才能完成更新。",
+      "REFRESH_ERROR": "重新整理範本失敗，請再試一次。",
       "LABELS": {
-        "LANGUAGE": "Language",
-        "TEMPLATE_BODY": "Template Body",
-        "CATEGORY": "Category"
+        "LANGUAGE": "語言",
+        "TEMPLATE_BODY": "範本內文",
+        "CATEGORY": "類別"
       },
       "TYPES": {
-        "MEDIA": "Media",
-        "QUICK_REPLY": "Quick Reply",
-        "CALL_TO_ACTION": "Call to Action",
+        "MEDIA": "媒體",
+        "QUICK_REPLY": "快速回覆",
+        "CALL_TO_ACTION": "行動呼籲",
         "TEXT": "文字"
       }
     },
     "PARSER": {
-      "VARIABLES_LABEL": "Variables",
-      "LANGUAGE": "Language",
-      "CATEGORY": "Category",
-      "VARIABLE_PLACEHOLDER": "Enter {variable} value",
-      "GO_BACK_LABEL": "Go Back",
-      "SEND_MESSAGE_LABEL": "Send Message",
-      "FORM_ERROR_MESSAGE": "Please fill all variables before sending",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "MEDIA_URL_LABEL": "Enter full media URL",
+      "VARIABLES_LABEL": "變數",
+      "LANGUAGE": "語言",
+      "CATEGORY": "類別",
+      "VARIABLE_PLACEHOLDER": "請填寫 {variable} 的值",
+      "GO_BACK_LABEL": "返回",
+      "SEND_MESSAGE_LABEL": "傳送訊息",
+      "FORM_ERROR_MESSAGE": "傳送前請先填寫所有變數",
+      "MEDIA_HEADER_LABEL": "{type} 標頭",
+      "MEDIA_URL_LABEL": "輸入完整媒體 URL",
       "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
     },
     "FORM": {
       "BACK_BUTTON": "返回",
-      "SEND_MESSAGE_BUTTON": "Send Message"
+      "SEND_MESSAGE_BUTTON": "傳送訊息"
     }
   }
 }

@@ -3,8 +3,11 @@
     "HEADER": "Боты",
     "LOADING_EDITOR": "Загрузка редактора...",
     "DESCRIPTION": "Боты — это ваши незаменимые помощники. Они берут на себя рутину, чтобы вы могли сосредоточиться на важном. Попробуйте! Управлять ботами можно на этой странице, а новых — создавать с помощью кнопки «Добавить бота».",
-    "LEARN_MORE": "Learn about agent bots",
-    "GLOBAL_BOT": "Система",
+    "LEARN_MORE": "Подробнее о ботах-агентах",
+    "COUNT": "{n} бот | {n} боты",
+    "SEARCH_PLACEHOLDER": "Поиск ботов...",
+    "NO_RESULTS": "Не найдено ботов, соответствующих вашему запросу",
+    "GLOBAL_BOT": "Системный бот",
     "GLOBAL_BOT_BADGE": "Система",
     "AVATAR": {
       "SUCCESS_DELETE": "Аватар бота был успешно удалён",
@@ -12,11 +15,11 @@
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Выберите бота агента",
-      "DESC": "Назначить бота агента на источник. Они могут отвечать на первоначальные сообщения и передавать их агенту в случае необходимости.",
+      "DESC": "Назначьте бота агента для источника. Он может обрабатывать первоначальные диалоги и передавать их живому агенту при необходимости.",
       "SUBMIT": "Обновить",
       "DISCONNECT": "Отключить бота",
-      "SUCCESS_MESSAGE": "Оператор успешно обновлен ботом.",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Успешное отключение робота агента.",
+      "SUCCESS_MESSAGE": "Бот агента успешно обновлён.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Бот агента успешно отключён.",
       "ERROR_MESSAGE": "Не удалось обновить бота агента. Пожалуйста, повторите попытку позже.",
       "DISCONNECTED_ERROR_MESSAGE": "Не удалось отключить бота агента. Пожалуйста, повторите попытку позже.",
       "SELECT_PLACEHOLDER": "Выбрать бота"
@@ -34,7 +37,8 @@
       "LOADING": "Получение ботов...",
       "TABLE_HEADER": {
         "DETAILS": "Детали бота",
-        "URL": "URL вебхука"
+        "URL": "URL вебхука",
+        "ACTIONS": "Действия"
       }
     },
     "DELETE": {
@@ -58,6 +62,16 @@
         "SUCCESS_MESSAGE": "Бот успешно обновлен.",
         "ERROR_MESSAGE": "Не удалось обновить бота. Пожалуйста, повторите попытку позже."
       }
+    },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "Copy secret to clipboard",
+      "COPY_SUCCESS": "Secret copied to clipboard",
+      "TOGGLE": "Toggle secret visibility",
+      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "DONE": "Done",
+      "RESET_SUCCESS": "Webhook secret regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
     },
     "ACCESS_TOKEN": {
       "TITLE": "Токен доступа",

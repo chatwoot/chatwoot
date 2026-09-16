@@ -17,5 +17,13 @@ FactoryBot.define do
     trait :whatsapp do
       medium { :whatsapp }
     end
+
+    trait :with_voice do
+      with_phone_number
+      voice_enabled { true }
+      api_key_sid { "SK#{SecureRandom.hex(16)}" }
+      api_key_secret { SecureRandom.hex(16) }
+      twiml_app_sid { "AP#{SecureRandom.hex(16)}" }
+    end
   end
 end

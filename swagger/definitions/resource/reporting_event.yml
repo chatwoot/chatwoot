@@ -26,16 +26,19 @@ properties:
     type: number
     description: ID of the account
   conversation_id:
-    type: number
-    nullable: true
+    type:
+      - number
+      - 'null'
     description: ID of the conversation
   inbox_id:
-    type: number
-    nullable: true
+    type:
+      - number
+      - 'null'
     description: ID of the inbox
   user_id:
-    type: number
-    nullable: true
+    type:
+      - number
+      - 'null'
     description: ID of the user/agent
   created_at:
     type: string

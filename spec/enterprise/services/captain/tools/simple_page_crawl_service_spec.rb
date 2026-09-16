@@ -36,6 +36,31 @@ RSpec.describe Captain::Tools::SimplePageCrawlService do
     end
   end
 
+  describe '#success?' do
+    context 'when the fetch succeeds' do
+      before do
+        stub_request(:get, base_url)
+          .to_return(status: 200, body: '<html><head><title>Example Page</title></head></html>')
+      end
+
+      it 'returns true' do
+        expect(service.success?).to be(true)
+        expect(service.status_code).to eq(200)
+      end
+    end
+
+    context 'when the fetch returns a non-success response' do
+      before do
+        stub_request(:get, base_url).to_return(status: 404, body: 'Not found')
+      end
+
+      it 'returns false and exposes the status code' do
+        expect(service.success?).to be(false)
+        expect(service.status_code).to eq(404)
+      end
+    end
+  end
+
   describe '#page_links' do
     context 'with HTML page' do
       let(:html_content) do
@@ -95,7 +120,7 @@ RSpec.describe Captain::Tools::SimplePageCrawlService do
     end
   end
 
-  describe '#body_text_content' do
+  describe '#body_markdown' do
     let(:html_content) do
       <<~HTML
         <html>
@@ -117,7 +142,7 @@ RSpec.describe Captain::Tools::SimplePageCrawlService do
     end
 
     it 'converts body content to markdown' do
-      expect(service.body_text_content).to eq("# Main Title\n\nConverted markdown")
+      expect(service.body_markdown).to eq("# Main Title\n\nConverted markdown")
       expect(ReverseMarkdown).to have_received(:convert).with(
         kind_of(Nokogiri::XML::Element),
         unknown_tags: :bypass,

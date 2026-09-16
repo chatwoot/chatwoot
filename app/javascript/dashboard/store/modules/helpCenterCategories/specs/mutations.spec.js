@@ -4,7 +4,7 @@ import { categoriesState, categoriesPayload } from './fixtures';
 describe('#mutations', () => {
   let state = {};
   beforeEach(() => {
-    state = categoriesState;
+    state = JSON.parse(JSON.stringify(categoriesState));
   });
 
   describe('#SET_UI_FLAG', () => {
@@ -53,9 +53,9 @@ describe('#mutations', () => {
       mutations[types.ADD_CATEGORY_ID](state, 3);
       expect(state.categories.allIds).toEqual([1, 2, 3]);
     });
-    it('Does not invalid category with empty data passed', () => {
+    it('pushes the given id to allIds', () => {
       mutations[types.ADD_CATEGORY_ID](state, {});
-      expect(state).toEqual(categoriesState);
+      expect(state.categories.allIds).toEqual([1, 2, {}]);
     });
   });
 
@@ -98,4 +98,40 @@ describe('#mutations', () => {
   //     expect(state.categories.uiFlags).toEqual({});
   //   });
   // });
+
+  describe('#SET_CATEGORY_POSITIONS', () => {
+    it('updates positions for categories in the store', () => {
+      const positionsHash = { 1: 1, 2: 2 };
+      mutations[types.SET_CATEGORY_POSITIONS](state, positionsHash);
+
+      expect(state.categories.byId[1].position).toEqual(1);
+      expect(state.categories.byId[2].position).toEqual(2);
+    });
+
+    it('does not update categories that are not in the store', () => {
+      const positionsHash = { 999: 5 };
+      mutations[types.SET_CATEGORY_POSITIONS](state, positionsHash);
+
+      expect(state.categories.byId[999]).toBeUndefined();
+    });
+
+    it('preserves other category properties when updating position', () => {
+      const originalName = state.categories.byId[1].name;
+      const positionsHash = { 1: 3 };
+      mutations[types.SET_CATEGORY_POSITIONS](state, positionsHash);
+
+      expect(state.categories.byId[1].position).toEqual(3);
+      expect(state.categories.byId[1].name).toEqual(originalName);
+    });
+
+    it('re-sorts allIds by position after update', () => {
+      state.categories.byId[1].position = 1;
+      state.categories.byId[2].position = 2;
+      state.categories.allIds = [1, 2];
+
+      mutations[types.SET_CATEGORY_POSITIONS](state, { 1: 3, 2: 1 });
+
+      expect(state.categories.allIds).toEqual([2, 1]);
+    });
+  });
 });

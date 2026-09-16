@@ -12,7 +12,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
     end
 
     context 'when it is an authenticated super admin' do
-      let!(:user) { create(:user) }
+      let!(:user) { create(:user, name: 'Disabled User') }
       let!(:params) do
         { user: {
           name: 'admin@example.com',
@@ -23,13 +23,46 @@ RSpec.describe 'Super Admin Users API', type: :request do
           type: 'SuperAdmin'
         } }
       end
+      let!(:params_without_confirmed_at) do
+        { user: {
+          name: 'agent@example.com',
+          display_name: 'agent@example.com',
+          email: 'agent@example.com',
+          password: 'Password1!',
+          type: 'SuperAdmin'
+        } }
+      end
+      let!(:params_with_blank_confirmed_at) do
+        { user: {
+          name: 'agent-2@example.com',
+          display_name: 'agent-2@example.com',
+          email: 'agent-2@example.com',
+          password: 'Password1!',
+          confirmed_at: '',
+          type: 'SuperAdmin'
+        } }
+      end
 
       it 'shows the list of users' do
         sign_in(super_admin, scope: :super_admin)
         get '/super_admin/users'
+        doc = Nokogiri::HTML(response.body)
+        header_texts = doc.css('table thead th').map { |header| header.text.squish }
+
         expect(response).to have_http_status(:success)
         expect(response.body).to include('New user')
         expect(response.body).to include(CGI.escapeHTML(user.name))
+        expect(header_texts).not_to include('MFA')
+      end
+
+      it 'prefills confirmed_at on new user form' do
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/users/new'
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('name="user[confirmed_at]"')
+        confirmed_at_value = response.body[/name="user\[confirmed_at\]".*?value="([^"]+)"/m, 1]
+        expect(confirmed_at_value).to be_present
       end
 
       it 'creates the new super_admin record' do
@@ -42,6 +75,24 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         post '/super_admin/users', params: params
         expect(response).to redirect_to('http://www.example.com/super_admin/users/new')
+      end
+
+      it 'creates unconfirmed users when confirmed_at is not provided in payload' do
+        sign_in(super_admin, scope: :super_admin)
+
+        post '/super_admin/users', params: params_without_confirmed_at
+
+        expect(response).to redirect_to("http://www.example.com/super_admin/users/#{User.last.id}")
+        expect(User.last).not_to be_confirmed
+      end
+
+      it 'creates unconfirmed users when confirmed_at is explicitly cleared' do
+        sign_in(super_admin, scope: :super_admin)
+
+        post '/super_admin/users', params: params_with_blank_confirmed_at
+
+        expect(response).to redirect_to("http://www.example.com/super_admin/users/#{User.last.id}")
+        expect(User.last).not_to be_confirmed
       end
     end
   end
@@ -98,6 +149,72 @@ RSpec.describe 'Super Admin Users API', type: :request do
         job[:job].to_s == 'ActionMailer::MailDeliveryJob'
       end
       expect(mail_jobs.count).to be >= 1
+    end
+  end
+
+  describe 'POST /super_admin/users/:id/resend_confirmation' do
+    def mail_jobs
+      ActiveJob::Base.queue_adapter.enqueued_jobs.select do |job|
+        job[:job].to_s == 'ActionMailer::MailDeliveryJob'
+      end
+    end
+
+    context 'when it is an unauthenticated super admin' do
+      let!(:user) { create(:user, skip_confirmation: false) }
+
+      it 'returns unauthorized and does not enqueue a confirmation email' do
+        ActiveJob::Base.queue_adapter.enqueued_jobs.clear
+        post "/super_admin/users/#{user.id}/resend_confirmation"
+
+        expect(response).to have_http_status(:redirect)
+        expect(mail_jobs.count).to eq(0)
+      end
+    end
+
+    context 'when it is an authenticated super admin' do
+      before { sign_in(super_admin, scope: :super_admin) }
+
+      context 'when the user is not confirmed' do
+        let!(:user) { create(:user, skip_confirmation: false) }
+
+        it 'redirects and enqueues a confirmation email' do
+          ActiveJob::Base.queue_adapter.enqueued_jobs.clear
+          post "/super_admin/users/#{user.id}/resend_confirmation"
+
+          expect(response).to have_http_status(:redirect)
+          expect(mail_jobs.count).to be >= 1
+        end
+      end
+
+      context 'when the user is already confirmed' do
+        let!(:user) { create(:user) }
+
+        it 'redirects and does not enqueue a confirmation email' do
+          expect(user).to be_confirmed
+          ActiveJob::Base.queue_adapter.enqueued_jobs.clear
+          post "/super_admin/users/#{user.id}/resend_confirmation"
+
+          expect(response).to have_http_status(:redirect)
+          expect(mail_jobs.count).to eq(0)
+        end
+      end
+    end
+  end
+
+  describe 'GET /super_admin/users/:id' do
+    let!(:user) { create(:user, name: 'MFA Enabled User', otp_required_for_login: true) }
+
+    it 'shows the MFA status on the user detail page' do
+      sign_in(super_admin, scope: :super_admin)
+
+      get "/super_admin/users/#{user.id}"
+      doc = Nokogiri::HTML(response.body)
+      labels = doc.css('dt.attribute-label').map { |label| label.text.squish }
+
+      expect(response).to have_http_status(:success)
+      expect(labels).to include('MFA')
+      expect(response.body).to include('Enabled')
+      expect(response.body).to include(CGI.escapeHTML(user.name))
     end
   end
 end

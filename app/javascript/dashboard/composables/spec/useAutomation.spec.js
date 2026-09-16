@@ -8,6 +8,7 @@ import {
   agents,
   teams,
   labels,
+  booleanFilterOptions,
   statusFilterOptions,
   messageTypeOptions,
   priorityOptions,
@@ -38,7 +39,7 @@ describe('useAutomation', () => {
     });
     useMapGetter.mockImplementation(getter => {
       const getterMap = {
-        'agents/getAgents': agents,
+        'agents/getVerifiedAgents': agents,
         'campaigns/getAllCampaigns': campaigns,
         'contacts/getContacts': contacts,
         'inboxes/getInboxes': inboxes,
@@ -73,6 +74,8 @@ describe('useAutomation', () => {
           return countries;
         case 'message_type':
           return messageTypeOptions;
+        case 'private_note':
+          return booleanFilterOptions;
         case 'priority':
           return priorityOptions;
         default:
@@ -89,7 +92,9 @@ describe('useAutomation', () => {
         case 'assign_team':
           return teams;
         case 'assign_agent':
-          return agents;
+          return options.addNoneToListFn
+            ? options.addNoneToListFn(options.agents)
+            : options.agents;
         case 'send_email_to_team':
           return teams;
         case 'send_message':
@@ -113,6 +118,7 @@ describe('useAutomation', () => {
       labels: computedLabels,
       teams: computedTeams,
       slaPolicies: computedSlaPolicies,
+      statusFilterOptions: computedStatusFilterOptions,
     } = useAutomation();
 
     expect(computedAgents.value).toEqual(agents);
@@ -122,6 +128,9 @@ describe('useAutomation', () => {
     expect(computedLabels.value).toEqual(labels);
     expect(computedTeams.value).toEqual(teams);
     expect(computedSlaPolicies.value).toEqual(slaPolicies);
+    expect(
+      computedStatusFilterOptions.value.filter(option => option.id === 'all')
+    ).toHaveLength(1);
   });
 
   it('appends new condition and action correctly', () => {
@@ -226,6 +235,9 @@ describe('useAutomation', () => {
     expect(getConditionDropdownValues('message_type')).toEqual(
       messageTypeOptions
     );
+    expect(getConditionDropdownValues('private_note')).toEqual(
+      booleanFilterOptions
+    );
     expect(getConditionDropdownValues('priority')).toEqual(priorityOptions);
   });
 
@@ -234,7 +246,11 @@ describe('useAutomation', () => {
 
     expect(getActionDropdownValues('add_label')).toEqual(labels);
     expect(getActionDropdownValues('assign_team')).toEqual(teams);
-    expect(getActionDropdownValues('assign_agent')).toEqual(agents);
+    expect(getActionDropdownValues('assign_agent')).toEqual([
+      { id: 'nil', name: 'AUTOMATION.NONE_OPTION' },
+      { id: 'last_responding_agent', name: 'AUTOMATION.LAST_RESPONDING_AGENT' },
+      ...agents,
+    ]);
     expect(getActionDropdownValues('send_email_to_team')).toEqual(teams);
     expect(getActionDropdownValues('send_message')).toEqual([]);
     expect(getActionDropdownValues('add_sla')).toEqual(slaPolicies);

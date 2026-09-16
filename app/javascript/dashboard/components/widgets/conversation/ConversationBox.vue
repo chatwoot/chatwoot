@@ -60,9 +60,12 @@ export default {
   watch: {
     'currentChat.inbox_id': {
       immediate: true,
-      handler(inboxId) {
-        if (inboxId) {
-          this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
+      handler() {
+        if (this.currentChat.inbox_id && this.currentChat.id) {
+          this.$store.dispatch('inboxAssignableAgents/fetch', {
+            inboxIds: [this.currentChat.inbox_id],
+            includeAIAssignees: true,
+          });
         }
       },
     },
@@ -100,6 +103,9 @@ export default {
       v-if="currentChat.id"
       :chat="currentChat"
       :show-back-button="isOnExpandedLayout && !isInboxView"
+      :class="{
+        'border-b border-b-n-weak !pt-2': !dashboardApps.length,
+      }"
     />
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"

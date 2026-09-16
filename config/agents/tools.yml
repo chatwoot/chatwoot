@@ -30,6 +30,11 @@
   description: 'Search FAQ responses using semantic similarity'
   icon: 'search'
 
+- id: resolve_conversation
+  title: 'Resolve Conversation'
+  description: 'Resolve a conversation when the issue has been addressed'
+  icon: 'checkmark'
+
 - id: handoff
   title: 'Handoff to Human'
   description: 'Hand off the conversation to a human agent'

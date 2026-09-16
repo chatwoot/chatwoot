@@ -17,7 +17,7 @@ const props = defineProps({
       enabled: false,
       exclusionRules: {
         excludedLabels: [],
-        excludeOlderThanHours: 10,
+        excludeOlderThanHours: null,
       },
       inboxCapacityLimits: [],
     }),
@@ -84,7 +84,7 @@ const state = reactive({
   description: '',
   exclusionRules: {
     excludedLabels: [],
-    excludeOlderThanHours: 10,
+    excludeOlderThanHours: null,
   },
   inboxCapacityLimits: [],
 });
@@ -120,7 +120,7 @@ const resetForm = () => {
     description: '',
     exclusionRules: {
       excludedLabels: [],
-      excludeOlderThanHours: 10,
+      excludeOlderThanHours: null,
     },
     inboxCapacityLimits: [],
   });

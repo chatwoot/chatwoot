@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Voice::Provider::Twilio::Adapter do
   let(:account) { create(:account) }
-  let(:channel) { create(:channel_voice, account: account) }
+  let(:channel) { create(:channel_twilio_sms, :with_voice, account: account) }
   let(:adapter) { described_class.new(channel) }
   let(:webhook_service) { instance_double(Twilio::VoiceWebhookSetupService, perform: true) }
   let(:calls_double) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallList) }
@@ -19,7 +19,7 @@ describe Voice::Provider::Twilio::Adapter do
     allow(calls_double).to receive(:create).and_return(call_instance)
 
     allow(Twilio::REST::Client).to receive(:new)
-      .with(channel.provider_config_hash['account_sid'], channel.provider_config_hash['auth_token'])
+      .with(channel.account_sid, channel.auth_token)
       .and_return(client_double)
 
     result = adapter.initiate_call(to: '+15550001111', conference_sid: 'CF999', agent_id: 42)

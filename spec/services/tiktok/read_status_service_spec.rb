@@ -31,5 +31,31 @@ RSpec.describe Tiktok::ReadStatusService do
 
       expect(Conversations::UpdateMessageStatusJob).to have_received(:perform_later).with(conversation.id, kind_of(Time))
     end
+
+    it 'updates the latest active conversation when lock_to_single_conversation is disabled' do
+      allow(Conversations::UpdateMessageStatusJob).to receive(:perform_later)
+
+      inbox.update!(lock_to_single_conversation: false)
+      conversation.update!(status: :resolved)
+      active_conversation = create(
+        :conversation,
+        account: account,
+        inbox: inbox,
+        contact: contact,
+        contact_inbox: contact_inbox,
+        status: :open,
+        additional_attributes: { conversation_id: 'tt-conv-1' }
+      )
+
+      content = {
+        conversation_id: 'tt-conv-1',
+        read: { last_read_timestamp: 1_700_000_000_000 },
+        from_user: { id: 'user-1' }
+      }.deep_symbolize_keys
+
+      described_class.new(channel: channel, content: content).perform
+
+      expect(Conversations::UpdateMessageStatusJob).to have_received(:perform_later).with(active_conversation.id, kind_of(Time))
+    end
   end
 end

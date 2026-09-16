@@ -1,11 +1,12 @@
 class Captain::Llm::FaqGeneratorService < Llm::BaseAiService
   include Integrations::LlmInstrumentation
 
-  def initialize(content, language = 'english', account_id: nil)
-    super()
-    @language = language
-    @content = content
-    @account_id = account_id
+  def initialize(document:)
+    super(feature: 'document_faq_generation', account: document.account)
+    @document = document
+    @content = document.content
+    @language = document.account.locale_english_name
+    @account_id = document.account_id
   end
 
   def generate
@@ -40,14 +41,19 @@ class Captain::Llm::FaqGeneratorService < Llm::BaseAiService
       messages: [
         { role: 'system', content: system_prompt },
         { role: 'user', content: @content }
-      ]
+      ],
+      metadata: document_metadata
     }
+  end
+
+  def document_metadata
+    @document&.to_llm_metadata || {}
   end
 
   def parse_response(content)
     return [] if content.nil?
 
-    JSON.parse(content.strip).fetch('faqs', [])
+    JSON.parse(sanitize_json_response(content)).fetch('faqs', [])
   rescue JSON::ParserError => e
     Rails.logger.error "Error in parsing GPT processed response: #{e.message}"
     []

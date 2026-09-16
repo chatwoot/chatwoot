@@ -5,6 +5,9 @@
     "LOADING": "Fetching teams",
     "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
     "LEARN_MORE": "Learn more about teams",
+    "COUNT": "{n} team | {n} teams",
+    "SEARCH_PLACEHOLDER": "Hľadať tímy...",
+    "NO_RESULTS": "No teams found matching your search",
     "LIST": {
       "404": "There are no teams created on this account.",
       "EDIT_TEAM": "Edit team",
@@ -64,8 +67,8 @@
       "ERROR_MESSAGE": "Nepodarilo sa uložiť údaje o tíme. Skúste to znova."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
-      "EMAIL": "EMAIL",
+      "AGENT": "Agent",
+      "EMAIL": "Email",
       "BUTTON_TEXT": "Pridať agentov",
       "ADD_AGENTS": "Pridávajú sa agenti do tímu...",
       "SELECT": "vybrať",

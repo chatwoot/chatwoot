@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "ایجاد حساب کاربری",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "ثبت نام",
     "TESTIMONIAL_HEADER": "تنها چیزی که لازم است یک قدم برای حرکت به جلو است",
     "TESTIMONIAL_CONTENT": "شما یک قدم تا جذب مشتریان خود، حفظ آنها و یافتن مشتریان جدید فاصله دارید.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "ارتباط با سرور برقرار نشد، لطفا بعدا امتحان کنید"
     },
     "SUBMIT": "ایجاد حساب کاربری",
-    "HAVE_AN_ACCOUNT": "از قبل حساب‌کاربری دارید؟"
+    "HAVE_AN_ACCOUNT": "از قبل حساب‌کاربری دارید؟",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "ارسال مجدد ایمیل تایید",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

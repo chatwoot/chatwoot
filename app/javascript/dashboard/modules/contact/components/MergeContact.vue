@@ -1,174 +1,105 @@
-<script>
+<script setup>
+import { ref, computed } from 'vue';
 import { required } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
+import { useI18n } from 'vue-i18n';
 
 import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary.vue';
-import ContactDropdownItem from './ContactDropdownItem.vue';
+import ContactMergeForm from 'dashboard/components-next/Contacts/ContactsForm/ContactMergeForm.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
-export default {
-  components: { MergeContactSummary, ContactDropdownItem, NextButton },
-  props: {
-    primaryContact: {
-      type: Object,
-      required: true,
-    },
-    isSearching: {
-      type: Boolean,
-      default: false,
-    },
-    isMerging: {
-      type: Boolean,
-      default: false,
-    },
-    searchResults: {
-      type: Array,
-      default: () => [],
-    },
+const props = defineProps({
+  primaryContact: {
+    type: Object,
+    required: true,
   },
-  emits: ['search', 'submit', 'cancel'],
-  setup() {
-    return { v$: useVuelidate() };
+  isSearching: {
+    type: Boolean,
+    default: false,
   },
-  validations: {
-    primaryContact: {
-      required,
-    },
-    parentContact: {
-      required,
-    },
+  isMerging: {
+    type: Boolean,
+    default: false,
   },
-  data() {
-    return {
-      parentContact: undefined,
-    };
+  searchResults: {
+    type: Array,
+    default: () => [],
   },
+});
 
-  computed: {
-    parentContactName() {
-      return this.parentContact ? this.parentContact.name : '';
+const emit = defineEmits(['search', 'submit', 'cancel']);
+
+const { t } = useI18n();
+
+const parentContactId = ref(null);
+
+const validationRules = {
+  parentContactId: { required },
+};
+
+const v$ = useVuelidate(validationRules, { parentContactId });
+
+const parentContact = computed(() => {
+  if (!parentContactId.value) return null;
+  return props.searchResults.find(
+    contact => contact.id === parentContactId.value
+  );
+});
+
+const parentContactName = computed(() => {
+  return parentContact.value ? parentContact.value.name : '';
+});
+
+const primaryContactList = computed(() => {
+  return props.searchResults.map(contact => ({
+    id: contact.id,
+    label: contact.name,
+    value: contact.id,
+    meta: {
+      thumbnail: contact.thumbnail,
+      email: contact.email,
+      phoneNumber: contact.phone_number,
     },
-  },
-  methods: {
-    searchChange(query) {
-      this.$emit('search', query);
-    },
-    onSubmit() {
-      this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
-      }
-      this.$emit('submit', this.parentContact.id);
-    },
-    onCancel() {
-      this.$emit('cancel');
-    },
-  },
+  }));
+});
+
+const hasValidationError = computed(() => v$.value.parentContactId.$error);
+const validationErrorMessage = computed(() => {
+  if (v$.value.parentContactId.$error) {
+    return t('MERGE_CONTACTS.FORM.CHILD_CONTACT.ERROR');
+  }
+  return '';
+});
+
+const onSearch = query => {
+  emit('search', query);
+};
+
+const onSubmit = () => {
+  v$.value.$touch();
+  if (v$.value.$invalid) {
+    return;
+  }
+  emit('submit', parentContactId.value);
+};
+
+const onCancel = () => {
+  emit('cancel');
 };
 </script>
 
 <template>
   <form @submit.prevent="onSubmit">
-    <div>
-      <div>
-        <div
-          class="mt-1 multiselect-wrap--medium"
-          :class="{ error: v$.parentContact.$error }"
-        >
-          <label class="multiselect__label">
-            {{ $t('MERGE_CONTACTS.PARENT.TITLE') }}
-            <woot-label
-              :title="$t('MERGE_CONTACTS.PARENT.HELP_LABEL')"
-              color-scheme="success"
-              small
-              class="ml-2"
-            />
-          </label>
-          <multiselect
-            v-model="parentContact"
-            :options="searchResults"
-            label="name"
-            track-by="id"
-            :internal-search="false"
-            :clear-on-select="false"
-            :show-labels="false"
-            :placeholder="$t('MERGE_CONTACTS.PARENT.PLACEHOLDER')"
-            allow-empty
-            :loading="isSearching"
-            :max-height="150"
-            open-direction="top"
-            @search-change="searchChange"
-          >
-            <template #singleLabel="props">
-              <ContactDropdownItem
-                :thumbnail="props.option.thumbnail"
-                :identifier="props.option.id"
-                :name="props.option.name"
-                :email="props.option.email"
-                :phone-number="props.option.phone_number"
-              />
-            </template>
-            <template #option="props">
-              <ContactDropdownItem
-                :thumbnail="props.option.thumbnail"
-                :identifier="props.option.id"
-                :name="props.option.name"
-                :email="props.option.email"
-                :phone-number="props.option.phone_number"
-              />
-            </template>
-            <template #noResult>
-              <span>
-                {{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}
-              </span>
-            </template>
-          </multiselect>
-          <span v-if="v$.parentContact.$error" class="message">
-            {{ $t('MERGE_CONTACTS.FORM.CHILD_CONTACT.ERROR') }}
-          </span>
-        </div>
-      </div>
-      <div class="flex multiselect-wrap--medium">
-        <div
-          class="w-8 relative text-base text-n-strong after:content-[''] after:h-12 after:w-0 ltr:after:left-4 rtl:after:right-4 after:absolute after:border-l after:border-solid after:border-n-strong before:content-[''] before:h-0 before:w-4 ltr:before:left-4 rtl:before:right-4 before:top-12 before:absolute before:border-b before:border-solid before:border-n-strong"
-        >
-          <fluent-icon
-            icon="arrow-up"
-            class="absolute -top-1 ltr:left-2 rtl:right-2"
-            size="17"
-          />
-        </div>
-        <div class="flex flex-col w-full ltr:pl-8 rtl:pr-8">
-          <label class="multiselect__label">
-            {{ $t('MERGE_CONTACTS.PRIMARY.TITLE') }}
-            <woot-label
-              :title="$t('MERGE_CONTACTS.PRIMARY.HELP_LABEL')"
-              color-scheme="alert"
-              small
-              class="ml-2"
-            />
-          </label>
-          <multiselect
-            :model-value="primaryContact"
-            disabled
-            :options="[]"
-            :show-labels="false"
-            label="name"
-            track-by="id"
-          >
-            <template #singleLabel="props">
-              <ContactDropdownItem
-                :thumbnail="props.option.thumbnail"
-                :name="props.option.name"
-                :identifier="props.option.id"
-                :email="props.option.email"
-                :phone-number="props.option.phoneNumber"
-              />
-            </template>
-          </multiselect>
-        </div>
-      </div>
-    </div>
+    <ContactMergeForm
+      :selected-contact="primaryContact"
+      :primary-contact-id="parentContactId"
+      :primary-contact-list="primaryContactList"
+      :is-searching="isSearching"
+      :has-error="hasValidationError"
+      :error-message="validationErrorMessage"
+      @update:primary-contact-id="parentContactId = $event"
+      @search="onSearch"
+    />
     <MergeContactSummary
       :primary-contact-name="primaryContact.name"
       :parent-contact-name="parentContactName"
@@ -189,32 +120,3 @@ export default {
     </div>
   </form>
 </template>
-
-<style lang="scss" scoped>
-/* TDOD: Clean errors in forms style */
-.error .message {
-  @apply mt-0;
-}
-
-::v-deep {
-  .multiselect {
-    @apply rounded-md;
-  }
-
-  .multiselect--disabled {
-    @apply border-0;
-
-    .multiselect__tags {
-      @apply border;
-    }
-  }
-
-  .multiselect__tags {
-    @apply h-auto;
-  }
-
-  .multiselect__select {
-    @apply mt-px mr-1;
-  }
-}
-</style>

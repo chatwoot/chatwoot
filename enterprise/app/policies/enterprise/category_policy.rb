@@ -22,4 +22,8 @@ module Enterprise::CategoryPolicy
   def destroy?
     @account_user.custom_role&.permissions&.include?('knowledge_base_manage') || super
   end
+
+  def reorder?
+    @account_user.custom_role&.permissions&.include?('knowledge_base_manage') || super
+  end
 end

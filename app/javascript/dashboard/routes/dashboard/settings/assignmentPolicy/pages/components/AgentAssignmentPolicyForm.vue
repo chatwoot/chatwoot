@@ -1,12 +1,15 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useConfig } from 'dashboard/composables/useConfig';
+import { useRoute } from 'vue-router';
+import { useMapGetter } from 'dashboard/composables/store';
 import BaseInfo from 'dashboard/components-next/AssignmentPolicy/components/BaseInfo.vue';
-import RadioCard from 'dashboard/components-next/AssignmentPolicy/components/RadioCard.vue';
+import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 import FairDistribution from 'dashboard/components-next/AssignmentPolicy/components/FairDistribution.vue';
 import DataTable from 'dashboard/components-next/AssignmentPolicy/components/DataTable.vue';
 import AddDataDropdown from 'dashboard/components-next/AssignmentPolicy/components/AddDataDropdown.vue';
+import DurationInput from 'dashboard/components-next/input/DurationInput.vue';
+import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import {
@@ -15,6 +18,7 @@ import {
   EARLIEST_CREATED,
   DEFAULT_FAIR_DISTRIBUTION_LIMIT,
   DEFAULT_FAIR_DISTRIBUTION_WINDOW,
+  DEFAULT_EXCLUDE_OLDER_THAN_HOURS,
 } from 'dashboard/routes/dashboard/settings/assignmentPolicy/constants';
 
 const props = defineProps({
@@ -23,11 +27,11 @@ const props = defineProps({
     default: () => ({
       name: '',
       description: '',
-      enabled: false,
       assignmentOrder: ROUND_ROBIN,
       conversationPriority: EARLIEST_CREATED,
       fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
       fairDistributionWindow: DEFAULT_FAIR_DISTRIBUTION_WINDOW,
+      excludeOlderThanHours: DEFAULT_EXCLUDE_OLDER_THAN_HOURS,
     }),
   },
   mode: {
@@ -56,47 +60,99 @@ const props = defineProps({
     default: false,
   },
 });
-
 const emit = defineEmits([
   'submit',
   'addInbox',
   'deleteInbox',
+  'navigateToInbox',
   'validationChange',
 ]);
+// Duration limits for the stale-conversation threshold: 1 hour to 999 days (in minutes)
+const MIN_EXCLUSION_MINUTES = 60;
+const MAX_EXCLUSION_MINUTES = 1438560;
 
 const { t } = useI18n();
-const { isEnterprise } = useConfig();
+const route = useRoute();
+
+const accountId = computed(() => Number(route.params.accountId));
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
 
 const BASE_KEY = 'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY';
 
 const state = reactive({
   name: '',
   description: '',
-  enabled: false,
+  enabled: true,
   assignmentOrder: ROUND_ROBIN,
   conversationPriority: EARLIEST_CREATED,
   fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
   fairDistributionWindow: DEFAULT_FAIR_DISTRIBUTION_WINDOW,
+  excludeOlderThanHours: DEFAULT_EXCLUDE_OLDER_THAN_HOURS,
 });
 
 const validationState = ref({
   isValid: false,
 });
 
-const createOption = (type, key, stateKey) => ({
+const exclusionUnit = ref(DURATION_UNITS.DAYS);
+
+// DurationInput works in minutes; the policy stores hours, so bridge the two
+const excludeOlderThanMinutes = computed({
+  get() {
+    return state.excludeOlderThanHours == null
+      ? null
+      : state.excludeOlderThanHours * 60;
+  },
+  set(minutes) {
+    state.excludeOlderThanHours =
+      minutes == null ? null : Math.round(minutes / 60);
+  },
+});
+
+const createOption = (
+  type,
+  key,
+  stateKey,
+  disabled = false,
+  disabledMessage = '',
+  disabledLabel = ''
+) => ({
   key,
   label: t(`${BASE_KEY}.FORM.${type}.${key.toUpperCase()}.LABEL`),
   description: t(`${BASE_KEY}.FORM.${type}.${key.toUpperCase()}.DESCRIPTION`),
   isActive: state[stateKey] === key,
+  disabled,
+  disabledMessage,
+  disabledLabel,
 });
 
 const assignmentOrderOptions = computed(() => {
-  const options = OPTIONS.ORDER.filter(
-    key => isEnterprise || key !== 'balanced'
+  const hasAdvancedAssignment = isFeatureEnabledonAccount.value(
+    accountId.value,
+    'advanced_assignment'
   );
-  return options.map(key =>
-    createOption('ASSIGNMENT_ORDER', key, 'assignmentOrder')
-  );
+
+  return OPTIONS.ORDER.map(key => {
+    const isBalanced = key === 'balanced';
+    const disabled = isBalanced && !hasAdvancedAssignment;
+    const disabledMessage = disabled
+      ? t(`${BASE_KEY}.FORM.ASSIGNMENT_ORDER.BALANCED.PREMIUM_MESSAGE`)
+      : '';
+    const disabledLabel = disabled
+      ? t(`${BASE_KEY}.FORM.ASSIGNMENT_ORDER.BALANCED.PREMIUM_BADGE`)
+      : '';
+
+    return createOption(
+      'ASSIGNMENT_ORDER',
+      key,
+      'assignmentOrder',
+      disabled,
+      disabledMessage,
+      disabledLabel
+    );
+  });
 });
 
 const assignmentPriorityOptions = computed(() =>
@@ -131,11 +187,12 @@ const resetForm = () => {
   Object.assign(state, {
     name: '',
     description: '',
-    enabled: false,
+    enabled: true,
     assignmentOrder: ROUND_ROBIN,
     conversationPriority: EARLIEST_CREATED,
     fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
     fairDistributionWindow: DEFAULT_FAIR_DISTRIBUTION_WINDOW,
+    excludeOlderThanHours: DEFAULT_EXCLUDE_OLDER_THAN_HOURS,
   });
 };
 
@@ -143,10 +200,17 @@ const handleSubmit = () => {
   emit('submit', { ...state });
 };
 
+// Pick the display unit from the stored value so non-day thresholds (e.g. 25h) don't get floored
+const detectExclusionUnit = hours => {
+  exclusionUnit.value =
+    hours && hours % 24 !== 0 ? DURATION_UNITS.HOURS : DURATION_UNITS.DAYS;
+};
+
 watch(
   () => props.initialData,
   newData => {
     Object.assign(state, newData);
+    detectExclusionUnit(newData.excludeOlderThanHours);
   },
   { immediate: true, deep: true }
 );
@@ -162,15 +226,10 @@ defineExpose({
       <BaseInfo
         v-model:policy-name="state.name"
         v-model:description="state.description"
-        v-model:enabled="state.enabled"
         :name-label="t(`${BASE_KEY}.FORM.NAME.LABEL`)"
         :name-placeholder="t(`${BASE_KEY}.FORM.NAME.PLACEHOLDER`)"
         :description-label="t(`${BASE_KEY}.FORM.DESCRIPTION.LABEL`)"
         :description-placeholder="t(`${BASE_KEY}.FORM.DESCRIPTION.PLACEHOLDER`)"
-        :status-label="t(`${BASE_KEY}.FORM.STATUS.LABEL`)"
-        :status-placeholder="
-          t(`${BASE_KEY}.FORM.STATUS.${state.enabled ? 'ACTIVE' : 'INACTIVE'}`)
-        "
         @validation-change="handleValidationChange"
       />
 
@@ -193,6 +252,9 @@ defineExpose({
                 :label="option.label"
                 :description="option.description"
                 :is-active="option.isActive"
+                :disabled="option.disabled"
+                :disabled-label="option.disabledLabel"
+                :disabled-message="option.disabledMessage"
                 @select="state[section.key] = $event"
               />
             </div>
@@ -214,6 +276,27 @@ defineExpose({
           v-model:fair-distribution-window="state.fairDistributionWindow"
           v-model:window-unit="state.windowUnit"
         />
+      </div>
+
+      <div class="pt-4 pb-2 flex-col flex gap-4">
+        <div class="flex flex-col items-start gap-1 py-1">
+          <label class="text-sm font-medium text-n-slate-12 py-1">
+            {{ t(`${BASE_KEY}.FORM.EXCLUDE_OLDER_THAN.LABEL`) }}
+          </label>
+          <p class="mb-0 text-n-slate-11 text-sm">
+            {{ t(`${BASE_KEY}.FORM.EXCLUDE_OLDER_THAN.DESCRIPTION`) }}
+          </p>
+        </div>
+        <div
+          class="flex items-center gap-2 [&>select]:!bg-n-alpha-2 [&>select]:!outline-none [&>select]:hover:brightness-110"
+        >
+          <DurationInput
+            v-model:unit="exclusionUnit"
+            v-model:model-value="excludeOlderThanMinutes"
+            :min="MIN_EXCLUSION_MINUTES"
+            :max="MAX_EXCLUSION_MINUTES"
+          />
+        </div>
       </div>
     </div>
 
@@ -251,6 +334,7 @@ defineExpose({
         :is-fetching="isInboxLoading"
         :empty-state-message="t(`${BASE_KEY}.FORM.INBOXES.EMPTY_STATE`)"
         @delete="$emit('deleteInbox', $event)"
+        @navigate="$emit('navigateToInbox', $event)"
       />
     </div>
   </form>

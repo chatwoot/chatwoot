@@ -16,7 +16,9 @@ describe V2::ReportBuilder do
         create(:inbox_member, user: user, inbox: inbox)
 
         gravatar_url = 'https://www.gravatar.com'
+        favicon_url = 'https://www.google.com/s2/favicons'
         stub_request(:get, /#{gravatar_url}.*/).to_return(status: 404)
+        stub_request(:get, /#{Regexp.escape(favicon_url)}.*/).to_return(status: 404)
 
         perform_enqueued_jobs do
           10.times do
@@ -118,6 +120,8 @@ describe V2::ReportBuilder do
             # Reopen 1 conversation
             conversations.first.open!
           end
+          create(:reporting_event, account: account, inbox: account.inboxes.first, conversation: nil, conversation_id: nil,
+                                   name: 'conversation_bot_handoff', created_at: Time.zone.today)
 
           builder = described_class.new(account, params)
           metrics = builder.timeseries

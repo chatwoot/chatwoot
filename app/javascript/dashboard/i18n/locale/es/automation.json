@@ -3,8 +3,11 @@
     "HEADER": "Automatización",
     "DESCRIPTION": "La automatización puede reemplazar y agilizar los procesos existentes que requieren esfuerzo manual, como añadir etiquetas y asignar conversaciones al agente más adecuado. Esto permite al equipo concentrarse en sus fortalezas, mientras que reduce el tiempo dedicado a las tareas de rutina.",
     "LEARN_MORE": "Aprende más sobre automatización",
-    "HEADER_BTN_TXT": "Añadir regla de automatización",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Obteniendo reglas de automatización",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Añadir regla de automatización",
       "SUBMIT": "Crear",
@@ -25,6 +28,43 @@
           "PLACEHOLDER": "Por favor, seleccione uno",
           "ERROR": "El evento es requerido"
         },
+        "RUN_TYPE": {
+          "LABEL": "¿Cuándo debe ejecutarse esta regla?",
+          "OPTIONS": {
+            "INSTANT": {
+              "LABEL": "Ejecutar al instante",
+              "DESCRIPTION": "Se ejecuta en el momento en que ocurre un evento, siempre que se cumplan las condiciones."
+            },
+            "WAIT": {
+              "LABEL": "Ejecutar después de una espera",
+              "DESCRIPTION": "Espera durante un periodo definido y se ejecuta solo si todo sigue igual. Si algo cambia, la regla se omite."
+            }
+          }
+        },
+        "WAIT": {
+          "LABEL": "Condición de espera",
+          "WHEN_LABEL": "Cuando",
+          "STATUS_LABEL": "El estado es",
+          "FOR_LABEL": "Durante",
+          "INBOX_LABEL": "Bandeja de entrada",
+          "ERROR": "La espera debe ser de entre 10 minutos y 30 días",
+          "OPTIONS": {
+            "CONVERSATION_STATUS": "La conversación permanece en un estado",
+            "CUSTOMER_UNRESPONSIVE": "El cliente no ha respondido",
+            "AGENT_UNRESPONSIVE": "Ningún miembro del equipo ha respondido"
+          },
+          "DURATION": {
+            "MINUTES": "{count} minuto | {count} minutos",
+            "HOURS": "{count} hora | {count} horas",
+            "DAYS": "{count} día | {count} días"
+          },
+          "EXPLANATION": {
+            "CONVERSATION_STATUS": "El contador comienza cuando una conversación pasa a este estado. Si continúa en él {duration} después, se ejecutan las acciones siguientes. Si el estado cambia antes, no ocurre nada.",
+            "CUSTOMER_UNRESPONSIVE": "El contador comienza cuando responde un miembro del equipo. Si el cliente no ha vuelto a escribir {duration} después, se ejecutan las acciones siguientes. Si responde, no ocurre nada y la siguiente respuesta del equipo vuelve a iniciar el contador.",
+            "AGENT_UNRESPONSIVE": "El contador comienza cuando un cliente envía un mensaje. Si ningún miembro del equipo ha respondido {duration} después, se ejecutan las acciones siguientes. Si alguien responde antes, no ocurre nada."
+          },
+          "FOOTNOTE": "Solo la actividad nueva inicia un contador. Las conversaciones que ya se encuentren en este estado se procesarán la próxima vez que ocurra algo en ellas."
+        },
         "CONDITIONS": {
           "LABEL": "Condiciones"
         },
@@ -42,11 +82,18 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nombre",
-        "DESCRIPTION": "Descripción",
         "ACTIVE": "Activo",
-        "CREATED_ON": "Creado el"
+        "CREATED_ON": "Creado el",
+        "ACTIONS": "Acciones"
       },
-      "404": "No se encontraron reglas de automatización"
+      "404": "No se encontraron reglas de automatización",
+      "404_DELAYED": "Aún no hay reglas que se ejecuten después de una espera",
+      "TABS": {
+        "INSTANT": "Se ejecutan al instante",
+        "DELAYED": "Se ejecutan después de una espera"
+      },
+      "DELAY_BADGE": "Se ejecuta después de {delay}",
+      "DELAY_DISABLED_BANNER": "La ejecución diferida está desactivada para esta cuenta, por lo que las reglas siguientes que se ejecutan después de una espera permanecerán en pausa hasta que vuelva a activarse."
     },
     "DELETE": {
       "TITLE": "Eliminar regla de automatización",
@@ -127,6 +174,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "Se requiere al menos una acción"
     },
     "NONE_OPTION": "Ninguna",
+    "LAST_RESPONDING_AGENT": "Último agente de respuesta",
     "EVENTS": {
       "CONVERSATION_CREATED": "Conversación creada",
       "CONVERSATION_UPDATED": "Conversación actualizada",
@@ -137,6 +185,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Asignar al agente",
       "ASSIGN_TEAM": "Asignar equipo",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "ADD_LABEL": "Añadir etiqueta",
       "REMOVE_LABEL": "Eliminar etiqueta",
       "SEND_EMAIL_TO_TEAM": "Enviar un email al equipo",
@@ -150,7 +200,8 @@
       "ADD_PRIVATE_NOTE": "Añadir una nota privada",
       "CHANGE_PRIORITY": "Cambiar prioridad",
       "ADD_SLA": "Añadir SLA",
-      "OPEN_CONVERSATION": "Abrir conversación"
+      "OPEN_CONVERSATION": "Abrir conversación",
+      "PENDING_CONVERSATION": "Marca la conversación como pendiente"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Mensaje entrante",
@@ -165,6 +216,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo de mensaje",
+      "PRIVATE_NOTE": "Nota privada",
       "MESSAGE_CONTAINS": "El mensaje contiene",
       "EMAIL": "E-mail",
       "INBOX": "Bandeja de entrada",
@@ -174,6 +226,7 @@
       "BROWSER_LANGUAGE": "Idioma del navegador",
       "MAIL_SUBJECT": "Asunto de Email",
       "COUNTRY_NAME": "País",
+      "COMPANY_NAME": "Empresa",
       "REFERER_LINK": "Enlace de referencia",
       "ASSIGNEE_NAME": "Asignado a",
       "TEAM_NAME": "Equipo",

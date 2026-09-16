@@ -61,19 +61,19 @@ const updateIntegration = async () => {
 
 <template>
   <div
-    class="px-6 py-4 mb-4 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow"
+    class="px-6 py-4 mb-4 outline outline-n-container outline-1 bg-n-card rounded-xl"
   >
     <div class="flex">
       <div class="flex-shrink-0">
         <div class="i-lucide-bell text-xl text-n-amber-11 mt-1" />
       </div>
       <div class="ml-3">
-        <p class="mb-1 text-base font-semibold text-n-slate-12">
+        <p class="mb-1 text-heading-2 text-n-slate-12">
           {{
             $t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.ATTENTION_REQUIRED')
           }}
         </p>
-        <div class="mt-2 text-sm text-n-slate-11 mb-3">
+        <div class="mt-2 text-body-main text-n-slate-11 mb-3">
           <p v-dompurify-html="formattedErrorMessage" />
         </div>
       </div>

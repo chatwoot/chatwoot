@@ -3,8 +3,11 @@
     "HEADER": "Canned Responses",
     "LEARN_MORE": "Saznajte više o unaprijed pripremljenim odgovorima",
     "DESCRIPTION": "Unaprijed pripremljeni odgovori su već napisani predlošci za odgovore koji vam pomažu da brzo odgovorite na razgovor. Agenti mogu upisati znak '/' nakon kojeg slijedi kratki kod za umetanje unaprijed pripremljenog odgovora tijekom razgovora.",
+    "COUNT": "{n} canned response | {n} canned responses",
     "HEADER_BTN_TXT": "Add canned response",
     "LOADING": "Fetching canned responses...",
+    "SEARCH_PLACEHOLDER": "Search canned responses...",
+    "NO_RESULTS": "No canned responses found matching your search",
     "SEARCH_404": "Ne postoji rezultat za zadano pretraživanje.",
     "LIST": {
       "404": "There are no canned responses available in this account.",

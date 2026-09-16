@@ -3,6 +3,9 @@
     "FETCHING": "جلب التكاملات",
     "NO_HOOK_CONFIGURED": "لا يوجد {integrationId} تكاملات مكونة في هذا الحساب.",
     "HEADER": "التطبيقات",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "مفعل",
       "DISABLED": "معطّل"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "جلب روابط التكامل",
       "INBOX": "صندوق الوارد",
+      "ACTIONS": "الإجراءات",
       "DELETE": {
         "BUTTON_TEXT": "حذف"
       }
@@ -42,6 +46,7 @@
           "PLACEHOLDER": "اختر صندوق الوارد"
         },
         "SUBMIT": "إنشاء",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "إلغاء"
       },
       "API": {

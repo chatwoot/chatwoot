@@ -58,7 +58,10 @@ class AutomationRules::ActionService < ActionService
     teams = Team.where(id: params[0][:team_ids])
 
     teams.each do |team|
+      break unless @account.within_email_rate_limit?
+
       TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[0][:message])&.deliver_now
+      @account.increment_email_sent_count
     end
   end
 end

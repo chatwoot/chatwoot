@@ -1,0 +1,18 @@
+type: object
+properties:
+  title:
+    type: string
+    description: The label title
+    example: support
+  description:
+    type: string
+    description: A short description for the label
+    example: Conversations that need support follow-up
+  color:
+    type: string
+    description: Hex color code for the label
+    example: '#1f93ff'
+  show_on_sidebar:
+    type: boolean
+    description: Whether the label should appear in the sidebar
+    example: true

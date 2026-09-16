@@ -39,7 +39,6 @@ const policyA = withCount({
   description: 'Distributes conversations evenly among available agents',
   assignmentOrder: 'round_robin',
   conversationPriority: 'high',
-  enabled: true,
   inboxes: [mockInboxes[0], mockInboxes[1]],
   isFetchingInboxes: false,
 });
@@ -50,7 +49,6 @@ const policyB = withCount({
   description: 'Assigns based on capacity and workload',
   assignmentOrder: 'capacity_based',
   conversationPriority: 'medium',
-  enabled: true,
   inboxes: [mockInboxes[2], mockInboxes[3]],
   isFetchingInboxes: false,
 });
@@ -61,7 +59,6 @@ const emptyPolicy = withCount({
   description: 'Policy with no assigned inboxes',
   assignmentOrder: 'manual',
   conversationPriority: 'low',
-  enabled: false,
   inboxes: [],
   isFetchingInboxes: false,
 });

@@ -1,0 +1,93 @@
+type: object
+additionalProperties: true
+description: Full serialized contact record returned when the public API renders a Contact model directly.
+properties:
+  id:
+    type: integer
+    description: Id of the contact
+  name:
+    type:
+      - string
+      - 'null'
+    description: Name of the contact when available
+  email:
+    type:
+      - string
+      - 'null'
+    description: Email of the contact
+  phone_number:
+    type:
+      - string
+      - 'null'
+    description: Phone number of the contact
+  identifier:
+    type:
+      - string
+      - 'null'
+    description: Identifier of the contact
+  blocked:
+    type: boolean
+    description: Whether the contact is blocked
+  additional_attributes:
+    type:
+      - object
+      - 'null'
+    description: Additional attributes of the contact when present
+  custom_attributes:
+    type:
+      - object
+      - 'null'
+    description: Custom attributes of the contact when present
+  contact_type:
+    type:
+      - string
+      - 'null'
+    description: Contact type of the contact when available
+  country_code:
+    type:
+      - string
+      - 'null'
+    description: Country code of the contact
+  last_activity_at:
+    type:
+      - string
+      - 'null'
+    description: Last activity timestamp of the contact in ISO 8601 format
+  created_at:
+    type:
+      - string
+      - 'null'
+    description: Created timestamp of the contact in ISO 8601 format
+  updated_at:
+    type:
+      - string
+      - 'null'
+    description: Updated timestamp of the contact in ISO 8601 format
+  last_name:
+    type:
+      - string
+      - 'null'
+    description: Last name of the contact
+  middle_name:
+    type:
+      - string
+      - 'null'
+    description: Middle name of the contact
+  location:
+    type:
+      - string
+      - 'null'
+    description: Location of the contact
+  account_id:
+    type: integer
+    description: Account id of the contact
+  company_id:
+    type:
+      - integer
+      - 'null'
+    description: Company id of the contact
+  label_list:
+    type: array
+    description: Labels applied to the contact
+    items:
+      type: string

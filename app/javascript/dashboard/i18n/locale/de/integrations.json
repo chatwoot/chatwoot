@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot integriert sich mit mehreren Tools und Diensten, um die Effizienz Ihres Teams zu verbessern. Erkunden Sie die folgende Liste, um Ihre Lieblingsapps zu konfigurieren.",
     "LEARN_MORE": "Mehr über Integrationen erfahren",
     "LOADING": "Integrationen werden abgerufen",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain ist auf Ihrem Konto nicht aktiviert.",
       "CLICK_HERE_TO_CONFIGURE": "Hier klicken, um zu konfigurieren",
@@ -28,6 +31,24 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abonnierte Events",
       "LEARN_MORE": "Mehr über Webhooks erfahren",
+      "PAYWALL": {
+        "TITLE": "Webhooks sind in kostenpflichtigen Tarifen verfügbar",
+        "AVAILABLE_ON": "Verwende Webhooks, um Echtzeitereignisse aus deinem Chatwoot-Konto zu empfangen.",
+        "UPGRADE_PROMPT": "Wechsle zum Tarif Startups, Business oder Enterprise, um Webhooks zu verwenden.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Du kannst deinen Tarif jederzeit ändern oder kündigen."
+      },
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Stornieren",
         "DESC": "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Bitte geben Sie eine gültige URL ein, um einen Rückruf zu konfigurieren.",
@@ -43,7 +64,8 @@
             "CONTACT_CREATED": "Kontakt erstellt",
             "CONTACT_UPDATED": "Kontakt aktualisiert",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off",
+            "INBOX_UPDATED": "Postfach aktualisiert"
           }
         },
         "NAME": {
@@ -104,6 +126,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Löschen",
       "DELETE_CONFIRMATION": {
         "TITLE": "Integration löschen",
@@ -145,7 +168,29 @@
         "EXPAND": "Erweitern",
         "MAKE_FRIENDLY": "Nachrichtenton in freundlich ändern",
         "MAKE_FORMAL": "Formellen Ton verwenden",
-        "SIMPLIFY": "Vereinfachen"
+        "SIMPLIFY": "Vereinfachen",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Professionell",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Freundlich"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Inhalt entwerfen",
@@ -201,12 +246,16 @@
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard-Apps ermöglichen es Unternehmen, eine Anwendung in das Chatwoot-Dashboard einzubetten, um den Kontext für Kundendienstmitarbeiter bereitzustellen. Mit dieser Funktion können Sie eine Anwendung unabhängig erstellen und diese in das Dashboard einbetten, um Benutzerinformationen, ihre Bestellungen oder ihren bisherigen Zahlungsverlauf bereitzustellen.</p><p>Wenn Sie Ihre Anwendung über das Dashboard in Chatwoot einbetten, erhält Ihre Anwendung den Kontext der Unterhaltung und des Kontakts als Fensterereignis. Implementieren Sie einen Listener für das Nachrichtenereignis auf Ihrer Seite, um den Kontext zu erhalten. </p><p>Um eine neue Dashboard-App hinzuzufügen, klicken Sie auf die Schaltfläche „Neue Dashboard-App hinzufügen“.</p>",
       "DESCRIPTION": "Dashboard-Apps ermöglichen es Unternehmen, eine Anwendung in das Dashboard einzubetten, um den Kontext für Kundendienstmitarbeiter bereitzustellen. Mit dieser Funktion können Sie eine Anwendung unabhängig erstellen und diese einbetten, um Benutzerinformationen, ihre Bestellungen oder ihren bisherigen Zahlungsverlauf bereitzustellen.",
       "LEARN_MORE": "Mehr über Dashboard-Apps erfahren",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Für dieses Konto sind noch keine Dashboard-Apps konfiguriert",
         "LOADING": "Dashboard-Apps werden abgerufen...",
         "TABLE_HEADER": {
           "NAME": "Name",
-          "ENDPOINT": "Endpunkt"
+          "ENDPOINT": "Endpunkt",
+          "ACTIONS": "Aktionen"
         },
         "EDIT_TOOLTIP": "App bearbeiten",
         "DELETE_TOOLTIP": "Anwendung löschen"
@@ -243,6 +292,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Lineares Problem erstellen/verknüpfen",
       "LOADING": "Lineare Probleme werden abgerufen...",
       "LOADING_ERROR": "Beim Abrufen der linearen Probleme ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
@@ -337,6 +387,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
@@ -347,70 +398,146 @@
   },
   "CAPTAIN": {
     "NAME": "Kapitän",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Mehr erfahren",
+    "OVERVIEW": {
+      "HEADER": "Übersicht",
+      "WELCOME": {
+        "LABEL": "Captain-Zusammenfassung",
+        "LOADING": "Zusammenfassung wird erstellt…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "Dieser Assistent ist noch mit keinem Postfach verbunden und antwortet daher nicht auf Unterhaltungen.",
+        "ACTION": "Postfach verbinden",
+        "DISMISS": "Ausblenden"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ-Vorschläge können geprüft werden und halten die Abdeckung bei {coverage}%. Gib sie frei, damit dein Assistent mehr Anfragen selbstständig lösen kann.",
+        "ACTION": "Vorschläge prüfen",
+        "DISMISS": "Ausblenden"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Letzte {count} Tage",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Bearbeitete Unterhaltungen",
+          "HINT": "Eindeutige Unterhaltungen, in denen dieser Assistent geantwortet hat."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Automatische Lösungsrate",
+          "HINT": "Anteil der bearbeiteten Unterhaltungen, die ohne menschliche Antwort geschlossen wurden."
+        },
+        "HANDOFF": {
+          "LABEL": "Übergaberate",
+          "HINT": "Anteil der bearbeiteten Unterhaltungen, die an einen menschlichen Agenten weitergeleitet wurden."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Eingesparte Zeit",
+          "HINT": "Schätzung: Anzahl der Captain-Antworten multipliziert mit etwa 2 Minuten angenommenem Arbeitsaufwand eines Agenten pro Antwort. Ein Richtwert, keine gemessene Arbeitszeit."
+        },
+        "REOPEN": {
+          "LABEL": "Wiedereröffnungsrate",
+          "HINT": "Automatisch gelöste Unterhaltungen, die anschließend wieder geöffnet wurden."
+        },
+        "DEPTH": {
+          "LABEL": "Nachrichten / Unterhaltung",
+          "HINT": "Durchschnittliche Anzahl der Antworten, die der Assistent pro Unterhaltung sendet."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "Für diese Kennzahl wurden keine Einträge gefunden.",
+        "ERROR": "Die Einträge konnten nicht geladen werden. Bitte versuche es erneut.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} Unterhaltung | {count} Unterhaltungen"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Wissensabdeckung",
+        "COVERAGE": "{pct}% freigegeben",
+        "APPROVED": "Freigegebene FAQs",
+        "SUGGESTIONS": "FAQ-Vorschläge",
+        "DOCUMENTS": "Documents"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain-Dokumentation",
+          "DESCRIPTION": "Anleitungen und praktische Hilfen zu Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Playground",
+          "DESCRIPTION": "Teste die Antworten dieses Assistenten"
+        },
+        "BILLING": {
+          "TITLE": "Abrechnung",
+          "DESCRIPTION": "Guthaben und Tarif verwalten"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Assistenten",
+      "SWITCH_ASSISTANT": "Zwischen Assistenten wechseln",
+      "NEW_ASSISTANT": "Assistent erstellen",
+      "EMPTY_LIST": "Keine Assistenten gefunden, bitte erstellen Sie einen, um zu beginnen"
     },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Probiere diese Prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "Starten Sie mit Copilot",
+      "KICK_OFF_MESSAGE": "Brauchen Sie eine schnelle Zusammenfassung, möchten Sie vergangene Gespräche prüfen oder eine bessere Antwort entwerfen? Copilot hilft Ihnen, schneller voranzukommen.",
       "SEND_MESSAGE": "Nachricht senden...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
+      "EMPTY_MESSAGE": "Beim Generieren der Antwort ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
       "LOADER": "Captain denkt nach",
       "YOU": "Sie",
       "USE": "Verwenden",
       "RESET": "Zurücksetzen",
-      "SHOW_STEPS": "Show steps",
+      "SHOW_STEPS": "Schritte anzeigen",
       "SELECT_ASSISTANT": "Assistent auswählen",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Dieses Gespräch zusammenfassen",
+          "CONTENT": "Fassen Sie die wichtigsten Punkte zusammen, die zwischen dem Kunden und dem Supportmitarbeiter besprochen wurden, einschließlich der Anliegen, Fragen des Kunden sowie der vom Supportmitarbeiter gegebenen Lösungen oder Antworten"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Antwort vorschlagen",
+          "CONTENT": "Analysiere die Anfrage des Kunden und entwerfe eine Antwort, die seine Anliegen oder Fragen effektiv beantwortet. Stelle sicher, dass die Antwort klar, prägnant und hilfreich ist."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Bewerten Sie dieses Gespräch",
+          "CONTENT": "Bewerten Sie das Gespräch, um zu sehen, wie gut es die Bedürfnisse des Kunden erfüllt. Geben Sie eine Bewertung von 1 bis 5 basierend auf Ton, Klarheit und Effektivität ab."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Gespräche mit hoher Priorität",
+          "CONTENT": "Gib mir eine Zusammenfassung aller offenen Gespräche mit hoher Priorität. Bitte die Gesprächs-ID, den Kundennamen (falls vorhanden), den Inhalt der letzten Nachricht und den zugewiesenen Mitarbeiter einschließen. Gruppiere nach Status, wenn relevant."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Kontakte auflisten",
+          "CONTENT": "Zeige mir die Liste der Top 10 Kontakte. Bitte Name, E-Mail oder Telefonnummer (falls vorhanden), zuletzt gesehen Zeit, Tags (falls vorhanden) einschließen."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "Sie",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Assistent",
       "MESSAGE_PLACEHOLDER": "Schreiben Sie Ihre Nachricht...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "Spielwiese",
+      "DESCRIPTION": "Nutzen Sie diesen Playground, um Nachrichten an Ihren Assistenten zu senden und zu prüfen, ob dieser genau, schnell und im erwarteten Ton antwortet.",
+      "CREDIT_NOTE": "Hier gesendete Nachrichten werden auf Ihre Captain-Guthaben angerechnet."
     },
     "PAYWALL": {
       "TITLE": "Upgrade auf Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
+      "AVAILABLE_ON": "Captain ist im kostenlosen Tarif nicht verfügbar.",
       "UPGRADE_PROMPT": "Tarif upgraden, um Zugang zu unseren Assistenten, Copilot und mehr zu erhalten.",
       "UPGRADE_NOW": "Jetzt upgraden",
       "CANCEL_ANYTIME": "Sie können Ihr Paket jederzeit ändern oder kündigen"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI ist nur in den Enterprise-Tarifen verfügbar.",
       "UPGRADE_PROMPT": "Tarif upgraden, um Zugang zu unseren Assistenten, Copilot und mehr zu erhalten.",
       "ASK_ADMIN": "Bitte kontaktieren Sie Ihren Administrator für das Upgrade."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
+      "RESPONSES": "Sie haben über 80 % Ihres Antwortlimits verbraucht. Um Captain AI weiterhin zu nutzen, bitte upgraden.",
       "DOCUMENTS": "Dokumentenlimit erreicht. Upgraden um Cpatain AI weiter zu verwenden."
     },
     "FORM": {
@@ -449,10 +576,6 @@
           "PLACEHOLDER": "Enter assistant name",
           "ERROR": "The name is required"
         },
-        "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
-        },
         "DESCRIPTION": {
           "LABEL": "Beschreibung",
           "PLACEHOLDER": "Enter assistant description",
@@ -483,7 +606,8 @@
           "TITLE": "Funktionen",
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -693,9 +817,87 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "Löschen",
+      "BULK_SYNC_BUTTON": "Neu laden",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Aktualisierung für 1 Dokument vorgemerkt",
+        "SUCCESS_MESSAGE": "Aktualisierung für {count} Dokumente vorgemerkt",
+        "ZERO_MESSAGE": "Keine Dokumente zur Aktualisierung markiert.",
+        "ERROR_MESSAGE": "Die Aktualisierung konnte nicht vorgemerkt werden. Bitte versuche es erneut."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Aktualisierung vorgemerkt. Wir aktualisieren das Dokument in Kürze.",
+        "ERROR_MESSAGE": "Die Aktualisierung konnte nicht vorgemerkt werden. Bitte versuche es erneut."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "Alle Quellen",
+          "WEB": "Webseiten",
+          "PDF": "PDFs"
+        },
+        "STATUS": {
+          "ANY": "Beliebiger Status",
+          "UPDATED": "Aktualisiert",
+          "NEEDS_UPDATE": "Aktualisierung erforderlich",
+          "UPDATING": "Wird aktualisiert",
+          "FAILED": "Failed"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Zuletzt aktualisiert",
+          "RECENTLY_CREATED": "Zuletzt erstellt"
+        },
+        "SEARCH_PLACEHOLDER": "Search..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "zuletzt aktualisiert {time}",
+        "SYNCING": "aktualisiere...",
+        "STALE_SYNC": "Aktualisierung hängt",
+        "FAILED": "Synchronisierung fehlgeschlagen",
+        "NEVER_SYNCED": "noch nicht aktualisiert"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "Seite nicht gefunden",
+        "ACCESS_DENIED": "Zugriff verweigert",
+        "TIMEOUT": "Die Seite hat zu lange nicht geantwortet",
+        "CONTENT_EMPTY": "Die Seite hat keinen Inhalt zurückgegeben",
+        "FETCH_FAILED": "Die Seite konnte nicht abgerufen werden",
+        "SYNC_ERROR": "Unerwarteter Fehler",
+        "DEFAULT": "Synchronisierungsfehler"
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+        "EMPTY": "Aus diesem Dokument wurden noch keine FAQs erstellt."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Prüfe die gecrawlten Inhalte und die aus dieser Quelle erstellten FAQs.",
+        "SOURCE": "Quelle",
+        "GENERATED_FAQS": "Erstellte FAQs",
+        "LAST_UPDATED": "Zuletzt aktualisiert",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Gecrawlte Inhalte",
+        "PDF_TAB": "PDF-Details",
+        "CONTENT_TITLE": "Gecrawlte Inhalte",
+        "PDF_TITLE": "PDF-Datei",
+        "PDF_DESCRIPTION": "Prüfe die ursprüngliche PDF-Quelle.",
+        "CHARACTER_COUNT": "{count} Zeichen extrahiert",
+        "COPY_CONTENT": "Kopieren",
+        "COPY_SUCCESS": "Gecrawlte Inhalte in die Zwischenablage kopiert",
+        "COPY_ERROR": "Gecrawlte Inhalte konnten nicht kopiert werden",
+        "VIEW_RAW": "Rohdaten anzeigen",
+        "VIEW_PREVIEW": "Vorschau anzeigen",
+        "UNREADABLE_CONTENT": "Aus diesem Dokument konnten keine lesbaren Inhalte extrahiert werden. Du kannst die extrahierten Rohdaten anzeigen.",
+        "EMPTY_CONTENT": "Für dieses Dokument sind noch keine gecrawlten Inhalte verfügbar."
       },
       "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
       "CREATE": {
@@ -735,12 +937,16 @@
         "ERROR_MESSAGE": "There was an error deleting the document, please try again."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
+        "VIEW_DETAILS": "Details anzeigen",
+        "SYNC_NOW": "Jetzt aktualisieren",
+        "RETRY_SYNC": "Aktualisierung erneut versuchen",
         "DELETE_DOCUMENT": "Delete Document"
       },
       "EMPTY_STATE": {
         "TITLE": "No documents available",
         "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "FILTERED_TITLE": "Keine passenden Dokumente",
+        "FILTERED_SUBTITLE": "Ändere die Quelle, den Status oder den Suchbegriff.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
           "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
@@ -750,6 +956,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -780,11 +987,30 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Rechnung öffnen",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Beschreibung",
@@ -858,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "FAQs",
-      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
@@ -867,12 +1092,10 @@
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
       "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
-      "BULK_DELETE_BUTTON": "Löschen",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+      "ERRORS": {
+        "LOAD": "Beim Laden der FAQs ist ein Fehler aufgetreten. Bitte versuche es erneut."
       },
+      "BULK_DELETE_BUTTON": "Löschen",
       "BULK_DELETE": {
         "TITLE": "Delete FAQs?",
         "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
@@ -887,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
-      "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "Alle"
-      },
-      "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Ausstehend",
-        "APPROVED": "Approved",
-        "ALL": "Alle"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain hat wiederkehrende Kundenfragen zu FAQ-Vorschlägen zusammengefasst.",
+        "ACTION": "Vorschläge prüfen"
       },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
@@ -933,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs Found",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ-Vorschläge",
+      "SEARCH_PLACEHOLDER": "Vorschläge durchsuchen...",
+      "QUEUE_COUNT": "{count} Vorschlag zu prüfen | {count} Vorschläge zu prüfen",
+      "QUEUE_HINT": "Nach Kundennachfrage sortiert",
+      "SOURCE_COUNT": "{count} Unterhaltung | {count} Unterhaltungen",
+      "REVIEW": "Quellen prüfen",
+      "APPROVE": "Freigeben",
+      "APPROVE_FAQ": "FAQ freigeben",
+      "DISMISS": "Verwerfen",
+      "SAVE": "Änderungen speichern",
+      "DETAILS": {
+        "TITLE": "FAQ-Vorschlag prüfen",
+        "DESCRIPTION": "Captain hat {count} Unterhaltung zu diesem Vorschlag zusammengefasst. Prüfe die Belege und überarbeite die FAQ vor der Freigabe. | Captain hat {count} Unterhaltungen zu diesem Vorschlag zusammengefasst. Prüfe die Belege und überarbeite die FAQ vor der Freigabe.",
+        "SOURCES": "Quellunterhaltungen",
+        "SOURCE_PROGRESS": "{visible} von {total}",
+        "NO_SOURCES": "Es wurden keine zugänglichen Quellunterhaltungen gefunden.",
+        "RETRY": "Erneut versuchen"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Die Prüfliste ist leer",
+        "SUBTITLE": "Neue FAQ-Vorschläge erscheinen hier, sobald sie geprüft werden können.",
+        "CLEAR_SEARCH": "Suche zurücksetzen"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ freigegeben und zum Wissen von Captain hinzugefügt.",
+        "DISMISSED": "Vorschlag verworfen.",
+        "SAVED": "Vorschlag aktualisiert."
+      },
+      "ERRORS": {
+        "LOAD": "Beim Laden der FAQ-Vorschläge ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+        "LOAD_DETAILS": "Beim Laden der Quellunterhaltungen ist ein Fehler aufgetreten.",
+        "APPROVE": "Beim Freigeben der FAQ ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+        "DISMISS": "Beim Verwerfen des Vorschlags ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+        "SAVE": "Beim Speichern des Vorschlags ist ein Fehler aufgetreten. Bitte versuche es erneut."
       }
     },
     "INBOXES": {

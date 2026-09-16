@@ -7,17 +7,72 @@ RSpec.describe Imap::FetchEmailService do
   let(:imap_email_channel) { create(:channel_email, :imap_email, account: account) }
   let(:imap) { instance_double(Net::IMAP) }
   let(:eml_content_with_message_id) { Rails.root.join('spec/fixtures/files/only_text.eml').read }
+  let(:eml_content_without_message_id) { eml_content_with_message_id.sub(/^Message-ID:.*\n/, '') }
 
   describe '#perform' do
     before do
       allow(Rails).to receive(:logger).and_return(logger)
       allow(Net::IMAP).to receive(:new).with(
-        imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: true
+        imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: imap_email_channel.imap_enable_ssl
       ).and_return(imap)
       allow(imap).to receive(:authenticate).with(
-        'PLAIN', imap_email_channel.imap_login, imap_email_channel.imap_password
+        'plain', imap_email_channel.imap_login, imap_email_channel.imap_password
       )
       allow(imap).to receive(:select).with('INBOX')
+    end
+
+    context 'when using CRAM-MD5 authentication' do
+      let(:cram_md5_channel) { create(:channel_email, :imap_email, account: account, imap_authentication: 'cram-md5') }
+
+      before do
+        allow(Net::IMAP).to receive(:new).with(
+          cram_md5_channel.imap_address, port: cram_md5_channel.imap_port, ssl: cram_md5_channel.imap_enable_ssl
+        ).and_return(imap)
+        allow(imap).to receive(:authenticate).with(
+          'CRAM-MD5', cram_md5_channel.imap_login, cram_md5_channel.imap_password
+        )
+        allow(imap).to receive(:select).with('INBOX')
+      end
+
+      it 'uses CRAM-MD5 authentication' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([])
+          allow(imap).to receive(:logout)
+
+          described_class.new(channel: cram_md5_channel).perform
+
+          expect(imap).to have_received(:authenticate).with(
+            'CRAM-MD5', cram_md5_channel.imap_login, cram_md5_channel.imap_password
+          )
+        end
+      end
+    end
+
+    context 'when using LOGIN authentication' do
+      let(:login_channel) { create(:channel_email, :imap_email, account: account, imap_authentication: 'login') }
+
+      before do
+        allow(Net::IMAP).to receive(:new).with(
+          login_channel.imap_address, port: login_channel.imap_port, ssl: login_channel.imap_enable_ssl
+        ).and_return(imap)
+        allow(imap).to receive(:login).with(
+          login_channel.imap_login, login_channel.imap_password
+        )
+        allow(imap).to receive(:select).with('INBOX')
+      end
+
+      it 'uses LOGIN authentication' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([])
+          allow(imap).to receive(:logout)
+
+          described_class.new(channel: login_channel).perform
+
+          expect(imap).to have_received(:login).with(
+            login_channel.imap_login, login_channel.imap_password
+          )
+        end
+      end
     end
 
     context 'when new emails are available in the mailbox' do
@@ -25,11 +80,11 @@ RSpec.describe Imap::FetchEmailService do
         travel_to '26.10.2020 10:00'.to_datetime do
           email_object = create_inbound_email_from_fixture('only_text.eml')
           email_header = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => eml_content_with_message_id)
-          imap_fetch_mail = Net::IMAP::FetchData.new(1, 'RFC822' => eml_content_with_message_id)
+          imap_fetch_mail = Net::IMAP::FetchData.new(1, 'BODY[]' => eml_content_with_message_id)
 
           allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
           allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
-          allow(imap).to receive(:fetch).with(1, 'RFC822').and_return([imap_fetch_mail])
+          allow(imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_return([imap_fetch_mail])
           allow(imap).to receive(:logout)
 
           result = described_class.new(channel: imap_email_channel).perform
@@ -38,7 +93,7 @@ RSpec.describe Imap::FetchEmailService do
           expect(result[0].message_id).to eq email_object.message_id
           expect(imap).to have_received(:search).with(%w[SINCE 25-Oct-2020])
           expect(imap).to have_received(:fetch).with([1], 'BODY.PEEK[HEADER]')
-          expect(imap).to have_received(:fetch).with(1, 'RFC822')
+          expect(imap).to have_received(:fetch).with(1, 'BODY.PEEK[]')
           expect(logger).to have_received(:info).with("[IMAP::FETCH_EMAIL_SERVICE] Fetching mails from #{imap_email_channel.email}, found 1.")
           expect(imap).to have_received(:logout)
         end
@@ -60,7 +115,57 @@ RSpec.describe Imap::FetchEmailService do
           expect(result.length).to eq 0
           expect(imap).to have_received(:search).with(%w[SINCE 25-Oct-2020])
           expect(imap).to have_received(:fetch).with([1], 'BODY.PEEK[HEADER]')
+          expect(imap).not_to have_received(:fetch).with(1, 'BODY.PEEK[]')
+        end
+      end
+
+      it 'does not return recently deleted emails' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          email_object = create_inbound_email_from_fixture('only_text.eml')
+          email_header = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => eml_content_with_message_id)
+          redis_key = format(Redis::RedisKeys::IMAP_DELETED_MESSAGE,
+                             inbox_id: imap_email_channel.inbox.id,
+                             message_id_digest: Digest::SHA256.hexdigest(email_object.message_id))
+
+          Imap::DeletedMessageTracker.new(inbox: imap_email_channel.inbox).record([email_object.message_id])
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
+          allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
+          allow(imap).to receive(:logout)
+
+          result = described_class.new(channel: imap_email_channel).perform
+
+          expect(result).to be_empty
           expect(imap).not_to have_received(:fetch).with(1, 'RFC822')
+        ensure
+          Redis::Alfred.delete(redis_key) if redis_key
+        end
+      end
+
+      it 'does not count emails without message ids toward the sync limit' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          email_object = create_inbound_email_from_fixture('only_text.eml')
+          max_messages_per_sync = Imap::BaseFetchEmailService::MAX_MESSAGES_PER_SYNC
+          empty_message_id_seq_nums = (1..max_messages_per_sync).to_a
+          valid_message_seq_num = max_messages_per_sync + 1
+          empty_message_id_headers = empty_message_id_seq_nums.map do |seq_num|
+            Net::IMAP::FetchData.new(seq_num, 'BODY[HEADER]' => eml_content_without_message_id)
+          end
+          valid_email_header = Net::IMAP::FetchData.new(valid_message_seq_num, 'BODY[HEADER]' => eml_content_with_message_id)
+          imap_fetch_mail = Net::IMAP::FetchData.new(valid_message_seq_num, 'BODY[]' => eml_content_with_message_id)
+
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return(empty_message_id_seq_nums + [valid_message_seq_num])
+          allow(imap).to receive(:fetch).with(empty_message_id_seq_nums, 'BODY.PEEK[HEADER]').and_return(empty_message_id_headers)
+          allow(imap).to receive(:fetch).with([valid_message_seq_num], 'BODY.PEEK[HEADER]').and_return([valid_email_header])
+          allow(imap).to receive(:fetch).with(valid_message_seq_num, 'BODY.PEEK[]').and_return([imap_fetch_mail])
+          allow(imap).to receive(:logout)
+
+          result = described_class.new(channel: imap_email_channel).perform
+
+          expect(result.length).to eq 1
+          expect(result[0].message_id).to eq email_object.message_id
+          expect(imap).to have_received(:fetch).with(empty_message_id_seq_nums, 'BODY.PEEK[HEADER]')
+          expect(imap).to have_received(:fetch).with([valid_message_seq_num], 'BODY.PEEK[HEADER]')
+          expect(imap).to have_received(:fetch).with(valid_message_seq_num, 'BODY.PEEK[]')
         end
       end
     end

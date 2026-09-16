@@ -183,6 +183,17 @@ export const actions = {
       return null;
     }
   },
+
+  resetSecret: async ({ commit }, botId) => {
+    try {
+      const response = await AgentBotsAPI.resetSecret(botId);
+      commit(types.EDIT_AGENT_BOT, response.data);
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      return null;
+    }
+  },
 };
 
 export const mutations = {

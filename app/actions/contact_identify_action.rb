@@ -104,7 +104,7 @@ class ContactIdentifyAction
     # blank identifier or email will throw unique index error
     # TODO: replace reject { |_k, v| v.blank? } with compact_blank when rails is upgraded
     @contact.discard_invalid_attrs if discard_invalid_attrs
-    @contact.save!
+    @contact.save! if @contact.changed?
     enqueue_avatar_job
   end
 

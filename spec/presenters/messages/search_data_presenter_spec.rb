@@ -12,6 +12,7 @@ RSpec.describe Messages::SearchDataPresenter do
     let(:expected_data) do
       {
         content: message.content,
+        id: message.id,
         account_id: message.account_id,
         inbox_id: message.inbox_id,
         conversation_id: message.conversation_id,
@@ -55,6 +56,35 @@ RSpec.describe Messages::SearchDataPresenter do
       it 'includes email subject' do
         content_attrs = presenter.search_data[:content_attributes]
         expect(content_attrs[:email][:subject]).to eq('Test Subject')
+      end
+    end
+
+    context 'when the message has no email subject but the conversation has a mail_subject' do
+      before do
+        conversation.update!(additional_attributes: { 'mail_subject' => 'Conversation Subject' })
+      end
+
+      it 'falls back to the conversation mail_subject' do
+        content_attrs = presenter.search_data[:content_attributes]
+        expect(content_attrs[:email][:subject]).to eq('Conversation Subject')
+      end
+    end
+
+    context 'when both the message email subject and conversation mail_subject are set' do
+      before do
+        conversation.update!(additional_attributes: { 'mail_subject' => 'Conversation subject' })
+        message.update!(content_attributes: { email: { subject: 'Message subject' } })
+      end
+
+      it 'prefers the message-level email subject' do
+        content_attrs = presenter.search_data[:content_attributes]
+        expect(content_attrs[:email][:subject]).to eq('Message subject')
+      end
+    end
+
+    context 'when neither message nor conversation has an email subject' do
+      it 'omits the email subject from content_attributes' do
+        expect(presenter.search_data[:content_attributes]).to eq({})
       end
     end
 

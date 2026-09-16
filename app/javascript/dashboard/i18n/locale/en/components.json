@@ -52,5 +52,32 @@
   },
   "CHANNEL_SELECTOR": {
     "COMING_SOON": "Coming Soon!"
+  },
+  "SLASH_COMMANDS": {
+    "HEADING_1": "Heading 1",
+    "HEADING_2": "Heading 2",
+    "HEADING_3": "Heading 3",
+    "BOLD": "Bold",
+    "ITALIC": "Italic",
+    "STRIKETHROUGH": "Strikethrough",
+    "CODE": "Code",
+    "BULLET_LIST": "Bullet List",
+    "ORDERED_LIST": "Ordered List",
+    "TABLE": "Table",
+    "IMAGE": "Image",
+    "VIDEO": "Video",
+    "DIVIDER": "Divider"
+  },
+  "VIDEO_EMBED": {
+    "TAB_EMBED": "Embed link",
+    "TAB_UPLOAD": "Upload",
+    "PLACEHOLDER": "Paste a video link",
+    "HINT": "Works with YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar and mp4 links",
+    "ERROR": "That doesn't look like a supported video link",
+    "UPLOAD_LABEL": "Choose a video file",
+    "UPLOAD_HINT": "MP4 · up to {size}MB · or drop it here",
+    "UPLOAD_ERROR": "Only MP4 files can be uploaded",
+    "ADD": "Embed",
+    "CANCEL": "Cancel"
   }
 }

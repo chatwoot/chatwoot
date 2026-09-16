@@ -3,8 +3,11 @@
     "HEADER": "תגובות מוכנות",
     "LEARN_MORE": "למד עוד על תגובות שמורות",
     "DESCRIPTION": "תגובות מוכנות הן תבניות תשובה כתובות מראש שמסייעות לך להגיב במהירות לשיחה. סוכנים יכולים להקליד את התו '/' ואחריו קוד מקוצר כדי להכניס תגובה מוכנה במהלך השיחה. ",
+    "COUNT": "{n} canned response | {n} canned responses",
     "HEADER_BTN_TXT": "הוסף תגובה שמורה",
     "LOADING": "מאחזר תגובות שמורות...",
+    "SEARCH_PLACEHOLDER": "Search canned responses...",
+    "NO_RESULTS": "No canned responses found matching your search",
     "SEARCH_404": "אין פריטים התואמים לשאילתה זו.",
     "LIST": {
       "404": "אין תגובות מוכנות זמינות בחשבון זה.",

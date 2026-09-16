@@ -1,52 +1,52 @@
 {
   "CONTENT_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Twilio Templates",
-      "SUBTITLE": "Select the Twilio template you want to send",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TITLE": "Twilio 템플릿",
+      "SUBTITLE": "보내려는 Twilio 템플릿을 선택하십시오",
+      "TEMPLATE_SELECTED_SUBTITLE": "템플릿 구성: {templateName}"
     },
     "PICKER": {
-      "SEARCH_PLACEHOLDER": "Search Templates",
-      "NO_TEMPLATES_FOUND": "No templates found for",
-      "NO_CONTENT": "No content",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
-      "CATEGORY": "Category",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "SEARCH_PLACEHOLDER": "템플릿 검색",
+      "NO_TEMPLATES_FOUND": "다음에 대한 템플릿을 찾을 수 없습니다",
+      "NO_CONTENT": "내용 없음",
+      "HEADER": "헤더",
+      "BODY": "본문",
+      "FOOTER": "푸터",
+      "BUTTONS": "버튼",
+      "CATEGORY": "카테고리",
+      "MEDIA_CONTENT": "미디어 콘텐츠",
+      "MEDIA_CONTENT_FALLBACK": "미디어 콘텐츠",
+      "NO_TEMPLATES_AVAILABLE": "사용 가능한 Twilio 템플릿이 없습니다. 새로고침을 클릭하여 Twilio에서 템플릿을 동기화하십시오.",
+      "REFRESH_BUTTON": "템플릿 새로고침",
+      "REFRESH_SUCCESS": "템플릿 새로고침이 시작되었습니다. 업데이트하는 데 몇 분 정도 걸릴 수 있습니다.",
+      "REFRESH_ERROR": "템플릿 새로고침에 실패했습니다. 다시 시도하십시오.",
       "LABELS": {
         "LANGUAGE": "언어",
-        "TEMPLATE_BODY": "Template Body",
-        "CATEGORY": "Category"
+        "TEMPLATE_BODY": "템플릿 본문",
+        "CATEGORY": "카테고리"
       },
       "TYPES": {
-        "MEDIA": "Media",
-        "QUICK_REPLY": "Quick Reply",
-        "CALL_TO_ACTION": "Call to Action",
+        "MEDIA": "미디어",
+        "QUICK_REPLY": "빠른 답장",
+        "CALL_TO_ACTION": "행동 유도",
         "TEXT": "텍스트"
       }
     },
     "PARSER": {
-      "VARIABLES_LABEL": "Variables",
+      "VARIABLES_LABEL": "변수",
       "LANGUAGE": "언어",
-      "CATEGORY": "Category",
-      "VARIABLE_PLACEHOLDER": "Enter {variable} value",
-      "GO_BACK_LABEL": "Go Back",
-      "SEND_MESSAGE_LABEL": "Send Message",
-      "FORM_ERROR_MESSAGE": "Please fill all variables before sending",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "MEDIA_URL_LABEL": "Enter full media URL",
+      "CATEGORY": "카테고리",
+      "VARIABLE_PLACEHOLDER": "{variable} 값을 입력하십시오",
+      "GO_BACK_LABEL": "뒤로 가기",
+      "SEND_MESSAGE_LABEL": "메시지 보내기",
+      "FORM_ERROR_MESSAGE": "보내기 전에 모든 변수를 입력하십시오",
+      "MEDIA_HEADER_LABEL": "{type} 헤더",
+      "MEDIA_URL_LABEL": "전체 미디어 URL을 입력하십시오",
       "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
     },
     "FORM": {
       "BACK_BUTTON": "뒤로",
-      "SEND_MESSAGE_BUTTON": "Send Message"
+      "SEND_MESSAGE_BUTTON": "메시지 보내기"
     }
   }
 }

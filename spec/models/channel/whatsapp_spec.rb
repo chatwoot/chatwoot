@@ -4,6 +4,65 @@ require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
 
 RSpec.describe Channel::Whatsapp do
+  describe '#serializable_hash' do
+    it 'does not expose the business management token' do
+      channel = build(:channel_whatsapp, business_management_token: 'business-token')
+
+      expect(channel.serializable_hash).not_to have_key('business_management_token')
+    end
+  end
+
+  describe '#template_access_token' do
+    let(:channel) do
+      build(
+        :channel_whatsapp,
+        provider: 'whatsapp_cloud',
+        provider_config: { 'api_key' => 'api-key', 'source' => source },
+        business_management_token: business_management_token
+      )
+    end
+    let(:source) { 'embedded_signup' }
+
+    context 'when running on Chatwoot Cloud' do
+      before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true) }
+
+      context 'with a business management token' do
+        let(:business_management_token) { 'business-token' }
+
+        it 'uses the business management token' do
+          expect(channel.template_access_token).to eq('business-token')
+        end
+      end
+
+      context 'without a business management token' do
+        let(:business_management_token) { nil }
+
+        it 'uses the provider API key' do
+          expect(channel.template_access_token).to eq('api-key')
+        end
+      end
+
+      context 'with a manually configured inbox' do
+        let(:business_management_token) { 'business-token' }
+        let(:source) { nil }
+
+        it 'ignores the business management token' do
+          expect(channel.template_access_token).to eq('api-key')
+        end
+      end
+    end
+
+    context 'when running outside Chatwoot Cloud' do
+      before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false) }
+
+      let(:business_management_token) { 'business-token' }
+
+      it 'ignores the business management token' do
+        expect(channel.template_access_token).to eq('api-key')
+      end
+    end
+  end
+
   describe 'concerns' do
     let(:channel) { create(:channel_whatsapp) }
 
@@ -42,7 +101,20 @@ RSpec.describe Channel::Whatsapp do
                    body: { data: [{
                      id: '123456789', name: 'test_template'
                    }] }.to_json)
+      stub_request(:get, 'https://graph.facebook.com/v14.0//phone_numbers?fields=id&limit=100&access_token=test_key')
+        .to_return(status: 200, body: { data: [{ id: 'random_id' }] }.to_json, headers: { 'Content-Type' => 'application/json' })
+      stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates')
+        .with(headers: { 'Authorization' => 'Bearer test_key' })
+        .to_return(status: 200, body: { data: [] }.to_json, headers: { 'Content-Type' => 'application/json' })
       expect(channel.save).to be(true)
+    end
+
+    it 'validates false when phone number id is wrong' do
+      stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key')
+        .to_return(status: 200, body: { data: [] }.to_json)
+      stub_request(:get, 'https://graph.facebook.com/v14.0//phone_numbers?fields=id&limit=100&access_token=test_key')
+        .to_return(status: 200, body: { data: [{ id: 'another_phone_id' }] }.to_json, headers: { 'Content-Type' => 'application/json' })
+      expect(channel.save).to be(false)
     end
   end
 
@@ -207,6 +279,63 @@ RSpec.describe Channel::Whatsapp do
 
         expect(teardown_service).to have_received(:perform)
       end
+    end
+  end
+
+  describe '#voice_enabled?' do
+    let(:account) { create(:account) }
+
+    before { account.enable_features!('channel_voice') }
+
+    it 'returns true for embedded-signup whatsapp_cloud channels with calling_enabled' do
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true))
+
+      expect(channel.voice_enabled?).to be true
+    end
+
+    it 'returns true for manual whatsapp_cloud channels with calling_enabled' do
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'manual', 'calling_enabled' => true))
+
+      expect(channel.voice_enabled?).to be true
+    end
+
+    it 'returns false for default-provider channels (360dialog) even with calling_enabled' do
+      channel = create(:channel_whatsapp, account: account, provider: 'default',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true))
+
+      expect(channel.voice_enabled?).to be false
+    end
+
+    it 'returns false when the channel_voice feature is disabled on the account' do
+      account.disable_features!('channel_voice')
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true))
+
+      expect(channel.voice_enabled?).to be false
+    end
+  end
+
+  describe '#inbound_calls_enabled?' do
+    let(:account) { create(:account) }
+
+    it 'returns true by default when nothing has been toggled' do
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      expect(channel.inbound_calls_enabled?).to be true
+    end
+
+    it 'returns false only when explicitly disabled in provider_config' do
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('inbound_calls_enabled' => false))
+
+      expect(channel.inbound_calls_enabled?).to be false
     end
   end
 end

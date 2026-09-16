@@ -3,8 +3,11 @@
     "HEADER": "Automatização",
     "DESCRIPTION": "A automação pode substituir e racionalizar os processos existentes que requerem esforço manual, como a adição de etiquetas e a atribuição de conversas ao agente mais adequado. Isto permite que a equipa se foque em tarefas maiores, reduzindo o tempo gasto em tarefas rotineiras.",
     "LEARN_MORE": "Saber mais sobre automação",
-    "HEADER_BTN_TXT": "Adicionar regra de automação",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "A procurar regras de automação",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Adicionar regra de automação",
       "SUBMIT": "Criar",
@@ -25,6 +28,43 @@
           "PLACEHOLDER": "Por favor, selecione um",
           "ERROR": "Evento é necessário"
         },
+        "RUN_TYPE": {
+          "LABEL": "When should this rule run?",
+          "OPTIONS": {
+            "INSTANT": {
+              "LABEL": "Run instantly",
+              "DESCRIPTION": "Runs the moment an event happens, as long as the conditions match."
+            },
+            "WAIT": {
+              "LABEL": "Run after a wait",
+              "DESCRIPTION": "Waits for a set time and runs only if things are still the same. If they change, the rule is skipped."
+            }
+          }
+        },
+        "WAIT": {
+          "LABEL": "Wait condition",
+          "WHEN_LABEL": "When",
+          "STATUS_LABEL": "Status is",
+          "FOR_LABEL": "For",
+          "INBOX_LABEL": "Caixa de entrada",
+          "ERROR": "The wait must be between 10 minutes and 30 days",
+          "OPTIONS": {
+            "CONVERSATION_STATUS": "Conversation stays in a status",
+            "CUSTOMER_UNRESPONSIVE": "Customer hasn't replied",
+            "AGENT_UNRESPONSIVE": "No teammate has replied"
+          },
+          "DURATION": {
+            "MINUTES": "{count} minute | {count} minutes",
+            "HOURS": "{count} hour | {count} hours",
+            "DAYS": "{count} day | {count} days"
+          },
+          "EXPLANATION": {
+            "CONVERSATION_STATUS": "The clock starts when a conversation moves into this status. If it is still there {duration} later, the actions below run. If the status changes before then, nothing happens.",
+            "CUSTOMER_UNRESPONSIVE": "The clock starts when a teammate replies. If the customer hasn't written back {duration} later, the actions below run. If they do reply, nothing happens, and the next teammate reply starts the clock again.",
+            "AGENT_UNRESPONSIVE": "The clock starts when a customer sends a message. If no teammate has replied {duration} later, the actions below run. If someone replies before then, nothing happens."
+          },
+          "FOOTNOTE": "Only new activity starts a clock. Conversations already sitting in this state are picked up the next time something happens on them."
+        },
         "CONDITIONS": {
           "LABEL": "Condições"
         },
@@ -42,11 +82,18 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nome:",
-        "DESCRIPTION": "Descrição",
         "ACTIVE": "Ativa",
-        "CREATED_ON": "Criado em"
+        "CREATED_ON": "Criado em",
+        "ACTIONS": "Ações"
       },
-      "404": "Nenhuma regra de automação encontrada"
+      "404": "Nenhuma regra de automação encontrada",
+      "404_DELAYED": "No rules run after a wait yet",
+      "TABS": {
+        "INSTANT": "Runs instantly",
+        "DELAYED": "Runs after a wait"
+      },
+      "DELAY_BADGE": "Runs after {delay}",
+      "DELAY_DISABLED_BANNER": "Delayed execution is turned off for this account, so the rules below that run after a wait are paused until it is turned back on."
     },
     "DELETE": {
       "TITLE": "Apagar regra de automação",
@@ -127,6 +174,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "Pelo menos uma ação é obrigatória"
     },
     "NONE_OPTION": "Nenhuma",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Conversa criada",
       "CONVERSATION_UPDATED": "Conversa atualizada",
@@ -137,6 +185,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Atribuir ao agente",
       "ASSIGN_TEAM": "Atribuir equipa",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Remover equipa atribuída",
       "ADD_LABEL": "Adicionar etiqueta",
       "REMOVE_LABEL": "Remover um rótulo",
       "SEND_EMAIL_TO_TEAM": "Enviar um e-mail para a equipa",
@@ -150,7 +200,8 @@
       "ADD_PRIVATE_NOTE": "Adicionar uma Nota Privada",
       "CHANGE_PRIORITY": "Alterar prioridade",
       "ADD_SLA": "Adicionar SLA",
-      "OPEN_CONVERSATION": "Abrir conversa"
+      "OPEN_CONVERSATION": "Abrir conversa",
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",
@@ -165,6 +216,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo de mensagem",
+      "PRIVATE_NOTE": "Nota Privada",
       "MESSAGE_CONTAINS": "A mensagem contém",
       "EMAIL": "E-mail",
       "INBOX": "Caixa de entrada",
@@ -174,6 +226,7 @@
       "BROWSER_LANGUAGE": "Idioma do navegador",
       "MAIL_SUBJECT": "Assunto do e-mail",
       "COUNTRY_NAME": "País",
+      "COMPANY_NAME": "Empresa",
       "REFERER_LINK": "Link de referência",
       "ASSIGNEE_NAME": "Atribuído",
       "TEAM_NAME": "Equipa",

@@ -14,9 +14,9 @@ class MfaAPI extends ApiClient {
     return axios.post(`${this.url}/verify`, { otp_code: otpCode });
   }
 
-  disable(password, otpCode) {
+  disable(password, { otpCode, backupCode } = {}) {
     return axios.delete(this.url, {
-      data: { password, otp_code: otpCode },
+      data: { password, otp_code: otpCode, backup_code: backupCode },
     });
   }
 

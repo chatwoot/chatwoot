@@ -20,6 +20,7 @@ class Messages::SearchDataPresenter < SimpleDelegator
 
   def message_attributes
     {
+      id: id,
       account_id: account_id,
       inbox_id: inbox_id,
       conversation_id: conversation_id,
@@ -39,7 +40,8 @@ class Messages::SearchDataPresenter < SimpleDelegator
   end
 
   def content_attributes_data
-    email_subject = content_attributes.dig(:email, :subject)
+    email_subject = content_attributes.dig(:email, :subject).presence ||
+                    conversation.additional_attributes&.dig('mail_subject').presence
     return {} if email_subject.blank?
 
     { email: { subject: email_subject } }
@@ -55,3 +57,5 @@ class Messages::SearchDataPresenter < SimpleDelegator
     }
   end
 end
+
+Messages::SearchDataPresenter.prepend_mod_with('Messages::SearchDataPresenter')

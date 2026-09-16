@@ -5,6 +5,52 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
   let!(:admin) { create(:user, account: account, role: :administrator) }
   let!(:agent) { create(:user, account: account, role: :agent) }
 
+  describe 'GET /api/v1/accounts/{account.id}' do
+    it 'exposes Stripe as the default billing provider' do
+      get "/api/v1/accounts/#{account.id}",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response.parsed_body['billing_provider']).to eq('stripe')
+    end
+
+    it 'exposes the Shopify billing provider' do
+      shopify_account = create(:account, internal_attributes: { 'billing_provider' => 'shopify', 'signup_source' => 'shopify' })
+      shopify_admin = create(:user, account: shopify_account, role: :administrator)
+
+      get "/api/v1/accounts/#{shopify_account.id}",
+          headers: shopify_admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['billing_provider']).to eq('shopify')
+    end
+  end
+
+  describe 'API token access' do
+    before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      account.disable_features!('api_and_webhooks')
+    end
+
+    it 'returns forbidden when API and webhook access is disabled for the account' do
+      get "/enterprise/api/v1/accounts/#{account.id}/limits",
+          headers: { api_access_token: admin.access_token.token },
+          as: :json
+
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body['error']).to eq('API access is not enabled for this account')
+    end
+
+    it 'allows session-authenticated requests' do
+      get "/enterprise/api/v1/accounts/#{account.id}/limits",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   describe 'POST /enterprise/api/v1/accounts/{account.id}/subscription' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -53,6 +99,57 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
                  headers: admin.create_new_auth_token,
                  as: :json
           end.not_to have_enqueued_job(Enterprise::CreateStripeCustomerJob).with(account)
+        end
+
+        it 'rejects Stripe setup for a Shopify account before creating customer state' do
+          shopify_account = create(
+            :account,
+            internal_attributes: {
+              'billing_provider' => 'shopify',
+              'signup_source' => 'shopify'
+            }
+          )
+          shopify_admin = create(:user, account: shopify_account, role: :administrator)
+          shopify_account.enable_features!('shopify_integration')
+          allow(GlobalConfigService).to receive(:load)
+            .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+            .and_return(true)
+
+          expect do
+            post "/enterprise/api/v1/accounts/#{shopify_account.id}/subscription",
+                 headers: shopify_admin.create_new_auth_token,
+                 as: :json
+          end.not_to have_enqueued_job(Enterprise::CreateStripeCustomerJob)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq(
+            'This billing action is not available for Shopify-billed accounts'
+          )
+          expect(shopify_account.reload.custom_attributes).not_to have_key('is_creating_customer')
+        end
+
+        it 'rejects Stripe checkout for a Shopify account with residual customer metadata' do
+          shopify_account = create(
+            :account,
+            internal_attributes: {
+              'billing_provider' => 'shopify',
+              'signup_source' => 'shopify'
+            },
+            custom_attributes: { 'stripe_customer_id' => 'cus_from_previous_billing' }
+          )
+          shopify_admin = create(:user, account: shopify_account, role: :administrator)
+          shopify_account.enable_features!('shopify_integration')
+          allow(GlobalConfigService).to receive(:load)
+            .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+            .and_return(true)
+
+          expect(Enterprise::Billing::CreateSessionService).not_to receive(:new)
+
+          post "/enterprise/api/v1/accounts/#{shopify_account.id}/checkout",
+               headers: shopify_admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
         end
       end
     end
@@ -242,6 +339,39 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           expect(JSON.parse(response.body)).to eq(expected_response)
         end
       end
+
+      context 'when the account is billed through Shopify' do
+        let(:account) do
+          create(
+            :account,
+            internal_attributes: { 'billing_provider' => 'shopify' },
+            custom_attributes: { 'plan_name' => nil }
+          )
+        end
+
+        it 'uses the Shopify catalog when resolving the provider default plan' do
+          create(
+            :installation_config,
+            name: 'CHATWOOT_SHOPIFY_PLANS',
+            value: [
+              {
+                'name' => 'Shopify Basic',
+                'handle' => 'shopify-basic',
+                'features' => [],
+                'limits' => { 'agents' => 5, 'inboxes' => 10 }
+              }
+            ],
+            locked: true
+          )
+
+          get "/enterprise/api/v1/accounts/#{account.id}/limits",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(response.parsed_body.dig('limits', 'agents', 'allowed')).to eq(0)
+        end
+      end
     end
   end
 
@@ -256,6 +386,14 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
                { 'name' => 'Hacker', 'product_id' => ['prod_hacker'], 'price_ids' => ['price_hacker'] },
                { 'name' => 'Business', 'product_id' => ['prod_business'], 'price_ids' => ['price_business'] }
              ])
+      create(:installation_config, name: 'CAPTAIN_TOPUP_OPTIONS', value: {
+               'usd' => [
+                 { 'credits' => 1000, 'amount' => 20.0 },
+                 { 'credits' => 2500, 'amount' => 50.0 },
+                 { 'credits' => 6000, 'amount' => 100.0 },
+                 { 'credits' => 12_000, 'amount' => 200.0 }
+               ]
+             })
     end
 
     it 'returns unauthorized for unauthenticated user' do
@@ -281,6 +419,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
         allow(Stripe::Invoice).to receive(:create).and_return(stripe_invoice)
         allow(Stripe::InvoiceItem).to receive(:create)
         allow(Stripe::Invoice).to receive(:finalize_invoice)
+        allow(Stripe::Invoice).to receive(:retrieve).and_return(Struct.new(:status).new('open'))
         allow(Stripe::Invoice).to receive(:pay)
         allow(Stripe::Billing::CreditGrant).to receive(:create)
       end
@@ -357,10 +496,10 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
       context 'when it is an admin' do
         before do
           # Create the installation config for cloud environment
-          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'cloud')
+          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_initialize.update!(value: 'cloud')
         end
 
-        it 'marks the account for deletion when action is delete' do
+        it 'marks the account for deletion and queues the subscription cancellation' do
           post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
                headers: admin.create_new_auth_token,
                params: { action_type: 'delete' },
@@ -369,6 +508,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           expect(response).to have_http_status(:ok)
           expect(account.reload.custom_attributes['marked_for_deletion_at']).to be_present
           expect(account.custom_attributes['marked_for_deletion_reason']).to eq('manual_deletion')
+          expect(Enterprise::CancelCloudSubscriptionsJob).to have_been_enqueued.with(account)
         end
 
         it 'unmarks the account for deletion when action is undelete' do

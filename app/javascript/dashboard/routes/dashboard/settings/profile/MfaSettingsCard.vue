@@ -26,11 +26,11 @@ const navigateToMfa = () => {
             icon="i-lucide-lock-keyhole"
             class="size-4 text-n-slate-10 flex-shrink-0"
           />
-          <h5 class="text-sm font-semibold text-n-slate-12">
+          <h5 class="text-heading-3 text-n-slate-12">
             {{ $t('MFA_SETTINGS.TITLE') }}
           </h5>
         </div>
-        <p class="text-sm text-n-slate-11">
+        <p class="text-body-para text-n-slate-11">
           {{ $t('MFA_SETTINGS.DESCRIPTION') }}
         </p>
       </div>

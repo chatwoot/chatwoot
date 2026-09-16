@@ -15,6 +15,15 @@ describe Enterprise::Billing::TopupCheckoutService do
              { 'name' => 'Business', 'product_id' => ['prod_business'], 'price_ids' => ['price_business'] }
            ])
 
+    create(:installation_config, name: 'CAPTAIN_TOPUP_OPTIONS', value: {
+             'usd' => [
+               { 'credits' => 1000, 'amount' => 20.0 },
+               { 'credits' => 2500, 'amount' => 50.0 },
+               { 'credits' => 6000, 'amount' => 100.0 },
+               { 'credits' => 12_000, 'amount' => 200.0 }
+             ]
+           })
+
     account.update!(
       custom_attributes: { plan_name: 'Business', stripe_customer_id: stripe_customer_id },
       limits: { 'captain_responses' => 500 }
@@ -24,6 +33,7 @@ describe Enterprise::Billing::TopupCheckoutService do
     allow(Stripe::Invoice).to receive(:create).and_return(stripe_invoice)
     allow(Stripe::InvoiceItem).to receive(:create)
     allow(Stripe::Invoice).to receive(:finalize_invoice)
+    allow(Stripe::Invoice).to receive(:retrieve).and_return(Struct.new(:status).new('open'))
     allow(Stripe::Invoice).to receive(:pay)
     allow(Stripe::Billing::CreditGrant).to receive(:create)
   end
@@ -44,17 +54,33 @@ describe Enterprise::Billing::TopupCheckoutService do
     end
 
     it 'raises error for invalid credits' do
-      expect do
-        service.create_checkout_session(credits: 500)
-      end.to raise_error(Enterprise::Billing::TopupCheckoutService::Error)
+      expect { service.create_checkout_session(credits: 500) }.to raise_error do |error|
+        expect(error.class.name).to eq('Enterprise::Billing::TopupCheckoutService::Error')
+        expect(error.message).to eq(I18n.t('errors.topup.invalid_option'))
+      end
     end
 
     it 'raises error when account is on free plan' do
       account.update!(custom_attributes: { plan_name: 'Hacker', stripe_customer_id: stripe_customer_id })
 
-      expect do
-        service.create_checkout_session(credits: 1000)
-      end.to raise_error(Enterprise::Billing::TopupCheckoutService::Error)
+      expect { service.create_checkout_session(credits: 1000) }.to raise_error do |error|
+        expect(error.class.name).to eq('Enterprise::Billing::TopupCheckoutService::Error')
+        expect(error.message).to eq(I18n.t('errors.topup.plan_not_eligible'))
+      end
+    end
+
+    it 'calls pay when invoice is open after finalization' do
+      service.create_checkout_session(credits: 1000)
+
+      expect(Stripe::Invoice).to have_received(:pay).with('inv_test123')
+    end
+
+    it 'skips pay when invoice is already paid via Stripe credits' do
+      allow(Stripe::Invoice).to receive(:retrieve).and_return(Struct.new(:status).new('paid'))
+
+      service.create_checkout_session(credits: 1000)
+
+      expect(Stripe::Invoice).not_to have_received(:pay)
     end
   end
 end

@@ -82,6 +82,19 @@ describe Whatsapp::OneoffCampaignService do
         expect(campaign.reload.completed?).to be true
       end
 
+      it 'marks the campaign completed after processing the audience' do
+        contact = create(:contact, :with_phone_number, account: account)
+        contact.update_labels([label1.title])
+
+        expect(whatsapp_channel).to receive(:send_template) do
+          expect(campaign.reload.completed?).to be false
+        end
+
+        described_class.new(campaign: campaign).perform
+
+        expect(campaign.reload.completed?).to be true
+      end
+
       it 'processes contacts with matching labels' do
         contact_with_label1, contact_with_label2, contact_with_both_labels =
           create_list(:contact, 3, :with_phone_number, account: account)
@@ -98,6 +111,79 @@ describe Whatsapp::OneoffCampaignService do
         contact_without_phone = create(:contact, account: account, phone_number: nil)
         contact_without_phone.update_labels([label1.title])
 
+        expect(whatsapp_channel).not_to receive(:send_template)
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'sends to the contact BSUID when the contact has no phone number and exactly one WhatsApp identity' do
+        contact = create(:contact, account: account, phone_number: nil)
+        contact.update_labels([label1.title])
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.2081978709342942')
+
+        expect(whatsapp_channel).to receive(:send_template).with(
+          'IN.2081978709342942',
+          hash_including(
+            name: 'ticket_status_updated',
+            namespace: '23423423_2342423_324234234_2343224',
+            lang_code: 'en'
+          ),
+          nil
+        )
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'does not send when the contact has parent and regular BSUID aliases' do
+        contact = create(:contact, account: account, phone_number: nil)
+        contact.update_labels([label1.title])
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.ENT.9081726354')
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.2081978709342942')
+
+        expect(whatsapp_channel).not_to receive(:send_template)
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'does not infer lifecycle rotation from conversation presence alone' do
+        contact = create(:contact, account: account, phone_number: nil)
+        contact.update_labels([label1.title])
+        previous_contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.PREVIOUSBSUID')
+        create(:conversation, account: account, inbox: whatsapp_inbox, contact: contact, contact_inbox: previous_contact_inbox)
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.CURRENTBSUID')
+
+        expect(whatsapp_channel).not_to receive(:send_template)
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'does not send when a phone-less contact has multiple WhatsApp identities in the campaign inbox' do
+        contact = create(:contact, account: account, phone_number: nil)
+        contact.update_labels([label1.title])
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.2081978709342942')
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.2081978709342943')
+
+        allow(Rails.logger).to receive(:info)
+        expect(whatsapp_channel).not_to receive(:send_template)
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'does not submit authentication templates for BSUID-only contacts' do
+        contact = create(:contact, account: account, phone_number: nil)
+        contact.update_labels([label1.title])
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.2081978709342942')
+        whatsapp_channel.update!(
+          message_templates: [
+            {
+              'name' => 'ticket_status_updated',
+              'language' => 'en',
+              'category' => 'AUTHENTICATION'
+            }
+          ]
+        )
+
+        allow(Rails.logger).to receive(:info)
         expect(whatsapp_channel).not_to receive(:send_template)
 
         described_class.new(campaign: campaign).perform
@@ -138,6 +224,73 @@ describe Whatsapp::OneoffCampaignService do
         )
 
         described_class.new(campaign: campaign).perform
+      end
+
+      it 'processes liquid variables in template parameters' do
+        contact = create(:contact, :with_phone_number, account: account, name: 'Jane Smith', email: 'jane@example.com')
+        contact.update_labels([label1.title])
+
+        campaign_with_liquid = create(:campaign, inbox: whatsapp_inbox, account: account,
+                                                 audience: [{ type: 'Label', id: label1.id }],
+                                                 template_params: {
+                                                   'name' => 'ticket_status_updated',
+                                                   'namespace' => '23423423_2342423_324234234_2343224',
+                                                   'category' => 'UTILITY',
+                                                   'language' => 'en',
+                                                   'processed_params' => {
+                                                     'body' => {
+                                                       'name' => '{{contact.name}}',
+                                                       'ticket_id' => '{{contact.email}}'
+                                                     }
+                                                   }
+                                                 })
+
+        contact_drop_name = ContactDrop.new(contact).name
+
+        expect(whatsapp_channel).to receive(:send_template).with(
+          contact.phone_number,
+          hash_including(
+            name: 'ticket_status_updated',
+            namespace: '23423423_2342423_324234234_2343224',
+            lang_code: 'en',
+            parameters: array_including(
+              hash_including(
+                type: 'body',
+                parameters: array_including(
+                  hash_including(type: 'text', parameter_name: 'name', text: contact_drop_name),
+                  hash_including(type: 'text', parameter_name: 'ticket_id', text: contact.email)
+                )
+              )
+            )
+          ),
+          nil
+        )
+
+        described_class.new(campaign: campaign_with_liquid).perform
+      end
+
+      it 'skips contacts when liquid variables resolve to blank values' do
+        contact = create(:contact, :with_phone_number, account: account, name: 'Jane', email: nil)
+        contact.update_labels([label1.title])
+
+        campaign_with_blank_liquid = create(:campaign, inbox: whatsapp_inbox, account: account,
+                                                       audience: [{ type: 'Label', id: label1.id }],
+                                                       template_params: {
+                                                         'name' => 'test_template',
+                                                         'namespace' => 'test_namespace',
+                                                         'language' => 'en',
+                                                         'processed_params' => {
+                                                           'body' => {
+                                                             'email' => '{{contact.email}}'
+                                                           }
+                                                         }
+                                                       })
+
+        expect(whatsapp_channel).not_to receive(:send_template)
+        expect(Rails.logger).to receive(:info).with("Skipping contact #{contact.name} - liquid variables resolved to blank values")
+        allow(Rails.logger).to receive(:info)
+
+        described_class.new(campaign: campaign_with_blank_liquid).perform
       end
     end
 

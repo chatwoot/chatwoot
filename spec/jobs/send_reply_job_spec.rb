@@ -18,6 +18,17 @@ RSpec.describe SendReplyJob do
       allow(process_service).to receive(:perform)
     end
 
+    def expect_mapped_service_to_perform(message, service_class_name)
+      channel_name = message.conversation.inbox.channel.class.name
+      service_class = described_class::CHANNEL_SERVICES.fetch(channel_name)
+
+      expect(service_class.name).to eq(service_class_name)
+      expect(service_class).to receive(:new).with(message: message).and_return(process_service)
+      expect(process_service).to receive(:perform)
+
+      described_class.perform_now(message.id)
+    end
+
     it 'calls Facebook::SendOnFacebookService when its facebook message' do
       stub_request(:post, /graph.facebook.com/)
       facebook_channel = create(:channel_facebook_page)
@@ -33,65 +44,44 @@ RSpec.describe SendReplyJob do
       twitter_channel = create(:channel_twitter_profile)
       twitter_inbox = create(:inbox, channel: twitter_channel)
       message = create(:message, conversation: create(:conversation, inbox: twitter_inbox))
-      allow(Twitter::SendOnTwitterService).to receive(:new).with(message: message).and_return(process_service)
-      expect(Twitter::SendOnTwitterService).to receive(:new).with(message: message)
-      expect(process_service).to receive(:perform)
-      described_class.perform_now(message.id)
+      expect_mapped_service_to_perform(message, 'Twitter::SendOnTwitterService')
     end
 
     it 'calls ::Twilio::SendOnTwilioService when its twilio message' do
       twilio_channel = create(:channel_twilio_sms)
       message = create(:message, conversation: create(:conversation, inbox: twilio_channel.inbox))
-      allow(Twilio::SendOnTwilioService).to receive(:new).with(message: message).and_return(process_service)
-      expect(Twilio::SendOnTwilioService).to receive(:new).with(message: message)
-      expect(process_service).to receive(:perform)
-      described_class.perform_now(message.id)
+      expect_mapped_service_to_perform(message, 'Twilio::SendOnTwilioService')
     end
 
     it 'calls ::Telegram::SendOnTelegramService when its telegram message' do
       telegram_channel = create(:channel_telegram)
       message = create(:message, conversation: create(:conversation, inbox: telegram_channel.inbox))
-      allow(Telegram::SendOnTelegramService).to receive(:new).with(message: message).and_return(process_service)
-      expect(Telegram::SendOnTelegramService).to receive(:new).with(message: message)
-      expect(process_service).to receive(:perform)
-      described_class.perform_now(message.id)
+      expect_mapped_service_to_perform(message, 'Telegram::SendOnTelegramService')
     end
 
     it 'calls ::Line:SendOnLineService when its line message' do
       line_channel = create(:channel_line)
       message = create(:message, conversation: create(:conversation, inbox: line_channel.inbox))
-      allow(Line::SendOnLineService).to receive(:new).with(message: message).and_return(process_service)
-      expect(Line::SendOnLineService).to receive(:new).with(message: message)
-      expect(process_service).to receive(:perform)
-      described_class.perform_now(message.id)
+      expect_mapped_service_to_perform(message, 'Line::SendOnLineService')
     end
 
     it 'calls ::Whatsapp:SendOnWhatsappService when its whatsapp message' do
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
       whatsapp_channel = create(:channel_whatsapp, sync_templates: false)
       message = create(:message, conversation: create(:conversation, inbox: whatsapp_channel.inbox))
-      allow(Whatsapp::SendOnWhatsappService).to receive(:new).with(message: message).and_return(process_service)
-      expect(Whatsapp::SendOnWhatsappService).to receive(:new).with(message: message)
-      expect(process_service).to receive(:perform)
-      described_class.perform_now(message.id)
+      expect_mapped_service_to_perform(message, 'Whatsapp::SendOnWhatsappService')
     end
 
     it 'calls ::Sms::SendOnSmsService when its sms message' do
       sms_channel = create(:channel_sms)
       message = create(:message, conversation: create(:conversation, inbox: sms_channel.inbox))
-      allow(Sms::SendOnSmsService).to receive(:new).with(message: message).and_return(process_service)
-      expect(Sms::SendOnSmsService).to receive(:new).with(message: message)
-      expect(process_service).to receive(:perform)
-      described_class.perform_now(message.id)
+      expect_mapped_service_to_perform(message, 'Sms::SendOnSmsService')
     end
 
     it 'calls ::Instagram::Direct::SendOnInstagramService when its instagram message' do
       instagram_channel = create(:channel_instagram)
       message = create(:message, conversation: create(:conversation, inbox: instagram_channel.inbox))
-      allow(Instagram::SendOnInstagramService).to receive(:new).with(message: message).and_return(process_service)
-      expect(Instagram::SendOnInstagramService).to receive(:new).with(message: message)
-      expect(process_service).to receive(:perform)
-      described_class.perform_now(message.id)
+      expect_mapped_service_to_perform(message, 'Instagram::SendOnInstagramService')
     end
 
     it 'calls ::Instagram::Messenger::SendOnInstagramService when its an instagram_direct_message from facebook channel' do
@@ -112,37 +102,25 @@ RSpec.describe SendReplyJob do
     it 'calls ::Email::SendOnEmailService when its email message' do
       email_channel = create(:channel_email)
       message = create(:message, conversation: create(:conversation, inbox: email_channel.inbox))
-      allow(Email::SendOnEmailService).to receive(:new).with(message: message).and_return(process_service)
-      expect(Email::SendOnEmailService).to receive(:new).with(message: message)
-      expect(process_service).to receive(:perform)
-      described_class.perform_now(message.id)
+      expect_mapped_service_to_perform(message, 'Email::SendOnEmailService')
     end
 
     it 'calls ::Messages::SendEmailNotificationService when its webwidget message' do
       webwidget_channel = create(:channel_widget)
       message = create(:message, conversation: create(:conversation, inbox: webwidget_channel.inbox))
-      allow(Messages::SendEmailNotificationService).to receive(:new).with(message: message).and_return(process_service)
-      expect(Messages::SendEmailNotificationService).to receive(:new).with(message: message)
-      expect(process_service).to receive(:perform)
-      described_class.perform_now(message.id)
+      expect_mapped_service_to_perform(message, 'Messages::SendEmailNotificationService')
     end
 
     it 'calls ::Messages::SendEmailNotificationService when its api channel message' do
       api_channel = create(:channel_api)
       message = create(:message, conversation: create(:conversation, inbox: api_channel.inbox))
-      allow(Messages::SendEmailNotificationService).to receive(:new).with(message: message).and_return(process_service)
-      expect(Messages::SendEmailNotificationService).to receive(:new).with(message: message)
-      expect(process_service).to receive(:perform)
-      described_class.perform_now(message.id)
+      expect_mapped_service_to_perform(message, 'Messages::SendEmailNotificationService')
     end
 
     it 'calls ::Tiktok::SendOnTiktokService when its tiktok message' do
       tiktok_channel = create(:channel_tiktok)
       message = create(:message, conversation: create(:conversation, inbox: tiktok_channel.inbox))
-      allow(Tiktok::SendOnTiktokService).to receive(:new).with(message: message).and_return(process_service)
-      expect(Tiktok::SendOnTiktokService).to receive(:new).with(message: message)
-      expect(process_service).to receive(:perform)
-      described_class.perform_now(message.id)
+      expect_mapped_service_to_perform(message, 'Tiktok::SendOnTiktokService')
     end
   end
 end
