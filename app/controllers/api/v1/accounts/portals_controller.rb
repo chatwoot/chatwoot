@@ -72,7 +72,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   private
 
   def fetch_portal
-    @portal = Current.account.portals.find_by(slug: permitted_params[:id])
+    @portal = Current.account.portals.find_by!(slug: permitted_params[:id])
   end
 
   def permitted_params
