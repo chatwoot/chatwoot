@@ -76,6 +76,29 @@ describe Conversations::FilterService do
         expect(result[:count][:all_count]).to eq conversations.count
       end
 
+      it 'sorts by last activity when no sort_by is given' do
+        params[:payload] = payload
+        result = filter_service.new(params, user_1, account).perform
+        expected = account.conversations.where("additional_attributes ->> 'browser_language' IN (?) AND status IN (?)", ['en'], [1, 2])
+        expect(result[:conversations].map(&:id)).to eq expected.sort_on_last_activity_at.ids
+      end
+
+      it 'sorts by the whitelisted sort_by param' do
+        params[:payload] = payload
+        params[:sort_by] = 'created_at_desc'
+        result = filter_service.new(params, user_1, account).perform
+        expected = account.conversations.where("additional_attributes ->> 'browser_language' IN (?) AND status IN (?)", ['en'], [1, 2])
+        expect(result[:conversations].map(&:id)).to eq expected.sort_on_created_at(:desc).ids
+      end
+
+      it 'falls back to last activity for an unknown sort_by param' do
+        params[:payload] = payload
+        params[:sort_by] = 'drop table conversations'
+        result = filter_service.new(params, user_1, account).perform
+        expected = account.conversations.where("additional_attributes ->> 'browser_language' IN (?) AND status IN (?)", ['en'], [1, 2])
+        expect(result[:conversations].map(&:id)).to eq expected.sort_on_last_activity_at.ids
+      end
+
       it 'filter conversations by priority' do
         conversation = create(:conversation, account: account, inbox: inbox, assignee: user_1, priority: :high)
         params[:payload] = [
