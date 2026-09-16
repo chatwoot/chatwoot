@@ -661,10 +661,14 @@ en:
         help_center_query_translation: 'Help center query translation'
         audio_transcription: 'Audio transcription'
         help_center_search: 'Help center search'
-    mobile_diagnostics:
-      unavailable: 'Mobile App diagnostics is not available on this installation.'
-      title: 'Mobile App'
-      description: 'Look up which app version, device and OS a user is running. Populated from the X-Chatwoot-* headers the mobile app sends on every request, so it reflects the build installed on the device.'
+    user_diagnostics:
+      title: 'User Diagnostics'
+      description: 'Look up a user to see the mobile builds they are running, the devices registered for push, and their per-account notification settings. Populated from the X-Chatwoot-* headers the app sends on every request, so it reflects what is installed on the device.'
+      user_not_found: 'User not found.'
+      tabs:
+        label: 'Diagnostics sections'
+        mobile: 'Mobile app'
+        push: 'Push delivery'
       search:
         placeholder: 'user@example.com or numeric user ID'
         submit: 'Look up'
@@ -694,13 +698,16 @@ en:
         build_number_note: 'buildNumber here is the native build number, not the app version shown above.'
         columns:
           id: 'ID'
-          device_id: 'Device ID'
+          type: 'Type'
+          device: 'Device'
+          token: 'Token'
           details: 'Device details'
           registered: 'Registered'
           last_updated: 'Last updated'
       push_settings:
         heading: 'Push notification settings'
-        description: 'Set per account. With every type switched off the user receives no push at all, however healthy the device registration above looks.'
+        description: 'Set per account, and checked once before any subscription is tried. With every type switched off the user receives no push on any device, however healthy the registrations below look.'
+        review_link: 'Review push notification settings →'
         empty: 'No notification settings recorded for this user.'
         notification_type: 'Notification type'
         unnamed_account: 'Account %{id}'
@@ -708,7 +715,6 @@ en:
         none_enabled:
           one: 'No push types are enabled for %{names}. This user receives no push notification from that account.'
           other: 'No push types are enabled for %{names}. This user receives no push notification from those accounts.'
-        diagnostics_link: 'Send a test push or remove subscriptions in Push diagnostics →'
       push_types:
         conversation_creation: 'A new conversation is created'
         conversation_assignment: 'A conversation is assigned to the user'
@@ -718,13 +724,27 @@ en:
         sla_missed_first_response: 'A conversation misses first response SLA'
         sla_missed_next_response: 'A conversation misses next response SLA'
         sla_missed_resolution: 'A conversation misses resolution SLA'
-    push_diagnostics:
-      user_not_found: 'User not found.'
-      no_subscriptions_to_test: 'Select at least one subscription to test.'
-      no_subscriptions_to_delete: 'Select at least one subscription to delete.'
-      subscriptions_deleted:
-        one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
-        other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+      push:
+        real_push_warning: '⚠️ This sends a real push to every selected device. Use only when diagnosing a reported issue.'
+        title_label: 'Title'
+        body_label: 'Body'
+        body_hint: 'Customers will see this text as a real push notification on their device.'
+        send_test: 'Send Test Push to Selected'
+        delete_selected: 'Delete Selected Subscriptions'
+        delete_confirm: "Delete the selected subscription(s)? The user won't receive pushes on those devices until their app re-registers."
+        no_subscriptions_to_test: 'Select at least one subscription to test.'
+        no_subscriptions_to_delete: 'Select at least one subscription to delete.'
+        subscriptions_deleted:
+          one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
+          other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+        results_heading: 'Results'
+        results_columns:
+          id: 'Sub ID'
+          type: 'Type'
+          device: 'Device'
+          token: 'Push token'
+          status: 'Status'
+          details: 'Details'
     users:
       resend_confirmation:
         button: 'Resend confirmation email'
