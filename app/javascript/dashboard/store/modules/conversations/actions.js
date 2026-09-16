@@ -114,17 +114,22 @@ const actions = {
     });
   },
 
-  fetchFilteredConversations: async ({ commit, dispatch }, params) => {
+  fetchFilteredConversations: async ({ commit, dispatch, state }, params) => {
     return conversationListRequest.run(async signal => {
-      const { replaceExisting = false, ...requestParams } = params;
+      const {
+        replaceExisting = false,
+        sortBy = state.chatSortFilter,
+        ...requestParams
+      } = params;
+      const filterRequestParams = { ...requestParams, sortBy };
       const countRequest = await dispatch(
         'conversationStats/onListRequestStarted',
-        requestParams
+        filterRequestParams
       );
       if (signal.aborted) return;
       commit(types.SET_LIST_LOADING_STATUS);
       try {
-        const { data } = await ConversationApi.filter(requestParams, {
+        const { data } = await ConversationApi.filter(filterRequestParams, {
           signal,
         });
 
@@ -132,7 +137,7 @@ const actions = {
 
         buildConversationList(
           { commit, dispatch },
-          requestParams,
+          filterRequestParams,
           data,
           'appliedFilters',
           { replaceExisting, countRequest }
