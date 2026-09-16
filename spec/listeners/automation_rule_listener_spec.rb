@@ -282,8 +282,8 @@ describe AutomationRuleListener do
   end
 
   # The builder's "customer unresponsive" trigger writes message_type = outgoing plus
-  # private_note = false, because a private note is an outgoing message and would otherwise
-  # start the wait without the customer ever having been replied to.
+  # private_note = false. A pending status condition can be joined to those structural conditions
+  # so the follow-up only arms while the conversation is pending.
   describe 'the curated customer-unresponsive trigger' do
     let(:automation_rule) do
       create(:automation_rule, account: account, event_name: 'message_created', execution_delay: 60,
@@ -291,7 +291,11 @@ describe AutomationRuleListener do
                                  { 'attribute_key' => 'message_type', 'filter_operator' => 'equal_to',
                                    'values' => ['outgoing'], 'query_operator' => 'and' },
                                  { 'attribute_key' => 'private_note', 'filter_operator' => 'equal_to',
-                                   'values' => [false], 'query_operator' => nil }
+                                   'values' => [false], 'query_operator' => 'and' },
+                                 { 'attribute_key' => 'inbox_id', 'filter_operator' => 'equal_to',
+                                   'values' => [conversation.inbox_id], 'query_operator' => 'and' },
+                                 { 'attribute_key' => 'status', 'filter_operator' => 'equal_to',
+                                   'values' => ['pending'], 'query_operator' => nil }
                                ],
                                actions: [{ 'action_name' => 'add_label', 'action_params' => ['stale'] }])
     end
@@ -303,6 +307,7 @@ describe AutomationRuleListener do
     end
 
     it 'arms the wait on a real agent reply' do
+      conversation.pending!
       reply = create(:message, account: account, conversation: conversation, message_type: :outgoing)
       event = Events::Base.new('message_created', Time.zone.now, { message: reply })
 
@@ -311,8 +316,17 @@ describe AutomationRuleListener do
     end
 
     it 'does not arm the wait on a private note' do
+      conversation.pending!
       note = create(:message, account: account, conversation: conversation, message_type: :outgoing, private: true)
       event = Events::Base.new('message_created', Time.zone.now, { message: note })
+
+      expect { listener.message_created(event) }.not_to change(AutomationRulePendingExecution, :count)
+    end
+
+    it 'does not arm the wait when the conversation is not pending' do
+      conversation.open!
+      reply = create(:message, account: account, conversation: conversation, message_type: :outgoing)
+      event = Events::Base.new('message_created', Time.zone.now, { message: reply })
 
       expect { listener.message_created(event) }.not_to change(AutomationRulePendingExecution, :count)
     end

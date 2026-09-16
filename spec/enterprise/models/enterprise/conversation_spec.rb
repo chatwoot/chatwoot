@@ -17,12 +17,31 @@ RSpec.describe Conversation, type: :model do
 
     it 'parks an in-audience contact conversation as pending' do
       conversation = create(:conversation, account: account, inbox: inbox, contact: us_contact)
+
       expect(conversation.status).to eq('pending')
+      expect(conversation.ai_assignee).to eq(assistant)
     end
 
     it 'routes an out-of-audience contact conversation to open' do
       conversation = create(:conversation, account: account, inbox: inbox, contact: ca_contact)
+
       expect(conversation.status).to eq('open')
+      expect(conversation.ai_assignee).to be_nil
+    end
+
+    it 'notifies assignment changes when only the AI owner type changes' do
+      agent_bot = create(:agent_bot, id: assistant.id, account: account)
+      conversation = create(:conversation, account: account, inbox: inbox, contact: us_contact)
+      conversation.update!(ai_assignee: agent_bot)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      conversation.update!(ai_assignee: assistant)
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(Conversation::ASSIGNEE_CHANGED, kind_of(Time), hash_including(
+                                                               conversation: conversation,
+                                                               changed_attributes: conversation.previous_changes
+                                                             ))
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_07_133000) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_31_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -276,6 +276,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_07_133000) do
     t.string "remote_address"
     t.string "request_uuid"
     t.datetime "created_at", precision: nil
+    t.string "city"
+    t.string "country"
+    t.string "country_code"
+    t.index ["associated_type", "associated_id", "created_at"], name: "index_audits_on_associated_and_created_at"
     t.index ["associated_type", "associated_id"], name: "associated_index"
     t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
     t.index ["created_at"], name: "index_audits_on_created_at"
@@ -621,6 +625,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_07_133000) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "instagram_id"
+    t.string "provider_name"
     t.index ["page_id", "account_id"], name: "index_channel_facebook_pages_on_page_id_and_account_id", unique: true
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
   end
@@ -632,6 +637,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_07_133000) do
     t.string "instagram_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "provider_name"
     t.index ["instagram_id"], name: "index_channel_instagram_on_instagram_id", unique: true
   end
 
@@ -673,6 +679,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_07_133000) do
     t.datetime "refresh_token_expires_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "provider_name"
     t.index ["business_id"], name: "index_channel_tiktok_on_business_id", unique: true
   end
 
@@ -879,6 +886,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_07_133000) do
     t.datetime "waiting_since"
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
+    t.string "ai_assignee_type"
     t.datetime "status_changed_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"

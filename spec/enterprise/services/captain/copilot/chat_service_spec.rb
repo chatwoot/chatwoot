@@ -26,6 +26,7 @@ RSpec.describe Captain::Copilot::ChatService do
   end
 
   before do
+    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
     InstallationConfig.find_or_create_by(name: 'CAPTAIN_OPEN_AI_API_KEY') do |c|
       c.value = 'test-key'
     end
@@ -102,6 +103,18 @@ RSpec.describe Captain::Copilot::ChatService do
       expect do
         service.generate_response('Hello')
       end.to(change { account.reload.custom_attributes['captain_responses_usage'].to_i }.by(1))
+    end
+
+    context 'when self-hosted' do
+      before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+      end
+
+      it 'does not increment response usage' do
+        expect do
+          service.generate_response('Hello')
+        end.not_to(change { account.reload.custom_attributes['captain_responses_usage'].to_i })
+      end
     end
   end
 
@@ -212,7 +225,7 @@ RSpec.describe Captain::Copilot::ChatService do
       create(:inbox_member, user: user, inbox: inbox)
       custom_role = create(:custom_role, account: account, permissions: ['conversation_unassigned_manage'])
       AccountUser.find_by!(user: user, account: account).update!(role: :agent, custom_role: custom_role)
-      conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
+      conversation.update!(ai_assignee: create(:agent_bot, account: account))
 
       service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
 

@@ -67,7 +67,7 @@ class ContactInboxWithContactBuilder
   def find_contact
     contact = find_contact_by_identifier(contact_attributes[:identifier])
     contact ||= find_contact_by_email(contact_attributes[:email])
-    contact ||= find_contact_by_phone_number(contact_attributes[:phone_number])
+    contact ||= find_contact_by_phone_numbers
     contact ||= find_contact_by_instagram_source_id(source_id) if instagram_channel?
 
     contact
@@ -107,9 +107,14 @@ class ContactInboxWithContactBuilder
     account.contacts.from_email(email)
   end
 
-  def find_contact_by_phone_number(phone_number)
-    return if phone_number.blank?
+  def find_contact_by_phone_numbers
+    phone_numbers = [contact_attributes[:phone_number], *Array(contact_attributes[:phone_number_candidates])].compact_blank.uniq
 
-    account.contacts.find_by(phone_number: phone_number)
+    phone_numbers.each do |phone_number|
+      contact = account.contacts.find_by(phone_number: phone_number)
+      return contact if contact
+    end
+
+    nil
   end
 end

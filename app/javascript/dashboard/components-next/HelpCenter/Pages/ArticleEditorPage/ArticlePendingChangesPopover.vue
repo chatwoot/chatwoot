@@ -13,6 +13,10 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  blocked: {
+    type: Function,
+    default: () => false,
+  },
 });
 
 const emit = defineEmits(['resolved', 'failed']);
@@ -48,6 +52,7 @@ const dismiss = () => {
 };
 
 const resolve = async draftAction => {
+  if (props.blocked()) return;
   activeAction.value = draftAction === 'publishDraft' ? 'apply' : 'discard';
   try {
     await store.dispatch(`articles/${draftAction}`, {

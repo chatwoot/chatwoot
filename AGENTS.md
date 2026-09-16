@@ -46,6 +46,8 @@
 - Prefer the smallest production-ready change that solves the current problem.
 - Build for the expected production path first. Do not add speculative guards, fallbacks, retries, or edge-case handling unless the caller can actually hit that case or production has proven it necessary.
 - Enforce eligibility and exclusivity rules at the earliest shared entry point. Do not repeat backup guards across downstream jobs, callbacks, services, or writes unless a proven independent path bypasses that point.
+- Validate request parameters at the controller or request boundary, reusing existing errors so invalid input returns `422 Unprocessable Entity` instead of reaching models or Sentry.
+- Accept only the documented type, shape, and value. Do not add compatibility coercions for malformed client values; fix official clients instead.
 - When an impossible or misconfigured state would indicate a setup/deployment bug, let it fail loudly instead of silently skipping behavior.
 - For locked/internal configs that must exist in production, prefer direct reads (`find`, `find_by!`, required hash keys) over silent fallbacks.
 - Do not add validation or response checks unless the code uses the result or the check changes behavior meaningfully.
@@ -97,6 +99,15 @@
 ## Ruby Best Practices
 
 - Use compact `module/class` definitions; avoid nested styles
+
+## Frontend Conventions
+
+- Prefer existing design-system utilities and shared composables.
+- Use typography utilities instead of manually recreating font styles.
+- Use logical Tailwind utilities (`ms`, `me`, `start`, `end`) for direction-aware layouts.
+- Use `rem` for arbitrary CSS dimensions; preserve native numeric values required by chart/SVG APIs.
+- Extract repeated or domain-specific strings, thresholds, colors, and durations into named constants.
+- Use shared request-cancellation utilities instead of local `AbortController` logic.
 
 ## Enterprise Edition Notes
 

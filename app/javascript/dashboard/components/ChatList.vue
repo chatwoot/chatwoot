@@ -50,6 +50,7 @@ import {
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
 import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
+import { sortComparator } from '../store/modules/conversations/helpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
@@ -309,12 +310,9 @@ function filterByAssigneeTab(conversations) {
 }
 
 function sortByUnreadStatus(conversations) {
-  return [...conversations].sort((a, b) => {
-    const unreadCountDiff = (b.unread_count || 0) - (a.unread_count || 0);
-    if (unreadCountDiff !== 0) return unreadCountDiff;
-
-    return (b.last_activity_at || 0) - (a.last_activity_at || 0);
-  });
+  return [...conversations].sort((a, b) =>
+    sortComparator(a, b, wootConstants.SORT_BY_TYPE.UNREAD)
+  );
 }
 
 const conversationList = computed(() => {
@@ -400,6 +398,7 @@ function fetchFilteredConversations(payload) {
     .dispatch('fetchFilteredConversations', {
       queryData: filterQueryGenerator(payload),
       page,
+      sortBy: activeSortBy.value,
     })
     .catch(() => useAlert(t('CHAT_LIST.FETCH_ERROR')))
     // emit even on failure so a deep-linked conversation still loads via
@@ -416,6 +415,7 @@ function fetchSavedFilteredConversations(payload) {
     .dispatch('fetchFilteredConversations', {
       queryData: payload,
       page,
+      sortBy: activeSortBy.value,
     })
     .catch(() => useAlert(t('CHAT_LIST.FETCH_ERROR')))
     .finally(emitConversationLoaded);
@@ -614,6 +614,9 @@ function updateAssigneeTab(selectedTab) {
     activeAssigneeTab.value = selectedTab;
     if (!currentPage.value) {
       fetchConversations();
+    } else {
+      store.dispatch('invalidateConversationListRequests');
+      store.dispatch('updateChatListFilters', conversationFilters.value);
     }
   }
 }
@@ -624,6 +627,20 @@ function onBasicFilterChange(value, type) {
   } else {
     activeSortBy.value = value;
   }
+
+  if (type === 'sort' && hasAppliedFiltersOrActiveFolders.value) {
+    resetBulkActions();
+    store.dispatch('conversationPage/reset');
+    store.dispatch('emptyAllConversations');
+
+    if (hasActiveFolders.value) {
+      fetchSavedFilteredConversations(activeFolder.value.query);
+    } else {
+      fetchFilteredConversations(appliedFilters.value);
+    }
+    return;
+  }
+
   resetAndFetchData();
 }
 
@@ -877,12 +894,6 @@ watch(activeFolder, (newVal, oldVal) => {
 
 watch(chatLists, () => {
   chatsOnView.value = conversationList.value;
-});
-
-watch(conversationFilters, (newVal, oldVal) => {
-  if (newVal !== oldVal) {
-    store.dispatch('updateChatListFilters', newVal);
-  }
 });
 </script>
 

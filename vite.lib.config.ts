@@ -9,11 +9,42 @@
  *
  * The `assets:precompile` rake task runs this alongside the main app build.
  */
-import { defineConfig } from 'vite';
+import { brotliCompressSync, constants, gzipSync } from 'node:zlib';
+import { defineConfig, type Plugin } from 'vite';
 import path from 'path';
 import { aliases } from './vite.shared';
 
+const compressedSdkPlugin = {
+  name: 'compress-sdk',
+  generateBundle(_options, bundle) {
+    const sdkBundle = bundle['js/sdk.js'];
+
+    if (sdkBundle?.type !== 'chunk') {
+      this.error('SDK bundle was not generated');
+    }
+
+    this.emitFile({
+      type: 'asset',
+      fileName: 'js/sdk.js.br',
+      source: brotliCompressSync(sdkBundle.code, {
+        params: {
+          [constants.BROTLI_PARAM_QUALITY]: constants.BROTLI_MAX_QUALITY,
+        },
+      }),
+    });
+
+    this.emitFile({
+      type: 'asset',
+      fileName: 'js/sdk.js.gz',
+      source: gzipSync(sdkBundle.code, {
+        level: constants.Z_BEST_COMPRESSION,
+      }),
+    });
+  },
+} satisfies Plugin;
+
 export default defineConfig({
+  plugins: [compressedSdkPlugin],
   build: {
     rollupOptions: {
       output: {

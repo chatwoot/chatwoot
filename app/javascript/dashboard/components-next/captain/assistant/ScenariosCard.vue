@@ -12,6 +12,8 @@ import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
+import Policy from 'dashboard/components/policy.vue';
 
 const props = defineProps({
   id: {
@@ -34,6 +36,14 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  enabled: {
+    type: Boolean,
+    default: true,
+  },
+  isUpdating: {
+    type: Boolean,
+    default: false,
+  },
   selectable: {
     type: Boolean,
     default: false,
@@ -44,7 +54,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['select', 'hover', 'delete', 'update']);
+const emit = defineEmits(['select', 'hover', 'delete', 'update', 'toggle']);
 
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
@@ -53,6 +63,17 @@ const modelValue = computed({
   get: () => props.isSelected,
   set: () => emit('select', props.id),
 });
+
+const enabledState = computed({
+  get: () => props.enabled,
+  set: enabled => emit('toggle', { id: props.id, enabled }),
+});
+
+const statusLabel = computed(() =>
+  props.enabled
+    ? t('CAPTAIN.ASSISTANTS.SCENARIOS.STATUS.ENABLED')
+    : t('CAPTAIN.ASSISTANTS.SCENARIOS.STATUS.DISABLED')
+);
 
 const state = reactive({
   id: '',
@@ -151,6 +172,24 @@ const renderInstruction = instruction => () =>
           </span>
         </div>
         <div class="flex items-center gap-2">
+          <span class="text-xs text-n-slate-11">
+            {{ statusLabel }}
+          </span>
+          <Policy
+            as="span"
+            :permissions="['administrator']"
+            class="inline-flex items-center"
+          >
+            <Switch
+              v-model="enabledState"
+              :disabled="isUpdating"
+              :aria-label="
+                t('CAPTAIN.ASSISTANTS.SCENARIOS.STATUS.TOGGLE', { title })
+              "
+              :class="{ 'opacity-50 cursor-not-allowed': isUpdating }"
+            />
+          </Policy>
+          <span class="w-px h-4 bg-n-weak" />
           <!-- <Button label="Test" slate xs ghost class="!text-sm" />
           <span class="w-px h-4 bg-n-weak" /> -->
           <Button icon="i-lucide-pen" slate xs ghost @click="startEdit" />

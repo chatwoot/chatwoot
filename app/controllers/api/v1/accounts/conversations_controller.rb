@@ -99,7 +99,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def toggle_priority
-    @conversation.toggle_priority(params[:priority])
+    @conversation.toggle_priority(permitted_update_params[:priority])
     head :ok
   end
 
@@ -140,6 +140,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def permitted_update_params
     # TODO: Move the other conversation attributes to this method and remove specific endpoints for each attribute
+    raise ActionController::ParameterMissing, :priority unless params[:priority].nil? || Conversation.priorities.key?(params[:priority])
+
     params.permit(:priority)
   end
 
@@ -177,7 +179,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def handle_human_open
     @conversation.with_lock do
-      @conversation.assignee_agent_bot = nil
+      @conversation.ai_assignee = nil
       @conversation.assignee = Current.user if Current.user.agent?
       @conversation.save!
     end
@@ -207,7 +209,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     # fallback for the old case where we do look up only using source id
     # In future we need to change this and make sure we do look up on combination of inbox_id and source_id
     # and deprecate the support of passing only source_id as the param
-    @contact_inbox ||= ::ContactInbox.find_by!(source_id: params[:source_id])
+    lookup_scope = @inbox ? @inbox.contact_inboxes : ContactInbox.joins(:inbox).where(inboxes: { account_id: Current.account.id })
+    @contact_inbox ||= lookup_scope.find_by!(source_id: params[:source_id])
     authorize @contact_inbox.inbox, :show?
   rescue ActiveRecord::RecordNotUnique
     render json: { error: 'source_id should be unique' }, status: :unprocessable_entity
