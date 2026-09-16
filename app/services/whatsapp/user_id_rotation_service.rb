@@ -36,8 +36,20 @@ class Whatsapp::UserIdRotationService
       next if contact.blank?
 
       record_aliases(contact, rotated_source_ids)
+      mirror_identifiers(contact, rotated_source_ids)
       record_phone_identity(contact, phone_source_id, raw_phone_source_id) if phone_source_id.present?
     end
+  end
+
+  # A standalone lifecycle message never reaches `IncomingMessageBaseService#set_contact`, because
+  # the batch is empty once the system entries are partitioned out, so nothing else refreshes the
+  # mirrored identifiers. Without this the contact keeps advertising the previous ones through the
+  # REST API and the webhooks until an unrelated payload happens to carry the current values.
+  def mirror_identifiers(contact, source_ids)
+    contact_inbox = inbox.contact_inboxes.find_by(contact: contact, source_id: source_ids)
+    return if contact_inbox.blank?
+
+    Whatsapp::IdentifierSyncService.new(contact_inbox: contact_inbox, contact: contact).perform(source_ids: source_ids)
   end
 
   # Parent first keeps lifecycle lock ordering aligned with BSUID-only Cloud payloads.
