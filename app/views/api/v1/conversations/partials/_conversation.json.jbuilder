@@ -47,14 +47,12 @@ json.uuid conversation.uuid
 json.additional_attributes conversation.additional_attributes
 json.agent_last_seen_at conversation.agent_last_seen_at.to_i
 json.assignee_last_seen_at conversation.assignee_last_seen_at.to_i
-can_reply = conversation.can_reply?
-json.can_reply can_reply
-contact_info_request = local_assigns[:contact_info_request] ||
-                       Whatsapp::ContactInfoRequestEligibilityService.new(conversation: conversation, can_reply: can_reply).availability
+json.can_reply conversation.can_reply?
+# Temporarily disable this action to avoid message-history lookups during conversation rendering.
 json.contact_info_request do
-  json.available contact_info_request[:available]
-  json.reason contact_info_request[:reason]
-  json.delivery_mode contact_info_request[:delivery_mode]
+  json.available false
+  json.reason nil
+  json.delivery_mode nil
 end
 json.contact_last_seen_at conversation.contact_last_seen_at.to_i
 json.custom_attributes conversation.custom_attributes
