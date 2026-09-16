@@ -175,6 +175,25 @@ RSpec.describe AutomationRule do
       expect(rule.errors[:execution_delay]).to include('cannot be used with attribute_changed conditions.')
     end
 
+    it 'allows a delayed message rule with a label condition' do
+      rule.event_name = 'message_created'
+      rule.execution_delay = 60
+      rule.conditions = [{ 'attribute_key' => 'labels', 'filter_operator' => 'equal_to',
+                           'values' => ['feature'], 'query_operator' => nil }]
+
+      expect(rule).to be_valid
+    end
+
+    it 'rejects a delayed conversation-level rule with a label condition' do
+      rule.event_name = 'conversation_updated'
+      rule.execution_delay = 60
+      rule.conditions = [{ 'attribute_key' => 'labels', 'filter_operator' => 'equal_to',
+                           'values' => ['feature'], 'query_operator' => nil }]
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:execution_delay]).to include('only supports status and inbox conditions for conversation-level events.')
+    end
+
     it 'rejects a delayed conversation-level rule with a mutable non-status condition' do
       rule.event_name = 'conversation_updated'
       rule.execution_delay = 60

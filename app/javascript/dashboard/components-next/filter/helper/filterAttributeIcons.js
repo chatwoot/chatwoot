@@ -1,9 +1,10 @@
 /**
  * Leading icons and grouped section headers for the attribute picker rendered by FilterSelect,
- * so the conversation and contact filters read like the Captain audience picker.
+ * so the conversation and contact filters read like the Captain audience picker. The icon table is
+ * shared with the automation condition picker, which draws from the same attribute keys.
  */
 
-// Icon per known attribute key, across the conversation and contact filters.
+// Icon per known attribute key, across the conversation, contact and automation attributes.
 const ATTRIBUTE_ICONS = {
   // Contact attributes
   name: 'i-lucide-user',
@@ -25,6 +26,12 @@ const ATTRIBUTE_ICONS = {
   campaign_id: 'i-lucide-megaphone',
   browser_language: 'i-lucide-globe',
   referer: 'i-lucide-link',
+  // Automation attributes
+  message_type: 'i-lucide-message-square',
+  private_note: 'i-lucide-sticky-note',
+  content: 'i-lucide-message-square-text',
+  mail_subject: 'i-lucide-mail-open',
+  conversation_language: 'i-lucide-languages',
   // Shared
   labels: 'i-lucide-tags',
   created_at: 'i-lucide-calendar',
@@ -45,10 +52,16 @@ const CUSTOM_TYPE_ICONS = {
 
 const DEFAULT_ICON = 'i-lucide-tag';
 
-const getAttributeIcon = type =>
-  (type.attributeModel === 'customAttributes'
-    ? CUSTOM_TYPE_ICONS[type.attributeDisplayType]
-    : ATTRIBUTE_ICONS[type.attributeKey]) || DEFAULT_ICON;
+/**
+ * Resolve the leading icon for an attribute. Only custom attributes carry a display type, so they
+ * are iconed by that; every other attribute is iconed by its key.
+ * @param {{attributeKey?: string, attributeDisplayType?: string}} type
+ * @returns {string} Icon class.
+ */
+export const getAttributeIcon = ({ attributeKey, attributeDisplayType }) =>
+  CUSTOM_TYPE_ICONS[attributeDisplayType] ||
+  ATTRIBUTE_ICONS[attributeKey] ||
+  DEFAULT_ICON;
 
 // The order groups appear in, keyed by attributeModel. Labels resolve against the caller's i18n
 // namespace so the conversation and contact filters can name their own sections.
