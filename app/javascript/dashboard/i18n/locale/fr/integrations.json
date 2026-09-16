@@ -589,7 +589,7 @@
       "EMPTY_LIST": "Aucun assistant trouvé, veuillez en créer un pour commencer"
     },
     "COPILOT": {
-      "TITLE": "Copilote",
+      "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Essayez ces instructions",
       "PANEL_TITLE": "Commencez avec Copilot",
       "KICK_OFF_MESSAGE": "Besoin d’un résumé rapide, de consulter les conversations passées ou de rédiger une meilleure réponse ? Copilot est là pour accélérer les choses.",
@@ -1039,8 +1039,8 @@
         "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour, veuillez réessayer."
       },
       "SYNC": {
-        "QUEUED_MESSAGE": "Rafraîchissement de la file d'attente. Nous mettrons à jour le document sous peu.",
-        "ERROR_MESSAGE": "Impossible d'actualiser la file d'attente, veuillez réessayer."
+        "QUEUED_MESSAGE": "Actualisation mise en file d’attente. Nous mettrons à jour le document sous peu.",
+        "ERROR_MESSAGE": "Impossible de mettre l’actualisation en file d’attente, veuillez réessayer."
       },
       "FILTERS": {
         "SOURCE": {

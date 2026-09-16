@@ -493,7 +493,7 @@ ru:
       popular_label: 'Популярные темы:'
       recommended_label: 'Рекомендованные темы:'
       authors_others: "%{names} и %{count} другие"
-      primary_nav: Первичный
+      primary_nav: Основная навигация
     hero:
       sub_title: Ищите здесь статьи или выберите категории, указанные ниже.
     common:
