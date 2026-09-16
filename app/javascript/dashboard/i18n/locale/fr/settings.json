@@ -465,12 +465,12 @@
       "EMPTY": "Pas encore d'importations",
       "EMPTY_DESCRIPTION": "Commencez une importation pour intégrer votre historique de clients existant dans ce compte.",
       "NEW_IMPORT": "Importer",
-      "COUNT": "{count} importation | {count} importations",
+      "COUNT": "Importations {count}",
       "UNNAMED": "Importation sans titre",
       "IMPORTED_COUNT": "{count} importé",
       "VIEW": "Voir l'import",
       "NAME": "Nom",
-        "TYPE": "Type",
+      "TYPE": "Type",
       "STATUS": "État",
       "IMPORTED": "Importé",
       "CREATED": "Créé",
@@ -480,7 +480,7 @@
     "DETAIL": {
       "BACK": "Retour aux importations",
       "ERRORS": "Erreurs",
-      "SKIP_LOGS": "Journaux des enregistrements ignorés",
+      "SKIP_LOGS": "Ignorer les logs",
       "SOURCE": "Source",
       "IMPORT_TYPES": "Types d'importation",
       "CREATED": "Créé",
@@ -609,7 +609,7 @@
       "BUTTON_TXT": "Acheter plus de crédits",
       "DOCUMENTS": "Documents",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain n’est pas disponible avec le plan gratuit. Passez à un plan supérieur pour accéder aux assistants, à Copilot et à d’autres fonctionnalités.",
+      "UPGRADE": "Captain n’est pas disponible avec le plan gratuit. Passez à un plan supérieur pour accéder aux assistants, aux copilotes et à d’autres fonctionnalités.",
       "REFRESH_CREDITS": "Actualiser"
     },
     "CHAT_WITH_US": {
@@ -701,7 +701,7 @@
       "PAYWALL": {
         "TITLE": "Mettre à niveau pour activer SAML SSO",
         "AVAILABLE_ON": "La fonctionnalité SAML SSO n'est disponible que dans les plans Enterprise.",
-        "UPGRADE_PROMPT": "Mettez à niveau votre forfait pour avoir accès à l’authentification unique SAML et à d’autres fonctionnalités avancées.",
+        "UPGRADE_PROMPT": "Mettez à niveau votre forfait pour avoir accès à SAML unique et à d'autres fonctionnalités avancées.",
         "UPGRADE_NOW": "Mettre à niveau maintenant",
         "CANCEL_ANYTIME": "Vous pouvez modifier ou annuler votre forfait à tout moment"
       },
@@ -920,11 +920,11 @@
           "LABEL": "Priorité d’affectation",
           "EARLIEST_CREATED": {
             "LABEL": "Créé plus tôt",
-            "DESCRIPTION": "La conversation créée le plus tôt est assignée en premier."
+            "DESCRIPTION": "La conversation qui a été créée est d'abord assignée."
           },
           "LONGEST_WAITING": {
             "LABEL": "Attente la plus longue",
-            "DESCRIPTION": "La conversation qui attend depuis le plus longtemps est assignée en premier."
+            "DESCRIPTION": "La conversation en attente de la plus longue est assignée en premier."
           }
         },
         "FAIR_DISTRIBUTION": {
@@ -1010,7 +1010,7 @@
             "ERROR_MESSAGE": "Impossible d'ajouter la limite de la boîte de réception"
           },
           "UPDATE": {
-            "SUCCESS_MESSAGE": "Limite de boîte de réception mise à jour avec succès",
+            "SUCCESS_MESSAGE": "Limite de réception mise à jour avec succès",
             "ERROR_MESSAGE": "Impossible de mettre à jour la limite de la boîte de réception"
           },
           "DELETE": {
