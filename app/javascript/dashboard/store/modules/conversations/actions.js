@@ -109,7 +109,9 @@ const actions = {
       } catch (error) {
         // Ignore error; the loading state is cleared in finally.
       } finally {
-        commit(types.CLEAR_LIST_LOADING_STATUS);
+        if (!signal.aborted) {
+          commit(types.CLEAR_LIST_LOADING_STATUS);
+        }
       }
     });
   },
@@ -145,7 +147,9 @@ const actions = {
       } catch (error) {
         if (!signal.aborted) throw error;
       } finally {
-        commit(types.CLEAR_LIST_LOADING_STATUS);
+        if (!signal.aborted) {
+          commit(types.CLEAR_LIST_LOADING_STATUS);
+        }
       }
     });
   },
