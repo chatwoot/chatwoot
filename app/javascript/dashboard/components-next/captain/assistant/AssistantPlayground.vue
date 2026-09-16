@@ -1,5 +1,13 @@
 <script setup>
-import { computed, reactive, ref, toRef, watch } from 'vue';
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+  toRef,
+  watch,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -10,6 +18,8 @@ import MessageList from './MessageList.vue';
 import PlaygroundTestSetup from './PlaygroundTestSetup.vue';
 import { usePlaygroundSession } from './usePlaygroundSession';
 import CaptainAssistant from 'dashboard/api/captain/assistant';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 const props = defineProps({
   assistantId: {
@@ -29,7 +39,7 @@ const isLoading = ref(false);
 const isSetupOpen = ref(true);
 const setupPanelRef = ref(null);
 const setupInstanceKey = ref(0);
-let conversationVersion = 0;
+let activeRequest = null;
 
 const session = reactive(
   usePlaygroundSession({
@@ -71,10 +81,43 @@ const pushAssistantError = content => {
 };
 
 const resetConversation = () => {
-  conversationVersion += 1;
+  activeRequest = null;
+  isLoading.value = false;
   messages.value = [];
   newMessage.value = '';
 };
+
+const playgroundResponseContent = data => {
+  if (!data.error) return data.response || data.content;
+  if (typeof data.error === 'string') return data.error;
+
+  return t('CAPTAIN.PLAYGROUND.RESPONSE_ERROR');
+};
+
+const handlePlaygroundResponse = data => {
+  if (data.request_id !== activeRequest?.id) return;
+
+  const { setupSummary } = activeRequest;
+  activeRequest = null;
+  isLoading.value = false;
+  messages.value.push({
+    content: playgroundResponseContent(data),
+    sender: 'assistant',
+    agentName: data.agent_name,
+    runDetails: data.run_details,
+    setupSummary,
+    isError: Boolean(data.error),
+    timestamp: new Date().toISOString(),
+  });
+};
+
+onMounted(() => {
+  emitter.on(BUS_EVENTS.CAPTAIN_PLAYGROUND_RESPONSE, handlePlaygroundResponse);
+});
+
+onBeforeUnmount(() => {
+  emitter.off(BUS_EVENTS.CAPTAIN_PLAYGROUND_RESPONSE, handlePlaygroundResponse);
+});
 
 const resetTestSetup = async () => {
   resetConversation();
@@ -136,41 +179,30 @@ const sendMessage = async () => {
   };
   messages.value.push(userMessage);
   const currentMessage = newMessage.value;
-  const requestVersion = conversationVersion;
   const setupSummary = isV2.value ? session.configurationSummary() : undefined;
+  const requestId = `playground-${Date.now()}-${Math.random().toString(36).slice(2)}`;
   newMessage.value = '';
+  activeRequest = { id: requestId, setupSummary };
 
   try {
     isLoading.value = true;
-    const { data } = await CaptainAssistant.playground({
+    await CaptainAssistant.playground({
       assistantId: props.assistantId,
       messageContent: currentMessage,
       messageHistory: formatMessagesForApi(),
       playgroundConfig: isV2.value ? session.playgroundConfig : undefined,
-    });
-    if (requestVersion !== conversationVersion) return;
-
-    messages.value.push({
-      content: data.error
-        ? t('CAPTAIN.PLAYGROUND.RESPONSE_ERROR')
-        : data.response,
-      sender: 'assistant',
-      agentName: data.agent_name,
-      runDetails: data.run_details,
-      setupSummary,
-      isError: Boolean(data.error),
-      timestamp: new Date().toISOString(),
+      requestId,
     });
   } catch (error) {
-    if (requestVersion !== conversationVersion) return;
+    if (requestId !== activeRequest?.id) return;
 
+    activeRequest = null;
+    isLoading.value = false;
     pushAssistantError(
       error?.response?.data?.error ||
         error?.response?.data?.message ||
         t('CAPTAIN.PLAYGROUND.RESPONSE_ERROR')
     );
-  } finally {
-    isLoading.value = false;
   }
 };
 

@@ -61,6 +61,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'account.cache_invalidated': this.onCacheInvalidate,
       'account.enrichment_completed': this.onEnrichmentCompleted,
       'copilot.message.created': this.onCopilotMessageCreated,
+      'captain.playground.response': this.onCaptainPlaygroundResponse,
       'voice_call.incoming': this.onVoiceCallIncoming,
       'voice_call.accepted': this.onVoiceCallAccepted,
       'voice_call.outbound_connected': this.onVoiceCallOutboundConnected,
@@ -336,6 +337,11 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onCopilotMessageCreated = data => {
     this.app.$store.dispatch('copilotMessages/upsert', data);
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onCaptainPlaygroundResponse = data => {
+    emitter.emit(BUS_EVENTS.CAPTAIN_PLAYGROUND_RESPONSE, data);
   };
 
   onEnrichmentCompleted = () => {
