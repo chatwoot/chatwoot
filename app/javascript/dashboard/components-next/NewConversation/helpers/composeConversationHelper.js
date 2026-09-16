@@ -2,6 +2,10 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import camelcaseKeys from 'camelcase-keys';
 import ContactAPI from 'dashboard/api/contacts';
+import {
+  isPhoneLikeInput,
+  normalizePhoneNumber,
+} from 'dashboard/components-next/taginput/helper/tagInputHelper';
 
 const CHANNEL_PRIORITY = {
   'Channel::Email': 1,
@@ -181,6 +185,13 @@ export const prepareWhatsAppMessagePayload = ({
 // API Calls
 const MIN_SEARCH_LENGTH = 2;
 
+const normalizeSearchQuery = query => {
+  if (!isPhoneLikeInput(query)) return query;
+  const e164 = normalizePhoneNumber(query);
+  // Stored numbers are E.164, so search by digits to match any typed format
+  return e164 ? e164.slice(1) : query.replace(/\D/g, '');
+};
+
 export const createContactSearcher = () => {
   let controller = null;
 
@@ -201,7 +212,15 @@ export const createContactSearcher = () => {
     try {
       const {
         data: { payload },
-      } = await ContactAPI.search(trimmed, 1, 'name', '', { signal });
+      } = await ContactAPI.search(
+        normalizeSearchQuery(trimmed),
+        1,
+        'name',
+        '',
+        {
+          signal,
+        }
+      );
 
       const camelCasedPayload = camelcaseKeys(payload, { deep: true });
       if (!reachableOnly) return camelCasedPayload || [];
@@ -223,12 +242,10 @@ export const createContactSearcher = () => {
 };
 
 export const createNewContact = async input => {
-  const payload = {
-    name: input.startsWith('+')
-      ? input.slice(1) // Remove the '+' prefix if it exists
-      : getCapitalizedNameFromEmail(input),
-    ...(input.startsWith('+') ? { phone_number: input } : { email: input }),
-  };
+  const e164 = isPhoneLikeInput(input) ? normalizePhoneNumber(input) : null;
+  const payload = e164
+    ? { name: e164.slice(1), phone_number: e164 }
+    : { name: getCapitalizedNameFromEmail(input), email: input };
 
   const {
     data: {
