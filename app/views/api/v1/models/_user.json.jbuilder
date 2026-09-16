@@ -23,7 +23,11 @@ json.role active_account_user&.role
 json.ui_settings resource.ui_settings
 json.uid resource.uid
 json.type resource.type
-shopify_account_ids = Integrations::Hook.where(app_id: 'shopify', account_id: account_users.map(&:account_id)).pluck(:account_id).to_set
+shopify_account_ids = if Shopify::FeatureGate.globally_enabled?
+                        Integrations::Hook.where(app_id: 'shopify', account_id: account_users.map(&:account_id)).pluck(:account_id).to_set
+                      else
+                        Set.new
+                      end
 json.accounts do
   json.array! account_users do |account_user|
     account = account_user.account

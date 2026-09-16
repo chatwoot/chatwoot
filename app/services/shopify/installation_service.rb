@@ -11,10 +11,6 @@ class Shopify::InstallationService
   private
 
   def install_hook
-    if @account.hooks.exists?(app_id: 'shopify')
-      raise Shopify::PendingInstallation::AccountAlreadyConnected, 'This account already has a Shopify connection'
-    end
-
     data = @pending_installation.data
     raise_duplicate_shop! if shopify_shop_exists?(data['shop'])
 
@@ -34,17 +30,23 @@ class Shopify::InstallationService
   end
 
   def create_shopify_hook(data)
-    @account.hooks.create!(
-      app_id: 'shopify',
-      access_token: data['access_token'],
-      status: 'enabled',
-      reference_id: data['shop'],
-      settings: {
-        scope: data['scope'],
-        connected_at: data.fetch('connected_at'),
-        installation_id: SecureRandom.uuid
-      }
-    )
+    @account.with_lock do
+      if @account.hooks.exists?(app_id: 'shopify')
+        raise Shopify::PendingInstallation::AccountAlreadyConnected, 'This account already has a Shopify connection'
+      end
+
+      @account.hooks.create!(
+        app_id: 'shopify',
+        access_token: data['access_token'],
+        status: 'enabled',
+        reference_id: data['shop'],
+        settings: {
+          scope: data['scope'],
+          connected_at: data.fetch('connected_at'),
+          installation_id: SecureRandom.uuid
+        }
+      )
+    end
   end
 
   def shopify_shop_exists?(shop)
