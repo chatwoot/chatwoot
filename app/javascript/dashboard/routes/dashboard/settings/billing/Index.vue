@@ -82,6 +82,13 @@ const subscriptionRenewsOn = computed(() => {
   return format(endDate, 'dd MMM, yyyy');
 });
 
+// Set only while a cancellation is scheduled; the plan stays active until this date.
+const subscriptionCancelsOn = computed(() => {
+  if (!customAttributes.value.subscription_cancels_on) return '';
+  const cancelDate = new Date(customAttributes.value.subscription_cancels_on);
+  return format(cancelDate, 'dd MMM, yyyy');
+});
+
 /**
  * Computed property indicating if user has a billing plan
  * @returns {boolean}
@@ -235,7 +242,12 @@ onMounted(handleBillingPageLogic);
               :value="subscribedQuantity"
             />
             <DetailItem
-              v-if="subscriptionRenewsOn"
+              v-if="subscriptionCancelsOn"
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.CANCELS_ON')"
+              :value="subscriptionCancelsOn"
+            />
+            <DetailItem
+              v-else-if="subscriptionRenewsOn"
               :label="$t('BILLING_SETTINGS.CURRENT_PLAN.RENEWS_ON')"
               :value="subscriptionRenewsOn"
             />

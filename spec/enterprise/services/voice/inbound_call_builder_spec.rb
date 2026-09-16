@@ -148,9 +148,9 @@ RSpec.describe Voice::InboundCallBuilder do
       expect(phone_conversation.reload.contact_inbox_id).to eq(phone_contact_inbox.id)
     end
 
-    # The caller reached us before under the phone alone; the BSUID row has to be created so the
-    # call lands on the same identity a message would, instead of answering through the old one.
-    it 'creates the preferred BSUID contact inbox when the caller only had a phone one' do
+    # The lower-level builder honors the leading source_id it is given. The WhatsApp-specific
+    # identity builder decides whether that should be the phone or BSUID for a real webhook.
+    it 'creates the preferred contact inbox when the caller only had a secondary alias' do
       legacy_contact = create(:contact, account: account)
       create(:contact_inbox, contact: legacy_contact, inbox: whatsapp_inbox, source_id: '5541966665555')
 
@@ -170,8 +170,7 @@ RSpec.describe Voice::InboundCallBuilder do
     # Matching across every source_id reuses the contact instead of forking on the phone.
     #
     # The order matters and is the caller's contract: the builder trusts the leading source_id as
-    # the identity to land on. Whatsapp::InboundCallIdentityBuilder puts the BSUID there on Cloud,
-    # which is what this reproduces — passing the phone first would ask for the phone alias.
+    # the identity to land on.
     it 'reuses the contact by matching any source_id, not just the first' do
       call = described_class.perform!(
         inbox: whatsapp_inbox,

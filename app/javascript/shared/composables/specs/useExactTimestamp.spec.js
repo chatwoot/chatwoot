@@ -1,5 +1,5 @@
 import messages from 'dashboard/i18n';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useExactTimestamp } from '../useExactTimestamp';
@@ -74,5 +74,140 @@ describe('useExactTimestamp', () => {
     expect(exactTimestamp(null)).toBe('');
     expect(exactTimestamp(undefined)).toBe('');
     expect(exactTimestamp('')).toBe('');
+  });
+
+  describe('with showTimeZone', () => {
+    // Nov 27 2025, 15:35:53 UTC — late November keeps northern zones on
+    // standard time.
+    const WINTER_TIMESTAMP = 1764257753;
+    // Jul 15 2025, 12:00:00 UTC — the same zones' daylight-saving half.
+    const SUMMER_TIMESTAMP = 1752580800;
+
+    const RealDateTimeFormat = Intl.DateTimeFormat;
+    let dateTimeFormatSpy;
+
+    afterEach(() => {
+      dateTimeFormatSpy?.mockRestore();
+      dateTimeFormatSpy = undefined;
+    });
+
+    // Browsers default Intl to the agent's zone, but vitest workers cannot
+    // switch the process zone at runtime, so simulate the agent's zone by
+    // injecting an explicit timeZone into the formatters the composable
+    // builds. Fresh module per case, as its formatter cache is locale-keyed.
+    const exactTimestampIn = async (timeZone, options) => {
+      dateTimeFormatSpy = vi
+        .spyOn(Intl, 'DateTimeFormat')
+        .mockImplementation(
+          (locale, formatOptions) =>
+            new RealDateTimeFormat(locale, { ...formatOptions, timeZone })
+        );
+      vi.resetModules();
+      const { useExactTimestamp: freshComposable } = await import(
+        '../useExactTimestamp'
+      );
+      return freshComposable(options);
+    };
+
+    it('appends the UTC label for a UTC user', async () => {
+      const exactTimestamp = await exactTimestampIn('UTC', {
+        showTimeZone: true,
+      });
+      expect(exactTimestamp(WINTER_TIMESTAMP)).toMatch(
+        /^Nov 27, 2025, 3:35\sPM \(UTC\)$/
+      );
+    });
+
+    it('uses the named abbreviation where the locale has one', async () => {
+      const exactTimestamp = await exactTimestampIn('America/Los_Angeles', {
+        showTimeZone: true,
+      });
+      expect(exactTimestamp(WINTER_TIMESTAMP)).toMatch(
+        /^Nov 27, 2025, 7:35\sAM \(PST\)$/
+      );
+    });
+
+    it('follows daylight saving for the formatted instant', async () => {
+      const exactTimestamp = await exactTimestampIn('America/Los_Angeles', {
+        showTimeZone: true,
+      });
+      expect(exactTimestamp(SUMMER_TIMESTAMP)).toMatch(
+        /^Jul 15, 2025, 5:00\sAM \(PDT\)$/
+      );
+    });
+
+    it('renders whole-hour offsets as a GMT label', async () => {
+      const exactTimestamp = await exactTimestampIn('Europe/Berlin', {
+        showTimeZone: true,
+      });
+      expect(exactTimestamp(WINTER_TIMESTAMP)).toMatch(
+        /^Nov 27, 2025, 4:35\sPM \(GMT\+1\)$/
+      );
+    });
+
+    it.each([
+      ['Asia/Kolkata', /^Nov 27, 2025, 9:05\sPM \(GMT\+5:30\)$/],
+      ['Asia/Kathmandu', /^Nov 27, 2025, 9:20\sPM \(GMT\+5:45\)$/],
+      ['America/St_Johns', /^Nov 27, 2025, 12:05\sPM \(GMT-3:30\)$/],
+    ])(
+      'keeps the fractional offset exact in %s',
+      async (timeZone, expected) => {
+        const exactTimestamp = await exactTimestampIn(timeZone, {
+          showTimeZone: true,
+        });
+        expect(exactTimestamp(WINTER_TIMESTAMP)).toMatch(expected);
+      }
+    );
+
+    it('crosses the date line for extreme offsets', async () => {
+      const exactTimestamp = await exactTimestampIn('Pacific/Kiritimati', {
+        showTimeZone: true,
+      });
+      expect(exactTimestamp(WINTER_TIMESTAMP)).toMatch(
+        /^Nov 28, 2025, 5:35\sAM \(GMT\+14\)$/
+      );
+    });
+
+    it('localizes the zone label with the dashboard language', async () => {
+      vi.mocked(useI18n).mockReturnValue({ locale: ref('fr') });
+      const exactTimestamp = await exactTimestampIn('Asia/Kolkata', {
+        showTimeZone: true,
+      });
+      expect(exactTimestamp(WINTER_TIMESTAMP)).toBe(
+        '27 nov. 2025, 21:05 (UTC+5:30)'
+      );
+    });
+
+    it('keeps the parenthesized zone label at the end for RTL languages', async () => {
+      vi.mocked(useI18n).mockReturnValue({ locale: ref('ar') });
+      const exactTimestamp = await exactTimestampIn('Asia/Kolkata', {
+        showTimeZone: true,
+      });
+      const formatted = exactTimestamp(WINTER_TIMESTAMP);
+      expect(formatted).toContain('9:05 م');
+      expect(formatted).toMatch(/\(غرينتش\+5:30\)$/);
+    });
+
+    it('leaves the default format without a zone label', async () => {
+      dateTimeFormatSpy = vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(
+        (locale, formatOptions) =>
+          new RealDateTimeFormat(locale, {
+            ...formatOptions,
+            timeZone: 'Asia/Kolkata',
+          })
+      );
+      vi.resetModules();
+      const { useExactTimestamp: freshComposable } = await import(
+        '../useExactTimestamp'
+      );
+      // Both variants from the same module instance, so this also proves the
+      // formatter cache keeps the two apart.
+      expect(freshComposable()(WINTER_TIMESTAMP)).toMatch(
+        /^Nov 27, 2025, 9:05\sPM$/
+      );
+      expect(freshComposable({ showTimeZone: true })(WINTER_TIMESTAMP)).toMatch(
+        /^Nov 27, 2025, 9:05\sPM \(GMT\+5:30\)$/
+      );
+    });
   });
 });

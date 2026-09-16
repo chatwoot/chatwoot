@@ -24,16 +24,14 @@ describe Whatsapp::IncomingMessageService do
       }.with_indifferent_access
     end
 
-    # The parent-first ordering is Cloud-only, so this needs its own channel: the shared
-    # `whatsapp_channel` above is a default/360Dialog one, where the phone still leads.
+    # Phone-first ordering is Cloud-only when Meta still includes the phone. The shared
+    # `whatsapp_channel` above is a default/360Dialog one, where the phone has always led.
     context 'when a Cloud payload carries the parent identifier' do
       let!(:cloud_channel) do
         create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
       end
 
-      # Meta sends the parent identifier alone in some payloads. Leading with it keeps the mixed
-      # event and the parent-only follow-up on one ContactInbox, so the thread is not split.
-      it 'reuses the conversation when a parent-only payload follows one carrying both identifiers' do
+      it 'uses the parent identifier only when the phone is absent' do
         mixed = {
           'contacts' => [{ 'profile' => { 'name' => 'Muhsin' }, 'wa_id' => '919745786257',
                            'user_id' => 'IN.2081978709342942', 'parent_user_id' => 'IN.ENT.9081726354' }],
@@ -48,12 +46,120 @@ describe Whatsapp::IncomingMessageService do
         }.with_indifferent_access
 
         described_class.new(inbox: cloud_channel.inbox, params: mixed).perform
-        expect { described_class.new(inbox: cloud_channel.inbox, params: parent_only).perform }
-          .not_to(change { cloud_channel.inbox.conversations.count })
+        phone_conversation = cloud_channel.inbox.conversations.last
 
-        conversation = cloud_channel.inbox.conversations.last
-        expect(conversation.contact_inbox.source_id).to eq('IN.ENT.9081726354')
-        expect(conversation.messages.pluck(:content)).to include('first', 'second')
+        expect { described_class.new(inbox: cloud_channel.inbox, params: parent_only).perform }
+          .to change { cloud_channel.inbox.conversations.count }.by(1)
+
+        parent_conversation = cloud_channel.inbox.conversations.last
+        expect(phone_conversation.contact_inbox.source_id).to eq('919745786257')
+        expect(phone_conversation.messages.pluck(:content)).to contain_exactly('first')
+        expect(parent_conversation.contact_inbox.source_id).to eq('IN.ENT.9081726354')
+        expect(parent_conversation.messages.pluck(:content)).to contain_exactly('second')
+      end
+
+      it 'keeps Save Contact available for contact-request responses without a Chatwoot pending request' do
+        contact = create(:contact, account: cloud_channel.account, phone_number: nil)
+        contact_inbox = create(:contact_inbox, inbox: cloud_channel.inbox, contact: contact, source_id: 'IN.2081978709342942')
+        create(:conversation, account: cloud_channel.account, inbox: cloud_channel.inbox, contact: contact, contact_inbox: contact_inbox)
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Muhsin' }, 'user_id' => 'IN.2081978709342942' }],
+          'messages' => [{
+            'from_user_id' => 'IN.2081978709342942',
+            'id' => 'wamid.external-contact-request-response',
+            'timestamp' => Time.current.to_i.to_s,
+            'type' => 'contacts',
+            'contacts' => [{
+              'origin' => 'contact_request',
+              'name' => { 'first_name' => 'Muhsin', 'formatted_name' => 'Muhsin' },
+              'phones' => [{ 'phone' => '+91 97457 86257', 'wa_id' => '919745786257' }]
+            }]
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: cloud_channel.inbox, params: params).perform
+
+        attachment = cloud_channel.inbox.messages.find_by!(source_id: 'wamid.external-contact-request-response').attachments.first
+        expect(attachment.meta).to include('firstName' => 'Muhsin')
+        expect(attachment.meta).not_to include('isContactInfoResponse')
+        expect(contact.reload.phone_number).to be_nil
+      end
+
+      it 'hides Save Contact only after handling a Chatwoot pending request' do
+        contact = create(:contact, account: cloud_channel.account, phone_number: nil)
+        contact_inbox = create(:contact_inbox, inbox: cloud_channel.inbox, contact: contact, source_id: 'IN.2081978709342942')
+        conversation = create(
+          :conversation, account: cloud_channel.account, inbox: cloud_channel.inbox, contact: contact, contact_inbox: contact_inbox
+        )
+        create(
+          :message,
+          account: cloud_channel.account,
+          inbox: cloud_channel.inbox,
+          conversation: conversation,
+          message_type: :outgoing,
+          status: :sent,
+          content_attributes: { whatsapp_contact_info: { type: 'request', state: 'pending' } }
+        )
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Muhsin' }, 'user_id' => 'IN.2081978709342942' }],
+          'messages' => [{
+            'from_user_id' => 'IN.2081978709342942',
+            'id' => 'wamid.handled-contact-request-response',
+            'timestamp' => Time.current.to_i.to_s,
+            'type' => 'contacts',
+            'contacts' => [{
+              'origin' => 'contact_request',
+              'name' => { 'first_name' => 'Muhsin', 'formatted_name' => 'Muhsin' },
+              'phones' => [{ 'phone' => '+91 97457 86257', 'wa_id' => '919745786257' }]
+            }]
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: cloud_channel.inbox, params: params).perform
+
+        attachment = cloud_channel.inbox.messages.find_by!(source_id: 'wamid.handled-contact-request-response').attachments.first
+        expect(attachment.meta).to include('isContactInfoResponse' => true)
+        expect(contact.reload.phone_number).to eq('+919745786257')
+      end
+
+      it 'keeps Save Contact available when a Chatwoot pending request hits an identity conflict' do
+        contact = create(:contact, account: cloud_channel.account, phone_number: nil)
+        create(:contact, account: cloud_channel.account, phone_number: '+919745786257')
+        contact_inbox = create(:contact_inbox, inbox: cloud_channel.inbox, contact: contact, source_id: 'IN.2081978709342942')
+        conversation = create(
+          :conversation, account: cloud_channel.account, inbox: cloud_channel.inbox, contact: contact, contact_inbox: contact_inbox
+        )
+        request_message = create(
+          :message,
+          account: cloud_channel.account,
+          inbox: cloud_channel.inbox,
+          conversation: conversation,
+          message_type: :outgoing,
+          status: :sent,
+          content_attributes: { whatsapp_contact_info: { type: 'request', state: 'pending' } }
+        )
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Muhsin' }, 'user_id' => 'IN.2081978709342942' }],
+          'messages' => [{
+            'from_user_id' => 'IN.2081978709342942',
+            'id' => 'wamid.conflicted-contact-request-response',
+            'timestamp' => Time.current.to_i.to_s,
+            'type' => 'contacts',
+            'contacts' => [{
+              'origin' => 'contact_request',
+              'name' => { 'first_name' => 'Muhsin', 'formatted_name' => 'Muhsin' },
+              'phones' => [{ 'phone' => '+91 97457 86257', 'wa_id' => '919745786257' }]
+            }]
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: cloud_channel.inbox, params: params).perform
+
+        attachment = cloud_channel.inbox.messages.find_by!(source_id: 'wamid.conflicted-contact-request-response').attachments.first
+        expect(attachment.meta).to include('firstName' => 'Muhsin')
+        expect(attachment.meta).not_to include('isContactInfoResponse')
+        expect(request_message.reload.content_attributes.dig('whatsapp_contact_info', 'state')).to eq('identity_conflict')
+        expect(contact.reload.phone_number).to be_nil
       end
     end
 

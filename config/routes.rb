@@ -171,6 +171,7 @@ Rails.application.routes.draw do
                   post :retry
                 end
               end
+              resource :contact_info_request, only: [:create]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
@@ -302,6 +303,7 @@ Rails.application.routes.draw do
             get :health, on: :member
             post :register_webhook, on: :member
             post :reset_secret, on: :member
+            post :rotate_hmac_token, on: :member
             if ChatwootApp.enterprise?
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member
@@ -309,6 +311,7 @@ Rails.application.routes.draw do
               post :enable_whatsapp_calling, on: :member
               post :disable_whatsapp_calling, on: :member
               post :set_inbound_calls, on: :member
+              post :set_call_recording, on: :member
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do
@@ -381,6 +384,11 @@ Rails.application.routes.draw do
 
           namespace :whatsapp do
             resource :authorization, only: [:create]
+            resource :access_request, only: [:create] if ChatwootApp.enterprise?
+            post 'manual/preview', to: 'manual_setup#preview'
+            post 'manual/connect', to: 'manual_setup#connect'
+            get 'manual/:inbox_id/webhook_status', to: 'manual_setup#webhook_status'
+            post 'manual/:inbox_id/setup_webhook', to: 'manual_setup#setup_webhook'
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
@@ -566,6 +574,7 @@ Rails.application.routes.draw do
         namespace :v1 do
           resources :accounts do
             member do
+              get :billing_summary
               post :checkout
               post :subscription
               post :select_billing_currency

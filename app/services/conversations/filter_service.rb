@@ -27,8 +27,12 @@ class Conversations::FilterService < FilterService
     # :messages is deliberately not preloaded: the list payload fetches messages through
     # scoped queries (last message, last_non_activity_message), which bypass the preload.
     conversations = @account.conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
-    ).preload(ai_assignee: { avatar_attachment: [:blob] })
+      :taggings, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team,
+      :contact_inbox
+    ).preload(
+      inbox: :channel,
+      ai_assignee: { avatar_attachment: [:blob] }
+    )
 
     Conversations::PermissionFilterService.new(
       conversations,
@@ -50,7 +54,7 @@ class Conversations::FilterService < FilterService
   end
 
   def conversations
-    @conversations.sort_on_last_activity_at.page(current_page)
+    Conversations::SortService.apply(@conversations, @params[:sort_by]).page(current_page)
   end
 
   private
