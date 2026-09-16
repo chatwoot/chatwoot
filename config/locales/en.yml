@@ -681,7 +681,7 @@ en:
         help_center_search: 'Help center search'
     user_diagnostics:
       title: 'User Diagnostics'
-      description: 'Look up a user to see why their push notifications are not arriving, and which build of the mobile app they are running.'
+      description: 'Look up a user to troubleshoot an issue they have reported. Each tab covers one part of their setup.'
       user_not_found: 'User not found.'
       tabs:
         label: 'Diagnostics sections'
