@@ -700,7 +700,7 @@ describe('#getters', () => {
       expect(result).toEqual([]);
     });
 
-    it('sorts filtered conversations according to chatSortFilter', () => {
+    it('keeps filtered conversations in latest-activity order regardless of the saved sort', () => {
       const state = {
         allConversations: mockConversations,
         chatSortFilter: 'last_activity_at_asc',
@@ -715,9 +715,9 @@ describe('#getters', () => {
       );
 
       expect(result).toEqual([
-        mockConversations[0],
-        mockConversations[1],
         mockConversations[2],
+        mockConversations[1],
+        mockConversations[0],
       ]);
     });
   });
