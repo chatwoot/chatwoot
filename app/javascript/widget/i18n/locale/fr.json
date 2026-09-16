@@ -82,7 +82,7 @@
         "DIAL_CODE_VALID_ERROR": "Veuillez sélectionner un code pays",
         "VALID_ERROR": "Veuillez saisir un numéro de téléphone valide",
         "DROPDOWN_EMPTY": "Aucun résultat trouvé",
-        "DROPDOWN_SEARCH": "Rechercher dans le pays"
+        "DROPDOWN_SEARCH": "Rechercher un pays"
       },
       "MESSAGE": {
         "LABEL": "Message",

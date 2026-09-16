@@ -42,7 +42,7 @@ ru:
         assign_and_reopen_with_target: '%{actor} назначен на разговор %{target} и открыл его заново'
         open: '%{actor} начал разговор'
         close: '%{actor} завершил разговор'
-        snoozed: '%{actor} прервал разговор'
+        snoozed: '%{actor} отложил разговор'
         participant_added: '%{actor} добавил участника'
         participant_added_with_target: '%{actor} добавил %{target} в качестве участника'
         participant_removed: '%{actor} удалил участника'
@@ -130,8 +130,8 @@ ru:
       realtimekit:
         invalid_credentials: 'Некорректные учетные данные Cloudflare RealtimeKit. Проверьте права доступа к аккаунту, идентификатору приложения RealtimeKit и идентификатору API.'
         missing_credentials: 'Требуется идентификатор аккаунта в Cloudflare, идентификатор приложения RealtimeKit и токен API.'
-        invalid_api_token: 'Cloudflare API токен недействителен или неактивен. Пожалуйста, создайте новый токен с правами администратора Realtime.'
-        invalid_account_or_permissions: 'Неверный ID аккаунта Cloudflare или API токен не имеет доступа к этой учетной записи в Realtime.'
+        invalid_api_token: 'Cloudflare API токен недействителен или неактивен. Пожалуйста, создайте новый токен с правами Realtime Admin.'
+        invalid_account_or_permissions: 'Неверный ID аккаунта Cloudflare или API токен не имеет прав Realtime Admin для этой учетной записи.'
         app_not_found: 'RealtimeKit App ID не найден в этой учетной записи Cloudflare. Пожалуйста, проверьте выбранное приложение.'
         verification_failed: 'Не удалось проверить учетные данные Cloudflare RealtimeKit прямо сейчас. Пожалуйста, попробуйте еще раз.'
     slack:
@@ -141,7 +141,7 @@ ru:
       invalid_token_permissions: 'Токен доступа не имеет необходимых прав для WhatsApp.'
       phone_info_fetch_failed: 'Не удалось получить информацию о номере телефона. Пожалуйста, попробуйте еще раз.'
       phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
-      message_outside_messaging_window: 'Сообщение не отправлено, поскольку окно круглосуточной поддержки клиентов WhatsApp закрыто и параметры шаблона не были указаны. Вместо этого отправьте сообщение с утвержденным шаблоном.'
+      message_outside_messaging_window: 'Сообщение не отправлено, поскольку 24-часовое окно обслуживания клиентов WhatsApp закрыто и параметры шаблона не были указаны. Вместо этого отправьте сообщение с утвержденным шаблоном.'
       reauthorization:
         generic: 'Не удалось повторно авторизовать WhatsApp. Пожалуйста, попробуйте еще раз.'
         not_supported: 'Повторная авторизация не поддерживается для данного типа канала WhatsApp.'
@@ -652,7 +652,7 @@ ru:
         conversation_faq_generation: 'Генерация FAQ в диалоге'
         conversation_faq_matching: 'Соответствие FAQ в разговоре'
         help_center_article_generation: 'Генерация статей в центре помощи'
-        onboarding_content_generation: 'Постоянная генерация контента'
+        onboarding_content_generation: 'Генерация контента для онбординга'
         help_center_query_translation: 'Перевод запроса в центр помощи'
         audio_transcription: 'Транскрипция звука'
         help_center_search: 'Поиск по центру помощи'

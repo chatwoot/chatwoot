@@ -94,7 +94,7 @@
         },
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Envoyé depuis",
-          "ON": "Activé"
+          "ON": "le"
         }
       },
       "CREATE": {
@@ -154,7 +154,7 @@
         },
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Envoyé depuis",
-          "ON": "Activé"
+          "ON": "le"
         }
       },
       "CREATE": {
