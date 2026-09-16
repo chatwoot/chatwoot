@@ -19,7 +19,7 @@
       </thead>
       <tbody>
         <% @push_types.each do |type| %>
-          <tr class="border-t border-slate-100 hover:!bg-transparent">
+          <tr class="border-t border-slate-100 !cursor-default hover:!bg-transparent">
             <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= push_type_label(type) %></td>
             <% @notification_settings.each do |setting| %>
               <td class="px-3 py-2 first:!pl-4 last:!pr-4">
