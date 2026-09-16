@@ -16,7 +16,7 @@ export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
     date: 'date',
     text: 'plain_text',
-    list: 'search_select',
+    list: 'multi_select',
     checkbox: 'search_select',
   };
 

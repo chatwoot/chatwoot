@@ -61,11 +61,9 @@ class FilterService
   end
 
   def case_insensitive_values(query_hash)
-    if @custom_attribute_type.present? && query_hash['values'][0].is_a?(String)
-      string_filter_values(query_hash)
-    else
-      query_hash['values']
-    end
+    return query_hash['values'] if @custom_attribute_type.blank?
+
+    Array(query_hash['values']).map { |value| value.is_a?(String) ? value.downcase : value }
   end
 
   def values_for_ilike(query_hash)
