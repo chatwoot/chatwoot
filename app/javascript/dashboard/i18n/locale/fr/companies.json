@@ -8,11 +8,11 @@
         "DOMAIN": "Domaine",
         "CREATED_AT": "Créé le",
         "LAST_ACTIVITY_AT": "Dernière activité",
-        "CONTACTS_COUNT": "Nombre de contacts"
+        "CONTACTS_COUNT": "{n} contact | {n} contacts"
       }
     },
     "ORDER": {
-      "LABEL": "Ordre de tri",
+      "LABEL": "Ordre",
       "OPTIONS": {
         "ASCENDING": "Ascendant",
         "DESCENDING": "Décroissant"
@@ -21,7 +21,7 @@
     "SEARCH_PLACEHOLDER": "Rechercher des entreprises...",
     "LOADING": "Chargement des entreprises...",
     "UNNAMED": "Entreprise sans nom",
-    "CONTACTS_COUNT": "{n} contact | {n} contacts",
+    "CONTACTS_COUNT": "Contact {n} | Contacts {n}",
     "ACTIONS": {
       "CREATE": "Ajouter une entreprise"
     },
@@ -86,7 +86,7 @@
             "INITIAL": "Commencez à taper pour rechercher des contacts.",
             "EMPTY": "Aucun contact trouvé.",
             "CONFIRM_TITLE": "Lier le contact",
-            "CONFIRM_DESCRIPTION": "Confirmez la société et le contact avant de les lier.",
+            "CONFIRM_DESCRIPTION": "Confirmez la société et contactez avant de les lier.",
             "COMPANY_LABEL": "Société",
             "CONTACT_LABEL": "Contact",
             "CURRENT_COMPANY": "Actuellement lié à {companyName}",
@@ -147,7 +147,7 @@
   },
   "COMPANIES_LAYOUT": {
     "PAGINATION_FOOTER": {
-      "SHOWING": "Affichage {startItem} - {endItem} sur {totalItems} société | Affichage {startItem} - {endItem} sur {totalItems} sociétés"
+      "SHOWING": "Affichage {startItem} - {endItem} de la société {totalItems} | Affichage {startItem} - {endItem} des sociétés {totalItems}"
     }
   }
 }
