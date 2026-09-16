@@ -38,8 +38,7 @@ class Captain::Playground::ResponseJob < ApplicationJob
   end
 
   def generate_response(assistant:, message_content:, message_history:, playground_config:, playground_config_supplied:)
-    return generate_v1_response(assistant, message_content, message_history, playground_config_supplied) unless captain_v2_enabled?(assistant)
-    return generate_v2_response(assistant, message_content, message_history) unless playground_config_supplied
+    return generate_default_response(assistant, message_content, message_history) unless playground_config_supplied
 
     Captain::Playground::Runner.new(
       assistant: assistant,
@@ -48,15 +47,7 @@ class Captain::Playground::ResponseJob < ApplicationJob
     ).generate_response
   end
 
-  def generate_v1_response(assistant, message_content, message_history, playground_config_supplied)
-    Captain::Playground::Configuration.reject_v1! if playground_config_supplied
-    Captain::Llm::AssistantChatService.new(assistant: assistant, source: 'playground').generate_response(
-      additional_message: message_content,
-      message_history: message_history
-    )
-  end
-
-  def generate_v2_response(assistant, message_content, message_history)
+  def generate_default_response(assistant, message_content, message_history)
     run_options = Captain::Assistant::AgentRunnerService::RunOptions.new(source: 'playground')
     Captain::Assistant::AgentRunnerService.new(assistant: assistant, run_options: run_options).generate_response(
       message_history: playground_message_history(message_history, message_content)
@@ -71,9 +62,5 @@ class Captain::Playground::ResponseJob < ApplicationJob
     return history if history.last == current_user_message
 
     history + [current_user_message]
-  end
-
-  def captain_v2_enabled?(assistant)
-    assistant.account.feature_enabled?('captain_integration_v2')
   end
 end
