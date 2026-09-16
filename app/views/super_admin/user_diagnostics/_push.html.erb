@@ -5,7 +5,7 @@
   <% if @notification_settings.empty? %>
     <p class="text-sm text-slate-600"><%= t("#{scope}.push_settings.empty") %></p>
   <% else %>
-    <table class="w-full text-sm border border-slate-100 rounded-md">
+    <table class="w-full text-sm border border-slate-100 rounded-md cursor-default">
       <thead class="text-left text-xs text-slate-500 bg-slate-25">
         <tr>
           <th class="px-3 py-2 first:!pl-4 last:!pr-4"><%= t("#{scope}.push_settings.notification_type") %></th>
@@ -19,7 +19,7 @@
       </thead>
       <tbody>
         <% @push_types.each do |type| %>
-          <tr class="border-t border-slate-100 cursor-default hover:!bg-transparent">
+          <tr class="border-t border-slate-100 hover:!bg-transparent">
             <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= push_type_label(type) %></td>
             <% @notification_settings.each do |setting| %>
               <td class="px-3 py-2 first:!pl-4 last:!pr-4">
