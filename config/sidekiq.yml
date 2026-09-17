@@ -28,6 +28,7 @@
   - housekeeping
   - async_database_migration
   - search_indexing
+  - search_backfill
   - bulk_reindex_low
   - active_storage_analysis
   - active_storage_purge

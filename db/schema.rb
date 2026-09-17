@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_31_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_17_080000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1426,6 +1426,27 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_31_000000) do
     t.index ["account_id", "date", "dimension_type", "dimension_id", "metric"], name: "index_rollup_unique_key", unique: true
     t.index ["account_id", "dimension_type", "date"], name: "index_rollup_summary"
     t.index ["account_id", "metric", "date"], name: "index_rollup_timeseries"
+  end
+
+  create_table "search_index_states", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "entity", null: false
+    t.string "epoch", null: false
+    t.integer "schema_version", null: false
+    t.string "run_token", null: false
+    t.string "status", default: "running", null: false
+    t.string "phase", default: "scan", null: false
+    t.bigint "cursor", default: 0, null: false
+    t.bigint "upper_id", default: 0, null: false
+    t.bigint "scanned_count", default: 0, null: false
+    t.bigint "repaired_count", default: 0, null: false
+    t.bigint "pass_repairs", default: 0, null: false
+    t.datetime "ready_at"
+    t.string "last_error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "entity"], name: "index_search_index_states_on_account_id_and_entity", unique: true
+    t.index ["status", "updated_at"], name: "index_search_index_states_on_status_and_updated_at"
   end
 
   create_table "sla_events", force: :cascade do |t|
