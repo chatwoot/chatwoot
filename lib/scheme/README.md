@@ -48,3 +48,9 @@ If evaluation aborts to Ruby, active parameter bindings are restored. Arbitrary
 Scheme `dynamic-wind` after-thunks are not run during host-abort cleanup: that
 would permit unbounded code to continue after budget exhaustion. Normal Scheme
 returns, handled exceptions, and continuation transfers still run those thunks.
+
+## TODO
+
+- Audit the implemented functions and remove unused ones with no realistic role
+  in our agent workflows. Check internal dependencies before removal and document
+  any intentional departures from R7RS-small.
