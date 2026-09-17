@@ -55,6 +55,14 @@ module Redis::RedisKeys
   # SSO Auth Tokens
   USER_SSO_AUTH_TOKEN = 'USER_SSO_AUTH_TOKEN::%<user_id>d::%<token>s'.freeze
 
+  ## Auth abuse tracking (failed sign-ins per IP)
+  # sorted set of failed sign-in email digests scored by timestamp
+  AUTH_FAILED_EMAILS_PER_IP = 'AUTH_FAILED_EMAILS_PER_IP::%<ip>s'.freeze
+  # flag key marking an IP as blocked from password sign-in
+  AUTH_ABUSE_BLOCKED_IP = 'AUTH_ABUSE_BLOCKED_IP::%<ip>s'.freeze
+  # flag key deduplicating account-locked notification emails
+  AUTH_LOCK_NOTIFIED = 'AUTH_LOCK_NOTIFIED::%<user_id>d'.freeze
+
   ## Online Status Keys
   # hash containing user_id key and status as value
   ONLINE_STATUS = 'ONLINE_STATUS::%<account_id>d'.freeze
