@@ -289,3 +289,13 @@
   enabled: false
   chatwoot_internal: true
   column: feature_flags_ext_1
+- name: contact_search
+  display_name: OpenSearch Contact Search
+  enabled: false
+  chatwoot_internal: true
+  column: feature_flags_ext_1
+- name: conversation_search
+  display_name: OpenSearch Conversation Search
+  enabled: false
+  chatwoot_internal: true
+  column: feature_flags_ext_1

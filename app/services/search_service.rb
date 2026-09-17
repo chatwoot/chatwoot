@@ -41,9 +41,10 @@ class SearchService
                                               'conversations.last_activity_at')
     end
 
-    @conversations = conversations_query.order('conversations.created_at DESC')
-                                        .page(params[:page])
-                                        .per(15)
+    conversations_query = Conversations::PermissionFilterService.new(conversations_query, current_user, current_account).perform
+    @conversations = conversation_search_candidates(conversations_query).order('conversations.created_at DESC, conversations.id DESC')
+                                                                        .page(params[:page])
+                                                                        .per(15)
   end
 
   def filter_messages
@@ -169,9 +170,17 @@ class SearchService
 
     contacts_query = apply_time_filter(contacts_query, 'last_activity_at') if current_account.feature_enabled?('advanced_search')
 
-    @contacts = contacts_query.resolved_contacts(
+    @contacts = contact_search_candidates(contacts_query).resolved_contacts(
       use_crm_v2: current_account.feature_enabled?('crm_v2')
-    ).order_on_last_activity_at('desc').page(params[:page]).per(15)
+    ).order_on_last_activity_at('desc').order(id: :desc).page(params[:page]).per(15)
+  end
+
+  def contact_search_candidates(scope)
+    scope
+  end
+
+  def conversation_search_candidates(scope)
+    scope
   end
 
   def filter_articles
