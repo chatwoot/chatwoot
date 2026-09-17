@@ -75,13 +75,26 @@ const startMfaSetup = async () => {
   }
 };
 
+// Complete MFA setup
+const completeMfaSetup = () => {
+  mfaEnabled.value = true;
+  backupCodesGenerated.value = true;
+  showSetup.value = false;
+  emitter.emit(BUS_EVENTS.MFA_STATE_CHANGED);
+  useAlert(t('MFA_SETTINGS.SETUP.SUCCESS'));
+};
+
 // Verify OTP code
 const verifyCode = async verificationCode => {
   try {
     const response = await mfaAPI.verify(verificationCode);
-    // Store backup codes returned from verification
+    // Store backup codes returned from verification; the wizard advances to
+    // the backup step when they arrive. Without fresh codes there is no
+    // backup step to show, so finish directly.
     if (response.data.backup_codes) {
       backupCodes.value = response.data.backup_codes;
+    } else {
+      completeMfaSetup();
     }
     return true;
   } catch (error) {
@@ -90,15 +103,6 @@ const verifyCode = async verificationCode => {
     );
     throw error;
   }
-};
-
-// Complete MFA setup
-const completeMfaSetup = () => {
-  mfaEnabled.value = true;
-  backupCodesGenerated.value = true;
-  showSetup.value = false;
-  emitter.emit(BUS_EVENTS.MFA_STATE_CHANGED);
-  useAlert(t('MFA_SETTINGS.SETUP.SUCCESS'));
 };
 
 // Cancel setup
