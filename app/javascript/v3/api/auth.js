@@ -87,9 +87,15 @@ export const verifyPasswordToken = async ({ confirmationToken }) => {
     const response = await wootAPI.post('auth/confirmation', {
       confirmation_token: confirmationToken,
     });
+    // Accounts enforcing MFA respond without session tokens; the user must
+    // sign in so the MFA setup flow can run.
+    if (response.data?.redirect_url) {
+      return { redirectUrl: response.data.redirect_url };
+    }
     setAuthCredentials(response);
+    return {};
   } catch (error) {
-    throwErrorMessage(error);
+    return throwErrorMessage(error);
   }
 };
 
@@ -104,9 +110,15 @@ export const setNewPassword = async ({
       password_confirmation: confirmPassword,
       password,
     });
+    // Accounts enforcing MFA respond without session tokens; the user must
+    // sign in so the MFA setup flow can run.
+    if (response.data?.redirect_url) {
+      return { redirectUrl: response.data.redirect_url };
+    }
     setAuthCredentials(response);
+    return {};
   } catch (error) {
-    throwErrorMessage(error);
+    return throwErrorMessage(error);
   }
 };
 

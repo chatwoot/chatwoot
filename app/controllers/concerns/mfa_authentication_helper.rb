@@ -78,4 +78,13 @@ module MfaAuthenticationHelper
   def render_mfa_error(message_key, status = :bad_request)
     render json: { error: I18n.t(message_key) }, status: status
   end
+
+  # Used by flows that would otherwise mint a session outside sign-in
+  # (password reset, email confirmation) for users pending MFA enrolment.
+  def render_mfa_setup_sign_in_required
+    render json: {
+      message: I18n.t('messages.mfa_setup_sign_in_required'),
+      redirect_url: '/app/login'
+    }, status: :ok
+  end
 end

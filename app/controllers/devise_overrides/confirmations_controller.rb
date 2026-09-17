@@ -1,5 +1,6 @@
 class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
   include AuthHelper
+  include MfaAuthenticationHelper
   skip_before_action :require_no_authentication, raise: false
   skip_before_action :authenticate_user!, raise: false
 
@@ -13,6 +14,8 @@ class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
   private
 
   def render_confirmation_success
+    return render_mfa_setup_sign_in_required if @confirmable.mfa_enforcement_pending?
+
     send_auth_headers(@confirmable)
     render partial: 'devise/auth', formats: [:json], locals: { resource: @confirmable }
   end
