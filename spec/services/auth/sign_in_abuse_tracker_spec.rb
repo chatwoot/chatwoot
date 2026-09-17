@@ -14,6 +14,8 @@ describe Auth::SignInAbuseTracker do
     Redis::Alfred.delete(block_key)
   end
 
+  after { GlobalConfig.clear_cache }
+
   it 'does not block below the distinct-email threshold' do
     4.times { |i| tracker.record_failure("u#{i}@example.com") }
 

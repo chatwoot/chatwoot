@@ -306,6 +306,8 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
       Redis::Alfred.delete(format(Redis::RedisKeys::AUTH_ABUSE_BLOCKED_IP, ip: spec_ip))
     end
 
+    after { GlobalConfig.clear_cache }
+
     it 'records failed attempts and blocks the ip after distinct-email threshold' do
       5.times do |i|
         post :create, params: { email: "u#{i}@example.com", password: 'wrong-password' }
