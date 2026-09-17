@@ -312,7 +312,7 @@
             "ITEM_3": "Elija la opción de conectar con los clientes a través de WhatsApp.",
             "ITEM_4": "Seleccione el portafolio de negocios que posee, o será dueño del número de WhatsApp.",
             "VIDEO_TITLE": "Ver: Crear una Meta app",
-            "VIDEO_DESCRIPTION": "Este corto recorrido muestra dónde iniciar una nueva aplicación en los desarrolladores Meta."
+            "VIDEO_DESCRIPTION": "Este corto recorrido muestra dónde iniciar una nueva aplicación en Meta Developers."
           },
           "NUMBER": {
             "TITLE": "Añade tu número de teléfono y obtén sus identificadores",
@@ -396,10 +396,10 @@
         },
         "SUBMIT_BUTTON": "Crear canal de WhatsApp",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick setup with Meta",
+          "TITLE": "Configuración rápida con Meta",
           "DESC": "Usa la configuración rápida con Meta para conectar un número nuevo o uno existente de la aplicación WhatsApp Business. Se te redirigirá a Meta para iniciar sesión en tu cuenta de WhatsApp Business. Disponer de acceso de administrador facilitará la configuración.",
           "BENEFITS": {
-            "TITLE": "Benefits of Embedded Signup:",
+            "TITLE": "Ventajas de WhatsApp Embedded Signup:",
             "EASY_SETUP": "No manual configuration required",
             "SECURE_AUTH": "Secure OAuth based authentication",
             "AUTO_CONFIG": "Automatic webhook and phone number configuration"
@@ -423,7 +423,7 @@
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
           "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
-          "MANUAL_LINK_TEXT": "manual setup flow",
+          "MANUAL_LINK_TEXT": "configuración manual",
           "ACCESS_REQUEST": {
             "TITLE": "Configuración rápida con Meta",
             "DESCRIPTION": "Conecta un número nuevo o uno existente de la aplicación WhatsApp Business sin configuración manual. Para solicitar esta opción, cuéntanos a qué se dedica tu empresa, cómo usarás WhatsApp y qué cuenta de Chatwoot necesita acceso.",
@@ -432,7 +432,7 @@
           },
           "RESTRICTED_WARNING": "El registro integrado de WhatsApp no está disponible temporalmente debido a un problema en la API de Meta, no de Chatwoot. Puedes usar la configuración manual para los números compatibles con la API de Cloud. Estamos colaborando estrechamente con Meta para resolverlo cuanto antes.",
           "STATUS_LINK": "Ver actualizaciones de estado",
-          "CALLING_ENABLE_FAILED": "Tu bandeja de entrada de WhatsApp está lista, pero las llamadas de voz no se pudieron activar — este número aún no está inscrito en la API de llamadas empresariales de WhatsApp. Llega a Meta o a tu proveedor de soluciones empresariales de WhatsApp a bordo, luego enciende la llamada desde la configuración de las llamadas de la bandeja de entrada."
+          "CALLING_ENABLE_FAILED": "Tu bandeja de entrada de WhatsApp está lista, pero las llamadas de voz no se pudieron activar — este número aún no está inscrito en la API de llamadas empresariales de WhatsApp. Contacta con Meta o con tu proveedor de soluciones empresariales de WhatsApp para inscribir el número. Después, activa las llamadas desde la configuración de llamadas de la bandeja de entrada."
         },
         "API": {
           "ERROR_MESSAGE": "No pudimos guardar el canal de WhatsApp",
@@ -789,7 +789,7 @@
         "LABEL": "Habilitar llamadas de WhatsApp",
         "DESCRIPTION": "Permitir a los agentes recibir y hacer llamadas a WhatsApp Cloud en esta bandeja de entrada. Los clientes pueden llamar a este número de negocio directamente desde WhatsApp."
       },
-      "ENABLE_FAILED": "No se pudo activar la llamada de voz para este número — aún no está inscrito en la API de llamadas empresariales de WhatsApp. Llega a Meta o a tu proveedor de soluciones de negocios de WhatsApp a bordo de él, luego vuelve a intentarlo.",
+      "ENABLE_FAILED": "No se pudo activar la llamada de voz para este número — aún no está inscrito en la API de llamadas empresariales de WhatsApp. Contacta con Meta o con tu proveedor de soluciones empresariales de WhatsApp para inscribir el número y vuelve a intentarlo.",
       "PHONE_NUMBER": {
         "LABEL": "Número de teléfono empresarial",
         "HELP_TEXT": "Número de WhatsApp al que llamarán los clientes."
