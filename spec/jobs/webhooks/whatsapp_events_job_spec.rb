@@ -225,6 +225,51 @@ RSpec.describe Webhooks::WhatsappEventsJob do
 
       job_instance.perform(wb_params)
     end
+
+    it 'uses the current identifier as the mutex sender for identity-change system messages' do
+      current_bsuid = 'IN.7391028465738291'
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:value].delete(:contacts)
+      wb_params[:entry].first[:changes].first[:value][:messages] = [
+        {
+          id: 'wamid-system', type: 'system',
+          system: { type: 'user_changed_user_id', previous_user_id: 'IN.2081978709342942', user_id: current_bsuid }
+        }
+      ]
+      job_instance = described_class.new
+      mutex_key = format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: current_bsuid)
+
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(job_instance).to receive(:with_lock).with(mutex_key, 30.seconds).and_yield
+
+      job_instance.perform(wb_params)
+    end
+
+    it 'passes the actual mixed-batch mutex sender to identity rotation processing' do
+      current_bsuid = 'IN.CURRENTBSUID'
+      current_parent_bsuid = 'IN.ENT.CURRENTBSUID'
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:value][:contacts] = [{ user_id: current_bsuid }]
+      wb_params[:entry].first[:changes].first[:value][:messages] = [
+        { from_user_id: current_bsuid, id: 'wamid-message', text: { body: 'Hello' }, type: 'text' },
+        {
+          id: 'wamid-system', type: 'system',
+          system: {
+            type: 'user_changed_user_id', previous_user_id: 'IN.PREVIOUSBSUID', user_id: current_bsuid,
+            previous_parent_user_id: 'IN.ENT.PREVIOUSBSUID', parent_user_id: current_parent_bsuid
+          }
+        }
+      ]
+      job_instance = described_class.new
+      mutex_key = format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: current_bsuid)
+
+      expect(job_instance).to receive(:with_lock).with(mutex_key, 30.seconds).and_yield
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new)
+        .with(inbox: channel.inbox, params: wb_params, locked_sender_id: current_bsuid)
+        .and_return(process_service)
+
+      job_instance.perform(wb_params)
+    end
   end
 
   context 'when default provider' do

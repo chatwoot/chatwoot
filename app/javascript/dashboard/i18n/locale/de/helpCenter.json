@@ -45,9 +45,14 @@
         "TITLE": "Bild hochladen",
         "UPLOADING": "Hochladen...",
         "SUCCESS": "Bild erfolgreich hochgeladen",
-        "ERROR": "Fehler beim Hochladen des Bildes",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
+        "UPLOAD_FAILED": "Upload failed",
+        "RATE_LIMITED": "Upload limit reached. Try again in a few minutes.",
+        "RETRY": "Erneut versuchen",
+        "REMOVE": "Entfernen",
+        "CANCEL": "Cancel upload",
         "ERROR_FILE_SIZE": "Bildgröße sollte kleiner als {size}MB sein",
+        "ERROR_ATTACHMENT_FILE_SIZE": "File size should be less than {size}MB",
+        "ERROR_UNSUPPORTED_TYPE": "This file type is not supported",
         "ERROR_FILE_FORMAT": "Bildformat sollte jpg, jpeg oder png sein",
         "ERROR_FILE_DIMENSIONS": "Bildgröße sollte kleiner als 2000 x 2000 sein"
       }
@@ -800,7 +805,8 @@
         "PUBLISH_CHANGES": "Änderungen veröffentlichen",
         "PUBLISH_CHANGES_SUCCESS": "Änderungen erfolgreich veröffentlicht",
         "PUBLISH_CHANGES_ERROR": "Änderungen konnten nicht veröffentlicht werden",
-        "SAVE_IN_PROGRESS": "Deine letzten Änderungen werden noch gespeichert — bitte versuche es gleich noch einmal.",
+        "SAVE_IN_PROGRESS": "Deine letzten Änderungen werden noch gespeichert. Bitte versuche es gleich noch einmal.",
+        "UPLOAD_IN_PROGRESS": "A file upload is unfinished. Wait for it to finish or remove it first.",
         "DISCARD_CHANGES": "Änderungen verwerfen",
         "DISCARD_CHANGES_SUCCESS": "Änderungen verworfen",
         "DISCARD_CHANGES_ERROR": "Änderungen konnten nicht verworfen werden",
@@ -899,7 +905,7 @@
         "BRAND_COLOR": {
           "LABEL": "Brand color"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "Änderungen speichern"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {

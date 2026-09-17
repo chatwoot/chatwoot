@@ -81,7 +81,7 @@ describe ConversationFinder do
     context 'with assignee_type unassigned' do
       let(:params) { { assignee_type: 'unassigned' } }
       let!(:agent_bot_conversation) do
-        create(:conversation, account: account, inbox: inbox, assignee_agent_bot: create(:agent_bot, account: account))
+        create(:conversation, account: account, inbox: inbox, ai_assignee: create(:agent_bot, account: account))
       end
 
       it 'filter conversations by assignee type unassigned' do
@@ -164,7 +164,7 @@ describe ConversationFinder do
     context 'with assignee_type assigned' do
       let(:params) { { assignee_type: 'assigned' } }
       let!(:agent_bot_conversation) do
-        create(:conversation, account: account, inbox: inbox, assignee_agent_bot: create(:agent_bot, account: account))
+        create(:conversation, account: account, inbox: inbox, ai_assignee: create(:agent_bot, account: account))
       end
 
       it 'filter conversations by assignee type assigned' do

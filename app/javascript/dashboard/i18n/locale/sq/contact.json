@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Nuk është në dispozicion",
     "EMAIL_ADDRESS": "Email Address",
     "PHONE_NUMBER": "Numri i telefonit",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifikuesi",
     "COPY_SUCCESSFUL": "Kopjuar në kujtesën e përkohshme me sukses",
     "COMPANY": "Kompania",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Shto Telegram"

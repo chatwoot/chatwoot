@@ -35,6 +35,18 @@ describe('#actions', () => {
         [types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: false }],
       ]);
     });
+
+    it('fetches an explicitly selected account outside an account route', async () => {
+      axios.get.mockResolvedValue({ data: accountData });
+
+      await actions.get({ commit }, { accountId: 1, silent: true });
+
+      expect(axios.get).toHaveBeenCalledWith('/api/v1/accounts/1');
+      expect(commit).toHaveBeenCalledWith(
+        types.default.ADD_ACCOUNT,
+        accountData
+      );
+    });
   });
 
   describe('#update', () => {
