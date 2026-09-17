@@ -649,6 +649,8 @@ en:
         suspended_at: 'Suspended at'
         category: 'Category'
         reason: 'Reason'
+        suspended_by: 'Suspended by'
+        unknown_user: 'Unknown user'
         empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:

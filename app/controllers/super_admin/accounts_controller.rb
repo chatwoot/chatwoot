@@ -139,7 +139,7 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
   end
 
   def new_suspension_event
-    suspension_details.stringify_keys.merge('suspended_at' => Time.current.iso8601)
+    suspension_details.stringify_keys.merge('suspended_at' => Time.current.iso8601, 'suspended_by' => current_super_admin.id)
   end
 
   def suspension_metadata_changed?(latest_suspension)
