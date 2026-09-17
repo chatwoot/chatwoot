@@ -52,6 +52,11 @@ describe Mfa::TokenService do
         expect(described_class.new(token: setup_token).verify_token).to be_nil
       end
 
+      it 'returns nil for an untyped token with a user_id claim' do
+        untyped = JWT.encode({ user_id: user.id, exp: 5.minutes.from_now.to_i }, Rails.application.secret_key_base, 'HS256')
+        expect(described_class.new(token: untyped).verify_token).to be_nil
+      end
+
       it 'returns nil for expired token' do
         expired_payload = { user_id: user.id, exp: 1.minute.ago.to_i }
         expired_token = JWT.encode(expired_payload, Rails.application.secret_key_base, 'HS256')
