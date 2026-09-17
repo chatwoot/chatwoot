@@ -1034,7 +1034,7 @@
       },
       "BULK_SYNC": {
         "SUCCESS_MESSAGE_ONE": "Actualisation mise en file d’attente pour 1 document",
-        "SUCCESS_MESSAGE": "Rafraîchissement en file d'attente pour les documents {count}",
+        "SUCCESS_MESSAGE": "Rafraîchissement en file d'attente pour {count} documents",
         "ZERO_MESSAGE": "Aucun document marqué pour être actualisé.",
         "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour, veuillez réessayer."
       },

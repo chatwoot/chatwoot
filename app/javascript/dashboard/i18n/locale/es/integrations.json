@@ -563,7 +563,7 @@
         "CSAT": {
           "TITLE": "Captain CSAT",
           "AUTONOMOUS": "Conversaciones resueltas por el Captain",
-          "AUTONOMOUS_HINT": "La calificación media del cliente para las conversaciones del Captain se resolvió sin la ayuda de su equipo.",
+          "AUTONOMOUS_HINT": "La calificación media de los clientes para las conversaciones que Captain resolvió sin ayuda de tu equipo.",
           "ASSISTED": "Conversaciones asistidas por el Captain",
           "ASSISTED_HINT": "La calificación media del cliente cuando el Captain ayudó antes de que su equipo resolviera la conversación.",
           "VS_HUMANS": "{value} vs humanos"
@@ -772,7 +772,7 @@
           "BROWSER_LANGUAGE": "Idioma del navegador",
           "CONVERSATION_LANGUAGE": "Idioma del primer mensaje",
           "LOGGED_IN": "Usuario conectado",
-          "LOGGED_IN_TRUE": "Si",
+          "LOGGED_IN_TRUE": "Sí",
           "LOGGED_IN_FALSE": "No"
         },
         "SCHEDULE": {

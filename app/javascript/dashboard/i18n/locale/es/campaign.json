@@ -225,9 +225,9 @@
         "PROCESSING_BANNER": {
           "DEFAULT": "Esta campaña todavía está procesando. Analytics se actualizará automáticamente.",
           "BOTH": "Esta campaña sigue procesándose. Los mensajes {queued} están en cola y {awaitingUpdate} están esperando una actualización de entrega de WhatsApp.",
-          "BOTH_SINGLE": "Esta campaña sigue procesándose. Los mensajes {queued} están en cola y {awaitingUpdate} están esperando una actualización de entrega de WhatsApp.",
-          "BOTH_QUEUED_SINGLE": "Esta campaña sigue procesándose. Los mensajes {queued} están en cola y {awaitingUpdate} están esperando una actualización de entrega de WhatsApp.",
-          "BOTH_AWAITING_SINGLE": "Esta campaña sigue procesándose. Los mensajes {queued} están en cola y {awaitingUpdate} están esperando una actualización de entrega de WhatsApp.",
+          "BOTH_SINGLE": "Esta campaña sigue procesándose. {queued} mensaje está en cola y {awaitingUpdate} está esperando una actualización de entrega de WhatsApp.",
+          "BOTH_QUEUED_SINGLE": "Esta campaña sigue procesándose. {queued} mensaje está en cola y {awaitingUpdate} están esperando una actualización de entrega de WhatsApp.",
+          "BOTH_AWAITING_SINGLE": "Esta campaña sigue procesándose. {queued} mensajes están en cola y {awaitingUpdate} está esperando una actualización de entrega de WhatsApp.",
           "QUEUED": "Esta campaña sigue procesándose. {count} mensaje está en la cola. | Esta campaña sigue procesándose. {count} mensajes están en la cola.",
           "AWAITING_UPDATE": "Esta campaña todavía está procesando. El mensaje {count} está esperando una actualización de entrega desde WhatsApp. | Esta campaña sigue procesándose. Los mensajes {count} están esperando una actualización de entrega de WhatsApp.",
           "COMPLETING": "Esta campaña todavía está procesando. Analytics se actualizará automáticamente."

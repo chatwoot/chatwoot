@@ -256,7 +256,7 @@
             "HINT": "Messages that reached the contact's device. Read messages are included."
           },
           "READ": {
-            "LABEL": "Lesen",
+            "LABEL": "Gelesen",
             "HINT": "Messages opened by the contact."
           },
           "FAILED": {
@@ -272,7 +272,7 @@
           "QUEUED": "In der Warteschlange",
           "SENT": "Awaiting delivery update",
           "DELIVERED": "Delivered",
-          "READ": "Lesen",
+          "READ": "Gelesen",
           "FAILED": "Failed",
           "SKIPPED": "Skipped"
         },
@@ -280,7 +280,7 @@
           "TITLE": "Delivery breakdown",
           "DELIVERY_RATE": "{value}% delivered",
           "LEGEND": {
-            "READ": "Lesen",
+            "READ": "Gelesen",
             "DELIVERED": "Delivered",
             "FAILED": "Failed",
             "SKIPPED": "Skipped",
