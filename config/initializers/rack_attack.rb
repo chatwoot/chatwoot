@@ -37,6 +37,16 @@ class Rack::Attack
       normalized_path = path[/^[^.]+/]
       normalized_path == '/' ? normalized_path : normalized_path.sub(%r{/+\z}, '')
     end
+
+    # Rack's params does not parse JSON request bodies, which is how the
+    # frontend posts to /auth/sign_in. Use Rails parsing so token params are visible.
+    def rails_params
+      @rails_params ||= begin
+        ActionDispatch::Request.new(env).params
+      rescue StandardError
+        {}
+      end
+    end
   end
 
   ### Safelist IPs from Environment Variable ###
@@ -92,15 +102,17 @@ class Rack::Attack
   # ### Prevent Brute-Force Login Attacks ###
   # Exclude MFA verification attempts from regular login throttling
   throttle('login/ip', limit: 5, period: 5.minutes) do |req|
-    if req.path_without_extensions == '/auth/sign_in' && req.post? && req.params['mfa_token'].blank?
-      # Skip if this is an MFA verification request
+    if req.path_without_extensions == '/auth/sign_in' && req.post? && req.rails_params['mfa_token'].blank? &&
+       req.rails_params['mfa_setup_token'].blank?
+      # Skip if this is an MFA verification or MFA setup verification request
       req.ip
     end
   end
 
   throttle('login/email', limit: 10, period: 15.minutes) do |req|
-    # Skip if this is an MFA verification request
-    if req.path_without_extensions == '/auth/sign_in' && req.post? && req.params['mfa_token'].blank?
+    # Skip if this is an MFA verification or MFA setup verification request
+    if req.path_without_extensions == '/auth/sign_in' && req.post? && req.rails_params['mfa_token'].blank? &&
+       req.rails_params['mfa_setup_token'].blank?
       # ref: https://github.com/rack/rack-attack/issues/399
       # NOTE: This line used to throw ArgumentError /rails/action_mailbox/sendgrid/inbound_emails : invalid byte sequence in UTF-8
       # Hence placed in the if block
@@ -149,14 +161,25 @@ class Rack::Attack
 
   # Separate rate limiting for MFA verification attempts
   throttle('mfa_login/ip', limit: 10, period: 1.minute) do |req|
-    req.ip if req.path_without_extensions == '/auth/sign_in' && req.post? && req.params['mfa_token'].present?
+    req.ip if req.path_without_extensions == '/auth/sign_in' && req.post? && req.rails_params['mfa_token'].present?
   end
 
   throttle('mfa_login/token', limit: 10, period: 1.minute) do |req|
     if req.path_without_extensions == '/auth/sign_in' && req.post?
       # Track by MFA token to prevent brute force on a specific token
-      mfa_token = req.params['mfa_token'].presence
-      (mfa_token.presence)
+      req.rails_params['mfa_token'].presence
+    end
+  end
+
+  # Separate rate limiting for enforced MFA setup verification attempts
+  throttle('mfa_setup_login/ip', limit: 10, period: 1.minute) do |req|
+    req.ip if req.path_without_extensions == '/auth/sign_in' && req.post? && req.rails_params['mfa_setup_token'].present?
+  end
+
+  throttle('mfa_setup_login/token', limit: 10, period: 1.minute) do |req|
+    if req.path_without_extensions == '/auth/sign_in' && req.post?
+      # Track by setup token to prevent brute force on a specific token
+      req.rails_params['mfa_setup_token'].presence
     end
   end
 
