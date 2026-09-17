@@ -8,6 +8,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     inbound_emails
     help_center
     campaigns
+    campaign_analytics
     team_management
     channel_facebook
     channel_email

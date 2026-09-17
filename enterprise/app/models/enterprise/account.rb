@@ -68,15 +68,6 @@ module Enterprise::Account
     saml_settings&.saml_enabled? || false
   end
 
-  def campaign_analytics_enabled?
-    return ChatwootApp.self_hosted_paid? unless ChatwootApp.chatwoot_cloud?
-
-    plan = Enterprise::Billing::PlanConfiguration.current_plan(self)
-    return false unless plan
-
-    billing_provider == 'shopify' || plan != Enterprise::Billing::PlanConfiguration.default_plan(self)
-  end
-
   def api_and_webhooks_enabled?
     return true unless ChatwootApp.chatwoot_cloud?
 

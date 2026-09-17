@@ -14,12 +14,7 @@ RSpec.describe 'Campaign analytics API', type: :request do
   let(:failed_contact) { create(:contact, :with_phone_number, account: account) }
   let(:skipped_contact) { create(:contact, account: account) }
 
-  let(:cloud_plans) { %w[Hacker Startups Business Enterprise].map { |name| { 'name' => name } } }
-
   before do
-    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
-    allow(ChatwootHub).to receive(:pricing_plan).and_return('premium')
-    allow(ChatwootHub).to receive(:pricing_plan_quantity).and_return(100)
     account.enable_features!(:whatsapp_campaign)
     CampaignRecipient.create!(account: account, campaign: campaign, inbox: inbox, contact: delivered_contact,
                               status: :delivered, source_id: 'wamid.delivered')
@@ -27,38 +22,6 @@ RSpec.describe 'Campaign analytics API', type: :request do
                               status: :read, source_id: 'wamid.read')
     CampaignRecipient.create!(account: account, campaign: campaign, inbox: inbox, contact: failed_contact, status: :failed)
     CampaignRecipient.create!(account: account, campaign: campaign, inbox: inbox, contact: skipped_contact, status: :skipped)
-  end
-
-  describe 'paid plan access' do
-    %w[metrics contacts].each do |endpoint|
-      it "rejects #{endpoint} on a community installation even when campaigns are enabled" do
-        allow(ChatwootHub).to receive(:pricing_plan).and_return('community')
-        get "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}/analytics/#{endpoint}",
-            headers: administrator.create_new_auth_token
-        expect(response).to have_http_status(:unauthorized)
-      end
-
-      it "rejects #{endpoint} on the Hacker plan" do
-        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        create(:installation_config, name: 'CHATWOOT_CLOUD_PLANS', value: [{ 'name' => 'Hacker' }, { 'name' => 'Startups' }])
-        account.update!(custom_attributes: { plan_name: 'Hacker' })
-        get "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}/analytics/#{endpoint}",
-            headers: administrator.create_new_auth_token
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
-
-    %w[Startups Business Enterprise].each do |plan|
-      it "allows analytics on the #{plan} Cloud plan" do
-        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        create(:installation_config, name: 'CHATWOOT_CLOUD_PLANS',
-                                     value: cloud_plans)
-        account.update!(custom_attributes: { plan_name: plan })
-        get "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}/analytics/metrics",
-            headers: administrator.create_new_auth_token
-        expect(response).to have_http_status(:ok)
-      end
-    end
   end
 
   describe 'GET /api/v1/accounts/:account_id/campaigns/:campaign_id/analytics/metrics' do
