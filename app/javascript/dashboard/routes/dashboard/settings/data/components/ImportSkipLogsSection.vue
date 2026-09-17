@@ -35,6 +35,7 @@ defineEmits(['toggle', 'download', 'changeType']);
 const { t } = useI18n();
 
 const skipLogs = computed(() => props.dataImport?.skip_logs || []);
+const isCsv = computed(() => props.dataImport.source_provider === 'csv');
 
 const headers = computed(() => [
   t('DATA_IMPORTS.DETAIL.KIND'),
@@ -72,7 +73,11 @@ const typeOptions = computed(() => {
 
 <template>
   <ImportLogSection
-    :title="$t('DATA_IMPORTS.DETAIL.SKIP_LOGS')"
+    :title="
+      isCsv
+        ? $t('DATA_IMPORTS.CSV.ROW_ERRORS')
+        : $t('DATA_IMPORTS.DETAIL.SKIP_LOGS')
+    "
     :count="dataImport.skip_logs_count"
     :is-open="isOpen"
     :is-downloading="isDownloading"
@@ -83,7 +88,7 @@ const typeOptions = computed(() => {
     @toggle="$emit('toggle')"
     @download="$emit('download')"
   >
-    <template v-if="dataImport.skip_logs_count" #filters>
+    <template v-if="dataImport.skip_logs_count && !isCsv" #filters>
       <div class="flex flex-wrap gap-2 border-b border-n-weak px-4 py-3">
         <Button
           v-for="option in typeOptions"

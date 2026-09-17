@@ -1,14 +1,12 @@
 require 'csv'
 
 class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseController
-  DATA_IMPORT_FEATURE = 'data_import'.freeze
-
-  before_action :ensure_data_import_feature_enabled
-  before_action :set_data_import, only: [:show, :start, :retry_import, :abandon, :error_logs, :skip_logs]
+  before_action :set_data_import, only: [:show, :start, :retry_import, :abandon, :error_logs, :skip_logs, :rejected_rows]
   before_action :check_authorization
 
   def index
-    @data_imports = policy_scope(Current.account.data_imports).includes(:initiated_by).order(created_at: :desc)
+    @data_imports = policy_scope(Current.account.data_imports).includes(:initiated_by, :import_file_attachment, :failed_records_attachment)
+                                                              .order(created_at: :desc)
     data_import_ids = @data_imports.map(&:id)
     @import_errors_counts = DataImportError.non_skip_logs.where(data_import_id: data_import_ids).group(:data_import_id).count
     @skip_logs_counts = DataImportError.skip_logs.where(data_import_id: data_import_ids).group(:data_import_id).count
@@ -19,7 +17,7 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def validate_source
-    totals = source_class.credentials_validator(source_params: permitted_params.to_h, import_types: import_types).perform
+    totals = DataImports::Source.validate_source(params[:source_provider], permitted_params.to_h.symbolize_keys, import_types)
     render json: { valid: true, totals: totals }
   rescue ArgumentError => e
     render_source_validation_error(e.message)
@@ -46,6 +44,7 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
     restart_service = DataImports::RestartService.new(account: Current.account, data_import: @data_import)
     restart_result = restart_service.perform
     @data_import = restart_service.data_import
+    authorize @data_import, :show?
     if restart_result == :access_token_missing
       render json: { message: "The #{source_name} #{credential_name} for this import is unavailable." }, status: :unprocessable_entity
       return
@@ -94,22 +93,34 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
     )
   end
 
-  private
+  def rejected_rows
+    return head :not_found unless @data_import.failed_records.attached?
 
-  def ensure_data_import_feature_enabled
-    raise Pundit::NotAuthorizedError unless Current.account.feature_enabled?(DATA_IMPORT_FEATURE)
+    ActiveStorage::Current.set(url_options: { host: request.base_url }) do
+      render json: { download_url: @data_import.failed_records.url(disposition: :attachment, expires_in: 5.minutes) }
+    end
   end
+
+  private
 
   def set_data_import
     @data_import = Current.account.data_imports.find(params[:id])
   end
 
   def check_authorization
-    authorize(@data_import || DataImport)
+    if %w[create validate_source].include?(action_name)
+      provider = params[:source_provider]
+      resource = Current.account.data_imports.new(data_type: provider == 'csv' ? 'contacts' : provider, source_provider: provider)
+      authorize(resource)
+    else
+      authorize(@data_import || DataImport)
+    end
   end
 
   def permitted_params
-    params.permit(:name, :source_provider, :access_token, :domain, import_types: [])
+    raise ArgumentError, 'Import types must be an array.' if params.key?(:import_types) && !params[:import_types].is_a?(Array)
+
+    params.permit(:name, :source_provider, :access_token, :domain, :import_file, import_types: [])
   end
 
   def creation_service
@@ -121,9 +132,9 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def import_types
-    return DataImports::Importer::DEFAULT_IMPORT_TYPES unless permitted_params.key?(:import_types)
+    return DataImports::Source.import_types(params[:source_provider]) unless permitted_params.key?(:import_types)
 
-    Array(permitted_params[:import_types]).compact_blank
+    permitted_params[:import_types]
   end
 
   def source_class
@@ -155,6 +166,7 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def render_source_client_error(error)
+    raise error unless DataImports::Source.supported?(@data_import&.source_provider || params[:source_provider])
     raise error unless source_class.client_error?(error)
 
     message = if source_class.authentication_error?(error)
@@ -180,7 +192,7 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def logs_csv(logs)
-    CSV.generate(headers: true) do |csv|
+    CSVSafe.generate(headers: true) do |csv|
       csv << %w[created_at kind source_object_type source_object_id error_code message details]
 
       logs.order(:created_at).find_each do |log|

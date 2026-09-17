@@ -1,5 +1,10 @@
 export const IMPORT_SOURCES = [
   {
+    value: 'csv',
+    label: 'CSV',
+    iconClass: 'i-lucide-file-text',
+  },
+  {
     value: 'intercom',
     label: 'Intercom',
     icon: '/dashboard/images/integrations/intercom.png',

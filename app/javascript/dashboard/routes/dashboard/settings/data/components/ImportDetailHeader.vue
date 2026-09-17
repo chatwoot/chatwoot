@@ -35,7 +35,7 @@ const props = defineProps({
   },
 });
 
-defineEmits(['refresh', 'retry', 'abandon']);
+defineEmits(['refresh', 'retry', 'abandon', 'start']);
 
 const { t } = useI18n();
 
@@ -48,6 +48,7 @@ const title = computed(
 const stageLabels = computed(() => ({
   unknown: t('DATA_IMPORTS.MONITOR.STAGES.unknown'),
   queued: t('DATA_IMPORTS.MONITOR.STAGES.queued'),
+  preparing: t('DATA_IMPORTS.MONITOR.STAGES.preparing'),
   contacts: t('DATA_IMPORTS.MONITOR.STAGES.contacts'),
   conversations: t('DATA_IMPORTS.MONITOR.STAGES.conversations'),
   finalizing: t('DATA_IMPORTS.MONITOR.STAGES.finalizing'),
@@ -95,7 +96,7 @@ const canAbandonImport = computed(() => isAbandonableImport(props.dataImport));
             @click="$emit('refresh')"
           />
           <Button
-            v-if="dataImport?.stalled"
+            v-if="dataImport?.allowed_actions?.retry ?? dataImport?.stalled"
             outline
             slate
             size="sm"
@@ -104,6 +105,15 @@ const canAbandonImport = computed(() => isAbandonableImport(props.dataImport));
             :disabled="isAbandoning"
             :label="$t('DATA_IMPORTS.TABLE.RETRY')"
             @click="$emit('retry')"
+          />
+          <Button
+            v-if="dataImport?.allowed_actions?.start"
+            outline
+            slate
+            size="sm"
+            :is-loading="isRetrying"
+            :label="$t('DATA_IMPORTS.TABLE.RESUME')"
+            @click="$emit('start')"
           />
           <Button
             v-if="canAbandonImport"
