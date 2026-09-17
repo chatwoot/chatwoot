@@ -6,7 +6,7 @@ class SearchIndexingDispatchJob < ApplicationJob
 
     SearchIndexing::Store.due_streams.each do |stream|
       epoch, entity, account_id = stream.split(':')
-      SearchIndexing::FlushJob.perform_later(entity, account_id.to_i, epoch)
+      SearchIndexing::Registry.job(entity).perform_later(entity, account_id.to_i, epoch)
     end
   end
 end

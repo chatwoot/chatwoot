@@ -13,6 +13,7 @@ for _, item in ipairs(cjson.decode(ARGV[5])) do
       redis.call('ZREM', KEYS[1], id)
       redis.call('ZREM', KEYS[9], id)
       redis.call('HDEL', KEYS[8], id)
+      redis.call('HDEL', KEYS[10], id)
       if item.state == 'failed' then
         redis.call('HSET', KEYS[4], id, cjson.encode(item))
       else
@@ -29,4 +30,3 @@ else
   redis.call('ZREM', KEYS[5], ARGV[2])
 end
 return 1
-

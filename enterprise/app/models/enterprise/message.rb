@@ -29,6 +29,11 @@ module Enterprise::Message
 
   private
 
+  def set_conversation_activity
+    super
+    ::SearchIndexing::Producer.enqueue(entity: 'conversations', account_id: account_id, ids: [conversation_id])
+  end
+
   def reopen_resolved_conversation
     assistant = conversation.inbox.captain_assistant
 
