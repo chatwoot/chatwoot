@@ -17,10 +17,13 @@ module Scheme
     "#{delimiter}#{escaped}#{delimiter}"
   end
 
-  def self.write(value, active = {}.compare_by_identity)
+  def self.write(value)
+    Writer.new(value).write
+  end
+
+  def self.write_atom(value)
     return '()' if value.equal?(EMPTY)
     return '#<unspecified>' if value.equal?(UNSPECIFIED)
-    return '#<cycle>' if active[value]
 
     case value
     when true then '#t'
@@ -34,22 +37,70 @@ module Scheme
       return value.positive? ? '+inf.0' : '-inf.0' if value.infinite?
 
       value.to_s
-    when Pair
-      parts = []
-      cursor = value
-      path = active.dup
-      while cursor.is_a?(Pair) && !path[cursor]
-        path[cursor] = true
-        parts << write(cursor.car, path)
-        cursor = cursor.cdr
-      end
-      suffix = cursor.equal?(EMPTY) ? '' : " . #{write(cursor, path)}"
-      "(#{parts.join(' ')}#{suffix})"
-    when Vector, Bytevector
-      path = active.merge(value => true)
-      "#{value.is_a?(Bytevector) ? '#u8' : '#'}(#{value.items.map { |item| write(item, path) }.join(' ')})"
     when Numeric then value.to_s
     else '#<procedure>'
     end
+  end
+end
+
+class Scheme::Writer
+  def initialize(value)
+    @pending = [[:value, value]]
+    @active = {}.compare_by_identity
+    @output = +''
+  end
+
+  # Use an explicit traversal stack for values built at runtime, whose nesting
+  # is not bounded by the reader. Removing objects on exit distinguishes cycles
+  # from shared structure without copying the whole ancestor set at each level.
+  def write
+    until @pending.empty?
+      operation, value = @pending.pop
+      case operation
+      when :value then write_value(value)
+      when :tail then write_tail(value)
+      when :text then @output << value
+      when :leave then @active.delete(value)
+      end
+    end
+    @output
+  end
+
+  private
+
+  def write_value(value)
+    if @active[value]
+      @output << '#<cycle>'
+    elsif value.is_a?(Scheme::Pair)
+      @output << '('
+      enqueue_pair(value)
+    elsif value.is_a?(Scheme::Vector) || value.is_a?(Scheme::Bytevector)
+      @output << (value.is_a?(Scheme::Bytevector) ? '#u8(' : '#(')
+      @active[value] = true
+      @pending.push([:leave, value], [:text, ')'])
+      (value.items.length - 1).downto(0) do |index|
+        @pending << [:value, value.items[index]]
+        @pending << [:text, ' '] if index.positive?
+      end
+    else
+      @output << Scheme.write_atom(value)
+    end
+  end
+
+  def write_tail(value)
+    if value.equal?(Scheme::EMPTY)
+      @output << ')'
+    elsif value.is_a?(Scheme::Pair) && !@active[value]
+      @output << ' '
+      enqueue_pair(value)
+    else
+      @output << ' . '
+      @pending.push([:text, ')'], [:value, value])
+    end
+  end
+
+  def enqueue_pair(value)
+    @active[value] = true
+    @pending.push([:leave, value], [:tail, value.cdr], [:value, value.car])
   end
 end
