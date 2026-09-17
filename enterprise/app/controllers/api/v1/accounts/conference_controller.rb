@@ -50,7 +50,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   end
 
   def set_voice_inbox_for_conference
-    @voice_inbox = Current.account.inboxes.find(params[:inbox_id])
+    @voice_inbox = Current.account.inboxes.where(channel_type: 'Channel::TwilioSms').find(params[:inbox_id])
     authorize @voice_inbox, :show?
   end
 

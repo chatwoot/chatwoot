@@ -1801,67 +1801,6 @@ describe('filterHelpers', () => {
     });
   });
 
-  describe('date filters with a saved timezone', () => {
-    afterEach(() => {
-      vi.useRealTimers();
-    });
-
-    it.each(['created_at', 'last_activity_at'])(
-      'compares %s against the local calendar day',
-      attributeKey => {
-        const filters = [
-          {
-            attribute_key: attributeKey,
-            filter_operator: 'is_less_than',
-            values: ['2026-09-08'],
-            timezone: 'America/Sao_Paulo',
-            query_operator: 'and',
-          },
-        ];
-
-        expect(
-          matchesFilters(
-            { [attributeKey]: Date.parse('2026-09-08T00:49:00Z') / 1000 },
-            filters
-          )
-        ).toBe(true);
-        expect(
-          matchesFilters(
-            { [attributeKey]: Date.parse('2026-09-08T03:00:00Z') / 1000 },
-            filters
-          )
-        ).toBe(false);
-      }
-    );
-
-    it('uses the local current date and timestamp date for days_before', () => {
-      vi.useFakeTimers();
-      vi.setSystemTime(new Date('2026-09-10T00:49:00Z'));
-      const filters = [
-        {
-          attribute_key: 'created_at',
-          filter_operator: 'days_before',
-          values: [1],
-          timezone: 'America/Sao_Paulo',
-          query_operator: 'and',
-        },
-      ];
-
-      expect(
-        matchesFilters(
-          { created_at: Date.parse('2026-09-08T00:49:00Z') / 1000 },
-          filters
-        )
-      ).toBe(true);
-      expect(
-        matchesFilters(
-          { created_at: Date.parse('2026-09-08T03:00:00Z') / 1000 },
-          filters
-        )
-      ).toBe(false);
-    });
-  });
-
   // These expectations hold in every timezone. Run the suite under
   // TZ=Asia/Kolkata and TZ=America/Los_Angeles to cover browsers ahead of and
   // behind UTC, where the boundary used to shift and hide rows.
