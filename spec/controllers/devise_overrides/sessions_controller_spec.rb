@@ -151,6 +151,15 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
           expect(user.reload.access_locked?).to be true
         end
 
+        it 'returns the locked error on the attempt that crosses the threshold' do
+          user.update!(failed_attempts: Devise.maximum_attempts - 1)
+
+          post :create, params: { mfa_token: mfa_token, otp_code: '000000' }
+
+          expect(response).to have_http_status(:unauthorized)
+          expect(response.parsed_body['error_code']).to eq('account_locked')
+        end
+
         it 'does not immediately relock an expired lock on one wrong otp' do
           user.update!(failed_attempts: Devise.maximum_attempts, locked_at: (Devise.unlock_in + 1.hour).ago)
 
