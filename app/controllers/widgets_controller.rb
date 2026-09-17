@@ -47,8 +47,9 @@ class WidgetsController < ActionController::Base
       inbox_id: @web_widget.inbox.id,
       source_id: @auth_token_params[:source_id]
     )
+    return unless @contact_inbox&.valid_widget_token?(@auth_token_params)
 
-    @contact = @contact_inbox&.contact
+    @contact = @contact_inbox.contact
   end
 
   def build_contact

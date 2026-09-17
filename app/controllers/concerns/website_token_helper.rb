@@ -11,13 +11,20 @@ module WebsiteTokenHelper
   end
 
   def set_contact
-    @contact_inbox = @web_widget.inbox.contact_inboxes.find_by(
-      source_id: auth_token_params[:source_id]
-    )
+    @contact_inbox = find_widget_contact_inbox
     @contact = @contact_inbox&.contact
     raise ActiveRecord::RecordNotFound unless @contact
 
     Current.contact = @contact
+  end
+
+  def find_widget_contact_inbox
+    inbox = @web_widget.inbox.contact_inboxes.find_by(
+      source_id: auth_token_params[:source_id]
+    )
+    return unless inbox&.valid_widget_token?(auth_token_params)
+
+    inbox
   end
 
   def permitted_params

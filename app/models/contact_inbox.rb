@@ -5,6 +5,7 @@
 #  id            :bigint           not null, primary key
 #  hmac_verified :boolean          default(FALSE)
 #  pubsub_token  :string
+#  widget_token_version :integer          default(0), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  contact_id    :bigint
@@ -55,7 +56,46 @@ class ContactInbox < ApplicationRecord
     conversations.last
   end
 
+  # Legacy JWTs omit token_version and are treated as version 0.
+  def valid_widget_token?(decoded)
+    return false if decoded.blank?
+
+    claimed = decoded[:token_version]
+    claimed_version = claimed.nil? ? 0 : claimed.to_i
+    claimed_version == widget_token_version.to_i
+  end
+
+  # Re-checks the presented JWT under a row lock so a concurrent request that
+  # already rotated cannot write PII and receive a fresh token.
+  def with_current_widget_token(decoded)
+    with_lock do
+      raise ActiveRecord::RecordNotFound unless valid_widget_token?(decoded)
+
+      yield
+    end
+  end
+
+  def rotate_widget_token!
+    with_lock do
+      rotate_widget_session_secrets!
+      Widget::TokenService.new(payload: Widget::TokenService.payload_for(self)).generate_token
+    end
+  end
+
+  def invalidate_widget_token!
+    with_lock do
+      rotate_widget_session_secrets!
+    end
+  end
+
   private
+
+  def rotate_widget_session_secrets!
+    update!(
+      widget_token_version: widget_token_version + 1,
+      pubsub_token: self.class.generate_unique_secure_token
+    )
+  end
 
   def validate_twilio_source_id
     # https://www.twilio.com/docs/glossary/what-e164#regex-matching-for-e164

@@ -113,6 +113,71 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
         expect(contact.email).to eq('test-1@test.com')
         expect(response).to have_http_status(:success)
       end
+
+      it 'rotates the widget session token after a sensitive update' do
+        patch '/api/v1/widget/contact',
+              params: params.merge({ email: 'rotated@test.com' }),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        new_token = response.parsed_body['widget_auth_token']
+        expect(new_token).to be_present
+        expect(new_token).not_to eq(token)
+        expect(contact_inbox.reload.widget_token_version).to eq(1)
+
+        get '/api/v1/widget/contact',
+            params: { website_token: web_widget.website_token },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+        expect(response).to have_http_status(:not_found)
+
+        get '/api/v1/widget/contact',
+            params: { website_token: web_widget.website_token },
+            headers: { 'X-Auth-Token' => new_token },
+            as: :json
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns a new Action Cable token after a sensitive update' do
+        old_pubsub = contact_inbox.pubsub_token
+        patch '/api/v1/widget/contact',
+              params: params.merge({ email: 'rotated-pubsub@test.com' }),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response.parsed_body['pubsub_token']).to eq(contact_inbox.reload.pubsub_token)
+        expect(contact_inbox.pubsub_token).not_to eq(old_pubsub)
+      end
+
+      it 'does not change contact PII when the token version is already consumed' do
+        contact_inbox.update!(widget_token_version: 1)
+
+        patch '/api/v1/widget/contact',
+              params: params.merge({ email: 'stolen@test.com' }),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(contact.reload.email).to eq('test@test.com')
+      end
+
+      it 'does not rotate the token for custom_attributes-only updates' do
+        patch '/api/v1/widget/contact',
+              params: params.merge({ custom_attributes: { plan: 'pro' } }),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['widget_auth_token']).to be_nil
+        expect(contact_inbox.reload.widget_token_version).to eq(0)
+
+        get '/api/v1/widget/contact',
+            params: { website_token: web_widget.website_token },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+        expect(response).to have_http_status(:success)
+      end
     end
   end
 
@@ -209,6 +274,37 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
         expect(body['id']).not_to eq(contact.id)
         expect(body['widget_auth_token']).not_to be_nil
         expect(Contact.find(body['id']).contact_inboxes.first.hmac_verified?).to be(true)
+
+        get '/api/v1/widget/contact',
+            params: { website_token: web_widget.website_token },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'when the current contact stays the same' do
+      let(:web_widget) { create(:channel_widget, account: account) }
+
+      it 'rotates the existing session token' do
+        old_pubsub = contact_inbox.pubsub_token
+        patch '/api/v1/widget/contact/set_user',
+              params: params,
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        new_token = response.parsed_body['widget_auth_token']
+        expect(new_token).to be_present
+        expect(new_token).not_to eq(token)
+        expect(response.parsed_body['pubsub_token']).to eq(contact_inbox.reload.pubsub_token)
+        expect(contact_inbox.pubsub_token).not_to eq(old_pubsub)
+
+        get '/api/v1/widget/contact',
+            params: { website_token: web_widget.website_token },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+        expect(response).to have_http_status(:not_found)
       end
     end
 

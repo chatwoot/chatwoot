@@ -99,6 +99,23 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('agent/updatePresence', data.users);
   };
 
+  static refreshConnector(pubsubToken) {
+    if (!pubsubToken) {
+      return;
+    }
+
+    if (window.actionCable) {
+      window.actionCable.disconnect();
+    }
+    window.chatwootPubsubToken = pubsubToken;
+    if (window.WOOT_WIDGET) {
+      window.actionCable = new ActionCableConnector(
+        window.WOOT_WIDGET,
+        pubsubToken
+      );
+    }
+  }
+
   // eslint-disable-next-line class-methods-use-this
   onContactMerge = data => {
     const { pubsub_token: pubsubToken } = data;
