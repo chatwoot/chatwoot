@@ -540,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} inna osoba",
     "TOTAL_PARTICIPANTS_TEXT": "Bierze w nich udział {count} osób.",
     "TOTAL_PARTICIPANT_TEXT": "Bierze w nich udział {count} osoba.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!",
+    "NO_PARTICIPANTS_TEXT": "Nikt nie bierze udziału!",
     "WATCH_CONVERSATION": "Dołącz do konwersacji",
     "YOU_ARE_WATCHING": "Bierzesz udział",
     "API": {

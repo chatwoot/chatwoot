@@ -540,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} أخرى",
     "TOTAL_PARTICIPANTS_TEXT": "{count} شخص مشارك.",
     "TOTAL_PARTICIPANT_TEXT": "{count} شخص مشارك.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!",
+    "NO_PARTICIPANTS_TEXT": "لا أحد يشارك!",
     "WATCH_CONVERSATION": "الانضمام إلى المحادثة",
     "YOU_ARE_WATCHING": "أنت مشترك",
     "API": {

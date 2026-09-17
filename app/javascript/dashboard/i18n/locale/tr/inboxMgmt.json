@@ -4,7 +4,7 @@
     "DESCRIPTION": "Kanal, müşterinizin sizinle iletişim kurmak için seçtiği yöntemdir. Gelen kutusu (inbox) ise belirli bir kanal üzerinden gerçekleşen etkileşimleri yönettiğiniz yerdir. Gelen kutusu; e-posta, canlı sohbet ve sosyal medya gibi farklı kaynaklardan gelen iletişimleri içerebilir.",
     "LEARN_MORE": "Gelen kutuları hakkında daha fazla bilgi edinin",
     "COUNT": "{n} inbox | {n} inboxes",
-    "SEARCH_PLACEHOLDER": "Search inbox name, channel, or identifier...",
+    "SEARCH_PLACEHOLDER": "Gelen kutusu adı, kanal veya tanımlayıcı ara...",
     "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",

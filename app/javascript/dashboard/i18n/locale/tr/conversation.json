@@ -540,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} diğer",
     "TOTAL_PARTICIPANTS_TEXT": "{count} kişi katılıyor.",
     "TOTAL_PARTICIPANT_TEXT": "{count} kişi katılıyor.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!",
+    "NO_PARTICIPANTS_TEXT": "Kimse katılmıyor!",
     "WATCH_CONVERSATION": "Konuşmaya Katıl",
     "YOU_ARE_WATCHING": "Katılıyorsunuz",
     "API": {

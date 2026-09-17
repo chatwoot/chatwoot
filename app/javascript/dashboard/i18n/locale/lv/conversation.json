@@ -540,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} cits",
     "TOTAL_PARTICIPANTS_TEXT": "{count} cilvēki piedalās.",
     "TOTAL_PARTICIPANT_TEXT": "{count} persona piedalās.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!",
+    "NO_PARTICIPANTS_TEXT": "Neviens nepiedalās!",
     "WATCH_CONVERSATION": "Pievienoties sarunai",
     "YOU_ARE_WATCHING": "Jūs piedalāties",
     "API": {

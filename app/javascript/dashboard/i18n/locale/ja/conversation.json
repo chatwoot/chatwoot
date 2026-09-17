@@ -540,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} 人のその他",
     "TOTAL_PARTICIPANTS_TEXT": "{count} 人が参加しています。",
     "TOTAL_PARTICIPANT_TEXT": "{count} 人が参加しています。",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!",
+    "NO_PARTICIPANTS_TEXT": "誰も参加していません。",
     "WATCH_CONVERSATION": "会話に参加",
     "YOU_ARE_WATCHING": "あなたはこの会話に参加しています",
     "API": {

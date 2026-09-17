@@ -469,8 +469,8 @@ ru:
       results_for: "Результаты поиска для '%{query}'"
       no_results: "Ничего не найдено для '%{query}'"
       found_results:
-        one: Found 1 result
-        few: 'Найдено %{count} результатов'
+        one: 'Найден %{count} результат'
+        few: 'Найдено %{count} результата'
         many: 'Found %{count} results'
         other: 'Найдено %{count} результатов'
       submit: Поиск
