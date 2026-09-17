@@ -184,6 +184,16 @@ RSpec.describe Inbox do
                                     audited_changes: { 'widget_color' => [previous_color, new_color] }).count).to eq(1)
       end
     end
+
+    context 'when channel hmac token is updated along with other attributes' do
+      it 'does not include hmac token in the audit log' do
+        inbox.channel.update(hmac_token: 'new-hmac-token', widget_color: '#00ff00')
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes).to have_key('widget_color')
+        expect(audit.audited_changes).not_to have_key('hmac_token')
+      end
+    end
   end
 
   describe 'audit log with api channel' do
@@ -214,6 +224,14 @@ RSpec.describe Inbox do
         # Check for the specific webhook_update update in the audit log
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update',
                                     audited_changes: { 'webhook_url' => [previous_webhook, new_webhook] }).count).to eq(1)
+      end
+    end
+
+    context 'when channel hmac token is rotated' do
+      it 'has no associated audit log created' do
+        inbox.channel.regenerate_hmac_token
+
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
       end
     end
   end

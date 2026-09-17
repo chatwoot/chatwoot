@@ -4,6 +4,7 @@ module Enterprise::Channelable
   AUDIT_EXCLUDED_ATTRIBUTES = %w[
     updated_at
     secret
+    hmac_token
     provider_config
     access_token
     refresh_token
