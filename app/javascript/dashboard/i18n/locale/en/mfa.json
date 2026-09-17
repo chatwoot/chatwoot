@@ -90,6 +90,9 @@
   "MFA_VERIFICATION": {
     "TITLE": "Two-Factor Authentication",
     "DESCRIPTION": "Enter your verification code to continue",
+    "EMAIL_TITLE": "Check your email",
+    "EMAIL_DESCRIPTION": "You are signing in from a device we have not seen before. We emailed a 6-digit code to your address, enter it below to finish signing in.",
+    "ENTER_EMAIL_CODE": "Enter the 6-digit code from your email",
     "AUTHENTICATOR_APP": "Authenticator App",
     "BACKUP_CODE": "Backup Code",
     "ENTER_OTP_CODE": "Enter 6-digit code from your authenticator app",

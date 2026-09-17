@@ -1,0 +1,16 @@
+<p>Hello,</p>
+
+<p>A sign-in to your Chatwoot account came from a device we have not seen before. To finish signing in, use this verification code. It is valid for 10 minutes.</p>
+
+<h2 style="letter-spacing: 4px;">{{code}}</h2>
+
+<p>On the sign-in page, enter it in the code field on the verification screen. If the screen is titled "Two-Factor Authentication", use the code above there, not the backup code option.</p>
+
+<p>Sign-in details:</p>
+<ul>
+  {% if browser_name %}<li>Browser: {{browser_name}}{% if platform_name %} on {{platform_name}}{% endif %}</li>{% endif %}
+  {% if ip %}<li>IP address: {{ip}}</li>{% endif %}
+  {% if location %}<li>Location: {{location}}</li>{% endif %}
+</ul>
+
+<p>If this was not you, someone else knows your password. <a href="{{reset_password_url}}">Please reset your password now.</a></p>

@@ -50,4 +50,30 @@ describe('MfaVerification', () => {
     expect(setAuthCredentials).toHaveBeenCalledWith(response);
     expect(wrapper.emitted('verified')).toEqual([[response.data]]);
   });
+
+  it('shows email copy and hides TOTP-only affordances for the email channel', () => {
+    const wrapper = shallowMount(MfaVerification, {
+      props: { mfaToken: 'mfa-token', verificationChannel: 'email' },
+      global: { mocks: { $t: key => key } },
+    });
+
+    expect(wrapper.text()).toContain('MFA_VERIFICATION.EMAIL_TITLE');
+    expect(wrapper.text()).toContain('MFA_VERIFICATION.ENTER_EMAIL_CODE');
+    expect(wrapper.text()).not.toContain('MFA_VERIFICATION.AUTHENTICATOR_APP');
+    expect(wrapper.text()).not.toContain('MFA_VERIFICATION.BACKUP_CODE');
+    expect(wrapper.html()).not.toContain('MFA_VERIFICATION.TRY_ANOTHER_METHOD');
+    expect(wrapper.html()).not.toContain('MFA_VERIFICATION.HELP_TEXT');
+    expect(wrapper.findAll('input[inputmode="numeric"]')).toHaveLength(6);
+  });
+
+  it('keeps the classic MFA UI when no verification channel is set', () => {
+    const wrapper = shallowMount(MfaVerification, {
+      props: { mfaToken: 'mfa-token' },
+      global: { mocks: { $t: key => key } },
+    });
+
+    expect(wrapper.text()).toContain('MFA_VERIFICATION.TITLE');
+    expect(wrapper.text()).toContain('MFA_VERIFICATION.AUTHENTICATOR_APP');
+    expect(wrapper.html()).toContain('MFA_VERIFICATION.TRY_ANOTHER_METHOD');
+  });
 });

@@ -63,4 +63,24 @@ RSpec.describe User do
       end
     end
   end
+
+  describe 'device trust version' do
+    let(:user) { create(:user, password: 'Password1!') }
+
+    it 'defaults to zero' do
+      expect(user.device_trust_version).to eq(0)
+    end
+
+    it 'bumps when the password changes' do
+      expect { user.update!(password: 'NewPassword1!') }.to change { user.reload.device_trust_version }.by(1)
+    end
+
+    it 'bumps when the email changes' do
+      expect { user.update!(email: 'changed@example.com') }.to change { user.reload.device_trust_version }.by(1)
+    end
+
+    it 'does not bump on unrelated changes' do
+      expect { user.update!(name: 'New Name') }.not_to(change { user.reload.device_trust_version })
+    end
+  end
 end

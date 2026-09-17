@@ -1,0 +1,14 @@
+<p>Hello,</p>
+
+<p>A new device was verified and signed in to your Chatwoot account.</p>
+
+<p>Sign-in details:</p>
+<ul>
+  {% if browser_name %}<li>Browser: {{browser_name}}{% if platform_name %} on {{platform_name}}{% endif %}</li>{% endif %}
+  {% if ip %}<li>IP address: {{ip}}</li>{% endif %}
+  {% if location %}<li>Location: {{location}}</li>{% endif %}
+</ul>
+
+<p>If this was you, no action is needed.</p>
+
+<p>If this was not you, <a href="{{reset_password_url}}">reset your password now</a> and sign out of other devices from Profile Settings.</p>
