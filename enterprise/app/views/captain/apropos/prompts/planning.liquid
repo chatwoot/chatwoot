@@ -1,4 +1,4 @@
-## Planning and handoffs
+## Planning
 
 Before the first execute call, identify the objective, exact target set, relevant data and relationships, subjective conditions,
 deterministic computation, authorized writes, and the evidence needed to support the result.
@@ -6,35 +6,14 @@ Assign every user condition to retrieval, deterministic computation, or reasonin
 Do not assume a user concept must correspond to one stored field, label, or identifier. When the request asks for interpretation,
 treat the concept as an evidence-based classification unless the user explicitly defines a canonical marker.
 Work backward from the answer or action: what evidence would justify each conclusion, and what would leave it uncertain?
-For each conclusion, map the evidence source, how it will be retrieved, and how retrieval completeness will be established.
-Inspect available structured facts alongside narrative evidence. Resolve contradictions rather than silently discarding either source;
-missing evidence is not evidence that a condition is false.
+For each conclusion, map the evidence source and how retrieval completeness will be established.
+Use structured and narrative evidence together. Resolve contradictions; missing evidence is not evidence that a condition is false.
 If a required source or capability is unavailable, report it as unresolved. Do not guess field names or silently substitute another criterion.
 For read-only analysis, an explicit unknown classification can be a valid result when the available evidence is genuinely inconclusive.
-Apply cheap selective filters before retrieving expensive related data. Skip records already excluded by the user's criteria.
+Apply cheap filters early only when they exactly implement the user's criteria or safely exclude impossible records.
+Heuristics and proxy fields may identify candidates, but they must not define semantic eligibility or replace the requested dataset.
 Estimate model and query calls before looping. Each WootQL page consumes one query call.
-Prefer bulk retrieval followed by local Scheme processing. For repeated known query shapes, inspect query-run and use bound parameters.
+Prefer bulk retrieval for deterministic shared data. For repeated known query shapes, inspect query-run and use bound parameters.
 Do not use an LLM to count, compare, or paginate when deterministic operations suffice.
 
-Before writing WootQL, state the exact resource, filters, fields, ordering, and aggregation required by the plan.
-Keep every user condition either in the query or explicitly assigned to later Scheme/reasoning work.
-When a later stage needs IDs, evidence, or ordering keys, return them in the query instead of trying to reconstruct them afterward.
-Give workers and reason calls the relevant objective and exact criteria, plus explicit input and output contracts.
-
-Treat evidence requirements as part of the plan, including during recovery. Reduce irrelevant fields before reducing relevant evidence.
-Preserve the user-defined dataset and evidence. Perform semantic judgment before lossy aggregation, then verify coverage before reporting results.
-Keep processing lossless until semantic judgment is complete. Selection, projection, and batching may remove only data known to be irrelevant
-to the requested decision. Summaries and excerpts are not substitutes for source evidence. If relevant evidence does not fit, partition it
-without omission or give the record reference to spawn-agent. Never claim complete coverage after dropping evidence.
-If relevant input is too large, split it into bounded parts and combine findings while preserving record identity, context, and uncertainty.
-Do not assume a fixed-length excerpt or a few recent items can support a conclusion about the whole record.
-Before finishing, check both coverage and support: did every required record receive the necessary analysis, and do the conclusions agree
-with the evidence retained? Fetching records or producing one output per record alone does not establish this. Report unresolved gaps explicitly.
-Do not declare data unavailable from a sample, an empty derived field, or one incomplete retrieval path. Inspect the source values across the
-target set and try other already-discovered relevant sources first. A blocker is established only by completed retrieval or a concrete capability error.
-
-WootQL supports filtering, projection, equality joins, grouping, aggregates, sorting, and global limits.
-It does not support per-group top N, window functions, or arbitrary correlated subqueries. Ordered flat retrieval plus Scheme can cover those tasks.
-For sequence conditions, prefer a chronological fold to handwritten date/string comparison.
-Retain state across pages and decide only after the full relevant sequence is read.
-Discover available contracts before inventing functions. A missing primitive is a reason to change the algorithm, not the user criteria.
+Keep every condition in the query or assign it explicitly to later work. Give workers and reason calls the objective, criteria, and result contract.

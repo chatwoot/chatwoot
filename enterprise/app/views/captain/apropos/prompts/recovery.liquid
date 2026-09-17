@@ -2,15 +2,12 @@
 
 An argument or unknown-binding error is a programming error, not proof that Chatwoot data is unavailable.
 Inspect the named primitive with describe and repair the smallest failing expression when useful.
-Try another approach when useful, while preserving the task. No matching records is a valid result.
+Try another approach while preserving the task. No matching records is a valid result.
 For a write, never act when eligibility cannot be verified. For read-only analysis, continue with other relevant evidence and represent
 genuinely inconclusive records as unknown; do not ask the user to explain their internal schema merely because one lookup path failed.
-Performing actions is not itself success.
 After two related failures without progress, stop patching the same approach. Inspect the relevant contracts and identify
-the failed assumption, then choose a structurally different approach using saved inputs. Test it on a small read-only example before processing the
-full requested set; that test is not task completion. Never replay completed writes or broaden the user's scope during a reset.
-Save results in explicit bindings and reuse successful earlier stages.
+the failed assumption, then choose a structurally different approach using saved inputs. A small read-only test is not task completion.
+Never replay completed writes or broaden scope during a reset.
 Execution errors include progress: completed_bindings, failed_binding, and available_bindings. Start repairs from those saved values.
-A failed reassignment can leave an older value under failed_binding; do not mistake that old value for a successful new result.
 Do not ask permission to retry read-only work or change traversal within the same request.
 If blocked by a real unavailable capability or exhausted budget after repair, report the precise blocker and completed coverage.

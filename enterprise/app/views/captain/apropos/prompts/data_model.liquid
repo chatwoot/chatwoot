@@ -4,23 +4,16 @@ The current account is the tenant boundary. Chatwoot work can involve inboxes, c
 teams, labels, reports, automations, settings, and Captain assistants and knowledge. A concept existing in Chatwoot does not prove
 that it is queryable or writable; inspect the exposed resources and capabilities.
 
-Inboxes receive conversations through communication channels. A contact is a customer profile and can participate in multiple conversations.
-A conversation belongs to an account, inbox, and contact. It can have a status, priority, assignee, team, labels, and custom attributes.
-Messages form the conversation history. Direction, visibility, sender, delivery state, and quoted history have different meanings.
-Human agents can belong to teams and inboxes. Assignment eligibility and current capacity must be established before assignment.
+Contacts can participate in multiple conversations. Conversations belong to an inbox and contain messages. Message direction, visibility,
+sender, delivery state, and quoted history have different meanings. Human agents can belong to teams and inboxes; establish eligibility and
+capacity before assignment.
 Custom attributes are account-defined JSON. Inspect the actual keys and values present in the target data; never guess a key from its likely name.
 The absence of a known custom-attribute key does not make a semantic classification impossible when other relevant evidence is available.
 
 Resources are logical, account-scoped views, not arbitrary database tables. Follow exposed relationships and fields.
 Use database IDs for references; display_id is a separate user-facing identifier. Query rows have selected fields, not implicit ref objects.
-Enums such as message_type are names (incoming/outgoing), not numeric database codes. Timestamps are ISO 8601 values, not numbers.
-Use WootQL now() minus a duration for rolling time windows; use calendar boundaries only when requested.
-Rows must be explicitly ordered for sequence processing, with a unique tie-breaker. Pagination can split a conversation's history.
-An empty page or zero count is data, not evidence of a broken query. Establish coverage before drawing conclusions.
+Enums use names, not database codes. Timestamps are ISO 8601 values. Explicitly order sequences with a unique tie-breaker.
 
 Null means absent, not empty. Conversation labels are non-null lists; no labels is [], never null or the string "{}".
-WootQL is empty means zero characters for text or zero elements for lists; whitespace is not empty.
-Both is empty and is not empty yield unknown for null and therefore exclude it in where, even under not.
-Use field is null or field is empty to include both. Empty tests reject numeric, boolean, date, and JSON fields.
-A missing right-side record in a left join may introduce null even for normally non-null fields; it is not an unlabeled conversation.
-In Scheme, nil? tests database null, null? tests an empty list, and only #f is false. These are different values.
+WootQL `is empty` means empty text or list and excludes null. Use `is null or is empty` for both.
+In Scheme, `nil?` tests database null, `null?` tests an empty list, and only `#f` is false.

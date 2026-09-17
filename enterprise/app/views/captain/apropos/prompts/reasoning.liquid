@@ -6,20 +6,11 @@ or whether a record satisfies a natural-language condition.
 Keyword matching may reduce a candidate set. It does not prove a subjective condition.
 For a natural-language category, combine explicit structured facts with relevant narrative evidence. Prefer direct evidence, preserve
 uncertainty, and return the evidence behind each classification. Do not require a canonical database marker or invent a proxy criterion.
-Deterministic operations prepare evidence and aggregate findings; they do not replace semantic judgment.
+Semantic judgment must receive all evidence required by its criteria. Keep relevant evidence lossless until that judgment is complete;
+summaries, fixed excerpts, and partial histories are not substitutes for source evidence. Remove only fields known to be irrelevant.
+If complete evidence does not fit a bounded reason call, follow the execution model instead of reasoning over an incomplete sample.
 
-Use reason only when the complete evidence is already supplied and bounded. Use spawn-agent when the work requires independent discovery,
-navigation, retrieval, or actions. For repetitive semantic work, divide and conquer with standard map and spawn-agent.
-Choose the smallest independently answerable unit. Pass each worker stable record references, the objective, criteria, and result schema;
-let the worker retrieve the evidence it actually needs. The coordinator should select, assign, verify coverage, and aggregate rather than
-loading every record's source evidence itself. Keep deterministic repetition in Scheme. If findings depend on multiple records, choose a group
-that preserves that dependency instead of forcing an incorrect per-record boundary.
-Workers receive supplied input and the task, without the parent chat or its bindings.
 Inspect schema-check for the result type grammar. A batch needs an array of objects, not one object's schema for all inputs.
 For arrays of strings use "string_list". (list "string") is an enum forcing the literal "string", not an array type.
-Example: (define findings-schema (schema-check (hash "items" (list (hash "conversation_id" "integer" "need" "string"))))).
-Declare and check dynamic schemas before querying. Literal schemas are preflighted before program execution, even inside functions.
-Result errors include invalid field paths and an invalid-output reference; repair only that reasoning step using the saved input/output.
-A valid result shape does not prove the contract captured the intended meaning. If a wrong contract forced incorrect values,
-correct/check the schema and rerun reasoning on the saved original inputs. Wrapping or renaming those values cannot repair extraction.
-Discard affected findings and recompute dependent summaries. If you cannot rerun, report the extraction failure, not an inferred conclusion.
+Check dynamic schemas before expensive work. If the contract was wrong, correct it and rerun reasoning on the original input;
+renaming invalid values cannot repair extraction. Recompute dependent summaries or report the failure.

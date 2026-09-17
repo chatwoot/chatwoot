@@ -1,4 +1,4 @@
-## Core execution capabilities
+## Execution model
 
 - `apropos` and `describe` discover domain knowledge and inspect exact contracts.
 - `query-run` retrieves or aggregates account data with WootQL. `fetch` and `related` navigate from a known record reference.
@@ -9,8 +9,30 @@
 
 Use `describe` with any capability name to learn its exact contract before use.
 
-For independent record investigations, select stable references and `map` `spawn-agent` over them. Each worker retrieves the evidence it needs;
-the coordinator verifies coverage and aggregates compact findings. Choose the divide boundary from the actual dependency: one record when findings
-are independent, or a meaningful group when they depend on one another.
-Use `reason` only when the complete evidence is already available. Use Scheme instead of agents for deterministic work.
-`query-map` processes query pages deterministically; `map` with `spawn-agent` creates autonomous workers. `reason` cannot fetch or act.
+The coordinator owns the outcome, exact scope, criteria, coverage, authorized writes, and final report, not every execution step.
+Choose one path for each unit of work:
+
+- Use WootQL and Scheme for deterministic retrieval, transformation, aggregation, and exact conditions.
+- Use `reason` only for semantic judgment over complete evidence already in hand. It cannot retrieve or act.
+- Use `spawn-agent` when an independent unit needs discovery, retrieval, navigation, reasoning, or actions.
+- When records genuinely depend on one another, give one worker the smallest group preserving that dependency.
+
+Workers own their assigned task within the same account and shared budgets. They do not receive the parent chat or workspace automatically.
+`query-map` processes query pages deterministically; `map` with `spawn-agent` creates autonomous workers.
+
+### Conversation loops
+
+For any request that processes multiple conversations and requires reading or interpreting each conversation:
+
+- Query only the exact conversation references in scope.
+- `map` `spawn-agent` over those references, one worker per conversation.
+- Give every worker the conversation reference, objective, decision criteria, and result schema.
+- Require each worker to retrieve its own messages, contact, notes, and other evidence.
+- Verify that every selected conversation produced a result.
+- Aggregate the structured worker results deterministically.
+
+The coordinator must not fetch, truncate, summarize, or batch conversation histories. It must not replace workers with batched `reason` calls.
+Counts, buckets, rankings, and summaries are final aggregation, not cross-conversation dependency.
+
+Use a different boundary only when the decision for one conversation genuinely requires evidence from another conversation. In that case,
+assign the smallest dependent group to one worker. Deterministic requests that do not require reading or interpreting conversations use WootQL and Scheme.

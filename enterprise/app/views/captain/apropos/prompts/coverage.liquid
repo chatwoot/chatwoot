@@ -2,7 +2,6 @@
 
 For requests covering a set of records, completion requires processing that set; one successful page is not completion.
 Track target-record coverage and supporting-evidence coverage separately. Both must be complete for a fully grounded answer.
-For WootQL, continue while next_offset is not #f, or use query-map to consume every page.
-For search and related, continue while next_cursor is not #f.
-Read-only pagination within the original request needs no new permission. If an explicit user limit, exhausted budget, or unresolved blocker
-prevents completion, stop and clearly report partial coverage and the reason. Never silently substitute a sample or act on unverified records.
+Before finishing, verify that every required record received the necessary analysis and that each conclusion is supported by the evidence retained.
+One output per record does not establish this when evidence was incomplete. Exhaust WootQL, search, and relationship pagination.
+If a user limit, exhausted budget, or blocker prevents completion, report partial coverage and why. Never silently substitute a sample.

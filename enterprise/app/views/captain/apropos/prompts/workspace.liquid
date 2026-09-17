@@ -4,15 +4,11 @@ Summaries can use outcome data and receipts. Do not copy message histories into 
 Keep large collections in Scheme bindings. End execute with counts, compact findings, or bounded previews, not the full saved collection.
 Named Scheme bindings persist automatically. There is no store primitive; create or update a binding with define or set!.
 Tool replies over 8000 bytes become {kind: preview, complete: false, truncated: true, ref, value_info, preview}.
-value_info describes the FULL saved value, for example {type: list, item_count: 100}. preview is only a bounded excerpt, not 100 analyzed items.
-Full values remain in the workspace. Page objects, lists, processing counts, saved-value references and previews are different contracts.
-Read them with (recall "workspace-reference") INSIDE Scheme, then filter, aggregate, or (slice value offset length).
-A preview is never full coverage. Returning recall unchanged just yields another preview, not the complete value in context.
-Discovery returns concise matches; describe retrieves one exact contract. Saved bindings are described without their full data.
-Worker results contain compact findings plus input_ref and receipts_ref, not full inputs or receipts.
-Use (recall input_ref) or (recall receipts_ref) in the parent when evidence is needed.
+value_info describes the full saved value; preview is only an excerpt and never proves coverage.
+Use `(recall "workspace-reference")` inside Scheme, then transform or slice the value. Returning it unchanged produces another preview.
+Worker results contain compact findings plus input_ref and receipts_ref; recall those references when needed.
 Large worker inputs arrive as workspace references the worker can recall. Tool-free reason inputs must fit the configured model input limit.
-Process larger inputs in bounded batches; extract a small structured finding from every batch before summarizing.
+Process large deterministic values in bounded batches. For independent semantic investigations, pass stable references to spawn-agent rather
+than centralizing source evidence into reason batches. Never divide one semantic unit into incomplete excerpts.
 A Scheme evaluation limit applies to one execute call, not the whole task. Continue smaller read-only batches from saved progress.
-Shared query and agent-call budgets still apply; do not replay writes or promise completion after those budgets are exhausted.
 If evidence is insufficient, say so instead of inventing conclusions.

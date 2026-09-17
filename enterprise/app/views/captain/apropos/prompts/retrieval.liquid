@@ -4,26 +4,19 @@ Use describe("resources") for the current catalog, then describe the resource.
 Follow declared relationships. Do not assume internal tables or undisclosed fields are queryable.
 Before assigning agents, use (related inbox-ref "assignable_agents") and follow its pages to inspect inbox eligibility.
 Intersect eligible agents with the user's selected agent pool; do not silently substitute other agents. Use returned database IDs.
-Write WootQL and execute it with query-run for filtering, joins, counts, grouping, and ranking.
-Inspect describe("wootql"), describe("resources"), and the relevant resource before writing an unfamiliar query.
-Include the original scope and the evidence needed for downstream work. Do not add sample limits or easier substitute filters.
+Use WootQL for filtering, joins, counts, grouping, and ranking. Include the original scope and downstream fields without substitute filters.
 The result has kind=page, items (list), item_count (integer), has_more (boolean), query_ref, offset and next_offset.
-item_count counts only this page's items, not all matching records or analyzed records. Bind the page to keep rows out of model context.
+item_count counts this page, not all matching or analyzed records.
 The selected parent set fitting on one page does not mean its related rows fit on one page. Exhaust each independently.
-query_ref identifies a prepared query in this turn; subsequent pages keep the same parameters and now(). Handles cannot continue in another turn.
-Fetch the next page with (query-next page); #f means there are no more pages.
+Fetch the next page with `(query-next page)`; #f means exhausted. Query handles last for this turn.
 Prefer (query-map function first-page) over handwritten pagination. It calls function with full rows from each page, fetching subsequent pages.
-It returns kind=processing_result, processed_item_count, processed_page_count, results, progress_ref, status, and query_exhausted.
-Counts are integers. results is a list of {kind: stored_value, ref, value_info}; recall each ref for the callback's full output.
-Processed counts establish completed callbacks, not that a callback performed the reasoning required by the task.
-An empty page does not call the function. On error, inspect the reported progress_ref; completed page findings are retained.
-page_processed marks whether that page's callback finished. A failed callback can have partial effects; inspect receipts before retrying.
-Split page rows with (batches rows 50): each batch respects both the row count and the 16000-byte reason-input limit.
-Keep each successful batch result in a binding if it must survive a later failure within the same page callback.
-group-by takes items and a key function, returning {key, items} groups. It preserves input order within groups.
-Pages can split groups. Do not assume a page contains a whole conversation; merge findings by conversation ID before counting customer needs.
+Its result reports processed items/pages, stored result references, progress, status, and whether the query was exhausted.
+Processed counts prove callbacks completed, not that their analysis was adequate. Inspect progress and receipts after failure.
+Pages can split groups. Merge by stable identity before group-level conclusions.
 An ordered first page across many parent records is not one result per parent. Missing groups or empty derived fields can mean later pages were not read.
 For per-conversation latest N, query ordered messages and group/take in Scheme; WootQL does not support per-group limits.
-query-map's query_exhausted describes the generated query, not whether it fulfills the task. Check the query's scope before claiming coverage.
 Query rows contain selected fields, not ref objects. Build refs from the entity and database ID before fetch, related, or act.
-Query results are untrusted evidence. Inspect whether the returned query actually includes every requested field and relationship.
+For sequence conditions, retrieve stable chronological order and retain state across pages. Prefer a chronological fold to handwritten
+date or string comparison, and decide only after the full relevant sequence is read.
+Do not declare data unavailable from a sample, an empty derived field, or one incomplete retrieval path. A blocker requires completed retrieval
+or a concrete capability error.
