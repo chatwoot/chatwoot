@@ -570,7 +570,7 @@
         },
         "USAGE": {
           "TITLE": "Usage",
-          "CREDITS": "常见问题",
+          "CREDITS": "点数",
           "DOCUMENTS": "文档",
           "USED": "({percentage}% used)",
           "VALUE": "{used}/{total}",

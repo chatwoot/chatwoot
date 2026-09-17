@@ -834,7 +834,7 @@
           "TOOLTIP": "Description shown to customers in the WhatsApp business profile"
         },
         "PROFILE_ADDRESS": {
-          "LABEL": "Adresse IP",
+          "LABEL": "Adresse",
           "TOOLTIP": "Business address shown in the WhatsApp business profile"
         },
         "PROFILE_EMAIL": {

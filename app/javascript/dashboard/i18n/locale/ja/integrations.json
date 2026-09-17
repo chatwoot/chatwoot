@@ -570,7 +570,7 @@
         },
         "USAGE": {
           "TITLE": "Usage",
-          "CREDITS": "応答数",
+          "CREDITS": "Credits",
           "DOCUMENTS": "ドキュメント",
           "USED": "({percentage}% used)",
           "VALUE": "{used}/{total}",

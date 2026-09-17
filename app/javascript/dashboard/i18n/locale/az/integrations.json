@@ -570,7 +570,7 @@
         },
         "USAGE": {
           "TITLE": "Usage",
-          "CREDITS": "Responses",
+          "CREDITS": "Credits",
           "DOCUMENTS": "Sənədlər",
           "USED": "({percentage}% used)",
           "VALUE": "{used}/{total}",

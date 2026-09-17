@@ -570,7 +570,7 @@
         },
         "USAGE": {
           "TITLE": "Usage",
-          "CREDITS": "Responses",
+          "CREDITS": "Credits",
           "DOCUMENTS": "Dokumen",
           "USED": "({percentage}% used)",
           "VALUE": "{used}/{total}",

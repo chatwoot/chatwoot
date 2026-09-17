@@ -128,7 +128,7 @@ ru:
       realtimekit_credentials_required: 'Необходимы учетные данные Cloudflare RealtimeKit. Удалите существующую интеграцию Dyte и создайте ее заново, используя учетные данные Cloudflare RealtimeKit.'
     cloudflare:
       realtimekit:
-        invalid_credentials: 'Некорректные учетные данные Cloudflare RealtimeKit. Проверьте права доступа к аккаунту, идентификатору приложения RealtimeKit и идентификатору API.'
+        invalid_credentials: 'Некорректные учетные данные Cloudflare RealtimeKit. Проверьте Account ID, RealtimeKit App ID и разрешения API token.'
         missing_credentials: 'Требуется идентификатор аккаунта в Cloudflare, идентификатор приложения RealtimeKit и токен API.'
         invalid_api_token: 'Cloudflare API токен недействителен или неактивен. Пожалуйста, создайте новый токен с правами Realtime Admin.'
         invalid_account_or_permissions: 'Неверный ID аккаунта Cloudflare или API токен не имеет прав Realtime Admin для этой учетной записи.'

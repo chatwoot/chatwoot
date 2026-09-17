@@ -570,7 +570,7 @@
         },
         "USAGE": {
           "TITLE": "Usage",
-          "CREDITS": "Responses",
+          "CREDITS": "Credits",
           "DOCUMENTS": "कागजातहरू",
           "USED": "({percentage}% used)",
           "VALUE": "{used}/{total}",

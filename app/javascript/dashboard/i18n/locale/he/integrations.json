@@ -570,7 +570,7 @@
         },
         "USAGE": {
           "TITLE": "Usage",
-          "CREDITS": "תגובות",
+          "CREDITS": "Credits",
           "DOCUMENTS": "מסמכים",
           "USED": "({percentage}% used)",
           "VALUE": "{used}/{total}",
