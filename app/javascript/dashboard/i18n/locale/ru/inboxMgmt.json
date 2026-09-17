@@ -944,10 +944,10 @@
           "BANNED": "Banned",
           "DISCONNECTED": "Disconnected",
           "UNKNOWN": "Недоступен",
-          "PENDING_REVIEW": "Under review",
-          "AVAILABLE_WITHOUT_REVIEW": "Not reviewed yet",
-          "REJECTED": "Not approved",
-          "DECLINED": "Not approved",
+          "PENDING_REVIEW": "На рассмотрении",
+          "AVAILABLE_WITHOUT_REVIEW": "Ещё не рассмотрено",
+          "REJECTED": "Не одобрено",
+          "DECLINED": "Не одобрено",
           "NON_EXISTS": "Не существует"
         },
         "MODES": {
