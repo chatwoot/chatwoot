@@ -326,6 +326,20 @@ RSpec.describe 'Accounts API', type: :request do
         expect(response).to have_http_status(:forbidden)
         expect(response.parsed_body['error_code']).to eq('mfa_enrollment_required')
       end
+
+      it 'does not block account creation for saml users' do
+        account.update!(enforce_mfa: true)
+        admin.update!(provider: 'saml')
+
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post '/api/v1/accounts',
+               params: { account_name: 'new team', email: admin.email, user_full_name: admin.name },
+               headers: { api_access_token: admin.access_token.token },
+               as: :json
+        end
+
+        expect(response).not_to have_http_status(:forbidden)
+      end
     end
 
     context 'when it is an unauthenticated user' do

@@ -13,7 +13,8 @@ module MfaEnforcementGuard
   end
 
   def check_user_mfa_enforcement
-    render_mfa_enrollment_required if Current.user.is_a?(User) && Current.user.mfa_enforcement_pending?
+    user = Current.user
+    render_mfa_enrollment_required if user.is_a?(User) && user.mfa_enforcement_pending? && mfa_enforcement_applies?(user)
   end
 
   def mfa_enforcement_applies?(user)
