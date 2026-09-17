@@ -17,7 +17,7 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Masuk dengan Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Harap gunakan alamat email perusahaan Anda untuk masuk",
+      "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
       "NO_ACCOUNT_FOUND": "Kami tidak dapat menemukan akun untuk alamat email Anda."
     },
     "FORGOT_PASSWORD": "Lupa kata sandi Anda?",
