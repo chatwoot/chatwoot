@@ -7,6 +7,11 @@ search_indexing_dispatch_job:
   class: 'SearchIndexingDispatchJob'
   queue: search_indexing
 
+search_indexing_maintenance_job:
+  cron: '*/1 * * * *'
+  class: 'SearchIndexingMaintenanceJob'
+  queue: search_backfill
+
 # executed daily at 0000 UTC
 # schedules daily deferred jobs at stable times for each installation
 internal_check_new_versions_job:
