@@ -600,7 +600,7 @@
         }
       },
       "BULK_TRANSLATE": {
-        "TITLE": "Traduire l'article | Traduire les articles {count}",
+        "TITLE": "Traduire l'article | Traduire {count} articles",
         "DESCRIPTION": "Traduire l'article sélectionné dans une autre langue. | Traduire les articles sélectionnés dans une autre langue.",
         "LOCALE_LABEL": "Langue cible",
         "LOCALE_PLACEHOLDER": "Sélectionnez une langue",
@@ -613,7 +613,7 @@
         "CLEAR_SELECTION": "Effacer la sélection",
         "TRANSLATE_BUTTON": "Traduire",
         "CONFIRM_OVERWRITE": "Écraser et traduire",
-        "DUPLICATE_WARNING": "Une traduction existe déjà pour cet article dans la langue sélectionnée. | Des traductions existent déjà pour les articles {count} dans la langue sélectionnée.",
+        "DUPLICATE_WARNING": "Une traduction existe déjà pour cet article dans la langue sélectionnée. | Des traductions existent déjà pour {count} articles dans la langue sélectionnée.",
         "DUPLICATE_CONFIRM_HINT": "Cliquez à nouveau sur traduire pour écraser la traduction existante.",
         "API": {
           "SUCCESS_MESSAGE": "Traduction en cours. L'article apparaîtra comme un brouillon une fois prêt.",
@@ -629,11 +629,11 @@
         "DELETE": "Supprimer",
         "STATUS_SUCCESS": "Articles mis à jour avec succès",
         "STATUS_ERROR": "Impossible de mettre à jour les articles",
-        "STATUS_SKIPPED": "1 article avec des modifications non publiées a été ignoré — ouvrez-le pour publier ou jeter. | Les articles {count} avec des modifications non publiées ont été ignorés - ouvrez-les pour publier ou jeter.",
+        "STATUS_SKIPPED": "1 article avec des modifications non publiées a été ignoré — ouvrez-le pour publier ou jeter. | {count} articles avec des modifications non publiées ont été ignorés - ouvrez-les pour publier ou jeter.",
         "STATUS_SKIPPED_ALL": "Ces articles ont des modifications non publiées — ouvrez chacun pour publier ou jeter.",
         "CATEGORY_SUCCESS": "Articles déplacés avec succès",
         "CATEGORY_ERROR": "Impossible de déplacer les articles",
-        "DELETE_CONFIRM_TITLE": "Supprimer l'article | Supprimer les articles {count}",
+        "DELETE_CONFIRM_TITLE": "Supprimer l'article | Supprimer {count} articles",
         "DELETE_CONFIRM_DESCRIPTION": "Cette action supprimera définitivement l’article sélectionné et ne peut pas être annulée. | Cette action supprimera définitivement {count} articles sélectionnés et ne peut pas être annulée.",
         "DELETE_CONFIRM": "Supprimer",
         "DELETE_SUCCESS": "Articles supprimés avec succès",

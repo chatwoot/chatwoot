@@ -699,7 +699,7 @@
           "PLACEHOLDER": "输入欢迎消息"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff message",
+          "LABEL": "交接信息",
           "PLACEHOLDER": "输入交接消息"
         },
         "RESOLUTION_MESSAGE": {

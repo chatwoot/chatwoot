@@ -1053,7 +1053,7 @@
           "UPDATED": "Actualizado",
           "NEEDS_UPDATE": "Necesita actualización",
           "UPDATING": "Actualizando",
-          "FAILED": "Failed"
+          "FAILED": "Error"
         },
         "SORT": {
           "RECENTLY_UPDATED": "Actualizado recientemente",

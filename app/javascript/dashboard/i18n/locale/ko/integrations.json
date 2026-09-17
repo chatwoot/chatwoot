@@ -699,7 +699,7 @@
           "PLACEHOLDER": "환영 메시지를 입력하십시오"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff message",
+          "LABEL": "전환 메시지",
           "PLACEHOLDER": "전환 메시지를 입력하십시오"
         },
         "RESOLUTION_MESSAGE": {
