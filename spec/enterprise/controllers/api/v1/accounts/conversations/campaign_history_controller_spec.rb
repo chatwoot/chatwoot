@@ -7,7 +7,7 @@ RSpec.describe 'Conversation campaign history API', type: :request do
     create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
   end
   let(:inbox) { channel.inbox }
-  let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox, created_at: sent_at - 1.day) }
   let(:campaign) { create(:campaign, account: account, inbox: inbox) }
   let(:sent_at) { 1.day.ago.change(usec: 0) }
   let(:recipient) do
@@ -119,6 +119,42 @@ RSpec.describe 'Conversation campaign history API', type: :request do
         expect(response).to have_http_status(:not_found)
       end
     end
+  end
+
+  context 'with multiple conversations' do
+    let(:next_start) { sent_at + 1.hour }
+    let!(:next_conversation) do
+      create(:conversation, account: account, inbox: inbox, contact: conversation.contact, created_at: next_start)
+    end
+
+    it 'includes the start boundary and excludes campaigns before it and at or after the next conversation' do
+      times = [conversation.created_at - 1.second, conversation.created_at, sent_at, next_start, next_start + 1.second]
+      records = times.map do |time|
+        CampaignRecipient.create!(account: account, campaign: create(:campaign, account: account, inbox: inbox), inbox: inbox,
+                                  contact: conversation.contact, status: :sent, sent_at: time)
+      end
+
+      get url, headers: headers
+      expect(response.parsed_body['payload'].pluck('id')).to eq([records[2].id, records[1].id])
+      expect(response.parsed_body['meta']['next_before']).to be_nil
+
+      get "/api/v1/accounts/#{account.id}/conversations/#{next_conversation.display_id}/campaign_history", headers: headers
+      expect(response.parsed_body['payload'].pluck('id')).to eq([records[4].id, records[3].id])
+    end
+
+    it 'rejects a cursor outside the conversation time window' do
+      recipient.update!(sent_at: next_start)
+      get url, params: { before: recipient.id }, headers: headers
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  it 'does not use other contacts or inboxes to end the conversation window' do
+    create(:conversation, account: account, inbox: inbox, created_at: sent_at - 1.hour)
+    create(:conversation, account: account, contact: conversation.contact, created_at: sent_at - 1.hour)
+    recipient
+    get url, headers: headers
+    expect(response.parsed_body['payload'].pluck('id')).to eq([recipient.id])
   end
 
   context 'with pagination' do

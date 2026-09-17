@@ -25,6 +25,7 @@ import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 // utils
 import { emitter } from 'shared/helpers/mitt';
 import { getTypingUsersText } from '../../../helper/commons';
+import { captureTimelineAnchor } from './helpers/campaignScrollAnchor';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import {
@@ -266,14 +267,17 @@ export default {
   watch: {
     visibleCampaignHistory() {
       if (!this.conversationPanel) return;
-      const previousHeight = this.conversationPanel.scrollHeight;
-      const previousTop = this.conversationPanel.scrollTop;
+      const conversationId = this.currentChat.id;
+      const restoreAnchor = captureTimelineAnchor(
+        this.conversationPanel,
+        this.$route.query.messageId
+      );
       this.$nextTick(() => {
+        if (this.currentChat.id !== conversationId) return;
         if (!this.hasUserScrolled && !this.$route.query.messageId) {
           this.scrollToBottom();
         } else {
-          this.conversationPanel.scrollTop =
-            previousTop + this.conversationPanel.scrollHeight - previousHeight;
+          restoreAnchor();
         }
       });
     },

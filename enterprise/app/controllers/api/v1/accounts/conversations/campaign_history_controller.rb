@@ -40,8 +40,12 @@ class Api::V1::Accounts::Conversations::CampaignHistoryController < Api::V1::Acc
   end
 
   def campaign_recipients
-    @conversation.contact.campaign_recipients.where(account_id: Current.account.id, inbox_id: @conversation.inbox_id)
-                 .where.not(sent_at: nil)
+    next_conversation = Current.account.conversations.where(contact_id: @conversation.contact_id, inbox_id: @conversation.inbox_id)
+                               .where('(created_at, id) > (?, ?)', @conversation.created_at, @conversation.id)
+                               .order(:created_at, :id).first
+    recipients = @conversation.contact.campaign_recipients.where(account_id: Current.account.id, inbox_id: @conversation.inbox_id)
+                              .where(sent_at: @conversation.created_at..)
+    next_conversation ? recipients.where('sent_at < ?', next_conversation.created_at) : recipients
   end
 
   def recipient_payload(recipient)
