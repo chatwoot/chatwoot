@@ -6,7 +6,6 @@ class Captain::Apropos::Runtime
 
   MAX_AGENT_CALLS = 500
   MAX_DELEGATION_DEPTH = 2
-  TASK_PLAN_BINDING = :'task-plan'
 
   attr_reader :scheme, :catalog, :events, :account, :user, :execution_failure
 
@@ -44,19 +43,7 @@ class Captain::Apropos::Runtime
     }
   end
 
-  def run_context
-    context = Captain::Apropos::Prompt.context(account: account, budget: @budget, depth: @depth)
-    plan = working_plan
-    context[:working_plan] = plan if plan
-    context
-  end
-
-  def working_plan
-    value = scheme.workspace[TASK_PLAN_BINDING]
-    return unless value
-
-    present(value)
-  end
+  def run_context = Captain::Apropos::Prompt.context(account: account, budget: @budget, depth: @depth)
 
   def record(kind, data)
     event = { 'kind' => kind, 'data' => data, 'depth' => @depth, 'at' => Time.current.iso8601 }

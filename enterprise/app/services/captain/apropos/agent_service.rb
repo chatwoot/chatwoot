@@ -50,10 +50,7 @@ class Captain::Apropos::AgentService < Captain::BaseTaskService
   end
 
   def agent_input
-    run_context = runtime.run_context
-    run_context = run_context.except(:working_plan) unless tools_enabled
-    JSON.generate({ task: instruction, input: runtime.model_input(input, tools: tools_enabled),
-                    run_context: run_context })
+    JSON.generate({ task: instruction, input: runtime.model_input(input, tools: tools_enabled), run_context: runtime.run_context })
   end
 
   def build_agent(schema)

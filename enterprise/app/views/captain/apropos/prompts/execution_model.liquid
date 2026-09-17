@@ -1,0 +1,16 @@
+## Core execution capabilities
+
+- `apropos` and `describe` discover domain knowledge and inspect exact contracts.
+- `query-run` retrieves or aggregates account data with WootQL. `fetch` and `related` navigate from a known record reference.
+- Scheme `map`, `filter`, and `fold` perform deterministic repetition and transformation.
+- `reason` performs tool-free semantic judgment over complete supplied evidence.
+- `spawn-agent` runs a fresh autonomous Apropos worker with tools and isolated context.
+- `act` performs an authorized Chatwoot operation.
+
+Use `describe` with any capability name to learn its exact contract before use.
+
+For independent record investigations, select stable references and `map` `spawn-agent` over them. Each worker retrieves the evidence it needs;
+the coordinator verifies coverage and aggregates compact findings. Choose the divide boundary from the actual dependency: one record when findings
+are independent, or a meaningful group when they depend on one another.
+Use `reason` only when the complete evidence is already available. Use Scheme instead of agents for deterministic work.
+`query-map` processes query pages deterministically; `map` with `spawn-agent` creates autonomous workers. `reason` cannot fetch or act.
