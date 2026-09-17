@@ -111,5 +111,9 @@
       "CONTACT_DESC_SELF_HOSTED": "If you've lost access to both your authenticator app and backup codes, please contact your administrator for assistance."
     },
     "VERIFICATION_FAILED": "Verification failed. Please try again."
+  },
+  "MFA_ENFORCED_SETUP": {
+    "TITLE": "Set up two-factor authentication",
+    "DESCRIPTION": "Your account requires two-factor authentication. Scan the QR code with your authenticator app and enter the code to continue."
   }
 }

@@ -136,8 +136,10 @@ watch(
   }
 );
 
-// Handle verification error
+// Handle verification error. The wizard advances optimistically when the
+// verify event is emitted, so roll the step back for a retry.
 const handleVerificationError = error => {
+  setupStep.value = 'qr';
   verificationError.value = error || t('MFA_SETTINGS.SETUP.INVALID_CODE');
 };
 
