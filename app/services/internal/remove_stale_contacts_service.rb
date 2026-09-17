@@ -12,8 +12,15 @@ class Internal::RemoveStaleContactsService
 
       ContactInbox.where(contact_id: contact_ids).delete_all
       Contact.where(id: contact_ids).delete_all
+      contacts_removed(contact_ids)
       total_deleted += batch.size
       Rails.logger.info "[Internal::RemoveStaleContactsService] Deleted #{batch.size} contacts (#{total_deleted} total) for account #{@account.id}"
     end
   end
+
+  private
+
+  def contacts_removed(_contact_ids); end
 end
+
+Internal::RemoveStaleContactsService.prepend_mod_with('Internal::RemoveStaleContactsService')
