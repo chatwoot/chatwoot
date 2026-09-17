@@ -134,7 +134,6 @@ class ReconnectService {
   };
 
   onReconnect = async () => {
-    await this.store.dispatch('accounts/get', { silent: true });
     await this.handleRouteSpecificFetch();
     await this.revalidateCaches();
     emitter.emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
