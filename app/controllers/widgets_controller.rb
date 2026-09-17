@@ -1,6 +1,7 @@
 # TODO : Delete this and associated spec once 'api/widget/config' end point is merged
 class WidgetsController < ActionController::Base
   include WidgetHelper
+  include WidgetAuthToken
 
   before_action :set_global_config
   before_action :set_web_widget
@@ -9,6 +10,7 @@ class WidgetsController < ActionController::Base
   before_action :set_token
   before_action :set_contact
   before_action :build_contact
+  after_action :persist_widget_auth_cookie
   after_action :allow_iframe_requests
 
   private
@@ -32,12 +34,16 @@ class WidgetsController < ActionController::Base
   end
 
   def set_token
-    @token = permitted_params[:cw_conversation]
+    @token = widget_auth_token
     @auth_token_params = if @token.present?
                            ::Widget::TokenService.new(token: @token).decode_token
                          else
                            {}
                          end
+  end
+
+  def persist_widget_auth_cookie
+    write_widget_auth_cookie(@token)
   end
 
   def set_contact

@@ -1,4 +1,7 @@
-import { buildSearchParamsWithLocale } from '../helpers/urlParamsHelper';
+import {
+  buildSearchParamsWithLocale,
+  stripConversationToken,
+} from '../helpers/urlParamsHelper';
 import { generateEventParams } from './events';
 
 const createConversation = params => {
@@ -74,18 +77,18 @@ const sendAttachment = (
     });
   }
   return {
-    url: `/api/v1/widget/messages${window.location.search}`,
+    url: `/api/v1/widget/messages${stripConversationToken(window.location.search)}`,
     params: formData,
   };
 };
 
 const getConversation = ({ before, after }) => ({
-  url: `/api/v1/widget/messages${window.location.search}`,
+  url: `/api/v1/widget/messages${stripConversationToken(window.location.search)}`,
   params: { before, after },
 });
 
 const updateMessage = id => ({
-  url: `/api/v1/widget/messages/${id}${window.location.search}`,
+  url: `/api/v1/widget/messages/${id}${stripConversationToken(window.location.search)}`,
 });
 
 const getAvailableAgents = token => ({
