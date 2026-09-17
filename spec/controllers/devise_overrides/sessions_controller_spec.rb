@@ -258,6 +258,61 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
     end
   end
 
+  describe 'ip abuse blocking' do
+    let(:password) { 'Test@123456' }
+    let!(:user) { create(:user, password: password) }
+    let(:spec_ip) { '203.0.113.10' }
+
+    before do
+      GlobalConfig.clear_cache
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      request.remote_addr = spec_ip
+      Redis::Alfred.delete(format(Redis::RedisKeys::AUTH_FAILED_EMAILS_PER_IP, ip: spec_ip))
+      Redis::Alfred.delete(format(Redis::RedisKeys::AUTH_ABUSE_BLOCKED_IP, ip: spec_ip))
+    end
+
+    it 'records failed attempts and blocks the ip after distinct-email threshold' do
+      5.times do |i|
+        post :create, params: { email: "u#{i}@example.com", password: 'wrong-password' }
+      end
+
+      post :create, params: { email: user.email, password: password }
+
+      expect(response).to have_http_status(:too_many_requests)
+      expect(response.parsed_body['error_code']).to eq('sign_in_blocked')
+      expect(response.parsed_body['errors'].first).to eq(I18n.t('errors.sign_in.blocked'))
+    end
+
+    it 'does not count successful sign-ins' do
+      5.times { post :create, params: { email: user.email, password: password } }
+
+      post :create, params: { email: user.email, password: password }
+
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'does not block below the threshold' do
+      4.times do |i|
+        post :create, params: { email: "u#{i}@example.com", password: 'wrong-password' }
+      end
+
+      post :create, params: { email: user.email, password: password }
+
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'still allows sso sign-in from a blocked ip' do
+      5.times do |i|
+        post :create, params: { email: "u#{i}@example.com", password: 'wrong-password' }
+      end
+      sso_token = user.generate_sso_auth_token
+
+      post :create, params: { email: user.email, sso_auth_token: sso_token }
+
+      expect(response).to have_http_status(:success)
+    end
+  end
+
   describe 'GET #new' do
     it 'redirects to frontend login page' do
       allow(ENV).to receive(:fetch).and_call_original

@@ -11,6 +11,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   def create
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
+    return render_sign_in_blocked if abuse_tracker.blocked?
 
     user = find_user_for_authentication
     return handle_mfa_required(user) if user&.mfa_enabled?
@@ -36,6 +37,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def render_create_error_account_locked
+    track_failed_sign_in
     render_error(
       :unauthorized,
       I18n.t('devise.failure.locked'),
@@ -44,9 +46,25 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def render_create_error_bad_credentials
+    track_failed_sign_in
     return render_create_error_account_locked if @resource&.access_locked?
 
     super
+  end
+
+  def render_sign_in_blocked
+    render_error(:too_many_requests, I18n.t('errors.sign_in.blocked'), error_code: 'sign_in_blocked')
+  end
+
+  def abuse_tracker
+    @abuse_tracker ||= Auth::SignInAbuseTracker.new(ip: request.remote_ip)
+  end
+
+  def track_failed_sign_in
+    return if @failed_sign_in_tracked
+
+    @failed_sign_in_tracked = true
+    abuse_tracker.record_failure(params[:email])
   end
 
   def find_user_for_authentication
