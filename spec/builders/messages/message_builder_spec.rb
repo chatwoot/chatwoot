@@ -258,6 +258,12 @@ describe Messages::MessageBuilder do
 
           expect { message_builder }.to raise_error(ActiveRecord::RecordNotFound)
         end
+
+        it 'raises when no recipient is given' do
+          params[:to_emails] = ''
+
+          expect { message_builder }.to raise_error(StandardError, 'Forwarded emails need a recipient')
+        end
       end
 
       context 'when custom email content is provided' do

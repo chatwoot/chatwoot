@@ -74,8 +74,11 @@ class Messages::MessageBuilder
     attachment.meta = (attachment.meta || {}).merge('is_voice_message' => true)
   end
 
+  def forwarded_message_id
+    content_attributes[:forwarded_message_id]
+  end
+
   def forwarded_attachments
-    forwarded_message_id = content_attributes[:forwarded_message_id]
     return [] if forwarded_message_id.blank?
 
     forwarded_message = @conversation.messages.find(forwarded_message_id)
@@ -88,6 +91,7 @@ class Messages::MessageBuilder
     cc_emails = process_email_string(@params[:cc_emails])
     bcc_emails = process_email_string(@params[:bcc_emails])
     to_emails = process_email_string(@params[:to_emails])
+    raise StandardError, 'Forwarded emails need a recipient' if forwarded_message_id.present? && to_emails.empty?
 
     all_email_addresses = cc_emails + bcc_emails + to_emails
     validate_email_addresses(all_email_addresses)

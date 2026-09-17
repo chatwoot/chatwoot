@@ -8,7 +8,7 @@ describe Email::SendOnEmailService do
   let(:message) { create(:message, conversation: conversation, message_type: 'outgoing') }
   let(:service) { described_class.new(message: message) }
 
-  describe '#perform with a forwarded email' do
+  describe '#perform with a forwarded email', type: :mailer do
     let(:agent) { create(:user, account: account) }
     let(:mailer) { ConversationReplyMailer.new }
     let(:conversation) do

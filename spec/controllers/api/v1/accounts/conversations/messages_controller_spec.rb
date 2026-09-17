@@ -142,6 +142,17 @@ RSpec.describe 'Conversation Messages API', type: :request do
           expect(response.parsed_body['error']).to include('Couldn\'t find Message')
           expect(conversation.messages.outgoing).to be_empty
         end
+
+        it 'rejects a forward without a recipient' do
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'Please handle this', content_attributes: { forwarded_message_id: forwarded_message.id } },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('Forwarded emails need a recipient')
+          expect(conversation.messages.outgoing).to be_empty
+        end
       end
 
       context 'when api inbox' do
@@ -321,7 +332,9 @@ RSpec.describe 'Conversation Messages API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/:conversation_id/messages/:id/retry' do
-    let(:message) { create(:message, account: account, status: :failed, content_attributes: { external_error: 'error' }) }
+    let(:message) do
+      create(:message, account: account, status: :failed, content_attributes: { external_error: 'error', to_emails: ['vendor@example.com'] })
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -337,14 +350,15 @@ RSpec.describe 'Conversation Messages API', type: :request do
         create(:inbox_member, inbox: message.conversation.inbox, user: agent)
       end
 
-      it 'retries the message' do
+      it 'retries the message and keeps its delivery details' do
         post "/api/v1/accounts/#{account.id}/conversations/#{message.conversation.display_id}/messages/#{message.id}/retry",
              headers: agent.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:success)
         expect(message.reload.status).to eq('sent')
-        expect(message.reload.content_attributes['external_error']).to be_nil
+        expect(message.content_attributes['external_error']).to be_nil
+        expect(message.content_attributes['to_emails']).to eq(['vendor@example.com'])
       end
     end
 
