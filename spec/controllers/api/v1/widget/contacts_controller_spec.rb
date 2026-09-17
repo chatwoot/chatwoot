@@ -116,6 +116,78 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
     end
   end
 
+  describe 'PATCH /api/v1/widget/contact with HMAC enforcement' do
+    let(:web_widget) { create(:channel_widget, account: account, hmac_mandatory: true) }
+    let!(:victim) { create(:contact, account: account, identifier: 'victim-identifier', name: 'Victim') }
+    let(:correct_identifier_hash) { OpenSSL::HMAC.hexdigest('sha256', web_widget.hmac_token, 'victim-identifier') }
+
+    context 'when an identifier is supplied on a mandatory-hmac inbox' do
+      it 'rejects when identifier_hash is omitted' do
+        patch '/api/v1/widget/contact',
+              params: { website_token: web_widget.website_token, identifier: 'victim-identifier', name: 'Attacker' },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(victim.reload.name).to eq('Victim')
+      end
+
+      it 'rejects when identifier_hash is blank' do
+        patch '/api/v1/widget/contact',
+              params: { website_token: web_widget.website_token, identifier: 'victim-identifier', identifier_hash: '', name: 'Attacker' },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(victim.reload.name).to eq('Victim')
+      end
+
+      it 'rejects when identifier_hash is null' do
+        patch '/api/v1/widget/contact',
+              params: { website_token: web_widget.website_token, identifier: 'victim-identifier', identifier_hash: nil, name: 'Attacker' },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(victim.reload.name).to eq('Victim')
+      end
+
+      it 'rejects when identifier_hash is invalid' do
+        patch '/api/v1/widget/contact',
+              params: { website_token: web_widget.website_token, identifier: 'victim-identifier',
+                        identifier_hash: 'DEFINITELY_INVALID_AAAAA_NOT_A_REAL_HMAC', name: 'Attacker' },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(victim.reload.name).to eq('Victim')
+      end
+
+      it 'succeeds when a valid identifier_hash is provided' do
+        patch '/api/v1/widget/contact',
+              params: { website_token: web_widget.website_token, identifier: 'victim-identifier',
+                        identifier_hash: correct_identifier_hash, name: 'Legit' },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'when no identifier is supplied (anonymous prechat update)' do
+      it 'allows updating name/email without an identifier_hash' do
+        patch '/api/v1/widget/contact',
+              params: { website_token: web_widget.website_token, email: 'prechat@test.com', name: 'Prechat User' },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(victim.reload.email).to be_nil
+        expect(Contact.from_email('prechat@test.com')).to be_present
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
   describe 'PATCH /api/v1/widget/contact/set_user' do
     let(:params) { { website_token: web_widget.website_token, identifier: 'test' } }
     let(:web_widget) { create(:channel_widget, account: account, hmac_mandatory: true) }

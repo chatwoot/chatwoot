@@ -118,6 +118,7 @@ describe('useAutomation', () => {
       labels: computedLabels,
       teams: computedTeams,
       slaPolicies: computedSlaPolicies,
+      statusFilterOptions: computedStatusFilterOptions,
     } = useAutomation();
 
     expect(computedAgents.value).toEqual(agents);
@@ -127,6 +128,9 @@ describe('useAutomation', () => {
     expect(computedLabels.value).toEqual(labels);
     expect(computedTeams.value).toEqual(teams);
     expect(computedSlaPolicies.value).toEqual(slaPolicies);
+    expect(
+      computedStatusFilterOptions.value.filter(option => option.id === 'all')
+    ).toHaveLength(1);
   });
 
   it('appends new condition and action correctly', () => {

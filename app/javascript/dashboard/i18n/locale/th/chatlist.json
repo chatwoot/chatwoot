@@ -7,6 +7,7 @@
       "404": "ไม่มีการสนทนาที่ใช้งานในกลุ่มนี้"
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "การสนทนา",
     "MENTION_HEADING": "กล่าวถึง",
     "UNATTENDED_HEADING": "ไม่ได้เข้าร่วม",
@@ -79,6 +80,9 @@
       },
       "priority_desc_created_at_asc": {
         "TEXT": "Priority: Highest first, Created: Oldest first"
+      },
+      "unread": {
+        "TEXT": "Unread Count: Highest first"
       }
     },
     "ATTACHMENTS": {

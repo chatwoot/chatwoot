@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import countries from 'shared/constants/countries';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -42,6 +43,8 @@ const props = defineProps({
     default: 0,
   },
 });
+
+const exactTimestamp = useExactTimestamp();
 
 const navigateTo = computed(() => {
   return frontendURL(`accounts/${props.accountId}/contacts/${props.id}`);
@@ -105,6 +108,10 @@ const formattedLocation = computed(() => {
           </h5>
           <span
             v-if="updatedAtTime"
+            v-tooltip.top="{
+              content: exactTimestamp(updatedAt),
+              delay: { show: 500, hide: 0 },
+            }"
             class="text-sm font-normal min-w-0 truncate text-n-slate-11"
           >
             {{ $t('SEARCH.UPDATED_AT', { time: updatedAtTime }) }}

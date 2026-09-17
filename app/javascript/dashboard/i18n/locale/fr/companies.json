@@ -1,6 +1,6 @@
 {
   "COMPANIES": {
-    "HEADER": "Companies",
+    "HEADER": "Entreprises",
     "SORT_BY": {
       "LABEL": "Trier par",
       "OPTIONS": {
@@ -8,115 +8,119 @@
         "DOMAIN": "Domaine",
         "CREATED_AT": "Créé le",
         "LAST_ACTIVITY_AT": "Dernière activité",
-        "CONTACTS_COUNT": "Contacts count"
+        "CONTACTS_COUNT": "Nombre de contacts"
       }
     },
     "ORDER": {
-      "LABEL": "Order",
+      "LABEL": "Ordre de tri",
       "OPTIONS": {
-        "ASCENDING": "Ascending",
+        "ASCENDING": "Ascendant",
         "DESCENDING": "Décroissant"
       }
     },
-    "SEARCH_PLACEHOLDER": "Search companies...",
-    "LOADING": "Loading companies...",
-    "UNNAMED": "Unnamed Company",
+    "SEARCH_PLACEHOLDER": "Rechercher des entreprises...",
+    "LOADING": "Chargement des entreprises...",
+    "UNNAMED": "Entreprise sans nom",
     "CONTACTS_COUNT": "{n} contact | {n} contacts",
     "ACTIONS": {
-      "CREATE": "Add company"
+      "CREATE": "Ajouter une entreprise"
+    },
+    "SELECTOR": {
+      "PLACEHOLDER": "Sélectionner une entreprise",
+      "CREATE_OPTION": "Ajouter \"{name}\""
     },
     "CREATE": {
-      "TITLE": "Add company details",
+      "TITLE": "Ajouter les informations de la société",
       "ACTIONS": {
-        "SAVE": "Add company"
+        "SAVE": "Ajouter une entreprise"
       },
       "MESSAGES": {
-        "SUCCESS": "Company created.",
-        "ERROR": "Could not create the company."
+        "SUCCESS": "Société créée.",
+        "ERROR": "Impossible de créer la société."
       }
     },
     "DETAIL": {
-      "LOADING": "Loading company details...",
+      "LOADING": "Chargement des détails de l'entreprise...",
       "EMPTY_STATE": {
-        "TITLE": "Company not found",
-        "SUBTITLE": "This company may have been removed or is no longer available in this account."
+        "TITLE": "Société introuvable",
+        "SUBTITLE": "Cette entreprise a peut-être été supprimée ou n'est plus disponible sur ce compte."
       },
       "SIDEBAR": {
         "TABS": {
           "ATTRIBUTES": "Attributs",
           "CONTACTS": "Contacts",
-          "HISTORY": "History",
+          "HISTORY": "Historique",
           "NOTES": "Notes"
         }
       },
       "HISTORY": {
-        "EMPTY": "No conversations found for this company's contacts yet."
+        "EMPTY": "Aucune conversation n'a encore été trouvée pour les contacts de cette entreprise."
       },
       "NOTES": {
-        "EMPTY": "No notes found for this company's contacts yet."
+        "EMPTY": "Aucune note n'a encore été trouvée pour les contacts de cette entreprise."
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Rechercher des attributs...",
-        "EMPTY_STATE": "There are no company custom attributes configured yet.",
-        "NO_ATTRIBUTES": "No matching attributes found.",
-        "UNUSED_ATTRIBUTES": "{count} unused attribute | {count} unused attributes",
+        "EMPTY_STATE": "Il n'y a pas encore d'attributs personnalisés de société configurés.",
+        "NO_ATTRIBUTES": "Aucun attribut correspondant trouvé.",
+        "UNUSED_ATTRIBUTES": "{count} attribut inutilisé | {count} attributs inutilisés",
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company attribute updated.",
-          "UPDATE_ERROR": "Could not update company attribute.",
-          "DELETE_SUCCESS": "Company attribute removed.",
-          "DELETE_ERROR": "Could not remove company attribute."
+          "UPDATE_SUCCESS": "Attribut société mis à jour.",
+          "UPDATE_ERROR": "Impossible de mettre à jour l'attribut de la société.",
+          "DELETE_SUCCESS": "Attribut de la société supprimé.",
+          "DELETE_ERROR": "Impossible de supprimer l'attribut de la société."
         }
       },
       "CONTACTS": {
         "LOADING": "Chargement des contacts...",
-        "EMPTY": "No contacts are linked to this company yet.",
-        "UNNAMED_CONTACT": "Unnamed contact",
+        "EMPTY": "Aucun contact n'est encore lié à cette entreprise.",
+        "UNNAMED_CONTACT": "Contact sans nom",
         "ACTIONS": {
-          "ADD": "Add contact",
-          "REMOVE": "Remove contact"
+          "ADD": "Ajouter un contact",
+          "REMOVE": "Supprimer le contact"
         },
         "DIALOGS": {
           "ADD": {
-            "DESCRIPTION": "Search for an existing contact and link it to this company.",
-            "SEARCH_PLACEHOLDER": "Search contacts...",
-            "INITIAL": "Start typing to search contacts.",
-            "EMPTY": "No contacts found.",
-            "CONFIRM_TITLE": "Link contact",
-            "CONFIRM_DESCRIPTION": "Confirm the company and contact before linking them.",
+            "DESCRIPTION": "Rechercher un contact existant et le lier à cette entreprise.",
+            "SEARCH_PLACEHOLDER": "Rechercher des contacts...",
+            "INITIAL": "Commencez à taper pour rechercher des contacts.",
+            "EMPTY": "Aucun contact trouvé.",
+            "CONFIRM_TITLE": "Lier le contact",
+            "CONFIRM_DESCRIPTION": "Confirmez la société et le contact avant de les lier.",
             "COMPANY_LABEL": "Société",
             "CONTACT_LABEL": "Contact",
-            "CURRENT_COMPANY": "Currently linked to {companyName}",
-            "ADD": "Link contact",
+            "CURRENT_COMPANY": "Actuellement lié à {companyName}",
+            "ADD": "Lier le contact",
             "CANCEL": "Annuler"
           }
         },
         "MESSAGES": {
-          "ADD_SUCCESS": "Contact linked to company.",
-          "ADD_ERROR": "Could not link contact to company.",
-          "REASSIGN_SUCCESS": "Contact reassigned to company.",
-          "REASSIGN_ERROR": "Could not reassign contact to company.",
-          "REMOVE_SUCCESS": "Contact removed from company.",
-          "REMOVE_ERROR": "Could not remove contact from company."
+          "ADD_SUCCESS": "Contact lié à l'entreprise.",
+          "ADD_ERROR": "Impossible de lier le contact à la société.",
+          "REASSIGN_SUCCESS": "Contact réassigné à l'entreprise.",
+          "REASSIGN_ERROR": "Impossible de réaffecter le contact à la société.",
+          "REMOVE_SUCCESS": "Contact retiré de l'entreprise.",
+          "REMOVE_ERROR": "Impossible de supprimer le contact de la société."
         }
       },
       "AVATAR": {
-        "UPDATING": "Updating company avatar...",
-        "UPLOAD_SUCCESS": "Company avatar updated.",
-        "UPLOAD_ERROR": "Could not update the company avatar.",
-        "DELETE_SUCCESS": "Company avatar removed.",
-        "DELETE_ERROR": "Could not remove the company avatar."
+        "UPDATING": "Mise à jour de l'avatar de l'entreprise...",
+        "UPLOAD_SUCCESS": "Avatar de la société mis à jour.",
+        "UPLOAD_ERROR": "Impossible de mettre à jour l'avatar de la société.",
+        "DELETE_SUCCESS": "Avatar de la société supprimé.",
+        "DELETE_ERROR": "Impossible de supprimer l'avatar de la société."
       },
       "PROFILE": {
-        "TITLE": "Edit company details",
-        "CREATED_AT": "Created {date}",
-        "LAST_ACTIVE": "Last active {date}",
-        "DESCRIPTION_PLACEHOLDER": "Add a short description for this company",
+        "TITLE": "Modifier les informations de l'entreprise",
+        "CREATED_AT": "Créée le {date}",
+        "LAST_ACTIVE": "Dernière action {date}",
+        "DESCRIPTION_PLACEHOLDER": "Ajouter une courte description pour cette entreprise",
         "ACTIONS": {
-          "SAVE": "Update company"
+          "SAVE": "Mettre à jour la société"
         },
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company updated.",
-          "UPDATE_ERROR": "Could not update the company."
+          "UPDATE_SUCCESS": "Société mise à jour.",
+          "UPDATE_ERROR": "Impossible de mettre à jour la société."
         },
         "FIELDS": {
           "NAME": "Nom",
@@ -124,26 +128,26 @@
         }
       },
       "DELETE": {
-        "SECTION_TITLE": "Danger zone",
-        "SECTION_DESCRIPTION": "Delete this company and unlink its contacts. The contacts will remain in the account.",
-        "BUTTON": "Delete company",
-        "TITLE": "Delete company?",
-        "DESCRIPTION": "This will remove the company and unlink all associated contacts. Contacts themselves will be preserved.",
-        "DESCRIPTION_WITH_NAME": "This will remove {companyName} and unlink all associated contacts. Contacts themselves will be preserved.",
-        "CONFIRM": "Delete company",
+        "SECTION_TITLE": "Zone de danger",
+        "SECTION_DESCRIPTION": "Supprimer cette entreprise et dissocier ses contacts. Les contacts resteront dans le compte.",
+        "BUTTON": "Supprimer la société",
+        "TITLE": "Supprimer la société ?",
+        "DESCRIPTION": "Ceci supprimera la société et dissociera tous les contacts associés. Les contacts eux-mêmes seront préservés.",
+        "DESCRIPTION_WITH_NAME": "Cela supprimera {companyName} et dissociera tous les contacts associés. Les contacts eux-mêmes seront préservés.",
+        "CONFIRM": "Supprimer la société",
         "MESSAGES": {
-          "SUCCESS": "Company deleted.",
-          "ERROR": "Could not delete the company."
+          "SUCCESS": "Société supprimée.",
+          "ERROR": "Impossible de supprimer la société."
         }
       }
     },
     "EMPTY_STATE": {
-      "TITLE": "No companies found"
+      "TITLE": "Aucune entreprise trouvée"
     }
   },
   "COMPANIES_LAYOUT": {
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} – {endItem} of {totalItems} company | Showing {startItem} – {endItem} of {totalItems} companies"
+      "SHOWING": "Affichage {startItem} - {endItem} sur {totalItems} société | Affichage {startItem} - {endItem} sur {totalItems} sociétés"
     }
   }
 }

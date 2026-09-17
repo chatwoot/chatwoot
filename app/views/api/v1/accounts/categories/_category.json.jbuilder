@@ -6,6 +6,7 @@ json.description category.description
 json.position category.position
 json.account_id category.account_id
 json.icon category.icon
+json.icon_color category.icon_color
 
 json.related_categories do
   if category.related_categories.any?

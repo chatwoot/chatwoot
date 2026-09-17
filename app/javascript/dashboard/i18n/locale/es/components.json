@@ -64,6 +64,15 @@
     "BULLET_LIST": "Bullet List",
     "ORDERED_LIST": "Ordered List",
     "TABLE": "Table",
-    "IMAGE": "Image"
+    "IMAGE": "Imagen",
+    "VIDEO": "Vídeo",
+    "DIVIDER": "Divisor"
+  },
+  "VIDEO_EMBED": {
+    "PLACEHOLDER": "Pega un enlace de vídeo",
+    "HINT": "Compatible con enlaces de YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar y archivos mp4",
+    "ERROR": "No parece un enlace de vídeo compatible",
+    "ADD": "Insertar",
+    "CANCEL": "Cancelar"
   }
 }

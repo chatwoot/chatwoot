@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
@@ -162,7 +163,7 @@ onMounted(() => {
         >
           <p
             v-if="section.title"
-            class="px-2 py-2 text-xs mb-0 font-medium text-n-slate-11 uppercase tracking-wide sticky top-0 z-10 bg-n-alpha-3 backdrop-blur-sm"
+            class="px-2 py-2 text-xs mb-0 font-medium text-n-slate-11 uppercase tracking-wide sticky top-0 z-10 bg-n-alpha-3 backdrop-blur-sm truncate min-w-0"
           >
             {{ section.title }}
           </p>
@@ -207,9 +208,12 @@ onMounted(() => {
                 class="flex-shrink-0 size-3.5"
               />
             </slot>
-            <span v-if="item.emoji" class="flex-shrink-0">{{
-              item.emoji
-            }}</span>
+            <EmojiIcon
+              v-if="item.emoji"
+              :value="item.emoji"
+              :color="item.iconColor"
+              class="flex-shrink-0 size-4"
+            />
             <slot name="label" :item="item">
               <span
                 v-if="item.label"
@@ -260,7 +264,12 @@ onMounted(() => {
               class="flex-shrink-0 size-3.5"
             />
           </slot>
-          <span v-if="item.emoji" class="flex-shrink-0">{{ item.emoji }}</span>
+          <EmojiIcon
+            v-if="item.emoji"
+            :value="item.emoji"
+            :color="item.iconColor"
+            class="flex-shrink-0 size-4"
+          />
           <slot name="label" :item="item">
             <span
               v-if="item.label"

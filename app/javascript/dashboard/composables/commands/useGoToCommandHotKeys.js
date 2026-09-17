@@ -1,217 +1,308 @@
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useRouter } from 'vue-router';
-import { useAdmin } from 'dashboard/composables/useAdmin';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import {
-  ICON_ACCOUNT_SETTINGS,
-  ICON_AGENT_REPORTS,
-  ICON_APPS,
-  ICON_CANNED_RESPONSE,
-  ICON_CONTACT_DASHBOARD,
-  ICON_CONVERSATION_DASHBOARD,
-  ICON_INBOXES,
-  ICON_INBOX_REPORTS,
-  ICON_LABELS,
-  ICON_LABEL_REPORTS,
-  ICON_NOTIFICATION,
-  ICON_REPORTS_OVERVIEW,
-  ICON_TEAM_REPORTS,
-  ICON_USER_PROFILE,
-  ICON_CONVERSATION_REPORTS,
+  ICON_BLOCKS,
+  ICON_BOT,
+  ICON_BRIEFCASE,
+  ICON_CHART,
+  ICON_CLOCK_ALERT,
+  ICON_CODE,
+  ICON_CONTACT,
+  ICON_CREDIT_CARD,
+  ICON_DATABASE,
+  ICON_INBOX,
+  ICON_LAYOUT_TEMPLATE,
+  ICON_LIBRARY,
+  ICON_MEGAPHONE,
+  ICON_MESSAGE_CIRCLE,
+  ICON_MESSAGE_QUOTE,
+  ICON_PHONE,
+  ICON_REPEAT,
+  ICON_SMILE,
+  ICON_SQUARE_USER,
+  ICON_TAGS,
+  ICON_TOY_BRICK,
+  ICON_USERS,
+  ICON_USER_PEN,
 } from 'dashboard/helper/commandbar/icons';
-import { frontendURL } from 'dashboard/helper/URLHelper';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { isUpgradePageBypassRoute } from 'dashboard/helper/routeHelpers';
+
+const SECTION_GENERAL = 'COMMAND_BAR.SECTIONS.GENERAL';
+const SECTION_REPORTS = 'COMMAND_BAR.SECTIONS.REPORTS';
+const SECTION_SETTINGS = 'COMMAND_BAR.SECTIONS.SETTINGS';
 
 const GO_TO_COMMANDS = [
   {
+    id: 'goto_my_inbox',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_MY_INBOX',
+    section: SECTION_GENERAL,
+    icon: ICON_INBOX,
+    routeName: 'inbox_view',
+  },
+  {
     id: 'goto_conversation_dashboard',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_CONVERSATION_DASHBOARD',
-    section: 'COMMAND_BAR.SECTIONS.GENERAL',
-    icon: ICON_CONVERSATION_DASHBOARD,
-    path: accountId => `accounts/${accountId}/dashboard`,
-    role: ['administrator', 'agent'],
+    section: SECTION_GENERAL,
+    icon: ICON_MESSAGE_CIRCLE,
+    routeName: 'home',
   },
   {
     id: 'goto_contacts_dashboard',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_CONTACTS_DASHBOARD',
-    section: 'COMMAND_BAR.SECTIONS.GENERAL',
-    featureFlag: FEATURE_FLAGS.CRM,
-    icon: ICON_CONTACT_DASHBOARD,
-    path: accountId => `accounts/${accountId}/contacts`,
-    role: ['administrator', 'agent'],
+    section: SECTION_GENERAL,
+    icon: ICON_CONTACT,
+    routeName: 'contacts_dashboard_index',
+  },
+  {
+    id: 'goto_captain',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_CAPTAIN',
+    section: SECTION_GENERAL,
+    icon: ICON_BOT,
+    routeName: 'captain_assistants_index',
+    params: { navigationPath: 'captain_assistants_overview_index' },
+  },
+  {
+    id: 'goto_calls_dashboard',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_CALLS_DASHBOARD',
+    section: SECTION_GENERAL,
+    icon: ICON_PHONE,
+    routeName: 'calls_dashboard_index',
+  },
+  {
+    id: 'goto_campaigns',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_CAMPAIGNS',
+    section: SECTION_GENERAL,
+    icon: ICON_MEGAPHONE,
+    routeName: 'campaigns_livechat_index',
+  },
+  {
+    id: 'goto_help_center',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_HELP_CENTER',
+    section: SECTION_GENERAL,
+    icon: ICON_LIBRARY,
+    routeName: 'portals_index',
+    params: { navigationPath: 'portals_articles_index' },
   },
   {
     id: 'open_reports_overview',
-    section: 'COMMAND_BAR.SECTIONS.REPORTS',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_REPORTS_OVERVIEW',
-    featureFlag: FEATURE_FLAGS.REPORTS,
-    icon: ICON_REPORTS_OVERVIEW,
-    path: accountId => `accounts/${accountId}/reports/overview`,
-    role: ['administrator'],
+    section: SECTION_REPORTS,
+    icon: ICON_CHART,
+    routeName: 'account_overview_reports',
   },
   {
     id: 'open_conversation_reports',
-    section: 'COMMAND_BAR.SECTIONS.REPORTS',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_CONVERSATION_REPORTS',
-    featureFlag: FEATURE_FLAGS.REPORTS,
-    icon: ICON_CONVERSATION_REPORTS,
-    path: accountId => `accounts/${accountId}/reports/conversation`,
-    role: ['administrator'],
+    section: SECTION_REPORTS,
+    icon: ICON_MESSAGE_CIRCLE,
+    routeName: 'conversation_reports',
   },
   {
     id: 'open_agent_reports',
-    section: 'COMMAND_BAR.SECTIONS.REPORTS',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_AGENT_REPORTS',
-    featureFlag: FEATURE_FLAGS.REPORTS,
-    icon: ICON_AGENT_REPORTS,
-    path: accountId => `accounts/${accountId}/reports/agent`,
-    role: ['administrator'],
+    section: SECTION_REPORTS,
+    icon: ICON_SQUARE_USER,
+    routeName: 'agent_reports_index',
   },
   {
     id: 'open_label_reports',
-    section: 'COMMAND_BAR.SECTIONS.REPORTS',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_LABEL_REPORTS',
-    featureFlag: FEATURE_FLAGS.REPORTS,
-    icon: ICON_LABEL_REPORTS,
-    path: accountId => `accounts/${accountId}/reports/label`,
-    role: ['administrator'],
+    section: SECTION_REPORTS,
+    icon: ICON_TAGS,
+    routeName: 'label_reports_index',
   },
   {
     id: 'open_inbox_reports',
-    section: 'COMMAND_BAR.SECTIONS.REPORTS',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_INBOX_REPORTS',
-    featureFlag: FEATURE_FLAGS.REPORTS,
-    icon: ICON_INBOX_REPORTS,
-    path: accountId => `accounts/${accountId}/reports/inboxes`,
-    role: ['administrator'],
+    section: SECTION_REPORTS,
+    icon: ICON_INBOX,
+    routeName: 'inbox_reports_index',
   },
   {
     id: 'open_team_reports',
-    section: 'COMMAND_BAR.SECTIONS.REPORTS',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_TEAM_REPORTS',
-    featureFlag: FEATURE_FLAGS.REPORTS,
-    icon: ICON_TEAM_REPORTS,
-    path: accountId => `accounts/${accountId}/reports/teams`,
-    role: ['administrator'],
+    section: SECTION_REPORTS,
+    icon: ICON_USERS,
+    routeName: 'team_reports_index',
+  },
+  {
+    id: 'open_csat_reports',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_CSAT_REPORTS',
+    section: SECTION_REPORTS,
+    icon: ICON_SMILE,
+    routeName: 'csat_reports',
+  },
+  {
+    id: 'open_bot_reports',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_BOT_REPORTS',
+    section: SECTION_REPORTS,
+    icon: ICON_BOT,
+    routeName: 'bot_reports',
+  },
+  {
+    id: 'open_sla_reports',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_SLA_REPORTS',
+    section: SECTION_REPORTS,
+    icon: ICON_CLOCK_ALERT,
+    routeName: 'sla_reports',
   },
   {
     id: 'open_agent_settings',
-    section: 'COMMAND_BAR.SECTIONS.SETTINGS',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_AGENTS',
-    featureFlag: FEATURE_FLAGS.AGENT_MANAGEMENT,
-    icon: ICON_AGENT_REPORTS,
-    path: accountId => `accounts/${accountId}/settings/agents/list`,
-    role: ['administrator'],
+    section: SECTION_SETTINGS,
+    icon: ICON_SQUARE_USER,
+    routeName: 'agent_list',
   },
   {
     id: 'open_team_settings',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_TEAMS',
-    featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
-    section: 'COMMAND_BAR.SECTIONS.SETTINGS',
-    icon: ICON_TEAM_REPORTS,
-    path: accountId => `accounts/${accountId}/settings/teams/list`,
-    role: ['administrator'],
+    section: SECTION_SETTINGS,
+    icon: ICON_USERS,
+    routeName: 'settings_teams_list',
   },
   {
     id: 'open_inbox_settings',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_INBOXES',
-    featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
-    section: 'COMMAND_BAR.SECTIONS.SETTINGS',
-    icon: ICON_INBOXES,
-    path: accountId => `accounts/${accountId}/settings/inboxes/list`,
-    role: ['administrator'],
+    section: SECTION_SETTINGS,
+    icon: ICON_INBOX,
+    routeName: 'settings_inbox_list',
+  },
+  {
+    id: 'open_template_settings',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_TEMPLATES',
+    section: SECTION_SETTINGS,
+    icon: ICON_LAYOUT_TEMPLATE,
+    routeName: 'settings_templates',
   },
   {
     id: 'open_label_settings',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_LABELS',
-    featureFlag: FEATURE_FLAGS.LABELS,
-    section: 'COMMAND_BAR.SECTIONS.SETTINGS',
-    icon: ICON_LABELS,
-    path: accountId => `accounts/${accountId}/settings/labels/list`,
-    role: ['administrator'],
+    section: SECTION_SETTINGS,
+    icon: ICON_TAGS,
+    routeName: 'labels_list',
+  },
+  {
+    id: 'open_custom_attribute_settings',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_CUSTOM_ATTRIBUTES',
+    section: SECTION_SETTINGS,
+    icon: ICON_CODE,
+    routeName: 'attributes_list',
+  },
+  {
+    id: 'open_automation_settings',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_AUTOMATION',
+    section: SECTION_SETTINGS,
+    icon: ICON_REPEAT,
+    routeName: 'automation_list',
+  },
+  {
+    id: 'open_macro_settings',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_MACROS',
+    section: SECTION_SETTINGS,
+    icon: ICON_TOY_BRICK,
+    routeName: 'macros_wrapper',
   },
   {
     id: 'open_canned_response_settings',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_CANNED_RESPONSES',
-    featureFlag: FEATURE_FLAGS.CANNED_RESPONSES,
-    section: 'COMMAND_BAR.SECTIONS.SETTINGS',
-    icon: ICON_CANNED_RESPONSE,
-    path: accountId => `accounts/${accountId}/settings/canned-response/list`,
-    role: ['administrator', 'agent'],
+    section: SECTION_SETTINGS,
+    icon: ICON_MESSAGE_QUOTE,
+    routeName: 'canned_list',
+  },
+  {
+    id: 'open_sla_settings',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_SLA',
+    section: SECTION_SETTINGS,
+    icon: ICON_CLOCK_ALERT,
+    routeName: 'sla_list',
   },
   {
     id: 'open_applications_settings',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_APPLICATIONS',
-    featureFlag: FEATURE_FLAGS.INTEGRATIONS,
-    section: 'COMMAND_BAR.SECTIONS.SETTINGS',
-    icon: ICON_APPS,
-    path: accountId => `accounts/${accountId}/settings/applications`,
-    role: ['administrator'],
+    section: SECTION_SETTINGS,
+    icon: ICON_BLOCKS,
+    routeName: 'settings_applications',
+  },
+  {
+    id: 'open_data_settings',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_DATA',
+    section: SECTION_SETTINGS,
+    icon: ICON_DATABASE,
+    routeName: 'settings_data_imports',
+  },
+  {
+    id: 'open_audit_logs_settings',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_AUDIT_LOGS',
+    section: SECTION_SETTINGS,
+    icon: ICON_BRIEFCASE,
+    routeName: 'auditlogs_list',
+  },
+  {
+    id: 'open_billing_settings',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_BILLING',
+    section: SECTION_SETTINGS,
+    icon: ICON_CREDIT_CARD,
+    routeName: 'billing_settings_index',
   },
   {
     id: 'open_account_settings',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_ACCOUNT',
-    section: 'COMMAND_BAR.SECTIONS.SETTINGS',
-    icon: ICON_ACCOUNT_SETTINGS,
-    path: accountId => `accounts/${accountId}/settings/general`,
-    role: ['administrator'],
+    section: SECTION_SETTINGS,
+    icon: ICON_BRIEFCASE,
+    routeName: 'general_settings_index',
   },
   {
     id: 'open_profile_settings',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_PROFILE',
-    section: 'COMMAND_BAR.SECTIONS.SETTINGS',
-    icon: ICON_USER_PROFILE,
-    path: accountId => `accounts/${accountId}/profile/settings`,
-    role: ['administrator', 'agent'],
-  },
-  {
-    id: 'open_notifications',
-    title: 'COMMAND_BAR.COMMANDS.GO_TO_NOTIFICATIONS',
-    section: 'COMMAND_BAR.SECTIONS.SETTINGS',
-    icon: ICON_NOTIFICATION,
-    path: accountId => `accounts/${accountId}/notifications`,
-    role: ['administrator', 'agent'],
+    section: SECTION_SETTINGS,
+    icon: ICON_USER_PEN,
+    routeName: 'profile_settings_index',
   },
 ];
 
-export function useGoToCommandHotKeys() {
+export function useGoToCommandHotKeys(isPaywalled = ref(false)) {
   const { t } = useI18n();
   const router = useRouter();
-  const { isAdmin } = useAdmin();
+  const { checkPermissions, checkInstallationType, isFeatureFlagEnabled } =
+    usePolicy();
 
   const currentAccountId = useMapGetter('getCurrentAccountId');
-  const isFeatureEnabledOnAccount = useMapGetter(
-    'accounts/isFeatureEnabledonAccount'
-  );
 
-  const openRoute = url => {
-    router.push(frontendURL(url));
-  };
-
-  const goToCommandHotKeys = computed(() => {
-    let commands = GO_TO_COMMANDS.filter(cmd => {
-      if (cmd.featureFlag) {
-        return isFeatureEnabledOnAccount.value(
-          currentAccountId.value,
-          cmd.featureFlag
-        );
-      }
-      return true;
+  // Resolve by name, not path: paths can land on redirect records with no meta,
+  // which would leave the command ungated.
+  const resolveRoute = command =>
+    router.resolve({
+      name: command.routeName,
+      params: { accountId: currentAccountId.value, ...command.params },
     });
 
-    if (!isAdmin.value) {
-      commands = commands.filter(command => command.role.includes('agent'));
-    }
+  const isAvailable = route => {
+    const { meta } = route;
 
-    return commands.map(command => ({
-      id: command.id,
-      section: t(command.section),
-      title: t(command.title),
-      icon: command.icon,
-      handler: () => openRoute(command.path(currentAccountId.value)),
-    }));
-  });
+    if (!isFeatureFlagEnabled(meta?.featureFlag)) return false;
+    if (!checkPermissions(meta?.permissions)) return false;
+    if (!checkInstallationType(meta?.installationTypes)) return false;
+
+    return !isPaywalled.value || isUpgradePageBypassRoute(route.name);
+  };
+
+  const goToCommandHotKeys = computed(() =>
+    GO_TO_COMMANDS.flatMap(command => {
+      const route = resolveRoute(command);
+      if (!isAvailable(route)) return [];
+
+      return {
+        id: command.id,
+        section: t(command.section),
+        title: t(command.title),
+        icon: command.icon,
+        handler: () => router.push(route),
+      };
+    })
+  );
 
   return {
     goToCommandHotKeys,

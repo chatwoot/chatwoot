@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "订阅事件",
       "LEARN_MORE": "了解更多关于 Webhooks 的信息",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "立即升级",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "Copy secret to clipboard",
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "了解更多",
+    "OVERVIEW": {
+      "HEADER": "概览",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "取消"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "取消"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "加载更多",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "文档"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "试验场",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "计费",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "助手",
       "SWITCH_ASSISTANT": "在助手之间切换",
@@ -494,10 +576,6 @@
           "PLACEHOLDER": "输入助手名称",
           "ERROR": "名称是必需的"
         },
-        "TEMPERATURE": {
-          "LABEL": "响应温度",
-          "DESCRIPTION": "调整助手回复的创造性或限制程度。较低的数值会产生更专注和确定性的回复，而较高的数值则允许更有创意和多样化的输出。"
-        },
         "DESCRIPTION": {
           "LABEL": "描述信息",
           "PLACEHOLDER": "输入助手描述",
@@ -595,7 +673,7 @@
             "TITLE": "Example guardrails",
             "ADD": "添加全部",
             "ADD_SINGLE": "Add this",
-            "SAVE": "添加并保存",
+            "SAVE": "添加并保存 (↵)",
             "PLACEHOLDER": "Type in another guardrail..."
           },
           "NEW": {
@@ -640,7 +718,7 @@
             "TITLE": "Example response guidelines",
             "ADD": "添加全部",
             "ADD_SINGLE": "Add this",
-            "SAVE": "添加并保存",
+            "SAVE": "添加并保存 (↵)",
             "PLACEHOLDER": "Type in another response guideline..."
           },
           "NEW": {
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "文档",
       "ADD_NEW": "创建新文档",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} 已选择",
       "SELECT_ALL": "全选 ({count})",
       "UNSELECT_ALL": "取消全选({count})",
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "相关常见问题",
-        "DESCRIPTION": "这些常见问题直接从文档生成。"
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "暂无",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "复制",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "输入文档的 URL 以将其添加为知识源，并选择要关联的助手。",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "删除文档时出错，请重试"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "查看相关常见问题",
+        "VIEW_DETAILS": "查看详细信息",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "删除文档"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "常见问题",
-      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "创建新常见问题",
       "DOCUMENTABLE": {
         "CONVERSATION": "对话 #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "全选 ({count})",
       "UNSELECT_ALL": "取消全选({count})",
       "SEARCH_PLACEHOLDER": "搜索常见问题...",
-      "BULK_APPROVE_BUTTON": "批准",
-      "BULK_DELETE_BUTTON": "删除",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "常见问题已成功批准",
-        "ERROR_MESSAGE": "批准常见问题时出错，请重试"
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "删除",
       "BULK_DELETE": {
         "TITLE": "删除常见问题？",
         "DESCRIPTION": "您确定要删除选中的常见问题吗？此操作无法撤销。",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "常见问题已成功删除",
         "ERROR_MESSAGE": "删除常见问题时出错，请重试"
       },
-      "FILTER": {
-        "ASSISTANT": "助手：{selected}",
-        "STATUS": "状态：{selected}",
-        "ALL_ASSISTANTS": "所有"
-      },
-      "STATUS": {
-        "TITLE": "状态",
-        "PENDING": "待处理",
-        "APPROVED": "已批准",
-        "ALL": "所有"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "将问题及其对应的答案添加到知识库，并选择应关联的助手。",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "未找到常见问题",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "常见问题帮助您的助手为客户提供快速准确的答案。它们可以从您的内容自动生成，也可以手动添加。",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain 常见问题",
           "NOTE": "Captain FAQs 检测常见的客户问题——无论是知识库中缺失的问题还是经常被问到的问题——并生成相关的常见问题以改善支持。您可以查看每个建议，并决定是否批准或拒绝它。"
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "批准",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "取消",
+      "SAVE": "保存更改",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "重试"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

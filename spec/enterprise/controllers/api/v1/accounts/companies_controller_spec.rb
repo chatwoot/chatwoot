@@ -385,13 +385,13 @@ RSpec.describe 'Companies API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let(:company) { create(:company, account: account) }
 
-      it 'deletes the company' do
-        company
+      it 'enqueues company deletion' do
         expect do
           delete "/api/v1/accounts/#{account.id}/companies/#{company.id}",
                  headers: admin.create_new_auth_token,
                  as: :json
-        end.to change(Company, :count).by(-1)
+        end.to have_enqueued_job(Companies::DeleteJob).with(company_id: company.id)
+
         expect(response).to have_http_status(:ok)
       end
     end

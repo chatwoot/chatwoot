@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "אירועים מנויים",
       "LEARN_MORE": "למד עוד על Webhooks",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "שדרג עכשיו",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "Copy secret to clipboard",
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "קפטן",
     "HEADER_KNOW_MORE": "דע יותר",
+    "OVERVIEW": {
+      "HEADER": "סקירה כללית",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "סגור"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "סגור"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "החודש",
+        "LAST_MONTH": "חודש שעבר"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "טען עוד",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "מסמכים"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "מגרש משחקים",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "חיוב",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "עוזרים",
       "SWITCH_ASSISTANT": "החלף בין עוזרים",
@@ -493,10 +575,6 @@
           "LABEL": "שם",
           "PLACEHOLDER": "הזן שם עוזר",
           "ERROR": "השם נדרש"
-        },
-        "TEMPERATURE": {
-          "LABEL": "טמפרטורת תגובה",
-          "DESCRIPTION": "התאם עד כמה התגובות של העוזר צריכות להיות יצירתיות או מגבילות. ערכים נמוכים יותר מייצרים תגובות ממוקדות ודטרמיניסטיות יותר, בעוד שערכים גבוהים יותר מאפשרים תוצאות יצירתיות ומגוונות יותר."
         },
         "DESCRIPTION": {
           "LABEL": "תיאור",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "מסמכים",
       "ADD_NEW": "צור מסמך חדש",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} נבחרו",
       "SELECT_ALL": "בחר הכל ({count})",
       "UNSELECT_ALL": "בטל בחירת הכל ({count})",
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "שאלות נפוצות קשורות",
-        "DESCRIPTION": "שאלות נפוצות אלה נוצרו ישירות מהמסמך."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "לא זמין",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "עותק",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "הזן את כתובת ה-URL של המסמך כדי להוסיף אותו כמקור ידע ובחר את העוזר לשייך אליו.",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "אירעה שגיאה במחיקת המסמך, אנא נסה שוב."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "הצג תגובות קשורות",
+        "VIEW_DETAILS": "הצג פרטים",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "מחק מסמך"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "שאלות נפוצות",
-      "PENDING_FAQS": "שאלות נפוצות ממתינות",
       "ADD_NEW": "צור שאלות נפוצות חדשות",
       "DOCUMENTABLE": {
         "CONVERSATION": "שיחה #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "בחר הכל ({count})",
       "UNSELECT_ALL": "בטל בחירת הכל ({count})",
       "SEARCH_PLACEHOLDER": "חפש שאלות נפוצות...",
-      "BULK_APPROVE_BUTTON": "אשר",
-      "BULK_DELETE_BUTTON": "מחק",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "שאלות נפוצות אושרו בהצלחה",
-        "ERROR_MESSAGE": "אירעה שגיאה באישור השאלות הנפוצות, אנא נסה שוב."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "מחק",
       "BULK_DELETE": {
         "TITLE": "מחק שאלות נפוצות?",
         "DESCRIPTION": "האם אתה בטוח שברצונך למחוק את השאלות הנפוצות שנבחרו? לא ניתן לבטל פעולה זו.",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "השאלות הנפוצות נמחקו בהצלחה",
         "ERROR_MESSAGE": "אירעה שגיאה במחיקת השאלות הנפוצות, אנא נסה שוב."
       },
-      "FILTER": {
-        "ASSISTANT": "עוזר: {selected}",
-        "STATUS": "סטטוס: {selected}",
-        "ALL_ASSISTANTS": "הכל"
-      },
-      "STATUS": {
-        "TITLE": "מצב",
-        "PENDING": "ממתין ל",
-        "APPROVED": "אושר",
-        "ALL": "הכל"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "קפטן מצא כמה שאלות נפוצות שהלקוחות שלך חיפשו.",
-        "ACTION": "לחץ כאן כדי לסקור"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "הוסף שאלה ותשובה מתאימה לבסיס הידע ובחר את העוזר שאליו יש לשייך אותה.",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "לא נמצאו שאלות נפוצות",
-        "NO_PENDING_TITLE": "אין עוד שאלות נפוצות ממתינות לסקור",
         "SUBTITLE": "שאלות נפוצות עוזרות לעוזר שלך לספק תשובות מהירות ומדויקות לשאלות של הלקוחות שלך. הן יכולות להיווצר אוטומטית מהתוכן שלך או שניתן להוסיף אותן באופן ידני.",
         "CLEAR_SEARCH": "נקה מסננים פעילים",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "שאלות נפוצות של קפטן",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "אשר",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "סגור",
+      "SAVE": "שמור שינויים",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "נסה שוב"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

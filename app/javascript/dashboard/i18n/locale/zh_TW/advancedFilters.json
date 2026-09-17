@@ -19,6 +19,8 @@
       "OR": "或"
     },
     "INPUT_PLACEHOLDER": "輸入值",
+    "CONTACT_SEARCH_PLACEHOLDER": "搜尋聯絡人",
+    "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "等於",
       "not_equal_to": "不等於",
@@ -49,6 +51,7 @@
       "ASSIGNEE_NAME": "指派對象",
       "INBOX_NAME": "收件匣名稱",
       "TEAM_NAME": "團隊名稱",
+      "CONTACT": "聯絡人",
       "CONVERSATION_IDENTIFIER": "對話識別碼",
       "CAMPAIGN_NAME": "活動名稱",
       "LABELS": "標籤",

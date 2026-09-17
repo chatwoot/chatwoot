@@ -1,8 +1,8 @@
 <script setup>
-import { computed, h, ref, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -32,12 +32,6 @@ const searchQuery = ref('');
 
 const LINK_INSTRUCTION_CLASS =
   '[&_a[href^="tool://"]]:text-n-iris-11 [&_a:not([href^="tool://"])]:text-n-slate-12 [&_a]:pointer-events-none [&_a]:cursor-default';
-
-const renderInstruction = instruction => () =>
-  h('span', {
-    class: `text-sm text-n-slate-12 py-4 prose prose-sm min-w-0 break-words ${LINK_INSTRUCTION_CLASS}`,
-    innerHTML: instruction,
-  });
 
 // Suggested example scenarios for quick add
 const scenariosExample = [
@@ -70,6 +64,17 @@ const closeSuggestedRules = () => {
 // Bulk selection & hover state
 const bulkSelectedIds = ref(new Set());
 const hoveredCard = ref(null);
+const pendingToggleIds = ref(new Set());
+
+const setTogglePending = (id, isPending) => {
+  const pendingIds = new Set(pendingToggleIds.value);
+  if (isPending) {
+    pendingIds.add(id);
+  } else {
+    pendingIds.delete(id);
+  }
+  pendingToggleIds.value = pendingIds;
+};
 
 const handleRuleSelect = id => {
   const selected = new Set(bulkSelectedIds.value);
@@ -115,6 +120,27 @@ const updateScenario = async scenario => {
       error?.response?.message ||
       t('CAPTAIN.ASSISTANTS.SCENARIOS.API.UPDATE.ERROR');
     useAlert(errorMessage);
+  }
+};
+
+const toggleScenario = async ({ id, enabled }) => {
+  if (pendingToggleIds.value.has(id)) return;
+
+  setTogglePending(id, true);
+  try {
+    await store.dispatch('captainScenarios/update', {
+      id,
+      assistantId: assistantId.value,
+      enabled,
+    });
+    const successMessage = enabled
+      ? t('CAPTAIN.ASSISTANTS.SCENARIOS.API.TOGGLE.ENABLED')
+      : t('CAPTAIN.ASSISTANTS.SCENARIOS.API.TOGGLE.DISABLED');
+    useAlert(successMessage);
+  } catch {
+    useAlert(t('CAPTAIN.ASSISTANTS.SCENARIOS.API.TOGGLE.ERROR'));
+  } finally {
+    setTogglePending(id, false);
   }
 };
 
@@ -228,8 +254,12 @@ onMounted(() => {
               <span class="text-sm text-n-slate-11 mt-2">
                 {{ item.description }}
               </span>
-              <component
-                :is="renderInstruction(formatMessage(item.instruction, false))"
+              <span
+                v-dompurify-html:toolLinks="
+                  formatMessage(item.instruction, false)
+                "
+                class="text-sm text-n-slate-12 py-4 prose prose-sm min-w-0 break-words"
+                :class="LINK_INSTRUCTION_CLASS"
               />
               <span class="text-sm text-n-slate-11 font-medium mb-1">
                 {{ t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.SUGGESTED.TOOLS_USED') }}
@@ -286,6 +316,8 @@ onMounted(() => {
             :description="scenario.description"
             :instruction="scenario.instruction"
             :tools="scenario.tools"
+            :enabled="scenario.enabled"
+            :is-updating="pendingToggleIds.has(scenario.id)"
             :is-selected="bulkSelectedIds.has(scenario.id)"
             :selectable="
               hoveredCard === scenario.id || bulkSelectedIds.size > 0
@@ -293,6 +325,7 @@ onMounted(() => {
             @select="handleRuleSelect"
             @delete="deleteScenario(scenario.id)"
             @update="updateScenario"
+            @toggle="toggleScenario"
             @hover="isHovered => handleRuleHover(isHovered, scenario.id)"
           />
         </div>

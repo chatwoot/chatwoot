@@ -18,6 +18,14 @@ class TeamMember < ApplicationRecord
   belongs_to :user
   belongs_to :team
   validates :user_id, uniqueness: { scope: :team_id }
+
+  after_commit :invalidate_filtered_unread_count_visibility, on: [:create, :destroy]
+
+  private
+
+  def invalidate_filtered_unread_count_visibility
+    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(team&.account).user_visibility_changed!(user_id: user_id)
+  end
 end
 
 TeamMember.include_mod_with('Audit::TeamMember')

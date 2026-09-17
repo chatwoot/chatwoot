@@ -19,6 +19,8 @@
       "OR": "YA DA"
     },
     "INPUT_PLACEHOLDER": "Filtre verisini giriniz",
+    "CONTACT_SEARCH_PLACEHOLDER": "Kişileri Ara",
+    "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "Eşit",
       "not_equal_to": "Eşit Değil",
@@ -49,6 +51,7 @@
       "ASSIGNEE_NAME": "Atanan Kişi Adı",
       "INBOX_NAME": "Gelen Kutusu Adı",
       "TEAM_NAME": "Ekip Adı",
+      "CONTACT": "İletişim",
       "CONVERSATION_IDENTIFIER": "Sohbet Kimliği",
       "CAMPAIGN_NAME": "Kampanya Adı",
       "LABELS": "Etiketler",

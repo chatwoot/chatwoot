@@ -404,6 +404,12 @@
         "PLACEHOLDER": "Suche nach Artikeln"
       }
     },
+    "BREADCRUMB": {
+      "ARTICLES": "Artikel",
+      "CATEGORIES": "Kategorien",
+      "LOCALES": "Sprachen",
+      "SETTINGS": "Einstellungen"
+    },
     "CATEGORY": {
       "ADD": {
         "TITLE": "Kategorie erstellen",
@@ -533,6 +539,8 @@
             "PUBLISHED": "Veröffentlicht",
             "ARCHIVED": "Archiviert"
           },
+          "PENDING_EDITS": "Unveröffentlichte Änderungen",
+          "PENDING_EDITS_TOOLTIP": "Dieser veröffentlichte Artikel enthält unveröffentlichte Änderungen",
           "CATEGORY": {
             "UNCATEGORISED": "Uncategorised"
           }
@@ -552,6 +560,7 @@
         "LOCALE": {
           "ALL": "All locales"
         },
+        "SEARCH_PLACEHOLDER": "Artikel suchen...",
         "NEW_ARTICLE": "New article"
       },
       "EMPTY_STATE": {
@@ -579,27 +588,31 @@
         "CATEGORY": {
           "TITLE": "There are no articles in this category",
           "SUBTITLE": "Articles in this category will appear here"
+        },
+        "SEARCH": {
+          "TITLE": "Keine passenden Artikel",
+          "SUBTITLE": "Wir konnten keine Artikel finden, die deiner Suche entsprechen. Versuche es mit einem anderen Begriff."
         }
       },
       "BULK_TRANSLATE": {
-        "TITLE": "Translate article | Translate {count} articles",
-        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
-        "LOCALE_LABEL": "Target language",
-        "LOCALE_PLACEHOLDER": "Select a language",
-        "CATEGORY_LABEL": "Target category",
-        "CATEGORY_PLACEHOLDER": "Select a category",
+        "TITLE": "Artikel übersetzen | {count} Artikel übersetzen",
+        "DESCRIPTION": "Übersetze den ausgewählten Artikel in eine andere Sprache. | Übersetze die ausgewählten Artikel in eine andere Sprache.",
+        "LOCALE_LABEL": "Zielsprache",
+        "LOCALE_PLACEHOLDER": "Sprache auswählen",
+        "CATEGORY_LABEL": "Zielkategorie",
+        "CATEGORY_PLACEHOLDER": "Kategorie auswählen",
         "OPTIONAL": "(optional)",
         "CONFIRM": "Übersetzen",
         "SELECT_ALL": "Select all ({count})",
         "SELECTED_COUNT": "{count} selected",
         "CLEAR_SELECTION": "Auswahl löschen",
         "TRANSLATE_BUTTON": "Übersetzen",
-        "CONFIRM_OVERWRITE": "Overwrite and translate",
-        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
-        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "CONFIRM_OVERWRITE": "Überschreiben und übersetzen",
+        "DUPLICATE_WARNING": "Für diesen Artikel ist bereits eine Übersetzung in der ausgewählten Sprache vorhanden. | Für {count} Artikel sind bereits Übersetzungen in der ausgewählten Sprache vorhanden.",
+        "DUPLICATE_CONFIRM_HINT": "Klicke erneut auf „Übersetzen“, um die vorhandene Übersetzung zu überschreiben.",
         "API": {
-          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
-          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+          "SUCCESS_MESSAGE": "Übersetzung läuft. Sobald der Artikel fertig ist, wird er als Entwurf angezeigt.",
+          "ERROR_MESSAGE": "Die Übersetzung konnte nicht gestartet werden. Bitte versuche es erneut."
         }
       },
       "BULK_ACTIONS": {
@@ -609,21 +622,24 @@
         "TRANSLATE": "Übersetzen",
         "MOVE_TO_CATEGORY": "Kategorie",
         "DELETE": "Löschen",
-        "STATUS_SUCCESS": "Articles updated successfully",
-        "STATUS_ERROR": "Failed to update articles",
-        "CATEGORY_SUCCESS": "Articles moved successfully",
-        "CATEGORY_ERROR": "Failed to move articles",
-        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
-        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "STATUS_SUCCESS": "Artikel erfolgreich aktualisiert",
+        "STATUS_ERROR": "Artikel konnten nicht aktualisiert werden",
+        "STATUS_SKIPPED": "1 Artikel mit unveröffentlichten Änderungen wurde übersprungen — öffne ihn, um die Änderungen zu veröffentlichen oder zu verwerfen. | {count} Artikel mit unveröffentlichten Änderungen wurden übersprungen — öffne sie, um die Änderungen zu veröffentlichen oder zu verwerfen.",
+        "STATUS_SKIPPED_ALL": "Diese Artikel enthalten unveröffentlichte Änderungen — öffne jeden einzelnen, um die Änderungen zu veröffentlichen oder zu verwerfen.",
+        "CATEGORY_SUCCESS": "Artikel erfolgreich verschoben",
+        "CATEGORY_ERROR": "Artikel konnten nicht verschoben werden",
+        "DELETE_CONFIRM_TITLE": "Artikel löschen | {count} Artikel löschen",
+        "DELETE_CONFIRM_DESCRIPTION": "Der ausgewählte Artikel wird dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden. | Die {count} ausgewählten Artikel werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
         "DELETE_CONFIRM": "Löschen",
-        "DELETE_SUCCESS": "Articles deleted successfully",
-        "DELETE_ERROR": "Failed to delete articles"
+        "DELETE_SUCCESS": "Artikel erfolgreich gelöscht",
+        "DELETE_ERROR": "Artikel konnten nicht gelöscht werden"
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "Neue Kategorie",
         "EDIT_CATEGORY": "Kategorie bearbeiten",
+        "SEARCH_PLACEHOLDER": "Kategorien durchsuchen...",
         "CATEGORIES_COUNT": "{n} category | {n} categories",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "Categories ({localeCode})",
@@ -633,6 +649,10 @@
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "Keine Kategorien gefunden",
         "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "Keine passenden Kategorien",
+        "SUBTITLE": "Wir konnten keine Kategorien finden, die deiner Suche entsprechen. Versuche es mit einem anderen Begriff."
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles"
@@ -691,6 +711,11 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
       "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "SEARCH_PLACEHOLDER": "Sprachversionen durchsuchen...",
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "Keine passenden Sprachversionen",
+        "SUBTITLE": "Wir konnten keine Sprachversionen finden, die deiner Suche entsprechen. Versuche es mit einem anderen Begriff."
+      },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles",
         "CATEGORIES_COUNT": "{count} category | {count} categories",
@@ -700,7 +725,49 @@
           "MAKE_DEFAULT": "Make default",
           "MOVE_TO_DRAFT": "Move to draft",
           "PUBLISH_LOCALE": "Publish locale",
+          "CUSTOMIZE_CONTENT": "Inhalte lokalisieren",
+          "SELECT_POPULAR_CONTENT": "Empfohlene Inhalte auswählen",
           "DELETE": "Löschen"
+        }
+      },
+      "POPULAR_CONTENT_DIALOG": {
+        "TITLE": "Empfohlene Inhalte",
+        "DESCRIPTION": "Wähle bis zu 3 Kategorien und 6 Artikel aus, die auf der Startseite des Help Centers für diese Sprachversion hervorgehoben werden sollen. Ziehe sie in die Reihenfolge, in der deine Besucher sie sehen sollen.",
+        "SEARCH": "Search...",
+        "EMPTY": "Keine passenden Ergebnisse",
+        "ADD_ANOTHER": "Weitere hinzufügen...",
+        "SLOTS_LEFT": "Noch {count} Plätze verfügbar",
+        "OVERRIDING_DEFAULTS": "Standardeinstellungen für diese Sprachversion werden überschrieben",
+        "CONFIRM": "Empfehlungen speichern",
+        "CATEGORIES": {
+          "LABEL": "Empfohlene Kategorien",
+          "ARTICLES_COUNT": "Keine Artikel | {count} Artikel | {count} Artikel"
+        },
+        "ARTICLES": {
+          "LABEL": "Empfohlene Artikel",
+          "IN_CATEGORY": "in {category}",
+          "UNCATEGORIZED": "Nicht kategorisiert"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Empfohlene Inhalte erfolgreich aktualisiert",
+          "ERROR_MESSAGE": "Die empfohlenen Inhalte konnten nicht aktualisiert werden. Versuche es erneut."
+        }
+      },
+      "CONTENT_DIALOG": {
+        "TITLE": "Inhalte lokalisieren",
+        "DESCRIPTION": "Lege Werte speziell für diese Sprachversion fest. Für alle leeren Felder werden die Werte der Standardsprache verwendet.",
+        "NAME": {
+          "LABEL": "Name"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Inhalte der Sprachversion erfolgreich aktualisiert",
+          "ERROR_MESSAGE": "Die Inhalte der Sprachversion konnten nicht aktualisiert werden. Versuche es erneut."
         }
       },
       "ADD_LOCALE_DIALOG": {
@@ -730,9 +797,29 @@
         },
         "PREVIEW": "Vorschau",
         "PUBLISH": "Veröffentlichen",
+        "PUBLISH_CHANGES": "Änderungen veröffentlichen",
+        "PUBLISH_CHANGES_SUCCESS": "Änderungen erfolgreich veröffentlicht",
+        "PUBLISH_CHANGES_ERROR": "Änderungen konnten nicht veröffentlicht werden",
+        "SAVE_IN_PROGRESS": "Deine letzten Änderungen werden noch gespeichert — bitte versuche es gleich noch einmal.",
+        "DISCARD_CHANGES": "Änderungen verwerfen",
+        "DISCARD_CHANGES_SUCCESS": "Änderungen verworfen",
+        "DISCARD_CHANGES_ERROR": "Änderungen konnten nicht verworfen werden",
+        "PENDING_CHANGES": "Ausstehende Änderungen",
+        "VIEW_CHANGES": "Unveröffentlichte Änderungen anzeigen",
         "DRAFT": "Entwürfe",
         "ARCHIVE": "Archive",
         "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "PENDING_CHANGES_POPOVER": {
+        "TITLE": "Unveröffentlichte Änderungen",
+        "DESCRIPTION": "Dieser Artikel enthält Entwurfsänderungen, die noch nicht veröffentlicht sind. Möchtest du sie anwenden, bevor du den Status änderst, oder sie verwerfen?",
+        "APPLY": "Änderungen anwenden",
+        "DISCARD": "Änderungen verwerfen"
+      },
+      "DIFF_DIALOG": {
+        "TITLE": "Unveröffentlichte Änderungen",
+        "DESCRIPTION": "Vergleiche deinen Entwurf mit der aktuell veröffentlichten Version.",
+        "TITLE_LABEL": "Titel"
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "More properties",
@@ -809,12 +896,6 @@
           "LABEL": "Slug",
           "PLACEHOLDER": "Portal slug"
         },
-        "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center",
-          "NONE_OPTION": "No widget"
-        },
         "BRAND_COLOR": {
           "LABEL": "Brand color"
         },
@@ -871,25 +952,91 @@
       },
       "LAYOUT_CONTENT": {
         "HEADER": "Darstellung",
-        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "DESCRIPTION": "Wähle das Layout, das am besten zum Leseverhalten deiner Besucher passt.",
         "LAYOUT": {
           "CLASSIC": {
-            "TITLE": "Classic",
-            "DESCRIPTION": "A welcoming home page with search and featured topics."
+            "TITLE": "Klassisch",
+            "DESCRIPTION": "Eine einladende Startseite mit Suche und hervorgehobenen Themen."
           },
           "SIDEBAR": {
-            "TITLE": "Documentation",
-            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+            "TITLE": "Dokumentation",
+            "DESCRIPTION": "Eine übersichtliche Seitennavigation, über die jede Anleitung nur einen Klick entfernt ist."
           }
         },
         "SOCIAL_LINKS": {
-          "HEADER": "Social links",
-          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "HEADER": "Social-Media-Links",
+          "DESCRIPTION": "Füge für jedes Netzwerk den Handle hinzu. Dein Help Center erstellt daraus den vollständigen Link. Wird in der Fußzeile des Dokumentationslayouts angezeigt.",
           "PLACEHOLDER": "handle",
-          "ADD": "Add social link",
+          "ADD": "Social-Media-Link hinzufügen",
           "REMOVE": "Entfernen"
         },
-        "SAVE": "Save changes"
+        "SAVE": "Änderungen speichern"
+      },
+      "INTEGRATIONS": {
+        "HEADER": "Integrationen",
+        "DESCRIPTION": "Verbinde Tools, um die Funktionen deines Help Centers zu erweitern.",
+        "LIVE_CHAT": {
+          "TITLE": "Live-Chat mit Chatwoot",
+          "DESCRIPTION": "Zeige ein Live-Chat-Widget in deinem Help Center, damit Besucher dich beim Lesen erreichen können.",
+          "PLACEHOLDER": "Live-Chat-Widget auswählen",
+          "NONE_OPTION": "Kein Widget"
+        },
+        "GTM": {
+          "TITLE": "Google Tag Manager",
+          "DESCRIPTION": "Füge Analyse- und Marketing-Tags hinzu, indem du deinen Tag Manager-Container verbindest.",
+          "PLACEHOLDER": "GTM-XXXXXXX",
+          "HELP": "Du findest diese ID in deinem Google Tag Manager-Arbeitsbereich. Lass das Feld leer, um die Integration zu deaktivieren.",
+          "INVALID": "Gib eine gültige Container-ID ein, zum Beispiel GTM-XXXXXXX."
+        },
+        "GA4": {
+          "TITLE": "Google Analytics 4",
+          "DESCRIPTION": "Miss den Traffic und das Besucherverhalten in deinem Help Center mit Google Analytics.",
+          "PLACEHOLDER": "G-XXXXXXXXXX",
+          "HELP": "Du findest die Mess-ID in Google Analytics unter Admin → Data streams. Lass das Feld leer, um die Integration zu deaktivieren.",
+          "INVALID": "Gib eine gültige Mess-ID ein, zum Beispiel G-XXXXXXXXXX."
+        },
+        "HOTJAR": {
+          "TITLE": "Hotjar",
+          "DESCRIPTION": "Erfahre mit Heatmaps und Sitzungsaufzeichnungen, wie Besucher dein Help Center nutzen.",
+          "PLACEHOLDER": "1234567",
+          "HELP": "Du findest deine Website-ID in Hotjar unter Sites & organizations. Lass das Feld leer, um die Integration zu deaktivieren.",
+          "INVALID": "Gib eine numerische Hotjar Website-ID ein."
+        },
+        "PLAUSIBLE": {
+          "TITLE": "Plausible",
+          "DESCRIPTION": "Erfasse den Traffic deines Help Centers mit dem datenschutzfreundlichen Plausible Analytics.",
+          "PLACEHOLDER": "example.com",
+          "HELP": "Gib die Domain ein, die in deinen Plausible-Website-Einstellungen konfiguriert ist. Lass das Feld leer, um die Integration zu deaktivieren.",
+          "INVALID": "Gib eine gültige Domain ein, zum Beispiel example.com."
+        },
+        "AMPLITUDE": {
+          "TITLE": "Amplitude",
+          "DESCRIPTION": "Analysiere das Besucherverhalten in deinem Help Center mit Amplitude.",
+          "PLACEHOLDER": "0123456789abcdef0123456789abcdef",
+          "HELP": "Du findest den API key in deinen Amplitude-Projekteinstellungen. Lass das Feld leer, um die Integration zu deaktivieren.",
+          "INVALID": "Gib einen gültigen Amplitude API key ein."
+        },
+        "CLARITY": {
+          "TITLE": "Microsoft Clarity",
+          "DESCRIPTION": "Erstelle Heatmaps und Sitzungsaufzeichnungen mit Microsoft Clarity.",
+          "PLACEHOLDER": "abcd1234ef",
+          "HELP": "Du findest die Projekt-ID in deinen Clarity-Projekteinstellungen. Lass das Feld leer, um die Integration zu deaktivieren.",
+          "INVALID": "Gib eine gültige Clarity Projekt-ID ein."
+        },
+        "META_PIXEL": {
+          "TITLE": "Meta Pixel",
+          "DESCRIPTION": "Miss Anzeigen-Conversions und erstelle mit Meta Pixel Zielgruppen aus Besuchen deines Help Centers.",
+          "PLACEHOLDER": "123456789012345",
+          "HELP": "Du findest die Pixel-ID im Meta Events Manager. Lass das Feld leer, um die Integration zu deaktivieren.",
+          "INVALID": "Gib eine numerische Pixel-ID ein."
+        },
+        "SAVE": "Änderungen speichern"
+      },
+      "NAV": {
+        "GENERAL": "Generell",
+        "DOMAIN": "Domain",
+        "APPEARANCE": "Darstellung",
+        "INTEGRATIONS": "Integrationen"
       },
       "API": {
         "CREATE_PORTAL": {

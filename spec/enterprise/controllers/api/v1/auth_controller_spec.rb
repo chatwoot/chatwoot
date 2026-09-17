@@ -9,8 +9,8 @@ RSpec.describe 'Api::V1::Auth', type: :request do
   before do
     account.enable_features('saml')
     account.save!
-    allow(ENV).to receive(:fetch).and_call_original
-    allow(ENV).to receive(:fetch).with('FRONTEND_URL', nil).and_return('http://www.example.com')
+    allow(GlobalConfigService).to receive(:load).and_call_original
+    allow(GlobalConfigService).to receive(:load).with('FRONTEND_URL', 'http://localhost:3000').and_return('http://www.example.com')
   end
 
   describe 'POST /api/v1/auth/saml_login' do

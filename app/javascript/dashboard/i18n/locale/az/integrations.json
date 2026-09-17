@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abunə olunan hadisələr",
       "LEARN_MORE": "Webhooklar haqqında daha çox məlumat əldə edin",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Gizli",
         "COPY": "Copy secret to clipboard",
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Daha ətraflı",
+    "OVERVIEW": {
+      "HEADER": "Ümumi Baxış",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "Bu ay",
+        "LAST_MONTH": "Keçən ay"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "Sənədlər"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Sınaq sahəsi",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "Ödəniş",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Köməkçilər",
       "SWITCH_ASSISTANT": "Köməkçilər arasında keçid edin",
@@ -493,10 +575,6 @@
           "LABEL": "Ad",
           "PLACEHOLDER": "Assistent adını daxil edin",
           "ERROR": "Ad tələb olunur"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Cavab Temperaturu",
-          "DESCRIPTION": "Assistentin cavablarının nə qədər yaradıcı və ya məhdud olacağını tənzimləyin. Aşağı dəyərlər daha fokuslanmış və deterministik cavablar verir, yüksək dəyərlər isə daha yaradıcı və müxtəlif nəticələr verir."
         },
         "DESCRIPTION": {
           "LABEL": "Təsvir",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "Sənədlər",
       "ADD_NEW": "Yeni sənəd yarat",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} seçildi",
       "SELECT_ALL": "Hamısını seç ({count})",
       "UNSELECT_ALL": "Hamısını seçmə ({count})",
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "Əlaqəli FAQ-lar",
-        "DESCRIPTION": "Bu FAQ-lar birbaşa sənəddən yaradılıb."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "Kopyala",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "Sənədi bilik mənbəyi kimi əlavə etmək üçün onun URL-ni daxil edin və əlaqələndiriləcək assistenti seçin.",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "Sənəd silinərkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Əlaqəli cavablara bax",
+        "VIEW_DETAILS": "View details",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Sənədi sil"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "FAQ-lar",
-      "PENDING_FAQS": "Gözləyən FAQ-lar",
       "ADD_NEW": "Yeni FAQ yarat",
       "DOCUMENTABLE": {
         "CONVERSATION": "Söhbət #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "Hamısını seç ({count})",
       "UNSELECT_ALL": "Hamısını seçmə ({count})",
       "SEARCH_PLACEHOLDER": "FAQ-larda axtar...",
-      "BULK_APPROVE_BUTTON": "Təsdiqlə",
-      "BULK_DELETE_BUTTON": "Sil",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQ-lar uğurla təsdiqləndi",
-        "ERROR_MESSAGE": "FAQ-lar təsdiqlənərkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "Sil",
       "BULK_DELETE": {
         "TITLE": "FAQ-lar silinsin?",
         "DESCRIPTION": "Seçilmiş FAQ-ları silmək istədiyinizə əminsiniz? Bu əməliyyat geri qaytarıla bilməz.",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ uğurla silindi",
         "ERROR_MESSAGE": "FAQ silinərkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin."
       },
-      "FILTER": {
-        "ASSISTANT": "Assistent: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "Hamısı"
-      },
-      "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Gözləyir",
-        "APPROVED": "Təsdiqlənib",
-        "ALL": "Hamısı"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain müştərilərinizin axtardığı bəzi FAQ-ları tapdı.",
-        "ACTION": "Baxmaq üçün bura klikləyin"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "Bilik bazasına sual və ona uyğun cavabı əlavə edin, sonra onun əlaqələndiriləcəyi köməkçini seçin.",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "FAQ tapılmadı",
-        "NO_PENDING_TITLE": "Baxılacaq başqa gözləyən FAQ yoxdur",
         "SUBTITLE": "FAQ-lar köməkçinizə müştərilərinizdən gələn suallara sürətli və dəqiq cavablar verməyə kömək edir. Onlar məzmununuzdan avtomatik yaradına və ya əl ilə əlavə edilə bilər.",
         "CLEAR_SEARCH": "Aktiv filtrləri təmizlə",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQ tez-tez verilən və ya bilik bazasında olmayan müştəri suallarını aşkar edir və uyğun FAQ-lar yaradır. Hər təklifi nəzərdən keçirə və təsdiqləyə və ya rədd edə bilərsiniz."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "Təsdiqlə",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "Save changes",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

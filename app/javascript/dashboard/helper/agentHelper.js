@@ -7,7 +7,7 @@
 export const getAgentsByAvailability = (agents, availability) => {
   return agents
     .filter(agent => agent.availability_status === availability)
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 };
 
 /**
@@ -38,7 +38,7 @@ export const getAgentsByUpdatedPresence = (
   currentAccountId
 ) => {
   const agentsWithDynamicPresenceUpdate = agents.map(item =>
-    item.id === currentUser.id
+    item.id === currentUser.id && (item.assignee_type || 'User') === 'User'
       ? {
           ...item,
           availability_status: currentUser.accounts.find(
