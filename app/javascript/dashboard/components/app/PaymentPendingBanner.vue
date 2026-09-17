@@ -10,26 +10,16 @@ import Banner from 'dashboard/components-next/banner/Banner.vue';
 const router = useRouter();
 const store = useStore();
 const { t } = useI18n();
-const { accountId, isPastDue, canManagePayment, isOnChatwootCloud } =
-  usePaymentStatus();
+const { accountId, isPastDue, canManagePayment } = usePaymentStatus();
 
-const bannerMessage = computed(() => {
-  if (!isOnChatwootCloud.value) {
-    return canManagePayment.value
-      ? t('GENERAL_SETTINGS.INSTALLATION_PAYMENT_PENDING')
-      : t('GENERAL_SETTINGS.INSTALLATION_PAYMENT_PENDING_MEMBER');
-  }
-  return canManagePayment.value
+const bannerMessage = computed(() =>
+  canManagePayment.value
     ? t('GENERAL_SETTINGS.PAYMENT_PENDING')
-    : t('GENERAL_SETTINGS.PAYMENT_PENDING_AGENT');
-});
+    : t('GENERAL_SETTINGS.PAYMENT_PENDING_AGENT')
+);
 
 const openBilling = () => {
   if (!canManagePayment.value) return;
-  if (!isOnChatwootCloud.value) {
-    window.location.assign('/super_admin/settings');
-    return;
-  }
   router.push({
     name: 'billing_settings_index',
     params: { accountId: accountId.value },

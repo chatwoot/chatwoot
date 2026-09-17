@@ -635,9 +635,6 @@ en:
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
   super_admin:
-    billing:
-      past_due: Your installation payment is past due. Update your payment method or pay the outstanding invoice to avoid subscription cancellation.
-      resolve_payment: Resolve payment
     account_suspension:
       categories:
         spam: 'Spam'
