@@ -8,7 +8,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     redirect_to login_page_url(error: 'access-denied')
   end
 
-  def create
+  def create # rubocop:disable Metrics/CyclomaticComplexity
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
     return render_sign_in_blocked if abuse_tracker.blocked?
