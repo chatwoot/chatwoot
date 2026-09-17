@@ -6,6 +6,8 @@ import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import CopilotEditorSection from 'dashboard/components/widgets/conversation/CopilotEditorSection.vue';
 
 const props = defineProps({
+  placeholder: { type: String, default: '' },
+  compact: { type: Boolean, default: false },
   hasErrors: { type: Boolean, default: false },
   sendWithSignature: { type: Boolean, default: false },
   messageSignature: { type: String, default: '' },
@@ -64,14 +66,18 @@ const executeCopilotAction = (action, data) => {
           v-model="modelValue"
           :editor-key="editorKey"
           :placeholder="
+            placeholder ||
             t('COMPOSE_NEW_CONVERSATION.FORM.MESSAGE_EDITOR.PLACEHOLDER')
           "
-          class="[&>div]:!border-transparent [&>div]:px-0 [&>div]:py-0 [&>div]:!bg-transparent h-full [&_.ProseMirror-woot-style]:!max-h-[12.5rem] [&_.ProseMirror-woot-style]:!min-h-[12rem] [&_.ProseMirror-menubar]:!pt-0 [&_.mention--box]:-top-[7.5rem] [&_.mention--box]:bottom-[unset]"
-          :class="
+          class="[&>div]:!border-transparent [&>div]:px-0 [&>div]:py-0 [&>div]:!bg-transparent h-full [&_.ProseMirror-woot-style]:!max-h-[12.5rem] [&_.ProseMirror-menubar]:!pt-0 [&_.mention--box]:-top-[7.5rem] [&_.mention--box]:bottom-[unset]"
+          :class="[
+            compact
+              ? '[&_.ProseMirror-woot-style]:!min-h-[4rem]'
+              : '[&_.ProseMirror-woot-style]:!min-h-[12rem]',
             hasErrors
               ? '[&_.empty-node]:before:!text-n-ruby-9 [&_.empty-node]:dark:before:!text-n-ruby-9'
-              : ''
-          "
+              : '',
+          ]"
           enable-variables
           enable-captain-tools
           :show-character-count="false"

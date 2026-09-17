@@ -122,13 +122,9 @@ class ConversationReplyMailer < ApplicationMailer
   def mail_subject
     subject = @conversation.additional_attributes['mail_subject']
     return "[##{@conversation.display_id}] #{I18n.t('conversations.reply.email_subject')}" if subject.nil?
+    return "Fwd: #{subject}" if forwarded_email?
 
-    chat_count = @conversation.messages.chat.count
-    if chat_count > 1
-      "Re: #{subject}"
-    else
-      subject
-    end
+    @conversation.messages.chat.count > 1 ? "Re: #{subject}" : subject
   end
 
   def reply_email
@@ -160,6 +156,8 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def in_reply_to_email
+    return if forwarded_email?
+
     conversation_reply_email_id || "<account/#{@account.id}/conversation/#{@conversation.uuid}@#{channel_email_domain}>"
   end
 
@@ -175,7 +173,11 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def references_header
-    build_references_header(@conversation, in_reply_to_email)
+    build_references_header(@conversation, in_reply_to_email).presence
+  end
+
+  def forwarded_email?
+    @message&.content_attributes&.dig(:forwarded_message_id).present?
   end
 
   def cc_bcc_emails

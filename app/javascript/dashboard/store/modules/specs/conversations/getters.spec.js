@@ -333,6 +333,29 @@ describe('#getters', () => {
         },
       });
     });
+
+    it('Skips forwarded emails', () => {
+      const state = {};
+      const incomingEmail = {
+        message_type: 0,
+        content_attributes: { email: { from: 'why@how.my' } },
+      };
+      const getSelectedChat = {
+        messages: [
+          incomingEmail,
+          {
+            message_type: 1,
+            content_attributes: {
+              forwarded_message_id: 1,
+              to_emails: ['vendor@example.com'],
+            },
+          },
+        ],
+      };
+      expect(
+        getters.getLastEmailInSelectedChat(state, { getSelectedChat })
+      ).toEqual(incomingEmail);
+    });
   });
 
   describe('#getSelectedChatAttachments', () => {
