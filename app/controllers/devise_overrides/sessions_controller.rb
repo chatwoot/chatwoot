@@ -83,6 +83,9 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def authenticate_resource_with_sso_token
+    # The lock guards against password guessing; an SSO token proves identity through
+    # an IdP or an existing session, so it clears the lock (as password reset does).
+    @resource.unlock_access! if @resource.access_locked?
     # DTA evicts the earliest-expiring token after save when at max_number_of_devices.
     # The short-lived impersonation token would always be that one, so pre-evict to make room.
     make_room_for_impersonation_token if @impersonation

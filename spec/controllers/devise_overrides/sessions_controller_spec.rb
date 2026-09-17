@@ -192,6 +192,21 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
 
         expect(response).to have_http_status(:unauthorized)
       end
+
+      it 'signs in and unlocks a locked account via sso' do
+        user.update!(failed_attempts: Devise.maximum_attempts)
+        user.lock_access!
+        sso_token = user.generate_sso_auth_token
+
+        post :create, params: {
+          email: user.email,
+          sso_auth_token: sso_token
+        }
+
+        expect(response).to have_http_status(:success)
+        expect(user.reload.access_locked?).to be false
+        expect(user.failed_attempts).to eq(0)
+      end
     end
   end
 
