@@ -24,6 +24,11 @@ class Enterprise::Billing::HandleStripeEventService
   private
 
   def process_subscription_updated
+    # A cancelled subscription keeps emitting updates that still carry its old plan.
+    # Acting on one re-applies that plan over the downgrade customer.subscription.deleted
+    # just made, so the account keeps paid features it no longer pays for.
+    return if subscription['status'] == 'canceled'
+
     plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
 
     # skipping self hosted plan events
