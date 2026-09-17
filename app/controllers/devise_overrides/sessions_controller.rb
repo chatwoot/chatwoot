@@ -9,11 +9,13 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def create
+    return handle_mfa_setup_verification if mfa_setup_verification_request?
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
 
     user = find_user_for_authentication
     return handle_mfa_required(user) if user&.mfa_enabled?
+    return handle_mfa_setup_required(user) if user&.mfa_enforcement_pending?
     return if user && enforce_session_limit_for_password_login(user)
 
     # Only proceed with standard authentication if no MFA is required
@@ -22,7 +24,11 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
   def render_create_success
     track_user_session unless @impersonation
-    render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
+    if @backup_codes.present?
+      render 'devise_overrides/sessions/create_with_backup_codes', formats: [:json]
+    else
+      render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
+    end
   end
 
   private
@@ -48,6 +54,10 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
   def mfa_verification_request?
     params[:mfa_token].present?
+  end
+
+  def mfa_setup_verification_request?
+    params[:mfa_setup_token].present?
   end
 
   def sso_authentication_request?
@@ -102,6 +112,27 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
       mfa_required: true,
       mfa_token: Mfa::TokenService.new(user: user).generate_token
     }, status: :partial_content
+  end
+
+  def handle_mfa_setup_required(user)
+    user.enable_two_factor! if user.otp_secret.blank?
+    render json: {
+      mfa_setup_required: true,
+      mfa_setup_token: Mfa::SetupTokenService.new(user: user).generate_token,
+      provisioning_url: user.mfa_service.two_factor_provisioning_uri,
+      secret: user.otp_secret,
+      error: I18n.t('errors.mfa.setup_required')
+    }, status: :partial_content
+  end
+
+  def handle_mfa_setup_verification
+    user = Mfa::SetupTokenService.new(token: params[:mfa_setup_token]).verify_token
+    return render_mfa_error('errors.mfa.invalid_token', :unauthorized) unless user
+    return render_mfa_error('errors.mfa.already_enabled') if user.mfa_enabled?
+    return render_mfa_error('errors.mfa.invalid_code') if user.otp_secret.blank? || !user.validate_and_consume_otp!(params[:otp_code])
+
+    @backup_codes = user.mfa_service.verify_and_activate!
+    sign_in_mfa_user(user)
   end
 
   def handle_mfa_verification

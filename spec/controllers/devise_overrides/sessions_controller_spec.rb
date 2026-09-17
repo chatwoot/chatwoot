@@ -130,6 +130,120 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
       end
     end
 
+    context 'with account MFA enforcement' do
+      let(:account) { create(:account) }
+      let(:user) { create(:user, password: 'Test@123456', account: account) }
+
+      before do
+        skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+        account.update!(enforce_mfa: true)
+      end
+
+      it 'returns setup challenge with provisioning data and no auth headers' do
+        post :create, params: { email: user.email, password: 'Test@123456' }
+
+        expect(response).to have_http_status(:partial_content)
+        json_response = response.parsed_body
+        expect(json_response['mfa_setup_required']).to be(true)
+        expect(json_response['mfa_setup_token']).to be_present
+        expect(json_response['provisioning_url']).to include('otpauth://')
+        expect(json_response['secret']).to eq(user.reload.otp_secret)
+        expect(response.headers['access-token']).to be_nil
+      end
+
+      it 'does not rotate the secret on repeated challenges' do
+        post :create, params: { email: user.email, password: 'Test@123456' }
+        first_secret = user.reload.otp_secret
+
+        post :create, params: { email: user.email, password: 'Test@123456' }
+
+        expect(user.reload.otp_secret).to eq(first_secret)
+      end
+
+      it 'sends the normal mfa challenge for already-enrolled users' do
+        user.enable_two_factor!
+        user.update!(otp_required_for_login: true)
+
+        post :create, params: { email: user.email, password: 'Test@123456' }
+
+        expect(response.parsed_body['mfa_required']).to be(true)
+        expect(response.parsed_body['mfa_setup_required']).to be_nil
+      end
+
+      it 'does not challenge when password is wrong' do
+        post :create, params: { email: user.email, password: 'wrong' }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'does not challenge users of non-enforcing accounts' do
+        other_user = create(:user, password: 'Test@123456')
+
+        post :create, params: { email: other_user.email, password: 'Test@123456' }
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'does not challenge SSO sign-ins' do
+        sso_token = user.generate_sso_auth_token
+
+        post :create, params: { email: user.email, sso_auth_token: sso_token }
+
+        expect(response).to have_http_status(:success)
+      end
+
+      context 'when verifying setup' do
+        render_views
+
+        def setup_token_for(user)
+          post :create, params: { email: user.email, password: 'Test@123456' }
+          response.parsed_body['mfa_setup_token']
+        end
+
+        it 'activates mfa, signs in, and returns backup codes on valid otp' do
+          token = setup_token_for(user)
+
+          post :create, params: { mfa_setup_token: token, otp_code: user.reload.current_otp }
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+          expect(json_response['backup_codes'].length).to eq(10)
+          expect(json_response['data']['email']).to eq(user.email)
+          expect(response.headers['access-token']).to be_present
+          expect(user.reload.otp_required_for_login).to be(true)
+        end
+
+        it 'rejects invalid otp' do
+          token = setup_token_for(user)
+
+          post :create, params: { mfa_setup_token: token, otp_code: '000000' }
+
+          expect(response).to have_http_status(:bad_request)
+          expect(response.parsed_body['error']).to eq(I18n.t('errors.mfa.invalid_code'))
+          expect(user.reload.otp_required_for_login).to be(false)
+        end
+
+        it 'rejects a setup token for an already-enrolled user' do
+          token = setup_token_for(user)
+          user.reload.update!(otp_required_for_login: true)
+
+          post :create, params: { mfa_setup_token: token, otp_code: user.reload.current_otp }
+
+          expect(response).to have_http_status(:bad_request)
+          expect(response.parsed_body['error']).to eq(I18n.t('errors.mfa.already_enabled'))
+        end
+
+        it 'rejects a login mfa_token used as setup token' do
+          login_token = Mfa::TokenService.new(user: user).generate_token
+
+          post :create, params: { mfa_setup_token: login_token, otp_code: '000000' }
+
+          expect(response).to have_http_status(:unauthorized)
+          expect(response.parsed_body['error']).to eq(I18n.t('errors.mfa.invalid_token'))
+        end
+      end
+    end
+
     context 'with SSO authentication' do
       it 'authenticates with valid SSO token' do
         sso_token = user.generate_sso_auth_token

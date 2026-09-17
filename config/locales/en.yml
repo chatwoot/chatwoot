@@ -213,6 +213,8 @@ en:
       invalid_token: Invalid or expired MFA token
       invalid_credentials: Invalid credentials or verification code
       feature_unavailable: MFA feature is not available. Please configure encryption keys.
+      setup_required: Your account requires two-factor authentication. Set it up to continue signing in.
+      enrollment_required: This account requires two-factor authentication. Set it up in your profile settings to restore API access.
     billing:
       invalid_currency: Invalid billing currency
       currency_locked: Billing currency cannot be changed after billing has been set up
