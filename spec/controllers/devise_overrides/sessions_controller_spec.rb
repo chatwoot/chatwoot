@@ -153,6 +153,54 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
     end
   end
 
+  describe 'account lockout' do
+    let(:password) { 'Test@123456' }
+    let!(:user) { create(:user, password: password) }
+
+    def attempt_sign_in(pwd)
+      post :create, params: { email: user.email, password: pwd }
+    end
+
+    it 'locks the account after the configured number of failed attempts and says so on that attempt' do
+      (Devise.maximum_attempts - 1).times { attempt_sign_in('wrong-password') }
+      attempt_sign_in('wrong-password')
+
+      expect(user.reload.access_locked?).to be true
+      expect(response).to have_http_status(:unauthorized)
+      expect(response.parsed_body['error_code']).to eq('account_locked')
+      expect(response.parsed_body['errors'].first).to eq(I18n.t('devise.failure.locked'))
+    end
+
+    it 'rejects the correct password while locked with the locked error' do
+      Devise.maximum_attempts.times { attempt_sign_in('wrong-password') }
+      attempt_sign_in(password)
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(response.parsed_body['error_code']).to eq('account_locked')
+    end
+
+    it 'does not lock before the threshold and resets the counter on success' do
+      (Devise.maximum_attempts - 1).times { attempt_sign_in('wrong-password') }
+      expect(user.reload.access_locked?).to be false
+
+      attempt_sign_in(password)
+
+      expect(response).to have_http_status(:success)
+      expect(user.reload.failed_attempts).to eq(0)
+    end
+
+    it 'unlocks automatically after the lockout period' do
+      Devise.maximum_attempts.times { attempt_sign_in('wrong-password') }
+
+      travel_to(Devise.unlock_in.from_now + 1.minute) do
+        attempt_sign_in(password)
+
+        expect(response).to have_http_status(:success)
+        expect(user.reload.access_locked?).to be false
+      end
+    end
+  end
+
   describe 'GET #new' do
     it 'redirects to frontend login page' do
       allow(ENV).to receive(:fetch).and_call_original

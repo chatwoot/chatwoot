@@ -14,8 +14,10 @@
 #  display_name           :string
 #  email                  :string
 #  encrypted_password     :string           default(""), not null
+#  failed_attempts        :integer          default(0), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
+#  locked_at              :datetime
 #  message_signature      :text
 #  name                   :string           not null
 #  otp_backup_codes       :text
@@ -63,6 +65,7 @@ class User < ApplicationRecord
          :trackable,
          :validatable,
          :confirmable,
+         :lockable,
          :password_has_required_content,
          :two_factor_authenticatable,
          :omniauthable, omniauth_providers: [:google_oauth2, :saml]

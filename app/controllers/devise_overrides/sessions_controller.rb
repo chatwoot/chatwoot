@@ -35,6 +35,20 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     )
   end
 
+  def render_create_error_account_locked
+    render_error(
+      :unauthorized,
+      I18n.t('devise.failure.locked'),
+      error_code: 'account_locked'
+    )
+  end
+
+  def render_create_error_bad_credentials
+    return render_create_error_account_locked if @resource&.access_locked?
+
+    super
+  end
+
   def find_user_for_authentication
     return nil unless params[:email].present? && params[:password].present?
 
