@@ -58,10 +58,11 @@ const textFromNode = node => {
     }
     // Percent-encode characters that would end the markdown link early;
     // encodeURIComponent leaves parentheses alone.
-    const destination = href
-      .replace(/^mailto:/i, '')
-      .replace(/[()\s]/g, c => `%${c.charCodeAt(0).toString(16)}`);
-    return destination === childText.trim()
+    const destination = href.replace(
+      /[()\s]/g,
+      c => `%${c.charCodeAt(0).toString(16)}`
+    );
+    return destination.replace(/^mailto:/i, '') === childText.trim()
       ? childText
       : `[${childText}](${destination})`;
   }

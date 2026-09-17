@@ -70,6 +70,13 @@ describe('quotedEmailHelper', () => {
       expect(extractPlainTextFromHtml(html)).toBe('a@b.c bad');
     });
 
+    it('keeps the mailto scheme when the label differs from the address', () => {
+      const html = '<a href="mailto:support@example.com">Contact support</a>';
+      expect(extractPlainTextFromHtml(html)).toBe(
+        '[Contact support](mailto:support@example.com)'
+      );
+    });
+
     it('sanitizes onerror handlers from img tags', () => {
       const html = '<p>Hello</p><img src="x" onerror="alert(1)">';
       const result = extractPlainTextFromHtml(html);
