@@ -1,2 +1,3 @@
 json.billing_provider account.billing_provider
 json.subscribed_features account.subscribed_features
+json.campaign_analytics_enabled account.campaign_analytics_enabled?

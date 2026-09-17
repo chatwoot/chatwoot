@@ -13,7 +13,7 @@ const props = defineProps({
 });
 const { t } = useI18n();
 const { isAdmin } = useAdmin();
-const { accountScopedRoute } = useAccount();
+const { accountScopedRoute, currentAccount } = useAccount();
 const exactTimestamp = useExactTimestamp();
 const sentAt = computed(() =>
   messageTimestamp(props.recipient.sent_at, 'LLL d, h:mm a')
@@ -46,7 +46,7 @@ const statusLabel = computed(
         />
         <span class="sr-only">{{ t('CAMPAIGN.HISTORY.LABEL') }}</span>
         <RouterLink
-          v-if="isAdmin"
+          v-if="isAdmin && currentAccount.campaign_analytics_enabled"
           :to="
             accountScopedRoute('campaigns_whatsapp_analytics', {
               campaignId: recipient.campaign.id,

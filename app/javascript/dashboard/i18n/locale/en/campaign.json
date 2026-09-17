@@ -332,6 +332,18 @@
           "MESSAGE_NOT_GENERATED": "Not generated",
           "REASON": "Reason",
           "ERROR_CODE": "Code {code}"
+        },
+        "PAYWALL": {
+          "TITLE": "Unlock campaign analytics",
+          "AVAILABLE_ON": "Campaign analytics is available on all paid plans.",
+          "UPGRADE_PROMPT": "Upgrade to track campaign delivery, read status, and failed messages.",
+          "UPGRADE_NOW": "View plans",
+          "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+        },
+        "ENTERPRISE_PAYWALL": {
+          "AVAILABLE_ON": "Campaign analytics is available on paid self-hosted plans.",
+          "UPGRADE_PROMPT": "Upgrade your installation to track campaign delivery, read status, and failed messages.",
+          "ASK_ADMIN": "Contact your instance administrator to upgrade."
         }
       }
     },
