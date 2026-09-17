@@ -102,12 +102,12 @@ RSpec.describe 'Search indexing', type: :request do
   end
 
   describe 'robots.txt' do
-    it 'allows crawlers to read the indexing directives on public pages' do
+    it 'blocks widget crawling while leaving other pages crawlable' do
       get '/robots.txt'
 
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq('text/plain')
-      expect(response.body).to eq("User-agent: *\nAllow: /\n")
+      expect(response.body).to eq("User-agent: *\nDisallow: /widget\n")
     end
   end
 end
