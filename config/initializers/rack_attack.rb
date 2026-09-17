@@ -39,10 +39,18 @@ class Rack::Attack
     end
 
     # Rack's params does not parse JSON request bodies, which is how the
-    # frontend posts to /auth/sign_in. Use Rails parsing so token params are visible.
+    # frontend posts to /auth/sign_in. Use Rails parsing so token params are
+    # visible. Oversized bodies are not parsed here; real sign-in payloads are
+    # tiny, and anything larger falls through to the stricter login buckets.
+    MAX_PARSEABLE_BODY_BYTES = 64.kilobytes
+
     def rails_params
       @rails_params ||= begin
-        ActionDispatch::Request.new(env).params
+        if content_length.to_i > MAX_PARSEABLE_BODY_BYTES
+          {}
+        else
+          ActionDispatch::Request.new(env).params
+        end
       rescue StandardError
         {}
       end
