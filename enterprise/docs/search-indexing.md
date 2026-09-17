@@ -36,7 +36,7 @@ Contact producers are default-off. Enable the account's
 `advanced_search_indexing`. Existing self-hosted message indexing is unchanged.
 Deleting contacts still queues cleanup after the flag is disabled.
 Normal contact saves, merges, CSV saves, and silent integration import writes
-all use the same after-commit producer. No contact search reads change yet.
+all use the same after-commit producer. Read rollout is controlled separately.
 
 Contact text uses contiguous three-character tokens with phrase matching to
 preserve substring search, including punctuation and spaces. Short terms and
@@ -51,7 +51,7 @@ updates. Contact identity changes/deletion coalesce in the
 `contact_conversations` buffer. Its worker persists a primary-key cursor after
 each 500-conversation page. A newer contact change restarts that cursor; expired
 workers cannot overwrite successor progress. Contact activity-only changes do
-not fan out. Conversation and message search reads remain unchanged.
+not fan out. Existing message indexing and search remain unchanged.
 
 ## Backfills and reconciliation
 
@@ -108,3 +108,52 @@ indices only after old workers are stopped and the replacement is verified;
 include them in customer-data retention/deletion procedures. Redis and database
 restores require this same procedure. Search readiness is always checked against
 the current epoch and schema, rather than inferred from document counts.
+
+## Search read rollout
+
+After both backfills are verified for a canary account, enable `contact_search`
+and/or `conversation_search` on that account. These flags default off and do not
+replace either writer flag. Global contact/conversation search and
+`/contacts/search` use OpenSearch; conversation-list message-body search and
+message search retain their existing implementations.
+
+OpenSearch supplies at most 1,000 candidate IDs. The application applies the
+current SQL search/authorization scope, CRM rules, date filters, sorting and
+pagination to that bounded set. The complete candidate set is used before
+pagination, so revoked permissions or stale hits cannot underfill a page or
+expose an unauthorized engine total. Conversation candidates are scoped to the
+account and current inboxes in OpenSearch and checked again through
+`PermissionFilterService` in SQL, including custom roles. Contact identifier
+case handling remains specific to each endpoint. All existing contact sorts
+and response metadata are preserved, with an ID tie-breaker for stable pages.
+
+Queries with more than 1,000 candidates use SQL for the whole request, on every
+page. This avoids silent truncation and OpenSearch's deep-pagination limit.
+SQL also handles terms shorter than three characters, terms longer than 256
+characters, non-ASCII terms, and SQL wildcard/escape syntax. This deliberately
+retains broad-query database costs; measure the candidate cap against production
+workloads before expanding the rollout. Search remains eventually consistent:
+new matching records can appear after the live write batch and index refresh.
+
+Reads require the matching verified epoch/schema, no permanent failed items,
+and no live/dependency work older than two minutes. Missing readiness, excessive
+lag, partial/timed-out engine results, and known transport/availability errors
+fall back to SQL. Valid empty results stay empty. Programming and mapping errors
+are not swallowed. Recreating a missing physical index invalidates readiness
+for all affected accounts; run backfills again. Administratively replacing an
+index must follow the generation-reset procedure above.
+
+Use `search.search_indexing`, `fallback.search_indexing`, and
+`flush.search_indexing` notifications to measure engine time, fallback reasons
+and bulk latency without recording search terms or document content. Compare
+query latency and database cost on a canary, allow the normal indexing delay
+when comparing results, and check all contact sorts, CRM modes, date filters,
+restricted roles, and multiple pages. No production benchmark or rollout is
+implied by the local validation.
+
+Rollback is immediate: disable `contact_search` and/or `conversation_search`.
+Keep writer flags and live workers enabled so a later read canary can resume.
+Pause a backfill to stop feeding new historical pages; committed pending writes
+continue to drain. To cancel its readiness and invalidate outstanding page jobs,
+call `SearchIndexing::IndexState.find(state_id).invalidate!` from the console.
+Restart with `search:backfill` to reset the cursor and verify a new run.

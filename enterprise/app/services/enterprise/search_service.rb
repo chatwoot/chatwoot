@@ -17,6 +17,15 @@ module Enterprise::SearchService
 
   private
 
+  def contact_search_candidates(scope)
+    ::SearchIndexing::Search.new(account: current_account, entity: 'contacts', query: search_query).narrow(scope)
+  end
+
+  def conversation_search_candidates(scope)
+    ::SearchIndexing::Search.new(account: current_account, entity: 'conversations', query: search_query,
+                                 inbox_ids: accessable_inbox_ids).narrow(scope)
+  end
+
   def build_where_conditions
     conditions = { account_id: current_account.id }
     conditions[:inbox_id] = accessable_inbox_ids unless should_skip_inbox_filtering?

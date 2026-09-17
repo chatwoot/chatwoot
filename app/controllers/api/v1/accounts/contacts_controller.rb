@@ -28,7 +28,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search',
       search: "%#{params[:q].strip}%"
     )
-    @contacts = fetch_contacts_with_has_more(contacts)
+    @contacts = fetch_contacts_with_has_more(contact_search_candidates(contacts))
   end
 
   def import
@@ -116,6 +116,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   private
 
+  def contact_search_candidates(scope)
+    scope
+  end
+
   # TODO: Move this to a finder class
   def resolved_contacts
     return @resolved_contacts if @resolved_contacts
@@ -148,6 +152,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     # Calculate offset manually to fetch one extra record for has_more check
     offset = (@current_page.to_i - 1) * RESULTS_PER_PAGE
     results = filtrate(contacts)
+              .order(id: :desc)
               .includes(includes_hash)
               .offset(offset)
               .limit(RESULTS_PER_PAGE + 1)

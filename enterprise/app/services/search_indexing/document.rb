@@ -12,6 +12,7 @@ class SearchIndexing::Document
   def ensure_index!(epoch)
     return if Searchkick.client.indices.exists?(index: index_name(epoch))
 
+    SearchIndexing::IndexState.invalidate_index!(self.class::ENTITY, epoch)
     Searchkick.client.indices.create(index: index_name(epoch), body: mapping)
   rescue OpenSearch::Transport::Transport::Errors::BadRequest => e
     raise unless e.message.include?('resource_already_exists_exception')
