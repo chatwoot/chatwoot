@@ -79,7 +79,8 @@ class SearchIndexing::Backfill
   def perform_verify_index
     return unless drained?
 
-    response = Searchkick.client.search(index: @document.index_name(@state.epoch), body: orphan_query)
+    response = Searchkick.client.search(index: @document.index_name(@state.epoch), allow_partial_search_results: false, body: orphan_query)
+    verify_complete_response!(response)
     ids = response.fetch('hits').fetch('hits').map { |hit| Integer(hit.fetch('_id')) }
     return transition('drain') if ids.empty?
 
@@ -111,8 +112,14 @@ class SearchIndexing::Backfill
     dependencies = SearchIndexing::Buffer.new(entity: 'contact_conversations', account_id: @state.account_id, epoch: @state.epoch)
     return false unless @state.entity != 'conversations' || dependencies.statistics[:pending].zero?
 
-    Searchkick.client.indices.refresh(index: @document.index_name(@state.epoch))
+    verify_complete_response!(Searchkick.client.indices.refresh(index: @document.index_name(@state.epoch)))
     true
+  end
+
+  def verify_complete_response!(response)
+    return unless response['timed_out'] || response.fetch('_shards').fetch('failed').positive?
+
+    raise Searchkick::Error, 'Search verification returned an incomplete response'
   end
 
   def repair(ids)
