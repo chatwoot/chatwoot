@@ -560,7 +560,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
             temporary_scenarios: [],
             response_guidelines: ['Be concise'],
             guardrails: [],
-            knowledge_text: 'Refunds take five days.'
+            knowledge_text: 'Refunds take five days.',
+            ignored: 'do not enqueue'
           }
         )
 
@@ -572,7 +573,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         end.to have_enqueued_job(Captain::Playground::ResponseJob).with(
           hash_including(
             request: hash_including(
-              playground_config: enhanced_params[:playground_config].stringify_keys,
+              playground_config: enhanced_params[:playground_config].except(:ignored).stringify_keys,
               playground_config_supplied: true
             )
           )

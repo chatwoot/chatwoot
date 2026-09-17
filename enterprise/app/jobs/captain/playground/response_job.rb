@@ -1,5 +1,6 @@
 class Captain::Playground::ResponseJob < ApplicationJob
   queue_as :default
+  sidekiq_options retry: false
 
   EVENT_NAME = 'captain.playground.response'.freeze
 

@@ -8,6 +8,10 @@ RSpec.describe Captain::Playground::ResponseJob, type: :job do
   let(:message_content) { 'Hello assistant' }
   let(:message_history) { [{ role: 'user', content: 'Previous message' }] }
 
+  it 'does not retry non-idempotent playground runs' do
+    expect(described_class.get_sidekiq_options['retry']).to be(false)
+  end
+
   def perform_job(**overrides)
     described_class.perform_now(
       assistant: assistant,

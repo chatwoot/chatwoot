@@ -153,6 +153,49 @@ describe('AssistantPlayground', () => {
     });
   });
 
+  it('stops loading when the WebSocket disconnects', async () => {
+    const wrapper = mountPlayground();
+    await wrapper.get('input').setValue('Hello');
+    await wrapper.get('input').trigger('keydown', { key: 'Enter' });
+    await flushPromises();
+
+    mocks.eventHandlers.WEBSOCKET_DISCONNECT();
+    await nextTick();
+
+    expect(wrapper.getComponent(MessageListStub).props('isLoading')).toBe(
+      false
+    );
+    expect(
+      wrapper.getComponent(MessageListStub).props('messages')[1]
+    ).toMatchObject({
+      content: 'CAPTAIN.PLAYGROUND.RESPONSE_ERROR',
+      isError: true,
+    });
+  });
+
+  it('stops loading when the worker response times out', async () => {
+    vi.useFakeTimers();
+    const wrapper = mountPlayground();
+    await wrapper.get('input').setValue('Hello');
+    await wrapper.get('input').trigger('keydown', { key: 'Enter' });
+    await flushPromises();
+
+    vi.advanceTimersByTime(120000);
+    await nextTick();
+
+    expect(wrapper.getComponent(MessageListStub).props('isLoading')).toBe(
+      false
+    );
+    expect(
+      wrapper.getComponent(MessageListStub).props('messages')[1]
+    ).toMatchObject({
+      content: 'CAPTAIN.PLAYGROUND.RESPONSE_ERROR',
+      isError: true,
+    });
+    wrapper.unmount();
+    vi.useRealTimers();
+  });
+
   it('shows request errors in the chat', async () => {
     mocks.playground.mockRejectedValue({
       response: { data: { error: 'Invalid playground configuration' } },

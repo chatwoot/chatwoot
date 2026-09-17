@@ -26,6 +26,8 @@ const props = defineProps({
   },
 });
 
+const PLAYGROUND_RESPONSE_TIMEOUT_MS = 120000;
+
 const { t } = useI18n();
 const isBelowXL = useBreakpoints(breakpointsTailwind).smaller('xl');
 
@@ -78,6 +80,7 @@ const pushAssistantError = content => {
 };
 
 const resetConversation = () => {
+  clearTimeout(activeRequest?.timeoutId);
   activeRequest = null;
   isLoading.value = false;
   messages.value = [];
@@ -95,6 +98,7 @@ const handlePlaygroundResponse = data => {
   if (data.request_id !== activeRequest?.id) return;
 
   const { setupSummary } = activeRequest;
+  clearTimeout(activeRequest.timeoutId);
   activeRequest = null;
   isLoading.value = false;
   messages.value.push({
@@ -108,12 +112,26 @@ const handlePlaygroundResponse = data => {
   });
 };
 
+const failActiveRequest = (
+  content = t('CAPTAIN.PLAYGROUND.RESPONSE_ERROR')
+) => {
+  if (!activeRequest) return;
+
+  clearTimeout(activeRequest.timeoutId);
+  activeRequest = null;
+  isLoading.value = false;
+  pushAssistantError(content);
+};
+
 onMounted(() => {
   emitter.on(BUS_EVENTS.CAPTAIN_PLAYGROUND_RESPONSE, handlePlaygroundResponse);
+  emitter.on(BUS_EVENTS.WEBSOCKET_DISCONNECT, failActiveRequest);
 });
 
 onBeforeUnmount(() => {
   emitter.off(BUS_EVENTS.CAPTAIN_PLAYGROUND_RESPONSE, handlePlaygroundResponse);
+  emitter.off(BUS_EVENTS.WEBSOCKET_DISCONNECT, failActiveRequest);
+  clearTimeout(activeRequest?.timeoutId);
 });
 
 const resetTestSetup = async () => {
@@ -167,7 +185,11 @@ const sendMessage = async () => {
   const setupSummary = session.configurationSummary();
   const requestId = `playground-${Date.now()}-${Math.random().toString(36).slice(2)}`;
   newMessage.value = '';
-  activeRequest = { id: requestId, setupSummary };
+  activeRequest = {
+    id: requestId,
+    setupSummary,
+    timeoutId: setTimeout(failActiveRequest, PLAYGROUND_RESPONSE_TIMEOUT_MS),
+  };
 
   try {
     isLoading.value = true;
@@ -181,13 +203,11 @@ const sendMessage = async () => {
   } catch (error) {
     if (requestId !== activeRequest?.id) return;
 
-    activeRequest = null;
-    isLoading.value = false;
-    pushAssistantError(
+    const errorMessage =
       error?.response?.data?.error ||
-        error?.response?.data?.message ||
-        t('CAPTAIN.PLAYGROUND.RESPONSE_ERROR')
-    );
+      error?.response?.data?.message ||
+      t('CAPTAIN.PLAYGROUND.RESPONSE_ERROR');
+    failActiveRequest(errorMessage);
   }
 };
 

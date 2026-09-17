@@ -173,10 +173,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def playground_configuration
-    configuration = params[:playground_config] || params[:assistant]&.[](:playground_config)
-    return configuration.to_unsafe_h if configuration.respond_to?(:to_unsafe_h)
-
-    configuration
+    playground_params[:playground_config]&.to_h
   end
 
   def playground_configuration_supplied? = params.key?(:playground_config) || params[:assistant]&.key?(:playground_config)
