@@ -1,10 +1,23 @@
 class Whatsapp::OneoffCampaignService
   pattr_initialize [:campaign!]
 
+  BATCH_SIZE = 100
+
   def perform
     validate_campaign!
-    process_audience(extract_audience_labels)
-    campaign.completed!
+    campaign.with_lock do
+      audience_contacts.in_batches(of: BATCH_SIZE) do |contacts|
+        prepare_batch(contacts)
+      end
+      campaign.completed! unless campaign.campaign_batches.exists?
+    end
+    first_batch = campaign.campaign_batches.order(:id).first
+    Campaigns::SendWhatsappBatchJob.perform_later(first_batch) if first_batch
+  end
+
+  def perform_batch(contact_ids)
+    validate_campaign!
+    process_contacts(campaign.account.contacts.where(id: contact_ids))
   end
 
   private
@@ -64,13 +77,16 @@ class Whatsapp::OneoffCampaignService
     send_whatsapp_template_message(to: recipient, template_params: processed_template_params)
   end
 
-  def process_audience(audience_labels)
-    contacts = campaign.account.contacts.tagged_with(audience_labels, any: true)
-    Rails.logger.info "Processing #{contacts.count} contacts for campaign #{campaign.id}"
+  def prepare_batch(contacts)
+    campaign.campaign_batches.create!(contact_ids: contacts.pluck(:id))
+  end
 
+  def audience_contacts
+    campaign.account.contacts.tagged_with(extract_audience_labels, any: true)
+  end
+
+  def process_contacts(contacts)
     contacts.each { |contact| process_contact(contact) }
-
-    Rails.logger.info "Campaign #{campaign.id} processing completed"
   end
 
   def process_liquid_template_params(contact)

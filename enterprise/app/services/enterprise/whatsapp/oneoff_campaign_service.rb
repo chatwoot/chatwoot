@@ -1,12 +1,24 @@
 module Enterprise::Whatsapp::OneoffCampaignService
-  def perform
-    validate_campaign!
-    recipients = create_recipients(extract_audience_labels)
-    process_recipients(recipients)
-    campaign.completed!
+  private
+
+  def prepare_batch(contacts)
+    super
+    contacts.each { |contact| recipient_for(contact) }
   end
 
-  private
+  def process_contacts(contacts)
+    contacts.each do |contact|
+      recipient = recipient_for(contact)
+      process_recipient(recipient) if recipient.queued?
+    end
+  end
+
+  def recipient_for(contact)
+    campaign.campaign_recipients.find_or_create_by!(contact: contact) do |recipient|
+      recipient.account = campaign.account
+      recipient.inbox = campaign.inbox
+    end
+  end
 
   def process_recipient(recipient)
     contact = recipient.contact
@@ -33,24 +45,6 @@ module Enterprise::Whatsapp::OneoffCampaignService
     recipient.update!(message_content: rendered_message_content(contact))
 
     send_whatsapp_template_message(recipient: recipient, to: destination, template_params: processed_template_params)
-  end
-
-  def create_recipients(audience_labels)
-    contacts = campaign.account.contacts.tagged_with(audience_labels, any: true)
-    Rails.logger.info "Processing #{contacts.count} contacts for campaign #{campaign.id}"
-
-    contacts.find_each.map do |contact|
-      campaign.campaign_recipients.find_or_create_by!(contact: contact) do |recipient|
-        recipient.account = campaign.account
-        recipient.inbox = campaign.inbox
-      end
-    end
-  end
-
-  def process_recipients(recipients)
-    recipients.each { |recipient| process_recipient(recipient) }
-
-    Rails.logger.info "Campaign #{campaign.id} processing completed"
   end
 
   def rendered_message_content(contact)
