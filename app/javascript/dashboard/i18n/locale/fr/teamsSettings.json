@@ -5,7 +5,7 @@
     "LOADING": "Récupération des équipes",
     "DESCRIPTION": "Les équipes vous permettent d'organiser les agents en groupes en fonction de leurs responsabilités. Un agent peut appartenir à plusieurs équipes. Lorsque vous travaillez en collaboration, vous pouvez assigner des conversations à des équipes spécifiques.",
     "LEARN_MORE": "En savoir plus sur les équipes",
-    "COUNT": "Équipe {n} | Équipes {n}",
+    "COUNT": "{n} équipe | {n} équipes",
     "SEARCH_PLACEHOLDER": "Chercher des équipes...",
     "NO_RESULTS": "Aucune équipe trouvée ne correspond à votre recherche",
     "LIST": {

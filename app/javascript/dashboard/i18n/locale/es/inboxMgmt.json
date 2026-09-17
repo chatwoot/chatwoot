@@ -307,7 +307,7 @@
             "TITLE": "Crear o seleccionar una aplicación Meta",
             "DESCRIPTION": "Tu número de WhatsApp debe pertenecer a una aplicación Meta con el caso de uso de WhatsApp activado.",
             "ITEM_1": "Abre {metaDevelopers} e inicia sesión con una cuenta de administrador.",
-            "META_DEVELOPERS": "Meta Desarrolladores",
+            "META_DEVELOPERS": "Meta Developers",
             "ITEM_2": "Crea una nueva aplicación o selecciona la aplicación que ya usas para este número de WhatsApp.",
             "ITEM_3": "Elija la opción de conectar con los clientes a través de WhatsApp.",
             "ITEM_4": "Seleccione el portafolio de negocios que posee, o será dueño del número de WhatsApp.",
@@ -361,7 +361,7 @@
           "VERIFY": {
             "TITLE": "Verifique su conexión",
             "DESCRIPTION": "Chatwoot está comprobando el acceso a números y configurando su Meta webhook.",
-            "NUMBER_ACCESS": "Número de acceso",
+            "NUMBER_ACCESS": "Acceso al número",
             "TEMPLATE_ACCESS": "Acceso a plantillas",
             "CALLBACK": "Llamada de Webhook",
             "SUBSCRIPTION": "Suscripción de Webhook",

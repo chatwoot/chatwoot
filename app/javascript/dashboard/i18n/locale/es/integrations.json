@@ -539,7 +539,7 @@
         },
         "HANDOFF_REASONS": {
           "TITLE": "Motivos de transferencia",
-          "CUSTOMER_REQUEST": "Cliente solicitado",
+          "CUSTOMER_REQUEST": "Solicitado por el cliente",
           "MISSING_KNOWLEDGE": "Faltan conocimientos",
           "UNSUPPORTED_REQUEST": "Solicitud no soportada",
           "POLICY_RESTRICTION": "Restricción de política",

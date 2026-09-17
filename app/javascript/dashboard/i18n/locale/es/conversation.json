@@ -2,7 +2,7 @@
   "CONVERSATION": {
     "REFERRAL": {
       "AD_LABEL": "Anuncio",
-      "POST_LABEL": "Publicar",
+      "POST_LABEL": "Publicación",
       "VIEW_AD": "Ver anuncio",
       "WELCOME_MESSAGE_LABEL": "Mensaje prellenado: ",
       "REPLIED_BELOW": "Cliente respondido a continuación"

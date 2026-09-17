@@ -3,7 +3,7 @@
     "HEADER": "Rôles personnalisés",
     "LEARN_MORE": "En savoir plus sur les rôles personnalisés",
     "DESCRIPTION": "Les rôles personnalisés sont des rôles qui sont créés par le propriétaire ou l'administrateur du compte. Ces rôles peuvent être assignés aux agents pour définir leur accès et leurs autorisations dans le compte. Des rôles personnalisés peuvent être créés avec des autorisations et des niveaux d'accès spécifiques pour répondre aux exigences de l'organisation.",
-    "COUNT": "Rôle personnalisé {n} | Rôles personnalisés {n}",
+    "COUNT": "{n} rôle personnalisé | {n} rôles personnalisés",
     "HEADER_BTN_TXT": "Ajouter un rôle personnalisé",
     "LOADING": "Récupération des rôles personnalisés...",
     "SEARCH_PLACEHOLDER": "Rechercher des rôles personnalisés...",
