@@ -24,6 +24,18 @@ RSpec.describe Captain::Apropos::SchemeSession do
     expect(scheme.execute('(values 1 2)')).to be_a(Scheme::MultipleValues)
   end
 
+  it 'normalizes nested tool object keys without converting symbol values or mutating the source' do
+    data = { members: { 'conversations' => [{ fields: [:id, 'name'] }] } }
+    scheme.register('catalog') { data }
+
+    result = scheme.execute('(define catalog-data (catalog))
+      (list (keys catalog-data)
+            (get (car (get (get catalog-data "members") "conversations")) "fields"))')
+
+    expect(Captain::Apropos::SchemeValues.to_ruby(result)).to eq([['members'], [:id, 'name']])
+    expect(data).to eq(members: { 'conversations' => [{ fields: [:id, 'name'] }] })
+  end
+
   it 'shares its evaluation budget with callbacks invoked by host extensions' do
     expect { scheme.execute('(fold (lambda (acc x) (let loop () (loop))) 0 (list 1))') }.to raise_error(StandardError, /exceeded/)
     expect(scheme.execute('(+ 1 2)')).to eq(3)

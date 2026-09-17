@@ -65,6 +65,18 @@ RSpec.describe Captain::Apropos::Runtime do
     expect { runtime.query_next(preview) }.to raise_error(Captain::Apropos::Error, /Expected a query page/)
   end
 
+  it 'makes a previewed resource catalog readable through recall before and after restoring state' do
+    catalog = runtime.catalog.describe('resources')
+    preview = runtime.model_value(catalog, limit: 100)
+    expect(preview).to include('kind' => 'preview', 'complete' => false)
+
+    source = "(get (get (get (recall #{preview.fetch('ref').to_json}) \"members\") \"conversations\") \"fields\")"
+    expect(runtime.execute(source)).to include('id', 'custom_attributes')
+
+    restored = described_class.new(account: account, user: user, state: JSON.parse(JSON.generate(runtime.state)))
+    expect(restored.execute(source)).to eq(runtime.execute(source))
+  end
+
   it 'retains completed callback results after a later page fails without retrying callbacks' do
     prepared = instance_double(Wootql::PreparedQuery)
     query = instance_double(Wootql::Query, prepare: prepared)

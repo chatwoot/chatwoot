@@ -8,7 +8,7 @@ module Captain::Apropos::SchemeValues
   def self.from_ruby(value)
     case value
     when Array then ::Scheme.list(value.map { |item| from_ruby(item) })
-    when Hash then value.transform_values { |item| from_ruby(item) }
+    when Hash then value.to_h { |key, item| [key.to_s, from_ruby(item)] }
     else value
     end
   end
