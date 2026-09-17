@@ -16,6 +16,7 @@ export function useCampaignHistory() {
   const firstMessageId = ref(null);
   const hasLoaded = ref(false);
   const hasError = ref(false);
+  const failedRefresh = ref(false);
 
   const enabled = computed(
     () =>
@@ -49,10 +50,13 @@ export function useCampaignHistory() {
   });
 
   // Cover the loaded chat messages, then let agents load earlier campaigns separately.
-  const loadCampaignHistory = async ({ refresh = false } = {}) => {
+  const loadCampaignHistory = async ({
+    refresh = failedRefresh.value,
+  } = {}) => {
     if (!enabled.value || (!refresh && (isPending.value || !hasMore.value)))
       return;
     hasError.value = false;
+    failedRefresh.value = false;
     const conversationId = currentChat.value.id;
     const refreshUntil =
       recipients.value[0]?.sent_at ?? oldestMessageTime.value;
@@ -94,6 +98,7 @@ export function useCampaignHistory() {
       });
     } catch (error) {
       hasError.value = true;
+      failedRefresh.value = refresh;
     }
   };
 
@@ -110,6 +115,7 @@ export function useCampaignHistory() {
       firstMessageId.value = null;
       hasLoaded.value = false;
       hasError.value = false;
+      failedRefresh.value = false;
       loadCampaignHistory();
     },
     { immediate: true }
