@@ -32,8 +32,9 @@ class Captain::Apropos::Catalog
     'append' => ['(append items ...)', 'Concatenate lists in argument order.'],
     'apply' => ['(apply function argument ... items)', 'Call function with the supplied arguments followed by the elements of the final list.'],
     'batches' => ['(batches items 50)',
-                  'Partition a list in order, with at most N items and 16000 JSON bytes per batch for reason. Never truncates or drops items. ' \
-                  'An oversized single item raises; return fewer fields or delegate it by reference.'],
+                  "Partition a list in order, with at most N items and #{Captain::Apropos::ContextLimits::REASON_INPUT_BYTES} JSON bytes per " \
+                  'batch for reason. Never truncates or drops items. ' \
+                  'An oversized single item raises; return fewer fields or give its reference to spawn-agent.'],
     'map' => ['(map function items)', 'Function FIRST, list SECOND. Calls function with each item and returns the results.'],
     'filter' => ['(filter predicate items)', 'Predicate FIRST, list SECOND. Keep items whose predicate result is not #f.'],
     'fold' => ['(fold function initial items)', 'Calls function with accumulator then item, returning the final accumulator.'],
@@ -61,10 +62,9 @@ class Captain::Apropos::Catalog
                  "Read-only reasoning, no orchestration prompt or tools. #{Captain::Apropos::ResultSchema::DESCRIPTION}"],
     'schema-check' => ['(schema-check (hash "items" (list (hash "id" "integer" "need" "string"))))',
                        "Validate and return a schema without an LLM call. #{Captain::Apropos::ResultSchema::DESCRIPTION}"],
-    'delegate' => ['(delegate data "task" schema)',
-                   'Fresh worker returns status, compact result, input_ref, receipts_ref, receipt_count. Recall references in the parent.'],
-    'map-agent' => ['(map-agent items "task" schema)',
-                    'Sequential independent workers returning compact findings and workspace references. Failures do not stop the collection.'],
+    'spawn-agent' => ['(spawn-agent data "task" schema)',
+                      'Run a fresh autonomous Apropos worker with tools. Returns status, compact result, input_ref, receipts_ref, and ' \
+                      'receipt_count. Use standard map for repeated independent work.'],
     'receipts' => ['(receipts)',
                    'Success: {operation, target, status, result, effect, at}. Failure: {operation, target, status, error}. No id field.'],
     'language' => ['Scheme with Chatwoot extensions',

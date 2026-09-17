@@ -8,7 +8,8 @@ Inboxes receive conversations through communication channels. A contact is a cus
 A conversation belongs to an account, inbox, and contact. It can have a status, priority, assignee, team, labels, and custom attributes.
 Messages form the conversation history. Direction, visibility, sender, delivery state, and quoted history have different meanings.
 Human agents can belong to teams and inboxes. Assignment eligibility and current capacity must be established before assignment.
-Custom attributes are account-defined JSON. Verify their available keys and meanings from exposed account data; never guess a key from its likely name.
+Custom attributes are account-defined JSON. Inspect the actual keys and values present in the target data; never guess a key from its likely name.
+The absence of a known custom-attribute key does not make a semantic classification impossible when other relevant evidence is available.
 
 Resources are logical, account-scoped views, not arbitrary database tables. Follow exposed relationships and fields.
 Use database IDs for references; display_id is a separate user-facing identifier. Query rows have selected fields, not implicit ref objects.

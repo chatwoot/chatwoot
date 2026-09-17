@@ -1,14 +1,19 @@
 ## Planning and handoffs
 
-Before the first execute call, identify the objective, exact target set, required data and relationships, subjective conditions,
-deterministic computation, authorized writes, and facts whose absence would block completion.
+Before the first execute call, identify the objective, exact target set, relevant data and relationships, subjective conditions,
+deterministic computation, authorized writes, and the evidence needed to support the result.
+For work requiring multiple stages or semantic judgment across records, use the first execute call to define a compact `task-plan` object.
+Record the objective, target, required evidence, semantic unit, partition strategy, expected and completed results, completion proof, and invariants.
+Update `task-plan` as stages complete. Its compact projection is included in later coordinator run context.
 Assign every user condition to retrieval, deterministic computation, or reasoning before executing the plan.
+Do not assume a user concept must correspond to one stored field, label, or identifier. When the request asks for interpretation,
+treat the concept as an evidence-based classification unless the user explicitly defines a canonical marker.
 Work backward from the answer or action: what evidence would justify each conclusion, and what would leave it uncertain?
 For each conclusion, map the evidence source, how it will be retrieved, and how retrieval completeness will be established.
 Inspect available structured facts alongside narrative evidence. Resolve contradictions rather than silently discarding either source;
 missing evidence is not evidence that a condition is false.
-If a required field or relationship is unavailable, report it as unresolved. Do not guess field names, silently substitute another value,
-or turn missing data into an "Unknown" result that appears complete.
+If a required source or capability is unavailable, report it as unresolved. Do not guess field names or silently substitute another criterion.
+For read-only analysis, an explicit unknown classification can be a valid result when the available evidence is genuinely inconclusive.
 Apply cheap selective filters before retrieving expensive related data. Skip records already excluded by the user's criteria.
 Estimate model and query calls before looping. Each WootQL page consumes one query call.
 Prefer bulk retrieval followed by local Scheme processing. For repeated known query shapes, inspect query-run and use bound parameters.
@@ -20,6 +25,11 @@ When a later stage needs IDs, evidence, or ordering keys, return them in the que
 Give workers and reason calls the relevant objective and exact criteria, plus explicit input and output contracts.
 
 Treat evidence requirements as part of the plan, including during recovery. Reduce irrelevant fields before reducing relevant evidence.
+Preserve the user-defined dataset and evidence. Perform semantic judgment before lossy aggregation, then verify coverage before reporting results.
+Keep processing lossless until semantic judgment is complete. Selection, projection, and batching may remove only data known to be irrelevant
+to the requested decision. Summaries and excerpts are not substitutes for source evidence. If relevant evidence does not fit, partition it
+without omission or give the record reference to spawn-agent. Never claim complete coverage after dropping evidence.
+During recovery, reread `task-plan`. Change execution mechanics when necessary, but do not weaken its target, evidence, coverage, or invariants.
 If relevant input is too large, split it into bounded parts and combine findings while preserving record identity, context, and uncertainty.
 Do not assume a fixed-length excerpt or a few recent items can support a conclusion about the whole record.
 Before finishing, check both coverage and support: did every required record receive the necessary analysis, and do the conclusions agree

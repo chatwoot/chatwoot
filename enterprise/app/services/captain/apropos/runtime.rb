@@ -4,8 +4,9 @@ class Captain::Apropos::Runtime
   include Captain::Apropos::QueryFunctions
   include Captain::Apropos::Instrumentation::RuntimeMethods
 
-  MAX_AGENT_CALLS = 100
+  MAX_AGENT_CALLS = 500
   MAX_DELEGATION_DEPTH = 2
+  TASK_PLAN_BINDING = :'task-plan'
 
   attr_reader :scheme, :catalog, :events, :account, :user, :execution_failure
 
@@ -43,7 +44,19 @@ class Captain::Apropos::Runtime
     }
   end
 
-  def run_context = Captain::Apropos::Prompt.context(account: account, budget: @budget, depth: @depth)
+  def run_context
+    context = Captain::Apropos::Prompt.context(account: account, budget: @budget, depth: @depth)
+    plan = working_plan
+    context[:working_plan] = plan if plan
+    context
+  end
+
+  def working_plan
+    value = scheme.workspace[TASK_PLAN_BINDING]
+    return unless value
+
+    present(value)
+  end
 
   def record(kind, data)
     event = { 'kind' => kind, 'data' => data, 'depth' => @depth, 'at' => Time.current.iso8601 }
@@ -80,7 +93,9 @@ class Captain::Apropos::Runtime
 
   def model_input(input, tools:)
     if !tools && JSON.generate(input).bytesize > Captain::Apropos::ContextLimits::REASON_INPUT_BYTES
-      raise Captain::Apropos::Error, 'reason input exceeds 16000 bytes. Split the data into smaller batches; no reasoning was performed.'
+      raise Captain::Apropos::Error,
+            "reason input exceeds #{Captain::Apropos::ContextLimits::REASON_INPUT_BYTES} bytes. " \
+            'Split the data into smaller batches; no reasoning was performed.'
     end
 
     tools ? model_value(input) : input
@@ -129,8 +144,7 @@ class Captain::Apropos::Runtime
     scheme.register('query-next') { |page| query_next(page) }
     scheme.register('query-map') { |function, page| query_map(function, page) }
     scheme.register('reason') { |data, task, schema| reason(data, task, schema) }
-    scheme.register('delegate') { |data, task, schema| delegate(data, task, schema) }
-    scheme.register('map-agent') { |items, task, schema| items.map { |item| delegate(item, task, schema) } }
+    scheme.register('spawn-agent') { |data, task, schema| spawn_agent(data, task, schema) }
   end
 
   def install_workspace_functions
@@ -160,7 +174,7 @@ class Captain::Apropos::Runtime
     raise
   end
 
-  def delegate(input, task, schema)
+  def spawn_agent(input, task, schema)
     input_ref = store(input)
     raise Captain::Apropos::Error, 'Delegation depth exceeded' if @depth >= MAX_DELEGATION_DEPTH
 

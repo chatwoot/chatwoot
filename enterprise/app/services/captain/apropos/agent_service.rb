@@ -1,6 +1,8 @@
 require 'agents'
 
 class Captain::Apropos::AgentService < Captain::BaseTaskService
+  REASONING_EFFORT = 'medium'.freeze
+
   pattr_initialize [:account!, :runtime!, :instruction!, { input: nil, result_schema: nil, tools_enabled: true, history: [] }]
 
   def perform
@@ -48,14 +50,17 @@ class Captain::Apropos::AgentService < Captain::BaseTaskService
   end
 
   def agent_input
-    JSON.generate({ task: instruction, input: runtime.model_input(input, tools: tools_enabled), run_context: runtime.run_context })
+    run_context = runtime.run_context
+    run_context = run_context.except(:working_plan) unless tools_enabled
+    JSON.generate({ task: instruction, input: runtime.model_input(input, tools: tools_enabled),
+                    run_context: run_context })
   end
 
   def build_agent(schema)
     Agents::Agent.new(
-      name: 'Apropos', instructions: tools_enabled ? system_prompt : reasoning_prompt, temperature: 0,
+      name: 'Apropos', instructions: tools_enabled ? system_prompt : reasoning_prompt, temperature: nil,
       model: InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || GPT_MODEL,
-      response_schema: schema, tools: tools_enabled ? tool_instances : []
+      response_schema: schema, tools: tools_enabled ? tool_instances : [], params: { reasoning_effort: REASONING_EFFORT }
     )
   end
 

@@ -41,6 +41,7 @@ RSpec.describe Captain::Apropos::Prompt do
       expect(parts.fetch('planning')).to include(
         'Before the first execute call, identify the objective',
         'Assign every user condition to retrieval, deterministic computation, or reasoning',
+        'Do not assume a user concept must correspond to one stored field',
         'map the evidence source',
         'Do not declare data unavailable from a sample',
         'Do not guess field names'
@@ -48,6 +49,18 @@ RSpec.describe Captain::Apropos::Prompt do
       expect(parts.fetch('coverage')).to include('Track target-record coverage and supporting-evidence coverage separately')
       expect(parts.fetch('retrieval')).to include('Exhaust each independently', 'An ordered first page across many parent records')
       expect(parts.fetch('workspace')).to include('There is no store primitive')
+    end
+
+    it 'keeps semantic analysis open to multiple evidence sources' do
+      expect(parts.fetch('reasoning')).to include(
+        'combine explicit structured facts with relevant narrative evidence',
+        'Do not require a canonical database marker or invent a proxy criterion'
+      )
+      expect(parts.fetch('recovery')).to include(
+        'For a write, never act when eligibility cannot be verified',
+        'genuinely inconclusive records as unknown'
+      )
+      expect(parts.fetch('data_model')).to include('Inspect the actual keys and values present in the target data')
     end
   end
 end

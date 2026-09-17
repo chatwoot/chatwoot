@@ -35,7 +35,7 @@ class Captain::Apropos::SchemeExtensions
         item_bytes = JSON.generate(item).bytesize + 1
         if item_bytes + 1 > limit
           raise Captain::Apropos::Error,
-                "A batch item exceeds #{limit} bytes. Return fewer fields or delegate it by reference."
+                "A batch item exceeds #{limit} bytes. Return fewer fields or give its reference to spawn-agent."
         end
 
         new_batch = bytes + item_bytes > limit

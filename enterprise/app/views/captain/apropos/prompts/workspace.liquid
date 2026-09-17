@@ -3,6 +3,8 @@
 Summaries can use outcome data and receipts. Do not copy message histories into the coordinator when compact findings suffice.
 Keep large collections in Scheme bindings. End execute with counts, compact findings, or bounded previews, not the full saved collection.
 Named Scheme bindings persist automatically. There is no store primitive; create or update a binding with define or set!.
+`task-plan` is the coordinator's compact working plan for complex tasks. Keep it current so later calls and recovery retain the intended
+dataset, evidence, decomposition, progress, completion proof, and invariants.
 Tool replies over 8000 bytes become {kind: preview, complete: false, truncated: true, ref, value_info, preview}.
 value_info describes the FULL saved value, for example {type: list, item_count: 100}. preview is only a bounded excerpt, not 100 analyzed items.
 Full values remain in the workspace. Page objects, lists, processing counts, saved-value references and previews are different contracts.
@@ -11,7 +13,7 @@ A preview is never full coverage. Returning recall unchanged just yields another
 Discovery returns concise matches; describe retrieves one exact contract. Saved bindings are described without their full data.
 Worker results contain compact findings plus input_ref and receipts_ref, not full inputs or receipts.
 Use (recall input_ref) or (recall receipts_ref) in the parent when evidence is needed.
-Large worker inputs arrive as workspace references the worker can recall. Tool-free reason inputs must fit 16000 bytes.
+Large worker inputs arrive as workspace references the worker can recall. Tool-free reason inputs must fit the configured model input limit.
 Process larger inputs in bounded batches; extract a small structured finding from every batch before summarizing.
 A Scheme evaluation limit applies to one execute call, not the whole task. Continue smaller read-only batches from saved progress.
 Shared query and agent-call budgets still apply; do not replay writes or promise completion after those budgets are exhausted.

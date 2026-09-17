@@ -43,12 +43,12 @@ module Captain::Apropos::SeeAlso
       'faq-search' => 'Find approved FAQ answers by semantic relevance rather than text matching.'
     },
     'reason' => {
-      'delegate' => 'A fresh worker can investigate with tools rather than only evaluate supplied data.',
+      'spawn-agent' => 'A fresh autonomous worker can retrieve evidence and use tools rather than only evaluate supplied data.',
       'collections' => 'Counts, grouping, and other deterministic transformations need no model call.'
     },
-    'delegate' => {
+    'spawn-agent' => {
       'reason' => 'Evaluate supplied evidence without tool access.',
-      'map-agent' => 'Run independent workers over a collection of inputs.'
+      'map' => 'Run a fresh worker for every independent item in a collection.'
     },
     'show-table' => {
       'collections' => 'Project, group, and order data before presenting it.'

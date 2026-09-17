@@ -1,9 +1,9 @@
 class Captain::Apropos::ContextLimits
   TOOL_BYTES = 8_000
-  REASON_INPUT_BYTES = 16_000
-  HISTORY_BYTES = 24_000
+  REASON_INPUT_BYTES = 900_000
+  HISTORY_BYTES = 500_000
   # This bounds accumulated runner history, not only the current prompt or tool result. See RequestBudget for the compaction limitation.
-  REQUEST_BYTES = 120_000
+  REQUEST_BYTES = 1_000_000
   PREVIEW_ITEMS = 3
   PREVIEW_STRING_BYTES = 300
   PREVIEW_DEPTH = 3

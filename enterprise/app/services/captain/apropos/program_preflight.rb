@@ -1,7 +1,7 @@
 # Inspect literal result schemas without evaluating code or calling tools.
 class Captain::Apropos::ProgramPreflight
   UNKNOWN = Object.new.freeze
-  SCHEMA_ARGUMENTS = { reason: 3, delegate: 3, 'map-agent': 3, 'schema-check': 1 }.freeze
+  SCHEMA_ARGUMENTS = { reason: 3, 'spawn-agent': 3, 'schema-check': 1 }.freeze
 
   def initialize(scheme)
     @shadowed = scheme.workspace.keys | scheme.library.keys

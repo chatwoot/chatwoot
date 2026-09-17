@@ -3,6 +3,23 @@
 require 'rails_helper'
 
 RSpec.describe Captain::Apropos::AgentService do
+  describe '#build_agent' do
+    it 'uses medium reasoning without temperature for coordinator and reasoning calls' do
+      allow(InstallationConfig).to receive(:find_by).and_return(nil)
+
+      [true, false].each do |tools_enabled|
+        service = described_class.new(
+          account: instance_double(Account), runtime: instance_double(Captain::Apropos::Runtime),
+          instruction: 'Analyze conversations', tools_enabled: tools_enabled
+        )
+        agent = service.send(:build_agent, nil)
+
+        expect(agent.params).to eq(reasoning_effort: 'medium')
+        expect(agent.temperature).to be_nil
+      end
+    end
+  end
+
   describe '#run_agent' do
     it 'installs tracing and passes safe turn context to the runner' do
       account = instance_double(Account)

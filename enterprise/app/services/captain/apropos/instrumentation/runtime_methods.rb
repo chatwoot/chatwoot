@@ -57,7 +57,7 @@ module Captain::Apropos::Instrumentation::RuntimeMethods
   def agent_role(tools:)
     return 'reason' unless tools
 
-    @depth.zero? ? 'coordinator' : 'delegate'
+    @depth.zero? ? 'coordinator' : 'worker'
   end
 
   def instrument(name, attributes = {}, observation_type: nil, &)
