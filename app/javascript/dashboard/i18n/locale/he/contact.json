@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "לא זמין",
     "EMAIL_ADDRESS": "כתובת מייל",
     "PHONE_NUMBER": "מספר טלפון",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "מזהה",
     "COPY_SUCCESSFUL": "הועתק ללוח בהצלחה",
     "COMPANY": "חברה",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "הוסף אינסטגרם"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

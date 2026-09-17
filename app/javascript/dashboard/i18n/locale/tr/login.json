@@ -17,7 +17,7 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Google ile giriş yap",
-      "BUSINESS_ACCOUNTS_ONLY": "Lütfen giriş yapmak için şirket e-posta adresinizi kullanın",
+      "BUSINESS_ACCOUNTS_ONLY": "Kişisel e-posta adresiyle yeni bir hesap oluşturamazsınız. Lütfen iş e-posta adresinizi kullanarak kaydolun.",
       "NO_ACCOUNT_FOUND": "E-posta adresinizle ilişkilendirilmiş bir hesap bulunamadı."
     },
     "FORGOT_PASSWORD": "Parolanızı mı unuttunuz?",

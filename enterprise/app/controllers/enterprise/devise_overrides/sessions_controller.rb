@@ -2,7 +2,10 @@ module Enterprise::DeviseOverrides::SessionsController
   include SamlAuthenticationHelper
 
   def create
-    if saml_user_attempting_password_auth?(params[:email], sso_auth_token: params[:sso_auth_token])
+    # Normalize the same way find_user_for_authentication does, so a padded or
+    # mixed-case email cannot miss the SAML guard yet still match on sign-in.
+    normalized_email = params[:email].to_s.strip.downcase.presence
+    if saml_user_attempting_password_auth?(normalized_email, sso_auth_token: params[:sso_auth_token])
       render json: {
         success: false,
         message: I18n.t('messages.login_saml_user'),
