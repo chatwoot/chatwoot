@@ -31,10 +31,6 @@ describe Enterprise::Billing::HandleStripeEventService do
              }
            })
     # Setup common subscription mocks
-    allow(subscription).to receive(:id).and_return('sub_123')
-    allow(subscription).to receive(:[]).with('plan').and_return({ 'id' => 'price_startups', 'product' => 'plan_id_startups' })
-    allow(subscription).to receive(:[]).with('current_period_start').and_return(1_683_975_520)
-    allow(Stripe::Subscription).to receive(:retrieve).with('sub_123').and_return(subscription)
     allow(event).to receive(:data).and_return(data)
     allow(data).to receive(:object).and_return(subscription)
     allow(data).to receive(:previous_attributes).and_return({})
@@ -156,9 +152,6 @@ describe Enterprise::Billing::HandleStripeEventService do
   describe 'subscription deletion handling' do
     it 'calls CreateStripeCustomerService on subscription deletion' do
       allow(event).to receive(:type).and_return('customer.subscription.deleted')
-      allow(subscription).to receive(:[]).with('status').and_return('canceled')
-      cancellation_service = instance_double(Enterprise::Billing::RecordSubscriptionCancellationService, perform: nil)
-      allow(Enterprise::Billing::RecordSubscriptionCancellationService).to receive(:new).and_return(cancellation_service)
 
       # Create a double for the service
       customer_service = double
@@ -196,9 +189,6 @@ describe Enterprise::Billing::HandleStripeEventService do
 
     it 'ignores subscription deletions' do
       allow(event).to receive(:type).and_return('customer.subscription.deleted')
-      allow(subscription).to receive(:[]).with('status').and_return('canceled')
-      cancellation_service = instance_double(Enterprise::Billing::RecordSubscriptionCancellationService, perform: nil)
-      allow(Enterprise::Billing::RecordSubscriptionCancellationService).to receive(:new).and_return(cancellation_service)
       expect(Enterprise::Billing::CreateStripeCustomerService).not_to receive(:new)
 
       stripe_event_service.new.perform(event: event)

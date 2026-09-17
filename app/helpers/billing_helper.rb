@@ -23,20 +23,6 @@ module BillingHelper
     account.users.count
   end
 
-  # Stripe moved plan, quantity and billing periods to subscription items.
-  # Webhook snapshots may still use the older API shape.
-  def subscription_plan(subscription)
-    subscription['plan'] || subscription['items']&.[]('data')&.first&.[]('plan')
-  end
-
-  def subscription_quantity(subscription)
-    subscription['quantity'] || subscription['items']&.[]('data')&.first&.[]('quantity')
-  end
-
-  def subscription_period_start(subscription)
-    subscription['current_period_start'] || subscription['items']&.[]('data')&.first&.[]('current_period_start')
-  end
-
   # current_period_end moved to the subscription item in newer Stripe API versions; read both.
   # Stripe objects don't respond to dig, so the items path is walked with [].
   def subscription_period_end(subscription)

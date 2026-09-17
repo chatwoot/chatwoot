@@ -22,6 +22,15 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
 
         expect(response).to have_http_status(:unauthorized)
       end
+
+      it 'authenticates with valid credentials supplied as request headers' do
+        request.headers['email'] = user.email
+        request.headers['password'] = 'Test@123456'
+
+        post :create
+
+        expect(response).to have_http_status(:success)
+      end
     end
 
     context 'with MFA authentication' do
@@ -38,6 +47,27 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
         json_response = response.parsed_body
         expect(json_response['mfa_required']).to be(true)
         expect(json_response['mfa_token']).to be_present
+      end
+
+      it 'requires MFA verification when credentials arrive as request headers' do
+        request.headers['email'] = user.email
+        request.headers['password'] = 'Test@123456'
+
+        post :create
+
+        expect(response).to have_http_status(:partial_content)
+        expect(response.parsed_body['mfa_required']).to be(true)
+        expect(response.headers['access-token']).to be_nil
+      end
+
+      it 'does not let header credentials override body credentials' do
+        request.headers['email'] = user.email
+        request.headers['password'] = 'Test@123456'
+
+        post :create, params: { email: user.email, password: 'wrong-password' }
+
+        expect(response).not_to have_http_status(:partial_content)
+        expect(response.headers['access-token']).to be_nil
       end
 
       it 'does not return authentication tokens before MFA verification' do
