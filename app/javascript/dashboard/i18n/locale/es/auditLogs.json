@@ -7,7 +7,7 @@
     "LEARN_MORE": "Aprende más sobre los registros de auditoria",
     "SEARCH_404": "No hay elementos que coincidan con esta consulta",
     "SIDEBAR_TXT": "<p><b>Registros de auditoría</b> </p><p> Registros de auditoría son pistas para eventos y acciones en un Sistema de Chatwoot </p>",
-    "COUNT": "Evento {n} | {n} eventos",
+    "COUNT": "{n} evento | {n} eventos",
     "FILTERS": {
       "SEARCH_PLACEHOLDER": "Buscar por nombre o email",
       "ALL_EVENTS": "Todos los eventos",
@@ -26,7 +26,7 @@
         "TEAM_MEMBERS": "Miembros del equipo",
         "INBOX_MEMBERS": "Colaboradores de bandeja de entrada",
         "ACCOUNT": "Configuración de la cuenta",
-        "INBOXES": "Entradas",
+        "INBOXES": "Bandejas de entrada",
         "WEBHOOKS": "Webhook",
         "AUTOMATION_RULES": "Reglas de automatización",
         "MACROS": "Macros",

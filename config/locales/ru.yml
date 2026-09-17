@@ -290,7 +290,7 @@ ru:
       whatsapp:
         list_button_label: 'Выберите элемент'
         call_permission_request_body: 'Мы хотели бы позвонить Вам по поводу Вашего разговора.'
-        flow_response: 'Отправлен ответ о потоке операций'
+        flow_response: 'Отправлен ответ на WhatsApp Flow'
         unsupported_message: 'Это сообщение недоступно.'
       voice_call:
         twilio: 'Голосовой звонок'
@@ -492,7 +492,7 @@ ru:
       recommended_subtitle: Подобранные вручную статьи, которые помогут вам начать работу.
       popular_label: 'Популярные темы:'
       recommended_label: 'Рекомендованные темы:'
-      authors_others: "%{names} и %{count} другие"
+      authors_others: "%{names} и %{count} других"
       primary_nav: Основная навигация
     hero:
       sub_title: Ищите здесь статьи или выберите категории, указанные ниже.

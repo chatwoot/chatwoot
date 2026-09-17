@@ -443,11 +443,11 @@
         },
         "AUTO_RESOLUTION": {
           "LABEL": "Tasa de resolución automática",
-          "HINT": "La parte de conversaciones manejadas que el Captain resolvió sin la ayuda de su equipo. Más alto significa Captain resuelto más por sí mismo."
+          "HINT": "La proporción de conversaciones gestionadas que Captain resolvió sin la ayuda de su equipo. Una tasa más alta significa que Captain resolvió más conversaciones por sí mismo."
         },
         "HANDOFF": {
           "LABEL": "Tasa de desconexión",
-          "HINT": "La proporción de conversaciones manejadas que el Captain pasó a su equipo. Bajo significa menos conversaciones necesitan un agente."
+          "HINT": "La proporción de conversaciones gestionadas que Captain derivó a su equipo. Una tasa más baja significa que menos conversaciones necesitaron un agente."
         },
         "HOURS_SAVED": {
           "LABEL": "Tiempo ahorrado",
@@ -1186,8 +1186,8 @@
       },
       "DISABLE_CONFIRMATION": {
         "TITLE": "¿Desactivar {title}?",
-        "DESCRIPTION_ONE": "Esta herramienta es utilizada por el escenario habilitado {count}. Desactivarla puede hacer que ese escenario deje de funcionar como se esperaba.",
-        "DESCRIPTION_OTHER": "Esta herramienta es utilizada por escenarios habilitados por {count}. Desactivarla puede hacer que esos escenarios dejen de funcionar como se esperaba.",
+        "DESCRIPTION_ONE": "Esta herramienta es utilizada por {count} escenario habilitado. Desactivarla puede hacer que ese escenario deje de funcionar como se esperaba.",
+        "DESCRIPTION_OTHER": "Esta herramienta es utilizada por {count} escenarios habilitados. Desactivarla puede hacer que esos escenarios dejen de funcionar como se esperaba.",
         "CONFIRM": "Desactivar herramienta"
       },
       "CREATE": {
