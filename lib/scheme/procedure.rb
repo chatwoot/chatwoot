@@ -2,7 +2,7 @@ module Scheme
   Syntax = Struct.new(:name)
   Task = Struct.new(:work)
   Continuation = Struct.new(:continuation, :winders, :runtime)
-  Winder = Struct.new(:before, :after)
+  Winder = Struct.new(:before, :after, :on_abort)
   Parameter = Struct.new(:value, :converter)
   Promise = Struct.new(:state)
   CaseClosure = Struct.new(:clauses)

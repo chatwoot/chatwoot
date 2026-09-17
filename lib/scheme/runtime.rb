@@ -44,6 +44,9 @@ class Scheme::Runtime
     end
     task
   ensure
+    # Host aborts must restore interpreter-owned state without executing Scheme
+    # after-thunks or converters, which could loop after the budget is exhausted.
+    @winders.reverse_each { |winder| winder.on_abort&.call }
     @winders = []
     @handlers = []
   end

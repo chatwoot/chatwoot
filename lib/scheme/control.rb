@@ -9,8 +9,8 @@ module Scheme::Control
     wind_to(captured.winders, ->(_ignored) { deliver(captured.continuation, value) })
   end
 
-  def dynamic_wind(before, thunk, after, continuation)
-    winder = Scheme::Winder.new(before, after)
+  def dynamic_wind(before, thunk, after, continuation, on_abort: nil)
+    winder = Scheme::Winder.new(before, after, on_abort)
     invoke(before, [], lambda { |_value|
       @winders = [*@winders, winder]
       invoke(thunk, [], lambda { |value|
@@ -127,11 +127,12 @@ module Scheme::Control
       parameter_bindings(values.each_slice(2).to_a, [], lambda { |settings|
         # Swapping cells, rather than resetting to initializer values, preserves
         # dynamic state when a continuation leaves and later reenters this extent.
-        exchange = native_callback do
+        exchange_state = lambda do
           settings.each { |setting| setting[1], setting[0].value = setting[0].value, setting[1] }
           Scheme::UNSPECIFIED
         end
-        dynamic_wind(exchange, Scheme::Closure.new(Scheme::EMPTY, arguments.drop(1), scope), exchange, continuation)
+        exchange = native_callback(&exchange_state)
+        dynamic_wind(exchange, Scheme::Closure.new(Scheme::EMPTY, arguments.drop(1), scope), exchange, continuation, on_abort: exchange_state)
       })
     })
   end

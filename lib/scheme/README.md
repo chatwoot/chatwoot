@@ -43,3 +43,8 @@ callbacks, promise reentrancy, reader nesting, and evaluation budget exhaustion.
 
 Evaluation has a configurable step budget. This is not a CPU or memory sandbox:
 larger inputs and individual native operations can consume more resources.
+
+If evaluation aborts to Ruby, active parameter bindings are restored. Arbitrary
+Scheme `dynamic-wind` after-thunks are not run during host-abort cleanup: that
+would permit unbounded code to continue after budget exhaustion. Normal Scheme
+returns, handled exceptions, and continuation transfers still run those thunks.
