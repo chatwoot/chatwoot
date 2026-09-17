@@ -2,6 +2,10 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
   wrap_parameters format: []
+  # DTA's params_for_resource copies these headers into params during super.
+  # Mirror that up front so every pre-authentication check in create sees the
+  # same credentials a header-only request would authenticate with.
+  before_action :merge_credential_headers, only: [:create]
   before_action :process_sso_auth_token, only: [:create]
 
   def new
@@ -33,6 +37,11 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
       I18n.t('devise_token_auth.sessions.not_confirmed', email: @resource.email),
       error_code: 'user_not_confirmed'
     )
+  end
+
+  def merge_credential_headers
+    params[:email] ||= request.headers['email'] unless request.headers['email'].nil?
+    params[:password] ||= request.headers['password'] unless request.headers['password'].nil?
   end
 
   def find_user_for_authentication
