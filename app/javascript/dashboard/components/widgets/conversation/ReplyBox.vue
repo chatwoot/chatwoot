@@ -139,6 +139,11 @@ export default {
           // step; inputs keep their native undo. Shift means redo.
           if (e.defaultPrevented || e.shiftKey) return;
           if (['INPUT', 'TEXTAREA'].includes(e.target?.tagName)) return;
+          // Only act inside the composer, or with nothing focused (right
+          // after clicking remove); never hijack another editor's undo.
+          const inComposer =
+            e.target instanceof Element && !!e.target.closest('.reply-box');
+          if (!inComposer && e.target !== document.body) return;
           if (proxy.restoreQuotedEmail()) e.preventDefault();
         },
         allowOnFocusedInput: true,

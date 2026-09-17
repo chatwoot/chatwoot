@@ -56,6 +56,14 @@ describe('quotedEmailHelper', () => {
       );
     });
 
+    it('preserves blockquote nesting as quote markers', () => {
+      const html =
+        '<p>new text</p><blockquote><p>older</p><blockquote><p>oldest</p></blockquote></blockquote>';
+      expect(extractPlainTextFromHtml(html)).toBe(
+        'new text\n> older\n> > oldest'
+      );
+    });
+
     it('keeps only the label when the link matches its destination', () => {
       const html =
         '<a href="mailto:a@b.c">a@b.c</a> <a href="javascript:x()">bad</a>';

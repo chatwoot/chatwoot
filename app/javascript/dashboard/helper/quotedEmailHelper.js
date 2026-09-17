@@ -65,6 +65,14 @@ const textFromNode = node => {
       ? childText
       : `[${childText}](${destination})`;
   }
+  if (node.nodeName === 'BLOCKQUOTE') {
+    const quoted = childText
+      .replace(/\n+$/, '')
+      .split('\n')
+      .map(line => (line ? `> ${line}` : '>'))
+      .join('\n');
+    return `${quoted}\n`;
+  }
   if (BLOCK_TAGS.has(node.nodeName)) {
     return `${childText}\n`;
   }
