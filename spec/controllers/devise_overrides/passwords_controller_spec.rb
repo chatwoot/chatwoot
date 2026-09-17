@@ -38,5 +38,22 @@ RSpec.describe DeviseOverrides::PasswordsController, type: :controller do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(user.reload.access_locked?).to be true
     end
+
+    it 'does not unlock or issue a session for a blank password' do
+      user.update!(failed_attempts: Devise.maximum_attempts)
+      user.lock_access!
+      raw_token = user.send_reset_password_instructions
+
+      put :update, params: {
+        reset_password_token: raw_token,
+        password: '',
+        password_confirmation: ''
+      }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.headers['access-token']).to be_nil
+      expect(user.reload.access_locked?).to be true
+      expect(user.valid_password?('Test@123456')).to be true
+    end
   end
 end

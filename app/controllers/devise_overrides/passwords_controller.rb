@@ -28,7 +28,8 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
 
   def reset_password_and_confirmation(recoverable)
     recoverable.confirm unless recoverable.confirmed? # confirm if user resets password without confirming anytime before
-    recoverable.reset_password(params[:password], params[:password_confirmation])
+    return false unless recoverable.reset_password(params[:password], params[:password_confirmation])
+
     recoverable.reset_password_token = nil
     recoverable.confirmation_token = nil
     recoverable.reset_password_sent_at = nil
