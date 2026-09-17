@@ -139,37 +139,6 @@
       "SELECT": "選択"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "通知",
-    "MARK_ALL_DONE": "すべて完了としてマーク",
-    "DELETE_TITLE": "削除済み",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "未読通知",
-      "ALL_NOTIFICATIONS": "すべての通知を見る",
-      "LOADING_UNREAD_MESSAGE": "未読通知を読み込み中...",
-      "EMPTY_MESSAGE": "未読通知はありません"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "通知を読み込み中...",
-      "404": "通知なし",
-      "TABLE_HEADER": [
-        "名前",
-        "電話番号",
-        "会話データ",
-        "最終連絡日"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "新しい会話",
-      "conversation_assignment": "会話の割り当て",
-      "assigned_conversation_new_message": "新しいメッセージ",
-      "participating_conversation_new_message": "新しいメッセージ",
-      "conversation_mention": "メンション",
-      "sla_missed_first_response": "SLA未達",
-      "sla_missed_next_response": "SLA未達",
-      "sla_missed_resolution": "SLA未達"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "オフライン",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "アカウント設定に移動",
       "GO_TO_SETTINGS_PROFILE": "プロフィール設定に移動",
-      "GO_TO_NOTIFICATIONS": "通知に移動",
       "ADD_LABELS_TO_CONVERSATION": "会話にラベルを追加",
       "ASSIGN_AN_AGENT": "担当者を割り当て",
       "AI_ASSIST": "AIアシスト",

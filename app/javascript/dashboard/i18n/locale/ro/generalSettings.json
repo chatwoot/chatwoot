@@ -139,37 +139,6 @@
       "SELECT": "Selectați"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notificări",
-    "MARK_ALL_DONE": "Marcați toate gata",
-    "DELETE_TITLE": "șterse",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Notificări necitite",
-      "ALL_NOTIFICATIONS": "Vizualizarea tuturor notificărilor",
-      "LOADING_UNREAD_MESSAGE": "Încărcarea notificărilor necitite...",
-      "EMPTY_MESSAGE": "Nu aveți notificări necitite"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Se încarcă contactele...",
-      "404": "Notificări prin e-mail",
-      "TABLE_HEADER": [
-        "Nume",
-        "Număr de telefon",
-        "Conversații",
-        "Ultimul contactat"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Conversație nouă",
-      "conversation_assignment": "Conversație atribuită",
-      "assigned_conversation_new_message": "Trimite mesaj nou",
-      "participating_conversation_new_message": "Trimite mesaj nou",
-      "conversation_mention": "Menţiune",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Deconectat",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Accesați Setări cont",
       "GO_TO_SETTINGS_PROFILE": "Accesați Setări profil",
-      "GO_TO_NOTIFICATIONS": "Accesați Notificări",
       "ADD_LABELS_TO_CONVERSATION": "Adăugarea etichetei la conversație",
       "ASSIGN_AN_AGENT": "Atribuirea unui agent",
       "AI_ASSIST": "AI Assist",

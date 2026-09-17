@@ -45,8 +45,6 @@
         "TITLE": "Naloži sliko",
         "UPLOADING": "Nalaganje...",
         "SUCCESS": "Slika je bila uspešno naložena",
-        "ERROR": "Napaka med nalaganjem slike",
-        "UN_AUTHORIZED_ERROR": "Nimate dovoljenja za nalaganje slik",
         "ERROR_FILE_SIZE": "Velikost slike mora biti manjša od {size}MB",
         "ERROR_FILE_FORMAT": "Datoteka mora biti v podprtem slikovnem formatu",
         "ERROR_FILE_DIMENSIONS": "Dimenzije slike morajo biti manjše od 2000 krat 2000 slikovnih pik"

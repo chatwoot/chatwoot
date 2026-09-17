@@ -126,7 +126,6 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp 频道",
-        "DESC": "整合 Twilio 并开始通过短信或 WhatsApp 支持您的客户。",
         "ACCOUNT_SID": {
           "LABEL": "账户 SID",
           "PLACEHOLDER": "请输入您的 Twilio 账户 SID",
@@ -710,7 +709,6 @@
       "MESSENGER_SUB_HEAD": "将此按钮放置在窗体标签中",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
         "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "INBOX_AGENTS": "客服代理们",

@@ -45,8 +45,6 @@
         "TITLE": "Otpremi sliku",
         "UPLOADING": "Otpremanje...",
         "SUCCESS": "Slika je uspešno otpremljena",
-        "ERROR": "Greška pri otpremanju slike",
-        "UN_AUTHORIZED_ERROR": "Nemate dozvolu za otpremanje slika",
         "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
         "ERROR_FILE_FORMAT": "Format slike mora biti jpg, jpeg ili png",
         "ERROR_FILE_DIMENSIONS": "Dimenzije slike moraju biti manje od 2000 x 2000"

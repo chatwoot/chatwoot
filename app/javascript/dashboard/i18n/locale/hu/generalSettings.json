@@ -139,37 +139,6 @@
       "SELECT": "Kiválasztás"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Értesítések",
-    "MARK_ALL_DONE": "Mind kész",
-    "DELETE_TITLE": "törölve",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Olvasatlan értesítések",
-      "ALL_NOTIFICATIONS": "Összes értesítés nézete",
-      "LOADING_UNREAD_MESSAGE": "Olvasatlan értesítések betöltése...",
-      "EMPTY_MESSAGE": "Nincs olvasatlan értesítésed"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Értesítések betöltése...",
-      "404": "Nincs értesítés",
-      "TABLE_HEADER": [
-        "Név",
-        "Telefonszám",
-        "Beszélgetések",
-        "Utoljára kapcsolatban"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Új beszélgetés",
-      "conversation_assignment": "Beszélgetés hozzárendelve",
-      "assigned_conversation_new_message": "Új üzenet",
-      "participating_conversation_new_message": "Új üzenet",
-      "conversation_mention": "Megemlítés",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Fiók szintű beállítások megnyitása",
       "GO_TO_SETTINGS_PROFILE": "Profil beállítások megnyitása",
-      "GO_TO_NOTIFICATIONS": "Értesítések megnyitása",
       "ADD_LABELS_TO_CONVERSATION": "Cimke hozzáadása a beszélgetéshez",
       "ASSIGN_AN_AGENT": "Ügynök hozzárendelése",
       "AI_ASSIST": "AI segítség",

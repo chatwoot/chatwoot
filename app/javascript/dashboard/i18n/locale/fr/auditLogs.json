@@ -6,7 +6,7 @@
     "DESCRIPTION": "Les journaux d’audit consignent les activités de votre compte et vous permettent d’auditer votre compte, votre équipe ou vos services.",
     "LEARN_MORE": "En savoir plus sur les journaux d'audit",
     "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",
-    "SIDEBAR_TXT": "</p><b>Les journaux d'audit</b> </p><p>Les journaux d'audit contiennent des événements et des actions associés un système Chatwoot. </p>",
+    "SIDEBAR_TXT": "<p><b>Les journaux d'audit</b> </p><p>Les journaux d'audit contiennent des événements et des actions associés un système Chatwoot. </p>",
     "LIST": {
       "404": "Il n'y a aucun journal d'audit disponible dans ce compte.",
       "TITLE": "Gérer les journaux d’audit",

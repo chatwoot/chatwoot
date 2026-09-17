@@ -45,8 +45,6 @@
         "TITLE": "Laadi pilt üles",
         "UPLOADING": "Laadimine...",
         "SUCCESS": "Pilt edukalt üles laaditud",
-        "ERROR": "Pildi üleslaadimisel tekkis viga",
-        "UN_AUTHORIZED_ERROR": "Teil pole õigust pilte üles laadida",
         "ERROR_FILE_SIZE": "Pildi suurus peab olema väiksem kui {size}MB",
         "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
         "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"

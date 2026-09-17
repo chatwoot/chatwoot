@@ -45,8 +45,6 @@
         "TITLE": "Upload de imagem",
         "UPLOADING": "Enviando...",
         "SUCCESS": "Imagem enviada com sucesso",
-        "ERROR": "Erro ao fazer upload da imagem",
-        "UN_AUTHORIZED_ERROR": "Você não está autorizado a enviar imagens",
         "ERROR_FILE_SIZE": "O tamanho da imagem deve ser menor que {size}MB",
         "ERROR_FILE_FORMAT": "O formato da imagem deve ser jpg, jpeg ou png",
         "ERROR_FILE_DIMENSIONS": "Dimensões da imagem devem ser menores que 2000 x 2000"

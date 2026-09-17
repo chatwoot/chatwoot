@@ -36,7 +36,7 @@
     "API_HOURS_WINDOW": "您只能在 {hours} 小时内回复此对话",
     "NOT_ASSIGNED_TO_YOU": "此对话未分配给您。您想要将此对话分配给自己吗？",
     "ASSIGN_TO_ME": "分配给我",
-    "BOT_HANDOFF_MESSAGE": "您正在回复目前由助手或机器人处理的对话。",
+    "BOT_HANDOFF_MESSAGE": "您正在回复目前由 {assigneeName} 处理的对话。",
     "BOT_HANDOFF_ACTION": "标记打开并分配给自己",
     "BOT_HANDOFF_REOPEN_ACTION": "标记对话已打开",
     "BOT_HANDOFF_SUCCESS": "对话已分配给您",
