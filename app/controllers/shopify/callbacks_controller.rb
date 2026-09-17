@@ -36,12 +36,16 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
   def exchange_and_create_hook
     shop_generation = Shopify::PendingInstallation.generation(shop: params[:shop])
     exchange_access_token
+    with_current_shop_generation(shop_generation) { create_hook }
+  end
+
+  def with_current_shop_generation(expected_generation)
     Shopify::InstallationGeneration.with_shop_lock(params[:shop]) do
-      unless shop_generation == Shopify::PendingInstallation.generation(shop: params[:shop])
+      unless expected_generation.to_i == Shopify::PendingInstallation.generation(shop: params[:shop])
         raise StandardError, 'Shopify installation changed during authorization'
       end
 
-      create_hook
+      yield
     end
   end
 
@@ -56,7 +60,7 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     exchange_access_token
 
     if @account
-      reconnect_existing_shopify_account
+      with_current_shop_generation(@pending_installation_generation) { reconnect_existing_shopify_account }
       return redirect_to existing_account_redirect_url, allow_other_host: true
     end
 
