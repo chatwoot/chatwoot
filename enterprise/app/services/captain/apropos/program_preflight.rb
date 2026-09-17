@@ -4,7 +4,7 @@ class Captain::Apropos::ProgramPreflight
   SCHEMA_ARGUMENTS = { reason: 3, delegate: 3, 'map-agent': 3, 'schema-check': 1 }.freeze
 
   def initialize(scheme)
-    @shadowed = scheme.bindings.keys | scheme.library.keys
+    @shadowed = scheme.workspace.keys | scheme.library.keys
   end
 
   def check(expressions)

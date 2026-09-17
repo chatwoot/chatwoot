@@ -13,17 +13,17 @@ const EXAMPLES = [
   {
     label: 'WOOTQL.EXAMPLE_OPEN',
     source:
-      'conversations\n| where status = "open"\n| project id, display_id, status, inbox.name as inbox_name\n| sort id desc\n| take 20',
+      'conversations\n| where status = "open"\n| return id, display_id, status, inbox.name as inbox_name\n| sort id desc\n| take 20',
   },
   {
     label: 'WOOTQL.EXAMPLE_CONTACTS',
     source:
-      'conversations\n| summarize count() as conversation_count by contact_id\n| sort conversation_count desc, contact_id asc\n| take 5\n| join contacts as contact on contact_id = contact.id\n| project contact_id, contact.name as name, contact.email as email, conversation_count',
+      'conversations\n| summarize count() as conversation_count by contact_id\n| sort conversation_count desc, contact_id asc\n| take 5\n| join contacts as contact on contact_id = contact.id\n| return contact_id, contact.name as name, contact.email as email, conversation_count',
   },
   {
     label: 'WOOTQL.EXAMPLE_REFUND',
     source:
-      'conversations\n| where labels contains "refund"\n| project id, display_id, status, labels, contact.name as customer, inbox.name as inbox_name\n| sort id desc\n| take 20',
+      'conversations\n| where labels contains "refund"\n| return id, display_id, status, labels, contact.name as customer, inbox.name as inbox_name\n| sort id desc\n| take 20',
   },
   {
     label: 'WOOTQL.EXAMPLE_INBOXES',

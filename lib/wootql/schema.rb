@@ -30,8 +30,12 @@ class Wootql::Schema
   def expression(resource, name)
     raise Wootql::Error, "Unknown computed query field: #{resource}.#{name}" unless resource == 'conversations' && name == 'labels'
 
-    # Use the same label membership expression as the existing Chatwoot engine,
-    # so discovery and execution cannot disagree about what this field means.
-    Captain::Apropos::WootqlSchema.expression(resource, name)
+    # Correlate labels to the authorized conversation scan, not cached label text.
+    taggings = ActsAsTaggableOn::Tagging.arel_table
+    labels = ActsAsTaggableOn::Tag.joins(:taggings)
+                                  .where(taggings: { taggable_type: 'Conversation', context: 'labels' })
+                                  .where(taggings[:taggable_id].eq(Conversation.arel_table[:id]))
+                                  .order(:name).select(:name)
+    "ARRAY(#{labels.to_sql})"
   end
 end

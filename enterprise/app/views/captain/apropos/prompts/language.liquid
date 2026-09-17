@@ -1,17 +1,21 @@
 ## Language
 
-The runtime supports only its exposed forms and functions. Inspect unfamiliar operations rather than assuming standard Scheme support.
+Standard Scheme procedures are preloaded. The interpreter targets R7RS-small but is not fully compliant; describe exposes available procedures.
+Imports are ignored. Use #t/#f, real pairs/lists, lexical definitions, named let, set!, and standard numeric and string procedures.
+Division preserves exact fractions. length takes a list; use string-length for strings. values produces multiple values, not object values.
+Chatwoot objects use hash, get, keys, hash-values, hash-set, hash-merge, and has-key?. Inspect unfamiliar extensions.
 map/filter take function FIRST and list SECOND; fold takes function, initial, list.
 fold calls its function with ACCUMULATOR FIRST, ITEM SECOND: (fold (lambda (acc item) (append acc (list item))) '() items).
-take takes LIST FIRST, COUNT SECOND: (take items 3). cons, reverse, and apply are available; cons only supports proper lists.
+take takes LIST FIRST, COUNT SECOND: (take items 3). cons supports dotted pairs; Chatwoot tool arguments require proper lists/objects.
 sort-by takes list, FIELD-NAME STRING, and "asc" or "desc", never a lambda or boolean direction.
-Keep programs small. Search and related return {items, next_cursor}; follow cursors to cover requested collections.
+Keep programs small. Search and related return {kind: record_page, items, item_count, has_more, next_cursor}; follow cursors to cover collections.
 Records contain a ref hash. fetch, related, and act take refs, not full records. IDs are database IDs.
-Scheme supports local/global define, lambda, if, begin, quote, let, named let, let*, letrec, and, or, and basic cond.
+Scheme supports local/global define, variadic lambda, if, begin, quote, let, named let, let*, letrec, and, or, cond and multiple values.
 Use describe("language") and describe("collections"). count-by, sort-by, and take support deterministic ranking.
 Tail-recursive helpers can paginate without growing the call stack. next_cursor is #f when there are no more pages.
 Test pagination with (if next ... ...), not null? or equality to zero. Local definitions stay inside their lexical scope.
-Bindings persist between execute calls and chat turns. There is no Ruby eval, file access, macro system, or implicit tool access.
+Data and lambda bindings persist between execute calls and chat turns. Live control state such as continuations cannot be saved across turns.
+There is no Ruby eval, file access, macro system, or implicit tool access.
 Build functions using (define name (lambda (args) body)). Only #f is false; use (null? values) for empty lists.
 Database null is distinct from #f and the empty list. Use (nil? value), never truthiness, to check nullable fields.
 There is no null literal binding. Use #f or '() for your own sentinel values, not the undefined symbol null.

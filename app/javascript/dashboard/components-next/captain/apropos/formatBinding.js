@@ -15,6 +15,7 @@ export function formatBinding(value) {
   if (value.type === 'symbol') return value.value;
   if (value.type === 'reference') return `#<reference ${value.id}>`;
   if (value.type === 'closure') {
+    if (typeof value.source === 'string') return value.source;
     return formatBinding([
       { type: 'symbol', value: 'lambda' },
       value.parameters,

@@ -26,11 +26,18 @@ class Scheme::Runtime
 
   def evaluate(source)
     expressions = Scheme::Reader.new(source).read_all
-    task = sequence(expressions, environment, ->(value) { value })
-    steps = 0
+    run(sequence(expressions, environment, ->(value) { value }))
+  end
+
+  # Host callbacks may invoke Scheme again. They share the outer evaluation's
+  # budget and dynamic context rather than starting an unlimited nested run.
+  def run(task)
+    outermost = !@running
+    @remaining_steps = @max_steps if outermost
+    @running = true
     while task.is_a?(Scheme::Task)
-      steps += 1
-      raise Scheme::LimitError, "evaluation exceeded #{@max_steps} steps" if steps > @max_steps
+      @remaining_steps -= 1
+      raise Scheme::LimitError, "evaluation exceeded #{@max_steps} steps" if @remaining_steps.negative?
 
       begin
         task = task.work.call
@@ -46,9 +53,12 @@ class Scheme::Runtime
   ensure
     # Host aborts must restore interpreter-owned state without executing Scheme
     # after-thunks or converters, which could loop after the budget is exhausted.
-    @winders.reverse_each { |winder| winder.on_abort&.call }
-    @winders = []
-    @handlers = []
+    if outermost
+      @winders.reverse_each { |winder| winder.on_abort&.call }
+      @winders = []
+      @handlers = []
+      @running = false
+    end
   end
 
   # Every evaluation and procedure transfer returns to this trampoline, including

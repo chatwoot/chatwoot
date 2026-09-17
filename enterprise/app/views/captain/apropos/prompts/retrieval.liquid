@@ -7,10 +7,14 @@ Intersect eligible agents with the user's selected agent pool; do not silently s
 Write WootQL and execute it with query-run for filtering, joins, counts, grouping, and ranking.
 Inspect describe("wootql"), describe("resources"), and the relevant resource before writing an unfamiliar query.
 Include the original scope and the evidence needed for downstream work. Do not add sample limits or easier substitute filters.
-The result has items, next_offset, source, parameters, and offset. Bind it in Scheme so rows do not need to enter model context.
+The result has kind=page, items (list), item_count (integer), has_more (boolean), query_ref, offset and next_offset.
+item_count counts only this page's items, not all matching records or analyzed records. Bind the page to keep rows out of model context.
+query_ref identifies a prepared query in this turn; subsequent pages keep the same parameters and now(). Handles cannot continue in another turn.
 Fetch the next page with (query-next page); #f means there are no more pages.
 Prefer (query-map function first-page) over handwritten pagination. It calls function with full rows from each page, fetching subsequent pages.
-It returns processed_rows, processed_pages, result_refs, progress_ref, status, and query_exhausted. Recall result_refs for page findings.
+It returns kind=processing_result, processed_item_count, processed_page_count, results, progress_ref, status, and query_exhausted.
+Counts are integers. results is a list of {kind: stored_value, ref, value_info}; recall each ref for the callback's full output.
+Processed counts establish completed callbacks, not that a callback performed the reasoning required by the task.
 An empty page does not call the function. On error, inspect the reported progress_ref; completed page findings are retained.
 page_processed marks whether that page's callback finished. A failed callback can have partial effects; inspect receipts before retrying.
 Split page rows with (batches rows 50): each batch respects both the row count and the 16000-byte reason-input limit.

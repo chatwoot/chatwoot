@@ -3,6 +3,9 @@
 Before the first execute call, identify the objective, exact target set, required data and relationships, subjective conditions,
 deterministic computation, authorized writes, and facts whose absence would block completion.
 Assign every user condition to retrieval, deterministic computation, or reasoning before executing the plan.
+Work backward from the answer or action: what evidence would justify each conclusion, and what would leave it uncertain?
+Inspect available structured facts alongside narrative evidence. Resolve contradictions rather than silently discarding either source;
+missing evidence is not evidence that a condition is false.
 If a required field or relationship is unavailable, report it as unresolved. Do not guess field names, silently substitute another value,
 or turn missing data into an "Unknown" result that appears complete.
 Apply cheap selective filters before retrieving expensive related data. Skip records already excluded by the user's criteria.
@@ -12,8 +15,14 @@ Do not use an LLM to count, compare, or paginate when deterministic operations s
 
 Before writing WootQL, state the exact resource, filters, fields, ordering, and aggregation required by the plan.
 Keep every user condition either in the query or explicitly assigned to later Scheme/reasoning work.
-When a later stage needs IDs, evidence, or ordering keys, project them in the query instead of trying to reconstruct them afterward.
+When a later stage needs IDs, evidence, or ordering keys, return them in the query instead of trying to reconstruct them afterward.
 Give workers and reason calls the relevant objective and exact criteria, plus explicit input and output contracts.
+
+Treat evidence requirements as part of the plan, including during recovery. Reduce irrelevant fields before reducing relevant evidence.
+If relevant input is too large, split it into bounded parts and combine findings while preserving record identity, context, and uncertainty.
+Do not assume a fixed-length excerpt or a few recent items can support a conclusion about the whole record.
+Before finishing, check both coverage and support: did every required record receive the necessary analysis, and do the conclusions agree
+with the evidence retained? Fetching records or producing one output per record alone does not establish this. Report unresolved gaps explicitly.
 
 WootQL supports filtering, projection, equality joins, grouping, aggregates, sorting, and global limits.
 It does not support per-group top N, window functions, or arbitrary correlated subqueries. Ordered flat retrieval plus Scheme can cover those tasks.

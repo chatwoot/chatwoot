@@ -22,6 +22,7 @@ class Captain::Apropos::Library
 
   def save(name, description, expression)
     Captain::Apropos::Access.check!(@account, @user)
+    expression = Captain::Apropos::SchemeValues.from_ruby(expression)
     validate!(name, description, expression)
     record = @user.with_lock do
       function = records.find_or_initialize_by(name: name)
@@ -59,14 +60,15 @@ class Captain::Apropos::Library
 
     catalog_entries = [Captain::Apropos::Catalog::FUNCTIONS, Captain::Apropos::Catalog::ENTITIES, Captain::Apropos::Catalog::ACTIONS]
     raise Captain::Apropos::Error, 'Cannot replace a built-in catalog entry' if catalog_entries.any? { |entries| entries.key?(name) }
+    raise Captain::Apropos::Error, 'Cannot replace a standard Scheme binding' if @scheme.builtins.cell(name.to_sym)
   end
 
   def install(record)
     function = @scheme.library_function(Captain::Apropos::Codec.load(record.definition))
-    @scheme.library[record.name.to_sym] = function
+    @scheme.install_library(record.name, function)
     @entries[record.name] = {
-      signature: "(#{([record.name] + function.parameters).join(' ')})", description: record.description,
-      binding: { type: 'closure', parameters: Captain::Apropos::Codec.dump(function.parameters), body: Captain::Apropos::Codec.dump(function.body) }
+      signature: ::Scheme.write(::Scheme::Pair.new(record.name.to_sym, function.parameters)), description: record.description,
+      binding: { type: 'closure', source: ::Scheme.write(::Scheme.list([:lambda, function.parameters, *function.body])) }
     }
   end
 end

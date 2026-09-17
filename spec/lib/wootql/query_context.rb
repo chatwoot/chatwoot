@@ -28,8 +28,9 @@ RSpec.shared_context 'with a WootQL catalog' do
   before do
     stub_const('Captain::Apropos::ResourceCatalog', double('Chatwoot resource catalog', entries: catalog))
     allow(Captain::Apropos::ResourceCatalog).to receive(:fetch) { |resource| catalog.fetch(resource) }
-    stub_const('Captain::Apropos::WootqlSchema', double('Chatwoot computed fields'))
-    allow(Captain::Apropos::WootqlSchema).to receive(:expression).with('conversations', 'labels').and_return('ARRAY[]::text[]')
+    allow(Wootql::Schema).to receive(:new).and_return(schema)
+    allow(schema).to receive(:expression).and_call_original
+    allow(schema).to receive(:expression).with('conversations', 'labels').and_return('ARRAY[]::text[]')
     allow(data).to receive(:scope) { |resource| raise Wootql::Error, "Unknown resource: #{resource}" }
     field_types.each do |resource, types|
       enums = resource == 'conversations' ? { 'status' => { 'open' => 0, 'resolved' => 1 } } : {}

@@ -89,6 +89,29 @@ RSpec.describe Captain::Apropos::Instrumentation do
     end
   end
 
+  it 'propagates execution errors once when tracing is disabled' do
+    allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
+    calls = 0
+    expect do
+      described_class.with_span('test', runtime: runtime) do
+        calls += 1
+        raise Captain::Apropos::Error, 'execution failed'
+      end
+    end.to raise_error(Captain::Apropos::Error, 'execution failed')
+    expect(calls).to eq(1)
+  end
+
+  it 'does not replay a failing tool when there is no current tracing span' do
+    calls = 0
+    expect do
+      described_class.with_agent_tool_context(nil) do
+        calls += 1
+        raise Captain::Apropos::Error, 'execution failed'
+      end
+    end.to raise_error(Captain::Apropos::Error, 'execution failed')
+    expect(calls).to eq(1)
+  end
+
   describe Captain::Apropos::Instrumentation::TracingCallbacks do
     it 'keeps tool and model row contents out of trace attributes' do
       provider = Captain::Apropos::Instrumentation::AttributeProvider.new(runtime, 'coordinator')
@@ -97,7 +120,7 @@ RSpec.describe Captain::Apropos::Instrumentation do
       context_wrapper = Struct.new(:context).new({ apropos_trace_input: { task: 'find contacts', input: { type: 'nilclass' } } })
       callbacks.on_run_start('Apropos', 'raw input with secret@example.com', context_wrapper)
       callbacks.on_agent_thinking('Apropos', 'thinking', context_wrapper)
-      callbacks.on_tool_start('execute', { source: '(query-run "contacts | project id")' }, context_wrapper)
+      callbacks.on_tool_start('execute', { source: '(query-run "contacts | return id")' }, context_wrapper)
       callbacks.on_tool_complete('execute', { result: [{ email: 'secret@example.com' }] }.to_json, context_wrapper)
       callbacks.on_tool_start('describe', { name: 'missing' }, context_wrapper)
       callbacks.on_tool_complete('describe', { error: 'Unknown contract' }.to_json, context_wrapper)

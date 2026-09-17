@@ -70,7 +70,7 @@ class Captain::Apropos::DataAccess
   def polymorphic_page(record, targets, name, cursor)
     association = record.class.reflect_on_association(name.to_sym)
     sender_type = record[association.foreign_type]
-    return { 'items' => [], 'next_cursor' => false } if sender_type.nil?
+    return { 'kind' => 'record_page', 'items' => [], 'item_count' => 0, 'has_more' => false, 'next_cursor' => false } if sender_type.nil?
 
     type = targets.fetch(sender_type) { raise Captain::Apropos::Error, "Related #{name} type is not an exposed resource: #{sender_type}" }
     page(scope(type).where(id: record[association.foreign_key]), type, cursor)
@@ -97,7 +97,8 @@ class Captain::Apropos::DataAccess
     raise Captain::Apropos::Error, 'Cursor must be nonnegative' if cursor.negative?
 
     records = relation.where("#{relation.klass.quoted_table_name}.id > ?", cursor).reorder(id: :asc).limit(PAGE_SIZE + 1).to_a
-    { 'items' => records.first(PAGE_SIZE).map { |record| serialize(record, type) },
+    { 'kind' => 'record_page', 'items' => records.first(PAGE_SIZE).map { |record| serialize(record, type) },
+      'item_count' => [records.size, PAGE_SIZE].min, 'has_more' => records.size > PAGE_SIZE,
       'next_cursor' => records.size > PAGE_SIZE ? records[PAGE_SIZE - 1].id : false }
   end
 

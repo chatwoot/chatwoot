@@ -24,7 +24,7 @@ class Captain::Apropos::Prompt
     {
       account_id: account.id, current_time_utc: Time.current.utc.iso8601,
       agent_calls_remaining: [Captain::Apropos::Runtime::MAX_AGENT_CALLS - budget.fetch(:calls), 0].max,
-      query_calls_remaining: [Captain::Apropos::Query::MAX_CALLS - budget.fetch(:queries), 0].max,
+      query_calls_remaining: [Wootql::Query::MAX_CALLS - budget.fetch(:queries), 0].max,
       delegation_depth: depth
     }
   end

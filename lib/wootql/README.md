@@ -1,7 +1,6 @@
 # WootQL
 
-An isolated copy of the existing read-only WootQL engine, under development.
-Captain Ask and the developer playground still use the original implementation.
+The read-only WootQL engine used by Captain Ask and the developer playground.
 This library targets PostgreSQL and uses Chatwoot's existing resource catalog.
 Loading the library does not boot Rails; executing queries requires the app's
 catalog and authorized data access.
@@ -57,7 +56,7 @@ next_page = prepared.page(page.fetch('next_offset')) unless page.fetch('next_off
 
 `Wootql::Schema.new.describe(data)` exposes field types, enum names and queryable
 relationships. Types come from Rails models, with the existing catalog's field
-exclusions preserved. Conversation labels use the existing trusted membership
+exclusions preserved. Conversation labels use a trusted membership
 expression. Neither the catalog nor computed SQL expressions are agent inputs.
 
 For a single page, `engine.run(source, parameters = {}, offset = 0, debug: false)`

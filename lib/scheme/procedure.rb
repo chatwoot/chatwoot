@@ -19,7 +19,7 @@ module Scheme
   end
 
   class Native
-    attr_reader :name, :control
+    attr_reader :name, :control, :min, :max
 
     def initialize(name, min:, max:, control: false, &implementation)
       @name = name
@@ -70,6 +70,10 @@ module Scheme
 
     def accepts?(count)
       count >= @required.length && (@rest || count == @required.length)
+    end
+
+    def parameters
+      Scheme.list(@required, @rest || EMPTY)
     end
   end
 end

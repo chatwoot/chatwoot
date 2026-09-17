@@ -1,3 +1,5 @@
+require 'wootql'
+
 class Captain::Apropos::Catalog
   ENTITIES = Captain::Apropos::ResourceCatalog::ENTITIES
 
@@ -9,14 +11,16 @@ class Captain::Apropos::Catalog
     'assignment-context' => ['(assignment-context (hash "type" "inboxes" "id" 10) 0)',
                              'Read assignment policies, availability, and inbox capacity. Inspect the full contract before assigning.'],
     'query-run' => ['(query-run "conversations | summarize count() by contact_id | sort count desc | take $n" (hash "n" 5) 0)',
-                    'Execute WootQL, not SQL. Returns items, next_offset, source, parameters, and offset. 200 rows/page; next_offset is #f at end.'],
+                    'Execute WootQL. Returns a page: kind=page, items (list), item_count (integer), has_more (boolean), query_ref, offset, next_offset. ' \
+                    '200 items/page. item_count is this page only, not a total or analyzed count. Query handles last for this turn.'],
     'query-next' => ['(query-next page)',
                      'Fetch the next page of a query-run/query-next result. Returns another page or #f when the query is exhausted.'],
     'query-map' => ['(query-map function first-page)',
                     'Calls function with the items from every nonempty page; follows query-next. ' \
-                    'Returns result_refs, counts, progress_ref, query_exhausted. ' \
-                    'On error, inspect saved progress (page, page_processed, result_refs) and receipts; callbacks are never automatically retried.'],
-    'wootql' => ['resource | where | project | join | summarize | sort | take',
+                    'Returns kind=processing_result, status, processed_item_count, processed_page_count, results (list of stored_value references), ' \
+                    'progress_ref, query_exhausted. Recall each result ref to read callback output. Counts are numbers, not lists. ' \
+                    'On error, inspect progress and receipts; callbacks are never automatically retried.'],
+    'wootql' => ['resource | where | return | join | summarize | sort | take',
                  'Read-only WootQL. Inspect member syntax. 32 stages/32 KB, 8 joins, 5s/query, 100 queries/turn including workers.'],
     'resources' => [ENTITIES.keys.join(', '), 'Available query resources. Inspect members for fields and relationships, or describe one resource.'],
     'save-function' => ['(save-function "name" "description" \'(lambda (argument) body))',
@@ -29,12 +33,12 @@ class Captain::Apropos::Catalog
     'apply' => ['(apply function argument ... items)', 'Call function with the supplied arguments followed by the elements of the final list.'],
     'batches' => ['(batches items 50)',
                   'Partition a list in order, with at most N items and 16000 JSON bytes per batch for reason. Never truncates or drops items. ' \
-                  'An oversized single item raises; project smaller fields or delegate it by reference.'],
+                  'An oversized single item raises; return fewer fields or delegate it by reference.'],
     'map' => ['(map function items)', 'Function FIRST, list SECOND. Calls function with each item and returns the results.'],
     'filter' => ['(filter predicate items)', 'Predicate FIRST, list SECOND. Keep items whose predicate result is not #f.'],
     'fold' => ['(fold function initial items)', 'Calls function with accumulator then item, returning the final accumulator.'],
     'define' => ['(define name value) or (define (name args ...) body ...)', 'Save a binding in the current lexical scope.'],
-    'lambda' => ['(lambda (args ...) body ...)', 'Create a fixed-arity function capturing its lexical scope.'],
+    'lambda' => ['(lambda (args ...) body ...)', 'Create a lexical function. Dotted/rest parameter lists are supported.'],
     'if' => ['(if condition consequent alternative)', 'Evaluate only the chosen branch. Only #f is false.'],
     'begin' => ['(begin expression ...)', 'Evaluate expressions in order; return the last result.'],
     'quote' => ['(quote expression)', 'Return literal data without evaluation. Apostrophe syntax is equivalent.'],
@@ -42,13 +46,15 @@ class Captain::Apropos::Catalog
     'letrec' => ['(letrec ((name expression) ...) body ...)', 'Shared lexical scope for recursive functions.'],
     'and' => ['(and expression ...)', 'Short-circuit on #f; otherwise return the last value. Empty and returns #t.'],
     'or' => ['(or expression ...)', 'Return the first non-#f value. Empty or returns #f.'],
-    'cond' => ['(cond (condition body ...) ... (else body ...))', 'Evaluate the first matching clause. Optional else must be last; no => clauses.'],
+    'cond' => ['(cond (condition body ...) ... (else body ...))', 'Evaluate the first matching clause. Supports => clauses; else must be last.'],
     'apropos' => ['(apropos "words")', 'Search functions, entities, relationships, and saved bindings.'],
     'describe' => ['(describe "name")', 'Read the exact contract of a function, entity, operation, or binding.'],
     'search' => ['(search "contacts" (hash "email" "maya@example.com") 0)',
-                 'Page records using exact field filters, query text, or labels. Returns items and next_cursor.'],
+                 'Returns kind=record_page, items (list), item_count (this page only), has_more and next_cursor. ' \
+                 'Use exact field filters, query text, or labels. Follow next_cursor until #f.'],
     'fetch' => ['(fetch (hash "type" "contacts" "id" 42))', 'Read a record by reference; IDs are database IDs, not display IDs.'],
-    'related' => ['(related ref "conversations" 0)', 'Follow a declared relationship. Always returns a page; use next_cursor for more.'],
+    'related' => ['(related ref "conversations" 0)',
+                  'Follow a relationship. Returns kind=record_page, items, item_count, has_more, next_cursor. Use next_cursor for more.'],
     'act' => ['(act "add-private-note" ref (hash "content" "Hello"))',
               'Returns {operation, target, status, result, effect, at}, with no id field. Prior writes survive later errors.'],
     'reason' => ['(reason data "question" (hash "category" (list "a" "b") "reason" "string"))',
@@ -61,8 +67,11 @@ class Captain::Apropos::Catalog
                     'Sequential independent workers returning compact findings and workspace references. Failures do not stop the collection.'],
     'receipts' => ['(receipts)',
                    'Success: {operation, target, status, result, effect, at}. Failure: {operation, target, status, error}. No id field.'],
-    'language' => ['define, lambda, if, begin, quote, let, let*, letrec, and, or, cond',
-                   'Lexical local definitions, named let, and tail calls supported. Only #f is false. No set!, macros, eval, load, or Ruby access.'],
+    'language' => ['Scheme with Chatwoot extensions',
+                   'R7RS-small-oriented interpreter with preloaded standard procedures, real pairs/lists, lexical definitions, set!, ' \
+                   'named let, tail calls, multiple values and continuations. Imports are ignored. Not fully R7RS compliant. ' \
+                   'No filesystem, eval, load, macros or Ruby access. Inspect discovered procedures for available operations. ' \
+                   'Live control objects cannot be persisted between turns; save data and lambdas.'],
     'let' => ['(let ((x 1)) (+ x 2)) or (let loop ((n 3)) (if (= n 0) n (loop (- n 1))))',
               'Initial values use outer scope. Named let supports loops; let* binds sequentially; letrec supports mutual recursion.'],
     'count-by' => ['(count-by records (lambda (record) (get record "contact_id")))',
@@ -77,39 +86,18 @@ class Captain::Apropos::Catalog
     'strings' => ['String operations and conversions', 'Literal string operations. No string coercion function named string.'],
     'predicates' => ['Type and value predicates', 'Inspect the actual available predicates; null? means empty list and nil? means database null.'],
     'objects' => ['Hash construction, access, and immutable updates', 'Hash updates return new values without modifying their inputs.']
-  }.merge(Captain::Apropos::CoreFunctions.contracts).merge(%w[+ - * / = < > <= >=].index_with do |operator|
-    ["(#{operator} left right)", 'Exactly two numeric arguments. Division follows Ruby numeric types; integer division truncates.']
-  end).freeze
+  }.merge(Captain::Apropos::CoreFunctions.contracts).freeze
 
-  COLLECTIONS = %w[list hash get keys values has-key? hash-set hash-merge car cdr cons reverse list-ref apply length null? nil? append map filter fold
+  COLLECTIONS = %w[list hash get keys hash-values has-key? hash-set hash-merge car cdr cons reverse list-ref apply length null? nil? append map filter fold
                    group-by count-by sort-by take slice batches].freeze
   CORE_GROUPS = {
     'collections' => COLLECTIONS,
     'strings' => Captain::Apropos::CoreFunctions::DEFINITIONS.keys.grep(/\A(?:string|substring|number->)/),
     'predicates' => Captain::Apropos::CoreFunctions::DEFINITIONS.keys.grep(/\?\z/),
-    'objects' => %w[hash get keys values has-key? hash-set hash-merge]
+    'objects' => %w[hash get keys hash-values has-key? hash-set hash-merge]
   }.freeze
 
-  WOOTQL = {
-    'where' => { signature: 'where status = "open" and (priority = "urgent" or assignee_id is null)',
-                 description: 'Comparisons = != > >= < <=, and/or/not, is [not] null, is [not] empty, in (value, ...), contains. ' \
-                              'Null means absent. Empty means zero characters/elements for text/lists only; whitespace is not empty. ' \
-                              'Both empty tests yield unknown for null, excluded by where even under not. Enum names are strings.' },
-    'labels' => { signature: 'conversations | where labels contains "refund"',
-                  description: 'Conversation labels are a non-null string list, returned as an array. contains tests exact membership. ' \
-                               'Use labels is empty for no labels ([]), is not empty for any labels. is null never matches base conversations. ' \
-                               'A missing conversation on the right of a left join yields null, not an empty list.' },
-    'project' => { signature: 'project id, status, inbox.name as inbox_name',
-                   description: 'Keep or rename fields. To-one dotted paths become scoped left joins. Retain IDs and ordering keys for pagination.' },
-    'join' => { signature: 'join contacts as contact on contact_id = contact.id',
-                description: 'Equality join with any exposed resource. Use join left for a left join. Right fields use the alias prefix.' },
-    'summarize' => { signature: 'summarize count() as total, count_distinct(contact_id) as customers by inbox_id',
-                     description: 'count, count_distinct, sum, avg, min, max. Only count() omits its field. Omit by to aggregate all rows.' },
-    'sort' => { signature: 'sort total desc, inbox_id asc', description: 'asc (default) or desc; nulls last. Include unique tie-breakers.' },
-    'take' => { signature: 'take 5', description: 'Limit this pipeline stage. take before where differs from where before take.' },
-    'values' => { signature: 'where created_at >= now() - 7d | where contact_id = $contact',
-                  description: 'Strings, numbers, true/false, $parameters, now() minus ms/s/m/h/d/w. Parameters are data, never syntax.' }
-  }.freeze
+  WOOTQL = Wootql::Contracts::STAGES
 
   ACTIONS = Captain::Apropos::ActionContracts::DEFINITIONS
 
@@ -122,7 +110,7 @@ class Captain::Apropos::Catalog
     Captain::Apropos::SeeAlso.attach(function_entries.merge(resource_entries).merge(ACTIONS))
                              .merge(Captain::Apropos::Knowledge.entries)
                              .merge(@library ? @library.entries : {})
-                             .merge(@scheme.bindings.transform_keys(&:to_s).transform_values do |value|
+                             .merge(@scheme.workspace.transform_keys(&:to_s).transform_values do |value|
                                       { stored_value: Captain::Apropos::ContextLimits.describe(value) }
                                     end)
   end
@@ -134,12 +122,11 @@ class Captain::Apropos::Catalog
   end
 
   def describe(name)
-    if @scheme.bindings.key?(name.to_sym)
-      value = @scheme.bindings.fetch(name.to_sym)
+    if @scheme.workspace.key?(name.to_sym)
+      value = @scheme.workspace.fetch(name.to_sym)
       details = { ref: name, stored_value: Captain::Apropos::ContextLimits.describe(value) }
-      if value.is_a?(Captain::Apropos::Scheme::Closure)
-        details[:binding] = { type: 'closure', parameters: Captain::Apropos::Codec.dump(value.parameters),
-                              body: Captain::Apropos::Codec.dump(value.body) }
+      if value.is_a?(::Scheme::Closure)
+        details[:binding] = { type: 'closure', source: ::Scheme.write(::Scheme.list([:lambda, value.parameters, *value.body])) }
       end
       return details
     end
@@ -161,8 +148,12 @@ class Captain::Apropos::Catalog
   end
 
   def function_entries
-    functions = FUNCTIONS.transform_values { |signature, description| { signature: signature, description: description } }
+    functions = @scheme.standard_contracts.merge(FUNCTIONS.transform_values do |signature, description|
+      { signature: signature, description: description }
+    end)
     CORE_GROUPS.each { |name, members| functions[name] = functions.fetch(name).merge(members: functions.slice(*members)) }
+    functions['strings'][:members] = functions.select { |name, _| name.match?(/\A(?:string|substring|number->)/) && name != 'strings' }
+    functions['predicates'][:members] = functions.select { |name, _| name.end_with?('?') }
     functions['wootql'] = functions.fetch('wootql').merge(members: WOOTQL)
     functions['resources'] = functions.fetch('resources').merge(members: resource_entries)
     functions['assignment-context'] = functions.fetch('assignment-context').merge(Captain::Apropos::AssignmentContext::CONTRACT)

@@ -37,7 +37,7 @@ class Captain::Apropos::ExecutionFeedback
       evidence: evidence,
       context: {
         progress: runtime.execution_progress.merge(
-          failed_binding_has_previous_value: runtime.scheme.bindings.key?(runtime.scheme.failed_binding.to_s.to_sym)
+          failed_binding_has_previous_value: runtime.scheme.workspace.key?(runtime.scheme.failed_binding.to_s.to_sym)
         ),
         receipts_ref: runtime.store(runtime.receipts), receipt_count: runtime.receipts.size,
         contracts: contracts(runtime.catalog),

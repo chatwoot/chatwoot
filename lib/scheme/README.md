@@ -1,7 +1,8 @@
 # Embedded Scheme
 
 Standalone Ruby interpreter targeting R7RS-small language semantics. It is under
-development, is not yet R7RS-small compliant, and is not wired into Apropos or Ask.
+development and is not yet R7RS-small compliant. Apropos/Ask uses it through a
+Chatwoot adapter for tool data, persistent bindings, budgets and error feedback.
 
 ```ruby
 require_relative 'lib/scheme'

@@ -42,7 +42,5 @@ class Scheme::Environment
     binding.value = value
   end
 
-  protected
-
   attr_reader :parent, :bindings
 end

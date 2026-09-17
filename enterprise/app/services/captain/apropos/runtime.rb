@@ -1,3 +1,5 @@
+require 'wootql'
+
 class Captain::Apropos::Runtime
   include Captain::Apropos::QueryFunctions
   include Captain::Apropos::Instrumentation::RuntimeMethods
@@ -15,25 +17,29 @@ class Captain::Apropos::Runtime
     @on_event = on_event
     setup_execution(execution)
     @events = []
-    @scheme = Captain::Apropos::Scheme.new(bindings: state.empty? ? {} : Captain::Apropos::Codec.load(state))
+    @scheme = Captain::Apropos::SchemeSession.new
     @library = Captain::Apropos::Library.new(account: account, user: user, scheme: scheme)
     @catalog = Captain::Apropos::Catalog.new(scheme, library: @library)
     @data = Captain::Apropos::DataAccess.new(account: account, user: user)
-    @query = Captain::Apropos::Query.new(data: @data, budget: @budget, instrument: method(:instrument_query_stage))
+    @query = Wootql::Query.new(data: @data, database: ApplicationRecord, budget: @budget, instrument: method(:instrument_query_stage))
+    @prepared_queries = {}
     @actions = Captain::Apropos::Actions.new(account: account, user: user, data: @data, record: method(:record))
     install_functions
     Captain::Apropos::FaqSearch.new(data: @data, account: account, consume: method(:consume_agent_call!)).install(scheme)
+    return if state.empty?
+
+    Captain::Apropos::Codec.load(state, roots: scheme.roots).each { |name, value| scheme.bind(name, value) }
   end
 
   def state
-    Captain::Apropos::Codec.dump(scheme.bindings)
+    Captain::Apropos::Codec.dump(scheme.workspace, roots: scheme.roots)
   end
 
   def execution_progress
     {
       completed_bindings: scheme.completed_bindings,
       failed_binding: scheme.failed_binding,
-      available_bindings: scheme.bindings.keys.reject { |name| name.to_s.start_with?('workspace-') }.map(&:to_s)
+      available_bindings: scheme.workspace.keys.reject { |name| name.to_s.start_with?('workspace-') }.map(&:to_s)
     }
   end
 
@@ -51,8 +57,8 @@ class Captain::Apropos::Runtime
 
   def store(value)
     reference = "workspace-#{SecureRandom.hex(8)}"
-    Captain::Apropos::Codec.dump(value)
-    scheme.bindings[reference.to_sym] = value
+    Captain::Apropos::Codec.dump(value, roots: scheme.roots)
+    scheme.bind(reference, Captain::Apropos::SchemeValues.from_ruby(value))
     reference
   end
 
@@ -63,8 +69,9 @@ class Captain::Apropos::Runtime
     reference = store(value)
     preview = Captain::Apropos::ContextLimits.preview(value)
     preview = Captain::Apropos::ContextLimits.describe(value) if JSON.generate(preview).bytesize > limit / 2
-    { 'truncated' => true, 'ref' => reference, 'bytes' => bytes, 'value_info' => Captain::Apropos::ContextLimits.describe(value),
-      'preview' => preview, 'instruction' => 'Preview only. Use (recall "ref") inside Scheme; filter, slice, or delegate before returning data.' }
+    { 'kind' => 'preview', 'complete' => false, 'truncated' => true, 'ref' => reference, 'bytes' => bytes,
+      'value_info' => Captain::Apropos::ContextLimits.describe(value), 'preview' => preview,
+      'instruction' => 'Only a preview, not processed evidence. Recall ref to access the full value in Scheme.' }
   end
 
   def reply(value)
@@ -133,10 +140,12 @@ class Captain::Apropos::Runtime
       Captain::Apropos::ResultSchema.build(fields)
       fields
     end
-    scheme.register('recall') { |reference| scheme.bindings.fetch(reference.to_sym) }
+    scheme.register('recall', raw: true) { |reference| scheme.workspace.fetch(reference.to_sym) }
     scheme.register('slice') { |value, offset, length| slice(value, offset, length) }
     scheme.register('receipts') { receipts }
-    scheme.register('save-function') { |name, description, expression| @library.save(name, description, expression) }
+    scheme.register('save-function', raw: true) do |name, description, expression|
+      Captain::Apropos::SchemeValues.from_ruby(@library.save(name, description, expression))
+    end
   end
 
   def reason(input, task, schema)
@@ -172,8 +181,8 @@ class Captain::Apropos::Runtime
   end
 
   def retain_worker_workspace(child)
-    child.scheme.bindings.each do |name, value|
-      scheme.bindings[name] = value if name.to_s.start_with?('workspace-')
+    child.scheme.workspace.each do |name, value|
+      scheme.bind(name, value) if name.to_s.start_with?('workspace-')
     end
   end
 
@@ -186,8 +195,15 @@ class Captain::Apropos::Runtime
   end
 
   def present(value)
+    return 'procedure (inspect its binding with describe)' if Captain::Apropos::SchemeValues.procedure?(value)
+    return nil if value.equal?(::Scheme::UNSPECIFIED)
+    return [] if value.equal?(::Scheme::EMPTY)
+
     case value
-    when Captain::Apropos::Scheme::Closure, Proc then 'procedure (inspect its binding with describe)'
+    when ::Scheme::Pair then Captain::Apropos::SchemeValues.to_ruby(value).map { |item| present(item) }
+    when ::Scheme::Character then value.value
+    when ::Scheme::Vector, ::Scheme::Bytevector then value.items.map { |item| present(item) }
+    when ::Scheme::MultipleValues then { 'kind' => 'multiple_values', 'items' => value.items.map { |item| present(item) } }
     when Hash then value.to_h { |key, item| [key.to_s, present(item)] }
     when Array then value.map { |item| present(item) }
     else value.as_json

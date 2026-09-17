@@ -9,7 +9,22 @@ class Captain::Apropos::ContextLimits
   PREVIEW_DEPTH = 3
 
   def self.describe(value)
-    { 'type' => value.class.name, 'size' => value.respond_to?(:size) ? value.size : nil }
+    case value
+    when Array then { 'type' => 'list', 'item_count' => value.size }
+    when Hash then { 'type' => 'object', 'field_count' => value.size }
+    when String then { 'type' => 'string', 'character_count' => value.length }
+    when Integer then { 'type' => 'integer' }
+    when Numeric then { 'type' => 'number' }
+    when TrueClass, FalseClass then { 'type' => 'boolean' }
+    when NilClass then { 'type' => 'null' }
+    when ::Scheme::Pair then { 'type' => 'list', 'item_count' => ::Scheme.to_a(value).size }
+    else
+      return { 'type' => 'list', 'item_count' => 0 } if value.equal?(::Scheme::EMPTY)
+
+      { 'type' => Captain::Apropos::SchemeValues.procedure?(value) ? 'procedure' : 'scheme_value' }
+    end
+  rescue ::Scheme::Error
+    { 'type' => 'pair' }
   end
 
   def self.preview(value, depth = 0)

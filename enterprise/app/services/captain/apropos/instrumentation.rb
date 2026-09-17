@@ -54,7 +54,7 @@ class Captain::Apropos::Instrumentation
 
       execution = { executed: false }
       span = context_wrapper&.context&.dig(:__otel_tracing, :current_tool_span)
-      return yield unless span
+      return execute_operation(nil, execution, &) unless span
 
       context = OpenTelemetry::Trace.context_with_span(span)
       OpenTelemetry::Context.with_current(context) { execute_operation(nil, execution, &) }
@@ -94,7 +94,8 @@ class Captain::Apropos::Instrumentation
       when Hash
         safe = value.stringify_keys.slice(
           'status', 'error', 'ref', 'result_ref', 'receipts_ref', 'count', 'receipt_count', 'offset', 'next_cursor',
-          'query_exhausted', 'truncated', 'bytes', 'value_info'
+          'query_exhausted', 'truncated', 'bytes', 'value_info', 'kind', 'complete', 'item_count', 'has_more',
+          'processed_item_count', 'processed_page_count'
         )
         { type: 'object', keys: value.keys.map(&:to_s).sort, bytes: value.to_json.bytesize }.merge(safe)
       when Array
@@ -184,6 +185,7 @@ class Captain::Apropos::Instrumentation
     end
 
     def handle_span_failure(name, error, execution)
+      raise error unless execution
       raise execution[:error] if execution[:error]
 
       Rails.logger.warn("[Apropos] Failed to record #{name}: #{error.message}")
