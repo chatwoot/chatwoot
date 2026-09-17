@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "বাম পাশ থেকে একটি কনভার্সেশন নির্বাচন করুন",
     "CSAT_REPLY_MESSAGE": "অনুগ্রহ করে কথোপকথনের মূল্যায়ন করুন",
     "404": "দুঃখিত, আমরা কনভার্সেশনটি খুঁজে পাচ্ছি না। আবার চেষ্টা করুন",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "এই বার্তাটি সমর্থিত নয়। TikTok অ্যাপে এই বার্তাটি দেখতে পারেন।",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "বার্তা সফলভাবে মুছে ফেলা হয়েছে",
     "FAIL_DELETE_MESSSAGE": "বার্তা মুছে ফেলা যায়নি! আবার চেষ্টা করুন",
     "NO_RESPONSE": "কোনো উত্তর নেই",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "এজেন্টরা",
       "TEAMS": "টিমসমূহ"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Description",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Search emojis",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "All"
+        },
+        "AVAILABILITY": "উপলব্ধতা",
+        "ROLE": "ভূমিকা",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "সক্রিয়",
+        "DISABLED": "নিষ্ক্রিয়",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "স্নুজ করা হবে পর্যন্ত",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} other",
     "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
     "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!",
     "WATCH_CONVERSATION": "আলাপচারিতায় যোগ দিন",
     "YOU_ARE_WATCHING": "আপনি অংশগ্রহণ করছেন",
     "API": {
