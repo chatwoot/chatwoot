@@ -253,3 +253,4 @@ class Contact < ApplicationRecord
   end
 end
 Contact.include_mod_with('Concerns::Contact')
+Contact.include_mod_with('SearchIndexing::Contact')
