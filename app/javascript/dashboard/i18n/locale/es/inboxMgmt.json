@@ -868,8 +868,8 @@
             "APPROVED": "El nombre mostrado está aprobado y puede aparecer en la parte superior de los chats de WhatsApp. En su lugar puede aparecer un nombre guardado por el destinatario.",
             "AVAILABLE_WITHOUT_REVIEW": "El nombre para mostrar se guarda en tu perfil de WhatsApp, pero los destinatarios pueden ver el número de teléfono hasta que Meta lo revise y lo apruebe. Meta inicia esta revisión después de que su empresa alcance un límite de mensajería más alto.",
             "PENDING_REVIEW": "Meta está revisando el nombre de perfil. No se necesita ninguna acción a menos que Meta-solicita más información.",
-            "REJECTED": "Meta no aprobó el nombre de perfil. Revise las pautas del nombre de la pantalla, luego actualice el nombre o la apelación en Meta.",
-            "DECLINED": "Meta no aprobó el nombre de perfil. Revise las pautas del nombre de la pantalla, luego actualice el nombre o la apelación en Meta.",
+            "REJECTED": "Meta no aprobó el nombre de perfil. Revise las pautas del nombre para mostrar, luego actualice el nombre o apele la decisión en Meta.",
+            "DECLINED": "Meta no aprobó el nombre de perfil. Revise las pautas del nombre para mostrar, luego actualice el nombre o apele la decisión en Meta.",
             "EXPIRED": "El certificado del número de teléfono ha caducado, por lo que este número no puede ser registrado para uso de la API.",
             "UNKNOWN": "Meta no devolvió un estado de revisión de nombre mostrado."
           }

@@ -230,7 +230,7 @@
           "BOTH_AWAITING_SINGLE": "Esta campaña sigue procesándose. {queued} mensajes están en cola y {awaitingUpdate} está esperando una actualización de entrega de WhatsApp.",
           "QUEUED": "Esta campaña sigue procesándose. {count} mensaje está en la cola. | Esta campaña sigue procesándose. {count} mensajes están en la cola.",
           "AWAITING_UPDATE": "Esta campaña sigue procesándose. {count} mensaje está esperando una actualización de entrega de WhatsApp. | Esta campaña sigue procesándose. {count} mensajes están esperando una actualización de entrega de WhatsApp.",
-          "COMPLETING": "Esta campaña todavía está procesando. Analytics se actualizará automáticamente."
+          "COMPLETING": "Esta campaña se está completando. Las estadísticas se actualizarán automáticamente."
         },
         "RATE": "{value}% del público",
         "SENT_ON": "Enviado el {date}",

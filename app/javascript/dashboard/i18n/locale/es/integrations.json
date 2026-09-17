@@ -516,7 +516,7 @@
             "NOTE": "Solo se incluyen resoluciones lo suficientemente viejas como para observar durante siete días."
           },
           "MEDIAN_RESOLUTION": {
-            "LABEL": "Tiempo medio de resolución",
+            "LABEL": "Mediana del tiempo de resolución",
             "HINT": "El tiempo típico desde que una conversación llegó al Captain hasta que se resolvió.",
             "NOTE": "Un valor menor significa que las conversaciones de los clientes generalmente se resolvieron antes."
           },
@@ -762,9 +762,9 @@
           "EMPTY_TITLE": "No hay condiciones aún",
           "EMPTY_BODY": "Añadir una condición para dirigirse a clientes específicos, o un grupo de condiciones para combinar condiciones con diferentes y/o lógicas.",
           "EMPTY_ERROR": "Añadir al menos una condición para una audiencia específica.",
-          "MATCH_PREFIX": "Coincidencia",
-          "MATCH_SUFFIX": "de los siguientes",
-          "MATCH_ALL": "todo",
+          "MATCH_PREFIX": "Coincidir con",
+          "MATCH_SUFFIX": "de las siguientes condiciones",
+          "MATCH_ALL": "todas",
           "MATCH_ANY": "cualquiera",
           "GROUP_CONTACT": "Atributos de contacto",
           "GROUP_CONVERSATION": "Conversación",
@@ -1017,8 +1017,8 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
-      "FAQ_COUNT": "Preguntas frecuentes {n} | Preguntas frecuentes {n}",
-      "USED_IN_CONVERSATIONS": "Utilizado en la conversación {n} | Utilizado en conversaciones {n}",
+      "FAQ_COUNT": "{n} pregunta frecuente | {n} preguntas frecuentes",
+      "USED_IN_CONVERSATIONS": "Utilizado en {n} conversación | Utilizado en {n} conversaciones",
       "NO_USED_CONVERSATIONS": "No se encontraron conversaciones para este documento.",
       "SELECTED": "{count} selected",
       "SELECT_ALL": "Select all ({count})",
