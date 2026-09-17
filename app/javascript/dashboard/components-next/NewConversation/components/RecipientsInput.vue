@@ -36,6 +36,7 @@ const contactEmailsList = computed(() =>
       {{ label }}
     </label>
     <div class="flex items-center w-full gap-3 min-h-7">
+      <!-- Chip height plus the tag input's transparent border, so adding a recipient doesn't grow the row -->
       <TagInput
         v-model="modelValue"
         :placeholder="placeholder"
@@ -45,7 +46,7 @@ const contactEmailsList = computed(() =>
         :focus-on-mount="focusOnMount"
         type="email"
         allow-create
-        class="flex-1 min-h-7"
+        class="flex-1 min-h-[1.875rem]"
         @input="emit('input', $event)"
         @on-click-outside="emit('onClickOutside')"
       />

@@ -67,6 +67,28 @@ RSpec.describe ReplyMailbox do
       end
     end
 
+    context 'when the mail replies to a forwarded email' do
+      let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
+      let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account) }
+      let(:supplier_reply) do
+        create_inbound_email_from_mail(from: 'supplier@example.com', to: email_channel.email, subject: 'Re: Fwd: Hello',
+                                       in_reply_to: '<forward/1@example.com>', body: 'Reply from the supplier')
+      end
+
+      before do
+        create(:message, conversation: conversation, account: account, message_type: :outgoing, source_id: 'forward/1@example.com',
+                         content_attributes: { forwarded_message_id: 1, to_emails: ['supplier@example.com'] })
+      end
+
+      it 'starts a new conversation with the forward recipient instead of using the original conversation' do
+        expect { described_class.receive supplier_reply }.to change(account.conversations, :count).by(1)
+
+        expect(conversation.messages.incoming).to be_empty
+        expect(account.conversations.last.contact.email).to eq('supplier@example.com')
+        expect(account.conversations.last.messages.last.content).to include('Reply from the supplier')
+      end
+    end
+
     context 'when new conversation email contains null bytes' do
       let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
       let(:null_byte_mail) { create_inbound_email_from_mail(from: 'sender@example.com', to: email_channel.email, subject: 'Hello') }

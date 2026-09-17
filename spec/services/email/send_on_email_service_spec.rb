@@ -25,6 +25,8 @@ describe Email::SendOnEmailService do
       ActionController::Parameters.new(
         content: 'Please handle this',
         to_emails: 'vendor@example.com',
+        cc_emails: 'ops@example.com',
+        bcc_emails: 'audit@example.com',
         email_html_content: '<p>Please handle this</p><p>Edited body</p>',
         content_attributes: { forwarded_message_id: forwarded_message.id }.to_json,
         forwarded_attachment_ids: [forwarded_attachment.id]
@@ -42,6 +44,8 @@ describe Email::SendOnEmailService do
 
       mail = ActionMailer::Base.deliveries.last
       expect(mail.to).to eq(['vendor@example.com'])
+      expect(mail.cc).to eq(['ops@example.com'])
+      expect(mail.bcc).to eq(['audit@example.com'])
       expect(mail.subject).to eq('Fwd: Order #42')
       expect(mail.in_reply_to).to be_nil
       expect(mail.references).to be_nil

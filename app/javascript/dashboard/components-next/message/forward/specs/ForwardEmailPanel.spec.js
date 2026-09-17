@@ -6,6 +6,7 @@ import { withFullI18n } from 'test-i18n';
 import MessageFormatter from 'shared/helpers/MessageFormatter';
 import { formatQuotedEmailDate } from 'dashboard/helper/quotedEmailHelper';
 import { createContactSearcher } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
+import Button from 'dashboard/components-next/button/Button.vue';
 import ForwardEmailPanel from '../ForwardEmailPanel.vue';
 import { provideMessageContext } from '../../provider.js';
 import { MESSAGE_TYPES } from '../../constants';
@@ -35,7 +36,7 @@ const stub = (name, props, emits = []) => ({
   name,
   props,
   emits,
-  template: '<div />',
+  template: '<div><slot /></div>',
 });
 
 const stubs = {
@@ -62,7 +63,7 @@ const stubs = {
   ),
   ActionButtons: stub(
     'ActionButtons',
-    ['disableSendButton', 'attachedFiles'],
+    ['disableSendButton', 'attachedFiles', 'isDropdownActive'],
     ['sendMessage', 'discard', 'attachFile']
   ),
 };
@@ -245,6 +246,8 @@ describe('ForwardEmailPanel', () => {
       message: 'Please handle this\n\nEdited body',
       emailHtmlContent: `${new MessageFormatter('Please handle this').formattedMessage}<p>Edited body</p>`,
       toEmails: 'vendor@example.com',
+      ccEmails: '',
+      bccEmails: '',
       private: false,
       contentAttributes: { forwarded_message_id: 501 },
       forwardedAttachmentIds: [7],
@@ -320,6 +323,59 @@ describe('ForwardEmailPanel', () => {
     await recipients.vm.$emit('onClickOutside');
     expect(recipients.props('showDropdown')).toBe(false);
     vi.useRealTimers();
+  });
+
+  it('opens the contact dropdown only on the row being typed in', async () => {
+    vi.useFakeTimers();
+    const { wrapper } = mountPanel();
+    const [to, cc] = wrapper.findAllComponents({ name: 'RecipientsInput' });
+
+    await cc.vm.$emit('input', 'ab');
+    vi.advanceTimersByTime(400);
+    await flushPromises();
+
+    expect(cc.props('showDropdown')).toBe(true);
+    expect(to.props('showDropdown')).toBe(false);
+    expect(find(wrapper, 'ActionButtons').props('isDropdownActive')).toBe(true);
+    vi.useRealTimers();
+  });
+
+  it('keeps a row dropdown open when a sibling row reports a click outside', async () => {
+    vi.useFakeTimers();
+    const { wrapper } = mountPanel();
+    const [to, cc] = wrapper.findAllComponents({ name: 'RecipientsInput' });
+
+    await to.vm.$emit('input', 'ab');
+    vi.advanceTimersByTime(400);
+    await flushPromises();
+
+    await cc.vm.$emit('onClickOutside');
+    expect(to.props('showDropdown')).toBe(true);
+
+    await to.vm.$emit('onClickOutside');
+    expect(to.props('showDropdown')).toBe(false);
+    vi.useRealTimers();
+  });
+
+  it('sends cc and bcc recipients', async () => {
+    const { wrapper, sendMessage } = mountPanel();
+
+    expect(wrapper.findAllComponents({ name: 'RecipientsInput' })).toHaveLength(
+      2
+    );
+    await wrapper.findComponent(Button).trigger('click');
+    const [, cc, bcc] = wrapper.findAllComponents({ name: 'RecipientsInput' });
+
+    await addRecipient(wrapper);
+    await cc.vm.$emit('update:modelValue', ['ops@example.com']);
+    await bcc.vm.$emit('update:modelValue', ['audit@example.com']);
+    await find(wrapper, 'ActionButtons').vm.$emit('sendMessage');
+
+    expect(sentPayload(sendMessage)).toMatchObject({
+      toEmails: 'vendor@example.com',
+      ccEmails: 'ops@example.com',
+      bccEmails: 'audit@example.com',
+    });
   });
 
   it('closes on discard without sending', async () => {

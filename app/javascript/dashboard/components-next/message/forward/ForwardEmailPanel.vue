@@ -23,6 +23,7 @@ import { createContactSearcher } from 'dashboard/components-next/NewConversation
 import MessageFormatter from 'shared/helpers/MessageFormatter';
 
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import InboxSelector from 'dashboard/components-next/NewConversation/components/InboxSelector.vue';
 import RecipientsInput from 'dashboard/components-next/NewConversation/components/RecipientsInput.vue';
 import MessageEditor from 'dashboard/components-next/NewConversation/components/MessageEditor.vue';
@@ -73,6 +74,8 @@ const attachmentName = ({ dataUrl }) => {
 
 const state = reactive({
   toEmails: [],
+  ccEmails: [],
+  bccEmails: [],
   message: '',
   attachedFiles: attachments.value.map(attachment => ({
     forwardedAttachmentId: attachment.id,
@@ -125,12 +128,17 @@ useKeyboardEvents({ '$mod+z': () => bodyRef.value.undo() });
 const searchContacts = createContactSearcher();
 const contacts = ref([]);
 const isSearching = ref(false);
-const showContactsDropdown = ref(false);
+const showBcc = ref(false);
+const activeRecipientField = ref(null);
+
+const closeRecipientDropdown = field => {
+  if (activeRecipientField.value === field) activeRecipientField.value = null;
+};
 
 const onSearchContacts = debounce(
-  async query => {
-    showContactsDropdown.value = query.trim().length >= 2;
-    if (!showContactsDropdown.value) return;
+  async (field, query) => {
+    activeRecipientField.value = query.trim().length >= 2 ? field : null;
+    if (!activeRecipientField.value) return;
 
     isSearching.value = true;
     try {
@@ -174,6 +182,8 @@ const forwardEmail = () => {
     message: [state.message, body.text].filter(Boolean).join('\n\n'),
     emailHtmlContent: `${noteHtml}${body.html}`,
     toEmails: state.toEmails.join(','),
+    ccEmails: state.ccEmails.join(','),
+    bccEmails: state.bccEmails.join(','),
     private: false,
     contentAttributes: { forwarded_message_id: messageId.value },
     forwardedAttachmentIds: forwardedFiles.map(
@@ -215,10 +225,45 @@ const forwardEmail = () => {
           :label="t('FORWARD_EMAIL.TO_LABEL')"
           :placeholder="t('FORWARD_EMAIL.TO_PLACEHOLDER')"
           :contacts="contacts"
-          :show-dropdown="showContactsDropdown"
+          :show-dropdown="activeRecipientField === 'to'"
           :is-loading="isSearching"
-          @input="onSearchContacts"
-          @on-click-outside="showContactsDropdown = false"
+          @input="onSearchContacts('to', $event)"
+          @on-click-outside="closeRecipientDropdown('to')"
+        />
+        <RecipientsInput
+          v-model="state.ccEmails"
+          :label="t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.CC_LABEL')"
+          :placeholder="
+            t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.CC_PLACEHOLDER')
+          "
+          :contacts="contacts"
+          :show-dropdown="activeRecipientField === 'cc'"
+          :is-loading="isSearching"
+          @input="onSearchContacts('cc', $event)"
+          @on-click-outside="closeRecipientDropdown('cc')"
+        >
+          <Button
+            :label="t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.BCC_BUTTON')"
+            variant="ghost"
+            size="sm"
+            color="slate"
+            class="flex-shrink-0"
+            @click="showBcc = !showBcc"
+          />
+        </RecipientsInput>
+        <RecipientsInput
+          v-if="showBcc"
+          v-model="state.bccEmails"
+          :label="t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.BCC_LABEL')"
+          :placeholder="
+            t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.BCC_PLACEHOLDER')
+          "
+          :contacts="contacts"
+          :show-dropdown="activeRecipientField === 'bcc'"
+          :is-loading="isSearching"
+          focus-on-mount
+          @input="onSearchContacts('bcc', $event)"
+          @on-click-outside="closeRecipientDropdown('bcc')"
         />
         <div>
           <MessageEditor
@@ -248,7 +293,7 @@ const forwardEmail = () => {
         :channel-type="INBOX_TYPES.EMAIL"
         :inbox-id="inboxId"
         :disable-send-button="!canSend"
-        :is-dropdown-active="showContactsDropdown"
+        :is-dropdown-active="activeRecipientField !== null"
         :message-signature="messageSignature"
         @insert-emoji="state.message += $event"
         @add-signature="onAddSignature"

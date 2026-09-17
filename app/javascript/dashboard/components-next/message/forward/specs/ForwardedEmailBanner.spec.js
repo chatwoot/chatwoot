@@ -7,11 +7,13 @@ import { provideMessageContext } from '../../provider.js';
 
 withFullI18n();
 
-const mountBanner = ({ toEmails, contact }) => {
+const mountBanner = ({ toEmails, ccEmails, bccEmails, contact }) => {
   const Host = defineComponent({
     components: { ForwardedEmailBanner },
     setup() {
-      provideMessageContext({ contentAttributes: ref({ toEmails }) });
+      provideMessageContext({
+        contentAttributes: ref({ toEmails, ccEmails, bccEmails }),
+      });
     },
     template: '<ForwardedEmailBanner />',
   });
@@ -48,6 +50,21 @@ describe('ForwardedEmailBanner', () => {
     });
 
     expect(wrapper.text()).toContain('Forwarded to jane@example.com');
+    expect(wrapper.text()).not.toContain('cannot see this');
+  });
+
+  it('lists cc recipients and treats a bcc contact as a recipient', () => {
+    const wrapper = mountBanner({
+      toEmails: ['vendor@example.com'],
+      ccEmails: ['ops@example.com'],
+      bccEmails: ['jane@example.com'],
+      contact: { name: 'Jane', email: 'jane@example.com' },
+    });
+
+    expect(wrapper.text()).toContain(
+      'Forwarded to vendor@example.com, ops@example.com'
+    );
+    expect(wrapper.text()).not.toContain('jane@example.com');
     expect(wrapper.text()).not.toContain('cannot see this');
   });
 });

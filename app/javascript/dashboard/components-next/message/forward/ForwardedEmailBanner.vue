@@ -9,10 +9,17 @@ const { contentAttributes } = useMessageContext();
 const { t } = useI18n();
 const currentChat = useMapGetter('getSelectedChat');
 
-const toEmails = computed(() => contentAttributes.value.toEmails ?? []);
+const recipients = computed(() => [
+  ...(contentAttributes.value.toEmails ?? []),
+  ...(contentAttributes.value.ccEmails ?? []),
+]);
 const contact = computed(() => currentChat.value?.meta?.sender ?? {});
 const hiddenFromContact = computed(
-  () => !toEmails.value.includes(contact.value.email)
+  () =>
+    ![
+      ...recipients.value,
+      ...(contentAttributes.value.bccEmails ?? []),
+    ].includes(contact.value.email)
 );
 </script>
 
@@ -20,7 +27,7 @@ const hiddenFromContact = computed(
   <div class="flex items-center gap-1.5 text-xs font-medium">
     <Icon icon="i-lucide-forward" class="size-4 text-n-amber-10" />
     <span class="text-n-amber-10">
-      {{ t('FORWARD_EMAIL.FORWARDED_TO', { emails: toEmails.join(', ') }) }}
+      {{ t('FORWARD_EMAIL.FORWARDED_TO', { emails: recipients.join(', ') }) }}
     </span>
     <template v-if="hiddenFromContact">
       <span class="w-px h-3 bg-n-slate-7" />

@@ -216,6 +216,10 @@ class Message < ApplicationRecord
     true
   end
 
+  def forwarded?
+    content_attributes['forwarded_message_id'].present?
+  end
+
   def auto_reply_email?
     return false unless incoming_email? || inbox.email?
 
@@ -365,7 +369,9 @@ class Message < ApplicationRecord
     # if automation rule id is present, it's not a human response
     # if campaign id is present, it's not a human response
     # external echo messages are responses sent from the native app (WhatsApp Business, Instagram)
+    # forwarded emails go to a third party, not to the contact
     outgoing? &&
+      !forwarded? &&
       content_attributes['automation_rule_id'].blank? &&
       additional_attributes['campaign_id'].blank? &&
       (sender.is_a?(User) || content_attributes['external_echo'].present?)
