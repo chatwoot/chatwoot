@@ -31,5 +31,15 @@ retain claims for recovery by the dispatcher.
 
 This is at-least-once processing, not a transactional outbox. Process death
 between a database commit and Redis enqueue requires reconciliation/backfill.
-No entity lifecycle or search read is enabled by the infrastructure alone.
+Contact producers are default-off. Enable the account's
+\`contact_search_indexing\` flag to start writes; Cloud additionally requires
+\`advanced_search_indexing\`. Existing self-hosted message indexing is unchanged.
+Deleting contacts still queues cleanup after the flag is disabled.
+Normal contact saves, merges, CSV saves, and silent integration import writes
+all use the same after-commit producer. No contact search reads change yet.
 
+Contact text uses contiguous three-character tokens with phrase matching to
+preserve substring search, including punctuation and spaces. Short terms and
+query forms that cannot preserve SQL semantics must stay on SQL. The schema
+uses standard text mappings rather than requiring newer wildcard field types.
+Only fields required for search, eligibility, and supported sorts are indexed.
