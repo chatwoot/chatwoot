@@ -11,6 +11,22 @@ module Scheme::Numbers
     number.is_a?(Rational) && number.denominator == 1 ? number.numerator : number
   end
 
+  # R7RS-small 6.2.6 converts complex components separately, preserving numbers
+  # already of the requested exactness: https://standards.scheme.org/r7rs-html5/index.html
+  def exact(number)
+    return number if exact?(number)
+    return Complex(exact(number.real), exact(number.imaginary)) if number.is_a?(Complex)
+
+    normalize(number.to_r)
+  end
+
+  def inexact(number)
+    return number unless exact?(number)
+    return Complex(inexact(number.real), inexact(number.imaginary)) if number.is_a?(Complex)
+
+    number.to_f
+  end
+
   def parse(token, radix = 10)
     text = token.dup
     exactness = nil

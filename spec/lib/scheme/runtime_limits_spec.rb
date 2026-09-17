@@ -29,6 +29,11 @@ RSpec.describe Scheme::Runtime do
     expect(Scheme.write(runtime.evaluate(source))).to eq('(10000 10000 10000)')
   end
 
+  it 'resolves procedures through many sequential lexical bindings without overflowing the Ruby stack' do
+    bindings = Array.new(15_000) { |index| "(x#{index} #{index})" }.join(' ')
+    expect(described_class.new.evaluate("(let* (#{bindings}) (+ 1 2))")).to eq(3)
+  end
+
   it 'can quote and compare long flat lists without consuming the Ruby stack' do
     runtime = described_class.new
     source = "(length '(#{Array.new(10_000, '1').join(' ')}))"

@@ -43,8 +43,8 @@ module Scheme::StandardNumeric
     register('abs', 1) { |value| real_number(value).abs }
     register('square', 1) { |value| check(value, Numeric)**2 }
     register('expt', 2) { |base, exponent| Scheme::Numbers.normalize(check(base, Numeric)**check(exponent, Numeric)) }
-    register('exact', 1) { |value| Scheme::Numbers.normalize(check(value, Numeric).to_r) }
-    register('inexact', 1) { |value| check(value, Numeric).to_f }
+    register('exact', 1) { |value| Scheme::Numbers.exact(check(value, Numeric)) }
+    register('inexact', 1) { |value| Scheme::Numbers.inexact(check(value, Numeric)) }
     %w[floor ceiling truncate round].each do |name|
       register(name, 1) do |value|
         value = real_number(value)

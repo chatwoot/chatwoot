@@ -120,18 +120,7 @@ class Scheme::Runtime
   def body(expressions, scope, continuation)
     # Internal definitions have letrec* scope. Reserve every location before any
     # initializer runs so an outer binding cannot leak into an uninitialized one.
-    expressions = flatten_body(expressions, scope)
-    expressions.take_while { |expression| definition?(expression, scope) }.each do |expression|
-      kind, *parts = Scheme.to_a(expression)
-      kind = scope.get(kind).name
-      names = if kind == :'define-values'
-                parameter_names(parts.first)
-              else
-                [parts.first.is_a?(Scheme::Pair) ? parts.first.car : parts.first]
-              end
-      names.each { |name| scope.define(name, Scheme::UNINITIALIZED) }
-    end
-    sequence(expressions, scope, continuation)
+    sequence(prepare_body(expressions, scope), scope, continuation)
   end
 
   def single(value)
@@ -398,8 +387,10 @@ class Scheme::Runtime
     names = entries.map(&:first)
     raise Scheme::Error, 'do requires distinct identifiers' unless names.all?(Symbol) && names.uniq.length == names.length
 
-    test, *results = Scheme.to_a(arguments[1])
-    raise Scheme::Error, 'do requires a termination test' unless test
+    termination = Scheme.to_a(arguments[1])
+    raise Scheme::Error, 'do requires a termination test' if termination.empty?
+
+    test, *results = termination
 
     iterate = nil
     iterate = lambda do |values|
@@ -451,21 +442,41 @@ class Scheme::Runtime
     end
   end
 
-  def definition?(expression, scope)
-    return false unless expression.is_a?(Scheme::Pair) && expression.car.is_a?(Symbol)
+  def syntax_name(expression, scope)
+    return unless expression.is_a?(Scheme::Pair) && expression.car.is_a?(Symbol)
 
     binding = scope.cell(expression.car)&.value
-    binding.is_a?(Scheme::Syntax) && %i[define define-values].include?(binding.name)
+    binding.name if binding.is_a?(Scheme::Syntax)
   end
 
-  def flatten_body(expressions, scope)
-    expressions.flat_map do |expression|
-      binding = expression.is_a?(Scheme::Pair) && expression.car.is_a?(Symbol) ? scope.cell(expression.car)&.value : nil
-      if binding.is_a?(Scheme::Syntax) && binding.name == :begin
-        flatten_body(Scheme.to_a(expression.cdr), scope)
-      else
-        [expression]
+  def prepare_body(expressions, scope)
+    pending = expressions.reverse
+    expanded = []
+    until pending.empty?
+      expression = pending.pop
+      kind = syntax_name(expression, scope)
+      if kind == :begin
+        pending.concat(Scheme.to_a(expression.cdr).reverse)
+        next
       end
+
+      expanded << expression
+      break unless %i[define define-values].include?(kind)
+
+      # Reserve names as they are discovered so a local begin is not expanded
+      # using its outer syntax binding. Expression bodies are evaluated normally.
+      reserve_definition(expression, scope, kind)
     end
+    expanded.concat(pending.reverse)
+  end
+
+  def reserve_definition(expression, scope, kind)
+    parts = Scheme.to_a(expression.cdr)
+    names = if kind == :'define-values'
+              parameter_names(parts.first)
+            else
+              [parts.first.is_a?(Scheme::Pair) ? parts.first.car : parts.first]
+            end
+    names.each { |name| scope.define(name, Scheme::UNINITIALIZED) }
   end
 end

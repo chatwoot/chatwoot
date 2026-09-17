@@ -17,7 +17,14 @@ class Scheme::Environment
   end
 
   def cell(name)
-    @bindings[name] || @parent&.cell(name)
+    scope = self
+    while scope
+      binding = scope.bindings[name]
+      return binding if binding
+
+      scope = scope.parent
+    end
+    nil
   end
 
   def get(name)
@@ -34,4 +41,8 @@ class Scheme::Environment
 
     binding.value = value
   end
+
+  protected
+
+  attr_reader :parent, :bindings
 end
