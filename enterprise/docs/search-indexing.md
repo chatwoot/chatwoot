@@ -43,3 +43,12 @@ preserve substring search, including punctuation and spaces. Short terms and
 query forms that cannot preserve SQL semantics must stay on SQL. The schema
 uses standard text mappings rather than requiring newer wildcard field types.
 Only fields required for search, eligibility, and supported sorts are indexed.
+
+Enable the default-off \`conversation_search_indexing\` account flag to index
+conversation identity, inbox, activity times, and associated contact search
+fields. Message activity and silent imports explicitly submit their direct
+updates. Contact identity changes/deletion coalesce in the
+\`contact_conversations\` buffer. Its worker persists a primary-key cursor after
+each 500-conversation page. A newer contact change restarts that cursor; expired
+workers cannot overwrite successor progress. Contact activity-only changes do
+not fan out. Conversation and message search reads remain unchanged.

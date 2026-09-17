@@ -11,9 +11,14 @@ module SearchIndexing::Producer
 
     ActiveRecord.after_all_transactions_commit do
       account = Account.find_by(id: account_id)
-      next unless cleanup || eligible?(entity, account)
+      next unless eligible?(entity, account) || (cleanup && previously_indexed?(entity, account_id))
 
       SearchIndexing::Buffer.new(entity: entity, account_id: account_id).enqueue(ids)
     end
+  end
+
+  def self.previously_indexed?(entity, account_id)
+    document_entity = SearchIndexing::Registry.fetch(entity)::ENTITY
+    SearchIndexing::Buffer.new(entity: document_entity, account_id: account_id).used?
   end
 end
