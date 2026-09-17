@@ -10,8 +10,9 @@ module Scheme::StandardNumeric
     predicate('exact-integer?') { |value| value.is_a?(Integer) }
     predicate('exact?') { |value| Scheme::Numbers.exact?(check(value, Numeric)) }
     predicate('inexact?') { |value| !Scheme::Numbers.exact?(check(value, Numeric)) }
-    %w[zero positive negative].each do |name|
-      predicate("#{name}?") { |value| check(value, Numeric).public_send("#{name}?") }
+    predicate('zero?') { |value| check(value, Numeric).zero? }
+    %w[positive negative].each do |name|
+      predicate("#{name}?") { |value| real_number(value).public_send("#{name}?") }
     end
     %w[odd even].each { |name| predicate("#{name}?") { |value| integer_number(value).public_send("#{name}?") } }
     { '+' => [0, 0], '*' => [0, 1], '-' => [1, nil], '/' => [1, nil] }.each do |name, (minimum, identity)|
@@ -28,25 +29,25 @@ module Scheme::StandardNumeric
     end
     %w[= < > <= >=].each do |name|
       register(name, 2, nil) do |*values|
-        values.each { |value| check(value, Numeric) }
+        values = values.map { |value| name == '=' ? check(value, Numeric) : real_number(value) }
         values.each_cons(2).all? { |a, b| a.public_send(name == '=' ? '==' : name, b) }
       end
     end
     %w[min max].each do |name|
       register(name, 1, nil) do |*values|
-        values.each { |value| check(value, Numeric) }
+        values = values.map { |value| real_number(value) }
         result = values.public_send(name)
         values.any?(Float) ? result.to_f : result
       end
     end
-    register('abs', 1) { |value| check(value, Numeric).abs }
+    register('abs', 1) { |value| real_number(value).abs }
     register('square', 1) { |value| check(value, Numeric)**2 }
     register('expt', 2) { |base, exponent| Scheme::Numbers.normalize(check(base, Numeric)**check(exponent, Numeric)) }
     register('exact', 1) { |value| Scheme::Numbers.normalize(check(value, Numeric).to_r) }
     register('inexact', 1) { |value| check(value, Numeric).to_f }
     %w[floor ceiling truncate round].each do |name|
       register(name, 1) do |value|
-        check(value, Numeric)
+        value = real_number(value)
         result = if name == 'round'
                    value.round(half: :even)
                  else
@@ -57,7 +58,8 @@ module Scheme::StandardNumeric
     end
     %w[numerator denominator].each do |name|
       register(name, 1) do |value|
-        result = check(value, Numeric).to_r.public_send(name)
+        value = real_number(value)
+        result = value.to_r.public_send(name)
         Scheme::Numbers.exact?(value) ? result : result.to_f
       end
     end
@@ -93,6 +95,15 @@ module Scheme::StandardNumeric
     raise Scheme::Error, 'expected an integer' if value.is_a?(Complex) || !value.finite? || value != value.to_i
 
     value.to_i
+  end
+
+  def real_number(value)
+    check(value, Numeric, 'a real number')
+    return value unless value.is_a?(Complex)
+
+    raise Scheme::Error, "expected a real number, received #{Scheme.write(value)}" unless value.imaginary.zero?
+
+    value.real
   end
 
   def numeric_division
