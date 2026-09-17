@@ -127,14 +127,19 @@ module Scheme::Control
       parameter_bindings(values.each_slice(2).to_a, [], lambda { |settings|
         # Swapping cells, rather than resetting to initializer values, preserves
         # dynamic state when a continuation leaves and later reenters this extent.
-        exchange_state = lambda do
-          settings.each { |setting| setting[1], setting[0].value = setting[0].value, setting[1] }
-          Scheme::UNSPECIFIED
-        end
-        exchange = native_callback(&exchange_state)
-        dynamic_wind(exchange, Scheme::Closure.new(Scheme::EMPTY, arguments.drop(1), scope), exchange, continuation, on_abort: exchange_state)
+        enter = native_callback { exchange_parameters(settings) }
+        # Aliases can bind the same parameter more than once. Undo swaps in the
+        # opposite order so restoration is the inverse of entry, even on abort.
+        restore = -> { exchange_parameters(settings.reverse_each) }
+        leave = native_callback(&restore)
+        dynamic_wind(enter, Scheme::Closure.new(Scheme::EMPTY, arguments.drop(1), scope), leave, continuation, on_abort: restore)
       })
     })
+  end
+
+  def exchange_parameters(settings)
+    settings.each { |setting| setting[1], setting[0].value = setting[0].value, setting[1] }
+    Scheme::UNSPECIFIED
   end
 
   def parameter_bindings(entries, settings, continuation)
