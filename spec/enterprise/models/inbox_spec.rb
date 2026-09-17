@@ -286,6 +286,50 @@ RSpec.describe Inbox do
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
       end
     end
+
+    context 'when a provider config call setting is toggled' do
+      it 'audits only the allow-listed settings' do
+        channel.update(provider_config: channel.provider_config.merge('recording_enabled' => false))
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes['provider_config']).to eq([{}, { 'recording_enabled' => false }])
+      end
+    end
+
+    context 'when only provider config credentials change' do
+      it 'has no associated audit log created' do
+        channel.update(provider_config: channel.provider_config.merge('api_key' => 'rotated_key'))
+
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
+      end
+    end
+
+    context 'when provider config credentials and a call setting change together' do
+      it 'audits only the call setting' do
+        channel.update(provider_config: channel.provider_config.merge('api_key' => 'rotated_key', 'calling_enabled' => true))
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes['provider_config']).to eq([{}, { 'calling_enabled' => true }])
+      end
+    end
+
+    context 'when an allow-listed provider config key holds a non boolean value' do
+      it 'has no associated audit log created' do
+        channel.update(provider_config: channel.provider_config.merge('recording_enabled' => { 'x' => 'secret' }))
+
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
+      end
+    end
+
+    context 'when provider config is set for the first time' do
+      it 'audits the call settings present after the change' do
+        channel.update_column(:provider_config, nil) # rubocop:disable Rails/SkipsModelValidations
+        channel.update(provider_config: { 'calling_enabled' => true, 'api_key' => 'test_key' })
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes['provider_config']).to eq([{}, { 'calling_enabled' => true }])
+      end
+    end
   end
 
   describe 'audit log with email channel' do
