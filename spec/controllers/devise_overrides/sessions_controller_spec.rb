@@ -256,6 +256,32 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
         expect(user.reload.access_locked?).to be false
       end
     end
+
+    it 'notifies the user once when the account locks' do
+      expect do
+        (Devise.maximum_attempts + 2).times { attempt_sign_in('wrong-password') }
+      end.to have_enqueued_mail(SecurityMailer, :account_locked).once
+    end
+
+    it 'does not notify again for a relock within the dedupe window' do
+      Devise.maximum_attempts.times { attempt_sign_in('wrong-password') }
+
+      travel_to(2.hours.from_now) do
+        expect do
+          Devise.maximum_attempts.times { attempt_sign_in('wrong-password') }
+        end.not_to have_enqueued_mail(SecurityMailer, :account_locked)
+      end
+    end
+
+    it 'notifies again for a new lock cycle after the dedupe window' do
+      Devise.maximum_attempts.times { attempt_sign_in('wrong-password') }
+
+      travel_to(25.hours.from_now) do
+        expect do
+          Devise.maximum_attempts.times { attempt_sign_in('wrong-password') }
+        end.to have_enqueued_mail(SecurityMailer, :account_locked).once
+      end
+    end
   end
 
   describe 'ip abuse blocking' do

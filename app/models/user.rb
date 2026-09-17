@@ -217,7 +217,20 @@ class User < ApplicationRecord
     super
   end
 
+  def lock_access!(opts = {})
+    super
+    notify_account_locked
+  end
+
   private
+
+  def notify_account_locked
+    key = format(Redis::RedisKeys::AUTH_LOCK_NOTIFIED, user_id: id)
+    return if Redis::Alfred.get(key).present?
+
+    SecurityMailer.account_locked(self).deliver_later
+    Redis::Alfred.set(key, 1, nx: true, ex: 24.hours.to_i)
+  end
 
   def sync_user_sessions
     active_client_ids = (tokens || {}).keys
