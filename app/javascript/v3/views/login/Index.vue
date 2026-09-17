@@ -19,6 +19,7 @@ import Spinner from 'shared/components/Spinner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import MfaVerification from 'dashboard/components/auth/MfaVerification.vue';
+import MfaEnforcedSetup from 'dashboard/components/auth/MfaEnforcedSetup.vue';
 import SessionLimitOverlay from 'dashboard/components/auth/SessionLimitOverlay.vue';
 
 const ERROR_MESSAGES = {
@@ -40,6 +41,7 @@ export default {
     NextButton,
     SimpleDivider,
     MfaVerification,
+    MfaEnforcedSetup,
     SessionLimitOverlay,
     Icon,
   },
@@ -73,6 +75,10 @@ export default {
       error: '',
       mfaRequired: false,
       mfaToken: null,
+      mfaSetupRequired: false,
+      mfaSetupToken: null,
+      mfaProvisioningUrl: null,
+      mfaSecret: null,
       sessionsLimitReached: false,
       limitedSessions: [],
     };
@@ -194,6 +200,16 @@ export default {
             return;
           }
 
+          // Check if the account enforces MFA and setup is pending
+          if (result?.mfaSetupRequired) {
+            this.loginApi.showLoading = false;
+            this.mfaSetupRequired = true;
+            this.mfaSetupToken = result.mfaSetupToken;
+            this.mfaProvisioningUrl = result.provisioningUrl;
+            this.mfaSecret = result.secret;
+            return;
+          }
+
           // Check if sessions limit reached
           if (result?.sessionsLimitReached) {
             this.loginApi.showLoading = false;
@@ -243,6 +259,17 @@ export default {
       // User cancelled MFA, reset state
       this.mfaRequired = false;
       this.mfaToken = null;
+      this.credentials.password = '';
+    },
+    handleMfaSetupVerified() {
+      this.handleImpersonation();
+      window.location = '/app';
+    },
+    handleMfaSetupCancel() {
+      this.mfaSetupRequired = false;
+      this.mfaSetupToken = null;
+      this.mfaProvisioningUrl = null;
+      this.mfaSecret = null;
       this.credentials.password = '';
     },
     retryLoginWithParams(extraParams) {
@@ -337,6 +364,17 @@ export default {
         :mfa-token="mfaToken"
         @verified="handleMfaVerified"
         @cancel="handleMfaCancel"
+      />
+    </section>
+
+    <!-- Enforced MFA Setup Section -->
+    <section v-else-if="mfaSetupRequired" class="mt-11">
+      <MfaEnforcedSetup
+        :mfa-setup-token="mfaSetupToken"
+        :provisioning-url="mfaProvisioningUrl"
+        :secret="mfaSecret"
+        @verified="handleMfaSetupVerified"
+        @cancel="handleMfaSetupCancel"
       />
     </section>
 
