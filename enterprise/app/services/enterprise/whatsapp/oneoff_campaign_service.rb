@@ -1,11 +1,6 @@
 module Enterprise::Whatsapp::OneoffCampaignService
   private
 
-  def prepare_batch(contacts)
-    super
-    contacts.each { |contact| recipient_for(contact) }
-  end
-
   def process_contacts(contacts)
     contacts.each do |contact|
       recipient = recipient_for(contact)

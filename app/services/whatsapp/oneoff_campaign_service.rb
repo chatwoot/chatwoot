@@ -5,19 +5,14 @@ class Whatsapp::OneoffCampaignService
 
   def perform
     validate_campaign!
-    campaign.with_lock do
-      audience_contacts.in_batches(of: BATCH_SIZE) do |contacts|
-        prepare_batch(contacts)
-      end
-      campaign.completed! unless campaign.campaign_batches.exists?
-    end
-    first_batch = campaign.campaign_batches.order(:id).first
-    Campaigns::SendWhatsappBatchJob.perform_later(first_batch) if first_batch
+    Campaigns::SendWhatsappBatchJob.perform_later(campaign)
   end
 
-  def perform_batch(contact_ids)
+  def perform_batch(cursor)
     validate_campaign!
-    process_contacts(campaign.account.contacts.where(id: contact_ids))
+    contacts = audience_contacts.where('contacts.id > ?', cursor).order(:id).limit(BATCH_SIZE).to_a
+    process_contacts(contacts)
+    contacts.last.id if contacts.size == BATCH_SIZE
   end
 
   private
@@ -75,10 +70,6 @@ class Whatsapp::OneoffCampaignService
     return if processed_template_params.nil?
 
     send_whatsapp_template_message(to: recipient, template_params: processed_template_params)
-  end
-
-  def prepare_batch(contacts)
-    campaign.campaign_batches.create!(contact_ids: contacts.pluck(:id))
   end
 
   def audience_contacts

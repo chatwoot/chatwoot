@@ -1,20 +1,12 @@
 class Campaigns::SendWhatsappBatchJob < ApplicationJob
   queue_as :low
 
-  def perform(batch)
-    campaign = batch.campaign
+  def perform(campaign, cursor = 0)
     return if campaign.completed?
 
-    batch.with_lock do
-      unless batch.processed_at?
-        Whatsapp::OneoffCampaignService.new(campaign: campaign).perform_batch(batch.contact_ids)
-        batch.update!(processed_at: Time.current)
-      end
-    end
-
-    next_batch = campaign.campaign_batches.where(processed_at: nil).order(:id).first
-    if next_batch
-      self.class.perform_later(next_batch)
+    next_cursor = Whatsapp::OneoffCampaignService.new(campaign: campaign).perform_batch(cursor)
+    if next_cursor
+      self.class.perform_later(campaign, next_cursor)
     else
       campaign.with_lock { campaign.completed! unless campaign.completed? }
     end

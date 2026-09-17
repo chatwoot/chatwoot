@@ -12,65 +12,59 @@ RSpec.describe Campaigns::SendWhatsappBatchJob do
     stub_const('Whatsapp::OneoffCampaignService::BATCH_SIZE', 2)
   end
 
-  it 'saves the audience in bounded batches and enqueues only the first' do
-    contacts = create_list(:contact, 3, account: account)
-    contacts.each { |contact| contact.update_labels([label.title]) }
-
-    expect { campaign.trigger! }.to have_enqueued_job(described_class).exactly(:once)
-    expect(campaign.campaign_batches.order(:id).pluck(:contact_ids)).to eq([contacts.first(2).map(&:id), [contacts.last.id]])
+  it 'enqueues only the first job and prevents a second campaign trigger' do
+    expect { campaign.trigger! }.to have_enqueued_job(described_class).with(campaign).exactly(:once)
     expect(campaign.reload).to be_processing
-    expect { campaign.trigger! }.not_to change(CampaignBatch, :count)
-  end
-
-  it 'completes an empty campaign without scheduling a send' do
     expect { campaign.trigger! }.not_to have_enqueued_job(described_class)
+  end
+
+  it 'completes an empty campaign' do
+    campaign.processing!
+    described_class.perform_now(campaign)
     expect(campaign.reload).to be_completed
   end
 
-  it 'sends the saved audience and completes only after the last batch' do
+  it 'sends bounded batches using the last contact ID and completes after the last batch' do
     contacts = create_list(:contact, 3, account: account)
     contacts.each { |contact| contact.update_labels([label.title]) }
-    campaign.trigger!
-    first_batch, last_batch = campaign.campaign_batches.order(:id).to_a
-    contacts.each { |contact| contact.update_labels([]) }
-    allow(Whatsapp::OneoffCampaignService).to receive(:new).with(campaign: campaign).and_return(sender)
+    campaign.processing!
+    service = Whatsapp::OneoffCampaignService.new(campaign: campaign)
+    allow(Whatsapp::OneoffCampaignService).to receive(:new).and_return(service)
+    expect(service).to receive(:process_contacts).with(contacts.first(2))
 
-    expect(sender).to receive(:perform_batch).with(first_batch.contact_ids).once
-    expect { described_class.perform_now(first_batch) }.to have_enqueued_job(described_class).with(last_batch)
-    expect(first_batch.reload.processed_at).to be_present
+    expect { described_class.perform_now(campaign) }.to have_enqueued_job(described_class).with(campaign, contacts.second.id)
     expect(campaign.reload).to be_processing
 
-    expect(sender).to receive(:perform_batch).with(last_batch.contact_ids).once
-    described_class.perform_now(last_batch)
+    expect(service).to receive(:process_contacts).with([contacts.last])
+    described_class.perform_now(campaign, contacts.second.id)
     expect(campaign.reload).to be_completed
-    expect(campaign.completed_at).to be_present
   end
 
-  it 'does not resend a completed batch when its job is repeated' do
+  it 'uses current label membership for subsequent batches' do
+    contacts = create_list(:contact, 3, account: account)
+    contacts.each { |contact| contact.update_labels([label.title]) }
+    contacts.last.update_labels([])
     campaign.processing!
-    batch = campaign.campaign_batches.create!(contact_ids: [1], processed_at: Time.current)
-    campaign.campaign_batches.create!(contact_ids: [2])
-    expect(Whatsapp::OneoffCampaignService).not_to receive(:new)
+    service = Whatsapp::OneoffCampaignService.new(campaign: campaign)
+    allow(Whatsapp::OneoffCampaignService).to receive(:new).and_return(service)
+    expect(service).to receive(:process_contacts).with([])
 
-    expect { described_class.perform_now(batch) }.to have_enqueued_job(described_class)
-    expect(campaign.reload).to be_processing
+    described_class.perform_now(campaign, contacts.second.id)
+    expect(campaign.reload).to be_completed
   end
 
-  it 'does not mark a batch or campaign completed when processing raises' do
+  it 'leaves the campaign processing when sending raises' do
     campaign.processing!
-    batch = campaign.campaign_batches.create!(contact_ids: [1])
     allow(Whatsapp::OneoffCampaignService).to receive(:new).and_return(sender)
     allow(sender).to receive(:perform_batch).and_raise(StandardError, 'interrupted')
 
-    expect { described_class.perform_now(batch) }.to raise_error(StandardError, 'interrupted')
-    expect(batch.reload.processed_at).to be_nil
+    expect { described_class.perform_now(campaign) }.to raise_error(StandardError, 'interrupted')
     expect(campaign.reload).to be_processing
   end
 
   it 'ignores jobs for completed campaigns' do
-    batch = campaign.campaign_batches.create!(contact_ids: [1])
     campaign.completed!
     expect(Whatsapp::OneoffCampaignService).not_to receive(:new)
-    described_class.perform_now(batch)
+    described_class.perform_now(campaign)
   end
 end

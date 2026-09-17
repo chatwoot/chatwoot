@@ -51,7 +51,6 @@ class Campaign < ApplicationRecord
   # TODO : enabled attribute is unneccessary . lets move that to the campaign status with additional statuses like draft, disabled etc.
   enum campaign_status: { active: 0, completed: 1, processing: 2 }
 
-  has_many :campaign_batches, dependent: :delete_all
   has_many :conversations, dependent: :nullify, autosave: true
 
   before_validation :ensure_correct_campaign_attributes
