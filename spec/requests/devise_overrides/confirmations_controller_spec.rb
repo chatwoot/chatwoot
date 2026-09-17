@@ -34,5 +34,22 @@ RSpec.describe 'Confirmations API', type: :request do
         expect(user.reload.confirmed?).to be true
       end
     end
+
+    context 'when the user is already enrolled in MFA' do
+      before do
+        skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+        user.enable_two_factor!
+        user.update!(otp_required_for_login: true)
+      end
+
+      it 'confirms the user but withholds session tokens' do
+        confirm_user(user)
+
+        expect(response).to have_http_status(:success)
+        expect(response.headers['access-token']).to be_nil
+        expect(response.parsed_body['redirect_url']).to eq('/app/login')
+        expect(user.reload.confirmed?).to be true
+      end
+    end
   end
 end

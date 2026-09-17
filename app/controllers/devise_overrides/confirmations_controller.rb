@@ -14,7 +14,7 @@ class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
   private
 
   def render_confirmation_success
-    return render_mfa_setup_sign_in_required if @confirmable.mfa_enforcement_pending?
+    return render_mfa_sign_in_required if mfa_sign_in_required?(@confirmable)
 
     send_auth_headers(@confirmable)
     render partial: 'devise/auth', formats: [:json], locals: { resource: @confirmable }

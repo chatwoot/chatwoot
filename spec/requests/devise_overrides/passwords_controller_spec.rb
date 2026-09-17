@@ -39,14 +39,16 @@ RSpec.describe 'Passwords API', type: :request do
         expect(user.reload.valid_password?('NewPassword1!')).to be true
       end
 
-      it 'still issues tokens for enrolled users' do
+      it 'withholds tokens for enrolled users so reset cannot bypass their otp' do
         user.enable_two_factor!
         user.update!(otp_required_for_login: true)
 
         reset_password(reset_token_for(user))
 
         expect(response).to have_http_status(:success)
-        expect(response.headers['access-token']).to be_present
+        expect(response.headers['access-token']).to be_nil
+        expect(response.parsed_body['redirect_url']).to eq('/app/login')
+        expect(user.reload.valid_password?('NewPassword1!')).to be true
       end
     end
   end

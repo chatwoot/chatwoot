@@ -79,11 +79,16 @@ module MfaAuthenticationHelper
     render json: { error: I18n.t(message_key) }, status: status
   end
 
-  # Used by flows that would otherwise mint a session outside sign-in
-  # (password reset, email confirmation) for users pending MFA enrolment.
-  def render_mfa_setup_sign_in_required
+  # Password reset and email confirmation must not mint a session for users
+  # whose second factor has not been presented: neither enrolled users (the
+  # session would bypass their OTP) nor users pending enforced enrolment.
+  def mfa_sign_in_required?(user)
+    user.mfa_enabled? || user.mfa_enforcement_pending?
+  end
+
+  def render_mfa_sign_in_required
     render json: {
-      message: I18n.t('messages.mfa_setup_sign_in_required'),
+      message: I18n.t('messages.mfa_sign_in_required'),
       redirect_url: '/app/login'
     }, status: :ok
   end
