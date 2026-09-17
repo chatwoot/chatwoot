@@ -10,6 +10,17 @@ RSpec.describe 'MFA API', type: :request do
   let(:user) { create(:user, account: account, password: 'Test@123456') }
 
   describe 'GET /api/v1/profile/mfa' do
+    context 'with api access token authentication' do
+      it 'rejects mfa management via access token' do
+        post '/api/v1/profile/mfa',
+             headers: { api_access_token: user.access_token.token },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(user.reload.otp_secret).to be_nil
+      end
+    end
+
     context 'when 2FA is disabled' do
       it 'returns MFA disabled status' do
         get '/api/v1/profile/mfa',

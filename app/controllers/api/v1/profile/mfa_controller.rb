@@ -1,4 +1,5 @@
 class Api::V1::Profile::MfaController < Api::BaseController
+  before_action :ensure_interactive_session
   before_action :check_mfa_feature_available
   before_action :check_mfa_enabled, only: [:destroy, :backup_codes]
   before_action :check_mfa_disabled, only: [:create, :verify]
@@ -24,6 +25,14 @@ class Api::V1::Profile::MfaController < Api::BaseController
   end
 
   private
+
+  # MFA credentials must be managed from an interactive session, never with an
+  # api_access_token, so a stolen token cannot enrol itself as the second factor.
+  def ensure_interactive_session
+    return unless authenticate_by_access_token?
+
+    render json: { error: I18n.t('errors.mfa.interactive_session_required') }, status: :forbidden
+  end
 
   def mfa_service
     @mfa_service ||= Mfa::ManagementService.new(user: current_user)
