@@ -350,7 +350,7 @@
           "REVIEW": {
             "TITLE": "Crea tu bandeja de entrada de WhatsApp",
             "DESCRIPTION": "Revisa los detalles del número y elige un nombre para la bandeja de entrada.",
-            "VERIFIED": "Tu número meta y token de acceso son válidos.",
+            "VERIFIED": "Tu número de Meta y token de acceso son válidos.",
             "BUSINESS_NAME": "Nombre del negocio",
             "PHONE_NUMBER": "Número de teléfono",
             "PHONE_ID": "ID de número de teléfono",

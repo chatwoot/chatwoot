@@ -518,7 +518,7 @@
           "MEDIAN_RESOLUTION": {
             "LABEL": "Tiempo medio de resolución",
             "HINT": "El tiempo típico desde que una conversación llegó al Captain hasta que se resolvió.",
-            "NOTE": "Menor significa que los clientes generalmente se resolvieron antes."
+            "NOTE": "Un valor menor significa que las conversaciones de los clientes generalmente se resolvieron antes."
           },
           "DEPTH": {
             "LABEL": "Mensajes por conversación"
