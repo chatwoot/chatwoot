@@ -489,7 +489,7 @@ ru:
       popular_articles: Популярные статьи
       popular_articles_subtitle: Что другие люди читают прямо сейчас.
       recommended: Рекомендуемые статьи
-      recommended_subtitle: Заказной выбор статей для начала.
+      recommended_subtitle: Подобранные вручную статьи, которые помогут вам начать работу.
       popular_label: 'Популярные темы:'
       recommended_label: 'Рекомендованные темы:'
       authors_others: "%{names} и %{count} другие"

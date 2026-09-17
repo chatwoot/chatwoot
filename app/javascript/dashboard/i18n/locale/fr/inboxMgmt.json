@@ -887,9 +887,9 @@
           "TOOLTIP": "La notation de qualité que Meta attribue à ce numéro de téléphone en fonction des signaux de messagerie récents"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Business messaging limit",
-          "TOOLTIP": "Number of unique customers your business can message outside the customer service window in a rolling 24-hour period",
-          "DESCRIPTION": "This limit is shared by all WhatsApp phone numbers in the business portfolio."
+          "LABEL": "Limite de messagerie de l’entreprise",
+          "TOOLTIP": "Nombre de clients uniques auxquels votre entreprise peut envoyer des messages en dehors de la fenêtre de service client sur une période glissante de 24 heures",
+          "DESCRIPTION": "Cette limite est partagée par tous les numéros de téléphone WhatsApp du portefeuille d’entreprise."
         },
         "ACCOUNT_MODE": {
           "LABEL": "Mode de compte",

@@ -465,7 +465,7 @@
       "EMPTY": "Pas encore d'importations",
       "EMPTY_DESCRIPTION": "Commencez une importation pour intégrer votre historique de clients existant dans ce compte.",
       "NEW_IMPORT": "Importer",
-      "COUNT": "Importations {count}",
+      "COUNT": "{count} importation | {count} importations",
       "UNNAMED": "Importation sans titre",
       "IMPORTED_COUNT": "{count} importé",
       "VIEW": "Voir l'import",
