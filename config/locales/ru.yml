@@ -125,7 +125,7 @@ ru:
         unique: Должны быть уникальными в категории и портале
     dyte:
       invalid_message_type: 'Недопустимый тип сообщения. Действие запрещено'
-      realtimekit_credentials_required: 'Необходимы учетные данные Cloudflare RealtimeKit. Удалите существующую интеграцию Dyte и создайте ее снова в Cloudflare RealtimeKit.'
+      realtimekit_credentials_required: 'Необходимы учетные данные Cloudflare RealtimeKit. Удалите существующую интеграцию Dyte и создайте ее заново, используя учетные данные Cloudflare RealtimeKit.'
     cloudflare:
       realtimekit:
         invalid_credentials: 'Некорректные учетные данные Cloudflare RealtimeKit. Проверьте права доступа к аккаунту, идентификатору приложения RealtimeKit и идентификатору API.'

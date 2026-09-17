@@ -218,7 +218,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Type de message",
       "PRIVATE_NOTE": "Note privée",
-      "MESSAGE_CONTAINS": "Message Content",
+      "MESSAGE_CONTAINS": "Contenu du message",
       "EMAIL": "Courriel",
       "INBOX": "Boîte de réception",
       "CONVERSATION_LANGUAGE": "Langue de la conversation",

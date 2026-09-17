@@ -1321,8 +1321,8 @@
         "TITLE": "Supprimer les FAQ sélectionnées ?",
         "DESCRIPTION": "Êtes-vous sûr de vouloir supprimer les FAQ sélectionnées ? Cette action ne peut pas être annulée.",
         "CONFIRM": "Oui, supprimer tout",
-        "SUCCESS_MESSAGE": "FAQ supprimée avec succès",
-        "ERROR_MESSAGE": "Une erreur s'est produite lors de la suppression de la FAQ, veuillez réessayer."
+        "SUCCESS_MESSAGE": "FAQ supprimées avec succès",
+        "ERROR_MESSAGE": "Une erreur s'est produite lors de la suppression des FAQ, veuillez réessayer."
       },
       "DELETE": {
         "TITLE": "Êtes-vous sûr de vouloir supprimer la FAQ ?",
