@@ -195,8 +195,12 @@ class User < ApplicationRecord
     Chatwoot.mfa_enabled?
   end
 
+  def mfa_enforced?
+    mfa_feature_available? && accounts.any?(&:enforce_mfa?)
+  end
+
   def mfa_enforcement_pending?
-    mfa_feature_available? && !mfa_enabled? && accounts.any?(&:enforce_mfa?)
+    !mfa_enabled? && mfa_enforced?
   end
 
   # Workaround for Devise 4.9.x race condition vulnerability (GHSA-57hq-95w6-v4fc).

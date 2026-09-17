@@ -162,6 +162,44 @@ RSpec.describe 'MFA API', type: :request do
   end
 
   describe 'DELETE /api/v1/profile/mfa' do
+    context 'when the account enforces MFA' do
+      before do
+        account.update!(enforce_mfa: true)
+        user.enable_two_factor!
+        user.update!(otp_required_for_login: true)
+        user.generate_backup_codes!
+      end
+
+      it 'refuses to disable 2FA even with valid credentials' do
+        delete '/api/v1/profile/mfa',
+               params: { password: 'Test@123456', otp_code: user.current_otp },
+               headers: user.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.mfa.enforced_cannot_disable'))
+        expect(user.reload.otp_required_for_login).to be_truthy
+      end
+
+      it 'still allows regenerating backup codes' do
+        post '/api/v1/profile/mfa/backup_codes',
+             params: { otp_code: user.current_otp },
+             headers: user.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['backup_codes'].length).to eq(10)
+      end
+
+      it 'exposes the enforced flag on show' do
+        get '/api/v1/profile/mfa',
+            headers: user.create_new_auth_token,
+            as: :json
+
+        expect(response.parsed_body['enforced']).to be(true)
+      end
+    end
+
     context 'when 2FA is enabled' do
       before do
         user.enable_two_factor!

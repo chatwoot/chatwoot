@@ -47,7 +47,9 @@
       "REGENERATE": "Regenerate Backup Codes",
       "DISABLE_MFA": "Disable 2FA",
       "DISABLE_MFA_DESC": "Remove two-factor authentication from your account",
-      "DISABLE_BUTTON": "Disable Two-Factor Authentication"
+      "DISABLE_BUTTON": "Disable Two-Factor Authentication",
+      "ENFORCED_TITLE": "Required by your account",
+      "ENFORCED_NOTE": "Your account requires two-factor authentication, so it cannot be disabled here. Contact your administrator if you need help."
     },
     "LOW_BACKUP_CODES": {
       "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",

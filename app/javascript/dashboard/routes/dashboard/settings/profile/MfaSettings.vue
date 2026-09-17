@@ -18,6 +18,7 @@ const route = useRoute();
 
 // State
 const mfaEnabled = ref(false);
+const mfaEnforced = ref(false);
 const backupCodesGenerated = ref(false);
 const showSetup = ref(false);
 const provisioningUri = ref('');
@@ -46,6 +47,7 @@ onMounted(async () => {
   try {
     const response = await mfaAPI.get();
     mfaEnabled.value = response.data.enabled;
+    mfaEnforced.value = response.data.enforced;
     backupCodesGenerated.value = response.data.backup_codes_generated;
   } catch (error) {
     // Handle error silently
@@ -173,6 +175,7 @@ const regenerateBackupCodes = async ({ otpCode }) => {
       <MfaManagementActions
         ref="managementActionsRef"
         :mfa-enabled="mfaEnabled"
+        :mfa-enforced="mfaEnforced"
         :backup-codes="backupCodes"
         @disable-mfa="disableMfa"
         @regenerate-backup-codes="regenerateBackupCodes"

@@ -217,6 +217,7 @@ en:
       setup_required: Your account requires two-factor authentication. Set it up to continue signing in.
       enrollment_required: This account requires two-factor authentication. Set it up in your profile settings to restore API access.
       interactive_session_required: Two-factor authentication settings cannot be managed with an API access token. Sign in to the dashboard instead.
+      enforced_cannot_disable: Two-factor authentication is required by your account and cannot be disabled.
     billing:
       invalid_currency: Invalid billing currency
       currency_locked: Billing currency cannot be changed after billing has been set up
