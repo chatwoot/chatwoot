@@ -16,6 +16,7 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
     reset_password_token = Devise.token_generator.digest(self, :reset_password_token, original_token)
     @recoverable = User.find_by(reset_password_token: reset_password_token)
     if @recoverable && reset_password_and_confirmation(@recoverable)
+      @recoverable.unlock_access! if @recoverable.access_locked?
       send_auth_headers(@recoverable)
       render partial: 'devise/auth', formats: [:json], locals: { resource: @recoverable }
     else
