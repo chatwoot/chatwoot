@@ -197,6 +197,7 @@ Rails.application.routes.draw do
 
           resources :search, only: [:index] do
             collection do
+              get :counts
               get :conversations
               get :messages
               get :contacts

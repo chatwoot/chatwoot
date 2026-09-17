@@ -5,6 +5,7 @@ RSpec.describe 'Search', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
 
   before do
+    account.enable_features!('help_center')
     contact = create(:contact, email: 'test@example.com', account: account)
     conversation = create(:conversation, account: account, contact_id: contact.id)
     create(:message, conversation: conversation, account: account, content: 'test1')

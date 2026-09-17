@@ -50,7 +50,7 @@ describe('#getters', () => {
     const state = {
       uiFlags: {
         isFetching: false,
-        isSearchCompleted: true,
+        isFetchingCounts: false,
         contact: { isFetching: true },
         message: { isFetching: false },
         conversation: { isFetching: false },
@@ -59,7 +59,7 @@ describe('#getters', () => {
     };
     expect(getters.getUIFlags(state)).toEqual({
       isFetching: false,
-      isSearchCompleted: true,
+      isFetchingCounts: false,
       contact: { isFetching: true },
       message: { isFetching: false },
       conversation: { isFetching: false },
