@@ -121,6 +121,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   def handle_mfa_verification
     user = Mfa::TokenService.new(token: params[:mfa_token]).verify_token
     return render_mfa_error('errors.mfa.invalid_token', :unauthorized) unless user
+    return render_create_error_account_locked if user.access_locked?
 
     authenticated = Mfa::AuthenticationService.new(
       user: user,
@@ -128,9 +129,21 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
       backup_code: params[:backup_code]
     ).authenticate
 
-    return render_mfa_error('errors.mfa.invalid_code') unless authenticated
+    unless authenticated
+      register_failed_mfa_attempt(user)
+      return render_mfa_error('errors.mfa.invalid_code')
+    end
 
+    user.unlock_access! if user.locked_at.present?
     sign_in_mfa_user(user)
+  end
+
+  def register_failed_mfa_attempt(user)
+    # An actively locked user is rejected above, so a present locked_at here means
+    # the lock expired: clear it first so one wrong code cannot relock a stale counter.
+    user.unlock_access! if user.locked_at.present?
+    user.increment_failed_attempts
+    user.lock_access! if user.failed_attempts >= Devise.maximum_attempts
   end
 
   def sign_in_mfa_user(user)

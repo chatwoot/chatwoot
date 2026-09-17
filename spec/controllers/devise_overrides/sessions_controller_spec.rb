@@ -127,6 +127,48 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
           expect(response).to have_http_status(:bad_request)
           expect(response.parsed_body['error']).to eq(I18n.t('errors.mfa.invalid_code'))
         end
+
+        it 'rejects mfa verification for a locked account' do
+          user.lock_access!
+
+          post :create, params: { mfa_token: mfa_token, otp_code: user.current_otp }
+
+          expect(response).to have_http_status(:unauthorized)
+          expect(response.parsed_body['error_code']).to eq('account_locked')
+        end
+
+        it 'counts wrong otp codes toward the lockout threshold' do
+          expect do
+            post :create, params: { mfa_token: mfa_token, otp_code: '000000' }
+          end.to change { user.reload.failed_attempts }.by(1)
+        end
+
+        it 'locks the account when wrong otp codes exhaust the threshold' do
+          user.update!(failed_attempts: Devise.maximum_attempts - 1)
+
+          post :create, params: { mfa_token: mfa_token, otp_code: '000000' }
+
+          expect(user.reload.access_locked?).to be true
+        end
+
+        it 'does not immediately relock an expired lock on one wrong otp' do
+          user.update!(failed_attempts: Devise.maximum_attempts, locked_at: (Devise.unlock_in + 1.hour).ago)
+
+          post :create, params: { mfa_token: mfa_token, otp_code: '000000' }
+
+          expect(user.reload.access_locked?).to be false
+          expect(user.failed_attempts).to eq(1)
+        end
+
+        it 'resets the counter and clears a stale lock on successful mfa sign-in' do
+          user.update!(failed_attempts: 5, locked_at: (Devise.unlock_in + 1.hour).ago)
+
+          post :create, params: { mfa_token: mfa_token, otp_code: user.current_otp }
+
+          expect(response).to have_http_status(:success)
+          expect(user.reload.failed_attempts).to eq(0)
+          expect(user.locked_at).to be_nil
+        end
       end
     end
 
