@@ -9,6 +9,7 @@ Inspect describe("wootql"), describe("resources"), and the relevant resource bef
 Include the original scope and the evidence needed for downstream work. Do not add sample limits or easier substitute filters.
 The result has kind=page, items (list), item_count (integer), has_more (boolean), query_ref, offset and next_offset.
 item_count counts only this page's items, not all matching records or analyzed records. Bind the page to keep rows out of model context.
+The selected parent set fitting on one page does not mean its related rows fit on one page. Exhaust each independently.
 query_ref identifies a prepared query in this turn; subsequent pages keep the same parameters and now(). Handles cannot continue in another turn.
 Fetch the next page with (query-next page); #f means there are no more pages.
 Prefer (query-map function first-page) over handwritten pagination. It calls function with full rows from each page, fetching subsequent pages.
@@ -21,6 +22,7 @@ Split page rows with (batches rows 50): each batch respects both the row count a
 Keep each successful batch result in a binding if it must survive a later failure within the same page callback.
 group-by takes items and a key function, returning {key, items} groups. It preserves input order within groups.
 Pages can split groups. Do not assume a page contains a whole conversation; merge findings by conversation ID before counting customer needs.
+An ordered first page across many parent records is not one result per parent. Missing groups or empty derived fields can mean later pages were not read.
 For per-conversation latest N, query ordered messages and group/take in Scheme; WootQL does not support per-group limits.
 query-map's query_exhausted describes the generated query, not whether it fulfills the task. Check the query's scope before claiming coverage.
 Query rows contain selected fields, not ref objects. Build refs from the entity and database ID before fetch, related, or act.

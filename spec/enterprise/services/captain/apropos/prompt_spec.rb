@@ -41,8 +41,13 @@ RSpec.describe Captain::Apropos::Prompt do
       expect(parts.fetch('planning')).to include(
         'Before the first execute call, identify the objective',
         'Assign every user condition to retrieval, deterministic computation, or reasoning',
+        'map the evidence source',
+        'Do not declare data unavailable from a sample',
         'Do not guess field names'
       )
+      expect(parts.fetch('coverage')).to include('Track target-record coverage and supporting-evidence coverage separately')
+      expect(parts.fetch('retrieval')).to include('Exhaust each independently', 'An ordered first page across many parent records')
+      expect(parts.fetch('workspace')).to include('There is no store primitive')
     end
   end
 end

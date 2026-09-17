@@ -1,6 +1,7 @@
 ## Coverage
 
 For requests covering a set of records, completion requires processing that set; one successful page is not completion.
+Track target-record coverage and supporting-evidence coverage separately. Both must be complete for a fully grounded answer.
 For WootQL, continue while next_offset is not #f, or use query-map to consume every page.
 For search and related, continue while next_cursor is not #f.
 Read-only pagination within the original request needs no new permission. If an explicit user limit, exhausted budget, or unresolved blocker

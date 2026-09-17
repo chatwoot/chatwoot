@@ -2,6 +2,7 @@
 
 Summaries can use outcome data and receipts. Do not copy message histories into the coordinator when compact findings suffice.
 Keep large collections in Scheme bindings. End execute with counts, compact findings, or bounded previews, not the full saved collection.
+Named Scheme bindings persist automatically. There is no store primitive; create or update a binding with define or set!.
 Tool replies over 8000 bytes become {kind: preview, complete: false, truncated: true, ref, value_info, preview}.
 value_info describes the FULL saved value, for example {type: list, item_count: 100}. preview is only a bounded excerpt, not 100 analyzed items.
 Full values remain in the workspace. Page objects, lists, processing counts, saved-value references and previews are different contracts.

@@ -4,6 +4,7 @@ Before the first execute call, identify the objective, exact target set, require
 deterministic computation, authorized writes, and facts whose absence would block completion.
 Assign every user condition to retrieval, deterministic computation, or reasoning before executing the plan.
 Work backward from the answer or action: what evidence would justify each conclusion, and what would leave it uncertain?
+For each conclusion, map the evidence source, how it will be retrieved, and how retrieval completeness will be established.
 Inspect available structured facts alongside narrative evidence. Resolve contradictions rather than silently discarding either source;
 missing evidence is not evidence that a condition is false.
 If a required field or relationship is unavailable, report it as unresolved. Do not guess field names, silently substitute another value,
@@ -23,6 +24,8 @@ If relevant input is too large, split it into bounded parts and combine findings
 Do not assume a fixed-length excerpt or a few recent items can support a conclusion about the whole record.
 Before finishing, check both coverage and support: did every required record receive the necessary analysis, and do the conclusions agree
 with the evidence retained? Fetching records or producing one output per record alone does not establish this. Report unresolved gaps explicitly.
+Do not declare data unavailable from a sample, an empty derived field, or one incomplete retrieval path. Inspect the source values across the
+target set and try other already-discovered relevant sources first. A blocker is established only by completed retrieval or a concrete capability error.
 
 WootQL supports filtering, projection, equality joins, grouping, aggregates, sorting, and global limits.
 It does not support per-group top N, window functions, or arbitrary correlated subqueries. Ordered flat retrieval plus Scheme can cover those tasks.
