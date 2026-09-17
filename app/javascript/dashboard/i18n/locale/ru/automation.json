@@ -143,7 +143,8 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Введите сообщение",
       "TEAM_DROPDOWN_PLACEHOLDER": "Выберите команды",
       "EMAIL_INPUT_PLACEHOLDER": "Введите адрес электронной почты",
-      "URL_INPUT_PLACEHOLDER": "Введите URL-адрес"
+      "URL_INPUT_PLACEHOLDER": "Введите URL-адрес",
+      "INSERT_CONTACT_EMAIL": "Use contact's email"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Включить правило автоматизации",
@@ -217,7 +218,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Тип сообщения",
       "PRIVATE_NOTE": "Личная заметка",
-      "MESSAGE_CONTAINS": "Сообщение содержит",
+      "MESSAGE_CONTAINS": "Message Content",
       "EMAIL": "Email",
       "INBOX": "Источник",
       "CONVERSATION_LANGUAGE": "Язык диалога",

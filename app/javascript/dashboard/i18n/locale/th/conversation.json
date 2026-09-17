@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "กรุณาเลือกการสนทนาจากด้านซ้าย",
     "CSAT_REPLY_MESSAGE": "กรุณาให้คะแนนการสนทนาในครั้งนี้",
     "404": "ขออภัย ไม่พบข้อมูลการสนทนาของท่าน โปรดลองใหม่อีกครั้ง",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "ลบข้อความสำเร็จเเล้ว",
     "FAIL_DELETE_MESSSAGE": "ไม่สามารถลบข้อความได้ โปรดลองใหม่อีกครั้ง",
     "NO_RESPONSE": "ไม่มีการตอบกลับ",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "พนักงาน",
       "TEAMS": "ทีม"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "คำอธิบาย",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Search emojis",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "ทั้งหมด"
+        },
+        "AVAILABILITY": "สถานะ",
+        "ROLE": "ประเภทของพนักงาน",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "เปิด",
+        "DISABLED": "ปิด",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "พักการสนทนาจนถึง",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} other",
     "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
     "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",
     "API": {
