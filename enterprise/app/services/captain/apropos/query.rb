@@ -10,10 +10,6 @@ class Captain::Apropos::Query
     @instrument = instrument
   end
 
-  def install(scheme)
-    scheme.register('query-run') { |source, parameters = {}, offset = 0| run(source, parameters, offset) }
-  end
-
   def run(source, parameters = {}, offset = 0, debug: false)
     validate_offset!(offset)
     @budget[:queries] += 1

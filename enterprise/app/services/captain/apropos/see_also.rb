@@ -3,7 +3,7 @@ module Captain::Apropos::SeeAlso
   # and shallow so discovery opens useful paths without recursively loading contracts.
   LINKS = {
     'search' => {
-      'query-data' => 'Joins, aggregates, rankings, or retrieval described in natural language.',
+      'query-run' => 'Use WootQL for joins, aggregates, rankings, or bulk retrieval.',
       'related' => 'Follow a declared relationship from a record already identified.'
     },
     'fetch' => {
@@ -11,15 +11,13 @@ module Captain::Apropos::SeeAlso
       'search' => 'Find records when their references are not yet known.'
     },
     'related' => {
-      'query-data' => 'Retrieve or aggregate across multiple records instead of traversing each separately.',
+      'query-run' => 'Retrieve or aggregate across multiple records instead of traversing each separately.',
       'resources' => 'Inspect available resources and their relationships.'
     },
-    'query-data' => {
-      'query-run' => 'Execute a known WootQL query with parameters, without another model call.',
-      'query-map' => 'Process every result page with a Scheme function.'
-    },
     'query-run' => {
-      'query-data' => 'A query specialist can translate a retrieval request into WootQL.',
+      'wootql' => 'Inspect the query language and its stage contracts.',
+      'resources' => 'Inspect fields and relationships before writing a query.',
+      'query-map' => 'Process every result page with a Scheme function.',
       'collections' => 'Transform retrieved rows locally, including sequence processing beyond WootQL.'
     },
     'agents' => {

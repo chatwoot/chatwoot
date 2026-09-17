@@ -8,15 +8,14 @@ class Captain::Apropos::Catalog
                      'Semantic search of approved Captain FAQs. Optional assistant ID; omit for this account. Inspect contract for costs and scope.'],
     'assignment-context' => ['(assignment-context (hash "type" "inboxes" "id" 10) 0)',
                              'Read assignment policies, availability, and inbox capacity. Inspect the full contract before assigning.'],
-    'query-data' => ['(query-data "Get incoming customer messages for all open conversations")',
-                     'Read-only query specialist. Returns source, result_ref, count, offset, next_cursor, query_exhausted, preview. 200 rows/page.'],
-    'query-next' => ['(query-next "workspace-cursor-reference")',
-                     'Fetch the next page without an LLM call. Same envelope as query-data; next_cursor is #f at end. Recall result_ref for rows.'],
-    'query-map' => ['(query-map function first-page)',
-                    'Calls function with each nonempty page; follows query-next. Returns result_refs, counts, progress_ref, query_exhausted. ' \
-                    'On error, inspect saved progress (page, page_processed, result_refs) and receipts; callbacks are never automatically retried.'],
     'query-run' => ['(query-run "conversations | summarize count() by contact_id | sort count desc | take $n" (hash "n" 5) 0)',
-                    'Execute WootQL, not SQL. Optional parameter hash and offset. Returns {items, next_offset}; 200 rows/page, #f at end.'],
+                    'Execute WootQL, not SQL. Returns items, next_offset, source, parameters, and offset. 200 rows/page; next_offset is #f at end.'],
+    'query-next' => ['(query-next page)',
+                     'Fetch the next page of a query-run/query-next result. Returns another page or #f when the query is exhausted.'],
+    'query-map' => ['(query-map function first-page)',
+                    'Calls function with the items from every nonempty page; follows query-next. ' \
+                    'Returns result_refs, counts, progress_ref, query_exhausted. ' \
+                    'On error, inspect saved progress (page, page_processed, result_refs) and receipts; callbacks are never automatically retried.'],
     'wootql' => ['resource | where | project | join | summarize | sort | take',
                  'Read-only WootQL. Inspect member syntax. 32 stages/32 KB, 8 joins, 5s/query, 100 queries/turn including workers.'],
     'resources' => [ENTITIES.keys.join(', '), 'Available query resources. Inspect members for fields and relationships, or describe one resource.'],

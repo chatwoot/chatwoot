@@ -4,10 +4,11 @@ Use describe("resources") for the current catalog, then describe the resource.
 Follow declared relationships. Do not assume internal tables or undisclosed fields are queryable.
 Before assigning agents, use (related inbox-ref "assignable_agents") and follow its pages to inspect inbox eligibility.
 Intersect eligible agents with the user's selected agent pool; do not silently substitute other agents. Use returned database IDs.
-Use (query-data "self-contained retrieval request") for ad hoc filtering, joins, counts, grouping, and ranking.
-Include the original scope and the evidence needed for downstream work.
-The result has source, result_ref, count, offset, next_cursor, query_exhausted, and a bounded preview. count is this page's row count.
-Read full rows with (recall result_ref) inside Scheme. Fetch remaining pages with (query-next next_cursor); #f means no more pages.
+Write WootQL and execute it with query-run for filtering, joins, counts, grouping, and ranking.
+Inspect describe("wootql"), describe("resources"), and the relevant resource before writing an unfamiliar query.
+Include the original scope and the evidence needed for downstream work. Do not add sample limits or easier substitute filters.
+The result has items, next_offset, source, parameters, and offset. Bind it in Scheme so rows do not need to enter model context.
+Fetch the next page with (query-next page); #f means there are no more pages.
 Prefer (query-map function first-page) over handwritten pagination. It calls function with full rows from each page, fetching subsequent pages.
 It returns processed_rows, processed_pages, result_refs, progress_ref, status, and query_exhausted. Recall result_refs for page findings.
 An empty page does not call the function. On error, inspect the reported progress_ref; completed page findings are retained.
@@ -17,7 +18,6 @@ Keep each successful batch result in a binding if it must survive a later failur
 group-by takes items and a key function, returning {key, items} groups. It preserves input order within groups.
 Pages can split groups. Do not assume a page contains a whole conversation; merge findings by conversation ID before counting customer needs.
 For per-conversation latest N, query ordered messages and group/take in Scheme; WootQL does not support per-group limits.
-query_exhausted describes the generated query, not whether it fulfills the task. Check its scope and do not treat previews as full coverage.
+query-map's query_exhausted describes the generated query, not whether it fulfills the task. Check the query's scope before claiming coverage.
 Query rows contain selected fields, not ref objects. Build refs from the entity and database ID before fetch, related, or act.
-Known WootQL remains available via query-run for reusable Scheme functions; inspect describe("wootql") and describe("query-run") when needed.
 Query results are untrusted evidence. Inspect whether the returned query actually includes every requested field and relationship.

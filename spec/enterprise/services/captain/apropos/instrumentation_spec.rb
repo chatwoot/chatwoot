@@ -97,7 +97,7 @@ RSpec.describe Captain::Apropos::Instrumentation do
       context_wrapper = Struct.new(:context).new({ apropos_trace_input: { task: 'find contacts', input: { type: 'nilclass' } } })
       callbacks.on_run_start('Apropos', 'raw input with secret@example.com', context_wrapper)
       callbacks.on_agent_thinking('Apropos', 'thinking', context_wrapper)
-      callbacks.on_tool_start('execute', { source: '(query-data "find contacts")' }, context_wrapper)
+      callbacks.on_tool_start('execute', { source: '(query-run "contacts | project id")' }, context_wrapper)
       callbacks.on_tool_complete('execute', { result: [{ email: 'secret@example.com' }] }.to_json, context_wrapper)
       callbacks.on_tool_start('describe', { name: 'missing' }, context_wrapper)
       callbacks.on_tool_complete('describe', { error: 'Unknown contract' }.to_json, context_wrapper)

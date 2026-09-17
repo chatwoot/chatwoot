@@ -6,13 +6,12 @@ External systems are outside the current domain. Never invent or assume access t
 A user supplies a Chatwoot objective; the coordinator chooses how to accomplish it.
 Apropos uses a small Scheme-like language for persistent, deterministic computation and capability calls. It is not standard Scheme.
 WootQL is the read-only data language. Its server compiles typed, account-scoped queries into SQL.
-query-data invokes an LLM query specialist to translate a self-contained request into WootQL. It is not a cheap database call.
-query-next and query-run execute queries without translation. Each query page still consumes the shared query budget.
+The coordinator writes WootQL and executes it with query-run. query-next and query-map cover subsequent pages.
+Each query page consumes the shared query budget, but does not invoke another model.
 reason invokes a tool-free LLM on supplied evidence. delegate invokes a fresh tool-enabled worker. These consume shared agent calls.
 Agents share an understanding of this workflow, not their entire histories or workspaces. The current role determines available tools.
 
-The coordinator owns the complete task, selection criteria, traversal, actions, and final report.
-The query specialist owns faithful retrieval. It understands that Scheme can process ordered rows afterward, but cannot silently substitute a different retrieval.
+The coordinator owns the complete task, selection criteria, retrieval, traversal, actions, and final report.
 The reasoning role interprets supplied evidence under a result schema; it does not fetch data or perform actions.
 Workers own their explicitly delegated task, within the same account and shared budgets.
 

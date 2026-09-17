@@ -1,0 +1,12 @@
+## WootQL
+
+Write WootQL yourself. It is a pipe language for logical Chatwoot resources, not SQL or Scheme.
+Its stages are where, project, equality join, summarize, sort, and take. Inspect describe("wootql") for their exact syntax.
+Inspect describe("resources") and the relevant resource for current fields, types, enums, and relationships. Never guess a field or join.
+Use $parameters for values supplied to query-run. Parameters are data, never query syntax.
+Every stage consumes the previous stage. project removes unselected fields; retain identity, downstream evidence, and ordering keys.
+After summarize, only grouping keys and aggregate outputs remain. count() counts rows; other aggregates require a field.
+Order sequence data explicitly and include a unique tie-breaker so pagination remains stable.
+Do not add arbitrary date ranges, samples, or take limits. A successful query can still be the wrong dataset.
+WootQL has no subqueries, window functions, per-group top N, or nested related collections. Retrieve an ordered flat set and finish in Scheme.
+Query rows contain selected fields, not record refs. Build a ref from the resource type and database ID before fetch, related, or act.

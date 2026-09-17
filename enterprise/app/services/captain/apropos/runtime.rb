@@ -22,7 +22,6 @@ class Captain::Apropos::Runtime
     @query = Captain::Apropos::Query.new(data: @data, budget: @budget, instrument: method(:instrument_query_stage))
     @actions = Captain::Apropos::Actions.new(account: account, user: user, data: @data, record: method(:record))
     install_functions
-    @query.install(scheme)
     Captain::Apropos::FaqSearch.new(data: @data, account: account, consume: method(:consume_agent_call!)).install(scheme)
   end
 
@@ -119,8 +118,8 @@ class Captain::Apropos::Runtime
   end
 
   def install_agent_functions
-    scheme.register('query-data') { |instruction| query_data(instruction) }
-    scheme.register('query-next') { |reference| query_next(reference) }
+    scheme.register('query-run') { |source, parameters = {}, offset = 0| query_run(source, parameters, offset) }
+    scheme.register('query-next') { |page| query_next(page) }
     scheme.register('query-map') { |function, page| query_map(function, page) }
     scheme.register('reason') { |data, task, schema| reason(data, task, schema) }
     scheme.register('delegate') { |data, task, schema| delegate(data, task, schema) }
