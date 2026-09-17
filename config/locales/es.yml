@@ -633,7 +633,7 @@ es:
         installation_override: 'Configuración de instalación'
         default: 'Predeterminado'
       features:
-        conversation_completion: 'Evaluador de finalización de conversación inactivo'
+        conversation_completion: 'Evaluador de finalización de conversaciones inactivas'
         editor: 'Editor'
         assistant: 'Asistente'
         copilot: 'Copilot'

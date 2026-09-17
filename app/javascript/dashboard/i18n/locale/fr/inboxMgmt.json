@@ -944,10 +944,10 @@
           "BANNED": "Banni",
           "DISCONNECTED": "Déconnecté",
           "UNKNOWN": "Non disponible",
-          "PENDING_REVIEW": "Under review",
-          "AVAILABLE_WITHOUT_REVIEW": "Not reviewed yet",
-          "REJECTED": "Not approved",
-          "DECLINED": "Not approved",
+          "PENDING_REVIEW": "En cours d’examen",
+          "AVAILABLE_WITHOUT_REVIEW": "Pas encore examiné",
+          "REJECTED": "Non approuvé",
+          "DECLINED": "Non approuvé",
           "NON_EXISTS": "Inexistant"
         },
         "MODES": {

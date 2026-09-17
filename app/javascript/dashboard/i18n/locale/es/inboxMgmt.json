@@ -369,7 +369,7 @@
             "COPY": "Copiar",
             "COPY_SUCCESS": "La URL del webhook se copió al portapapeles",
             "COMPLETE": "Verificado",
-            "PENDING": "Pendientes",
+            "PENDING": "Pendiente",
             "SUCCESS": "Su número de WhatsApp está conectado y listo para la asignación de agentes.",
             "RETRY_SUCCESS": "Configuración de Webhook reintentada con éxito.",
             "RETRY_ERROR": "No se pudo volver a intentar la configuración del webhook. Inténtalo de nuevo."

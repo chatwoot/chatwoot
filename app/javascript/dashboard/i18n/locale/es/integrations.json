@@ -457,7 +457,7 @@
         "REOPEN": {
           "LABEL": "Reabrir tasa",
           "HINT": "La proporción de conversaciones resueltas por Captain a las que los clientes regresaron después.",
-          "NOTE": "Más bajo significa que se han quedado resueltas más resoluciones."
+          "NOTE": "Un valor más bajo significa que más conversaciones permanecieron resueltas."
         },
         "DEPTH": {
           "LABEL": "Mensajes / conversación",
@@ -531,9 +531,9 @@
             "HANDLED": "Manejado",
             "RESOLVED_BY_CAPTAIN": "Resuelto por Captain",
             "HANDED_OFF": "Transferidas",
-            "CLOSED_WITH_TEAM": "Cerrado con equipo",
-            "REOPENED": "Reabierto en 7d",
-            "STAYED_CLOSED": "Permanecido cerrado",
+            "CLOSED_WITH_TEAM": "Cerradas con el equipo",
+            "REOPENED": "Reabiertas en 7 días",
+            "STAYED_CLOSED": "Permanecieron cerradas",
             "OTHER_REASONS": "Otras razones"
           }
         },
