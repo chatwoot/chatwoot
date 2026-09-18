@@ -1,0 +1,12 @@
+<div class="field-unit__label">
+  <%= f.label field.attribute, for: "#{f.object_name}_#{field.permitted_attribute}" %>
+</div>
+<div class="field-unit__field">
+  <%= f.select(
+        field.permitted_attribute,
+        options_for_select(field.associated_resource_options, field.selected_option),
+        { include_blank: field.include_blank_option },
+        class: 'js-belongs-to-search-field',
+        data: { url: polymorphic_url([namespace, field.associated_class], format: :json) }
+      ) %>
+</div>
