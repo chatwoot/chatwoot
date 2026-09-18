@@ -80,5 +80,37 @@ describe ConversationBuilder do
         expect(conversation.id).to eq(existing_conversation.id)
       end
     end
+
+    context 'when allow_messages_after_resolved is enabled and lock_to_single_conversation is disabled' do
+      it 'reuses the last non-resolved conversation for the contact inbox' do
+        create(:conversation, contact_inbox: contact_sms_inbox, status: :resolved)
+        open_conversation = create(:conversation, contact_inbox: contact_sms_inbox, status: :open)
+
+        conversation = described_class.new(contact_inbox: contact_sms_inbox, params: {}).perform
+
+        expect(conversation.id).to eq(open_conversation.id)
+      end
+
+      it 'creates a new conversation when every existing conversation is resolved' do
+        create(:conversation, contact_inbox: contact_sms_inbox, status: :resolved)
+
+        conversation = described_class.new(contact_inbox: contact_sms_inbox, params: {}).perform
+
+        expect(conversation.status).to eq('open')
+        expect(conversation.contact_inbox_id).to eq(contact_sms_inbox.id)
+      end
+    end
+
+    context 'when allow_messages_after_resolved is disabled' do
+      before { sms_inbox.update!(allow_messages_after_resolved: false) }
+
+      it 'creates a new conversation even when a non-resolved conversation exists' do
+        existing = create(:conversation, contact_inbox: contact_sms_inbox, status: :open)
+
+        conversation = described_class.new(contact_inbox: contact_sms_inbox, params: {}).perform
+
+        expect(conversation.id).not_to eq(existing.id)
+      end
+    end
   end
 end
