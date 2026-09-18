@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 import { shallowMount } from '@vue/test-utils';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -8,6 +9,7 @@ import Page from '../WhatsAppCampaignAnalyticsPage.vue';
 
 vi.mock('dashboard/composables/useAccount');
 vi.mock('dashboard/composables/usePolicy');
+vi.mock('dashboard/composables/useConfig');
 vi.mock('dashboard/composables/store');
 vi.mock('vue-router', () => ({ useRouter: vi.fn() }));
 vi.mock('../WhatsAppCampaignAnalyticsContent.vue', () => ({
@@ -16,11 +18,15 @@ vi.mock('../WhatsAppCampaignAnalyticsContent.vue', () => ({
 
 describe('campaign analytics paywall', () => {
   let showPaywall;
+  let featureEnabled;
   let push;
   beforeEach(() => {
     showPaywall = ref(true);
+    featureEnabled = ref(true);
+    useConfig.mockReturnValue({ isEnterprise: true });
     usePolicy.mockReturnValue({
       shouldShowPaywall: () => showPaywall.value,
+      isFeatureFlagEnabled: () => featureEnabled.value,
     });
     push = vi.fn();
     useRouter.mockReturnValue({ push });
@@ -68,5 +74,29 @@ describe('campaign analytics paywall', () => {
     expect(wrapper.findComponent({ name: 'BasePaywallModal' }).exists()).toBe(
       true
     );
+  });
+  it('does not mount analytics for a branded account whose feature is disabled', () => {
+    showPaywall.value = false;
+    featureEnabled.value = false;
+    const wrapper = shallowMount(Page);
+    expect(
+      wrapper
+        .findComponent({ name: 'WhatsAppCampaignAnalyticsContent' })
+        .exists()
+    ).toBe(false);
+    expect(wrapper.findComponent({ name: 'BasePaywallModal' }).exists()).toBe(
+      false
+    );
+  });
+
+  it('does not mount Enterprise analytics on Community', () => {
+    showPaywall.value = false;
+    useConfig.mockReturnValue({ isEnterprise: false });
+    const wrapper = shallowMount(Page);
+    expect(
+      wrapper
+        .findComponent({ name: 'WhatsAppCampaignAnalyticsContent' })
+        .exists()
+    ).toBe(false);
   });
 });

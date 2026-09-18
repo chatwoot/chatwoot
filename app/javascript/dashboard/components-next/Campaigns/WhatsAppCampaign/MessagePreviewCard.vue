@@ -34,6 +34,7 @@ const headerVariables = computed(() => props.processedParams.header ?? {});
         :template="template"
         :variables="bodyVariables"
         :header-variables="headerVariables"
+        :media-url="headerVariables.media_url ?? null"
         :platform="PLATFORMS.WHATSAPP"
         class="flex justify-center py-6"
       />

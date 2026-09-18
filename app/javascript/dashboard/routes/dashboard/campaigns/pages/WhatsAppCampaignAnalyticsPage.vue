@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -10,10 +11,17 @@ import WhatsAppCampaignAnalyticsContent from './WhatsAppCampaignAnalyticsContent
 
 const router = useRouter();
 const { accountScopedRoute, isOnChatwootCloud } = useAccount();
-const { shouldShowPaywall } = usePolicy();
+const { isEnterprise } = useConfig();
+const { shouldShowPaywall, isFeatureFlagEnabled } = usePolicy();
+const showPaywall = computed(() =>
+  shouldShowPaywall(FEATURE_FLAGS.CAMPAIGN_ANALYTICS)
+);
 const currentUser = useMapGetter('getCurrentUser');
 const canViewAnalytics = computed(
-  () => !shouldShowPaywall(FEATURE_FLAGS.CAMPAIGN_ANALYTICS)
+  () =>
+    isEnterprise &&
+    isFeatureFlagEnabled(FEATURE_FLAGS.CAMPAIGN_ANALYTICS) &&
+    !showPaywall.value
 );
 const isSuperAdmin = computed(() => currentUser.value.type === 'SuperAdmin');
 const paywallKey = computed(() =>
@@ -25,7 +33,10 @@ const openBilling = () =>
 
 <template>
   <WhatsAppCampaignAnalyticsContent v-if="canViewAnalytics" />
-  <div v-else class="grid place-content-center w-full h-full min-h-[28rem]">
+  <div
+    v-else-if="showPaywall"
+    class="grid place-content-center w-full h-full min-h-[28rem]"
+  >
     <BasePaywallModal
       feature-prefix="CAMPAIGN.WHATSAPP.ANALYTICS"
       :i18n-key="paywallKey"
