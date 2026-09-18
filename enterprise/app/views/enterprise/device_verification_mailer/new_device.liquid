@@ -10,7 +10,7 @@
 </tr>
 <tr>
   <td style="padding: 0 0 8px;">
-    <p style="margin: 0; font-size: 14px; line-height: 21px; color: #334155;">Hi {{recipient_name}},</p>
+    <p style="margin: 0; font-size: 14px; line-height: 21px; color: #334155;">Hi {{recipient_name | escape}},</p>
   </td>
 </tr>
 <tr>
@@ -25,19 +25,19 @@
       {% if browser_name %}
         <tr><td style="padding: 16px 18px;">
           <p style="margin: 0 0 4px; font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #64748B;">Browser</p>
-          <p style="margin: 0; font-size: 14px; line-height: 21px; font-weight: 600; color: #0F172A;">{{browser_name}}{% if platform_name %} on {{platform_name}}{% endif %}</p>
+          <p style="margin: 0; font-size: 14px; line-height: 21px; font-weight: 600; color: #0F172A;">{{browser_name | escape}}{% if platform_name %} on {{platform_name | escape}}{% endif %}</p>
         </td></tr>
       {% endif %}
       {% if ip %}
         <tr><td style="padding: 16px 18px;{% if browser_name %} border-top: 1px solid #E2E8F0;{% endif %}">
           <p style="margin: 0 0 4px; font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #64748B;">IP address</p>
-          <p style="margin: 0; font-size: 14px; line-height: 21px; font-weight: 600; color: #0F172A;">{{ip}}</p>
+          <p style="margin: 0; font-size: 14px; line-height: 21px; font-weight: 600; color: #0F172A;">{{ip | escape}}</p>
         </td></tr>
       {% endif %}
       {% if location %}
         <tr><td style="padding: 16px 18px;{% if browser_name or ip %} border-top: 1px solid #E2E8F0;{% endif %}">
           <p style="margin: 0 0 4px; font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #64748B;">Location</p>
-          <p style="margin: 0; font-size: 14px; line-height: 21px; font-weight: 600; color: #0F172A;">{{location}}</p>
+          <p style="margin: 0; font-size: 14px; line-height: 21px; font-weight: 600; color: #0F172A;">{{location | escape}}</p>
         </td></tr>
       {% endif %}
     </table>

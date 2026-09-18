@@ -40,6 +40,12 @@ RSpec.describe Enterprise::DeviceVerificationMailer do
       expect(mail.body.encoded).to include('Mumbai, India')
     end
 
+    it 'escapes request-derived device details so markup cannot be injected' do
+      meta[:browser_name] = '<a href="https://evil.test">Chatwoot Mobile</a>'
+      expect(mail.body.encoded).not_to include('<a href="https://evil.test">')
+      expect(mail.body.encoded).to include('&lt;a href')
+    end
+
     it 'labels itself as a security notification and explains why it was sent' do
       expect(mail.body.encoded).to include('security notification')
       expect(mail.body.encoded).to include('needs to be verified')
