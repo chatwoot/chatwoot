@@ -181,10 +181,36 @@ class Conversation < ApplicationRecord
   end
 
   def bot_handoff!(dispatch_event: true)
-    update(waiting_since: Time.current) if waiting_since.blank?
-    self.ai_assignee = nil
-    open!
-    dispatch_bot_handoff_event if dispatch_event
+    handed_off = self.class.transaction do
+      # Reload under lock instead of calling `with_lock`: conversation callbacks
+      # can leave derived persisted attributes dirty, which makes Rails reject
+      # `with_lock`. Reloading also guarantees the eligibility decision uses the
+      # database state that won the race, while preserving transient instance
+      # context such as Captain's activity reason for the callbacks below.
+      reload(lock: true)
+
+      # A bot can decide to hand off while a human is taking over the same
+      # conversation. The model is the shared boundary for every handoff path,
+      # so eligibility must be checked again while holding the row lock. Without
+      # this check, a stale Captain/tool execution can reopen an already handled
+      # conversation and emit a fresh CONVERSATION_BOT_HANDOFF event.
+      next false unless pending?
+
+      # Keep the existing two-save behavior: waiting_since records when the
+      # conversation started waiting, while clearing the AI assignee and opening
+      # the conversation happen together so legacy auto-assignment observes one
+      # coherent transition.
+      update!(waiting_since: Time.current) if waiting_since.blank?
+      self.ai_assignee = nil
+      open!
+      true
+    end
+
+    # Dispatch after the locking transaction. Callers that wrap the handoff in a
+    # larger transaction pass dispatch_event: false and emit after their outer
+    # commit. A stale/non-pending call returns false and emits no event.
+    dispatch_bot_handoff_event if handed_off && dispatch_event
+    handed_off
   end
 
   def dispatch_bot_handoff_event

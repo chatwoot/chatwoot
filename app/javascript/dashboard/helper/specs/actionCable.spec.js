@@ -50,7 +50,7 @@ describe('ActionCableConnector - Copilot Tests', () => {
   });
   describe('bot handoff alerts', () => {
     it.each([
-      ['human takeover', { type: 'user' }, false],
+      ['agent-authenticated bot handoff', { type: 'user' }, true],
       ['bot handoff', { type: 'agent_bot' }, true],
       ['Captain background handoff', undefined, true],
     ])('%s', (_, performer, shouldAlert) => {

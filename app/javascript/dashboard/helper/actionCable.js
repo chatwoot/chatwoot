@@ -136,8 +136,12 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onConversationBotHandoff = data => {
-    // A human taking over is already handling the conversation, so other agents don't need an alert.
-    if (data.performer?.type === 'user') return;
+    // The domain event is the source of truth: Conversation#bot_handoff! only
+    // emits it for an eligible pending bot conversation. Do not infer a human
+    // takeover from `performer`. That field comes from ambient request context,
+    // and valid bot handoffs such as usage-limit handling can run while an
+    // agent-authenticated API request has Current.user set to a human user.
+    // Human takeovers use assignment/status events and never emit this event.
 
     const key = `${data.account_id}:${data.id}`;
     if (data.status !== 'open') return;
