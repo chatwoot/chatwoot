@@ -8,12 +8,12 @@ RSpec.describe Enterprise::DeviceVerificationMailer do
   let(:meta) { { ip: '203.0.113.7', browser_name: 'Chrome', platform_name: 'macOS' } }
 
   describe '#verification_code' do
-    let(:mail) { described_class.verification_code(user, DeviceVerification.encrypt_code('123456'), meta).deliver_now }
+    let(:mail) { described_class.verification_code(user, DeviceVerification.encrypt_code('123456'), meta).message }
 
     it 'raises rather than silently no-opping when SMTP is not configured' do
       with_modified_env('SMTP_ADDRESS' => nil) do
         expect do
-          described_class.verification_code(user, DeviceVerification.encrypt_code('123456'), meta).deliver_now
+          described_class.verification_code(user, DeviceVerification.encrypt_code('123456'), meta).message
         end.to raise_error(/SMTP is not configured/)
       end
     end
@@ -63,7 +63,7 @@ RSpec.describe Enterprise::DeviceVerificationMailer do
   end
 
   describe '#new_device' do
-    let(:mail) { described_class.new_device(user, meta).deliver_now }
+    let(:mail) { described_class.new_device(user, meta).message }
 
     it 'notifies about the new device with a reset pointer and security footer' do
       expect(mail.to).to eq(['agent@example.com'])
