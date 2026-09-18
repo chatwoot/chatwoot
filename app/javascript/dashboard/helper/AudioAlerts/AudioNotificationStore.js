@@ -29,7 +29,11 @@ class AudioNotificationStore {
   };
 
   isMessageFromCurrentConversation = message => {
-    return this.store.getters.getSelectedChat?.id === message.conversation_id;
+    return this.isCurrentConversation(message.conversation_id);
+  };
+
+  isCurrentConversation = conversationId => {
+    return this.store.getters.getSelectedChat?.id === conversationId;
   };
 
   hasConversationPermission = user => {

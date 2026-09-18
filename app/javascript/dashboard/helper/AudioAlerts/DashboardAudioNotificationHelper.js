@@ -12,6 +12,7 @@ import {
 } from './AudioMessageHelper';
 import WindowVisibilityHelper from './WindowVisibilityHelper';
 import { useAlert } from 'dashboard/composables';
+import wootConstants from 'dashboard/constants/globals';
 
 const NOTIFICATION_TIME = 30000;
 const ALERT_DURATION = 10000;
@@ -206,6 +207,43 @@ export class DashboardAudioNotificationHelper {
       if (this.notificationConfig.playAlertOnlyWhenHidden) {
         return;
       }
+    }
+
+    this.playAudioAlert();
+    showBadgeOnFavicon();
+    this.playAudioEvery30Seconds();
+  };
+
+  /**
+   * Alerts the agent when a conversation is assigned to them without a new
+   * message being sent (auto-assignment, a teammate or an automation rule).
+   * Reuses the "assigned" audio preference and the hidden-window setting so
+   * no additional configuration is required.
+   *
+   * @param {Object} conversation - `assignee.changed` payload (conversation push data)
+   */
+  onConversationAssigned = conversation => {
+    if (!this.currentUser) return;
+    if (!this.store.hasConversationPermission(this.currentUser)) return;
+
+    const assigneeId = conversation?.meta?.assignee?.id;
+    if (!assigneeId || assigneeId !== this.currentUser.id) return;
+
+    if (conversation.status === wootConstants.STATUS_TYPE.PENDING) return;
+
+    const { audioAlertType } = this.notificationConfig;
+    if (audioAlertType.includes('none')) return;
+    if (
+      !audioAlertType.includes('all') &&
+      !audioAlertType.includes(EVENT_TYPES.ASSIGNED) &&
+      !audioAlertType.includes('mine')
+    ) {
+      return;
+    }
+
+    if (WindowVisibilityHelper.isWindowVisible()) {
+      if (this.store.isCurrentConversation(conversation.id)) return;
+      if (this.notificationConfig.playAlertOnlyWhenHidden) return;
     }
 
     this.playAudioAlert();
