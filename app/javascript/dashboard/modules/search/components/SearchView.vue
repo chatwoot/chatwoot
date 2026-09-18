@@ -3,6 +3,8 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useRouter, useRoute } from 'vue-router';
 import { useTrack } from 'dashboard/composables';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
+import { SEARCH_ENTITIES, PREVIEW_PER_PAGE } from '../constants';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useI18n } from 'vue-i18n';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
@@ -14,6 +16,7 @@ import {
   PORTAL_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
 import { usePolicy } from 'dashboard/composables/usePolicy';
+import { getUserPermissions } from 'dashboard/helper/permissionsHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
@@ -34,12 +37,15 @@ const { t } = useI18n();
 
 const selectedTab = ref(route.params.tab || 'all');
 const query = ref(route.query.q || '');
-const pages = ref({
-  contacts: 1,
-  conversations: 1,
-  messages: 1,
-  articles: 1,
-});
+const isSelectedTabAll = computed(() => selectedTab.value === 'all');
+
+const currentUser = useMapGetter('getCurrentUser');
+const searchState = useMapGetter('conversationSearch/getSearchState');
+const countRequest = useAbortableRequest();
+const resultRequests = Object.fromEntries(
+  SEARCH_ENTITIES.map(type => [type, useAbortableRequest()])
+);
+const searchStarted = ref(false);
 
 const contactRecords = useMapGetter('conversationSearch/getContactRecords');
 const conversationRecords = useMapGetter(
@@ -49,8 +55,14 @@ const messageRecords = useMapGetter('conversationSearch/getMessageRecords');
 const articleRecords = useMapGetter('conversationSearch/getArticleRecords');
 const uiFlags = useMapGetter('conversationSearch/getUIFlags');
 
-const addTypeToRecords = (records, type) =>
-  records.value.map(item => ({ ...useCamelCase(item, { deep: true }), type }));
+const addTypeToRecords = (records, type) => {
+  const entity = `${type}s`;
+  const items =
+    isSelectedTabAll.value && !searchState.value.pages[entity]
+      ? searchState.value.previews[entity] || []
+      : records.value;
+  return items.map(item => ({ ...useCamelCase(item, { deep: true }), type }));
+};
 
 const mappedContacts = computed(() =>
   addTypeToRecords(contactRecords, 'contact')
@@ -65,15 +77,13 @@ const mappedArticles = computed(() =>
   addTypeToRecords(articleRecords, 'article')
 );
 
-const isSelectedTabAll = computed(() => selectedTab.value === 'all');
-
 const searchResultSectionClass = computed(() => ({
   'mt-4': isSelectedTabAll.value,
   'mt-0.5': !isSelectedTabAll.value,
 }));
 
 const sliceRecordsIfAllTab = items =>
-  isSelectedTabAll.value ? items.value.slice(0, 5) : items.value;
+  isSelectedTabAll.value ? items.value.slice(0, PREVIEW_PER_PAGE) : items.value;
 
 const contacts = computed(() => sliceRecordsIfAllTab(mappedContacts));
 const conversations = computed(() => sliceRecordsIfAllTab(mappedConversations));
@@ -89,6 +99,17 @@ const filterMessages = filterByTab('messages');
 const filterArticles = filterByTab('articles');
 
 const { shouldShow, isFeatureFlagEnabled } = usePolicy();
+const countBackendMismatch = computed(() =>
+  Boolean(
+    searchState.value.messageBackend &&
+      searchState.value.countBackend &&
+      searchState.value.messageBackend !== searchState.value.countBackend
+  )
+);
+const entityCount = type =>
+  type === 'messages' && countBackendMismatch.value
+    ? null
+    : (searchState.value.totals[type] ?? null);
 
 const TABS_CONFIG = {
   all: {
@@ -102,20 +123,20 @@ const TABS_CONFIG = {
   },
   contacts: {
     permissions: [...ROLES, CONTACT_PERMISSIONS],
-    count: () => mappedContacts.value.length,
+    count: () => entityCount('contacts'),
   },
   conversations: {
     permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
-    count: () => mappedConversations.value.length,
+    count: () => entityCount('conversations'),
   },
   messages: {
     permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
-    count: () => mappedMessages.value.length,
+    count: () => entityCount('messages'),
   },
   articles: {
     permissions: [...ROLES, PORTAL_PERMISSIONS],
     featureFlag: FEATURE_FLAGS.HELP_CENTER,
-    count: () => mappedArticles.value.length,
+    count: () => entityCount('articles'),
   },
 };
 
@@ -142,104 +163,72 @@ const tabs = computed(() => {
     });
 });
 
-const totalSearchResultsCount = computed(() => {
-  const permissionCounts = [
-    {
-      permissions: [...ROLES, CONTACT_PERMISSIONS],
-      count: () => contacts.value.length,
-    },
-    {
-      permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
-      count: () => conversations.value.length + messages.value.length,
-    },
-    {
-      permissions: [...ROLES, PORTAL_PERMISSIONS],
-      featureFlag: FEATURE_FLAGS.HELP_CENTER,
-      count: () => articles.value.length,
-    },
-  ];
-
-  return permissionCounts
-    .filter(config => {
-      // why the double check, glad you asked.
-      // Some features are marked as premium features, that means
-      // the feature will be visible, but a Paywall will be shown instead
-      // this works for pages and routes, but fails for UI elements like search here
-      // so we explicitly check if the feature is enabled
-      return (
-        shouldShow(config.featureFlag, config.permissions, null) &&
-        isFeatureFlagEnabled(config.featureFlag)
-      );
-    })
-    .map(config => {
-      return config.count();
-    })
-    .reduce((sum, count) => sum + count, 0);
-});
+const totalSearchResultsCount = computed(
+  () =>
+    contacts.value.length +
+    conversations.value.length +
+    messages.value.length +
+    articles.value.length
+);
 
 const activeTabIndex = computed(() => {
   const index = tabs.value.findIndex(tab => tab.key === selectedTab.value);
   return index >= 0 ? index : 0;
 });
 
-const isFetchingAny = computed(() => {
-  const { contact, message, conversation, article, isFetching } = uiFlags.value;
-  return (
-    isFetching ||
-    contact.isFetching ||
-    message.isFetching ||
-    conversation.isFetching ||
-    article.isFetching
-  );
-});
-
+const visibleEntities = computed(() =>
+  tabs.value.map(tab => tab.key).filter(key => key !== 'all')
+);
+const focusedEntities = computed(() =>
+  visibleEntities.value.filter(
+    type => isSelectedTabAll.value || type === selectedTab.value
+  )
+);
+const isFetchingAny = computed(() =>
+  focusedEntities.value.some(
+    type => uiFlags.value[type.slice(0, -1)].isFetching
+  )
+);
+const hasResultError = computed(() =>
+  focusedEntities.value.some(type => uiFlags.value[type.slice(0, -1)].hasError)
+);
 const showEmptySearchResults = computed(
   () =>
-    totalSearchResultsCount.value === 0 &&
-    uiFlags.value.isSearchCompleted &&
+    searchStarted.value &&
+    query.value &&
     isSelectedTabAll.value &&
     !isFetchingAny.value &&
-    query.value
+    !hasResultError.value &&
+    totalSearchResultsCount.value === 0
 );
-
 const showResultsSection = computed(
-  () =>
-    (uiFlags.value.isSearchCompleted && totalSearchResultsCount.value !== 0) ||
-    isFetchingAny.value ||
-    (!isSelectedTabAll.value && query.value && !isFetchingAny.value)
+  () => searchStarted.value && query.value && !showEmptySearchResults.value
 );
-
-const showLoadMore = computed(() => {
-  if (!query.value || isFetchingAny.value || selectedTab.value === 'all')
-    return false;
-
-  const records = {
-    contacts: mappedContacts.value,
-    conversations: mappedConversations.value,
-    messages: mappedMessages.value,
-    articles: mappedArticles.value,
-  }[selectedTab.value];
-
-  // hasMore comes from the raw API page size; stored record counts shrink
-  // when overlapping pages are deduped, so they cannot signal more pages
-  const hasMore = {
-    contacts: uiFlags.value.contact.hasMore,
-    conversations: uiFlags.value.conversation.hasMore,
-    messages: uiFlags.value.message.hasMore,
-    articles: uiFlags.value.article.hasMore,
-  }[selectedTab.value];
-
-  return records?.length > 0 && Boolean(hasMore);
-});
-
-const showViewMore = computed(() => ({
-  // Hide view more button if the number of records is less than 5
-  contacts: mappedContacts.value?.length > 5 && isSelectedTabAll.value,
-  conversations:
-    mappedConversations.value?.length > 5 && isSelectedTabAll.value,
-  messages: mappedMessages.value?.length > 5 && isSelectedTabAll.value,
-  articles: mappedArticles.value?.length > 5 && isSelectedTabAll.value,
-}));
+const showLoadMore = computed(
+  () =>
+    !isSelectedTabAll.value &&
+    query.value &&
+    !isFetchingAny.value &&
+    searchState.value.pages[selectedTab.value] &&
+    uiFlags.value[selectedTab.value.slice(0, -1)].hasMore
+);
+const showViewMore = computed(() =>
+  Object.fromEntries(
+    visibleEntities.value.map(type => {
+      const count = entityCount(type);
+      const records = searchState.value.pages[type]
+        ? searchState.value[`${type.slice(0, -1)}Records`]
+        : searchState.value.previews[type] || [];
+      return [
+        type,
+        isSelectedTabAll.value &&
+          (count === null
+            ? records.length >= PREVIEW_PER_PAGE
+            : count > PREVIEW_PER_PAGE),
+      ];
+    })
+  )
+);
 
 const filters = ref({
   from: null,
@@ -248,11 +237,13 @@ const filters = ref({
 });
 
 const clearSearchResult = () => {
-  pages.value = { contacts: 1, conversations: 1, messages: 1, articles: 1 };
+  countRequest.abort();
+  Object.values(resultRequests).forEach(request => request.abort());
+  searchStarted.value = false;
   store.dispatch('conversationSearch/clearSearchResults');
 };
 
-const buildSearchPayload = (basePayload = {}, searchType = 'message') => {
+const buildSearchPayload = (basePayload = {}, searchType = 'messages') => {
   const payload = { ...basePayload };
 
   // Only include filters if advanced search is enabled
@@ -266,7 +257,7 @@ const buildSearchPayload = (basePayload = {}, searchType = 'message') => {
     }
 
     // Only messages support 'from' and 'inboxId' filters
-    if (searchType === 'message') {
+    if (searchType === 'messages') {
       if (filters.value.from) payload.from = filters.value.from;
       if (filters.value.in) payload.inboxId = filters.value.in;
     }
@@ -292,15 +283,64 @@ const updateURL = () => {
   router.replace({ name: 'search', params, query: queryParams });
 };
 
-const onSearch = q => {
-  query.value = q;
-  clearSearchResult();
-  updateURL();
-  if (!q) return;
-  useTrack(CONVERSATION_EVENTS.SEARCH_CONVERSATION);
+const fetchCounts = () =>
+  countRequest.run(signal =>
+    store.dispatch('conversationSearch/fetchCounts', {
+      ...buildSearchPayload({ q: query.value, types: visibleEntities.value }),
+      signal,
+    })
+  );
 
-  const searchPayload = buildSearchPayload({ q, page: 1 });
-  store.dispatch('conversationSearch/fullSearch', searchPayload);
+const fetchResults = (type, page = 1) =>
+  resultRequests[type].run(signal =>
+    store.dispatch(`conversationSearch/${type.slice(0, -1)}Search`, {
+      ...buildSearchPayload(
+        {
+          q: query.value,
+          page,
+          ...(isSelectedTabAll.value && { perPage: PREVIEW_PER_PAGE }),
+        },
+        type
+      ),
+      signal,
+    })
+  );
+
+const fetchFocusedResults = () => {
+  Object.values(resultRequests).forEach(request => request.abort());
+  store.dispatch('conversationSearch/cancelResultRequests');
+  if (!query.value) return;
+  focusedEntities.value.forEach(type => {
+    const loaded =
+      searchState.value.pages[type] ||
+      (isSelectedTabAll.value &&
+        Object.hasOwn(searchState.value.previews, type));
+    if (!loaded) fetchResults(type);
+  });
+};
+
+const retryResults = () => {
+  focusedEntities.value.forEach(type => {
+    if (uiFlags.value[type.slice(0, -1)].hasError) {
+      fetchResults(
+        type,
+        isSelectedTabAll.value ? 1 : (searchState.value.pages[type] || 0) + 1
+      );
+    }
+  });
+};
+
+const onSearch = q => {
+  query.value = q.trim();
+  clearSearchResult();
+  if (!tabs.value.some(tab => tab.key === selectedTab.value))
+    selectedTab.value = 'all';
+  updateURL();
+  if (!query.value || !visibleEntities.value.length) return;
+  searchStarted.value = true;
+  useTrack(CONVERSATION_EVENTS.SEARCH_CONVERSATION);
+  fetchFocusedResults();
+  fetchCounts();
 };
 
 const onFilterChange = () => {
@@ -316,37 +356,21 @@ const onBack = () => {
   clearSearchResult();
 };
 
-const loadMore = async () => {
-  const SEARCH_ACTIONS = {
-    contacts: 'conversationSearch/contactSearch',
-    conversations: 'conversationSearch/conversationSearch',
-    messages: 'conversationSearch/messageSearch',
-    articles: 'conversationSearch/articleSearch',
-  };
-
-  if (uiFlags.value.isFetching || selectedTab.value === 'all') return;
-
-  const tab = selectedTab.value;
-  pages.value[tab] += 1;
-
-  const payload = buildSearchPayload(
-    { q: query.value, page: pages.value[tab] },
-    tab
+const loadMore = () => {
+  if (!showLoadMore.value) return;
+  fetchResults(
+    selectedTab.value,
+    searchState.value.pages[selectedTab.value] + 1
   );
-
-  const success = await store.dispatch(SEARCH_ACTIONS[tab], payload);
-  // Roll back on failure so a retry fetches the same page instead of
-  // skipping past the one that never loaded
-  if (!success) pages.value[tab] -= 1;
 };
 
 const onTabChange = tab => {
   selectedTab.value = tab;
   updateURL();
+  fetchFocusedResults();
 };
 
 onMounted(() => {
-  store.dispatch('conversationSearch/clearSearchResults');
   store.dispatch('agents/get');
 });
 
@@ -354,23 +378,27 @@ onMounted(() => {
 // derives from account.features (loaded async), and reading it too early strips
 // the filter params from the URL. `immediate` covers the already-loaded case.
 watch(
-  () => currentAccount.value?.id,
-  id => {
-    if (!id) return;
+  () =>
+    JSON.stringify([
+      currentAccount.value?.id,
+      getUserPermissions(currentUser.value, currentAccount.value?.id),
+      visibleEntities.value,
+      isFeatureFlagEnabled(FEATURE_FLAGS.ADVANCED_SEARCH),
+    ]),
+  () => {
+    if (!currentAccount.value?.id) return;
     filters.value = parseURLParams(
       route.query,
       isFeatureFlagEnabled(FEATURE_FLAGS.ADVANCED_SEARCH)
     );
-    if (route.query.q) {
-      onSearch(route.query.q);
-    }
+    onSearch(route.query.q || '');
   },
   { immediate: true }
 );
 
 onUnmounted(() => {
   query.value = '';
-  store.dispatch('conversationSearch/clearSearchResults');
+  clearSearchResult();
 });
 </script>
 
@@ -399,19 +427,48 @@ onUnmounted(() => {
             v-if="query"
             :tabs="tabs"
             :selected-tab="activeTabIndex"
+            :is-fetching-counts="uiFlags.isFetchingCounts"
             @tab-change="onTabChange"
           />
+          <div
+            v-if="query && (uiFlags.hasCountError || countBackendMismatch)"
+            class="flex items-center gap-2 text-sm text-n-slate-11 mb-2"
+          >
+            <span>{{ t('SEARCH.COUNTS_UNAVAILABLE') }}</span>
+            <NextButton
+              :label="t('SEARCH.RETRY')"
+              sm
+              link
+              :is-loading="uiFlags.isFetchingCounts"
+              @click="fetchCounts"
+            />
+          </div>
         </div>
       </div>
       <div class="flex-grow w-full h-full overflow-y-auto">
         <div class="w-full max-w-5xl mx-auto px-4 pb-6">
+          <div
+            v-if="hasResultError"
+            class="flex items-center gap-2 text-sm text-n-slate-11 py-3"
+          >
+            <span>{{ t('SEARCH.RESULTS_UNAVAILABLE') }}</span>
+            <NextButton
+              :label="t('SEARCH.RETRY')"
+              sm
+              link
+              @click="retryResults"
+            />
+          </div>
           <div v-if="showResultsSection">
             <Policy
               :permissions="[...ROLES, CONTACT_PERMISSIONS]"
               class="flex flex-col justify-center"
             >
               <SearchResultContactsList
-                v-if="filterContacts"
+                v-if="
+                  filterContacts &&
+                  (!uiFlags.contact.hasError || contacts.length)
+                "
                 :is-fetching="uiFlags.contact.isFetching"
                 :contacts="contacts"
                 :query="query"
@@ -425,7 +482,7 @@ onUnmounted(() => {
                 slate
                 sm
                 outline
-                @click="selectedTab = 'contacts'"
+                @click="onTabChange('contacts')"
               />
             </Policy>
 
@@ -434,7 +491,10 @@ onUnmounted(() => {
               class="flex flex-col justify-center"
             >
               <SearchResultMessagesList
-                v-if="filterMessages"
+                v-if="
+                  filterMessages &&
+                  (!uiFlags.message.hasError || messages.length)
+                "
                 :is-fetching="uiFlags.message.isFetching"
                 :messages="messages"
                 :query="query"
@@ -448,7 +508,7 @@ onUnmounted(() => {
                 slate
                 sm
                 outline
-                @click="selectedTab = 'messages'"
+                @click="onTabChange('messages')"
               />
             </Policy>
 
@@ -457,7 +517,10 @@ onUnmounted(() => {
               class="flex flex-col justify-center"
             >
               <SearchResultConversationsList
-                v-if="filterConversations"
+                v-if="
+                  filterConversations &&
+                  (!uiFlags.conversation.hasError || conversations.length)
+                "
                 :is-fetching="uiFlags.conversation.isFetching"
                 :conversations="conversations"
                 :query="query"
@@ -471,7 +534,7 @@ onUnmounted(() => {
                 slate
                 sm
                 outline
-                @click="selectedTab = 'conversations'"
+                @click="onTabChange('conversations')"
               />
             </Policy>
 
@@ -482,7 +545,10 @@ onUnmounted(() => {
               class="flex flex-col justify-center"
             >
               <SearchResultArticlesList
-                v-if="filterArticles"
+                v-if="
+                  filterArticles &&
+                  (!uiFlags.article.hasError || articles.length)
+                "
                 :is-fetching="uiFlags.article.isFetching"
                 :articles="articles"
                 :query="query"
@@ -496,7 +562,7 @@ onUnmounted(() => {
                 slate
                 sm
                 outline
-                @click="selectedTab = 'articles'"
+                @click="onTabChange('articles')"
               />
             </Policy>
 

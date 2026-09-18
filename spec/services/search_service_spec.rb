@@ -17,6 +17,7 @@ describe SearchService do
   end
 
   before do
+    account.enable_features!('help_center')
     create(:inbox_member, user: user, inbox: inbox)
     Current.account = account
   end

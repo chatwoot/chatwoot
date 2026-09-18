@@ -14,33 +14,49 @@ class SearchAPI extends ApiClient {
     });
   }
 
-  contacts({ q, page = 1, since, until }) {
+  counts({ q, types, since, until, from, inboxId }, { signal } = {}) {
+    return axios.get(`${this.url}/counts`, {
+      signal,
+      params: { q, types, since, until, from, inbox_id: inboxId },
+    });
+  }
+
+  contacts({ q, page = 1, perPage, since, until }, { signal } = {}) {
     return axios.get(`${this.url}/contacts`, {
+      ...(signal && { signal }),
       params: {
         q,
         page: page,
+        ...(perPage && { per_page: perPage }),
         since,
         until,
       },
     });
   }
 
-  conversations({ q, page = 1, since, until }) {
+  conversations({ q, page = 1, perPage, since, until }, { signal } = {}) {
     return axios.get(`${this.url}/conversations`, {
+      ...(signal && { signal }),
       params: {
         q,
         page: page,
+        ...(perPage && { per_page: perPage }),
         since,
         until,
       },
     });
   }
 
-  messages({ q, page = 1, since, until, from, inboxId }) {
+  messages(
+    { q, page = 1, perPage, since, until, from, inboxId },
+    { signal } = {}
+  ) {
     return axios.get(`${this.url}/messages`, {
+      ...(signal && { signal }),
       params: {
         q,
         page: page,
+        ...(perPage && { per_page: perPage }),
         since,
         until,
         from,
@@ -49,11 +65,13 @@ class SearchAPI extends ApiClient {
     });
   }
 
-  articles({ q, page = 1, since, until }) {
+  articles({ q, page = 1, perPage, since, until }, { signal } = {}) {
     return axios.get(`${this.url}/articles`, {
+      ...(signal && { signal }),
       params: {
         q,
         page: page,
+        ...(perPage && { per_page: perPage }),
         since,
         until,
       },

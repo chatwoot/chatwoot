@@ -20,30 +20,50 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#CONTACT_SEARCH_SET', () => {
+  describe('#SEARCH_RESULTS_RECEIVED (contacts)', () => {
     it('should append new contact records to existing ones', () => {
-      const state = { contactRecords: [{ id: 1 }] };
-      mutations[types.CONTACT_SEARCH_SET](state, [{ id: 2 }]);
+      const state = { pages: {}, contactRecords: [{ id: 1 }] };
+      mutations[types.SEARCH_RESULTS_RECEIVED](state, {
+        type: 'contacts',
+        records: [{ id: 2 }],
+        page: 2,
+        perPage: 15,
+      });
       expect(state.contactRecords).toEqual([{ id: 1 }, { id: 2 }]);
     });
 
     it('should not append records already present', () => {
-      const state = { contactRecords: [{ id: 1 }, { id: 2 }] };
-      mutations[types.CONTACT_SEARCH_SET](state, [{ id: 2 }, { id: 3 }]);
+      const state = { pages: {}, contactRecords: [{ id: 1 }, { id: 2 }] };
+      mutations[types.SEARCH_RESULTS_RECEIVED](state, {
+        type: 'contacts',
+        records: [{ id: 2 }, { id: 3 }],
+        page: 2,
+        perPage: 15,
+      });
       expect(state.contactRecords).toEqual([{ id: 1 }, { id: 2 }, { id: 3 }]);
     });
   });
 
-  describe('#CONVERSATION_SEARCH_SET', () => {
+  describe('#SEARCH_RESULTS_RECEIVED (conversations)', () => {
     it('should append new conversation records to existing ones', () => {
-      const state = { conversationRecords: [{ id: 1 }] };
-      mutations[types.CONVERSATION_SEARCH_SET](state, [{ id: 2 }]);
+      const state = { pages: {}, conversationRecords: [{ id: 1 }] };
+      mutations[types.SEARCH_RESULTS_RECEIVED](state, {
+        type: 'conversations',
+        records: [{ id: 2 }],
+        page: 2,
+        perPage: 15,
+      });
       expect(state.conversationRecords).toEqual([{ id: 1 }, { id: 2 }]);
     });
 
     it('should not append records already present', () => {
-      const state = { conversationRecords: [{ id: 1 }, { id: 2 }] };
-      mutations[types.CONVERSATION_SEARCH_SET](state, [{ id: 2 }, { id: 3 }]);
+      const state = { pages: {}, conversationRecords: [{ id: 1 }, { id: 2 }] };
+      mutations[types.SEARCH_RESULTS_RECEIVED](state, {
+        type: 'conversations',
+        records: [{ id: 2 }, { id: 3 }],
+        page: 2,
+        perPage: 15,
+      });
       expect(state.conversationRecords).toEqual([
         { id: 1 },
         { id: 2 },
@@ -52,16 +72,26 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#MESSAGE_SEARCH_SET', () => {
+  describe('#SEARCH_RESULTS_RECEIVED (messages)', () => {
     it('should append new message records to existing ones', () => {
-      const state = { messageRecords: [{ id: 1 }] };
-      mutations[types.MESSAGE_SEARCH_SET](state, [{ id: 2 }]);
+      const state = { pages: {}, messageRecords: [{ id: 1 }] };
+      mutations[types.SEARCH_RESULTS_RECEIVED](state, {
+        type: 'messages',
+        records: [{ id: 2 }],
+        page: 2,
+        perPage: 15,
+      });
       expect(state.messageRecords).toEqual([{ id: 1 }, { id: 2 }]);
     });
 
     it('should not append records already present', () => {
-      const state = { messageRecords: [{ id: 1 }, { id: 2 }] };
-      mutations[types.MESSAGE_SEARCH_SET](state, [{ id: 2 }, { id: 3 }]);
+      const state = { pages: {}, messageRecords: [{ id: 1 }, { id: 2 }] };
+      mutations[types.SEARCH_RESULTS_RECEIVED](state, {
+        type: 'messages',
+        records: [{ id: 2 }, { id: 3 }],
+        page: 2,
+        perPage: 15,
+      });
       expect(state.messageRecords).toEqual([{ id: 1 }, { id: 2 }, { id: 3 }]);
     });
   });
@@ -70,17 +100,17 @@ describe('#mutations', () => {
     it('set full search UI flags correctly', () => {
       const state = {
         uiFlags: {
-          isFetching: true,
-          isSearchCompleted: false,
+          isFetchingCounts: true,
+          hasCountError: false,
         },
       };
       mutations[types.FULL_SEARCH_SET_UI_FLAG](state, {
-        isFetching: false,
-        isSearchCompleted: true,
+        isFetchingCounts: false,
+        hasCountError: true,
       });
       expect(state.uiFlags).toEqual({
-        isFetching: false,
-        isSearchCompleted: true,
+        isFetchingCounts: false,
+        hasCountError: true,
       });
     });
   });
@@ -123,16 +153,26 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#ARTICLE_SEARCH_SET', () => {
+  describe('#SEARCH_RESULTS_RECEIVED (articles)', () => {
     it('should append new article records to existing ones', () => {
-      const state = { articleRecords: [{ id: 1 }] };
-      mutations[types.ARTICLE_SEARCH_SET](state, [{ id: 2 }]);
+      const state = { pages: {}, articleRecords: [{ id: 1 }] };
+      mutations[types.SEARCH_RESULTS_RECEIVED](state, {
+        type: 'articles',
+        records: [{ id: 2 }],
+        page: 2,
+        perPage: 15,
+      });
       expect(state.articleRecords).toEqual([{ id: 1 }, { id: 2 }]);
     });
 
     it('should not append records already present', () => {
-      const state = { articleRecords: [{ id: 1 }, { id: 2 }] };
-      mutations[types.ARTICLE_SEARCH_SET](state, [{ id: 2 }, { id: 3 }]);
+      const state = { pages: {}, articleRecords: [{ id: 1 }, { id: 2 }] };
+      mutations[types.SEARCH_RESULTS_RECEIVED](state, {
+        type: 'articles',
+        records: [{ id: 2 }, { id: 3 }],
+        page: 2,
+        perPage: 15,
+      });
       expect(state.articleRecords).toEqual([{ id: 1 }, { id: 2 }, { id: 3 }]);
     });
   });
