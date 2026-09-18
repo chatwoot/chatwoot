@@ -180,4 +180,29 @@ describe('WhatsAppCampaignFormPage', () => {
     expect(wrapper.vm.state.processedParams).toEqual({});
     wrapper.unmount();
   });
+  it.each([{ 1: 'Jamie' }, ['Jamie']])(
+    'hydrates legacy body parameters %j',
+    params => {
+      mocks.getters[
+        'campaigns/getWhatsAppCampaigns'
+      ].value[0].template_params.processed_params = params;
+      const wrapper = shallowMount(WhatsAppCampaignFormPage);
+      expect(wrapper.vm.state.processedParams).toEqual({
+        body: { 1: 'Jamie' },
+      });
+      expect(wrapper.vm.templatePayload.message).toBe('Hello Jamie');
+      expect(wrapper.vm.isSectionDirty('template')).toBe(false);
+      wrapper.unmount();
+    }
+  );
+
+  it('shows missing body inputs instead of treating them as complete', () => {
+    mocks.getters[
+      'campaigns/getWhatsAppCampaigns'
+    ].value[0].template_params.processed_params = {};
+    const wrapper = shallowMount(WhatsAppCampaignFormPage);
+    expect(wrapper.vm.state.processedParams).toEqual({ body: { 1: '' } });
+    expect(wrapper.vm.isTemplateComplete).toBe(false);
+    wrapper.unmount();
+  });
 });
