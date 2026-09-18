@@ -13,6 +13,7 @@ import {
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
+import getUuid from 'widget/helpers/uuid';
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
@@ -79,18 +80,19 @@ export const actions = {
   },
 
   sendAttachment: async ({ commit, state: conversationState }, params) => {
-    const {
-      attachment: { thumbUrl, fileType },
-      meta = {},
-    } = params;
-    const attachment = {
+    const { attachment: attachmentPayload, meta = {} } = params;
+    const attachmentItems = Array.isArray(attachmentPayload)
+      ? attachmentPayload
+      : [attachmentPayload];
+    const attachments = attachmentItems.map(({ thumbUrl, fileType }) => ({
+      id: getUuid(),
       thumb_url: thumbUrl,
       data_url: thumbUrl,
       file_type: fileType,
       status: 'in_progress',
-    };
+    }));
     const tempMessage = createTemporaryMessage({
-      attachments: [attachment],
+      attachments,
       replyTo: params.replyTo,
     });
     const { pendingCustomAttributes, pendingLabels } = conversationState;
