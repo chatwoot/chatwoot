@@ -140,7 +140,11 @@ export function useCampaignHistory() {
     isCampaignHistoryLoading: isPending,
     campaignHistoryError: hasError,
     hasMoreCampaignHistory: computed(
-      () => enabled.value && hasReachedConversationStart.value && hasMore.value
+      () =>
+        enabled.value &&
+        hasLoaded.value &&
+        hasReachedConversationStart.value &&
+        hasMore.value
     ),
     loadCampaignHistory,
   };
