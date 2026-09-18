@@ -18,4 +18,8 @@ class CustomAttributeDefinitionPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def reorder?
+    @account_user.administrator?
+  end
 end

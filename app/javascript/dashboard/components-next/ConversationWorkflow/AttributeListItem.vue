@@ -15,6 +15,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  draggable: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['edit', 'delete']);
@@ -38,6 +42,11 @@ const attributeIcon = computed(() => {
   <div class="flex flex-col py-4 min-w-0">
     <div class="flex justify-between flex-row items-center gap-4 min-w-0">
       <div class="flex items-center gap-4 min-w-0">
+        <Icon
+          v-if="draggable"
+          icon="i-woot-drag-indicator"
+          class="drag-handle size-4 text-n-slate-11 flex-shrink-0 cursor-move"
+        />
         <div
           class="flex items-center flex-shrink-0 size-10 justify-center rounded-xl outline outline-1 outline-n-weak -outline-offset-1"
         >
