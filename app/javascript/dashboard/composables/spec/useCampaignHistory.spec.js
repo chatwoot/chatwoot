@@ -2,6 +2,7 @@ import { effectScope, ref } from 'vue';
 import { flushPromises } from '@vue/test-utils';
 import ConversationApi from 'dashboard/api/conversations';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { useCampaignHistory } from '../useCampaignHistory';
@@ -11,6 +12,7 @@ vi.mock('dashboard/api/conversations', () => ({
 }));
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/composables/useAccount');
+vi.mock('dashboard/composables/useConfig');
 
 describe('useCampaignHistory retry', () => {
   let scope;
@@ -19,6 +21,7 @@ describe('useCampaignHistory retry', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    useConfig.mockReturnValue({ isEnterprise: true });
     chat = ref({
       id: 1,
       meta: { channel: INBOX_TYPES.WHATSAPP, sender: { id: 1 } },
@@ -112,5 +115,43 @@ describe('useCampaignHistory retry', () => {
       before: 20,
       signal: expect.any(AbortSignal),
     });
+  });
+  it('does not request the Enterprise-only endpoint on Community', async () => {
+    useConfig.mockReturnValue({ isEnterprise: false });
+    history = scope.run(() => useCampaignHistory());
+    await flushPromises();
+    expect(ConversationApi.getCampaignHistory).not.toHaveBeenCalled();
+    expect(history.hasMoreCampaignHistory.value).toBe(false);
+  });
+
+  it.each([INBOX_TYPES.WEB, INBOX_TYPES.EMAIL])(
+    'does not load history for %s',
+    async channel => {
+      chat.value.meta.channel = channel;
+      scope.run(() => useCampaignHistory());
+      await flushPromises();
+      expect(ConversationApi.getCampaignHistory).not.toHaveBeenCalled();
+    }
+  );
+
+  it('silently recovers a failed first load when another message arrives', async () => {
+    ConversationApi.getCampaignHistory.mockRejectedValueOnce(
+      new Error('Offline')
+    );
+    history = scope.run(() => useCampaignHistory());
+    await flushPromises();
+    expect(history.hasMoreCampaignHistory.value).toBe(false);
+    ConversationApi.getCampaignHistory.mockResolvedValueOnce({
+      data: {
+        payload: [{ id: 10, sent_at: 110, source_id: 'campaign-10' }],
+        meta: { next_before: null, first_message_id: 1 },
+      },
+    });
+    chat.value.messages.push({ id: 2, created_at: 200 });
+    await flushPromises();
+    expect(history.campaignHistoryError.value).toBe(false);
+    expect(history.visibleCampaignHistory.value.map(item => item.id)).toEqual([
+      10,
+    ]);
   });
 });
