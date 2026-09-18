@@ -32,7 +32,7 @@ const statusLabel = computed(
 <template>
   <li
     :id="`campaign-recipient-${recipient.id}`"
-    class="flex w-full justify-end items-end gap-2 mb-2 ps-8 message--read"
+    class="flex w-full justify-end items-end gap-2 mb-2 ps-8"
     data-clarity-mask="True"
   >
     <div class="max-w-[30rem] min-w-0 text-sm">

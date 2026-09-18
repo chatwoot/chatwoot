@@ -1,4 +1,7 @@
-import { captureTimelineAnchor } from '../campaignScrollAnchor';
+import {
+  captureTimelineAnchor,
+  getTimelineEntries,
+} from '../campaignScrollAnchor';
 
 describe('campaign timeline scroll anchor', () => {
   let panel;
@@ -9,6 +12,7 @@ describe('campaign timeline scroll anchor', () => {
     panel = document.createElement('div');
     message = document.createElement('li');
     message.id = 'message42';
+    message.dataset.messageId = '42';
     panel.appendChild(message);
     panel.scrollTop = 200;
     messageTop = 10;
@@ -57,5 +61,13 @@ describe('campaign timeline scroll anchor', () => {
     message.remove();
     restore();
     expect(panel.scrollTop).toBe(200);
+  });
+  it('selects the final timeline entry rather than an earlier campaign', () => {
+    const campaign = document.createElement('li');
+    campaign.id = 'campaign-recipient-1';
+    panel.prepend(campaign);
+    expect(getTimelineEntries(panel).at(-1)).toBe(message);
+    panel.appendChild(campaign);
+    expect(getTimelineEntries(panel).at(-1)).toBe(campaign);
   });
 });

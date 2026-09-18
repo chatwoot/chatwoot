@@ -27,7 +27,10 @@ import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 // utils
 import { emitter } from 'shared/helpers/mitt';
 import { getTypingUsersText } from '../../../helper/commons';
-import { captureTimelineAnchor } from './helpers/campaignScrollAnchor';
+import {
+  captureTimelineAnchor,
+  getTimelineEntries,
+} from './helpers/campaignScrollAnchor';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import {
@@ -414,9 +417,7 @@ export default {
       } else {
         // if there are no unread messages or label suggestion, scroll to the last message
         // capturing last message from the messages list
-        relevantMessages = Array.from(
-          this.conversationPanel.querySelectorAll('.message--read')
-        ).slice(-1);
+        relevantMessages = getTimelineEntries(this.conversationPanel).slice(-1);
       }
 
       this.conversationPanel.scrollTop = calculateScrollTop(
