@@ -38,6 +38,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  customTitle: {
+    type: String,
+    default: '',
+  },
 });
 
 const emit = defineEmits(['close']);
@@ -50,6 +54,7 @@ const { t } = useI18n();
 const agentName = ref(props.name);
 const agentAvailability = ref(props.availability);
 const selectedRoleId = ref(props.customRoleId || props.type);
+const customTitle = ref(props.customTitle);
 const agentCredentials = ref({ email: props.email });
 
 const rules = {
@@ -126,6 +131,7 @@ const editAgent = async () => {
       id: props.id,
       name: agentName.value,
       availability: agentAvailability.value,
+      custom_title: customTitle.value,
     };
 
     if (selectedRole.value.name.startsWith('custom_')) {
@@ -201,6 +207,17 @@ const resetPassword = async () => {
           <span v-if="v$.agentAvailability.$error" class="message">
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
           </span>
+        </label>
+      </div>
+
+      <div class="w-full">
+        <label>
+          Custom Title
+          <input
+            v-model="customTitle"
+            type="text"
+            placeholder="e.g., Senior Support Agent"
+          />
         </label>
       </div>
 
