@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validateAutomation } from '../validations';
+import { parseRouteFilters, validateAutomation } from '../validations';
 
 describe('validateAutomation', () => {
   it('should return no errors for a valid automation', () => {
@@ -82,5 +82,45 @@ describe('validateAutomation', () => {
     };
     const errors = validateAutomation(automationWithNoParamAction);
     expect(errors).toEqual({});
+  });
+});
+
+describe('parseRouteFilters', () => {
+  const condition = {
+    attribute_key: 'created_at',
+    filter_operator: 'is_greater_than',
+    values: '2026-09-13',
+    query_operator: 'and',
+  };
+
+  it('returns the conditions for a valid list', () => {
+    expect(parseRouteFilters(JSON.stringify([condition]))).toEqual([condition]);
+  });
+
+  it('accepts operators that take no value', () => {
+    const presence = {
+      attribute_key: 'assignee_id',
+      filter_operator: 'is_present',
+      values: [],
+    };
+
+    expect(parseRouteFilters(JSON.stringify([presence]))).toEqual([presence]);
+  });
+
+  it.each([
+    ['undefined', undefined],
+    ['empty string', ''],
+    ['truncated JSON', '[{"attribute_key":"created_at'],
+    ['an object', '{"attribute_key":"created_at"}'],
+    ['an empty list', '[]'],
+    ['a null element', '[null]'],
+    ['a primitive element', '[1]'],
+    ['a condition without an operator', '[{"attribute_key":"created_at"}]'],
+    [
+      'a condition without a value',
+      '[{"attribute_key":"created_at","filter_operator":"is_greater_than"}]',
+    ],
+  ])('returns null for %s', (_, value) => {
+    expect(parseRouteFilters(value)).toBeNull();
   });
 });

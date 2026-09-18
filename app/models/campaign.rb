@@ -75,7 +75,7 @@ class Campaign < ApplicationRecord
   def mark_processing!
     # Multiple scheduler jobs can pick the same active campaign; lock before flipping status to avoid duplicate sends.
     with_lock do
-      next if completed? || processing?
+      next if completed? || processing? || scheduled_at > Time.current
 
       update!(campaign_status: :processing, started_at: Time.current)
     end

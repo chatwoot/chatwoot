@@ -23,12 +23,14 @@
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "( میانگین )",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "زمان پاسخ اول {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "( میانگین )",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "زمان اتمام گفتگو {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "زمان انتظار مشتری",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "زمان انتظار {metricValue} (بر اساس {conversationCount} پاسخ)",
         "DESC": ""
       }
@@ -544,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "بررسی اجمالی",
     "LIVE": "زنده",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "گفتگوها را باز کنید",
       "LOADING_MESSAGE": "در حال بارگیری معیارهای مکالمه...",
