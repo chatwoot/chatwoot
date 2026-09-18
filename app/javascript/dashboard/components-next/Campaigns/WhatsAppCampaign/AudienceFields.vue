@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import ContactAPI from 'dashboard/api/contacts';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -28,6 +29,9 @@ const WHATSAPP_LIMITS_URL =
 const { t } = useI18n();
 
 const contactCounts = ref({});
+const totalContacts = ref(0);
+
+const { run: runTotalRequest } = useAbortableRequest();
 
 const labelOptions = computed(() =>
   props.labels.map(label => ({ value: label.id, label: label.title }))
@@ -35,13 +39,6 @@ const labelOptions = computed(() =>
 
 const selectedLabels = computed(() =>
   props.labels.filter(label => audienceIds.value.includes(label.id))
-);
-
-const totalContacts = computed(() =>
-  selectedLabels.value.reduce(
-    (total, label) => total + (contactCounts.value[label.id] ?? 0),
-    0
-  )
 );
 
 const removeLabel = labelId => {
@@ -58,12 +55,32 @@ const fetchContactCount = async label => {
   }
 };
 
+// A contact in several labels is messaged once, so the total is the union the
+// API resolves rather than the sum of the per-label counts.
+const fetchTotalContacts = async titles => {
+  if (!titles.length) {
+    totalContacts.value = 0;
+    return;
+  }
+  try {
+    const response = await runTotalRequest(signal =>
+      ContactAPI.get(1, 'name', titles, { signal })
+    );
+    if (!response) return;
+    totalContacts.value = response.data.meta.count;
+  } catch {
+    totalContacts.value = 0;
+  }
+};
+
 watch(
   selectedLabels,
-  labels =>
+  labels => {
     labels
       .filter(label => contactCounts.value[label.id] === undefined)
-      .forEach(fetchContactCount),
+      .forEach(fetchContactCount);
+    fetchTotalContacts(labels.map(label => label.title));
+  },
   { immediate: true }
 );
 </script>
