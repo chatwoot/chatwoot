@@ -65,6 +65,9 @@ The implementation work converted the estimates into these exact checkpoint diff
 | --- | --- | ---: | --- |
 | Rails 7.2.3.1 | Current `develop` | 22 | 7,940 Ruby examples and 3,787 frontend tests passed; Vite/Sprockets builds, production preflight, Sidekiq Cron, Disk/Azurite storage, and five Playwright product tests passed. |
 | Rails 8.0.5 | Rails 7.2.3.1 checkpoint | 52 | 7,940 Ruby examples and 3,787 frontend tests passed; focused Administrate/reporting regressions, Vite/Sprockets builds, production preflight, Sidekiq Cron, Disk/Azurite storage, five Playwright product tests, and the Super Admin remote-search browser flow passed. |
+| Rails 8.1.3 | Rails 8.0.5 checkpoint | 10 | 7,940 Ruby examples and 3,787 frontend tests passed; focused MFA/encryption/reconfirmation checks, Vite/Sprockets builds, production preflight, exact PostgreSQL schema parity, Sidekiq Cron and async deletion, Disk/Azurite storage, five Playwright product tests, and the Super Admin remote-search browser flow passed. |
+
+The final Rails 8.1 head differs from the same `develop` base in **71 unique files**. That is the realized direct-to-target review footprint: 22 files in the Rails 7.2 checkpoint, followed by 52 and 10 stack-local files with overlap in dependencies, configuration, assessment, and preflight files.
 
 The Rails 8.0 implementation found several interfaces that a boot-only experiment could not prove:
 
@@ -92,43 +95,29 @@ The Rails 8.0 implementation found several interfaces that a boot-only experimen
 
 ### Rails 8.1.3
 
-The initial dependency resolution failed for three independent reasons:
+The stacked Rails 8.1 implementation confirmed that the broad Rails 8 compatibility work belongs in the Rails 8.0 checkpoint. From the completed Rails 8.0 branch, Rails 8.1 requires the dependency boundary, a Devise email-dirty compatibility seam, removal of the deprecated time transition setting, the deterministic `schema.rb` rewrite, a preflight extension, focused mailer corrections, and its production guide.
 
-1. Chatwoot's `devise-secure_password` fork constrains Railties to `< 8`.
-2. `administrate-field-belongs_to_search` 0.10.0 constrains Rails to `< 8` and Administrate to `< 1`.
-3. `rails-i18n ~> 7.0` constrains Railties to `< 8`.
-
-After locally relaxing the two fork constraints, selecting Rails-compatible dependency versions, and making the minimum code changes:
-
-- `bin/rails zeitwerk:check` passed on Rails 8.1.3.
-- This required changes to 35 existing main-repository files:
-  - `Gemfile` and `Gemfile.lock`
-  - 31 model files using removed enum keyword syntax
-  - the custom schema dumper initializer
-  - the singular `app` route
-- The Rails 7.2 `User` association alias fix raises the known floor to **36 files**.
-- This boot result does not prove production readiness. It deliberately did not solve Azure support, activate new defaults, run the complete test matrix, or add the required regression specs.
-
-The resolved Rails 8.1 graph also required or selected these application-level changes:
+The resolved Rails 8.1 graph requires or selects these application-level changes:
 
 | Dependency | Current | Resolved Rails 8.1-compatible line | Why it changes |
 | --- | ---: | ---: | --- |
 | `administrate` | 0.20.1 | 1.0.0 | 0.20.x requires Rails `< 8`; Super Admin compatibility and assets must be tested. |
 | `administrate-field-belongs_to_search` | 0.9.0 | Custom/upstream-compatible release | 0.10.0 still requires Rails `< 8` and Administrate `< 1`. |
 | `devise-secure_password` | Chatwoot fork | Upstream 2.2.1 | This is the latest upstream release supporting Devise 4 while allowing Railties 8; 2.2.3 requires Devise 5. |
-| `rails-i18n` | 7.0.10 | 8.1.0 | The 7.x line requires Railties `< 8`. |
+| `rails-i18n` | 7.0.10 | 8.0.2 | The 7.x line requires Railties `< 8`; 8.0.2 supports Railties 8.x. |
 | `jbuilder` | 2.11.5 | 2.15.1 | Current version uses removed `ActiveSupport::ProxyObject`. |
 | `acts-as-taggable-on` | 12.0.0 | 13.0.0 | Version 12 does not allow Active Record 8.1. |
 | `audited` | 5.4.1 | 5.8.0 | Current constraint does not cover Rails 8. |
 | `hairtrigger` | 1.0.0 | 1.3.1 | Current constraint does not cover Active Record 8. |
 | `devise-two-factor` | 6.1.0 | 6.4.0 | Current constraint stops below Rails 8.1. |
-| `devise_token_auth` | 1.2.5 | 1.2.6 | Current constraint stops below Rails 8.1. |
+| `devise_token_auth` | 1.2.5 | 1.2.6 | Current constraint stops below Rails 8.1. Version 1.2.6 overrides Devise's wrapper email dirty check, so `User` must restore the Active Record-backed check to keep reconfirmation working. |
 | `bullet` | 8.0.7 | 8.1.3 | Current version rejects Active Record 8.1 at runtime. |
+| `omniauth-rails_csrf_protection` | 1.0.2 | 2.0.1 | Removes the Rails-8.1-deprecated `ActiveSupport::Configurable` integration while retaining OmniAuth 2 support. |
 | `sidekiq` | 7.3.1 | 7.3.10 with `connection_pool` 2.5.5 | Sidekiq 7.3.1 crashes its schedulers with `connection_pool` 3. Sidekiq 7.3.10 encodes the safe `< 3` constraint. Rails 8.1 also deprecates its built-in adapter in favor of Sidekiq's adapter, so avoid a simultaneous Sidekiq 8 migration. |
 | `sprockets-rails` | Transitive | Explicit dependency, 3.5.x | Administrate 1 no longer supplies the transitive dependency, but Chatwoot Super Admin still uses Sprockets. |
 | `debug` | 1.8.0 | 1.11.1 | Required for the current Ruby/Rails update tooling to run cleanly. |
 
-The current, Rails 7.2, and experimental Rails 8.1 lock graphs all passed `bundle-audit` against the advisory database updated on 2026-07-22. That does not replace a release-time audit.
+The current and implemented checkpoint lock graphs pass `bundle-audit`. That does not replace a release-time audit.
 
 ## File-impact estimate
 
@@ -140,15 +129,15 @@ These estimates are for tracked files in the Chatwoot repository. Any remaining 
 | Refreshed existing Rails 7.2 PR | 22 | 22 | Also carries Rails-7.2 boundary fixes, Azure adapter replacement, Sidekiq scheduler and profiler compatibility, test stabilization, a production preflight, and the migration guide. |
 | Stacked Rails 8.0.5 checkpoint | 52 | 52 | Includes 30 enum files, supported dependencies, route/time/test configuration, Groupdate, Administrate 1 assets and remote search replacement, the explicit deferral of strong-parameter `expect` semantics, preflight extensions, and the production guide. |
 | Rails 7.2.3.1 plus staged 7.1/7.2 defaults | 3 | 8–15 | Adds explicit defaults, encryption/serialization guards, and focused regression specs. |
-| Rails 8.1.3, minimum boot floor from 7.1 | 36 | At least 36 | 31 enum files, two dependency files, `User`, routes, and schema dumper. |
-| Rails 8.1.3, production-ready | 36 | 50–70 | Adds Azure strategy, Super Admin asset fixes, defaults, job/auth/storage/request specs, schema validation, and rollout configuration. |
+| Rails 8.1.3, direct minimum boot floor from the original Rails 7.1 baseline | 36 | At least 36 | 31 enum files, two dependency files, `User`, routes, and schema dumper. |
+| Stacked Rails 8.1.3 checkpoint | 10 | 10 | The Rails 8.0 checkpoint already owns enums, routes, Administrate, Sprockets, Groupdate, and Azure preparation. Rails 8.1 changes two dependency files, `User`, application time configuration, `schema.rb`, preflight, two mailer specs, assessment, and production guide. |
 | External companion repositories | 1 repository | Approximately 2–4 files | Only a fork/replacement of `administrate-field-belongs_to_search` remains; `devise-secure_password` is resolved upstream. |
 
 The sequential route does **not** materially reduce the final total number of changed files. It changes when and how those files are changed:
 
 - Rails 7.2 isolates the association and dependency compatibility issues.
 - Rails 8.0 isolates removed APIs and the Administrate/Sprockets transition.
-- Rails 8.1 isolates Azure removal and request/job/time behavior.
+- Rails 8.1 verifies the extracted Azure adapter and isolates request, job-adapter, schema-output, authentication-dependency, and time behavior.
 - Each checkpoint can be deployed and rolled back before a serializer or encryption default becomes irreversible.
 
 `bin/rails app:update --pretend` reported 26 config/bin/public actions for Rails 7.2 and 32 for Rails 8.1, in addition to attempted migrations. Those are candidate generator changes, not a recommended diff. Accepting them wholesale would overwrite or churn Chatwoot-specific Vite, Sprockets, environment, deployment, and initializer choices.
@@ -191,7 +180,7 @@ See the official [Rails 7.2 release notes](https://guides.rubyonrails.org/7_2_re
 | `ActiveSupport::ProxyObject` | Jbuilder 2.11.5 uses the removed class. | Upgrade Jbuilder before the Rails 8 bump. |
 | Active Record internal APIs | Rails removes deprecated connection-pool and schema behavior. Chatwoot subclasses a generic internal schema dumper constant. | Rework or remove the schema dumper monkey patch against the PostgreSQL dumper and verify triggers/indexes/schema output. |
 | Active Job transaction setting | Old `enqueue_after_transaction_commit` configuration is deprecated on the path to removal in 8.1. | Use the supported boolean/per-job behavior and verify Sidekiq jobs around commit and rollback. |
-| Azure Active Storage | The service is deprecated in 8.0. | Complete an extracted/custom adapter or customer migration before 8.1. |
+| Azure Active Storage | The built-in service is deprecated in 8.0. | The Rails 7.2 checkpoint moves Chatwoot to the external `azure-blob` adapter while preserving the `microsoft` service name; require a real-account storage smoke before 8.1. |
 | Fresh database migration behavior | `db:migrate` on a fresh database loads the schema before pending migrations. | Test both fresh schema load and upgrade from the oldest supported production schema. |
 | New-app stack defaults | Propshaft, Solid Queue, Solid Cache, Solid Cable, Kamal, and the authentication generator are promoted for new apps. | Do not adopt them as part of the Rails upgrade. Existing Vite, Sprockets, Sidekiq, Redis, and Devise contracts should remain stable. |
 
@@ -201,9 +190,10 @@ See the official [Rails 8.0 release notes](https://guides.rubyonrails.org/8_0_re
 
 | Interface | Repo finding | Migration |
 | --- | --- | --- |
-| Azure Active Storage service | Rails removes the built-in service. `config/storage.yml` still defines `service: AzureStorage`, selectable with `ACTIVE_STORAGE_SERVICE=microsoft`. | This is a hard production blocker for Azure-backed installations. Supply a maintained adapter with integration tests or formally migrate/deprecate Azure. |
-| Routes | `resource :app, only: [:index]` fails Rails 8.1 route validation because a singular resource has no collection index action. | Express the route with an explicit `scope`/`get` while preserving every existing URL and helper consumed by the frontend. |
+| Azure Active Storage service | Rails removes the built-in service. Chatwoot now defines `service: AzureBlob` through the external `azure-blob` gem, selectable with `ACTIVE_STORAGE_SERVICE=microsoft`. | The same `microsoft` service name and object keys are preserved. Disk and Azurite write/read/purge contracts pass; Azure-backed deployments must repeat the smoke against their real staging account. |
+| Routes | Rails rejects `index` on a singular resource. | The Rails 8.0 checkpoint already expresses the route as a named `scope`/`get`. Rails 8.0 and 8.1 route entries are identical, including the existing URL and helper. |
 | Parameter parsing | Leading-bracket parameter names are no longer normalized and semicolons are no longer query separators. | Add request contract tests and sample production traffic for API, OAuth, and webhook query strings. Communicate any client-facing incompatibility. |
+| Query generation | A `nil` query value serializes as a bare key instead of `key=`. Three mailer examples had passed `nil` where Devise expects a raw confirmation token. | Generate, persist, and pass a real token in the tests. Production already passes the raw token and its URLs remain unchanged. Audit any application or integration that intentionally distinguishes `key` from `key=`. |
 | Routes to multiple paths | Deprecated multi-path route support is removed. | Confirm all routes compile and compare `rails routes` before and after. |
 | Time conversion | `to_time` now preserves the receiver timezone; Time/TimeWithZone arithmetic removals land. | Test the two application `to_time` call sites, especially reporting timezone boundaries and DST fixtures. |
 | `schema.rb` order | Table columns are sorted alphabetically. | Expect a large one-file diff; isolate it in a schema-only commit and prove no semantic schema loss. |
@@ -211,7 +201,8 @@ See the official [Rails 8.0 release notes](https://guides.rubyonrails.org/8_0_re
 | Custom job serializers | `#klass` must be public. | No custom serializer was found in the current tree; retain a boot-time registry check. |
 | Redirect/JSON defaults | New 8.1 apps raise on path-relative redirects and stop escaping selected HTML characters in JSON. | When activating 8.1 defaults, audit 73 `redirect_to` call sites and API snapshots. Version-only boot can retain old behavior. |
 | Order-dependent finders | Rails 8.1 deprecates order-dependent `first` calls without an order. | Capture deprecations in CI and fix only queries where nondeterminism matters. |
-| `ActiveSupport::Configurable` | Deprecated in 8.1. | The experimental boot warning originates in `omniauth-rails_csrf_protection` 1.0.2; track or patch upstream before Rails 8.2. |
+| `ActiveSupport::Configurable` | Deprecated in 8.1. | Upgrade `omniauth-rails_csrf_protection` from 1.0.2 to 2.0.1; the warning is removed and the auth/OmniAuth specs pass. |
+| Devise email dirty tracking | `devise_token_auth` 1.2.6 implements `devise_will_save_change_to_email?` as false, bypassing Devise reconfirmation unless the application restores it. | Override the Devise wrapper in `User` with Active Record's mutation tracker; verify profile, Super Admin, OSS mailer, and Enterprise mailer reconfirmation paths. |
 
 See the official [Rails 8.1 release notes](https://guides.rubyonrails.org/8_1_release_notes.html).
 
@@ -234,7 +225,7 @@ The repository scan also checked the principal removed interfaces that do not cu
 | Risk | Severity | What could break | Detection and containment |
 | --- | --- | --- | --- |
 | Encrypted credentials become unreadable | Critical | Email inbox passwords, social tokens, webhook secrets, OTP secrets, integration tokens, and Enterprise channel credentials. | Preflight decrypt scan with counts by model/attribute; dual-readable configuration; canary reads and writes; do not remove legacy support until all old processes and ciphertext are gone. |
-| Azure file storage stops booting or serving files | Critical for affected installs | Upload, download, preview, direct upload, and purge operations when `ACTIVE_STORAGE_SERVICE=microsoft`. | Decide support policy before Rails 8.0; run Azure emulator/real-account contract tests; block Rails 8.1 rollout without a passing adapter. |
+| Azure file storage stops booting or serving files | Critical for affected installs | Upload, download, preview, direct upload, and purge operations when `ACTIVE_STORAGE_SERVICE=microsoft`. | The external adapter and emulator contract pass. Block each Azure-backed Rails 8.1 rollout until the same smoke passes against that installation's real staging account. |
 | Jobs run before commit or disappear on rollback | High | Notifications, email, webhooks, message fan-out, imports, search indexing, and reporting side effects. | Transaction integration specs plus Sidekiq smoke tests; compare enqueue and failure metrics during canary. |
 | Authentication/session/signature invalidation | High | Agent sessions, API auth, OTP flows, signed IDs, password policy, OAuth, and Active Storage links. | Mixed-version rolling-deploy test; old cookie/token fixtures; fork compatibility specs; explicit serializer settings. |
 | Super Admin loses CSS/JS or fields | High | Administrate 1 changes and loss of transitive Sprockets dependencies. | Make `sprockets-rails` explicit or migrate intentionally; production asset precompile; browser smoke every Super Admin CRUD path and custom field. |
@@ -248,10 +239,10 @@ The repository scan also checked the principal removed interfaces that do not cu
 
 The following work must happen before Rails 8.1 can be considered releasable:
 
-1. **Choose the Azure policy.**
-   - Preserve Azure by extracting/maintaining an `ActiveStorage::Service` adapter, or
-   - announce deprecation and supply a verified blob migration path to S3/GCS.
-   - This decision changes product support and must not be inferred during implementation.
+1. **Preserve and verify Azure support.**
+   - The Rails 7.2 checkpoint replaces the removed built-in service with the external `azure-blob` adapter.
+   - The service remains named `microsoft`, so persisted `active_storage_blobs.service_name` values do not change.
+   - Require the checked-in storage smoke against a real staging Azure account before deploying Rails 8.1 to an Azure-backed installation.
 
 2. **Prepare the Rails-constrained Admin dependency.**
    - `devise-secure_password` is resolved by moving to upstream 2.2.1 in the Rails 7.2 checkpoint.
@@ -306,10 +297,10 @@ Each milestone should be independently green and revertible. Framework defaults 
 - **Acceptance:** Versioned dependency compatible with both the Rails 7.2 checkpoint and Administrate 1; Super Admin contract tests pass.
 - **Depends on:** R0.1.
 
-#### R0.4 — Decide and prototype Azure support (M)
+#### R0.4 — Extract and prototype Azure support (M, completed in Rails 7.2)
 
-- **Work:** Select preserved-adapter or migration/deprecation path; prototype the chosen option against upload/download/direct-upload/variant/purge operations.
-- **Acceptance:** Written product decision and a passing proof of concept. Rails 8.1 is blocked until this is complete.
+- **Work:** Replace the removed Rails service with `azure-blob` while preserving Chatwoot's service name and persisted keys.
+- **Acceptance:** The external adapter boots and its write/read/purge smoke passes against Azurite; each Azure-backed release still requires the same smoke against a real staging account.
 - **Depends on:** None.
 
 ### Milestone 1: Reach Rails 7.2 safely
@@ -398,14 +389,14 @@ The enum rewrite should be split into four syntax-only tasks so review can verif
 - **Acceptance:** Rails 8.0.5 boots in production mode; 7.2 defaults remain explicit; OSS/Enterprise suites and product smokes pass.
 - **Depends on:** R0.2, R3.2, R3.3.
 
-**Deployment checkpoint:** Deploy Rails 8.0.5 and observe it before removing Azure or activating Rails 8 defaults.
+**Deployment checkpoint:** Deploy Rails 8.0.5 and observe it before activating Rails 8 defaults.
 
 ### Milestone 4: Reach Rails 8.1
 
-#### R4.1 — Complete the Azure storage migration/adapter (M)
+#### R4.1 — Revalidate the extracted Azure storage adapter (M)
 
-- **Files:** Adapter/config/migration runner and storage contract specs, according to R0.4.
-- **Acceptance:** Every supported storage service passes upload, download, direct upload, variant, mirror if applicable, delete, and purge tests; customer rollback/migration procedure is documented.
+- **Files:** Production preflight and storage smoke from the preceding checkpoints.
+- **Acceptance:** Every configured storage service passes write, read, and purge tests; Azure-backed installations additionally validate direct upload and variants against a real staging account.
 - **Depends on:** R0.4, R3.4.
 
 #### R4.2 — Migrate Rails 8.1 routes and request contracts (M)
@@ -506,14 +497,14 @@ Each may be valuable later, but coupling them to the framework upgrade removes t
 
 ## Final recommendation
 
-Start the work now with Rails 8.1.3 as the declared target and Rails 7.2.3.1/8.0.5 as required deployable checkpoints. Rails 7.2 is too close to security end of life to justify a separate long-term upgrade project, but skipping it would discard the exact deprecation and isolation boundary Rails provides.
+Use Rails 8.1.3 as the declared target and Rails 7.2.3.1/8.0.5 as required deployable checkpoints. Rails 7.2 is too close to security end of life to justify a separate long-term upgrade project, but skipping it would discard the exact deprecation and isolation boundary Rails provides.
 
 The critical path is not the 31 mechanical enum edits. It is:
 
-1. Azure Active Storage support.
-2. The Rails-constrained Administrate search-field dependency.
-3. Encrypted-data and serialized-format compatibility across rolling deploys.
-4. Administrate 1 plus explicit Sprockets ownership.
-5. Job timing and Sidekiq adapter verification.
+1. Repeating the external Azure-adapter smoke against a real staging account for Azure-backed installations.
+2. Encrypted-data and serialized-format compatibility across rolling deploys.
+3. Administrate 1 plus explicit Sprockets ownership.
+4. Job timing and Sidekiq adapter verification.
+5. Sampling ingress traffic for Rails 8.1's removed legacy query-string forms.
 
-Once those are settled, the remaining Rails 8 code changes are bounded and the isolated Rails 8.1 boot proves the application can reach the target without a broad rewrite.
+The three implemented checkpoints keep these risks independently deployable and revertible. Framework-default activation remains deliberately outside the version-upgrade PRs.
