@@ -79,8 +79,13 @@ export const actions = {
       dispatch('get');
       if (identifierHash || widgetAuthToken) {
         dispatch('conversation/clearConversations', {}, { root: true });
-        dispatch('conversation/fetchOldConversations', {}, { root: true });
+        const fetchOldConversations = dispatch(
+          'conversation/fetchOldConversations',
+          {},
+          { root: true }
+        );
         dispatch('conversationAttributes/getAttributes', {}, { root: true });
+        await fetchOldConversations;
       }
     } catch (error) {
       const data = parseErrorData(error);
