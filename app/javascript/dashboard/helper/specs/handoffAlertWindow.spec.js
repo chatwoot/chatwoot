@@ -93,6 +93,36 @@ describe('handoff event → conversation store → audible alert', () => {
     vi.useRealTimers();
   });
 
+  it.each(['note first', 'handoff first'])(
+    'stores the Captain note but alerts only for the handoff with %s',
+    order => {
+      store.state.allConversations.push({ ...assignment, messages: [] });
+      const note = {
+        id: 51,
+        account_id: 1,
+        conversation_id: handoff.id,
+        conversation: { assignee_id: 7, last_activity_at: 101 },
+        message_type: 1,
+        private: true,
+        sender: { id: 99, type: 'captain_assistant' },
+      };
+      const events = [
+        { event: 'message.created', data: note },
+        { event: 'conversation.bot_handoff', data: handoff },
+      ];
+      if (order === 'handoff first') events.reverse();
+      events.forEach(event => connector.onReceived(event));
+
+      expect(store.getters.getConversationById(handoff.id).messages).toEqual([
+        note,
+      ]);
+      expect(play).not.toHaveBeenCalled();
+      vi.advanceTimersByTime(2000);
+      expect(play).toHaveBeenCalledOnce();
+      expect(showBadgeOnFavicon).toHaveBeenCalledOnce();
+    }
+  );
+
   it.each(['handoff first', 'assignment first'])(
     'alerts once for automatic assignment with %s',
     order => {

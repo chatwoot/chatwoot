@@ -27,7 +27,9 @@ describe('dashboard bot handoff alerts', () => {
     };
     vi.spyOn(helper, 'playAudioAlert').mockResolvedValue();
     vi.spyOn(helper.store, 'hasConversationPermission').mockReturnValue(true);
-    vi.spyOn(helper.store, 'isCurrentConversation').mockReturnValue(false);
+    vi.spyOn(helper.store, 'isMessageFromCurrentConversation').mockReturnValue(
+      false
+    );
     vi.spyOn(WindowVisibilityHelper, 'isWindowVisible').mockReturnValue(false);
   });
 
@@ -76,8 +78,8 @@ describe('dashboard bot handoff alerts', () => {
       conversation_id: conversation.id,
       message_type: 1,
       private: true,
-      sender: { id: 99 },
-      content_attributes: { captain_handoff: true },
+      sender: { id: 99, type: 'captain_assistant' },
+      content_attributes: {},
     };
 
     if (order === 'note first') {
@@ -93,9 +95,20 @@ describe('dashboard bot handoff alerts', () => {
     expect(vi.getTimerCount()).toBe(1);
   });
 
+  it('does not treat a bot with the same ID as the current user as a human assignee', () => {
+    helper.notificationConfig.audioAlertType = ['mine'];
+    conversation.meta.assignee_type = 'AgentBot';
+
+    helper.onConversationBotHandoff(conversation);
+
+    expect(helper.playAudioAlert).not.toHaveBeenCalled();
+    helper.notificationConfig.audioAlertType = ['unassigned'];
+    helper.onConversationBotHandoff(conversation);
+    expect(helper.playAudioAlert).toHaveBeenCalledOnce();
+  });
+
   it.each([
     ['human note', 1, true, 'user'],
-    ['other Captain note', 1, true, 'captain'],
     ['customer message', 0, false, 'contact'],
   ])('preserves alerts for %s', (_, messageType, isPrivate, senderType) => {
     vi.spyOn(helper.store, 'isMessageFromPendingConversation').mockReturnValue(
@@ -112,6 +125,20 @@ describe('dashboard bot handoff alerts', () => {
 
     expect(helper.playAudioAlert).toHaveBeenCalledOnce();
     expect(showBadgeOnFavicon).toHaveBeenCalledOnce();
+  });
+
+  it('keeps all Captain private notes silent, even without a handoff', () => {
+    vi.spyOn(helper.store, 'isMessageFromPendingConversation').mockReturnValue(
+      false
+    );
+    helper.onNewMessage({
+      conversation_id: conversation.id,
+      message_type: 1,
+      private: true,
+      sender: { id: 99, type: 'captain_assistant' },
+    });
+    expect(helper.playAudioAlert).not.toHaveBeenCalled();
+    expect(showBadgeOnFavicon).not.toHaveBeenCalled();
   });
 
   it('suppresses alerts without conversation permissions', () => {
@@ -132,7 +159,7 @@ describe('dashboard bot handoff alerts', () => {
     (hiddenOnly, isSelected, shouldAlert) => {
       WindowVisibilityHelper.isWindowVisible.mockReturnValue(true);
       helper.notificationConfig.playAlertOnlyWhenHidden = hiddenOnly;
-      helper.store.isCurrentConversation.mockReturnValue(isSelected);
+      helper.store.isMessageFromCurrentConversation.mockReturnValue(isSelected);
 
       helper.onConversationBotHandoff(conversation);
 

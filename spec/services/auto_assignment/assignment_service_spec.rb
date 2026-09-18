@@ -128,7 +128,7 @@ RSpec.describe AutoAssignment::AssignmentService do
         expect(Rails.configuration.dispatcher).to receive(:dispatch).with(
           Events::Types::ASSIGNEE_CHANGED,
           anything,
-          hash_including(conversation: conversation, user: agent, performed_by: assignment_policy)
+          hash_including(conversation: conversation, user: agent)
         )
 
         service.perform_bulk_assignment(limit: 1)

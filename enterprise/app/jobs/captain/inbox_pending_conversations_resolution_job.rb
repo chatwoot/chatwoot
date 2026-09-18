@@ -119,8 +119,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     handed_off = with_inference_activity_context(conversation, CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON) do
       perform_locked_transition(conversation) do
         conversation.bot_handoff!(dispatch_event: false)
-        # The note can arrive after the open-status update, so let only the handoff event alert agents.
-        create_private_note(conversation, "Auto-handoff: #{reason}", content_attributes: { captain_handoff: true })
+        create_private_note(conversation, "Auto-handoff: #{reason}")
         create_handoff_message(conversation)
       end
     end
@@ -157,15 +156,14 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(conversation) if conversation.campaign.blank?
   end
 
-  def create_private_note(conversation, content, content_attributes: {})
+  def create_private_note(conversation, content)
     conversation.messages.create!(
       message_type: :outgoing,
       private: true,
       sender: captain_assistant,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      content: content,
-      content_attributes: content_attributes
+      content: content
     )
   end
 

@@ -133,8 +133,12 @@ class ActionCableListener < BaseListener
   end
 
   def assignee_changed(event)
-    # Preserve the explicit auto-assignment actor before request context is lost.
-    broadcast_to_inbox_members(event, ASSIGNEE_CHANGED, automatic_assignment: [Inbox, AssignmentPolicy].include?(event.data[:performed_by].class))
+    # Model callbacks identify automatic assignment by performed_by. The V2
+    # AssignmentService also dispatches an event with user (the assigned agent,
+    # NOT the performer). These are the two assignment event producers; neither
+    # requires inferring automation from a missing Current.user.
+    automatic_assignment = [Inbox, AssignmentPolicy].include?(event.data[:performed_by].class) || event.data[:user].present?
+    broadcast_to_inbox_members(event, ASSIGNEE_CHANGED, automatic_assignment: automatic_assignment)
   end
 
   def team_changed(event)
@@ -179,9 +183,8 @@ class ActionCableListener < BaseListener
 
   def broadcast_to_inbox_members(event, event_name, **metadata)
     conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
 
-    broadcast(account, tokens, event_name, conversation.push_event_data.merge(metadata))
+    broadcast(account, user_tokens(account, conversation.inbox.members), event_name, conversation.push_event_data.merge(metadata))
   end
 
   def account_token(account)

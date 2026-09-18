@@ -139,16 +139,16 @@ export class DashboardAudioNotificationHelper {
     this.resetRecurringTimer();
   };
 
-  shouldNotifyOnConversation = conversationEvent => {
+  shouldNotifyOnMessage = message => {
     const { audioAlertType } = this.notificationConfig;
     if (audioAlertType.includes('none')) return false;
     if (audioAlertType.includes('all')) return true;
 
     const assignedToMe = isConversationAssignedToMe(
-      conversationEvent,
+      message,
       this.currentUser.id
     );
-    const isUnassigned = isConversationUnassigned(conversationEvent);
+    const isUnassigned = isConversationUnassigned(message);
 
     const shouldPlayAudio = [];
 
@@ -168,12 +168,11 @@ export class DashboardAudioNotificationHelper {
     return shouldPlayAudio.some(Boolean);
   };
 
-  triggerAlert = conversation => {
+  triggerAlert = message => {
     if (!this.store.hasConversationPermission(this.currentUser)) return;
-    if (!this.shouldNotifyOnConversation(conversation)) return;
-    const conversationId = conversation.conversation_id ?? conversation.id;
+    if (!this.shouldNotifyOnMessage(message)) return;
     if (WindowVisibilityHelper.isWindowVisible()) {
-      if (this.store.isCurrentConversation(conversationId)) return;
+      if (this.store.isMessageFromCurrentConversation(message)) return;
       if (this.notificationConfig.playAlertOnlyWhenHidden) return;
     }
 
@@ -183,12 +182,23 @@ export class DashboardAudioNotificationHelper {
   };
 
   onConversationBotHandoff = conversation => {
-    this.triggerAlert(conversation);
+    // Adapt the handoff once to the existing audio-filter contract. Bot IDs
+    // must not be treated as human assignees, even when their IDs overlap.
+    this.triggerAlert({
+      conversation_id: conversation.id,
+      conversation: {
+        assignee_id:
+          conversation.meta?.assignee_type === 'User'
+            ? conversation.meta.assignee?.id
+            : null,
+      },
+    });
   };
 
   onNewMessage = message => {
-    // The handoff event owns this alert, regardless of whether its explanatory note arrives first or last.
-    if (message.private && message.content_attributes?.captain_handoff) return;
+    // Captain notes are context, not requests for attention. Only the dedicated
+    // handoff event alerts agents, regardless of when its explanatory note arrives.
+    if (message.private && message.sender?.type === 'captain_assistant') return;
 
     // If the conversation status is pending, then dismiss the alert
     // This case is common for all audio event types

@@ -128,8 +128,7 @@ class AutoAssignment::AssignmentService
       Events::Types::ASSIGNEE_CHANGED,
       Time.zone.now,
       conversation: conversation,
-      user: agent,
-      performed_by: inbox.assignment_policy || inbox
+      user: agent
     )
   end
 
