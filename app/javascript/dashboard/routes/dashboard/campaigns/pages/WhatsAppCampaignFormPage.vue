@@ -143,6 +143,10 @@ const { run: runHealthRequest, abort: abortHealthRequest } =
 watch(
   () => state.inboxId,
   async inboxId => {
+    if (!isEditMode.value) {
+      state.templateId = null;
+      state.processedParams = {};
+    }
     abortHealthRequest();
     healthData.value = null;
     if (!inboxId) return;
