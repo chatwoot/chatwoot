@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store';
 import { convertToArticleSlug } from 'dashboard/helper/commons';
 
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
@@ -17,9 +18,12 @@ const props = defineProps({
 const emit = defineEmits(['saveSlug', 'previewArticle']);
 
 const { t } = useI18n();
+const uiFlags = useMapGetter('articles/uiFlags');
 
-// The timestamp prefix keeps slugs globally unique, so only the rest is editable.
-const slugPrefix = computed(() => props.article.slug.match(/^\d+-/)?.[0] || '');
+// The generated timestamp prefix keeps slugs globally unique, so only the rest is editable.
+const slugPrefix = computed(
+  () => props.article.slug.match(/^\d{10}-/)?.[0] || ''
+);
 const slugSuffix = computed(() =>
   props.article.slug.slice(slugPrefix.value.length)
 );
@@ -37,6 +41,7 @@ const isChanged = computed(
 const canUseTitle = computed(
   () => !!titleSlug.value && titleSlug.value !== newSlug.value
 );
+const isUpdating = computed(() => uiFlags.value(props.article.id).isUpdating);
 
 const resetSlug = () => {
   slug.value = slugSuffix.value;
@@ -106,6 +111,7 @@ const saveSlug = () => {
       :action-label="
         t('HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.SLUG_UPDATE')
       "
+      :is-loading="isUpdating"
       @action="saveSlug"
     >
       {{ t('HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.SLUG_WARNING') }}
