@@ -305,6 +305,7 @@ const actions = {
         // Ignore error
       }
     }
+    dispatch('conversationViewed', { id: data.id });
   },
 
   assignAgent: async (
@@ -688,6 +689,14 @@ const actions = {
       commit(types.SET_INBOX_CAPTAIN_ASSISTANT, response.data);
     } catch (error) {
       // Handle error
+    }
+  },
+
+  conversationViewed: async (_, { id }) => {
+    try {
+      await ConversationApi.markConversationViewed({ id });
+    } catch (error) {
+      // Ignore error
     }
   },
 
