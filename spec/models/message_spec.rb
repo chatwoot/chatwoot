@@ -415,6 +415,16 @@ RSpec.describe Message do
 
       expect(message.webhook_data[:content]).to include('survey/responses/')
     end
+
+    it 'embeds the event message in the nested conversation payload instead of the latest message' do
+      conversation = create(:conversation)
+      message = create(:message, conversation: conversation, account: conversation.account, created_at: 2.minutes.ago)
+      newer_message = create(:message, conversation: conversation, account: conversation.account, created_at: 1.minute.ago)
+
+      expect(conversation.webhook_data[:messages].first[:id]).to eq(newer_message.id)
+      expect(message.webhook_data[:conversation][:messages].first[:id]).to eq(message.id)
+      expect(newer_message.webhook_data[:conversation][:messages].first[:id]).to eq(newer_message.id)
+    end
   end
 
   context 'when message is created' do
