@@ -20,6 +20,7 @@ describe('campaign analytics paywall', () => {
   let showPaywall;
   let featureEnabled;
   let push;
+  let replace;
   beforeEach(() => {
     showPaywall = ref(true);
     featureEnabled = ref(true);
@@ -29,7 +30,8 @@ describe('campaign analytics paywall', () => {
       isFeatureFlagEnabled: () => featureEnabled.value,
     });
     push = vi.fn();
-    useRouter.mockReturnValue({ push });
+    replace = vi.fn();
+    useRouter.mockReturnValue({ push, replace });
     useAccount.mockReturnValue({
       isOnChatwootCloud: ref(true),
       accountScopedRoute: name => ({ name, params: { accountId: 1 } }),
@@ -79,6 +81,10 @@ describe('campaign analytics paywall', () => {
     showPaywall.value = false;
     featureEnabled.value = false;
     const wrapper = shallowMount(Page);
+    expect(replace).toHaveBeenCalledWith({
+      name: 'campaigns_whatsapp_index',
+      params: { accountId: 1 },
+    });
     expect(
       wrapper
         .findComponent({ name: 'WhatsAppCampaignAnalyticsContent' })

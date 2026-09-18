@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCampaignAnalytics } from 'dashboard/composables/useCampaignAnalytics';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -17,6 +17,15 @@ const paywallKey = computed(() =>
 );
 const openBilling = () =>
   router.push(accountScopedRoute('billing_settings_index'));
+watch(
+  [canViewAnalytics, showPaywall],
+  ([canView, paywall]) => {
+    if (!canView && !paywall) {
+      router.replace(accountScopedRoute('campaigns_whatsapp_index'));
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
