@@ -10,6 +10,14 @@ RSpec.describe Enterprise::DeviceVerificationMailer do
   describe '#verification_code' do
     let(:mail) { described_class.verification_code(user, DeviceVerification.encrypt_code('123456'), meta).deliver_now }
 
+    it 'raises rather than silently no-opping when SMTP is not configured' do
+      with_modified_env('SMTP_ADDRESS' => nil) do
+        expect do
+          described_class.verification_code(user, DeviceVerification.encrypt_code('123456'), meta).deliver_now
+        end.to raise_error(/SMTP is not configured/)
+      end
+    end
+
     it 'sends the code to the user with device details' do
       expect(mail.to).to eq(['agent@example.com'])
       expect(mail.subject).to include('verification code')

@@ -43,6 +43,16 @@ RSpec.describe DeviceVerification::ChallengeService do
 
       expect(Redis::Alfred.ttl(key)).to be_positive
     end
+
+    it 'releases the issuance reservation when the email cannot be enqueued' do
+      allow(mailer_message).to receive(:deliver_later).and_raise(StandardError, 'queue down')
+      key = format(Redis::RedisKeys::DEVICE_VERIFICATION_ISSUANCE, user_id: user.id)
+
+      expect { issue_challenge }.to raise_error(StandardError, 'queue down')
+
+      # Budget not consumed by the failed attempt, so a retry is still allowed.
+      expect(Redis::Alfred.get(key).to_i).to eq(0)
+    end
   end
 
   describe '.redeem' do
@@ -84,7 +94,7 @@ RSpec.describe DeviceVerification::ChallengeService do
     end
 
     it 'rejects redemption when the user is not a password-provider user' do
-      user.update_column(:provider, 'saml')
+      user.update_column(:provider, 'saml') # rubocop:disable Rails/SkipsModelValidations
       expect(described_class.redeem(token: token, code: code)[:error]).to eq(:stale)
     end
 

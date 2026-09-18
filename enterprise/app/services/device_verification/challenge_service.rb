@@ -15,6 +15,12 @@ class DeviceVerification::ChallengeService
     Enterprise::DeviceVerificationMailer.verification_code(user, DeviceVerification.encrypt_code(code), request_meta || {})
                                         .deliver_later(queue: 'critical')
     DeviceVerification::TokenService.new(user: user, jti: jti).generate_token
+  rescue StandardError
+    # The challenge could not be dispatched (e.g. queue outage). Release the stored
+    # code and the issuance reservation so a transient failure does not burn the
+    # user's 24h budget across retries, then re-raise so the failure surfaces.
+    release_reservation(jti)
+    raise
   end
 
   class << self
@@ -72,5 +78,11 @@ class DeviceVerification::ChallengeService
     # otherwise the user's budget never resets.
     ::Redis::Alfred.expire(key, ISSUANCE_WINDOW.to_i) if count == 1 || ::Redis::Alfred.ttl(key).to_i.negative?
     count <= ISSUANCE_LIMIT
+  end
+
+  def release_reservation(jti)
+    ::Redis::Alfred.delete(self.class.code_key(user, jti)) if jti.present?
+    issuance_key = format(::Redis::RedisKeys::DEVICE_VERIFICATION_ISSUANCE, user_id: user.id)
+    ::Redis::Alfred.with { |conn| conn.decr(issuance_key) }
   end
 end

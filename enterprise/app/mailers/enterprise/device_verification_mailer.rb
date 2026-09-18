@@ -2,7 +2,10 @@ class Enterprise::DeviceVerificationMailer < ApplicationMailer
   self.delivery_job = Enterprise::DeviceVerificationDeliveryJob
 
   def verification_code(user, encrypted_code, meta = {})
-    return unless smtp_config_set_or_development?
+    # Raise, do not silently no-op: this code blocks sign-in, so a deployment with
+    # device verification enabled but no SMTP is a misconfiguration that must surface
+    # (the job then fails and retries) rather than leaving users at a 206 with no code.
+    raise 'SMTP is not configured; cannot deliver device verification codes' unless smtp_config_set_or_development?
 
     @user = user
     @code = DeviceVerification.decrypt_code(encrypted_code)
