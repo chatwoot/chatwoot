@@ -5,7 +5,14 @@ export const FORMATTING = {
   // Channel formatting
   'Channel::Email': {
     marks: ['strong', 'em', 'code', 'link'],
-    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
+    nodes: [
+      'bulletList',
+      'orderedList',
+      'codeBlock',
+      'blockquote',
+      'image',
+      'table',
+    ],
     menu: [
       'copilot',
       'strong',
@@ -15,6 +22,7 @@ export const FORMATTING = {
       'bulletList',
       'orderedList',
       'imageUpload',
+      'insertTable',
       'undo',
       'redo',
     ],
@@ -213,6 +221,16 @@ const flattenLink = (_match, text, url) => {
   return text === cleanUrl ? cleanUrl : `${text}: ${cleanUrl}`;
 };
 
+// Table block -> one `a | b` line per row, without the separator row. Escaped
+// pipes stay inside their cell.
+const flattenTable = (_match, header, body) =>
+  `${header}${body}`.replace(/^\|(.*)\|[ \t]*$/gm, (_row, cells) =>
+    cells
+      .split(/(?<!\\)\|/)
+      .map(cell => cell.trim())
+      .join(' | ')
+  );
+
 /**
  * Markdown formatting patterns for stripping unsupported formatting.
  *
@@ -230,6 +248,18 @@ export const MARKDOWN_PATTERNS = [
   {
     type: 'blockquote', // PM: blockquote, eg: > quote
     patterns: [{ pattern: /^> ?/gm, replacement: '' }],
+  },
+  {
+    type: 'table', // PM: table, eg: | a | b |\n| --- | --- |\n| 1 | 2 |
+    patterns: [
+      // Header row, separator row, then body rows: only a real table block
+      // matches, so a lone `| text |` line is left alone.
+      {
+        pattern:
+          /^(\|.*\|[ \t]*)\n\|(?:[ \t]*:?-+:?[ \t]*\|)+[ \t]*$((?:\n\|.*\|[ \t]*$)*)/gm,
+        replacement: flattenTable,
+      },
+    ],
   },
   {
     type: 'bulletList', // PM: bullet_list, eg: - item
