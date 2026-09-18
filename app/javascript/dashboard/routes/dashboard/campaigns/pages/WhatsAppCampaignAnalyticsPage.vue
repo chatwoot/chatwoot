@@ -8,7 +8,7 @@ import BasePaywallModal from 'dashboard/routes/dashboard/settings/components/Bas
 import WhatsAppCampaignAnalyticsContent from './WhatsAppCampaignAnalyticsContent.vue';
 
 const router = useRouter();
-const { accountScopedRoute, isOnChatwootCloud } = useAccount();
+const { accountScopedRoute, isOnChatwootCloud, currentAccount } = useAccount();
 const { canViewAnalytics, showPaywall } = useCampaignAnalytics();
 const currentUser = useMapGetter('getCurrentUser');
 const isSuperAdmin = computed(() => currentUser.value.type === 'SuperAdmin');
@@ -18,9 +18,9 @@ const paywallKey = computed(() =>
 const openBilling = () =>
   router.push(accountScopedRoute('billing_settings_index'));
 watch(
-  [canViewAnalytics, showPaywall],
-  ([canView, paywall]) => {
-    if (!canView && !paywall) {
+  [currentAccount, canViewAnalytics, showPaywall],
+  ([account, canView, paywall]) => {
+    if (account.id && !canView && !paywall) {
       router.replace(accountScopedRoute('campaigns_whatsapp_index'));
     }
   },
