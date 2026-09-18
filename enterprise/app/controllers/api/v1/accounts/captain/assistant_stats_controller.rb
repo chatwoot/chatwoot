@@ -7,7 +7,8 @@ class Api::V1::Accounts::Captain::AssistantStatsController < Api::V1::Accounts::
   before_action :validate_timezone_offset, only: :overview_summary
 
   def overview
-    render json: Captain::AssistantOverviewStatsBuilder.new(@assistant, params[:range], params[:timezone_offset]).metrics
+    metrics = Captain::AssistantOverviewStatsBuilder.new(@assistant, params[:range], params[:timezone_offset]).metrics
+    render json: metrics.merge(tracking_started_at: Captain::OutcomeTrackingHistory.started_at&.iso8601(6))
   end
 
   def overview_summary
@@ -51,6 +52,7 @@ class Api::V1::Accounts::Captain::AssistantStatsController < Api::V1::Accounts::
       @assistant.cache_key_with_version,
       stats_window.range,
       stats_window.timezone,
+      Captain::OutcomeTrackingHistory.started_at&.iso8601(6),
       Current.account.locale
     ].join(':')
   end

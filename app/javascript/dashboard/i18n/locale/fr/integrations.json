@@ -135,7 +135,23 @@
       "HELP_TEXT": {
         "TITLE": "Utilisation de l'intégration Slack",
         "BODY": "Grâce à cette intégration, toutes vos conversations entrantes seront synchronisées avec le canal ***{selectedChannelName}*** de votre espace de travail Slack. Vous pourrez gérer toutes vos conversations client directement dans ce canal et ne manquer aucun message.\n\nVoici les principales fonctionnalités de l’intégration :\n\n**Répondre aux conversations depuis Slack :** pour répondre à une conversation dans le canal Slack ***{selectedChannelName}***, saisissez simplement votre message et envoyez-le dans un fil de discussion. Une réponse sera alors envoyée au client via Chatwoot. C’est aussi simple que cela !\n\n**Créer des notes privées :** si vous souhaitez créer des notes privées plutôt que des réponses, commencez votre message par ***`note:`***. Votre message restera ainsi privé et ne sera pas visible par le client.\n\n**Associer un profil d’agent :** si la personne qui répond dans Slack possède un profil d’agent Chatwoot avec la même adresse e-mail, les réponses seront automatiquement associées à ce profil. Vous pourrez ainsi facilement savoir qui a dit quoi et à quel moment. Si la personne ne possède pas de profil d’agent associé, les réponses apparaîtront au client comme provenant du profil du bot.",
+        "BODY_ALERT": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace, so your team can pick them up as soon as they come in.\n\nThis integration is set to **Alerts only**, which means the Slack thread is a safe space for internal discussion. Anything your team posts there stays in Slack and is never sent to the customer.\n\n**Respond to the customer from Chatwoot:** Open the conversation from the link shared in the thread and reply from the Chatwoot dashboard. Replies and private notes added in Chatwoot keep appearing in the Slack thread, so everyone stays in the loop.",
         "SELECTED": "sélectionné"
+      },
+      "MESSAGE_MODE": {
+        "TITLE": "Slack thread behaviour",
+        "DESCRIPTION": "Decide whether replies in the Slack thread reach the customer or stay internal.",
+        "OPTIONS": {
+          "TWO_WAY": {
+            "LABEL": "Two-way sync",
+            "DESCRIPTION": "Replies in the Slack thread are sent to the customer. Start a message with `note:` to keep it internal."
+          },
+          "ALERT": {
+            "LABEL": "Alerts only",
+            "DESCRIPTION": "Conversations are posted to Slack for internal discussion only. Nothing in the thread reaches the customer."
+          }
+        },
+        "UPDATE_SUCCESS": "The Slack thread behaviour is updated successfully"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Sélectionnez un canal",
@@ -246,7 +262,7 @@
       "SIDEBAR_TXT": "<p><b>Les applications du tableau de bord</b></p><p>Les applications du tableau de bord permettent aux organisations d'intégrer une application dans le tableau de bord Chatwoot pour fournir le contexte aux agents d'assistance client. Cette fonctionnalité vous permet de créer une application indépendamment et d'intégrer cela dans le tableau de bord pour fournir les informations de l'utilisateur, leurs commandes, ou leur historique de paiement précédent.</p><p>Lorsque vous intégrez votre application en utilisant le tableau de bord dans Chatwoot, votre application obtiendra le contexte de la conversation et le contact comme un événement de fenêtre. Implémentez un listener pour l'événement message sur votre page pour recevoir le contexte.</p><p>Pour ajouter une nouvelle application de tableau de bord, cliquez sur le bouton 'Ajouter une nouvelle application de tableau de bord'.</p>",
       "DESCRIPTION": "Les applications du tableau de bord permettent aux organisations d'intégrer une application dans le tableau de bord pour fournir le contexte des agents d'assistance client. Cette fonctionnalité vous permet de créer une application de manière indépendante et d'intégrer les informations de l'utilisateur, leurs commandes ou leur historique de paiement précédent.",
       "LEARN_MORE": "En savoir plus sur les applications du tableau de bord",
-      "COUNT": "{n} application de tableau de bord | {n} applications de tableau de bord",
+      "COUNT": "{n} application du tableau de bord | {n} applications du tableau de bord",
       "SEARCH_PLACEHOLDER": "Rechercher dans les applications du tableau de bord...",
       "NO_RESULTS": "Aucune application de tableau de bord trouvée correspondant à votre recherche",
       "LIST": {
@@ -381,7 +397,7 @@
       },
       "CTA": {
         "TITLE": "Se connecter à Linear",
-        "AGENT_DESCRIPTION": "L’espace de travail Linear n’est pas connecté. Demandez à votre administrateur de connecter un espace de travail pour utiliser cette intégration.",
+        "AGENT_DESCRIPTION": "L'espace de travail Linear n'est pas connecté. Demandez à votre administrateur de connecter un espace de travail pour utiliser cette intégration.",
         "DESCRIPTION": "L’espace de travail Linear n’est pas connecté. Cliquez ci-dessous pour le connecter et utiliser cette intégration.",
         "BUTTON_TEXT": "Connecter l’espace de travail Linear"
       }
@@ -423,27 +439,30 @@
       "METRICS": {
         "HANDLED": {
           "LABEL": "Conversations gérées",
-          "HINT": "Conversations distinctes auxquelles cet assistant a répondu."
+          "HINT": "Conversations where Captain replied to the customer or handed the conversation to your team."
         },
         "AUTO_RESOLUTION": {
           "LABEL": "Taux de résolution automatique",
-          "HINT": "Part des conversations gérées clôturées sans réponse humaine."
+          "HINT": "The share of handled conversations Captain resolved without help from your team. Higher means Captain resolved more on its own."
         },
         "HANDOFF": {
           "LABEL": "Taux de transfert à un agent",
-          "HINT": "Part des conversations gérées transférées à un agent humain."
+          "HINT": "The share of handled conversations Captain passed to your team. Lower means fewer conversations needed an agent."
         },
         "HOURS_SAVED": {
           "LABEL": "Temps gagné",
-          "HINT": "Estimation : chaque réponse de Captain représente environ 2 minutes de travail d’agent. Valeur indicative, non fondée sur une mesure du temps de travail."
+          "HINT": "An estimate of how much agent reply time Captain saved.",
+          "NOTE": "Based on two minutes saved for each public Captain reply."
         },
         "REOPEN": {
           "LABEL": "Taux de réouverture",
-          "HINT": "Conversations auto-résolues qui ont été rouvertes par la suite."
+          "HINT": "The share of Captain-resolved conversations that customers returned to later.",
+          "NOTE": "Lower means more resolutions stayed resolved."
         },
         "DEPTH": {
           "LABEL": "Messages / Conversations",
-          "HINT": "Réponses moyennes que l'assistant envoie par conversation."
+          "HINT": "The average number of replies Captain sent in each conversation it handled.",
+          "NOTE": "A lower number can mean quicker answers, but complex questions may need more replies."
         }
       },
       "DRILLDOWN": {
@@ -471,6 +490,95 @@
         "BILLING": {
           "TITLE": "Facturation",
           "DESCRIPTION": "Gérer les crédits et le plan"
+        }
+      },
+      "V2": {
+        "EMPTY": "No data available for this period.",
+        "SUMMARY": {
+          "GREETING": "Hello, {name}!",
+          "DEFAULT_NAME": "there",
+          "EMPTY": "Captain's performance summary will appear here when enough activity is available.",
+          "PREVIOUS": "Previous summary point",
+          "NEXT": "Next summary point"
+        },
+        "UNITS": {
+          "DAYS": "{value}d",
+          "HOURS": "{value}h",
+          "MINUTES": "{value} min"
+        },
+        "METRICS": {
+          "TIME_SAVED": {
+            "LABEL": "Saved in agent effort and time"
+          },
+          "DURABLE": {
+            "LABEL": "Captain resolutions remained closed",
+            "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
+            "NOTE": "Only resolutions old enough to observe for seven days are included."
+          },
+          "MEDIAN_RESOLUTION": {
+            "LABEL": "Median resolution time",
+            "HINT": "The typical time from when a conversation reached Captain until it was resolved.",
+            "NOTE": "Lower means customers generally got resolved sooner."
+          },
+          "DEPTH": {
+            "LABEL": "Messages per conversation"
+          },
+          "OF_TOTAL": "of {total}"
+        },
+        "RESOLUTION_FLOW": {
+          "ARIA_LABEL": "Flow of handled conversations through Captain and team outcomes",
+          "NODES": {
+            "HANDLED": "Handled",
+            "RESOLVED_BY_CAPTAIN": "Resolved by Captain",
+            "HANDED_OFF": "Handed off",
+            "CLOSED_WITH_TEAM": "Closed with team",
+            "REOPENED": "Reopened in 7d",
+            "STAYED_CLOSED": "Stayed closed",
+            "OTHER_REASONS": "Other reasons"
+          }
+        },
+        "HANDOFF_REASONS": {
+          "TITLE": "Handoff reasons",
+          "CUSTOMER_REQUEST": "Customer requested",
+          "MISSING_KNOWLEDGE": "Missing knowledge",
+          "UNSUPPORTED_REQUEST": "Unsupported request",
+          "POLICY_RESTRICTION": "Policy restriction",
+          "TOOL_FAILURE": "Tool failure",
+          "PENDING_CLARIFICATION": "Pending customer clarification",
+          "PERCENTAGE": "({value}%)",
+          "USAGE_LIMIT": "Usage limit",
+          "UNCLASSIFIED": "Unclassified"
+        },
+        "RESOLUTION_TREND": {
+          "TITLE": "Resolution trend",
+          "CONVERSATION_COUNT": "Conversation count",
+          "RESOLUTION_RATE": "Resolution rate",
+          "CURRENT_PERIOD": "Current period",
+          "PREVIOUS_PERIOD": "Période précédente",
+          "HANDLED": "Handled",
+          "RESOLVED": "Resolved by Captain",
+          "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period",
+          "RATE_ARIA_LABEL": "Current and previous Captain resolution rates"
+        },
+        "CSAT": {
+          "TITLE": "Captain CSAT",
+          "AUTONOMOUS": "Captain-resolved conversations",
+          "AUTONOMOUS_HINT": "The average customer rating for conversations Captain resolved without help from your team.",
+          "ASSISTED": "Captain-assisted conversations",
+          "ASSISTED_HINT": "The average customer rating when Captain helped before your team resolved the conversation.",
+          "VS_HUMANS": "{value} vs humans"
+        },
+        "USAGE": {
+          "TITLE": "Usage",
+          "CREDITS": "Credits",
+          "DOCUMENTS": "Documents",
+          "USED": "({percentage}% used)",
+          "VALUE": "{used}/{total}",
+          "REFRESH": "Refresh usage",
+          "BUY_MORE": "Acheter plus de crédits"
+        },
+        "KNOWLEDGE": {
+          "REVIEW": "Review FAQs"
         }
       }
     },
@@ -598,6 +706,37 @@
           "LABEL": "Message de résolution",
           "PLACEHOLDER": "Entrez le message de résolution"
         },
+        "INACTIVITY_RESOLUTION": {
+          "TITLE": "When customers stop replying",
+          "DESCRIPTION": "Choose how Captain handles the conversation.",
+          "MODE_LABEL": "Action when the customer stops replying",
+          "REVIEW_AFTER": "Review after",
+          "RESOLVE_AFTER": "Resolve after",
+          "ALWAYS_WARNING": "Captain will resolve every conversation after the selected time without reviewing it. Some conversations that still need help may be closed.",
+          "PENDING_INFO": "The conversation remains pending until the customer replies.",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Send a message when resolving",
+            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation."
+          },
+          "MODES": {
+            "DISABLED": {
+              "LABEL": "Wait for the customer",
+              "DESCRIPTION": "Captain does not resolve the conversation. Captain can still hand it off if the customer asks."
+            },
+            "LEGACY": {
+              "LABEL": "Always resolve",
+              "DESCRIPTION": "Captain resolves every conversation after the selected time."
+            },
+            "EVALUATED": {
+              "LABEL": "Let Captain review it (recommended)",
+              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
+            }
+          },
+          "DURATION_HOURS_ARIA_LABEL": "Hours before action",
+          "DURATION_MINUTES_ARIA_LABEL": "Minutes before action",
+          "DURATION_HOURS_SHORT": "{count} h",
+          "DURATION_MINUTES_SHORT": "{count} min"
+        },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",
           "PLACEHOLDER": "Entrez les instructions pour l'assistant"
@@ -608,6 +747,48 @@
           "ALLOW_MEMORIES": "Capturez les détails clés comme des souvenirs des interactions client.",
           "ALLOW_CITATIONS": "Inclure les citations sources dans les réponses",
           "ALLOW_CONTACT_ATTRIBUTES": "Autoriser l'accès aux informations de contact"
+        },
+        "AUDIENCE": {
+          "EVERYONE": {
+            "LABEL": "Everyone",
+            "DESC": "Captain responds to every conversation in connected inboxes."
+          },
+          "SPECIFIC": {
+            "LABEL": "Specific audience",
+            "DESC": "Captain responds only to customers who match the conditions below."
+          },
+          "ADD_CONDITION": "Add condition",
+          "ADD_GROUP": "Add condition group",
+          "EMPTY_TITLE": "No conditions yet",
+          "EMPTY_BODY": "Add a condition to target specific customers, or a condition group to combine conditions with different and/or logic.",
+          "EMPTY_ERROR": "Add at least one condition for a specific audience.",
+          "MATCH_PREFIX": "Match",
+          "MATCH_SUFFIX": "of the following",
+          "MATCH_ALL": "all",
+          "MATCH_ANY": "any",
+          "GROUP_CONTACT": "Contact attributes",
+          "GROUP_CONVERSATION": "Conversation",
+          "GROUP_CUSTOM": "Attributs personnalisés",
+          "BROWSER_LANGUAGE": "Langue du navigateur",
+          "CONVERSATION_LANGUAGE": "First message language",
+          "LOGGED_IN": "Logged-in user",
+          "LOGGED_IN_TRUE": "Oui",
+          "LOGGED_IN_FALSE": "Non"
+        },
+        "SCHEDULE": {
+          "ALWAYS": {
+            "LABEL": "Anytime",
+            "DESC": "Captain responds to every conversation, regardless of time."
+          },
+          "BUSINESS_HOURS": {
+            "LABEL": "During business hours",
+            "DESC": "Captain responds only within each inbox's business hours."
+          },
+          "OUTSIDE_BUSINESS_HOURS": {
+            "LABEL": "Outside business hours",
+            "DESC": "Captain responds only when each inbox is closed."
+          },
+          "HINT": "Inboxes without business hours configured are always covered."
         }
       },
       "EDIT": {
@@ -624,7 +805,16 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "Paramètres du système",
-          "DESCRIPTION": "Personnalisez ce que l'assistant dit lorsque vous terminez une conversation ou que vous transférez à un humain."
+          "DESCRIPTION": "Personnalisez ce que l'assistant dit lorsque vous terminez une conversation ou que vous transférez à un humain.",
+          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set the handoff message."
+        },
+        "AUDIENCE": {
+          "TITLE": "Audience",
+          "DESCRIPTION": "Choose whether this assistant responds to everyone or only to a specific audience."
+        },
+        "SCHEDULE": {
+          "TITLE": "Schedule",
+          "DESCRIPTION": "Choose when Captain replies. Outside this window, conversations are handed to your team."
         },
         "CONTROL_ITEMS": {
           "TITLE": "Le truc amusant",
@@ -670,7 +860,7 @@
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Exemple de garde-fou",
+            "TITLE": "Exemple de garde-fous",
             "ADD": "Ajouter tout",
             "ADD_SINGLE": "Ajouter ceci",
             "SAVE": "Ajouter et enregistrer (↵)",
@@ -793,6 +983,11 @@
           "CANCEL": "Annuler",
           "UPDATE": "Mettre à jour les modifications"
         },
+        "STATUS": {
+          "ENABLED": "Activé",
+          "DISABLED": "Désactivé",
+          "TOGGLE": "Toggle {title}"
+        },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Recherche..."
         },
@@ -807,6 +1002,11 @@
             "SUCCESS": "Scénarios mis à jour avec succès",
             "ERROR": "Une erreur s'est produite lors de la mise à jour des scénarios, veuillez réessayer."
           },
+          "TOGGLE": {
+            "ENABLED": "Scenario enabled successfully",
+            "DISABLED": "Scenario disabled successfully",
+            "ERROR": "There was an error updating the scenario status, please try again."
+          },
           "DELETE": {
             "SUCCESS": "Scénarios supprimés avec succès",
             "ERROR": "Une erreur s'est produite lors de la suppression des scénarios, veuillez réessayer."
@@ -818,6 +1018,8 @@
       "HEADER": "Documents",
       "ADD_NEW": "Créer un nouveau document",
       "FAQ_COUNT": "{n} FAQ | {n} FAQ",
+      "USED_IN_CONVERSATIONS": "Used in {n} conversation | Used in {n} conversations",
+      "NO_USED_CONVERSATIONS": "No conversations found for this document.",
       "SELECTED": "{count} sélectionné",
       "SELECT_ALL": "Tout sélectionner ({count})",
       "UNSELECT_ALL": "Désélectionner tout ({count})",
@@ -832,7 +1034,7 @@
       },
       "BULK_SYNC": {
         "SUCCESS_MESSAGE_ONE": "Actualisation mise en file d’attente pour 1 document",
-        "SUCCESS_MESSAGE": "Actualisation mise en file d’attente pour {count} documents",
+        "SUCCESS_MESSAGE": "Rafraîchissement en file d'attente pour {count} documents",
         "ZERO_MESSAGE": "Aucun document marqué pour être actualisé.",
         "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour, veuillez réessayer."
       },
@@ -855,7 +1057,8 @@
         },
         "SORT": {
           "RECENTLY_UPDATED": "Récemment mis à jour",
-          "RECENTLY_CREATED": "Créé récemment"
+          "RECENTLY_CREATED": "Créé récemment",
+          "MOST_USED": "Most used in conversations"
         },
         "SEARCH_PLACEHOLDER": "Recherche..."
       },
@@ -883,6 +1086,7 @@
         "DESCRIPTION": "Examinez le contenu exploré et la FAQ générée à partir de cette source.",
         "SOURCE": "Source",
         "GENERATED_FAQS": "FAQ générées",
+        "USED_IN_CONVERSATIONS": "Used in conversations",
         "LAST_UPDATED": "Dernière mise à jour",
         "NOT_AVAILABLE": "Non disponible",
         "CONTENT_TAB": "Contenu exploré",
@@ -970,6 +1174,22 @@
         "EDIT_TOOL": "Éditer l’outil",
         "DELETE_TOOL": "Supprimer l'outil"
       },
+      "STATUS": {
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé",
+        "TOGGLE": "Toggle {title}"
+      },
+      "TOGGLE": {
+        "ENABLED": "Tool enabled successfully",
+        "DISABLED": "Tool disabled successfully",
+        "ERROR": "Failed to update tool status"
+      },
+      "DISABLE_CONFIRMATION": {
+        "TITLE": "Disable {title}?",
+        "DESCRIPTION_ONE": "This tool is used by {count} enabled scenario. Disabling it may cause that scenario to stop working as expected.",
+        "DESCRIPTION_OTHER": "This tool is used by {count} enabled scenarios. Disabling it may cause those scenarios to stop working as expected.",
+        "CONFIRM": "Disable tool"
+      },
       "CREATE": {
         "TITLE": "Créer un outil personnalisé",
         "SUCCESS_MESSAGE": "Outil personnalisé créé avec succès",
@@ -1003,7 +1223,7 @@
         "BUTTON": "Tester la connexion",
         "SUCCESS": "Le point de terminaison a renvoyé le code HTTP {status}",
         "ERROR": "Échec de la connexion",
-        "DISABLED_HINT": "Le test n'est disponible que pour les points de terminaison sans gabarits ni corps de requête."
+        "DISABLED_HINT": "Le test n'est disponible que pour les points de terminaison sans gabarits ou corps de requête."
       },
       "FORM": {
         "TITLE": {
@@ -1035,7 +1255,7 @@
         },
         "AUTH_CONFIG": {
           "BEARER_TOKEN": "Jeton Bearer",
-          "BEARER_TOKEN_PLACEHOLDER": "Saisissez votre jeton Bearer",
+          "BEARER_TOKEN_PLACEHOLDER": "Entrez votre jeton Bearer",
           "USERNAME": "Nom d'utilisateur",
           "USERNAME_PLACEHOLDER": "Entrez le nom d'utilisateur",
           "PASSWORD": "Mot de passe",
@@ -1085,6 +1305,7 @@
     "RESPONSES": {
       "HEADER": "Foire aux questions",
       "ADD_NEW": "Créer une nouvelle FAQ",
+      "NO_USED_CONVERSATIONS": "No conversations found for this FAQ.",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
       },
@@ -1097,7 +1318,7 @@
       },
       "BULK_DELETE_BUTTON": "Supprimer",
       "BULK_DELETE": {
-        "TITLE": "Supprimer les FAQ ?",
+        "TITLE": "Supprimer les FAQ sélectionnées ?",
         "DESCRIPTION": "Êtes-vous sûr de vouloir supprimer les FAQ sélectionnées ? Cette action ne peut pas être annulée.",
         "CONFIRM": "Oui, supprimer tout",
         "SUCCESS_MESSAGE": "FAQ supprimées avec succès",
