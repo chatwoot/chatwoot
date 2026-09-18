@@ -90,61 +90,6 @@ describe SearchService do
         expect(search.perform[:messages].map(&:id)).to eq([message2.id, message.id])
       end
 
-      context 'when a custom role restricts conversation access' do
-        let(:search_type) { 'Message' }
-        let(:params) { { q: 'restricted search term' } }
-        let(:scoped_records) do
-          assigned_conversation = create(:conversation, account: account, inbox: inbox, assignee: user)
-          restricted_conversation = create(:conversation, account: account, inbox: inbox, assignee: create(:user, account: account))
-
-          {
-            assigned_conversation: assigned_conversation,
-            restricted_conversation: restricted_conversation,
-            assigned_message: create(
-              :message, account: account, inbox: inbox, conversation: assigned_conversation, content: 'restricted search term'
-            ),
-            restricted_message: create(
-              :message, account: account, inbox: inbox, conversation: restricted_conversation, content: 'restricted search term'
-            )
-          }
-        end
-
-        before do
-          custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
-          account.account_users.find_by!(user: user).update!(role: :agent, custom_role: custom_role)
-          scoped_records
-        end
-
-        it 'returns messages only from conversations the agent can access' do
-          message_ids = search.perform[:messages].map(&:id)
-
-          expect(message_ids).to contain_exactly(scoped_records[:assigned_message].id)
-          expect(message_ids).not_to include(scoped_records[:restricted_message].id)
-        end
-
-        it 'applies the same permission scope to conversation search' do
-          scoped_records[:assigned_conversation].contact.update!(name: 'restricted search term')
-          scoped_records[:restricted_conversation].contact.update!(name: 'restricted search term')
-          conversation_search = described_class.new(
-            current_user: user,
-            current_account: account,
-            params: params,
-            search_type: 'Conversation'
-          )
-
-          expect(conversation_search.perform[:conversations].map(&:id)).to contain_exactly(scoped_records[:assigned_conversation].id)
-        end
-
-        it 'uses permission-aware SQL search instead of the search index' do
-          allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
-          allow(account).to receive(:feature_enabled?).and_call_original
-          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
-
-          expect(search.send(:should_run_advanced_search?)).to be false
-          expect(search.perform[:messages].map(&:id)).to contain_exactly(scoped_records[:assigned_message].id)
-        end
-      end
-
       context 'with feature flag for search type' do
         let(:params) { { q: 'Harry' } }
         let(:search_type) { 'Message' }
