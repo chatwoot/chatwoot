@@ -4,7 +4,7 @@ class Api::V1::Profile::TrustedDevicesController < Api::BaseController
   def destroy
     return head :not_found unless ChatwootApp.enterprise? && DeviceVerification.enabled?
 
-    current_user.increment!(:device_trust_version) # rubocop:disable Rails/SkipsModelValidations
+    User.update_counters(current_user.id, device_trust_version: 1) # rubocop:disable Rails/SkipsModelValidations
     head :ok
   end
 end

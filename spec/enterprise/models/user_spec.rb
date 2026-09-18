@@ -75,12 +75,19 @@ RSpec.describe User do
       expect { user.update!(password: 'NewPassword1!') }.to change { user.reload.device_trust_version }.by(1)
     end
 
-    it 'bumps when the email changes' do
+    it 'bumps when the email actually changes (post-confirmation)' do
+      user.skip_reconfirmation!
       expect { user.update!(email: 'changed@example.com') }.to change { user.reload.device_trust_version }.by(1)
     end
 
     it 'does not bump on unrelated changes' do
       expect { user.update!(name: 'New Name') }.not_to(change { user.reload.device_trust_version })
+    end
+
+    it 'clears the device verification challenge budget on a password change' do
+      key = format(Redis::RedisKeys::DEVICE_VERIFICATION_ISSUANCE, user_id: user.id)
+      Redis::Alfred.setex(key, '5', 1.hour)
+      expect { user.update!(password: 'NewPassword1!') }.to change { Redis::Alfred.get(key) }.to(nil)
     end
   end
 end

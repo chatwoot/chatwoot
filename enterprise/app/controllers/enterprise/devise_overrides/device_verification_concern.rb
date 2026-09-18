@@ -30,8 +30,16 @@ module Enterprise::DeviseOverrides::DeviceVerificationConcern
 
   def complete_device_verification(user)
     remember_device!(user)
-    Enterprise::DeviceVerificationMailer.new_device(user, device_request_meta).deliver_later(queue: 'critical')
+    # Sign in FIRST: the code is already consumed, so a mailer/queue failure must not
+    # prevent authentication and strand the user with a spent one-time code.
     sign_in_mfa_user(user)
+    notify_new_device(user)
+  end
+
+  def notify_new_device(user)
+    Enterprise::DeviceVerificationMailer.new_device(user, device_request_meta).deliver_later(queue: 'critical')
+  rescue StandardError => e
+    Rails.logger.warn "Device verification new-device email could not be enqueued: #{e.message}"
   end
 
   def render_device_verification_error(error)

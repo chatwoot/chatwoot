@@ -104,6 +104,16 @@ RSpec.describe 'Device verification on sign-in', type: :request do
       expect(user.reload.user_sessions.count).to eq(1)
     end
 
+    it 'still completes sign-in when the new-device email fails to enqueue' do
+      sign_in!
+      allow(Enterprise::DeviceVerificationMailer).to receive(:new_device).and_raise(StandardError, 'queue down')
+
+      redeem!(issued_token, emailed_codes.last)
+
+      expect(response).to have_http_status(:success)
+      expect(response.headers['access-token']).to be_present
+    end
+
     it 'rejects a wrong code with 400 and no session' do
       sign_in!
       redeem!(issued_token, '000000')
@@ -185,7 +195,7 @@ RSpec.describe 'Device verification on sign-in', type: :request do
     it 're-challenges when the trust version was bumped' do
       sign_in!
       redeem!(issued_token, emailed_codes.last)
-      user.reload.increment!(:device_trust_version)
+      User.update_counters(user.id, device_trust_version: 1) # rubocop:disable Rails/SkipsModelValidations
 
       sign_in!
 
