@@ -4,6 +4,8 @@ import { useI18n } from 'vue-i18n';
 
 import {
   buildTemplateParameters,
+  getTemplateKey,
+  isValidTemplateMediaUrl,
   findComponentByType,
   COMPONENT_TYPES,
   MEDIA_FORMATS,
@@ -36,7 +38,7 @@ const { t } = useI18n();
 
 const templateOptions = computed(() =>
   props.templates.map(template => ({
-    value: template.id,
+    value: getTemplateKey(template),
     label: `${template.name.replace(/_/g, ' ')} (${template.language})`,
   }))
 );
@@ -49,7 +51,9 @@ const emptyState = computed(() =>
 
 const selectedTemplate = computed(
   () =>
-    props.templates.find(template => template.id === templateId.value) ?? null
+    props.templates.find(
+      template => getTemplateKey(template) === templateId.value
+    ) ?? null
 );
 
 const headerComponent = computed(() =>
@@ -73,7 +77,7 @@ const isDocumentHeader = computed(
 
 const handleTemplateChange = value => {
   templateId.value = value;
-  const template = props.templates.find(item => item.id === value);
+  const template = props.templates.find(item => getTemplateKey(item) === value);
   processedParams.value = template ? buildTemplateParameters(template) : {};
 };
 
@@ -110,6 +114,16 @@ const updateHeaderParam = (key, value) => {
     <Input
       :model-value="processedParams.header?.media_url ?? ''"
       type="url"
+      :message="
+        isValidTemplateMediaUrl(processedParams.header?.media_url)
+          ? ''
+          : t('CAMPAIGN.WHATSAPP.FORM.TEMPLATE.INVALID_MEDIA_URL')
+      "
+      :message-type="
+        isValidTemplateMediaUrl(processedParams.header?.media_url)
+          ? 'info'
+          : 'error'
+      "
       :placeholder="
         t('CAMPAIGN.WHATSAPP.FORM.TEMPLATE.HEADER_PLACEHOLDER', {
           type: headerFormat,
