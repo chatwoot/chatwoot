@@ -1,4 +1,6 @@
 class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
+  include MarkdownRendererUrlSanitizer
+
   CONFIG_PATH = Rails.root.join('config/markdown_embeds.yml')
 
   def self.config
@@ -57,7 +59,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   def image(node)
-    src = escape_href(node.url)
+    src = sanitized_href(node.url)
     width = extract_image_width(src)
     plain do
       out(%(<img src="#{src}"))

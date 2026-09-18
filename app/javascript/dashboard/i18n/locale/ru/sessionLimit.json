@@ -5,7 +5,7 @@
     "END": "End",
     "END_ALL": "End all sessions",
     "LOG_IN": "Log in",
-    "CANCEL": "Back to login",
+    "CANCEL": "Вернуться ко входу в систему",
     "UNKNOWN_DEVICE": "Unknown device",
     "STARTED": "Started"
   }

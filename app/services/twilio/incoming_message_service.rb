@@ -17,7 +17,7 @@ class Twilio::IncomingMessageService
       message_type: :incoming,
       sender: @contact,
       source_id: params[:SmsSid],
-      content_attributes: message_content_attributes
+      content_attributes: message_content_attributes.merge(in_reply_to_external_id: params[:OriginalRepliedMessageSid].presence).compact
     )
     attach_files
     attach_location if location_message?

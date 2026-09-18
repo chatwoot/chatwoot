@@ -105,6 +105,7 @@
       "MUTE_CONVERSATION": "ระงับการสนทนา",
       "SNOOZE_CONVERSATION": "พักการสนทนา",
       "RESOLVE_CONVERSATION": "เสร็จสิ้นการสนทนา",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
       "CHANGE_PRIORITY": "Change Priority",

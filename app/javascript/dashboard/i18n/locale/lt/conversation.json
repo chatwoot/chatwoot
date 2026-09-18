@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "Kairiojoje srityje pasirinkite pokalbį",
     "CSAT_REPLY_MESSAGE": "Prašome įvertinti pokalbį",
     "404": "Atsiprašome, negalime rasti pokalbio. Prašau, pabandykite dar kartą",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "Pranešimas ištrintas sėkmingai",
     "FAIL_DELETE_MESSSAGE": "Nepavyko ištrinti pranešimo! Bandykite dar kartą",
     "NO_RESPONSE": "Nėra atsakymo",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "Agentai",
       "TEAMS": "Komandos"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Aprašymas",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Ieškoti emodžių",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "Visi"
+        },
+        "AVAILABILITY": "Prieinamumas",
+        "ROLE": "Agento tipas",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "Leisti",
+        "DISABLED": "Išjungta",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Atidėti iki",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} kitas",
     "TOTAL_PARTICIPANTS_TEXT": "{count} dalyvauja žmonių.",
     "TOTAL_PARTICIPANT_TEXT": "{count} dalyvauja asmenų.",
-    "NO_PARTICIPANTS_TEXT": "Niekas nedalyvauja!.",
+    "NO_PARTICIPANTS_TEXT": "Niekas nedalyvauja!",
     "WATCH_CONVERSATION": "Prisijungti pire pokalbio",
     "YOU_ARE_WATCHING": "Jūs dalyvaujate",
     "API": {

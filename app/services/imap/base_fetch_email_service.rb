@@ -2,9 +2,6 @@ require 'net/imap'
 
 class Imap::BaseFetchEmailService
   MAX_MESSAGES_PER_SYNC = 500
-  AUTHENTICATION_FAILED_CODE = 'AUTHENTICATIONFAILED'.freeze
-  GMAIL_INVALID_CREDENTIALS_MESSAGE = 'Invalid credentials (Failure)'.freeze
-  MICROSOFT_AUTHENTICATION_FAILED_MESSAGE = 'AUTHENTICATE failed.'.freeze
 
   pattr_initialize [:channel!, :interval]
 
@@ -141,29 +138,11 @@ class Imap::BaseFetchEmailService
 
   def build_imap_client
     imap = Net::IMAP.new(channel.imap_address, port: channel.imap_port, ssl: channel.imap_enable_ssl)
-    authenticate_imap_client(imap)
+    Imap::Authentication.authenticate!(imap, authentication_type, channel.imap_login, imap_password)
 
     imap.select('INBOX')
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] IMAP connection established for #{channel.email}"
     imap
-  end
-
-  def authenticate_imap_client(imap)
-    Imap::Authentication.authenticate!(imap, authentication_type, channel.imap_login, imap_password)
-  rescue Net::IMAP::NoResponseError => e
-    channel.authorization_error! if reauthorization_error?(e)
-    raise
-  end
-
-  def reauthorization_error?(error)
-    gmail_channel = channel.google? || channel.legacy_google?
-    return false unless gmail_channel || channel.microsoft?
-
-    code = error.response.data.code&.name
-    return code == AUTHENTICATION_FAILED_CODE if code.present?
-
-    expected_message = gmail_channel ? GMAIL_INVALID_CREDENTIALS_MESSAGE : MICROSOFT_AUTHENTICATION_FAILED_MESSAGE
-    error.message == expected_message
   end
 
   def terminate_imap_connection
