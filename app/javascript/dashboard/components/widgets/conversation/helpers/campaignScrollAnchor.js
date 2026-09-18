@@ -1,7 +1,10 @@
-export const captureTimelineAnchor = (panel, messageId) => {
-  const entries = Array.from(
-    panel.querySelectorAll('[id^="message"], [id^="campaign-recipient-"]')
+export const getTimelineEntries = panel =>
+  Array.from(
+    panel.querySelectorAll('[data-message-id], [id^="campaign-recipient-"]')
   );
+
+export const captureTimelineAnchor = (panel, messageId) => {
+  const entries = getTimelineEntries(panel);
   const panelTop = panel.getBoundingClientRect().top;
   const anchor =
     entries.find(entry => entry.id === `message${messageId}`) ||

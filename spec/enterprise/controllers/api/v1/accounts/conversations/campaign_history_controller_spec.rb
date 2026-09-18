@@ -124,7 +124,8 @@ RSpec.describe 'Conversation campaign history API', type: :request do
   context 'with multiple conversations' do
     let(:next_start) { sent_at + 1.hour }
     let!(:next_conversation) do
-      create(:conversation, account: account, inbox: inbox, contact: conversation.contact, created_at: next_start)
+      create(:conversation, account: account, inbox: inbox, contact: conversation.contact, contact_inbox: conversation.contact_inbox,
+                            created_at: next_start)
     end
 
     it 'includes the start boundary and excludes campaigns before it and at or after the next conversation' do
@@ -194,5 +195,20 @@ RSpec.describe 'Conversation campaign history API', type: :request do
   it 'returns not found rather than a server error for an out-of-range cursor' do
     get url, params: { before: (2**63).to_s }, headers: headers
     expect(response).to have_http_status(:not_found)
+  end
+
+  it 'omits history when the contact has multiple identities in the same inbox' do
+    recipient
+    other_identity = create(:contact_inbox, contact: conversation.contact, inbox: inbox)
+    other_conversation = create(:conversation, account: account, inbox: inbox, contact: conversation.contact,
+                                               contact_inbox: other_identity, created_at: sent_at - 1.hour)
+
+    get url, headers: headers
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body['payload']).to be_empty
+
+    get "/api/v1/accounts/#{account.id}/conversations/#{other_conversation.display_id}/campaign_history", headers: headers
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body['payload']).to be_empty
   end
 end
