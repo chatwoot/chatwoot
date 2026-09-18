@@ -79,7 +79,7 @@ describe('handoff event → conversation store → audible alert', () => {
       updated_at: 101,
       meta: { assignee_type: 'User', assignee: { id: 7 } },
       assignment: {
-        source: 'automatic',
+        automatic: true,
         assignee_id: 7,
         assignee_type: 'User',
         updated_at: 101,
@@ -143,10 +143,10 @@ describe('handoff event → conversation store → audible alert', () => {
     }
   );
 
-  it.each(['human', 'unknown'])(
-    'suppresses a newer %s assignment even when an unrelated event changes performer',
-    source => {
-      assignment.assignment.source = source;
+  it.each([false, undefined])(
+    'suppresses an assignment with automatic=%s even when an unrelated event changes performer',
+    automatic => {
+      assignment.assignment.automatic = automatic;
       connector.onReceived({ event: 'assignee.changed', data: assignment });
       connector.onReceived({
         event: 'conversation.bot_handoff',
@@ -211,7 +211,7 @@ describe('handoff event → conversation store → audible alert', () => {
         updated_at: 102,
         assignment: {
           ...assignment.assignment,
-          source: 'human',
+          automatic: false,
           updated_at: 99,
         },
       },
@@ -241,7 +241,7 @@ describe('handoff event → conversation store → audible alert', () => {
         updated_at: 102,
         assignment: {
           ...assignment.assignment,
-          source: 'unknown',
+          automatic: false,
           updated_at: handoff.updated_at,
         },
       },
@@ -338,7 +338,7 @@ describe('handoff event → conversation store → audible alert', () => {
         updated_at: 102,
         assignment: {
           ...assignment.assignment,
-          source: 'human',
+          automatic: false,
           updated_at: 102,
         },
       },

@@ -27,34 +27,19 @@ class ActionCableBroadcastJob < ApplicationJob
 
     account = Account.find(data[:account_id])
     conversation = account.conversations.find_by!(display_id: data[:id])
-    broadcast_data = conversation.push_event_data.merge(data.slice(:account_id, :performer))
+    broadcast_data = conversation.push_event_data.merge(account_id: data[:account_id])
     if event_name == ASSIGNEE_CHANGED
-      # Refreshing the conversation must not attribute a later assignee to the
-      # original assignment source. Replace the whole metadata object, including
-      # explicit unknown provenance, so a previous source cannot linger locally.
-      assignment_changed =
-        data.dig(:meta, :assignee_type) != broadcast_data.dig(:meta, :assignee_type) ||
-        data.dig(:meta, :assignee, :id) != broadcast_data.dig(:meta, :assignee, :id)
-      # Keep the assignment's original identity and time together. Other cable
-      # events omit this field, so their performers cannot overwrite it in Vuex.
-      # Jobs queued before this contract also have unknown assignment provenance.
+      # Keep the original assignment together even when the conversation is
+      # refreshed. The dashboard checks its identity against the current owner.
+      # Other events omit this field so unrelated updates cannot overwrite it.
       broadcast_data[:assignment] = {
-        source: assignment_changed ? 'unknown' : assignment_source(data),
+        automatic: data[:automatic_assignment] == true,
         assignee_id: data.dig(:meta, :assignee, :id),
         assignee_type: data.dig(:meta, :assignee_type),
         updated_at: data[:updated_at]
       }
     end
     broadcast_data
-  end
-
-  def assignment_source(data)
-    # Explicit auto-assignment wins over an ambient API user. A missing actor
-    # (including jobs queued before this contract) never proves auto-assignment.
-    return 'automatic' if data[:automatic_assignment]
-    return 'human' if data.dig(:performer, :type) == 'user'
-
-    'unknown'
   end
 
   def broadcast_to_members(members, event_name, broadcast_data)

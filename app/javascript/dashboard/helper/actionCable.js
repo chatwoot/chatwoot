@@ -19,7 +19,6 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 const { isImpersonating } = useImpersonation();
 const UNREAD_COUNTS_REFETCH_THROTTLE_MS = 5000;
 const HANDOFF_ALERT_WINDOW_MS = 2500;
-const AUTOMATIC_ASSIGNMENT_SOURCE = 'automatic';
 const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS = 30000;
 const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS = 15000;
 const MENTION_UNREAD_COUNTS_REFETCH_DELAY_MS =
@@ -168,7 +167,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       // Compare owners too, since refreshed status payloads can expose a takeover
       // before its assignment event arrives. Old provenance cannot explain it.
       if (
-        assignment?.source !== AUTOMATIC_ASSIGNMENT_SOURCE ||
+        !assignment?.automatic ||
         assignment.updated_at < handoff.updated_at ||
         assignment.assignee_id !== meta?.assignee?.id ||
         assignment.assignee_type !== meta?.assignee_type

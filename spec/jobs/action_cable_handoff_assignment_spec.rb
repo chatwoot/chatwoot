@@ -25,20 +25,20 @@ RSpec.describe 'Assignment provenance through Action Cable', type: :job do
       hash_including(
         event: Events::Types::ASSIGNEE_CHANGED,
         data: hash_including(assignment: {
-                               source: 'automatic', assignee_id: agent.id, assignee_type: 'User', updated_at: conversation.updated_at.to_f
+                               automatic: true, assignee_id: agent.id, assignee_type: 'User', updated_at: conversation.updated_at.to_f
                              })
       )
     )
   end
 
-  it 'delivers explicit human provenance for a manual assignment' do
+  it 'does not mark a manual assignment automatic' do
     Current.user = agent
     event.data[:performed_by] = nil
     perform_enqueued_jobs(only: ActionCableBroadcastJob) { ActionCableListener.instance.assignee_changed(event) }
 
     expect(ActionCable.server).to have_received(:broadcast).with(
       agent.pubsub_token,
-      hash_including(data: hash_including(assignment: hash_including(source: 'human', assignee_id: agent.id)))
+      hash_including(data: hash_including(assignment: hash_including(automatic: false, assignee_id: agent.id)))
     )
   end
 
@@ -49,11 +49,11 @@ RSpec.describe 'Assignment provenance through Action Cable', type: :job do
 
     expect(ActionCable.server).to have_received(:broadcast).with(
       agent.pubsub_token,
-      hash_including(data: hash_including(assignment: hash_including(source: 'unknown')))
+      hash_including(data: hash_including(assignment: hash_including(automatic: false)))
     )
   end
 
-  it 'invalidates provenance when the queued assignment is refreshed to a different owner' do
+  it 'keeps the original assignment identity when the conversation is refreshed to a different owner' do
     ActionCableListener.instance.assignee_changed(event)
     queued_assignment = enqueued_jobs.find { |job| job[:job] == ActionCableBroadcastJob }
     replacement = create(:user, account: account)
@@ -66,12 +66,12 @@ RSpec.describe 'Assignment provenance through Action Cable', type: :job do
       agent.pubsub_token,
       hash_including(data: hash_including(
         meta: hash_including(assignee: hash_including(id: replacement.id)),
-        assignment: hash_including(source: 'unknown')
+        assignment: hash_including(automatic: true, assignee_id: agent.id, assignee_type: 'User')
       ))
     )
   end
 
-  it 'treats an assignment queued before the metadata contract as unknown' do
+  it 'does not mark an assignment queued before the metadata contract automatic' do
     ActionCableBroadcastJob.perform_now(
       [agent.pubsub_token], Events::Types::ASSIGNEE_CHANGED,
       conversation.push_event_data.merge(account_id: account.id)
@@ -79,7 +79,7 @@ RSpec.describe 'Assignment provenance through Action Cable', type: :job do
 
     expect(ActionCable.server).to have_received(:broadcast).with(
       agent.pubsub_token,
-      hash_including(data: hash_including(assignment: hash_including(source: 'unknown')))
+      hash_including(data: hash_including(assignment: hash_including(automatic: false)))
     )
   end
 end

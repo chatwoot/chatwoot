@@ -146,7 +146,7 @@ RSpec.describe AutoAssignment::AssignmentService do
 
         expect(conversation.reload.assignee_id).to eq(agent.id)
         expect(broadcasts).not_to be_empty
-        expect(broadcasts).to all(include(assignment: include(source: 'automatic', assignee_id: agent.id)))
+        expect(broadcasts).to all(include(assignment: include(automatic: true, assignee_id: agent.id)))
       end
     end
 
