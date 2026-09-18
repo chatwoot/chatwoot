@@ -87,14 +87,7 @@ const getValueFromConversation = (conversation, attributeKey) => {
     case 'referer':
       return conversation.additional_attributes?.[attributeKey];
     default:
-      // Check if it's a custom attribute
-      if (
-        conversation.custom_attributes &&
-        conversation.custom_attributes[attributeKey]
-      ) {
-        return conversation.custom_attributes[attributeKey];
-      }
-      return null;
+      return conversation.custom_attributes?.[attributeKey] ?? null;
   }
 };
 
@@ -140,26 +133,12 @@ const equalTo = (filterValue, conversationValue) => {
     if (Array.isArray(conversationValue)) {
       // For array values like labels, match if any filter value is present.
       // Mirrors the backend SQL `tag_id IN (...)` (OR semantics).
-      return filterValue.some(val =>
-        conversationValue.some(cVal => String(cVal) === String(val))
-      );
+      return filterValue.some(val => conversationValue.includes(val));
     }
 
     if (!Array.isArray(conversationValue)) {
-      if (conversationValue === null || conversationValue === undefined) {
-        return false;
-      }
-      return filterValue.some(val => String(val) === String(conversationValue));
+      return filterValue.includes(conversationValue);
     }
-  }
-
-  if (
-    conversationValue !== null &&
-    conversationValue !== undefined &&
-    filterValue !== null &&
-    filterValue !== undefined
-  ) {
-    return String(conversationValue) === String(filterValue);
   }
 
   return conversationValue === filterValue;

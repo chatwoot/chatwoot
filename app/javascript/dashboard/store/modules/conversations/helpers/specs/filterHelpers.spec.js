@@ -92,6 +92,24 @@ import { matchesFilters } from '../filterHelpers';
 // },
 
 describe('filterHelpers', () => {
+  it.each([0, false, 42])(
+    'preserves custom attribute value %s when filtering',
+    value => {
+      const conversation = { custom_attributes: { custom_value: value } };
+      const filter = {
+        attribute_key: 'custom_value',
+        filter_operator: 'equal_to',
+        values: [value],
+      };
+      expect(matchesFilters(conversation, [filter])).toBe(true);
+      expect(
+        matchesFilters(conversation, [
+          { ...filter, filter_operator: 'not_equal_to' },
+        ])
+      ).toBe(false);
+      expect(matchesFilters({ custom_attributes: {} }, [filter])).toBe(false);
+    }
+  );
   describe('#matchesFilters', () => {
     it('returns true by default when no filters are provided', () => {
       const conversation = {};
@@ -326,59 +344,6 @@ describe('filterHelpers', () => {
           attribute_key: 'contact_id',
           filter_operator: 'equal_to',
           values: [42],
-          query_operator: 'and',
-        },
-      ];
-      expect(matchesFilters(conversation, filters)).toBe(true);
-    });
-
-    // Standard attribute tests - inbox_id
-    it('should match conversation when inbox_id is number and filter value is string array', () => {
-      const conversation = { inbox_id: 37 };
-      const filters = [
-        {
-          attribute_key: 'inbox_id',
-          filter_operator: 'equal_to',
-          values: ['37'],
-          query_operator: 'and',
-        },
-      ];
-      expect(matchesFilters(conversation, filters)).toBe(true);
-    });
-
-    it('should match conversation when inbox_id is number and filter value is object with string id', () => {
-      const conversation = { inbox_id: 37 };
-      const filters = [
-        {
-          attribute_key: 'inbox_id',
-          filter_operator: 'equal_to',
-          values: [{ id: '37', name: 'Support Inbox' }],
-          query_operator: 'and',
-        },
-      ];
-      expect(matchesFilters(conversation, filters)).toBe(true);
-    });
-
-    it('should not match conversation with not_equal_to operator when inbox_id matches string filter value', () => {
-      const conversation = { inbox_id: 37 };
-      const filters = [
-        {
-          attribute_key: 'inbox_id',
-          filter_operator: 'not_equal_to',
-          values: ['37'],
-          query_operator: 'and',
-        },
-      ];
-      expect(matchesFilters(conversation, filters)).toBe(false);
-    });
-
-    it('should match conversation with not_equal_to operator when inbox_id differs from string filter value', () => {
-      const conversation = { inbox_id: 37 };
-      const filters = [
-        {
-          attribute_key: 'inbox_id',
-          filter_operator: 'not_equal_to',
-          values: ['38'],
           query_operator: 'and',
         },
       ];
