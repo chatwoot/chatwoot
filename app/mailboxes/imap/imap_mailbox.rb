@@ -39,10 +39,13 @@ class Imap::ImapMailbox
     @processed_mail = MailPresenter.new(@inbound_mail, @account)
   end
 
+  # Replies to a forwarded email start a new conversation with the forward recipient
   def find_conversation_by_in_reply_to
     return if in_reply_to.blank?
 
     message = @inbox.messages.find_by(source_id: in_reply_to)
+    return if message&.forwarded?
+
     if message.nil?
       @inbox.conversations.find_by("additional_attributes->>'in_reply_to' = ?", in_reply_to)
     else
@@ -81,7 +84,7 @@ class Imap::ImapMailbox
 
     references.each do |message_id|
       message = @inbox.messages.find_by(source_id: message_id)
-      message_to_return = message if message.present?
+      message_to_return = message if message.present? && !message.forwarded?
     end
     message_to_return
   end

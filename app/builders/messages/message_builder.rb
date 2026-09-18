@@ -85,13 +85,20 @@ class Messages::MessageBuilder
     forwarded_message.attachments.where(id: @params[:forwarded_attachment_ids]).map { |attachment| attachment.file.blob }
   end
 
+  def validate_forward
+    return if forwarded_message_id.blank?
+
+    raise StandardError, 'Forwarded emails need an email inbox' unless @conversation.inbox.email?
+    raise StandardError, 'Forwarded emails need a recipient' if process_email_string(@params[:to_emails]).empty?
+  end
+
   def process_emails
+    validate_forward
     return unless @conversation.inbox&.inbox_type == 'Email'
 
     cc_emails = process_email_string(@params[:cc_emails])
     bcc_emails = process_email_string(@params[:bcc_emails])
     to_emails = process_email_string(@params[:to_emails])
-    raise StandardError, 'Forwarded emails need a recipient' if forwarded_message_id.present? && to_emails.empty?
 
     all_email_addresses = cc_emails + bcc_emails + to_emails
     validate_email_addresses(all_email_addresses)

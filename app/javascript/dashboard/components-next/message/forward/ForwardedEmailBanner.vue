@@ -16,10 +16,9 @@ const recipients = computed(() => [
 const contact = computed(() => currentChat.value?.meta?.sender ?? {});
 const hiddenFromContact = computed(
   () =>
-    ![
-      ...recipients.value,
-      ...(contentAttributes.value.bccEmails ?? []),
-    ].includes(contact.value.email)
+    ![...recipients.value, ...(contentAttributes.value.bccEmails ?? [])]
+      .map(email => email.toLowerCase())
+      .includes(contact.value.email?.toLowerCase())
 );
 </script>
 

@@ -178,6 +178,17 @@ describe Messages::MessageBuilder do
       end
     end
 
+    context 'when forwarding a message in a non email inbox' do
+      let(:params) do
+        ActionController::Parameters.new({ content: 'test', to_emails: 'vendor@example.com',
+                                           content_attributes: { forwarded_message_id: message_for_reply.id }.to_json })
+      end
+
+      it 'rejects the message' do
+        expect { message_builder }.to raise_error 'Forwarded emails need an email inbox'
+      end
+    end
+
     context 'when email channel messages' do
       let!(:channel_email) { create(:channel_email, account: account) }
       let(:inbox_member) { create(:inbox_member, inbox: channel_email.inbox) }

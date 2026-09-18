@@ -53,6 +53,15 @@ describe('ForwardedEmailBanner', () => {
     expect(wrapper.text()).not.toContain('cannot see this');
   });
 
+  it('matches the contact email regardless of case', () => {
+    const wrapper = mountBanner({
+      toEmails: ['Jane@Example.com'],
+      contact: { name: 'Jane', email: 'jane@example.com' },
+    });
+
+    expect(wrapper.text()).not.toContain('cannot see this');
+  });
+
   it('lists cc recipients and treats a bcc contact as a recipient', () => {
     const wrapper = mountBanner({
       toEmails: ['vendor@example.com'],
