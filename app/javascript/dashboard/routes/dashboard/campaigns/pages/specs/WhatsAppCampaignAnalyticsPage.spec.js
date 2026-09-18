@@ -61,6 +61,19 @@ describe('campaign analytics paywall', () => {
     });
   });
 
+  it('waits for account data before offering an upgrade', async () => {
+    currentAccount.value = {};
+    const wrapper = shallowMount(Page);
+    expect(wrapper.findComponent({ name: 'BasePaywallModal' }).exists()).toBe(
+      false
+    );
+    currentAccount.value = { id: 1 };
+    await wrapper.vm.$nextTick();
+    expect(wrapper.findComponent({ name: 'BasePaywallModal' }).exists()).toBe(
+      true
+    );
+  });
+
   it('mounts analytics only when the plan allows access and removes it on downgrade', async () => {
     showPaywall.value = false;
     const wrapper = shallowMount(Page);

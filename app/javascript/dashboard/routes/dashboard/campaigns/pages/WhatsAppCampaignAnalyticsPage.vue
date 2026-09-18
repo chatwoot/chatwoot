@@ -37,7 +37,7 @@ watch(
 <template>
   <WhatsAppCampaignAnalyticsContent v-if="canViewAnalytics" />
   <div
-    v-else-if="showPaywall"
+    v-else-if="currentAccount.id && showPaywall"
     class="grid place-content-center w-full h-full min-h-[28rem]"
   >
     <BasePaywallModal
