@@ -1,6 +1,7 @@
 <script>
 // utils and composables
 import { login } from '../../api/auth';
+import { getLoginRedirectURL } from '../../helpers/AuthHelper';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { required, email } from '@vuelidate/validators';
@@ -236,10 +237,15 @@ export default {
 
       this.submitLogin();
     },
-    handleMfaVerified() {
-      // MFA verification successful, continue with login
+    handleMfaVerified(data) {
+      // Verification successful; honor the requested account/conversation link
+      // the same way the direct-login path does, instead of always going to /app.
       this.handleImpersonation();
-      window.location = '/app';
+      window.location = getLoginRedirectURL({
+        ssoAccountId: this.ssoAccountId,
+        ssoConversationId: this.ssoConversationId,
+        user: data?.data,
+      });
     },
     handleMfaCancel() {
       // User cancelled MFA, reset state
