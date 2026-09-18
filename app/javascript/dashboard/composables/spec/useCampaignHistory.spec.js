@@ -154,6 +154,32 @@ describe('useCampaignHistory retry', () => {
       10,
     ]);
   });
+  it('advances the cursor through every page when recovering the first load', async () => {
+    ConversationApi.getCampaignHistory.mockRejectedValueOnce(
+      new Error('Offline')
+    );
+    history = scope.run(() => useCampaignHistory());
+    await flushPromises();
+    ConversationApi.getCampaignHistory
+      .mockResolvedValueOnce({
+        data: {
+          payload: [{ id: 20, sent_at: 150 }],
+          meta: { next_before: 20, first_message_id: 1 },
+        },
+      })
+      .mockResolvedValueOnce({
+        data: {
+          payload: [{ id: 10, sent_at: 90 }],
+          meta: { next_before: null, first_message_id: 1 },
+        },
+      });
+    chat.value.messages.push({ id: 2, created_at: 200 });
+    await flushPromises();
+    expect(ConversationApi.getCampaignHistory).toHaveBeenCalledTimes(3);
+    expect(history.hasMoreCampaignHistory.value).toBe(false);
+    expect(history.campaignHistoryError.value).toBe(false);
+  });
+
   it.each([true, false])(
     'refreshes on the first message when initial history succeeds=%s',
     async succeeds => {
