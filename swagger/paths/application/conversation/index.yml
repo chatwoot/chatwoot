@@ -10,6 +10,25 @@ get:
   security:
     - userApiKey: []
   parameters:
+    - name: sort_by
+      in: query
+      description: Sort conversations before pagination. Last message sorting excludes private notes and activity messages and places conversations without public messages last.
+      schema:
+        type: string
+        default: last_activity_at_desc
+        enum:
+          - last_activity_at_asc
+          - last_activity_at_desc
+          - last_message_at_asc
+          - last_message_at_desc
+          - created_at_asc
+          - created_at_desc
+          - priority_asc
+          - priority_desc
+          - priority_desc_created_at_asc
+          - waiting_since_asc
+          - waiting_since_desc
+          - unread
     - name: assignee_type
       in: query
       schema:

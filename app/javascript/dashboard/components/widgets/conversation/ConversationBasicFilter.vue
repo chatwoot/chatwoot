@@ -75,6 +75,14 @@ const chatSortOptions = computed(() => [
     value: 'last_activity_at_desc',
   },
   {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_message_at_asc.TEXT'),
+    value: 'last_message_at_asc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_message_at_desc.TEXT'),
+    value: 'last_message_at_desc',
+  },
+  {
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.created_at_desc.TEXT'),
     value: 'created_at_desc',
   },

@@ -19,6 +19,8 @@ parameters:
       enum:
         - last_activity_at_asc
         - last_activity_at_desc
+        - last_message_at_asc
+        - last_message_at_desc
         - created_at_asc
         - created_at_desc
         - priority_asc

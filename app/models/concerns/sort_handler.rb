@@ -6,6 +6,10 @@ module SortHandler
       order(last_activity_at: sort_direction)
     end
 
+    def sort_on_last_message_at(sort_direction = :desc)
+      order(generate_sql_query("last_message_at #{sort_direction.to_s.upcase} NULLS LAST, display_id ASC"))
+    end
+
     def sort_on_created_at(sort_direction = :asc)
       # The id tie-breaker keeps pagination stable when created_at values collide.
       order(created_at: sort_direction, id: sort_direction)
