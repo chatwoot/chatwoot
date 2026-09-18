@@ -192,7 +192,7 @@ RSpec.describe 'Device verification on sign-in', type: :request do
       expect(response).not_to have_http_status(:partial_content)
     end
 
-    context 'at the session limit' do
+    context 'when at the session limit' do
       let(:browser_ua) { 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Safari/605.1.15' }
 
       around { |example| with_modified_env('MAX_USER_SESSIONS' => '1') { example.run } }
