@@ -125,6 +125,7 @@ const resetForm = () => {
 // available and never again for the same campaign, to avoid clobbering edits.
 watch(
   [
+    () => route.name,
     campaignId,
     campaign,
     () => whatsAppInboxes.value.length,
@@ -132,6 +133,12 @@ watch(
     () => uiFlags.value.isFetching,
   ],
   () => {
+    if (
+      !['campaigns_whatsapp_new', 'campaigns_whatsapp_edit'].includes(
+        route.name
+      )
+    )
+      return;
     const record = campaign.value;
     if (!record) {
       if (hydratedId.value !== null) resetForm();

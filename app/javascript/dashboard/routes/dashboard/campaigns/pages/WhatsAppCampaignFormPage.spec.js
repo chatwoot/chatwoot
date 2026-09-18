@@ -14,7 +14,7 @@ vi.mock(
   () => ({ default: { template: '<div />' } })
 );
 import { flushPromises, shallowMount } from '@vue/test-utils';
-import { nextTick, ref } from 'vue';
+import { nextTick, reactive, ref } from 'vue';
 import WhatsAppCampaignFormPage from './WhatsAppCampaignFormPage.vue';
 
 const mocks = vi.hoisted(() => ({
@@ -52,7 +52,10 @@ const template = {
 
 describe('WhatsAppCampaignFormPage', () => {
   beforeEach(() => {
-    mocks.route.params = { campaignId: 1 };
+    mocks.route = reactive({
+      name: 'campaigns_whatsapp_edit',
+      params: { campaignId: 1 },
+    });
     mocks.getters = {
       'campaigns/getWhatsAppCampaigns': ref([
         {
@@ -248,6 +251,39 @@ describe('WhatsAppCampaignFormPage', () => {
     expect(wrapper.vm.isTemplateComplete).toBe(false);
     wrapper.vm.state.processedParams.buttons[1].parameter = 'WELCOME';
     expect(wrapper.vm.isTemplateComplete).toBe(true);
+    wrapper.unmount();
+  });
+  it.each(['body', 'header', 'buttons'])(
+    'hydrates a legacy variable named %s',
+    name => {
+      mocks.getters['inboxes/getFilteredWhatsAppTemplates'].value = () => [
+        {
+          ...template,
+          components: [{ type: 'BODY', text: `Hello {{${name}}}` }],
+        },
+      ];
+      mocks.getters[
+        'campaigns/getWhatsAppCampaigns'
+      ].value[0].template_params.processed_params = { [name]: 'Jamie' };
+      const wrapper = shallowMount(WhatsAppCampaignFormPage);
+      expect(wrapper.vm.state.processedParams.body[name]).toBe('Jamie');
+      expect(wrapper.vm.templatePayload.message).toBe('Hello Jamie');
+      wrapper.unmount();
+    }
+  );
+
+  it('does not redirect from a cached edit page after navigating to analytics', async () => {
+    const wrapper = shallowMount(WhatsAppCampaignFormPage);
+    mocks.route.name = 'campaigns_whatsapp_analytics';
+    mocks.getters['campaigns/getWhatsAppCampaigns'].value[0].campaign_status =
+      'processing';
+    await nextTick();
+    expect(mocks.replace).not.toHaveBeenCalled();
+    mocks.route.name = 'campaigns_whatsapp_edit';
+    await nextTick();
+    expect(mocks.replace).toHaveBeenCalledWith({
+      name: 'campaigns_whatsapp_index',
+    });
     wrapper.unmount();
   });
 });
