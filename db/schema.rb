@@ -1580,6 +1580,40 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_31_000000) do
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 
+  create_table "whatsapp_history_sync_events", force: :cascade do |t|
+    t.bigint "whatsapp_history_sync_id", null: false
+    t.string "event_key", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "phase"
+    t.integer "chunk_order"
+    t.integer "progress"
+    t.jsonb "payload", default: {}, null: false
+    t.text "error_message"
+    t.datetime "processed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["whatsapp_history_sync_id", "event_key"], name: "idx_whatsapp_history_events_on_sync_and_key", unique: true
+    t.index ["whatsapp_history_sync_id", "status"], name: "idx_whatsapp_history_events_on_sync_and_status"
+  end
+
+  create_table "whatsapp_history_syncs", force: :cascade do |t|
+    t.bigint "whatsapp_channel_id", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "progress", default: 0, null: false
+    t.integer "imported_messages", default: 0, null: false
+    t.integer "imported_conversations", default: 0, null: false
+    t.string "request_id"
+    t.string "last_error_code"
+    t.text "last_error_message"
+    t.datetime "started_at"
+    t.datetime "first_event_at"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_id"], name: "index_whatsapp_history_syncs_on_request_id"
+    t.index ["whatsapp_channel_id"], name: "index_whatsapp_history_syncs_on_whatsapp_channel_id", unique: true
+  end
+
   create_table "working_hours", force: :cascade do |t|
     t.bigint "inbox_id"
     t.bigint "account_id"

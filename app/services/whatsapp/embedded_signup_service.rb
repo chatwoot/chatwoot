@@ -20,6 +20,7 @@ class Whatsapp::EmbeddedSignupService
     # 2. We need to run check_channel_health_and_prompt_reauth after webhook setup completes
     # 3. The channel is marked with source: 'embedded_signup' to skip the after_commit callback
     channel.setup_webhooks(is_coexistence: @is_coexistence)
+    request_history_sync(channel) if history_sync_eligible?(channel)
     # Skip health check on reauth (avoids false disconnect emails) and on coexistence signups
     # (Meta's health data can lag several minutes behind a fresh FINISH event).
     check_channel_health_and_prompt_reauth(channel) if @inbox_id.blank? && !@is_coexistence
@@ -65,6 +66,16 @@ class Whatsapp::EmbeddedSignupService
       waba_info = { waba_id: @waba_id, business_name: phone_info[:business_name] }
       Whatsapp::ChannelCreationService.new(@account, waba_info, phone_info, access_token).perform
     end
+  end
+
+  def request_history_sync(channel)
+    Whatsapp::HistorySync::RequestService.new(channel).perform
+  rescue StandardError => e
+    Rails.logger.error("[WHATSAPP HISTORY SYNC] Request failed for channel #{channel.id}: #{e.message}")
+  end
+
+  def history_sync_eligible?(channel)
+    @inbox_id.blank? && @is_coexistence && !channel.reauthorization_required?
   end
 
   def check_channel_health_and_prompt_reauth(channel)
