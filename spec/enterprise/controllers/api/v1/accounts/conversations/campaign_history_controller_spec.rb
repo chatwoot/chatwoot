@@ -190,4 +190,9 @@ RSpec.describe 'Conversation campaign history API', type: :request do
     get url, params: { before: '999999999' }, headers: headers
     expect(response).to have_http_status(:not_found)
   end
+
+  it 'returns not found rather than a server error for an out-of-range cursor' do
+    get url, params: { before: (2**63).to_s }, headers: headers
+    expect(response).to have_http_status(:not_found)
+  end
 end

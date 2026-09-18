@@ -75,6 +75,13 @@ const isDocumentHeader = computed(
   () => headerComponent.value?.format === 'DOCUMENT'
 );
 
+// Static buttons leave holes (or persisted nulls) in the parameter array.
+const buttonIndexes = computed(() =>
+  (processedParams.value.buttons ?? []).flatMap((button, index) =>
+    button ? [index] : []
+  )
+);
+
 const handleTemplateChange = value => {
   templateId.value = value;
   const template = props.templates.find(item => getTemplateKey(item) === value);
@@ -178,7 +185,7 @@ const updateHeaderParam = (key, value) => {
       {{ t('CAMPAIGN.WHATSAPP.FORM.TEMPLATE.BUTTONS_LABEL') }}
     </label>
     <Input
-      v-for="(button, index) in processedParams.buttons"
+      v-for="index in buttonIndexes"
       :key="`button-${index}`"
       v-model="processedParams.buttons[index].parameter"
       :placeholder="

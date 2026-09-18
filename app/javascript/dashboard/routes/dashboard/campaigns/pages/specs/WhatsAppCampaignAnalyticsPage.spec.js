@@ -19,11 +19,13 @@ vi.mock('../WhatsAppCampaignAnalyticsContent.vue', () => ({
 describe('campaign analytics paywall', () => {
   let showPaywall;
   let featureEnabled;
+  let currentAccount;
   let push;
   let replace;
   beforeEach(() => {
     showPaywall = ref(true);
     featureEnabled = ref(true);
+    currentAccount = ref({ id: 1 });
     useConfig.mockReturnValue({ isEnterprise: true });
     usePolicy.mockReturnValue({
       shouldShowPaywall: () => showPaywall.value,
@@ -34,6 +36,7 @@ describe('campaign analytics paywall', () => {
     useRouter.mockReturnValue({ push, replace });
     useAccount.mockReturnValue({
       isOnChatwootCloud: ref(true),
+      currentAccount,
       accountScopedRoute: name => ({ name, params: { accountId: 1 } }),
     });
     useMapGetter.mockReturnValue(ref({ type: 'User' }));
@@ -105,4 +108,24 @@ describe('campaign analytics paywall', () => {
         .exists()
     ).toBe(false);
   });
+  it.each([true, false])(
+    'waits for account features before redirecting, eligible=%s',
+    async eligible => {
+      currentAccount.value = {};
+      featureEnabled.value = false;
+      showPaywall.value = false;
+      const wrapper = shallowMount(Page);
+      expect(replace).not.toHaveBeenCalled();
+
+      featureEnabled.value = eligible;
+      currentAccount.value = { id: 1 };
+      await wrapper.vm.$nextTick();
+      expect(
+        wrapper
+          .findComponent({ name: 'WhatsAppCampaignAnalyticsContent' })
+          .exists()
+      ).toBe(eligible);
+      expect(replace).toHaveBeenCalledTimes(eligible ? 0 : 1);
+    }
+  );
 });
