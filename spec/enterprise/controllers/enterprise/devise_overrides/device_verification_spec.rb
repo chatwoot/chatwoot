@@ -203,15 +203,15 @@ RSpec.describe 'Device verification on sign-in', type: :request do
         user.user_sessions.create!(client_id: client_id, last_activity_at: Time.current)
       end
 
-      it 'returns the 409 session picker instead of silently evicting' do
+      it 'evicts the oldest session and completes sign-in' do
         post new_user_session_url, params: sign_in_params, headers: { 'User-Agent' => browser_ua }, as: :json
         token = issued_token
         post new_user_session_url, params: { mfa_token: token, otp_code: emailed_codes.last },
                                    headers: { 'User-Agent' => browser_ua }, as: :json
 
-        expect(response).to have_http_status(:conflict)
-        expect(response.parsed_body['sessions_limit_reached']).to be(true)
-        expect(response.headers['access-token']).to be_nil
+        expect(response).to have_http_status(:success)
+        expect(response.headers['access-token']).to be_present
+        expect(user.reload.user_sessions.count).to eq(1)
       end
     end
   end

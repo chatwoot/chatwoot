@@ -30,9 +30,6 @@ module Enterprise::DeviseOverrides::DeviceVerificationConcern
 
   def complete_device_verification(user)
     remember_device!(user) if remember_this_device?
-    # At the session limit, show the normal picker (409) instead of silently evicting.
-    return if enforce_session_limit_for_password_login(user)
-
     # Sign in before notifying: the code is already consumed, so a mailer failure
     # must not block authentication and strand the user with a spent code.
     sign_in_mfa_user(user)
