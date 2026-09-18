@@ -17,21 +17,31 @@ module Enterprise::DeviseOverrides::SessionsController
     super
   end
 
+  # Only the real SSO branch (valid token, incl. super-admin impersonation) reaches
+  # this; a bogus sso_auth_token on a password request never does. Marking the method
+  # here is spoof-proof, unlike checking params[:sso_auth_token] presence.
+  def handle_sso_authentication
+    @login_via_sso = true
+    super
+  end
+
   def render_create_success
     create_audit_event('sign_in')
     notify_new_login_location
     super
   end
 
-  # Password sign-ins only. SSO (and super-admin impersonation, which mints an SSO
-  # token) are excluded so we never email a customer about a staff sign-in.
+  # Password sign-ins only. SSO and super-admin impersonation are excluded so we
+  # never email a customer about a staff sign-in. Never interrupt authentication.
   def notify_new_login_location
-    return if params[:sso_auth_token].present?
+    return if @login_via_sso
     return unless @resource && LoginLocationNotification.enabled?
 
     Enterprise::LoginLocationNotificationJob.perform_later(
-      @resource.id, request.remote_ip, request.user_agent.to_s, Time.zone.now.iso8601
+      @resource.id, @resource.email, request.remote_ip, request.user_agent.to_s, @sign_in_request_uuid
     )
+  rescue StandardError => e
+    Rails.logger.warn "Enterprise::LoginLocationNotificationJob could not be enqueued: #{e.message}"
   end
 
   def destroy
@@ -46,6 +56,7 @@ module Enterprise::DeviseOverrides::SessionsController
     return if account_ids.empty?
 
     rows = audit_event_rows(action, account_ids)
+    @sign_in_request_uuid = rows.first[:request_uuid] if action == 'sign_in'
     inserted = Enterprise::AuditLog.insert_all!(rows, returning: %w[id]) # rubocop:disable Rails/SkipsModelValidations
     enqueue_session_ip_lookup(rows.first[:remote_address], account_ids, inserted.rows.flatten)
   end

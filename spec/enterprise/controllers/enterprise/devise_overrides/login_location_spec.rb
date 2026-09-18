@@ -24,6 +24,14 @@ RSpec.describe 'Login location notification on sign-in', type: :request do
       end.not_to have_enqueued_job(Enterprise::LoginLocationNotificationJob)
     end
 
+    it 'still enqueues for a password sign-in carrying a bogus sso_auth_token param' do
+      expect do
+        post new_user_session_url,
+             params: { email: user.email, password: 'Password1!', sso_auth_token: 'not-a-real-token' }, as: :json
+      end.to have_enqueued_job(Enterprise::LoginLocationNotificationJob)
+      expect(response).to have_http_status(:success)
+    end
+
     it 'does not enqueue for a failed sign-in' do
       expect do
         post new_user_session_url, params: { email: user.email, password: 'wrong' }, as: :json

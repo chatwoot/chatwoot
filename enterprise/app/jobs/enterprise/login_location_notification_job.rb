@@ -1,34 +1,30 @@
 class Enterprise::LoginLocationNotificationJob < ApplicationJob
   queue_as :low
 
-  # Cap how far back we look so a long-lived account does not resolve thousands of IPs.
-  PRIOR_SIGN_IN_LIMIT = 100
+  # Cap on distinct prior IPs resolved, so a long-lived account does not resolve
+  # thousands of addresses. Deduplicated first, so multi-account sign-in rows
+  # (one per account) do not eat into the cap.
+  DISTINCT_IP_LIMIT = 50
 
-  def perform(user_id, remote_address, user_agent, signed_in_at)
+  def perform(user_id, recipient_email, remote_address, user_agent, request_uuid)
     return unless LoginLocationNotification.enabled?
+    return if recipient_email.blank? || remote_address.blank?
 
-    user = User.find_by(id: user_id)
-    return unless user
-
-    meta = new_location_meta(user_id, remote_address, user_agent, signed_in_at)
+    meta = new_location_meta(user_id, remote_address, user_agent, request_uuid)
     return unless meta
 
-    Enterprise::LoginLocationMailer.new_location(user, meta).deliver_later
-  rescue StandardError => e
-    Rails.logger.warn "Enterprise::LoginLocationNotificationJob failed: #{e.message}"
+    Enterprise::LoginLocationMailer.new_location(meta.merge(email: recipient_email)).deliver_later
   end
 
   private
 
   # Returns the mailer meta when the sign-in is from a new country, otherwise nil.
-  def new_location_meta(user_id, remote_address, user_agent, signed_in_at)
-    return if remote_address.blank?
-
+  def new_location_meta(user_id, remote_address, user_agent, request_uuid)
     lookup = IpLookupService.new
     result = lookup.perform(remote_address)
     return if result&.country.blank?
 
-    seen = seen_countries(lookup, user_id, signed_in_at)
+    seen = seen_countries(lookup, user_id, request_uuid)
     return if seen.blank? || seen.include?(result.country)
 
     browser = Browser.new(user_agent.to_s)
@@ -36,14 +32,18 @@ class Enterprise::LoginLocationNotificationJob < ApplicationJob
       browser_name: browser.name, platform_name: browser.platform.name }
   end
 
-  def seen_countries(lookup, user_id, signed_in_at)
-    Enterprise::AuditLog.where(user_id: user_id, action: 'sign_in')
-                        .where(created_at: ...Time.zone.parse(signed_in_at.to_s))
-                        .order(created_at: :desc)
-                        .limit(PRIOR_SIGN_IN_LIMIT)
-                        .pluck(:remote_address)
-                        .compact.uniq
-                        .filter_map { |ip| lookup.perform(ip)&.country }
-                        .uniq
+  # Most-recent distinct prior sign-in IPs, resolved to countries. The current
+  # sign-in is excluded by request_uuid (timestamps are unreliable across the
+  # sub-second gap between the audit insert and this job).
+  def seen_countries(lookup, user_id, request_uuid)
+    scope = Enterprise::AuditLog.where(user_id: user_id, action: 'sign_in').where.not(remote_address: nil)
+    scope = scope.where.not(request_uuid: request_uuid) if request_uuid.present?
+
+    scope.group(:remote_address)
+         .order(Arel.sql('MAX(created_at) DESC'))
+         .limit(DISTINCT_IP_LIMIT)
+         .pluck(:remote_address)
+         .filter_map { |ip| lookup.perform(ip)&.country }
+         .uniq
   end
 end

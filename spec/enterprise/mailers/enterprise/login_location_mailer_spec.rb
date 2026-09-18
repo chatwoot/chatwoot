@@ -4,11 +4,13 @@ require Rails.root.join 'spec/mailers/administrator_notifications/shared/smtp_co
 RSpec.describe Enterprise::LoginLocationMailer do
   include_context 'with smtp config'
 
-  let(:user) { create(:user, email: 'agent@example.com') }
-  let(:meta) { { city: 'Mumbai', country: 'India', ip: '203.0.113.7', browser_name: 'Chrome', platform_name: 'macOS' } }
-  let(:mail) { described_class.new_location(user, meta).deliver_now }
+  let(:meta) do
+    { email: 'agent@example.com', city: 'Mumbai', country: 'India', ip: '203.0.113.7',
+      browser_name: 'Chrome', platform_name: 'macOS' }
+  end
+  let(:mail) { described_class.new_location(meta).deliver_now }
 
-  it 'sends to the user with the location and device details' do
+  it 'sends to the captured email with the location and device details' do
     expect(mail.to).to eq(['agent@example.com'])
     expect(mail.subject).to include('New sign-in')
     expect(mail.body.encoded).to include('Mumbai')
