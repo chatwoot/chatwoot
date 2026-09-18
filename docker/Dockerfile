@@ -87,9 +87,10 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   fi
 
 # Generate .git_sha file with current commit hash.
-# Source tarballs and some CI checkouts have no .git, so fall back to the same
-# value config/initializers/git_sha.rb reports when it cannot determine a SHA.
-RUN git rev-parse HEAD > /app/.git_sha 2>/dev/null || echo "unknown" > /app/.git_sha
+# Source tarballs and some CI checkouts have no .git. Mirror the check in
+# config/initializers/git_sha.rb and fall back to the value it already reports,
+# rather than failing the build. A .git that git cannot read still fails loudly.
+RUN if [ -d .git ]; then git rev-parse HEAD > /app/.git_sha; else echo "unknown" > /app/.git_sha; fi
 
 # Remove unnecessary files
 RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \
