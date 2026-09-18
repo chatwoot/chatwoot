@@ -7,6 +7,37 @@
     "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Nincs megfelelő elem",
     "SIDEBAR_TXT": "<p><b>Auditnaplók</b> </p><p> Az auditnaplók a Chatwoot rendszer eseményeinek és műveleteinek nyomvonalai. </p>",
+    "COUNT": "{n} event | {n} events",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Search by name or email",
+      "ALL_EVENTS": "All events",
+      "DATE_RANGE": "Date range",
+      "CLEAR_ALL": "Szűrők törlése",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Access",
+        "AGENTS_TEAMS": "Agents & teams",
+        "CONFIGURATION": "Beállítások",
+        "CONVERSATIONS": "Beszélgetések"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Sign in / sign out",
+        "AGENTS": "Ügynökök",
+        "TEAMS": "Csapatok",
+        "TEAM_MEMBERS": "Team members",
+        "INBOX_MEMBERS": "Inbox collaborators",
+        "ACCOUNT": "Fiókbeállítások",
+        "INBOXES": "Fiókok",
+        "WEBHOOKS": "Webhook",
+        "AUTOMATION_RULES": "Automation rules",
+        "MACROS": "Makrók",
+        "CONVERSATION_DELETIONS": "Conversation deletions",
+        "MESSAGE_DELETIONS": "Message deletions"
+      },
+      "SORT": {
+        "NEWEST": "Newest first",
+        "OLDEST": "Oldest first"
+      }
+    },
     "LIST": {
       "404": "Nincsen elérthető Auditnapló ebben a fiókban.",
       "TITLE": "Audit logok menedzselése",
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} deleted conversation #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
     }
   }
 }

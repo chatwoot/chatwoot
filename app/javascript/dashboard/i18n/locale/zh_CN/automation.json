@@ -143,7 +143,8 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "在这里输入您的消息",
       "TEAM_DROPDOWN_PLACEHOLDER": "选择团队",
       "EMAIL_INPUT_PLACEHOLDER": "请输入电子邮件",
-      "URL_INPUT_PLACEHOLDER": "请输入网址"
+      "URL_INPUT_PLACEHOLDER": "请输入网址",
+      "INSERT_CONTACT_EMAIL": "Use contact's email"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "激活自动化规则",
@@ -217,7 +218,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "消息类型",
       "PRIVATE_NOTE": "私人便笺",
-      "MESSAGE_CONTAINS": "消息包含",
+      "MESSAGE_CONTAINS": "Message Content",
       "EMAIL": "Email",
       "INBOX": "收件箱",
       "CONVERSATION_LANGUAGE": "对话语言",

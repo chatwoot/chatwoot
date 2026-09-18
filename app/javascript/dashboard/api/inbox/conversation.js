@@ -41,6 +41,7 @@ class ConversationApi extends ApiClient {
       signal: options.signal,
       params: {
         page: payload.page,
+        sort_by: payload.sortBy,
       },
     });
   }

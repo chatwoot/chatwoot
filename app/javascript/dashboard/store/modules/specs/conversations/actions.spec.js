@@ -7,14 +7,17 @@ import actions, {
 } from '../../conversations/actions';
 import types from '../../../mutation-types';
 const dataToSend = {
-  payload: [
-    {
-      attribute_key: 'status',
-      filter_operator: 'equal_to',
-      values: ['open'],
-      query_operator: null,
-    },
-  ],
+  page: 1,
+  queryData: {
+    payload: [
+      {
+        attribute_key: 'status',
+        filter_operator: 'equal_to',
+        values: ['open'],
+        query_operator: null,
+      },
+    ],
+  },
 };
 import { dataReceived } from './testConversationResponse';
 
@@ -634,7 +637,14 @@ describe('#actions', () => {
       axios.post.mockResolvedValue({ data: filteredResponse });
 
       await actions.fetchFilteredConversations(
-        { commit, dispatch },
+        {
+          commit,
+          dispatch,
+          state: {
+            appliedFiltersSortBy: null,
+            chatSortFilter: 'last_activity_at_desc',
+          },
+        },
         {
           queryData: {
             payload: [
@@ -670,7 +680,14 @@ describe('#actions', () => {
         data: dataReceived,
       });
       await actions.fetchFilteredConversations(
-        { commit, dispatch },
+        {
+          commit,
+          dispatch,
+          state: {
+            appliedFiltersSortBy: null,
+            chatSortFilter: 'last_activity_at_desc',
+          },
+        },
         dataToSend
       );
       expect(commit).toHaveBeenCalledTimes(4);
@@ -683,12 +700,32 @@ describe('#actions', () => {
           dataReceived.payload.map(chat => chat.meta.sender),
         ],
       ]);
+      expect(axios.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/filter',
+        dataToSend.queryData,
+        expect.objectContaining({
+          params: {
+            page: dataToSend.page,
+            sort_by: 'last_activity_at_desc',
+          },
+        })
+      );
     });
 
     it('clears the loading state and rethrows if the request fails', async () => {
       axios.post.mockRejectedValue(new Error('Request failed'));
       await expect(
-        actions.fetchFilteredConversations({ commit, dispatch }, dataToSend)
+        actions.fetchFilteredConversations(
+          {
+            commit,
+            dispatch,
+            state: {
+              appliedFiltersSortBy: null,
+              chatSortFilter: 'last_activity_at_desc',
+            },
+          },
+          dataToSend
+        )
       ).rejects.toThrow('Request failed');
       expect(commit.mock.calls).toEqual([
         ['SET_LIST_LOADING_STATUS'],
@@ -1006,7 +1043,6 @@ describe('#addMentions', () => {
 
       expect(localCommit.mock.calls).toEqual([
         [types.SET_CURRENT_CHAT_WINDOW, data],
-        [types.CLEAR_ALL_MESSAGES_LOADED, 42],
       ]);
       expect(localDispatch).not.toHaveBeenCalled();
     });

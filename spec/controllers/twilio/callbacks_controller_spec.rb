@@ -35,5 +35,13 @@ RSpec.describe 'Twilio::CallbacksController', type: :request do
       post twilio_callback_index_url, params: params
       expect(response).to have_http_status(:no_content)
     end
+
+    it 'forwards the quoted message SID to the Twilio events job' do
+      params['OriginalRepliedMessageSid'] = 'SMoriginal'
+
+      expect do
+        post twilio_callback_index_url, params: params
+      end.to have_enqueued_job(Webhooks::TwilioEventsJob).with(params)
+    end
   end
 end

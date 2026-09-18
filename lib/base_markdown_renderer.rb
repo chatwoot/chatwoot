@@ -1,4 +1,6 @@
 class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
+  include MarkdownRendererUrlSanitizer
+
   # Email clients drop stylesheets, so tables carry inline styles. Translucent grays suit any
   # background (white email, blue bubble, dark mode); the solid border is Outlook's fallback.
   TABLE_STYLE = 'border-collapse: collapse; margin: 12px 0;'.freeze
@@ -36,7 +38,7 @@ class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
 
   def extract_img_attributes(node)
     [
-      escape_href(node.url),
+      sanitized_href(node.url),
       escape_html(node.title)
     ]
   end
