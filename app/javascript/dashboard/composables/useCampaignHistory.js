@@ -1,6 +1,7 @@
 import { computed, ref, watch } from 'vue';
 import ConversationApi from 'dashboard/api/conversations';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -9,6 +10,7 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 export function useCampaignHistory() {
   const currentChat = useMapGetter('getSelectedChat');
   const allMessagesLoaded = useMapGetter('getAllMessagesLoaded');
+  const { isEnterprise } = useConfig();
   const { isCloudFeatureEnabled } = useAccount();
   const { run, abort, isPending } = useAbortableRequest();
   const recipients = ref([]);
@@ -20,6 +22,7 @@ export function useCampaignHistory() {
 
   const enabled = computed(
     () =>
+      isEnterprise &&
       currentChat.value.meta?.channel === INBOX_TYPES.WHATSAPP &&
       isCloudFeatureEnabled(FEATURE_FLAGS.WHATSAPP_CAMPAIGNS)
   );
@@ -129,7 +132,11 @@ export function useCampaignHistory() {
   watch(
     () => currentChat.value.messages?.at(-1)?.id,
     (messageId, previousId) => {
-      if (hasLoaded.value && previousId && messageId > previousId) {
+      if (
+        (hasLoaded.value || hasError.value) &&
+        previousId &&
+        messageId > previousId
+      ) {
         loadCampaignHistory({ refresh: true });
       }
     }

@@ -13,8 +13,11 @@ import {
   DEFAULT_CATEGORY,
   DEFAULT_LANGUAGE,
   findComponentByType,
+  getTemplateKey,
+  isValidTemplateMediaUrl,
   renderTemplatePreview,
 } from 'dashboard/helper/templateHelper';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import InboxHealthAPI from 'dashboard/api/inboxHealth';
 
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
@@ -72,7 +75,9 @@ const templatesFor = inboxId => whatsAppTemplates.value(inboxId);
 const templates = computed(() => templatesFor(state.inboxId));
 
 const selectedTemplate = computed(
-  () => templates.value.find(item => item.id === state.templateId) ?? null
+  () =>
+    templates.value.find(item => getTemplateKey(item) === state.templateId) ??
+    null
 );
 
 const toDateTimeInput = seconds => {
@@ -95,7 +100,7 @@ const applyCampaign = record => {
   Object.assign(state, {
     title: record.title,
     inboxId: record.inbox.id,
-    templateId: template?.id ?? null,
+    templateId: template ? getTemplateKey(template) : null,
     processedParams: snapshot(params ?? {}),
     audienceIds: (record.audience ?? [])
       .filter(item => item.type === 'Label')
@@ -121,6 +126,10 @@ watch(
       if (hydratedId.value !== null) resetForm();
       return;
     }
+    if (['processing', 'completed'].includes(record.campaign_status)) {
+      router.replace({ name: 'campaigns_whatsapp_index' });
+      return;
+    }
     if (!whatsAppInboxes.value.length || hydratedId.value === record.id) return;
     hydratedId.value = record.id;
     applyCampaign(record);
@@ -128,14 +137,22 @@ watch(
   { immediate: true }
 );
 
+const { run: runHealthRequest, abort: abortHealthRequest } =
+  useAbortableRequest();
+
 watch(
   () => state.inboxId,
   async inboxId => {
+    abortHealthRequest();
     healthData.value = null;
     if (!inboxId) return;
     try {
-      const { data } = await InboxHealthAPI.getHealthStatus(inboxId);
-      healthData.value = data;
+      await runHealthRequest(async signal => {
+        const { data } = await InboxHealthAPI.getHealthStatus(inboxId, {
+          signal,
+        });
+        if (!signal.aborted) healthData.value = data;
+      });
     } catch {
       healthData.value = null;
     }
@@ -164,7 +181,8 @@ const breadcrumbItems = computed(() => [
 const isTemplateComplete = computed(
   () =>
     !!selectedTemplate.value &&
-    isWhatsAppComplete(selectedTemplate.value, state.processedParams)
+    isWhatsAppComplete(selectedTemplate.value, state.processedParams) &&
+    isValidTemplateMediaUrl(state.processedParams.header?.media_url)
 );
 
 const isValid = computed(
@@ -181,10 +199,10 @@ const isSectionDirty = section =>
       JSON.stringify(state[field]) !== JSON.stringify(savedState.value[field])
   );
 
-const commitSection = section => {
+const commitSection = (section, submitted) => {
   const saved = snapshot(savedState.value);
   SECTION_FIELDS[section].forEach(field => {
-    saved[field] = snapshot(state[field]);
+    saved[field] = submitted[field];
   });
   savedState.value = saved;
 };
@@ -271,9 +289,10 @@ const handleUpdate = async payload => {
 // A campaign that does not exist yet has nothing to persist, so saving a
 // section only confirms its values until the campaign is scheduled.
 const handleSectionSave = async section => {
-  if (isEditMode.value && !(await handleUpdate(sectionPayloads[section]())))
-    return;
-  commitSection(section);
+  const submitted = snapshot(state);
+  const payload = snapshot(sectionPayloads[section]());
+  if (isEditMode.value && !(await handleUpdate(payload))) return;
+  commitSection(section, submitted);
 };
 
 const handleCreate = async scheduledAt => {
@@ -304,9 +323,9 @@ const handleCancelReschedule = () => {
 };
 
 const handleReschedule = async () => {
-  const scheduledAt = new Date(state.scheduledAt).toISOString();
-  if (await handleUpdate({ scheduled_at: scheduledAt }))
-    savedState.value = { ...savedState.value, scheduledAt: state.scheduledAt };
+  const scheduledAt = state.scheduledAt;
+  if (await handleUpdate({ scheduled_at: new Date(scheduledAt).toISOString() }))
+    savedState.value = { ...savedState.value, scheduledAt };
 };
 </script>
 

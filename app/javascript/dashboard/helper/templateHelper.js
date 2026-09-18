@@ -1,3 +1,4 @@
+import { url } from '@vuelidate/validators';
 import { processVariable, buildWhatsAppProcessedParams } from '@chatwoot/utils';
 
 // Constants and pure template helpers are shared with the mobile app via
@@ -29,3 +30,10 @@ export const replaceTemplateVariables = (templateText, processedParams) => {
 // the second argument is kept for backwards-compatible call sites.
 export const buildTemplateParameters = template =>
   buildWhatsAppProcessedParams(template);
+
+// 360dialog templates may not have a provider ID.
+export const getTemplateKey = template =>
+  template.id ?? `${template.name}:${template.language}`;
+
+export const isValidTemplateMediaUrl = value =>
+  !value || (/^https?:\/\//i.test(value) && url.$validator(value));
