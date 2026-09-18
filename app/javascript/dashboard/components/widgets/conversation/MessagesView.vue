@@ -30,6 +30,7 @@ import { getTypingUsersText } from '../../../helper/commons';
 import {
   captureTimelineAnchor,
   getTimelineEntries,
+  getUnreadScrollTop,
 } from './helpers/campaignScrollAnchor';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -406,9 +407,16 @@ export default {
 
       // if there are unread messages, scroll to the first unread message
       if (this.unreadMessageCount > 0) {
-        // capturing only the unread messages
-        relevantMessages =
-          this.conversationPanel.querySelectorAll('.message--unread');
+        const firstUnread =
+          this.conversationPanel.querySelector('.message--unread');
+        if (firstUnread) {
+          this.conversationPanel.scrollTop = getUnreadScrollTop(
+            this.conversationPanel,
+            firstUnread,
+            this.$el.scrollHeight
+          );
+          return;
+        }
       } else if (labelSuggestions) {
         // when scrolling to the bottom, the label suggestions is below the last message
         // so we scroll there if there are no unread messages
