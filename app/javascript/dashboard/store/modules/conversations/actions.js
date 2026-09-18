@@ -111,6 +111,8 @@ const actions = {
           { replaceExisting, countRequest }
         );
       } catch (error) {
+        // Ignore error; the loading state is cleared in finally.
+      } finally {
         if (!signal.aborted) {
           commit(types.CLEAR_LIST_LOADING_STATUS);
         }
@@ -151,10 +153,11 @@ const actions = {
           { replaceExisting, countRequest }
         );
       } catch (error) {
-        if (signal.aborted) return;
-
-        commit(types.CLEAR_LIST_LOADING_STATUS);
-        throw error;
+        if (!signal.aborted) throw error;
+      } finally {
+        if (!signal.aborted) {
+          commit(types.CLEAR_LIST_LOADING_STATUS);
+        }
       }
     });
   },
