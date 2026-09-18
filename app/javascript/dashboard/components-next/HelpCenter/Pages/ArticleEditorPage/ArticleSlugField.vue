@@ -61,7 +61,8 @@ const normalizeSlug = () => {
 };
 
 const saveSlug = () => {
-  if (isChanged.value) emit('saveSlug', `${slugPrefix.value}${newSlug.value}`);
+  if (!isChanged.value || isUpdating.value) return;
+  emit('saveSlug', `${slugPrefix.value}${newSlug.value}`);
 };
 </script>
 
@@ -81,6 +82,7 @@ const saveSlug = () => {
         <InlineInput
           id="article-slug"
           v-model="slug"
+          :disabled="isUpdating"
           :placeholder="
             t(
               'HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.SLUG_PLACEHOLDER'
@@ -100,6 +102,7 @@ const saveSlug = () => {
           variant="ghost"
           color="slate"
           class="flex-shrink-0"
+          :disabled="isUpdating"
           @click="slug = titleSlug"
         />
       </div>
