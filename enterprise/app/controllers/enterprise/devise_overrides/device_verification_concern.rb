@@ -76,7 +76,7 @@ module Enterprise::DeviseOverrides::DeviceVerificationConcern
   end
 
   def device_request_meta
-    browser = Browser.new(request.user_agent.to_s)
-    { ip: request.remote_ip, browser_name: browser.name, platform_name: browser.platform.name }
+    info = RequestDeviceInfo.new(request)
+    { ip: request.remote_ip, browser_name: info.browser_name, platform_name: info.platform_label }
   end
 end
