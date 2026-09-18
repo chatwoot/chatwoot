@@ -34,7 +34,6 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.CancelTyping = [];
     // Scope deferred alerts to this connection and account; display IDs can overlap between accounts.
     this.pendingHandoffAlerts = new Map();
-    this.latestAssignments = new Map();
     this.lastUnreadCountsFetchAt = null;
     this.unreadCountsFetchTimer = null;
     this.mentionUnreadCountsFetchTimer = null;
@@ -121,11 +120,6 @@ class ActionCableConnector extends BaseActionCableConnector {
     if (payload.assignment_changed_since_event) return;
 
     const key = `${payload.account_id}:${payload.id}`;
-    // Preserve the latest assignment when broadcast jobs are delivered out of order.
-    const previousAssignment = this.latestAssignments.get(key);
-    if (previousAssignment?.updated_at > payload.updated_at) return;
-    this.latestAssignments.set(key, payload);
-
     const handoff = this.pendingHandoffAlerts.get(key);
     if (!handoff || payload.updated_at < handoff.updated_at) return;
     if (isConversationUnassigned(payload)) return;
@@ -146,21 +140,16 @@ class ActionCableConnector extends BaseActionCableConnector {
     if (data.performer?.type === 'user') return;
 
     const key = `${data.account_id}:${data.id}`;
-    const assignment = this.latestAssignments.get(key);
-    // Assignment V2 runs asynchronously, and its broadcast can arrive before the handoff broadcast.
-    const conversation =
-      assignment?.updated_at >= data.updated_at ? assignment : data;
-    if (conversation.status !== 'open') return;
-    if (conversation.performer?.type === 'user') return;
+    if (data.status !== 'open') return;
 
     // Keep unmatched unassigned handoffs until assignment, without delaying alerts for all/unassigned filters.
     if (
-      isConversationUnassigned(conversation) &&
-      !DashboardAudioNotificationHelper.shouldNotifyOnConversation(conversation)
+      isConversationUnassigned(data) &&
+      !DashboardAudioNotificationHelper.shouldNotifyOnConversation(data)
     ) {
-      this.pendingHandoffAlerts.set(key, conversation);
+      this.pendingHandoffAlerts.set(key, data);
     }
-    DashboardAudioNotificationHelper.onConversationBotHandoff(conversation);
+    DashboardAudioNotificationHelper.onConversationBotHandoff(data);
   };
 
   onConversationRead = data => {
@@ -192,9 +181,6 @@ class ActionCableConnector extends BaseActionCableConnector {
     if (data.status !== 'open') {
       if (!(this.pendingHandoffAlerts.get(key)?.updated_at > data.updated_at)) {
         this.pendingHandoffAlerts.delete(key);
-      }
-      if (!(this.latestAssignments.get(key)?.updated_at > data.updated_at)) {
-        this.latestAssignments.delete(key);
       }
     }
     this.app.$store.dispatch('updateConversation', data);

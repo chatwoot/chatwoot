@@ -116,12 +116,6 @@ describe('ActionCableConnector - Copilot Tests', () => {
       expect(alert).toHaveBeenCalledTimes(1);
     });
 
-    it('uses assignment even when it arrives before the handoff', () => {
-      actionCable.onAssigneeChanged(assignment);
-      actionCable.onConversationBotHandoff(handoff);
-      expect(alert).toHaveBeenCalledExactlyOnceWith(assignment);
-    });
-
     it('does not alert twice for filters matching the unassigned handoff', () => {
       DashboardAudioNotificationHelper.shouldNotifyOnConversation.mockReturnValue(
         true
@@ -136,21 +130,13 @@ describe('ActionCableConnector - Copilot Tests', () => {
       expect(alert).not.toHaveBeenCalled();
     });
 
-    it.each(['handoff first', 'assignment first'])(
-      'keeps human assignment silent with %s',
-      order => {
-        assignment.performer = { type: 'user' };
-        if (order === 'handoff first') {
-          actionCable.onConversationBotHandoff(handoff);
-          alert.mockClear();
-          actionCable.onAssigneeChanged(assignment);
-        } else {
-          actionCable.onAssigneeChanged(assignment);
-          actionCable.onConversationBotHandoff(handoff);
-        }
-        expect(alert).not.toHaveBeenCalled();
-      }
-    );
+    it('keeps human assignment silent', () => {
+      assignment.performer = { type: 'user' };
+      actionCable.onConversationBotHandoff(handoff);
+      alert.mockClear();
+      actionCable.onAssigneeChanged(assignment);
+      expect(alert).not.toHaveBeenCalled();
+    });
 
     it('discards deferred handoffs when the conversation closes', () => {
       actionCable.onConversationBotHandoff(handoff);
