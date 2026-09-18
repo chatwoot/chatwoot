@@ -10,6 +10,7 @@ module Enterprise::Concerns::Account
     has_many :agent_capacity_policies, dependent: :destroy_async
 
     has_many :captain_assistants, dependent: :destroy_async, class_name: 'Captain::Assistant'
+    has_many :captain_faq_imports, dependent: :destroy, class_name: 'Captain::FaqImport'
     has_many :captain_assistant_responses, dependent: :destroy_async, class_name: 'Captain::AssistantResponse'
     has_many :captain_faq_observations, dependent: :destroy_async, class_name: 'Captain::FaqObservation'
     has_many :captain_faq_suggestions, dependent: :destroy_async, class_name: 'Captain::FaqSuggestion'
