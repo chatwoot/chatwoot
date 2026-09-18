@@ -31,7 +31,8 @@ const { t } = useI18n();
 const contactCounts = ref({});
 const totalContacts = ref(0);
 
-const { run: runTotalRequest } = useAbortableRequest();
+const { run: runTotalRequest, abort: abortTotalRequest } =
+  useAbortableRequest();
 
 const labelOptions = computed(() =>
   props.labels.map(label => ({ value: label.id, label: label.title }))
@@ -58,6 +59,7 @@ const fetchContactCount = async label => {
 // A contact in several labels is messaged once, so the total is the union the
 // API resolves rather than the sum of the per-label counts.
 const fetchTotalContacts = async titles => {
+  abortTotalRequest();
   if (!titles.length) {
     totalContacts.value = 0;
     return;
