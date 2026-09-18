@@ -40,6 +40,13 @@
       </div>
     </div>
     <% if ChatwootApp.enterprise? %>
+      <% if !ChatwootApp.chatwoot_cloud? && ChatwootHub.subscription_status == 'past_due' %>
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-red-400 bg-red-100 px-4 py-3 text-red-700" role="alert">
+          <p class="m-0 text-sm"><%= t('super_admin.billing.past_due') %></p>
+          <%= link_to t('super_admin.billing.resolve_payment'), ChatwootHub.billing_url,
+                      target: '_blank', rel: 'noopener noreferrer', class: 'text-sm font-medium underline' %>
+        </div>
+      <% end %>
       <div class="flex p-4 outline outline-1 outline-n-container rounded-lg items-start md:items-center shadow-sm flex-col md:flex-row">
         <div class="flex flex-col flex-grow gap-1">
           <div class="flex items-center gap-2">

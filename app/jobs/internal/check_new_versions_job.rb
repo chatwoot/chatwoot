@@ -1,10 +1,10 @@
 class Internal::CheckNewVersionsJob < ApplicationJob
   queue_as :scheduled_jobs
 
-  def perform
+  def perform(refresh_billing: false)
     return unless Rails.env.production?
 
-    @instance_info = ChatwootHub.sync_with_hub
+    @instance_info = ChatwootHub.sync_with_hub(refresh_billing: refresh_billing)
     update_version_info
   end
 
