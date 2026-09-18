@@ -2,6 +2,11 @@
 # use https://crontab.guru/ to validate
 # validations for this file exist in /spec/configs/schedule_spec.rb
 
+search_indexing_dispatch_job:
+  cron: '*/30 * * * * *'
+  class: 'SearchIndexingDispatchJob'
+  queue: search_indexing
+
 # executed daily at 0000 UTC
 # schedules daily deferred jobs at stable times for each installation
 internal_check_new_versions_job:
