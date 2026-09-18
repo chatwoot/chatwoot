@@ -26,14 +26,16 @@ const openBilling = () => {
   });
 };
 
-// Refresh the persisted billing state when returning from the payment portal.
+// Only the recovery direction needs a focus check: the admin returns from the
+// billing portal before the webhook lands, and isPastDue stays true until we
+// refetch. Becoming past due arrives over the cable, or on reconnect.
 useEventListener(window, 'focus', () => {
-  if (accountId.value) {
-    store.dispatch('accounts/get', {
-      accountId: accountId.value,
-      silent: true,
-    });
-  }
+  if (!isPastDue.value || !accountId.value) return;
+
+  store.dispatch('accounts/get', {
+    accountId: accountId.value,
+    silent: true,
+  });
 });
 </script>
 
