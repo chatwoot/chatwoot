@@ -60,6 +60,7 @@ class ActionCableConnector extends BaseActionCableConnector {
         this.onConversationUnreadCountChanged,
       'account.cache_invalidated': this.onCacheInvalidate,
       'account.enrichment_completed': this.onEnrichmentCompleted,
+      'account.billing_updated': this.onBillingUpdated,
       'copilot.message.created': this.onCopilotMessageCreated,
       'voice_call.incoming': this.onVoiceCallIncoming,
       'voice_call.accepted': this.onVoiceCallAccepted,
@@ -342,6 +343,13 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('accounts/get', { silent: true });
   };
 
+  onBillingUpdated = data => {
+    this.app.$store.dispatch('accounts/get', {
+      accountId: data.account_id,
+      silent: true,
+    });
+  };
+
   onCacheInvalidate = data => {
     const keys = data.cache_keys;
     this.app.$store.dispatch('labels/revalidate', { newKey: keys.label });
@@ -375,6 +383,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       provider: VOICE_CALL_PROVIDERS.WHATSAPP,
       sdpOffer: data.sdp_offer,
       iceServers: data.ice_servers,
+      recordingEnabled: data.recording_enabled !== false,
       caller: data.caller,
     });
   };

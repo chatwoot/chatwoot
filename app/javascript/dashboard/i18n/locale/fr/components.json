@@ -69,9 +69,14 @@
     "DIVIDER": "Diviseur"
   },
   "VIDEO_EMBED": {
+    "TAB_EMBED": "Embed link",
+    "TAB_UPLOAD": "Upload",
     "PLACEHOLDER": "Coller un lien vidéo",
     "HINT": "Fonctionne avec les liens YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar et mp4",
     "ERROR": "Cela ne ressemble pas à un lien vidéo pris en charge",
+    "UPLOAD_LABEL": "Choose a video file",
+    "UPLOAD_HINT": "MP4 · up to {size}MB · or drop it here",
+    "UPLOAD_ERROR": "Only MP4 files can be uploaded",
     "ADD": "Intégrer",
     "CANCEL": "Annuler"
   }

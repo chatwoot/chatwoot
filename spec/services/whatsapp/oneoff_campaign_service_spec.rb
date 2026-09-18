@@ -116,6 +116,79 @@ describe Whatsapp::OneoffCampaignService do
         described_class.new(campaign: campaign).perform
       end
 
+      it 'sends to the contact BSUID when the contact has no phone number and exactly one WhatsApp identity' do
+        contact = create(:contact, account: account, phone_number: nil)
+        contact.update_labels([label1.title])
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.2081978709342942')
+
+        expect(whatsapp_channel).to receive(:send_template).with(
+          'IN.2081978709342942',
+          hash_including(
+            name: 'ticket_status_updated',
+            namespace: '23423423_2342423_324234234_2343224',
+            lang_code: 'en'
+          ),
+          nil
+        )
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'does not send when the contact has parent and regular BSUID aliases' do
+        contact = create(:contact, account: account, phone_number: nil)
+        contact.update_labels([label1.title])
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.ENT.9081726354')
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.2081978709342942')
+
+        expect(whatsapp_channel).not_to receive(:send_template)
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'does not infer lifecycle rotation from conversation presence alone' do
+        contact = create(:contact, account: account, phone_number: nil)
+        contact.update_labels([label1.title])
+        previous_contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.PREVIOUSBSUID')
+        create(:conversation, account: account, inbox: whatsapp_inbox, contact: contact, contact_inbox: previous_contact_inbox)
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.CURRENTBSUID')
+
+        expect(whatsapp_channel).not_to receive(:send_template)
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'does not send when a phone-less contact has multiple WhatsApp identities in the campaign inbox' do
+        contact = create(:contact, account: account, phone_number: nil)
+        contact.update_labels([label1.title])
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.2081978709342942')
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.2081978709342943')
+
+        allow(Rails.logger).to receive(:info)
+        expect(whatsapp_channel).not_to receive(:send_template)
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'does not submit authentication templates for BSUID-only contacts' do
+        contact = create(:contact, account: account, phone_number: nil)
+        contact.update_labels([label1.title])
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.2081978709342942')
+        whatsapp_channel.update!(
+          message_templates: [
+            {
+              'name' => 'ticket_status_updated',
+              'language' => 'en',
+              'category' => 'AUTHENTICATION'
+            }
+          ]
+        )
+
+        allow(Rails.logger).to receive(:info)
+        expect(whatsapp_channel).not_to receive(:send_template)
+
+        described_class.new(campaign: campaign).perform
+      end
+
       it 'uses template processor service to process templates' do
         contact = create(:contact, :with_phone_number, account: account)
         contact.update_labels([label1.title])

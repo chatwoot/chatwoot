@@ -103,7 +103,8 @@ class Tiktok::CallbacksController < ApplicationController
         access_token: short_term_access_token[:access_token],
         refresh_token: short_term_access_token[:refresh_token],
         expires_at: short_term_access_token[:expires_at],
-        refresh_token_expires_at: short_term_access_token[:refresh_token_expires_at]
+        refresh_token_expires_at: short_term_access_token[:refresh_token_expires_at],
+        provider_name: business_details[:username]
       )
 
       account.inboxes.create!(
@@ -125,10 +126,9 @@ class Tiktok::CallbacksController < ApplicationController
       access_token: short_term_access_token[:access_token],
       refresh_token: short_term_access_token[:refresh_token],
       expires_at: short_term_access_token[:expires_at],
-      refresh_token_expires_at: short_term_access_token[:refresh_token_expires_at]
+      refresh_token_expires_at: short_term_access_token[:refresh_token_expires_at],
+      provider_name: business_details[:username]
     )
-
-    channel_tiktok.inbox.update!(name: business_details[:display_name].presence || business_details[:username])
   end
 
   def set_avatar(inbox, avatar_url)
