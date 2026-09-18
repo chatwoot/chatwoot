@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
+import { useCampaignAnalytics } from 'dashboard/composables/useCampaignAnalytics';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAccount } from 'dashboard/composables/useAccount';
 import Icon from 'next/icon/Icon.vue';
@@ -13,6 +14,7 @@ const props = defineProps({
 });
 const { t } = useI18n();
 const { isAdmin } = useAdmin();
+const { canViewAnalytics } = useCampaignAnalytics();
 const { accountScopedRoute } = useAccount();
 const exactTimestamp = useExactTimestamp();
 const sentAt = computed(() =>
@@ -46,7 +48,7 @@ const statusLabel = computed(
         />
         <span class="sr-only">{{ t('CAMPAIGN.HISTORY.LABEL') }}</span>
         <RouterLink
-          v-if="isAdmin"
+          v-if="isAdmin && canViewAnalytics"
           :to="
             accountScopedRoute('campaigns_whatsapp_analytics', {
               campaignId: recipient.campaign.id,
