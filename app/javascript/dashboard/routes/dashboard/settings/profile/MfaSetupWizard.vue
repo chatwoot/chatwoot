@@ -76,16 +76,23 @@ watch(
   { immediate: true }
 );
 
-const verifyCode = async () => {
+// The parent verifies asynchronously; the wizard advances to the backup step
+// only when backup codes arrive (see the watcher below), so a slow or failed
+// verification never strands the user past the OTP form.
+const verifyCode = () => {
   verificationError.value = '';
-  try {
-    emit('verify', verificationCode.value);
-    setupStep.value = 'backup';
-    verificationCode.value = '';
-  } catch (error) {
-    verificationError.value = t('MFA_SETTINGS.SETUP.INVALID_CODE');
-  }
+  emit('verify', verificationCode.value);
+  verificationCode.value = '';
 };
+
+watch(
+  () => props.backupCodes,
+  codes => {
+    if (codes?.length && props.showSetup && !props.mfaEnabled) {
+      setupStep.value = 'backup';
+    }
+  }
+);
 
 const copySecret = async () => {
   await copyTextToClipboard(props.secretKey);
@@ -136,8 +143,10 @@ watch(
   }
 );
 
-// Handle verification error
+// Handle verification error. The wizard advances optimistically when the
+// verify event is emitted, so roll the step back for a retry.
 const handleVerificationError = error => {
+  setupStep.value = 'qr';
   verificationError.value = error || t('MFA_SETTINGS.SETUP.INVALID_CODE');
 };
 

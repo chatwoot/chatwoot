@@ -27,6 +27,16 @@ export const login = async ({
       };
     }
 
+    // Check if the account enforces MFA and the user must enrol first
+    if (response.status === 206 && response.data.mfa_setup_required) {
+      return {
+        mfaSetupRequired: true,
+        mfaSetupToken: response.data.mfa_setup_token,
+        provisioningUrl: response.data.provisioning_url,
+        secret: response.data.secret,
+      };
+    }
+
     setAuthCredentials(response);
     clearLocalStorageOnLogout();
     window.location = getLoginRedirectURL({
@@ -41,6 +51,17 @@ export const login = async ({
       return {
         mfaRequired: true,
         mfaToken: error.response.data.mfa_token,
+      };
+    }
+    if (
+      error.response?.status === 206 &&
+      error.response?.data?.mfa_setup_required
+    ) {
+      return {
+        mfaSetupRequired: true,
+        mfaSetupToken: error.response.data.mfa_setup_token,
+        provisioningUrl: error.response.data.provisioning_url,
+        secret: error.response.data.secret,
       };
     }
     if (
@@ -87,9 +108,15 @@ export const verifyPasswordToken = async ({ confirmationToken }) => {
     const response = await wootAPI.post('auth/confirmation', {
       confirmation_token: confirmationToken,
     });
+    // Accounts enforcing MFA respond without session tokens; the user must
+    // sign in so the MFA setup flow can run.
+    if (response.data?.redirect_url) {
+      return { redirectUrl: response.data.redirect_url };
+    }
     setAuthCredentials(response);
+    return {};
   } catch (error) {
-    throwErrorMessage(error);
+    return throwErrorMessage(error);
   }
 };
 
@@ -104,9 +131,15 @@ export const setNewPassword = async ({
       password_confirmation: confirmPassword,
       password,
     });
+    // Accounts enforcing MFA respond without session tokens; the user must
+    // sign in so the MFA setup flow can run.
+    if (response.data?.redirect_url) {
+      return { redirectUrl: response.data.redirect_url };
+    }
     setAuthCredentials(response);
+    return {};
   } catch (error) {
-    throwErrorMessage(error);
+    return throwErrorMessage(error);
   }
 };
 

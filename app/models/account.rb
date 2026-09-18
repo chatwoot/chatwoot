@@ -59,6 +59,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :reporting_timezone
   store_accessor :settings, :keep_pending_on_bot_failure
   store_accessor :settings, :captain_auto_resolve_mode, :captain_false_promise_harness_enabled
+  store_accessor :settings, :enforce_mfa
   include AccountCaptainAutoResolve
 
   has_many :account_users, dependent: :destroy_async
@@ -165,6 +166,10 @@ class Account < ApplicationRecord
 
   def api_and_webhooks_enabled?
     true
+  end
+
+  def enforce_mfa?
+    Chatwoot.mfa_enabled? && enforce_mfa == true
   end
 
   def locale_english_name
