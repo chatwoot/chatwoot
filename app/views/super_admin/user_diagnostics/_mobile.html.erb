@@ -1,0 +1,63 @@
+<div class="mb-8">
+  <h2 class="text-base font-semibold mb-2"><%= t("#{scope}.sessions.heading", count: @mobile_sessions.count) %></h2>
+  <p class="text-xs text-slate-500 mb-3"><%= t("#{scope}.sessions.description") %></p>
+
+  <% if @mobile_sessions.empty? %>
+    <p class="text-sm text-slate-600">
+      <%= t("#{scope}.sessions.empty") %>
+      <% if @web_session_count.positive? %>
+        <%= t("#{scope}.sessions.web_sessions", count: @web_session_count) %>
+      <% end %>
+    </p>
+  <% else %>
+    <table class="w-full text-sm border border-slate-100 rounded-md">
+      <thead class="text-left text-xs text-slate-500 bg-slate-25">
+        <tr>
+          <% %w[app_version platform os_version device first_seen last_active].each do |column| %>
+            <th class="px-3 py-2 first:!pl-4 last:!pr-4"><%= t("#{scope}.sessions.columns.#{column}") %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @mobile_sessions.each do |session| %>
+          <tr class="border-t border-slate-100 align-middle">
+            <td class="px-3 py-2 first:!pl-4 last:!pr-4 font-mono text-xs">
+              <% if session.browser_version.present? %>
+                <%= session.browser_version %>
+              <% else %>
+                <span class="text-n-amber-11"><%= t("#{scope}.sessions.legacy_build") %></span>
+              <% end %>
+            </td>
+            <%# device_name holds the platform family, platform_name the device model. %>
+            <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= session.device_name.presence || '—' %></td>
+            <td class="px-3 py-2 first:!pl-4 last:!pr-4 font-mono text-xs"><%= session.platform_version.presence || '—' %></td>
+            <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= session.platform_name.presence || '—' %></td>
+            <td class="px-3 py-2 first:!pl-4 last:!pr-4 whitespace-nowrap text-xs text-slate-500">
+              <%= session.created_at.strftime('%Y-%m-%d') %>
+            </td>
+            <td class="px-3 py-2 first:!pl-4 last:!pr-4 whitespace-nowrap text-xs">
+              <% if session.last_activity_at %>
+                <%= session.last_activity_at.strftime('%Y-%m-%d %H:%M') %>
+                <span class="text-slate-400">(<%= time_ago_in_words(session.last_activity_at) %> ago)</span>
+              <% else %>
+                <span class="text-slate-400">—</span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <p class="text-xs text-slate-400 mt-2"><%= t("#{scope}.sessions.legacy_note") %></p>
+  <% end %>
+</div>
+
+<% if @accounts_without_push.any? %>
+  <p class="text-xs text-n-amber-11 mb-8">
+    <%= t("#{scope}.push_settings.none_enabled",
+          count: @accounts_without_push.size,
+          names: @accounts_without_push.map { |setting| account_label(setting) }.join(', ')) %>
+    <%= link_to t("#{scope}.push_settings.review_link"),
+                super_admin_user_diagnostics_path(user_query: @query, tab: 'push'),
+                class: 'text-woot-500' %>
+  </p>
+<% end %>

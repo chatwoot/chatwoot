@@ -1,0 +1,182 @@
+<div class="mb-8">
+  <h2 class="text-base font-semibold mb-2"><%= t("#{scope}.push_settings.heading") %></h2>
+  <p class="text-xs text-slate-500 mb-3"><%= t("#{scope}.push_settings.description") %></p>
+
+  <% if @notification_settings.empty? %>
+    <p class="text-sm text-slate-600"><%= t("#{scope}.push_settings.empty") %></p>
+  <% else %>
+    <table class="w-full text-sm border border-slate-100 rounded-md cursor-default">
+      <thead class="text-left text-xs text-slate-500 bg-slate-25">
+        <tr>
+          <th class="px-3 py-2 first:!pl-4 last:!pr-4"><%= t("#{scope}.push_settings.notification_type") %></th>
+          <% @notification_settings.each do |setting| %>
+            <th class="px-3 py-2 first:!pl-4 last:!pr-4">
+              <div><%= account_label(setting) %></div>
+              <div class="text-slate-400 font-normal"><%= t("#{scope}.user.id", id: setting.account_id) %></div>
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @push_types.each do |type| %>
+          <tr class="border-t border-slate-100 !cursor-default hover:!bg-transparent">
+            <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= push_type_label(type) %></td>
+            <% @notification_settings.each do |setting| %>
+              <td class="px-3 py-2 first:!pl-4 last:!pr-4">
+                <% case push_state(setting, type) %>
+                <% when :unavailable %>
+                  <span class="text-slate-300" title="<%= t("#{scope}.push_settings.sla_unavailable") %>">—</span>
+                <% when :on %>
+                  <input type="checkbox" class="pointer-events-none" checked tabindex="-1" aria-disabled="true">
+                <% else %>
+                  <input type="checkbox" class="pointer-events-none" tabindex="-1" aria-disabled="true">
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <% if @accounts_without_push.any? %>
+      <p class="text-xs text-n-amber-11 mt-2">
+        <%= t("#{scope}.push_settings.none_enabled",
+              count: @accounts_without_push.size,
+              names: @accounts_without_push.map { |setting| account_label(setting) }.join(', ')) %>
+      </p>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="mb-8">
+  <h2 class="text-base font-semibold mb-2"><%= t("#{scope}.devices.heading", count: @subscriptions.count) %></h2>
+  <p class="text-xs text-n-amber-11 mb-3"><%= t("#{scope}.push.real_push_warning") %></p>
+
+  <% if @subscriptions.empty? %>
+    <p class="text-sm text-slate-600"><%= t("#{scope}.devices.empty") %></p>
+  <% else %>
+    <%= form_with url: super_admin_user_diagnostics_path, method: :post, local: true do |f| %>
+      <%= f.hidden_field :user_id, value: @user.id %>
+      <div class="mb-4 max-w-2xl">
+        <div class="mb-3">
+          <%= label_tag :push_title, t("#{scope}.push.title_label"), class: 'block text-xs font-medium text-slate-600 mb-1' %>
+          <%= text_field_tag :push_title,
+                             params[:push_title].presence || Notification::PushTestService.default_title,
+                             class: 'border border-slate-100 p-1.5 rounded-md w-full text-sm' %>
+        </div>
+        <div>
+          <%= label_tag :push_body, t("#{scope}.push.body_label"), class: 'block text-xs font-medium text-slate-600 mb-1' %>
+          <%= text_area_tag :push_body,
+                            params[:push_body].presence || Notification::PushTestService.default_body,
+                            rows: 2,
+                            class: 'border border-slate-100 p-1.5 rounded-md w-full text-sm' %>
+        </div>
+        <p class="text-xs text-slate-400 mt-1"><%= t("#{scope}.push.body_hint") %></p>
+      </div>
+
+      <table class="w-full text-sm border border-slate-100 rounded-md">
+        <thead class="text-left text-xs text-slate-500 bg-slate-25">
+          <tr>
+            <th class="px-3 py-2 align-middle first:!pl-4 last:!pr-4"><input type="checkbox" id="toggle-all"></th>
+            <% %w[id type device token details registered last_updated].each do |column| %>
+              <th class="px-3 py-2 first:!pl-4 last:!pr-4"><%= t("#{scope}.devices.columns.#{column}") %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @subscriptions.each do |subscription| %>
+            <% details = device_details(subscription) %>
+            <tr class="border-t border-slate-100 align-top">
+              <td class="px-3 py-2 first:!pl-4 last:!pr-4">
+                <%= check_box_tag 'subscription_ids[]', subscription.id, false, class: 'subscription-checkbox' %>
+              </td>
+              <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= subscription.id %></td>
+              <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= subscription.subscription_type %></td>
+              <td class="px-3 py-2 first:!pl-4 last:!pr-4 font-mono text-xs break-all">
+                <%= device_identifier(subscription) || content_tag(:span, '—', class: 'text-slate-400') %>
+              </td>
+              <td class="px-3 py-2 first:!pl-4 last:!pr-4 font-mono text-xs break-all">
+                <%= device_token_tail(subscription) || content_tag(:span, '—', class: 'text-slate-400') %>
+              </td>
+              <td class="px-3 py-2 first:!pl-4 last:!pr-4 text-xs">
+                <% if details.present? %>
+                  <% details.each do |key, value| %>
+                    <div><span class="text-slate-500"><%= key %>:</span> <span class="font-mono"><%= value.to_s.truncate(40) %></span></div>
+                  <% end %>
+                <% else %>
+                  <span class="text-slate-400">—</span>
+                <% end %>
+              </td>
+              <td class="px-3 py-2 first:!pl-4 last:!pr-4 whitespace-nowrap text-xs"><%= subscription.created_at.strftime('%Y-%m-%d %H:%M') %></td>
+              <td class="px-3 py-2 first:!pl-4 last:!pr-4 whitespace-nowrap text-xs">
+                <%= subscription.updated_at.strftime('%Y-%m-%d %H:%M') %>
+                <span class="text-slate-400">(<%= time_ago_in_words(subscription.updated_at) %> ago)</span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <p class="text-xs text-slate-400 mt-2"><%= t("#{scope}.devices.build_number_note") %></p>
+
+      <div class="mt-4 flex gap-2">
+        <%= f.submit t("#{scope}.push.send_test"),
+                     class: 'border border-slate-200 bg-slate-50 px-3 py-1.5 rounded-md cursor-pointer font-medium' %>
+        <%= submit_tag t("#{scope}.push.delete_selected"),
+                       formaction: destroy_subscriptions_super_admin_user_diagnostics_path,
+                       formmethod: 'post',
+                       data: { confirm: t("#{scope}.push.delete_confirm") },
+                       class: 'border border-red-200 bg-red-50 text-red-700 px-3 py-1.5 rounded-md cursor-pointer font-medium' %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<% if @results.present? %>
+  <div class="mb-8">
+    <h2 class="text-base font-semibold mb-2"><%= t("#{scope}.push.results_heading") %></h2>
+    <table class="w-full text-sm border border-slate-100 rounded-md">
+      <thead class="text-left text-xs text-slate-500 bg-slate-25">
+        <tr>
+          <% %w[id type device token status details].each do |column| %>
+            <th class="px-3 py-2 first:!pl-4 last:!pr-4"><%= t("#{scope}.push.results_columns.#{column}") %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @results.each do |result| %>
+          <tr class="border-t border-slate-100 align-top">
+            <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= result[:id] %></td>
+            <td class="px-3 py-2 first:!pl-4 last:!pr-4"><%= result[:type] %></td>
+            <td class="px-3 py-2 first:!pl-4 last:!pr-4 font-mono text-xs break-all"><%= result[:device] %></td>
+            <td class="px-3 py-2 first:!pl-4 last:!pr-4 font-mono text-xs break-all"><%= result[:token_tail] %></td>
+            <td class="px-3 py-2 first:!pl-4 last:!pr-4">
+              <%
+                status_class = {
+                  success: 'bg-green-100 text-green-800',
+                  failure: 'bg-red-100 text-red-800',
+                  skipped: 'bg-slate-100 text-slate-600'
+                }[result[:status]]
+              %>
+              <span class="px-2 py-0.5 rounded-full text-xs <%= status_class %>"><%= result[:status] %></span>
+            </td>
+            <td class="px-3 py-2 first:!pl-4 last:!pr-4 font-mono text-xs break-all whitespace-pre-wrap"><%= result[:message] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
+<% content_for :javascript do %>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('toggle-all');
+      if (!toggle) return;
+      toggle.addEventListener('change', (event) => {
+        document.querySelectorAll('.subscription-checkbox').forEach((cb) => {
+          cb.checked = event.target.checked;
+        });
+      });
+    });
+  </script>
+<% end %>

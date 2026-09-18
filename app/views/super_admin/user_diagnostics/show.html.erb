@@ -1,0 +1,59 @@
+<% scope = 'super_admin.user_diagnostics' %>
+<% content_for(:title) do %><%= t("#{scope}.title") %><% end %>
+
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title" id="page-title"><%= t("#{scope}.title") %></h1>
+</header>
+
+<section class="main-content__body">
+  <p class="text-sm text-slate-600 mb-6"><%= t("#{scope}.description") %></p>
+
+  <div class="mb-8">
+    <%= form_with url: super_admin_user_diagnostics_path, method: :get, local: true, class: 'flex gap-2 items-center' do |f| %>
+      <%= f.hidden_field :tab, value: @tab %>
+      <%= f.text_field :user_query,
+                       value: @query,
+                       placeholder: t("#{scope}.search.placeholder"),
+                       class: 'border border-slate-100 p-1.5 rounded-md w-80' %>
+      <%= f.submit t("#{scope}.search.submit"), class: 'border border-slate-200 bg-slate-50 px-3 py-1.5 rounded-md cursor-pointer' %>
+    <% end %>
+    <% if @query.present? && @user.nil? %>
+      <p class="text-sm text-red-600 mt-2"><%= t("#{scope}.search.not_found", query: @query) %></p>
+    <% end %>
+  </div>
+
+  <% if @user %>
+    <div class="mb-6 border border-slate-100 rounded-md p-4 bg-slate-25">
+      <p class="text-sm">
+        <strong><%= @user.name %></strong>
+        &middot; <%= @user.email %>
+        &middot; <%= t("#{scope}.user.id", id: @user.id) %>
+      </p>
+      <% if @user.accounts.any? %>
+        <p class="text-xs text-slate-500 mt-1">
+          <%= t("#{scope}.user.accounts") %>
+          <% @user.accounts.each_with_index do |account, index| %>
+            <%= ', ' if index.positive? %>
+            <%= account.name %> (<%= t("#{scope}.user.id", id: account.id) %>)
+          <% end %>
+        </p>
+      <% end %>
+      <p class="text-xs mt-2">
+        <%= link_to t("#{scope}.user.details_link"), super_admin_user_path(@user), class: 'text-woot-500' %>
+      </p>
+    </div>
+
+    <nav class="flex gap-1 border-b border-slate-100 mb-6" aria-label="<%= t("#{scope}.tabs.label") %>">
+      <% SuperAdmin::UserDiagnosticsController::TABS.each do |tab| %>
+        <% active = @tab == tab %>
+        <% tab_class = active ? 'border-woot-500 text-woot-500' : 'border-transparent text-slate-600 hover:text-slate-800' %>
+        <%= link_to t("#{scope}.tabs.#{tab}"),
+                    super_admin_user_diagnostics_path(user_query: @query, tab: tab),
+                    class: "px-3 py-2 -mb-px border-b-2 text-sm font-medium #{tab_class}",
+                    aria: { current: active ? 'page' : nil } %>
+      <% end %>
+    </nav>
+
+    <%= render @tab, scope: scope %>
+  <% end %>
+</section>
