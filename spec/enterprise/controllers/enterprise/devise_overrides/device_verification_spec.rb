@@ -18,8 +18,8 @@ RSpec.describe 'Device verification on sign-in', type: :request do
     response.parsed_body['mfa_token']
   end
 
-  def redeem!(token, code)
-    post new_user_session_url, params: { mfa_token: token, otp_code: code }, as: :json
+  def redeem!(token, code, extra = {})
+    post new_user_session_url, params: { mfa_token: token, otp_code: code }.merge(extra), as: :json
   end
 
   shared_context 'with device verification enabled' do
@@ -102,6 +102,22 @@ RSpec.describe 'Device verification on sign-in', type: :request do
       expect(response.cookies.keys).to include("cw_dv_#{user.id}")
       expect(Enterprise::DeviceVerificationMailer).to have_received(:new_device)
       expect(user.reload.user_sessions.count).to eq(1)
+    end
+
+    it 'does not set the trusted-device cookie when remember_device is false' do
+      sign_in!
+      redeem!(issued_token, emailed_codes.last, remember_device: false)
+
+      expect(response).to have_http_status(:success)
+      expect(response.headers['access-token']).to be_present
+      expect(response.cookies.keys).not_to include("cw_dv_#{user.id}")
+    end
+
+    it 'sets the trusted-device cookie by default when remember_device is absent' do
+      sign_in!
+      redeem!(issued_token, emailed_codes.last)
+
+      expect(response.cookies.keys).to include("cw_dv_#{user.id}")
     end
 
     it 'still completes sign-in when the new-device email fails to enqueue' do

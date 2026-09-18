@@ -113,6 +113,7 @@
       "CONTACT_DESC_CLOUD": "If you've lost access to both your authenticator app and backup codes, please reach out to Chatwoot support for assistance.",
       "CONTACT_DESC_SELF_HOSTED": "If you've lost access to both your authenticator app and backup codes, please contact your administrator for assistance."
     },
-    "VERIFICATION_FAILED": "Verification failed. Please try again."
+    "VERIFICATION_FAILED": "Verification failed. Please try again.",
+    "REMEMBER_DEVICE": "Don't ask again on this device for 30 days"
   }
 }

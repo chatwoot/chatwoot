@@ -37,6 +37,7 @@ const BACKUP = 'backup';
 const verificationMethod = ref(OTP);
 const otpDigits = ref(['', '', '', '', '', '']);
 const backupCode = ref('');
+const rememberDevice = ref(true);
 const isVerifying = ref(false);
 const errorMessage = ref('');
 const helpModalRef = ref(null);
@@ -76,6 +77,10 @@ const handleVerification = async () => {
       payload.otp_code = otpCode.value;
     } else {
       payload.backup_code = backupCode.value;
+    }
+
+    if (isEmailChannel.value) {
+      payload.remember_device = rememberDevice.value;
     }
 
     const response = await axios.post('/auth/sign_in', payload);
@@ -253,6 +258,20 @@ const handleTryAnotherMethod = () => {
             @keyup.enter="handleVerification"
           />
         </div>
+
+        <!-- Trust this device (email verification only) -->
+        <label
+          v-if="isEmailChannel"
+          class="flex items-center gap-2 text-sm text-n-slate-11 cursor-pointer"
+        >
+          <input
+            v-model="rememberDevice"
+            type="checkbox"
+            data-testid="remember_device"
+            class="rounded border-n-weak"
+          />
+          {{ $t('MFA_VERIFICATION.REMEMBER_DEVICE') }}
+        </label>
 
         <!-- Error Message -->
         <div

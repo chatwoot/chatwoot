@@ -1,5 +1,5 @@
 module Enterprise::DeviseOverrides::DeviceVerificationConcern
-  DEVICE_COOKIE_TTL = 1.year
+  DEVICE_COOKIE_TTL = 30.days
 
   def device_verification_intercepted?(user)
     return false unless DeviceVerification.enabled?
@@ -29,11 +29,20 @@ module Enterprise::DeviseOverrides::DeviceVerificationConcern
   private
 
   def complete_device_verification(user)
-    remember_device!(user)
+    remember_device!(user) if remember_this_device?
     # Sign in FIRST: the code is already consumed, so a mailer/queue failure must not
     # prevent authentication and strand the user with a spent one-time code.
     sign_in_mfa_user(user)
     notify_new_device(user)
+  end
+
+  # Default to trusting the device: an absent param covers shipped mobile clients
+  # that do not send it and matches the default-checked box on the web screen. Only
+  # an explicit "false" (user unchecked it) skips the trusted-device cookie.
+  def remember_this_device?
+    return true if params[:remember_device].nil?
+
+    ActiveModel::Type::Boolean.new.cast(params[:remember_device])
   end
 
   def notify_new_device(user)
