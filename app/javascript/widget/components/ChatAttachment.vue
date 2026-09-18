@@ -20,6 +20,18 @@ export default {
       type: Function,
       default: () => {},
     },
+    accept: {
+      type: String,
+      default: '',
+    },
+    icon: {
+      type: String,
+      default: 'attach',
+    },
+    enablePaste: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup() {
     const { canHandleAttachments } = useAttachments();
@@ -42,10 +54,14 @@ export default {
     },
   },
   mounted() {
-    document.addEventListener('paste', this.handleClipboardPaste);
+    if (this.enablePaste) {
+      document.addEventListener('paste', this.handleClipboardPaste);
+    }
   },
   unmounted() {
-    document.removeEventListener('paste', this.handleClipboardPaste);
+    if (this.enablePaste) {
+      document.removeEventListener('paste', this.handleClipboardPaste);
+    }
   },
   methods: {
     handleClipboardPaste(e) {
@@ -152,7 +168,7 @@ export default {
   <FileUpload
     ref="upload"
     :size="4096 * 2048"
-    :accept="allowedFileTypes"
+    :accept="accept || allowedFileTypes"
     :data="{
       direct_upload_url: '/api/v1/widget/direct_uploads',
       direct_upload: true,
@@ -160,7 +176,7 @@ export default {
     @input-file="onFileUpload"
   >
     <button class="min-h-8 min-w-8 flex items-center justify-center">
-      <FluentIcon v-if="!isUploading.image" icon="attach" />
+      <FluentIcon v-if="!isUploading" :icon="icon" />
       <Spinner v-if="isUploading" size="small" />
     </button>
   </FileUpload>

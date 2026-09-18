@@ -149,5 +149,7 @@
   },
   "FOOTER_REPLY_TO": {
     "REPLY_TO": "回复："
-  }
+  },
+  "LANGUAGE_SWITCHER": "切换语言",
+  "LOAD_MORE_MESSAGES": "加载更多历史消息"
 }

@@ -75,6 +75,17 @@ export default {
   },
   methods: {
     ...mapActions('conversation', ['fetchOldConversations']),
+    loadMoreMessages() {
+      if (
+        this.isFetchingList ||
+        this.allMessagesLoaded ||
+        !this.earliestMessage
+      ) {
+        return;
+      }
+
+      this.fetchOldConversations({ before: this.earliestMessage.id });
+    },
     scrollToBottom() {
       const container = this.$el;
       container.scrollTop = container.scrollHeight - this.previousScrollHeight;
@@ -101,6 +112,14 @@ export default {
 <template>
   <div class="conversation--container" :class="colorSchemeClass">
     <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
+      <button
+        v-if="!allMessagesLoaded && conversationSize"
+        class="w-full py-3 text-xs text-n-slate-11"
+        :disabled="isFetchingList"
+        @click="loadMoreMessages"
+      >
+        {{ $t('LOAD_MORE_MESSAGES') }}
+      </button>
       <div v-if="isFetchingList" class="message--loader">
         <Spinner />
       </div>

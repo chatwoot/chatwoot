@@ -24,6 +24,6 @@ export default {
     <div class="flex flex-1 overflow-auto">
       <ConversationWrap :grouped-messages="groupedMessages" />
     </div>
-    <ChatFooter class="px-5" />
+    <ChatFooter class="px-5 pb-2" />
   </div>
 </template>

@@ -77,7 +77,7 @@ export default {
         : false;
     },
     isStandaloneWidget() {
-      return this.isIFrame && isStandaloneMode(window.location.search);
+      return isStandaloneMode(window.location.search);
     },
     shouldHideConversationHistory() {
       return (
@@ -139,6 +139,13 @@ export default {
       }
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(initialLocale);
+    }
+    if (
+      this.isStandaloneWidget &&
+      !this.shouldShowPreChatForm &&
+      this.$route.name === 'home'
+    ) {
+      this.router.replace({ name: 'messages' });
     }
     if (this.isRNWebView) {
       this.registerListeners();

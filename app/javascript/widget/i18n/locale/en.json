@@ -149,5 +149,7 @@
   },
   "FOOTER_REPLY_TO": {
     "REPLY_TO": "Replying to:"
-  }
+  },
+  "LANGUAGE_SWITCHER": "Language switcher",
+  "LOAD_MORE_MESSAGES": "Load more messages"
 }

@@ -8,6 +8,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
+import { isStandaloneMode } from 'widget/helpers/urlParamsHelper';
 
 export default {
   name: 'ChatInputWrap',
@@ -55,10 +56,19 @@ export default {
       shouldShowEmojiPicker: 'appConfig/getShouldShowEmojiPicker',
     }),
     showAttachment() {
-      return this.canHandleAttachments && this.userInput.length === 0;
+      return this.canHandleAttachments;
     },
     showSendButton() {
-      return this.userInput.length > 0;
+      return this.isStandaloneChat || this.userInput.length > 0;
+    },
+    isStandaloneChat() {
+      return isStandaloneMode(window.location.search);
+    },
+    maxMessageLength() {
+      return 5000;
+    },
+    characterCount() {
+      return `${this.userInput.length}/${this.maxMessageLength}`;
     },
   },
   watch: {
@@ -86,8 +96,9 @@ export default {
       this.isFocused = true;
     },
     handleButtonClick() {
-      if (this.userInput && this.userInput.trim()) {
-        this.onSendMessage(this.userInput);
+      const content = this.userInput.trim();
+      if (content && content.length <= this.maxMessageLength) {
+        this.onSendMessage(content);
       }
       this.userInput = '';
       this.focusInput();
@@ -128,55 +139,80 @@ export default {
 
 <template>
   <div
-    class="items-center flex ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2 rounded-[7px] transition-all duration-200 bg-n-background !shadow-[0_0_0_1px,0_0_2px_3px]"
+    class="flex flex-col rounded-[7px] transition-all duration-200 bg-n-background px-3 py-2 !shadow-[0_0_0_1px,0_0_2px_3px]"
     :class="{
       '!shadow-[var(--widget-color,#2781f6)]': isFocused,
       '!shadow-n-strong dark:!shadow-n-strong': !isFocused,
     }"
     @keydown.esc="hideEmojiPicker"
   >
-    <ResizableTextArea
-      id="chat-input"
-      ref="chatInput"
-      v-model="userInput"
-      :rows="1"
-      :aria-label="$t('CHAT_PLACEHOLDER')"
-      :placeholder="$t('CHAT_PLACEHOLDER')"
-      class="user-message-input reset-base"
-      @typing-off="onTypingOff"
-      @typing-on="onTypingOn"
-      @focus="onFocus"
-      @blur="onBlur"
-    />
-    <div class="flex items-center ltr:pl-2 rtl:pr-2">
-      <ChatAttachmentButton
-        v-if="showAttachment"
-        class="text-n-slate-12"
-        :on-attach="onSendAttachment"
-      />
-      <button
-        v-if="shouldShowEmojiPicker && hasEmojiPickerEnabled"
-        class="flex items-center justify-center min-h-8 min-w-8"
-        :aria-label="$t('EMOJI.ARIA_LABEL')"
-        @click="toggleEmojiPicker"
-      >
-        <FluentIcon
-          icon="emoji"
-          class="transition-all duration-150"
-          :class="{
-            'text-n-slate-12': !showEmojiPicker,
-            'text-n-brand': showEmojiPicker,
-          }"
+    <div class="flex items-center justify-between min-h-8">
+      <div class="flex items-center">
+        <button
+          v-if="shouldShowEmojiPicker && hasEmojiPickerEnabled"
+          class="flex items-center justify-center min-h-8 min-w-8"
+          :aria-label="$t('EMOJI.ARIA_LABEL')"
+          @click="toggleEmojiPicker"
+        >
+          <FluentIcon
+            icon="emoji"
+            class="transition-all duration-150"
+            :class="{
+              'text-n-slate-12': !showEmojiPicker,
+              'text-n-brand': showEmojiPicker,
+            }"
+          />
+        </button>
+        <EmojiInput
+          v-if="shouldShowEmojiPicker && showEmojiPicker"
+          v-on-clickaway="hideEmojiPicker"
+          :on-click="emojiOnClick"
+          @keydown.esc="hideEmojiPicker"
         />
-      </button>
-      <EmojiInput
-        v-if="shouldShowEmojiPicker && showEmojiPicker"
-        v-on-clickaway="hideEmojiPicker"
-        :on-click="emojiOnClick"
-        @keydown.esc="hideEmojiPicker"
+        <ChatAttachmentButton
+          v-if="showAttachment"
+          class="text-n-slate-12"
+          :on-attach="onSendAttachment"
+          icon="document"
+          accept="image/*"
+          :enable-paste="false"
+        />
+        <ChatAttachmentButton
+          v-if="showAttachment"
+          class="text-n-slate-12"
+          :on-attach="onSendAttachment"
+          icon="video-add"
+          accept="video/*"
+          :enable-paste="false"
+        />
+        <ChatAttachmentButton
+          v-if="showAttachment"
+          class="text-n-slate-12"
+          :on-attach="onSendAttachment"
+        />
+      </div>
+      <span class="text-xs text-n-slate-11">
+        {{ characterCount }}
+      </span>
+    </div>
+    <div class="flex items-end gap-2">
+      <ResizableTextArea
+        id="chat-input"
+        ref="chatInput"
+        v-model="userInput"
+        :rows="1"
+        :maxlength="maxMessageLength"
+        :aria-label="$t('CHAT_PLACEHOLDER')"
+        :placeholder="$t('CHAT_PLACEHOLDER')"
+        class="user-message-input reset-base"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
+        @focus="onFocus"
+        @blur="onBlur"
       />
       <ChatSendButton
         v-if="showSendButton"
+        :disabled="!userInput.trim()"
         :color="widgetColor"
         @click="handleButtonClick"
       />

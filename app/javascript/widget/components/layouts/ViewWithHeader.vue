@@ -6,6 +6,7 @@ import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
 import configMixin from '../../mixins/configMixin';
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
+import { isStandaloneMode } from 'widget/helpers/urlParamsHelper';
 
 export default {
   components: {
@@ -53,6 +54,9 @@ export default {
     },
     isOnHomeView() {
       return ['home'].includes(this.$route.name);
+    },
+    isStandaloneChat() {
+      return isStandaloneMode(window.location.search);
     },
     opacityClass() {
       if (this.isHeaderCollapsed) {
@@ -107,7 +111,13 @@ export default {
     :class="{ 'overflow-auto': isOnHomeView }"
     @keydown.esc="closeWindow"
   >
-    <div class="relative flex flex-col h-full">
+    <div
+      class="relative flex flex-col h-full"
+      :class="{
+        'mx-auto my-auto w-full max-w-[500px] h-[640px] max-h-[100dvh] overflow-hidden rounded-xl shadow-lg max-md:max-w-none max-md:h-dvh max-md:rounded-none':
+          isStandaloneChat,
+      }"
+    >
       <div
         :class="{
           expanded: !isHeaderCollapsed,
