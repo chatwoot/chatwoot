@@ -11,7 +11,7 @@ class Enterprise::DeviceVerificationMailer < ApplicationMailer
     @code = DeviceVerification.decrypt_code(encrypted_code)
     @meta = meta || {}
 
-    send_mail_with_liquid(to: user.email, subject: 'Your Chatwoot sign-in verification code')
+    send_mail_with_liquid(to: user.email, subject: "Your #{brand_name} verification code")
   end
 
   def new_device(user, meta = {})
@@ -20,10 +20,14 @@ class Enterprise::DeviceVerificationMailer < ApplicationMailer
     @user = user
     @meta = meta || {}
 
-    send_mail_with_liquid(to: user.email, subject: 'A new device signed in to your Chatwoot account')
+    send_mail_with_liquid(to: user.email, subject: "A new device signed in to your #{brand_name} account")
   end
 
   private
+
+  def brand_name
+    GlobalConfig.get_value('BRAND_NAME').presence || 'Chatwoot'
+  end
 
   # ApplicationMailer swallows SMTP failures with a log line, which records a
   # failed challenge delivery as a successful job. Auth mail must fail loudly
@@ -39,6 +43,8 @@ class Enterprise::DeviceVerificationMailer < ApplicationMailer
 
   def liquid_locals
     super.merge(
+      brand_name: brand_name,
+      recipient_name: @user.name.presence || @user.email,
       code: @code,
       ip: @meta[:ip],
       browser_name: @meta[:browser_name],

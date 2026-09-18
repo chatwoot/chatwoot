@@ -27,12 +27,15 @@ RSpec.describe Enterprise::DeviceVerificationMailer do
       expect(mail.body.encoded).to include('10 minutes')
     end
 
-    it 'tells the user where to type the code' do
-      expect(mail.body.encoded).to include('enter it in the code field on the verification screen')
+    it 'reassures without a reset pointer or accusatory language' do
+      expect(mail.body.encoded).to include("If this wasn't you, you can safely ignore this email")
+      expect(mail.body.encoded).not_to match(/knows your password/i)
+      expect(mail.body.encoded).not_to include('/app/auth/reset/password')
     end
 
-    it 'includes a password reset pointer for unrecognized sign-ins' do
-      expect(mail.body.encoded).to include('reset your password')
+    it 'labels itself as a security notification and explains why it was sent' do
+      expect(mail.body.encoded).to include('security notification')
+      expect(mail.body.encoded).to include('needs to be verified')
     end
   end
 
@@ -62,11 +65,12 @@ RSpec.describe Enterprise::DeviceVerificationMailer do
   describe '#new_device' do
     let(:mail) { described_class.new_device(user, meta).deliver_now }
 
-    it 'notifies about the new device with a reset pointer' do
+    it 'notifies about the new device with a reset pointer and security footer' do
       expect(mail.to).to eq(['agent@example.com'])
       expect(mail.subject).to include('new device')
       expect(mail.body.encoded).to include('203.0.113.7')
       expect(mail.body.encoded).to include('reset your password')
+      expect(mail.body.encoded).to include('security notification')
     end
   end
 end
