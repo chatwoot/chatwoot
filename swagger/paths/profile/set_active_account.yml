@@ -1,0 +1,33 @@
+tags:
+  - Profile
+operationId: setActiveProfileAccount
+summary: Set active account
+description: Mark one of the current user's accounts as the active account.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - profile
+        properties:
+          profile:
+            type: object
+            required:
+              - account_id
+            properties:
+              account_id:
+                type: integer
+                description: The numeric ID of the account to activate.
+responses:
+  '200':
+    description: Success
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

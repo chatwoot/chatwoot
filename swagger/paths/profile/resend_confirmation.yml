@@ -1,0 +1,16 @@
+tags:
+  - Profile
+operationId: resendProfileConfirmation
+summary: Resend profile confirmation
+description: Resend email confirmation instructions for the current user when the account is unconfirmed.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
