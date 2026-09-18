@@ -3,14 +3,14 @@ const setArrayValues = item => {
 };
 
 const generateValues = item => {
+  if (item.values === null || item.values === undefined || item.values === '') {
+    return [];
+  }
   if (Array.isArray(item.values)) {
     return setArrayValues(item);
   }
   if (typeof item.values === 'object') {
     return [item.values.id];
-  }
-  if (!item.values) {
-    return [];
   }
   return [item.values];
 };

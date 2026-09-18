@@ -23,6 +23,14 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  headerVariables: {
+    type: Object,
+    default: null,
+  },
+  mediaUrl: {
+    type: String,
+    default: null,
+  },
   platform: {
     type: String,
     required: true,
@@ -69,7 +77,8 @@ const processedTemplate = computed(() => {
 
     if (normalized.header) {
       if (WA_MEDIA_FORMATS.includes(normalized.header.format)) {
-        imageUrl = normalized.header.example?.header_handle?.[0] || '';
+        imageUrl =
+          props.mediaUrl ?? normalized.header.example?.header_handle?.[0] ?? '';
       }
       if (normalized.header.format === WA_HEADER_FORMATS.TEXT) {
         title = normalized.header.text || '';
@@ -92,7 +101,7 @@ const processedTemplate = computed(() => {
   return {
     ...normalized,
     content: substituteVariables(content, props.variables),
-    title: substituteVariables(title, props.variables),
+    title: substituteVariables(title, props.headerVariables ?? props.variables),
     footer: substituteVariables(footer, props.variables),
     image_url: substituteVariables(imageUrl, props.variables),
     buttons,

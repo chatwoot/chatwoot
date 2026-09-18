@@ -116,7 +116,7 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
         it 'rejects invalid OTP' do
           post :create, params: {
             mfa_token: mfa_token,
-            otp_code: '000000'
+            otp_code: 'invalid'
           }
 
           expect(response).to have_http_status(:bad_request)
