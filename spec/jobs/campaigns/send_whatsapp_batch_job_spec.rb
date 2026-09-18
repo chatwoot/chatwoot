@@ -67,4 +67,32 @@ RSpec.describe Campaigns::SendWhatsappBatchJob do
     expect(Whatsapp::OneoffCampaignService).not_to receive(:new)
     described_class.perform_now(campaign)
   end
+
+  it 'finishes an exactly full batch through an empty continuation' do
+    contacts = create_list(:contact, 2, account: account)
+    contacts.each { |contact| contact.update_labels([label.title]) }
+    campaign.processing!
+    service = Whatsapp::OneoffCampaignService.new(campaign: campaign)
+    allow(Whatsapp::OneoffCampaignService).to receive(:new).and_return(service)
+    expect(service).to receive(:process_contacts).with(contacts)
+
+    expect { described_class.perform_now(campaign) }.to have_enqueued_job(described_class).with(campaign, contacts.last.id)
+    expect(campaign.reload).to be_processing
+    expect(service).to receive(:process_contacts).with([])
+
+    described_class.perform_now(campaign, contacts.last.id)
+    expect(campaign.reload).to be_completed
+  end
+
+  it 'lets an already started campaign finish after its feature is disabled' do
+    campaign.trigger!
+    account.disable_features!(:whatsapp_campaign)
+    campaign.reload
+
+    described_class.perform_now(campaign)
+
+    expect(campaign.reload).to be_completed
+    expect { Whatsapp::OneoffCampaignService.new(campaign: create(:campaign, account: account, inbox: channel.inbox)).perform }
+      .to raise_error('WhatsApp campaigns feature not enabled')
+  end
 end

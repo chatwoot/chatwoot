@@ -9,7 +9,6 @@ class Whatsapp::OneoffCampaignService
   end
 
   def perform_batch(cursor)
-    validate_campaign!
     contacts = audience_contacts.where('contacts.id > ?', cursor).order(:id).limit(BATCH_SIZE).to_a
     process_contacts(contacts)
     contacts.last.id if contacts.size == BATCH_SIZE

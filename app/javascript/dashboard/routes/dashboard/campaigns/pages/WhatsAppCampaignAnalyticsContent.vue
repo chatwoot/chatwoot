@@ -91,56 +91,6 @@ const breadcrumbItems = computed(() => [
 
 const metricCount = key => Number(state.metrics?.[key] || 0);
 const audience = computed(() => metricCount('audience'));
-const processingBanner = computed(() => {
-  if (!state.metrics || !audience.value) {
-    return t('CAMPAIGN.WHATSAPP.ANALYTICS.PROCESSING_BANNER.DEFAULT');
-  }
-
-  const queued = Number(state.metrics.status_counts?.queued || 0);
-  const awaitingUpdate = Number(state.metrics.status_counts?.sent || 0);
-
-  if (queued && awaitingUpdate) {
-    const values = { queued, awaitingUpdate };
-    if (queued === 1 && awaitingUpdate === 1) {
-      return t(
-        'CAMPAIGN.WHATSAPP.ANALYTICS.PROCESSING_BANNER.BOTH_SINGLE',
-        values
-      );
-    }
-    if (queued === 1) {
-      return t(
-        'CAMPAIGN.WHATSAPP.ANALYTICS.PROCESSING_BANNER.BOTH_QUEUED_SINGLE',
-        values
-      );
-    }
-    if (awaitingUpdate === 1) {
-      return t(
-        'CAMPAIGN.WHATSAPP.ANALYTICS.PROCESSING_BANNER.BOTH_AWAITING_SINGLE',
-        values
-      );
-    }
-
-    return t('CAMPAIGN.WHATSAPP.ANALYTICS.PROCESSING_BANNER.BOTH', values);
-  }
-
-  if (queued) {
-    return t(
-      'CAMPAIGN.WHATSAPP.ANALYTICS.PROCESSING_BANNER.QUEUED',
-      { count: queued },
-      queued
-    );
-  }
-
-  if (awaitingUpdate) {
-    return t(
-      'CAMPAIGN.WHATSAPP.ANALYTICS.PROCESSING_BANNER.AWAITING_UPDATE',
-      { count: awaitingUpdate },
-      awaitingUpdate
-    );
-  }
-
-  return t('CAMPAIGN.WHATSAPP.ANALYTICS.PROCESSING_BANNER.COMPLETING');
-});
 const analyticsEmptyState = computed(() => {
   if (state.isFetchingMetrics || audience.value > 0) return null;
 
@@ -392,7 +342,7 @@ onBeforeUnmount(stopPolling);
             class="flex-shrink-0 mt-0.5 size-4 animate-spin"
           />
           <span>
-            {{ processingBanner }}
+            {{ t('CAMPAIGN.WHATSAPP.ANALYTICS.PROCESSING_NOTICE') }}
           </span>
         </div>
       </Banner>
