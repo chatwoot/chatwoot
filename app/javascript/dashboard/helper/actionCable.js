@@ -155,12 +155,18 @@ class ActionCableConnector extends BaseActionCableConnector {
       stored?.updated_at >= handoff.updated_at ? stored : handoff;
     if (conversation.status !== 'open') return;
 
-    if (conversation.updated_at > handoff.updated_at) {
-      const { assignment, meta } = conversation;
-      // A newer snapshot invalidates the handoff unless an explicit automatic
-      // assignment since that handoff explains the current owner. Unrelated
-      // events cannot overwrite assignment metadata; identity checks prevent an
-      // old assignment source from being applied to a different current owner.
+    const { assignment, meta } = conversation;
+    const hasAssignmentChange =
+      assignment?.updated_at > handoff.updated_at ||
+      meta?.assignee?.id !== handoff.meta?.assignee?.id ||
+      meta?.assignee_type !== handoff.meta?.assignee_type;
+
+    if (hasAssignmentChange) {
+      // Only assignment changes need provenance, not general updated_at changes:
+      // an out-of-office message can refresh an otherwise unchanged open snapshot.
+      // Assignments at/before the handoff are already reflected in its owner.
+      // Compare owners too, since refreshed status payloads can expose a takeover
+      // before its assignment event arrives. Old provenance cannot explain it.
       if (
         assignment?.source !== AUTOMATIC_ASSIGNMENT_SOURCE ||
         assignment.updated_at < handoff.updated_at ||

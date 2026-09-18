@@ -180,6 +180,74 @@ describe('handoff event → conversation store → audible alert', () => {
     expect(play).toHaveBeenCalledOnce();
   });
 
+  it.each(['conversation.status_changed', 'conversation.updated'])(
+    'preserves an unassigned handoff after a newer open %s snapshot',
+    event => {
+      alerts.notificationConfig.audioAlertType = ['all'];
+      connector.onReceived({
+        event: 'conversation.bot_handoff',
+        data: handoff,
+      });
+      // An out-of-office message advances updated_at before the queued
+      // broadcast refreshes its snapshot, without changing status or assignment.
+      connector.onReceived({
+        event,
+        data: { ...handoff, updated_at: 102 },
+      });
+      vi.advanceTimersByTime(2000);
+      expect(play).toHaveBeenCalledOnce();
+    }
+  );
+
+  it('ignores assignment provenance from before the handoff when the owner is unchanged', () => {
+    handoff.meta = assignment.meta;
+    connector.onReceived({ event: 'conversation.bot_handoff', data: handoff });
+    connector.onReceived({
+      event: 'conversation.updated',
+      data: {
+        ...handoff,
+        updated_at: 102,
+        assignment: {
+          ...assignment.assignment,
+          source: 'human',
+          updated_at: 99,
+        },
+      },
+    });
+    vi.advanceTimersByTime(2000);
+    expect(play).toHaveBeenCalledOnce();
+  });
+
+  it('still cancels when a refreshed status exposes a changed owner without assignment provenance', () => {
+    alerts.notificationConfig.audioAlertType = ['all'];
+    connector.onReceived({ event: 'conversation.bot_handoff', data: handoff });
+    connector.onReceived({
+      event: 'conversation.status_changed',
+      data: { ...handoff, updated_at: 102, meta: assignment.meta },
+    });
+    vi.advanceTimersByTime(2000);
+    expect(play).not.toHaveBeenCalled();
+  });
+
+  it('accepts a synchronous assignment already reflected in the handoff snapshot', () => {
+    handoff.meta = assignment.meta;
+    connector.onReceived({ event: 'conversation.bot_handoff', data: handoff });
+    connector.onReceived({
+      event: 'assignee.changed',
+      data: {
+        ...assignment,
+        updated_at: 102,
+        assignment: {
+          ...assignment.assignment,
+          source: 'unknown',
+          updated_at: handoff.updated_at,
+        },
+      },
+    });
+    vi.advanceTimersByTime(2000);
+    expect(play).toHaveBeenCalledOnce();
+  });
+
   it('cancels when resolved and ignores an older open event delivered afterward', () => {
     alerts.notificationConfig.audioAlertType = ['all'];
     connector.onReceived({ event: 'conversation.bot_handoff', data: handoff });
