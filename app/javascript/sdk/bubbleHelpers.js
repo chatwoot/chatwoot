@@ -71,8 +71,8 @@ export const createBubbleHolder = hideMessageBubble => {
   body.appendChild(bubbleHolder);
 };
 
-const handleBubbleToggle = newIsOpen => {
-  IFrameHelper.events.onBubbleToggle(newIsOpen);
+const handleBubbleToggle = (newIsOpen, isUserInitiated) => {
+  IFrameHelper.events.onBubbleToggle(newIsOpen, isUserInitiated);
 
   if (newIsOpen) {
     dispatchWindowEvent({ eventName: CHATWOOT_OPENED });
@@ -87,6 +87,11 @@ export const onBubbleClick = (props = {}) => {
   const { isOpen } = window.$chatwoot;
   if (isOpen === toggleValue) return;
 
+  // When `toggleValue` is undefined, this invocation came from the DOM
+  // click listener on the bubble (real user click). When it's an explicit
+  // boolean, the call originated from the SDK (e.g. window.$chatwoot.toggle).
+  const isUserInitiated = toggleValue === undefined;
+
   const newIsOpen = toggleValue === undefined ? !isOpen : toggleValue;
   window.$chatwoot.isOpen = newIsOpen;
 
@@ -94,7 +99,7 @@ export const onBubbleClick = (props = {}) => {
   toggleClass(closeBubble, 'woot--hide');
   toggleClass(widgetHolder, 'woot--hide');
 
-  handleBubbleToggle(newIsOpen);
+  handleBubbleToggle(newIsOpen, isUserInitiated);
 };
 
 export const onClickChatBubble = () => {
