@@ -17,6 +17,18 @@ module Enterprise::SearchService
 
   private
 
+  def should_run_advanced_search?
+    super && !restricted_conversation_access?
+  end
+
+  def permission_filter_required?
+    super || restricted_conversation_access?
+  end
+
+  def restricted_conversation_access?
+    account_user&.agent? && account_user.custom_role_id.present? && account_user.permissions.exclude?('conversation_manage')
+  end
+
   def build_where_conditions
     conditions = { account_id: current_account.id }
     conditions[:inbox_id] = accessable_inbox_ids unless should_skip_inbox_filtering?
