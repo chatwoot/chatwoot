@@ -18,7 +18,7 @@ import {
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 
-const runSDK = ({ baseUrl, websiteToken }) => {
+const runSDK = ({ baseUrl, websiteToken, cdnUrl }) => {
   if (window.$chatwoot) {
     return;
   }
@@ -57,6 +57,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
   window.$chatwoot = {
     baseUrl,
+    cdnUrl: cdnUrl || baseUrl,
     baseDomain,
     hasLoaded: false,
     hideMessageBubble: chatwootSettings.hideMessageBubble || false,
