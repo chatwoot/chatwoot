@@ -10,6 +10,8 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import {
   COMPONENT_TYPES,
+  buildTemplateParameters,
+  normalizeTemplateParameters,
   DEFAULT_CATEGORY,
   DEFAULT_LANGUAGE,
   findComponentByType,
@@ -101,7 +103,10 @@ const applyCampaign = record => {
     title: record.title,
     inboxId: record.inbox.id,
     templateId: template ? getTemplateKey(template) : null,
-    processedParams: snapshot(params ?? {}),
+    processedParams: snapshot({
+      ...(template ? buildTemplateParameters(template) : {}),
+      ...normalizeTemplateParameters(params ?? {}),
+    }),
     audienceIds: (record.audience ?? [])
       .filter(item => item.type === 'Label')
       .map(item => item.id),

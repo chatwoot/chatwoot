@@ -37,3 +37,13 @@ export const getTemplateKey = template =>
 
 export const isValidTemplateMediaUrl = value =>
   !value || (/^https?:\/\//i.test(value) && url.$validator(value));
+
+// Match the legacy body-only formats still supported by TemplateParameterConverterService.
+export const normalizeTemplateParameters = (params = {}) => {
+  const componentKeys = ['body', 'header', 'footer', 'buttons'];
+  if (componentKeys.some(key => key in params)) return params;
+  const entries = Array.isArray(params)
+    ? params.map((value, index) => [String(index + 1), String(value ?? '')])
+    : Object.entries(params).map(([key, value]) => [key, String(value ?? '')]);
+  return entries.length ? { body: Object.fromEntries(entries) } : {};
+};
