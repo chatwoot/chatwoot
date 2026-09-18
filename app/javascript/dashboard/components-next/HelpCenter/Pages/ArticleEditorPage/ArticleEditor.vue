@@ -35,6 +35,7 @@ const emit = defineEmits([
   'setCategory',
   'previewArticle',
   'createArticle',
+  'updateArticleDraft',
 ]);
 
 const { t } = useI18n();
@@ -119,7 +120,13 @@ watch(
 );
 
 const scheduleSave = () => {
-  if (isNewArticle.value) return;
+  if (isNewArticle.value) {
+    emit('updateArticleDraft', {
+      title: localTitle.value,
+      content: localContent.value,
+    });
+    return;
+  }
   debouncedSave();
 };
 
