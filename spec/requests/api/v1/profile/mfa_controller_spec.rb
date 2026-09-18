@@ -122,7 +122,7 @@ RSpec.describe 'MFA API', type: :request do
     context 'with invalid OTP code' do
       it 'returns error message' do
         post '/api/v1/profile/mfa/verify',
-             params: { otp_code: '000000' },
+             params: { otp_code: 'invalid' },
              headers: user.create_new_auth_token,
              as: :json
 
@@ -196,7 +196,7 @@ RSpec.describe 'MFA API', type: :request do
       context 'with invalid OTP' do
         it 'returns error message' do
           delete '/api/v1/profile/mfa',
-                 params: { password: 'Test@123456', otp_code: '000000' },
+                 params: { password: 'Test@123456', otp_code: 'invalid' },
                  headers: user.create_new_auth_token,
                  as: :json
 
@@ -264,7 +264,7 @@ RSpec.describe 'MFA API', type: :request do
       context 'with invalid OTP' do
         it 'returns error message' do
           post '/api/v1/profile/mfa/backup_codes',
-               params: { otp_code: '000000' },
+               params: { otp_code: 'invalid' },
                headers: user.create_new_auth_token,
                as: :json
 

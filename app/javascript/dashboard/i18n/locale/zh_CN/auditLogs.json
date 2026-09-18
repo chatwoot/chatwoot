@@ -7,6 +7,37 @@
     "LEARN_MORE": "了解更多关于审计日志的信息",
     "SEARCH_404": "没有任何项目符合此查询",
     "SIDEBAR_TXT": "<p><b>审计日志</b></p><p>审计日志是 Chatwoot 系统中事件和操作的痕迹。</p>",
+    "COUNT": "{n} event | {n} events",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Search by name or email",
+      "ALL_EVENTS": "All events",
+      "DATE_RANGE": "Date range",
+      "CLEAR_ALL": "清除过滤器",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Access",
+        "AGENTS_TEAMS": "Agents & teams",
+        "CONFIGURATION": "配置",
+        "CONVERSATIONS": "会话"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Sign in / sign out",
+        "AGENTS": "客服",
+        "TEAMS": "团队",
+        "TEAM_MEMBERS": "Team members",
+        "INBOX_MEMBERS": "Inbox collaborators",
+        "ACCOUNT": "帐户设置",
+        "INBOXES": "收件箱",
+        "WEBHOOKS": "Webhooks",
+        "AUTOMATION_RULES": "Automation rules",
+        "MACROS": "宏",
+        "CONVERSATION_DELETIONS": "Conversation deletions",
+        "MESSAGE_DELETIONS": "Message deletions"
+      },
+      "SORT": {
+        "NEWEST": "Newest first",
+        "OLDEST": "Oldest first"
+      }
+    },
     "LIST": {
       "404": "此账户中没有可用的审计日志。",
       "TITLE": "管理审计日志",
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} 删除了对话 #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
     }
   }
 }

@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Nav Pieejams",
     "EMAIL_ADDRESS": "e-pasta Adrese",
     "PHONE_NUMBER": "Telefona numurs",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifikators",
     "COPY_SUCCESSFUL": "Veiksmīgi nokopēts uz clipboard",
     "COMPANY": "Uzņēmums",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Pievienot Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"
