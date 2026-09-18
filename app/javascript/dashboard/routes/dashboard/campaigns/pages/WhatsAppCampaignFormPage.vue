@@ -204,6 +204,9 @@ const isTemplateComplete = computed(
   () =>
     !!selectedTemplate.value &&
     isWhatsAppComplete(selectedTemplate.value, state.processedParams) &&
+    (state.processedParams.buttons ?? []).every(
+      button => !button || !!button.parameter
+    ) &&
     isValidTemplateMediaUrl(state.processedParams.header?.media_url)
 );
 

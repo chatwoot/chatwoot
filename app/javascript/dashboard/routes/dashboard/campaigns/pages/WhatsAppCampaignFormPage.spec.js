@@ -223,4 +223,31 @@ describe('WhatsAppCampaignFormPage', () => {
     });
     wrapper.unmount();
   });
+  it('requires dynamic button values even when the body has no variables', () => {
+    mocks.getters['inboxes/getFilteredWhatsAppTemplates'].value = () => [
+      {
+        ...template,
+        components: [
+          { type: 'BODY', text: 'Your offer' },
+          {
+            type: 'BUTTONS',
+            buttons: [
+              { type: 'QUICK_REPLY', text: 'Thanks' },
+              { type: 'COPY_CODE' },
+            ],
+          },
+        ],
+      },
+    ];
+    mocks.getters[
+      'campaigns/getWhatsAppCampaigns'
+    ].value[0].template_params.processed_params = {
+      buttons: [null, { type: 'copy_code', parameter: '' }],
+    };
+    const wrapper = shallowMount(WhatsAppCampaignFormPage);
+    expect(wrapper.vm.isTemplateComplete).toBe(false);
+    wrapper.vm.state.processedParams.buttons[1].parameter = 'WELCOME';
+    expect(wrapper.vm.isTemplateComplete).toBe(true);
+    wrapper.unmount();
+  });
 });
