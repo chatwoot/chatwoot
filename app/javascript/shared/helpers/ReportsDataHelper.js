@@ -68,7 +68,7 @@ export const generateEmptyHeatmapData = () => {
  * Reconciles new data with existing heatmap data based on timestamps
  *
  * @param {Array} data - An array of objects containing timestamp and value
- * @param {Array} heatmapData - An array of objects containing timestamp, value and other properties
+ * @param {Array} dataFromStore - An array of objects containing timestamp, value and other properties
  * @returns {Array} - An array of objects with updated values
  */
 export const reconcileHeatmapData = (data, dataFromStore) => {
@@ -89,7 +89,7 @@ export const reconcileHeatmapData = (data, dataFromStore) => {
 /**
  * Groups heatmap data by day
  *
- * @param {Array} heatmapData - An array of objects containing timestamp, value and other properties
+ * @param {Array} dataFromStore - An array of objects containing timestamp, value and other properties
  * @returns {Map} - A Map object with dates as keys and corresponding data objects as values
  */
 export const groupHeatmapByDay = heatmapData => {
