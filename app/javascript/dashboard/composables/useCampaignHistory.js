@@ -61,6 +61,7 @@ export function useCampaignHistory() {
     hasError.value = false;
     failedRefresh.value = false;
     const conversationId = currentChat.value.id;
+    const updatePagination = !refresh || !hasLoaded.value;
     const refreshUntil =
       recipients.value[0]?.sent_at ?? oldestMessageTime.value;
     let before = refresh ? undefined : (nextBefore.value ?? undefined);
@@ -87,8 +88,7 @@ export function useCampaignHistory() {
           recipients.value = [...merged.values()].sort(
             (a, b) => b.sent_at - a.sent_at || b.id - a.id
           );
-          if (!refresh || !hasLoaded.value)
-            nextBefore.value = data.meta.next_before;
+          if (updatePagination) nextBefore.value = data.meta.next_before;
           before = data.meta.next_before;
           oldestFetchedTime = data.payload.at(-1)?.sent_at;
           firstMessageId.value = data.meta.first_message_id;
