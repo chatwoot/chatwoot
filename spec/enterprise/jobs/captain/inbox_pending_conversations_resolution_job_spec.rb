@@ -260,6 +260,15 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(resolvable_pending_conversation.reload.status).to eq('open')
     end
 
+    it 'asks for an email when the handed-off conversation remains unassigned' do
+      resolvable_pending_conversation.contact.update!(email: nil)
+      inbox.update!(enable_email_collect: true)
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.messages.where(content_type: :input_email)).to exist
+    end
+
     it 'creates a private note with the reason' do
       described_class.perform_now(inbox)
 
