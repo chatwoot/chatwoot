@@ -24,6 +24,23 @@ RSpec.describe Channels::Whatsapp::TemplatesSyncSchedulerJob do
       )
     end
 
+    it 'does not schedule templates_sync_jobs for suspended accounts' do
+      stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
+      suspended_account = create(:account, status: :suspended)
+      suspended_channel = create(
+        :channel_whatsapp,
+        account: suspended_account,
+        sync_templates: false,
+        message_templates_last_updated: nil
+      )
+
+      described_class.perform_now
+
+      expect(Channels::Whatsapp::TemplatesSyncJob).not_to(
+        have_been_enqueued.with(suspended_channel).on_queue('low')
+      )
+    end
+
     it 'schedules templates_sync_job for oldest synced channels first' do
       stub_const('Limits::BULK_EXTERNAL_HTTP_CALLS_LIMIT', 2)
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')

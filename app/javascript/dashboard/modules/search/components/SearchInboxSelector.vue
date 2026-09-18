@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, defineModel } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';

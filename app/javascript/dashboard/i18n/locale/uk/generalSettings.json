@@ -139,37 +139,6 @@
       "SELECT": "Обрати"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Сповіщення",
-    "MARK_ALL_DONE": "Позначити все готове",
-    "DELETE_TITLE": "видалено",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Непрочитані сповіщення",
-      "ALL_NOTIFICATIONS": "Переглянути всі сповіщення",
-      "LOADING_UNREAD_MESSAGE": "Завантаження непрочитаних сповіщень...",
-      "EMPTY_MESSAGE": "У вас немає непрочитаних сповіщень"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Завантаження сповіщень...",
-      "404": "Немає сповіщень",
-      "TABLE_HEADER": [
-        "Ім'я",
-        "Номер телефону",
-        "Бесіди",
-        "Останній контакт"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Новий діалог",
-      "conversation_assignment": "Діалог призначений",
-      "assigned_conversation_new_message": "Нове повідомлення",
-      "participating_conversation_new_message": "Нове повідомлення",
-      "conversation_mention": "Відмітка",
-      "sla_missed_first_response": "SLA пропущено",
-      "sla_missed_next_response": "SLA пропущено",
-      "sla_missed_resolution": "SLA пропущено"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Не в мережі",
@@ -192,6 +161,7 @@
       "CHANGE_PRIORITY": "Змінити пріоритет",
       "CHANGE_TEAM": "Змінити команду",
       "SNOOZE_CONVERSATION": "Відкласти розмову",
+      "EXECUTE_MACRO": "Execute Macro",
       "ADD_LABEL": "Додати мітку до діалогу",
       "REMOVE_LABEL": "Видалити мітку з діалогу",
       "SETTINGS": "Налаштування",
@@ -200,28 +170,44 @@
       "SNOOZE_NOTIFICATION": "Відключити сповіщення"
     },
     "COMMANDS": {
+      "GO_TO_MY_INBOX": "Go to My Inbox",
       "GO_TO_CONVERSATION_DASHBOARD": "Перейти до панелі керування бесід",
       "GO_TO_CONTACTS_DASHBOARD": "Перейти до панелі керування контактами",
+      "GO_TO_CAPTAIN": "Go to Captain",
+      "GO_TO_CALLS_DASHBOARD": "Go to Calls Dashboard",
+      "GO_TO_CAMPAIGNS": "Go to Campaigns",
+      "GO_TO_HELP_CENTER": "Go to Help Center",
       "GO_TO_REPORTS_OVERVIEW": "До Звітів",
       "GO_TO_CONVERSATION_REPORTS": "Перейти до Звітів про розмову",
       "GO_TO_AGENT_REPORTS": "Перейти до звітів Співробітника",
       "GO_TO_LABEL_REPORTS": "Перейти до Звітів з Мітками",
       "GO_TO_INBOX_REPORTS": "Перейти до Вхідних Звітів",
       "GO_TO_TEAM_REPORTS": "Перейти до Командних Звітів",
+      "GO_TO_CSAT_REPORTS": "Go to CSAT Reports",
+      "GO_TO_BOT_REPORTS": "Go to Bot Reports",
+      "GO_TO_SLA_REPORTS": "Go to SLA Reports",
       "GO_TO_SETTINGS_AGENTS": "Перейдіть до налаштувань Співробітника",
       "GO_TO_SETTINGS_TEAMS": "Перейти до Налаштування команди",
       "GO_TO_SETTINGS_INBOXES": "Перейти до Налаштування вхідних повідомлень",
+      "GO_TO_SETTINGS_TEMPLATES": "Go to Templates",
       "GO_TO_SETTINGS_LABELS": "Перейти до Налаштування Міток",
+      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Go to Custom Attributes",
+      "GO_TO_SETTINGS_AUTOMATION": "Go to Automation",
+      "GO_TO_SETTINGS_MACROS": "Go to Macros",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "До налаштувань швидкої відповіді",
+      "GO_TO_SETTINGS_SLA": "Go to SLA Settings",
       "GO_TO_SETTINGS_APPLICATIONS": "Перейти до Налаштування додатку",
+      "GO_TO_SETTINGS_DATA": "Go to Data",
+      "GO_TO_SETTINGS_AUDIT_LOGS": "Go to Audit Logs",
+      "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Перейти до Налаштування облікового запису",
       "GO_TO_SETTINGS_PROFILE": "Перейти до Налаштування профілю",
-      "GO_TO_NOTIFICATIONS": "Перейти до сповіщень",
       "ADD_LABELS_TO_CONVERSATION": "Додати мітку до діалогу",
       "ASSIGN_AN_AGENT": "Призначити агента",
       "AI_ASSIST": "ШІ асистент",
       "ASSIGN_PRIORITY": "Призначити пріоритет",
       "ASSIGN_A_TEAM": "Призначити команду",
+      "EXECUTE_A_MACRO": "Execute a macro",
       "MUTE_CONVERSATION": "Вимкнути звук для розмови",
       "UNMUTE_CONVERSATION": "Увімкнути звук для розмови",
       "REMOVE_LABEL_FROM_CONVERSATION": "Видалити мітку з діалогу",

@@ -8,12 +8,12 @@ RSpec.describe 'Google::CallbacksController', type: :request do
 
   describe 'GET /google/callback' do
     let(:response_body_success) do
-      { id_token: JWT.encode({ email: email, name: 'test' }, false), access_token: SecureRandom.hex(10), token_type: 'Bearer',
+      { id_token: JWT.encode({ email: email, name: 'test' }, nil, 'none'), access_token: SecureRandom.hex(10), token_type: 'Bearer',
         refresh_token: SecureRandom.hex(10) }
     end
 
     let(:response_body_success_without_name) do
-      { id_token: JWT.encode({ email: email }, false), access_token: SecureRandom.hex(10), token_type: 'Bearer',
+      { id_token: JWT.encode({ email: email }, nil, 'none'), access_token: SecureRandom.hex(10), token_type: 'Bearer',
         refresh_token: SecureRandom.hex(10) }
     end
 

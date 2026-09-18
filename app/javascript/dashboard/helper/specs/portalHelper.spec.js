@@ -74,37 +74,49 @@ describe('PortalHelper', () => {
   });
 
   describe('buildLocaleMenuItems', () => {
-    it('returns disabled actions for the default locale', () => {
+    it('disables other actions but keeps content actions enabled for the default locale', () => {
+      const items = buildLocaleMenuItems({ isDefault: true, isDraft: false });
+      const enabledActions = ['customize-content', 'select-popular-content'];
+
+      enabledActions.forEach(action => {
+        expect(
+          items.find(item => item.action === action)?.disabled
+        ).toBeFalsy();
+      });
       expect(
-        buildLocaleMenuItems({
-          isDefault: true,
-          isDraft: false,
-        })
-      ).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({ action: 'change-default', disabled: true }),
-          expect.objectContaining({ action: 'move-to-draft', disabled: true }),
-          expect.objectContaining({ action: 'delete', disabled: true }),
-        ])
-      );
+        items
+          .filter(item => !enabledActions.includes(item.action))
+          .every(item => item.disabled)
+      ).toBe(true);
     });
 
-    it('returns publish and delete actions for draft locales', () => {
+    it('returns publish, customize, popular content, and delete actions for draft locales', () => {
       expect(
         buildLocaleMenuItems({
           isDefault: false,
           isDraft: true,
         }).map(({ action }) => action)
-      ).toEqual(['publish-locale', 'delete']);
+      ).toEqual([
+        'publish-locale',
+        'customize-content',
+        'select-popular-content',
+        'delete',
+      ]);
     });
 
-    it('returns default, draft, and delete actions for live locales', () => {
+    it('returns default, draft, customize, and delete actions for live locales', () => {
       expect(
         buildLocaleMenuItems({
           isDefault: false,
           isDraft: false,
         }).map(({ action }) => action)
-      ).toEqual(['change-default', 'move-to-draft', 'delete']);
+      ).toEqual([
+        'change-default',
+        'move-to-draft',
+        'customize-content',
+        'select-popular-content',
+        'delete',
+      ]);
     });
   });
 });

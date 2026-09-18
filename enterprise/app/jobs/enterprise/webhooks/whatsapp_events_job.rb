@@ -1,9 +1,9 @@
 module Enterprise::Webhooks::WhatsappEventsJob
-  def handle_message_events(channel, params)
+  def handle_message_events(channel, params, locked_sender_id = nil)
     return handle_call_events(channel, params) if call_event?(params)
     return handle_call_permission_reply(channel, params) if call_permission_reply?(params)
 
-    super
+    super(channel, params, locked_sender_id)
   end
 
   private
@@ -31,10 +31,11 @@ module Enterprise::Webhooks::WhatsappEventsJob
   #     and timer/recorder kick off before the contact actually answers.
   def handle_call_events(channel, params)
     value = params.dig(:entry, 0, :changes, 0, :value) || {}
+    contacts = value[:contacts]
 
     Array(value[:calls]).each do |call_payload|
       with_call_lock(channel, call_payload[:id]) do
-        Whatsapp::IncomingCallService.new(inbox: channel.inbox, params: { calls: [call_payload] }).perform
+        Whatsapp::IncomingCallService.new(inbox: channel.inbox, params: { calls: [call_payload], contacts: contacts }).perform
       end
     end
 

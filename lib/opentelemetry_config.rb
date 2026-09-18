@@ -72,7 +72,10 @@ module OpentelemetryConfig
 
       config = {
         endpoint: traces_endpoint,
-        headers: { 'Authorization' => "Basic #{auth_header}" }
+        headers: {
+          'Authorization' => "Basic #{auth_header}",
+          'x-langfuse-ingestion-version' => '4'
+        }
       }
 
       config[:ssl_verify_mode] = OpenSSL::SSL::VERIFY_NONE if Rails.env.development?

@@ -19,6 +19,10 @@
       "OR": "או"
     },
     "INPUT_PLACEHOLDER": "הכנס ערך",
+    "MULTI_VALUE_INPUT_PLACEHOLDER": "Type a value, then press Enter to add more",
+    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Type a value",
+    "CONTACT_SEARCH_PLACEHOLDER": "חפש אנשי קשר",
+    "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "שווה ל",
       "not_equal_to": "לא שווה ל",
@@ -49,6 +53,7 @@
       "ASSIGNEE_NAME": "שם מוקצה",
       "INBOX_NAME": "שם תיבת דואר נכנס",
       "TEAM_NAME": "שם צוות",
+      "CONTACT": "איש קשר",
       "CONVERSATION_IDENTIFIER": "מזהה שיחה",
       "CAMPAIGN_NAME": "שם קמפיין",
       "LABELS": "תוויות",

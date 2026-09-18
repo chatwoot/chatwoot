@@ -31,7 +31,9 @@ module SafeFetch
     raise InvalidUrlError, e.message
   rescue SsrfFilter::Error, Resolv::ResolvError => e
     raise UnsafeUrlError, e.message
-  rescue Net::OpenTimeout, Net::ReadTimeout, SocketError, OpenSSL::SSL::SSLError => e
-    raise FetchError, e.message
+  end
+
+  def self.allow_private_network?
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('SAFE_FETCH_ALLOW_PRIVATE_NETWORK', false))
   end
 end

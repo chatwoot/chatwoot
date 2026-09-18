@@ -37,12 +37,13 @@ class Captain::BaseTaskService
     "#{endpoint}/v1"
   end
 
-  def make_api_call(model:, messages:, schema: nil, tools: [])
+  def make_api_call(messages:, model: nil, feature: nil, schema: nil, tools: [])
     # Community edition prerequisite checks
     # Enterprise module handles these with more specific error messages (cloud vs self-hosted)
     return { error: I18n.t('captain.disabled'), error_code: 403 } unless captain_tasks_enabled?
     return { error: I18n.t('captain.api_key_missing'), error_code: 401 } unless api_key_configured?
 
+    model = resolved_model(model: model, feature: feature)
     instrumentation_params = build_instrumentation_params(model, messages)
     instrumentation_method = tools.any? ? :instrument_tool_session : :instrument_llm_call
 
@@ -53,6 +54,15 @@ class Captain::BaseTaskService
     return response unless build_follow_up_context? && response[:message].present?
 
     response.merge(follow_up_context: build_follow_up_context(messages, response))
+  end
+
+  def resolved_model(model:, feature:)
+    return model if feature.blank?
+
+    route = Llm::FeatureRouter.resolve(feature: feature, account: account)
+    return model if model.present? && route[:source] == :default
+
+    route[:model]
   end
 
   def execute_ruby_llm_request(model:, messages:, schema: nil, tools: [])
@@ -150,13 +160,12 @@ class Captain::BaseTaskService
   end
 
   # Extension point consulted by the Enterprise quota wrapper. Subclasses
-  # whose calls run on the operator's key (e.g. internal/onboarding tasks)
-  # should override this to return false. When false, the wrapper neither
-  # blocks the call on an exhausted captain_responses quota nor decrements
-  # it on success — the call participates in the quota system in neither
-  # direction.
+  # whose calls should not consume captain_responses should override this to
+  # return false. When false, the wrapper neither blocks the call on an
+  # exhausted captain_responses quota nor decrements it on success — the call
+  # participates in the quota system in neither direction.
   def counts_toward_usage?
-    true
+    llm_credential&.dig(:source) != :hook
   end
 
   def api_key_configured?
@@ -168,7 +177,15 @@ class Captain::BaseTaskService
   end
 
   def llm_credential
-    @llm_credential ||= hook_llm_credential || system_llm_credential
+    @llm_credential ||= if use_account_openai_hook?
+                          hook_llm_credential || system_llm_credential
+                        else
+                          system_llm_credential
+                        end
+  end
+
+  def use_account_openai_hook?
+    false
   end
 
   def hook_llm_credential
