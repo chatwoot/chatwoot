@@ -504,6 +504,7 @@ Rails.application.routes.draw do
             post :destroy_custom_attributes
             post :set_custom_attributes
             post :update_last_seen
+            post :update_current_page
             post :toggle_typing
             post :transcript
             get  :toggle_status

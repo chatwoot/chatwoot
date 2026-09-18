@@ -1,5 +1,6 @@
 import {
   createConversationAPI,
+  updateCurrentPageAPI,
   sendMessageAPI,
   getMessagesAPI,
   sendAttachmentAPI,
@@ -14,10 +15,16 @@ import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 export const actions = {
-  createConversation: async ({ commit, dispatch }, params) => {
+  createConversation: async (
+    { commit, dispatch, state: conversationState = {} },
+    params
+  ) => {
     commit('setConversationUIFlag', { isCreating: true });
     try {
-      const { data } = await createConversationAPI(params);
+      const { data } = await createConversationAPI(
+        params,
+        conversationState.pendingPageContext
+      );
       const { messages } = data;
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
@@ -28,6 +35,21 @@ export const actions = {
       // Ignore error
     } finally {
       commit('setConversationUIFlag', { isCreating: false });
+    }
+  },
+
+  updateCurrentPage: async ({ commit, rootGetters }, pageContext) => {
+    if (!pageContext) return;
+
+    commit('setPendingPageContext', pageContext);
+    const conversationId =
+      rootGetters?.['conversationAttributes/getConversationParams']?.id;
+    if (!conversationId) return;
+
+    try {
+      await updateCurrentPageAPI(pageContext);
+    } catch (error) {
+      // Ignore error
     }
   },
   sendMessage: async ({ dispatch, state: conversationState }, params) => {

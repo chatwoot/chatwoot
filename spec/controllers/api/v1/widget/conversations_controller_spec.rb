@@ -209,6 +209,131 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
     end
   end
 
+  describe 'POST /api/v1/widget/conversations/update_current_page' do
+    let(:page_context) do
+      {
+        url: 'https://example.com/docs?token=secret#overview',
+        title: 'Documentation',
+        tab_id: 'tab-one',
+        sequence: 3
+      }
+    end
+
+    it 'stores a normalized current page and preserves existing attributes' do
+      conversation.update!(additional_attributes: conversation.additional_attributes.merge(
+        'referer' => 'https://referrer.example/landing',
+        'unrelated' => 'preserve me'
+      ))
+      conversation.update_column(:updated_at, 1.hour.ago)
+      previous_updated_at = conversation.reload.updated_at
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      post '/api/v1/widget/conversations/update_current_page',
+           headers: { 'X-Auth-Token' => token },
+           params: { website_token: web_widget.website_token, current_page: page_context },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(Conversation::CONVERSATION_UPDATED, kind_of(Time), hash_including(conversation: conversation))
+
+      conversation.reload
+      expect(conversation.additional_attributes).to include(
+        'referer' => 'https://referrer.example/landing',
+        'unrelated' => 'preserve me'
+      )
+      expect(conversation.additional_attributes['current_page']).to include(
+        'url' => 'https://example.com/docs',
+        'title' => 'Documentation',
+        'tab_id' => 'tab-one',
+        'sequence' => 3
+      )
+      expect(conversation.additional_attributes['current_page']['updated_at']).to be_present
+      expect(conversation.updated_at).to be > previous_updated_at
+    end
+
+    it 'rejects an invalid URL without changing the conversation' do
+      previous_attributes = conversation.reload.additional_attributes
+
+      post '/api/v1/widget/conversations/update_current_page',
+           headers: { 'X-Auth-Token' => token },
+           params: { website_token: web_widget.website_token,
+                     current_page: page_context.merge(url: 'javascript:alert(1)') },
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(conversation.reload.additional_attributes).to eq(previous_attributes)
+    end
+
+    it 'ignores stale sequences for the same tab' do
+      conversation.update!(additional_attributes: conversation.additional_attributes.merge(
+        'current_page' => {
+          'url' => 'https://example.com/newer',
+          'title' => 'Newer',
+          'tab_id' => 'tab-one',
+          'sequence' => 3
+        }
+      ))
+      conversation.update_column(:updated_at, 1.hour.ago)
+      previous_attributes = conversation.reload.additional_attributes
+      previous_updated_at = conversation.updated_at
+
+      post '/api/v1/widget/conversations/update_current_page',
+           headers: { 'X-Auth-Token' => token },
+           params: { website_token: web_widget.website_token,
+                     current_page: page_context.merge(url: 'https://example.com/older', sequence: 3) },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(conversation.reload.additional_attributes).to eq(previous_attributes)
+      expect(conversation.updated_at).to eq(previous_updated_at)
+    end
+
+    it 'returns not found when the token has no conversation' do
+      post '/api/v1/widget/conversations/update_current_page',
+           headers: { 'X-Auth-Token' => token_without_conversation },
+           params: { website_token: web_widget.website_token, current_page: page_context },
+           as: :json
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  describe 'POST /api/v1/widget/conversations with current_page' do
+    let(:page_context) do
+      {
+        url: 'https://example.com/start?campaign=widget#top',
+        title: 'Start page',
+        tab_id: 'tab-one',
+        sequence: 0
+      }
+    end
+
+    it 'stores the initial current page context' do
+      params = conversation_params.deep_merge(
+        message: { referer_url: 'https://referrer.example/landing' },
+        current_page: page_context
+      )
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: params,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      created_conversation = account.conversations.find_by(display_id: response.parsed_body['id'])
+      expect(created_conversation.additional_attributes).to include(
+        'referer' => 'https://referrer.example/landing'
+      )
+      expect(created_conversation.additional_attributes['current_page']).to include(
+        'url' => 'https://example.com/start',
+        'title' => 'Start page',
+        'tab_id' => 'tab-one',
+        'sequence' => 0
+      )
+      expect(created_conversation.additional_attributes['current_page']['updated_at']).to be_present
+    end
+  end
+
   describe 'POST /api/v1/widget/conversations/toggle_typing' do
     context 'with a conversation' do
       it 'dispatches the correct typing status' do

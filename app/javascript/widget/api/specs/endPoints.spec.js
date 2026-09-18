@@ -196,3 +196,59 @@ describe('#getConversation', () => {
     spy.mockRestore();
   });
 });
+
+describe('#createConversation with current page', () => {
+  it('includes a bounded, normalized current page payload', () => {
+    vi.spyOn(window, 'location', 'get').mockReturnValue({
+      ...window.location,
+      search: '?param=1',
+    });
+
+    const result = endPoints.createConversation({
+      fullName: 'John',
+      emailAddress: 'john@example.com',
+      message: 'hey',
+      currentPage: {
+        url: 'https://example.com/pricing?utm_source=chat#plans',
+        title: 'A'.repeat(300),
+        tabId: 'tab-123',
+        sequence: 4,
+      },
+    });
+
+    expect(result.params.current_page).toEqual({
+      url: 'https://example.com/pricing',
+      title: 'A'.repeat(256),
+      tab_id: 'tab-123',
+      sequence: 4,
+    });
+  });
+});
+
+describe('#updateCurrentPage', () => {
+  it('returns the route update payload with a snake_case tab id', () => {
+    vi.spyOn(window, 'location', 'get').mockReturnValue({
+      ...window.location,
+      search: '?param=1',
+    });
+
+    expect(
+      endPoints.updateCurrentPage({
+        url: 'https://example.com/docs?utm_source=chat#install',
+        title: 'Docs',
+        tabId: 'tab-123',
+        sequence: 5,
+      })
+    ).toEqual({
+      url: '/api/v1/widget/conversations/update_current_page?param=1',
+      params: {
+        current_page: {
+          url: 'https://example.com/docs',
+          title: 'Docs',
+          tab_id: 'tab-123',
+          sequence: 5,
+        },
+      },
+    });
+  });
+});
