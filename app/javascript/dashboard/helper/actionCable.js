@@ -1,7 +1,6 @@
 import AuthAPI from '../api/auth';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
-import { isConversationUnassigned } from './AudioAlerts/AudioMessageHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { useImpersonation } from 'dashboard/composables/useImpersonation';
@@ -19,6 +18,8 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const { isImpersonating } = useImpersonation();
 const UNREAD_COUNTS_REFETCH_THROTTLE_MS = 5000;
+const HANDOFF_ALERT_WINDOW_MS = 2000;
+const AUTOMATIC_ASSIGNMENT_SOURCE = 'automatic';
 const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS = 30000;
 const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS = 15000;
 const MENTION_UNREAD_COUNTS_REFETCH_DELAY_MS =
@@ -32,7 +33,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     const { websocketURL = '' } = window.chatwootConfig || {};
     super(app, pubsubToken, websocketURL);
     this.CancelTyping = [];
-    // Scope deferred alerts to this connection and account; display IDs can overlap between accounts.
+    // Only timers for active collection windows are retained, never assignments.
     this.pendingHandoffAlerts = new Map();
     this.lastUnreadCountsFetchAt = null;
     this.unreadCountsFetchTimer = null;
@@ -115,19 +116,6 @@ class ActionCableConnector extends BaseActionCableConnector {
       this.app.$store.dispatch('updateConversation', payload);
     }
     this.fetchConversationStats();
-
-    // Refreshed assignments cannot use the original event's performer for alerts.
-    if (payload.assignment_changed_since_event) return;
-
-    const key = `${payload.account_id}:${payload.id}`;
-    const handoff = this.pendingHandoffAlerts.get(key);
-    if (!handoff || payload.updated_at < handoff.updated_at) return;
-    if (isConversationUnassigned(payload)) return;
-
-    this.pendingHandoffAlerts.delete(key);
-    // Manual assignment means a human is handling the conversation already.
-    if (payload.performer?.type === 'user' || payload.status !== 'open') return;
-    DashboardAudioNotificationHelper.onConversationBotHandoff(payload);
   };
 
   onConversationCreated = data => {
@@ -144,17 +132,52 @@ class ActionCableConnector extends BaseActionCableConnector {
     // Human takeovers use assignment/status events and never emit this event.
 
     const key = `${data.account_id}:${data.id}`;
-    if (data.status !== 'open') return;
+    if (data.status !== 'open' || this.pendingHandoffAlerts.has(key)) return;
 
-    // Keep unmatched unassigned handoffs until assignment, without delaying alerts for all/unassigned filters.
-    if (
-      isConversationUnassigned(data) &&
-      !DashboardAudioNotificationHelper.shouldNotifyOnConversation(data)
-    ) {
-      this.pendingHandoffAlerts.set(key, data);
-    }
-    DashboardAudioNotificationHelper.onConversationBotHandoff(data);
+    // One fixed window lets the normal store absorb assignment/status updates,
+    // even assignments delivered before the handoff. Duplicates do not extend it.
+    // Late assignments intentionally do not resurrect alerts after this window.
+    this.pendingHandoffAlerts.set(
+      key,
+      setTimeout(() => {
+        this.pendingHandoffAlerts.delete(key);
+        if (!this.isAValidEvent(data)) return;
+        this.alertOnSettledHandoff(data);
+      }, HANDOFF_ALERT_WINDOW_MS)
+    );
   };
+
+  alertOnSettledHandoff = handoff => {
+    const stored = this.app.$store.getters.getConversationById(handoff.id);
+    // Missing/older local state is acceptable: evaluate the original handoff
+    // through the usual audio preferences instead of fetching or waiting again.
+    const conversation =
+      stored?.updated_at >= handoff.updated_at ? stored : handoff;
+    if (conversation.status !== 'open') return;
+
+    if (conversation.updated_at > handoff.updated_at) {
+      const { assignment, meta } = conversation;
+      // A newer snapshot invalidates the handoff unless an explicit automatic
+      // assignment since that handoff explains the current owner. Unrelated
+      // events cannot overwrite assignment metadata; identity checks prevent an
+      // old assignment source from being applied to a different current owner.
+      if (
+        assignment?.source !== AUTOMATIC_ASSIGNMENT_SOURCE ||
+        assignment.updated_at < handoff.updated_at ||
+        assignment.assignee_id !== meta?.assignee?.id ||
+        assignment.assignee_type !== meta?.assignee_type
+      ) {
+        return;
+      }
+    }
+    DashboardAudioNotificationHelper.onConversationBotHandoff(conversation);
+  };
+
+  disconnect() {
+    this.pendingHandoffAlerts.forEach(clearTimeout);
+    this.pendingHandoffAlerts.clear();
+    super.disconnect();
+  }
 
   onConversationRead = data => {
     this.app.$store.dispatch('updateConversation', data);
@@ -180,13 +203,6 @@ class ActionCableConnector extends BaseActionCableConnector {
   onReload = () => window.location.reload();
 
   onStatusChange = data => {
-    const key = `${data.account_id}:${data.id}`;
-    // A resolved, snoozed, or bot-owned conversation no longer needs a deferred human handoff alert.
-    if (data.status !== 'open') {
-      if (!(this.pendingHandoffAlerts.get(key)?.updated_at > data.updated_at)) {
-        this.pendingHandoffAlerts.delete(key);
-      }
-    }
     this.app.$store.dispatch('updateConversation', data);
     this.fetchConversationStats();
   };

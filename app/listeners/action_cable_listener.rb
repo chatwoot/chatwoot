@@ -133,7 +133,8 @@ class ActionCableListener < BaseListener
   end
 
   def assignee_changed(event)
-    broadcast_to_inbox_members(event, ASSIGNEE_CHANGED)
+    # Preserve the explicit auto-assignment actor before request context is lost.
+    broadcast_to_inbox_members(event, ASSIGNEE_CHANGED, automatic_assignment: [Inbox, AssignmentPolicy].include?(event.data[:performed_by].class))
   end
 
   def team_changed(event)
@@ -176,11 +177,11 @@ class ActionCableListener < BaseListener
 
   private
 
-  def broadcast_to_inbox_members(event, event_name)
+  def broadcast_to_inbox_members(event, event_name, **metadata)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members)
 
-    broadcast(account, tokens, event_name, conversation.push_event_data)
+    broadcast(account, tokens, event_name, conversation.push_event_data.merge(metadata))
   end
 
   def account_token(account)

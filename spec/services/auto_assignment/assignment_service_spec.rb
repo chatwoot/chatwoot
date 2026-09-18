@@ -128,10 +128,25 @@ RSpec.describe AutoAssignment::AssignmentService do
         expect(Rails.configuration.dispatcher).to receive(:dispatch).with(
           Events::Types::ASSIGNEE_CHANGED,
           anything,
-          hash_including(conversation: conversation, user: agent)
+          hash_including(conversation: conversation, user: agent, performed_by: assignment_policy)
         )
 
         service.perform_bulk_assignment(limit: 1)
+      end
+
+      it 'delivers automatic provenance through both assignment broadcasts' do
+        conversation.update!(assignee_id: nil)
+        clear_enqueued_jobs
+        broadcasts = []
+        allow(ActionCable.server).to receive(:broadcast) do |_recipient, payload|
+          broadcasts << payload[:data] if payload[:event] == Events::Types::ASSIGNEE_CHANGED
+        end
+
+        perform_enqueued_jobs(only: ActionCableBroadcastJob) { service.perform_bulk_assignment(limit: 1) }
+
+        expect(conversation.reload.assignee_id).to eq(agent.id)
+        expect(broadcasts).not_to be_empty
+        expect(broadcasts).to all(include(assignment: include(source: 'automatic', assignee_id: agent.id)))
       end
     end
 
