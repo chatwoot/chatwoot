@@ -1,9 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useConfig } from 'dashboard/composables/useConfig';
-import { usePolicy } from 'dashboard/composables/usePolicy';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useCampaignAnalytics } from 'dashboard/composables/useCampaignAnalytics';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useMapGetter } from 'dashboard/composables/store';
 import BasePaywallModal from 'dashboard/routes/dashboard/settings/components/BasePaywallModal.vue';
@@ -11,18 +9,8 @@ import WhatsAppCampaignAnalyticsContent from './WhatsAppCampaignAnalyticsContent
 
 const router = useRouter();
 const { accountScopedRoute, isOnChatwootCloud } = useAccount();
-const { isEnterprise } = useConfig();
-const { shouldShowPaywall, isFeatureFlagEnabled } = usePolicy();
-const showPaywall = computed(() =>
-  shouldShowPaywall(FEATURE_FLAGS.CAMPAIGN_ANALYTICS)
-);
+const { canViewAnalytics, showPaywall } = useCampaignAnalytics();
 const currentUser = useMapGetter('getCurrentUser');
-const canViewAnalytics = computed(
-  () =>
-    isEnterprise &&
-    isFeatureFlagEnabled(FEATURE_FLAGS.CAMPAIGN_ANALYTICS) &&
-    !showPaywall.value
-);
 const isSuperAdmin = computed(() => currentUser.value.type === 'SuperAdmin');
 const paywallKey = computed(() =>
   isOnChatwootCloud.value ? 'PAYWALL' : 'ENTERPRISE_PAYWALL'
