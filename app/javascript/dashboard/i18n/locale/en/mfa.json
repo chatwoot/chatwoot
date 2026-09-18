@@ -91,7 +91,7 @@
     "TITLE": "Two-Factor Authentication",
     "DESCRIPTION": "Enter your verification code to continue",
     "EMAIL_TITLE": "Check your email",
-    "EMAIL_DESCRIPTION": "You're signing in from a device we haven't seen before. Enter the 6-digit code we emailed you to finish signing in.",
+    "EMAIL_DESCRIPTION": "You're signing in from a new device.",
     "ENTER_EMAIL_CODE": "Enter the 6-digit code from your email",
     "AUTHENTICATOR_APP": "Authenticator App",
     "BACKUP_CODE": "Backup Code",
