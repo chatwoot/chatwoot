@@ -134,8 +134,7 @@ export function useCampaignHistory() {
     (messageId, previousId) => {
       if (
         (hasLoaded.value || hasError.value) &&
-        previousId &&
-        messageId > previousId
+        messageId > (previousId ?? 0)
       ) {
         loadCampaignHistory({ refresh: true });
       }
