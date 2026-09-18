@@ -133,11 +133,11 @@ class ActionCableListener < BaseListener
   end
 
   def assignee_changed(event)
-    # Model callbacks identify automatic assignment by performed_by. The V2
-    # AssignmentService also dispatches an event with user (the assigned agent,
-    # NOT the performer). These are the two assignment event producers; neither
-    # requires inferring automation from a missing Current.user.
-    automatic_assignment = [Inbox, AssignmentPolicy].include?(event.data[:performed_by].class) || event.data[:user].present?
+    # Model callbacks identify automatic assignment (auto-assignment or automation
+    # rules) by performed_by. The V2 AssignmentService also dispatches an event with
+    # user (the assigned agent, NOT the performer). Neither requires inferring
+    # automation from a missing Current.user.
+    automatic_assignment = [Inbox, AssignmentPolicy, AutomationRule].include?(event.data[:performed_by].class) || event.data[:user].present?
     broadcast_to_inbox_members(event, ASSIGNEE_CHANGED, automatic_assignment: automatic_assignment)
   end
 

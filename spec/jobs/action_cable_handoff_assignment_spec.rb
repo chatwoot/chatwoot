@@ -31,6 +31,23 @@ RSpec.describe 'Assignment provenance through Action Cable', type: :job do
     )
   end
 
+  it 'marks automation rule assignments automatic' do
+    conversation.update!(assignee: nil)
+    rule = create(:automation_rule, account: account, actions: [{ action_name: 'assign_agent', action_params: [agent.id] }])
+    clear_enqueued_jobs
+    Current.user = agent
+
+    perform_enqueued_jobs(only: ActionCableBroadcastJob) { AutomationRules::ActionService.new(rule, account, conversation).perform }
+
+    expect(ActionCable.server).to have_received(:broadcast).with(
+      agent.pubsub_token,
+      hash_including(
+        event: Events::Types::ASSIGNEE_CHANGED,
+        data: hash_including(assignment: hash_including(automatic: true, assignee_id: agent.id, assignee_type: 'User'))
+      )
+    )
+  end
+
   it 'does not mark a manual assignment automatic' do
     Current.user = agent
     event.data[:performed_by] = nil
