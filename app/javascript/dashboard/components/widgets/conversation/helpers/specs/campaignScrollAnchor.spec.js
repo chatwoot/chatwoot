@@ -1,6 +1,7 @@
 import {
   captureTimelineAnchor,
   getTimelineEntries,
+  getUnreadScrollTop,
 } from '../campaignScrollAnchor';
 
 describe('campaign timeline scroll anchor', () => {
@@ -28,6 +29,17 @@ describe('campaign timeline scroll anchor', () => {
     panel.appendChild(document.createElement('li'));
     restore();
     expect(panel.scrollTop).toBe(200);
+  });
+
+  it('anchors unread scrolling independently of campaign heights below it', () => {
+    messageTop = 500;
+    const campaign = document.createElement('li');
+    campaign.id = 'campaign-recipient-1';
+    Object.defineProperty(campaign, 'scrollHeight', { value: 800 });
+    panel.appendChild(campaign);
+    expect(getUnreadScrollTop(panel, message, 400)).toBe(500);
+    panel.getBoundingClientRect = () => ({ top: 100 });
+    expect(getUnreadScrollTop(panel, message, 400)).toBe(400);
   });
 
   it('compensates only for content inserted above the visible message', () => {
