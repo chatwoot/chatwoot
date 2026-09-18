@@ -1,6 +1,6 @@
 <script setup>
 import { computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useCampaignAnalytics } from 'dashboard/composables/useCampaignAnalytics';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -8,6 +8,7 @@ import BasePaywallModal from 'dashboard/routes/dashboard/settings/components/Bas
 import WhatsAppCampaignAnalyticsContent from './WhatsAppCampaignAnalyticsContent.vue';
 
 const router = useRouter();
+const route = useRoute();
 const { accountScopedRoute, isOnChatwootCloud, currentAccount } = useAccount();
 const { canViewAnalytics, showPaywall } = useCampaignAnalytics();
 const currentUser = useMapGetter('getCurrentUser');
@@ -18,9 +19,14 @@ const paywallKey = computed(() =>
 const openBilling = () =>
   router.push(accountScopedRoute('billing_settings_index'));
 watch(
-  [currentAccount, canViewAnalytics, showPaywall],
-  ([account, canView, paywall]) => {
-    if (account.id && !canView && !paywall) {
+  [() => route.name, currentAccount, canViewAnalytics, showPaywall],
+  ([routeName, account, canView, paywall]) => {
+    if (
+      routeName === 'campaigns_whatsapp_analytics' &&
+      account.id &&
+      !canView &&
+      !paywall
+    ) {
       router.replace(accountScopedRoute('campaigns_whatsapp_index'));
     }
   },

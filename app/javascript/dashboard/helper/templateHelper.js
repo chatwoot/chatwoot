@@ -41,7 +41,22 @@ export const isValidTemplateMediaUrl = value =>
 // Match the legacy body-only formats still supported by TemplateParameterConverterService.
 export const normalizeTemplateParameters = (params = {}) => {
   const componentKeys = ['body', 'header', 'footer', 'buttons'];
-  if (componentKeys.some(key => key in params)) return params;
+  const isParameterMap = value =>
+    value == null || (typeof value === 'object' && !Array.isArray(value));
+  const validButtons =
+    params.buttons == null ||
+    (Array.isArray(params.buttons) &&
+      params.buttons.every(
+        button => button == null || (isParameterMap(button) && button.type)
+      ));
+  if (
+    componentKeys.some(key => key in params) &&
+    isParameterMap(params.body) &&
+    isParameterMap(params.header) &&
+    validButtons
+  ) {
+    return params;
+  }
   const entries = Array.isArray(params)
     ? params.map((value, index) => [String(index + 1), String(value ?? '')])
     : Object.entries(params).map(([key, value]) => [key, String(value ?? '')]);
