@@ -52,6 +52,7 @@ class Channel::WebWidget < ApplicationRecord
             3 => :end_conversation,
             4 => :use_inbox_avatar_for_bot,
             5 => :allow_mobile_webview,
+            6 => :allow_cross_origin_isolation,
             :column => 'feature_flags',
             :check_for_column => false
 
