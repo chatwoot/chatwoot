@@ -1,11 +1,12 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import CallKeypad from './CallKeypad.vue';
 
 const props = defineProps({
   call: {
@@ -33,6 +34,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showKeypad: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 defineEmits([
@@ -42,9 +47,29 @@ defineEmits([
   'toggleMute',
   'goToConversation',
   'dismiss',
+  'sendDigit',
 ]);
 
 const { t } = useI18n();
+const isKeypadOpen = ref(false);
+
+const toggleKeypad = () => {
+  isKeypadOpen.value = !isKeypadOpen.value;
+};
+
+watch(
+  () => props.showKeypad,
+  showKeypad => {
+    if (!showKeypad) isKeypadOpen.value = false;
+  }
+);
+
+watch(
+  () => props.call?.callSid,
+  () => {
+    isKeypadOpen.value = false;
+  }
+);
 
 const isOngoing = computed(() => props.state === VOICE_CALL_DIRECTION.ONGOING);
 const isIncoming = computed(
@@ -190,6 +215,28 @@ const channelIcon = computed(() => {
             @click="$emit('accept')"
           />
 
+          <NextButton
+            v-if="isOngoing && showKeypad"
+            v-tooltip.top="
+              isKeypadOpen
+                ? $t('CONVERSATION.VOICE_WIDGET.HIDE_KEYPAD')
+                : $t('CONVERSATION.VOICE_WIDGET.SHOW_KEYPAD')
+            "
+            icon="i-ph-dots-nine-bold"
+            :variant="isKeypadOpen ? 'solid' : 'faded'"
+            color="teal"
+            class="!rounded-full"
+            aria-controls="voice-call-keypad"
+            :aria-expanded="isKeypadOpen"
+            :aria-label="
+              isKeypadOpen
+                ? $t('CONVERSATION.VOICE_WIDGET.HIDE_KEYPAD')
+                : $t('CONVERSATION.VOICE_WIDGET.SHOW_KEYPAD')
+            "
+            data-test-id="voice-call-keypad-toggle"
+            @click="toggleKeypad"
+          />
+
           <!-- Reject / end call (all states) -->
           <NextButton
             v-tooltip.top="
@@ -205,6 +252,8 @@ const channelIcon = computed(() => {
         </div>
       </div>
     </div>
+
+    <CallKeypad v-if="isKeypadOpen" @digit="$emit('sendDigit', $event)" />
 
     <!-- Footer: go to conversation thread -->
     <NextButton
