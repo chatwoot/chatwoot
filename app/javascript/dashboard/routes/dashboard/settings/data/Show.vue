@@ -11,6 +11,7 @@ import { useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 
 import DataImportsAPI from 'dashboard/api/dataImports';
+import Button from 'dashboard/components-next/button/Button.vue';
 import { POLL_INTERVAL_MS, isActiveImport } from './importStatus';
 import SettingsLayout from '../SettingsLayout.vue';
 import ImportDetailHeader from './components/ImportDetailHeader.vue';
@@ -119,22 +120,27 @@ const startPolling = () => {
 
 const abandonImport = async () => {
   isAbandoning.value = true;
+  importRequestVersion += 1;
   try {
     const response = await DataImportsAPI.abandon(dataImport.value.id);
     dataImport.value = response.data;
     stopPolling();
     useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_ABANDONED'));
+  } catch {
+    useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_FAILED'));
   } finally {
     isAbandoning.value = false;
   }
 };
 
-const retryImport = async () => {
+const retryImport = async (resume = false) => {
   isRetrying.value = true;
   importRequestVersion += 1;
   stopPolling();
   try {
-    const response = await DataImportsAPI.retry(dataImport.value.id);
+    const response = resume
+      ? await DataImportsAPI.start(dataImport.value.id)
+      : await DataImportsAPI.retry(dataImport.value.id);
     dataImport.value = response.data;
     useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_RETRIED'));
   } catch {
@@ -142,6 +148,17 @@ const retryImport = async () => {
   } finally {
     isRetrying.value = false;
     if (hasActiveImport.value) startPolling();
+  }
+};
+
+const downloadRejectedRows = async () => {
+  try {
+    const response = await DataImportsAPI.downloadRejectedRows(
+      dataImport.value.id
+    );
+    window.location.assign(response.data.download_url);
+  } catch {
+    useAlert(t('DATA_EXPORTS.DOWNLOAD_ERROR'));
   }
 };
 
@@ -197,12 +214,14 @@ onActivated(async () => {
 });
 
 onDeactivated(() => {
+  importRequestVersion += 1;
   isPageActive = false;
   stopPolling();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
 });
 
 onBeforeUnmount(() => {
+  importRequestVersion += 1;
   isPageActive = false;
   stopPolling();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
@@ -222,7 +241,8 @@ onBeforeUnmount(() => {
         :is-abandoning="isAbandoning"
         :is-polling="isPolling"
         @refresh="fetchImport({ manual: true })"
-        @retry="retryImport"
+        @retry="retryImport(false)"
+        @start="retryImport(true)"
         @abandon="abandonImport"
       />
     </template>
@@ -230,6 +250,22 @@ onBeforeUnmount(() => {
     <template #body>
       <div v-if="dataImport" class="flex flex-col gap-3">
         <ImportSummaryTiles :data-import="dataImport" />
+        <div
+          v-if="dataImport.source_provider === 'csv'"
+          class="flex flex-col gap-2 text-body-main text-n-slate-11"
+        >
+          <p>{{ dataImport.file_name }}</p>
+          <p v-if="dataImport.artifacts_expired_at">
+            {{ $t('DATA_IMPORTS.CSV.EXPIRED') }}
+          </p>
+          <p>{{ $t('DATA_IMPORTS.CSV.REJECTED_HELP') }}</p>
+          <Button
+            v-if="dataImport.rejected_rows_available"
+            class="self-start"
+            :label="$t('DATA_IMPORTS.CSV.DOWNLOAD_REJECTED')"
+            @click="downloadRejectedRows"
+          />
+        </div>
 
         <ImportProgress
           v-if="dataImport.import_types?.length"
@@ -238,6 +274,10 @@ onBeforeUnmount(() => {
         />
 
         <ImportErrorsSection
+          v-if="
+            dataImport.source_provider !== 'csv' ||
+            dataImport.import_errors_count
+          "
           :data-import="dataImport"
           :is-open="errorsOpen"
           :is-downloading="isDownloadingErrorLogs"

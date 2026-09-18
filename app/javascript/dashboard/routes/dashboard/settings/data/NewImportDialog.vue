@@ -13,25 +13,36 @@ import { IMPORT_SOURCES, importSourceConfigFor } from './importSources';
 const props = defineProps({
   show: { type: Boolean, default: false },
   hasActiveImport: { type: Boolean, default: false },
+  integrationEnabled: { type: Boolean, default: false },
+  initialSource: { type: String, default: '' },
 });
 
 const emit = defineEmits(['close', 'created']);
 
 const { t } = useI18n();
+const MAX_FILE_BYTES = 50 * 1024 * 1024;
 const dialogRef = ref(null);
-const sourceProvider = ref('intercom');
+const sourceProvider = ref(
+  props.initialSource || (props.integrationEnabled ? 'intercom' : 'csv')
+);
+const isFile = computed(() => sourceProvider.value === 'csv');
+const file = ref(null);
+const uploadProgress = ref(0);
 const sourceConfig = computed(
   () => importSourceConfigFor(sourceProvider.value) || IMPORT_SOURCES[0]
 );
-const defaultImportName = computed(() =>
-  sourceProvider.value === 'freshdesk'
-    ? t('DATA_IMPORTS.DEFAULT_IMPORT_NAMES.FRESHDESK')
-    : t('DATA_IMPORTS.DEFAULT_IMPORT_NAMES.INTERCOM')
-);
+const defaultImportName = computed(() => {
+  if (isFile.value) return t('DATA_IMPORTS.DEFAULT_IMPORT_NAMES.CSV');
+  if (sourceProvider.value === 'freshdesk')
+    return t('DATA_IMPORTS.DEFAULT_IMPORT_NAMES.FRESHDESK');
+  return t('DATA_IMPORTS.DEFAULT_IMPORT_NAMES.INTERCOM');
+});
 const importName = ref(defaultImportName.value);
 const accessToken = ref('');
 const domain = ref('');
-const selectedImportTypes = ref(['contacts', 'conversations']);
+const selectedImportTypes = ref(
+  isFile.value ? ['contacts'] : ['contacts', 'conversations']
+);
 const validationState = ref('idle');
 const validationMessage = ref('');
 const isCreating = ref(false);
@@ -40,7 +51,12 @@ let validationRequestId = 0;
 const closeDrawer = () => emit('close');
 
 const sourceOptions = computed(() =>
-  IMPORT_SOURCES.map(({ value, label }) => ({ value, label }))
+  IMPORT_SOURCES.filter(
+    source => props.integrationEnabled || source.value === 'csv'
+  ).map(({ value, label }) => ({
+    value,
+    label: value === 'csv' ? t('DATA_IMPORTS.CSV.SOURCE') : label,
+  }))
 );
 
 const credentialPlaceholder = computed(() =>
@@ -62,7 +78,7 @@ const tokenMessageType = computed(() => {
 
 const canCreate = computed(
   () =>
-    validationState.value === 'valid' &&
+    (isFile.value ? Boolean(file.value) : validationState.value === 'valid') &&
     selectedImportTypes.value.length > 0 &&
     !props.hasActiveImport &&
     !isCreating.value
@@ -86,6 +102,7 @@ const invalidateValidation = () => {
 };
 
 const validateSource = async () => {
+  if (isFile.value) return;
   if (!hasRequiredCredentials() || !selectedImportTypes.value.length) {
     invalidateValidation();
     return;
@@ -121,10 +138,20 @@ const createImport = async () => {
 
   isCreating.value = true;
   try {
-    const response = await DataImportsAPI.create({
+    const payload = {
       ...validationPayload(),
       name: importName.value.trim() || defaultImportName.value,
-    });
+    };
+    const response = isFile.value
+      ? await DataImportsAPI.createFile(
+          { ...payload, file: file.value },
+          event => {
+            uploadProgress.value = event.total
+              ? Math.round((event.loaded * 100) / event.total)
+              : 0;
+          }
+        )
+      : await DataImportsAPI.create(payload);
     useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_STARTED'));
     emit('created', response.data.id);
   } catch (error) {
@@ -136,6 +163,21 @@ const createImport = async () => {
   }
 };
 
+const selectFile = event => {
+  const selected = event.target.files[0];
+  file.value = null;
+  if (!selected) return;
+  if (
+    !selected.name.toLowerCase().endsWith('.csv') ||
+    !selected.size ||
+    selected.size > MAX_FILE_BYTES
+  ) {
+    useAlert(t('DATA_IMPORTS.CSV.INVALID_FILE'));
+    return;
+  }
+  file.value = selected;
+};
+
 watch(accessToken, invalidateValidation);
 watch(domain, invalidateValidation);
 
@@ -143,6 +185,11 @@ watch(sourceProvider, () => {
   importName.value = defaultImportName.value;
   accessToken.value = '';
   domain.value = '';
+  file.value = null;
+  uploadProgress.value = 0;
+  selectedImportTypes.value = isFile.value
+    ? ['contacts']
+    : ['contacts', 'conversations'];
   invalidateValidation();
 });
 
@@ -157,6 +204,8 @@ watch(
   () => props.show,
   show => {
     if (show) {
+      sourceProvider.value =
+        props.initialSource || (props.integrationEnabled ? 'intercom' : 'csv');
       dialogRef.value?.open();
       return;
     }
@@ -164,6 +213,8 @@ watch(
     dialogRef.value?.close();
     accessToken.value = '';
     domain.value = '';
+    file.value = null;
+    uploadProgress.value = 0;
     validationState.value = 'idle';
     validationMessage.value = '';
   }
@@ -187,6 +238,7 @@ watch(
         {{ $t('DATA_IMPORTS.DRAWER.SOURCE') }}
         <Select
           v-model="sourceProvider"
+          :disabled="isCreating"
           class="!w-full [&>select]:w-full"
           :options="sourceOptions"
         />
@@ -208,6 +260,7 @@ watch(
       />
 
       <Input
+        v-if="!isFile"
         v-model="accessToken"
         type="password"
         autocomplete="off"
@@ -218,7 +271,47 @@ watch(
         @blur="validateSource"
       />
 
-      <fieldset class="flex flex-col gap-2.5">
+      <div v-if="isFile" class="flex flex-col gap-3">
+        <label class="text-heading-3 text-n-slate-12">
+          {{ $t('DATA_IMPORTS.CSV.FILE') }}
+          <input
+            type="file"
+            accept=".csv,text/csv"
+            :disabled="isCreating"
+            class="mt-2 block w-full text-body-main"
+            @change="selectFile"
+          />
+        </label>
+        <p class="text-body-main text-n-slate-11">
+          {{ $t('DATA_IMPORTS.CSV.HELP') }}
+        </p>
+        <p class="text-body-main text-n-slate-11">
+          {{ $t('DATA_IMPORTS.CSV.SILENT_UPDATES') }}
+        </p>
+        <a
+          href="/downloads/import-contacts-sample.csv"
+          download
+          class="text-n-blue-11"
+        >
+          <span>{{ $t('DATA_IMPORTS.CSV.SAMPLE') }}</span>
+        </a>
+        <p
+          v-if="isCreating"
+          role="status"
+          class="text-body-main text-n-slate-11"
+        >
+          {{ $t('DATA_IMPORTS.CSV.UPLOADING', { percent: uploadProgress }) }}
+        </p>
+        <progress
+          v-if="isCreating"
+          :value="uploadProgress"
+          max="100"
+          :aria-label="$t('DATA_IMPORTS.CSV.FILE')"
+          class="h-2 w-full accent-n-brand"
+        />
+      </div>
+
+      <fieldset v-else class="flex flex-col gap-2.5">
         <legend class="mb-1.5 text-heading-3 text-n-slate-12">
           {{ $t('DATA_IMPORTS.DRAWER.DATA_TYPES') }}
         </legend>

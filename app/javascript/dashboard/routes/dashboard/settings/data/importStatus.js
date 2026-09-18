@@ -20,10 +20,13 @@ export const isActiveIntegrationImport = dataImport =>
   isIntegrationImport(dataImport) && isActiveImport(dataImport);
 
 export const isAbandonableImport = dataImport =>
-  isActiveIntegrationImport(dataImport);
+  dataImport?.allowed_actions?.abandon ?? isActiveIntegrationImport(dataImport);
 
 export const importedCount = dataImport => {
-  if (!isIntegrationImport(dataImport)) {
+  if (
+    !isIntegrationImport(dataImport) &&
+    dataImport?.source_provider !== 'csv'
+  ) {
     return Number(dataImport?.processed_records || 0);
   }
 
@@ -43,6 +46,11 @@ export const importStageKey = dataImport => {
   if (dataImport.status === 'failed') return 'failed';
   if (dataImport.status === 'abandoned') return 'abandoned';
   if (dataImport.status === 'pending') return 'queued';
+  if (
+    dataImport.source_provider === 'csv' &&
+    !dataImport.cursor?.preparation?.completed
+  )
+    return 'preparing';
 
   const importTypes = dataImport.import_types?.length
     ? dataImport.import_types

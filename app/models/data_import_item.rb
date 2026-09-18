@@ -23,6 +23,7 @@
 #  idx_data_import_items_on_record             (chatwoot_record_type,chatwoot_record_id)
 #  idx_data_import_items_on_source             (source_provider,source_object_type,source_object_id)
 #  index_data_import_items_on_data_import_id   (data_import_id)
+#  index_pending_data_import_items             (data_import_id,id) WHERE (status = 0)
 #
 class DataImportItem < ApplicationRecord
   belongs_to :data_import

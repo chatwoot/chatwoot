@@ -5,9 +5,11 @@ import {
   onBeforeUnmount,
   onDeactivated,
   ref,
+  watch,
 } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -16,7 +18,11 @@ import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import DataImportsAPI from 'dashboard/api/dataImports';
+import DataExportsAPI from 'dashboard/api/dataExports';
 import NewImportDialog from './NewImportDialog.vue';
+import NewExportDialog from './NewExportDialog.vue';
+import ExportsList from './ExportsList.vue';
+import { consumeExportDraft } from './exportDraft';
 import { importSourceFor } from './importSources';
 import {
   POLL_INTERVAL_MS,
@@ -24,22 +30,31 @@ import {
   formatStatus,
   importedCount,
   isActiveImport,
-  isActiveIntegrationImport,
   statusDotClass,
 } from './importStatus';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
 const router = useRouter();
+const route = useRoute();
 
 const dataImports = ref([]);
+const dataExports = ref([]);
+const canCreateImport = ref(false);
+const integrationEnabled = ref(false);
+const initialSource = ref('');
+const showExportDialog = ref(false);
+const exportSelection = ref({});
+const shortcutError = ref('');
+const loadError = ref('');
 const isLoading = ref(true);
 const isRefreshing = ref(false);
 const isPolling = ref(false);
 const showImportDrawer = ref(false);
-const activeTab = ref('import');
+const activeTab = ref(route.query.tab === 'export' ? 'export' : 'import');
 let pollTimer;
 let isPageActive = false;
+let requestVersion = 0;
 
 const accountId = getters.getCurrentAccountId;
 
@@ -53,8 +68,8 @@ const activeTabIndex = computed(() =>
 );
 
 const hasActiveImport = computed(() => dataImports.value.some(isActiveImport));
-const hasActiveIntegrationImport = computed(() =>
-  dataImports.value.some(isActiveIntegrationImport)
+const hasActiveOperation = computed(
+  () => hasActiveImport.value || dataExports.value.some(isActiveImport)
 );
 
 const dataImportRoute = dataImport => ({
@@ -79,8 +94,17 @@ const importTypeLabel = dataImport =>
     .join(', ');
 
 const fetchImports = async () => {
-  const response = await DataImportsAPI.get();
+  const version = requestVersion;
+  const [response, exportsResponse] = await Promise.all([
+    DataImportsAPI.get(),
+    DataExportsAPI.get(),
+  ]);
+  if (version !== requestVersion) return;
   dataImports.value = response.data.payload || [];
+  canCreateImport.value = response.data.can_create_import;
+  integrationEnabled.value = response.data.integration_imports_enabled;
+  dataExports.value = exportsResponse.data.payload || [];
+  loadError.value = '';
 };
 
 const stopPolling = () => {
@@ -94,7 +118,7 @@ const refreshImportsInBackground = async () => {
   if (
     !isPageActive ||
     isPolling.value ||
-    !hasActiveImport.value ||
+    !hasActiveOperation.value ||
     document.hidden
   ) {
     return;
@@ -103,15 +127,17 @@ const refreshImportsInBackground = async () => {
   isPolling.value = true;
   try {
     await fetchImports();
+  } catch {
+    loadError.value = t('DATA_IMPORTS.ALERTS.LOAD_FAILED');
   } finally {
     isPolling.value = false;
-    if (!hasActiveImport.value) stopPolling();
+    if (!hasActiveOperation.value) stopPolling();
   }
 };
 
 const startPolling = () => {
   stopPolling();
-  if (!isPageActive || !hasActiveImport.value) return;
+  if (!isPageActive || !hasActiveOperation.value) return;
 
   pollTimer = window.setInterval(refreshImportsInBackground, POLL_INTERVAL_MS);
 };
@@ -122,12 +148,14 @@ const refresh = async ({ showLoader = true } = {}) => {
 
   try {
     await fetchImports();
+  } catch {
+    loadError.value = t('DATA_IMPORTS.ALERTS.LOAD_FAILED');
   } finally {
     isLoading.value = false;
     isRefreshing.value = false;
     if (isPageActive) {
-      if (hasActiveImport.value && !pollTimer) startPolling();
-      if (!hasActiveImport.value) stopPolling();
+      if (hasActiveOperation.value && !pollTimer) startPolling();
+      if (!hasActiveOperation.value) stopPolling();
     }
   }
 };
@@ -137,7 +165,41 @@ const openImport = dataImport => {
 };
 
 const openImportDrawer = () => {
-  if (!hasActiveIntegrationImport.value) showImportDrawer.value = true;
+  if (canCreateImport.value) showImportDrawer.value = true;
+};
+
+const openExport = dataExportId => {
+  showExportDialog.value = false;
+  router.push({
+    name: 'settings_data_export_show',
+    params: { accountId: accountId.value, dataExportId },
+  });
+};
+const newExport = () => {
+  exportSelection.value = {};
+  shortcutError.value = '';
+  showExportDialog.value = true;
+};
+const consumeAction = async () => {
+  activeTab.value = route.query.tab === 'export' ? 'export' : 'import';
+  if (!route.query.action) return;
+  if (route.query.action === 'import') {
+    initialSource.value = 'csv';
+    if (canCreateImport.value) showImportDrawer.value = true;
+    else useAlert(t('DATA_IMPORTS.DRAWER.ACTIVE_IMPORT'));
+  } else if (route.query.action === 'export') {
+    try {
+      exportSelection.value = consumeExportDraft(
+        accountId.value,
+        route.query.draft
+      );
+      shortcutError.value = '';
+      showExportDialog.value = true;
+    } catch {
+      shortcutError.value = t('DATA_EXPORTS.DRAFT_UNAVAILABLE');
+    }
+  }
+  await router.replace({ query: { tab: activeTab.value } });
 };
 
 const onImportCreated = dataImportId => {
@@ -150,10 +212,11 @@ const onImportCreated = dataImportId => {
 
 const onTabChanged = tab => {
   activeTab.value = tab.key;
+  router.replace({ query: { tab: tab.key } });
 };
 
 const handleVisibilityChange = () => {
-  if (isPageActive && !document.hidden && hasActiveImport.value) {
+  if (isPageActive && !document.hidden && hasActiveOperation.value) {
     refreshImportsInBackground();
   }
 };
@@ -163,17 +226,36 @@ onActivated(async () => {
   await refresh();
   if (!isPageActive) return;
 
+  await consumeAction();
   startPolling();
   document.addEventListener('visibilitychange', handleVisibilityChange);
 });
 
+watch(
+  () => route.query.tab,
+  tab => {
+    if (isPageActive) activeTab.value = tab === 'export' ? 'export' : 'import';
+  }
+);
+
+watch(
+  () => route.query.action,
+  action => {
+    if (action && isPageActive) consumeAction();
+  }
+);
+
 onDeactivated(() => {
+  requestVersion += 1;
   isPageActive = false;
+  showImportDrawer.value = false;
+  showExportDialog.value = false;
   stopPolling();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
 });
 
 onBeforeUnmount(() => {
+  requestVersion += 1;
   isPageActive = false;
   stopPolling();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
@@ -202,9 +284,9 @@ onBeforeUnmount(() => {
             {{ $t('DATA_IMPORTS.TABLE.COUNT', { count: dataImports.length }) }}
           </span>
         </template>
-        <template v-if="activeTab === 'import'" #actions>
+        <template #actions>
           <span
-            v-if="hasActiveImport"
+            v-if="hasActiveOperation"
             class="hidden items-center gap-1.5 text-body-main text-n-slate-11 sm:inline-flex"
           >
             <span class="size-2 rounded-full bg-n-teal-9 animate-pulse" />
@@ -225,45 +307,48 @@ onBeforeUnmount(() => {
             @click="refresh({ showLoader: false })"
           />
           <Button
+            v-if="activeTab === 'import'"
             size="sm"
             :label="$t('DATA_IMPORTS.TABLE.NEW_IMPORT')"
-            :disabled="hasActiveIntegrationImport"
+            :disabled="!canCreateImport"
             :title="
-              hasActiveIntegrationImport
+              !canCreateImport
                 ? $t('DATA_IMPORTS.DRAWER.ACTIVE_IMPORT')
                 : undefined
             "
             @click="openImportDrawer"
+          />
+          <Button
+            v-if="activeTab === 'export'"
+            size="sm"
+            :label="$t('DATA_EXPORTS.NEW')"
+            @click="newExport"
           />
         </template>
       </BaseSettingsHeader>
     </template>
 
     <template #body>
-      <div
-        v-if="activeTab === 'export'"
-        class="flex min-h-80 flex-col items-center justify-center gap-4 rounded-xl border border-n-weak bg-n-solid-1 px-6 py-16 text-center"
+      <p
+        v-if="loadError"
+        role="alert"
+        class="mb-4 text-body-main text-n-ruby-11"
       >
-        <span
-          class="flex size-12 items-center justify-center rounded-full bg-n-alpha-2"
-        >
-          <Icon icon="i-lucide-upload" class="size-5 text-n-slate-11" />
-        </span>
-        <div class="flex flex-col gap-1">
-          <h3 class="text-heading-2 text-n-slate-12">
-            {{ $t('DATA_IMPORTS.EXPORT.TITLE') }}
-          </h3>
-          <p class="max-w-sm text-body-main text-n-slate-11">
-            {{ $t('DATA_IMPORTS.EXPORT.DESCRIPTION') }}
-          </p>
-        </div>
-        <span
-          class="inline-flex items-center gap-1.5 rounded-md bg-n-alpha-2 px-2 py-1 text-label-small text-n-slate-11"
-        >
-          <Icon icon="i-lucide-clock" class="size-3.5" />
-          {{ $t('DATA_IMPORTS.EXPORT.COMING_SOON') }}
-        </span>
-      </div>
+        {{ loadError }}
+      </p>
+      <p
+        v-if="shortcutError"
+        role="alert"
+        class="mb-4 text-body-main text-n-ruby-11"
+      >
+        {{ shortcutError }}
+      </p>
+      <ExportsList
+        v-if="activeTab === 'export'"
+        :exports="dataExports"
+        @open="openExport"
+        @create="newExport"
+      />
 
       <div
         v-else-if="!dataImports.length"
@@ -371,8 +456,16 @@ onBeforeUnmount(() => {
 
   <NewImportDialog
     :show="showImportDrawer"
-    :has-active-import="hasActiveIntegrationImport"
+    :has-active-import="!canCreateImport"
+    :integration-enabled="integrationEnabled"
+    :initial-source="initialSource"
     @close="showImportDrawer = false"
     @created="onImportCreated"
+  />
+  <NewExportDialog
+    :show="showExportDialog"
+    :selection="exportSelection"
+    @close="showExportDialog = false"
+    @created="openExport"
   />
 </template>
