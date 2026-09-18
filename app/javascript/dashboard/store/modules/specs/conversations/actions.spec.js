@@ -1,17 +1,23 @@
 import axios from 'axios';
+import { createStore } from 'vuex';
+import { mutations } from '../../conversations';
+import conversationMetadata from '../../conversationMetadata';
 import actions, {
   hasMessageFailedWithExternalError,
 } from '../../conversations/actions';
 import types from '../../../mutation-types';
 const dataToSend = {
-  payload: [
-    {
-      attribute_key: 'status',
-      filter_operator: 'equal_to',
-      values: ['open'],
-      query_operator: null,
-    },
-  ],
+  page: 1,
+  queryData: {
+    payload: [
+      {
+        attribute_key: 'status',
+        filter_operator: 'equal_to',
+        values: ['open'],
+        query_operator: null,
+      },
+    ],
+  },
 };
 import { dataReceived } from './testConversationResponse';
 
@@ -56,6 +62,109 @@ describe('#hasMessageFailedWithExternalError', () => {
 });
 
 describe('#actions', () => {
+  describe('conversation history loading', () => {
+    let store;
+    let conversationA;
+    let conversationB;
+
+    beforeEach(() => {
+      conversationA = { id: 42, messages: [{ id: 100 }] };
+      conversationB = { id: 43, messages: [{ id: 200 }] };
+      store = createStore({
+        state: {
+          allConversations: [conversationA, conversationB],
+          selectedChatId: null,
+        },
+        actions,
+        mutations,
+        modules: {
+          conversationMetadata: {
+            ...conversationMetadata,
+            state: { records: {} },
+          },
+        },
+      });
+    });
+
+    it('shares pending history when switching A to B to A and keeps responses in their own conversations', async () => {
+      let resolveA;
+      let resolveB;
+      axios.get
+        .mockImplementationOnce(
+          () =>
+            new Promise(resolve => {
+              resolveA = resolve;
+            })
+        )
+        .mockImplementationOnce(
+          () =>
+            new Promise(resolve => {
+              resolveB = resolve;
+            })
+        );
+
+      const firstA = store.dispatch('setActiveChat', { data: conversationA });
+      const firstB = store.dispatch('setActiveChat', { data: conversationB });
+      const secondA = store.dispatch('setActiveChat', { data: conversationA });
+
+      expect(axios.get).toHaveBeenCalledTimes(2);
+      expect(conversationA.dataFetched).toBeUndefined();
+
+      resolveB({ data: { meta: {}, payload: [{ id: 199 }] } });
+      await firstB;
+      expect(store.state.selectedChatId).toBe(42);
+      expect(conversationA.messages).toEqual([{ id: 100 }]);
+      expect(conversationB.messages).toEqual([{ id: 199 }, { id: 200 }]);
+
+      resolveA({ data: { meta: {}, payload: [{ id: 99 }] } });
+      await Promise.all([firstA, secondA]);
+      expect(conversationA.messages).toEqual([{ id: 99 }, { id: 100 }]);
+      expect(conversationA.dataFetched).toBe(true);
+      expect(conversationB.dataFetched).toBe(true);
+    });
+
+    it('leaves failed history unfetched and retries when the conversation is reopened', async () => {
+      axios.get.mockRejectedValueOnce(new Error('Network error'));
+
+      await store.dispatch('setActiveChat', { data: conversationA });
+
+      expect(conversationA.dataFetched).toBeUndefined();
+      expect(conversationA.messages).toEqual([{ id: 100 }]);
+      expect(conversationA.allMessagesLoaded).toBe(false);
+
+      axios.get.mockResolvedValueOnce({
+        data: { meta: {}, payload: [{ id: 99 }] },
+      });
+      await store.dispatch('setActiveChat', { data: conversationA });
+
+      expect(axios.get).toHaveBeenCalledTimes(2);
+      expect(conversationA.messages).toEqual([{ id: 99 }, { id: 100 }]);
+      expect(conversationA.dataFetched).toBe(true);
+    });
+
+    it.each(['before', 'after'])(
+      'loads distinct %s cursors independently and allows a completed request again',
+      async cursor => {
+        let resolveHistory;
+        const response = new Promise(resolve => {
+          resolveHistory = resolve;
+        });
+        axios.get.mockReturnValue(response);
+        const firstParams = { conversationId: 42, [cursor]: 90 };
+        const secondParams = { conversationId: 42, [cursor]: 80 };
+
+        const first = store.dispatch('fetchPreviousMessages', firstParams);
+        const second = store.dispatch('fetchPreviousMessages', secondParams);
+        expect(axios.get).toHaveBeenCalledTimes(2);
+
+        resolveHistory({ data: { meta: {}, payload: [] } });
+        await Promise.all([first, second]);
+        await store.dispatch('fetchPreviousMessages', firstParams);
+        expect(axios.get).toHaveBeenCalledTimes(3);
+      }
+    );
+  });
+
   describe('#getConversation', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({
@@ -509,12 +618,76 @@ describe('#actions', () => {
   });
 
   describe('#fetchFilteredConversations', () => {
+    it('ignores an older open-list response after applying an all-status filter', async () => {
+      let resolveOpenResponse;
+      axios.get.mockReturnValue(
+        new Promise(resolve => {
+          resolveOpenResponse = resolve;
+        })
+      );
+      const openRequest = actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: { status: 'open', assigneeType: 'all' } },
+      });
+      const filteredResponse = {
+        payload: [],
+        meta: { all_count: 10757 },
+      };
+      axios.post.mockResolvedValue({ data: filteredResponse });
+
+      await actions.fetchFilteredConversations(
+        {
+          commit,
+          dispatch,
+          state: {
+            appliedFiltersSortBy: null,
+            chatSortFilter: 'last_activity_at_desc',
+          },
+        },
+        {
+          queryData: {
+            payload: [
+              {
+                attribute_key: 'status',
+                filter_operator: 'equal_to',
+                values: ['all'],
+              },
+            ],
+          },
+          page: 1,
+        }
+      );
+      resolveOpenResponse({
+        data: { data: { payload: [], meta: { all_count: 30 } } },
+      });
+      await openRequest;
+
+      expect(
+        dispatch.mock.calls.filter(
+          ([action]) => action === 'conversationStats/set'
+        )
+      ).toEqual([
+        [
+          'conversationStats/set',
+          { meta: filteredResponse.meta, request: undefined },
+        ],
+      ]);
+    });
+
     it('fetches filtered conversations with a mock commit', async () => {
       axios.post.mockResolvedValue({
         data: dataReceived,
       });
       await actions.fetchFilteredConversations(
-        { commit, dispatch },
+        {
+          commit,
+          dispatch,
+          state: {
+            appliedFiltersSortBy: null,
+            chatSortFilter: 'last_activity_at_desc',
+          },
+        },
         dataToSend
       );
       expect(commit).toHaveBeenCalledTimes(4);
@@ -527,12 +700,32 @@ describe('#actions', () => {
           dataReceived.payload.map(chat => chat.meta.sender),
         ],
       ]);
+      expect(axios.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/filter',
+        dataToSend.queryData,
+        expect.objectContaining({
+          params: {
+            page: dataToSend.page,
+            sort_by: 'last_activity_at_desc',
+          },
+        })
+      );
     });
 
     it('clears the loading state and rethrows if the request fails', async () => {
       axios.post.mockRejectedValue(new Error('Request failed'));
       await expect(
-        actions.fetchFilteredConversations({ commit }, dataToSend)
+        actions.fetchFilteredConversations(
+          {
+            commit,
+            dispatch,
+            state: {
+              appliedFiltersSortBy: null,
+              chatSortFilter: 'last_activity_at_desc',
+            },
+          },
+          dataToSend
+        )
       ).rejects.toThrow('Request failed');
       expect(commit.mock.calls).toEqual([
         ['SET_LIST_LOADING_STATUS'],
@@ -621,9 +814,7 @@ describe('#deleteMessage', () => {
       });
       await actions.deleteConversation({ commit, dispatch }, 1);
       expect(commit.mock.calls).toEqual([[types.DELETE_CONVERSATION, 1]]);
-      expect(dispatch.mock.calls).toEqual([
-        ['conversationStats/get', {}, { root: true }],
-      ]);
+      expect(dispatch.mock.calls).toEqual([['conversationStats/get']]);
     });
 
     it('send no actions if API is error', async () => {
@@ -852,7 +1043,6 @@ describe('#addMentions', () => {
 
       expect(localCommit.mock.calls).toEqual([
         [types.SET_CURRENT_CHAT_WINDOW, data],
-        [types.CLEAR_ALL_MESSAGES_LOADED, 42],
       ]);
       expect(localDispatch).not.toHaveBeenCalled();
     });

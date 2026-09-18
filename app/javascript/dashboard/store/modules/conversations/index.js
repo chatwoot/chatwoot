@@ -17,6 +17,7 @@ const state = {
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],
+  appliedFiltersSortBy: null,
   contextMenuChatId: null,
   conversationParticipants: [],
   conversationLastSeen: null,
@@ -110,7 +111,13 @@ export const mutations = {
   [types.SET_PREVIOUS_CONVERSATIONS](_state, { id, data }) {
     if (data.length) {
       const [chat] = _state.allConversations.filter(c => c.id === id);
-      chat.messages.unshift(...data);
+      const messageIds = new Set(chat.messages.map(message => message.id));
+      const newMessages = data.filter(message => {
+        if (messageIds.has(message.id)) return false;
+        messageIds.add(message.id);
+        return true;
+      });
+      chat.messages.unshift(...newMessages);
     }
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
@@ -376,8 +383,13 @@ export const mutations = {
     _state.appliedFilters = data;
   },
 
+  [types.SET_CONVERSATION_FILTERS_SORT](_state, sortBy) {
+    _state.appliedFiltersSortBy = sortBy;
+  },
+
   [types.CLEAR_CONVERSATION_FILTERS](_state) {
     _state.appliedFilters = [];
+    _state.appliedFiltersSortBy = null;
   },
 
   [types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION](

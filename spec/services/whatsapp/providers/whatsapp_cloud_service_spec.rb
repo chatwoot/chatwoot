@@ -26,9 +26,12 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
   let(:response_headers) { { 'Content-Type' => 'application/json' } }
   let(:whatsapp_response) { { messages: [{ id: 'message_id' }] } }
+  let(:media_upload_url) { 'https://graph.facebook.com/v22.0/123456789/media' }
 
   before do
     stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
+    stub_request(:post, media_upload_url)
+      .to_return(status: 200, body: { id: 'uploaded_media_id' }.to_json, headers: response_headers)
   end
 
   describe '#send_message' do
@@ -45,6 +48,24 @@ describe Whatsapp::Providers::WhatsappCloudService do
             }.to_json
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+
+      it 'preserves HTML-like content in normal message requests' do
+        message.update!(content: "<a>\n<b></b></a>asdf")
+
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: {
+              messaging_product: 'whatsapp',
+              context: nil,
+              to: '+123456789',
+              text: { body: message.content },
+              type: 'text'
+            }.to_json
+          )
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
         expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
 
@@ -68,6 +89,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
       it 'calls message endpoints for image attachment message messages' do
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
         attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment.save!
 
         stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
           .with(
@@ -75,7 +97,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                    messaging_product: 'whatsapp',
                                    to: '+123456789',
                                    type: 'image',
-                                   image: WebMock::API.hash_including({ caption: message.content, link: anything })
+                                   image: WebMock::API.hash_including({ caption: message.content, id: 'uploaded_media_id' })
                                  })
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
@@ -85,6 +107,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
       it 'calls message endpoints for document attachment message messages' do
         attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
         attachment.file.attach(io: Rails.root.join('spec/assets/sample.pdf').open, filename: 'sample.pdf', content_type: 'application/pdf')
+        attachment.save!
 
         # ref: https://github.com/bblimke/webmock/issues/900
         # reason for Webmock::API.hash_including
@@ -94,7 +117,8 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                    messaging_product: 'whatsapp',
                                    to: '+123456789',
                                    type: 'document',
-                                   document: WebMock::API.hash_including({ filename: 'sample.pdf', caption: message.content, link: anything })
+                                   document: WebMock::API.hash_including({ filename: 'sample.pdf', caption: message.content,
+                                                                           id: 'uploaded_media_id' })
                                  })
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
@@ -104,6 +128,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
       it 'calls message endpoints for audio voice message with voice flag' do
         attachment = message.attachments.new(account_id: message.account_id, file_type: :audio, meta: { 'is_voice_message' => true })
         attachment.file.attach(io: Rails.root.join('spec/assets/sample.ogg').open, filename: 'voice.ogg', content_type: 'audio/ogg')
+        attachment.save!
 
         stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
           .with(
@@ -111,7 +136,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                    messaging_product: 'whatsapp',
                                    to: '+123456789',
                                    type: 'audio',
-                                   audio: WebMock::API.hash_including({ link: anything, voice: true })
+                                   audio: WebMock::API.hash_including({ id: 'uploaded_media_id', voice: true })
                                  })
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
@@ -121,6 +146,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
       it 'calls message endpoints for regular audio attachment without voice flag' do
         attachment = message.attachments.new(account_id: message.account_id, file_type: :audio)
         attachment.file.attach(io: Rails.root.join('spec/assets/sample.ogg').open, filename: 'audio.ogg', content_type: 'audio/ogg')
+        attachment.save!
 
         stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
           .with(
@@ -134,6 +160,21 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
         result = service.send_message('+123456789', message)
         expect(result).to eq 'message_id'
+      end
+    end
+
+    context 'when the media upload fails' do
+      it 'falls back to sending the download url' do
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment.save!
+
+        stub_request(:post, media_upload_url).to_return(status: 429, body: {}.to_json, headers: response_headers)
+        stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
+          .with(body: hash_including({ image: WebMock::API.hash_including({ link: anything }) }))
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
     end
   end
@@ -167,14 +208,62 @@ describe Whatsapp::Providers::WhatsappCloudService do
         expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
 
-      it 'calls message endpoints with list payload when number of items is greater than 3' do
-        items = %w[Burito Pasta Sushi Salad].map { |i| { title: i, value: i } }
+      it 'calls message endpoints with list payload when descriptions are present' do
+        items = [
+          { title: 'Burito', value: 'Burito', description: 'A tortilla wrap with fillings' },
+          { title: 'Pasta', value: 'Pasta', description: 'An Italian noodle dish' },
+          { title: 'Sushi', value: 'Sushi', description: 'Rice and seafood rolls' }
+        ]
         message = create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox,
                                    content_type: 'input_select', content_attributes: { items: items })
 
         expected_action = {
           button: I18n.t('conversations.messages.whatsapp.list_button_label'),
-          sections: [{ rows: %w[Burito Pasta Sushi Salad].map { |i| { id: i, title: i } } }]
+          sections: [
+            {
+              rows: items.map do |item|
+                { id: item[:value], title: item[:title], description: item[:description] }
+              end
+            }
+          ]
+        }.to_json
+
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: {
+              messaging_product: 'whatsapp', to: '+123456789',
+              interactive: {
+                type: 'list',
+                body: {
+                  text: 'test'
+                },
+                action: expected_action
+              },
+              type: 'interactive'
+            }.to_json
+          ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+
+      it 'calls message endpoints with list payload when number of items is greater than 3' do
+        items = [
+          { title: 'Burito', value: 'Burito', description: 'A tortilla wrap with fillings' },
+          { title: 'Pasta', value: 'Pasta', description: 'An Italian noodle dish' },
+          { title: 'Sushi', value: 'Sushi', description: 'Rice and seafood rolls' },
+          { title: 'Salad', value: 'Salad', description: 'Fresh mixed vegetables' }
+        ]
+        message = create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox,
+                                   content_type: 'input_select', content_attributes: { items: items })
+
+        expected_action = {
+          button: I18n.t('conversations.messages.whatsapp.list_button_label'),
+          sections: [
+            {
+              rows: items.map do |item|
+                { id: item[:value], title: item[:title], description: item[:description] }
+              end
+            }
+          ]
         }.to_json
 
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
@@ -298,6 +387,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
     it 'sends an attachment via the recipient field instead of to' do
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
       attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      attachment.save!
 
       stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
         .with(body: hash_including({ messaging_product: 'whatsapp', recipient_type: 'individual', recipient: bsuid, type: 'image' }))
