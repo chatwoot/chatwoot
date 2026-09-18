@@ -547,24 +547,9 @@ export default {
           :to="buildConversationPath(olderConversation.id)"
         />
         <ReferralBubble v-if="referralData" :referral="referralData" />
-        <li
-          v-if="
-            hasMoreCampaignHistory ||
-            campaignHistoryError ||
-            isCampaignHistoryLoading
-          "
-          class="flex flex-col items-center gap-2 py-3 text-sm text-n-slate-11"
-        >
-          <span v-if="campaignHistoryError">{{
-            $t('CAMPAIGN.HISTORY.ERROR')
-          }}</span>
+        <li v-if="hasMoreCampaignHistory" class="flex justify-center py-3">
           <NextButton
-            :label="
-              campaignHistoryError
-                ? $t('CAMPAIGN.HISTORY.RETRY')
-                : $t('CAMPAIGN.HISTORY.LOAD_MORE')
-            "
-            :is-loading="isCampaignHistoryLoading"
+            :label="$t('CAMPAIGN.HISTORY.LOAD_MORE')"
             :disabled="isCampaignHistoryLoading"
             sm
             ghost

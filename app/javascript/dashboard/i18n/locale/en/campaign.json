@@ -349,9 +349,7 @@
     },
     "HISTORY": {
       "LABEL": "Campaign",
-      "LOAD_MORE": "Load earlier campaigns",
-      "ERROR": "Campaign history could not be loaded.",
-      "RETRY": "Try again"
+      "LOAD_MORE": "Load earlier campaigns"
     },
     "CONFIRM_DELETE": {
       "TITLE": "Are you sure to delete?",

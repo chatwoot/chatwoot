@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Nije dostupno",
     "EMAIL_ADDRESS": "E-mail adresa",
     "PHONE_NUMBER": "Broj telefona",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifikator",
     "COPY_SUCCESSFUL": "Uspešno kopirano na beležnicu",
     "COMPANY": "Firma",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

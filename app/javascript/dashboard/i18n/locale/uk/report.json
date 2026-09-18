@@ -23,12 +23,14 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Час очікування клієнта",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Час очікування становить {metricValue} (на основі відповідей {conversationCount})",
         "DESC": ""
       }
@@ -544,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Огляд",
     "LIVE": "Онлайн",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Відкрити розмову",
       "LOADING_MESSAGE": "Завантаження метрик розмови...",

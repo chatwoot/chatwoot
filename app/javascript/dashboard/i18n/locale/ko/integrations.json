@@ -135,7 +135,23 @@
       "HELP_TEXT": {
         "TITLE": "Slack 연동 사용 방법",
         "BODY": "이 연동을 통해 모든 수신 대화가 Slack 워크스페이스의 ***{selectedChannelName}*** 채널에 동기화됩니다. 채널 내에서 바로 모든 고객 대화를 관리할 수 있으며 메시지를 놓치지 않습니다.\n\n이 연동의 주요 기능은 다음과 같습니다:\n\n**Slack 내에서 대화에 응답하기:** ***{selectedChannelName}*** Slack 채널에서 대화에 응답하려면 메시지를 입력하고 스레드로 전송하십시오. 이렇게 하면 Chatwoot을 통해 고객에게 응답이 생성됩니다. 매우 간단합니다!\n\n **비공개 메모 작성:** 답장 대신 비공개 메모를 작성하려면 메시지를 ***`note:`***로 시작하십시오. 이렇게 하면 메시지가 비공개로 유지되며 고객에게 표시되지 않습니다.\n\n**상담원 프로필 연결:** Slack에서 답장한 사람이 동일한 이메일로 Chatwoot에 상담원 프로필을 가지고 있는 경우, 답장이 자동으로 해당 상담원 프로필과 연결됩니다. 이를 통해 누가 언제 무엇을 말했는지 쉽게 추적할 수 있습니다. 반면 답장한 사람에게 연결된 상담원 프로필이 없는 경우, 고객에게는 봇 프로필에서 보낸 것으로 표시됩니다.",
+        "BODY_ALERT": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace, so your team can pick them up as soon as they come in.\n\nThis integration is set to **Alerts only**, which means the Slack thread is a safe space for internal discussion. Anything your team posts there stays in Slack and is never sent to the customer.\n\n**Respond to the customer from Chatwoot:** Open the conversation from the link shared in the thread and reply from the Chatwoot dashboard. Replies and private notes added in Chatwoot keep appearing in the Slack thread, so everyone stays in the loop.",
         "SELECTED": "선택됨"
+      },
+      "MESSAGE_MODE": {
+        "TITLE": "Slack thread behaviour",
+        "DESCRIPTION": "Decide whether replies in the Slack thread reach the customer or stay internal.",
+        "OPTIONS": {
+          "TWO_WAY": {
+            "LABEL": "Two-way sync",
+            "DESCRIPTION": "Replies in the Slack thread are sent to the customer. Start a message with `note:` to keep it internal."
+          },
+          "ALERT": {
+            "LABEL": "Alerts only",
+            "DESCRIPTION": "Conversations are posted to Slack for internal discussion only. Nothing in the thread reaches the customer."
+          }
+        },
+        "UPDATE_SUCCESS": "The Slack thread behaviour is updated successfully"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "채널 선택",
@@ -423,27 +439,30 @@
       "METRICS": {
         "HANDLED": {
           "LABEL": "Conversations handled",
-          "HINT": "Distinct conversations this assistant replied in."
+          "HINT": "Conversations where Captain replied to the customer or handed the conversation to your team."
         },
         "AUTO_RESOLUTION": {
           "LABEL": "Auto-resolution rate",
-          "HINT": "Share of handled conversations closed without a human reply."
+          "HINT": "The share of handled conversations Captain resolved without help from your team. Higher means Captain resolved more on its own."
         },
         "HANDOFF": {
           "LABEL": "Handoff rate",
-          "HINT": "Share of handled conversations escalated to a human agent."
+          "HINT": "The share of handled conversations Captain passed to your team. Lower means fewer conversations needed an agent."
         },
         "HOURS_SAVED": {
           "LABEL": "Time saved",
-          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+          "HINT": "An estimate of how much agent reply time Captain saved.",
+          "NOTE": "Based on two minutes saved for each public Captain reply."
         },
         "REOPEN": {
           "LABEL": "Reopen rate",
-          "HINT": "Auto-resolved conversations that were reopened afterwards."
+          "HINT": "The share of Captain-resolved conversations that customers returned to later.",
+          "NOTE": "Lower means more resolutions stayed resolved."
         },
         "DEPTH": {
           "LABEL": "Messages / conversation",
-          "HINT": "Average replies the assistant sends per conversation."
+          "HINT": "The average number of replies Captain sent in each conversation it handled.",
+          "NOTE": "A lower number can mean quicker answers, but complex questions may need more replies."
         }
       },
       "DRILLDOWN": {
@@ -471,6 +490,95 @@
         "BILLING": {
           "TITLE": "청구",
           "DESCRIPTION": "Manage credits and plan"
+        }
+      },
+      "V2": {
+        "EMPTY": "No data available for this period.",
+        "SUMMARY": {
+          "GREETING": "Hello, {name}!",
+          "DEFAULT_NAME": "there",
+          "EMPTY": "Captain's performance summary will appear here when enough activity is available.",
+          "PREVIOUS": "Previous summary point",
+          "NEXT": "Next summary point"
+        },
+        "UNITS": {
+          "DAYS": "{value}d",
+          "HOURS": "{value}h",
+          "MINUTES": "{value} min"
+        },
+        "METRICS": {
+          "TIME_SAVED": {
+            "LABEL": "Saved in agent effort and time"
+          },
+          "DURABLE": {
+            "LABEL": "Captain resolutions remained closed",
+            "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
+            "NOTE": "Only resolutions old enough to observe for seven days are included."
+          },
+          "MEDIAN_RESOLUTION": {
+            "LABEL": "Median resolution time",
+            "HINT": "The typical time from when a conversation reached Captain until it was resolved.",
+            "NOTE": "Lower means customers generally got resolved sooner."
+          },
+          "DEPTH": {
+            "LABEL": "Messages per conversation"
+          },
+          "OF_TOTAL": "of {total}"
+        },
+        "RESOLUTION_FLOW": {
+          "ARIA_LABEL": "Flow of handled conversations through Captain and team outcomes",
+          "NODES": {
+            "HANDLED": "Handled",
+            "RESOLVED_BY_CAPTAIN": "Resolved by Captain",
+            "HANDED_OFF": "Handed off",
+            "CLOSED_WITH_TEAM": "Closed with team",
+            "REOPENED": "Reopened in 7d",
+            "STAYED_CLOSED": "Stayed closed",
+            "OTHER_REASONS": "Other reasons"
+          }
+        },
+        "HANDOFF_REASONS": {
+          "TITLE": "Handoff reasons",
+          "CUSTOMER_REQUEST": "Customer requested",
+          "MISSING_KNOWLEDGE": "Missing knowledge",
+          "UNSUPPORTED_REQUEST": "Unsupported request",
+          "POLICY_RESTRICTION": "Policy restriction",
+          "TOOL_FAILURE": "Tool failure",
+          "PENDING_CLARIFICATION": "Pending customer clarification",
+          "PERCENTAGE": "({value}%)",
+          "USAGE_LIMIT": "Usage limit",
+          "UNCLASSIFIED": "Unclassified"
+        },
+        "RESOLUTION_TREND": {
+          "TITLE": "Resolution trend",
+          "CONVERSATION_COUNT": "Conversation count",
+          "RESOLUTION_RATE": "Resolution rate",
+          "CURRENT_PERIOD": "Current period",
+          "PREVIOUS_PERIOD": "이전 기간",
+          "HANDLED": "Handled",
+          "RESOLVED": "Resolved by Captain",
+          "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period",
+          "RATE_ARIA_LABEL": "Current and previous Captain resolution rates"
+        },
+        "CSAT": {
+          "TITLE": "Captain CSAT",
+          "AUTONOMOUS": "Captain-resolved conversations",
+          "AUTONOMOUS_HINT": "The average customer rating for conversations Captain resolved without help from your team.",
+          "ASSISTED": "Captain-assisted conversations",
+          "ASSISTED_HINT": "The average customer rating when Captain helped before your team resolved the conversation.",
+          "VS_HUMANS": "{value} vs humans"
+        },
+        "USAGE": {
+          "TITLE": "Usage",
+          "CREDITS": "크레딧",
+          "DOCUMENTS": "문서",
+          "USED": "({percentage}% used)",
+          "VALUE": "{used}/{total}",
+          "REFRESH": "Refresh usage",
+          "BUY_MORE": "크레딧 추가 구매"
+        },
+        "KNOWLEDGE": {
+          "REVIEW": "Review FAQs"
         }
       }
     },
@@ -598,6 +706,37 @@
           "LABEL": "해결 메시지",
           "PLACEHOLDER": "해결 메시지를 입력하십시오"
         },
+        "INACTIVITY_RESOLUTION": {
+          "TITLE": "When customers stop replying",
+          "DESCRIPTION": "Choose how Captain handles the conversation.",
+          "MODE_LABEL": "Action when the customer stops replying",
+          "REVIEW_AFTER": "Review after",
+          "RESOLVE_AFTER": "Resolve after",
+          "ALWAYS_WARNING": "Captain will resolve every conversation after the selected time without reviewing it. Some conversations that still need help may be closed.",
+          "PENDING_INFO": "The conversation remains pending until the customer replies.",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Send a message when resolving",
+            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation."
+          },
+          "MODES": {
+            "DISABLED": {
+              "LABEL": "Wait for the customer",
+              "DESCRIPTION": "Captain does not resolve the conversation. Captain can still hand it off if the customer asks."
+            },
+            "LEGACY": {
+              "LABEL": "Always resolve",
+              "DESCRIPTION": "Captain resolves every conversation after the selected time."
+            },
+            "EVALUATED": {
+              "LABEL": "Let Captain review it (recommended)",
+              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
+            }
+          },
+          "DURATION_HOURS_ARIA_LABEL": "Hours before action",
+          "DURATION_MINUTES_ARIA_LABEL": "Minutes before action",
+          "DURATION_HOURS_SHORT": "{count} h",
+          "DURATION_MINUTES_SHORT": "{count} min"
+        },
         "INSTRUCTIONS": {
           "LABEL": "지침",
           "PLACEHOLDER": "어시스턴트에 대한 지침을 입력하십시오"
@@ -608,6 +747,48 @@
           "ALLOW_MEMORIES": "고객 상호작용에서 주요 세부 정보를 기억으로 캡처합니다.",
           "ALLOW_CITATIONS": "응답에 출처 인용을 포함합니다",
           "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+        },
+        "AUDIENCE": {
+          "EVERYONE": {
+            "LABEL": "Everyone",
+            "DESC": "Captain responds to every conversation in connected inboxes."
+          },
+          "SPECIFIC": {
+            "LABEL": "Specific audience",
+            "DESC": "Captain responds only to customers who match the conditions below."
+          },
+          "ADD_CONDITION": "Add condition",
+          "ADD_GROUP": "Add condition group",
+          "EMPTY_TITLE": "No conditions yet",
+          "EMPTY_BODY": "Add a condition to target specific customers, or a condition group to combine conditions with different and/or logic.",
+          "EMPTY_ERROR": "Add at least one condition for a specific audience.",
+          "MATCH_PREFIX": "Match",
+          "MATCH_SUFFIX": "of the following",
+          "MATCH_ALL": "전체",
+          "MATCH_ANY": "any",
+          "GROUP_CONTACT": "Contact attributes",
+          "GROUP_CONVERSATION": "대화",
+          "GROUP_CUSTOM": "사용자 정의 속성",
+          "BROWSER_LANGUAGE": "브라우저 언어",
+          "CONVERSATION_LANGUAGE": "First message language",
+          "LOGGED_IN": "Logged-in user",
+          "LOGGED_IN_TRUE": "예",
+          "LOGGED_IN_FALSE": "아니오"
+        },
+        "SCHEDULE": {
+          "ALWAYS": {
+            "LABEL": "Anytime",
+            "DESC": "Captain responds to every conversation, regardless of time."
+          },
+          "BUSINESS_HOURS": {
+            "LABEL": "During business hours",
+            "DESC": "Captain responds only within each inbox's business hours."
+          },
+          "OUTSIDE_BUSINESS_HOURS": {
+            "LABEL": "Outside business hours",
+            "DESC": "Captain responds only when each inbox is closed."
+          },
+          "HINT": "Inboxes without business hours configured are always covered."
         }
       },
       "EDIT": {
@@ -624,7 +805,16 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "시스템 설정",
-          "DESCRIPTION": "대화를 종료하거나 상담원에게 전환할 때 어시스턴트가 표시하는 메시지를 맞춤 설정합니다."
+          "DESCRIPTION": "대화를 종료하거나 상담원에게 전환할 때 어시스턴트가 표시하는 메시지를 맞춤 설정합니다.",
+          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set the handoff message."
+        },
+        "AUDIENCE": {
+          "TITLE": "대상",
+          "DESCRIPTION": "Choose whether this assistant responds to everyone or only to a specific audience."
+        },
+        "SCHEDULE": {
+          "TITLE": "Schedule",
+          "DESCRIPTION": "Choose when Captain replies. Outside this window, conversations are handed to your team."
         },
         "CONTROL_ITEMS": {
           "TITLE": "고급 설정",
@@ -793,6 +983,11 @@
           "CANCEL": "취소",
           "UPDATE": "변경 사항 업데이트"
         },
+        "STATUS": {
+          "ENABLED": "사용함",
+          "DISABLED": "사용 안 함",
+          "TOGGLE": "Toggle {title}"
+        },
         "LIST": {
           "SEARCH_PLACEHOLDER": "검색..."
         },
@@ -807,6 +1002,11 @@
             "SUCCESS": "시나리오가 성공적으로 업데이트되었습니다",
             "ERROR": "시나리오를 업데이트하는 중 오류가 발생했습니다. 다시 시도하십시오."
           },
+          "TOGGLE": {
+            "ENABLED": "Scenario enabled successfully",
+            "DISABLED": "Scenario disabled successfully",
+            "ERROR": "There was an error updating the scenario status, please try again."
+          },
           "DELETE": {
             "SUCCESS": "시나리오가 성공적으로 삭제되었습니다",
             "ERROR": "시나리오를 삭제하는 중 오류가 발생했습니다. 다시 시도하십시오."
@@ -818,6 +1018,8 @@
       "HEADER": "문서",
       "ADD_NEW": "새 문서 만들기",
       "FAQ_COUNT": "{n} FAQ | {n} FAQs",
+      "USED_IN_CONVERSATIONS": "Used in {n} conversation | Used in {n} conversations",
+      "NO_USED_CONVERSATIONS": "No conversations found for this document.",
       "SELECTED": "{count}개 선택됨",
       "SELECT_ALL": "전체 선택 ({count})",
       "UNSELECT_ALL": "전체 선택 해제 ({count})",
@@ -855,7 +1057,8 @@
         },
         "SORT": {
           "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created"
+          "RECENTLY_CREATED": "Recently created",
+          "MOST_USED": "Most used in conversations"
         },
         "SEARCH_PLACEHOLDER": "검색..."
       },
@@ -883,6 +1086,7 @@
         "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
         "SOURCE": "Source",
         "GENERATED_FAQS": "Generated FAQs",
+        "USED_IN_CONVERSATIONS": "Used in conversations",
         "LAST_UPDATED": "Last updated",
         "NOT_AVAILABLE": "사용 불가",
         "CONTENT_TAB": "Crawled content",
@@ -969,6 +1173,22 @@
       "OPTIONS": {
         "EDIT_TOOL": "도구 수정",
         "DELETE_TOOL": "도구 삭제"
+      },
+      "STATUS": {
+        "ENABLED": "사용함",
+        "DISABLED": "사용 안 함",
+        "TOGGLE": "Toggle {title}"
+      },
+      "TOGGLE": {
+        "ENABLED": "Tool enabled successfully",
+        "DISABLED": "Tool disabled successfully",
+        "ERROR": "Failed to update tool status"
+      },
+      "DISABLE_CONFIRMATION": {
+        "TITLE": "Disable {title}?",
+        "DESCRIPTION_ONE": "This tool is used by {count} enabled scenario. Disabling it may cause that scenario to stop working as expected.",
+        "DESCRIPTION_OTHER": "This tool is used by {count} enabled scenarios. Disabling it may cause those scenarios to stop working as expected.",
+        "CONFIRM": "Disable tool"
       },
       "CREATE": {
         "TITLE": "사용자 정의 도구 만들기",
@@ -1085,6 +1305,7 @@
     "RESPONSES": {
       "HEADER": "FAQ",
       "ADD_NEW": "새 FAQ 만들기",
+      "NO_USED_CONVERSATIONS": "No conversations found for this FAQ.",
       "DOCUMENTABLE": {
         "CONVERSATION": "대화 #{id}"
       },

@@ -210,16 +210,8 @@ const templatePayload = computed(() => {
   };
 });
 
-const isInboxChanged = computed(
-  () => isEditMode.value && state.inboxId !== savedState.value.inboxId
-);
-
 const sectionPayloads = {
-  basic: () => ({
-    title: state.title,
-    inbox_id: state.inboxId,
-    ...(isInboxChanged.value ? templatePayload.value : {}),
-  }),
+  basic: () => ({ title: state.title, inbox_id: state.inboxId }),
   audience: () => ({ audience: audiencePayload.value }),
   template: () => templatePayload.value,
 };
@@ -243,6 +235,10 @@ const scheduleButtonLabel = computed(() => {
 
 const isScheduleDirty = computed(
   () => state.scheduledAt !== savedState.value.scheduledAt
+);
+
+const isScheduleInPast = computed(
+  () => state.scheduledAt < toDateTimeInput(Date.now() / 1000)
 );
 
 onActivated(() => {
@@ -275,11 +271,9 @@ const handleUpdate = async payload => {
 // A campaign that does not exist yet has nothing to persist, so saving a
 // section only confirms its values until the campaign is scheduled.
 const handleSectionSave = async section => {
-  const savedTemplateToo = section === 'basic' && isInboxChanged.value;
   if (isEditMode.value && !(await handleUpdate(sectionPayloads[section]())))
     return;
   commitSection(section);
-  if (savedTemplateToo) commitSection('template');
 };
 
 const handleCreate = async scheduledAt => {
@@ -357,7 +351,7 @@ const handleReschedule = async () => {
             :label="t('CAMPAIGN.WHATSAPP.FORM.RESCHEDULE')"
             :is-loading="uiFlags.isUpdating"
             :disabled="
-              !isScheduleDirty || !state.scheduledAt || uiFlags.isUpdating
+              !isScheduleDirty || isScheduleInPast || uiFlags.isUpdating
             "
             @click="handleReschedule"
           />
@@ -373,11 +367,7 @@ const handleReschedule = async () => {
           :title="t('CAMPAIGN.WHATSAPP.FORM.BASIC_SETTINGS.TITLE')"
           :is-dirty="isSectionDirty('basic')"
           :is-saving="uiFlags.isUpdating"
-          :is-save-disabled="
-            !state.title ||
-            !state.inboxId ||
-            (isInboxChanged && !isTemplateComplete)
-          "
+          :is-save-disabled="!state.title || !state.inboxId"
           @discard="handleDiscard('basic')"
           @save="handleSectionSave('basic')"
         >
@@ -385,6 +375,7 @@ const handleReschedule = async () => {
             v-model:title="state.title"
             v-model:inbox-id="state.inboxId"
             :inboxes="whatsAppInboxes"
+            :is-inbox-disabled="isEditMode"
           />
         </SectionCard>
 

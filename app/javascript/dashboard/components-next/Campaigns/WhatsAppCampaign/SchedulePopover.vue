@@ -89,7 +89,7 @@ const handleConfirm = () => {
             class="w-full"
             :label="confirmLabel"
             :is-loading="isLoading"
-            :disabled="isLoading || !scheduledAt"
+            :disabled="isLoading || scheduledAt < minDateTime"
             @click="handleConfirm"
           />
         </div>

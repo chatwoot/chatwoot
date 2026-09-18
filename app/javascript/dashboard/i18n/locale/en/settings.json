@@ -579,6 +579,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "Billing",
     "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {

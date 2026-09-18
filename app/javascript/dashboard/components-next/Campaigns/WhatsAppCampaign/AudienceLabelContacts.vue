@@ -24,6 +24,7 @@ const props = defineProps({
 
 const CONTACTS_PER_PAGE = 15;
 const PREVIEW_COUNT = 6;
+const SEARCH_FIELDS = ['name', 'email', 'phone_number'];
 
 const { t } = useI18n();
 
@@ -39,17 +40,32 @@ const { run: runContactsRequest, isPending: isFetching } =
 
 const previewContacts = computed(() => contacts.value.slice(0, PREVIEW_COUNT));
 
+// The filter API joins conditions without brackets, so the label is repeated
+// per field: (label AND name) OR (label AND email) OR (label AND phone).
+const searchPayload = computed(() => ({
+  payload: SEARCH_FIELDS.flatMap((field, index) => [
+    {
+      attribute_key: 'labels',
+      filter_operator: 'equal_to',
+      values: [props.label.title],
+      query_operator: 'and',
+    },
+    {
+      attribute_key: field,
+      filter_operator: 'contains',
+      values: [searchQuery.value],
+      query_operator: index < SEARCH_FIELDS.length - 1 ? 'or' : undefined,
+    },
+  ]),
+}));
+
 const fetchContacts = async () => {
   try {
     const response = await runContactsRequest(signal =>
       searchQuery.value
-        ? ContactAPI.search(
-            searchQuery.value,
-            currentPage.value,
-            'name',
-            props.label.title,
-            { signal }
-          )
+        ? ContactAPI.filter(currentPage.value, 'name', searchPayload.value, {
+            signal,
+          })
         : ContactAPI.get(currentPage.value, 'name', props.label.title, {
             signal,
           })
