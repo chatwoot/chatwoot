@@ -191,6 +191,29 @@ RSpec.describe 'Device verification on sign-in', type: :request do
       redeem!(token, emailed_codes.last)
       expect(response).not_to have_http_status(:partial_content)
     end
+
+    context 'at the session limit' do
+      let(:browser_ua) { 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Safari/605.1.15' }
+
+      around { |example| with_modified_env('MAX_USER_SESSIONS' => '1') { example.run } }
+
+      before do
+        client_id = user.create_token.client
+        user.save!
+        user.user_sessions.create!(client_id: client_id, last_activity_at: Time.current)
+      end
+
+      it 'returns the 409 session picker instead of silently evicting' do
+        post new_user_session_url, params: sign_in_params, headers: { 'User-Agent' => browser_ua }, as: :json
+        token = issued_token
+        post new_user_session_url, params: { mfa_token: token, otp_code: emailed_codes.last },
+                                   headers: { 'User-Agent' => browser_ua }, as: :json
+
+        expect(response).to have_http_status(:conflict)
+        expect(response.parsed_body['sessions_limit_reached']).to be(true)
+        expect(response.headers['access-token']).to be_nil
+      end
+    end
   end
 
   describe 'trusted device skip' do
