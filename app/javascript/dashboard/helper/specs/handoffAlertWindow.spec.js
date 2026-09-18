@@ -21,6 +21,8 @@ vi.mock('../AudioAlerts/faviconHelper', () => ({
   initFaviconSwitcher: vi.fn(),
 }));
 
+const HANDOFF_ALERT_WINDOW_MS = 2500;
+
 describe('handoff event → conversation store → audible alert', () => {
   let store;
   let connector;
@@ -117,7 +119,7 @@ describe('handoff event → conversation store → audible alert', () => {
         note,
       ]);
       expect(play).not.toHaveBeenCalled();
-      vi.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
       expect(play).toHaveBeenCalledOnce();
       expect(showBadgeOnFavicon).toHaveBeenCalledOnce();
     }
@@ -135,7 +137,7 @@ describe('handoff event → conversation store → audible alert', () => {
       if (order === 'handoff first')
         connector.onReceived({ event: 'assignee.changed', data: assignment });
       expect(play).not.toHaveBeenCalled();
-      vi.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
       expect(play).toHaveBeenCalledOnce();
       expect(showBadgeOnFavicon).toHaveBeenCalledOnce();
     }
@@ -159,7 +161,7 @@ describe('handoff event → conversation store → audible alert', () => {
           performer: null,
         },
       });
-      vi.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
       expect(play).not.toHaveBeenCalled();
     }
   );
@@ -176,7 +178,7 @@ describe('handoff event → conversation store → audible alert', () => {
       },
     });
     connector.onReceived({ event: 'conversation.bot_handoff', data: handoff });
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
     expect(play).toHaveBeenCalledOnce();
   });
 
@@ -194,7 +196,7 @@ describe('handoff event → conversation store → audible alert', () => {
         event,
         data: { ...handoff, updated_at: 102 },
       });
-      vi.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
       expect(play).toHaveBeenCalledOnce();
     }
   );
@@ -214,7 +216,7 @@ describe('handoff event → conversation store → audible alert', () => {
         },
       },
     });
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
     expect(play).toHaveBeenCalledOnce();
   });
 
@@ -225,7 +227,7 @@ describe('handoff event → conversation store → audible alert', () => {
       event: 'conversation.status_changed',
       data: { ...handoff, updated_at: 102, meta: assignment.meta },
     });
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
     expect(play).not.toHaveBeenCalled();
   });
 
@@ -244,7 +246,7 @@ describe('handoff event → conversation store → audible alert', () => {
         },
       },
     });
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
     expect(play).toHaveBeenCalledOnce();
   });
 
@@ -256,27 +258,38 @@ describe('handoff event → conversation store → audible alert', () => {
       data: { ...handoff, status: 'resolved', updated_at: 102 },
     });
     connector.onReceived({ event: 'assignee.changed', data: assignment });
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
     expect(play).not.toHaveBeenCalled();
   });
 
   it('does not resurrect an expired handoff when assignment arrives late', () => {
     connector.onReceived({ event: 'conversation.bot_handoff', data: handoff });
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
     connector.onReceived({ event: 'assignee.changed', data: assignment });
     vi.advanceTimersByTime(5000);
     expect(play).not.toHaveBeenCalled();
     expect(connector.pendingHandoffAlerts.size).toBe(0);
   });
 
+  it('includes an assignment after two seconds and alerts at exactly 2.5 seconds', () => {
+    connector.onReceived({ event: 'conversation.bot_handoff', data: handoff });
+    vi.advanceTimersByTime(2200);
+    connector.onReceived({ event: 'assignee.changed', data: assignment });
+    vi.advanceTimersByTime(299);
+    expect(play).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(1);
+    expect(play).toHaveBeenCalledOnce();
+    expect(connector.pendingHandoffAlerts.size).toBe(0);
+  });
+
   it('coalesces duplicate handoffs without extending the deadline', () => {
     alerts.notificationConfig.audioAlertType = ['all'];
     connector.onReceived({ event: 'conversation.bot_handoff', data: handoff });
-    vi.advanceTimersByTime(1500);
+    vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS - 500);
     connector.onReceived({ event: 'conversation.bot_handoff', data: handoff });
     vi.advanceTimersByTime(500);
     expect(play).toHaveBeenCalledOnce();
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
     expect(play).toHaveBeenCalledOnce();
   });
 
@@ -292,7 +305,7 @@ describe('handoff event → conversation store → audible alert', () => {
         event: 'conversation.bot_handoff',
         data: handoff,
       });
-      vi.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
       expect(play).toHaveBeenCalledTimes(count);
     }
   );
@@ -301,7 +314,7 @@ describe('handoff event → conversation store → audible alert', () => {
     alerts.notificationConfig.audioAlertType = ['all'];
     connector.onReceived({ event: 'conversation.bot_handoff', data: handoff });
     store.state.currentAccountId = 2;
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
     expect(play).not.toHaveBeenCalled();
   });
 
@@ -310,7 +323,7 @@ describe('handoff event → conversation store → audible alert', () => {
     connector.onReceived({ event: 'conversation.bot_handoff', data: handoff });
     connector.disconnect();
     expect(connector.pendingHandoffAlerts.size).toBe(0);
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
     expect(play).not.toHaveBeenCalled();
   });
 
@@ -330,7 +343,7 @@ describe('handoff event → conversation store → audible alert', () => {
         },
       },
     });
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
     expect(play).not.toHaveBeenCalled();
   });
 
@@ -342,7 +355,7 @@ describe('handoff event → conversation store → audible alert', () => {
     assignment.assignment = { ...assignment.assignment, ...metadata };
     connector.onReceived({ event: 'assignee.changed', data: assignment });
     connector.onReceived({ event: 'conversation.bot_handoff', data: handoff });
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
     expect(play).not.toHaveBeenCalled();
   });
 
@@ -354,7 +367,7 @@ describe('handoff event → conversation store → audible alert', () => {
         event: 'conversation.bot_handoff',
         data: { ...handoff, performer: { type } },
       });
-      vi.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
       expect(play).toHaveBeenCalledOnce();
     }
   );
@@ -376,7 +389,7 @@ describe('handoff event → conversation store → audible alert', () => {
           store.state.selectedChatId = 12;
         }
       }
-      vi.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(HANDOFF_ALERT_WINDOW_MS);
       expect(play).not.toHaveBeenCalled();
     }
   );
