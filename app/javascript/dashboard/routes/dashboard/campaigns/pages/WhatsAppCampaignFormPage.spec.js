@@ -167,4 +167,17 @@ describe('WhatsAppCampaignFormPage', () => {
     expect(wrapper.vm.isTemplateComplete).toBe(true);
     wrapper.unmount();
   });
+  it('clears template values when selecting a different inbox for a new campaign', async () => {
+    mocks.route.params = {};
+    const wrapper = shallowMount(WhatsAppCampaignFormPage);
+    wrapper.vm.state.inboxId = 1;
+    await nextTick();
+    wrapper.vm.state.templateId = 'greeting:en';
+    wrapper.vm.state.processedParams = { body: { 1: 'Old value' } };
+    wrapper.vm.state.inboxId = 2;
+    await nextTick();
+    expect(wrapper.vm.state.templateId).toBeNull();
+    expect(wrapper.vm.state.processedParams).toEqual({});
+    wrapper.unmount();
+  });
 });
