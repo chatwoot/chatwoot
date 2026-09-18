@@ -18,10 +18,8 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-const variables = computed(() => ({
-  ...props.processedParams.header,
-  ...props.processedParams.body,
-}));
+const bodyVariables = computed(() => props.processedParams.body ?? {});
+const headerVariables = computed(() => props.processedParams.header ?? {});
 </script>
 
 <template>
@@ -34,7 +32,8 @@ const variables = computed(() => ({
     <template v-if="template">
       <TemplatePreview
         :template="template"
-        :variables="variables"
+        :variables="bodyVariables"
+        :header-variables="headerVariables"
         :platform="PLATFORMS.WHATSAPP"
         class="flex justify-center py-6"
       />

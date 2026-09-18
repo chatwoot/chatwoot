@@ -1,7 +1,7 @@
 <script setup>
 import { ref, unref, provide, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import {
   useMapGetter,
   useFunctionGetter,
@@ -36,6 +36,7 @@ import { emitter } from 'shared/helpers/mitt';
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterOptions from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
+import { parseRouteFilters } from 'dashboard/helper/validations';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
@@ -63,6 +64,7 @@ const emit = defineEmits(['conversationLoad']);
 const { uiSettings } = useUISettings();
 const { t } = useI18n();
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
 const { buildConversationListPath } = useConversationRoutePath();
 
@@ -424,6 +426,19 @@ function onApplyFilter(payload) {
     .dispatch('applyConversationFilters', { filters: payload })
     .catch(() => useAlert(t('CHAT_LIST.FETCH_ERROR')))
     .finally(emitConversationLoaded);
+}
+
+function applyRouteFilters() {
+  const { filters: serializedFilters, ...query } = route.query;
+  if (!serializedFilters) return false;
+
+  router.replace({ query });
+  const filters = parseRouteFilters(serializedFilters);
+  if (!filters) return false;
+
+  store.dispatch('setConversationFilters', filters);
+  onApplyFilter(filters);
+  return true;
 }
 
 function closeAdvanceFiltersModal() {
@@ -805,7 +820,7 @@ onMounted(() => {
   setFiltersFromUISettings();
   store.dispatch('setChatStatusFilter', activeStatus.value);
   store.dispatch('setChatSortFilter', activeSortBy.value);
-  resetAndFetchData();
+  if (!applyRouteFilters()) resetAndFetchData();
   if (hasActiveFolders.value) {
     store.dispatch('campaigns/get');
   }

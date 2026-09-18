@@ -65,8 +65,13 @@ const isActive = computed(() =>
   props.isLiveChatType ? props.isEnabled : props.status !== STATUS_COMPLETED
 );
 
+// A processing campaign is already sending, so edits cannot apply to the run.
 const isEditable = computed(
-  () => props.isLiveChatType || (props.showEdit && isActive.value)
+  () =>
+    props.isLiveChatType ||
+    (props.showEdit &&
+      props.status !== STATUS_COMPLETED &&
+      props.status !== STATUS_PROCESSING)
 );
 
 const statusTextColor = computed(() => ({
@@ -139,7 +144,7 @@ const inboxIcon = computed(() => {
         />
       </div>
     </div>
-    <div class="flex items-center justify-end w-28 gap-2">
+    <div class="flex items-center justify-end w-20 gap-2">
       <Button
         v-if="showAnalytics"
         v-tooltip.top="t('CAMPAIGN.WHATSAPP.CARD.ANALYTICS')"

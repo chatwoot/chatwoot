@@ -23,6 +23,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  headerVariables: {
+    type: Object,
+    default: null,
+  },
   platform: {
     type: String,
     required: true,
@@ -92,7 +96,7 @@ const processedTemplate = computed(() => {
   return {
     ...normalized,
     content: substituteVariables(content, props.variables),
-    title: substituteVariables(title, props.variables),
+    title: substituteVariables(title, props.headerVariables ?? props.variables),
     footer: substituteVariables(footer, props.variables),
     image_url: substituteVariables(imageUrl, props.variables),
     buttons,

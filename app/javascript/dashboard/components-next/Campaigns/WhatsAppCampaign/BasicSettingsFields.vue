@@ -10,6 +10,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  isInboxDisabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const title = defineModel('title', { type: String, default: '' });
@@ -40,6 +44,7 @@ const inboxOptions = computed(() =>
       id="campaign-inbox"
       v-model="inboxId"
       :options="inboxOptions"
+      :disabled="isInboxDisabled"
       :placeholder="
         t('CAMPAIGN.WHATSAPP.FORM.BASIC_SETTINGS.INBOX.PLACEHOLDER')
       "
