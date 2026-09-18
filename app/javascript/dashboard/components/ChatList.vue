@@ -1,7 +1,7 @@
 <script setup>
 import { ref, unref, provide, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import {
   useMapGetter,
   useFunctionGetter,
@@ -64,6 +64,7 @@ const emit = defineEmits(['conversationLoad']);
 const { uiSettings } = useUISettings();
 const { t } = useI18n();
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
 const { buildConversationListPath } = useConversationRoutePath();
 
