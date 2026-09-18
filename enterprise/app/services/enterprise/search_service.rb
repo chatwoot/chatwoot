@@ -28,7 +28,8 @@ module Enterprise::SearchService
     base_query.where(
       "messages.content ILIKE :search OR
        (messages.content_attributes #>> '{}')::jsonb #>> '{email,subject}' ILIKE :search OR
-       conversations.additional_attributes ->> 'mail_subject' ILIKE :search OR EXISTS (
+       (NULLIF(BTRIM((messages.content_attributes #>> '{}')::jsonb #>> '{email,subject}'), '') IS NULL AND
+        conversations.additional_attributes ->> 'mail_subject' ILIKE :search) OR EXISTS (
          SELECT 1 FROM attachments
          WHERE attachments.message_id = messages.id AND attachments.meta ->> 'transcribed_text' ILIKE :search
        )",

@@ -57,12 +57,22 @@ RSpec.describe Enterprise::SearchService do
     expect(search.perform[:messages].map(&:id)).to contain_exactly(assigned_message.id)
   end
 
-  it 'preserves email subject search for accessible conversations' do
+  it 'uses the conversation subject only when the message subject is blank' do
     assigned_message.update!(content: 'no content match', content_attributes: { email: { subject: 'restricted search term' } })
     restricted_message.update!(content: 'no content match', content_attributes: { email: { subject: 'restricted search term' } })
+    assigned_conversation.update!(additional_attributes: { mail_subject: 'restricted search term' })
+    fallback_message = create(:message, account: account, inbox: inbox, conversation: assigned_conversation, content: 'no content match')
+    create(
+      :message,
+      account: account,
+      inbox: inbox,
+      conversation: assigned_conversation,
+      content: 'no content match',
+      content_attributes: { email: { subject: 'different subject' } }
+    )
     account.enable_features!('advanced_search')
 
-    expect(search.perform[:messages].map(&:id)).to contain_exactly(assigned_message.id)
+    expect(search.perform[:messages].map(&:id)).to contain_exactly(assigned_message.id, fallback_message.id)
   end
 
   it 'preserves transcription search for accessible conversations' do
