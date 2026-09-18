@@ -1,4 +1,6 @@
 class Twilio::IncomingMessageService
+  E164_REGEX = /\A\+[1-9]\d{1,14}\z/
+
   include ::FileTypeHelper
   include ::Twilio::WhatsappIdentifierHelper
   include ::Twilio::ReferralParamsHelper
@@ -58,7 +60,7 @@ class Twilio::IncomingMessageService
   # payloads use `whatsapp:<BSUID>` in `From`, so this intentionally returns
   # nil when `From` is not phone-shaped.
   def phone_number
-    return params[:From] if twilio_channel.sms?
+    return params[:From] if twilio_channel.sms? && params[:From].to_s.match?(E164_REGEX)
     return unless twilio_whatsapp_phone_source?
 
     params[:From].gsub('whatsapp:', '')
