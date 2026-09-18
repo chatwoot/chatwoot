@@ -26,6 +26,18 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response).to have_http_status(:success)
     end
 
+    it 'renders author avatars with the help center host' do
+      file = Rails.root.join('spec/assets/avatar.png').open
+      agent.avatar.attach(io: file, filename: 'avatar.png', content_type: 'image/png')
+      file.close
+
+      get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}/articles"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('http://www.example.com/rails/active_storage')
+      expect(response.body).not_to include('http://localhost:3000/rails/active_storage')
+    end
+
     it 'Fetches only the published articles in the portal' do
       get "/hc/#{portal.slug}/#{category_2.locale}/categories/#{category.slug}/articles.json"
       expect(response).to have_http_status(:success)
@@ -126,6 +138,16 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include(ChatwootMarkdownRenderer.new(article.content).render_article)
       expect(article.reload.views).to eq 0 # View count should not increment on show
+    end
+
+    it 'renders active storage images in article content with the help center host' do
+      article.update!(content: '![image](http://localhost:3000/rails/active_storage/blobs/redirect/signed-id/image.png)')
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('http://www.example.com/rails/active_storage/blobs/redirect/signed-id/image.png')
+      expect(response.body).not_to include('http://localhost:3000/rails/active_storage')
     end
 
     it 'does not increment the view count if the article is not published' do
