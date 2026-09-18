@@ -1,6 +1,7 @@
 <script setup>
 import { h, ref, computed, onMounted, watch } from 'vue';
 import { provideSidebarContext, useSidebarResize } from './provider';
+import { useSidebarHoverPreview } from './useSidebarHoverPreview';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -141,11 +142,29 @@ const {
   snapToCollapsed,
   snapToExpanded,
   COLLAPSED_THRESHOLD,
+  DEFAULT_WIDTH,
 } = useSidebarResize();
+
+const sidebarRef = ref(null);
+const {
+  isHovered,
+  open: openHoverPreview,
+  close: closeHoverPreview,
+} = useSidebarHoverPreview(sidebarRef);
+
+// Hovering the collapsed rail shows the full sidebar over the page, so the
+// conversation list keeps its width until the agent pins the sidebar open.
+const isPreviewOpen = computed(
+  () => !isMobile.value && isCollapsed.value && isHovered.value
+);
 
 // On mobile, sidebar is always expanded (flyout mode)
 const isEffectivelyCollapsed = computed(
-  () => !isMobile.value && isCollapsed.value
+  () => !isMobile.value && isCollapsed.value && !isPreviewOpen.value
+);
+
+const sidebarPanelWidth = computed(() =>
+  isPreviewOpen.value ? DEFAULT_WIDTH : sidebarWidth.value
 );
 
 // Resize handle logic
@@ -168,7 +187,7 @@ const getClientX = event =>
 const onResizeStart = event => {
   isResizing.value = true;
   startX.value = getClientX(event);
-  startWidth.value = sidebarWidth.value;
+  startWidth.value = sidebarPanelWidth.value;
   Object.assign(document.body.style, {
     cursor: 'col-resize',
     userSelect: 'none',
@@ -200,9 +219,10 @@ const onResizeEnd = () => {
   }
 };
 
-const onResizeHandleDoubleClick = () => {
+const toggleCollapsed = () => {
   if (isCollapsed.value) snapToExpanded();
   else snapToCollapsed();
+  closeHoverPreview();
 };
 
 // Support both mouse and touch events
@@ -952,157 +972,189 @@ const menuItems = computed(() => {
 </script>
 
 <template>
-  <aside
-    v-on-click-outside="[
-      closeMobileSidebar,
-      {
-        ignore: [
-          '#mobile-sidebar-launcher',
-          '[data-popover-content]',
-          '[data-popover-backdrop]',
-        ],
-      },
-    ]"
-    class="bg-n-background flex flex-col text-sm pb-px fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[200px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-n-weak"
-    :class="[
-      {
-        'shadow-lg md:shadow-none': isMobileSidebarOpen,
-        'ltr:-translate-x-full rtl:translate-x-full': !isMobileSidebarOpen,
-        'transition-transform duration-200 ease-out md:transition-[width]':
-          !isResizing,
-      },
-    ]"
+  <div
+    class="md:relative md:flex-shrink-0"
+    :class="{
+      'transition-[width] duration-200 motion-reduce:transition-none':
+        !isResizing,
+    }"
     :style="isMobile ? undefined : { width: `${sidebarWidth}px` }"
   >
-    <section
-      class="grid"
-      :class="isEffectivelyCollapsed ? 'mt-3 mb-6 gap-4' : 'mt-1 mb-4 gap-2'"
+    <aside
+      ref="sidebarRef"
+      v-on-click-outside="[
+        closeMobileSidebar,
+        {
+          ignore: [
+            '#mobile-sidebar-launcher',
+            '[data-popover-content]',
+            '[data-popover-backdrop]',
+          ],
+        },
+      ]"
+      class="bg-n-background flex flex-col text-sm pb-px fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[200px] md:absolute md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-n-weak"
+      :class="[
+        {
+          'shadow-lg': isMobileSidebarOpen || isPreviewOpen,
+          'md:shadow-none': !isPreviewOpen,
+          'ltr:-translate-x-full rtl:translate-x-full': !isMobileSidebarOpen,
+          'transition-transform duration-200 ease-out md:transition-[width] motion-reduce:transition-none':
+            !isResizing,
+        },
+      ]"
+      :style="isMobile ? undefined : { width: `${sidebarPanelWidth}px` }"
+      @pointerenter="openHoverPreview"
     >
-      <div
-        class="flex gap-2 items-center min-w-0"
-        :class="{
-          'justify-center px-1': isEffectivelyCollapsed,
-          'px-2': !isEffectivelyCollapsed,
-        }"
-      >
-        <template v-if="isEffectivelyCollapsed">
-          <SidebarAccountSwitcher
-            is-collapsed
-            @show-create-account-modal="emit('showCreateAccountModal')"
-          />
-        </template>
-        <template v-else>
-          <div class="grid flex-shrink-0 place-content-center size-6">
-            <Logo class="size-4" />
-          </div>
-          <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
-          <SidebarAccountSwitcher
-            class="flex-grow -mx-1 min-w-0"
-            @show-create-account-modal="emit('showCreateAccountModal')"
-          />
-        </template>
+      <div class="hidden md:flex px-2 pt-2">
+        <Button
+          :icon="
+            isCollapsed
+              ? 'i-lucide-panel-left-open'
+              : 'i-lucide-panel-left-close'
+          "
+          :aria-label="
+            isCollapsed ? t('SIDEBAR.PIN_OPEN') : t('SIDEBAR.COLLAPSE')
+          "
+          :title="isCollapsed ? t('SIDEBAR.PIN_OPEN') : t('SIDEBAR.COLLAPSE')"
+          :aria-pressed="!isCollapsed"
+          ghost
+          slate
+          sm
+          @click="toggleCollapsed"
+        />
       </div>
-      <div
-        class="flex gap-2"
-        :class="isEffectivelyCollapsed ? 'flex-col items-center' : 'px-2'"
+      <section
+        class="grid"
+        :class="isEffectivelyCollapsed ? 'mt-3 mb-6 gap-4' : 'mt-1 mb-4 gap-2'"
       >
-        <RouterLink
-          v-if="!isEffectivelyCollapsed"
-          :to="{ name: 'search' }"
-          class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
+        <div
+          class="flex gap-2 items-center min-w-0"
+          :class="{
+            'justify-center px-1': isEffectivelyCollapsed,
+            'px-2': !isEffectivelyCollapsed,
+          }"
         >
-          <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-10" />
-          <span class="flex-grow text-start text-n-slate-10">
-            {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
-          </span>
-          <span
-            class="hidden tracking-wide pointer-events-none select-none text-n-slate-10"
-          >
-            {{ searchShortcut }}
-          </span>
-        </RouterLink>
-        <RouterLink
-          v-else
-          :to="{ name: 'search' }"
-          class="flex items-center justify-center size-8 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out hover:bg-n-alpha-2 dark:hover:bg-n-slate-9/30"
-          :title="t('COMBOBOX.SEARCH_PLACEHOLDER')"
-        >
-          <span class="i-lucide-search size-4 text-n-slate-11" />
-        </RouterLink>
-        <ComposeConversation align="start">
-          <template #trigger="{ isOpen }">
-            <Button
-              icon="i-lucide-pen-line"
-              color="slate"
-              size="sm"
-              class="dark:hover:!bg-n-slate-9/30"
-              :class="[
-                isEffectivelyCollapsed
-                  ? '!size-8 !outline-n-weak !text-n-slate-11'
-                  : '!h-7 !outline-n-weak !text-n-slate-11',
-                { '!bg-n-alpha-2 dark:!bg-n-slate-9/30': isOpen },
-              ]"
+          <template v-if="isEffectivelyCollapsed">
+            <SidebarAccountSwitcher
+              is-collapsed
+              @show-create-account-modal="emit('showCreateAccountModal')"
             />
           </template>
-        </ComposeConversation>
-      </div>
-    </section>
-    <nav
-      class="grid overflow-y-scroll flex-grow gap-2 pb-5 no-scrollbar min-w-0"
-      :class="isEffectivelyCollapsed ? 'px-1' : 'px-2'"
-    >
-      <ul
-        class="flex flex-col gap-1 m-0 list-none min-w-0"
-        :class="{ 'items-center': isEffectivelyCollapsed }"
+          <template v-else>
+            <div class="grid flex-shrink-0 place-content-center size-6">
+              <Logo class="size-4" />
+            </div>
+            <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
+            <SidebarAccountSwitcher
+              class="flex-grow -mx-1 min-w-0"
+              @show-create-account-modal="emit('showCreateAccountModal')"
+            />
+          </template>
+        </div>
+        <div
+          class="flex gap-2"
+          :class="isEffectivelyCollapsed ? 'flex-col items-center' : 'px-2'"
+        >
+          <RouterLink
+            v-if="!isEffectivelyCollapsed"
+            :to="{ name: 'search' }"
+            class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
+          >
+            <span
+              class="flex-shrink-0 i-lucide-search size-4 text-n-slate-10"
+            />
+            <span class="flex-grow text-start text-n-slate-10">
+              {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
+            </span>
+            <span
+              class="hidden tracking-wide pointer-events-none select-none text-n-slate-10"
+            >
+              {{ searchShortcut }}
+            </span>
+          </RouterLink>
+          <RouterLink
+            v-else
+            :to="{ name: 'search' }"
+            class="flex items-center justify-center size-8 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out hover:bg-n-alpha-2 dark:hover:bg-n-slate-9/30"
+            :title="t('COMBOBOX.SEARCH_PLACEHOLDER')"
+          >
+            <span class="i-lucide-search size-4 text-n-slate-11" />
+          </RouterLink>
+          <ComposeConversation align="start">
+            <template #trigger="{ isOpen }">
+              <Button
+                icon="i-lucide-pen-line"
+                color="slate"
+                size="sm"
+                class="dark:hover:!bg-n-slate-9/30"
+                :class="[
+                  isEffectivelyCollapsed
+                    ? '!size-8 !outline-n-weak !text-n-slate-11'
+                    : '!h-7 !outline-n-weak !text-n-slate-11',
+                  { '!bg-n-alpha-2 dark:!bg-n-slate-9/30': isOpen },
+                ]"
+              />
+            </template>
+          </ComposeConversation>
+        </div>
+      </section>
+      <nav
+        class="grid overflow-y-scroll flex-grow gap-2 pb-5 no-scrollbar min-w-0"
+        :class="isEffectivelyCollapsed ? 'px-1' : 'px-2'"
       >
-        <SidebarGroup
-          v-for="item in menuItems"
-          :key="item.name"
-          v-bind="item"
-        />
-      </ul>
-    </nav>
-    <section
-      class="flex relative flex-col flex-shrink-0 gap-1 justify-between items-center"
-    >
-      <div
-        class="pointer-events-none absolute inset-x-0 -top-[1.938rem] h-8 bg-gradient-to-t from-n-background to-transparent"
-      />
-      <SidebarChangelogCard
-        v-if="
-          isOnChatwootCloud &&
-          !isACustomBrandedInstance &&
-          !isEffectivelyCollapsed
-        "
-      />
-      <SidebarChangelogButton
-        v-if="
-          isOnChatwootCloud &&
-          !isACustomBrandedInstance &&
-          isEffectivelyCollapsed
-        "
-      />
-      <div
-        class="px-1 py-1.5 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
-        :class="isEffectivelyCollapsed ? 'justify-center' : 'justify-between'"
+        <ul
+          class="flex flex-col gap-1 m-0 list-none min-w-0"
+          :class="{ 'items-center': isEffectivelyCollapsed }"
+        >
+          <SidebarGroup
+            v-for="item in menuItems"
+            :key="item.name"
+            v-bind="item"
+          />
+        </ul>
+      </nav>
+      <section
+        class="flex relative flex-col flex-shrink-0 gap-1 justify-between items-center"
       >
-        <SidebarProfileMenu
-          :is-collapsed="isEffectivelyCollapsed"
-          @open-key-shortcut-modal="emit('openKeyShortcutModal')"
+        <div
+          class="pointer-events-none absolute inset-x-0 -top-[1.938rem] h-8 bg-gradient-to-t from-n-background to-transparent"
+        />
+        <SidebarChangelogCard
+          v-if="
+            isOnChatwootCloud &&
+            !isACustomBrandedInstance &&
+            !isEffectivelyCollapsed
+          "
+        />
+        <SidebarChangelogButton
+          v-if="
+            isOnChatwootCloud &&
+            !isACustomBrandedInstance &&
+            isEffectivelyCollapsed
+          "
+        />
+        <div
+          class="px-1 py-1.5 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
+          :class="isEffectivelyCollapsed ? 'justify-center' : 'justify-between'"
+        >
+          <SidebarProfileMenu
+            :is-collapsed="isEffectivelyCollapsed"
+            @open-key-shortcut-modal="emit('openKeyShortcutModal')"
+          />
+        </div>
+      </section>
+      <!-- Resize Handle (desktop only) -->
+      <div
+        class="hidden md:block absolute top-0 h-full w-1 cursor-col-resize z-40 ltr:right-0 rtl:left-0 group"
+        @mousedown="onResizeStart"
+        @touchstart="onResizeStart"
+        @dblclick="toggleCollapsed"
+      >
+        <div
+          class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-n-brand transition-colors"
+          :class="{ 'bg-n-brand': isResizing }"
         />
       </div>
-    </section>
-    <!-- Resize Handle (desktop only) -->
-    <div
-      class="hidden md:block absolute top-0 h-full w-1 cursor-col-resize z-40 ltr:right-0 rtl:left-0 group"
-      @mousedown="onResizeStart"
-      @touchstart="onResizeStart"
-      @dblclick="onResizeHandleDoubleClick"
-    >
-      <div
-        class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-n-brand transition-colors"
-        :class="{ 'bg-n-brand': isResizing }"
-      />
-    </div>
-  </aside>
+    </aside>
+  </div>
 </template>
