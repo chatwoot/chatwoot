@@ -225,6 +225,21 @@ describe ActionCableListener do
     end
   end
 
+  describe '#conversation_unread' do
+    let(:event_name) { :'conversation.unread' }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
+
+    it 'sends the conversation to inbox members only' do
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        [agent.pubsub_token, admin.pubsub_token],
+        'conversation.unread',
+        conversation.push_event_data.merge(account_id: account.id)
+      )
+
+      listener.conversation_unread(event)
+    end
+  end
+
   describe '#conversation_updated' do
     let(:event_name) { :'conversation.updated' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, is_private: false) }
