@@ -11805,6 +11805,7 @@
           },
           "description": {
             "type": "string",
+            "nullable": true,
             "description": "The description of the label"
           },
           "color": {
@@ -11813,6 +11814,7 @@
           },
           "show_on_sidebar": {
             "type": "boolean",
+            "nullable": true,
             "description": "Whether the label should appear in the sidebar"
           }
         }
