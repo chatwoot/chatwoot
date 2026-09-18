@@ -57,6 +57,8 @@ gem 'aws-sdk-s3', require: false
 gem 'azure-blob', require: false
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
+# Transcode inbound voice notes (OGG/Opus) to MP3 for cross-platform playback (issue #13210)
+gem 'streamio-ffmpeg', '~> 3.0'
 
 ##-- for actionmailbox --##
 gem 'aws-actionmailbox-ses', '~> 0'
