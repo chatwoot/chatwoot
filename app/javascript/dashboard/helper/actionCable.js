@@ -32,7 +32,6 @@ class ActionCableConnector extends BaseActionCableConnector {
     const { websocketURL = '' } = window.chatwootConfig || {};
     super(app, pubsubToken, websocketURL);
     this.CancelTyping = [];
-    // Only timers for active collection windows are retained, never assignments.
     this.pendingHandoffAlerts = new Map();
     this.lastUnreadCountsFetchAt = null;
     this.unreadCountsFetchTimer = null;
@@ -123,15 +122,10 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onConversationBotHandoff = data => {
-    // The domain event is the source of truth: Conversation#bot_handoff! only
-    // emits it for an eligible pending bot conversation. Do not infer a human
-    // takeover from `performer`. That field comes from ambient request context,
-    // and valid bot handoffs such as usage-limit handling can run while an
-    // agent-authenticated API request has Current.user set to a human user.
-    // Human takeovers use assignment/status events and never emit this event.
-
+    // Trust the handoff event, not its request's performer: a bot handoff can
+    // run inside an agent-authenticated API request.
     const key = `${data.account_id}:${data.id}`;
-    if (data.status !== 'open' || this.pendingHandoffAlerts.has(key)) return;
+    if (this.pendingHandoffAlerts.has(key)) return;
 
     // One fixed window lets the normal store absorb assignment/status updates,
     // even assignments delivered before the handoff. Duplicates do not extend it.
@@ -148,8 +142,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   alertOnSettledHandoff = handoff => {
     const stored = this.app.$store.getters.getConversationById(handoff.id);
-    // Missing/older local state is acceptable: evaluate the original handoff
-    // through the usual audio preferences instead of fetching or waiting again.
+    // Fall back to the handoff snapshot when local state is missing or older.
     const conversation =
       stored?.updated_at >= handoff.updated_at ? stored : handoff;
     if (conversation.status !== 'open') return;
@@ -161,11 +154,9 @@ class ActionCableConnector extends BaseActionCableConnector {
       meta?.assignee_type !== handoff.meta?.assignee_type;
 
     if (hasAssignmentChange) {
-      // Only assignment changes need provenance, not general updated_at changes:
-      // an out-of-office message can refresh an otherwise unchanged open snapshot.
-      // Assignments at/before the handoff are already reflected in its owner.
-      // Compare owners too, since refreshed status payloads can expose a takeover
-      // before its assignment event arrives. Old provenance cannot explain it.
+      // Unrelated updates (e.g. out-of-office messages) must not cancel alerts.
+      // A changed owner needs a matching automatic assignment since the handoff,
+      // even if a refreshed status payload exposes it before the assignment event.
       if (
         !assignment?.automatic ||
         assignment.updated_at < handoff.updated_at ||

@@ -189,7 +189,6 @@ class Conversation < ApplicationRecord
     self.ai_assignee = nil
     open!
     dispatch_bot_handoff_event if dispatch_event
-    true
   end
 
   def dispatch_bot_handoff_event
