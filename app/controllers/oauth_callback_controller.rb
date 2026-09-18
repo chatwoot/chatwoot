@@ -41,7 +41,7 @@ class OauthCallbackController < ApplicationController
   end
 
   def find_channel_by_email
-    Channel::Email.find_by(email: users_data['email'], account: account)
+    Channel::Email.find_by(email: email_address, account: account)
   end
 
   def update_channel(channel_email)
@@ -64,6 +64,13 @@ class OauthCallbackController < ApplicationController
     users_data['email']
   end
 
+  # Email address stored on the Channel::Email record and used to match an existing
+  # channel. Defaults to the id_token's `email` claim; providers override when that
+  # claim can be absent and a different one carries the address.
+  def email_address
+    users_data['email']
+  end
+
   def provider_name
     raise NotImplementedError
   end
@@ -74,7 +81,7 @@ class OauthCallbackController < ApplicationController
 
   def create_channel_with_inbox
     ActiveRecord::Base.transaction do
-      channel_email = Channel::Email.create!(email: users_data['email'], account: account)
+      channel_email = Channel::Email.create!(email: email_address, account: account)
 
       account.inboxes.create!(
         account: account,
@@ -119,7 +126,7 @@ class OauthCallbackController < ApplicationController
 
   # Fallback name, for when name field is missing from users_data
   def fallback_name
-    users_data['email'].split('@').first.parameterize.titleize
+    email_address.to_s.split('@').first.parameterize.titleize
   end
 
   def oauth_code
