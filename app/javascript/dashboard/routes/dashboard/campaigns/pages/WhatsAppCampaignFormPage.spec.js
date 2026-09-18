@@ -205,4 +205,22 @@ describe('WhatsAppCampaignFormPage', () => {
     expect(wrapper.vm.isTemplateComplete).toBe(false);
     wrapper.unmount();
   });
+  it('waits for campaign loading before redirecting an unavailable edit URL', async () => {
+    mocks.getters['campaigns/getWhatsAppCampaigns'].value = [];
+    mocks.getters['campaigns/getUIFlags'].value = {
+      isFetching: true,
+      hasFetched: false,
+    };
+    const wrapper = shallowMount(WhatsAppCampaignFormPage);
+    expect(mocks.replace).not.toHaveBeenCalled();
+    mocks.getters['campaigns/getUIFlags'].value = {
+      isFetching: false,
+      hasFetched: true,
+    };
+    await nextTick();
+    expect(mocks.replace).toHaveBeenCalledWith({
+      name: 'campaigns_whatsapp_index',
+    });
+    wrapper.unmount();
+  });
 });

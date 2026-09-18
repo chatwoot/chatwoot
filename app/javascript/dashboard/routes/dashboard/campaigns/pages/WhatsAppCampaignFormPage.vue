@@ -124,11 +124,24 @@ const resetForm = () => {
 // Campaign and inbox records land at different times, so hydrate once both are
 // available and never again for the same campaign, to avoid clobbering edits.
 watch(
-  [campaign, () => whatsAppInboxes.value.length],
+  [
+    campaignId,
+    campaign,
+    () => whatsAppInboxes.value.length,
+    () => uiFlags.value.hasFetched,
+    () => uiFlags.value.isFetching,
+  ],
   () => {
     const record = campaign.value;
     if (!record) {
       if (hydratedId.value !== null) resetForm();
+      if (
+        isEditMode.value &&
+        uiFlags.value.hasFetched &&
+        !uiFlags.value.isFetching
+      ) {
+        router.replace({ name: 'campaigns_whatsapp_index' });
+      }
       return;
     }
     if (['processing', 'completed'].includes(record.campaign_status)) {

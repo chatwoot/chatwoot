@@ -154,4 +154,37 @@ describe('useCampaignHistory retry', () => {
       10,
     ]);
   });
+  it.each([true, false])(
+    'refreshes on the first message when initial history succeeds=%s',
+    async succeeds => {
+      chat.value.messages = [];
+      if (succeeds) {
+        ConversationApi.getCampaignHistory.mockResolvedValueOnce({
+          data: {
+            payload: [],
+            meta: { next_before: null, first_message_id: null },
+          },
+        });
+      } else {
+        ConversationApi.getCampaignHistory.mockRejectedValueOnce(
+          new Error('Offline')
+        );
+      }
+      history = scope.run(() => useCampaignHistory());
+      await flushPromises();
+      ConversationApi.getCampaignHistory.mockResolvedValueOnce({
+        data: {
+          payload: [{ id: 10, sent_at: 100, source_id: 'campaign-10' }],
+          meta: { next_before: null, first_message_id: 1 },
+        },
+      });
+      chat.value.messages.push({ id: 1, created_at: 110 });
+      await flushPromises();
+      expect(ConversationApi.getCampaignHistory).toHaveBeenCalledTimes(2);
+      expect(history.visibleCampaignHistory.value.map(item => item.id)).toEqual(
+        [10]
+      );
+      expect(history.campaignHistoryError.value).toBe(false);
+    }
+  );
 });
