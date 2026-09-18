@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "कृपया बाँया प्यानबाट एउटा कुराकानी छान्नुहोस्",
     "CSAT_REPLY_MESSAGE": "कृपया कुराकानीको मूल्याङ्कन गर्नु",
     "404": "माफ गर्नुहोस्, हामी वार्ता फेला पार्न सकेनौं। कृपया फेरि प्रयास गर्नुहोस्",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "यो सन्देश समर्थन गरिएको छैन। तपाईंले यो सन्देश TikTok एपमा हेर्न सक्नुहुन्छ।",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "सन्देश सफलतापूर्वक मेटाइयो",
     "FAIL_DELETE_MESSSAGE": "सन्देश मेटाउन सकिएन! फेरि प्रयास गर्नुहोस्",
     "NO_RESPONSE": "कुनै प्रतिक्रिया छैन",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "एजेन्टहरू",
       "TEAMS": "टोलीहरू"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Description",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Search emojis",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "All"
+        },
+        "AVAILABILITY": "उपलब्धता",
+        "ROLE": "Role",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "सक्षम",
+        "DISABLED": "असक्षम",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "यस मितिसम्म सुस्काउनुहोस्",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} अर्को",
     "TOTAL_PARTICIPANTS_TEXT": "{count} जना मानिसहरू सहभागी छन्।",
     "TOTAL_PARTICIPANT_TEXT": "{count} व्यक्ति सहभागी छन्।",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!",
     "WATCH_CONVERSATION": "वार्तामा सामेल हुनुहोस्",
     "YOU_ARE_WATCHING": "तपाईं सहभागी हुनुहुन्छ",
     "API": {

@@ -7,6 +7,37 @@
     "LEARN_MORE": "Saber mais sobre os logs de auditoria",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
     "SIDEBAR_TXT": "<p><b>Logs de auditoria</b> </p><p> Logs de auditoria são registos de eventos e ações de um Sistema de Chatwoot. </p>",
+    "COUNT": "{n} event | {n} events",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Search by name or email",
+      "ALL_EVENTS": "All events",
+      "DATE_RANGE": "Date range",
+      "CLEAR_ALL": "Limpar filtros",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Access",
+        "AGENTS_TEAMS": "Agents & teams",
+        "CONFIGURATION": "Configuração",
+        "CONVERSATIONS": "Conversas"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Sign in / sign out",
+        "AGENTS": "Agentes",
+        "TEAMS": "Equipas",
+        "TEAM_MEMBERS": "Team members",
+        "INBOX_MEMBERS": "Inbox collaborators",
+        "ACCOUNT": "Configurações da conta",
+        "INBOXES": "Caixas de Entrada",
+        "WEBHOOKS": "Webhooks",
+        "AUTOMATION_RULES": "Automation rules",
+        "MACROS": "Macros",
+        "CONVERSATION_DELETIONS": "Conversation deletions",
+        "MESSAGE_DELETIONS": "Message deletions"
+      },
+      "SORT": {
+        "NEWEST": "Newest first",
+        "OLDEST": "Oldest first"
+      }
+    },
     "LIST": {
       "404": "Não há logs de auditoria referentes a esta conta.",
       "TITLE": "Gerir logs de auditoria",
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} apagou a conversa #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
     }
   }
 }

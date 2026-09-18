@@ -3,7 +3,7 @@
     "TITLE": "התחבר ל Woot",
     "EMAIL": {
       "LABEL": "אימייל",
-      "PLACEHOLDER": "example@companyname.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "נא הכנס כתובת דוא\"ל תקינה"
     },
     "PASSWORD": {
@@ -17,7 +17,7 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "התחבר עם גוגל",
-      "BUSINESS_ACCOUNTS_ONLY": "אנא השתמש בכתובת הדוא\"ל של החברה שלך כדי להתחבר",
+      "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
       "NO_ACCOUNT_FOUND": "לא מצאנו חשבון עבור כתובת הדוא\"ל שלך."
     },
     "FORGOT_PASSWORD": "שכחת את הסיסמה?",
