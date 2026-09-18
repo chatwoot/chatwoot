@@ -11,6 +11,8 @@ class Mfa::TokenService < BaseTokenService
   def verify_token
     decoded = decode_token
     return nil if decoded.blank?
+    # Purpose-bound tokens (e.g. device verification) are not MFA tokens
+    return nil if decoded[:type].present?
 
     User.find(decoded[:user_id])
   rescue ActiveRecord::RecordNotFound

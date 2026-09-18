@@ -1,5 +1,6 @@
 module Enterprise::DeviseOverrides::SessionsController
   include SamlAuthenticationHelper
+  include Enterprise::DeviseOverrides::DeviceVerificationConcern
 
   def create
     # Normalize the same way find_user_for_authentication does, so a padded or

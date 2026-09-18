@@ -24,6 +24,7 @@ export const login = async ({
       return {
         mfaRequired: true,
         mfaToken: response.data.mfa_token,
+        verificationChannel: response.data.verification_channel,
       };
     }
 
@@ -41,6 +42,7 @@ export const login = async ({
       return {
         mfaRequired: true,
         mfaToken: error.response.data.mfa_token,
+        verificationChannel: error.response.data.verification_channel,
       };
     }
     if (
