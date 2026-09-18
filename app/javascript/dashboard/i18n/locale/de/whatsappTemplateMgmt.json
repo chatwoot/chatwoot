@@ -3,8 +3,11 @@
     "TITLE": "Vorlagen",
     "DESCRIPTION": "Sieh dir die Nachrichtenvorlagen an, die aus deinen WhatsApp-Postfächern synchronisiert wurden. Erstelle oder bearbeite Vorlagen bei deinem Anbieter.",
     "COUNT": "{n} Vorlage | {n} Vorlagen",
-    "KNOW_MORE": "Mehr erfahren",
-    "NEW_TEMPLATE": "Neue Vorlage",
+    "LEARN_MORE": "Learn more about WhatsApp templates",
+    "SYNC_TEMPLATES": "Sync templates",
+    "SYNC_SUCCESS": "Template sync started for all WhatsApp inboxes. Updates may take a couple of minutes.",
+    "PARTIAL_SYNC_ERROR": "Template sync started for some WhatsApp inboxes, but others could not be synced.",
+    "SYNC_ERROR": "Unable to start template sync. Please try again.",
     "SEARCH_PLACEHOLDER": "Nach Inhalt oder Name suchen ...",
     "MANAGE_IN_META": "In Meta verwalten",
     "MANAGE_IN_TWILIO": "In Twilio verwalten",
@@ -15,9 +18,13 @@
     "PARTIAL_FETCH_ERROR": "Einige WhatsApp-Vorlagen konnten nicht geladen werden. Bitte versuche es erneut.",
     "LAST_SYNC_ATTEMPT": "Letzter Synchronisierungsversuch am {date}",
     "MORE_INBOXES": "+{n}",
+    "STATUSES": {
+      "UNSUBMITTED": "Not submitted for WhatsApp approval"
+    },
     "FILTERS": {
       "ALL_INBOXES": "Alle Posteingänge",
-      "ALL_LANGUAGES": "Alle Sprachen"
+      "ALL_LANGUAGES": "Alle Sprachen",
+      "ALL_TYPES": "All types"
     },
     "TYPES": {
       "TEXT": "Text",
@@ -40,8 +47,7 @@
       "TYPE": "Inhaltstyp",
       "CATEGORY": "Kategorie",
       "LANGUAGE": "Sprache",
-      "INBOXES": "Posteingänge",
-      "LAST_SYNC_ATTEMPT": "Letzter Synchronisierungsversuch"
+      "INBOXES": "Posteingänge"
     }
   }
 }
