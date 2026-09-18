@@ -65,6 +65,17 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           expect(tool_context.state[:captain_v2_handoff_tool_completed]).to be true
         end
 
+        it 'assigns the conversation to an available inbox member during handoff' do
+          account.enable_features!(:assignment_v2)
+          create(:inbox_member, user: user, inbox: inbox)
+          allow(OnlineStatusTracker).to receive(:get_available_users).and_return(user.id.to_s => 'online')
+
+          result = tool.perform(tool_context, reason: 'Customer asked for a human', reason_category: 'customer_request')
+
+          expect(result).to include('Conversation handed off')
+          expect(conversation.reload).to have_attributes(status: 'open', assignee: user)
+        end
+
         it 'dispatches the handoff event after leaving the lock transaction' do
           found_conversation = Conversation.find(conversation.id)
           scoped_conversations = Conversation.where(account_id: assistant.account_id)
