@@ -141,5 +141,23 @@ RSpec.describe Captain::Tools::FirecrawlService do
           )
       end
     end
+
+    context 'when a custom base URL is configured' do
+      before do
+        create(:installation_config, name: 'CAPTAIN_FIRECRAWL_BASE_URL', value: 'https://firecrawl.example.com')
+        stub_request(:post, 'https://firecrawl.example.com/v2/crawl')
+          .with(
+            body: expected_payload,
+            headers: expected_headers
+          )
+          .to_return(status: 200, body: '{"status": "success"}')
+      end
+
+      it 'uses the configured base URL' do
+        service.perform(url, webhook_url, crawl_limit)
+
+        expect(WebMock).to have_requested(:post, 'https://firecrawl.example.com/v2/crawl')
+      end
+    end
   end
 end
