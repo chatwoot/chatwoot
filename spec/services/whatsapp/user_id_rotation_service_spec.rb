@@ -27,6 +27,24 @@ describe Whatsapp::UserIdRotationService do
       expect(inbox.contact_inboxes.where(contact: contact).pluck(:source_id)).to include('IN.CURRENTBSUID', 'IN.ENT.CURRENTBSUID')
     end
 
+    it 'refreshes the mirrored identifiers so integrations stop seeing the previous ones' do
+      create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+      create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.ENT.PREVIOUSBSUID')
+      contact.update!(additional_attributes: { 'whatsapp_bsuid' => 'IN.PREVIOUSBSUID',
+                                               'whatsapp_bsuid_parent' => 'IN.ENT.PREVIOUSBSUID' })
+      system.merge!(
+        previous_parent_user_id: 'IN.ENT.PREVIOUSBSUID',
+        parent_user_id: 'IN.ENT.CURRENTBSUID'
+      )
+
+      described_class.new(inbox: inbox, messages: messages).perform
+
+      expect(contact.reload.additional_attributes).to include(
+        'whatsapp_bsuid' => 'IN.CURRENTBSUID',
+        'whatsapp_bsuid_parent' => 'IN.ENT.CURRENTBSUID'
+      )
+    end
+
     it 'falls back to a current identifier when the lifecycle event follows the first message' do
       current = create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'IN.CURRENTBSUID')
 
