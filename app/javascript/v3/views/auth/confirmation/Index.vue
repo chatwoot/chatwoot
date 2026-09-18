@@ -1,12 +1,17 @@
 <script>
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { verifyPasswordToken } from '../../../api/auth';
+import { getLoginRedirectURL } from '../../../helpers/AuthHelper';
 import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: { Spinner },
   props: {
     confirmationToken: {
+      type: String,
+      default: '',
+    },
+    redirectUrl: {
       type: String,
       default: '',
     },
@@ -17,10 +22,13 @@ export default {
   methods: {
     async confirmToken() {
       try {
-        await verifyPasswordToken({
+        const user = await verifyPasswordToken({
           confirmationToken: this.confirmationToken,
         });
-        window.location = DEFAULT_REDIRECT_URL;
+        window.location = getLoginRedirectURL({
+          user,
+          redirectUrl: this.redirectUrl,
+        });
       } catch (error) {
         window.location = DEFAULT_REDIRECT_URL;
       }

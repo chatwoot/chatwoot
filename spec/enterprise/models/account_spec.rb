@@ -205,6 +205,126 @@ RSpec.describe Account, type: :model do
         expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses] - 1
       end
 
+      it 'atomically reserves the final available response' do
+        account.update!(limits: { captain_responses: 1 })
+        account.reset_response_usage
+        first_request = described_class.find(account.id)
+        second_request = described_class.find(account.id)
+
+        reservation_id = first_request.reserve_response_usage
+
+        expect(reservation_id).to be_present
+        expect(second_request.reserve_response_usage).to be(false)
+        account.reload
+        expect(account.custom_attributes['captain_responses_usage']).to eq(0)
+        expect(account.custom_attributes['captain_response_reservations'].keys).to contain_exactly(reservation_id)
+      end
+
+      it 'subtracts active response reservations from current availability' do
+        account.update!(limits: { captain_responses: 1 })
+        account.reset_response_usage
+
+        expect(account.reserve_response_usage).to be_present
+
+        response_limits = account.reload.usage_limits[:captain][:responses]
+        expect(response_limits[:consumed]).to eq(0)
+        expect(response_limits[:current_available]).to eq(0)
+      end
+
+      it 'releases only the requested response reservation' do
+        account.update!(limits: { captain_responses: 2 })
+        account.reset_response_usage
+        first_reservation = account.reserve_response_usage
+        second_reservation = account.reserve_response_usage
+
+        expect(account.release_response_usage(first_reservation)).to be(true)
+        expect(account.release_response_usage(first_reservation)).to be(false)
+        expect(account.reload.custom_attributes['captain_response_reservations'].keys).to contain_exactly(second_reservation)
+      end
+
+      it 'does not count expired reservations against the quota' do
+        account.update!(limits: { captain_responses: 1 })
+        account.reset_response_usage
+        account.custom_attributes['captain_response_reservations'] = { 'interrupted-request' => 1.minute.ago.to_i }
+        account.save!
+
+        reservation_id = account.reserve_response_usage
+
+        expect(reservation_id).to be_present
+        expect(account.reload.custom_attributes['captain_response_reservations'].keys).to contain_exactly(reservation_id)
+      end
+
+      it 'commits a reserved response after a quota reset' do
+        account.update!(limits: { captain_responses: 2 })
+        account.increment_response_usage
+        reservation_id = account.reserve_response_usage
+        expect(reservation_id).to be_present
+
+        account.reset_response_usage
+
+        expect(account.commit_response_usage(reservation_id)).to be(true)
+        account.reload
+        expect(account.custom_attributes['captain_responses_usage']).to eq(1)
+        expect(account.custom_attributes['captain_response_reservations']).to be_empty
+      end
+
+      it 'commits an owned response reservation after its lease expires' do
+        account.update!(limits: { captain_responses: 1 })
+        account.reset_response_usage
+        reservation_id = account.reserve_response_usage
+        account.custom_attributes['captain_response_reservations'][reservation_id] = 1.minute.ago.to_i
+        account.save!
+
+        expect(account.commit_response_usage(reservation_id)).to be(true)
+        account.reload
+        expect(account.custom_attributes['captain_responses_usage']).to eq(1)
+        expect(account.custom_attributes['captain_response_reservations']).to be_empty
+      end
+
+      it 'renews a live owner before its response reservation can be replaced' do
+        account.update!(limits: { captain_responses: 1 })
+        account.reset_response_usage
+        first_reservation = account.reserve_response_usage
+        account.custom_attributes['captain_response_reservations'][first_reservation] = 1.minute.ago.to_i
+        account.save!
+
+        expect(account.renew_response_usage(first_reservation)).to be(true)
+        expect(account.reload.reserve_response_usage).to be(false)
+        expect(account.commit_response_usage(first_reservation)).to be(true)
+        expect(account.reload.custom_attributes['captain_responses_usage']).to eq(1)
+      end
+
+      it 'invalidates an expired owner when its response reservation is replaced' do
+        account.update!(limits: { captain_responses: 1 })
+        account.reset_response_usage
+        first_reservation = account.reserve_response_usage
+        account.custom_attributes['captain_response_reservations'][first_reservation] = 1.minute.ago.to_i
+        account.save!
+
+        second_reservation = account.reserve_response_usage
+        expect(second_reservation).to be_present
+        expect(account.commit_response_usage(first_reservation)).to be(false)
+        expect(account.commit_response_usage(second_reservation)).to be(true)
+        account.reload
+        expect(account.custom_attributes['captain_responses_usage']).to eq(1)
+        expect(account.custom_attributes['captain_response_reservations']).to be_empty
+      end
+
+      it 'releases only its reservation after a quota reset' do
+        account.update!(limits: { captain_responses: 2 })
+        account.increment_response_usage
+        reservation_id = account.reserve_response_usage
+        expect(reservation_id).to be_present
+
+        account.reset_response_usage
+        account.increment_response_usage
+
+        expect(account.release_response_usage(reservation_id)).to be(true)
+        account.reload
+        expect(account.custom_attributes['captain_responses_usage']).to eq(1)
+        expect(account.custom_attributes['captain_response_reservations']).to be_empty
+      end
+
       it 'reseting responses limits updates usage_limits' do
         account.custom_attributes['captain_responses_usage'] = 30
         account.save!

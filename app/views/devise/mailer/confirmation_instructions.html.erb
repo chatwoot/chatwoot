@@ -12,7 +12,9 @@
     "Welcome to #{brand_name}. We just need to verify your email address before you can start using your account."
   supporting_text = 'This only takes a moment.'
   action_text = 'Confirm my account'
-  action_url = frontend_url('auth/confirmation', confirmation_token: @token)
+  confirmation_params = { confirmation_token: @token }
+  confirmation_params[:route_url] = params[:redirect_url] if params[:redirect_url].present?
+  action_url = frontend_url('auth/confirmation', **confirmation_params)
   info_title = nil
   info_text = nil
   detail_rows = []

@@ -126,6 +126,69 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
       GlobalConfig.clear_cache
     end
 
+    context 'with a Shopify pending installation' do
+      let(:pending_token) { 'a' * 32 }
+      let(:redirect_url) { "settings/integrations/shopify?shopify_pending_install=#{pending_token}" }
+      let(:shopify_signup_service) { instance_double(Shopify::SignupService) }
+      let(:shopify_user) { create(:user, email: 'created-shopify@example.com') }
+      let(:shopify_account) { create(:account) }
+
+      before do
+        set_omniauth_config('new-shopify@example.com')
+        allow(email_validation_service).to receive(:perform).and_return(true)
+        allow(Shopify::FeatureGate).to receive(:enabled?).and_return(true)
+        allow(Shopify::PendingInstallation).to receive(:pending?).with(token: pending_token).and_return(true)
+        allow(Shopify::SignupService).to receive(:new).and_return(shopify_signup_service)
+        allow(shopify_signup_service).to receive(:perform).and_return([shopify_user, shopify_account])
+        allow(Avatar::AvatarFromUrlJob).to receive(:perform_later)
+      end
+
+      it 'allows a valid installation when public signup is disabled and uses the Shopify service' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false', FRONTEND_URL: 'http://www.example.com' do
+          get '/omniauth/google_oauth2/callback', params: { state: redirect_url }
+          follow_redirect!
+
+          expect(Shopify::SignupService).to have_received(:new).with(hash_including(shopify_pending_install_token: pending_token))
+          expect(shopify_signup_service).to have_received(:perform)
+          expect(response).to redirect_to(%r{/app/auth/password/edit\?config=default&reset_password_token=.+})
+        end
+      end
+
+      it 'uses the Shopify service when public signup is enabled too' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true', FRONTEND_URL: 'http://www.example.com' do
+          get '/omniauth/google_oauth2/callback', params: { state: redirect_url }
+          follow_redirect!
+
+          expect(Shopify::SignupService).to have_received(:new).with(hash_including(shopify_pending_install_token: pending_token))
+          expect(shopify_signup_service).to have_received(:perform)
+        end
+      end
+
+      it 'rejects an expired or invalid installation when public signup is disabled' do
+        allow(Shopify::PendingInstallation).to receive(:pending?).with(token: pending_token).and_return(false)
+
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false', FRONTEND_URL: 'http://www.example.com' do
+          get '/omniauth/google_oauth2/callback', params: { state: redirect_url }
+          follow_redirect!
+
+          expect(Shopify::SignupService).not_to have_received(:new)
+          expect(response).to redirect_to(%r{/app/login\?error=no-account-found$})
+        end
+      end
+
+      it 'rejects Shopify signup when its feature is disabled' do
+        allow(Shopify::FeatureGate).to receive(:enabled?).and_return(false)
+
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false', FRONTEND_URL: 'http://www.example.com' do
+          get '/omniauth/google_oauth2/callback', params: { state: redirect_url }
+          follow_redirect!
+
+          expect(Shopify::SignupService).not_to have_received(:new)
+          expect(response).to redirect_to(%r{/app/login\?error=no-account-found$})
+        end
+      end
+    end
+
     it 'allows login' do
       with_modified_env FRONTEND_URL: 'http://www.example.com' do
         create(:user, email: 'test@example.com')

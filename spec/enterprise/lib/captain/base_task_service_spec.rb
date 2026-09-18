@@ -61,9 +61,58 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       end
     end
 
-    it 'increments response usage on successful execution' do
-      expect(account).to receive(:increment_response_usage)
-      service.perform
+    context 'when usage is reserved on Chatwoot Cloud' do
+      let(:available_usage_limits) do
+        {
+          agents: ChatwootApp.max_limit,
+          inboxes: ChatwootApp.max_limit,
+          captain: { responses: { current_available: 1 } }
+        }
+      end
+
+      before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        allow(account).to receive(:usage_limits).and_return(available_usage_limits)
+        allow(account).to receive(:reserve_response_usage).and_return('reservation-id')
+      end
+
+      it 'keeps the reservation for a successful result' do
+        heartbeat = { thread: instance_double(Thread), stop_signal: instance_double(Queue) }
+        allow(service).to receive(:start_usage_heartbeat).with('reservation-id').and_return(heartbeat)
+        expect(service).to receive(:stop_usage_heartbeat).with(heartbeat)
+        expect(account).to receive(:commit_response_usage).with('reservation-id')
+        expect(account).not_to receive(:increment_response_usage)
+        expect(account).not_to receive(:release_response_usage)
+
+        service.perform
+      end
+
+      context 'when the result has an error' do
+        let(:perform_result) { { error: 'API Error' } }
+
+        it 'releases the reservation' do
+          expect(account).to receive(:release_response_usage).with('reservation-id')
+
+          service.perform
+        end
+      end
+
+      context 'when the task raises' do
+        let(:test_service_class) do
+          klass = Class.new(described_class) do
+            define_method(:perform) { raise 'Task failed' }
+            define_method(:event_name) { 'test_event' }
+          end
+          klass.prepend(Enterprise::Captain::BaseTaskService)
+          klass
+        end
+
+        it 'releases the reservation' do
+          expect(account).to receive(:release_response_usage).with('reservation-id')
+
+          expect { service.perform }.to raise_error('Task failed')
+        end
+      end
     end
 
     context 'when result has an error' do
@@ -124,8 +173,10 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       end
 
       it 'still increments usage for services that do not opt into BYOK' do
-        expect(account).to receive(:increment_response_usage)
-        service.perform
+        expect do
+          service.perform
+          account.reload
+        end.to change { account.custom_attributes['captain_responses_usage'].to_i }.by(1)
       end
 
       context 'when the captain_responses quota is exhausted on Cloud' do
@@ -226,8 +277,10 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       end
 
       it 'increments usage' do
-        expect(account).to receive(:increment_response_usage)
-        service.perform
+        expect do
+          service.perform
+          account.reload
+        end.to change { account.custom_attributes['captain_responses_usage'].to_i }.by(1)
       end
     end
 

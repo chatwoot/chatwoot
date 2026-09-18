@@ -6,6 +6,7 @@ import FormInput from '../../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { setNewPassword } from '../../../api/auth';
+import { getLoginRedirectURL } from 'v3/helpers/AuthHelper';
 
 export default {
   components: {
@@ -14,6 +15,7 @@ export default {
   },
   props: {
     resetPasswordToken: { type: String, default: '' },
+    redirectUrl: { type: String, default: '' },
   },
   setup() {
     return { v$: useVuelidate() };
@@ -72,8 +74,10 @@ export default {
         resetPasswordToken: this.resetPasswordToken,
       };
       setNewPassword(credentials)
-        .then(() => {
-          window.location = DEFAULT_REDIRECT_URL;
+        .then(user => {
+          window.location = this.redirectUrl
+            ? getLoginRedirectURL({ redirectUrl: this.redirectUrl, user })
+            : DEFAULT_REDIRECT_URL;
         })
         .catch(error => {
           this.showAlertMessage(
