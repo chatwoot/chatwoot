@@ -41,6 +41,19 @@ class Enterprise::DeviceVerificationMailer < ApplicationMailer
     "#{ENV.fetch('FRONTEND_URL', nil)}/app/auth/reset/password"
   end
 
+  # Resolved here, in the delivery job, so the geo lookup stays off the sign-in
+  # request. Blank when the IP cannot be resolved (e.g. loopback or no geo DB),
+  # in which case the template simply omits the location row.
+  def resolved_location
+    return @meta[:location] if @meta[:location].present?
+    return if @meta[:ip].blank?
+
+    result = IpLookupService.new.perform(@meta[:ip])
+    return if result.blank?
+
+    [result.city, result.country].compact.join(', ').presence
+  end
+
   def liquid_locals
     super.merge(
       brand_name: brand_name,
@@ -49,7 +62,7 @@ class Enterprise::DeviceVerificationMailer < ApplicationMailer
       ip: @meta[:ip],
       browser_name: @meta[:browser_name],
       platform_name: @meta[:platform_name],
-      location: @meta[:location],
+      location: resolved_location,
       reset_password_url: reset_password_url
     )
   end

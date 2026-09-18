@@ -33,6 +33,13 @@ RSpec.describe Enterprise::DeviceVerificationMailer do
       expect(mail.body.encoded).not_to include('/app/auth/reset/password')
     end
 
+    it 'resolves and shows the sign-in location from the IP' do
+      geo = Struct.new(:city, :country).new('Mumbai', 'India')
+      allow(IpLookupService).to receive(:new).and_return(instance_double(IpLookupService, perform: geo))
+
+      expect(mail.body.encoded).to include('Mumbai, India')
+    end
+
     it 'labels itself as a security notification and explains why it was sent' do
       expect(mail.body.encoded).to include('security notification')
       expect(mail.body.encoded).to include('needs to be verified')
