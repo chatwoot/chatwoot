@@ -19,7 +19,19 @@ module Enterprise::DeviseOverrides::SessionsController
 
   def render_create_success
     create_audit_event('sign_in')
+    notify_new_login_location
     super
+  end
+
+  # Password sign-ins only. SSO (and super-admin impersonation, which mints an SSO
+  # token) are excluded so we never email a customer about a staff sign-in.
+  def notify_new_login_location
+    return if params[:sso_auth_token].present?
+    return unless @resource && LoginLocationNotification.enabled?
+
+    Enterprise::LoginLocationNotificationJob.perform_later(
+      @resource.id, request.remote_ip, request.user_agent.to_s, Time.zone.now.iso8601
+    )
   end
 
   def destroy

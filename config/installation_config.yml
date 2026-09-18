@@ -295,6 +295,9 @@
 - name: DEPLOYMENT_ENV
   value: self-hosted
   description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
+- name: LOGIN_LOCATION_NOTIFICATION_ENABLED
+  value: false
+  description: 'Email users when their account is signed in to from a location we have not seen before'
 - name: CLOUD_ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
