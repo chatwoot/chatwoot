@@ -51,7 +51,7 @@ class Enterprise::DeviceVerificationMailer < ApplicationMailer
     result = IpLookupService.new.perform(@meta[:ip])
     return if result.blank?
 
-    [result.city, result.country].compact.join(', ').presence
+    [result.city, result.country].reject(&:blank?).join(', ').presence
   end
 
   def liquid_locals

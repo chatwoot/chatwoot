@@ -40,6 +40,14 @@ RSpec.describe Enterprise::DeviceVerificationMailer do
       expect(mail.body.encoded).to include('Mumbai, India')
     end
 
+    it 'omits a blank city instead of rendering a leading comma' do
+      geo = Struct.new(:city, :country).new('', 'United States')
+      allow(IpLookupService).to receive(:new).and_return(instance_double(IpLookupService, perform: geo))
+
+      expect(mail.body.encoded).to include('United States')
+      expect(mail.body.encoded).not_to include(', United States')
+    end
+
     it 'escapes request-derived device details so markup cannot be injected' do
       meta[:browser_name] = '<a href="https://evil.test">Chatwoot Mobile</a>'
       expect(mail.body.encoded).not_to include('<a href="https://evil.test">')
