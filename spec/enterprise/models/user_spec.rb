@@ -89,5 +89,12 @@ RSpec.describe User do
       Redis::Alfred.setex(key, '5', 1.hour)
       expect { user.update!(password: 'NewPassword1!') }.to change { Redis::Alfred.get(key) }.to(nil)
     end
+
+    it 'does not fail the credential change when the budget reset errors' do
+      allow(DeviceVerification).to receive(:reset_issuance_budget).and_raise(StandardError, 'redis down')
+
+      expect { user.update!(password: 'NewPassword1!') }.not_to raise_error
+      expect(user.reload.device_trust_version).to eq(1)
+    end
   end
 end
