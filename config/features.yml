@@ -279,3 +279,7 @@
   enabled: false
   premium: true
   column: feature_flags_ext_1
+- name: captain_label_classifier
+  display_name: Captain Label Classifier
+  enabled: false
+  column: feature_flags_ext_1

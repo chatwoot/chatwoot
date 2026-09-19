@@ -8,14 +8,11 @@ class Captain::LabelClassifierService
   TRANSCRIPT_CHAR_LIMIT = 100_000
   API_KEY_CONFIG = 'CAPTAIN_OPEN_ROUTER_API_KEY'.freeze
 
-  def self.enabled?
-    GlobalConfig.get_value(API_KEY_CONFIG).present?
-  end
-
   pattr_initialize [:account!, :conversation_display_id!]
 
   def perform
-    return { error: I18n.t('captain.api_key_missing'), error_code: 401 } unless self.class.enabled?
+    return { error: I18n.t('captain.disabled'), error_code: 403 } unless account.feature_enabled?('captain_label_classifier')
+    return { error: I18n.t('captain.api_key_missing'), error_code: 401 } if api_key.blank?
     return nil unless valid_conversation?
 
     cached_response = read_from_cache
@@ -36,7 +33,7 @@ class Captain::LabelClassifierService
 
     response = HTTParty.post(
       DECISIONS_URL,
-      headers: { 'Authorization' => "Bearer #{GlobalConfig.get_value(API_KEY_CONFIG)}", 'Content-Type' => 'application/json' },
+      headers: { 'Authorization' => "Bearer #{api_key}", 'Content-Type' => 'application/json' },
       body: { model: MODEL, state: { transcript: transcript }, questions: label_questions(labels) }.to_json,
       timeout: 10
     )
@@ -104,6 +101,10 @@ class Captain::LabelClassifierService
 
   def write_to_cache(response)
     Redis::Alfred.setex(cache_key, response.to_json)
+  end
+
+  def api_key
+    @api_key ||= GlobalConfig.get_value(API_KEY_CONFIG)
   end
 
   def exception_tracking_account

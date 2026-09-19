@@ -1,6 +1,8 @@
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useTrack } from 'dashboard/composables';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import wootConstants from 'dashboard/constants/globals';
@@ -20,21 +22,23 @@ const cleanLabels = labels => {
     .filter((label, index, self) => self.indexOf(label) === index);
 };
 
+// Shared across every caller (sidebar, command bar) so each conversation is fetched once
+const suggestedTitles = ref([]);
+const fetchedConversationId = ref(null);
+
 /**
  * Fetches AI label suggestions for the selected conversation and tracks
  * which of them are still pending (suggested but not yet applied).
  */
 export function useLabelSuggestions() {
-  const globalConfig = useMapGetter('globalConfig/get');
   const currentAccountId = useMapGetter('getCurrentAccountId');
   const currentChat = useMapGetter('getSelectedChat');
   const conversationId = computed(() => currentChat.value?.id);
   const { accountLabels, savedLabels } = useConversationLabels();
+  const { isCloudFeatureEnabled } = useAccount();
 
-  const suggestedTitles = ref([]);
-
-  const isLabelSuggestionEnabled = computed(
-    () => globalConfig.value.labelSuggestionsEnabled
+  const isLabelSuggestionEnabled = computed(() =>
+    isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_LABEL_CLASSIFIER)
   );
 
   // Keep the backend order, which is highest confidence first
@@ -45,9 +49,12 @@ export function useLabelSuggestions() {
       .filter(Boolean)
   );
 
-  const fetchSuggestions = async () => {
+  const fetchSuggestions = async ({ force = false } = {}) => {
     const id = conversationId.value;
     const chat = currentChat.value;
+    if (!force && fetchedConversationId.value === id) return;
+
+    fetchedConversationId.value = id;
     suggestedTitles.value = [];
 
     // eslint-disable-next-line no-console
@@ -71,7 +78,7 @@ export function useLabelSuggestions() {
       console.log('[LabelSuggestions] received', titles);
 
       // Ignore responses for a conversation the agent has already left
-      if (id === conversationId.value) suggestedTitles.value = titles;
+      if (id === fetchedConversationId.value) suggestedTitles.value = titles;
     } catch {
       suggestedTitles.value = [];
     }
@@ -91,11 +98,11 @@ export function useLabelSuggestions() {
     });
   };
 
-  watch(conversationId, fetchSuggestions, { immediate: true });
+  watch(conversationId, () => fetchSuggestions(), { immediate: true });
 
   onMounted(() => {
     // Debug: run label suggestions for the open conversation from the browser console
-    window.suggest = fetchSuggestions;
+    window.suggest = () => fetchSuggestions({ force: true });
   });
 
   onUnmounted(() => {
