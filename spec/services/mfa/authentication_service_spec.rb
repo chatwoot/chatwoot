@@ -21,7 +21,7 @@ describe Mfa::AuthenticationService do
 
       context 'when OTP is invalid' do
         it 'returns false' do
-          service = described_class.new(user: user, otp_code: '000000')
+          service = described_class.new(user: user, otp_code: 'invalid')
           expect(service.authenticate).to be_falsey
         end
       end

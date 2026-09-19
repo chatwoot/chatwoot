@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   end
 
   get '/health', to: 'health#show'
+  get '/robots.txt', to: 'robots#show', format: false
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -487,6 +488,7 @@ Rails.application.routes.draw do
             post :backup_codes
           end
           resources :sessions, only: [:index, :destroy]
+          resource :trusted_devices, only: [:destroy]
         end
       end
 

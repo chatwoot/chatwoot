@@ -58,6 +58,12 @@ const finalResult = {
 };
 
 describe('#filterQueryGenerator', () => {
+  it.each([0, false])('preserves scalar value %s in the request', values => {
+    expect(
+      filterQueryGenerator([{ attribute_key: 'custom_value', values }])
+        .payload[0].values
+    ).toEqual([values]);
+  });
   it('returns the correct format of filter query', () => {
     expect(filterQueryGenerator(testData)).toMatchObject(finalResult);
     expect(
