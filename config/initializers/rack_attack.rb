@@ -218,6 +218,22 @@ class Rack::Attack
       end
     end
 
+    ## Prevent abuse of widget audio transcription (visitor-facing, paid LLM capacity) ###
+    if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_TRANSCRIPTION', true))
+      throttle('api/v1/widget/transcription',
+               limit: ENV.fetch('RATE_LIMIT_WIDGET_TRANSCRIPTION', '20').to_i, period: 1.hour) do |req|
+        if req.path_without_extensions == '/api/v1/widget/transcription' && req.post?
+          # Key on the client IP (a stable dimension) scoped per inbox. The widget
+          # auth token is disposable — a visitor can mint a fresh one by reloading
+          # without the conversation cookie — so it must not be the only dimension.
+          # Read website_token from the query string only; reading .params would
+          # force parsing the multipart audio body before the throttle decision.
+          website_token = req.GET['website_token'].presence
+          [website_token, req.ip].compact.join(':')
+        end
+      end
+    end
+
     ## Prevent Transcript Bombing on Widget API ###
     if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_TRANSCRIPT', true))
       throttle('api/v1/widget/conversations/transcript',
