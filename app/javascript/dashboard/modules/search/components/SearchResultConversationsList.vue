@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, computed } from 'vue';
+import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store.js';
 
 import SearchResultSection from './SearchResultSection.vue';

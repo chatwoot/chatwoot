@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "구독된 이벤트",
       "LEARN_MORE": "webhook에 대해 자세히 알아보기",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "지금 업그레이드",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "시크릿을 클립보드에 복사",
@@ -57,7 +64,8 @@
             "CONTACT_CREATED": "연락처 생성됨",
             "CONTACT_UPDATED": "연락처 업데이트됨",
             "CONVERSATION_TYPING_ON": "대화 입력 중",
-            "CONVERSATION_TYPING_OFF": "대화 입력 중지"
+            "CONVERSATION_TYPING_OFF": "대화 입력 중지",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
@@ -127,7 +135,23 @@
       "HELP_TEXT": {
         "TITLE": "Slack 연동 사용 방법",
         "BODY": "이 연동을 통해 모든 수신 대화가 Slack 워크스페이스의 ***{selectedChannelName}*** 채널에 동기화됩니다. 채널 내에서 바로 모든 고객 대화를 관리할 수 있으며 메시지를 놓치지 않습니다.\n\n이 연동의 주요 기능은 다음과 같습니다:\n\n**Slack 내에서 대화에 응답하기:** ***{selectedChannelName}*** Slack 채널에서 대화에 응답하려면 메시지를 입력하고 스레드로 전송하십시오. 이렇게 하면 Chatwoot을 통해 고객에게 응답이 생성됩니다. 매우 간단합니다!\n\n **비공개 메모 작성:** 답장 대신 비공개 메모를 작성하려면 메시지를 ***`note:`***로 시작하십시오. 이렇게 하면 메시지가 비공개로 유지되며 고객에게 표시되지 않습니다.\n\n**상담원 프로필 연결:** Slack에서 답장한 사람이 동일한 이메일로 Chatwoot에 상담원 프로필을 가지고 있는 경우, 답장이 자동으로 해당 상담원 프로필과 연결됩니다. 이를 통해 누가 언제 무엇을 말했는지 쉽게 추적할 수 있습니다. 반면 답장한 사람에게 연결된 상담원 프로필이 없는 경우, 고객에게는 봇 프로필에서 보낸 것으로 표시됩니다.",
+        "BODY_ALERT": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace, so your team can pick them up as soon as they come in.\n\nThis integration is set to **Alerts only**, which means the Slack thread is a safe space for internal discussion. Anything your team posts there stays in Slack and is never sent to the customer.\n\n**Respond to the customer from Chatwoot:** Open the conversation from the link shared in the thread and reply from the Chatwoot dashboard. Replies and private notes added in Chatwoot keep appearing in the Slack thread, so everyone stays in the loop.",
         "SELECTED": "선택됨"
+      },
+      "MESSAGE_MODE": {
+        "TITLE": "Slack thread behaviour",
+        "DESCRIPTION": "Decide whether replies in the Slack thread reach the customer or stay internal.",
+        "OPTIONS": {
+          "TWO_WAY": {
+            "LABEL": "Two-way sync",
+            "DESCRIPTION": "Replies in the Slack thread are sent to the customer. Start a message with `note:` to keep it internal."
+          },
+          "ALERT": {
+            "LABEL": "Alerts only",
+            "DESCRIPTION": "Conversations are posted to Slack for internal discussion only. Nothing in the thread reaches the customer."
+          }
+        },
+        "UPDATE_SUCCESS": "The Slack thread behaviour is updated successfully"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "채널 선택",
@@ -391,6 +415,173 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "자세히 알아보기",
+    "OVERVIEW": {
+      "HEADER": "개요",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "닫기"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "닫기"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "이번 달",
+        "LAST_MONTH": "지난 달"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Conversations where Captain replied to the customer or handed the conversation to your team."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "The share of handled conversations Captain resolved without help from your team. Higher means Captain resolved more on its own."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "The share of handled conversations Captain passed to your team. Lower means fewer conversations needed an agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "An estimate of how much agent reply time Captain saved.",
+          "NOTE": "Based on two minutes saved for each public Captain reply."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "The share of Captain-resolved conversations that customers returned to later.",
+          "NOTE": "Lower means more resolutions stayed resolved."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "The average number of replies Captain sent in each conversation it handled.",
+          "NOTE": "A lower number can mean quicker answers, but complex questions may need more replies."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "더 불러오기",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "문서"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "플레이그라운드",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "청구",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      },
+      "V2": {
+        "EMPTY": "No data available for this period.",
+        "SUMMARY": {
+          "GREETING": "Hello, {name}!",
+          "DEFAULT_NAME": "there",
+          "EMPTY": "Captain's performance summary will appear here when enough activity is available.",
+          "PREVIOUS": "Previous summary point",
+          "NEXT": "Next summary point"
+        },
+        "UNITS": {
+          "DAYS": "{value}d",
+          "HOURS": "{value}h",
+          "MINUTES": "{value} min"
+        },
+        "METRICS": {
+          "TIME_SAVED": {
+            "LABEL": "Saved in agent effort and time"
+          },
+          "DURABLE": {
+            "LABEL": "Captain resolutions remained closed",
+            "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
+            "NOTE": "Only resolutions old enough to observe for seven days are included."
+          },
+          "MEDIAN_RESOLUTION": {
+            "LABEL": "Median resolution time",
+            "HINT": "The typical time from when a conversation reached Captain until it was resolved.",
+            "NOTE": "Lower means customers generally got resolved sooner."
+          },
+          "DEPTH": {
+            "LABEL": "Messages per conversation"
+          },
+          "OF_TOTAL": "of {total}"
+        },
+        "RESOLUTION_FLOW": {
+          "ARIA_LABEL": "Flow of handled conversations through Captain and team outcomes",
+          "NODES": {
+            "HANDLED": "Handled",
+            "RESOLVED_BY_CAPTAIN": "Resolved by Captain",
+            "HANDED_OFF": "Handed off",
+            "CLOSED_WITH_TEAM": "Closed with team",
+            "REOPENED": "Reopened in 7d",
+            "STAYED_CLOSED": "Stayed closed",
+            "OTHER_REASONS": "Other reasons"
+          }
+        },
+        "HANDOFF_REASONS": {
+          "TITLE": "Handoff reasons",
+          "CUSTOMER_REQUEST": "Customer requested",
+          "MISSING_KNOWLEDGE": "Missing knowledge",
+          "UNSUPPORTED_REQUEST": "Unsupported request",
+          "POLICY_RESTRICTION": "Policy restriction",
+          "TOOL_FAILURE": "Tool failure",
+          "PENDING_CLARIFICATION": "Pending customer clarification",
+          "PERCENTAGE": "({value}%)",
+          "USAGE_LIMIT": "Usage limit",
+          "UNCLASSIFIED": "Unclassified"
+        },
+        "RESOLUTION_TREND": {
+          "TITLE": "Resolution trend",
+          "CONVERSATION_COUNT": "Conversation count",
+          "RESOLUTION_RATE": "Resolution rate",
+          "CURRENT_PERIOD": "Current period",
+          "PREVIOUS_PERIOD": "이전 기간",
+          "HANDLED": "Handled",
+          "RESOLVED": "Resolved by Captain",
+          "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period",
+          "RATE_ARIA_LABEL": "Current and previous Captain resolution rates"
+        },
+        "CSAT": {
+          "TITLE": "Captain CSAT",
+          "AUTONOMOUS": "Captain-resolved conversations",
+          "AUTONOMOUS_HINT": "The average customer rating for conversations Captain resolved without help from your team.",
+          "ASSISTED": "Captain-assisted conversations",
+          "ASSISTED_HINT": "The average customer rating when Captain helped before your team resolved the conversation.",
+          "VS_HUMANS": "{value} vs humans"
+        },
+        "USAGE": {
+          "TITLE": "Usage",
+          "CREDITS": "크레딧",
+          "DOCUMENTS": "문서",
+          "USED": "({percentage}% used)",
+          "VALUE": "{used}/{total}",
+          "REFRESH": "Refresh usage",
+          "BUY_MORE": "크레딧 추가 구매"
+        },
+        "KNOWLEDGE": {
+          "REVIEW": "Review FAQs"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "어시스턴트",
       "SWITCH_ASSISTANT": "어시스턴트 간 전환",
@@ -493,10 +684,6 @@
           "PLACEHOLDER": "어시스턴트 이름을 입력하십시오",
           "ERROR": "이름은 필수입니다"
         },
-        "TEMPERATURE": {
-          "LABEL": "응답 온도",
-          "DESCRIPTION": "어시스턴트의 응답이 얼마나 창의적이거나 제한적이어야 하는지 조정합니다. 낮은 값은 더 집중적이고 결정론적인 응답을 생성하고, 높은 값은 더 창의적이고 다양한 출력을 허용합니다."
-        },
         "DESCRIPTION": {
           "LABEL": "설명",
           "PLACEHOLDER": "어시스턴트 설명을 입력하십시오",
@@ -519,6 +706,37 @@
           "LABEL": "해결 메시지",
           "PLACEHOLDER": "해결 메시지를 입력하십시오"
         },
+        "INACTIVITY_RESOLUTION": {
+          "TITLE": "When customers stop replying",
+          "DESCRIPTION": "Choose how Captain handles the conversation.",
+          "MODE_LABEL": "Action when the customer stops replying",
+          "REVIEW_AFTER": "Review after",
+          "RESOLVE_AFTER": "Resolve after",
+          "ALWAYS_WARNING": "Captain will resolve every conversation after the selected time without reviewing it. Some conversations that still need help may be closed.",
+          "PENDING_INFO": "The conversation remains pending until the customer replies.",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Send a message when resolving",
+            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation."
+          },
+          "MODES": {
+            "DISABLED": {
+              "LABEL": "Wait for the customer",
+              "DESCRIPTION": "Captain does not resolve the conversation. Captain can still hand it off if the customer asks."
+            },
+            "LEGACY": {
+              "LABEL": "Always resolve",
+              "DESCRIPTION": "Captain resolves every conversation after the selected time."
+            },
+            "EVALUATED": {
+              "LABEL": "Let Captain review it (recommended)",
+              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
+            }
+          },
+          "DURATION_HOURS_ARIA_LABEL": "Hours before action",
+          "DURATION_MINUTES_ARIA_LABEL": "Minutes before action",
+          "DURATION_HOURS_SHORT": "{count} h",
+          "DURATION_MINUTES_SHORT": "{count} min"
+        },
         "INSTRUCTIONS": {
           "LABEL": "지침",
           "PLACEHOLDER": "어시스턴트에 대한 지침을 입력하십시오"
@@ -529,6 +747,48 @@
           "ALLOW_MEMORIES": "고객 상호작용에서 주요 세부 정보를 기억으로 캡처합니다.",
           "ALLOW_CITATIONS": "응답에 출처 인용을 포함합니다",
           "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+        },
+        "AUDIENCE": {
+          "EVERYONE": {
+            "LABEL": "Everyone",
+            "DESC": "Captain responds to every conversation in connected inboxes."
+          },
+          "SPECIFIC": {
+            "LABEL": "Specific audience",
+            "DESC": "Captain responds only to customers who match the conditions below."
+          },
+          "ADD_CONDITION": "Add condition",
+          "ADD_GROUP": "Add condition group",
+          "EMPTY_TITLE": "No conditions yet",
+          "EMPTY_BODY": "Add a condition to target specific customers, or a condition group to combine conditions with different and/or logic.",
+          "EMPTY_ERROR": "Add at least one condition for a specific audience.",
+          "MATCH_PREFIX": "Match",
+          "MATCH_SUFFIX": "of the following",
+          "MATCH_ALL": "전체",
+          "MATCH_ANY": "any",
+          "GROUP_CONTACT": "Contact attributes",
+          "GROUP_CONVERSATION": "대화",
+          "GROUP_CUSTOM": "사용자 정의 속성",
+          "BROWSER_LANGUAGE": "브라우저 언어",
+          "CONVERSATION_LANGUAGE": "First message language",
+          "LOGGED_IN": "Logged-in user",
+          "LOGGED_IN_TRUE": "예",
+          "LOGGED_IN_FALSE": "아니오"
+        },
+        "SCHEDULE": {
+          "ALWAYS": {
+            "LABEL": "Anytime",
+            "DESC": "Captain responds to every conversation, regardless of time."
+          },
+          "BUSINESS_HOURS": {
+            "LABEL": "During business hours",
+            "DESC": "Captain responds only within each inbox's business hours."
+          },
+          "OUTSIDE_BUSINESS_HOURS": {
+            "LABEL": "Outside business hours",
+            "DESC": "Captain responds only when each inbox is closed."
+          },
+          "HINT": "Inboxes without business hours configured are always covered."
         }
       },
       "EDIT": {
@@ -545,7 +805,16 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "시스템 설정",
-          "DESCRIPTION": "대화를 종료하거나 상담원에게 전환할 때 어시스턴트가 표시하는 메시지를 맞춤 설정합니다."
+          "DESCRIPTION": "대화를 종료하거나 상담원에게 전환할 때 어시스턴트가 표시하는 메시지를 맞춤 설정합니다.",
+          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set the handoff message."
+        },
+        "AUDIENCE": {
+          "TITLE": "대상",
+          "DESCRIPTION": "Choose whether this assistant responds to everyone or only to a specific audience."
+        },
+        "SCHEDULE": {
+          "TITLE": "Schedule",
+          "DESCRIPTION": "Choose when Captain replies. Outside this window, conversations are handed to your team."
         },
         "CONTROL_ITEMS": {
           "TITLE": "고급 설정",
@@ -714,6 +983,11 @@
           "CANCEL": "취소",
           "UPDATE": "변경 사항 업데이트"
         },
+        "STATUS": {
+          "ENABLED": "사용함",
+          "DISABLED": "사용 안 함",
+          "TOGGLE": "Toggle {title}"
+        },
         "LIST": {
           "SEARCH_PLACEHOLDER": "검색..."
         },
@@ -728,6 +1002,11 @@
             "SUCCESS": "시나리오가 성공적으로 업데이트되었습니다",
             "ERROR": "시나리오를 업데이트하는 중 오류가 발생했습니다. 다시 시도하십시오."
           },
+          "TOGGLE": {
+            "ENABLED": "Scenario enabled successfully",
+            "DISABLED": "Scenario disabled successfully",
+            "ERROR": "There was an error updating the scenario status, please try again."
+          },
           "DELETE": {
             "SUCCESS": "시나리오가 성공적으로 삭제되었습니다",
             "ERROR": "시나리오를 삭제하는 중 오류가 발생했습니다. 다시 시도하십시오."
@@ -738,10 +1017,14 @@
     "DOCUMENTS": {
       "HEADER": "문서",
       "ADD_NEW": "새 문서 만들기",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
+      "USED_IN_CONVERSATIONS": "Used in {n} conversation | Used in {n} conversations",
+      "NO_USED_CONVERSATIONS": "No conversations found for this document.",
       "SELECTED": "{count}개 선택됨",
       "SELECT_ALL": "전체 선택 ({count})",
       "UNSELECT_ALL": "전체 선택 해제 ({count})",
       "BULK_DELETE_BUTTON": "삭제",
+      "BULK_SYNC_BUTTON": "새로고침",
       "BULK_DELETE": {
         "TITLE": "Delete documents?",
         "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
@@ -749,9 +1032,76 @@
         "SUCCESS_MESSAGE": "Documents deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
+        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
+        "ZERO_MESSAGE": "No documents marked for refresh.",
+        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
+        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "All sources",
+          "WEB": "Web pages",
+          "PDF": "PDFs"
+        },
+        "STATUS": {
+          "ANY": "Any status",
+          "UPDATED": "Updated",
+          "NEEDS_UPDATE": "Needs update",
+          "UPDATING": "Updating",
+          "FAILED": "실패"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Recently updated",
+          "RECENTLY_CREATED": "Recently created",
+          "MOST_USED": "Most used in conversations"
+        },
+        "SEARCH_PLACEHOLDER": "검색..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "last updated {time}",
+        "SYNCING": "업데이트 중...",
+        "STALE_SYNC": "update stalled",
+        "FAILED": "Failed to sync",
+        "NEVER_SYNCED": "not updated yet"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "페이지를 찾을 수 없습니다",
+        "ACCESS_DENIED": "Access denied",
+        "TIMEOUT": "Page took too long to respond",
+        "CONTENT_EMPTY": "Page returned empty content",
+        "FETCH_FAILED": "Could not fetch page",
+        "SYNC_ERROR": "Unexpected error",
+        "DEFAULT": "Sync error"
+      },
       "RELATED_RESPONSES": {
         "TITLE": "관련 FAQ",
-        "DESCRIPTION": "이 FAQ는 문서에서 직접 생성되었습니다."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "USED_IN_CONVERSATIONS": "Used in conversations",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "사용 불가",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "복사",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "문서의 URL을 입력하여 지식 소스로 추가하고 연결할 어시스턴트를 선택하십시오.",
       "CREATE": {
@@ -791,12 +1141,16 @@
         "ERROR_MESSAGE": "문서를 삭제하는 중 오류가 발생했습니다. 다시 시도하십시오."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "관련 응답 보기",
+        "VIEW_DETAILS": "상세보기",
+        "SYNC_NOW": "Refresh now",
+        "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "문서 삭제"
       },
       "EMPTY_STATE": {
         "TITLE": "사용 가능한 문서가 없습니다",
         "SUBTITLE": "문서는 어시스턴트가 FAQ를 생성하는 데 사용됩니다. 어시스턴트에 컨텍스트를 제공하기 위해 문서를 가져올 수 있습니다.",
+        "FILTERED_TITLE": "No matching documents",
+        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain 문서",
           "NOTE": "Captain의 문서는 어시스턴트를 위한 지식 리소스로 활용됩니다. 도움말 센터나 가이드를 연결하면 Captain이 내용을 분석하여 고객 문의에 대한 정확한 응답을 제공할 수 있습니다."
@@ -819,6 +1173,22 @@
       "OPTIONS": {
         "EDIT_TOOL": "도구 수정",
         "DELETE_TOOL": "도구 삭제"
+      },
+      "STATUS": {
+        "ENABLED": "사용함",
+        "DISABLED": "사용 안 함",
+        "TOGGLE": "Toggle {title}"
+      },
+      "TOGGLE": {
+        "ENABLED": "Tool enabled successfully",
+        "DISABLED": "Tool disabled successfully",
+        "ERROR": "Failed to update tool status"
+      },
+      "DISABLE_CONFIRMATION": {
+        "TITLE": "Disable {title}?",
+        "DESCRIPTION_ONE": "This tool is used by {count} enabled scenario. Disabling it may cause that scenario to stop working as expected.",
+        "DESCRIPTION_OTHER": "This tool is used by {count} enabled scenarios. Disabling it may cause those scenarios to stop working as expected.",
+        "CONFIRM": "Disable tool"
       },
       "CREATE": {
         "TITLE": "사용자 정의 도구 만들기",
@@ -934,8 +1304,8 @@
     },
     "RESPONSES": {
       "HEADER": "FAQ",
-      "PENDING_FAQS": "대기 중인 FAQ",
       "ADD_NEW": "새 FAQ 만들기",
+      "NO_USED_CONVERSATIONS": "No conversations found for this FAQ.",
       "DOCUMENTABLE": {
         "CONVERSATION": "대화 #{id}"
       },
@@ -943,12 +1313,10 @@
       "SELECT_ALL": "전체 선택 ({count})",
       "UNSELECT_ALL": "전체 선택 해제 ({count})",
       "SEARCH_PLACEHOLDER": "FAQ 검색...",
-      "BULK_APPROVE_BUTTON": "승인",
-      "BULK_DELETE_BUTTON": "삭제",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQ가 성공적으로 승인되었습니다",
-        "ERROR_MESSAGE": "FAQ를 승인하는 중 오류가 발생했습니다. 다시 시도하십시오."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "삭제",
       "BULK_DELETE": {
         "TITLE": "FAQ를 삭제하시겠습니까?",
         "DESCRIPTION": "선택한 FAQ를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
@@ -963,20 +1331,9 @@
         "SUCCESS_MESSAGE": "FAQ가 성공적으로 삭제되었습니다",
         "ERROR_MESSAGE": "FAQ를 삭제하는 중 오류가 발생했습니다. 다시 시도하십시오."
       },
-      "FILTER": {
-        "ASSISTANT": "어시스턴트: {selected}",
-        "STATUS": "상태: {selected}",
-        "ALL_ASSISTANTS": "전체"
-      },
-      "STATUS": {
-        "TITLE": "상태",
-        "PENDING": "대기 중",
-        "APPROVED": "승인됨",
-        "ALL": "전체"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain이 고객이 찾고 있던 FAQ를 발견했습니다.",
-        "ACTION": "여기를 클릭하여 검토하십시오"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "지식 베이스에 질문과 해당 답변을 추가하고 연결할 어시스턴트를 선택하십시오.",
       "CREATE": {
@@ -1009,13 +1366,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "FAQ를 찾을 수 없습니다",
-        "NO_PENDING_TITLE": "검토할 대기 중인 FAQ가 더 이상 없습니다",
         "SUBTITLE": "FAQ는 어시스턴트가 고객의 질문에 빠르고 정확한 답변을 제공하는 데 도움이 됩니다. 콘텐츠에서 자동으로 생성되거나 수동으로 추가할 수 있습니다.",
         "CLEAR_SEARCH": "활성 필터 지우기",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQ는 지식 베이스에서 누락되었거나 자주 질문되는 일반적인 고객 질문을 감지하고 관련 FAQ를 생성하여 지원을 개선합니다. 각 제안을 검토하고 승인 또는 거부를 결정할 수 있습니다."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "승인",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "닫기",
+      "SAVE": "변경사항 저장",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "재시도"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

@@ -6,6 +6,8 @@ class Tiktok::CallbacksController < ApplicationController
     return handle_ungranted_scopes_error unless all_scopes_granted?
 
     process_successful_authorization
+  rescue CustomExceptions::Inbox::LimitExceeded => e
+    handle_limit_error(e)
   rescue StandardError => e
     handle_error(e)
   end
@@ -20,6 +22,8 @@ class Tiktok::CallbacksController < ApplicationController
   def process_successful_authorization
     inbox, already_exists = find_or_create_inbox
 
+    return redirect_to app_onboarding_inbox_setup_url(account_id: account_id) if return_to == 'onboarding'
+
     if already_exists
       redirect_to app_tiktok_inbox_settings_url(account_id: account_id, inbox_id: inbox.id)
     else
@@ -32,6 +36,14 @@ class Tiktok::CallbacksController < ApplicationController
     ChatwootExceptionTracker.new(error).capture_exception
 
     redirect_to_error_page(error_type: error.class.name, code: 500, error_message: error.message)
+  end
+
+  def handle_limit_error(error)
+    redirect_to_error_page(
+      error_type: error.class.name,
+      code: Rack::Utils.status_code(error.http_status),
+      error_message: error.message
+    )
   end
 
   # Handles the case when a user denies permissions or cancels the authorization flow
@@ -91,7 +103,8 @@ class Tiktok::CallbacksController < ApplicationController
         access_token: short_term_access_token[:access_token],
         refresh_token: short_term_access_token[:refresh_token],
         expires_at: short_term_access_token[:expires_at],
-        refresh_token_expires_at: short_term_access_token[:refresh_token_expires_at]
+        refresh_token_expires_at: short_term_access_token[:refresh_token_expires_at],
+        provider_name: business_details[:username]
       )
 
       account.inboxes.create!(
@@ -113,10 +126,9 @@ class Tiktok::CallbacksController < ApplicationController
       access_token: short_term_access_token[:access_token],
       refresh_token: short_term_access_token[:refresh_token],
       expires_at: short_term_access_token[:expires_at],
-      refresh_token_expires_at: short_term_access_token[:refresh_token_expires_at]
+      refresh_token_expires_at: short_term_access_token[:refresh_token_expires_at],
+      provider_name: business_details[:username]
     )
-
-    channel_tiktok.inbox.update!(name: business_details[:display_name].presence || business_details[:username])
   end
 
   def set_avatar(inbox, avatar_url)
@@ -125,6 +137,10 @@ class Tiktok::CallbacksController < ApplicationController
 
   def account_id
     @account_id ||= verify_tiktok_token(params[:state])
+  end
+
+  def return_to
+    tiktok_token_return_to(params[:state])
   end
 
   def account

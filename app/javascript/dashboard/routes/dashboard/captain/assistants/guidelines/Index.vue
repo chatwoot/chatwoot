@@ -1,17 +1,15 @@
 <script setup>
-import { computed, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 import { useStore } from 'dashboard/composables/store';
-import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAssistantSettings } from '../settings/useAssistantSettings';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
-import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
-import SettingsHeader from 'dashboard/components-next/captain/pageComponents/settings/SettingsHeader.vue';
+import SettingsPageLayout from 'dashboard/components-next/captain/pageComponents/assistant/settings/SettingsPageLayout.vue';
 import SuggestedRules from 'dashboard/components-next/captain/assistant/SuggestedRules.vue';
 import AddNewRulesInput from 'dashboard/components-next/captain/assistant/AddNewRulesInput.vue';
 import AddNewRulesDialog from 'dashboard/components-next/captain/assistant/AddNewRulesDialog.vue';
@@ -19,16 +17,9 @@ import RuleCard from 'dashboard/components-next/captain/assistant/RuleCard.vue';
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 
 const { t } = useI18n();
-const route = useRoute();
 const store = useStore();
 const { uiSettings, updateUISettings } = useUISettings();
-
-const uiFlags = useMapGetter('captainAssistants/getUIFlags');
-const assistantId = computed(() => Number(route.params.assistantId));
-const isFetching = computed(() => uiFlags.value.fetchingItem);
-const assistant = computed(() =>
-  store.getters['captainAssistants/getRecord'](assistantId.value)
-);
+const { assistantId, assistant } = useAssistantSettings();
 
 const searchQuery = ref('');
 const newInlineRule = ref('');
@@ -37,14 +28,6 @@ const newDialogRule = ref('');
 const guidelinesContent = computed(
   () => assistant.value?.response_guidelines || []
 );
-
-const backUrl = computed(() => ({
-  name: 'captain_assistants_settings_index',
-  params: {
-    accountId: route.params.accountId,
-    assistantId: assistantId.value,
-  },
-}));
 
 const displayGuidelines = computed(() =>
   guidelinesContent.value.map((c, idx) => ({ id: idx, content: c }))
@@ -85,6 +68,11 @@ const closeSuggestedRules = () => {
 // Bulk selection & hover state
 const bulkSelectedIds = ref(new Set());
 const hoveredCard = ref(null);
+
+watch(assistantId, () => {
+  bulkSelectedIds.value = new Set();
+  hoveredCard.value = null;
+});
 
 const handleRuleSelect = id => {
   const selected = new Set(bulkSelectedIds.value);
@@ -180,147 +168,126 @@ const addAllExample = async () => {
 </script>
 
 <template>
-  <PageLayout
-    :header-title="$t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.TITLE')"
-    :is-fetching="isFetching"
-    :back-url="backUrl"
-    :show-know-more="false"
-    :show-pagination-footer="false"
-    :show-assistant-switcher="false"
+  <SettingsPageLayout
+    :heading="t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.TITLE')"
+    :description="t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.DESCRIPTION')"
   >
-    <template #body>
-      <SettingsHeader
-        :heading="t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.TITLE')"
-        :description="t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.DESCRIPTION')"
-      />
-      <div v-if="shouldShowSuggestedRules" class="flex mt-7 flex-col gap-4">
-        <SuggestedRules
-          :title="t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.TITLE')"
-          :items="guidelinesExample"
-          @add="addAllExample"
-          @close="closeSuggestedRules"
-        >
-          <template #default="{ item }">
-            <div class="flex items-center justify-between w-full">
-              <span class="text-sm text-n-slate-12">
-                {{ item.content }}
-              </span>
-              <Button
-                :label="
-                  t(
-                    'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.SUGGESTED.ADD_SINGLE'
-                  )
-                "
-                ghost
-                xs
-                slate
-                class="!text-sm !text-n-slate-11 flex-shrink-0"
-                @click="addGuideline(item.content)"
-              />
-            </div>
-          </template>
-        </SuggestedRules>
-      </div>
-      <div class="flex mt-7 flex-col gap-4">
-        <div class="flex justify-between items-center">
-          <BulkSelectBar
-            v-model="bulkSelectedIds"
-            :all-items="displayGuidelines"
-            :select-all-label="buildSelectedCountLabel"
-            :selected-count-label="selectedCountLabel"
-            :delete-label="
-              $t(
-                'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.BULK_ACTION.BULK_DELETE_BUTTON'
+    <SuggestedRules
+      v-if="shouldShowSuggestedRules"
+      :title="t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.TITLE')"
+      :items="guidelinesExample"
+      @add="addAllExample"
+      @close="closeSuggestedRules"
+    >
+      <template #default="{ item }">
+        <div class="flex items-center justify-between w-full">
+          <span class="text-sm text-n-slate-12">
+            {{ item.content }}
+          </span>
+          <Button
+            :label="
+              t(
+                'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.SUGGESTED.ADD_SINGLE'
               )
             "
-            @bulk-delete="bulkDeleteGuidelines"
-          >
-            <template #default-actions>
-              <AddNewRulesDialog
-                v-model="newDialogRule"
-                :placeholder="
-                  t(
-                    'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.PLACEHOLDER'
-                  )
-                "
-                :button-label="
-                  t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.TITLE')
-                "
-                :confirm-label="
-                  t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.CREATE')
-                "
-                :cancel-label="
-                  t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.CANCEL')
-                "
-                @add="addGuideline"
-              />
-              <!-- Will enable this feature in future -->
-              <!-- <div class="h-4 w-px bg-n-strong" />
-              <Button
-                :label="
-                  t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.TEST_ALL')
-                "
-                sm
-                ghost
-                slate
-              /> -->
-            </template>
-          </BulkSelectBar>
-          <div
-            v-if="displayGuidelines.length && bulkSelectedIds.size === 0"
-            class="max-w-[22.5rem] w-full min-w-0"
-          >
-            <Input
-              v-model="searchQuery"
-              :placeholder="
-                t(
-                  'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.LIST.SEARCH_PLACEHOLDER'
-                )
-              "
-            />
-          </div>
-        </div>
-        <div v-if="displayGuidelines.length === 0" class="mt-1 mb-2">
-          <span class="text-n-slate-11 text-sm">
-            {{ t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.EMPTY_MESSAGE') }}
-          </span>
-        </div>
-        <div v-else-if="filteredGuidelines.length === 0" class="mt-1 mb-2">
-          <span class="text-n-slate-11 text-sm">
-            {{
-              t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.SEARCH_EMPTY_MESSAGE')
-            }}
-          </span>
-        </div>
-        <div v-else class="flex flex-col gap-2">
-          <RuleCard
-            v-for="guideline in filteredGuidelines"
-            :id="guideline.id"
-            :key="guideline.id"
-            :content="guideline.content"
-            :is-selected="bulkSelectedIds.has(guideline.id)"
-            :selectable="
-              hoveredCard === guideline.id || bulkSelectedIds.size > 0
-            "
-            @select="handleRuleSelect"
-            @hover="isHovered => handleRuleHover(isHovered, guideline.id)"
-            @edit="editGuideline"
-            @delete="deleteGuideline"
+            ghost
+            xs
+            slate
+            class="!text-sm !text-n-slate-11 flex-shrink-0"
+            @click="addGuideline(item.content)"
           />
         </div>
-        <AddNewRulesInput
-          v-model="newInlineRule"
-          :placeholder="
+      </template>
+    </SuggestedRules>
+    <div class="flex flex-col gap-4">
+      <div class="flex justify-between items-center">
+        <BulkSelectBar
+          v-model="bulkSelectedIds"
+          :all-items="displayGuidelines"
+          :select-all-label="buildSelectedCountLabel"
+          :selected-count-label="selectedCountLabel"
+          :delete-label="
             t(
-              'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.SUGGESTED.PLACEHOLDER'
+              'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.BULK_ACTION.BULK_DELETE_BUTTON'
             )
           "
-          :label="
-            t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.SUGGESTED.SAVE')
-          "
-          @add="addGuideline"
+          @bulk-delete="bulkDeleteGuidelines"
+        >
+          <template #default-actions>
+            <AddNewRulesDialog
+              v-model="newDialogRule"
+              :placeholder="
+                t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.PLACEHOLDER')
+              "
+              :button-label="
+                t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.TITLE')
+              "
+              :confirm-label="
+                t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.CREATE')
+              "
+              :cancel-label="
+                t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.CANCEL')
+              "
+              @add="addGuideline"
+            />
+            <!-- Will enable this feature in future -->
+            <!-- <div class="h-4 w-px bg-n-strong" />
+            <Button
+              :label="
+                t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.TEST_ALL')
+              "
+              sm
+              ghost
+              slate
+            /> -->
+          </template>
+        </BulkSelectBar>
+        <div
+          v-if="displayGuidelines.length && bulkSelectedIds.size === 0"
+          class="max-w-[22.5rem] w-full min-w-0"
+        >
+          <Input
+            v-model="searchQuery"
+            :placeholder="
+              t(
+                'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.LIST.SEARCH_PLACEHOLDER'
+              )
+            "
+          />
+        </div>
+      </div>
+      <div v-if="displayGuidelines.length === 0" class="mt-1 mb-2">
+        <span class="text-n-slate-11 text-sm">
+          {{ t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.EMPTY_MESSAGE') }}
+        </span>
+      </div>
+      <div v-else-if="filteredGuidelines.length === 0" class="mt-1 mb-2">
+        <span class="text-n-slate-11 text-sm">
+          {{ t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.SEARCH_EMPTY_MESSAGE') }}
+        </span>
+      </div>
+      <div v-else class="flex flex-col gap-2">
+        <RuleCard
+          v-for="guideline in filteredGuidelines"
+          :id="guideline.id"
+          :key="guideline.id"
+          :content="guideline.content"
+          :is-selected="bulkSelectedIds.has(guideline.id)"
+          :selectable="hoveredCard === guideline.id || bulkSelectedIds.size > 0"
+          @select="handleRuleSelect"
+          @hover="isHovered => handleRuleHover(isHovered, guideline.id)"
+          @edit="editGuideline"
+          @delete="deleteGuideline"
         />
       </div>
-    </template>
-  </PageLayout>
+      <AddNewRulesInput
+        v-model="newInlineRule"
+        :placeholder="
+          t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.SUGGESTED.PLACEHOLDER')
+        "
+        :label="t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.SUGGESTED.SAVE')"
+        @add="addGuideline"
+      />
+    </div>
+  </SettingsPageLayout>
 </template>

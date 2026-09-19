@@ -7,8 +7,11 @@ import { validateLoggedInRoutes } from '../helper/routeHelpers';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import AnalyticsHelper from '../helper/AnalyticsHelper';
 
-const ONBOARDING_STEPS = ['account_details', 'enrichment'];
+const ONBOARDING_STEPS = ['account_details', 'enrichment', 'inbox_setup'];
 const routes = [...dashboard.routes];
+
+const onboardingPath = step =>
+  step === 'inbox_setup' ? 'onboarding/inbox-setup' : 'onboarding';
 
 export const router = createRouter({ history: createWebHistory(), routes });
 
@@ -41,12 +44,18 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   if (to.name === 'no_accounts' || !to.name) {
     const homeDashboardEnabled = !!user?.ui_settings?.home_dashboard_enabled;
     const landingTarget = homeDashboardEnabled ? 'home' : 'dashboard';
-    const target = needsOnboarding ? 'onboarding' : landingTarget;
+    const target = needsOnboarding
+      ? onboardingPath(userAccount?.onboarding_step)
+      : landingTarget;
     return next(frontendURL(`accounts/${routeAccountId}/${target}`));
   }
 
   if (needsOnboarding && !isOnOnboardingView(to)) {
-    return next(frontendURL(`accounts/${routeAccountId}/onboarding`));
+    return next(
+      frontendURL(
+        `accounts/${routeAccountId}/${onboardingPath(userAccount?.onboarding_step)}`
+      )
+    );
   }
   if (!needsOnboarding && isOnOnboardingView(to)) {
     return next(frontendURL(`accounts/${routeAccountId}/dashboard`));

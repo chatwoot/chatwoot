@@ -30,6 +30,15 @@ RSpec.describe Reports::ReportMetricRegistry do
       expect(metric.raw_count_strategy).to eq(:distinct_conversation)
     end
 
+    it 'locks the handoff exclusion strategy for bot_resolutions_count' do
+      metric = described_class.fetch(:bot_resolutions_count)
+
+      expect(metric.count?).to be(true)
+      expect(metric.raw_event_name).to eq(:conversation_bot_resolved)
+      expect(metric.rollup_metric).to eq(:bot_resolutions_count)
+      expect(metric.raw_count_strategy).to eq(:exclude_bot_handoffs)
+    end
+
     it 'returns nil for unsupported metrics' do
       expect(described_class.fetch(:unknown_metric)).to be_nil
     end

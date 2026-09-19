@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Selecciona Safata d'entrada"
         },
         "SUBMIT": "Crear",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Cancel·la"
       },
       "API": {

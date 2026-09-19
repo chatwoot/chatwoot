@@ -17,12 +17,12 @@ properties:
     enum: ['agent', 'administrator']
     description: Whether its administrator or agent
     example: 'agent'
-  availability_status:
+  availability:
     type: string
-    enum: ['available', 'busy', 'offline']
-    description: The availability setting of the agent.
-    example: 'available'
+    enum: ['online', 'busy', 'offline']
+    description: The configured availability of the agent.
+    example: 'online'
   auto_offline:
     type: boolean
-    description: Whether the availability status of agent is configured to go offline automatically when away.
+    description: Whether the agent is automatically marked offline when they are away.
     example: true

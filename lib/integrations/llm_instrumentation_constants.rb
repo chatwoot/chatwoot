@@ -29,4 +29,5 @@ module Integrations::LlmInstrumentationConstants
   ATTR_LANGFUSE_OBSERVATION_TYPE = 'langfuse.observation.type'
   ATTR_LANGFUSE_OBSERVATION_INPUT = 'langfuse.observation.input'
   ATTR_LANGFUSE_OBSERVATION_OUTPUT = 'langfuse.observation.output'
+  ATTR_LANGFUSE_OBSERVATION_METADATA = 'langfuse.observation.metadata.%s'
 end

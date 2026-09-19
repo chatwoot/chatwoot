@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Selecteer een inbox"
         },
         "SUBMIT": "Aanmaken",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Annuleren"
       },
       "API": {

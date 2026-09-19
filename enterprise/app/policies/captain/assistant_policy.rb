@@ -7,8 +7,24 @@ class Captain::AssistantPolicy < ApplicationPolicy
     true
   end
 
-  def tools?
+  def metrics?
+    true
+  end
+
+  def faq_stats?
+    true
+  end
+
+  def summary?
+    true
+  end
+
+  def drilldown?
     @account_user.administrator?
+  end
+
+  def tools?
+    @account_user.administrator? || account.feature_enabled?('captain_integration_v2')
   end
 
   def create?
@@ -17,6 +33,14 @@ class Captain::AssistantPolicy < ApplicationPolicy
 
   def update?
     @account_user.administrator?
+  end
+
+  def approve?
+    update?
+  end
+
+  def dismiss?
+    update?
   end
 
   def destroy?

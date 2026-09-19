@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Επιλογή Εισερχομένων"
         },
         "SUBMIT": "Δημιουργία",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Άκυρο"
       },
       "API": {

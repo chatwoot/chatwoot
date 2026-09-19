@@ -149,6 +149,35 @@ describe Messages::MessageBuilder do
       end
     end
 
+    context 'when is_voice_message is true' do
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'test',
+                                           attachments: [Rack::Test::UploadedFile.new('spec/assets/sample.ogg', 'audio/ogg')],
+                                           is_voice_message: true
+                                         })
+      end
+
+      it 'sets is_voice_message in attachment meta' do
+        message = message_builder
+        expect(message.attachments.first.meta).to include('is_voice_message' => true)
+      end
+    end
+
+    context 'when is_voice_message is not provided' do
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'test',
+                                           attachments: [Rack::Test::UploadedFile.new('spec/assets/avatar.png', 'image/png')]
+                                         })
+      end
+
+      it 'does not set is_voice_message in attachment meta' do
+        message = message_builder
+        expect(message.attachments.first.meta).not_to include('is_voice_message')
+      end
+    end
+
     context 'when email channel messages' do
       let!(:channel_email) { create(:channel_email, account: account) }
       let(:inbox_member) { create(:inbox_member, inbox: channel_email.inbox) }
@@ -181,10 +210,6 @@ describe Messages::MessageBuilder do
       end
 
       context 'when custom email content is provided' do
-        before do
-          account.enable_features('quoted_email_reply')
-        end
-
         it 'creates message with custom HTML email content' do
           params = ActionController::Parameters.new({
                                                       content: 'Regular message content',

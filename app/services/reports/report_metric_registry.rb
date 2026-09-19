@@ -79,8 +79,8 @@ module Reports::ReportMetricRegistry
     bot_resolutions_count: Metric.new(
       name: :bot_resolutions_count,
       aggregate: :count,
-      raw_event_name: :conversation_bot_resolved,
-      rollup_metric: :bot_resolutions_count
+      raw_event_name: :conversation_bot_resolved, rollup_metric: :bot_resolutions_count,
+      raw_count_strategy: :exclude_bot_handoffs
     ),
     bot_handoffs_count: Metric.new(
       name: :bot_handoffs_count,

@@ -7,6 +7,7 @@
       "404": "Bu grupta aktif görüşme yok."
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Konuşmalar yüklenemedi. Lütfen tekrar deneyin.",
     "TAB_HEADING": "Konuşmalar",
     "MENTION_HEADING": "Bahsedilmeler",
     "UNATTENDED_HEADING": "İlgilenilmemiş",
@@ -44,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Oluşturuldu",
         "OLDEST": "Oluşturma zamanı:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Son etkinlik:",
-        "ACTIVE": "Son etkinlik"
+        "NOT_ACTIVE": "Son etkinlik:"
       }
     },
     "SORT_ORDER_ITEMS": {
@@ -79,6 +78,9 @@
       },
       "priority_desc_created_at_asc": {
         "TEXT": "Priority: Highest first, Created: Oldest first"
+      },
+      "unread": {
+        "TEXT": "Okunmamış Sayısı: En yüksekten en düşüğe"
       }
     },
     "ATTACHMENTS": {
@@ -140,6 +142,7 @@
     "HIDE_QUOTED_TEXT": "Alıntı Yapılan Mesajı Gizle",
     "SHOW_QUOTED_TEXT": "Alıntı Yapılan Mesajı Göster",
     "MESSAGE_READ": "Oku",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

@@ -31,7 +31,11 @@ class Agents::DestroyJob < ApplicationJob
 
   def unassign_conversations(account, user)
     # rubocop:disable Rails/SkipsModelValidations
-    user.assigned_conversations.where(account: account).in_batches.update_all(assignee_id: nil)
+    unassigned_count = user.assigned_conversations.where(account: account).in_batches.update_all(assignee_id: nil)
     # rubocop:enable Rails/SkipsModelValidations
+
+    return unless unassigned_count.positive?
+
+    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).conversation_changed!
   end
 end

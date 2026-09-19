@@ -1,0 +1,7 @@
+<% content_for :head do %>
+  <%= render 'public/api/v1/portals/categories/meta_head',
+             category: @category, portal: @portal, locale: @locale, og_image_url: @og_image_url %>
+<% end %>
+
+<%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal, plain: true %>
+<%= render 'public/api/v1/portals/categories/article_list', category: @category, portal: @portal %>

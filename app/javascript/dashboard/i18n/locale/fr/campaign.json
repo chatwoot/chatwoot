@@ -1,8 +1,8 @@
 {
   "CAMPAIGN": {
     "LIVE_CHAT": {
-      "HEADER_TITLE": "Live chat campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "Campagnes de chat en direct",
+      "NEW_CAMPAIGN": "Créer une campagne",
       "CARD": {
         "STATUS": {
           "ENABLED": "Activé",
@@ -12,15 +12,15 @@
           "SENT_BY": "Envoyé par",
           "BOT": "Bot",
           "FROM": "de",
-          "URL": "URL:"
+          "URL": "URL :"
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No live chat campaigns are available",
-        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+        "TITLE": "Aucune campagne de chat en direct n'est disponible",
+        "SUBTITLE": "Connectez-vous avec vos clients en utilisant des messages proactifs. Cliquez sur 'Créer une campagne' pour commencer."
       },
       "CREATE": {
-        "TITLE": "Create a live chat campaign",
+        "TITLE": "Créer une campagne de chat en direct",
         "CANCEL_BUTTON_TEXT": "Annuler",
         "CREATE_BUTTON_TEXT": "Créer",
         "FORM": {
@@ -41,7 +41,7 @@
           },
           "SENT_BY": {
             "LABEL": "Envoyé par",
-            "PLACEHOLDER": "Please select sender",
+            "PLACEHOLDER": "Veuillez sélectionner l'expéditeur",
             "ERROR": "L'expéditeur est requis"
           },
           "END_POINT": {
@@ -55,7 +55,7 @@
             "ERROR": "Le temps sur la page est requis"
           },
           "OTHER_PREFERENCES": {
-            "TITLE": "Other preferences",
+            "TITLE": "Autres préférences",
             "ENABLED": "Activer la campagne",
             "TRIGGER_ONLY_BUSINESS_HOURS": "Déclencher uniquement pendant les heures d'ouverture"
           },
@@ -64,40 +64,41 @@
             "CANCEL": "Annuler"
           },
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "SUCCESS_MESSAGE": "Campagne de chat en direct créée avec succès",
             "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer."
           }
         }
       },
       "EDIT": {
-        "TITLE": "Edit live chat campaign",
+        "TITLE": "Modifier la campagne de chat en direct",
         "FORM": {
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "SUCCESS_MESSAGE": "Campagne de chat en direct mise à jour avec succès",
             "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer."
           }
         }
       }
     },
     "SMS": {
-      "HEADER_TITLE": "SMS campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "Campagnes SMS",
+      "NEW_CAMPAIGN": "Créer une campagne",
       "EMPTY_STATE": {
-        "TITLE": "No SMS campaigns are available",
-        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "Aucune campagne SMS n'est disponible",
+        "SUBTITLE": "Lancez une campagne SMS pour atteindre directement vos clients. Envoyez des offres ou faites des annonces en toute simplicité. Cliquez sur 'Créer une campagne' pour commencer."
       },
       "CARD": {
         "STATUS": {
+          "PROCESSING": "Traitement en cours",
           "COMPLETED": "Terminé",
-          "SCHEDULED": "Scheduled"
+          "SCHEDULED": "Planifié"
         },
         "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "Sent from",
-          "ON": "on"
+          "SENT_FROM": "Envoyé depuis",
+          "ON": "le"
         }
       },
       "CREATE": {
-        "TITLE": "Create SMS campaign",
+        "TITLE": "Créer une campagne SMS",
         "CANCEL_BUTTON_TEXT": "Annuler",
         "CREATE_BUTTON_TEXT": "Créer",
         "FORM": {
@@ -131,7 +132,7 @@
             "CANCEL": "Annuler"
           },
           "API": {
-            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "SUCCESS_MESSAGE": "Campagne SMS créée avec succès",
             "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer."
           }
         }
@@ -139,19 +140,21 @@
     },
     "WHATSAPP": {
       "HEADER_TITLE": "Campagnes WhatsApp",
-      "NEW_CAMPAIGN": "Create campaign",
+      "NEW_CAMPAIGN": "Créer une campagne",
       "EMPTY_STATE": {
         "TITLE": "Aucune campagne WhatsApp n’est disponible",
         "SUBTITLE": "Lancez une campagne WhatsApp pour toucher directement vos clients. Envoyez des offres ou faites des annonces en toute simplicité. Cliquez sur “Créer une campagne” pour commencer."
       },
       "CARD": {
+        "ANALYTICS": "View analytics",
         "STATUS": {
+          "PROCESSING": "Traitement en cours",
           "COMPLETED": "Terminé",
-          "SCHEDULED": "Scheduled"
+          "SCHEDULED": "Planifié"
         },
         "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "Sent from",
-          "ON": "on"
+          "SENT_FROM": "Envoyé depuis",
+          "ON": "le"
         }
       },
       "CREATE": {
@@ -199,11 +202,105 @@
             "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer."
           }
         }
+      },
+      "ANALYTICS": {
+        "LOADING": "Loading analytics...",
+        "EMPTY": "No delivery records found.",
+        "EMPTY_FILTER": "No {status} delivery records found.",
+        "DELIVERIES_ERROR": "Delivery records couldn't be loaded. Refresh the page to try again.",
+        "EMPTY_STATE": {
+          "ERROR": {
+            "TITLE": "Analytics couldn't be loaded",
+            "DESCRIPTION": "Refresh the page to try again."
+          },
+          "PENDING": {
+            "TITLE": "Delivery data will appear once sending begins",
+            "DESCRIPTION": "There are no delivery records for this campaign yet."
+          },
+          "UNAVAILABLE": {
+            "TITLE": "Analytics aren't available for this campaign",
+            "DESCRIPTION": "No delivery data was recorded for this campaign. This can happen for campaigns sent before campaign analytics were introduced."
+          }
+        },
+        "PROCESSING_BANNER": {
+          "DEFAULT": "This campaign is still processing. Analytics will update automatically.",
+          "BOTH": "This campaign is still processing. {queued} messages are queued, and {awaitingUpdate} are awaiting a delivery update from WhatsApp.",
+          "BOTH_SINGLE": "This campaign is still processing. {queued} message is queued, and {awaitingUpdate} is awaiting a delivery update from WhatsApp.",
+          "BOTH_QUEUED_SINGLE": "This campaign is still processing. {queued} message is queued, and {awaitingUpdate} are awaiting a delivery update from WhatsApp.",
+          "BOTH_AWAITING_SINGLE": "This campaign is still processing. {queued} messages are queued, and {awaitingUpdate} is awaiting a delivery update from WhatsApp.",
+          "QUEUED": "This campaign is still processing. {count} message is queued. | This campaign is still processing. {count} messages are queued.",
+          "AWAITING_UPDATE": "This campaign is still processing. {count} message is awaiting a delivery update from WhatsApp. | This campaign is still processing. {count} messages are awaiting a delivery update from WhatsApp.",
+          "COMPLETING": "This campaign is completing. Analytics will update automatically."
+        },
+        "RATE": "{value}% of audience",
+        "SENT_ON": "Sent on {date}",
+        "PAGE_INFO": "Affichage de {startItem} à {endItem} sur {totalItems} contact | Affichage de {startItem} à {endItem} sur {totalItems} contacts",
+        "BREADCRUMB": {
+          "CAMPAIGNS": "Campagnes",
+          "WHATSAPP": "WhatsApp"
+        },
+        "FILTERS": {
+          "ALL": "Tous"
+        },
+        "METRICS": {
+          "AUDIENCE": {
+            "LABEL": "Audience",
+            "HINT": "Contacts included in this campaign."
+          },
+          "SENT": {
+            "LABEL": "Submitted to WhatsApp",
+            "HINT": "Messages accepted by WhatsApp for delivery."
+          },
+          "DELIVERED": {
+            "LABEL": "Delivered",
+            "HINT": "Messages that reached the contact's device. Read messages are included."
+          },
+          "READ": {
+            "LABEL": "Lu",
+            "HINT": "Messages opened by the contact."
+          },
+          "FAILED": {
+            "LABEL": "Échec",
+            "HINT": "Messages WhatsApp could not deliver."
+          },
+          "SKIPPED": {
+            "LABEL": "Skipped",
+            "HINT": "Contacts skipped before sending, usually because of a missing or invalid phone number."
+          }
+        },
+        "STATUS": {
+          "QUEUED": "En file d'attente",
+          "SENT": "Awaiting delivery update",
+          "DELIVERED": "Delivered",
+          "READ": "Lu",
+          "FAILED": "Échec",
+          "SKIPPED": "Skipped"
+        },
+        "BREAKDOWN": {
+          "TITLE": "Delivery breakdown",
+          "DELIVERY_RATE": "{value}% delivered",
+          "LEGEND": {
+            "READ": "Lu",
+            "DELIVERED": "Delivered",
+            "FAILED": "Échec",
+            "SKIPPED": "Skipped",
+            "PENDING": "Queued or awaiting update"
+          }
+        },
+        "TABLE": {
+          "TITLE": "Deliveries",
+          "CONTACT": "Contact",
+          "STATUS": "État",
+          "MESSAGE": "Message",
+          "MESSAGE_NOT_GENERATED": "Not generated",
+          "REASON": "Raison",
+          "ERROR_CODE": "Code {code}"
+        }
       }
     },
     "CONFIRM_DELETE": {
       "TITLE": "Êtes-vous sûr de vouloir supprimer?",
-      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "DESCRIPTION": "L'action de suppression est permanente et ne peut pas être inversée.",
       "CONFIRM": "Supprimer",
       "API": {
         "SUCCESS_MESSAGE": "La campagne a bien été supprimée",

@@ -35,6 +35,28 @@ RSpec.describe Redis::LockManager do
     end
   end
 
+  describe '#with_lock' do
+    it 'yields when the lock is acquired and releases the lock' do
+      yielded = false
+
+      expect(lock_manager.with_lock(lock_key) { yielded = true }).to be true
+      expect(yielded).to be true
+      expect(lock_manager.locked?(lock_key)).to be false
+    end
+
+    it 'returns false without yielding when the lock is already acquired' do
+      lock_manager.lock(lock_key)
+
+      expect { |block| lock_manager.with_lock(lock_key, &block) }.not_to yield_control
+      expect(lock_manager.with_lock(lock_key) { raise 'should not run' }).to be false
+    end
+
+    it 'releases the lock when the block raises' do
+      expect { lock_manager.with_lock(lock_key) { raise 'boom' } }.to raise_error('boom')
+      expect(lock_manager.locked?(lock_key)).to be false
+    end
+  end
+
   describe '#locked?' do
     it 'returns true if a key is locked' do
       lock_manager.lock(lock_key)

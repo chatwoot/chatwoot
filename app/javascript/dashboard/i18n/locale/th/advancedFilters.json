@@ -19,6 +19,10 @@
       "OR": "หรือ"
     },
     "INPUT_PLACEHOLDER": "Enter value",
+    "MULTI_VALUE_INPUT_PLACEHOLDER": "Type a value, then press Enter to add more",
+    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Type a value",
+    "CONTACT_SEARCH_PLACEHOLDER": "Search contacts",
+    "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "เท่ากับ",
       "not_equal_to": "ไม่เท่ากับ",
@@ -49,6 +53,7 @@
       "ASSIGNEE_NAME": "Assignee name",
       "INBOX_NAME": "Inbox name",
       "TEAM_NAME": "ชื่อทีม",
+      "CONTACT": "ผู้ติดต่อ",
       "CONVERSATION_IDENTIFIER": "Conversation identifier",
       "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "ป้ายกำกับ",

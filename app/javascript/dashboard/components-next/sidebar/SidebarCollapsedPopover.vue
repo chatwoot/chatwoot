@@ -1,10 +1,12 @@
 <script setup>
-import { computed, ref, onMounted, nextTick } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, ref, onMounted, nextTick, isVNode } from 'vue';
+import { onClickOutside } from '@vueuse/core';
 import { useSidebarContext } from './provider';
 import { useMapGetter } from 'dashboard/composables/store';
 import Icon from 'next/icon/Icon.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
+import SidebarUnreadBadge from './SidebarUnreadBadge.vue';
+import SidebarSortMenu from './SidebarSortMenu.vue';
 
 const props = defineProps({
   label: { type: String, required: true },
@@ -13,9 +15,8 @@ const props = defineProps({
   triggerRect: { type: Object, default: () => ({ top: 0, left: 0 }) },
 });
 
-const emit = defineEmits(['close', 'mouseenter', 'mouseleave']);
+const emit = defineEmits(['close', 'mouseenter', 'mouseleave', 'sortToggle']);
 
-const router = useRouter();
 const { isAllowed, sidebarWidth } = useSidebarContext();
 
 const expandedSubGroup = ref(null);
@@ -28,10 +29,13 @@ const toggleSubGroup = name => {
   expandedSubGroup.value = expandedSubGroup.value === name ? null : name;
 };
 
-const navigateAndClose = to => {
-  router.push(to);
-  emit('close');
+const handleSortToggle = isSortOpen => {
+  emit('sortToggle', isSortOpen);
 };
+
+onClickOutside(popoverRef, () => emit('close'), {
+  ignore: ['[data-popover-content]'],
+});
 
 const isActive = child => props.activeChild?.name === child.name;
 
@@ -42,6 +46,10 @@ const renderIcon = icon => ({
   component: typeof icon === 'object' ? icon : Icon,
   props: typeof icon === 'string' ? { icon } : null,
 });
+
+const shouldRenderComponent = child => {
+  return typeof child.component === 'function' || isVNode(child.component);
+};
 
 const transition = computed(() =>
   skipTransition.value
@@ -122,24 +130,44 @@ onMounted(async () => {
         >
           <template v-for="child in accessibleChildren" :key="child.name">
             <!-- SubGroup with children -->
-            <li v-if="child.children" class="py-0.5">
-              <button
-                class="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg text-n-slate-11 hover:bg-n-alpha-2 transition-colors duration-150 ease-out text-left rtl:text-right"
-                @click="toggleSubGroup(child.name)"
+            <li v-if="child.children" class="group/sidebar-section py-0.5">
+              <div
+                class="flex items-center rounded-lg text-n-slate-11 hover:bg-n-alpha-2 transition-colors duration-150 ease-out"
               >
-                <Icon
-                  v-if="child.icon"
-                  :icon="child.icon"
-                  class="size-4 flex-shrink-0"
-                />
-                <span class="flex-1 truncate text-sm">{{ child.label }}</span>
-                <span
-                  class="size-3 transition-transform i-lucide-chevron-down"
-                  :class="{
-                    'rotate-180': expandedSubGroup === child.name,
-                  }"
-                />
-              </button>
+                <button
+                  class="flex flex-1 min-w-0 items-center gap-2 ps-2 py-1.5 text-left rtl:text-right"
+                  @click="toggleSubGroup(child.name)"
+                >
+                  <Icon
+                    v-if="child.icon"
+                    :icon="child.icon"
+                    class="size-4 flex-shrink-0"
+                  />
+                  <span class="flex-1 truncate text-sm">{{ child.label }}</span>
+                </button>
+                <div class="flex flex-shrink-0 items-center gap-1 pe-2">
+                  <SidebarSortMenu
+                    v-if="child.sortOptions?.length"
+                    :active-sort="child.activeSort"
+                    :options="child.sortOptions"
+                    :open-on-hover="false"
+                    @sort="child.onSortChange"
+                    @toggle="handleSortToggle"
+                  />
+                  <button
+                    type="button"
+                    class="flex size-6 flex-shrink-0 items-center justify-center rounded-md text-n-slate-11 hover:bg-n-alpha-2 focus-visible:bg-n-alpha-2 focus-visible:outline-none"
+                    @click.stop="toggleSubGroup(child.name)"
+                  >
+                    <span
+                      class="size-4 flex-shrink-0 transition-transform i-lucide-chevron-down"
+                      :class="{
+                        'rotate-180': expandedSubGroup === child.name,
+                      }"
+                    />
+                  </button>
+                </div>
+              </div>
               <Transition v-bind="transition">
                 <ul
                   v-if="expandedSubGroup === child.name"
@@ -150,45 +178,75 @@ onMounted(async () => {
                     :key="subChild.name"
                     class="py-0.5"
                   >
-                    <button
+                    <router-link
+                      :to="subChild.to"
                       class="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg text-sm text-left rtl:text-right transition-colors duration-150 ease-out"
                       :class="{
                         'text-n-slate-12 bg-n-alpha-2': isActive(subChild),
                         'text-n-slate-11 hover:bg-n-alpha-2':
                           !isActive(subChild),
                       }"
-                      @click="navigateAndClose(subChild.to)"
+                      @click="emit('close')"
                     >
                       <component
-                        :is="renderIcon(subChild.icon).component"
-                        v-if="subChild.icon"
-                        v-bind="renderIcon(subChild.icon).props"
-                        class="size-4 flex-shrink-0"
+                        :is="subChild.component"
+                        v-if="shouldRenderComponent(subChild)"
+                        v-bind="{
+                          label: subChild.label,
+                          icon: subChild.icon,
+                          active: isActive(subChild),
+                          badgeCount: subChild.badgeCount,
+                        }"
                       />
-                      <span class="flex-1 truncate">{{ subChild.label }}</span>
-                    </button>
+                      <template v-else>
+                        <component
+                          :is="renderIcon(subChild.icon).component"
+                          v-if="subChild.icon"
+                          v-bind="renderIcon(subChild.icon).props"
+                          class="size-4 flex-shrink-0"
+                        />
+                        <span class="flex-1 truncate">
+                          {{ subChild.label }}
+                        </span>
+                        <SidebarUnreadBadge :count="subChild.badgeCount" />
+                      </template>
+                    </router-link>
                   </li>
                 </ul>
               </Transition>
             </li>
             <!-- Direct child item -->
             <li v-else class="py-0.5">
-              <button
+              <router-link
+                :to="child.to"
                 class="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg text-sm text-left rtl:text-right transition-colors duration-150 ease-out"
                 :class="{
                   'text-n-slate-12 bg-n-alpha-2': isActive(child),
                   'text-n-slate-11 hover:bg-n-alpha-2': !isActive(child),
                 }"
-                @click="navigateAndClose(child.to)"
+                @click="emit('close')"
               >
                 <component
-                  :is="renderIcon(child.icon).component"
-                  v-if="child.icon"
-                  v-bind="renderIcon(child.icon).props"
-                  class="size-4 flex-shrink-0"
+                  :is="child.component"
+                  v-if="shouldRenderComponent(child)"
+                  v-bind="{
+                    label: child.label,
+                    icon: child.icon,
+                    active: isActive(child),
+                    badgeCount: child.badgeCount,
+                  }"
                 />
-                <span class="flex-1 truncate">{{ child.label }}</span>
-              </button>
+                <template v-else>
+                  <component
+                    :is="renderIcon(child.icon).component"
+                    v-if="child.icon"
+                    v-bind="renderIcon(child.icon).props"
+                    class="size-4 flex-shrink-0"
+                  />
+                  <span class="flex-1 truncate">{{ child.label }}</span>
+                  <SidebarUnreadBadge :count="child.badgeCount" />
+                </template>
+              </router-link>
             </li>
           </template>
         </ul>

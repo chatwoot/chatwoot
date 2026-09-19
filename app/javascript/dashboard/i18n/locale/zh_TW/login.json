@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "登入 Chatwoot",
+    "TITLE": "登入到 Chatwoot",
     "EMAIL": {
       "LABEL": "電子郵件",
       "PLACEHOLDER": "example{'@'}companyname.com",
@@ -17,7 +17,7 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "使用 Google 登入",
-      "BUSINESS_ACCOUNTS_ONLY": "請使用您的公司電子郵件地址登入",
+      "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
       "NO_ACCOUNT_FOUND": "找不到與您的電子郵件地址相關聯的帳戶。"
     },
     "FORGOT_PASSWORD": "忘記密碼了？",

@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Acara Langganan",
       "LEARN_MORE": "Ketahui lebih lanjut tentang webhook",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Rahsia",
         "COPY": "Salin rahsia ke papan klip",
@@ -57,7 +64,8 @@
             "CONTACT_CREATED": "Kenalan dicipta",
             "CONTACT_UPDATED": "Kenalan dikemas kini",
             "CONVERSATION_TYPING_ON": "Perbualan Mengetik Aktif",
-            "CONVERSATION_TYPING_OFF": "Perbualan Mengetik Tidak Aktif"
+            "CONVERSATION_TYPING_OFF": "Perbualan Mengetik Tidak Aktif",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
@@ -127,7 +135,23 @@
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
         "BODY": "Dengan integrasi ini, semua perbualan masuk anda akan diselaraskan ke saluran ***{selectedChannelName}*** di ruang kerja Slack anda. Anda boleh mengurus semua perbualan pelanggan anda terus dalam saluran tersebut dan tidak akan terlepas sebarang mesej.\n\nBerikut adalah ciri utama integrasi ini:\n\n**Balas perbualan dari dalam Slack:** Untuk membalas perbualan di saluran Slack ***{selectedChannelName}***, hanya taip mesej anda dan hantar sebagai thread. Ini akan mencipta balasan kepada pelanggan melalui Chatwoot. Mudah sahaja!\n\n**Cipta nota peribadi:** Jika anda ingin mencipta nota peribadi dan bukannya balasan, mulakan mesej anda dengan ***`note:`***. Ini memastikan mesej anda kekal peribadi dan tidak akan kelihatan kepada pelanggan.\n\n**Kaitkan profil ejen:** Jika individu yang membalas di Slack mempunyai profil ejen di Chatwoot dengan emel yang sama, balasan akan dikaitkan secara automatik dengan profil ejen tersebut. Ini membolehkan anda menjejak siapa yang berkata apa dan bila. Jika pembalas tidak mempunyai profil ejen yang dikaitkan, balasan akan dipaparkan daripada profil bot kepada pelanggan.",
+        "BODY_ALERT": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace, so your team can pick them up as soon as they come in.\n\nThis integration is set to **Alerts only**, which means the Slack thread is a safe space for internal discussion. Anything your team posts there stays in Slack and is never sent to the customer.\n\n**Respond to the customer from Chatwoot:** Open the conversation from the link shared in the thread and reply from the Chatwoot dashboard. Replies and private notes added in Chatwoot keep appearing in the Slack thread, so everyone stays in the loop.",
         "SELECTED": "dipilih"
+      },
+      "MESSAGE_MODE": {
+        "TITLE": "Slack thread behaviour",
+        "DESCRIPTION": "Decide whether replies in the Slack thread reach the customer or stay internal.",
+        "OPTIONS": {
+          "TWO_WAY": {
+            "LABEL": "Two-way sync",
+            "DESCRIPTION": "Replies in the Slack thread are sent to the customer. Start a message with `note:` to keep it internal."
+          },
+          "ALERT": {
+            "LABEL": "Alerts only",
+            "DESCRIPTION": "Conversations are posted to Slack for internal discussion only. Nothing in the thread reaches the customer."
+          }
+        },
+        "UPDATE_SUCCESS": "The Slack thread behaviour is updated successfully"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Pilih saluran",
@@ -391,6 +415,173 @@
   "CAPTAIN": {
     "NAME": "Kapten",
     "HEADER_KNOW_MORE": "Ketahui lebih lanjut",
+    "OVERVIEW": {
+      "HEADER": "Gambaran Keseluruhan",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Conversations where Captain replied to the customer or handed the conversation to your team."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "The share of handled conversations Captain resolved without help from your team. Higher means Captain resolved more on its own."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "The share of handled conversations Captain passed to your team. Lower means fewer conversations needed an agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "An estimate of how much agent reply time Captain saved.",
+          "NOTE": "Based on two minutes saved for each public Captain reply."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "The share of Captain-resolved conversations that customers returned to later.",
+          "NOTE": "Lower means more resolutions stayed resolved."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "The average number of replies Captain sent in each conversation it handled.",
+          "NOTE": "A lower number can mean quicker answers, but complex questions may need more replies."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "Dokumen"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Tempat Permainan",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "Pengebilan",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      },
+      "V2": {
+        "EMPTY": "No data available for this period.",
+        "SUMMARY": {
+          "GREETING": "Hello, {name}!",
+          "DEFAULT_NAME": "there",
+          "EMPTY": "Captain's performance summary will appear here when enough activity is available.",
+          "PREVIOUS": "Previous summary point",
+          "NEXT": "Next summary point"
+        },
+        "UNITS": {
+          "DAYS": "{value}d",
+          "HOURS": "{value}h",
+          "MINUTES": "{value} min"
+        },
+        "METRICS": {
+          "TIME_SAVED": {
+            "LABEL": "Saved in agent effort and time"
+          },
+          "DURABLE": {
+            "LABEL": "Captain resolutions remained closed",
+            "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
+            "NOTE": "Only resolutions old enough to observe for seven days are included."
+          },
+          "MEDIAN_RESOLUTION": {
+            "LABEL": "Median resolution time",
+            "HINT": "The typical time from when a conversation reached Captain until it was resolved.",
+            "NOTE": "Lower means customers generally got resolved sooner."
+          },
+          "DEPTH": {
+            "LABEL": "Messages per conversation"
+          },
+          "OF_TOTAL": "of {total}"
+        },
+        "RESOLUTION_FLOW": {
+          "ARIA_LABEL": "Flow of handled conversations through Captain and team outcomes",
+          "NODES": {
+            "HANDLED": "Handled",
+            "RESOLVED_BY_CAPTAIN": "Resolved by Captain",
+            "HANDED_OFF": "Handed off",
+            "CLOSED_WITH_TEAM": "Closed with team",
+            "REOPENED": "Reopened in 7d",
+            "STAYED_CLOSED": "Stayed closed",
+            "OTHER_REASONS": "Other reasons"
+          }
+        },
+        "HANDOFF_REASONS": {
+          "TITLE": "Handoff reasons",
+          "CUSTOMER_REQUEST": "Customer requested",
+          "MISSING_KNOWLEDGE": "Missing knowledge",
+          "UNSUPPORTED_REQUEST": "Unsupported request",
+          "POLICY_RESTRICTION": "Policy restriction",
+          "TOOL_FAILURE": "Tool failure",
+          "PENDING_CLARIFICATION": "Pending customer clarification",
+          "PERCENTAGE": "({value}%)",
+          "USAGE_LIMIT": "Usage limit",
+          "UNCLASSIFIED": "Unclassified"
+        },
+        "RESOLUTION_TREND": {
+          "TITLE": "Resolution trend",
+          "CONVERSATION_COUNT": "Conversation count",
+          "RESOLUTION_RATE": "Resolution rate",
+          "CURRENT_PERIOD": "Current period",
+          "PREVIOUS_PERIOD": "Previous period",
+          "HANDLED": "Handled",
+          "RESOLVED": "Resolved by Captain",
+          "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period",
+          "RATE_ARIA_LABEL": "Current and previous Captain resolution rates"
+        },
+        "CSAT": {
+          "TITLE": "Captain CSAT",
+          "AUTONOMOUS": "Captain-resolved conversations",
+          "AUTONOMOUS_HINT": "The average customer rating for conversations Captain resolved without help from your team.",
+          "ASSISTED": "Captain-assisted conversations",
+          "ASSISTED_HINT": "The average customer rating when Captain helped before your team resolved the conversation.",
+          "VS_HUMANS": "{value} vs humans"
+        },
+        "USAGE": {
+          "TITLE": "Usage",
+          "CREDITS": "Credits",
+          "DOCUMENTS": "Dokumen",
+          "USED": "({percentage}% used)",
+          "VALUE": "{used}/{total}",
+          "REFRESH": "Refresh usage",
+          "BUY_MORE": "Beli lebih banyak kredit"
+        },
+        "KNOWLEDGE": {
+          "REVIEW": "Review FAQs"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Pembantu",
       "SWITCH_ASSISTANT": "Bertukar antara pembantu",
@@ -493,10 +684,6 @@
           "PLACEHOLDER": "Masukkan nama pembantu",
           "ERROR": "Nama diperlukan"
         },
-        "TEMPERATURE": {
-          "LABEL": "Suhu Respons",
-          "DESCRIPTION": "Laraskan sejauh mana kreativiti atau kekangan dalam respons pembantu. Nilai yang lebih rendah menghasilkan respons yang lebih fokus dan deterministik, manakala nilai yang lebih tinggi membenarkan output yang lebih kreatif dan pelbagai."
-        },
         "DESCRIPTION": {
           "LABEL": "Penerangan",
           "PLACEHOLDER": "Masukkan penerangan pembantu",
@@ -512,12 +699,43 @@
           "PLACEHOLDER": "Masukkan mesej selamat datang"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Mesej Penyerahan",
+          "LABEL": "Handoff message",
           "PLACEHOLDER": "Masukkan mesej penyerahan"
         },
         "RESOLUTION_MESSAGE": {
           "LABEL": "Mesej Penyelesaian",
           "PLACEHOLDER": "Masukkan mesej penyelesaian"
+        },
+        "INACTIVITY_RESOLUTION": {
+          "TITLE": "When customers stop replying",
+          "DESCRIPTION": "Choose how Captain handles the conversation.",
+          "MODE_LABEL": "Action when the customer stops replying",
+          "REVIEW_AFTER": "Review after",
+          "RESOLVE_AFTER": "Resolve after",
+          "ALWAYS_WARNING": "Captain will resolve every conversation after the selected time without reviewing it. Some conversations that still need help may be closed.",
+          "PENDING_INFO": "The conversation remains pending until the customer replies.",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Send a message when resolving",
+            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation."
+          },
+          "MODES": {
+            "DISABLED": {
+              "LABEL": "Wait for the customer",
+              "DESCRIPTION": "Captain does not resolve the conversation. Captain can still hand it off if the customer asks."
+            },
+            "LEGACY": {
+              "LABEL": "Always resolve",
+              "DESCRIPTION": "Captain resolves every conversation after the selected time."
+            },
+            "EVALUATED": {
+              "LABEL": "Let Captain review it (recommended)",
+              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
+            }
+          },
+          "DURATION_HOURS_ARIA_LABEL": "Hours before action",
+          "DURATION_MINUTES_ARIA_LABEL": "Minutes before action",
+          "DURATION_HOURS_SHORT": "{count} h",
+          "DURATION_MINUTES_SHORT": "{count} min"
         },
         "INSTRUCTIONS": {
           "LABEL": "Arahan",
@@ -529,6 +747,48 @@
           "ALLOW_MEMORIES": "Tangkap butiran penting sebagai memori daripada interaksi pelanggan.",
           "ALLOW_CITATIONS": "Sertakan petikan sumber dalam jawapan",
           "ALLOW_CONTACT_ATTRIBUTES": "Benarkan akses kepada maklumat kenalan"
+        },
+        "AUDIENCE": {
+          "EVERYONE": {
+            "LABEL": "Everyone",
+            "DESC": "Captain responds to every conversation in connected inboxes."
+          },
+          "SPECIFIC": {
+            "LABEL": "Specific audience",
+            "DESC": "Captain responds only to customers who match the conditions below."
+          },
+          "ADD_CONDITION": "Add condition",
+          "ADD_GROUP": "Add condition group",
+          "EMPTY_TITLE": "No conditions yet",
+          "EMPTY_BODY": "Add a condition to target specific customers, or a condition group to combine conditions with different and/or logic.",
+          "EMPTY_ERROR": "Add at least one condition for a specific audience.",
+          "MATCH_PREFIX": "Match",
+          "MATCH_SUFFIX": "of the following",
+          "MATCH_ALL": "semua",
+          "MATCH_ANY": "any",
+          "GROUP_CONTACT": "Contact attributes",
+          "GROUP_CONVERSATION": "Conversation",
+          "GROUP_CUSTOM": "Custom attributes",
+          "BROWSER_LANGUAGE": "Browser language",
+          "CONVERSATION_LANGUAGE": "First message language",
+          "LOGGED_IN": "Logged-in user",
+          "LOGGED_IN_TRUE": "Ya",
+          "LOGGED_IN_FALSE": "Tidak"
+        },
+        "SCHEDULE": {
+          "ALWAYS": {
+            "LABEL": "Anytime",
+            "DESC": "Captain responds to every conversation, regardless of time."
+          },
+          "BUSINESS_HOURS": {
+            "LABEL": "During business hours",
+            "DESC": "Captain responds only within each inbox's business hours."
+          },
+          "OUTSIDE_BUSINESS_HOURS": {
+            "LABEL": "Outside business hours",
+            "DESC": "Captain responds only when each inbox is closed."
+          },
+          "HINT": "Inboxes without business hours configured are always covered."
         }
       },
       "EDIT": {
@@ -545,7 +805,16 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "Tetapan sistem",
-          "DESCRIPTION": "Sesuaikan apa yang pembantu katakan apabila menamatkan perbualan atau memindahkan kepada manusia."
+          "DESCRIPTION": "Sesuaikan apa yang pembantu katakan apabila menamatkan perbualan atau memindahkan kepada manusia.",
+          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set the handoff message."
+        },
+        "AUDIENCE": {
+          "TITLE": "Audience",
+          "DESCRIPTION": "Choose whether this assistant responds to everyone or only to a specific audience."
+        },
+        "SCHEDULE": {
+          "TITLE": "Schedule",
+          "DESCRIPTION": "Choose when Captain replies. Outside this window, conversations are handed to your team."
         },
         "CONTROL_ITEMS": {
           "TITLE": "Perkara yang Menghiburkan",
@@ -714,6 +983,11 @@
           "CANCEL": "Batalkan",
           "UPDATE": "Kemas kini perubahan"
         },
+        "STATUS": {
+          "ENABLED": "Diaktifkan",
+          "DISABLED": "Disabled",
+          "TOGGLE": "Toggle {title}"
+        },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Cari..."
         },
@@ -728,6 +1002,11 @@
             "SUCCESS": "Senario berjaya dikemas kini",
             "ERROR": "Terdapat ralat semasa mengemas kini senario, sila cuba lagi."
           },
+          "TOGGLE": {
+            "ENABLED": "Scenario enabled successfully",
+            "DISABLED": "Scenario disabled successfully",
+            "ERROR": "There was an error updating the scenario status, please try again."
+          },
           "DELETE": {
             "SUCCESS": "Senario berjaya dipadam",
             "ERROR": "Terdapat ralat semasa memadam senario, sila cuba lagi."
@@ -738,10 +1017,14 @@
     "DOCUMENTS": {
       "HEADER": "Dokumen",
       "ADD_NEW": "Cipta dokumen baru",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
+      "USED_IN_CONVERSATIONS": "Used in {n} conversation | Used in {n} conversations",
+      "NO_USED_CONVERSATIONS": "No conversations found for this document.",
       "SELECTED": "{count} dipilih",
       "SELECT_ALL": "Pilih semua ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
       "BULK_DELETE_BUTTON": "Padamkan",
+      "BULK_SYNC_BUTTON": "Refresh",
       "BULK_DELETE": {
         "TITLE": "Delete documents?",
         "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
@@ -749,9 +1032,76 @@
         "SUCCESS_MESSAGE": "Documents deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
+        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
+        "ZERO_MESSAGE": "No documents marked for refresh.",
+        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
+        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "All sources",
+          "WEB": "Web pages",
+          "PDF": "PDFs"
+        },
+        "STATUS": {
+          "ANY": "Any status",
+          "UPDATED": "Updated",
+          "NEEDS_UPDATE": "Needs update",
+          "UPDATING": "Updating",
+          "FAILED": "Gagal"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Recently updated",
+          "RECENTLY_CREATED": "Recently created",
+          "MOST_USED": "Most used in conversations"
+        },
+        "SEARCH_PLACEHOLDER": "Search..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "last updated {time}",
+        "SYNCING": "updating...",
+        "STALE_SYNC": "update stalled",
+        "FAILED": "Failed to sync",
+        "NEVER_SYNCED": "not updated yet"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "Page not found",
+        "ACCESS_DENIED": "Access denied",
+        "TIMEOUT": "Page took too long to respond",
+        "CONTENT_EMPTY": "Page returned empty content",
+        "FETCH_FAILED": "Could not fetch page",
+        "SYNC_ERROR": "Unexpected error",
+        "DEFAULT": "Sync error"
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Soalan Lazim Berkaitan",
-        "DESCRIPTION": "Soalan Lazim ini dijana terus daripada dokumen."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "USED_IN_CONVERSATIONS": "Used in conversations",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "Salin",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "Masukkan URL dokumen untuk menambahnya sebagai sumber pengetahuan dan pilih pembantu untuk dikaitkan dengannya.",
       "CREATE": {
@@ -791,12 +1141,16 @@
         "ERROR_MESSAGE": "Terdapat ralat semasa memadam dokumen, sila cuba lagi."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Lihat Respons Berkaitan",
+        "VIEW_DETAILS": "View details",
+        "SYNC_NOW": "Refresh now",
+        "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Padam Dokumen"
       },
       "EMPTY_STATE": {
         "TITLE": "Tiada dokumen tersedia",
         "SUBTITLE": "Dokumen digunakan oleh pembantu anda untuk menjana Soalan Lazim. Anda boleh mengimport dokumen untuk memberikan konteks kepada pembantu anda.",
+        "FILTERED_TITLE": "No matching documents",
+        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
           "NOTE": "Dokumen dalam Captain berfungsi sebagai sumber pengetahuan untuk pembantu. Dengan menyambungkan pusat bantuan atau panduan anda, Captain boleh menganalisis kandungan dan memberikan respons tepat untuk pertanyaan pelanggan."
@@ -819,6 +1173,22 @@
       "OPTIONS": {
         "EDIT_TOOL": "Sunting alat",
         "DELETE_TOOL": "Padam alat"
+      },
+      "STATUS": {
+        "ENABLED": "Diaktifkan",
+        "DISABLED": "Disabled",
+        "TOGGLE": "Toggle {title}"
+      },
+      "TOGGLE": {
+        "ENABLED": "Tool enabled successfully",
+        "DISABLED": "Tool disabled successfully",
+        "ERROR": "Failed to update tool status"
+      },
+      "DISABLE_CONFIRMATION": {
+        "TITLE": "Disable {title}?",
+        "DESCRIPTION_ONE": "This tool is used by {count} enabled scenario. Disabling it may cause that scenario to stop working as expected.",
+        "DESCRIPTION_OTHER": "This tool is used by {count} enabled scenarios. Disabling it may cause those scenarios to stop working as expected.",
+        "CONFIRM": "Disable tool"
       },
       "CREATE": {
         "TITLE": "Cipta Alat Tersuai",
@@ -934,8 +1304,8 @@
     },
     "RESPONSES": {
       "HEADER": "Soalan Lazim",
-      "PENDING_FAQS": "Soalan Lazim Tertunggak",
       "ADD_NEW": "Buat FAQ baru",
+      "NO_USED_CONVERSATIONS": "No conversations found for this FAQ.",
       "DOCUMENTABLE": {
         "CONVERSATION": "Perbualan #{id}"
       },
@@ -943,12 +1313,10 @@
       "SELECT_ALL": "Pilih semua ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
       "SEARCH_PLACEHOLDER": "Cari Soalan Lazim...",
-      "BULK_APPROVE_BUTTON": "Luluskan",
-      "BULK_DELETE_BUTTON": "Padamkan",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "Soalan Lazim berjaya diluluskan",
-        "ERROR_MESSAGE": "Terdapat ralat semasa meluluskan Soalan Lazim, sila cuba lagi."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "Padamkan",
       "BULK_DELETE": {
         "TITLE": "Padam Soalan Lazim?",
         "DESCRIPTION": "Adakah anda pasti mahu memadam Soalan Lazim yang dipilih? Tindakan ini tidak boleh dibatalkan.",
@@ -963,20 +1331,9 @@
         "SUCCESS_MESSAGE": "FAQ berjaya dipadam",
         "ERROR_MESSAGE": "Terdapat ralat semasa memadam FAQ, sila cuba lagi."
       },
-      "FILTER": {
-        "ASSISTANT": "Pembantu: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "Semua"
-      },
-      "STATUS": {
-        "TITLE": "Keadaan",
-        "PENDING": "Dalam Talian",
-        "APPROVED": "Diluluskan",
-        "ALL": "Semua"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain telah menemui beberapa FAQ yang dicari oleh pelanggan anda.",
-        "ACTION": "Klik di sini untuk semak"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "Tambah soalan dan jawapan yang sepadan ke dalam pangkalan pengetahuan dan pilih pembantu yang sepatutnya dikaitkan dengannya.",
       "CREATE": {
@@ -1009,13 +1366,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Tiada Soalan Lazim Dijumpai",
-        "NO_PENDING_TITLE": "Tiada lagi Soalan Lazim tertunda untuk disemak",
         "SUBTITLE": "Soalan Lazim membantu pembantu anda memberikan jawapan yang cepat dan tepat kepada soalan daripada pelanggan anda. Ia boleh dijana secara automatik daripada kandungan anda atau boleh ditambah secara manual.",
         "CLEAR_SEARCH": "Kosongkan penapis aktif",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Soalan Lazim Captain mengesan soalan pelanggan yang biasa—sama ada yang tiada dalam pangkalan pengetahuan anda atau sering ditanya—dan menghasilkan Soalan Lazim yang berkaitan untuk meningkatkan sokongan. Anda boleh menyemak setiap cadangan dan memutuskan sama ada untuk meluluskan atau menolaknya."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "Luluskan",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "Simpan perubahan",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

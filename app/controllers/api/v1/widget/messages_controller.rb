@@ -1,4 +1,5 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
+  before_action :prevent_reply_to_resolved_conversation, only: [:create]
   before_action :set_conversation, only: [:create]
   before_action :set_message, only: [:update]
 
@@ -42,8 +43,17 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     end
   end
 
+  # Hiding the reply box does not stop requests reaching this endpoint, so the setting is
+  # enforced here.
+  def prevent_reply_to_resolved_conversation
+    return unless conversation&.resolved?
+    return if inbox.allow_messages_after_resolved
+
+    render json: { error: I18n.t('errors.conversations.resolved') }, status: :forbidden
+  end
+
   def set_conversation
-    return unless conversation.nil?
+    return if conversation.present?
 
     @conversation = create_conversation
     apply_labels if permitted_params[:labels].present?
@@ -83,6 +93,10 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def set_message
-    @message = @web_widget.inbox.messages.find(permitted_params[:id])
+    # `conversation.messages.find` would be simpler, but `conversation` is `conversations.last`,
+    # which means a visitor with more than one open thread could not edit a message in any
+    # but their most recent one. Scoping across all of the visitor's conversations keeps the
+    # happy path correct for that future multi-conversation widget flow.
+    @message = Message.where(conversation_id: conversations.select(:id)).find(permitted_params[:id])
   end
 end

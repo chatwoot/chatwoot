@@ -19,10 +19,6 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
-  conversationInboxType: {
-    type: String,
-    required: true,
-  },
   assistants: {
     type: Array,
     default: () => [],
@@ -31,15 +27,24 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  canSuggestReply: {
+    type: Boolean,
+    default: true,
+  },
+  onSendMessage: {
+    type: Function,
+    required: true,
+  },
 });
 
-const emit = defineEmits(['sendMessage', 'reset', 'setAssistant']);
+const emit = defineEmits(['reset', 'setAssistant']);
 
 const { t } = useI18n();
 
-const sendMessage = message => {
-  emit('sendMessage', message);
+const sendMessage = async message => {
+  const isSuccess = await props.onSendMessage(message);
   useTrack(COPILOT_EVENTS.SEND_MESSAGE);
+  return isSuccess;
 };
 
 const chatContainer = ref(null);
@@ -146,7 +151,6 @@ watch(
             v-else-if="item.message_type === 'assistant'"
             :message="item.message"
             :is-last-message="index === groupedMessages.length - 1"
-            :conversation-inbox-type="conversationInboxType"
           />
           <CopilotThinkingGroup
             v-else
@@ -160,6 +164,7 @@ watch(
       <CopilotEmptyState
         v-else
         :has-assistants="hasAssistants"
+        :can-suggest-reply="canSuggestReply"
         @use-suggestion="sendMessage"
       />
     </div>
@@ -177,7 +182,7 @@ watch(
       <CopilotInput
         v-if="hasAssistants"
         class="mb-1 w-full"
-        @send="sendMessage"
+        :on-send="sendMessage"
       />
     </div>
   </div>

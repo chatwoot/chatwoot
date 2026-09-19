@@ -42,6 +42,39 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   end
 
   describe 'POST /api/v1/widget/messages' do
+    context 'when the conversation is resolved and the inbox does not allow messages after resolved' do
+      before do
+        web_widget.inbox.update!(allow_messages_after_resolved: false)
+        conversation.resolved!
+      end
+
+      it 'rejects the message and does not create a new conversation' do
+        expect do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: { content: 'hello world' } },
+               headers: { 'X-Auth-Token' => token },
+               as: :json
+        end.to not_change(Conversation, :count).and not_change(Message, :count)
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.conversations.resolved'))
+      end
+
+      it 'accepts the message when the inbox allows messages after resolved' do
+        web_widget.inbox.update!(allow_messages_after_resolved: true)
+
+        expect do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: { content: 'hello world' } },
+               headers: { 'X-Auth-Token' => token },
+               as: :json
+        end.not_to change(Conversation, :count)
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.messages.last.content).to eq('hello world')
+      end
+    end
+
     context 'when post request is made' do
       it 'creates message in conversation' do
         conversation.destroy! # Test all params
@@ -202,7 +235,8 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
             account_id: conversation.account_id,
             inbox_id: conversation.inbox_id,
             message_type: :activity,
-            content: "Conversation was resolved by #{contact.name}"
+            content: "Conversation was resolved by #{contact.name}",
+            content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
           }
         )
         expect(response).to have_http_status(:success)
@@ -212,6 +246,26 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   end
 
   describe 'PUT /api/v1/widget/messages' do
+    context 'when put request targets a message from another visitor in the same inbox' do
+      it 'does not update the foreign message' do
+        other_contact = create(:contact, account: account, email: nil)
+        other_contact_inbox = create(:contact_inbox, contact: other_contact, inbox: web_widget.inbox)
+        other_conversation = create(:conversation, contact: other_contact, account: account,
+                                                   inbox: web_widget.inbox, contact_inbox: other_contact_inbox)
+        foreign_message = create(:message, content_type: 'input_email', account: account,
+                                           inbox: web_widget.inbox, conversation: other_conversation)
+        original_email = foreign_message.submitted_email
+
+        put api_v1_widget_message_url(foreign_message.id),
+            params: { website_token: web_widget.website_token, contact: { email: Faker::Internet.email } },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(foreign_message.reload.submitted_email).to eq(original_email)
+      end
+    end
+
     context 'when put request is made with non existing email' do
       it 'updates message in conversation and creates a new contact' do
         message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)

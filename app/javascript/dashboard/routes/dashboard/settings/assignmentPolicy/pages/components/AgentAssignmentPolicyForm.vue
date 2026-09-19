@@ -8,6 +8,8 @@ import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 import FairDistribution from 'dashboard/components-next/AssignmentPolicy/components/FairDistribution.vue';
 import DataTable from 'dashboard/components-next/AssignmentPolicy/components/DataTable.vue';
 import AddDataDropdown from 'dashboard/components-next/AssignmentPolicy/components/AddDataDropdown.vue';
+import DurationInput from 'dashboard/components-next/input/DurationInput.vue';
+import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import {
@@ -16,6 +18,7 @@ import {
   EARLIEST_CREATED,
   DEFAULT_FAIR_DISTRIBUTION_LIMIT,
   DEFAULT_FAIR_DISTRIBUTION_WINDOW,
+  DEFAULT_EXCLUDE_OLDER_THAN_HOURS,
 } from 'dashboard/routes/dashboard/settings/assignmentPolicy/constants';
 
 const props = defineProps({
@@ -28,6 +31,7 @@ const props = defineProps({
       conversationPriority: EARLIEST_CREATED,
       fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
       fairDistributionWindow: DEFAULT_FAIR_DISTRIBUTION_WINDOW,
+      excludeOlderThanHours: DEFAULT_EXCLUDE_OLDER_THAN_HOURS,
     }),
   },
   mode: {
@@ -56,7 +60,6 @@ const props = defineProps({
     default: false,
   },
 });
-
 const emit = defineEmits([
   'submit',
   'addInbox',
@@ -64,6 +67,9 @@ const emit = defineEmits([
   'navigateToInbox',
   'validationChange',
 ]);
+// Duration limits for the stale-conversation threshold: 1 hour to 999 days (in minutes)
+const MIN_EXCLUSION_MINUTES = 60;
+const MAX_EXCLUSION_MINUTES = 1438560;
 
 const { t } = useI18n();
 const route = useRoute();
@@ -83,10 +89,26 @@ const state = reactive({
   conversationPriority: EARLIEST_CREATED,
   fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
   fairDistributionWindow: DEFAULT_FAIR_DISTRIBUTION_WINDOW,
+  excludeOlderThanHours: DEFAULT_EXCLUDE_OLDER_THAN_HOURS,
 });
 
 const validationState = ref({
   isValid: false,
+});
+
+const exclusionUnit = ref(DURATION_UNITS.DAYS);
+
+// DurationInput works in minutes; the policy stores hours, so bridge the two
+const excludeOlderThanMinutes = computed({
+  get() {
+    return state.excludeOlderThanHours == null
+      ? null
+      : state.excludeOlderThanHours * 60;
+  },
+  set(minutes) {
+    state.excludeOlderThanHours =
+      minutes == null ? null : Math.round(minutes / 60);
+  },
 });
 
 const createOption = (
@@ -170,6 +192,7 @@ const resetForm = () => {
     conversationPriority: EARLIEST_CREATED,
     fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
     fairDistributionWindow: DEFAULT_FAIR_DISTRIBUTION_WINDOW,
+    excludeOlderThanHours: DEFAULT_EXCLUDE_OLDER_THAN_HOURS,
   });
 };
 
@@ -177,10 +200,17 @@ const handleSubmit = () => {
   emit('submit', { ...state });
 };
 
+// Pick the display unit from the stored value so non-day thresholds (e.g. 25h) don't get floored
+const detectExclusionUnit = hours => {
+  exclusionUnit.value =
+    hours && hours % 24 !== 0 ? DURATION_UNITS.HOURS : DURATION_UNITS.DAYS;
+};
+
 watch(
   () => props.initialData,
   newData => {
     Object.assign(state, newData);
+    detectExclusionUnit(newData.excludeOlderThanHours);
   },
   { immediate: true, deep: true }
 );
@@ -246,6 +276,27 @@ defineExpose({
           v-model:fair-distribution-window="state.fairDistributionWindow"
           v-model:window-unit="state.windowUnit"
         />
+      </div>
+
+      <div class="pt-4 pb-2 flex-col flex gap-4">
+        <div class="flex flex-col items-start gap-1 py-1">
+          <label class="text-sm font-medium text-n-slate-12 py-1">
+            {{ t(`${BASE_KEY}.FORM.EXCLUDE_OLDER_THAN.LABEL`) }}
+          </label>
+          <p class="mb-0 text-n-slate-11 text-sm">
+            {{ t(`${BASE_KEY}.FORM.EXCLUDE_OLDER_THAN.DESCRIPTION`) }}
+          </p>
+        </div>
+        <div
+          class="flex items-center gap-2 [&>select]:!bg-n-alpha-2 [&>select]:!outline-none [&>select]:hover:brightness-110"
+        >
+          <DurationInput
+            v-model:unit="exclusionUnit"
+            v-model:model-value="excludeOlderThanMinutes"
+            :min="MIN_EXCLUSION_MINUTES"
+            :max="MAX_EXCLUSION_MINUTES"
+          />
+        </div>
       </div>
     </div>
 

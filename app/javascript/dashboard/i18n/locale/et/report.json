@@ -23,12 +23,14 @@
         "NAME": "Esimene vastuse aeg",
         "DESC": "( Keskmine )",
         "INFO_TEXT": "Arvutamiseks kasutatud vestluste koguarv:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Esimene vastuse aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lahendamise aeg",
         "DESC": "( Keskmine )",
         "INFO_TEXT": "Arvutamiseks kasutatud vestluste koguarv:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Lahendamise aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Kliendi ooteaeg",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Ooteaeg on {metricValue} (põhineb {conversationCount} vastusel)",
         "DESC": ""
       }
@@ -120,6 +124,25 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Tühjenda filter",
       "EMPTY_LIST": "Tulemusi ei leitud"
+    },
+    "DRILLDOWN": {
+      "TITLE": "{metric} details",
+      "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations",
+      "RESULT_COUNT_MESSAGE": "{count} message | {count} messages",
+      "EMPTY": "No records found for this bar.",
+      "ERROR": "Could not load records. Please try again.",
+      "ADMIN_ONLY": "Only administrators can drill down into report records.",
+      "LOAD_MORE": "Load more",
+      "PREVIOUS_BUCKET": "Previous bar",
+      "NEXT_BUCKET": "Next bar",
+      "UNKNOWN_CONTACT": "Unknown contact",
+      "UNKNOWN_INBOX": "Unknown inbox",
+      "UNASSIGNED_AGENT": "Määramata",
+      "NO_MESSAGE_CONTENT": "No message content",
+      "MESSAGE_CREATED_AT": "Message created at {time}",
+      "EVENT_OCCURRED_AT": "Event occurred at {time}",
+      "INCOMING_MESSAGE": "Incoming message",
+      "OUTGOING_MESSAGE": "Outgoing message"
     },
     "PAGINATION": {
       "RESULTS": "Kuvatakse {start} kuni {end} {total} tulemusest",
@@ -525,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Ülevaade",
     "LIVE": "Otseülekanne",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Avatud vestlused",
       "LOADING_MESSAGE": "Vestluse mõõdikute laadimine...",

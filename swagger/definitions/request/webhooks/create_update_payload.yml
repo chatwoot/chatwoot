@@ -21,6 +21,8 @@ properties:
           'contact_created',
           'contact_updated',
           'webwidget_triggered',
+          'conversation_typing_on',
+          'conversation_typing_off',
         ]
     description: The events you want to subscribe to.
     example:

@@ -7,6 +7,10 @@ require 'rspec/rails'
 require 'pundit/rspec'
 require 'sidekiq/testing'
 
+# Load Rake tasks
+require 'rake'
+Rails.application.load_tasks
+
 # test-prof helpers for tests optimization
 require 'test_prof/recipes/rspec/before_all'
 require 'test_prof/recipes/rspec/let_it_be'
@@ -41,7 +45,7 @@ end
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = Rails.root.join('spec/fixtures')
+  config.fixture_paths = [Rails.root.join('spec/fixtures')]
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -71,6 +75,7 @@ RSpec.configure do |config|
   config.include FileUploadHelpers
   config.include CsvSpecHelpers
   config.include InstagramSpecHelpers
+  config.include ConversationsUnreadCountsHelpers
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ActiveSupport::Testing::TimeHelpers
   config.include ActionCable::TestHelper

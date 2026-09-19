@@ -12,7 +12,12 @@ defineProps({
   showPaginationFooter: { type: Boolean, default: true },
 });
 
-const emit = defineEmits(['update:currentPage', 'update:sort', 'search']);
+const emit = defineEmits([
+  'update:currentPage',
+  'update:sort',
+  'search',
+  'create',
+]);
 
 const updateCurrentPage = page => {
   emit('update:currentPage', page);
@@ -31,6 +36,7 @@ const updateCurrentPage = page => {
         :active-ordering="activeOrdering"
         @search="emit('search', $event)"
         @update:sort="emit('update:sort', $event)"
+        @create="emit('create')"
       />
       <main class="flex-1 px-6 overflow-y-auto">
         <div class="w-full mx-auto max-w-5xl py-4">

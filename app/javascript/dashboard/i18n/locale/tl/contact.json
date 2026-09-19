@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Hindi magagamit",
     "EMAIL_ADDRESS": "Alamat ng email",
     "PHONE_NUMBER": "Numero ng Telepono",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Tagakilala",
     "COPY_SUCCESSFUL": "Matagumpay na nakopya sa clipboard",
     "COMPANY": "Kumpanya",
@@ -20,6 +21,8 @@
     "CALL": "Tawagan",
     "CALL_INITIATED": "Tinutawagan ang kontak…",
     "CALL_FAILED": "Hindi masimulan ang tawag. Pakisubukang muli.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Pumili ng voice inbox"
@@ -386,6 +389,7 @@
       "IDENTIFIER": "Tagakilanlan",
       "COUNTRY": "Bansa",
       "CITY": "Lungsod",
+      "COMPANY": "Kumpanya",
       "CREATED_AT": "Nilikhang noong",
       "LAST_ACTIVITY": "Huling aktibidad",
       "REFERER_LINK": "Link ng nag-refer",
@@ -458,6 +462,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Magdagdag ng Instagram"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Magdagdag ng Telegram"
           },
@@ -507,6 +514,7 @@
         "ATTRIBUTES": "Mga Katangian",
         "HISTORY": "Kasaysayan",
         "NOTES": "Mga Tala",
+        "MEDIA": "Media",
         "MERGE": "Pagsamahin"
       },
       "HISTORY": {
@@ -582,8 +590,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Magtalaga ng mga label",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Matagumpay na naitalaga ang mga label.",
     "ASSIGN_LABELS_FAILED": "Nabigong italaga ang mga label",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Piliin ang mga label na nais mong idagdag sa mga napiling contact.",
     "NO_LABELS_FOUND": "Walang magagamit na mga label pa.",
     "SELECTED_COUNT": "{count} napili",
@@ -604,6 +615,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "Hindi namin makumpleto ang paghahanap. Pakisubukang muli."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Tingnan",

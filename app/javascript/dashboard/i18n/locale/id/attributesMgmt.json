@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Percakapan",
-      "CONTACT": "Kontak"
+      "CONTACT": "Kontak",
+      "COMPANY": "Perusahaan"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Teks",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Atribut Kustom",
       "CONVERSATION": "Percakapan",
-      "CONTACT": "Kontak"
+      "CONTACT": "Kontak",
+      "COMPANY": "Perusahaan"
     },
     "LIST": {
       "TABLE_HEADER": {

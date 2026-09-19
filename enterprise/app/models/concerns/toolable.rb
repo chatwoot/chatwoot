@@ -55,11 +55,7 @@ module Concerns::Toolable
     when 'bearer'
       { 'Authorization' => "Bearer #{auth_config['token']}" }
     when 'api_key'
-      if auth_config['location'] == 'header'
-        { auth_config['name'] => auth_config['key'] }
-      else
-        {}
-      end
+      { auth_config['name'] => auth_config['key'] }
     else
       {}
     end

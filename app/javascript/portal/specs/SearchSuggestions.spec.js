@@ -9,6 +9,7 @@ vi.mock('dashboard/composables/useKeyboardNavigableList', () => ({
 vi.mock('shared/composables/useMessageFormatter', () => ({
   useMessageFormatter: () => ({
     highlightContent: content => content,
+    getPlainText: content => content,
   }),
 }));
 
