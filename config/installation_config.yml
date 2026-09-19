@@ -204,6 +204,11 @@
   description: 'The FireCrawl API key for the Captain AI service'
   locked: false
   type: secret
+- name: CAPTAIN_OPEN_ROUTER_API_KEY
+  display_title: 'OpenRouter API Key'
+  description: 'The OpenRouter API key used by Captain for label suggestions.'
+  locked: false
+  type: secret
 - name: CAPTAIN_CLOUD_PLAN_LIMITS
   display_title: 'Captain Cloud Plan Limits'
   description: 'The limits for the Captain AI service for different plans'
