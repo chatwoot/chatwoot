@@ -61,6 +61,12 @@ describe GlobalConfigService do
         GlobalConfig.get('ENABLE_ACCOUNT_SIGNUP')
       end
 
+      it 'treats a stored empty string as unconfigured' do
+        create(:installation_config, name: 'EMPTY_VALUE_CONFIG', value: '')
+
+        expect(described_class.load('EMPTY_VALUE_CONFIG', nil)).to be_nil
+      end
+
       it 'clears the stale cached blank when creating the config' do
         GlobalConfig.get('NEW_CONFIG')
 
