@@ -1,0 +1,63 @@
+<tr>
+  <td style="padding: 0 0 16px;">
+    <span style="display: inline-block; padding: 6px 10px; border-radius: 999px; background-color: #EFF6FF; color: #1D4ED8; font-size: 12px; line-height: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">Verify it's you</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding: 0 0 12px;">
+    <h1 style="margin: 0; font-size: 32px; line-height: 38px; font-weight: 700; color: #0F172A;">Verify this sign-in</h1>
+  </td>
+</tr>
+<tr>
+  <td style="padding: 0 0 8px;">
+    <p style="margin: 0; font-size: 14px; line-height: 21px; color: #334155;">Hi {{recipient_name | escape}},</p>
+  </td>
+</tr>
+<tr>
+  <td style="padding: 0 0 16px;">
+    <p style="margin: 0; font-size: 14px; line-height: 21px; color: #475569;">We noticed a sign-in to your {{brand_name}} account from a device we haven't seen before. Enter this code to finish signing in. It expires in 10 minutes.</p>
+  </td>
+</tr>
+<tr>
+  <td style="padding: 0 0 24px;">
+    <div style="border: 1px solid #DCE7F5; border-radius: 16px; background-color: #F8FBFF; padding: 20px; text-align: center;">
+      <span style="font-size: 32px; line-height: 38px; font-weight: 700; letter-spacing: 8px; color: #0F172A;">{{code}}</span>
+    </div>
+  </td>
+</tr>
+{% if browser_name or ip or location %}
+<tr>
+  <td style="padding: 0 0 24px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; border: 1px solid #DCE7F5; border-radius: 16px; background-color: #F8FBFF;">
+      {% if browser_name %}
+        <tr><td style="padding: 16px 18px;">
+          <p style="margin: 0 0 4px; font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #64748B;">Browser</p>
+          <p style="margin: 0; font-size: 14px; line-height: 21px; font-weight: 600; color: #0F172A;">{{browser_name | escape}}{% if platform_name %} on {{platform_name | escape}}{% endif %}</p>
+        </td></tr>
+      {% endif %}
+      {% if ip %}
+        <tr><td style="padding: 16px 18px;{% if browser_name %} border-top: 1px solid #E2E8F0;{% endif %}">
+          <p style="margin: 0 0 4px; font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #64748B;">IP address</p>
+          <p style="margin: 0; font-size: 14px; line-height: 21px; font-weight: 600; color: #0F172A;">{{ip | escape}}</p>
+        </td></tr>
+      {% endif %}
+      {% if location %}
+        <tr><td style="padding: 16px 18px;{% if browser_name or ip %} border-top: 1px solid #E2E8F0;{% endif %}">
+          <p style="margin: 0 0 4px; font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #64748B;">Location</p>
+          <p style="margin: 0; font-size: 14px; line-height: 21px; font-weight: 600; color: #0F172A;">{{location | escape}}</p>
+        </td></tr>
+      {% endif %}
+    </table>
+  </td>
+</tr>
+{% endif %}
+<tr>
+  <td style="padding: 0 0 12px;">
+    <p style="margin: 0; font-size: 14px; line-height: 21px; color: #475569;">If this wasn't you, you can safely ignore this email.</p>
+  </td>
+</tr>
+<tr>
+  <td style="padding: 8px 0 0; border-top: 1px solid #E2E8F0;">
+    <p style="margin: 0; font-size: 13px; line-height: 20px; color: #64748B;">This is an automated security notification. You're receiving it because a sign-in to your account needs to be verified.</p>
+  </td>
+</tr>

@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "مضاف",
         "OLDEST": "تم إنشاؤها في:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "آخر نشاط:",
-        "ACTIVE": "آخر نشاط"
+        "NOT_ACTIVE": "آخر نشاط:"
       }
     },
     "SORT_ORDER_ITEMS": {
