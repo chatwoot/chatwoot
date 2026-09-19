@@ -17,6 +17,29 @@ class AddBsuidToResolvedContactsIndex < ActiveRecord::Migration[7.1]
 
   BATCH_SIZE = 5_000
 
+  # Frozen here rather than read from `RegexHelper::WHATSAPP_BSUID_PATTERN`, because a migration has
+  # to keep producing the same result on a future checkout even if that constant is later widened.
+  BSUID = '[A-Z]{2}\.(ENT\.)?[A-Za-z0-9]{1,128}'.freeze
+  BSUID_SOURCE_ID = "^(whatsapp:)?#{BSUID}$".freeze
+  PARENT_SOURCE_ID = '^(whatsapp:)?[A-Z]{2}\.ENT\.'.freeze
+
+  # Only a WhatsApp inbox assigns a business scoped identifier. Every other channel is free to pick
+  # its own source id, and the public contacts endpoint takes one straight from the caller, so a
+  # value shaped like `AB.customer` can legitimately exist outside WhatsApp. Reading it would mirror
+  # a WhatsApp identity onto a contact that has none and pull it into lists, search and exports.
+  WHATSAPP_INBOX_JOIN = <<~SQL.squish.freeze
+    JOIN inboxes ON inboxes.id = contact_inboxes.inbox_id
+    LEFT JOIN channel_twilio_sms ON inboxes.channel_type = 'Channel::TwilioSms'
+                                AND channel_twilio_sms.id = inboxes.channel_id
+  SQL
+
+  # Twilio carries WhatsApp on the same channel it carries SMS, told apart by `medium`, so the
+  # channel type alone would take the SMS inboxes along with it.
+  WHATSAPP_INBOX = <<~SQL.squish.freeze
+    (inboxes.channel_type = 'Channel::Whatsapp'
+     OR (inboxes.channel_type = 'Channel::TwilioSms' AND channel_twilio_sms.medium = 1))
+  SQL
+
   def up
     backfill_mirrored_bsuid
     add_index :contacts, :account_id, where: RESOLVED_WITH_BSUID,
@@ -56,20 +79,26 @@ class AddBsuidToResolvedContactsIndex < ActiveRecord::Migration[7.1]
       UPDATE contacts
       SET additional_attributes = COALESCE(contacts.additional_attributes, '{}'::jsonb)
                                   || jsonb_build_object('whatsapp_bsuid', owned.identifier)
-      FROM (
-        SELECT DISTINCT ON (contact_inboxes.contact_id)
-               contact_inboxes.contact_id,
-               regexp_replace(contact_inboxes.source_id, '^whatsapp:', '') AS identifier
-        FROM contact_inboxes
-        JOIN contacts AS pending ON pending.id = contact_inboxes.contact_id
-        WHERE contact_inboxes.source_id ~ '^(whatsapp:)?[A-Z]{2}\\.'
-          AND COALESCE(pending.additional_attributes->>'whatsapp_bsuid', '') = ''
-        ORDER BY contact_inboxes.contact_id,
-                 (contact_inboxes.source_id ~ '^(whatsapp:)?[A-Z]{2}\\.ENT\\.'),
-                 contact_inboxes.id
-        LIMIT #{BATCH_SIZE}
-      ) AS owned
+      FROM (#{owned_aliases_sql}) AS owned
       WHERE contacts.id = owned.contact_id
+    SQL
+  end
+
+  def owned_aliases_sql
+    <<~SQL.squish
+      SELECT DISTINCT ON (contact_inboxes.contact_id)
+             contact_inboxes.contact_id,
+             regexp_replace(contact_inboxes.source_id, '^whatsapp:', '') AS identifier
+      FROM contact_inboxes
+      JOIN contacts AS pending ON pending.id = contact_inboxes.contact_id
+      #{WHATSAPP_INBOX_JOIN}
+      WHERE #{WHATSAPP_INBOX}
+        AND contact_inboxes.source_id ~ '#{BSUID_SOURCE_ID}'
+        AND COALESCE(pending.additional_attributes->>'whatsapp_bsuid', '') = ''
+      ORDER BY contact_inboxes.contact_id,
+               (contact_inboxes.source_id ~ '#{PARENT_SOURCE_ID}'),
+               contact_inboxes.id
+      LIMIT #{BATCH_SIZE}
     SQL
   end
 end
