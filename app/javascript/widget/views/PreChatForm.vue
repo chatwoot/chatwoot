@@ -59,6 +59,13 @@ export default {
           },
         });
       } else {
+        // Conversation attributes queued through the SDK
+        // (setConversationCustomAttributes) live in pendingCustomAttributes;
+        // clearConversations wipes them, so capture them first and merge them
+        // into the create request. Explicit pre-chat form fields win on
+        // conflicts, matching the sendMessage merge order.
+        const pendingConversationCustomAttributes =
+          this.$store.getters['conversation/getPendingCustomAttributes'];
         this.clearConversations();
         this.clearConversationAttributes();
         this.$store.dispatch('conversation/createConversation', {
@@ -66,7 +73,10 @@ export default {
           emailAddress: emailAddress,
           message: message,
           phoneNumber: phoneNumber,
-          customAttributes: conversationCustomAttributes,
+          customAttributes: {
+            ...pendingConversationCustomAttributes,
+            ...conversationCustomAttributes,
+          },
           contactCustomAttributes: contactCustomAttributes,
         });
       }
