@@ -1,7 +1,7 @@
 class GlobalConfigService
   def self.load(config_key, default_value)
     config = GlobalConfig.get(config_key)[config_key]
-    return config if config.present?
+    return config if config.present? || config == false
 
     # To support migrating existing instance relying on env variables
     # TODO: deprecate this later down the line
@@ -11,7 +11,7 @@ class GlobalConfigService
 
     i = InstallationConfig.where(name: config_key).first_or_create(value: config_value, locked: false)
     # To clear a nil value that might have been cached in the previous call
-    GlobalConfig.clear_cache
+    GlobalConfig.clear_cache if i.previously_new_record?
     i.value
   end
 
