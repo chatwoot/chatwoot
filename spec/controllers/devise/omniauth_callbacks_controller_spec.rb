@@ -22,6 +22,31 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
     allow(Account::SignUpEmailValidationService).to receive(:new).and_return(email_validation_service)
   end
 
+  describe '#redirect_callbacks' do
+    def omniauth_config_with_credentials
+      set_omniauth_config
+      OmniAuth.config.mock_auth[:google_oauth2][:credentials] = {
+        token: 'a' * 2000, refresh_token: 'b' * 100, id_token: 'c' * 2000
+      }
+    end
+
+    it 'completes the first hop with an oversized credentials block' do
+      omniauth_config_with_credentials
+
+      get '/omniauth/google_oauth2/callback'
+
+      expect(response).to redirect_to('http://www.example.com/auth/google_oauth2/callback')
+    end
+
+    it 'stores only provider, uid and info in the session' do
+      omniauth_config_with_credentials
+
+      get '/omniauth/google_oauth2/callback'
+
+      expect(session['dta.omniauth.auth'].keys).to contain_exactly('provider', 'uid', 'info')
+    end
+  end
+
   describe '#omniauth_sucess' do
     before do
       GlobalConfig.clear_cache
