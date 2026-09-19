@@ -1,5 +1,9 @@
-import { computed } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useTrack } from 'dashboard/composables';
+import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import wootConstants from 'dashboard/constants/globals';
 import TasksAPI from 'dashboard/api/captain/tasks';
 
 /**
@@ -16,35 +20,90 @@ const cleanLabels = labels => {
     .filter((label, index, self) => self.indexOf(label) === index);
 };
 
+/**
+ * Fetches AI label suggestions for the selected conversation and tracks
+ * which of them are still pending (suggested but not yet applied).
+ */
 export function useLabelSuggestions() {
   const globalConfig = useMapGetter('globalConfig/get');
+  const currentAccountId = useMapGetter('getCurrentAccountId');
   const currentChat = useMapGetter('getSelectedChat');
   const conversationId = computed(() => currentChat.value?.id);
+  const { accountLabels, savedLabels } = useConversationLabels();
+
+  const suggestedTitles = ref([]);
 
   const isLabelSuggestionEnabled = computed(
     () => globalConfig.value.labelSuggestionsEnabled
   );
 
-  /**
-   * Gets label suggestions for the current conversation.
-   * @returns {Promise<string[]>} An array of suggested labels.
-   */
-  const getLabelSuggestions = async () => {
-    if (!conversationId.value) return [];
+  // Keep the backend order, which is highest confidence first
+  const pendingLabels = computed(() =>
+    suggestedTitles.value
+      .filter(title => !savedLabels.value.includes(title))
+      .map(title => accountLabels.value.find(label => label.title === title))
+      .filter(Boolean)
+  );
+
+  const fetchSuggestions = async () => {
+    const id = conversationId.value;
+    const chat = currentChat.value;
+    suggestedTitles.value = [];
+
+    // eslint-disable-next-line no-console
+    console.log('[LabelSuggestions] fetchSuggestions', {
+      conversationId: id,
+      status: chat?.status,
+      isLabelSuggestionEnabled: isLabelSuggestionEnabled.value,
+      existingLabels: chat?.labels,
+    });
+
+    if (!isLabelSuggestionEnabled.value) return;
+    if (chat?.status !== wootConstants.STATUS_TYPE.OPEN) return;
+    if (chat?.labels?.length) return;
 
     try {
-      const result = await TasksAPI.labelSuggestion(conversationId.value);
-      const {
-        data: { message: labels },
-      } = result;
-      return cleanLabels(labels);
+      // eslint-disable-next-line no-console
+      console.log('[LabelSuggestions] requesting suggestions from backend');
+      const { data } = await TasksAPI.labelSuggestion(id);
+      const titles = cleanLabels(data.message);
+      // eslint-disable-next-line no-console
+      console.log('[LabelSuggestions] received', titles);
+
+      // Ignore responses for a conversation the agent has already left
+      if (id === conversationId.value) suggestedTitles.value = titles;
     } catch {
-      return [];
+      suggestedTitles.value = [];
     }
   };
 
+  /**
+   * Records that a label was applied, if it was one of the pending suggestions.
+   * @param {Object} label - The label that was added to the conversation
+   */
+  const trackIfSuggested = label => {
+    if (!pendingLabels.value.some(({ title }) => title === label.title)) return;
+    useTrack(CAPTAIN_EVENTS.LABEL_SUGGESTION_APPLIED, {
+      conversationId: conversationId.value,
+      account: currentAccountId.value,
+      suggestions: suggestedTitles.value,
+      labelsApplied: [label.title],
+    });
+  };
+
+  watch(conversationId, fetchSuggestions, { immediate: true });
+
+  onMounted(() => {
+    // Debug: run label suggestions for the open conversation from the browser console
+    window.suggest = fetchSuggestions;
+  });
+
+  onUnmounted(() => {
+    delete window.suggest;
+  });
+
   return {
-    isLabelSuggestionEnabled,
-    getLabelSuggestions,
+    pendingLabels,
+    trackIfSuggested,
   };
 }
