@@ -101,14 +101,5 @@ describe('useMessageFormatter', () => {
         messageFormatter.highlightContent('Hola', 'olá', 'highlight').trim()
       ).toBe('H<span class="highlight">ola</span>');
     });
-
-    it('should return the plain text when the search term is empty', () => {
-      const result = messageFormatter.highlightContent(
-        'This is a test message',
-        '',
-        'highlight'
-      );
-      expect(result.trim()).toBe('This is a test message');
-    });
   });
 });

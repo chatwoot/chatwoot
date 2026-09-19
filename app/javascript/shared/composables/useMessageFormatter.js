@@ -67,22 +67,24 @@ export const useMessageFormatter = () => {
     highlightClass = ''
   ) => {
     const plainTextContent = getPlainText(content);
-    const term = removeAccents(searchTerm).toLowerCase();
-    if (!term) return plainTextContent;
 
-    // Removing accents keeps every character at its index, so a match found in the
-    // folded text is sliced out of the original
-    const foldedContent = removeAccents(plainTextContent).toLowerCase();
-    let highlighted = '';
-    let start = 0;
-    let index = foldedContent.indexOf(term);
-    while (index !== -1) {
-      const end = index + term.length;
-      highlighted += `${plainTextContent.slice(start, index)}<span class="${highlightClass}">${plainTextContent.slice(index, end)}</span>`;
-      start = end;
-      index = foldedContent.indexOf(term, end);
-    }
-    return highlighted + plainTextContent.slice(start);
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+    const escapedSearchTerm = removeAccents(searchTerm).replace(
+      /[.*+?^${}()|[\]\\]/g,
+      '\\$&'
+    );
+    // Removing accents keeps every character at its index, so matches found in the
+    // accent-free text point at the same characters in the original
+    const matches = removeAccents(plainTextContent).matchAll(
+      new RegExp(escapedSearchTerm, 'ig')
+    );
+
+    // Wrapping from the last match back keeps the earlier indexes valid
+    return [...matches].reduceRight((text, { index, 0: match }) => {
+      const end = index + match.length;
+      const highlighted = `<span class="${highlightClass}">${text.slice(index, end)}</span>`;
+      return `${text.slice(0, index)}${highlighted}${text.slice(end)}`;
+    }, plainTextContent);
   };
 
   return {
