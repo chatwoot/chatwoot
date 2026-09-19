@@ -565,12 +565,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
         "DESCRIPTION": "Use AI for context aware search inside your help center articles."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
       }
     },
     "API": {
