@@ -92,6 +92,24 @@ import { matchesFilters } from '../filterHelpers';
 // },
 
 describe('filterHelpers', () => {
+  it.each([0, false, 42])(
+    'preserves custom attribute value %s when filtering',
+    value => {
+      const conversation = { custom_attributes: { custom_value: value } };
+      const filter = {
+        attribute_key: 'custom_value',
+        filter_operator: 'equal_to',
+        values: [value],
+      };
+      expect(matchesFilters(conversation, [filter])).toBe(true);
+      expect(
+        matchesFilters(conversation, [
+          { ...filter, filter_operator: 'not_equal_to' },
+        ])
+      ).toBe(false);
+      expect(matchesFilters({ custom_attributes: {} }, [filter])).toBe(false);
+    }
+  );
   describe('#matchesFilters', () => {
     it('returns true by default when no filters are provided', () => {
       const conversation = {};
