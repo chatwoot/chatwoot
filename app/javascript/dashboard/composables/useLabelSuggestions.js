@@ -1,7 +1,5 @@
-import { computed, onMounted } from 'vue';
-import { useMapGetter, useStore } from 'dashboard/composables/store';
-import { useAccount } from 'dashboard/composables/useAccount';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { computed } from 'vue';
+import { useMapGetter } from 'dashboard/composables/store';
 import TasksAPI from 'dashboard/api/captain/tasks';
 
 /**
@@ -19,36 +17,13 @@ const cleanLabels = labels => {
 };
 
 export function useLabelSuggestions() {
-  const store = useStore();
-  const { isCloudFeatureEnabled } = useAccount();
-  const appIntegrations = useMapGetter('integrations/getAppIntegrations');
+  const globalConfig = useMapGetter('globalConfig/get');
   const currentChat = useMapGetter('getSelectedChat');
   const conversationId = computed(() => currentChat.value?.id);
 
-  const captainTasksEnabled = computed(() => {
-    return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS);
-  });
-
-  const aiIntegration = computed(
-    () =>
-      appIntegrations.value.find(
-        integration => integration.id === 'openai' && !!integration.hooks.length
-      )?.hooks[0]
+  const isLabelSuggestionEnabled = computed(
+    () => globalConfig.value.labelSuggestionsEnabled
   );
-
-  const isLabelSuggestionFeatureEnabled = computed(() => {
-    if (aiIntegration.value) {
-      const { settings = {} } = aiIntegration.value || {};
-      return !!settings.label_suggestion;
-    }
-    return false;
-  });
-
-  const fetchIntegrationsIfRequired = async () => {
-    if (!appIntegrations.value.length) {
-      await store.dispatch('integrations/get');
-    }
-  };
 
   /**
    * Gets label suggestions for the current conversation.
@@ -68,13 +43,8 @@ export function useLabelSuggestions() {
     }
   };
 
-  onMounted(() => {
-    fetchIntegrationsIfRequired();
-  });
-
   return {
-    captainTasksEnabled,
-    isLabelSuggestionFeatureEnabled,
+    isLabelSuggestionEnabled,
     getLabelSuggestions,
   };
 }

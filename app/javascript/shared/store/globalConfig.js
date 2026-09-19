@@ -27,6 +27,7 @@ const {
   DISABLE_META_MESSAGE_SENDING: disableMetaMessageSending,
   DEPLOYMENT_ENV: deploymentEnv,
   ACTIVE_PLATFORM_BANNERS: activePlatformBanners,
+  LABEL_SUGGESTIONS_ENABLED: labelSuggestionsEnabled,
 } = window.globalConfig || {};
 
 const state = {
@@ -54,6 +55,7 @@ const state = {
   termsURL,
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
+  labelSuggestionsEnabled: parseBoolean(labelSuggestionsEnabled),
   activePlatformBanners: activePlatformBanners || [],
 };
 

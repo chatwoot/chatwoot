@@ -62,11 +62,8 @@ export default {
     const { height: containerHeight } = useElementSize(messagesViewRef);
     const { height: topBannerHeight } = useElementSize(topBannerRef);
 
-    const {
-      captainTasksEnabled,
-      isLabelSuggestionFeatureEnabled,
-      getLabelSuggestions,
-    } = useLabelSuggestions();
+    const { isLabelSuggestionEnabled, getLabelSuggestions } =
+      useLabelSuggestions();
 
     const { olderConversation, newerConversation, buildConversationPath } =
       useContactConversationNavigation();
@@ -74,9 +71,8 @@ export default {
     provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
-      captainTasksEnabled,
       getLabelSuggestions,
-      isLabelSuggestionFeatureEnabled,
+      isLabelSuggestionEnabled,
       olderConversation,
       newerConversation,
       buildConversationPath,
@@ -114,8 +110,7 @@ export default {
     shouldShowLabelSuggestions() {
       return (
         this.isOpen &&
-        this.captainTasksEnabled &&
-        this.isLabelSuggestionFeatureEnabled &&
+        this.isLabelSuggestionEnabled &&
         !this.messageSentSinceOpened
       );
     },
@@ -293,11 +288,14 @@ export default {
     this.addScrollListener();
     this.fetchAllAttachmentsFromCurrentChat();
     this.fetchSuggestions();
+    // Debug: run label suggestions for the open conversation from the browser console
+    window.suggest = () => this.fetchSuggestions();
   },
 
   unmounted() {
     this.removeBusListeners();
     this.removeScrollListener();
+    delete window.suggest;
   },
 
   methods: {
@@ -305,19 +303,46 @@ export default {
       // start empty, this ensures that the label suggestions are not shown
       this.labelSuggestions = [];
 
+      // eslint-disable-next-line no-console
+      console.log('[LabelSuggestions] fetchSuggestions', {
+        conversationId: this.currentChat?.id,
+        status: this.currentChat?.status,
+        isOpen: this.isOpen,
+        isLabelSuggestionEnabled: this.isLabelSuggestionEnabled,
+        existingLabels: this.currentChat?.labels,
+      });
+
       if (this.isLabelSuggestionDismissed()) {
+        // eslint-disable-next-line no-console
+        console.log(
+          '[LabelSuggestions] skipped: dismissed for this conversation'
+        );
         return;
       }
 
       // Early exit if conversation already has labels - no need to suggest more
       const existingLabels = this.currentChat?.labels || [];
-      if (existingLabels.length > 0) return;
-
-      if (!this.captainTasksEnabled || !this.isLabelSuggestionFeatureEnabled) {
+      if (existingLabels.length > 0) {
+        // eslint-disable-next-line no-console
+        console.log(
+          '[LabelSuggestions] skipped: conversation already has labels'
+        );
         return;
       }
 
+      if (!this.isLabelSuggestionEnabled) {
+        // eslint-disable-next-line no-console
+        console.log(
+          '[LabelSuggestions] skipped: OpenRouter key not configured'
+        );
+        return;
+      }
+
+      // eslint-disable-next-line no-console
+      console.log('[LabelSuggestions] requesting suggestions from backend');
       this.labelSuggestions = await this.getLabelSuggestions();
+      // eslint-disable-next-line no-console
+      console.log('[LabelSuggestions] received', this.labelSuggestions);
 
       // once the labels are fetched, we need to scroll to bottom
       // but we need to wait for the DOM to be updated
