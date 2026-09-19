@@ -17,7 +17,7 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Se connecter avec Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Veuillez utiliser l'adresse e-mail de votre entreprise pour vous connecter",
+      "BUSINESS_ACCOUNTS_ONLY": "Vous ne pouvez pas créer de compte avec une adresse e-mail personnelle. Veuillez vous inscrire avec votre adresse e-mail professionnelle.",
       "NO_ACCOUNT_FOUND": "Nous n'avons pas pu trouver de compte pour votre adresse e-mail."
     },
     "FORGOT_PASSWORD": "Mot de passe oublié ?",

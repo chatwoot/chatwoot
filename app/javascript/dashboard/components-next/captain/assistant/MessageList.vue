@@ -79,7 +79,7 @@ watch(() => props.messages.length, scrollToBottom);
           class="px-4 py-3 text-sm [overflow-wrap:break-word]"
           :class="messageStyle(message)"
         >
-          <div v-html="formatMessage(message.content)" />
+          <div v-dompurify-html="formatMessage(message.content)" />
           <PlaygroundRunDetails
             v-if="message.runDetails && message.setupSummary"
             :run-details="message.runDetails"

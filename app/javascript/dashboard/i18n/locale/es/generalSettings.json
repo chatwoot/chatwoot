@@ -45,8 +45,8 @@
         "NOTE": "Este ID es necesario si estás construyendo una integración basada en API"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "TITLE": "Auto-resolver conversaciones",
+        "NOTE": "Esta configuración permite resolver automáticamente la conversación después de un período de inactividad.",
         "DURATION": {
           "LABEL": "Inactivity duration",
           "HELP": "Time period of inactivity after which conversation is auto-resolved",
@@ -97,8 +97,8 @@
         "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
       },
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Transcribe Audio Messages",
-        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "TITLE": "Transcribir mensajes de audio",
+        "NOTE": "Transcribe automáticamente los mensajes de audio en las conversaciones. Genera una transcripción de texto cada vez que se envía o recibe un mensaje de audio y la muestra junto al mensaje.",
         "API": {
           "SUCCESS": "Audio transcription setting updated successfully",
           "ERROR": "Failed to update audio transcription setting"
@@ -139,37 +139,6 @@
       "SELECT": "Seleccionar"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notificaciones",
-    "MARK_ALL_DONE": "Marcar Todo Hecho",
-    "DELETE_TITLE": "Eliminado",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Notificaciones sin leer",
-      "ALL_NOTIFICATIONS": "Ver todas las notificaciones",
-      "LOADING_UNREAD_MESSAGE": "Cargando notificaciones no leídas...",
-      "EMPTY_MESSAGE": "No tiene notificaciones sin leer"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Cargando notificaciones...",
-      "404": "Aún no hay notificaciones",
-      "TABLE_HEADER": [
-        "Nombre",
-        "Número telefónico",
-        "Conversaciones",
-        "Último Contactado"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Nueva conversación",
-      "conversation_assignment": "Conversación asignada",
-      "assigned_conversation_new_message": "Nuevo mensaje",
-      "participating_conversation_new_message": "Nuevo mensaje",
-      "conversation_mention": "Mención",
-      "sla_missed_first_response": "SLA perdido",
-      "sla_missed_next_response": "SLA perdido",
-      "sla_missed_resolution": "SLA perdido"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Desconectado",
@@ -192,6 +161,7 @@
       "CHANGE_PRIORITY": "Cambiar prioridad",
       "CHANGE_TEAM": "Cambiar equipo",
       "SNOOZE_CONVERSATION": "Posponer conversación",
+      "EXECUTE_MACRO": "Ejecutar Macro",
       "ADD_LABEL": "Añadir etiqueta a la conversación",
       "REMOVE_LABEL": "Eliminar etiqueta de la conversación",
       "SETTINGS": "Ajustes",
@@ -232,12 +202,12 @@
       "GO_TO_SETTINGS_BILLING": "Ir a Facturación",
       "GO_TO_SETTINGS_ACCOUNT": "Ir a Configuración de Cuenta",
       "GO_TO_SETTINGS_PROFILE": "Ir a Configuración del Perfil",
-      "GO_TO_NOTIFICATIONS": "Ir a Notificaciones",
       "ADD_LABELS_TO_CONVERSATION": "Añadir etiqueta a la conversación",
       "ASSIGN_AN_AGENT": "Asignar un agente",
       "AI_ASSIST": "Asistencia IA",
       "ASSIGN_PRIORITY": "Asignar prioridad",
       "ASSIGN_A_TEAM": "Asignar un equipo",
+      "EXECUTE_A_MACRO": "Ejecutar una macro",
       "MUTE_CONVERSATION": "Silenciar conversación",
       "UNMUTE_CONVERSATION": "Quitar silencio de conversación",
       "REMOVE_LABEL_FROM_CONVERSATION": "Eliminar etiqueta de la conversación",
