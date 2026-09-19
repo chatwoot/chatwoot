@@ -196,6 +196,7 @@ describe('#ConversationAPI', () => {
     it('#filter', () => {
       const payload = {
         page: 1,
+        sortBy: 'last_activity_at_asc',
         queryData: {
           payload: [
             {
@@ -223,7 +224,12 @@ describe('#ConversationAPI', () => {
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/conversations/filter',
         payload.queryData,
-        { params: { page: payload.page } }
+        {
+          params: {
+            page: payload.page,
+            sort_by: payload.sortBy,
+          },
+        }
       );
     });
 

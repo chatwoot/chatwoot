@@ -4,7 +4,7 @@
     "DESCRIPTION": "频道是客户选择与您互动的方式。收件箱则是您用来管理特定频道互动的地方，它可以整合来自不同来源的通信，比如电子邮件、即时聊天和社交媒体等。",
     "LEARN_MORE": "了解更多关于收件箱的信息",
     "COUNT": "{n} 个收件箱",
-    "SEARCH_PLACEHOLDER": "搜索收件箱...",
+    "SEARCH_PLACEHOLDER": "搜索收件箱名称、渠道或标识符...",
     "NO_RESULTS": "未找到符合搜索条件的收件箱",
     "RECONNECTION_REQUIRED": "您的收件箱已断开连接。在您重新授权之前，您不会收到新消息。",
     "CLICK_TO_RECONNECT": "点击此处重新连接。",
@@ -74,7 +74,6 @@
         "NORTH_AMERICA_WARNING": "TikTok 北美账户的连接功能暂时不可用，我们正在等待 TikTok 团队的更新。"
       },
       "TWITTER": {
-        "SIGN_IN": "使用 Twitter 登录",
         "HELP": "若要将您的Twitter个人资料添加为频道，您需要通过点击“使用Twitter登录”来验证您的Twitter个人资料。 ",
         "ERROR_MESSAGE": "连接 Twitter 时出现错误，请重试",
         "TWEETS": {
@@ -299,6 +298,102 @@
           "WEBHOOK_URL": "Webhook 网址",
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook 验证令牌"
         },
+        "MANUAL_SETUP": {
+          "HEADER": {
+            "TITLE": "Connect WhatsApp manually",
+            "DESCRIPTION": "Follow these steps to prepare your Meta account and connect your number to Chatwoot."
+          },
+          "APP": {
+            "TITLE": "Create or select a Meta app",
+            "DESCRIPTION": "Your WhatsApp number must belong to a Meta app with the WhatsApp use case enabled.",
+            "ITEM_1": "Open {metaDevelopers} and sign in with an administrator account.",
+            "META_DEVELOPERS": "Meta Developers",
+            "ITEM_2": "Create a new app, or select the app you already use for this WhatsApp number.",
+            "ITEM_3": "Choose the option to connect with customers through WhatsApp.",
+            "ITEM_4": "Select the business portfolio that owns, or will own, the WhatsApp number.",
+            "VIDEO_TITLE": "Watch: Create a Meta app",
+            "VIDEO_DESCRIPTION": "This short walkthrough shows where to start a new app in Meta Developers."
+          },
+          "NUMBER": {
+            "TITLE": "Add your phone number and get its IDs",
+            "DESCRIPTION": "Add and verify the production number in your Meta app, then copy the two identifiers shown in API Setup.",
+            "ITEM_1": "Open the WhatsApp use case in your Meta app and choose API Setup.",
+            "ITEM_2": "In the Send and receive messages section, open the From selector.",
+            "ITEM_3": "Select an existing production number, or choose Add phone number.",
+            "ITEM_4": "Complete the WhatsApp business profile requested by Meta.",
+            "ITEM_5": "Verify the phone number using the OTP sent by SMS or voice call.",
+            "ITEM_6": "Copy the Phone Number ID and WhatsApp Business Account ID shown in API Setup.",
+            "VIDEO_TITLE": "Watch: Add a phone number and find its IDs",
+            "VIDEO_DESCRIPTION": "This walkthrough shows how to add or select a production number and copy the identifiers from Meta."
+          },
+          "TOKEN": {
+            "TITLE": "Generate a permanent access token",
+            "DESCRIPTION": "Create a Meta system user with access to your app and WhatsApp Business Account.",
+            "ITEM_1": "Open Meta Business Settings and go to Users → System users.",
+            "ITEM_2": "Create an admin system user, or select an existing one.",
+            "ITEM_3": "Assign your Meta app and WhatsApp Business Account to the system user.",
+            "ITEM_4": "Grant full control for the assigned WhatsApp assets.",
+            "ITEM_5": "Generate a token for your Meta app and set its expiration to Never.",
+            "ITEM_6": "Select whatsapp_business_management and whatsapp_business_messaging, then copy the token.",
+            "VIDEO_TITLE": "Watch: Generate a permanent access token",
+            "VIDEO_DESCRIPTION": "This walkthrough shows how to select your Meta app, choose a non-expiring token, and grant the required WhatsApp permissions.",
+            "WARNING": "Meta shows the token only once. Copy it before closing the dialog."
+          },
+          "DETAILS": {
+            "WABA_LABEL": "WhatsApp Business Account ID",
+            "WABA_PLACEHOLDER": "Enter WABA ID",
+            "PHONE_ID_LABEL": "Phone Number ID",
+            "PHONE_ID_PLACEHOLDER": "Enter Phone Number ID",
+            "TOKEN_LABEL": "Permanent access token",
+            "TOKEN_PLACEHOLDER": "Paste access token"
+          },
+          "REVIEW": {
+            "TITLE": "Create your WhatsApp inbox",
+            "DESCRIPTION": "Review the number details and choose a name for the inbox.",
+            "VERIFIED": "Your Meta number and access token are valid.",
+            "BUSINESS_NAME": "Business name",
+            "PHONE_NUMBER": "电话号码",
+            "PHONE_ID": "Phone Number ID",
+            "WABA_ID": "WhatsApp Business Account ID",
+            "INBOX_NAME": "收件箱名称",
+            "INBOX_NAME_HELP": "We generated this name from your verified Meta business name. You can change it."
+          },
+          "VERIFY": {
+            "TITLE": "Verify your connection",
+            "DESCRIPTION": "Chatwoot is checking number access and configuring your Meta webhook.",
+            "NUMBER_ACCESS": "Number access",
+            "TEMPLATE_ACCESS": "Template access",
+            "CALLBACK": "Webhook callback",
+            "SUBSCRIPTION": "Webhook subscription",
+            "WEBHOOK_URL": "Webhook 网址",
+            "COPY": "复制",
+            "COPY_SUCCESS": "Webhook URL copied to clipboard",
+            "COMPLETE": "已认证",
+            "PENDING": "等待中",
+            "SUCCESS": "Your WhatsApp number is connected and ready for agent assignment.",
+            "RETRY_SUCCESS": "Webhook setup retried successfully.",
+            "RETRY_ERROR": "We could not retry the webhook setup. Try again."
+          },
+          "ACTIONS": {
+            "BACK": "后退",
+            "OPEN_META_APPS": "Open Meta Apps",
+            "APP_READY": "My Meta app is ready",
+            "NEXT": "Next",
+            "OPEN_BUSINESS_SETTINGS": "Open Meta Business Settings",
+            "SHOW_TOKEN": "Show token",
+            "HIDE_TOKEN": "Hide token",
+            "VERIFY_DETAILS": "Verify details",
+            "CONNECT": "创建收件箱",
+            "RETRY_WEBHOOK": "Retry webhook setup",
+            "CONTINUE": "Continue to add agents"
+          },
+          "ERRORS": {
+            "IDS_REQUIRED": "Enter the Phone Number ID and WhatsApp Business Account ID.",
+            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, and permanent access token.",
+            "INVALID_TOKEN": "This access token is invalid or expired. Generate a new permanent token and try again.",
+            "GENERIC": "We could not complete the WhatsApp setup. Check your details and try again."
+          }
+        },
         "SUBMIT_BUTTON": "创建WhatsApp频道",
         "EMBEDDED_SIGNUP": {
           "TITLE": "使用 Meta 快速设置",
@@ -323,10 +418,9 @@
           "SUCCESS_TITLE": "WhatsApp Business 账户已连接！",
           "WAITING_FOR_AUTH": "正在等待认证...",
           "INVALID_BUSINESS_DATA": "从 Facebook 收到的业务数据无效，请重试。",
+          "UNSUPPORTED_COMPLETION": "The Meta setup finished without a WhatsApp phone number that can be connected. Please run the setup again and add a phone number.",
           "SIGNUP_ERROR": "注册时发生错误",
           "AUTH_NOT_COMPLETED": "身份验证未完成，请重新开始流程。",
-          "APP_ID_REQUIRED": "必须配置 WhatsApp App ID",
-          "CONFIGURATION_ID_REQUIRED": "必须配置 WhatsApp Configuration ID",
           "SUCCESS_FALLBACK": "WhatsApp Business 账户已成功配置",
           "MANUAL_FALLBACK": "如果您的号码已连接到 WhatsApp Business Platform（API），或者您是接入自有号码的技术提供商，请使用{link}",
           "MANUAL_LINK_TEXT": "手动设置流程",
@@ -518,7 +612,8 @@
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "连接您的 TikTok 账户"
+            "DESCRIPTION": "连接您的 TikTok 账户",
+            "ACCESS_REQUEST_DESCRIPTION": "Contact our support team to request TikTok access"
           },
           "VOICE": {
             "TITLE": "语音",
@@ -565,6 +660,7 @@
       "ERROR_FB_AUTH": "出错了，请刷新页面...",
       "ERROR_FB_UNAUTHORIZED": "您无权执行此操作。",
       "ERROR_FB_UNAUTHORIZED_HELP": "请确保您拥有对Facebook页面的完全控制权。您可以在 <a href=\"https://www.facebook.com/help/187316341316631\">这里</a> 阅读更多关于Facebook角色的信息。",
+      "ERROR_CHANNEL_CREATION": "We were unable to create the inbox. Please try again.",
       "CREATING_CHANNEL": "创建您的收件箱...",
       "TITLE": "配置收件箱详情",
       "DESC": ""
@@ -678,6 +774,14 @@
       "INBOUND": {
         "LABEL": "允许来电",
         "DESCRIPTION": "允许客户拨打此号码。关闭后，来电将被自动拒绝，客服不会收到通知，也不会创建对话；客服仍可拨打外呼电话。"
+      },
+      "RECORDING": {
+        "LABEL": "Record calls",
+        "DESCRIPTION": "Record calls and attach the recording to the conversation. Turn this off where recording calls isn't permitted."
+      },
+      "TRANSCRIPTION": {
+        "LABEL": "Transcribe recordings",
+        "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
       }
     },
     "WHATSAPP_CALLING": {
@@ -719,11 +823,28 @@
         "GO_TO_CONFIGURATION": "前往配置"
       },
       "SECTIONS": {
+        "BUSINESS_PROFILE": "Business profile",
         "PHONE_NUMBER": "电话号码",
         "HEALTH_AND_CAPACITY": "健康状态和容量",
         "BUSINESS_ACCOUNT": "商业账户"
       },
       "FIELDS": {
+        "PROFILE_DESCRIPTION": {
+          "LABEL": "描述信息",
+          "TOOLTIP": "Description shown to customers in the WhatsApp business profile"
+        },
+        "PROFILE_ADDRESS": {
+          "LABEL": "地址",
+          "TOOLTIP": "Business address shown in the WhatsApp business profile"
+        },
+        "PROFILE_EMAIL": {
+          "LABEL": "Email",
+          "TOOLTIP": "Contact email shown in the WhatsApp business profile"
+        },
+        "PROFILE_WEBSITES": {
+          "LABEL": "Websites",
+          "TOOLTIP": "Website links shown in the WhatsApp business profile"
+        },
         "DISPLAY_PHONE_NUMBER": {
           "LABEL": "显示电话号码",
           "TOOLTIP": "向客户显示的电话号码"
@@ -742,7 +863,16 @@
         },
         "DISPLAY_NAME_STATUS": {
           "LABEL": "显示名称状态",
-          "TOOLTIP": "WhatsApp 显示名称的审核状态"
+          "TOOLTIP": "WhatsApp 显示名称的审核状态",
+          "DESCRIPTIONS": {
+            "APPROVED": "The display name is approved and can appear at the top of WhatsApp chats. A name saved by the recipient can appear instead.",
+            "AVAILABLE_WITHOUT_REVIEW": "The display name is saved to your WhatsApp profile, but recipients may see the phone number until Meta reviews and approves it. Meta starts this review after your business reaches a higher messaging limit.",
+            "PENDING_REVIEW": "Meta is reviewing the display name. No action is needed unless Meta requests more information.",
+            "REJECTED": "Meta did not approve the display name. Review the display name guidelines, then update the name or appeal in Meta.",
+            "DECLINED": "Meta did not approve the display name. Review the display name guidelines, then update the name or appeal in Meta.",
+            "EXPIRED": "The phone number's certificate has expired, so this number cannot be registered for API use.",
+            "UNKNOWN": "Meta did not return a display name review status."
+          }
         },
         "LAST_ONBOARDED_TIME": {
           "LABEL": "最近接入时间",
@@ -757,8 +887,9 @@
           "TOOLTIP": "Meta 根据近期消息信号为此电话号码评定的质量等级"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "消息限制等级",
-          "TOOLTIP": "此电话号码在 24 小时内可主动发起对话的客户数量"
+          "LABEL": "业务消息限制",
+          "TOOLTIP": "在滚动的 24 小时内，您的业务可在客户服务窗口之外发送消息的不同客户数量",
+          "DESCRIPTION": "This limit is shared by all WhatsApp phone numbers in the business portfolio."
         },
         "ACCOUNT_MODE": {
           "LABEL": "账户模式",
@@ -814,7 +945,7 @@
           "DISCONNECTED": "已断开",
           "UNKNOWN": "暂无",
           "PENDING_REVIEW": "待审核",
-          "AVAILABLE_WITHOUT_REVIEW": "无需审核即可使用",
+          "AVAILABLE_WITHOUT_REVIEW": "尚未审核",
           "REJECTED": "已拒绝",
           "DECLINED": "已拒绝",
           "NON_EXISTS": "不存在"
@@ -823,6 +954,9 @@
           "SANDBOX": "沙盒",
           "LIVE": "实时"
         }
+      },
+      "BUSINESS_PROFILE": {
+        "PREVIEW_LABEL": "WhatsApp business profile"
       },
       "WEBHOOK": {
         "TITLE": "Webhook 配置",
@@ -1191,24 +1325,7 @@
         "ENABLE": "启用当天的工作时间",
         "UNAVAILABLE": "不可用",
         "VALIDATION_ERROR": "起始时间应在结束时间之前。",
-        "CHOOSE": "选择",
-        "NAMES": {
-          "SUNDAY": "周日",
-          "MONDAY": "周一",
-          "TUESDAY": "周二",
-          "WEDNESDAY": "周三",
-          "THURSDAY": "周四",
-          "FRIDAY": "周五",
-          "SATURDAY": "周六"
-        }
-      },
-      "PERIOD": {
-        "AM": "上午",
-        "PM": "下午"
-      },
-      "DURATION": {
-        "HOURS": "{count} 小时",
-        "MINUTES": "{count} 分钟"
+        "CHOOSE": "选择"
       },
       "ALL_DAY": "全天"
     },

@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "دستیاب نہیں ہے",
     "EMAIL_ADDRESS": "ای میل اڈریس",
     "PHONE_NUMBER": "فون نمبر",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "کامیابی کے ساتھ کلپ بورڈ پر کاپی ہو گیا۔",
     "COMPANY": "کمپنی",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

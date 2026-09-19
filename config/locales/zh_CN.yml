@@ -95,7 +95,9 @@ zh_CN:
     saml:
       feature_not_enabled: 此账户未启用 SAML 功能
       sso_not_enabled: 此安装环境未启用 SAML SSO
+      multi_account_invitation_not_allowed: Users associated with another account cannot be added while SAML is enabled
     conversations:
+      resolved: Conversation is resolved and does not accept new messages
       unread_counts:
         feature_not_enabled: 此账户未启用对话未读计数功能
     data_import:
@@ -148,6 +150,7 @@ zh_CN:
         already_ended: '此通话已结束'
         already_accepted: '此通话已被其他客服接听'
         no_recording: '未提供录音文件'
+        recording_disabled: 'Call recording is disabled for this inbox'
         no_message: '此通话没有关联消息'
         sdp_offer_required: 'sdp_offer 为必填项'
         contact_phone_required: '联系人电话号码为必填项'
@@ -428,6 +431,8 @@ zh_CN:
       completed_tool_call: '%{function_name} 工具调用完成'
       invalid_tool_call: '无效的工具调用'
       tool_not_available: '工具不可用'
+      reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
+      reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
     documents:
       limit_exceeded: '已超过文档数量限制'
       pdf_format_error: '必须是 PDF 文件'
@@ -614,16 +619,21 @@ zh_CN:
         empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:
-        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        helper_text: 'Leave a model blank to use the default routing for that AI feature.'
+        customer_features: 'Customer features'
+        internal_features: 'Internal features'
         use_default: 'Use default: %{model} (%{model_id})'
+        use_installation_model: 'Use installation model: %{model} (%{model_id})'
       show:
         summary: 'View model routing'
         provider: 'Provider'
         model: 'Model'
       sources:
         account_override: 'Account override'
+        installation_override: 'Installation setting'
         default: '默认'
       features:
+        conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: '助手'
         copilot: 'Copilot'
@@ -640,4 +650,10 @@ zh_CN:
       user_not_found: '未找到用户。'
       no_subscriptions_to_test: '请至少选择一个要测试的订阅。'
       no_subscriptions_to_delete: '请至少选择一个要删除的订阅。'
-      subscriptions_deleted: "已删除 %{count} 个订阅。用户设备将在下次启动应用时重新注册。"
+      subscriptions_deleted:
+        other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+    users:
+      resend_confirmation:
+        button: 'Resend confirmation email'
+        sent: 'Confirmation email sent.'
+        already_confirmed: 'User is already confirmed.'

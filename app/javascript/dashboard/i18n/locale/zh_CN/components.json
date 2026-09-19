@@ -69,9 +69,14 @@
     "DIVIDER": "分割线"
   },
   "VIDEO_EMBED": {
+    "TAB_EMBED": "Embed link",
+    "TAB_UPLOAD": "Upload",
     "PLACEHOLDER": "粘贴视频链接",
     "HINT": "支持 YouTube、Vimeo、Loom、Wistia、Arcade、Bunny、CodePen、GuideJar 和 mp4 链接",
     "ERROR": "这似乎不是受支持的视频链接",
+    "UPLOAD_LABEL": "Choose a video file",
+    "UPLOAD_HINT": "MP4 · up to {size}MB · or drop it here",
+    "UPLOAD_ERROR": "Only MP4 files can be uploaded",
     "ADD": "嵌入",
     "CANCEL": "取消"
   }
