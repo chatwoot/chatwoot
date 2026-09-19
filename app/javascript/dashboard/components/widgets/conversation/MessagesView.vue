@@ -3,6 +3,7 @@ import { ref, provide, useTemplateRef } from 'vue';
 import { useElementSize } from '@vueuse/core';
 // composable
 import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
+import { useCampaignHistory } from 'dashboard/composables/useCampaignHistory';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useContactConversationNavigation } from 'dashboard/composables/useContactConversationNavigation';
 
@@ -13,6 +14,7 @@ import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import ContactConversationLink from './ContactConversationLink.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
 import ReferralBubble from 'dashboard/components-next/Conversation/ReferralBubble.vue';
 
@@ -25,6 +27,11 @@ import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 // utils
 import { emitter } from 'shared/helpers/mitt';
 import { getTypingUsersText } from '../../../helper/commons';
+import {
+  captureTimelineAnchor,
+  getTimelineEntries,
+  getUnreadScrollTop,
+} from './helpers/campaignScrollAnchor';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import {
@@ -50,6 +57,7 @@ export default {
     ConversationLabelSuggestion,
     ContactConversationLink,
     Spinner,
+    NextButton,
     ResizableEditorWrapper,
     ReferralBubble,
   },
@@ -74,6 +82,7 @@ export default {
     provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
+      ...useCampaignHistory(),
       captainTasksEnabled,
       getLabelSuggestions,
       isLabelSuggestionFeatureEnabled,
@@ -269,6 +278,22 @@ export default {
   },
 
   watch: {
+    visibleCampaignHistory() {
+      if (!this.conversationPanel) return;
+      const conversationId = this.currentChat.id;
+      const restoreAnchor = captureTimelineAnchor(
+        this.conversationPanel,
+        this.$route.query.messageId
+      );
+      this.$nextTick(() => {
+        if (this.currentChat.id !== conversationId) return;
+        if (!this.hasUserScrolled && !this.$route.query.messageId) {
+          this.scrollToBottom();
+        } else {
+          restoreAnchor();
+        }
+      });
+    },
     currentChat(newChat, oldChat) {
       if (newChat.id === oldChat.id) {
         return;
@@ -382,9 +407,16 @@ export default {
 
       // if there are unread messages, scroll to the first unread message
       if (this.unreadMessageCount > 0) {
-        // capturing only the unread messages
-        relevantMessages =
-          this.conversationPanel.querySelectorAll('.message--unread');
+        const firstUnread =
+          this.conversationPanel.querySelector('.message--unread');
+        if (firstUnread) {
+          this.conversationPanel.scrollTop = getUnreadScrollTop(
+            this.conversationPanel,
+            firstUnread,
+            this.$el.scrollHeight
+          );
+          return;
+        }
       } else if (labelSuggestions) {
         // when scrolling to the bottom, the label suggestions is below the last message
         // so we scroll there if there are no unread messages
@@ -393,9 +425,7 @@ export default {
       } else {
         // if there are no unread messages or label suggestion, scroll to the last message
         // capturing last message from the messages list
-        relevantMessages = Array.from(
-          this.conversationPanel.querySelectorAll('.message--read')
-        ).slice(-1);
+        relevantMessages = getTimelineEntries(this.conversationPanel).slice(-1);
       }
 
       this.conversationPanel.scrollTop = calculateScrollTop(
@@ -507,6 +537,7 @@ export default {
       :is-an-email-channel="isAnEmailChannel"
       :inbox-supports-reply-to="inboxSupportsReplyTo"
       :messages="getMessages"
+      :campaign-history="visibleCampaignHistory"
       @retry="handleMessageRetry"
     >
       <template #beforeAll>
@@ -525,6 +556,15 @@ export default {
           :to="buildConversationPath(olderConversation.id)"
         />
         <ReferralBubble v-if="referralData" :referral="referralData" />
+        <li v-if="hasMoreCampaignHistory" class="flex justify-center py-3">
+          <NextButton
+            :label="$t('CAMPAIGN.HISTORY.LOAD_MORE')"
+            :disabled="isCampaignHistoryLoading"
+            sm
+            ghost
+            @click="loadCampaignHistory"
+          />
+        </li>
       </template>
       <template #unreadBadge>
         <li

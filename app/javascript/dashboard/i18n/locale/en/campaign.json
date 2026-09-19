@@ -336,9 +336,14 @@
         }
       }
     },
+    "HISTORY": {
+      "LABEL": "Campaign",
+      "LOAD_MORE": "Load earlier campaigns"
+    },
     "CONFIRM_DELETE": {
       "TITLE": "Are you sure to delete?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "WHATSAPP_DESCRIPTION": "Deleting this campaign will also remove its saved message history and delivery details. Messages already sent on WhatsApp will remain. This cannot be undone.",
       "CONFIRM": "Delete",
       "API": {
         "SUCCESS_MESSAGE": "Campaign deleted successfully",
