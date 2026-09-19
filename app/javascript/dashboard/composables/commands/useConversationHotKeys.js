@@ -4,6 +4,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { emitter } from 'shared/helpers/mitt';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
@@ -146,6 +147,8 @@ export function useConversationHotKeys() {
     removeLabelFromConversation,
   } = useConversationLabels();
 
+  const { pendingLabels, trackIfSuggested } = useLabelSuggestions();
+
   const { captainTasksEnabled } = useCaptain();
   const { agentsList } = useAgentsList();
 
@@ -279,13 +282,26 @@ export function useConversationHotKeys() {
   });
 
   const addLabelActions = computed(() => {
-    const availableLabels = inactiveLabels.value.map(label => ({
+    const suggestedTitles = pendingLabels.value.map(label => label.title);
+    // Suggested labels get their own section at the top, so skip them in the full list
+    const orderedLabels = [
+      ...pendingLabels.value,
+      ...inactiveLabels.value.filter(
+        label => !suggestedTitles.includes(label.title)
+      ),
+    ];
+    const availableLabels = orderedLabels.map(label => ({
       id: label.title,
       title: `#${label.title}`,
       parent: 'add_a_label_to_the_conversation',
-      section: t('COMMAND_BAR.SECTIONS.ADD_LABEL'),
+      section: suggestedTitles.includes(label.title)
+        ? t('COMMAND_BAR.SECTIONS.SUGGESTED_LABELS')
+        : t('COMMAND_BAR.SECTIONS.ADD_LABEL'),
       icon: ICON_ADD_LABEL,
-      handler: action => addLabelToConversation({ title: action.id }),
+      handler: action => {
+        trackIfSuggested({ title: action.id });
+        addLabelToConversation({ title: action.id });
+      },
     }));
     return [
       ...availableLabels,
@@ -294,7 +310,7 @@ export function useConversationHotKeys() {
         title: t('COMMAND_BAR.COMMANDS.ADD_LABELS_TO_CONVERSATION'),
         section: t('COMMAND_BAR.SECTIONS.CONVERSATION'),
         icon: ICON_ADD_LABEL,
-        children: inactiveLabels.value.map(label => label.title),
+        children: orderedLabels.map(label => label.title),
       },
     ];
   });
