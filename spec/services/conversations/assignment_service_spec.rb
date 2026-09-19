@@ -7,6 +7,29 @@ describe Conversations::AssignmentService do
   let(:conversation) { create(:conversation, account: account) }
 
   describe '#perform' do
+    context 'when reopening during takeover' do
+      %w[pending open resolved snoozed].each do |status|
+        it "opens and assigns a #{status} conversation in one save" do
+          conversation.update!(status: status, ai_assignee: agent_bot, assignee: nil)
+
+          described_class.new(conversation: conversation, assignee_id: agent.id, reopen: true).perform
+
+          expect(conversation.reload).to have_attributes(status: 'open', assignee: agent, ai_assignee: nil, snoozed_until: nil)
+        end
+      end
+
+      it 'preserves status and AI assignee when the save fails' do
+        conversation.update!(status: :resolved, ai_assignee: agent_bot, assignee: nil)
+        allow(conversation).to receive(:save!).and_raise(ActiveRecord::RecordInvalid.new(conversation))
+
+        expect do
+          described_class.new(conversation: conversation, assignee_id: agent.id, reopen: true).perform
+        end.to raise_error(ActiveRecord::RecordInvalid)
+
+        expect(conversation.reload).to have_attributes(status: 'resolved', assignee: nil, ai_assignee: agent_bot)
+      end
+    end
+
     context 'when assignee_id is blank' do
       before do
         conversation.update!(assignee: agent, ai_assignee: agent_bot)

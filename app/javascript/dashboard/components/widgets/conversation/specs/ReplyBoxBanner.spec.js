@@ -18,11 +18,12 @@ vi.mock('dashboard/composables', () => ({
 }));
 
 describe('ReplyBoxBanner', () => {
-  it.each(['none', 'assignment', 'reopen'])(
-    'only reports success after assignment and reopen succeed (failure: %s)',
+  it.each(['none', 'assignment'])(
+    'only updates takeover after the atomic request succeeds (failure: %s)',
     async failure => {
       const toggleStatus = vi.fn().mockResolvedValue(failure !== 'reopen');
       const setCurrentChatAssignee = vi.fn();
+      const changeStatus = vi.fn();
       const assignAgent = vi.fn();
       const assistant = { id: 3, name: 'Captain' };
       const currentUser = {
@@ -59,6 +60,7 @@ describe('ReplyBoxBanner', () => {
           setCurrentChatAssignee,
           assignAgent,
         },
+        mutations: { CHANGE_CONVERSATION_STATUS: changeStatus },
       });
       const wrapper = shallowMount(ReplyBoxBanner, {
         global: {
@@ -77,34 +79,25 @@ describe('ReplyBoxBanner', () => {
       banner.vm.$emit('primaryAction');
       await flushPromises();
 
-      expect(toggleStatus).toHaveBeenCalledWith(expect.anything(), {
-        conversationId: 1,
-        status: 'open',
-      });
-      if (failure === 'reopen') {
-        expect(ConversationApi.assignAgent).not.toHaveBeenCalled();
-        expect(setCurrentChatAssignee).not.toHaveBeenCalled();
-        expect(wrapper.findComponent(Banner).props('bannerMessage')).toContain(
-          assistant.name
-        );
-        expect(useAlert).toHaveBeenCalledExactlyOnceWith(
-          'CONVERSATION.BOT_HANDOFF_ERROR'
-        );
-        return;
-      }
+      expect(toggleStatus).not.toHaveBeenCalled();
       expect(ConversationApi.assignAgent).toHaveBeenCalledWith({
         conversationId: 1,
         agentId: currentUser.id,
         assigneeType: 'User',
+        reopen: true,
       });
       if (failure === 'assignment') {
         expect(setCurrentChatAssignee).not.toHaveBeenCalled();
+        expect(changeStatus).not.toHaveBeenCalled();
+        expect(wrapper.findComponent(Banner).exists()).toBe(true);
         expect(useAlert).toHaveBeenCalledWith('CONVERSATION.BOT_HANDOFF_ERROR');
         return;
       }
-      expect(toggleStatus.mock.invocationCallOrder[0]).toBeLessThan(
-        ConversationApi.assignAgent.mock.invocationCallOrder[0]
-      );
+      expect(changeStatus).toHaveBeenCalledWith(expect.anything(), {
+        conversationId: 1,
+        status: 'open',
+        snoozedUntil: null,
+      });
       expect(setCurrentChatAssignee).toHaveBeenCalledWith(expect.anything(), {
         conversationId: 1,
         assignee: currentUser,

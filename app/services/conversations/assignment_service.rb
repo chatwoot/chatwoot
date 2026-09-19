@@ -1,8 +1,9 @@
 class Conversations::AssignmentService
-  def initialize(conversation:, assignee_id:, assignee_type: nil)
+  def initialize(conversation:, assignee_id:, assignee_type: nil, reopen: false)
     @conversation = conversation
     @assignee_id = assignee_id
     @assignee_type = assignee_type
+    @reopen = reopen
   end
 
   def perform
@@ -11,11 +12,11 @@ class Conversations::AssignmentService
 
   private
 
-  attr_reader :conversation, :assignee_id, :assignee_type
+  attr_reader :conversation, :assignee_id, :assignee_type, :reopen
 
   def assign_agent
     conversation.with_lock do
-      if open_on_assignment? && conversation.pending?
+      if (reopen && assignee.present?) || (open_on_assignment? && conversation.pending?)
         conversation.status = :open
         conversation.waiting_since = Time.current if conversation.waiting_since.blank?
       end

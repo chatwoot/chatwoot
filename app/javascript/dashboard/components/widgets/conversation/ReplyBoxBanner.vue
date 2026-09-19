@@ -55,11 +55,12 @@ const botAssigneeName = computed(() => {
   return t('CONVERSATION.BOT_HANDOFF_FALLBACK_ASSIGNEE');
 });
 
-const selfAssignConversation = async conversationId => {
+const selfAssignConversation = async (conversationId, reopen = false) => {
   const { data } = await ConversationApi.assignAgent({
     conversationId,
     agentId: currentUser.value.id,
     assigneeType: 'User',
+    reopen,
   });
   await store.dispatch('setCurrentChatAssignee', {
     conversationId,
@@ -67,10 +68,6 @@ const selfAssignConversation = async conversationId => {
     assigneeType: 'User',
   });
 };
-
-const needsAssignmentToCurrentUser = computed(() => {
-  return isUnassigned.value || isAssignedToOtherAgent.value;
-});
 
 const onClickSelfAssign = async () => {
   try {
@@ -84,21 +81,12 @@ const onClickSelfAssign = async () => {
 const onClickBotHandoff = async () => {
   const conversationId = currentChat.value.id;
   try {
-    const shouldAssignToCurrentUser =
-      isAIOwned.value || needsAssignmentToCurrentUser.value;
-
-    const reopened = await store.dispatch('toggleStatus', {
+    await selfAssignConversation(conversationId, true);
+    store.commit('CHANGE_CONVERSATION_STATUS', {
       conversationId,
       status: 'open',
+      snoozedUntil: null,
     });
-    if (!reopened) {
-      useAlert(t('CONVERSATION.BOT_HANDOFF_ERROR'));
-      return;
-    }
-
-    if (shouldAssignToCurrentUser) {
-      await selfAssignConversation(conversationId);
-    }
     useAlert(t('CONVERSATION.BOT_HANDOFF_SUCCESS'));
   } catch (error) {
     useAlert(t('CONVERSATION.BOT_HANDOFF_ERROR'));
