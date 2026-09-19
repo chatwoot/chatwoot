@@ -15,6 +15,10 @@ class Whatsapp::IncomingMessageBaseService
 
     process_identity_change_messages
     return process_messages if messages_data.present?
+  rescue StandardError
+    # A rolled-back message must remain eligible for the webhook job's next attempt.
+    @message_source_lock&.release!
+    raise
   end
 
   # Returns messages array for both regular messages and echo events
