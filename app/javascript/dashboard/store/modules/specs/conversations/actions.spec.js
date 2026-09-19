@@ -566,6 +566,16 @@ describe('#actions', () => {
   });
 
   describe('#toggleStatus', () => {
+    it('returns failure without changing local status when reopening fails', async () => {
+      axios.post.mockRejectedValue(new Error('Reopen failed'));
+      const succeeded = await actions.toggleStatus(
+        { commit },
+        { conversationId: 1, status: 'open' }
+      );
+      expect(succeeded).toBe(false);
+      expect(commit).not.toHaveBeenCalled();
+    });
+
     it('sends correct mutations if toggle status is successful', async () => {
       axios.post.mockResolvedValue({
         data: {
@@ -576,10 +586,11 @@ describe('#actions', () => {
           },
         },
       });
-      await actions.toggleStatus(
+      const succeeded = await actions.toggleStatus(
         { commit },
         { conversationId: 1, status: 'snoozed' }
       );
+      expect(succeeded).toBe(true);
       expect(commit).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
         [

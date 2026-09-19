@@ -384,8 +384,9 @@ const actions = {
         status: updatedStatus,
         snoozedUntil: updatedSnoozedUntil,
       });
+      return true;
     } catch (error) {
-      // Handle error
+      return false;
     }
   },
 

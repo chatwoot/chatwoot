@@ -4,6 +4,7 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { isAIAssigneeType } from 'dashboard/helper/agentHelper';
 
 // change_status is not offered by the macro builder, but the API accepts it and
 // it resolves the conversation just like resolve_conversation does. Its param is
@@ -37,10 +38,29 @@ export function useMacroExecution() {
   const customAttributesFor = conversationId =>
     conversationById.value(conversationId)?.custom_attributes || {};
 
-  const runMacro = async (
-    { macro, conversationId },
-    skippedResolve = false
-  ) => {
+  const isBlockedByAIOwnership = ({ macro, conversationId }) => {
+    const conversation = conversationById.value(conversationId);
+    if (
+      isAIAssigneeType(conversation?.meta?.assignee_type) &&
+      macro.actions.some(({ action_name: name }) =>
+        ['send_message', 'send_attachment'].includes(name)
+      )
+    ) {
+      useAlert(
+        t('CONVERSATION.BOT_HANDOFF_MESSAGE', {
+          assigneeName:
+            conversation.meta.assignee?.name ||
+            t('CONVERSATION.BOT_HANDOFF_FALLBACK_ASSIGNEE'),
+        })
+      );
+      return true;
+    }
+    return false;
+  };
+
+  const runMacro = async (execution, skippedResolve = false) => {
+    if (isBlockedByAIOwnership(execution)) return;
+    const { macro, conversationId } = execution;
     try {
       executingMacroId.value = macro.id;
       await store.dispatch('macros/execute', {
@@ -62,6 +82,7 @@ export function useMacroExecution() {
 
   const execute = (macro, conversationId) => {
     const execution = { macro, conversationId };
+    if (isBlockedByAIOwnership(execution)) return null;
 
     if (!resolvesConversation(macro)) {
       runMacro(execution);
@@ -82,6 +103,7 @@ export function useMacroExecution() {
   const submitPendingAttributes = async ({ attributes }) => {
     const execution = pendingExecution.value;
     pendingExecution.value = null;
+    if (isBlockedByAIOwnership(execution)) return;
 
     try {
       await store.dispatch('updateCustomAttributes', {

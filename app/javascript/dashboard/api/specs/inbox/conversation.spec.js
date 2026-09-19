@@ -104,6 +104,19 @@ describe('#ConversationAPI', () => {
       );
     });
 
+    it('requests reopening as part of takeover assignment', () => {
+      conversationAPI.assignAgent({
+        conversationId: 12,
+        agentId: 34,
+        assigneeType: 'User',
+        reopen: true,
+      });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/12/assignments',
+        { assignee_id: 34, assignee_type: 'User', reopen: true }
+      );
+    });
+
     it('#assignTeam', () => {
       conversationAPI.assignTeam({ conversationId: 12, teamId: 1 });
       expect(axiosMock.post).toHaveBeenCalledWith(

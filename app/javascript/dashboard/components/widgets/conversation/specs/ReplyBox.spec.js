@@ -181,7 +181,7 @@ describe('ReplyBox', () => {
   });
 
   describe.each(CHANNELS)('$name', ({ name, inbox }) => {
-    it('locks the composer and hides template sends when a bot owns a pending conversation', () => {
+    it('locks the composer and hides template sends when the conversation has an AI assignee', () => {
       const { wrapper } = mountWith({
         inbox,
         chat: {
@@ -197,7 +197,7 @@ describe('ReplyBox', () => {
       expect(topPanel(wrapper).isEditorDisabled).toBe(false);
     });
 
-    it('opens directly in note mode when a bot already owns the pending conversation', () => {
+    it('opens directly in note mode when the conversation has an AI assignee', () => {
       const { wrapper, store } = mountWith({
         inbox,
         chat: {
@@ -224,7 +224,7 @@ describe('ReplyBox', () => {
     });
 
     it.each(['open', 'resolved', 'snoozed'])(
-      'leaves the composer open when a bot owns a %s conversation',
+      'locks the composer when a %s conversation has an AI assignee',
       status => {
         const { wrapper } = mountWith({
           inbox,
@@ -234,8 +234,8 @@ describe('ReplyBox', () => {
           },
         });
 
-        expect(topPanel(wrapper).isReplyRestricted).toBe(false);
-        expect(bottomPanel(wrapper).enableWhatsAppTemplates).toBe(true);
+        expect(topPanel(wrapper).isReplyRestricted).toBe(true);
+        expect(bottomPanel(wrapper).enableWhatsAppTemplates).toBe(false);
       }
     );
 
@@ -267,6 +267,22 @@ describe('ReplyBox', () => {
     });
   });
 
+  it('locks the composer when the conversation has a Captain assistant assignee', () => {
+    const { wrapper } = mountWith({
+      inbox: { channel_type: 'Channel::WebWidget' },
+      chat: {
+        status: 'pending',
+        meta: {
+          sender: { id: 2 },
+          assignee_type: 'Captain::Assistant',
+        },
+      },
+    });
+
+    expect(topPanel(wrapper).isReplyRestricted).toBe(true);
+    expect(bottomPanel(wrapper).isOnPrivateNote).toBe(true);
+  });
+
   it('hides the template action when the inbox has no templates synced', () => {
     const { wrapper } = mountWith({
       inbox: { channel_type: 'Channel::Whatsapp' },
@@ -284,7 +300,7 @@ describe('ReplyBox', () => {
       'draft-1-NOTE': 'a note',
     };
 
-    it('loads the note draft while a bot owns the conversation', async () => {
+    it('loads the note draft while the conversation has an AI assignee', async () => {
       const { wrapper } = mountWith({
         inbox: { channel_type: 'Channel::WebWidget' },
         chat: {
@@ -329,7 +345,7 @@ describe('ReplyBox', () => {
     });
   });
 
-  it('offers content templates on Twilio WhatsApp when no bot owns the conversation', () => {
+  it('offers content templates on Twilio WhatsApp when the conversation has no AI assignee', () => {
     const { wrapper } = mountWith({
       inbox: { channel_type: 'Channel::TwilioSms', medium: 'whatsapp' },
       chat: { can_reply: true, status: 'open' },
@@ -348,7 +364,7 @@ describe('ReplyBox', () => {
       return { wrapper, store };
     };
 
-    it('switches to note mode when a bot owns a pending conversation', async () => {
+    it('switches to note mode when a pending conversation has an AI assignee', async () => {
       const { wrapper } = await selectChat({
         status: 'pending',
         meta: { sender: { id: 2 }, assignee_type: 'AgentBot' },

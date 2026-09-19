@@ -55,6 +55,19 @@ RSpec.describe 'Conversation Assignment API', type: :request do
         expect(conversation.reload.assignee).to eq(agent)
       end
 
+      it 'allows an administrator to reopen and take over in one request' do
+        administrator = create(:user, account: account, role: :administrator)
+        conversation.update!(status: :resolved, ai_assignee: agent_bot, assignee: nil)
+
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { assignee_id: administrator.id, assignee_type: 'User', reopen: true },
+             headers: administrator.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload).to have_attributes(status: 'open', assignee: administrator, ai_assignee: nil)
+      end
+
       it 'assigns an agent bot to the conversation' do
         params = { assignee_id: agent_bot.id, assignee_type: 'AgentBot' }
 
