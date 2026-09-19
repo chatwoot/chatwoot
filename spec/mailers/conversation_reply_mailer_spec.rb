@@ -450,6 +450,49 @@ RSpec.describe ConversationReplyMailer do
         end
       end
 
+      context 'when forwarding an email' do
+        let(:forwarded_message) do
+          create(:message, conversation: conversation, account: account, message_type: 'incoming',
+                           content_attributes: { email: { message_id: 'original@example.com' } })
+        end
+        let(:forward) do
+          create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Forwarding this',
+                           content_attributes: { forwarded_message_id: forwarded_message.id, to_emails: ['vendor@example.com'] })
+        end
+        let(:mail) { described_class.email_reply(forward).deliver_now }
+
+        before do
+          conversation.additional_attributes = { 'mail_subject': 'Mail Subject' }
+          conversation.save!
+        end
+
+        it 'sends to the forward recipients with a forward subject and no threading headers' do
+          expect(mail.to).to eq ['vendor@example.com']
+          expect(mail.subject).to eq 'Fwd: Mail Subject'
+          expect(mail.in_reply_to).to be_nil
+          expect(mail.references).to be_nil
+        end
+
+        it 'uses the subject of the forwarded message when it has one' do
+          forwarded_message.update!(content_attributes: { email: { message_id: 'original@example.com', subject: 'Changed subject' } })
+
+          expect(mail.subject).to eq 'Fwd: Changed subject'
+        end
+
+        it 'keeps replies from the forward recipient out of the conversation' do
+          expect(mail.message_id).to start_with("forward/#{forward.id}@")
+          expect(mail.message_id).not_to include(conversation.uuid)
+          expect(mail.reply_to).to eq [email_channel.email]
+        end
+
+        it 'leaves the forward out of the conversation transcript' do
+          forward
+          transcript = described_class.conversation_transcript(conversation, 'customer@example.com').deliver_now
+
+          expect(transcript.decoded).not_to include('Forwarding this')
+        end
+      end
+
       context 'with custom email content' do
         it 'uses custom HTML content when available and creates multipart email' do
           message_with_custom_content = create(:message,

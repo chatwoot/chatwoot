@@ -178,6 +178,17 @@ describe Messages::MessageBuilder do
       end
     end
 
+    context 'when forwarding a message in a non email inbox' do
+      let(:params) do
+        ActionController::Parameters.new({ content: 'test', to_emails: 'vendor@example.com',
+                                           content_attributes: { forwarded_message_id: message_for_reply.id }.to_json })
+      end
+
+      it 'rejects the message' do
+        expect { message_builder }.to raise_error 'Forwarded emails need an email inbox'
+      end
+    end
+
     context 'when email channel messages' do
       let!(:channel_email) { create(:channel_email, account: account) }
       let(:inbox_member) { create(:inbox_member, inbox: channel_email.inbox) }
@@ -207,6 +218,63 @@ describe Messages::MessageBuilder do
 
         expect(message.content_attributes[:cc_emails]).to eq ['test1@test.com', 'test2@test.com', 'test3@test.com']
         expect(message.content_attributes[:bcc_emails]).to eq ['test1@test.com', 'test2@test.com', 'test3@test.com']
+      end
+
+      context 'when forwarding a message' do
+        let(:forwarded_message) { create(:message, conversation: conversation, account: account, message_type: :incoming) }
+        let(:forwarded_attachment) do
+          attachment = forwarded_message.attachments.new(account_id: account.id, file_type: :image)
+          attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+          attachment.save!
+          attachment
+        end
+        let(:params) do
+          ActionController::Parameters.new({
+                                             content: 'Forwarding this',
+                                             private: 'false',
+                                             to_emails: 'vendor@example.com',
+                                             email_html_content: '<p>Forwarding this</p><p>Edited body</p>',
+                                             content_attributes: { forwarded_message_id: forwarded_message.id }.to_json,
+                                             forwarded_attachment_ids: [forwarded_attachment.id]
+                                           })
+        end
+
+        it 'copies the selected attachments of the forwarded message' do
+          message = message_builder
+
+          expect(message.content_attributes[:forwarded_message_id]).to eq forwarded_message.id
+          expect(message.content_attributes[:to_emails]).to eq ['vendor@example.com']
+          expect(message.attachments.map { |attachment| attachment.file.blob }).to eq [forwarded_attachment.file.blob]
+        end
+
+        it 'keeps the edited html when the private flag arrives as a multipart string' do
+          message = message_builder
+
+          expect(message.private).to be(false)
+          expect(message.content_attributes.dig(:email, :html_content, :reply)).to eq('<p>Forwarding this</p><p>Edited body</p>')
+        end
+
+        it 'ignores attachments that do not belong to the forwarded message' do
+          other_message = create(:message, conversation: conversation, account: account)
+          other_attachment = other_message.attachments.new(account_id: account.id, file_type: :image)
+          other_attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+          other_attachment.save!
+          params[:forwarded_attachment_ids] = [other_attachment.id]
+
+          expect(message_builder.attachments).to be_empty
+        end
+
+        it 'raises when the forwarded message belongs to another conversation' do
+          params[:content_attributes] = { forwarded_message_id: create(:message, account: account).id }.to_json
+
+          expect { message_builder }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+
+        it 'raises when no recipient is given' do
+          params[:to_emails] = ''
+
+          expect { message_builder }.to raise_error(StandardError, 'Forwarded emails need a recipient')
+        end
       end
 
       context 'when custom email content is provided' do
