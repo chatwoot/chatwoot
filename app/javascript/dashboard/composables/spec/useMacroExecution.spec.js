@@ -34,7 +34,7 @@ const mockConversation = (customAttributes = {}) => {
 
 describe('useMacroExecution', () => {
   it.each(['AgentBot', 'Captain::Assistant'])(
-    'blocks public-message macros for %s ownership',
+    'blocks public-message macros for a %s assignee',
     async assigneeType => {
       useMapGetter.mockReturnValue({
         value: () => ({ meta: { assignee_type: assigneeType } }),
@@ -72,7 +72,7 @@ describe('useMacroExecution', () => {
     }
   );
 
-  it('does not save attributes if AI takes ownership while the modal is open', async () => {
+  it('does not save attributes if the conversation gets an AI assignee while the modal is open', async () => {
     const conversation = { meta: { assignee_type: 'User' } };
     useMapGetter.mockReturnValue({ value: () => conversation });
     checkMissingAttributes.mockReturnValue({
