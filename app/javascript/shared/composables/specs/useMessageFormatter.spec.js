@@ -100,6 +100,11 @@ describe('useMessageFormatter', () => {
       expect(
         messageFormatter.highlightContent('Hola', 'olá', 'highlight').trim()
       ).toBe('H<span class="highlight">ola</span>');
+      expect(
+        messageFormatter
+          .highlightContent('Cafe\u0301 Ola', 'ola', 'highlight')
+          .trim()
+      ).toBe('Caf\u00e9 <span class="highlight">Ola</span>');
     });
   });
 });

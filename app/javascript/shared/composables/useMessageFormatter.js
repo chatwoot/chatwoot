@@ -66,7 +66,8 @@ export const useMessageFormatter = () => {
     searchTerm = '',
     highlightClass = ''
   ) => {
-    const plainTextContent = getPlainText(content);
+    // NFC stores an accented letter as one character, so removing accents keeps every index
+    const plainTextContent = getPlainText(content).normalize('NFC');
 
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
     const escapedSearchTerm = removeAccents(searchTerm).replace(

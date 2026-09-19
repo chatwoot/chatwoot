@@ -83,7 +83,10 @@ const records = computed(() =>
       shortCode,
       // Built from the raw content so search results don't change with the open
       // conversation; resolved variables are only shown in the preview
-      plainText: getPlainText(content).replace(/\s+/g, ' ').trim(),
+      plainText: getPlainText(content)
+        .normalize('NFC')
+        .replace(/\s+/g, ' ')
+        .trim(),
     };
   })
 );
