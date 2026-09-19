@@ -1,12 +1,15 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { picoSearch } from '@chatwoot/pico-search';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import {
   resolveVariablesInMessage,
   stripUnsupportedFormatting,
 } from 'dashboard/helper/editorHelper';
+import {
+  indexOfIgnoringAccents,
+  searchIgnoringAccents,
+} from 'shared/helpers/searchHelper';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import CaretAnchoredPicker from 'dashboard/components-next/preview-picker/CaretAnchoredPicker.vue';
 
@@ -46,8 +49,6 @@ const searchQuery = ref(props.searchKey);
 
 const searchTerm = computed(() => searchQuery.value.trim());
 
-// An empty term makes `highlightContent`'s regex match at every position, wrapping the
-// whole string in empty spans
 const highlightMatches = text =>
   searchTerm.value
     ? highlightContent(text, searchTerm.value, HIGHLIGHT_CLASS)
@@ -57,7 +58,7 @@ const buildSnippet = text => {
   const term = searchTerm.value;
   if (!term) return text;
 
-  const index = text.toLowerCase().indexOf(term.toLowerCase());
+  const index = indexOfIgnoringAccents(text, term);
   if (index <= SNIPPET_LEAD) return text;
 
   return `…${text.slice(index - SNIPPET_LEAD)}`;
@@ -80,7 +81,9 @@ const records = computed(() =>
       content,
       resolved,
       shortCode,
-      plainText: getPlainText(resolved).replace(/\s+/g, ' ').trim(),
+      // Built from the raw content so search results don't change with the open
+      // conversation; resolved variables are only shown in the preview
+      plainText: getPlainText(content).replace(/\s+/g, ' ').trim(),
     };
   })
 );
@@ -88,7 +91,7 @@ const records = computed(() =>
 const filteredRecords = computed(() => {
   if (!searchTerm.value) return records.value;
 
-  return picoSearch(records.value, searchTerm.value, [
+  return searchIgnoringAccents(records.value, searchTerm.value, [
     { name: 'shortCode', weight: 1 },
     'plainText',
   ]);

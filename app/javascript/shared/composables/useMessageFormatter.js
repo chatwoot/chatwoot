@@ -1,4 +1,5 @@
 import MessageFormatter from '../helpers/MessageFormatter';
+import { removeAccents } from '../helpers/searchHelper';
 
 /**
  * A composable providing utility functions for message formatting.
@@ -52,7 +53,8 @@ export const useMessageFormatter = () => {
   };
 
   /**
-   * Highlights occurrences of a search term within given content.
+   * Highlights occurrences of a search term within given content, ignoring accents and
+   * case while keeping the original spelling ("ola" highlights "Olá").
    *
    * @param {string} [content=''] - The content in which to search.
    * @param {string} [searchTerm=''] - The term to search for.
@@ -65,14 +67,22 @@ export const useMessageFormatter = () => {
     highlightClass = ''
   ) => {
     const plainTextContent = getPlainText(content);
+    const term = removeAccents(searchTerm).toLowerCase();
+    if (!term) return plainTextContent;
 
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
-    const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-    return plainTextContent.replace(
-      new RegExp(`(${escapedSearchTerm})`, 'ig'),
-      `<span class="${highlightClass}">$1</span>`
-    );
+    // Removing accents keeps every character at its index, so a match found in the
+    // folded text is sliced out of the original
+    const foldedContent = removeAccents(plainTextContent).toLowerCase();
+    let highlighted = '';
+    let start = 0;
+    let index = foldedContent.indexOf(term);
+    while (index !== -1) {
+      const end = index + term.length;
+      highlighted += `${plainTextContent.slice(start, index)}<span class="${highlightClass}">${plainTextContent.slice(index, end)}</span>`;
+      start = end;
+      index = foldedContent.indexOf(term, end);
+    }
+    return highlighted + plainTextContent.slice(start);
   };
 
   return {
