@@ -45,7 +45,8 @@
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
         "NO_RESULT": "No labels found",
-        "CREATE_LABEL": "Create new label"
+        "CREATE_LABEL": "Create new label",
+        "SUGGESTED": "Suggested"
       }
     },
     "MERGE_CONTACT": "Merge contact",

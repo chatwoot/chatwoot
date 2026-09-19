@@ -5,6 +5,7 @@ import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.v
 import { picoSearch } from '@chatwoot/pico-search';
 import { sanitizeLabel } from 'shared/helpers/sanitizeData';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 export default {
   components: {
@@ -12,6 +13,7 @@ export default {
     AddLabelModal,
     Hotkey,
     NextButton,
+    Icon,
   },
 
   props: {
@@ -26,6 +28,10 @@ export default {
     allowCreation: {
       type: Boolean,
       default: false,
+    },
+    suggestedLabels: {
+      type: Array,
+      default: () => [],
     },
   },
   emits: ['update', 'add', 'remove'],
@@ -47,6 +53,20 @@ export default {
       if (!this.search) return this.accountLabels;
 
       return picoSearch(this.accountLabels, this.search, ['title']);
+    },
+
+    shouldShowSuggestions() {
+      return !this.search && this.suggestedLabels.length > 0;
+    },
+
+    // Suggested labels are listed in their own section, so skip them here
+    listedLabels() {
+      if (!this.shouldShowSuggestions) return this.filteredActiveLabels;
+
+      const suggestedTitles = this.suggestedLabels.map(({ title }) => title);
+      return this.filteredActiveLabels.filter(
+        ({ title }) => !suggestedTitles.includes(title)
+      );
     },
 
     noResult() {
@@ -136,9 +156,27 @@ export default {
       class="flex items-start justify-start flex-auto flex-grow flex-shrink overflow-auto"
     >
       <div class="w-full my-1">
+        <template v-if="shouldShowSuggestions">
+          <div
+            class="flex items-center gap-1.5 px-2.5 pt-1 pb-2 text-xs font-medium leading-4 tracking-[0.2px] text-n-slate-10"
+          >
+            <Icon icon="i-lucide-sparkles" class="size-3 text-n-iris-10" />
+            {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.SUGGESTED') }}
+          </div>
+          <woot-dropdown-menu>
+            <LabelDropdownItem
+              v-for="label in suggestedLabels"
+              :key="label.title"
+              :title="label.title"
+              :color="label.color"
+              @select-label="onAdd(label)"
+            />
+          </woot-dropdown-menu>
+          <div class="mx-2.5 mt-1 mb-2 border-t border-solid border-n-weak" />
+        </template>
         <woot-dropdown-menu>
           <LabelDropdownItem
-            v-for="label in filteredActiveLabels"
+            v-for="label in listedLabels"
             :key="label.title"
             :title="label.title"
             :color="label.color"

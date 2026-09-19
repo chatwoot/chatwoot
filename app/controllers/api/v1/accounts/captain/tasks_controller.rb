@@ -32,7 +32,7 @@ class Api::V1::Accounts::Captain::TasksController < Api::V1::Accounts::BaseContr
   end
 
   def label_suggestion
-    result = Captain::LabelSuggestionService.new(
+    result = Captain::LabelClassifierService.new(
       account: Current.account,
       conversation_display_id: params[:conversation_display_id]
     ).perform

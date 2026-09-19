@@ -3,6 +3,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
@@ -18,6 +19,7 @@ vi.mock('dashboard/composables/store');
 vi.mock('vue-i18n');
 vi.mock('vue-router');
 vi.mock('dashboard/composables/useConversationLabels');
+vi.mock('dashboard/composables/useLabelSuggestions');
 vi.mock('dashboard/composables/useCaptain');
 vi.mock('dashboard/composables/useAgentsList');
 
@@ -48,6 +50,10 @@ describe('useConversationHotKeys', () => {
       inactiveLabels: { value: mockInactiveLabels },
       addLabelToConversation: vi.fn(),
       removeLabelFromConversation: vi.fn(),
+    });
+    useLabelSuggestions.mockReturnValue({
+      pendingLabels: { value: [] },
+      trackIfSuggested: vi.fn(),
     });
     useCaptain.mockReturnValue({ captainTasksEnabled: { value: true } });
     useAgentsList.mockReturnValue({

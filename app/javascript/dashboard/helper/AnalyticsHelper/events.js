@@ -107,7 +107,6 @@ export const CAPTAIN_EVENTS = Object.freeze({
 
   // Label suggestions
   LABEL_SUGGESTION_APPLIED: 'Captain: Label suggestion applied',
-  LABEL_SUGGESTION_DISMISSED: 'Captain: Label suggestion dismissed',
 });
 
 export const COPILOT_EVENTS = Object.freeze({

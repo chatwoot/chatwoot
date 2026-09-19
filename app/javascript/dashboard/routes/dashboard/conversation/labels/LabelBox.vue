@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import Spinner from 'shared/components/Spinner.vue';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
@@ -24,6 +25,13 @@ export default {
       addLabelToConversation,
       removeLabelFromConversation,
     } = useConversationLabels();
+
+    const { pendingLabels, trackIfSuggested } = useLabelSuggestions();
+
+    const addLabel = label => {
+      trackIfSuggested(label);
+      addLabelToConversation(label);
+    };
 
     const showSearchDropdownLabel = ref(false);
 
@@ -57,8 +65,9 @@ export default {
       savedLabels,
       activeLabels,
       accountLabels,
-      addLabelToConversation,
+      addLabel,
       removeLabelFromConversation,
+      pendingLabels,
       showSearchDropdownLabel,
       closeDropdownLabel,
       toggleLabels,
@@ -113,8 +122,9 @@ export default {
             v-if="showSearchDropdownLabel"
             :account-labels="accountLabels"
             :selected-labels="savedLabels"
+            :suggested-labels="pendingLabels"
             :allow-creation="isAdmin"
-            @add="addLabelToConversation"
+            @add="addLabel"
             @remove="removeLabelFromConversation"
           />
         </div>
