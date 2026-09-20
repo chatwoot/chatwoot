@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "Vui lòng chọn một cuộc trò chuyện từ ngăn bên trái",
     "CSAT_REPLY_MESSAGE": "Bạn hãy vui lòng đánh giá hội thoại",
     "404": "Xin lỗi, chúng tôi không thể tìm thấy hội thoại. Vui lòng thử lại",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "Tin nhắn được xoá thành công",
     "FAIL_DELETE_MESSSAGE": "Không thể xoá tin nhắn! Thử lại",
     "NO_RESPONSE": "Không có phản hồi",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "Nhà cung cấp",
       "TEAMS": "Nhóm"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Mô tả",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Search emojis",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "Tất cả"
+        },
+        "AVAILABILITY": "Khả dụng",
+        "ROLE": "Loại nhà cung cấp",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "Bật",
+        "DISABLED": "Không bật",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Tạm dừng đến khi",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} other",
     "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
     "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",
     "API": {

@@ -24,3 +24,8 @@ ignore:
   # No Rails 7.1 patch for this Active Storage advisory; mitigated locally.
   # Remove once on Rails 7.2.3.1+.
   - CVE-2026-66066
+  # RubyLLM's name-normalization ReDoS is reported on Ruby 3.1; we require Ruby 3.4.4.
+  # Built-in tool names are fixed; custom tools use bounded slugs and override normalization.
+  # Patched 2.0 releases need an ai-agents migration (currently constrained to RubyLLM 1.x).
+  # Remove when a supported patched RubyLLM/ai-agents combination is adopted.
+  - CVE-2026-67991

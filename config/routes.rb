@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   end
 
   get '/health', to: 'health#show'
+  get '/robots.txt', to: 'robots#show', format: false
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -384,6 +385,7 @@ Rails.application.routes.draw do
 
           namespace :whatsapp do
             resource :authorization, only: [:create]
+            resource :access_request, only: [:create] if ChatwootApp.enterprise?
             post 'manual/preview', to: 'manual_setup#preview'
             post 'manual/connect', to: 'manual_setup#connect'
             get 'manual/:inbox_id/webhook_status', to: 'manual_setup#webhook_status'
@@ -486,6 +488,7 @@ Rails.application.routes.draw do
             post :backup_codes
           end
           resources :sessions, only: [:index, :destroy]
+          resource :trusted_devices, only: [:destroy]
         end
       end
 
@@ -573,6 +576,7 @@ Rails.application.routes.draw do
         namespace :v1 do
           resources :accounts do
             member do
+              get :billing_summary
               post :checkout
               post :subscription
               post :select_billing_currency

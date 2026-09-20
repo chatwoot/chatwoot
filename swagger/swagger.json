@@ -4584,6 +4584,27 @@
             "schema": {
               "type": "number"
             }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Sort filtered conversations using the same options as the conversation list.",
+            "schema": {
+              "type": "string",
+              "default": "last_activity_at_desc",
+              "enum": [
+                "last_activity_at_asc",
+                "last_activity_at_desc",
+                "created_at_asc",
+                "created_at_desc",
+                "priority_asc",
+                "priority_desc",
+                "waiting_since_asc",
+                "waiting_since_desc",
+                "priority_desc_created_at_asc",
+                "unread"
+              ]
+            }
           }
         ],
         "requestBody": {
@@ -4754,15 +4775,18 @@
                 "type": "object",
                 "properties": {
                   "priority": {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "enum": [
                       "urgent",
                       "high",
                       "medium",
                       "low",
-                      "none"
+                      null
                     ],
-                    "description": "The priority of the conversation",
+                    "description": "The priority of the conversation. Set to null to clear the priority.",
                     "example": "high"
                   },
                   "sla_policy_id": {
@@ -4802,6 +4826,24 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "error"
+                  ],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -4948,25 +4990,25 @@
           }
         ],
         "requestBody": {
-          "required": true,
+          "required": false,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "priority"
-                ],
                 "properties": {
                   "priority": {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "enum": [
                       "urgent",
                       "high",
                       "medium",
                       "low",
-                      "none"
+                      null
                     ],
-                    "description": "The priority of the conversation",
+                    "description": "The priority of the conversation. Omit or set to null to clear the priority.",
                     "example": "high"
                   }
                 }
@@ -4994,6 +5036,24 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "error"
+                  ],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -11722,6 +11782,14 @@
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
           },
+          "icon": {
+            "type": "string",
+            "description": "An emoji or icon shown next to the team"
+          },
+          "icon_color": {
+            "type": "string",
+            "description": "The color used for the team icon"
+          },
           "account_id": {
             "type": "number",
             "description": "The ID of the account with the team is a part of"
@@ -13085,8 +13153,16 @@
           },
           "content_attributes": {
             "type": "object",
-            "description": "Attributes based on the content type",
-            "example": {}
+            "description": "Attributes based on the content type. For `input_select`, provide an `items` array with\n`title`, `value`, and optional `description`. WhatsApp list messages use `description`\nas the row subtitle when present.\n",
+            "example": {
+              "items": [
+                {
+                  "title": "Option 1",
+                  "value": "option_1",
+                  "description": "Optional WhatsApp list row subtitle"
+                }
+              ]
+            }
           },
           "campaign_id": {
             "type": "integer",
@@ -14344,6 +14420,16 @@
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team",
             "example": true
+          },
+          "icon": {
+            "type": "string",
+            "description": "An emoji or icon shown next to the team",
+            "example": "🚀"
+          },
+          "icon_color": {
+            "type": "string",
+            "description": "The color used for the team icon",
+            "example": "#6C5CE7"
           }
         }
       },
