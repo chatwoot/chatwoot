@@ -163,6 +163,14 @@ class Account < ApplicationRecord
     }
   end
 
+  # Devise's enterprise mailer templates are also rendered when the enterprise
+  # model extensions are disabled, so this predicate must exist on core Account.
+  def saml_enabled?
+    return false unless respond_to?(:saml_settings)
+
+    saml_settings&.saml_enabled? || false
+  end
+
   def api_and_webhooks_enabled?
     true
   end

@@ -50,6 +50,15 @@ RSpec.describe Account do
     end
   end
 
+  describe '#saml_enabled?' do
+    it 'is false when the enterprise SAML association is unavailable' do
+      account = create(:account)
+      account.define_singleton_method(:respond_to?) { |method, *| method == :saml_settings ? false : super(method) }
+
+      expect(account.saml_enabled?).to be false
+    end
+  end
+
   describe '#api_and_webhooks_enabled?' do
     it 'is enabled for self-hosted accounts regardless of the stored feature flag' do
       account = create(:account)
