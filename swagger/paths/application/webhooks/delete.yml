@@ -3,7 +3,6 @@ tags:
 operationId: delete-a-webhook
 summary: Delete a webhook
 security:
-  - bearerAuth: []
   - userApiKey: []
 description: Delete a webhook from the account
 responses:

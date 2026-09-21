@@ -4,7 +4,6 @@ operationId: add-new-agent-to-team
 summary: Add a New Agent
 description: Add a new Agent to Team
 security:
-  - bearerAuth: []
   - userApiKey: []
 requestBody:
   required: true

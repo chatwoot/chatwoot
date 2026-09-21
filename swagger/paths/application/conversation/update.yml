@@ -4,7 +4,6 @@ operationId: update-conversation
 summary: Update Conversation
 description: Update Conversation Attributes
 security:
-  - bearerAuth: []
   - userApiKey: []
   - agentBotApiKey: []
 requestBody:

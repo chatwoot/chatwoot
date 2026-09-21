@@ -7235,11 +7235,6 @@
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "description": "Preferred authentication: send an existing user, agent bot, or platform app API token as Authorization: Bearer <token>. The token retains its existing permissions. The api_access_token header remains supported for compatibility."
-      },
       "userApiKey": {
         "type": "apiKey",
         "in": "header",

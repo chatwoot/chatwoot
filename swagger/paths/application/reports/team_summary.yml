@@ -3,7 +3,6 @@ tags:
 operationId: get-team-summary-report
 summary: Get conversation statistics grouped by team
 security:
-  - bearerAuth: []
   - userApiKey: []
 description: |
   Get conversation statistics grouped by team for a given date range.

@@ -13,7 +13,6 @@ post:
       description: ID of the contact
       required: true
   security:
-    - bearerAuth: []
     - userApiKey: []
   requestBody:
     required: true

@@ -3,7 +3,6 @@ tags:
 operationId: update-message-status
 summary: Update message status
 security:
-  - bearerAuth: []
   - userApiKey: []
 description: |
   Updates the delivery status of a single message. Available only for messages in

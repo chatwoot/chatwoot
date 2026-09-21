@@ -4,7 +4,6 @@ operationId: toggle-priority-of-a-conversation
 summary: Toggle Priority
 description: Toggles the priority of conversation
 security:
-  - bearerAuth: []
   - userApiKey: []
   - agentBotApiKey: []
 requestBody:

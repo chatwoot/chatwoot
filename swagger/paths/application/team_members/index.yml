@@ -4,7 +4,6 @@ operationId: get-team-members
 summary: List Agents in Team
 description: Get Details of Agents in an Team
 security:
-  - bearerAuth: []
   - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/account_id'

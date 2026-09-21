@@ -8,7 +8,6 @@ get:
   description: List all the conversations with pagination
   summary: Conversations List
   security:
-    - bearerAuth: []
     - userApiKey: []
   parameters:
     - name: assignee_type
@@ -72,7 +71,6 @@ post:
   summary: Create New Conversation
   description: "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://www.chatwoot.com/hc/user-guide/articles/1677839703-how-to-create-an-api-channel-inbox#send-messages-to-the-api-channel"
   security:
-    - bearerAuth: []
     - userApiKey: []
     - agentBotApiKey: []
   requestBody:

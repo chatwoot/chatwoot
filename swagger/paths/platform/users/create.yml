@@ -4,7 +4,6 @@ operationId: create-a-user
 summary: Create a User
 description: Create a User
 security:
-  - bearerAuth: []
   - platformAppApiKey: []
 requestBody:
   required: true

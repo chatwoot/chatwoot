@@ -3,7 +3,6 @@ tags:
 operationId: get-details-of-all-integrations
 summary: List all the Integrations
 security:
-  - bearerAuth: []
   - userApiKey: []
 description: Get the details of all Integrations available for the account
 responses:

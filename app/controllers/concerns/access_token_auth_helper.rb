@@ -11,11 +11,6 @@ module AccessTokenAuthHelper
   end
 
   def ensure_access_token
-    if conflicting_access_token_credentials?
-      render json: { error: 'Conflicting authentication credentials' }, status: :bad_request
-      return
-    end
-
     token = bearer_authorization? ? bearer_access_token : legacy_access_token
     @access_token = AccessToken.find_by(token: token) if token.present?
   end
@@ -39,20 +34,8 @@ module AccessTokenAuthHelper
     credentials.is_a?(Hash) && %w[uid client access-token].all? { |key| credentials[key].present? }
   end
 
-  def conflicting_access_token_credentials?
-    return true if legacy_access_token.present? && request.authorization.present? && legacy_access_token != bearer_access_token
-    return false unless bearer_authorization? && !dashboard_bearer_token?
-
-    dashboard_credentials_present?
-  end
-
-  def dashboard_credentials_present?
-    %w[uid client access-token].any? { |key| request.headers[key].present? || params[key].present? }
-  end
-
   def authenticate_access_token!
     ensure_access_token
-    return if performed?
 
     render_unauthorized('Invalid Access Token') && return if @access_token.blank?
 

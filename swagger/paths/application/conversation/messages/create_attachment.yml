@@ -5,7 +5,6 @@ post:
   summary: Create New Message Attachment
   description: Create an attachment message.
   security:
-    - bearerAuth: []
     - userApiKey: []
   parameters:
     - $ref: '#/components/parameters/account_id'

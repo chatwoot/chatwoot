@@ -4,7 +4,6 @@ operationId: get-account-details
 summary: Get account details
 description: Get the details of the current account
 security:
-  - bearerAuth: []
   - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/account_id'

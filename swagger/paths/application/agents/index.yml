@@ -4,7 +4,6 @@ operationId: get-account-agents
 summary: List Agents in Account
 description: Get Details of Agents in an Account
 security:
-  - bearerAuth: []
   - userApiKey: []
 responses:
   200:

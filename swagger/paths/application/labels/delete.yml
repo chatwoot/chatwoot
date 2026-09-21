@@ -3,7 +3,6 @@ tags:
 operationId: delete-a-label
 summary: Delete a label
 security:
-  - bearerAuth: []
   - userApiKey: []
 description: Delete a label from the account
 responses:

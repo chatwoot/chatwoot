@@ -3,7 +3,6 @@ tags:
 operationId: get-account-conversation-metrics
 summary: Account Conversation Metrics
 security:
-  - bearerAuth: []
   - userApiKey: []
 description: Get conversation metrics for Account
 responses:

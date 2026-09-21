@@ -3,7 +3,6 @@ tags:
 operationId: get-details-of-a-single-custom-attribute
 summary: Get a custom attribute details
 security:
-  - bearerAuth: []
   - userApiKey: []
 description: Get the details of a custom attribute in the account
 parameters:

@@ -4,7 +4,6 @@ operationId: update-an-agent-bot
 summary: Update an agent bot
 description: Update an agent bot's attributes
 security:
-  - bearerAuth: []
   - platformAppApiKey: []
 requestBody:
   required: true

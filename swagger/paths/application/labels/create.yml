@@ -3,7 +3,6 @@ tags:
 operationId: create-a-label
 summary: Create a label
 security:
-  - bearerAuth: []
   - userApiKey: []
 description: Create a label in the account
 requestBody:

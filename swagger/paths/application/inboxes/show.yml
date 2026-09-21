@@ -4,7 +4,6 @@ get:
   operationId: GetInbox
   summary: Get an inbox
   security:
-    - bearerAuth: []
     - userApiKey: []
   description: Get an inbox available in the current account
   parameters:

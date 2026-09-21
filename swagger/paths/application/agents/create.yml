@@ -4,7 +4,6 @@ operationId: add-new-agent-to-account
 summary: Add a New Agent
 description: Add a new Agent to Account
 security:
-  - bearerAuth: []
   - userApiKey: []
 requestBody:
   required: true

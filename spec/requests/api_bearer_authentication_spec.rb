@@ -21,14 +21,21 @@ RSpec.describe 'API bearer authentication', type: :request do
     expect(response).to have_http_status(:ok)
   end
 
-  it 'rejects conflicting headers' do
+  it 'uses the bearer token when the legacy header contains a different token' do
+    other_user = create(:user)
+    get '/api/v1/profile', headers: { Authorization: "Bearer #{token}", api_access_token: other_user.access_token.token }
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body['id']).to eq(user.id)
+  end
+
+  it 'does not fall back to the legacy header for an invalid bearer token' do
     get '/api/v1/profile', headers: { Authorization: 'Bearer invalid', api_access_token: token }
-    expect(response).to have_http_status(:bad_request)
+    expect(response).to have_http_status(:unauthorized)
   end
 
   it 'does not fall back to dashboard headers for an invalid API bearer' do
     get '/api/v1/profile', headers: user.create_new_auth_token.merge(Authorization: 'Bearer invalid')
-    expect(response).to have_http_status(:bad_request)
+    expect(response).to have_http_status(:unauthorized)
   end
 
   ['Bearer invalid', 'Bearer', 'Bearer token extra', 'Bearer W10='].each do |authorization|

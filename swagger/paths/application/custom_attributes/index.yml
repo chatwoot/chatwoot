@@ -12,7 +12,6 @@ parameters:
     required: true
 description: Get details of custom attributes in an Account
 security:
-  - bearerAuth: []
   - userApiKey: []
 responses:
   '200':
