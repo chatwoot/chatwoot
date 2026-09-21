@@ -16,6 +16,14 @@ class AutoAssignment::AssignmentService
     assigned_count
   end
 
+  def perform_assignment(conversation)
+    return false unless inbox.auto_assignment_v2_enabled?
+    return false unless inbox.enable_auto_assignment?
+    return false unless unassigned_conversations(1).exists?(id: conversation.id)
+
+    perform_for_conversation(conversation)
+  end
+
   private
 
   def perform_for_conversation(conversation)
