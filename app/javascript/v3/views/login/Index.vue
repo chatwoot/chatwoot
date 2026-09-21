@@ -75,6 +75,7 @@ export default {
       error: '',
       mfaRequired: false,
       mfaToken: null,
+      verificationChannel: null,
       sessionsLimitReached: false,
       limitedSessions: [],
     };
@@ -212,6 +213,7 @@ export default {
             this.loginApi.showLoading = false;
             this.mfaRequired = true;
             this.mfaToken = result.mfaToken;
+            this.verificationChannel = result.verificationChannel || null;
             return;
           }
 
@@ -259,7 +261,7 @@ export default {
       this.submitLogin();
     },
     handleMfaVerified(user) {
-      // MFA verification successful, continue with login
+      // Continue with the requested Shopify, account, or conversation destination.
       this.handleImpersonation();
       window.location = getLoginRedirectURL({
         ssoAccountId: this.ssoAccountId,
@@ -272,6 +274,7 @@ export default {
       // User cancelled MFA, reset state
       this.mfaRequired = false;
       this.mfaToken = null;
+      this.verificationChannel = null;
       this.credentials.password = '';
     },
     retryLoginWithParams(extraParams) {
@@ -292,6 +295,13 @@ export default {
       this.loginApi.showLoading = true;
       login(credentials)
         .then(result => {
+          if (result?.mfaRequired) {
+            this.loginApi.showLoading = false;
+            this.mfaRequired = true;
+            this.mfaToken = result.mfaToken;
+            this.verificationChannel = result.verificationChannel || null;
+            return;
+          }
           if (result?.sessionsLimitReached) {
             this.loginApi.showLoading = false;
             this.sessionsLimitReached = true;
@@ -365,6 +375,7 @@ export default {
     <section v-else-if="mfaRequired" class="mt-11">
       <MfaVerification
         :mfa-token="mfaToken"
+        :verification-channel="verificationChannel"
         @verified="handleMfaVerified"
         @cancel="handleMfaCancel"
       />

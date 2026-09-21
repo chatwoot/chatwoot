@@ -87,14 +87,7 @@ const getValueFromConversation = (conversation, attributeKey) => {
     case 'referer':
       return conversation.additional_attributes?.[attributeKey];
     default:
-      // Check if it's a custom attribute
-      if (
-        conversation.custom_attributes &&
-        conversation.custom_attributes[attributeKey]
-      ) {
-        return conversation.custom_attributes[attributeKey];
-      }
-      return null;
+      return conversation.custom_attributes?.[attributeKey] ?? null;
   }
 };
 

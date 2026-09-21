@@ -10,13 +10,13 @@ RSpec.describe Shopify::FeatureGate do
   end
 
   before do
-    allow(GlobalConfigService).to receive(:load)
-      .with(described_class::GLOBAL_CONFIG, 'false')
-      .and_return(global_config)
+    GlobalConfig.clear_cache
   end
 
   context 'when the installation switch is disabled' do
-    let(:global_config) { false }
+    before do
+      create(:installation_config, name: described_class::GLOBAL_CONFIG, value: false)
+    end
 
     it 'disables account-less and account-scoped Shopify behavior' do
       account.enable_features(described_class::ACCOUNT_FEATURE)
@@ -24,10 +24,25 @@ RSpec.describe Shopify::FeatureGate do
       expect(described_class.enabled?).to be false
       expect(described_class.enabled?(account: account)).to be false
     end
+
+    it 'reads the stored switch without clearing other cached configs' do
+      GlobalConfig.get('ENABLE_ACCOUNT_SIGNUP')
+
+      expect(described_class.enabled?).to be false
+
+      expect(InstallationConfig).not_to receive(:find_by)
+      GlobalConfig.get('ENABLE_ACCOUNT_SIGNUP')
+    end
+
+    it 'does not create or modify installation configs' do
+      expect { described_class.enabled? }.not_to change(InstallationConfig, :count)
+    end
   end
 
   context 'when the installation switch is enabled' do
-    let(:global_config) { true }
+    before do
+      create(:installation_config, name: described_class::GLOBAL_CONFIG, value: true)
+    end
 
     it 'enables account-less Shopify behavior' do
       expect(described_class.enabled?).to be true
@@ -43,25 +58,19 @@ RSpec.describe Shopify::FeatureGate do
   end
 
   context 'when the environment overrides the stored installation switch' do
-    let(:global_config) { false }
-
     it 'uses a false environment value as a kill switch' do
+      create(:installation_config, name: described_class::GLOBAL_CONFIG, value: true)
+
       with_modified_env described_class::GLOBAL_CONFIG => 'false' do
         expect(described_class.enabled?).to be false
-        expect(GlobalConfigService).to have_received(:load)
-          .with(described_class::GLOBAL_CONFIG, 'false')
       end
     end
 
     it 'uses a true environment value to enable the rollout' do
-      with_modified_env described_class::GLOBAL_CONFIG => 'true' do
-        allow(GlobalConfigService).to receive(:load)
-          .with(described_class::GLOBAL_CONFIG, 'false')
-          .and_return('true')
+      create(:installation_config, name: described_class::GLOBAL_CONFIG, value: false)
 
+      with_modified_env described_class::GLOBAL_CONFIG => 'true' do
         expect(described_class.enabled?).to be true
-        expect(GlobalConfigService).to have_received(:load)
-          .with(described_class::GLOBAL_CONFIG, 'false')
       end
     end
   end
