@@ -27,7 +27,19 @@ class ActionCableBroadcastJob < ApplicationJob
 
     account = Account.find(data[:account_id])
     conversation = account.conversations.find_by!(display_id: data[:id])
-    conversation.push_event_data.merge(account_id: data[:account_id])
+    broadcast_data = conversation.push_event_data.merge(account_id: data[:account_id])
+    if event_name == ASSIGNEE_CHANGED
+      # Keep the original assignment together even when the conversation is
+      # refreshed. The dashboard checks its identity against the current owner.
+      # Other events omit this field so unrelated updates cannot overwrite it.
+      broadcast_data[:assignment] = {
+        automatic: data[:automatic_assignment] == true,
+        assignee_id: data.dig(:meta, :assignee, :id),
+        assignee_type: data.dig(:meta, :assignee_type),
+        updated_at: data[:updated_at]
+      }
+    end
+    broadcast_data
   end
 
   def broadcast_to_members(members, event_name, broadcast_data)
