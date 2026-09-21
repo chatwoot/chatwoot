@@ -22,6 +22,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   appendSignature,
   removeSignature,
+  getReplyVariables,
 } from 'dashboard/helper/editorHelper';
 import { formatQuotedEmailDate } from 'dashboard/helper/quotedEmailHelper';
 import {
@@ -72,6 +73,14 @@ const inboxGetter = useMapGetter('inboxes/getInbox');
 
 const inbox = computed(() => useCamelCase(inboxGetter.value(inboxId.value)));
 const contact = computed(() => currentChat.value?.meta?.sender ?? {});
+const variables = computed(() =>
+  getReplyVariables({
+    conversation: currentChat.value,
+    contact: contact.value,
+    inbox: inbox.value,
+    user: currentUser.value,
+  })
+);
 const sendWithSignature = computed(() =>
   fetchSignatureFlagFromUISettings(INBOX_TYPES.EMAIL)
 );
@@ -286,6 +295,7 @@ const forwardEmail = () => {
             :message-signature="messageSignature"
             :send-with-signature="sendWithSignature"
             :channel-type="INBOX_TYPES.EMAIL"
+            :variables="variables"
           />
           <EditableEmailBody
             ref="bodyRef"

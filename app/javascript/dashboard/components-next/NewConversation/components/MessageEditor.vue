@@ -13,6 +13,7 @@ const props = defineProps({
   messageSignature: { type: String, default: '' },
   channelType: { type: String, default: '' },
   medium: { type: String, default: '' },
+  variables: { type: Object, default: () => ({}) },
   copilot: { type: Object, default: null },
 });
 
@@ -79,6 +80,7 @@ const executeCopilotAction = (action, data) => {
               : '',
           ]"
           enable-variables
+          :variables="variables"
           enable-captain-tools
           :show-character-count="false"
           :signature="messageSignature"

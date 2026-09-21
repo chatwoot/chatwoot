@@ -23,10 +23,7 @@ import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder
 import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
-import {
-  getMessageVariables,
-  getUndefinedVariablesInMessage,
-} from '@chatwoot/utils';
+import { getUndefinedVariablesInMessage } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import ContentTemplates from './ContentTemplates/ContentTemplatesModal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
@@ -47,8 +44,7 @@ import {
   appendSignature,
   removeSignature,
   getEffectiveChannelType,
-  getAgentVariables,
-  getContactVariables,
+  getReplyVariables,
 } from 'dashboard/helper/editorHelper';
 import { useCopilotReply } from 'dashboard/composables/useCopilotReply';
 import { useMacroExecution } from 'dashboard/composables/useMacroExecution';
@@ -477,18 +473,12 @@ export default {
       return AUDIO_FORMATS.WAV;
     },
     messageVariables() {
-      const variables = getMessageVariables({
+      return getReplyVariables({
         conversation: this.currentChat,
         contact: this.currentContact,
         inbox: this.inbox,
+        user: this.currentUser,
       });
-      // Match the backend drops: names are Ruby-capitalized and
-      // {{agent.*}} is the message sender, not the assignee.
-      return {
-        ...variables,
-        ...getContactVariables(this.currentContact),
-        ...getAgentVariables(this.currentUser),
-      };
     },
     connectedPortalSlug() {
       const { help_center: portal = {} } = this.inbox;
