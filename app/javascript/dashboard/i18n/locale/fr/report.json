@@ -23,12 +23,14 @@
         "NAME": "Délai de première réponse",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Le temps de première réponse est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Le temps de résolution est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
@@ -45,7 +47,9 @@
       },
       "REPLY_TIME": {
         "NAME": "Temps d'attente du client",
-        "TOOLTIP_TEXT": "Le temps d'attente est {metricValue} (basé sur {conversationCount} réponses)",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
+        "TOOLTIP_TEXT": "L'heure d'attente est {metricValue} (basé sur les réponses {conversationCount})",
         "DESC": ""
       }
     },
@@ -544,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Vue d'ensemble",
     "LIVE": "En direct",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Conversations ouvertes",
       "LOADING_MESSAGE": "Chargement des métriques de la conversation...",

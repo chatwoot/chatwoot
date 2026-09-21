@@ -156,6 +156,10 @@ export const SESSION_EVENTS = Object.freeze({
   REVOKED_FROM_PROFILE: 'Revoked an active session',
 });
 
+export const BILLING_EVENTS = Object.freeze({
+  OPEN_BILLING_FROM_PAST_DUE_BANNER: 'Opened billing from past due banner',
+});
+
 export const ONBOARDING_EVENTS = Object.freeze({
   ACCOUNT_DETAILS_VISITED: 'Onboarding: Account details visited',
   ACCOUNT_DETAILS_COMPLETED: 'Onboarding: Account details completed',

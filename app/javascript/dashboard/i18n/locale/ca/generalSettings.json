@@ -139,37 +139,6 @@
       "SELECT": "Selecciona"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notificacions",
-    "MARK_ALL_DONE": "Marca Tot Fet",
-    "DELETE_TITLE": "eliminat",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Notificacions no llegides",
-      "ALL_NOTIFICATIONS": "Veure totes les notificacions",
-      "LOADING_UNREAD_MESSAGE": "S'estan carregant les notificacions no llegides...",
-      "EMPTY_MESSAGE": "No tens notificacions no llegides"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Carregant notificacions...",
-      "404": "Cap Notificació",
-      "TABLE_HEADER": [
-        "Nom",
-        "Número de telèfon",
-        "Converses",
-        "Darrer contacte"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Nova conversació",
-      "conversation_assignment": "Conversació Assignada",
-      "assigned_conversation_new_message": "Missatge Nou",
-      "participating_conversation_new_message": "Missatge Nou",
-      "conversation_mention": "Menció",
-      "sla_missed_first_response": "SLA perdut",
-      "sla_missed_next_response": "SLA perdut",
-      "sla_missed_resolution": "SLA perdut"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Fora de línia",
@@ -192,6 +161,7 @@
       "CHANGE_PRIORITY": "Canvia la prioritat",
       "CHANGE_TEAM": "Canvia l'equip",
       "SNOOZE_CONVERSATION": "Posposa la conversa",
+      "EXECUTE_MACRO": "Execute Macro",
       "ADD_LABEL": "Afegeix una etiqueta a la conversa",
       "REMOVE_LABEL": "Elimina l'etiqueta de la conversa",
       "SETTINGS": "Configuracions",
@@ -232,12 +202,12 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Ves a Configuració del compte",
       "GO_TO_SETTINGS_PROFILE": "Ves a Configuració del perfil",
-      "GO_TO_NOTIFICATIONS": "Ves a Notificacions",
       "ADD_LABELS_TO_CONVERSATION": "Afegeix una etiqueta a la conversa",
       "ASSIGN_AN_AGENT": "Assigna un agent",
       "AI_ASSIST": "Assistència IA",
       "ASSIGN_PRIORITY": "Assigna prioritat",
       "ASSIGN_A_TEAM": "Assigna un equip",
+      "EXECUTE_A_MACRO": "Execute a macro",
       "MUTE_CONVERSATION": "Silencia la conversa",
       "UNMUTE_CONVERSATION": "No silenciïs la conversa",
       "REMOVE_LABEL_FROM_CONVERSATION": "Elimina l'etiqueta de la conversa",
