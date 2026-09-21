@@ -42,9 +42,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       allow(Redis::SecureStorage).to receive(:ensure_encryption_configured!)
       stub_const('ENV', ENV.to_hash.merge('FRONTEND_URL' => frontend_url))
       account.enable_features!('shopify_integration')
-      allow(GlobalConfigService).to receive(:load)
-        .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-        .and_return(true)
+      InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
     end
 
     shared_context 'with stubbed account' do
@@ -138,9 +136,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
           allow(controller).to receive(:verify_shopify_token).and_return(nil)
           controller
         end
-        allow(GlobalConfigService).to receive(:load)
-          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-          .and_return(false)
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
       end
 
       it 'does not exchange the OAuth code or store a pending install' do

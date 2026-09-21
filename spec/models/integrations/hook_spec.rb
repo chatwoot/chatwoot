@@ -35,9 +35,7 @@ RSpec.describe Integrations::Hook do
     let(:account) { create(:account) }
 
     before do
-      allow(GlobalConfigService).to receive(:load)
-        .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-        .and_return(true)
+      InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
       account.enable_features!('shopify_integration')
     end
 

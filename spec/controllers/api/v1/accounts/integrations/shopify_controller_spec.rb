@@ -17,9 +17,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
 
   before do
     account.enable_features!('shopify_integration')
-    allow(GlobalConfigService).to receive(:load)
-      .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-      .and_return(true)
+    InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
     allow(Shopify::ApiContext).to receive(:setup!)
   end
 
@@ -141,9 +139,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
 
     context 'when Shopify is disabled' do
       it 'returns not found when the installation switch is disabled' do
-        allow(GlobalConfigService).to receive(:load)
-          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-          .and_return(false)
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
 
         get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
             params: { contact_id: contact.id },
@@ -264,9 +260,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
     end
 
     it 'does not claim an install while Shopify is disabled' do
-      allow(GlobalConfigService).to receive(:load)
-        .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-        .and_return(false)
+      InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
       expect(Shopify::PendingInstallation).not_to receive(:claim)
 
       post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",

@@ -370,9 +370,7 @@ RSpec.describe 'Accounts API', type: :request do
       it 'exposes the Shopify account feature when the installation switch is enabled' do
         account.enable_features!('shopify_integration')
         allow(GlobalConfigService).to receive(:load).and_call_original
-        allow(GlobalConfigService).to receive(:load)
-          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-          .and_return(true)
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
 
         get "/api/v1/accounts/#{account.id}",
             headers: admin.create_new_auth_token,
@@ -384,9 +382,7 @@ RSpec.describe 'Accounts API', type: :request do
       it 'hides the Shopify account feature when the installation switch is disabled' do
         account.enable_features!('shopify_integration')
         allow(GlobalConfigService).to receive(:load).and_call_original
-        allow(GlobalConfigService).to receive(:load)
-          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-          .and_return(false)
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
 
         get "/api/v1/accounts/#{account.id}",
             headers: admin.create_new_auth_token,
