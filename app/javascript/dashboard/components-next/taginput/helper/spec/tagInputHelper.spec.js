@@ -360,5 +360,29 @@ describe('tagInputHelper', () => {
       const result = findMatchingMenuItem([], 'test@example.com');
       expect(result).toBeUndefined();
     });
+
+    it('matches email case-insensitively', () => {
+      const result = findMatchingMenuItem(menuItems, 'TEST1@example.com');
+      expect(result).toEqual(menuItems[0]);
+    });
+
+    it('finds matching menu item by phone number', () => {
+      const phoneItems = [
+        { phoneNumber: '+989123387662', label: 'Existing contact' },
+        { phoneNumber: '+905551234567', label: 'Another contact' },
+      ];
+      expect(findMatchingMenuItem(phoneItems, '+989123387662')).toEqual(
+        phoneItems[0]
+      );
+      // formatting differences are ignored
+      expect(findMatchingMenuItem(phoneItems, '+98 912 338 7662')).toEqual(
+        phoneItems[0]
+      );
+    });
+
+    it('returns undefined for a phone number that is not listed', () => {
+      const phoneItems = [{ phoneNumber: '+989123387662', label: 'Existing' }];
+      expect(findMatchingMenuItem(phoneItems, '+989123387661')).toBeUndefined();
+    });
   });
 });
