@@ -265,4 +265,28 @@ RSpec.describe Captain::Llm::AssistantChatService do
       service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
     end
   end
+
+  describe 'custom tools' do
+    let(:other_assistant) { create(:captain_assistant, account: account) }
+
+    before do
+      account.enable_features!('custom_tools')
+      create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_own-tool')
+      create(:captain_custom_tool, :disabled, account: account, assistant: assistant, slug: 'custom_shared-tool')
+      create(:captain_custom_tool, account: account, assistant: other_assistant, slug: 'custom_shared-tool')
+      create(:captain_custom_tool, account: account, assistant: other_assistant, slug: 'custom_other-tool')
+    end
+
+    it 'registers only the enabled tools of its own assistant' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+
+      expect(service.send(:build_tools).filter_map { |tool| tool.name if tool.name.start_with?('custom_') }).to eq(['custom_own-tool'])
+    end
+
+    it 'lists only the enabled tools of its own assistant in the system prompt' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+
+      expect(service.send(:custom_tools_metadata).pluck(:name)).to eq(['custom_own-tool'])
+    end
+  end
 end
