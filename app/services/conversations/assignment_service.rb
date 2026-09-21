@@ -16,10 +16,7 @@ class Conversations::AssignmentService
 
   def assign_agent
     conversation.with_lock do
-      if (reopen && assignee.present?) || (open_on_assignment? && conversation.pending?)
-        conversation.status = :open
-        conversation.waiting_since = Time.current if conversation.waiting_since.blank?
-      end
+      reopen_conversation if (reopen && assignee.present?) || (open_on_assignment? && conversation.pending?)
       conversation.assignee = assignee
       conversation.ai_assignee = nil
       conversation.save!
@@ -29,6 +26,11 @@ class Conversations::AssignmentService
 
   def assign_agent_bot
     assign_ai_assignee(agent_bot)
+  end
+
+  def reopen_conversation
+    conversation.waiting_since = Time.current if conversation.pending? && conversation.waiting_since.blank?
+    conversation.status = :open
   end
 
   def open_on_assignment?

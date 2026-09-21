@@ -10,11 +10,16 @@ describe Conversations::AssignmentService do
     context 'when reopening during takeover' do
       %w[pending open resolved snoozed].each do |status|
         it "opens and assigns a #{status} conversation in one save" do
-          conversation.update!(status: status, ai_assignee: agent_bot, assignee: nil)
+          conversation.update!(status: status, ai_assignee: agent_bot, assignee: nil, waiting_since: nil)
 
           described_class.new(conversation: conversation, assignee_id: agent.id, reopen: true).perform
 
           expect(conversation.reload).to have_attributes(status: 'open', assignee: agent, ai_assignee: nil, snoozed_until: nil)
+          if status == 'pending'
+            expect(conversation.waiting_since).to be_present
+          else
+            expect(conversation.waiting_since).to be_nil
+          end
         end
       end
 

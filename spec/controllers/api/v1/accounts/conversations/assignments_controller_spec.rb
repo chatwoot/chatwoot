@@ -68,6 +68,32 @@ RSpec.describe 'Conversation Assignment API', type: :request do
         expect(conversation.reload).to have_attributes(status: 'open', assignee: administrator, ai_assignee: nil)
       end
 
+      ['no', 'true', 1, nil, {}, []].each do |value|
+        it "rejects non-boolean reopen value #{value.inspect} without changing the conversation" do
+          conversation.update!(status: :resolved, ai_assignee: agent_bot, assignee: nil)
+
+          post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { assignee_id: agent.id, reopen: value },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(conversation.reload).to have_attributes(status: 'resolved', ai_assignee: agent_bot, assignee: nil)
+        end
+      end
+
+      it 'preserves resolved status when reopen is false' do
+        conversation.update!(status: :resolved, ai_assignee: agent_bot, assignee: nil)
+
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { assignee_id: agent.id, reopen: false },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload).to have_attributes(status: 'resolved', assignee: agent, ai_assignee: nil)
+      end
+
       it 'assigns an agent bot to the conversation' do
         params = { assignee_id: agent_bot.id, assignee_type: 'AgentBot' }
 
