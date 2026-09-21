@@ -17,16 +17,17 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  account_id        :bigint           not null
+#  assistant_id      :bigint
 #
 # Indexes
 #
-#  index_captain_custom_tools_on_account_id           (account_id)
-#  index_captain_custom_tools_on_account_id_and_slug  (account_id,slug) UNIQUE
+#  index_captain_custom_tools_on_account_id             (account_id)
+#  index_captain_custom_tools_on_assistant_id_and_slug  (assistant_id,slug) UNIQUE
 #
 class Captain::CustomTool < ApplicationRecord
   class LimitExceededError < StandardError; end
 
-  MAX_PER_ACCOUNT = 15
+  MAX_PER_ASSISTANT = 50
 
   include Concerns::Toolable
   include Concerns::SafeEndpointValidatable
@@ -55,6 +56,7 @@ class Captain::CustomTool < ApplicationRecord
   }.to_json.freeze
 
   belongs_to :account
+  belongs_to :assistant, class_name: 'Captain::Assistant'
 
   enum :http_method, %w[GET POST].index_by(&:itself), validate: true
   enum :auth_type, %w[none bearer basic api_key].index_by(&:itself), default: :none, validate: true, prefix: :auth
@@ -62,7 +64,7 @@ class Captain::CustomTool < ApplicationRecord
   before_validation :generate_slug
   before_create :ensure_within_limit
 
-  validates :slug, presence: true, uniqueness: { scope: :account_id }, length: { maximum: MAX_SLUG_LENGTH }
+  validates :slug, presence: true, uniqueness: { scope: :assistant_id }, length: { maximum: MAX_SLUG_LENGTH }
   validates :title, presence: true
   validates :endpoint_url, presence: true
   validates_with JsonSchemaValidator,
@@ -81,17 +83,17 @@ class Captain::CustomTool < ApplicationRecord
   end
 
   def enabled_scenarios_count
-    Captain::Scenario.enabled.where(account_id: account_id).where('tools @> ?', [slug].to_json).count
+    assistant.scenarios.enabled.where('tools @> ?', [slug].to_json).count
   end
 
   private
 
   def ensure_within_limit
-    # Lock the account row to serialize concurrent creates and prevent exceeding the cap
-    Account.lock.find(account_id)
-    return if account.captain_custom_tools.count < MAX_PER_ACCOUNT
+    # Lock the assistant row to serialize concurrent creates and prevent exceeding the cap
+    Captain::Assistant.lock.find(assistant_id)
+    return if assistant.custom_tools.count < MAX_PER_ASSISTANT
 
-    raise LimitExceededError, I18n.t('captain.custom_tool.limit_exceeded', limit: MAX_PER_ACCOUNT)
+    raise LimitExceededError, I18n.t('captain.custom_tool.limit_exceeded', limit: MAX_PER_ASSISTANT)
   end
 
   def generate_slug
@@ -116,6 +118,6 @@ class Captain::CustomTool < ApplicationRecord
   end
 
   def slug_exists?(candidate)
-    self.class.exists?(account_id: account_id, slug: candidate)
+    self.class.exists?(assistant_id: assistant_id, slug: candidate)
   end
 end
