@@ -29,6 +29,14 @@ RSpec.describe 'Enterprise Super Admin Application Config API', type: :request d
     expect(GlobalConfig.get('SHOPIFY_APP_HANDLE')['SHOPIFY_APP_HANDLE']).to eq('chatwoot')
   end
 
+  it 'saves the device verification toggle from the internal config section' do
+    post '/super_admin/app_config?config=internal',
+         params: { app_config: { DEVICE_VERIFICATION_ENABLED: 'true' } }
+
+    expect(response).to redirect_to(super_admin_settings_path)
+    expect(GlobalConfig.get('DEVICE_VERIFICATION_ENABLED')['DEVICE_VERIFICATION_ENABLED']).to be(true)
+  end
+
   it 'rejects an invalid Shopify app handle configuration' do
     expect do
       post '/super_admin/app_config?config=shopify',
