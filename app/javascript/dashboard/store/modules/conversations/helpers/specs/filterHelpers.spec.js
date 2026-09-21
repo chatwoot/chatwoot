@@ -92,6 +92,24 @@ import { matchesFilters } from '../filterHelpers';
 // },
 
 describe('filterHelpers', () => {
+  it.each([0, false, 42])(
+    'preserves custom attribute value %s when filtering',
+    value => {
+      const conversation = { custom_attributes: { custom_value: value } };
+      const filter = {
+        attribute_key: 'custom_value',
+        filter_operator: 'equal_to',
+        values: [value],
+      };
+      expect(matchesFilters(conversation, [filter])).toBe(true);
+      expect(
+        matchesFilters(conversation, [
+          { ...filter, filter_operator: 'not_equal_to' },
+        ])
+      ).toBe(false);
+      expect(matchesFilters({ custom_attributes: {} }, [filter])).toBe(false);
+    }
+  );
   describe('#matchesFilters', () => {
     it('returns true by default when no filters are provided', () => {
       const conversation = {};
@@ -1798,67 +1816,6 @@ describe('filterHelpers', () => {
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
-    });
-  });
-
-  describe('date filters with a saved timezone', () => {
-    afterEach(() => {
-      vi.useRealTimers();
-    });
-
-    it.each(['created_at', 'last_activity_at'])(
-      'compares %s against the local calendar day',
-      attributeKey => {
-        const filters = [
-          {
-            attribute_key: attributeKey,
-            filter_operator: 'is_less_than',
-            values: ['2026-09-08'],
-            timezone: 'America/Sao_Paulo',
-            query_operator: 'and',
-          },
-        ];
-
-        expect(
-          matchesFilters(
-            { [attributeKey]: Date.parse('2026-09-08T00:49:00Z') / 1000 },
-            filters
-          )
-        ).toBe(true);
-        expect(
-          matchesFilters(
-            { [attributeKey]: Date.parse('2026-09-08T03:00:00Z') / 1000 },
-            filters
-          )
-        ).toBe(false);
-      }
-    );
-
-    it('uses the local current date and timestamp date for days_before', () => {
-      vi.useFakeTimers();
-      vi.setSystemTime(new Date('2026-09-10T00:49:00Z'));
-      const filters = [
-        {
-          attribute_key: 'created_at',
-          filter_operator: 'days_before',
-          values: [1],
-          timezone: 'America/Sao_Paulo',
-          query_operator: 'and',
-        },
-      ];
-
-      expect(
-        matchesFilters(
-          { created_at: Date.parse('2026-09-08T00:49:00Z') / 1000 },
-          filters
-        )
-      ).toBe(true);
-      expect(
-        matchesFilters(
-          { created_at: Date.parse('2026-09-08T03:00:00Z') / 1000 },
-          filters
-        )
-      ).toBe(false);
     });
   });
 

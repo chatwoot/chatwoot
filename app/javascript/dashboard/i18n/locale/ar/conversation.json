@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "الرجاء اختيار محادثة من قائمة المحادثات",
     "CSAT_REPLY_MESSAGE": "الرجاء تقييم المحادثة",
     "404": "عذراً، لا يمكننا العثور على المحادثة. الرجاء المحاولة مرة أخرى",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "هذه الرسالة غير مدعومة. يمكنك مشاهدة هذه الرسالة على تطبيق TikTok.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
     "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
     "NO_RESPONSE": "لا توجد استجابة",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "الوكلاء",
       "TEAMS": "الفرق"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "الوصف",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "ابحث في الايموجي",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "الكل"
+        },
+        "AVAILABILITY": "التوفر",
+        "ROLE": "دور الوكيل",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "مفعل",
+        "DISABLED": "معطّل",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "تأجيل حتى",

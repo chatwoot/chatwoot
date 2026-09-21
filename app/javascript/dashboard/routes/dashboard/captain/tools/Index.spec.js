@@ -25,6 +25,7 @@ vi.mock('dashboard/composables/store', async () => {
     'captainCustomTools/getRecords': ref([
       {
         id: 7,
+        assistant_id: 1,
         title: 'Order lookup',
         description: 'Looks up an order',
         enabled: true,
@@ -49,6 +50,11 @@ vi.mock('dashboard/composables/usePolicy', () => ({
     isFeatureFlagEnabled: () => true,
     shouldShowPaywall: () => false,
   }),
+}));
+
+vi.mock('vue-router', async importOriginal => ({
+  ...(await importOriginal()),
+  useRoute: () => ({ params: { assistantId: '1' } }),
 }));
 
 vi.mock('vue-i18n', () => ({
@@ -131,7 +137,10 @@ describe('Captain custom tools', () => {
     await wrapper.get('[data-test="toggle"]').trigger('click');
     await flushPromises();
 
-    expect(mocks.dispatch).toHaveBeenCalledWith('captainCustomTools/show', 7);
+    expect(mocks.dispatch).toHaveBeenCalledWith('captainCustomTools/show', {
+      id: 7,
+      assistantId: '1',
+    });
     expect(mocks.dispatch).not.toHaveBeenCalledWith(
       'captainCustomTools/update',
       expect.anything()
@@ -147,6 +156,7 @@ describe('Captain custom tools', () => {
     expect(mocks.dispatch).toHaveBeenCalledWith('captainCustomTools/update', {
       id: 7,
       enabled: false,
+      assistantId: '1',
     });
     expect(mocks.dialogClose).toHaveBeenCalledOnce();
   });
@@ -171,6 +181,7 @@ describe('Captain custom tools', () => {
     expect(mocks.dispatch).toHaveBeenCalledWith('captainCustomTools/update', {
       id: 7,
       enabled: false,
+      assistantId: '1',
     });
     expect(mocks.dialogOpen).not.toHaveBeenCalled();
   });

@@ -7,6 +7,37 @@
     "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Es gibt keine Elemente, die dieser Abfrage entsprechen",
     "SIDEBAR_TXT": "<p><b>Auditprotokolle</b> </p><p> Auditprotokolle sind Spuren für Ereignisse und Aktionen in einem Chatwoot-System. </p>",
+    "COUNT": "{n} Ereignis | {n} Ereignisse",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Search by name or email",
+      "ALL_EVENTS": "All events",
+      "DATE_RANGE": "Date range",
+      "CLEAR_ALL": "Filter zurücksetzen",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Access",
+        "AGENTS_TEAMS": "Agents & teams",
+        "CONFIGURATION": "Konfiguration",
+        "CONVERSATIONS": "Gespräche"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Sign in / sign out",
+        "AGENTS": "Agenten",
+        "TEAMS": "Teams",
+        "TEAM_MEMBERS": "Team members",
+        "INBOX_MEMBERS": "Inbox collaborators",
+        "ACCOUNT": "Kontoeinstellungen",
+        "INBOXES": "Posteingänge",
+        "WEBHOOKS": "Webhooks",
+        "AUTOMATION_RULES": "Automation rules",
+        "MACROS": "Makros",
+        "CONVERSATION_DELETIONS": "Conversation deletions",
+        "MESSAGE_DELETIONS": "Message deletions"
+      },
+      "SORT": {
+        "NEWEST": "Neueste zuerst",
+        "OLDEST": "Älteste zuerst"
+      }
+    },
     "LIST": {
       "404": "Es gibt keine Audit-Protokolle in diesem Konto.",
       "TITLE": "Audit-Protokolle verwalten",
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} deleted conversation #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
     }
   }
 }

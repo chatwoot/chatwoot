@@ -1,92 +1,57 @@
-<script>
-import { mapGetters } from 'vuex';
-import { useAdmin } from 'dashboard/composables/useAdmin';
-import { useAccount } from 'dashboard/composables/useAccount';
-import Banner from 'dashboard/components/ui/Banner.vue';
+<script setup>
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { useEventListener } from '@vueuse/core';
+import { useStore } from 'dashboard/composables/store';
+import { useTrack } from 'dashboard/composables';
+import { usePaymentStatus } from 'dashboard/composables/usePaymentStatus';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
+import { BILLING_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
-const EMPTY_SUBSCRIPTION_INFO = {
-  status: null,
-  endsOn: null,
+const router = useRouter();
+const store = useStore();
+const { t } = useI18n();
+const { accountId, isPastDue, canManagePayment } = usePaymentStatus();
+
+const bannerMessage = computed(() =>
+  canManagePayment.value
+    ? t('GENERAL_SETTINGS.PAYMENT_PENDING')
+    : t('GENERAL_SETTINGS.PAYMENT_PENDING_AGENT')
+);
+
+const openBilling = () => {
+  if (!canManagePayment.value) return;
+  useTrack(BILLING_EVENTS.OPEN_BILLING_FROM_PAST_DUE_BANNER);
+  router.push({
+    name: 'billing_settings_index',
+    params: { accountId: accountId.value },
+  });
 };
 
-export default {
-  components: { Banner },
-  setup() {
-    const { isAdmin } = useAdmin();
+// Only the recovery direction needs a focus check: the admin returns from the
+// billing portal before the webhook lands, and isPastDue stays true until we
+// refetch. Becoming past due arrives over the cable, or on reconnect.
+useEventListener(window, 'focus', () => {
+  if (!isPastDue.value || !accountId.value) return;
 
-    const { accountId } = useAccount();
-
-    return {
-      accountId,
-      isAdmin,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
-      getAccount: 'accounts/getAccount',
-    }),
-    bannerMessage() {
-      return this.$t('GENERAL_SETTINGS.PAYMENT_PENDING');
-    },
-    actionButtonMessage() {
-      return this.$t('GENERAL_SETTINGS.OPEN_BILLING');
-    },
-    shouldShowBanner() {
-      if (!this.isOnChatwootCloud) {
-        return false;
-      }
-
-      if (!this.isAdmin) {
-        return false;
-      }
-
-      return this.isPaymentPending();
-    },
-  },
-  methods: {
-    routeToBilling() {
-      this.$router.push({
-        name: 'billing_settings_index',
-        params: { accountId: this.accountId },
-      });
-    },
-    isPaymentPending() {
-      const { status, endsOn } = this.getSubscriptionInfo();
-
-      if (status && endsOn) {
-        const now = new Date();
-        if (status === 'past_due' && endsOn < now) {
-          return true;
-        }
-      }
-
-      return false;
-    },
-    getSubscriptionInfo() {
-      const account = this.getAccount(this.accountId);
-      if (!account) return EMPTY_SUBSCRIPTION_INFO;
-
-      const { custom_attributes: subscription } = account;
-      if (!subscription) return EMPTY_SUBSCRIPTION_INFO;
-
-      const { subscription_status: status, subscription_ends_on: endsOn } =
-        subscription;
-
-      return { status, endsOn: new Date(endsOn) };
-    },
-  },
-};
+  store.dispatch('accounts/get', {
+    accountId: accountId.value,
+    silent: true,
+  });
+});
 </script>
 
 <!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <Banner
-    v-if="shouldShowBanner"
-    color-scheme="alert"
-    :banner-message="bannerMessage"
-    :action-button-label="actionButtonMessage"
-    has-action-button
-    @primary-action="routeToBilling"
-  />
+    v-if="isPastDue"
+    color="ruby"
+    role="alert"
+    class="!rounded-none !justify-center flex-wrap shrink-0"
+    :action-label="canManagePayment ? t('GENERAL_SETTINGS.OPEN_BILLING') : null"
+    @action="openBilling"
+  >
+    {{ bannerMessage }}
+  </Banner>
 </template>
