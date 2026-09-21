@@ -20,7 +20,9 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def destroy
     ActiveRecord::Base.transaction do
-      message.update!(content: I18n.t('conversations.messages.deleted'), content_type: :text, content_attributes: { deleted: true })
+      # keeps the forward marker so replies to a deleted forward stay out of this conversation
+      message.update!(content: I18n.t('conversations.messages.deleted'), content_type: :text,
+                      content_attributes: message.content_attributes.slice('forwarded_message_id').merge(deleted: true))
       message.attachments.destroy_all
     end
   end

@@ -298,6 +298,16 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(message.reload.content_attributes['bcc_emails']).to be_nil
       end
 
+      it 'keeps the forward marker on a deleted forwarded email' do
+        message.update!(content_attributes: { forwarded_message_id: 1, to_emails: ['vendor@example.com'] })
+
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(message.reload.content_attributes).to eq('forwarded_message_id' => 1, 'deleted' => true)
+      end
+
       it 'deletes interactive messages' do
         interactive_message = create(
           :message, message_type: :outgoing, content: 'test', content_type: 'input_select',

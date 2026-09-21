@@ -178,6 +178,13 @@ RSpec.describe Message do
       expect(conversation.waiting_since).to eq conversation.created_at
     end
 
+    it 'records the first reply to the contact after a forwarded email' do
+      create(:message, message_type: :outgoing, conversation: conversation, content_attributes: { forwarded_message_id: 1 })
+      reply = create(:message, message_type: :outgoing, conversation: conversation)
+
+      expect(conversation.first_reply_created_at).to eq reply.created_at
+    end
+
     it 'does not update the conversation first reply created at if the message is incoming' do
       expect(conversation.first_reply_created_at).to be_nil
       expect(conversation.waiting_since).to eq conversation.created_at

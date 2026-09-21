@@ -376,7 +376,7 @@ const isMessageDeleted = computed(() => {
 });
 
 const isForwardedEmail = computed(
-  () => !!props.contentAttributes?.forwardedMessageId
+  () => !!props.contentAttributes?.forwardedMessageId && !isMessageDeleted.value
 );
 
 const shouldShowWhatsappReferral = computed(

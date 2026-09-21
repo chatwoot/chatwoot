@@ -71,6 +71,8 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
         )
         create(:message, conversation: conversation, content: 'Private note', message_type: :outgoing, private: true)
+        create(:message, conversation: conversation, content: 'Note to supplier', message_type: :outgoing,
+                         content_attributes: { forwarded_message_id: 1 })
 
         expect(mock_llm_chat_service).to receive(:generate_response).with(
           message_history: [{ content: 'Hello', role: 'user' }]

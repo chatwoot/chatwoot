@@ -208,6 +208,15 @@ RSpec.describe Imap::ImapMailbox do
         expect(prev_conversation.messages.incoming).to be_empty
         expect(conversation.contact.email).to eq('supplier@example.com')
       end
+
+      it 'keeps further replies from the same recipient in their conversation' do
+        class_instance.process(supplier_reply.mail, channel)
+        second_reply = create_inbound_email_from_mail(from: 'supplier@example.com', to: 'imap@gmail.com', subject: 'Re: Fwd: Hello!',
+                                                      in_reply_to: '<forward/1@example.com>')
+
+        expect { class_instance.process(second_reply.mail, channel) }.not_to change(Conversation, :count)
+        expect(conversation.messages.incoming.count).to eq(2)
+      end
     end
 
     context 'when a new conversation with nil in_reply_to' do

@@ -6,6 +6,7 @@ module Captain::Conversation::MessageBuilder
       .messages
       .where(message_type: [:incoming, :outgoing])
       .where(private: false)
+      .not_forwarded
       .map do |message|
       message_hash = {
         content: prepare_multimodal_message_content(message),
