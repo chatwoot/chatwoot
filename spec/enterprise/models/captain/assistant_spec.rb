@@ -304,6 +304,15 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(tools.map(&:name)).not_to include(custom_tool.slug)
     end
 
+    it 'excludes the same slug enabled on another assistant in the account' do
+      create(:captain_custom_tool, :disabled, account: account, assistant: assistant, slug: 'custom_fetch-order')
+      create(:captain_custom_tool, account: account, assistant: create(:captain_assistant, account: account), slug: 'custom_fetch-order')
+
+      tools = assistant.send(:agent_tools)
+
+      expect(tools.map(&:name)).not_to include('custom_fetch-order')
+    end
+
     it 'keeps the built-in FAQ lookup and handoff tools' do
       tools = assistant.send(:agent_tools)
 
@@ -329,6 +338,12 @@ RSpec.describe Captain::Assistant, type: :model do
       disabled_tool = create(:captain_custom_tool, :disabled, account: account, assistant: assistant)
 
       expect(assistant.known_tool_ids).to include(disabled_tool.slug)
+    end
+
+    it 'excludes custom tools from other assistants in the account' do
+      other_tool = create(:captain_custom_tool, account: account, assistant: create(:captain_assistant, account: account))
+
+      expect(assistant.known_tool_ids).not_to include(other_tool.slug)
     end
   end
 

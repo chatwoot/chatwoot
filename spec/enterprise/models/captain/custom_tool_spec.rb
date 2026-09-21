@@ -34,6 +34,14 @@ RSpec.describe Captain::CustomTool, type: :model do
 
         expect(different_account_tool).to be_valid
       end
+
+      it 'allows same slug across assistants in the same account' do
+        other_assistant = create(:captain_assistant, account: account)
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_test_tool')
+        other_assistant_tool = build(:captain_custom_tool, account: account, assistant: other_assistant, slug: 'custom_test_tool')
+
+        expect(other_assistant_tool).to be_valid
+      end
     end
 
     describe 'param_schema validation' do
@@ -107,6 +115,23 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(enabled_ids).to include(enabled_tool.id)
         expect(enabled_ids).not_to include(disabled_tool.id)
       end
+    end
+  end
+
+  describe '#enabled_scenarios_count' do
+    let(:account) { create(:account) }
+    let(:assistant) { create(:captain_assistant, account: account) }
+    let(:other_assistant) { create(:captain_assistant, account: account) }
+
+    it 'counts only scenarios of its own assistant' do
+      tool = create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order')
+      create(:captain_custom_tool, account: account, assistant: other_assistant, slug: 'custom_fetch-order')
+      [assistant, other_assistant].each do |scenario_assistant|
+        create(:captain_scenario, account: account, assistant: scenario_assistant,
+                                  instruction: 'Use [@Fetch Order](tool://custom_fetch-order)')
+      end
+
+      expect(tool.enabled_scenarios_count).to eq(1)
     end
   end
 

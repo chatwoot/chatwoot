@@ -164,6 +164,17 @@ RSpec.describe Captain::Scenario, type: :model do
         expect(scenario.errors[:instruction]).to include('contains invalid tools: custom_fetch-order')
       end
 
+      it 'is invalid with custom tool from another assistant in the same account' do
+        create(:captain_custom_tool, account: account, assistant: create(:captain_assistant, account: account), slug: 'custom_fetch-order')
+        scenario = build(:captain_scenario,
+                         assistant: assistant,
+                         account: account,
+                         instruction: 'Use [@Fetch Order](tool://custom_fetch-order) to get order details')
+
+        expect(scenario).not_to be_valid
+        expect(scenario.errors[:instruction]).to include('contains invalid tools: custom_fetch-order')
+      end
+
       it 'is valid with disabled custom tool' do
         create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order', enabled: false)
         scenario = build(:captain_scenario,
@@ -279,6 +290,19 @@ RSpec.describe Captain::Scenario, type: :model do
         resolved = scenario.send(:resolved_tools)
         expect(resolved).to be_empty
       end
+
+      it 'uses the metadata of its own assistant copy' do
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order', description: 'Own copy')
+        create(:captain_custom_tool, account: account, assistant: create(:captain_assistant, account: account),
+                                     slug: 'custom_fetch-order', description: 'Other copy')
+        scenario = create(:captain_scenario,
+                          assistant: assistant,
+                          account: account,
+                          instruction: 'Use [@Fetch Order](tool://custom_fetch-order)')
+
+        resolved = scenario.send(:resolved_tools)
+        expect(resolved.map { |t| t[:description] }).to eq(['Own copy'])
+      end
     end
 
     describe '#resolve_tool_instance' do
@@ -293,6 +317,16 @@ RSpec.describe Captain::Scenario, type: :model do
 
       it 'returns nil for disabled custom tools' do
         create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order', enabled: false)
+        scenario = create(:captain_scenario, assistant: assistant, account: account)
+
+        tool_metadata = { id: 'custom_fetch-order', custom: true }
+        tool_instance = scenario.send(:resolve_tool_instance, tool_metadata)
+        expect(tool_instance).to be_nil
+      end
+
+      it 'ignores the same slug enabled on another assistant in the account' do
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order', enabled: false)
+        create(:captain_custom_tool, account: account, assistant: create(:captain_assistant, account: account), slug: 'custom_fetch-order')
         scenario = create(:captain_scenario, assistant: assistant, account: account)
 
         tool_metadata = { id: 'custom_fetch-order', custom: true }
