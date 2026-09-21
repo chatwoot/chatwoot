@@ -4,6 +4,7 @@ operationId: get-details-of-a-single-portal
 summary: Get a portal details
 description: Get the details of a portal in the account
 security:
+  - bearerAuth: []
   - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/account_id'

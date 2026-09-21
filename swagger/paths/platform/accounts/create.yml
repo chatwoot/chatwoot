@@ -4,6 +4,7 @@ operationId: create-an-account
 summary: Create an Account
 description: Create an Account
 security:
+  - bearerAuth: []
   - platformAppApiKey: []
 requestBody:
   required: true

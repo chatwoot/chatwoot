@@ -29,6 +29,9 @@
         "description": "Create an Account",
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -81,6 +84,9 @@
         "description": "Get the details of an account",
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -125,6 +131,9 @@
         "summary": "Update an account",
         "description": "Update an account's attributes",
         "security": [
+          {
+            "bearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -171,6 +180,9 @@
         "description": "Delete an Account",
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -216,6 +228,9 @@
         "description": "List all account users",
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -250,6 +265,9 @@
         "summary": "Create an Account User",
         "description": "Create an Account User",
         "security": [
+          {
+            "bearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -310,6 +328,9 @@
         "description": "Delete an Account User",
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -350,6 +371,9 @@
         "description": "List all agent bots available",
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -388,6 +412,9 @@
         "summary": "Create an Agent Bot",
         "description": "Create an agent bot",
         "security": [
+          {
+            "bearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -441,6 +468,9 @@
         "description": "Get the details of an agent bot",
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -485,6 +515,9 @@
         "summary": "Update an agent bot",
         "description": "Update an agent bot's attributes",
         "security": [
+          {
+            "bearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -531,6 +564,9 @@
         "description": "Delete an AgentBot",
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -570,6 +606,9 @@
         "summary": "Create a User",
         "description": "Create a User",
         "security": [
+          {
+            "bearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -623,6 +662,9 @@
         "description": "Get the details of an user",
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -667,6 +709,9 @@
         "summary": "Update a user",
         "description": "Update a user's attributes",
         "security": [
+          {
+            "bearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -713,6 +758,9 @@
         "description": "Delete a User",
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -757,6 +805,9 @@
         "summary": "Get User SSO Link",
         "description": "Get the sso link of a user",
         "security": [
+          {
+            "bearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -7996,6 +8047,11 @@
       }
     },
     "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Preferred authentication: send an existing user, agent bot, or platform app API token as Authorization: Bearer <token>. The token retains its existing permissions. The api_access_token header remains supported for compatibility."
+      },
       "userApiKey": {
         "type": "apiKey",
         "in": "header",

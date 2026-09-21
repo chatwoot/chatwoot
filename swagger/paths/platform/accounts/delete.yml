@@ -4,6 +4,7 @@ operationId: delete-an-account
 summary: Delete an Account
 description: Delete an Account
 security:
+  - bearerAuth: []
   - platformAppApiKey: []
 responses:
   '200':
