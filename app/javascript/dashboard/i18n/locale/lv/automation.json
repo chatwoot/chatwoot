@@ -143,7 +143,8 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Ievadiet savu ziņojumu šeit",
       "TEAM_DROPDOWN_PLACEHOLDER": "Izvēlieties komandas",
       "EMAIL_INPUT_PLACEHOLDER": "Ievadiet e-pastu",
-      "URL_INPUT_PLACEHOLDER": "Ievadiet URL"
+      "URL_INPUT_PLACEHOLDER": "Ievadiet URL",
+      "INSERT_CONTACT_EMAIL": "Use contact's email"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Aktivizēt Automatizācijas Noteikumu",
@@ -217,7 +218,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Ziņojuma Tips",
       "PRIVATE_NOTE": "Privāta Piezīme",
-      "MESSAGE_CONTAINS": "Ziņojums Satur",
+      "MESSAGE_CONTAINS": "Message Content",
       "EMAIL": "E-pasts",
       "INBOX": "Iesūtne",
       "CONVERSATION_LANGUAGE": "Sarunas Valoda",

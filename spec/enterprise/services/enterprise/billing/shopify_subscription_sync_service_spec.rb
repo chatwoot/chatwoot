@@ -50,9 +50,7 @@ RSpec.describe Enterprise::Billing::ShopifySubscriptionSyncService do
     plans_config = InstallationConfig.find_or_initialize_by(name: 'CHATWOOT_SHOPIFY_PLANS')
     plans_config.update!(value: shopify_plans, locked: true)
     allow(GlobalConfigService).to receive(:load).and_call_original
-    allow(GlobalConfigService).to receive(:load)
-      .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-      .and_return(true)
+    create(:installation_config, name: 'ENABLE_SHOPIFY_INTEGRATION', value: true)
     account.enable_features!('shopify_integration')
     allow(Shopify::SubscriptionFetcher).to receive(:new).with(account: account).and_return(fetcher)
   end
@@ -237,9 +235,7 @@ RSpec.describe Enterprise::Billing::ShopifySubscriptionSyncService do
   end
 
   it 'does not call Shopify or mutate the account when the feature gate is disabled' do
-    allow(GlobalConfigService).to receive(:load)
-      .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-      .and_return(false)
+    InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
     expect(fetcher).not_to receive(:perform)
     previous_attributes = account.custom_attributes.deep_dup
 

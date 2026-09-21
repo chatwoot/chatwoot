@@ -133,6 +133,21 @@ RSpec.describe AutoAssignment::AssignmentService do
 
         service.perform_bulk_assignment(limit: 1)
       end
+
+      it 'delivers automatic provenance through both assignment broadcasts' do
+        conversation.update!(assignee_id: nil)
+        clear_enqueued_jobs
+        broadcasts = []
+        allow(ActionCable.server).to receive(:broadcast) do |_recipient, payload|
+          broadcasts << payload[:data] if payload[:event] == Events::Types::ASSIGNEE_CHANGED
+        end
+
+        perform_enqueued_jobs(only: ActionCableBroadcastJob) { service.perform_bulk_assignment(limit: 1) }
+
+        expect(conversation.reload.assignee_id).to eq(agent.id)
+        expect(broadcasts).not_to be_empty
+        expect(broadcasts).to all(include(assignment: include(automatic: true, assignee_id: agent.id)))
+      end
     end
 
     context 'when auto assignment is disabled' do

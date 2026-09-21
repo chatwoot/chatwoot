@@ -17,7 +17,7 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "تسجيل الدخول بواسطة جوجل",
-      "BUSINESS_ACCOUNTS_ONLY": "الرجاء استخدام عنوان البريد الإلكتروني الخاص بشركتك لتسجيل الدخول",
+      "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
       "NO_ACCOUNT_FOUND": "لم نتمكن من العثور على حساب لعنوان البريد الإلكتروني الخاص بك."
     },
     "FORGOT_PASSWORD": "نسيت كلمة المرور؟",

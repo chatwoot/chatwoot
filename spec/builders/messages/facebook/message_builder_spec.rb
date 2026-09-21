@@ -32,6 +32,24 @@ describe Messages::Facebook::MessageBuilder do
       expect(message.content).to eq('facebook message')
     end
 
+    it 'uses the full profile name when separate name fields are absent' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return({ name: 'Sample Customer' }.with_indifferent_access)
+
+      message_builder
+
+      expect(facebook_channel.inbox.contacts.first.name).to eq('Sample Customer')
+    end
+
+    it 'does not add a placeholder surname to a single-part name' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return({ first_name: 'SingleName' }.with_indifferent_access)
+
+      message_builder
+
+      expect(facebook_channel.inbox.contacts.first.name).to eq('SingleName')
+    end
+
     it 'increments channel authorization_error_count when error is thrown' do
       allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
       allow(fb_object).to receive(:get_object).and_raise(Koala::Facebook::AuthenticationError.new(500, 'Error validating access token'))
@@ -242,6 +260,38 @@ describe Messages::Facebook::MessageBuilder do
         expect(attachment.file_type).to eq('fallback')
         expect(attachment.fallback_title).to eq(message_data[:title])
         expect(attachment.external_url).to eq(message_data[:url])
+      end
+    end
+
+    context 'when message is a postback' do
+      let(:postback_message_object) do
+        {
+          messaging: {
+            sender: { id: '3383290475046708' },
+            recipient: { id: facebook_channel.page_id },
+            timestamp: 1_772_452_164_516,
+            postback: {
+              title: 'Get Started',
+              payload: 'GET_STARTED_PAYLOAD'
+            }
+          }
+        }.to_json
+      end
+      let(:postback_message) { Integrations::Facebook::MessageParser.new(postback_message_object) }
+
+      before do
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return(
+          { first_name: 'Jane', last_name: 'Dae', profile_pic: 'https://chatwoot-assets.local/sample.png' }.with_indifferent_access
+        )
+      end
+
+      it 'creates an incoming message using the postback title' do
+        described_class.new(postback_message, facebook_channel.inbox).perform
+
+        message = facebook_channel.inbox.messages.last
+        expect(message).to be_present
+        expect(message.content).to eq('Get Started')
       end
     end
 

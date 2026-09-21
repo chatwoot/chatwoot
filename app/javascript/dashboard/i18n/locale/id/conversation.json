@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "Pilih percakapan dari panel kiri",
     "CSAT_REPLY_MESSAGE": "Silakan beri peringkat percakapan ini",
     "404": "Maaf, kami tidak dapat menemukan percakapan ini. Silakan coba lagi",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "Pesan berhasil dihapus",
     "FAIL_DELETE_MESSSAGE": "Tidak dapat menghapus pesan! Coba lagi",
     "NO_RESPONSE": "Tidak ada respon",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "Agen",
       "TEAMS": "Tim"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Deskripsi",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Cari emoji",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "Semua"
+        },
+        "AVAILABILITY": "Ketersediaan",
+        "ROLE": "Wewenang",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "Diaktifkan",
+        "DISABLED": "Nonaktif",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Tunda hingga",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} lainnya",
     "TOTAL_PARTICIPANTS_TEXT": "{count} orang berpartisipasi.",
     "TOTAL_PARTICIPANT_TEXT": "{count} orang berpartisipasi.",
-    "NO_PARTICIPANTS_TEXT": "Tidak ada yang berpartisipasi!.",
+    "NO_PARTICIPANTS_TEXT": "Tidak ada yang berpartisipasi!",
     "WATCH_CONVERSATION": "Gabung dalam percakapan",
     "YOU_ARE_WATCHING": "Anda berpartisipasi",
     "API": {
