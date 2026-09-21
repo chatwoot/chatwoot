@@ -37,6 +37,20 @@ class Rack::Attack
       normalized_path = path[/^[^.]+/]
       normalized_path == '/' ? normalized_path : normalized_path.sub(%r{/+\z}, '')
     end
+
+    # Rack::Request#params ignores JSON bodies, so fall back to Rails' parsed params.
+    # Only call this inside a path check: parsing can raise on unrelated payloads (rack-attack#399).
+    def auth_param(key)
+      params[key].presence || ActionDispatch::Request.new(env).params[key].presence
+    end
+
+    def mfa_login_attempt?
+      path_without_extensions == '/auth/sign_in' && post? && auth_param('mfa_token').present?
+    end
+
+    def password_login_attempt?
+      path_without_extensions == '/auth/sign_in' && post? && auth_param('mfa_token').blank?
+    end
   end
 
   ### Safelist IPs from Environment Variable ###
@@ -92,21 +106,12 @@ class Rack::Attack
   # ### Prevent Brute-Force Login Attacks ###
   # Exclude MFA verification attempts from regular login throttling
   throttle('login/ip', limit: 5, period: 5.minutes) do |req|
-    if req.path_without_extensions == '/auth/sign_in' && req.post? && req.params['mfa_token'].blank?
-      # Skip if this is an MFA verification request
-      req.ip
-    end
+    req.ip if req.password_login_attempt?
   end
 
   throttle('login/email', limit: 10, period: 15.minutes) do |req|
-    # Skip if this is an MFA verification request
-    if req.path_without_extensions == '/auth/sign_in' && req.post? && req.params['mfa_token'].blank?
-      # ref: https://github.com/rack/rack-attack/issues/399
-      # NOTE: This line used to throw ArgumentError /rails/action_mailbox/sendgrid/inbound_emails : invalid byte sequence in UTF-8
-      # Hence placed in the if block
-      email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
-      email.to_s.downcase.gsub(/\s+/, '')
-    end
+    # nil when email is absent so requests without one do not share a single "" bucket
+    req.auth_param('email').to_s.downcase.gsub(/\s+/, '').presence if req.password_login_attempt?
   end
 
   ## Reset password throttling
@@ -149,15 +154,12 @@ class Rack::Attack
 
   # Separate rate limiting for MFA verification attempts
   throttle('mfa_login/ip', limit: 10, period: 1.minute) do |req|
-    req.ip if req.path_without_extensions == '/auth/sign_in' && req.post? && req.params['mfa_token'].present?
+    req.ip if req.mfa_login_attempt?
   end
 
+  # Track by MFA token to prevent brute force on a specific token
   throttle('mfa_login/token', limit: 10, period: 1.minute) do |req|
-    if req.path_without_extensions == '/auth/sign_in' && req.post?
-      # Track by MFA token to prevent brute force on a specific token
-      mfa_token = req.params['mfa_token'].presence
-      (mfa_token.presence)
-    end
+    req.auth_param('mfa_token') if req.mfa_login_attempt?
   end
 
   ## Prevent Brute-Force Signup Attacks ###
