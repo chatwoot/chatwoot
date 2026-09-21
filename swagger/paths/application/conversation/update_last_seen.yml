@@ -4,6 +4,7 @@ post:
   operationId: conversationUpdateLastSeen
   summary: Update Last Seen
   security:
+    - bearerAuth: []
     - userApiKey: []
   description: Updates the last seen of the conversation so that conversations will have the bubbles in the agents screen
   parameters:

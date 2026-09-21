@@ -10,6 +10,7 @@ description: |-
   of the value provided, snoozed conversations always reopen on the next
   reply from the contact.
 security:
+  - bearerAuth: []
   - userApiKey: []
   - agentBotApiKey: []
 requestBody:
