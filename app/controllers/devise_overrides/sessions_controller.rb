@@ -1,4 +1,6 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
+  include DeviceVerificationGuard
+
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
   wrap_parameters format: []
@@ -15,10 +17,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   def create
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
-
-    user = find_user_for_authentication
-    return handle_mfa_required(user) if user&.mfa_enabled?
-    return if user && enforce_session_limit_for_password_login(user)
+    return if password_pre_auth_intercepted?
 
     # Only proceed with standard authentication if no MFA is required
     super
