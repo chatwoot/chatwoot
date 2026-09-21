@@ -479,6 +479,13 @@ RSpec.describe ConversationReplyMailer do
           expect(mail.subject).to eq 'Fwd: Changed subject'
         end
 
+        it 'uses the subject of the forwarded message when the conversation has none' do
+          conversation.update!(additional_attributes: {})
+          forwarded_message.update!(content_attributes: { email: { message_id: 'original@example.com', subject: 'Later subject' } })
+
+          expect(mail.subject).to eq 'Fwd: Later subject'
+        end
+
         it 'keeps replies from the forward recipient out of the conversation' do
           expect(mail.message_id).to start_with("forward/#{forward.id}@")
           expect(mail.message_id).not_to include(conversation.uuid)

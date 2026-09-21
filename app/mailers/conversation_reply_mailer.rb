@@ -120,9 +120,9 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def mail_subject
-    subject = @conversation.additional_attributes['mail_subject']
+    subject = @message&.forwarded? ? forwarded_subject : @conversation.additional_attributes['mail_subject']
     return "[##{@conversation.display_id}] #{I18n.t('conversations.reply.email_subject')}" if subject.nil?
-    return "Fwd: #{forwarded_subject || subject}" if @message&.forwarded?
+    return "Fwd: #{subject}" if @message&.forwarded?
 
     @conversation.messages.chat.count > 1 ? "Re: #{subject}" : subject
   end
@@ -179,7 +179,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def forwarded_subject
     forwarded_message = @conversation.messages.find_by(id: @message.content_attributes['forwarded_message_id'])
-    forwarded_message&.content_attributes&.dig('email', 'subject').presence
+    forwarded_message&.content_attributes&.dig('email', 'subject').presence || @conversation.additional_attributes['mail_subject']
   end
 
   def cc_bcc_emails

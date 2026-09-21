@@ -1,5 +1,12 @@
 <script setup>
-import { computed, reactive, ref, useTemplateRef } from 'vue';
+import {
+  computed,
+  reactive,
+  ref,
+  useTemplateRef,
+  onMounted,
+  onBeforeUnmount,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { parseISO, isValid } from 'date-fns';
 import { vOnClickOutside } from '@vueuse/components';
@@ -10,6 +17,8 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   appendSignature,
   removeSignature,
@@ -124,6 +133,10 @@ const forwardedHtml = buildForwardedEmailHtml({
 const bodyRef = useTemplateRef('bodyRef');
 
 useKeyboardEvents({ '$mod+z': () => bodyRef.value.undo() });
+
+// Keeps pasted and dropped files out of the reply box while this composer is open
+onMounted(() => emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, true));
+onBeforeUnmount(() => emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, false));
 
 const searchContacts = createContactSearcher();
 const contacts = ref([]);
