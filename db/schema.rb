@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_17_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_21_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -928,9 +928,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_17_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "assistant_id"
+    t.string "engine", default: "legacy", null: false
     t.index ["account_id"], name: "index_copilot_threads_on_account_id"
     t.index ["assistant_id"], name: "index_copilot_threads_on_assistant_id"
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
+    t.check_constraint "engine::text = ANY (ARRAY['legacy'::character varying, 'v2'::character varying]::text[])", name: "copilot_threads_engine_check"
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|

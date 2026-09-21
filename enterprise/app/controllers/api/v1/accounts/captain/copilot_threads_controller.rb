@@ -18,7 +18,8 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
       @copilot_thread = Current.account.copilot_threads.create!(
         title: copilot_thread_params[:message].truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH, omission: ''),
         user: Current.user,
-        assistant: assistant
+        assistant: assistant,
+        engine: engine
       )
 
       copilot_message = @copilot_thread.copilot_messages.create!(
@@ -78,7 +79,14 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   end
 
   def assistant
+    return if engine == 'v2' && copilot_thread_params[:assistant_id].blank?
+
     Current.account.captain_assistants.find(copilot_thread_params[:assistant_id])
+  end
+
+  def engine
+    chat_request = copilot_thread_params[:request_type].blank? || copilot_thread_params[:request_type] == 'chat'
+    chat_request && Current.account.feature_enabled?('copilot_v2') ? 'v2' : 'legacy'
   end
 
   def copilot_thread_params

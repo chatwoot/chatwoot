@@ -38,6 +38,10 @@ class CopilotMessage < ApplicationRecord
   end
 
   def enqueue_response_job(conversation_id, user_id)
+    if copilot_thread.v2?
+      return Copilot::V2::ResponseJob.perform_later(account_id: account_id, user_id: user_id, copilot_thread_id: copilot_thread.id)
+    end
+
     Captain::Copilot::ResponseJob.perform_later(
       assistant: copilot_thread.assistant,
       conversation_id: conversation_id,

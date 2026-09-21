@@ -4,12 +4,30 @@ RSpec.describe CopilotThread, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:account) }
-    it { is_expected.to belong_to(:assistant).class_name('Captain::Assistant') }
+    it { is_expected.to belong_to(:assistant).class_name('Captain::Assistant').without_validating_presence }
     it { is_expected.to have_many(:copilot_messages).dependent(:destroy_async) }
   end
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:title) }
+  end
+
+  describe 'engine' do
+    it 'defaults existing-style threads to legacy and requires their Assistant' do
+      thread = build(:captain_copilot_thread, assistant: nil)
+      expect(thread.engine).to eq('legacy')
+      expect(thread).not_to be_valid
+    end
+
+    it 'allows v2 threads without an Assistant' do
+      expect(build(:captain_copilot_thread, engine: :v2, assistant: nil)).to be_valid
+    end
+
+    it 'does not allow a persisted thread to switch engines' do
+      thread = create(:captain_copilot_thread)
+      expect(thread.update(engine: :v2)).to be(false)
+      expect(thread.reload.engine).to eq('legacy')
+    end
   end
 
   describe '#push_event_data' do

@@ -19,10 +19,13 @@
 class CopilotThread < ApplicationRecord
   belongs_to :user
   belongs_to :account
-  belongs_to :assistant, class_name: 'Captain::Assistant'
+  belongs_to :assistant, class_name: 'Captain::Assistant', optional: true
   has_many :copilot_messages, dependent: :destroy_async
 
   validates :title, presence: true
+  validates :assistant, presence: true, if: :legacy?
+  enum engine: { legacy: 'legacy', v2: 'v2' }
+  validate :engine_cannot_change, on: :update
 
   def push_event_data
     {
@@ -44,5 +47,11 @@ class CopilotThread < ApplicationRecord
           role: copilot_message.message_type
         }
       end
+  end
+
+  private
+
+  def engine_cannot_change
+    errors.add(:engine, 'cannot be changed') if will_save_change_to_engine?
   end
 end

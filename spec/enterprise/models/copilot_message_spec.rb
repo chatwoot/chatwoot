@@ -6,6 +6,26 @@ RSpec.describe CopilotMessage, type: :model do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:copilot_thread) { create(:captain_copilot_thread, account: account, user: user, assistant: assistant) }
 
+  describe '#enqueue_response_job' do
+    it 'keeps old threads on legacy after enabling v2' do
+      message = create(:captain_copilot_message, copilot_thread: copilot_thread)
+      account.enable_features!('copilot_v2')
+      message.enqueue_response_job(nil, user.id)
+      expect(Captain::Copilot::ResponseJob).to have_been_enqueued
+      expect(Copilot::V2::ResponseJob).not_to have_been_enqueued
+    end
+
+    it 'routes v2 threads by their saved engine even after disabling the flag' do
+      thread = create(:captain_copilot_thread, account: account, user: user, engine: :v2, assistant: nil)
+      message = create(:captain_copilot_message, copilot_thread: thread)
+      message.enqueue_response_job(nil, user.id)
+      expect(Copilot::V2::ResponseJob).to have_been_enqueued.with(
+        account_id: account.id, user_id: user.id, copilot_thread_id: thread.id
+      )
+      expect(Captain::Copilot::ResponseJob).not_to have_been_enqueued
+    end
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:message_type) }
     it { is_expected.to validate_presence_of(:message) }

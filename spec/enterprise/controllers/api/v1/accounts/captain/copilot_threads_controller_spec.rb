@@ -65,6 +65,47 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
     end
 
     context 'when it is an authenticated user' do
+      context 'with the v2 rollout enabled' do
+        before do
+          account.enable_features!('copilot_v2')
+          account.update!(limits: { captain_responses: 10 })
+        end
+
+        it 'creates a v2 chat without an Assistant and enqueues only the isolated job' do
+          post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+               params: { message: 'Hello' }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          thread = CopilotThread.last
+          expect(thread).to be_v2
+          expect(thread.assistant).to be_nil
+          expect(Copilot::V2::ResponseJob).to have_been_enqueued.with(
+            account_id: account.id, user_id: agent.id, copilot_thread_id: thread.id
+          )
+          expect(Captain::Copilot::ResponseJob).not_to have_been_enqueued
+        end
+
+        it 'keeps reply suggestions on the legacy engine and job' do
+          create(:inbox_member, user: agent, inbox: inbox)
+          post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+               params: valid_params.merge(request_type: 'reply_suggestion'), headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(CopilotThread.last).to be_legacy
+          expect(Captain::Copilot::ReplySuggestionJob).to have_been_enqueued
+          expect(Copilot::V2::ResponseJob).not_to have_been_enqueued
+        end
+
+        it 'rejects an Assistant from another account' do
+          other_assistant = create(:captain_assistant)
+          post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+               params: { message: 'Hello', assistant_id: other_assistant.id }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:not_found)
+          expect(CopilotThread.count).to eq(0)
+        end
+      end
+
       context 'with invalid params' do
         it 'returns error when message is blank' do
           post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
@@ -122,7 +163,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
           thread = CopilotThread.last
           expect(thread.title).to eq(valid_params[:message])
           expect(thread.user_id).to eq(agent.id)
-          expect(thread.assistant_id).to eq(assistant.id)
+          expect(thread).to have_attributes(assistant_id: assistant.id, engine: 'legacy')
 
           message = thread.copilot_messages.last
           expect(message.message).to eq({ 'content' => valid_params[:message] })
@@ -191,7 +232,6 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
 
           expect(response).to have_http_status(:not_found)
           expect(CopilotMessage.count).to be_zero
-          expect(Captain::Copilot::ReplySuggestionJob).not_to have_been_enqueued
         end
       end
     end

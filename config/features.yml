@@ -279,3 +279,7 @@
   enabled: false
   premium: true
   column: feature_flags_ext_1
+- name: copilot_v2
+  display_name: Copilot V2
+  enabled: false
+  column: feature_flags_ext_1
