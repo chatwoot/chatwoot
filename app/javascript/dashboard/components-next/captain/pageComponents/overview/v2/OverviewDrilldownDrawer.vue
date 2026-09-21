@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onBeforeUnmount, ref } from 'vue';
+import { onMounted, onBeforeUnmount, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useLocale } from 'shared/composables/useLocale';
 import CaptainAssistantStats from 'dashboard/api/captain/assistantStats';
@@ -51,6 +51,7 @@ onMounted(() => {
   panel.value.open();
   fetchRecords();
 });
+watch(() => [props.metric.key, props.metric.reason], fetchRecords);
 onBeforeUnmount(close);
 </script>
 
