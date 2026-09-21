@@ -1,10 +1,10 @@
 <script>
-import { ref, provide, useTemplateRef } from 'vue';
+import { ref, provide, inject, useTemplateRef } from 'vue';
 import { useElementSize } from '@vueuse/core';
 // composable
 import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
-import { useContactConversationNavigation } from 'dashboard/composables/useContactConversationNavigation';
+import { CONTACT_CONVERSATION_NAVIGATION } from 'dashboard/composables/useContactConversationNavigation';
 
 // components
 import ReplyBox from './ReplyBox.vue';
@@ -13,6 +13,7 @@ import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import ContactConversationLink from './ContactConversationLink.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import OlderConversationBar from './OlderConversationBar.vue';
 import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
 import ReferralBubble from 'dashboard/components-next/Conversation/ReferralBubble.vue';
 
@@ -35,6 +36,7 @@ import {
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants, {
   META_RESTRICTION_STATUS_URL,
@@ -50,6 +52,7 @@ export default {
     ConversationLabelSuggestion,
     ContactConversationLink,
     Spinner,
+    OlderConversationBar,
     ResizableEditorWrapper,
     ReferralBubble,
   },
@@ -68,8 +71,16 @@ export default {
       getLabelSuggestions,
     } = useLabelSuggestions();
 
-    const { olderConversation, newerConversation, buildConversationPath } =
-      useContactConversationNavigation();
+    const {
+      olderConversation,
+      newerConversation,
+      isReadingHistory,
+      isReplyRevealed,
+      latestConversation,
+      leaveReadingMode,
+      openConversation,
+      buildConversationPath,
+    } = inject(CONTACT_CONVERSATION_NAVIGATION);
 
     provide('contextMenuElementTarget', conversationPanelRef);
 
@@ -79,7 +90,12 @@ export default {
       isLabelSuggestionFeatureEnabled,
       olderConversation,
       newerConversation,
+      openConversation,
       buildConversationPath,
+      isReadingHistory,
+      isReplyRevealed,
+      latestConversation,
+      leaveReadingMode,
       conversationPanelRef,
       resizableEditorWrapperRef,
       messagesViewRef,
@@ -287,6 +303,10 @@ export default {
     emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
       this.messageSentSinceOpened = true;
     });
+    // Anything that wants to write must bring the folded editor back first.
+    emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.leaveReadingMode);
+    emitter.on(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.leaveReadingMode);
+    emitter.on(CMD_AI_ASSIST, this.leaveReadingMode);
   },
 
   mounted() {
@@ -347,6 +367,9 @@ export default {
     },
     removeBusListeners() {
       emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.leaveReadingMode);
+      emitter.off(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.leaveReadingMode);
+      emitter.off(CMD_AI_ASSIST, this.leaveReadingMode);
     },
     onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
@@ -502,6 +525,7 @@ export default {
     <MessageList
       ref="conversationPanelRef"
       class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
+      :class="{ 'pb-16': isReadingHistory }"
       :current-user-id="currentUserId"
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
@@ -522,7 +546,12 @@ export default {
           v-if="olderConversation && listLoadingStatus"
           direction="older"
           :conversation="olderConversation"
-          :to="buildConversationPath(olderConversation.id)"
+          :to="
+            buildConversationPath(olderConversation.id, {
+              keepFolderScope: false,
+            })
+          "
+          @navigate="openConversation(olderConversation)"
         />
         <ReferralBubble v-if="referralData" :referral="referralData" />
       </template>
@@ -549,14 +578,20 @@ export default {
           v-if="newerConversation"
           direction="newer"
           :conversation="newerConversation"
-          :to="buildConversationPath(newerConversation.id)"
+          :to="
+            buildConversationPath(newerConversation.id, {
+              keepFolderScope: false,
+            })
+          "
+          @navigate="openConversation(newerConversation)"
         />
       </template>
     </MessageList>
     <div class="flex relative flex-col bg-n-surface-1">
       <div
         v-if="isAnyoneTyping"
-        class="absolute flex items-center w-full h-0 -top-7"
+        class="absolute flex items-center w-full h-0"
+        :class="isReadingHistory ? '-top-[5.5rem]' : '-top-7'"
       >
         <div
           class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-n-solid-3 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
@@ -569,8 +604,17 @@ export default {
           />
         </div>
       </div>
+      <OlderConversationBar
+        v-if="isReadingHistory"
+        class="absolute inset-x-2 bottom-2 z-10"
+        :has-latest="Boolean(latestConversation)"
+        @reply="leaveReadingMode"
+        @go-to-latest="openConversation(latestConversation)"
+      />
       <ResizableEditorWrapper
+        v-show="!isReadingHistory"
         ref="resizableEditorWrapperRef"
+        :class="{ 'animate-fade-in-up': isReplyRevealed }"
         :container-height="Math.max(0, containerHeight - topBannerHeight)"
       >
         <ReplyBox @toggle-editor-size="toggleReplyEditorSize" />
