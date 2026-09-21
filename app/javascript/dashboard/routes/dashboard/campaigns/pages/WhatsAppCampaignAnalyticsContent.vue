@@ -26,6 +26,7 @@ import CampaignDeliveryTable from 'dashboard/components-next/Campaigns/Pages/Cam
 const DELIVERIES_PER_PAGE = 25;
 const ANALYTICS_POLL_INTERVAL = 5000;
 const CAMPAIGN_STATUS_PROCESSING = 'processing';
+const CAMPAIGN_STATUS_COMPLETED = 'completed';
 const STATUS_FILTERS = [
   'all',
   'sent',
@@ -314,7 +315,18 @@ watch(
   }
 );
 
-watch(isCampaignProcessing, schedulePolling);
+watch(isCampaignProcessing, (isProcessing, wasProcessing) => {
+  schedulePolling();
+
+  if (
+    wasProcessing &&
+    !isProcessing &&
+    campaign.value?.campaign_status === CAMPAIGN_STATUS_COMPLETED
+  ) {
+    fetchMetrics();
+    fetchDeliveries();
+  }
+});
 
 onActivated(() => {
   isPageActive = true;
