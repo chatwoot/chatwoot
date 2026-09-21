@@ -59,6 +59,14 @@ RSpec.describe Account do
     end
   end
 
+  describe '#saml_enabled?' do
+    it 'returns false by default on base account' do
+      account = create(:account)
+
+      expect(account.saml_enabled?).to be false
+    end
+  end
+
   describe 'captain defaults for new accounts' do
     it 'does not store Captain model overrides or enable premium Captain features' do
       InstallationConfig.find_or_initialize_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').update!(

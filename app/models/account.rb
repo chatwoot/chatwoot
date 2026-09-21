@@ -214,6 +214,11 @@ class Account < ApplicationRecord
     # method overridden in enterprise module
   end
 
+  def saml_enabled?
+    # method overridden in enterprise module
+    false
+  end
+
   def validate_reporting_timezone
     return if reporting_timezone.blank? || ActiveSupport::TimeZone[reporting_timezone].present?
 
