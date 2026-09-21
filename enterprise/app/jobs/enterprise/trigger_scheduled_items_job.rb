@@ -7,5 +7,6 @@ module Enterprise::TriggerScheduledItemsJob
 
     # Triggers Account Sla jobs
     Sla::TriggerSlasForAccountsJob.perform_later
+    Copilot::V2::RecoveryJob.perform_later
   end
 end

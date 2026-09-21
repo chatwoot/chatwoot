@@ -18,6 +18,7 @@
 class CopilotMessage < ApplicationRecord
   belongs_to :copilot_thread
   belongs_to :account
+  belongs_to :copilot_run, optional: true
 
   enum message_type: { user: 0, assistant: 1, assistant_thinking: 2 }
 
@@ -39,7 +40,8 @@ class CopilotMessage < ApplicationRecord
 
   def enqueue_response_job(conversation_id, user_id)
     if copilot_thread.v2?
-      return Copilot::V2::ResponseJob.perform_later(account_id: account_id, user_id: user_id, copilot_thread_id: copilot_thread.id)
+      return Copilot::V2::ResponseJob.perform_later(account_id: account_id, user_id: user_id, copilot_thread_id: copilot_thread.id,
+                                                    copilot_message_id: id)
     end
 
     Captain::Copilot::ResponseJob.perform_later(

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_21_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_21_120000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -917,8 +917,54 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_21_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "message_type", default: 0
+    t.bigint "copilot_run_id"
     t.index ["account_id"], name: "index_copilot_messages_on_account_id"
+    t.index ["copilot_run_id"], name: "index_copilot_messages_on_copilot_run_id"
     t.index ["copilot_thread_id"], name: "index_copilot_messages_on_copilot_thread_id"
+  end
+
+  create_table "copilot_run_items", force: :cascade do |t|
+    t.bigint "copilot_run_id", null: false
+    t.string "dataset_key", null: false
+    t.string "resource_type", null: false
+    t.string "resource_id", null: false
+    t.integer "position", null: false
+    t.bigint "source_item_id"
+    t.jsonb "captured", default: {}, null: false
+    t.string "state", default: "captured", null: false
+    t.jsonb "result", default: {}, null: false
+    t.string "reason"
+    t.integer "attempts", default: 0, null: false
+    t.boolean "supplied", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["copilot_run_id", "dataset_key", "resource_type", "resource_id"], name: "index_copilot_run_items_identity", unique: true
+    t.index ["copilot_run_id"], name: "index_copilot_run_items_on_copilot_run_id"
+    t.index ["source_item_id"], name: "index_copilot_run_items_on_source_item_id"
+  end
+
+  create_table "copilot_runs", force: :cascade do |t|
+    t.bigint "copilot_thread_id", null: false
+    t.bigint "triggering_message_id", null: false
+    t.bigint "response_message_id"
+    t.string "status", default: "queued", null: false
+    t.string "reason"
+    t.jsonb "task_spec", default: {}, null: false
+    t.jsonb "datasets", default: {}, null: false
+    t.jsonb "checkpoint", default: {}, null: false
+    t.jsonb "result_summary", default: {}, null: false
+    t.jsonb "budget", default: {}, null: false
+    t.integer "claim_generation", default: 0, null: false
+    t.datetime "lease_expires_at"
+    t.datetime "charged_at"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["copilot_thread_id"], name: "index_copilot_runs_on_copilot_thread_id"
+    t.index ["copilot_thread_id"], name: "index_copilot_runs_one_active_thread", unique: true, where: "((status)::text = ANY ((ARRAY['queued'::character varying, 'running'::character varying, 'needs_clarification'::character varying])::text[]))"
+    t.index ["response_message_id"], name: "index_copilot_runs_on_response_message_id"
+    t.index ["status", "lease_expires_at"], name: "index_copilot_runs_on_status_and_lease_expires_at"
+    t.index ["triggering_message_id"], name: "index_copilot_runs_on_triggering_message_id", unique: true
   end
 
   create_table "copilot_threads", force: :cascade do |t|
@@ -932,7 +978,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_21_000000) do
     t.index ["account_id"], name: "index_copilot_threads_on_account_id"
     t.index ["assistant_id"], name: "index_copilot_threads_on_assistant_id"
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
-    t.check_constraint "engine::text = ANY (ARRAY['legacy'::character varying, 'v2'::character varying]::text[])", name: "copilot_threads_engine_check"
+    t.check_constraint "engine::text = ANY (ARRAY['legacy'::character varying::text, 'v2'::character varying::text])", name: "copilot_threads_engine_check"
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|
@@ -1606,6 +1652,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_21_000000) do
   add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
+  add_foreign_key "copilot_messages", "copilot_runs", on_delete: :nullify
+  add_foreign_key "copilot_run_items", "copilot_run_items", column: "source_item_id", on_delete: :cascade
+  add_foreign_key "copilot_run_items", "copilot_runs", on_delete: :cascade
+  add_foreign_key "copilot_runs", "copilot_messages", column: "response_message_id", on_delete: :nullify
+  add_foreign_key "copilot_runs", "copilot_messages", column: "triggering_message_id", on_delete: :cascade
+  add_foreign_key "copilot_runs", "copilot_threads", on_delete: :cascade
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).

@@ -4,11 +4,11 @@ class Copilot::V2::Resources
   include Copilot::V2::EvidenceCapture
 
   # Provisional internal safety bounds, not approved production execution limits.
-  MAX_SELECTED = 500
-  MAX_RELATED = 2_000
-  MAX_EVIDENCE_BYTES = 500_000
-  MAX_SNAPSHOT_BYTES = 8_000_000
-  PAGE_SIZE = 100
+  MAX_SELECTED = Copilot::V2::Limits::MAX_SELECTED
+  MAX_RELATED = Copilot::V2::Limits::MAX_RELATED
+  MAX_EVIDENCE_BYTES = Copilot::V2::Limits::MAX_EVIDENCE_BYTES
+  MAX_SNAPSHOT_BYTES = Copilot::V2::Limits::MAX_SNAPSHOT_BYTES
+  PAGE_SIZE = Copilot::V2::Limits::PAGE_SIZE
 
   def initialize(account:, user:)
     @account = account

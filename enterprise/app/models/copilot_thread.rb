@@ -21,6 +21,7 @@ class CopilotThread < ApplicationRecord
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant', optional: true
   has_many :copilot_messages, dependent: :destroy_async
+  has_many :copilot_runs, dependent: :destroy
 
   validates :title, presence: true
   validates :assistant, presence: true, if: :legacy?

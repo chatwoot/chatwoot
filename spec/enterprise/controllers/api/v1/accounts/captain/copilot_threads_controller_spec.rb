@@ -80,7 +80,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
           expect(thread).to be_v2
           expect(thread.assistant).to be_nil
           expect(Copilot::V2::ResponseJob).to have_been_enqueued.with(
-            account_id: account.id, user_id: agent.id, copilot_thread_id: thread.id
+            account_id: account.id, user_id: agent.id, copilot_thread_id: thread.id, copilot_message_id: thread.copilot_messages.last.id
           )
           expect(Captain::Copilot::ResponseJob).not_to have_been_enqueued
         end

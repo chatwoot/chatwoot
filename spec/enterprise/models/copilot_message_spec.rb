@@ -20,7 +20,7 @@ RSpec.describe CopilotMessage, type: :model do
       message = create(:captain_copilot_message, copilot_thread: thread)
       message.enqueue_response_job(nil, user.id)
       expect(Copilot::V2::ResponseJob).to have_been_enqueued.with(
-        account_id: account.id, user_id: user.id, copilot_thread_id: thread.id
+        account_id: account.id, user_id: user.id, copilot_thread_id: thread.id, copilot_message_id: message.id
       )
       expect(Captain::Copilot::ResponseJob).not_to have_been_enqueued
     end

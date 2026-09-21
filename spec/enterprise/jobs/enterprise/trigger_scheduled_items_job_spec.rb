@@ -5,6 +5,7 @@ RSpec.describe TriggerScheduledItemsJob do
 
   it 'triggers Sla::TriggerSlasForAccountsJob' do
     expect(Sla::TriggerSlasForAccountsJob).to receive(:perform_later).once
+    expect(Copilot::V2::RecoveryJob).to receive(:perform_later).once
     described_class.perform_now
   end
 end
