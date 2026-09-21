@@ -1,4 +1,6 @@
 class Enterprise::Billing::CancelCloudSubscriptionsService
+  include BillingHelper
+
   pattr_initialize [:account!]
 
   def perform
@@ -6,9 +8,10 @@ class Enterprise::Billing::CancelCloudSubscriptionsService
     return unless ChatwootApp.chatwoot_cloud?
 
     subscriptions.each do |subscription|
-      next if subscription.cancel_at_period_end
+      next if subscription_cancels_on(subscription).present?
 
-      Stripe::Subscription.update(subscription.id, cancel_at_period_end: true)
+      # cancel_at_period_end is deprecated; an explicit timestamp works on every billing mode.
+      Stripe::Subscription.update(subscription.id, cancel_at: subscription_period_end(subscription))
     end
   end
 

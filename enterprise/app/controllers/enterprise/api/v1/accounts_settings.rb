@@ -6,6 +6,13 @@ module Enterprise::Api::V1::AccountsSettings
 
   private
 
+  # The upgrade banner is a self-hosted nudge; the managed cloud instance is always current.
+  def latest_chatwoot_version
+    return if ChatwootApp.chatwoot_cloud?
+
+    super
+  end
+
   def record_marketing_attribution
     return if current_user.present?
     return if @account.blank?

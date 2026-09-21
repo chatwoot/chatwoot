@@ -107,8 +107,8 @@ class Twilio::VoiceController < ApplicationController
     when 'inbound'
       Voice::InboundCallBuilder.perform!(
         inbox: inbox,
-        from_number: twilio_from,
-        call_sid: twilio_call_sid
+        call_sid: twilio_call_sid,
+        caller: { source_ids: [twilio_from], contact_attributes: { name: twilio_from, phone_number: twilio_from } }
       )
     when 'outbound-api', 'outbound-dial'
       sync_outbound_leg(call_sid: twilio_call_sid, direction: twilio_direction)
@@ -146,7 +146,7 @@ class Twilio::VoiceController < ApplicationController
           conference_sid,
           start_conference_on_enter: agent_leg?(twilio_from),
           end_conference_on_exit: false,
-          record: 'record-from-start',
+          record: call.recording_enabled? ? 'record-from-start' : 'do-not-record',
           recording_status_callback: recording_status_callback_url,
           recording_status_callback_event: 'completed',
           recording_status_callback_method: 'POST',

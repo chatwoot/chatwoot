@@ -29,7 +29,6 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def conversation_params
-    # FIXME: typo referrer in additional attributes, will probably require a migration.
     {
       account_id: inbox.account_id,
       inbox_id: inbox.id,

@@ -50,11 +50,20 @@ export const buildConversationList = (
   context,
   requestPayload,
   responseData,
-  filterType
+  filterType,
+  { replaceExisting = false, countRequest } = {}
 ) => {
   const { payload: conversationList, meta: metaData } = responseData;
-  context.commit(types.SET_ALL_CONVERSATION, conversationList);
-  context.dispatch('conversationStats/set', metaData);
+  if (replaceExisting) {
+    context.dispatch('conversationPage/reset', null, { root: true });
+    context.commit(types.REPLACE_CONVERSATION_LIST, conversationList);
+  } else {
+    context.commit(types.SET_ALL_CONVERSATION, conversationList);
+  }
+  context.dispatch('conversationStats/set', {
+    meta: metaData,
+    request: countRequest,
+  });
   context.dispatch(
     'conversationLabels/setBulkConversationLabels',
     conversationList

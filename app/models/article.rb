@@ -5,6 +5,8 @@
 #  id                    :bigint           not null, primary key
 #  content               :text
 #  description           :text
+#  draft_content         :text
+#  draft_title           :string
 #  locale                :string           default("en"), not null
 #  meta                  :jsonb
 #  position              :integer
@@ -63,6 +65,7 @@ class Article < ApplicationRecord
   validates :title, presence: true
   validates :content, presence: true, if: :published?
   validates :slug, exclusion: { in: RESERVED_SLUGS }
+  validates :slug, uniqueness: true, format: { with: /\A[a-zA-Z0-9_-]+\z/ }, if: :will_save_change_to_slug?
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article

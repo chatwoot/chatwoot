@@ -3,8 +3,8 @@
     "CONVERSATIONS_SELECTED": "{conversationCount} Konversationen ausgewählt",
     "NONE": "Keine",
     "CLEAR_SELECTION": "Leeren",
-    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
-    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Möchtest du wirklich {n} Unterhaltung {agentName} zuweisen? | Möchtest du wirklich {n} Unterhaltungen {agentName} zuweisen?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Möchtest du die Zuweisung für {n} Unterhaltung wirklich aufheben? | Möchtest du die Zuweisung für {n} Unterhaltungen wirklich aufheben?",
     "YES": "Ja",
     "CANCEL": "Stornieren",
     "SEARCH_INPUT_PLACEHOLDER": "Suchen",
@@ -27,18 +27,18 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Labels zuweisen",
-      "REMOVE_LABELS": "Remove labels",
+      "REMOVE_LABELS": "Labels entfernen",
       "ASSIGN_SELECTED_LABELS": "Ausgewählte Labels zuweisen",
-      "REMOVE_SELECTED_LABELS": "Remove selected labels",
+      "REMOVE_SELECTED_LABELS": "Ausgewählte Labels entfernen",
       "ASSIGN_SUCCESFUL": "Labels erfolgreich zugewiesen.",
       "ASSIGN_FAILED": "Labels konnten nicht zugewiesen werden. Bitte versuchen Sie es erneut.",
-      "REMOVE_SUCCESFUL": "Labels removed successfully.",
-      "REMOVE_FAILED": "Failed to remove labels. Please try again."
+      "REMOVE_SUCCESFUL": "Labels erfolgreich entfernt.",
+      "REMOVE_FAILED": "Labels konnten nicht entfernt werden. Bitte versuche es erneut."
     },
     "TEAMS": {
       "NONE": "Keine",
-      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
-      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Möchtest du wirklich {n} Unterhaltung dem Team {teamName} zuweisen? | Möchtest du wirklich {n} Unterhaltungen dem Team {teamName} zuweisen?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Möchtest du die Teamzuweisung für {n} Unterhaltung wirklich aufheben? | Möchtest du die Teamzuweisung für {n} Unterhaltungen wirklich aufheben?",
       "ASSIGN_SUCCESFUL": "Teams erfolgreich zugewiesen.",
       "ASSIGN_FAILED": "Team konnte nicht zugewiesen werden. Bitte versuche es erneut."
     }

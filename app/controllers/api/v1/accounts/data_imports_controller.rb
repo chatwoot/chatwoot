@@ -4,7 +4,7 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   DATA_IMPORT_FEATURE = 'data_import'.freeze
 
   before_action :ensure_data_import_feature_enabled
-  before_action :set_data_import, only: [:show, :start, :abandon, :error_logs, :skip_logs]
+  before_action :set_data_import, only: [:show, :start, :retry_import, :abandon, :error_logs, :skip_logs]
   before_action :check_authorization
 
   def index
@@ -19,14 +19,12 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def validate_source
-    totals = validate_intercom_source
+    totals = source_class.credentials_validator(source_params: permitted_params.to_h, import_types: import_types).perform
     render json: { valid: true, totals: totals }
-  rescue DataImports::Intercom::Client::AuthenticationError
-    render_source_validation_error('We could not validate this Intercom access key. Check the key and its permissions.')
-  rescue DataImports::Intercom::Client::Error
-    render_source_validation_error('Intercom could not be reached. Please try again.')
   rescue ArgumentError => e
     render_source_validation_error(e.message)
+  rescue StandardError => e
+    render_source_client_error(e)
   end
 
   def create
@@ -36,27 +34,43 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
       return
     end
 
-    DataImports::Intercom::ImportJob.perform_later(@data_import, @data_import.active_intercom_import_run_id)
+    enqueue_import(@data_import)
     render_show
-  rescue DataImports::Intercom::Client::AuthenticationError
-    render_source_validation_error('We could not validate this Intercom access key. Check the key and its permissions.')
-  rescue DataImports::Intercom::Client::Error
-    render_source_validation_error('Intercom could not be reached. Please try again.')
   rescue ArgumentError => e
     render_source_validation_error(e.message)
+  rescue StandardError => e
+    render_source_client_error(e)
   end
 
   def start
-    restart_service = DataImports::Intercom::RestartService.new(account: Current.account, data_import: @data_import)
+    restart_service = DataImports::RestartService.new(account: Current.account, data_import: @data_import)
     restart_result = restart_service.perform
     @data_import = restart_service.data_import
     if restart_result == :access_token_missing
-      render json: { message: 'The Intercom access key for this import is unavailable.' }, status: :unprocessable_entity
+      render json: { message: "The #{source_name} #{credential_name} for this import is unavailable." }, status: :unprocessable_entity
       return
     end
 
-    DataImports::Intercom::ImportJob.perform_later(@data_import, @data_import.active_intercom_import_run_id) if restart_result == :enqueue
+    enqueue_import(@data_import) if restart_result == :enqueue
     render_show
+  end
+
+  def retry_import
+    retry_service = DataImports::RetryService.new(account: Current.account, data_import: @data_import)
+    retry_result = retry_service.perform
+    @data_import = retry_service.data_import
+
+    case retry_result
+    when :enqueue
+      enqueue_import(@data_import)
+      render_show
+    when :not_stalled
+      render json: { message: "This #{source_name} import is no longer stalled." }, status: :unprocessable_entity
+    when :active_import_exists
+      render json: { message: "Another #{source_name} import is already in progress." }, status: :unprocessable_entity
+    when :access_token_missing
+      render json: { message: "The #{source_name} #{credential_name} for this import is unavailable." }, status: :unprocessable_entity
+    end
   end
 
   def abandon
@@ -95,11 +109,11 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def permitted_params
-    params.permit(:name, :source_provider, :access_token, import_types: [])
+    params.permit(:name, :source_provider, :access_token, :domain, import_types: [])
   end
 
   def creation_service
-    DataImports::Intercom::CreationService.new(
+    DataImports::CreationService.new(
       account: Current.account,
       initiated_by: Current.user,
       source_params: permitted_params.to_h
@@ -107,22 +121,48 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def import_types
-    return DataImports::Intercom::Importer::DEFAULT_IMPORT_TYPES unless permitted_params.key?(:import_types)
+    return DataImports::Importer::DEFAULT_IMPORT_TYPES unless permitted_params.key?(:import_types)
 
     Array(permitted_params[:import_types]).compact_blank
   end
 
-  def validate_intercom_source
-    raise ArgumentError, 'Unsupported import source.' unless permitted_params[:source_provider] == 'intercom'
+  def source_class
+    provider = @data_import&.source_provider || permitted_params[:source_provider]
+    DataImports::Source.source_class(provider)
+  end
 
-    DataImports::Intercom::CredentialsValidator.new(
-      access_token: permitted_params[:access_token],
-      import_types: import_types
-    ).perform
+  def source_name
+    return 'Integration' unless DataImports::Source.supported?(@data_import&.source_provider || permitted_params[:source_provider])
+
+    source_class::DISPLAY_NAME
+  end
+
+  def credential_name
+    return 'credential' unless DataImports::Source.supported?(@data_import&.source_provider || permitted_params[:source_provider])
+
+    source_class.credential_name
+  end
+
+  def enqueue_import(data_import)
+    DataImports::Source.source_class(data_import.source_provider).import_job_class.perform_later(
+      data_import,
+      data_import.active_import_run_id
+    )
   end
 
   def render_source_validation_error(message)
     render json: { valid: false, message: message }, status: :unprocessable_entity
+  end
+
+  def render_source_client_error(error)
+    raise error unless source_class.client_error?(error)
+
+    message = if source_class.authentication_error?(error)
+                "We could not validate this #{source_name} #{credential_name}. Check the key and its permissions."
+              else
+                "#{source_name} could not be reached. Please try again."
+              end
+    render_source_validation_error(message)
   end
 
   def render_show

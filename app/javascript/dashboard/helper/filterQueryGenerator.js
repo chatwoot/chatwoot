@@ -3,18 +3,14 @@ const setArrayValues = item => {
 };
 
 const generateValues = item => {
-  if (item.attribute_key === 'content') {
-    const values = item.values || '';
-    return values.split(',');
+  if (item.values === null || item.values === undefined || item.values === '') {
+    return [];
   }
   if (Array.isArray(item.values)) {
     return setArrayValues(item);
   }
   if (typeof item.values === 'object') {
     return [item.values.id];
-  }
-  if (!item.values) {
-    return [];
   }
   return [item.values];
 };
@@ -23,8 +19,6 @@ const generatePayload = data => {
   // Make a copy of data to avoid vue data reactivity issues
   const filters = JSON.parse(JSON.stringify(data));
   let payload = filters.map(item => {
-    // If item key is content, we will split it using comma and return as array
-    // FIX ME: Make this generic option instead of using the key directly here
     item.values = generateValues(item);
     return item;
   });

@@ -1,9 +1,13 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
-  MAX_SESSIONS = ENV.fetch('MAX_USER_SESSIONS', 25).to_i
+  include DeviceVerificationGuard
 
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
   wrap_parameters format: []
+  # DTA's params_for_resource copies these headers into params during super.
+  # Mirror that up front so every pre-authentication check in create sees the
+  # same credentials a header-only request would authenticate with.
+  before_action :merge_credential_headers, only: [:create]
   before_action :process_sso_auth_token, only: [:create]
 
   def new
@@ -13,10 +17,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   def create
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
-
-    user = find_user_for_authentication
-    return handle_mfa_required(user) if user&.mfa_enabled?
-    return if user && enforce_session_limit_for_password_login(user)
+    return if password_pre_auth_intercepted?
 
     # Only proceed with standard authentication if no MFA is required
     super
@@ -35,6 +36,11 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
       I18n.t('devise_token_auth.sessions.not_confirmed', email: @resource.email),
       error_code: 'user_not_confirmed'
     )
+  end
+
+  def merge_credential_headers
+    params[:email] ||= request.headers['email'] unless request.headers['email'].nil?
+    params[:password] ||= request.headers['password'] unless request.headers['password'].nil?
   end
 
   def find_user_for_authentication
@@ -136,7 +142,8 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def sessions_limit_reached?(user)
-    active_token_count(user) >= MAX_SESSIONS
+    limit = ENV.fetch('MAX_USER_SESSIONS', 25).to_i
+    active_token_count(user) >= limit
   end
 
   def active_token_count(user)

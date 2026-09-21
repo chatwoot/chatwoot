@@ -11,6 +11,7 @@ RSpec.describe Sla::ProcessAccountAppliedSlasJob do
     let!(:blocked_contact_applied_sla) { create(:applied_sla, account: account, sla_policy: sla_policy, sla_status: 'active') }
 
     before do
+      account.enable_features!('sla')
       blocked_contact_applied_sla.conversation.contact.update!(blocked: true)
     end
 
@@ -30,6 +31,13 @@ RSpec.describe Sla::ProcessAccountAppliedSlasJob do
     it 'does not call the ProcessAppliedSlaJob for applied slas that are hit or miss' do
       expect(Sla::ProcessAppliedSlaJob).not_to receive(:perform_later).with(hit_applied_sla)
       expect(Sla::ProcessAppliedSlaJob).not_to receive(:perform_later).with(miss_applied_sla)
+      described_class.perform_now(account)
+    end
+
+    it 'does not call the ProcessAppliedSlaJob when the sla feature is disabled' do
+      account.disable_features!('sla')
+
+      expect(Sla::ProcessAppliedSlaJob).not_to receive(:perform_later)
       described_class.perform_now(account)
     end
   end

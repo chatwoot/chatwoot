@@ -52,6 +52,7 @@ export const SUPPORTED_DASHBOARD_LOCALES = Object.freeze([
   'uk',
   'ur',
   'ur_IN',
+  'uz',
   'vi',
   'zh',
   'zh_CN',
@@ -66,6 +67,7 @@ export const LOCALE_MODULES = Object.freeze([
   'auditLogs',
   'automation',
   'bulkActions',
+  'calls',
   'campaign',
   'cannedMgmt',
   'chatlist',
@@ -102,6 +104,7 @@ export const LOCALE_MODULES = Object.freeze([
   'snooze',
   'teamsSettings',
   'webhooks',
+  'whatsappTemplateMgmt',
   'whatsappTemplates',
   'yearInReview',
 ]);

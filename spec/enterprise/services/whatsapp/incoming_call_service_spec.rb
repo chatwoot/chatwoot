@@ -72,6 +72,198 @@ describe Whatsapp::IncomingCallService do
         hash_including(event: 'voice_call.incoming')
       )
     end
+
+    # The agent's browser is what records a WhatsApp call, so the ring payload has to carry the decision.
+    it 'tells the ringing agent not to record when the call was created with recording off' do
+      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
+      allow(ActionCable.server).to receive(:broadcast)
+
+      params = call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' })
+      described_class.new(inbox: inbox, params: params).perform
+
+      expect(ActionCable.server).to have_received(:broadcast).with(
+        agent.pubsub_token,
+        hash_including(data: hash_including(recording_enabled: false))
+      )
+    end
+  end
+
+  describe 'inbound connect from a username (BSUID) caller' do
+    let(:sdp_offer) { "v=0\r\n...sdp..." }
+    let(:bsuid) { 'IN.2081978709342942' }
+    let!(:agent) { create(:user, account: account) }
+
+    before { create(:inbox_member, inbox: inbox, user: agent) }
+
+    it 'keys a caller by the phone when Meta still provides it' do
+      allow(ActionCable.server).to receive(:broadcast)
+
+      params = {
+        calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: from_number, user_id: bsuid, profile: { name: 'Ada Lovelace' } }]
+      }
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and change(Conversation, :count).by(1)
+
+      contact_inbox = Call.last.conversation.contact_inbox
+      expect(contact_inbox.source_id).to eq(from_number)
+      expect(contact_inbox.contact.name).to eq('Ada Lovelace')
+    end
+
+    it 'keys a username-only caller by the BSUID when no phone `from` is present' do
+      allow(ActionCable.server).to receive(:broadcast)
+
+      params = {
+        calls: [{ id: provider_call_id, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ user_id: bsuid, profile: { name: 'Ada Lovelace' } }]
+      }
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1)
+
+      contact_inbox = Call.last.conversation.contact_inbox
+      expect(contact_inbox.source_id).to eq(bsuid)
+      expect(contact_inbox.contact.name).to eq('Ada Lovelace')
+    end
+
+    it 'keeps the contact messaging created by phone on its phone ContactInbox when both identifiers are present' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      phone_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
+      phone_conversation = create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: phone_contact_inbox)
+
+      params = {
+        calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: from_number, user_id: bsuid }]
+      }
+      # The contact is the same one messaging created; the call stays on the phone conversation
+      # because Meta still supplied the phone and the phone identity already has history.
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and change(ContactInbox, :count).by(1).and not_change(Conversation, :count)
+
+      expect(Call.last.contact).to eq(contact)
+      expect(Call.last.conversation).to eq(phone_conversation)
+      expect(Call.last.conversation.contact_inbox).to eq(phone_contact_inbox)
+      expect(inbox.contact_inboxes.find_by(source_id: bsuid).contact).to eq(contact)
+    end
+
+    it 'reuses a phone ContactInbox via the same wa_id normalization messaging uses' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account, phone_number: '+5541988887777')
+      existing = create(:contact_inbox, inbox: inbox, contact: contact, source_id: '5541988887777')
+
+      params = {
+        calls: [{ id: provider_call_id, from: '554188887777', event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: '554188887777' }]
+      }
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(ContactInbox, :count)
+
+      expect(Call.last.conversation.contact_inbox).to eq(existing)
+    end
+
+    it 'reuses a normalized phone contact when no ContactInbox exists yet' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account, phone_number: '+5541988887777')
+
+      params = {
+        calls: [{ id: provider_call_id, from: '554188887777', event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: '554188887777' }]
+      }
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(Contact, :count)
+
+      expect(Call.last.contact).to eq(contact)
+      expect(Call.last.conversation.contact_inbox).to have_attributes(contact: contact, source_id: '554188887777')
+    end
+
+    it 'reuses the BSUID-keyed ContactInbox messaging created for a username-only caller' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      existing = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
+
+      params = {
+        calls: [{ id: provider_call_id, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ user_id: bsuid }]
+      }
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(ContactInbox, :count)
+
+      expect(Call.last.contact).to eq(contact)
+      expect(Call.last.conversation.contact_inbox).to eq(existing)
+    end
+
+    # The caller was first seen username-only, so the BSUID row already owns the conversation.
+    # When Meta later exposes the phone, keep that thread and only backfill the phone alias.
+    it 'reuses a BSUID-keyed ContactInbox when that is the only identity with conversation history' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      existing = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
+      create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: existing)
+
+      params = {
+        calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: from_number, user_id: bsuid }]
+      }
+      # The conversation reuses the existing BSUID thread; the phone alias is backfilled onto the same contact.
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and change(ContactInbox, :count).by(1)
+
+      expect(Call.last.contact).to eq(contact)
+      expect(Call.last.conversation.contact_inbox).to eq(existing)
+      expect(inbox.contact_inboxes.find_by(source_id: from_number).contact).to eq(contact)
+    end
+
+    it 'reuses the phone conversation when a later call carries both phone and BSUID' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      phone_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
+      bsuid_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: phone_contact_inbox)
+
+      params = {
+        calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: from_number, user_id: bsuid }]
+      }
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(Conversation, :count)
+
+      expect(Call.last.conversation).to eq(conversation)
+      expect(Call.last.conversation.contact_inbox).to eq(phone_contact_inbox)
+      expect(bsuid_contact_inbox.reload.contact).to eq(contact)
+      expect(phone_contact_inbox.reload.contact).to eq(contact)
+    end
+
+    it 'opens a BSUID-backed conversation and leaves the phone one untouched' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      phone_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
+      bsuid_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
+      phone_conversation = create(:conversation, account: account, inbox: inbox, contact: contact,
+                                                 contact_inbox: phone_contact_inbox)
+
+      params = {
+        calls: [{ id: provider_call_id, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ user_id: bsuid }]
+      }
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and change(Conversation, :count).by(1)
+
+      expect(Call.last.conversation).not_to eq(phone_conversation)
+      expect(Call.last.conversation.contact_inbox).to eq(bsuid_contact_inbox)
+      expect(phone_conversation.reload.contact_inbox).to eq(phone_contact_inbox)
+    end
   end
 
   describe 'outbound connect (existing call)' do

@@ -19,6 +19,10 @@ class DataImportPolicy < ApplicationPolicy
     show?
   end
 
+  def retry_import?
+    show?
+  end
+
   def abandon?
     show?
   end

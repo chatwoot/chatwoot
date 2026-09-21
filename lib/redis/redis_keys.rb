@@ -89,6 +89,7 @@ module Redis::RedisKeys
   WHATSAPP_MESSAGE_MUTEX = 'WHATSAPP_MESSAGE_CREATE_LOCK::%<inbox_id>s::%<sender_id>s'.freeze
   CRM_PROCESS_MUTEX = 'CRM_PROCESS_MUTEX::%<hook_id>s'.freeze
   CAPTAIN_DOCUMENT_SYNC_MUTEX = 'CAPTAIN_DOCUMENT_SYNC_LOCK::%<document_id>s'.freeze
+  CAPTAIN_CONVERSATION_FAQ_MUTEX = 'CAPTAIN_CONVERSATION_FAQ_LOCK::%<assistant_id>s::%<language>s'.freeze
 
   ## Auto Assignment Keys
   # Track conversation assignments to agents for rate limiting
@@ -103,4 +104,12 @@ module Redis::RedisKeys
 
   ## Account Email Rate Limiting
   ACCOUNT_OUTBOUND_EMAIL_COUNT_KEY = 'OUTBOUND_EMAIL_COUNT::%<account_id>d::%<date>s'.freeze
+
+  ## Device verification (cloud sign-in challenge)
+  # HMAC digest of the emailed code, consumed atomically on redemption
+  DEVICE_VERIFICATION_CODE = 'DEVICE_VERIFICATION::CODE::%<user_id>d::%<jti>s'.freeze
+  # Wrong-code counter per challenge
+  DEVICE_VERIFICATION_ATTEMPTS = 'DEVICE_VERIFICATION::ATTEMPTS::%<user_id>d::%<jti>s'.freeze
+  # Rolling per-user challenge issuance budget
+  DEVICE_VERIFICATION_ISSUANCE = 'DEVICE_VERIFICATION::ISSUANCE::%<user_id>d'.freeze
 end

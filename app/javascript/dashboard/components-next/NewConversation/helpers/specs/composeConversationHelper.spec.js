@@ -79,6 +79,20 @@ describe('composeConversationHelper', () => {
         channelType: INBOX_TYPES.EMAIL,
       });
     });
+
+    it('uses the voice glyph for a voice-enabled inbox', () => {
+      const inboxes = [
+        {
+          id: 2,
+          name: 'WhatsApp Cloud',
+          channelType: INBOX_TYPES.WHATSAPP,
+          voiceEnabled: true,
+        },
+      ];
+
+      const result = helpers.buildContactableInboxesList(inboxes);
+      expect(result[0].icon).toBe('i-woot-whatsapp-voice');
+    });
   });
 
   describe('getCapitalizedNameFromEmail', () => {

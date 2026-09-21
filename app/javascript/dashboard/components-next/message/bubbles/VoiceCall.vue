@@ -243,6 +243,16 @@ const handleJoinCall = async () => {
     });
   }
 
+  // The store skips calls that rang while the agent was away or were dismissed; register it so joinCall picks the right provider.
+  callsStore.addCall({
+    callSid: callSid.value,
+    callId: call.value?.id,
+    provider: call.value?.provider,
+    conversationId: conversationId.value,
+    inboxId: inboxId.value,
+    callDirection: VOICE_CALL_DIRECTION.INBOUND,
+  });
+
   await joinCall({
     conversationId: conversationId.value,
     inboxId: inboxId.value,
@@ -263,9 +273,9 @@ const handleCallBack = async () => {
   if (!canCallBack.value || isInitiatingCall.value) return;
   try {
     if (isWhatsapp.value) {
-      const response = await whatsappCallSession.initiateOutboundCall(
-        conversationId.value
-      );
+      const response = await whatsappCallSession.initiateOutboundCall({
+        conversationId: conversationId.value,
+      });
       if (response?.status === VOICE_CALL_OUTBOUND_INIT_STATUS.LOCKED) return;
       // Permission template path returns no call id — show banner, no widget yet.
       if (!response?.id) {

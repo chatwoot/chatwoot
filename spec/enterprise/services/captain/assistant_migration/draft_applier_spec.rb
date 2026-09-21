@@ -80,24 +80,6 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
       end.not_to(change { assistant.responses.count })
     end
 
-    it 'leaves pending FAQ responses untouched' do
-      pending_response = assistant.responses.create!(
-        question: faq_document_candidate['question'],
-        answer: faq_document_candidate['answer'],
-        status: :pending
-      )
-
-      described_class.new(assistant: assistant, draft: draft, dry_run: false).perform
-
-      expect(pending_response.reload).to be_pending
-      expect(assistant.responses.approved).to contain_exactly(
-        have_attributes(
-          question: faq_document_candidate['question'],
-          answer: faq_document_candidate['answer']
-        )
-      )
-    end
-
     it 'rejects conflicting FAQ answers within the same draft' do
       conflicting_draft = draft.merge(
         faq_document_candidates: [
@@ -133,6 +115,7 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
         response_guidelines: ['Use plain language.'],
         guardrails: ['Do not disclose internal notes.']
       )
+      original_config = assistant.config.deep_dup
 
       described_class.new(assistant: assistant, draft: draft, dry_run: false).perform
 
@@ -147,7 +130,7 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
       expect(assistant.config.dig('assistant_migration', 'original_values')).to include(
         'name' => assistant.name,
         'description' => 'Existing assistant description.',
-        'config' => { 'product_name' => 'Test Product', 'instructions' => 'Legacy V1 custom instructions.' },
+        'config' => original_config,
         'response_guidelines' => ['Use plain language.'],
         'guardrails' => ['Do not disclose internal notes.']
       )

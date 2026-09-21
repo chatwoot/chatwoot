@@ -1,18 +1,57 @@
-# Resolves Stripe price ids from CHATWOOT_CLOUD_PLANS per currency.
-# A plan's `price_ids` may be a currency-keyed Hash, or a legacy Array (treated as usd).
+# Resolves billing plans from the provider-specific installation configuration.
 module Enterprise::Billing::PlanConfiguration
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
+  SHOPIFY_PLANS_CONFIG = Enterprise::Billing::ShopifyPlanConfiguration::CONFIG_NAME
+  PROVIDER_CONFIGS = {
+    'stripe' => CLOUD_PLANS_CONFIG,
+    'shopify' => SHOPIFY_PLANS_CONFIG
+  }.freeze
+  class InvalidConfiguration < StandardError; end
+  class UnknownPlan < StandardError; end
 
   module_function
 
-  def plans
-    InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
+  def plans(provider: Account::DEFAULT_BILLING_PROVIDER)
+    config_name = PROVIDER_CONFIGS.fetch(provider.to_s) do
+      raise ArgumentError, "Unsupported billing provider: #{provider}"
+    end
+    configured_plans = if provider.to_s == 'shopify'
+                         InstallationConfig.find_by!(name: config_name).value
+                       else
+                         InstallationConfig.find_by(name: config_name)&.value || []
+                       end
+
+    provider.to_s == 'shopify' ? Enterprise::Billing::ShopifyPlanConfiguration.normalize(configured_plans) : configured_plans
   end
 
-  def default_plan
-    plans.first
+  def plans_for(account)
+    plans(provider: account.billing_provider)
   end
 
+  def default_plan(account = nil)
+    provider = account&.billing_provider || Account::DEFAULT_BILLING_PROVIDER
+    plans(provider: provider).first
+  end
+
+  def current_plan(account)
+    plan_name = account.custom_attributes['plan_name']
+    return if plan_name.blank?
+
+    plans_for(account).find { |plan| plan['name'].casecmp?(plan_name.to_s) }
+  end
+
+  def current_plan!(account)
+    current_plan(account) || raise(UnknownPlan, "Unknown #{account.billing_provider} plan for account #{account.id}")
+  end
+
+  def find_shopify_plan_by_handle(handle)
+    return if handle.blank?
+
+    plans(provider: 'shopify').find { |plan| plan['handle'] == handle }
+  end
+
+  # Stripe-specific helpers. A plan's `price_ids` may be a currency-keyed Hash,
+  # or a legacy Array (treated as usd).
   # Handles both shapes during migration; once all configs are currency-keyed Hashes, drop the Array branch.
   def price_ids_by_currency(plan)
     raw = plan && plan['price_ids']
