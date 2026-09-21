@@ -254,6 +254,12 @@ describe Messages::MessageBuilder do
           expect(message.content_attributes.dig(:email, :html_content, :reply)).to eq('<p>Forwarding this</p><p>Edited body</p>')
         end
 
+        it 'rejects a private forward' do
+          params[:private] = true
+
+          expect { message_builder }.to raise_error 'Forwarded emails cannot be private'
+        end
+
         it 'ignores attachments that do not belong to the forwarded message' do
           other_message = create(:message, conversation: conversation, account: account)
           other_attachment = other_message.attachments.new(account_id: account.id, file_type: :image)

@@ -89,6 +89,7 @@ class Messages::MessageBuilder
     return if forwarded_message_id.blank?
 
     raise StandardError, 'Forwarded emails need an email inbox' unless @conversation.inbox.email?
+    raise StandardError, 'Forwarded emails cannot be private' if @private
     raise StandardError, 'Forwarded emails need a recipient' if process_email_string(@params[:to_emails]).empty?
   end
 
