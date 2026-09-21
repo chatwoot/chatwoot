@@ -221,14 +221,17 @@ const flattenLink = (_match, text, url) => {
   return text === cleanUrl ? cleanUrl : `${text}: ${cleanUrl}`;
 };
 
-// Table block -> one `a | b` line per row, without the separator row. Escaped
-// pipes stay inside their cell.
-const flattenTable = (_match, header, body) =>
-  `${header}${body}`.replace(/^\|(.*)\|[ \t]*$/gm, (_row, cells) =>
-    cells
-      .split(/(?<!\\)\|/)
-      .map(cell => cell.trim())
-      .join(' | ')
+// Table block -> one `a | b` line per row, without the separator row. Rows keep
+// their container prefix (list indent, `> `); escaped pipes stay in their cell.
+const flattenTable = (_match, header, _prefix, body) =>
+  `${header}${body}`.replace(
+    /^([ \t>]*)\|(.*)\|[ \t]*$/gm,
+    (_row, prefix, cells) =>
+      prefix +
+      cells
+        .split(/(?<!\\)\|/)
+        .map(cell => cell.trim())
+        .join(' | ')
   );
 
 /**
@@ -252,11 +255,12 @@ export const MARKDOWN_PATTERNS = [
   {
     type: 'table', // PM: table, eg: | a | b |\n| --- | --- |\n| 1 | 2 |
     patterns: [
-      // Header row, separator row, then body rows: only a real table block
-      // matches, so a lone `| text |` line is left alone.
+      // Header row, separator row, then body rows, all behind the same
+      // container prefix (a table can sit in a list item or a quote). Only a
+      // real table block matches, so a lone `| text |` line is left alone.
       {
         pattern:
-          /^(\|.*\|[ \t]*)\n\|(?:[ \t]*:?-+:?[ \t]*\|)+[ \t]*$((?:\n\|.*\|[ \t]*$)*)/gm,
+          /^(([ \t>]*)\|.*\|[ \t]*)\n\2\|(?:[ \t]*:?-+:?[ \t]*\|)+[ \t]*$((?:\n\2\|.*\|[ \t]*$)*)/gm,
         replacement: flattenTable,
       },
     ],
