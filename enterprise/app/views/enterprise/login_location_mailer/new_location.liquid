@@ -4,9 +4,9 @@
 
 <p>Sign-in details:</p>
 <ul>
-  {% if city or country %}<li>Location: {{city}}{% if city and country %}, {% endif %}{{country}}</li>{% endif %}
-  {% if browser_name %}<li>Browser: {{browser_name}}{% if platform_name %} on {{platform_name}}{% endif %}</li>{% endif %}
-  {% if ip %}<li>IP address: {{ip}}</li>{% endif %}
+  {% if city or country %}<li>Location: {{city | escape}}{% if city and country %}, {% endif %}{{country | escape}}</li>{% endif %}
+  {% if browser_name %}<li>Browser: {{browser_name | escape}}{% if platform_name %} on {{platform_name | escape}}{% endif %}</li>{% endif %}
+  {% if ip %}<li>IP address: {{ip | escape}}</li>{% endif %}
 </ul>
 
 <p>If this was you, no action is needed.</p>

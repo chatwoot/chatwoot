@@ -30,6 +30,18 @@ RSpec.describe Enterprise::LoginLocationMailer, type: :mailer do
     expect(mail.body.encoded).to match(/reset your password/i)
   end
 
+  context 'when a client-supplied device label carries markup' do
+    let(:meta) do
+      { email: 'agent@example.com', city: 'Mumbai', country: 'India', ip: '203.0.113.7',
+        browser_name: '<a href="https://evil.example">Chrome</a>', platform_name: 'macOS' }
+    end
+
+    it 'escapes it instead of rendering the markup' do
+      expect(mail.body.encoded).not_to include('<a href="https://evil.example">')
+      expect(mail.body.encoded).to include('&lt;a href=')
+    end
+  end
+
   it 'uses the configured brand name on white-labeled installations' do
     create(:installation_config, name: 'BRAND_NAME', value: 'Acme Support')
     GlobalConfig.clear_cache
