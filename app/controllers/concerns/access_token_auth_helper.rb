@@ -25,8 +25,8 @@ module AccessTokenAuthHelper
     request.authorization.to_s[/\ABearer(?:\s+|\z)(.*)\z/i, 1]
   end
 
-  # DeviseTokenAuth also sends Base64-encoded JSON credentials in the Bearer header.
-  # Leave those credentials to dashboard authentication instead of looking them up as API tokens.
+  # Our dashboard UI uses DeviseTokenAuth, which can send login credentials in the Bearer header.
+  # Let DeviseTokenAuth handle those credentials instead of treating them as API tokens.
   def dashboard_bearer_token?
     return false unless respond_to?(:decode_bearer_token, true)
 
