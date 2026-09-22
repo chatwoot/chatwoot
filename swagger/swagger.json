@@ -5112,9 +5112,6 @@
           },
           {
             "userApiKey": []
-          },
-          {
-            "agentBotApiKey": []
           }
         ],
         "description": "Get all details regarding a conversation with all messages in the conversation",
@@ -5647,9 +5644,6 @@
           },
           {
             "userApiKey": []
-          },
-          {
-            "agentBotApiKey": []
           }
         ],
         "requestBody": {
@@ -5920,9 +5914,6 @@
           },
           {
             "userApiKey": []
-          },
-          {
-            "agentBotApiKey": []
           }
         ],
         "description": "Lists all the labels of a conversation",
@@ -5974,9 +5965,6 @@
           },
           {
             "userApiKey": []
-          },
-          {
-            "agentBotApiKey": []
           }
         ],
         "description": "Add labels to a conversation. Note that this API would overwrite the existing list of labels associated to the conversation.",
