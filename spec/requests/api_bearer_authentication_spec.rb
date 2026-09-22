@@ -23,8 +23,8 @@ RSpec.describe 'API bearer authentication', type: :request do
     expect(response.parsed_body['id']).to eq(user.id)
   end
 
-  it 'does not fall back to the legacy header for an invalid bearer token' do
-    get '/api/v1/profile', headers: { Authorization: 'Bearer invalid', api_access_token: token }
+  it 'does not fall back to the legacy header for an empty bearer token' do
+    get '/api/v1/profile', headers: { Authorization: 'Bearer', api_access_token: token }
     expect(response).to have_http_status(:unauthorized)
   end
 

@@ -7,11 +7,11 @@ module AccessTokenAuthHelper
   }.freeze
 
   def authenticate_by_access_token?
-    legacy_access_token.present? || (bearer_authorization? && !dashboard_bearer_token?)
+    legacy_access_token.present? || (!bearer_access_token.nil? && !dashboard_bearer_token?)
   end
 
   def ensure_access_token
-    token = bearer_authorization? ? bearer_access_token : legacy_access_token
+    token = bearer_access_token || legacy_access_token
     @access_token = AccessToken.find_by(token: token) if token.present?
   end
 
@@ -19,13 +19,10 @@ module AccessTokenAuthHelper
     request.headers[:api_access_token] || request.headers[:HTTP_API_ACCESS_TOKEN]
   end
 
-  def bearer_authorization?
-    request.authorization.to_s.match?(/\ABearer(?:\s|\z)/i)
-  end
-
   # TODO: Use request.bearer_token once we upgrade to a Rails version that provides it.
   def bearer_access_token
-    request.authorization.to_s[%r{\ABearer +([A-Za-z0-9\-._~+/]+=*)\z}i, 1]
+    # An empty credential must not fall back to another authentication method.
+    request.authorization.to_s[/\ABearer(?:\s+|\z)(.*)\z/i, 1]
   end
 
   def dashboard_bearer_token?
