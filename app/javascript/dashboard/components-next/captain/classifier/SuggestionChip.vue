@@ -18,7 +18,7 @@ const STAGGER_CLASSES = [
 
 <template>
   <div
-    class="relative inline-flex items-center h-6 gap-1 p-1 mb-1 overflow-hidden text-xs font-medium border rounded-[4px] cursor-pointer me-1 border-n-iris-6 bg-n-iris-2 text-n-slate-12 transition-all duration-150 hover:bg-n-iris-3 hover:border-n-iris-7 hover:-translate-y-px active:translate-y-0 active:scale-95 animate-pop-in before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/50 dark:before:via-white/5 before:to-transparent before:animate-shimmer before:pointer-events-none"
+    class="relative inline-flex items-center h-6 gap-1 p-1 mb-1 overflow-hidden text-xs font-medium border rounded cursor-pointer me-1 border-n-iris-6 bg-n-iris-2 text-n-slate-12 transition-all duration-150 hover:bg-n-iris-3 hover:border-n-iris-7 hover:-translate-y-px active:translate-y-0 active:scale-95 animate-pop-in before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/50 dark:before:via-white/5 before:to-transparent before:animate-shimmer before:pointer-events-none"
     :class="STAGGER_CLASSES[index] || STAGGER_CLASSES.at(-1)"
     :title="$t('CONVERSATION.SUGGESTIONS.ACCEPT')"
     @click="emit('accept')"
