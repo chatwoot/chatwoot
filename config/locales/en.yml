@@ -215,7 +215,7 @@ en:
       feature_unavailable: MFA feature is not available. Please configure encryption keys.
     device_verification:
       invalid_token: Invalid or expired verification token, sign in again to get a new code
-      invalid_code: Invalid verification code
+      invalid_code: Incorrect code. Enter the 6-digit code we sent to your email.
       expired: Verification code expired, sign in again to get a new one
       locked: Too many incorrect codes, sign in again to get a new one
       stale: Your account changed since this code was issued, sign in again
