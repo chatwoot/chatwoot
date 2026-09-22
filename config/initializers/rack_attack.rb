@@ -55,7 +55,11 @@ class Rack::Attack
     end
 
     def normalized_auth_email
-      auth_param('email')&.downcase&.gsub(/\s+/, '')
+      # Sign-in also accepts the email via an 'email' request header, which the
+      # controller merges into params. Read it too so a header-authenticated login
+      # still counts against the per-email throttle instead of escaping it.
+      email = auth_param('email') || get_header('HTTP_EMAIL').presence
+      email&.downcase&.gsub(/\s+/, '')
     end
   end
 

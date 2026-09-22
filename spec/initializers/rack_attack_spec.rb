@@ -55,6 +55,12 @@ describe 'Rack::Attack auth throttles' do
       expect(key).to eq('user@example.com')
     end
 
+    it 'keys sign-ins that pass the email via request header' do
+      env = build_env('/auth/sign_in', '{"password":"x"}', 'application/json')
+      env['HTTP_EMAIL'] = ' User@Example.COM '
+      expect(throttle_key('login/email', env)).to eq('user@example.com')
+    end
+
     it 'skips JSON verification submissions carrying mfa_token' do
       expect(throttle_key('login/email', json_env({ mfa_token: 'tok', otp_code: '123456' }))).to be_nil
     end
