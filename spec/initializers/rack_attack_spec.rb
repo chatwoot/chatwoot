@@ -152,6 +152,7 @@ describe 'Rack::Attack auth throttles' do
       name = '/api/v2/accounts/:account_id/reports/user'
       expect(throttle_key(name, env.merge('HTTP_UID' => credentials[:uid]))).to eq('user@example.com:1')
       expect(throttle_key(name, env.merge('HTTP_AUTHORIZATION' => "Bearer #{encoded}"))).to eq('user@example.com:1')
+      expect(throttle_key(name, env.merge('HTTP_AUTHORIZATION' => "Bearer junk #{encoded}"))).to eq('user@example.com:1')
     end
 
     it 'skips missing and empty credentials' do

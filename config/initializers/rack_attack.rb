@@ -75,7 +75,7 @@ class Rack::Attack
     end
 
     def bearer_user_identifier(token)
-      credentials = JSON.parse(Base64.strict_decode64(token.to_s))
+      credentials = JSON.parse(Base64.strict_decode64(token.to_s.split.last.to_s))
       # Dashboard Bearer credentials must retain the existing UID-based bucket.
       if credentials.is_a?(Hash) && credentials.values_at('uid', 'client', 'access-token').all?(&:present?)
         get_header('HTTP_UID').presence || credentials['uid']
