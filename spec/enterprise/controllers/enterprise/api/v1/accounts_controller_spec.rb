@@ -111,9 +111,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           )
           shopify_admin = create(:user, account: shopify_account, role: :administrator)
           shopify_account.enable_features!('shopify_integration')
-          allow(GlobalConfigService).to receive(:load)
-            .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-            .and_return(true)
+          create(:installation_config, name: 'ENABLE_SHOPIFY_INTEGRATION', value: true)
 
           expect do
             post "/enterprise/api/v1/accounts/#{shopify_account.id}/subscription",
@@ -139,9 +137,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           )
           shopify_admin = create(:user, account: shopify_account, role: :administrator)
           shopify_account.enable_features!('shopify_integration')
-          allow(GlobalConfigService).to receive(:load)
-            .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-            .and_return(true)
+          create(:installation_config, name: 'ENABLE_SHOPIFY_INTEGRATION', value: true)
 
           expect(Enterprise::Billing::CreateSessionService).not_to receive(:new)
 

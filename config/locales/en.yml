@@ -213,6 +213,14 @@ en:
       invalid_token: Invalid or expired MFA token
       invalid_credentials: Invalid credentials or verification code
       feature_unavailable: MFA feature is not available. Please configure encryption keys.
+    device_verification:
+      invalid_token: Invalid or expired verification token, sign in again to get a new code
+      invalid_code: Incorrect code. Enter the 6-digit code we sent to your email.
+      expired: Verification code expired, sign in again to get a new one
+      locked: Too many incorrect codes, sign in again to get a new one
+      stale: Your account changed since this code was issued, sign in again
+      rate_limited: Too many verification attempts, try again later or reset your password
+      code_field_required: Enter the 6-digit code from your email in the verification code field, not the backup code field
     billing:
       invalid_currency: Invalid billing currency
       currency_locked: Billing currency cannot be changed after billing has been set up
@@ -491,7 +499,7 @@ en:
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
-      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per assistant'
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
