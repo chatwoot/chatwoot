@@ -78,4 +78,48 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(twilio_client).not_to have_received(:conferences)
     end
   end
+
+  describe '#end_conference_unless_agents_remain' do
+    let(:conferences_proxy) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceList) }
+    let(:conf_instance) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceInstance, sid: 'CF123') }
+    let(:conf_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext, update: nil) }
+    let(:participants_proxy) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::ParticipantList) }
+
+    def participant(label)
+      instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::ParticipantInstance, label: label)
+    end
+
+    before do
+      call.update!(conference_sid: 'CF123_FRIENDLY')
+      allow(twilio_client).to receive(:conferences).with(no_args).and_return(conferences_proxy)
+      allow(conferences_proxy).to receive(:list).with(friendly_name: 'CF123_FRIENDLY', status: 'in-progress').and_return([conf_instance])
+      allow(twilio_client).to receive(:conferences).with('CF123').and_return(conf_context)
+      allow(conf_context).to receive(:participants).and_return(participants_proxy)
+    end
+
+    it 'ends the conference when only the contact is left' do
+      allow(participants_proxy).to receive(:list).and_return([participant('contact'), participant('agent-1-account-1')])
+
+      service.end_conference_unless_agents_remain(leaving_label: 'agent-1-account-1')
+
+      expect(conf_context).to have_received(:update).with(status: 'completed')
+    end
+
+    it 'keeps the conference when another agent is still on the call' do
+      allow(participants_proxy).to receive(:list).and_return([participant('contact'), participant('agent-1-account-1'),
+                                                              participant('agent-2-account-1')])
+
+      service.end_conference_unless_agents_remain(leaving_label: 'agent-1-account-1')
+
+      expect(conf_context).not_to have_received(:update)
+    end
+
+    it 'no-ops when call has no conference_sid' do
+      call.update!(conference_sid: nil)
+
+      service.end_conference_unless_agents_remain(leaving_label: 'agent-1-account-1')
+
+      expect(conf_context).not_to have_received(:update)
+    end
+  end
 end

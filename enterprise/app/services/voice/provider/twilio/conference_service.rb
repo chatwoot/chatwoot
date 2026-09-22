@@ -16,14 +16,36 @@ class Voice::Provider::Twilio::ConferenceService
   def end_conference
     return if call.conference_sid.blank?
 
-    client = call.inbox.channel.client
-    client
-      .conferences
-      .list(friendly_name: call.conference_sid, status: 'in-progress')
-      .each { |conf| client.conferences(conf.sid).update(status: 'completed') }
+    in_progress_conferences.each { |conf| client.conferences(conf.sid).update(status: 'completed') }
+  end
+
+  # The agent leg is gone; unless another agent is still on the call, the contact would be
+  # left alone in the conference, so it is ended for them too
+  def end_conference_unless_agents_remain(leaving_label:)
+    return if call.conference_sid.blank?
+
+    in_progress_conferences.each do |conf|
+      next if other_agent_present?(conf.sid, leaving_label)
+
+      client.conferences(conf.sid).update(status: 'completed')
+    end
   end
 
   private
+
+  def client
+    @client ||= call.inbox.channel.client
+  end
+
+  def in_progress_conferences
+    client.conferences.list(friendly_name: call.conference_sid, status: 'in-progress')
+  end
+
+  def other_agent_present?(conference_sid, leaving_label)
+    client.conferences(conference_sid).participants.list.any? do |participant|
+      participant.label.to_s.start_with?('agent-') && participant.label != leaving_label
+    end
+  end
 
   def claim_call!(user)
     call.with_lock do

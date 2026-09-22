@@ -94,7 +94,16 @@ class Voice::Conference::Manager
       status_manager.process_status_update('no_answer', timestamp: now)
     when 'in_progress'
       status_manager.process_status_update('completed', timestamp: now)
+      hang_up_contact_if_alone! if agent_participant?
     end
+  end
+
+  # A phone can drop its leg without ever sending DELETE conference: the app was killed,
+  # the network went, or the OS ended the call. The contact must not be left in silence.
+  def hang_up_contact_if_alone!
+    Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference_unless_agents_remain(leaving_label: participant_label)
+  rescue StandardError => e
+    Rails.logger.error("[VOICE] call #{call.id}: could not end conference after agent leave: #{e.class}: #{e.message}")
   end
 
   def finalize!
