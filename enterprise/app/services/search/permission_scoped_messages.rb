@@ -3,12 +3,6 @@ class Search::PermissionScopedMessages
 
   pattr_initialize [:search!, :scope!]
 
-  def total_count
-    total = 0
-    each_permitted_batch { |ids| total += ids.length }
-    total
-  end
-
   def records(page:, per_page:)
     offset = ([page.to_i, 1].max - 1) * per_page
     message_ids = []

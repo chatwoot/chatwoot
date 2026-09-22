@@ -16,6 +16,7 @@ import { generateURLParams, parseURLParams } from '../helpers/searchHelper';
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,
+  MANAGE_ALL_CONVERSATION_PERMISSIONS,
   CONTACT_PERMISSIONS,
   PORTAL_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
@@ -39,7 +40,7 @@ const store = useStore();
 const searchStore = useSearchStore();
 const { currentAccount } = useAccount();
 const { t } = useI18n();
-const { shouldShow, isFeatureFlagEnabled } = usePolicy();
+const { shouldShow, isFeatureFlagEnabled, checkPermissions } = usePolicy();
 const currentUser = useMapGetter('getCurrentUser');
 
 const selectedTab = ref(route.params.tab || 'all');
@@ -116,13 +117,20 @@ const TABS_CONFIG = {
   },
 };
 
+const canCountConversations = computed(() =>
+  checkPermissions([...ROLES, MANAGE_ALL_CONVERSATION_PERMISSIONS])
+);
+
 const tabs = computed(() => {
   return Object.entries(TABS_CONFIG)
     .map(([key, config]) => ({
       key,
       name: t(`SEARCH.TABS.${key.toUpperCase()}`),
-      count: searchStore.countFor(key),
-      showBadge: key !== 'all',
+      count: searchStore.countFor(key, isSelectedTabAll.value),
+      showBadge:
+        key !== 'all' &&
+        (!['conversations', 'messages'].includes(key) ||
+          canCountConversations.value),
       permissions: config.permissions,
       featureFlag: config.featureFlag,
     }))
@@ -148,6 +156,10 @@ const visibleEntities = computed(() =>
   tabs.value.map(tab => tab.key).filter(key => key !== 'all')
 );
 
+const countableEntities = computed(() =>
+  tabs.value.filter(tab => tab.showBadge).map(tab => tab.key)
+);
+
 const focusedEntities = computed(() =>
   visibleEntities.value.filter(
     type => isSelectedTabAll.value || type === selectedTab.value
@@ -162,8 +174,12 @@ const hasResultError = computed(() =>
   focusedEntities.value.some(type => resultsOf(type).hasError)
 );
 
+const isMessageCountStale = computed(() =>
+  searchStore.isMessageCountStale(isSelectedTabAll.value)
+);
+
 const showCountError = computed(
-  () => searchStore.hasCountError || searchStore.isMessageCountStale
+  () => searchStore.hasCountError || isMessageCountStale.value
 );
 
 const totalSearchResultsCount = computed(
@@ -194,7 +210,7 @@ const showLoadMore = computed(() => {
 
 const showViewMore = type => {
   if (!isSelectedTabAll.value) return false;
-  const count = searchStore.countFor(type);
+  const count = searchStore.countFor(type, true);
   return count === null
     ? searchStore.previews[type].hasMore
     : count > PREVIEW_PER_PAGE;
@@ -253,13 +269,15 @@ const updateURL = () => {
   router.replace({ name: 'search', params, query: queryParams });
 };
 
-const fetchCounts = () =>
+const fetchCounts = () => {
+  if (!countableEntities.value.length) return;
   requests.counts.run(signal =>
     searchStore.fetchCounts(
-      buildSearchPayload({ q: query.value, types: visibleEntities.value }),
+      buildSearchPayload({ q: query.value, types: countableEntities.value }),
       { signal }
     )
   );
+};
 
 const fetchResults = (type, page = 1) =>
   requests.results[type].run(signal =>
@@ -301,15 +319,6 @@ const retryResults = () => {
     );
 };
 
-// A stale message count means counts and messages came from different
-// backends, so both sides are refreshed to let them agree again.
-const retryCounts = () => {
-  fetchCounts();
-  if (!searchStore.isMessageCountStale) return;
-  if (searchStore.previews.messages.page) fetchPreview('messages');
-  if (searchStore.results.messages.page) fetchResults('messages');
-};
-
 const onSearch = q => {
   query.value = q.trim();
   clearSearchResult();
@@ -322,6 +331,16 @@ const onSearch = q => {
   useTrack(CONVERSATION_EVENTS.SEARCH_CONVERSATION);
   fetchCounts();
   fetchFocusedResults();
+};
+
+const retryCounts = () => {
+  // Restart a mismatched search so cached results cannot keep a count stale.
+  // Only the focused tab's results are fetched again.
+  if (isMessageCountStale.value) {
+    onSearch(query.value);
+    return;
+  }
+  fetchCounts();
 };
 
 const onFilterChange = () => {

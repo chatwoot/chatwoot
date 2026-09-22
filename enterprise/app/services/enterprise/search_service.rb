@@ -11,6 +11,10 @@ module Enterprise::SearchService
     super & allowed
   end
 
+  def countable_types
+    restricted_conversation_access? ? super - %w[conversations messages] : super
+  end
+
   def advanced_search(count: false)
     where_conditions = build_where_conditions
     apply_filters(where_conditions)
@@ -21,23 +25,23 @@ module Enterprise::SearchService
       where: where_conditions,
       **advanced_search_options(count: count)
     )
-    return count ? results.total_count : results.to_a unless restricted_conversation_access?
+    return results.total_count if count
+    return results.to_a unless restricted_conversation_access?
 
     scope = current_account.messages.where(conversation_id: accessible_conversations.select(:id))
-    permitted = Search::PermissionScopedMessages.new(search: results, scope: scope)
-    count ? permitted.total_count : permitted.records(page: params[:page], per_page: page_size)
+    Search::PermissionScopedMessages.new(search: results, scope: scope).records(page: params[:page], per_page: page_size)
   end
 
   private
 
   def advanced_search_options(count:)
-    return { limit: 0, load: false, body_options: { track_total_hits: true } } if count && !restricted_conversation_access?
+    return { limit: 0, load: false, body_options: { track_total_hits: true } } if count
 
     # id breaks created_at ties; unmapped_type supports older indexed documents.
     order = { created_at: :desc, id: { order: :desc, unmapped_type: 'long' } }
     return { order: order, page: params[:page] || 1, per_page: page_size } unless restricted_conversation_access?
 
-    { order: count ? { _doc: :asc } : order, limit: Search::PermissionScopedMessages::BATCH_SIZE, scroll: '1m', load: false, select: [] }
+    { order: order, limit: Search::PermissionScopedMessages::BATCH_SIZE, scroll: '1m', load: false, select: [] }
   end
 
   def message_base_query

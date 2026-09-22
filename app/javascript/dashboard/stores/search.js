@@ -30,6 +30,7 @@ const emptyResults = () =>
         hasMore: false,
         isFetching: false,
         hasError: false,
+        backend: null,
       },
     ])
   );
@@ -38,7 +39,6 @@ export const useSearchStore = defineStore('search', {
   state: () => ({
     counts: {},
     countBackend: null,
-    messageBackend: null,
     isFetchingCounts: false,
     hasCountError: false,
     results: emptyResults(),
@@ -47,15 +47,17 @@ export const useSearchStore = defineStore('search', {
 
   getters: {
     // The message count is wrong once the indexed search fell back to SQL
-    isMessageCountStale: state =>
-      Boolean(
-        state.countBackend &&
-          state.messageBackend &&
-          state.countBackend !== state.messageBackend
-      ),
+    isMessageCountStale:
+      state =>
+      (preview = false) => {
+        const { backend } = (preview ? state.previews : state.results).messages;
+        return Boolean(
+          state.countBackend && backend && state.countBackend !== backend
+        );
+      },
     countFor() {
-      return type =>
-        type === 'messages' && this.isMessageCountStale
+      return (type, preview = false) =>
+        type === 'messages' && this.isMessageCountStale(preview)
           ? null
           : (this.counts[type] ?? null);
     },
@@ -98,8 +100,7 @@ export const useSearchStore = defineStore('search', {
         // hasMore uses the raw page size: the records above may shrink on
         // dedupe, so stored counts cannot signal whether more pages exist
         results.hasMore = records.length === perPage;
-        if (type === 'messages')
-          this.messageBackend = data.meta.message_backend;
+        if (type === 'messages') results.backend = data.meta.message_backend;
       } catch (error) {
         if (!signal?.aborted) results.hasError = true;
       } finally {

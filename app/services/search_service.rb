@@ -16,7 +16,7 @@ class SearchService
   end
 
   def counts(types)
-    (types & available_types).to_h do |type|
+    (types & countable_types).to_h do |type|
       results = type == 'messages' ? filter_messages(count: true) : send("filter_#{type}")
       total = results.is_a?(ActiveRecord::Relation) ? results.except(:limit, :offset, :order).count : results
       [type, total]
@@ -25,6 +25,10 @@ class SearchService
 
   def available_types
     current_account.feature_enabled?('help_center') ? SEARCH_TYPES.keys : SEARCH_TYPES.keys - ['articles']
+  end
+
+  def countable_types
+    available_types
   end
 
   private

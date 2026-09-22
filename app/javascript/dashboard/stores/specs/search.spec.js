@@ -35,6 +35,7 @@ describe('search store', () => {
       hasMore: false,
       isFetching: false,
       hasError: false,
+      backend: null,
     });
   });
 
@@ -92,7 +93,20 @@ describe('search store', () => {
       await store.fetchCounts({ q: 'hi', types: ['messages'] });
       await store.fetchResults('messages', { q: 'hi' });
 
-      expect(store.isMessageCountStale).toBe(true);
+      expect(store.isMessageCountStale()).toBe(true);
+      expect(store.countFor('messages')).toBeNull();
+
+      SearchAPI.messages.mockResolvedValue({
+        data: {
+          payload: { messages: page(5) },
+          meta: { message_backend: 'opensearch' },
+        },
+      });
+      await store.fetchResults('messages', { q: 'hi' }, { preview: true });
+
+      expect(store.isMessageCountStale(true)).toBe(false);
+      expect(store.countFor('messages', true)).toBe(37);
+      expect(store.isMessageCountStale()).toBe(true);
       expect(store.countFor('messages')).toBeNull();
     });
 
@@ -144,8 +158,9 @@ describe('search store', () => {
         hasMore: true,
         isFetching: false,
         hasError: false,
+        backend: 'gin',
       });
-      expect(store.messageBackend).toBe('gin');
+      expect(store.results.messages.backend).toBe('gin');
     });
 
     it('appends later pages without duplicating overlapping records', async () => {
@@ -179,6 +194,7 @@ describe('search store', () => {
         hasMore: true,
         isFetching: false,
         hasError: true,
+        backend: null,
       });
     });
 
@@ -200,6 +216,7 @@ describe('search store', () => {
         hasMore: true,
         isFetching: false,
         hasError: false,
+        backend: null,
       });
       expect(store.results.contacts.page).toBe(0);
     });
@@ -237,6 +254,7 @@ describe('search store', () => {
       hasMore: false,
       isFetching: false,
       hasError: false,
+      backend: null,
     });
   });
 });
