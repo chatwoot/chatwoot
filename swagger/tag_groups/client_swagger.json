@@ -7829,7 +7829,7 @@
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user."
+        "description": "Deprecated starting in v4.19.0. Use bearerAuth with Authorization: Bearer <token> instead. The api_access_token header remains supported for backward compatibility. This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user."
       },
       "agentBotApiKey": {
         "type": "apiKey",
