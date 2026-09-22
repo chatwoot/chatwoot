@@ -104,6 +104,16 @@ RSpec.describe 'Device verification on sign-in', type: :request do
       expect(user.reload.user_sessions.count).to eq(1)
     end
 
+    it 'clears an expired lock and accumulated failures on successful device verification' do
+      user.update!(failed_attempts: Devise.maximum_attempts, locked_at: (Devise.unlock_in + 1.hour).ago)
+      sign_in!
+      redeem!(issued_token, emailed_codes.last)
+
+      expect(response).to have_http_status(:success)
+      expect(user.reload.failed_attempts).to eq(0)
+      expect(user.locked_at).to be_nil
+    end
+
     it 'does not set the trusted-device cookie when remember_device is false' do
       sign_in!
       redeem!(issued_token, emailed_codes.last, remember_device: false)

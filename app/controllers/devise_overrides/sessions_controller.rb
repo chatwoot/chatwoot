@@ -164,8 +164,6 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
       return render_mfa_error('errors.mfa.invalid_code')
     end
 
-    user.unlock_access! if user.locked_at.present?
-    user.reset_failed_attempts!
     sign_in_mfa_user(user)
   end
 
@@ -180,6 +178,10 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def sign_in_mfa_user(user)
+    # Shared success path for MFA and device-verification sign-ins. Clear a stale lock
+    # (the Warden reset hook zeroes failed_attempts but leaves locked_at) and the counter.
+    user.unlock_access! if user.locked_at.present?
+    user.reset_failed_attempts!
     evict_oldest_session(user) if sessions_limit_reached?(user)
     @resource = user
     @token = @resource.create_token
