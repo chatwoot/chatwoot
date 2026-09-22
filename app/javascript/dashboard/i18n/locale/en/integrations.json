@@ -629,9 +629,22 @@
       "RESET": "Reset",
       "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Select Assistant",
+      "NO_ASSISTANT": "No assistant",
+      "NEW_CHAT": "New chat",
+      "HISTORY": "Chat history",
+      "HISTORY_LOADING": "Loading chats…",
+      "HISTORY_EMPTY": "Your chats will appear here.",
+      "HISTORY_ERROR": "Could not load your chats.",
+      "MESSAGES_LOADING": "Loading messages…",
+      "MESSAGES_ERROR": "Could not load messages.",
+      "LOAD_MORE": "Load more chats",
+      "LOAD_OLDER": "Load older messages",
+      "RETRY": "Try again",
+      "EXECUTION_UNAVAILABLE": "You can read this chat, but Copilot is currently unavailable for new messages.",
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "Summarize this conversation",
+          "V2_CONTENT": "Summarize conversation #{conversationId}, including the customer’s concerns, questions, and the solutions or responses provided by the support agent.",
           "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
         },
         "SUGGEST": {
@@ -640,6 +653,7 @@
         },
         "RATE": {
           "LABEL": "Rate this conversation",
+          "V2_CONTENT": "Review conversation #{conversationId} and how well it meets the customer’s needs. Share a rating out of 5 based on tone, clarity, and effectiveness.",
           "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
         },
         "HIGH_PRIORITY": {

@@ -2,6 +2,7 @@
 import { ref, nextTick, onMounted } from 'vue';
 
 const props = defineProps({
+  disabled: { type: Boolean, default: false },
   onSend: {
     type: Function,
     required: true,
@@ -21,7 +22,7 @@ const adjustHeight = () => {
 };
 
 const sendMessage = async () => {
-  if (message.value.trim() && !isSending.value) {
+  if (message.value.trim() && !isSending.value && !props.disabled) {
     isSending.value = true;
     try {
       const isSuccess = await props.onSend(message.value);
@@ -59,6 +60,8 @@ onMounted(() => {
       ref="textareaRef"
       v-model="message"
       :readonly="isSending"
+      :disabled="disabled"
+      :aria-label="$t('CAPTAIN.COPILOT.SEND_MESSAGE')"
       :placeholder="$t('CAPTAIN.COPILOT.SEND_MESSAGE')"
       class="w-full reset-base bg-n-alpha-3 ltr:pl-4 ltr:pr-12 rtl:pl-12 rtl:pr-4 py-3 text-sm border border-n-weak rounded-lg focus:outline-0 focus:outline-none focus:ring-2 focus:ring-n-blue-11 focus:border-n-blue-11 resize-none overflow-y-auto max-h-[200px] mb-0 text-n-slate-12 read-only:cursor-wait read-only:opacity-60"
       rows="1"
@@ -66,7 +69,8 @@ onMounted(() => {
       @keydown.enter.exact="handleEnterKey"
     />
     <button
-      :disabled="isSending"
+      :disabled="isSending || disabled"
+      :aria-label="$t('CAPTAIN.COPILOT.SEND_MESSAGE')"
       class="absolute ltr:right-1 rtl:left-1 top-1/2 -translate-y-1/2 h-9 w-10 flex items-center justify-center text-n-slate-11 hover:text-n-blue-11 disabled:cursor-not-allowed disabled:opacity-60"
       type="submit"
     >

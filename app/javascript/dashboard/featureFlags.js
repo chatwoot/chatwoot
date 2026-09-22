@@ -39,6 +39,7 @@ export const FEATURE_FLAGS = {
   LINEAR: 'linear_integration',
   SHOPIFY: 'shopify_integration',
   CAPTAIN: 'captain_integration',
+  COPILOT_V2: 'copilot_v2',
   CUSTOM_ROLES: 'custom_roles',
   CHATWOOT_V4: 'chatwoot_v4',
   CHANNEL_INSTAGRAM: 'channel_instagram',

@@ -16,6 +16,13 @@ The stack starts from `origin/develop` at `ef2c00a67e`, fetched before phase 1. 
 | Resource coverage | `codex/copilot-v2-04-resources` |
 | Backend API | `codex/copilot-v2-05-api` |
 | Verification | `codex/copilot-v2-06-verification` |
+| Session history UI | `codex/copilot-v2-07-session-history` |
+
+### Session history UI contract
+
+With `copilot_v2` enabled, Cloud and self-hosted Enterprise users can reopen their own saved Copilot chats, start a new chat, and send a normal chat without selecting an Assistant. An optional Assistant narrows knowledge for a new thread. Reopening a thread preserves its Assistant and engine. The same flag controls the new UI; flag-off accounts retain the existing Captain Copilot and reply-suggestion behavior. No Captain execution configuration changes.
+
+History stays private to the signed-in user and account, including for Super Admin users. There are no new Super Admin or customer settings. The existing Copilot model and account rollout setting remain the configuration sources. New chat clears the current draft and selection without deleting history. Message history loads the newest page first and allows older messages to be fetched. History requests and account changes must not mix messages between sessions.
 
 The `copilot_v2` account flag selects the engine for new normal chat threads. Existing threads retain their engine. Reply suggestions keep the existing path. The Assistant is optional only for V2 threads. Disabling the flag pauses V2 execution at its next checked boundary; it does not rewrite history. Owners can still read saved runs and cancel them. Resume requires the flag and preserves consumed budgets. Super Admin status does not grant access to another user's private thread.
 
@@ -27,8 +34,10 @@ Use authenticated requests under `/api/v1/accounts/:account_id/captain/copilot_t
 
 | Request | Result |
 | --- | --- |
+| `GET /copilot_threads?page=1` | Lists the current user's threads, newest first, in pages of five. Includes `meta.page`, `meta.total_count`, and `meta.next_page`. |
 | `POST /copilot_threads` with `{ "message": "Find recent requests" }` | Creates the thread and initial user message. Returns the thread, including its engine and execution availability. |
 | `GET /copilot_threads/:thread_id/copilot_messages` | Returns `payload` with messages. Read `copilot_run_id` from the user message to locate its run. Thread creation does not return that ID. |
+| `GET /copilot_threads/:thread_id/copilot_messages?history=true&page=1` | Loads the newest 20 messages in display order. Later pages load older messages. Includes the same pagination metadata; the default endpoint retains its existing ascending order and page size. |
 | `POST /copilot_threads/:thread_id/copilot_messages` with `{ "message": "App slowness" }` | Continues a pending clarification on the same run, or creates a new run. |
 | `GET /copilot_threads/:thread_id/copilot_runs/:run_id` | Returns version, status, reason, saved answer/results, datasets, usage, and execution availability. |
 | `POST /copilot_threads/:thread_id/copilot_runs/:run_id/resume` | Resumes incomplete work against its saved snapshot and budget. |
@@ -92,4 +101,8 @@ Artifacts are `local/copilot-v2-validation/app-boundary-live.json`, `customer-co
 
 Earlier live attempts exposed unnecessary date-window clarification, undeclared reserved analysis fields, and unclear report ordering/publication. The final phase clarifies those generic contracts and preserves the earlier artifacts locally. The final V2 service suite passed 79 examples with zero failures after these changes. Existing Captain execution, task, reply-suggestion, provider, and prompt sources have no diff from the stack baseline.
 
-The isolated Cook environment is `copilot-v2-5cc6`, with Rails at `http://localhost:3011`, Vite on port 3146, and Redis database 11. Use `john@acme.inc` and `Password1!` for the seeded local account. Enable `copilot_v2` on that local account and create a new chat thread to use V2; existing threads keep their original engine. Frontend changes are outside this backend work; use the API to inspect saved structured results. The parent task confirms service availability at handoff and leaves the environment running as requested. Keep the feature restricted to selected internal accounts until reviewed labels, production bounds, retention, billing, and release thresholds are agreed.
+Phase 7 passed 38 frontend tests across six files and 22 API examples with zero failures. Focused RuboCop reported no offenses; ESLint reported no errors and three dynamic translation-key warnings. Browser checks covered starting an assistant-free chat, reopening and continuing it, selecting and clearing an Assistant, clearing a draft with New chat, paginating session history, and loading 20 messages followed by six older messages. The built-in V2 conversation prompts include the selected conversation ID. Flag-off and reply-suggestion behavior are covered by focused frontend tests.
+
+Desktop and mobile states were inspected in the Codex in-app browser. Two synthetic requests completed through the configured local model and were verified in persisted messages and runs. The seven seeded history threads, live test thread, messages, and runs were then removed. All 100 imported support messages remained present. Local screenshots and the verification report are in `local/copilot-v2-validation/phase7-ui/`. Imported customer content was not used for the live model checks.
+
+The isolated Cook environment is `copilot-v2-5cc6`, with Rails at `http://localhost:3011`, Vite on port 3146, and Redis database 11. Use `john@acme.inc` and `Password1!` for the seeded local account. Enable `copilot_v2` on that local account and create a new chat thread to use V2; existing threads keep their original engine. Phase 7 adds the session UI; use the API to inspect saved structured results and run controls. The parent task confirms service availability at handoff and leaves the environment running as requested. Keep the feature restricted to selected internal accounts until reviewed labels, production bounds, retention, billing, and release thresholds are agreed.

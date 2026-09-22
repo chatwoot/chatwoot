@@ -5,6 +5,8 @@ import { useRoute } from 'vue-router';
 import Icon from '../icon/Icon.vue';
 
 const props = defineProps({
+  v2Enabled: { type: Boolean, default: false },
+  conversationId: { type: [Number, String], default: null },
   hasAssistants: {
     type: Boolean,
     default: false,
@@ -24,6 +26,7 @@ const routePromptMap = {
     {
       label: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL',
       prompt: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.CONTENT',
+      v2Prompt: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.V2_CONTENT',
     },
     {
       label: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL',
@@ -33,6 +36,7 @@ const routePromptMap = {
     {
       label: 'CAPTAIN.COPILOT.PROMPTS.RATE.LABEL',
       prompt: 'CAPTAIN.COPILOT.PROMPTS.RATE.CONTENT',
+      v2Prompt: 'CAPTAIN.COPILOT.PROMPTS.RATE.V2_CONTENT',
     },
   ],
   dashboard: [
@@ -55,7 +59,8 @@ const getCurrentRoute = () => {
 };
 
 const promptOptions = computed(() => {
-  const currentRoute = getCurrentRoute();
+  const currentRoute =
+    props.v2Enabled && !props.conversationId ? 'dashboard' : getCurrentRoute();
   const prompts = routePromptMap[currentRoute] || routePromptMap.conversations;
 
   return prompts.filter(
@@ -64,7 +69,10 @@ const promptOptions = computed(() => {
 });
 
 const handleSuggestion = opt => {
-  const message = t(opt.prompt);
+  const message =
+    props.v2Enabled && opt.v2Prompt
+      ? t(opt.v2Prompt, { conversationId: props.conversationId })
+      : t(opt.prompt);
   emit(
     'useSuggestion',
     opt.requestType ? { message, requestType: opt.requestType } : message

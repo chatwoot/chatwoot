@@ -47,6 +47,23 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
         expect(response).to have_http_status(:success)
         expect(json_response[:payload].pluck(:id)).to eq(threads.reverse.pluck(:id))
       end
+
+      it 'paginates only the current owner history with a stable order' do
+        threads = create_list(:captain_copilot_thread, 6, account: account, user: agent, created_at: Time.current.change(usec: 0))
+        create(:captain_copilot_thread, account: account, user: admin)
+        headers = agent.create_new_auth_token
+        path = "/api/v1/accounts/#{account.id}/captain/copilot_threads"
+
+        get path, headers: headers, as: :json
+
+        expect(json_response[:payload].pluck(:id)).to eq(threads.last(5).reverse.pluck(:id))
+        expect(json_response[:meta]).to eq(page: 1, total_count: 6, next_page: 2)
+
+        get path, params: { page: 2 }, headers: headers, as: :json
+
+        expect(json_response[:payload].pluck(:id)).to eq([threads.first.id])
+        expect(json_response[:meta]).to eq(page: 2, total_count: 6, next_page: nil)
+      end
     end
   end
 

@@ -9,13 +9,14 @@ import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
 
 const props = defineProps({
+  allowNone: { type: Boolean, default: false },
   assistants: {
     type: Array,
     required: true,
   },
   activeAssistant: {
     type: Object,
-    required: true,
+    default: null,
   },
 });
 
@@ -24,8 +25,9 @@ const emit = defineEmits(['setAssistant']);
 const { t } = useI18n();
 
 const activeAssistantLabel = computed(() => {
-  return props.activeAssistant
-    ? props.activeAssistant.name
+  if (props.activeAssistant) return props.activeAssistant.name;
+  return props.allowNone
+    ? t('CAPTAIN.COPILOT.NO_ASSISTANT')
     : t('CAPTAIN.COPILOT.SELECT_ASSISTANT');
 });
 </script>
@@ -47,10 +49,15 @@ const activeAssistantLabel = computed(() => {
       <DropdownBody class="bottom-9 min-w-64 z-50" strong>
         <DropdownSection class="[&>ul]:max-h-80">
           <DropdownItem
+            v-if="allowNone"
+            :label="$t('CAPTAIN.COPILOT.NO_ASSISTANT')"
+            :click="() => emit('setAssistant', null)"
+          />
+          <DropdownItem
             v-for="assistant in assistants"
             :key="assistant.id"
             class="!items-start !gap-1 flex-col cursor-pointer"
-            @click="() => emit('setAssistant', assistant)"
+            :click="() => emit('setAssistant', assistant)"
           >
             <template #label>
               <div class="flex gap-1 justify-between w-full">

@@ -6,8 +6,8 @@ class CopilotMessages extends ApiClient {
     super('captain/copilot_threads', { accountScoped: true });
   }
 
-  get(threadId) {
-    return axios.get(`${this.url}/${threadId}/copilot_messages`);
+  get(threadId, params = {}) {
+    return axios.get(`${this.url}/${threadId}/copilot_messages`, { params });
   }
 
   create({ threadId, ...rest }) {

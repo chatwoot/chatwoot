@@ -12,6 +12,19 @@ export default createStore({
     },
   },
   actions: mutationTypes => ({
+    async getPage({ commit, state }, { threadId, page = 1 }) {
+      const { data } = await CopilotMessagesAPI.get(threadId, {
+        page,
+        history: true,
+      });
+      // A websocket may have delivered a newer copy while this page was loading.
+      data.payload.forEach(record => {
+        if (!state.records.some(existing => existing.id === record.id)) {
+          commit(mutationTypes.UPSERT, record);
+        }
+      });
+      return data;
+    },
     upsert({ commit }, data) {
       commit(mutationTypes.UPSERT, data);
     },

@@ -35,10 +35,14 @@ const showCopilotLauncher = computed(() => {
     currentAccountId.value,
     FEATURE_FLAGS.CAPTAIN
   );
+  const isCopilotV2Enabled = isFeatureEnabledonAccount.value(
+    currentAccountId.value,
+    FEATURE_FLAGS.COPILOT_V2
+  );
   return (
-    isCaptainEnabled &&
+    (isCaptainEnabled || isCopilotV2Enabled) &&
     !uiSettings.value.is_copilot_panel_open &&
-    !isConversationRoute.value
+    (!isConversationRoute.value || isCopilotV2Enabled)
   );
 });
 const toggleSidebar = () => {
@@ -58,6 +62,7 @@ const toggleSidebar = () => {
       class="rounded-full bg-n-alpha-2 backdrop-blur-lg p-1 shadow hover:shadow-md"
     >
       <Button
+        :aria-label="$t('CAPTAIN.COPILOT.TITLE')"
         icon="i-woot-captain"
         no-animation
         class="!rounded-full !bg-n-solid-3 dark:!bg-n-alpha-2 !text-n-slate-12 text-xl transition-all duration-200 ease-out hover:brightness-110"

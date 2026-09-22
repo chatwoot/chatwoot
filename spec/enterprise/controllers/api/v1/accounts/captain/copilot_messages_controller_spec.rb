@@ -18,6 +18,38 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotMessagesController', type: :r
         expect(json_response['payload'].length).to eq(1)
         expect(json_response['payload'][0]['id']).to eq(copilot_message.id)
       end
+
+      it 'pages recent history in display order, including messages with the same timestamp' do
+        messages = create_list(:captain_copilot_message, 24, account: account, copilot_thread: copilot_thread)
+        all_messages = [copilot_message, *messages]
+        timestamp = Time.current.change(usec: 0)
+        all_messages.each { |message| message.update!(created_at: timestamp) }
+        headers = user.create_new_auth_token
+        path = "/api/v1/accounts/#{account.id}/captain/copilot_threads/#{copilot_thread.id}/copilot_messages"
+
+        get path, params: { history: true }, headers: headers, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload'].pluck('id')).to eq(all_messages.last(20).pluck(:id))
+        expect(response.parsed_body['meta']).to eq('page' => 1, 'total_count' => 25, 'next_page' => 2)
+
+        get path, params: { history: true, page: 2 }, headers: headers, as: :json
+
+        expect(response.parsed_body['payload'].pluck('id')).to eq(all_messages.first(5).pluck(:id))
+        expect(response.parsed_body['meta']).to eq('page' => 2, 'total_count' => 25, 'next_page' => nil)
+
+        get path, headers: headers, as: :json
+
+        expect(response.parsed_body['payload'].pluck('id')).to eq(all_messages.pluck(:id))
+      end
+
+      it 'does not expose another owner history' do
+        other_user = create(:user, account: account)
+        get "/api/v1/accounts/#{account.id}/captain/copilot_threads/#{copilot_thread.id}/copilot_messages",
+            params: { history: true }, headers: other_user.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
     end
 
     context 'when thread id is invalid' do

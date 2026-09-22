@@ -2,12 +2,14 @@ class Api::V1::Accounts::Captain::CopilotMessagesController < Api::V1::Accounts:
   before_action :set_copilot_thread
 
   def index
-    @copilot_messages = @copilot_thread
-                        .copilot_messages
-                        .includes(:copilot_thread)
-                        .order(created_at: :asc)
-                        .page(permitted_params[:page] || 1)
-                        .per(1000)
+    history = params[:history].to_s == 'true'
+    direction = history ? :desc : :asc
+    @copilot_message_page = @copilot_thread.copilot_messages
+                                           .includes(:copilot_thread)
+                                           .order(created_at: direction, id: direction)
+                                           .page(permitted_params[:page] || 1)
+                                           .per(history ? 20 : 1000)
+    @copilot_messages = history ? @copilot_message_page.reverse : @copilot_message_page
   end
 
   def create
