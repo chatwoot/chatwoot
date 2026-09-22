@@ -87,6 +87,19 @@ RSpec.describe User do
       user.invalidate_sso_auth_token(sso_auth_token)
       expect(user.valid_sso_auth_token?(sso_auth_token)).to be false
     end
+
+    it 'records the super admin who minted an impersonation token' do
+      super_admin = create(:super_admin)
+      sso_auth_token = user.generate_sso_auth_token(impersonated_by: super_admin)
+
+      expect(user.sso_auth_token_impersonator_id(sso_auth_token)).to eq(super_admin.id)
+    end
+
+    it 'does not treat a regular sso token as impersonation' do
+      sso_auth_token = user.generate_sso_auth_token
+
+      expect(user.sso_auth_token_impersonator_id(sso_auth_token)).to be_nil
+    end
   end
 
   describe 'access token' do

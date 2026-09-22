@@ -1,9 +1,10 @@
 module SsoAuthenticatable
   extend ActiveSupport::Concern
 
-  def generate_sso_auth_token(impersonation: false)
+  def generate_sso_auth_token(impersonated_by: nil)
     token = SecureRandom.hex(32)
-    ::Redis::Alfred.setex(sso_token_key(token), impersonation ? 'impersonation' : 'normal', 5.minutes)
+    value = impersonated_by ? "impersonation:#{impersonated_by.id}" : 'normal'
+    ::Redis::Alfred.setex(sso_token_key(token), value, 5.minutes)
     token
   end
 
@@ -20,14 +21,15 @@ module SsoAuthenticatable
     "#{ENV.fetch('FRONTEND_URL', nil)}/app/login?email=#{encoded_email}&sso_auth_token=#{generate_sso_auth_token}"
   end
 
-  def sso_auth_token_impersonation?(token)
-    ::Redis::Alfred.get(sso_token_key(token)) == 'impersonation'
+  def sso_auth_token_impersonator_id(token)
+    value = ::Redis::Alfred.get(sso_token_key(token)).to_s
+    value.delete_prefix('impersonation:').to_i if value.start_with?('impersonation:')
   end
 
-  def generate_sso_link_with_impersonation
+  def generate_sso_link_with_impersonation(impersonated_by)
     encoded_email = ERB::Util.url_encode(email)
-    "#{ENV.fetch('FRONTEND_URL',
-                 nil)}/app/login?email=#{encoded_email}&sso_auth_token=#{generate_sso_auth_token(impersonation: true)}&impersonation=true"
+    sso_auth_token = generate_sso_auth_token(impersonated_by: impersonated_by)
+    "#{ENV.fetch('FRONTEND_URL', nil)}/app/login?email=#{encoded_email}&sso_auth_token=#{sso_auth_token}&impersonation=true"
   end
 
   private

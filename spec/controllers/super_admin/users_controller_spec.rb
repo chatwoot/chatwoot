@@ -216,5 +216,14 @@ RSpec.describe 'Super Admin Users API', type: :request do
       expect(response.body).to include('Enabled')
       expect(response.body).to include(CGI.escapeHTML(user.name))
     end
+
+    it 'mints the impersonation link on behalf of the viewing super admin' do
+      sign_in(super_admin, scope: :super_admin)
+
+      get "/super_admin/users/#{user.id}"
+      sso_token = response.body[/sso_auth_token=(\h{64})/, 1]
+
+      expect(user.sso_auth_token_impersonator_id(sso_token)).to eq(super_admin.id)
+    end
   end
 end

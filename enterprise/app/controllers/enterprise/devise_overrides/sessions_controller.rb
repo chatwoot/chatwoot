@@ -19,13 +19,18 @@ module Enterprise::DeviseOverrides::SessionsController
   end
 
   def render_create_success
-    create_audit_event('sign_in')
+    create_audit_event('sign_in') unless @impersonation
     super
   end
 
   def destroy
-    create_audit_event('sign_out')
+    create_audit_event('sign_out') unless impersonation_session?
     super
+  end
+
+  def impersonation_session?
+    token_entry = @resource&.tokens&.dig(@token&.client) || {}
+    (token_entry['impersonated_by'] || token_entry[:impersonated_by]).present?
   end
 
   def create_audit_event(action)
