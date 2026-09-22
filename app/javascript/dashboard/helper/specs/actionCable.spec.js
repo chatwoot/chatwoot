@@ -1,6 +1,9 @@
 import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
 import ActionCableConnector from '../actionCable';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
+import DashboardAudioNotificationHelper from '../AudioAlerts/DashboardAudioNotificationHelper';
 
 vi.mock('shared/helpers/mitt', () => ({
   emitter: {
@@ -73,6 +76,38 @@ describe('ActionCableConnector - Copilot Tests', () => {
         'copilotMessages/upsert',
         copilotData
       );
+    });
+  });
+
+  describe('monitor refresh events', () => {
+    const events = [['monitor.updated', BUS_EVENTS.MONITOR_UPDATED]];
+
+    it.each(events)('forwards %s for the active account', (event, busEvent) => {
+      vi.spyOn(
+        DashboardAudioNotificationHelper,
+        'onNewMessage'
+      ).mockImplementation(() => {});
+      const data = {
+        account_id: 1,
+        id: 99,
+        monitor_id: 2,
+        conversation_id: 99,
+        conversation: { last_activity_at: 1790078400 },
+      };
+
+      actionCable.onReceived({ event, data });
+
+      expect(emitter.emit).toHaveBeenCalledWith(busEvent, data);
+    });
+
+    it.each(events)('ignores %s from another account', (event, busEvent) => {
+      actionCable.onReceived({ event, data: { account_id: 2, id: 99 } });
+
+      expect(emitter.emit).not.toHaveBeenCalledWith(
+        busEvent,
+        expect.anything()
+      );
+      expect(mockDispatch).not.toHaveBeenCalled();
     });
   });
 

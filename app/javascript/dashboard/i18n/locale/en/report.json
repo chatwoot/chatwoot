@@ -1,4 +1,67 @@
 {
+  "MONITORS": {
+    "TITLE": "Monitors",
+    "MATCHING_CONVERSATIONS": "Matching conversations created",
+    "LAST_DAYS": "Last {days} days",
+    "LAST_DAYS_BEFORE_PAUSE": "{days} days before pause",
+    "CUSTOM_RANGE": "Custom range",
+    "CUSTOM_RANGE_HELP": "Choose a range of 7 to 30 days, including the start and end dates.",
+    "DATE_RANGE": "Date range",
+    "FILTERS": "Chart filters",
+    "FILTER_SUMMARY": "{range} · {interval}",
+    "CUSTOM_RANGE_SUMMARY": "{from} – {to}",
+    "FROM": "From",
+    "TO": "To",
+    "INTERVAL": "Group by",
+    "INTERVALS": {
+      "hour": "1 hour",
+      "six_hours": "6 hours",
+      "day": "1 day"
+    },
+    "APPLY": "Apply",
+    "PAUSED_HELP": "Paused on {time}. Historical results remain available. New messages and conversations are not being checked.",
+    "COLLECTED_UNTIL": "Results collected until {time}.",
+    "RESULTS_UPDATED": "New results are available. The chart has been refreshed; select a bar to view its updated conversations.",
+    "TIME_BASIS_HELP": "Each conversation counts once, on the date it was created. A new match can update an earlier bar.",
+    "COVERAGE_HELP": "This range includes periods that were not fully checked. Counts may be incomplete.",
+    "REFRESHED": "Last refreshed at {time}. Updates appear automatically.",
+    "USAGE": {
+      "LIMIT_REACHED": "This account has used its {limit} monitor calls for this month.",
+      "RESETS": "New evaluations and previews are on hold until {time}. Existing results remain available.",
+      "REACHED_AT": "Limit reached on {time}."
+    },
+    "STATES": {
+      "scanning": "Checking recent conversations",
+      "processing": "Checking conversations",
+      "rechecking": "Rechecking conversations with the updated description",
+      "live": "Up to date",
+      "delayed": "Updates are delayed",
+      "needs_attention": "Needs attention",
+      "paused": "Paused",
+      "catching_up": "Checking the paused period"
+    },
+    "ERRORS": {
+      "fetch_failed": "Could not load this monitor. Refresh to try again.",
+      "save_failed": "Could not save the monitor. Check the name and condition, then try again.",
+      "not_configured": "Monitors need an OpenRouter connection. Ask your installation administrator to configure it.",
+      "credentials_invalid": "The OpenRouter connection needs attention. Ask your installation administrator to check its credentials.",
+      "provider_credits_exhausted": "The OpenRouter account has insufficient credits. Ask your installation administrator to check its balance, then retry.",
+      "invalid_request": "The evaluation request needs attention. Contact your installation administrator.",
+      "invalid_response": "The evaluation provider returned an incomplete result. Affected conversations have not been counted.",
+      "provider_busy": "The evaluation provider is busy. Pending conversations need another evaluation.",
+      "provider_unavailable": "The evaluation provider is temporarily unavailable. Updates may be delayed.",
+      "rate_limit": "Evaluation is waiting for available capacity.",
+      "budget_limit": "The daily evaluation allowance has been reached. Pending work will resume after it resets.",
+      "monthly_limit": "This account has reached its monthly monitor allowance. Pending evaluations will resume next month.",
+      "context_limit": "Some conversations are too long to evaluate completely. They are excluded from the results.",
+      "no_text": "Some conversations do not have public text to evaluate. They are excluded from the results.",
+      "invalid_parameters": "Check the name, condition, date range, and interval.",
+      "too_many_buckets": "Choose a shorter date range or a larger interval. A chart can show up to 744 bars.",
+      "monitor_limit": "This account has reached its active monitor limit. Pause a monitor before creating another.",
+      "monitor_paused": "This monitor is paused and no longer checks conversations.",
+      "monitor_changed": "This monitor changed in another session. Its current state has been refreshed. Try again."
+    }
+  },
   "REPORT": {
     "HEADER": "Conversations",
     "LOADING_CHART": "Loading chart data...",
