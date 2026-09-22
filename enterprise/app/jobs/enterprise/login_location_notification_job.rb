@@ -6,20 +6,24 @@ class Enterprise::LoginLocationNotificationJob < ApplicationJob
   # (one per account) do not eat into the cap.
   DISTINCT_IP_LIMIT = 50
 
-  def perform(user_id, recipient_email, remote_address, user_agent, before_audit_id)
+  # device is the controller's RequestDeviceInfo capture ({ ip:, browser_name:, platform_name: }),
+  # so mobile-app sign-ins keep their X-Chatwoot-* device labels.
+  def perform(user_id, recipient_email, device, before_audit_id)
     return unless LoginLocationNotification.enabled?
-    return if recipient_email.blank? || remote_address.blank?
 
-    meta = new_location_meta(user_id, remote_address, user_agent, before_audit_id)
+    device = device.to_h.symbolize_keys
+    return if recipient_email.blank? || device[:ip].blank?
+
+    meta = new_location_meta(user_id, device[:ip], before_audit_id)
     return unless meta
 
-    Enterprise::LoginLocationMailer.new_location(meta.merge(email: recipient_email)).deliver_later
+    Enterprise::LoginLocationMailer.new_location(meta.merge(device).merge(email: recipient_email)).deliver_later
   end
 
   private
 
-  # Returns the mailer meta when the sign-in is from a new country, otherwise nil.
-  def new_location_meta(user_id, remote_address, user_agent, before_audit_id)
+  # Returns the location meta when the sign-in is from a new country, otherwise nil.
+  def new_location_meta(user_id, remote_address, before_audit_id)
     lookup = IpLookupService.new
     result = lookup.perform(remote_address)
     return if result&.country.blank?
@@ -27,9 +31,7 @@ class Enterprise::LoginLocationNotificationJob < ApplicationJob
     seen = seen_countries(lookup, user_id, before_audit_id)
     return if seen.blank? || seen.include?(result.country)
 
-    browser = Browser.new(user_agent.to_s)
-    { city: result.city, country: result.country, ip: remote_address,
-      browser_name: browser.name, platform_name: browser.platform.name }
+    { city: result.city, country: result.country, ip: remote_address }
   end
 
   # Most-recent distinct prior sign-in IPs, resolved to countries. History is

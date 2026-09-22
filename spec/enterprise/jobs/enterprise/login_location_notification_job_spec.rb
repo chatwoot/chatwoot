@@ -35,7 +35,7 @@ RSpec.describe Enterprise::LoginLocationNotificationJob do
   # Simulate the controller: the current sign-in's audit row already exists when the job runs.
   def run(ip)
     row = audit(ip, now, request_uuid: current_uuid)
-    described_class.perform_now(user.id, user.email, ip, 'Mozilla/5.0 Chrome', row.id)
+    described_class.perform_now(user.id, user.email, { ip: ip, browser_name: 'Chrome', platform_name: 'macOS' }, row.id)
   end
 
   it 'emails on a new country, proving the current sign-in itself is excluded from history' do
@@ -50,7 +50,7 @@ RSpec.describe Enterprise::LoginLocationNotificationJob do
     first = audit('20.0.0.9', now, request_uuid: current_uuid)
     audit('20.0.0.9', now) # concurrent second sign-in, inserted just after the first
     expect do
-      described_class.perform_now(user.id, user.email, '20.0.0.9', 'Mozilla/5.0 Chrome', first.id)
+      described_class.perform_now(user.id, user.email, { ip: '20.0.0.9', browser_name: 'Chrome', platform_name: 'macOS' }, first.id)
     end.to have_enqueued_mail(Enterprise::LoginLocationMailer, :new_location)
   end
 

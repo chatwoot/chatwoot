@@ -32,6 +32,18 @@ RSpec.describe 'Login location notification on sign-in', type: :request do
       expect(response).to have_http_status(:success)
     end
 
+    it 'passes resolved mobile device labels instead of reparsing the user agent' do
+      post new_user_session_url,
+           params: { email: user.email, password: 'Password1!' },
+           headers: { 'X-Chatwoot-Client-Name' => 'Chatwoot Mobile', 'X-Chatwoot-Platform' => 'android',
+                      'X-Chatwoot-Device-Model' => 'Pixel 9' },
+           as: :json
+      expect(response).to have_http_status(:success)
+      expect(Enterprise::LoginLocationNotificationJob).to have_been_enqueued.with(
+        user.id, user.email, hash_including(browser_name: 'Chatwoot Mobile', platform_name: 'Android'), anything
+      )
+    end
+
     it 'does not enqueue for a failed sign-in' do
       expect do
         post new_user_session_url, params: { email: user.email, password: 'wrong' }, as: :json

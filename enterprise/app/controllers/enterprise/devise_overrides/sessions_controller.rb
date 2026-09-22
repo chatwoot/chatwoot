@@ -39,7 +39,7 @@ module Enterprise::DeviseOverrides::SessionsController
     return unless @resource && LoginLocationNotification.enabled?
 
     Enterprise::LoginLocationNotificationJob.perform_later(
-      @resource.id, @resource.email, request.remote_ip, request.user_agent.to_s, @sign_in_audit_id
+      @resource.id, @resource.email, device_request_meta, @sign_in_audit_id
     )
   rescue StandardError => e
     Rails.logger.warn "Enterprise::LoginLocationNotificationJob could not be enqueued: #{e.message}"
