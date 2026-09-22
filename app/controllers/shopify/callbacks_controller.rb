@@ -33,9 +33,24 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
 
     @shopify_installation_generation = Shopify::InstallationGeneration.current(account)
-    exchange_access_token
-    create_hook
+    exchange_and_create_hook
     redirect_to shopify_integration_url, allow_other_host: true
+  end
+
+  def exchange_and_create_hook
+    shop_generation = Shopify::PendingInstallation.generation(shop: params[:shop])
+    exchange_access_token
+    with_current_shop_generation(shop_generation) { create_hook }
+  end
+
+  def with_current_shop_generation(expected_generation)
+    Shopify::InstallationGeneration.with_shop_lock(params[:shop]) do
+      unless expected_generation.to_i == Shopify::PendingInstallation.generation(shop: params[:shop])
+        raise StandardError, 'Shopify installation changed during authorization'
+      end
+
+      yield
+    end
   end
 
   def handle_shopify_initiated_flow
@@ -49,7 +64,7 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     exchange_access_token
 
     if @account
-      reconnect_existing_shopify_account
+      with_current_shop_generation(@pending_installation_generation) { reconnect_existing_shopify_account }
       return redirect_to existing_account_redirect_url, allow_other_host: true
     end
 
@@ -172,15 +187,19 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
 
   def existing_shopify_hook
     @existing_shopify_hook ||=
-      Integrations::Hook.where(app_id: 'shopify').find_by('LOWER(reference_id) = ?', Shopify::ShopDomain.normalize(params[:shop]))
+      Integrations::Hook.where(app_id: 'shopify').find_sole_by('LOWER(reference_id) = ?', Shopify::ShopDomain.normalize(params[:shop]))
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 
   def shopify_billed_account_by_snapshot
     Account
       .where("internal_attributes ->> 'billing_provider' = ?", 'shopify')
       .where("internal_attributes ->> 'signup_source' = ?", 'shopify')
-      .find_by("custom_attributes #>> '{shopify_subscription_snapshot,shop_domain}' = ?",
-               Shopify::ShopDomain.normalize(params[:shop]))
+      .find_sole_by("custom_attributes #>> '{shopify_subscription_snapshot,shop_domain}' = ?",
+                    Shopify::ShopDomain.normalize(params[:shop]))
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 
   def existing_account_redirect_url

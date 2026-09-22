@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "Lūdzu, izvēlieties sarunu kreisajā rūtī",
     "CSAT_REPLY_MESSAGE": "Lūdzu, novērtējiet sarunu",
     "404": "Atvainojiet, mēs nevaram atrast sarunu. Lūdzu mēģiniet vēlreiz",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "Ziņojums veiksmīgi izdzēsts",
     "FAIL_DELETE_MESSSAGE": "Nevarēja izdzēst ziņojumu! Mēģiniet vēlreiz",
     "NO_RESPONSE": "Nav atbildes",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "Aģenti",
       "TEAMS": "Komandas"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Apraksts",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Meklēt emocijzīmes",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "Visi"
+        },
+        "AVAILABILITY": "Pieejamība",
+        "ROLE": "Loma",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "Iespējots",
+        "DISABLED": "Atspējots",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Atlikt līdz",

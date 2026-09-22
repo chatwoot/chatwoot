@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "未入力",
     "EMAIL_ADDRESS": "Eメールアドレス",
     "PHONE_NUMBER": "電話番号",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "識別子",
     "COPY_SUCCESSFUL": "クリップボードに正常にコピーされました",
     "COMPANY": "企業名",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagramを追加"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

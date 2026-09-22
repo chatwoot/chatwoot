@@ -22,11 +22,11 @@ const onboardingPath = step =>
 
 const shopifyBillingRedirect = query => {
   const { plan_handle: planHandle, shop } = query || {};
-  if (!shop) return '';
+  if (!planHandle && !shop) return '';
 
   const params = new URLSearchParams();
   if (planHandle) params.set('plan_handle', planHandle);
-  params.set('shop', shop);
+  if (shop) params.set('shop', shop);
   return `settings/billing?${params.toString()}`;
 };
 
