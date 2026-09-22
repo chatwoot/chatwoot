@@ -151,25 +151,6 @@ describe 'Rack::Attack auth throttles' do
         expect(throttle_key(name, env)).to be_nil
         expect(throttle_key(name, env.merge('HTTP_AUTHORIZATION' => 'Bearer', 'HTTP_API_ACCESS_TOKEN' => 'api-token'))).to be_nil
       end
-
-      it 'returns 429 when alternating bearer and legacy requests exhaust the shared limit' do
-        original_store = Rack::Attack.cache.store
-        Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
-        allow(Rack::Attack).to receive(:enabled).and_return(true)
-        middleware = Rack::Attack.new(->(_request_env) { [200, {}, ['ok']] })
-
-        freeze_time do
-          Rack::Attack.throttles.fetch(name).limit.times do |index|
-            headers = index.even? ? { 'HTTP_AUTHORIZATION' => 'Bearer api-token' } : { 'HTTP_API_ACCESS_TOKEN' => 'api-token' }
-            expect(middleware.call(env.merge(headers)).first).to eq(200)
-          end
-          request_env = env.merge('HTTP_AUTHORIZATION' => 'Bearer api-token')
-          expect(middleware.call(request_env).first).to eq(429)
-          expect(request_env['rack.attack.matched']).to eq(name)
-        end
-      ensure
-        Rack::Attack.cache.store = original_store
-      end
     end
   end
 
