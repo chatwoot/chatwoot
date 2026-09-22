@@ -31,7 +31,7 @@ module AccessTokenAuthHelper
     return false unless respond_to?(:decode_bearer_token, true)
 
     credentials = decode_bearer_token(request.authorization)
-    credentials.is_a?(Hash) && %w[uid client access-token].all? { |key| credentials[key].present? }
+    credentials.is_a?(Hash) && credentials.values_at('uid', 'client', 'access-token').all?(&:present?)
   end
 
   def authenticate_access_token!
