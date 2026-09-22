@@ -40,7 +40,7 @@ Disabling `conversation_monitors` hides the API and stops evaluation. Durable in
 - The date picker offers 7-day and 30-day presets plus a custom range of 7–30 calendar days inclusive. It automatically uses the account reporting timezone, then the general account timezone, then the user's browser timezone. The timezone selector is hidden. The account API normalizes Rails timezone names to IANA identifiers for browser date calculations.
 - Date range and grouping live in a compact filter popover at the chart's top right, alongside a muted summary of the displayed filters. Apply closes the popover; invalid custom ranges keep it open with an inline error. Keyboard focus returns to the trigger on Apply or Escape, and the shared popover uses a centered sheet on mobile.
 - Historical results are retained until monitor or source deletion, or until a description change replaces them through reevaluation. Individual report requests are bounded to 366 days and 744 buckets. Ranges before the initial scan visibly indicate incomplete coverage.
-- The graph has no separate progress card. Paused/scanning states and actionable errors appear as compact text beside the chart, with Retry available for administrators. One short coverage note appears below the chart when the selected range includes periods that were not fully checked.
+- The graph has no separate progress card. Paused/scanning states and actionable errors appear as compact text beside the chart, with Retry available for administrators. When the selected range includes periods that were not fully checked, an amber warning triangle after the refresh/collection timestamp exposes the coverage message as a tooltip on hover or keyboard focus.
 
 ## Configuration and evaluation
 

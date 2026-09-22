@@ -613,18 +613,24 @@ const duplicate = () =>
         timeseries
         @item-click="openBucket"
       />
-      <p
-        v-if="result.buckets.some(bucket => !bucket.covered)"
-        class="mt-4 text-sm text-n-amber-11"
-      >
-        {{ t('MONITORS.COVERAGE_HELP') }}
-      </p>
       <p class="mb-0 mt-4 text-xs text-n-slate-11">
         {{
           monitor.paused_at
             ? t('MONITORS.COLLECTED_UNTIL', { time: pausedAtLabel })
             : t('MONITORS.REFRESHED', { time: refreshedAt })
         }}
+        <button
+          v-if="result.buckets.some(bucket => !bucket.covered)"
+          v-tooltip.top="t('MONITORS.COVERAGE_HELP')"
+          type="button"
+          :aria-label="t('MONITORS.COVERAGE_HELP')"
+          class="ms-1 inline-flex size-6 items-center justify-center rounded p-0 align-middle text-n-amber-11 hover:text-n-amber-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-n-brand"
+        >
+          <span
+            class="i-lucide-triangle-alert size-3.5 shrink-0"
+            aria-hidden="true"
+          />
+        </button>
       </p>
     </template>
   </div>
