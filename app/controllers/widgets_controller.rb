@@ -5,6 +5,7 @@ class WidgetsController < ActionController::Base
   before_action :set_global_config
   before_action :set_web_widget
   before_action :ensure_account_is_active
+  before_action :skip_crawler_requests
   before_action :ensure_location_is_supported
   before_action :set_token
   before_action :set_contact
@@ -60,6 +61,14 @@ class WidgetsController < ActionController::Base
 
   def ensure_account_is_active
     render json: { error: 'Account is suspended' }, status: :unauthorized unless @web_widget.inbox.account.active?
+  end
+
+  def skip_crawler_requests
+    # A missing user agent alone does not identify a crawler.
+    return unless request.user_agent.present? && browser.bot?
+
+    response.headers['X-Robots-Tag'] = 'noindex'
+    head :no_content
   end
 
   def ensure_location_is_supported; end

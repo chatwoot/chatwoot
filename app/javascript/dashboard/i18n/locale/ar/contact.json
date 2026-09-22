@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "غير متاح",
     "EMAIL_ADDRESS": "عنوان البريد الإلكتروني",
     "PHONE_NUMBER": "رقم الهاتف",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "المعرف",
     "COPY_SUCCESSFUL": "تم النسخ إلى الحافظة بنجاح",
     "COMPANY": "المنشأة",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

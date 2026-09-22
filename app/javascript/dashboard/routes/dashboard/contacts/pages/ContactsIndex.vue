@@ -16,7 +16,8 @@ import ContactsBulkActionBar from '../components/ContactsBulkActionBar.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import BulkActionsAPI from 'dashboard/api/bulkActions';
 
-const DEFAULT_SORT_FIELD = 'last_activity_at';
+// Only order backed by index_contacts_on_account_id_and_last_activity_at
+const DEFAULT_SORT = '-last_activity_at';
 const DEBOUNCE_DELAY = 300;
 
 const store = useStore();
@@ -41,10 +42,10 @@ const searchPageNumber = ref(1);
 const isLoadingMore = ref(false);
 
 const parseSortSettings = (sortString = '') => {
-  const hasDescending = sortString.startsWith('-');
-  const sortField = hasDescending ? sortString.slice(1) : sortString;
+  const sortValue = sortString || DEFAULT_SORT;
+  const hasDescending = sortValue.startsWith('-');
   return {
-    sort: sortField || DEFAULT_SORT_FIELD,
+    sort: hasDescending ? sortValue.slice(1) : sortValue,
     order: hasDescending ? '-' : '',
   };
 };

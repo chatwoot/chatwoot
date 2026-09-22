@@ -7,6 +7,37 @@
     "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "هیچ آیتمی با این مشخصات یافت نشد",
     "SIDEBAR_TXT": "<p><b>گزارش‌های حسابرسی</b> </p><p> گزارش‌های حسابرسی مسیرهایی برای رویدادها و اقدامات در یک سیستم Chatwoot هستند. </p>",
+    "COUNT": "{n} event | {n} events",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Search by name or email",
+      "ALL_EVENTS": "All events",
+      "DATE_RANGE": "Date range",
+      "CLEAR_ALL": "پاک کردن فیلترها",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Access",
+        "AGENTS_TEAMS": "Agents & teams",
+        "CONFIGURATION": "پیکربندی",
+        "CONVERSATIONS": "گفتگوها"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Sign in / sign out",
+        "AGENTS": "ایجنت ها",
+        "TEAMS": "تیم‌ها",
+        "TEAM_MEMBERS": "Team members",
+        "INBOX_MEMBERS": "Inbox collaborators",
+        "ACCOUNT": "تنظیمات حساب",
+        "INBOXES": "صندوق‌های ورودی",
+        "WEBHOOKS": "وب هوک",
+        "AUTOMATION_RULES": "Automation rules",
+        "MACROS": "ماکروها",
+        "CONVERSATION_DELETIONS": "Conversation deletions",
+        "MESSAGE_DELETIONS": "Message deletions"
+      },
+      "SORT": {
+        "NEWEST": "Newest first",
+        "OLDEST": "Oldest first"
+      }
+    },
     "LIST": {
       "404": "هیچ گزارش حسابرسی در این حساب موجود نیست.",
       "TITLE": "مدیریت گزارش های حسابرسی",
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} deleted conversation #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
     }
   }
 }
