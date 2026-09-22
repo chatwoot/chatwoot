@@ -4,7 +4,9 @@ operationId: get-details-of-a-conversation
 summary: Conversation Details
 security:
   - userBearerAuth: []
+  - agentBotBearerAuth: []
   - userApiKey: []
+  - agentBotApiKey: []
 description: Get all details regarding a conversation with all messages in the conversation
 responses:
   '200':
