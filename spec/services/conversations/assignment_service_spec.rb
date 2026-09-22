@@ -33,6 +33,21 @@ describe Conversations::AssignmentService do
 
         expect(conversation.reload).to have_attributes(status: 'resolved', assignee: nil, ai_assignee: agent_bot)
       end
+
+      it 'preserves an administrator takeover when legacy auto-assignment is enabled' do
+        administrator = create(:user, account: account, role: :administrator)
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        account.disable_features!('assignment_v2')
+        conversation.update!(status: :pending, ai_assignee: agent_bot, assignee: nil)
+        allow(OnlineStatusTracker).to receive(:get_available_users).with(account.id).and_return(agent.id.to_s => 'online')
+
+        expect(conversation.inbox.members).not_to include(administrator)
+
+        result = described_class.new(conversation: conversation, assignee_id: administrator.id, reopen: true).perform
+
+        expect(result).to eq(administrator)
+        expect(conversation.reload).to have_attributes(status: 'open', assignee: administrator, ai_assignee: nil)
+      end
     end
 
     context 'when assignee_id is blank' do
