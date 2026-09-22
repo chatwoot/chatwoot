@@ -16,6 +16,7 @@ import Popover from 'dashboard/components-next/popover/Popover.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import MonitorDrilldown from './MonitorDrilldown.vue';
+import MonitorUsageWarning from './MonitorUsageWarning.vue';
 import { useMonitorRefresh } from './useMonitorRefresh';
 
 const { t, te } = useI18n();
@@ -449,6 +450,7 @@ const duplicate = () =>
       />
     </div>
   </ReportHeader>
+  <MonitorUsageWarning :usage="result?.usage" />
   <p v-if="error" role="alert" class="text-sm text-n-ruby-11">{{ error }}</p>
   <p v-if="notice" role="status" class="text-sm text-n-slate-11">
     {{ notice }}
@@ -597,7 +599,12 @@ const duplicate = () =>
           </p>
         </div>
         <Button
-          v-if="isAdmin && !monitor.archived_at && !monitor.paused_at"
+          v-if="
+            isAdmin &&
+            !monitor.archived_at &&
+            !monitor.paused_at &&
+            !result.usage?.limit_reached
+          "
           slate
           faded
           :label="t('MONITORS.RETRY')"

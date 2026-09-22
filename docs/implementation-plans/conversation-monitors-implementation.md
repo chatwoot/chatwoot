@@ -63,6 +63,18 @@ Context is read newest-first in bounded database pages and limited locally to 28
 
 Redis atomically checks and reserves the global request, account request, and conservative byte-based token allowances before each request, then reconciles successful calls to reported input tokens. Rejected reservations do not consume another allowance. Failed/unknown calls retain their reservation. Missing/invalid credentials, invalid requests, and permanent context exclusions require attention. Transient failures retry with bounded exponential delay and jitter; rate/budget suspension resumes after capacity is available. Administrators can retry unfinished evaluations.
 
+## Monthly credits and daily usage
+
+The existing `conversation_monitors` account flag remains disabled by default. Every enabled account receives **100,000 Jev request credits per UTC calendar month**, shared across all its monitors. One outbound request consumes one credit, including a batch of up to eight monitor questions. Preview, historical scans, live evaluation, and retries share the allowance; provider failures retain their credit. Local validation and rejected capacity reservations do not consume credits.
+
+Before sending a request, the shared client takes a short account-row lock, sums the current month's daily records, reserves Redis capacity, and increments today's persisted call count. The lock is released before the network request. Concurrent workers cannot exceed the monthly allowance. Reserving before the call also means a worker crash between reservation and dispatch can conservatively consume a credit. Deleting a monitor or restarting Redis does not reset usage.
+
+The 100,000th request is allowed and records `limit_reached_at` on that day's usage row. Further requests are blocked with `monthly_limit`. Pending conversation work is deferred until the first instant of the next UTC month, with a full-history marker so messages received during the hold remain eligible for catch-up within the context cap. New messages preserve that due time. This is an account quota hold; it does not change individual monitor pause settings or erase saved results.
+
+The listing API exposes `meta.usage`; monitor detail and timeseries expose `usage`. The snapshot includes `limit`, `used`, `remaining`, `limit_reached`, `limit_reached_at`, `resets_at`, `period_start`, `timezone`, and daily `{date, calls}` entries for the current month, including zero-use days. The list and every monitor report display an account warning with the hit time and reset time when exhausted. Existing `monitor.updated` notifications refresh all visible account monitors at exhaustion, with visible-tab polling also updating the warning after the month resets. No new websocket event or API route is needed.
+
+Daily records and prior limit-hit timestamps remain available for auditing. A new month has its own allowance without deleting history. Usage starts when the new migration and worker code are deployed; earlier calls are not reconstructed. Apply all seven feature migrations and restart workers before enabling collection.
+
 ## Persistence and recovery
 
 PostgreSQL is authoritative:
@@ -72,6 +84,7 @@ PostgreSQL is authoritative:
 - `conversation_monitor_backfills` stores the resumable historical cursor.
 - `conversation_monitor_work_items` stores per-conversation input revisions, generation, due time, fenced worker leases, and the last revision requiring full-history evaluation. That marker survives retries and recovery; full-history work takes precedence when historical and live requests overlap, and subsequent live-only work returns to the five-message window.
 - `conversation_monitor_resumptions` records each resume choice and paused interval, with a durable cursor for catch-up and cancellation markers for interrupted scans.
+- `conversation_monitor_daily_usages` stores each account's UTC date, provider call count, and the timestamp when that month's allowance was exhausted. A unique account/date index and nonnegative count constraint protect the ledger. Account deletion cascades these rows; monitor deletion preserves them.
 
 Pause and resume increment the monitor's collection version. Queued scans and in-flight provider responses from an older version cannot add matches after resumption. Explicit scan requests carry the target monitor/version; shared conversation work also stores its actual public-message activity time so another monitor's scan cannot make a future-only monitor process older activity. Catch-up jobs use the backfill queue and the minute dispatcher recovers missed enqueue attempts. A scan locks all of its conversation work rows before locking the monitor, matching live evaluation's lock order.
 
@@ -82,6 +95,8 @@ Monitor update events send only `account_id`, `monitor_id`, and `data_revision` 
 Monitor usage emits `evaluation.conversation_monitors` notifications containing account ID, actual model, question count, reported input tokens, and duration. Operational dashboards/alerts and billing integration are not included. Inspect durable due times and evaluation error codes to diagnose backlog.
 
 ## Validation
+
+The monthly-credit follow-up passed 357 backend examples and 22 monitor UI tests, followed by a focused evaluation rerun covering mixed batch failures at the final credit. Ruby lint passed across all changed Ruby files; frontend lint has zero errors and six warnings. A PostgreSQL/Redis concurrency probe with five credits remaining admitted exactly five of ten simultaneous reservations, persisted 100,000 calls and the hit timestamp, and verified a fresh allowance next month while retaining prior history. Browser checks verified the warning on the listing and report with historical graphs still readable. Quota tests use synthetic fixtures and stubbed provider responses; they do not spend 100,000 real calls.
 
 The final PR checks after the agent-reply, `0.6` threshold, context-trimming, and five-message live-window refinements passed 356 focused RSpec examples and 40 Vitest tests. Ruby lint passed across 57 feature files; frontend lint reported zero errors and eight dynamic-translation warnings. The earlier validation runs below record the additional browser, provider, and concurrency probes performed during implementation.
 
@@ -105,9 +120,11 @@ The implementation was exercised against isolated PostgreSQL and Redis databases
 The opt-in benchmark is reproducible with:
 
 ```sh
-bundle exec rails runner script/conversation_monitors/benchmark.rb
-bundle exec rails runner script/conversation_monitors/benchmark.rb script/conversation_monitors/holdout.json
+MONITOR_ACCOUNT_ID=123 bundle exec rails runner script/conversation_monitors/benchmark.rb
+MONITOR_ACCOUNT_ID=123 bundle exec rails runner script/conversation_monitors/benchmark.rb script/conversation_monitors/holdout.json
 ```
+
+Choose a real test account ID; benchmark requests consume that account's monitor credits.
 
 At the original `0.65` threshold, after calibrating on 12 synthetic conversations, all 36 condition decisions on a separate 12-conversation holdout matched their labels. The final calibration rerun also passed 36/36. Calibration and holdout consumed 5,866 and 5,924 input tokens respectively; observed individual calls took 0.165–0.326 seconds. These are small synthetic checks, not measured production precision/recall or load guarantees. A representative authorized pilot dataset and real queue-capacity measurements remain necessary before broad rollout.
 

@@ -36,6 +36,44 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(monitor.evaluations.count).to eq(1)
     expect(WebMock).to have_requested(:post, endpoint).once
     expect(work.reload.due_at).to be_nil
+    expect(ConversationMonitors::DailyUsage.find_by!(account: account).calls_count).to eq(1)
+  end
+
+  it 'holds exhausted accounts until next month and preserves full history across new input' do
+    now = Time.current.utc
+    ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 100_000, limit_reached_at: now)
+    work.update!(attempts: 10)
+
+    evaluate.call
+
+    expect(WebMock).not_to have_requested(:post, endpoint)
+    expect(work.reload).to have_attributes(error_code: 'monthly_limit', due_at: be_within(2.seconds).of(now.beginning_of_month.next_month),
+                                           full_history_revision: be > work.processed_revision)
+    expect(monitor.evaluations.sole.error_code).to eq('monthly_limit')
+    due_at = work.due_at
+    create(:message, account: account, conversation: conversation, content: 'Another message during the quota hold')
+    expect(work.reload).to have_attributes(due_at: due_at, error_code: 'monthly_limit')
+
+    travel_to(now.beginning_of_month.next_month + 3.seconds) do
+      evaluate.call
+      expect(WebMock).to have_requested(:post, endpoint).once
+      expect(monitor.evaluations.sole.status).to eq('matched')
+      expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
+    end
+  end
+
+  it 'prioritizes the monthly hold when an earlier batch failed using the final credit' do
+    now = Time.current.utc
+    ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 99_999)
+    create_list(:conversation_monitor, 7, account: account)
+    stub_request(:post, endpoint).to_return(status: 429)
+
+    evaluate.call
+
+    expect(WebMock).to have_requested(:post, endpoint).once
+    expect(work.reload).to have_attributes(error_code: 'monthly_limit', due_at: be_within(2.seconds).of(now.beginning_of_month.next_month),
+                                           full_history_revision: be > work.processed_revision)
+    expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(100_000)
   end
 
   %i[incoming outgoing].each do |message_type|
@@ -144,6 +182,7 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(work.reload.due_at).to be >= 119.seconds.from_now
     expect(monitor.evaluations.sole.status).to eq('error')
     expect(monitor.evaluations.sole.error_code).to eq('provider_busy')
+    expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
   end
 
   it 'leaves invalid credentials visible without endlessly retrying' do

@@ -100,16 +100,30 @@ class ConversationMonitors::Evaluator
       end
 
       newer_input = newer_input?
-      retry_error = @errors.find(&:retryable?)
-      @work.assign_attributes(lease_token: nil, lease_expires_at: nil, error_code: @errors.first&.code)
-      @work.processed_revision = @snapshot[:revision] if @errors.empty?
+      retry_error = next_retry_error
+      @work.assign_attributes(lease_token: nil, lease_expires_at: nil, error_code: (retry_error || @errors.first)&.code)
+      update_progress(retry_error)
       @work.due_at = next_due(newer_input, retry_error)
       @work.attempts += 1 unless newer_input
       @work.save!
     end
   end
 
+  def next_retry_error
+    @errors.find { |error| error.code == 'monthly_limit' } || @errors.find(&:retryable?)
+  end
+
+  def update_progress(error)
+    if error&.code == 'monthly_limit'
+      @work.full_history_revision = @work.revision
+    elsif @errors.empty?
+      @work.processed_revision = @snapshot[:revision]
+    end
+  end
+
   def next_due(newer_input, error)
+    return error.retry_after.seconds.from_now if error&.code == 'monthly_limit'
+
     return 3.seconds.from_now if newer_input
     return unless error
     return if @work.attempts >= MAX_ATTEMPTS && %w[rate_limit budget_limit].exclude?(error.code)

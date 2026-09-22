@@ -59,6 +59,11 @@
     "TIME_BASIS_HELP": "Each conversation counts once, on the date it was created. A new match can update an earlier bar.",
     "COVERAGE_HELP": "This range includes periods that were not fully checked. Counts may be incomplete.",
     "REFRESHED": "Last refreshed at {time}. Updates appear automatically.",
+    "USAGE": {
+      "LIMIT_REACHED": "This account has used its {limit} monitor calls for this month.",
+      "RESETS": "New evaluations and previews are on hold until {time}. Existing results remain available.",
+      "REACHED_AT": "Limit reached on {time}."
+    },
     "STATES": {
       "scanning": "Checking recent conversations",
       "processing": "Checking conversations",
@@ -81,6 +86,7 @@
       "provider_unavailable": "The evaluation provider is temporarily unavailable. Updates may be delayed.",
       "rate_limit": "Evaluation is waiting for available capacity.",
       "budget_limit": "The daily evaluation allowance has been reached. Pending work will resume after it resets.",
+      "monthly_limit": "This account has reached its monthly monitor allowance. Pending evaluations will resume next month.",
       "context_limit": "Some conversations are too long to evaluate completely. They are excluded from the results.",
       "no_text": "Some conversations do not have public text to evaluate. They are excluded from the results.",
       "invalid_parameters": "Check the name, condition, date range, and interval.",

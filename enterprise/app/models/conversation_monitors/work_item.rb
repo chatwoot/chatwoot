@@ -15,17 +15,23 @@ class ConversationMonitors::WorkItem < ApplicationRecord
       self.revision += 1
       self.full_history_revision = revision if full_history || invalidate
       self.generation += 1 if invalidate
-      self.due_at = [due_at, 3.seconds.from_now].compact.min
+      schedule_next_attempt
       self.requested_at = Time.current
       self.activity_at = [self.activity_at, activity_at].compact.max if activity_at
       self.attempts = 0
-      self.error_code = nil
       save!
       invalidate_evaluations if invalidate
     end
   end
 
   private
+
+  def schedule_next_attempt
+    return if error_code == 'monthly_limit' && due_at&.future?
+
+    self.due_at = [due_at, 3.seconds.from_now].compact.min
+    self.error_code = nil
+  end
 
   def invalidate_evaluations
     evaluations = ConversationMonitors::Evaluation.where(conversation_id: conversation_id, account_id: account_id)

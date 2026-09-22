@@ -10,6 +10,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import MonitorForm from './MonitorForm.vue';
+import MonitorUsageWarning from './MonitorUsageWarning.vue';
 import { useMonitorRefresh } from './useMonitorRefresh';
 
 const { t } = useI18n();
@@ -50,6 +51,7 @@ const fetchMonitors = async () => {
 watch(accountId, () => {
   loaded.value = false;
   page.value = 1;
+  meta.value = { total_count: 0, configured: true };
 });
 watch(
   [accountId, page],
@@ -91,6 +93,7 @@ watch(
       @click="openForm()"
     />
   </ReportHeader>
+  <MonitorUsageWarning :usage="meta.usage" />
   <p
     v-if="!meta.configured && isAdmin"
     role="status"

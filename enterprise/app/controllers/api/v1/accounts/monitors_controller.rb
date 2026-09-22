@@ -16,11 +16,11 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
 
     scope = Current.account.conversation_monitors.visible.order(created_at: :desc, id: :desc)
     render json: { payload: scope.offset((page - 1) * 20).limit(20).includes(:backfill).map { |monitor| serialize(monitor) },
-                   meta: { total_count: scope.count, page: page, configured: ConversationMonitors::Configuration.configured? } }
+                   meta: { total_count: scope.count, page: page, configured: ConversationMonitors::Configuration.configured?, usage: usage } }
   end
 
   def show
-    render json: serialize(@monitor)
+    render json: serialize(@monitor).merge(usage: usage)
   end
 
   def create
@@ -80,7 +80,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
 
   def timeseries
     @monitor.with_lock do
-      render json: ConversationMonitors::Report.new(@monitor, params).timeseries.merge(monitor: serialize(@monitor))
+      render json: ConversationMonitors::Report.new(@monitor, params).timeseries.merge(monitor: serialize(@monitor), usage: usage)
     end
   end
 
@@ -110,6 +110,10 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   end
 
   private
+
+  def usage
+    @usage ||= ConversationMonitors::Usage.new(Current.account.id).snapshot
+  end
 
   def serialize_preview(result)
     payload = result.except(:condition, :conversation_ids)

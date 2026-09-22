@@ -52,6 +52,36 @@ RSpec.describe 'Monitors API', type: :request do
     get base, headers: headers
 
     expect(response).to have_http_status(:forbidden)
+    expect(create(:account).feature_enabled?('conversation_monitors')).to be(false)
+  end
+
+  it 'returns shared account usage on the list and every monitor without hiding historical reports' do
+    other_monitor = create(:conversation_monitor, account: account)
+    now = Time.current.utc
+    ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 100_000, limit_reached_at: now)
+
+    get base, headers: headers
+    usage = response.parsed_body.dig('meta', 'usage')
+    expect(usage).to include('limit' => 100_000, 'used' => 100_000, 'remaining' => 0, 'limit_reached' => true,
+                             'limit_reached_at' => now.to_i, 'resets_at' => now.beginning_of_month.next_month.to_i)
+    [monitor, other_monitor].each do |record|
+      get "#{base}/#{record.id}/timeseries", headers: headers, params: query
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['usage']).to eq(usage)
+      get "#{base}/#{record.id}", headers: headers
+      expect(response.parsed_body['usage']).to eq(usage)
+    end
+  end
+
+  it 'applies the same allowance to preview and does not send requests after exhaustion' do
+    message
+    ConversationMonitors::DailyUsage.create!(account: account, usage_date: Time.current.utc.to_date, calls_count: 100_000,
+                                             limit_reached_at: Time.current)
+    ConversationMonitors::PreviewJob.write(preview_key, { status: 'pending', condition: 'refund' })
+    ConversationMonitors::PreviewJob.perform_now(account.id, admin.id, 'sample')
+
+    expect(WebMock).not_to have_requested(:post, ConversationMonitors::JevClient::ENDPOINT)
+    expect(ConversationMonitors::PreviewJob.read(preview_key)).to include(status: 'error', error: 'monthly_limit')
   end
 
   it 'allows aggregate report viewers but reserves drilldown and management for administrators' do

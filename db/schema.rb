@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_22_005000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_22_006000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -825,6 +825,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_005000) do
     t.datetime "updated_at", null: false
     t.datetime "cancelled_at"
     t.index ["monitor_id"], name: "index_conversation_monitor_backfills_on_monitor_id", unique: true
+  end
+
+  create_table "conversation_monitor_daily_usages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.date "usage_date", null: false
+    t.integer "calls_count", default: 0, null: false
+    t.datetime "limit_reached_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "usage_date"], name: "index_monitor_daily_usage_unique", unique: true
+    t.check_constraint "calls_count >= 0", name: "monitor_daily_usage_nonnegative"
   end
 
   create_table "conversation_monitor_evaluations", force: :cascade do |t|
@@ -1695,6 +1706,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_005000) do
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
   add_foreign_key "conversation_monitor_backfills", "conversation_monitors", column: "monitor_id", on_delete: :cascade
+  add_foreign_key "conversation_monitor_daily_usages", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "conversation_monitors", column: "monitor_id", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "conversations", on_delete: :cascade
