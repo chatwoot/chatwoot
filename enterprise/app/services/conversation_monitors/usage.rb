@@ -76,7 +76,7 @@ class ConversationMonitors::Usage
   def reservations(bytes)
     minute = Time.current.utc.strftime('%Y%m%d%H%M')
     {
-      "conversation_monitors:requests:#{minute}" => [1, Integer(ENV.fetch('TYPESAFE_REQUESTS_PER_MINUTE', 600)), 2.minutes.to_i],
+      "conversation_monitors:requests:#{minute}" => [1, Integer(ENV.fetch('CONVERSATION_MONITORS_REQUESTS_PER_MINUTE', 600)), 2.minutes.to_i],
       "conversation_monitors:account:#{@account_id}:requests:#{minute}" => [1, 60, 2.minutes.to_i],
       "conversation_monitors:#{daily_key}" => [bytes, Integer(ENV.fetch('CONVERSATION_MONITORS_DAILY_TOKEN_LIMIT', 20_000_000)), 2.days.to_i]
     }

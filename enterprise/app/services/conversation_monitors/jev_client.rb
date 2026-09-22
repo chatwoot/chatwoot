@@ -1,5 +1,6 @@
 class ConversationMonitors::JevClient
-  ENDPOINT = 'https://api.typesafe.ai/v1/systemone'.freeze
+  # Translate the legacy model ID on existing monitors to OpenRouter's Jev 1.13 ID.
+  MODEL_ALIASES = { 'jev-1.13.0' => 'typesafe/jev-1.13' }.freeze
 
   def initialize(account_id:)
     @account_id = account_id
@@ -8,13 +9,13 @@ class ConversationMonitors::JevClient
   def evaluate(state:, monitors:)
     raise CustomExceptions::MonitorEvaluationError, 'not_configured' unless ConversationMonitors::Configuration.configured?
 
-    body = { model: monitors.first.model, state: state, questions: questions(monitors) }.to_json
+    body = request_body(state, monitors)
     raise CustomExceptions::MonitorEvaluationError, 'context_limit' if body.bytesize > ConversationMonitors::Configuration::MAX_REQUEST_BYTES
 
     usage = ConversationMonitors::Usage.new(@account_id)
     usage.reserve!(body.bytesize)
     started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-    response = connection.post(ENDPOINT, body)
+    response = connection.post(ConversationMonitors::Configuration.endpoint, body)
     data = parse_response(response)
     usage.reconcile!(body.bytesize, data.fetch('usage').fetch('input_tokens'))
     instrument(data, started, monitors.size)
@@ -32,11 +33,16 @@ class ConversationMonitors::JevClient
 
   private
 
+  def request_body(state, monitors)
+    model = MODEL_ALIASES.fetch(monitors.first.model, monitors.first.model)
+    { model: model, state: state, questions: questions(monitors) }.to_json
+  end
+
   def connection
     Faraday.new do |client|
       client.options.open_timeout = 3
       client.options.timeout = 15
-      client.headers['Authorization'] = "Bearer #{ENV.fetch('TYPESAFE_API_KEY')}"
+      client.headers['Authorization'] = "Bearer #{ConversationMonitors::Configuration.api_key}"
       client.headers['Content-Type'] = 'application/json'
     end
   end
@@ -74,7 +80,8 @@ class ConversationMonitors::JevClient
 
     code = case response.status
            when 401, 403 then 'credentials_invalid'
-           when 422 then 'invalid_request'
+           when 400, 404, 422 then 'invalid_request'
+           when 402 then 'provider_credits_exhausted'
            when 429, 529 then 'provider_busy'
            else 'provider_unavailable'
            end

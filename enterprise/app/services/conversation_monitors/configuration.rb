@@ -1,5 +1,6 @@
 class ConversationMonitors::Configuration
-  MODEL = 'jev-1.13.0'.freeze
+  MODEL = 'typesafe/jev-1.13'.freeze
+  ENDPOINT = 'https://openrouter.ai/api/v1/systemone'.freeze
   THRESHOLD = 0.6
   CONTEXT_VERSION = 1
   MAX_MONITORS = 20
@@ -10,11 +11,19 @@ class ConversationMonitors::Configuration
   MAX_REQUEST_BYTES = 60_000
 
   def self.configured?
-    ENV['TYPESAFE_API_KEY'].present?
+    api_key.present?
+  end
+
+  def self.api_key
+    GlobalConfig.get_value('CAPTAIN_OPENROUTER_API_KEY')
+  end
+
+  def self.endpoint
+    GlobalConfig.get_value('CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT').presence || ENDPOINT
   end
 
   def self.model
-    ENV.fetch('TYPESAFE_MODEL', MODEL)
+    ENV.fetch('CONVERSATION_MONITORS_MODEL', MODEL)
   end
 
   def self.max_monitors

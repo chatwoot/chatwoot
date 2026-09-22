@@ -4,15 +4,14 @@ RSpec.describe ConversationMonitors::Resume do
   let(:account) { create(:account) }
   let(:monitor) { create(:conversation_monitor, account: account, paused_at: 2.hours.ago, created_at: 3.days.ago) }
   let(:conversation) { create(:conversation, account: account, created_at: 1.day.ago) }
-  let(:endpoint) { ConversationMonitors::JevClient::ENDPOINT }
-
-  around { |example| with_modified_env(TYPESAFE_API_KEY: 'test-key') { example.run } }
+  let(:endpoint) { ConversationMonitors::Configuration::ENDPOINT }
 
   before do
+    create(:installation_config, name: 'CAPTAIN_OPENROUTER_API_KEY', value: 'test-key')
     account.enable_features!('reports', 'conversation_monitors')
     stub_request(:post, endpoint).to_return do |request|
       answers = JSON.parse(request.body)['questions'].keys.index_with { { type: 'noul', noul: 0.95 } }
-      { status: 200, body: { model: 'jev-1.13.0', answers: answers, usage: { input_tokens: 100 } }.to_json }
+      { status: 200, body: { model: 'typesafe/jev-1.13-20260917', answers: answers, usage: { input_tokens: 100 } }.to_json }
     end
   end
 
@@ -140,7 +139,8 @@ RSpec.describe ConversationMonitors::Resume do
       monitor.update!(paused_at: Time.current, collection_version: 1)
       described_class.new(monitor, mode: 'from_now', collection_version: 1).perform
       { status: 200,
-        body: { model: 'jev-1.13.0', answers: { monitor.id.to_s => { type: 'noul', noul: 0.99 } }, usage: { input_tokens: 10 } }.to_json }
+        body: { model: 'typesafe/jev-1.13-20260917', answers: { monitor.id.to_s => { type: 'noul', noul: 0.99 } },
+                usage: { input_tokens: 10 } }.to_json }
     end
     ConversationMonitors::Evaluator.new(work).perform
 

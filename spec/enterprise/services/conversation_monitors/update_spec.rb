@@ -4,10 +4,12 @@ RSpec.describe ConversationMonitors::Update do
   let(:account) { create(:account) }
   let(:monitor) { create(:conversation_monitor, account: account) }
   let(:conversation) { create(:conversation, account: account, created_at: 2.days.ago) }
-  let(:endpoint) { ConversationMonitors::JevClient::ENDPOINT }
+  let(:endpoint) { ConversationMonitors::Configuration::ENDPOINT }
 
-  around { |example| with_modified_env(TYPESAFE_API_KEY: 'test-key') { example.run } }
-  before { account.enable_features!('reports', 'conversation_monitors') }
+  before do
+    create(:installation_config, name: 'CAPTAIN_OPENROUTER_API_KEY', value: 'test-key')
+    account.enable_features!('reports', 'conversation_monitors')
+  end
 
   it 'clears old decisions and rechecks monitored conversations without changing another monitor or skipped history' do
     skipped = create(:conversation, account: account)
@@ -17,7 +19,7 @@ RSpec.describe ConversationMonitors::Update do
     other.evaluations.create!(account: account, conversation: conversation, status: 'matched')
     create(:message, account: account, conversation: conversation, content: 'Refund')
     stub_request(:post, endpoint).to_return(status: 200, body: {
-      model: 'jev-1.13.0', answers: { monitor.id.to_s => { type: 'noul', noul: 0.1 } }, usage: { input_tokens: 10 }
+      model: 'typesafe/jev-1.13-20260917', answers: { monitor.id.to_s => { type: 'noul', noul: 0.1 } }, usage: { input_tokens: 10 }
     }.to_json)
 
     described_class.new(monitor, { 'condition' => 'Questions about shipping' }, collection_version: 0).perform
@@ -86,7 +88,7 @@ RSpec.describe ConversationMonitors::Update do
     stub_request(:post, endpoint).to_return do
       described_class.new(monitor, { 'condition' => 'Shipping questions' }, collection_version: 0).perform
       { status: 200, body: {
-        model: 'jev-1.13.0', answers: { monitor.id.to_s => { type: 'noul', noul: 0.99 } }, usage: { input_tokens: 10 }
+        model: 'typesafe/jev-1.13-20260917', answers: { monitor.id.to_s => { type: 'noul', noul: 0.99 } }, usage: { input_tokens: 10 }
       }.to_json }
     end
     ConversationMonitors::Evaluator.new(work).perform
@@ -95,7 +97,7 @@ RSpec.describe ConversationMonitors::Update do
     expect(monitor.reload.condition).to eq('Shipping questions')
     expect(work.reload.due_at).to be_present
     stub_request(:post, endpoint).to_return(status: 200, body: {
-      model: 'jev-1.13.0', answers: { monitor.id.to_s => { type: 'noul', noul: 0.1 } }, usage: { input_tokens: 10 }
+      model: 'typesafe/jev-1.13-20260917', answers: { monitor.id.to_s => { type: 'noul', noul: 0.1 } }, usage: { input_tokens: 10 }
     }.to_json)
     work.update!(due_at: Time.current)
     ConversationMonitors::Evaluator.new(work).perform

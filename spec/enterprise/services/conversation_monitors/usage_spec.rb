@@ -12,7 +12,7 @@ RSpec.describe ConversationMonitors::Usage do
 
   around do |example|
     travel_to(Time.utc(2026, 9, 22, 12)) do
-      with_modified_env(TYPESAFE_REQUESTS_PER_MINUTE: '100', CONVERSATION_MONITORS_DAILY_TOKEN_LIMIT: '1000') { example.run }
+      with_modified_env(CONVERSATION_MONITORS_REQUESTS_PER_MINUTE: '100', CONVERSATION_MONITORS_DAILY_TOKEN_LIMIT: '1000') { example.run }
     end
   end
 

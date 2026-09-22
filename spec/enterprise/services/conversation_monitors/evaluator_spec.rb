@@ -10,12 +10,11 @@ RSpec.describe ConversationMonitors::Evaluator do
   let(:message) { create(:message, account: account, conversation: conversation, content: 'Please refund my order') }
   let(:work) { ConversationMonitors::WorkItem.find_by!(conversation_id: conversation.id) }
   let(:answers) { { monitor.id.to_s => { type: 'noul', noul: 0.95 }, second.id.to_s => { type: 'noul', noul: 0.05 } } }
-  let(:response_body) { { model: 'jev-1.13.0', answers: answers, usage: { input_tokens: 100 } } }
-  let(:endpoint) { ConversationMonitors::JevClient::ENDPOINT }
-
-  around { |example| with_modified_env(TYPESAFE_API_KEY: 'test-key') { example.run } }
+  let(:response_body) { { model: 'typesafe/jev-1.13-20260917', answers: answers, usage: { input_tokens: 100 } } }
+  let(:endpoint) { ConversationMonitors::Configuration::ENDPOINT }
 
   before do
+    create(:installation_config, name: 'CAPTAIN_OPENROUTER_API_KEY', value: 'test-key')
     account.enable_features!('reports', 'conversation_monitors')
     monitor
     second

@@ -1,5 +1,6 @@
 # Conversation Monitors: product and implementation plan
 
+> Provider update (22 September 2026): the implementation now calls Jev through OpenRouter using the shared `CAPTAIN_OPENROUTER_API_KEY` and `CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT` installation settings. The direct-TypeSafe discussion below is the original design; [current rollout instructions](conversation-monitors-implementation.md) take precedence.
 Status: approved and implemented locally on 2026-09-22. The original design below is retained for context; see [implementation and rollout notes](conversation-monitors-implementation.md) for the shipped configuration, validation results, and pilot limits. Grounded in Chatwoot commit `ef2c00a67e` and TypeSafe documentation checked on 2026-09-21. Provider validation used synthetic conversations only.
 
 ## 1. Product outcome

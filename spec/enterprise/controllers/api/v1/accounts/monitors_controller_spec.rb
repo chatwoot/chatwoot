@@ -11,8 +11,11 @@ RSpec.describe 'Monitors API', type: :request do
   let(:query) { { since: 7.days.ago.to_i, until: Time.current.to_i, interval: 'day', timezone: 'UTC' } }
   let(:preview_key) { ConversationMonitors::PreviewJob.cache_key(account.id, admin.id, 'sample') }
 
-  before { account.enable_features!('reports', 'conversation_monitors') }
-  around { |example| with_modified_env(TYPESAFE_API_KEY: 'test-key') { example.run } }
+  before do
+    account.enable_features!('reports', 'conversation_monitors')
+    create(:installation_config, name: 'CAPTAIN_OPENROUTER_API_KEY', value: 'test-key')
+  end
+
   after { Redis::Alfred.delete(preview_key) }
 
   it 'creates a durable historical scan with immutable evaluation settings' do
@@ -80,7 +83,7 @@ RSpec.describe 'Monitors API', type: :request do
     ConversationMonitors::PreviewJob.write(preview_key, { status: 'pending', condition: 'refund' })
     ConversationMonitors::PreviewJob.perform_now(account.id, admin.id, 'sample')
 
-    expect(WebMock).not_to have_requested(:post, ConversationMonitors::JevClient::ENDPOINT)
+    expect(WebMock).not_to have_requested(:post, ConversationMonitors::Configuration::ENDPOINT)
     expect(ConversationMonitors::PreviewJob.read(preview_key)).to include(status: 'error', error: 'monthly_limit')
   end
 
@@ -139,8 +142,8 @@ RSpec.describe 'Monitors API', type: :request do
 
   it 'does not expose a deleted conversation from a completed preview' do
     message
-    stub_request(:post, ConversationMonitors::JevClient::ENDPOINT).to_return(
-      status: 200, body: { model: 'jev-1.13.0', answers: { '0' => { type: 'noul', noul: 0.6 } }, usage: { input_tokens: 10 } }.to_json
+    stub_request(:post, ConversationMonitors::Configuration::ENDPOINT).to_return(
+      status: 200, body: { model: 'typesafe/jev-1.13-20260917', answers: { '0' => { type: 'noul', noul: 0.6 } }, usage: { input_tokens: 10 } }.to_json
     )
     ConversationMonitors::PreviewJob.write(preview_key, { status: 'pending', condition: 'refund' })
     ConversationMonitors::PreviewJob.perform_now(account.id, admin.id, 'sample')
@@ -155,8 +158,9 @@ RSpec.describe 'Monitors API', type: :request do
 
   it 'does not retain source text in preview storage or return redacted text later' do
     message
-    stub_request(:post, ConversationMonitors::JevClient::ENDPOINT).to_return(
-      status: 200, body: { model: 'jev-1.13.0', answers: { '0' => { type: 'noul', noul: 0.99 } }, usage: { input_tokens: 10 } }.to_json
+    stub_request(:post, ConversationMonitors::Configuration::ENDPOINT).to_return(
+      status: 200, body: { model: 'typesafe/jev-1.13-20260917', answers: { '0' => { type: 'noul', noul: 0.99 } },
+                           usage: { input_tokens: 10 } }.to_json
     )
     ConversationMonitors::PreviewJob.write(preview_key, { status: 'pending', condition: 'refund' })
     ConversationMonitors::PreviewJob.perform_now(account.id, admin.id, 'sample')
@@ -174,7 +178,7 @@ RSpec.describe 'Monitors API', type: :request do
 
     ConversationMonitors::PreviewJob.perform_now(account.id, admin.id, 'sample')
 
-    expect(WebMock).not_to have_requested(:post, ConversationMonitors::JevClient::ENDPOINT)
+    expect(WebMock).not_to have_requested(:post, ConversationMonitors::Configuration::ENDPOINT)
     expect(ConversationMonitors::PreviewJob.read(preview_key)[:status]).to eq('complete')
   end
 

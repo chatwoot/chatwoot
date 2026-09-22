@@ -16,6 +16,25 @@ RSpec.describe 'Enterprise Super Admin Application Config API', type: :request d
     expect(response.body).to include('The app handle used in Shopify Admin App Pricing URLs')
   end
 
+  %w[enterprise community].each do |plan|
+    it "exposes and saves the shared OpenRouter settings on the #{plan} config path" do
+      allow(ChatwootHub).to receive(:pricing_plan).and_return(plan)
+      get '/super_admin/app_config?config=captain'
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('OpenRouter API Key', 'OpenRouter Decision Model Endpoint')
+
+      post '/super_admin/app_config?config=captain', params: {
+        app_config: { CAPTAIN_OPENROUTER_API_KEY: 'openrouter-test-key',
+                      CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT: 'https://openrouter.ai/api/v1/systemone' }
+      }
+
+      expect(response).to redirect_to(super_admin_settings_path)
+      expect(GlobalConfig.get_value('CAPTAIN_OPENROUTER_API_KEY')).to eq('openrouter-test-key')
+      expect(GlobalConfig.get_value('CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT')).to eq('https://openrouter.ai/api/v1/systemone')
+    end
+  end
+
   it 'saves Shopify configuration with an unset or valid app handle' do
     post '/super_admin/app_config?config=shopify',
          params: { app_config: { ENABLE_SHOPIFY_INTEGRATION: 'false', SHOPIFY_APP_HANDLE: '' } }

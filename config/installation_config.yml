@@ -204,6 +204,15 @@
   description: 'The FireCrawl API key for the Captain AI service'
   locked: false
   type: secret
+- name: CAPTAIN_OPENROUTER_API_KEY
+  display_title: 'OpenRouter API Key'
+  description: 'The OpenRouter API key used by Captain Classifier (Jev decision model) and conversation monitors.'
+  locked: false
+  type: secret
+- name: CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT
+  display_title: 'OpenRouter Decision Model Endpoint'
+  description: 'The OpenRouter System One endpoint for the Jev decision model. Default: https://openrouter.ai/api/v1/systemone'
+  locked: false
 - name: CAPTAIN_CLOUD_PLAN_LIMITS
   display_title: 'Captain Cloud Plan Limits'
   description: 'The limits for the Captain AI service for different plans'

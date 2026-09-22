@@ -3,7 +3,7 @@ FactoryBot.define do
     account
     name { 'Refunds' }
     condition { 'All conversations mentioning refunds' }
-    model { 'jev-1.13.0' }
+    model { 'typesafe/jev-1.13' }
     threshold { 0.6 }
     history_since { 7.days.ago }
 
