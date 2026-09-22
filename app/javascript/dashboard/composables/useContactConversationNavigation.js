@@ -50,11 +50,11 @@ export function useContactConversationNavigation() {
   const latestConversation = computed(() =>
     isReviewingHistory.value ? (filteredConversations.value[0] ?? null) : null
   );
-  const isLatestConversation = computed(
-    () =>
-      (currentIndex.value >= 0 &&
-        currentIndex.value === orderedConversations.value.length - 1) ||
-      latestConversation.value?.id === currentChat.value?.id
+  // The window decides once loaded; until then the head of the history list stands in.
+  const isLatestConversation = computed(() =>
+    currentIndex.value >= 0
+      ? currentIndex.value === orderedConversations.value.length - 1
+      : latestConversation.value?.id === currentChat.value?.id
   );
 
   // Moving forward is a review move; on a live chat it pulls the agent off the open one.

@@ -299,6 +299,21 @@ describe('useContactConversationNavigation', () => {
     expect(isReadingHistory.value).toBe(false);
   });
 
+  it('keeps reading when the window shows a newer one but the list only holds the open one', () => {
+    setNeighbours(13, [
+      { id: 11, created_at: 100 },
+      { id: 13, created_at: 200 },
+      { id: 14, created_at: 300 },
+    ]);
+    openConversation(7, 13);
+    appliedContactFilter.value = { id: 7, name: 'Jane Doe' };
+    filteredConversations.value = [{ id: 13 }];
+
+    const { isReadingHistory } = useContactConversationNavigation();
+
+    expect(isReadingHistory.value).toBe(true);
+  });
+
   it('takes the latest conversation from the head of the history list', () => {
     openConversation(7, 13);
     filteredConversations.value = [{ id: 20 }, { id: 14 }, { id: 13 }];

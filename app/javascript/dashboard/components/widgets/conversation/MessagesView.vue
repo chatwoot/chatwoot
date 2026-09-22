@@ -294,6 +294,15 @@ export default {
       this.messageSentSinceOpened = false;
       this.resetReplyEditorHeight();
     },
+    // The link is appended once the neighbours arrive, below an already scrolled list.
+    newerConversation(conversation) {
+      if (!conversation) return;
+      this.$nextTick(() => {
+        if (!this.$route.query.messageId && !this.hasUserScrolled) {
+          this.scrollToBottom();
+        }
+      });
+    },
   },
 
   created() {
