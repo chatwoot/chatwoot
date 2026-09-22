@@ -20,6 +20,13 @@ trigger_hourly_scheduled_items_job:
   class: 'Internal::TriggerHourlyScheduledItemsJob'
   queue: scheduled_jobs
 
+# executed every 30 seconds
+# ends calls that have rung past their provider's timeout
+voice_ringing_timeout_job:
+  cron: '*/30 * * * * *'
+  class: 'Voice::RingingTimeoutJob'
+  queue: scheduled_jobs
+
 # executed At every minute..
 trigger_imap_email_inboxes_job:
   cron: '*/1 * * * *'
