@@ -226,10 +226,12 @@ class User < ApplicationRecord
 
   def notify_account_locked
     key = format(Redis::RedisKeys::AUTH_LOCK_NOTIFIED, user_id: id)
-    return if Redis::Alfred.get(key).present?
+    # SET NX dedupes concurrent locks; a failed notification must not roll back the lock.
+    return unless Redis::Alfred.set(key, 1, nx: true, ex: 24.hours.to_i)
 
     SecurityMailer.account_locked(self).deliver_later
-    Redis::Alfred.set(key, 1, nx: true, ex: 24.hours.to_i)
+  rescue StandardError => e
+    Rails.logger.error("[AuthLock] account-locked notification failed for user #{id}: #{e.message}")
   end
 
   def sync_user_sessions

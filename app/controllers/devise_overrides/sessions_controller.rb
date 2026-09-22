@@ -109,9 +109,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def authenticate_resource_with_sso_token
-    # The lock guards against password guessing; an SSO token proves identity through
-    # an IdP or an existing session, so it clears the lock (as password reset does).
-    # Use locked_at rather than access_locked? so an expired-but-uncleared lock is zeroed too.
+    # SSO proves identity via the IdP, so clear any lock (as a successful password reset does).
     @resource.unlock_access! if @resource.locked_at.present?
     # DTA evicts the earliest-expiring token after save when at max_number_of_devices.
     # The short-lived impersonation token would always be that one, so pre-evict to make room.
@@ -167,15 +165,15 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     end
 
     user.unlock_access! if user.locked_at.present?
+    user.reset_failed_attempts!
     sign_in_mfa_user(user)
   end
 
   def register_failed_mfa_attempt(user)
-    # Serialize the counter transition so concurrent wrong codes cannot each clear an expired
-    # lock and undercount. An actively locked user is rejected above, so a present locked_at
-    # here means the lock expired: clear it first so one wrong code cannot relock a stale counter.
     user.with_lock do
-      user.unlock_access! if user.locked_at.present?
+      next if user.access_locked?
+
+      user.unlock_access! if user.locked_at.present? # clear an expired lock before counting
       user.increment_failed_attempts
       user.lock_access! if user.failed_attempts >= Devise.maximum_attempts
     end

@@ -199,6 +199,15 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
           expect(user.failed_attempts).to eq(1)
         end
 
+        it 'resets accumulated failed attempts on successful mfa sign-in even when not locked' do
+          user.update!(failed_attempts: Devise.maximum_attempts - 1)
+
+          post :create, params: { mfa_token: mfa_token, otp_code: user.current_otp }
+
+          expect(response).to have_http_status(:success)
+          expect(user.reload.failed_attempts).to eq(0)
+        end
+
         it 'resets the counter and clears a stale lock on successful mfa sign-in' do
           user.update!(failed_attempts: 5, locked_at: (Devise.unlock_in + 1.hour).ago)
 
