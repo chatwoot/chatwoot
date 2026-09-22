@@ -38,6 +38,7 @@ Disabling `conversation_monitors` hides the API and stops evaluation. Durable in
 - Existing report viewers can see aggregate charts. Only account administrators can preview, create/manage monitors, or drill down.
 - Hour, six-hour, and day buckets use an explicit IANA timezone, including daylight-saving transitions. Chart and drilldown share half-open boundaries. A stale drilldown gets `409 data_changed` and the UI refreshes.
 - The date picker offers 7-day and 30-day presets plus a custom range of 7–30 calendar days inclusive. It automatically uses the account reporting timezone, then the general account timezone, then the user's browser timezone. The timezone selector is hidden. The account API normalizes Rails timezone names to IANA identifiers for browser date calculations.
+- Date range and grouping live in a compact filter popover at the chart's top right, alongside a muted summary of the displayed filters. Apply closes the popover; invalid custom ranges keep it open with an inline error. Keyboard focus returns to the trigger on Apply or Escape, and the shared popover uses a centered sheet on mobile.
 - Historical results are retained until monitor or source deletion, or until a description change replaces them through reevaluation. Individual report requests are bounded to 366 days and 744 buckets. Ranges before the initial scan visibly indicate incomplete coverage.
 - The graph has no separate progress card. Paused/scanning states and actionable errors appear as compact text beside the chart, with Retry available for administrators. One short coverage note appears below the chart when the selected range includes periods that were not fully checked.
 
@@ -83,6 +84,8 @@ Monitor usage emits `evaluation.conversation_monitors` notifications containing 
 ## Validation
 
 The final PR checks after the agent-reply, `0.6` threshold, context-trimming, and five-message live-window refinements passed 356 focused RSpec examples and 40 Vitest tests. Ruby lint passed across 57 feature files; frontend lint reported zero errors and eight dynamic-translation warnings. The earlier validation runs below record the additional browser, provider, and concurrency probes performed during implementation.
+
+The subsequent compact-filter UI change passed 39 monitor/popover tests and focused ESLint with no errors and four existing dynamic-translation warnings. Browser checks covered draft versus applied summaries, presets, valid/invalid custom ranges, Escape/focus restoration, and the 390-pixel mobile layout.
 
 The implementation was exercised against isolated PostgreSQL and Redis databases with synthetic data only:
 

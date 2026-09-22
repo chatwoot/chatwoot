@@ -57,6 +57,19 @@ const responseFor = (params, count = 2) => ({
   },
 });
 
+const mountOptions = {
+  global: {
+    renderStubDefaultSlot: true,
+    stubs: {
+      Dialog: false,
+      Popover: {
+        template: '<div><slot :is-open="true" /><slot name="content" /></div>',
+        methods: { hide: vi.fn() },
+      },
+    },
+  },
+};
+
 describe('MonitorShow', () => {
   let wrapper;
   beforeEach(() => {
@@ -78,7 +91,7 @@ describe('MonitorShow', () => {
 
   it('uses the account timezone for custom calendar dates across daylight saving', async () => {
     state.account.reporting_timezone = 'America/New_York';
-    wrapper = shallowMount(MonitorShow);
+    wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
     await wrapper.find('select').setValue('custom');
     const inputs = wrapper.findAllComponents({ name: 'Input' });
@@ -95,7 +108,7 @@ describe('MonitorShow', () => {
   });
 
   it('rejects custom ranges outside 7–30 calendar days without replacing the displayed report', async () => {
-    wrapper = shallowMount(MonitorShow);
+    wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
     await wrapper.find('select').setValue('custom');
     const inputs = wrapper.findAllComponents({ name: 'Input' });
@@ -122,9 +135,7 @@ describe('MonitorShow', () => {
   });
 
   it('edits both name and description using the version shown when the editor opened', async () => {
-    wrapper = shallowMount(MonitorShow, {
-      global: { renderStubDefaultSlot: true, stubs: { Dialog: false } },
-    });
+    wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
     wrapper
       .findAllComponents({ name: 'Button' })
@@ -153,9 +164,7 @@ describe('MonitorShow', () => {
   });
 
   it('drills into the displayed chart snapshot while a refresh is pending', async () => {
-    wrapper = shallowMount(MonitorShow, {
-      global: { renderStubDefaultSlot: true, stubs: { Dialog: false } },
-    });
+    wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
     const original = { ...MonitorsAPI.timeseries.mock.calls[0][1] };
     let finish;
@@ -183,9 +192,7 @@ describe('MonitorShow', () => {
   });
 
   it('closes a rolling edge bucket when its population changes without a membership revision', async () => {
-    wrapper = shallowMount(MonitorShow, {
-      global: { renderStubDefaultSlot: true, stubs: { Dialog: false } },
-    });
+    wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
     wrapper
       .findComponent({ name: 'BarChart' })
@@ -201,9 +208,7 @@ describe('MonitorShow', () => {
   });
 
   it('cannot restore an old account response after a route change with invalid draft dates', async () => {
-    wrapper = shallowMount(MonitorShow, {
-      global: { renderStubDefaultSlot: true, stubs: { Dialog: false } },
-    });
+    wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
     const params = { ...MonitorsAPI.timeseries.mock.calls[0][1] };
     let finish;
@@ -238,9 +243,7 @@ describe('MonitorShow', () => {
       response.data.monitor.processing.state = 'paused';
       return Promise.resolve(response);
     });
-    wrapper = shallowMount(MonitorShow, {
-      global: { renderStubDefaultSlot: true, stubs: { Dialog: false } },
-    });
+    wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
     expect(MonitorsAPI.timeseries.mock.lastCall[1]).toMatchObject({
       until: pausedAt,
@@ -265,9 +268,7 @@ describe('MonitorShow', () => {
   });
 
   it('pauses through the confirmation dialog and retains the chart', async () => {
-    wrapper = shallowMount(MonitorShow, {
-      global: { renderStubDefaultSlot: true, stubs: { Dialog: false } },
-    });
+    wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
     MonitorsAPI.update.mockResolvedValue({ data: {} });
     const pausedAt = Math.ceil(Date.now() / 1000) + 1;
@@ -307,9 +308,7 @@ describe('MonitorShow', () => {
         paused = false;
         return { data: {} };
       });
-      wrapper = shallowMount(MonitorShow, {
-        global: { renderStubDefaultSlot: true, stubs: { Dialog: false } },
-      });
+      wrapper = shallowMount(MonitorShow, mountOptions);
       await flushPromises();
       wrapper
         .findAllComponents({ name: 'Button' })

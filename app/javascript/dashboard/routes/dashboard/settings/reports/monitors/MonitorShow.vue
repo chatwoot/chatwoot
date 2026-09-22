@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { addDays, differenceInCalendarDays, format } from 'date-fns';
@@ -12,6 +12,7 @@ import BarChart from 'shared/components/charts/BarChart.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import Popover from 'dashboard/components-next/popover/Popover.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import MonitorDrilldown from './MonitorDrilldown.vue';
@@ -46,8 +47,14 @@ const startDate = ref(
 const endDate = ref(today);
 const request = ref(null);
 const displayedRequest = ref(null);
+const displayedRangeDays = ref('7');
 const collectionEndsAt = ref(null);
 const activeRangeDays = ref('7');
+const filterPopover = ref(null);
+const filterTrigger = ref(null);
+const filterForm = ref(null);
+const rangeSelect = ref(null);
+const filterError = ref('');
 const drilldown = ref(null);
 const drilldownLabel = ref('');
 const refreshedAt = ref(null);
@@ -61,6 +68,51 @@ const resumeMode = ref('catch_up');
 const isSaving = ref(false);
 const monitor = computed(() => result.value?.monitor);
 const monitorId = computed(() => route.params.monitorId);
+const groupingOptions = computed(() => [
+  { value: 'hour', label: t('MONITORS.INTERVALS.hour') },
+  { value: 'six_hours', label: t('MONITORS.INTERVALS.six_hours') },
+  { value: 'day', label: t('MONITORS.INTERVALS.day') },
+]);
+const filterSummary = computed(() => {
+  if (!displayedRequest.value) return '';
+  let range;
+  if (displayedRangeDays.value === 'custom') {
+    const dateOptions = {
+      timeZone: displayedRequest.value.timezone,
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    };
+    range = t('MONITORS.CUSTOM_RANGE_SUMMARY', {
+      from: new Date(displayedRequest.value.since * 1000).toLocaleDateString(
+        undefined,
+        dateOptions
+      ),
+      to: new Date(
+        (displayedRequest.value.until - 1) * 1000
+      ).toLocaleDateString(undefined, dateOptions),
+    });
+  } else {
+    range = monitor.value?.paused_at
+      ? t('MONITORS.LAST_DAYS_BEFORE_PAUSE', { days: displayedRangeDays.value })
+      : t('MONITORS.LAST_DAYS', { days: displayedRangeDays.value });
+  }
+  return t('MONITORS.FILTER_SUMMARY', {
+    range,
+    interval: groupingOptions.value.find(
+      option => option.value === displayedRequest.value.interval
+    ).label,
+  });
+});
+const focusFilters = async () => {
+  await nextTick();
+  rangeSelect.value?.focus();
+};
+const restoreFilterFocus = () => {
+  if (filterForm.value?.contains(document.activeElement)) {
+    filterTrigger.value?.$el.focus();
+  }
+};
 const pausedAtLabel = computed(() =>
   monitor.value?.paused_at
     ? new Date(monitor.value.paused_at * 1000).toLocaleString(undefined, {
@@ -133,6 +185,7 @@ const fetchReport = async () => {
     }
   }
   const requestedFilters = { ...request.value };
+  const requestedRangeDays = activeRangeDays.value;
   const requestedAccount = accountId.value;
   const requestedMonitor = monitorId.value;
   try {
@@ -182,6 +235,7 @@ const fetchReport = async () => {
     }
     result.value = response.data;
     displayedRequest.value = requestedFilters;
+    displayedRangeDays.value = requestedRangeDays;
     refreshedAt.value = new Date().toLocaleTimeString();
     error.value = '';
   } catch (failure) {
@@ -192,6 +246,7 @@ const fetchReport = async () => {
 };
 
 const applyFilters = () => {
+  filterError.value = '';
   if (rangeDays.value === 'custom') {
     const days =
       differenceInCalendarDays(
@@ -203,7 +258,7 @@ const applyFilters = () => {
       days < MIN_RANGE_DAYS ||
       days > MAX_RANGE_DAYS
     ) {
-      error.value = t('MONITORS.CUSTOM_RANGE_HELP');
+      filterError.value = t('MONITORS.CUSTOM_RANGE_HELP');
       return;
     }
   }
@@ -222,7 +277,7 @@ const applyFilters = () => {
         ).getTime() / 1000
       : until - Number(rangeDays.value) * 86400;
   if (!Number.isFinite(since) || !Number.isFinite(until) || since >= until) {
-    error.value = errorText('invalid_parameters');
+    filterError.value = errorText('invalid_parameters');
     return;
   }
   request.value = {
@@ -233,6 +288,7 @@ const applyFilters = () => {
   };
   activeRangeDays.value = rangeDays.value;
   drilldown.value = null;
+  filterPopover.value?.hide();
   fetchReport();
 };
 
@@ -245,6 +301,7 @@ watch(
     collectionEndsAt.value = null;
     drilldown.value = null;
     notice.value = '';
+    filterPopover.value?.hide();
     actionDialog.value?.close();
     applyFilters();
   },
@@ -392,72 +449,126 @@ const duplicate = () =>
       />
     </div>
   </ReportHeader>
-  <form
-    class="mb-6 flex flex-wrap items-end gap-4"
-    @submit.prevent="applyFilters"
-  >
-    <label class="flex flex-col gap-2 text-sm text-n-slate-12">
-      {{ t('MONITORS.DATE_RANGE') }}
-      <select
-        v-model="rangeDays"
-        class="m-0 w-44 rounded-lg border border-n-weak bg-n-solid-1 text-sm text-n-slate-12"
-      >
-        <option
-          v-for="days in [MIN_RANGE_DAYS, MAX_RANGE_DAYS]"
-          :key="days"
-          :value="String(days)"
-        >
-          {{
-            monitor?.paused_at
-              ? t('MONITORS.LAST_DAYS_BEFORE_PAUSE', { days })
-              : t('MONITORS.LAST_DAYS', { days })
-          }}
-        </option>
-        <option value="custom">{{ t('MONITORS.CUSTOM_RANGE') }}</option>
-      </select>
-    </label>
-    <template v-if="rangeDays === 'custom'">
-      <Input v-model="startDate" type="date" :label="t('MONITORS.FROM')" />
-      <Input v-model="endDate" type="date" :label="t('MONITORS.TO')" />
-    </template>
-    <label class="flex flex-col gap-2 text-sm text-n-slate-12">
-      {{ t('MONITORS.INTERVAL') }}
-      <select
-        v-model="interval"
-        class="m-0 w-36 rounded-lg border border-n-weak bg-n-solid-1 text-sm text-n-slate-12"
-      >
-        <option
-          v-for="value in ['hour', 'six_hours', 'day']"
-          :key="value"
-          :value="value"
-        >
-          {{ t(`MONITORS.INTERVALS.${value}`) }}
-        </option>
-      </select>
-    </label>
-    <Button
-      type="submit"
-      slate
-      faded
-      :label="t('MONITORS.APPLY')"
-      :is-loading="isPending"
-    />
-  </form>
-  <p v-if="rangeDays === 'custom'" class="text-xs text-n-slate-11">
-    {{ t('MONITORS.CUSTOM_RANGE_HELP') }}
-  </p>
   <p v-if="error" role="alert" class="text-sm text-n-ruby-11">{{ error }}</p>
   <p v-if="notice" role="status" class="text-sm text-n-slate-11">
     {{ notice }}
   </p>
-  <div v-if="!result && isPending" class="flex justify-center py-20">
-    <Spinner />
-  </div>
-  <template v-if="result">
-    <div class="rounded-xl border border-n-weak bg-n-solid-1 p-5">
+  <div class="rounded-xl border border-n-weak bg-n-solid-1 p-5">
+    <div class="flex flex-wrap items-center justify-between gap-3">
       <p class="m-0 text-sm text-n-slate-11">
         {{ t('MONITORS.MATCHING_CONVERSATIONS') }}
       </p>
+      <div class="ms-auto flex min-w-0 items-center gap-2">
+        <span class="text-end text-xs text-n-slate-11">
+          {{ filterSummary }}
+        </span>
+        <Popover
+          ref="filterPopover"
+          @show="focusFilters"
+          @hide="restoreFilterFocus"
+        >
+          <template #default="{ isOpen }">
+            <Button
+              ref="filterTrigger"
+              v-tooltip.bottom="t('MONITORS.FILTERS')"
+              slate
+              ghost
+              size="sm"
+              icon="i-lucide-list-filter"
+              class="shrink-0"
+              :aria-label="t('MONITORS.FILTERS')"
+              :aria-expanded="isOpen"
+              aria-haspopup="dialog"
+              aria-controls="monitor-chart-filters"
+            />
+          </template>
+          <template #content>
+            <form
+              id="monitor-chart-filters"
+              ref="filterForm"
+              role="dialog"
+              :aria-label="t('MONITORS.FILTERS')"
+              class="flex w-full flex-col gap-4 p-4 md:w-72"
+              @submit.prevent="applyFilters"
+            >
+              <p class="m-0 text-sm font-medium text-n-slate-12">
+                {{ t('MONITORS.FILTERS') }}
+              </p>
+              <label class="flex flex-col gap-2 text-sm text-n-slate-12">
+                {{ t('MONITORS.DATE_RANGE') }}
+                <select
+                  ref="rangeSelect"
+                  v-model="rangeDays"
+                  class="m-0 w-full rounded-lg border border-n-weak bg-n-solid-1 text-sm text-n-slate-12"
+                >
+                  <option
+                    v-for="days in [MIN_RANGE_DAYS, MAX_RANGE_DAYS]"
+                    :key="days"
+                    :value="String(days)"
+                  >
+                    {{
+                      monitor?.paused_at
+                        ? t('MONITORS.LAST_DAYS_BEFORE_PAUSE', { days })
+                        : t('MONITORS.LAST_DAYS', { days })
+                    }}
+                  </option>
+                  <option value="custom">
+                    {{ t('MONITORS.CUSTOM_RANGE') }}
+                  </option>
+                </select>
+              </label>
+              <template v-if="rangeDays === 'custom'">
+                <Input
+                  v-model="startDate"
+                  type="date"
+                  :label="t('MONITORS.FROM')"
+                />
+                <Input
+                  v-model="endDate"
+                  type="date"
+                  :label="t('MONITORS.TO')"
+                />
+                <p v-if="!filterError" class="m-0 text-xs text-n-slate-11">
+                  {{ t('MONITORS.CUSTOM_RANGE_HELP') }}
+                </p>
+              </template>
+              <label class="flex flex-col gap-2 text-sm text-n-slate-12">
+                {{ t('MONITORS.INTERVAL') }}
+                <select
+                  v-model="interval"
+                  class="m-0 w-full rounded-lg border border-n-weak bg-n-solid-1 text-sm text-n-slate-12"
+                >
+                  <option
+                    v-for="option in groupingOptions"
+                    :key="option.value"
+                    :value="option.value"
+                  >
+                    {{ option.label }}
+                  </option>
+                </select>
+              </label>
+              <p
+                v-if="filterError"
+                role="alert"
+                class="m-0 text-xs text-n-ruby-11"
+              >
+                {{ filterError }}
+              </p>
+              <Button
+                type="submit"
+                size="sm"
+                :label="t('MONITORS.APPLY')"
+                :is-loading="isPending"
+              />
+            </form>
+          </template>
+        </Popover>
+      </div>
+    </div>
+    <div v-if="!result && isPending" class="flex justify-center py-20">
+      <Spinner />
+    </div>
+    <template v-if="result">
       <p class="mb-1 mt-2 text-3xl font-semibold text-n-slate-12">
         {{ result.total_count }}
       </p>
@@ -515,8 +626,8 @@ const duplicate = () =>
             : t('MONITORS.REFRESHED', { time: refreshedAt })
         }}
       </p>
-    </div>
-  </template>
+    </template>
+  </div>
   <MonitorDrilldown
     v-if="isAdmin"
     :request="drilldown"
