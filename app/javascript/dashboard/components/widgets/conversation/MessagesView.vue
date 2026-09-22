@@ -1,8 +1,9 @@
 <script>
-import { ref, provide, inject, useTemplateRef } from 'vue';
-import { useElementSize } from '@vueuse/core';
+import { ref, provide, inject, nextTick, useTemplateRef } from 'vue';
+import { useElementSize, useEventListener } from '@vueuse/core';
 // composable
 import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { CONTACT_CONVERSATION_NAVIGATION } from 'dashboard/composables/useContactConversationNavigation';
 
@@ -60,6 +61,7 @@ export default {
   setup() {
     const conversationPanelRef = ref(null);
     const resizableEditorWrapperRef = ref(null);
+    const replyBoxRef = ref(null);
     const messagesViewRef = useTemplateRef('messagesViewRef');
     const topBannerRef = useTemplateRef('topBannerRef');
     const { height: containerHeight } = useElementSize(messagesViewRef);
@@ -84,6 +86,21 @@ export default {
 
     provide('contextMenuElementTarget', conversationPanelRef);
 
+    // The editor focuses itself on these shortcuts, but only once it is shown.
+    const revealReplyBox = () => {
+      if (!isReadingHistory.value) return;
+      leaveReadingMode();
+      nextTick(() => replyBoxRef.value?.messageEditor?.focusEditorInputField());
+    };
+    useKeyboardEvents({
+      'Alt+KeyP': { action: revealReplyBox, allowOnFocusedInput: false },
+      'Alt+KeyL': { action: revealReplyBox, allowOnFocusedInput: false },
+    });
+    // ReplyBox attaches pasted files from anywhere on the page, folded or not.
+    useEventListener(document, 'paste', e => {
+      if (e.clipboardData?.files.length) revealReplyBox();
+    });
+
     return {
       captainTasksEnabled,
       getLabelSuggestions,
@@ -96,8 +113,10 @@ export default {
       isReplyRevealed,
       latestConversation,
       leaveReadingMode,
+      revealReplyBox,
       conversationPanelRef,
       resizableEditorWrapperRef,
+      replyBoxRef,
       messagesViewRef,
       topBannerRef,
       containerHeight,
@@ -533,8 +552,8 @@ export default {
     </div>
     <MessageList
       ref="conversationPanelRef"
-      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
-      :class="{ 'pb-16': isReadingHistory }"
+      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0"
+      :class="isReadingHistory ? 'pb-16' : 'pb-4'"
       :current-user-id="currentUserId"
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
@@ -617,7 +636,7 @@ export default {
         v-if="isReadingHistory"
         class="absolute inset-x-2 bottom-2 z-10"
         :has-latest="Boolean(latestConversation)"
-        @reply="leaveReadingMode"
+        @reply="revealReplyBox"
         @go-to-latest="openConversation(latestConversation)"
       />
       <ResizableEditorWrapper
@@ -626,7 +645,10 @@ export default {
         :class="{ 'animate-fade-in-up': isReplyRevealed }"
         :container-height="Math.max(0, containerHeight - topBannerHeight)"
       >
-        <ReplyBox @toggle-editor-size="toggleReplyEditorSize" />
+        <ReplyBox
+          ref="replyBoxRef"
+          @toggle-editor-size="toggleReplyEditorSize"
+        />
       </ResizableEditorWrapper>
     </div>
   </div>
