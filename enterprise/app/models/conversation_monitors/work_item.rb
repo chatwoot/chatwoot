@@ -10,9 +10,10 @@ class ConversationMonitors::WorkItem < ApplicationRecord
     create_or_find_by!(conversation_id: conversation.id) { |work| work.account_id = conversation.account_id }
   end
 
-  def request!(invalidate: false, activity_at: nil)
+  def request!(invalidate: false, activity_at: nil, full_history: false)
     with_lock do
       self.revision += 1
+      self.full_history_revision = revision if full_history || invalidate
       self.generation += 1 if invalidate
       self.due_at = [due_at, 3.seconds.from_now].compact.min
       self.requested_at = Time.current

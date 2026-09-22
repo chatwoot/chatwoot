@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_22_003000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_22_005000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -879,6 +879,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_003000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "activity_at"
+    t.bigint "full_history_revision", default: 0, null: false
     t.index ["account_id"], name: "index_conversation_monitor_work_items_on_account_id"
     t.index ["conversation_id"], name: "index_conversation_monitor_work_items_on_conversation_id", unique: true
     t.index ["due_at"], name: "index_monitor_work_due", where: "(due_at IS NOT NULL)"

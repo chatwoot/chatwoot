@@ -31,7 +31,8 @@ class ConversationMonitors::Evaluator
 
       token = SecureRandom.uuid
       @work.update!(lease_token: token, lease_expires_at: LEASE_DURATION.from_now)
-      { token: token, revision: @work.revision, generation: @work.generation }
+      { token: token, revision: @work.revision, generation: @work.generation,
+        full_history: @work.full_history_revision > @work.processed_revision }
     end
   end
 
@@ -45,7 +46,8 @@ class ConversationMonitors::Evaluator
   end
 
   def evaluate
-    state = ConversationMonitors::ContextBuilder.new(@work.conversation).build
+    message_limit = ConversationMonitors::Configuration::LIVE_MESSAGE_LIMIT unless @snapshot[:full_history]
+    state = ConversationMonitors::ContextBuilder.new(@work.conversation, message_limit: message_limit).build
     @monitors.group_by(&:model).each_value do |monitors|
       monitors.each_slice(QUESTIONS_PER_REQUEST) { |batch| evaluate_batch(state, batch) }
     end

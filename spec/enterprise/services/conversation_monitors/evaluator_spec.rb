@@ -25,6 +25,8 @@ RSpec.describe ConversationMonitors::Evaluator do
   end
 
   it 'batches independent questions and counts a conversation only once per monitor' do
+    boundary_answers = { monitor.id.to_s => { type: 'noul', noul: 0.6 }, second.id.to_s => { type: 'noul', noul: 0.5999 } }
+    stub_request(:post, endpoint).to_return(status: 200, body: response_body.merge(answers: boundary_answers).to_json)
     evaluate.call
     expect(monitor.evaluations.sole.status).to eq('matched')
     expect(second.evaluations.sole.status).to eq('unmatched')
@@ -36,22 +38,32 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(work.reload.due_at).to be_nil
   end
 
-  it 'reevaluates negatives on new incoming messages without calling already matched conditions' do
-    evaluate.call
-    create(:message, account: account, conversation: conversation, content: 'Also, what is my WhatsApp BSUID?')
-    work.reload.update!(due_at: Time.current)
-    stub_request(:post, endpoint).with { |request| JSON.parse(request.body)['questions'].keys == [second.id.to_s] }
-                                 .to_return(status: 200, body: response_body.deep_merge(answers: { second.id.to_s => { type: 'noul',
-                                                                                                                       noul: 0.9 } }).to_json)
-    evaluate.call
+  %i[incoming outgoing].each do |message_type|
+    it "reevaluates negatives on new #{message_type} messages without calling already matched conditions" do
+      6.times { |index| create(:message, account: account, conversation: conversation, content: "Earlier #{index}") }
+      evaluate.call
+      create(:message, message_type: message_type, account: account, conversation: conversation, content: 'About WhatsApp BSUID')
+      work.reload.update!(due_at: Time.current)
+      reply_request = stub_request(:post, endpoint).with do |request|
+        body = JSON.parse(request.body)
+        speaker = message_type == :incoming ? 'customer' : 'agent'
+        body['questions'].keys == [second.id.to_s] &&
+          body['state']['messages'].pluck('text') == ['Earlier 2', 'Earlier 3', 'Earlier 4', 'Earlier 5', 'About WhatsApp BSUID'] &&
+          body['state']['messages'].last == { 'speaker' => speaker, 'text' => 'About WhatsApp BSUID' }
+      end.to_return(status: 200, body: response_body.deep_merge(answers: { second.id.to_s => { type: 'noul', noul: 0.9 } }).to_json)
+      evaluate.call
 
-    expect(second.evaluations.sole.status).to eq('matched')
-    expect(monitor.evaluations.sole.status).to eq('matched')
+      expect(second.evaluations.sole.status).to eq('matched')
+      expect(monitor.evaluations.sole.status).to eq('matched')
+      expect(reply_request).to have_been_requested.once
+      expect(WebMock).to have_requested(:post, endpoint).twice
+    end
   end
 
   it 'keeps an input arriving during a provider request due for another evaluation' do
     stub_request(:post, endpoint).to_return do
       create(:message, account: account, conversation: conversation, content: 'Another question')
+      ConversationMonitors::Scheduler.request_for_monitor(conversation, second, second.collection_version)
       { status: 200, body: response_body.to_json }
     end
     evaluate.call
@@ -59,6 +71,49 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(work.reload.revision).to be > work.processed_revision
     expect(work.due_at).to be_present
     expect(work.lease_token).to be_nil
+    expect(work.full_history_revision).to be > work.processed_revision
+  end
+
+  it 'preserves full-history backfill across live messages and recovery, then returns to the live window' do
+    conversation.update!(created_at: 1.day.ago)
+    6.times { |index| create(:message, account: account, conversation: conversation, content: "History #{index}") }
+    ConversationMonitors::BackfillJob.perform_now(monitor.id)
+    create(:message, :outgoing, account: account, conversation: conversation, content: 'Reply during backfill')
+    work.reload.update!(due_at: Time.current)
+    contexts = []
+    negative_answers = { monitor.id.to_s => { type: 'noul', noul: 0.1 }, second.id.to_s => { type: 'noul', noul: 0.1 } }
+    stub_request(:post, endpoint).to_return do |request|
+      contexts << JSON.parse(request.body)['state']['messages'].pluck('text')
+      { status: 200, body: response_body.merge(answers: negative_answers).to_json }
+    end
+
+    ConversationMonitors::ProcessJob.perform_now(conversation.id)
+
+    expected_history = ['Please refund my order'] + Array.new(6) { |index| "History #{index}" } + ['Reply during backfill']
+    expect(contexts.sole).to eq(expected_history)
+    expect(work.reload.full_history_revision).to be <= work.processed_revision
+    create(:message, account: account, conversation: conversation, content: 'New live message')
+    work.reload.update!(due_at: Time.current)
+    ConversationMonitors::ProcessJob.perform_now(conversation.id)
+
+    expect(contexts.last).to eq(['History 3', 'History 4', 'History 5', 'Reply during backfill', 'New live message'])
+    expect(WebMock).to have_requested(:post, endpoint).twice
+  end
+
+  it 'sends trimmed oversized conversations to Jev and saves the returned decisions' do
+    create(:message, :outgoing, account: account, conversation: conversation, content: "#{'x' * 30_000} WhatsApp BSUID")
+    trimmed_request = stub_request(:post, endpoint).with do |request|
+      context = JSON.parse(request.body)['state']
+      context['truncated'] && context.to_json.bytesize <= ConversationMonitors::Configuration::MAX_CONTEXT_BYTES &&
+        context['messages'].last['text'].end_with?('WhatsApp BSUID')
+    end.to_return(status: 200, body: response_body.to_json)
+
+    evaluate.call
+
+    expect(trimmed_request).to have_been_requested.once
+    expect(monitor.evaluations.sole.status).to eq('matched')
+    expect(second.evaluations.sole.status).to eq('unmatched')
+    expect(work.reload.error_code).to be_nil
   end
 
   it 'rejects an in-flight positive result after redaction' do
@@ -70,6 +125,7 @@ RSpec.describe ConversationMonitors::Evaluator do
 
     expect(monitor.evaluations.where(status: 'matched')).not_to exist
     expect(work.reload.due_at).to be_present
+    expect(work.full_history_revision).to be > work.processed_revision
   end
 
   it 'preserves valid answers while retrying missing answers' do
@@ -130,12 +186,13 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(work.reload.due_at).to be_present
   end
 
-  it 'preserves existing matches and skips future incoming messages when all monitors are paused' do
+  it 'preserves existing matches and skips future public messages when all monitors are paused' do
     evaluate.call
     monitor.update!(paused_at: Time.current)
     second.update!(paused_at: Time.current)
     revision = work.reload.revision
     create(:message, account: account, conversation: conversation, content: 'New incoming message after pause')
+    create(:message, :outgoing, account: account, conversation: conversation, content: 'New agent reply after pause')
     fresh = create(:conversation, account: account)
     create(:message, account: account, conversation: fresh, content: 'New conversation after pause')
     evaluate.call

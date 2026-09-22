@@ -1,9 +1,11 @@
 class ConversationMonitors::Configuration
   MODEL = 'jev-1.13.0'.freeze
-  THRESHOLD = 0.65
+  THRESHOLD = 0.6
   CONTEXT_VERSION = 1
   MAX_MONITORS = 20
   MAX_CONTEXT_BYTES = 28_000
+  MAX_CUSTOMER_CONTEXT_BYTES = 4_000
+  LIVE_MESSAGE_LIMIT = 5
   MAX_REQUEST_BYTES = 60_000
 
   def self.configured?

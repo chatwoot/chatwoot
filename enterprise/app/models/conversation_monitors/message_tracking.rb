@@ -12,7 +12,7 @@ module ConversationMonitors::MessageTracking
   private
 
   def request_monitor_evaluation
-    return unless incoming? && !private?
+    return unless (incoming? || outgoing?) && !private?
 
     @monitor_work_requested = ConversationMonitors::Scheduler.request(conversation, activity_at: created_at).present?
     @monitor_creation_tracked = @monitor_work_requested

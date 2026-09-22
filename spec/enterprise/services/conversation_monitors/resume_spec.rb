@@ -34,7 +34,7 @@ RSpec.describe ConversationMonitors::Resume do
     expect(WebMock).to have_requested(:post, endpoint).once
   end
 
-  it 'catches up new conversations and incoming replies on older conversations, excluding private notes and agent-only activity' do
+  it 'catches up new conversations and public replies on older conversations, excluding private notes' do
     monitor
     fresh = create(:conversation, account: account, created_at: 1.hour.ago)
     private_only = create(:conversation, account: account, created_at: 1.day.ago)
@@ -46,7 +46,7 @@ RSpec.describe ConversationMonitors::Resume do
     described_class.new(monitor, mode: 'catch_up', collection_version: 0).perform
     resumption = monitor.resumptions.sole
     ConversationMonitors::ResumptionJob.perform_now(resumption.id)
-    expect(monitor.evaluations.pluck(:conversation_id)).to contain_exactly(conversation.id, fresh.id)
+    expect(monitor.evaluations.pluck(:conversation_id)).to contain_exactly(conversation.id, fresh.id, agent_only.id)
     ConversationMonitors::WorkItem.where(account: account).each do |work|
       work.update!(due_at: Time.current)
       ConversationMonitors::Evaluator.new(work).perform
@@ -54,8 +54,8 @@ RSpec.describe ConversationMonitors::Resume do
     ConversationMonitors::ResumptionJob.perform_now(resumption.id)
 
     expect(resumption.reload.enumerated_at).to be_present
-    expect(monitor.matched_conversations.pluck(:id)).to contain_exactly(conversation.id, fresh.id)
-    expect(WebMock).to have_requested(:post, endpoint).twice
+    expect(monitor.matched_conversations.pluck(:id)).to contain_exactly(conversation.id, fresh.id, agent_only.id)
+    expect(WebMock).to have_requested(:post, endpoint).times(3)
   end
 
   it 'does not catch up a future-only monitor when another monitor queues the same conversation' do

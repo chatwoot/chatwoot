@@ -10,7 +10,7 @@ class ConversationMonitors::Resumption < ApplicationRecord
   def population
     range = started_at...ended_at
     conversations = monitor.account.conversations
-    messages = monitor.account.messages.where(message_type: :incoming, private: false, created_at: range).select(:conversation_id)
+    messages = monitor.account.messages.where(message_type: [:incoming, :outgoing], private: false, created_at: range).select(:conversation_id)
     conversations.where(created_at: range).or(conversations.where(id: messages))
   end
 
