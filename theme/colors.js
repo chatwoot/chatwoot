@@ -1,6 +1,4 @@
 const {
-  blue,
-  blueDark,
   green,
   greenDark,
   yellow,
@@ -14,19 +12,22 @@ const {
 } = require('@radix-ui/colors');
 
 export const colors = {
+  // Fidvance dark-navy rebrand: mirrors the --iris-*/--blue-* ramp in
+  // app/javascript/dashboard/assets/scss/_next-colors.scss so legacy
+  // `woot-*` classes match the newer `n-iris`/`n-blue` components.
   woot: {
-    25: blue.blue2,
-    50: blue.blue3,
-    75: blue.blue4,
-    100: blue.blue5,
-    200: blue.blue7,
-    300: blue.blue8,
-    400: blueDark.blue11,
-    500: blueDark.blue10,
-    600: blueDark.blue9,
-    700: blueDark.blue8,
-    800: blueDark.blue6,
-    900: blueDark.blue2,
+    25: '#0F142B',
+    50: '#121A3A',
+    75: '#14214D',
+    100: '#182A63',
+    200: '#214094',
+    300: '#264EB3',
+    400: '#4A72FF',
+    500: '#2D5BFF',
+    600: '#2346D6',
+    700: '#214094',
+    800: '#182A63',
+    900: '#0F142B',
   },
   green: {
     50: greenDark.green12,
@@ -226,7 +227,7 @@ export const colors = {
     },
 
     black: '#000000',
-    brand: '#2781F6',
+    brand: '#2D5BFF',
     portal: 'var(--dynamic-portal-color)',
     'portal-soft': 'var(--dynamic-portal-color-soft)',
     'portal-faint': 'var(--dynamic-portal-color-faint)',
