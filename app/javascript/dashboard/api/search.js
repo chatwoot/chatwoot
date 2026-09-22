@@ -7,11 +7,7 @@ class SearchAPI extends ApiClient {
   }
 
   get({ q }) {
-    return axios.get(this.url, {
-      params: {
-        q,
-      },
-    });
+    return axios.get(this.url, { params: { q } });
   }
 
   counts({ q, types, since, until, from, inboxId }, { signal } = {}) {
@@ -21,60 +17,31 @@ class SearchAPI extends ApiClient {
     });
   }
 
-  contacts({ q, page = 1, perPage, since, until }, { signal } = {}) {
+  contacts({ q, page = 1, since, until }, { signal } = {}) {
     return axios.get(`${this.url}/contacts`, {
-      ...(signal && { signal }),
-      params: {
-        q,
-        page: page,
-        ...(perPage && { per_page: perPage }),
-        since,
-        until,
-      },
+      signal,
+      params: { q, page, since, until },
     });
   }
 
-  conversations({ q, page = 1, perPage, since, until }, { signal } = {}) {
+  conversations({ q, page = 1, since, until }, { signal } = {}) {
     return axios.get(`${this.url}/conversations`, {
-      ...(signal && { signal }),
-      params: {
-        q,
-        page: page,
-        ...(perPage && { per_page: perPage }),
-        since,
-        until,
-      },
+      signal,
+      params: { q, page, since, until },
     });
   }
 
-  messages(
-    { q, page = 1, perPage, since, until, from, inboxId },
-    { signal } = {}
-  ) {
+  messages({ q, page = 1, since, until, from, inboxId }, { signal } = {}) {
     return axios.get(`${this.url}/messages`, {
-      ...(signal && { signal }),
-      params: {
-        q,
-        page: page,
-        ...(perPage && { per_page: perPage }),
-        since,
-        until,
-        from,
-        inbox_id: inboxId,
-      },
+      signal,
+      params: { q, page, since, until, from, inbox_id: inboxId },
     });
   }
 
-  articles({ q, page = 1, perPage, since, until }, { signal } = {}) {
+  articles({ q, page = 1, since, until }, { signal } = {}) {
     return axios.get(`${this.url}/articles`, {
-      ...(signal && { signal }),
-      params: {
-        q,
-        page: page,
-        ...(perPage && { per_page: perPage }),
-        since,
-        until,
-      },
+      signal,
+      params: { q, page, since, until },
     });
   }
 }

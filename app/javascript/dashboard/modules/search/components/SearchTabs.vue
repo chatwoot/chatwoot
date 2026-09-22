@@ -33,7 +33,7 @@ watch(
 const tabBarTabs = computed(() => {
   return props.tabs.map(tab => ({
     label: tab.name,
-    count: tab.showBadge ? tab.count : null,
+    count: tab.count,
     showBadge: tab.showBadge,
   }));
 });
@@ -57,18 +57,16 @@ const onTabChange = selectedTab => {
           {{ t('SEARCH.COUNT_BADGE', { count: tab.count }) }}
         </span>
         <span
-          v-else-if="tab.showBadge"
-          :aria-label="
-            isFetchingCounts
-              ? t('SEARCH.COUNTS_LOADING')
-              : t('SEARCH.COUNTS_UNAVAILABLE')
-          "
+          v-else-if="tab.showBadge && isFetchingCounts"
+          :aria-label="t('SEARCH.COUNTS_LOADING')"
         >
-          {{
-            isFetchingCounts
-              ? t('SEARCH.COUNT_PENDING')
-              : t('SEARCH.COUNT_UNKNOWN')
-          }}
+          {{ t('SEARCH.COUNT_PENDING') }}
+        </span>
+        <span
+          v-else-if="tab.showBadge"
+          :aria-label="t('SEARCH.COUNTS_UNAVAILABLE')"
+        >
+          {{ t('SEARCH.COUNT_UNKNOWN') }}
         </span>
       </template>
     </TabBar>
