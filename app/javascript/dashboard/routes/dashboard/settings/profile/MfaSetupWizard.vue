@@ -121,6 +121,10 @@ const downloadBackupCodes = () => {
 };
 
 const cancelSetup = () => {
+  // A pending verification may already have activated MFA server-side;
+  // stay mounted so the response can advance to the backup-code step.
+  if (isVerifying.value) return;
+
   setupStep.value = 'qr';
   verificationCode.value = '';
   verificationError.value = '';
@@ -240,6 +244,7 @@ defineExpose({
               faded
               color="slate"
               class="flex-1"
+              :disabled="isVerifying"
               :label="$t('MFA_SETTINGS.SETUP.CANCEL')"
               @click="cancelSetup"
             />
