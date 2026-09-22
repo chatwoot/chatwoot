@@ -347,4 +347,38 @@ RSpec.describe 'Device verification on sign-in', type: :request do
       expect(response.headers['access-token']).to be_present
     end
   end
+
+  describe 'interaction with account MFA enforcement' do
+    include_context 'with device verification enabled'
+
+    before do
+      skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+      account.update!(enforce_mfa: true)
+    end
+
+    it 'challenges the device before offering enforced MFA enrolment' do
+      sign_in!
+
+      expect(response).to have_http_status(:partial_content)
+      body = response.parsed_body
+      expect(body['mfa_required']).to be(true)
+      expect(body['verification_channel']).to eq('email')
+      expect(body['mfa_setup_required']).to be_nil
+      expect(response.headers['access-token']).to be_nil
+    end
+
+    it 'hands a verified device the enrolment challenge instead of a session' do
+      sign_in!
+      redeem!(issued_token, emailed_codes.last)
+
+      expect(response).to have_http_status(:partial_content)
+      body = response.parsed_body
+      expect(body['mfa_setup_required']).to be(true)
+      expect(body['mfa_setup_token']).to be_present
+      expect(body['provisioning_url']).to include('otpauth://')
+      expect(response.headers['access-token']).to be_nil
+      expect(response.cookies.keys).to include("cw_dv_#{user.id}")
+      expect(Enterprise::DeviceVerificationMailer).to have_received(:new_device)
+    end
+  end
 end
