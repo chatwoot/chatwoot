@@ -142,6 +142,28 @@ RSpec.describe Campaign do
         campaign.trigger!
       end
 
+      it 'rechecks a deferred schedule under the lock before starting a queued campaign' do
+        campaign.save!
+        described_class.find(campaign.id).update!(scheduled_at: 1.hour.from_now)
+        expect(Twilio::OneoffSmsCampaignService).not_to receive(:new)
+
+        Campaigns::TriggerOneoffCampaignJob.perform_now(campaign)
+
+        expect(campaign.reload).to be_active
+        expect(campaign.started_at).to be_nil
+      end
+
+      it 'starts a rescheduled campaign when its new due time arrives' do
+        campaign.save!
+        campaign.update!(scheduled_at: 1.hour.from_now)
+        sms_service = instance_double(Twilio::OneoffSmsCampaignService, perform: nil)
+        expect(Twilio::OneoffSmsCampaignService).to receive(:new).with(campaign: campaign).and_return(sms_service)
+
+        travel_to(campaign.scheduled_at + 1.second) { campaign.trigger! }
+
+        expect(campaign.reload).to be_processing
+      end
+
       it 'keeps the campaign processing when triggering fails' do
         campaign.save!
         sms_service = double

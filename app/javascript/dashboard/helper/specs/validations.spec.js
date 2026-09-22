@@ -1,5 +1,44 @@
 import { describe, it, expect } from 'vitest';
-import { parseRouteFilters, validateAutomation } from '../validations';
+import {
+  parseRouteFilters,
+  validateAutomation,
+  validateSingleFilter,
+} from '../validations';
+
+describe('validateSingleFilter', () => {
+  it.each([0, false])('accepts the explicit value %s', values => {
+    expect(
+      validateSingleFilter({
+        attribute_key: 'custom_value',
+        filter_operator: 'equal_to',
+        values,
+      })
+    ).toBeNull();
+  });
+
+  it.each([undefined, null, '', [], {}])(
+    'rejects an empty value %s',
+    values => {
+      expect(
+        validateSingleFilter({
+          attribute_key: 'custom_value',
+          filter_operator: 'equal_to',
+          values,
+        })
+      ).toBe('VALUE_REQUIRED');
+    }
+  );
+
+  it('still rejects zero days before', () => {
+    expect(
+      validateSingleFilter({
+        attribute_key: 'created_at',
+        filter_operator: 'days_before',
+        values: 0,
+      })
+    ).toBe('VALUE_MUST_BE_BETWEEN_1_AND_998');
+  });
+});
 
 describe('validateAutomation', () => {
   it('should return no errors for a valid automation', () => {

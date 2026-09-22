@@ -1,6 +1,7 @@
 <script>
 // utils and composables
 import { login } from '../../api/auth';
+import { getLoginRedirectURL } from '../../helpers/AuthHelper';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { required, email } from '@vuelidate/validators';
@@ -73,6 +74,7 @@ export default {
       error: '',
       mfaRequired: false,
       mfaToken: null,
+      verificationChannel: null,
       sessionsLimitReached: false,
       limitedSessions: [],
     };
@@ -191,6 +193,7 @@ export default {
             this.loginApi.showLoading = false;
             this.mfaRequired = true;
             this.mfaToken = result.mfaToken;
+            this.verificationChannel = result.verificationChannel || null;
             return;
           }
 
@@ -234,15 +237,21 @@ export default {
 
       this.submitLogin();
     },
-    handleMfaVerified() {
-      // MFA verification successful, continue with login
+    handleMfaVerified(data) {
+      // Verification successful; honor the requested account/conversation link
+      // the same way the direct-login path does, instead of always going to /app.
       this.handleImpersonation();
-      window.location = '/app';
+      window.location = getLoginRedirectURL({
+        ssoAccountId: this.ssoAccountId,
+        ssoConversationId: this.ssoConversationId,
+        user: data?.data,
+      });
     },
     handleMfaCancel() {
       // User cancelled MFA, reset state
       this.mfaRequired = false;
       this.mfaToken = null;
+      this.verificationChannel = null;
       this.credentials.password = '';
     },
     retryLoginWithParams(extraParams) {
@@ -262,6 +271,13 @@ export default {
       this.loginApi.showLoading = true;
       login(credentials)
         .then(result => {
+          if (result?.mfaRequired) {
+            this.loginApi.showLoading = false;
+            this.mfaRequired = true;
+            this.mfaToken = result.mfaToken;
+            this.verificationChannel = result.verificationChannel || null;
+            return;
+          }
           if (result?.sessionsLimitReached) {
             this.loginApi.showLoading = false;
             this.sessionsLimitReached = true;
@@ -335,6 +351,7 @@ export default {
     <section v-else-if="mfaRequired" class="mt-11">
       <MfaVerification
         :mfa-token="mfaToken"
+        :verification-channel="verificationChannel"
         @verified="handleMfaVerified"
         @cancel="handleMfaCancel"
       />

@@ -298,6 +298,11 @@
 - name: LOGIN_LOCATION_NOTIFICATION_ENABLED
   value: false
   description: 'Email users when their account is signed in to from a location we have not seen before'
+- name: DEVICE_VERIFICATION_ENABLED
+  display_title: 'Device Verification'
+  value: false
+  type: boolean
+  description: 'Require an emailed code to complete password sign-ins from unrecognized devices (Chatwoot Cloud only)'
 - name: CLOUD_ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
