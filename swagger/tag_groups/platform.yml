@@ -31,14 +31,14 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
-      description: 'Available from Chatwoot `v4.19.0`. Send an existing API token as `Authorization: Bearer <token>`. Find user tokens in **Profile Settings**, agent bot tokens in **Settings → Agent Bots**, and platform app tokens in **Super Admin** after creating a platform app. Tokens retain their existing permissions. The `api_access_token` header remains supported for compatibility.'
+      description: 'Available from Chatwoot `v4.19.0`. Send an existing user, agent bot, or platform app token as `Authorization: Bearer <token>`. Get tokens from **Profile Settings**, **Settings → Agent Bots**, or **Super Admin**, respectively. Existing permissions still apply; the `api_access_token` header remains supported.'
     userApiKey:
       type: apiKey
       in: header
       name: api_access_token
-      description: "Deprecated starting in Chatwoot `v4.19.0`. **Recommended:** use `bearerAuth` with `Authorization: Bearer <token>`. The `api_access_token` header remains supported for backward compatibility. This token can be obtained by visiting the profile page or via rails console. Provides access to endpoints based on the user permissions levels."
+      description: 'Deprecated from Chatwoot `v4.19.0`; use `bearerAuth` instead. The `api_access_token` header still works. Get a user token from **Profile Settings**; access follows the user’s permissions.'
     platformAppApiKey:
       type: apiKey
       in: header
       name: api_access_token
-      description: '**Recommended from Chatwoot `v4.19.0`:** use `bearerAuth` with `Authorization: Bearer <token>`. A system admin can obtain this token after creating a platform app. It can provision agent bots, accounts, users, and their roles.'
+      description: 'Use `bearerAuth` from Chatwoot `v4.19.0`. Get a platform app token in **Super Admin** after creating the app. It can provision agent bots, accounts, users, and their roles.'
