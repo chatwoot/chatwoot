@@ -50,11 +50,28 @@ class Rack::Attack
     end
 
     # Keep API tokens in the same bucket regardless of which header carries them.
-    def api_user_identifier
+    def api_user_identifier(mask_token: false)
       scheme, token = ActionDispatch::Request.new(env).authorization.to_s.split(' ', 2)
-      return bearer_user_identifier(token) if scheme&.casecmp?('Bearer')
+      if scheme&.casecmp?('Bearer')
+        identifier = bearer_user_identifier(token)
+        return mask_api_token(identifier) if mask_token && identifier == token
 
-      get_header('HTTP_UID').presence || get_header('HTTP_API_ACCESS_TOKEN').presence || get_header('api_access_token').presence
+        return identifier
+      end
+
+      legacy_user_identifier(mask_token: mask_token)
+    end
+
+    def mask_api_token(token)
+      "#{token[0..4]}...[REDACTED]" if token.present?
+    end
+
+    def legacy_user_identifier(mask_token:)
+      user_uid = get_header('HTTP_UID').presence
+      return user_uid if user_uid
+
+      token = get_header('HTTP_API_ACCESS_TOKEN').presence || get_header('api_access_token').presence
+      mask_token ? mask_api_token(token) : token
     end
 
     def bearer_user_identifier(token)
@@ -354,14 +371,7 @@ end
 ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start, _finish, _request_id, payload|
   req = payload[:request]
 
-  user_uid = req.get_header('HTTP_UID')
-  api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
-
-  # Mask the token if present
-  masked_api_token = api_access_token.present? ? "#{api_access_token[0..4]}...[REDACTED]" : nil
-
-  # Use uid if present, otherwise fallback to masked api_access_token for tracking
-  user_identifier = user_uid.presence || masked_api_token.presence || 'unknown_user'
+  user_identifier = req.api_user_identifier(mask_token: true) || 'unknown_user'
 
   # Extract account ID if present
   account_match = %r{/accounts/(?<account_id>\d+)}.match(req.path)
