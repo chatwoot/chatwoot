@@ -39,7 +39,12 @@ export const actions = {
       });
     }
   },
-  update: async ({ commit }, { conversationId, labels }) => {
+  update: async ({ commit, state: $state }, { conversationId, labels }) => {
+    const previousLabels = $state.records[Number(conversationId)];
+    commit(types.default.SET_CONVERSATION_LABELS, {
+      id: conversationId,
+      data: labels,
+    });
     commit(types.default.SET_CONVERSATION_LABELS_UI_FLAG, {
       isUpdating: true,
     });
@@ -57,6 +62,10 @@ export const actions = {
         isError: false,
       });
     } catch (error) {
+      commit(types.default.SET_CONVERSATION_LABELS, {
+        id: conversationId,
+        data: previousLabels,
+      });
       commit(types.default.SET_CONVERSATION_LABELS_UI_FLAG, {
         isUpdating: false,
         isError: true,

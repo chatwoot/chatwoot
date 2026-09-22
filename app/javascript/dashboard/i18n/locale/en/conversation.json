@@ -212,6 +212,15 @@
       "APPLY": "Snooze",
       "CANCEL": "Cancel"
     },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "Accept",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "Dismiss",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again."
+    },
     "PRIORITY": {
       "TITLE": "Priority",
       "OPTIONS": {

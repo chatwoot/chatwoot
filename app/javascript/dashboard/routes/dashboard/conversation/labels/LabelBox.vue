@@ -7,13 +7,25 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import Spinner from 'shared/components/Spinner.vue';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
 import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import SuggestionChip from 'dashboard/components-next/captain/classifier/SuggestionChip.vue';
+import SuggestionSkeleton from 'dashboard/components-next/captain/classifier/SuggestionSkeleton.vue';
 
 export default {
   components: {
     Spinner,
     LabelDropdown,
     AddLabel,
+    Icon,
+    SuggestionChip,
+    SuggestionSkeleton,
   },
+  props: {
+    suggestedLabels: { type: Array, default: () => [] },
+    isSuggestionActive: { type: Boolean, default: false },
+    isSuggesting: { type: Boolean, default: false },
+  },
+  emits: ['acceptSuggestion', 'rejectSuggestion', 'acceptAllSuggestions'],
   setup() {
     const { isAdmin } = useAdmin();
 
@@ -90,18 +102,66 @@ export default {
         @keyup.esc="closeDropdownLabel"
       >
         <AddLabel @add="toggleLabels" />
-        <woot-label
-          v-for="label in activeLabels"
-          :key="label.id"
-          :title="label.title"
-          :description="label.description"
-          show-close
-          :color="label.color"
-          variant="smooth"
-          class="max-w-[calc(100%-0.5rem)]"
-          @remove="removeLabelFromConversation"
-        />
-
+        <TransitionGroup
+          enter-active-class="animate-pop-in"
+          leave-active-class="transition duration-150 ease-in absolute"
+          leave-to-class="opacity-0 scale-90"
+          move-class="transition-transform duration-200"
+        >
+          <woot-label
+            v-for="label in activeLabels"
+            :key="label.id"
+            :title="label.title"
+            :description="label.description"
+            show-close
+            :color="label.color"
+            variant="smooth"
+            class="max-w-[calc(100%-0.5rem)]"
+            @remove="removeLabelFromConversation"
+          />
+        </TransitionGroup>
+        <template v-if="isSuggestionActive">
+          <template v-if="isSuggesting">
+            <SuggestionSkeleton
+              class="h-6 w-20 mb-1 rounded me-1 animate-pop-in"
+            />
+            <SuggestionSkeleton
+              class="h-6 w-28 mb-1 rounded me-1 animate-pop-in [animation-delay:70ms]"
+            />
+          </template>
+          <span
+            v-else-if="!suggestedLabels.length"
+            class="inline-flex items-center h-6 gap-1 mb-1 text-xs text-n-slate-11 animate-fade-in-up"
+          >
+            <Icon icon="i-ph-sparkle-fill" class="size-3 text-n-iris-9" />
+            {{ $t('CONVERSATION.SUGGESTIONS.EMPTY') }}
+          </span>
+          <TransitionGroup
+            v-else
+            leave-active-class="transition duration-150 ease-in absolute"
+            leave-to-class="opacity-0 scale-90"
+            move-class="transition-transform duration-200"
+          >
+            <SuggestionChip
+              v-for="(label, index) in suggestedLabels"
+              :key="label.id"
+              :title="label.title"
+              :color="label.color"
+              :index="index"
+              @accept="$emit('acceptSuggestion', label)"
+              @reject="$emit('rejectSuggestion', label)"
+            />
+            <button
+              v-if="suggestedLabels.length > 1"
+              key="accept-all"
+              class="inline-flex items-center h-6 gap-1 px-2 mb-1 text-xs font-medium transition-all rounded text-n-iris-11 bg-n-iris-3 hover:bg-n-iris-4 hover:text-n-iris-12 active:scale-95 animate-pop-in [animation-delay:210ms]"
+              @click="$emit('acceptAllSuggestions')"
+            >
+              <Icon icon="i-lucide-check-check" />
+              {{ $t('CONVERSATION.SUGGESTIONS.ACCEPT_ALL') }}
+            </button>
+          </TransitionGroup>
+        </template>
         <div
           :class="{
             'block visible': showSearchDropdownLabel,
