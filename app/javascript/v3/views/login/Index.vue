@@ -270,6 +270,17 @@ export default {
       this.verificationChannel = null;
       this.credentials.password = '';
     },
+    // Device verification passed but the account still requires enrolment;
+    // swap the challenge screen for the setup wizard.
+    handleMfaSetupRequired(data) {
+      this.mfaRequired = false;
+      this.mfaToken = null;
+      this.verificationChannel = null;
+      this.mfaSetupRequired = true;
+      this.mfaSetupToken = data.mfa_setup_token;
+      this.mfaProvisioningUrl = data.provisioning_url;
+      this.mfaSecret = data.secret;
+    },
     handleMfaSetupVerified(data) {
       this.handleImpersonation();
       window.location = getLoginRedirectURL({
@@ -384,6 +395,7 @@ export default {
         :mfa-token="mfaToken"
         :verification-channel="verificationChannel"
         @verified="handleMfaVerified"
+        @setup-required="handleMfaSetupRequired"
         @cancel="handleMfaCancel"
       />
     </section>
