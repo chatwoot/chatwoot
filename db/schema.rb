@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_17_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_22_007000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -817,6 +817,95 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_17_000000) do
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
   end
 
+  create_table "conversation_monitor_daily_usages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.date "usage_date", null: false
+    t.integer "calls_count", default: 0, null: false
+    t.datetime "limit_reached_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "usage_date"], name: "index_monitor_daily_usage_unique", unique: true
+    t.check_constraint "calls_count >= 0", name: "monitor_daily_usage_nonnegative"
+  end
+
+  create_table "conversation_monitor_evaluations", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "monitor_id", null: false
+    t.bigint "conversation_id", null: false
+    t.string "status", default: "pending", null: false
+    t.bigint "input_revision", default: 0, null: false
+    t.bigint "generation", default: 0, null: false
+    t.float "score"
+    t.string "model"
+    t.string "error_code"
+    t.datetime "matched_at"
+    t.datetime "evaluated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "requested_version"
+    t.index ["account_id"], name: "index_conversation_monitor_evaluations_on_account_id"
+    t.index ["conversation_id"], name: "index_conversation_monitor_evaluations_on_conversation_id"
+    t.index ["monitor_id", "conversation_id"], name: "index_monitor_evaluations_unique", unique: true
+    t.index ["monitor_id", "status", "conversation_id"], name: "index_monitor_evaluations_status"
+    t.index ["monitor_id"], name: "index_conversation_monitor_evaluations_on_monitor_id"
+  end
+
+  create_table "conversation_monitor_scans", force: :cascade do |t|
+    t.bigint "monitor_id", null: false
+    t.string "kind", null: false
+    t.bigint "collection_version", null: false
+    t.datetime "started_at", null: false
+    t.datetime "ended_at", null: false
+    t.bigint "cursor", default: 0, null: false
+    t.datetime "enumerated_at"
+    t.datetime "cancelled_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["monitor_id", "collection_version", "kind"], name: "index_monitor_scans_version_kind", unique: true
+    t.index ["monitor_id"], name: "index_monitor_scans_initial", unique: true, where: "((kind)::text = 'initial'::text)"
+  end
+
+  create_table "conversation_monitor_work_items", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "revision", default: 0, null: false
+    t.bigint "processed_revision", default: 0, null: false
+    t.bigint "generation", default: 0, null: false
+    t.datetime "due_at"
+    t.string "lease_token"
+    t.datetime "lease_expires_at"
+    t.integer "attempts", default: 0, null: false
+    t.string "error_code"
+    t.datetime "requested_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "activity_at"
+    t.bigint "full_history_revision", default: 0, null: false
+    t.index ["account_id"], name: "index_conversation_monitor_work_items_on_account_id"
+    t.index ["conversation_id"], name: "index_conversation_monitor_work_items_on_conversation_id", unique: true
+    t.index ["due_at"], name: "index_monitor_work_due", where: "(due_at IS NOT NULL)"
+  end
+
+  create_table "conversation_monitors", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "creator_id"
+    t.string "name", null: false
+    t.text "condition", null: false
+    t.string "model", null: false
+    t.float "threshold", null: false
+    t.datetime "history_since", null: false
+    t.datetime "deleted_at"
+    t.bigint "data_revision", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "paused_at"
+    t.bigint "collection_version", default: 0, null: false
+    t.datetime "resumed_at"
+    t.datetime "recheck_requested_at"
+    t.index ["account_id"], name: "index_conversation_monitors_on_account_id"
+    t.index ["creator_id"], name: "index_conversation_monitors_on_creator_id"
+  end
+
   create_table "conversation_outcomes", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "assistant_id", null: false
@@ -1604,6 +1693,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_17_000000) do
   add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
+  add_foreign_key "conversation_monitor_daily_usages", "accounts", on_delete: :cascade
+  add_foreign_key "conversation_monitor_evaluations", "accounts", on_delete: :cascade
+  add_foreign_key "conversation_monitor_evaluations", "conversation_monitors", column: "monitor_id", on_delete: :cascade
+  add_foreign_key "conversation_monitor_evaluations", "conversations", on_delete: :cascade
+  add_foreign_key "conversation_monitor_scans", "conversation_monitors", column: "monitor_id", on_delete: :cascade
+  add_foreign_key "conversation_monitor_work_items", "accounts", on_delete: :cascade
+  add_foreign_key "conversation_monitor_work_items", "conversations", on_delete: :cascade
+  add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
+  add_foreign_key "conversation_monitors", "users", column: "creator_id", on_delete: :nullify
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
