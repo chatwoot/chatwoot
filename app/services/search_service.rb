@@ -65,8 +65,7 @@ class SearchService
 
   def advanced_search_with_fallback(count: false)
     @message_backend = 'opensearch'
-    results = advanced_search(count: count)
-    count ? results.total_count : results.to_a
+    advanced_search(count: count)
   rescue Faraday::ConnectionFailed, Searchkick::Error, OpenSearch::Transport::Transport::Error => e
     Rails.logger.warn("Elasticsearch unavailable, falling back to SQL search: #{e.message}")
     use_gin_search ? filter_messages_with_gin : filter_messages_with_like

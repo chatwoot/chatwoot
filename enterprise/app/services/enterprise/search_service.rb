@@ -15,22 +15,30 @@ module Enterprise::SearchService
     where_conditions = build_where_conditions
     apply_filters(where_conditions)
 
-    options = if count
-                { limit: 0, load: false, body_options: { track_total_hits: true } }
-              else
-                # id breaks created_at ties; unmapped_type supports older indexed documents.
-                { order: { created_at: :desc, id: { order: :desc, unmapped_type: 'long' } }, page: params[:page] || 1, per_page: page_size }
-              end
-
-    Message.search(
+    results = Message.search(
       search_query,
       fields: %w[content attachments.transcribed_text content_attributes.email.subject],
       where: where_conditions,
-      **options
+      **advanced_search_options(count: count)
     )
+    return count ? results.total_count : results.to_a unless restricted_conversation_access?
+
+    scope = current_account.messages.where(conversation_id: accessible_conversations.select(:id))
+    permitted = Search::PermissionScopedMessages.new(search: results, scope: scope)
+    count ? permitted.total_count : permitted.records(page: params[:page], per_page: page_size)
   end
 
   private
+
+  def advanced_search_options(count:)
+    return { limit: 0, load: false, body_options: { track_total_hits: true } } if count && !restricted_conversation_access?
+
+    # id breaks created_at ties; unmapped_type supports older indexed documents.
+    order = { created_at: :desc, id: { order: :desc, unmapped_type: 'long' } }
+    return { order: order, page: params[:page] || 1, per_page: page_size } unless restricted_conversation_access?
+
+    { order: count ? { _doc: :asc } : order, limit: Search::PermissionScopedMessages::BATCH_SIZE, scroll: '1m', load: false, select: [] }
+  end
 
   def message_base_query
     query = super
@@ -45,7 +53,6 @@ module Enterprise::SearchService
   def build_where_conditions
     conditions = { account_id: current_account.id }
     conditions[:inbox_id] = accessable_inbox_ids unless should_skip_inbox_filtering?
-    conditions[:conversation_id] = accessible_conversations.pluck(:id) if restricted_conversation_access?
     conditions
   end
 
