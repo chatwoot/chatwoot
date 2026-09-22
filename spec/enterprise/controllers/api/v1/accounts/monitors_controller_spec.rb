@@ -21,13 +21,22 @@ RSpec.describe 'Monitors API', type: :request do
   it 'creates a durable historical scan with immutable evaluation settings' do
     expect do
       post base, headers: headers, params: { name: 'Refunds', condition: 'Mentions refunds' }, as: :json
-    end.to have_enqueued_job(ConversationMonitors::BackfillJob)
+    end.to have_enqueued_job(ConversationMonitors::ScanJob)
 
     expect(response).to have_http_status(:created)
     created = account.conversation_monitors.sole
-    expect(created.backfill).to be_present
+    expect(created.initial_scan).to be_present
     expect(created.threshold).to eq(0.6)
     expect(created.history_since).to be_within(5.seconds).of(7.days.ago)
+  end
+
+  it 'rejects overlong creation fields at the monitor request boundary' do
+    [{ name: 'x' * 101, condition: 'Refunds' }, { name: 'Refunds', condition: 'x' * 2001 }].each do |attributes|
+      post base, headers: headers, params: attributes, as: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body).to eq('error' => 'invalid_parameters')
+    end
+    expect(account.conversation_monitors).not_to exist
   end
 
   it 'isolates definitions and results between accounts' do
@@ -39,15 +48,15 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'returns the created monitor when queueing fails and leaves its scan recoverable' do
-    allow(ConversationMonitors::BackfillJob).to receive(:perform_later).and_raise(Redis::CannotConnectError)
+    allow(ConversationMonitors::ScanJob).to receive(:perform_later).and_raise(Redis::CannotConnectError)
 
     post base, headers: headers, params: { name: 'Refunds', condition: 'Mentions refunds' }, as: :json
 
     expect(response).to have_http_status(:created)
     created = account.conversation_monitors.sole
-    expect(created.backfill.enumerated_at).to be_nil
-    allow(ConversationMonitors::BackfillJob).to receive(:perform_later).and_call_original
-    expect { ConversationMonitors::DispatchJob.perform_now }.to have_enqueued_job(ConversationMonitors::BackfillJob).with(created.id)
+    expect(created.initial_scan.enumerated_at).to be_nil
+    allow(ConversationMonitors::ScanJob).to receive(:perform_later).and_call_original
+    expect { ConversationMonitors::DispatchJob.perform_now }.to have_enqueued_job(ConversationMonitors::ScanJob).with(created.initial_scan.id)
   end
 
   it 'blocks feature-disabled accounts on the direct API' do
@@ -182,13 +191,10 @@ RSpec.describe 'Monitors API', type: :request do
     expect(ConversationMonitors::PreviewJob.read(preview_key)[:status]).to eq('complete')
   end
 
-  it 'updates the description and archives without removing source conversations' do
+  it 'updates the description and deletes the monitor without removing source conversations' do
     patch "#{base}/#{monitor.id}", headers: headers, params: { condition: 'a new condition', collection_version: 0 }, as: :json
     expect(response).to have_http_status(:ok)
     expect(monitor.reload.condition).to eq('a new condition')
-    patch "#{base}/#{monitor.id}", headers: headers, params: { archived: true }, as: :json
-    expect(response).to have_http_status(:ok)
-    expect(monitor.reload.archived_at).to be_present
     delete "#{base}/#{monitor.id}", headers: headers
     expect(response).to have_http_status(:no_content)
     get "#{base}/#{monitor.id}", headers: headers
@@ -264,13 +270,13 @@ RSpec.describe 'Monitors API', type: :request do
     monitor.update!(paused_at: 2.hours.ago)
     expect do
       post "#{base}/#{monitor.id}/resume", headers: headers, params: { mode: 'catch_up', collection_version: 0 }, as: :json
-    end.to have_enqueued_job(ConversationMonitors::ResumptionJob)
+    end.to have_enqueued_job(ConversationMonitors::ScanJob)
 
     expect(response).to have_http_status(:ok)
     expect(response.parsed_body['paused_at']).to be_nil
     expect(response.parsed_body['collection_version']).to eq(1)
     expect(response.parsed_body.dig('processing', 'state')).to eq('catching_up')
-    expect(monitor.resumptions.sole.mode).to eq('catch_up')
+    expect(monitor.scans.where.not(kind: 'initial').sole.kind).to eq('catch_up')
   end
 
   it 'requires administrator access and a documented resume mode' do

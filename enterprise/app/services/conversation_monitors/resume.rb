@@ -8,15 +8,13 @@ class ConversationMonitors::Resume
   def perform
     @monitor.account.with_lock do
       # Scan jobs lock their cursor before requesting work or locking the monitor.
-      @monitor.backfill.with_lock do
-        @monitor.resumptions.where(mode: 'catch_up', cancelled_at: nil).order(:id).lock.load
-        @monitor.with_lock do
-          validate!
-          resume_collection
-        end
+      @monitor.scans.order(:id).lock.load
+      @monitor.with_lock do
+        validate!
+        resume_collection
       end
     end
-    ConversationMonitors::Scheduler.start_resumption(@resumption.id) if @mode == 'catch_up'
+    ConversationMonitors::Scheduler.start_scan(@scan.id) if @mode == 'catch_up'
     ConversationMonitors::Scheduler.start_recheck(@monitor.id) if @monitor.recheck_requested_at
     ConversationMonitors::BroadcastJob.schedule(@monitor.id)
     @monitor
@@ -38,19 +36,18 @@ class ConversationMonitors::Resume
     now = Time.current
     paused_at = @monitor.paused_at
     @monitor.update!(paused_at: nil, resumed_at: now, collection_version: @monitor.collection_version + 1, data_revision: @monitor.data_revision + 1)
-    @monitor.backfill.update!(cancelled_at: now) unless @monitor.backfill.enumerated_at || @monitor.backfill.cancelled_at
     cancel_unfinished_scans(now)
     unless @monitor.recheck_requested_at
       @monitor.evaluations.where(status: %w[pending error]).update_all(status: 'skipped', requested_version: nil, error_code: nil, updated_at: now)
     end
-    @resumption = @monitor.resumptions.create!(mode: @mode, started_at: paused_at, ended_at: now,
-                                               collection_version: @monitor.collection_version, enumerated_at: @mode == 'from_now' ? now : nil)
+    @scan = @monitor.scans.create!(kind: @mode, started_at: paused_at, ended_at: now,
+                                   collection_version: @monitor.collection_version, enumerated_at: @mode == 'from_now' ? now : nil)
   end
 
   def cancel_unfinished_scans(now)
     versions = @monitor.evaluations.where(status: %w[pending error]).select(:requested_version)
-    catchups = @monitor.resumptions.where(mode: 'catch_up', cancelled_at: nil)
-    catchups.where(enumerated_at: nil).or(catchups.where(collection_version: versions)).update_all(cancelled_at: now, updated_at: now)
+    scans = @monitor.scans.where(cancelled_at: nil).where.not(kind: 'from_now')
+    scans.where(enumerated_at: nil).or(scans.where(collection_version: versions)).update_all(cancelled_at: now, updated_at: now)
   end
   # rubocop:enable Rails/SkipsModelValidations
 end

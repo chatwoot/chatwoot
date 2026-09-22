@@ -40,7 +40,7 @@ RSpec.describe ConversationMonitors::Evaluator do
 
   { 20 => [20], 21 => [20, 1] }.each do |count, batch_sizes|
     it "evaluates #{count} conditions in batches of #{batch_sizes.join(' and ')} with one credit per call" do
-      monitors = [monitor, second] + create_list(:conversation_monitor, count - 2, account: account)
+      monitors = [monitor, second] + create_list(:conversation_monitor, count - 2, account: account, created_at: 1.minute.ago)
       batches = []
       stub_request(:post, endpoint).to_return do |request|
         questions = JSON.parse(request.body)['questions']
@@ -113,7 +113,7 @@ RSpec.describe ConversationMonitors::Evaluator do
   it 'prioritizes the monthly hold when an earlier batch failed using the final credit' do
     now = Time.current.utc
     ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 99_999)
-    create_list(:conversation_monitor, 19, account: account)
+    create_list(:conversation_monitor, 19, account: account, created_at: 1.minute.ago)
     stub_request(:post, endpoint).to_return(status: 429)
 
     evaluate.call
@@ -163,7 +163,7 @@ RSpec.describe ConversationMonitors::Evaluator do
   it 'preserves full-history backfill across live messages and recovery, then returns to the live window' do
     conversation.update!(created_at: 1.day.ago)
     6.times { |index| create(:message, account: account, conversation: conversation, content: "History #{index}") }
-    ConversationMonitors::BackfillJob.perform_now(monitor.id)
+    ConversationMonitors::ScanJob.perform_now(monitor.initial_scan.id)
     create(:message, :outgoing, account: account, conversation: conversation, content: 'Reply during backfill')
     work.reload.update!(due_at: Time.current)
     contexts = []
@@ -241,6 +241,47 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(monitor.evaluations.sole.error_code).to eq('credentials_invalid')
   end
 
+  it 'does not evaluate or spend credits when reports access is disabled' do
+    account.disable_features!('reports')
+
+    evaluate.call
+
+    expect(WebMock).not_to have_requested(:post, endpoint)
+    expect(work.reload.due_at).to be_present
+    expect(ConversationMonitors::DailyUsage.where(account: account)).not_to exist
+  end
+
+  it 'does not enroll a new monitor into old shared work outside its activation cohort' do
+    conversation.update!(created_at: 20.days.ago)
+    work.update!(activity_at: 10.days.ago)
+    fresh = create(:conversation_monitor, account: account)
+
+    evaluate.call
+
+    expect(fresh.evaluations).not_to exist
+    expect(WebMock).not_to have_requested(:post, endpoint)
+  end
+
+  it 'includes a monitor activated before message commit even when another monitor already tracked the message' do
+    fresh = nil
+    public_message = build(:message, account: account, conversation: conversation, content: 'New refund')
+    allow(public_message).to receive(:catch_up_monitor_activation).and_wrap_original do |original|
+      fresh = create(:conversation_monitor, account: account)
+      original.call
+    end
+    public_message.save!
+    work.reload.update!(due_at: Time.current)
+    stub_request(:post, endpoint).to_return do |request|
+      values = JSON.parse(request.body)['questions'].keys.index_with { { type: 'noul', noul: 0.9 } }
+      { status: 200, body: response_body.merge(answers: values).to_json }
+    end
+
+    evaluate.call
+
+    expect(fresh.evaluations.sole.status).to eq('matched')
+    expect(WebMock).to have_requested(:post, endpoint).once
+  end
+
   it 'preserves due work while collection is disabled' do
     account.disable_features!('conversation_monitors')
     evaluate.call
@@ -249,9 +290,9 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(work.reload.due_at).to be_present
   end
 
-  it 'does not restore a monitor archived during evaluation' do
+  it 'does not restore a monitor deleted during evaluation' do
     stub_request(:post, endpoint).to_return do
-      monitor.update!(archived_at: Time.current)
+      monitor.update!(deleted_at: Time.current)
       { status: 200, body: response_body.to_json }
     end
     evaluate.call
@@ -261,7 +302,7 @@ RSpec.describe ConversationMonitors::Evaluator do
   end
 
   it 'does not dispatch more batches after the feature is disabled during a provider call' do
-    create_list(:conversation_monitor, 19, account: account)
+    create_list(:conversation_monitor, 19, account: account, created_at: 1.minute.ago)
     stub_request(:post, endpoint).to_return do |request|
       account.disable_features!('conversation_monitors')
       values = JSON.parse(request.body)['questions'].keys.index_with { |_id| { type: 'noul', noul: 0.9 } }
@@ -312,7 +353,7 @@ RSpec.describe ConversationMonitors::Evaluator do
   end
 
   it 'does not send a later batch for monitors paused during an earlier request' do
-    monitors = create_list(:conversation_monitor, 19, account: account)
+    monitors = create_list(:conversation_monitor, 19, account: account, created_at: 1.minute.ago)
     stub_request(:post, endpoint).to_return do |request|
       monitors.each { |entry| entry.update!(paused_at: Time.current) }
       values = JSON.parse(request.body)['questions'].keys.index_with { { type: 'noul', noul: 0.9 } }

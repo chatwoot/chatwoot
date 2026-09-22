@@ -35,11 +35,11 @@ describe('useMonitorRefresh', () => {
     vi.useRealTimers();
   });
 
-  it('refreshes for new conversations and messages, coalescing an event burst', async () => {
-    emitter.emit(BUS_EVENTS.CONVERSATION_CREATED, { account_id: 1 });
+  it('refreshes for monitor changes, coalescing an event burst', async () => {
+    emitter.emit(BUS_EVENTS.MONITOR_UPDATED, { account_id: 1 });
     expect(refresh).toHaveBeenCalledTimes(1);
-    emitter.emit(BUS_EVENTS.MESSAGE_CREATED, { account_id: 1 });
-    emitter.emit(BUS_EVENTS.MESSAGE_CREATED, { account_id: 1 });
+    emitter.emit(BUS_EVENTS.MONITOR_UPDATED, { account_id: 1 });
+    emitter.emit(BUS_EVENTS.MONITOR_UPDATED, { account_id: 1 });
     expect(refresh).toHaveBeenCalledTimes(1);
 
     await vi.advanceTimersByTimeAsync(2000);
@@ -47,7 +47,7 @@ describe('useMonitorRefresh', () => {
   });
 
   it('keeps the final evaluation update when it arrives during the refresh throttle', async () => {
-    emitter.emit(BUS_EVENTS.CONVERSATION_CREATED, { account_id: 1 });
+    emitter.emit(BUS_EVENTS.MONITOR_UPDATED, { account_id: 1 });
     await vi.advanceTimersByTimeAsync(1000);
     emitter.emit(BUS_EVENTS.MONITOR_UPDATED, {
       account_id: 1,
@@ -61,7 +61,7 @@ describe('useMonitorRefresh', () => {
 
   it('does not refresh a hidden tab and catches up when it becomes visible', async () => {
     visibility = 'hidden';
-    emitter.emit(BUS_EVENTS.MESSAGE_CREATED, { account_id: 1 });
+    emitter.emit(BUS_EVENTS.MONITOR_UPDATED, { account_id: 1 });
     await vi.advanceTimersByTimeAsync(3000);
     expect(refresh).not.toHaveBeenCalled();
 
@@ -79,13 +79,11 @@ describe('useMonitorRefresh', () => {
   });
 
   it('ignores a pending trailing refresh and new events after navigation away', async () => {
-    emitter.emit(BUS_EVENTS.CONVERSATION_CREATED, { account_id: 1 });
+    emitter.emit(BUS_EVENTS.MONITOR_UPDATED, { account_id: 1 });
     emitter.emit(BUS_EVENTS.MONITOR_UPDATED, { account_id: 1 });
     wrapper.unmount();
     refresh.mockClear();
 
-    emitter.emit(BUS_EVENTS.MESSAGE_CREATED, { account_id: 1 });
-    emitter.emit(BUS_EVENTS.CONVERSATION_CREATED, { account_id: 1 });
     emitter.emit(BUS_EVENTS.MONITOR_UPDATED, { account_id: 1 });
     emitter.emit(BUS_EVENTS.WEBSOCKET_RECONNECT);
     await vi.advanceTimersByTimeAsync(30000);

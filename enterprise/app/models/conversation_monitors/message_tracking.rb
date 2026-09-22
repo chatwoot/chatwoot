@@ -2,6 +2,7 @@ module ConversationMonitors::MessageTracking
   extend ActiveSupport::Concern
 
   included do
+    before_create :remember_monitor_activation_boundary
     after_create :request_monitor_evaluation
     after_update :invalidate_monitor_evaluation, if: :monitor_content_changed?
     before_destroy :invalidate_monitor_evaluation, unless: :private?
@@ -11,18 +12,25 @@ module ConversationMonitors::MessageTracking
 
   private
 
+  def remember_monitor_activation_boundary
+    @monitor_activation_boundary = Time.current
+  end
+
   def request_monitor_evaluation
     return unless (incoming? || outgoing?) && !private?
 
     @monitor_work_requested = ConversationMonitors::Scheduler.request(conversation, activity_at: created_at).present?
-    @monitor_creation_tracked = @monitor_work_requested
   end
 
   def catch_up_monitor_activation
-    # A monitor can be activated after this message's transaction began.
-    return if @monitor_creation_tracked
+    return unless (incoming? || outgoing?) && !private?
 
-    request_monitor_evaluation
+    # A new monitor must see messages committing after activation, even when
+    # another monitor already tracked the message before this transaction committed.
+    conversation.account.conversation_monitors.active.where(created_at: @monitor_activation_boundary..).find_each do |monitor|
+      work = ConversationMonitors::Scheduler.request_for_monitor(conversation, monitor, monitor.collection_version)
+      @monitor_work_requested = true if work
+    end
     wake_monitor_evaluation
   end
 

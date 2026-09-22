@@ -126,7 +126,6 @@ class ActionCableConnector extends BaseActionCableConnector {
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
     this.fetchConversationStats();
-    emitter.emit(BUS_EVENTS.CONVERSATION_CREATED, data);
   };
 
   onConversationBotHandoff = data => {
@@ -201,7 +200,6 @@ class ActionCableConnector extends BaseActionCableConnector {
       lastActivityAt,
       conversationId,
     });
-    emitter.emit(BUS_EVENTS.MESSAGE_CREATED, data);
   };
 
   // eslint-disable-next-line class-methods-use-this

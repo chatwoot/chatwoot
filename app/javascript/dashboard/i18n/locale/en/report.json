@@ -71,7 +71,6 @@
       "live": "Up to date",
       "delayed": "Updates are delayed",
       "needs_attention": "Needs attention",
-      "archived": "Archived",
       "paused": "Paused",
       "catching_up": "Checking the paused period"
     },
@@ -94,8 +93,7 @@
       "too_many_buckets": "Choose a shorter date range or a larger interval. A chart can show up to 744 bars.",
       "monitor_limit": "This account has reached its active monitor limit. Pause a monitor before creating another.",
       "monitor_paused": "This monitor is paused and no longer checks conversations.",
-      "monitor_changed": "This monitor changed in another session. Its current state has been refreshed. Try again.",
-      "monitor_archived": "This monitor has been archived and no longer checks conversations."
+      "monitor_changed": "This monitor changed in another session. Its current state has been refreshed. Try again."
     }
   },
   "REPORT": {

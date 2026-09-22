@@ -14,7 +14,7 @@ class ConversationMonitors::RetryJob < ApplicationJob
       ConversationMonitors::Scheduler.wake(evaluation.conversation_id)
     end
     complete_recheck(monitor, version, recheck_requested_at)
-    ConversationMonitors::BackfillJob.perform_later(monitor.id) unless monitor.backfill.enumerated_at || monitor.resumed_at
+    monitor.scans.pending.each { |scan| ConversationMonitors::Scheduler.start_scan(scan.id) }
   end
 
   private

@@ -9,7 +9,7 @@ class ConversationMonitors::Evaluator
   end
 
   def perform
-    return unless @work.account.feature_enabled?('conversation_monitors')
+    return unless ConversationMonitors::Configuration.enabled?(@work.account)
     return unless @work.account.conversation_monitors.active.exists?
 
     @snapshot = claim
@@ -80,7 +80,7 @@ class ConversationMonitors::Evaluator
   end
 
   def current_input?
-    @work.account.reload.feature_enabled?('conversation_monitors') &&
+    ConversationMonitors::Configuration.enabled?(@work.account.reload) &&
       @work.reload.generation == @snapshot[:generation] && @work.lease_token == @snapshot[:token]
   end
 
@@ -101,7 +101,7 @@ class ConversationMonitors::Evaluator
     @work.with_lock do
       return unless @work.lease_token == @snapshot[:token]
 
-      unless @work.account.reload.feature_enabled?('conversation_monitors')
+      unless ConversationMonitors::Configuration.enabled?(@work.account.reload)
         @work.update!(lease_token: nil, lease_expires_at: nil)
         return
       end

@@ -80,11 +80,7 @@ describe('ActionCableConnector - Copilot Tests', () => {
   });
 
   describe('monitor refresh events', () => {
-    const events = [
-      ['conversation.created', BUS_EVENTS.CONVERSATION_CREATED],
-      ['message.created', BUS_EVENTS.MESSAGE_CREATED],
-      ['monitor.updated', BUS_EVENTS.MONITOR_UPDATED],
-    ];
+    const events = [['monitor.updated', BUS_EVENTS.MONITOR_UPDATED]];
 
     it.each(events)('forwards %s for the active account', (event, busEvent) => {
       vi.spyOn(

@@ -19,12 +19,7 @@ export function useMonitorRefresh(refresh) {
   useIntervalFn(visibleRefresh, REFRESH_INTERVAL_MS);
   useEventListener(window, 'focus', throttledRefresh);
   useEventListener(document, 'visibilitychange', throttledRefresh);
-  const events = [
-    BUS_EVENTS.CONVERSATION_CREATED,
-    BUS_EVENTS.MESSAGE_CREATED,
-    BUS_EVENTS.MONITOR_UPDATED,
-    BUS_EVENTS.WEBSOCKET_RECONNECT,
-  ];
+  const events = [BUS_EVENTS.MONITOR_UPDATED, BUS_EVENTS.WEBSOCKET_RECONNECT];
   onMounted(() => {
     isMounted = true;
     events.forEach(event => emitter.on(event, throttledRefresh));

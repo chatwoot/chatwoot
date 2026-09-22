@@ -32,7 +32,7 @@ class ConversationMonitors::PreviewJob < ApplicationJob
   private
 
   def allowed?(account, user_id)
-    account&.feature_enabled?('conversation_monitors') && account.account_users.find_by(user_id: user_id)&.administrator?
+    account && ConversationMonitors::Configuration.enabled?(account) && account.account_users.find_by(user_id: user_id)&.administrator?
   end
 
   def sample(account)

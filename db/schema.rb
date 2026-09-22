@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_22_006000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_22_007000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -817,16 +817,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_006000) do
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
   end
 
-  create_table "conversation_monitor_backfills", force: :cascade do |t|
-    t.bigint "monitor_id", null: false
-    t.bigint "cursor", default: 0, null: false
-    t.datetime "enumerated_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "cancelled_at"
-    t.index ["monitor_id"], name: "index_conversation_monitor_backfills_on_monitor_id", unique: true
-  end
-
   create_table "conversation_monitor_daily_usages", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.date "usage_date", null: false
@@ -860,10 +850,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_006000) do
     t.index ["monitor_id"], name: "index_conversation_monitor_evaluations_on_monitor_id"
   end
 
-  create_table "conversation_monitor_resumptions", force: :cascade do |t|
+  create_table "conversation_monitor_scans", force: :cascade do |t|
     t.bigint "monitor_id", null: false
+    t.string "kind", null: false
     t.bigint "collection_version", null: false
-    t.string "mode", null: false
     t.datetime "started_at", null: false
     t.datetime "ended_at", null: false
     t.bigint "cursor", default: 0, null: false
@@ -871,8 +861,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_006000) do
     t.datetime "cancelled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["monitor_id", "collection_version"], name: "index_monitor_resumptions_version", unique: true
-    t.index ["monitor_id"], name: "index_conversation_monitor_resumptions_on_monitor_id"
+    t.index ["monitor_id", "collection_version", "kind"], name: "index_monitor_scans_version_kind", unique: true
+    t.index ["monitor_id"], name: "index_monitor_scans_initial", unique: true, where: "((kind)::text = 'initial'::text)"
   end
 
   create_table "conversation_monitor_work_items", force: :cascade do |t|
@@ -903,9 +893,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_006000) do
     t.text "condition", null: false
     t.string "model", null: false
     t.float "threshold", null: false
-    t.integer "context_version", default: 1, null: false
     t.datetime "history_since", null: false
-    t.datetime "archived_at"
     t.datetime "deleted_at"
     t.bigint "data_revision", default: 0, null: false
     t.datetime "created_at", null: false
@@ -1705,12 +1693,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_006000) do
   add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
-  add_foreign_key "conversation_monitor_backfills", "conversation_monitors", column: "monitor_id", on_delete: :cascade
   add_foreign_key "conversation_monitor_daily_usages", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "conversation_monitors", column: "monitor_id", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "conversations", on_delete: :cascade
-  add_foreign_key "conversation_monitor_resumptions", "conversation_monitors", column: "monitor_id", on_delete: :cascade
+  add_foreign_key "conversation_monitor_scans", "conversation_monitors", column: "monitor_id", on_delete: :cascade
   add_foreign_key "conversation_monitor_work_items", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_work_items", "conversations", on_delete: :cascade
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade

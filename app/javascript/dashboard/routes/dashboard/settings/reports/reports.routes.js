@@ -1,5 +1,6 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 
 import ReportsWrapper from './components/ReportsWrapper.vue';
 import Index from './Index.vue';
@@ -29,6 +30,12 @@ import MonitorShow from './monitors/MonitorShow.vue';
 const meta = {
   featureFlag: FEATURE_FLAGS.REPORTS,
   permissions: ['administrator', 'report_manage'],
+};
+
+const monitorsMeta = {
+  ...meta,
+  featureFlag: FEATURE_FLAGS.CONVERSATION_MONITORS,
+  installationTypes: [INSTALLATION_TYPES.ENTERPRISE, INSTALLATION_TYPES.CLOUD],
 };
 
 const oldReportRoutes = [
@@ -119,13 +126,13 @@ export default {
         {
           path: 'monitors',
           name: 'monitor_reports_index',
-          meta: { ...meta, featureFlag: FEATURE_FLAGS.CONVERSATION_MONITORS },
+          meta: monitorsMeta,
           component: MonitorsIndex,
         },
         {
           path: 'monitors/:monitorId',
           name: 'monitor_reports_show',
-          meta: { ...meta, featureFlag: FEATURE_FLAGS.CONVERSATION_MONITORS },
+          meta: monitorsMeta,
           component: MonitorShow,
         },
         {

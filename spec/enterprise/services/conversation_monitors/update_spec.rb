@@ -69,11 +69,11 @@ RSpec.describe ConversationMonitors::Update do
   it 'keeps a running catch-up scan eligible under the new definition' do
     monitor.update!(paused_at: 2.hours.ago)
     ConversationMonitors::Resume.new(monitor, mode: 'catch_up', collection_version: 0).perform
-    resumption = monitor.resumptions.sole
+    resumption = monitor.scans.where.not(kind: 'initial').sole
     create(:message, account: account, conversation: conversation, created_at: 1.hour.ago)
 
     described_class.new(monitor, { 'condition' => 'Shipping questions' }, collection_version: 1).perform
-    ConversationMonitors::ResumptionJob.perform_now(resumption.id)
+    ConversationMonitors::ScanJob.perform_now(resumption.id)
 
     expect(resumption.reload.collection_version).to eq(2)
     expect(resumption.enumerated_at).to be_present

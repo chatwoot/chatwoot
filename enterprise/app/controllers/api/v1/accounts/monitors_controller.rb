@@ -15,7 +15,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
     raise CustomExceptions::MonitorParametersError, 'invalid_page' unless page.between?(1, 100_000)
 
     scope = Current.account.conversation_monitors.visible.order(created_at: :desc, id: :desc)
-    render json: { payload: scope.offset((page - 1) * 20).limit(20).includes(:backfill).map { |monitor| serialize(monitor) },
+    render json: { payload: scope.offset((page - 1) * 20).limit(20).map { |monitor| serialize(monitor) },
                    meta: { total_count: scope.count, page: page, configured: ConversationMonitors::Configuration.configured?, usage: usage } }
   end
 
@@ -33,12 +33,12 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
       @monitor = Current.account.conversation_monitors.create!(attributes.merge(
                                                                  creator: Current.user, history_since: 7.days.ago,
                                                                  model: ConversationMonitors::Configuration.model,
-                                                                 context_version: ConversationMonitors::Configuration::CONTEXT_VERSION,
                                                                  threshold: ConversationMonitors::Configuration::THRESHOLD
                                                                ))
-      @monitor.create_backfill!
+      @scan = @monitor.scans.create!(kind: 'initial', started_at: @monitor.history_since, ended_at: @monitor.created_at,
+                                     collection_version: @monitor.collection_version)
     end
-    ConversationMonitors::Scheduler.start_backfill(@monitor.id)
+    ConversationMonitors::Scheduler.start_scan(@scan.id)
     render json: serialize(@monitor), status: :created
   end
 
@@ -97,7 +97,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   def retry_evaluations
     raise CustomExceptions::MonitorParametersError, 'monitor_paused' if @monitor.paused_at
 
-    raise CustomExceptions::MonitorParametersError, 'monitor_archived' unless @monitor.collecting?
+    raise CustomExceptions::MonitorParametersError, 'monitor_changed' unless @monitor.collecting?
 
     ConversationMonitors::RetryJob.perform_later(@monitor.id)
     head :accepted
@@ -134,11 +134,11 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   end
 
   def update_params
-    attributes = params.permit(:name, :condition, :archived, :paused).to_h
+    attributes = params.permit(:name, :condition, :paused).to_h
     valid_text = { 'name' => 100, 'condition' => 2000 }.slice(*params.keys).all? do |key, limit|
       valid_text_parameter?(key, limit)
     end
-    valid_state = params.slice(:archived, :paused).values.all?(true)
+    valid_state = params.slice(:paused).values.all?(true)
     raise CustomExceptions::MonitorParametersError, 'invalid_parameters' unless attributes.any? && valid_text && valid_state
 
     attributes.transform_values { |value| value.is_a?(String) ? value.strip : value }
@@ -150,8 +150,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   end
 
   def ensure_enabled
-    head :forbidden unless ChatwootApp.enterprise? && Current.account.feature_enabled?('reports') &&
-                           Current.account.feature_enabled?('conversation_monitors')
+    head :forbidden unless ConversationMonitors::Configuration.enabled?(Current.account)
   end
 
   def fetch_monitor
@@ -168,7 +167,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
 
   def create_params
     attributes = params.permit(:name, :condition).to_h
-    valid = %w[name condition].all? { |key| attributes[key].is_a?(String) && attributes[key].strip.present? }
+    valid = { 'name' => 100, 'condition' => 2000 }.all? { |key, limit| valid_text_parameter?(key, limit) }
     raise CustomExceptions::MonitorParametersError, 'invalid_parameters' unless valid
 
     attributes.transform_values(&:strip)

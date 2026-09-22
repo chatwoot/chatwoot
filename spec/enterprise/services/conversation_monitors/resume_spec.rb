@@ -24,7 +24,7 @@ RSpec.describe ConversationMonitors::Resume do
 
     expect(WebMock).not_to have_requested(:post, endpoint)
     expect(monitor.evaluations.sole.status).to eq('skipped')
-    expect(monitor.backfill.reload.cancelled_at).to be_present
+    expect(monitor.initial_scan.reload.cancelled_at).to be_present
     create(:message, account: account, conversation: conversation, content: 'A refund after resuming')
     work.reload.update!(due_at: Time.current)
     ConversationMonitors::Evaluator.new(work).perform
@@ -43,14 +43,14 @@ RSpec.describe ConversationMonitors::Resume do
     create(:message, :outgoing, account: account, conversation: agent_only, content: 'Refund', created_at: 1.hour.ago)
 
     described_class.new(monitor, mode: 'catch_up', collection_version: 0).perform
-    resumption = monitor.resumptions.sole
-    ConversationMonitors::ResumptionJob.perform_now(resumption.id)
+    resumption = monitor.scans.where.not(kind: 'initial').sole
+    ConversationMonitors::ScanJob.perform_now(resumption.id)
     expect(monitor.evaluations.pluck(:conversation_id)).to contain_exactly(conversation.id, fresh.id, agent_only.id)
     ConversationMonitors::WorkItem.where(account: account).each do |work|
       work.update!(due_at: Time.current)
       ConversationMonitors::Evaluator.new(work).perform
     end
-    ConversationMonitors::ResumptionJob.perform_now(resumption.id)
+    ConversationMonitors::ScanJob.perform_now(resumption.id)
 
     expect(resumption.reload.enumerated_at).to be_present
     expect(monitor.matched_conversations.pluck(:id)).to contain_exactly(conversation.id, fresh.id, agent_only.id)
@@ -63,7 +63,7 @@ RSpec.describe ConversationMonitors::Resume do
     create(:message, account: account, conversation: conversation, content: 'Refund during pause', created_at: 1.hour.ago)
     described_class.new(monitor, mode: 'from_now', collection_version: 0).perform
     described_class.new(other, mode: 'catch_up', collection_version: 0).perform
-    ConversationMonitors::ResumptionJob.perform_now(other.resumptions.sole.id)
+    ConversationMonitors::ScanJob.perform_now(other.scans.where.not(kind: 'initial').sole.id)
     work = ConversationMonitors::WorkItem.find_by!(conversation: conversation)
     work.update!(due_at: Time.current)
     ConversationMonitors::Evaluator.new(work).perform
@@ -77,7 +77,7 @@ RSpec.describe ConversationMonitors::Resume do
     monitor.evaluations.create!(account: account, conversation: conversation, status: 'matched')
     create(:message, account: account, conversation: conversation, content: 'Another refund request', created_at: 1.hour.ago)
     described_class.new(monitor, mode: 'catch_up', collection_version: 0).perform
-    ConversationMonitors::ResumptionJob.perform_now(monitor.resumptions.sole.id)
+    ConversationMonitors::ScanJob.perform_now(monitor.scans.where.not(kind: 'initial').sole.id)
     ConversationMonitors::WorkItem.where(account: account).each { |work| ConversationMonitors::Evaluator.new(work).perform }
 
     expect(monitor.matched_conversations.pluck(:id)).to eq([conversation.id])
@@ -85,13 +85,13 @@ RSpec.describe ConversationMonitors::Resume do
   end
 
   it 'recovers catch-up scans if the initial enqueue fails' do
-    allow(ConversationMonitors::ResumptionJob).to receive(:perform_later).and_raise(Redis::CannotConnectError)
+    allow(ConversationMonitors::ScanJob).to receive(:perform_later).and_raise(Redis::CannotConnectError)
     described_class.new(monitor, mode: 'catch_up', collection_version: 0).perform
-    resumption = monitor.resumptions.sole
-    allow(ConversationMonitors::ResumptionJob).to receive(:perform_later).and_call_original
+    resumption = monitor.scans.where.not(kind: 'initial').sole
+    allow(ConversationMonitors::ScanJob).to receive(:perform_later).and_call_original
 
     expect(monitor.reload.paused_at).to be_nil
-    expect { ConversationMonitors::DispatchJob.perform_now }.to have_enqueued_job(ConversationMonitors::ResumptionJob).with(resumption.id)
+    expect { ConversationMonitors::DispatchJob.perform_now }.to have_enqueued_job(ConversationMonitors::ScanJob).with(resumption.id)
   end
 
   it 'does not let stale resume requests restart a later pause' do
@@ -102,7 +102,7 @@ RSpec.describe ConversationMonitors::Resume do
       described_class.new(monitor, mode: 'catch_up', collection_version: 0).perform
     end.to raise_error(CustomExceptions::MonitorParametersError, 'monitor_changed')
     expect(monitor.reload.paused_at).to be_present
-    expect(monitor.resumptions.count).to eq(1)
+    expect(monitor.scans.where.not(kind: 'initial').count).to eq(1)
   end
 
   it 'enforces the active-monitor limit when resuming' do
@@ -119,12 +119,12 @@ RSpec.describe ConversationMonitors::Resume do
     monitor
     create(:message, account: account, conversation: conversation, content: 'Refund', created_at: 1.hour.ago)
     described_class.new(monitor, mode: 'catch_up', collection_version: 0).perform
-    resumption = monitor.resumptions.sole
+    resumption = monitor.scans.where.not(kind: 'initial').sole
     monitor.update!(paused_at: Time.current, collection_version: monitor.collection_version + 1)
-    ConversationMonitors::ResumptionJob.perform_now(resumption.id)
+    ConversationMonitors::ScanJob.perform_now(resumption.id)
     expect(monitor.evaluations).not_to exist
     described_class.new(monitor, mode: 'from_now', collection_version: monitor.collection_version).perform
-    ConversationMonitors::ResumptionJob.perform_now(resumption.id)
+    ConversationMonitors::ScanJob.perform_now(resumption.id)
 
     expect(resumption.reload.cancelled_at).to be_present
     expect(monitor.evaluations).not_to exist
@@ -152,7 +152,7 @@ RSpec.describe ConversationMonitors::Resume do
     monitor
     conversation
     described_class.new(monitor, mode: 'catch_up', collection_version: 0).perform
-    ConversationMonitors::ResumptionJob.perform_now(monitor.resumptions.sole.id)
+    ConversationMonitors::ScanJob.perform_now(monitor.scans.where.not(kind: 'initial').sole.id)
     create(:message, account: account, conversation: conversation, content: 'Late committed refund', created_at: 1.hour.ago)
     work = ConversationMonitors::WorkItem.find_by!(conversation: conversation)
     work.update!(due_at: Time.current)
@@ -162,27 +162,48 @@ RSpec.describe ConversationMonitors::Resume do
   end
 
   it 'leaves skipped paused periods visibly incomplete in charts and progress' do
-    monitor.backfill.update!(enumerated_at: Time.current)
+    monitor.initial_scan.update!(enumerated_at: Time.current)
     described_class.new(monitor, mode: 'from_now', collection_version: 0).perform
     report = ConversationMonitors::Report.new(monitor, { since: 3.hours.ago.to_i, until: 1.minute.from_now.to_i, interval: 'hour', timezone: 'UTC' })
     processing = ConversationMonitors::Presenter.new(monitor).as_json[:processing]
 
     expect(report.timeseries[:buckets].count { |bucket| !bucket[:covered] }).to be_positive
-    expect(processing[:has_gaps]).to be(true)
-    expect(processing[:coverage_complete]).to be(false)
     expect(processing[:state]).to eq('live')
+  end
+
+  it 'keeps canceled initial history visibly incomplete after the pause-period catch-up finishes' do
+    monitor
+    historical = create(:conversation, account: account, created_at: 4.days.ago)
+    described_class.new(monitor, mode: 'catch_up', collection_version: 0).perform
+    scan = monitor.scans.find_by!(kind: 'catch_up')
+    ConversationMonitors::ScanJob.perform_now(scan.id)
+    report = ConversationMonitors::Report.new(monitor, { since: 5.days.ago.to_i, until: 3.days.ago.to_i, interval: 'day', timezone: 'UTC' })
+
+    expect(scan.reload.enumerated_at).to be_present
+    expect(monitor.initial_scan.cancelled_at).to be_present
+    expect(monitor.initial_scan.population).to include(historical)
+    expect(monitor.evaluations).not_to exist
+    expect(report.timeseries[:buckets]).to all(include(covered: false))
+  end
+
+  it 'marks older conversation buckets incomplete when their pause-period activity was skipped' do
+    monitor.initial_scan.update!(enumerated_at: Time.current)
+    described_class.new(monitor, mode: 'from_now', collection_version: 0).perform
+    report = ConversationMonitors::Report.new(monitor, { since: 2.days.ago.to_i, until: 1.day.ago.to_i, interval: 'day', timezone: 'UTC' })
+
+    expect(report.timeseries[:buckets]).to all(include(covered: false))
   end
 
   it 'does not advance a catch-up cursor past conversations skipped by a concurrent pause' do
     monitor
     create(:message, account: account, conversation: conversation, created_at: 1.hour.ago)
     described_class.new(monitor, mode: 'catch_up', collection_version: 0).perform
-    resumption = monitor.resumptions.sole
+    resumption = monitor.scans.where.not(kind: 'initial').sole
     allow(ConversationMonitors::Scheduler).to receive(:request_for_monitor).and_wrap_original do |original, *args|
       monitor.update!(paused_at: Time.current, collection_version: monitor.collection_version + 1)
       original.call(*args)
     end
-    ConversationMonitors::ResumptionJob.perform_now(resumption.id)
+    ConversationMonitors::ScanJob.perform_now(resumption.id)
 
     expect(resumption.reload.cursor).to eq(0)
     expect(resumption.enumerated_at).to be_nil
@@ -193,13 +214,14 @@ RSpec.describe ConversationMonitors::Resume do
     monitor
     create(:message, account: account, conversation: conversation, created_at: 1.hour.ago)
     described_class.new(monitor, mode: 'catch_up', collection_version: 0).perform
-    resumption = monitor.resumptions.sole
-    ConversationMonitors::ResumptionJob.perform_now(resumption.id)
+    resumption = monitor.scans.where.not(kind: 'initial').sole
+    ConversationMonitors::ScanJob.perform_now(resumption.id)
     monitor.update!(paused_at: Time.current, collection_version: monitor.collection_version + 1)
     described_class.new(monitor, mode: 'catch_up', collection_version: monitor.collection_version).perform
 
     expect(resumption.reload.cancelled_at).to be_present
     expect(monitor.evaluations.sole.status).to eq('skipped')
-    expect(ConversationMonitors::Presenter.new(monitor).as_json[:processing][:has_gaps]).to be(true)
+    report = ConversationMonitors::Report.new(monitor, { since: 3.hours.ago.to_i, until: Time.current.to_i, interval: 'hour', timezone: 'UTC' })
+    expect(report.timeseries[:buckets].any? { |bucket| !bucket[:covered] }).to be(true)
   end
 end

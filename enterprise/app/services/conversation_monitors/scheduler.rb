@@ -30,12 +30,8 @@ class ConversationMonitors::Scheduler
     enqueue { ConversationMonitors::ProcessJob.set(wait: 3.seconds).perform_later(conversation_id) }
   end
 
-  def self.start_backfill(monitor_id)
-    enqueue { ConversationMonitors::BackfillJob.perform_later(monitor_id) }
-  end
-
-  def self.start_resumption(resumption_id)
-    enqueue { ConversationMonitors::ResumptionJob.perform_later(resumption_id) }
+  def self.start_scan(scan_id)
+    enqueue { ConversationMonitors::ScanJob.perform_later(scan_id) }
   end
 
   def self.start_recheck(monitor_id)

@@ -423,7 +423,7 @@ const duplicate = () =>
         @click="duplicate"
       />
       <Button
-        v-if="!monitor.archived_at && !monitor.paused_at"
+        v-if="!monitor.paused_at"
         v-tooltip.bottom="t('MONITORS.PAUSE')"
         slate
         faded
@@ -432,7 +432,7 @@ const duplicate = () =>
         @click="openAction('pause')"
       />
       <Button
-        v-if="monitor.paused_at && !monitor.archived_at"
+        v-if="monitor.paused_at"
         v-tooltip.bottom="t('MONITORS.RESUME')"
         slate
         faded
@@ -599,12 +599,7 @@ const duplicate = () =>
           </p>
         </div>
         <Button
-          v-if="
-            isAdmin &&
-            !monitor.archived_at &&
-            !monitor.paused_at &&
-            !result.usage?.limit_reached
-          "
+          v-if="isAdmin && !monitor.paused_at && !result.usage?.limit_reached"
           slate
           faded
           :label="t('MONITORS.RETRY')"

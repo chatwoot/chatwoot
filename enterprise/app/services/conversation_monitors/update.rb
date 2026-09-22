@@ -7,8 +7,8 @@ class ConversationMonitors::Update
 
   def perform
     # Match the scan/resume lock order before changing their collection version.
-    @monitor.backfill.with_lock do
-      @monitor.resumptions.where(mode: 'catch_up', cancelled_at: nil).order(:id).lock.load
+    ConversationMonitors::Monitor.transaction do
+      @monitor.scans.order(:id).lock.load
       @monitor.with_lock { update_monitor }
     end
     ConversationMonitors::Scheduler.start_recheck(@monitor.id) if @condition_changed
@@ -31,16 +31,12 @@ class ConversationMonitors::Update
   end
 
   def validate!
-    if @attributes.key?('condition') && @collection_version != @monitor.collection_version
-      raise CustomExceptions::MonitorParametersError, 'monitor_changed'
-    end
-    return unless @condition_changed && (@monitor.archived_at || @attributes['archived'])
+    return unless @attributes.key?('condition') && @collection_version != @monitor.collection_version
 
-    raise CustomExceptions::MonitorParametersError, 'monitor_archived'
+    raise CustomExceptions::MonitorParametersError, 'monitor_changed'
   end
 
   def update_collection
-    @monitor.archived_at ||= Time.current if @attributes['archived']
     @monitor.paused_at ||= Time.current if @attributes['paused']
     @monitor.collection_version += 1 if @condition_changed || @monitor.paused_at_changed?
   end
@@ -53,7 +49,7 @@ class ConversationMonitors::Update
       status: 'pending', score: nil, model: nil, error_code: nil, matched_at: nil, evaluated_at: nil,
       requested_version: @monitor.collection_version, updated_at: Time.current
     )
-    @monitor.resumptions.where(collection_version: previous_version).update_all(
+    @monitor.scans.where(collection_version: previous_version).update_all(
       collection_version: @monitor.collection_version, updated_at: Time.current
     )
   end

@@ -4,7 +4,7 @@ class ConversationMonitors::DispatchJob < ApplicationJob
 
   def perform
     Account.feature_conversation_monitors.find_each do |account|
-      next unless account.conversation_monitors.active.exists?
+      next unless ConversationMonitors::Configuration.enabled?(account) && account.conversation_monitors.active.exists?
 
       dispatch_account(account)
     end
@@ -24,12 +24,8 @@ class ConversationMonitors::DispatchJob < ApplicationJob
   end
 
   def dispatch_scans(account)
-    account.conversation_monitors.active.where(resumed_at: nil).joins(:backfill)
-           .where(conversation_monitor_backfills: { enumerated_at: nil, cancelled_at: nil }).find_each do |monitor|
-      ConversationMonitors::BackfillJob.perform_later(monitor.id)
-    end
-    ConversationMonitors::Resumption.pending.joins(:monitor).merge(account.conversation_monitors.active)
-                                    .where('conversation_monitor_resumptions.collection_version = conversation_monitors.collection_version')
-                                    .find_each { |resumption| ConversationMonitors::ResumptionJob.perform_later(resumption.id) }
+    ConversationMonitors::Scan.pending.joins(:monitor).merge(account.conversation_monitors.active)
+                              .where('conversation_monitor_scans.collection_version = conversation_monitors.collection_version')
+                              .find_each { |scan| ConversationMonitors::ScanJob.perform_later(scan.id) }
   end
 end
