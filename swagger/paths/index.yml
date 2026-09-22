@@ -323,6 +323,8 @@
   parameters:
     - $ref: '#/components/parameters/account_id'
     - $ref: '#/components/parameters/portal_id'
+  get:
+    $ref: ./application/portal/show.yml
   patch:
     $ref: ./application/portal/update.yml
 
@@ -378,6 +380,12 @@
     - $ref: '#/components/parameters/conversation_id'
   post:
     $ref: ./application/conversation/toggle_typing_status.yml
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/update_last_seen:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/update_last_seen.yml
 
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/custom_attributes:
   parameters:
