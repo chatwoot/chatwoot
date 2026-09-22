@@ -23,6 +23,7 @@ import {
   appendSignature,
   removeSignature,
   getReplyVariables,
+  resolveVariablesInMessage,
 } from 'dashboard/helper/editorHelper';
 import { formatQuotedEmailDate } from 'dashboard/helper/quotedEmailHelper';
 import {
@@ -118,12 +119,12 @@ const forwardedHtml = buildForwardedEmailHtml({
     to: t('EMAIL_HEADER.TO'),
   },
   sender:
-    messageType.value === MESSAGE_TYPES.OUTGOING
-      ? { name: inbox.value.name, email: inbox.value.email }
-      : {
+    messageType.value === MESSAGE_TYPES.INCOMING
+      ? {
           name: sender.value?.name,
           email: emailMeta.from?.[0] ?? sender.value?.email,
-        },
+        }
+      : { name: inbox.value.name, email: inbox.value.email },
   date: formatQuotedEmailDate(
     isValid(emailDate) ? emailDate : new Date(createdAt.value * 1000)
   ),
@@ -191,7 +192,9 @@ const forwardEmail = () => {
   if (!canSend.value) return;
 
   const body = bodyRef.value.getContent();
-  const noteHtml = new MessageFormatter(state.message).formattedMessage;
+  // Pasted variables skip the editor's input rules; the note is the only part rendered as HTML
+  const note = resolveVariablesInMessage(state.message, variables.value);
+  const noteHtml = new MessageFormatter(note).formattedMessage;
   const forwardedFiles = state.attachedFiles.filter(
     file => file.forwardedAttachmentId
   );
@@ -201,7 +204,7 @@ const forwardEmail = () => {
 
   store.dispatch('createPendingMessageAndSend', {
     conversationId: conversationId.value,
-    message: [state.message, body.text].filter(Boolean).join('\n\n'),
+    message: [note, body.text].filter(Boolean).join('\n\n'),
     emailHtmlContent: `${noteHtml}${body.html}`,
     toEmails: state.toEmails.join(','),
     ccEmails: state.ccEmails.join(','),

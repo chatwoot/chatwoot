@@ -198,6 +198,14 @@ describe('ForwardEmailPanel', () => {
     expect(wrapper.text()).toContain('From: Support <support@example.com>');
   });
 
+  it('uses the inbox as sender when forwarding a template message', () => {
+    const { wrapper } = mountPanel({
+      message: { messageType: MESSAGE_TYPES.TEMPLATE, sender: null },
+    });
+
+    expect(wrapper.text()).toContain('From: Support <support@example.com>');
+  });
+
   it('falls back to plain text, the conversation subject and the contact', () => {
     const { wrapper } = mountPanel({
       message: {
@@ -258,6 +266,22 @@ describe('ForwardEmailPanel', () => {
       },
     });
     expect(wrapper.emitted('close')).toHaveLength(1);
+  });
+
+  it('resolves variables in the note before building the email', async () => {
+    const { wrapper, sendMessage } = mountPanel();
+
+    await addRecipient(wrapper);
+    await find(wrapper, 'MessageEditor').vm.$emit(
+      'update:modelValue',
+      'Hello {{contact.name}}, please help.'
+    );
+    bodyElement(wrapper).innerHTML = '<p>Edited body</p>';
+    await find(wrapper, 'ActionButtons').vm.$emit('sendMessage');
+
+    const payload = sentPayload(sendMessage);
+    expect(payload.message).toBe('Hello Jane Doe, please help.\n\nEdited body');
+    expect(payload.emailHtmlContent).toContain('Hello Jane Doe, please help.');
   });
 
   it('drops removed original attachments and sends newly attached files', async () => {
