@@ -70,6 +70,7 @@ export const useSearchStore = defineStore('search', {
       this.hasCountError = false;
       try {
         const { data } = await SearchAPI.counts(params, { signal });
+        if (signal?.aborted) return;
         this.counts = data.payload.counts;
         this.countBackend = data.meta.message_backend;
       } catch (error) {
@@ -93,6 +94,21 @@ export const useSearchStore = defineStore('search', {
           { ...params, page, perPage },
           { signal }
         );
+        if (signal?.aborted) return;
+        // Backend changes can change both matching records and ordering.
+        // Restart pagination instead of appending an incompatible page.
+        if (
+          type === 'messages' &&
+          page > 1 &&
+          results.backend !== data.meta.message_backend
+        ) {
+          await this.fetchResults(
+            type,
+            { ...params, page: 1 },
+            { signal, preview }
+          );
+          return;
+        }
         const records = data.payload[type];
         results.records =
           page === 1 ? records : appendUniqueRecords(results.records, records);

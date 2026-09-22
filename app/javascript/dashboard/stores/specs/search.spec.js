@@ -131,11 +131,31 @@ describe('search store', () => {
 
       expect(store.isFetchingCounts).toBe(true);
       expect(store.hasCountError).toBe(false);
+
+      SearchAPI.counts.mockResolvedValue({
+        data: {
+          payload: { counts: { messages: 37 } },
+          meta: { message_backend: 'opensearch' },
+        },
+      });
+      const lateController = new AbortController();
+      const lateRequest = store.fetchCounts(
+        { q: 'old' },
+        { signal: lateController.signal }
+      );
+      lateController.abort();
+      store.$reset();
+      store.counts = { messages: 2 };
+      await lateRequest;
+
+      expect(store.counts).toEqual({ messages: 2 });
+      expect(store.countBackend).toBeNull();
+      expect(store.isFetchingCounts).toBe(false);
     });
   });
 
   describe('fetchResults', () => {
-    it('stores the first page and flags more pages when it is full', async () => {
+    it('stores full pages and restarts pagination when the backend changes', async () => {
       SearchAPI.messages.mockResolvedValue({
         data: {
           payload: { messages: page(15) },
@@ -161,6 +181,31 @@ describe('search store', () => {
         backend: 'gin',
       });
       expect(store.results.messages.backend).toBe('gin');
+
+      SearchAPI.messages
+        .mockResolvedValueOnce({
+          data: {
+            payload: { messages: page(15, 100) },
+            meta: { message_backend: 'opensearch' },
+          },
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { messages: page(15, 200) },
+            meta: { message_backend: 'opensearch' },
+          },
+        });
+      await store.fetchResults('messages', { q: 'hi', from: 3, page: 2 });
+
+      expect(SearchAPI.messages).toHaveBeenLastCalledWith(
+        { q: 'hi', from: 3, page: 1, perPage: 15 },
+        { signal: undefined }
+      );
+      expect(store.results.messages.records).toEqual(page(15, 200));
+      expect(store.results.messages.page).toBe(1);
+      expect(store.results.messages.backend).toBe('opensearch');
+      expect(store.results.messages.hasMore).toBe(true);
+      expect(store.results.messages.isFetching).toBe(false);
     });
 
     it('appends later pages without duplicating overlapping records', async () => {
@@ -231,6 +276,18 @@ describe('search store', () => {
 
       expect(store.results.conversations.records).toEqual(page(2));
       expect(store.results.messages.page).toBe(0);
+
+      const controller = new AbortController();
+      const request = store.fetchResults(
+        'conversations',
+        { q: 'old' },
+        { signal: controller.signal }
+      );
+      controller.abort();
+      store.results.conversations.records = page(1, 20);
+      await request;
+
+      expect(store.results.conversations.records).toEqual(page(1, 20));
     });
   });
 
