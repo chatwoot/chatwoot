@@ -183,15 +183,19 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
 
   def existing_shopify_hook
     @existing_shopify_hook ||=
-      Integrations::Hook.where(app_id: 'shopify').find_by('LOWER(reference_id) = ?', Shopify::ShopDomain.normalize(params[:shop]))
+      Integrations::Hook.where(app_id: 'shopify').find_sole_by('LOWER(reference_id) = ?', Shopify::ShopDomain.normalize(params[:shop]))
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 
   def shopify_billed_account_by_snapshot
     Account
       .where("internal_attributes ->> 'billing_provider' = ?", 'shopify')
       .where("internal_attributes ->> 'signup_source' = ?", 'shopify')
-      .find_by("custom_attributes #>> '{shopify_subscription_snapshot,shop_domain}' = ?",
-               Shopify::ShopDomain.normalize(params[:shop]))
+      .find_sole_by("custom_attributes #>> '{shopify_subscription_snapshot,shop_domain}' = ?",
+                    Shopify::ShopDomain.normalize(params[:shop]))
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 
   def existing_account_redirect_url
