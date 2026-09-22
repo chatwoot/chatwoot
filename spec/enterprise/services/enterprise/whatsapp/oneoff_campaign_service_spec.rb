@@ -41,6 +41,9 @@ RSpec.describe Enterprise::Whatsapp::OneoffCampaignService do
 
     Campaigns::SendWhatsappBatchJob.perform_now(campaign)
     expect(campaign.campaign_recipients.sent.count).to eq(1)
+    recipient = campaign.campaign_recipients.sent.first
+    expect(recipient.contact_inbox.source_id).to eq(contacts.first.phone_number.delete_prefix('+'))
+    expect(recipient.contact_inbox.contact_id).to eq(contacts.first.id)
     expect(campaign.reload).to be_processing
 
     Campaigns::SendWhatsappBatchJob.perform_now(campaign, contacts.first.id)

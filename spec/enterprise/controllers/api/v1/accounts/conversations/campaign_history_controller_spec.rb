@@ -12,6 +12,7 @@ RSpec.describe 'Conversation campaign history API', type: :request do
   let(:sent_at) { 1.day.ago.change(usec: 0) }
   let(:recipient) do
     CampaignRecipient.create!(account: account, campaign: campaign, inbox: inbox, contact: conversation.contact,
+                              contact_inbox: conversation.contact_inbox,
                               message_content: 'Your member offer', source_id: 'wamid.history', status: :read,
                               sent_at: sent_at, delivered_at: sent_at + 1.minute, read_at: sent_at + 2.minutes)
   end
@@ -94,11 +95,11 @@ RSpec.describe 'Conversation campaign history API', type: :request do
       other_channel = create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false)
       other_campaign = create(:campaign, account: account, inbox: other_channel.inbox)
       CampaignRecipient.create!(account: account, campaign: other_campaign, inbox: other_channel.inbox,
-                                contact: conversation.contact, status: :sent, sent_at: sent_at)
+                                contact: conversation.contact, contact_inbox: conversation.contact_inbox, status: :sent, sent_at: sent_at)
     end
     let(:unsent_recipient) do
       CampaignRecipient.create!(account: account, campaign: create(:campaign, account: account, inbox: inbox), inbox: inbox,
-                                contact: conversation.contact, status: :failed)
+                                contact: conversation.contact, contact_inbox: conversation.contact_inbox, status: :failed)
     end
 
     before do
@@ -124,7 +125,8 @@ RSpec.describe 'Conversation campaign history API', type: :request do
   context 'with multiple conversations' do
     let(:next_start) { sent_at + 1.hour }
     let!(:next_conversation) do
-      create(:conversation, account: account, inbox: inbox, contact: conversation.contact, contact_inbox: conversation.contact_inbox,
+      create(:conversation, account: account, inbox: inbox, contact: conversation.contact,
+                            contact_inbox: conversation.contact_inbox,
                             created_at: next_start)
     end
 
@@ -132,7 +134,7 @@ RSpec.describe 'Conversation campaign history API', type: :request do
       times = [conversation.created_at - 1.second, conversation.created_at, sent_at, next_start, next_start + 1.second]
       records = times.map do |time|
         CampaignRecipient.create!(account: account, campaign: create(:campaign, account: account, inbox: inbox), inbox: inbox,
-                                  contact: conversation.contact, status: :sent, sent_at: time)
+                                  contact: conversation.contact, contact_inbox: conversation.contact_inbox, status: :sent, sent_at: time)
       end
 
       get url, headers: headers
@@ -162,7 +164,8 @@ RSpec.describe 'Conversation campaign history API', type: :request do
     let!(:recipients) do
       Array.new(26) do |index|
         CampaignRecipient.create!(account: account, campaign: create(:campaign, account: account, inbox: inbox), inbox: inbox,
-                                  contact: conversation.contact, status: :sent, sent_at: index.zero? ? sent_at + 1.hour : sent_at)
+                                  contact: conversation.contact, contact_inbox: conversation.contact_inbox, status: :sent,
+                                  sent_at: index.zero? ? sent_at + 1.hour : sent_at)
       end
     end
 
@@ -197,7 +200,7 @@ RSpec.describe 'Conversation campaign history API', type: :request do
     expect(response).to have_http_status(:not_found)
   end
 
-  it 'omits history when the contact has multiple identities in the same inbox' do
+  it 'matches the saved destination when the contact has multiple identities in the same inbox' do
     recipient
     other_identity = create(:contact_inbox, contact: conversation.contact, inbox: inbox)
     other_conversation = create(:conversation, account: account, inbox: inbox, contact: conversation.contact,
@@ -205,7 +208,7 @@ RSpec.describe 'Conversation campaign history API', type: :request do
 
     get url, headers: headers
     expect(response).to have_http_status(:ok)
-    expect(response.parsed_body['payload']).to be_empty
+    expect(response.parsed_body['payload'].pluck('id')).to eq([recipient.id])
 
     get "/api/v1/accounts/#{account.id}/conversations/#{other_conversation.display_id}/campaign_history", headers: headers
     expect(response).to have_http_status(:ok)

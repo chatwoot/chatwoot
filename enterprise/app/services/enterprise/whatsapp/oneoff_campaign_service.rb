@@ -61,6 +61,7 @@ module Enterprise::Whatsapp::OneoffCampaignService
       return
     end
 
+    save_recipient_destination(recipient, to)
     source_id = channel.send_template(to, template_info(name, namespace, lang_code, processed_parameters), nil)
 
     update_recipient_from_provider_response(recipient, source_id)
@@ -70,6 +71,11 @@ module Enterprise::Whatsapp::OneoffCampaignService
     recipient.mark_failed!(message: e.message)
     # continue processing remaining contacts
     nil
+  end
+
+  def save_recipient_destination(recipient, destination)
+    contact_inbox = recipient.contact.contact_inboxes.create_or_find_by!(inbox: inbox, source_id: destination.delete_prefix('+'))
+    recipient.update!(contact_inbox: contact_inbox)
   end
 
   def template_info(name, namespace, lang_code, processed_parameters)
