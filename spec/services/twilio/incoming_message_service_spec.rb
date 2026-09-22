@@ -16,6 +16,154 @@ describe Twilio::IncomingMessageService do
   end
 
   describe '#perform' do
+    context 'when an incoming message is delivered again' do
+      let(:params) do
+        {
+          SmsSid: 'SMreplayed',
+          From: contact_inbox.source_id,
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Original message'
+        }
+      end
+
+      it 'keeps the saved message and contact unchanged' do
+        contact.update!(name: contact.phone_number)
+        described_class.new(params: params).perform
+
+        expect do
+          described_class.new(params: params.merge(Body: 'Changed message', ProfileName: 'Changed name')).perform
+        end.not_to change(Message, :count)
+
+        expect(contact.reload.name).to eq(contact.phone_number)
+        expect(conversation.messages.find_by!(source_id: params[:SmsSid]).content).to eq('Original message')
+      end
+
+      it 'does not download attachments again' do
+        described_class.new(params: params).perform
+        expect(Twilio::MediaDownloadService).not_to receive(:new)
+
+        expect do
+          described_class.new(params: params.merge(NumMedia: '1', MediaUrl0: 'https://api.twilio.com/media')).perform
+        end.not_to change(Attachment, :count)
+      end
+
+      it 'does not create another contact or conversation for a replay with changed sender data' do
+        described_class.new(params: params).perform
+
+        expect do
+          described_class.new(params: params.merge(From: '+14155550999')).perform
+        end.not_to change { [Contact.count, ContactInbox.count, Conversation.count] }
+      end
+
+      it 'does not create another conversation after the original is resolved' do
+        twilio_channel.inbox.update!(lock_to_single_conversation: false)
+        described_class.new(params: params).perform
+        conversation.update!(status: :resolved)
+
+        expect { described_class.new(params: params).perform }.not_to change(Conversation, :count)
+        expect(conversation.reload).to be_resolved
+        expect(conversation.messages.where(source_id: params[:SmsSid]).count).to eq(1)
+      end
+
+      it 'does not reopen a resolved conversation when locked to a single conversation' do
+        twilio_channel.inbox.update!(lock_to_single_conversation: true)
+        described_class.new(params: params).perform
+        conversation.update!(status: :resolved)
+
+        expect { described_class.new(params: params).perform }.not_to change(Message, :count)
+        expect(conversation.reload).to be_resolved
+      end
+
+      it 'does not suppress a message whose SID exists in another inbox' do
+        other_inbox = create(:inbox, account: account)
+        other_conversation = create(:conversation, account: account, inbox: other_inbox)
+        create(:message, conversation: other_conversation, source_id: params[:SmsSid])
+
+        expect { described_class.new(params: params).perform }.to change { conversation.messages.incoming.count }.by(1)
+        expect(conversation.messages.incoming.last.source_id).to eq(params[:SmsSid])
+      end
+
+      it 'accepts a different SID in the same conversation' do
+        described_class.new(params: params).perform
+
+        expect do
+          described_class.new(params: params.merge(SmsSid: 'SManother')).perform
+        end.to change { conversation.messages.incoming.count }.by(1)
+      end
+
+      it 'uses MessageSid when SmsSid is absent and recognizes its replay' do
+        message_sid_params = params.except(:SmsSid).merge(MessageSid: 'SMcanonical')
+        described_class.new(params: message_sid_params).perform
+
+        expect(conversation.messages.incoming.last.source_id).to eq('SMcanonical')
+        expect do
+          described_class.new(params: message_sid_params).perform
+          described_class.new(params: message_sid_params.merge(SmsSid: 'SMcanonical')).perform
+        end.not_to change(Message, :count)
+      end
+
+      it 'uses MessageSid when SmsSid is blank' do
+        described_class.new(params: params.merge(SmsSid: '', MessageSid: 'SMcanonical')).perform
+
+        expect(conversation.messages.incoming.last.source_id).to eq('SMcanonical')
+      end
+
+      it 'uses the canonical SID for media downloads when SmsSid is absent' do
+        downloader = instance_double(Twilio::MediaDownloadService, perform: nil)
+        expect(Twilio::MediaDownloadService).to receive(:new).with(
+          channel: twilio_channel, media_url: 'https://api.twilio.com/media', message_sid: 'SMcanonical',
+          media_index: 0, retry_delays: Twilio::MediaDownloadService::RETRY_DELAYS
+        ).and_return(downloader)
+
+        described_class.new(
+          params: params.except(:SmsSid).merge(MessageSid: 'SMcanonical', NumMedia: '1', MediaUrl0: 'https://api.twilio.com/media')
+        ).perform
+
+        expect(conversation.messages.incoming.last.source_id).to eq('SMcanonical')
+      end
+
+      it 'preserves the SmsSid value when both aliases are supplied' do
+        described_class.new(params: params.merge(MessageSid: 'SMdifferent')).perform
+
+        expect(conversation.messages.incoming.last.source_id).to eq(params[:SmsSid])
+      end
+
+      it 'continues processing messages without either SID' do
+        expect do
+          described_class.new(params: params.except(:SmsSid)).perform
+          described_class.new(params: params.merge(SmsSid: '', MessageSid: '')).perform
+        end.to change { conversation.messages.incoming.count }.by(2)
+      end
+
+      it 'allows a retry after processing fails before saving the message' do
+        failing_service = described_class.new(params: params)
+        allow(failing_service).to receive(:attach_files).and_raise(IOError, 'attachment unavailable')
+
+        expect { failing_service.perform }.to raise_error(IOError, 'attachment unavailable')
+        expect(conversation.messages.where(source_id: params[:SmsSid])).to be_empty
+        expect { described_class.new(params: params).perform }.to change { conversation.messages.incoming.count }.by(1)
+      end
+
+      context 'with a WhatsApp channel' do
+        let!(:twilio_channel) do
+          create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                                 inbox: create(:inbox, account: account, greeting_enabled: false))
+        end
+        let!(:contact) { create(:contact, account: account, phone_number: '+14155550123') }
+        let(:contact_inbox) do
+          create(:contact_inbox, source_id: 'whatsapp:+14155550123', contact: contact, inbox: twilio_channel.inbox)
+        end
+
+        it 'stores a replayed WhatsApp message only once' do
+          described_class.new(params: params).perform
+
+          expect { described_class.new(params: params).perform }.not_to change(Message, :count)
+          expect(conversation.messages.where(source_id: params[:SmsSid]).count).to eq(1)
+        end
+      end
+    end
+
     context 'when a WhatsApp message replies to an earlier message' do
       let!(:twilio_channel) do
         create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
