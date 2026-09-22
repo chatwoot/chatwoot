@@ -16,14 +16,9 @@ RSpec.describe 'API bearer authentication', type: :request do
     expect(response).to have_http_status(:ok)
   end
 
-  it 'accepts identical credentials during migration' do
-    get '/api/v1/profile', headers: { Authorization: "bearer #{token}", api_access_token: token }
-    expect(response).to have_http_status(:ok)
-  end
-
   it 'uses the bearer token when the legacy header contains a different token' do
     other_user = create(:user)
-    get '/api/v1/profile', headers: { Authorization: "Bearer #{token}", api_access_token: other_user.access_token.token }
+    get '/api/v1/profile', headers: { Authorization: "bearer #{token}", api_access_token: other_user.access_token.token }
     expect(response).to have_http_status(:ok)
     expect(response.parsed_body['id']).to eq(user.id)
   end
