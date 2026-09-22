@@ -241,6 +241,21 @@ const currentDateInTimezone = timezone => {
     .join('-');
 };
 
+// A skipped local midnight resolves to the end of the gap, like Rails' TimeZone#local.
+const localMidnightToUtc = (dateString, timezone) => {
+  const midnight = Date.parse(`${dateString}T00:00:00Z`);
+  const estimate = zonedTimeToUtc(`${dateString}T00:00:00`, timezone).getTime();
+  const wall = utcToZonedTime(estimate, timezone);
+  const wallTime = Date.UTC(
+    wall.getFullYear(),
+    wall.getMonth(),
+    wall.getDate(),
+    wall.getHours(),
+    wall.getMinutes()
+  );
+  return estimate + midnight - wallTime;
+};
+
 const prepareTimestampFilter = filter => {
   if (
     !filter.timezone ||
@@ -274,10 +289,7 @@ const prepareTimestampFilter = filter => {
 
   return {
     ...filter,
-    [TIMESTAMP_BOUNDARY]: zonedTimeToUtc(
-      `${boundaryDate}T00:00:00`,
-      filter.timezone
-    ).getTime(),
+    [TIMESTAMP_BOUNDARY]: localMidnightToUtc(boundaryDate, filter.timezone),
     timestampComparison: comparison,
   };
 };

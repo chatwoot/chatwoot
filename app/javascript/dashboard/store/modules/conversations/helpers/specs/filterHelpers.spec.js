@@ -1853,6 +1853,31 @@ describe('filterHelpers', () => {
       }
     );
 
+    // Santiago skips 2026-09-06 00:00, so the day starts at 01:00 (04:00 UTC), matching Rails.
+    it.each([
+      ['is_less_than', '2026-09-06', '2026-09-06T03:30:00Z', true],
+      ['is_less_than', '2026-09-06', '2026-09-06T04:00:00Z', false],
+      ['is_greater_than', '2026-09-05', '2026-09-06T03:30:00Z', false],
+      ['is_greater_than', '2026-09-05', '2026-09-06T04:00:00Z', true],
+    ])(
+      'starts the local day after a skipped midnight for %s %s',
+      (filterOperator, value, timestamp, expected) => {
+        const matches = createFiltersMatcher([
+          {
+            attribute_key: 'created_at',
+            filter_operator: filterOperator,
+            values: [value],
+            timezone: 'America/Santiago',
+            query_operator: 'and',
+          },
+        ]);
+
+        expect(matches({ created_at: Date.parse(timestamp) / 1000 })).toBe(
+          expected
+        );
+      }
+    );
+
     it('uses the local current date for days_before without per-row formatting', () => {
       vi.useFakeTimers();
       vi.setSystemTime(new Date('2026-09-10T00:49:00Z'));
