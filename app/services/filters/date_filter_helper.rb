@@ -12,13 +12,16 @@ module Filters::DateFilterHelper
     query_hash.key?('timezone') && TIMESTAMP_ATTRIBUTES.include?(query_hash['attribute_key'])
   end
 
-  def filter_timezone(query_hash)
-    timezone = query_hash['timezone']
-    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: 'timezone') unless timezone.is_a?(String)
+  def self.timezone(identifier)
+    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: 'timezone') unless identifier.is_a?(String)
 
-    ActiveSupport::TimeZone[TZInfo::Timezone.get(timezone)]
+    ActiveSupport::TimeZone[TZInfo::Timezone.get(identifier)]
   rescue TZInfo::InvalidTimezoneIdentifier
     raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: 'timezone')
+  end
+
+  def filter_timezone(query_hash)
+    Filters::DateFilterHelper.timezone(query_hash['timezone'])
   end
 
   def timestamp_filter_boundary(date, query_hash)
