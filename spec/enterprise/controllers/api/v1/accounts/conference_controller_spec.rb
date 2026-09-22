@@ -15,6 +15,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
       Voice::Provider::Twilio::ConferenceService,
       ensure_conference_sid: 'CF123',
       mark_agent_joined: true,
+      terminate_call: true,
       end_conference: true
     )
   end
@@ -143,14 +144,15 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         )
       end
 
-      it 'ends the conference and marks a pre-pickup hangup as rejected' do
+      it 'hangs up the call leg, ends the conference and marks a pre-pickup hangup as rejected' do
         delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
                headers: agent.create_new_auth_token,
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['id']).to eq(conversation.display_id)
-        expect(conference_service).to have_received(:end_conference)
+        expect(conference_service).to have_received(:terminate_call).ordered
+        expect(conference_service).to have_received(:end_conference).ordered
         call = Call.find_by(provider_call_id: 'CALL123')
         expect(call.status).to eq('rejected')
         expect(call.end_reason).to eq('agent_rejected')
@@ -186,6 +188,18 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(call.status).to eq('no_answer')
         expect(call.end_reason).to eq('agent_hangup')
         expect(call.terminal?).to be true
+      end
+
+      it 'leaves the call repairable when hanging up the provider leg fails' do
+        allow(conference_service).to receive(:terminate_call).and_raise(Twilio::REST::TwilioError, 'boom')
+
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).not_to have_http_status(:ok)
+        expect(conference_service).not_to have_received(:end_conference)
+        expect(Call.find_by(provider_call_id: 'CALL123').status).to eq('ringing')
       end
 
       it 'does not allow ending conferences for calls from inboxes without access' do
