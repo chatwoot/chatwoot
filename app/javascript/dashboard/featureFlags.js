@@ -21,6 +21,7 @@ export const FEATURE_FLAGS = {
   MACROS: 'macros',
   HELP_CENTER: 'help_center',
   REPORTS: 'reports',
+  CONVERSATION_MONITORS: 'conversation_monitors',
   TEAM_MANAGEMENT: 'team_management',
   VOICE_RECORDER: 'voice_recorder',
   AUDIT_LOGS: 'audit_logs',

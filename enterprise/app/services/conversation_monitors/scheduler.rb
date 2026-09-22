@@ -1,0 +1,52 @@
+class ConversationMonitors::Scheduler
+  def self.request(conversation, invalidate: false, activity_at: Time.current)
+    # Record work even while disabled if monitors exist: reenabling must catch up.
+    account = conversation.account
+    monitors = invalidate ? account.conversation_monitors.visible : account.conversation_monitors.active
+    return unless monitors.exists?
+
+    item = ConversationMonitors::WorkItem.for_conversation(conversation)
+    item.request!(invalidate: invalidate, activity_at: activity_at)
+    item
+  end
+
+  def self.request_for_monitor(conversation, monitor, version)
+    item = ConversationMonitors::WorkItem.for_conversation(conversation)
+    item.with_lock do
+      monitor.with_lock do
+        return unless monitor.collecting? && monitor.collection_version == version
+
+        evaluation = monitor.evaluations.find_or_initialize_by(conversation_id: conversation.id, account_id: conversation.account_id)
+        return item if evaluation.status == 'matched'
+
+        evaluation.update!(status: 'pending', requested_version: version, error_code: nil)
+        item.request!
+      end
+    end
+    item
+  end
+
+  def self.wake(conversation_id)
+    enqueue { ConversationMonitors::ProcessJob.set(wait: 3.seconds).perform_later(conversation_id) }
+  end
+
+  def self.start_backfill(monitor_id)
+    enqueue { ConversationMonitors::BackfillJob.perform_later(monitor_id) }
+  end
+
+  def self.start_resumption(resumption_id)
+    enqueue { ConversationMonitors::ResumptionJob.perform_later(resumption_id) }
+  end
+
+  def self.start_recheck(monitor_id)
+    enqueue { ConversationMonitors::RetryJob.perform_later(monitor_id) }
+  end
+
+  def self.enqueue
+    yield
+  rescue StandardError => e
+    # The committed database marker is recovered by DispatchJob if Redis is unavailable.
+    Rails.logger.error("Conversation monitor enqueue failed: #{e.class.name}")
+  end
+  private_class_method :enqueue
+end

@@ -23,6 +23,8 @@ import CsatResponses from './CsatResponses.vue';
 import BotReports from './BotReports.vue';
 import LiveReports from './LiveReports.vue';
 import SLAReports from './SLAReports.vue';
+import MonitorsIndex from './monitors/MonitorsIndex.vue';
+import MonitorShow from './monitors/MonitorShow.vue';
 
 const meta = {
   featureFlag: FEATURE_FLAGS.REPORTS,
@@ -114,6 +116,18 @@ export default {
       path: frontendURL('accounts/:accountId/reports'),
       component: ReportsWrapper,
       children: [
+        {
+          path: 'monitors',
+          name: 'monitor_reports_index',
+          meta: { ...meta, featureFlag: FEATURE_FLAGS.CONVERSATION_MONITORS },
+          component: MonitorsIndex,
+        },
+        {
+          path: 'monitors/:monitorId',
+          name: 'monitor_reports_show',
+          meta: { ...meta, featureFlag: FEATURE_FLAGS.CONVERSATION_MONITORS },
+          component: MonitorShow,
+        },
         {
           path: '',
           redirect: to => {

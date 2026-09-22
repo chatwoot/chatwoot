@@ -39,6 +39,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.mentionUnreadCountsRetryTimer = null;
     this.filteredUnreadCountsRetryTimer = null;
     this.events = {
+      'monitor.updated': this.onMonitorUpdated,
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
       'conversation.created': this.onConversationCreated,
@@ -76,6 +77,11 @@ class ActionCableConnector extends BaseActionCableConnector {
   // eslint-disable-next-line class-methods-use-this
   onReconnect = () => {
     emitter.emit(BUS_EVENTS.WEBSOCKET_RECONNECT);
+  };
+
+  onMonitorUpdated = data => {
+    if (this.isAValidEvent(data))
+      emitter.emit(BUS_EVENTS.MONITOR_UPDATED, data);
   };
 
   // eslint-disable-next-line class-methods-use-this
@@ -120,6 +126,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
     this.fetchConversationStats();
+    emitter.emit(BUS_EVENTS.CONVERSATION_CREATED, data);
   };
 
   onConversationBotHandoff = data => {
@@ -194,6 +201,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       lastActivityAt,
       conversationId,
     });
+    emitter.emit(BUS_EVENTS.MESSAGE_CREATED, data);
   };
 
   // eslint-disable-next-line class-methods-use-this

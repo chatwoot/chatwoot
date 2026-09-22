@@ -708,6 +708,12 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.REPORTS_BOT'),
           to: accountScopedRoute('bot_reports'),
         },
+        {
+          name: 'Monitors',
+          label: t('MONITORS.TITLE'),
+          to: accountScopedRoute('monitor_reports_index'),
+          activeOn: ['monitor_reports_show'],
+        },
       ],
     },
     {
