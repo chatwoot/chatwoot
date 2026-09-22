@@ -4,6 +4,7 @@
 #
 #  id                :integer          not null, primary key
 #  page_access_token :string           not null
+#  provider_name     :string
 #  user_access_token :string           not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -51,7 +52,7 @@ class Channel::FacebookPage < ApplicationRecord
     Facebook::Messenger::Subscriptions.subscribe(
       access_token: page_access_token,
       subscribed_fields: %w[
-        messages message_deliveries message_echoes message_reads standby messaging_handovers
+        messages message_deliveries message_echoes message_reads standby messaging_handovers messaging_postbacks
       ]
     )
   rescue StandardError => e

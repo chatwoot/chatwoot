@@ -1,21 +1,24 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
+  include DeviceVerificationGuard
+
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
   wrap_parameters format: []
+  # DTA's params_for_resource copies these headers into params during super.
+  # Mirror that up front so every pre-authentication check in create sees the
+  # same credentials a header-only request would authenticate with.
+  before_action :merge_credential_headers, only: [:create]
   before_action :process_sso_auth_token, only: [:create]
 
   def new
     redirect_to login_page_url(error: 'access-denied')
   end
 
-  def create # rubocop:disable Metrics/CyclomaticComplexity
+  def create
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
     return render_sign_in_blocked if abuse_tracker.blocked?
-
-    user = find_user_for_authentication
-    return handle_mfa_required(user) if user&.mfa_enabled?
-    return if user && enforce_session_limit_for_password_login(user)
+    return if password_pre_auth_intercepted?
 
     # Only proceed with standard authentication if no MFA is required
     super
@@ -65,6 +68,11 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
     @failed_sign_in_tracked = true
     abuse_tracker.record_failure(params[:email])
+  end
+
+  def merge_credential_headers
+    params[:email] ||= request.headers['email'] unless request.headers['email'].nil?
+    params[:password] ||= request.headers['password'] unless request.headers['password'].nil?
   end
 
   def find_user_for_authentication

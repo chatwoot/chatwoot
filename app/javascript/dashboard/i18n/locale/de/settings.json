@@ -385,7 +385,7 @@
     "REAUTHORIZE": "Ihre Posteingangsverbindung ist abgelaufen. Bitte erneut verbinden,\n um weiterhin Nachrichten empfangen und senden zu können",
     "HELP_CENTER": {
       "TITLE": "Hilfezentrum",
-      "ARTICLES": "Articles",
+      "ARTICLES": "Artikel",
       "CATEGORIES": "Kategorien",
       "LOCALES": "Sprachen",
       "SETTINGS": "Einstellungen"
@@ -515,7 +515,7 @@
         "finalizing": "Import wird abgeschlossen",
         "completed": "Abgeschlossen",
         "completed_with_errors": "Mit Fehlern abgeschlossen",
-        "failed": "Failed",
+        "failed": "Fehlgeschlagen",
         "abandoned": "Abgebrochen"
       }
     },

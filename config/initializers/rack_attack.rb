@@ -37,6 +37,26 @@ class Rack::Attack
       normalized_path = path[/^[^.]+/]
       normalized_path == '/' ? normalized_path : normalized_path.sub(%r{/+\z}, '')
     end
+
+    # Rack's params skip JSON bodies, so fall back to ActionDispatch to read them
+    # (the SPA and mobile clients post JSON). nil for blank/non-string values so a
+    # throttle keyed on this skips rather than sharing one empty-string bucket, and
+    # fails open on unparseable input (the per-ip throttle still applies).
+    def auth_param(key)
+      value = params[key].presence || ActionDispatch::Request.new(env).params[key].presence
+      value if value.is_a?(String)
+    rescue StandardError
+      nil
+    end
+
+    # include_header only for sign-in, which merges the 'email' header into params;
+    # reset/resend read params only, so honoring it there lets a spoofed header
+    # exhaust a victim's bucket.
+    def normalized_auth_email(include_header: false)
+      email = auth_param('email')
+      email = get_header('HTTP_EMAIL').presence if email.nil? && include_header
+      email&.downcase&.gsub(/\s+/, '')
+    end
   end
 
   ### Safelist IPs from Environment Variable ###
@@ -92,20 +112,12 @@ class Rack::Attack
   # ### Prevent Brute-Force Login Attacks ###
   # Exclude MFA verification attempts from regular login throttling
   throttle('login/ip', limit: 5, period: 5.minutes) do |req|
-    if req.path_without_extensions == '/auth/sign_in' && req.post? && req.params['mfa_token'].blank?
-      # Skip if this is an MFA verification request
-      req.ip
-    end
+    req.ip if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_token').blank?
   end
 
   throttle('login/email', limit: 10, period: 15.minutes) do |req|
-    # Skip if this is an MFA verification request
-    if req.path_without_extensions == '/auth/sign_in' && req.post? && req.params['mfa_token'].blank?
-      # ref: https://github.com/rack/rack-attack/issues/399
-      # NOTE: This line used to throw ArgumentError /rails/action_mailbox/sendgrid/inbound_emails : invalid byte sequence in UTF-8
-      # Hence placed in the if block
-      email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
-      email.to_s.downcase.gsub(/\s+/, '')
+    if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_token').blank?
+      req.normalized_auth_email(include_header: true)
     end
   end
 
@@ -115,10 +127,7 @@ class Rack::Attack
   end
 
   throttle('reset_password/email', limit: 5, period: 1.hour) do |req|
-    if req.path_without_extensions == '/auth/password' && req.post?
-      email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
-      email.to_s.downcase.gsub(/\s+/, '')
-    end
+    req.normalized_auth_email if req.path_without_extensions == '/auth/password' && req.post?
   end
 
   ## Resend confirmation throttling (unauthenticated)
@@ -127,10 +136,7 @@ class Rack::Attack
   end
 
   throttle('resend_confirmation/email', limit: 5, period: 1.hour) do |req|
-    if req.path_without_extensions == '/resend_confirmation' && req.post?
-      email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
-      email.to_s.downcase.gsub(/\s+/, '')
-    end
+    req.normalized_auth_email if req.path_without_extensions == '/resend_confirmation' && req.post?
   end
 
   ## Resend confirmation throttling (authenticated)
@@ -149,15 +155,12 @@ class Rack::Attack
 
   # Separate rate limiting for MFA verification attempts
   throttle('mfa_login/ip', limit: 10, period: 1.minute) do |req|
-    req.ip if req.path_without_extensions == '/auth/sign_in' && req.post? && req.params['mfa_token'].present?
+    req.ip if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_token').present?
   end
 
   throttle('mfa_login/token', limit: 10, period: 1.minute) do |req|
-    if req.path_without_extensions == '/auth/sign_in' && req.post?
-      # Track by MFA token to prevent brute force on a specific token
-      mfa_token = req.params['mfa_token'].presence
-      (mfa_token.presence)
-    end
+    # Track by MFA token to prevent brute force on a specific token
+    req.auth_param('mfa_token') if req.path_without_extensions == '/auth/sign_in' && req.post?
   end
 
   ## Prevent Brute-Force Signup Attacks ###
@@ -354,9 +357,12 @@ ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start
   account_match = %r{/accounts/(?<account_id>\d+)}.match(req.path)
   account_id = account_match ? account_match[:account_id] : 'unknown_account'
 
+  matched_rule = req.env['rack.attack.matched'] || 'unknown_rule'
+
   Rails.logger.warn(
     "[Rack::Attack][Blocked] remote_ip: \"#{req.remote_ip}\", " \
     "path: \"#{req.path}\", " \
+    "matched_rule: \"#{matched_rule}\", " \
     "user_identifier: \"#{user_identifier}\", " \
     "account_id: \"#{account_id}\", " \
     "method: \"#{req.request_method}\", " \
