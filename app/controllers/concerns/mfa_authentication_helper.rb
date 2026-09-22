@@ -19,7 +19,18 @@ module MfaAuthenticationHelper
   end
 
   def handle_mfa_setup_required(user)
-    user.enable_two_factor! if user.otp_secret.blank?
+    enrolled_concurrently = false
+    # Same lock as verify_and_activate!: a login racing a finished enrolment
+    # must not replace the now-active secret with a fresh one.
+    user.with_lock do
+      if user.mfa_enabled?
+        enrolled_concurrently = true
+      elsif user.otp_secret.blank?
+        user.enable_two_factor!
+      end
+    end
+    return handle_mfa_required(user) if enrolled_concurrently
+
     render json: {
       mfa_setup_required: true,
       mfa_setup_token: Mfa::SetupTokenService.new(user: user).generate_token,

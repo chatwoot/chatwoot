@@ -200,6 +200,29 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
         expect(response.parsed_body['mfa_setup_required']).to be_nil
       end
 
+      it 'keeps the active secret and serves the mfa challenge when enrolment wins the race' do
+        # Complete enrolment through a second record instance just before the
+        # provisioning lock is taken; the lock's reload must observe it.
+        concurrent_secret = nil
+        original_with_lock = user.method(:with_lock)
+        allow(User).to receive(:from_email).and_return(user)
+        allow(user).to receive(:with_lock) do |*args, &block|
+          User.find(user.id).tap do |concurrent_user|
+            concurrent_user.enable_two_factor!
+            concurrent_user.update!(otp_required_for_login: true)
+            concurrent_secret = concurrent_user.otp_secret
+          end
+          original_with_lock.call(*args, &block)
+        end
+
+        post :create, params: { email: user.email, password: 'Test@123456' }
+
+        expect(response).to have_http_status(:partial_content)
+        expect(response.parsed_body['mfa_required']).to be(true)
+        expect(response.parsed_body['mfa_setup_required']).to be_nil
+        expect(user.reload.otp_secret).to eq(concurrent_secret)
+      end
+
       it 'does not challenge when password is wrong' do
         post :create, params: { email: user.email, password: 'wrong' }
 
