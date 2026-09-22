@@ -34,4 +34,4 @@ components:
       type: apiKey
       in: header
       name: api_access_token
-      description: "Deprecated starting in v4.19.0. Use bearerAuth with Authorization: Bearer <token> instead. The api_access_token header remains supported for backward compatibility. This token can be obtained by visiting the profile page or via rails console. Provides access to endpoints based on the user permissions levels."
+      description: "Deprecated starting in Chatwoot `v4.19.0`. **Recommended:** use `bearerAuth` with `Authorization: Bearer <token>`. The `api_access_token` header remains supported for backward compatibility. This token can be obtained by visiting the profile page or via rails console. Provides access to endpoints based on the user permissions levels."

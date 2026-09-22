@@ -7272,19 +7272,19 @@
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "Deprecated starting in v4.19.0. Use bearerAuth with Authorization: Bearer <token> instead. The api_access_token header remains supported for backward compatibility. This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user."
+        "description": "Deprecated starting in Chatwoot `v4.19.0`. **Recommended:** use `bearerAuth` with `Authorization: Bearer <token>`. The `api_access_token` header remains supported for backward compatibility. This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user."
       },
       "agentBotApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token should be provided by system admin or obtained via rails console. This token can be used to build bot integrations and can only access limited apis."
+        "description": "**Recommended from Chatwoot `v4.19.0`:** use `bearerAuth` with `Authorization: Bearer <token>`. Get this token from **Settings → Agent Bots**, a system admin, or Rails console. It can only access bot-permitted APIs."
       },
       "platformAppApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles."
+        "description": "**Recommended from Chatwoot `v4.19.0`:** use `bearerAuth` with `Authorization: Bearer <token>`. A system admin can obtain this token after creating a platform app. It can provision agent bots, accounts, users, and their roles."
       }
     }
   },
