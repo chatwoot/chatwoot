@@ -21,8 +21,9 @@ module AccessTokenAuthHelper
 
   # TODO: Use request.bearer_token once we upgrade to a Rails version that provides it.
   def bearer_access_token
+    scheme, token = request.authorization.to_s.split(' ', 2)
     # An empty credential must not fall back to another authentication method.
-    request.authorization.to_s[/\ABearer(?:\s+|\z)(.*)\z/i, 1]
+    token.to_s if scheme&.casecmp?('Bearer')
   end
 
   # Our dashboard UI uses DeviseTokenAuth, which can send login credentials in the Bearer header.

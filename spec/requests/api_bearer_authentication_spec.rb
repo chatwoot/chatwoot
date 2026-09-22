@@ -40,6 +40,12 @@ RSpec.describe 'API bearer authentication', type: :request do
     end
   end
 
+  it 'accepts a bearer token separated by multiple spaces' do
+    get '/api/v1/profile', headers: { Authorization: "Bearer   #{token}" }
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body['id']).to eq(user.id)
+  end
+
   it 'preserves encoded dashboard bearer authentication' do
     credentials = user.create_new_auth_token
     get '/api/v1/profile', headers: { Authorization: "Bearer #{Base64.strict_encode64(credentials.to_json)}" }
