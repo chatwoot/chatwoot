@@ -122,6 +122,57 @@ describe 'Rack::Attack auth throttles' do
     end
   end
 
+  {
+    '/api/v2/accounts/:account_id/reports/user' => '/api/v2/accounts/1/reports',
+    '/api/v2/accounts/:account_id/reports/drilldown/user' => '/api/v2/accounts/1/reports/drilldown',
+    '/api/v1/accounts/:account_id/conversations/meta/user' => '/api/v1/accounts/1/conversations/meta'
+  }.each do |name, path|
+    describe name do
+      let(:env) { Rack::MockRequest.env_for(path, 'REMOTE_ADDR' => ip) }
+
+      it 'shares the same key for legacy and bearer API tokens' do
+        expect(throttle_key(name, env.merge('HTTP_API_ACCESS_TOKEN' => 'api-token'))).to eq('api-token:1')
+        expect(throttle_key(name, env.merge('HTTP_AUTHORIZATION' => 'bearer   api-token'))).to eq('api-token:1')
+      end
+
+      it 'gives the bearer token precedence over other identity headers' do
+        headers = { 'HTTP_AUTHORIZATION' => 'Bearer api-token', 'HTTP_UID' => 'other-user', 'HTTP_API_ACCESS_TOKEN' => 'other-token' }
+        expect(throttle_key(name, env.merge(headers))).to eq('api-token:1')
+      end
+
+      it 'preserves dashboard UID keys with and without encoded bearer credentials' do
+        credentials = { uid: 'user@example.com', client: 'client', 'access-token': 'session-token' }
+        encoded = Base64.strict_encode64(credentials.to_json)
+        expect(throttle_key(name, env.merge('HTTP_UID' => credentials[:uid]))).to eq('user@example.com:1')
+        expect(throttle_key(name, env.merge('HTTP_AUTHORIZATION' => "Bearer #{encoded}"))).to eq('user@example.com:1')
+      end
+
+      it 'skips missing and empty credentials' do
+        expect(throttle_key(name, env)).to be_nil
+        expect(throttle_key(name, env.merge('HTTP_AUTHORIZATION' => 'Bearer', 'HTTP_API_ACCESS_TOKEN' => 'api-token'))).to be_nil
+      end
+
+      it 'returns 429 when alternating bearer and legacy requests exhaust the shared limit' do
+        original_store = Rack::Attack.cache.store
+        Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
+        allow(Rack::Attack).to receive(:enabled).and_return(true)
+        middleware = Rack::Attack.new(->(_request_env) { [200, {}, ['ok']] })
+
+        freeze_time do
+          Rack::Attack.throttles.fetch(name).limit.times do |index|
+            headers = index.even? ? { 'HTTP_AUTHORIZATION' => 'Bearer api-token' } : { 'HTTP_API_ACCESS_TOKEN' => 'api-token' }
+            expect(middleware.call(env.merge(headers)).first).to eq(200)
+          end
+          request_env = env.merge('HTTP_AUTHORIZATION' => 'Bearer api-token')
+          expect(middleware.call(request_env).first).to eq(429)
+          expect(request_env['rack.attack.matched']).to eq(name)
+        end
+      ensure
+        Rack::Attack.cache.store = original_store
+      end
+    end
+  end
+
   describe 'throttle event logging' do
     it 'logs which rule matched' do
       env = form_env({ 'email' => 'a@b.com', 'password' => 'x' })
