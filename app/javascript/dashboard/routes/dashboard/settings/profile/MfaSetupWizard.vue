@@ -44,6 +44,7 @@ const setupStep = ref('qr');
 const qrCodeUrl = ref('');
 const verificationCode = ref('');
 const verificationError = ref('');
+const isVerifying = ref(false);
 const backupCodesConfirmed = ref(false);
 
 // Generate QR code from provisioning URI
@@ -80,6 +81,9 @@ watch(
 // only when backup codes arrive (see the watcher below), so a slow or failed
 // verification never strands the user past the OTP form.
 const verifyCode = () => {
+  if (isVerifying.value) return;
+
+  isVerifying.value = true;
   verificationError.value = '';
   emit('verify', verificationCode.value);
   verificationCode.value = '';
@@ -138,6 +142,7 @@ watch(
       setupStep.value = 'qr';
       verificationCode.value = '';
       verificationError.value = '';
+      isVerifying.value = false;
       backupCodesConfirmed.value = false;
     }
   }
@@ -147,6 +152,7 @@ watch(
 // verify event is emitted, so roll the step back for a retry.
 const handleVerificationError = error => {
   setupStep.value = 'qr';
+  isVerifying.value = false;
   verificationError.value = error || t('MFA_SETTINGS.SETUP.INVALID_CODE');
 };
 
@@ -239,7 +245,8 @@ defineExpose({
             />
             <Button
               class="flex-1"
-              :disabled="verificationCode.length !== 6"
+              :disabled="verificationCode.length !== 6 || isVerifying"
+              :is-loading="isVerifying"
               :label="$t('MFA_SETTINGS.SETUP.VERIFY_BUTTON')"
               @click="verifyCode"
             />
