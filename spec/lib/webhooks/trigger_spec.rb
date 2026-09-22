@@ -46,18 +46,18 @@ describe Webhooks::Trigger do
       trigger.execute(url, payload, webhook_type)
     end
 
-    it 'updates message status if webhook fails for message-created event' do
+    it 'updates message status for a terminal message-created delivery failure' do
       payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
 
-      expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('500 Internal Server Error'))
+      expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('400 Bad Request'))
 
       expect { trigger.execute(url, payload, webhook_type) }.to change { message.reload.status }.from('sent').to('failed')
     end
 
-    it 'updates message status if webhook fails for message-updated event' do
+    it 'updates message status for a terminal message-updated delivery failure' do
       payload = { event: 'message_updated', conversation: { id: conversation.id }, id: message.id }
 
-      expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('500 Internal Server Error'))
+      expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('400 Bad Request'))
 
       expect { trigger.execute(url, payload, webhook_type) }.to change { message.reload.status }.from('sent').to('failed')
     end
@@ -100,6 +100,14 @@ describe Webhooks::Trigger do
           end)
         expect(pending_conversation.reload.status).to eq('pending')
         expect(Conversations::ActivityMessageJob).not_to have_been_enqueued
+      end
+
+      it 'preserves terminal handling of 503 for agent bots' do
+        payload = { event: 'message_created', id: pending_message.id }
+        allow(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('503 Service Unavailable'))
+
+        expect { trigger.execute(url, payload, webhook_type) }.not_to raise_error
+        expect(pending_conversation.reload.status).to eq('open')
       end
 
       it 'reopens conversation and enqueues activity message if pending' do
@@ -165,14 +173,78 @@ describe Webhooks::Trigger do
       end
     end
 
-    it 'handles 500 without raising for non-agent webhooks' do
-      payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
+    %i[account_webhook api_inbox_webhook].each do |type|
+      context "when webhook type is #{type}" do
+        let(:webhook_type) { type }
+        let(:payload) { { event: 'message_created', id: message.id } }
 
-      expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('500 Internal Server Error'))
+        [429, 500, 502, 503, 504, 599].each do |status|
+          it "raises #{status} for retry without marking the message failed" do
+            allow(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new("#{status} failure"))
 
-      expect { trigger.execute(url, payload, webhook_type) }.not_to raise_error
-      expect(message.reload.status).to eq('failed')
+            expect { trigger.execute(url, payload, webhook_type) }.to raise_error do |error|
+              expect(error.class.name).to eq('Webhooks::Trigger::RetryableError')
+              expect(error.status).to eq(status)
+            end
+            expect(message.reload.status).to eq('sent')
+          end
+        end
+
+        [Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError, SocketError].each do |error_class|
+          it "retries wrapped #{error_class} without marking the message failed" do
+            allow(SafeFetch).to receive(:fetch) do
+              begin
+                raise error_class, 'connection failed'
+              rescue error_class => error
+                raise SafeFetch::FetchError, error.message
+              end
+            end
+
+            expect { trigger.execute(url, payload, webhook_type) }.to raise_error do |error|
+              expect(error.class.name).to eq('Webhooks::Trigger::RetryableError')
+              expect(error.status).to be_nil
+            end
+            expect(message.reload.status).to eq('sent')
+          end
+        end
+
+        [400, 401, 403, 404].each do |status|
+          it "handles #{status} without retry" do
+            allow(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new("#{status} failure"))
+
+            expect { trigger.execute(url, payload, webhook_type) }.not_to raise_error
+            expect(message.reload.status).to eq(type == :api_inbox_webhook ? 'failed' : 'sent')
+          end
+        end
+
+        [SafeFetch::InvalidUrlError, SafeFetch::UnsafeUrlError, SafeFetch::FileTooLargeError].each do |error_class|
+          it "does not retry #{error_class}" do
+            allow(SafeFetch).to receive(:fetch).and_raise(error_class.new('not transient'))
+
+            expect { trigger.execute(url, payload, webhook_type) }.not_to raise_error
+          end
+        end
+
+        it 'does not retry TLS failures wrapped by SafeFetch' do
+          allow(SafeFetch).to receive(:fetch) do
+            begin
+              raise OpenSSL::SSL::SSLError, 'certificate verify failed'
+            rescue OpenSSL::SSL::SSLError => error
+              raise SafeFetch::FetchError, error.message
+            end
+          end
+
+          expect { trigger.execute(url, payload, webhook_type) }.not_to raise_error
+        end
+
+        it 'does not infer a retryable HTTP status from an unrelated error message' do
+          allow(SafeFetch).to receive(:fetch).and_raise(SafeFetch::FetchError.new('500 not an HTTP response'))
+
+          expect { trigger.execute(url, payload, webhook_type) }.not_to raise_error
+        end
+      end
     end
+
   end
 
   describe 'request headers' do
