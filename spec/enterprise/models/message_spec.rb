@@ -90,4 +90,17 @@ RSpec.describe Message do
       expect(conversation.reload.pending?).to be true
     end
   end
+
+  describe '#reopen_resolved_conversation' do
+    it 'clears inactive Captain ownership when an incoming message reopens a resolved conversation' do
+      assistant = create(:captain_assistant, account: conversation.account)
+      create(:captain_inbox, inbox: conversation.inbox, captain_assistant: assistant)
+      conversation.update!(ai_assignee: assistant, status: :resolved)
+      conversation.account.disable_features!('captain_integration')
+
+      create(:message, message_type: :incoming, conversation: conversation)
+
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil, ai_assignee_type: nil)
+    end
+  end
 end
