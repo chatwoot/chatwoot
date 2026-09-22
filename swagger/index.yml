@@ -22,7 +22,7 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
-      description: 'Use an existing API token with `Authorization: Bearer <token>`. Find user tokens in **Profile Settings**, agent bot tokens in **Settings → Agent Bots**, and platform app tokens in **Super Admin**. Available in Chatwoot `v4.19.0` and later.'
+      description: 'Authenticate with `Authorization: Bearer <token>`. Find user tokens in **Profile Settings**, agent bot tokens in **Settings → Agent Bots**, and platform app tokens in **Super Admin**. Available in Chatwoot `v4.19.0` and later.'
     userApiKey:
       type: apiKey
       in: header
