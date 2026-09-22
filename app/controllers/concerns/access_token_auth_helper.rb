@@ -23,6 +23,7 @@ module AccessTokenAuthHelper
     request.authorization.to_s.match?(/\ABearer(?:\s|\z)/i)
   end
 
+  # TODO: Use request.bearer_token once we upgrade to a Rails version that provides it.
   def bearer_access_token
     request.authorization.to_s[%r{\ABearer +([A-Za-z0-9\-._~+/]+=*)\z}i, 1]
   end
