@@ -12,6 +12,8 @@ class Mfa::TokenService < BaseTokenService
   def verify_token
     decoded = decode_token
     return nil if decoded.blank?
+    # Positive purpose check: rejects untyped legacy tokens and tokens minted
+    # for other purposes (mfa_setup, device verification).
     return nil unless decoded[:token_type] == TOKEN_TYPE
 
     User.find(decoded[:user_id])

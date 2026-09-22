@@ -218,6 +218,14 @@ en:
       enrollment_required: This account requires two-factor authentication. Set it up in your profile settings to restore API access.
       interactive_session_required: Two-factor authentication settings cannot be managed with an API access token. Sign in to the dashboard instead.
       enforced_cannot_disable: Two-factor authentication is required by your account and cannot be disabled.
+    device_verification:
+      invalid_token: Invalid or expired verification token, sign in again to get a new code
+      invalid_code: Incorrect code. Enter the 6-digit code we sent to your email.
+      expired: Verification code expired, sign in again to get a new one
+      locked: Too many incorrect codes, sign in again to get a new one
+      stale: Your account changed since this code was issued, sign in again
+      rate_limited: Too many verification attempts, try again later or reset your password
+      code_field_required: Enter the 6-digit code from your email in the verification code field, not the backup code field
     billing:
       invalid_currency: Invalid billing currency
       currency_locked: Billing currency cannot be changed after billing has been set up
@@ -496,7 +504,7 @@ en:
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
-      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per assistant'
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -654,6 +662,8 @@ en:
         suspended_at: 'Suspended at'
         category: 'Category'
         reason: 'Reason'
+        suspended_by: 'Suspended by'
+        unknown_user: 'Unknown user'
         empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:

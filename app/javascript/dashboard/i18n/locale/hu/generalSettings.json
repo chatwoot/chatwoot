@@ -139,37 +139,6 @@
       "SELECT": "Kiválasztás"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Értesítések",
-    "MARK_ALL_DONE": "Mind kész",
-    "DELETE_TITLE": "törölve",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Olvasatlan értesítések",
-      "ALL_NOTIFICATIONS": "Összes értesítés nézete",
-      "LOADING_UNREAD_MESSAGE": "Olvasatlan értesítések betöltése...",
-      "EMPTY_MESSAGE": "Nincs olvasatlan értesítésed"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Értesítések betöltése...",
-      "404": "Nincs értesítés",
-      "TABLE_HEADER": [
-        "Név",
-        "Telefonszám",
-        "Beszélgetések",
-        "Utoljára kapcsolatban"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Új beszélgetés",
-      "conversation_assignment": "Beszélgetés hozzárendelve",
-      "assigned_conversation_new_message": "Új üzenet",
-      "participating_conversation_new_message": "Új üzenet",
-      "conversation_mention": "Megemlítés",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline",
@@ -192,6 +161,7 @@
       "CHANGE_PRIORITY": "Prioritás megváltoztatása",
       "CHANGE_TEAM": "Csapat megváltoztatása",
       "SNOOZE_CONVERSATION": "Beszélgetés alvómódba",
+      "EXECUTE_MACRO": "Execute Macro",
       "ADD_LABEL": "Címke hozzáadása a beszélgetéshez",
       "REMOVE_LABEL": "Címke eltávolítása a beszélgetésről",
       "SETTINGS": "Beállítások",
@@ -232,12 +202,12 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Fiók szintű beállítások megnyitása",
       "GO_TO_SETTINGS_PROFILE": "Profil beállítások megnyitása",
-      "GO_TO_NOTIFICATIONS": "Értesítések megnyitása",
       "ADD_LABELS_TO_CONVERSATION": "Cimke hozzáadása a beszélgetéshez",
       "ASSIGN_AN_AGENT": "Ügynök hozzárendelése",
       "AI_ASSIST": "AI segítség",
       "ASSIGN_PRIORITY": "Prioritás beállítása",
       "ASSIGN_A_TEAM": "Csapat hozzárendelése",
+      "EXECUTE_A_MACRO": "Execute a macro",
       "MUTE_CONVERSATION": "Beszélgetés némítása",
       "UNMUTE_CONVERSATION": "Beszélgetés némításának feloldása",
       "REMOVE_LABEL_FROM_CONVERSATION": "Cimke eltávolítása a beszélgetésről",

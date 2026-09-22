@@ -11,17 +11,6 @@ module MfaAuthenticationHelper
     params[:mfa_setup_token].present?
   end
 
-  # Returns truthy when a response has been rendered and login must not proceed.
-  def intercept_password_login(user)
-    if user.mfa_enabled?
-      handle_mfa_required(user)
-    elsif user.mfa_enforcement_pending?
-      handle_mfa_setup_required(user)
-    else
-      enforce_session_limit_for_password_login(user)
-    end
-  end
-
   def handle_mfa_required(user)
     render json: {
       mfa_required: true,

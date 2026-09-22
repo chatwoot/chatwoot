@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "אנא בחר שיחה מהחלונית השמאלית",
     "CSAT_REPLY_MESSAGE": "נא דרג שיחה זו",
     "404": "מצטערים, לא מצאנו את השיחה המבוקשת, נא לנסות שוב",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
     "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",
     "NO_RESPONSE": "אין תגובה",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "סוכנים",
       "TEAMS": "צוותים"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "תיאור",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "חפש אימוג'י",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "הכל"
+        },
+        "AVAILABILITY": "זמינות",
+        "ROLE": "תפקיד",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "מופעל",
+        "DISABLED": "כבוי",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "השהה עד",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} אחר",
     "TOTAL_PARTICIPANTS_TEXT": "{count} אנשים משתתפים.",
     "TOTAL_PARTICIPANT_TEXT": "{count} אדם משתתף.",
-    "NO_PARTICIPANTS_TEXT": "אף אחד לא משתתף!.",
+    "NO_PARTICIPANTS_TEXT": "אף אחד לא משתתף!",
     "WATCH_CONVERSATION": "הצטרף לשיחה",
     "YOU_ARE_WATCHING": "אתה משתתף",
     "API": {
