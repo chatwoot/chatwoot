@@ -1,0 +1,115 @@
+version: 1
+label_status: pending_independent_human_review
+contacts:
+  alpha: {name: Alex Example, email: alpha@example.invalid}
+  beta: {name: Alex Example, email: beta@example.invalid}
+cases:
+  - id: exact_lookup
+    split: development
+    request: Find the contact with exact email alpha@example.invalid and show its name and email.
+    expected: {contact_keys: [alpha], review: Exact identity and saved row are required.}
+  - id: missing_lookup
+    split: development
+    request: Find the contact with exact email absent@example.invalid.
+    expected: {contact_keys: [], review: Explicitly report no matching contact without inventing one.}
+  - id: ambiguous_lookup
+    split: development
+    request: Summarize Alex Example's conversations.
+    expected: {status: needs_clarification, review: Ask which of the two contacts before analyzing conversations.}
+  - id: app_boundary
+    split: development
+    request: Analyze every conversation for direct customer reports of app UI slowness in the last seven days. API response latency alone is not app UI slowness. Separate uncertain cases. Publish every decision with sources and the matching conversation list.
+    conversations:
+      - key: app
+        contact: alpha
+        created_days_ago: 30
+        messages:
+          - {key: old, days_ago: 10, text: The app works quickly.}
+          - {key: recent, days_ago: 1, text: Opening the inbox in the app takes twenty seconds. The UI is very slow.}
+      - key: api
+        contact: beta
+        messages:
+          - {key: api_only, text: The API endpoint takes ten seconds. The app interface loads instantly.}
+      - key: quoted
+        contact: beta
+        messages:
+          - {key: agent, speaker: agent, text: 'A different customer said: the app is very slow.'}
+          - {key: denial, text: Our app is fast. We only need help changing the logo.}
+      - key: vague
+        contact: alpha
+        messages:
+          - {key: unclear, text: It is slow again.}
+    expected:
+      decisions: {app: match, api: no_match, quoted: no_match, vague: uncertain}
+      sources: {app: [recent], api: [api_only], quoted: [denial], vague: [unclear]}
+      excluded_message_keys: [old]
+      review: Select the old-created conversation and exclude its pre-window message. Do not treat quoted support as a customer complaint.
+  - id: chronology
+    split: development
+    request: Summarize the latest substantive customer issue in each conversation. Explain earlier issues only as history. Publish the list with source citations.
+    conversations:
+      - key: changed
+        contact: alpha
+        messages:
+          - {key: earlier, days_ago: 3, text: The app is too slow to use.}
+          - {key: latest, days_ago: 1, text: The speed problem is fixed. Now my CSV export fails with an error.}
+    expected: {sources: {changed: [latest]}, review: The current issue is CSV export failure. Slowness is resolved history.}
+  - id: customer_count
+    split: development
+    request: Find all conversations reporting app UI slowness. Count conversations and distinct customers separately. Publish the complete matching conversation list with display IDs and sources, not only the counts.
+    conversations:
+      - key: first
+        contact: alpha
+        messages: [{key: first_report, text: The app inbox is slow to open.}]
+      - key: second
+        contact: alpha
+        messages: [{key: second_report, text: The app search UI freezes for a minute.}]
+      - key: third
+        contact: beta
+        messages: [{key: third_report, text: The app interface takes ages to load.}]
+    expected: {decisions: {first: match, second: match, third: match}, conversations: 3, customers: 2, final_list: [first, second, third]}
+  - id: unread_attachment
+    split: development
+    request: Determine whether each customer reports app slowness. Publish decisions and evidence limitations. Do not assume content in an unread attachment.
+    conversations:
+      - key: attached
+        contact: alpha
+        messages: [{key: document, text: Please see the attached problem description., attachment: true}]
+    expected: {decisions: {attached: uncertain}, limitation: unexamined_attachment, review: The attachment has no stored extracted text or transcript.}
+  - id: report_count
+    split: development
+    request: 'Use the conversations_count report for this account from %{since} through %{until}, with calendar hours. Publish the report value and exact dates.'
+    conversations:
+      - key: one
+        contact: alpha
+        messages: [{key: hello, text: Hello.}]
+      - key: two
+        contact: beta
+        messages: [{key: help, text: Please help.}]
+    expected: {report_metric: conversations_count, report_value: 2, review: Compare the deterministic value with the existing report service for identical dates.}
+  - id: holdout_boundary
+    split: holdout
+    request: Review all conversations for direct app UI performance complaints, separating API-only latency and uncertain cases. Publish decisions, sources and the matching list.
+    conversations:
+      - key: positive
+        contact: alpha
+        messages: [{key: sluggish, text: Clicking between conversations makes the browser hang for half a minute.}]
+      - key: negative
+        contact: beta
+        messages: [{key: endpoint, text: Only our REST requests are delayed. Your dashboard is responsive.}]
+      - key: uncertain
+        contact: beta
+        messages: [{key: stalled, text: Everything seems stuck sometimes.}]
+    expected: {decisions: {positive: match, negative: no_match, uncertain: uncertain}, final_list: [positive]}
+  - id: holdout_quote_attachment
+    split: holdout
+    request: Review each conversation for direct customer reports of app slowness. Publish decisions and limitations with supporting sources.
+    conversations:
+      - key: quote
+        contact: alpha
+        messages:
+          - {key: quoted, text: 'Your support email said "the app is slow". That is not our issue. We need a new invoice.'}
+      - key: unseen
+        contact: beta
+        messages: [{key: screenshot, text: The screenshot shows what happened., attachment: true}]
+    expected: {decisions: {quote: no_match, unseen: uncertain}, limitation: unexamined_attachment}

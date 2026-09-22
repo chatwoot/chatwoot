@@ -5,7 +5,10 @@ class Copilot::V2::ResultValidator
     @specification = specification
     fields = specification.fetch('fields')
     names = fields.pluck('name')
-    raise ArgumentError, 'Duplicate or reserved result fields' if names.uniq != names || names.intersect?(RESERVED)
+    if names.uniq != names || names.intersect?(RESERVED)
+      raise ArgumentError, "Field names must be unique and exclude #{RESERVED.join(', ')}. " \
+                           'Decision, reason and citations are already returned; use fields: [] for simple matching.'
+    end
     raise ArgumentError, 'Invalid field name' unless names.all? { |name| name.match?(/\A[a-z][a-z0-9_]{0,39}\z/) }
     raise ArgumentError, 'Enums require string fields' if fields.any? { |field| field['values'].any? && field['type'] != 'string' }
   end

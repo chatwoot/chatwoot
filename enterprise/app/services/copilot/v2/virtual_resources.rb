@@ -26,7 +26,7 @@ module Copilot::V2::VirtualResources # rubocop:disable Metrics/ModuleLength
       resource_gate!(resource)
       [resource, { 'available' => true, 'fields' => definition[:fields],
                    'filters' => virtual_filter_catalog(resource, definition),
-                   'relationships' => { 'content' => resource }, 'selection_kind' => 'registered_read',
+                   'relationships' => { 'content' => resource }, 'selection_kind' => 'registered_read', 'orders' => ['oldest'],
                    'limitations' => external_resource?(resource) ? ['upstream_pagination_not_exhaustive'] : [] }]
     rescue Pundit::NotAuthorizedError => e
       [resource, { 'available' => false, 'reason' => e.message }]
@@ -62,7 +62,7 @@ module Copilot::V2::VirtualResources # rubocop:disable Metrics/ModuleLength
   def select_virtual(resource, fields, filters, order, limit, personal, mention_window) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/ParameterLists
     resource_gate!(resource)
     raise ArgumentError, 'Personal and mention predicates are conversation-only' if personal || mention_window
-    raise ArgumentError, 'Registered reads use upstream ordering' unless order == 'oldest'
+    raise ArgumentError, 'Registered reads require order: oldest (upstream ordering)' unless order == 'oldest'
     raise ArgumentError, 'Limit must be a positive integer' unless limit.nil? || (limit.is_a?(Integer) && limit.positive?)
 
     fields ||= DEFINITIONS.fetch(resource)[:fields]

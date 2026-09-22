@@ -10,6 +10,12 @@ RSpec.describe Copilot::V2::ResultValidator do
       'citations' => [{ 'record_id' => 20, 'part_id' => 'message:20:body' }] }
   end
 
+  it 'explains how to correct an analysis that redeclares built-in fields' do
+    specification = { 'mode' => 'classify', 'instruction' => 'Find slowness',
+                      'fields' => [{ 'name' => 'decision', 'type' => 'string', 'values' => %w[match no_match uncertain] }] }
+    expect { described_class.new(specification) }.to raise_error(ArgumentError, /Decision, reason and citations are already returned/)
+  end
+
   it 'rejects foreign parts, duplicate records and unsupported positive findings' do
     expect(validator.validate!({ 'results' => [row] }, inputs)).to eq([row])
     expect { validator.validate!({ 'results' => [row, row] }, inputs) }.to raise_error(ArgumentError)

@@ -31,10 +31,17 @@ class Copilot::V2::Tool < RubyLLM::Tool
     'select_resources' => 'Capture an authorized fixed selection. Null limit means all matching up to the disclosed server cap.',
     'read_related' => 'Capture complete related evidence per selected parent. Omitted window defaults to seven days for messages.',
     'analyze_records' => 'Classify, extract or summarize stored text evidence. Ruby owns batches, citations, retries and coverage. ' \
-                         'Conversation semantics require message evidence. Fields describe extracted values; ' \
-                         'use empty fields for summary or simple matching.',
-    'aggregate_results' => 'Compute counts in Ruby from stored results or selected rows. Customers counts distinct contact IDs, never conversations.',
-    'show_results' => 'Publish stored structured rows and coverage. Only published references are authoritative output.'
+                         'Conversation semantics require message evidence. Every row already includes record_id, ' \
+                         'decision (match/no_match/uncertain), reason and citations. Fields are additional extracted values; ' \
+                         'use [] for summary or simple matching. Reserved field names: record_id, decision, reason, citations, count, coverage. ' \
+                         'Enum values are allowed only for string fields; use values: [] for other types.',
+    'aggregate_results' => 'Compute counts in Ruby from stored results or selected rows. ' \
+                           'Customers counts distinct contact IDs, never conversations. ' \
+                           'Group analysis by decision to count matches separately; group_by: [] counts all resolved rows.',
+    'show_results' => 'Read and publish captured rows from a selection, analysis result, or aggregate reference. ' \
+                      'Publish selections directly for lookups and calculated reports. ' \
+                      'Evidence references cannot be published; analyze them first. ' \
+                      'Only published references are authoritative output.'
   }.freeze
 
   def initialize(name)
