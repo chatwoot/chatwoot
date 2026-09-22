@@ -23,6 +23,16 @@ class Voice::VoipPushService
   APPLE = 'apns_voip'.freeze
   ANDROID = 'fcm'.freeze
 
+  # The agents a call rings: the assignee if the conversation has one, otherwise everyone
+  # who could be assigned the inbox. Presence is not consulted: a locked phone is offline
+  # on the socket and is exactly the device this push exists for.
+  def self.recipients_for(call)
+    assignee = call.conversation.assignee
+    return [assignee] if assignee
+
+    call.inbox.assignable_agents
+  end
+
   def perform(action)
     case action
     when 'ring' then ring
@@ -73,14 +83,8 @@ class Voice::VoipPushService
 
   # MARK: recipients and devices
 
-  # The assignee if the conversation has one, otherwise everyone who could be assigned
-  # the inbox. Presence is not consulted: a locked phone is offline on the socket and
-  # is exactly the device this push exists for.
   def recipients
-    assignee = call.conversation.assignee
-    return [assignee] if assignee
-
-    call.inbox.assignable_agents
+    self.class.recipients_for(call)
   end
 
   def apple_tokens

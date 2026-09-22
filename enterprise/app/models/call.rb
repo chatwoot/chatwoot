@@ -61,6 +61,7 @@ class Call < ApplicationRecord
 
   # Phones that were rung learn the ring is over; see Voice::VoipPushService
   after_update_commit :cancel_phone_ring, if: :ring_just_ended?
+  after_update_commit :notify_missed_call, if: :missed_just_now?
   validates :status, presence: true, inclusion: { in: STATUSES }
 
   scope :active, -> { where.not(status: TERMINAL_STATUSES) }
@@ -169,5 +170,13 @@ class Call < ApplicationRecord
 
   def cancel_phone_ring
     Voice::VoipPushJob.perform_later(id, 'cancel')
+  end
+
+  def missed_just_now?
+    saved_change_to_status? && status == 'no_answer' && incoming? && account.feature_enabled?('mobile_voice_push')
+  end
+
+  def notify_missed_call
+    Voice::MissedCallNotificationJob.perform_later(id)
   end
 end

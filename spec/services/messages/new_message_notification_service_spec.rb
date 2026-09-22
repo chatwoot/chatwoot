@@ -13,6 +13,12 @@ describe Messages::NewMessageNotificationService do
       expect(NotificationBuilder).not_to receive(:new)
       described_class.new(message: message).perform
     end
+
+    it 'will not create any notifications for call messages, which ring and record a missed call on their own' do
+      message = build(:message, message_type: :incoming, content_type: :voice_call)
+      expect(NotificationBuilder).not_to receive(:new)
+      described_class.new(message: message).perform
+    end
   end
 
   context 'when message is notifiable' do

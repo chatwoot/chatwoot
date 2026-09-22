@@ -40,16 +40,32 @@ export default {
     isSLAEnabled() {
       return this.isFeatureEnabledonAccount(this.accountId, FEATURE_FLAGS.SLA);
     },
-    filteredNotificationTypes() {
-      return this.notificationTypes.filter(notification =>
-        this.isSLAEnabled
-          ? true
-          : ![
-              'sla_missed_first_response',
-              'sla_missed_next_response',
-              'sla_missed_resolution',
-            ].includes(notification.value)
+    isVoiceEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.CHANNEL_VOICE
       );
+    },
+    filteredNotificationTypes() {
+      return this.notificationTypes.filter(notification => {
+        if (
+          !this.isSLAEnabled &&
+          [
+            'sla_missed_first_response',
+            'sla_missed_next_response',
+            'sla_missed_resolution',
+          ].includes(notification.value)
+        ) {
+          return false;
+        }
+        if (
+          !this.isVoiceEnabled &&
+          notification.value === 'voice_call_missed'
+        ) {
+          return false;
+        }
+        return true;
+      });
     },
   },
   watch: {

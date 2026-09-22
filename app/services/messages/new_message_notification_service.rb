@@ -3,6 +3,8 @@ class Messages::NewMessageNotificationService
 
   def perform
     return unless message.notifiable?
+    # A call has its own ring and its own missed-call notification
+    return if message.voice_call?
 
     notify_conversation_assignee
     notify_participating_users
