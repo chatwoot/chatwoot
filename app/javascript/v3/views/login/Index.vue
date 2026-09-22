@@ -270,9 +270,13 @@ export default {
       this.verificationChannel = null;
       this.credentials.password = '';
     },
-    handleMfaSetupVerified() {
+    handleMfaSetupVerified(data) {
       this.handleImpersonation();
-      window.location = '/app';
+      window.location = getLoginRedirectURL({
+        ssoAccountId: this.ssoAccountId,
+        ssoConversationId: this.ssoConversationId,
+        user: data?.data,
+      });
     },
     handleMfaSetupCancel() {
       this.mfaSetupRequired = false;

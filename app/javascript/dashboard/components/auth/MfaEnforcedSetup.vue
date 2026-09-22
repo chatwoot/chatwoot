@@ -34,7 +34,7 @@ const authResponse = ref(null);
 const onComplete = () => {
   if (!authResponse.value) return;
   setAuthCredentials(authResponse.value);
-  emit('verified');
+  emit('verified', authResponse.value.data);
 };
 
 const onVerify = async otpCode => {

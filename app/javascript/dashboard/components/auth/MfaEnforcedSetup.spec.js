@@ -73,6 +73,7 @@ describe('MfaEnforcedSetup', () => {
 
     expect(setAuthCredentials).toHaveBeenCalledWith(response);
     expect(wrapper.emitted('verified')).toHaveLength(1);
+    expect(wrapper.emitted('verified')[0]).toEqual([response.data]);
   });
 
   it('reports the error to the wizard on failed verification', async () => {
