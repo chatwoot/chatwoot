@@ -22,6 +22,7 @@ class Voice::StatusUpdateService
     call = Call.where(account_id: account.id).find_by(provider: :twilio, provider_call_id: call_sid)
     return unless call
 
+    record_provider_status(call)
     Voice::CallStatus::Manager.new(call: call).process_status_update(
       normalized_status,
       duration: payload_duration,
@@ -30,6 +31,20 @@ class Voice::StatusUpdateService
   end
 
   private
+
+  # Twilio's own status is kept beside the call's: queued, initiated and ringing all map
+  # to ringing here, but only the last means the far handset is actually ringing, and a
+  # client placing a call shows that moment. The message is rebroadcast so clients get
+  # the change even when the call's status does not move.
+  def record_provider_status(call)
+    return if call.terminal?
+
+    provider_status = call_status.to_s.downcase
+    return if provider_status.blank? || call.provider_status == provider_status
+
+    call.update!(provider_status: provider_status)
+    call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+  end
 
   def normalize_status(status)
     return if status.to_s.strip.empty?

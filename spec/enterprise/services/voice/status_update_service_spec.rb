@@ -69,6 +69,27 @@ RSpec.describe Voice::StatusUpdateService do
     expect(call.reload.status).to eq('no_answer')
   end
 
+  it 'keeps the provider status beside the call status and rebroadcasts the message when only that changes' do
+    described_class.new(account: account, call_sid: call_sid, call_status: 'initiated').perform
+    touched_at = message.reload.updated_at
+    travel_to(1.second.from_now) do
+      described_class.new(account: account, call_sid: call_sid, call_status: 'ringing').perform
+    end
+
+    expect(call.reload.status).to eq('ringing')
+    expect(call.provider_status).to eq('ringing')
+    expect(call.push_event_data[:provider_status]).to eq('ringing')
+    expect(message.reload.updated_at).to be > touched_at
+  end
+
+  it 'leaves the provider status alone once the call has ended' do
+    call.update!(status: 'completed')
+
+    described_class.new(account: account, call_sid: call_sid, call_status: 'completed').perform
+
+    expect(call.reload.provider_status).to be_nil
+  end
+
   it 'no-ops when no Call matches the provided call_sid' do
     expect do
       described_class.new(account: account, call_sid: 'UNKNOWN', call_status: 'busy').perform
