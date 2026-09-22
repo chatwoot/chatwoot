@@ -1,5 +1,7 @@
 module Labelable::Persistence
-  # This concern overrides four acts-as-taggable-on methods through Labelable:
+  extend ActiveSupport::Concern
+
+  # This concern overrides five acts-as-taggable-on methods through Labelable:
   #
   #   Conversation / Contact
   #     -> Labelable
@@ -28,6 +30,11 @@ module Labelable::Persistence
   # label_list.add/remove edits, which mutate the list without calling its setter.
   # It prevents unrelated saves from overwriting labels; it does not coordinate
   # two workers that both intentionally edit labels.
+  included do
+    after_commit :apply_saved_tag_lists
+    after_rollback :discard_saved_tag_lists
+  end
+
   def tag_list_cache_on(context)
     super.tap do |list|
       @original_tag_lists ||= {}
@@ -35,23 +42,41 @@ module Labelable::Persistence
     end
   end
 
+  # set_tag_list_on replaces the list without reading it, so load the original first.
+  def set_tag_list_on(context, new_list)
+    tag_list_cache_on(context)
+    super
+  end
+
   # Both the tagging and cache callbacks ask this before writing.
   def tag_list_cache_set_on(context)
     super && tag_list_cache_on(context) != @original_tag_lists.fetch(context.to_s)
   end
 
-  # After a successful save, the saved list becomes the new comparison baseline.
+  # The saved list becomes the new baseline only once the transaction commits.
+  # If it rolls back, the database still has the old list, so keep the old baseline
+  # and let a retry on this instance persist the edit again.
   def save_tags
     super.tap do
-      @original_tag_lists&.each_key do |context|
-        @original_tag_lists[context] = tag_list_cache_on(context).dup
-      end
+      @saved_tag_lists = @original_tag_lists&.to_h { |context, _| [context, tag_list_cache_on(context).dup] }
     end
   end
 
   # Reloading discards the old copy, so discard our remembered list too.
   def reload(*)
     @original_tag_lists = nil
+    @saved_tag_lists = nil
     super
+  end
+
+  private
+
+  def apply_saved_tag_lists
+    @original_tag_lists&.merge!(@saved_tag_lists) if @saved_tag_lists
+    @saved_tag_lists = nil
+  end
+
+  def discard_saved_tag_lists
+    @saved_tag_lists = nil
   end
 end

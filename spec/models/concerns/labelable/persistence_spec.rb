@@ -78,6 +78,25 @@ RSpec.describe Labelable::Persistence do
 
         expect(other_instance.reload.labels.pluck(:name)).to eq(['runner'])
       end
+
+      it 'persists a label edit retried after its transaction rolled back' do
+        record.class.transaction(requires_new: true) do
+          record.update_labels(['runner'])
+          raise ActiveRecord::Rollback
+        end
+        expect(other_instance.labels).to be_empty
+
+        record.save!
+
+        expect(other_instance.reload.labels.pluck(:name)).to eq(['runner'])
+      end
+
+      it 'persists a list set through set_tag_list_on without a prior read' do
+        other_instance.set_tag_list_on(:labels, ['runner'])
+        other_instance.save!
+
+        expect(record.reload.labels.pluck(:name)).to eq(['runner'])
+      end
     end
   end
 
