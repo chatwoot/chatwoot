@@ -2,6 +2,9 @@ class Copilot::V2::Resources
   include Captain::Copilot::ConversationAccess
   include Copilot::V2::ResourceFilters
   include Copilot::V2::EvidenceCapture
+  include Copilot::V2::ResourceAccess
+  include Copilot::V2::VirtualResources
+  include Copilot::V2::ExternalReads
 
   # Provisional internal safety bounds, not approved production execution limits.
   MAX_SELECTED = Copilot::V2::Limits::MAX_SELECTED
@@ -10,30 +13,35 @@ class Copilot::V2::Resources
   MAX_SNAPSHOT_BYTES = Copilot::V2::Limits::MAX_SNAPSHOT_BYTES
   PAGE_SIZE = Copilot::V2::Limits::PAGE_SIZE
 
-  def initialize(account:, user:)
+  def initialize(account:, user:, assistant: nil)
     @account = account
     @user = user
+    @assistant = assistant
   end
 
   def catalog
     membership!
-    ResourceRegistry::DEFINITIONS.filter_map do |resource, definition|
-      next if %w[contacts notes].include?(resource) && !contacts_allowed?
-
+    ResourceRegistry::DEFINITIONS.to_h do |resource, definition|
+      resource_gate!(resource)
       fields = definition[:fields].index_with { |field| ResourceRegistry.type(field) }
       filters = ResourceRegistry.filter_catalog(resource, scope(resource).klass)
-      [resource, { 'fields' => fields, 'filters' => filters,
+      [resource, { 'available' => true, 'fields' => fields, 'filters' => filters,
                    'personal_predicates' => resource == 'conversations' ? ResourceRegistry::PERSONAL_PREDICATES : [],
                    'custom_attributes' => custom_attribute_catalog(resource),
                    'relationships' => definition[:relationships].transform_values(&:first),
-                   'evidence_window' => 'Omitted: rolling seven days. Full history: explicit epoch since and current until timestamps.' }]
-    end.to_h
+                   'evidence_window' => 'Omitted: rolling seven days for messages only.',
+                   'knowledge_scope' => %w[documents faqs].include?(resource) ? @assistant&.id : nil }]
+    rescue Pundit::NotAuthorizedError => e
+      [resource, { 'available' => false, 'reason' => e.message }]
+    end.merge(virtual_catalog)
   end
 
   # Keep the public typed selection arguments explicit.
   # rubocop:disable Metrics/ParameterLists
-  def select(resource:, fields: nil, filters: [], order: 'oldest', limit: nil, personal: nil, mention_window: nil)
+  def select(resource:, fields: nil, filters: [], order: 'oldest', limit: nil, personal: nil, mention_window: nil) # rubocop:disable Metrics/AbcSize
     membership!
+    return select_virtual(resource, fields, filters, order, limit, personal, mention_window) if virtual_resource?(resource)
+
     fields = checked_fields(resource, fields)
     ordering = checked_order(resource, order)
     raise ArgumentError, 'Limit must be a positive integer' unless limit.nil? || (limit.is_a?(Integer) && limit.positive?)
@@ -64,6 +72,8 @@ class Copilot::V2::Resources
     ids = item_ids || captured_ids
     raise ArgumentError, 'Unknown captured item' unless (ids - captured_ids).empty?
 
+    return authorize_virtual!(manifest, ids) if virtual_resource?(manifest.fetch('resource'))
+
     available = scope(manifest.fetch('resource')).where(id: ids).pluck(:id)
     raise Pundit::NotAuthorizedError, 'Selected records unavailable' unless available.sort == ids.sort
 
@@ -81,6 +91,7 @@ class Copilot::V2::Resources
   def scope(resource)
     membership!
     ResourceRegistry.fetch(resource)
+    resource_gate!(resource)
     conversations = accessible_conversations(account: @account, user: @user)
     case resource
     when 'conversations' then conversations
@@ -89,6 +100,8 @@ class Copilot::V2::Resources
     when 'participants' then ConversationParticipant.where(account_id: @account.id, conversation_id: conversations.select(:id))
     when 'contacts', 'notes'
       contact_scope(resource)
+    else
+      additional_scope(resource)
     end
   end
 
@@ -167,8 +180,10 @@ class Copilot::V2::Resources
     (['id'] + fields).uniq
   end
 
-  def project(record, fields)
+  def project(record, fields) # rubocop:disable Metrics/CyclomaticComplexity
     row = record.attributes.slice(*fields).as_json
+    row['labels'] = record.label_list if record.is_a?(Conversation) && fields.include?('labels')
+    row = knowledge_projection(record, row) if fields.include?('content') || fields.include?('answer') || fields.include?('deadlines')
     return row unless fields.include?('custom_attributes')
 
     model = record.is_a?(Conversation) ? 'conversation_attribute' : 'contact_attribute'

@@ -29,7 +29,10 @@ class Copilot::V2::ChatService < Llm::BaseAiService
       Respect chronology and distinguish direct customer statements from quoted agent/support text.
       Do not infer a negative finding from missing text, unread attachments, or empty evidence.
       Use decision match, no_match, or uncertain. Uncertainty is a processed result, with a concrete reason.
-      Positive findings require citations to exact supplied record IDs and text-part IDs. Never cite another record.
+      Each output row's record_id must equal its input record_id (the selected parent, such as a conversation).
+      Each citation's record_id must equal that input's evidence[].id (the source, such as a message), and its
+      part_id must equal a part ID within that same evidence source. The parent ID and source ID are different.
+      Copy both citation values from the same supplied evidence entry. Positive findings require citations.
       Extraction/summary findings also need sources. Return only the structured result. Do not calculate totals.
     PROMPT
     llm.ask(self.class.analysis_payload(items, specification, schema).fetch('request').to_json)

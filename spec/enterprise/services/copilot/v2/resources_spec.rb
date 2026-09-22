@@ -124,7 +124,7 @@ RSpec.describe Copilot::V2::Resources do
     role = create(:custom_role, account: account, permissions: ['conversation_manage'])
     account.account_users.find_by!(user: user).update!(custom_role: role)
     expect { service.read_related(selection, relationship: 'notes') }.to raise_error(Pundit::NotAuthorizedError)
-    expect(service.catalog).not_to have_key('contacts')
+    expect(service.catalog.fetch('contacts')).to include('available' => false, 'reason' => 'Contact access denied')
   end
 
   it 'counts only new authorized messages after the capture watermark with the same speaker filters' do

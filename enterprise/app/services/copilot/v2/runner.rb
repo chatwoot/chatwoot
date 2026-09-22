@@ -7,7 +7,7 @@ class Copilot::V2::Runner # rubocop:disable Metrics/ClassLength
 
   def initialize(run)
     @run = run
-    @resources = Copilot::V2::Resources.new(account: run.account, user: run.user)
+    @resources = Copilot::V2::Resources.new(account: run.account, user: run.user, assistant: run.copilot_thread.assistant)
   end
 
   def call # rubocop:disable Metrics/AbcSize, Metrics/MethodLength

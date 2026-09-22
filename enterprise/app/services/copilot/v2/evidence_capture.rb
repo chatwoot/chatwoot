@@ -10,6 +10,8 @@ module Copilot::V2::EvidenceCapture
   # rubocop:disable Metrics/BlockLength
   def read_related(selection, relationship:, fields: nil, filters: [], window: nil, customer_only: false)
     membership!
+    return read_virtual_evidence(selection, relationship, fields, filters, window, customer_only) if virtual_resource?(selection['resource'])
+
     validate_selection!(selection)
     source = selection.fetch('resource')
     target, foreign_key, parent_key = Copilot::V2::ResourceRegistry.fetch(source)[:relationships].fetch(relationship) do
@@ -32,6 +34,11 @@ module Copilot::V2::EvidenceCapture
         next { 'id' => id, 'state' => 'unresolved', 'reason' => 'record_unavailable', 'records' => [] } unless parent
 
         related = relation.where(foreign_key => parent[parent_key || 'id'])
+        related = related.where(documentable_type: 'Captain::Document') if source == 'documents' && target == 'faqs'
+        if source == 'notifications' && !related.exists?
+          next { 'id' => id, 'state' => 'unresolved', 'reason' => 'record_unavailable', 'records' => [] }
+        end
+
         item = capture_item(parent, related, target, fields)
         total_bytes += item.to_json.bytesize
         if total_bytes > Copilot::V2::Resources::MAX_SNAPSHOT_BYTES

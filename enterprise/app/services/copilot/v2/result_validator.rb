@@ -16,8 +16,11 @@ class Copilot::V2::ResultValidator
       definition[:enum] = field['values'] if field['values'].any?
       [field.fetch('name'), { anyOf: [definition, { type: 'null' }] }]
     end
-    citation = object({ record_id: { anyOf: [{ type: 'integer' }, { type: 'string' }] }, part_id: { type: 'string' } })
-    row = object({ record_id: { anyOf: [{ type: 'integer' }, { type: 'string' }] }, decision: { type: 'string', enum: %w[match no_match uncertain] },
+    citation = object({ record_id: { anyOf: [{ type: 'integer' }, { type: 'string' }],
+                                     description: 'Source evidence[].id, such as the message ID. Not the parent record_id.' },
+                        part_id: { type: 'string', description: 'Exact parts[].id belonging to that source evidence entry.' } })
+    row = object({ record_id: { anyOf: [{ type: 'integer' }, { type: 'string' }], description: 'Exact top-level input record_id.' },
+                   decision: { type: 'string', enum: %w[match no_match uncertain] },
                    reason: { type: 'string', minLength: 1 }, values: object(values),
                    citations: { type: 'array', items: citation } })
     object({ results: { type: 'array', items: row } })

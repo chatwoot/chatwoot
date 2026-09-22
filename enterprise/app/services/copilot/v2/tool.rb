@@ -2,10 +2,10 @@ class Copilot::V2::Tool < RubyLLM::Tool
   STRING = { type: 'string' }.freeze
   STRINGS = { type: 'array', items: STRING, maxItems: 30 }.freeze
   NULL_STRING = { anyOf: [STRING, { type: 'null' }] }.freeze
-  VALUE = { anyOf: [STRING, { type: 'integer' }, { type: 'boolean' }, { type: 'null' }, STRINGS,
+  VALUE = { anyOf: [STRING, { type: 'integer' }, { type: 'number' }, { type: 'boolean' }, { type: 'null' }, STRINGS,
                     { type: 'array', items: { type: 'integer' } }] }.freeze
   FILTERS = { type: 'array', maxItems: 10, items: { type: 'object', additionalProperties: false,
-                                                    properties: { field: STRING, operator: { type: 'string', enum: %w[eq in gte lte] },
+                                                    properties: { field: STRING, operator: { type: 'string', enum: %w[eq in gte lte contains] },
                                                                   value: VALUE },
                                                     required: %w[field operator value] } }.freeze
   WINDOW = { anyOf: [{ type: 'null' }, { type: 'object', additionalProperties: false,

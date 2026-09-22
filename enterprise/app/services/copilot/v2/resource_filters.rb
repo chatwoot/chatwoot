@@ -12,7 +12,9 @@ module Copilot::V2::ResourceFilters
 
     filters.reduce(relation) do |current, filter|
       field, operator, value = checked_filter(filter)
-      if resource == 'conversations' && %w[unattended unassigned].include?(field)
+      if resource == 'conversations' && field == 'labels'
+        label_filter(current, operator, value)
+      elsif resource == 'conversations' && %w[unattended unassigned].include?(field)
         queue_filter(current, field, operator, value)
       elsif field.is_a?(String) && field.start_with?('custom_attributes.')
         custom_filter(current, resource, field.delete_prefix('custom_attributes.'), operator, value)
@@ -25,9 +27,20 @@ module Copilot::V2::ResourceFilters
   # rubocop:enable Metrics/PerceivedComplexity
   # rubocop:enable Metrics/CyclomaticComplexity
 
+  def label_filter(relation, operator, value) # rubocop:disable Metrics/CyclomaticComplexity
+    values = operator == 'in' ? value : [value]
+    unless %w[eq in].include?(operator) && values.is_a?(Array) && values.size.between?(1, 100) && values.all? do |item|
+      item.is_a?(String) && item.present?
+    end
+      raise ArgumentError, 'Labels require string equality or a nonempty string list'
+    end
+
+    relation.tagged_with(values, any: true)
+  end
+
   def checked_filter(filter)
     raise ArgumentError, 'Filters require field, operator and value' unless filter.is_a?(Hash) && filter.keys.sort == %w[field operator value]
-    raise ArgumentError, 'Unsupported filter operator' unless %w[eq in gte lte].include?(filter['operator'])
+    raise ArgumentError, 'Unsupported filter operator' unless %w[eq in gte lte contains].include?(filter['operator'])
 
     filter.values_at('field', 'operator', 'value')
   end
@@ -41,10 +54,19 @@ module Copilot::V2::ResourceFilters
 
   # Keep the allowed typed cases and their validation together.
   # rubocop:disable Metrics/CyclomaticComplexity
-  def scalar_filter(relation, resource, field, operator, value)
-    allowed = Copilot::V2::ResourceRegistry.fetch(resource)[:fields] - %w[custom_attributes content]
+  def scalar_filter(relation, resource, field, operator, value) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+    allowed = Copilot::V2::ResourceRegistry.fetch(resource)[:fields] - %w[custom_attributes attribute_values deadlines]
     raise ArgumentError, 'Unregistered filter field' unless allowed.include?(field)
 
+    return relation.where(field => nil) if operator == 'eq' && value.nil? && relation.klass.columns_hash[field]&.null
+
+    if operator == 'contains'
+      raise ArgumentError, 'contains requires a registered text field and nonempty string' unless
+        Copilot::V2::ResourceRegistry.searchable?(resource, field) && value.is_a?(String) && value.present? && value.size <= 1_000
+
+      pattern = "%#{ActiveRecord::Base.sanitize_sql_like(value)}%"
+      return relation.where(relation.klass.arel_table[field].matches(pattern, '\\', false))
+    end
     type = Copilot::V2::ResourceRegistry.type(field)
     raise ArgumentError, 'Range operator requires integer or timestamp' if %w[gte lte].include?(operator) && %w[integer timestamp].exclude?(type)
 
