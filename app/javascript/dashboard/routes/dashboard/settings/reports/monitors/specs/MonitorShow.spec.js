@@ -310,6 +310,35 @@ describe('MonitorShow', () => {
     expect(wrapper.find('[role="alert"]').exists()).toBe(false);
   });
 
+  it('edits both name and description using the version shown when the editor opened', async () => {
+    wrapper = shallowMount(MonitorShow, mountOptions);
+    await flushPromises();
+    wrapper
+      .findAllComponents({ name: 'Button' })
+      .find(button => button.attributes('aria-label') === 'MONITORS.EDIT')
+      .vm.$emit('click');
+    await wrapper.vm.$nextTick();
+    wrapper
+      .findComponent({ name: 'Input' })
+      .vm.$emit('update:modelValue', ' Payments ');
+    await wrapper.find('textarea').setValue(' Conversations about payments ');
+    MonitorsAPI.timeseries.mockImplementation((id, params) => {
+      const response = responseFor(params);
+      response.data.monitor.collection_version = 1;
+      return Promise.resolve(response);
+    });
+    await state.refresh();
+    MonitorsAPI.update.mockResolvedValue({ data: {} });
+    wrapper.findComponent({ name: 'Dialog' }).vm.$emit('confirm');
+    await flushPromises();
+
+    expect(MonitorsAPI.update).toHaveBeenCalledWith('10', {
+      name: 'Payments',
+      condition: 'Conversations about payments',
+      collection_version: 0,
+    });
+  });
+
   it('drills into the displayed chart snapshot while a refresh is pending', async () => {
     wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
@@ -411,5 +440,79 @@ describe('MonitorShow', () => {
     expect(
       wrapper.findComponent({ name: 'MonitorDrilldown' }).props('request').until
     ).toBe(pausedAt);
+    const labels = wrapper
+      .findAllComponents({ name: 'Button' })
+      .map(button => button.attributes('aria-label'));
+    expect(labels).not.toContain('MONITORS.PAUSE');
+    expect(labels).toContain('MONITORS.DELETE');
   });
+
+  it('pauses through the confirmation dialog and retains the chart', async () => {
+    wrapper = shallowMount(MonitorShow, mountOptions);
+    await flushPromises();
+    MonitorsAPI.update.mockResolvedValue({ data: {} });
+    const pausedAt = Math.ceil(Date.now() / 1000) + 1;
+    MonitorsAPI.timeseries.mockImplementation((id, params) => {
+      const response = responseFor(params);
+      response.data.monitor.paused_at = pausedAt;
+      response.data.monitor.processing.state = 'paused';
+      return Promise.resolve(response);
+    });
+    wrapper
+      .findAllComponents({ name: 'Button' })
+      .find(button => button.attributes('aria-label') === 'MONITORS.PAUSE')
+      .vm.$emit('click');
+    await wrapper.vm.$nextTick();
+    wrapper.findComponent({ name: 'Dialog' }).vm.$emit('confirm');
+    await flushPromises();
+
+    expect(MonitorsAPI.update).toHaveBeenCalledWith('10', { paused: true });
+    expect(MonitorsAPI.timeseries.mock.lastCall[1].until).toBe(pausedAt);
+    expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
+    expect(wrapper.text()).toContain('MONITORS.PAUSED_HELP');
+  });
+
+  it.each(['catch_up', 'from_now'])(
+    'resumes with the selected %s mode and restores the live date range',
+    async mode => {
+      let paused = true;
+      const pausedAt = Math.floor(Date.now() / 1000) - 86400;
+      MonitorsAPI.timeseries.mockImplementation((id, params) => {
+        const response = responseFor(params);
+        response.data.monitor.paused_at = paused ? pausedAt : null;
+        response.data.monitor.collection_version = paused ? 1 : 2;
+        response.data.monitor.processing.state = paused ? 'paused' : 'live';
+        return Promise.resolve(response);
+      });
+      MonitorsAPI.resume.mockImplementation(async () => {
+        paused = false;
+        return { data: {} };
+      });
+      wrapper = shallowMount(MonitorShow, mountOptions);
+      await flushPromises();
+      wrapper
+        .findAllComponents({ name: 'Button' })
+        .find(button => button.attributes('aria-label') === 'MONITORS.RESUME')
+        .vm.$emit('click');
+      await wrapper.vm.$nextTick();
+      expect(wrapper.findAll('input[type="radio"]')).toHaveLength(2);
+      await wrapper.find(`input[value="${mode}"]`).setValue();
+      wrapper.findComponent({ name: 'Dialog' }).vm.$emit('confirm');
+      await flushPromises();
+
+      expect(MonitorsAPI.resume).toHaveBeenCalledWith('10', {
+        mode,
+        collection_version: 1,
+      });
+      expect(MonitorsAPI.timeseries.mock.lastCall[1].until).toBe(
+        Math.floor(Date.now() / 1000)
+      );
+      expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
+      expect(
+        wrapper
+          .findAllComponents({ name: 'Button' })
+          .map(button => button.attributes('aria-label'))
+      ).toContain('MONITORS.PAUSE');
+    }
+  );
 });
