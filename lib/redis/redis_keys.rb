@@ -97,6 +97,8 @@ module Redis::RedisKeys
   ASSIGNMENT_KEY_PATTERN = 'ASSIGNMENT::%<inbox_id>d::AGENT::%<agent_id>d::*'.freeze
   # At-most-one AssignmentJob per inbox in-flight (queued or running); further enqueues are skipped
   AUTO_ASSIGNMENT_IN_FLIGHT_KEY = 'AUTO_ASSIGNMENT_IN_FLIGHT::%<inbox_id>d'.freeze
+  # At-most-one TeamAssignmentRetryJob enqueued per account per coalesce window
+  TEAM_ASSIGNMENT_DEBOUNCE_KEY = 'TEAM_ASSIGNMENT_DEBOUNCE::%<account_id>d'.freeze
 
   ## Account Onboarding
   ACCOUNT_ONBOARDING_ENRICHMENT = 'ONBOARDING_ENRICHMENT::%<account_id>d'.freeze
