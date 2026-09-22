@@ -295,6 +295,11 @@
 - name: DEPLOYMENT_ENV
   value: self-hosted
   description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
+- name: DEVICE_VERIFICATION_ENABLED
+  display_title: 'Device Verification'
+  value: false
+  type: boolean
+  description: 'Require an emailed code to complete password sign-ins from unrecognized devices (Chatwoot Cloud only)'
 - name: CLOUD_ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
