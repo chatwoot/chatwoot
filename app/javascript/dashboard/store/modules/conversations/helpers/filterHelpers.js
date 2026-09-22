@@ -87,14 +87,7 @@ const getValueFromConversation = (conversation, attributeKey) => {
     case 'referer':
       return conversation.additional_attributes?.[attributeKey];
     default:
-      // Check if it's a custom attribute
-      if (
-        conversation.custom_attributes &&
-        conversation.custom_attributes[attributeKey]
-      ) {
-        return conversation.custom_attributes[attributeKey];
-      }
-      return null;
+      return conversation.custom_attributes?.[attributeKey] ?? null;
   }
 };
 
@@ -297,11 +290,11 @@ const matchesConversationCondition = (conversation, filter) => {
   const isHumanAssigneeFilter =
     filter.attribute_key === 'assignee_id' &&
     ['equal_to', 'not_equal_to'].includes(filter.filter_operator);
+  const isAiAssignee =
+    conversation.meta?.assignee_type &&
+    conversation.meta.assignee_type !== 'User';
 
-  if (
-    isHumanAssigneeFilter &&
-    conversation.meta?.assignee_type === 'AgentBot'
-  ) {
+  if (isHumanAssigneeFilter && isAiAssignee) {
     return false;
   }
 

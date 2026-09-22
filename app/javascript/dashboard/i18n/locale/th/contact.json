@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "ไม่พร้อมใช้งาน",
     "EMAIL_ADDRESS": "ที่อยู่อีเมล์",
     "PHONE_NUMBER": "หมายเลขโทรศัพท์",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "ตัวระบุ",
     "COPY_SUCCESSFUL": "คัดลอกไปยังคริปบอร์ดเเล้ว",
     "COMPANY": "บริษัท",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

@@ -6,6 +6,18 @@ RSpec.describe Captain::Assistant, type: :model do
   let(:contact) { create(:contact, account: account, additional_attributes: { 'country_code' => 'US' }) }
   let(:conversation) { create(:conversation, account: account, contact: contact) }
 
+  describe 'associations' do
+    it 'keeps Captain and AgentBot conversations separate when their ids match' do
+      assistant = create(:captain_assistant, id: 999_999, account: account)
+      agent_bot = create(:agent_bot, id: assistant.id, account: account)
+      captain_conversation = create(:conversation, account: account, ai_assignee: assistant)
+      agent_bot_conversation = create(:conversation, account: account, ai_assignee: agent_bot)
+
+      expect(assistant.assigned_conversations).to contain_exactly(captain_conversation)
+      expect(agent_bot.assigned_conversations).to contain_exactly(agent_bot_conversation)
+    end
+  end
+
   describe 'inactive conversation settings' do
     it 'uses safe defaults when settings are unavailable' do
       assistant.account.enable_features('captain_integration_v2')
@@ -268,7 +280,7 @@ RSpec.describe Captain::Assistant, type: :model do
 
   describe '#agent_tools' do
     it 'includes enabled custom tools from the assistant account' do
-      custom_tool = create(:captain_custom_tool, account: account)
+      custom_tool = create(:captain_custom_tool, account: account, assistant: assistant)
 
       tools = assistant.send(:agent_tools)
 
@@ -277,7 +289,7 @@ RSpec.describe Captain::Assistant, type: :model do
     end
 
     it 'excludes disabled custom tools' do
-      custom_tool = create(:captain_custom_tool, :disabled, account: account)
+      custom_tool = create(:captain_custom_tool, :disabled, account: account, assistant: assistant)
 
       tools = assistant.send(:agent_tools)
 
@@ -292,6 +304,15 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(tools.map(&:name)).not_to include(custom_tool.slug)
     end
 
+    it 'excludes the same slug enabled on another assistant in the account' do
+      create(:captain_custom_tool, :disabled, account: account, assistant: assistant, slug: 'custom_fetch-order')
+      create(:captain_custom_tool, account: account, assistant: create(:captain_assistant, account: account), slug: 'custom_fetch-order')
+
+      tools = assistant.send(:agent_tools)
+
+      expect(tools.map(&:name)).not_to include('custom_fetch-order')
+    end
+
     it 'keeps the built-in FAQ lookup and handoff tools' do
       tools = assistant.send(:agent_tools)
 
@@ -304,8 +325,8 @@ RSpec.describe Captain::Assistant, type: :model do
 
   describe '#available_tool_ids' do
     it 'excludes disabled custom tools' do
-      enabled_tool = create(:captain_custom_tool, account: account)
-      disabled_tool = create(:captain_custom_tool, :disabled, account: account)
+      enabled_tool = create(:captain_custom_tool, account: account, assistant: assistant)
+      disabled_tool = create(:captain_custom_tool, :disabled, account: account, assistant: assistant)
 
       expect(assistant.available_tool_ids).to include(enabled_tool.slug)
       expect(assistant.available_tool_ids).not_to include(disabled_tool.slug)
@@ -314,9 +335,15 @@ RSpec.describe Captain::Assistant, type: :model do
 
   describe '#known_tool_ids' do
     it 'includes disabled custom tools as valid references' do
-      disabled_tool = create(:captain_custom_tool, :disabled, account: account)
+      disabled_tool = create(:captain_custom_tool, :disabled, account: account, assistant: assistant)
 
       expect(assistant.known_tool_ids).to include(disabled_tool.slug)
+    end
+
+    it 'excludes custom tools from other assistants in the account' do
+      other_tool = create(:captain_custom_tool, account: account, assistant: create(:captain_assistant, account: account))
+
+      expect(assistant.known_tool_ids).not_to include(other_tool.slug)
     end
   end
 

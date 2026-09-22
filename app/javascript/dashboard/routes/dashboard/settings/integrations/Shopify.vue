@@ -46,7 +46,8 @@ const hideStoreUrlModal = () => {
 };
 
 const validateStoreUrl = url => {
-  const pattern = /^[a-zA-Z0-9][a-zA-Z0-9-]*\.myshopify\.com$/;
+  const pattern =
+    /^[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.myshopify\.(?:com|io)$/i;
   return pattern.test(url);
 };
 

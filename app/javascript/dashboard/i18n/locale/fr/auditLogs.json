@@ -7,6 +7,37 @@
     "LEARN_MORE": "En savoir plus sur les journaux d'audit",
     "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",
     "SIDEBAR_TXT": "</p><b>Les journaux d'audit</b> </p><p>Les journaux d'audit contiennent des événements et des actions associés un système Chatwoot. </p>",
+    "COUNT": "{n} event | {n} events",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Search by name or email",
+      "ALL_EVENTS": "All events",
+      "DATE_RANGE": "Date range",
+      "CLEAR_ALL": "Effacer les filtres",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Access",
+        "AGENTS_TEAMS": "Agents & teams",
+        "CONFIGURATION": "Configuration",
+        "CONVERSATIONS": "Conversations"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Sign in / sign out",
+        "AGENTS": "Agents",
+        "TEAMS": "Équipes",
+        "TEAM_MEMBERS": "Team members",
+        "INBOX_MEMBERS": "Inbox collaborators",
+        "ACCOUNT": "Paramètres du compte",
+        "INBOXES": "Boîtes de réception",
+        "WEBHOOKS": "Webhooks",
+        "AUTOMATION_RULES": "Automation rules",
+        "MACROS": "Macros",
+        "CONVERSATION_DELETIONS": "Conversation deletions",
+        "MESSAGE_DELETIONS": "Message deletions"
+      },
+      "SORT": {
+        "NEWEST": "Plus récent en premier",
+        "OLDEST": "Le plus ancien en premier"
+      }
+    },
     "LIST": {
       "404": "Il n'y a aucun journal d'audit disponible dans ce compte.",
       "TITLE": "Gérer les journaux d’audit",
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} a supprimé la conversation #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
     }
   }
 }

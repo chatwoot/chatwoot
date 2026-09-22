@@ -31,6 +31,7 @@ end
 ## TODO : Clean up and move the attributes into channel sub section
 
 json.tweets_enabled resource.channel.try(:tweets_enabled) if resource.twitter?
+json.provider_name resource.channel.try(:provider_name) if resource.facebook? || resource.instagram? || resource.tiktok?
 
 ## WebWidget Attributes
 json.allowed_domains resource.channel.try(:allowed_domains)
@@ -160,6 +161,8 @@ end
 if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
   json.voice_enabled resource.channel.voice_enabled?
   json.inbound_calls_enabled resource.channel.inbound_calls_enabled?
+  json.recording_enabled resource.channel.try(:recording_enabled?)
+  json.transcription_enabled resource.channel.try(:transcription_enabled?)
   json.voice_configured resource.channel.try(:twiml_app_sid).present?
   json.has_api_key_secret resource.channel.try(:api_key_secret).present?
   if resource.channel.try(:twiml_app_sid).present?
@@ -172,4 +175,6 @@ end
 if resource.channel_type == 'Channel::Whatsapp' && resource.channel.respond_to?(:voice_enabled?)
   json.voice_enabled resource.channel.voice_enabled?
   json.inbound_calls_enabled resource.channel.inbound_calls_enabled?
+  json.recording_enabled resource.channel.try(:recording_enabled?)
+  json.transcription_enabled resource.channel.try(:transcription_enabled?)
 end

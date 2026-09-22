@@ -3,11 +3,8 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { formatBytes } from 'shared/helpers/FileHelper';
-import {
-  dynamicTime,
-  exactTimestamp,
-  shortTimestamp,
-} from 'shared/helpers/timeHelper';
+import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { downloadFile } from '@chatwoot/utils';
 import {
   MEDIA_TYPES,
@@ -24,6 +21,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['select', 'jumpToMessage']);
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 

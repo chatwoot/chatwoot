@@ -10,6 +10,7 @@ describe('#enterpriseAccountAPI', () => {
     expect(accountAPI).toHaveProperty('update');
     expect(accountAPI).toHaveProperty('delete');
     expect(accountAPI).toHaveProperty('checkout');
+    expect(accountAPI).toHaveProperty('billingSummary');
     expect(accountAPI).toHaveProperty('toggleDeletion');
     expect(accountAPI).toHaveProperty('createTopupCheckout');
     expect(accountAPI).toHaveProperty('getLimits');
@@ -43,6 +44,14 @@ describe('#enterpriseAccountAPI', () => {
       accountAPI.subscription();
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/enterprise/api/v1/subscription'
+      );
+    });
+
+    it('#billingSummary', () => {
+      accountAPI.billingSummary({ refresh: true });
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/enterprise/api/v1/billing_summary',
+        { params: { refresh: true } }
       );
     });
 

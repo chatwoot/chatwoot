@@ -2,7 +2,8 @@
 import { computed } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
@@ -78,6 +79,8 @@ const emit = defineEmits([
   'hover',
   'viewConversations',
 ]);
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 const { checkPermissions } = usePolicy();

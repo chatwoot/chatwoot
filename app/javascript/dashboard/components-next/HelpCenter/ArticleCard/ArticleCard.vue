@@ -2,7 +2,8 @@
 import { computed, useTemplateRef } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import {
   ARTICLE_MENU_ITEMS,
   ARTICLE_MENU_OPTIONS,
@@ -77,6 +78,8 @@ const emit = defineEmits([
   'draftResolved',
   'draftFailed',
 ]);
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 

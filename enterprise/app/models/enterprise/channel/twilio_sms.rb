@@ -1,5 +1,6 @@
 module Enterprise::Channel::TwilioSms
   extend ActiveSupport::Concern
+  include Concerns::CallRecordingSettings
 
   def self.prepended(base)
     base.class_eval do
@@ -18,6 +19,15 @@ module Enterprise::Channel::TwilioSms
       conference_sid: conference_sid,
       agent_id: agent_id
     )
+  end
+
+  # Re-points the TwiML app and the number at our voice webhooks, reusing the existing app.
+  def reprovision_voice_webhooks!
+    return unless voice_enabled?
+
+    service = ::Twilio::VoiceWebhookSetupService.new(channel: self)
+    update!(twiml_app_sid: service.sync_twiml_app!)
+    service.configure_number_webhooks!
   end
 
   def voice_call_webhook_url

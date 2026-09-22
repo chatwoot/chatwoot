@@ -11,6 +11,7 @@ RSpec.describe LlmFormatter::ConversationLlmFormatter do
         expected_output = [
           "Conversation ID: ##{conversation.display_id}",
           "Channel: #{conversation.inbox.channel.name}",
+          "Created At: #{conversation.created_at}",
           'Message History:',
           'No messages in this conversation'
         ].join("\n")
@@ -46,6 +47,7 @@ RSpec.describe LlmFormatter::ConversationLlmFormatter do
         expected_output = [
           "Conversation ID: ##{conversation.display_id}",
           "Channel: #{conversation.inbox.channel.name}",
+          "Created At: #{conversation.created_at}",
           'Message History:',
           'User: Hello, I need help',
           'Bot: Thanks for reaching out, an agent will reach out to you soon',
@@ -62,6 +64,7 @@ RSpec.describe LlmFormatter::ConversationLlmFormatter do
         expected_output = [
           "Conversation ID: ##{conversation.display_id}",
           "Channel: #{conversation.inbox.channel.name}",
+          "Created At: #{conversation.created_at}",
           'Message History:',
           'No messages in this conversation',
           "Contact Details: #{conversation.contact.to_llm_text}"
@@ -86,6 +89,7 @@ RSpec.describe LlmFormatter::ConversationLlmFormatter do
         expected_output = [
           "Conversation ID: ##{conversation.display_id}",
           "Channel: #{conversation.inbox.channel.name}",
+          "Created At: #{conversation.created_at}",
           'Message History:',
           'No messages in this conversation',
           'Conversation Attributes:',

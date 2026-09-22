@@ -2,7 +2,8 @@
 import { computed } from 'vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import countries from 'shared/constants/countries';
-import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -42,6 +43,8 @@ const props = defineProps({
     default: 0,
   },
 });
+
+const exactTimestamp = useExactTimestamp();
 
 const navigateTo = computed(() => {
   return frontendURL(`accounts/${props.accountId}/contacts/${props.id}`);

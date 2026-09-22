@@ -95,7 +95,9 @@ de:
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
+      multi_account_invitation_not_allowed: Users associated with another account cannot be added while SAML is enabled
     conversations:
+      resolved: Conversation is resolved and does not accept new messages
       unread_counts:
         feature_not_enabled: Die Funktion für die Anzahl ungelesener Unterhaltungen ist für dieses Konto nicht aktiviert
     data_import:
@@ -148,6 +150,7 @@ de:
         already_ended: 'Dieser Anruf wurde bereits beendet'
         already_accepted: 'Der Anruf wurde bereits von einem anderen Agenten angenommen'
         no_recording: 'Keine Aufnahmedatei angegeben'
+        recording_disabled: 'Call recording is disabled for this inbox'
         no_message: 'Dem Anruf ist keine Nachricht zugeordnet'
         sdp_offer_required: 'sdp_offer ist erforderlich'
         contact_phone_required: 'Die Telefonnummer des Kontakts ist erforderlich'
@@ -428,6 +431,8 @@ de:
       completed_tool_call: 'Werkzeugaufruf %{function_name} abgeschlossen'
       invalid_tool_call: 'Ungültiger Werkzeugaufruf'
       tool_not_available: 'Werkzeug nicht verfügbar'
+      reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
+      reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
@@ -614,16 +619,21 @@ de:
         empty: 'Kein Sperrverlauf vorhanden.'
     captain_model_overrides:
       form:
-        helper_text: 'Lasse ein Modellfeld leer, um für diese KI-Funktion den YAML-Standardwert zu verwenden.'
+        helper_text: 'Leave a model blank to use the default routing for that AI feature.'
+        customer_features: 'Customer features'
+        internal_features: 'Internal features'
         use_default: 'Standard verwenden: %{model} (%{model_id})'
+        use_installation_model: 'Use installation model: %{model} (%{model_id})'
       show:
         summary: 'Modell-Routing anzeigen'
         provider: 'Anbieter'
         model: 'Modell'
       sources:
         account_override: 'Kontospezifische Überschreibung'
+        installation_override: 'Installation setting'
         default: 'Standard'
       features:
+        conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: 'Assistent'
         copilot: 'Copilot'
@@ -640,4 +650,11 @@ de:
       user_not_found: 'Benutzer nicht gefunden.'
       no_subscriptions_to_test: 'Wähle mindestens ein Abonnement zum Testen aus.'
       no_subscriptions_to_delete: 'Wähle mindestens ein Abonnement zum Löschen aus.'
-      subscriptions_deleted: "%{count} Abonnement(s) gelöscht. Die Geräte des Benutzers werden beim nächsten Start der App erneut registriert."
+      subscriptions_deleted:
+        one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
+        other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+    users:
+      resend_confirmation:
+        button: 'Resend confirmation email'
+        sent: 'Confirmation email sent.'
+        already_confirmed: 'User is already confirmed.'

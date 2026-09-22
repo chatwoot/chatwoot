@@ -97,6 +97,10 @@ const props = defineProps({
   conversationId: { type: Number, default: null },
   medium: { type: String, default: '' },
   focusOnMount: { type: Boolean, default: true },
+  // Global INSERT_INTO_RICH_EDITOR bus events (Copilot "Use this", article
+  // links) are meant for the conversation reply editor only — other mounted
+  // editors (canned responses, signature, etc.) must not consume them.
+  enableInsertEvents: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -173,6 +177,7 @@ const createState = (content, placeholder, plugins = [], methods = {}) => {
       methods,
       plugins,
       enabledMenuOptions: editorMenuOptions.value,
+      resizableTableColumns: false,
     }),
   });
 };
@@ -881,6 +886,10 @@ watch(
   }
 );
 
+watch(effectiveChannelType, () => {
+  reloadState(props.modelValue);
+});
+
 watch(
   computed(() => props.disabled),
   () => editorView?.setProps({})
@@ -936,7 +945,10 @@ defineExpose({ focusEditorInputField });
 // current cursor position.
 // Components using this
 // 1. SearchPopover.vue
-useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
+useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, content => {
+  if (!props.enableInsertEvents) return;
+  insertContentIntoEditor(content);
+});
 </script>
 
 <template>
@@ -1014,7 +1026,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       hidden
       @change="onFileChange"
     />
-    <div ref="editor" />
+    <div ref="editor" class="editor-mount" />
     <slot name="footer" />
   </div>
 </template>
@@ -1078,6 +1090,12 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       }
     }
   }
+}
+
+// Room for the table grips and add buttons, which sit outside the table.
+// .editor-mount keeps this off the article editor.
+.editor-mount .ProseMirror .tableWrapper {
+  @apply m-0 pt-4 pb-5 ps-5 pe-6;
 }
 
 .ProseMirror-woot-style {
@@ -1167,7 +1185,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 .popover-prosemirror-menu {
   position: relative;
 
-  .ProseMirror p:last-child {
+  .ProseMirror p:last-child:not(:is(th, td) > p) {
     margin-bottom: 10px !important;
   }
 
