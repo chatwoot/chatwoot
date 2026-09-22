@@ -30,4 +30,10 @@ RSpec.describe Enterprise::LoginLocationMailer, type: :mailer do
     expect(mail.body.encoded).to match(/reset your password/i)
   end
 
+  it 'uses the configured brand name on white-labeled installations' do
+    create(:installation_config, name: 'BRAND_NAME', value: 'Acme Support')
+    GlobalConfig.clear_cache
+    expect(mail.subject).to eq('New sign-in to your Acme Support account')
+    expect(mail.body.encoded).to include('Your Acme Support account')
+  end
 end
