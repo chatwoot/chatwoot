@@ -121,6 +121,7 @@ describe Instagram::Messenger::SendOnInstagramService do
       context 'with message_tag HUMAN_AGENT' do
         before do
           InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+          GlobalConfig.clear_cache
         end
 
         it 'tags a human agent reply sent after the 24-hour window with HUMAN_AGENT' do

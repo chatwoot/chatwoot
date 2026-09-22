@@ -110,6 +110,7 @@ describe Instagram::SendOnInstagramService do
       context 'with message_tag HUMAN_AGENT' do
         before do
           InstallationConfig.where(name: 'ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+          GlobalConfig.clear_cache
           create(:message, message_type: :incoming, inbox: instagram_inbox, account: account, conversation: conversation)
         end
 
