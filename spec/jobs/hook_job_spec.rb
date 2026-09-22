@@ -217,4 +217,164 @@ RSpec.describe HookJob do
       end
     end
   end
+
+  context 'when processing cpfcnpj integration' do
+    let(:contact) { create(:contact, account: account) }
+    let(:processor_service) { instance_double(Crm::Cpfcnpj::ProcessorService) }
+    let(:cpfcnpj_hook) { instance_double(Integrations::Hook, id: 123, app_id: 'cpfcnpj', account: account) }
+
+    before do
+      allow(Crm::Cpfcnpj::ProcessorService).to receive(:new).with(cpfcnpj_hook).and_return(processor_service)
+    end
+
+    context 'when processing contact.updated event' do
+      let(:event_name) { 'contact.updated' }
+      let(:event_data) { { contact: contact } }
+
+      it 'uses a per contact lock and hands the contact to the processor service' do
+        allow(cpfcnpj_hook).to receive(:disabled?).and_return(false)
+        allow(cpfcnpj_hook).to receive(:feature_allowed?).and_return(true)
+        allow(processor_service).to receive(:handle_contact).with(contact)
+
+        job_instance = described_class.new
+        allow(job_instance).to receive(:with_lock).and_yield
+        allow(described_class).to receive(:new).and_return(job_instance)
+
+        expect(job_instance).to receive(:with_lock).with(
+          "#{format(Redis::Alfred::CRM_PROCESS_MUTEX, hook_id: cpfcnpj_hook.id)}::#{contact.id}",
+          described_class::CPFCNPJ_LOCK_TIMEOUT
+        )
+        expect(processor_service).to receive(:handle_contact).with(contact)
+
+        job_instance.perform(cpfcnpj_hook, event_name, event_data)
+      end
+
+      it 'does not process when feature is not allowed' do
+        allow(cpfcnpj_hook).to receive(:disabled?).and_return(false)
+        allow(cpfcnpj_hook).to receive(:feature_allowed?).and_return(false)
+
+        job_instance = described_class.new
+        allow(job_instance).to receive(:with_lock)
+
+        expect(job_instance).not_to receive(:with_lock)
+        expect(processor_service).not_to receive(:handle_contact)
+
+        job_instance.perform(cpfcnpj_hook, event_name, event_data)
+      end
+    end
+
+    context 'when processing contact.created event' do
+      let(:event_name) { 'contact.created' }
+      let(:event_data) { { contact: contact } }
+
+      it 'hands the contact to the processor service' do
+        allow(cpfcnpj_hook).to receive(:disabled?).and_return(false)
+        allow(cpfcnpj_hook).to receive(:feature_allowed?).and_return(true)
+
+        job_instance = described_class.new
+        allow(job_instance).to receive(:with_lock).and_yield
+
+        expect(processor_service).to receive(:handle_contact).with(contact)
+
+        job_instance.perform(cpfcnpj_hook, event_name, event_data)
+      end
+    end
+
+    context 'when processing invalid event' do
+      let(:event_name) { 'invalid.event' }
+      let(:event_data) { { contact: contact } }
+
+      it 'does not process for invalid event names' do
+        allow(cpfcnpj_hook).to receive(:disabled?).and_return(false)
+        allow(cpfcnpj_hook).to receive(:feature_allowed?).and_return(true)
+
+        job_instance = described_class.new
+        allow(job_instance).to receive(:with_lock)
+
+        expect(job_instance).not_to receive(:with_lock)
+        expect(processor_service).not_to receive(:handle_contact)
+
+        job_instance.perform(cpfcnpj_hook, event_name, event_data)
+      end
+    end
+  end
+
+  context 'when running the cpfcnpj enrichment end to end' do
+    let(:token) { 'a' * 32 }
+    let(:document) { '11222333000181' }
+    let(:cpfcnpj_hook) { create(:integrations_hook, :cpfcnpj, account: account) }
+    let(:contact) { create(:contact, account: account, name: '', custom_attributes: { 'cpf_cnpj' => document }) }
+    let(:api_response) { File.read(Rails.root.join('spec/fixtures/cpfcnpj/cnpj_package_6.json')) }
+
+    before do
+      account.enable_features('cpfcnpj_integration')
+      stub_request(:get, "https://api.cpfcnpj.com.br/#{token}/6/#{document}")
+        .to_return(status: 200, body: api_response, headers: { 'Content-Type' => 'application/json' })
+    end
+
+    it 'enriches the contact when the job runs for contact.updated' do
+      job_instance = described_class.new
+      allow(job_instance).to receive(:with_lock).and_yield
+
+      job_instance.perform(cpfcnpj_hook, 'contact.updated', { contact: contact })
+
+      contact.reload
+      expect(contact.additional_attributes.dig('cpfcnpj', 'document')).to eq(document)
+      expect(contact.additional_attributes.dig('cpfcnpj', 'name')).to be_present
+      expect(contact.name).to be_present
+      expect(a_request(:get, "https://api.cpfcnpj.com.br/#{token}/6/#{document}")).to have_been_made.once
+    end
+
+    it 'does not call the API again when the contact was already enriched with the same document' do
+      job_instance = described_class.new
+      allow(job_instance).to receive(:with_lock).and_yield
+
+      job_instance.perform(cpfcnpj_hook, 'contact.created', { contact: contact })
+      job_instance.perform(cpfcnpj_hook, 'contact.updated', { contact: contact })
+
+      expect(a_request(:get, "https://api.cpfcnpj.com.br/#{token}/6/#{document}")).to have_been_made.once
+    end
+  end
+
+  context 'when the cpfcnpj lock is busy' do
+    let(:token) { 'a' * 32 }
+    let(:cpfcnpj_hook) { create(:integrations_hook, :cpfcnpj, account: account) }
+    let(:contact) { create(:contact, account: account, custom_attributes: { 'cpf_cnpj' => '11222333000181' }) }
+    let(:lock_key) { "#{format(Redis::Alfred::CRM_PROCESS_MUTEX, hook_id: cpfcnpj_hook.id)}::#{contact.id}" }
+    let(:lock_manager) { Redis::LockManager.new }
+    let(:api_response) { File.read(Rails.root.join('spec/fixtures/cpfcnpj/cnpj_package_6.json')) }
+
+    before do
+      account.enable_features!('cpfcnpj_integration')
+      stub_request(:get, "https://api.cpfcnpj.com.br/#{token}/6/11222333000181")
+        .to_return(status: 200, body: api_response, headers: { 'Content-Type' => 'application/json' })
+      lock_manager.lock(lock_key, 60)
+    end
+
+    after { lock_manager.unlock(lock_key) }
+
+    it 'reschedules the event instead of dropping it' do
+      expect { described_class.perform_now(cpfcnpj_hook, 'contact.updated', { contact: contact }) }
+        .to have_enqueued_job(described_class)
+        .with(cpfcnpj_hook, 'contact.updated', { contact: contact })
+    end
+
+    it 'processes the document once the lock is released' do
+      described_class.perform_now(cpfcnpj_hook, 'contact.updated', { contact: contact })
+      lock_manager.unlock(lock_key)
+
+      perform_enqueued_jobs(only: described_class)
+
+      expect(contact.reload.additional_attributes.dig('cpfcnpj', 'document')).to eq('11222333000181')
+    end
+
+    it 'gives up after the retry limit' do
+      job = described_class.new(cpfcnpj_hook, 'contact.updated', { contact: contact })
+      job.executions = described_class::CPFCNPJ_LOCK_RETRY_LIMIT
+      allow(Rails.logger).to receive(:warn)
+
+      expect { job.perform_now }.not_to have_enqueued_job(described_class)
+      expect(Rails.logger).to have_received(:warn).with(a_string_including('giving up'))
+    end
+  end
 end
