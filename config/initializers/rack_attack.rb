@@ -38,27 +38,23 @@ class Rack::Attack
       normalized_path == '/' ? normalized_path : normalized_path.sub(%r{/+\z}, '')
     end
 
-    # Rack's own params only parse query strings and form bodies, so JSON request
-    # bodies (what the SPA and mobile clients send) return nil for every key. Fall
-    # back to ActionDispatch, which parses JSON. Returns nil for blank/absent values
-    # so a throttle block keyed on this skips instead of sharing one empty-string bucket.
+    # Rack's params skip JSON bodies, so fall back to ActionDispatch to read them
+    # (the SPA and mobile clients post JSON). nil for blank/non-string values so a
+    # throttle keyed on this skips rather than sharing one empty-string bucket, and
+    # fails open on unparseable input (the per-ip throttle still applies).
     def auth_param(key)
       value = params[key].presence || ActionDispatch::Request.new(env).params[key].presence
-      # A JSON body can carry any type for a key (array/hash), which would crash the
-      # string operations a discriminator does. Only string values are meaningful here.
       value if value.is_a?(String)
     rescue StandardError
-      # Any malformed body/query (bad JSON, oversized or over-nested params) must fail
-      # open in a rate limiter: returning nil skips the per-key throttle, and the
-      # per-ip throttle still applies. A request we cannot parse cannot authenticate.
       nil
     end
 
-    def normalized_auth_email
-      # Sign-in also accepts the email via an 'email' request header, which the
-      # controller merges into params. Read it too so a header-authenticated login
-      # still counts against the per-email throttle instead of escaping it.
-      email = auth_param('email') || get_header('HTTP_EMAIL').presence
+    # include_header only for sign-in, which merges the 'email' header into params;
+    # reset/resend read params only, so honoring it there lets a spoofed header
+    # exhaust a victim's bucket.
+    def normalized_auth_email(include_header: false)
+      email = auth_param('email')
+      email = get_header('HTTP_EMAIL').presence if email.nil? && include_header
       email&.downcase&.gsub(/\s+/, '')
     end
   end
@@ -120,7 +116,9 @@ class Rack::Attack
   end
 
   throttle('login/email', limit: 10, period: 15.minutes) do |req|
-    req.normalized_auth_email if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_token').blank?
+    if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_token').blank?
+      req.normalized_auth_email(include_header: true)
+    end
   end
 
   ## Reset password throttling

@@ -108,6 +108,12 @@ describe 'Rack::Attack auth throttles' do
     it 'skips requests without an email instead of sharing a blank key' do
       expect(throttle_key('reset_password/email', json_env({ redirect_url: '/' }, '/auth/password'))).to be_nil
     end
+
+    it 'ignores the email header, which this endpoint does not honor' do
+      env = build_env('/auth/password', '{}', 'application/json')
+      env['HTTP_EMAIL'] = 'victim@example.com'
+      expect(throttle_key('reset_password/email', env)).to be_nil
+    end
   end
 
   describe 'resend_confirmation/email' do
