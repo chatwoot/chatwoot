@@ -5,8 +5,9 @@ class WebhookJob < ApplicationJob
     url, payload, *arguments = job.arguments
     options = arguments.extract_options!
     webhook_type = arguments.first || :account_webhook
-    Webhooks::Trigger.new(url, payload, webhook_type, secret: options[:secret],
-                                                    delivery_id: options[:delivery_id]).handle_failure(error)
+    Webhooks::Trigger.new(
+      url, payload, webhook_type, secret: options[:secret], delivery_id: options[:delivery_id]
+    ).handle_failure(error)
   end
 
   #  There are 3 types of webhooks, account, inbox and agent_bot

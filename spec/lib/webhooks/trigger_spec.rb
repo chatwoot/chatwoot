@@ -173,12 +173,14 @@ describe Webhooks::Trigger do
       end
     end
 
+    retryable_statuses = [429, 500, 502, 503, 504, 599]
+    terminal_statuses = [400, 401, 403, 404]
     %i[account_webhook api_inbox_webhook].each do |type|
       context "when webhook type is #{type}" do
         let(:webhook_type) { type }
         let(:payload) { { event: 'message_created', id: message.id } }
 
-        [429, 500, 502, 503, 504, 599].each do |status|
+        retryable_statuses.each do |status|
           it "raises #{status} for retry without marking the message failed" do
             allow(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new("#{status} failure"))
 
@@ -193,11 +195,9 @@ describe Webhooks::Trigger do
         [Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError, SocketError].each do |error_class|
           it "retries wrapped #{error_class} without marking the message failed" do
             allow(SafeFetch).to receive(:fetch) do
-              begin
-                raise error_class, 'connection failed'
-              rescue error_class => error
-                raise SafeFetch::FetchError, error.message
-              end
+              raise error_class, 'connection failed'
+            rescue error_class => e
+              raise SafeFetch::FetchError, e.message
             end
 
             expect { trigger.execute(url, payload, webhook_type) }.to raise_error do |error|
@@ -208,7 +208,7 @@ describe Webhooks::Trigger do
           end
         end
 
-        [400, 401, 403, 404].each do |status|
+        terminal_statuses.each do |status|
           it "handles #{status} without retry" do
             allow(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new("#{status} failure"))
 
@@ -227,11 +227,9 @@ describe Webhooks::Trigger do
 
         it 'does not retry TLS failures wrapped by SafeFetch' do
           allow(SafeFetch).to receive(:fetch) do
-            begin
-              raise OpenSSL::SSL::SSLError, 'certificate verify failed'
-            rescue OpenSSL::SSL::SSLError => error
-              raise SafeFetch::FetchError, error.message
-            end
+            raise OpenSSL::SSL::SSLError, 'certificate verify failed'
+          rescue OpenSSL::SSL::SSLError => e
+            raise SafeFetch::FetchError, e.message
           end
 
           expect { trigger.execute(url, payload, webhook_type) }.not_to raise_error
@@ -244,7 +242,6 @@ describe Webhooks::Trigger do
         end
       end
     end
-
   end
 
   describe 'request headers' do
@@ -329,10 +326,10 @@ describe Webhooks::Trigger do
     end
   end
 
-  it 'does not update message status if webhook fails for other events' do
+  it 'does not update message status for terminal failures of other events' do
     payload = { event: 'conversation_created', conversation: { id: conversation.id }, id: message.id }
 
-    expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('500 Internal Server Error'))
+    expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('400 Bad Request'))
 
     expect { trigger.execute(url, payload, webhook_type) }.not_to(change { message.reload.status })
   end
