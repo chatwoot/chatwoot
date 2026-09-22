@@ -26,6 +26,21 @@ RSpec.describe DeviseOverrides::PasswordsController, type: :controller do
       expect(user.failed_attempts).to eq(0)
     end
 
+    it 'clears an expired lock and counter on successful password reset' do
+      user.update!(failed_attempts: Devise.maximum_attempts, locked_at: (Devise.unlock_in + 1.hour).ago)
+      raw_token = user.send_reset_password_instructions
+
+      put :update, params: {
+        reset_password_token: raw_token,
+        password: 'NewPassword@123',
+        password_confirmation: 'NewPassword@123'
+      }
+
+      expect(response).to have_http_status(:success)
+      expect(user.reload.locked_at).to be_nil
+      expect(user.failed_attempts).to eq(0)
+    end
+
     it 'does not unlock with an invalid reset token' do
       user.lock_access!
 
