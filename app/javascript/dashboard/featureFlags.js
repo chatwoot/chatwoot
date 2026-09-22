@@ -6,7 +6,6 @@ export const FEATURE_FLAGS = {
   AUTO_RESOLVE_CONVERSATIONS: 'auto_resolve_conversations',
   AUTOMATIONS: 'automations',
   CAMPAIGNS: 'campaigns',
-  WHATSAPP_CAMPAIGNS: 'whatsapp_campaign',
   CAMPAIGN_ANALYTICS: 'campaign_analytics',
   WHATSAPP_EMBEDDED_SIGNUP_FLOW: 'whatsapp_embedded_signup_inbox_creation',
   WHATSAPP_MANUAL_TRANSFER: 'whatsapp_manual_transfer',

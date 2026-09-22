@@ -27,7 +27,7 @@ class Api::V1::Accounts::Conversations::CampaignHistoryController < Api::V1::Acc
   private
 
   def ensure_whatsapp_campaign_enabled!
-    return if @conversation.inbox.whatsapp? && Current.account.feature_enabled?(:whatsapp_campaign)
+    return if @conversation.inbox.whatsapp? && Current.account.feature_enabled?(:campaigns)
 
     raise Pundit::NotAuthorizedError
   end

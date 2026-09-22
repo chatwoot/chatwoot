@@ -8,7 +8,7 @@ RSpec.describe Campaigns::SendWhatsappBatchJob do
   let(:sender) { instance_double(Whatsapp::OneoffCampaignService, perform_batch: nil) }
 
   before do
-    account.enable_features!(:whatsapp_campaign)
+    account.enable_features!(:campaigns)
     stub_const('Whatsapp::OneoffCampaignService::BATCH_SIZE', 2)
   end
 
@@ -86,7 +86,7 @@ RSpec.describe Campaigns::SendWhatsappBatchJob do
 
   it 'lets an already started campaign finish after its feature is disabled' do
     campaign.trigger!
-    account.disable_features!(:whatsapp_campaign)
+    account.disable_features!(:campaigns)
     campaign.reload
 
     described_class.perform_now(campaign)

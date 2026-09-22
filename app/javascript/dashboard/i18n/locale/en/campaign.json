@@ -327,7 +327,7 @@
         },
         "PAYWALL": {
           "TITLE": "Unlock campaign analytics",
-          "AVAILABLE_ON": "Campaign analytics is available on all paid plans.",
+          "AVAILABLE_ON": "Campaign analytics is available on Business and Enterprise plans.",
           "UPGRADE_PROMPT": "Upgrade to track campaign delivery, read status, and failed messages.",
           "UPGRADE_NOW": "View plans",
           "CANCEL_ANYTIME": "Change or cancel your plan anytime."

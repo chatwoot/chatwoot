@@ -14,24 +14,36 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
   end
 
   describe '#perform' do
-    context 'with campaign analytics' do
-      %w[Startups Business Enterprise].each do |plan|
-        it "enables campaign analytics for #{plan}" do
+    context 'with campaigns and analytics' do
+      %w[Business Enterprise].each do |plan|
+        it "enables campaigns and analytics for #{plan}" do
           account.update!(custom_attributes: { 'plan_name' => plan, 'subscription_status' => 'active' })
 
           described_class.new(account: account).perform
 
           expect(account.reload).to be_feature_enabled('campaign_analytics')
+          expect(account).to be_feature_enabled('campaigns')
         end
       end
 
-      it 'disables campaign analytics after downgrading to Hacker' do
-        account.enable_features!('campaign_analytics')
+      it 'disables analytics but keeps campaigns after downgrading to Startups' do
+        account.enable_features!('campaign_analytics', 'campaigns')
+        account.update!(custom_attributes: { 'plan_name' => 'Startups', 'subscription_status' => 'active' })
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('campaign_analytics')
+        expect(account).to be_feature_enabled('campaigns')
+      end
+
+      it 'disables campaigns and analytics after downgrading to Hacker' do
+        account.enable_features!('campaign_analytics', 'campaigns')
         account.update!(custom_attributes: { 'plan_name' => 'Hacker', 'subscription_status' => 'active' })
 
         described_class.new(account: account).perform
 
         expect(account.reload).not_to be_feature_enabled('campaign_analytics')
+        expect(account).not_to be_feature_enabled('campaigns')
       end
     end
 

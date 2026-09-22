@@ -27,7 +27,7 @@ RSpec.describe Enterprise::Whatsapp::OneoffCampaignService do
   end
 
   before do
-    account.enable_features!(:whatsapp_campaign)
+    account.enable_features!(:campaigns)
     allow_any_instance_of(Whatsapp::OneoffCampaignService).to receive(:channel).and_return(whatsapp_channel) # rubocop:disable RSpec/AnyInstance
   end
 

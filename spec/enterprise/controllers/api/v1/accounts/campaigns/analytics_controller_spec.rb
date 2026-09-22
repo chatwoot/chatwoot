@@ -15,7 +15,7 @@ RSpec.describe 'Campaign analytics API', type: :request do
   let(:skipped_contact) { create(:contact, account: account) }
 
   before do
-    account.enable_features!(:whatsapp_campaign, :campaign_analytics)
+    account.enable_features!(:campaigns, :campaign_analytics)
     CampaignRecipient.create!(account: account, campaign: campaign, inbox: inbox, contact: delivered_contact,
                               status: :delivered, source_id: 'wamid.delivered')
     CampaignRecipient.create!(account: account, campaign: campaign, inbox: inbox, contact: read_contact,
@@ -53,7 +53,7 @@ RSpec.describe 'Campaign analytics API', type: :request do
     end
 
     it 'requires the WhatsApp campaign feature' do
-      account.disable_features!(:whatsapp_campaign)
+      account.disable_features!(:campaigns)
 
       get "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}/analytics/metrics",
           headers: administrator.create_new_auth_token

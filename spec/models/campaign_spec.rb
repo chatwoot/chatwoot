@@ -106,6 +106,8 @@ RSpec.describe Campaign do
       let!(:twilio_inbox) { create(:inbox, channel: twilio_sms, account: account) }
       let(:campaign) { build(:campaign, account: account, inbox: twilio_inbox) }
 
+      before { account.enable_features!(:campaigns) }
+
       it 'only saves campaign type as oneoff and wont leave scheduled_at empty' do
         campaign.campaign_type = 'ongoing'
         campaign.save!
@@ -181,6 +183,8 @@ RSpec.describe Campaign do
       let!(:sms_channel) { create(:channel_sms, account: account) }
       let!(:sms_inbox) { create(:inbox, channel: sms_channel, account: account) }
       let(:campaign) { build(:campaign, account: account, inbox: sms_inbox) }
+
+      before { account.enable_features!(:campaigns) }
 
       it 'only saves campaign type as oneoff and wont leave scheduled_at empty' do
         campaign.campaign_type = 'ongoing'

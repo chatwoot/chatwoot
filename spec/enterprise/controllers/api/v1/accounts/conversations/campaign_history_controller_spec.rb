@@ -19,7 +19,7 @@ RSpec.describe 'Conversation campaign history API', type: :request do
   let(:url) { "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/campaign_history" }
   let(:headers) { administrator.create_new_auth_token }
 
-  before { account.enable_features!(:whatsapp_campaign) }
+  before { account.enable_features!(:campaigns) }
 
   it 'returns saved content, campaign display ID, delivery timestamps and the first message ID without creating records' do
     recipient
@@ -75,7 +75,7 @@ RSpec.describe 'Conversation campaign history API', type: :request do
   end
 
   it 'requires the WhatsApp campaigns feature' do
-    account.disable_features!(:whatsapp_campaign)
+    account.disable_features!(:campaigns)
     get url, headers: headers
     expect(response).to have_http_status(:unauthorized)
   end

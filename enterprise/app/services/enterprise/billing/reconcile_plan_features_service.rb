@@ -8,7 +8,6 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     inbound_emails
     help_center
     campaigns
-    campaign_analytics
     team_management
     channel_facebook
     channel_email
@@ -25,6 +24,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   ].freeze
 
   BUSINESS_PLAN_FEATURES = %w[
+    campaign_analytics
     sla
     custom_roles
     csat_review_notes

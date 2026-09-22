@@ -37,7 +37,7 @@ describe Whatsapp::OneoffCampaignService do
   describe '#perform' do
     before do
       # Enable WhatsApp campaigns feature flag for all tests
-      account.enable_features!(:whatsapp_campaign)
+      account.enable_features!(:campaigns)
     end
 
     context 'when campaign validation fails' do
@@ -69,7 +69,7 @@ describe Whatsapp::OneoffCampaignService do
       end
 
       it 'raises error when WhatsApp campaigns feature is not enabled' do
-        account.disable_features!(:whatsapp_campaign)
+        account.disable_features!(:campaigns)
 
         expect { described_class.new(campaign: campaign).perform }.to raise_error 'WhatsApp campaigns feature not enabled'
       end

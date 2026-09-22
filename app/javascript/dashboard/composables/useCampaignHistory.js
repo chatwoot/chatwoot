@@ -25,7 +25,7 @@ export function useCampaignHistory() {
     () =>
       isEnterprise &&
       currentChat.value.meta?.channel === INBOX_TYPES.WHATSAPP &&
-      isCloudFeatureEnabled(FEATURE_FLAGS.WHATSAPP_CAMPAIGNS)
+      isCloudFeatureEnabled(FEATURE_FLAGS.CAMPAIGNS)
   );
   const oldestMessageTime = computed(
     () => currentChat.value.messages?.[0]?.created_at
