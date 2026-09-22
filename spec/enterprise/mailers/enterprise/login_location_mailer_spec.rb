@@ -1,7 +1,10 @@
 require 'rails_helper'
 require Rails.root.join 'spec/mailers/administrator_notifications/shared/smtp_config_shared.rb'
 
-RSpec.describe Enterprise::LoginLocationMailer do
+# Type inference does not cover the enterprise namespace, and without type: :mailer
+# rspec-rails never forces the :test delivery method, so deliver_now would hit the
+# real sendmail binary (absent on CI).
+RSpec.describe Enterprise::LoginLocationMailer, type: :mailer do
   include_context 'with smtp config'
 
   let(:meta) do
@@ -26,4 +29,5 @@ RSpec.describe Enterprise::LoginLocationMailer do
   it 'tells the user what to do if it was not them' do
     expect(mail.body.encoded).to match(/reset your password/i)
   end
+
 end
