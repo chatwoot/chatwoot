@@ -1,7 +1,7 @@
 class ConversationMonitors::Evaluator
   LEASE_DURATION = 2.minutes
   MAX_ATTEMPTS = 5
-  QUESTIONS_PER_REQUEST = 8
+  QUESTIONS_PER_REQUEST = 20
 
   def initialize(work)
     @work = work
@@ -69,7 +69,14 @@ class ConversationMonitors::Evaluator
       record_error([monitor], e)
     end
   rescue CustomExceptions::MonitorEvaluationError => e
-    record_error(monitors, e)
+    handle_batch_error(state, monitors, e)
+  end
+
+  def handle_batch_error(state, monitors, error)
+    return record_error(monitors, error) unless error.code == 'context_limit' && monitors.size > 1
+
+    # The client rejects oversized payloads before reserving a credit or making a request.
+    monitors.each_slice((monitors.size / 2.0).ceil) { |batch| evaluate_batch(state, batch) }
   end
 
   def current_input?

@@ -38,6 +38,55 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(ConversationMonitors::DailyUsage.find_by!(account: account).calls_count).to eq(1)
   end
 
+  { 20 => [20], 21 => [20, 1] }.each do |count, batch_sizes|
+    it "evaluates #{count} conditions in batches of #{batch_sizes.join(' and ')} with one credit per call" do
+      monitors = [monitor, second] + create_list(:conversation_monitor, count - 2, account: account)
+      batches = []
+      stub_request(:post, endpoint).to_return do |request|
+        questions = JSON.parse(request.body)['questions']
+        batches << questions.keys
+        values = questions.keys.index_with { { type: 'noul', noul: 0.9 } }
+        { status: 200, body: response_body.merge(answers: values).to_json }
+      end
+
+      evaluate.call
+
+      expect(batches.map(&:size)).to eq(batch_sizes)
+      expect(batches.flatten).to match_array(monitors.map { |entry| entry.id.to_s })
+      expect(ConversationMonitors::Evaluation.where(conversation: conversation, status: 'matched').count).to eq(count)
+      expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(batch_sizes.size)
+      expect(work.reload.due_at).to be_nil
+    end
+  end
+
+  { 'Refunds ' * 250 => 2, '退款' * 1000 => 4 }.each do |condition, calls|
+    it "splits oversized batches into #{calls} calls without charging for local checks or losing conditions" do
+      monitor.update!(condition: condition)
+      second.update!(condition: condition)
+      monitors = [monitor, second] + create_list(:conversation_monitor, 18, account: account, condition: condition)
+      create(:message, account: account, conversation: conversation, content: 'x' * 30_000)
+      work.reload.update!(due_at: Time.current)
+      batches = []
+      payload_sizes = []
+      stub_request(:post, endpoint).to_return do |request|
+        questions = JSON.parse(request.body)['questions']
+        batches << questions.keys
+        payload_sizes << request.body.bytesize
+        values = questions.keys.index_with { { type: 'noul', noul: 0.9 } }
+        { status: 200, body: response_body.merge(answers: values).to_json }
+      end
+
+      evaluate.call
+
+      expect(batches.size).to eq(calls)
+      expect(payload_sizes).to all(be <= ConversationMonitors::Configuration::MAX_REQUEST_BYTES)
+      expect(batches.flatten).to match_array(monitors.map { |entry| entry.id.to_s })
+      expect(ConversationMonitors::Evaluation.where(conversation: conversation, status: 'matched').count).to eq(20)
+      expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(calls)
+      expect(work.reload.due_at).to be_nil
+    end
+  end
+
   it 'holds exhausted accounts until next month and preserves full history across new input' do
     now = Time.current.utc
     ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 100_000, limit_reached_at: now)
@@ -64,7 +113,7 @@ RSpec.describe ConversationMonitors::Evaluator do
   it 'prioritizes the monthly hold when an earlier batch failed using the final credit' do
     now = Time.current.utc
     ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 99_999)
-    create_list(:conversation_monitor, 7, account: account)
+    create_list(:conversation_monitor, 19, account: account)
     stub_request(:post, endpoint).to_return(status: 429)
 
     evaluate.call
@@ -212,7 +261,7 @@ RSpec.describe ConversationMonitors::Evaluator do
   end
 
   it 'does not dispatch more batches after the feature is disabled during a provider call' do
-    create_list(:conversation_monitor, 7, account: account)
+    create_list(:conversation_monitor, 19, account: account)
     stub_request(:post, endpoint).to_return do |request|
       account.disable_features!('conversation_monitors')
       values = JSON.parse(request.body)['questions'].keys.index_with { |_id| { type: 'noul', noul: 0.9 } }
@@ -263,7 +312,7 @@ RSpec.describe ConversationMonitors::Evaluator do
   end
 
   it 'does not send a later batch for monitors paused during an earlier request' do
-    monitors = create_list(:conversation_monitor, 7, account: account)
+    monitors = create_list(:conversation_monitor, 19, account: account)
     stub_request(:post, endpoint).to_return do |request|
       monitors.each { |entry| entry.update!(paused_at: Time.current) }
       values = JSON.parse(request.body)['questions'].keys.index_with { { type: 'noul', noul: 0.9 } }
