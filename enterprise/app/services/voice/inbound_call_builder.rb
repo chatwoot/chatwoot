@@ -20,15 +20,17 @@ class Voice::InboundCallBuilder
     existing = find_existing_call
     return existing if existing
 
-    ActiveRecord::Base.transaction do
+    call = ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
       contact = contact_inbox.contact
       conversation = resolve_conversation!(contact, contact_inbox)
-      call = create_call!(contact, conversation)
-      message = Voice::CallMessageBuilder.new(call).perform!
-      call.update!(message_id: message.id)
-      call
+      created = create_call!(contact, conversation)
+      message = Voice::CallMessageBuilder.new(created).perform!
+      created.update!(message_id: message.id)
+      created
     end
+    ring_phones(call)
+    call
   rescue ActiveRecord::RecordNotUnique
     # A concurrent provider retry won the create race; return what now exists.
     find_existing_call || raise
@@ -38,6 +40,15 @@ class Voice::InboundCallBuilder
 
   def account
     inbox.account
+  end
+
+  # Phones without a live socket learn about the call through a push. The job runs once
+  # the call row is visible to the worker, which otherwise finds nothing to ring for.
+  def ring_phones(call)
+    return unless call.ringing?
+    return unless account.feature_enabled?('mobile_voice_push')
+
+    ActiveRecord.after_all_transactions_commit { Voice::VoipPushJob.perform_later(call.id, 'ring') }
   end
 
   def find_existing_call

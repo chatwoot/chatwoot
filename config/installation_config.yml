@@ -624,3 +624,29 @@
   value: 'https://us.cloud.langfuse.com'
   locked: false
 ## ---- End of LLM Observability ---- ##
+
+## ------ Configs for the mobile incoming-call push (APNs VoIP) ------ ##
+- name: APNS_VOIP_KEY
+  display_title: 'APNs VoIP Key'
+  description: 'Contents of the Apple APNs auth key (.p8) used for VoIP pushes to the mobile app'
+  locked: false
+  type: secret
+- name: APNS_VOIP_KEY_ID
+  display_title: 'APNs VoIP Key ID'
+  description: 'Key ID of the APNs auth key'
+  locked: false
+- name: APNS_VOIP_TEAM_ID
+  display_title: 'APNs VoIP Team ID'
+  description: 'Apple Developer team ID that owns the mobile app'
+  locked: false
+- name: APNS_VOIP_BUNDLE_ID
+  display_title: 'APNs VoIP Bundle ID'
+  description: 'Bundle identifier of the mobile app'
+  value: 'com.chatwoot.app'
+  locked: false
+- name: APNS_VOIP_ENVIRONMENT
+  display_title: 'APNs VoIP Environment'
+  description: 'development for debug builds, production for App Store and TestFlight builds'
+  value: 'production'
+  locked: false
+## ---- End of mobile incoming-call push ---- ##

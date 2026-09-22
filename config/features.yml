@@ -279,3 +279,7 @@
   enabled: false
   premium: true
   column: feature_flags_ext_1
+- name: mobile_voice_push
+  display_name: Mobile Voice Push
+  enabled: false
+  column: feature_flags_ext_1
