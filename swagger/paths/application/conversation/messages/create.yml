@@ -76,7 +76,8 @@ description: |
   }
   ```
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
+  - agentBotBearerAuth: []
   - userApiKey: []
   - agentBotApiKey: []
 requestBody:

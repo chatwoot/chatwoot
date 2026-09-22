@@ -4,7 +4,7 @@ operationId: get-sso-url-of-a-user
 summary: Get User SSO Link
 description: Get the sso link of a user
 security:
-  - bearerAuth: []
+  - platformAppBearerAuth: []
   - platformAppApiKey: []
 responses:
   '200':

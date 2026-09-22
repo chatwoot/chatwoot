@@ -3,7 +3,7 @@ tags:
 operationId: contactMerge
 summary: Merge Contacts
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
   - userApiKey: []
 description: |
   Merge two contacts into a single contact. The base contact remains and receives all

@@ -4,7 +4,7 @@ operationId: create-an-account-agent-bot
 summary: Create an Agent Bot
 description: Create an agent bot in the account
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
   - userApiKey: []
 requestBody:
   required: true

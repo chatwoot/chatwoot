@@ -4,7 +4,8 @@ operationId: toggle-typing-status-of-a-conversation
 summary: Toggle Typing Status
 description: Toggles the typing status for a conversation.
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
+  - agentBotBearerAuth: []
   - userApiKey: []
   - agentBotApiKey: []
 requestBody:

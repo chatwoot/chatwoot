@@ -4,7 +4,7 @@ operationId: get-details-of-a-single-custom-filter
 summary: Get a custom filter details
 description: Get the details of a custom filter in the account
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
   - userApiKey: []
 responses:
   '200':

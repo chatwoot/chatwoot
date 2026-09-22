@@ -3,7 +3,7 @@ tags:
 operationId: get-agent-summary-report
 summary: Get conversation statistics grouped by agent
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
   - userApiKey: []
 description: |
   Get conversation statistics grouped by agent for a given date range.

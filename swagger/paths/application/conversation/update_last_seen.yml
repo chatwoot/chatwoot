@@ -3,12 +3,16 @@ tags:
 operationId: conversationUpdateLastSeen
 summary: Update Last Seen
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
   - userApiKey: []
 description: Updates the last seen of the conversation so that conversations will have the bubbles in the agents screen
 responses:
   '200':
     description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/conversation_show'
   '403':
     description: Access denied
     content:

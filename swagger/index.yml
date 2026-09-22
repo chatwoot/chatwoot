@@ -19,10 +19,18 @@ components:
   parameters:
     $ref: ./parameters/index.yml
   securitySchemes:
-    bearerAuth:
+    userBearerAuth:
       type: http
       scheme: bearer
-      description: 'Authenticate with `Authorization: Bearer <token>`. Find user tokens in **Profile Settings**, agent bot tokens in **Settings → Agent Bots**, and platform app tokens in **Super Admin**. Available in Chatwoot `v4.19.0` and later.'
+      description: 'Authenticate with `Authorization: Bearer <token>` using a user API token from **Profile Settings**. Available in Chatwoot `v4.19.0` and later.'
+    agentBotBearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Authenticate with `Authorization: Bearer <token>` using an agent bot token from **Settings → Agent Bots**. Available in Chatwoot `v4.19.0` and later.'
+    platformAppBearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Authenticate with `Authorization: Bearer <token>` using a platform app token from **Super Admin**. Available in Chatwoot `v4.19.0` and later.'
     userApiKey:
       type: apiKey
       in: header

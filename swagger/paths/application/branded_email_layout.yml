@@ -4,7 +4,7 @@ get:
   operationId: getAccountBrandedEmailLayout
   summary: Get account branded email layout
   security:
-    - bearerAuth: []
+    - userBearerAuth: []
     - userApiKey: []
   description: Get the account-scoped Liquid HTML layout used as the fallback for branded email replies.
   parameters:
@@ -28,7 +28,7 @@ patch:
   operationId: updateAccountBrandedEmailLayout
   summary: Update account branded email layout
   security:
-    - bearerAuth: []
+    - userBearerAuth: []
     - userApiKey: []
   description: Update or clear the account-scoped Liquid HTML layout used as the fallback for branded email replies.
   parameters:

@@ -3,7 +3,7 @@ tags:
 operationId: get-campaign
 summary: Get a campaign
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
   - userApiKey: []
 description: >-
   Retrieve a campaign using its account-scoped ID.

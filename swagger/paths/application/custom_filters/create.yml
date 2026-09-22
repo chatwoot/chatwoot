@@ -6,7 +6,7 @@ description: Create a custom filter in the account
 parameters:
   - $ref: '#/components/parameters/account_id'
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
   - userApiKey: []
 requestBody:
   required: true

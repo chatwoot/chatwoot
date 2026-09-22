@@ -4,7 +4,7 @@ get:
   operationId: GetInbox
   summary: Get an inbox
   security:
-    - bearerAuth: []
+    - userBearerAuth: []
     - userApiKey: []
   description: Get an inbox available in the current account
   parameters:
@@ -40,7 +40,7 @@ patch:
   operationId: updateInbox
   summary: Update Inbox
   security:
-    - bearerAuth: []
+    - userBearerAuth: []
     - userApiKey: []
   description: Update an existing inbox
   parameters:

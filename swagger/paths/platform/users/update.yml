@@ -4,7 +4,7 @@ operationId: update-a-user
 summary: Update a user
 description: Update a user's attributes
 security:
-  - bearerAuth: []
+  - platformAppBearerAuth: []
   - platformAppApiKey: []
 requestBody:
   required: true

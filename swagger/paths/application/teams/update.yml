@@ -3,7 +3,7 @@ tags:
 operationId: update-a-team
 summary: Update a team
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
   - userApiKey: []
 description: Update a team's attributes
 requestBody:

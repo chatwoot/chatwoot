@@ -29,7 +29,7 @@
         "description": "Create an Account",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -84,7 +84,7 @@
         "description": "Get the details of an account",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -132,7 +132,7 @@
         "description": "Update an account's attributes",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -180,7 +180,7 @@
         "description": "Delete an Account",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -228,7 +228,7 @@
         "description": "List all account users",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -266,7 +266,7 @@
         "description": "Create an Account User",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -328,7 +328,7 @@
         "description": "Delete an Account User",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -371,7 +371,7 @@
         "description": "List all agent bots available",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -413,7 +413,7 @@
         "description": "Create an agent bot",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -468,7 +468,7 @@
         "description": "Get the details of an agent bot",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -516,7 +516,7 @@
         "description": "Update an agent bot's attributes",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -564,7 +564,7 @@
         "description": "Delete an AgentBot",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -607,7 +607,7 @@
         "description": "Create a User",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -662,7 +662,7 @@
         "description": "Get the details of an user",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -710,7 +710,7 @@
         "description": "Update a user's attributes",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -758,7 +758,7 @@
         "description": "Delete a User",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -806,7 +806,7 @@
         "description": "Get the sso link of a user",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -867,7 +867,7 @@
         "description": "Get the access token of a user",
         "security": [
           {
-            "bearerAuth": []
+            "platformAppBearerAuth": []
           },
           {
             "platformAppApiKey": []
@@ -8154,10 +8154,20 @@
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
+      "userBearerAuth": {
         "type": "http",
         "scheme": "bearer",
-        "description": "Authenticate with `Authorization: Bearer <token>`. Find user tokens in **Profile Settings**, agent bot tokens in **Settings → Agent Bots**, and platform app tokens in **Super Admin**. Available in Chatwoot `v4.19.0` and later."
+        "description": "Authenticate with `Authorization: Bearer <token>` using a user API token from **Profile Settings**. Available in Chatwoot `v4.19.0` and later."
+      },
+      "agentBotBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using an agent bot token from **Settings → Agent Bots**. Available in Chatwoot `v4.19.0` and later."
+      },
+      "platformAppBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using a platform app token from **Super Admin**. Available in Chatwoot `v4.19.0` and later."
       },
       "userApiKey": {
         "type": "apiKey",

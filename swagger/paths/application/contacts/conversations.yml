@@ -21,7 +21,7 @@ get:
         type: number
       description: ID of the contact
   security:
-    - bearerAuth: []
+    - userBearerAuth: []
     - userApiKey: []
   responses:
     '200':

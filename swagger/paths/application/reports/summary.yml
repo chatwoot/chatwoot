@@ -3,7 +3,7 @@ tags:
 operationId: list-all-conversation-statistics-summary
 summary: Get Account reports summary
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
   - userApiKey: []
 description: Get Account reports summary for a specific type and date range
 responses:

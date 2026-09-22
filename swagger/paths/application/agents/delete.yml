@@ -4,7 +4,7 @@ operationId: delete-agent-from-account
 summary: Remove an Agent from Account
 description: Remove an Agent from Account
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - in: path

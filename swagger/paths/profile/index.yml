@@ -5,7 +5,7 @@ get:
   summary: Fetch user profile
   description: Get the user profile details
   security:
-    - bearerAuth: []
+    - userBearerAuth: []
     - userApiKey: []
   responses:
     '200':
@@ -27,7 +27,7 @@ put:
   summary: Update user profile
   description: Update the user profile details
   security:
-    - bearerAuth: []
+    - userBearerAuth: []
     - userApiKey: []
   requestBody:
     required: true

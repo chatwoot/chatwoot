@@ -4,7 +4,7 @@ operationId: delete-an-integration-hook
 summary: Delete an Integration Hook
 description: Delete an Integration Hook
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/account_id'

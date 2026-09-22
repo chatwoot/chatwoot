@@ -4,7 +4,7 @@ operationId: update-account
 summary: Update account
 description: Update account details, settings, and custom attributes
 security:
-  - bearerAuth: []
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/account_id'

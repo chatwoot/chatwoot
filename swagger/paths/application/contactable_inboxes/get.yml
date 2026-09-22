@@ -5,7 +5,7 @@ get:
   description: Get List of contactable Inboxes
   summary: Get Contactable Inboxes
   security:
-    - bearerAuth: []
+    - userBearerAuth: []
     - userApiKey: []
   parameters:
     - $ref: '#/components/parameters/account_id'
