@@ -299,6 +299,7 @@
   display_title: 'Login Location Notification'
   value: false
   type: boolean
+  locked: false
   description: 'Email users when their account is signed in to from a location we have not seen before'
 - name: DEVICE_VERIFICATION_ENABLED
   display_title: 'Device Verification'
