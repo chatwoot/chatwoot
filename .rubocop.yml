@@ -18,7 +18,6 @@ Metrics/ClassLength:
   Exclude:
     - 'app/models/message.rb'
     - 'app/models/conversation.rb'
-    - 'app/controllers/devise_overrides/sessions_controller.rb'
     - 'config/initializers/rack_attack.rb'
 
 Metrics/MethodLength:
