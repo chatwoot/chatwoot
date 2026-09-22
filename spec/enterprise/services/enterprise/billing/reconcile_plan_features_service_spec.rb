@@ -91,9 +91,7 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
 
       before do
         allow(GlobalConfigService).to receive(:load).and_call_original
-        allow(GlobalConfigService).to receive(:load)
-          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-          .and_return(true)
+        create(:installation_config, name: 'ENABLE_SHOPIFY_INTEGRATION', value: true)
         account.enable_features!('shopify_integration')
       end
 
@@ -172,9 +170,7 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
 
       it 'preserves entitlements when the global Shopify switch is disabled' do
         account.enable_features!('saml')
-        allow(GlobalConfigService).to receive(:load)
-          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-          .and_return(false)
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
         expect(Enterprise::Billing::PlanConfiguration).not_to receive(:plans_for)
 
         described_class.new(account: account).perform
