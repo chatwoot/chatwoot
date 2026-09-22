@@ -53,7 +53,7 @@ describe Twilio::IncomingMessageService do
 
         expect do
           described_class.new(params: params.merge(From: '+14155550999')).perform
-        end.not_to change { [Contact.count, ContactInbox.count, Conversation.count] }
+        end.not_to(change { [Contact.count, ContactInbox.count, Conversation.count] })
       end
 
       it 'does not create another conversation after the original is resolved' do

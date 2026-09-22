@@ -7,7 +7,7 @@ class Twilio::IncomingMessageService
 
   def perform
     return if twilio_channel.blank?
-    return if message_sid.present? && inbox.messages.exists?(source_id: message_sid)
+    return if message_already_received?
 
     set_contact
     set_conversation
@@ -29,6 +29,10 @@ class Twilio::IncomingMessageService
 
   def message_sid
     params[:SmsSid].presence || params[:MessageSid].presence
+  end
+
+  def message_already_received?
+    message_sid.present? && inbox.messages.exists?(source_id: message_sid)
   end
 
   def twilio_channel
