@@ -28,24 +28,16 @@ const currentUser = useMapGetter('getCurrentUser');
 
 const assignedAgent = computed(() => currentChat.value?.meta?.assignee);
 
-const hasMessage = computed(() => props.message !== '');
-const isUserTyping = computed(() => hasMessage.value && !props.isOnPrivateNote);
-const isUnassigned = computed(() => !assignedAgent.value);
-const isAssignedToOtherAgent = computed(
-  () => assignedAgent.value?.id !== currentUser.value?.id
+const showSelfAssignBanner = computed(
+  () =>
+    props.message !== '' &&
+    !props.isOnPrivateNote &&
+    (!assignedAgent.value || assignedAgent.value.id !== currentUser.value?.id)
 );
-
-const showSelfAssignBanner = computed(() => {
-  return (
-    isUserTyping.value && (isUnassigned.value || isAssignedToOtherAgent.value)
-  );
-});
 
 const isAIOwned = computed(() =>
   isAIAssigneeType(currentChat.value?.meta?.assignee_type)
 );
-
-const showBotHandoffBanner = computed(() => isAIOwned.value);
 
 const botAssigneeName = computed(() => {
   if (isAIOwned.value && assignedAgent.value?.name) {
@@ -96,7 +88,7 @@ const onClickBotHandoff = async () => {
 
 <template>
   <Banner
-    v-if="showSelfAssignBanner && !showBotHandoffBanner"
+    v-if="showSelfAssignBanner && !isAIOwned"
     action-button-variant="ghost"
     color-scheme="secondary"
     class="mx-2 mb-2 rounded-lg !py-2"
@@ -106,7 +98,7 @@ const onClickBotHandoff = async () => {
     @primary-action="onClickSelfAssign"
   />
   <Banner
-    v-if="showBotHandoffBanner"
+    v-if="isAIOwned"
     action-button-variant="ghost"
     color-scheme="secondary"
     class="mx-2 mb-2 rounded-lg !py-2"

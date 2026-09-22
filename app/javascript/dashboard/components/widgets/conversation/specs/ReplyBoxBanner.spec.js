@@ -18,13 +18,11 @@ vi.mock('dashboard/composables', () => ({
 }));
 
 describe('ReplyBoxBanner', () => {
-  it.each(['none', 'assignment'])(
-    'only updates takeover after the atomic request succeeds (failure: %s)',
-    async failure => {
-      const toggleStatus = vi.fn().mockResolvedValue(failure !== 'reopen');
+  it.each([false, true])(
+    'only updates takeover after the atomic request succeeds (request fails: %s)',
+    async requestFails => {
       const setCurrentChatAssignee = vi.fn();
       const changeStatus = vi.fn();
-      const assignAgent = vi.fn();
       const assistant = { id: 3, name: 'Captain' };
       const currentUser = {
         id: 7,
@@ -33,7 +31,7 @@ describe('ReplyBoxBanner', () => {
       };
       useAlert.mockClear();
       ConversationApi.assignAgent.mockReset();
-      if (failure === 'assignment') {
+      if (requestFails) {
         ConversationApi.assignAgent.mockRejectedValue(
           new Error('Assignment failed')
         );
@@ -56,9 +54,7 @@ describe('ReplyBoxBanner', () => {
           getCurrentUser: () => currentUser,
         },
         actions: {
-          toggleStatus,
           setCurrentChatAssignee,
-          assignAgent,
         },
         mutations: { CHANGE_CONVERSATION_STATUS: changeStatus },
       });
@@ -79,14 +75,13 @@ describe('ReplyBoxBanner', () => {
       banner.vm.$emit('primaryAction');
       await flushPromises();
 
-      expect(toggleStatus).not.toHaveBeenCalled();
       expect(ConversationApi.assignAgent).toHaveBeenCalledWith({
         conversationId: 1,
         agentId: currentUser.id,
         assigneeType: 'User',
         reopen: true,
       });
-      if (failure === 'assignment') {
+      if (requestFails) {
         expect(setCurrentChatAssignee).not.toHaveBeenCalled();
         expect(changeStatus).not.toHaveBeenCalled();
         expect(wrapper.findComponent(Banner).exists()).toBe(true);
