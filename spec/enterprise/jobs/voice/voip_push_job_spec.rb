@@ -22,7 +22,7 @@ RSpec.describe Voice::VoipPushJob do
   end
 
   it 'ignores a call that no longer exists' do
-    described_class.perform_now(call.id + 1000, 'ring')
+    described_class.perform_now(call.id + 1000, 'cancel')
 
     expect(Voice::VoipPushService).not_to have_received(:new)
   end

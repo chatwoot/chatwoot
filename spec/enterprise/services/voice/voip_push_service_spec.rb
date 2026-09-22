@@ -127,4 +127,35 @@ RSpec.describe Voice::VoipPushService do
       expect(fcm_client).to have_received(:send_v1).once
     end
   end
+
+  describe 'cancel' do
+    before do
+      call.update!(status: 'no_answer', meta: { 'rung_devices' => { 'apns_voip' => ['apple-1'], 'fcm' => %w[android-1 android-2] } })
+    end
+
+    it 'sends a cancel data message to the Android phones that were rung, and nothing to Apple' do
+      described_class.new(call: call).perform('cancel')
+
+      expect(Apnotic::Connection).not_to have_received(:new)
+      expect(fcm_client).to have_received(:send_v1).twice do |args|
+        expect(args[:data]).to include('type' => 'voice_call.cancel', 'reason' => 'no_answer', 'id' => call.id.to_s)
+      end
+    end
+
+    it 'does nothing for an outbound call' do
+      call.update!(direction: :outgoing)
+
+      described_class.new(call: call).perform('cancel')
+
+      expect(fcm_client).not_to have_received(:send_v1)
+    end
+
+    it 'does nothing when no Android phone was rung' do
+      call.update!(meta: { 'rung_devices' => { 'apns_voip' => ['apple-1'], 'fcm' => [] } })
+
+      described_class.new(call: call).perform('cancel')
+
+      expect(fcm_client).not_to have_received(:send_v1)
+    end
+  end
 end

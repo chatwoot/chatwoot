@@ -1,5 +1,5 @@
-# Rings the agents' phones for an inbound call. A phone with no live socket only learns
-# about a call this way.
+# Rings the agents' phones for an inbound call, and tells Android phones when the ring
+# is over. A phone with no live socket only learns about a call this way.
 #
 # iOS is rung with an APNs VoIP push (PushKit), which the system delivers even when the
 # app is not running, and which the app reports to CallKit. iOS is never sent a cancel:
@@ -8,10 +8,12 @@
 # learns from the voice_call events that the call was answered elsewhere, declined or
 # dropped; its own ring timeout covers the rest.
 #
-# Android is rung with a high-priority FCM data message.
+# Android is rung with a high-priority FCM data message and, because nothing on the
+# phone holds the ring but a notification and the app's own screen, is sent a plain
+# data message when the call leaves ringing.
 #
-# The devices rung are kept on `call.meta['rung_devices']` so a later cancel can go only
-# where the ring went. Configuration lives in the installation config: APNS_VOIP_KEY (the .p8
+# The devices rung are kept on `call.meta['rung_devices']` so a cancel goes only where
+# the ring went. Configuration lives in the installation config: APNS_VOIP_KEY (the .p8
 # contents), APNS_VOIP_KEY_ID, APNS_VOIP_TEAM_ID, APNS_VOIP_BUNDLE_ID,
 # APNS_VOIP_ENVIRONMENT, plus the existing FIREBASE_PROJECT_ID and FIREBASE_CREDENTIALS.
 class Voice::VoipPushService
@@ -22,7 +24,10 @@ class Voice::VoipPushService
   ANDROID = 'fcm'.freeze
 
   def perform(action)
-    ring if action == 'ring'
+    case action
+    when 'ring' then ring
+    when 'cancel' then cancel
+    end
   end
 
   private
@@ -47,6 +52,16 @@ class Voice::VoipPushService
       apple_configured? ? apple_tokens : [],
       firebase_configured? ? android_tokens : []
     ]
+  end
+
+  def cancel
+    return if call.outgoing?
+    return unless firebase_configured?
+
+    tokens = rung_devices[ANDROID]
+    return if tokens.blank?
+
+    forget_devices(ANDROID, with_rails { deliver_android_all(tokens, cancel_data, 'cancel') })
   end
 
   def with_rails(&)
@@ -81,6 +96,10 @@ class Voice::VoipPushService
                             .select { |subscription| subscription.subscription_attributes['devicePlatform'].to_s.casecmp('android').zero? }
                             .filter_map { |subscription| subscription.subscription_attributes['push_token'] }
                             .uniq
+  end
+
+  def rung_devices
+    (call.meta || {}).fetch('rung_devices', {})
   end
 
   def remember_rung_devices(apple, android)
@@ -124,6 +143,10 @@ class Voice::VoipPushService
     data = ring_payload.except(:caller).transform_keys(&:to_s).transform_values(&:to_s)
     data['caller'] = ring_payload[:caller].to_json
     data
+  end
+
+  def cancel_data
+    base_payload.merge(type: 'voice_call.cancel', reason: call.status).transform_keys(&:to_s).transform_values(&:to_s)
   end
 
   # MARK: Apple
