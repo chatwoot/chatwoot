@@ -33,13 +33,15 @@ describe('campaign timeline scroll anchor', () => {
 
   it('anchors unread scrolling independently of campaign heights below it', () => {
     messageTop = 500;
+    Object.defineProperty(panel, 'clientHeight', { value: 400 });
+    Object.defineProperty(panel, 'scrollHeight', { value: 2000 });
     const campaign = document.createElement('li');
     campaign.id = 'campaign-recipient-1';
     Object.defineProperty(campaign, 'scrollHeight', { value: 800 });
     panel.appendChild(campaign);
-    expect(getUnreadScrollTop(panel, message, 400)).toBe(500);
+    expect(getUnreadScrollTop(panel, 42)).toBe(500);
     panel.getBoundingClientRect = () => ({ top: 100 });
-    expect(getUnreadScrollTop(panel, message, 400)).toBe(400);
+    expect(getUnreadScrollTop(panel, 42)).toBe(400);
   });
 
   it('compensates only for content inserted above the visible message', () => {

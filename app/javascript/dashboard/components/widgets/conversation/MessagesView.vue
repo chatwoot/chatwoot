@@ -407,17 +407,16 @@ export default {
 
       // if there are unread messages, scroll to the first unread message
       if (this.unreadMessageCount > 0) {
-        const firstUnread =
-          this.conversationPanel.querySelector('.message--unread');
-        if (firstUnread) {
-          this.conversationPanel.scrollTop = getUnreadScrollTop(
-            this.conversationPanel,
-            firstUnread,
-            this.$el.scrollHeight
-          );
+        const scrollTop = getUnreadScrollTop(
+          this.conversationPanel,
+          this.unReadMessages[0]?.id
+        );
+        if (scrollTop !== undefined) {
+          this.conversationPanel.scrollTop = scrollTop;
           return;
         }
-      } else if (labelSuggestions) {
+      }
+      if (labelSuggestions) {
         // when scrolling to the bottom, the label suggestions is below the last message
         // so we scroll there if there are no unread messages
         // Unread messages always take the highest priority

@@ -36,6 +36,47 @@ describe('useCampaignHistory retry', () => {
 
   afterEach(() => scope.stop());
 
+  it.each([true, false])(
+    'refreshes after a pending first request settles, succeeds=%s',
+    async succeeds => {
+      let resolveInitial;
+      let rejectInitial;
+      ConversationApi.getCampaignHistory.mockImplementationOnce(
+        () =>
+          new Promise((resolve, reject) => {
+            resolveInitial = resolve;
+            rejectInitial = reject;
+          })
+      );
+      history = scope.run(() => useCampaignHistory());
+      chat.value.messages.push({ id: 2, created_at: 200 });
+      await flushPromises();
+      expect(ConversationApi.getCampaignHistory).toHaveBeenCalledTimes(1);
+      ConversationApi.getCampaignHistory.mockResolvedValueOnce({
+        data: {
+          payload: [{ id: 12, sent_at: 150, source_id: 'campaign-12' }],
+          meta: { next_before: null, first_message_id: 1 },
+        },
+      });
+      if (succeeds) {
+        resolveInitial({
+          data: {
+            payload: [],
+            meta: { next_before: null, first_message_id: 1 },
+          },
+        });
+      } else {
+        rejectInitial(new Error('Offline'));
+      }
+      await flushPromises();
+      expect(ConversationApi.getCampaignHistory).toHaveBeenCalledTimes(2);
+      expect(history.visibleCampaignHistory.value.map(item => item.id)).toEqual(
+        [12]
+      );
+      expect(history.campaignHistoryError.value).toBe(false);
+    }
+  );
+
   it.each([null, 10])(
     'retries the newest page after a failed automatic refresh with older cursor %s',
     async nextBefore => {

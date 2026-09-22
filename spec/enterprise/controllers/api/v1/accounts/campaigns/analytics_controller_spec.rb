@@ -15,13 +15,24 @@ RSpec.describe 'Campaign analytics API', type: :request do
   let(:skipped_contact) { create(:contact, account: account) }
 
   before do
-    account.enable_features!(:whatsapp_campaign)
+    account.enable_features!(:whatsapp_campaign, :campaign_analytics)
     CampaignRecipient.create!(account: account, campaign: campaign, inbox: inbox, contact: delivered_contact,
                               status: :delivered, source_id: 'wamid.delivered')
     CampaignRecipient.create!(account: account, campaign: campaign, inbox: inbox, contact: read_contact,
                               status: :read, source_id: 'wamid.read')
     CampaignRecipient.create!(account: account, campaign: campaign, inbox: inbox, contact: failed_contact, status: :failed)
     CampaignRecipient.create!(account: account, campaign: campaign, inbox: inbox, contact: skipped_contact, status: :skipped)
+  end
+
+  %w[metrics contacts].each do |endpoint|
+    it "rejects #{endpoint} when campaign analytics is not enabled" do
+      account.disable_features!(:campaign_analytics)
+
+      get "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}/analytics/#{endpoint}",
+          headers: administrator.create_new_auth_token
+
+      expect(response).to have_http_status(:unauthorized)
+    end
   end
 
   describe 'GET /api/v1/accounts/:account_id/campaigns/:campaign_id/analytics/metrics' do

@@ -3,11 +3,17 @@ export const getTimelineEntries = panel =>
     panel.querySelectorAll('[data-message-id], [id^="campaign-recipient-"]')
   );
 
-export const getUnreadScrollTop = (panel, unreadMessage, viewportHeight) =>
-  panel.scrollTop +
-  unreadMessage.getBoundingClientRect().top -
-  panel.getBoundingClientRect().top -
-  viewportHeight / 2;
+export const getUnreadScrollTop = (panel, messageId) => {
+  const unreadMessage = panel.querySelector(`[data-message-id="${messageId}"]`);
+  if (!unreadMessage) return undefined;
+
+  return (
+    panel.scrollTop +
+    unreadMessage.getBoundingClientRect().top -
+    panel.getBoundingClientRect().top -
+    panel.clientHeight / 2
+  );
+};
 
 export const captureTimelineAnchor = (panel, messageId) => {
   const entries = getTimelineEntries(panel);

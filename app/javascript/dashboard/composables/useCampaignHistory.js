@@ -19,6 +19,7 @@ export function useCampaignHistory() {
   const hasLoaded = ref(false);
   const hasError = ref(false);
   const failedRefresh = ref(false);
+  let refreshRequested = false;
 
   const enabled = computed(
     () =>
@@ -56,6 +57,10 @@ export function useCampaignHistory() {
   const loadCampaignHistory = async ({
     refresh = failedRefresh.value,
   } = {}) => {
+    if (enabled.value && refresh && isPending.value) {
+      refreshRequested = true;
+      return;
+    }
     if (!enabled.value || (!refresh && (isPending.value || !hasMore.value)))
       return;
     hasError.value = false;
@@ -65,8 +70,10 @@ export function useCampaignHistory() {
     const refreshUntil =
       recipients.value[0]?.sent_at ?? oldestMessageTime.value;
     let before = refresh ? undefined : (nextBefore.value ?? undefined);
+    let requestSignal;
     try {
       await run(async signal => {
+        requestSignal = signal;
         let oldestFetchedTime;
         do {
           // Each page needs the cursor returned by the previous request.
@@ -102,6 +109,11 @@ export function useCampaignHistory() {
     } catch (error) {
       hasError.value = true;
       failedRefresh.value = refresh;
+    } finally {
+      if (refreshRequested && !requestSignal?.aborted) {
+        refreshRequested = false;
+        await loadCampaignHistory({ refresh: true });
+      }
     }
   };
 
@@ -113,6 +125,7 @@ export function useCampaignHistory() {
     ],
     () => {
       abort();
+      refreshRequested = false;
       recipients.value = [];
       nextBefore.value = null;
       firstMessageId.value = null;
@@ -133,7 +146,7 @@ export function useCampaignHistory() {
     () => currentChat.value.messages?.at(-1)?.id,
     (messageId, previousId) => {
       if (
-        (hasLoaded.value || hasError.value) &&
+        (isPending.value || hasLoaded.value || hasError.value) &&
         messageId > (previousId ?? 0)
       ) {
         loadCampaignHistory({ refresh: true });
