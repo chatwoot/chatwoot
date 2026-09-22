@@ -1,12 +1,19 @@
 module Enterprise::Whatsapp::OneoffCampaignService
-  def perform
-    validate_campaign!
-    recipients = create_recipients(extract_audience_labels)
-    process_recipients(recipients)
-    campaign.completed!
+  private
+
+  def process_contacts(contacts)
+    contacts.each do |contact|
+      recipient = recipient_for(contact)
+      process_recipient(recipient) if recipient.queued?
+    end
   end
 
-  private
+  def recipient_for(contact)
+    campaign.campaign_recipients.find_or_create_by!(contact: contact) do |recipient|
+      recipient.account = campaign.account
+      recipient.inbox = campaign.inbox
+    end
+  end
 
   def process_recipient(recipient)
     contact = recipient.contact
@@ -35,24 +42,6 @@ module Enterprise::Whatsapp::OneoffCampaignService
     send_whatsapp_template_message(recipient: recipient, to: destination, template_params: processed_template_params)
   end
 
-  def create_recipients(audience_labels)
-    contacts = campaign.account.contacts.tagged_with(audience_labels, any: true)
-    Rails.logger.info "Processing #{contacts.count} contacts for campaign #{campaign.id}"
-
-    contacts.find_each.map do |contact|
-      campaign.campaign_recipients.find_or_create_by!(contact: contact) do |recipient|
-        recipient.account = campaign.account
-        recipient.inbox = campaign.inbox
-      end
-    end
-  end
-
-  def process_recipients(recipients)
-    recipients.each { |recipient| process_recipient(recipient) }
-
-    Rails.logger.info "Campaign #{campaign.id} processing completed"
-  end
-
   def rendered_message_content(contact)
     Liquid::CampaignTemplateService.new(campaign: campaign, contact: contact).call(campaign.message)
   end
@@ -72,6 +61,7 @@ module Enterprise::Whatsapp::OneoffCampaignService
       return
     end
 
+    save_recipient_destination(recipient, to)
     source_id = channel.send_template(to, template_info(name, namespace, lang_code, processed_parameters), nil)
 
     update_recipient_from_provider_response(recipient, source_id)
@@ -81,6 +71,11 @@ module Enterprise::Whatsapp::OneoffCampaignService
     recipient.mark_failed!(message: e.message)
     # continue processing remaining contacts
     nil
+  end
+
+  def save_recipient_destination(recipient, destination)
+    contact_inbox = recipient.contact.contact_inboxes.create_or_find_by!(inbox: inbox, source_id: destination.delete_prefix('+'))
+    recipient.update!(contact_inbox: contact_inbox)
   end
 
   def template_info(name, namespace, lang_code, processed_parameters)

@@ -31,13 +31,36 @@ RSpec.describe Enterprise::Whatsapp::OneoffCampaignService do
     allow_any_instance_of(Whatsapp::OneoffCampaignService).to receive(:channel).and_return(whatsapp_channel) # rubocop:disable RSpec/AnyInstance
   end
 
+  it 'records delivery progress across core cursor batches' do
+    stub_const('Whatsapp::OneoffCampaignService::BATCH_SIZE', 1)
+    contacts = create_list(:contact, 2, :with_phone_number, account: account)
+    contacts.each { |contact| contact.update_labels([label.title]) }
+    allow(whatsapp_channel).to receive(:send_template).and_return('wamid.first', 'wamid.second')
+
+    campaign.trigger!
+
+    Campaigns::SendWhatsappBatchJob.perform_now(campaign)
+    expect(campaign.campaign_recipients.sent.count).to eq(1)
+    recipient = campaign.campaign_recipients.sent.first
+    expect(recipient.contact_inbox.source_id).to eq(contacts.first.phone_number.delete_prefix('+'))
+    expect(recipient.contact_inbox.contact_id).to eq(contacts.first.id)
+    expect(campaign.reload).to be_processing
+
+    Campaigns::SendWhatsappBatchJob.perform_now(campaign, contacts.first.id)
+    expect(campaign.campaign_recipients.sent.count).to eq(2)
+    Campaigns::SendWhatsappBatchJob.perform_now(campaign, contacts.last.id)
+    expect(campaign.reload).to be_completed
+  end
+
   it 'marks contacts without phone or BSUID as skipped' do
     contact = create(:contact, account: account, phone_number: nil)
     contact.update_labels([label.title])
 
     expect(whatsapp_channel).not_to receive(:send_template)
 
-    Whatsapp::OneoffCampaignService.new(campaign: campaign).perform
+    perform_enqueued_jobs do
+      Whatsapp::OneoffCampaignService.new(campaign: campaign).perform
+    end
 
     expect(CampaignRecipient.find_by!(campaign: campaign, contact: contact)).to be_skipped
   end
@@ -50,7 +73,9 @@ RSpec.describe Enterprise::Whatsapp::OneoffCampaignService do
 
     expect(whatsapp_channel).not_to receive(:send_template)
 
-    Whatsapp::OneoffCampaignService.new(campaign: campaign).perform
+    perform_enqueued_jobs do
+      Whatsapp::OneoffCampaignService.new(campaign: campaign).perform
+    end
 
     expect(CampaignRecipient.find_by!(campaign: campaign, contact: contact)).to be_skipped
   end
@@ -71,7 +96,9 @@ RSpec.describe Enterprise::Whatsapp::OneoffCampaignService do
 
     expect(whatsapp_channel).not_to receive(:send_template)
 
-    Whatsapp::OneoffCampaignService.new(campaign: campaign).perform
+    perform_enqueued_jobs do
+      Whatsapp::OneoffCampaignService.new(campaign: campaign).perform
+    end
 
     expect(CampaignRecipient.find_by!(campaign: campaign, contact: contact)).to be_skipped
   end
