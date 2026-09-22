@@ -160,4 +160,27 @@ RSpec.describe Copilot::V2::Runner do
     expect { Copilot::V2::Resources.require_message_evidence!('reference_type' => 'selection', 'resource' => 'conversations') }
       .to raise_error(ArgumentError, /Message evidence/)
   end
+
+  it 'imports saved follow-up references only within their own thread' do
+    manifest = { 'reference_type' => 'selection', 'resource' => 'conversations', 'selected_ids' => [],
+                 'scope' => { 'fields' => ['id'] }, 'selection' => { 'complete' => true } }
+    original = service.start(message: message)
+    original.update!(status: 'completed', datasets: { 'prior-selection' => manifest })
+    followup = thread.copilot_messages.create!(message_type: :user, message: { content: 'Show that selection again' })
+    run = service.start(message: followup)
+    responses = [reply(calls: [['show', 'show_results', { 'result_ref' => 'prior-selection', 'supersedes_ref' => nil }]]),
+                 reply(content: { status: 'completed', answer: 'No conversations were selected.' }.to_json)]
+    allow(client).to receive(:coordinate) { responses.shift || raise('Unexpected coordinator call') }
+    expect(drive(run).status).to eq('completed')
+    expect(run.datasets.fetch('prior-selection')).to eq(manifest)
+
+    other = CopilotThread.create!(account: account, user: user, engine: :v2, title: 'Separate private thread')
+    trigger = other.copilot_messages.create!(message_type: :user, message: { content: 'Show prior-selection' })
+    denied = Copilot::V2::RunService.new(thread: other, user: user).start(message: trigger)
+    responses = [reply(calls: [['show', 'show_results', { 'result_ref' => 'prior-selection', 'supersedes_ref' => nil }]]),
+                 reply(content: { status: 'needs_clarification', question: 'Which selection in this thread?',
+                                  answer: 'Choose a selection.' }.to_json)]
+    expect(drive(denied).datasets).not_to have_key('prior-selection')
+    expect(denied.checkpoint['transcript'].to_json).to include('Unknown thread reference')
+  end
 end

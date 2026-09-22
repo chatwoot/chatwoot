@@ -34,8 +34,25 @@ class CopilotThread < ApplicationRecord
       title: title,
       created_at: created_at.to_i,
       user: user.push_event_data,
-      account_id: account_id
+      account_id: account_id,
+      engine: engine,
+      execution_availability: execution_availability
     }
+  end
+
+  def execution_availability(run: nil) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    return { available: nil, reason: 'legacy_engine' } if legacy?
+
+    reason = if !account.active?
+               'account_inactive'
+             elsif !account.account_users.exists?(user_id: user_id)
+               'access_unavailable'
+             elsif !account.feature_enabled?('copilot_v2')
+               'feature_disabled'
+             elsif run&.charged_at.nil? && !account.usage_limits.dig(:captain, :responses, :current_available).to_i.positive?
+               'response_credits_unavailable'
+             end
+    { available: reason.nil?, reason: reason }
   end
 
   def previous_history

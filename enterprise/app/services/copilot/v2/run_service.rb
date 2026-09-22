@@ -7,7 +7,7 @@ class Copilot::V2::RunService
     @user = user
   end
 
-  def start(message:)
+  def start(message:, enqueue: true) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     authorize!
     raise ArgumentError, 'An owner user message is required' unless message.copilot_thread_id == @thread.id && message.user?
 
@@ -17,17 +17,19 @@ class Copilot::V2::RunService
 
       current = @thread.copilot_runs.active.first
       if current&.status == 'needs_clarification'
+        ensure_credits!(current)
         resolve_clarification(current, message)
       else
         raise ActiveRunConflict, 'A run is already active in this thread' if current
 
+        ensure_credits!
         @thread.copilot_runs.create!(triggering_message: message, task_spec: { 'version' => 1, 'request' => message.message.fetch('content') },
                                      checkpoint: { 'history_through_id' => message.id, 'transcript' => [], 'operations' => [] }).tap do |created|
           message.update!(copilot_run: created)
         end
       end
     end
-    enqueue(run)
+    enqueue(run) if enqueue
     run
   end
 
@@ -39,6 +41,7 @@ class Copilot::V2::RunService
       raise ActiveRunConflict, 'A run is already active in this thread' if @thread.copilot_runs.active.where.not(id: run.id).exists?
       raise ArgumentError, 'Only incomplete runs can resume' unless run.status == 'incomplete'
 
+      ensure_credits!(run)
       run.update!(status: 'queued', reason: nil, lease_expires_at: nil)
     end
     enqueue(run)
@@ -58,6 +61,12 @@ class Copilot::V2::RunService
   end
 
   private
+
+  def ensure_credits!(run = nil)
+    return if run&.charged_at.present? || @thread.account.usage_limits.dig(:captain, :responses, :current_available).to_i.positive?
+
+    raise Unavailable, 'Response credits are unavailable'
+  end
 
   def own_run!(run)
     raise ActiveRecord::RecordNotFound unless run.copilot_thread_id == @thread.id

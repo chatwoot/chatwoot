@@ -97,6 +97,10 @@ Rails.application.routes.draw do
             resources :bulk_actions, only: [:create]
             resources :copilot_threads, only: [:index, :create] do
               resources :copilot_messages, only: [:index, :create]
+              resources :copilot_runs, only: [:show] do
+                post :resume, on: :member
+                post :cancel, on: :member
+              end
             end
             resources :custom_tools do
               post :test, on: :collection

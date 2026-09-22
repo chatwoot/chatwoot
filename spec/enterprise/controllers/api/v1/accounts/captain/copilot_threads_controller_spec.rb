@@ -79,9 +79,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
           thread = CopilotThread.last
           expect(thread).to be_v2
           expect(thread.assistant).to be_nil
-          expect(Copilot::V2::ResponseJob).to have_been_enqueued.with(
-            account_id: account.id, user_id: agent.id, copilot_thread_id: thread.id, copilot_message_id: thread.copilot_messages.last.id
-          )
+          expect(Copilot::V2::RunJob).to have_been_enqueued.with(thread.copilot_runs.first.id)
+          expect(Copilot::V2::ResponseJob).not_to have_been_enqueued
           expect(Captain::Copilot::ResponseJob).not_to have_been_enqueued
         end
 

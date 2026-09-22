@@ -1,5 +1,10 @@
 module Enterprise::ActionCableListener
   include Events::Types
+  def copilot_run_updated(event)
+    run = event.data[:copilot_run]
+    broadcast(run.account, [run.user.pubsub_token], COPILOT_RUN_UPDATED, run.push_event_data)
+  end
+
   def copilot_message_created(event)
     copilot_message = event.data[:copilot_message]
     copilot_thread = copilot_message.copilot_thread

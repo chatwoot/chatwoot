@@ -10,7 +10,18 @@ class CopilotRun < ApplicationRecord
   delegate :account, :user, to: :copilot_thread
   validates :status, inclusion: { in: STATUSES }
   validates :triggering_message_id, uniqueness: true
+  after_commit :broadcast_progress, on: [:create, :update]
+
   scope :active, -> { where(status: ACTIVE_STATUSES) }
+
+  def push_event_data
+    { id: id, copilot_thread_id: copilot_thread_id, status: status, reason: reason,
+      execution_availability: copilot_thread.execution_availability(run: self), updated_at: updated_at.to_i }
+  end
+
+  def broadcast_progress
+    Rails.configuration.dispatcher.dispatch(COPILOT_RUN_UPDATED, Time.current, copilot_run: self)
+  end
 
   def claim! # rubocop:disable Metrics/AbcSize
     account.with_lock do

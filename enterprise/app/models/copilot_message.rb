@@ -33,6 +33,7 @@ class CopilotMessage < ApplicationRecord
       id: id,
       message: message,
       message_type: message_type,
+      copilot_run_id: copilot_run_id,
       created_at: created_at.to_i,
       copilot_thread: copilot_thread.push_event_data
     }

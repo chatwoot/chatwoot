@@ -13,7 +13,7 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
                               .per(5)
   end
 
-  def create
+  def create # rubocop:disable Metrics/MethodLength
     ActiveRecord::Base.transaction do
       @copilot_thread = Current.account.copilot_threads.create!(
         title: copilot_thread_params[:message].truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH, omission: ''),
@@ -27,8 +27,15 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
         message: { content: copilot_thread_params[:message] }
       )
 
-      build_copilot_response(copilot_message)
+      if @copilot_thread.v2?
+        @copilot_run = Copilot::V2::RunService.new(thread: @copilot_thread, user: Current.user).start(message: copilot_message, enqueue: false)
+      else
+        build_copilot_response(copilot_message)
+      end
     end
+    Copilot::V2::RunJob.perform_later(@copilot_run.id) if @copilot_run
+  rescue Copilot::V2::RunService::Unavailable => e
+    render json: { error: 'execution_unavailable', message: e.message }, status: :forbidden
   end
 
   private
@@ -60,6 +67,10 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   end
 
   def ensure_message
+    if engine == 'v2' && !params[:message].is_a?(String)
+      return render json: { error: 'message must be a non-empty string' }, status: :unprocessable_entity
+    end
+
     return render_could_not_create_error(I18n.t('captain.copilot_message_required')) if copilot_thread_params[:message].blank?
   end
 
