@@ -17,31 +17,42 @@ class SearchAPI extends ApiClient {
     });
   }
 
-  contacts({ q, page = 1, since, until }, { signal } = {}) {
+  contacts({ q, page = 1, perPage, since, until }, { signal } = {}) {
     return axios.get(`${this.url}/contacts`, {
       signal,
-      params: { q, page, since, until },
+      params: { q, page, per_page: perPage, since, until },
     });
   }
 
-  conversations({ q, page = 1, since, until }, { signal } = {}) {
+  conversations({ q, page = 1, perPage, since, until }, { signal } = {}) {
     return axios.get(`${this.url}/conversations`, {
       signal,
-      params: { q, page, since, until },
+      params: { q, page, per_page: perPage, since, until },
     });
   }
 
-  messages({ q, page = 1, since, until, from, inboxId }, { signal } = {}) {
+  messages(
+    { q, page = 1, perPage, since, until, from, inboxId },
+    { signal } = {}
+  ) {
     return axios.get(`${this.url}/messages`, {
       signal,
-      params: { q, page, since, until, from, inbox_id: inboxId },
+      params: {
+        q,
+        page,
+        per_page: perPage,
+        since,
+        until,
+        from,
+        inbox_id: inboxId,
+      },
     });
   }
 
-  articles({ q, page = 1, since, until }, { signal } = {}) {
+  articles({ q, page = 1, perPage, since, until }, { signal } = {}) {
     return axios.get(`${this.url}/articles`, {
       signal,
-      params: { q, page, since, until },
+      params: { q, page, per_page: perPage, since, until },
     });
   }
 }

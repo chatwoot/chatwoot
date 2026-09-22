@@ -135,7 +135,7 @@ describe('search store', () => {
       await request;
 
       expect(SearchAPI.messages).toHaveBeenCalledWith(
-        { q: 'hi', from: 3, page: 1 },
+        { q: 'hi', from: 3, page: 1, perPage: 15 },
         { signal: undefined }
       );
       expect(store.results.messages).toEqual({
@@ -180,6 +180,28 @@ describe('search store', () => {
         isFetching: false,
         hasError: true,
       });
+    });
+
+    it('stores a preview separately from the pages', async () => {
+      SearchAPI.contacts.mockResolvedValue({
+        data: { payload: { contacts: page(5) } },
+      });
+      const store = useSearchStore();
+
+      await store.fetchResults('contacts', { q: 'hi' }, { preview: true });
+
+      expect(SearchAPI.contacts).toHaveBeenCalledWith(
+        { q: 'hi', page: 1, perPage: 5 },
+        { signal: undefined }
+      );
+      expect(store.previews.contacts).toEqual({
+        records: page(5),
+        page: 1,
+        hasMore: true,
+        isFetching: false,
+        hasError: false,
+      });
+      expect(store.results.contacts.page).toBe(0);
     });
 
     it('does not touch the results of other entities', async () => {

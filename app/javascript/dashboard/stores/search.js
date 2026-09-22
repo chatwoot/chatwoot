@@ -7,7 +7,8 @@ export const SEARCH_ENTITIES = [
   'messages',
   'articles',
 ];
-const PER_PAGE = 15;
+export const PER_PAGE = 15;
+export const PREVIEW_PER_PAGE = 5;
 
 // Paginated search responses can overlap across pages (new records shift
 // offsets between fetches), so drop records that are already in the list.
@@ -41,6 +42,7 @@ export const useSearchStore = defineStore('search', {
     isFetchingCounts: false,
     hasCountError: false,
     results: emptyResults(),
+    previews: emptyResults(),
   }),
 
   getters: {
@@ -75,19 +77,27 @@ export const useSearchStore = defineStore('search', {
       }
     },
 
-    async fetchResults(type, { page = 1, ...params }, { signal } = {}) {
-      const results = this.results[type];
+    async fetchResults(
+      type,
+      { page = 1, ...params },
+      { signal, preview = false } = {}
+    ) {
+      const results = preview ? this.previews[type] : this.results[type];
+      const perPage = preview ? PREVIEW_PER_PAGE : PER_PAGE;
       results.isFetching = true;
       results.hasError = false;
       try {
-        const { data } = await SearchAPI[type]({ ...params, page }, { signal });
+        const { data } = await SearchAPI[type](
+          { ...params, page, perPage },
+          { signal }
+        );
         const records = data.payload[type];
         results.records =
           page === 1 ? records : appendUniqueRecords(results.records, records);
         results.page = page;
         // hasMore uses the raw page size: the records above may shrink on
         // dedupe, so stored counts cannot signal whether more pages exist
-        results.hasMore = records.length === PER_PAGE;
+        results.hasMore = records.length === perPage;
         if (type === 'messages')
           this.messageBackend = data.meta.message_backend;
       } catch (error) {

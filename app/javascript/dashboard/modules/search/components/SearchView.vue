@@ -7,7 +7,11 @@ import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useI18n } from 'vue-i18n';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
-import { useSearchStore } from 'dashboard/stores/search';
+import {
+  useSearchStore,
+  SEARCH_ENTITIES,
+  PREVIEW_PER_PAGE,
+} from 'dashboard/stores/search';
 import { generateURLParams, parseURLParams } from '../helpers/searchHelper';
 import {
   ROLES,
@@ -29,8 +33,6 @@ import SearchResultMessagesList from './SearchResultMessagesList.vue';
 import SearchResultContactsList from './SearchResultContactsList.vue';
 import SearchResultArticlesList from './SearchResultArticlesList.vue';
 
-const PREVIEW_SIZE = 5;
-
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
@@ -49,24 +51,28 @@ const filters = ref({
   dateRange: { type: null, from: null, to: null },
 });
 
+const entityRequests = () =>
+  Object.fromEntries(
+    SEARCH_ENTITIES.map(type => [type, useAbortableRequest()])
+  );
 const requests = {
   counts: useAbortableRequest(),
-  contacts: useAbortableRequest(),
-  conversations: useAbortableRequest(),
-  messages: useAbortableRequest(),
-  articles: useAbortableRequest(),
+  results: entityRequests(),
+  previews: entityRequests(),
 };
 
 const isSelectedTabAll = computed(() => selectedTab.value === 'all');
 
+const resultsOf = type =>
+  (isSelectedTabAll.value ? searchStore.previews : searchStore.results)[type];
+
 const recordsOf = (type, recordType) =>
-  computed(() => {
-    const records = searchStore.results[type].records.map(item => ({
+  computed(() =>
+    resultsOf(type).records.map(item => ({
       ...useCamelCase(item, { deep: true }),
       type: recordType,
-    }));
-    return isSelectedTabAll.value ? records.slice(0, PREVIEW_SIZE) : records;
-  });
+    }))
+  );
 
 const contacts = recordsOf('contacts', 'contact');
 const conversations = recordsOf('conversations', 'conversation');
@@ -149,11 +155,11 @@ const focusedEntities = computed(() =>
 );
 
 const isFetching = computed(() =>
-  focusedEntities.value.some(type => searchStore.results[type].isFetching)
+  focusedEntities.value.some(type => resultsOf(type).isFetching)
 );
 
 const hasResultError = computed(() =>
-  focusedEntities.value.some(type => searchStore.results[type].hasError)
+  focusedEntities.value.some(type => resultsOf(type).hasError)
 );
 
 const showCountError = computed(
@@ -186,17 +192,23 @@ const showLoadMore = computed(() => {
   return Boolean(results?.hasMore && !results.isFetching && !results.hasError);
 });
 
-const showViewMore = type =>
-  isSelectedTabAll.value &&
-  (searchStore.countFor(type) ?? searchStore.results[type].records.length) >
-    PREVIEW_SIZE;
+const showViewMore = type => {
+  if (!isSelectedTabAll.value) return false;
+  const count = searchStore.countFor(type);
+  return count === null
+    ? searchStore.previews[type].hasMore
+    : count > PREVIEW_PER_PAGE;
+};
 
 const showList = type =>
-  !searchStore.results[type].hasError ||
-  searchStore.results[type].records.length > 0;
+  !resultsOf(type).hasError || resultsOf(type).records.length > 0;
 
 const clearSearchResult = () => {
-  Object.values(requests).forEach(request => request.abort());
+  [
+    requests.counts,
+    ...Object.values(requests.results),
+    ...Object.values(requests.previews),
+  ].forEach(request => request.abort());
   searchStarted.value = false;
   searchStore.$reset();
 };
@@ -250,7 +262,7 @@ const fetchCounts = () =>
   );
 
 const fetchResults = (type, page = 1) =>
-  requests[type].run(signal =>
+  requests.results[type].run(signal =>
     searchStore.fetchResults(
       type,
       buildSearchPayload({ q: query.value, page }, type),
@@ -258,19 +270,44 @@ const fetchResults = (type, page = 1) =>
     )
   );
 
+const fetchPreview = type =>
+  requests.previews[type].run(signal =>
+    searchStore.fetchResults(
+      type,
+      buildSearchPayload({ q: query.value }, type),
+      { signal, preview: true }
+    )
+  );
+
+const fetchFocused = type =>
+  isSelectedTabAll.value ? fetchPreview(type) : fetchResults(type);
+
 const fetchFocusedResults = () => {
   focusedEntities.value
     .filter(type => {
-      const { page, isFetching: isLoading } = searchStore.results[type];
+      const { page, isFetching: isLoading } = resultsOf(type);
       return !page && !isLoading;
     })
-    .forEach(type => fetchResults(type));
+    .forEach(fetchFocused);
 };
 
 const retryResults = () => {
   focusedEntities.value
-    .filter(type => searchStore.results[type].hasError)
-    .forEach(type => fetchResults(type, searchStore.results[type].page + 1));
+    .filter(type => resultsOf(type).hasError)
+    .forEach(type =>
+      isSelectedTabAll.value
+        ? fetchPreview(type)
+        : fetchResults(type, resultsOf(type).page + 1)
+    );
+};
+
+// A stale message count means counts and messages came from different
+// backends, so both sides are refreshed to let them agree again.
+const retryCounts = () => {
+  fetchCounts();
+  if (!searchStore.isMessageCountStale) return;
+  if (searchStore.previews.messages.page) fetchPreview('messages');
+  if (searchStore.results.messages.page) fetchResults('messages');
 };
 
 const onSearch = q => {
@@ -383,7 +420,7 @@ onUnmounted(() => {
               sm
               link
               :is-loading="searchStore.isFetchingCounts"
-              @click="fetchCounts"
+              @click="retryCounts"
             />
           </div>
         </div>
@@ -409,7 +446,7 @@ onUnmounted(() => {
             >
               <SearchResultContactsList
                 v-if="filterContacts && showList('contacts')"
-                :is-fetching="searchStore.results.contacts.isFetching"
+                :is-fetching="resultsOf('contacts').isFetching"
                 :contacts="contacts"
                 :query="query"
                 :show-title="isSelectedTabAll"
@@ -432,7 +469,7 @@ onUnmounted(() => {
             >
               <SearchResultMessagesList
                 v-if="filterMessages && showList('messages')"
-                :is-fetching="searchStore.results.messages.isFetching"
+                :is-fetching="resultsOf('messages').isFetching"
                 :messages="messages"
                 :query="query"
                 :show-title="isSelectedTabAll"
@@ -455,7 +492,7 @@ onUnmounted(() => {
             >
               <SearchResultConversationsList
                 v-if="filterConversations && showList('conversations')"
-                :is-fetching="searchStore.results.conversations.isFetching"
+                :is-fetching="resultsOf('conversations').isFetching"
                 :conversations="conversations"
                 :query="query"
                 :show-title="isSelectedTabAll"
@@ -480,7 +517,7 @@ onUnmounted(() => {
             >
               <SearchResultArticlesList
                 v-if="filterArticles && showList('articles')"
-                :is-fetching="searchStore.results.articles.isFetching"
+                :is-fetching="resultsOf('articles').isFetching"
                 :articles="articles"
                 :query="query"
                 :show-title="isSelectedTabAll"
