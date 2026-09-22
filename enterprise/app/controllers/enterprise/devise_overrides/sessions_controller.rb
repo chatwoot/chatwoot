@@ -39,7 +39,7 @@ module Enterprise::DeviseOverrides::SessionsController
     return unless @resource && LoginLocationNotification.enabled?
 
     Enterprise::LoginLocationNotificationJob.perform_later(
-      @resource.id, @resource.email, request.remote_ip, request.user_agent.to_s, @sign_in_request_uuid
+      @resource.id, @resource.email, request.remote_ip, request.user_agent.to_s, @sign_in_audit_id
     )
   rescue StandardError => e
     Rails.logger.warn "Enterprise::LoginLocationNotificationJob could not be enqueued: #{e.message}"
@@ -57,8 +57,10 @@ module Enterprise::DeviseOverrides::SessionsController
     return if account_ids.empty?
 
     rows = audit_event_rows(action, account_ids)
-    @sign_in_request_uuid = rows.first[:request_uuid] if action == 'sign_in'
     inserted = Enterprise::AuditLog.insert_all!(rows, returning: %w[id]) # rubocop:disable Rails/SkipsModelValidations
+    # Lowest id of this sign-in's own rows; the location job only trusts history
+    # strictly below it, so concurrent sign-ins cannot vouch for each other.
+    @sign_in_audit_id = inserted.rows.flatten.min if action == 'sign_in'
     enqueue_session_ip_lookup(rows.first[:remote_address], account_ids, inserted.rows.flatten)
   end
 

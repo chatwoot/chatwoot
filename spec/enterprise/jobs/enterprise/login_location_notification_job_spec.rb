@@ -34,15 +34,24 @@ RSpec.describe Enterprise::LoginLocationNotificationJob do
 
   # Simulate the controller: the current sign-in's audit row already exists when the job runs.
   def run(ip)
-    audit(ip, now, request_uuid: current_uuid)
-    described_class.perform_now(user.id, user.email, ip, 'Mozilla/5.0 Chrome', current_uuid)
+    row = audit(ip, now, request_uuid: current_uuid)
+    described_class.perform_now(user.id, user.email, ip, 'Mozilla/5.0 Chrome', row.id)
   end
 
   it 'emails on a new country, proving the current sign-in itself is excluded from history' do
     # Only prior history is India; the current Moldova sign-in is seeded by run() and
-    # must be excluded by request_uuid, otherwise Moldova would read as already known.
+    # must be excluded by the id bound, otherwise Moldova would read as already known.
     audit('10.0.0.1', now - 3.days)
     expect { run('20.0.0.9') }.to have_enqueued_mail(Enterprise::LoginLocationMailer, :new_location)
+  end
+
+  it 'still emails when two concurrent sign-ins from the same new country race each other' do
+    audit('10.0.0.1', now - 3.days)
+    first = audit('20.0.0.9', now, request_uuid: current_uuid)
+    audit('20.0.0.9', now) # concurrent second sign-in, inserted just after the first
+    expect do
+      described_class.perform_now(user.id, user.email, '20.0.0.9', 'Mozilla/5.0 Chrome', first.id)
+    end.to have_enqueued_mail(Enterprise::LoginLocationMailer, :new_location)
   end
 
   it 'does not email when the country is already known' do
