@@ -380,6 +380,7 @@ const resultsChanged = () => {
   <ReportHeader
     :header-title="monitor?.name || t('MONITORS.TITLE')"
     :header-description="monitor?.condition || ''"
+    has-back-button
   />
   <MonitorUsageWarning :usage="result?.usage" />
   <p v-if="error" role="alert" class="text-sm text-n-ruby-11">{{ error }}</p>

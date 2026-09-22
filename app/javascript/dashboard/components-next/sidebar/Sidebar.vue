@@ -70,6 +70,14 @@ const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
 
+const isMonitorsAvailable = computed(
+  () =>
+    isEnterprise &&
+    [FEATURE_FLAGS.REPORTS, FEATURE_FLAGS.CONVERSATION_MONITORS].every(flag =>
+      isFeatureEnabledonAccount.value(accountId.value, flag)
+    )
+);
+
 const hasAdvancedAssignment = computed(() => {
   return isFeatureEnabledonAccount.value(
     accountId.value,
@@ -708,6 +716,16 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.REPORTS_BOT'),
           to: accountScopedRoute('bot_reports'),
         },
+        ...(isMonitorsAvailable.value
+          ? [
+              {
+                name: 'Monitors',
+                label: t('MONITORS.TITLE'),
+                to: accountScopedRoute('monitor_reports_index'),
+                activeOn: ['monitor_reports_show'],
+              },
+            ]
+          : []),
       ],
     },
     {
