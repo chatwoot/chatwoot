@@ -279,6 +279,10 @@
   enabled: false
   premium: true
   column: feature_flags_ext_1
+- name: captain_classifier
+  display_name: Captain Classifier
+  enabled: false
+  column: feature_flags_ext_1
 - name: stripe_integration
   display_name: Stripe Integration
   enabled: false
