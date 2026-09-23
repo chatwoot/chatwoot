@@ -117,7 +117,7 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   def suppressed_since(time)
     return if time.blank?
 
-    "#{time.utc.strftime('%-d %b %Y, %H:%M UTC')} (#{helpers.time_ago_in_words(time)} ago)"
+    "#{time.utc.strftime('%-d %b %Y')} (#{helpers.time_ago_in_words(time)} ago)"
   end
 
   def ensure_ses_suppression_configured

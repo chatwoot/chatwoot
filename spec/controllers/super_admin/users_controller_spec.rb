@@ -238,7 +238,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
       it 'hides the diagnostic buttons' do
         get "/super_admin/users/#{user.id}"
 
-        expect(response.body).not_to include('Check email suppression')
+        expect(response.body).not_to include('Check email delivery')
         expect(response.body).not_to include('Send test email')
       end
     end
@@ -251,15 +251,15 @@ RSpec.describe 'Super Admin Users API', type: :request do
       it 'shows check and test buttons but not clear before a check' do
         get "/super_admin/users/#{user.id}"
 
-        expect(response.body).to include('Check email suppression')
+        expect(response.body).to include('Check email delivery')
         expect(response.body).to include('Send test email')
-        expect(response.body).not_to include('Clear suppression')
+        expect(response.body).not_to include('Remove delivery block')
       end
 
       it 'shows an active clear button after a bounce check' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'bounce' }
 
-        button = Nokogiri::HTML(response.body).at_css('button:contains("Clear suppression")')
+        button = Nokogiri::HTML(response.body).at_css('button:contains("Remove delivery block")')
         expect(button).to be_present
         expect(button['disabled']).to be_nil
       end
@@ -267,9 +267,9 @@ RSpec.describe 'Super Admin Users API', type: :request do
       it 'shows a disabled clear button after a complaint check' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'complaint' }
 
-        button = Nokogiri::HTML(response.body).at_css('button:contains("Clear suppression")')
+        button = Nokogiri::HTML(response.body).at_css('button:contains("Remove delivery block")')
         expect(button['disabled']).to be_present
-        expect(button['title']).to eq('Complaint, cannot clear. Escalate to engineering.')
+        expect(button['title']).to eq('Blocked after a spam complaint. Escalate to engineering.')
       end
 
       it 'reports an address that is not suppressed' do
@@ -278,7 +278,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
         post "/super_admin/users/#{user.id}/check_email_suppression"
 
         expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=not_suppressed")
-        expect(flash[:notice]).to eq('bounced@example.com is not on the SES suppression list.')
+        expect(flash[:notice]).to eq('No delivery block on bounced@example.com.')
       end
 
       it 'reports a bounce with its date' do
@@ -289,7 +289,8 @@ RSpec.describe 'Super Admin Users API', type: :request do
         post "/super_admin/users/#{user.id}/check_email_suppression"
 
         expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=bounce")
-        expect(flash[:alert]).to eq('bounced@example.com is suppressed for BOUNCE since 1 Sep 2026, 10:00 UTC (5 days ago).')
+        expect(flash[:alert]).to eq('Emails to bounced@example.com are blocked because one bounced on 1 Sep 2026 (5 days ago). ' \
+                                    'Remove the block, then send a test email.')
       end
 
       it 'reports a complaint as an error with an escalation note' do
@@ -300,7 +301,8 @@ RSpec.describe 'Super Admin Users API', type: :request do
         post "/super_admin/users/#{user.id}/check_email_suppression"
 
         expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=complaint")
-        expect(flash[:error]).to include('COMPLAINT since 1 Sep 2026, 10:00 UTC (5 days ago). Do not clear, escalate to engineering.')
+        expect(flash[:error]).to eq('Emails to bounced@example.com are blocked because the user marked one as spam on 1 Sep 2026 (5 days ago). ' \
+                                    "Don't remove this block. Escalate to engineering.")
       end
 
       it 'reports a failed lookup' do
@@ -309,7 +311,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
         post "/super_admin/users/#{user.id}/check_email_suppression"
 
         expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=unavailable")
-        expect(flash[:alert]).to eq('Could not check suppression status. Try again or escalate.')
+        expect(flash[:alert]).to eq("Couldn't check delivery for bounced@example.com. Try again, or escalate to engineering.")
       end
 
       it 'clears the suppression and logs who did it' do
@@ -320,7 +322,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         expect(suppression).to have_received(:clear!).with(user.email)
         expect(Rails.logger).to have_received(:info).with(a_string_including('ses_suppression_cleared', super_admin.email, user.email))
-        expect(flash[:notice]).to eq('Cleared bounced@example.com. Send a test email or ask the user to retry.')
+        expect(flash[:notice]).to eq('Block removed for bounced@example.com. Send a test email to confirm delivery.')
       end
 
       it 'reports a failed clear' do
@@ -328,7 +330,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         post "/super_admin/users/#{user.id}/clear_email_suppression"
 
-        expect(flash[:error]).to eq('Could not clear bounced@example.com: boom.')
+        expect(flash[:error]).to eq("Couldn't remove the block for bounced@example.com (boom). Escalate to engineering.")
       end
 
       it 'queues a test email and logs who sent it' do
@@ -339,7 +341,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
         end.to have_enqueued_mail(EmailDeliveryTestMailer, :delivery_test).with(user)
 
         expect(Rails.logger).to have_received(:info).with(a_string_including('ses_test_email_sent', super_admin.email, user.email))
-        expect(flash[:notice]).to eq('Test email queued to bounced@example.com.')
+        expect(flash[:notice]).to eq('Test email on its way to bounced@example.com. Ask the user to check their inbox and spam folder.')
       end
     end
   end

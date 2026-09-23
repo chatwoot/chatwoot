@@ -702,20 +702,20 @@ en:
         sent: 'Confirmation email sent.'
         already_confirmed: 'User is already confirmed.'
       email_suppression:
-        check_button: 'Check email suppression'
-        clear_button: 'Clear suppression'
-        clear_confirm: 'Remove this address from the SES suppression list?'
-        complaint_hint: 'Complaint, cannot clear. Escalate to engineering.'
+        check_button: 'Check email delivery'
+        clear_button: 'Remove delivery block'
+        clear_confirm: 'Remove the delivery block for this address?'
+        complaint_hint: 'Blocked after a spam complaint. Escalate to engineering.'
         test_email_button: 'Send test email'
         check:
-          not_suppressed: '%{email} is not on the SES suppression list.'
-          bounce: '%{email} is suppressed for BOUNCE since %{since}.'
-          complaint: '%{email} is suppressed for COMPLAINT since %{since}. Do not clear, escalate to engineering.'
-          unavailable: 'Could not check suppression status. Try again or escalate.'
+          not_suppressed: 'No delivery block on %{email}.'
+          bounce: 'Emails to %{email} are blocked because one bounced on %{since}. Remove the block, then send a test email.'
+          complaint: "Emails to %{email} are blocked because the user marked one as spam on %{since}. Don't remove this block. Escalate to engineering."
+          unavailable: "Couldn't check delivery for %{email}. Try again, or escalate to engineering."
         clear:
-          success: 'Cleared %{email}. Send a test email or ask the user to retry.'
-          failed: 'Could not clear %{email}: %{error}.'
+          success: 'Block removed for %{email}. Send a test email to confirm delivery.'
+          failed: "Couldn't remove the block for %{email} (%{error}). Escalate to engineering."
         test_email:
-          queued: 'Test email queued to %{email}.'
+          queued: 'Test email on its way to %{email}. Ask the user to check their inbox and spam folder.'
           subject: 'Test email from Chatwoot support'
           body: 'This is a test email from Chatwoot support to confirm we can reach your inbox. No action needed.'
