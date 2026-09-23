@@ -58,8 +58,6 @@ module Enterprise::DeviseOverrides::SessionsController
 
     rows = audit_event_rows(action, account_ids)
     inserted = Enterprise::AuditLog.insert_all!(rows, returning: %w[id]) # rubocop:disable Rails/SkipsModelValidations
-    # Lowest id of this sign-in's own rows; the location job only trusts history
-    # strictly below it, so concurrent sign-ins cannot vouch for each other.
     @sign_in_audit_id = inserted.rows.flatten.min if action == 'sign_in'
     enqueue_session_ip_lookup(rows.first[:remote_address], account_ids, inserted.rows.flatten)
   end

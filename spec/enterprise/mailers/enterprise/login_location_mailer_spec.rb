@@ -1,14 +1,13 @@
 require 'rails_helper'
 require Rails.root.join 'spec/mailers/administrator_notifications/shared/smtp_config_shared.rb'
 
-# Type inference does not cover the enterprise namespace, and without type: :mailer
-# rspec-rails never forces the :test delivery method, so deliver_now would hit the
-# real sendmail binary (absent on CI).
+# type: :mailer is required: enterprise specs miss rspec type inference, and without it
+# deliver_now uses the real sendmail binary (absent on CI).
 RSpec.describe Enterprise::LoginLocationMailer, type: :mailer do
   include_context 'with smtp config'
 
   let(:meta) do
-    { email: 'agent@example.com', city: 'Mumbai', country: 'India', ip: '203.0.113.7',
+    { email: 'agent@example.com', city: 'Northtown', country: 'Northland', ip: '203.0.113.7',
       browser_name: 'Chrome', platform_name: 'macOS' }
   end
   let(:mail) { described_class.new_location(meta).deliver_now }
@@ -16,8 +15,8 @@ RSpec.describe Enterprise::LoginLocationMailer, type: :mailer do
   it 'sends to the captured email with the location and device details' do
     expect(mail.to).to eq(['agent@example.com'])
     expect(mail.subject).to include('New sign-in')
-    expect(mail.body.encoded).to include('Mumbai')
-    expect(mail.body.encoded).to include('India')
+    expect(mail.body.encoded).to include('Northtown')
+    expect(mail.body.encoded).to include('Northland')
     expect(mail.body.encoded).to include('Chrome')
   end
 
@@ -32,7 +31,7 @@ RSpec.describe Enterprise::LoginLocationMailer, type: :mailer do
 
   context 'when a client-supplied device label carries markup' do
     let(:meta) do
-      { email: 'agent@example.com', city: 'Mumbai', country: 'India', ip: '203.0.113.7',
+      { email: 'agent@example.com', city: 'Northtown', country: 'Northland', ip: '203.0.113.7',
         browser_name: '<a href="https://evil.example">Chrome</a>', platform_name: 'macOS' }
     end
 
