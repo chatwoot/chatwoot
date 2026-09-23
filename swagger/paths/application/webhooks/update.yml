@@ -3,6 +3,7 @@ tags:
 operationId: update-a-webhook
 summary: Update a webhook object
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: Update a webhook object in the account
 parameters:
