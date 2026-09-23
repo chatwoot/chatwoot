@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Companies::BaseController < Api::V1::Accounts::EnterpriseAccountsController
+class Api::V1::Accounts::Companies::BaseController < Api::V1::Accounts::BaseController
   before_action :ensure_companies_enabled!
   before_action :fetch_company
 
