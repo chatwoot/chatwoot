@@ -34,7 +34,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   ].freeze
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
   PREMIUM_PLAN_FEATURES = (STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES + ENTERPRISE_PLAN_FEATURES).freeze
-  SHOPIFY_BASE_MANAGED_FEATURES = (PREMIUM_PLAN_FEATURES + %w[channel_tiktok captain_integration_v2]).freeze
+  SHOPIFY_BASE_MANAGED_FEATURES = (PREMIUM_PLAN_FEATURES + %w[channel_tiktok]).freeze
 
   pattr_initialize [:account!, { shopify_lifecycle_cleanup: false }]
 
@@ -42,9 +42,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     return if shopify_billing? && !shopify_lifecycle_cleanup && !Shopify::FeatureGate.enabled?(account: account)
 
     account.disable_features(*managed_plan_features)
-    account.disable_features('captain_integration_v2') if default_plan?
     account.enable_features(*current_plan_features)
-    account.enable_features('captain_integration_v2') if captain_v2_enabled_by_default?
     account.enable_features(*manually_managed_features)
     update_shopify_managed_features
     account.save!
@@ -109,7 +107,4 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     @manually_managed_features ||= Internal::Accounts::InternalAttributesService.new(account).manually_managed_features
   end
 
-  def captain_v2_enabled_by_default?
-    !shopify_billing? && !default_plan?
-  end
 end

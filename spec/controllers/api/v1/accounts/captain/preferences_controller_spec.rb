@@ -83,7 +83,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
       end
 
       it 'returns GPT-5.2 as the assistant default for V2 accounts' do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
 
         get "/api/v1/accounts/#{account.id}/captain/preferences",
             headers: admin.create_new_auth_token,
@@ -98,7 +98,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
       end
 
       it 'keeps the V2 assistant default when an account override is selected' do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
         account.update!(captain_models: { 'assistant' => 'gpt-5.1' })
 
         get "/api/v1/accounts/#{account.id}/captain/preferences",
