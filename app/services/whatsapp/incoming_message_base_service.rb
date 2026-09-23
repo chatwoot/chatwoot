@@ -177,6 +177,7 @@ class Whatsapp::IncomingMessageBaseService
 
   def message_content_attributes(message)
     content_attrs = outgoing_echo ? { external_echo: true } : {}
+    content_attrs[:external_created_at] = message[:timestamp].to_s if external_created_at?(message)
     content_attrs[:in_reply_to] = @in_reply_to_message_id if @in_reply_to_message_id.present?
     content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
     referral_content_attrs = referral_attributes(message)
@@ -192,6 +193,13 @@ class Whatsapp::IncomingMessageBaseService
     end
 
     content_attrs
+  end
+
+  # Meta sends the original message timestamp as raw Unix seconds. Persist it verbatim on real inbound
+  # messages so consumers can tell when the message was actually sent, not when Chatwoot stored it.
+  # Outgoing echoes are excluded: they carry no external timestamp of their own.
+  def external_created_at?(message)
+    !outgoing_echo && message[:timestamp].present?
   end
 
   def update_contact_with_profile_name(contact_params)
