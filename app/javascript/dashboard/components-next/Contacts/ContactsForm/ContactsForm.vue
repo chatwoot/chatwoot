@@ -97,11 +97,6 @@ const hasCompaniesFeature = computed(
   () =>
     currentAccount.value?.id && isCloudFeatureEnabled(FEATURE_FLAGS.COMPANIES)
 );
-const showCompanySelector = computed(
-  () =>
-    hasCompaniesFeature.value &&
-    (Boolean(state.companyId) || !state.additionalAttributes.companyName)
-);
 
 const emitContactUpdate = async () => {
   const isFormValid = await v$.value.$validate();
@@ -317,13 +312,29 @@ defineExpose({
             :placeholder="item.placeholder"
             :show-border="isDetailsView"
           />
-          <CompanySelector
-            v-else-if="item.key === 'COMPANY_NAME' && showCompanySelector"
-            :model-value="state.companyId"
-            :selected-name="state.additionalAttributes.companyName"
-            :is-details-view="isDetailsView"
-            @select="handleCompanySelection"
-          />
+          <div
+            v-else-if="item.key === 'COMPANY_NAME' && hasCompaniesFeature"
+            class="flex flex-col min-w-0 gap-1"
+          >
+            <CompanySelector
+              :model-value="state.companyId"
+              :selected-name="
+                state.companyId ? state.additionalAttributes.companyName : ''
+              "
+              :is-details-view="isDetailsView"
+              @select="handleCompanySelection"
+            />
+            <span
+              v-if="!state.companyId && state.additionalAttributes.companyName"
+              class="text-xs text-n-slate-11"
+            >
+              {{
+                t('COMPANIES.SELECTOR.UNLINKED_NAME', {
+                  name: state.additionalAttributes.companyName,
+                })
+              }}
+            </span>
+          </div>
           <Input
             v-else
             v-model="getFormBinding(item.key).value"
