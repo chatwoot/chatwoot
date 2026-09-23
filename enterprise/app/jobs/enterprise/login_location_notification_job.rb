@@ -6,13 +6,10 @@ class Enterprise::LoginLocationNotificationJob < ApplicationJob
   # (one per account) do not eat into the cap.
   DISTINCT_IP_LIMIT = 50
 
-  # Only recent sign-ins vouch for a location. Without a window, a country from
-  # an old account compromise would stay "known" forever and mute alerts for the
-  # attacker's own location.
+  # Older history must not vouch for a location: it may include an unnoticed compromise.
   HISTORY_WINDOW = 90.days
 
-  # device is the controller's RequestDeviceInfo capture ({ ip:, browser_name:, platform_name: }),
-  # so mobile-app sign-ins keep their X-Chatwoot-* device labels.
+  # device: RequestDeviceInfo capture from the controller ({ ip:, browser_name:, platform_name: })
   def perform(user_id, recipient_email, device, before_audit_id)
     return unless LoginLocationNotification.enabled?
 
@@ -38,12 +35,8 @@ class Enterprise::LoginLocationNotificationJob < ApplicationJob
     { city: result.city, country: result.country, ip: remote_address }
   end
 
-  # Recent history vouching for the country, or not. When the window holds no
-  # sign-ins at all: a first-ever sign-in stays quiet (nothing to compare, and
-  # every new user would get an alert), but a dormant account returning after
-  # HISTORY_WINDOW alerts even from a previously known country, since nothing
-  # recent vouches for it and dormant accounts are prime credential-stuffing
-  # targets.
+  # Empty window: quiet on a first-ever sign-in, alert on a dormant account returning
+  # (nothing recent vouches for any location).
   def location_unrecognized?(lookup, user_id, before_audit_id, country)
     scope = prior_sign_ins(user_id, before_audit_id)
     seen = recent_countries(lookup, scope)
@@ -52,19 +45,14 @@ class Enterprise::LoginLocationNotificationJob < ApplicationJob
     scope.exists?
   end
 
-  # History is bounded to audit rows inserted strictly before the current
-  # sign-in's own rows (id < before_audit_id). Excluding only the current
-  # request_uuid would let two concurrent sign-ins from the same new country
-  # each see the other's row and both stay silent; with the id bound the
-  # earlier-inserted sign-in cannot see the later one, so at least one alert
-  # always fires.
+  # id-bounded so concurrent sign-ins cannot vouch for each other; at least one of two
+  # racing sign-ins from a new country always alerts.
   def prior_sign_ins(user_id, before_audit_id)
     scope = Enterprise::AuditLog.where(user_id: user_id, action: 'sign_in').where.not(remote_address: nil)
     scope = scope.where(id: ...before_audit_id) if before_audit_id.present?
     scope
   end
 
-  # Most-recent distinct sign-in IPs within the window, resolved to countries.
   def recent_countries(lookup, scope)
     scope.where(created_at: HISTORY_WINDOW.ago..)
          .group(:remote_address)

@@ -60,7 +60,7 @@ RSpec.describe Enterprise::LoginLocationNotificationJob do
   end
 
   it 'emails when the country was last seen outside the history window, so poisoned history ages out' do
-    audit('20.0.0.9', now - 100.days) # e.g. an old account compromise from Moldova
+    audit('20.0.0.9', now - 100.days)
     audit('10.0.0.1', now - 3.days)
     expect { run('20.0.0.9') }.to have_enqueued_mail(Enterprise::LoginLocationMailer, :new_location)
   end
