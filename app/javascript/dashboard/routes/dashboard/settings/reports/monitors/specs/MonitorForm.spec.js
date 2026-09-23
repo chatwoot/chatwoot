@@ -132,9 +132,9 @@ describe('MonitorForm preview cooldown', () => {
     expect(MonitorsAPI.previewStatus).not.toHaveBeenCalled();
   });
 
-  it('still displays genuine evaluation capacity failures', async () => {
+  it('displays provider capacity failures', async () => {
     MonitorsAPI.previewStatus.mockResolvedValue({
-      data: { status: 'error', error: 'rate_limit' },
+      data: { status: 'error', error: 'provider_busy' },
     });
     await wrapper.find('textarea').setValue('Refunds');
     wrapper.findComponent({ name: 'Button' }).vm.$emit('click');
@@ -142,7 +142,7 @@ describe('MonitorForm preview cooldown', () => {
     await vi.advanceTimersByTimeAsync(2000);
 
     expect(wrapper.find('[role="alert"]').text()).toBe(
-      'MONITORS.ERRORS.rate_limit'
+      'MONITORS.ERRORS.provider_busy'
     );
   });
 });
