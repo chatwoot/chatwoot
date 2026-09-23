@@ -22,6 +22,21 @@ description: |
     -F "attachments[]=@/path/to/screenshot.png"
   ```
   
+  ### Replying to a message
+
+  Set `content_attributes.in_reply_to` to the id of another message in the conversation
+  (or `content_attributes.in_reply_to_external_id` to its `source_id`) to send it as a reply.
+  Chatwoot fills in the other reference and the dashboard renders the quoted message.
+
+  ```json
+  {
+    "content": "Yes, that one is in stock",
+    "content_attributes": {
+      "in_reply_to_external_id": "wamid.HBgLMTIzNDU2Nzg5MDEVAgARGBI5QTQ5QzU4OTQ4NzUzRTg3RUEA"
+    }
+  }
+  ```
+
   ## WhatsApp Template Messages
   
   For WhatsApp channels, you can send structured template messages using the `template_params` field. 

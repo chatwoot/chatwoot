@@ -2611,6 +2611,14 @@
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
           },
+          "icon": {
+            "type": "string",
+            "description": "An emoji or icon shown next to the team"
+          },
+          "icon_color": {
+            "type": "string",
+            "description": "The color used for the team icon"
+          },
           "account_id": {
             "type": "number",
             "description": "The ID of the account with the team is a part of"
@@ -2731,8 +2739,11 @@
             "description": "The type of the audited object (e.g., Conversation, Contact, User)"
           },
           "auditable": {
-            "type": "object",
-            "description": "The audited object data"
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "The audited object data. Null for message deletion entries, which are served without the message payload."
           },
           "associated_id": {
             "type": "integer",
@@ -2791,7 +2802,14 @@
               "string",
               "null"
             ],
-            "description": "IP address from which the action was performed"
+            "description": "IP address from which the action was performed. Masked to the network portion (for example 203.0.113.x) unless the account has the audit_log_ip_address feature enabled, in which case the full address is returned."
+          },
+          "location": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "City and country resolved from remote_address, present only when the account has the ip_lookup feature enabled and the address has been resolved. Omitted when the account returns full IP addresses."
           }
         }
       },
@@ -3964,7 +3982,7 @@
           },
           "content_attributes": {
             "type": "object",
-            "description": "Attributes based on the content type. For `input_select`, provide an `items` array with\n`title`, `value`, and optional `description`. WhatsApp list messages use `description`\nas the row subtitle when present.\n",
+            "description": "Attributes based on the content type. For `input_select`, provide an `items` array with\n`title`, `value`, and optional `description`. WhatsApp list messages use `description`\nas the row subtitle when present.\n\nTo reply to another message of the same conversation, set `in_reply_to` to its Chatwoot\nmessage id, or `in_reply_to_external_id` to its `source_id`. Chatwoot resolves the other\nvalue and the dashboard renders the quoted message.\n",
             "example": {
               "items": [
                 {
@@ -3974,6 +3992,29 @@
                 }
               ]
             }
+          },
+          "source_id": {
+            "type": "string",
+            "description": "Identifier of the message in the external system, for example the id the messaging\nprovider assigned to it on an API channel inbox. Returned as `source_id` on the message\nand used to resolve `content_attributes.in_reply_to_external_id` on replies.\n",
+            "example": "wamid.HBgLMTIzNDU2Nzg5MDEVAgARGBI5QTQ5QzU4OTQ4NzUzRTg3RUEA"
+          },
+          "sender_type": {
+            "type": "string",
+            "enum": [
+              "AgentBot"
+            ],
+            "description": "Set to `AgentBot`, together with `sender_id`, to create an outgoing message on behalf of an\nagent bot instead of the authenticated user.\n",
+            "example": "AgentBot"
+          },
+          "sender_id": {
+            "type": "integer",
+            "description": "The id of the agent bot when `sender_type` is `AgentBot`",
+            "example": 1
+          },
+          "echo_id": {
+            "type": "string",
+            "description": "Client-generated identifier that is echoed back as `echo_id` on the created message, in the\nresponse and in the real-time event, so a client can match its optimistic copy of the message.\n",
+            "example": "c0b2f5e8-3d0a-4b1e-9d3f-2a1f8e6c7d11"
           },
           "campaign_id": {
             "type": "integer",
@@ -5231,6 +5272,16 @@
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team",
             "example": true
+          },
+          "icon": {
+            "type": "string",
+            "description": "An emoji or icon shown next to the team",
+            "example": "🚀"
+          },
+          "icon_color": {
+            "type": "string",
+            "description": "The color used for the team icon",
+            "example": "#6C5CE7"
           }
         }
       },
