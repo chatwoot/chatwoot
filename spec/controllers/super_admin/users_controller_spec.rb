@@ -241,6 +241,16 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(response.body).not_to include('Check email delivery')
         expect(response.body).not_to include('Send test email')
       end
+
+      it 'keeps resend confirmation as a standalone button for unconfirmed users' do
+        unconfirmed = create(:user, skip_confirmation: false)
+
+        get "/super_admin/users/#{unconfirmed.id}"
+
+        doc = Nokogiri::HTML(response.body)
+        expect(doc.at_css('.main-content__header details')).to be_nil
+        expect(doc.at_css('button:contains("Resend confirmation email")')).to be_present
+      end
     end
 
     context 'when SES suppression is configured' do
@@ -254,6 +264,20 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(response.body).to include('Check email delivery')
         expect(response.body).to include('Send test email')
         expect(response.body).not_to include('Unblock email')
+      end
+
+      it 'moves resend confirmation into the email menu for unconfirmed users' do
+        unconfirmed = create(:user, skip_confirmation: false)
+
+        get "/super_admin/users/#{unconfirmed.id}"
+
+        expect(Nokogiri::HTML(response.body).at_css('.main-content__header details button:contains("Resend confirmation email")')).to be_present
+      end
+
+      it 'opens the email menu after a bounce check' do
+        get "/super_admin/users/#{user.id}", params: { suppression: 'bounce' }
+
+        expect(Nokogiri::HTML(response.body).at_css('.main-content__header details').key?('open')).to be(true)
       end
 
       it 'shows an active clear button after a bounce check' do

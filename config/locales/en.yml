@@ -702,6 +702,7 @@ en:
         sent: 'Confirmation email sent.'
         already_confirmed: 'User is already confirmed.'
       email_suppression:
+        menu: 'Email'
         check_button: 'Check email delivery'
         clear_button: 'Unblock email'
         clear_confirm: 'Unblock emails to this address?'

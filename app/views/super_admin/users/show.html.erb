@@ -29,42 +29,59 @@ as well as a link to its edit page.
             [:edit, namespace,  page.resource.becomes(User)],
             class: "button",
           ) if authorized_action? page.resource, :edit %>
-    <%= button_to(
-            t("super_admin.users.resend_confirmation.button"),
-            [:resend_confirmation, namespace, page.resource.becomes(User)],
-            method: :post,
-            class: "button",
-            form_class: "button_to contents",
-          ) unless page.resource.confirmed? %>
     <% if Email::SesSuppressionService.configured? %>
+      <% item_class = "reset-base w-full text-left px-3 py-2 text-sm text-slate-800 hover:bg-slate-25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent" %>
+      <details class="relative" <%= "open" if params[:suppression].in?(%w[bounce complaint]) %>>
+        <summary class="button list-none [&::-webkit-details-marker]:hidden">
+          <%= t("super_admin.users.email_suppression.menu") %>
+          <svg class="ml-1 w-3 h-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+        </summary>
+        <div class="absolute right-0 top-full z-20 mt-1 min-w-56 py-1 bg-white border border-slate-100 rounded-lg shadow-lg">
+          <%= button_to(
+                  t("super_admin.users.email_suppression.check_button"),
+                  [:check_email_suppression, namespace, page.resource.becomes(User)],
+                  method: :post,
+                  class: item_class,
+                  form_class: "block",
+                ) %>
+          <% if params[:suppression] == "bounce" %>
+            <%= button_to(
+                    t("super_admin.users.email_suppression.clear_button"),
+                    [:clear_email_suppression, namespace, page.resource.becomes(User)],
+                    method: :post,
+                    class: item_class,
+                    form_class: "block",
+                    data: { confirm: t("super_admin.users.email_suppression.clear_confirm") },
+                  ) %>
+          <% elsif params[:suppression] == "complaint" %>
+            <button type="button" class="<%= item_class %>" disabled title="<%= t("super_admin.users.email_suppression.complaint_hint") %>">
+              <%= t("super_admin.users.email_suppression.clear_button") %>
+            </button>
+          <% end %>
+          <%= button_to(
+                  t("super_admin.users.email_suppression.test_email_button"),
+                  [:send_test_email, namespace, page.resource.becomes(User)],
+                  method: :post,
+                  class: item_class,
+                  form_class: "block",
+                ) %>
+          <%= button_to(
+                  t("super_admin.users.resend_confirmation.button"),
+                  [:resend_confirmation, namespace, page.resource.becomes(User)],
+                  method: :post,
+                  class: item_class,
+                  form_class: "block",
+                ) unless page.resource.confirmed? %>
+        </div>
+      </details>
+    <% else %>
       <%= button_to(
-              t("super_admin.users.email_suppression.check_button"),
-              [:check_email_suppression, namespace, page.resource.becomes(User)],
+              t("super_admin.users.resend_confirmation.button"),
+              [:resend_confirmation, namespace, page.resource.becomes(User)],
               method: :post,
               class: "button",
               form_class: "button_to contents",
-            ) %>
-      <% if params[:suppression] == "bounce" %>
-        <%= button_to(
-                t("super_admin.users.email_suppression.clear_button"),
-                [:clear_email_suppression, namespace, page.resource.becomes(User)],
-                method: :post,
-                class: "button",
-                form_class: "button_to contents",
-                data: { confirm: t("super_admin.users.email_suppression.clear_confirm") },
-              ) %>
-      <% elsif params[:suppression] == "complaint" %>
-        <button type="button" class="button" disabled title="<%= t("super_admin.users.email_suppression.complaint_hint") %>">
-          <%= t("super_admin.users.email_suppression.clear_button") %>
-        </button>
-      <% end %>
-      <%= button_to(
-              t("super_admin.users.email_suppression.test_email_button"),
-              [:send_test_email, namespace, page.resource.becomes(User)],
-              method: :post,
-              class: "button",
-              form_class: "button_to contents",
-            ) %>
+            ) unless page.resource.confirmed? %>
     <% end %>
   </div>
 </header>
