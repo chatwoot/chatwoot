@@ -2,7 +2,8 @@ import * as types from '../mutation-types';
 import ConversationAPI from '../../api/conversations';
 
 // Each update sends the whole label list, so an update waits for the previous
-// one on the same conversation and only the latest one writes its result.
+// one on the same conversation, only the latest one writes its result, and a
+// failure rolls back to the last list the server confirmed.
 const pendingUpdates = {};
 
 const state = {
@@ -44,11 +45,14 @@ export const actions = {
     }
   },
   update: async ({ commit, state: $state }, { conversationId, labels }) => {
-    const previousLabels = $state.records[Number(conversationId)];
-    const request = (pendingUpdates[conversationId] || Promise.resolve())
+    pendingUpdates[conversationId] ??= {
+      savedLabels: $state.records[Number(conversationId)],
+    };
+    const pending = pendingUpdates[conversationId];
+    const request = Promise.resolve(pending.request)
       .catch(() => {})
       .then(() => ConversationAPI.updateLabels(conversationId, labels));
-    pendingUpdates[conversationId] = request;
+    pending.request = request;
 
     commit(types.default.SET_CONVERSATION_LABELS, {
       id: conversationId,
@@ -59,7 +63,9 @@ export const actions = {
     });
     try {
       const response = await request;
-      if (pendingUpdates[conversationId] !== request) return;
+      pending.savedLabels = response.data.payload;
+      if (pending.request !== request) return;
+      delete pendingUpdates[conversationId];
       commit(types.default.SET_CONVERSATION_LABELS, {
         id: conversationId,
         data: response.data.payload,
@@ -69,10 +75,11 @@ export const actions = {
         isError: false,
       });
     } catch (error) {
-      if (pendingUpdates[conversationId] !== request) return;
+      if (pending.request !== request) return;
+      delete pendingUpdates[conversationId];
       commit(types.default.SET_CONVERSATION_LABELS, {
         id: conversationId,
-        data: previousLabels,
+        data: pending.savedLabels,
       });
       commit(types.default.SET_CONVERSATION_LABELS_UI_FLAG, {
         isUpdating: false,

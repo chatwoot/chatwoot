@@ -219,7 +219,8 @@
       "APPLY_HINT": "Click to apply",
       "REJECT": "Dismiss",
       "ACCEPT_ALL": "Accept all",
-      "ERROR": "Could not load suggestions. Please try again."
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "Priority",

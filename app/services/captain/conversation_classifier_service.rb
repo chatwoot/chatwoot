@@ -89,7 +89,7 @@ class Captain::ConversationClassifierService
                 .limit(MESSAGE_LIMIT)
                 .each do |message|
       content = message.content_for_llm
-      next if content.blank?
+      next if content.blank? || message.deleted
       break if remaining <= 0
 
       text = content[0, remaining]

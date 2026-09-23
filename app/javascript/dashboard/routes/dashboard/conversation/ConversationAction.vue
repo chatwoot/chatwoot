@@ -265,8 +265,15 @@ const suggestLabels = () => {
   toggleLabelSuggestions();
 };
 
-const acceptSuggestedLabels = labels => {
-  onUpdateLabels([...savedLabels.value, ...labels.map(({ title }) => title)]);
+const acceptSuggestedLabels = async labels => {
+  const titles = labels.map(({ title }) => title);
+  await onUpdateLabels([...savedLabels.value, ...titles]);
+  if (titles.every(title => savedLabels.value.includes(title))) return;
+
+  // The save failed and the store rolled the labels back, so bring the
+  // suggestions back instead of leaving them dismissed.
+  useAlert(t('CONVERSATION.SUGGESTIONS.APPLY_ERROR'));
+  if (!isLabelSuggestionActive.value) toggleLabelSuggestions();
 };
 
 const rejectSuggestedLabel = ({ title }) => {
@@ -349,15 +356,16 @@ const rejectSuggestedLabel = ({ title }) => {
           v-if="isSuggestingPriority"
           class="w-full h-10 mb-2 rounded-lg"
         />
-        <NextButton
+        <div
           v-else-if="isPrioritySuggestionActive && suggestedPriority"
-          v-tooltip.top="$t('CONVERSATION.SUGGESTIONS.APPLY_HINT')"
-          slate
-          outline
-          class="relative w-full mb-2 overflow-hidden !px-2 !outline-n-iris-6 bg-n-iris-2 hover:enabled:!bg-n-iris-3 group before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/50 dark:before:via-white/5 before:to-transparent before:animate-shimmer before:pointer-events-none"
-          @click="acceptSuggestedPriority"
+          class="relative flex items-center w-full h-10 gap-2 mb-2 overflow-hidden text-sm font-medium transition-all duration-100 ease-out rounded-lg outline outline-1 outline-n-iris-6 bg-n-iris-2 hover:bg-n-iris-3 group before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/50 dark:before:via-white/5 before:to-transparent before:animate-shimmer before:pointer-events-none"
         >
-          <div class="flex items-center w-full min-w-0 gap-2 text-sm">
+          <button
+            v-tooltip.top="$t('CONVERSATION.SUGGESTIONS.APPLY_HINT')"
+            type="button"
+            class="flex items-center flex-1 h-full min-w-0 gap-2 p-0 text-sm font-medium rounded-lg outline-none ps-2 text-n-slate-11 focus-visible:outline-2 focus-visible:outline-n-brand focus-visible:-outline-offset-2"
+            @click="acceptSuggestedPriority"
+          >
             <Icon
               icon="i-ph-sparkle-fill"
               class="flex-shrink-0 text-n-iris-9"
@@ -375,21 +383,21 @@ const rejectSuggestedLabel = ({ title }) => {
               />
             </template>
             <span
-              class="inline-flex items-center gap-1.5 font-semibold !text-n-slate-12"
+              class="inline-flex items-center gap-1.5 font-semibold text-n-slate-12"
             >
               <Icon :icon="suggestedPriority.icon" />
               {{ suggestedPriority.name }}
             </span>
-          </div>
-          <span
+          </button>
+          <button
             v-tooltip.top="$t('CONVERSATION.SUGGESTIONS.REJECT')"
-            role="button"
-            class="flex items-center justify-center flex-shrink-0 text-sm transition-all rounded-md opacity-0 size-6 text-n-slate-11 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-n-iris-4 hover:text-n-slate-12"
-            @click.stop="dismissPrioritySuggestion"
+            type="button"
+            class="flex items-center justify-center flex-shrink-0 p-0 text-sm transition-all rounded-md outline-none opacity-0 me-2 size-6 text-n-slate-11 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-n-iris-4 hover:text-n-slate-12 focus-visible:outline-2 focus-visible:outline-n-brand focus-visible:outline-offset-0"
+            @click="dismissPrioritySuggestion"
           >
             <Icon icon="i-lucide-x" />
-          </span>
-        </NextButton>
+          </button>
+        </div>
         <MultiselectDropdown
           v-else
           :options="priorityOptions"

@@ -10,9 +10,10 @@ const CLASSIFIED_MESSAGE_TYPES = [MESSAGE_TYPE.INCOMING, MESSAGE_TYPE.OUTGOING];
 
 /**
  * Captain Classifier suggestions for the current conversation, cached per
- * transcript. The key is the latest public customer or agent message, the same
- * messages the classifier reads, so activity messages from label or priority
- * changes reuse the result while a new message closes stale suggestions.
+ * transcript. The key covers the public customer and agent messages the
+ * classifier reads (the latest one and how many were deleted), so activity
+ * messages from label or priority changes reuse the result while a new or
+ * deleted message closes stale suggestions.
  * @param {'labels'|'priority'} type
  * @param {import('vue').Ref<Object>} conversation
  */
@@ -27,12 +28,14 @@ export function useConversationSuggestions(type, conversation) {
 
   const transcriptKey = computed(() => {
     const { id, messages = [] } = conversation.value || {};
-    const lastMessage = messages.findLast(
+    const transcript = messages.filter(
       message =>
         !message.private &&
         CLASSIFIED_MESSAGE_TYPES.includes(message.message_type)
     );
-    return `${id}:${lastMessage?.id}`;
+    const isDeleted = message => message.content_attributes?.deleted;
+    const lastMessage = transcript.findLast(message => !isDeleted(message));
+    return `${id}:${lastMessage?.id}:${transcript.filter(isDeleted).length}`;
   });
 
   const isActive = computed(() => !!activeKey.value);
