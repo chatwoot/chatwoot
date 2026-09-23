@@ -3,6 +3,7 @@ tags:
 operationId: get-outgoing-messages-count
 summary: Get outgoing messages count grouped by entity
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: |
   Get the count of outgoing messages grouped by a specified entity (agent, team, inbox, or label).

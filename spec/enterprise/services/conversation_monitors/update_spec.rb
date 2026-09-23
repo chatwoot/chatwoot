@@ -4,7 +4,7 @@ RSpec.describe ConversationMonitors::Update do
   let(:account) { create(:account) }
   let(:monitor) { create(:conversation_monitor, account: account) }
   let(:conversation) { create(:conversation, account: account, created_at: 2.days.ago) }
-  let(:endpoint) { ConversationMonitors::Configuration::ENDPOINT }
+  let(:endpoint) { ConversationMonitors::Configuration.endpoint }
 
   before do
     create(:installation_config, name: 'CAPTAIN_OPENROUTER_API_KEY', value: 'test-key')
