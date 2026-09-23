@@ -280,6 +280,10 @@
   enabled: false
   premium: true
   column: feature_flags_ext_1
+- name: captain_classifier
+  display_name: Captain Classifier
+  enabled: false
+  column: feature_flags_ext_1
 - name: campaign_analytics
   display_name: Campaign Analytics
   enabled: false

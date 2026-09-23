@@ -2,6 +2,7 @@ require 'json'
 
 class FilterService
   include Filters::FilterHelper
+  include Filters::DateFilterHelper
   include Filters::CustomAttributeFilterHelper
   include CustomExceptions::CustomFilter
 
@@ -89,28 +90,18 @@ class FilterService
     attribute_type = custom_attribute(attribute_key, @account, attribute_model).try(:attribute_display_type)
     attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type] || standard_attribute_data_type(attribute_key)
 
-    @filter_values["value_#{current_index}"] = coerce_lt_gt_value(
+    filter_value = coerce_lt_gt_value(
       query_hash['values'][0],
       attribute_data_type,
       attribute_key
     )
+
+    timezone_operation = timezone_aware_filter_operation(query_hash, current_index, filter_value)
+    return timezone_operation if timezone_operation
+
+    @filter_values["value_#{current_index}"] = filter_value
     operator = query_hash['filter_operator'] == 'is_less_than' ? '<' : '>'
     "#{operator} :value_#{current_index}"
-  end
-
-  def days_before_filter_query(query_hash, current_index)
-    days = Integer(query_hash['values'][0].to_s, 10, exception: false)
-    # UI supports 1..998 days; anything else would silently coerce into an
-    # unintended cutoff (negative => future date matching everything)
-    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash['attribute_key']) unless days&.between?(1, 998)
-
-    date = Time.zone.today - days.days
-    updated_query_hash = query_hash.to_h.with_indifferent_access.merge(
-      values: [date.strftime],
-      filter_operator: 'is_less_than'
-    )
-
-    lt_gt_filter_query(updated_query_hash, current_index)
   end
 
   # Computes mine/unassigned/all counts in one scan of the filtered set instead of
