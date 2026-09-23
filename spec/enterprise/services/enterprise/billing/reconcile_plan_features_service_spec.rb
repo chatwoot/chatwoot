@@ -5,11 +5,11 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
 
   before do
     InstallationConfig.find_or_initialize_by(name: 'CHATWOOT_CLOUD_PLANS').update!(
-             value: [
-               { 'name' => 'Hacker', 'product_id' => ['plan_id_hacker'], 'price_ids' => ['price_hacker'] },
-               { 'name' => 'Startups', 'product_id' => ['plan_id_startups'], 'price_ids' => ['price_startups'] }
-             ]
-           )
+      value: [
+        { 'name' => 'Hacker', 'product_id' => ['plan_id_hacker'], 'price_ids' => ['price_hacker'] },
+        { 'name' => 'Startups', 'product_id' => ['plan_id_startups'], 'price_ids' => ['price_startups'] }
+      ]
+    )
   end
 
   describe '#perform' do

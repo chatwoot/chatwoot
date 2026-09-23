@@ -204,5 +204,4 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
     history + [current_user_message]
   end
-
 end

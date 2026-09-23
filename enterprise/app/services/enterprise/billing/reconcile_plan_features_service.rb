@@ -106,5 +106,4 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   def manually_managed_features
     @manually_managed_features ||= Internal::Accounts::InternalAttributesService.new(account).manually_managed_features
   end
-
 end

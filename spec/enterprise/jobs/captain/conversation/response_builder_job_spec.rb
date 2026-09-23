@@ -622,7 +622,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(ChatwootExceptionTracker).to have_received(:new)
       end
     end
-
   end
 
   describe 'job configuration' do

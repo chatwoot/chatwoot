@@ -133,7 +133,6 @@ RSpec.describe MessageTemplates::HookExecutionService do
           conversation: conversation
         )
       end
-
     end
 
     context 'when captain quota is exceeded within business hours' do
@@ -175,7 +174,6 @@ RSpec.describe MessageTemplates::HookExecutionService do
           handoff_at: be_present
         )
       end
-
     end
   end
 

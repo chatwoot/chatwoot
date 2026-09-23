@@ -144,7 +144,6 @@ class Captain::Llm::SystemPromptsService
     end
     # rubocop:enable Metrics/MethodLength
 
-    # rubocop:disable Metrics/MethodLength
     def paginated_faq_generator(start_page, end_page, language = 'english')
       <<~PROMPT
         You are an expert technical documentation specialist tasked with creating comprehensive FAQs from a SPECIFIC SECTION of a document.
@@ -226,8 +225,6 @@ class Captain::Llm::SystemPromptsService
         • Do NOT mention page numbers anywhere in questions or answers
       PROMPT
     end
-    # rubocop:enable Metrics/MethodLength
-
   end
 end
 # rubocop:enable Metrics/ClassLength
