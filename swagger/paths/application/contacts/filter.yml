@@ -5,6 +5,7 @@ post:
   description: Filter contacts with custom filter options and pagination
   summary: Contact Filter
   security:
+    - userBearerAuth: []
     - userApiKey: []
   parameters:
     - $ref: '#/components/parameters/account_id'
