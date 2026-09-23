@@ -23,7 +23,7 @@ const STAGGER_CLASSES = [
   >
     <button
       type="button"
-      class="flex items-center h-full min-w-0 gap-1 px-1 rounded-sm outline-none focus-visible:outline-2 focus-visible:outline-n-brand focus-visible:-outline-offset-2"
+      class="flex items-center h-full min-w-0 gap-1 px-1 py-0 text-xs rounded-sm outline-none focus-visible:outline-2 focus-visible:outline-n-brand focus-visible:-outline-offset-2"
       :title="$t('CONVERSATION.SUGGESTIONS.ACCEPT')"
       @click="emit('accept')"
     >

@@ -95,18 +95,23 @@ useKeyboardEvents({
         <template v-if="isSuggestionActive">
           <template v-if="isSuggesting">
             <SuggestionSkeleton
-              class="h-6 w-20 mb-1 rounded me-1 animate-pop-in"
+              class="flex-1 h-6 rounded basis-12 max-w-20 mb-0.5 me-1 animate-pop-in"
             />
             <SuggestionSkeleton
-              class="h-6 w-28 mb-1 rounded me-1 animate-pop-in [animation-delay:70ms]"
+              class="flex-1 h-6 rounded basis-12 max-w-28 mb-0.5 me-1 animate-pop-in [animation-delay:70ms]"
             />
           </template>
           <span
             v-else-if="!suggestedLabels.length"
-            class="inline-flex items-center h-6 gap-1 mb-1 text-xs text-n-slate-11 animate-fade-in-up"
+            class="inline-flex items-center h-6 min-w-0 gap-1 mb-0.5 ms-1 grow basis-24 max-w-max text-xs text-n-slate-11 animate-fade-in-up"
           >
-            <Icon icon="i-ph-sparkle-fill" class="size-3 text-n-iris-9" />
-            {{ $t('CONVERSATION.SUGGESTIONS.EMPTY') }}
+            <Icon
+              icon="i-ph-sparkle-fill"
+              class="flex-shrink-0 size-3 text-n-iris-9"
+            />
+            <span class="truncate">
+              {{ $t('CONVERSATION.SUGGESTIONS.EMPTY') }}
+            </span>
           </span>
           <TransitionGroup
             v-else
