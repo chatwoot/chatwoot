@@ -153,7 +153,7 @@ Use a `ConversationMonitors` namespace, with exclusive backend code under `enter
 
 | Record | Essential information and purpose |
 | --- | --- |
-| `ConversationMonitors::Monitor` | Account, creator, name, condition, active/archived lifecycle, activation time, fixed history start, pinned evaluation configuration, data revision. |
+| `ConversationMonitors::Monitor` | Account, user, name, condition, running/paused lifecycle, activation time, fixed history start, pinned evaluation configuration, data revision. |
 | `ConversationMonitors::Conversation` | Account, monitor, conversation, evaluation state, latest input revision/checkpoint, evaluated time, score, first-matched time, match provenance/model/configuration. This is both the latest evaluation record and membership; no duplicate positive-only table in v1. |
 | `ConversationMonitors::Backfill` | Monitor, fixed window, durable scan cursor, enumeration state, progress, unresolved/error counts, completion time. |
 | `ConversationMonitors::WorkItem` | Durable conversation work marker, requested input revision, due time, worker lease/token, attempts. Unique per account/conversation; coalesces bursts and supports batched evaluation across monitors. |
