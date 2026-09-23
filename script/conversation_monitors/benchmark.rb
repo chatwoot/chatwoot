@@ -1,6 +1,8 @@
-# Run with: MONITOR_ACCOUNT_ID=123 bundle exec rails runner script/conversation_monitors/benchmark.rb
+# Run with: MONITOR_ACCOUNT_ID=123 bundle exec rails runner script/conversation_monitors/benchmark.rb /path/to/dataset.json
 # Uses synthetic text only. Prints decisions and usage, never credentials.
 require 'ostruct'
+
+dataset_path = ARGV.fetch(0) { abort 'Usage: bundle exec rails runner script/conversation_monitors/benchmark.rb /path/to/dataset.json' }
 
 account = Account.find(ENV.fetch('MONITOR_ACCOUNT_ID'))
 conditions = [
@@ -11,7 +13,7 @@ conditions = [
 monitors = conditions.each_with_index.map do |condition, index|
   OpenStruct.new(id: index, condition: condition, model: ConversationMonitors::Configuration.model)
 end
-examples = JSON.parse(File.read(ARGV.first || File.join(__dir__, 'examples.json')))
+examples = JSON.parse(File.read(dataset_path))
 results = examples.map do |example|
   started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
   response = ConversationMonitors::JevClient.new(account_id: account.id).evaluate(state: example.fetch('state'), monitors: monitors)
