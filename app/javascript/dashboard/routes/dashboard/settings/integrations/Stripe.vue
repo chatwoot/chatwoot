@@ -78,7 +78,9 @@ onMounted(async () => {
     <template #header>
       <BaseSettingsHeader
         :title="$t('STRIPE_INTEGRATION.TITLE')"
-        :description="$t('STRIPE_INTEGRATION.DESCRIPTION')"
+        :description="
+          integration.enabled ? $t('STRIPE_INTEGRATION.DESCRIPTION') : ''
+        "
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       />
     </template>
@@ -169,13 +171,40 @@ onMounted(async () => {
             />
           </div>
         </template>
-        <Button
+        <div
           v-else-if="loaded"
-          :label="$t('STRIPE_INTEGRATION.CONNECT')"
-          :disabled="busy"
-          class="self-start"
-          @click="connect"
-        />
+          class="flex flex-col items-start justify-between lg:flex-row lg:items-center p-6 outline outline-n-container outline-1 bg-n-card rounded-xl gap-6"
+        >
+          <div
+            class="flex items-start lg:items-center justify-start flex-1 m-0 gap-6 flex-col lg:flex-row"
+          >
+            <div
+              class="flex h-16 w-16 items-center justify-center flex-shrink-0 rounded-md border border-n-weak shadow-sm bg-n-alpha-3 dark:bg-n-alpha-2"
+            >
+              <img :src="STRIPE_LOGO" alt="Stripe" class="w-12 dark:hidden" />
+              <img
+                :src="STRIPE_LOGO_DARK"
+                alt="Stripe"
+                class="w-12 hidden dark:block"
+              />
+            </div>
+            <div>
+              <h3 class="mb-1 text-heading-1 text-n-slate-12">
+                {{ $t('STRIPE_INTEGRATION.TITLE') }}
+              </h3>
+              <p class="text-n-slate-11 text-body-main">
+                {{ $t('STRIPE_INTEGRATION.DESCRIPTION') }}
+              </p>
+            </div>
+          </div>
+          <Button
+            :label="$t('STRIPE_INTEGRATION.CONNECT')"
+            :disabled="busy"
+            faded
+            blue
+            @click="connect"
+          />
+        </div>
       </div>
     </template>
   </SettingsLayout>

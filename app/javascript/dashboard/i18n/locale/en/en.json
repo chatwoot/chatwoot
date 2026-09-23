@@ -2,7 +2,7 @@
   "STRIPE_INTEGRATION": {
     "TITLE": "Stripe",
     "DESCRIPTION": "View customer details, subscriptions, and invoices alongside your conversations.",
-    "CONNECT": "Connect Stripe",
+    "CONNECT": "Connect",
     "DISCONNECT": "Disconnect from Chatwoot",
     "DISCONNECT_NOTE": "Disconnecting removes the saved credentials from Chatwoot. Uninstall the app in Stripe to revoke its access there.",
     "CONNECTED": "Connected",
