@@ -228,8 +228,7 @@
   chatwoot_internal: true
 - name: companies
   display_name: Companies
-  enabled: false
-  premium: true
+  enabled: true
 - name: channel_tiktok
   display_name: TikTok Channel
   enabled: true
@@ -278,4 +277,8 @@
   help_url: https://chwt.app/hc/audit-logs
   enabled: false
   premium: true
+  column: feature_flags_ext_1
+- name: captain_classifier
+  display_name: Captain Classifier
+  enabled: false
   column: feature_flags_ext_1
