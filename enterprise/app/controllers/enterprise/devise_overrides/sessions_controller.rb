@@ -1,6 +1,7 @@
 module Enterprise::DeviseOverrides::SessionsController
   include SamlAuthenticationHelper
   include Enterprise::DeviseOverrides::DeviceVerificationConcern
+  include Enterprise::DeviseOverrides::KnownSignInConcern
 
   def create
     # Normalize the same way find_user_for_authentication does, so a padded or
@@ -26,23 +27,34 @@ module Enterprise::DeviseOverrides::SessionsController
     super
   end
 
+  def complete_device_verification(user)
+    @notified_via_device_verification = true
+    super
+  end
+
   def render_create_success
     create_audit_event('sign_in')
-    notify_new_login_location
+    handle_unknown_sign_in
     super
   end
 
   # Password sign-ins only. SSO and super-admin impersonation are excluded so we
   # never email a customer about a staff sign-in. Never interrupt authentication.
-  def notify_new_login_location
-    return if @login_via_sso
-    return unless @resource && LoginLocationNotification.enabled?
+  def handle_unknown_sign_in
+    return if @login_via_sso || @resource.blank?
 
-    Enterprise::LoginLocationNotificationJob.perform_later(
-      @resource.id, @resource.email, device_request_meta, @sign_in_audit_id
-    )
+    known = known_sign_in?(@resource)
+    remember_known_sign_in!(@resource)
+    return unless notify_unknown_sign_in?(known)
+
+    Enterprise::UnknownSignInNotificationJob.perform_later(@resource.email, device_request_meta)
   rescue StandardError => e
-    Rails.logger.warn "Enterprise::LoginLocationNotificationJob could not be enqueued: #{e.message}"
+    Rails.logger.warn "Enterprise::UnknownSignInNotificationJob could not be enqueued: #{e.message}"
+  end
+
+  def notify_unknown_sign_in?(known)
+    !known && !@notified_via_device_verification &&
+      @resource.sign_in_count > 1 && UnknownSignInNotification.enabled?
   end
 
   def destroy
@@ -58,7 +70,6 @@ module Enterprise::DeviseOverrides::SessionsController
 
     rows = audit_event_rows(action, account_ids)
     inserted = Enterprise::AuditLog.insert_all!(rows, returning: %w[id]) # rubocop:disable Rails/SkipsModelValidations
-    @sign_in_audit_id = inserted.rows.flatten.min if action == 'sign_in'
     enqueue_session_ip_lookup(rows.first[:remote_address], account_ids, inserted.rows.flatten)
   end
 

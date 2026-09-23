@@ -1,7 +1,7 @@
-class Enterprise::LoginLocationMailer < ApplicationMailer
+class Enterprise::UnknownSignInMailer < ApplicationMailer
   # meta carries the recipient email captured at sign-in time, so a later email
   # change cannot redirect this alert to an attacker-controlled address.
-  def new_location(meta = {})
+  def unknown_sign_in(meta = {})
     return unless smtp_config_set_or_development?
 
     @meta = meta || {}

@@ -295,12 +295,12 @@
 - name: DEPLOYMENT_ENV
   value: self-hosted
   description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
-- name: LOGIN_LOCATION_NOTIFICATION_ENABLED
-  display_title: 'Login Location Notification'
+- name: UNKNOWN_SIGNIN_NOTIFICATION_ENABLED
+  display_title: 'Unknown Sign-in Notification'
   value: false
   type: boolean
   locked: false
-  description: 'Email users when their account is signed in to from a location we have not seen before'
+  description: 'Email users when their account is signed in to from an unrecognized device or browser'
 - name: DEVICE_VERIFICATION_ENABLED
   display_title: 'Device Verification'
   value: false

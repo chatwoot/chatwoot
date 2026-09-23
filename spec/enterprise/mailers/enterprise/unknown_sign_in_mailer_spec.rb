@@ -3,20 +3,20 @@ require Rails.root.join 'spec/mailers/administrator_notifications/shared/smtp_co
 
 # type: :mailer is required: enterprise specs miss rspec type inference, and without it
 # deliver_now uses the real sendmail binary (absent on CI).
-RSpec.describe Enterprise::LoginLocationMailer, type: :mailer do
+RSpec.describe Enterprise::UnknownSignInMailer, type: :mailer do
   include_context 'with smtp config'
 
   let(:meta) do
     { email: 'agent@example.com', city: 'Northtown', country: 'Northland', ip: '203.0.113.7',
       browser_name: 'Chrome', platform_name: 'macOS' }
   end
-  let(:mail) { described_class.new_location(meta).deliver_now }
+  let(:mail) { described_class.unknown_sign_in(meta).deliver_now }
 
-  it 'sends to the captured email with the location and device details' do
+  it 'sends to the captured email with the sign-in details' do
     expect(mail.to).to eq(['agent@example.com'])
     expect(mail.subject).to include('New sign-in')
+    expect(mail.body.encoded).to include('did not recognize')
     expect(mail.body.encoded).to include('Northtown')
-    expect(mail.body.encoded).to include('Northland')
     expect(mail.body.encoded).to include('Chrome')
   end
 
@@ -25,8 +25,13 @@ RSpec.describe Enterprise::LoginLocationMailer, type: :mailer do
     expect(mail.body.encoded).not_to match(/reset_password_token=/)
   end
 
-  it 'tells the user what to do if it was not them' do
-    expect(mail.body.encoded).to match(/reset your password/i)
+  context 'when location is unavailable' do
+    let(:meta) { { email: 'agent@example.com', ip: '203.0.113.7', browser_name: 'Chrome', platform_name: 'macOS' } }
+
+    it 'still renders without a location line' do
+      expect(mail.body.encoded).not_to include('Location:')
+      expect(mail.body.encoded).to include('203.0.113.7')
+    end
   end
 
   context 'when a client-supplied device label carries markup' do
