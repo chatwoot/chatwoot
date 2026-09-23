@@ -4,6 +4,7 @@ import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import StripeAPI from 'dashboard/api/integrations/stripe';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Label from 'dashboard/components-next/label/Label.vue';
+import StripeSubscription from './StripeSubscription.vue';
 
 const props = defineProps({
   conversationId: { type: [Number, String], required: true },
@@ -143,29 +144,11 @@ watch(
             >
               {{ $t('STRIPE_INTEGRATION.NO_SUBSCRIPTIONS') }}
             </p>
-            <div
+            <StripeSubscription
               v-for="subscription in summary.subscriptions"
               :key="subscription.id"
-              class="flex items-center justify-between gap-3 rounded-lg bg-n-alpha-1 p-2.5"
-            >
-              <div class="flex flex-col gap-1 min-w-0">
-                <span class="text-xs font-medium">{{
-                  $t('STRIPE_INTEGRATION.SUBSCRIPTION')
-                }}</span>
-                <span
-                  class="truncate font-mono text-[0.625rem] text-n-slate-11"
-                  :title="subscription.id"
-                >
-                  {{ subscription.id }}
-                </span>
-              </div>
-              <Label
-                :label="subscription.status.replaceAll('_', ' ')"
-                :color="STATUS_COLORS[subscription.status] || 'slate'"
-                compact
-                class="capitalize"
-              />
-            </div>
+              :subscription="subscription"
+            />
           </section>
           <section class="flex flex-col gap-2 border-t border-n-weak pt-3">
             <h4 class="m-0 text-xs font-medium text-n-slate-11">

@@ -2,6 +2,13 @@ import { mount, flushPromises } from '@vue/test-utils';
 import StripeCustomer from '../StripeCustomer.vue';
 import StripeAPI from 'dashboard/api/integrations/stripe';
 
+vi.mock('dashboard/components-next/TeleportWithDirection.vue', () => ({
+  default: {
+    props: ['to'],
+    template: '<Teleport :to="to"><slot /></Teleport>',
+  },
+}));
+
 vi.mock('dashboard/api/integrations/stripe', () => ({
   default: { customer: vi.fn() },
 }));
@@ -15,7 +22,24 @@ describe('StripeCustomer', () => {
   const data = {
     customers: [customer],
     customer,
-    subscriptions: [{ id: 'sub_test', status: 'active' }],
+    subscriptions: [
+      {
+        id: 'sub_test',
+        status: 'active',
+        items: [
+          {
+            id: 'si_test',
+            name: 'Support Pro',
+            quantity: 3,
+            unit_amount: 4900,
+            currency: 'usd',
+            recurring: { interval: 'month', interval_count: 1 },
+            current_period_start: 1788998400,
+            current_period_end: 1791590400,
+          },
+        ],
+      },
+    ],
     invoices: [
       {
         id: 'in_test',
@@ -39,7 +63,9 @@ describe('StripeCustomer', () => {
     expect(wrapper.text()).toContain('INV-001');
     expect(wrapper.text()).toContain('$10.00');
     expect(wrapper.text()).toContain('paid');
-    expect(wrapper.find('button').exists()).toBe(false);
+    expect(wrapper.get('button').attributes('aria-label')).toBe(
+      'STRIPE_INTEGRATION.VIEW_SUBSCRIPTION'
+    );
   });
 
   it('shows the no-email state', async () => {
@@ -49,6 +75,66 @@ describe('StripeCustomer', () => {
     wrapper = mount(StripeCustomer, { props: { conversationId: 1 } });
     await flushPromises();
     expect(wrapper.text()).toContain('STRIPE_INTEGRATION.NO_EMAIL');
+  });
+
+  it('shows scheduled cancellation instead of a renewal', async () => {
+    StripeAPI.customer.mockResolvedValue({
+      data: {
+        ...data,
+        subscriptions: [
+          { ...data.subscriptions[0], cancel_at_period_end: true },
+        ],
+      },
+    });
+    wrapper = mount(StripeCustomer, { props: { conversationId: 1 } });
+    await flushPromises();
+    expect(wrapper.text()).toContain(
+      'STRIPE_INTEGRATION.CANCELS_AT_PERIOD_END'
+    );
+    expect(wrapper.text()).not.toContain('STRIPE_INTEGRATION.RENEWS');
+  });
+
+  it('does not display metered pricing as a fixed charge', async () => {
+    const subscription = data.subscriptions[0];
+    const item = subscription.items[0];
+    StripeAPI.customer.mockResolvedValue({
+      data: {
+        ...data,
+        subscriptions: [
+          {
+            ...subscription,
+            items: [
+              {
+                ...item,
+                recurring: { ...item.recurring, usage_type: 'metered' },
+              },
+            ],
+          },
+        ],
+      },
+    });
+    wrapper = mount(StripeCustomer, { props: { conversationId: 1 } });
+    await flushPromises();
+    expect(wrapper.text()).toContain('STRIPE_INTEGRATION.VARIABLE_PRICE');
+    expect(wrapper.text()).not.toContain('STRIPE_INTEGRATION.PRICE_INTERVAL');
+  });
+
+  it('opens subscription details and removes them when the conversation changes', async () => {
+    StripeAPI.customer.mockResolvedValueOnce({ data });
+    wrapper = mount(StripeCustomer, { props: { conversationId: 1 } });
+    await flushPromises();
+    expect(wrapper.text()).toContain('Support Pro');
+    await wrapper.get('button').trigger('click');
+    expect(document.querySelector('[role="dialog"]').textContent).toContain(
+      'sub_test'
+    );
+    expect(document.querySelector('[role="dialog"]').textContent).toContain(
+      'STRIPE_INTEGRATION.PERIOD_START'
+    );
+    StripeAPI.customer.mockResolvedValueOnce({ data: { customers: [] } });
+    await wrapper.setProps({ conversationId: 2 });
+    await flushPromises();
+    expect(document.querySelector('[role="dialog"]')).toBeNull();
   });
 
   it('lets the agent select between customers sharing the same email', async () => {

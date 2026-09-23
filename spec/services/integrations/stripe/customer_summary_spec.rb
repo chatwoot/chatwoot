@@ -23,7 +23,7 @@ RSpec.describe Integrations::Stripe::CustomerSummary do
   it 'matches the contact email and returns only sidebar fields' do
     result = service.perform
     expect(result[:customer]).to eq(customer.except(:metadata))
-    expect(result[:subscriptions]).to eq([{ id: 'sub_test', status: 'active' }])
+    expect(result[:subscriptions]).to eq([{ id: 'sub_test', status: 'active', items: [], has_more_items: false }])
     expect(result[:invoices]).to eq([{ id: 'in_test', total: 1000, currency: 'usd', status: 'paid' }])
   end
 
@@ -31,6 +31,31 @@ RSpec.describe Integrations::Stripe::CustomerSummary do
     contact.email = nil
     expect(connection).not_to receive(:api_token)
     expect(service.perform).to eq(customers: [], missing_email: true)
+  end
+
+  it 'includes product pricing and item billing periods without exposing metadata' do
+    item = { id: 'si_test', quantity: 3, current_period_start: 100, current_period_end: 200,
+             price: { product: 'prod_test', unit_amount_decimal: '4900', currency: 'usd', billing_scheme: 'per_unit',
+                      recurring: { interval: 'month', interval_count: 1, usage_type: 'licensed' } } }
+    stub_request(:get, 'https://api.stripe.com/v1/subscriptions')
+      .with(query: { customer: 'cus_alfred', status: 'all', limit: 5 })
+      .to_return(headers: { 'Content-Type' => 'application/json' },
+                 body: { data: [{ id: 'sub_test', status: 'active', cancel_at_period_end: true, cancel_at: 200,
+                                  items: { data: [item], has_more: false } }] }.to_json)
+    stub_request(:get, 'https://api.stripe.com/v1/products/prod_test')
+      .to_return(headers: { 'Content-Type' => 'application/json' },
+                 body: { id: 'prod_test', name: 'Support Pro', metadata: { private: 'hidden' } }.to_json)
+
+    subscription = service.perform[:subscriptions].first
+    expect(subscription).to include(cancel_at_period_end: true, cancel_at: 200)
+    expect(subscription[:items]).to eq([{ id: 'si_test', name: 'Support Pro', quantity: 3, unit_amount: '4900', currency: 'usd',
+                                          billing_scheme: 'per_unit', recurring: item[:price][:recurring],
+                                          current_period_start: 100, current_period_end: 200 }])
+
+    stub_request(:get, 'https://api.stripe.com/v1/products/prod_test')
+      .to_return(status: 403, headers: { 'Content-Type' => 'application/json' },
+                 body: { error: { type: 'invalid_request_error', message: 'Missing product_read permission' } }.to_json)
+    expect(service.perform[:subscriptions].first[:items].first).to include(name: nil, unit_amount: '4900')
   end
 
   context 'without a matching customer' do
