@@ -1,4 +1,4 @@
-class Captain::Llm::ArticleWriterSchema < RubyLLM::Schema
+class Captain::Llm::ArticleWriterSchema < Schematist::Schema
   CONTENT_DESCRIPTION = 'Full article body in clean Markdown. Use headings, lists, and code fences where appropriate. ' \
                         'Preserve steps, code samples, FAQs, troubleshooting detail. Strip marketing copy, navigation breadcrumbs, ' \
                         'social/share footers, "edit this page" links, repeated CTAs. ' \

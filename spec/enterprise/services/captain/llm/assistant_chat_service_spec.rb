@@ -14,17 +14,17 @@ RSpec.describe Captain::Llm::AssistantChatService do
   end
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: 'test-key')
 
     allow(RubyLLM).to receive(:chat).and_return(mock_chat)
     allow(mock_chat).to receive(:with_temperature).and_return(mock_chat)
-    allow(mock_chat).to receive(:with_params).and_return(mock_chat)
-    allow(mock_chat).to receive(:with_tool).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_provider_options).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_tools).and_return(mock_chat)
     allow(mock_chat).to receive(:with_instructions).and_return(mock_chat)
     allow(mock_chat).to receive(:add_message).and_return(mock_chat)
-    allow(mock_chat).to receive(:on_end_message).and_return(mock_chat)
-    allow(mock_chat).to receive(:on_tool_call).and_return(mock_chat)
-    allow(mock_chat).to receive(:on_tool_result).and_return(mock_chat)
+    allow(mock_chat).to receive(:after_message).and_return(mock_chat)
+    allow(mock_chat).to receive(:before_tool_call).and_return(mock_chat)
+    allow(mock_chat).to receive(:after_tool_result).and_return(mock_chat)
     allow(mock_chat).to receive(:messages).and_return([])
   end
 
@@ -70,7 +70,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
 
     it 'marks final response generations for observation-level evaluators' do
       service = described_class.new(assistant: assistant, conversation: conversation)
-      message = instance_double(RubyLLM::Message, content: 'Final answer', input_tokens: 10, output_tokens: 20, tool_calls: {})
+      message = instance_double(RubyLLM::Message, content: 'Final answer', tokens: RubyLLM::Tokens.new(input: 10, output: 20), tool_calls: {})
 
       attributes = service.send(:generation_attributes, mock_chat, message)
 
@@ -82,8 +82,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
       message = instance_double(
         RubyLLM::Message,
         content: '',
-        input_tokens: 10,
-        output_tokens: 20,
+        tokens: RubyLLM::Tokens.new(input: 10, output: 20),
         tool_calls: { 'call_1' => instance_double(RubyLLM::ToolCall) }
       )
 
@@ -174,18 +173,18 @@ RSpec.describe Captain::Llm::AssistantChatService do
       end
 
       it 'includes images from conversation history in context' do
-        # First historical message should include the image via RubyLLM::Content
+        # Historical images are passed as attachments in RubyLLM 2.
         expect(mock_chat).to receive(:add_message) do |args|
           expect(args[:role]).to eq(:user)
-          expect(args[:content]).to be_a(RubyLLM::Content)
-          expect(args[:content].text).to eq('Here is my error screenshot')
-          expect(args[:content].attachments.first.source.to_s).to eq('https://example.com/error.png')
+          expect(args[:content]).to eq('Here is my error screenshot')
+          expect(args[:attachments]).to eq(['https://example.com/error.png'])
         end.ordered
 
         # Second historical message is plain text
         expect(mock_chat).to receive(:add_message).with(
           role: :assistant,
-          content: 'I see the error. Try restarting.'
+          content: 'I see the error. Try restarting.',
+          attachments: []
         ).ordered
 
         # Current message asked via chat.ask

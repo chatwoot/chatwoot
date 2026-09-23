@@ -117,7 +117,7 @@ RSpec.describe Captain::BaseTaskService do
     let(:messages) { [{ role: 'system', content: 'Test' }, { role: 'user', content: 'Hello' }] }
     let(:mock_chat) { instance_double(RubyLLM::Chat) }
     let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
-    let(:mock_response) { instance_double(RubyLLM::Message, content: 'Response', input_tokens: 10, output_tokens: 20) }
+    let(:mock_response) { instance_double(RubyLLM::Message, content: 'Response', tokens: RubyLLM::Tokens.new(input: 10, output: 20)) }
 
     before do
       allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
@@ -213,12 +213,10 @@ RSpec.describe Captain::BaseTaskService do
     let(:model) { 'gpt-4' }
     let(:mock_chat) { instance_double(RubyLLM::Chat) }
     let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
-    let(:mock_response) { instance_double(RubyLLM::Message, content: 'Response', input_tokens: 10, output_tokens: 20) }
+    let(:mock_response) { instance_double(RubyLLM::Message, content: 'Response', tokens: RubyLLM::Tokens.new(input: 10, output: 20)) }
 
     before do
       allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
-      allow(mock_response).to receive(:input_tokens).and_return(10)
-      allow(mock_response).to receive(:output_tokens).and_return(20)
     end
 
     context 'with system instructions' do
