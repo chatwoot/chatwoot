@@ -3,6 +3,7 @@ tags:
 operationId: create-a-team
 summary: Create a team
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: Create a team in the account
 parameters:
