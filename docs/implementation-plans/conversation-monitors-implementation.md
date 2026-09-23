@@ -135,14 +135,6 @@ The implementation was exercised against isolated PostgreSQL and Redis databases
 - A real Redis concurrency probe admitted exactly five of ten simultaneous attempts at a configured five-request limit and reserved exactly 500 tokens; denied requests consumed no shared capacity.
 - A PostgreSQL concurrency probe held a conversation work row in a live transaction while catch-up waited for it. Live work could still acquire the monitor lock and finish, after which catch-up completed; all probe writes were rolled back.
 
-The opt-in benchmark accepts a locally provided synthetic dataset:
-
-```sh
-MONITOR_ACCOUNT_ID=123 bundle exec rails runner script/conversation_monitors/benchmark.rb /path/to/dataset.json
-```
-
-Provide a JSON array with `name`, `state`, and `expected` for each example. The `expected` array contains three booleans for the refund, WhatsApp BSUID, and self-hosted automation conditions, in that order. Choose a real test account ID; benchmark requests consume that account's monitor credits.
-
 At the original `0.65` threshold, after calibrating on 12 synthetic conversations, all 36 condition decisions on a separate 12-conversation holdout matched their labels. The final calibration rerun also passed 36/36. Calibration and holdout consumed 5,866 and 5,924 input tokens respectively; observed individual calls took 0.165–0.326 seconds. These are small synthetic checks, not measured production precision/recall or load guarantees. A representative authorized pilot dataset and real queue-capacity measurements remain necessary before broad rollout.
 
 A local query probe with 10,000 memberships and 169 hourly buckets returned the exact expected chart and drilldown counts. With current PostgreSQL table statistics, aggregation took about 7 ms (23 ms including bucket construction); `EXPLAIN ANALYZE` confirmed about 6 ms. Fresh bulk fixtures with stale statistics selected a poor nested-loop plan, so keep normal PostgreSQL autovacuum/analyze enabled. This small local probe is not a production-scale throughput guarantee.
