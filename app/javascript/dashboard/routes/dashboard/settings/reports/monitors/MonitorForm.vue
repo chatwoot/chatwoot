@@ -6,6 +6,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import MonitorsAPI from 'dashboard/api/monitors';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ReportDrilldownCard from '../components/ReportDrilldownCard.vue';
 
@@ -158,16 +159,15 @@ defineExpose({ open });
         maxlength="100"
         autofocus
       />
-      <label class="flex flex-col gap-2 text-sm text-n-slate-12">
-        {{ t('MONITORS.CONDITION') }}
-        <textarea
-          v-model="condition"
-          :placeholder="t('MONITORS.CONDITION_PLACEHOLDER')"
-          maxlength="2000"
-          rows="4"
-          class="w-full rounded-lg border border-n-weak bg-n-solid-1 p-3 text-sm text-n-slate-12 focus:border-n-brand"
-        />
-      </label>
+      <TextArea
+        id="monitor-condition"
+        v-model="condition"
+        :label="t('MONITORS.CONDITION')"
+        :placeholder="t('MONITORS.CONDITION_PLACEHOLDER')"
+        :max-length="2000"
+        custom-text-area-class="min-h-24"
+        show-character-count
+      />
       <p class="m-0 text-sm text-n-slate-11">{{ t('MONITORS.CREATE_HELP') }}</p>
       <Button
         type="button"

@@ -1,6 +1,13 @@
 {
   "MONITORS": {
     "TITLE": "Monitors",
+    "LIST": {
+      "MONITOR": "Monitor",
+      "CONVERSATIONS": "Conversations",
+      "CONVERSATIONS_HELP": "Count of conversations matching this monitor in the last 7 days.",
+      "STATUS": "Status",
+      "RUNNING": "Running"
+    },
     "DESCRIPTION": "Follow the themes that matter across your customer conversations.",
     "CREATE": "Create monitor",
     "PREVIEW": "Preview matches",

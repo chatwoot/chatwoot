@@ -47,7 +47,7 @@ describe('MonitorForm preview cooldown', () => {
     wrapper = shallowMount(MonitorForm, {
       global: {
         renderStubDefaultSlot: true,
-        stubs: { Dialog: false, Button: false },
+        stubs: { Dialog: false, Button: false, TextArea: false },
       },
     });
   });
