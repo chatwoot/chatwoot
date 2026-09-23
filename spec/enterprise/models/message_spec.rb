@@ -91,10 +91,14 @@ RSpec.describe Message do
     end
   end
 
-  describe '#reopen_resolved_conversation' do
-    it 'clears inactive Captain ownership when an incoming message reopens a resolved conversation' do
-      assistant = create(:captain_assistant, account: conversation.account)
+  describe 'reopening an inactive Captain conversation' do
+    let(:assistant) { create(:captain_assistant, account: conversation.account) }
+
+    before do
       create(:captain_inbox, inbox: conversation.inbox, captain_assistant: assistant)
+    end
+
+    it 'clears ownership when an incoming message reopens a resolved conversation' do
       conversation.update!(ai_assignee: assistant, status: :resolved)
       conversation.account.disable_features!('captain_integration')
 
@@ -102,12 +106,8 @@ RSpec.describe Message do
 
       expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil, ai_assignee_type: nil)
     end
-  end
 
-  describe '#reopen_conversation' do
-    it 'clears inactive Captain ownership when an incoming message reopens a snoozed conversation' do
-      assistant = create(:captain_assistant, account: conversation.account)
-      create(:captain_inbox, inbox: conversation.inbox, captain_assistant: assistant)
+    it 'clears ownership when an incoming message reopens a snoozed conversation' do
       conversation.update!(ai_assignee: assistant, status: :snoozed, snoozed_until: 1.day.from_now)
       conversation.account.disable_features!('captain_integration')
 

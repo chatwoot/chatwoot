@@ -83,12 +83,11 @@ export function useMacroExecution() {
 
   const execute = (macro, conversationId) => {
     const execution = { macro, conversationId };
-    if (isBlockedByAIOwnership(execution)) return null;
-
     if (!resolvesConversation(macro)) {
       runMacro(execution);
       return null;
     }
+    if (isBlockedByAIOwnership(execution)) return null;
 
     const customAttributes = customAttributesFor(conversationId);
     const { hasMissing, missing } = checkMissingAttributes(customAttributes);

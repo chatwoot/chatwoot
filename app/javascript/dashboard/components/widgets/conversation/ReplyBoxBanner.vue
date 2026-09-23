@@ -36,22 +36,16 @@ const showSelfAssignBanner = computed(
     (!assignedAgent.value || assignedAgent.value.id !== currentUser.value?.id)
 );
 
-const isAIOwned = computed(() =>
-  isAIAssigneeType(currentChat.value?.meta?.assignee_type)
-);
 const showBotHandoffBanner = computed(
   () =>
     currentChat.value?.status === wootConstants.STATUS_TYPE.PENDING &&
-    isAIOwned.value
+    isAIAssigneeType(currentChat.value?.meta?.assignee_type)
 );
 
-const botAssigneeName = computed(() => {
-  if (isAIOwned.value && assignedAgent.value?.name) {
-    return assignedAgent.value.name;
-  }
-
-  return t('CONVERSATION.BOT_HANDOFF_FALLBACK_ASSIGNEE');
-});
+const botAssigneeName = computed(
+  () =>
+    assignedAgent.value?.name || t('CONVERSATION.BOT_HANDOFF_FALLBACK_ASSIGNEE')
+);
 
 const selfAssignConversation = async conversationId => {
   const { data } = await ConversationApi.assignAgent({
