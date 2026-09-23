@@ -3,6 +3,8 @@ tags:
 operationId: get-details-of-a-conversation
 summary: Conversation Details
 security:
+  - userBearerAuth: []
+  - agentBotBearerAuth: []
   - userApiKey: []
 description: Get all details regarding a conversation with all messages in the conversation
 responses:

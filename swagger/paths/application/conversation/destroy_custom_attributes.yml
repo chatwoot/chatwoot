@@ -4,6 +4,7 @@ operationId: destroy-custom-attributes-of-a-conversation
 summary: Destroy Custom Attributes
 description: Removes the given custom attribute keys from a conversation
 security:
+  - userBearerAuth: []
   - userApiKey: []
 requestBody:
   required: true
