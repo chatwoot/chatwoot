@@ -2,7 +2,6 @@ import { inject, provide, ref, computed } from 'vue';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { useRouter } from 'vue-router';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const SidebarControl = Symbol('SidebarControl');
 
@@ -90,7 +89,7 @@ export function useSidebarContext() {
   }
 
   const router = useRouter();
-  const { shouldShow, isFeatureFlagEnabled } = usePolicy();
+  const { shouldShow } = usePolicy();
 
   const resolvePath = to => {
     if (to) return router.resolve(to)?.path || '/';
@@ -143,13 +142,6 @@ export function useSidebarContext() {
     const permissions = resolvePermissions(to);
     const featureFlag = resolveFeatureFlag(to);
     const installationType = resolveInstallationType(to);
-
-    if (
-      featureFlag === FEATURE_FLAGS.COMPANIES &&
-      !isFeatureFlagEnabled(featureFlag)
-    ) {
-      return false;
-    }
 
     return shouldShow(featureFlag, permissions, installationType);
   };
