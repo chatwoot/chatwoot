@@ -3,7 +3,7 @@ class Captain::Tools::Copilot::GetContactService < Captain::Tools::BaseTool
     'get_contact'
   end
   description 'Get details of a contact including their profile information'
-  param :contact_id, type: :number, desc: 'The ID of the contact to retrieve', required: true
+  parameter :contact_id, type: :number, description: 'The ID of the contact to retrieve', required: true
 
   def execute(contact_id:)
     contact = Contact.find_by(id: contact_id, account_id: @assistant.account_id)

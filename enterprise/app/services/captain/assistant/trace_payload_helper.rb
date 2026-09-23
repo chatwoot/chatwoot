@@ -24,8 +24,6 @@ module Captain::Assistant::TracePayloadHelper
 
   def trace_content_payload(content)
     case content
-    when RubyLLM::Content
-      trace_parts_from_ruby_llm_content(content)
     when Array, Hash
       content
     when NilClass
@@ -33,19 +31,5 @@ module Captain::Assistant::TracePayloadHelper
     else
       content.to_s
     end
-  end
-
-  def trace_parts_from_ruby_llm_content(content)
-    parts = []
-    parts << { type: 'text', text: content.text } if content.text.present?
-
-    content.attachments.each do |attachment|
-      parts << { type: 'image_url', image_url: { url: attachment.source.to_s } }
-    end
-
-    return '' if parts.blank?
-    return parts.first[:text] if parts.one? && parts.first[:type] == 'text'
-
-    parts
   end
 end

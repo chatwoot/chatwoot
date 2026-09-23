@@ -515,7 +515,7 @@ RSpec.describe Captain::CustomTool, type: :model do
         tool = create(:captain_custom_tool, :with_params, account: account)
 
         tool_instance = tool.tool(assistant)
-        params = tool_instance.parameters
+        params = tool_instance.class.declared_parameters
 
         expect(params.keys).to contain_exactly(:order_id, :include_details)
         expect(params[:order_id].name).to eq(:order_id)
@@ -531,7 +531,7 @@ RSpec.describe Captain::CustomTool, type: :model do
         tool = create(:captain_custom_tool, account: account, param_schema: [])
 
         tool_instance = tool.tool(assistant)
-        expect(tool_instance.parameters).to be_empty
+        expect(tool_instance.class.declared_parameters).to be_empty
       end
     end
   end

@@ -68,4 +68,14 @@ RSpec.describe Llm::BaseAiService do
       expect(service.send(:sanitize_json_response, input)).to eq('{"key": "value"}')
     end
   end
+
+  describe '#chat' do
+    it 'omits temperature for GPT-5 Mini, which rejects the parameter' do
+      llm_chat = instance_double(RubyLLM::Chat)
+      allow(RubyLLM).to receive(:chat).with(model: 'gpt-5-mini').and_return(llm_chat)
+
+      expect(llm_chat).not_to receive(:with_temperature)
+      expect(service.chat(model: 'gpt-5-mini')).to eq(llm_chat)
+    end
+  end
 end

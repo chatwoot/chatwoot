@@ -1,6 +1,6 @@
 class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
   description 'Search FAQ responses using semantic similarity to find relevant answers'
-  param :query, type: 'string', desc: 'The question or topic to search for in the FAQ database'
+  parameter :query, type: 'string', description: 'The question or topic to search for in the FAQ database'
 
   def perform(tool_context, query:)
     log_tool_usage('searching', { query: query })

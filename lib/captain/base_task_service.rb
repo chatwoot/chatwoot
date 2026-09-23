@@ -89,8 +89,8 @@ class Captain::BaseTaskService
     chat.with_schema(schema) if schema
 
     if tools.any?
-      tools.each { |tool| chat = chat.with_tool(tool) }
-      chat.on_end_message { |message| record_generation(chat, message, model) }
+      tools.each { |tool| chat = chat.with_tools(tool) }
+      chat.after_message { |message| record_generation(chat, message, model) }
     end
 
     chat
@@ -108,9 +108,9 @@ class Captain::BaseTaskService
     {
       message: response.content,
       usage: {
-        'prompt_tokens' => response.input_tokens,
-        'completion_tokens' => response.output_tokens,
-        'total_tokens' => (response.input_tokens || 0) + (response.output_tokens || 0)
+        'prompt_tokens' => response.tokens.input,
+        'completion_tokens' => response.tokens.output,
+        'total_tokens' => (response.tokens.input || 0) + (response.tokens.output || 0)
       },
       request_messages: messages
     }

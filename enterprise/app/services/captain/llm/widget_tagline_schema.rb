@@ -1,4 +1,4 @@
-class Captain::Llm::WidgetTaglineSchema < RubyLLM::Schema
+class Captain::Llm::WidgetTaglineSchema < Schematist::Schema
   string :tagline,
          description: 'Short marketing tagline for a customer-support chat widget. Plain text, no quotes, no emoji, no trailing punctuation.',
          max_length: 60
