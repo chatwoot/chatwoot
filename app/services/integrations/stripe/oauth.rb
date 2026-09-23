@@ -13,7 +13,13 @@ class Integrations::Stripe::Oauth
   end
 
   def self.valid_authorize_url?(uri)
-    uri.scheme == 'https' && uri.host == 'marketplace.stripe.com' && uri.userinfo.nil?
+    return false unless uri.scheme == 'https' && uri.host == 'marketplace.stripe.com' && uri.userinfo.nil?
+    return false unless uri.path.match?(%r{\A/oauth/v2/(?:chnlink_[A-Za-z0-9]+/)?authorize\z})
+
+    query = URI.decode_www_form(uri.query.to_s).to_h
+    query.fetch('client_id', '').match?(/\Aca_[A-Za-z0-9]+\z/)
+  rescue ArgumentError
+    false
   end
 
   def self.configured?

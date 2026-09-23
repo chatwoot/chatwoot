@@ -19,11 +19,11 @@ RSpec.describe SuperAdmin::AppConfigsController, type: :request do
 
   it 'saves only the allowed Stripe installation settings' do
     sign_in(super_admin, scope: :super_admin)
-    post path, params: { app_config: { STRIPE_APP_AUTHORIZE_URL: 'https://marketplace.stripe.com/oauth/test',
+    post path, params: { app_config: { STRIPE_APP_AUTHORIZE_URL: 'https://marketplace.stripe.com/oauth/v2/authorize?client_id=ca_test',
                                        STRIPE_APP_SECRET_KEY: 'sk_test_example', UNRELATED_SETTING: 'ignored' } }
     expect(response).to have_http_status(:redirect)
     expect(InstallationConfig.find_by!(name: 'STRIPE_APP_SECRET_KEY').value).to eq('sk_test_example')
-    expect(GlobalConfig.get_value('STRIPE_APP_AUTHORIZE_URL')).to eq('https://marketplace.stripe.com/oauth/test')
+    expect(GlobalConfig.get_value('STRIPE_APP_AUTHORIZE_URL')).to eq('https://marketplace.stripe.com/oauth/v2/authorize?client_id=ca_test')
     expect(InstallationConfig.exists?(name: 'UNRELATED_SETTING')).to be false
   end
 

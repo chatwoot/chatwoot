@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Integrations::Stripe::Oauth do
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account, role: :administrator) }
-  let(:authorize_url) { 'https://marketplace.stripe.com/oauth/v2/test/authorize?client_id=ca_test' }
+  let(:authorize_url) { 'https://marketplace.stripe.com/oauth/v2/authorize?client_id=ca_test' }
 
   around do |example|
     with_modified_env FRONTEND_URL: 'https://local.example.com' do
