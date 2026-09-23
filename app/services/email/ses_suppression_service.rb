@@ -1,8 +1,6 @@
 require 'aws-sdk-sesv2'
 
 class Email::SesSuppressionService
-  AWS_OPTIONS = { region: 'us-east-1', http_open_timeout: 3, http_read_timeout: 3 }.freeze
-
   def self.configured?
     ENV['SES_SUPPRESSION_ROLE_ARN'].present?
   end
@@ -30,12 +28,16 @@ class Email::SesSuppressionService
   # Pinned to the instance role: the default chain would pick up the S3-scoped AWS_ACCESS_KEY_ID.
   def client
     @client ||= Aws::SESV2::Client.new(
-      **AWS_OPTIONS,
+      **aws_options,
       credentials: Aws::AssumeRoleCredentials.new(
-        client: Aws::STS::Client.new(**AWS_OPTIONS, credentials: Aws::InstanceProfileCredentials.new),
+        client: Aws::STS::Client.new(**aws_options, credentials: Aws::InstanceProfileCredentials.new),
         role_arn: ENV.fetch('SES_SUPPRESSION_ROLE_ARN'),
         role_session_name: 'chatwoot-superadmin-ses'
       )
     )
+  end
+
+  def aws_options
+    { region: ENV['SES_SUPPRESSION_REGION'].presence || 'us-east-1', http_open_timeout: 3, http_read_timeout: 3 }
   end
 end
