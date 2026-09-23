@@ -59,6 +59,17 @@ RSpec.describe Enterprise::LoginLocationNotificationJob do
     expect { run('10.0.0.2') }.not_to have_enqueued_mail(Enterprise::LoginLocationMailer, :new_location)
   end
 
+  it 'emails when the country was last seen outside the history window, so poisoned history ages out' do
+    audit('20.0.0.9', now - 100.days) # e.g. an old account compromise from Moldova
+    audit('10.0.0.1', now - 3.days)
+    expect { run('20.0.0.9') }.to have_enqueued_mail(Enterprise::LoginLocationMailer, :new_location)
+  end
+
+  it 'emails on a dormant account returning after the window, even from a known country' do
+    audit('10.0.0.1', now - 100.days)
+    expect { run('10.0.0.2') }.to have_enqueued_mail(Enterprise::LoginLocationMailer, :new_location)
+  end
+
   it 'still emails on a new country even when many multi-account rows exist for one prior sign-in' do
     shared = SecureRandom.uuid
     60.times { audit('10.0.0.1', now - 3.days, request_uuid: shared) } # one India sign-in, 60 account rows
