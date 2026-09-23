@@ -1,4 +1,5 @@
 class SuperAdmin::UsersController < SuperAdmin::ApplicationController
+  SUPPRESSION_FLASH_TYPES = { not_suppressed: :notice, bounce: :alert, complaint: :error, unavailable: :alert }.freeze
   before_action :ensure_ses_suppression_configured, only: [:check_email_suppression, :clear_email_suppression, :send_test_email]
 
   # Overwrite any of the RESTful controller actions to implement custom behavior
@@ -67,10 +68,9 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   def check_email_suppression
     user = requested_resource
     result = Email::SesSuppressionService.new.lookup(user.email)
-    flash_type = result[:status] == :not_suppressed ? :notice : :alert
     message = I18n.t("super_admin.users.email_suppression.check.#{result[:status]}",
-                     email: ERB::Util.html_escape(user.email), since: result[:since]&.utc&.strftime('%Y-%m-%d %H:%M UTC'))
-    redirect_to super_admin_user_path(user, suppression: result[:status]), flash_type => message
+                     email: ERB::Util.html_escape(user.email), since: suppressed_since(result[:since]))
+    redirect_to super_admin_user_path(user, suppression: result[:status]), flash: { SUPPRESSION_FLASH_TYPES.fetch(result[:status]) => message }
   end
 
   def clear_email_suppression
@@ -78,9 +78,9 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
     begin
       Email::SesSuppressionService.new.clear!(user.email)
     rescue StandardError => e
-      return redirect_to super_admin_user_path(user),
-                         alert: I18n.t('super_admin.users.email_suppression.clear.failed',
-                                       email: ERB::Util.html_escape(user.email), error: ERB::Util.html_escape(e.message))
+      message = I18n.t('super_admin.users.email_suppression.clear.failed',
+                       email: ERB::Util.html_escape(user.email), error: ERB::Util.html_escape(e.message))
+      return redirect_to super_admin_user_path(user), flash: { error: message }
     end
 
     log_email_diagnostic('ses_suppression_cleared', user)
@@ -113,6 +113,12 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   end
 
   private
+
+  def suppressed_since(time)
+    return if time.blank?
+
+    "#{time.utc.strftime('%-d %b %Y, %H:%M UTC')} (#{helpers.time_ago_in_words(time)} ago)"
+  end
 
   def ensure_ses_suppression_configured
     head :not_found unless Email::SesSuppressionService.configured?

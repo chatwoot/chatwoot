@@ -269,7 +269,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         button = Nokogiri::HTML(response.body).at_css('button:contains("Clear suppression")')
         expect(button['disabled']).to be_present
-        expect(response.body).to include('Complaint, cannot clear. Escalate to engineering.')
+        expect(button['title']).to eq('Complaint, cannot clear. Escalate to engineering.')
       end
 
       it 'reports an address that is not suppressed' do
@@ -282,23 +282,25 @@ RSpec.describe 'Super Admin Users API', type: :request do
       end
 
       it 'reports a bounce with its date' do
+        travel_to Time.utc(2026, 9, 6, 10, 0, 0)
         since = Time.utc(2026, 9, 1, 10, 0, 0)
         allow(suppression).to receive(:lookup).with(user.email).and_return(status: :bounce, since: since)
 
         post "/super_admin/users/#{user.id}/check_email_suppression"
 
         expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=bounce")
-        expect(flash[:alert]).to eq('bounced@example.com is suppressed for BOUNCE since 2026-09-01 10:00 UTC.')
+        expect(flash[:alert]).to eq('bounced@example.com is suppressed for BOUNCE since 1 Sep 2026, 10:00 UTC (5 days ago).')
       end
 
-      it 'reports a complaint with an escalation note' do
+      it 'reports a complaint as an error with an escalation note' do
+        travel_to Time.utc(2026, 9, 6, 10, 0, 0)
         since = Time.utc(2026, 9, 1, 10, 0, 0)
         allow(suppression).to receive(:lookup).with(user.email).and_return(status: :complaint, since: since)
 
         post "/super_admin/users/#{user.id}/check_email_suppression"
 
         expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=complaint")
-        expect(flash[:alert]).to include('COMPLAINT since 2026-09-01 10:00 UTC. Do not clear, escalate to engineering.')
+        expect(flash[:error]).to include('COMPLAINT since 1 Sep 2026, 10:00 UTC (5 days ago). Do not clear, escalate to engineering.')
       end
 
       it 'reports a failed lookup' do
@@ -326,7 +328,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         post "/super_admin/users/#{user.id}/clear_email_suppression"
 
-        expect(flash[:alert]).to eq('Could not clear bounced@example.com: boom.')
+        expect(flash[:error]).to eq('Could not clear bounced@example.com: boom.')
       end
 
       it 'queues a test email and logs who sent it' do
