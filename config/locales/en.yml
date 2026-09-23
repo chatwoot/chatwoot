@@ -703,18 +703,18 @@ en:
         already_confirmed: 'User is already confirmed.'
       email_suppression:
         check_button: 'Check email delivery'
-        clear_button: 'Remove delivery block'
-        clear_confirm: 'Remove the delivery block for this address?'
+        clear_button: 'Unblock email'
+        clear_confirm: 'Unblock emails to this address?'
         complaint_hint: 'Blocked after a spam complaint. Escalate to engineering.'
         test_email_button: 'Send test email'
         check:
-          not_suppressed: 'No delivery block on %{email}.'
-          bounce: 'Emails to %{email} are blocked because one bounced on %{since}. Remove the block, then send a test email.'
+          not_suppressed: 'Emails to %{email} are not blocked.'
+          bounce: 'Emails to %{email} are blocked because one bounced on %{since}. Unblock it, then send a test email.'
           complaint: 'Emails to %{email} are blocked because the user marked one as spam on %{since}. Escalate to engineering.'
           unavailable: "Couldn't check delivery for %{email}. Try again, or escalate to engineering."
         clear:
-          success: 'Block removed for %{email}. Send a test email to confirm delivery.'
-          failed: "Couldn't remove the block for %{email} (%{error}). Escalate to engineering."
+          success: 'Unblocked %{email}. Send a test email to confirm delivery.'
+          failed: "Couldn't unblock %{email} (%{error}). Escalate to engineering."
         test_email:
           queued: 'Test email on its way to %{email}. Ask the user to check their inbox and spam folder.'
           subject: 'Test email from Chatwoot support'

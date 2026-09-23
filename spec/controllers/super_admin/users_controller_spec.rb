@@ -253,13 +253,13 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         expect(response.body).to include('Check email delivery')
         expect(response.body).to include('Send test email')
-        expect(response.body).not_to include('Remove delivery block')
+        expect(response.body).not_to include('Unblock email')
       end
 
       it 'shows an active clear button after a bounce check' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'bounce' }
 
-        button = Nokogiri::HTML(response.body).at_css('button:contains("Remove delivery block")')
+        button = Nokogiri::HTML(response.body).at_css('button:contains("Unblock email")')
         expect(button).to be_present
         expect(button['disabled']).to be_nil
       end
@@ -267,7 +267,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
       it 'shows a disabled clear button after a complaint check' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'complaint' }
 
-        button = Nokogiri::HTML(response.body).at_css('button:contains("Remove delivery block")')
+        button = Nokogiri::HTML(response.body).at_css('button:contains("Unblock email")')
         expect(button['disabled']).to be_present
         expect(button['title']).to eq('Blocked after a spam complaint. Escalate to engineering.')
       end
@@ -278,7 +278,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
         post "/super_admin/users/#{user.id}/check_email_suppression"
 
         expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=not_suppressed")
-        expect(flash[:notice]).to eq('No delivery block on bounced@example.com.')
+        expect(flash[:notice]).to eq('Emails to bounced@example.com are not blocked.')
       end
 
       it 'reports a bounce with its date' do
@@ -290,7 +290,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=bounce")
         expect(flash[:alert]).to eq('Emails to bounced@example.com are blocked because one bounced on 1 Sep 2026 (5 days ago). ' \
-                                    'Remove the block, then send a test email.')
+                                    'Unblock it, then send a test email.')
       end
 
       it 'reports a complaint as an error with an escalation note' do
@@ -322,7 +322,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         expect(suppression).to have_received(:clear!).with(user.email)
         expect(Rails.logger).to have_received(:info).with(a_string_including('ses_suppression_cleared', super_admin.email, user.email))
-        expect(flash[:notice]).to eq('Block removed for bounced@example.com. Send a test email to confirm delivery.')
+        expect(flash[:notice]).to eq('Unblocked bounced@example.com. Send a test email to confirm delivery.')
       end
 
       it 'reports a failed clear' do
@@ -330,7 +330,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         post "/super_admin/users/#{user.id}/clear_email_suppression"
 
-        expect(flash[:error]).to eq("Couldn't remove the block for bounced@example.com (boom). Escalate to engineering.")
+        expect(flash[:error]).to eq("Couldn't unblock bounced@example.com (boom). Escalate to engineering.")
       end
 
       it 'queues a test email and logs who sent it' do
