@@ -19,7 +19,7 @@ vi.mock('dashboard/composables', () => ({
 
 describe('ReplyBoxBanner', () => {
   it.each([false, true])(
-    'only updates takeover after the atomic request succeeds (request fails: %s)',
+    'only updates takeover after assignment succeeds (request fails: %s)',
     async requestFails => {
       const setCurrentChatAssignee = vi.fn();
       const changeStatus = vi.fn();
@@ -79,7 +79,6 @@ describe('ReplyBoxBanner', () => {
         conversationId: 1,
         agentId: currentUser.id,
         assigneeType: 'User',
-        reopen: true,
       });
       if (requestFails) {
         expect(setCurrentChatAssignee).not.toHaveBeenCalled();

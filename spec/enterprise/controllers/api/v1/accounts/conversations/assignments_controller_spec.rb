@@ -39,19 +39,6 @@ RSpec.describe 'Captain assistant conversation assignment API', type: :request d
     expect(response.parsed_body.dig('meta', 'assignee_type')).to eq('Captain::Assistant')
   end
 
-  it 'reopens and assigns a resolved Captain conversation to an administrator in one request' do
-    administrator = create(:user, account: account, role: :administrator)
-    conversation.update!(ai_assignee: assistant, assignee: nil, status: :resolved)
-
-    post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
-         params: { assignee_id: administrator.id, assignee_type: 'User', reopen: true },
-         headers: administrator.create_new_auth_token,
-         as: :json
-
-    expect(response).to have_http_status(:success)
-    expect(conversation.reload).to have_attributes(ai_assignee: nil, assignee: administrator, status: 'open')
-  end
-
   it 'does not assign an unconnected Captain assistant' do
     unconnected_assistant = create(:captain_assistant, account: account)
 

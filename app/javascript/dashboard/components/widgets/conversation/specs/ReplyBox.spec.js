@@ -224,7 +224,7 @@ describe('ReplyBox', () => {
     });
 
     it.each(['open', 'resolved', 'snoozed'])(
-      'locks the composer when a %s conversation has an AI assignee',
+      'keeps the composer available when a %s conversation has an AI assignee',
       status => {
         const { wrapper } = mountWith({
           inbox,
@@ -234,8 +234,8 @@ describe('ReplyBox', () => {
           },
         });
 
-        expect(topPanel(wrapper).isReplyRestricted).toBe(true);
-        expect(bottomPanel(wrapper).enableWhatsAppTemplates).toBe(false);
+        expect(topPanel(wrapper).isReplyRestricted).toBe(false);
+        expect(bottomPanel(wrapper).enableWhatsAppTemplates).toBe(true);
       }
     );
 

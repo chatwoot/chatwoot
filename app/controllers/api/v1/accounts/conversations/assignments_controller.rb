@@ -16,8 +16,7 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
     resource = Conversations::AssignmentService.new(
       conversation: @conversation,
       assignee_id: params[:assignee_id],
-      assignee_type: params[:assignee_type],
-      reopen: params[:reopen] == true
+      assignee_type: params[:assignee_type]
     ).perform
 
     render_agent(resource)

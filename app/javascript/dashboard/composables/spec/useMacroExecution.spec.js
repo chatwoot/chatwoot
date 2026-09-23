@@ -37,7 +37,10 @@ describe('useMacroExecution', () => {
     'blocks public-message macros for a %s assignee',
     async assigneeType => {
       useMapGetter.mockReturnValue({
-        value: () => ({ meta: { assignee_type: assigneeType } }),
+        value: () => ({
+          status: 'pending',
+          meta: { assignee_type: assigneeType },
+        }),
       });
       const { execute } = useMacroExecution();
       execute(
@@ -53,7 +56,10 @@ describe('useMacroExecution', () => {
     'blocks a resolving %s macro before prompting for required attributes',
     async actionName => {
       useMapGetter.mockReturnValue({
-        value: () => ({ meta: { assignee_type: 'Captain::Assistant' } }),
+        value: () => ({
+          status: 'pending',
+          meta: { assignee_type: 'Captain::Assistant' },
+        }),
       });
       checkMissingAttributes.mockReturnValue({
         hasMissing: true,
@@ -73,7 +79,7 @@ describe('useMacroExecution', () => {
   );
 
   it('does not save attributes if the conversation gets an AI assignee while the modal is open', async () => {
-    const conversation = { meta: { assignee_type: 'User' } };
+    const conversation = { status: 'pending', meta: { assignee_type: 'User' } };
     useMapGetter.mockReturnValue({ value: () => conversation });
     checkMissingAttributes.mockReturnValue({
       hasMissing: true,

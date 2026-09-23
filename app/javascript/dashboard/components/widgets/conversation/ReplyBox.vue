@@ -236,7 +236,7 @@ export default {
     canSendPublicReply() {
       return (
         this.isWithinMessagingWindow &&
-        !this.isAIOwnedConversation &&
+        !this.isAIOwnedPendingConversation &&
         !this.isInstagramReplyRestricted
       );
     },
@@ -253,7 +253,7 @@ export default {
         return true;
       }
 
-      return this.isAIOwnedConversation
+      return this.isAIOwnedPendingConversation
         ? this.isPrivate
         : this.replyType === REPLY_EDITOR_MODES.NOTE;
     },
@@ -277,8 +277,11 @@ export default {
       );
       return !!stripped.trim();
     },
-    isAIOwnedConversation() {
-      return isAIAssigneeType(this.currentChat?.meta?.assignee_type);
+    isAIOwnedPendingConversation() {
+      return (
+        this.currentChat?.status === wootConstants.STATUS_TYPE.PENDING &&
+        isAIAssigneeType(this.currentChat?.meta?.assignee_type)
+      );
     },
     inboxId() {
       return this.currentChat.inbox_id;

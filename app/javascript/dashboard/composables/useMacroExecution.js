@@ -41,6 +41,7 @@ export function useMacroExecution() {
   const isBlockedByAIOwnership = ({ macro, conversationId }) => {
     const conversation = conversationById.value(conversationId);
     if (
+      conversation?.status === 'pending' &&
       isAIAssigneeType(conversation?.meta?.assignee_type) &&
       macro.actions.some(({ action_name: name }) =>
         ['send_message', 'send_attachment'].includes(name)

@@ -6,6 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { isAIAssigneeType } from 'dashboard/helper/agentHelper';
 import ConversationApi from 'dashboard/api/inbox/conversation';
+import wootConstants from 'dashboard/constants/globals';
 
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -38,6 +39,11 @@ const showSelfAssignBanner = computed(
 const isAIOwned = computed(() =>
   isAIAssigneeType(currentChat.value?.meta?.assignee_type)
 );
+const showBotHandoffBanner = computed(
+  () =>
+    currentChat.value?.status === wootConstants.STATUS_TYPE.PENDING &&
+    isAIOwned.value
+);
 
 const botAssigneeName = computed(() => {
   if (isAIOwned.value && assignedAgent.value?.name) {
@@ -47,12 +53,11 @@ const botAssigneeName = computed(() => {
   return t('CONVERSATION.BOT_HANDOFF_FALLBACK_ASSIGNEE');
 });
 
-const selfAssignConversation = async (conversationId, reopen = false) => {
+const selfAssignConversation = async conversationId => {
   const { data } = await ConversationApi.assignAgent({
     conversationId,
     agentId: currentUser.value.id,
     assigneeType: 'User',
-    reopen,
   });
   await store.dispatch('setCurrentChatAssignee', {
     conversationId,
@@ -73,7 +78,7 @@ const onClickSelfAssign = async () => {
 const onClickBotHandoff = async () => {
   const conversationId = currentChat.value.id;
   try {
-    await selfAssignConversation(conversationId, true);
+    await selfAssignConversation(conversationId);
     store.commit('CHANGE_CONVERSATION_STATUS', {
       conversationId,
       status: 'open',
@@ -88,7 +93,7 @@ const onClickBotHandoff = async () => {
 
 <template>
   <Banner
-    v-if="showSelfAssignBanner && !isAIOwned"
+    v-if="showSelfAssignBanner && !showBotHandoffBanner"
     action-button-variant="ghost"
     color-scheme="secondary"
     class="mx-2 mb-2 rounded-lg !py-2"
@@ -98,7 +103,7 @@ const onClickBotHandoff = async () => {
     @primary-action="onClickSelfAssign"
   />
   <Banner
-    v-if="isAIOwned"
+    v-if="showBotHandoffBanner"
     action-button-variant="ghost"
     color-scheme="secondary"
     class="mx-2 mb-2 rounded-lg !py-2"
