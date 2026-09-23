@@ -198,7 +198,7 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', path: '/Users/aakash/work/ai-agents-rubyllm-2'
+gem 'ai-agents', git: 'https://github.com/chatwoot/ai-agents.git', branch: 'codex/rubyllm-2'
 
 gem 'ruby_llm', '~> 2.0.0'
 

@@ -1,5 +1,7 @@
-PATH
-  remote: /Users/aakash/work/ai-agents-rubyllm-2
+GIT
+  remote: https://github.com/chatwoot/ai-agents.git
+  revision: 7816d01eed31bf267bfd0911f6e350a153b627ca
+  branch: codex/rubyllm-2
   specs:
     ai-agents (0.12.0)
       ruby_llm (~> 2.0.0)
