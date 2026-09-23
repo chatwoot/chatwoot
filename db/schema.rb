@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_22_007000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_22_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -835,6 +835,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_007000) do
     t.string "status", default: "pending", null: false
     t.bigint "input_revision", default: 0, null: false
     t.bigint "generation", default: 0, null: false
+    t.bigint "requested_version"
     t.float "score"
     t.string "model"
     t.string "error_code"
@@ -842,7 +843,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_007000) do
     t.datetime "evaluated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "requested_version"
     t.index ["account_id"], name: "index_conversation_monitor_evaluations_on_account_id"
     t.index ["conversation_id"], name: "index_conversation_monitor_evaluations_on_conversation_id"
     t.index ["monitor_id", "conversation_id"], name: "index_monitor_evaluations_unique", unique: true
@@ -870,6 +870,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_007000) do
     t.bigint "conversation_id", null: false
     t.bigint "revision", default: 0, null: false
     t.bigint "processed_revision", default: 0, null: false
+    t.bigint "full_history_revision", default: 0, null: false
     t.bigint "generation", default: 0, null: false
     t.datetime "due_at"
     t.string "lease_token"
@@ -877,10 +878,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_007000) do
     t.integer "attempts", default: 0, null: false
     t.string "error_code"
     t.datetime "requested_at"
+    t.datetime "activity_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "activity_at"
-    t.bigint "full_history_revision", default: 0, null: false
     t.index ["account_id"], name: "index_conversation_monitor_work_items_on_account_id"
     t.index ["conversation_id"], name: "index_conversation_monitor_work_items_on_conversation_id", unique: true
     t.index ["due_at"], name: "index_monitor_work_due", where: "(due_at IS NOT NULL)"
@@ -888,22 +888,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_007000) do
 
   create_table "conversation_monitors", force: :cascade do |t|
     t.bigint "account_id", null: false
-    t.bigint "creator_id"
+    t.bigint "user_id"
     t.string "name", null: false
     t.text "condition", null: false
     t.string "model", null: false
     t.float "threshold", null: false
     t.datetime "history_since", null: false
+    t.datetime "paused_at"
+    t.datetime "resumed_at"
     t.datetime "deleted_at"
     t.bigint "data_revision", default: 0, null: false
+    t.bigint "collection_version", default: 0, null: false
+    t.datetime "recheck_requested_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "paused_at"
-    t.bigint "collection_version", default: 0, null: false
-    t.datetime "resumed_at"
-    t.datetime "recheck_requested_at"
     t.index ["account_id"], name: "index_conversation_monitors_on_account_id"
-    t.index ["creator_id"], name: "index_conversation_monitors_on_creator_id"
+    t.index ["user_id"], name: "index_conversation_monitors_on_user_id"
   end
 
   create_table "conversation_outcomes", force: :cascade do |t|
@@ -1701,7 +1701,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_007000) do
   add_foreign_key "conversation_monitor_work_items", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_work_items", "conversations", on_delete: :cascade
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
-  add_foreign_key "conversation_monitors", "users", column: "creator_id", on_delete: :nullify
+  add_foreign_key "conversation_monitors", "users", on_delete: :nullify
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
