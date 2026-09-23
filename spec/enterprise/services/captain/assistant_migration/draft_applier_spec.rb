@@ -115,6 +115,7 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
         response_guidelines: ['Use plain language.'],
         guardrails: ['Do not disclose internal notes.']
       )
+      original_config = assistant.config.deep_dup
 
       described_class.new(assistant: assistant, draft: draft, dry_run: false).perform
 
@@ -129,7 +130,7 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
       expect(assistant.config.dig('assistant_migration', 'original_values')).to include(
         'name' => assistant.name,
         'description' => 'Existing assistant description.',
-        'config' => { 'product_name' => 'Test Product', 'instructions' => 'Legacy V1 custom instructions.' },
+        'config' => original_config,
         'response_guidelines' => ['Use plain language.'],
         'guardrails' => ['Do not disclose internal notes.']
       )

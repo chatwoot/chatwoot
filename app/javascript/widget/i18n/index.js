@@ -7,6 +7,7 @@ import de from './locale/de.json';
 import el from './locale/el.json';
 import en from './locale/en.json';
 import es from './locale/es.json';
+import et from './locale/et.json';
 import fa from './locale/fa.json';
 import fi from './locale/fi.json';
 import fr from './locale/fr.json';
@@ -29,6 +30,7 @@ import pt_BR from './locale/pt_BR.json';
 import ro from './locale/ro.json';
 import ru from './locale/ru.json';
 import sk from './locale/sk.json';
+import sl from './locale/sl.json';
 import sr from './locale/sr.json';
 import sv from './locale/sv.json';
 import ta from './locale/ta.json';
@@ -50,6 +52,7 @@ export default {
   el,
   en,
   es,
+  et,
   fa,
   fi,
   fr,
@@ -72,6 +75,7 @@ export default {
   ro,
   ru,
   sk,
+  sl,
   sr,
   sv,
   ta,

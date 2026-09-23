@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Hindi magagamit",
     "EMAIL_ADDRESS": "Alamat ng email",
     "PHONE_NUMBER": "Numero ng Telepono",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Tagakilala",
     "COPY_SUCCESSFUL": "Matagumpay na nakopya sa clipboard",
     "COMPANY": "Kumpanya",
@@ -461,6 +462,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Magdagdag ng Instagram"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Magdagdag ng Telegram"
           },
@@ -611,6 +615,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "Hindi namin makumpleto ang paghahanap. Pakisubukang muli."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Tingnan",

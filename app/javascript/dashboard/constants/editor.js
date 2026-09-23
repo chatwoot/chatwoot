@@ -5,7 +5,14 @@ export const FORMATTING = {
   // Channel formatting
   'Channel::Email': {
     marks: ['strong', 'em', 'code', 'link'],
-    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
+    nodes: [
+      'bulletList',
+      'orderedList',
+      'codeBlock',
+      'blockquote',
+      'image',
+      'table',
+    ],
     menu: [
       'copilot',
       'strong',
@@ -15,6 +22,7 @@ export const FORMATTING = {
       'bulletList',
       'orderedList',
       'imageUpload',
+      'insertTable',
       'undo',
       'redo',
     ],
@@ -186,6 +194,21 @@ export const ARTICLE_EDITOR_MENU_OPTIONS = [
   'imageUpload',
   'code',
   'insertTable',
+  'video',
+  'horizontalRule',
+];
+
+// A markdown table cell holds inline content only; anything else is lost on save.
+export const MENU_OPTIONS_UNAVAILABLE_IN_TABLE = [
+  'h1',
+  'h2',
+  'h3',
+  'bulletList',
+  'orderedList',
+  'imageUpload',
+  'insertTable',
+  'horizontalRule',
+  'video',
 ];
 
 // [text](url) -> "text: url" (drop label if it equals the URL). Keep serializer
@@ -197,6 +220,19 @@ const flattenLink = (_match, text, url) => {
     .replace(/^<|>$/g, '');
   return text === cleanUrl ? cleanUrl : `${text}: ${cleanUrl}`;
 };
+
+// Table block -> one `a | b` line per row, without the separator row. Rows keep
+// their container prefix (list indent, `> `); escaped pipes stay in their cell.
+const flattenTable = (_match, header, _prefix, body) =>
+  `${header}${body}`.replace(
+    /^([ \t>]*)\|(.*)\|[ \t]*$/gm,
+    (_row, prefix, cells) =>
+      prefix +
+      cells
+        .split(/(?<!\\)\|/)
+        .map(cell => cell.trim())
+        .join(' | ')
+  );
 
 /**
  * Markdown formatting patterns for stripping unsupported formatting.
@@ -217,12 +253,25 @@ export const MARKDOWN_PATTERNS = [
     patterns: [{ pattern: /^> ?/gm, replacement: '' }],
   },
   {
+    type: 'table', // PM: table, eg: | a | b |\n| --- | --- |\n| 1 | 2 |
+    patterns: [
+      // Header row, separator row, then body rows, all behind the same
+      // container prefix (a table can sit in a list item or a quote). Only a
+      // real table block matches, so a lone `| text |` line is left alone.
+      {
+        pattern:
+          /^(([ \t>]*)\|.*\|[ \t]*)\n\2\|(?:[ \t]*:?-+:?[ \t]*\|)+[ \t]*$((?:\n\2\|.*\|[ \t]*$)*)/gm,
+        replacement: flattenTable,
+      },
+    ],
+  },
+  {
     type: 'bulletList', // PM: bullet_list, eg: - item
     patterns: [{ pattern: /^[\t ]*[-*+]\s+/gm, replacement: '' }],
   },
   {
     type: 'orderedList', // PM: ordered_list, eg: 1. item
-    patterns: [{ pattern: /^[\t ]*\d+\.\s+/gm, replacement: '' }],
+    patterns: [{ pattern: /^[\t ]*\d+[.)]\s+/gm, replacement: '' }],
   },
   {
     type: 'heading', // PM: heading, eg: ## Heading

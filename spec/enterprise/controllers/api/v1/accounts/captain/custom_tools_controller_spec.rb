@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
   let(:account) { create(:account) }
+  let(:assistant) { create(:captain_assistant, account: account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
 
@@ -14,15 +15,15 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
   describe 'GET /api/v1/accounts/{account.id}/captain/custom_tools' do
     context 'when it is an un-authenticated user' do
       it 'returns unauthorized status' do
-        get "/api/v1/accounts/#{account.id}/captain/custom_tools"
+        get "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}"
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
     context 'when it is an agent' do
       it 'returns success status' do
-        create_list(:captain_custom_tool, 3, account: account)
-        get "/api/v1/accounts/#{account.id}/captain/custom_tools",
+        create_list(:captain_custom_tool, 3, account: account, assistant: assistant)
+        get "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
             headers: agent.create_new_auth_token,
             as: :json
 
@@ -33,8 +34,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
     context 'when it is an admin' do
       it 'returns success status and custom tools' do
-        create_list(:captain_custom_tool, 5, account: account)
-        get "/api/v1/accounts/#{account.id}/captain/custom_tools",
+        create_list(:captain_custom_tool, 5, account: account, assistant: assistant)
+        get "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
             headers: admin.create_new_auth_token,
             as: :json
 
@@ -43,9 +44,9 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
       end
 
       it 'returns all custom tools including disabled' do
-        create(:captain_custom_tool, account: account, enabled: true)
-        create(:captain_custom_tool, account: account, enabled: false)
-        get "/api/v1/accounts/#{account.id}/captain/custom_tools",
+        create(:captain_custom_tool, account: account, assistant: assistant, enabled: true)
+        create(:captain_custom_tool, account: account, assistant: assistant, enabled: false)
+        get "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
             headers: admin.create_new_auth_token,
             as: :json
 
@@ -56,18 +57,18 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
   end
 
   describe 'GET /api/v1/accounts/{account.id}/captain/custom_tools/{id}' do
-    let(:custom_tool) { create(:captain_custom_tool, account: account) }
+    let(:custom_tool) { create(:captain_custom_tool, account: account, assistant: assistant) }
 
     context 'when it is an un-authenticated user' do
       it 'returns unauthorized status' do
-        get "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}"
+        get "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}"
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
     context 'when it is an agent' do
       it 'returns success status and custom tool' do
-        get "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}",
+        get "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
             headers: agent.create_new_auth_token,
             as: :json
 
@@ -79,11 +80,25 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
     context 'when custom tool does not exist' do
       it 'returns not found status' do
-        get "/api/v1/accounts/#{account.id}/captain/custom_tools/999999",
+        get "/api/v1/accounts/#{account.id}/captain/custom_tools/999999?assistant_id=#{assistant.id}",
             headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:not_found)
       end
+    end
+
+    it 'returns the number of enabled scenarios referencing the tool' do
+      custom_tool.update!(slug: 'custom_fetch-order')
+      instruction = 'Use [@Fetch Order](tool://custom_fetch-order) to get order details'
+      create(:captain_scenario, assistant: assistant, account: account, instruction: instruction, enabled: true)
+      create(:captain_scenario, assistant: assistant, account: account, instruction: instruction, enabled: false)
+
+      get "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(json_response[:enabled_scenarios_count]).to eq(1)
     end
   end
 
@@ -105,7 +120,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
     context 'when it is an un-authenticated user' do
       it 'returns unauthorized status' do
-        post "/api/v1/accounts/#{account.id}/captain/custom_tools",
+        post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
              params: valid_attributes
         expect(response).to have_http_status(:unauthorized)
       end
@@ -113,7 +128,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
     context 'when it is an agent' do
       it 'returns unauthorized status' do
-        post "/api/v1/accounts/#{account.id}/captain/custom_tools",
+        post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
              params: valid_attributes,
              headers: agent.create_new_auth_token
         expect(response).to have_http_status(:unauthorized)
@@ -122,7 +137,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
     context 'when it is an admin' do
       it 'creates a new custom tool and returns success status' do
-        post "/api/v1/accounts/#{account.id}/captain/custom_tools",
+        post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
              params: valid_attributes,
              headers: admin.create_new_auth_token,
              as: :json
@@ -148,7 +163,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         end
 
         it 'returns unprocessable entity status' do
-          post "/api/v1/accounts/#{account.id}/captain/custom_tools",
+          post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
                params: invalid_attributes,
                headers: admin.create_new_auth_token,
                as: :json
@@ -169,7 +184,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         end
 
         it 'returns unprocessable entity status' do
-          post "/api/v1/accounts/#{account.id}/captain/custom_tools",
+          post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
                params: invalid_url_attributes,
                headers: admin.create_new_auth_token,
                as: :json
@@ -181,7 +196,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/captain/custom_tools/{id}' do
-    let(:custom_tool) { create(:captain_custom_tool, account: account) }
+    let(:custom_tool) { create(:captain_custom_tool, account: account, assistant: assistant) }
     let(:update_attributes) do
       {
         custom_tool: {
@@ -193,7 +208,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
     context 'when it is an un-authenticated user' do
       it 'returns unauthorized status' do
-        patch "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}",
+        patch "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
               params: update_attributes
         expect(response).to have_http_status(:unauthorized)
       end
@@ -201,7 +216,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
     context 'when it is an agent' do
       it 'returns unauthorized status' do
-        patch "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}",
+        patch "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
               params: update_attributes,
               headers: agent.create_new_auth_token
         expect(response).to have_http_status(:unauthorized)
@@ -210,7 +225,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
     context 'when it is an admin' do
       it 'updates the custom tool and returns success status' do
-        patch "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}",
+        patch "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
               params: update_attributes,
               headers: admin.create_new_auth_token,
               as: :json
@@ -218,6 +233,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(response).to have_http_status(:success)
         expect(json_response[:title]).to eq('Updated Tool Title')
         expect(json_response[:enabled]).to be(false)
+        expect(custom_tool.reload.enabled).to be(false)
       end
 
       context 'with invalid parameters' do
@@ -230,7 +246,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         end
 
         it 'returns unprocessable entity status' do
-          patch "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}",
+          patch "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
                 params: invalid_attributes,
                 headers: admin.create_new_auth_token,
                 as: :json
@@ -242,18 +258,18 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/captain/custom_tools/{id}' do
-    let!(:custom_tool) { create(:captain_custom_tool, account: account) }
+    let!(:custom_tool) { create(:captain_custom_tool, account: account, assistant: assistant) }
 
     context 'when it is an un-authenticated user' do
       it 'returns unauthorized status' do
-        delete "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}"
+        delete "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}"
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
     context 'when it is an agent' do
       it 'returns unauthorized status' do
-        delete "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}",
+        delete "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
                headers: agent.create_new_auth_token
         expect(response).to have_http_status(:unauthorized)
       end
@@ -262,7 +278,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
     context 'when it is an admin' do
       it 'deletes the custom tool and returns no content status' do
         expect do
-          delete "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}",
+          delete "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
                  headers: admin.create_new_auth_token
         end.to change(Captain::CustomTool, :count).by(-1)
 
@@ -271,7 +287,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
       context 'when custom tool does not exist' do
         it 'returns not found status' do
-          delete "/api/v1/accounts/#{account.id}/captain/custom_tools/999999",
+          delete "/api/v1/accounts/#{account.id}/captain/custom_tools/999999?assistant_id=#{assistant.id}",
                  headers: admin.create_new_auth_token
 
           expect(response).to have_http_status(:not_found)

@@ -5,8 +5,7 @@ class Voice::Provider::Twilio::RecordingAttachmentService
   pattr_initialize [:call!, :recording_sid!, :recording_url!, { recording_duration: nil }]
 
   def perform
-    return if recording_sid.blank? || recording_url.blank?
-    return if already_attached?
+    return unless attachable?
 
     SafeFetch.fetch(
       recording_url,
@@ -19,9 +18,21 @@ class Voice::Provider::Twilio::RecordingAttachmentService
     # Bump the message updated_at so the message.updated dispatcher rebroadcasts
     # the embedded Call payload (now with recording_url) to connected clients.
     call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+
+    # Duplicate callbacks can both clear the outer already_attached? check, so only
+    # the invocation that actually stored the blob pays for transcription.
+    Voice::CallTranscriptionJob.perform_later(call.id) if @persisted
   end
 
   private
+
+  def attachable?
+    return false if recording_sid.blank? || recording_url.blank?
+    # Twilio shouldn't deliver a recording for a do-not-record conference, but the callback is public: the snapshot decides.
+    return false unless call.recording_enabled?
+
+    !already_attached?
+  end
 
   def persist_recording!(result)
     call.with_lock do
@@ -31,6 +42,7 @@ class Voice::Provider::Twilio::RecordingAttachmentService
       call.recording_sid = recording_sid
       call.duration_seconds ||= normalized_recording_duration
       call.save!
+      @persisted = true
     end
   end
 

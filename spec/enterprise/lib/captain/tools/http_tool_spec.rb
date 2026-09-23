@@ -21,6 +21,20 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
     end
   end
 
+  describe '#available_in_reply_suggestion?' do
+    it 'allows GET tools' do
+      custom_tool.update!(http_method: 'GET')
+
+      expect(tool.available_in_reply_suggestion?).to be true
+    end
+
+    it 'rejects POST tools' do
+      custom_tool.update!(http_method: 'POST')
+
+      expect(tool.available_in_reply_suggestion?).to be false
+    end
+  end
+
   describe '#perform' do
     context 'with GET request' do
       before do
@@ -188,6 +202,16 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
         result = tool.perform(tool_context)
 
         expect(result).to eq('An error occurred while executing the request')
+      end
+
+      it 'marks playground failures for run details without changing production output' do
+        custom_tool.update!(endpoint_url: 'https://example.com/data')
+        stub_request(:get, 'https://example.com/data').to_raise(SocketError.new('Failed to connect'))
+        tool_context.state[:source] = 'playground'
+
+        result = tool.perform(tool_context)
+
+        expect(result).to eq('ERROR: An error occurred while executing the request')
       end
 
       it 'returns generic error message on timeout' do

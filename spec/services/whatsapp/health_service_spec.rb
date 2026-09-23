@@ -56,11 +56,26 @@ RSpec.describe Whatsapp::HealthService do
       }
     }
   end
+  let(:business_profile_response) do
+    {
+      'data' => [
+        {
+          'about' => 'Support that feels personal',
+          'address' => 'San Francisco, California',
+          'description' => 'Customer support, your way.',
+          'email' => 'support@example.com',
+          'profile_picture_url' => 'https://example.com/profile.png',
+          'websites' => ['https://example.com', 'https://docs.example.com'],
+          'vertical' => 'PROF_SERVICES'
+        }
+      ]
+    }
+  end
 
   before do
-    stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_phone_number_id})
+    stub_request(:get, %r{\Ahttps://graph\.facebook\.com/v24\.0/test_phone_number_id\?})
       .to_return(status: 200, body: phone_health_response.to_json, headers: { 'Content-Type' => 'application/json' })
-    stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_waba_id})
+    stub_request(:get, %r{\Ahttps://graph\.facebook\.com/v24\.0/test_waba_id\?})
       .to_return(status: 200, body: business_account_response.to_json, headers: { 'Content-Type' => 'application/json' })
   end
 
@@ -102,6 +117,26 @@ RSpec.describe Whatsapp::HealthService do
       ).to have_been_made.once
     end
 
+    it 'fetches the business profile only when requested' do
+      profile_request = stub_request(
+        :get,
+        %r{\Ahttps://graph\.facebook\.com/v24\.0/test_phone_number_id/whatsapp_business_profile\?}
+      ).to_return(status: 200, body: business_profile_response.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      result = service.fetch_health_status(include_business_profile: true)
+
+      expect(result[:business_profile]).to eq(business_profile_response['data'].first)
+      expect(profile_request).to have_been_requested.once
+    end
+
+    it 'does not fetch the business profile during a standard health request' do
+      service.fetch_health_status
+
+      expect(
+        a_request(:get, %r{/test_phone_number_id/whatsapp_business_profile})
+      ).not_to have_been_made
+    end
+
     it 'uses a newer configured API version' do
       allow(GlobalConfigService).to receive(:load).with('WHATSAPP_API_VERSION', 'v22.0').and_return('v25.0')
       stub_request(:get, %r{graph\.facebook\.com/v25\.0/test_phone_number_id})
@@ -111,7 +146,11 @@ RSpec.describe Whatsapp::HealthService do
 
       service.fetch_health_status
 
-      expect(a_request(:get, %r{graph\.facebook\.com/v25\.0/test_phone_number_id})).to have_been_made.once
+      expect(
+        a_request(:get, %r{graph\.facebook\.com/v25\.0/test_phone_number_id}).with do |request|
+          request.uri.path == '/v25.0/test_phone_number_id'
+        end
+      ).to have_been_made.once
     end
   end
 
@@ -176,6 +215,86 @@ RSpec.describe Whatsapp::HealthService do
           expect(channel.phone_number_health_checked_at).to eq(Time.current)
           expect(channel.phone_number_health_error).to eq('The access token cannot authorize this request.')
         end
+      end
+    end
+
+    context 'when business account enrichment fails' do
+      before do
+        stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_waba_id})
+          .to_return(
+            status: 400,
+            body: {
+              error: {
+                message: '(#200) You do not have permission to access this field.',
+                type: 'OAuthException',
+                code: 200
+              }
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'persists and returns the phone health with the enrichment error' do
+        result = service.sync_health_status!
+        channel.reload
+
+        expect(result).to include(
+          quality_rating: 'GREEN',
+          messaging_limit_tier: 'TIER_250',
+          status: 'CONNECTED'
+        )
+        expect(result).not_to have_key(:business_account_id)
+        expect(channel.phone_number_health).to include(
+          'quality_rating' => 'GREEN',
+          'messaging_limit_tier' => 'TIER_250',
+          'status' => 'CONNECTED'
+        )
+        expect(channel.phone_number_health_error).to eq('(#200) You do not have permission to access this field.')
+      end
+
+      it 'preserves the phone health when the enrichment request times out' do
+        stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_waba_id}).to_timeout
+
+        expect { service.sync_health_status! }.not_to raise_error
+
+        channel.reload
+        expect(channel.phone_number_health).to include(
+          'quality_rating' => 'GREEN',
+          'status' => 'CONNECTED'
+        )
+        expect(channel.phone_number_health_error).to be_present
+      end
+
+      it 'preserves previously fetched business account health' do
+        channel.update!(
+          phone_number_health: {
+            business_account_id: 'previous_waba_id',
+            business_account_name: 'Previous WABA',
+            business_portfolio_id: 'previous_portfolio_id',
+            business_portfolio_name: 'Previous Business Portfolio'
+          }
+        )
+
+        result = service.sync_health_status!
+        channel.reload
+
+        expect(result).to include(
+          business_account_id: 'previous_waba_id',
+          business_account_name: 'Previous WABA',
+          business_portfolio_id: 'previous_portfolio_id',
+          business_portfolio_name: 'Previous Business Portfolio',
+          quality_rating: 'GREEN',
+          status: 'CONNECTED'
+        )
+        expect(channel.phone_number_health).to include(
+          'business_account_id' => 'previous_waba_id',
+          'business_account_name' => 'Previous WABA',
+          'business_portfolio_id' => 'previous_portfolio_id',
+          'business_portfolio_name' => 'Previous Business Portfolio',
+          'quality_rating' => 'GREEN',
+          'status' => 'CONNECTED'
+        )
+        expect(channel.phone_number_health_error).to eq('(#200) You do not have permission to access this field.')
       end
     end
 

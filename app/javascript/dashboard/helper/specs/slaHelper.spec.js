@@ -1,4 +1,4 @@
-import { evaluateSLAStatus } from '../slaHelper';
+import { evaluateSLAStatus, shouldRefreshSLAStatus } from '../slaHelper';
 
 describe('#SLA Helpers', () => {
   const currentTimestamp = 1700000000; // Fixed timestamp for testing
@@ -375,6 +375,166 @@ describe('#SLA Helpers', () => {
         expect(result.type).toBe('FRT');
         expect(result.threshold).toBe('2h');
         expect(result.isSlaMissed).toBe(true);
+      });
+    });
+
+    describe('completed SLA misses', () => {
+      it('freezes a recorded FRT miss at the SLA completion time', () => {
+        const appliedSla = {
+          sla_status: 'missed',
+          sla_completed_at: currentTimestamp - 3600,
+          sla_frt_due_at: currentTimestamp - 7200,
+        };
+        const chat = { status: 'resolved' };
+        const slaEvents = [
+          { event_type: 'frt', created_at: currentTimestamp - 7000 },
+        ];
+
+        const result = evaluateSLAStatus({ appliedSla, chat, slaEvents });
+
+        expect(result).toMatchObject({
+          type: 'FRT',
+          threshold: '1h',
+          isSlaMissed: true,
+        });
+      });
+
+      it('freezes an overdue FRT while SLA event processing is pending', () => {
+        const appliedSla = {
+          sla_status: 'active',
+          sla_completed_at: currentTimestamp - 3600,
+          sla_frt_due_at: currentTimestamp - 7200,
+        };
+        const chat = {
+          status: 'resolved',
+          first_reply_created_at: null,
+        };
+
+        const result = evaluateSLAStatus({ appliedSla, chat });
+
+        expect(result).toMatchObject({
+          type: 'FRT',
+          threshold: '1h',
+          isSlaMissed: true,
+        });
+      });
+
+      it('does not mark FRT missed when completion precedes its due time', () => {
+        const appliedSla = {
+          sla_status: 'active',
+          sla_completed_at: currentTimestamp - 7200,
+          sla_frt_due_at: currentTimestamp - 3600,
+        };
+        const chat = {
+          status: 'resolved',
+          first_reply_created_at: null,
+        };
+
+        const result = evaluateSLAStatus({ appliedSla, chat });
+
+        expect(result.type).toBe('');
+      });
+
+      it('freezes a recorded NRT miss at the SLA completion time', () => {
+        const appliedSla = {
+          sla_status: 'missed',
+          sla_completed_at: currentTimestamp - 3600,
+        };
+        const chat = { status: 'resolved' };
+        const slaEvents = [
+          { event_type: 'nrt', created_at: currentTimestamp - 5400 },
+        ];
+
+        const result = evaluateSLAStatus({ appliedSla, chat, slaEvents });
+
+        expect(result).toMatchObject({
+          type: 'NRT',
+          threshold: '30m',
+          isSlaMissed: true,
+        });
+      });
+
+      it('freezes a recorded RT miss at the SLA completion time', () => {
+        const appliedSla = {
+          sla_status: 'missed',
+          sla_completed_at: currentTimestamp - 3600,
+          sla_rt_due_at: currentTimestamp - 7200,
+        };
+        const chat = { status: 'resolved' };
+        const slaEvents = [
+          { event_type: 'rt', created_at: currentTimestamp - 7000 },
+        ];
+
+        const result = evaluateSLAStatus({ appliedSla, chat, slaEvents });
+
+        expect(result).toMatchObject({
+          type: 'RT',
+          threshold: '1h',
+          isSlaMissed: true,
+        });
+      });
+
+      it('returns a static miss for a legacy completed SLA without a timestamp', () => {
+        const appliedSla = {
+          sla_status: 'missed',
+          sla_rt_due_at: currentTimestamp - 7200,
+        };
+        const chat = { status: 'resolved' };
+        const slaEvents = [
+          { event_type: 'rt', created_at: currentTimestamp - 7000 },
+        ];
+
+        const result = evaluateSLAStatus({ appliedSla, chat, slaEvents });
+
+        expect(result).toMatchObject({
+          type: 'RT',
+          threshold: '',
+          isSlaMissed: true,
+        });
+      });
+    });
+
+    describe('refresh scheduling', () => {
+      it('refreshes only active unresolved SLAs', () => {
+        expect(
+          shouldRefreshSLAStatus({
+            appliedSla: { sla_status: 'active' },
+            chat: { status: 'open' },
+          })
+        ).toBe(true);
+        expect(
+          shouldRefreshSLAStatus({
+            appliedSla: { sla_status: 'active' },
+            chat: { status: 'resolved' },
+          })
+        ).toBe(false);
+        expect(
+          shouldRefreshSLAStatus({
+            appliedSla: { sla_status: 'missed' },
+            chat: { status: 'open' },
+          })
+        ).toBe(false);
+      });
+
+      it('ignores a stale completion time on a reopened nonterminal SLA', () => {
+        const appliedSla = {
+          sla_status: 'active_with_misses',
+          sla_completed_at: currentTimestamp - 3600,
+          sla_frt_due_at: currentTimestamp - 7200,
+        };
+        const chat = { status: 'open' };
+        const slaEvents = [
+          { event_type: 'frt', created_at: currentTimestamp - 7000 },
+        ];
+
+        expect(shouldRefreshSLAStatus({ appliedSla, chat })).toBe(true);
+        expect(
+          evaluateSLAStatus({ appliedSla, chat, slaEvents })
+        ).toMatchObject({
+          type: 'FRT',
+          threshold: '2h',
+          isSlaMissed: true,
+        });
       });
     });
 

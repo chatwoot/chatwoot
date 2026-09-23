@@ -1,4 +1,6 @@
 class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::BaseTool
+  include Captain::Copilot::ConversationAccess
+
   def self.name
     'search_conversation'
   end
@@ -49,10 +51,6 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
   end
 
   def permissible_conversations
-    Conversations::PermissionFilterService.new(
-      @assistant.account.conversations,
-      @user,
-      @assistant.account
-    ).perform
+    accessible_conversations(account: @assistant.account, user: @user)
   end
 end

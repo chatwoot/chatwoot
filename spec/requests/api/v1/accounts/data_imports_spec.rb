@@ -4,10 +4,12 @@ RSpec.describe 'Data Imports API', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:validator) { instance_double(DataImports::Intercom::CredentialsValidator, perform: { 'contacts' => 12, 'conversations' => 8 }) }
+  let(:freshdesk_validator) { instance_double(DataImports::Freshdesk::CredentialsValidator, perform: {}) }
 
   before do
     account.enable_features!('data_import')
     allow(DataImports::Intercom::CredentialsValidator).to receive(:new).and_return(validator)
+    allow(DataImports::Freshdesk::CredentialsValidator).to receive(:new).and_return(freshdesk_validator)
   end
 
   describe 'POST /api/v1/accounts/:account_id/data_imports/validate_source' do
@@ -35,6 +37,49 @@ RSpec.describe 'Data Imports API', type: :request do
       expect(response.parsed_body).to eq(
         'valid' => false,
         'message' => 'We could not validate this Intercom access key. Check the key and its permissions.'
+      )
+    end
+
+    it 'validates a Freshdesk domain and API key through its source adapter', :aggregate_failures do
+      post validate_source_api_v1_account_data_imports_url(account_id: account.id),
+           params: {
+             source_provider: 'freshdesk',
+             domain: 'acme.freshdesk.com',
+             access_token: 'freshdesk-api-key',
+             import_types: %w[contacts conversations]
+           },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body).to eq('valid' => true, 'totals' => {})
+      expect(DataImports::Freshdesk::CredentialsValidator).to have_received(:new).with(
+        domain: 'acme.freshdesk.com',
+        api_key: 'freshdesk-api-key',
+        import_types: %w[contacts conversations]
+      )
+    end
+
+    it 'returns a safe Freshdesk authentication error' do
+      allow(freshdesk_validator).to receive(:perform).and_raise(
+        DataImports::Freshdesk::Client::AuthenticationError,
+        'provider response'
+      )
+
+      post validate_source_api_v1_account_data_imports_url(account_id: account.id),
+           params: {
+             source_provider: 'freshdesk',
+             domain: 'acme.freshdesk.com',
+             access_token: 'invalid',
+             import_types: %w[contacts]
+           },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body).to eq(
+        'valid' => false,
+        'message' => 'We could not validate this Freshdesk API key. Check the key and its permissions.'
       )
     end
   end
@@ -87,6 +132,36 @@ RSpec.describe 'Data Imports API', type: :request do
       expect(response.parsed_body).not_to have_key('access_token')
     end
 
+    it 'creates and enqueues a Freshdesk import', :aggregate_failures do
+      expect do
+        post api_v1_account_data_imports_url(account_id: account.id),
+             params: {
+               name: 'Freshdesk migration',
+               source_provider: 'freshdesk',
+               domain: 'https://ACME.freshdesk.com/support/home',
+               access_token: 'freshdesk-api-key',
+               import_types: %w[contacts conversations]
+             },
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.to have_enqueued_job(DataImports::Freshdesk::ImportJob)
+
+      expect(response).to have_http_status(:ok)
+      data_import = account.data_imports.last
+      expect(data_import).to have_attributes(
+        name: 'Freshdesk migration',
+        data_type: 'freshdesk',
+        source_type: 'api',
+        source_provider: 'freshdesk',
+        initiated_by_id: admin.id
+      )
+      expect(data_import.access_token).to eq('freshdesk-api-key')
+      expect(data_import.source_metadata).to include('domain' => 'acme.freshdesk.com')
+      expect(data_import.active_import_run_id).to be_present
+      expect(response.parsed_body['source_provider']).to eq('freshdesk')
+      expect(response.parsed_body).not_to have_key('access_token')
+    end
+
     it 'rejects creation while another Intercom import is active' do
       active_import = create(
         :data_import, :intercom,
@@ -108,6 +183,26 @@ RSpec.describe 'Data Imports API', type: :request do
       expect(response.parsed_body['message']).to eq('Another data import is already in progress.')
       expect(account.data_imports.where(data_type: 'intercom', source_provider: 'intercom').count).to eq(1)
       expect(active_import.reload).to be_processing
+    end
+
+    it 'rejects a Freshdesk import while another integration import is active' do
+      create(:data_import, :intercom, account: account, status: :processing)
+
+      expect do
+        post api_v1_account_data_imports_url(account_id: account.id),
+             params: {
+               source_provider: 'freshdesk',
+               domain: 'acme.freshdesk.com',
+               access_token: 'freshdesk-api-key',
+               import_types: %w[contacts conversations]
+             },
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.not_to have_enqueued_job(DataImports::Freshdesk::ImportJob)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq('Another data import is already in progress.')
+      expect(account.data_imports.where(source_provider: 'freshdesk')).to be_empty
     end
 
     it 'rejects unsupported import types instead of silently importing everything' do
@@ -207,6 +302,20 @@ RSpec.describe 'Data Imports API', type: :request do
       expect(response.parsed_body['message']).to eq('The Intercom access key for this import is unavailable.')
       expect(data_import.reload).to be_abandoned
     end
+
+    it 'restarts an abandoned Freshdesk import with the Freshdesk job' do
+      freshdesk_import = create(:data_import, :freshdesk, account: account, status: :abandoned, abandoned_at: 1.hour.ago)
+
+      expect do
+        post start_api_v1_account_data_import_url(account_id: account.id, id: freshdesk_import.id),
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.to have_enqueued_job(DataImports::Freshdesk::ImportJob).with(freshdesk_import, a_kind_of(String))
+
+      expect(response).to have_http_status(:ok)
+      expect(freshdesk_import.reload).to be_pending
+      expect(freshdesk_import.active_import_run_id).to be_present
+    end
   end
 
   describe 'POST /api/v1/accounts/:account_id/data_imports/:id/retry' do
@@ -263,6 +372,20 @@ RSpec.describe 'Data Imports API', type: :request do
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body['message']).to eq('Another Intercom import is already in progress.')
+    end
+
+    it 'resumes a stalled Freshdesk import with the Freshdesk job' do
+      freshdesk_import = create(:data_import, :freshdesk, account: account, status: :processing, started_at: 2.hours.ago)
+      freshdesk_import.update!(updated_at: 16.minutes.ago)
+
+      expect do
+        post retry_api_v1_account_data_import_url(account_id: account.id, id: freshdesk_import.id),
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.to have_enqueued_job(DataImports::Freshdesk::ImportJob).with(freshdesk_import, a_kind_of(String))
+
+      expect(response).to have_http_status(:ok)
+      expect(freshdesk_import.reload).to be_pending
     end
   end
 

@@ -29,6 +29,7 @@ class Whatsapp::ReauthorizationService
     current_config = channel.provider_config || {}
     # Legacy clients may omit phone_number_id; fall back to the value just fetched from Meta.
     resolved_phone_number_id = @phone_number_id.presence || phone_info[:phone_number_id]
+    channel.business_management_token = nil if current_config['business_account_id'] != @waba_id
 
     channel.provider_config = current_config.merge(
       'api_key' => access_token,

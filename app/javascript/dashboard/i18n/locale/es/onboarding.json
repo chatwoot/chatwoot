@@ -39,6 +39,10 @@
     "ERROR": "Algo salió mal. Por favor, inténtalo de nuevo.",
     "WHATSAPP_CONNECTED": "WhatsApp se ha conectado correctamente",
     "FACEBOOK_CONNECTED": "Facebook conectado correctamente",
+    "META_RESTRICTION": {
+      "MESSAGE": "La configuración de bandejas de entrada para Facebook, Instagram y WhatsApp no está disponible temporalmente debido a un problema en la API de Meta, no de Chatwoot. Estamos colaborando estrechamente con Meta para resolverlo cuanto antes.",
+      "STATUS_LINK": "Ver actualizaciones de estado"
+    },
     "CREATED_FOR_YOU": {
       "TITLE": "Hemos creado lo siguiente para ti",
       "LIVE_CHAT": "Widget de Live Chat",

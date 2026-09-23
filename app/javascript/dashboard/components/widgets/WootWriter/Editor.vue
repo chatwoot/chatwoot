@@ -15,6 +15,7 @@ import CannedResponse from '../conversation/CannedResponse.vue';
 import KeyboardEmojiSelector from './keyboardEmojiSelector.vue';
 import TagAgents from '../conversation/TagAgents.vue';
 import VariableList from '../conversation/VariableList.vue';
+import MacroList from '../conversation/MacroList.vue';
 import TagTools from '../conversation/TagTools.vue';
 import CopilotMenuBar from './CopilotMenuBar.vue';
 
@@ -86,6 +87,7 @@ const props = defineProps({
   enableVariables: { type: Boolean, default: false },
   enableCannedResponses: { type: Boolean, default: true },
   enableCaptainTools: { type: Boolean, default: false },
+  enableMacros: { type: Boolean, default: false },
   variables: { type: Object, default: () => ({}) },
   signature: { type: String, default: '' },
   // allowSignature is a kill switch, ensuring no signature methods
@@ -98,6 +100,10 @@ const props = defineProps({
   // Render the formatting menu as a bubble over the current selection instead
   // of a menubar pinned above the editor.
   popoverMenu: { type: Boolean, default: false },
+  // Global INSERT_INTO_RICH_EDITOR bus events (Copilot "Use this", article
+  // links) are meant for the conversation reply editor only — other mounted
+  // editors (canned responses, signature, etc.) must not consume them.
+  enableInsertEvents: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -107,6 +113,8 @@ const emit = defineEmits([
   'toggleCannedMenu',
   'toggleVariablesMenu',
   'toggleToolsMenu',
+  'toggleMacrosMenu',
+  'executeMacro',
   'clearSelection',
   'blur',
   'focus',
@@ -172,6 +180,7 @@ const createState = (content, placeholder, plugins = [], methods = {}) => {
       methods,
       plugins,
       enabledMenuOptions: editorMenuOptions.value,
+      resizableTableColumns: false,
     }),
   });
 };
@@ -197,11 +206,13 @@ const showCannedMenu = ref(false);
 const showVariables = ref(false);
 const showEmojiMenu = ref(false);
 const showToolsMenu = ref(false);
-const mentionSearchKey = ref('');
+const showMacroMenu = ref(false);
 const toolSearchKey = ref('');
-const cannedSearchTerm = ref('');
-const variableSearchTerm = ref('');
-const emojiSearchTerm = ref('');
+const mentionSearchKey = ref('');
+const cannedSearchKey = ref('');
+const variableSearchKey = ref('');
+const emojiSearchKey = ref('');
+const macroSearchKey = ref('');
 const range = ref(null);
 const isTextSelected = ref(false); // Tracks text selection and prevents unnecessary re-renders on mouse selection
 const showSelectionMenu = ref(false);
@@ -210,6 +221,17 @@ const showSelectionMenu = ref(false);
 const editorRoot = useTemplateRef('editorRoot');
 const imageUpload = useTemplateRef('imageUpload');
 const editor = useTemplateRef('editor');
+
+// Anchors the picker to the trigger character, since editors can be much taller than the
+// line being typed on. Offsets are relative to the editor so the picker can sit on that
+// line and track it from there.
+const caretPosition = computed(() => {
+  if (!editorView || !range.value || !editorRoot.value) return null;
+  const from = Math.min(range.value.from, editorView.state.doc.content.size);
+  const { top, bottom } = editorView.coordsAtPos(from);
+  const editorTop = editorRoot.value.getBoundingClientRect().top;
+  return { top: top - editorTop, height: bottom - top };
+});
 
 const isEditorMenuPopover = computed(() => props.popoverMenu);
 
@@ -242,22 +264,60 @@ const shouldShowCannedResponses = computed(() => {
   );
 });
 
+const shouldShowMacros = computed(() => {
+  return props.enableMacros && showMacroMenu.value;
+});
+
+const shouldShowUserMentions = computed(() => {
+  return showUserMentions.value && props.isPrivate;
+});
+
+// The picker owns the search field, so it takes focus while open. Dismissing it hands
+// focus back; selecting one does so through the insert itself. The suggestion stays
+// active in the document, so the picker only reopens once the trigger is typed afresh.
+const dismissPicker = showMenu => {
+  showMenu.value = false;
+  editorView?.focus();
+};
+
+const dismissUserMentions = () => dismissPicker(showUserMentions);
+const dismissCannedResponses = () => dismissPicker(showCannedMenu);
+const dismissVariables = () => dismissPicker(showVariables);
+const dismissEmojiMenu = () => dismissPicker(showEmojiMenu);
+const dismissMacros = () => dismissPicker(showMacroMenu);
+
+// Deleting the trigger drops the suggestion, so the plugin closes the picker through
+// `onExit` on its own.
+const removeSuggestionTrigger = () => {
+  if (!editorView || !range.value) return;
+  const { from, to } = range.value;
+  const end = Math.min(to, editorView.state.doc.content.size);
+  editorView.dispatch(editorView.state.tr.delete(from, end));
+  editorView.focus();
+};
+
+const onSelectMacro = macro => {
+  removeSuggestionTrigger();
+  emit('executeMacro', macro);
+};
+
 function createSuggestionPlugin({
   trigger,
   minChars = 0,
   showMenu,
   searchTerm,
   isAllowed = () => true,
+  interceptEnter = false,
 }) {
   return suggestionsPlugin({
     matcher: triggerCharacters(trigger, minChars),
     suggestionClass: '',
     onEnter: args => {
       if (!isAllowed()) return false;
-      showMenu.value = true;
       range.value = args.range;
       editorView = args.view;
       if (searchTerm) searchTerm.value = args.text || '';
+      showMenu.value = true;
       return false;
     },
     onChange: args => {
@@ -272,7 +332,7 @@ function createSuggestionPlugin({
       return false;
     },
     onKeyDown: ({ event }) => {
-      return event.keyCode === 13 && showMenu.value;
+      return event.keyCode === 13 && showMenu.value && interceptEnter;
     },
   });
 }
@@ -288,6 +348,7 @@ const plugins = computed(() => {
       showMenu: showToolsMenu,
       searchTerm: toolSearchKey,
       isAllowed: () => props.enableCaptainTools,
+      interceptEnter: true,
     }),
     createSuggestionPlugin({
       trigger: '@',
@@ -298,13 +359,13 @@ const plugins = computed(() => {
     createSuggestionPlugin({
       trigger: '/',
       showMenu: showCannedMenu,
-      searchTerm: cannedSearchTerm,
+      searchTerm: cannedSearchKey,
       isAllowed: () => !props.isPrivate,
     }),
     createSuggestionPlugin({
       trigger: '{{',
       showMenu: showVariables,
-      searchTerm: variableSearchTerm,
+      searchTerm: variableSearchKey,
       isAllowed: () => !props.isPrivate,
     }),
     createVariableInputRule({
@@ -312,10 +373,16 @@ const plugins = computed(() => {
       getVariables: () => props.variables,
     }),
     createSuggestionPlugin({
+      trigger: '#',
+      showMenu: showMacroMenu,
+      searchTerm: macroSearchKey,
+      isAllowed: () => props.enableMacros,
+    }),
+    createSuggestionPlugin({
       trigger: ':',
       minChars: 2,
       showMenu: showEmojiMenu,
-      searchTerm: emojiSearchTerm,
+      searchTerm: emojiSearchKey,
     }),
   ];
 });
@@ -335,14 +402,17 @@ const sendWithSignature = computed(() => {
   return false;
 });
 
-watch(showUserMentions, updatedValue => {
-  emit('toggleUserMention', props.isPrivate && updatedValue);
+watch(shouldShowUserMentions, updatedValue => {
+  emit('toggleUserMention', updatedValue);
 });
-watch(showCannedMenu, updatedValue => {
-  emit('toggleCannedMenu', !props.isPrivate && updatedValue);
+watch(shouldShowCannedResponses, updatedValue => {
+  emit('toggleCannedMenu', updatedValue);
 });
-watch(showVariables, updatedValue => {
-  emit('toggleVariablesMenu', !props.isPrivate && updatedValue);
+watch(shouldShowVariables, updatedValue => {
+  emit('toggleVariablesMenu', updatedValue);
+});
+watch(shouldShowMacros, updatedValue => {
+  emit('toggleMacrosMenu', updatedValue);
 });
 watch(showToolsMenu, updatedValue => {
   emit('toggleToolsMenu', props.enableCaptainTools && updatedValue);
@@ -438,6 +508,14 @@ function handleClickOutside(event) {
 }
 
 function reloadState(content = props.modelValue) {
+  range.value = null;
+  showUserMentions.value = false;
+  showCannedMenu.value = false;
+  showVariables.value = false;
+  showEmojiMenu.value = false;
+  showToolsMenu.value = false;
+  showMacroMenu.value = false;
+
   const unrefContent = unref(content);
   state = createState(
     unrefContent,
@@ -739,6 +817,7 @@ function createEditorView() {
   editorView = new EditorView(editor.value, {
     state: state,
     editable: () => !props.disabled,
+    attributes: { class: 'resizable-editor-body' },
     nodeViews: {
       image: imageResizeView,
     },
@@ -796,10 +875,6 @@ watch(
 watch(
   computed(() => props.editorId),
   () => {
-    showCannedMenu.value = false;
-    showEmojiMenu.value = false;
-    showVariables.value = false;
-    cannedSearchTerm.value = '';
     reloadState(props.modelValue);
   }
 );
@@ -810,6 +885,10 @@ watch(
     reloadState(props.modelValue);
   }
 );
+
+watch(effectiveChannelType, () => {
+  reloadState(props.modelValue);
+});
 
 watch(
   computed(() => props.disabled),
@@ -866,7 +945,10 @@ defineExpose({ focusEditorInputField });
 // current cursor position.
 // Components using this
 // 1. SearchPopover.vue
-useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
+useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, content => {
+  if (!props.enableInsertEvents) return;
+  insertContentIntoEditor(content);
+});
 </script>
 
 <template>
@@ -879,23 +961,46 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     }"
   >
     <TagAgents
-      v-if="showUserMentions && isPrivate"
+      v-if="shouldShowUserMentions"
+      :caret-position="caretPosition"
       :search-key="mentionSearchKey"
+      @close="dismissUserMentions"
+      @remove-trigger="removeSuggestionTrigger"
       @select-agent="content => insertSpecialContent('mention', content)"
     />
     <CannedResponse
       v-if="shouldShowCannedResponses"
-      :search-key="cannedSearchTerm"
+      :caret-position="caretPosition"
+      :search-key="cannedSearchKey"
+      :variables="variables"
+      :schema="editorSchema"
+      @close="dismissCannedResponses"
+      @remove-trigger="removeSuggestionTrigger"
       @replace="content => insertSpecialContent('cannedResponse', content)"
     />
     <VariableList
       v-if="shouldShowVariables"
-      :search-key="variableSearchTerm"
+      :caret-position="caretPosition"
+      :search-key="variableSearchKey"
+      :variables="variables"
+      @close="dismissVariables"
+      @remove-trigger="removeSuggestionTrigger"
       @select-variable="content => insertSpecialContent('variable', content)"
+    />
+    <MacroList
+      v-if="shouldShowMacros"
+      :caret-position="caretPosition"
+      :search-key="macroSearchKey"
+      @close="dismissMacros"
+      @remove-trigger="removeSuggestionTrigger"
+      @select-macro="onSelectMacro"
     />
     <KeyboardEmojiSelector
       v-if="showEmojiMenu"
-      :search-key="emojiSearchTerm"
+      :caret-position="caretPosition"
+      :search-key="emojiSearchKey"
+      @close="dismissEmojiMenu"
+      @remove-trigger="removeSuggestionTrigger"
       @select-emoji="emoji => insertSpecialContent('emoji', emoji)"
     />
     <TagTools
@@ -922,7 +1027,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       hidden
       @change="onFileChange"
     />
-    <div ref="editor" />
+    <div ref="editor" class="editor-mount" />
     <slot name="footer" />
   </div>
 </template>
@@ -988,33 +1093,20 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
   }
 }
 
+// Room for the table grips and add buttons, which sit outside the table.
+// .editor-mount keeps this off the article editor.
+.editor-mount .ProseMirror .tableWrapper {
+  @apply m-0 pt-4 pb-5 ps-5 pe-6;
+}
+
 .ProseMirror-woot-style {
   @apply overflow-auto;
 }
 
 .ProseMirror-woot-style:not(
-    :where(.resizable-editor-wrapper .ProseMirror-woot-style)
+    :where(.resizable-editor-wrapper .resizable-editor-body)
   ) {
   @apply min-h-[5rem] max-h-[7.5rem];
-}
-
-// Resizable editor wrapper styles
-.resizable-editor-wrapper {
-  .ProseMirror-woot-style {
-    min-height: clamp(
-      var(--editor-min-allowed, var(--editor-min-height, 5rem)),
-      var(--editor-height, var(--editor-min-height, 5rem)),
-      var(--editor-max-allowed, var(--editor-max-height, 7.5rem))
-    );
-    max-height: clamp(
-      var(--editor-min-allowed, var(--editor-min-height, 5rem)),
-      var(--editor-height, var(--editor-min-height, 5rem)),
-      var(--editor-max-allowed, var(--editor-max-height, 7.5rem))
-    );
-    transition:
-      min-height var(--editor-height-transition, 180ms ease),
-      max-height var(--editor-height-transition, 180ms ease);
-  }
 }
 
 .ProseMirror-prompt-backdrop::backdrop {
@@ -1094,7 +1186,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 .popover-prosemirror-menu {
   position: relative;
 
-  .ProseMirror p:last-child {
+  .ProseMirror p:last-child:not(:is(th, td) > p) {
     margin-bottom: 10px !important;
   }
 

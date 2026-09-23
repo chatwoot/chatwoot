@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "उपलब्ध छैन",
     "EMAIL_ADDRESS": "इमेल ठेगाना",
     "PHONE_NUMBER": "फोन नम्बर",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "पहिचानकर्ता",
     "COPY_SUCCESSFUL": "क्लिपबोर्डमा सफलतापूर्वक प्रतिलिपि गरियो",
     "COMPANY": "कम्पनी",
@@ -461,6 +462,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagram थप्नुहोस्"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Telegram थप्नुहोस्"
           },
@@ -611,6 +615,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "हामीले खोजी पूरा गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।"
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "हेर्नुहोस्",

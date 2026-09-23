@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "উপলব্ধ নেই",
     "EMAIL_ADDRESS": "ইমেইল ঠিকানা",
     "PHONE_NUMBER": "ফোন নম্বর",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "পরিচিতি নম্বর",
     "COPY_SUCCESSFUL": "ক্লিপবোর্ডে সফলভাবে কপি হয়েছে",
     "COMPANY": "কোম্পানি",
@@ -461,6 +462,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagram যোগ করুন"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"
           },
@@ -611,6 +615,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "View",
