@@ -1,12 +1,12 @@
 # Captain V1 retirement for self-hosted installations
 
-Captain uses the V2 runtime after this change. Existing assistants, inbox links, and knowledge sources remain in place. Legacy `config.instructions` is retained as migration source data, but the runtime no longer reads it. Review and move any behavior that depends on those instructions before upgrading.
+Captain uses the V2 runtime after this change. Existing assistants, inbox links, and knowledge sources remain in place. Legacy `config.instructions` is retained as migration source data, but the runtime no longer reads it. Move any behavior that depends on those instructions before installing the release that removes V1.
 
-The V1-to-V2 conversion is optional. Installations with no V1 instructions, or teams that prefer to configure V2 manually, do not need the conversion task. Keeping the V1 runtime as an opt-in is not supported.
+The conversion task is optional. Installations with no V1 instructions do not need it. Teams can also configure V2 manually. Existing V1 instructions must be reviewed and moved into V2 settings by one of these paths to preserve their behavior. Keeping the V1 runtime as an opt-in is not supported.
 
 ## Reviewed conversion
 
-Back up the installation database first. On a release that includes `captain:assistant_migration`, select a small set of assistant IDs and generate drafts:
+Back up the installation database first. Run the task while the installation still has the V1 runtime, before installing the V1 removal release. The task is present from v4.16.0 onward. Installations on an older release should first upgrade to a release that includes the task and still has V1. Select a small set of assistant IDs and generate drafts:
 
 ```sh
 bundle exec rake captain:assistant_migration:generate IDS=1,2 OUTPUT=tmp/captain_migration.jsonl
@@ -21,4 +21,4 @@ bundle exec rake captain:assistant_migration:apply INPUT=tmp/reviewed.jsonl DRY_
 bundle exec rake captain:assistant_migration:apply INPUT=tmp/reviewed.jsonl DRY_RUN=false
 ```
 
-`apply` defaults to a dry run. It stores the original assistant values in `config.assistant_migration.original_values` and leaves the V1 instructions in `config.instructions`. After applying, inspect the V2 settings and test the assistant in the playground and a linked inbox before relying on it for customer replies. Assistants outside the task's candidate scope need manual review and configuration.
+`apply` defaults to a dry run. It stores the original assistant values in `config.assistant_migration.original_values` and leaves the V1 instructions in `config.instructions`. After applying, inspect the V2 settings and test the assistant in the playground and a linked inbox. Complete any manual changes, then install the V1 removal release. Assistants outside the task's candidate scope need manual review and configuration before that upgrade.
