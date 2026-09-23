@@ -8,6 +8,6 @@ class CustomExceptions::MonitorEvaluationError < StandardError
   end
 
   def retryable?
-    %w[provider_busy provider_unavailable invalid_response rate_limit budget_limit monthly_limit].include?(code)
+    %w[provider_busy provider_unavailable invalid_response budget_limit monthly_limit].include?(code)
   end
 end
