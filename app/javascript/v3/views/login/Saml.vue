@@ -11,6 +11,7 @@ import FormInput from '../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
+  ssoAccountId: { type: String, default: '' },
   authError: {
     type: String,
     default: '',
@@ -62,8 +63,14 @@ const globalConfig = computed(() => store.getters['globalConfig/get']);
 const csrfToken = ref('');
 const loginRoute = computed(() => {
   const route = { name: 'login' };
-  return props.redirectUrl
-    ? { ...route, query: { redirect_url: props.redirectUrl } }
+  return props.redirectUrl || props.ssoAccountId
+    ? {
+        ...route,
+        query: {
+          redirect_url: props.redirectUrl,
+          ...(props.ssoAccountId ? { sso_account_id: props.ssoAccountId } : {}),
+        },
+      }
     : route;
 });
 
@@ -128,6 +135,12 @@ onMounted(async () => {
           class="h-0"
           name="redirect_url"
           :value="redirectUrl"
+        />
+        <input
+          v-if="ssoAccountId"
+          type="hidden"
+          name="sso_account_id"
+          :value="ssoAccountId"
         />
         <NextButton
           lg

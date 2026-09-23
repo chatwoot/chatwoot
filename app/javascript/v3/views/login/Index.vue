@@ -132,8 +132,16 @@ export default {
     },
     samlLoginRoute() {
       const route = { name: 'sso_login' };
-      return this.redirectUrl
-        ? { ...route, query: { redirect_url: this.redirectUrl } }
+      return this.redirectUrl || this.ssoAccountId
+        ? {
+            ...route,
+            query: {
+              redirect_url: this.redirectUrl,
+              ...(this.ssoAccountId
+                ? { sso_account_id: this.ssoAccountId }
+                : {}),
+            },
+          }
         : route;
     },
   },
@@ -403,6 +411,7 @@ export default {
           <GoogleOAuthButton
             v-if="showGoogleOAuth"
             :redirect-url="redirectUrl"
+            :sso-account-id="ssoAccountId"
           />
           <div v-if="showSamlLogin" class="text-center">
             <router-link

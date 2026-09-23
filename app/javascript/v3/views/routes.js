@@ -33,6 +33,7 @@ export default [
     props: route => ({
       authError: route.query.error,
       target: route.query.target,
+      ssoAccountId: route.query.sso_account_id,
       redirectUrl: route.query.redirect_url,
     }),
   },

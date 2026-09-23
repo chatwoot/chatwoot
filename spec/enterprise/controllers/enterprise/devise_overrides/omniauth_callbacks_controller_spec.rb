@@ -84,7 +84,7 @@ RSpec.describe 'Enterprise SAML OmniAuth Callbacks', type: :request do
 
         get "/omniauth/saml/callback?account_id=#{account.id}"
 
-        expect(response).to redirect_to('http://www.example.com/app/login?error=saml-authentication-failed')
+        expect(response).to redirect_to("http://www.example.com/app/login?error=saml-authentication-failed&sso_account_id=#{account.id}")
         expect(existing_user.reload.provider).to eq('email')
         expect(existing_user.accounts).not_to include(account)
       end
