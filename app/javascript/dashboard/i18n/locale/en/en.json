@@ -1,5 +1,6 @@
 {
   "STRIPE_INTEGRATION": {
+    "UNAVAILABLE": "Stripe is unavailable for this account. Contact your administrator to check the integration configuration.",
     "TITLE": "Stripe",
     "DESCRIPTION": "View customer details, subscriptions, and invoices alongside your conversations.",
     "CONNECT": "Connect",

@@ -15,6 +15,7 @@ const route = useRoute();
 const integration = useFunctionGetter('integrations/getIntegration', 'stripe');
 const loading = ref(true);
 const loaded = ref(false);
+const available = ref(false);
 const busy = ref(false);
 const error = ref(!!route.query.error);
 const account = ref(null);
@@ -24,9 +25,11 @@ const STRIPE_LOGO_DARK = '/dashboard/images/integrations/stripe-dark.svg';
 const loadIntegration = async () => {
   const { data } = await IntegrationsAPI.get();
   store.commit('integrations/SET_INTEGRATIONS', data.payload);
-  account.value = integration.value.enabled
-    ? (await StripeAPI.get()).data
-    : null;
+  available.value = data.payload.some(item => item.id === 'stripe');
+  account.value =
+    available.value && integration.value.enabled
+      ? (await StripeAPI.get()).data
+      : null;
   loaded.value = true;
 };
 
@@ -89,7 +92,10 @@ onMounted(async () => {
         <p v-if="error" role="alert" class="text-n-ruby-11">
           {{ $t('STRIPE_INTEGRATION.ERROR') }}
         </p>
-        <template v-if="loaded && integration.enabled">
+        <p v-if="loaded && !available" role="status" class="text-n-slate-11">
+          {{ $t('STRIPE_INTEGRATION.UNAVAILABLE') }}
+        </p>
+        <template v-else-if="loaded && integration.enabled">
           <div class="rounded-xl border border-n-weak bg-n-solid-1">
             <div
               class="flex flex-wrap items-center justify-between gap-4 p-6 border-b border-n-weak"
