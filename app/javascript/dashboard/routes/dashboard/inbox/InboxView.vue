@@ -1,9 +1,11 @@
 <script setup>
 import { computed, ref, watch, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useTrack } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { emitter } from 'shared/helpers/mitt';
@@ -15,6 +17,7 @@ import InboxEmptyState from './InboxEmptyState.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ConversationSidebar from 'dashboard/components/widgets/conversation/ConversationSidebar.vue';
 
+const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
@@ -178,6 +181,51 @@ watch(
   },
   { immediate: true }
 );
+
+const deleteAndNavigateNext = async () => {
+  if (!activeNotification.value) return;
+
+  useTrack(INBOX_EVENTS.DELETE_NOTIFICATION);
+
+  const currentIndex = activeNotificationIndex.value;
+  const nextNotificationId = notifications.value[currentIndex + 1]?.primary_actor?.id;
+
+  try {
+    await store.dispatch('notifications/delete', {
+      notification: activeNotification.value,
+      unread_count: meta.value.unreadCount,
+      count: meta.value.count,
+    });
+
+    useAlert(t('INBOX.ALERTS.DELETE'));
+  } catch {
+    return;
+  }
+
+  if (nextNotificationId) {
+    const nextNotification = notifications.value.find(
+      n => n.primary_actor?.id === nextNotificationId
+    );
+    if (nextNotification) {
+      openNotification(nextNotification);
+    } else {
+      router.push({ name: 'inbox_view' });
+    }
+  } else {
+    router.push({ name: 'inbox_view' });
+  }
+};
+
+const keyboardEvents = {
+  KeyE: {
+    action: e => {
+      e.preventDefault();
+      deleteAndNavigateNext();
+    },
+  },
+};
+
+useKeyboardEvents(keyboardEvents);
 
 onMounted(async () => {
   await store.dispatch('agents/get');
