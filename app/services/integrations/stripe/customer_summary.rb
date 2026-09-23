@@ -31,8 +31,10 @@ class Integrations::Stripe::CustomerSummary
   def billing_details(customer_id)
     subscriptions = ::Stripe::Subscription.list({ customer: customer_id, status: 'all', limit: RECENT_LIMIT }, @options)
     invoices = ::Stripe::Invoice.list({ customer: customer_id, limit: RECENT_LIMIT }, @options)
+    subscriptions = subscriptions.data.map(&:to_hash)
+    load_products(subscriptions)
     {
-      subscriptions: subscriptions.data.map { |subscription| subscription_details(subscription.to_hash) },
+      subscriptions: subscriptions.map { |subscription| subscription_details(subscription) },
       invoices: invoices.data.map { |invoice| invoice.to_hash.slice(:id, :number, :status, :total, :currency, :created) }
     }
   end
@@ -47,7 +49,7 @@ class Integrations::Stripe::CustomerSummary
   def subscription_item(item, subscription)
     price = item.fetch(:price)
     {
-      id: item[:id], name: product_name(price[:product]) || price[:nickname], quantity: item[:quantity],
+      id: item[:id], name: @products[price[:product]] || price[:nickname], quantity: item[:quantity],
       unit_amount: price[:unit_amount_decimal] || price[:unit_amount], currency: price[:currency],
       recurring: price.fetch(:recurring).slice(:interval, :interval_count, :usage_type),
       billing_scheme: price[:billing_scheme],
@@ -56,12 +58,16 @@ class Integrations::Stripe::CustomerSummary
     }
   end
 
-  def product_name(product_id)
-    return @products[product_id] if @products.key?(product_id)
-
-    @products[product_id] = ::Stripe::Product.retrieve(product_id, @options).to_hash[:name]
+  def load_products(subscriptions)
+    product_ids = subscriptions.flat_map { |subscription| subscription.fetch(:items, {}).fetch(:data, []) }
+                               .map { |item| item.fetch(:price).fetch(:product) }.uniq
+    product_ids.each_slice(100) do |ids|
+      products = ::Stripe::Product.list({ ids: ids, limit: 100 }, @options)
+      products.data.each { |product| @products[product.id] = product.name }
+    end
   rescue ::Stripe::PermissionError
     # Existing installations may not yet have granted product_read.
-    @products[product_id] = nil
+    # Stop the whole batch lookup rather than retrying each product.
+    nil
   end
 end

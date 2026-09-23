@@ -42,9 +42,10 @@ RSpec.describe Integrations::Stripe::CustomerSummary do
       .to_return(headers: { 'Content-Type' => 'application/json' },
                  body: { data: [{ id: 'sub_test', status: 'active', cancel_at_period_end: true, cancel_at: 200,
                                   items: { data: [item], has_more: false } }] }.to_json)
-    stub_request(:get, 'https://api.stripe.com/v1/products/prod_test')
+    stub_request(:get, 'https://api.stripe.com/v1/products')
+      .with(query: { ids: ['prod_test'], limit: 100 })
       .to_return(headers: { 'Content-Type' => 'application/json' },
-                 body: { id: 'prod_test', name: 'Support Pro', metadata: { private: 'hidden' } }.to_json)
+                 body: { data: [{ id: 'prod_test', name: 'Support Pro', metadata: { private: 'hidden' } }] }.to_json)
 
     subscription = service.perform[:subscriptions].first
     expect(subscription).to include(cancel_at_period_end: true, cancel_at: 200)
@@ -52,7 +53,8 @@ RSpec.describe Integrations::Stripe::CustomerSummary do
                                           billing_scheme: 'per_unit', recurring: item[:price][:recurring],
                                           current_period_start: 100, current_period_end: 200 }])
 
-    stub_request(:get, 'https://api.stripe.com/v1/products/prod_test')
+    stub_request(:get, 'https://api.stripe.com/v1/products')
+      .with(query: { ids: ['prod_test'], limit: 100 })
       .to_return(status: 403, headers: { 'Content-Type' => 'application/json' },
                  body: { error: { type: 'invalid_request_error', message: 'Missing product_read permission' } }.to_json)
     expect(service.perform[:subscriptions].first[:items].first).to include(name: nil, unit_amount: '4900')
