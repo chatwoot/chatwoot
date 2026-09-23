@@ -8,7 +8,6 @@ export const LOCAL_STORAGE_KEYS = {
   MESSAGE_REPLY_TO: 'messageReplyTo',
   RECENT_SEARCHES: 'recentSearches',
   SIDEBAR_MINIMIZED_SECTIONS: 'sidebarMinimizedSections',
-  CAPTAIN_OVERVIEW_V2: 'captain_overview_v2',
   CAPTAIN_ASSISTANT_TOOLS_BANNER_DISMISSED:
     'captain_assistant_tools_banner_dismissed',
 };

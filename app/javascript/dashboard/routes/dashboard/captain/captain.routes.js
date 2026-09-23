@@ -10,7 +10,7 @@ import CaptainPageRouteView from './pages/CaptainPageRouteView.vue';
 import AssistantsIndexPage from './pages/AssistantsIndexPage.vue';
 import AssistantEmptyStateIndex from './assistants/Index.vue';
 
-import AssistantOverviewIndex from './assistants/overview/Index.vue';
+import AssistantOverviewIndex from 'dashboard/components-next/captain/pageComponents/overview/v2/OverviewV2.vue';
 import AssistantSettingsIndex from './assistants/settings/Index.vue';
 import AssistantSystemSettingsIndex from './assistants/settings/System.vue';
 import AssistantAudienceSettingsIndex from './assistants/settings/Audience.vue';
