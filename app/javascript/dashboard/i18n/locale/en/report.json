@@ -50,7 +50,6 @@
       "invalid_response": "The evaluation provider returned an incomplete result. Affected conversations have not been counted.",
       "provider_busy": "The evaluation provider is busy. Pending conversations need another evaluation.",
       "provider_unavailable": "The evaluation provider is temporarily unavailable. Updates may be delayed.",
-      "rate_limit": "Evaluation is waiting for available capacity.",
       "budget_limit": "The daily evaluation allowance has been reached. Pending work will resume after it resets.",
       "monthly_limit": "This account has reached its monthly monitor allowance. Pending evaluations will resume next month.",
       "context_limit": "Some conversations are too long to evaluate completely. They are excluded from the results.",
