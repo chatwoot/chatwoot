@@ -22,10 +22,6 @@ class Api::V1::Accounts::Conversations::DirectUploadsController < ActiveStorage:
 
   private
 
-  def authenticate_by_access_token?
-    request.headers[:api_access_token].present? || request.headers[:HTTP_API_ACCESS_TOKEN].present?
-  end
-
   def validate_token_api_access
     return if Current.account.api_and_webhooks_enabled?
 
