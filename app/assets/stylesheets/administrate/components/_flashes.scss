@@ -6,14 +6,40 @@ $flashes: (
   "success": #e6efc2,
 ) !default;
 
+.flashes {
+  left: 50%;
+  max-width: 40rem;
+  pointer-events: none;
+  position: fixed;
+  top: 4.5rem;
+  transform: translateX(-50%);
+  width: calc(100% - 2rem);
+  z-index: 50;
+}
+
+@keyframes flash-fade-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
 @each $flash-type, $color in $flashes {
   .flash-#{$flash-type} {
+    animation: flash-fade-out 0.3s ease 8s forwards;
     background-color: $color;
+    border-radius: $base-border-radius;
+    box-shadow: 0 4px 12px rgba($black, 0.12);
     color: mix($black, $color, 60%);
     display: block;
     margin-bottom: $base-spacing / 2;
     padding: $base-spacing / 2;
+    pointer-events: auto;
     text-align: center;
+
+    &:hover {
+      animation-play-state: paused;
+    }
 
     a {
       color: mix($black, $color, 70%);
