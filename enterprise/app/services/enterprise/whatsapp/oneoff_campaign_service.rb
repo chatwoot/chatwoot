@@ -74,7 +74,10 @@ module Enterprise::Whatsapp::OneoffCampaignService
   end
 
   def save_recipient_destination(recipient, destination)
-    contact_inbox = recipient.contact.contact_inboxes.create_or_find_by!(inbox: inbox, source_id: destination.delete_prefix('+'))
+    source_id = destination.delete_prefix('+')
+    normalized_source_id = Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(source_id, :cloud)
+    contact_inbox = recipient.contact.contact_inboxes.find_by(inbox: inbox, source_id: normalized_source_id)
+    contact_inbox ||= recipient.contact.contact_inboxes.create_or_find_by!(inbox: inbox, source_id: source_id)
     recipient.update!(contact_inbox: contact_inbox)
   end
 

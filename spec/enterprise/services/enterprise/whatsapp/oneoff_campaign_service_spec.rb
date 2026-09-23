@@ -52,6 +52,41 @@ RSpec.describe Enterprise::Whatsapp::OneoffCampaignService do
     expect(campaign.reload).to be_completed
   end
 
+  [
+    ['+5541988887777', '554188887777'],
+    ['+554188887777', '5541988887777']
+  ].each do |phone_number, source_id|
+    it "reuses the existing WhatsApp identity #{source_id} for #{phone_number}" do
+      contact = create(:contact, account: account, phone_number: phone_number)
+      contact.update_labels([label.title])
+      contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: source_id)
+      allow(whatsapp_channel).to receive(:send_template).and_return('wamid.normalized')
+
+      expect do
+        Whatsapp::OneoffCampaignService.new(campaign: campaign).perform_batch(0)
+      end.not_to change(ContactInbox, :count)
+
+      recipient = campaign.campaign_recipients.find_by!(contact: contact)
+      expect(recipient).to be_sent
+      expect(recipient.contact_inbox).to eq(contact_inbox)
+    end
+  end
+
+  it 'does not associate a normalized identity belonging to another contact' do
+    contact = create(:contact, account: account, phone_number: '+5541988887777')
+    contact.update_labels([label.title])
+    other_contact = create(:contact, account: account)
+    create(:contact_inbox, contact: other_contact, inbox: whatsapp_inbox, source_id: '554188887777')
+    allow(whatsapp_channel).to receive(:send_template).and_return('wamid.original')
+
+    Whatsapp::OneoffCampaignService.new(campaign: campaign).perform_batch(0)
+
+    recipient = campaign.campaign_recipients.find_by!(contact: contact)
+    expect(recipient).to be_sent
+    expect(recipient.contact_inbox.contact).to eq(contact)
+    expect(recipient.contact_inbox.source_id).to eq('5541988887777')
+  end
+
   it 'marks contacts without phone or BSUID as skipped' do
     contact = create(:contact, account: account, phone_number: nil)
     contact.update_labels([label.title])
