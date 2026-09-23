@@ -302,7 +302,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=complaint")
         expect(flash[:error]).to eq('Emails to bounced@example.com are blocked because the user marked one as spam on 1 Sep 2026 (5 days ago). ' \
-                                    "Don't remove this block. Escalate to engineering.")
+                                    'Escalate to engineering.')
       end
 
       it 'reports a failed lookup' do

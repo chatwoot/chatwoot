@@ -710,7 +710,7 @@ en:
         check:
           not_suppressed: 'No delivery block on %{email}.'
           bounce: 'Emails to %{email} are blocked because one bounced on %{since}. Remove the block, then send a test email.'
-          complaint: "Emails to %{email} are blocked because the user marked one as spam on %{since}. Don't remove this block. Escalate to engineering."
+          complaint: 'Emails to %{email} are blocked because the user marked one as spam on %{since}. Escalate to engineering.'
           unavailable: "Couldn't check delivery for %{email}. Try again, or escalate to engineering."
         clear:
           success: 'Block removed for %{email}. Send a test email to confirm delivery.'
