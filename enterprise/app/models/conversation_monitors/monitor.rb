@@ -2,7 +2,7 @@ class ConversationMonitors::Monitor < ApplicationRecord
   self.table_name = 'conversation_monitors'
 
   belongs_to :account
-  belongs_to :creator, class_name: 'User', optional: true
+  belongs_to :user, optional: true
   has_many :evaluations, class_name: 'ConversationMonitors::Evaluation', dependent: :delete_all, inverse_of: :monitor
   has_many :scans, class_name: 'ConversationMonitors::Scan', dependent: :delete_all, inverse_of: :monitor
 
