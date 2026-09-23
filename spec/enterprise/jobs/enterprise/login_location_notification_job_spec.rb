@@ -7,12 +7,11 @@ RSpec.describe Enterprise::LoginLocationNotificationJob do
   let(:user) { create(:user, account: account) }
   let(:now) { Time.zone.now }
   let(:current_uuid) { SecureRandom.uuid }
-  # IP -> [city, country]
   let(:geo) do
     {
-      '10.0.0.1' => %w[Mumbai India],
-      '10.0.0.2' => %w[Mumbai India],
-      '20.0.0.9' => %w[Chisinau Moldova]
+      '10.0.0.1' => %w[Northtown Northland],
+      '10.0.0.2' => %w[Northtown Northland],
+      '20.0.0.9' => %w[Southtown Southland]
     }
   end
 
@@ -32,15 +31,12 @@ RSpec.describe Enterprise::LoginLocationNotificationJob do
                                  action: 'sign_in', remote_address: ip, request_uuid: request_uuid, created_at: at)
   end
 
-  # Simulate the controller: the current sign-in's audit row already exists when the job runs.
   def run(ip)
     row = audit(ip, now, request_uuid: current_uuid)
     described_class.perform_now(user.id, user.email, { ip: ip, browser_name: 'Chrome', platform_name: 'macOS' }, row.id)
   end
 
-  it 'emails on a new country, proving the current sign-in itself is excluded from history' do
-    # Only prior history is India; the current Moldova sign-in is seeded by run() and
-    # must be excluded by the id bound, otherwise Moldova would read as already known.
+  it 'emails on a new country, excluding the current sign-in itself from history' do
     audit('10.0.0.1', now - 3.days)
     expect { run('20.0.0.9') }.to have_enqueued_mail(Enterprise::LoginLocationMailer, :new_location)
   end
@@ -48,7 +44,7 @@ RSpec.describe Enterprise::LoginLocationNotificationJob do
   it 'still emails when two concurrent sign-ins from the same new country race each other' do
     audit('10.0.0.1', now - 3.days)
     first = audit('20.0.0.9', now, request_uuid: current_uuid)
-    audit('20.0.0.9', now) # concurrent second sign-in, inserted just after the first
+    audit('20.0.0.9', now)
     expect do
       described_class.perform_now(user.id, user.email, { ip: '20.0.0.9', browser_name: 'Chrome', platform_name: 'macOS' }, first.id)
     end.to have_enqueued_mail(Enterprise::LoginLocationMailer, :new_location)
@@ -59,7 +55,7 @@ RSpec.describe Enterprise::LoginLocationNotificationJob do
     expect { run('10.0.0.2') }.not_to have_enqueued_mail(Enterprise::LoginLocationMailer, :new_location)
   end
 
-  it 'emails when the country was last seen outside the history window, so poisoned history ages out' do
+  it 'emails when the country was last seen outside the history window' do
     audit('20.0.0.9', now - 100.days)
     audit('10.0.0.1', now - 3.days)
     expect { run('20.0.0.9') }.to have_enqueued_mail(Enterprise::LoginLocationMailer, :new_location)
@@ -72,7 +68,7 @@ RSpec.describe Enterprise::LoginLocationNotificationJob do
 
   it 'still emails on a new country even when many multi-account rows exist for one prior sign-in' do
     shared = SecureRandom.uuid
-    60.times { audit('10.0.0.1', now - 3.days, request_uuid: shared) } # one India sign-in, 60 account rows
+    60.times { audit('10.0.0.1', now - 3.days, request_uuid: shared) }
     expect { run('20.0.0.9') }.to have_enqueued_mail(Enterprise::LoginLocationMailer, :new_location)
   end
 
