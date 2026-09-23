@@ -31,7 +31,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
       raise CustomExceptions::MonitorParametersError, 'monitor_limit' if limit_reached?
 
       @monitor = Current.account.conversation_monitors.create!(attributes.merge(
-                                                                 creator: Current.user, history_since: 7.days.ago,
+                                                                 user: Current.user, history_since: 7.days.ago,
                                                                  model: ConversationMonitors::Configuration.model,
                                                                  threshold: ConversationMonitors::Configuration::THRESHOLD
                                                                ))
