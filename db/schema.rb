@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_24_120000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_29_191211) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1552,6 +1552,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_120000) do
     t.string "description"
     t.float "resolution_time_threshold"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
+  end
+
+  create_table "super_admin_audit_logs", force: :cascade do |t|
+    t.bigint "super_admin_id", null: false
+    t.bigint "target_user_id"
+    t.string "action", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.string "ip_address"
+    t.text "user_agent"
+    t.datetime "created_at", null: false
+    t.index ["created_at"], name: "index_super_admin_audit_logs_on_created_at"
+    t.index ["super_admin_id"], name: "index_super_admin_audit_logs_on_super_admin_id"
+    t.index ["target_user_id"], name: "index_super_admin_audit_logs_on_target_user_id"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|

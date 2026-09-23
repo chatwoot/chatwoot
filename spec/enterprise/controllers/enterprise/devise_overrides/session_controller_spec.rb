@@ -93,7 +93,7 @@ RSpec.describe 'Enterprise Audit API', type: :request do
         params = { email: user.email, sso_auth_token: user.generate_sso_auth_token(impersonated_by: super_admin) }
 
         expect do
-          post new_user_session_url, params: params, as: :json
+          expect { post new_user_session_url, params: params, as: :json }.to change(SuperAdminAuditLog, :count).by(1)
         end.not_to change(Enterprise::AuditLog, :count)
 
         expect(response).to have_http_status(:success)
@@ -203,7 +203,7 @@ RSpec.describe 'Enterprise Audit API', type: :request do
         auth_headers = response.headers.slice('access-token', 'client', 'uid')
 
         expect do
-          delete '/auth/sign_out', headers: auth_headers
+          expect { delete '/auth/sign_out', headers: auth_headers }.to change(SuperAdminAuditLog, :count).by(1)
         end.not_to change(Enterprise::AuditLog, :count)
         expect(response).to have_http_status(:success)
         expect(user.reload.tokens).to be_empty

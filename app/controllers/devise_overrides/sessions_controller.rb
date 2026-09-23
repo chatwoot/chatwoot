@@ -1,6 +1,7 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   include MfaAuthenticationHelper
   include DeviceVerificationGuard
+  include SuperAdminImpersonation
 
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
@@ -90,13 +91,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     sign_in(:user, @resource, store: false, bypass: false)
     # invalidate the token after the user is signed in
     @resource.invalidate_sso_auth_token(params[:sso_auth_token])
-  end
-
-  def make_room_for_impersonation_token
-    return if @resource.tokens.size < DeviseTokenAuth.max_number_of_devices
-
-    oldest_client_id = @resource.tokens.min_by { |_, v| v['expiry'].to_i }&.first
-    @resource.tokens.delete(oldest_client_id) if oldest_client_id
+    record_impersonation_event('impersonation_started', @resource, @impersonator_id) if @impersonation
   end
 
   def process_sso_auth_token
