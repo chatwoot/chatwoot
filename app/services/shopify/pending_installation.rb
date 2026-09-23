@@ -6,6 +6,7 @@ class Shopify::PendingInstallation
   class FeatureDisabled < Error; end
   class DuplicateShop < Error; end
   class AccountAlreadyConnected < Error; end
+  class IneligibleAccount < Error; end
 
   PAYLOAD_TTL = 10.minutes
   CLAIM_TTL = 1.minute

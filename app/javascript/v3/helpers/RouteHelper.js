@@ -50,7 +50,11 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
     const redirectTarget = redirectUrl
       ? `${DEFAULT_REDIRECT_URL}?redirect_url=${encodeURIComponent(redirectUrl)}`
       : DEFAULT_REDIRECT_URL;
-    replaceRouteWithReload(redirectTarget);
+    const accountId = to.query?.sso_account_id;
+    const accountQuery = accountId
+      ? `${redirectUrl ? '&' : '?'}sso_account_id=${encodeURIComponent(accountId)}`
+      : '';
+    replaceRouteWithReload(`${redirectTarget}${accountQuery}`);
     return;
   }
 

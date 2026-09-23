@@ -33,6 +33,7 @@ export default [
     props: route => ({
       authError: route.query.error,
       target: route.query.target,
+      ssoAccountId: route.query.sso_account_id,
       redirectUrl: route.query.redirect_url,
     }),
   },
@@ -74,6 +75,7 @@ export default [
     props: route => ({
       config: route.query.config,
       resetPasswordToken: route.query.reset_password_token,
+      ssoAccountId: route.query.sso_account_id,
       redirectUrl: route.query.route_url,
     }),
   },
@@ -83,6 +85,7 @@ export default [
     component: ResetPassword,
     props: route => ({
       redirectUrl: route.query.redirect_url,
+      ssoAccountId: route.query.sso_account_id,
     }),
   },
 ];

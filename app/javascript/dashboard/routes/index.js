@@ -84,6 +84,7 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   const pricingRedirectUrl = shopifyBillingRedirect(to.query);
   const targetRedirectUrl = requestedRedirectUrl || pricingRedirectUrl;
   const redirectAccount = getTargetAccount({
+    ssoAccountId: to.query?.sso_account_id,
     redirectUrl: targetRedirectUrl,
     user,
   });

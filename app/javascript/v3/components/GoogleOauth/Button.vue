@@ -1,6 +1,7 @@
 <script>
 export default {
   props: {
+    ssoAccountId: { type: String, default: '' },
     redirectUrl: {
       type: String,
       default: '',
@@ -27,6 +28,12 @@ export default {
       };
       if (this.redirectUrl) {
         query.state = this.redirectUrl;
+      }
+      if (this.ssoAccountId) {
+        query.state = JSON.stringify({
+          redirect_url: this.redirectUrl,
+          sso_account_id: this.ssoAccountId,
+        });
       }
       const queryString = new URLSearchParams(query).toString();
 

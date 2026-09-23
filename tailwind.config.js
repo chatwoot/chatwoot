@@ -252,6 +252,19 @@ const tailwindConfig = {
         '50%': { transform: 'translateX(-0.234375rem)' },
         '75%': { transform: 'translateX(0.234375rem)' },
       },
+      shimmer: {
+        '0%': { transform: 'translateX(-100%)' },
+        '100%': { transform: 'translateX(100%)' },
+      },
+      twinkle: {
+        '0%, 100%': { transform: 'scale(1) rotate(0deg)', opacity: 1 },
+        '50%': { transform: 'scale(1.25) rotate(20deg)', opacity: 0.7 },
+      },
+      'pop-in': {
+        '0%': { opacity: 0, transform: 'scale(0.8) translateY(0.25rem)' },
+        '60%': { opacity: 1, transform: 'scale(1.04) translateY(0)' },
+        '100%': { opacity: 1, transform: 'scale(1) translateY(0)' },
+      },
     },
     animation: {
       ...defaultTheme.animation,
@@ -260,6 +273,9 @@ const tailwindConfig = {
       'loader-pulse': 'loader-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       'card-select': 'card-select 0.25s ease-in-out',
       shake: 'shake 0.3s ease-in-out 0s 2',
+      shimmer: 'shimmer 1.4s ease-in-out infinite',
+      'pop-in': 'pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) backwards',
+      twinkle: 'twinkle 0.9s ease-in-out infinite',
     },
   },
   plugins: [

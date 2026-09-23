@@ -15,13 +15,14 @@ RSpec.describe Devise::Mailer do
 
   it 'carries the requested redirect in the password edit link' do
     user = create(:user)
-    redirect_url = 'settings/billing?plan_handle=growth&shop=store.myshopify.com'
+    redirect_url = 'settings/billing?plan_handle=growth'
     mail = described_class
-           .with(redirect_url: redirect_url)
+           .with(redirect_url: redirect_url, sso_account_id: '42')
            .reset_password_instructions(user, 'reset-token')
 
     expect(CGI.unescapeHTML(mail.body.to_s)).to include(
-      'route_url=settings%2Fbilling%3Fplan_handle%3Dgrowth%26shop%3Dstore.myshopify.com'
+      'route_url=settings%2Fbilling%3Fplan_handle%3Dgrowth',
+      'sso_account_id=42'
     )
   end
 end

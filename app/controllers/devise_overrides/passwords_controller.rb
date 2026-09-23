@@ -5,8 +5,12 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
   skip_before_action :authenticate_user!, raise: false
 
   def create
+    unless params[:redirect_url].nil? || params[:redirect_url].is_a?(String)
+      return render json: { error: 'Invalid redirect_url' }, status: :unprocessable_entity
+    end
+
     @user = User.from_email(params[:email])
-    @user&.send_reset_password_instructions(redirect_url: params[:redirect_url])
+    @user&.send_reset_password_instructions(redirect_url: params[:redirect_url], sso_account_id: params.permit(:sso_account_id)[:sso_account_id])
     build_response(I18n.t('messages.reset_password'), 200)
   end
 

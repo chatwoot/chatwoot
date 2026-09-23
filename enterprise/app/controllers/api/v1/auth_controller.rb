@@ -43,11 +43,9 @@ class Api::V1::AuthController < Api::BaseController
   end
 
   def find_account_with_saml(user)
-    account_users = user.account_users
-                        .joins(account: :saml_settings)
-                        .where.not(saml_settings: { sso_url: [nil, ''] })
-                        .where.not(saml_settings: { certificate: [nil, ''] })
-                        .select { |account_user| account_user.account.feature_enabled?('saml') }
+    account_users = saml_account_users(user)
+
+    return account_users.find { |account_user| account_user.account_id.to_s == params[:sso_account_id] } if params[:sso_account_id].present?
 
     shop_domain = shopify_billing_shop_domain
     return account_users.first if shop_domain.blank?
@@ -55,6 +53,14 @@ class Api::V1::AuthController < Api::BaseController
     account_users.find do |account_user|
       account_user.account.hooks.exists?(app_id: 'shopify', reference_id: shop_domain)
     end || account_users.first
+  end
+
+  def saml_account_users(user)
+    user.account_users
+        .joins(account: :saml_settings)
+        .where.not(saml_settings: { sso_url: [nil, ''] })
+        .where.not(saml_settings: { certificate: [nil, ''] })
+        .select { |account_user| account_user.account.feature_enabled?('saml') }
   end
 
   def shopify_billing_shop_domain
@@ -82,7 +88,7 @@ class Api::V1::AuthController < Api::BaseController
 
   def sso_login_page_url(error: nil, redirect_url: nil)
     frontend_url = GlobalConfigService.load('FRONTEND_URL', 'http://localhost:3000')
-    params = { error: error, redirect_url: redirect_url }.compact
+    params = { error: error, redirect_url: redirect_url, sso_account_id: request.params[:sso_account_id] }.compact
 
     query = params.to_query
     query_fragment = query.present? ? "?#{query}" : ''

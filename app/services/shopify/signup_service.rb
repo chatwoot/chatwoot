@@ -159,3 +159,5 @@ class Shopify::SignupService < AccountBuilder
     super.tap(&:skip_confirmation_notification!)
   end
 end
+
+Shopify::SignupService.prepend_mod_with('Shopify::SignupService')

@@ -1,4 +1,6 @@
 import Login from './Index.vue';
+import routes from '../routes';
+import { getLoginRedirectURL } from '../../helpers/AuthHelper';
 import { login } from '../../api/auth';
 
 vi.mock('../../api/auth', () => ({
@@ -58,9 +60,6 @@ describe('SAML login', () => {
 });
 
 describe('Shopify signup and password recovery', () => {
-  const redirectUrl =
-    'settings/billing?plan_handle=growth&shop=store.myshopify.com';
-
   it('shows signup for a pending Shopify installation when public signup is disabled', () => {
     window.chatwootConfig = { signupEnabled: 'false' };
 
@@ -75,10 +74,24 @@ describe('Shopify signup and password recovery', () => {
   });
 
   it('carries the Shopify billing redirect to password recovery', () => {
-    expect(Login.computed.resetPasswordRoute.call({ redirectUrl })).toEqual({
-      name: 'auth_reset_password',
-      query: { redirect_url: redirectUrl },
+    const planRedirect = 'settings/billing?plan_handle=growth';
+    const route = Login.computed.resetPasswordRoute.call({
+      redirectUrl: planRedirect,
+      ssoAccountId: '42',
     });
+    expect(route).toEqual({
+      name: 'auth_reset_password',
+      query: { redirect_url: planRedirect, sso_account_id: '42' },
+    });
+    const resetRoute = routes.find(item => item.name === 'auth_reset_password');
+    const props = resetRoute.props(route);
+    expect(props).toEqual({ redirectUrl: planRedirect, ssoAccountId: '42' });
+    expect(
+      getLoginRedirectURL({
+        ...props,
+        user: { account_id: 1, accounts: [{ id: 1 }, { id: 42 }] },
+      })
+    ).toBe('/app/accounts/42/settings/billing?plan_handle=growth');
   });
 
   it('carries a pending install redirect to email verification', async () => {

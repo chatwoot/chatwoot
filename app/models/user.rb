@@ -140,16 +140,18 @@ class User < ApplicationRecord
     @confirmation_redirect_url = nil
   end
 
-  def send_reset_password_instructions(redirect_url: nil)
+  def send_reset_password_instructions(redirect_url: nil, sso_account_id: nil)
+    @reset_password_account_id = sso_account_id
     @reset_password_redirect_url = redirect_url
     super()
   ensure
+    @reset_password_account_id = nil
     @reset_password_redirect_url = nil
   end
 
   def send_reset_password_instructions_notification(token)
     devise_mailer
-      .with(account: Current.account, redirect_url: @reset_password_redirect_url)
+      .with(account: Current.account, redirect_url: @reset_password_redirect_url, sso_account_id: @reset_password_account_id)
       .reset_password_instructions(self, token)
       .deliver_later
   end
