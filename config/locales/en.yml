@@ -708,6 +708,10 @@ en:
         clear_confirm: 'Unblock emails to this address?'
         complaint_hint: 'Blocked after a spam complaint. Escalate to engineering.'
         test_email_button: 'Send test email'
+        pending:
+          check: 'Checking…'
+          clear: 'Unblocking…'
+          send: 'Sending…'
         check:
           not_suppressed: 'Emails to %{email} are not blocked.'
           bounce: 'Emails to %{email} are blocked because one bounced on %{since}. Unblock it, then send a test email.'

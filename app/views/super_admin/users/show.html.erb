@@ -30,7 +30,7 @@ as well as a link to its edit page.
             class: "button",
           ) if authorized_action? page.resource, :edit %>
     <% if Email::SesSuppressionService.configured? %>
-      <% item_class = "reset-base w-full text-left px-3 py-2 text-sm text-slate-800 hover:bg-slate-25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent" %>
+      <% item_class = "reset-base w-full text-left px-3 py-2 text-sm text-slate-800 cursor-pointer hover:bg-slate-50 active:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent aria-busy:opacity-100 aria-busy:cursor-wait aria-busy:bg-slate-50" %>
       <details class="relative" <%= "open" if params[:suppression].in?(%w[bounce complaint]) %>>
         <summary class="button list-none [&::-webkit-details-marker]:hidden">
           <%= t("super_admin.users.email_suppression.menu") %>
@@ -43,6 +43,7 @@ as well as a link to its edit page.
                   method: :post,
                   class: item_class,
                   form_class: "block",
+                  data: { pending_label: t("super_admin.users.email_suppression.pending.check") },
                 ) %>
           <% if params[:suppression] == "bounce" %>
             <%= button_to(
@@ -51,7 +52,8 @@ as well as a link to its edit page.
                     method: :post,
                     class: item_class,
                     form_class: "block",
-                    data: { confirm: t("super_admin.users.email_suppression.clear_confirm") },
+                    data: { confirm: t("super_admin.users.email_suppression.clear_confirm"),
+                            pending_label: t("super_admin.users.email_suppression.pending.clear") },
                   ) %>
           <% elsif params[:suppression] == "complaint" %>
             <button type="button" class="<%= item_class %>" disabled title="<%= t("super_admin.users.email_suppression.complaint_hint") %>">
@@ -64,6 +66,7 @@ as well as a link to its edit page.
                   method: :post,
                   class: item_class,
                   form_class: "block",
+                  data: { pending_label: t("super_admin.users.email_suppression.pending.send") },
                 ) %>
           <%= button_to(
                   t("super_admin.users.resend_confirmation.button"),
@@ -71,6 +74,7 @@ as well as a link to its edit page.
                   method: :post,
                   class: item_class,
                   form_class: "block",
+                  data: { pending_label: t("super_admin.users.email_suppression.pending.send") },
                 ) unless page.resource.confirmed? %>
         </div>
       </details>

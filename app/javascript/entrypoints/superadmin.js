@@ -36,3 +36,19 @@ const initializeAccountSuspensionForm = () => {
 };
 
 document.addEventListener('DOMContentLoaded', initializeAccountSuspensionForm);
+
+const initializePendingActions = () => {
+  document.addEventListener('submit', event => {
+    const button = event.submitter;
+    if (!button?.dataset.pendingLabel) return;
+
+    setTimeout(() => {
+      if (event.defaultPrevented) return;
+      button.textContent = button.dataset.pendingLabel;
+      button.disabled = true;
+      button.setAttribute('aria-busy', 'true');
+    });
+  });
+};
+
+document.addEventListener('DOMContentLoaded', initializePendingActions);
