@@ -36,6 +36,37 @@ as well as a link to its edit page.
             class: "button",
             form_class: "button_to contents",
           ) unless page.resource.confirmed? %>
+    <% if Email::SesSuppressionService.configured? %>
+      <%= button_to(
+              t("super_admin.users.email_suppression.check_button"),
+              [:check_email_suppression, namespace, page.resource.becomes(User)],
+              method: :post,
+              class: "button",
+              form_class: "button_to contents",
+            ) %>
+      <% if params[:suppression] == "bounce" %>
+        <%= button_to(
+                t("super_admin.users.email_suppression.clear_button"),
+                [:clear_email_suppression, namespace, page.resource.becomes(User)],
+                method: :post,
+                class: "button",
+                form_class: "button_to contents",
+                data: { confirm: t("super_admin.users.email_suppression.clear_confirm") },
+              ) %>
+      <% elsif params[:suppression] == "complaint" %>
+        <button type="button" class="button" disabled title="<%= t("super_admin.users.email_suppression.complaint_hint") %>">
+          <%= t("super_admin.users.email_suppression.clear_button") %>
+        </button>
+        <span><%= t("super_admin.users.email_suppression.complaint_hint") %></span>
+      <% end %>
+      <%= button_to(
+              t("super_admin.users.email_suppression.test_email_button"),
+              [:send_test_email, namespace, page.resource.becomes(User)],
+              method: :post,
+              class: "button",
+              form_class: "button_to contents",
+            ) %>
+    <% end %>
   </div>
 </header>
 

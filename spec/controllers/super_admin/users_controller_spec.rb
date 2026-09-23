@@ -217,4 +217,128 @@ RSpec.describe 'Super Admin Users API', type: :request do
       expect(response.body).to include(CGI.escapeHTML(user.name))
     end
   end
+
+  describe 'SES suppression diagnostic' do
+    let!(:user) { create(:user, email: 'bounced@example.com') }
+    let(:suppression) { instance_double(Email::SesSuppressionService) }
+
+    before do
+      sign_in(super_admin, scope: :super_admin)
+      allow(Email::SesSuppressionService).to receive(:new).and_return(suppression)
+    end
+
+    context 'when SES suppression is not configured' do
+      it 'returns not found for every action' do
+        %w[check_email_suppression clear_email_suppression send_test_email].each do |action|
+          post "/super_admin/users/#{user.id}/#{action}"
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+
+      it 'hides the diagnostic buttons' do
+        get "/super_admin/users/#{user.id}"
+
+        expect(response.body).not_to include('Check email suppression')
+        expect(response.body).not_to include('Send test email')
+      end
+    end
+
+    context 'when SES suppression is configured' do
+      around do |example|
+        with_modified_env(SES_SUPPRESSION_ROLE_ARN: 'arn:aws:iam::123456789012:role/test') { example.run }
+      end
+
+      it 'shows check and test buttons but not clear before a check' do
+        get "/super_admin/users/#{user.id}"
+
+        expect(response.body).to include('Check email suppression')
+        expect(response.body).to include('Send test email')
+        expect(response.body).not_to include('Clear suppression')
+      end
+
+      it 'shows an active clear button after a bounce check' do
+        get "/super_admin/users/#{user.id}", params: { suppression: 'bounce' }
+
+        button = Nokogiri::HTML(response.body).at_css('button:contains("Clear suppression")')
+        expect(button).to be_present
+        expect(button['disabled']).to be_nil
+      end
+
+      it 'shows a disabled clear button after a complaint check' do
+        get "/super_admin/users/#{user.id}", params: { suppression: 'complaint' }
+
+        button = Nokogiri::HTML(response.body).at_css('button:contains("Clear suppression")')
+        expect(button['disabled']).to be_present
+        expect(response.body).to include('Complaint, cannot clear. Escalate to engineering.')
+      end
+
+      it 'reports an address that is not suppressed' do
+        allow(suppression).to receive(:lookup).with(user.email).and_return(status: :not_suppressed)
+
+        post "/super_admin/users/#{user.id}/check_email_suppression"
+
+        expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=not_suppressed")
+        expect(flash[:notice]).to eq('bounced@example.com is not on the SES suppression list.')
+      end
+
+      it 'reports a bounce with its date' do
+        since = Time.utc(2026, 9, 1, 10, 0, 0)
+        allow(suppression).to receive(:lookup).with(user.email).and_return(status: :bounce, since: since)
+
+        post "/super_admin/users/#{user.id}/check_email_suppression"
+
+        expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=bounce")
+        expect(flash[:alert]).to eq('bounced@example.com is suppressed for BOUNCE since 2026-09-01 10:00 UTC.')
+      end
+
+      it 'reports a complaint with an escalation note' do
+        since = Time.utc(2026, 9, 1, 10, 0, 0)
+        allow(suppression).to receive(:lookup).with(user.email).and_return(status: :complaint, since: since)
+
+        post "/super_admin/users/#{user.id}/check_email_suppression"
+
+        expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=complaint")
+        expect(flash[:alert]).to include('COMPLAINT since 2026-09-01 10:00 UTC. Do not clear, escalate to engineering.')
+      end
+
+      it 'reports a failed lookup' do
+        allow(suppression).to receive(:lookup).with(user.email).and_return(status: :unavailable)
+
+        post "/super_admin/users/#{user.id}/check_email_suppression"
+
+        expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=unavailable")
+        expect(flash[:alert]).to eq('Could not check suppression status. Try again or escalate.')
+      end
+
+      it 'clears the suppression and logs who did it' do
+        allow(suppression).to receive(:clear!)
+        allow(Rails.logger).to receive(:info)
+
+        post "/super_admin/users/#{user.id}/clear_email_suppression"
+
+        expect(suppression).to have_received(:clear!).with(user.email)
+        expect(Rails.logger).to have_received(:info).with(a_string_including('ses_suppression_cleared', super_admin.email, user.email))
+        expect(flash[:notice]).to eq('Cleared bounced@example.com. Send a test email or ask the user to retry.')
+      end
+
+      it 'reports a failed clear' do
+        allow(suppression).to receive(:clear!).and_raise(StandardError, 'boom')
+
+        post "/super_admin/users/#{user.id}/clear_email_suppression"
+
+        expect(flash[:alert]).to eq('Could not clear bounced@example.com: boom.')
+      end
+
+      it 'queues a test email and logs who sent it' do
+        allow(Rails.logger).to receive(:info)
+
+        expect do
+          post "/super_admin/users/#{user.id}/send_test_email"
+        end.to have_enqueued_mail(EmailDeliveryTestMailer, :delivery_test).with(user)
+
+        expect(Rails.logger).to have_received(:info).with(a_string_including('ses_test_email_sent', super_admin.email, user.email))
+        expect(flash[:notice]).to eq('Test email queued to bounced@example.com.')
+      end
+    end
+  end
 end

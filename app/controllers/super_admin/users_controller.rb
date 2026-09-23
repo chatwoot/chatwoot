@@ -1,4 +1,6 @@
 class SuperAdmin::UsersController < SuperAdmin::ApplicationController
+  before_action :ensure_ses_suppression_configured, only: [:check_email_suppression, :clear_email_suppression, :send_test_email]
+
   # Overwrite any of the RESTful controller actions to implement custom behavior
   # For example, you may want to send an email after a foo is updated.
 
@@ -62,6 +64,38 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
     end
   end
 
+  def check_email_suppression
+    user = requested_resource
+    result = Email::SesSuppressionService.new.lookup(user.email)
+    flash_type = result[:status] == :not_suppressed ? :notice : :alert
+    message = I18n.t("super_admin.users.email_suppression.check.#{result[:status]}",
+                     email: ERB::Util.html_escape(user.email), since: result[:since]&.utc&.strftime('%Y-%m-%d %H:%M UTC'))
+    redirect_to super_admin_user_path(user, suppression: result[:status]), flash_type => message
+  end
+
+  def clear_email_suppression
+    user = requested_resource
+    begin
+      Email::SesSuppressionService.new.clear!(user.email)
+    rescue StandardError => e
+      return redirect_to super_admin_user_path(user),
+                         alert: I18n.t('super_admin.users.email_suppression.clear.failed',
+                                       email: ERB::Util.html_escape(user.email), error: ERB::Util.html_escape(e.message))
+    end
+
+    log_email_diagnostic('ses_suppression_cleared', user)
+    redirect_to super_admin_user_path(user),
+                notice: I18n.t('super_admin.users.email_suppression.clear.success', email: ERB::Util.html_escape(user.email))
+  end
+
+  def send_test_email
+    user = requested_resource
+    EmailDeliveryTestMailer.delivery_test(user).deliver_later
+    log_email_diagnostic('ses_test_email_sent', user)
+    redirect_to super_admin_user_path(user),
+                notice: I18n.t('super_admin.users.email_suppression.test_email.queued', email: ERB::Util.html_escape(user.email))
+  end
+
   def scoped_resource
     resource_class.with_attached_avatar
   end
@@ -76,5 +110,22 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   # for more information
   def find_resource(param)
     super.becomes(User)
+  end
+
+  private
+
+  def ensure_ses_suppression_configured
+    head :not_found unless Email::SesSuppressionService.configured?
+  end
+
+  def log_email_diagnostic(event, user)
+    Rails.logger.info({
+      event: event,
+      super_admin_id: current_super_admin.id,
+      super_admin_email: current_super_admin.email,
+      user_id: user.id,
+      email: user.email,
+      at: Time.current.utc.iso8601
+    }.to_json)
   end
 end
