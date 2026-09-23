@@ -62,6 +62,10 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
     end
   end
 
+  def impersonate
+    redirect_to requested_resource.generate_sso_link_with_impersonation(current_super_admin), status: :see_other, allow_other_host: true
+  end
+
   def scoped_resource
     resource_class.with_attached_avatar
   end
