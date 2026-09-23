@@ -163,6 +163,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/:account_id/integrations/shopify/complete_install' do
+    let(:account) { create(:account, internal_attributes: { billing_provider: 'shopify', signup_source: 'shopify' }) }
     let(:admin) { create(:user, account: account, role: :administrator) }
     let(:pending_install_token) { SecureRandom.hex(16) }
     let(:pending_installation) do

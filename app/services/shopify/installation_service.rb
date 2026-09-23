@@ -31,6 +31,10 @@ class Shopify::InstallationService
 
   def create_shopify_hook(data)
     @account.with_lock do
+      unless @account.internal_attributes['billing_provider'] == 'shopify'
+        raise Shopify::PendingInstallation::IneligibleAccount, 'Stripe accounts must connect Shopify from the dashboard'
+      end
+
       if @account.hooks.exists?(app_id: 'shopify')
         raise Shopify::PendingInstallation::AccountAlreadyConnected, 'This account already has a Shopify connection'
       end

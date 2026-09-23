@@ -54,7 +54,9 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def sign_up_user
     return redirect_to login_page_url(error: 'no-account-found') unless account_signup_allowed?
-    return redirect_to login_page_url(error: 'business-account-only') unless validate_signup_email_is_business_domain?
+    unless validate_signup_email_is_business_domain?
+      return redirect_to login_page_url(error: 'business-account-only', redirect_url: oauth_redirect_url)
+    end
 
     create_account_for_user
     set_random_password_if_oauth_user
@@ -76,8 +78,10 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def oauth_redirect_url
-    redirect_url = session.delete(GOOGLE_OAUTH_REDIRECT_SESSION_KEY) || params[:state].to_s
-    redirect_url if allowed_google_oauth_redirect?(redirect_url)
+    @oauth_redirect_url ||= begin
+      redirect_url = session.delete(GOOGLE_OAUTH_REDIRECT_SESSION_KEY) || params[:state].to_s
+      redirect_url if allowed_google_oauth_redirect?(redirect_url)
+    end
   end
 
   def preserve_google_oauth_redirect
