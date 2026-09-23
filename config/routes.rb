@@ -168,6 +168,7 @@ Rails.application.routes.draw do
             end
             scope module: :conversations do
               resources :messages, only: [:index, :create, :destroy, :update] do
+                get :search, on: :collection
                 member do
                   post :translate
                   post :retry
