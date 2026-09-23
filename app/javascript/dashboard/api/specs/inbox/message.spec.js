@@ -107,5 +107,62 @@ describe('#ConversationAPI', () => {
       expect(formPayload).toBeInstanceOf(FormData);
       expect(formPayload.get('is_voice_message')).toBeNull();
     });
+
+    it('appends the forwarded email fields to the form payload', () => {
+      const formPayload = buildCreatePayload({
+        message: 'Forwarding this',
+        echoId: 44,
+        isPrivate: false,
+        toEmails: 'vendor@example.com',
+        contentAttributes: { forwarded_message_id: 501 },
+        emailHtmlContent: '<p>Edited body</p>',
+        forwardedAttachmentIds: [7, 8],
+        files: [new Blob(['test-content'], { type: 'application/pdf' })],
+      });
+
+      expect(formPayload.get('to_emails')).toEqual('vendor@example.com');
+      expect(formPayload.get('content_attributes')).toEqual(
+        '{"forwarded_message_id":501}'
+      );
+      expect(formPayload.get('email_html_content')).toEqual(
+        '<p>Edited body</p>'
+      );
+      expect(formPayload.getAll('forwarded_attachment_ids[]')).toEqual([
+        '7',
+        '8',
+      ]);
+    });
+
+    it('does not append forwarded email fields when they are absent', () => {
+      const formPayload = buildCreatePayload({
+        message: 'regular',
+        echoId: 45,
+        isPrivate: false,
+        files: [new Blob(['test-content'], { type: 'application/pdf' })],
+      });
+
+      expect(formPayload.get('email_html_content')).toBeNull();
+      expect(formPayload.getAll('forwarded_attachment_ids[]')).toEqual([]);
+    });
+
+    it('includes the forwarded email fields in the object payload', () => {
+      expect(
+        buildCreatePayload({
+          message: 'Forwarding this',
+          isPrivate: false,
+          echoId: 46,
+          toEmails: 'vendor@example.com',
+          contentAttributes: { forwarded_message_id: 501 },
+          emailHtmlContent: '<p>Edited body</p>',
+          forwardedAttachmentIds: [7],
+        })
+      ).toMatchObject({
+        content: 'Forwarding this',
+        to_emails: 'vendor@example.com',
+        content_attributes: { forwarded_message_id: 501 },
+        email_html_content: '<p>Edited body</p>',
+        forwarded_attachment_ids: [7],
+      });
+    });
   });
 });
