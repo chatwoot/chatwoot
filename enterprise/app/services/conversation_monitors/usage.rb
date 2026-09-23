@@ -13,7 +13,9 @@ class ConversationMonitors::Usage
       raise CustomExceptions::MonitorEvaluationError.new('monthly_limit', retry_after: (usage[:resets_at] - now.to_f).ceil) if usage[:limit_reached]
 
       reserve_capacity!(bytes)
-      record_call(now, usage[:used] + 1 == usage[:limit])
+      limit_reached = usage[:used] + 1 == usage[:limit]
+      ConversationMonitors::DailyUsage.record_call!(@account_id, at: now, limit_reached: limit_reached)
+      limit_reached
     end
     return unless reached_limit
 
@@ -23,18 +25,7 @@ class ConversationMonitors::Usage
   end
 
   def snapshot(now = Time.current.utc)
-    first_day = now.to_date.beginning_of_month
-    resets_at = now.beginning_of_month.next_month
-    records = daily_usages.where(usage_date: first_day...resets_at.to_date).order(:usage_date).pluck(:usage_date, :calls_count, :limit_reached_at)
-    used = records.sum { |(_, count, _)| count }
-    limit = ConversationMonitors::Configuration::MONTHLY_CALL_LIMIT
-    counts = records.to_h { |date, count, _| [date, count] }
-    {
-      limit: limit, used: used, remaining: [limit - used, 0].max, limit_reached: used >= limit,
-      limit_reached_at: records.filter_map(&:last).min&.to_i, resets_at: resets_at.to_i,
-      period_start: first_day.iso8601, timezone: 'UTC',
-      daily: (first_day..now.to_date).map { |date| { date: date.iso8601, calls: counts.fetch(date, 0) } }
-    }
+    ConversationMonitors::DailyUsage.monthly_snapshot(@account_id, now)
   end
 
   def reconcile!(reserved, used)
@@ -42,18 +33,6 @@ class ConversationMonitors::Usage
   end
 
   private
-
-  def record_call(now, reached_limit)
-    daily = daily_usages.find_or_initialize_by(usage_date: @usage_date)
-    daily.calls_count += 1
-    daily.limit_reached_at = now if reached_limit
-    daily.save!
-    reached_limit
-  end
-
-  def daily_usages
-    ConversationMonitors::DailyUsage.where(account_id: @account_id)
-  end
 
   def reserve_capacity!(bytes)
     counters = reservations(bytes)
