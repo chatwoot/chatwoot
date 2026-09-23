@@ -1,5 +1,6 @@
 class Captain::ConversationClassifierService
   MODEL = 'jev-latest'.freeze
+  SYSTEM_ONE_PATH = '/v1/systemone'.freeze
   REQUEST_TIMEOUT = 15
   MESSAGE_LIMIT = 20
   STATE_TOKEN_BUDGET = 15_000
@@ -60,7 +61,7 @@ class Captain::ConversationClassifierService
 
   def ask(questions)
     response = HTTParty.post(
-      GlobalConfigService.load('CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT', nil),
+      "#{GlobalConfigService.load('CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT', nil)}#{SYSTEM_ONE_PATH}",
       headers: {
         'Authorization' => "Bearer #{GlobalConfigService.load('CAPTAIN_OPENROUTER_API_KEY', nil)}",
         'Content-Type' => 'application/json'

@@ -1,6 +1,10 @@
 import * as types from '../mutation-types';
 import ConversationAPI from '../../api/conversations';
 
+// Each update sends the whole label list, so an update waits for the previous
+// one on the same conversation and only the latest one writes its result.
+const pendingUpdates = {};
+
 const state = {
   records: {},
   uiFlags: {
@@ -41,6 +45,11 @@ export const actions = {
   },
   update: async ({ commit, state: $state }, { conversationId, labels }) => {
     const previousLabels = $state.records[Number(conversationId)];
+    const request = (pendingUpdates[conversationId] || Promise.resolve())
+      .catch(() => {})
+      .then(() => ConversationAPI.updateLabels(conversationId, labels));
+    pendingUpdates[conversationId] = request;
+
     commit(types.default.SET_CONVERSATION_LABELS, {
       id: conversationId,
       data: labels,
@@ -49,10 +58,8 @@ export const actions = {
       isUpdating: true,
     });
     try {
-      const response = await ConversationAPI.updateLabels(
-        conversationId,
-        labels
-      );
+      const response = await request;
+      if (pendingUpdates[conversationId] !== request) return;
       commit(types.default.SET_CONVERSATION_LABELS, {
         id: conversationId,
         data: response.data.payload,
@@ -62,6 +69,7 @@ export const actions = {
         isError: false,
       });
     } catch (error) {
+      if (pendingUpdates[conversationId] !== request) return;
       commit(types.default.SET_CONVERSATION_LABELS, {
         id: conversationId,
         data: previousLabels,

@@ -206,7 +206,7 @@
   type: secret
 - name: CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT
   display_title: 'OpenRouter Decision Model Endpoint'
-  description: 'The OpenRouter System One endpoint for the Jev decision model. Example: https://openrouter.ai/api/v1/systemone'
+  description: 'The OpenRouter API base URL for the Jev decision model. Example: https://openrouter.ai/api'
   locked: false
 - name: CAPTAIN_FIRECRAWL_API_KEY
   display_title: 'FireCrawl API Key (optional)'
