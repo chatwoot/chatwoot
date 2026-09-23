@@ -4,6 +4,7 @@ operationId: add-new-custom-attribute-to-account
 summary: Add a new custom attribute
 description: Add a new custom attribute to account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 requestBody:
   required: true

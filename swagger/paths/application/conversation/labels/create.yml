@@ -3,6 +3,8 @@ tags:
 operationId: conversation-add-labels
 summary: Add Labels
 security:
+  - userBearerAuth: []
+  - agentBotBearerAuth: []
   - userApiKey: []
 description: Add labels to a conversation. Note that this API would overwrite the existing list of labels associated to the conversation.
 requestBody:

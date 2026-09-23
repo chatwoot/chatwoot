@@ -11,7 +11,7 @@ RSpec.describe ConversationMonitors::Evaluator do
   let(:work) { ConversationMonitors::WorkItem.find_by!(conversation_id: conversation.id) }
   let(:answers) { { monitor.id.to_s => { type: 'noul', noul: 0.95 }, second.id.to_s => { type: 'noul', noul: 0.05 } } }
   let(:response_body) { { model: 'typesafe/jev-1.13-20260917', answers: answers, usage: { input_tokens: 100 } } }
-  let(:endpoint) { ConversationMonitors::Configuration::ENDPOINT }
+  let(:endpoint) { ConversationMonitors::Configuration.endpoint }
 
   before do
     create(:installation_config, name: 'CAPTAIN_OPENROUTER_API_KEY', value: 'test-key')
