@@ -15,6 +15,7 @@ import {
 } from 'dashboard/components-next/table';
 import Label from 'dashboard/components-next/label/Label.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import MonitorActionDialog from './MonitorActionDialog.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import MonitorForm from './MonitorForm.vue';
 import MonitorUsageWarning from './MonitorUsageWarning.vue';
@@ -33,6 +34,8 @@ const loaded = ref(false);
 const hasError = ref(false);
 const form = ref(null);
 const condition = ref('');
+const actionDialog = ref(null);
+const notice = ref('');
 const tableHeaders = computed(() => [
   t('MONITORS.LIST.MONITOR'),
   t('MONITORS.LIST.CONVERSATIONS'),
@@ -62,6 +65,7 @@ const fetchMonitors = async () => {
 
 watch(accountId, () => {
   loaded.value = false;
+  notice.value = '';
   page.value = 1;
   meta.value = { total_count: 0, configured: true };
 });
@@ -79,6 +83,17 @@ const openForm = async (example = '') => {
   condition.value = example;
   await nextTick();
   form.value?.open();
+};
+const onActionSaved = action => {
+  if (action === 'delete' && monitors.value.length === 1 && page.value > 1) {
+    page.value -= 1;
+  } else {
+    fetchMonitors();
+  }
+};
+const onMonitorChanged = message => {
+  notice.value = message;
+  fetchMonitors();
 };
 const onCreated = monitor =>
   router.push(
@@ -106,6 +121,9 @@ watch(
     />
   </ReportHeader>
   <MonitorUsageWarning :usage="meta.usage" />
+  <p v-if="notice" role="status" class="text-sm text-n-slate-11">
+    {{ notice }}
+  </p>
   <p
     v-if="!meta.configured && isAdmin"
     role="status"
@@ -223,9 +241,14 @@ watch(
               </span>
             </div>
           </BaseTableCell>
-          <BaseTableCell align="end" class="w-28">
+          <BaseTableCell align="end" class="relative w-28">
             <Label
               compact
+              class="transition-opacity duration-150 motion-reduce:transition-none"
+              :class="{
+                '[@media(hover:hover)]:group-hover:opacity-0 [@media(hover:hover)]:group-focus-within:opacity-0':
+                  isAdmin,
+              }"
               :color="monitor.paused_at ? 'slate' : 'teal'"
               :label="
                 monitor.paused_at
@@ -247,6 +270,48 @@ watch(
                 />
               </template>
             </Label>
+            <div
+              v-if="isAdmin"
+              class="mt-2 w-max max-w-none [@media(hover:hover)]:absolute [@media(hover:hover)]:z-10 [@media(hover:hover)]:end-4 [@media(hover:hover)]:top-1/2 [@media(hover:hover)]:-translate-y-1/2 [@media(hover:hover)]:mt-0 inline-flex items-center gap-1 rounded-lg bg-n-alpha-3 p-1 shadow-sm outline outline-1 outline-n-weak backdrop-blur-sm transition-opacity duration-150 motion-reduce:transition-none [@media(hover:hover)]:pointer-events-none [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:pointer-events-auto [@media(hover:hover)]:group-hover:opacity-100 [@media(hover:hover)]:group-focus-within:pointer-events-auto [@media(hover:hover)]:group-focus-within:opacity-100"
+            >
+              <Button
+                v-tooltip.top="t('MONITORS.EDIT')"
+                ghost
+                slate
+                sm
+                icon="i-woot-edit-pen"
+                :aria-label="t('MONITORS.EDIT')"
+                @click="actionDialog.open('edit', monitor)"
+              />
+              <Button
+                v-tooltip.top="
+                  monitor.paused_at ? t('MONITORS.RESUME') : t('MONITORS.PAUSE')
+                "
+                ghost
+                slate
+                sm
+                :icon="monitor.paused_at ? 'i-lucide-play' : 'i-lucide-pause'"
+                :aria-label="
+                  monitor.paused_at ? t('MONITORS.RESUME') : t('MONITORS.PAUSE')
+                "
+                @click="
+                  actionDialog.open(
+                    monitor.paused_at ? 'resume' : 'pause',
+                    monitor
+                  )
+                "
+              />
+              <Button
+                v-tooltip.top="t('MONITORS.DELETE')"
+                ghost
+                slate
+                sm
+                icon="i-woot-bin"
+                :aria-label="t('MONITORS.DELETE')"
+                class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
+                @click="actionDialog.open('delete', monitor)"
+              />
+            </div>
           </BaseTableCell>
         </BaseTableRow>
       </template>
@@ -268,6 +333,13 @@ watch(
       />
     </div>
   </div>
+  <MonitorActionDialog
+    v-if="isAdmin"
+    :key="`actions-${accountId}`"
+    ref="actionDialog"
+    @saved="onActionSaved"
+    @changed="onMonitorChanged"
+  />
   <MonitorForm
     v-if="isAdmin"
     :key="accountId"

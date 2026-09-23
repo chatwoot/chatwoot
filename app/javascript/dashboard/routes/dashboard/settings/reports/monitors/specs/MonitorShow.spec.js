@@ -68,6 +68,8 @@ const mountOptions = {
     renderStubDefaultSlot: true,
     stubs: {
       Dialog: false,
+      MonitorActionDialog: false,
+      TextArea: false,
       Popover: {
         template: '<div><slot :is-open="true" /><slot name="content" /></div>',
         methods: { hide: vi.fn() },

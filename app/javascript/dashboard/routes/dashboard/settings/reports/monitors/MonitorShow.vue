@@ -11,11 +11,11 @@ import MonitorsAPI from 'dashboard/api/monitors';
 import BarChart from 'shared/components/charts/BarChart.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
-import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Popover from 'dashboard/components-next/popover/Popover.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import MonitorDrilldown from './MonitorDrilldown.vue';
+import MonitorActionDialog from './MonitorActionDialog.vue';
 import MonitorUsageWarning from './MonitorUsageWarning.vue';
 import { useMonitorRefresh } from './useMonitorRefresh';
 
@@ -80,13 +80,6 @@ const drilldown = ref(null);
 const drilldownLabel = ref('');
 const refreshedAt = ref(null);
 const actionDialog = ref(null);
-const action = ref('');
-const newName = ref('');
-const newCondition = ref('');
-const actionVersion = ref(null);
-const actionError = ref('');
-const resumeMode = ref('catch_up');
-const isSaving = ref(false);
 const monitor = computed(() => result.value?.monitor);
 const monitorId = computed(() => route.params.monitorId);
 const groupingOptions = computed(() => [
@@ -153,9 +146,6 @@ const countStep = computed(() =>
       ) / CHART_TICK_COUNT
     )
   )
-);
-const actionLabel = computed(() =>
-  t(`MONITORS.${action.value.toUpperCase() || 'EDIT'}`)
 );
 const labelFor = bucket =>
   new Date(bucket.start * 1000).toLocaleString(undefined, {
@@ -388,55 +378,19 @@ const resultsChanged = () => {
   notice.value = t('MONITORS.RESULTS_UPDATED');
   fetchReport();
 };
-const openAction = nextAction => {
-  action.value = nextAction;
-  newName.value = monitor.value.name;
-  newCondition.value = monitor.value.condition;
-  actionVersion.value = monitor.value.collection_version;
-  actionError.value = '';
-  resumeMode.value = 'catch_up';
-  actionDialog.value.open();
+const openAction = nextAction =>
+  actionDialog.value.open(nextAction, {
+    ...monitor.value,
+    id: monitorId.value,
+  });
+const onActionSaved = action => {
+  if (action === 'delete')
+    router.push(accountScopedRoute('monitor_reports_index'));
+  else fetchReport();
 };
-const saveAction = async () => {
-  if (isSaving.value) return;
-  isSaving.value = true;
-  actionError.value = '';
-  const target = `${accountId.value}/${monitorId.value}`;
-  const deleting = action.value === 'delete';
-  try {
-    if (deleting) {
-      await MonitorsAPI.delete(monitorId.value);
-    } else if (action.value === 'resume') {
-      await MonitorsAPI.resume(monitorId.value, {
-        mode: resumeMode.value,
-        collection_version: actionVersion.value,
-      });
-    } else {
-      await MonitorsAPI.update(
-        monitorId.value,
-        action.value === 'edit'
-          ? {
-              name: newName.value.trim(),
-              condition: newCondition.value.trim(),
-              collection_version: actionVersion.value,
-            }
-          : { paused: true }
-      );
-    }
-    if (target !== `${accountId.value}/${monitorId.value}`) return;
-    if (deleting) router.push(accountScopedRoute('monitor_reports_index'));
-    else fetchReport();
-    actionDialog.value.close();
-  } catch (failure) {
-    actionError.value = errorText(failure.response?.data?.error);
-    if (failure.response?.data?.error === 'monitor_changed') {
-      notice.value = actionError.value;
-      actionDialog.value.close();
-      fetchReport();
-    }
-  } finally {
-    isSaving.value = false;
-  }
+const onMonitorChanged = message => {
+  notice.value = message;
+  fetchReport();
 };
 const retry = async () => {
   try {
@@ -468,7 +422,7 @@ const duplicate = () =>
         v-tooltip.bottom="t('MONITORS.EDIT')"
         slate
         faded
-        icon="i-lucide-pencil"
+        icon="i-woot-edit-pen"
         :aria-label="t('MONITORS.EDIT')"
         @click="openAction('edit')"
       />
@@ -502,7 +456,7 @@ const duplicate = () =>
         v-tooltip.bottom="t('MONITORS.DELETE')"
         ruby
         faded
-        icon="i-lucide-trash-2"
+        icon="i-woot-bin"
         :aria-label="t('MONITORS.DELETE')"
         @click="openAction('delete')"
       />
@@ -705,83 +659,11 @@ const duplicate = () =>
     @close="drilldown = null"
     @changed="resultsChanged"
   />
-  <Dialog
+  <MonitorActionDialog
+    v-if="isAdmin"
+    :key="`${accountId}/${monitorId}`"
     ref="actionDialog"
-    :title="actionLabel"
-    :confirm-button-label="
-      action === 'edit' ? t('MONITORS.UPDATE') : actionLabel
-    "
-    :is-loading="isSaving"
-    :disable-confirm-button="
-      isSaving ||
-      (action === 'edit' && (!newName.trim() || !newCondition.trim()))
-    "
-    @confirm="saveAction"
-  >
-    <div v-if="action === 'edit'" class="flex flex-col gap-4">
-      <Input v-model="newName" :label="t('MONITORS.NAME')" maxlength="100" />
-      <label class="flex flex-col gap-2 text-sm text-n-slate-12">
-        {{ t('MONITORS.MONITOR_DESCRIPTION') }}
-        <textarea
-          v-model="newCondition"
-          :placeholder="t('MONITORS.CONDITION_PLACEHOLDER')"
-          maxlength="2000"
-          rows="4"
-          class="w-full rounded-lg border border-n-weak bg-n-solid-1 p-3 text-sm text-n-slate-12 focus:border-n-brand"
-        />
-      </label>
-      <p class="m-0 text-sm text-n-slate-11">{{ t('MONITORS.EDIT_HELP') }}</p>
-    </div>
-    <fieldset v-else-if="action === 'resume'" class="flex flex-col gap-4">
-      <legend class="mb-4 text-sm text-n-slate-11">
-        {{ t('MONITORS.RESUME_HELP') }}
-      </legend>
-      <label
-        class="flex cursor-pointer items-start gap-3 rounded-lg border border-n-weak p-4"
-      >
-        <input
-          v-model="resumeMode"
-          type="radio"
-          value="catch_up"
-          name="monitor-resume-mode"
-          class="mt-1"
-        />
-        <span class="flex flex-col gap-1">
-          <span class="text-sm font-medium text-n-slate-12">{{
-            t('MONITORS.RESUME_CATCH_UP')
-          }}</span>
-          <span class="text-sm text-n-slate-11">{{
-            t('MONITORS.RESUME_CATCH_UP_HELP')
-          }}</span>
-        </span>
-      </label>
-      <label
-        class="flex cursor-pointer items-start gap-3 rounded-lg border border-n-weak p-4"
-      >
-        <input
-          v-model="resumeMode"
-          type="radio"
-          value="from_now"
-          name="monitor-resume-mode"
-          class="mt-1"
-        />
-        <span class="flex flex-col gap-1">
-          <span class="text-sm font-medium text-n-slate-12">{{
-            t('MONITORS.RESUME_FROM_NOW')
-          }}</span>
-          <span class="text-sm text-n-slate-11">{{
-            t('MONITORS.RESUME_FROM_NOW_HELP')
-          }}</span>
-        </span>
-      </label>
-    </fieldset>
-    <p v-else class="text-sm text-n-slate-11">
-      {{
-        t(action === 'delete' ? 'MONITORS.DELETE_HELP' : 'MONITORS.PAUSE_HELP')
-      }}
-    </p>
-    <p v-if="actionError" role="alert" class="mt-4 text-sm text-n-ruby-11">
-      {{ actionError }}
-    </p>
-  </Dialog>
+    @saved="onActionSaved"
+    @changed="onMonitorChanged"
+  />
 </template>
