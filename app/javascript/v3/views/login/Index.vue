@@ -116,7 +116,15 @@ export default {
     resetPasswordRoute() {
       const route = { name: 'auth_reset_password' };
       return this.redirectUrl
-        ? { ...route, query: { redirect_url: this.redirectUrl } }
+        ? {
+            ...route,
+            query: {
+              redirect_url: this.redirectUrl,
+              ...(this.ssoAccountId
+                ? { sso_account_id: this.ssoAccountId }
+                : {}),
+            },
+          }
         : route;
     },
     showSamlLogin() {

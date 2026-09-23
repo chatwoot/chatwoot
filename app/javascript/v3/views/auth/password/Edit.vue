@@ -16,6 +16,7 @@ export default {
   props: {
     resetPasswordToken: { type: String, default: '' },
     redirectUrl: { type: String, default: '' },
+    ssoAccountId: { type: String, default: '' },
   },
   setup() {
     return { v$: useVuelidate() };
@@ -76,7 +77,11 @@ export default {
       setNewPassword(credentials)
         .then(user => {
           window.location = this.redirectUrl
-            ? getLoginRedirectURL({ redirectUrl: this.redirectUrl, user })
+            ? getLoginRedirectURL({
+                redirectUrl: this.redirectUrl,
+                ssoAccountId: this.ssoAccountId,
+                user,
+              })
             : DEFAULT_REDIRECT_URL;
         })
         .catch(error => {

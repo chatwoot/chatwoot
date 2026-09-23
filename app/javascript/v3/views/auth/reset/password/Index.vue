@@ -11,6 +11,7 @@ export default {
   components: { FormInput, NextButton },
   props: {
     redirectUrl: { type: String, default: '' },
+    ssoAccountId: { type: String, default: '' },
   },
   setup() {
     const { replaceInstallationName } = useBranding();
@@ -41,7 +42,15 @@ export default {
     loginRoute() {
       const route = { name: 'login' };
       return this.redirectUrl
-        ? { ...route, query: { redirect_url: this.redirectUrl } }
+        ? {
+            ...route,
+            query: {
+              redirect_url: this.redirectUrl,
+              ...(this.ssoAccountId
+                ? { sso_account_id: this.ssoAccountId }
+                : {}),
+            },
+          }
         : route;
     },
   },
@@ -56,6 +65,7 @@ export default {
       resetPassword({
         ...this.credentials,
         redirectUrl: this.redirectUrl,
+        ssoAccountId: this.ssoAccountId,
       })
         .then(res => {
           let successMessage = this.$t('RESET_PASSWORD.API.SUCCESS_MESSAGE');

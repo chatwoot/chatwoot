@@ -127,5 +127,9 @@ export const setNewPassword = async ({
   return null;
 };
 
-export const resetPassword = async ({ email, redirectUrl }) =>
-  wootAPI.post('auth/password', { email, redirect_url: redirectUrl });
+export const resetPassword = async ({ email, redirectUrl, ssoAccountId }) =>
+  wootAPI.post('auth/password', {
+    email,
+    redirect_url: redirectUrl,
+    ...(ssoAccountId ? { sso_account_id: ssoAccountId } : {}),
+  });
