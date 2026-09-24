@@ -412,7 +412,6 @@ export default {
       <CompanySelector
         :model-value="companyId"
         :selected-name="companyName"
-        class="[&>div>button]:h-10"
         @select="onCompanySelect"
       />
     </div>

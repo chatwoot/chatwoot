@@ -75,10 +75,9 @@ export default {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
     },
     companyLink() {
-      if (!this.hasCompaniesFeature) return '';
-      if (!this.contact.company_id) return this.contactProfileLink;
-
-      return `/app/accounts/${this.$route.params.accountId}/companies/${this.contact.company_id}`;
+      return this.hasCompaniesFeature && this.contact.company_id
+        ? `/app/accounts/${this.$route.params.accountId}/companies/${this.contact.company_id}`
+        : '';
     },
     additionalAttributes() {
       return this.contact.additional_attributes || {};

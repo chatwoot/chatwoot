@@ -314,13 +314,12 @@ defineExpose({
           />
           <div
             v-else-if="item.key === 'COMPANY_NAME' && hasCompaniesFeature"
-            class="min-w-0"
+            class="min-w-0 [&>div>button]:h-8"
           >
             <CompanySelector
               :model-value="state.companyId"
               :selected-name="state.additionalAttributes.companyName"
               :is-details-view="isDetailsView"
-              class="[&>div>button]:h-8"
               @select="handleCompanySelection"
             />
           </div>
