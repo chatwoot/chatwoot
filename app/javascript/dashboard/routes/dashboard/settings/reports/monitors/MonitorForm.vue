@@ -40,7 +40,7 @@ const canPreview = computed(
 
 const errorText = (code, fallback) => {
   const key = code && `MONITORS.ERRORS.${code.toUpperCase()}`;
-  return t(key && te(key) ? key : fallback);
+  return t(key && (te(key) || te(key, 'en')) ? key : fallback);
 };
 
 const resetPreview = () => {

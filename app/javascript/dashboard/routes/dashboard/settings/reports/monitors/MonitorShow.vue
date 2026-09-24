@@ -134,7 +134,9 @@ const chartData = computed(() => ({
 
 const errorText = code => {
   const key = code && `MONITORS.ERRORS.${code.toUpperCase()}`;
-  return t(key && te(key) ? key : 'MONITORS.ERRORS.FETCH_FAILED');
+  return t(
+    key && (te(key) || te(key, 'en')) ? key : 'MONITORS.ERRORS.FETCH_FAILED'
+  );
 };
 
 const fetchReport = async () => {

@@ -88,7 +88,9 @@ const saveAction = async () => {
     if (!isActive) return;
     const code = failure.response?.data?.error;
     const key = code && `MONITORS.ERRORS.${code.toUpperCase()}`;
-    actionError.value = t(key && te(key) ? key : 'MONITORS.ERRORS.SAVE_FAILED');
+    actionError.value = t(
+      key && (te(key) || te(key, 'en')) ? key : 'MONITORS.ERRORS.SAVE_FAILED'
+    );
     if (code === 'monitor_changed') {
       close();
       emit('changed', actionError.value);

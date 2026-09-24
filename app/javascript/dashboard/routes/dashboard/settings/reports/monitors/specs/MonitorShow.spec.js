@@ -703,7 +703,8 @@ describe('MonitorShow', () => {
       await flushPromises();
 
       expect(wrapper.find('[role="alert"]').text()).toBe(
-        report.MONITORS.ERRORS[code] || report.MONITORS.ERRORS.fetch_failed
+        report.MONITORS.ERRORS[code.toUpperCase()] ||
+          report.MONITORS.ERRORS.FETCH_FAILED
       );
     }
   );
