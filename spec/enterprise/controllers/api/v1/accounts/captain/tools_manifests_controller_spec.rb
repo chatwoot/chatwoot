@@ -147,6 +147,15 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
       end
     end
 
+    it 'returns unprocessable entity for unknown configuration sections' do
+      post "#{base_url}/install", params: { assistant_id: assistant.id, source: source, configuration: configuration.merge(typo: {}) },
+                                  headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(json_response[:error]).to eq('Invalid configuration')
+      expect(assistant.custom_tools.count).to eq(0)
+    end
+
     it 'returns unprocessable entity when the configuration is not an object' do
       ['inputs', ['inputs']].each do |invalid_configuration|
         post "#{base_url}/install", params: { assistant_id: assistant.id, source: source, configuration: invalid_configuration },

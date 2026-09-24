@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::BaseController
   InstallError = Captain::ToolsManifest::InstallService::InstallError
+  CONFIGURATION_SECTIONS = Captain::ToolsManifest::InstallService::CONFIGURATION_SECTIONS
 
   before_action :ensure_custom_tools_enabled
   before_action -> { check_authorization(Captain::CustomTool) }
@@ -27,10 +28,13 @@ class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::
 
   private
 
-  # permit would raise on a string or array, so reject anything that isn't an object first
+  # permit would raise on a string or array and silently drop unknown sections, so check both first
   def configuration_param
     configuration = params.fetch(:configuration, {})
     raise InstallError, 'Configuration must be an object' unless configuration.is_a?(ActionController::Parameters)
+
+    unknown_sections = configuration.keys - CONFIGURATION_SECTIONS
+    raise InstallError, "Unknown configuration sections: #{unknown_sections.join(', ')}" if unknown_sections.any?
 
     configuration.permit(inputs: {}, secrets: {}).to_h
   end
