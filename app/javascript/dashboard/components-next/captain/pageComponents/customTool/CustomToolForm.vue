@@ -176,6 +176,11 @@ const isTestDisabled = computed(
 
 const handleTest = async () => {
   if (!state.endpoint_url) return;
+  // Invalid rows are dropped or merged when building headers, so the test would not match what Save accepts
+  if (!headersRef.value.validate()) {
+    openSections.headers = true;
+    return;
+  }
 
   isTesting.value = true;
   testResult.value = null;
