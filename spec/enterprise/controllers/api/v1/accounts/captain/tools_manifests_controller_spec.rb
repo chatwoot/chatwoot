@@ -159,6 +159,24 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
       expect(assistant.custom_tools.count).to eq(1)
     end
 
+    it 'returns unprocessable entity when a configuration section is not an object' do
+      # Optional fields only, so a silently dropped section would not trip the required check
+      tool = manifest['tools'].first.merge('endpoint_url' => 'https://api.example.com/orders/{{ order_id }}.json', 'auth_type' => 'none')
+      optional_manifest = manifest.except('secrets').merge('inputs' => { 'region' => { 'label' => 'Region' } },
+                                                           'tools' => [tool.except('auth_config')])
+      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{revision}/shopify/toolset.yml")
+        .to_return(status: 200, body: optional_manifest.to_yaml)
+
+      [{ inputs: 'region' }, { secrets: ['region'] }].each do |invalid_configuration|
+        post "#{base_url}/install", params: { assistant_id: assistant.id, source: source, configuration: invalid_configuration },
+                                    headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity), "expected #{invalid_configuration.inspect} to be rejected"
+        expect(json_response[:error]).to eq('Invalid configuration')
+      end
+      expect(assistant.custom_tools.count).to eq(0)
+    end
+
     it 'returns unprocessable entity for unknown configuration sections' do
       post "#{base_url}/install", params: { assistant_id: assistant.id, source: source, configuration: configuration.merge(typo: {}) },
                                   headers: admin.create_new_auth_token, as: :json
