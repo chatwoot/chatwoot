@@ -98,7 +98,11 @@ const reset = () => {
   values.secrets = {};
 };
 
+// Bumped on every open, so an install finishing after the dialog was reopened doesn't act on the new session
+let session = 0;
+
 const open = () => {
+  session += 1;
   abortPreview();
   reset();
   dialogRef.value.open();
@@ -139,6 +143,7 @@ const loadPreview = async () => {
 };
 
 const install = async () => {
+  const installSession = session;
   isInstalling.value = true;
   try {
     await ToolsManifestAPI.install({
@@ -148,10 +153,14 @@ const install = async () => {
       revision: preview.value.revision,
       configuration: values,
     });
-    useAlert(t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.SUCCESS_MESSAGE'));
     emit('installed');
+    if (installSession !== session) return;
+
+    useAlert(t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.SUCCESS_MESSAGE'));
     close();
   } catch (error) {
+    if (installSession !== session) return;
+
     useAlert(
       parseAPIErrorResponse(error) ||
         t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.ERROR_MESSAGE')
@@ -301,6 +310,7 @@ defineExpose({ open });
               : t('CAPTAIN.FORM.CANCEL')
           "
           class="w-full"
+          :disabled="isInstalling"
           @click="goBack"
         />
         <Button

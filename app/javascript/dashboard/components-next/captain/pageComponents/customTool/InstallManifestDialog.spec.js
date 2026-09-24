@@ -5,6 +5,7 @@ const mocks = vi.hoisted(() => ({
   preview: vi.fn(),
   install: vi.fn(),
   alert: vi.fn(),
+  dialogClose: vi.fn(),
 }));
 
 vi.mock('dashboard/api/captain/toolsManifest', () => ({
@@ -15,7 +16,12 @@ vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: key => key }) }));
 
 const DialogStub = {
   emits: ['confirm'],
-  methods: { open() {}, close() {} },
+  methods: {
+    open() {},
+    close() {
+      mocks.dialogClose();
+    },
+  },
   template: '<div><slot /><slot name="footer" /></div>',
 };
 
@@ -100,6 +106,31 @@ describe('InstallManifestDialog', () => {
     wrapper.findComponent(DialogStub).vm.$emit('close');
 
     expect(previewSignal.aborted).toBe(true);
+  });
+
+  it('locks the dialog while installing and ignores results from a previous session', async () => {
+    let finishInstall;
+    mocks.install.mockReturnValue(
+      new Promise(resolve => {
+        finishInstall = resolve;
+      })
+    );
+    const wrapper = mountDialog();
+    await loadPreview(wrapper, previewData);
+    await wrapper.find('input[type="password"]').setValue('shpat_secret');
+    await wrapper.findAll('button').at(-1).trigger('click');
+
+    expect(
+      wrapper.findAll('button').at(0).attributes('disabled')
+    ).toBeDefined();
+
+    wrapper.vm.open();
+    finishInstall({ data: { payload: [] } });
+    await flushPromises();
+
+    expect(wrapper.emitted('installed')).toHaveLength(1);
+    expect(mocks.dialogClose).not.toHaveBeenCalled();
+    expect(mocks.alert).not.toHaveBeenCalled();
   });
 
   it('disables installing when the latest commit is already installed', async () => {
