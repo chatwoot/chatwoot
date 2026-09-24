@@ -37,6 +37,9 @@ const initializeAccountSuspensionForm = () => {
 
 document.addEventListener('DOMContentLoaded', initializeAccountSuspensionForm);
 
+const SPINNER_SVG =
+  '<svg class="animate-spin shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg>';
+
 const initializePendingActions = () => {
   document.addEventListener('submit', event => {
     const button = event.submitter;
@@ -44,7 +47,11 @@ const initializePendingActions = () => {
 
     setTimeout(() => {
       if (event.defaultPrevented) return;
-      button.textContent = button.dataset.pendingLabel;
+      const label = document.createElement('span');
+      label.textContent = button.dataset.pendingLabel;
+      button.innerHTML = SPINNER_SVG;
+      button.append(label);
+      button.classList.add('flex', 'items-center', 'gap-2');
       button.disabled = true;
       button.setAttribute('aria-busy', 'true');
     });
