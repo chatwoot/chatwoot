@@ -23,4 +23,20 @@ bundle exec rake captain:assistant_migration:apply INPUT=tmp/reviewed.jsonl DRY_
 
 `apply` defaults to a dry run. It stores the original assistant values in `config.assistant_migration.original_values` and leaves the V1 instructions in `config.instructions`. Finish reviewing the draft before applying it: once guidelines or guardrails have been saved, that assistant no longer meets the task's candidate criteria. Make later changes in the V2 settings when they are available.
 
-Rehearse the upgrade on a staging copy of the installation before upgrading production. On a release that still has V1, an account without the V2 feature flag uses the V1 playground and inbox runtime, even after the draft is applied; a reply there does not verify the V2 migration. Install the V1 removal release on staging, then inspect the saved V2 settings and test the assistant in the playground and a linked inbox. Review staged scenarios and complete any manual changes. Run the reviewed conversion on production while it still has V1, then install the V1 removal release. Check the assistant in the playground and a linked inbox again after upgrading. Assistants outside the task's candidate scope need manual review and configuration before that upgrade.
+## Verify V2 before upgrading
+
+Applying a draft does not enable V2. On a release that still has V1, an account with `captain_integration_v2` disabled continues to use V1 in the playground and linked inbox. To test the migrated behavior, explicitly enable V2 for the account you are testing. Use a staging copy of the installation first, or choose a canary account whose live replies may switch to V2. In the Rails console on the pre-removal release, use the **account ID**, not the assistant ID:
+
+```ruby
+account = Account.find(42)
+account.enable_features!('captain_integration_v2')
+account.reload.feature_enabled?('captain_integration_v2') # => true
+```
+
+This immediately switches that account's playground and linked inbox runtime to V2; other accounts are unchanged. Inspect its V2 settings, test replies and handoff in the playground and linked inbox, and check that its configured model and endpoint work. Review staged scenarios and complete any manual changes. If the canary is not ready, revert that account to V1 **before upgrading**, while the old release still supports V1:
+
+```ruby
+account.disable_features!('captain_integration_v2')
+```
+
+Run the reviewed conversion on production while it still has V1, and install the V1 removal release only after the V2 canary works. After that release, Captain always uses V2; disabling the old flag no longer restores V1. Check the assistant again in the playground and a linked inbox after upgrading. Assistants outside the task's candidate scope need manual review and configuration before that upgrade.
