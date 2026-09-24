@@ -37,7 +37,8 @@ class ConversationMonitors::ContextBuilder
     text = message.content_for_llm
     return if text.blank? || text == '[Attachment]'
 
-    ActionController::Base.helpers.strip_tags(text).presence
+    # HTML conversion preserves block boundaries; plain messages keep their own whitespace.
+    text.match?(%r{</?[a-z][^>]*>}i) ? Html2Text.convert(text).presence : text.presence
   end
 
   def trim_oldest_message(state)

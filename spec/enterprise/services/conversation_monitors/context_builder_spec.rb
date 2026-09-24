@@ -6,6 +6,14 @@ RSpec.describe ConversationMonitors::ContextBuilder do
   let(:conversation) { create(:conversation) }
   let(:account) { conversation.account }
 
+  it 'preserves HTML block and line-break boundaries without splitting inline words' do
+    create(:message, conversation: conversation, account: account,
+                     content: '<p>re<strong>fund</strong></p><div>denied<br>please &amp; thanks</div><ul><li>first</li><li>second</li></ul>')
+
+    expect(state[:messages].sole[:text].split).to include('refund', 'denied', 'please', '&', 'thanks', 'first', 'second')
+    expect(state[:messages].sole[:text]).not_to include('refunddenied', 'deniedplease', '<strong>')
+  end
+
   it 'includes public evidence and excludes private notes, activity and deleted messages' do
     create(:message, conversation: conversation, account: account, content: '<p>A refund please</p>')
     create(:message, :outgoing, conversation: conversation, account: account, content: 'I can help')
