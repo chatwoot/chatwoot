@@ -18,6 +18,8 @@ class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::
     installed_tools = @assistant.custom_tools.from_github(@github_source.repository, @github_source.path).to_a
     @installed_revision = installed_tools.first&.source_metadata&.fetch('revision')
     @up_to_date = Captain::ToolsManifest::InstallService.complete?(installed_tools, @manifest, @revision)
+    # Mirrors the install check, which requires fields used for authentication even when the manifest marks them optional
+    @auth_fields = Captain::ToolsManifest::InstallService.auth_field_names(@manifest)
   end
 
   def install
