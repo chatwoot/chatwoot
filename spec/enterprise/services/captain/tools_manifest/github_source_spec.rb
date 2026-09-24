@@ -7,6 +7,7 @@ RSpec.describe Captain::ToolsManifest::GithubSource do
 
   before do
     stub_request(:get, latest_commit_url).with(headers: { 'Accept' => 'application/vnd.github.sha' }).to_return(status: 200, body: revision)
+    stub_request(:get, repository_url).to_return(status: 200, body: { default_branch: 'main' }.to_json)
   end
 
   describe 'parsing' do
@@ -22,9 +23,22 @@ RSpec.describe Captain::ToolsManifest::GithubSource do
       expect([source.repository, source.path]).to eq(['chatwoot/support-tools', 'shopify'])
     end
 
+    it 'accepts a GitHub folder URL' do
+      source = described_class.new('https://github.com/chatwoot/support-tools/tree/main/shopify')
+
+      expect([source.repository, source.path]).to eq(['chatwoot/support-tools', 'shopify'])
+    end
+
+    it 'accepts a GitHub manifest file URL' do
+      source = described_class.new('https://github.com/chatwoot/support-tools/blob/main/shopify/toolset.yml')
+
+      expect([source.repository, source.path]).to eq(['chatwoot/support-tools', 'shopify'])
+    end
+
     it 'rejects unsupported sources' do
-      ['chatwoot/support-tools', 'chatwoot/support-tools/..', 'chatwoot/support-tools/shopify/extra',
-       'https://github.com/chatwoot/support-tools/tree/main/shopify', nil].each do |source|
+      ['chatwoot/support-tools', 'chatwoot/support-tools/..', 'https://gitlab.com/chatwoot/support-tools/tree/main/shopify',
+       'http://github.com/chatwoot/support-tools/tree/main/shopify', 'https://github.com/chatwoot/support-tools',
+       'https://github.com/chatwoot/support-tools/blob/main/shopify/README.md', nil].each do |source|
         expect { described_class.new(source) }.to raise_error(described_class::SourceError), "expected #{source.inspect} to be rejected"
       end
     end
@@ -33,6 +47,16 @@ RSpec.describe Captain::ToolsManifest::GithubSource do
   describe '#latest_revision' do
     it 'returns the latest commit on the default branch' do
       expect(described_class.new('chatwoot/support-tools/shopify').latest_revision).to eq(revision)
+    end
+
+    it 'accepts a URL pointing at the default branch' do
+      expect(described_class.new('https://github.com/chatwoot/support-tools/tree/main/shopify').latest_revision).to eq(revision)
+    end
+
+    it 'rejects a URL pointing at another branch' do
+      source = described_class.new('https://github.com/chatwoot/support-tools/tree/feature/new-tools/shopify')
+
+      expect { source.latest_revision }.to raise_error(described_class::SourceError, /default branch \(main\)/)
     end
 
     it 'looks up the commit without a token when none is configured' do
