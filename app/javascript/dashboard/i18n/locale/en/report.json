@@ -44,7 +44,7 @@
     "ERRORS": {
       "fetch_failed": "Could not load this monitor. Refresh to try again.",
       "save_failed": "Could not save the monitor. Check the name and condition, then try again.",
-      "not_configured": "Monitors need an OpenRouter connection. Ask your installation administrator to configure it.",
+      "not_configured": "Configure the OpenRouter connection, then click Retry.",
       "credentials_invalid": "The OpenRouter connection needs attention. Ask your installation administrator to check its credentials.",
       "provider_credits_exhausted": "The OpenRouter account has insufficient credits. Ask your installation administrator to check its balance, then retry.",
       "invalid_request": "The evaluation request needs attention. Contact your installation administrator.",
