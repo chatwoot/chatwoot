@@ -16,11 +16,17 @@ class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::
   end
 
   def install
+    configuration = params.fetch(:configuration, {})
+    # permit would raise on a string or array, so reject anything that isn't an object first
+    unless configuration.is_a?(ActionController::Parameters)
+      raise Captain::ToolsManifest::InstallService::InstallError, 'Configuration must be an object'
+    end
+
     @custom_tools = Captain::ToolsManifest::InstallService.new(
       assistant: @assistant,
       source: params[:source],
       revision: params[:revision],
-      configuration: params.fetch(:configuration, {}).permit(inputs: {}, secrets: {}).to_h
+      configuration: configuration.permit(inputs: {}, secrets: {}).to_h
     ).perform
   end
 
