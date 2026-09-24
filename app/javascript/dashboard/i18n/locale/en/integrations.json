@@ -63,6 +63,7 @@
             "CONVERSATION_CREATED": "Conversation Created",
             "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
             "CONVERSATION_UPDATED": "Conversation Updated",
+            "CONVERSATION_VIEWED": "Conversation Viewed",
             "MESSAGE_CREATED": "Message created",
             "MESSAGE_UPDATED": "Message updated",
             "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",

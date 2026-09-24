@@ -206,6 +206,7 @@ describe('useAutomation', () => {
     automationTypes.conversation_updated = { conditions: [] };
     automationTypes.conversation_opened = { conditions: [] };
     automationTypes.conversation_resolved = { conditions: [] };
+    automationTypes.conversation_viewed = { conditions: [] };
 
     automationHelper.generateCustomAttributeTypes.mockReturnValue([]);
     automationHelper.generateCustomAttributes.mockReturnValue([]);
