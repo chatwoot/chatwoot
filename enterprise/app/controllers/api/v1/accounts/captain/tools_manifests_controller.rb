@@ -28,13 +28,16 @@ class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::
 
   private
 
-  # permit would raise on a string or array and silently drop unknown sections, so check both first
+  # permit would raise on a string or array and silently drop unknown or malformed sections, so check all of that first
   def configuration_param
     configuration = params.fetch(:configuration, {})
     raise InstallError, 'Configuration must be an object' unless configuration.is_a?(ActionController::Parameters)
 
     unknown_sections = configuration.keys - CONFIGURATION_SECTIONS
     raise InstallError, "Unknown configuration sections: #{unknown_sections.join(', ')}" if unknown_sections.any?
+
+    malformed_section = configuration.keys.find { |section| !configuration[section].is_a?(ActionController::Parameters) }
+    raise InstallError, "#{malformed_section} must be an object" if malformed_section
 
     configuration.permit(inputs: {}, secrets: {}).to_h
   end
