@@ -42,7 +42,12 @@ vi.mock('../useMonitorRefresh', () => ({
   },
 }));
 vi.mock('dashboard/api/monitors', () => ({
-  default: { timeseries: vi.fn(), update: vi.fn(), resume: vi.fn() },
+  default: {
+    timeseries: vi.fn(),
+    update: vi.fn(),
+    resume: vi.fn(),
+    retry: vi.fn(),
+  },
 }));
 
 const responseFor = (params, count = 2) => ({
@@ -88,6 +93,7 @@ describe('MonitorShow', () => {
     MonitorsAPI.timeseries.mockReset();
     MonitorsAPI.update.mockReset();
     MonitorsAPI.resume.mockReset();
+    MonitorsAPI.retry.mockReset();
     MonitorsAPI.timeseries.mockImplementation((id, params) =>
       Promise.resolve(responseFor(params))
     );
@@ -95,6 +101,99 @@ describe('MonitorShow', () => {
   afterEach(() => {
     wrapper?.unmount();
     vi.useRealTimers();
+  });
+
+  describe('retry evaluations', () => {
+    beforeEach(async () => {
+      MonitorsAPI.timeseries.mockImplementation(async (id, params) => {
+        const response = responseFor(params);
+        response.data.monitor.processing = {
+          errors: 1,
+          error_codes: ['provider_busy'],
+        };
+        return response;
+      });
+      wrapper = shallowMount(MonitorShow, mountOptions);
+      await flushPromises();
+    });
+
+    it('refreshes the current monitor after a successful retry', async () => {
+      MonitorsAPI.retry.mockResolvedValue({ data: {} });
+      wrapper
+        .findAllComponents({ name: 'Button' })
+        .find(button => button.props('label') === 'MONITORS.RETRY')
+        .vm.$emit('click');
+      await flushPromises();
+
+      expect(MonitorsAPI.retry).toHaveBeenCalledWith(
+        '10',
+        expect.any(AbortSignal)
+      );
+      expect(wrapper.text()).toContain('MONITORS.RETRY_STARTED');
+      expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(2);
+    });
+
+    it('shows a retry failure on the current monitor', async () => {
+      MonitorsAPI.retry.mockRejectedValue({
+        response: { data: { error: 'monthly_limit' } },
+      });
+      wrapper
+        .findAllComponents({ name: 'Button' })
+        .find(button => button.props('label') === 'MONITORS.RETRY')
+        .vm.$emit('click');
+      await flushPromises();
+
+      expect(wrapper.find('[role="alert"]').text()).toBe(
+        'MONITORS.ERRORS.monthly_limit'
+      );
+      expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(1);
+    });
+
+    it.each([
+      ['success', 'monitor'],
+      ['failure', 'monitor'],
+      ['success', 'account'],
+      ['failure', 'account'],
+      ['success', 'return'],
+      ['failure', 'return'],
+      ['success', 'unmount'],
+    ])(
+      'discards a late %s after %s navigation',
+      async (outcome, navigation) => {
+        let complete;
+        MonitorsAPI.retry.mockImplementation(
+          () =>
+            new Promise((resolve, reject) => {
+              complete = outcome === 'success' ? resolve : reject;
+            })
+        );
+        wrapper
+          .findAllComponents({ name: 'Button' })
+          .find(button => button.props('label') === 'MONITORS.RETRY')
+          .vm.$emit('click');
+        const signal = MonitorsAPI.retry.mock.lastCall[1];
+        if (navigation === 'unmount') {
+          wrapper.unmount();
+        } else if (navigation === 'account') {
+          state.route.params.accountId = '2';
+        } else {
+          state.route.params.monitorId = '11';
+        }
+        await flushPromises();
+        if (navigation === 'return') {
+          state.route.params.monitorId = '10';
+          await flushPromises();
+        }
+        expect(signal.aborted).toBe(true);
+        const calls = MonitorsAPI.timeseries.mock.calls.length;
+        complete({ data: {}, response: { data: { error: 'monthly_limit' } } });
+        await flushPromises();
+
+        expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(calls);
+        expect(wrapper.text()).not.toContain('MONITORS.RETRY_STARTED');
+        expect(wrapper.text()).not.toContain('MONITORS.ERRORS.monthly_limit');
+      }
+    );
   });
 
   it('uses only the applied range to control polling and constrains date inputs to 7–30 days', async () => {

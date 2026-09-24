@@ -25,6 +25,7 @@ const router = useRouter();
 const { accountId, currentAccount, accountScopedRoute } = useAccount();
 const { isAdmin } = useAdmin();
 const { run, abort, isPending } = useAbortableRequest();
+const { run: runRetry, abort: abortRetry } = useAbortableRequest();
 const result = ref(null);
 const error = ref('');
 const notice = ref('');
@@ -335,6 +336,7 @@ watch(
   [accountId, monitorId, timezone],
   () => {
     abort();
+    abortRetry();
     result.value = null;
     displayedRequest.value = null;
     collectionEndsAt.value = null;
@@ -394,9 +396,12 @@ const onMonitorChanged = message => {
 };
 const retry = async () => {
   try {
-    await MonitorsAPI.retry(monitorId.value);
-    notice.value = t('MONITORS.RETRY_STARTED');
-    fetchReport();
+    await runRetry(async signal => {
+      await MonitorsAPI.retry(monitorId.value, signal);
+      if (signal.aborted) return;
+      notice.value = t('MONITORS.RETRY_STARTED');
+      fetchReport();
+    });
   } catch (failure) {
     error.value = errorText(failure.response?.data?.error);
   }
