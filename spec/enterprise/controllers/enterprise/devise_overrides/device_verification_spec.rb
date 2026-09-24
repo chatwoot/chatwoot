@@ -323,6 +323,19 @@ RSpec.describe 'Device verification on sign-in', type: :request do
 
       expect(response).to have_http_status(:not_found)
     end
+
+    it 'blocks api_access_token requests from users pending enforced enrolment' do
+      skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+      account.update!(enforce_mfa: true)
+
+      delete '/api/v1/profile/trusted_devices',
+             headers: { api_access_token: user.access_token.token },
+             as: :json
+
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body['error_code']).to eq('mfa_enrollment_required')
+      expect(user.reload.device_trust_version).to eq(0)
+    end
   end
 
   describe 'when the feature is off' do

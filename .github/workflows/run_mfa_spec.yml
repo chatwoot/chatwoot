@@ -71,6 +71,8 @@ jobs:
             spec/services/mfa/authentication_service_spec.rb \
             spec/requests/api/v1/profile/mfa_controller_spec.rb \
             spec/controllers/api/v1/profiles_controller_spec.rb \
+            spec/controllers/api/v1/notification_subscriptions_controller_spec.rb \
+            spec/requests/api/v1/profile/sessions_controller_spec.rb \
             spec/controllers/devise_overrides/sessions_controller_spec.rb \
             spec/requests/devise_overrides/passwords_controller_spec.rb \
             spec/requests/devise_overrides/confirmations_controller_spec.rb \
