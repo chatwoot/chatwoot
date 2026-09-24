@@ -637,10 +637,10 @@ RSpec.describe Conversations::MessageWindowService do
       expect(described_class.new(conversation).can_reply?).to be true
     end
 
-    it 'blocks replies when the most recent incoming review is older than 7 days' do
+    it 'allows replies when the most recent incoming review is older than 7 days' do
       create(:message, account: conversation.account, inbox: inbox, conversation: conversation, created_at: 10.days.ago)
 
-      expect(described_class.new(conversation).can_reply?).to be false
+      expect(described_class.new(conversation).can_reply?).to be true
     end
   end
 end

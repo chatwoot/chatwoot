@@ -40,6 +40,10 @@ const isActive = computed(() => {
   if (key === 'facebook') {
     return props.enabledFeatures.channel_facebook && hasFbConfigured.value;
   }
+  if (key === 'google_play') {
+    return !!window.chatwootConfig?.googleOAuthClientId;
+  }
+
   if (key === 'email') {
     return props.enabledFeatures.channel_email;
   }
@@ -69,7 +73,6 @@ const isActive = computed(() => {
     'instagram',
     'tiktok',
     'voice',
-    'google_play',
   ].includes(key);
 });
 

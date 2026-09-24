@@ -74,6 +74,9 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    google_play:
+      invalid_app_id: "Please enter a valid app package name"
+      invalid_inbox_name: "Please enter an inbox name"
     account:
       not_authorized: You are not authorized to access this account
       email_limit_exceeded: The daily email limit for this account has been reached

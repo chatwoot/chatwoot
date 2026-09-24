@@ -17,7 +17,7 @@ RSpec.describe 'GooglePlay::CallbacksController', type: :request do
 
   describe 'GET /google_play/callback' do
     it 'creates the channel + inbox and redirects to the agent assignment page' do
-      stub_request(:post, 'https://oauth2.googleapis.com/o/oauth2/token')
+      stub_request(:post, 'https://accounts.google.com/o/oauth2/token')
         .to_return(status: 200, body: token_response.to_json, headers: { 'Content-Type' => 'application/json' })
 
       expect do
@@ -41,7 +41,7 @@ RSpec.describe 'GooglePlay::CallbacksController', type: :request do
     end
 
     it 'redirects to the inbox setup page with the error when token exchange fails' do
-      stub_request(:post, 'https://oauth2.googleapis.com/o/oauth2/token').to_return(status: 400, body: 'invalid')
+      stub_request(:post, 'https://accounts.google.com/o/oauth2/token').to_return(status: 400, body: 'invalid')
 
       get '/google_play/callback', params: { code: code, state: state }
 

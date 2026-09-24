@@ -10,7 +10,7 @@ class GooglePlay::ReviewBuilder
   def perform
     return if user_comment.blank? || review_text.blank?
 
-    ActiveRecord::Base.transaction do
+    ActiveRecord::Base.transaction(requires_new: true) do
       build_contact_inbox
       build_conversation
       build_user_message

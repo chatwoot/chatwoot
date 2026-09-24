@@ -3,7 +3,7 @@ import { onMounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+import { helpers, required } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import googlePlayClient from 'dashboard/api/channel/googlePlayClient';
 import PageHeader from '../../SettingsSubPageHeader.vue';
@@ -26,9 +26,11 @@ const state = reactive({
 
 const isConnecting = ref(false);
 
+const APP_ID_PATTERN = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)+$/;
+
 const rules = {
   inboxName: { required },
-  appId: { required },
+  appId: { required, packageName: helpers.regex(APP_ID_PATTERN) },
 };
 
 const v$ = useVuelidate(rules, state);
@@ -67,7 +69,7 @@ const connectWithGoogle = async () => {
         <label :class="{ error: v$.inboxName.$error }">
           {{ $t('INBOX_MGMT.ADD.GOOGLE_PLAY.INBOX_NAME.LABEL') }}
           <input
-            v-model="state.inboxName"
+            v-model.trim="state.inboxName"
             type="text"
             :placeholder="
               $t('INBOX_MGMT.ADD.GOOGLE_PLAY.INBOX_NAME.PLACEHOLDER')
@@ -84,7 +86,7 @@ const connectWithGoogle = async () => {
         <label :class="{ error: v$.appId.$error }">
           {{ $t('INBOX_MGMT.ADD.GOOGLE_PLAY.APP_ID.LABEL') }}
           <input
-            v-model="state.appId"
+            v-model.trim="state.appId"
             type="text"
             :placeholder="$t('INBOX_MGMT.ADD.GOOGLE_PLAY.APP_ID.PLACEHOLDER')"
             @blur="v$.appId.$touch"
