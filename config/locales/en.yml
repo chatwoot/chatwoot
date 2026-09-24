@@ -700,6 +700,7 @@ en:
       impersonate: 'Impersonate user'
       copy_impersonation_link: 'Copy link'
       impersonation_link_copied: 'Copied'
+      impersonation_link_failed: 'Copy failed'
       resend_confirmation:
         button: 'Resend confirmation email'
         sent: 'Confirmation email sent.'

@@ -12,7 +12,13 @@
                     impersonation_link_super_admin_user_path(page.resource),
                     method: :post,
                     class: 'button',
-                    form: { id: 'copy-impersonation-link', data: { copied_label: t('super_admin.users.impersonation_link_copied') } } %>
+                    form: {
+                      id: 'copy-impersonation-link',
+                      data: {
+                        copied_label: t('super_admin.users.impersonation_link_copied'),
+                        failed_label: t('super_admin.users.impersonation_link_failed')
+                      }
+                    } %>
     </div>
   </div>
 </section>
@@ -27,15 +33,25 @@
       method: 'POST',
       body: new FormData(form),
       headers: { Accept: 'application/json' },
-    }).then((response) => response.json()).then((data) => data.url);
-    const copy = window.ClipboardItem
-      ? navigator.clipboard.write([
-        new ClipboardItem({ 'text/plain': link.then((url) => new Blob([url], { type: 'text/plain' })) }),
-      ])
-      : link.then((url) => navigator.clipboard.writeText(url));
-    copy.then(() => {
-      button.textContent = form.dataset.copiedLabel;
+    }).then((response) => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    }).then((data) => data.url);
+    const writeText = () => link.then((url) => navigator.clipboard.writeText(url));
+    let copy;
+    try {
+      copy = window.ClipboardItem
+        ? navigator.clipboard.write([
+          new ClipboardItem({ 'text/plain': link.then((url) => new Blob([url], { type: 'text/plain' })) }),
+        ])
+        : writeText();
+    } catch {
+      copy = writeText();
+    }
+    const flash = (text) => {
+      button.textContent = text;
       setTimeout(() => { button.textContent = label; }, 2000);
-    });
+    };
+    copy.then(() => flash(form.dataset.copiedLabel)).catch(() => flash(form.dataset.failedLabel));
   });
 </script>
