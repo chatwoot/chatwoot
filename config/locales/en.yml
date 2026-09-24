@@ -698,6 +698,8 @@ en:
         other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
     users:
       impersonate: 'Impersonate user'
+      copy_impersonation_link: 'Copy link'
+      impersonation_link_copied: 'Copied'
       resend_confirmation:
         button: 'Resend confirmation email'
         sent: 'Confirmation email sent.'

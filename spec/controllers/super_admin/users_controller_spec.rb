@@ -231,6 +231,43 @@ RSpec.describe 'Super Admin Users API', type: :request do
       expect(form['rel']).to eq('noopener')
       expect(response.body).not_to include('sso_auth_token=')
     end
+
+    it 'renders a copy impersonation link form next to the impersonate button' do
+      sign_in(super_admin, scope: :super_admin)
+
+      get "/super_admin/users/#{user.id}"
+      form = Nokogiri::HTML(response.body).at_css("form[action='/super_admin/users/#{user.id}/impersonation_link']")
+
+      expect(form).to be_present
+      expect(form['method']).to eq('post')
+    end
+  end
+
+  describe 'POST /super_admin/users/:id/impersonation_link' do
+    let!(:user) { create(:user) }
+
+    it 'mints a token for the signed-in super admin and returns the link' do
+      sign_in(super_admin, scope: :super_admin)
+
+      with_modified_env FRONTEND_URL: 'https://dashboard.example.com' do
+        expect { post "/super_admin/users/#{user.id}/impersonation_link", as: :json }
+          .to change { Redis::Alfred.keys_count("USER_SSO_AUTH_TOKEN::#{user.id}::*") }.by(1)
+      end
+
+      link = URI(response.parsed_body['url'])
+      query = Rack::Utils.parse_query(link.query)
+
+      expect(response).to have_http_status(:ok)
+      expect("#{link.scheme}://#{link.host}#{link.path}").to eq('https://dashboard.example.com/app/login')
+      expect(user.sso_auth_token_impersonator_id(query.fetch('sso_auth_token'))).to eq(super_admin.id)
+    end
+
+    it 'requires super admin authentication without minting a token' do
+      expect { post "/super_admin/users/#{user.id}/impersonation_link" }
+        .not_to(change { Redis::Alfred.keys_count("USER_SSO_AUTH_TOKEN::#{user.id}::*") })
+
+      expect(response).to redirect_to(new_super_admin_session_path)
+    end
   end
 
   describe 'POST /super_admin/users/:id/impersonate' do
