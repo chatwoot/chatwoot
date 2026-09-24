@@ -290,6 +290,21 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
   end
 
+  it 'stops after five retryable provider failures' do
+    stub_request(:post, endpoint).to_return(status: 429)
+
+    4.times do
+      evaluate.call
+      expect(work.reload.due_at).to be_present
+      travel_to(work.due_at + 1.second)
+    end
+    evaluate.call
+
+    expect(work.reload).to have_attributes(attempts: 5, due_at: nil)
+    expect(WebMock).to have_requested(:post, endpoint).times(5)
+    expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(5)
+  end
+
   it 'leaves invalid credentials visible without endlessly retrying' do
     stub_request(:post, endpoint).to_return(status: 401)
     evaluate.call

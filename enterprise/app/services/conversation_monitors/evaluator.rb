@@ -133,7 +133,7 @@ class ConversationMonitors::Evaluator
 
     return 3.seconds.from_now if newer_input
     return unless error
-    return if @work.attempts >= MAX_ATTEMPTS && error.code != 'budget_limit'
+    return if @work.attempts + 1 >= MAX_ATTEMPTS && error.code != 'budget_limit'
 
     delay = [error.retry_after.to_i, (5 * (2**[@work.attempts, 8].min)) + rand(5)].max
     delay.seconds.from_now
