@@ -45,7 +45,6 @@ RSpec.describe Captain::ToolsManifest::InstallService do
   let(:manifest_url) { "https://raw.githubusercontent.com/chatwoot/support-tools/#{latest_revision}/shopify/toolset.yml" }
 
   before do
-    allow(Resolv).to receive(:getaddresses).and_return(['140.82.112.3'])
     stub_request(:get, latest_commit_url).with(headers: { 'Accept' => 'application/vnd.github.sha' }).to_return(status: 200, body: latest_revision)
     stub_request(:get, manifest_url).to_return(status: 200, body: manifest_yaml)
   end

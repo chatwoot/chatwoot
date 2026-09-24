@@ -12,6 +12,7 @@ class Captain::ToolsManifest::InstallService
   DOT_SEGMENT_PATTERN = /\A\.+\z/
   REVISION_PATTERN = /\A[0-9a-f]{40}\z/
   MANIFEST_FILE = 'toolset.yml'.freeze
+  REQUEST_TIMEOUT = 10
   CONFIGURATION_SECTIONS = %w[inputs secrets].freeze
 
   def initialize(assistant:, source:, configuration:, revision: nil)
@@ -57,26 +58,29 @@ class Captain::ToolsManifest::InstallService
     url = "https://api.github.com/repos/#{@repository}/commits/HEAD"
     headers = { 'Accept' => 'application/vnd.github.sha' }
     token = GlobalConfigService.load('CAPTAIN_TOOLS_GITHUB_TOKEN', nil)
-    return fetch(url, headers: headers) if token.blank?
-
-    fetch!(url, headers: headers.merge('Authorization' => "Bearer #{token}"))
-  rescue SafeFetch::HttpError => e
-    raise InstallError, "Could not fetch #{url}: #{e.message}" unless token.present? && e.message.start_with?('401')
-
-    Rails.logger.warn('[Captain::ToolsManifest] CAPTAIN_TOOLS_GITHUB_TOKEN was rejected by GitHub, retrying without it')
-    fetch(url, headers: headers)
+    response = get(url, token.present? ? headers.merge('Authorization' => "Bearer #{token}") : headers)
+    if token.present? && response.code == 401
+      Rails.logger.warn('[Captain::ToolsManifest] CAPTAIN_TOOLS_GITHUB_TOKEN was rejected by GitHub, retrying without it')
+      response = get(url, headers)
+    end
+    body!(response, url)
   end
 
-  def fetch(url, headers: {})
-    fetch!(url, headers: headers)
-  rescue SafeFetch::Error => e
+  def fetch(url)
+    body!(get(url), url)
+  end
+
+  # Only GitHub's own hosts are requested and path segments are validated, so SafeFetch's SSRF checks aren't needed
+  def get(url, headers = {})
+    HTTParty.get(url, headers: headers, timeout: REQUEST_TIMEOUT)
+  rescue HTTParty::Error, SocketError, Timeout::Error, SystemCallError, OpenSSL::SSL::SSLError => e
     raise InstallError, "Could not fetch #{url}: #{e.message}"
   end
 
-  def fetch!(url, headers:)
-    SafeFetch.fetch(url, headers: headers, max_bytes: Captain::ToolsManifest::Validator::MAX_BYTES, validate_content_type: false) do |result|
-      return result.tempfile.read
-    end
+  def body!(response, url)
+    raise InstallError, "Could not fetch #{url}: #{response.code}" unless response.success?
+
+    response.body
   end
 
   def installed_tools
