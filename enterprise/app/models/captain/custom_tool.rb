@@ -138,7 +138,13 @@ class Captain::CustomTool < ApplicationRecord
   def validate_auth_config
     config = auth_config.to_h
     validate_api_key_name(config['name']) if auth_api_key? && config['name'].is_a?(String)
-    errors.add(:auth_config, :invalid) if config.values.any? { |value| value.is_a?(String) && value.match?(/[[:cntrl:]]/) }
+    errors.add(:auth_config, :invalid) if invalid_auth_value?(config)
+  end
+
+  # Basic auth is sent as username:password, so a colon in the username splits it in the wrong place
+  def invalid_auth_value?(config)
+    (auth_basic? && config['username'].to_s.include?(':')) ||
+      config.values.any? { |value| value.is_a?(String) && value.match?(/[[:cntrl:]]/) }
   end
 
   # HttpTool sets reserved headers after auth, so they would overwrite the key. Authorization is the credential's own header.
