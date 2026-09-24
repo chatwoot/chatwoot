@@ -330,7 +330,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=bounce")
         expect(flash[:alert]).to eq('Emails to bounced@example.com have been blocked since 1 Sep 2026 (5 days ago) because the address bounced. ' \
-                                    'Unblock it, then send a test email.')
+                                    'Unblock it, then ask the user to try again.')
       end
 
       it 'reports a complaint as an error with an escalation note' do
@@ -363,7 +363,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         expect(suppression).to have_received(:clear!).with(user.email)
         expect(Rails.logger).to have_received(:info).with(a_string_including('ses_suppression_cleared', super_admin.email, user.email))
-        expect(flash[:notice]).to eq('Unblocked bounced@example.com. Send a test email to confirm delivery.')
+        expect(flash[:notice]).to eq('Unblocked bounced@example.com. Ask the user to try again, or send a test email to check delivery.')
       end
 
       it 'refuses to clear a complaint suppression' do

@@ -718,13 +718,12 @@ en:
           send: 'Sending…'
         check:
           not_suppressed: 'Emails to %{email} are not blocked.'
-          bounce: 'Emails to %{email} have been blocked since %{since} because the address bounced. Unblock it, then send a test email.'
+          bounce: 'Emails to %{email} have been blocked since %{since} because the address bounced. Unblock it, then ask the user to try again.'
           complaint: 'Emails to %{email} have been blocked since %{since} because of a spam complaint. Escalate to engineering.'
           unavailable: "Couldn't check delivery for %{email}. Try again, or escalate to engineering."
         clear:
-          success: 'Unblocked %{email}. Send a test email to confirm delivery.'
+          success: 'Unblocked %{email}. Ask the user to try again, or send a test email to check delivery.'
           failed: "Couldn't unblock %{email} (%{error}). Escalate to engineering."
         test_email:
           queued: 'Test email on its way to %{email}. Ask the user to check their inbox and spam folder.'
           subject: 'Test email from %{brand_name} support'
-          body: 'This is a test email from %{brand_name} support to confirm we can reach your inbox. No action needed.'

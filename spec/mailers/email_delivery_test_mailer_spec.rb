@@ -4,15 +4,15 @@ require Rails.root.join 'spec/mailers/administrator_notifications/shared/smtp_co
 RSpec.describe EmailDeliveryTestMailer do
   include_context 'with smtp config'
 
-  let(:user) { create(:user, email: 'agent@example.com') }
+  let(:user) { create(:user, name: 'Jane Agent', email: 'agent@example.com') }
   let(:mail) { described_class.delivery_test(user).message }
 
-  it 'sends a plain-text test email with no links' do
+  it 'sends a branded test email to the user' do
     expect(mail.to).to eq(['agent@example.com'])
     expect(mail.from).to eq([Mail::Address.new(ApplicationMailer.default[:from]).address])
-    expect(mail.mime_type).to eq('text/plain')
-    expect(mail.body.encoded).to include('confirm we can reach your inbox')
-    expect(mail.body.encoded).not_to include('http')
+    expect(mail.subject).to eq('Test email from Chatwoot support')
+    expect(mail.body.encoded).to include('Hi Jane Agent,')
+    expect(mail.body.encoded).to include('check that emails from Chatwoot reach your inbox')
   end
 
   it 'uses the installation brand name' do
@@ -20,7 +20,7 @@ RSpec.describe EmailDeliveryTestMailer do
     allow(GlobalConfig).to receive(:get_value).with('BRAND_NAME').and_return('Acme')
 
     expect(mail.subject).to eq('Test email from Acme support')
-    expect(mail.body.encoded).to include('This is a test email from Acme support')
+    expect(mail.body.encoded).to include('Test email from Acme')
   end
 
   it 'does not send when SMTP is not configured' do
