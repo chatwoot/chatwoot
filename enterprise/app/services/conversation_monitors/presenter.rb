@@ -41,9 +41,7 @@ class ConversationMonitors::Presenter
   end
 
   def live_state
-    work = ConversationMonitors::WorkItem.where(account_id: @monitor.account_id).where.not(due_at: nil)
-    work = work.where(activity_at: (@monitor.resumed_at || @monitor.created_at)..)
-    pending = work.minimum(:requested_at)
+    pending = @monitor.pending_work_items.minimum(:requested_at)
     return 'live' unless pending
 
     pending < 2.minutes.ago ? 'delayed' : 'processing'
