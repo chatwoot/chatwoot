@@ -13,6 +13,7 @@ RSpec.describe ConversationMonitors::JevClient do
     end
   end
   let(:endpoint) { "#{ConversationMonitors::Configuration::ENDPOINT}/v1/systemone" }
+  let(:token_key) { "conversation_monitors:account:#{account.id}:tokens:#{Time.current.utc.strftime('%Y%m%d')}" }
   let(:response_body) do
     { id: 'gen-test', model: 'typesafe/jev-1.13-20260917', provider: 'TypeSafe',
       answers: { monitor.id.to_s => { type: 'noul', noul: 0.9 } }, usage: { input_tokens: 100, output_tokens: 10, cost: 0.00003 } }
@@ -21,6 +22,26 @@ RSpec.describe ConversationMonitors::JevClient do
   before do
     stub_request(:post, endpoint).with(headers: { 'Authorization' => 'Bearer openrouter-test-key' })
                                  .to_return(status: 200, body: response_body.to_json)
+  end
+
+  after { Redis::Alfred.delete(token_key) }
+
+  it 'releases the reservation and never calls the provider when credit persistence fails' do
+    allow(ConversationMonitors::DailyUsage).to receive(:record_call!).and_raise(ActiveRecord::StatementInvalid)
+
+    expect { evaluate }.to(raise_error { |error| expect(error.class.name).to eq('ActiveRecord::StatementInvalid') })
+    expect(Redis::Alfred.get(token_key).to_i).to eq(0)
+    expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(0)
+    expect(WebMock).not_to have_requested(:post, endpoint)
+  end
+
+  it 'keeps the charge for an attempted provider call that times out' do
+    stub_request(:post, endpoint).to_timeout
+
+    expect { evaluate }.to raise_error(CustomExceptions::MonitorEvaluationError, 'provider_unavailable')
+    expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
+    expect(Redis::Alfred.get(token_key).to_i).to be_positive
+    expect(WebMock).to have_requested(:post, endpoint).once
   end
 
   it 'uses the shared installation credential and the OpenRouter System One contract' do

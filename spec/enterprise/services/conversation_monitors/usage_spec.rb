@@ -34,6 +34,32 @@ RSpec.describe ConversationMonitors::Usage do
     expect(usage.snapshot).to include(used: 601, remaining: 99_399)
   end
 
+  it 'releases only the failed reservation and allows a later retry' do
+    usage.reserve!(100)
+    allow(ConversationMonitors::DailyUsage).to receive(:record_call!).and_raise(ActiveRecord::StatementInvalid, 'write failed')
+
+    expect { usage.reserve!(300) }.to(raise_error { |error| expect(error.class.name).to eq('ActiveRecord::StatementInvalid') })
+    expect(Redis::Alfred.get(token_key).to_i).to eq(100)
+    expect(usage.snapshot[:used]).to eq(1)
+
+    allow(ConversationMonitors::DailyUsage).to receive(:record_call!).and_call_original
+    usage.reserve!(300)
+
+    expect(Redis::Alfred.get(token_key).to_i).to eq(400)
+    expect(usage.snapshot[:used]).to eq(2)
+  end
+
+  it 'compensates a database rollback after the daily counter was written' do
+    allow(ConversationMonitors::DailyUsage).to receive(:record_call!).and_wrap_original do |original, *args, **kwargs|
+      original.call(*args, **kwargs)
+      raise ActiveRecord::StatementInvalid, 'transaction failed'
+    end
+
+    expect { usage.reserve!(100) }.to(raise_error { |error| expect(error.class.name).to eq('ActiveRecord::StatementInvalid') })
+    expect(Redis::Alfred.get(token_key).to_i).to eq(0)
+    expect(ConversationMonitors::DailyUsage.where(account_id: account_id)).not_to exist
+  end
+
   it 'does not charge the account when the daily token budget is exhausted' do
     Redis::Alfred.setex(token_key, 1000, 2.days)
 
