@@ -211,6 +211,12 @@ RSpec.describe Captain::ToolsManifest::Validator do
       expect_invalid(yaml, /get_order endpoint_url uses undefined filter typoo/)
     end
 
+    it 'checks Liquid inside loop bodies' do
+      manifest['tools'].first['response_template'] = '{% for item in response.items %}{{ item.name | typoo }}{% endfor %}'
+
+      expect_invalid(yaml, /get_order response_template uses undefined filter typoo/)
+    end
+
     it 'rejects response template variables other than response and r' do
       manifest['tools'].first['response_template'] = 'Order {{ result.id }}'
 
