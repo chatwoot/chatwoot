@@ -14,8 +14,10 @@
 #  display_name           :string
 #  email                  :string
 #  encrypted_password     :string           default(""), not null
+#  failed_attempts        :integer          default(0), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
+#  locked_at              :datetime
 #  message_signature      :text
 #  name                   :string           not null
 #  otp_backup_codes       :text
@@ -45,4 +47,11 @@
 #  index_users_on_uid_and_provider        (uid,provider) UNIQUE
 #
 class SuperAdmin < User
+  # Failed-attempt lockout is a dashboard (User scope) protection. SuperAdmin shares the
+  # users row through STI, so locking it would let public /auth/sign_in failures evict a
+  # live /super_admin session via Devise's activatable hook. Super admins are protected by
+  # VPN plus SSO instead, so lockout stays disabled for them.
+  def lock_strategy_enabled?(_strategy)
+    false
+  end
 end

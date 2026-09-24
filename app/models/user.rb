@@ -14,8 +14,10 @@
 #  display_name           :string
 #  email                  :string
 #  encrypted_password     :string           default(""), not null
+#  failed_attempts        :integer          default(0), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
+#  locked_at              :datetime
 #  message_signature      :text
 #  name                   :string           not null
 #  otp_backup_codes       :text
@@ -63,6 +65,7 @@ class User < ApplicationRecord
          :trackable,
          :validatable,
          :confirmable,
+         :lockable,
          :password_has_required_content,
          :two_factor_authenticatable,
          :omniauthable, omniauth_providers: [:google_oauth2, :saml]
@@ -214,7 +217,22 @@ class User < ApplicationRecord
     super
   end
 
+  def lock_access!(opts = {})
+    super
+    notify_account_locked
+  end
+
   private
+
+  def notify_account_locked
+    key = format(Redis::RedisKeys::AUTH_LOCK_NOTIFIED, user_id: id)
+    # SET NX dedupes concurrent locks; a failed notification must not roll back the lock.
+    return unless Redis::Alfred.set(key, 1, nx: true, ex: 24.hours.to_i)
+
+    SecurityMailer.account_locked(self).deliver_later
+  rescue StandardError => e
+    Rails.logger.error("[AuthLock] account-locked notification failed for user #{id}: #{e.message}")
+  end
 
   def sync_user_sessions
     active_client_ids = (tokens || {}).keys

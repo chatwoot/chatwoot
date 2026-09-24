@@ -85,6 +85,8 @@ en:
       presence: must not be blank
     webhook:
       invalid: Invalid events
+    sign_in:
+      blocked: Too many failed sign-in attempts from your network. Please try again later.
     signup:
       disposable_email: We do not allow disposable emails
       blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.

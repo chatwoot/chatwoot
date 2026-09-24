@@ -16,6 +16,7 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
     reset_password_token = Devise.token_generator.digest(self, :reset_password_token, original_token)
     @recoverable = User.find_by(reset_password_token: reset_password_token)
     if @recoverable && reset_password_and_confirmation(@recoverable)
+      @recoverable.unlock_access! if @recoverable.locked_at.present?
       send_auth_headers(@recoverable)
       render partial: 'devise/auth', formats: [:json], locals: { resource: @recoverable }
     else
@@ -27,7 +28,8 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
 
   def reset_password_and_confirmation(recoverable)
     recoverable.confirm unless recoverable.confirmed? # confirm if user resets password without confirming anytime before
-    recoverable.reset_password(params[:password], params[:password_confirmation])
+    return false unless recoverable.reset_password(params[:password], params[:password_confirmation])
+
     recoverable.reset_password_token = nil
     recoverable.confirmation_token = nil
     recoverable.reset_password_sent_at = nil

@@ -1,5 +1,6 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   include DeviceVerificationGuard
+  include SignInSessionLimitable
 
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
@@ -17,6 +18,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   def create
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
+    return render_sign_in_blocked if abuse_tracker.blocked?
     return if password_pre_auth_intercepted?
 
     # Only proceed with standard authentication if no MFA is required
@@ -36,6 +38,37 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
       I18n.t('devise_token_auth.sessions.not_confirmed', email: @resource.email),
       error_code: 'user_not_confirmed'
     )
+  end
+
+  def render_create_error_account_locked
+    track_failed_sign_in
+    render_error(
+      :unauthorized,
+      I18n.t('devise.failure.locked'),
+      error_code: 'account_locked'
+    )
+  end
+
+  def render_create_error_bad_credentials
+    track_failed_sign_in
+    return render_create_error_account_locked if @resource&.access_locked?
+
+    super
+  end
+
+  def render_sign_in_blocked
+    render_error(:too_many_requests, I18n.t('errors.sign_in.blocked'), error_code: 'sign_in_blocked')
+  end
+
+  def abuse_tracker
+    @abuse_tracker ||= Auth::SignInAbuseTracker.new(ip: request.remote_ip)
+  end
+
+  def track_failed_sign_in
+    return if @failed_sign_in_tracked
+
+    @failed_sign_in_tracked = true
+    abuse_tracker.record_failure(params[:email])
   end
 
   def merge_credential_headers
@@ -77,6 +110,8 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def authenticate_resource_with_sso_token
+    # SSO proves identity via the IdP, so clear any lock (as a successful password reset does).
+    @resource.unlock_access! if @resource.locked_at.present?
     # DTA evicts the earliest-expiring token after save when at max_number_of_devices.
     # The short-lived impersonation token would always be that one, so pre-evict to make room.
     make_room_for_impersonation_token if @impersonation
@@ -115,6 +150,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   def handle_mfa_verification
     user = Mfa::TokenService.new(token: params[:mfa_token]).verify_token
     return render_mfa_error('errors.mfa.invalid_token', :unauthorized) unless user
+    return render_create_error_account_locked if user.access_locked?
 
     authenticated = Mfa::AuthenticationService.new(
       user: user,
@@ -122,12 +158,31 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
       backup_code: params[:backup_code]
     ).authenticate
 
-    return render_mfa_error('errors.mfa.invalid_code') unless authenticated
+    unless authenticated
+      register_failed_mfa_attempt(user)
+      return render_create_error_account_locked if user.access_locked?
+
+      return render_mfa_error('errors.mfa.invalid_code')
+    end
 
     sign_in_mfa_user(user)
   end
 
+  def register_failed_mfa_attempt(user)
+    user.with_lock do
+      next if user.access_locked?
+
+      user.unlock_access! if user.locked_at.present? # clear an expired lock before counting
+      user.increment_failed_attempts
+      user.lock_access! if user.failed_attempts >= Devise.maximum_attempts
+    end
+  end
+
   def sign_in_mfa_user(user)
+    # Shared success path for MFA and device-verification sign-ins. Clear a stale lock
+    # (the Warden reset hook zeroes failed_attempts but leaves locked_at) and the counter.
+    user.unlock_access! if user.locked_at.present?
+    user.reset_failed_attempts!
     evict_oldest_session(user) if sessions_limit_reached?(user)
     @resource = user
     @token = @resource.create_token
@@ -139,91 +194,6 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
   def render_mfa_error(message_key, status = :bad_request)
     render json: { error: I18n.t(message_key) }, status: status
-  end
-
-  def sessions_limit_reached?(user)
-    limit = ENV.fetch('MAX_USER_SESSIONS', 25).to_i
-    active_token_count(user) >= limit
-  end
-
-  def active_token_count(user)
-    now = Time.current.to_i
-    (user.tokens || {}).count { |_, v| v['expiry'].to_i > now }
-  end
-
-  # Returns true when a response has been rendered (e.g., 409 picker). Non-browser clients
-  # auto-evict instead of getting stuck on a UI they can't render.
-  def enforce_session_limit_for_password_login(user)
-    if revoking_sessions?
-      revoke_sessions_for_login(user)
-      return false
-    end
-
-    return false unless sessions_limit_reached?(user)
-
-    # Picker only when every token has a tracked session; partial tracking would
-    # show a misleading count, so fall through to silent eviction instead.
-    if browser_request? && user.user_sessions.count >= user.tokens.size
-      handle_sessions_limit_for_login(user)
-      true
-    else
-      evict_oldest_session(user)
-      false
-    end
-  end
-
-  def browser_request?
-    request.user_agent.to_s.include?('Mozilla')
-  end
-
-  def revoking_sessions?
-    params[:revoke_session_id].present? || params[:revoke_all_sessions].present?
-  end
-
-  def revoke_sessions_for_login(user)
-    if params[:revoke_all_sessions].present?
-      user.tokens = {}
-      user.save!
-      user.user_sessions.destroy_all
-    elsif params[:revoke_session_id].present?
-      session = user.user_sessions.find_by(id: params[:revoke_session_id])
-      return unless session
-
-      user.tokens.delete(session.client_id)
-      user.save!
-      session.destroy!
-    end
-  end
-
-  def evict_oldest_session(user)
-    # Drop pre-rollout untracked tokens first so freshly tracked logins aren't evicted.
-    return evict_oldest_token(user) if user.user_sessions.count < user.tokens.size
-
-    oldest_session = user.user_sessions.order(Arel.sql('COALESCE(last_activity_at, created_at) ASC')).first
-    return evict_oldest_token(user) unless oldest_session
-
-    user.tokens.delete(oldest_session.client_id)
-    user.save!
-    oldest_session.destroy!
-  end
-
-  # Fallback if a token exists without a UserSession row (e.g., legacy data before tracking shipped).
-  def evict_oldest_token(user)
-    return if user.tokens.blank?
-
-    oldest_client_id = user.tokens.min_by { |_, v| v['expiry'].to_i }&.first
-    return unless oldest_client_id
-
-    user.tokens.delete(oldest_client_id)
-    user.save!
-  end
-
-  PICKER_SESSION_FIELDS = %i[id browser_name browser_version device_name platform_name platform_version
-                             ip_address city country last_activity_at created_at].freeze
-
-  def handle_sessions_limit_for_login(user)
-    sessions = user.user_sessions.order(last_activity_at: :desc).map { |s| s.slice(*PICKER_SESSION_FIELDS) }
-    render json: { sessions_limit_reached: true, sessions: sessions }, status: :conflict
   end
 
   def track_user_session

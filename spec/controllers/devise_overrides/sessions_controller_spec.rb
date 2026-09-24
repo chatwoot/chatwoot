@@ -157,6 +157,66 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
           expect(response).to have_http_status(:bad_request)
           expect(response.parsed_body['error']).to eq(I18n.t('errors.mfa.invalid_code'))
         end
+
+        it 'rejects mfa verification for a locked account' do
+          user.lock_access!
+
+          post :create, params: { mfa_token: mfa_token, otp_code: user.current_otp }
+
+          expect(response).to have_http_status(:unauthorized)
+          expect(response.parsed_body['error_code']).to eq('account_locked')
+        end
+
+        it 'counts wrong otp codes toward the lockout threshold' do
+          expect do
+            post :create, params: { mfa_token: mfa_token, otp_code: '000000' }
+          end.to change { user.reload.failed_attempts }.by(1)
+        end
+
+        it 'locks the account when wrong otp codes exhaust the threshold' do
+          user.update!(failed_attempts: Devise.maximum_attempts - 1)
+
+          post :create, params: { mfa_token: mfa_token, otp_code: '000000' }
+
+          expect(user.reload.access_locked?).to be true
+        end
+
+        it 'returns the locked error on the attempt that crosses the threshold' do
+          user.update!(failed_attempts: Devise.maximum_attempts - 1)
+
+          post :create, params: { mfa_token: mfa_token, otp_code: '000000' }
+
+          expect(response).to have_http_status(:unauthorized)
+          expect(response.parsed_body['error_code']).to eq('account_locked')
+        end
+
+        it 'does not immediately relock an expired lock on one wrong otp' do
+          user.update!(failed_attempts: Devise.maximum_attempts, locked_at: (Devise.unlock_in + 1.hour).ago)
+
+          post :create, params: { mfa_token: mfa_token, otp_code: '000000' }
+
+          expect(user.reload.access_locked?).to be false
+          expect(user.failed_attempts).to eq(1)
+        end
+
+        it 'resets accumulated failed attempts on successful mfa sign-in even when not locked' do
+          user.update!(failed_attempts: Devise.maximum_attempts - 1)
+
+          post :create, params: { mfa_token: mfa_token, otp_code: user.current_otp }
+
+          expect(response).to have_http_status(:success)
+          expect(user.reload.failed_attempts).to eq(0)
+        end
+
+        it 'resets the counter and clears a stale lock on successful mfa sign-in' do
+          user.update!(failed_attempts: 5, locked_at: (Devise.unlock_in + 1.hour).ago)
+
+          post :create, params: { mfa_token: mfa_token, otp_code: user.current_otp }
+
+          expect(response).to have_http_status(:success)
+          expect(user.reload.failed_attempts).to eq(0)
+          expect(user.locked_at).to be_nil
+        end
       end
     end
 
@@ -180,6 +240,152 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
 
         expect(response).to have_http_status(:unauthorized)
       end
+
+      it 'signs in and unlocks a locked account via sso' do
+        user.update!(failed_attempts: Devise.maximum_attempts)
+        user.lock_access!
+        sso_token = user.generate_sso_auth_token
+
+        post :create, params: {
+          email: user.email,
+          sso_auth_token: sso_token
+        }
+
+        expect(response).to have_http_status(:success)
+        expect(user.reload.access_locked?).to be false
+        expect(user.failed_attempts).to eq(0)
+      end
+    end
+  end
+
+  describe 'account lockout' do
+    let(:password) { 'Test@123456' }
+    let!(:user) { create(:user, password: password) }
+
+    def attempt_sign_in(pwd)
+      post :create, params: { email: user.email, password: pwd }
+    end
+
+    it 'locks the account after the configured number of failed attempts and says so on that attempt' do
+      (Devise.maximum_attempts - 1).times { attempt_sign_in('wrong-password') }
+      attempt_sign_in('wrong-password')
+
+      expect(user.reload.access_locked?).to be true
+      expect(response).to have_http_status(:unauthorized)
+      expect(response.parsed_body['error_code']).to eq('account_locked')
+      expect(response.parsed_body['errors'].first).to eq(I18n.t('devise.failure.locked'))
+    end
+
+    it 'rejects the correct password while locked with the locked error' do
+      Devise.maximum_attempts.times { attempt_sign_in('wrong-password') }
+      attempt_sign_in(password)
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(response.parsed_body['error_code']).to eq('account_locked')
+    end
+
+    it 'does not lock before the threshold and resets the counter on success' do
+      (Devise.maximum_attempts - 1).times { attempt_sign_in('wrong-password') }
+      expect(user.reload.access_locked?).to be false
+
+      attempt_sign_in(password)
+
+      expect(response).to have_http_status(:success)
+      expect(user.reload.failed_attempts).to eq(0)
+    end
+
+    it 'unlocks automatically after the lockout period' do
+      Devise.maximum_attempts.times { attempt_sign_in('wrong-password') }
+
+      travel_to(Devise.unlock_in.from_now + 1.minute) do
+        attempt_sign_in(password)
+
+        expect(response).to have_http_status(:success)
+        expect(user.reload.access_locked?).to be false
+      end
+    end
+
+    it 'notifies the user once when the account locks' do
+      expect do
+        (Devise.maximum_attempts + 2).times { attempt_sign_in('wrong-password') }
+      end.to have_enqueued_mail(SecurityMailer, :account_locked).once
+    end
+
+    it 'does not notify again for a relock within the dedupe window' do
+      Devise.maximum_attempts.times { attempt_sign_in('wrong-password') }
+
+      travel_to(2.hours.from_now) do
+        expect do
+          Devise.maximum_attempts.times { attempt_sign_in('wrong-password') }
+        end.not_to have_enqueued_mail(SecurityMailer, :account_locked)
+      end
+    end
+
+    it 'notifies again for a new lock cycle after the dedupe window' do
+      Devise.maximum_attempts.times { attempt_sign_in('wrong-password') }
+
+      travel_to(25.hours.from_now) do
+        expect do
+          Devise.maximum_attempts.times { attempt_sign_in('wrong-password') }
+        end.to have_enqueued_mail(SecurityMailer, :account_locked).once
+      end
+    end
+  end
+
+  describe 'ip abuse blocking' do
+    let(:password) { 'Test@123456' }
+    let!(:user) { create(:user, password: password) }
+    let(:spec_ip) { '203.0.113.10' }
+
+    before do
+      GlobalConfig.clear_cache
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      request.remote_addr = spec_ip
+      Redis::Alfred.delete(format(Redis::RedisKeys::AUTH_FAILED_EMAILS_PER_IP, ip: spec_ip))
+      Redis::Alfred.delete(format(Redis::RedisKeys::AUTH_ABUSE_BLOCKED_IP, ip: spec_ip))
+    end
+
+    after { GlobalConfig.clear_cache }
+
+    it 'records failed attempts and blocks the ip after distinct-email threshold' do
+      5.times do |i|
+        post :create, params: { email: "u#{i}@example.com", password: 'wrong-password' }
+      end
+
+      post :create, params: { email: user.email, password: password }
+
+      expect(response).to have_http_status(:too_many_requests)
+      expect(response.parsed_body['error_code']).to eq('sign_in_blocked')
+      expect(response.parsed_body['errors'].first).to eq(I18n.t('errors.sign_in.blocked'))
+    end
+
+    it 'does not count successful sign-ins' do
+      5.times { post :create, params: { email: user.email, password: password } }
+
+      post :create, params: { email: user.email, password: password }
+
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'does not block below the threshold' do
+      4.times do |i|
+        post :create, params: { email: "u#{i}@example.com", password: 'wrong-password' }
+      end
+
+      post :create, params: { email: user.email, password: password }
+
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'still allows sso sign-in from a blocked ip' do
+      5.times do |i|
+        post :create, params: { email: "u#{i}@example.com", password: 'wrong-password' }
+      end
+      sso_token = user.generate_sso_auth_token
+
+      post :create, params: { email: user.email, sso_auth_token: sso_token }
+
+      expect(response).to have_http_status(:success)
     end
   end
 
