@@ -1,4 +1,4 @@
-class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAccountsController
+class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::BaseController
   include Sift
   sort_on :name, type: :string
   sort_on :domain, type: :string
