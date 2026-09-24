@@ -37,7 +37,7 @@ RSpec.describe AppStoreConnect::TokenService do
       expect(described_class.new(channel: channel).token).to eq('cached-token')
     end
 
-    it 'generates a token before the channel is persisted' do
+    it 'generates a token without accessing the shared cache before the channel is persisted' do
       new_channel = instance_double(
         Channel::AppStore,
         id: nil,
@@ -46,6 +46,9 @@ RSpec.describe AppStoreConnect::TokenService do
         key_id: 'key-id',
         private_key: private_key
       )
+
+      expect(Rails.cache).not_to receive(:read)
+      expect(Rails.cache).not_to receive(:write)
 
       token = described_class.new(channel: new_channel).token
       payload, = JWT.decode(token, nil, false)

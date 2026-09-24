@@ -11,12 +11,14 @@ class AppStoreConnect::TokenService
   private
 
   def cached_token
+    return if channel.id.nil?
+
     Rails.cache.read(cache_key)
   end
 
   def generate_token
     token = JWT.encode(payload, private_key, 'ES256', headers)
-    Rails.cache.write(cache_key, token, expires_in: TOKEN_TTL - EXPIRY_BUFFER)
+    Rails.cache.write(cache_key, token, expires_in: TOKEN_TTL - EXPIRY_BUFFER) if channel.id.present?
     token
   end
 
@@ -42,9 +44,8 @@ class AppStoreConnect::TokenService
   end
 
   def cache_key
-    identifier = channel.id || channel.object_id
     version = channel.updated_at&.to_i || 'new'
 
-    "app_store_connect_token:#{identifier}:#{version}"
+    "app_store_connect_token:#{channel.id}:#{version}"
   end
 end
