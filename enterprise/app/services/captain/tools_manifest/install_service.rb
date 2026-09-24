@@ -31,7 +31,7 @@ class Captain::ToolsManifest::InstallService
 
     values = configuration_values!(manifest)
 
-    install!(manifest, values, source_metadata(manifest, revision, manifest_source))
+    install!(manifest, values, revision, manifest_source)
   end
 
   private
@@ -90,7 +90,7 @@ class Captain::ToolsManifest::InstallService
     end
   end
 
-  def source_metadata(manifest, revision, manifest_source)
+  def source_metadata(manifest, revision, manifest_source, current_tools)
     {
       'source' => SOURCE,
       'repository' => @github_source.repository,
@@ -98,19 +98,27 @@ class Captain::ToolsManifest::InstallService
       'revision' => revision,
       'version' => manifest['version'],
       'manifest_digest' => "sha256:#{Digest::SHA256.hexdigest(manifest_source)}",
-      'installation_id' => installed_tools.first&.source_metadata&.fetch('installation_id') || SecureRandom.uuid
+      'installation_id' => current_tools.first&.source_metadata&.fetch('installation_id') || SecureRandom.uuid
     }
   end
 
-  def install!(manifest, values, metadata)
-    existing_tools = installed_tools.index_by { |tool| tool.source_metadata['tool_id'] }
-
+  def install!(manifest, values, revision, manifest_source)
     ApplicationRecord.transaction do
-      existing_tools.except(*manifest['tools'].pluck('id')).each_value(&:destroy!)
-      manifest['tools'].map { |tool| save_tool!(existing_tools[tool['id']], tool, tool_attributes(tool, manifest, values, metadata)) }
+      # Serializes installs on the assistant; tools are re-read under the lock so a concurrent install is seen
+      Captain::Assistant.lock.find(@assistant.id)
+      current_tools = @assistant.custom_tools.from_github(@github_source.repository, @github_source.path).to_a
+      next current_tools if complete_install?(current_tools, manifest, revision)
+
+      save_tools!(manifest, values, current_tools, source_metadata(manifest, revision, manifest_source, current_tools))
     end
   rescue ActiveRecord::RecordInvalid => e
     raise InstallError, "#{e.record.title}: #{e.record.errors.full_messages.to_sentence}"
+  end
+
+  def save_tools!(manifest, values, current_tools, metadata)
+    existing_tools = current_tools.index_by { |tool| tool.source_metadata['tool_id'] }
+    existing_tools.except(*manifest['tools'].pluck('id')).each_value(&:destroy!)
+    manifest['tools'].map { |tool| save_tool!(existing_tools[tool['id']], tool, tool_attributes(tool, manifest, values, metadata)) }
   end
 
   def save_tool!(existing_tool, tool, attributes)
