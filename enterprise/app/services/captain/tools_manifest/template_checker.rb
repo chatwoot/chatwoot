@@ -1,6 +1,9 @@
 # Custom tools render their templates with strict Liquid at call time, so a syntax error, an
 # undeclared variable or an unknown filter makes every call fail. This test-renders a template
 # the same way, with a stand-in for each variable the tool will provide, to catch those upfront.
+#
+# This is deliberately not comprehensive: branches the test render does not take (else, unless)
+# go unchecked. It catches the common mistakes, which is good enough; runtime errors surface the rest.
 class Captain::ToolsManifest::TemplateChecker
   STRICT_ERRORS = [Liquid::UndefinedVariable, Liquid::UndefinedFilter].freeze
 
