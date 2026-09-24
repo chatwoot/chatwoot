@@ -5,10 +5,10 @@ module ContactCompanyAssociation
     belongs_to :company, optional: true, counter_cache: true
 
     # TODO: Remove this callback and its name-association methods after legacy company names are migrated.
-    before_validation :associate_company_from_name, if: :should_associate_company_from_name?
+    before_save :associate_company_from_name, if: :should_associate_company_from_name?
     before_save :sync_company_name_from_company, if: :will_save_change_to_company_id?
     after_commit :associate_company_from_email, on: [:create, :update], if: :should_associate_company?
-    after_update_commit :record_company_activity, if: :saved_change_to_last_activity_at?
+    after_update_commit :record_company_activity, if: -> { saved_change_to_last_activity_at? || saved_change_to_company_id? }
 
     scope :order_on_company_name, lambda { |direction|
       order(
@@ -26,12 +26,25 @@ module ContactCompanyAssociation
 
   def should_associate_company_from_name?
     account.feature_enabled?('companies') && company_id.nil? && company_id_was.nil? &&
-      additional_attributes&.dig('company_name').present?
+      legacy_company_name.present? && !new_business_email?
   end
 
   def associate_company_from_name
-    name = additional_attributes['company_name'].strip
-    self.company = account.companies.where('LOWER(name) = ?', name.downcase).first || account.companies.create!(name: name)
+    name = legacy_company_name
+    matches = account.companies.where('LOWER(name) = ?', name.downcase).limit(2).to_a
+    return if matches.size > 1
+
+    self.company = matches.first || account.companies.create!(name: name)
+  end
+
+  def legacy_company_name
+    name = additional_attributes&.dig('company_name')&.strip
+    name if name.present? && name.length <= Limits::COMPANY_NAME_LENGTH_LIMIT
+  end
+
+  def new_business_email?
+    will_save_change_to_email? && email_change_to_be_saved.first.nil? &&
+      Companies::BusinessEmailDetectorService.new(email).perform
   end
 
   def should_associate_company?
