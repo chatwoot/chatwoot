@@ -155,6 +155,15 @@ describe('InstallManifestDialog', () => {
     ).toBeDefined();
   });
 
+  it('closes when the assistant changes so a preview is never installed elsewhere', async () => {
+    const wrapper = mountDialog();
+    await loadPreview(wrapper, previewData);
+
+    await wrapper.setProps({ assistantId: 8 });
+
+    expect(mocks.dialogClose).toHaveBeenCalled();
+  });
+
   it('disables installing when the latest commit is already installed', async () => {
     const wrapper = mountDialog();
     await loadPreview(wrapper, {

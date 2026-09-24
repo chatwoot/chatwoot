@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
@@ -111,6 +111,16 @@ const open = () => {
 };
 
 const close = () => dialogRef.value.close();
+
+// The tools page is reused across assistants, so a preview must never be installed into the next one
+watch(
+  () => props.assistantId,
+  () => {
+    session += 1;
+    abortPreview();
+    close();
+  }
+);
 
 const loadPreview = async () => {
   const requestedSource = source.value.trim();
