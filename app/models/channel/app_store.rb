@@ -6,6 +6,7 @@ class Channel::AppStore < ApplicationRecord
   EDITABLE_ATTRS = [:app_id, :bundle_id, :app_name, :issuer_id, :key_id, :private_key, { provider_config: {} }].freeze
 
   API_BASE_URL = 'https://api.appstoreconnect.apple.com'.freeze
+  REPLY_MAX_LENGTH = 5970
   REVIEWS_PAGE_SIZE = 200
   SYNC_INTERVAL = 1.hour
 
@@ -32,10 +33,17 @@ class Channel::AppStore < ApplicationRecord
   end
 
   def fetch_reviews
-    app_store_client.fetch_reviews(since: last_synced_at)
+    app_store_client.fetch_reviews
+  end
+
+  def validate_reply_length!(content)
+    return if content.to_s.length <= REPLY_MAX_LENGTH
+
+    raise ArgumentError, "App Store review responses cannot exceed #{REPLY_MAX_LENGTH} characters."
   end
 
   def reply_to_review(review_id, response_body)
+    validate_reply_length!(response_body)
     response = app_store_client.create_or_update_review_response(review_id, response_body)
 
     response['id']

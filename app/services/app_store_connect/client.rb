@@ -7,22 +7,18 @@ class AppStoreConnect::Client
     get("/v1/apps/#{channel.app_id}")['data']
   end
 
-  def fetch_reviews(since: nil)
-    reviews = []
-    next_url = nil
+  def fetch_reviews
+    return enum_for(:fetch_reviews) unless block_given?
 
+    next_url = nil
     loop do
       payload = next_url ? get_url(next_url) : get(reviews_path, reviews_query)
       included = Array(payload['included'])
-      review_payloads = Array(payload['data']).map { |review| normalize_review(review, included) }
-      fresh_payloads = fresh_review_payloads(review_payloads, since)
-      reviews.concat(fresh_payloads)
+      Array(payload['data']).each { |review| yield normalize_review(review, included) }
 
       next_url = payload.dig('links', 'next')
       break if next_url.blank?
     end
-
-    reviews
   end
 
   def create_review_response(review_id, response_body)
@@ -55,29 +51,6 @@ class AppStoreConnect::Client
       'review' => review,
       'response' => response
     }
-  end
-
-  def fresh_review_payloads(review_payloads, since)
-    return review_payloads if since.blank?
-
-    review_payloads.select { |review_payload| review_updated_after?(review_payload, since) }
-  end
-
-  def review_updated_after?(review_payload, since)
-    review_updated_at = [
-      parsed_timestamp(review_payload.dig('review', 'attributes', 'createdDate')),
-      parsed_timestamp(review_payload.dig('response', 'attributes', 'lastModifiedDate'))
-    ].compact.max
-
-    return true if review_updated_at.blank?
-
-    review_updated_at >= since
-  end
-
-  def parsed_timestamp(value)
-    Time.zone.parse(value.to_s)
-  rescue StandardError
-    nil
   end
 
   def get(path, query = {})

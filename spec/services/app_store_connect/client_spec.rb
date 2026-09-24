@@ -82,9 +82,9 @@ RSpec.describe AppStoreConnect::Client do
       stub_request(:get, 'https://api.appstoreconnect.apple.com/v1/apps/123456789/customerReviews?page=2')
         .to_return(app_store_response(older_reviews_page_with_updated_response))
 
-      review_payloads = described_class.new(channel: channel).fetch_reviews(since: Time.zone.parse('2026-05-20T00:00:00-00:00'))
+      review_payloads = described_class.new(channel: channel).fetch_reviews.to_a
 
-      expect(review_payloads.pluck('review').pluck('id')).to eq(%w[review-1 review-3])
+      expect(review_payloads.pluck('review').pluck('id')).to eq(%w[review-1 review-2 review-3])
       expect(WebMock).to have_requested(:get, 'https://api.appstoreconnect.apple.com/v1/apps/123456789/customerReviews?page=2')
     end
 
@@ -125,7 +125,7 @@ RSpec.describe AppStoreConnect::Client do
           headers: { 'Content-Type' => 'application/json' }
         )
 
-      review_payloads = described_class.new(channel: channel).fetch_reviews(since: Time.zone.parse('2026-05-20T10:00:00-00:00'))
+      review_payloads = described_class.new(channel: channel).fetch_reviews.to_a
 
       expect(review_payloads.pluck('review').pluck('id')).to eq(['review-1'])
       expect(review_payloads.first['response']['attributes']['responseBody']).to eq('Updated response')
@@ -161,7 +161,7 @@ RSpec.describe AppStoreConnect::Client do
           headers: { 'Content-Type' => 'application/json' }
         )
 
-      described_class.new(channel: channel).fetch_reviews
+      described_class.new(channel: channel).fetch_reviews.to_a
 
       expect(AppStoreConnect::TokenService).to have_received(:new).twice
     end

@@ -17,6 +17,9 @@ class AppStore::SendOnAppStoreService < Base::SendOnChannelService
 
   def validate_message_support!
     raise 'Only outgoing text messages are supported for App Store reviews.' unless message.outgoing? && message.text?
+    raise 'Only agent replies are supported for App Store reviews.' unless message.sender.is_a?(User) &&
+                                                                           message.content_attributes['automation_rule_id'].blank? &&
+                                                                           message.additional_attributes['campaign_id'].blank?
     raise 'Sending attachments is not supported for App Store reviews.' if message.attachments.any?
   end
 
@@ -45,7 +48,7 @@ class AppStore::SendOnAppStoreService < Base::SendOnChannelService
 
     if response_message.present?
       update_existing_response_message(response_message, source_id)
-      message.destroy!
+      message.update!(content: I18n.t('conversations.messages.deleted'), content_attributes: { deleted: true })
       Messages::StatusUpdateService.new(response_message, 'delivered').perform
     else
       message.update!(source_id: source_id) if source_id.present?

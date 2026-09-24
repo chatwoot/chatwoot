@@ -53,10 +53,10 @@ RSpec.describe AppStore::SendOnAppStoreService do
       allow(channel).to receive(:reply_to_review).and_return('response-1')
 
       expect { described_class.new(message: message).perform }
-        .to change { conversation.messages.reload.count }.by(-1)
+        .not_to(change { conversation.messages.reload.count })
 
       expect(channel).to have_received(:reply_to_review).with('review-1', 'Updated reply')
-      expect { message.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect(message.reload.content_attributes['deleted']).to be true
       expect(existing_response.reload.content).to eq('Updated reply')
       expect(existing_response.content_attributes['external_echo']).to be true
       expect(existing_response.content_attributes['app_store']).to include(

@@ -32,58 +32,7 @@ RSpec.describe Inboxes::FetchAppStoreReviewsJob do
     described_class.perform_now(channel)
 
     expect(review_builder).to have_received(:perform)
-    expect(channel.reload.last_synced_at).to eq(Time.zone.parse('2026-05-20T10:00:00-00:00'))
-  end
-
-  it 'updates the sync timestamp to the latest fetched review date' do
-    older_payload = review_payload.deep_dup
-    newer_payload = review_payload.deep_dup
-    older_payload['review']['id'] = 'review-1'
-    older_payload['review']['attributes']['createdDate'] = '2026-05-20T10:00:00-00:00'
-    newer_payload['review']['id'] = 'review-2'
-    newer_payload['review']['attributes']['createdDate'] = '2026-05-20T11:00:00-00:00'
-
-    allow(channel).to receive(:fetch_reviews).and_return([newer_payload, older_payload])
-    allow(AppStore::ReviewBuilder).to receive(:new).and_return(review_builder)
-
-    described_class.perform_now(channel)
-
-    expect(channel.reload.last_synced_at).to eq(Time.zone.parse('2026-05-20T11:00:00-00:00'))
-  end
-
-  it 'updates the sync timestamp to the response update date when it is newer than the review date' do
-    payload = review_payload.deep_dup
-    payload['response'] = {
-      'id' => 'response-1',
-      'attributes' => {
-        'lastModifiedDate' => '2026-05-20T12:00:00-00:00'
-      }
-    }
-
-    allow(channel).to receive(:fetch_reviews).and_return([payload])
-    allow(AppStore::ReviewBuilder).to receive(:new).and_return(review_builder)
-
-    described_class.perform_now(channel)
-
-    expect(channel.reload.last_synced_at).to eq(Time.zone.parse('2026-05-20T12:00:00-00:00'))
-  end
-
-  it 'does not move the sync timestamp backwards when processing an older response update' do
-    channel.update!(last_synced_at: Time.zone.parse('2026-05-20T13:00:00-00:00'))
-    payload = review_payload.deep_dup
-    payload['response'] = {
-      'id' => 'response-1',
-      'attributes' => {
-        'lastModifiedDate' => '2026-05-20T12:00:00-00:00'
-      }
-    }
-
-    allow(channel).to receive(:fetch_reviews).and_return([payload])
-    allow(AppStore::ReviewBuilder).to receive(:new).and_return(review_builder)
-
-    described_class.perform_now(channel)
-
-    expect(channel.reload.last_synced_at).to eq(Time.zone.parse('2026-05-20T13:00:00-00:00'))
+    expect(channel.reload.last_synced_at).to be_within(1.second).of(Time.current)
   end
 
   it 'captures per-review errors and continues syncing' do
